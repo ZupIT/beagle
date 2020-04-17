@@ -94,16 +94,15 @@ internal class CacheManager(
         return if (responseData.statusCode == 304 && beagleCache != null) {
             beagleCache.json
         } else {
-            val responseBody = String(responseData.data)
-            if (isEnabled()) {
-                persistCacheData(url, responseData)
+            return String(responseData.data).apply {
+                if (isEnabled()) {
+                    persistCacheData(url, this, responseData)
+                }
             }
-            responseBody
         }
     }
 
-    private fun persistCacheData(url: String, responseData: ResponseData) {
-        val responseBody = String(responseData.data)
+    private fun persistCacheData(url: String, responseBody: String, responseData: ResponseData) {
         val newBeagleHash = responseData.headers[BEAGLE_HASH]
         if (newBeagleHash != null) {
             val cacheKey = url.toBeagleHashKey()
@@ -124,9 +123,9 @@ internal class CacheManager(
 
     private fun getMaxAgeFromCacheControl(cacheControl: String?): Long {
         val maxAgeName = "max-age"
-        val maxAge = cacheControl?.split(",")?.find { it == maxAgeName } ?: ""
+        val maxAge = cacheControl?.split(",")?.find { it.contains(maxAgeName) } ?: cacheControl ?: ""
         return try {
-            maxAge.replace("$maxAgeName=", "").toLong()
+            maxAge.replace("$maxAgeName=", "").trim().toLong()
         } catch (ex: NumberFormatException) {
             beagleEnvironment.beagleSdk.config.cache.maxAge
         }
