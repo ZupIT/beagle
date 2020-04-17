@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Beagle" pattern="(src[group:beagle]:*..*||test:*..*)&amp;&amp;!src[android-beagle]:br.com.zup.beagle.view.YogaLayout" />
+</component>

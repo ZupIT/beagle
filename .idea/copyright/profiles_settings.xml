@@ -1,3 +1,7 @@
 <component name="CopyrightManager">
-  <settings default="beagle" />
+  <settings default="beagle">
+    <module2copyright>
+      <element module="Beagle" copyright="beagle" />
+    </module2copyright>
+  </settings>
 </component>

@@ -6,6 +6,7 @@ build/
 .gradle/
 .idea/*
 !.idea/copyright
+!.idea/scopes
 projectFilesBackup/
 out/
 !.mvn/wrapper/maven-wrapper.jar
