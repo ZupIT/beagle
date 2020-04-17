@@ -48,3 +48,7 @@ build/
 /captures
 .externalNativeBuild
 .cxx
+
+### Fastane ###
+/fastlane/report.xml
+codecov_reporter.sh
