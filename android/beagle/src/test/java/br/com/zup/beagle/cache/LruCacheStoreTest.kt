@@ -57,7 +57,7 @@ class LruCacheStoreTest {
     }
 
     @Test
-    fun lruCacheStore_should_use_maxAge_from_BeagleEnvironment() {
+    fun lruCacheStore_should_use_maxSize_from_BeagleEnvironment() {
         // Given When
         val actualMaxAge = LruCacheStore.getPrivateField<Int>("maxSize")
 
