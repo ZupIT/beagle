@@ -22,6 +22,8 @@
           - textColor: Optional<String>.none
         - errorMessage: Optional<String>.none
         - name: "optional-field"
+        ▿ overrideStoredName: Optional<String>
+          - some: "override-optional-field"
         - required: Optional<Bool>.none
         - validator: Optional<String>.none
       ▿ FormInputHidden
@@ -32,6 +34,7 @@
           - type: "custom:component:unknown"
         - errorMessage: Optional<String>.none
         - name: "another-required-field"
+        - overrideStoredName: Optional<String>.none
         ▿ required: Optional<Bool>
           - some: true
         ▿ validator: Optional<String>
@@ -139,3 +142,8 @@
         - shrink: Optional<Double>.none
         - size: Optional<Size>.none
     - id: Optional<String>.none
+  - shouldStoreFields: true
+  ▿ storedParameters: Optional<Array<String>>
+    ▿ some: 2 elements
+      - "age"
+      - "address"

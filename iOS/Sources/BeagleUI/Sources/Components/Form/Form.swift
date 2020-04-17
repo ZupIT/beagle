@@ -22,15 +22,21 @@ public struct Form: ServerDrivenComponent {
 
     public let action: Action
     public let child: ServerDrivenComponent
-    
+    public let shouldStoreFields: Bool
+    public let storedParameters: [String]?
+
     // MARK: - Initialization
     
     public init(
         action: Action,
-        child: ServerDrivenComponent
+        child: ServerDrivenComponent,
+        storedParameters: [String]? = nil,
+        shouldStoreFields: Bool? = nil
     ) {
         self.action = action
         self.child = child
+        self.storedParameters = storedParameters
+        self.shouldStoreFields = shouldStoreFields ?? false
     }
 }
 
@@ -42,7 +48,7 @@ extension Form: Renderable {
         func registerFormSubmit(view: UIView) {
             if view.beagleFormElement is FormSubmit {
                 hasFormSubmit = true
-                context.register(form: self, formView: childView, submitView: view, validatorHandler: dependencies.validatorProvider)
+                context.formManager.register(form: self, formView: childView, submitView: view, validatorHandler: dependencies.validatorProvider)
             }
             for subview in view.subviews {
                 registerFormSubmit(view: subview)
@@ -61,12 +67,16 @@ extension Form: Decodable {
     enum CodingKeys: String, CodingKey {
         case action
         case child
+        case storedParameters
+        case shouldStoreFields
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.action = try container.decode(forKey: .action)
         self.child = try container.decode(forKey: .child)
+        self.shouldStoreFields = try container.decodeIfPresent(Bool.self, forKey: .shouldStoreFields) ?? false
+        self.storedParameters = try container.decodeIfPresent([String].self, forKey: .storedParameters)
     }
 }
 

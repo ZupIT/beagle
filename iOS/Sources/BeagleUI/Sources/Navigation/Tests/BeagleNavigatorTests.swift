@@ -263,15 +263,43 @@ class DeepLinkHandlerSpy: DeepLinkScreenManaging {
     }
 }
 
+class FormManagerDummy: FormManaging {
+    func register(form: Form, formView: UIView, submitView: UIView, validatorHandler: ValidatorProvider?) { }
+    func handleSubmitFormGesture(_ sender: SubmitFormGestureRecognizer) { }
+}
+
+class LazyLoadManagerDummy: LazyLoadManaging {
+    func lazyLoad(url: String, initialState: UIView) {}
+}
+
+class ActionManagerDummy: ActionManaging {
+    func register(events: [Event], inView view: UIView) {}
+    func doAction(_ action: Action, sender: Any) {}
+    func doAnalyticsAction(_ action: AnalyticsClick, sender: Any) {}
+    func handleGestureRecognizer(_ sender: EventsGestureRecognizer) {}
+}
+
 class BeagleContextDummy: BeagleContext {
+    var formManager: FormManaging
+    
+    var lazyLoadManager: LazyLoadManaging
+    
+    var actionManager: ActionManaging
+    
     let viewController: UIViewController
     
     init() {
         self.viewController = UIViewController()
+        self.formManager = FormManagerDummy()
+        self.lazyLoadManager = LazyLoadManagerDummy()
+        self.actionManager = ActionManagerDummy()
     }
     
     init(viewController: UIViewController) {
         self.viewController = viewController
+        self.formManager = FormManagerDummy()
+        self.lazyLoadManager = LazyLoadManagerDummy()
+        self.actionManager = ActionManagerDummy()
     }
     
     var screenController: UIViewController { return viewController }

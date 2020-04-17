@@ -43,7 +43,7 @@ extension Touchable: Renderable {
             events.append(.analytics(clickAnalyticsEvent))
         }
         
-        context.register(events: events, inView: childView)
+        context.actionManager.register(events: events, inView: childView)
         prefetchComponent(context: context, dependencies: dependencies)
         return childView
     }

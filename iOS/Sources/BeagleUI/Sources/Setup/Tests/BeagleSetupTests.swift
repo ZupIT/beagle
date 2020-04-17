@@ -107,6 +107,7 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
     var cacheManager: CacheManagerProtocol
     var decoder: ComponentDecoding
     var logger: BeagleLoggerType
+    var dataStoreHandler: BeagleDataStoreHandling
 
     init(
         actionExecutor: ActionExecutor = ActionExecutorDummy(),
@@ -119,7 +120,8 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
         cacheManager: CacheManagerProtocol = CacheManager(maximumScreensCapacity: 30),
         decoder: ComponentDecoding = ComponentDecodingDummy(),
         logger: BeagleLoggerType = BeagleLoggerDumb(),
-        analytics: Analytics = AnalyticsExecutorSpy()
+        analytics: Analytics = AnalyticsExecutorSpy(),
+        dataStoreHandler: BeagleDataStoreHandling = DefaultDataStoreHandler()
     ) {
         self.actionExecutor = actionExecutor
         self.flex = flex
@@ -132,6 +134,7 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
         self.decoder = decoder
         self.logger = logger
         self.analytics = analytics
+        self.dataStoreHandler = dataStoreHandler
     }
 }
 

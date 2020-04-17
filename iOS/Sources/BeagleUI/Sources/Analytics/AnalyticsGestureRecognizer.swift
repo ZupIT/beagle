@@ -16,7 +16,7 @@
 
 import UIKit
 
-final class EventsGestureRecognizer: UITapGestureRecognizer {
+public final class EventsGestureRecognizer: UITapGestureRecognizer {
     let events: [Event]
     
     init(events: [Event], target: Any?, selector: Selector?) {

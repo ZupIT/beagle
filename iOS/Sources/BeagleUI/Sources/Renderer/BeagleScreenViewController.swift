@@ -23,6 +23,10 @@ public class BeagleScreenViewController: UIViewController {
     private var layoutManager: LayoutManager?
     private(set) var componentView: UIView?
     
+    public lazy var formContextManager: FormManaging = FormManager(dependencies: dependencies, delegate: self)
+    public lazy var lazyLoadContextManager: LazyLoadManaging = LazyLoadManager(dependencies: dependencies, delegate: self)
+    public lazy var actionContextManager: ActionManaging = ActionManager(delegate: self)
+    
     var dependencies: ViewModel.Dependencies {
         return viewModel.dependencies
     }
@@ -35,7 +39,7 @@ public class BeagleScreenViewController: UIViewController {
         extendedLayoutIncludesOpaqueBars = true
         viewModel.stateObserver = self
     }
-    
+
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

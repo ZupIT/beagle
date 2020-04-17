@@ -5,11 +5,14 @@
     "path" : "/sample/form",
     "method" : "POST"
   },
+  "storedParameters" : ["age", "address"],
+  "shouldStoreFields" : true,
   "child" : {
     "_beagleType_" : "beagle:component:container",
     "children" : [ {
       "_beagleType_" : "beagle:component:forminput",
       "name" : "optional-field",
+      "overrideStoredName" : "override-optional-field",
       "child" : {
         "_beagleType_" : "beagle:component:text",
         "text" : "text"
