@@ -67,7 +67,6 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
     ): ResponseData {
         val urlConnection = request.uri.toURL().openConnection() as HttpURLConnection
 
-        urlConnection.setRequestProperty("Content-Type", "application/json")
         request.headers.forEach {
             urlConnection.setRequestProperty(it.key, it.value)
         }

@@ -40,6 +40,10 @@ val DESIGN_SYSTEM = BeagleClass(
     "br.com.zup.beagle.setup",
     "DesignSystem"
 )
+val STORE_HANDLER = BeagleClass(
+    "br.com.zup.beagle.store",
+    "StoreHandler"
+)
 val BEAGLE_CONFIG = BeagleClass(
     "br.com.zup.beagle.setup",
     "BeagleConfig"

@@ -24,6 +24,7 @@ import br.com.zup.beagle.compiler.util.CUSTOM_ACTION_HANDLER
 import br.com.zup.beagle.compiler.util.DEEP_LINK_HANDLER
 import br.com.zup.beagle.compiler.util.DESIGN_SYSTEM
 import br.com.zup.beagle.compiler.util.HTTP_CLIENT_HANDLER
+import br.com.zup.beagle.compiler.util.STORE_HANDLER
 import br.com.zup.beagle.compiler.util.URL_BUILDER_HANDLER
 import br.com.zup.beagle.compiler.util.VALIDATOR_HANDLER
 import br.com.zup.beagle.compiler.util.error
@@ -44,7 +45,7 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
         basePackageName: String,
         roundEnvironment: RoundEnvironment
     ): List<PropertySpec> {
-        var propertySpecifications: PropertySpecifications? = PropertySpecifications()
+        val propertySpecifications: PropertySpecifications? = PropertySpecifications()
 
         roundEnvironment.getElementsAnnotatedWith(BeagleComponent::class.java).forEach { element ->
             val typeElement = element as TypeElement
@@ -78,11 +79,11 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
                         logImplementationErrorMessage(typeElement, "DesignSystem")
                     }
                 }
-                typeElement.extendsFromClass(BEAGLE_ACTIVITY.toString()) -> {
-                    if (propertySpecifications?.beagleActivity == null) {
-                        propertySpecifications?.beagleActivity = typeElement
+                typeElement.implementsInterface(STORE_HANDLER.toString()) -> {
+                    if (propertySpecifications?.storeHandler == null) {
+                        propertySpecifications?.storeHandler = typeElement
                     } else {
-                        logImplementationErrorMessage(typeElement, "BeagleActivity")
+                        logImplementationErrorMessage(typeElement, "StoreHandler")
                     }
                 }
                 typeElement.implementsInterface(URL_BUILDER_HANDLER.toString()) -> {
@@ -90,6 +91,13 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
                         propertySpecifications?.urlBuilder = typeElement
                     } else {
                         logImplementationErrorMessage(typeElement, "UrlBuilder")
+                    }
+                }
+                typeElement.extendsFromClass(BEAGLE_ACTIVITY.toString()) -> {
+                    if (propertySpecifications?.beagleActivity == null) {
+                        propertySpecifications?.beagleActivity = typeElement
+                    } else {
+                        logImplementationErrorMessage(typeElement, "BeagleActivity")
                     }
                 }
                 typeElement.implementsInterface(ANALYTICS.toString()) -> {
@@ -143,6 +151,11 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
                 propertySpecifications?.designSystem.toString(),
                 "designSystem",
                 DESIGN_SYSTEM
+            ),
+            implementProperty(
+                propertySpecifications?.storeHandler.toString(),
+                "storeHandler",
+                STORE_HANDLER
             ),
             implementProperty(
                 "$basePackageName.$VALIDATOR_HANDLER_IMPL_NAME",
@@ -208,5 +221,6 @@ internal class PropertySpecifications(
     var designSystem: TypeElement? = null,
     var beagleActivity: TypeElement? = null,
     var urlBuilder: TypeElement? = null,
+    var storeHandler: TypeElement? = null,
     var analytics: TypeElement? = null
 )

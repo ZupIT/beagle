@@ -19,10 +19,16 @@ package br.com.zup.beagle.sample
 import br.com.zup.beagle.annotation.BeagleComponent
 import br.com.zup.beagle.sample.constants.BASE_URL
 import br.com.zup.beagle.setup.BeagleConfig
+import br.com.zup.beagle.setup.Cache
 import br.com.zup.beagle.setup.Environment
 
 @BeagleComponent
 class AppBeagleConfig : BeagleConfig {
     override val environment: Environment get() = Environment.DEBUG
     override val baseUrl: String get() = BASE_URL
+    override val cache: Cache = Cache(
+        enabled = true,
+        maxAge = 300,
+        memoryMaximumCapacity = 15
+    )
 }
