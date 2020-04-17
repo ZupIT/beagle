@@ -1,0 +1,9 @@
+platform :android do
+  desc "Pull Request verification"
+  lane :ci do
+    gradle(task: "detekt lintDebug jacocoTestReport")
+    gradle(task: "android:sample:assembleDebug android:sample:assembleDebugAndroidTest")
+    codecov_reporter(token: ENV["CODECOV_TOKEN"])
+  end
+
+end
