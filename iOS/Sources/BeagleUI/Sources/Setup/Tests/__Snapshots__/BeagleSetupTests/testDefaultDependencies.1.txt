@@ -1,0 +1,44 @@
+▿ BeagleDependencies
+  ▿ actionExecutor: ActionExecuting
+    ▿ dependencies: InnerDependenciesResolver
+      - container: (Function)
+  - analytics: Optional<Analytics>.none
+  - appBundle: NSBundle </Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Agents> (loaded)
+  ▿ cacheManager: CacheManager
+    - components.storage: Optional<CacheLRU<String, ServerDrivenComponent>>.none
+    - maximumScreensCapacity: 30
+  - customActionHandler: Optional<CustomActionHandler>.none
+  ▿ decoder: ComponentDecoder
+    - decoders: (0 elements)
+    ▿ jsonDecoder: JSONDecoder
+      - dataDecodingStrategy: DataDecodingStrategy.base64
+      - dateDecodingStrategy: DateDecodingStrategy.deferredToDate
+      - keyDecodingStrategy: KeyDecodingStrategy.useDefaultKeys
+      - nonConformingFloatDecodingStrategy: NonConformingFloatDecodingStrategy.throw
+      - userInfo: 0 key/value pairs
+  - deepLinkHandler: Optional<DeepLinkScreenManaging>.none
+  - flex: (Function)
+  - logger: BeagleLogger
+  ▿ navigation: BeagleNavigator
+    ▿ dependencies: InnerDependenciesResolver
+      - container: (Function)
+  ▿ network: NetworkDefault
+    ▿ dependencies: InnerDependenciesResolver
+      - container: (Function)
+  ▿ networkClient: NetworkClientDefault
+    ▿ cacheService: MemoryCacheService
+      - memory: <NSCache>
+    ▿ dependencies: InnerDependenciesResolver
+      - container: (Function)
+    ▿ httpRequestBuilder: HttpRequestBuilder
+      - additionalHeaders: 0 key/value pairs
+    - session: <__NSURLSessionLocal>
+  - preFetchHelper: BeaglePreFetchHelper
+  ▿ resolver: InnerDependenciesResolver
+    - container: (Function)
+  ▿ theme: AppTheme
+    - styles: 0 key/value pairs
+  ▿ urlBuilder: UrlBuilder
+    - baseUrl: Optional<URL>.none
+  - validatorProvider: Optional<ValidatorProvider>.none
+  - viewConfigurator: (Function)

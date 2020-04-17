@@ -1,0 +1,24 @@
+  Navigate.openDeepLink(DeepLinkNavigation(path: "path", data: nil, component: nil))  -->  NULL 
+
+  Navigate.openDeepLink(DeepLinkNavigation(path: "path", data: Optional(["data": "value"]), component: nil))  -->  NULL 
+
+  Navigate.openDeepLink(DeepLinkNavigation(path: "path", data: nil, component: Optional(BeagleUI.Container(children: [], id: nil, flex: nil, appearance: nil, accessibility: nil))))  -->  NULL 
+
+  Navigate.addView(NewPath(path: "path", shouldPrefetch: true, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: true, fallback: nil) 
+
+  Navigate.addView(NewPath(path: "path", shouldPrefetch: false, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: false, fallback: nil) 
+
+  Navigate.presentView(NewPath(path: "path", shouldPrefetch: true, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: true, fallback: nil) 
+
+  Navigate.presentView(NewPath(path: "path", shouldPrefetch: false, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: false, fallback: nil) 
+
+  Navigate.swapView(NewPath(path: "path", shouldPrefetch: true, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: true, fallback: nil) 
+
+  Navigate.swapView(NewPath(path: "path", shouldPrefetch: false, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: false, fallback: nil) 
+
+  Navigate.popView  -->  NULL 
+
+  Navigate.popToView(path)  -->  NULL 
+
+  Navigate.finishView  -->  NULL 
+

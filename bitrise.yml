@@ -1,0 +1,160 @@
+---
+format_version: 1.4.0
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+
+workflows:
+  ci:
+    steps:
+    - activate-ssh-key@4.0.3:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@4.0.14: {}
+    - cache-pull@2.0.1: {}
+    - install-missing-android-tools@2.3.5:
+        inputs:
+        - gradlew_path: "$PROJECT_LOCATION/gradlew"
+    - gradle-runner:
+        inputs:
+        - gradle_task: detekt lintDebug jacocoTestReport
+        - gradlew_path: "./gradlew"
+        - gradle_options: "--stacktrace --daemon"
+        - gradle_file: build.gradle
+    - gradle-runner:
+        inputs:
+          - gradle_task: android:sample:assembleDebug android:sample:assembleDebugAndroidTest
+          - gradlew_path: "./gradlew"
+          - gradle_options: "--stacktrace --daemon"
+          - gradle_file: build.gradle
+    - virtual-device-testing-for-android@1.1.1:
+        inputs:
+          - environment_variables: |-
+              coverage=true
+              coverageFile=/sdcard/coverage.ec
+          - directories_to_pull: "/sdcard/"
+          - download_test_results: 'true'
+          - use_verbose_log: 'true'
+          - test_devices: Nexus5,21,en,portrait
+          - test_type: instrumentation
+    - gradle-runner@1.9.0:
+        inputs:
+          - gradlew_path: "./gradlew"
+          - gradle_file: build.gradle
+          - gradle_options: "--stacktrace --daemon"
+          - gradle_task: android:sample:copyVerificationFiles android:sample:executeScreenshotTests -PrunInstrumentation=false
+    - codecov@1.1.6:
+        run_if: true
+        is_skippable: false
+        inputs:
+        - CODECOV_TOKEN: "$CODECOV_TOKEN"
+        - other_options: "-F android -C $BITRISE_GIT_COMMIT"
+    - deploy-to-bitrise-io@1.6.0: {}
+    - cache-push@2.2.0:
+        inputs:
+        - cache_paths: |-
+            $HOME/.gradle
+            ./.gradle
+        - ignore_check_on_paths: |-
+            $HOME/.gradle/caches/*.lock
+            $HOME/.gradle/caches/*.bin
+            ./.gradle/*.lock
+            ./.gradle/*.bin
+  ci_deploy:
+    steps:
+      - activate-ssh-key@4.0.3:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+      - git-clone@4.0.14: {}
+      - cache-pull@2.0.1: {}
+      - install-missing-android-tools@2.3.5:
+          inputs:
+            - gradlew_path: "$PROJECT_LOCATION/gradlew"
+      - script@1.1.5:
+          title: Build and Deploy Beagle Android Libraries
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+
+                ./$PROJECT_LOCATION/publishRemote.sh
+
+                exit 0
+      - script@1.1.5:
+          title: Create GitHub tag
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+
+                wget https://github.com/github/hub/releases/download/v2.7.1/hub-linux-amd64-2.7.1.tgz
+                tar zvxvf hub-linux-amd64-2.7.1.tgz
+                sudo ./hub-linux-amd64-2.7.1/install
+
+                # Setup autocomplete for bash:
+                mkdir -p ~/.bash/completions
+                mv ./hub-linux-amd64-2.7.1/etc/hub.bash_completion.sh ~/.bash/completions/_hub
+                echo "if [ -f ~/.bash/completions/_hub ]; then" >> ~/.bashrc
+                echo "    . ~/.bash/completions/_hub" >> ~/.bashrc
+                echo "fi" >> ~/.bashrc
+
+                # add alias
+                echo "eval "$(hub alias -s)"" >> ~/.bashrc
+
+                # Cleanup
+                rm -rf hub-linux-amd64-2.7.1
+
+                hub version
+
+                set -e
+
+                # Authorize hub
+                mkdir -p ~/.config/
+
+                cat << EOF > ~/.config/hub
+                github.com:
+                - user: "$GITHUB_USERNAME"
+                  oauth_token: "$GITHUB_TOKEN_ACESS"
+                  protocol: https
+                EOF
+
+                set +e
+
+                cd $PROJECT_LOCATION
+                pwd
+                # errors if release doesn't exist
+                hub release delete $BITRISE_GIT_TAG
+
+                exit 0
+      - git-commit-changelog@1.0.5: {}
+      - github-release@0.10.0:
+          inputs:
+            - body: |-
+                Release $BITRISE_GIT_TAG
+
+                Changes
+                $COMMIT_CHANGELOG
+            - draft: 'no'
+            - api_token: "$GITHUB_TOKEN_ACESS"
+            - username: "$GITHUB_USERNAME"
+            - files_to_upload: "$BITRISE_APK_PATH"
+            - name: "$BITRISE_GIT_TAG"
+      - deploy-to-bitrise-io@1.6.0: {}
+      - discord-message@0.0.3:
+          inputs:
+            - webhook_url: "$DISCORD_WEBHOOK"
+      - cache-push:
+          inputs:
+            - cache_paths: |-
+                $HOME/.gradle
+                ./.gradle
+            - ignore_check_on_paths: |-
+                $HOME/.gradle/caches/*.lock
+                $HOME/.gradle/caches/*.bin
+                ./.gradle/*.lock
+                ./.gradle/*.bin
+app:
+  envs:
+  - opts:
+      is_expand: false
+    PROJECT_LOCATION: "."
+  - opts:
+      is_expand: false
+    MODULE: beagle
+  - opts:
+      is_expand: false
+    VARIANT: debug

@@ -1,0 +1,12 @@
+▿ Touchable
+  - action: Navigate.popView
+  ▿ child: Text
+    - accessibility: Optional<Accessibility>.none
+    - alignment: Optional<Alignment>.none
+    - appearance: Optional<Appearance>.none
+    - flex: Optional<Flex>.none
+    - id: Optional<String>.none
+    - style: Optional<String>.none
+    - text: "touchable"
+    - textColor: Optional<String>.none
+  - clickAnalyticsEvent: Optional<AnalyticsClick>.none

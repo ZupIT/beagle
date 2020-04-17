@@ -1,0 +1,89 @@
+/*
+ * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply from: rootProject.file('jacoco.gradle')
+
+android {
+    compileSdkVersion Versions.compileSdk
+    buildToolsVersion Versions.buildTools
+
+    defaultConfig {
+        minSdkVersion Versions.minSdk
+        targetSdkVersion Versions.targetSdk
+
+        versionCode Releases.versionCode
+        versionName "${Releases.beagleVersionName}"
+
+        testInstrumentationRunner GeneralNames.testInstrumentationRunner
+        consumerProguardFiles GeneralNames.consumerProguard
+    }
+
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation AndroidxLibraries.appcompat
+    implementation AndroidxLibraries.coreKtx
+    implementation AndroidxLibraries.recyclerView
+    implementation AndroidxLibraries.viewModel
+    implementation AndroidxLibraries.viewModelExtensions
+
+    implementation GeneralLibraries.kotlin
+    implementation GeneralLibraries.kotlinCoroutines
+
+    api project(Modules.beagleAndroidDeclarative)
+    api project(Modules.beagleDeclarative)
+    api project(Modules.beagleAnnotation)
+    api project(Modules.beagleAndroidAnnotation)
+
+    implementation GlideLibraries.glide
+    kapt GlideLibraries.glideCompiler
+
+    implementation GeneralLibraries.yoga
+    implementation GeneralLibraries.soLoader
+
+    implementation GoogleLibraries.materialDesign
+
+    implementation MoshiLibraries.moshi
+    implementation MoshiLibraries.kotlin
+    implementation MoshiLibraries.adapters
+
+    // Unit Testing
+    testImplementation TestLibraries.junit
+    testImplementation TestLibraries.kotlinTest
+    testImplementation TestLibraries.kotlinCoroutinesTest
+    testImplementation TestLibraries.mockk
+    testImplementation TestLibraries.archCoreTesting
+
+    // Integration Testing
+    androidTestImplementation TestLibraries.testRunner
+    androidTestImplementation TestLibraries.testExt
+    androidTestImplementation TestLibraries.espressoCore
+}
+
+apply from: rootProject.file('maven-publish.gradle')

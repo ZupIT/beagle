@@ -1,0 +1,4 @@
+▿ Optional<PageIndicatorComponent>
+  ▿ some: CustomPageIndicator
+    - defaultColor: "defaultColor"
+    - selectedColor: "selectedColor"
