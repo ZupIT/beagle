@@ -22,6 +22,7 @@ import android.graphics.drawable.Drawable
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
@@ -42,6 +43,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockkStatic
+import io.mockk.slot
 import io.mockk.spyk
 import io.mockk.unmockkAll
 import io.mockk.verify
@@ -101,6 +103,9 @@ class ToolbarManagerTest : BaseTest() {
         every {
             typedArray.getColor(R.styleable.BeagleToolbarStyle_backgroundColor, 0)
         } returns backgroundColorInt
+        every {
+            typedArray.getBoolean(R.styleable.BeagleToolbarStyle_centerTitle, false)
+        } returns false
         every { typedArray.recycle() } just Runs
 
         toolbarManager = ToolbarManager()
@@ -114,9 +119,7 @@ class ToolbarManagerTest : BaseTest() {
     @Test
     fun configure_navigation_bar_when_supportActionBar_is_not_null_and_toolbar_is_null() {
         // Given
-        val title = RandomData.string()
         val showBackButton = true
-        every { navigationBar.title } returns title
         every { navigationBar.showBackButton } returns showBackButton
         every { context.supportActionBar } returns actionBar
 
@@ -124,28 +127,16 @@ class ToolbarManagerTest : BaseTest() {
         toolbarManager.configureNavigationBarForScreen(context, navigationBar)
 
         // Then
-        verify(atLeast = once()) { actionBar.title = title }
         verify(atLeast = once()) { actionBar.setDisplayHomeAsUpEnabled(showBackButton) }
         verify(atLeast = once()) { actionBar.setDisplayShowHomeEnabled(showBackButton) }
         verify(atLeast = once()) { actionBar.show() }
     }
 
     @Test
-    fun configure_toolbar_when_supportActionBar_is_not_null_and_toolbar_is_not_null() {
-        // Given
-        every { context.supportActionBar } returns actionBar
-        every { context.getToolbar() } returns toolbar
-
-        // When
-        toolbarManager.configureToolbar(context, navigationBar)
-
-        // Then
-        verify(atLeast = once()) { toolbar.visibility = View.VISIBLE }
-    }
-
-    @Test
     fun configure_toolbar_style_when_supportActionBar_is_not_null_and_toolbar_is_not_null() {
         // Given
+        val title = RandomData.string()
+        every { navigationBar.title } returns title
         every { beagleSdk.designSystem } returns designSystemMock
         every { designSystemMock.toolbarStyle(style) } returns styleInt
         every { navigationBar.style } returns style
@@ -158,6 +149,7 @@ class ToolbarManagerTest : BaseTest() {
 
         // Then
         verify(atLeast = once()) { toolbar.navigationIcon = navigationIcon }
+        verify(atLeast = once()) { toolbar.title = title }
         verify(atLeast = once()) { toolbar.setTitleTextAppearance(context, titleTextAppearance) }
         verify(atLeast = once()) { toolbar.setBackgroundColor(backgroundColorInt) }
         verify(atLeast = once()) { typedArray.recycle() }
@@ -201,6 +193,7 @@ class ToolbarManagerTest : BaseTest() {
 
         // THEN
         assertEquals(View.VISIBLE, toolbar.visibility)
+        verify(exactly = once()) { toolbar.removeAllViews() }
         verify(exactly = once()) { menu.clear() }
         verify(exactly = navigationBarItems.size) { menu.add(Menu.NONE, 0, Menu.NONE, "Stub") }
         verify(exactly = navigationBarItems.size) { menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER) }
