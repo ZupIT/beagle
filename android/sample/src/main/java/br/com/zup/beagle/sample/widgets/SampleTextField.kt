@@ -28,7 +28,7 @@ class SampleTextField(private val placeholder: String) : InputWidget() {
     @Transient
     private lateinit var textFieldView: EditText
 
-    override fun getValue(): Any = textFieldView.text.toString()
+    override fun getValue() = textFieldView.text.toString()
 
     override fun onErrorMessage(message: String) {
         textFieldView.error = message
@@ -38,8 +38,6 @@ class SampleTextField(private val placeholder: String) : InputWidget() {
         textFieldView = this
         textFieldView.hint = placeholder
         textFieldView.isSingleLine = true
-        doOnTextChanged { _, _, _, _ ->
-            notifyChanges()
-        }
+        doOnTextChanged { _, _, _, _ -> notifyChanges() }
     }
 }

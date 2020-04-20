@@ -46,16 +46,14 @@ data class TextField(
         textFieldView = this
         bind()
 
-        this.doOnTextChanged { text, _, _, _ ->
-            notifyObservers(text.toString())
-        }
+        doOnTextChanged { _, _, _, _ -> notifyChanges() }
     }
 
     override fun onErrorMessage(message: String) {
         textFieldView.error = message
     }
 
-    override fun getValue(): Any = textFieldView.text
+    override fun getValue() = textFieldView.text.toString()
 
     private fun bind() {
         val color = Color.parseColor(getColorWithHashTag(color))
