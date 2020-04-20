@@ -1,7 +1,9 @@
 name: Beagle Android CI
 
 on:
-    tags:
+    push:
+        tags:
+            - '*'
 jobs:
     generate-release:
         name: Generate release
