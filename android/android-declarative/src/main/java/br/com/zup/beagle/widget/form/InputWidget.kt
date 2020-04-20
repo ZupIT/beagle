@@ -20,12 +20,24 @@ import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.Appearance
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.WidgetView
+import br.com.zup.beagle.widget.interfaces.StateChangeable
+import br.com.zup.beagle.widget.interfaces.WidgetState
+import br.com.zup.beagle.widget.state.Observable
 
-abstract class InputWidget : WidgetView() {
+abstract class InputWidget : WidgetView(), StateChangeable {
+
+    @Transient
+    private val stateObservable = Observable<WidgetState>()
 
     abstract fun getValue(): Any
 
     abstract fun onErrorMessage(message: String)
+
+    override fun getState(): Observable<WidgetState> = stateObservable
+
+    fun notifyObservers(state: Any) {
+        stateObservable.notifyObservers(WidgetState(state))
+    }
 
     override fun setId(id: String): InputWidget {
         return super.setId(id) as InputWidget

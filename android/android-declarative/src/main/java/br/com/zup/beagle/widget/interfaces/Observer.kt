@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.interfaces
+package br.com.zup.beagle.widget.interfaces
 
-import br.com.zup.beagle.state.Observable
+import br.com.zup.beagle.widget.state.Observable
 
-interface StateChangeable {
-    fun getState(): Observable<WidgetState>
+interface Observer<T> {
+    fun update(o: Observable<T>, arg: T)
 }
-
-data class WidgetState(val value: Any)

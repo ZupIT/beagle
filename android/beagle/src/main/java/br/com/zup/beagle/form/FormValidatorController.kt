@@ -18,13 +18,13 @@ package br.com.zup.beagle.form
 
 import android.view.View
 import br.com.zup.beagle.engine.renderer.layout.FormInputValidator
-import br.com.zup.beagle.interfaces.Observer
-import br.com.zup.beagle.interfaces.StateChangeable
-import br.com.zup.beagle.interfaces.WidgetState
 import br.com.zup.beagle.setup.BeagleEnvironment
-import br.com.zup.beagle.state.Observable
 import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.FormSubmit
+import br.com.zup.beagle.widget.form.InputWidget
+import br.com.zup.beagle.widget.interfaces.Observer
+import br.com.zup.beagle.widget.interfaces.WidgetState
+import br.com.zup.beagle.widget.state.Observable
 
 class FormValidatorController(
     private val validatorHandler: ValidatorHandler? = BeagleEnvironment.beagleSdk.validatorHandler
@@ -34,22 +34,20 @@ class FormValidatorController(
     var formSubmitView: View? = null
 
     private fun subscribeOnValidState(formInput: FormInput) {
-        val inputWidget = formInput.child
-        if (inputWidget is StateChangeable) {
-            inputWidget.getState().addObserver(object : Observer<WidgetState> {
-                override fun update(o: Observable<WidgetState>, arg: WidgetState) {
-                    val validator = formInput.validator
-                    if (validator != null) {
-                        validatorHandler?.getValidator(validator)?.let {
-                            formInputValidatorList.find { formInputValidator ->
-                                formInputValidator.formInput == formInput
-                            }?.isValid = it.isValid(arg.value, formInput.child)
-                        }
+        val inputWidget: InputWidget = formInput.child
+        inputWidget.getState().addObserver(object : Observer<WidgetState> {
+            override fun update(o: Observable<WidgetState>, arg: WidgetState) {
+                val validator = formInput.validator
+                if (validator != null) {
+                    validatorHandler?.getValidator(validator)?.let {
+                        formInputValidatorList.find { formInputValidator ->
+                            formInputValidator.formInput == formInput
+                        }?.isValid = it.isValid(arg.value, formInput.child)
                     }
-                    configFormSubmit()
                 }
-            })
-        }
+                configFormSubmit()
+            }
+        })
     }
 
     fun configFormSubmit() {
