@@ -6,7 +6,7 @@ platform :android do
     gradle(task: "android:sample:assembleDebug android:sample:assembleDebugAndroidTest")
     commit = last_git_commit
     short_hash = commit[:abbreviated_commit_hash]
-    codecov_reporter(token: ENV["CODECOV_TOKEN"], flags: "-F android -C ${short_hash}")
+    codecov_reporter(token: ENV["CODECOV_TOKEN"], flags: "-F android -C #{short_hash}")
   end
 
   desc "Publish remote new version"
