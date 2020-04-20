@@ -18,11 +18,15 @@ package br.com.zup.beagle.utils
 
 import android.content.Context
 import android.os.Build
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.R
 import br.com.zup.beagle.action.ActionExecutor
 import br.com.zup.beagle.setup.BeagleEnvironment
@@ -38,7 +42,6 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
         navigationBar: NavigationBar
     ) {
         context.supportActionBar?.apply {
-            title = navigationBar.title
             val showBackButton = navigationBar.showBackButton
             setDisplayHomeAsUpEnabled(showBackButton)
             setDisplayShowHomeEnabled(showBackButton)
@@ -54,6 +57,7 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
         navigationBar: NavigationBar
     ) {
         context.getToolbar().apply {
+            removeAllViews()
             visibility = View.VISIBLE
             menu.clear()
             configToolbarStyle(context, this, navigationBar)
@@ -86,8 +90,13 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
             val textAppearance = typedArray.getResourceId(
                 R.styleable.BeagleToolbarStyle_titleTextAppearance, 0
             )
-            if (textAppearance != 0) {
-                toolbar.setTitleTextAppearance(context, textAppearance)
+            if (typedArray.getBoolean(R.styleable.BeagleToolbarStyle_centerTitle, false)) {
+                toolbar.addView(generateCenterTitle(context, navigationBar, textAppearance, toolbar))
+            } else {
+                toolbar.title = navigationBar.title
+                if (textAppearance != 0) {
+                    toolbar.setTitleTextAppearance(context, textAppearance)
+                }
             }
             val backgroundColor = typedArray.getColor(
                 R.styleable.BeagleToolbarStyle_backgroundColor, 0
@@ -98,6 +107,27 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
             typedArray.recycle()
         }
     }
+
+    private fun generateCenterTitle(
+        context: Context,
+        navigationBar: NavigationBar,
+        textAppearance: Int,
+        toolbar: Toolbar
+    ) = TextView(context).apply {
+            val params = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply {
+                gravity = Gravity.CENTER
+            }
+            layoutParams = params
+            text = navigationBar.title
+            if (textAppearance != 0) {
+                TextViewCompat.setTextAppearance(this, textAppearance)
+            }
+            toolbar.contentInsetStartWithNavigation = 0
+            toolbar.setContentInsetsAbsolute(0, 0)
+        }
 
     private fun configToolbarItems(
         context: Context,
