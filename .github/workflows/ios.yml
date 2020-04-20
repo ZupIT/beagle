@@ -1,4 +1,4 @@
-name: iOS Workflow
+name: iOS PR Verification
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
     paths: 'iOS/**'
 
 jobs:
-  ci:
+  pr_verification:
     runs-on: macos-latest
     
     steps:

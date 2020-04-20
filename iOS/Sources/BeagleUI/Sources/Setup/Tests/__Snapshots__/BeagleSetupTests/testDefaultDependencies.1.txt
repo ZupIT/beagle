@@ -3,7 +3,7 @@
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
   - analytics: Optional<Analytics>.none
-  - appBundle: NSBundle </Applications/Xcode 11.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Agents> (loaded)
+  - appBundle: NSBundle <(null)> (not yet loaded)
   ▿ cacheManager: CacheManager
     - $__lazy_storage_$_components: Optional<CacheLRU<String, ServerDrivenComponent>>.none
     - maximumScreensCapacity: 30

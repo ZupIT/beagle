@@ -31,7 +31,6 @@ final class ScreenComponentTests: XCTestCase {
     }
     
     func test_contentShouldUseOnlyTheSpaceRequiredByFlexRules() {
-        
         let component = ScreenComponent(
             safeArea: SafeArea.all,
             navigationBar: .init(title: "Test Flex"),
@@ -39,7 +38,7 @@ final class ScreenComponentTests: XCTestCase {
                 children: [
                     Container(
                         children: [Text("Line 0,\nLine 1,\nLine 2,\nLine 3,\nLine 4.")],
-                        flex: .init(alignSelf: .center, size: .init(width: 50%, height: 25%)),
+                        flex: .init(alignSelf: .center, size: .init(width: 50%, height: 75%)),
                         appearance: .init(backgroundColor: "#FF0000")
                     )
                 ],
@@ -47,9 +46,9 @@ final class ScreenComponentTests: XCTestCase {
                 appearance: .init(backgroundColor: "#00FF00")
             )
         )
-        
+
         let viewController = Beagle.screen(.declarative(component.toScreen()))
-        assertSnapshotImage(viewController)
+        assertSnapshotImage(viewController, size: CGSize(width: 200, height: 150))
     }
     
     func test_navigationBarButtonItemWithImage() {
