@@ -22,7 +22,7 @@
   ▿ navigation: BeagleNavigator
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
-  ▿ network: NetworkDefault
+  ▿ repository: RepositoryDefault
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
   ▿ networkClient: NetworkClientDefault

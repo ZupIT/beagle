@@ -16,7 +16,7 @@
 
 public protocol NetworkClient {
     typealias Error = NetworkError
-    typealias Result = BeagleUI.Result<Data, NetworkError>
+    typealias Result = BeagleUI.Result<NetworkResponse, NetworkError>
 
     typealias RequestCompletion = (Result) -> Void
 
@@ -32,6 +32,16 @@ public struct NetworkError: Error {
 
     public init(error: Error) {
         self.error = error
+    }
+}
+
+public struct NetworkResponse {
+    public let data: Data
+    public let response: URLResponse
+
+    public init(data: Data, response: URLResponse) {
+        self.data = data
+        self.response = response
     }
 }
 

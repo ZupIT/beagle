@@ -94,7 +94,7 @@ final class FormTests: XCTestCase {
 
     func test_formSubmit_shouldExecuteResponseAction() throws {
         // Given
-        networkStub.formResult = .success(CustomAction(name: "custom", data: [:]))
+        repositoryStub.formResult = .success(CustomAction(name: "custom", data: [:]))
         let gesture = submitGesture(in: formView)
 
         // When
@@ -112,9 +112,9 @@ final class FormTests: XCTestCase {
         screen.handleSubmitFormGesture(gesture)
 
         // Then
-        let submittedData = networkStub.formData
+        let submittedData = repositoryStub.formData
 
-        XCTAssert(networkStub.didCallDispatch)
+        XCTAssert(repositoryStub.didCallDispatch)
         assertSnapshot(matching: submittedData, as: .dump)
     }
 
@@ -138,11 +138,11 @@ final class FormTests: XCTestCase {
 
     private lazy var dependencies = BeagleScreenDependencies(
         actionExecutor: actionExecutorSpy,
-        network: networkStub,
+        repository: repositoryStub,
         validatorProvider: validator
     )
 
-    private lazy var networkStub = NetworkStub()
+    private lazy var repositoryStub = RepositoryStub()
     private lazy var actionExecutorSpy = ActionExecutorSpy()
     private lazy var validator = ValidatorProviding()
 
