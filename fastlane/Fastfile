@@ -1,4 +1,5 @@
 platform :android do
+
   desc "Pull Request verification"
   lane :pull_request_verification do
     gradle(task: "detekt lintDebug jacocoTestReport")
