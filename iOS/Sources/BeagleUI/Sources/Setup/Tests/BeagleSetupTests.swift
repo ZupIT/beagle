@@ -19,15 +19,17 @@ import XCTest
 import SnapshotTesting
 
 final class BeagleSetupTests: XCTestCase {
+    // swiftlint:disable discouraged_direct_init
 
     func testDefaultDependencies() {
         let dependencies = BeagleDependencies()
+        dependencies.appBundle = Bundle()
         assertSnapshot(matching: dependencies, as: .dump)
     }
 
     func testChangedDependencies() {
         let dep = BeagleDependencies()
-        dep.appBundle = Bundle.main
+        dep.appBundle = Bundle()
         dep.deepLinkHandler = DeepLinkHandlerDummy()
         dep.theme = AppThemeDummy()
         dep.validatorProvider = ValidatorProviding()
@@ -40,7 +42,7 @@ final class BeagleSetupTests: XCTestCase {
         dep.decoder = ComponentDecodingDummy()
         dep.cacheManager = CacheManager(maximumScreensCapacity: 10)
         dep.logger = BeagleLoggerDumb()
-        
+
         assertSnapshot(matching: dep, as: .dump)
     }
 
