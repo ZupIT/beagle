@@ -3,9 +3,10 @@
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
   - analytics: Optional<Analytics>.none
-  - appBundle: NSBundle </Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Agents> (loaded)
-  ▿ cacheManager: Optional<CacheManagerProtocol>
-    - some: CacheManagerDummy
+  - appBundle: NSBundle <(null)> (not yet loaded)
+  ▿ cacheManager: CacheManager
+    - $__lazy_storage_$_components: Optional<CacheLRU<String, ServerDrivenComponent>>.none
+    - maximumScreensCapacity: 10
   ▿ customActionHandler: Optional<CustomActionHandler>
     - some: CustomActionHandlerDummy
   - decoder: ComponentDecodingDummy
