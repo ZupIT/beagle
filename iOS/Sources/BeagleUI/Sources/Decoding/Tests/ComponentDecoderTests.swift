@@ -23,8 +23,6 @@ final class ComponentDecoderTests: XCTestCase {
     
     private lazy var sut = Beagle.dependencies.decoder
 
-    // TODO: remove this test when using newer versions of SnapshotTesting,
-    // because this behaviour will be already tested on BeagleSetupTests.
     func testIfAllDecodersAreBeingRegistered() {
         let sut = ComponentDecoder()
         assertSnapshot(matching: sut.decoders, as: .dump)
