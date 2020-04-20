@@ -31,13 +31,13 @@ desc "Publish new release based on last two tags"
 
      sh "bash ./delete_release.sh"
      set_github_release(
-       repository_name: "ZupIT/beagle-closed",
+       repository_name: "ZupIT/beagle",
        api_token: ENV["REPO_TOKEN"],
        name: ENV["VERSION_DEPLOY"],
        tag_name: ENV["VERSION_DEPLOY"],
        description: release_notes,
        commitish: "master")
-    sh "bash ./discord_message.sh"
+     sh "bash ./discord_message.sh"
   end
 
 desc "Generate release notes"
