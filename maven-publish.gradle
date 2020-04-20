@@ -18,7 +18,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish'
 apply plugin: 'org.jetbrains.dokka'
 
-def versionName = System.env.BITRISE_GIT_TAG != null ? System.env.BITRISE_GIT_TAG : VERSION_NAME ?: ""
+def versionName = System.env.VERSION_DEPLOY != null ? System.env.VERSION_DEPLOY : VERSION_NAME ?: ""
 group = GROUP_NAME
 version = versionName
 

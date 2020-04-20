@@ -1,9 +1,51 @@
 platform :android do
   desc "Pull Request verification"
-  lane :ci do
+  lane :pull_request_verification do
     gradle(task: "detekt lintDebug jacocoTestReport")
     gradle(task: "android:sample:assembleDebug android:sample:assembleDebugAndroidTest")
     codecov_reporter(token: ENV["CODECOV_TOKEN"])
   end
 
+  desc "Deploy remote new version"
+  lane :ci_deploy do
+    gradle(task: "build")
+    gradle(task: "publish")
+  end
+
+   desc "Deploy local new version"
+    lane :ci_local_deploy do
+      gradle(task: "build")
+      gradle(task: "publishToMavenLocal")
+    end
+
 end
+
+desc "Publish new release"
+  lane :deploy_new_version do
+    git_pull(only_tags: true)
+    ENV["VERSION_DEPLOY"] = last_git_tag
+    sh "fastlane android ci_deploy"
+
+     sh "bash ./delete_release.sh"
+     set_github_release(
+       repository_name: "ZupIT/beagle-closed",
+       api_token: ENV["REPO_TOKEN"],
+       name: ENV["VERSION_DEPLOY"],
+       tag_name: ENV["VERSION_DEPLOY"],
+       description: release_notes,
+       commitish: "master")
+
+  end
+
+desc "Generate release notes"
+  private_lane :release_notes do
+    get_previous_tag = sh("git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1` |tr -d '\n'")
+    changelog = changelog_from_git_commits(
+                        between: [get_previous_tag, ENV["VERSION_DEPLOY"]],
+                        merge_commit_filtering: "exclude_merges",
+                        pretty: "%s - (%ae %aD)")
+
+    "\nRelease notes #{ ENV["VERSION_DEPLOY"] }
+    \nChanges:
+    \n#{changelog}"
+  end

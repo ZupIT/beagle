@@ -26,5 +26,5 @@ jobs:
             - name: Run pr check
               env:
                 CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-              run: bundle exec fastlane android ci
+              run: bundle exec fastlane android pull_request_verification
         
