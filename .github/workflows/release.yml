@@ -1,4 +1,4 @@
-name: Beagle Android CI
+name: Beagle Release
 
 on:
     push:
