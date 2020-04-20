@@ -14,6 +14,7 @@ The **first step** is to set the Zup's repository (using the **credentials** bel
 ```javascript
 // Add it in your root build.gradle at the end of repositories:
 allprojects {
+
     repositories {
         google()
         jcenter()
