@@ -4,7 +4,9 @@ platform :android do
   lane :pull_request_verification do
     gradle(task: "detekt lintDebug jacocoTestReport")
     gradle(task: "android:sample:assembleDebug android:sample:assembleDebugAndroidTest")
-    codecov_reporter(token: ENV["CODECOV_TOKEN"])
+    commit = last_git_commit
+    short_hash = commit[:abbreviated_commit_hash]
+    codecov_reporter(token: ENV["CODECOV_TOKEN"], flags: "-F android -C ${short_hash}")
   end
 
   desc "Publish remote new version"
