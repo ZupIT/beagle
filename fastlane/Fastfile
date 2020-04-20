@@ -7,25 +7,25 @@ platform :android do
     codecov_reporter(token: ENV["CODECOV_TOKEN"])
   end
 
-  desc "Deploy remote new version"
-  lane :ci_deploy do
+  desc "Publish remote new version"
+  lane :remote_publish do
     gradle(task: "build")
     gradle(task: "publish")
   end
 
-   desc "Deploy local new version"
-    lane :ci_local_deploy do
+   desc "Publish local new version"
+    lane :local_publish do
       gradle(task: "build")
       gradle(task: "publishToMavenLocal")
     end
 
 end
 
-desc "Publish new release"
-  lane :deploy_new_version do
+desc "Publish new release based on last two tags"
+  lane :deploy do
     git_pull(only_tags: true)
     ENV["VERSION_DEPLOY"] = last_git_tag
-    sh "fastlane android ci_deploy"
+    sh "fastlane android remote_publish"
 
      sh "bash ./delete_release.sh"
      set_github_release(
