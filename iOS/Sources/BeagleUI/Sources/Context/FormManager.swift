@@ -105,7 +105,6 @@ class FormManager: FormManaging {
             do {
                 try mergeStoredValues(with: &values, storedKeys: storedParameters)
             } catch {
-                //TODO: Add message logs to this errors
                 return
             }
         }
@@ -167,45 +166,54 @@ class FormManager: FormManaging {
             let formInput = view.beagleFormElement as? FormInputComponent,
             let inputValue = view as? InputValue
         else { return }
-
+        
+        let value = inputValue.getValue()
+        
         if let defaultFormInput = formInput as? FormInput, defaultFormInput.required ?? false {
             guard let validator = getValidator(for: defaultFormInput, with: validatorHandler) else { return }
-            let value = inputValue.getValue()
-            let isValid = validator.isValid(input: value)
 
-            if isValid {
-                handleDataStoreSaving(overridedKey: defaultFormInput.overrideStoredName, key: defaultFormInput.name, value: String(describing: value), shouldStoreFields: shouldStoreFields)
-                result[formInput.name] = String(describing: value)
+            if validator.isValid(input: value) {
+                appendFormInputToResults(value: value, formInput: defaultFormInput, results: &result, shouldStoreFields: shouldStoreFields)
             } else {
-                if let errorListener = inputValue as? ValidationErrorListener {
-                    errorListener.onValidationError(message: defaultFormInput.errorMessage)
-                }
-                dependencies.logger.log(Log.form(.validationInputNotValid(inputName: defaultFormInput.name)))
+                handleValidationError(with: defaultFormInput, inputValue: inputValue)
             }
         } else {
-            let value = String(describing: inputValue.getValue())
-            let key = (formInput as? FormInput)?.overrideStoredName ?? formInput.name
-            handleDataStoreSaving(key: key, value: value, shouldStoreFields: shouldStoreFields)
-            result[formInput.name] = value
+            appendFormInputToResults(value: value, formInput: formInput, results: &result, shouldStoreFields: shouldStoreFields)
         }
+    }
+    
+    private func handleValidationError(with formInput: FormInput, inputValue: InputValue) {
+        if let errorListener = inputValue as? ValidationErrorListener {
+            errorListener.onValidationError(message: formInput.errorMessage)
+        }
+        dependencies.logger.log(Log.form(.validationInputNotValid(inputName: formInput.name)))
+    }
+    
+    private func appendFormInputToResults(value: Any, formInput: FormInputComponent, results: inout [String: String], shouldStoreFields: Bool) {
+        let value = String(describing: value)
+        let key = formInput.name
+        let overrideName = (formInput as? FormInput)?.overrideStoredName
+        handleDataStoreSaving(overrideName: overrideName, key: key, value: value, shouldStoreFields: shouldStoreFields)
+        results[formInput.name] = value
     }
     
     private func getValidator(for formInput: FormInput, with handler: ValidatorProvider?) -> Validator? {
         guard
             let validatorName = formInput.validator,
             let handler = handler,
-            let validator = handler.getValidator(name: validatorName) else {
-                if let validatorName = formInput.validator {
-                    dependencies.logger.log(Log.form(.validatorNotFound(named: validatorName)))
-                }
-                return nil
+            let validator = handler.getValidator(name: validatorName)
+        else {
+            if let validatorName = formInput.validator {
+                dependencies.logger.log(Log.form(.validatorNotFound(named: validatorName)))
+            }
+            return nil
         }
         return validator
     }
     
-    private func handleDataStoreSaving(overridedKey: String? = nil, key: String, value: String, shouldStoreFields: Bool) {
-        if let key = overridedKey {
-            dependencies.dataStoreHandler.save(storeType: .Form, key: key, value: String(describing: value))
+    private func handleDataStoreSaving(overrideName: String? = nil, key: String, value: String, shouldStoreFields: Bool) {
+        if let overrideKey = overrideName {
+            dependencies.dataStoreHandler.save(storeType: .Form, key: overrideKey, value: String(describing: value))
         } else if shouldStoreFields {
             dependencies.dataStoreHandler.save(storeType: .Form, key: key, value: String(describing: value))
         }

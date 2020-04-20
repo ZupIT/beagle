@@ -40,12 +40,14 @@ final class FormManagerTests: XCTestCase {
     private lazy var dependencies = BeagleScreenDependencies(
         actionExecutor: actionExecutorSpy,
         network: networkStub,
-        validatorProvider: validator
+        validatorProvider: validator,
+        dataStoreHandler: dataStore
     )
 
     private lazy var networkStub = NetworkStub()
     private lazy var actionExecutorSpy = ActionExecutorSpy()
     private lazy var validator = ValidatorProviding()
+    private lazy var dataStore = DataStoreHandlerStub()
 
     private func submitGesture(in formView: UIView) -> SubmitFormGestureRecognizer {
         // swiftlint:disable force_unwrapping force_cast
@@ -59,6 +61,16 @@ final class FormManagerTests: XCTestCase {
         } else {
             return view.subviews.first { findSubmitView(in: $0) != nil } as? FormSubmit.FormSubmitView
         }
+    }
+    
+    override func setUp() {
+        setValidator3()
+        super.setUp()
+    }
+    
+    override func tearDown() {
+        dataStore.resetStub()
+        super.tearDown()
     }
     
     func test_registerForm_shouldAddGestureRecognizer() throws {
@@ -142,28 +154,108 @@ final class FormManagerTests: XCTestCase {
         XCTAssertFalse(actionExecutorSpy.didCallDoAction)
     }
     
-    // MARK: - multi step
+    let validator3 = "validator3"
+    
+    private lazy var storedParameters = ["age", "id"]
+    
+    private lazy var formView2 = Form(
+        action: FormRemoteAction(path: "submit", method: .post),
+        child: Container(children: [
+            FormInput(name: "name", required: true, validator: validator3, child: InputComponent(value: "John Doe"), overrideStoredName: "OverridedName"),
+            FormInput(name: "password", required: true, validator: validator3, child: InputComponent(value: "password")),
+            FormSubmit(child: Button(text: "Add"))
+        ]),
+        storedParameters: storedParameters,
+        shouldStoreFields: true).toView(context: screen, dependencies: dependencies)
+    
+    private func setValidator3() {
+        validator[validator3] = { _ in
+            return true
+        }
+    }
     
     func test_formSubmit_shouldIncludeStoredValuesToSubmission() {
         // Given
+        storedParameters = ["age", "id"]
+        dataStore.save(storeType: .Form, key: "age", value: "12")
+        dataStore.save(storeType: .Form, key: "id", value: "1111111")
+
+        let gesture = submitGesture(in: formView2)
+
+        // When
+        screen.formManager.handleSubmitFormGesture(gesture)
         
-        let view = Form(action: ActionDummy(), child: Container(children: [
-            FormInput(name: "name", required: true, validator: validator1, child: InputComponent(value: "John Doe")),
-            FormInput(name: "password", required: true, validator: validator2, child: InputComponent(value: "password")),
-            FormSubmit(child: Button(text: "Add"))
-        ]), storedParameters: ["age", "id"]).toView(context: screen, dependencies: dependencies)
-
-        let gesture = submitGesture(in: view)
-
+        // Then
+        XCTAssert(dataStore.didCallRead == true)
+        XCTAssert(networkStub.didCallDispatch)
+        assertSnapshot(matching: networkStub.formData.values, as: .dump)
+    }
+    
+    func test_formSubmitMergingStoredValuesErrorKeyNotFound_shouldNotSubmit() {
+        // Given
+        storedParameters = ["age", "id"]
+        dataStore.save(storeType: .Form, key: "age", value: "12")
+        
+        let gesture = submitGesture(in: formView2)
+        
         // When
         screen.formManager.handleSubmitFormGesture(gesture)
         
         // Then
         XCTAssert(networkStub.didCallDispatch == false)
     }
+    
+    func test_formSubmitMergingStoredValuesErrorKeyDuplication_shouldNotSubmit() {
+        // Given
+        storedParameters = ["name"]
+        dataStore.save(storeType: .Form, key: "name", value: "Yan")
+        
+        let gesture = submitGesture(in: formView2)
+        
+        // When
+        screen.formManager.handleSubmitFormGesture(gesture)
+        
+        // Then
+        XCTAssert(networkStub.didCallDispatch == false)
+    }
+    
+    func test_formSubmit_shouldSaveFormInputs() {
+        // Given
+        let gesture = submitGesture(in: formView2)
+        
+        // When
+        screen.formManager.handleSubmitFormGesture(gesture)
+        
+        // Then
+        XCTAssert(dataStore.didCallSave)
+        assertSnapshot(matching: dataStore.dataStore, as: .dump)
+    }
 }
 
 // MARK: - Stubs
+
+private class DataStoreHandlerStub: BeagleDataStoreHandling {
+    private(set) var didCallRead: Bool = false
+    private(set) var didCallSave: Bool = false
+    
+    private(set) var dataStore: [String: String] = [:]
+    
+    func read(storeType: StoreType, key: String) -> String? {
+        didCallRead = true
+        return dataStore[key]
+    }
+    
+    func save(storeType: StoreType, key: String, value: String) {
+        didCallSave = true
+        dataStore[key] = value
+    }
+    
+    func resetStub() {
+        didCallRead = false
+        didCallSave = false
+        dataStore = [:]
+    }
+}
 
 private struct InputComponent: ServerDrivenComponent {
     let value: String
