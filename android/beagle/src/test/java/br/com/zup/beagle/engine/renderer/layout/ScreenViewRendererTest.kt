@@ -28,14 +28,17 @@ import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.engine.renderer.ViewRenderer
 import br.com.zup.beagle.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.extensions.once
+import br.com.zup.beagle.utils.ToolbarManager
 import br.com.zup.beagle.view.BeagleActivity
 import br.com.zup.beagle.view.BeagleFlexView
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.ScreenComponent
 import io.mockk.CapturingSlot
 import io.mockk.Runs
 import io.mockk.every
+import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
@@ -44,6 +47,8 @@ import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
+import io.mockk.verifyOrder
+import io.mockk.verifySequence
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -52,7 +57,7 @@ private const val DEFAULT_COLOR = 0xFFFFFF
 
 class ScreenViewRendererTest : BaseTest() {
 
-    val screenName = "screenName"
+    private val screenName = "screenName"
     private var screenAnalyticsEvent = ScreenEvent( screenName = screenName )
 
     @MockK
@@ -79,8 +84,9 @@ class ScreenViewRendererTest : BaseTest() {
     private lateinit var actionBar: ActionBar
     @RelaxedMockK
     private lateinit var toolbar: Toolbar
-    @MockK
-
+    @RelaxedMockK
+    private lateinit var toolbarManager: ToolbarManager
+    @InjectMockKs
     private lateinit var screenViewRenderer: ScreenViewRenderer
 
     override fun setUp() {
@@ -101,12 +107,6 @@ class ScreenViewRendererTest : BaseTest() {
         every { viewRenderer.build(any()) } returns view
         every { Color.parseColor(any()) } returns DEFAULT_COLOR
         every { rootView.getContext() } returns context
-
-        screenViewRenderer = ScreenViewRenderer(
-            screenComponent,
-            viewRendererFactory,
-            viewFactory
-        )
     }
 
     override fun tearDown() {
@@ -197,11 +197,27 @@ class ScreenViewRendererTest : BaseTest() {
         onAttachStateChangeListenerSlot.captured.onViewDetachedFromWindow(view)
 
         // Then
-        var capturedEvent = CapturingSlot<ScreenEvent>()
+        val capturedEvent = CapturingSlot<ScreenEvent>()
         verify { analytics.sendViewWillAppearEvent(capture(capturedEvent)) }
         assertEquals(screenName, capturedEvent.captured.screenName)
 
         verify { analytics.sendViewWillDisappearEvent(capture(capturedEvent)) }
         assertEquals(screenName, capturedEvent.captured.screenName)
+    }
+
+    @Test
+    fun buildView_should_call_configureToolbar_before_configureNavigationBarForScreen() {
+        //GIVEN
+        val navigationBar = NavigationBar("Stub")
+        every { screenComponent.navigationBar } returns navigationBar
+
+        //WHEN
+        screenViewRenderer.build(rootView)
+
+        //THEN
+        verifyOrder {
+            toolbarManager.configureToolbar(context, navigationBar)
+            toolbarManager.configureNavigationBarForScreen(context, navigationBar)
+        }
     }
 }

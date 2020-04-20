@@ -25,6 +25,7 @@
         <attr name="titleTextAppearance" format="reference" />
         <attr name="navigationIcon" format="reference" />
         <attr name="backgroundColor" format="color" />
+        <attr name="centerTitle" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="BackgroundStyle">

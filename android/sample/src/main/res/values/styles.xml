@@ -34,6 +34,12 @@
         <item name="titleTextAppearance">@style/DesignSystem.Toolbar.TextAppearance</item>
         <item name="backgroundColor">@color/colorPrimary</item>
     </style>
+
+    <style name="DesignSystem.Toolbar.Center" parent="Widget.AppCompat.Toolbar">
+        <item name="titleTextAppearance">@style/DesignSystem.Toolbar.TextAppearance</item>
+        <item name="backgroundColor">@color/colorPrimary</item>
+        <item name="centerTitle">true</item>
+    </style>
     
     <style name="DesignSystem.TabView.Default" parent="Widget.Design.TabLayout">
         <item name="tabSelectedTextColor">@color/colorWhite</item>
