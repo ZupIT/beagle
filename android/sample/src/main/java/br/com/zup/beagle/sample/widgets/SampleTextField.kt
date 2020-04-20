@@ -38,8 +38,8 @@ class SampleTextField(private val placeholder: String) : InputWidget() {
         textFieldView = this
         textFieldView.hint = placeholder
         textFieldView.isSingleLine = true
-        this.doOnTextChanged { text, _, _, _ ->
-            notifyObservers(text.toString())
+        doOnTextChanged { _, _, _, _ ->
+            notifyChanges()
         }
     }
 }

@@ -35,8 +35,8 @@ abstract class InputWidget : WidgetView(), StateChangeable {
 
     override fun getState(): Observable<WidgetState> = stateObservable
 
-    fun notifyObservers(state: Any) {
-        stateObservable.notifyObservers(WidgetState(state))
+    fun notifyChanges() {
+        stateObservable.notifyObservers(WidgetState(getValue()))
     }
 
     override fun setId(id: String): InputWidget {
