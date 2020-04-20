@@ -149,7 +149,7 @@ extension BeagleScreenViewController: BeagleContext {
             values: inputs
         )
 
-        dependencies.network.submitForm(url: remote.path, additionalData: nil, data: data) {
+        dependencies.repository.submitForm(url: remote.path, additionalData: nil, data: data) {
             [weak self] result in guard let self = self else { return }
 
             self.view.hideLoading()
@@ -207,7 +207,7 @@ extension BeagleScreenViewController: BeagleContext {
     // MARK: - Lazy Load
 
     public func lazyLoad(url: String, initialState: UIView) {
-        dependencies.network.fetchComponent(url: url, additionalData: nil) {
+        dependencies.repository.fetchComponent(url: url, additionalData: nil) {
             [weak self] result in guard let self = self else { return }
 
             switch result {

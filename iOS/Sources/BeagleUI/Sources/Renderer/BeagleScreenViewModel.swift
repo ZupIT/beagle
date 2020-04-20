@@ -18,7 +18,8 @@ import UIKit
 
 public protocol RemoteScreenAdditionalData {
     typealias Http = HttpAdditionalData
-
+    
+    var headers: [String: String] { get set }
 }
 
 public class BeagleScreenViewModel: ScreenEvent {
@@ -88,8 +89,8 @@ public class BeagleScreenViewModel: ScreenEvent {
 
     public typealias Dependencies =
         DependencyActionExecutor
+        & DependencyRepository
         & DependencyAnalyticsExecutor
-        & DependencyNetwork
         & RenderableDependencies
         & DependencyComponentDecoding
 
@@ -175,14 +176,9 @@ public class BeagleScreenViewModel: ScreenEvent {
     }
 
     func loadRemoteScreen(_ remote: ScreenType.Remote) {
-        if let cached = dependencies.cacheManager.dequeueComponent(path: remote.url) {
-            handleRemoteScreenSuccess(cached)
-            return
-        }
-        
         state = .loading
 
-        dependencies.network.fetchComponent(
+        dependencies.repository.fetchComponent(
             url: remote.url,
             additionalData: remote.additionalData
         ) {

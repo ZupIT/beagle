@@ -20,58 +20,59 @@ import SnapshotTesting
 
 final class BeaglePrefetchHelperTests: XCTestCase {
 
-    struct Dependencies: DependencyNetwork, DependencyCacheManager {
-        var cacheManager: CacheManagerProtocol
-        let network: Network
+    struct Dependencies: DependencyRepository, DependencyCacheManager {
+        var cacheManager: CacheManagerProtocol?
+        let repository: Repository
     }
+    private let decoder = ComponentDecoder()
+    private let jsonData = """
+    {
+      "_beagleType_": "beagle:component:text",
+      "text": "cache",
+      "appearance": {
+        "backgroundColor": "#4000FFFF"
+      }
+    }
+    """.data(using: .utf8)!
     
     func testPrefetchAndDequeue() {
-        let remoteComponent = ComponentDummy()
-        let cacheManager = CacheManager(maximumScreensCapacity: 30)
-        let dependencies = Dependencies(cacheManager: cacheManager, network: NetworkStub(componentResult: .success(remoteComponent)))
-        let sut = BeaglePreFetchHelper()
+        guard let remoteComponent = decodeComponent(from: jsonData) else {
+            XCTFail("Could not decode component.")
+            return
+        }
+        let cacheManager = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: CacheManagerDefault.Config(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 10))
+        let dependencies = Dependencies(cacheManager: cacheManager, repository: RepositoryStub(componentResult: .success(remoteComponent)))
+        let sut = BeaglePreFetchHelper(dependencies: dependencies)
         let url = "url-test"
 
-        sut.prefetchComponent(newPath: .init(path: url, shouldPrefetch: true), dependencies: dependencies)
-        let result = dependencies.cacheManager.dequeueComponent(path: url)
+        sut.prefetchComponent(newPath: .init(path: url, shouldPrefetch: true))
+        let reference = CacheReference(identifier: url, data: jsonData, hash: "123")
+        cacheManager.addToCache(reference)
         
-        XCTAssertEqual(remoteComponent, result as? ComponentDummy)
+        let result = dependencies.cacheManager?.getReference(identifiedBy: url)
+        XCTAssert(result?.data == jsonData, "Retrived wrong component.")
     }
     
     func testPrefetchTheSameScreenTwice() {
-        let remoteComponent = ComponentDummy()
-        let cacheManager = CacheManager(maximumScreensCapacity: 30)
-        let dependencies = Dependencies(cacheManager: cacheManager, network: NetworkStub(componentResult: .success(remoteComponent)))
-        let sut = BeaglePreFetchHelper()
+        guard let remoteComponent = decodeComponent(from: jsonData) else {
+            XCTFail("Could not decode component.")
+            return
+        }
+        let cacheManager = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: CacheManagerDefault.Config(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 10))
+        let dependencies = Dependencies(cacheManager: cacheManager, repository: RepositoryStub(componentResult: .success(remoteComponent)))
+        let sut = BeaglePreFetchHelper(dependencies: dependencies)
         let url = "url-test"
+        
+        let reference = CacheReference(identifier: url, data: jsonData, hash: "123")
+        cacheManager.addToCache(reference)
 
-        sut.prefetchComponent(newPath: .init(path: url, shouldPrefetch: true), dependencies: dependencies)
-        let result1 = dependencies.cacheManager.dequeueComponent(path: url)
-        sut.prefetchComponent(newPath: .init(path: url, shouldPrefetch: true), dependencies: dependencies)
-        let result2 = dependencies.cacheManager.dequeueComponent(path: url)
+        sut.prefetchComponent(newPath: .init(path: url, shouldPrefetch: true))
+        let result1 = dependencies.cacheManager?.getReference(identifiedBy: url)
+        sut.prefetchComponent(newPath: .init(path: url, shouldPrefetch: true))
+        let result2 = dependencies.cacheManager?.getReference(identifiedBy: url)
         
-        XCTAssertEqual(remoteComponent, result1 as? ComponentDummy)
-        XCTAssertEqual(remoteComponent, result2 as? ComponentDummy)
-    }
-    
-    func testPrefetchFail() {
-        let dependencies = Dependencies(
-            cacheManager: CacheManager(
-                maximumScreensCapacity: 30
-            ),
-            network: NetworkStub(
-                componentResult: .failure(.networkError(
-                    NSError(domain: "test", code: 1, description: "forced"))
-                )
-            )
-        )
-        let sut = BeaglePreFetchHelper()
-        let url = "url-test"
-        
-        sut.prefetchComponent(newPath: .init(path: url, shouldPrefetch: true), dependencies: dependencies)
-        let result = dependencies.cacheManager.dequeueComponent(path: url)
-        
-        XCTAssertNil(result)
+        XCTAssert(result1?.data == jsonData, "Retrived wrong component.")
+        XCTAssert(result2?.data == jsonData, "Retrived wrong component.")
     }
 
     func testNavigationIsPrefetchable() {
@@ -105,5 +106,13 @@ final class BeaglePrefetchHelperTests: XCTestCase {
         }
         assertSnapshot(matching: result, as: .description)
     }
-
+    
+    private func decodeComponent(from data: Data) -> ServerDrivenComponent? {
+        do {
+            let component = try decoder.decodeComponent(from: data)
+            return component
+        } catch {
+            return nil
+        }
+    }
 }
