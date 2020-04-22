@@ -58,6 +58,7 @@ lane :deploy do
     description: release_notes,
     commitish: "master"
   )
+  sh "bash ./discord_message.sh"
 end
 
 desc "Generate release notes"
