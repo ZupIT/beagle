@@ -16,29 +16,25 @@
 
 import Foundation
 
-public typealias Dependencies =
-    DependencyNetwork
-    & DependencyCacheManager
-
 public protocol DependencyPreFetching {
     var preFetchHelper: BeaglePrefetchHelping { get }
 }
 
 public protocol BeaglePrefetchHelping {
-    func prefetchComponent(newPath: Navigate.NewPath, dependencies: Dependencies)
+    func prefetchComponent(newPath: Navigate.NewPath)
 }
 
 public class BeaglePreFetchHelper: BeaglePrefetchHelping {
     
-    public func prefetchComponent(newPath: Navigate.NewPath, dependencies: Dependencies) {
-        guard newPath.shouldPrefetch, dependencies.cacheManager.dequeueComponent(path: newPath.path) == nil else { return }
-        dependencies.network.fetchComponent(url: newPath.path, additionalData: nil) {
-            switch $0 {
-            case .success(let component):
-                dependencies.cacheManager.saveComponent(component, forPath: newPath.path)
-            case .failure:
-                break
-            }
-        }
+    public typealias Dependencies = DependencyRepository
+    let dependencies: Dependencies
+    
+    public init(dependencies: Dependencies) {
+        self.dependencies = dependencies
+    }
+    
+    public func prefetchComponent(newPath: Navigate.NewPath) {
+        guard newPath.shouldPrefetch else { return }
+        dependencies.repository.fetchComponent(url: newPath.path, additionalData: nil, completion: { _ in })
     }
 }
