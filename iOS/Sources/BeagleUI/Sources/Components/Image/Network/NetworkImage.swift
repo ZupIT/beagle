@@ -54,7 +54,7 @@ extension NetworkImage: Renderable {
 
         imageView.beagle.setup(self)
         
-        dependencies.network.fetchImage(url: path, additionalData: nil) { [weak imageView, weak context] result in
+        dependencies.repository.fetchImage(url: path, additionalData: nil) { [weak imageView, weak context] result in
             guard let imageView = imageView else { return }
             guard case .success(let data) = result else { return }
             let image = UIImage(data: data)

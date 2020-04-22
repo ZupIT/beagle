@@ -15,43 +15,86 @@
  */
 
 import Foundation
-
-public protocol DependencyCacheManager {
-    var cacheManager: CacheManagerProtocol { get }
-}
-
-public protocol CacheManagerProtocol {
-    func saveComponent(_ component: ServerDrivenComponent, forPath path: String)
-    func dequeueComponent(path: String) -> ServerDrivenComponent?
-}
+import CoreData
 
 /// This class is responsible to maintain and manage the cache.
-final public class CacheManager: CacheManagerProtocol {
+public class CacheManagerDefault: CacheManagerProtocol {
     
-    private let maximumScreensCapacity: Int
-    lazy private var components = CacheLRU<String, ServerDrivenComponent>(capacity: maximumScreensCapacity)
-    
-    // MARK: Lifecycle
+    public typealias Dependencies =
+        DependencyLogger
 
-    /// Initialize the CacheManager
-    /// - Parameter maximumScreensCapacity: The maximum number of registers that can be save simultaneously in the cache.
-    init(maximumScreensCapacity: Int) {
-        self.maximumScreensCapacity = maximumScreensCapacity
+    let dependencies: Dependencies
+
+    public let config: Config
+
+    public struct Config {
+        public let memoryMaximumCapacity: Int
+        public let diskMaximumCapacity: Int
+        public let cacheMaxAge: Int
+
+        public init(
+            memoryMaximumCapacity: Int = 15,
+            diskMaximumCapacity: Int = 150,
+            cacheMaxAge: Int = 300
+        ) {
+            self.memoryMaximumCapacity = memoryMaximumCapacity
+            self.diskMaximumCapacity = diskMaximumCapacity
+            self.cacheMaxAge = cacheMaxAge
+        }
+    }
+
+    lazy private var memoryReferences = CacheLRU<String, CacheReference>(
+        capacity: config.memoryMaximumCapacity
+    )
+
+    lazy var diskManager: CacheDiskManagerProtocol =
+        DefaultCacheDiskManager(dependencies: dependencies)
+
+    private let defaultMaxCacheAge = "maxValidAge"
+    
+    // MARK: Init
+    
+    public init(dependencies: Dependencies, config: Config = Config()) {
+        self.config = config
+        self.dependencies = dependencies
     }
     
-    // MARK: Private
+    // MARK: PUBLIC
 
-    /// Saves a component assosiated with a key in the cache.
-    /// - Parameters:
-    ///   - component: Component to be saved
-    ///   - path: Key to be assosiated with the component
-    public func saveComponent(_ component: ServerDrivenComponent, forPath path: String) {
-        components.setValue(component, for: path)
+    public func addToCache(_ reference: CacheReference) {
+        saveInMemory(reference: reference)
+        saveInDisk(reference: reference)
+    }
+    
+    public func getReference(identifiedBy id: String) -> CacheReference? {
+        return memoryReferences.getValue(for: id)
+            ?? diskManager.getReference(for: id)
+    }
+    
+    public func clear() {
+        memoryReferences.clear()
+        diskManager.clear()
     }
 
-    /// Get a component from the cache, 'nil' if not found.
-    /// - Parameter path: The search key for the component
-    public func dequeueComponent(path: String) -> ServerDrivenComponent? {
-        return components.getValue(for: path)
+    public func isValid(reference: CacheReference) -> Bool {
+        let maxAge = reference.maxAge ?? config.cacheMaxAge
+        let expirationDate = reference.timeOfCreation.addingTimeInterval(TimeInterval(maxAge))
+        return expirationDate > Date()
+    }
+
+    // MARK: Privates
+
+    private func saveInMemory(reference: CacheReference) {
+        memoryReferences.setValue(reference, for: reference.identifier)
+    }
+    
+    private func saveInDisk(reference: CacheReference) {
+        diskManager.update(reference)
+
+        if diskManager.numberOfReferences() > config.diskMaximumCapacity {
+            diskManager.removeLastUsed()
+        }
+
+        diskManager.saveChanges()
     }
 }

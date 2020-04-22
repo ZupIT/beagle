@@ -54,7 +54,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
     func test_whenLoadScreenFails_itShouldCall_didFailToLoadWithError_onDelegate() {
         // Given
         let url = "www.something.com"
-        let networkStub = NetworkStub(
+        let repositoryStub = RepositoryStub(
             componentResult: .failure(.networkError(NSError()))
         )
         
@@ -63,7 +63,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         _ = BeagleScreenViewController(viewModel: .init(
             screenType: .remote(.init(url: url)),
             dependencies: BeagleScreenDependencies(
-                network: networkStub
+                repository: repositoryStub
             ),
             delegate: delegateSpy
         ))
@@ -161,12 +161,12 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         let viewToReturn = UIView()
         viewToReturn.tag = 1234
 
-        let loaderStub = NetworkStub(
+        let loaderStub = RepositoryStub(
             componentResult: .success(SimpleComponent().content)
         )
 
         let dependencies = BeagleDependencies()
-        dependencies.network = loaderStub
+        dependencies.repository = loaderStub
 
         let sut = BeagleScreenViewController(viewModel: .init(
             screenType: .remote(.init(url: "www.something.com")),
@@ -179,12 +179,25 @@ final class BeagleScreenViewControllerTests: XCTestCase {
     func test_loadPreFetchedScreen() {
         
         let url = "screen-url"
-        let cache = CacheManager(maximumScreensCapacity: 30)
-        cache.saveComponent(Text("PreFetched Component", appearance: .init(backgroundColor: "#00FF00")), forPath: url)
-        let network = NetworkStub(componentResult: .success(Text("Remote Component", appearance: .init(backgroundColor: "#00FFFF"))))
+        let cacheManager = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: CacheManagerDefault.Config(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 10))
+        guard let jsonData = """
+        {
+          "_beagleType_": "beagle:component:text",
+          "text": "",
+          "appearance": {
+            "backgroundColor": "#4000FFFF"
+          }
+        }
+        """.data(using: .utf8) else {
+            XCTFail("Could not create test data.")
+            return
+        }
+        let cacheReference = CacheReference(identifier: url, data: jsonData, hash: "123")
+        cacheManager.addToCache(cacheReference)
+        let repository = RepositoryStub(componentResult: .success(Text("Remote Component", appearance: .init(backgroundColor: "#00FFFF"))))
         let dependencies = BeagleDependencies()
-        dependencies.cacheManager = cache
-        dependencies.network = network
+        dependencies.cacheManager = cacheManager
+        dependencies.repository = repository
         
         let screen = BeagleScreenViewController(viewModel: .init(
             screenType: .remote(.init(url: url, fallback: nil)),
@@ -197,13 +210,13 @@ final class BeagleScreenViewControllerTests: XCTestCase {
     func test_whenLoadScreenFails_itShouldRenderFallbackScreen() {
         let delegate = BeagleScreenDelegateSpy()
         let error = Request.Error.networkError(NSError(domain: "test", code: 1, description: "Network Error"))
-        let network = NetworkStub(componentResult: .failure(error))
+        let repository = RepositoryStub(componentResult: .failure(error))
         let fallback = Text(
             "Fallback screen.\n\(error.localizedDescription)",
             appearance: .init(backgroundColor: "#FF0000")
         ).toScreen()
         let dependencies = BeagleDependencies()
-        dependencies.network = network
+        dependencies.repository = repository
         
         let screen = BeagleScreenViewController(viewModel: .init(
             screenType: .remote(.init(url: "url", fallback: fallback)),

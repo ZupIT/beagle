@@ -4,9 +4,7 @@
       - container: (Function)
   - analytics: Optional<Analytics>.none
   - appBundle: NSBundle <(null)> (not yet loaded)
-  ▿ cacheManager: CacheManager
-    - $__lazy_storage_$_components: Optional<CacheLRU<String, ServerDrivenComponent>>.none
-    - maximumScreensCapacity: 10
+  - cacheManager: Optional<CacheManagerProtocol>.none
   ▿ customActionHandler: Optional<CustomActionHandler>
     - some: CustomActionHandlerDummy
   - decoder: ComponentDecodingDummy
@@ -17,11 +15,15 @@
   ▿ navigation: BeagleNavigator
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
-  ▿ network: NetworkDefault
+  - networkClient: NetworkClientDummy
+  ▿ preFetchHelper: BeaglePreFetchHelper
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
-  - networkClient: NetworkClientDummy
-  - preFetchHelper: BeaglePreFetchHelper
+  ▿ repository: RepositoryDefault
+    - cacheHashHeader: "beagle-hash"
+    ▿ dependencies: InnerDependenciesResolver
+      - container: (Function)
+    - serviceMaxCacheAge: "cache-control"
   ▿ resolver: InnerDependenciesResolver
     - container: (Function)
   - theme: AppThemeDummy

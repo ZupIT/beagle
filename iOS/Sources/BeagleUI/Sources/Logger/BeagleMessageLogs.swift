@@ -33,6 +33,7 @@ public enum Log {
     case decode(_ decoding: Decoding)
     case form(_ form: Form)
     case navigation(_ navigator: Navigator)
+    case cache(_ cache: Cache)
 
     public enum Decoding {
         case decodingError(type: String)
@@ -58,6 +59,14 @@ public enum Log {
         case errorTryingToPopScreenOnNavigatorWithJustOneScreen
         case didNotFindDeepLinkScreen(path: String)
         case cantPopToAlreadyCurrentScreen(identifier: String)
+    }
+    
+    public enum Cache {
+        case saveContext(description: String)
+        case loadPersistentStores(description: String)
+        case fetchData(description: String)
+        case removeData(description: String)
+        case clear(description: String)
     }
 
     public struct NetworkResponse {
@@ -100,6 +109,7 @@ extension Log: LogType {
         case .form: return "Form"
         case .navigation: return "Navigation"
         case .network: return "Network"
+        case .cache: return "Cache"
         }
     }
 
@@ -128,6 +138,17 @@ extension Log: LogType {
 
         case .decode(.decodingError(let type)):
             return "Could not decode: \(type). Check if that type has been registered."
+            
+        case .cache(.saveContext(let description)):
+            return "Cold not save data in current core data context. error: \(description)"
+        case .cache(.loadPersistentStores(let description)):
+            return "Cold not load persistent container: \(description)"
+        case .cache(.fetchData(let description)):
+            return "Cold not load fetch data from cache: \(description)"
+        case .cache(.removeData(let description)):
+            return "Cold not load remove register from cache: \(description)"
+        case .cache(.clear(let description)):
+            return "Cold clear registers from cache: \(description)"
         }
     }
 
@@ -156,6 +177,9 @@ extension Log: LogType {
             case .didReceiveAction:
                 return .info
             }
+        
+        case .cache:
+            return .error
         }
     }
 }
