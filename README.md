@@ -1,5 +1,4 @@
 
-[![Build Status](https://app.bitrise.io/app/ba33132ae93f50c8/status.svg?token=ET78G0IwTjRaVguEnzRPhw&branch=master)](https://app.bitrise.io/app/ba33132ae93f50c8) 
 [![codecov](https://codecov.io/gh/ZupIT/beagle/branch/master/graph/badge.svg?token=rViMmc9MYJ)](https://codecov.io/gh/ZupIT/beagle)
 
 ## What is Beagle?
