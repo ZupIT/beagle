@@ -78,7 +78,9 @@ public class CacheManagerDefault: CacheManagerProtocol {
 
     public func isValid(reference: CacheReference) -> Bool {
         let maxAge = reference.maxAge ?? config.cacheMaxAge
+        print(maxAge)
         let expirationDate = reference.timeOfCreation.addingTimeInterval(TimeInterval(maxAge))
+        print(expirationDate)
         return expirationDate > Date()
     }
 

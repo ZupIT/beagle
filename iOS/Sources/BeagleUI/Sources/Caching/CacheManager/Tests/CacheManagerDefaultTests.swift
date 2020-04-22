@@ -36,62 +36,43 @@ final class CacheManagerDefaultTests: XCTestCase {
 
     func test_whenHaveDefaultValue_itShouldAffectIsValid() {
         let sut = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: CacheManagerDefault.Config(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 10))
-        
-        guard let reference = getDefaultReference(manager: sut) else {
-            XCTFail("Could not retrive reference.")
-            return
-        }
+        let reference = CacheReference(identifier: "", data: jsonData, hash: "")
         
         let isValid = sut.isValid(reference: reference)
-        XCTAssert(isValid == true, "Should not need revalidation")
+        XCTAssert(isValid, "Should not need revalidation")
     }
     
     func testMaxAgeDefaultExpired() {
         let sut = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: CacheManagerDefault.Config(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 1))
-        
-        guard let reference = getDefaultReference(manager: sut) else {
-            XCTFail("Could not retrive reference.")
-            return
-        }
-        
+        let reference = CacheReference(identifier: "", data: jsonData, hash: "")
         let timeOutComponent = expectation(description: "timeOutComponent")
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(2)) {
             let isValid = sut.isValid(reference: reference)
             XCTAssert(isValid == false, "Should need revalidation")
             timeOutComponent.fulfill()
         }
-        waitForExpectations(timeout: 13, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testMaxAgeFromServer() {
         let sut = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: CacheManagerDefault.Config(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 0))
         let cacheReference = CacheReference(identifier: defaultURL, data: jsonData, hash: defaultHash, maxAge: 5)
         
-        guard let reference = getDefaultReference(manager: sut) else {
-            XCTFail("Could not retrive reference.")
-            return
-        }
-        
-        let isValid = sut.isValid(reference: reference)
-        XCTAssert(isValid == true, "Should not need revalidation")
+        let isValid = sut.isValid(reference: cacheReference)
+        XCTAssert(isValid, "Should not need revalidation")
     }
     
-    func testMaxAgeServerExpired() {
-        let sut = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: CacheManagerDefault.Config(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 3))
-        let cacheReference = CacheReference(identifier: defaultURL, data: jsonData, hash: defaultHash, maxAge: 5)
-        
-        guard let reference = getDefaultReference(manager: sut) else {
-            XCTFail("Could not retrive reference.")
-            return
-        }
+    func testMaxAgeFromServerExpired() {
+        let sut = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: CacheManagerDefault.Config(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 1))
+        let cacheReference = CacheReference(identifier: defaultURL, data: jsonData, hash: defaultHash, maxAge: 2)
         
         let timeOutComponent = expectation(description: "timeOutComponent")
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(1)) {
-            let isValid = sut.isValid(reference: reference)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(3)) {
+            let isValid = sut.isValid(reference: cacheReference)
             XCTAssert(isValid == false, "Should need revalidation")
             timeOutComponent.fulfill()
         }
-        waitForExpectations(timeout: 7, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testMemoryLRU1() {
