@@ -1,4 +1,4 @@
-
+![Release](https://github.com/ZupIT/beagle/workflows/Beagle%20Release/badge.svg)
 [![codecov](https://codecov.io/gh/ZupIT/beagle/branch/master/graph/badge.svg?token=rViMmc9MYJ)](https://codecov.io/gh/ZupIT/beagle)
 
 ## What is Beagle?
