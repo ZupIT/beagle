@@ -154,11 +154,13 @@ final class FormManagerTests: XCTestCase {
         XCTAssertFalse(actionExecutorSpy.didCallDoAction)
     }
     
+    // MARK: - Form Storage Logic Tests
+    
     let validator3 = "validator3"
     
     private lazy var storedParameters = ["age", "id"]
     
-    private lazy var formView2 = Form(
+    private lazy var formViewWithStorage = Form(
         action: FormRemoteAction(path: "submit", method: .post),
         child: Container(children: [
             FormInput(name: "name", required: true, validator: validator3, child: InputComponent(value: "John Doe"), overrideStoredName: "OverridedName"),
@@ -180,7 +182,7 @@ final class FormManagerTests: XCTestCase {
         dataStore.save(storeType: .Form, key: "age", value: "12")
         dataStore.save(storeType: .Form, key: "id", value: "1111111")
 
-        let gesture = submitGesture(in: formView2)
+        let gesture = submitGesture(in: formViewWithStorage)
 
         // When
         screen.formManager.handleSubmitFormGesture(gesture)
@@ -196,7 +198,7 @@ final class FormManagerTests: XCTestCase {
         storedParameters = ["age", "id"]
         dataStore.save(storeType: .Form, key: "age", value: "12")
         
-        let gesture = submitGesture(in: formView2)
+        let gesture = submitGesture(in: formViewWithStorage)
         
         // When
         screen.formManager.handleSubmitFormGesture(gesture)
@@ -210,7 +212,7 @@ final class FormManagerTests: XCTestCase {
         storedParameters = ["name"]
         dataStore.save(storeType: .Form, key: "name", value: "Yan")
         
-        let gesture = submitGesture(in: formView2)
+        let gesture = submitGesture(in: formViewWithStorage)
         
         // When
         screen.formManager.handleSubmitFormGesture(gesture)
@@ -221,7 +223,7 @@ final class FormManagerTests: XCTestCase {
     
     func test_formSubmit_shouldSaveFormInputs() {
         // Given
-        let gesture = submitGesture(in: formView2)
+        let gesture = submitGesture(in: formViewWithStorage)
         
         // When
         screen.formManager.handleSubmitFormGesture(gesture)
