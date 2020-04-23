@@ -1,11 +1,14 @@
+###
+###  Android
+###
+
 platform :android do
 
   desc "Pull Request verification"
   lane :pull_request_verification do
     gradle(task: "detekt lintDebug jacocoTestReport")
     gradle(task: "android:sample:assembleDebug android:sample:assembleDebugAndroidTest")
-    commit = last_git_commit
-    commit_hash = commit[:commit_hash]
+    commit_hash = last_git_commit[:commit_hash]
     codecov_reporter(token: ENV["CODECOV_TOKEN"], flags: "-F android -C #{commit_hash}")
   end
 
@@ -20,35 +23,63 @@ platform :android do
       gradle(task: "build")
       gradle(task: "publishToMavenLocal")
     end
+end
 
+###
+###  iOS
+###
+
+platform :ios do
+  lane :pull_request_verification do
+    xcversion(version: "~> 11.4")
+    init_ios_dependencies
+    scan(
+      workspace: "iOS/Darwin-BeagleUI.xcworkspace/",
+      scheme: "BeagleUI",
+      device: "iPhone 11"
+    )
+    commit_hash = last_git_commit[:commit_hash]
+    codecov_reporter(token: ENV["CODECOV_TOKEN"], flags: "-F ios -C #{commit_hash}")
+  end
 end
 
 desc "Publish new release based on last two tags"
-  lane :deploy do
-    git_pull(only_tags: true)
-    ENV["VERSION_DEPLOY"] = last_git_tag
-    sh "fastlane android remote_publish"
+lane :deploy do
+  git_pull(only_tags: true)
+  ENV["VERSION_DEPLOY"] = last_git_tag
+  sh "fastlane android remote_publish"
 
-     sh "bash ./delete_release.sh"
-     set_github_release(
-       repository_name: "ZupIT/beagle",
-       api_token: ENV["REPO_TOKEN"],
-       name: ENV["VERSION_DEPLOY"],
-       tag_name: ENV["VERSION_DEPLOY"],
-       description: release_notes,
-       commitish: "master")
-
-  end
+  sh "bash ./delete_release.sh"
+  set_github_release(
+    repository_name: "ZupIT/beagle",
+    api_token: ENV["REPO_TOKEN"],
+    name: ENV["VERSION_DEPLOY"],
+    tag_name: ENV["VERSION_DEPLOY"],
+    description: release_notes,
+    commitish: "master"
+  )
+  sh "bash ./discord_message.sh"
+end
 
 desc "Generate release notes"
-  private_lane :release_notes do
-    get_previous_tag = sh("git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1` |tr -d '\n'")
-    changelog = changelog_from_git_commits(
-                        between: [get_previous_tag, ENV["VERSION_DEPLOY"]],
-                        merge_commit_filtering: "exclude_merges",
-                        pretty: "%s - (%ae %aD)")
+private_lane :release_notes do
+  get_previous_tag = sh "bash ./get_previous_tag.sh"
+  changelog = changelog_from_git_commits(
+    between: [get_previous_tag, ENV["VERSION_DEPLOY"]],
+    merge_commit_filtering: "exclude_merges",
+    pretty: "%s - (%ae %aD)"
+  )
 
-    "\nRelease notes #{ ENV["VERSION_DEPLOY"] }
-    \nChanges:
-    \n#{changelog}"
-  end
+  "\nRelease notes #{ ENV["VERSION_DEPLOY"] }
+  \nChanges:
+  \n#{changelog}"
+end
+
+desc "Dependency Manager (Carthage) https://docs.fastlane.tools/actions/carthage/"
+private_lane :init_ios_dependencies do
+  carthage(
+    command: "bootstrap",
+    platform: "iOS",
+    project_directory: "iOS/Sources/BeagleUI/", cache_builds: true
+  )
+end
