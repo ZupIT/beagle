@@ -42,6 +42,7 @@ extension CacheEntity {
             identifier: id,
             data: data,
             hash: beagleHash,
+            maxAge: 0,
             timeOfCreation: timeOfCreation
         )
     }
