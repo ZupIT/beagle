@@ -97,7 +97,6 @@ final class CacheManagerDefaultTests: XCTestCase {
         if sut.getReference(identifiedBy: url2) == nil ||
             sut.getReference(identifiedBy: url3) == nil {
                 XCTFail("Could not find the cached reference.")
-                return
         }
     }
     
@@ -120,7 +119,6 @@ final class CacheManagerDefaultTests: XCTestCase {
         if sut.getReference(identifiedBy: url1) == nil ||
             sut.getReference(identifiedBy: url3) == nil {
                 XCTFail("Could not find the cached reference.")
-                return
         }
     }
     
@@ -147,7 +145,6 @@ final class CacheManagerDefaultTests: XCTestCase {
         if manager.getReference(identifiedBy: url1) == nil ||
         manager.getReference(identifiedBy: url3) == nil {
             XCTFail("Could not find the cached reference.")
-            return
         }
     }
     
@@ -173,7 +170,6 @@ final class CacheManagerDefaultTests: XCTestCase {
         if sut.getReference(identifiedBy: url2) == nil ||
         sut.getReference(identifiedBy: url3) == nil {
             XCTFail("Could not find the cached reference.")
-            return
         }
     }
     
@@ -183,7 +179,6 @@ final class CacheManagerDefaultTests: XCTestCase {
         
         if getDefaultReference(manager: sut) == nil {
             XCTFail("Could not retrive reference.")
-            return
         }
     }
     
@@ -192,7 +187,6 @@ final class CacheManagerDefaultTests: XCTestCase {
         sut.clear()
         if getDefaultReference(manager: sut) != nil {
             XCTFail("Should not retrive reference.")
-            return
         }
     }
     
