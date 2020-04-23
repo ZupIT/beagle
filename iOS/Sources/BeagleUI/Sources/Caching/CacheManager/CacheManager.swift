@@ -53,6 +53,5 @@ final public class CacheManager: CacheManagerProtocol {
     /// - Parameter path: The search key for the component
     public func dequeueComponent(path: String) -> ServerDrivenComponent? {
         return components.getValue(for: path)
-        print("teste")
     }
 }
