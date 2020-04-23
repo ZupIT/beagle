@@ -18,12 +18,14 @@ package br.com.zup.beagle.form
 
 import android.view.View
 import br.com.zup.beagle.engine.renderer.layout.FormInputValidator
+import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.FormSubmit
 import br.com.zup.beagle.widget.form.InputWidget
 import io.mockk.*
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -37,12 +39,14 @@ class FormValidatorControllerTest {
     private lateinit var submitView: View
     @MockK
     private lateinit var formSubmit: FormSubmit
-    @MockK
+    @RelaxedMockK
     private lateinit var inputWidget: InputWidget
     @MockK
     private lateinit var formInput: FormInput
     @MockK
     lateinit var formInputValidator: FormInputValidator
+    @RelaxedMockK
+    lateinit var validator: Validator<Any, Any>
 
     private val submitViewEnabledSlot = slot<Boolean>()
 
@@ -80,7 +84,6 @@ class FormValidatorControllerTest {
         every { formSubmit.enabled } returns false
         formValidatorController.formInputValidatorList.add(formInputValidator)
 
-
         // WHEN
         formValidatorController.configFormSubmit()
 
@@ -92,13 +95,15 @@ class FormValidatorControllerTest {
     fun configFormInputList_should_increment_list_and_call_subscribeOnValidState() {
         // GIVEN
         val result = 1
-        every { formInput.validator } returns null
+        every { formInput.validator } returns "stub"
         every { formInput.child } returns inputWidget
+        every { validatorHandler.getValidator(any()) } returns validator
 
         // WHEN
         formValidatorController.configFormInputList(formInput)
 
         // THEN
         assertTrue { result == formValidatorController.formInputValidatorList.size }
+        verify(exactly = once()) { validator.isValid(any(), any()) }
     }
 }

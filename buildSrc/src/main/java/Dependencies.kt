@@ -55,8 +55,8 @@ object Versions {
     const val targetSdk = 29
     const val buildTools = "29.0.2"
     const val java = "1.8"
-    const val gradle = "3.6.2"
-    const val kotlin = "1.3.71"
+    const val gradle = "3.6.3"
+    const val kotlin = "1.3.72"
     const val jacoco = "0.1.4"
     const val karumi = "3.1.0"
     const val dcendents = "2.1"
