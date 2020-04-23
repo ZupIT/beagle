@@ -65,7 +65,7 @@ object ListViewScreenBuilder : ScreenBuilder {
         children = listOf(
             Text("Static $listDirection ListView"),
             Spacer(10.0),
-            ListView(rows = (1..10).map(this::createText), direction = listDirection)
+            ListView(children = (1..10).map(this::createText), direction = listDirection)
         )
     )
 

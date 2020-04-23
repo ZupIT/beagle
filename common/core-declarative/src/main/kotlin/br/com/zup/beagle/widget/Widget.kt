@@ -20,12 +20,14 @@ import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.AccessibilityComponent
 import br.com.zup.beagle.core.Appearance
 import br.com.zup.beagle.core.AppearanceComponent
+import br.com.zup.beagle.core.DataBindingComponent
 import br.com.zup.beagle.core.FlexComponent
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.widget.core.Flex
+import java.io.Serializable
 
 abstract class Widget : FlexComponent, AppearanceComponent, AccessibilityComponent,
-    IdentifierComponent {
+    IdentifierComponent, DataBindingComponent, Serializable {
 
     final override var id: String? = null
         private set
@@ -35,6 +37,11 @@ abstract class Widget : FlexComponent, AppearanceComponent, AccessibilityCompone
         private set
     final override var accessibility: Accessibility? = null
         private set
+
+    final override var modelPath: String? = null
+        private set
+
+    final override var modelJson: String? = null
 
     open fun setId(id: String): Widget {
         this.id = id
@@ -53,6 +60,16 @@ abstract class Widget : FlexComponent, AppearanceComponent, AccessibilityCompone
 
     open fun applyAccessibility(accessibility: Accessibility): Widget {
         this.accessibility = accessibility
+        return this
+    }
+
+    open fun setModelPath(modelPath: String): Widget {
+        this.modelPath = modelPath
+        return this
+    }
+
+    open fun setModelJson(modelJson: String): Widget {
+        this.modelJson = modelJson
         return this
     }
 }

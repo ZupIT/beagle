@@ -63,7 +63,7 @@ class ListViewRendererTest : BaseTest() {
         every { recyclerView.layoutManager = capture(layoutManagerSlot) } just Runs
         every { recyclerView.adapter = any() } just Runs
         every { widget.direction } returns ListDirection.VERTICAL
-        every { widget.rows } returns listOf()
+        every { widget.children } returns listOf()
         every { rootView.getContext() } returns context
         every { recyclerView.context } returns context
     }

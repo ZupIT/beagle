@@ -39,7 +39,7 @@ internal class PageViewRenderer(
         val container = viewFactory.makeBeagleFlexView(rootView.getContext())
 
         val viewPager = viewFactory.makeViewPager(rootView.getContext()).apply {
-            adapter = PageViewAdapter(rootView, component.pages, viewFactory)
+            adapter = PageViewAdapter(rootView, component.children, viewFactory)
         }
 
         // this container is needed because this view fill the parent completely
@@ -51,7 +51,7 @@ internal class PageViewRenderer(
 
         component.pageIndicator?.let {
             val pageIndicatorView = viewRendererFactory.make(it).build(rootView)
-            setupPageIndicator(component.pages.size, viewPager, component.pageIndicator)
+            setupPageIndicator(component.children.size, viewPager, component.pageIndicator)
             container.addView(pageIndicatorView)
         }
 

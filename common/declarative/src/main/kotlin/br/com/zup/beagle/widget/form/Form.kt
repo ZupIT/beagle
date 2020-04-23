@@ -18,6 +18,7 @@ package br.com.zup.beagle.widget.form
 
 import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.core.LayoutComponent
+import br.com.zup.beagle.core.HasOneChild
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 enum class FormMethodType {
@@ -29,8 +30,9 @@ enum class FormMethodType {
 
 data class Form (
     val action: Action,
-    val child: ServerDrivenComponent
-) : ServerDrivenComponent, LayoutComponent
+//    @Transient
+    override val child: ServerDrivenComponent
+) : ServerDrivenComponent, LayoutComponent, HasOneChild
 
 data class FormRemoteAction(
     val path: String,

@@ -52,7 +52,7 @@ class ListViewFragment : Fragment() {
 
     private fun buildListView() = ListView(
         direction = ListDirection.HORIZONTAL,
-        rows = listOf(
+        children = listOf(
             Text("0000"),
             Text("0001").applyFlex(flex),
             Text("0002"),
@@ -60,7 +60,7 @@ class ListViewFragment : Fragment() {
             Text("0004"),
             LazyComponent(
                 path = "http://www.mocky.io/v2/5e4e91c02f00001f2016a8f2",
-                initialState = Text("Loading LazyComponent...")
+                child = Text("Loading LazyComponent...")
             ),
             Text("0005"),
             Text("0006"),

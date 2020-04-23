@@ -32,6 +32,7 @@ object Modules {
     const val beagleAndroid = ":android:beagle"
     const val beagleAndroidProcessor = ":android:android-processor"
     const val beagleAndroidAnnotation = ":android:android-annotation"
+    const val beagleAndroidExpressions = ":android:android-expression"
     const val beagleAndroidDeclarative = ":android:android-declarative"
     const val beagleAndroidPreview = ":android:android-preview"
     const val beagleCoreDeclarative = ":common:core-declarative"

@@ -60,6 +60,7 @@ dependencies {
     api project(Modules.beagleDeclarative)
     api project(Modules.beagleAnnotation)
     api project(Modules.beagleAndroidAnnotation)
+    api project(Modules.beagleAndroidExpressions)
 
     implementation GlideLibraries.glide
     kapt GlideLibraries.glideCompiler

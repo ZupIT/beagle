@@ -24,14 +24,17 @@ import br.com.zup.beagle.sample.constants.BUTTON_STYLE_TITLE
 import br.com.zup.beagle.sample.constants.NAVIGATION_TYPE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ANALYTICS_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_BINDING_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_BUILDER_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_BUTTON_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_COMPOSE_COMPONENT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_FORM_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_LAZY_COMPONENT_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_LIST_BINDING_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_LIST_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_NAVIGATION_BAR_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_NESTED_BINDING_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_NETWORK_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_PAGE_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SCROLL_VIEW_ENDPOINT
@@ -75,7 +78,11 @@ object ComponentScreenBuilder : ScreenBuilder {
                 createMenu("Accessibility Screen", ACCESSIBILITY_SCREEN_ENDPOINT),
                 createMenu("Compose Component", SCREEN_COMPOSE_COMPONENT_ENDPOINT),
                 createMenu("Touchable", SCREEN_TOUCHABLE_ENDPOINT),
-                createMenu("Analytics", SCREEN_ANALYTICS_ENDPOINT)
+                createMenu("Analytics", SCREEN_ANALYTICS_ENDPOINT),
+                createMenu("Touchable", SCREEN_TOUCHABLE_ENDPOINT),
+                createMenu("Simple Binding", SCREEN_BINDING_ENDPOINT),
+                createMenu("List Binding", SCREEN_LIST_BINDING_ENDPOINT),
+                createMenu("Nested Binding", SCREEN_NESTED_BINDING_ENDPOINT)
             )
         )
     )

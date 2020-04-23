@@ -32,7 +32,7 @@ internal class LazyComponentViewRenderer(
 
     override fun buildView(rootView: RootView): View {
         return viewFactory.makeBeagleView(rootView.getContext()).apply {
-            addServerDrivenComponent(component.initialState, rootView)
+            addServerDrivenComponent(component.child, rootView)
             updateView(rootView, component.path, this[0])
         }
     }

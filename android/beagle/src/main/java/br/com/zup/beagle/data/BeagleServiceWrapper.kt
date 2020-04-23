@@ -18,15 +18,22 @@ package br.com.zup.beagle.data
 
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.data.serializer.BeagleSerializer
+import br.com.zup.beagle.utils.CoroutineDispatchers
 import br.com.zup.beagle.view.ScreenRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 interface FetchListener {
 
     fun onSuccess(component: ServerDrivenComponent)
+    fun onError(error: Throwable)
+}
+
+interface FetchDataListener {
+    fun onSuccess(json: String)
     fun onError(error: Throwable)
 }
 
@@ -44,8 +51,20 @@ class BeagleServiceWrapper {
 
     fun fetchComponent(screenRequest: ScreenRequest, listener: FetchListener) {
         scope.launch {
+            fetchComponentSuspend(listener, screenRequest)
+        }
+    }
+
+    private suspend fun fetchComponentSuspend(
+        listener: FetchListener,
+        screenRequest: ScreenRequest
+    ) {
+        withContext(CoroutineDispatchers.Default) {
             try {
-                listener.onSuccess(beagleService.fetchComponent(screenRequest))
+                val component = beagleService.fetchComponent(screenRequest)
+                withContext(CoroutineDispatchers.Main) {
+                    listener.onSuccess(component)
+                }
             } catch (e: Throwable) {
                 listener.onError(e)
             }
@@ -58,5 +77,27 @@ class BeagleServiceWrapper {
 
     fun deserializeComponent(response: String): ServerDrivenComponent {
         return beagleSerialize.deserializeComponent(response)
+    }
+
+    fun fetchData(screenRequest: ScreenRequest, listener: FetchDataListener) {
+        scope.launch {
+            fetchDataSuspend(listener, screenRequest)
+        }
+    }
+
+    private suspend fun fetchDataSuspend(
+        listener: FetchDataListener,
+        screenRequest: ScreenRequest
+    ) {
+        withContext(CoroutineDispatchers.Default) {
+            try {
+                val data = beagleService.fetchData(screenRequest)
+                withContext(CoroutineDispatchers.Main) {
+                    listener.onSuccess(data)
+                }
+            } catch (e: Throwable) {
+                listener.onError(e)
+            }
+        }
     }
 }

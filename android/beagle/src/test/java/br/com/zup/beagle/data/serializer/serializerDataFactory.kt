@@ -122,9 +122,7 @@ fun makeNetworkImageJson() = """
 fun makeListViewJson() = """
     {
         "_beagleType_": "beagle:component:listview",
-        "rows": [${makeButtonJson()}],
-        "remoteDataSource": "/dataSource",
-        "loadingState": ${makeVerticalJson()}
+        "children": [${makeButtonJson()}]
     }
 """
 
@@ -138,7 +136,7 @@ fun makeLazyComponentJson() = """
     {
         "_beagleType_": "beagle:component:lazycomponent",
         "path": "${RandomData.httpUrl()}",
-        "initialState": ${makeButtonJson()}
+        "child": ${makeButtonJson()}
     }
 """
 
@@ -168,7 +166,7 @@ fun makeScrollViewJson() = """
 fun makePageViewJson() = """
     {
         "_beagleType_": "beagle:component:pageview",
-        "pages": [
+        "children": [
             ${makeButtonJson()},
             ${makeButtonJson()},
             ${makeButtonJson()}

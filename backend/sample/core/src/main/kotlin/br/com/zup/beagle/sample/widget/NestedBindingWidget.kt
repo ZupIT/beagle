@@ -14,8 +14,18 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.core
+package br.com.zup.beagle.sample.widget
 
-interface GhostComponent {
-    val child: ServerDrivenComponent
-}
+import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.expression.BindingExpr
+import br.com.zup.beagle.widget.Widget
+
+@RegisterWidget
+class NestedBindingWidget(
+    val abc: BindingExpr<Int>,
+    val abd: BindingExpr<String>,
+    val abe0f: BindingExpr<String>,
+    val abg0: BindingExpr<String>,
+    val abg1: BindingExpr<Double>,
+    val abg2: BindingExpr<Boolean>
+) : Widget()

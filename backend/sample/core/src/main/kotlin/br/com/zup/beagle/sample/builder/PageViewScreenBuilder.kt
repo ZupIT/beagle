@@ -53,7 +53,7 @@ object PageViewScreenBuilder : ScreenBuilder {
                 selectedColor = BLACK,
                 unselectedColor = LIGHT_GREY
             ),
-            pages = (1..3).map {
+            children = (1..3).map {
                 Text("Page $it", alignment = TextAlignment.CENTER).applyFlex(
                     Flex(
                         alignSelf = Alignment.CENTER,

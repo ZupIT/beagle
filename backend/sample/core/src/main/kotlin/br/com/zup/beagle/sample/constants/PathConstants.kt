@@ -52,6 +52,14 @@ const val SCREEN_NETWORK_IMAGE_ENDPOINT = "/network-image"
 const val SCREEN_TOUCHABLE_ENDPOINT = "/touchable"
 const val SCREEN_EXAMPLE_ENDPOINT ="/navigate-example"
 const val SCREEN_ACTION_CLICK_ENDPOINT = "/action-click"
+const val SCREEN_BINDING_ENDPOINT = "/binding/simple"
+const val SCREEN_LIST_BINDING_ENDPOINT = "/binding/list"
+const val SCREEN_NESTED_BINDING_ENDPOINT = "/binding/nested"
+
+const val MODEL_ENDPOINT = "/model"
+const val MODEL_ENDPOINT2 = "/model2"
+const val LIST_MODEL_ENDPOINT = "/list"
+const val NESTED_MODEL_ENDPOINT = "/nested"
 
 const val CUSTOM_WIDGET_ENDPOINT="/custom"
 

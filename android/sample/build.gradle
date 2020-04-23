@@ -56,8 +56,9 @@ dependencies {
     implementation GeneralLibraries.kotlin
     implementation AndroidxLibraries.coreKtx
 
-    debugImplementation project(Modules.beagleAndroidPreview)
+    implementation project(Modules.beagleAndroidPreview)
     implementation project(Modules.beagleAndroid)
+    implementation project(Modules.beagleAndroidExpressions)
     kapt project(Modules.beagleAndroidProcessor)
 
     // Unit Testing

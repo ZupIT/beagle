@@ -20,7 +20,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import br.com.zup.beagle.core.FlexComponent
-import br.com.zup.beagle.core.GhostComponent
+import br.com.zup.beagle.core.HasOneChild
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.engine.mapper.FlexMapper
 import br.com.zup.beagle.engine.renderer.RootView
@@ -45,7 +45,7 @@ internal open class BeagleFlexView(
     }
 
     fun addServerDrivenComponent(serverDrivenComponent: ServerDrivenComponent, rootView: RootView) {
-        val component = if (serverDrivenComponent is GhostComponent) {
+        val component = if (serverDrivenComponent is HasOneChild) {
             serverDrivenComponent.child
         } else {
             serverDrivenComponent

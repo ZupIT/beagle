@@ -27,7 +27,7 @@ internal class ListViewTest {
     fun listView_should_have_two_children_and_its_default_values() {
         val listView = ListView(DEFAULT_CHILDREN)
 
-        assertTrue { listView.rows.size == 2 }
+        assertTrue { listView.children.size == 2 }
         assertTrue { listView.direction == ListDirection.VERTICAL }
     }
 
@@ -44,7 +44,7 @@ internal class ListViewTest {
             Text(index.toString())
         }
 
-        assertTrue { listView.rows.size == 2 }
+        assertTrue { listView.children.size == 2 }
         assertTrue { listView.direction == ListDirection.VERTICAL }
     }
 }

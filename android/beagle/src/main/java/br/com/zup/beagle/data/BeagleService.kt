@@ -63,7 +63,7 @@ internal class BeagleService(
         return deserializeAction(jsonResponse)
     }
 
-    private suspend fun fetchData(screenRequest: ScreenRequest): String = suspendCancellableCoroutine { cont ->
+    suspend fun fetchData(screenRequest: ScreenRequest): String = suspendCancellableCoroutine { cont ->
         try {
             val call = httpClient.execute(request = makeRequestData(screenRequest),
                 onSuccess = { response ->

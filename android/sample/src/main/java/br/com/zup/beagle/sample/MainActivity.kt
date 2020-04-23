@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
 
         supportActionBar?.apply {
@@ -75,7 +76,21 @@ class MainActivity : AppCompatActivity() {
             R.id.navigation -> startActivity(
                 BeagleActivity.newIntent(
                     this,
-                    ScreenRequest("https://t001-2751a.firebaseapp.com/flow/step1.json")
+                    ScreenRequest("https://t001-2751a.firebaseapp.com/flow/step1")
+                )
+            )
+            R.id.databinding -> startActivity(
+                BeagleActivity.newIntent(
+                    this,
+                    ScreenRequest("http://www.mocky.io/v2/5ea0515b3200006f0094addb")
+//                    ScreenRequest("/binding/simple")
+                )
+            )
+            R.id.databindingListview -> startActivity(
+                BeagleActivity.newIntent(
+                    this,
+                    ScreenRequest("http://www.mocky.io/v2/5ea050d5320000934394add6")
+//                    ScreenRequest("/binding/list")
                 )
             )
             R.id.form -> goToFragment(FormFragment.newInstance())

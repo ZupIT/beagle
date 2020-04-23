@@ -47,7 +47,7 @@ object LazyComponentScreenBuilder : ScreenBuilder {
         ),
         child = LazyComponent(
             path = PATH_LAZY_COMPONENT_ENDPOINT,
-            initialState = Text("Loading...").applyFlex(
+            child = Text("Loading...").applyFlex(
                 flex = Flex(
                     justifyContent = JustifyContent.CENTER,
                     alignSelf = Alignment.CENTER

@@ -17,13 +17,13 @@
 package br.com.zup.beagle.widget.navigation
 
 import br.com.zup.beagle.action.Action
+import br.com.zup.beagle.core.HasOneChild
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.TouchableAnalytics
-import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 data class Touchable(
     val action: Action,
     override val child: ServerDrivenComponent,
     override val clickAnalyticsEvent: ClickEvent? = null
-) : ServerDrivenComponent, GhostComponent, TouchableAnalytics
+) : ServerDrivenComponent, HasOneChild, TouchableAnalytics

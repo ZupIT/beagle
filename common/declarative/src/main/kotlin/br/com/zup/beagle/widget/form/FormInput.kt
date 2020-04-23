@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.widget.form
 
-import br.com.zup.beagle.core.GhostComponent
+import br.com.zup.beagle.core.HasOneChild
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 data class FormInput(
@@ -24,5 +24,6 @@ data class FormInput(
     val required: Boolean? = null,
     val validator: String? = null,
     val errorMessage: String? = null,
+//    @Transient
     override val child: InputWidget
-) : ServerDrivenComponent, GhostComponent
+) : ServerDrivenComponent, HasOneChild

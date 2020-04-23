@@ -71,7 +71,7 @@ class LazyComponentViewRendererTest : BaseTest() {
         every { viewFactory.makeBeagleView(any()) } returns beagleView
         every { rootView.getContext() } returns context
         every { viewRendererFactory.make(any()) } returns viewRenderer
-        every { lazyComponent.initialState } returns initialState
+        every { lazyComponent.child } returns initialState
         every { beagleView[0] } returns initialStateView
         every { lazyComponent.path } returns URL
         every { beagleView.addServerDrivenComponent(any(), any()) } just Runs

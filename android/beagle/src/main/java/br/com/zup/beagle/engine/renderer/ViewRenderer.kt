@@ -18,17 +18,20 @@ package br.com.zup.beagle.engine.renderer
 
 import android.view.View
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.utils.ComponentBinding
 import br.com.zup.beagle.utils.ComponentStylization
 import br.com.zup.beagle.view.ViewFactory
 
 internal abstract class ViewRenderer<T : ServerDrivenComponent>(
-    private val componentStylization: ComponentStylization<T> = ComponentStylization()
+    private val componentStylization: ComponentStylization<T> = ComponentStylization(),
+    private val componentBinding: ComponentBinding = ComponentBinding()
 ) {
     abstract val component: T
 
     fun build(rootView: RootView): View {
         val builtView = buildView(rootView)
         componentStylization.apply(builtView, component)
+        componentBinding.apply(component)
         return builtView
     }
 

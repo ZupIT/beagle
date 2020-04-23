@@ -16,6 +16,10 @@
 
 package br.com.zup.beagle.widget.core
 
+import br.com.zup.beagle.core.DataBindingComponent
+import br.com.zup.beagle.expression.BindingExpr
 import br.com.zup.beagle.widget.Widget
 
-abstract class WidgetView : Widget(), ViewConvertable
+abstract class WidgetView(
+    val bindingProperties: List<BindingExpr<*>> = emptyList()
+) : Widget(), DataBindingComponent, ViewConvertable

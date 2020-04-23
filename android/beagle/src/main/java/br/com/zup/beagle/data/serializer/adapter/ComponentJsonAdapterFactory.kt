@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.data.serializer.adapter
 
+import br.com.zup.beagle.core.DataBindingComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.data.serializer.PolymorphicJsonAdapterFactory
 import br.com.zup.beagle.setup.BeagleEnvironment
@@ -40,6 +41,7 @@ import br.com.zup.beagle.widget.pager.PageIndicatorComponent
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.ListView
+import br.com.zup.beagle.widget.ui.ListViewBinding
 import br.com.zup.beagle.widget.ui.NetworkImage
 import br.com.zup.beagle.widget.ui.TabView
 import br.com.zup.beagle.widget.ui.Text
@@ -71,6 +73,7 @@ internal object ComponentJsonAdapterFactory {
         return factory.withBaseSubType(PageIndicatorComponent::class.java)
             .withBaseSubType(InputWidget::class.java)
             .withBaseSubType(Widget::class.java)
+            .withBaseSubType(DataBindingComponent::class.java)
     }
 
     private fun registerLayoutClass(
@@ -96,6 +99,7 @@ internal object ComponentJsonAdapterFactory {
             .withSubtype(NetworkImage::class.java, createNamespaceFor<NetworkImage>())
             .withSubtype(Button::class.java, createNamespaceFor<Button>())
             .withSubtype(ListView::class.java, createNamespaceFor<ListView>())
+            .withSubtype(ListViewBinding::class.java, createNamespaceFor<ListViewBinding>())
             .withSubtype(Touchable::class.java, createNamespaceFor<Touchable>())
             .withSubtype(TabView::class.java, createNamespaceFor<TabView>())
             .withSubtype(PageIndicator::class.java, createNamespaceFor<PageIndicator>())

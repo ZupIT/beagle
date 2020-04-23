@@ -36,7 +36,7 @@ internal class ListViewRenderer(
         return viewFactory.makeRecyclerView(rootView.getContext()).apply {
             val orientation = toRecyclerViewOrientation()
             layoutManager = LinearLayoutManager(context, orientation, false)
-            adapter = ListViewRecyclerAdapter(rootView, component.rows, viewFactory, orientation)
+            adapter = ListViewRecyclerAdapter(rootView, component.children, viewFactory, orientation)
         }
     }
 

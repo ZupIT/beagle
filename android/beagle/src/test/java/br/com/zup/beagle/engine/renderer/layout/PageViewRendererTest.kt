@@ -77,7 +77,7 @@ class PageViewRendererTest : BaseTest() {
         every { viewFactory.makeBeagleFlexView(any()) } returns beagleFlexView
         every { beagleFlexView.addView(any()) } just Runs
         every { viewFactory.makeViewPager(any()) } returns beaglePageView
-        every { pageView.pages } returns pageViewPages
+        every { pageView.children } returns pageViewPages
         every { viewRendererFactory.make(any()) } returns viewRenderer
         every { viewRenderer.build(any()) } returns view
     }

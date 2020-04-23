@@ -28,6 +28,7 @@ import br.com.zup.beagle.sample.constants.REPRESENTATION_PRESENT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SAMPLE_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_BINDING_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ANALYTICS_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_BUILDER_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_BUTTON_ENDPOINT
@@ -37,8 +38,10 @@ import br.com.zup.beagle.sample.constants.SCREEN_EXAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_FORM_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_LAZY_COMPONENT_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_LIST_BINDING_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_LIST_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_NAVIGATION_BAR_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_NESTED_BINDING_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_NETWORK_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_PAGE_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SCROLL_VIEW_ENDPOINT
@@ -49,6 +52,7 @@ import br.com.zup.beagle.sample.constants.SCREEN_TOUCHABLE_ENDPOINT
 import br.com.zup.beagle.sample.spring.service.AccessibilityService
 import br.com.zup.beagle.sample.spring.service.SampleActionClickService
 import br.com.zup.beagle.sample.spring.service.SampleActionService
+import br.com.zup.beagle.sample.spring.service.SampleBindingService
 import br.com.zup.beagle.sample.spring.service.SampleAnalyticsService
 import br.com.zup.beagle.sample.spring.service.SampleButtonService
 import br.com.zup.beagle.sample.spring.service.SampleComponentsService
@@ -94,7 +98,8 @@ class ScreenController(
     private val sampleNetworkImageService: SampleNetworkImageService,
     private val sampleTouchableService: SampleTouchableService,
     private val sampleActionClickService: SampleActionClickService,
-    private val sampleAnalyticsService: SampleAnalyticsService
+    private val sampleAnalyticsService: SampleAnalyticsService,
+    private val sampleBindingService: SampleBindingService
 ) {
     @GetMapping(ACCESSIBILITY_SCREEN_ENDPOINT)
     fun getAccessibilityView() = this.accessibilityService.createAccessibilityView()
@@ -111,7 +116,7 @@ class ScreenController(
     @GetMapping(SCREEN_BUTTON_ENDPOINT)
     fun getSampleButtonView() = this.sampleButtonService.createButtonView()
 
-    @GetMapping(SCREEN_TEXT_ENDPOINT )
+    @GetMapping(SCREEN_TEXT_ENDPOINT)
     fun getSampleTextView() = this.sampleTextService.createTextView()
 
     @GetMapping(SCREEN_IMAGE_ENDPOINT)
@@ -132,10 +137,10 @@ class ScreenController(
     @GetMapping(SCREEN_ACTION_ENDPOINT)
     fun getShowDialogAction() = this.sampleActionService.createAction()
 
-    @GetMapping( SCREEN_FORM_ENDPOINT)
+    @GetMapping(SCREEN_FORM_ENDPOINT)
     fun getSampleFormView() = this.sampleFormService.createFormView()
 
-    @GetMapping(SCREEN_LAZY_COMPONENT_ENDPOINT )
+    @GetMapping(SCREEN_LAZY_COMPONENT_ENDPOINT)
     fun getSampleLazyComponentConroller() = this.sampleLazyComponentService.createLazyComponent()
 
     @GetMapping(SCREEN_NAVIGATION_BAR_ENDPOINT)
@@ -167,7 +172,7 @@ class ScreenController(
     @GetMapping(REPRESENTATION_NAVIGATION_TYPE_STEP3_ENDPOINT)
     fun getNavigationStep3() = this.sampleNavigationTypeService.step3()
 
-    @GetMapping(SCREEN_STACK_ENDPOINT )
+    @GetMapping(SCREEN_STACK_ENDPOINT)
     fun getSampleStackView() = this.sampleStackService.createStackView()
 
     @GetMapping(SCREEN_COMPOSE_COMPONENT_ENDPOINT)
@@ -188,5 +193,13 @@ class ScreenController(
     @GetMapping(SCREEN_ANALYTICS_ENDPOINT)
     fun getAnalyticsExample()= this.sampleAnalyticsService.getAnalyticsExample()
 
+    @GetMapping(SCREEN_BINDING_ENDPOINT)
+    fun getWidgetBindingSample() = this.sampleBindingService.createBindingExample()
+
+    @GetMapping(SCREEN_LIST_BINDING_ENDPOINT)
+    fun getListViewBinding() = this.sampleBindingService.createListBindingExample()
+
+    @GetMapping(SCREEN_NESTED_BINDING_ENDPOINT)
+    fun getNestedBinding() = this.sampleBindingService.createNestedBindingExample()
 
 }

@@ -23,6 +23,7 @@ import br.com.zup.beagle.engine.renderer.layout.FormInputViewRenderer
 import br.com.zup.beagle.engine.renderer.layout.FormSubmitViewRenderer
 import br.com.zup.beagle.engine.renderer.ui.ButtonViewRenderer
 import br.com.zup.beagle.engine.renderer.ui.ImageViewRenderer
+import br.com.zup.beagle.engine.renderer.ui.ListViewBindingRenderer
 import br.com.zup.beagle.engine.renderer.ui.ListViewRenderer
 import br.com.zup.beagle.engine.renderer.ui.NetworkImageViewRenderer
 import br.com.zup.beagle.engine.renderer.ui.TabViewRenderer
@@ -38,6 +39,7 @@ import br.com.zup.beagle.widget.form.FormSubmit
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.ListView
+import br.com.zup.beagle.widget.ui.ListViewBinding
 import br.com.zup.beagle.widget.ui.NetworkImage
 import br.com.zup.beagle.widget.ui.TabView
 import br.com.zup.beagle.widget.ui.Text
@@ -56,6 +58,7 @@ internal class UIViewRendererFactory : AbstractViewRendererFactory {
                 is Image -> ImageViewRenderer(component)
                 is NetworkImage -> NetworkImageViewRenderer(component)
                 is ListView -> ListViewRenderer(component)
+                is ListViewBinding -> ListViewBindingRenderer(component)
                 is FormInput -> FormInputViewRenderer(component)
                 is FormInputHidden -> FormInputHiddenViewRenderer(component)
                 is FormSubmit -> FormSubmitViewRenderer(component)

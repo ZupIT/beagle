@@ -41,6 +41,18 @@
         tools:ignore="HardcodedText" />
 
     <item
+        android:id="@+id/databinding"
+        android:icon="@mipmap/ic_launcher"
+        android:title="Databinding"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:id="@+id/databindingListview"
+        android:icon="@mipmap/ic_launcher"
+        android:title="Listview with Databinding"
+        tools:ignore="HardcodedText" />
+
+    <item
         android:id="@+id/scroll"
         android:icon="@mipmap/ic_launcher"
         android:title="ScrollView"
