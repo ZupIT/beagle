@@ -32,6 +32,7 @@ end
 platform :ios do
   lane :pull_request_verification do
     xcversion(version: "~> 11.4")
+    swiftLint
     init_ios_dependencies
     scan(
       workspace: "iOS/Darwin-BeagleUI.xcworkspace/",
