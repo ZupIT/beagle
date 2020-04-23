@@ -37,13 +37,10 @@ class FormValidatorController(
         val inputWidget: InputWidget = formInput.child
         inputWidget.getState().addObserver(object : Observer<WidgetState> {
             override fun update(o: Observable<WidgetState>, arg: WidgetState) {
-                val validator = formInput.validator
-                if (validator != null) {
-                    validatorHandler?.getValidator(validator)?.let {
-                        formInputValidatorList.find { formInputValidator ->
-                            formInputValidator.formInput == formInput
-                        }?.isValid = it.isValid(arg.value, formInput.child)
-                    }
+                getValidator(formInput.validator)?.let {
+                    formInputValidatorList.find { formInputValidator ->
+                        formInputValidator.formInput == formInput
+                    }?.isValid = it.isValid(arg.value, formInput.child)
                 }
                 configFormSubmit()
             }
@@ -64,13 +61,19 @@ class FormValidatorController(
         return true
     }
 
+    private fun getValidator(validator: String?) = if (validator != null) {
+        validatorHandler?.getValidator(validator)
+    } else {
+        null
+    }
+
     fun configFormInputList(formInput: FormInput) {
-        formInputValidatorList.add(
-            FormInputValidator(
-                formInput,
-                formInput.validator == null
-            )
-        )
+        val inputWidget: InputWidget = formInput.child
+        var isValid = false
+        getValidator(formInput.validator)?.let {
+            isValid = it.isValid(inputWidget.getValue(), formInput.child)
+        }
+        formInputValidatorList.add(FormInputValidator(formInput, isValid))
         subscribeOnValidState(formInput)
     }
 }

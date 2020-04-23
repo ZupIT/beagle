@@ -58,7 +58,6 @@ data class TextField(
     private fun bind() {
         val color = Color.parseColor(getColorWithHashTag(color))
         textFieldView.setText(description)
-        textFieldView.setTextColor(color)
         textFieldView.hint = hint
         textFieldView.setTextColor(color)
         textFieldView.setHintTextColor(color)

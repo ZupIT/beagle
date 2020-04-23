@@ -18,6 +18,7 @@ package br.com.zup.beagle.form
 
 import android.view.View
 import br.com.zup.beagle.engine.renderer.layout.FormInputValidator
+import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.FormSubmit
 import br.com.zup.beagle.widget.form.InputWidget
@@ -44,6 +45,8 @@ class FormValidatorControllerTest {
     private lateinit var formInput: FormInput
     @MockK
     lateinit var formInputValidator: FormInputValidator
+    @RelaxedMockK
+    lateinit var validator: Validator<Any, Any>
 
     private val submitViewEnabledSlot = slot<Boolean>()
 
@@ -92,13 +95,15 @@ class FormValidatorControllerTest {
     fun configFormInputList_should_increment_list_and_call_subscribeOnValidState() {
         // GIVEN
         val result = 1
-        every { formInput.validator } returns null
+        every { formInput.validator } returns "stub"
         every { formInput.child } returns inputWidget
+        every { validatorHandler.getValidator(any()) } returns validator
 
         // WHEN
         formValidatorController.configFormInputList(formInput)
 
         // THEN
         assertTrue { result == formValidatorController.formInputValidatorList.size }
+        verify(exactly = once()) { validator.isValid(any(), any()) }
     }
 }
