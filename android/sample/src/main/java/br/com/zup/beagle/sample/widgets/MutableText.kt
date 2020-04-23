@@ -26,7 +26,7 @@ data class MutableText(
     val secondText: String = "",
     val color: String = "#000000"
 ): WidgetView() {
-    override fun toView(context: Context) = TextView(context).apply {
+    override fun buildView(context: Context) = TextView(context).apply {
         val color = Color.parseColor(color)
         text = firstText
         setTextColor(color)
