@@ -27,14 +27,12 @@ extension CacheEntity {
     @NSManaged public var data: Data
     @NSManaged public var beagleHash: String
     @NSManaged public var timeOfCreation: Date
-    @NSManaged public var maxAge: Int
 
     public func update(with reference: CacheReference) {
         id = reference.identifier
         data = reference.data
         beagleHash = reference.hash
         timeOfCreation = reference.timeOfCreation
-        maxAge = reference.maxAge ?? 0
     }
 }
 
@@ -44,7 +42,6 @@ extension CacheEntity {
             identifier: id,
             data: data,
             hash: beagleHash,
-            maxAge: maxAge == 0 ? nil : maxAge,
             timeOfCreation: timeOfCreation
         )
     }

@@ -18,6 +18,7 @@ import XCTest
 @testable import BeagleUI
 
 class CacheDiskManagerTests: XCTestCase {
+    // swiftlint:disable force_unwrapping
     private let jsonData = """
     {
       "_beagleType_": "beagle:component:text",
@@ -27,6 +28,7 @@ class CacheDiskManagerTests: XCTestCase {
       }
     }
     """.data(using: .utf8)!
+    // swiftlint:enable force_unwrapping
     
     func testGetReference() {
         let sut = DefaultCacheDiskManager(dependencies: CacheDiskManagerDependencies())
@@ -34,7 +36,7 @@ class CacheDiskManagerTests: XCTestCase {
         let hash = "1"
         let identifier = "id"
         
-        let reference = CacheReference(identifier: identifier, data: jsonData, hash: hash)
+        let reference = CacheReference(identifier: identifier, data: jsonData, hash: hash, timeOfCreation: generateTimeOfCreation())
         sut.update(reference)
         
         guard let result = sut.getReference(for: identifier) else {
@@ -52,7 +54,7 @@ class CacheDiskManagerTests: XCTestCase {
         sut.saveChanges()
         let identifier = "id"
         
-        if let _ = sut.getReference(for: identifier) {
+        if sut.getReference(for: identifier) != nil {
             XCTFail("Should not retrive data.")
         }
     }
@@ -67,7 +69,7 @@ class CacheDiskManagerTests: XCTestCase {
         sut.saveChanges()
         sut.clear()
 
-        if let _ = sut.getReference(for: identifier) {
+        if sut.getReference(for: identifier) != nil {
             XCTFail("Should not retrive data.")
         }
     }
@@ -87,7 +89,7 @@ class CacheDiskManagerTests: XCTestCase {
         sut.removeLastUsed()
         sut.saveChanges()
         
-        if let _ = sut.getReference(for: identifier1) {
+        if sut.getReference(for: identifier1) != nil {
             XCTFail("Should not retrive data.")
         }
     }
@@ -110,7 +112,7 @@ class CacheDiskManagerTests: XCTestCase {
         sut.removeLastUsed()
         sut.saveChanges()
         
-        if let _ = sut.getReference(for: identifier2) {
+        if sut.getReference(for: identifier2) != nil {
             XCTFail("Should not retrive data.")
         }
     }
@@ -120,7 +122,7 @@ class CacheDiskManagerTests: XCTestCase {
         let identifier = "id"
         let hash = "1"
         
-        let reference = CacheReference(identifier: identifier, data: jsonData, hash: hash)
+        let reference = CacheReference(identifier: identifier, data: jsonData, hash: hash, timeOfCreation: generateTimeOfCreation())
         sut.update(reference)
         
         guard let result = sut.getReference(for: identifier) else {
@@ -138,11 +140,10 @@ class CacheDiskManagerTests: XCTestCase {
         let hash = "1"
         let hash2 = "2"
         
-        let reference = CacheReference(identifier: identifier, data: jsonData, hash: hash)
+        let reference = CacheReference(identifier: identifier, data: jsonData, hash: hash, timeOfCreation: generateTimeOfCreation())
         sut.update(reference)
-        let reference1 = CacheReference(identifier: identifier, data: jsonData, hash: hash2)
+        let reference1 = CacheReference(identifier: identifier, data: jsonData, hash: hash2, timeOfCreation: generateTimeOfCreation())
         sut.update(reference1)
-        
         
         guard let result = sut.getReference(for: identifier) else {
             XCTFail("Could not retrive data.")
@@ -173,6 +174,15 @@ class CacheDiskManagerTests: XCTestCase {
         sut.update(reference2)
         
         XCTAssert(sut.numberOfReferences() == 2, "Counted references wrong")
+    }
+    
+    private func generateTimeOfCreation() -> Date {
+        let stringDate = "2020-01-01"
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        // swiftlint:disable force_unwrapping
+        return dateFormatter.date(from: stringDate)!
+        // swiftlint:enable force_unwrapping
     }
 }
 
