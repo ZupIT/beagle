@@ -62,14 +62,13 @@ struct FormScreen: DeeplinkScreen {
                             
                         )
                     ),
-                    Container(children: [], flex: Flex(grow: 1)),
+                    Container(children: [], widgetProperties: .init(flex: Flex(grow: 1))),
                     FormSubmit(
                         child: Button(text: "Submit Form", style: .FORM_SUBMIT_STYLE, widgetProperties: .init(flex: flexHorizontalMargin)),
                         enabled: false
                     )
                 ],
-                flex: Flex().grow(1).padding(EdgeValue().all(10)),
-                appearance: Appearance(backgroundColor: .LIGHT_GREEN_COLOR)
+                widgetProperties: .init(appearance: Appearance(backgroundColor: .LIGHT_GREEN_COLOR), flex: Flex().grow(1).padding(EdgeValue().all(10)))
             )
         )
         let screen = Screen(

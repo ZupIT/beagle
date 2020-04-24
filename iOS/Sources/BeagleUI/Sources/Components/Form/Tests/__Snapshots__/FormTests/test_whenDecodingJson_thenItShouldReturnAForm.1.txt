@@ -3,12 +3,6 @@
     - method: Method.post
     - path: "/sample/form"
   ▿ child: Container
-    - accessibility: Optional<Accessibility>.none
-    ▿ appearance: Optional<Appearance>
-      ▿ some: Appearance
-        ▿ backgroundColor: Optional<String>
-          - some: "#B8E297"
-        - cornerRadius: Optional<CornerRadius>.none
     ▿ children: 5 elements
       ▿ FormInput
         ▿ child: Text
@@ -38,30 +32,31 @@
         ▿ validator: Optional<String>
           - some: "text-is-not-blank"
       ▿ Container
-        - accessibility: Optional<Accessibility>.none
-        - appearance: Optional<Appearance>.none
         - children: 0 elements
-        ▿ flex: Optional<Flex>
-          ▿ some: Flex
-            - alignContent: Optional<Alignment>.none
-            - alignItems: Optional<Alignment>.none
-            - alignSelf: Optional<Alignment>.none
-            - basis: Optional<UnitValue>.none
-            - direction: Optional<Direction>.none
-            - display: Optional<Display>.none
-            - flex: Optional<Double>.none
-            - flexDirection: Optional<FlexDirection>.none
-            - flexWrap: Optional<Wrap>.none
-            ▿ grow: Optional<Double>
-              - some: 1.0
-            - justifyContent: Optional<JustifyContent>.none
-            - margin: Optional<EdgeValue>.none
-            - padding: Optional<EdgeValue>.none
-            - position: Optional<EdgeValue>.none
-            - positionType: Optional<PositionType>.none
-            - shrink: Optional<Double>.none
-            - size: Optional<Size>.none
-        - id: Optional<String>.none
+        ▿ widgetProperties: WidgetProperties
+          - accessibility: Optional<Accessibility>.none
+          - appearance: Optional<Appearance>.none
+          ▿ flex: Optional<Flex>
+            ▿ some: Flex
+              - alignContent: Optional<Alignment>.none
+              - alignItems: Optional<Alignment>.none
+              - alignSelf: Optional<Alignment>.none
+              - basis: Optional<UnitValue>.none
+              - direction: Optional<Direction>.none
+              - display: Optional<Display>.none
+              - flex: Optional<Double>.none
+              - flexDirection: Optional<FlexDirection>.none
+              - flexWrap: Optional<Wrap>.none
+              ▿ grow: Optional<Double>
+                - some: 1.0
+              - justifyContent: Optional<JustifyContent>.none
+              - margin: Optional<EdgeValue>.none
+              - padding: Optional<EdgeValue>.none
+              - position: Optional<EdgeValue>.none
+              - positionType: Optional<PositionType>.none
+              - shrink: Optional<Double>.none
+              - size: Optional<Size>.none
+          - id: Optional<String>.none
       ▿ FormSubmit
         ▿ child: Button
           - action: Optional<Action>.none
@@ -107,37 +102,44 @@
             - id: Optional<String>.none
         ▿ enabled: Optional<Bool>
           - some: false
-    ▿ flex: Optional<Flex>
-      ▿ some: Flex
-        - alignContent: Optional<Alignment>.none
-        - alignItems: Optional<Alignment>.none
-        - alignSelf: Optional<Alignment>.none
-        - basis: Optional<UnitValue>.none
-        - direction: Optional<Direction>.none
-        - display: Optional<Display>.none
-        - flex: Optional<Double>.none
-        - flexDirection: Optional<FlexDirection>.none
-        - flexWrap: Optional<Wrap>.none
-        ▿ grow: Optional<Double>
-          - some: 1.0
-        - justifyContent: Optional<JustifyContent>.none
-        - margin: Optional<EdgeValue>.none
-        ▿ padding: Optional<EdgeValue>
-          ▿ some: EdgeValue
-            ▿ all: Optional<UnitValue>
-              ▿ some: UnitValue
-                - type: UnitType.real
-                - value: 10.0
-            - bottom: Optional<UnitValue>.none
-            - end: Optional<UnitValue>.none
-            - horizontal: Optional<UnitValue>.none
-            - left: Optional<UnitValue>.none
-            - right: Optional<UnitValue>.none
-            - start: Optional<UnitValue>.none
-            - top: Optional<UnitValue>.none
-            - vertical: Optional<UnitValue>.none
-        - position: Optional<EdgeValue>.none
-        - positionType: Optional<PositionType>.none
-        - shrink: Optional<Double>.none
-        - size: Optional<Size>.none
-    - id: Optional<String>.none
+    ▿ widgetProperties: WidgetProperties
+      - accessibility: Optional<Accessibility>.none
+      ▿ appearance: Optional<Appearance>
+        ▿ some: Appearance
+          ▿ backgroundColor: Optional<String>
+            - some: "#B8E297"
+          - cornerRadius: Optional<CornerRadius>.none
+      ▿ flex: Optional<Flex>
+        ▿ some: Flex
+          - alignContent: Optional<Alignment>.none
+          - alignItems: Optional<Alignment>.none
+          - alignSelf: Optional<Alignment>.none
+          - basis: Optional<UnitValue>.none
+          - direction: Optional<Direction>.none
+          - display: Optional<Display>.none
+          - flex: Optional<Double>.none
+          - flexDirection: Optional<FlexDirection>.none
+          - flexWrap: Optional<Wrap>.none
+          ▿ grow: Optional<Double>
+            - some: 1.0
+          - justifyContent: Optional<JustifyContent>.none
+          - margin: Optional<EdgeValue>.none
+          ▿ padding: Optional<EdgeValue>
+            ▿ some: EdgeValue
+              ▿ all: Optional<UnitValue>
+                ▿ some: UnitValue
+                  - type: UnitType.real
+                  - value: 10.0
+              - bottom: Optional<UnitValue>.none
+              - end: Optional<UnitValue>.none
+              - horizontal: Optional<UnitValue>.none
+              - left: Optional<UnitValue>.none
+              - right: Optional<UnitValue>.none
+              - start: Optional<UnitValue>.none
+              - top: Optional<UnitValue>.none
+              - vertical: Optional<UnitValue>.none
+          - position: Optional<EdgeValue>.none
+          - positionType: Optional<PositionType>.none
+          - shrink: Optional<Double>.none
+          - size: Optional<Size>.none
+      - id: Optional<String>.none

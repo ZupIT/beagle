@@ -1,8 +1,6 @@
 ▿ ScreenComponent
   - appearance: Optional<Appearance>.none
   ▿ child: Container
-    - accessibility: Optional<Accessibility>.none
-    - appearance: Optional<Appearance>.none
     ▿ children: 1 element
       ▿ Text
         ▿ alignment: Optional<Alignment>
@@ -47,8 +45,11 @@
                       - type: UnitType.percent
                       - value: 100.0
           - id: Optional<String>.none
-    - flex: Optional<Flex>.none
-    - id: Optional<String>.none
+    ▿ widgetProperties: WidgetProperties
+      - accessibility: Optional<Accessibility>.none
+      - appearance: Optional<Appearance>.none
+      - flex: Optional<Flex>.none
+      - id: Optional<String>.none
   - identifier: Optional<String>.none
   - navigationBar: Optional<NavigationBar>.none
   - safeArea: Optional<SafeArea>.none

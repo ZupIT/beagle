@@ -112,8 +112,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
             navigationBar: NavigationBar(title: "Test Safe Area"),
             child: Container(
                 children: [content],
-                flex: Flex(grow: 1, margin: .init(all: .init(value: 10, type: .real))),
-                appearance: Appearance(backgroundColor: "#00FF00")
+                widgetProperties: .init(appearance: Appearance(backgroundColor: "#00FF00"), flex: Flex(grow: 1, margin: .init(all: .init(value: 10, type: .real))))
             )
         )
         let screenController = Beagle.screen(.declarative(screen))

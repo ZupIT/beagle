@@ -16,36 +16,33 @@
 
 import UIKit
 
-public struct Container: Widget {
+public struct Container: WidgetComponent {
     
     // MARK: - Public Properties
+    public var widgetProperties: WidgetProperties
     public let children: [ServerDrivenComponent]
-    
-    public var id: String?
-    public let flex: Flex?
-    public let appearance: Appearance?
-    public let accessibility: Accessibility?
     
     // MARK: - Initialization
     
     public init(
         children: [ServerDrivenComponent],
-        id: String? = nil,
-        flex: Flex? = nil,
-        appearance: Appearance? = nil,
-        accessibility: Accessibility? = nil
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.children = children
-        self.id = id
-        self.flex = flex
-        self.appearance = appearance
-        self.accessibility = accessibility
+        self.widgetProperties = widgetProperties
     }
     
    // MARK: - Configuration
     
     public func applyFlex(_ flex: Flex) -> Container {
-        return Container(children: children, flex: flex, appearance: appearance)
+        return Container(
+            children: children,
+            widgetProperties: .init(
+                id: widgetProperties.id,
+                appearance: widgetProperties.appearance,
+                flex: flex,
+                accessibility: widgetProperties.accessibility
+            ))
     }
 }
 
@@ -59,7 +56,7 @@ extension Container: Renderable {
             childView.flex.isEnabled = true
         }
 
-        containerView.beagle.setup(self)
+        containerView.beagle.setup(widgetProperties)
         
         return containerView
     }
@@ -68,18 +65,11 @@ extension Container: Renderable {
 extension Container: Decodable {
     enum CodingKeys: String, CodingKey {
         case children
-        case id
-        case flex
-        case appearance
-        case accessibility
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.children = try container.decode(forKey: .children)
-        self.id = try container.decodeIfPresent(String.self, forKey: .id)
-        self.flex = try container.decodeIfPresent(Flex.self, forKey: .flex)
-        self.appearance = try container.decodeIfPresent(Appearance.self, forKey: .appearance)
-        self.accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
+        self.widgetProperties = try WidgetProperties(from: decoder)
     }
 }
