@@ -21,7 +21,7 @@ import Foundation
 public struct HttpAdditionalData: RemoteScreenAdditionalData {
 
     public let httpData: HttpData?
-    public let headers: [String: String]
+    public var headers: [String: String]
 
     public struct HttpData {
         public let method: Method

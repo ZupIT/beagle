@@ -17,18 +17,21 @@
 import XCTest
 @testable import BeagleUI
 
-final class NetworkTests: XCTestCase {
+final class RepositoryTests: XCTestCase {
 
-    private struct Dependencies: NetworkDefault.Dependencies {
+    private struct Dependencies: RepositoryDefault.Dependencies {
+        var cacheManager: CacheManagerProtocol?
         var baseURL: URL?
         var networkClient: NetworkClient
         var decoder: ComponentDecoding
 
         init(
+            cacheManager: CacheManagerProtocol = CacheManagerDummy(),
             baseURL: URL? = nil,
             networkClient: NetworkClient = NetworkClientDummy(),
             decoder: ComponentDecoding = ComponentDecodingDummy()
         ) {
+            self.cacheManager = cacheManager
             self.baseURL = baseURL
             self.networkClient = networkClient
             self.decoder = decoder
@@ -36,7 +39,7 @@ final class NetworkTests: XCTestCase {
     }
 
     func test_requestWithInvalidURL_itShouldFail() {
-        let sut = NetworkDefault(dependencies: BeagleDependencies())
+        let sut = RepositoryDefault(dependencies: BeagleDependencies())
         let invalidURL = "🥶"
         
         // When
@@ -85,8 +88,9 @@ final class NetworkTests: XCTestCase {
             XCTFail("Could not create test data.")
             return
         }
-        let clientStub = NetworkClientStub(result: .success(jsonData))
-        let sut = NetworkDefault(dependencies: Dependencies(
+        let result = Result<NetworkResponse, NetworkError>.success(.init(data: jsonData, response: URLResponse()))
+        let clientStub = NetworkClientStub(result: result)
+        let sut = RepositoryDefault(dependencies: Dependencies(
             networkClient: clientStub,
             decoder: ComponentDecoder()
         ))
@@ -110,10 +114,11 @@ final class NetworkTests: XCTestCase {
 
     func test_whenRequestSucceeds_butTheDecodingFailsWithAnError_itShouldThrowDecodingError() {
         // Given
-        let clientStub = NetworkClientStub(result: .success(Data()))
+        let result = Result<NetworkResponse, NetworkError>.success(.init(data: Data(), response: URLResponse()))
+        let clientStub = NetworkClientStub(result: result)
         let decoderStub = ComponentDecodingStub()
         decoderStub.errorToThrowOnDecode = NSError(domain: "Mock", code: 1, description: "Mock")
-        let sut = NetworkDefault(dependencies: Dependencies(
+        let sut = RepositoryDefault(dependencies: Dependencies(
             networkClient: clientStub,
             decoder: decoderStub
         ))
@@ -165,7 +170,7 @@ final class ComponentDecodingStub: ComponentDecoding {
     }
 }
 
-final class NetworkStub: Network {
+final class RepositoryStub: Repository {
 
     var componentResult: Result<ServerDrivenComponent, Request.Error>?
     var formResult: Result<Action, Request.Error>?
@@ -235,3 +240,6 @@ class NetworkClientStub: NetworkClient {
         return nil
     }
 }
+ enum TestErrors: Swift.Error {
+     case generic
+ }

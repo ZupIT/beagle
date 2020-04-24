@@ -39,12 +39,12 @@ final class FormManagerTests: XCTestCase {
 
     private lazy var dependencies = BeagleScreenDependencies(
         actionExecutor: actionExecutorSpy,
-        network: networkStub,
+        repository: repositoryStub,
         validatorProvider: validator,
         dataStoreHandler: dataStore
     )
 
-    private lazy var networkStub = NetworkStub()
+    private lazy var repositoryStub = RepositoryStub()
     private lazy var actionExecutorSpy = ActionExecutorSpy()
     private lazy var validator = ValidatorProviding()
     private lazy var dataStore = DataStoreHandlerStub()
@@ -119,7 +119,7 @@ final class FormManagerTests: XCTestCase {
 
     func test_formSubmit_shouldExecuteResponseAction() throws {
         // Given
-        networkStub.formResult = .success(CustomAction(name: "custom", data: [:]))
+        repositoryStub.formResult = .success(CustomAction(name: "custom", data: [:]))
         let gesture = submitGesture(in: formView)
 
         // When
@@ -137,9 +137,9 @@ final class FormManagerTests: XCTestCase {
         screen.formManager.handleSubmitFormGesture(gesture)
 
         // Then
-        let submittedData = networkStub.formData
+        let submittedData = repositoryStub.formData
 
-        XCTAssert(networkStub.didCallDispatch)
+        XCTAssert(repositoryStub.didCallDispatch)
         assertSnapshot(matching: submittedData, as: .dump)
     }
 
@@ -189,8 +189,8 @@ final class FormManagerTests: XCTestCase {
         
         // Then
         XCTAssert(dataStore.didCallRead == true)
-        XCTAssert(networkStub.didCallDispatch)
-        assertSnapshot(matching: networkStub.formData.values, as: .dump)
+        XCTAssert(repositoryStub.didCallDispatch)
+        assertSnapshot(matching: repositoryStub.formData.values, as: .dump)
     }
     
     func test_formSubmitMergingStoredValuesErrorKeyNotFound_shouldNotSubmit() {
@@ -204,7 +204,7 @@ final class FormManagerTests: XCTestCase {
         screen.formManager.handleSubmitFormGesture(gesture)
         
         // Then
-        XCTAssert(networkStub.didCallDispatch == false)
+        XCTAssert(repositoryStub.didCallDispatch == false)
     }
     
     func test_formSubmitMergingStoredValuesErrorKeyDuplication_shouldNotSubmit() {
@@ -218,7 +218,7 @@ final class FormManagerTests: XCTestCase {
         screen.formManager.handleSubmitFormGesture(gesture)
         
         // Then
-        XCTAssert(networkStub.didCallDispatch == false)
+        XCTAssert(repositoryStub.didCallDispatch == false)
     }
     
     func test_formSubmit_shouldSaveFormInputs() {

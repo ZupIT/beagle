@@ -109,7 +109,7 @@ extension ScreenComponent: Renderable {
         navigationBar?.navigationBarItems?
             .compactMap { $0.action as? Navigate }
             .compactMap { $0.newPath }
-            .forEach { dependencies.preFetchHelper.prefetchComponent(newPath: $0, dependencies: dependencies) }
+            .forEach { dependencies.preFetchHelper.prefetchComponent(newPath: $0) }
     }
     
     private func buildChildView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {

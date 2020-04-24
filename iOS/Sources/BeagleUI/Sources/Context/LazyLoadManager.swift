@@ -29,7 +29,7 @@ class LazyLoadManager: LazyLoadManaging {
     
     // MARK: - Dependencies
     
-    typealias Dependencies = DependencyNetwork
+    typealias Dependencies = DependencyRepository
     
     var dependencies: Dependencies
     
@@ -54,7 +54,7 @@ class LazyLoadManager: LazyLoadManaging {
     // MARK: - Functions
     
     public func lazyLoad(url: String, initialState: UIView) {
-        dependencies.network.fetchComponent(url: url, additionalData: nil) {
+        dependencies.repository.fetchComponent(url: url, additionalData: nil) {
             [weak self] result in guard let self = self else { return }
 
             switch result {

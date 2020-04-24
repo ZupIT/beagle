@@ -33,7 +33,7 @@ class FormManager: FormManaging {
     
     typealias Dependencies =
         DependencyActionExecutor
-        & DependencyNetwork
+        & DependencyRepository
         & DependencyDataStoreHandling
         & DependencyLogger
     
@@ -146,7 +146,7 @@ class FormManager: FormManaging {
             values: inputs
         )
 
-        dependencies.network.submitForm(url: remote.path, additionalData: nil, data: data) {
+        dependencies.repository.submitForm(url: remote.path, additionalData: nil, data: data) {
             [weak self] result in guard let self = self else { return }
 
             self.delegate?.hideLoading()
