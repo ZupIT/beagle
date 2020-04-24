@@ -80,7 +80,7 @@ dependencies {
     testImplementation TestLibraries.kotlinCoroutinesTest
     testImplementation TestLibraries.mockk
     testImplementation TestLibraries.archCoreTesting
-
+    testImplementation TestLibraries.json
     // Integration Testing
     androidTestImplementation TestLibraries.testRunner
     androidTestImplementation TestLibraries.testExt

@@ -99,6 +99,7 @@ object Versions {
 
     const val testRunner = "1.2.0"
     const val testExt = "1.1.1"
+    const val json = "20190722"
     const val archCoreTesting = "2.1.0"
     const val espressoCore = "3.2.0"
 
@@ -177,6 +178,7 @@ object TestLibraries {
     const val archCoreTesting = "androidx.arch.core:core-testing:${Versions.archCoreTesting}"
     const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espressoCore}"
     const val testRules = "androidx.test:rules:${Versions.testExt}"
+    const val json = "org.json:json:${Versions.json}"
 }
 
 object SpringLibraries {

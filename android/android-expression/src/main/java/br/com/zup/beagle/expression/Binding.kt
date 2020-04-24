@@ -16,10 +16,10 @@
 
 package br.com.zup.beagle.expression
 
-import java.util.regex.Pattern
-import android.util.LruCache
+import br.com.zup.beagle.expression.config.BindingSetup
 import java.util.Arrays
 import java.util.StringTokenizer
+import java.util.regex.Pattern
 
 /**
  * This class is based on flipkart-incubator/proteus's implementation
@@ -27,8 +27,9 @@ import java.util.StringTokenizer
  * @author hernandazevedozup
  */
 const val EMPTY = ""
+
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-abstract class Binding : Value(){
+abstract class Binding : Value() {
     companion object {
 
         val BINDING_PREFIX_0 = '@'
@@ -69,6 +70,7 @@ abstract class Binding : Value(){
             }
         }
     }
+
     override fun copy(): Value = this
 
     abstract fun evaluate(data: Value): Value
@@ -76,7 +78,7 @@ abstract class Binding : Value(){
     internal class DataBinding(val tokens: kotlin.Array<Token>) : Binding() {
 
         companion object {
-            private val DATA_BINDING_CACHE = LruCache<String, DataBinding>(64)
+//            private val DATA_BINDING_CACHE = LruCache<String, DataBinding>(64)
 
             fun assign(tokens: kotlin.Array<Token>, value: Value, data: Value, dataIndex: Int = 0) {
                 var current = data
@@ -190,6 +192,7 @@ abstract class Binding : Value(){
                 }
                 return index
             }
+
             private fun correctPreviousToken(tokensList: kotlin.Array<Token>): kotlin.Array<Token> {
                 var tokens = tokensList
                 val previous = tokens[tokens.size - 1]
@@ -279,8 +282,8 @@ abstract class Binding : Value(){
                 }
             }
 
-            fun valueOf(data: String) : DataBinding {
-                var binding: DataBinding? = DATA_BINDING_CACHE.get(data)
+            fun valueOf(data: String): Binding {
+                var binding: Binding? = BindingSetup.bindingConfig.cacheProvider.get(data)
                 if (null == binding) {
                     val tokenizer = StringTokenizer(data, DATA_PATH_DELIMITERS, true)
                     var tokens = emptyArray<Token>()
@@ -302,11 +305,12 @@ abstract class Binding : Value(){
                         tokens[tokens.size - 1] = Token(token, false, false)
                     }
                     binding = DataBinding(tokens)
-                    DATA_BINDING_CACHE.put(data, binding)
+                    BindingSetup.bindingConfig.cacheProvider.put(data, binding)
                 }
                 return binding
             }
         }
+
         override fun evaluate(data: Value): Value {
             val result = resolve(tokens, data, 0)
             return if (result.isSuccess()) result.value else Null.INSTANCE

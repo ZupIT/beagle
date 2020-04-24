@@ -17,8 +17,13 @@
 package br.com.zup.beagle.setup
 
 import android.app.Application
+import android.util.LruCache
 import br.com.zup.beagle.action.CustomActionHandler
 import br.com.zup.beagle.analytics.Analytics
+import br.com.zup.beagle.expression.Binding
+import br.com.zup.beagle.expression.cache.CacheProvider
+import br.com.zup.beagle.expression.config.BindingSetup
+import br.com.zup.beagle.expression.config.BindingSetup.BindingConfig
 import br.com.zup.beagle.form.ValidatorHandler
 import br.com.zup.beagle.navigation.DeepLinkHandler
 import br.com.zup.beagle.networking.HttpClient
@@ -54,6 +59,21 @@ interface BeagleSdk {
         BeagleEnvironment.beagleSdk = this
         BeagleEnvironment.application = application
         SoLoader.init(application, false)
+        BindingSetup.bindingConfig = createBindingConfig()
+    }
+
+    fun createBindingConfig(): BindingConfig {
+        return object : BindingConfig {
+            private val cache = LruCache<String, Binding>(64)
+            override val cacheProvider: CacheProvider<String, Binding> = object : CacheProvider<String, Binding> {
+                override fun get(key: String): Binding? =
+                    cache.get(key)
+
+                override fun put(key: String, value: Binding) {
+                    cache.put(key, value)
+                }
+            }
+        }
     }
 }
 

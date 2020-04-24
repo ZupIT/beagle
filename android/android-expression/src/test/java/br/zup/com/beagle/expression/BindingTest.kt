@@ -16,23 +16,16 @@
 
 package br.zup.com.beagle.expression
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.zup.beagle.expression.Array
 import br.com.zup.beagle.expression.Binding
-import br.com.zup.beagle.expression.JsonParser
 import br.com.zup.beagle.expression.Null
 import br.com.zup.beagle.expression.ObjectValue
 import br.com.zup.beagle.expression.Primitive
-import org.hamcrest.CoreMatchers.`is`
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertThat
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4::class)
-class BindingTest {
+class BindingTest : BaseTest() {
 
     private fun data(): ObjectValue {
         val objectValue = ObjectValue()
@@ -57,45 +50,6 @@ class BindingTest {
         return objectValue
     }
 
-    private val JSON = """{ "a": 
-	{ "b": 
-		{
-		"c": 10, 
-		"d": "olá",
-		"e": [{"f": 15, "k": "18"}],
-		"g": ["olá mundo", 2.5, true],
-        "h": "11",
-        "i": [{"j": "16"}]
-		}
-	}
-}"""
-
-    @Test
-    fun json_parse_test_with_binding_success() {
-        val data = JsonParser().parseJsonToValue(JSON)
-        val binding = Binding.valueOf("@{a.b.c}")
-
-        val value = binding.evaluate(data)
-
-        assertTrue(value.isPrimitive())
-        assertFalse(value.getAsPrimitive().isString())
-        assertTrue(value.getAsPrimitive().isNumber())
-        assertThat(value.getAsInt(), `is`(10))
-    }
-
-    @Test
-    fun json_parse_test_with_binding_success11() {
-        val data = JsonParser().parseJsonToValue(JSON)
-        val binding = Binding.valueOf("@{a.b.i[0].j}")
-
-        val value = binding.evaluate(data)
-        assertTrue(value.isPrimitive())
-        assertTrue(value.getAsPrimitive().isString())
-        assertFalse(value.getAsPrimitive().isNumber())
-        assertFalse(value.getAsPrimitive().isBoolean())
-        assertThat(value.getAsString(), `is`("16"))
-    }
-
     @Test
     fun should_initialize_binding() {
         //given
@@ -106,7 +60,7 @@ class BindingTest {
         val binding = Binding.DataBinding.valueOf(expression)
 
         //then
-        assertEquals(expectedTokenSize, binding.tokens.size)
+        assertEquals(expectedTokenSize, (binding as Binding.DataBinding).tokens.size)
     }
 
     @Test
@@ -115,7 +69,7 @@ class BindingTest {
 
         val value = binding.evaluate(data())
 
-        assertThat(value.getAsString(), `is`("10"))
+        assertEquals(value.getAsString(), "10")
     }
 
     @Test
@@ -125,7 +79,7 @@ class BindingTest {
 
         var value = binding.evaluate(data)
 
-        assertThat(value.getAsString(), `is`("true"))
+        assertEquals(value.getAsString(), "true")
 
     }
 
@@ -136,7 +90,7 @@ class BindingTest {
 
         var value = binding.evaluate(data)
 
-        assertThat(value.getAsString(), `is`("alpha"))
+        assertEquals(value.getAsString(),"alpha")
 
     }
 
@@ -147,7 +101,7 @@ class BindingTest {
 
         var value = binding.evaluate(data)
 
-        assertThat(value.getAsString(), `is`("2.5"))
+        assertEquals(value.getAsString(), "2.5")
 
     }
 
@@ -158,7 +112,7 @@ class BindingTest {
 
         var value = binding.evaluate(data)
 
-        assertThat(value.getAsBoolean(), `is`(false))
+        assertEquals(value.getAsBoolean(), false)
 
     }
 
@@ -169,7 +123,7 @@ class BindingTest {
 
         var value = binding.evaluate(data)
 
-        assertThat(value.toString(), `is`("NULL"))
+        assertEquals(value.toString(), "NULL")
     }
 
     @Test
