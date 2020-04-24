@@ -81,7 +81,7 @@ final class ActionExecuting: ActionExecutor {
                 model.state = .failure(.action(error))
             case .success(action: let action):
                 model.state = .rendered
-                doAction(action, sender: self, context: context)
+                self.doAction(action, sender: self, context: context)
             }
         }
     }
