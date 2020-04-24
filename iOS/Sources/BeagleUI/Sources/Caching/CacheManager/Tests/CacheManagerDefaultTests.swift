@@ -131,6 +131,7 @@ final class CacheManagerDefaultTests: XCTestCase {
             var decoder: ComponentDecoding = ComponentDecoder()
         }
         let manager = CacheManagerDefault(dependencies: CacheManagerDependenciesLocal(), config: .init(memoryMaximumCapacity: memoryCapacity, diskMaximumCapacity: diskCapacity, cacheMaxAge: 10))
+        manager.clear()
         let cacheReference1 = CacheReference(identifier: url1, data: jsonData, hash: defaultHash)
         let cacheReference2 = CacheReference(identifier: url2, data: jsonData, hash: defaultHash)
         let cacheReference3 = CacheReference(identifier: url3, data: jsonData, hash: defaultHash)
