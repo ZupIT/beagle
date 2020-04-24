@@ -34,10 +34,12 @@ class FormManager: FormManaging {
     typealias Dependencies =
         DependencyActionExecutor
         & DependencyRepository
-        & DependencyDataStoreHandling
+        & DependencyCacheManager
         & DependencyLogger
     
     var dependencies: Dependencies
+    
+    let formDataStore: FormDataStoreHandling
     
     // MARK: - Delegate
     
@@ -51,10 +53,12 @@ class FormManager: FormManaging {
     
     init(
         dependencies: Dependencies,
-        delegate: delegates? = nil
+        delegate: delegates? = nil,
+        formDataStore: FormDataStoreHandling? = nil
     ) {
         self.dependencies = dependencies
         self.delegate = delegate
+        self.formDataStore = formDataStore ?? FormDataStoreHandler(dependency: dependencies)
     }
     
     // MARK: - Functions
@@ -114,7 +118,7 @@ class FormManager: FormManaging {
     
     private func mergeStoredValues(with values: inout [String: String], storedKeys: [String]) throws {
         try storedKeys.forEach {
-            guard let value = dependencies.dataStoreHandler.read(storeType: .Form, key: $0) else {
+            guard let value = formDataStore.read(key: $0) else {
                 dependencies.logger.log(Log.form(.keyNotFound(key: $0)))
                 throw FormStoredValuesMergingError.couldNotReadValueForKey
             }
@@ -213,9 +217,9 @@ class FormManager: FormManaging {
     
     private func handleDataStoreSaving(overrideName: String? = nil, key: String, value: String, shouldStoreFields: Bool) {
         if let overrideKey = overrideName {
-            dependencies.dataStoreHandler.save(storeType: .Form, key: overrideKey, value: String(describing: value))
+            formDataStore.save(key: overrideKey, value: String(describing: value))
         } else if shouldStoreFields {
-            dependencies.dataStoreHandler.save(storeType: .Form, key: key, value: String(describing: value))
+            formDataStore.save(key: key, value: String(describing: value))
         }
     }
 

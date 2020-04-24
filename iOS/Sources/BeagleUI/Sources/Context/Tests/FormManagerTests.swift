@@ -40,14 +40,13 @@ final class FormManagerTests: XCTestCase {
     private lazy var dependencies = BeagleScreenDependencies(
         actionExecutor: actionExecutorSpy,
         repository: repositoryStub,
-        validatorProvider: validator,
-        dataStoreHandler: dataStore
+        validatorProvider: validator
     )
 
     private lazy var repositoryStub = RepositoryStub()
     private lazy var actionExecutorSpy = ActionExecutorSpy()
     private lazy var validator = ValidatorProviding()
-    private lazy var dataStore = DataStoreHandlerStub()
+    private lazy var dataStoreStub = DataStoreHandlerStub()
 
     private func submitGesture(in formView: UIView) -> SubmitFormGestureRecognizer {
         // swiftlint:disable force_unwrapping force_cast
@@ -69,7 +68,7 @@ final class FormManagerTests: XCTestCase {
     }
     
     override func tearDown() {
-        dataStore.resetStub()
+        dataStoreStub.resetStub()
         super.tearDown()
     }
     
@@ -179,16 +178,17 @@ final class FormManagerTests: XCTestCase {
     func test_formSubmit_shouldIncludeStoredValuesToSubmission() {
         // Given
         storedParameters = ["age", "id"]
-        dataStore.save(storeType: .Form, key: "age", value: "12")
-        dataStore.save(storeType: .Form, key: "id", value: "1111111")
+        dataStoreStub.save(key: "age", value: "12")
+        dataStoreStub.save(key: "id", value: "1111111")
 
         let gesture = submitGesture(in: formViewWithStorage)
 
         // When
+        screen.formContextManager = FormManager(dependencies: dependencies, delegate: screen, formDataStore: dataStoreStub)
         screen.formManager.handleSubmitFormGesture(gesture)
         
         // Then
-        XCTAssert(dataStore.didCallRead == true)
+        XCTAssert(dataStoreStub.didCallRead == true)
         XCTAssert(repositoryStub.didCallDispatch)
         assertSnapshot(matching: repositoryStub.formData.values, as: .dump)
     }
@@ -196,7 +196,7 @@ final class FormManagerTests: XCTestCase {
     func test_formSubmitMergingStoredValuesErrorKeyNotFound_shouldNotSubmit() {
         // Given
         storedParameters = ["age", "id"]
-        dataStore.save(storeType: .Form, key: "age", value: "12")
+        dataStoreStub.save(key: "age", value: "12")
         
         let gesture = submitGesture(in: formViewWithStorage)
         
@@ -210,7 +210,7 @@ final class FormManagerTests: XCTestCase {
     func test_formSubmitMergingStoredValuesErrorKeyDuplication_shouldNotSubmit() {
         // Given
         storedParameters = ["name"]
-        dataStore.save(storeType: .Form, key: "name", value: "Yan")
+        dataStoreStub.save(key: "name", value: "Yan")
         
         let gesture = submitGesture(in: formViewWithStorage)
         
@@ -226,28 +226,29 @@ final class FormManagerTests: XCTestCase {
         let gesture = submitGesture(in: formViewWithStorage)
         
         // When
+        screen.formContextManager = FormManager(dependencies: dependencies, delegate: screen, formDataStore: dataStoreStub)
         screen.formManager.handleSubmitFormGesture(gesture)
         
         // Then
-        XCTAssert(dataStore.didCallSave)
-        assertSnapshot(matching: dataStore.dataStore, as: .dump)
+        XCTAssert(dataStoreStub.didCallSave)
+        assertSnapshot(matching: dataStoreStub.dataStore, as: .dump)
     }
 }
 
 // MARK: - Stubs
 
-private class DataStoreHandlerStub: BeagleDataStoreHandling {
+private class DataStoreHandlerStub: FormDataStoreHandling {
     private(set) var didCallRead: Bool = false
     private(set) var didCallSave: Bool = false
     
     private(set) var dataStore: [String: String] = [:]
     
-    func read(storeType: StoreType, key: String) -> String? {
+    func read(key: String) -> String? {
         didCallRead = true
         return dataStore[key]
     }
     
-    func save(storeType: StoreType, key: String, value: String) {
+    func save(key: String, value: String) {
         didCallSave = true
         dataStore[key] = value
     }

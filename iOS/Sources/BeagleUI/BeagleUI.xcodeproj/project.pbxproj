@@ -42,7 +42,7 @@
 		7CFE3A712412E3040087F664 /* Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFE3A702412E3040087F664 /* Size.swift */; };
 		7CFE3A732412E3430087F664 /* EdgeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFE3A722412E3430087F664 /* EdgeValue.swift */; };
 		7CFE3A752412E3B50087F664 /* FlexBuildersExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFE3A742412E3B50087F664 /* FlexBuildersExtension.swift */; };
-		7CFF7FA9243E1C9E0052CC86 /* DataStoreHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFF7FA8243E1C9E0052CC86 /* DataStoreHandling.swift */; };
+		7CFF7FA9243E1C9E0052CC86 /* FormDataStoreHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFF7FA8243E1C9E0052CC86 /* FormDataStoreHandler.swift */; };
 		930967B22416B2210052E51C /* NavigateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930967B12416B2210052E51C /* NavigateTests.swift */; };
 		930967BC2416D62A0052E51C /* TouchableDecoderTest.json in Resources */ = {isa = PBXBuildFile; fileRef = 930967BB2416D62A0052E51C /* TouchableDecoderTest.json */; };
 		931B6E302375BA7400DE73FD /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931B6E2F2375BA7400DE73FD /* Theme.swift */; };
@@ -281,7 +281,7 @@
 		7CFE3A702412E3040087F664 /* Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Size.swift; sourceTree = "<group>"; };
 		7CFE3A722412E3430087F664 /* EdgeValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeValue.swift; sourceTree = "<group>"; };
 		7CFE3A742412E3B50087F664 /* FlexBuildersExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexBuildersExtension.swift; sourceTree = "<group>"; };
-		7CFF7FA8243E1C9E0052CC86 /* DataStoreHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStoreHandling.swift; sourceTree = "<group>"; };
+		7CFF7FA8243E1C9E0052CC86 /* FormDataStoreHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormDataStoreHandler.swift; sourceTree = "<group>"; };
 		930967B12416B2210052E51C /* NavigateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigateTests.swift; sourceTree = "<group>"; };
 		930967B32416B5A70052E51C /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		930967BB2416D62A0052E51C /* TouchableDecoderTest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TouchableDecoderTest.json; sourceTree = "<group>"; };
@@ -627,14 +627,6 @@
 			path = Container;
 			sourceTree = "<group>";
 		};
-		7CFF7FA7243E1C910052CC86 /* DataStore */ = {
-			isa = PBXGroup;
-			children = (
-				7CFF7FA8243E1C9E0052CC86 /* DataStoreHandling.swift */,
-			);
-			path = DataStore;
-			sourceTree = "<group>";
-		};
 		930967B42416D1D40052E51C /* Json */ = {
 			isa = PBXGroup;
 			children = (
@@ -736,7 +728,6 @@
 		939CE4C4232996FD00EEEDFC /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				7CFF7FA7243E1C910052CC86 /* DataStore */,
 				C048EBD7242B9BB100A24075 /* Analytics */,
 				C0B1AAB023F2EE6D00F94ECA /* Accessibility */,
 				A06823512384863400CEE57A /* Action */,
@@ -1253,6 +1244,7 @@
 				7C6F606024461F35007AC4AA /* ActionManager.swift */,
 				A0F45495237AF16800B146A1 /* BeagleContext.swift */,
 				7C42EDFF243FBDA100DEEEA7 /* FormManager.swift */,
+				7CFF7FA8243E1C9E0052CC86 /* FormDataStoreHandler.swift */,
 				7C6F605E2444FB47007AC4AA /* LazyLoadManager.swift */,
 				7C6F606324462037007AC4AA /* Tests */,
 			);
@@ -1865,7 +1857,7 @@
 				C85E1CCD23EB461200C1E323 /* Request.swift in Sources */,
 				E531D6B12359FD18007EEBA7 /* LoadingView.swift in Sources */,
 				E5223774237C3C4800E555BB /* Flex.swift in Sources */,
-				7CFF7FA9243E1C9E0052CC86 /* DataStoreHandling.swift in Sources */,
+				7CFF7FA9243E1C9E0052CC86 /* FormDataStoreHandler.swift in Sources */,
 				9848A53023AAF1C2002474AD /* ContainerIndicatorView.swift in Sources */,
 				57A80981243CF4620034D180 /* DependencyCacheManager.swift in Sources */,
 				C85E1CCF23EB493200C1E323 /* NetworkClientDefault.swift in Sources */,

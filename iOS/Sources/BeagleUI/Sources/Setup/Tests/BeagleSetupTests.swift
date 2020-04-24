@@ -122,10 +122,9 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
     var validatorProvider: ValidatorProvider?
     var preFetchHelper: BeaglePrefetchHelping
     var appBundle: Bundle
-    var cacheManager: CacheManagerProtocol
+    var cacheManager: CacheManagerProtocol?
     var decoder: ComponentDecoding
     var logger: BeagleLoggerType
-    var dataStoreHandler: BeagleDataStoreHandling
 
     init(
         actionExecutor: ActionExecutor = ActionExecutorDummy(),
@@ -138,8 +137,7 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
         cacheManager: CacheManagerProtocol = CacheManagerDummy(),
         decoder: ComponentDecoding = ComponentDecodingDummy(),
         logger: BeagleLoggerType = BeagleLoggerDumb(),
-        analytics: Analytics = AnalyticsExecutorSpy(),
-        dataStoreHandler: BeagleDataStoreHandling = DefaultDataStoreHandler()
+        analytics: Analytics = AnalyticsExecutorSpy()
     ) {
         self.actionExecutor = actionExecutor
         self.flex = flex
@@ -152,7 +150,6 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
         self.decoder = decoder
         self.logger = logger
         self.analytics = analytics
-        self.dataStoreHandler = dataStoreHandler
     }
 }
 

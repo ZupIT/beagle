@@ -16,28 +16,28 @@
 
 import Foundation
 
-public enum StoreType {
-    case Screen, Form
+public protocol FormDataStoreHandling {
+    func save(key: String, value: String)
+    func read(key: String) -> String?
 }
 
-public protocol DependencyDataStoreHandling {
-    var dataStoreHandler: BeagleDataStoreHandling { get }
-}
-
-public protocol BeagleDataStoreHandling {
-    func save(storeType: StoreType, key: String, value: String)
-    func read(storeType: StoreType, key: String) -> String?
-}
-
-internal class DefaultDataStoreHandler: BeagleDataStoreHandling {
+internal class FormDataStoreHandler: FormDataStoreHandling {
     
     private(set) var dataStore: [String: String] = [:]
     
-    func save(storeType: StoreType, key: String, value: String) {
+    // MARK: - Dependency
+    
+    private let dependency: DependencyCacheManager
+    
+    init(dependency: DependencyCacheManager) {
+        self.dependency = dependency
+    }
+    
+    func save(key: String, value: String) {
         dataStore[key] = value
     }
     
-    func read(storeType: StoreType, key: String) -> String? {
+    func read(key: String) -> String? {
         return dataStore[key]
     }
 }
