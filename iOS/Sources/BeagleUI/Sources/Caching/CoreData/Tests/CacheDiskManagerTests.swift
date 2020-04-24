@@ -81,6 +81,7 @@ class CacheDiskManagerTests: XCTestCase {
         let identifier2 = "id2"
         let hash2 = "2"
         
+        sut.clear()
         let reference1 = CacheReference(identifier: identifier1, data: jsonData, hash: hash1)
         let reference2 = CacheReference(identifier: identifier2, data: jsonData, hash: hash2)
         sut.update(reference1)
