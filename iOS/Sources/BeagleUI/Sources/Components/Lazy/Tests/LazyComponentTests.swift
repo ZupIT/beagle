@@ -47,9 +47,9 @@ final class LazyComponentTests: XCTestCase {
     func test_loadUnknowComponent_shouldRenderTheError() {
         let lazyComponent = LazyComponent(path: "unknow-widget", initialState: Text("Loading..."))
         let size = CGSize(width: 300, height: 75)
-        let network = LazyNetworkStub()
+        let repository = LazyRepositoryStub()
         let dependecies = BeagleDependencies()
-        dependecies.network = network
+        dependecies.repository = repository
         
         let screen = BeagleScreenViewController(
             viewModel: .init(
@@ -59,7 +59,7 @@ final class LazyComponentTests: XCTestCase {
         )
         
         assertSnapshotImage(screen, size: size)
-        network.componentCompletion?(.success(UnknownComponent(type: "LazyError")))
+        repository.componentCompletion?(.success(UnknownComponent(type: "LazyError")))
         assertSnapshotImage(screen, size: size)
     }
     
@@ -69,7 +69,7 @@ final class LazyComponentTests: XCTestCase {
     }
 }
 
-class LazyNetworkStub: Network {
+class LazyRepositoryStub: Repository {
 
     var componentCompletion: ((Result<ServerDrivenComponent, Request.Error>) -> Void)?
     var formCompletion: ((Result<Action, Request.Error>) -> Void)?

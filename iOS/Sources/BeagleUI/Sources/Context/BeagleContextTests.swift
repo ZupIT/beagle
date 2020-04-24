@@ -129,7 +129,7 @@ final class BeagleContextTests: XCTestCase {
     
     func test_lazyLoad_shouldReplaceTheInitialContent() {
         let dependencies = BeagleDependencies()
-        dependencies.network = NetworkStub(
+        dependencies.repository = RepositoryStub(
             componentResult: .success(SimpleComponent().content)
         )
 
@@ -145,13 +145,13 @@ final class BeagleContextTests: XCTestCase {
         // Given
         let initialView = OnStateUpdatableViewSpy()
         initialView.yoga.isEnabled = true
-        let networkStub = NetworkStub(
+        let repositoryStub = RepositoryStub(
             componentResult: .success(ComponentDummy())
         )
         let sut = BeagleScreenViewController(viewModel: .init(
             screenType: .declarative(ComponentDummy().toScreen()),
             dependencies: BeagleScreenDependencies(
-                network: networkStub
+                repository: repositoryStub
             )
         ))
         sut.view.addSubview(initialView)
