@@ -16,36 +16,29 @@
 
 import UIKit
 
-public struct Button: Widget, ClickedOnComponent {
+public struct Button: WidgetComponent, ClickedOnComponent {
+    
+    
     
     // MARK: - Public Properties
     public let text: String
     public let style: String?
     public let action: Action?
-    public var id: String?
-    public let appearance: Appearance?
-    public var accessibility: Accessibility?
-    public let flex: Flex?
     public var clickAnalyticsEvent: AnalyticsClick?
+    public var widgetProperties: WidgetProperties
     
     public init(
         text: String,
         style: String? = nil,
         action: Action? = nil,
-        id: String? = nil,
-        appearance: Appearance? = nil,
-        flex: Flex? = nil,
-        accessibility: Accessibility? = nil,
-        clickAnalyticsEvent: AnalyticsClick? = nil
+        clickAnalyticsEvent: AnalyticsClick? = nil,
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.text = text
         self.style = style
         self.action = action
-        self.id = id
-        self.appearance = appearance
-        self.flex = flex
-        self.accessibility = accessibility
         self.clickAnalyticsEvent = clickAnalyticsEvent
+        self.widgetProperties = widgetProperties
     }
 }
 
@@ -66,7 +59,7 @@ extension Button: Renderable {
         }
         
         button.style = style
-        button.beagle.setup(self)
+        button.beagle.setup(widgetProperties)
         
         return button
     }
@@ -144,22 +137,15 @@ extension Button: Decodable {
         case text
         case style
         case action
-        case id
-        case appearance
-        case accessibility
-        case flex
         case clickAnalyticsEvent
     }
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.text = try container.decode(String.self, forKey: .text)
-        self.style = try container.decodeIfPresent(String.self, forKey: .style)
         self.action = try container.decodeIfPresent(forKey: .action)
-        self.id = try container.decodeIfPresent(String.self, forKey: .id)
-        self.appearance = try container.decodeIfPresent(Appearance.self, forKey: .appearance)
-        self.accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
-        self.flex = try container.decodeIfPresent(Flex.self, forKey: .flex)
         self.clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
+        self.style = try container.decodeIfPresent(String.self, forKey: .style)
+        self.widgetProperties = try WidgetProperties(from: decoder)
     }
 }

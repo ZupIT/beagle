@@ -16,34 +16,36 @@
 
 import UIKit
 
-public struct Image: Widget {
+public struct Image: WidgetComponent {
     
     // MARK: - Public Properties
     
     public let name: String
     public let contentMode: ImageContentMode?
-    
-    public var id: String?
-    public let appearance: Appearance?
-    public let flex: Flex?
-    public let accessibility: Accessibility?
+    public var widgetProperties: WidgetProperties
     
     // MARK: - Initialization
     
     public init(
         name: String,
         contentMode: ImageContentMode? = nil,
-        id: String? = nil,
-        appearance: Appearance? = nil,
-        flex: Flex? = nil,
-        accessibility: Accessibility? = nil
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.name = name
         self.contentMode = contentMode
-        self.id = id
-        self.appearance = appearance
-        self.flex = flex
-        self.accessibility = accessibility
+        self.widgetProperties = widgetProperties
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case name
+        case contentMode
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.contentMode = try container.decodeIfPresent(ImageContentMode.self, forKey: .contentMode)
+        self.widgetProperties = try WidgetProperties(from: decoder)
     }
     
 }
@@ -56,7 +58,7 @@ extension Image: Renderable {
         image.contentMode = (contentMode ?? .fitCenter).toUIKit()
         image.setImageFromAsset(named: name, bundle: dependencies.appBundle)
         
-        image.beagle.setup(self)
+        image.beagle.setup(widgetProperties)
         
         return image
     }

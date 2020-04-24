@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import UIKit
+
 public protocol AppearanceComponent: ServerDrivenComponent {
     var appearance: Appearance? { get }
 }
@@ -30,4 +32,53 @@ public protocol IdentifiableComponent: ServerDrivenComponent {
     var id: String? { get }
 }
 
+public protocol WidgetComponent: ServerDrivenComponent {
+    var widgetProperties: WidgetProperties { get set }
+}
+
 public protocol Widget: AppearanceComponent, FlexComponent, AccessibilityComponent, IdentifiableComponent { }
+
+public struct WidgetProperties: Widget {
+    
+    public var appearance: Appearance?
+    public var flex: Flex?
+    public var accessibility: Accessibility?
+    public var id: String?
+    
+    enum WidgetCodingKeys: String, CodingKey {
+        case id
+        case appearance
+        case accessibility
+        case flex
+    }
+    
+    /// Initializer for common widget attributes
+    /// - Parameters:
+    ///   - id: string containing an identifier. Default is nil.
+    ///   - appearance: appearance of a widget. Default is nil.
+    ///   - flex: flex of a widget . Default is nil.
+    ///   - accessibility: accessibility of a widget. Default is nil.
+    public init(
+        id: String? = nil,
+        appearance: Appearance? = nil,
+        flex: Flex? = nil,
+        accessibility: Accessibility? = nil
+    ) {
+        self.id = id
+        self.appearance = appearance
+        self.flex = flex
+        self.accessibility = accessibility
+    }
+    
+    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+        preconditionFailure("You must override this method!")
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: WidgetCodingKeys.self)
+        self.id = try container.decodeIfPresent(String.self, forKey: .id)
+        self.appearance = try container.decodeIfPresent(Appearance.self, forKey: .appearance)
+        self.flex = try container.decodeIfPresent(Flex.self, forKey: .flex)
+        self.accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
+    }
+}

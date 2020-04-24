@@ -82,8 +82,9 @@ final class BeagleScreenViewControllerTests: XCTestCase {
             content: Text(
                 "My Content",
                 alignment: .center,
+                widgetProperties: .init(
                 appearance: .init(backgroundColor: "#00FFFF"),
-                flex: Flex(grow: 1)
+                flex: Flex(grow: 1))
             )
         )
         
@@ -180,8 +181,10 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         
         let url = "screen-url"
         let cache = CacheManager(maximumScreensCapacity: 30)
-        cache.saveComponent(Text("PreFetched Component", appearance: .init(backgroundColor: "#00FF00")), forPath: url)
-        let network = NetworkStub(componentResult: .success(Text("Remote Component", appearance: .init(backgroundColor: "#00FFFF"))))
+        cache.saveComponent(Text("PreFetched Component", widgetProperties: .init(appearance: .init(backgroundColor: "#00FF00"))), forPath: url)
+        let network = NetworkStub(
+            componentResult: .success(Text("Remote Component", widgetProperties: .init(appearance:
+                        .init(backgroundColor: "#00FFFF")))))
         let dependencies = BeagleDependencies()
         dependencies.cacheManager = cache
         dependencies.network = network
@@ -200,7 +203,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         let network = NetworkStub(componentResult: .failure(error))
         let fallback = Text(
             "Fallback screen.\n\(error.localizedDescription)",
-            appearance: .init(backgroundColor: "#FF0000")
+            widgetProperties: .init(appearance: .init(backgroundColor: "#FF0000"))
         ).toScreen()
         let dependencies = BeagleDependencies()
         dependencies.network = network

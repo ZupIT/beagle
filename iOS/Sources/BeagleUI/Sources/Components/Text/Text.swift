@@ -16,37 +16,43 @@
 
 import UIKit
 
-public struct Text: Widget {
+public struct Text: WidgetComponent {
     
     // MARK: - Public Properties
-    
     public let text: String
     public let style: String?
     public let alignment: Alignment?
     public let textColor: String?
-    public var id: String?
-    public let appearance: Appearance?
-    public let flex: Flex?
-    public let accessibility: Accessibility?
+    public var widgetProperties: WidgetProperties
     
     public init(
         _ text: String,
         style: String? = nil,
         alignment: Alignment? = nil,
         textColor: String? = nil,
-        id: String? = nil,
-        appearance: Appearance? = nil,
-        flex: Flex? = nil,
-        accessibility: Accessibility? = nil
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.text = text
         self.style = style
         self.alignment = alignment
         self.textColor = textColor
-        self.id = id
-        self.appearance = appearance
-        self.flex = flex
-        self.accessibility = accessibility
+        self.widgetProperties = widgetProperties
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case text
+        case style
+        case alignment
+        case textColor
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.text = try container.decode(String.self, forKey: .text)
+        self.alignment = try container.decodeIfPresent(Alignment.self, forKey: .alignment)
+        self.textColor = try container.decodeIfPresent(String.self, forKey: .textColor)
+        self.style = try container.decodeIfPresent(String.self, forKey: .style)
+        self.widgetProperties = try WidgetProperties(from: decoder)
     }
 }
 
@@ -73,7 +79,7 @@ extension Text: Renderable {
             textView.textColor = UIColor(hex: color)
         }
 
-        textView.beagle.setup(self)
+        textView.beagle.setup(widgetProperties)
         
         return textView
     }

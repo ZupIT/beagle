@@ -16,32 +16,22 @@
 
 import UIKit
 
-public struct NetworkImage: Widget {
+public struct NetworkImage: WidgetComponent {
     
     public let path: String
     public let contentMode: ImageContentMode?
-    
-    public var id: String?
-    public let appearance: Appearance?
-    public let flex: Flex?
-    public let accessibility: Accessibility?
+    public var widgetProperties: WidgetProperties
     
     // MARK: - Initialization
     
     public init(
         path: String,
         contentMode: ImageContentMode? = nil,
-        id: String? = nil,
-        appearance: Appearance? = nil,
-        flex: Flex? = nil,
-        accessibility: Accessibility? = nil
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.path = path
         self.contentMode = contentMode
-        self.id = id
-        self.appearance = appearance
-        self.flex = flex
-        self.accessibility = accessibility
+        self.widgetProperties = widgetProperties
     }
     
 }
@@ -52,7 +42,7 @@ extension NetworkImage: Renderable {
         imageView.clipsToBounds = true
         imageView.contentMode = (contentMode ?? .fitCenter).toUIKit()
 
-        imageView.beagle.setup(self)
+        imageView.beagle.setup(widgetProperties)
         
         dependencies.network.fetchImage(url: path, additionalData: nil) { [weak imageView, weak context] result in
             guard let imageView = imageView else { return }
