@@ -49,65 +49,8 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
 
         roundEnvironment.getElementsAnnotatedWith(BeagleComponent::class.java).forEach { element ->
             val typeElement = element as TypeElement
-
-            when {
-                typeElement.implementsInterface(CUSTOM_ACTION_HANDLER.toString()) -> {
-                    if (propertySpecifications?.customActionHandler == null) {
-                        propertySpecifications?.customActionHandler = typeElement
-                    } else {
-                        logImplementationErrorMessage(typeElement, "CustomActionHandler")
-                    }
-                }
-                typeElement.implementsInterface(DEEP_LINK_HANDLER.toString()) -> {
-                    if (propertySpecifications?.deepLinkHandler == null) {
-                        propertySpecifications?.deepLinkHandler = typeElement
-                    } else {
-                        logImplementationErrorMessage(typeElement, "DeepLinkHandler")
-                    }
-                }
-                typeElement.implementsInterface(HTTP_CLIENT_HANDLER.toString()) -> {
-                    if (propertySpecifications?.httpClient == null) {
-                        propertySpecifications?.httpClient = typeElement
-                    } else {
-                        logImplementationErrorMessage(typeElement, "HttpClient")
-                    }
-                }
-                typeElement.implementsInterface(DESIGN_SYSTEM.toString()) -> {
-                    if (propertySpecifications?.designSystem == null) {
-                        propertySpecifications?.designSystem = typeElement
-                    } else {
-                        logImplementationErrorMessage(typeElement, "DesignSystem")
-                    }
-                }
-                typeElement.implementsInterface(STORE_HANDLER.toString()) -> {
-                    if (propertySpecifications?.storeHandler == null) {
-                        propertySpecifications?.storeHandler = typeElement
-                    } else {
-                        logImplementationErrorMessage(typeElement, "StoreHandler")
-                    }
-                }
-                typeElement.implementsInterface(URL_BUILDER_HANDLER.toString()) -> {
-                    if (propertySpecifications?.urlBuilder == null) {
-                        propertySpecifications?.urlBuilder = typeElement
-                    } else {
-                        logImplementationErrorMessage(typeElement, "UrlBuilder")
-                    }
-                }
-                typeElement.extendsFromClass(BEAGLE_ACTIVITY.toString()) -> {
-                    if (propertySpecifications?.beagleActivity == null) {
-                        propertySpecifications?.beagleActivity = typeElement
-                    } else {
-                        logImplementationErrorMessage(typeElement, "BeagleActivity")
-                    }
-                }
-                typeElement.implementsInterface(ANALYTICS.toString()) -> {
-                    if (propertySpecifications?.analytics == null) {
-                        propertySpecifications?.analytics = typeElement
-                    } else {
-                        logImplementationErrorMessage(typeElement, "Analytics")
-                    }
-                }
-            }
+            checkIfHandlersExists(typeElement, propertySpecifications)
+            checkIfOtherAttributesExists(typeElement, propertySpecifications)
         }
 
         if (propertySpecifications?.beagleActivity == null) {
@@ -122,8 +65,80 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
         )
     }
 
+    private fun checkIfHandlersExists(
+        typeElement: TypeElement,
+        propertySpecifications: PropertySpecifications?
+    ) {
+        when {
+            typeElement.implementsInterface(CUSTOM_ACTION_HANDLER.toString()) -> {
+                if (propertySpecifications?.customActionHandler == null) {
+                    propertySpecifications?.customActionHandler = typeElement
+                } else {
+                    logImplementationErrorMessage(typeElement, "CustomActionHandler")
+                }
+            }
+            typeElement.implementsInterface(DEEP_LINK_HANDLER.toString()) -> {
+                if (propertySpecifications?.deepLinkHandler == null) {
+                    propertySpecifications?.deepLinkHandler = typeElement
+                } else {
+                    logImplementationErrorMessage(typeElement, "DeepLinkHandler")
+                }
+            }
+            typeElement.implementsInterface(HTTP_CLIENT_HANDLER.toString()) -> {
+                if (propertySpecifications?.httpClient == null) {
+                    propertySpecifications?.httpClient = typeElement
+                } else {
+                    logImplementationErrorMessage(typeElement, "HttpClient")
+                }
+            }
+            typeElement.implementsInterface(STORE_HANDLER.toString()) -> {
+                if (propertySpecifications?.storeHandler == null) {
+                    propertySpecifications?.storeHandler = typeElement
+                } else {
+                    logImplementationErrorMessage(typeElement, "StoreHandler")
+                }
+            }
+            typeElement.implementsInterface(URL_BUILDER_HANDLER.toString()) -> {
+                if (propertySpecifications?.urlBuilder == null) {
+                    propertySpecifications?.urlBuilder = typeElement
+                } else {
+                    logImplementationErrorMessage(typeElement, "UrlBuilder")
+                }
+            }
+        }
+    }
+
+    private fun checkIfOtherAttributesExists(
+        typeElement: TypeElement,
+        propertySpecifications: PropertySpecifications?
+    ) {
+        when {
+            typeElement.implementsInterface(DESIGN_SYSTEM.toString()) -> {
+                if (propertySpecifications?.designSystem == null) {
+                    propertySpecifications?.designSystem = typeElement
+                } else {
+                    logImplementationErrorMessage(typeElement, "DesignSystem")
+                }
+            }
+            typeElement.extendsFromClass(BEAGLE_ACTIVITY.toString()) -> {
+                if (propertySpecifications?.beagleActivity == null) {
+                    propertySpecifications?.beagleActivity = typeElement
+                } else {
+                    logImplementationErrorMessage(typeElement, "BeagleActivity")
+                }
+            }
+            typeElement.implementsInterface(ANALYTICS.toString()) -> {
+                if (propertySpecifications?.analytics == null) {
+                    propertySpecifications?.analytics = typeElement
+                } else {
+                    logImplementationErrorMessage(typeElement, "Analytics")
+                }
+            }
+        }
+    }
+
     private fun logImplementationErrorMessage(typeElement: TypeElement, element: String) {
-        processingEnv.messager.error(typeElement, "${element} already " +
+        processingEnv.messager.error(typeElement, "$element already " +
             "defined, remove one implementation from the application.")
     }
 
