@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -18,25 +19,11 @@ import XCTest
 import SnapshotTesting
 @testable import BeagleUI
 
-final class UnitValueExtensionTests: XCTestCase {
-    
-    func test_UnitValueExpressibleByIntegerLiteral() {
-        let sut: UnitValue = 10
-        assertSnapshot(matching: sut, as: .dump)
+final class WidgetTests: XCTestCase {
+
+    func testParsingOfWidgetWithAllAttributes() throws {
+        let component: Text = try componentFromJsonFile(fileName: "widgetWithAllAttributes")
+        assertSnapshot(matching: component, as: .dump)
     }
-    
-    func test_UnitValueExpressibleByFloatLiteral() {
-        let sut: UnitValue = 10.5
-        assertSnapshot(matching: sut, as: .dump)
-    }
-    
-    func test_UnitValueWithPercentageOperatorAndIntegerValue() {
-        let sut: UnitValue = 10%
-        assertSnapshot(matching: sut, as: .dump)
-    }
-    
-    func test_UnitValueWithPercentageOperatorAndFloatValue() {
-        let sut: UnitValue = 10.5%
-        assertSnapshot(matching: sut, as: .dump)
-    }
+
 }

@@ -40,10 +40,7 @@ struct FormScreen: DeeplinkScreen {
                         name: "optional-field",
                         child: DemoTextField(
                             placeholder: "Optional field",
-                            id: nil,
-                            appearance: nil,
-                            flex: flexHorizontalMargin,
-                            accessibility: nil
+                            widgetProperties: .init(flex: flexHorizontalMargin)
                         )
                     ),
                     FormInput(
@@ -52,10 +49,7 @@ struct FormScreen: DeeplinkScreen {
                         validator: FormScreen.textValidatorName,
                         child: DemoTextField(
                             placeholder: "Required field",
-                            id: nil,
-                            appearance: nil,
-                            flex: flexHorizontalMargin,
-                            accessibility: nil
+                            widgetProperties: .init(flex: flexHorizontalMargin)
                         )
                     ),
                     FormInput(
@@ -64,10 +58,8 @@ struct FormScreen: DeeplinkScreen {
                         validator: FormScreen.textValidatorName,
                         child: DemoTextField(
                             placeholder: "Another required field",
-                            id: nil,
-                            appearance: nil,
-                            flex: flexHorizontalMargin,
-                            accessibility: nil
+                            widgetProperties: .init(flex: flexHorizontalMargin)
+                            
                         )
                     ),
                     Container(children: [], flex: Flex(grow: 1)),
@@ -89,21 +81,25 @@ struct FormScreen: DeeplinkScreen {
     
 }
 
-struct DemoTextField: Widget {
-
+struct DemoTextField: WidgetComponent {
+    
     var placeholder: String
-
-    var id: String?
-    var appearance: Appearance?
-    var flex: Flex?
-    var accessibility: Accessibility?
+    var widgetProperties: WidgetProperties
+    
+    public init(
+        placeholder: String,
+        widgetProperties: WidgetProperties = WidgetProperties()
+    ) {
+        self.placeholder = placeholder
+        self.widgetProperties = widgetProperties
+    }
     
     func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let textField = View()
         textField.borderStyle = .roundedRect
         textField.placeholder = placeholder
 
-        textField.beagle.setup(self)
+        textField.beagle.setup(widgetProperties)
 
         return textField
     }

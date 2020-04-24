@@ -18,8 +18,6 @@ import UIKit
 
 public struct Button: WidgetComponent, ClickedOnComponent {
     
-    
-    
     // MARK: - Public Properties
     public let text: String
     public let style: String?

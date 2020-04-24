@@ -17,7 +17,7 @@
 import UIKit
 import BeagleUI
 
-struct DSCollectionDataSource : Decodable{
+struct DSCollectionDataSource : Decodable {
     
     struct Card : Decodable {
         let name: String
@@ -27,30 +27,24 @@ struct DSCollectionDataSource : Decodable{
     let cards: [Card]
 }
 
-struct DSCollection: Widget {
-    var id: String?
-    var appearance: Appearance?
-    var flex: Flex?
-    var accessibility: Accessibility?
+struct DSCollection: WidgetComponent {
+
     let dataSource: DSCollectionDataSource
+    var widgetProperties: WidgetProperties
 
     init(
-        appearance: Appearance? = nil,
-        flex: Flex? = nil,
-        accessibility: Accessibility? = nil,
-        dataSource: DSCollectionDataSource
+        dataSource: DSCollectionDataSource,
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
-        self.appearance = appearance
-        self.flex = flex
-        self.accessibility = accessibility
         self.dataSource = dataSource
+        self.widgetProperties = widgetProperties
     }
 }
 
 extension DSCollection: Renderable {
     func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let view = DSCollectionUIComponent(dataSource: dataSource)
-        view.flex.setup(flex)
+        view.flex.setup(widgetProperties.flex)
         return view
     }
 }
