@@ -46,7 +46,7 @@ class JsonParser {
     }
 
     /**
-     * Parses the json to a {@link Value} with the same structure/type of fields
+     * Parses the json to a {@link Array} with the same structure/type of fields
      */
     fun parseJsonToArray(jsonString: String): Array {
         try {
@@ -59,11 +59,9 @@ class JsonParser {
     private fun fillProperties(input: Any): Value {
         if (input is JSONObject) {
             return fillObjectValue(input)
-        } else if (input is JSONArray) {
-            return fillJsonArray(input)
+        } else {
+            return fillJsonArray(input as JSONArray)
         }
-
-        throw IllegalStateException("input should be a JSONObject or JSONArray")
     }
 
     private fun fillJsonArray(input: JSONArray): Array {

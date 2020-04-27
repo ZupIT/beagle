@@ -22,7 +22,7 @@ package br.com.zup.beagle.expression
  * @author hernandazevedozup
  */
 //TODO understand if we need to separate this class on BooleanPrimitive StringPrimitive IntPrimitive DoublePrimitive
-class Primitive(var value: Any) : Value() {
+class Primitive(val value: Any) : Value() {
     constructor(boolean: Boolean) : this(boolean as Any)
     constructor(character: CharSequence) : this(character as Any)
     constructor(number: Number) : this(number as Any)

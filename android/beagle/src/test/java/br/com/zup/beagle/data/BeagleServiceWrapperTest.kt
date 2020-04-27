@@ -20,7 +20,9 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.data.serializer.BeagleSerializer
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BeagleEnvironment
+import br.com.zup.beagle.testutil.CoroutineTestRule
 import br.com.zup.beagle.testutil.RandomData
+import br.com.zup.beagle.utils.CoroutineDispatchers
 import br.com.zup.beagle.view.ScreenRequest
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -40,6 +42,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -66,6 +69,9 @@ class BeagleServiceWrapperTest {
 
     private lateinit var subject: BeagleServiceWrapper
 
+    @get:Rule
+    val scope = CoroutineTestRule()
+
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
@@ -89,7 +95,7 @@ class BeagleServiceWrapperTest {
     @Test
     fun fetch_when_success_should_call_onSuccess() = runBlockingTest {
         // GIVEN
-        subject.init(beagleService,beagleSerializer)
+        subject.init(beagleService, beagleSerializer)
         coEvery { beagleService.fetchComponent(screenRequest) } returns component
         every { listener.onSuccess(any()) } just Runs
 
@@ -103,7 +109,7 @@ class BeagleServiceWrapperTest {
     @Test
     fun fetch_when_fail_should_call_onError() = runBlockingTest {
         // GIVEN
-        subject.init(beagleService,beagleSerializer)
+        subject.init(beagleService, beagleSerializer)
         coEvery { beagleService.fetchComponent(screenRequest) } throws throwable
         every { listener.onError(any()) } just Runs
 
@@ -117,7 +123,7 @@ class BeagleServiceWrapperTest {
     @Test
     fun deserializeWidget_when_call_method() = runBlockingTest {
         // GIVEN
-        subject.init(beagleService,beagleSerializer)
+        subject.init(beagleService, beagleSerializer)
         val randomString = RandomData.string()
         every { beagleSerializer.deserializeComponent(randomString) } returns component
 
@@ -131,7 +137,7 @@ class BeagleServiceWrapperTest {
     @Test
     fun serializeWidget_when_call_method() = runBlockingTest {
         // GIVEN
-        subject.init(beagleService,beagleSerializer)
+        subject.init(beagleService, beagleSerializer)
         val randomString = RandomData.string()
         every { beagleSerializer.serializeComponent(component) } returns randomString
 

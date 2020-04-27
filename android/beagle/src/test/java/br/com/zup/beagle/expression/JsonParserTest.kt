@@ -22,6 +22,7 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+import kotlin.test.fail
 
 class JsonParserTest {
 
@@ -38,6 +39,27 @@ class JsonParserTest {
 	}
 }"""
 
+    private val JSON2 = "DUMMY"
+
+    private val JSON_ARRAY = """
+        [ {
+  "a" : "Remote Beagle 1",
+  "b" : 1
+}, {
+  "a" : "Remote Beagle 2",
+  "b" : 2
+}, {
+  "a" : "Remote Beagle 3",
+  "b" : 3
+}, {
+  "a" : "Remote Beagle 4",
+  "b" : 4
+}, {
+  "a" : "Remote Beagle 5",
+  "b" : 5
+}]
+        """
+
     @InjectMockKs
     private lateinit var jsonParser: JsonParser
 
@@ -47,7 +69,7 @@ class JsonParserTest {
     }
 
     @Test
-    fun parseJsonTest() {
+    fun should_parse_json_for_success() {
         val parsedValue = jsonParser.parseJsonToValue(JSON)
 
         assertTrue { parsedValue.isObject() }
@@ -74,4 +96,22 @@ class JsonParserTest {
         assertEquals(propertyI?.getAsArray()?.size(), 1)
     }
 
+    @Test(expected = IllegalStateException::class)
+    fun should_parse_json_for_exception_not_array() {
+        jsonParser.parseJsonToArray(JSON)
+        fail("Should throw IllegalStateException")
+    }
+
+    @Test(expected = IllegalStateException::class)
+    fun should_parse_json_for_exception_not_json_object() {
+        jsonParser.parseJsonToValue(JSON2)
+        fail("Should throw IllegalStateException")
+    }
+
+    @Test
+    fun should_parse_json_for_array_success() {
+        val parsedValue = jsonParser.parseJsonToArray(JSON_ARRAY)
+        assertTrue { parsedValue.isArray() }
+        assertEquals(5, parsedValue.getAsArray().size())
+    }
 }
