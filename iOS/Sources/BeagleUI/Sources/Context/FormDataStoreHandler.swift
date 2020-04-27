@@ -34,10 +34,17 @@ internal class FormDataStoreHandler: FormDataStoreHandling {
     }
     
     func save(key: String, value: String) {
-        dataStore[key] = value
+        if let data = value.data(using: .utf8) {
+            let cacheReference = CacheReference(identifier: key, data: data, hash: "")
+            dependency.cacheManager?.addToCache(cacheReference)
+        }
     }
     
     func read(key: String) -> String? {
-        return dataStore[key]
+        guard
+            let cacheReference = dependency.cacheManager?.getReference(identifiedBy: key),
+            let value = String(data: cacheReference.data, encoding: .utf8)
+        else { return nil }
+        return value
     }
 }
