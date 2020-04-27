@@ -40,7 +40,7 @@ final class BeagleSetupTests: XCTestCase {
         dep.networkClient = NetworkClientDummy()
         dep.flex = { _ in return FlexViewConfiguratorDummy() }
         dep.decoder = ComponentDecodingDummy()
-        dep.cacheManager = CacheManager(maximumScreensCapacity: 10)
+        dep.cacheManager = nil
         dep.logger = BeagleLoggerDumb()
 
         assertSnapshot(matching: dep, as: .dump)
@@ -79,6 +79,22 @@ final class ComponentDecodingDummy: ComponentDecoding {
     func decodeAction(from data: Data) throws -> Action { return ActionDummy() }
 }
 
+final class CacheManagerDummy: CacheManagerProtocol {
+    func addToCache(_ reference: CacheReference) { }
+    
+    func getReference(identifiedBy id: String) -> CacheReference? {
+        return nil
+    }
+    
+    func isValid(reference: CacheReference) -> Bool {
+        return true
+    }
+}
+
+final class PreFetchHelperDummy: BeaglePrefetchHelping {
+    func prefetchComponent(newPath: Navigate.NewPath) { }
+}
+
 struct ComponentDummy: ServerDrivenComponent, Equatable, CustomStringConvertible {
     
     private let uuid = UUID()
@@ -101,7 +117,7 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
     var analytics: Analytics?
     var actionExecutor: ActionExecutor
     var flex: FlexViewConfiguratorProtocol
-    var network: Network
+    var repository: Repository
     var theme: Theme
     var validatorProvider: ValidatorProvider?
     var preFetchHelper: BeaglePrefetchHelping
@@ -113,19 +129,19 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
     init(
         actionExecutor: ActionExecutor = ActionExecutorDummy(),
         flex: FlexViewConfiguratorProtocol = FlexViewConfiguratorDummy(),
-        network: Network = NetworkStub(),
+        repository: Repository = RepositoryStub(),
         theme: Theme = AppThemeDummy(),
         validatorProvider: ValidatorProvider = ValidatorProviding(),
-        preFetchHelper: BeaglePrefetchHelping = BeaglePreFetchHelper(),
+        preFetchHelper: BeaglePrefetchHelping = PreFetchHelperDummy(),
         appBundle: Bundle = Bundle(for: ImageTests.self),
-        cacheManager: CacheManagerProtocol = CacheManager(maximumScreensCapacity: 30),
+        cacheManager: CacheManagerProtocol = CacheManagerDummy(),
         decoder: ComponentDecoding = ComponentDecodingDummy(),
         logger: BeagleLoggerType = BeagleLoggerDumb(),
         analytics: Analytics = AnalyticsExecutorSpy()
     ) {
         self.actionExecutor = actionExecutor
         self.flex = flex
-        self.network = network
+        self.repository = repository
         self.theme = theme
         self.validatorProvider = validatorProvider
         self.preFetchHelper = preFetchHelper

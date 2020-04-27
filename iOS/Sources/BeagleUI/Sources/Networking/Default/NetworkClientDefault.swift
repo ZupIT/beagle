@@ -24,7 +24,6 @@ public class NetworkClientDefault: NetworkClient {
     let dependencies: Dependencies
 
     public var httpRequestBuilder = HttpRequestBuilder()
-    public var cacheService = MemoryCacheService()
 
     public init(dependencies: Dependencies) {
         self.dependencies = dependencies
@@ -46,12 +45,7 @@ public class NetworkClientDefault: NetworkClient {
             break
         }
 
-        if let cache = try? cacheService.loadData(from: request.url).get() {
-            completion(.success(cache))
-            return nil
-        } else {
-            return doRequest(request, completion: completion)
-        }
+        return doRequest(request, completion: completion)
     }
 
     @discardableResult
@@ -76,7 +70,6 @@ public class NetworkClientDefault: NetworkClient {
         let task = session.dataTask(with: urlRequest) { [weak self] data, response, error in
             guard let self = self else { return }
             self.dependencies.logger.log(Log.network(.httpResponse(response: .init(data: data, reponse: response))))
-            self.saveDataToCacheIfNeeded(data: data, request: request)
             completion(self.handleResponse(data: data, response: response, error: error))
         }
         dependencies.logger.log(Log.network(.httpRequest(request: .init(url: urlRequest))))
@@ -102,12 +95,7 @@ public class NetworkClientDefault: NetworkClient {
             return .failure(NetworkError(error: ClientError.invalidHttpResponse))
         }
 
-        return .success(data)
-    }
-
-    private func saveDataToCacheIfNeeded(data: Data?, request: Request) {
-        guard case .fetchImage = request.type, let data = data else { return }
-        cacheService.save(data: data, key: request.url)
+        return .success(.init(data: data, response: response))
     }
 }
 
