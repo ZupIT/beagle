@@ -17,25 +17,33 @@
 package br.com.zup.beagle.engine.renderer
 
 import br.com.zup.beagle.engine.renderer.layout.ComposeComponentViewRenderer
+import br.com.zup.beagle.engine.renderer.layout.FormInputHiddenViewRenderer
 import br.com.zup.beagle.engine.renderer.layout.FormInputViewRenderer
 import br.com.zup.beagle.engine.renderer.layout.FormSubmitViewRenderer
 import br.com.zup.beagle.engine.renderer.ui.ButtonViewRenderer
 import br.com.zup.beagle.engine.renderer.ui.ImageViewRenderer
+import br.com.zup.beagle.engine.renderer.ui.ListViewBindingRenderer
 import br.com.zup.beagle.engine.renderer.ui.ListViewRenderer
-import br.com.zup.beagle.engine.renderer.ui.ViewConvertableRenderer
 import br.com.zup.beagle.engine.renderer.ui.NetworkImageViewRenderer
 import br.com.zup.beagle.engine.renderer.ui.TextViewRenderer
+import br.com.zup.beagle.engine.renderer.ui.UndefinedViewRenderer
+import br.com.zup.beagle.engine.renderer.ui.ViewConvertableRenderer
 import br.com.zup.beagle.engine.renderer.ui.WebViewRenderer
-import br.com.zup.beagle.widget.core.ComposeComponent
 import br.com.zup.beagle.setup.BeagleEnvironment
+import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.core.ComposeComponent
+import br.com.zup.beagle.widget.core.ViewConvertable
 import br.com.zup.beagle.widget.core.WidgetView
 import br.com.zup.beagle.widget.form.FormInput
+import br.com.zup.beagle.widget.form.FormInputHidden
 import br.com.zup.beagle.widget.form.FormSubmit
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.ListView
+import br.com.zup.beagle.widget.ui.ListViewBinding
 import br.com.zup.beagle.widget.ui.NetworkImage
 import br.com.zup.beagle.widget.ui.Text
+import br.com.zup.beagle.widget.ui.UndefinedWidget
 import br.com.zup.beagle.widget.ui.WebView
 import io.mockk.every
 import io.mockk.mockk
@@ -125,6 +133,18 @@ class UIViewRendererFactoryTest {
     }
 
     @Test
+    fun make_should_return_ListViewBindingRenderer_when_component_is_a_ListViewBinding() {
+        // Given
+        val component = mockk<ListViewBinding>()
+
+        // When
+        val actual = viewRendererFactory.make(component)
+
+        // Then
+        assertTrue(actual is ListViewBindingRenderer)
+    }
+
+    @Test
     fun make_should_return_CustomWidgetViewRenderer_when_component_is_a_NativeWidget() {
         // Given
         val component = mockk<WidgetView>()
@@ -158,6 +178,42 @@ class UIViewRendererFactoryTest {
 
         // Then
         assertTrue(actual is FormInputViewRenderer)
+    }
+
+    @Test
+    fun make_should_return_FormInputHiddenViewRenderer_when_component_is_a_FormInputHidden() {
+        // Given
+        val component = mockk<FormInputHidden>()
+
+        // When
+        val actual = viewRendererFactory.make(component)
+
+        // Then
+        assertTrue(actual is FormInputHiddenViewRenderer)
+    }
+
+    @Test
+    fun make_should_return_FormInputHiddenViewRenderer_when_component_is_a_FormInput() {
+        // Given
+        val component = mockk<FormInputHidden>()
+
+        // When
+        val actual = viewRendererFactory.make(component)
+
+        // Then
+        assertTrue(actual is FormInputHiddenViewRenderer)
+    }
+
+    @Test
+    fun make_should_return_ViewConvertableRenderer_when_component_is_a_ViewConvertableRenderer() {
+        // Given
+        val component = mockk<ViewConvertable>()
+
+        // When
+        val actual = viewRendererFactory.make(component)
+
+        // Then
+        assertTrue(actual is ViewConvertableRenderer)
     }
 
     @Test
