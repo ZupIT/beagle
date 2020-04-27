@@ -39,7 +39,7 @@ class FormManager: FormManaging {
     
     var dependencies: Dependencies
     
-    let formDataStore: FormDataStoreHandling
+    private let formDataStore: FormDataStoreHandling
     
     // MARK: - Delegate
     

@@ -21,10 +21,8 @@ public protocol FormDataStoreHandling {
     func read(key: String) -> String?
 }
 
-internal class FormDataStoreHandler: FormDataStoreHandling {
-    
-    private(set) var dataStore: [String: String] = [:]
-    
+class FormDataStoreHandler: FormDataStoreHandling {
+        
     // MARK: - Dependency
     
     private let dependency: DependencyCacheManager
