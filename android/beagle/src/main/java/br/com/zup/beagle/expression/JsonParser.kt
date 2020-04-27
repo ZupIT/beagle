@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.expression
 
-import br.com.zup.beagle.android.expression.BuildConfig
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -75,7 +74,6 @@ class JsonParser {
                     objectArray.add(fillProperties(a))
                 }
                 else -> {
-                    printInDebug(value)
                     objectArray.add(Primitive(parseType(value)))
                 }
             }
@@ -94,23 +92,14 @@ class JsonParser {
                 if (innerInput is JSONObject) {
                     objectValue.add(key, fillProperties(innerInput))
                 } else {
-                    printInDebug("$key=$innerInput")
                     objectValue.add(key, Primitive(parseType(innerInput)))
                 }
             } else {
-                printInDebug("$key=[")
                 objectValue.add(key, fillProperties(JSONArray(input.get(key).toString())))
-                printInDebug("]")
             }
         }
 
         return objectValue
-    }
-
-    private fun printInDebug(str: Any) {
-        if (BuildConfig.DEBUG) {
-            println(str.toString())
-        }
     }
 
     private fun parseType(input: Any): Any {

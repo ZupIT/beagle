@@ -14,28 +14,13 @@
  * limitations under the License.
  */
 
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply from: rootProject.file('jacoco.gradle')
-
-android {
-    compileSdkVersion Versions.compileSdk
-    buildToolsVersion Versions.buildTools
-
-    defaultConfig {
-        minSdkVersion Versions.minSdk
-        targetSdkVersion Versions.targetSdk
-
-        versionCode Releases.versionCode
-        versionName "${Releases.beagleVersionName}"
-
-        testInstrumentationRunner GeneralNames.testInstrumentationRunner
-        consumerProguardFiles GeneralNames.consumerProguard
-    }
-}
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
+
+apply from: rootProject.file('jacoco.gradle')
 
 dependencies {
     implementation AndroidxLibraries.appcompat
@@ -44,12 +29,4 @@ dependencies {
     testImplementation TestLibraries.junit
     testImplementation TestLibraries.kotlinTest
     testImplementation TestLibraries.mockk
-
-    // Integration Testing
-    androidTestImplementation TestLibraries.testRunner
-    androidTestImplementation TestLibraries.testExt
-    androidTestImplementation TestLibraries.espressoCore
-    androidTestImplementation TestLibraries.testRules
 }
-
-apply from: rootProject.file('maven-publish.gradle')
