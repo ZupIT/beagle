@@ -1,0 +1,102 @@
+[
+    {
+        "base": "http://base.url",
+        "path": "/relativePath",
+        "result": "http://base.url/relativePath"
+    },
+    {
+        "base": "http://base.url",
+        "path": "absolutePath",
+        "result": "absolutePath"
+    },
+    {
+        "base": "http://base.url",
+        "path": "//weirdPath",
+        "result": "http://base.url//weirdPath"
+    },
+    {
+        "base": "http://base.url",
+        "path": "/",
+        "result": "http://base.url/"
+    },
+    {
+        "base": "http://base.url",
+        "path": "",
+        "result": null
+    },
+    {
+        "base": "http://base.ending.with.slash/",
+        "path": "/relativePath",
+        "result": "http://base.ending.with.slash/relativePath"
+    },
+    {
+        "base": "http://base.ending.with.slash/",
+        "path": "absolutePath",
+        "result": "absolutePath"
+    },
+    {
+        "base": "http://base.ending.with.slash/",
+        "path": "//weirdPath",
+        "result": "http://base.ending.with.slash//weirdPath"
+    },
+    {
+        "base": "http://base.ending.with.slash/",
+        "path": "/",
+        "result": "http://base.ending.with.slash/"
+    },
+    {
+        "base": "http://base.ending.with.slash/",
+        "path": "",
+        "result": null
+    },
+    {
+        "base": "http://base.url/withPath",
+        "path": "/relativePath",
+        "result": "http://base.url/withPath/relativePath"
+    },
+    {
+        "base": "http://base.url/withPath",
+        "path": "absolutePath",
+        "result": "absolutePath"
+    },
+    {
+        "base": "http://base.url/withPath",
+        "path": "//weirdPath",
+        "result": "http://base.url/withPath//weirdPath"
+    },
+    {
+        "base": "http://base.url/withPath",
+        "path": "/",
+        "result": "http://base.url/withPath/"
+    },
+    {
+        "base": "http://base.url/withPath",
+        "path": "",
+        "result": null
+    },
+    {
+        "base": null,
+        "path": "/relativePath",
+        "result": "/relativePath"
+    },
+    {
+        "base": null,
+        "path": "absolutePath",
+        "result": "absolutePath"
+    },
+    {
+        "base": null,
+        "path": "//weirdPath",
+        "result": "//weirdPath"
+    },
+    {
+        "base": null,
+        "path": "/",
+        "result": null
+    },
+    {
+        "base": null,
+        "path": "",
+        "result": null
+    }
+]

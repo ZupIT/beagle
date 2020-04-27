@@ -72,6 +72,7 @@ final class WebViewUIComponent: UIView {
     }
 }
 
+// swiftlint:disable implicitly_unwrapped_optional
 extension WebViewUIComponent: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         loadingView.stopAnimating()

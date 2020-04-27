@@ -18,12 +18,15 @@ import XCTest
 @testable import BeagleUI
 import SnapshotTesting
 
+// swiftlint:disable force_unwrapping
+
 final class BeaglePrefetchHelperTests: XCTestCase {
 
     struct Dependencies: DependencyRepository, DependencyCacheManager {
         var cacheManager: CacheManagerProtocol?
         let repository: Repository
     }
+    
     private let decoder = ComponentDecoder()
     private let jsonData = """
     {
