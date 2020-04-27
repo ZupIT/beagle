@@ -25,16 +25,12 @@ class AppDesignSystem : DesignSystem {
     override fun toolbarStyle(name: String): Int {
         return when(name) {
             "DesignSystem.Navigationbar.Style.Green" -> R.style.DesignSystem_Navigationbar_Style
+            "DesignSystem.Toolbar.Center" -> R.style.DesignSystem_Toolbar_Center
             else -> R.style.DesignSystem_Toolbar
         }
     }
 
-    override fun tabBarStyle(name: String): Int? {
-        return when (name) {
-
-            else -> R.style.DesignSystem_TabView_Default
-        }
-    }
+    override fun tabBarStyle(name: String) = R.style.DesignSystem_TabView_Default
 
     override fun image(name: String): Int {
         return when (name) {

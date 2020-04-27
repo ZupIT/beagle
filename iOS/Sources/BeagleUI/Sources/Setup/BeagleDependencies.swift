@@ -26,7 +26,8 @@ public protocol BeagleDependenciesProtocol: DependencyActionExecutor,
     DependencyNavigation,
     DependencyViewConfigurator,
     DependencyFlexConfigurator,
-    RenderableDependencies {
+    RenderableDependencies,
+    DependencyCacheManager {
 }
 
 open class BeagleDependencies: BeagleDependenciesProtocol {
@@ -40,11 +41,11 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var deepLinkHandler: DeepLinkScreenManaging?
     public var customActionHandler: CustomActionHandler?
     public var actionExecutor: ActionExecutor
+    public var repository: Repository
     public var analytics: Analytics?
-    public var network: Network
     public var navigation: BeagleNavigation
     public var preFetchHelper: BeaglePrefetchHelping
-    public var cacheManager: CacheManagerProtocol
+    public var cacheManager: CacheManagerProtocol?
     public var logger: BeagleLoggerType
 
     public var flex: (UIView) -> FlexViewConfiguratorProtocol = {
@@ -63,7 +64,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
 
         self.urlBuilder = UrlBuilder()
         self.decoder = ComponentDecoder()
-        self.preFetchHelper = BeaglePreFetchHelper()
+        self.preFetchHelper = BeaglePreFetchHelper(dependencies: resolver)
         self.customActionHandler = nil
         self.appBundle = Bundle.main
         self.theme = AppTheme(styles: [:])
@@ -71,8 +72,8 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.networkClient = NetworkClientDefault(dependencies: resolver)
         self.navigation = BeagleNavigator(dependencies: resolver)
         self.actionExecutor = ActionExecuting(dependencies: resolver)
-        self.network = NetworkDefault(dependencies: resolver)
-        self.cacheManager = CacheManager(maximumScreensCapacity: 30)
+        self.repository = RepositoryDefault(dependencies: resolver)
+        self.cacheManager = CacheManagerDefault(dependencies: resolver)
         self.logger = BeagleLogger()
 
         self.resolver.container = { [unowned self] in self }
@@ -83,11 +84,12 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
 /// dependencies within dependencies.
 /// The problem happened because we needed to pass `self` as dependency before `init` has concluded.
 /// - Example: see where `resolver` is being used in the `BeagleDependencies` `init`.
-private class InnerDependenciesResolver: NetworkDefault.Dependencies,
+private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     ActionExecuting.Dependencies,
     DependencyDeepLinkScreenManaging,
     DependencyUrlBuilder,
-    DependencyLogger {
+    DependencyLogger,
+    DependencyRepository {
 
     var container: () -> BeagleDependenciesProtocol = {
         fatalError("You should set this closure to get the dependencies container")
@@ -100,4 +102,6 @@ private class InnerDependenciesResolver: NetworkDefault.Dependencies,
     var deepLinkHandler: DeepLinkScreenManaging? { return container().deepLinkHandler }
     var customActionHandler: CustomActionHandler? { return container().customActionHandler }
     var logger: BeagleLoggerType { return container().logger }
+    var cacheManager: CacheManagerProtocol? { return container().cacheManager }
+    var repository: Repository { return container().repository }
 }

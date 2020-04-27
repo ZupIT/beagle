@@ -22,10 +22,7 @@ import android.text.InputType
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.interfaces.StateChangeable
-import br.com.zup.beagle.interfaces.WidgetState
 import br.com.zup.beagle.sample.utils.MaskApplier
-import br.com.zup.beagle.state.Observable
 import br.com.zup.beagle.widget.form.InputWidget
 
 enum class TextFieldInputType {
@@ -41,11 +38,7 @@ data class TextField(
     val color: String = "#000000",
     val mask: String? = null,
     val inputType: TextFieldInputType? = null
-) : InputWidget(), StateChangeable {
-
-    private val stateObservable = Observable<WidgetState>()
-
-    override fun getState(): Observable<WidgetState> = stateObservable
+) : InputWidget() {
 
     private lateinit var textFieldView: EditText
 
@@ -53,21 +46,18 @@ data class TextField(
         textFieldView = this
         bind()
 
-        this.doOnTextChanged { text, _, _, _ ->
-            stateObservable.notifyObservers(WidgetState(text.toString()))
-        }
+        doOnTextChanged { _, _, _, _ -> notifyChanges() }
     }
 
     override fun onErrorMessage(message: String) {
         textFieldView.error = message
     }
 
-    override fun getValue(): Any = textFieldView.text
+    override fun getValue() = textFieldView.text.toString()
 
     private fun bind() {
         val color = Color.parseColor(getColorWithHashTag(color))
         textFieldView.setText(description)
-        textFieldView.setTextColor(color)
         textFieldView.hint = hint
         textFieldView.setTextColor(color)
         textFieldView.setHintTextColor(color)
@@ -87,5 +77,5 @@ data class TextField(
         }
     }
 
-    fun getColorWithHashTag(value: String): String = if (value.startsWith("#")) value else "#$value"
+    private fun getColorWithHashTag(value: String): String = if (value.startsWith("#")) value else "#$value"
 }

@@ -1,5 +1,4 @@
 
-[![Build Status](https://app.bitrise.io/app/ba33132ae93f50c8/status.svg?token=ET78G0IwTjRaVguEnzRPhw&branch=master)](https://app.bitrise.io/app/ba33132ae93f50c8)  
 [![codecov](https://codecov.io/gh/ZupIT/beagle/branch/master/graph/badge.svg?token=rViMmc9MYJ)](https://codecov.io/gh/ZupIT/beagle)
 
 Beagle is a cross-platform framework that allows to apply Server-Driven UI natively in iOS, Android and Web.Then, the layouts can be created in a Backend for Frontend middleware.
@@ -14,6 +13,7 @@ The **first step** is to set the Zup's repository (using the **credentials** bel
 ```javascript
 // Add it in your root build.gradle at the end of repositories:
 allprojects {
+
     repositories {
         google()
         jcenter()
