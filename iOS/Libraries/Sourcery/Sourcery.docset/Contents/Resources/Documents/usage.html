@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Usage  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a title="Usage  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html">Sourcery Docs</a> (100% documented)</p>
+        <p class="header-right"><a href="https://github.com/krzysztofzablocki/Sourcery"><img src="img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html">Sourcery Reference</a>
+        <img id="carat" src="img/carat.png" />
+        Usage  Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="Guides.html">Guides</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="installing.html">Installing</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="usage.html">Usage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="writing-templates.html">Writing templates</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Examples.html">Examples</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="equatable.html">Equatable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="hashable.html">Hashable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="enum-cases.html">Enum cases</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="lenses.html">Lenses</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="mocks.html">Mocks</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="codable.html">Codable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="diffable.html">Diffable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="linuxmain.html">LinuxMain</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="decorator.html">Decorator</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Types.html">Types</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Classes/Types.html">Types</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Type.html">Type</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Protocol.html">Protocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Class.html">Class</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Struct.html">Struct</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Enum.html">Enum</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/EnumCase.html">EnumCase</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/AssociatedValue.html">AssociatedValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Variable.html">Variable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Method.html">Method</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MethodParameter.html">MethodParameter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Subscript.html">Subscript</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/TypeName.html">TypeName</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/TupleType.html">TupleType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/TupleElement.html">TupleElement</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/ArrayType.html">ArrayType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/DictionaryType.html">DictionaryType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/ClosureType.html">ClosureType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GenericType.html">GenericType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GenericTypeParameter.html">GenericTypeParameter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Attribute.html">Attribute</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Other Protocols.html">Other Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Protocols/Annotated.html">Annotated</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/Definition.html">Definition</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/Typed.html">Typed</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            
+            <h2 id='usage' class='heading'>Usage</h2>
+
+<p>Sourcery is a command line tool, you can either run it manually or in a custom build phase using following command:</p>
+<pre class="highlight plaintext"><code>$ ./sourcery --sources &lt;sources path&gt; --templates &lt;templates path&gt; --output &lt;output path&gt;
+</code></pre>
+
+<blockquote>
+<p>Note: this command may be different depending on the way in which you installed Sourcery (see <a href="installing.html">Installing</a>)</p>
+</blockquote>
+<h3 id='command-line-options' class='heading'>Command line options</h3>
+
+<ul>
+<li><code>--sources</code> - Path to a source swift files. You can provide multiple paths using multiple <code>--sources</code> option.</li>
+<li><code>--templates</code> - Path to templates. File or Directory. You can provide multiple paths using multiple <code>--templates</code> options.</li>
+<li><code>--output</code> [default: current path] - Path to output. File or Directory.</li>
+<li><code>--config</code> [default: current path] - Path to config file. File or Directory. See <a href="usage.html#configuration-file">Configuration file</a>.</li>
+<li><code>--args</code> - Additional arguments to pass to templates. Each argument can have explicit value or will have implicit <code>true</code> value. Arguments should be separated with <code>,</code> without spaces (i.e. <code>--args arg1=value,arg2</code>) or should be passed one by one (i.e <code>--args arg1=value --args arg2</code>). Arguments are accessible in templates via <code>argument.name</code>. To pass in string you should use escaped quotes (<code>\&quot;</code>) .</li>
+<li><code>--watch</code> [default: false] - Watch both code and template folders for changes and regenerate automatically.</li>
+<li><code>--verbose</code> [default: false] - Turn on verbose logging</li>
+<li><code>--quiet</code> [default: false] - Turn off any logging, only emmit errors</li>
+<li><code>--disableCache</code> [default: false] - Turn off caching of parsed data</li>
+<li><code>--prune</code> [default: false] - Prune empty generated files</li>
+<li><code>--version</code> - Display the current version of Sourcery</li>
+<li><code>--help</code> - Display help information.</li>
+<li><code>--cacheBasePath</code> - Path to Sourcery internal cache (available only in configuration file)</li>
+</ul>
+
+<p>Use <code>--help</code> to see the list of all available options.</p>
+<h3 id='configuration-file' class='heading'>Configuration file</h3>
+
+<p>You can also provide arguments using configuration file. Some of the configuration features (like excluding files) are only 
+available when using configuration file. You provide path to this file using <code>--config</code> command line option.
+If you provide path to directory Sourcery will search for file <code>.sourcery.yml</code> in this directory. You can also provide
+path to config file itself. By default Sourcery will search for <code>.sourcery.yml</code> in your current path.</p>
+
+<p>Configuration file should be a valid Yaml file, like this:</p>
+<pre class="highlight yaml"><code><span class="s">sources</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">&lt;sources path&gt;</span> <span class="c1"># you can provide either single path or several paths using `-`</span>
+  <span class="pi">-</span> <span class="s">&lt;sources path&gt;</span>
+<span class="s">templates</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">&lt;templates path&gt;</span> <span class="c1"># as well as for templates</span>
+  <span class="pi">-</span> <span class="s">&lt;templates path&gt;</span>
+<span class="s">output</span><span class="pi">:</span>
+  <span class="s">&lt;output path&gt;</span> <span class="c1"># note that there is no `-` here as only single output path is supported</span>
+<span class="s">args</span><span class="pi">:</span>
+  <span class="s">&lt;name&gt;</span><span class="pi">:</span> <span class="s">&lt;value&gt;</span>
+</code></pre>
+<h4 id='sources' class='heading'>Sources</h4>
+
+<p>You can provide sources using paths to directories or specific files.</p>
+<pre class="highlight yaml"><code><span class="s">sources</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">&lt;sources dir path&gt;</span>
+  <span class="pi">-</span> <span class="s">&lt;source file path&gt;</span>
+</code></pre>
+
+<p>Or you can provide project which will be scanned and which source files will be processed. You can use several <code>project</code> or <code>target</code> objects to scan multiple targets from one project or to scan multiple projects.</p>
+<pre class="highlight yaml"><code><span class="s">project</span><span class="pi">:</span>
+  <span class="s">file</span><span class="pi">:</span> <span class="s">&lt;path to xcodeproj file&gt;</span>
+  <span class="s">target</span><span class="pi">:</span>
+    <span class="s">name</span><span class="pi">:</span> <span class="s">&lt;target name&gt;</span>
+    <span class="s">module</span><span class="pi">:</span> <span class="s">&lt;module name&gt; //required if different from target name</span>
+</code></pre>
+<h4 id='excluding-sources-or-templates' class='heading'>Excluding sources or templates</h4>
+
+<p>You can specifiy paths to sources files that should be scanned using <code>include</code> key and paths that should be excluded using <code>exclude</code> key. These can be directory or file paths.</p>
+<pre class="highlight yaml"><code><span class="s">sources</span><span class="pi">:</span>
+  <span class="s">include</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">&lt;sources path to include&gt;</span>
+    <span class="pi">-</span> <span class="s">&lt;sources path to include&gt;</span>
+  <span class="s">exclude</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">&lt;sources path to exclude&gt;</span>
+    <span class="pi">-</span> <span class="s">&lt;sources path to exclude&gt;</span>
+</code></pre>
+
+<p>You can also specify path to include and exclude for templates.
+When source is a project you can use <code>exclude</code> key to exclude some of its source files.</p>
+<pre class="highlight yaml"><code><span class="s">project</span><span class="pi">:</span>
+  <span class="s">file</span><span class="pi">:</span> <span class="s">...</span>
+  <span class="s">target</span><span class="pi">:</span> <span class="s">...</span>
+  <span class="s">exclude</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">&lt;sources path&gt;</span>
+    <span class="pi">-</span> <span class="s">&lt;sources path&gt;</span>
+</code></pre>
+<h4 id='output' class='heading'>Output</h4>
+
+<p>You can specify the output file using <code>output</code> key. This can be a directory path or a file path. If it&rsquo;s a file path, all generated content will be written into this file. If it&rsquo;s a directory path, for each template a separate file will be created with <code>TemplateName.generated.swift</code> name.</p>
+<pre class="highlight yaml"><code><span class="s">output</span><span class="pi">:</span>
+  <span class="s">&lt;output path&gt;</span>
+</code></pre>
+
+<p>Alternatively you can use <code>path</code> key to specify output path.</p>
+<pre class="highlight yaml"><code><span class="s">output</span><span class="pi">:</span>
+  <span class="s">path</span><span class="pi">:</span> <span class="s">&lt;output path&gt;</span>
+</code></pre>
+
+<p>You can use optional <code>link</code> key to automatically link generated files to some target.</p>
+<pre class="highlight yaml"><code><span class="s">output</span><span class="pi">:</span>
+  <span class="s">path</span><span class="pi">:</span> <span class="s">&lt;output path&gt;</span>
+  <span class="s">link</span><span class="pi">:</span>
+    <span class="s">project</span><span class="pi">:</span> <span class="s">&lt;path to the xcodeproj to link to&gt;</span>
+    <span class="s">target</span><span class="pi">:</span> <span class="s">&lt;name of the target to link to&gt;</span>
+    <span class="s">group</span><span class="pi">:</span> <span class="s">&lt;group in the project to add files to&gt; // by default files are added to project's root group</span>
+</code></pre>
+
+<blockquote>
+<p>Note: Paths in configuration file are by default relative to configuration file path. If you want to specify absolute path start it with <code>/</code>.</p>
+</blockquote>
+
+          </section>
+        </section>
+        <section id="footer">
+          <p>Copyright © 2016 Pixle. All rights reserved.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

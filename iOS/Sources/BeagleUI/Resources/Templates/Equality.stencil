@@ -1,0 +1,11 @@
+{% for type in types.implementing.AutoEquatable %}
+// MARK: {{ type.name }} Equatable
+
+extension {{type.name}}: Equatable {
+     public static func ==(lhs: {{type.name}}, rhs: {{type.name}}) -> Bool {
+        {% for variable in type.variables %}guard lhs.{{variable.name}} == rhs.{{variable.name}} else { return false }
+        {% endfor %}
+        return true
+    }
+}
+{% endfor %}

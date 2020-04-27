@@ -1,0 +1,17 @@
+<%_ for type in types.all
+                where (type.implements["AutoInitiable"] != nil) { -%>
+extension <%= type.name %> {
+    <%_ var firstTime: Bool = true -%>
+    <%= type.accessLevel -%> init(<%_ for variable in type.instanceVariables { -%>
+    <%_ if !firstTime { -%>,<%_ } %> <%_ else { %><%= "_" -%><%_ } %> <%= variable.name -%>: <%= variable.unwrappedTypeName _%> <%_ if variable.isOptional { -%>? = nil <%_ } else { _%> <%_ if variable.unwrappedTypeName == "ParentComponent" { -%> = ParentComponent()<%_} -%>
+<%_ } -%>
+    <%_ firstTime = false -%>
+    <%_ } -%>
+    ) {
+        <%_ for variable in type.instanceVariables { -%>
+        self.<%= variable.name %> = <%= variable.name %>
+        <%_ } -%>
+    }
+}
+<%_ } -%>
+

@@ -115,6 +115,10 @@
 		C05E165A2437CC7C0088F9D2 /* buttonAnalyticsComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = C05E16592437CC7C0088F9D2 /* buttonAnalyticsComponent.json */; };
 		C06B1E2E23FAC85E003912CF /* AccessibilityTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06B1E2C23F729E0003912CF /* AccessibilityTest.swift */; };
 		C0B1AAB223F2EE9300F94ECA /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B1AAB123F2EE9300F94ECA /* Accessibility.swift */; };
+		C0D6753424572DEA009F0E94 /* SourceryProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D6753324572DEA009F0E94 /* SourceryProtocols.swift */; };
+		C0D67539245753F8009F0E94 /* Equality.stencil in Resources */ = {isa = PBXBuildFile; fileRef = C0D67536245753F8009F0E94 /* Equality.stencil */; };
+		C0D6753A245753F8009F0E94 /* Initiable.swifttemplate in Resources */ = {isa = PBXBuildFile; fileRef = C0D67537245753F8009F0E94 /* Initiable.swifttemplate */; };
+		C0D6753B245753F8009F0E94 /* AutoParentComponentEncodable.swifttemplate in Resources */ = {isa = PBXBuildFile; fileRef = C0D67538245753F8009F0E94 /* AutoParentComponentEncodable.swifttemplate */; };
 		C62E8EAE2373588900FF1497 /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62E8EAD2373588900FF1497 /* ScrollView.swift */; };
 		C65F25372375E6C2007670EC /* ScrollViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65F25362375E6C2007670EC /* ScrollViewTests.swift */; };
 		C81C9C7423AA9B4800C557D2 /* ListViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CDAA6523AA969300E95AA6 /* ListViewTests.swift */; };
@@ -361,6 +365,10 @@
 		C05E16592437CC7C0088F9D2 /* buttonAnalyticsComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = buttonAnalyticsComponent.json; sourceTree = "<group>"; };
 		C06B1E2C23F729E0003912CF /* AccessibilityTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityTest.swift; sourceTree = "<group>"; };
 		C0B1AAB123F2EE9300F94ECA /* Accessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessibility.swift; sourceTree = "<group>"; };
+		C0D6753324572DEA009F0E94 /* SourceryProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceryProtocols.swift; sourceTree = "<group>"; };
+		C0D67536245753F8009F0E94 /* Equality.stencil */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Equality.stencil; sourceTree = "<group>"; };
+		C0D67537245753F8009F0E94 /* Initiable.swifttemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Initiable.swifttemplate; sourceTree = "<group>"; };
+		C0D67538245753F8009F0E94 /* AutoParentComponentEncodable.swifttemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AutoParentComponentEncodable.swifttemplate; sourceTree = "<group>"; };
 		C62E8EAD2373588900FF1497 /* ScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollView.swift; sourceTree = "<group>"; };
 		C65F25362375E6C2007670EC /* ScrollViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewTests.swift; sourceTree = "<group>"; };
 		C81EAB4923C8BFD70074B9D2 /* Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snapshot.swift; sourceTree = "<group>"; };
@@ -642,6 +650,7 @@
 		932925D12327E11000A61F01 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C0D67535245753A1009F0E94 /* Templates */,
 				932925D22327E11000A61F01 /* BeagleUI.h */,
 				932925D32327E11000A61F01 /* Info.plist */,
 			);
@@ -703,6 +712,7 @@
 		939CE4C4232996FD00EEEDFC /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				C0D6753224572D84009F0E94 /* SourceryFiles */,
 				C048EBD7242B9BB100A24075 /* Analytics */,
 				C0B1AAB023F2EE6D00F94ECA /* Accessibility */,
 				A06823512384863400CEE57A /* Action */,
@@ -926,6 +936,24 @@
 				C06B1E2C23F729E0003912CF /* AccessibilityTest.swift */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		C0D6753224572D84009F0E94 /* SourceryFiles */ = {
+			isa = PBXGroup;
+			children = (
+				C0D6753324572DEA009F0E94 /* SourceryProtocols.swift */,
+			);
+			path = SourceryFiles;
+			sourceTree = "<group>";
+		};
+		C0D67535245753A1009F0E94 /* Templates */ = {
+			isa = PBXGroup;
+			children = (
+				C0D67538245753F8009F0E94 /* AutoParentComponentEncodable.swifttemplate */,
+				C0D67536245753F8009F0E94 /* Equality.stencil */,
+				C0D67537245753F8009F0E94 /* Initiable.swifttemplate */,
+			);
+			path = Templates;
 			sourceTree = "<group>";
 		};
 		C829CE9823B12D13001B7225 /* Flex */ = {
@@ -1567,6 +1595,7 @@
 			buildConfigurationList = 932925E32327E11000A61F01 /* Build configuration list for PBXNativeTarget "BeagleUI" */;
 			buildPhases = (
 				932925CA2327E11000A61F01 /* Headers */,
+				C0D6752A24571CB6009F0E94 /* Sourcery Run Script */,
 				932925CB2327E11000A61F01 /* Sources */,
 				932925CC2327E11000A61F01 /* Frameworks */,
 				932925CD2327E11000A61F01 /* Resources */,
@@ -1650,6 +1679,9 @@
 			files = (
 				9362B6D223E85B4B0033FAD7 /* __Snapshots__ in Resources */,
 				98FD27E92429599100331DD3 /* test_whenDecondingJson_shouldReturnAWebView.1.txt in Resources */,
+				C0D67539245753F8009F0E94 /* Equality.stencil in Resources */,
+				C0D6753A245753F8009F0E94 /* Initiable.swifttemplate in Resources */,
+				C0D6753B245753F8009F0E94 /* AutoParentComponentEncodable.swifttemplate in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1695,6 +1727,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		C0D6752A24571CB6009F0E94 /* Sourcery Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Sourcery Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\n$SRCROOT/../../Libraries/Sourcery/bin/sourcery --sources $SRCROOT/Sources --templates $SRCROOT/Resources/Templates --output $SRCROOT/Sources/SourceryFiles\n";
+			showEnvVarsInLog = 0;
+		};
 		C8E42FCE23C7C6A500B1963F /* Carthage Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1775,6 +1826,7 @@
 				C048EBDB242BD78500A24075 /* Analytics.swift in Sources */,
 				A068234C238430C500CEE57A /* ValidatorProvider.swift in Sources */,
 				C85688BB2433C4A400DD8B60 /* BeagleMessageLogs.swift in Sources */,
+				C0D6753424572DEA009F0E94 /* SourceryProtocols.swift in Sources */,
 				E52236CF2374885600E555BB /* CollectionExtension.swift in Sources */,
 				C0479F57243272460040E30C /* AnalyticsGestureRecognizer.swift in Sources */,
 				A0451C6623BA6A5600F77398 /* UIView+Appearance.swift in Sources */,
