@@ -18,6 +18,9 @@ jobs:
         
       - name: install Carthage
         run: brew install carthage
+
+      - name: install swiftLint
+        run: brew install swiftlint
       
       - name: execute Fastlane
         env:
