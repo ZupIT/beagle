@@ -24,6 +24,7 @@ class BeagleContextSpy: BeagleContext {
     private(set) var didCallRegisterEvents = false
     private(set) var didCallRegisterFormSubmit = false
     private(set) var didCallLazyLoad = false
+    private(set) var didCallLazyLoadImage = false
     private(set) var didCallDoAction = false
     private(set) var didCallRegisterEnabledWidget = false
     private(set) var actionCalled: Action?
@@ -50,6 +51,11 @@ class BeagleContextSpy: BeagleContext {
     func lazyLoad(url: String, initialState: UIView) {
         didCallLazyLoad = true
     }
+    
+    func lazyLoadImage(path: String, placeholderView: UIView, imageView: UIImageView, flex: Flex) {
+        didCallLazyLoadImage = true
+    }
+
 
     func doAction(_ action: Action, sender: Any) {
         didCallDoAction = true
@@ -163,6 +169,32 @@ final class BeagleContextTests: XCTestCase {
         XCTAssert(initialView.superview != nil)
         XCTAssert(initialView.didCallOnUpdateState)
     }
+    
+    func test_lazyLoadImage_shouldReplacePlaceholderContent() {
+        // Given
+        let context = BeagleContextDummy()
+        let dependencies = BeagleScreenDependencies()
+        let placeholderComponent = Text("Loading .. ")
+        let imageComponent = Image(name: "beagle")
+        
+        guard let placeholderView = placeholderComponent.toView(context: context, dependencies: dependencies) as? UITextView,
+              let imageView = imageComponent.toView(context: context, dependencies: dependencies) as? UIImageView else {
+            XCTFail("Unable to transform component to view.")
+            return
+        }
+        
+        let repositoryStub = RepositoryStub(imageResult: .success(Data()))
+        let sut = BeagleScreenViewController(viewModel:
+            .init(screenType: .declarative(ComponentDummy().toScreen()), dependencies: BeagleScreenDependencies(repository: repositoryStub)))
+        sut.view.addSubview(placeholderView)
+        
+        // When
+        sut.lazyLoadImage(path: "url", placeholderView: placeholderView, imageView: imageView, flex: Flex())
+        
+        // Then
+        assert(sut.view.subviews.first == imageView)
+    }
+
 }
 
 // MARK: - Testing Helpers

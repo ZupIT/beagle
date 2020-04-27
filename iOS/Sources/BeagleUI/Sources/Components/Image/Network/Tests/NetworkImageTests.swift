@@ -15,23 +15,63 @@
  */
 
 import XCTest
+import SnapshotTesting
 @testable import BeagleUI
 
 final class NetworkImageTests: XCTestCase {
 
     private let dependencies = BeagleScreenDependencies()
     
+    func test_whenDecodingJson_thenItShouldReturnNetworkImage() throws {
+        let component: NetworkImage = try componentFromJsonFile(fileName: "networkImageComponent")
+        assertSnapshot(matching: component, as: .dump)
+    }
+    
     func test_withInvalidURL_itShouldNotSetImage() throws {
         // Given
         let component = NetworkImage(path: "www.com")
         
         // When
-        guard let imageView = component.toView(context: BeagleContextDummy(), dependencies: BeagleScreenDependencies()) as? UIImageView else {
+        guard let imageView = component.toView(context: BeagleContextDummy(), dependencies: dependencies) as? UIImageView else {
             XCTFail("Build view not returning UIImageView")
             return
         }
         
         // Then
         XCTAssertNil(imageView.image, "Expected image to be nil.")
+    }
+    
+    func test_whenRequestSucceds_shouldReturnNetworkImage() {
+        // Given
+        let component = NetworkImage(path: "url")
+        let repositoryStub = RepositoryStub(imageResult: .success(Data()))
+        let dependencies = BeagleScreenDependencies(repository: repositoryStub)
+        
+        // When
+        guard let imageView = component.toView(context: BeagleContextDummy(), dependencies: dependencies) as? UIImageView else {
+            XCTFail("Build view not returning UIImageView")
+            return
+        }
+        
+        // Then
+        XCTAssertNil(imageView.image, "Expected image to be nil, because of dispatch async.")
+    }
+    
+    func test_whenHasPlaceholder_shouldReturnItAsInitialView() {
+        // Given
+        let component = NetworkImage(path: "url", placeholder: Text("Loading .."))
+        let context = BeagleContextSpy()
+        let repositoryStub = RepositoryStub(imageResult: .success(Data()))
+        let dependencies = BeagleScreenDependencies(repository: repositoryStub)
+        
+        // When
+        guard let placeholderView = component.toView(context: context, dependencies: dependencies) as? UITextView else {
+            XCTFail("Build view not returning Text.")
+            return
+        }
+        
+        // Then
+        XCTAssert(context.didCallLazyLoadImage)
+        XCTAssertNotNil(placeholderView.text, "Expected placeholder to not be nil.")
     }
 }

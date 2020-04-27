@@ -69,6 +69,7 @@
 		988F81FB23E24ECA008562BE /* UIView+Subviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988F81FA23E24ECA008562BE /* UIView+Subviews.swift */; };
 		98A7F36A23A84AFF00E88C70 /* TabView.json in Resources */ = {isa = PBXBuildFile; fileRef = 98A7F36923A84AFF00E88C70 /* TabView.json */; };
 		98B7D95623DB2722002622AC /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B7D95523DB2722002622AC /* Observable.swift */; };
+		98D9FC1024575E7800A7AB79 /* networkImageComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = 98D9FC0F24575E7800A7AB79 /* networkImageComponent.json */; };
 		98E08D1A242289C100FBD21B /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E08D19242289C100FBD21B /* WebView.swift */; };
 		98E08D1C242289D200FBD21B /* WebViewUIComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E08D1B242289D200FBD21B /* WebViewUIComponent.swift */; };
 		98FC964C23EA518600A8CEC8 /* ObservableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FC964B23EA518600A8CEC8 /* ObservableTests.swift */; };
@@ -309,6 +310,7 @@
 		988F81FA23E24ECA008562BE /* UIView+Subviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Subviews.swift"; sourceTree = "<group>"; };
 		98A7F36923A84AFF00E88C70 /* TabView.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TabView.json; sourceTree = "<group>"; };
 		98B7D95523DB2722002622AC /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		98D9FC0F24575E7800A7AB79 /* networkImageComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = networkImageComponent.json; sourceTree = "<group>"; };
 		98E08D19242289C100FBD21B /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		98E08D1B242289D200FBD21B /* WebViewUIComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewUIComponent.swift; sourceTree = "<group>"; };
 		98FC964B23EA518600A8CEC8 /* ObservableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableTests.swift; sourceTree = "<group>"; };
@@ -772,6 +774,14 @@
 				983E8C982396DFC90018C6CA /* TabViewUIComponentTests.swift */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		98D9FC0E24575E5000A7AB79 /* Json */ = {
+			isa = PBXGroup;
+			children = (
+				98D9FC0F24575E7800A7AB79 /* networkImageComponent.json */,
+			);
+			path = Json;
 			sourceTree = "<group>";
 		};
 		98E08D18242289AB00FBD21B /* WebView */ = {
@@ -1312,6 +1322,7 @@
 		C86F892823B28FAE00287D5D /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				98D9FC0E24575E5000A7AB79 /* Json */,
 				93932F4B23E1CF1800F41905 /* NetworkImageTests.swift */,
 			);
 			path = Tests;
@@ -1660,6 +1671,7 @@
 				76191AA9241AC44C00A04C29 /* declarativeText1.json in Resources */,
 				7CDF84952416DD8D00234F40 /* test_UnitValueWithPercentageOperatorAndIntegerValue.1.txt in Resources */,
 				C8FD20B323959AED003E6F5B /* PageViewWith3PagesAndIndicator.json in Resources */,
+				98D9FC1024575E7800A7AB79 /* networkImageComponent.json in Resources */,
 				C05E1652243663C20088F9D2 /* screenAnalyticsComponent.json in Resources */,
 				C05E1658243668E30088F9D2 /* __Snapshots__ in Resources */,
 				93771AFE2417D68D009F7CF3 /* screenComponent.json in Resources */,

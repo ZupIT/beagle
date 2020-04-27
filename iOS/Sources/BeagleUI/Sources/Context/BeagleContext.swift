@@ -30,6 +30,7 @@ public protocol BeagleContext: AnyObject {
     func register(events: [Event], inView view: UIView)
     func register(form: Form, formView: UIView, submitView: UIView, validatorHandler: ValidatorProvider?)
     func lazyLoad(url: String, initialState: UIView)
+    func lazyLoadImage(path: String, placeholderView: UIView, imageView: UIImageView, flex: Flex)
     func doAction(_ action: Action, sender: Any)
     func doAnalyticsAction(_ action: AnalyticsClick, sender: Any)
 }
@@ -244,4 +245,34 @@ extension BeagleScreenViewController: BeagleContext {
             newView.flex.isEnabled = true
         }
     }
+    
+    // MARK: - Lazy load image
+    
+    public func lazyLoadImage(path: String, placeholderView: UIView, imageView: UIImageView, flex: Flex) {
+        dependencies.repository.fetchImage(url: path, additionalData: nil) {
+            [weak self] result in guard let self = self else { return }
+            switch result {
+            case .success(let data):
+                let image = UIImage(data: data)
+                imageView.image = image
+                self.update(from: placeholderView, to: imageView, flex: flex)
+            case .failure(_):
+                let image = UIImage(named: "") /// TODO: DISCUSS WITH ANDROID
+                imageView.image = image
+                self.update(from: placeholderView, to: imageView, flex: flex)
+            }
+        }
+    }
+    
+    private func update(from placeholderView: UIView, to imageView: UIImageView, flex: Flex) {
+        placeholderView.flex.markDirty()
+        guard let superview = placeholderView.superview else { return }
+        
+        imageView.flex.setup(flex)
+        superview.insertSubview(imageView, belowSubview: placeholderView)
+        placeholderView.removeFromSuperview()
+        
+        applyLayout()
+    }
+
 }

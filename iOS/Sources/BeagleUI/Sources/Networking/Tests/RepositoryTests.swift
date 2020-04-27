@@ -143,6 +143,31 @@ final class RepositoryTests: XCTestCase {
             return
         }
     }
+    
+    func test_whenValidURL_shouldCompleteImageRequest() {
+        // Given
+        let clientStub = NetworkClientStub(result: .success(.init(data: Data(), response: URLResponse())))
+        let sut = RepositoryDefault(dependencies: Dependencies(
+            networkClient: clientStub
+        ))
+        
+        let url = "www.image.com"
+        
+        // When
+        var dataReturned: Data?
+        let expec = expectation(description: "fetchImageExpectation")
+        sut.fetchImage(url: url, additionalData: nil) { result in
+            if case .success(let data) = result {
+                dataReturned = data
+            }
+            expec.fulfill()
+        }
+        wait(for: [expec], timeout: 1.0)
+        
+        // Then
+        XCTAssertNotNil(dataReturned)
+    }
+
 }
 
 // MARK: - Testing Helpers
