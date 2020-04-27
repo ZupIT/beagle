@@ -20,9 +20,9 @@ import android.content.Context
 import androidx.appcompat.widget.AppCompatButton
 import br.com.zup.beagle.engine.renderer.ui.setData
 import br.com.zup.beagle.interfaces.OnStateUpdatable
-import br.com.zup.beagle.interfaces.StateChangeable
-import br.com.zup.beagle.interfaces.WidgetState
-import br.com.zup.beagle.state.Observable
+import br.com.zup.beagle.widget.interfaces.StateChangeable
+import br.com.zup.beagle.widget.interfaces.WidgetState
+import br.com.zup.beagle.widget.state.Observable
 import br.com.zup.beagle.widget.ui.Button as ButtonWidget
 
 internal class BeagleButtonView(context: Context) : AppCompatButton(context),
