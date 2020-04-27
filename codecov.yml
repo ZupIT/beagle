@@ -40,12 +40,13 @@ flags:
   ios:
     paths:
       - iOS/
+    carryforward: true
   android:
     paths:
       - android/
       - backend/
       - common/
-
+    carryforward: true
 ignore:
  - "iOS/Sources/BeagleUI/**/Tests/"
  - "iOS/Sources/BeagleUI/**/*Test*.swift"
