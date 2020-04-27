@@ -33,6 +33,7 @@ import kotlin.test.assertEquals
 
 private val URL = RandomData.string()
 private val SCREEN_REQUEST = ScreenRequest(URL)
+private val RESPONSE_BODY = RandomData.string()
 
 @ExperimentalCoroutinesApi
 class ComponentRequesterTest {
@@ -43,6 +44,11 @@ class ComponentRequesterTest {
     private lateinit var serializer: BeagleSerializer
     @MockK
     private lateinit var cacheManager: CacheManager
+
+    private val beagleCache = mockk<BeagleCache>() {
+        every { isHot } returns true
+        every { json } returns RESPONSE_BODY
+    }
 
     private lateinit var componentRequester: ComponentRequester
 
@@ -58,17 +64,32 @@ class ComponentRequesterTest {
     }
 
     @Test
-    fun fetchComponent_should_call_its_dependencies_in_sequence() = runBlockingTest {
+    fun fetchComponent_should_restore_json_from_hot_cache() = runBlockingTest {
         // Given
-        val responseBody = RandomData.string()
+        val component = mockk<ServerDrivenComponent>()
+
+        every { cacheManager.restoreBeagleCacheForUrl(any()) } returns beagleCache
+        every { serializer.deserializeComponent(any()) } returns component
+
+        // When
+        val actualComponent = componentRequester.fetchComponent(SCREEN_REQUEST)
+
+        // Then
+        verify { serializer.deserializeComponent(RESPONSE_BODY) }
+        assertEquals(component, actualComponent)
+    }
+
+    @Test
+    fun fetchComponent_should_call_api() = runBlockingTest {
+        // Given
         val component = mockk<ServerDrivenComponent>()
         val responseData = mockk<ResponseData>()
-        val beagleCache = mockk<BeagleCache>()
+        every { beagleCache.isHot } returns false
 
         every { cacheManager.restoreBeagleCacheForUrl(any()) } returns beagleCache
         every { cacheManager.screenRequestWithCache(any(), any()) } returns SCREEN_REQUEST
         coEvery { beagleApi.fetchData(any()) } returns responseData
-        every { cacheManager.handleResponseData(any(), any(), any()) } returns responseBody
+        every { cacheManager.handleResponseData(any(), any(), any()) } returns RESPONSE_BODY
         every { serializer.deserializeComponent(any()) } returns component
 
         // When
@@ -80,7 +101,7 @@ class ComponentRequesterTest {
             cacheManager.screenRequestWithCache(SCREEN_REQUEST, beagleCache)
             beagleApi.fetchData(SCREEN_REQUEST)
             cacheManager.handleResponseData(URL, beagleCache, responseData)
-            serializer.deserializeComponent(responseBody)
+            serializer.deserializeComponent(RESPONSE_BODY)
         }
         assertEquals(component, actualComponent)
     }

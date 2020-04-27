@@ -29,6 +29,7 @@ private const val BEAGLE_HASH = "beagle-hash"
 private const val CACHE_CONTROL_HEADER = "cache-control"
 
 internal data class BeagleCache(
+    val isHot: Boolean,
     val hash: String,
     val json: String
 )
@@ -53,15 +54,12 @@ internal class CacheManager(
         }
     }
 
-    private fun checkMemoryCacheAndReturn(timerCache: TimerCache): BeagleCache? {
-        return if (timerCache.isValid()) {
-            return BeagleCache(
-                hash = timerCache.hash,
-                json = timerCache.json
-            )
-        } else {
-            null
-        }
+    private fun checkMemoryCacheAndReturn(timerCache: TimerCache): BeagleCache {
+        return BeagleCache(
+            isHot = timerCache.isValid(),
+            hash = timerCache.hash,
+            json = timerCache.json
+        )
     }
 
     private fun restoreCacheFromDisk(url: String, beagleHashKey: String): BeagleCache? {
@@ -71,7 +69,10 @@ internal class CacheManager(
         val beagleJson = cachedData[beagleJsonKey]
 
         return if (beagleHashValue != null && beagleJson != null) {
+            persistCacheOnMemory(url, beagleJson, beagleHashValue, null)
+
             return BeagleCache(
+                isHot = false,
                 hash = beagleHashValue,
                 json = beagleJson
             )
@@ -103,30 +104,39 @@ internal class CacheManager(
             beagleCache.json
         } else {
             return String(responseData.data).apply {
-                if (isEnabled()) {
-                    persistCacheData(url, this, responseData)
+                val beagleHash = responseData.headers[BEAGLE_HASH]
+                if (isEnabled() && beagleHash != null) {
+                    persistCacheDataOnDisk(url, this, beagleHash)
+                    val cacheControl = responseData.headers[CACHE_CONTROL_HEADER]
+                    persistCacheOnMemory(url, this, beagleHash, cacheControl)
                 }
             }
         }
     }
 
-    private fun persistCacheData(url: String, responseBody: String, responseData: ResponseData) {
-        val newBeagleHash = responseData.headers[BEAGLE_HASH]
-        if (newBeagleHash != null) {
-            val cacheKey = url.toBeagleHashKey()
-            val data = mapOf(
-                cacheKey to newBeagleHash,
-                url.toBeagleJsonKey() to responseBody
-            )
-            storeHandler.save(StoreType.DATABASE, data)
-            val maxTime = getMaxAgeFromCacheControl(responseData.headers[CACHE_CONTROL_HEADER])
-            timerCacheStore.save(cacheKey, TimerCache(
-                maxTime = maxTime,
-                cachedTime = nanoTimeInSeconds(),
-                hash = newBeagleHash,
-                json = responseBody
-            ))
-        }
+    private fun persistCacheDataOnDisk(url: String, responseBody: String, beagleHash: String) {
+        val cacheKey = url.toBeagleHashKey()
+        val data = mapOf(
+            cacheKey to beagleHash,
+            url.toBeagleJsonKey() to responseBody
+        )
+        storeHandler.save(StoreType.DATABASE, data)
+    }
+
+    private fun persistCacheOnMemory(
+        url: String,
+        responseBody: String,
+        beagleHash: String,
+        cacheControl: String?
+    ) {
+        val cacheKey = url.toBeagleHashKey()
+        val maxTime = getMaxAgeFromCacheControl(cacheControl)
+        timerCacheStore.save(cacheKey, TimerCache(
+            maxTime = maxTime,
+            cachedTime = nanoTimeInSeconds(),
+            hash = beagleHash,
+            json = responseBody
+        ))
     }
 
     private fun getMaxAgeFromCacheControl(cacheControl: String?): Long {

@@ -32,9 +32,13 @@ internal class ComponentRequester(
     suspend fun fetchComponent(screenRequest: ScreenRequest): ServerDrivenComponent {
         val url = screenRequest.url
         val beagleCache = cacheManager.restoreBeagleCacheForUrl(url)
-        val newScreenRequest = cacheManager.screenRequestWithCache(screenRequest, beagleCache)
-        val responseData = beagleApi.fetchData(newScreenRequest)
-        val responseBody = cacheManager.handleResponseData(url, beagleCache, responseData)
+        val responseBody = if (beagleCache?.isHot == true) {
+            beagleCache.json
+        } else {
+            val newScreenRequest = cacheManager.screenRequestWithCache(screenRequest, beagleCache)
+            val responseData = beagleApi.fetchData(newScreenRequest)
+            cacheManager.handleResponseData(url, beagleCache, responseData)
+        }
         return serializer.deserializeComponent(responseBody)
     }
 }

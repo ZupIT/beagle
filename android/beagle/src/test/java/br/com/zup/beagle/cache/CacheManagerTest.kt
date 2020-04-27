@@ -64,6 +64,8 @@ class CacheManagerTest {
     private lateinit var beagleEnvironment: BeagleEnvironment
     @MockK
     private lateinit var responseData: ResponseData
+    @MockK
+    private lateinit var timerCache: TimerCache
 
     private lateinit var cacheManager: CacheManager
 
@@ -81,6 +83,8 @@ class CacheManagerTest {
             beagleEnvironment
         )
 
+        every { timerCache.json } returns BEAGLE_JSON_VALUE
+        every { timerCache.hash } returns BEAGLE_HASH_VALUE
         every { beagleEnvironment.beagleSdk.config.cache.enabled } returns true
         every { beagleEnvironment.beagleSdk.config.cache.maxAge } returns INVALIDATION_TIME
         every { timerCacheStore.restore(any()) } returns null
@@ -117,34 +121,31 @@ class CacheManagerTest {
     @Test
     fun restoreBeagleCacheForUrl_should_return_beagleCache_when_timer_is_valid() {
         // Given
-        every { timerCacheStore.restore(any()) } returns mockk {
-            every { isValid() } returns true
-            every { json } returns BEAGLE_JSON_VALUE
-            every { hash } returns BEAGLE_HASH_VALUE
-        }
+        every { timerCacheStore.restore(any()) } returns timerCache
+        every { timerCache.isValid() } returns true
 
         // When
         val actual = cacheManager.restoreBeagleCacheForUrl(URL)
 
         // Then
         verify(exactly = 1) { timerCacheStore.restore(BEAGLE_HASH_KEY) }
+        assertTrue { actual?.isHot == true }
         assertEquals(BEAGLE_JSON_VALUE, actual?.json)
         assertEquals(BEAGLE_HASH_VALUE, actual?.hash)
     }
 
     @Test
-    fun restoreBeagleCacheForUrl_should_return_null_when_timer_is_not_valid() {
+    fun restoreBeagleCacheForUrl_should_return_isHot_false_when_timer_is_not_valid() {
         // Given
-        every { timerCacheStore.restore(any()) } returns mockk {
-            every { isValid() } returns false
-        }
+        every { timerCacheStore.restore(any()) } returns timerCache
+        every { timerCache.isValid() } returns false
 
         // When
         val actual = cacheManager.restoreBeagleCacheForUrl(URL)
 
         // Then
         verify(exactly = 1) { timerCacheStore.restore(BEAGLE_HASH_KEY) }
-        assertNull(actual)
+        assertTrue { actual?.isHot == false }
     }
 
     @Test
@@ -253,8 +254,21 @@ class CacheManagerTest {
         cacheManager.handleResponseData(URL, null, responseData)
 
         // Then
-        verify(exactly = 0) { responseData.headers[BEAGLE_HASH] }
         verify(exactly = 0) { storeHandler.save(StoreType.DATABASE, any()) }
+        verify(exactly = 0) { timerCacheStore.save(any(), any()) }
+    }
+
+    @Test
+    fun handleResponseData_should_not_call_store_cache_if_beagleCache_header_is_not_present() {
+        // Given
+        every { responseData.headers[BEAGLE_HASH] } returns null
+
+        // When
+        cacheManager.handleResponseData(URL, null, responseData)
+
+        // Then
+        verify(exactly = 0) { storeHandler.save(StoreType.DATABASE, any()) }
+        verify(exactly = 0) { timerCacheStore.save(any(), any()) }
     }
 
     @Test
