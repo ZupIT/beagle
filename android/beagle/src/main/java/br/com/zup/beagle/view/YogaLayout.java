@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+/*
+ * This file is part of https://github.com/facebook/yoga which is originally released under MIT License.
+ * See file https://github.com/facebook/yoga/blob/master/android/src/main/java/com/facebook/yoga/android/YogaLayout.java
+ * or go to https://github.com/facebook/yoga/blob/master/LICENSE for full license details.
+ */
+
 package br.com.zup.beagle.view;
 
 import android.annotation.SuppressLint;
