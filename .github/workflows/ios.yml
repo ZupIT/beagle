@@ -44,6 +44,13 @@ jobs:
 
       - name: 'install all ruby dependencies (e.g: Fastlane)'
         run: bundle install
+
+      - name: Danger
+        uses: danger/swift@2.0.3
+        with:
+            args: --failOnErrors --no-publish-check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       - name: execute Fastlane
         env:
