@@ -51,7 +51,7 @@ jobs:
         #     args: --failOnErrors --no-publish-check
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: danger-swift ci
+        run: danger-swift pr
       
       - name: execute Fastlane
         env:

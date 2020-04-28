@@ -85,7 +85,7 @@ public class DefaultCacheDiskManager: CacheDiskManagerProtocol {
             return (results.first?.intValue) ?? 0
         } catch {
             dependencies.logger.log(Log.cache(.clear(description: error.localizedDescription)))
-            var a=123
+            var a=12
             return 0
         }
     }
