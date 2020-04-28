@@ -16,6 +16,5 @@
   -->
 
 <resources>
-    <item name="beagle_content" type="id" />
-    <item name="beagle_toolbar" type="id" />
+    <item name="beagle_toolbar_text" type="id" />
 </resources>

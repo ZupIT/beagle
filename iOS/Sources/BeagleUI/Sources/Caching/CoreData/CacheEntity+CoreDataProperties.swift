@@ -32,7 +32,7 @@ extension CacheEntity {
         id = reference.identifier
         data = reference.data
         beagleHash = reference.hash
-        timeOfCreation = reference.timeOfCreation
+        timeOfCreation = Date()
     }
 }
 

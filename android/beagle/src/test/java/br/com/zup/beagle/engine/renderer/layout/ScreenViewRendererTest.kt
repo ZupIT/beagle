@@ -216,8 +216,8 @@ class ScreenViewRendererTest : BaseTest() {
 
         //THEN
         verifyOrder {
-            toolbarManager.configureToolbar(context, navigationBar)
             toolbarManager.configureNavigationBarForScreen(context, navigationBar)
+            toolbarManager.configureToolbar(context, navigationBar)
         }
     }
 }
