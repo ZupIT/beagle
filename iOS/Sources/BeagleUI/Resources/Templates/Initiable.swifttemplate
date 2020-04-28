@@ -21,8 +21,8 @@ func variableOptionalAndValue(_ variable: Variable) -> String {
     <%_ var firstTime: Bool = true -%>
     <%_ var lastTime: Bool = false -%>
 <%= "\t" + type.accessLevel -%> init(<% for i in 0 ..< type.instanceVariables.count { -%> <% let variable = type.instanceVariables[i] -%>
-        <%_= variableNameAndType(variable, firstTime) -%> <%_= variableOptionalAndValue(variable) -%>
-         <%_ firstTime = false -%>
+        <%_= variableNameAndType(variable, firstTime) -%> <%_= variableOptionalAndValue(variable)-%>
+        <%_ firstTime = false -%>
     <%_ } %>
     ) {
         <%_ for variable in type.instanceVariables { -%>

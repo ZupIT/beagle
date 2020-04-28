@@ -16,7 +16,7 @@
 
 import UIKit
 
-public struct Button: WidgetComponent, ClickedOnComponent, AutoInitiable {
+public struct Button: WidgetComponent, ClickedOnComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
     public let text: String
@@ -129,23 +129,4 @@ extension Button: Renderable {
             dependencies?.theme.applyStyle(for: self as UIButton, withId: style)
         }
     }
-    
 }
-
-//extension Button: Decodable {
-//    enum CodingKeys: String, CodingKey {
-//        case text
-//        case style
-//        case action
-//        case clickAnalyticsEvent
-//    }
-//    
-//    public init(from decoder: Decoder) throws {
-//        let container = try decoder.container(keyedBy: CodingKeys.self)
-//        self.text = try container.decode(String.self, forKey: .text)
-//        self.action = try container.decodeIfPresent(forKey: .action)
-//        self.clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
-//        self.style = try container.decodeIfPresent(String.self, forKey: .style)
-//        self.widgetProperties = try WidgetProperties(from: decoder)
-//    }
-//}
