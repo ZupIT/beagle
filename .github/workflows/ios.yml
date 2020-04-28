@@ -20,10 +20,10 @@ jobs:
       #     key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
       #     restore-keys: ${{ runner.os }}-gem-
 
-      - name: Bundler
-        run: bundle install
-      - name: Install dependencies
-        run: sh ./bootstrap.sh
+      # - name: Bundler
+      #   run: bundle install
+      # - name: Install dependencies
+      #   run: sh ./bootstrap.sh
 
       # - name: 'install all ruby dependencies (e.g: Fastlane)'
       #   run: bundle install
@@ -36,8 +36,8 @@ jobs:
       - name: install Carthage
         run: brew install carthage
 
-      # - name: install swiftLint
-      #   run: brew install swiftlint
+      - name: install swiftLint
+        run: brew install swiftlint
       
       - name: execute Fastlane
         env:
