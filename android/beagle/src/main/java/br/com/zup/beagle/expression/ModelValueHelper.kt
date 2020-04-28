@@ -22,7 +22,8 @@ import br.com.zup.beagle.data.FetchDataListener
 import br.com.zup.beagle.view.ScreenRequest
 
 class ModelValueHelper(private val dataBindingComponent: DataBindingComponent,
-                       private val beagleService: BeagleServiceWrapper = BeagleServiceWrapper()) {
+                       private val beagleService: BeagleServiceWrapper = BeagleServiceWrapper(),
+                       private val jsonParser: JsonParser = JsonParser()) {
 
     fun fetchModelValue(onSuccess: (Value) -> Unit,
                         onError: (Throwable) -> Unit) {
@@ -33,7 +34,7 @@ class ModelValueHelper(private val dataBindingComponent: DataBindingComponent,
                     ScreenRequest(url = dataBindingComponent.modelPath ?: ""),
                     object : FetchDataListener {
                         override fun onSuccess(json: String) {
-                            onSuccess(JsonParser().parseJsonToValue(json))
+                            onSuccess(jsonParser.parseJsonToValue(json))
                         }
 
                         override fun onError(error: Throwable) {
@@ -41,7 +42,7 @@ class ModelValueHelper(private val dataBindingComponent: DataBindingComponent,
                         }
                     })
             } else if (dataBindingComponent.modelJson.isNullOrEmpty().not()) {
-                val data = JsonParser().parseJsonToValue(dataBindingComponent.modelJson ?: "")
+                val data = jsonParser.parseJsonToValue(dataBindingComponent.modelJson ?: "")
                 onSuccess(data)
             }
         } catch (e: Exception) {
