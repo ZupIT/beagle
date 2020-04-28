@@ -28,10 +28,10 @@ jobs:
       # - name: 'install all ruby dependencies (e.g: Fastlane)'
       #   run: bundle install
 
-      - name: Run code validation
-        run: bundle exec danger
-        env:
-          DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
+      # - name: Run code validation
+      #   run: bundle exec danger
+      #   env:
+      #     DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
         
       - name: install Carthage
         run: brew install carthage
