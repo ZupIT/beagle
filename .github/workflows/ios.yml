@@ -30,8 +30,8 @@ jobs:
       #   env:
       #     DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
       
-      - name: install danger
-        run: npm install -g danger
+      # - name: install danger
+      #   run: npm install -g danger
 
       - name: install danger-lin
         run: brew install danger/tap/danger-swift  
