@@ -46,7 +46,7 @@ end
 
 desc "Publish new release based on last two tags"
 lane :deploy do
-  git_pull(only_tags: true)
+  git_pull
   ENV["VERSION_DEPLOY"] = last_git_tag
   sh "fastlane android remote_publish"
 
