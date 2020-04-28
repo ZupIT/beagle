@@ -25,7 +25,7 @@ final class BeagleNavigatorTests: XCTestCase {
         let action = Navigate.openDeepLink(.init(
             path: "https://example.com/screen.json"
         ))
-        let context = BeagleScreenViewController(ComponentDummy())
+        let context = BeagleScreenViewController(component: ComponentDummy())
         let navigation = BeagleNavigationController(rootViewController: context)
         
         // When
@@ -45,8 +45,8 @@ final class BeagleNavigatorTests: XCTestCase {
     
     private func swapViewTest(_ navigate: Navigate) {
         let sut = BeagleNavigator(dependencies: NavigatorDependencies())
-        let firstViewController = BeagleScreenViewController(Text("First"))
-        let secondViewController = BeagleScreenViewController(Text("Second"))
+        let firstViewController = BeagleScreenViewController(component: Text("First"))
+        let secondViewController = BeagleScreenViewController(component: Text("Second"))
         let navigation = BeagleNavigationController()
         navigation.viewControllers = [firstViewController, secondViewController]
         
@@ -66,7 +66,7 @@ final class BeagleNavigatorTests: XCTestCase {
     
     private func addViewTest(_ navigate: Navigate) {
         let sut = BeagleNavigator(dependencies: NavigatorDependencies())
-        let firstViewController = BeagleScreenViewController(Text("First"))
+        let firstViewController = BeagleScreenViewController(component: Text("First"))
         let navigation = BeagleNavigationController(rootViewController: firstViewController)
         
         sut.navigate(action: navigate, context: firstViewController)
@@ -94,9 +94,9 @@ final class BeagleNavigatorTests: XCTestCase {
         // Given
         let sut = BeagleNavigator(dependencies: NavigatorDependencies())
         let action = Navigate.popView
-        let firstViewController = BeagleScreenViewController(Text("First"))
-        let secondViewController = BeagleScreenViewController(Text("Second"))
-        let thirdViewController = BeagleScreenViewController(Text("Third"))
+        let firstViewController = BeagleScreenViewController(component: Text("First"))
+        let secondViewController = BeagleScreenViewController(component: Text("Second"))
+        let thirdViewController = BeagleScreenViewController(component: Text("Third"))
         let navigation = BeagleNavigationController()
         navigation.viewControllers = [firstViewController, secondViewController, thirdViewController]
 
@@ -225,7 +225,7 @@ final class BeagleNavigatorTests: XCTestCase {
         let data = ["uma": "uma", "dois": "duas"]
         let path = "https://example.com/screen.json"
         let action = Navigate.openDeepLink(.init(path: path, data: data))
-        let firstViewController = BeagleScreenViewController(Text("First"))
+        let firstViewController = BeagleScreenViewController(component: Text("First"))
         let navigation = BeagleNavigationController(rootViewController: firstViewController)
         
         // When
@@ -260,7 +260,7 @@ class BeagleContextDummy: BeagleContext {
     let viewController: BeagleScreenViewController
     
     init() {
-        self.viewController = BeagleScreenViewController(ComponentDummy())
+        self.viewController = BeagleScreenViewController(component: ComponentDummy())
     }
     
     init(viewController: BeagleScreenViewController) {

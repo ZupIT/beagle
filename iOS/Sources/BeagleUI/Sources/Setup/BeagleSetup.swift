@@ -33,6 +33,6 @@ public class Beagle {
     }
 
     public static func screen(_ type: ScreenType) -> BeagleScreenViewController {
-        return BeagleScreenViewController(viewModel: .init(screenType: type))
+        return BeagleScreenViewController(type)
     }
 }

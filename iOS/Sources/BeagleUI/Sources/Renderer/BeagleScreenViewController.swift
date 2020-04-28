@@ -43,16 +43,20 @@ public class BeagleScreenViewController: UIViewController {
     
     // MARK: - Initialization
     
-    public convenience init(_ component: ServerDrivenComponent) {
-        self.init(component.toScreen())
+    public convenience init(component: ServerDrivenComponent) {
+        self.init(screen: component.toScreen())
     }
     
-    public convenience init(_ screen: Screen) {
-        self.init(viewModel: .init(screenType: .declarative(screen)))
+    public convenience init(screen: Screen) {
+        self.init(.declarative(screen))
     }
     
-    public convenience init(_ remote: ScreenType.Remote) {
-        self.init(viewModel: .init(screenType: .remote(remote)))
+    public convenience init(remote: ScreenType.Remote) {
+        self.init(.remote(remote))
+    }
+    
+    public convenience init(_ screenType: ScreenType) {
+        self.init(viewModel: .init(screenType: screenType))
     }
     
     required init(viewModel: BeagleScreenViewModel) {

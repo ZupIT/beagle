@@ -21,7 +21,7 @@ struct WebViewScreen: DeeplinkScreen {
     init(path: String, data: [String : String]?) {}
     
     func screenController() -> UIViewController {
-        return BeagleScreenViewController(screen)
+        return BeagleScreenViewController(screen: screen)
     }
     
     var screen: Screen {

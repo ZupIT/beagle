@@ -128,7 +128,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
                 appearance: Appearance(backgroundColor: "#00FF00")
             )
         )
-        let screenController = BeagleScreenViewController(screen)
+        let screenController = BeagleScreenViewController(screen: screen)
         screenController.additionalSafeAreaInsets = UIEdgeInsets(top: 10, left: 20, bottom: 30, right: 40)
         let navigation = BeagleNavigationController(rootViewController: screenController)
         navigation.navigationBar.barTintColor = .white
@@ -248,7 +248,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
 
         let json = try jsonFromFile(fileName: "declarativeText2")
 
-        let screen = BeagleScreenViewController(Container(children: []))
+        let screen = BeagleScreenViewController(component: Container(children: []))
         
         screen.reloadScreen(with: .declarativeText(json))
 

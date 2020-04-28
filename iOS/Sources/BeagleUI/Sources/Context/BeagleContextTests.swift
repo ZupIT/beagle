@@ -29,7 +29,7 @@ class BeagleContextSpy: BeagleContext {
     private(set) var actionCalled: Action?
     private(set) var didCallApplyLayout = true
 
-    var screenController: BeagleScreenViewController = BeagleScreenViewController(Text(""))
+    var screenController = BeagleScreenViewController(component: Text(""))
 
     func register(events: [Event], inView view: UIView) {
         didCallRegisterEvents = true
