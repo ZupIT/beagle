@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.action
 
+//todo change this class name
 data class FormValidation(
     val errors: List<FieldError>
 ) : Action
