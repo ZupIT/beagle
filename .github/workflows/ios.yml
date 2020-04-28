@@ -8,7 +8,7 @@ on:
 
 jobs:
   pr_verification:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     
     steps:
       - uses: actions/checkout@v2
@@ -34,7 +34,7 @@ jobs:
       #   run: npm install -g danger
 
       - name: install danger-lin
-        run: brew install danger/tap/danger-swift  
+        run: brew install danger/tap/danger-swift
 
       - name: install Carthage
         run: brew install carthage
