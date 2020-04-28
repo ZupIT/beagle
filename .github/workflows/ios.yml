@@ -20,6 +20,8 @@ jobs:
       #     key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
       #     restore-keys: ${{ runner.os }}-gem-
 
+      - name: Bundler
+        run: bundle install
       - name: Install dependencies
         run: sh ./bootstrap.sh
 
