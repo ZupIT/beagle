@@ -19,8 +19,10 @@ jobs:
       - name: install Carthage
         run: brew install carthage
 
-      - name: install swiftLint
-        run: brew install swiftlint
+      - name: Danger
+        uses: 417-72KI/danger-swiftlint@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       - name: execute Fastlane
         env:
