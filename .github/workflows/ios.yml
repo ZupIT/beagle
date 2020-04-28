@@ -11,18 +11,32 @@ jobs:
     runs-on: macos-latest
     
     steps:
+      - name: Checkout
       - uses: actions/checkout@v2
 
-      - name: 'install all ruby dependencies (e.g: Fastlane)'
-        run: bundle install
+      - name: Cache RubyGems
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: ${{ runner.os }}-gem-
+
+      - name: Install dependencies
+        run: sh ./bootstrap.sh
+
+      # - name: 'install all ruby dependencies (e.g: Fastlane)'
+      #   run: bundle install
+
+      - name: Run code validation
+        run: bundle exec danger
+        env:
+          DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
         
       - name: install Carthage
         run: brew install carthage
 
-      - name: Danger
-        uses: 417-72KI/danger-swiftlint@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: install swiftLint
+      #   run: brew install swiftlint
       
       - name: execute Fastlane
         env:

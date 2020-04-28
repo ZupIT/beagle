@@ -85,7 +85,6 @@ public class DefaultCacheDiskManager: CacheDiskManagerProtocol {
             return (results.first?.intValue) ?? 0
         } catch {
             dependencies.logger.log(Log.cache(.clear(description: error.localizedDescription)))
-            print("")
             return 0
         }
     }
