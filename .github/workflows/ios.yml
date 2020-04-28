@@ -25,9 +25,6 @@ jobs:
       # - name: Install dependencies
       #   run: sh ./bootstrap.sh
 
-      # - name: 'install all ruby dependencies (e.g: Fastlane)'
-      #   run: bundle install
-
       # - name: Run code validation
       #   run: bundle exec danger
       #   env:
@@ -38,6 +35,9 @@ jobs:
 
       - name: install swiftLint
         run: brew install swiftlint
+
+      - name: 'install all ruby dependencies (e.g: Fastlane)'
+        run: bundle install
       
       - name: execute Fastlane
         env:
