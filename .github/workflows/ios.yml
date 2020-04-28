@@ -8,7 +8,7 @@ on:
 
 jobs:
   pr_verification:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     
     steps:
       - uses: actions/checkout@v2
@@ -51,6 +51,7 @@ jobs:
             args: --failOnErrors --no-publish-check
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: danger-swift ci
       
       - name: execute Fastlane
         env:
