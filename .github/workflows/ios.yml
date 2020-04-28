@@ -33,7 +33,7 @@ jobs:
       - name: install danger
         run: npm install -g danger
 
-      -name: install danger-lin
+      - name: install danger-lin
         run: brew install danger/tap/danger-swift  
 
       - name: install Carthage
