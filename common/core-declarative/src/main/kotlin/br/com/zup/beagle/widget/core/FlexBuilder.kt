@@ -187,3 +187,5 @@ class FlexBuilder {
         )
     }
 }
+
+fun Widget.applyFlex(flexBuilder: FlexBuilder) = this.applyflex(flexBuilder.build())
