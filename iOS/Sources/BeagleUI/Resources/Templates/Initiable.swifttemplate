@@ -1,17 +1,35 @@
-<%_ for type in types.all
-                where (type.implements["AutoInitiable"] != nil) { -%>
-extension <%= type.name %> {
+<%
+func variableNameAndType(_ variable: Variable, _ isFirstTime: Bool) -> String {
+    let first = isFirstTime ? "\n\t\t" : ",\n\t\t"
+    let nameAndType = "\(variable.name): \(variable.unwrappedTypeName)"
+    return first + nameAndType
+}
+
+func variableOptionalAndValue(_ variable: Variable, isLastTime: Bool) -> String {
+    var last = isLastTime ? "" : ""
+    if variable.isOptional {
+        return "? = nil" + last
+    } else if variable.unwrappedTypeName == "WidgetProperties" {
+        return " = WidgetProperties()" + last
+    } else {
+        return "" + last
+    }
+}
+-%>
+<% for type in types.all
+    where (type.implements["AutoInitiable"] != nil) { -%>
+// sourcery:inline:auto:<%= type.name %>.Init
     <%_ var firstTime: Bool = true -%>
-    <%= type.accessLevel -%> init(<%_ for variable in type.instanceVariables { -%>
-    <%_ if !firstTime { -%>,<%_ } %> <%_ else { %><%= "_" -%><%_ } %> <%= variable.name -%>: <%= variable.unwrappedTypeName _%> <%_ if variable.isOptional { -%>? = nil <%_ } else { _%> <%_ if variable.unwrappedTypeName == "ParentComponent" { -%> = ParentComponent()<%_} -%>
-<%_ } -%>
-    <%_ firstTime = false -%>
-    <%_ } -%>
+    <%_ var lastTime: Bool = false -%>
+<%= "\t" + type.accessLevel -%> init(<% for i in 0 ..< type.instanceVariables.count { -%> <% let variable = type.instanceVariables[i] -%>
+        <%_= variableNameAndType(variable, firstTime) -%> <%_= variableOptionalAndValue(variable, isLastTime: (i == type.instanceVariables.count - 1)) -%>
+         <%_ firstTime = false -%>
+    <%_ } %>
     ) {
         <%_ for variable in type.instanceVariables { -%>
         self.<%= variable.name %> = <%= variable.name %>
         <%_ } -%>
     }
-}
-<%_ } -%>
+// sourcery:end
 
+<%_ } %>

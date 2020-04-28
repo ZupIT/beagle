@@ -16,7 +16,7 @@
 
 import UIKit
 
-public struct Button: WidgetComponent, ClickedOnComponent {
+public struct Button: WidgetComponent, ClickedOnComponent, AutoInitiable {
     
     // MARK: - Public Properties
     public let text: String
@@ -24,13 +24,14 @@ public struct Button: WidgetComponent, ClickedOnComponent {
     public let action: Action?
     public var clickAnalyticsEvent: AnalyticsClick?
     public var widgetProperties: WidgetProperties
-    
-    public init(
-        text: String,
-        style: String? = nil,
-        action: Action? = nil,
-        clickAnalyticsEvent: AnalyticsClick? = nil,
-        widgetProperties: WidgetProperties = WidgetProperties()
+
+// sourcery:inline:auto:Button.Init
+	public init( 
+		text: String ,
+		style: String? = nil ,
+		action: Action? = nil ,
+		clickAnalyticsEvent: AnalyticsClick? = nil ,
+		widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.text = text
         self.style = style
@@ -38,6 +39,7 @@ public struct Button: WidgetComponent, ClickedOnComponent {
         self.clickAnalyticsEvent = clickAnalyticsEvent
         self.widgetProperties = widgetProperties
     }
+// sourcery:end
 }
 
 extension Button: Renderable {
@@ -130,20 +132,20 @@ extension Button: Renderable {
     
 }
 
-extension Button: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case text
-        case style
-        case action
-        case clickAnalyticsEvent
-    }
-    
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.text = try container.decode(String.self, forKey: .text)
-        self.action = try container.decodeIfPresent(forKey: .action)
-        self.clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
-        self.style = try container.decodeIfPresent(String.self, forKey: .style)
-        self.widgetProperties = try WidgetProperties(from: decoder)
-    }
-}
+//extension Button: Decodable {
+//    enum CodingKeys: String, CodingKey {
+//        case text
+//        case style
+//        case action
+//        case clickAnalyticsEvent
+//    }
+//    
+//    public init(from decoder: Decoder) throws {
+//        let container = try decoder.container(keyedBy: CodingKeys.self)
+//        self.text = try container.decode(String.self, forKey: .text)
+//        self.action = try container.decodeIfPresent(forKey: .action)
+//        self.clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
+//        self.style = try container.decodeIfPresent(String.self, forKey: .style)
+//        self.widgetProperties = try WidgetProperties(from: decoder)
+//    }
+//}
