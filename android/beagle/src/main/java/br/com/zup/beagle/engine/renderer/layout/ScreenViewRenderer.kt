@@ -82,7 +82,7 @@ internal class ScreenViewRenderer(
         navigationBar: NavigationBar
     ) {
         context.configureSupportActionBar()
-        toolbarManager.configureToolbar(context, navigationBar)
         toolbarManager.configureNavigationBarForScreen(context, navigationBar)
+        toolbarManager.configureToolbar(context, navigationBar)
     }
 }
