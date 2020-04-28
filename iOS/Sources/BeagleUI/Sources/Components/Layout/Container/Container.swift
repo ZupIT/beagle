@@ -16,23 +16,25 @@
 
 import UIKit
 
-public struct Container: WidgetComponent {
+public struct Container: WidgetComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
-    public var widgetProperties: WidgetProperties
     public let children: [ServerDrivenComponent]
+    public var widgetProperties: WidgetProperties
     
-    // MARK: - Initialization
-    
-    public init(
-        children: [ServerDrivenComponent],
-        widgetProperties: WidgetProperties = WidgetProperties()
+// sourcery:inline:auto:Container.Init
+	public init( 
+		children: [ServerDrivenComponent] ,
+		widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.children = children
         self.widgetProperties = widgetProperties
     }
-    
-   // MARK: - Configuration
+// sourcery:end
+}
+
+// MARK: - Configuration
+extension Container {
     
     public func applyFlex(_ flex: Flex) -> Container {
         return Container(
@@ -59,17 +61,5 @@ extension Container: Renderable {
         containerView.beagle.setup(widgetProperties)
         
         return containerView
-    }
-}
-
-extension Container: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case children
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.children = try container.decode(forKey: .children)
-        self.widgetProperties = try WidgetProperties(from: decoder)
     }
 }

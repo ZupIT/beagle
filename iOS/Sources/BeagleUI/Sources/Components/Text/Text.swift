@@ -16,7 +16,7 @@
 
 import UIKit
 
-public struct Text: WidgetComponent {
+public struct Text: WidgetComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
     public let text: String
@@ -25,12 +25,13 @@ public struct Text: WidgetComponent {
     public let textColor: String?
     public var widgetProperties: WidgetProperties
     
-    public init(
-        _ text: String,
-        style: String? = nil,
-        alignment: Alignment? = nil,
-        textColor: String? = nil,
-        widgetProperties: WidgetProperties = WidgetProperties()
+// sourcery:inline:auto:Text.Init
+	public init( 
+		_ text: String ,
+		style: String? = nil ,
+		alignment: Alignment? = nil ,
+		textColor: String? = nil ,
+		widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.text = text
         self.style = style
@@ -38,22 +39,7 @@ public struct Text: WidgetComponent {
         self.textColor = textColor
         self.widgetProperties = widgetProperties
     }
-    
-    enum CodingKeys: String, CodingKey {
-        case text
-        case style
-        case alignment
-        case textColor
-    }
-    
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.text = try container.decode(String.self, forKey: .text)
-        self.alignment = try container.decodeIfPresent(Alignment.self, forKey: .alignment)
-        self.textColor = try container.decodeIfPresent(String.self, forKey: .textColor)
-        self.style = try container.decodeIfPresent(String.self, forKey: .style)
-        self.widgetProperties = try WidgetProperties(from: decoder)
-    }
+// sourcery:end
 }
 
 extension Text: Renderable {

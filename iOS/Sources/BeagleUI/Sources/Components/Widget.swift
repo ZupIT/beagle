@@ -38,7 +38,7 @@ public protocol WidgetComponent: ServerDrivenComponent {
 
 public protocol Widget: AppearanceComponent, FlexComponent, AccessibilityComponent, IdentifiableComponent { }
 
-public struct WidgetProperties: Widget {
+public struct WidgetProperties: Widget, AutoDecodable {
     
     public var appearance: Appearance?
     public var flex: Flex?

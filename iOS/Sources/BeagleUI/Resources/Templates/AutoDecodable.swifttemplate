@@ -21,11 +21,9 @@ func encodeAdditionalVariablesMethod(for type: Type) -> SourceryMethod? {
     return type.instanceMethods.first { $0.selectorName == "encodeAdditionalValues(to:)" }
 }
 func needsCustomBeagleDecoding(_ variable: Variable) -> Bool {
-    return variable.unwrappedTypeName == "Action" || variable.unwrappedTypeName == "ServerDrivenComponent"
-}
-func applyDecodingSyntax(_ variable: Variable, container: String) -> String {
-    
-   return ""
+    return variable.unwrappedTypeName == "Action" ||
+            variable.unwrappedTypeName == "ServerDrivenComponent" ||
+            variable.unwrappedTypeName == "[ServerDrivenComponent]"
 }
 func encodingContainerMethod(for type: Type) -> SourceryMethod? {
     if let enumType = type as? Enum, !enumType.hasAssociatedValues {
@@ -141,7 +139,9 @@ extension <%= type.name %> {
 
     enum CodingKeys: String, CodingKey {
         <%_ for key in codingKeys.generated { -%>
+        <%_ if key != "widgetProperties" { -%>
         case <%= key %>
+        <%_ } -%>
         <%_ } -%>
     }
     <%_ }-%>
