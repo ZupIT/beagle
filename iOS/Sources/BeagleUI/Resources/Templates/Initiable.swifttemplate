@@ -5,14 +5,13 @@ func variableNameAndType(_ variable: Variable, _ isFirstTime: Bool) -> String {
     return first + nameAndType
 }
 
-func variableOptionalAndValue(_ variable: Variable, isLastTime: Bool) -> String {
-    var last = isLastTime ? "" : ""
+func variableOptionalAndValue(_ variable: Variable) -> String {
     if variable.isOptional {
-        return "? = nil" + last
+        return "? = nil"
     } else if variable.unwrappedTypeName == "WidgetProperties" {
-        return " = WidgetProperties()" + last
+        return " = WidgetProperties()"
     } else {
-        return "" + last
+        return ""
     }
 }
 -%>
@@ -22,7 +21,7 @@ func variableOptionalAndValue(_ variable: Variable, isLastTime: Bool) -> String 
     <%_ var firstTime: Bool = true -%>
     <%_ var lastTime: Bool = false -%>
 <%= "\t" + type.accessLevel -%> init(<% for i in 0 ..< type.instanceVariables.count { -%> <% let variable = type.instanceVariables[i] -%>
-        <%_= variableNameAndType(variable, firstTime) -%> <%_= variableOptionalAndValue(variable, isLastTime: (i == type.instanceVariables.count - 1)) -%>
+        <%_= variableNameAndType(variable, firstTime) -%> <%_= variableOptionalAndValue(variable) -%>
          <%_ firstTime = false -%>
     <%_ } %>
     ) {
