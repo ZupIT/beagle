@@ -57,7 +57,6 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
         navigationBar: NavigationBar
     ) {
         context.getToolbar().apply {
-            removeAllViews()
             visibility = View.VISIBLE
             menu.clear()
             configToolbarStyle(context, this, navigationBar)
@@ -91,6 +90,7 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
                 R.styleable.BeagleToolbarStyle_titleTextAppearance, 0
             )
             if (typedArray.getBoolean(R.styleable.BeagleToolbarStyle_centerTitle, false)) {
+                removePreviousToolbarTitle(toolbar)
                 toolbar.addView(generateCenterTitle(context, navigationBar, textAppearance, toolbar))
             } else {
                 toolbar.title = navigationBar.title
@@ -108,26 +108,32 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
         }
     }
 
+    private fun removePreviousToolbarTitle(toolbar: Toolbar) {
+        val centeredTitle = toolbar.findViewById<TextView>(R.id.beagle_toolbar_text)
+        toolbar.removeView(centeredTitle)
+    }
+
     private fun generateCenterTitle(
         context: Context,
         navigationBar: NavigationBar,
         textAppearance: Int,
         toolbar: Toolbar
     ) = TextView(context).apply {
-            val params = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            ).apply {
-                gravity = Gravity.CENTER
-            }
-            layoutParams = params
-            text = navigationBar.title
-            if (textAppearance != 0) {
-                TextViewCompat.setTextAppearance(this, textAppearance)
-            }
-            toolbar.contentInsetStartWithNavigation = 0
-            toolbar.setContentInsetsAbsolute(0, 0)
+        id = R.id.beagle_toolbar_text
+        val params = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        ).apply {
+            gravity = Gravity.CENTER
         }
+        layoutParams = params
+        text = navigationBar.title
+        if (textAppearance != 0) {
+            TextViewCompat.setTextAppearance(this, textAppearance)
+        }
+        toolbar.contentInsetStartWithNavigation = 0
+        toolbar.setContentInsetsAbsolute(0, 0)
+    }
 
     private fun configToolbarItems(
         context: Context,
