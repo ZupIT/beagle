@@ -21,6 +21,8 @@ data class UnitValue(
     val type: UnitType
 )
 
+operator fun UnitValue.unaryMinus() = UnitValue(-value, type)
+
 enum class UnitType {
     REAL,
     PERCENT,
