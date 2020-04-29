@@ -28,7 +28,6 @@ import io.mockk.just
 import io.mockk.slot
 import org.junit.Before
 import org.junit.Test
-import java.lang.RuntimeException
 import kotlin.test.assertEquals
 import kotlin.test.fail
 
@@ -85,6 +84,18 @@ class ModelValueHelperTest {
     }
 
     @Test
+    fun should_fetch_model_json_for_success() {
+        every { dataBindingComponent.modelPath } returns null
+        every { dataBindingComponent.modelJson } returns JSON
+
+        modelValueHelper.fetchModelValue(onSuccess = {
+            assertEquals(value, it)
+        }, onError = {
+            fail("should fetchModelValue")
+        })
+    }
+
+    @Test
     fun should_fetch_model_value_for_error() {
         val exception = RuntimeException("Error")
         modelValueHelper.fetchModelValue(onSuccess = {
@@ -94,4 +105,17 @@ class ModelValueHelperTest {
         })
         slotFetchDataListener.captured.onError(exception)
     }
+
+    @Test
+    fun should_fetch_model_value_for_uncaught_exception() {
+        val exception = RuntimeException("Error")
+        every { beagleService.fetchData(any(), capture(slotFetchDataListener)) } throws exception
+
+        modelValueHelper.fetchModelValue(onSuccess = {
+            fail("should fail")
+        }, onError = {
+            assertEquals(exception, it)
+        })
+    }
+
 }
