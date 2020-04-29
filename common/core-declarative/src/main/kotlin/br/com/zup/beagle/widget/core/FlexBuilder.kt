@@ -97,6 +97,12 @@ class FlexBuilder {
 
     fun size(size: Size) = this.apply { this.size = size }
 
+    fun position(position: EdgeValue) = this.apply { this.position = position }
+
+    fun padding(padding: EdgeValue) = this.apply { this.padding = padding }
+
+    fun margin(margin: EdgeValue) = this.apply { this.margin = margin }
+
     fun size(
         width: UnitValue? = null,
         height: UnitValue? = null,
