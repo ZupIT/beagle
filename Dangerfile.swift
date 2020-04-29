@@ -3,4 +3,4 @@
 import Danger
 //import DangerSwiftLint
 
-SwiftLint.lint()
+SwiftLint.lint(inline: true)
