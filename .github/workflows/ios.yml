@@ -33,9 +33,6 @@ jobs:
       # - name: install danger
       #   run: npm install -g danger
 
-      - name: 'install all ruby dependencies (e.g: Fastlane)'
-        run: bundle install
-
       - name: install danger-lin
         run: brew install danger/tap/danger-swift
 
@@ -57,6 +54,9 @@ jobs:
       #   env:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       #   run: danger-swift pr
+
+      - name: 'install all ruby dependencies (e.g: Fastlane)'
+        run: bundle install
       
       - name: execute Fastlane
         env:
