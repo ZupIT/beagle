@@ -1732,7 +1732,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		C0D6752A24571CB6009F0E94 /* Sourcery Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputFileListPaths = (
@@ -1746,7 +1746,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\n$SRCROOT/../../Libraries/Sourcery/bin/sourcery --sources $SRCROOT/Sources --templates $SRCROOT/Resources/Templates --output $SRCROOT/Sources/SourceryFiles\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nunset SDKROOT\n../../Libraries/Sourcery/bin/sourcery --sources Sources --templates Resources/Templates --output Sources/SourceryFiles\n";
 			showEnvVarsInLog = 0;
 		};
 		C8E42FCE23C7C6A500B1963F /* Carthage Run Script */ = {
