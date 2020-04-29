@@ -87,8 +87,6 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
 private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     ActionExecuting.Dependencies,
     DependencyDeepLinkScreenManaging,
-    DependencyUrlBuilder,
-    DependencyLogger,
     DependencyRepository {
 
     var container: () -> BeagleDependenciesProtocol = {

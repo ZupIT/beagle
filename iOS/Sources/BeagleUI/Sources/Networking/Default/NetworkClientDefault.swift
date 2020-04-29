@@ -18,12 +18,10 @@ import Foundation
 
 public class NetworkClientDefault: NetworkClient {
 
-    public typealias Dependencies = DependencyUrlBuilder & DependencyLogger
+    public typealias Dependencies = DependencyLogger
 
     public var session = URLSession.shared
     let dependencies: Dependencies
-
-    public var httpRequestBuilder = HttpRequestBuilder()
 
     public init(dependencies: Dependencies) {
         self.dependencies = dependencies
@@ -31,7 +29,7 @@ public class NetworkClientDefault: NetworkClient {
 
     enum ClientError: Swift.Error {
         case invalidHttpResponse
-        case invalidUrl
+        case invalidHttpRequest
     }
 
     public func executeRequest(
@@ -53,19 +51,11 @@ public class NetworkClientDefault: NetworkClient {
         _ request: Request,
         completion: @escaping RequestCompletion
     ) -> RequestToken? {
-        guard let url = dependencies.urlBuilder.build(path: request.url) else {
-            dependencies.logger.log(Log.network(.couldNotBuildUrl(url: request.url)))
-            completion(.failure(.init(error: ClientError.invalidUrl)))
+        guard let urlRequest = request.urlRequest else {
+            dependencies.logger.log(Log.network(.httpRequest(request: .init(url: request.urlRequest))))
+            completion(.failure(.init(error: ClientError.invalidHttpRequest)))
             return nil
         }
-
-        let build = httpRequestBuilder.build(
-            url: url,
-            requestType: request.type,
-            additionalData: request.additionalData as? HttpAdditionalData
-        )
-                
-        let urlRequest = build.toUrlRequest()
 
         let task = session.dataTask(with: urlRequest) { [weak self] data, response, error in
             guard let self = self else { return }
