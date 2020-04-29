@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.bff.builder
+package br.com.zup.beagle.widget.core
 
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.Alignment
@@ -187,5 +187,3 @@ class FlexBuilder {
         )
     }
 }
-
-fun Widget.applyFlex(flexBuilder: FlexBuilder) = this.applyflex(flexBuilder.build())

@@ -46,6 +46,11 @@ abstract class Widget : FlexComponent, AppearanceComponent, AccessibilityCompone
         return this
     }
 
+    open fun buildAndApplyFlex(flexBuilder: FlexBuilder): Widget {
+        this.flex = flexBuilder
+        return this
+    }
+
     open fun applyAppearance(appearance: Appearance): Widget {
         this.appearance = appearance
         return this
