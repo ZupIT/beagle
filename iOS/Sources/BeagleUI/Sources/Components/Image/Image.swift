@@ -16,7 +16,7 @@
 
 import UIKit
 
-public struct Image: WidgetComponent {
+public struct Image: WidgetComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
     
@@ -24,30 +24,17 @@ public struct Image: WidgetComponent {
     public let contentMode: ImageContentMode?
     public var widgetProperties: WidgetProperties
     
-    // MARK: - Initialization
-    
-    public init(
-        name: String,
-        contentMode: ImageContentMode? = nil,
-        widgetProperties: WidgetProperties = WidgetProperties()
+// sourcery:inline:auto:Image.Init
+	public init( 
+		name: String ,
+		contentMode: ImageContentMode? = nil ,
+		widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.name = name
         self.contentMode = contentMode
         self.widgetProperties = widgetProperties
     }
-    
-    enum CodingKeys: String, CodingKey {
-        case name
-        case contentMode
-    }
-    
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.name = try container.decode(String.self, forKey: .name)
-        self.contentMode = try container.decodeIfPresent(ImageContentMode.self, forKey: .contentMode)
-        self.widgetProperties = try WidgetProperties(from: decoder)
-    }
-    
+// sourcery:end
 }
 
 extension Image: Renderable {

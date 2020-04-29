@@ -16,24 +16,23 @@
 
 import UIKit
 
-public struct NetworkImage: WidgetComponent {
+public struct NetworkImage: WidgetComponent, AutoInitiableAndDecodable {
     
     public let path: String
     public let contentMode: ImageContentMode?
     public var widgetProperties: WidgetProperties
-    
-    // MARK: - Initialization
-    
-    public init(
-        path: String,
-        contentMode: ImageContentMode? = nil,
-        widgetProperties: WidgetProperties = WidgetProperties()
+
+// sourcery:inline:auto:NetworkImage.Init
+	public init( 
+		path: String ,
+		contentMode: ImageContentMode? = nil ,
+		widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.path = path
         self.contentMode = contentMode
         self.widgetProperties = widgetProperties
     }
-    
+// sourcery:end
 }
 
 extension NetworkImage: Renderable {
