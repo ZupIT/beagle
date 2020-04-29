@@ -53,6 +53,7 @@ Pod::Spec.new do |spec|
   spec.subspec 'BeagleUI' do |beagleUI|
     source = 'iOS/Sources/BeagleUI/Sources'
     beagleUI.source_files = source + '/**/*.swift'
+    beagleUI.resources = "iOS/**/*.xcdatamodeld"
     beagleUI.exclude_files = 
       source + "/**/Test/**/*.swift",
       source + "/**/Tests/**/*.swift",
@@ -63,6 +64,7 @@ Pod::Spec.new do |spec|
     # make sure to declare YogaKit on your Podfile as:
     # pod 'YogaKit', :git => 'git@github.com:lucasaraujo/yoga.git'
     # We need this because we fixed an issue in the original repository and our PR was not merged yet.
+    beagleUI.frameworks = 'Foundation', 'CoreData'
     beagleUI.dependency 'YogaKit'
   end
 

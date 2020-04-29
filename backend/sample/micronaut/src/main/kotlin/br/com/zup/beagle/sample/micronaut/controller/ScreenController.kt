@@ -152,7 +152,7 @@ class ScreenController(
     fun getNavigationBarImage() = this.sampleNavigationBarService.navigationBarWithImageAsItem()
 
     @Get(NAVIGATION_TYPE_ENDPOINT)
-    fun getSampleNavigationTypeControlller() = this.sampleNavigationTypeService.createNavigationTypeView()
+    fun getSampleNavigationTypeController() = this.sampleNavigationTypeService.createNavigationTypeView()
 
     @Get(REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT)
     fun getNavigationStep2() = this.sampleNavigationTypeService.step2()
