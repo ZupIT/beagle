@@ -29,6 +29,9 @@ dependencies {
     implementation project(Modules.beagleAnnotation)
     implementation project(Modules.beagleAndroidAnnotation)
 
+    implementation AndroidProcessorLibraries.incap
+    kapt AndroidProcessorLibraries.incapPrcessor
+
     implementation GoogleLibraries.autoService
     kapt GoogleLibraries.autoService
 
