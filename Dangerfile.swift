@@ -1,6 +1,6 @@
 // Dangerfile.swift
 
 import Danger
-import DangerSwiftLint
+//import DangerSwiftLint
 
 SwiftLint.lint()
