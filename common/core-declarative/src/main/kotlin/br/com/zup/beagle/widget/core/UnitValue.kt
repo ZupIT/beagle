@@ -19,9 +19,9 @@ package br.com.zup.beagle.widget.core
 data class UnitValue(
     val value: Double,
     val type: UnitType
-)
-
-operator fun UnitValue.unaryMinus() = UnitValue(-value, type)
+) {
+    operator fun unaryMinus() = this(-this.value, this.type)
+}
 
 enum class UnitType {
     REAL,
