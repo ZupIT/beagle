@@ -49,7 +49,7 @@ class FlexBuilder {
     private var basis: UnitValue? = null
     private var size: Size? = null
 
-     fun build() = Flex(
+    fun build() = Flex(
         size = this.size,
         position = this.position,
         positionType = this.positionType,
@@ -133,8 +133,8 @@ class FlexBuilder {
         end: UnitValue? = null,
         horizontal: UnitValue? = null,
         vertical: UnitValue? = null
-    ) = this.apply {
-        this.position = EdgeValue(
+    ) = this.position(
+        EdgeValue(
             all = all,
             top = top,
             right = right,
@@ -145,7 +145,8 @@ class FlexBuilder {
             horizontal = horizontal,
             vertical = vertical
         )
-    }
+    )
+
 
     fun padding(
         all: UnitValue? = null,
@@ -181,8 +182,8 @@ class FlexBuilder {
         end: UnitValue? = null,
         horizontal: UnitValue? = null,
         vertical: UnitValue? = null
-    ) = this.apply {
-        this.margin = EdgeValue(
+    ) = this.margin(
+        EdgeValue(
             all = all,
             vertical = vertical,
             horizontal = horizontal,
@@ -193,5 +194,6 @@ class FlexBuilder {
             start = start,
             end = end
         )
-    }
+    )
+
 }
