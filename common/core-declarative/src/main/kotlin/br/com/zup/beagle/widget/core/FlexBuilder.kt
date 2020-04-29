@@ -95,6 +95,8 @@ class FlexBuilder {
 
     fun basis(value: UnitValue) = this.apply { this.basis = value }
 
+    fun size(size: Size) = this.apply { this.size = size }
+
     fun size(
         width: UnitValue? = null,
         height: UnitValue? = null,
@@ -103,8 +105,8 @@ class FlexBuilder {
         minWidth: UnitValue? = null,
         maxHeight: UnitValue? = null,
         minHeight: UnitValue? = null
-    ) = this.apply {
-        this.size = Size(
+    ) = this.size(
+        Size(
             width = width,
             maxWidth = maxWidth,
             minWidth = minWidth,
@@ -113,7 +115,7 @@ class FlexBuilder {
             minHeight = minHeight,
             aspectRatio = aspectRatio
         )
-    }
+    )
 
     fun position(
         all: UnitValue? = null,
