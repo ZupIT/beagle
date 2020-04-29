@@ -14,21 +14,14 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.setup
+package br.com.zup.beagle.store
 
-enum class Environment {
-    DEBUG,
-    PRODUCTION
-}
+import br.com.zup.beagle.setup.BeagleEnvironment
 
-data class Cache(
-    val enabled: Boolean,
-    val maxAge: Long,
-    val memoryMaximumCapacity: Int
-)
-
-interface BeagleConfig {
-    val environment: Environment
-    val baseUrl: String
-    val cache: Cache
+internal class StoreHandlerFactory(
+    private val beagleEnvironment: BeagleEnvironment = BeagleEnvironment
+) {
+    fun make(): StoreHandler {
+        return beagleEnvironment.beagleSdk.storeHandler ?: StoreHandlerDefault()
+    }
 }
