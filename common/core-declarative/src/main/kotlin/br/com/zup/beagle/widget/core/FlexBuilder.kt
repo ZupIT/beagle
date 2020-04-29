@@ -157,8 +157,8 @@ class FlexBuilder {
         end: UnitValue? = null,
         horizontal: UnitValue? = null,
         vertical: UnitValue? = null
-    ) = this.apply {
-        this.padding = EdgeValue(
+    ) = this.padding(
+        EdgeValue(
             all = all,
             vertical = vertical,
             horizontal = horizontal,
@@ -169,7 +169,7 @@ class FlexBuilder {
             start = start,
             end = end
         )
-    }
+    )
 
     fun margin(
         all: UnitValue? = null,
