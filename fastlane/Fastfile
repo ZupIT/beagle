@@ -32,7 +32,6 @@ end
 platform :ios do
   lane :pull_request_verification do
     xcversion(version: "~> 11.4")
-    iOSSwiftLint
     init_ios_dependencies
     scan(
       workspace: "iOS/Darwin-BeagleUI.xcworkspace/",
@@ -85,10 +84,4 @@ private_lane :init_ios_dependencies do
   )
 end
 
-desc "Run iOS SwiftLint"
-private_lane :iOSSwiftLint do
-  swiftlint(
-  mode: :lint,      # SwiftLint mode: :lint (default) or :autocorrect
-  ignore_exit_status: true    # Allow fastlane to continue even if SwiftLint returns a non-zero exit status
-)
 end
