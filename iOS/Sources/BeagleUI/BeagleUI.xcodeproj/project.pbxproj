@@ -1600,8 +1600,7 @@
 			buildConfigurationList = 932925E32327E11000A61F01 /* Build configuration list for PBXNativeTarget "BeagleUI" */;
 			buildPhases = (
 				932925CA2327E11000A61F01 /* Headers */,
-				C0D6752A24571CB6009F0E94 /* Sourcery Run Script */,
-				C0F0168B245B0FB00041A30C /* THIS WILL BE SOURCERY SCRIPT SOON */,
+				C0F0168B245B0FB00041A30C /* Sourcery Run Script */,
 				932925CB2327E11000A61F01 /* Sources */,
 				932925CC2327E11000A61F01 /* Frameworks */,
 				932925CD2327E11000A61F01 /* Resources */,
@@ -1733,26 +1732,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		C0D6752A24571CB6009F0E94 /* Sourcery Run Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Sourcery Run Script";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nunset SDKROOT\n../../Libraries/Sourcery/bin/sourcery --sources Sources --templates Resources/Templates --output Sources/SourceryFiles\n";
-			showEnvVarsInLog = 0;
-		};
-		C0F0168B245B0FB00041A30C /* THIS WILL BE SOURCERY SCRIPT SOON */ = {
+		C0F0168B245B0FB00041A30C /* Sourcery Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1761,7 +1741,7 @@
 			);
 			inputPaths = (
 			);
-			name = "THIS WILL BE SOURCERY SCRIPT SOON";
+			name = "Sourcery Run Script";
 			outputFileListPaths = (
 			);
 			outputPaths = (

@@ -27,7 +27,7 @@ struct DSCollectionDataSource : Decodable {
     let cards: [Card]
 }
 
-struct DSCollection: WidgetComponent {
+struct DSCollection: WidgetComponent, AutoInitiable {
 
     let dataSource: DSCollectionDataSource
     var widgetProperties: WidgetProperties

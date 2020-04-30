@@ -71,6 +71,7 @@
 		A0642DD02396EC670028AFF3 /* PageViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewScreen.swift; sourceTree = "<group>"; };
 		C0479F58243282F00040E30C /* AnalyticsMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsMock.swift; sourceTree = "<group>"; };
 		C0B1AAB523F326BB00F94ECA /* YogaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = YogaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0D0F47F245B518900FB57C1 /* sourceryScript.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = sourceryScript.sh; sourceTree = "<group>"; };
 		E75619882408365B0025E0A9 /* DSCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSCollection.swift; sourceTree = "<group>"; };
 		E756198C240865150025E0A9 /* DSCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSCollectionViewCell.swift; sourceTree = "<group>"; };
 		E756198E2408691A0025E0A9 /* CustomComponentScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomComponentScreen.swift; sourceTree = "<group>"; };
@@ -118,6 +119,7 @@
 		932925B02327E0E400A61F01 /* BeagleDemo */ = {
 			isa = PBXGroup;
 			children = (
+				C0D0F47E245B48BB00FB57C1 /* SourceryFiles */,
 				6E2C784B241984F800448728 /* Constants */,
 				E75619862408363E0025E0A9 /* DesignSystem */,
 				A0642DC9239689E60028AFF3 /* Screens */,
@@ -159,6 +161,14 @@
 			path = Screens;
 			sourceTree = "<group>";
 		};
+		C0D0F47E245B48BB00FB57C1 /* SourceryFiles */ = {
+			isa = PBXGroup;
+			children = (
+				C0D0F47F245B518900FB57C1 /* sourceryScript.sh */,
+			);
+			path = SourceryFiles;
+			sourceTree = "<group>";
+		};
 		E75619862408363E0025E0A9 /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
@@ -184,6 +194,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 932925C22327E0E500A61F01 /* Build configuration list for PBXNativeTarget "BeagleDemo" */;
 			buildPhases = (
+				C0D0F482245B524100FB57C1 /* Sourcery Run Script */,
 				932925AA2327E0E400A61F01 /* Sources */,
 				932925AB2327E0E400A61F01 /* Frameworks */,
 				932925AC2327E0E400A61F01 /* Resources */,
@@ -243,6 +254,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C0D0F482245B524100FB57C1 /* Sourcery Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Sourcery Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nBeagleDemo/SourceryFiles/sourceryScript.sh\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		932925AA2327E0E400A61F01 /* Sources */ = {
