@@ -220,16 +220,16 @@ public final class RepositoryDefault: Repository {
         
         guard let builderUrl = dependencies.urlBuilder.build(path: url) else {
             dependencies.logger.log(Log.network(.couldNotBuildUrl(url: url)))
-            return Request(url: url, type: type, additionalData: additionalData)
+            // swiftlint:disable force_unwrapping
+            return Request(urlRequest: URLRequest(url: URL(string: url)!), type: type, additionalData: additionalData)
         }
         
-        let build = httpRequestBuilder.build(
+        let urlRequest = httpRequestBuilder.build(
             url: builderUrl,
             requestType: type,
             additionalData: additionalData as? HttpAdditionalData
         )
-        let urlRequest = build.toUrlRequest()
-        return Request(url: url, urlRequest: urlRequest, type: type, additionalData: additionalData)
+        return Request(urlRequest: urlRequest, type: type, additionalData: additionalData)
     }
 
 }

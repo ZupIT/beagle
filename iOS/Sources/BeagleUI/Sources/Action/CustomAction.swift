@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 import Foundation
 
 /// A custom action to be implemented by the application

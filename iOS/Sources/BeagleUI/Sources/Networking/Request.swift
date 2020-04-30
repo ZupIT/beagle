@@ -17,18 +17,15 @@
 import Foundation
 
 public struct Request {
-    public let url: String
-    public let urlRequest: URLRequest?
+    public let urlRequest: URLRequest
     public let type: RequestType
     public let additionalData: RemoteScreenAdditionalData?
 
     public init(
-        url: String,
-        urlRequest: URLRequest? = nil,
+        urlRequest: URLRequest,
         type: RequestType,
         additionalData: RemoteScreenAdditionalData?
     ) {
-        self.url = url
         self.urlRequest = urlRequest
         self.type = type
         self.additionalData = additionalData

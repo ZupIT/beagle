@@ -46,24 +46,15 @@ public class UrlBuilder: UrlBuilderProtocol {
                 absolute.removeLast()
             }
             return URL(string: absolute + path)
-        case .regularBuild:
-            return URL(string: path, relativeTo: baseUrl)
         }
     }
     
     private func getUrlType(path: String, baseUrl: URL?) -> UrlType {
-        if !path.hasPrefix("/") {
-            return .noStripePrefix
-        } else if path.hasPrefix("/") || path.hasPrefix("//") {
-            return .stripePrefix
-        } else {
-            return .regularBuild
-        }
+        return path.hasPrefix("/") ? .stripePrefix : .noStripePrefix
     }
 }
 
 private enum UrlType {
     case noStripePrefix
     case stripePrefix
-    case regularBuild
 }

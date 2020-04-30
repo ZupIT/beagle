@@ -20,30 +20,22 @@ import SnapshotTesting
 @testable import BeagleUI
 
 class UrlBuilderTests: XCTestCase {
+    // swiftlint:disable force_unwrapping
 
-    func testUrlBuilderCases() {
-        guard let url = Bundle(for: ComponentDecoderTests.self).url(
-            forResource: "UrlBuilderTestSpec",
-            withExtension: "json"
-            ) else {
-                XCTFail("Unable to find file from resource.")
-                return
-        }
-        guard let jsonData = try? Data(contentsOf: url),
-            let urlBuilderDataSet = try? JSONDecoder().decode([UrlBuilderTestHelper].self, from: jsonData)
-            else {
-                XCTFail("Unable to decode data.")
-                return
-        }
+    func testUrlBuilderCases() throws {
+        let jsonData = try jsonFromFile(fileName: "UrlBuilderTestSpec").data(using: .utf8)!
+        let urlBuilderDataSet = try JSONDecoder().decode([UrlBuilderTestHelper].self, from: jsonData)
+        
         urlBuilderDataSet.forEach { url in
             guard let base = URL(string: url.base ?? "") else { return }
             let builder = UrlBuilder(baseUrl: base)
             let resultUrl = builder.build(path: url.path)
+            
             guard let result = url.result else {
-                assert(url.result == nil, "Result data is nul")
+                XCTAssert(url.result == nil, "Result data is nul")
                 return
             }
-            assert(resultUrl?.absoluteString == result)
+            XCTAssert(resultUrl?.absoluteString == result)
         }
         
     }

@@ -90,7 +90,7 @@ final class HttpRequestBuilderTest: XCTestCase {
 
         let testNumber: Int
         let parameters: Parameters
-        let result: HttpRequestBuilder.Result
+        let result: URLRequest
 
         struct Parameters {
             let url: URL
@@ -105,8 +105,7 @@ extension String: RemoteScreenAdditionalData {
         get {
             [:]
         }
-        set(newValue) {
-            newValue
-        }
+        // swiftlint:disable unused_setter_value
+        set(newValue) {}
     }
 }
