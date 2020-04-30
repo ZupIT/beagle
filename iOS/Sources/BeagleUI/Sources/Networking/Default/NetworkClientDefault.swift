@@ -29,6 +29,7 @@ public class NetworkClientDefault: NetworkClient {
 
     enum ClientError: Swift.Error {
         case invalidHttpResponse
+        case invalidHttpRequest
     }
 
     public func executeRequest(
@@ -50,8 +51,13 @@ public class NetworkClientDefault: NetworkClient {
         _ request: Request,
         completion: @escaping RequestCompletion
     ) -> RequestToken? {
+        guard let urlRequest = request.urlRequest else {
+            dependencies.logger.log(Log.network(.httpRequest(request: .init(url: request.urlRequest))))
+            completion(.failure(.init(error: ClientError.invalidHttpRequest)))
+            return nil
+        }
         
-        let task = session.dataTask(with: request.urlRequest) { [weak self] data, response, error in
+        let task = session.dataTask(with: urlRequest) { [weak self] data, response, error in
             guard let self = self else { return }
             self.dependencies.logger.log(Log.network(.httpResponse(response: .init(data: data, reponse: response))))
             completion(self.handleResponse(data: data, response: response, error: error))

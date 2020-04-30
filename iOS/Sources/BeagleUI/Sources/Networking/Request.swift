@@ -17,12 +17,12 @@
 import Foundation
 
 public struct Request {
-    public let urlRequest: URLRequest
+    public let urlRequest: URLRequest?
     public let type: RequestType
     public let additionalData: RemoteScreenAdditionalData?
 
     public init(
-        urlRequest: URLRequest,
+        urlRequest: URLRequest? = nil,
         type: RequestType,
         additionalData: RemoteScreenAdditionalData?
     ) {
