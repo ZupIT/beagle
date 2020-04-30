@@ -115,6 +115,7 @@
 		C05E165A2437CC7C0088F9D2 /* buttonAnalyticsComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = C05E16592437CC7C0088F9D2 /* buttonAnalyticsComponent.json */; };
 		C06B1E2E23FAC85E003912CF /* AccessibilityTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06B1E2C23F729E0003912CF /* AccessibilityTest.swift */; };
 		C0B1AAB223F2EE9300F94ECA /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B1AAB123F2EE9300F94ECA /* Accessibility.swift */; };
+		C0D0F48A245B687B00FB57C1 /* Equality.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D0F489245B687B00FB57C1 /* Equality.generated.swift */; };
 		C0D6753424572DEA009F0E94 /* SourceryProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D6753324572DEA009F0E94 /* SourceryProtocols.swift */; };
 		C0D67539245753F8009F0E94 /* Equality.stencil in Resources */ = {isa = PBXBuildFile; fileRef = C0D67536245753F8009F0E94 /* Equality.stencil */; };
 		C0D6753A245753F8009F0E94 /* Initiable.swifttemplate in Resources */ = {isa = PBXBuildFile; fileRef = C0D67537245753F8009F0E94 /* Initiable.swifttemplate */; };
@@ -366,6 +367,7 @@
 		C05E16592437CC7C0088F9D2 /* buttonAnalyticsComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = buttonAnalyticsComponent.json; sourceTree = "<group>"; };
 		C06B1E2C23F729E0003912CF /* AccessibilityTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityTest.swift; sourceTree = "<group>"; };
 		C0B1AAB123F2EE9300F94ECA /* Accessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessibility.swift; sourceTree = "<group>"; };
+		C0D0F489245B687B00FB57C1 /* Equality.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equality.generated.swift; sourceTree = "<group>"; };
 		C0D6753324572DEA009F0E94 /* SourceryProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceryProtocols.swift; sourceTree = "<group>"; };
 		C0D67536245753F8009F0E94 /* Equality.stencil */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Equality.stencil; sourceTree = "<group>"; };
 		C0D67537245753F8009F0E94 /* Initiable.swifttemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Initiable.swifttemplate; sourceTree = "<group>"; };
@@ -944,6 +946,7 @@
 		C0D6753224572D84009F0E94 /* SourceryFiles */ = {
 			isa = PBXGroup;
 			children = (
+				C0D0F489245B687B00FB57C1 /* Equality.generated.swift */,
 				C0D6754824586F14009F0E94 /* AutoDecodable.generated.swift */,
 				C0D6753324572DEA009F0E94 /* SourceryProtocols.swift */,
 				C0F01689245B09430041A30C /* sourceryScript.sh */,
@@ -1805,6 +1808,7 @@
 				7C42EAF824228FE3007334A0 /* FormInputComponent.swift in Sources */,
 				C89FFA942412EA4200C1B53B /* UrlBuilder.swift in Sources */,
 				C86DB759243275D500B6FC65 /* FormRemoteAction.swift in Sources */,
+				C0D0F48A245B687B00FB57C1 /* Equality.generated.swift in Sources */,
 				A0EF0AA62386BD960019BE83 /* FormValidation.swift in Sources */,
 				988F81FB23E24ECA008562BE /* UIView+Subviews.swift in Sources */,
 				E531D6BA2359FEE1007EEBA7 /* UIView+Loading.swift in Sources */,

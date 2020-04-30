@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-public struct Appearance: Decodable {
+public struct Appearance: Decodable, Equatable {
     
     // MARK: - Public Properties
     let backgroundColor: String?
@@ -31,7 +31,7 @@ public struct Appearance: Decodable {
     }
 }
 
-public struct CornerRadius: Decodable {
+public struct CornerRadius: Decodable, AutoEquatable {
     let radius: Double
     
     public init(

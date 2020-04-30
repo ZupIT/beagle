@@ -15,7 +15,7 @@
  */
 
 // MARK: - EdgeValue
-public class EdgeValue: Decodable {
+public class EdgeValue: Decodable, AutoEquatable {
     // MARK: - Public Properties
     public var left: UnitValue?
     public var top: UnitValue?

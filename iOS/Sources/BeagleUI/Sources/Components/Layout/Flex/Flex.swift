@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-public class Flex: Decodable {
+public class Flex: Decodable, AutoEquatable {
 
     public var direction: Direction?
     public var flexDirection: FlexDirection?
