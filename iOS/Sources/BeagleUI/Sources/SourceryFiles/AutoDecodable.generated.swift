@@ -35,7 +35,7 @@ extension Button {
         clickAnalyticsEvent = try container.decodeIfPresent( AnalyticsClick.self, forKey: .clickAnalyticsEvent)
         widgetProperties = try WidgetProperties(from: decoder)
     }
-
+    
 }
 // MARK: Container Decodable
 extension Container {
@@ -50,7 +50,7 @@ extension Container {
         children = try container.decode( forKey: .children)
         widgetProperties = try WidgetProperties(from: decoder)
     }
-
+    
 }
 // MARK: Image Decodable
 extension Image {
@@ -67,7 +67,7 @@ extension Image {
         contentMode = try container.decodeIfPresent( ImageContentMode.self, forKey: .contentMode)
         widgetProperties = try WidgetProperties(from: decoder)
     }
-
+    
 }
 // MARK: NetworkImage Decodable
 extension NetworkImage {
@@ -84,7 +84,7 @@ extension NetworkImage {
         contentMode = try container.decodeIfPresent( ImageContentMode.self, forKey: .contentMode)
         widgetProperties = try WidgetProperties(from: decoder)
     }
-
+    
 }
 // MARK: Text Decodable
 extension Text {
@@ -105,5 +105,5 @@ extension Text {
         textColor = try container.decodeIfPresent( String.self, forKey: .textColor)
         widgetProperties = try WidgetProperties(from: decoder)
     }
-
+    
 }

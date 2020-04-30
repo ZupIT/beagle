@@ -32,48 +32,10 @@ func decodingContainerMethod(for type: Type) -> SourceryMethod? {
 func customEncodingMethod(for variable: Variable, of type: Type) -> SourceryMethod? {
     return type.instanceMethods.first { $0.selectorName == "encode\(capitalizedName(for: variable))(to:)" }
 }
-func encodeAdditionalVariablesMethod(for type: Type) -> SourceryMethod? {
-    return type.instanceMethods.first { $0.selectorName == "encodeAdditionalValues(to:)" }
-}
 func needsCustomBeagleDecoding(_ variable: Variable) -> Bool {
     return variable.unwrappedTypeName == "Action" ||
             variable.unwrappedTypeName == "ServerDrivenComponent" ||
             variable.unwrappedTypeName == "[ServerDrivenComponent]"
-}
-func encodingContainerMethod(for type: Type) -> SourceryMethod? {
-    if let enumType = type as? Enum, !enumType.hasAssociatedValues {
-        return SourceryMethod(name: "singleValueContainer")
-    }
-    return type.instanceMethods.first { $0.selectorName == "encodingContainer(_:)" }
-}
-func typeHasMoreCodingKeysThanStoredProperties(_ type: Type, codingKeys: [String]) -> Bool {
-    let allKeysSet = Set(codingKeys)
-    let allStoredPropertiesNames = Set(type.storedVariables.map({ $0.name }))
-    let hasMoreKeys = allKeysSet.subtracting(allStoredPropertiesNames).count > 0
-    return hasMoreKeys
-}
-func needsDecodableImplementation(for type: Type, codingKeys: (generated: [String], all: [String])) -> Bool {
-    
-    if type.implements["WidgetComponent"] != nil && type.implements["AutoDecodable"] != nil { return true }
-    guard type.implements["AutoDecodable"] != nil else { return false }
-    if let enumType = type as? Enum, enumType.rawTypeName == nil { return true }
-
-    if type.storedVariables.contains(where: { customDecodingMethod(for: $0, of: type) != nil }) { return true }
-    if type.storedVariables.contains(where: { defaultDecodingValue(for: $0, of: type) != nil }) { return true }
-    if decodingContainerMethod(for: type) != nil { return true }
-    if typeHasMoreCodingKeysThanStoredProperties(type, codingKeys: codingKeys.all) { return true }
-    return false
-}
-func needsEncodableImplementation(for type: Type, codingKeys: (generated: [String], all: [String])) -> Bool {
-    guard type.implements["AutoEncodable"] != nil else { return false }
-    if let enumType = type as? Enum, enumType.rawTypeName == nil { return true }
-
-    if type.variables.contains(where: { customEncodingMethod(for: $0, of: type) != nil }) { return true }
-    if encodeAdditionalVariablesMethod(for: type) != nil { return true }
-    if decodingContainerMethod(for: type) != nil { return true }
-    if typeHasMoreCodingKeysThanStoredProperties(type, codingKeys: codingKeys.all) { return true }
-    if ((type.containedType["SkipEncodingKeys"] as? Enum)?.cases.count ?? 0) > 0 { return true }
-    return false
 }
 func codingKeysFor(_ type: Type) -> (generated: [String], all: [String]) {
     var generatedKeys = [String]()
@@ -137,7 +99,7 @@ func codingKeysFor(_ type: Type) -> (generated: [String], all: [String]) {
 -%>
 <%_ for type in types.all
                 where (type is Struct || type is Enum)
-                && (type.implements["AutoDecodable"] != nil || type.implements["AutoEncodable"] != nil) { -%>
+                && (type.implements["AutoDecodable"] != nil) { -%>
     <%_ let codingKeys = codingKeysFor(type) -%>
     <%_ if let codingKeysType = type.containedType["CodingKeys"] as? Enum, codingKeys.generated.count > 0 { -%>
 // sourcery:inline:auto:<%= codingKeysType.name %>.AutoCodable
@@ -146,9 +108,6 @@ func codingKeysFor(_ type: Type) -> (generated: [String], all: [String]) {
         <%_ } -%>
 // sourcery:end
 <%_ } -%>
-    <%_ let typeNeedsDecodableImplementation = needsDecodableImplementation(for: type, codingKeys: codingKeys) -%>
-    <%_ let typeNeedsEncodableImplementation = needsEncodableImplementation(for: type, codingKeys: codingKeys) -%>
-    <%_ guard typeNeedsDecodableImplementation || typeNeedsEncodableImplementation else { continue } -%>
 // MARK: <%= type.name %> Decodable
 extension <%= type.name %> {
     <%_ if type.containedType["CodingKeys"] as? Enum == nil { -%>
@@ -162,7 +121,6 @@ extension <%= type.name %> {
     }
     <%_ }-%>
 
-    <%_ if typeNeedsDecodableImplementation { -%>
     <%= type.accessLevel %> init(from decoder: Decoder) throws {
         <%_ if let containerMethod = decodingContainerMethod(for: type) { -%>
         let container = <% if containerMethod.throws { %>try <% } -%>
@@ -258,92 +216,6 @@ extension <%= type.name %> {
         <%_ } -%>
         <%_ } -%>
     }
-
-    <%_ } -%>
-    <%_ if typeNeedsEncodableImplementation { -%>
-    <%= type.accessLevel %> func encode(to encoder: Encoder) throws {
-        <%_ if let containerMethod = encodingContainerMethod(for: type) { -%>
-        var container = <% if containerMethod.callName == "singleValueContainer" { %>encoder.<% } %><%= containerMethod.callName %>(<% if !containerMethod.parameters.isEmpty { %>encoder<% } %>)
-        <%_ } else { -%>
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        <%_ } -%>
-
-        <%_ if let enumType = type as? Enum { -%>
-        <%_ if enumType.hasAssociatedValues { -%>
-        <%_ if codingKeys.all.contains("enumCaseKey") { -%>
-        switch self {
-        <%_ for enumCase in enumType.cases { -%>
-        <%_ if enumCase.associatedValues.isEmpty { -%>
-        case .<%= enumCase.name %>:
-            try container.encode(CodingKeys.<%= enumCase.name %>.rawValue, forKey: .enumCaseKey)
-        <%_ } else if enumCase.associatedValues.filter({ $0.localName == nil }).count == enumCase.associatedValues.count { -%>
-        case .<%= enumCase.name %>:
-            // Enum cases with unnamed associated values can't be encoded
-            throw EncodingError.invalidValue(self, .init(codingPath: encoder.codingPath, debugDescription: "Can't encode '\(self)'"))
-        <%_ } else if enumCase.associatedValues.filter({ $0.localName != nil }).count == enumCase.associatedValues.count { -%>
-        case let .<%= enumCase.name %>(<%= enumCase.associatedValues.map({ "\($0.localName!)" }).joined(separator: ", ") %>):
-            try container.encode(CodingKeys.<%= enumCase.name %>.rawValue, forKey: .enumCaseKey)
-            <%_ for accociatedValue in enumCase.associatedValues { -%>
-            try container.encode(<%= accociatedValue.localName! %>, forKey: .<%= accociatedValue.localName! %>)
-            <%_ } -%>
-        <%_ } else { -%>
-        case .<%= enumCase.name %>:
-            // Enum cases with mixed named and unnamed associated values can't be encoded
-            throw EncodingError.invalidValue(self, .init(codingPath: encoder.codingPath, debugDescription: "Can't encode '\(self)'"))
-        <%_ } -%>
-        <%_ } -%>
-        }
-        <%_ } else { -%>
-        switch self {
-        <%_ for enumCase in enumType.cases { -%>
-        <%_ if enumCase.associatedValues.isEmpty { -%>
-        case .<%= enumCase.name %>:
-            _ = container.nestedContainer(keyedBy: CodingKeys.self, forKey: .<%= enumCase.name %>)
-        <%_ } else if enumCase.associatedValues.filter({ $0.localName == nil }).count == enumCase.associatedValues.count { -%>
-        case let .<%= enumCase.name %>(<%= enumCase.associatedValues.indices.map({ "associatedValue\($0)" }).joined(separator: ", ") %>):
-            var associatedValues = container.nestedUnkeyedContainer(forKey: .<%= enumCase.name %>)
-            <%_ for (index, associatedValue) in enumCase.associatedValues.enumerated() { -%>
-            try associatedValues.encode(associatedValue<%= index %>)
-        <%_ } -%>
-        <%_ } else if enumCase.associatedValues.filter({ $0.localName != nil }).count == enumCase.associatedValues.count { -%>
-        case let .<%= enumCase.name %>(<%= enumCase.associatedValues.map({ "\($0.localName!)" }).joined(separator: ", ") %>):
-            var associatedValues = container.nestedContainer(keyedBy: CodingKeys.self, forKey: .<%= enumCase.name %>)
-            <%_ for accociatedValue in enumCase.associatedValues { -%>
-            try associatedValues.encode(<%= accociatedValue.localName! %>, forKey: .<%= accociatedValue.localName! %>)
-        <%_ } -%>
-        <%_ } else { -%>
-        case .<%= enumCase.name %>:
-            // Enum cases with mixed named and unnamed associated values can't be encoded
-            throw EncodingError.invalidValue(self, .init(codingPath: encoder.codingPath, debugDescription: "Can't encode '\(self)'"))
-        <%_ } -%>
-        <%_ } -%>
-        }
-        <%_ } -%>
-        <%_ } else { -%>
-        switch self {
-        <%_ for enumCase in enumType.cases { -%>
-        case .<%= enumCase.name %>: try container.encode(CodingKeys.<%= enumCase.name %>.rawValue)
-        <%_ } -%>
-        }
-        <%_ } -%>
-        <%_ } else { -%>
-        <%_ let skipKeys = type.containedType["SkipEncodingKeys"] as? Enum -%>
-        <%_ for key in codingKeys.all { -%>
-        <%_ if let skipKeys = skipKeys, skipKeys.cases.contains(where: { $0.name == key }) { continue } -%>
-        <%_ guard let variable = type.instanceVariables.first(where: { $0.name == key }) ?? type.computedVariables.first(where: { $0.name == key }) else { continue } -%>
-        <%_ let customMethod = customEncodingMethod(for: variable, of: type) -%>
-        <%_ if let customMethod = customMethod { -%>
-        <% if customMethod.throws { %>try <% } %><%= customMethod.callName %>(to: <% if customMethod.parameters.first?.name == "encoder" { %>encoder<% } else { %>&container<% } %>)
-        <%_ } else { -%>
-        try container.encode<% if variable.isOptional { %>IfPresent<% } %>(<%= variable.name %>, forKey: .<%= variable.name %>)
-        <%_ } -%>
-        <%_ } -%>
-        <%_ if let encodeAdditional = encodeAdditionalVariablesMethod(for: type) { -%>
-        <% if encodeAdditional.throws { %>try <% } %><%= encodeAdditional.callName %>(to: <% if encodeAdditional.parameters.first?.name == "encoder" { %>encoder<% } else { %>&container<% } %>)
-        <%_ } -%>
-        <%_ } -%>
-    }
-
-    <%_ } -%>
+    
 }
 <% } -%>
