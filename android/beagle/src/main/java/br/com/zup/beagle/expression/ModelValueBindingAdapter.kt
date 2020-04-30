@@ -16,8 +16,6 @@
 
 package br.com.zup.beagle.expression
 
-import android.os.Handler
-import android.os.Looper
 import br.com.zup.beagle.core.DataBindingComponent
 import br.com.zup.beagle.core.HasChildren
 import br.com.zup.beagle.core.HasOneChild
@@ -132,7 +130,7 @@ class ModelValueBindingAdapter {
 
                 val value = evaluationBinding.evaluate(data)
                 if (value.isPrimitive()) {
-                    Handler(Looper.getMainLooper()).post {
+                    scope.launch(CoroutineDispatchers.Main) {
                         when {
                             value.getAsPrimitive().isBoolean() -> binding.notifyChange(value.getAsBoolean())
                             value.getAsPrimitive().isNumber() -> binding.notifyChange(value.getAsNumber())
