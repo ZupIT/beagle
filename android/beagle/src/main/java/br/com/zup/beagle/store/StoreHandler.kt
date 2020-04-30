@@ -14,21 +14,14 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.setup
+package br.com.zup.beagle.store
 
-enum class Environment {
-    DEBUG,
-    PRODUCTION
+enum class StoreType {
+    DATABASE,
+    MEMORY
 }
 
-data class Cache(
-    val enabled: Boolean,
-    val maxAge: Long,
-    val memoryMaximumCapacity: Int
-)
-
-interface BeagleConfig {
-    val environment: Environment
-    val baseUrl: String
-    val cache: Cache
+interface StoreHandler {
+    fun save(storeType: StoreType, data: Map<String, String>)
+    fun restore(storeType: StoreType, vararg keys: String): Map<String, String?>
 }

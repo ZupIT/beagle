@@ -14,21 +14,8 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.setup
+package br.com.zup.beagle.utils
 
-enum class Environment {
-    DEBUG,
-    PRODUCTION
-}
+import java.util.concurrent.TimeUnit
 
-data class Cache(
-    val enabled: Boolean,
-    val maxAge: Long,
-    val memoryMaximumCapacity: Int
-)
-
-interface BeagleConfig {
-    val environment: Environment
-    val baseUrl: String
-    val cache: Cache
-}
+internal fun nanoTimeInSeconds(): Long = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime())

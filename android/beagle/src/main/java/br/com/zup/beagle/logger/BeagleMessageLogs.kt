@@ -80,7 +80,7 @@ internal object BeagleMessageLogs {
                 "form action '$formActionName'?")
     }
 
-    fun logIconResourceNotFound(inputName: String, ex: Exception) {
-        BeagleLogger.error("Resource with name $inputName not found", ex)
+    fun logDataNotInsertedOnDatabase(key: String, value: String) {
+        BeagleLogger.warning("Error when trying to insert key=$key with value=$value on Beagle default database.")
     }
 }
