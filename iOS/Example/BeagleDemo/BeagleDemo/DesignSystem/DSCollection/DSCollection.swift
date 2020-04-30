@@ -31,14 +31,6 @@ struct DSCollection: WidgetComponent, AutoInitiable {
 
     let dataSource: DSCollectionDataSource
     var widgetProperties: WidgetProperties
-
-    init(
-        dataSource: DSCollectionDataSource,
-        widgetProperties: WidgetProperties = WidgetProperties()
-    ) {
-        self.dataSource = dataSource
-        self.widgetProperties = widgetProperties
-    }
 }
 
 extension DSCollection: Renderable {
