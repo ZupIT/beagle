@@ -93,7 +93,7 @@ public class BeagleScreenViewModel: ScreenEvent {
         & DependencyAnalyticsExecutor
         & RenderableDependencies
         & DependencyComponentDecoding
-        & DependencyCacheManager
+        & DependencyFormDataStoreHandler
 
     // MARK: Delegate and Observer
 

@@ -21,28 +21,21 @@ public protocol FormDataStoreHandling {
     func read(key: String) -> String?
 }
 
-class FormDataStoreHandler: FormDataStoreHandling {
-        
-    // MARK: - Dependency
+public protocol DependencyFormDataStoreHandler {
+    var formDataStoreHandler: FormDataStoreHandling { get }
+}
+
+public class FormDataStoreHandler: FormDataStoreHandling {
     
-    private let dependency: DependencyCacheManager
+    private var dataStore: [String: String] = [:]
     
-    init(dependency: DependencyCacheManager) {
-        self.dependency = dependency
+    // MARK: - FormDataStoreHandling
+    
+    public func save(key: String, value: String) {
+        dataStore[key] = value
     }
     
-    func save(key: String, value: String) {
-        if let data = value.data(using: .utf8) {
-            let cacheReference = CacheReference(identifier: key, data: data, hash: "")
-            dependency.cacheManager?.addToCache(cacheReference)
-        }
-    }
-    
-    func read(key: String) -> String? {
-        guard
-            let cacheReference = dependency.cacheManager?.getReference(identifiedBy: key),
-            let value = String(data: cacheReference.data, encoding: .utf8)
-        else { return nil }
-        return value
+    public func read(key: String) -> String? {
+        return dataStore[key]
     }
 }

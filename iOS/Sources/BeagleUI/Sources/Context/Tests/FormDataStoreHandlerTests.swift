@@ -20,78 +20,33 @@ import SnapshotTesting
 
 class FormDataStoreHandlerTests: XCTestCase {
     
-    func test_saveMustCallCacheManagerPassingRightIdentifierAndData() {
+    func test_saveMustSaveKeyAndValue() {
         //Given
-        let cacheManagerStub = CacheManagerStub()
-        let sut = FormDataStoreHandler(dependency: DependencyCacheManagerStub(cacheManager: cacheManagerStub))
-        let parameters = (key: "key", value: "value")
+        let sut = FormDataStoreHandler()
+        let key = "key"
+        let value = "value"
         
         //When
-        sut.save(key: parameters.key, value: parameters.value)
-        guard
-            let passedCacheReference = cacheManagerStub.passedReference,
-            let passedValue = String(data: passedCacheReference.data, encoding: .utf8)
-        else {
-            XCTFail("By calling save, the data store must call cache manager passing a cache reference")
-            return
-        }
+        sut.save(key: key, value: value)
+        let readValue = sut.read(key: "key")
         
         //Then
-        XCTAssert(cacheManagerStub.didCallAddToCache == true)
-        XCTAssert(passedCacheReference.identifier == parameters.key)
-        XCTAssert(passedValue == parameters.value)
+        XCTAssert(readValue == value)
     }
     
-    func test_readMustCallCacheManagerWithRightKeyAndReceiveExpectedValue() {
+    func test_saveMustUpdateValue() {
         //Given
-        let parameters = (key: "key", value: "value")
-        // swiftlint:disable force_unwrapping
-        let cacheReference = CacheReference(identifier: parameters.key, data: parameters.value.data(using: .utf8)!, hash: "")
-        let cacheManagerStub = CacheManagerStub(cacheReference: cacheReference)
-        let sut = FormDataStoreHandler(dependency: DependencyCacheManagerStub(cacheManager: cacheManagerStub))
+        let sut = FormDataStoreHandler()
+        let key = "key"
+        let value = "value"
+        let newValue = "newValue"
         
         //When
-        let value = sut.read(key: parameters.key)
+        sut.save(key: key, value: value)
+        sut.save(key: key, value: newValue)
+        let readValue = sut.read(key: "key")
         
         //Then
-        XCTAssert(cacheManagerStub.didCallGetReference == true)
-        XCTAssert(cacheManagerStub.passedId == parameters.key)
-        XCTAssert(value == parameters.value)
-    }
-}
-
-private class DependencyCacheManagerStub: DependencyCacheManager {
-    var cacheManager: CacheManagerProtocol?
-    
-    init(cacheManager: CacheManagerProtocol) {
-        self.cacheManager = cacheManager
-    }
-}
-
-private class CacheManagerStub: CacheManagerProtocol {
-    
-    private(set) var didCallAddToCache = false
-    private(set) var passedReference: CacheReference?
-    
-    func addToCache(_ reference: CacheReference) {
-        didCallAddToCache = true
-        passedReference = reference
-    }
-    
-    private(set) var didCallGetReference = false
-    private(set) var passedId: String = ""
-    
-    var cacheReference: CacheReference?
-    
-    func getReference(identifiedBy id: String) -> CacheReference? {
-        didCallGetReference = true
-        passedId = id
-        return cacheReference
-    }
-    
-    func isValid(reference: CacheReference) -> Bool { return true }
-    
-    init(cacheReference: CacheReference? = nil) {
-        self.cacheReference = cacheReference
+        XCTAssert(readValue == newValue)
     }
 }

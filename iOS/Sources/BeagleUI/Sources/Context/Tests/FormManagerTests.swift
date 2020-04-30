@@ -40,7 +40,8 @@ final class FormManagerTests: XCTestCase {
     private lazy var dependencies = BeagleScreenDependencies(
         actionExecutor: actionExecutorSpy,
         repository: repositoryStub,
-        validatorProvider: validator
+        validatorProvider: validator,
+        formDataStoreHandler: dataStoreStub
     )
 
     private lazy var repositoryStub = RepositoryStub()
@@ -184,7 +185,7 @@ final class FormManagerTests: XCTestCase {
         let gesture = submitGesture(in: formViewWithStorage)
 
         // When
-        screen.formContextManager = FormManager(dependencies: dependencies, delegate: screen, formDataStore: dataStoreStub)
+        screen.formContextManager = FormManager(dependencies: dependencies, delegate: screen)
         screen.formManager.handleSubmitFormGesture(gesture)
         
         // Then
@@ -226,7 +227,7 @@ final class FormManagerTests: XCTestCase {
         let gesture = submitGesture(in: formViewWithStorage)
         
         // When
-        screen.formContextManager = FormManager(dependencies: dependencies, delegate: screen, formDataStore: dataStoreStub)
+        screen.formContextManager = FormManager(dependencies: dependencies, delegate: screen)
         screen.formManager.handleSubmitFormGesture(gesture)
         
         // Then

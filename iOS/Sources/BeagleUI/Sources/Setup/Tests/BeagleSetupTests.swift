@@ -72,6 +72,11 @@ final class DeepLinkHandlerDummy: DeepLinkScreenManaging {
     }
 }
 
+final class FormDataStoreHandlerDummy: FormDataStoreHandling {
+    func save(key: String, value: String) { }
+    func read(key: String) -> String? { return nil }
+}
+
 final class ComponentDecodingDummy: ComponentDecoding {
     func register<T>(_ type: T.Type, for typeName: String) where T: ServerDrivenComponent {}
     func decodableType(forType type: String) -> Decodable.Type? { return nil }
@@ -125,6 +130,7 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
     var cacheManager: CacheManagerProtocol?
     var decoder: ComponentDecoding
     var logger: BeagleLoggerType
+    var formDataStoreHandler: FormDataStoreHandling
 
     init(
         actionExecutor: ActionExecutor = ActionExecutorDummy(),
@@ -137,7 +143,8 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
         cacheManager: CacheManagerProtocol = CacheManagerDummy(),
         decoder: ComponentDecoding = ComponentDecodingDummy(),
         logger: BeagleLoggerType = BeagleLoggerDumb(),
-        analytics: Analytics = AnalyticsExecutorSpy()
+        analytics: Analytics = AnalyticsExecutorSpy(),
+        formDataStoreHandler: FormDataStoreHandling = FormDataStoreHandlerDummy()
     ) {
         self.actionExecutor = actionExecutor
         self.flex = flex
@@ -150,6 +157,7 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
         self.decoder = decoder
         self.logger = logger
         self.analytics = analytics
+        self.formDataStoreHandler = formDataStoreHandler
     }
 }
 
