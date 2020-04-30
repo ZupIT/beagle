@@ -371,6 +371,7 @@
 		C0D67537245753F8009F0E94 /* Initiable.swifttemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Initiable.swifttemplate; sourceTree = "<group>"; };
 		C0D67538245753F8009F0E94 /* AutoDecodable.swifttemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AutoDecodable.swifttemplate; sourceTree = "<group>"; };
 		C0D6754824586F14009F0E94 /* AutoDecodable.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoDecodable.generated.swift; sourceTree = "<group>"; };
+		C0F01689245B09430041A30C /* sourceryScript.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = sourceryScript.sh; sourceTree = "<group>"; };
 		C62E8EAD2373588900FF1497 /* ScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollView.swift; sourceTree = "<group>"; };
 		C65F25362375E6C2007670EC /* ScrollViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewTests.swift; sourceTree = "<group>"; };
 		C81EAB4923C8BFD70074B9D2 /* Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snapshot.swift; sourceTree = "<group>"; };
@@ -945,6 +946,7 @@
 			children = (
 				C0D6754824586F14009F0E94 /* AutoDecodable.generated.swift */,
 				C0D6753324572DEA009F0E94 /* SourceryProtocols.swift */,
+				C0F01689245B09430041A30C /* sourceryScript.sh */,
 			);
 			path = SourceryFiles;
 			sourceTree = "<group>";
@@ -1599,6 +1601,7 @@
 			buildPhases = (
 				932925CA2327E11000A61F01 /* Headers */,
 				C0D6752A24571CB6009F0E94 /* Sourcery Run Script */,
+				C0F0168B245B0FB00041A30C /* THIS WILL BE SOURCERY SCRIPT SOON */,
 				932925CB2327E11000A61F01 /* Sources */,
 				932925CC2327E11000A61F01 /* Frameworks */,
 				932925CD2327E11000A61F01 /* Resources */,
@@ -1748,6 +1751,24 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nunset SDKROOT\n../../Libraries/Sourcery/bin/sourcery --sources Sources --templates Resources/Templates --output Sources/SourceryFiles\n";
 			showEnvVarsInLog = 0;
+		};
+		C0F0168B245B0FB00041A30C /* THIS WILL BE SOURCERY SCRIPT SOON */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "THIS WILL BE SOURCERY SCRIPT SOON";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nSources/SourceryFiles/sourceryScript.sh\n";
 		};
 		C8E42FCE23C7C6A500B1963F /* Carthage Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
