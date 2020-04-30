@@ -19,6 +19,7 @@ package br.com.zup.beagle.sample.compose
 import br.com.zup.beagle.expression.valueExpr
 import br.com.zup.beagle.sample.constants.MODEL_ENDPOINT
 import br.com.zup.beagle.sample.constants.MODEL_ENDPOINT2
+import br.com.zup.beagle.sample.model.SampleModel_
 import br.com.zup.beagle.sample.widget.WidgetBindingSample
 import br.com.zup.beagle.widget.core.ComposeComponent
 import br.com.zup.beagle.widget.layout.Container
@@ -28,8 +29,8 @@ object SampleBindingComponent : ComposeComponent() {
 
     internal fun createWidget() = Container(children = listOf(
         WidgetBindingSample(
-            intValue = valueExpr(1, "@{b}"),
-            stringValue = valueExpr("Loading 1", "@{a}")
+            intValue = valueExpr(1, SampleModel_.b),
+            stringValue = valueExpr("Loading 1", SampleModel_.a)
         )
     )
     )
@@ -39,12 +40,12 @@ object SampleBindingComponent : ComposeComponent() {
             Container(
                 children = listOf(
                     WidgetBindingSample(
-                        intValue = valueExpr(1, "@{b}"),
-                        stringValue = valueExpr("Loading 1", "@{a}")
+                        intValue = valueExpr(1, SampleModel_.b),
+                        stringValue = valueExpr("Loading 1", SampleModel_.a)
                     ),
                     WidgetBindingSample(
-                        intValue = valueExpr(2, "@{b}"),
-                        stringValue = valueExpr("Loading 2", "@{a}")
+                        intValue = valueExpr(2, SampleModel_.b),
+                        stringValue = valueExpr("Loading 2", SampleModel_.a)
                     ).setModelPath(MODEL_ENDPOINT2)
                 )
             )

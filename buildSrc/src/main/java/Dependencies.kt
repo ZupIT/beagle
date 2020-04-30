@@ -39,6 +39,7 @@ object Modules {
     const val beagleDeclarative = ":common:declarative"
     const val beagleAnnotation = ":common:annotation"
     const val beagleBackendDeclarative = ":backend:backend-declarative"
+    const val beagleBackendProcessor = ":backend:processor"
     const val beagleBackendFramework = ":backend:framework"
     const val beagleBackendSpringStarter = ":backend:starters:beagle-spring-starter"
     const val beagleBackendMicronautStarter = ":backend:starters:beagle-micronaut-starter"
@@ -132,6 +133,7 @@ object GeneralLibraries {
     const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     const val kotlinCoroutines =
         "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}"
+    const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
 
     const val kotlinPoet = "com.squareup:kotlinpoet:${Versions.kotlinPoet}"
 

@@ -14,9 +14,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.model
+package br.com.zup.beagle.expression
 
-import br.com.zup.beagle.annotation.BeagleExpressionRoot
+import br.com.zup.beagle.expression.Expression.Companion.access
 
-@BeagleExpressionRoot
-data class SampleNestedModel(val a : SampleA)
+class BeagleIterableSubexpression<T, N>(
+    private val expression: Expression<out Iterable<T>>,
+    private val createNext: (Expression<T>) -> N
+) {
+    operator fun get(index: Int) = this.createNext(this.expression.access(index))
+}

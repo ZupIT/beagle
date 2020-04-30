@@ -16,4 +16,7 @@
 
 package br.com.zup.beagle.sample.model
 
+import br.com.zup.beagle.annotation.BeagleExpressionRoot
+
+@BeagleExpressionRoot
 data class SampleModel(val a: String, val b: Int)

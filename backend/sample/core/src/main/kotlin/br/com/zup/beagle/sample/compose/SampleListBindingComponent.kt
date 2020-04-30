@@ -21,6 +21,8 @@ import br.com.zup.beagle.widget.core.ComposeComponent
 import br.com.zup.beagle.widget.ui.ListViewBinding
 
 object SampleListBindingComponent : ComposeComponent() {
-    override fun build() = ListViewBinding(SampleBindingComponent.createWidget(),
-        listPath = LIST_MODEL_ENDPOINT)
+    override fun build() = ListViewBinding(
+        child = SampleBindingComponent.createWidget(),
+        listPath = LIST_MODEL_ENDPOINT
+    )
 }

@@ -14,9 +14,22 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.model
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
 
-import br.com.zup.beagle.annotation.BeagleExpressionRoot
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
-@BeagleExpressionRoot
-data class SampleNestedModel(val a : SampleA)
+dependencies {
+    implementation project(Modules.beagleAnnotation)
+    implementation project(Modules.beagleBackendDeclarative)
+
+    implementation GeneralLibraries.kotlin
+    implementation GeneralLibraries.kotlinReflect
+    implementation GeneralLibraries.kotlinPoet
+
+    implementation GoogleLibraries.autoService
+    kapt GoogleLibraries.autoService
+}
+
+apply from: rootProject.file('maven-publish.gradle')

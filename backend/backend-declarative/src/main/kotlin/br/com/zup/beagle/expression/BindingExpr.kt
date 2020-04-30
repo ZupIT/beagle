@@ -18,15 +18,14 @@ package br.com.zup.beagle.expression
 
 import br.com.zup.beagle.core.Binding
 
-data class BindingExpr<T>(override val expression: String? = null,  override val initialValue: T? = null) : Binding<T>
-
-fun <T> expr(expression: String) =
-    BindingExpr<T>(expression = expression)
+data class BindingExpr<T> internal constructor(
+    override val expression: String? = null,
+    override val initialValue: T? = null
+) : Binding<T>
 
 fun <T> value(initialValue: T) = BindingExpr(initialValue = initialValue)
 
-fun <T> valueExpr(initialValue: T, expression: String) =
-    BindingExpr(
-        initialValue = initialValue,
-        expression = expression
-    )
+fun <T> expr(expression: Expression<T>) = BindingExpr<T>(expression = expression.representation)
+
+fun <T> valueExpr(initialValue: T, expression: Expression<T>) =
+    BindingExpr<T>(initialValue = initialValue, expression = expression.representation)

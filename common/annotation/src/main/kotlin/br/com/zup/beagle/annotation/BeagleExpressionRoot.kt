@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.model
+package br.com.zup.beagle.annotation
 
-import br.com.zup.beagle.annotation.BeagleExpressionRoot
-
-@BeagleExpressionRoot
-data class SampleNestedModel(val a : SampleA)
+@Target(AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.SOURCE)
+annotation class BeagleExpressionRoot
