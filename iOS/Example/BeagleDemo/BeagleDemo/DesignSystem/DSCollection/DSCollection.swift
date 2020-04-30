@@ -27,10 +27,20 @@ struct DSCollectionDataSource : Decodable {
     let cards: [Card]
 }
 
-struct DSCollection: WidgetComponent, AutoInitiable {
+struct DSCollection: WidgetComponent, AutoDecodable {
 
     let dataSource: DSCollectionDataSource
     var widgetProperties: WidgetProperties
+
+// sourcery:inline:auto:DSCollection.Init
+	internal init( 
+		dataSource: DSCollectionDataSource ,
+		widgetProperties: WidgetProperties = WidgetProperties()
+    ) {
+        self.dataSource = dataSource
+        self.widgetProperties = widgetProperties
+    }
+// sourcery:end
 }
 
 extension DSCollection: Renderable {
