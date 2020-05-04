@@ -22,7 +22,7 @@
             }
         },
         "appearance": {
-            "backgroundColor": "00ff00"
+            "backgroundColor": "#00ff00"
         }
     }
 }

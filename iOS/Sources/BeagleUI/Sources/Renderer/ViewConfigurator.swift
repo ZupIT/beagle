@@ -54,7 +54,7 @@ class ViewConfigurator: ViewConfiguratorProtocol {
 
     func setup(appearance: Appearance?) {
         if let hex = appearance?.backgroundColor {
-            view?.backgroundColor = .init(hex: hex)
+            view?.backgroundColor = UIColor(hex: hex)
         }
         if let cornerRadius = appearance?.cornerRadius {
             view?.layer.masksToBounds = true

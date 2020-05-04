@@ -76,8 +76,7 @@ struct FormScreen: DeeplinkScreen {
                         enabled: false
                     )
                 ],
-                flex: Flex().grow(1).padding(EdgeValue().all(10)),
-                appearance: Appearance(backgroundColor: .LIGHT_GREEN_COLOR)
+                flex: Flex().grow(1).padding(EdgeValue().all(10))
             )
         )
         let screen = Screen(

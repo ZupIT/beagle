@@ -40,13 +40,6 @@ extension String {
     // MARK: - URL
     static let WEB_VIEW_URL = "https://maps.google.com/"
     
-    // MARK: - Color
-    static let LIGHT_GREEN_COLOR = "#B8E297"
-    static let GREEN_COLOR = "#579F2B"
-    static let GRAY_COLOR = "#808080"
-    static let ORANGE_COLOR = "#FF8818"
-    static let DARK_GRAY_COLOR = "#3A3535"
-    
     // MARK: - Style
     static let TAB_VIEW_STYLE = "DesignSystem.TabView.Style"
     static let FORM_SUBMIT_STYLE = "DesignSystem.Form.Submit"

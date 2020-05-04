@@ -15,4 +15,4 @@
     - some: "test.text.style"
   - text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
   ▿ textColor: Optional<String>
-    - some: "579F2B"
+    - some: "#579F2B"
