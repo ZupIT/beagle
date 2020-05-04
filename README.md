@@ -1,5 +1,6 @@
 ![Release](https://github.com/ZupIT/beagle/workflows/Beagle%20Release/badge.svg)
 [![codecov](https://codecov.io/gh/ZupIT/beagle/branch/master/graph/badge.svg?token=rViMmc9MYJ)](https://codecov.io/gh/ZupIT/beagle)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/ZupIT/beagle/blob/master/LICENSE.txt)
 
 ## What is Beagle?
 

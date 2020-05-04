@@ -100,4 +100,11 @@ final class UrlRequestBuilderTest: XCTestCase {
     }
 }
 
-extension String: RemoteScreenAdditionalData { }
+extension String: RemoteScreenAdditionalData {
+    public var headers: [String : String] {
+        get {
+            [:]
+        }
+        set(newValue) { }
+    }
+}

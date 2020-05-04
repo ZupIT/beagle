@@ -40,7 +40,8 @@ sealed class ViewState {
 }
 
 internal class BeagleViewModel(
-    private val beagleService: BeagleService = BeagleService()
+    private val componentRequester: ComponentRequester = ComponentRequester(),
+    private val actionRequester: ActionRequester = ActionRequester()
 ) : ViewModel(), CoroutineScope {
 
     private val job = Job()
@@ -56,7 +57,7 @@ internal class BeagleViewModel(
                     waitFetchProcess(screenRequest.url)
                 } else {
                     setLoading(screenRequest.url, true)
-                    val component = beagleService.fetchComponent(screenRequest)
+                    val component = componentRequester.fetchComponent(screenRequest)
                     state.value = ViewState.DoRender(screenRequest.url, component)
                 }
             } catch (exception: BeagleException) {
@@ -80,7 +81,7 @@ internal class BeagleViewModel(
     fun fetchForCache(url: String) = launch {
         try {
             urlObservableReference.get().setLoading(url, true)
-            val component = beagleService.fetchComponent(ScreenRequest(url))
+            val component = componentRequester.fetchComponent(ScreenRequest(url))
             urlObservableReference.get().notifyLoaded(url, component)
         } catch (exception: BeagleException) {
             BeagleLogger.warning(exception.message)
@@ -108,7 +109,7 @@ internal class BeagleViewModel(
         state.value = ViewState.Loading(true)
 
         try {
-            val action = beagleService.fetchAction(url)
+            val action = actionRequester.fetchAction(url)
             state.value = ViewState.DoAction(action)
         } catch (exception: BeagleException) {
             state.value = ViewState.Error(exception)

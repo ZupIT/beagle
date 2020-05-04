@@ -36,8 +36,7 @@ public protocol RenderableDependencies: DependencyTheme,
     DependencyValidatorProvider,
     DependencyPreFetching,
     DependencyAppBundle,
-    DependencyNetwork,
-    DependencyCacheManager,
+    DependencyRepository,
     DependencyLogger {
 }
 

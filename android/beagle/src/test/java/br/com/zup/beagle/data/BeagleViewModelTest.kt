@@ -52,7 +52,9 @@ class BeagleViewModelTest {
     @MockK
     private lateinit var action: Action
     @MockK
-    private lateinit var beagleService: BeagleService
+    private lateinit var componentRequester: ComponentRequester
+    @MockK
+    private lateinit var actionRequester: ActionRequester
 
     @InjectMockKs
     private lateinit var beagleUIViewModel: BeagleViewModel
@@ -69,8 +71,8 @@ class BeagleViewModelTest {
 
         CoroutineDispatchers.Main = Dispatchers.Unconfined
 
-        coEvery { beagleService.fetchComponent(any()) } returns component
-        coEvery { beagleService.fetchAction(any()) } returns action
+        coEvery { componentRequester.fetchComponent(any()) } returns component
+        coEvery { actionRequester.fetchAction(any()) } returns action
 
         viewModelStates.clear()
 
@@ -105,7 +107,7 @@ class BeagleViewModelTest {
         // Given
         val screenRequest = ScreenRequest(RandomData.httpUrl())
         val exception = BeagleException("Error")
-        coEvery { beagleService.fetchComponent(any()) } throws exception
+        coEvery { componentRequester.fetchComponent(any()) } throws exception
 
         // When
         beagleUIViewModel.fetchComponent(screenRequest)
@@ -136,7 +138,7 @@ class BeagleViewModelTest {
         // Given
         val url = RandomData.httpUrl()
         val exception = BeagleException("Error")
-        coEvery { beagleService.fetchAction(any()) } throws exception
+        coEvery { actionRequester.fetchAction(any()) } throws exception
 
         // When
         beagleUIViewModel.fetchAction(url)

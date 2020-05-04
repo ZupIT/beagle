@@ -2,7 +2,6 @@ name: iOS PR Verification
 
 on:
   pull_request:
-    branches: [ master ]
     # TODO: remove this path selector when we have more integrated tests
     paths: 'iOS/**'
 
@@ -18,6 +17,9 @@ jobs:
         
       - name: install Carthage
         run: brew install carthage
+
+      - name: install swiftLint
+        run: brew install swiftlint
       
       - name: execute Fastlane
         env:

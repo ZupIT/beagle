@@ -42,6 +42,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.spyk
@@ -193,7 +194,6 @@ class ToolbarManagerTest : BaseTest() {
 
         // THEN
         assertEquals(View.VISIBLE, toolbar.visibility)
-        verify(exactly = once()) { toolbar.removeAllViews() }
         verify(exactly = once()) { menu.clear() }
         verify(exactly = navigationBarItems.size) { menu.add(Menu.NONE, 0, Menu.NONE, "Stub") }
         verify(exactly = navigationBarItems.size) { menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER) }
