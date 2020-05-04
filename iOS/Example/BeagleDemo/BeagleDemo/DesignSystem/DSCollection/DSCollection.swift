@@ -28,7 +28,7 @@ struct DSCollectionDataSource : Decodable, AutoEquatable {
 }
 
 // Conforming to AutoEquatable is optional.
-struct DSCollection: WidgetComponent, AutoDecodable, AutoEquatable {
+struct DSCollection: WidgetComponent, AutoInitiableAndDecodable, AutoEquatable {
 
     let dataSource: DSCollectionDataSource
     var widgetProperties: WidgetProperties
