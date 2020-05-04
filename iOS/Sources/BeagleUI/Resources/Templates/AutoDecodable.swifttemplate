@@ -96,7 +96,18 @@ func codingKeysFor(_ type: Type) -> (generated: [String], all: [String]) {
     }
     return (generated: generatedKeys, all: allCodingKeys)
 }
+func importBeagleUIString(_ arguments: Dictionary<String,AnyObject>? ) -> String {
+    guard let arguments = arguments else { return "" }
+    for arg in arguments {
+        if arg.key == "shouldNotImportBeagleUI", let value = arg.value as? Bool, value {
+            return ""
+        }
+    }
+    return "import BeagleUI\n\n"
+}
 -%>
+
+<%= importBeagleUIString(argument) -%>
 <%_ for type in types.all
                 where (type is Struct || type is Enum)
                 && (type.implements["AutoDecodable"] != nil) { -%>

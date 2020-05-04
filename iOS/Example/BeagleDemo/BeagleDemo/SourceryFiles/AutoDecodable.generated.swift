@@ -16,3 +16,21 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+
+import BeagleUI
+
+// MARK: DSCollection Decodable
+extension DSCollection {
+
+    enum CodingKeys: String, CodingKey {
+        case dataSource
+    }
+
+    internal init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        dataSource = try container.decode( DSCollectionDataSource.self, forKey: .dataSource)
+        widgetProperties = try WidgetProperties(from: decoder)
+    }
+    
+}
