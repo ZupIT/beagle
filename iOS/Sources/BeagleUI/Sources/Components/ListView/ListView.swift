@@ -26,7 +26,7 @@ public struct ListView: ServerDrivenComponent, AutoInitiableAndDecodable {
 // sourcery:inline:auto:ListView.Init
 	public init(
 		rows: [ServerDrivenComponent],
-		direction: Direction
+		direction: Direction = .vertical
     ) {
         self.rows = rows
         self.direction = direction
