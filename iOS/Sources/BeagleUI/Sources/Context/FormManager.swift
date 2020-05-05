@@ -18,7 +18,6 @@ import UIKit
 
 public protocol FormManaging {
     func register(form: Form, formView: UIView, submitView: UIView, validatorHandler: ValidatorProvider?)
-    func handleSubmitFormGesture(_ sender: SubmitFormGestureRecognizer)
 }
 
 protocol FormManagerDelegate: AnyObject {

@@ -16,7 +16,7 @@
 
 import UIKit
 
-public final class SubmitFormGestureRecognizer: UITapGestureRecognizer {
+final class SubmitFormGestureRecognizer: UITapGestureRecognizer {
     
     let form: Form
     weak var formView: UIView?

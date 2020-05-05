@@ -265,7 +265,6 @@ class DeepLinkHandlerSpy: DeepLinkScreenManaging {
 
 class FormManagerDummy: FormManaging {
     func register(form: Form, formView: UIView, submitView: UIView, validatorHandler: ValidatorProvider?) { }
-    func handleSubmitFormGesture(_ sender: SubmitFormGestureRecognizer) { }
 }
 
 class LazyLoadManagerDummy: LazyLoadManaging {
@@ -276,7 +275,6 @@ class ActionManagerDummy: ActionManaging {
     func register(events: [Event], inView view: UIView) {}
     func doAction(_ action: Action, sender: Any) {}
     func doAnalyticsAction(_ action: AnalyticsClick, sender: Any) {}
-    func handleGestureRecognizer(_ sender: EventsGestureRecognizer) {}
 }
 
 class BeagleContextDummy: BeagleContext {

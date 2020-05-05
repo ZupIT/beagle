@@ -69,7 +69,11 @@ final class TouchableTests: XCTestCase {
         }
                 
         // When
-        sut.actionManager.handleGestureRecognizer(eventsGestureRecognizer)
+        guard let actionManager = sut.actionManager as? ActionManager else {
+            XCTFail("Action Manager its not expected type")
+            return
+        }
+        actionManager.handleGestureRecognizer(eventsGestureRecognizer)
                 
         // Then
         XCTAssertTrue(analyticsExecutorSpy.didTrackEventOnClick)

@@ -20,7 +20,6 @@ public protocol ActionManaging {
     func register(events: [Event], inView view: UIView)
     func doAction(_ action: Action, sender: Any)
     func doAnalyticsAction(_ action: AnalyticsClick, sender: Any)
-    func handleGestureRecognizer(_ sender: EventsGestureRecognizer)
 }
 
 protocol ActionManagerDelegate: AnyObject {

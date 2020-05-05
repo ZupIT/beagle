@@ -23,8 +23,6 @@ class FormManagerSpy: FormManaging {
     func register(form: Form, formView: UIView, submitView: UIView, validatorHandler: ValidatorProvider?) {
         didCallRegisterFormSubmit = true
     }
-    
-    func handleSubmitFormGesture(_ sender: SubmitFormGestureRecognizer) { }
 }
 
 class LazyLoadManagerSpy: LazyLoadManaging {
@@ -53,8 +51,6 @@ class ActionManagerSpy: ActionManaging {
     func doAnalyticsAction(_ action: AnalyticsClick, sender: Any) {
         analyticsEventCalled = true
     }
-    
-    func handleGestureRecognizer(_ sender: EventsGestureRecognizer) { }
 }
 
 class BeagleContextSpy: BeagleContext {
