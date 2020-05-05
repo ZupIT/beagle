@@ -1,21 +1,20 @@
-name: Beagle Android Pull Request
+name: Beagle PR Danger
 
 on:
    pull_request:
-     paths:
-        - 'android/**'
+    branches:
+       - master
 jobs:
-    pr-verification:
-        name: PR Check
+    danger-pr:
+        name: Danger PR
         runs-on: macos-latest
         steps:
             - uses: actions/checkout@v1
             - name: Install Fastlane
               run: bundle install
-            - name: Run pr check
+            - name: Run danger check
               env:
                 GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
                 GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
-                CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-              run: bundle exec fastlane android pull_request_verification
+              run: bundle exec fastlane run_danger danger_id:"pr_danger" danger_file_path:"pr"
         
