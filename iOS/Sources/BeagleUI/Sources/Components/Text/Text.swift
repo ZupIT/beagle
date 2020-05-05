@@ -16,7 +16,7 @@
 
 import UIKit
 
-public struct Text: WidgetComponent, AutoInitiableAndDecodable {
+public struct Text: Widget, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
     public let text: String
@@ -65,7 +65,7 @@ extension Text: Renderable {
             textView.textColor = UIColor(hex: color)
         }
 
-        textView.beagle.setup(widgetProperties)
+        textView.beagle.setup(self)
         
         return textView
     }

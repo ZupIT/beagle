@@ -98,7 +98,7 @@ struct DemoTextField: WidgetComponent {
         textField.borderStyle = .roundedRect
         textField.placeholder = placeholder
 
-        textField.beagle.setup(widgetProperties)
+        textField.beagle.setup(self)
 
         return textField
     }

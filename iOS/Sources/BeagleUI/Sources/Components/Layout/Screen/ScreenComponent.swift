@@ -16,7 +16,7 @@
 
 import UIKit
 
-struct ScreenComponent: AppearanceComponent {
+struct ScreenComponent: AppearanceComponent, ServerDrivenComponent {
 
     // MARK: - Public Properties
     

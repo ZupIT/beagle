@@ -16,7 +16,7 @@
 
 import UIKit
 
-public struct Button: WidgetComponent, ClickedOnComponent, AutoInitiableAndDecodable {
+public struct Button: Widget, ClickedOnComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
     public let text: String
@@ -59,7 +59,7 @@ extension Button: Renderable {
         }
         
         button.style = style
-        button.beagle.setup(widgetProperties)
+        button.beagle.setup(self)
         
         return button
     }

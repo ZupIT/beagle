@@ -16,7 +16,7 @@
 
 import UIKit
 
-public struct Container: WidgetComponent, AutoInitiableAndDecodable {
+public struct Container: Widget, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
     public let children: [ServerDrivenComponent]
@@ -58,7 +58,7 @@ extension Container: Renderable {
             childView.flex.isEnabled = true
         }
 
-        containerView.beagle.setup(widgetProperties)
+        containerView.beagle.setup(self)
         
         return containerView
     }

@@ -16,29 +16,31 @@
 
 import UIKit
 
-public protocol AppearanceComponent: ServerDrivenComponent {
+public protocol AppearanceComponent {
     var appearance: Appearance? { get }
 }
 
-public protocol FlexComponent: ServerDrivenComponent {
+public protocol FlexComponent {
     var flex: Flex? { get }
 }
 
-public protocol AccessibilityComponent: ServerDrivenComponent {
+public protocol AccessibilityComponent {
     var accessibility: Accessibility? { get }
 }
 
-public protocol IdentifiableComponent: ServerDrivenComponent {
+public protocol IdentifiableComponent {
     var id: String? { get }
 }
 
-public protocol WidgetComponent: ServerDrivenComponent {
+public protocol CommonComponents {
     var widgetProperties: WidgetProperties { get set }
 }
 
-public protocol Widget: AppearanceComponent, FlexComponent, AccessibilityComponent, IdentifiableComponent { }
+public protocol Widget: CommonComponents, ServerDrivenComponent { }
 
-public struct WidgetProperties: Widget, Equatable {
+public protocol Properties: AppearanceComponent, FlexComponent, AccessibilityComponent, IdentifiableComponent { }
+
+public struct WidgetProperties: Properties, Equatable, Decodable {
     
     public var appearance: Appearance?
     public var flex: Flex?
@@ -68,10 +70,6 @@ public struct WidgetProperties: Widget, Equatable {
         self.appearance = appearance
         self.flex = flex
         self.accessibility = accessibility
-    }
-    
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        preconditionFailure("You must override this method!")
     }
 
     public init(from decoder: Decoder) throws {

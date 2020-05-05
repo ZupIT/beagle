@@ -16,7 +16,7 @@
 
 import UIKit
 
-public struct ScrollView: AppearanceComponent {
+public struct ScrollView: AppearanceComponent, ServerDrivenComponent {
     
     // MARK: - Public Properties
     

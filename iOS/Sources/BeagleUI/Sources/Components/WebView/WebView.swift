@@ -17,7 +17,7 @@
 import UIKit
 import WebKit
 
-public struct WebView: FlexComponent {
+public struct WebView: FlexComponent, ServerDrivenComponent {
     public let url: String
     public let flex: Flex?
     

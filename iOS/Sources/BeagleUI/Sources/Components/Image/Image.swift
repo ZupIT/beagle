@@ -16,7 +16,7 @@
 
 import UIKit
 
-public struct Image: WidgetComponent, AutoInitiableAndDecodable {
+public struct Image: Widget, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
     
@@ -45,7 +45,7 @@ extension Image: Renderable {
         image.contentMode = (contentMode ?? .fitCenter).toUIKit()
         image.setImageFromAsset(named: name, bundle: dependencies.appBundle)
         
-        image.beagle.setup(widgetProperties)
+        image.beagle.setup(self)
         
         return image
     }

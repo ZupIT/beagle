@@ -16,7 +16,7 @@
 
 import UIKit
 
-public struct NetworkImage: WidgetComponent, AutoInitiableAndDecodable {
+public struct NetworkImage: Widget, AutoInitiableAndDecodable {
     
     public let path: String
     public let contentMode: ImageContentMode?
@@ -41,7 +41,7 @@ extension NetworkImage: Renderable {
         imageView.clipsToBounds = true
         imageView.contentMode = (contentMode ?? .fitCenter).toUIKit()
 
-        imageView.beagle.setup(widgetProperties)
+        imageView.beagle.setup(self)
         
         dependencies.repository.fetchImage(url: path, additionalData: nil) { [weak imageView, weak context] result in
             guard let imageView = imageView else { return }
