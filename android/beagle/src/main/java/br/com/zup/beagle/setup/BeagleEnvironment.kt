@@ -16,19 +16,9 @@
 
 package br.com.zup.beagle.setup
 
-enum class Environment {
-    DEBUG,
-    PRODUCTION
-}
+import android.app.Application
 
-data class Cache(
-    val enabled: Boolean,
-    val maxAge: Long,
-    val memoryMaximumCapacity: Int
-)
-
-interface BeagleConfig {
-    val environment: Environment
-    val baseUrl: String
-    val cache: Cache
+internal object BeagleEnvironment {
+    lateinit var beagleSdk: BeagleSdk
+    lateinit var application: Application
 }
