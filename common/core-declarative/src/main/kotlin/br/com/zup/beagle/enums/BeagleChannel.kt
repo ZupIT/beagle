@@ -14,22 +14,20 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+package br.com.zup.beagle.enums
 
-import br.com.zup.beagle.core.LayoutComponent
-import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.enums.BeagleChannel
+enum class BeagleChannel {
+    ALL,
+    MOBILE,
+    WEB;
 
-data class ScrollView(
-    val children: List<ServerDrivenComponent>,
-    val scrollDirection: ScrollAxis? = null,
-    val scrollBarEnabled: Boolean? = null
-) : ServerDrivenComponent, LayoutComponent {
-    override val beagleChannel: BeagleChannel
-        get() = BeagleChannel.MOBILE
-}
-
-enum class ScrollAxis {
-    VERTICAL,
-    HORIZONTAL
+    companion object {
+        fun from(value: String?): BeagleChannel? {
+            return if (value != null) {
+                valueOf(value)
+            } else {
+                null
+            }
+        }
+    }
 }
