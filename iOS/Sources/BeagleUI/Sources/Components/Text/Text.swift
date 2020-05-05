@@ -26,11 +26,11 @@ public struct Text: Widget, AutoInitiableAndDecodable {
     public var widgetProperties: WidgetProperties
     
 // sourcery:inline:auto:Text.Init
-	public init( 
-		_ text: String ,
-		style: String? = nil ,
-		alignment: Alignment? = nil ,
-		textColor: String? = nil ,
+	public init(
+		_ text: String,
+		style: String? = nil,
+		alignment: Alignment? = nil,
+		textColor: String? = nil,
 		widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.text = text

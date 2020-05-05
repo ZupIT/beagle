@@ -23,9 +23,9 @@ public struct NetworkImage: Widget, AutoInitiableAndDecodable {
     public var widgetProperties: WidgetProperties
 
 // sourcery:inline:auto:NetworkImage.Init
-	public init( 
-		path: String ,
-		contentMode: ImageContentMode? = nil ,
+	public init(
+		path: String,
+		contentMode: ImageContentMode? = nil,
 		widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.path = path

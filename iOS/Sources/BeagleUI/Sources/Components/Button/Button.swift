@@ -26,11 +26,11 @@ public struct Button: Widget, ClickedOnComponent, AutoInitiableAndDecodable {
     public var widgetProperties: WidgetProperties
 
 // sourcery:inline:auto:Button.Init
-	public init( 
-		text: String ,
-		style: String? = nil ,
-		action: Action? = nil ,
-		clickAnalyticsEvent: AnalyticsClick? = nil ,
+	public init(
+		text: String,
+		style: String? = nil,
+		action: Action? = nil,
+		clickAnalyticsEvent: AnalyticsClick? = nil,
 		widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.text = text

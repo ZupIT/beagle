@@ -24,7 +24,7 @@ func variableOptionalAndValue(_ variable: Variable) -> String {
     where (type.implements["AutoInitiable"] != nil) { -%>
 // sourcery:inline:auto:<%= type.name %>.Init
     <%_ var firstTime: Bool = true -%>
-<%= "\t" + type.accessLevel -%> init(<% for i in 0 ..< type.instanceVariables.count { -%> <% let variable = type.instanceVariables[i] -%>
+<%= "\t" + type.accessLevel -%> init(<%_ for i in 0 ..< type.instanceVariables.count { -%> <%_ let variable = type.instanceVariables[i] -%>
         <%_= variableNameAndType(variable, firstTime, type) -%> <%_= variableOptionalAndValue(variable)-%>
         <%_ firstTime = false -%>
     <%_ } %>

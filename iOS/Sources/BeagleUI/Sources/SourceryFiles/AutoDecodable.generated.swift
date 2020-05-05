@@ -70,6 +70,22 @@ extension Image {
     }
     
 }
+// MARK: ListView Decodable
+extension ListView {
+
+    enum CodingKeys: String, CodingKey {
+        case rows
+        case direction
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        rows = try container.decode( forKey: .rows)
+        direction = try container.decode( Direction.self, forKey: .direction)
+    }
+    
+}
 // MARK: NetworkImage Decodable
 extension NetworkImage {
 
@@ -84,6 +100,26 @@ extension NetworkImage {
         path = try container.decode( String.self, forKey: .path)
         contentMode = try container.decodeIfPresent( ImageContentMode.self, forKey: .contentMode)
         widgetProperties = try WidgetProperties(from: decoder)
+    }
+    
+}
+// MARK: ScrollView Decodable
+extension ScrollView {
+
+    enum CodingKeys: String, CodingKey {
+        case children
+        case scrollDirection
+        case scrollBarEnabled
+        case appearance
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        children = try container.decode( forKey: .children)
+        scrollDirection = try container.decodeIfPresent( ScrollAxis.self, forKey: .scrollDirection)
+        scrollBarEnabled = try container.decodeIfPresent( Bool.self, forKey: .scrollBarEnabled)
+        appearance = try container.decodeIfPresent( Appearance.self, forKey: .appearance)
     }
     
 }
@@ -105,6 +141,22 @@ extension Text {
         alignment = try container.decodeIfPresent( Alignment.self, forKey: .alignment)
         textColor = try container.decodeIfPresent( String.self, forKey: .textColor)
         widgetProperties = try WidgetProperties(from: decoder)
+    }
+    
+}
+// MARK: WebView Decodable
+extension WebView {
+
+    enum CodingKeys: String, CodingKey {
+        case url
+        case flex
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        url = try container.decode( String.self, forKey: .url)
+        flex = try container.decodeIfPresent( Flex.self, forKey: .flex)
     }
     
 }

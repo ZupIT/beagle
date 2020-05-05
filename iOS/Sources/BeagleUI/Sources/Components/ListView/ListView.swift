@@ -16,22 +16,22 @@
 
 import UIKit
 
-public struct ListView: ServerDrivenComponent {
+public struct ListView: ServerDrivenComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
     
     public let rows: [ServerDrivenComponent]
     public let direction: Direction
-    
-    // MARK: - Initialization
-    
-    public init(
-        rows: [ServerDrivenComponent],
-        direction: Direction = .vertical
+
+// sourcery:inline:auto:ListView.Init
+	public init(
+		rows: [ServerDrivenComponent],
+		direction: Direction
     ) {
         self.rows = rows
         self.direction = direction
     }
+// sourcery:end
 }
 
 extension ListView {
@@ -73,18 +73,5 @@ extension ListView: Renderable {
         )
         
         return ListViewUIComponent(model: model)
-    }
-}
-
-extension ListView: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case rows
-        case direction
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.rows = try container.decode(forKey: .rows)
-        self.direction = try container.decode(Direction.self, forKey: .direction)
     }
 }
