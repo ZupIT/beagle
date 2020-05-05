@@ -28,14 +28,14 @@ struct DSCollectionDataSource : Decodable, AutoEquatable {
 }
 
 // Conforming to AutoEquatable is optional.
-struct DSCollection: WidgetComponent, AutoInitiableAndDecodable, AutoEquatable {
+struct DSCollection: Widget, AutoInitiableAndDecodable, AutoEquatable {
 
     let dataSource: DSCollectionDataSource
     var widgetProperties: WidgetProperties
 
 // sourcery:inline:auto:DSCollection.Init
-	internal init( 
-		dataSource: DSCollectionDataSource ,
+	internal init(
+		dataSource: DSCollectionDataSource,
 		widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.dataSource = dataSource

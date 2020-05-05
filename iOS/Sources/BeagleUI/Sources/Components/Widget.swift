@@ -16,6 +16,8 @@
 
 import UIKit
 
+// MARK: - Common Properties of Widget
+
 public protocol AppearanceComponent {
     var appearance: Appearance? { get }
 }
@@ -36,23 +38,18 @@ public protocol CommonComponents {
     var widgetProperties: WidgetProperties { get set }
 }
 
-public protocol Widget: CommonComponents, ServerDrivenComponent { }
-
 public protocol Properties: AppearanceComponent, FlexComponent, AccessibilityComponent, IdentifiableComponent { }
 
-public struct WidgetProperties: Properties, Equatable, Decodable {
+// MARK: - Widget
+public protocol Widget: CommonComponents, ServerDrivenComponent { }
+
+// MARK: - Widget Properties
+public struct WidgetProperties: Properties, AutoDecodable, Equatable {
     
     public var appearance: Appearance?
     public var flex: Flex?
     public var accessibility: Accessibility?
     public var id: String?
-    
-    enum WidgetCodingKeys: String, CodingKey {
-        case id
-        case appearance
-        case accessibility
-        case flex
-    }
     
     /// Initializer for common widget attributes
     /// - Parameters:
@@ -70,13 +67,5 @@ public struct WidgetProperties: Properties, Equatable, Decodable {
         self.appearance = appearance
         self.flex = flex
         self.accessibility = accessibility
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: WidgetCodingKeys.self)
-        self.id = try container.decodeIfPresent(String.self, forKey: .id)
-        self.appearance = try container.decodeIfPresent(Appearance.self, forKey: .appearance)
-        self.flex = try container.decodeIfPresent(Flex.self, forKey: .flex)
-        self.accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
     }
 }

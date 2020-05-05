@@ -18,7 +18,7 @@
 
 // MARK: Size Equatable
 
-public class Size: Decodable, AutoEquatable {
+public class Size: Decodable, AutoEquatable, AutoInitiable {
     // MARK: - Public Properties
     public var width: UnitValue?
     public var height: UnitValue?
@@ -27,15 +27,16 @@ public class Size: Decodable, AutoEquatable {
     public var minWidth: UnitValue?
     public var minHeight: UnitValue?
     public var aspectRatio: Double?
-    
-    public init(
-        width: UnitValue? = nil,
-        height: UnitValue? = nil,
-        maxWidth: UnitValue? = nil,
-        maxHeight: UnitValue? = nil,
-        minWidth: UnitValue? = nil,
-        minHeight: UnitValue? = nil,
-        aspectRatio: Double? = nil
+
+// sourcery:inline:auto:Size.Init
+	public init(
+		width: UnitValue? = nil,
+		height: UnitValue? = nil,
+		maxWidth: UnitValue? = nil,
+		maxHeight: UnitValue? = nil,
+		minWidth: UnitValue? = nil,
+		minHeight: UnitValue? = nil,
+		aspectRatio: Double? = nil
     ) {
         self.width = width
         self.height = height
@@ -45,6 +46,7 @@ public class Size: Decodable, AutoEquatable {
         self.minHeight = minHeight
         self.aspectRatio = aspectRatio
     }
+// sourcery:end
 }
 
 extension Flex {

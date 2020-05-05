@@ -16,49 +16,38 @@
 
 import UIKit
 
-public struct TabItem {
+public struct TabItem: AutoInitiableAndDecodable {
 
     public let icon: String?
     public let title: String?
     public let content: ServerDrivenComponent
-    
-    public init(
-        icon: String? = nil,
-        title: String? = nil,
-        content: ServerDrivenComponent
+
+// sourcery:inline:auto:TabItem.Init
+	public init(
+		icon: String? = nil,
+		title: String? = nil,
+		content: ServerDrivenComponent
     ) {
         self.icon = icon
         self.title = title
         self.content = content
     }
+// sourcery:end
 }
 
-extension TabItem: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case icon
-        case title
-        case content
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.icon = try container.decodeIfPresent(String.self, forKey: .icon)
-        self.title = try container.decodeIfPresent(String.self, forKey: .title)
-        self.content = try container.decode(forKey: .content)
-    }
-}
-
-public struct TabView: ServerDrivenComponent {
+public struct TabView: ServerDrivenComponent, AutoInitiable {
     public let tabItems: [TabItem]
     public let style: String?
-    
-    public init(
-        tabItems: [TabItem],
-        style: String? = nil
+
+// sourcery:inline:auto:TabView.Init
+	public init(
+		tabItems: [TabItem],
+		style: String? = nil
     ) {
         self.tabItems = tabItems
         self.style = style
     }
+// sourcery:end
 }
 
 extension TabView: Renderable {

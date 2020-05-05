@@ -53,6 +53,44 @@ extension Container {
     }
     
 }
+// MARK: Form Decodable
+extension Form {
+
+    enum CodingKeys: String, CodingKey {
+        case action
+        case child
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        action = try container.decode( forKey: .action)
+        child = try container.decode( forKey: .child)
+    }
+    
+}
+// MARK: FormInput Decodable
+extension FormInput {
+
+    enum CodingKeys: String, CodingKey {
+        case name
+        case required
+        case validator
+        case errorMessage
+        case child
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        name = try container.decode(String.self, forKey: .name)
+        required = try container.decodeIfPresent(Bool.self, forKey: .required)
+        validator = try container.decodeIfPresent(String.self, forKey: .validator)
+        errorMessage = try container.decodeIfPresent(String.self, forKey: .errorMessage)
+        child = try container.decode( forKey: .child)
+    }
+    
+}
 // MARK: Image Decodable
 extension Image {
 
@@ -70,6 +108,22 @@ extension Image {
     }
     
 }
+// MARK: LazyComponent Decodable
+extension LazyComponent {
+
+    enum CodingKeys: String, CodingKey {
+        case path
+        case initialState
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        path = try container.decode(String.self, forKey: .path)
+        initialState = try container.decode( forKey: .initialState)
+    }
+    
+}
 // MARK: ListView Decodable
 extension ListView {
 
@@ -83,6 +137,28 @@ extension ListView {
 
         rows = try container.decode( forKey: .rows)
         direction = try container.decode(Direction.self, forKey: .direction)
+    }
+    
+}
+// MARK: NavigationBarItem Decodable
+extension NavigationBarItem {
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case image
+        case text
+        case action
+        case accessibility
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decodeIfPresent(String.self, forKey: .id)
+        image = try container.decodeIfPresent(String.self, forKey: .image)
+        text = try container.decode(String.self, forKey: .text)
+        action = try container.decode( forKey: .action)
+        accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
     }
     
 }
@@ -103,6 +179,30 @@ extension NetworkImage {
     }
     
 }
+// MARK: ScreenComponent Decodable
+extension ScreenComponent {
+
+    enum CodingKeys: String, CodingKey {
+        case identifier
+        case appearance
+        case safeArea
+        case navigationBar
+        case screenAnalyticsEvent
+        case child
+    }
+
+    internal init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        identifier = try container.decodeIfPresent(String.self, forKey: .identifier)
+        appearance = try container.decodeIfPresent(Appearance.self, forKey: .appearance)
+        safeArea = try container.decodeIfPresent(SafeArea.self, forKey: .safeArea)
+        navigationBar = try container.decodeIfPresent(NavigationBar.self, forKey: .navigationBar)
+        screenAnalyticsEvent = try container.decodeIfPresent(AnalyticsScreen.self, forKey: .screenAnalyticsEvent)
+        child = try container.decode( forKey: .child)
+    }
+    
+}
 // MARK: ScrollView Decodable
 extension ScrollView {
 
@@ -120,6 +220,24 @@ extension ScrollView {
         scrollDirection = try container.decodeIfPresent(ScrollAxis.self, forKey: .scrollDirection)
         scrollBarEnabled = try container.decodeIfPresent(Bool.self, forKey: .scrollBarEnabled)
         appearance = try container.decodeIfPresent(Appearance.self, forKey: .appearance)
+    }
+    
+}
+// MARK: TabItem Decodable
+extension TabItem {
+
+    enum CodingKeys: String, CodingKey {
+        case icon
+        case title
+        case content
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        icon = try container.decodeIfPresent(String.self, forKey: .icon)
+        title = try container.decodeIfPresent(String.self, forKey: .title)
+        content = try container.decode( forKey: .content)
     }
     
 }
@@ -144,6 +262,24 @@ extension Text {
     }
     
 }
+// MARK: Touchable Decodable
+extension Touchable {
+
+    enum CodingKeys: String, CodingKey {
+        case action
+        case clickAnalyticsEvent
+        case child
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        action = try container.decode( forKey: .action)
+        clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
+        child = try container.decode( forKey: .child)
+    }
+    
+}
 // MARK: WebView Decodable
 extension WebView {
 
@@ -157,6 +293,26 @@ extension WebView {
 
         url = try container.decode(String.self, forKey: .url)
         flex = try container.decodeIfPresent(Flex.self, forKey: .flex)
+    }
+    
+}
+// MARK: WidgetProperties Decodable
+extension WidgetProperties {
+
+    enum CodingKeys: String, CodingKey {
+        case appearance
+        case flex
+        case accessibility
+        case id
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        appearance = try container.decodeIfPresent(Appearance.self, forKey: .appearance)
+        flex = try container.decodeIfPresent(Flex.self, forKey: .flex)
+        accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
+        id = try container.decodeIfPresent(String.self, forKey: .id)
     }
     
 }

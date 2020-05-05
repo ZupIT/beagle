@@ -80,19 +80,7 @@ struct FormScreen: DeeplinkScreen {
     
 }
 
-struct DemoTextField: WidgetComponent {
-    
-    var placeholder: String
-    var widgetProperties: WidgetProperties
-    
-    public init(
-        placeholder: String,
-        widgetProperties: WidgetProperties = WidgetProperties()
-    ) {
-        self.placeholder = placeholder
-        self.widgetProperties = widgetProperties
-    }
-    
+extension DemoTextField: Renderable {
     func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let textField = View()
         textField.borderStyle = .roundedRect
@@ -102,7 +90,25 @@ struct DemoTextField: WidgetComponent {
 
         return textField
     }
+}
+
+struct DemoTextField: Widget, AutoInitiableAndDecodable {
     
+    var placeholder: String
+    var widgetProperties: WidgetProperties
+
+// sourcery:inline:auto:DemoTextField.Init
+	internal init(
+		placeholder: String,
+		widgetProperties: WidgetProperties = WidgetProperties()
+    ) {
+        self.placeholder = placeholder
+        self.widgetProperties = widgetProperties
+    }
+// sourcery:end
+}
+
+extension DemoTextField {
     final class View: UITextField, UITextFieldDelegate, InputValue, WidgetStateObservable {
         
         var observable = Observable<WidgetState>(value: WidgetState(value: text))

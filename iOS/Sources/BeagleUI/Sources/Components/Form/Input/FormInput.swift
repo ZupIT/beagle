@@ -16,20 +16,21 @@
 
 import UIKit
 
-public struct FormInput: FormInputComponent {
+public struct FormInput: FormInputComponent, AutoInitiableAndDecodable {
     
     public let name: String
-    public let child: ServerDrivenComponent
     public let required: Bool?
     public let validator: String?
     public let errorMessage: String?
-    
-    public init(
-        name: String,
-        required: Bool? = nil,
-        validator: String? = nil,
-        errorMessage: String? = nil,
-        child: ServerDrivenComponent
+    public let child: ServerDrivenComponent
+
+// sourcery:inline:auto:FormInput.Init
+	public init(
+		name: String,
+		required: Bool? = nil,
+		validator: String? = nil,
+		errorMessage: String? = nil,
+		child: ServerDrivenComponent
     ) {
         self.name = name
         self.required = required
@@ -37,7 +38,7 @@ public struct FormInput: FormInputComponent {
         self.errorMessage = errorMessage
         self.child = child
     }
-    
+// sourcery:end
 }
 
 extension FormInput: Renderable {
@@ -45,24 +46,5 @@ extension FormInput: Renderable {
         let childView = child.toView(context: context, dependencies: dependencies)
         childView.beagleFormElement = self
         return childView
-    }
-}
-
-extension FormInput: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case name
-        case required
-        case validator
-        case errorMessage
-        case child
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.name = try container.decode(String.self, forKey: .name)
-        self.required = try container.decodeIfPresent(Bool.self, forKey: .required)
-        self.validator = try container.decodeIfPresent(String.self, forKey: .validator)
-        self.errorMessage = try container.decodeIfPresent(String.self, forKey: .errorMessage)
-        self.child = try container.decode(forKey: .child)
     }
 }

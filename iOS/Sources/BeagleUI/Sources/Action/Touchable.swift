@@ -16,23 +16,23 @@
 
 import UIKit
 
-public struct Touchable: ServerDrivenComponent, ClickedOnComponent {
+public struct Touchable: ServerDrivenComponent, ClickedOnComponent, AutoInitiableAndDecodable {
     // MARK: - Public Properties
-    public let clickAnalyticsEvent: AnalyticsClick?
     public let action: Action
+    public let clickAnalyticsEvent: AnalyticsClick?
     public let child: ServerDrivenComponent
-    
-    // MARK: - Initialization
-    
-    public init(
-        action: Action,
-        clickAnalyticsEvent: AnalyticsClick? = nil,
-        child: ServerDrivenComponent
+
+// sourcery:inline:auto:Touchable.Init
+	public init(
+		action: Action,
+		clickAnalyticsEvent: AnalyticsClick? = nil,
+		child: ServerDrivenComponent
     ) {
         self.action = action
-        self.child = child
         self.clickAnalyticsEvent = clickAnalyticsEvent
+        self.child = child
     }
+// sourcery:end
 }
 
 extension Touchable: Renderable {
@@ -51,20 +51,5 @@ extension Touchable: Renderable {
     private func prefetchComponent(context: BeagleContext, dependencies: RenderableDependencies) {
         guard let newPath = (action as? Navigate)?.newPath else { return }
         dependencies.preFetchHelper.prefetchComponent(newPath: newPath)
-    }
-}
-
-extension Touchable: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case action
-        case child
-        case clickAnalyticsEvent
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.action = try container.decode(forKey: .action)
-        self.child = try container.decode(forKey: .child)
-        self.clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
     }
 }
