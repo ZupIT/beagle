@@ -30,6 +30,8 @@ final class FormManagerTests: XCTestCase {
         return form
     }()
     
+    private lazy var formManager = screen.formManager as? FormManager
+    
     private lazy var formView = form.toView(context: screen, dependencies: dependencies)
 
     private lazy var screen = BeagleScreenViewController(viewModel: .init(
@@ -111,11 +113,7 @@ final class FormManagerTests: XCTestCase {
         let gesture = submitGesture(in: view)
 
         // When
-        guard let formManager = screen.formManager as? FormManager else {
-            XCTFail("FormManager its not expected type")
-            return
-        }
-        formManager.handleSubmitFormGesture(gesture)
+        formManager?.handleSubmitFormGesture(gesture)
 
         // Then
         XCTAssert(validationCount == 2)
@@ -127,11 +125,7 @@ final class FormManagerTests: XCTestCase {
         let gesture = submitGesture(in: formView)
 
         // When
-        guard let formManager = screen.formManager as? FormManager else {
-            XCTFail("FormManager its not expected type")
-            return
-        }
-        formManager.handleSubmitFormGesture(gesture)
+        formManager?.handleSubmitFormGesture(gesture)
 
         // Then
         XCTAssert(actionExecutorSpy.didCallDoAction)
@@ -142,11 +136,7 @@ final class FormManagerTests: XCTestCase {
         let gesture = submitGesture(in: formView)
 
         // When
-        guard let formManager = screen.formManager as? FormManager else {
-            XCTFail("FormManager its not expected type")
-            return
-        }
-        formManager.handleSubmitFormGesture(gesture)
+        formManager?.handleSubmitFormGesture(gesture)
 
         // Then
         let submittedData = repositoryStub.formData
@@ -160,11 +150,7 @@ final class FormManagerTests: XCTestCase {
         let gesture = submitGesture(in: formView)
 
         // When
-        guard let formManager = screen.formManager as? FormManager else {
-            XCTFail("FormManager its not expected type")
-            return
-        }
-        formManager.handleSubmitFormGesture(gesture)
+        formManager?.handleSubmitFormGesture(gesture)
 
         // Then
         XCTAssertFalse(actionExecutorSpy.didCallDoAction)
@@ -201,11 +187,7 @@ final class FormManagerTests: XCTestCase {
         let gesture = submitGesture(in: formViewWithStorage)
 
         // When
-        guard let formManager = screen.formManager as? FormManager else {
-            XCTFail("FormManager its not expected type")
-            return
-        }
-        formManager.handleSubmitFormGesture(gesture)
+        formManager?.handleSubmitFormGesture(gesture)
         
         // Then
         XCTAssert(dataStoreStub.didCallRead == true)
@@ -221,11 +203,7 @@ final class FormManagerTests: XCTestCase {
         let gesture = submitGesture(in: formViewWithStorage)
         
         // When
-        guard let formManager = screen.formManager as? FormManager else {
-            XCTFail("FormManager its not expected type")
-            return
-        }
-        formManager.handleSubmitFormGesture(gesture)
+        formManager?.handleSubmitFormGesture(gesture)
         
         // Then
         XCTAssert(repositoryStub.didCallDispatch == false)
@@ -239,11 +217,7 @@ final class FormManagerTests: XCTestCase {
         let gesture = submitGesture(in: formViewWithStorage)
         
         // When
-        guard let formManager = screen.formManager as? FormManager else {
-            XCTFail("FormManager its not expected type")
-            return
-        }
-        formManager.handleSubmitFormGesture(gesture)
+        formManager?.handleSubmitFormGesture(gesture)
         
         // Then
         XCTAssert(repositoryStub.didCallDispatch == false)
@@ -254,11 +228,7 @@ final class FormManagerTests: XCTestCase {
         let gesture = submitGesture(in: formViewWithStorage)
         
         // When
-        guard let formManager = screen.formManager as? FormManager else {
-            XCTFail("FormManager its not expected type")
-            return
-        }
-        formManager.handleSubmitFormGesture(gesture)
+        formManager?.handleSubmitFormGesture(gesture)
         
         // Then
         XCTAssert(dataStoreStub.didCallSave)
