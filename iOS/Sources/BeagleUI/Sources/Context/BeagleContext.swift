@@ -24,7 +24,7 @@ public enum Event {
 /// Interface to access application specific operations
 public protocol BeagleContext: AnyObject {
 
-    var screenController: UIViewController { get }
+    var screenController: BeagleScreenViewController { get }
 
     func applyLayout()
     func register(events: [Event], inView view: UIView)
@@ -36,14 +36,12 @@ public protocol BeagleContext: AnyObject {
 
 extension BeagleScreenViewController: BeagleContext {
 
-    public var screenController: UIViewController {
+    public var screenController: BeagleScreenViewController {
         return self
     }
 
     public func applyLayout() {
-        guard let componentView = componentView else { return }
-        componentView.frame = view.bounds
-        componentView.flex.applyLayout()
+        (contentController as? ScreenController)?.layoutManager?.applyLayout()
     }
 
     // MARK: - Analytics
@@ -142,7 +140,7 @@ extension BeagleScreenViewController: BeagleContext {
     }
 
     private func submitForm(_ remote: FormRemoteAction, inputs: [String: String], sender: Any) {
-        view.showLoading(.whiteLarge)
+        screenController.viewModel.state = .loading
 
         let data = Request.FormData(
             method: remote.method,
@@ -151,8 +149,6 @@ extension BeagleScreenViewController: BeagleContext {
 
         dependencies.repository.submitForm(url: remote.path, additionalData: nil, data: data) {
             [weak self] result in guard let self = self else { return }
-
-            self.view.hideLoading()
             self.handleFormResult(result, sender: sender)
         }
         dependencies.logger.log(Log.form(.submittedValues(values: inputs)))
@@ -198,9 +194,10 @@ extension BeagleScreenViewController: BeagleContext {
     private func handleFormResult(_ result: Result<Action, Request.Error>, sender: Any) {
         switch result {
         case .success(let action):
+            screenController.viewModel.state = .success
             dependencies.actionExecutor.doAction(action, sender: sender, context: self)
         case .failure(let error):
-            viewModel.handleError(.submitForm(error))
+            screenController.viewModel.state = .failure(.submitForm(error))
         }
     }
 
@@ -215,7 +212,7 @@ extension BeagleScreenViewController: BeagleContext {
                 self.update(initialView: initialState, lazyLoaded: component)
 
             case .failure(let error):
-                self.viewModel.handleError(.lazyLoad(error))
+                self.handleError(.lazyLoad(error))
             }
         }
     }
