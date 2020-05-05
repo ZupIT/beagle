@@ -34,18 +34,21 @@ class BeagleServiceWrapper {
 
     private val job = Job()
     private val scope = CoroutineScope(Dispatchers.Main + job)
-    private var beagleService = BeagleService()
+    private var componentRequester = ComponentRequester()
     private var beagleSerialize = BeagleSerializer()
 
-    internal fun init(service: BeagleService, serialize: BeagleSerializer) {
-        beagleService = service
-        beagleSerialize = serialize
+    internal fun init(
+        componentRequester: ComponentRequester,
+        beagleSerialize: BeagleSerializer
+    ) {
+        this.componentRequester = componentRequester
+        this.beagleSerialize = beagleSerialize
     }
 
     fun fetchComponent(screenRequest: ScreenRequest, listener: FetchListener) {
         scope.launch {
             try {
-                listener.onSuccess(beagleService.fetchComponent(screenRequest))
+                listener.onSuccess(componentRequester.fetchComponent(screenRequest))
             } catch (e: Throwable) {
                 listener.onError(e)
             }

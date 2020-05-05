@@ -21,5 +21,6 @@ jobs:
                 NX_REPO_URL: ${{ secrets.NX_REPO_URL }}
                 GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
                 GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+                DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
               run: bundle exec fastlane deploy
         

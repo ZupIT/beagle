@@ -77,7 +77,7 @@ final class ActionExecuting: ActionExecutor {
                 context.screenController.viewModel.state = .failure(.action(error))
             case .success(let action):
                 context.screenController.viewModel.state = .success
-                doAction(action, sender: self, context: context)
+                self.doAction(action, sender: self, context: context)
             }
         }
     }

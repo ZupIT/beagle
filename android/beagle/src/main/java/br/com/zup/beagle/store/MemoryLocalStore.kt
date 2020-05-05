@@ -14,21 +14,17 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.setup
+package br.com.zup.beagle.store
 
-enum class Environment {
-    DEBUG,
-    PRODUCTION
-}
+internal object MemoryLocalStore : LocalStore {
 
-data class Cache(
-    val enabled: Boolean,
-    val maxAge: Long,
-    val memoryMaximumCapacity: Int
-)
+    private val cache = mutableMapOf<String, String>()
 
-interface BeagleConfig {
-    val environment: Environment
-    val baseUrl: String
-    val cache: Cache
+    override fun save(key: String, value: String) {
+        cache[key] = value
+    }
+
+    override fun restore(key: String): String? {
+        return cache[key]
+    }
 }
