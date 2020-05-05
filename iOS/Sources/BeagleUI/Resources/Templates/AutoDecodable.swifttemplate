@@ -215,11 +215,11 @@ extension <%= type.name %> {
         <%_ let shouldWrapTry = shouldTry && defaultValue != nil -%>
         <%= variable.name %> = <% if shouldWrapTry { %>(try? <% } else if shouldTry { %>try <% } -%>
         <%_ if let customMethod = customMethod { -%>
-        <%_ %><%= type.name %>.<%= customMethod.callName %>(from: <% if customMethod.parameters.first?.name == "decoder" { %>decoder<% } else { %>container<% } %>)<% -%>
+        <%_ _%><%= type.name %>.<%= customMethod.callName _%>(from:<%_ if customMethod.parameters.first?.name == "decoder" { _%>decoder<%_ } else { _%>container<%_ } _%>)<%_ -%>
         <%_ } else { -%>
-        <%_ if variable.name == "widgetProperties" { %>WidgetProperties(from: decoder)<% } -%>
+        <%_ if variable.name == "widgetProperties" { _%>WidgetProperties(from: decoder)<%_ } -%>
         <%_ else { -%>
-        <%_ %>container.decode<% if variable.isOptional { %>IfPresent<% } %>(<%if !needsCustomBeagleDecoding(variable){%> <%= variable.unwrappedTypeName %>.self,<%_ } -%> forKey: .<%= variable.name %>)<% -%>
+        <%_ _%>container.decode<%_ if variable.isOptional { _%>IfPresent<% } _%>(<%_if !needsCustomBeagleDecoding(variable){_%> <%= variable.unwrappedTypeName _%>.self,<%_ } -%> forKey: .<%= variable.name _%>)<%_ -%>
         <%_ } -%>
         <%_ %><% if shouldWrapTry { %>)<% } -%>
         <%_ if let defaultValue = defaultValue { %> ?? <%= type.name %>.<%= defaultValue.name -%><%_ } %>

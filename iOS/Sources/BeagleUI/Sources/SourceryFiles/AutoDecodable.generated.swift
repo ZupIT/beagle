@@ -30,10 +30,10 @@ extension Button {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        text = try container.decode( String.self, forKey: .text)
-        style = try container.decodeIfPresent( String.self, forKey: .style)
+        text = try container.decode(String.self, forKey: .text)
+        style = try container.decodeIfPresent(String.self, forKey: .style)
         action = try container.decodeIfPresent( forKey: .action)
-        clickAnalyticsEvent = try container.decodeIfPresent( AnalyticsClick.self, forKey: .clickAnalyticsEvent)
+        clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
         widgetProperties = try WidgetProperties(from: decoder)
     }
     
@@ -64,8 +64,8 @@ extension Image {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        name = try container.decode( String.self, forKey: .name)
-        contentMode = try container.decodeIfPresent( ImageContentMode.self, forKey: .contentMode)
+        name = try container.decode(String.self, forKey: .name)
+        contentMode = try container.decodeIfPresent(ImageContentMode.self, forKey: .contentMode)
         widgetProperties = try WidgetProperties(from: decoder)
     }
     
@@ -82,7 +82,7 @@ extension ListView {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         rows = try container.decode( forKey: .rows)
-        direction = try container.decode( Direction.self, forKey: .direction)
+        direction = try container.decode(Direction.self, forKey: .direction)
     }
     
 }
@@ -97,8 +97,8 @@ extension NetworkImage {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        path = try container.decode( String.self, forKey: .path)
-        contentMode = try container.decodeIfPresent( ImageContentMode.self, forKey: .contentMode)
+        path = try container.decode(String.self, forKey: .path)
+        contentMode = try container.decodeIfPresent(ImageContentMode.self, forKey: .contentMode)
         widgetProperties = try WidgetProperties(from: decoder)
     }
     
@@ -117,9 +117,9 @@ extension ScrollView {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         children = try container.decode( forKey: .children)
-        scrollDirection = try container.decodeIfPresent( ScrollAxis.self, forKey: .scrollDirection)
-        scrollBarEnabled = try container.decodeIfPresent( Bool.self, forKey: .scrollBarEnabled)
-        appearance = try container.decodeIfPresent( Appearance.self, forKey: .appearance)
+        scrollDirection = try container.decodeIfPresent(ScrollAxis.self, forKey: .scrollDirection)
+        scrollBarEnabled = try container.decodeIfPresent(Bool.self, forKey: .scrollBarEnabled)
+        appearance = try container.decodeIfPresent(Appearance.self, forKey: .appearance)
     }
     
 }
@@ -136,10 +136,10 @@ extension Text {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        text = try container.decode( String.self, forKey: .text)
-        style = try container.decodeIfPresent( String.self, forKey: .style)
-        alignment = try container.decodeIfPresent( Alignment.self, forKey: .alignment)
-        textColor = try container.decodeIfPresent( String.self, forKey: .textColor)
+        text = try container.decode(String.self, forKey: .text)
+        style = try container.decodeIfPresent(String.self, forKey: .style)
+        alignment = try container.decodeIfPresent(Alignment.self, forKey: .alignment)
+        textColor = try container.decodeIfPresent(String.self, forKey: .textColor)
         widgetProperties = try WidgetProperties(from: decoder)
     }
     
@@ -155,8 +155,8 @@ extension WebView {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        url = try container.decode( String.self, forKey: .url)
-        flex = try container.decodeIfPresent( Flex.self, forKey: .flex)
+        url = try container.decode(String.self, forKey: .url)
+        flex = try container.decodeIfPresent(Flex.self, forKey: .flex)
     }
     
 }
