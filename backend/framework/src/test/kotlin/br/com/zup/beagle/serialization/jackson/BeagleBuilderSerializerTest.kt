@@ -20,64 +20,41 @@ import br.com.zup.beagle.widget.core.ComposeComponent
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.ui.Text
-import com.fasterxml.jackson.core.JsonGenerator
-import io.mockk.*
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotSame
-import kotlin.test.assertTrue
 
 internal class BeagleBuilderSerializerTest {
     @Test
-    fun withObjectIdWriter_should_return_new_BeagleBuilderSerializer() {
-        val serializer = BeagleBuilderSerializer(mockk())
-
-        val result = serializer.withObjectIdWriter(mockk())
-
-        assertNotSame(serializer, result)
-        assertTrue(block = result::usesObjectId)
-    }
+    fun withObjectIdWriter_should_return_new_BeagleBuilderSerializer() =
+        withObjectIdWriterShouldReturnNewSerializer(::BeagleBuilderSerializer)
 
     @Test
-    fun withFilterId_should_return_new_BeagleBuilderSerializer() {
-        val serializer = BeagleBuilderSerializer(mockk())
-
-        val result = serializer.withFilterId("Test")
-
-        assertNotSame(serializer, result)
-    }
+    fun withFilterId_should_return_new_BeagleBuilderSerializer() =
+        withFilterIdShouldReturnNewSerializer(::BeagleBuilderSerializer)
 
     @Test
-    fun serialize_non_beagle_builder_should_write_itself() = testSerialize("Test", "Test")
+    fun serialize_non_beagle_builder_should_write_itself() = "Test".let { this.testSerialize(it, it) }
 
     @Test
     fun serialize_ComposeComponent_should_write_the_component_from_build() =
-        testSerialize(
-            object : ComposeComponent() {
-                override fun build() = Text("Test")
-            },
-            Text("Test")
-        )
+        Text("Test").let {
+            this.testSerialize(
+                object : ComposeComponent() {
+                    override fun build() = it
+                },
+                it
+            )
+        }
 
     @Test
     fun serialize_ScreenBuilder_should_write_the_component_from_build() =
-        testSerialize(
-            object : ScreenBuilder {
-                override fun build() = Screen(child = Text("Test"))
-            },
-            Screen(child = Text("Test"))
-        )
+        Screen(child = Text("Test")).let {
+            this.testSerialize(
+                object : ScreenBuilder {
+                    override fun build() = it
+                },
+                it
+            )
+        }
 
-    private inline fun <reified T : Any> testSerialize(bean: Any, built: T) {
-        val generator = mockk<JsonGenerator>()
-        val builtSlot = slot<T>()
-
-        every { generator.writeObject(capture(builtSlot)) } just Runs
-
-        BeagleBuilderSerializer(mockk(relaxed = true), arrayOf(), arrayOf())
-            .serialize(bean, generator, mockk())
-
-        verify(exactly = 1) { generator.writeObject(any()) }
-        assertEquals(built, builtSlot.captured)
-    }
+    private fun testSerialize(bean: Any, built: Any) = testSerialize(bean, built, ::BeagleBuilderSerializer)
 }

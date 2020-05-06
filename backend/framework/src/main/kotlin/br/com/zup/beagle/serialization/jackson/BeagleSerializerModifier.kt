@@ -17,6 +17,7 @@
 package br.com.zup.beagle.serialization.jackson
 
 import br.com.zup.beagle.action.Action
+import br.com.zup.beagle.core.Bind
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.ComposeComponent
 import br.com.zup.beagle.widget.layout.Screen
@@ -26,29 +27,32 @@ import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.SerializationConfig
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase
+import kotlin.reflect.KClass
 
 internal object BeagleSerializerModifier : BeanSerializerModifier() {
-    private val beagleBaseClasses = listOf(Action::class.java, Screen::class.java, ServerDrivenComponent::class.java)
-
-    private val beagleBuilders = listOf(ComposeComponent::class.java, ScreenBuilder::class.java)
+    private val beagleBaseClasses = arrayOf(Action::class, Screen::class, ServerDrivenComponent::class)
+    private val beagleBuilders = arrayOf(ComposeComponent::class, ScreenBuilder::class)
 
     override fun modifySerializer(
         config: SerializationConfig,
         description: BeanDescription,
         serializer: JsonSerializer<*>
-    ) =
-        if (serializer is BeanSerializerBase && isBeagleBuilder(description)) {
-            BeagleBuilderSerializer(serializer)
-        } else if (serializer is BeanSerializerBase && isBeagleBase(description)) {
-            BeagleTypeSerializer(serializer)
-        } else {
-            serializer
-        }
+    ) = when {
+        serializer is BeanSerializerBase && isBeagleBuilder(description) -> BeagleBuilderSerializer(serializer)
+        serializer is BeanSerializerBase && isBeagleBase(description) -> BeagleTypeSerializer(serializer)
+        serializer is BeanSerializerBase && isBeagleBinding(description) -> BeagleBindSerializer(serializer)
+        else -> serializer
+    }
 
     private fun isBeagleBase(description: BeanDescription) = beagleBaseClasses.findAssignableFrom(description)
 
     private fun isBeagleBuilder(description: BeanDescription) = beagleBuilders.findAssignableFrom(description)
 
-    private fun List<Class<*>>.findAssignableFrom(description: BeanDescription) =
-        this.find { it.isAssignableFrom(description.beanClass) } != null
+    private fun isBeagleBinding(description: BeanDescription) = Bind::class.isAssignableFrom(description)
+
+    private fun Array<KClass<*>>.findAssignableFrom(description: BeanDescription) =
+        this.any { it.isAssignableFrom(description) }
+
+    private fun KClass<*>.isAssignableFrom(description: BeanDescription) =
+        this.java.isAssignableFrom(description.beanClass)
 }

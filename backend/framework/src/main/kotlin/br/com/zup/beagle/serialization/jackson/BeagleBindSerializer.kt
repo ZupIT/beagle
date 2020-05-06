@@ -16,8 +16,7 @@
 
 package br.com.zup.beagle.serialization.jackson
 
-import br.com.zup.beagle.widget.core.ComposeComponent
-import br.com.zup.beagle.widget.layout.ScreenBuilder
+import br.com.zup.beagle.core.Bind
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter
@@ -25,21 +24,21 @@ import com.fasterxml.jackson.databind.ser.impl.BeanAsArraySerializer
 import com.fasterxml.jackson.databind.ser.impl.ObjectIdWriter
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase
 
-internal class BeagleBuilderSerializer : BeanSerializerBase {
+internal class BeagleBindSerializer : BeanSerializerBase {
     constructor(source: BeanSerializerBase?) : super(source)
 
     constructor(
-        source: BeagleBuilderSerializer?,
+        source: BeagleBindSerializer?,
         objectIdWriter: ObjectIdWriter?
     ) : super(source, objectIdWriter)
 
     constructor(
-        source: BeagleBuilderSerializer?,
+        source: BeagleBindSerializer?,
         toIgnore: MutableSet<String>?
     ) : super(source, toIgnore)
 
     constructor(
-        source: BeagleBuilderSerializer?,
+        source: BeagleBindSerializer?,
         objectIdWriter: ObjectIdWriter?,
         filterId: Any?
     ) : super(source, objectIdWriter, filterId)
@@ -50,21 +49,15 @@ internal class BeagleBuilderSerializer : BeanSerializerBase {
         filteredProperties: Array<BeanPropertyWriter>
     ) : super(source, properties, filteredProperties)
 
-    override fun withObjectIdWriter(writer: ObjectIdWriter) = BeagleBuilderSerializer(this, writer)
+    override fun withObjectIdWriter(writer: ObjectIdWriter) = BeagleBindSerializer(this, writer)
 
-    override fun withIgnorals(toIgnore: MutableSet<String>) = BeagleBuilderSerializer(this, toIgnore)
+    override fun withIgnorals(toIgnore: MutableSet<String>) = BeagleBindSerializer(this, toIgnore)
 
     override fun asArraySerializer() = BeanAsArraySerializer(this)
 
-    override fun withFilterId(filterId: Any?) = BeagleBuilderSerializer(this, this._objectIdWriter, filterId)
+    override fun withFilterId(filterId: Any?) = BeagleBindSerializer(this, this._objectIdWriter, filterId)
 
-    override fun serialize(bean: Any, generator: JsonGenerator, provider: SerializerProvider) {
-        generator.writeObject(
-            when (bean) {
-                is ComposeComponent -> bean.build()
-                is ScreenBuilder -> bean.build()
-                else -> bean
-            }
-        )
+    override fun serialize(bean: Any?, generator: JsonGenerator?, provider: SerializerProvider?) {
+        generator?.writeObject(if (bean is Bind<*>) bean.value else bean)
     }
 }
