@@ -69,7 +69,7 @@ extension Button: Renderable {
         var style: String? {
             didSet { applyStyle() }
         }
-        
+
         override var isEnabled: Bool {
             get { return super.isEnabled }
             set {

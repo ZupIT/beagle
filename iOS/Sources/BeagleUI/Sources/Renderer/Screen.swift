@@ -58,5 +58,3 @@ extension Screen {
         ).toView(context: context, dependencies: dependencies)
     }
 }
-
-

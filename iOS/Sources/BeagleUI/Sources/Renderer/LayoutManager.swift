@@ -18,18 +18,21 @@ import UIKit
 
 final class LayoutManager {
 
-    private unowned var context: BeagleContext
-    private let componentView: UIView
+    private unowned var viewController: UIViewController
     private let safeArea: SafeArea?
     
-    private var keyboardHeight = CGFloat(0)
+    private var keyboardFrame = CGRect.zero
+    private var keyboardHeight: CGFloat {
+        guard let view = viewController.viewIfLoaded else { return 0 }
+        let viewFrame = view.convert(view.bounds, to: nil)
+        let keyboardRect = keyboardFrame.intersection(viewFrame)
+        return keyboardRect.isNull ? 0 : keyboardRect.height
+    }
     
-    public init(context: BeagleContext, componentView: UIView, safeArea: SafeArea?) {
-        self.context = context
-        self.componentView = componentView
+    public init(viewController: UIViewController, safeArea: SafeArea?) {
+        self.viewController = viewController
         self.safeArea = safeArea
         addObservers()
-        applyLayout()
     }
     
     deinit {
@@ -37,9 +40,10 @@ final class LayoutManager {
     }
     
     public func applyLayout() {
+        guard let view = viewController.viewIfLoaded else { return }
         let flex = Flex(padding: contentPadding)
-        componentView.flex.setup(flex)
-        context.applyLayout()
+        view.flex.setup(flex)
+        view.flex.applyLayout()
     }
     
     // MARK: - Private
@@ -65,7 +69,6 @@ final class LayoutManager {
     }
     
     private var contentInsets: UIEdgeInsets {
-        let viewController = context.screenController
         if #available(iOS 11.0, *) {
             return viewController.viewIfLoaded?.safeAreaInsets ?? .zero
         }
@@ -95,30 +98,19 @@ final class LayoutManager {
     // MARK: - Keyboard
     
     @objc private func handleKeyboardChangeNotification(_ notification: Notification) {
-        guard let view = context.screenController.view else { return }
-
         let keyboardFrame = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
-        let viewFrame = view.convert(view.bounds, to: nil)
-        let keyboardRect = keyboardFrame?.intersection(viewFrame)
-        
-        let height: CGFloat
-        if let keyboardRect = keyboardRect, !keyboardRect.isNull {
-            height = max(0, keyboardRect.height)
-        } else {
-            height = 0
-        }
-        configureKeyboard(height: height, notification: notification)
+        configureKeyboard(frame: keyboardFrame, notification: notification)
     }
     
     @objc private func handleKeyboardWillHideNotification(_ notification: Notification) {
-        configureKeyboard(height: 0, notification: notification)
+        configureKeyboard(frame: nil, notification: notification)
     }
     
-    private func configureKeyboard(height: CGFloat, notification: Notification) {
+    private func configureKeyboard(frame: CGRect?, notification: Notification) {
         let curve = (notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber)?.uintValue
         let duration = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue
         let options = UIView.AnimationOptions(rawValue: (curve ?? 0) << 16)
-        keyboardHeight = height
+        keyboardFrame = frame ?? .zero
         
         UIView.animate(
             withDuration: duration ?? 0,

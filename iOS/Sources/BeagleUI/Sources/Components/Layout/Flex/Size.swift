@@ -48,9 +48,3 @@ public class Size: Decodable, AutoEquatable, AutoInitiable {
     }
 // sourcery:end
 }
-
-extension Flex {
-    public static func height() -> Size {
-        return Size()
-    }
-}
