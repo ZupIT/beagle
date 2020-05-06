@@ -16,8 +16,7 @@
 
 package br.com.zup.beagle.spring.interceptor
 
-import br.com.zup.beagle.enums.BeagleChannel
-import br.com.zup.beagle.enums.ChannelUtil
+import br.com.zup.beagle.utils.ChannelUtil
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ObjectNode
 import org.springframework.web.servlet.HandlerInterceptor
@@ -37,7 +36,7 @@ class BeagleChannelInterceptor(private val objectMapper: ObjectMapper) : Handler
         val responseWrapper = (response as ContentCachingResponseWrapper)
         val jsonTree = this.objectMapper.readTree(responseWrapper.contentAsByteArray) as ObjectNode
         ChannelUtil.treatBeagleChannel(
-            BeagleChannel.from(request.getHeader(ChannelUtil.BEAGLE_CHANNEL_HEADER)),
+            request.getHeader(ChannelUtil.BEAGLE_CHANNEL_HEADER),
             jsonTree
         )
         val jsonData = jsonTree.toPrettyString()

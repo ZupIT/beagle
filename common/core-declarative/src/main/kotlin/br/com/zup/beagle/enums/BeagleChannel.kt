@@ -20,14 +20,4 @@ enum class BeagleChannel {
     ALL,
     MOBILE,
     WEB;
-
-    companion object {
-        fun from(value: String?): BeagleChannel? {
-            return if (value != null) {
-                valueOf(value)
-            } else {
-                null
-            }
-        }
-    }
 }

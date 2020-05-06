@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.enums
+package br.com.zup.beagle.utils
 
+import br.com.zup.beagle.enums.BeagleChannel
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.ObjectNode
@@ -27,9 +28,9 @@ object ChannelUtil {
     private const val CHILDREN_FIELD = "children"
     private const val BEAGLE_CHANNEL_FIELD = "beagleChannel"
 
-    fun treatBeagleChannel(currentChannel: BeagleChannel?, objectNode: ObjectNode): ObjectNode {
+    fun treatBeagleChannel(currentChannel: String?, objectNode: ObjectNode): ObjectNode {
         if (currentChannel != null) {
-            removeObjectFromTreeWhenChannelIsDifferToCurrentChannel(currentChannel, objectNode)
+            removeObjectFromTreeWhenChannelIsDifferToCurrentChannel(BeagleChannel.valueOf(currentChannel), objectNode)
         }
         removeBeagleChannelField(objectNode)
         return objectNode

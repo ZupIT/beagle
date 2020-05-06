@@ -17,6 +17,7 @@
 package br.com.zup.beagle.spring.configuration
 
 import br.com.zup.beagle.spring.interceptor.BeagleChannelInterceptor
+import br.com.zup.beagle.utils.ChannelUtil
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.context.annotation.Configuration
@@ -24,7 +25,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
-@ConditionalOnClass(value = [BeagleChannelInterceptor::class])
+@ConditionalOnClass(value = [BeagleChannelInterceptor::class, ChannelUtil::class])
 open class BeagleChannelAutoConfiguration(private val objectMapper: ObjectMapper) : WebMvcConfigurer {
 
     override fun addInterceptors(registry: InterceptorRegistry) {

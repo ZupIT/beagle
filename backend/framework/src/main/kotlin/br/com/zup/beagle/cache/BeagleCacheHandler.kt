@@ -32,22 +32,44 @@ class BeagleCacheHandler(excludeEndpoints: List<String> = listOf()) {
     private fun generateHashForJson(json: String) =
         Hashing.sha512().hashString(json, Charset.defaultCharset()).toString()
 
+    private fun getCacheKey(endpoint: String, currentChannel: String?) = currentChannel?.plus("_")?.plus(endpoint)
+        ?: endpoint
+
     internal fun isEndpointInExcludedPatterns(endpoint: String) =
         this.excludePatterns.any { it.matcher(endpoint).find() }
 
-    internal fun isHashUpToDate(endpoint: String, hash: String) = this.endpointHashMap[endpoint] == hash
+    internal fun isHashUpToDate(endpoint: String, currentChannel: String?, hash: String)
+        = this.endpointHashMap[getCacheKey(endpoint, currentChannel)] == hash
 
-    internal fun generateAndAddHash(endpoint: String, json: String) =
-        this.endpointHashMap.computeIfAbsent(endpoint) { this.generateHashForJson(json) }
+    internal fun generateAndAddHash(endpoint: String, currentChannel: String?, json: String) =
+        this.endpointHashMap.computeIfAbsent(getCacheKey(endpoint, currentChannel)) {
+            this.generateHashForJson(json)
+        }
 
-    fun <T> handleCache(endpoint: String, receivedHash: String?, initialResponse: T, restHandler: RestCacheHandler<T>) =
+    fun <T> handleCache(
+        endpoint: String,
+        receivedHash: String?,
+        currentChannel: String?,
+        initialResponse: T,
+        restHandler: RestCacheHandler<T>
+    ) =
         when {
             this.isEndpointInExcludedPatterns(endpoint) -> restHandler.callController(initialResponse)
-            receivedHash != null && this.isHashUpToDate(endpoint, receivedHash) ->
+            receivedHash != null && this.isHashUpToDate(
+                endpoint = endpoint,
+                currentChannel = currentChannel,
+                hash = receivedHash
+            ) ->
                 restHandler.addStatus(initialResponse, HttpURLConnection.HTTP_NOT_MODIFIED)
                     .let { restHandler.addHashHeader(it, receivedHash) }
             else ->
                 restHandler.callController(initialResponse)
-                    .let { restHandler.addHashHeader(it, this.generateAndAddHash(endpoint, restHandler.getBody(it))) }
+                    .let {
+                        restHandler.addHashHeader(it, this.generateAndAddHash(
+                            endpoint = endpoint,
+                            currentChannel = currentChannel,
+                            json = restHandler.getBody(it)
+                        ))
+                    }
         }
 }
