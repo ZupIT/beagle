@@ -44,9 +44,3 @@ public class Size: Decodable {
         self.aspectRatio = aspectRatio
     }
 }
-
-extension Flex {
-    public static func height() -> Size {
-        return Size()
-    }
-}

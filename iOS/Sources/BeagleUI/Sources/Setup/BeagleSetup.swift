@@ -32,7 +32,7 @@ public class Beagle {
         dependencies.decoder.register(componentType, for: name)
     }
 
-    public static func screen(_ type: BeagleScreenViewModel.ScreenType) -> BeagleScreenViewController {
-        return BeagleScreenViewController(viewModel: .init(screenType: type))
+    public static func screen(_ type: ScreenType) -> BeagleScreenViewController {
+        return BeagleScreenViewController(type)
     }
 }

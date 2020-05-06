@@ -16,6 +16,10 @@
 
 import UIKit
 
+public protocol DependencyNavigationController {
+    var navigationControllerType: BeagleNavigationController.Type { get }
+}
+
 public protocol BeagleNavigation {
     func navigate(action: Navigate, context: BeagleContext, animated: Bool)
 }
@@ -26,7 +30,8 @@ public protocol DependencyNavigation {
 
 class BeagleNavigator: BeagleNavigation {
     
-    typealias Dependencies = DependencyDeepLinkScreenManaging
+    typealias Dependencies = DependencyNavigationController
+        & DependencyDeepLinkScreenManaging
         & DependencyUrlBuilder
         & DependencyLogger
     
@@ -94,12 +99,13 @@ class BeagleNavigator: BeagleNavigation {
 
     private func openDeepLink(component: ServerDrivenComponent, source: UIViewController, data: [String: String]?, animated: Bool) {
         let viewController = Beagle.screen(.declarative(Screen(child: component)))
-        let navigationToPresent = UINavigationController(rootViewController: viewController)
+        let navigationToPresent = dependencies.navigationControllerType.init()
+        navigationToPresent.viewControllers = [viewController]
         source.navigationController?.present(navigationToPresent, animated: animated, completion: nil)
     }
     
     private func finishView(source: UIViewController, animated: Bool) {
-        source.navigationController?.dismiss(animated: animated)
+        source.dismiss(animated: animated)
     }
     
     private func popView(source: UIViewController, animated: Bool) {
@@ -131,7 +137,7 @@ class BeagleNavigator: BeagleNavigation {
         identifiedBy identifier: String
     ) -> Bool {
         let screenController = viewController as? BeagleScreenViewController
-        guard let screenType = screenController?.viewModel.screenType else {
+        guard let screenType = screenController?.screenType else {
             return false
         }
         switch screenType {
@@ -140,7 +146,7 @@ class BeagleNavigator: BeagleNavigation {
         case .declarative(let screen):
             return screen.identifier == identifier
         case .declarativeText:
-            return screenController?.viewModel.screen?.identifier == identifier
+            return screenController?.screen?.identifier == identifier
         }
     }
     
@@ -157,7 +163,9 @@ class BeagleNavigator: BeagleNavigation {
     }
 
     private func present(_ viewController: UIViewController, context: BeagleContext, animated: Bool) {
-        context.screenController.navigationController?.present(viewController, animated: animated)
+        let navigationToPresent = dependencies.navigationControllerType.init()
+        navigationToPresent.viewControllers = [viewController]
+        context.screenController.present(navigationToPresent, animated: animated)
     }
     
     private func viewController(screen: Screen) -> UIViewController {
