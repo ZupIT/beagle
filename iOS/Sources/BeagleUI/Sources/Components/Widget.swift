@@ -41,7 +41,14 @@ public protocol CommonComponents {
 public protocol Properties: AppearanceComponent, FlexComponent, AccessibilityComponent, IdentifiableComponent { }
 
 // MARK: - Widget
-public protocol Widget: CommonComponents, ServerDrivenComponent { }
+public protocol Widget: CommonComponents, ServerDrivenComponent, Properties { }
+
+extension Widget {
+    public var appearance: Appearance? { return widgetProperties.appearance }
+    public var flex: Flex? { return widgetProperties.flex }
+    public var accessibility: Accessibility? { return widgetProperties.accessibility }
+    public var id: String? { return widgetProperties.id }
+}
 
 // MARK: - Widget Properties
 public struct WidgetProperties: Properties, AutoDecodable, Equatable {

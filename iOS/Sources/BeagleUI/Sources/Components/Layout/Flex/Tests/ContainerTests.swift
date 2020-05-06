@@ -48,7 +48,7 @@ final class ContainerTests: XCTestCase {
         // When
         let container = component.applyFlex(Flex(justifyContent: .center))
         // Then
-        XCTAssertNotNil(container.widgetProperties.flex)
+        XCTAssertNotNil(container.flex)
     }
     
     func test_toView_shouldReturnTheExpectedView() throws {

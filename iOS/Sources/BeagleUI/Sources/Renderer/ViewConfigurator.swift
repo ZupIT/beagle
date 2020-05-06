@@ -46,10 +46,10 @@ class ViewConfigurator: ViewConfiguratorProtocol {
     }
 
     func setup(_ widget: Widget) {
-        setup(appearance: widget.widgetProperties.appearance)
-        setup(id: widget.widgetProperties.id)
-        setup(accessibility: widget.widgetProperties.accessibility)
-        view?.flex.setup(widget.widgetProperties.flex)
+        setup(appearance: widget.appearance)
+        setup(id: widget.id)
+        setup(accessibility: widget.accessibility)
+        view?.flex.setup(widget.flex)
     }
 
     func setup(appearance: Appearance?) {
