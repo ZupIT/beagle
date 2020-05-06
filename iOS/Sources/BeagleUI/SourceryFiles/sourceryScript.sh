@@ -13,7 +13,7 @@
 
 if which sourcery >/dev/null; then
 unset SDKROOT
-sourcery --sources Sources --templates Resources/Templates --output Sources/SourceryFiles --args shouldNotImportBeagleUI=1
+sourcery --config $SRCROOT
 else
 echo "warning: Sourcery not installed, download using brew install sourcery"
 fi

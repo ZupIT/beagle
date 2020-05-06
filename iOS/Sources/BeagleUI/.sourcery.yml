@@ -1,0 +1,9 @@
+sources:
+  - Sources
+  - SourceryFiles/SourceryProtocols.swift
+templates:
+  - SourceryFiles/Templates
+output:
+  Sources/Common/Util
+args:
+  shouldNotImportBeagleUI: 1

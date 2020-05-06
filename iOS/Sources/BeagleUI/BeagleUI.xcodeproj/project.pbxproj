@@ -117,12 +117,9 @@
 		C05E165A2437CC7C0088F9D2 /* buttonAnalyticsComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = C05E16592437CC7C0088F9D2 /* buttonAnalyticsComponent.json */; };
 		C06B1E2E23FAC85E003912CF /* AccessibilityTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06B1E2C23F729E0003912CF /* AccessibilityTest.swift */; };
 		C0B1AAB223F2EE9300F94ECA /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B1AAB123F2EE9300F94ECA /* Accessibility.swift */; };
-		C0D0F48A245B687B00FB57C1 /* Equality.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D0F489245B687B00FB57C1 /* Equality.generated.swift */; };
 		C0D6753424572DEA009F0E94 /* SourceryProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D6753324572DEA009F0E94 /* SourceryProtocols.swift */; };
-		C0D67539245753F8009F0E94 /* Equality.stencil in Resources */ = {isa = PBXBuildFile; fileRef = C0D67536245753F8009F0E94 /* Equality.stencil */; };
-		C0D6753A245753F8009F0E94 /* Initiable.swifttemplate in Resources */ = {isa = PBXBuildFile; fileRef = C0D67537245753F8009F0E94 /* Initiable.swifttemplate */; };
-		C0D6753B245753F8009F0E94 /* AutoDecodable.swifttemplate in Resources */ = {isa = PBXBuildFile; fileRef = C0D67538245753F8009F0E94 /* AutoDecodable.swifttemplate */; };
-		C0D6754924586F14009F0E94 /* AutoDecodable.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D6754824586F14009F0E94 /* AutoDecodable.generated.swift */; };
+		C0EC90702463216E00FFCDE9 /* Equality.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EC906E2463216E00FFCDE9 /* Equality.generated.swift */; };
+		C0EC90712463216E00FFCDE9 /* AutoDecodable.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EC906F2463216E00FFCDE9 /* AutoDecodable.generated.swift */; };
 		C62E8EAE2373588900FF1497 /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62E8EAD2373588900FF1497 /* ScrollView.swift */; };
 		C65F25372375E6C2007670EC /* ScrollViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65F25362375E6C2007670EC /* ScrollViewTests.swift */; };
 		C81C9C7423AA9B4800C557D2 /* ListViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CDAA6523AA969300E95AA6 /* ListViewTests.swift */; };
@@ -371,12 +368,12 @@
 		C05E16592437CC7C0088F9D2 /* buttonAnalyticsComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = buttonAnalyticsComponent.json; sourceTree = "<group>"; };
 		C06B1E2C23F729E0003912CF /* AccessibilityTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityTest.swift; sourceTree = "<group>"; };
 		C0B1AAB123F2EE9300F94ECA /* Accessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessibility.swift; sourceTree = "<group>"; };
-		C0D0F489245B687B00FB57C1 /* Equality.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equality.generated.swift; sourceTree = "<group>"; };
 		C0D6753324572DEA009F0E94 /* SourceryProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceryProtocols.swift; sourceTree = "<group>"; };
-		C0D67536245753F8009F0E94 /* Equality.stencil */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Equality.stencil; sourceTree = "<group>"; };
-		C0D67537245753F8009F0E94 /* Initiable.swifttemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Initiable.swifttemplate; sourceTree = "<group>"; };
-		C0D67538245753F8009F0E94 /* AutoDecodable.swifttemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AutoDecodable.swifttemplate; sourceTree = "<group>"; };
-		C0D6754824586F14009F0E94 /* AutoDecodable.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoDecodable.generated.swift; sourceTree = "<group>"; };
+		C0EC906B246304F700FFCDE9 /* AutoDecodable.swifttemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = AutoDecodable.swifttemplate; sourceTree = "<group>"; };
+		C0EC906C246304F700FFCDE9 /* Equality.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = Equality.stencil; sourceTree = "<group>"; };
+		C0EC906D246304F700FFCDE9 /* Initiable.swifttemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = Initiable.swifttemplate; sourceTree = "<group>"; };
+		C0EC906E2463216E00FFCDE9 /* Equality.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equality.generated.swift; sourceTree = "<group>"; };
+		C0EC906F2463216E00FFCDE9 /* AutoDecodable.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoDecodable.generated.swift; sourceTree = "<group>"; };
 		C0F01689245B09430041A30C /* sourceryScript.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = sourceryScript.sh; sourceTree = "<group>"; };
 		C62E8EAD2373588900FF1497 /* ScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollView.swift; sourceTree = "<group>"; };
 		C65F25362375E6C2007670EC /* ScrollViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewTests.swift; sourceTree = "<group>"; };
@@ -639,6 +636,7 @@
 		932925C52327E11000A61F01 = {
 			isa = PBXGroup;
 			children = (
+				C0D6753224572D84009F0E94 /* SourceryFiles */,
 				939CE4C4232996FD00EEEDFC /* Sources */,
 				932925D12327E11000A61F01 /* Resources */,
 				E5CE41E82332B9B600295277 /* BeagleFrameworkTests */,
@@ -659,7 +657,6 @@
 		932925D12327E11000A61F01 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				C0D67535245753A1009F0E94 /* Templates */,
 				932925D22327E11000A61F01 /* BeagleUI.h */,
 				932925D32327E11000A61F01 /* Info.plist */,
 			);
@@ -721,7 +718,6 @@
 		939CE4C4232996FD00EEEDFC /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				C0D6753224572D84009F0E94 /* SourceryFiles */,
 				C048EBD7242B9BB100A24075 /* Analytics */,
 				C0B1AAB023F2EE6D00F94ECA /* Accessibility */,
 				A06823512384863400CEE57A /* Action */,
@@ -949,20 +945,19 @@
 		C0D6753224572D84009F0E94 /* SourceryFiles */ = {
 			isa = PBXGroup;
 			children = (
-				C0D0F489245B687B00FB57C1 /* Equality.generated.swift */,
-				C0D6754824586F14009F0E94 /* AutoDecodable.generated.swift */,
+				C0EC906A246304F700FFCDE9 /* Templates */,
 				C0D6753324572DEA009F0E94 /* SourceryProtocols.swift */,
 				C0F01689245B09430041A30C /* sourceryScript.sh */,
 			);
 			path = SourceryFiles;
 			sourceTree = "<group>";
 		};
-		C0D67535245753A1009F0E94 /* Templates */ = {
+		C0EC906A246304F700FFCDE9 /* Templates */ = {
 			isa = PBXGroup;
 			children = (
-				C0D67538245753F8009F0E94 /* AutoDecodable.swifttemplate */,
-				C0D67536245753F8009F0E94 /* Equality.stencil */,
-				C0D67537245753F8009F0E94 /* Initiable.swifttemplate */,
+				C0EC906B246304F700FFCDE9 /* AutoDecodable.swifttemplate */,
+				C0EC906C246304F700FFCDE9 /* Equality.stencil */,
+				C0EC906D246304F700FFCDE9 /* Initiable.swifttemplate */,
 			);
 			path = Templates;
 			sourceTree = "<group>";
@@ -1544,6 +1539,8 @@
 		E5A6F4A72358A53B008906F8 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				C0EC906F2463216E00FFCDE9 /* AutoDecodable.generated.swift */,
+				C0EC906E2463216E00FFCDE9 /* Equality.generated.swift */,
 				E5A6F4A82358A547008906F8 /* FatalErrorUtil.swift */,
 				931B6E31237610B300DE73FD /* FunctiontalUtils.swift */,
 				C862314823CDFBF7003CFB0B /* Result.swift */,
@@ -1693,9 +1690,6 @@
 			files = (
 				9362B6D223E85B4B0033FAD7 /* __Snapshots__ in Resources */,
 				98FD27E92429599100331DD3 /* test_whenDecondingJson_shouldReturnAWebView.1.txt in Resources */,
-				C0D67539245753F8009F0E94 /* Equality.stencil in Resources */,
-				C0D6753A245753F8009F0E94 /* Initiable.swifttemplate in Resources */,
-				C0D6753B245753F8009F0E94 /* AutoDecodable.swifttemplate in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1757,7 +1751,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nSources/SourceryFiles/sourceryScript.sh\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nSourceryFiles/sourceryScript.sh\n";
 		};
 		C8E42FCE23C7C6A500B1963F /* Carthage Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1814,7 +1808,6 @@
 				7C42EAF824228FE3007334A0 /* FormInputComponent.swift in Sources */,
 				C89FFA942412EA4200C1B53B /* UrlBuilder.swift in Sources */,
 				C86DB759243275D500B6FC65 /* FormRemoteAction.swift in Sources */,
-				C0D0F48A245B687B00FB57C1 /* Equality.generated.swift in Sources */,
 				A0EF0AA62386BD960019BE83 /* FormValidation.swift in Sources */,
 				988F81FB23E24ECA008562BE /* UIView+Subviews.swift in Sources */,
 				E531D6BA2359FEE1007EEBA7 /* UIView+Loading.swift in Sources */,
@@ -1836,6 +1829,7 @@
 				C85E1CD123EB49C000C1E323 /* HttpRequestBuilder.swift in Sources */,
 				C86F894923B28FAE00287D5D /* ImageContentMode.swift in Sources */,
 				E5A6F4CB2358F621008906F8 /* Repository.swift in Sources */,
+				C0EC90712463216E00FFCDE9 /* AutoDecodable.generated.swift in Sources */,
 				E52236C423745CBB00E555BB /* NSObjectExtension.swift in Sources */,
 				C048EBDB242BD78500A24075 /* Analytics.swift in Sources */,
 				A068234C238430C500CEE57A /* ValidatorProvider.swift in Sources */,
@@ -1890,6 +1884,7 @@
 				A0F45496237AF16800B146A1 /* BeagleContext.swift in Sources */,
 				C86F894623B28FAE00287D5D /* Image.swift in Sources */,
 				9327116523F1C9D100778B56 /* Widget.swift in Sources */,
+				C0EC90702463216E00FFCDE9 /* Equality.generated.swift in Sources */,
 				7C42EAF624228FC9007334A0 /* FormInputHidden.swift in Sources */,
 				E7523AF8239E8F2100F93385 /* BeagleDependencies.swift in Sources */,
 				E522377E237C3C5500E555BB /* Container.swift in Sources */,
@@ -1905,7 +1900,6 @@
 				C85E1CCD23EB461200C1E323 /* Request.swift in Sources */,
 				E531D6B12359FD18007EEBA7 /* LoadingView.swift in Sources */,
 				E5223774237C3C4800E555BB /* Flex.swift in Sources */,
-				C0D6754924586F14009F0E94 /* AutoDecodable.generated.swift in Sources */,
 				9848A53023AAF1C2002474AD /* ContainerIndicatorView.swift in Sources */,
 				57A80981243CF4620034D180 /* DependencyCacheManager.swift in Sources */,
 				C85E1CCF23EB493200C1E323 /* NetworkClientDefault.swift in Sources */,
