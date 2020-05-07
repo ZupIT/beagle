@@ -15,7 +15,7 @@ format that includes a **type**, a **scope**, and a **subject**:
 <footer>
 ```
 
-The header is mandatory and the scope of the header is optional.
+The header is mandatory and the scope of the footer is optional.
 Each line in the commit message should be no longer than 100 characters.
 
 When opening an PR, make sure you do at least one of the following:
@@ -47,7 +47,7 @@ Example:
 In the example above, you might want to keep `13131da` and `34d2331` separated to help in the review process and that would be fine.
 
 > **Note:** It would NOT be all right for `34d2331` to follow the conventions because it doesn't bring any meaningful change to `master`.
-> Conventional commits should only be used to describe changes that will land in the main branch, NOT for changes to your own branch.
+** Conventional commits should only be used to describe changes that will land in the main branch, NOT for changes to your own branch.**
 
 ## What types can I use for my commit messages?
 

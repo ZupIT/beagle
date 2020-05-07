@@ -3,3 +3,4 @@
 # Ensure this file is checked in to source control!
 
 gem "fastlane-plugin-codecov_reporter", git: "https://github.com/uziasferreirazup/fastlane-plugin-codecov_reporter"
+gem 'fastlane-plugin-semantic_release'
