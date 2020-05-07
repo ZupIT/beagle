@@ -17,6 +17,7 @@
 package br.com.zup.beagle.context
 
 import br.com.zup.beagle.testutil.RandomData
+import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Before
 import org.junit.Test
@@ -53,8 +54,6 @@ val JSON = """
 
 class ContextDataTest {
 
-    private val contextData = ContextData(CONTEXT_ID, JSONObject(JSON))
-
     /*
      * getValue Tests
      */
@@ -84,8 +83,11 @@ class ContextDataTest {
 
     @Test
     fun getValue_should_return_null_when_value_is_null() {
-        // Given When
-        val value = contextData.getValue("i")
+        // Given
+        val contextData = makeContextData()
+
+        // When
+        val value = contextData.getValue("$CONTEXT_ID.i")
 
         // Then
         assertNull(value)
@@ -93,8 +95,11 @@ class ContextDataTest {
 
     @Test
     fun getValue_should_return_null_when_value_is_does_not_exists() {
-        // Given When
-        val value = contextData.getValue("z")
+        // Given
+        val contextData = makeContextData()
+
+        // When
+        val value = contextData.getValue("$CONTEXT_ID.z")
 
         // Then
         assertNull(value)
@@ -102,8 +107,11 @@ class ContextDataTest {
 
     @Test
     fun getValue_should_return_String() {
-        // Given When
-        val value = contextData.getValue("a")
+        // Given
+        val contextData = makeContextData()
+
+        // When
+        val value = contextData.getValue("$CONTEXT_ID.a")
 
         // Then
         assertTrue(value is String)
@@ -112,7 +120,10 @@ class ContextDataTest {
 
     @Test
     fun getValue_should_return_Boolean() {
-        // Given When
+        // Given
+        val contextData = makeContextData()
+
+        // When
         val value = contextData.getValue("b.c.d")
 
         // Then
@@ -122,7 +133,10 @@ class ContextDataTest {
 
     @Test
     fun getValue_should_return_Long() {
-        // Given When
+        // Given
+        val contextData = makeContextData()
+
+        // When
         val value = contextData.getValue("b.c.e")
 
         // Then
@@ -132,7 +146,10 @@ class ContextDataTest {
 
     @Test
     fun getValue_should_return_Int() {
-        // Given When
+        // Given
+        val contextData = makeContextData()
+
+        // When
         val value = contextData.getValue("b.c.f")
 
         // Then
@@ -142,7 +159,10 @@ class ContextDataTest {
 
     @Test
     fun getValue_should_return_JSONObject() {
-        // Given When
+        // Given
+        val contextData = makeContextData()
+
+        // When
         val value = contextData.getValue("b.c.g")
 
         // Then
@@ -152,6 +172,8 @@ class ContextDataTest {
 
     @Test
     fun getValue_should_throw_exception_when_trying_to_access_object_position_with_array() {
+        val contextData = makeContextData()
+
         assertFails {
             contextData.getValue("b.c[0]")
         }
@@ -159,6 +181,8 @@ class ContextDataTest {
 
     @Test
     fun getValue_should_throw_exception_when_trying_to_pass_invalid_array_position() {
+        val contextData = makeContextData()
+
         assertFails {
             contextData.getValue("b.h[]")
         }
@@ -166,6 +190,8 @@ class ContextDataTest {
 
     @Test
     fun getValue_should_throw_exception_when_trying_to_access_invalid_array_position() {
+        val contextData = makeContextData()
+
         assertFails {
             contextData.getValue("b.h[3]")
         }
@@ -173,7 +199,10 @@ class ContextDataTest {
 
     @Test
     fun getValue_should_return_Double_in_array_position_0() {
-        // Given When
+        // Given
+        val contextData = makeContextData()
+
+        // When
         val value = contextData.getValue("b.h[0].a")
 
         // Then
@@ -183,7 +212,10 @@ class ContextDataTest {
 
     @Test
     fun getValue_should_return_Double_in_array_position_1() {
-        // Given When
+        // Given
+        val contextData = makeContextData()
+
+        // When
         val value = contextData.getValue("b.h[1].a")
 
         // Then
@@ -193,27 +225,46 @@ class ContextDataTest {
 
     @Test
     fun getValue_should_return_JSON_inside_array_position_0() {
-        // Given When
+        // Given
+        val contextData = makeContextData()
+
+        // When
         val value = contextData.getValue("b.h[0]")
 
         // Then
         assertEquals(JSON_OBJECT, value.toString())
     }
 
+    /*// TODO: implement this case
+    @Test
+    fun getValue_should_return_JSON_inside_dimensional_array() {
+        // Given
+        val contextData = makeContextData()
+
+        // When
+        val value = contextData.getValue("b.h[0][0]")
+
+        // Then
+        assertEquals(JSON_OBJECT, value.toString())
+    }*/
+
     /*
      * getValue Tests
      */
 
-    /*@Test
-    fun setValue_should_return_value() {
+    @Test
+    fun setValue_should_set_context_value() {
         // Given
+        val newValue = RandomData.string()
         val contextData = ContextData(CONTEXT_ID, STRING)
 
         // When
-        val value = contextData.setValue(CONTEXT_ID, "")
+        val value = contextData.setValue(CONTEXT_ID, newValue)
+        val actualValue = contextData.getValue(CONTEXT_ID)
 
         // Then
-        assertEquals(STRING, value)
+        assertTrue(value)
+        assertEquals(newValue, actualValue)
     }
 
     @Test
@@ -228,22 +279,61 @@ class ContextDataTest {
     }
 
     @Test
-    fun setValue_should_return_false_when_key_does_not_exist() {
-        // Given When
-        val value = contextData.setValue("z", "")
+    fun setValue_should_add_new_key_when_does_not_exist() {
+        // Given
+        val newValue = RandomData.string()
+        val contextData = makeContextData()
+
+        // When
+        val result = contextData.setValue("$CONTEXT_ID.z", newValue)
+        val actualValue = contextData.getValue("$CONTEXT_ID.z")
 
         // Then
-        assertFalse(value)
+        assertTrue(result)
+        assertEquals(newValue, actualValue)
     }
+
+    /*// TODO: implement this case
+    @Test
+    fun setValue_should_add_new_object_with_value_when_does_not_exist() {
+        // Given
+        val newValue = RandomData.string()
+        val contextData = makeContextData()
+
+        // When
+        val result = contextData.setValue("$CONTEXT_ID.z1.z2.z3", newValue)
+        val actualValue = contextData.getValue("$CONTEXT_ID.z.a")
+
+        // Then
+        assertTrue(result)
+        assertEquals(newValue, actualValue)
+    }
+
+    // TODO: implement this case
+    @Test
+    fun setValue_should_add_new_array_object_with_value_when_does_not_exist() {
+        // Given
+        val newValue = RandomData.string()
+        val contextData = makeContextData()
+
+        // When
+        val result = contextData.setValue("$CONTEXT_ID[0][0].a", newValue)
+        val actualValue = contextData.getValue("$CONTEXT_ID[0][0].a")
+
+        // Then
+        assertTrue(result)
+        assertEquals(newValue, actualValue)
+    }*/
 
     @Test
     fun setValue_should_set_value_on_a() {
         // Given
         val newValue = RandomData.string()
+        val contextData = makeContextData()
 
         // When
-        val result = contextData.setValue("a", newValue)
-        val actualValue = contextData.getValue("a")
+        val result = contextData.setValue("$CONTEXT_ID.a", newValue)
+        val actualValue = contextData.getValue("$CONTEXT_ID.a")
 
         // Then
         assertTrue(result)
@@ -254,6 +344,7 @@ class ContextDataTest {
     fun setValue_should_set_value_false_on_a_c_d() {
         // Given
         val newValue = false
+        val contextData = makeContextData()
 
         // When
         val value = contextData.setValue("b.c.d", newValue)
@@ -271,6 +362,7 @@ class ContextDataTest {
         val newValue = JSONObject().apply {
             put("a", doubleValue)
         }
+        val contextData = makeContextData()
 
         // When
         val value = contextData.setValue("b.c.g", newValue)
@@ -283,6 +375,8 @@ class ContextDataTest {
 
     @Test
     fun setValue_should_throw_exception_when_trying_to_access_object_position_with_array() {
+        val contextData = makeContextData()
+
         assertFails {
             contextData.setValue("b.c[0]", JSONObject())
         }
@@ -290,6 +384,8 @@ class ContextDataTest {
 
     @Test
     fun setValue_should_throw_exception_when_trying_to_pass_invalid_array_position() {
+        val contextData = makeContextData()
+
         assertFails {
             contextData.setValue("b.h[]", JSONObject())
         }
@@ -301,6 +397,7 @@ class ContextDataTest {
         val jsonObject = JSONObject().apply {
             put("a", RandomData.double())
         }
+        val contextData = makeContextData()
 
         // When
         val result = contextData.setValue("b.h[3]", jsonObject)
@@ -315,6 +412,7 @@ class ContextDataTest {
     fun setValue_should_set_Double_in_array_position_0() {
         // Given
         val newValue = RandomData.double()
+        val contextData = makeContextData()
 
         // When
         val value = contextData.setValue("b.h[0].a", newValue)
@@ -329,6 +427,7 @@ class ContextDataTest {
     fun setValue_should_set_Double_in_array_position_1() {
         // Given
         val newValue = RandomData.double()
+        val contextData = makeContextData()
 
         // When
         val value = contextData.setValue("b.h[1].a", newValue)
@@ -345,6 +444,7 @@ class ContextDataTest {
         val jsonObject = JSONObject().apply {
             put("a", RandomData.double())
         }
+        val contextData = makeContextData()
 
         // When
         val result = contextData.setValue("b.h[0]", jsonObject)
@@ -353,5 +453,26 @@ class ContextDataTest {
         // Then
         assertTrue(result)
         assertEquals(jsonObject, actualValue)
-    }*/
+    }
+
+    @Test
+    fun setValue_should_set_new_element_at_value_array() {
+        // Given
+        val jsonObject = JSONArray().apply {
+            put("hello")
+        }
+        val contextData = makeContextData(value = jsonObject)
+
+        // When
+        val result = contextData.setValue("$CONTEXT_ID[1]", "hello2")
+        val actualValue = contextData.getValue("$CONTEXT_ID[1]")
+
+        // Then
+        assertTrue(result)
+        assertEquals("hello2", actualValue)
+    }
+
+    private fun makeContextData(value: Any = JSONObject(JSON)): ContextData {
+        return ContextData(CONTEXT_ID, value)
+    }
 }
