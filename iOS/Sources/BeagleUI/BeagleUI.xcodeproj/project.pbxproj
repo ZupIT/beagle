@@ -23,8 +23,6 @@
 		76BB91A5241AC6A800B9A239 /* declarativeText2.json in Resources */ = {isa = PBXBuildFile; fileRef = 76BB91A3241AC6A000B9A239 /* declarativeText2.json */; };
 		7C2BD0F92448A02700E4E68B /* BeagleContextTestingHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2BD0F82448A02700E4E68B /* BeagleContextTestingHelpers.swift */; };
 		7C4140CF24619DF10002E608 /* BeagleContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4140CD24619DC40002E608 /* BeagleContextTests.swift */; };
-		7C42EAF624228FC9007334A0 /* FormInputHidden.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C42EAF524228FC9007334A0 /* FormInputHidden.swift */; };
-		7C42EAF824228FE3007334A0 /* FormInputComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C42EAF724228FE3007334A0 /* FormInputComponent.swift */; };
 		7C42EE00243FBDA100DEEEA7 /* FormManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C42EDFF243FBDA100DEEEA7 /* FormManager.swift */; };
 		7C6F605F2444FB47007AC4AA /* LazyLoadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6F605E2444FB47007AC4AA /* LazyLoadManager.swift */; };
 		7C6F606124461F35007AC4AA /* ActionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6F606024461F35007AC4AA /* ActionManager.swift */; };
@@ -263,8 +261,6 @@
 		7C03910924250FC6003E6FCD /* BeagleLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleLogger.swift; sourceTree = "<group>"; };
 		7C2BD0F82448A02700E4E68B /* BeagleContextTestingHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleContextTestingHelpers.swift; sourceTree = "<group>"; };
 		7C4140CD24619DC40002E608 /* BeagleContextTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeagleContextTests.swift; sourceTree = "<group>"; };
-		7C42EAF524228FC9007334A0 /* FormInputHidden.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormInputHidden.swift; sourceTree = "<group>"; };
-		7C42EAF724228FE3007334A0 /* FormInputComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormInputComponent.swift; sourceTree = "<group>"; };
 		7C42EDFF243FBDA100DEEEA7 /* FormManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormManager.swift; sourceTree = "<group>"; };
 		7C6F605E2444FB47007AC4AA /* LazyLoadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyLoadManager.swift; sourceTree = "<group>"; };
 		7C6F606024461F35007AC4AA /* ActionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionManager.swift; sourceTree = "<group>"; };
@@ -1026,8 +1022,6 @@
 			isa = PBXGroup;
 			children = (
 				E5223782237C3CAF00E555BB /* FormInput.swift */,
-				7C42EAF724228FE3007334A0 /* FormInputComponent.swift */,
-				7C42EAF524228FC9007334A0 /* FormInputHidden.swift */,
 				A068234F2384328700CEE57A /* InputValue.swift */,
 				C829CEEE23B1947E001B7225 /* Tests */,
 			);
@@ -1768,7 +1762,6 @@
 				7C42EE00243FBDA100DEEEA7 /* FormManager.swift in Sources */,
 				5754314B23F2080B00EF0E5A /* DoublyLinkedList.swift in Sources */,
 				98E08D1C242289D200FBD21B /* WebViewUIComponent.swift in Sources */,
-				7C42EAF824228FE3007334A0 /* FormInputComponent.swift in Sources */,
 				C89FFA942412EA4200C1B53B /* UrlBuilder.swift in Sources */,
 				C86DB759243275D500B6FC65 /* FormRemoteAction.swift in Sources */,
 				A0EF0AA62386BD960019BE83 /* FormValidation.swift in Sources */,
@@ -1842,7 +1835,6 @@
 				A0F45496237AF16800B146A1 /* BeagleContext.swift in Sources */,
 				C86F894623B28FAE00287D5D /* Image.swift in Sources */,
 				9327116523F1C9D100778B56 /* Widget.swift in Sources */,
-				7C42EAF624228FC9007334A0 /* FormInputHidden.swift in Sources */,
 				E7523AF8239E8F2100F93385 /* BeagleDependencies.swift in Sources */,
 				7C6F605F2444FB47007AC4AA /* LazyLoadManager.swift in Sources */,
 				E522377E237C3C5500E555BB /* Container.swift in Sources */,

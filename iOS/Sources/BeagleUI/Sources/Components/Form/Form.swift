@@ -23,20 +23,23 @@ public struct Form: ServerDrivenComponent {
     public let action: Action
     public let child: ServerDrivenComponent
     public let shouldStoreFields: Bool
-    public let storedParameters: [String]?
+    public let additionalData: [String: String]?
+    public let formId: String?
 
     // MARK: - Initialization
     
     public init(
         action: Action,
         child: ServerDrivenComponent,
-        storedParameters: [String]? = nil,
-        shouldStoreFields: Bool? = nil
+        shouldStoreFields: Bool? = nil,
+        formId: String? = nil,
+        additionalData: [String: String]? = nil
     ) {
         self.action = action
         self.child = child
-        self.storedParameters = storedParameters
         self.shouldStoreFields = shouldStoreFields ?? false
+        self.formId = formId
+        self.additionalData = additionalData
     }
 }
 
@@ -67,8 +70,9 @@ extension Form: Decodable {
     enum CodingKeys: String, CodingKey {
         case action
         case child
-        case storedParameters
         case shouldStoreFields
+        case formId
+        case additionalData
     }
 
     public init(from decoder: Decoder) throws {
@@ -76,7 +80,8 @@ extension Form: Decodable {
         self.action = try container.decode(forKey: .action)
         self.child = try container.decode(forKey: .child)
         self.shouldStoreFields = try container.decodeIfPresent(Bool.self, forKey: .shouldStoreFields) ?? false
-        self.storedParameters = try container.decodeIfPresent([String].self, forKey: .storedParameters)
+        self.formId = try container.decodeIfPresent(String.self, forKey: .formId)
+        self.additionalData = try container.decodeIfPresent([String: String].self, forKey: .additionalData)
     }
 }
 

@@ -16,29 +16,26 @@
 
 import UIKit
 
-public struct FormInput: FormInputComponent {
+public struct FormInput: ServerDrivenComponent {
     
     public let name: String
     public let child: ServerDrivenComponent
     public let required: Bool?
     public let validator: String?
     public let errorMessage: String?
-    public let overrideStoredName: String?
     
     public init(
         name: String,
         required: Bool? = nil,
         validator: String? = nil,
         errorMessage: String? = nil,
-        child: ServerDrivenComponent,
-        overrideStoredName: String? = nil
+        child: ServerDrivenComponent
     ) {
         self.name = name
         self.required = required
         self.validator = validator
         self.errorMessage = errorMessage
         self.child = child
-        self.overrideStoredName = overrideStoredName
     }
     
 }
@@ -58,7 +55,6 @@ extension FormInput: Decodable {
         case validator
         case errorMessage
         case child
-        case overrideStoredName
     }
 
     public init(from decoder: Decoder) throws {
@@ -67,7 +63,6 @@ extension FormInput: Decodable {
         self.required = try container.decodeIfPresent(Bool.self, forKey: .required)
         self.validator = try container.decodeIfPresent(String.self, forKey: .validator)
         self.errorMessage = try container.decodeIfPresent(String.self, forKey: .errorMessage)
-        self.overrideStoredName = try container.decodeIfPresent(String.self, forKey: .overrideStoredName)
         self.child = try container.decode(forKey: .child)
     }
 }

@@ -20,33 +20,33 @@ import SnapshotTesting
 
 class FormDataStoreHandlerTests: XCTestCase {
     
-    func test_saveMustSaveKeyAndValue() {
-        //Given
-        let sut = FormDataStoreHandler()
-        let key = "key"
-        let value = "value"
-        
-        //When
-        sut.save(key: key, value: value)
-        let readValue = sut.read(key: "key")
-        
-        //Then
-        XCTAssert(readValue == value)
-    }
-    
-    func test_saveMustUpdateValue() {
-        //Given
-        let sut = FormDataStoreHandler()
-        let key = "key"
-        let value = "value"
-        let newValue = "newValue"
-        
-        //When
-        sut.save(key: key, value: value)
-        sut.save(key: key, value: newValue)
-        let readValue = sut.read(key: "key")
-        
-        //Then
-        XCTAssert(readValue == newValue)
-    }
+//    func test_saveMustSaveKeyAndValue() {
+//        //Given
+//        let sut = FormDataStoreHandler()
+//        let key = "key"
+//        let value = "value"
+//        
+//        //When
+//        sut.save(key: key, value: value)
+//        let readValue = sut.read(key: "key")
+//
+//        //Then
+//        XCTAssert(readValue == value)
+//    }
+//
+//    func test_saveMustUpdateValue() {
+//        //Given
+//        let sut = FormDataStoreHandler()
+//        let key = "key"
+//        let value = "value"
+//        let newValue = "newValue"
+//
+//        //When
+//        sut.save(key: key, value: value)
+//        sut.save(key: key, value: newValue)
+//        let readValue = sut.read(key: "key")
+//
+//        //Then
+//        XCTAssert(readValue == newValue)
+//    }
 }

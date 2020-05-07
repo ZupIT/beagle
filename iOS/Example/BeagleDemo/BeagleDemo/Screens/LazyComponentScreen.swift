@@ -30,7 +30,7 @@ struct LazyComponentScreen: DeeplinkScreen {
         return Screen(
             navigationBar: NavigationBar(title: "Form & LazyComponent"),
             child: Form(
-                action: FormRemoteAction(path: .TEXT_FORM_ENDPOINT, method: .get),
+                action: Navigate.addScreen(screen1),
                 child: Container(children: [
                     Text("Form & LazyComponent"),
                     FormInput(
@@ -40,21 +40,43 @@ struct LazyComponentScreen: DeeplinkScreen {
                             initialState: Text("Loading...")
                         )
                     ),
-                    Text("Text above input hidden"),
-                    FormInputHidden(name: "id", value: "123"),
-                    FormInputHidden(name: "age", value: "45"),
-                    Text("Text bellow input hiden"),
                     FormSubmit(child:
                         Text("FormSubmit")
                     )
                 ]).applyFlex(Flex().justifyContent(.spaceBetween)),
-                shouldStoreFields: true
+                shouldStoreFields: true,
+                formId: "firstForm"
+            )
+        )
+    }
+    
+    var screen1: Screen {
+        return Screen(
+            navigationBar: NavigationBar(title: "Form & LazyComponent"),
+            child: Form(
+                action: FormRemoteAction(path: .TEXT_FORM_ENDPOINT, method: .get),
+                child: Container(children: [
+                    Text("Form & LazyComponent"),
+                    FormInput(
+                        name: "field1",
+                        child: LazyComponent(
+                            path: .TEXT_LAZY_COMPONENTS_ENDPOINT,
+                            initialState: Text("Loading...")
+                        )
+                    ),
+                    FormSubmit(child:
+                        Text("FormSubmit")
+                    )
+                ]).applyFlex(Flex().justifyContent(.spaceBetween)),
+                shouldStoreFields: true,
+                formId: "firstForm",
+                additionalData: ["cep":"38408","sexo":"masculimno"]
             )
         )
     }
 }
 
-extension UITextView: OnStateUpdatable {
+extension UITextView: OnStateUpdatable, InputValue {
     public func onUpdateState(component: ServerDrivenComponent) -> Bool {
         guard let w = component as? Text else {
             return false
@@ -62,9 +84,7 @@ extension UITextView: OnStateUpdatable {
         text = w.text
         return true
     }
-}
-
-extension UILabel: InputValue {
+    
     public func getValue() -> Any {
         return text ?? ""
     }

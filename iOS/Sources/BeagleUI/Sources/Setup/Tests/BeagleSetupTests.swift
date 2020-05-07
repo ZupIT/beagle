@@ -73,8 +73,8 @@ final class DeepLinkHandlerDummy: DeepLinkScreenManaging {
 }
 
 final class FormDataStoreHandlerDummy: FormDataStoreHandling {
-    func save(key: String, value: String) { }
-    func read(key: String) -> String? { return nil }
+    func save(data: (key: String, value: String), formId: String) { }
+    func read(key: String) -> FormData? { return nil }
 }
 
 final class ComponentDecodingDummy: ComponentDecoding {

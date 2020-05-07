@@ -91,7 +91,6 @@ class FormManager: FormManaging {
                 formInput: $1,
                 formSubmit: sender.formSubmitView,
                 validatorHandler: sender.validator,
-                shouldStoreFields: sender.form.shouldStoreFields,
                 result: &$0
             )
         }
@@ -100,27 +99,38 @@ class FormManager: FormManaging {
             return
         }
         
-        if let storedParameters = sender.form.storedParameters {
-            do {
-                try mergeStoredValues(with: &values, storedKeys: storedParameters)
-            } catch {
-                return
-            }
-        }
+        manageFormDataStoreValues(with: &values, shouldStoreFields: sender.form.shouldStoreFields, formId: sender.form.formId)
+        manageFormAdditionalData(with: &values, additionalData: sender.form.additionalData)
         
         submitAction(sender.form.action, inputs: values, sender: sender)
     }
     
-    private func mergeStoredValues(with values: inout [String: String], storedKeys: [String]) throws {
-        try storedKeys.forEach {
-            guard let value = dependencies.formDataStoreHandler.read(key: $0) else {
-                dependencies.logger.log(Log.form(.keyNotFound(key: $0)))
-                throw FormStoredValuesMergingError.couldNotReadValueForKey
+    private func manageFormAdditionalData(with formValues: inout [String: String], additionalData: [String: String]?) {
+        if let additionalData = additionalData {
+            formValues.merge(additionalData) { new, _ in
+                return new
             }
-            try values.merge([$0: value]) { key, _ in
-                dependencies.logger.log(Log.form(.keyDuplication(key: key)))
-                throw FormStoredValuesMergingError.duplicatedKey
+        }
+    }
+    
+    private func manageFormDataStoreValues(with formValues: inout [String: String], shouldStoreFields: Bool, formId: String?) {
+        if let formId = formId, let storedValues = dependencies.formDataStoreHandler.read(key: formId) {
+            if shouldStoreFields {
+                saveFormData(values: formValues, formId: formId)
             }
+            formValues.merge(storedValues) { _, current in current }
+        } else {
+            if shouldStoreFields {
+                saveFormData(values: formValues, formId: formId)
+            }
+        }
+    }
+    
+    private func saveFormData(values: [String: String], formId: String?) {
+        if let formId = formId {
+            dependencies.formDataStoreHandler.save(data: values, formId: formId)
+        } else {
+            //TODO: Log message, cant save form data without a form id
         }
     }
 
@@ -158,26 +168,25 @@ class FormManager: FormManaging {
         formInput view: UIView,
         formSubmit submitView: UIView?,
         validatorHandler: ValidatorProvider?,
-        shouldStoreFields: Bool,
         result: inout [String: String]
     ) {
         guard
-            let formInput = view.beagleFormElement as? FormInputComponent,
+            let formInput = view.beagleFormElement as? FormInput,
             let inputValue = view as? InputValue
         else { return }
         
         let value = inputValue.getValue()
         
-        if let defaultFormInput = formInput as? FormInput, defaultFormInput.required ?? false {
-            guard let validator = getValidator(for: defaultFormInput, with: validatorHandler) else { return }
-
+        if formInput.required ?? false {
+            guard let validator = getValidator(for: formInput, with: validatorHandler) else { return }
+            
             if validator.isValid(input: value) {
-                appendFormInputToResults(value: value, formInput: defaultFormInput, results: &result, shouldStoreFields: shouldStoreFields)
+                result[formInput.name] = String(describing: value)
             } else {
-                handleValidationError(with: defaultFormInput, inputValue: inputValue)
+                handleValidationError(with: formInput, inputValue: inputValue)
             }
         } else {
-            appendFormInputToResults(value: value, formInput: formInput, results: &result, shouldStoreFields: shouldStoreFields)
+            result[formInput.name] = String(describing: value)
         }
     }
     
@@ -186,14 +195,6 @@ class FormManager: FormManaging {
             errorListener.onValidationError(message: formInput.errorMessage)
         }
         dependencies.logger.log(Log.form(.validationInputNotValid(inputName: formInput.name)))
-    }
-    
-    private func appendFormInputToResults(value: Any, formInput: FormInputComponent, results: inout [String: String], shouldStoreFields: Bool) {
-        let value = String(describing: value)
-        let key = formInput.name
-        let overrideName = (formInput as? FormInput)?.overrideStoredName
-        handleDataStoreSaving(overrideName: overrideName, key: key, value: value, shouldStoreFields: shouldStoreFields)
-        results[formInput.name] = value
     }
     
     private func getValidator(for formInput: FormInput, with handler: ValidatorProvider?) -> Validator? {
@@ -209,14 +210,6 @@ class FormManager: FormManaging {
         }
         return validator
     }
-    
-    private func handleDataStoreSaving(overrideName: String? = nil, key: String, value: String, shouldStoreFields: Bool) {
-        if let overrideKey = overrideName {
-            dependencies.formDataStoreHandler.save(key: overrideKey, value: String(describing: value))
-        } else if shouldStoreFields {
-            dependencies.formDataStoreHandler.save(key: key, value: String(describing: value))
-        }
-    }
 
     private func handleFormResult(_ result: Result<Action, Request.Error>, sender: Any) {
         switch result {
@@ -225,10 +218,5 @@ class FormManager: FormManaging {
         case .failure(let error):
             delegate?.handleError(.submitForm(error))
         }
-    }
-    
-    enum FormStoredValuesMergingError: Error {
-        case couldNotReadValueForKey
-        case duplicatedKey
     }
 }
