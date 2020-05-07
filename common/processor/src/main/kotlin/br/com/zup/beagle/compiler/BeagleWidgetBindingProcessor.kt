@@ -30,7 +30,7 @@ import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.TypeMirror
 
-class BeagleWidgetBindingProcessor(processingEnvironment: ProcessingEnvironment, private val out: File) {
+class BeagleWidgetBindingProcessor(processingEnvironment: ProcessingEnvironment, private val outputDirectory: File) {
     companion object {
         const val SUFFIX = "Binding"
     }
@@ -40,24 +40,21 @@ class BeagleWidgetBindingProcessor(processingEnvironment: ProcessingEnvironment,
 
     fun process(element: TypeElement) {
         FileSpec.get(this.elementUtils.getPackageAsString(element), this.createBindingClass(element))
-            .writeTo(this.out)
+            .writeTo(this.outputDirectory)
     }
 
     private fun createBindingClass(element: TypeElement) =
-        element.enclosedElements.filter { it.kind.isField }.map { this.createBindProperty(it) }.let { properties ->
+        element.enclosedFields.map { this.createBindParameter(it) }.let { parameters ->
             TypeSpec.classBuilder("${element.simpleName}$SUFFIX")
                 .superclass(this.typeUtils.getKotlinName(element.superclass))
                 .addSuperinterfaces(element.interfaces.map(TypeMirror::asTypeName))
-                .primaryConstructor(this.createPrimaryConstructor(properties))
-                .addProperties(properties.map { it.toBuilder().initializer(it.name).build() })
+                .primaryConstructor(FunSpec.constructorFrom(parameters))
+                .addProperties(parameters.map { PropertySpec.from(it) })
                 .build()
         }
 
-    private fun createPrimaryConstructor(properties: List<PropertySpec>) =
-        FunSpec.constructorBuilder().addParameters(properties.map { ParameterSpec.from(it) }).build()
-
-    private fun createBindProperty(element: Element) =
-        PropertySpec.builder(
+    private fun createBindParameter(element: Element) =
+        ParameterSpec.builder(
             element.simpleName.toString(),
             Bind::class.asTypeName().parameterizedBy(this.typeUtils.getKotlinName(element.asType()))
         ).build()

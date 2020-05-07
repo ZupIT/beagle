@@ -18,6 +18,8 @@ package br.com.zup.beagle.compiler
 
 import com.squareup.kotlinpoet.asTypeName
 
+const val KAPT_KEY = "kapt.kotlin.generated"
+
 val JAVA_TO_KOTLIN = arrayOf(
     Any::class,
     Boolean::class,
