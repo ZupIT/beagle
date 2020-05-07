@@ -16,13 +16,7 @@
 
 package br.com.zup.beagle.context
 
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
-import java.lang.IllegalStateException
-import java.util.*
-
-private val ARRAY_POSITION_REGEX = "\\[([^)]+)\\]".toRegex()
+import java.util.LinkedList
 
 // TODO: implement LruCache to deal with expressions that were previous accessed
 
@@ -30,6 +24,10 @@ class ContextData(
     val id: String,
     value: Any
 ) {
+
+    private val jsonPathFinder = JsonPathFinder()
+    private val jsonPathReplacer = JsonPathReplacer()
+
     private var _value: Any
     val value: Any
         get() = _value
@@ -44,95 +42,41 @@ class ContextData(
         return if (path == id) {
             value
         } else {
-            val newPath = path.replace(id, "")
-            if (newPath.isEmpty()) {
-                throw IllegalStateException("Invalid path")
-            }
-            val keys = splitKeys(path)
-            return find(keys, value)
+            val keys = generateKeys(path)
+            return jsonPathFinder.find(keys, value)
         }
     }
 
-    fun setValue(path: String? = null, value: Any): Boolean {
-        return if (path != null) {
-            // TODO: implement set
-            true
-        } else {
+    fun setValue(path: String, value: Any): Boolean {
+        return if (path == id) {
             _value = value
             true
-        }
-    }
-
-    private fun splitKeys(path: String): LinkedList<String> {
-        val keysQueue = LinkedList<String>()
-
-        path.split(".").forEach { key ->
-            if (key.endsWith("]")) {
-                val keyOnly = key.replace(ARRAY_POSITION_REGEX, "")
-                val arrayPosition = getArrayBrackets(key) ?: ""
-                keysQueue.add(keyOnly)
-                keysQueue.add(arrayPosition)
-            } else {
-                keysQueue.add(key)
-            }
-        }
-
-        return keysQueue
-    }
-
-    private fun find(nextKeys: LinkedList<String>, value: Any?): Any? {
-        if (nextKeys.isEmpty()) return value
-
-        var currentKey = nextKeys.pop()
-
-        val childValue = if (currentKey.endsWith("]")) {
-            if (value is JSONArray) {
-                val arrayIndex = getIndexOnArrayBrackets(currentKey)?.toInt() ?:
-                    throw IllegalStateException("Invalid array position $currentKey.")
-                value.safeGet(arrayIndex)?.let {
-                    if (nextKeys.isEmpty()) {
-                        return it
-                    } else {
-                        currentKey = nextKeys.pop()
-                        it
-                    }
-                }
-            } else {
-                throw IllegalStateException("Expected Array but received Object")
-            }
         } else {
-            value
-        }
-
-        return if (childValue is JSONObject) {
-            if (childValue.isNull(currentKey)) return null
-            val newValue = childValue.safeGet(currentKey)
-            find(nextKeys, newValue)
-        } else {
-            throw IllegalStateException("Invalid JSON path at key \"$currentKey\"")
-        }
-    }
-    private fun JSONObject.safeGet(key: String): Any? {
-        return try {
-            this[key]
-        } catch (ex: JSONException) {
-            null
+            val keys = generateKeys(path)
+            jsonPathReplacer.replace(keys, value, _value)
         }
     }
 
-    private fun JSONArray.safeGet(index: Int): Any? {
-        return try {
-            this[index]
-        } catch (ex: JSONException) {
-            null
+    private fun generateKeys(path: String): LinkedList<String> {
+        val newPath = removeContextFromPath(path)
+        val keys = JsonPathUtils.splitKeys(newPath)
+
+        if (keys.size == 1 && keys.first == path) {
+            throw JsonPathUtils.createInvalidPathException()
         }
+
+        return keys
     }
 
-    private fun getIndexOnArrayBrackets(arrayIndex: String): String? {
-        return ARRAY_POSITION_REGEX.find(arrayIndex)?.groups?.get(1)?.value
-    }
+    private fun removeContextFromPath(path: String): String {
+        val newPath = path.replace(id, "")
 
-    private fun getArrayBrackets(arrayIndex: String): String? {
-        return ARRAY_POSITION_REGEX.find(arrayIndex)?.value
+        if (newPath.isEmpty()) {
+            throw JsonPathUtils.createInvalidPathException()
+        } else if (newPath.startsWith(".")) {
+            return newPath.replaceFirst(".", "")
+        }
+
+        return newPath
     }
 }
