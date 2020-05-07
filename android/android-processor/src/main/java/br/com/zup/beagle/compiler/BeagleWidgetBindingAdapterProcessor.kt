@@ -17,21 +17,23 @@
 package br.com.zup.beagle.compiler
 
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.compiler.util.BEAGLE_CONFIG
-import br.com.zup.beagle.compiler.util.WIDGET_VIEW
+import br.com.zup.beagle.compiler.util.BINDING
+import br.com.zup.beagle.compiler.util.BINDING_ADAPTER
 import br.com.zup.beagle.compiler.util.error
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
+import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.STAR
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asClassName
 import java.io.IOException
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
+import javax.lang.model.element.Element
 import javax.lang.model.element.PackageElement
-import javax.tools.Diagnostic
 
 
 class BeagleWidgetBindingAdapterProcessor(
@@ -48,11 +50,6 @@ class BeagleWidgetBindingAdapterProcessor(
     ) {
         val classValues = StringBuilder()
         val registerWidgetAnnotatedClasses = roundEnvironment.getElementsAnnotatedWith(RegisterWidget::class.java)
-        val listReturnType = List::class.asClassName().parameterizedBy(
-            Class::class.asClassName().parameterizedBy(
-                ClassName(WIDGET_VIEW.packageName, WIDGET_VIEW.className)
-            )
-        )
 
         registerWidgetAnnotatedClasses.forEachIndexed { index, element ->
             classValues.append("\t$element::class.java as Class<WidgetView>")
@@ -61,13 +58,35 @@ class BeagleWidgetBindingAdapterProcessor(
             }
 
             val bindingAdapterClassName = "${element.simpleName}BindingAdapter"
-            processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "bindingAdapterClassName=$bindingAdapterClassName")
+//            processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "bindingAdapterClassName=$bindingAdapterClassName")
 
             val typeSpec = TypeSpec.classBuilder(bindingAdapterClassName)
                 .addModifiers(KModifier.PUBLIC, KModifier.FINAL)
+                .primaryConstructor(constructorParameters(element)
+                    .build())
+                .addProperty(PropertySpec.builder("widget", ClassName(
+                    BINDING_ADAPTER.packageName,
+                    BINDING_ADAPTER.className
+                )).initializer("widget").build())
+                .addProperty(addConstructorParameter(element))
+                .addSuperinterface(ClassName(
+                    BINDING_ADAPTER.packageName,
+                    BINDING_ADAPTER.className
+                ))
+                .addFunction(
+                    FunSpec.builder("bindModel")
+                        .addModifiers(KModifier.OVERRIDE)
+                        .addCode("""
+                        TODO()""".trimMargin())
+//                        .addStatement("return registeredWidgets")
+                        .build()
+                )
+                .addFunction(
+                    getFunction()
+                )
                 .build()
             val packageElement: PackageElement = processingEnv.elementUtils.getPackageOf(element)
-            processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "packageElement=$packageElement")
+//            processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "packageElement=$packageElement")
 
             val beagleSetupFile = FileSpec.builder(
                 packageElement.toString(),
@@ -86,11 +105,43 @@ class BeagleWidgetBindingAdapterProcessor(
 
     }
 
-    private fun createBeagleConfigAttribute(beagleConfigClassName: String): PropertySpec {
-        return PropertySpec.builder(
-            "config",
-            ClassName(BEAGLE_CONFIG.packageName, BEAGLE_CONFIG.className),
-            KModifier.OVERRIDE
-        ).initializer("$beagleConfigClassName()").build()
+    private fun addConstructorParameter(element: Element): PropertySpec {
+        val packageElement: PackageElement = processingEnv.elementUtils.getPackageOf(element)
+        val bindingClassName = "${element.simpleName}Binding"
+        return PropertySpec.builder("binding", ClassName(
+            packageElement.toString(),
+            bindingClassName
+        )).initializer("binding").build()
+    }
+
+    private fun getFunction(): FunSpec {
+
+        val returnType = List::class.asClassName().parameterizedBy(
+            ClassName(BINDING.packageName, BINDING.className)
+                .parameterizedBy(STAR)
+        )
+
+        return FunSpec.builder("getBindAttributes")
+            .addModifiers(KModifier.OVERRIDE)
+            .addCode("""
+                        TODO()
+                        """.trimMargin())
+//            .addStatement("return registeredWidgets")
+            .returns(returnType)
+            .build()
+    }
+
+    private fun constructorParameters(element: Element): FunSpec.Builder {
+        val packageElement: PackageElement = processingEnv.elementUtils.getPackageOf(element)
+        val bindingClassName = "${element.simpleName}Binding"
+        return FunSpec.constructorBuilder()
+            .addParameter("widget", ClassName(
+                BINDING_ADAPTER.packageName,
+                BINDING_ADAPTER.className
+            ))
+            .addParameter("binding", ClassName(
+                packageElement.toString(),
+                bindingClassName
+            ))
     }
 }

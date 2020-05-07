@@ -68,3 +68,18 @@ val ANALYTICS = BeagleClass(
     "br.com.zup.beagle.analytics",
     "Analytics"
 )
+
+val BINDING_ADAPTER = BeagleClass(
+    "br.com.zup.beagle.setup",
+    "BindingAdapter"
+)
+
+val BINDING_WIDGET = BeagleClass(
+    "br.com.zup.beagle.widget.core",
+    "BindingWidget"
+)
+
+val BINDING = BeagleClass(
+    packageName = "br.com.zup.beagle.core",
+    className = "Binding"
+)

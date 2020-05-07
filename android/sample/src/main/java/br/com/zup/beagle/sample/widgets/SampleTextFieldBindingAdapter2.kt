@@ -20,25 +20,28 @@ import br.com.zup.beagle.core.Binding
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.setup.BindingAdapter
 import br.com.zup.beagle.utils.cast
+import br.com.zup.beagle.widget.core.BindingWidget
 
 data class SampleTextFieldBinding2(
     val placeholder: Binding<String>
 ) : ServerDrivenComponent
 
-class SampleTextFieldBindingAdapter2(private val model: SampleTextFieldBinding2
+final class SampleTextFieldBindingAdapter2(
+    private val widget: BindingWidget,
+    private val binding: SampleTextFieldBinding2
 ) : BindingAdapter {
 
     override fun getBindAttributes(): List<Binding<*>> = listOf(
-        model.placeholder
+        binding.placeholder
     )
 
     override fun bindModel() {
         val myWidget = SampleTextField(
-            placeholder = model.placeholder.value.cast()
+            placeholder = binding.placeholder.value.cast()
         )
 
-        model.placeholder.observes {
-            myWidget.onBind(myWidget.copy(placeholder = it))
+        binding.placeholder.observes {
+            widget.onBind(myWidget.copy(placeholder = it))
         }
     }
 }
