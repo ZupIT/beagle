@@ -1,6 +1,7 @@
 {
   "_beagleType_": "beagle:component:Image",
-  "name": "test_image_square-x",
+  "path": "test_image_square-x",
+  "typePathImage": "Local",
   "contentMode": "CENTER",
   "appearance": {
     "backgroundColor": "#800000FF",

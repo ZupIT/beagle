@@ -25,7 +25,7 @@ class ImageTests: XCTestCase {
     func test_toView_shouldReturnTheExpectedView() throws {
         //Given
         let expectedContentMode = UIImageView.ContentMode.scaleToFill
-        let component = Image(name: "teste", contentMode: .fitXY)
+        let component = Image(path: "teste", contentMode: .fitXY)
         
         //When
         guard let imageView = component.toView(context: BeagleContextDummy(), dependencies: dependencies) as? UIImageView else {
@@ -53,5 +53,19 @@ class ImageTests: XCTestCase {
         let image: Image = try componentFromJsonFile(fileName: "ImageComponent")
         let view = image.toView(context: BeagleContextDummy(), dependencies: dependencies)
         assertSnapshotImage(view, size: CGSize(width: 400, height: 400))
+    }
+    
+    func test_withInvalidURL_itShouldNotSetImage() throws {
+        // Given
+        let component = Image(url: "www.com")
+        
+        // When
+        guard let imageView = component.toView(context: BeagleContextDummy(), dependencies: BeagleScreenDependencies()) as? UIImageView else {
+            XCTFail("Build view not returning UIImageView")
+            return
+        }
+        
+        // Then
+        XCTAssertNil(imageView.image, "Expected image to be nil.")
     }
 }
