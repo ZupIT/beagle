@@ -2,5 +2,4 @@
 
 swiftlint.config_file = 'iOS/Sources/BeagleUI/.swiftlint.yml'
 swiftlint.verbose = true
-swiftlint.lint_files
 swiftlint.lint_files inline_mode: true
