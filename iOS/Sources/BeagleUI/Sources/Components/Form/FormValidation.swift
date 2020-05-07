@@ -21,9 +21,9 @@ public struct FieldError: Decodable, AutoInitiable {
     public let message: String
 
 // sourcery:inline:auto:FieldError.Init
-	public init(
-		inputName: String,
-		message: String
+    public init(
+        inputName: String,
+        message: String
     ) {
         self.inputName = inputName
         self.message = message

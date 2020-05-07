@@ -28,16 +28,16 @@ public class EdgeValue: Decodable, AutoEquatable, AutoInitiable {
     public var all: UnitValue?
 
 // sourcery:inline:auto:EdgeValue.Init
-	public init(
-		left: UnitValue? = nil,
-		top: UnitValue? = nil,
-		right: UnitValue? = nil,
-		bottom: UnitValue? = nil,
-		start: UnitValue? = nil,
-		end: UnitValue? = nil,
-		horizontal: UnitValue? = nil,
-		vertical: UnitValue? = nil,
-		all: UnitValue? = nil
+    public init(
+        left: UnitValue? = nil,
+        top: UnitValue? = nil,
+        right: UnitValue? = nil,
+        bottom: UnitValue? = nil,
+        start: UnitValue? = nil,
+        end: UnitValue? = nil,
+        horizontal: UnitValue? = nil,
+        vertical: UnitValue? = nil,
+        all: UnitValue? = nil
     ) {
         self.left = left
         self.top = top

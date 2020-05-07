@@ -24,9 +24,9 @@ import UIKit
     public let initialState: ServerDrivenComponent
 
 // sourcery:inline:auto:LazyComponent.Init
-	public init(
-		path: String,
-		initialState: ServerDrivenComponent
+    public init(
+        path: String,
+        initialState: ServerDrivenComponent
     ) {
         self.path = path
         self.initialState = initialState

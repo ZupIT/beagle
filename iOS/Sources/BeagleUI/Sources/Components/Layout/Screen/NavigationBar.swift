@@ -26,12 +26,12 @@ public struct NavigationBar: Decodable, AutoInitiable {
     public let navigationBarItems: [NavigationBarItem]?
 
 // sourcery:inline:auto:NavigationBar.Init
-	public init(
-		title: String,
-		style: String? = nil,
-		showBackButton: Bool? = nil,
-		backButtonAccessibility: Accessibility? = nil,
-		navigationBarItems: [NavigationBarItem]? = nil
+    public init(
+        title: String,
+        style: String? = nil,
+        showBackButton: Bool? = nil,
+        backButtonAccessibility: Accessibility? = nil,
+        navigationBarItems: [NavigationBarItem]? = nil
     ) {
         self.title = title
         self.style = style
@@ -51,12 +51,12 @@ public struct NavigationBarItem: AutoInitiableAndDecodable, AccessibilityCompone
     public let accessibility: Accessibility?
 
 // sourcery:inline:auto:NavigationBarItem.Init
-	public init(
-		id: String? = nil,
-		image: String? = nil,
-		text: String,
-		action: Action,
-		accessibility: Accessibility? = nil
+    public init(
+        id: String? = nil,
+        image: String? = nil,
+        text: String,
+        action: Action,
+        accessibility: Accessibility? = nil
     ) {
         self.id = id
         self.image = image

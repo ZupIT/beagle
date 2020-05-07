@@ -28,13 +28,13 @@ public struct Screen: AppearanceComponent, AutoInitiable {
     public let child: ServerDrivenComponent
 
 // sourcery:inline:auto:Screen.Init
-	public init(
-		identifier: String? = nil,
-		appearance: Appearance? = nil,
-		safeArea: SafeArea? = nil,
-		navigationBar: NavigationBar? = nil,
-		screenAnalyticsEvent: AnalyticsScreen? = nil,
-		child: ServerDrivenComponent
+    public init(
+        identifier: String? = nil,
+        appearance: Appearance? = nil,
+        safeArea: SafeArea? = nil,
+        navigationBar: NavigationBar? = nil,
+        screenAnalyticsEvent: AnalyticsScreen? = nil,
+        child: ServerDrivenComponent
     ) {
         self.identifier = identifier
         self.appearance = appearance

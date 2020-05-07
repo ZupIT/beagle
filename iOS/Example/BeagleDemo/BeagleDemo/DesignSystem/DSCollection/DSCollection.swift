@@ -34,9 +34,9 @@ struct DSCollection: Widget, AutoInitiableAndDecodable, AutoEquatable {
     var widgetProperties: WidgetProperties
 
 // sourcery:inline:auto:DSCollection.Init
-	internal init(
-		dataSource: DSCollectionDataSource,
-		widgetProperties: WidgetProperties = WidgetProperties()
+    internal init(
+        dataSource: DSCollectionDataSource,
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.dataSource = dataSource
         self.widgetProperties = widgetProperties

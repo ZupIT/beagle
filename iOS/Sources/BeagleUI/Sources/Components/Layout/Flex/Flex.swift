@@ -35,24 +35,24 @@ public class Flex: Decodable, AutoEquatable, AutoInitiable {
     public var position: EdgeValue?
 
 // sourcery:inline:auto:Flex.Init
-	public init(
-		direction: Direction? = nil,
-		flexDirection: FlexDirection? = nil,
-		flexWrap: Wrap? = nil,
-		justifyContent: JustifyContent? = nil,
-		alignItems: Alignment? = nil,
-		alignSelf: Alignment? = nil,
-		alignContent: Alignment? = nil,
-		positionType: PositionType? = nil,
-		basis: UnitValue? = nil,
-		flex: Double? = nil,
-		grow: Double? = nil,
-		shrink: Double? = nil,
-		display: Display? = nil,
-		size: Size? = nil,
-		margin: EdgeValue? = nil,
-		padding: EdgeValue? = nil,
-		position: EdgeValue? = nil
+    public init(
+        direction: Direction? = nil,
+        flexDirection: FlexDirection? = nil,
+        flexWrap: Wrap? = nil,
+        justifyContent: JustifyContent? = nil,
+        alignItems: Alignment? = nil,
+        alignSelf: Alignment? = nil,
+        alignContent: Alignment? = nil,
+        positionType: PositionType? = nil,
+        basis: UnitValue? = nil,
+        flex: Double? = nil,
+        grow: Double? = nil,
+        shrink: Double? = nil,
+        display: Display? = nil,
+        size: Size? = nil,
+        margin: EdgeValue? = nil,
+        padding: EdgeValue? = nil,
+        position: EdgeValue? = nil
     ) {
         self.direction = direction
         self.flexDirection = flexDirection

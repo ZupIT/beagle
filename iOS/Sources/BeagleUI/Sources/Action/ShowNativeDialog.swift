@@ -24,10 +24,10 @@ public struct ShowNativeDialog: Action, AutoInitiable {
     public let buttonText: String
 
 // sourcery:inline:auto:ShowNativeDialog.Init
-	public init(
-		title: String,
-		message: String,
-		buttonText: String
+    public init(
+        title: String,
+        message: String,
+        buttonText: String
     ) {
         self.title = title
         self.message = message

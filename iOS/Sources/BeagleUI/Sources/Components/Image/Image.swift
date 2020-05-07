@@ -25,10 +25,10 @@ public struct Image: Widget, AutoInitiableAndDecodable {
     public var widgetProperties: WidgetProperties
     
 // sourcery:inline:auto:Image.Init
-	public init(
-		name: String,
-		contentMode: ImageContentMode? = nil,
-		widgetProperties: WidgetProperties = WidgetProperties()
+    public init(
+        name: String,
+        contentMode: ImageContentMode? = nil,
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.name = name
         self.contentMode = contentMode

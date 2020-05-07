@@ -29,14 +29,14 @@ public class Size: Decodable, AutoEquatable, AutoInitiable {
     public var aspectRatio: Double?
 
 // sourcery:inline:auto:Size.Init
-	public init(
-		width: UnitValue? = nil,
-		height: UnitValue? = nil,
-		maxWidth: UnitValue? = nil,
-		maxHeight: UnitValue? = nil,
-		minWidth: UnitValue? = nil,
-		minHeight: UnitValue? = nil,
-		aspectRatio: Double? = nil
+    public init(
+        width: UnitValue? = nil,
+        height: UnitValue? = nil,
+        maxWidth: UnitValue? = nil,
+        maxHeight: UnitValue? = nil,
+        minWidth: UnitValue? = nil,
+        minHeight: UnitValue? = nil,
+        aspectRatio: Double? = nil
     ) {
         self.width = width
         self.height = height

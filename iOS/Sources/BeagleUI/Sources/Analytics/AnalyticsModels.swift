@@ -25,10 +25,10 @@ public struct AnalyticsClick: AnalyticsEvent, AutoInitiable {
     public let value: String?
 
 // sourcery:inline:auto:AnalyticsClick.Init
-	public init(
-		category: String,
-		label: String? = nil,
-		value: String? = nil
+    public init(
+        category: String,
+        label: String? = nil,
+        value: String? = nil
     ) {
         self.category = category
         self.label = label
@@ -41,8 +41,8 @@ public struct AnalyticsScreen: AnalyticsEvent, AutoInitiable {
     public let screenName: String
 
 // sourcery:inline:auto:AnalyticsScreen.Init
-	public init(
-		screenName: String
+    public init(
+        screenName: String
     ) {
         self.screenName = screenName
     }

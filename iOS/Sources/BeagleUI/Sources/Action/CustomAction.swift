@@ -23,9 +23,9 @@ public struct CustomAction: Action, AutoInitiable {
     public let data: [String: String]
 
 // sourcery:inline:auto:CustomAction.Init
-	public init(
-		name: String,
-		data: [String: String]
+    public init(
+        name: String,
+        data: [String: String]
     ) {
         self.name = name
         self.data = data

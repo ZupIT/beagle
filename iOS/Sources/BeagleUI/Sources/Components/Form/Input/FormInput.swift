@@ -25,12 +25,12 @@ public struct FormInput: FormInputComponent, AutoInitiableAndDecodable {
     public let child: ServerDrivenComponent
 
 // sourcery:inline:auto:FormInput.Init
-	public init(
-		name: String,
-		required: Bool? = nil,
-		validator: String? = nil,
-		errorMessage: String? = nil,
-		child: ServerDrivenComponent
+    public init(
+        name: String,
+        required: Bool? = nil,
+        validator: String? = nil,
+        errorMessage: String? = nil,
+        child: ServerDrivenComponent
     ) {
         self.name = name
         self.required = required

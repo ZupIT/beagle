@@ -17,33 +17,32 @@
 %>
 <%
 func variableNameAndType(_ variable: Variable, _ isFirstTime: Bool, _ classType: Type?) -> String {
-    var first = isFirstTime ? "\n\t\t" : ",\n\t\t"
-    
-    if isFirstTime && classType?.name == "Text" {
-        first = first + "_ "
-    }
+    let identation = "\n        "
+    var first = isFirstTime ? identation : ",\(identation)"
     
     let nameAndType = "\(variable.name): \(variable.unwrappedTypeName)"
     return first + nameAndType
 }
 
 func variableOptionalAndValue(_ variable: Variable, _ classType: Type?) -> String {
-    if variable.isOptional {
+    if let defaultValue = variable.defaultValue {
+        let string = variable.isOptional ? "? = " : " = "
+        return string + defaultValue
+    } else if variable.isOptional {
         return "? = nil"
     } else if variable.unwrappedTypeName == "WidgetProperties" {
         return " = WidgetProperties()"
-    } else if variable.unwrappedTypeName == "Direction" && classType?.name == "ListView" {
-        return " = .vertical"
     } else {
         return ""
     }
 }
 -%>
 <% for type in types.all
-    where (type.implements["AutoInitiable"] != nil) { -%>
+    where (type.implements["AutoInitiable"] != nil) {
+-%>
 // sourcery:inline:auto:<%= type.name %>.Init
     <%_ var firstTime: Bool = true -%>
-<%= "\t" + type.accessLevel -%> init(<%_ for i in 0 ..< type.instanceVariables.count { -%> <%_ let variable = type.instanceVariables[i] -%>
+    <%= type.accessLevel -%> init(<% for i in 0 ..< type.instanceVariables.count { -%> <%_ let variable = type.instanceVariables[i] -%>
         <%_= variableNameAndType(variable, firstTime, type) -%> <%_= variableOptionalAndValue(variable, type)-%>
         <%_ firstTime = false -%>
     <%_ } %>

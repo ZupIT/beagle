@@ -28,13 +28,13 @@ struct ScreenComponent: AppearanceComponent, ServerDrivenComponent, AutoInitiabl
     public let child: ServerDrivenComponent
 
 // sourcery:inline:auto:ScreenComponent.Init
-	internal init(
-		identifier: String? = nil,
-		appearance: Appearance? = nil,
-		safeArea: SafeArea? = nil,
-		navigationBar: NavigationBar? = nil,
-		screenAnalyticsEvent: AnalyticsScreen? = nil,
-		child: ServerDrivenComponent
+    internal init(
+        identifier: String? = nil,
+        appearance: Appearance? = nil,
+        safeArea: SafeArea? = nil,
+        navigationBar: NavigationBar? = nil,
+        screenAnalyticsEvent: AnalyticsScreen? = nil,
+        child: ServerDrivenComponent
     ) {
         self.identifier = identifier
         self.appearance = appearance
@@ -95,11 +95,11 @@ public struct SafeArea: Equatable, Decodable, AutoInitiable {
     }
     
 // sourcery:inline:auto:SafeArea.Init
-	public init(
-		top: Bool? = nil,
-		leading: Bool? = nil,
-		bottom: Bool? = nil,
-		trailing: Bool? = nil
+    public init(
+        top: Bool? = nil,
+        leading: Bool? = nil,
+        bottom: Bool? = nil,
+        trailing: Bool? = nil
     ) {
         self.top = top
         self.leading = leading

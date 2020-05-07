@@ -23,10 +23,10 @@ public struct TabItem: AutoInitiableAndDecodable {
     public let content: ServerDrivenComponent
 
 // sourcery:inline:auto:TabItem.Init
-	public init(
-		icon: String? = nil,
-		title: String? = nil,
-		content: ServerDrivenComponent
+    public init(
+        icon: String? = nil,
+        title: String? = nil,
+        content: ServerDrivenComponent
     ) {
         self.icon = icon
         self.title = title
@@ -40,9 +40,9 @@ public struct TabView: ServerDrivenComponent, AutoInitiable {
     public let style: String?
 
 // sourcery:inline:auto:TabView.Init
-	public init(
-		tabItems: [TabItem],
-		style: String? = nil
+    public init(
+        tabItems: [TabItem],
+        style: String? = nil
     ) {
         self.tabItems = tabItems
         self.style = style

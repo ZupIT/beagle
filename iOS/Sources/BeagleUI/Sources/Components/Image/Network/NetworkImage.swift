@@ -23,10 +23,10 @@ public struct NetworkImage: Widget, AutoInitiableAndDecodable {
     public var widgetProperties: WidgetProperties
 
 // sourcery:inline:auto:NetworkImage.Init
-	public init(
-		path: String,
-		contentMode: ImageContentMode? = nil,
-		widgetProperties: WidgetProperties = WidgetProperties()
+    public init(
+        path: String,
+        contentMode: ImageContentMode? = nil,
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.path = path
         self.contentMode = contentMode

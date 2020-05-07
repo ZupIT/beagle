@@ -32,8 +32,8 @@ extension DSCollection {
         dataSource = try container.decode(DSCollectionDataSource.self, forKey: .dataSource)
         widgetProperties = try WidgetProperties(from: decoder)
     }
-    
 }
+
 // MARK: DemoTextField Decodable
 extension DemoTextField {
 
@@ -47,5 +47,4 @@ extension DemoTextField {
         placeholder = try container.decode(String.self, forKey: .placeholder)
         widgetProperties = try WidgetProperties(from: decoder)
     }
-    
 }

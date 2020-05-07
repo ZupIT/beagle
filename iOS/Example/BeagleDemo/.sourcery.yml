@@ -1,7 +1,7 @@
 sources:
   - BeagleDemo
-  - BeagleDemo/../../../Sources/BeagleUI/SourceryFiles/SourceryProtocols.swift
+  - ../../Sources/BeagleUI/SourceryFiles/SourceryProtocols.swift
 templates:
-  - BeagleDemo/../../../Sources/BeagleUI/SourceryFiles/Templates
+  - ../../Sources/BeagleUI/SourceryFiles/Templates
 output:
-  BeagleDemo/SourceryFiles
+  BeagleDemo/SourceryFiles/Generated

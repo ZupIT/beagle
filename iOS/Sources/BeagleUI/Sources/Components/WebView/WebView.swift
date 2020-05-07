@@ -22,9 +22,9 @@ public struct WebView: FlexComponent, ServerDrivenComponent, AutoInitiableAndDec
     public let flex: Flex?
 
 // sourcery:inline:auto:WebView.Init
-	public init(
-		url: String,
-		flex: Flex? = nil
+    public init(
+        url: String,
+        flex: Flex? = nil
     ) {
         self.url = url
         self.flex = flex

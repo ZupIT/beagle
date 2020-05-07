@@ -1,20 +1,3 @@
-<%
-/*
-* Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
--%>
 /*
 * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
 *
@@ -31,29 +14,36 @@
 * limitations under the License.
 */
 <%
+
 func capitalizedName(for variable: Variable) -> String {
     return "\(String(variable.name.first!).capitalized)\(String(variable.name.dropFirst()))"
 }
+
 func customDecodingMethod(for variable: Variable, of type: Type) -> SourceryMethod? {
     return type.staticMethods.first { $0.selectorName == "decode\(capitalizedName(for: variable))(from:)" }
 }
+
 func defaultDecodingValue(for variable: Variable, of type: Type) -> Variable? {
     return type.staticVariables.first { $0.name == "default\(capitalizedName(for: variable))" }
 }
+
 func decodingContainerMethod(for type: Type) -> SourceryMethod? {
     if let enumType = type as? Enum, !enumType.hasAssociatedValues {
         return SourceryMethod(name: "singleValueContainer", throws: true)
     }
     return type.staticMethods.first { $0.selectorName == "decodingContainer(_:)" }
 }
+
 func customEncodingMethod(for variable: Variable, of type: Type) -> SourceryMethod? {
     return type.instanceMethods.first { $0.selectorName == "encode\(capitalizedName(for: variable))(to:)" }
 }
+
 func needsCustomBeagleDecoding(_ variable: Variable) -> Bool {
     return variable.unwrappedTypeName == "Action" ||
             variable.unwrappedTypeName == "ServerDrivenComponent" ||
             variable.unwrappedTypeName == "[ServerDrivenComponent]"
 }
+
 func codingKeysFor(_ type: Type) -> (generated: [String], all: [String]) {
     var generatedKeys = [String]()
     var allCodingKeys = [String]()
@@ -113,6 +103,7 @@ func codingKeysFor(_ type: Type) -> (generated: [String], all: [String]) {
     }
     return (generated: generatedKeys, all: allCodingKeys)
 }
+
 func importBeagleUIString(_ arguments: Dictionary<String,AnyObject>? ) -> String {
     guard let arguments = arguments else { return "" }
     for arg in arguments {
@@ -120,14 +111,14 @@ func importBeagleUIString(_ arguments: Dictionary<String,AnyObject>? ) -> String
             return ""
         }
     }
-    return "import BeagleUI\n\n"
+    return "\nimport BeagleUI\n"
 }
--%>
 
+-%>
 <%= importBeagleUIString(argument) -%>
-<%_ for type in types.all
-                where (type is Struct || type is Enum)
-                && (type.implements["AutoDecodable"] != nil) { -%>
+<% for type in types.all
+        where (type is Struct || type is Enum)
+        && (type.implements["AutoDecodable"] != nil) { -%>
     <%_ let codingKeys = codingKeysFor(type) -%>
     <%_ if let codingKeysType = type.containedType["CodingKeys"] as? Enum, codingKeys.generated.count > 0 { -%>
 // sourcery:inline:auto:<%= codingKeysType.name %>.AutoCodable
@@ -136,6 +127,7 @@ func importBeagleUIString(_ arguments: Dictionary<String,AnyObject>? ) -> String
         <%_ } -%>
 // sourcery:end
 <%_ } -%>
+
 // MARK: <%= type.name %> Decodable
 extension <%= type.name %> {
     <%_ if type.containedType["CodingKeys"] as? Enum == nil { -%>
@@ -244,6 +236,5 @@ extension <%= type.name %> {
         <%_ } -%>
         <%_ } -%>
     }
-    
 }
 <% } -%>

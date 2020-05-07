@@ -21,12 +21,12 @@ public struct ListView: ServerDrivenComponent, AutoInitiableAndDecodable {
     // MARK: - Public Properties
     
     public let rows: [ServerDrivenComponent]
-    public let direction: Direction
+    public var direction: Direction = .vertical
 
 // sourcery:inline:auto:ListView.Init
-	public init(
-		rows: [ServerDrivenComponent],
-		direction: Direction = .vertical
+    public init(
+        rows: [ServerDrivenComponent],
+        direction: Direction = .vertical
     ) {
         self.rows = rows
         self.direction = direction

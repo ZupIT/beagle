@@ -98,9 +98,9 @@ struct DemoTextField: Widget, AutoInitiableAndDecodable {
     var widgetProperties: WidgetProperties
 
 // sourcery:inline:auto:DemoTextField.Init
-	internal init(
-		placeholder: String,
-		widgetProperties: WidgetProperties = WidgetProperties()
+    internal init(
+        placeholder: String,
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.placeholder = placeholder
         self.widgetProperties = widgetProperties

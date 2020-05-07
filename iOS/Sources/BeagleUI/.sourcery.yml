@@ -4,6 +4,6 @@ sources:
 templates:
   - SourceryFiles/Templates
 output:
-  Sources/Common/Util
+  SourceryFiles/Generated
 args:
   shouldNotImportBeagleUI: 1

@@ -23,10 +23,10 @@ public struct Touchable: ServerDrivenComponent, ClickedOnComponent, AutoInitiabl
     public let child: ServerDrivenComponent
 
 // sourcery:inline:auto:Touchable.Init
-	public init(
-		action: Action,
-		clickAnalyticsEvent: AnalyticsClick? = nil,
-		child: ServerDrivenComponent
+    public init(
+        action: Action,
+        clickAnalyticsEvent: AnalyticsClick? = nil,
+        child: ServerDrivenComponent
     ) {
         self.action = action
         self.clickAnalyticsEvent = clickAnalyticsEvent

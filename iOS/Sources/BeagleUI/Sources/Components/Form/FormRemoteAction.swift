@@ -28,9 +28,9 @@ public struct FormRemoteAction: Action, AutoInitiable {
     }
 
 // sourcery:inline:auto:FormRemoteAction.Init
-	public init(
-		path: String,
-		method: Method
+    public init(
+        path: String,
+        method: Method
     ) {
         self.path = path
         self.method = method

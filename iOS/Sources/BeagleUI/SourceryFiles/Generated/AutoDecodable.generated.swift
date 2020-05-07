@@ -36,8 +36,8 @@ extension Button {
         clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
         widgetProperties = try WidgetProperties(from: decoder)
     }
-    
 }
+
 // MARK: Container Decodable
 extension Container {
 
@@ -51,8 +51,8 @@ extension Container {
         children = try container.decode( forKey: .children)
         widgetProperties = try WidgetProperties(from: decoder)
     }
-    
 }
+
 // MARK: Form Decodable
 extension Form {
 
@@ -67,8 +67,8 @@ extension Form {
         action = try container.decode( forKey: .action)
         child = try container.decode( forKey: .child)
     }
-    
 }
+
 // MARK: FormInput Decodable
 extension FormInput {
 
@@ -89,8 +89,8 @@ extension FormInput {
         errorMessage = try container.decodeIfPresent(String.self, forKey: .errorMessage)
         child = try container.decode( forKey: .child)
     }
-    
 }
+
 // MARK: Image Decodable
 extension Image {
 
@@ -106,8 +106,8 @@ extension Image {
         contentMode = try container.decodeIfPresent(ImageContentMode.self, forKey: .contentMode)
         widgetProperties = try WidgetProperties(from: decoder)
     }
-    
 }
+
 // MARK: LazyComponent Decodable
 extension LazyComponent {
 
@@ -122,8 +122,8 @@ extension LazyComponent {
         path = try container.decode(String.self, forKey: .path)
         initialState = try container.decode( forKey: .initialState)
     }
-    
 }
+
 // MARK: ListView Decodable
 extension ListView {
 
@@ -138,8 +138,8 @@ extension ListView {
         rows = try container.decode( forKey: .rows)
         direction = try container.decode(Direction.self, forKey: .direction)
     }
-    
 }
+
 // MARK: NavigationBarItem Decodable
 extension NavigationBarItem {
 
@@ -160,8 +160,8 @@ extension NavigationBarItem {
         action = try container.decode( forKey: .action)
         accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
     }
-    
 }
+
 // MARK: NetworkImage Decodable
 extension NetworkImage {
 
@@ -177,8 +177,8 @@ extension NetworkImage {
         contentMode = try container.decodeIfPresent(ImageContentMode.self, forKey: .contentMode)
         widgetProperties = try WidgetProperties(from: decoder)
     }
-    
 }
+
 // MARK: ScreenComponent Decodable
 extension ScreenComponent {
 
@@ -201,8 +201,8 @@ extension ScreenComponent {
         screenAnalyticsEvent = try container.decodeIfPresent(AnalyticsScreen.self, forKey: .screenAnalyticsEvent)
         child = try container.decode( forKey: .child)
     }
-    
 }
+
 // MARK: ScrollView Decodable
 extension ScrollView {
 
@@ -221,8 +221,8 @@ extension ScrollView {
         scrollBarEnabled = try container.decodeIfPresent(Bool.self, forKey: .scrollBarEnabled)
         appearance = try container.decodeIfPresent(Appearance.self, forKey: .appearance)
     }
-    
 }
+
 // MARK: TabItem Decodable
 extension TabItem {
 
@@ -239,8 +239,8 @@ extension TabItem {
         title = try container.decodeIfPresent(String.self, forKey: .title)
         content = try container.decode( forKey: .content)
     }
-    
 }
+
 // MARK: Text Decodable
 extension Text {
 
@@ -260,8 +260,8 @@ extension Text {
         textColor = try container.decodeIfPresent(String.self, forKey: .textColor)
         widgetProperties = try WidgetProperties(from: decoder)
     }
-    
 }
+
 // MARK: Touchable Decodable
 extension Touchable {
 
@@ -278,8 +278,8 @@ extension Touchable {
         clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
         child = try container.decode( forKey: .child)
     }
-    
 }
+
 // MARK: WebView Decodable
 extension WebView {
 
@@ -294,25 +294,24 @@ extension WebView {
         url = try container.decode(String.self, forKey: .url)
         flex = try container.decodeIfPresent(Flex.self, forKey: .flex)
     }
-    
 }
+
 // MARK: WidgetProperties Decodable
 extension WidgetProperties {
 
     enum CodingKeys: String, CodingKey {
+        case id
         case appearance
         case flex
         case accessibility
-        case id
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
+        id = try container.decodeIfPresent(String.self, forKey: .id)
         appearance = try container.decodeIfPresent(Appearance.self, forKey: .appearance)
         flex = try container.decodeIfPresent(Flex.self, forKey: .flex)
         accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
-        id = try container.decodeIfPresent(String.self, forKey: .id)
     }
-    
 }

@@ -21,9 +21,9 @@ public struct Appearance: Decodable, Equatable, AutoInitiable {
     let cornerRadius: CornerRadius?
 
 // sourcery:inline:auto:Appearance.Init
-	public init(
-		backgroundColor: String? = nil,
-		cornerRadius: CornerRadius? = nil
+    public init(
+        backgroundColor: String? = nil,
+        cornerRadius: CornerRadius? = nil
     ) {
         self.backgroundColor = backgroundColor
         self.cornerRadius = cornerRadius
@@ -35,8 +35,8 @@ public struct CornerRadius: Decodable, AutoEquatable, AutoInitiable {
     let radius: Double
 
 // sourcery:inline:auto:CornerRadius.Init
-	public init(
-		radius: Double
+    public init(
+        radius: Double
     ) {
         self.radius = radius
     }

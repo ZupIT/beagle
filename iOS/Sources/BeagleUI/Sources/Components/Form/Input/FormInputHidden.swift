@@ -21,9 +21,9 @@ public struct FormInputHidden: FormInputComponent, AutoInitiable {
     public let value: String
 
 // sourcery:inline:auto:FormInputHidden.Init
-	public init(
-		name: String,
-		value: String
+    public init(
+        name: String,
+        value: String
     ) {
         self.name = name
         self.value = value

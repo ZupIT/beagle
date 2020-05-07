@@ -23,9 +23,9 @@ public class PageIndicator: PageIndicatorComponent, AutoInitiable {
     public var unselectedColor: String?
 
 // sourcery:inline:auto:PageIndicator.Init
-	public init(
-		selectedColor: String? = nil,
-		unselectedColor: String? = nil
+    public init(
+        selectedColor: String? = nil,
+        unselectedColor: String? = nil
     ) {
         self.selectedColor = selectedColor
         self.unselectedColor = unselectedColor

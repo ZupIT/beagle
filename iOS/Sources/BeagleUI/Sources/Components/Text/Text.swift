@@ -16,7 +16,7 @@
 
 import UIKit
 
-public struct Text: Widget, AutoInitiableAndDecodable {
+public struct Text: Widget, AutoDecodable {
     
     // MARK: - Public Properties
     public let text: String
@@ -24,14 +24,13 @@ public struct Text: Widget, AutoInitiableAndDecodable {
     public let alignment: Alignment?
     public let textColor: String?
     public var widgetProperties: WidgetProperties
-    
-// sourcery:inline:auto:Text.Init
-	public init(
-		_ text: String,
-		style: String? = nil,
-		alignment: Alignment? = nil,
-		textColor: String? = nil,
-		widgetProperties: WidgetProperties = WidgetProperties()
+
+    public init(
+        _ text: String,
+        style: String? = nil,
+        alignment: Alignment? = nil,
+        textColor: String? = nil,
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.text = text
         self.style = style
@@ -39,7 +38,6 @@ public struct Text: Widget, AutoInitiableAndDecodable {
         self.textColor = textColor
         self.widgetProperties = widgetProperties
     }
-// sourcery:end
 }
 
 extension Text: Renderable {

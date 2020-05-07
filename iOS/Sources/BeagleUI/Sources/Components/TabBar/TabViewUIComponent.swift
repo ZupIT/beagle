@@ -26,13 +26,13 @@ extension TabViewUIComponent {
         var unselectedIconColor: UIColor?
 
 // sourcery:inline:auto:TabViewUIComponent.Model.Init
-	internal init(
-		tabIndex: Int,
-		tabViewItems: [TabItem],
-		selectedTextColor: UIColor? = nil,
-		unselectedTextColor: UIColor? = nil,
-		selectedIconColor: UIColor? = nil,
-		unselectedIconColor: UIColor? = nil
+     init(
+        tabIndex: Int,
+        tabViewItems: [TabItem],
+        selectedTextColor: UIColor? = nil,
+        unselectedTextColor: UIColor? = nil,
+        selectedIconColor: UIColor? = nil,
+        unselectedIconColor: UIColor? = nil
     ) {
         self.tabIndex = tabIndex
         self.tabViewItems = tabViewItems

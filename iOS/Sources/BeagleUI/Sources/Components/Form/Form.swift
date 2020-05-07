@@ -24,9 +24,9 @@ public struct Form: ServerDrivenComponent, AutoInitiableAndDecodable {
     public let child: ServerDrivenComponent
 
 // sourcery:inline:auto:Form.Init
-	public init(
-		action: Action,
-		child: ServerDrivenComponent
+    public init(
+        action: Action,
+        child: ServerDrivenComponent
     ) {
         self.action = action
         self.child = child

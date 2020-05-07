@@ -22,9 +22,9 @@ public struct PageView: ServerDrivenComponent, AutoInitiable {
     public let pageIndicator: PageIndicatorComponent?
 
 // sourcery:inline:auto:PageView.Init
-	public init(
-		pages: [ServerDrivenComponent],
-		pageIndicator: PageIndicatorComponent? = nil
+    public init(
+        pages: [ServerDrivenComponent],
+        pageIndicator: PageIndicatorComponent? = nil
     ) {
         self.pages = pages
         self.pageIndicator = pageIndicator

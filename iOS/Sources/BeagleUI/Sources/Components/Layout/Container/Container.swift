@@ -23,9 +23,9 @@ public struct Container: Widget, AutoInitiableAndDecodable {
     public var widgetProperties: WidgetProperties
     
 // sourcery:inline:auto:Container.Init
-	public init(
-		children: [ServerDrivenComponent],
-		widgetProperties: WidgetProperties = WidgetProperties()
+    public init(
+        children: [ServerDrivenComponent],
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.children = children
         self.widgetProperties = widgetProperties

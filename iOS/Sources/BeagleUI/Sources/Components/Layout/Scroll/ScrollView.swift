@@ -26,11 +26,11 @@ public struct ScrollView: AppearanceComponent, ServerDrivenComponent, AutoInitia
     public let appearance: Appearance?
 
 // sourcery:inline:auto:ScrollView.Init
-	public init(
-		children: [ServerDrivenComponent],
-		scrollDirection: ScrollAxis? = nil,
-		scrollBarEnabled: Bool? = nil,
-		appearance: Appearance? = nil
+    public init(
+        children: [ServerDrivenComponent],
+        scrollDirection: ScrollAxis? = nil,
+        scrollBarEnabled: Bool? = nil,
+        appearance: Appearance? = nil
     ) {
         self.children = children
         self.scrollDirection = scrollDirection
