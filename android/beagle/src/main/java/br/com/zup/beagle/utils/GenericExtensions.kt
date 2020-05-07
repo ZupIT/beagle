@@ -39,3 +39,7 @@ fun <I, G> Any.implementsGenericTypeOf(
             genericType == typeClass
         }
 }
+
+fun <T> Any.cast(): T {
+    return this as T
+}

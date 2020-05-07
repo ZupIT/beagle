@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.core
+package br.com.zup.beagle.setup
 
-import java.io.Serializable
+import br.com.zup.beagle.core.Binding
 
-interface Bind<T> : Serializable {
-    val value: Any
+interface BindingAdapter {
+    fun getBindAttributes(): List<Binding<*>>
+    fun bindModel()
 }

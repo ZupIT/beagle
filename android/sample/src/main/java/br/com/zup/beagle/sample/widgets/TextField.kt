@@ -23,6 +23,7 @@ import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.sample.utils.MaskApplier
+import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.form.InputWidget
 
 enum class TextFieldInputType {
@@ -75,6 +76,11 @@ data class TextField(
         mask?.let {
             MaskApplier(textFieldView, it)
         }
+    }
+
+
+    override fun onBind(widget: Widget) {
+        TODO("Not yet implemented")
     }
 
     private fun getColorWithHashTag(value: String): String = if (value.startsWith("#")) value else "#$value"

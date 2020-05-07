@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.core
+package br.com.zup.beagle.widget.core
 
-import java.io.Serializable
+import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.widget.Widget
 
-interface Bind<T> : Serializable {
-    val value: Any
+interface BindingWidget : ServerDrivenComponent  {
+    fun onBind(widget: Widget)
 }

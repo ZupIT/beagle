@@ -19,6 +19,7 @@ package br.com.zup.beagle.sample.widgets
 import android.content.Context
 import android.graphics.Color
 import android.widget.TextView
+import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.WidgetView
 
 data class MutableText(
@@ -36,5 +37,9 @@ data class MutableText(
             else
                 firstText
         }
+    }
+
+    override fun onBind(widget: Widget) {
+        TODO("Not yet implemented")
     }
 }

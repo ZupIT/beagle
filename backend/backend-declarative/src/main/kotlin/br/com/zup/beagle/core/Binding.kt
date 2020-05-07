@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.core
 
-import java.io.Serializable
+sealed class Binding<T> : Bind<T> {
 
-interface Bind<T> : Serializable {
-    val value: Any
+    data class Expression<T>(override val value: String) : Binding<T>()
+    data class Value<T : Any>(override val value: T) : Binding<T>()
 }

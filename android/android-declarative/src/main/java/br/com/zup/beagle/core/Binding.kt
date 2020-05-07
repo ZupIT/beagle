@@ -16,8 +16,20 @@
 
 package br.com.zup.beagle.core
 
-import java.io.Serializable
+sealed class Binding<T> : Bind<T> {
 
-interface Bind<T> : Serializable {
-    val value: Any
+    @Transient
+    private lateinit var onChange: (value: T) -> Unit
+
+    fun observes(onChange: (value: T) -> Unit) {
+        this.onChange = onChange
+    }
+
+    fun notifyChange(value: T) {
+        this.onChange(value)
+    }
+
+    data class Expression<T>(override val value: String): Binding<T>() {}
+    data class Value<T: Any>(override val value: T): Binding<T>()
+
 }
