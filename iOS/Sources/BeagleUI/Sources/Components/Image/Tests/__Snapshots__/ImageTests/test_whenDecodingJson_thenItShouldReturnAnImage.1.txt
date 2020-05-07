@@ -11,4 +11,7 @@
     - some: ImageContentMode.center
   - flex: Optional<Flex>.none
   - id: Optional<String>.none
-  - name: "test_image_square-x"
+  ▿ path: Optional<String>
+    - some: "test_image_square-x"
+  - typePathImage: TypePathImage.Local
+  - url: Optional<String>.none

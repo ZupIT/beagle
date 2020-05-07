@@ -20,7 +20,9 @@ public struct Image: Widget {
     
     // MARK: - Public Properties
     
-    public let name: String
+    public let url: String?
+    public let path: String?
+    public let typePathImage: TypePathImage
     public let contentMode: ImageContentMode?
     
     public var id: String?
@@ -31,14 +33,16 @@ public struct Image: Widget {
     // MARK: - Initialization
     
     public init(
-        name: String,
+        url: String,
         contentMode: ImageContentMode? = nil,
         id: String? = nil,
         appearance: Appearance? = nil,
         flex: Flex? = nil,
         accessibility: Accessibility? = nil
     ) {
-        self.name = name
+        self.url = url
+        self.path = nil
+        self.typePathImage = .Network
         self.contentMode = contentMode
         self.id = id
         self.appearance = appearance
@@ -46,6 +50,23 @@ public struct Image: Widget {
         self.accessibility = accessibility
     }
     
+    public init(
+        path: String,
+        contentMode: ImageContentMode? = nil,
+        id: String? = nil,
+        appearance: Appearance? = nil,
+        flex: Flex? = nil,
+        accessibility: Accessibility? = nil
+    ) {
+        self.url = nil
+        self.path = path
+        self.typePathImage = .Local
+        self.contentMode = contentMode
+        self.id = id
+        self.appearance = appearance
+        self.flex = flex
+        self.accessibility = accessibility
+    }
 }
 
 extension Image: Renderable {
@@ -54,11 +75,37 @@ extension Image: Renderable {
         let image = UIImageView(frame: .zero)
         image.clipsToBounds = true
         image.contentMode = (contentMode ?? .fitCenter).toUIKit()
-        image.setImageFromAsset(named: name, bundle: dependencies.appBundle)
         
         image.beagle.setup(self)
+        switch typePathImage {
+        case .Local:
+            if let path = path {
+                image.setImageFromAsset(named: path, bundle: dependencies.appBundle)
+            }
+        case .Network:
+            guard let url = url else { break }
+            
+            dependencies.repository.fetchImage(url: url, additionalData: nil) { [weak image, weak context] result in
+                guard let imageView = image else { return }
+                guard case .success(let data) = result else { return }
+                let image = UIImage(data: data)
+                DispatchQueue.main.async {
+                    imageView.image = image
+                    imageView.flex.markDirty()
+                    context?.applyLayout()
+                }
+            }
+        }
         
         return image
+    }
+    
+    private func prepareLocalImage() {
+        
+    }
+    
+    private func prepareRemoreImage() {
+        
     }
 }
 
@@ -66,4 +113,9 @@ private extension UIImageView {
     func setImageFromAsset(named: String, bundle: Bundle) {
         self.image = UIImage(named: named, in: bundle, compatibleWith: nil)
     }
+}
+
+public enum TypePathImage: String, Codable {
+    case Network
+    case Local
 }
