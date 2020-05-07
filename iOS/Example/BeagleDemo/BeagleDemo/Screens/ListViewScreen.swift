@@ -53,7 +53,6 @@ struct ListViewScreen: DeeplinkScreen {
             Text("0011"),
             Text("0012"),
             Text("0013"),
-//            Image(name: "beagle"),
             Image(path: "beagle"),
             Text("0014"),
             Text("0015"),
