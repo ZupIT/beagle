@@ -50,7 +50,7 @@ private val screenRequest = ScreenRequest(URL)
 class BeagleServiceWrapperTest {
 
     @MockK
-    private lateinit var beagleService: BeagleService
+    private lateinit var componentRequester: ComponentRequester
 
     @MockK
     private lateinit var beagleSerializer: BeagleSerializer
@@ -89,8 +89,8 @@ class BeagleServiceWrapperTest {
     @Test
     fun fetch_when_success_should_call_onSuccess() = runBlockingTest {
         // GIVEN
-        subject.init(beagleService,beagleSerializer)
-        coEvery { beagleService.fetchComponent(screenRequest) } returns component
+        subject.init(componentRequester,beagleSerializer)
+        coEvery { componentRequester.fetchComponent(screenRequest) } returns component
         every { listener.onSuccess(any()) } just Runs
 
         // WHEN
@@ -103,8 +103,8 @@ class BeagleServiceWrapperTest {
     @Test
     fun fetch_when_fail_should_call_onError() = runBlockingTest {
         // GIVEN
-        subject.init(beagleService,beagleSerializer)
-        coEvery { beagleService.fetchComponent(screenRequest) } throws throwable
+        subject.init(componentRequester,beagleSerializer)
+        coEvery { componentRequester.fetchComponent(screenRequest) } throws throwable
         every { listener.onError(any()) } just Runs
 
         // WHEN
@@ -117,7 +117,7 @@ class BeagleServiceWrapperTest {
     @Test
     fun deserializeWidget_when_call_method() = runBlockingTest {
         // GIVEN
-        subject.init(beagleService,beagleSerializer)
+        subject.init(componentRequester,beagleSerializer)
         val randomString = RandomData.string()
         every { beagleSerializer.deserializeComponent(randomString) } returns component
 
@@ -131,7 +131,7 @@ class BeagleServiceWrapperTest {
     @Test
     fun serializeWidget_when_call_method() = runBlockingTest {
         // GIVEN
-        subject.init(beagleService,beagleSerializer)
+        subject.init(componentRequester,beagleSerializer)
         val randomString = RandomData.string()
         every { beagleSerializer.serializeComponent(component) } returns randomString
 

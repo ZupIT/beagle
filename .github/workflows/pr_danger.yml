@@ -1,0 +1,21 @@
+name: Beagle PR Danger
+
+on:
+   pull_request:
+       types: [edited, synchronize, reopened, opened]
+       branches:
+       - master
+jobs:
+    danger-pr:
+        name: Danger PR
+        runs-on: macos-latest
+        steps:
+            - uses: actions/checkout@v1
+            - name: Install Fastlane
+              run: bundle install
+            - name: Run danger check
+              env:
+                GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
+                GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+              run: bundle exec fastlane run_danger danger_id:"pr_danger" danger_file_path:"pr"
+        

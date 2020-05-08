@@ -15,6 +15,7 @@
   ▿ navigation: BeagleNavigator
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
+  - navigationControllerType: BeagleNavigationController
   - networkClient: NetworkClientDummy
   ▿ preFetchHelper: BeaglePreFetchHelper
     ▿ dependencies: InnerDependenciesResolver

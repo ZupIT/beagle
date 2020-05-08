@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-public struct UnitValue: Decodable {
+public struct UnitValue: Decodable, Equatable {
     
     // MARK: - Constants
     
