@@ -1,6 +1,6 @@
 ▿ 2 key/value pairs
   ▿ (2 elements)
-    - key: "OverridedName"
+    - key: "name"
     - value: "John Doe"
   ▿ (2 elements)
     - key: "password"

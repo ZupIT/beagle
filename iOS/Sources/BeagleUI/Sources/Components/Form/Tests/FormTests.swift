@@ -24,7 +24,6 @@ final class FormTests: XCTestCase {
         let action = FormRemoteAction(path: "submit", method: .post)
         let form = Form(action: action, child: Container(children: [
             FormInput(name: "name", child: InputComponent(value: "John Doe")),
-            FormInputHidden(name: "id", value: "123123"),
             FormSubmit(child: Button(text: "Add"), enabled: true)
         ]))
         return form

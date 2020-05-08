@@ -17,8 +17,8 @@
 import Foundation
 
 public protocol FormDataStoreHandling {
-    func save(data: [String: String], formId: String)
-    func read(key: String) -> [String: String]?
+    func save(data: [String: String], group: String)
+    func read(group: String) -> [String: String]?
 }
 
 public protocol DependencyFormDataStoreHandler {
@@ -29,7 +29,7 @@ public class FormData {
     var data: [String: String] = [:]
     
     func save(data: [String: String]) {
-        self.data.merge(data) { (new, _) in new }
+        self.data.merge(data) { _, new in new }
     }
 }
 
@@ -39,16 +39,16 @@ public class FormDataStoreHandler: FormDataStoreHandling {
     
     // MARK: - FormDataStoreHandling
     
-    public func save(data: [String: String], formId: String) {
-        if let formData = dataStore[formId] {
+    public func save(data: [String: String], group: String) {
+        if let formData = dataStore[group] {
             formData.save(data: data)
         } else {
-            dataStore[formId] = FormData()
-            save(data: data, formId: formId)
+            dataStore[group] = FormData()
+            save(data: data, group: group)
         }
     }
     
-    public func read(key: String) -> [String: String]? {
-        return dataStore[key]?.data
+    public func read(group: String) -> [String: String]? {
+        return dataStore[group]?.data
     }
 }

@@ -5,14 +5,17 @@
     "path" : "/sample/form",
     "method" : "POST"
   },
-  "storedParameters" : ["age", "address"],
+  "additionalData" : {
+      "age" : "21",
+      "id" : "11111"
+  },
+  "group" : "group",
   "shouldStoreFields" : true,
   "child" : {
     "_beagleType_" : "beagle:component:container",
     "children" : [ {
       "_beagleType_" : "beagle:component:forminput",
       "name" : "optional-field",
-      "overrideStoredName" : "override-optional-field",
       "child" : {
         "_beagleType_" : "beagle:component:text",
         "text" : "text"

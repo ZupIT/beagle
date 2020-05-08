@@ -24,7 +24,6 @@ final class FormManagerTests: XCTestCase {
         let action = FormRemoteAction(path: "submit", method: .post)
         let form = Form(action: action, child: Container(children: [
             FormInput(name: "name", child: InputComponent(value: "John Doe")),
-            FormInputHidden(name: "id", value: "123123"),
             FormSubmit(child: Button(text: "Add"), enabled: true)
         ]))
         return form
@@ -159,21 +158,19 @@ final class FormManagerTests: XCTestCase {
     // MARK: - Form Storage Logic Tests
     
     let validator3 = "validator3"
-    
-    private lazy var storedParameters = ["age", "id"]
-    
-    private let formId = "formId"
+        
+    private let group = "group"
     
     private lazy var formViewWithStorage = Form(
         action: FormRemoteAction(path: "submit", method: .post),
         child: Container(children: [
-            FormInput(name: "name", required: true, validator: validator3, child: InputComponent(value: "John Doe"), overrideStoredName: "OverridedName"),
+            FormInput(name: "name", required: true, validator: validator3, child: InputComponent(value: "John Doe")),
             FormInput(name: "password", required: true, validator: validator3, child: InputComponent(value: "password")),
             FormSubmit(child: Button(text: "Add"))
         ]),
-        storedParameters: storedParameters,
         shouldStoreFields: true,
-        formId: formId
+        group: group,
+        additionalData: ["id": "111111"]
     ).toView(context: screen, dependencies: dependencies)
     
     private func setValidator3() {
@@ -184,11 +181,9 @@ final class FormManagerTests: XCTestCase {
     
     func test_formSubmit_shouldIncludeStoredValuesToSubmission() {
         // Given
-        storedParameters = ["age", "id"]
         let formData = FormData()
-        formData.save(data: (key: "age", value: "12"))
-        formData.save(data: (key: "id", value: "1111111"))
-        dataStoreStub.dataStore[formId] = formData
+        formData.data = ["age": "12", "name": "yan dias"]
+        dataStoreStub.dataStore[group] = formData
 
         let gesture = submitGesture(in: formViewWithStorage)
 
@@ -201,45 +196,17 @@ final class FormManagerTests: XCTestCase {
         assertSnapshot(matching: repositoryStub.formData.values, as: .dump)
     }
     
-//    func test_formSubmitMergingStoredValuesErrorKeyNotFound_shouldNotSubmit() {
-//        // Given
-//        storedParameters = ["age", "id"]
-//        dataStoreStub.save(key: "age", value: "12")
-//
-//        let gesture = submitGesture(in: formViewWithStorage)
-//
-//        // When
-//        formManager?.handleSubmitFormGesture(gesture)
-//
-//        // Then
-//        XCTAssert(repositoryStub.didCallDispatch == false)
-//    }
-//
-//    func test_formSubmitMergingStoredValuesErrorKeyDuplication_shouldNotSubmit() {
-//        // Given
-//        storedParameters = ["name"]
-//        dataStoreStub.save(key: "name", value: "Yan")
-//
-//        let gesture = submitGesture(in: formViewWithStorage)
-//
-//        // When
-//        formManager?.handleSubmitFormGesture(gesture)
-//
-//        // Then
-//        XCTAssert(repositoryStub.didCallDispatch == false)
-//    }
-//
-//    func test_formSubmit_shouldSaveFormInputs() {
-//        // Given
-//        let gesture = submitGesture(in: formViewWithStorage)
-//
-//        // When
-//        formManager?.handleSubmitFormGesture(gesture)
-//
-//        // Then
-//        XCTAssert(dataStoreStub.didCallSave)
-//        assertSnapshot(matching: dataStoreStub.dataStore, as: .dump)
-//    }
+    func test_formSubmit_shouldSaveFormInputs() {
+        // Given
+        let gesture = submitGesture(in: formViewWithStorage)
+
+        // When
+        formManager?.handleSubmitFormGesture(gesture)
+
+        // Then
+        XCTAssert(dataStoreStub.didCallSave)
+        assertSnapshot(matching: dataStoreStub.passedDataToSave, as: .dump)
+    }
 }
 
 // MARK: - Stubs
@@ -248,22 +215,18 @@ private class DataStoreHandlerStub: FormDataStoreHandling {
     
     private(set) var didCallRead: Bool = false
     private(set) var didCallSave: Bool = false
+    private(set) var passedDataToSave: [String: String] = [:]
     
     var dataStore: [String: FormData] = [:]
     
-    func save(data: (key: String, value: String), formId: String) {
+    func save(data: [String: String], group: String) {
         didCallSave = true
-        if let formData = dataStore[formId] {
-            formData.save(data: data)
-        } else {
-            dataStore[formId] = FormData()
-            save(data: data, formId: formId)
-        }
+        passedDataToSave = data
     }
     
-    func read(key: String) -> FormData? {
+    func read(group: String) -> [String: String]? {
         didCallRead = true
-        return dataStore[key]
+        return dataStore[group]?.data
     }
 
     func resetStub() {
@@ -299,25 +262,6 @@ private class InputStub: UIView, InputValue, ValidationErrorListener, WidgetStat
         return value
     }
     func onValidationError(message: String?) {
-    }
-}
-
-private class HiddenStub: UIView, InputValue {
-
-    let value: String
-
-    init(_ formInputHidden: FormInputHidden, value: String) {
-        self.value = value
-        super.init(frame: .zero)
-        self.beagleFormElement = formInputHidden
-    }
-
-    required init?(coder: NSCoder) {
-        BeagleUI.fatalError("init(coder:) has not been implemented")
-    }
-
-    func getValue() -> Any {
-        return value
     }
 }
 

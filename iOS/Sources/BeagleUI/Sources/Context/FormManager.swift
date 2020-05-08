@@ -99,7 +99,7 @@ class FormManager: FormManaging {
             return
         }
         
-        manageFormDataStoreValues(with: &values, shouldStoreFields: sender.form.shouldStoreFields, formId: sender.form.formId)
+        manageFormDataStoreValues(with: &values, shouldStoreFields: sender.form.shouldStoreFields, group: sender.form.group)
         manageFormAdditionalData(with: &values, additionalData: sender.form.additionalData)
         
         submitAction(sender.form.action, inputs: values, sender: sender)
@@ -107,30 +107,34 @@ class FormManager: FormManaging {
     
     private func manageFormAdditionalData(with formValues: inout [String: String], additionalData: [String: String]?) {
         if let additionalData = additionalData {
-            formValues.merge(additionalData) { new, _ in
+            formValues.merge(additionalData) { _, new in
+                dependencies.logger.log(Log.form(.keyDuplication(data: additionalData)))
                 return new
             }
         }
     }
     
-    private func manageFormDataStoreValues(with formValues: inout [String: String], shouldStoreFields: Bool, formId: String?) {
-        if let formId = formId, let storedValues = dependencies.formDataStoreHandler.read(key: formId) {
+    private func manageFormDataStoreValues(with formValues: inout [String: String], shouldStoreFields: Bool, group: String?) {
+        if let group = group, let storedValues = dependencies.formDataStoreHandler.read(group: group) {
             if shouldStoreFields {
-                saveFormData(values: formValues, formId: formId)
+                saveFormData(values: formValues, group: group)
             }
-            formValues.merge(storedValues) { _, current in current }
+            formValues.merge(storedValues) { current, _ in
+                dependencies.logger.log(Log.form(.keyDuplication(data: storedValues)))
+                return current
+            }
         } else {
             if shouldStoreFields {
-                saveFormData(values: formValues, formId: formId)
+                saveFormData(values: formValues, group: group)
             }
         }
     }
     
-    private func saveFormData(values: [String: String], formId: String?) {
-        if let formId = formId {
-            dependencies.formDataStoreHandler.save(data: values, formId: formId)
+    private func saveFormData(values: [String: String], group: String?) {
+        if let group = group {
+            dependencies.formDataStoreHandler.save(data: values, group: group)
         } else {
-            //TODO: Log message, cant save form data without a form id
+            dependencies.logger.log(Log.form(.unableToSaveData))
         }
     }
 

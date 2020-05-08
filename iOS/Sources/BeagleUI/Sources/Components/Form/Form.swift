@@ -24,7 +24,7 @@ public struct Form: ServerDrivenComponent {
     public let child: ServerDrivenComponent
     public let shouldStoreFields: Bool
     public let additionalData: [String: String]?
-    public let formId: String?
+    public let group: String?
 
     // MARK: - Initialization
     
@@ -32,13 +32,13 @@ public struct Form: ServerDrivenComponent {
         action: Action,
         child: ServerDrivenComponent,
         shouldStoreFields: Bool? = nil,
-        formId: String? = nil,
+        group: String? = nil,
         additionalData: [String: String]? = nil
     ) {
         self.action = action
         self.child = child
         self.shouldStoreFields = shouldStoreFields ?? false
-        self.formId = formId
+        self.group = group
         self.additionalData = additionalData
     }
 }
@@ -71,7 +71,7 @@ extension Form: Decodable {
         case action
         case child
         case shouldStoreFields
-        case formId
+        case group
         case additionalData
     }
 
@@ -80,7 +80,7 @@ extension Form: Decodable {
         self.action = try container.decode(forKey: .action)
         self.child = try container.decode(forKey: .child)
         self.shouldStoreFields = try container.decodeIfPresent(Bool.self, forKey: .shouldStoreFields) ?? false
-        self.formId = try container.decodeIfPresent(String.self, forKey: .formId)
+        self.group = try container.decodeIfPresent(String.self, forKey: .group)
         self.additionalData = try container.decodeIfPresent([String: String].self, forKey: .additionalData)
     }
 }

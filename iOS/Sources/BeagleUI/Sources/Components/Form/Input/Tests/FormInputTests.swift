@@ -38,19 +38,4 @@ final class FormInputTests: XCTestCase {
         // Then
         XCTAssertTrue(formInputView.beagleFormElement is FormInput)
     }
-    
-    func test_formInputHidenView_ShouldReturnExpectedValue() {
-        // Given
-        let name = "id"
-        let value = "123123"
-        let formInputHiden = FormInputHidden(name: name, value: value)
-        
-        // When
-        let view = formInputHiden.toView(context: BeagleContextDummy(), dependencies: BeagleScreenDependencies()) as? InputValue
-        
-        // Then
-        XCTAssert(view?.getValue() is String)
-        XCTAssert(name == formInputHiden.name)
-        XCTAssert(value == view?.getValue() as? String)
-    }
 }

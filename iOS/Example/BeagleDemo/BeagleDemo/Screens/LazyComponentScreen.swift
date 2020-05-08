@@ -45,7 +45,7 @@ struct LazyComponentScreen: DeeplinkScreen {
                     )
                 ]).applyFlex(Flex().justifyContent(.spaceBetween)),
                 shouldStoreFields: true,
-                formId: "firstForm"
+                group: "firstForm"
             )
         )
     }
@@ -69,7 +69,7 @@ struct LazyComponentScreen: DeeplinkScreen {
                     )
                 ]).applyFlex(Flex().justifyContent(.spaceBetween)),
                 shouldStoreFields: true,
-                formId: "firstForm",
+                group: "firstForm",
                 additionalData: ["cep":"38408","sexo":"masculimno"]
             )
         )
