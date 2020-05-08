@@ -72,35 +72,9 @@ extension ScreenComponent: Renderable {
 
         prefetch(dependencies: dependencies)
         
-        guard let beagleController = context as? BeagleScreenViewController,
-            beagleController.screenController.navigationController == nil
-        else {
-            let contentView = buildChildView(context: context, dependencies: dependencies)
-            contentView.beagle.setup(appearance: appearance)
-            return contentView
-        }
-        
-        let contentController = BeagleScreenViewController(
-            viewModel: .init(
-                screenType: .declarative(toScreen()),
-                dependencies: beagleController.viewModel.dependencies,
-                delegate: beagleController.viewModel.delegate
-            )
-        )
-
-        if let childViewController = beagleController.childViewControllers.first {
-            childViewController.willMove(toParentViewController: nil)
-            childViewController.view.removeFromSuperview()
-            childViewController.removeFromParentViewController()
-            childViewController.didMove(toParentViewController: nil)
-        }
-
-        let navigationController = UINavigationController(rootViewController: contentController)
-
-        beagleController.addChildViewController(navigationController)
-        navigationController.didMove(toParentViewController: beagleController)
-        
-        return navigationController.view
+        let contentView = buildChildView(context: context, dependencies: dependencies)
+        contentView.beagle.setup(appearance: appearance)
+        return contentView
     }
 
     // MARK: - Private Functions

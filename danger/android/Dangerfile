@@ -1,0 +1,22 @@
+# Android config
+
+checkstyle_dir = "**/build/reports/detekt/detekt.xml"
+Dir[checkstyle_dir].each do |file_name|
+  checkstyle_format.base_path = Dir.pwd
+  checkstyle_format.report file_name
+end
+
+lint_dir = "**/build/reports/lint-**.xml"
+Dir[lint_dir].each do |file_name|
+  android_lint.skip_gradle_task = true
+  android_lint.filtering = true
+  android_lint.report_file = file_name
+  android_lint.lint(inline_mode: true)
+end
+
+junit_tests_dir = "**/test-results/**/*.xml"
+Dir[junit_tests_dir].each do |file_name|
+  junit.parse file_name
+  junit.report
+end
+

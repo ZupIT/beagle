@@ -29,7 +29,7 @@ class BeagleContextSpy: BeagleContext {
     private(set) var actionCalled: Action?
     private(set) var didCallApplyLayout = true
 
-    var screenController: UIViewController = UIViewController()
+    var screenController = BeagleScreenViewController(component: Text(""))
 
     func register(events: [Event], inView view: UIView) {
         didCallRegisterEvents = true
@@ -63,18 +63,6 @@ class BeagleContextSpy: BeagleContext {
 
 final class BeagleContextTests: XCTestCase {
     
-    func test_screenController_shouldBeBeagleScreenViewController() {
-        // Given
-        let component = SimpleComponent()
-        let sut: BeagleContext = BeagleScreenViewController(viewModel: .init(
-            screenType: .declarative(component.content.toScreen()),
-            dependencies: BeagleScreenDependencies()
-        ))
-        
-        // Then
-        XCTAssertTrue(sut.screenController is BeagleScreenViewController)
-    }
-
     func test_registerAction_shouldAddGestureRecognizer() {
         // Given
         let component = SimpleComponent()
@@ -167,15 +155,11 @@ final class BeagleContextTests: XCTestCase {
 
 // MARK: - Testing Helpers
 
-class UINavigationControllerSpy: UINavigationController {
-    private(set) var popViewControllerCalled = false
+class UINavigationControllerSpy: BeagleScreenViewController {
+
     private(set) var presentViewControllerCalled = false
     private(set) var dismissViewControllerCalled = false
 
-    override func popViewController(animated: Bool) -> UIViewController? {
-        popViewControllerCalled = true
-        return super.popViewController(animated: animated)
-    }
     override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
         presentViewControllerCalled = true
         super.present(viewControllerToPresent, animated: flag, completion: completion)
