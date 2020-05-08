@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.context
+package br.com.zup.beagle.action
 
-data class ContextData(
-    val id: String,
-    val value: Any
-)
+data class UpdateContext(
+    val contextId: String,
+    val value: Any,
+    val path: String? = null
+) : Action

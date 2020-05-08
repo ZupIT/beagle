@@ -14,9 +14,14 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.context
+package br.com.zup.beagle.action
 
-data class ContextData(
-    val id: String,
-    val value: Any
-)
+import android.content.Context
+import br.com.zup.beagle.context.ContextDataManager
+
+internal class UpdateContextActionHandler : DefaultActionHandler<UpdateContext> {
+
+    override fun handle(context: Context, action: UpdateContext) {
+        ContextDataManager.updateContext(action)
+    }
+}
