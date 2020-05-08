@@ -42,7 +42,7 @@ struct Page {
             Text("Text with alignment atribute set to center",alignment: .center),
             Text("Text with alignment atribute set to right",alignment: .right),
             Text("Text with alignment atribute set to left",alignment: .left),
-            NetworkImage(path:.NETWORK_IMAGE_BEAGLE),
+            Image(url: .NETWORK_IMAGE_BEAGLE),
         ],
             flex: Flex().justifyContent(.spaceBetween).grow(1)
         )

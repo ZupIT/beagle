@@ -21,7 +21,7 @@ public struct Image: Widget {
     // MARK: - Public Properties
     
     public let url: String?
-    public let path: String?
+    public let name: String?
     public let typePathImage: TypePathImage
     public let contentMode: ImageContentMode?
     
@@ -41,7 +41,7 @@ public struct Image: Widget {
         accessibility: Accessibility? = nil
     ) {
         self.url = url
-        self.path = nil
+        self.name = nil
         self.typePathImage = .Network
         self.contentMode = contentMode
         self.id = id
@@ -51,7 +51,7 @@ public struct Image: Widget {
     }
     
     public init(
-        path: String,
+        name: String,
         contentMode: ImageContentMode? = nil,
         id: String? = nil,
         appearance: Appearance? = nil,
@@ -59,7 +59,7 @@ public struct Image: Widget {
         accessibility: Accessibility? = nil
     ) {
         self.url = nil
-        self.path = path
+        self.name = name
         self.typePathImage = .Local
         self.contentMode = contentMode
         self.id = id
@@ -79,8 +79,8 @@ extension Image: Renderable {
         image.beagle.setup(self)
         switch typePathImage {
         case .Local:
-            if let path = path {
-                image.setImageFromAsset(named: path, bundle: dependencies.appBundle)
+            if let name = name {
+                image.setImageFromAsset(named: name, bundle: dependencies.appBundle)
             }
         case .Network:
             guard let url = url else { break }
