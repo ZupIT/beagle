@@ -59,6 +59,9 @@ extension Form {
     enum CodingKeys: String, CodingKey {
         case action
         case child
+        case group
+        case additionalData
+        case shouldStoreFields
     }
 
     public init(from decoder: Decoder) throws {
@@ -66,6 +69,9 @@ extension Form {
 
         action = try container.decode( forKey: .action)
         child = try container.decode( forKey: .child)
+        group = try container.decodeIfPresent(String.self, forKey: .group)
+        additionalData = try container.decodeIfPresent([String: String].self, forKey: .additionalData)
+        shouldStoreFields = try (container.decodeIfPresent(Bool.self, forKey: .shouldStoreFields) ?? false)
     }
 }
 

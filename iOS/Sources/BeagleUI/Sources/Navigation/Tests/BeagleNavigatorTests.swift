@@ -277,10 +277,10 @@ class BeagleContextDummy: BeagleContext {
     
     var actionManager: ActionManaging
     
-    let viewController: UIViewController
+    let viewController: BeagleScreenViewController
     
     init() {
-        self.viewController = UIViewController()
+        self.viewController = BeagleScreenViewControllerDummy(viewModel: .init(screenType: .declarative(ComponentDummy().toScreen())))
         self.formManager = FormManagerDummy()
         self.lazyLoadManager = LazyLoadManagerDummy()
         self.actionManager = ActionManagerDummy()

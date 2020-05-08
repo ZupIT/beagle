@@ -22,13 +22,13 @@ public enum Event {
 }
 
 protocol ContextErrorHandlingDelegate: AnyObject {
-    func handleError(_ error: BeagleScreenViewModel.State.Error)
+    func handleContextError(_ error: ServerDrivenState.Error)
 }
 
 /// Interface to access application specific operations
 public protocol BeagleContext: AnyObject {
 
-    var screenController: UIViewController { get }
+    var screenController: BeagleScreenViewController { get }
     
     var formManager: FormManaging { get }
     var lazyLoadManager: LazyLoadManaging { get }
@@ -79,8 +79,8 @@ extension BeagleScreenViewController: FormManagerDelegate {
 // MARK: - ContextErrorHandlingDelegate
 
 extension BeagleScreenViewController: ContextErrorHandlingDelegate {
-    func handleError(_ error: BeagleScreenViewModel.State.Error) {
-        viewModel.handleError(error)
+    func handleContextError(_ error: ServerDrivenState.Error) {
+        viewModel.state = .failure(error)
     }
 }
 
