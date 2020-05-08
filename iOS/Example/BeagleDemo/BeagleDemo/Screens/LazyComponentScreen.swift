@@ -70,7 +70,7 @@ struct LazyComponentScreen: DeeplinkScreen {
                 ]).applyFlex(Flex().justifyContent(.spaceBetween)),
                 shouldStoreFields: true,
                 group: "firstForm",
-                additionalData: ["zip":"38408","gender":"Male"]
+                additionalData: ["zip": "38408", "gender": "Male"]
             )
         )
     }
