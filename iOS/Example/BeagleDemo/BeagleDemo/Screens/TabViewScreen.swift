@@ -18,7 +18,7 @@ import UIKit
 import BeagleUI
 
 struct TabViewScreen: DeeplinkScreen {
-    init(path: String, data: [String : String]?) {
+    init(path: String, data: [String: String]?) {
     }
 
     func screenController() -> UIViewController {
