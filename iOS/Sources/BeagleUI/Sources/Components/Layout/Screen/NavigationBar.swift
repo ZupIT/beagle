@@ -17,9 +17,7 @@
 import Foundation
 import UIKit
 
-public struct NavigationBar: Decodable {
-
-    // MARK: - Public Properties
+public struct NavigationBar: Decodable, AutoInitiable {
 
     public let title: String
     public let style: String?
@@ -27,8 +25,7 @@ public struct NavigationBar: Decodable {
     public let backButtonAccessibility: Accessibility?
     public let navigationBarItems: [NavigationBarItem]?
 
-    // MARK: - Initialization
-
+// sourcery:inline:auto:NavigationBar.Init
     public init(
         title: String,
         style: String? = nil,
@@ -42,11 +39,10 @@ public struct NavigationBar: Decodable {
         self.backButtonAccessibility = backButtonAccessibility
         self.navigationBarItems = navigationBarItems
     }
+// sourcery:end
 }
 
-public struct NavigationBarItem {
-    
-    // MARK: - Public Properties
+public struct NavigationBarItem: AutoInitiableAndDecodable, AccessibilityComponent, IdentifiableComponent {
     
     public let id: String?
     public let image: String?
@@ -54,6 +50,7 @@ public struct NavigationBarItem {
     public let action: Action
     public let accessibility: Accessibility?
 
+// sourcery:inline:auto:NavigationBarItem.Init
     public init(
         id: String? = nil,
         image: String? = nil,
@@ -67,25 +64,7 @@ public struct NavigationBarItem {
         self.action = action
         self.accessibility = accessibility
     }
-}
-
-extension NavigationBarItem: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case id
-        case image
-        case text
-        case action
-        case accessibility
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decodeIfPresent(String.self, forKey: .id)
-        self.image = try container.decodeIfPresent(String.self, forKey: .image)
-        self.text = try container.decode(String.self, forKey: .text)
-        self.action = try container.decode(forKey: .action)
-        self.accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
-    }
+// sourcery:end
 }
 
 extension NavigationBarItem {

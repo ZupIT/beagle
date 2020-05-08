@@ -53,6 +53,10 @@ class ActionManagerSpy: ActionManaging {
     }
 }
 
+class BeagleScreenViewControllerDummy: BeagleScreenViewController {
+    
+}
+
 class BeagleContextSpy: BeagleContext {
     
     let actionManagerSpy: ActionManaging
@@ -62,7 +66,7 @@ class BeagleContextSpy: BeagleContext {
     var formManager: FormManaging { formManagerSpy }
     var lazyLoadManager: LazyLoadManaging { lazyLoadManagerSpy }
     var actionManager: ActionManaging { actionManagerSpy }
-    var screenController: UIViewController = UIViewController()
+    var screenController: BeagleScreenViewController = BeagleScreenViewControllerDummy(viewModel: .init(screenType: .declarative(ComponentDummy().toScreen())))
     
     init(
         actionManager: ActionManaging = ActionManagerSpy(),

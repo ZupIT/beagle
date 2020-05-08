@@ -220,7 +220,7 @@ class FormManager: FormManaging {
         case .success(let action):
             delegate?.executeAction(action, sender: sender)
         case .failure(let error):
-            delegate?.handleError(.submitForm(error))
+            delegate?.handleContextError(.submitForm(error))
         }
     }
 }

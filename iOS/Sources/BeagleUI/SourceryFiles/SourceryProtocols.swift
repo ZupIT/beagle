@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
+import Foundation
 
-import UIKit
+// MARK: - Equatable
+public protocol AutoEquatable { }
 
-final class ActionGestureRecognizer: UITapGestureRecognizer {
-    
-    let action: Action
-    
-    init(action: Action, target: Any?, selector: Selector?) {
-        self.action = action
-        super.init(target: target, action: selector)
-    }
-}
+// MARK: - Decodable
+public protocol AutoDecodable: Decodable { }
+
+// MARK: - Init
+public protocol AutoInitiable { }
+
+// MARK: - Init and Decodable
+public protocol AutoInitiableAndDecodable: AutoDecodable, AutoInitiable { }

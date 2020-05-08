@@ -38,12 +38,10 @@ final class ScreenComponentTests: XCTestCase {
                 children: [
                     Container(
                         children: [Text("Line 0,\nLine 1,\nLine 2,\nLine 3,\nLine 4.")],
-                        flex: .init(alignSelf: .center, size: .init(width: 50%, height: 75%)),
-                        appearance: .init(backgroundColor: "#FF0000")
+                        widgetProperties: .init(appearance: .init(backgroundColor: "#FF0000"), flex: .init(alignSelf: .center, size: .init(width: 50%, height: 75%)))
                     )
                 ],
-                flex: .init(justifyContent: .center),
-                appearance: .init(backgroundColor: "#00FF00")
+                widgetProperties: .init(appearance: .init(backgroundColor: "#00FF00"), flex: .init(justifyContent: .center))
             )
         )
 
@@ -125,10 +123,6 @@ final class ScreenComponentTests: XCTestCase {
         // Given
         let analyticsEvent = AnalyticsScreen(screenName: "screen name")
         let component = ScreenComponent(
-            identifier: nil,
-            appearance: nil,
-            safeArea: nil,
-            navigationBar: nil,
             screenAnalyticsEvent: analyticsEvent,
             child: Text("")
         )
@@ -138,10 +132,12 @@ final class ScreenComponentTests: XCTestCase {
             analytics: analyticsExecutorSpy
         )
         
-        let controller = BeagleScreenViewController(viewModel: .init(
-            screenType: .declarative(component.toScreen()),
+        let context = BeagleContextDummy()
+        let controller = ScreenController(
+            screen: component.toScreen(),
+            context: context,
             dependencies: dependencies
-        ))
+        )
         
         // When
         controller.beginAppearanceTransition(true, animated: false)
@@ -149,6 +145,15 @@ final class ScreenComponentTests: XCTestCase {
         
         // Then
         XCTAssertTrue(analyticsExecutorSpy.didTrackEventOnScreenAppeared)
+        XCTAssertFalse(analyticsExecutorSpy.didTrackEventOnScreenDisappeared)
+        
+        // When
+        controller.beginAppearanceTransition(false, animated: false)
+        controller.endAppearanceTransition()
+        
+        // Then
+        XCTAssertTrue(analyticsExecutorSpy.didTrackEventOnScreenAppeared)
+        XCTAssertTrue(analyticsExecutorSpy.didTrackEventOnScreenDisappeared)
     }
 }
 

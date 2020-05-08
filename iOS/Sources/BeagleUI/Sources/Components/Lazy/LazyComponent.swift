@@ -16,15 +16,14 @@
 
 import UIKit
 
- public struct LazyComponent: ServerDrivenComponent {
+ public struct LazyComponent: ServerDrivenComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
     
     public let path: String
     public let initialState: ServerDrivenComponent
-        
-    // MARK: - Initialization
-    
+
+// sourcery:inline:auto:LazyComponent.Init
     public init(
         path: String,
         initialState: ServerDrivenComponent
@@ -32,6 +31,7 @@ import UIKit
         self.path = path
         self.initialState = initialState
     }
+// sourcery:end
 }
 
 extension LazyComponent: Renderable {
@@ -39,18 +39,5 @@ extension LazyComponent: Renderable {
         let view = initialState.toView(context: context, dependencies: dependencies)
         context.lazyLoadManager.lazyLoad(url: path, initialState: view)
         return view
-    }
-}
-
-extension LazyComponent: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case path
-        case initialState
-    }
-    
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.path = try container.decode(String.self, forKey: .path)
-        self.initialState = try container.decode(forKey: .initialState)
     }
 }

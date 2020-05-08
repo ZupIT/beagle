@@ -62,7 +62,7 @@ class LazyLoadManager: LazyLoadManaging {
                 self.update(initialView: initialState, lazyLoaded: component)
 
             case .failure(let error):
-                self.delegate?.handleError(.lazyLoad(error))
+                self.delegate?.handleContextError(.lazyLoad(error))
             }
         }
     }

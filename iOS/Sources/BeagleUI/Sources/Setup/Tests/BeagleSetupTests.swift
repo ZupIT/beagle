@@ -131,6 +131,7 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
     var decoder: ComponentDecoding
     var logger: BeagleLoggerType
     var formDataStoreHandler: FormDataStoreHandling
+    var navigationControllerType = BeagleNavigationController.self
 
     init(
         actionExecutor: ActionExecutor = ActionExecutorDummy(),

@@ -39,7 +39,7 @@ public protocol BeagleContext: AnyObject {
 
 extension BeagleScreenViewController: BeagleContext {
 
-    public var screenController: UIViewController {
+    public var screenController: BeagleScreenViewController {
         return self
     }
     
@@ -56,9 +56,7 @@ extension BeagleScreenViewController: BeagleContext {
     }
 
     public func applyLayout() {
-        guard let componentView = componentView else { return }
-        componentView.frame = view.bounds
-        componentView.flex.applyLayout()
+        (contentController as? ScreenController)?.layoutManager?.applyLayout()
     }
 }
 

@@ -16,7 +16,7 @@
 
 import UIKit
 
-public struct Screen {
+public struct Screen: AppearanceComponent, AutoInitiable {
     
     // MARK: - Public Properties
     
@@ -24,9 +24,10 @@ public struct Screen {
     public let appearance: Appearance?
     public let safeArea: SafeArea?
     public let navigationBar: NavigationBar?
-    public let child: ServerDrivenComponent
     public let screenAnalyticsEvent: AnalyticsScreen?
-    
+    public let child: ServerDrivenComponent
+
+// sourcery:inline:auto:Screen.Init
     public init(
         identifier: String? = nil,
         appearance: Appearance? = nil,
@@ -39,11 +40,14 @@ public struct Screen {
         self.appearance = appearance
         self.safeArea = safeArea
         self.navigationBar = navigationBar
-        self.child = child
         self.screenAnalyticsEvent = screenAnalyticsEvent
+        self.child = child
     }
-    
-    func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+// sourcery:end
+}
+
+extension Screen {
+   func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         return ScreenComponent(
             identifier: identifier,
             appearance: appearance,

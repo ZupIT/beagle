@@ -34,16 +34,11 @@ final class BeagleContextTests: XCTestCase {
 }
 
 // MARK: - Testing Helpers
+class UINavigationControllerSpy: BeagleScreenViewController {
 
-class UINavigationControllerSpy: UINavigationController {
-    private(set) var popViewControllerCalled = false
     private(set) var presentViewControllerCalled = false
     private(set) var dismissViewControllerCalled = false
 
-    override func popViewController(animated: Bool) -> UIViewController? {
-        popViewControllerCalled = true
-        return super.popViewController(animated: animated)
-    }
     override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
         presentViewControllerCalled = true
         super.present(viewControllerToPresent, animated: flag, completion: completion)

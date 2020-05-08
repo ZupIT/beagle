@@ -101,6 +101,7 @@
   ▿ navigation: BeagleNavigator
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
+  - navigationControllerType: BeagleNavigationController
   ▿ networkClient: NetworkClientDefault
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
