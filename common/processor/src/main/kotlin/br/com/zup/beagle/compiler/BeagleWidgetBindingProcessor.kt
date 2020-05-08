@@ -44,7 +44,7 @@ class BeagleWidgetBindingProcessor(processingEnvironment: ProcessingEnvironment,
     }
 
     private fun createBindingClass(element: TypeElement) =
-        element.enclosedFields.map { this.createBindParameter(it) }.let { parameters ->
+        element.constructorParameters.map { this.createBindParameter(it) }.let { parameters ->
             TypeSpec.classBuilder("${element.simpleName}$SUFFIX")
                 .superclass(this.typeUtils.getKotlinName(element.superclass))
                 .addSuperinterfaces(element.interfaces.map(TypeMirror::asTypeName))
