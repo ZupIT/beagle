@@ -22,23 +22,16 @@ targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
     implementation GeneralLibraries.kotlin
-
-    implementation GeneralLibraries.kotlinPoet
-
-    implementation project(Modules.beagleCoreDeclarative)
     implementation project(Modules.beagleAnnotation)
-    implementation project(Modules.beagleAndroidAnnotation)
-
+    implementation project(Modules.beagleCommonProcessor)
+    implementation ProcessorLibraries.autoService
     implementation ProcessorLibraries.incap
+
+    kapt ProcessorLibraries.autoService
     kapt ProcessorLibraries.incapPrcessor
 
-    implementation ProcessorLibraries.autoService
-    kapt ProcessorLibraries.autoService
-
-    testImplementation TestLibraries.junit
+    testRuntime TestLibraries.junit5Engine
+    testImplementation TestLibraries.junit5Api
     testImplementation TestLibraries.kotlinTest
-    testImplementation TestLibraries.googleCompileTesting
     testImplementation TestLibraries.mockk
 }
-
-apply from: rootProject.file('maven-publish.gradle')

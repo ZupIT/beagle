@@ -28,6 +28,7 @@ include Modules.beagleAnnotation
 include Modules.beagleCommonProcessor
 include Modules.beagleDeclarative
 include Modules.beagleCoreDeclarative
+include Modules.beagleBackendProcessor
 include Modules.beagleBackendDeclarative
 include Modules.beagleBackendSpringStarter
 include Modules.beagleBackendMicronautStarter
