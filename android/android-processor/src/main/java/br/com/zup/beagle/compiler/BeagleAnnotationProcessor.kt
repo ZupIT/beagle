@@ -86,7 +86,7 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
             val basePackageName = fullClassName.replace(".$beagleConfigClassName", "")
             validatorHandlerProcessor.process(basePackageName, roundEnvironment)
             beagleSetupProcessor.process(basePackageName, beagleConfigClassName, roundEnvironment)
-            beagleWidgetBindingAdapterProcessor.process(basePackageName, roundEnvironment)
+            beagleWidgetBindingAdapterProcessor.process(roundEnvironment)
         }
 
         return false

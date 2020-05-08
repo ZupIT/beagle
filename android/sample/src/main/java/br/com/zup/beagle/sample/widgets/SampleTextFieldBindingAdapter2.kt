@@ -31,9 +31,9 @@ final class SampleTextFieldBindingAdapter2(
     private val binding: SampleTextFieldBinding2
 ) : BindingAdapter {
 
-    override fun getBindAttributes(): List<Binding<*>> = listOf(
-        binding.placeholder
-    )
+    override fun getBindAttributes(): List<Binding<*>> {
+        return listOf(binding.placeholder)
+    }
 
     override fun bindModel() {
         val myWidget = SampleTextField(

@@ -33,29 +33,21 @@ import java.io.IOException
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.Element
+import javax.lang.model.element.ElementKind
+import javax.lang.model.element.ExecutableElement
 import javax.lang.model.element.PackageElement
-
+import javax.lang.model.element.VariableElement
+import javax.tools.Diagnostic
 
 class BeagleWidgetBindingAdapterProcessor(
-    private val processingEnv: ProcessingEnvironment,
-    private val beagleSetupRegisteredWidgetGenerator: BeagleSetupRegisteredWidgetGenerator =
-        BeagleSetupRegisteredWidgetGenerator(),
-    private val beagleSetupPropertyGenerator: BeagleSetupPropertyGenerator =
-        BeagleSetupPropertyGenerator(processingEnv)
+    private val processingEnv: ProcessingEnvironment
 ) {
 
     fun process(
-        basePackageName: String,
         roundEnvironment: RoundEnvironment
     ) {
-        val classValues = StringBuilder()
         val registerWidgetAnnotatedClasses = roundEnvironment.getElementsAnnotatedWith(RegisterWidget::class.java)
-
-        registerWidgetAnnotatedClasses.forEachIndexed { index, element ->
-            classValues.append("\t$element::class.java as Class<WidgetView>")
-            if (index < registerWidgetAnnotatedClasses.size - 1) {
-                classValues.append(",\n")
-            }
+        registerWidgetAnnotatedClasses.forEachIndexed { _, element ->
 
             val bindingAdapterClassName = "${element.simpleName}BindingAdapter"
 //            processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "bindingAdapterClassName=$bindingAdapterClassName")
@@ -64,25 +56,17 @@ class BeagleWidgetBindingAdapterProcessor(
                 .addModifiers(KModifier.PUBLIC, KModifier.FINAL)
                 .primaryConstructor(constructorParameters(element)
                     .build())
-                .addProperty(PropertySpec.builder("widget", ClassName(
-                    BINDING_ADAPTER.packageName,
-                    BINDING_ADAPTER.className
-                )).initializer("widget").build())
-                .addProperty(addConstructorParameter(element))
+                .addProperty(propertyWidget())
+                .addProperty(propertyBinding(element))
                 .addSuperinterface(ClassName(
                     BINDING_ADAPTER.packageName,
                     BINDING_ADAPTER.className
                 ))
                 .addFunction(
-                    FunSpec.builder("bindModel")
-                        .addModifiers(KModifier.OVERRIDE)
-                        .addCode("""
-                        TODO()""".trimMargin())
-//                        .addStatement("return registeredWidgets")
-                        .build()
+                    functionBindModel()
                 )
                 .addFunction(
-                    getFunction()
+                    functionGetBindAttributes(element)
                 )
                 .build()
             val packageElement: PackageElement = processingEnv.elementUtils.getPackageOf(element)
@@ -105,6 +89,24 @@ class BeagleWidgetBindingAdapterProcessor(
 
     }
 
+    private fun propertyBinding(element: Element) = addConstructorParameter(element)
+
+    private fun propertyWidget(): PropertySpec {
+        return PropertySpec.builder("widget", ClassName(
+            BINDING_ADAPTER.packageName,
+            BINDING_ADAPTER.className
+        )).initializer("widget").build()
+    }
+
+    private fun functionBindModel(): FunSpec {
+        return FunSpec.builder("bindModel")
+            .addModifiers(KModifier.OVERRIDE)
+            .addCode("""
+                            TODO()""".trimMargin())
+            //                        .addStatement("return registeredWidgets")
+            .build()
+    }
+
     private fun addConstructorParameter(element: Element): PropertySpec {
         val packageElement: PackageElement = processingEnv.elementUtils.getPackageOf(element)
         val bindingClassName = "${element.simpleName}Binding"
@@ -114,22 +116,37 @@ class BeagleWidgetBindingAdapterProcessor(
         )).initializer("binding").build()
     }
 
-    private fun getFunction(): FunSpec {
+    private fun functionGetBindAttributes(element: Element): FunSpec {
 
         val returnType = List::class.asClassName().parameterizedBy(
             ClassName(BINDING.packageName, BINDING.className)
                 .parameterizedBy(STAR)
         )
+        val attributeValues = StringBuilder()
+        processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "element.enclosingElement.javaClass=${element.enclosingElement.javaClass}")
+
+        val constructorParameters = getConstructorParameters(element)
+        constructorParameters.forEachIndexed { index, e ->
+            attributeValues.append("\tbinding.${e.simpleName}")
+            if (index < constructorParameters.size - 1) {
+                attributeValues.append(",\n")
+            }
+        }
 
         return FunSpec.builder("getBindAttributes")
             .addModifiers(KModifier.OVERRIDE)
             .addCode("""
-                        TODO()
-                        """.trimMargin())
-//            .addStatement("return registeredWidgets")
+                        |val bindAttributes = listOf(
+                        |   $attributeValues
+                        |)
+                    |""".trimMargin())
+            .addStatement("return bindAttributes")
             .returns(returnType)
             .build()
     }
+
+    private fun getConstructorParameters(element: Element) =
+        (element.enclosedElements.first { it.kind == ElementKind.CONSTRUCTOR } as ExecutableElement).parameters
 
     private fun constructorParameters(element: Element): FunSpec.Builder {
         val packageElement: PackageElement = processingEnv.elementUtils.getPackageOf(element)
