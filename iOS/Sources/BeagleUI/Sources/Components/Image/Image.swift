@@ -79,39 +79,12 @@ extension Image: Renderable {
         image.beagle.setup(self)
         switch typePathImage {
         case .Local:
-            if let name = name {
-                image.setImageFromAsset(named: name, bundle: dependencies.appBundle)
-            }
+            image.setLocalImage(named: name, dependencies: dependencies)
         case .Network:
-            guard let url = url else { break }
-            
-            dependencies.repository.fetchImage(url: url, additionalData: nil) { [weak image, weak context] result in
-                guard let imageView = image else { return }
-                guard case .success(let data) = result else { return }
-                let image = UIImage(data: data)
-                DispatchQueue.main.async {
-                    imageView.image = image
-                    imageView.flex.markDirty()
-                    context?.applyLayout()
-                }
-            }
+            image.setRemoreImage(from: url, context: context, dependencies: dependencies)
         }
         
         return image
-    }
-    
-    private func prepareLocalImage() {
-        
-    }
-    
-    private func prepareRemoreImage() {
-        
-    }
-}
-
-private extension UIImageView {
-    func setImageFromAsset(named: String, bundle: Bundle) {
-        self.image = UIImage(named: named, in: bundle, compatibleWith: nil)
     }
 }
 
