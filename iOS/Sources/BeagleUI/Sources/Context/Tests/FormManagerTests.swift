@@ -196,6 +196,21 @@ final class FormManagerTests: XCTestCase {
         assertSnapshot(matching: repositoryStub.formData.values, as: .dump)
     }
     
+    func test_formManagerShouldNotifyFormDataStoreAboutSubmission() {
+        // Given
+        let formData = FormData()
+        formData.data = ["age": "12", "name": "yan dias"]
+        dataStoreStub.dataStore[group] = formData
+        repositoryStub.formResult = .success(CustomAction(name: "custom", data: [:]))
+        let gesture = submitGesture(in: formViewWithStorage)
+
+        // When
+        formManager?.handleSubmitFormGesture(gesture)
+        
+        // Then
+        XCTAssert(dataStoreStub.didCallformManagerDidSubmitForm)
+    }
+    
     func test_formSubmit_shouldSaveFormInputs() {
         // Given
         let gesture = submitGesture(in: formViewWithStorage)
@@ -212,9 +227,10 @@ final class FormManagerTests: XCTestCase {
 // MARK: - Stubs
 
 private class DataStoreHandlerStub: FormDataStoreHandling {
-    
+
     private(set) var didCallRead: Bool = false
     private(set) var didCallSave: Bool = false
+    private(set) var didCallformManagerDidSubmitForm: Bool = false
     private(set) var passedDataToSave: [String: String] = [:]
     
     var dataStore: [String: FormData] = [:]
@@ -227,6 +243,10 @@ private class DataStoreHandlerStub: FormDataStoreHandling {
     func read(group: String) -> [String: String]? {
         didCallRead = true
         return dataStore[group]?.data
+    }
+    
+    func formManagerDidSubmitForm(group: String?) {
+        didCallformManagerDidSubmitForm = true
     }
 
     func resetStub() {

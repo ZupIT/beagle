@@ -19,6 +19,7 @@ import Foundation
 public protocol FormDataStoreHandling {
     func save(data: [String: String], group: String)
     func read(group: String) -> [String: String]?
+    func formManagerDidSubmitForm(group: String?)
 }
 
 public protocol DependencyFormDataStoreHandler {
@@ -50,5 +51,11 @@ public class FormDataStoreHandler: FormDataStoreHandling {
     
     public func read(group: String) -> [String: String]? {
         return dataStore[group]?.data
+    }
+    
+    public func formManagerDidSubmitForm(group: String?) {
+        if let group = group {
+            dataStore.removeValue(forKey: group)
+        }
     }
 }

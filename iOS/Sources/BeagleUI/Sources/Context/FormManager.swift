@@ -102,7 +102,7 @@ class FormManager: FormManaging {
         manageFormDataStoreValues(with: &values, shouldStoreFields: sender.form.shouldStoreFields, group: sender.form.group)
         manageFormAdditionalData(with: &values, additionalData: sender.form.additionalData)
         
-        submitAction(sender.form.action, inputs: values, sender: sender)
+        submitAction(sender.form.action, inputs: values, sender: sender, group: sender.form.group)
     }
     
     private func manageFormAdditionalData(with formValues: inout [String: String], additionalData: [String: String]?) {
@@ -138,10 +138,10 @@ class FormManager: FormManaging {
         }
     }
 
-    private func submitAction(_ action: Action, inputs: [String: String], sender: Any) {
+    private func submitAction(_ action: Action, inputs: [String: String], sender: Any, group: String?) {
         switch action {
         case let action as FormRemoteAction:
-            submitForm(action, inputs: inputs, sender: sender)
+            submitForm(action, inputs: inputs, sender: sender, group: group)
 
         case let action as CustomAction:
             let newAction = CustomAction(name: action.name, data: inputs.merging(action.data) { a, _ in return a })
@@ -151,7 +151,7 @@ class FormManager: FormManaging {
         }
     }
     
-    private func submitForm(_ remote: FormRemoteAction, inputs: [String: String], sender: Any) {
+    private func submitForm(_ remote: FormRemoteAction, inputs: [String: String], sender: Any, group: String?) {
         delegate?.showLoading()
 
         let data = Request.FormData(
@@ -161,7 +161,7 @@ class FormManager: FormManaging {
 
         dependencies.repository.submitForm(url: remote.path, additionalData: nil, data: data) {
             [weak self] result in guard let self = self else { return }
-
+            self.dependencies.formDataStoreHandler.formManagerDidSubmitForm(group: group)
             self.delegate?.hideLoading()
             self.handleFormResult(result, sender: sender)
         }
