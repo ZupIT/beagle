@@ -1,6 +1,5 @@
 ▿ ListView
-  - direction: Direction.vertical
-  ▿ rows: 3 elements
+  ▿ children: 3 elements
     ▿ Text
       - accessibility: Optional<Accessibility>.none
       - alignment: Optional<Alignment>.none
@@ -28,3 +27,4 @@
       - style: Optional<String>.none
       - text: "text3"
       - textColor: Optional<String>.none
+  - direction: Direction.vertical

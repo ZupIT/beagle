@@ -1,11 +1,11 @@
 {
     "_beagleType_": "beagle:component:tabView",
-    "tabItems": [
+    "children": [
         {
             "_beagleType_": "beagle:component:tabItem",
             "icon": "beagle",
             "title": "tab 1",
-            "content":
+            "child":
                 {
                     "_beagleType_": "beagle:component:container",
                     "flex": {

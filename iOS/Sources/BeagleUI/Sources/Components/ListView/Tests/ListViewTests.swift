@@ -22,9 +22,9 @@ final class ListViewTests: XCTestCase {
 
     private let imageSize = CGSize(width: 300, height: 300)
 
-    // MARK: - 3 Rows
+    // MARK: - 3 Children
 
-    private let just3Rows: [ServerDrivenComponent] = [
+    private let just3Children: [ServerDrivenComponent] = [
         Text("Item 1", appearance: .init(backgroundColor: "#FF0000")),
         Text("Item 2", appearance: .init(backgroundColor: "#00FF00")),
         Text("Item 3", appearance: .init(backgroundColor: "#0000FF"))
@@ -32,7 +32,7 @@ final class ListViewTests: XCTestCase {
 
     func testDirectionHorizontal() throws {
         let component = ListView(
-            rows: just3Rows,
+            children: just3Children,
             direction: .horizontal
         )
 
@@ -43,7 +43,7 @@ final class ListViewTests: XCTestCase {
 
     func testDirectionVertical() throws {
         let component = ListView(
-            rows: just3Rows,
+            children: just3Children,
             direction: .vertical
         )
 
@@ -52,15 +52,15 @@ final class ListViewTests: XCTestCase {
         assertSnapshotImage(view, size: imageSize)
     }
 
-    // MARK: - Many Rows
+    // MARK: - Many Children
 
-    private let manyRows: [ServerDrivenComponent] = (0..<20).map { i in
+    private let manyChildren: [ServerDrivenComponent] = (0..<20).map { i in
         return ListViewTests.createText("Item \(i)", position: Double(i) / 19)
     }
 
     func testDirectionHorizontalWithManyRows() {
         let component = ListView(
-            rows: manyRows,
+            children: manyChildren,
             direction: .horizontal
         )
 
@@ -69,9 +69,9 @@ final class ListViewTests: XCTestCase {
         assertSnapshotImage(view, size: imageSize)
     }
 
-    func testDirectionVerticalWithManyRows() {
+    func testDirectionVerticalWithManyChildren() {
         let component = ListView(
-            rows: manyRows,
+            children: manyChildren,
             direction: .vertical
         )
 
@@ -80,18 +80,18 @@ final class ListViewTests: XCTestCase {
         assertSnapshotImage(view, size: imageSize)
     }
 
-    // MARK: - Many Large Rows
+    // MARK: - Many Large Children
 
-    private let manyLargeRows: [ServerDrivenComponent] = (0..<20).map { i in
+    private let manyLargeChildren: [ServerDrivenComponent] = (0..<20).map { i in
         return ListViewTests.createText(
             "< \(i) \(String(repeating: "-", count: 22)) \(i) >",
             position: Double(i) / 19
         )
     }
 
-    func testDirectionHorizontalWithManyLargeRows() {
+    func testDirectionHorizontalWithManyLargeChildren() {
         let component = ListView(
-            rows: manyLargeRows,
+            children: manyLargeChildren,
             direction: .horizontal
         )
 
@@ -100,9 +100,9 @@ final class ListViewTests: XCTestCase {
         assertSnapshotImage(view, size: imageSize)
     }
 
-    func testDirectionVerticalWithManyLargeRows() {
+    func testDirectionVerticalWithManyLargeChildren() {
         let component = ListView(
-            rows: manyLargeRows,
+            children: manyLargeChildren,
             direction: .vertical
         )
 
@@ -111,18 +111,18 @@ final class ListViewTests: XCTestCase {
         assertSnapshotImage(view, size: imageSize)
     }
 
-    // MARK: Rows with Different Sizes
+    // MARK: Children with Different Sizes
 
-    private let rowsWithDifferentSizes: [ServerDrivenComponent] = (0..<20).map { i in
+    private let childrenWithDifferentSizes: [ServerDrivenComponent] = (0..<20).map { i in
         return ListViewTests.createText(
             "< \(i) ---\(i % 3 == 0 ? "/↩\n↩\n /" : "")--- \(i) >",
             position: Double(i) / 19
         )
     }
 
-    func testDirectionHorizontalWithRowsWithDifferentSizes() {
+    func testDirectionHorizontalWithChildrenWithDifferentSizes() {
         let component = ListView(
-            rows: rowsWithDifferentSizes,
+            children: childrenWithDifferentSizes,
             direction: .horizontal
         )
 
@@ -131,9 +131,9 @@ final class ListViewTests: XCTestCase {
         assertSnapshotImage(view, size: imageSize)
     }
 
-    func testDirectionVerticalWithRowsWithDifferentSizes() {
+    func testDirectionVerticalWithChildrenWithDifferentSizes() {
         let component = ListView(
-            rows: rowsWithDifferentSizes,
+            children: childrenWithDifferentSizes,
             direction: .vertical
         )
 

@@ -44,7 +44,7 @@ class PageViewTests: XCTestCase {
 
     func test_viewWithPages() {
         let pageView = PageView(
-            pages: Array(repeating: page, count: 5),
+            children: Array(repeating: page, count: 5),
             pageIndicator: nil
         )
 
@@ -54,7 +54,7 @@ class PageViewTests: XCTestCase {
 
     func test_viewWithPagesAndIndicator() {
         let pageView = PageView(
-            pages: Array(repeating: page, count: 5),
+            children: Array(repeating: page, count: 5),
             pageIndicator: PageIndicator(selectedColor: "#d1cebd", unselectedColor: "#f6eedf")
         )
 

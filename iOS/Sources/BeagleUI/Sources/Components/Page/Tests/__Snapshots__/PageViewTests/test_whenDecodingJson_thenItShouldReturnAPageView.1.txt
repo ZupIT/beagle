@@ -1,6 +1,5 @@
 ▿ PageView
-  - pageIndicator: Optional<PageIndicatorComponent>.none
-  ▿ pages: 3 elements
+  ▿ children: 3 elements
     ▿ Container
       - accessibility: Optional<Accessibility>.none
       - appearance: Optional<Appearance>.none
@@ -163,3 +162,4 @@
           - shrink: Optional<Double>.none
           - size: Optional<Size>.none
       - id: Optional<String>.none
+  - pageIndicator: Optional<PageIndicatorComponent>.none

@@ -73,7 +73,7 @@ class CustomPageIndicatorTest: XCTestCase {
         let page = Text("Page")
 
         let component = PageView(
-            pages: Array(repeating: page, count: 3),
+            children: Array(repeating: page, count: 3),
             pageIndicator: indicator
         )
 

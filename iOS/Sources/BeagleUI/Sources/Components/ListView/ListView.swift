@@ -20,16 +20,16 @@ public struct ListView: ServerDrivenComponent {
     
     // MARK: - Public Properties
     
-    public let rows: [ServerDrivenComponent]
+    public let children: [ServerDrivenComponent]
     public let direction: Direction
     
     // MARK: - Initialization
     
     public init(
-        rows: [ServerDrivenComponent],
+        children: [ServerDrivenComponent],
         direction: Direction = .vertical
     ) {
-        self.rows = rows
+        self.children = children
         self.direction = direction
     }
 }
@@ -54,7 +54,7 @@ extension ListView {
 
 extension ListView: Renderable {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        let componentViews: [(view: UIView, size: CGSize)] = rows.compactMap {
+        let componentViews: [(view: UIView, size: CGSize)] = children.compactMap {
             let container = Container(children: [$0], flex: Flex(positionType: .absolute))
             let containerView = container.toView(context: context, dependencies: dependencies)
             let view = UIView()
@@ -78,13 +78,13 @@ extension ListView: Renderable {
 
 extension ListView: Decodable {
     enum CodingKeys: String, CodingKey {
-        case rows
+        case children
         case direction
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.rows = try container.decode(forKey: .rows)
+        self.children = try container.decode(forKey: .children)
         self.direction = try container.decode(Direction.self, forKey: .direction)
     }
 }

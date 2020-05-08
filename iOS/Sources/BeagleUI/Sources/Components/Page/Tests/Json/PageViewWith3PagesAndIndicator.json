@@ -2,7 +2,7 @@
 {
     "_beagleType_": "beagle:component:pageView",
 
-    "pages": [
+    "children": [
         {
             "_beagleType_": "beagle:component:container",
             "flex": {

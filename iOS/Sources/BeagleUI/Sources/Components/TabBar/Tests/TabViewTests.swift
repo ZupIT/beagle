@@ -26,7 +26,7 @@ final class TabViewTests: XCTestCase {
     }
     
     func test_viewWithTabView() {
-        let tabView = TabView(tabItems: [
+        let tabView = TabView(children: [
             tabItem(index: 1, flex: Flex(alignContent: .center)),
             tabItem(index: 2, flex: Flex(justifyContent: .center, alignContent: .center))
         ])
@@ -37,25 +37,25 @@ final class TabViewTests: XCTestCase {
     
     func test_initWithSingleComponentBuilder_shouldReturnExpectedInstance() {
         // Given / When
-        let component = TabView(tabItems: [
+        let component = TabView(children: [
             tabItem(index: 1, flex: Flex(alignContent: .center))
         ])
         // Then
-        XCTAssert(component.tabItems.count > 0)
-        XCTAssert(component.tabItems[safe: 0]?.content is Container)
+        XCTAssert(component.children.count > 0)
+        XCTAssert(component.children[safe: 0]?.child is Container)
     }
     
     func test_toView_shouldReturnTheExpectedView() {
         // Given
-        let component = TabView(tabItems: [
-             TabItem(title: "Tab 1", content:
+        let component = TabView(children: [
+             TabItem(title: "Tab 1", child:
                  Container(children: [
                      Text("Blaaslkdjfaskldjfalskdjfasldjfasldfj"),
                      Text("Blaaslkdjfaskldjfalskdjfasldjfasldfj")
                  ])
                 .applyFlex(Flex(alignContent: .center))
              ),
-             TabItem(title: "Tab 2", content:
+             TabItem(title: "Tab 2", child:
                  Container(children: [
                      Text("Text1 Tab 2"),
                      Text("Text2 Tab 2")
@@ -74,11 +74,11 @@ final class TabViewTests: XCTestCase {
         let model = Mirror(reflecting: tabViewUIComponent).firstChild(of: TabViewUIComponent.Model.self)
         
         // Then
-        XCTAssert(component.tabItems == model?.tabViewItems)
+        XCTAssert(component.children == model?.tabViewItems)
     }
 
     private func tabItem(index: Int, flex: Flex) -> TabItem {
-        return TabItem(title: "Tab \(index)", content:
+        return TabItem(title: "Tab \(index)", child:
             Container(children: [
                 Text("Text Tab \(index)"),
                 Text("Text 2 Tab \(index)")
