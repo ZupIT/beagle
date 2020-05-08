@@ -62,11 +62,6 @@ struct ListViewScreen: DeeplinkScreen {
             Text("0018"),
             Text("0019"),
             Text("0020"),
-            Container(children: [
-                                    Text("Text1"),
-                                    Text("Text2")
-                                ],
-                      flex: Flex())
-            ],
+            Container(children: [Text("Text1"), Text("Text2")], flex: Flex())],
         direction: .horizontal)
 }
