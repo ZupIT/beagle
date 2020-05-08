@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 import XCTest
 import UIKit
 @testable import BeagleUI
