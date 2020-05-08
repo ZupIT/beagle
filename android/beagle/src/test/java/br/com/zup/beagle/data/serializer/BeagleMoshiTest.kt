@@ -21,8 +21,8 @@ import br.com.zup.beagle.action.CustomAction
 import br.com.zup.beagle.action.FormValidation
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.core.Bind
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.engine.context.Bind
 import br.com.zup.beagle.mockdata.BindComponent
 import br.com.zup.beagle.mockdata.CustomInputWidget
 import br.com.zup.beagle.mockdata.CustomWidget

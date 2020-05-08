@@ -61,7 +61,7 @@ internal class AndroidFrameworkIgnoreAdapterFactory : JsonAdapter.Factory {
     }
 }
 
-internal class AndroidFrameworkIgnoreAdapter : JsonAdapter<Any>() {
+private class AndroidFrameworkIgnoreAdapter : JsonAdapter<Any>() {
 
     override fun fromJson(reader: JsonReader): Any? {
         reader.skipValue()

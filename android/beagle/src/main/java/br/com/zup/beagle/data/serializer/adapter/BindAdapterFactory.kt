@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.data.serializer.adapter
 
-import br.com.zup.beagle.engine.context.Bind
+import br.com.zup.beagle.core.Bind
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
@@ -25,7 +25,7 @@ import com.squareup.moshi.Types
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
-internal class BindAttrAdapterFactory : JsonAdapter.Factory {
+internal class BindAdapterFactory : JsonAdapter.Factory {
 
     override fun create(
         type: Type,
@@ -43,7 +43,7 @@ internal class BindAttrAdapterFactory : JsonAdapter.Factory {
     }
 }
 
-internal class BindAttrAdapter(private val adapter: JsonAdapter<Any>) : JsonAdapter<Bind<Any>>() {
+private class BindAttrAdapter(private val adapter: JsonAdapter<Any>) : JsonAdapter<Bind<Any>>() {
 
     override fun fromJson(reader: JsonReader): Bind<Any>? {
         val expression = reader.peekJson().readJsonValue()
