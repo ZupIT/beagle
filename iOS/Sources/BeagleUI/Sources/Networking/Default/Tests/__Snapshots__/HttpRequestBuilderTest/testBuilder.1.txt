@@ -5,25 +5,14 @@
       - data: Optional<RemoteScreenAdditionalData>.none
       - requestType: RequestType.fetchComponent
       - url: scheme://baseUrl/
-    ▿ result: scheme://baseUrl/
-      ▿ url: Optional<URL>
-        - some: scheme://baseUrl/
-      - cachePolicy: 4
-      - timeoutInterval: 100.0
-      - mainDocumentURL: Optional<URL>.none
-      - networkServiceType: NSURLRequestNetworkServiceType.NSURLRequestNetworkServiceType
-      - allowsCellularAccess: true
-      ▿ httpMethod: Optional<String>
-        - some: "GET"
-      ▿ allHTTPHeaderFields: Optional<Dictionary<String, String>>
-        ▿ some: 1 key/value pair
-          ▿ (2 elements)
-            - key: "Content-Type"
-            - value: "application/json"
-      - httpBody: Optional<Data>.none
-      - httpBodyStream: Optional<NSInputStream>.none
-      - httpShouldHandleCookies: true
-      - httpShouldUsePipelining: false
+    ▿ result: Result
+      - body: Optional<Data>.none
+      ▿ headers: 1 key/value pair
+        ▿ (2 elements)
+          - key: "Content-Type"
+          - value: "application/json"
+      - method: "GET"
+      - url: scheme://baseUrl/
   ▿ 
     - testNumber: 2
     ▿ parameters: Parameters
@@ -39,54 +28,32 @@
               - method: Method.POST
       - requestType: RequestType.fetchComponent
       - url: scheme://baseUrl/
-    ▿ result: scheme://baseUrl/
-      ▿ url: Optional<URL>
-        - some: scheme://baseUrl/
-      - cachePolicy: 4
-      - timeoutInterval: 100.0
-      - mainDocumentURL: Optional<URL>.none
-      - networkServiceType: NSURLRequestNetworkServiceType.NSURLRequestNetworkServiceType
-      - allowsCellularAccess: true
-      ▿ httpMethod: Optional<String>
-        - some: "POST"
-      ▿ allHTTPHeaderFields: Optional<Dictionary<String, String>>
-        ▿ some: 2 key/value pairs
-          ▿ (2 elements)
-            - key: "Content-Type"
-            - value: "application/json"
-          ▿ (2 elements)
-            - key: "header"
-            - value: "header"
-      ▿ httpBody: Optional<Data>
+    ▿ result: Result
+      ▿ body: Optional<Data>
         - some: 0 bytes
-      - httpBodyStream: Optional<NSInputStream>.none
-      - httpShouldHandleCookies: true
-      - httpShouldUsePipelining: false
+      ▿ headers: 2 key/value pairs
+        ▿ (2 elements)
+          - key: "Content-Type"
+          - value: "application/json"
+        ▿ (2 elements)
+          - key: "header"
+          - value: "header"
+      - method: "POST"
+      - url: scheme://baseUrl/
   ▿ 
     - testNumber: 3
     ▿ parameters: Parameters
       - data: Optional<RemoteScreenAdditionalData>.none
       - requestType: RequestType.fetchImage
       - url: scheme://baseUrl/
-    ▿ result: scheme://baseUrl/
-      ▿ url: Optional<URL>
-        - some: scheme://baseUrl/
-      - cachePolicy: 4
-      - timeoutInterval: 100.0
-      - mainDocumentURL: Optional<URL>.none
-      - networkServiceType: NSURLRequestNetworkServiceType.NSURLRequestNetworkServiceType
-      - allowsCellularAccess: true
-      ▿ httpMethod: Optional<String>
-        - some: "GET"
-      ▿ allHTTPHeaderFields: Optional<Dictionary<String, String>>
-        ▿ some: 1 key/value pair
-          ▿ (2 elements)
-            - key: "Content-Type"
-            - value: "application/json"
-      - httpBody: Optional<Data>.none
-      - httpBodyStream: Optional<NSInputStream>.none
-      - httpShouldHandleCookies: true
-      - httpShouldUsePipelining: false
+    ▿ result: Result
+      - body: Optional<Data>.none
+      ▿ headers: 1 key/value pair
+        ▿ (2 elements)
+          - key: "Content-Type"
+          - value: "application/json"
+      - method: "GET"
+      - url: scheme://baseUrl/
   ▿ 
     - testNumber: 4
     ▿ parameters: Parameters
@@ -102,29 +69,18 @@
               - method: Method.POST
       - requestType: RequestType.fetchImage
       - url: scheme://baseUrl/
-    ▿ result: scheme://baseUrl/
-      ▿ url: Optional<URL>
-        - some: scheme://baseUrl/
-      - cachePolicy: 4
-      - timeoutInterval: 100.0
-      - mainDocumentURL: Optional<URL>.none
-      - networkServiceType: NSURLRequestNetworkServiceType.NSURLRequestNetworkServiceType
-      - allowsCellularAccess: true
-      ▿ httpMethod: Optional<String>
-        - some: "POST"
-      ▿ allHTTPHeaderFields: Optional<Dictionary<String, String>>
-        ▿ some: 2 key/value pairs
-          ▿ (2 elements)
-            - key: "Content-Type"
-            - value: "application/json"
-          ▿ (2 elements)
-            - key: "header"
-            - value: "header"
-      ▿ httpBody: Optional<Data>
+    ▿ result: Result
+      ▿ body: Optional<Data>
         - some: 0 bytes
-      - httpBodyStream: Optional<NSInputStream>.none
-      - httpShouldHandleCookies: true
-      - httpShouldUsePipelining: false
+      ▿ headers: 2 key/value pairs
+        ▿ (2 elements)
+          - key: "Content-Type"
+          - value: "application/json"
+        ▿ (2 elements)
+          - key: "header"
+          - value: "header"
+      - method: "POST"
+      - url: scheme://baseUrl/
   ▿ 
     - testNumber: 5
     ▿ parameters: Parameters
@@ -137,25 +93,14 @@
               - key: "key"
               - value: "value"
       - url: scheme://baseUrl/
-    ▿ result: scheme://baseUrl/
-      ▿ url: Optional<URL>
-        - some: scheme://baseUrl/
-      - cachePolicy: 4
-      - timeoutInterval: 100.0
-      - mainDocumentURL: Optional<URL>.none
-      - networkServiceType: NSURLRequestNetworkServiceType.NSURLRequestNetworkServiceType
-      - allowsCellularAccess: true
-      ▿ httpMethod: Optional<String>
-        - some: "GET"
-      ▿ allHTTPHeaderFields: Optional<Dictionary<String, String>>
-        ▿ some: 1 key/value pair
-          ▿ (2 elements)
-            - key: "Content-Type"
-            - value: "application/json"
-      - httpBody: Optional<Data>.none
-      - httpBodyStream: Optional<NSInputStream>.none
-      - httpShouldHandleCookies: true
-      - httpShouldUsePipelining: false
+    ▿ result: Result
+      - body: Optional<Data>.none
+      ▿ headers: 1 key/value pair
+        ▿ (2 elements)
+          - key: "Content-Type"
+          - value: "application/json"
+      - method: "GET"
+      - url: scheme://baseUrl/?key=value
   ▿ 
     - testNumber: 6
     ▿ parameters: Parameters
@@ -177,29 +122,18 @@
               - key: "key"
               - value: "value"
       - url: scheme://baseUrl/
-    ▿ result: scheme://baseUrl/
-      ▿ url: Optional<URL>
-        - some: scheme://baseUrl/
-      - cachePolicy: 4
-      - timeoutInterval: 100.0
-      - mainDocumentURL: Optional<URL>.none
-      - networkServiceType: NSURLRequestNetworkServiceType.NSURLRequestNetworkServiceType
-      - allowsCellularAccess: true
-      ▿ httpMethod: Optional<String>
-        - some: "GET"
-      ▿ allHTTPHeaderFields: Optional<Dictionary<String, String>>
-        ▿ some: 2 key/value pairs
-          ▿ (2 elements)
-            - key: "Content-Type"
-            - value: "application/json"
-          ▿ (2 elements)
-            - key: "header"
-            - value: "header"
-      ▿ httpBody: Optional<Data>
+    ▿ result: Result
+      ▿ body: Optional<Data>
         - some: 0 bytes
-      - httpBodyStream: Optional<NSInputStream>.none
-      - httpShouldHandleCookies: true
-      - httpShouldUsePipelining: false
+      ▿ headers: 2 key/value pairs
+        ▿ (2 elements)
+          - key: "Content-Type"
+          - value: "application/json"
+        ▿ (2 elements)
+          - key: "header"
+          - value: "header"
+      - method: "GET"
+      - url: scheme://baseUrl/?key=value
   ▿ 
     - testNumber: 7
     ▿ parameters: Parameters
@@ -209,25 +143,14 @@
           - method: Method.get
           - values: 0 key/value pairs
       - url: scheme://baseUrl/
-    ▿ result: scheme://baseUrl/
-      ▿ url: Optional<URL>
-        - some: scheme://baseUrl/
-      - cachePolicy: 4
-      - timeoutInterval: 100.0
-      - mainDocumentURL: Optional<URL>.none
-      - networkServiceType: NSURLRequestNetworkServiceType.NSURLRequestNetworkServiceType
-      - allowsCellularAccess: true
-      ▿ httpMethod: Optional<String>
-        - some: "GET"
-      ▿ allHTTPHeaderFields: Optional<Dictionary<String, String>>
-        ▿ some: 1 key/value pair
-          ▿ (2 elements)
-            - key: "Content-Type"
-            - value: "application/json"
-      - httpBody: Optional<Data>.none
-      - httpBodyStream: Optional<NSInputStream>.none
-      - httpShouldHandleCookies: true
-      - httpShouldUsePipelining: false
+    ▿ result: Result
+      - body: Optional<Data>.none
+      ▿ headers: 1 key/value pair
+        ▿ (2 elements)
+          - key: "Content-Type"
+          - value: "application/json"
+      - method: "GET"
+      - url: scheme://baseUrl/?
   ▿ 
     - testNumber: 8
     ▿ parameters: Parameters
@@ -246,29 +169,18 @@
           - method: Method.get
           - values: 0 key/value pairs
       - url: scheme://baseUrl/
-    ▿ result: scheme://baseUrl/
-      ▿ url: Optional<URL>
-        - some: scheme://baseUrl/
-      - cachePolicy: 4
-      - timeoutInterval: 100.0
-      - mainDocumentURL: Optional<URL>.none
-      - networkServiceType: NSURLRequestNetworkServiceType.NSURLRequestNetworkServiceType
-      - allowsCellularAccess: true
-      ▿ httpMethod: Optional<String>
-        - some: "GET"
-      ▿ allHTTPHeaderFields: Optional<Dictionary<String, String>>
-        ▿ some: 2 key/value pairs
-          ▿ (2 elements)
-            - key: "Content-Type"
-            - value: "application/json"
-          ▿ (2 elements)
-            - key: "header"
-            - value: "header"
-      ▿ httpBody: Optional<Data>
+    ▿ result: Result
+      ▿ body: Optional<Data>
         - some: 0 bytes
-      - httpBodyStream: Optional<NSInputStream>.none
-      - httpShouldHandleCookies: true
-      - httpShouldUsePipelining: false
+      ▿ headers: 2 key/value pairs
+        ▿ (2 elements)
+          - key: "Content-Type"
+          - value: "application/json"
+        ▿ (2 elements)
+          - key: "header"
+          - value: "header"
+      - method: "GET"
+      - url: scheme://baseUrl/?
   ▿ 
     - testNumber: 9
     ▿ parameters: Parameters
@@ -281,26 +193,15 @@
               - key: "key"
               - value: "value"
       - url: scheme://baseUrl/
-    ▿ result: scheme://baseUrl/
-      ▿ url: Optional<URL>
-        - some: scheme://baseUrl/
-      - cachePolicy: 4
-      - timeoutInterval: 100.0
-      - mainDocumentURL: Optional<URL>.none
-      - networkServiceType: NSURLRequestNetworkServiceType.NSURLRequestNetworkServiceType
-      - allowsCellularAccess: true
-      ▿ httpMethod: Optional<String>
-        - some: "POST"
-      ▿ allHTTPHeaderFields: Optional<Dictionary<String, String>>
-        ▿ some: 1 key/value pair
-          ▿ (2 elements)
-            - key: "Content-Type"
-            - value: "application/json"
-      ▿ httpBody: Optional<Data>
+    ▿ result: Result
+      ▿ body: Optional<Data>
         - some: 15 bytes
-      - httpBodyStream: Optional<NSInputStream>.none
-      - httpShouldHandleCookies: true
-      - httpShouldUsePipelining: false
+      ▿ headers: 1 key/value pair
+        ▿ (2 elements)
+          - key: "Content-Type"
+          - value: "application/json"
+      - method: "POST"
+      - url: scheme://baseUrl/
   ▿ 
     - testNumber: 10
     ▿ parameters: Parameters
@@ -322,29 +223,18 @@
               - key: "key"
               - value: "value"
       - url: scheme://baseUrl/
-    ▿ result: scheme://baseUrl/
-      ▿ url: Optional<URL>
-        - some: scheme://baseUrl/
-      - cachePolicy: 4
-      - timeoutInterval: 100.0
-      - mainDocumentURL: Optional<URL>.none
-      - networkServiceType: NSURLRequestNetworkServiceType.NSURLRequestNetworkServiceType
-      - allowsCellularAccess: true
-      ▿ httpMethod: Optional<String>
-        - some: "POST"
-      ▿ allHTTPHeaderFields: Optional<Dictionary<String, String>>
-        ▿ some: 2 key/value pairs
-          ▿ (2 elements)
-            - key: "Content-Type"
-            - value: "application/json"
-          ▿ (2 elements)
-            - key: "header"
-            - value: "header"
-      ▿ httpBody: Optional<Data>
+    ▿ result: Result
+      ▿ body: Optional<Data>
         - some: 15 bytes
-      - httpBodyStream: Optional<NSInputStream>.none
-      - httpShouldHandleCookies: true
-      - httpShouldUsePipelining: false
+      ▿ headers: 2 key/value pairs
+        ▿ (2 elements)
+          - key: "Content-Type"
+          - value: "application/json"
+        ▿ (2 elements)
+          - key: "header"
+          - value: "header"
+      - method: "POST"
+      - url: scheme://baseUrl/
   ▿ 
     - testNumber: 11
     ▿ parameters: Parameters
@@ -354,26 +244,15 @@
           - method: Method.post
           - values: 0 key/value pairs
       - url: scheme://baseUrl/
-    ▿ result: scheme://baseUrl/
-      ▿ url: Optional<URL>
-        - some: scheme://baseUrl/
-      - cachePolicy: 4
-      - timeoutInterval: 100.0
-      - mainDocumentURL: Optional<URL>.none
-      - networkServiceType: NSURLRequestNetworkServiceType.NSURLRequestNetworkServiceType
-      - allowsCellularAccess: true
-      ▿ httpMethod: Optional<String>
-        - some: "POST"
-      ▿ allHTTPHeaderFields: Optional<Dictionary<String, String>>
-        ▿ some: 1 key/value pair
-          ▿ (2 elements)
-            - key: "Content-Type"
-            - value: "application/json"
-      ▿ httpBody: Optional<Data>
+    ▿ result: Result
+      ▿ body: Optional<Data>
         - some: 2 bytes
-      - httpBodyStream: Optional<NSInputStream>.none
-      - httpShouldHandleCookies: true
-      - httpShouldUsePipelining: false
+      ▿ headers: 1 key/value pair
+        ▿ (2 elements)
+          - key: "Content-Type"
+          - value: "application/json"
+      - method: "POST"
+      - url: scheme://baseUrl/
   ▿ 
     - testNumber: 12
     ▿ parameters: Parameters
@@ -392,29 +271,18 @@
           - method: Method.post
           - values: 0 key/value pairs
       - url: scheme://baseUrl/
-    ▿ result: scheme://baseUrl/
-      ▿ url: Optional<URL>
-        - some: scheme://baseUrl/
-      - cachePolicy: 4
-      - timeoutInterval: 100.0
-      - mainDocumentURL: Optional<URL>.none
-      - networkServiceType: NSURLRequestNetworkServiceType.NSURLRequestNetworkServiceType
-      - allowsCellularAccess: true
-      ▿ httpMethod: Optional<String>
-        - some: "POST"
-      ▿ allHTTPHeaderFields: Optional<Dictionary<String, String>>
-        ▿ some: 2 key/value pairs
-          ▿ (2 elements)
-            - key: "Content-Type"
-            - value: "application/json"
-          ▿ (2 elements)
-            - key: "header"
-            - value: "header"
-      ▿ httpBody: Optional<Data>
+    ▿ result: Result
+      ▿ body: Optional<Data>
         - some: 2 bytes
-      - httpBodyStream: Optional<NSInputStream>.none
-      - httpShouldHandleCookies: true
-      - httpShouldUsePipelining: false
+      ▿ headers: 2 key/value pairs
+        ▿ (2 elements)
+          - key: "Content-Type"
+          - value: "application/json"
+        ▿ (2 elements)
+          - key: "header"
+          - value: "header"
+      - method: "POST"
+      - url: scheme://baseUrl/
   ▿ 
     - testNumber: 13
     ▿ parameters: Parameters
@@ -427,26 +295,15 @@
               - key: "key"
               - value: "value"
       - url: scheme://baseUrl/
-    ▿ result: scheme://baseUrl/
-      ▿ url: Optional<URL>
-        - some: scheme://baseUrl/
-      - cachePolicy: 4
-      - timeoutInterval: 100.0
-      - mainDocumentURL: Optional<URL>.none
-      - networkServiceType: NSURLRequestNetworkServiceType.NSURLRequestNetworkServiceType
-      - allowsCellularAccess: true
-      ▿ httpMethod: Optional<String>
-        - some: "PUT"
-      ▿ allHTTPHeaderFields: Optional<Dictionary<String, String>>
-        ▿ some: 1 key/value pair
-          ▿ (2 elements)
-            - key: "Content-Type"
-            - value: "application/json"
-      ▿ httpBody: Optional<Data>
+    ▿ result: Result
+      ▿ body: Optional<Data>
         - some: 15 bytes
-      - httpBodyStream: Optional<NSInputStream>.none
-      - httpShouldHandleCookies: true
-      - httpShouldUsePipelining: false
+      ▿ headers: 1 key/value pair
+        ▿ (2 elements)
+          - key: "Content-Type"
+          - value: "application/json"
+      - method: "PUT"
+      - url: scheme://baseUrl/
   ▿ 
     - testNumber: 14
     ▿ parameters: Parameters
@@ -468,29 +325,18 @@
               - key: "key"
               - value: "value"
       - url: scheme://baseUrl/
-    ▿ result: scheme://baseUrl/
-      ▿ url: Optional<URL>
-        - some: scheme://baseUrl/
-      - cachePolicy: 4
-      - timeoutInterval: 100.0
-      - mainDocumentURL: Optional<URL>.none
-      - networkServiceType: NSURLRequestNetworkServiceType.NSURLRequestNetworkServiceType
-      - allowsCellularAccess: true
-      ▿ httpMethod: Optional<String>
-        - some: "PUT"
-      ▿ allHTTPHeaderFields: Optional<Dictionary<String, String>>
-        ▿ some: 2 key/value pairs
-          ▿ (2 elements)
-            - key: "Content-Type"
-            - value: "application/json"
-          ▿ (2 elements)
-            - key: "header"
-            - value: "header"
-      ▿ httpBody: Optional<Data>
+    ▿ result: Result
+      ▿ body: Optional<Data>
         - some: 15 bytes
-      - httpBodyStream: Optional<NSInputStream>.none
-      - httpShouldHandleCookies: true
-      - httpShouldUsePipelining: false
+      ▿ headers: 2 key/value pairs
+        ▿ (2 elements)
+          - key: "Content-Type"
+          - value: "application/json"
+        ▿ (2 elements)
+          - key: "header"
+          - value: "header"
+      - method: "PUT"
+      - url: scheme://baseUrl/
   ▿ 
     - testNumber: 15
     ▿ parameters: Parameters
@@ -500,26 +346,15 @@
           - method: Method.put
           - values: 0 key/value pairs
       - url: scheme://baseUrl/
-    ▿ result: scheme://baseUrl/
-      ▿ url: Optional<URL>
-        - some: scheme://baseUrl/
-      - cachePolicy: 4
-      - timeoutInterval: 100.0
-      - mainDocumentURL: Optional<URL>.none
-      - networkServiceType: NSURLRequestNetworkServiceType.NSURLRequestNetworkServiceType
-      - allowsCellularAccess: true
-      ▿ httpMethod: Optional<String>
-        - some: "PUT"
-      ▿ allHTTPHeaderFields: Optional<Dictionary<String, String>>
-        ▿ some: 1 key/value pair
-          ▿ (2 elements)
-            - key: "Content-Type"
-            - value: "application/json"
-      ▿ httpBody: Optional<Data>
+    ▿ result: Result
+      ▿ body: Optional<Data>
         - some: 2 bytes
-      - httpBodyStream: Optional<NSInputStream>.none
-      - httpShouldHandleCookies: true
-      - httpShouldUsePipelining: false
+      ▿ headers: 1 key/value pair
+        ▿ (2 elements)
+          - key: "Content-Type"
+          - value: "application/json"
+      - method: "PUT"
+      - url: scheme://baseUrl/
   ▿ 
     - testNumber: 16
     ▿ parameters: Parameters
@@ -538,29 +373,18 @@
           - method: Method.put
           - values: 0 key/value pairs
       - url: scheme://baseUrl/
-    ▿ result: scheme://baseUrl/
-      ▿ url: Optional<URL>
-        - some: scheme://baseUrl/
-      - cachePolicy: 4
-      - timeoutInterval: 100.0
-      - mainDocumentURL: Optional<URL>.none
-      - networkServiceType: NSURLRequestNetworkServiceType.NSURLRequestNetworkServiceType
-      - allowsCellularAccess: true
-      ▿ httpMethod: Optional<String>
-        - some: "PUT"
-      ▿ allHTTPHeaderFields: Optional<Dictionary<String, String>>
-        ▿ some: 2 key/value pairs
-          ▿ (2 elements)
-            - key: "Content-Type"
-            - value: "application/json"
-          ▿ (2 elements)
-            - key: "header"
-            - value: "header"
-      ▿ httpBody: Optional<Data>
+    ▿ result: Result
+      ▿ body: Optional<Data>
         - some: 2 bytes
-      - httpBodyStream: Optional<NSInputStream>.none
-      - httpShouldHandleCookies: true
-      - httpShouldUsePipelining: false
+      ▿ headers: 2 key/value pairs
+        ▿ (2 elements)
+          - key: "Content-Type"
+          - value: "application/json"
+        ▿ (2 elements)
+          - key: "header"
+          - value: "header"
+      - method: "PUT"
+      - url: scheme://baseUrl/
   ▿ 
     - testNumber: 17
     ▿ parameters: Parameters
@@ -573,25 +397,14 @@
               - key: "key"
               - value: "value"
       - url: scheme://baseUrl/
-    ▿ result: scheme://baseUrl/
-      ▿ url: Optional<URL>
-        - some: scheme://baseUrl/
-      - cachePolicy: 4
-      - timeoutInterval: 100.0
-      - mainDocumentURL: Optional<URL>.none
-      - networkServiceType: NSURLRequestNetworkServiceType.NSURLRequestNetworkServiceType
-      - allowsCellularAccess: true
-      ▿ httpMethod: Optional<String>
-        - some: "DELETE"
-      ▿ allHTTPHeaderFields: Optional<Dictionary<String, String>>
-        ▿ some: 1 key/value pair
-          ▿ (2 elements)
-            - key: "Content-Type"
-            - value: "application/json"
-      - httpBody: Optional<Data>.none
-      - httpBodyStream: Optional<NSInputStream>.none
-      - httpShouldHandleCookies: true
-      - httpShouldUsePipelining: false
+    ▿ result: Result
+      - body: Optional<Data>.none
+      ▿ headers: 1 key/value pair
+        ▿ (2 elements)
+          - key: "Content-Type"
+          - value: "application/json"
+      - method: "DELETE"
+      - url: scheme://baseUrl/?key=value
   ▿ 
     - testNumber: 18
     ▿ parameters: Parameters
@@ -613,29 +426,18 @@
               - key: "key"
               - value: "value"
       - url: scheme://baseUrl/
-    ▿ result: scheme://baseUrl/
-      ▿ url: Optional<URL>
-        - some: scheme://baseUrl/
-      - cachePolicy: 4
-      - timeoutInterval: 100.0
-      - mainDocumentURL: Optional<URL>.none
-      - networkServiceType: NSURLRequestNetworkServiceType.NSURLRequestNetworkServiceType
-      - allowsCellularAccess: true
-      ▿ httpMethod: Optional<String>
-        - some: "DELETE"
-      ▿ allHTTPHeaderFields: Optional<Dictionary<String, String>>
-        ▿ some: 2 key/value pairs
-          ▿ (2 elements)
-            - key: "Content-Type"
-            - value: "application/json"
-          ▿ (2 elements)
-            - key: "header"
-            - value: "header"
-      ▿ httpBody: Optional<Data>
+    ▿ result: Result
+      ▿ body: Optional<Data>
         - some: 0 bytes
-      - httpBodyStream: Optional<NSInputStream>.none
-      - httpShouldHandleCookies: true
-      - httpShouldUsePipelining: false
+      ▿ headers: 2 key/value pairs
+        ▿ (2 elements)
+          - key: "Content-Type"
+          - value: "application/json"
+        ▿ (2 elements)
+          - key: "header"
+          - value: "header"
+      - method: "DELETE"
+      - url: scheme://baseUrl/?key=value
   ▿ 
     - testNumber: 19
     ▿ parameters: Parameters
@@ -645,25 +447,14 @@
           - method: Method.delete
           - values: 0 key/value pairs
       - url: scheme://baseUrl/
-    ▿ result: scheme://baseUrl/
-      ▿ url: Optional<URL>
-        - some: scheme://baseUrl/
-      - cachePolicy: 4
-      - timeoutInterval: 100.0
-      - mainDocumentURL: Optional<URL>.none
-      - networkServiceType: NSURLRequestNetworkServiceType.NSURLRequestNetworkServiceType
-      - allowsCellularAccess: true
-      ▿ httpMethod: Optional<String>
-        - some: "DELETE"
-      ▿ allHTTPHeaderFields: Optional<Dictionary<String, String>>
-        ▿ some: 1 key/value pair
-          ▿ (2 elements)
-            - key: "Content-Type"
-            - value: "application/json"
-      - httpBody: Optional<Data>.none
-      - httpBodyStream: Optional<NSInputStream>.none
-      - httpShouldHandleCookies: true
-      - httpShouldUsePipelining: false
+    ▿ result: Result
+      - body: Optional<Data>.none
+      ▿ headers: 1 key/value pair
+        ▿ (2 elements)
+          - key: "Content-Type"
+          - value: "application/json"
+      - method: "DELETE"
+      - url: scheme://baseUrl/?
   ▿ 
     - testNumber: 20
     ▿ parameters: Parameters
@@ -682,26 +473,15 @@
           - method: Method.delete
           - values: 0 key/value pairs
       - url: scheme://baseUrl/
-    ▿ result: scheme://baseUrl/
-      ▿ url: Optional<URL>
-        - some: scheme://baseUrl/
-      - cachePolicy: 4
-      - timeoutInterval: 100.0
-      - mainDocumentURL: Optional<URL>.none
-      - networkServiceType: NSURLRequestNetworkServiceType.NSURLRequestNetworkServiceType
-      - allowsCellularAccess: true
-      ▿ httpMethod: Optional<String>
-        - some: "DELETE"
-      ▿ allHTTPHeaderFields: Optional<Dictionary<String, String>>
-        ▿ some: 2 key/value pairs
-          ▿ (2 elements)
-            - key: "Content-Type"
-            - value: "application/json"
-          ▿ (2 elements)
-            - key: "header"
-            - value: "header"
-      ▿ httpBody: Optional<Data>
+    ▿ result: Result
+      ▿ body: Optional<Data>
         - some: 0 bytes
-      - httpBodyStream: Optional<NSInputStream>.none
-      - httpShouldHandleCookies: true
-      - httpShouldUsePipelining: false
+      ▿ headers: 2 key/value pairs
+        ▿ (2 elements)
+          - key: "Content-Type"
+          - value: "application/json"
+        ▿ (2 elements)
+          - key: "header"
+          - value: "header"
+      - method: "DELETE"
+      - url: scheme://baseUrl/?

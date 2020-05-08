@@ -105,6 +105,8 @@
   ▿ networkClient: NetworkClientDefault
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
+    ▿ httpRequestBuilder: HttpRequestBuilder
+      - additionalHeaders: 0 key/value pairs
     - session: <__NSURLSessionLocal>
   ▿ preFetchHelper: BeaglePreFetchHelper
     ▿ dependencies: InnerDependenciesResolver
@@ -113,8 +115,6 @@
     - cacheHashHeader: "beagle-hash"
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
-    ▿ httpRequestBuilder: HttpRequestBuilder
-      - additionalHeaders: 0 key/value pairs
     - serviceMaxCacheAge: "cache-control"
   ▿ resolver: InnerDependenciesResolver
     - container: (Function)

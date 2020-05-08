@@ -77,8 +77,8 @@ final class RepositoryTests: XCTestCase {
 
         // Then
         guard
-            case .networkError? = fetchError,
-            case .networkError? = formError
+            case .urlBuilderError = fetchError,
+            case .urlBuilderError = formError
         else {
             XCTFail("Expected an error")
             return

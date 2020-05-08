@@ -17,16 +17,16 @@
 import Foundation
 
 public struct Request {
-    public let urlRequest: URLRequest?
+    public let url: URL
     public let type: RequestType
     public let additionalData: RemoteScreenAdditionalData?
 
     public init(
-        urlRequest: URLRequest? = nil,
+        url: URL,
         type: RequestType,
         additionalData: RemoteScreenAdditionalData?
     ) {
-        self.urlRequest = urlRequest
+        self.url = url
         self.type = type
         self.additionalData = additionalData
     }
@@ -54,5 +54,6 @@ public struct Request {
         case networkError(Swift.Error)
         case decoding(Swift.Error)
         case loadFromTextError
+        case urlBuilderError
     }
 }

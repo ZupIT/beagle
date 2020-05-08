@@ -59,7 +59,6 @@ public final class RepositoryDefault: Repository {
         & DependencyLogger
 
     let dependencies: Dependencies
-    public var httpRequestBuilder = HttpRequestBuilder()
 
     private let cacheHashHeader = "beagle-hash"
     private let serviceMaxCacheAge = "cache-control"
@@ -87,8 +86,11 @@ public final class RepositoryDefault: Repository {
 
         var newData = additionalData
         appendCacheHeaders(cache, to: &newData)
-        
-        let request = handleUrlBuilderHttpRequest(url: url, type: .fetchComponent, additionalData: newData)
+    
+        guard let request = handleUrlBuilderRequest(url: url, type: .fetchComponent, additionalData: newData) else {
+            completion(.failure(.urlBuilderError))
+            return nil
+        }
 
         return dependencies.networkClient.executeRequest(request) { [weak self] result in
             guard let self = self else { return }
@@ -108,7 +110,12 @@ public final class RepositoryDefault: Repository {
         data: Request.FormData,
         completion: @escaping (Result<Action, Request.Error>) -> Void
     ) -> RequestToken? {
-        let request = handleUrlBuilderHttpRequest(url: url, type: .submitForm(data), additionalData: additionalData)
+        
+        guard let request = handleUrlBuilderRequest(url: url, type: .submitForm(data), additionalData: additionalData)
+            else {
+            completion(.failure(.urlBuilderError))
+            return nil
+        }
 
         return dependencies.networkClient.executeRequest(request) { [weak self] result in
             guard let self = self else { return }
@@ -127,8 +134,12 @@ public final class RepositoryDefault: Repository {
         additionalData: RemoteScreenAdditionalData?,
         completion: @escaping (Result<Data, Request.Error>) -> Void
     ) -> RequestToken? {
-        let request = handleUrlBuilderHttpRequest(url: url, type: .fetchImage, additionalData: additionalData)
-
+        
+        guard let request = handleUrlBuilderRequest(url: url, type: .fetchImage, additionalData: additionalData) else {
+            completion(.failure(.urlBuilderError))
+            return nil
+        }
+        
         return dependencies.networkClient.executeRequest(request) { result in
             let mapped = result
                 .flatMapError { .failure(Request.Error.networkError($0)) }
@@ -216,19 +227,12 @@ public final class RepositoryDefault: Repository {
         }
     }
     
-    private func handleUrlBuilderHttpRequest(url: String, type: Request.RequestType, additionalData: RemoteScreenAdditionalData?) -> Request {
-        
+    private func handleUrlBuilderRequest(url: String, type: Request.RequestType, additionalData: RemoteScreenAdditionalData?) -> Request? {
         guard let builderUrl = dependencies.urlBuilder.build(path: url) else {
             dependencies.logger.log(Log.network(.couldNotBuildUrl(url: url)))
-            return Request(type: type, additionalData: additionalData)
+            return nil
         }
         
-        let urlRequest = httpRequestBuilder.build(
-            url: builderUrl,
-            requestType: type,
-            additionalData: additionalData as? HttpAdditionalData
-        )
-        return Request(urlRequest: urlRequest, type: type, additionalData: additionalData)
+        return Request(url: builderUrl, type: type, additionalData: additionalData)
     }
-
 }

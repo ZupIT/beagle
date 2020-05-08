@@ -19,14 +19,14 @@ import Foundation
 public class HttpRequestBuilder {
 
     public var additionalHeaders = [String: String]()
-
+    
     public init() { }
 
     public func build(
         url: URL,
         requestType: Request.RequestType,
         additionalData: HttpAdditionalData?
-    ) -> URLRequest {
+    ) -> Result {
         var newUrl = url
         var body = additionalData?.httpData?.body
 
@@ -34,15 +34,29 @@ public class HttpRequestBuilder {
 
         setupParametersFor(requestType: requestType, url: &newUrl, body: &body)
 
-        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 100)
-        request.httpMethod = httpMethod(type: requestType, data: additionalData)
-        request.httpBody = body
-        
-        headers.forEach {
-            request.addValue($0.value, forHTTPHeaderField: $0.key)
+        return Result(
+            url: newUrl,
+            method: httpMethod(type: requestType, data: additionalData),
+            headers: headers,
+            body: body
+        )
+    }
+    
+    public struct Result {
+        var url: URL
+        var method: String
+        var headers: [String: String]
+        var body: Data?
+
+        func toUrlRequest() -> URLRequest {
+            var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 1)
+            request.httpMethod = method
+            request.httpBody = body
+            headers.forEach {
+                request.addValue($0.value, forHTTPHeaderField: $0.key)
+            }
+            return request
         }
-        
-        return request
     }
 
     private func makeHeaders(additionalData: HttpAdditionalData?) -> [String: String] {

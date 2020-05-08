@@ -23,6 +23,8 @@ public class NetworkClientDefault: NetworkClient {
     public var session = URLSession.shared
     let dependencies: Dependencies
 
+    public var httpRequestBuilder = HttpRequestBuilder()
+    
     public init(dependencies: Dependencies) {
         self.dependencies = dependencies
     }
@@ -51,20 +53,21 @@ public class NetworkClientDefault: NetworkClient {
         _ request: Request,
         completion: @escaping RequestCompletion
     ) -> RequestToken? {
-        guard let urlRequest = request.urlRequest else {
-            dependencies.logger.log(Log.network(.httpRequest(request: .init(url: request.urlRequest))))
-            completion(.failure(.init(error: ClientError.invalidHttpRequest)))
-            return nil
-        }
         
+        let build = httpRequestBuilder.build(
+            url: request.url,
+            requestType: request.type,
+            additionalData: request.additionalData as? HttpAdditionalData
+        )
+        let urlRequest = build.toUrlRequest()
+
         let task = session.dataTask(with: urlRequest) { [weak self] data, response, error in
             guard let self = self else { return }
             self.dependencies.logger.log(Log.network(.httpResponse(response: .init(data: data, reponse: response))))
             completion(self.handleResponse(data: data, response: response, error: error))
         }
         
-        dependencies.logger.log(Log.network(.httpRequest(request: .init(url: request.urlRequest))))
-
+        dependencies.logger.log(Log.network(.httpRequest(request: .init(url: urlRequest))))
         task.resume()
         return task
     }

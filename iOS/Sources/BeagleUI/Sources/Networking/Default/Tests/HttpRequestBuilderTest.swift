@@ -90,7 +90,7 @@ final class HttpRequestBuilderTest: XCTestCase {
 
         let testNumber: Int
         let parameters: Parameters
-        let result: URLRequest
+        let result: HttpRequestBuilder.Result
 
         struct Parameters {
             let url: URL
