@@ -49,7 +49,7 @@ public class HttpRequestBuilder {
         var body: Data?
 
         func toUrlRequest() -> URLRequest {
-            var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 1)
+            var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 100)
             request.httpMethod = method
             request.httpBody = body
             headers.forEach {
