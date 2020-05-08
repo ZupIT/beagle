@@ -19,7 +19,7 @@ import BeagleUI
 
 struct ListViewScreen: DeeplinkScreen {
     
-    init(path: String, data: [String : String]?) {
+    init(path: String, data: [String: String]?) {
     }
     
     func screenController() -> UIViewController {
@@ -65,4 +65,3 @@ struct ListViewScreen: DeeplinkScreen {
             Container(children: [Text("Text1"), Text("Text2")], widgetProperties: .init(flex: Flex()))],
         direction: .horizontal)
 }
-
