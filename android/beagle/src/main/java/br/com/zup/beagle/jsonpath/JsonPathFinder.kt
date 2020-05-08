@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.context
+package br.com.zup.beagle.jsonpath
 
 import org.json.JSONArray
 import org.json.JSONException
@@ -24,14 +24,14 @@ import java.util.LinkedList
 
 internal class JsonPathFinder {
 
-    fun find(nextKeys: LinkedList<String>, value: Any?): Any? {
+    fun findByPath(nextKeys: LinkedList<String>, value: Any?): Any? {
         if (nextKeys.isEmpty()) return value
 
         var currentKey = nextKeys.pop()
 
         val childValue = if (currentKey.endsWith("]")) {
             if (value is JSONArray) {
-                val arrayIndex = getIndexOnArrayBrackets(currentKey)
+                val arrayIndex = JsonPathUtils.getIndexOnArrayBrackets(currentKey)
                 value.safeGet(arrayIndex)?.let {
                     if (nextKeys.isEmpty()) {
                         return it
@@ -50,7 +50,7 @@ internal class JsonPathFinder {
         return if (childValue is JSONObject) {
             if (childValue.isNull(currentKey)) return null
             val newValue = childValue.safeGet(currentKey)
-            find(nextKeys, newValue)
+            findByPath(nextKeys, newValue)
         } else {
             throw IllegalStateException("Invalid JSON path at key \"$currentKey\"")
         }
@@ -70,10 +70,5 @@ internal class JsonPathFinder {
         } catch (ex: JSONException) {
             null
         }
-    }
-
-    fun getIndexOnArrayBrackets(arrayIndex: String): Int {
-        return ARRAY_POSITION_REGEX.find(arrayIndex)?.groups?.get(1)?.value?.toInt() ?:
-            throw IllegalStateException("Invalid array position $arrayIndex.")
     }
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.context
+package br.com.zup.beagle.jsonpath
 
 import java.lang.IllegalStateException
 import java.util.LinkedList
@@ -45,6 +45,11 @@ internal object JsonPathUtils {
     fun createArrayExpectedException(): Exception = IllegalStateException("Expected Array but received Object")
 
     fun createInvalidPathException(): Exception = IllegalStateException("Invalid JSON path")
+
+    fun getIndexOnArrayBrackets(arrayIndex: String): Int {
+        return ARRAY_POSITION_REGEX.find(arrayIndex)?.groups?.get(1)?.value?.toInt() ?:
+        throw IllegalStateException("Invalid array position $arrayIndex.")
+    }
 
     private fun getArrayBrackets(arrayIndex: String): String? {
         return ARRAY_POSITION_REGEX.find(arrayIndex)?.value

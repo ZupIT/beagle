@@ -14,24 +14,24 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.context
+package br.com.zup.beagle.jsonpath
 
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
 
-internal class JsonPathReplacer(
+internal class JsonPathSetter(
     private val jsonPathFinder: JsonPathFinder = JsonPathFinder()
 ) {
 
-    fun replace(keys: LinkedList<String>, value: Any, root: Any): Boolean {
+    fun setByPath(keys: LinkedList<String>, newValue: Any, root: Any): Boolean {
         return when {
             keys.isEmpty() -> false
-            keys.size == 1 -> replaceValue(keys.pop(), value, root)
+            keys.size == 1 -> replaceValue(keys.pop(), newValue, root)
             else -> {
                 val lastKey = keys.pollLast()
-                val foundValue = jsonPathFinder.find(keys, root)
-                return replaceValue(lastKey, value, foundValue)
+                val foundValue = jsonPathFinder.findByPath(keys, root)
+                return replaceValue(lastKey, newValue, foundValue)
             }
         }
     }
@@ -47,7 +47,7 @@ internal class JsonPathReplacer(
                 true
             }
             is JSONArray -> {
-                val arrayIndex = jsonPathFinder.getIndexOnArrayBrackets(key)
+                val arrayIndex = JsonPathUtils.getIndexOnArrayBrackets(key)
                 foundValue.put(arrayIndex, value)
                 true
             }
