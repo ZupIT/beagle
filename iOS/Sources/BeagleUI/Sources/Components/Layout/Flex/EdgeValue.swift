@@ -15,7 +15,7 @@
  */
 
 // MARK: - EdgeValue
-public class EdgeValue: Decodable {
+public class EdgeValue: Decodable, AutoEquatable, AutoInitiable {
     // MARK: - Public Properties
     public var left: UnitValue?
     public var top: UnitValue?
@@ -26,7 +26,8 @@ public class EdgeValue: Decodable {
     public var horizontal: UnitValue?
     public var vertical: UnitValue?
     public var all: UnitValue?
-    
+
+// sourcery:inline:auto:EdgeValue.Init
     public init(
         left: UnitValue? = nil,
         top: UnitValue? = nil,
@@ -48,4 +49,5 @@ public class EdgeValue: Decodable {
         self.vertical = vertical
         self.all = all
     }
+// sourcery:end
 }

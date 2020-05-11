@@ -16,7 +16,9 @@
 
 // MARK: - Flex Size
 
-public class Size: Decodable {
+// MARK: Size Equatable
+
+public class Size: Decodable, AutoEquatable, AutoInitiable {
     // MARK: - Public Properties
     public var width: UnitValue?
     public var height: UnitValue?
@@ -25,7 +27,8 @@ public class Size: Decodable {
     public var minWidth: UnitValue?
     public var minHeight: UnitValue?
     public var aspectRatio: Double?
-    
+
+// sourcery:inline:auto:Size.Init
     public init(
         width: UnitValue? = nil,
         height: UnitValue? = nil,
@@ -43,4 +46,5 @@ public class Size: Decodable {
         self.minHeight = minHeight
         self.aspectRatio = aspectRatio
     }
+// sourcery:end
 }

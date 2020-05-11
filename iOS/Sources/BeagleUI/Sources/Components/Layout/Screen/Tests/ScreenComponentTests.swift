@@ -38,12 +38,10 @@ final class ScreenComponentTests: XCTestCase {
                 children: [
                     Container(
                         children: [Text("Line 0,\nLine 1,\nLine 2,\nLine 3,\nLine 4.")],
-                        flex: .init(alignSelf: .center, size: .init(width: 50%, height: 75%)),
-                        appearance: .init(backgroundColor: "#FF0000")
+                        widgetProperties: .init(appearance: .init(backgroundColor: "#FF0000"), flex: .init(alignSelf: .center, size: .init(width: 50%, height: 75%)))
                     )
                 ],
-                flex: .init(justifyContent: .center),
-                appearance: .init(backgroundColor: "#00FF00")
+                widgetProperties: .init(appearance: .init(backgroundColor: "#00FF00"), flex: .init(justifyContent: .center))
             )
         )
 

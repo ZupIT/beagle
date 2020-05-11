@@ -17,21 +17,23 @@
 import Foundation
 import UIKit    
 
-public class PageIndicator: PageIndicatorComponent {
+public class PageIndicator: PageIndicatorComponent, AutoInitiable {
 
     public var selectedColor: String?
     public var unselectedColor: String?
 
+// sourcery:inline:auto:PageIndicator.Init
     public init(
         selectedColor: String? = nil,
         unselectedColor: String? = nil
-        
     ) {
         self.selectedColor = selectedColor
         self.unselectedColor = unselectedColor
-        
     }
-    
+// sourcery:end
+}
+
+extension PageIndicator: Renderable {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let view = PageIndicatorUIComponent(selectedColor: selectedColor, unselectedColor: unselectedColor)
         return view

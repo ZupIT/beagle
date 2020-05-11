@@ -16,34 +16,23 @@
 
 import UIKit
 
-public struct NetworkImage: Widget {
+public struct NetworkImage: Widget, AutoInitiableAndDecodable {
     
     public let path: String
     public let contentMode: ImageContentMode?
-    
-    public var id: String?
-    public let appearance: Appearance?
-    public let flex: Flex?
-    public let accessibility: Accessibility?
-    
-    // MARK: - Initialization
-    
+    public var widgetProperties: WidgetProperties
+
+// sourcery:inline:auto:NetworkImage.Init
     public init(
         path: String,
         contentMode: ImageContentMode? = nil,
-        id: String? = nil,
-        appearance: Appearance? = nil,
-        flex: Flex? = nil,
-        accessibility: Accessibility? = nil
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.path = path
         self.contentMode = contentMode
-        self.id = id
-        self.appearance = appearance
-        self.flex = flex
-        self.accessibility = accessibility
+        self.widgetProperties = widgetProperties
     }
-    
+// sourcery:end
 }
 
 extension NetworkImage: Renderable {

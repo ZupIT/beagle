@@ -16,18 +16,20 @@
 
 import UIKit
 
-public struct PageView: ServerDrivenComponent {
+public struct PageView: ServerDrivenComponent, AutoInitiable {
 
     public let children: [ServerDrivenComponent]
     public let pageIndicator: PageIndicatorComponent?
 
+// sourcery:inline:auto:PageView.Init
     public init(
         children: [ServerDrivenComponent],
-        pageIndicator: PageIndicatorComponent?
+        pageIndicator: PageIndicatorComponent? = nil
     ) {
         self.children = children
         self.pageIndicator = pageIndicator
     }
+// sourcery:end
 }
 
 extension PageView: Renderable {

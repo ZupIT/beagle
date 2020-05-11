@@ -16,12 +16,13 @@
 
 import UIKit
 
-public struct TabItem {
+public struct TabItem: AutoInitiableAndDecodable {
 
     public let icon: String?
     public let title: String?
     public let child: ServerDrivenComponent
-    
+
+// sourcery:inline:auto:TabItem.Init
     public init(
         icon: String? = nil,
         title: String? = nil,
@@ -31,27 +32,14 @@ public struct TabItem {
         self.title = title
         self.child = child
     }
+// sourcery:end
 }
 
-extension TabItem: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case icon
-        case title
-        case child
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.icon = try container.decodeIfPresent(String.self, forKey: .icon)
-        self.title = try container.decodeIfPresent(String.self, forKey: .title)
-        self.child = try container.decode(forKey: .child)
-    }
-}
-
-public struct TabView: ServerDrivenComponent {
+public struct TabView: ServerDrivenComponent, AutoInitiable {
     public let children: [TabItem]
     public let style: String?
-    
+
+// sourcery:inline:auto:TabView.Init
     public init(
         children: [TabItem],
         style: String? = nil
@@ -59,6 +47,7 @@ public struct TabView: ServerDrivenComponent {
         self.children = children
         self.style = style
     }
+// sourcery:end
 }
 
 extension TabView: Renderable {

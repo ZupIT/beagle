@@ -16,36 +16,25 @@
 
 import UIKit
 
-public struct Image: Widget {
+public struct Image: Widget, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
     
     public let name: String
     public let contentMode: ImageContentMode?
+    public var widgetProperties: WidgetProperties
     
-    public var id: String?
-    public let appearance: Appearance?
-    public let flex: Flex?
-    public let accessibility: Accessibility?
-    
-    // MARK: - Initialization
-    
+// sourcery:inline:auto:Image.Init
     public init(
         name: String,
         contentMode: ImageContentMode? = nil,
-        id: String? = nil,
-        appearance: Appearance? = nil,
-        flex: Flex? = nil,
-        accessibility: Accessibility? = nil
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.name = name
         self.contentMode = contentMode
-        self.id = id
-        self.appearance = appearance
-        self.flex = flex
-        self.accessibility = accessibility
+        self.widgetProperties = widgetProperties
     }
-    
+// sourcery:end
 }
 
 extension Image: Renderable {

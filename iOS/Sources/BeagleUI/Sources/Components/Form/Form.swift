@@ -16,15 +16,14 @@
 
 import UIKit
 
-public struct Form: ServerDrivenComponent {
+public struct Form: ServerDrivenComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
 
     public let action: Action
     public let child: ServerDrivenComponent
-    
-    // MARK: - Initialization
-    
+
+// sourcery:inline:auto:Form.Init
     public init(
         action: Action,
         child: ServerDrivenComponent
@@ -32,6 +31,7 @@ public struct Form: ServerDrivenComponent {
         self.action = action
         self.child = child
     }
+// sourcery:end
 }
 
 extension Form: Renderable {
@@ -55,19 +55,6 @@ extension Form: Renderable {
         }
         return childView
     }    
-}
-
-extension Form: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case action
-        case child
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.action = try container.decode(forKey: .action)
-        self.child = try container.decode(forKey: .child)
-    }
 }
 
 extension UIView {
