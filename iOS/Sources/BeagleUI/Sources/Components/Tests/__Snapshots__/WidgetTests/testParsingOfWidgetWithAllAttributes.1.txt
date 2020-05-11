@@ -1,7 +1,7 @@
 ▿ Text
   ▿ alignment: Optional<Alignment>
     - some: Alignment.center
-  ▿ style: Optional<String>
+  ▿ styleId: Optional<String>
     - some: "test.text.style"
   - text: "BeaglePreview"
   ▿ textColor: Optional<String>

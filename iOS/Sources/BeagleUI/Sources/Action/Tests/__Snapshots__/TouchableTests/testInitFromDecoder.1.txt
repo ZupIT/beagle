@@ -2,7 +2,7 @@
   - action: Navigate.popView
   ▿ child: Text
     - alignment: Optional<Alignment>.none
-    - style: Optional<String>.none
+    - styleId: Optional<String>.none
     - text: "touchable"
     - textColor: Optional<String>.none
     ▿ widgetProperties: WidgetProperties

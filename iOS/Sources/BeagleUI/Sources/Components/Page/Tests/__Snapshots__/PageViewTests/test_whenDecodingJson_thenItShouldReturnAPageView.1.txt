@@ -5,7 +5,7 @@
       ▿ children: 3 elements
         ▿ Text
           - alignment: Optional<Alignment>.none
-          - style: Optional<String>.none
+          - styleId: Optional<String>.none
           - text: "1 This is a text"
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
@@ -15,7 +15,7 @@
             - id: Optional<String>.none
         ▿ Text
           - alignment: Optional<Alignment>.none
-          - style: Optional<String>.none
+          - styleId: Optional<String>.none
           - text: "This is a text"
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
@@ -25,7 +25,7 @@
             - id: Optional<String>.none
         ▿ Text
           - alignment: Optional<Alignment>.none
-          - style: Optional<String>.none
+          - styleId: Optional<String>.none
           - text: "This is a text"
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
@@ -63,7 +63,7 @@
       ▿ children: 3 elements
         ▿ Text
           - alignment: Optional<Alignment>.none
-          - style: Optional<String>.none
+          - styleId: Optional<String>.none
           - text: "2 This is a text"
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
@@ -73,7 +73,7 @@
             - id: Optional<String>.none
         ▿ Text
           - alignment: Optional<Alignment>.none
-          - style: Optional<String>.none
+          - styleId: Optional<String>.none
           - text: "This is a text"
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
@@ -83,7 +83,7 @@
             - id: Optional<String>.none
         ▿ Text
           - alignment: Optional<Alignment>.none
-          - style: Optional<String>.none
+          - styleId: Optional<String>.none
           - text: "This is a text"
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
@@ -121,7 +121,7 @@
       ▿ children: 3 elements
         ▿ Text
           - alignment: Optional<Alignment>.none
-          - style: Optional<String>.none
+          - styleId: Optional<String>.none
           - text: "3 This is a text"
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
@@ -131,7 +131,7 @@
             - id: Optional<String>.none
         ▿ Text
           - alignment: Optional<Alignment>.none
-          - style: Optional<String>.none
+          - styleId: Optional<String>.none
           - text: "This is a text"
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
@@ -141,7 +141,7 @@
             - id: Optional<String>.none
         ▿ Text
           - alignment: Optional<Alignment>.none
-          - style: Optional<String>.none
+          - styleId: Optional<String>.none
           - text: "This is a text"
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties

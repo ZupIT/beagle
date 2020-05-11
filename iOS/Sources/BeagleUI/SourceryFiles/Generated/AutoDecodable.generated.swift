@@ -22,7 +22,7 @@ extension Button {
 
     enum CodingKeys: String, CodingKey {
         case text
-        case style
+        case styleId
         case action
         case clickAnalyticsEvent
     }
@@ -31,7 +31,7 @@ extension Button {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         text = try container.decode(String.self, forKey: .text)
-        style = try container.decodeIfPresent(String.self, forKey: .style)
+        styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
         action = try container.decodeIfPresent( forKey: .action)
         clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
         widgetProperties = try WidgetProperties(from: decoder)
@@ -252,7 +252,7 @@ extension Text {
 
     enum CodingKeys: String, CodingKey {
         case text
-        case style
+        case styleId
         case alignment
         case textColor
     }
@@ -261,7 +261,7 @@ extension Text {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         text = try container.decode(String.self, forKey: .text)
-        style = try container.decodeIfPresent(String.self, forKey: .style)
+        styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
         alignment = try container.decodeIfPresent(Alignment.self, forKey: .alignment)
         textColor = try container.decodeIfPresent(String.self, forKey: .textColor)
         widgetProperties = try WidgetProperties(from: decoder)

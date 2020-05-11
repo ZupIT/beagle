@@ -3,7 +3,7 @@
   ▿ rows: 3 elements
     ▿ Text
       - alignment: Optional<Alignment>.none
-      - style: Optional<String>.none
+      - styleId: Optional<String>.none
       - text: "text1"
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties
@@ -13,7 +13,7 @@
         - id: Optional<String>.none
     ▿ Text
       - alignment: Optional<Alignment>.none
-      - style: Optional<String>.none
+      - styleId: Optional<String>.none
       - text: "text2"
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties
@@ -23,7 +23,7 @@
         - id: Optional<String>.none
     ▿ Text
       - alignment: Optional<Alignment>.none
-      - style: Optional<String>.none
+      - styleId: Optional<String>.none
       - text: "text3"
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties

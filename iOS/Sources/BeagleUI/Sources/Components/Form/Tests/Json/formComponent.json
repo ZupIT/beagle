@@ -40,7 +40,7 @@
       "child" : {
         "_beagleComponent_" : "beagle:button",
         "text" : "Submit Form",
-        "style" : "DesignSystem.Form.Submit",
+        "styleId" : "DesignSystem.Form.Submit",
         "flex" : {
           "margin" : {
             "all" : {

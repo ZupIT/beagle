@@ -5,7 +5,7 @@
       ▿ Text
         ▿ alignment: Optional<Alignment>
           - some: Alignment.center
-        - style: Optional<String>.none
+        - styleId: Optional<String>.none
         - text: "BeaglePreview"
         - textColor: Optional<String>.none
         ▿ widgetProperties: WidgetProperties
