@@ -79,9 +79,17 @@ extension Image: Renderable {
         image.beagle.setup(self)
         switch typePathImage {
         case .Local:
-            image.setLocalImage(named: name, dependencies: dependencies)
+            if let name = name {
+                image.setImageFromAsset(named: name, bundle: dependencies.appBundle)
+            } else {
+                dependencies.logger.log(Log.image(.withoutName))
+            }
         case .Network:
-            image.setRemoreImage(from: url, context: context, dependencies: dependencies)
+            if let url = url {
+                image.setRemoreImage(from: url, context: context, dependencies: dependencies)
+            } else {
+                dependencies.logger.log(Log.image(.withoutURL))
+            }
         }
         
         return image
