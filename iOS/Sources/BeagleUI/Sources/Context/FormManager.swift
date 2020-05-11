@@ -99,33 +99,28 @@ class FormManager: FormManaging {
             return
         }
         
-        manageFormDataStoreValues(with: &values, shouldStoreFields: sender.form.shouldStoreFields, group: sender.form.group)
-        manageFormAdditionalData(with: &values, additionalData: sender.form.additionalData)
-        
+        mergeWithStoredValues(values: &values, group: sender.form.group)
+        merge(values: &values, with: sender.form.additionalData)
+        if sender.form.shouldStoreFields {
+            saveFormData(values: values, group: sender.form.group)
+        }
         submitAction(sender.form.action, inputs: values, sender: sender, group: sender.form.group)
     }
     
-    private func manageFormAdditionalData(with formValues: inout [String: String], additionalData: [String: String]?) {
+    private func merge(values: inout [String: String], with additionalData: [String: String]?) {
         if let additionalData = additionalData {
-            formValues.merge(additionalData) { _, new in
+            values.merge(additionalData) { _, new in
                 dependencies.logger.log(Log.form(.keyDuplication(data: additionalData)))
                 return new
             }
         }
     }
     
-    private func manageFormDataStoreValues(with formValues: inout [String: String], shouldStoreFields: Bool, group: String?) {
+    private func mergeWithStoredValues(values: inout [String: String], group: String?) {
         if let group = group, let storedValues = dependencies.formDataStoreHandler.read(group: group) {
-            if shouldStoreFields {
-                saveFormData(values: formValues, group: group)
-            }
-            formValues.merge(storedValues) { current, _ in
+            values.merge(storedValues) { current, _ in
                 dependencies.logger.log(Log.form(.keyDuplication(data: storedValues)))
                 return current
-            }
-        } else {
-            if shouldStoreFields {
-                saveFormData(values: formValues, group: group)
             }
         }
     }

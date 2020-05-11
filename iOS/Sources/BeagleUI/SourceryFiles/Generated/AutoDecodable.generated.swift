@@ -1,4 +1,4 @@
-// Generated using Sourcery 0.18.0 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 0.17.0 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 
 /*
@@ -71,7 +71,7 @@ extension Form {
         child = try container.decode( forKey: .child)
         group = try container.decodeIfPresent(String.self, forKey: .group)
         additionalData = try container.decodeIfPresent([String: String].self, forKey: .additionalData)
-        shouldStoreFields = try (container.decodeIfPresent(Bool.self, forKey: .shouldStoreFields) ?? false)
+        shouldStoreFields = try container.decode(Bool.self, forKey: .shouldStoreFields)
     }
 }
 
