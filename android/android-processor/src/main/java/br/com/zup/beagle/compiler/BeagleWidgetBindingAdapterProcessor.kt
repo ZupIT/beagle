@@ -19,6 +19,7 @@ package br.com.zup.beagle.compiler
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.compiler.util.BINDING
 import br.com.zup.beagle.compiler.util.BINDING_ADAPTER
+import br.com.zup.beagle.compiler.util.GET_VALUE
 import br.com.zup.beagle.compiler.util.error
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
@@ -36,7 +37,6 @@ import javax.lang.model.element.Element
 import javax.lang.model.element.ElementKind
 import javax.lang.model.element.ExecutableElement
 import javax.lang.model.element.PackageElement
-import javax.lang.model.element.VariableElement
 import javax.tools.Diagnostic
 
 class BeagleWidgetBindingAdapterProcessor(
@@ -50,32 +50,30 @@ class BeagleWidgetBindingAdapterProcessor(
         registerWidgetAnnotatedClasses.forEachIndexed { _, element ->
 
             val bindingAdapterClassName = "${element.simpleName}BindingAdapter"
-//            processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "bindingAdapterClassName=$bindingAdapterClassName")
 
             val typeSpec = TypeSpec.classBuilder(bindingAdapterClassName)
                 .addModifiers(KModifier.PUBLIC, KModifier.FINAL)
                 .primaryConstructor(constructorParameters(element)
                     .build())
-                .addProperty(propertyWidget())
+                .addProperty(propertyWidget(element))
                 .addProperty(propertyBinding(element))
                 .addSuperinterface(ClassName(
                     BINDING_ADAPTER.packageName,
                     BINDING_ADAPTER.className
                 ))
                 .addFunction(
-                    functionBindModel()
+                    functionBindModel(element)
                 )
                 .addFunction(
                     functionGetBindAttributes(element)
                 )
                 .build()
             val packageElement: PackageElement = processingEnv.elementUtils.getPackageOf(element)
-//            processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "packageElement=$packageElement")
 
             val beagleSetupFile = FileSpec.builder(
                 packageElement.toString(),
                 bindingAdapterClassName
-            ).addType(typeSpec)
+            )  .addImport(GET_VALUE.packageName, GET_VALUE.className).addType(typeSpec)
                 .build()
 
             try {
@@ -91,18 +89,46 @@ class BeagleWidgetBindingAdapterProcessor(
 
     private fun propertyBinding(element: Element) = addConstructorParameter(element)
 
-    private fun propertyWidget(): PropertySpec {
+    private fun propertyWidget(element: Element): PropertySpec {
+        val packageElement: PackageElement = processingEnv.elementUtils.getPackageOf(element)
+        val bindingClassName = "${element.simpleName}"
         return PropertySpec.builder("widget", ClassName(
-            BINDING_ADAPTER.packageName,
-            BINDING_ADAPTER.className
+            packageElement.toString(),
+            bindingClassName
         )).initializer("widget").build()
     }
 
-    private fun functionBindModel(): FunSpec {
+    private fun functionBindModel(element: Element): FunSpec {
+        val attributeValues = StringBuilder()
+        val notifyValues = StringBuilder()
+
+        val constructorParameters = getConstructorParameters(element)
+        constructorParameters.forEachIndexed { index, e ->
+            attributeValues.append("\t${e.simpleName} = getValue(binding.${e.simpleName}, widget.${e.simpleName})")
+            if (index < constructorParameters.size - 1) {
+                attributeValues.append(",\n")
+            }
+        }
+
+        constructorParameters.forEachIndexed { index, e ->
+            notifyValues.append("""
+                |binding.${e.simpleName}.observes {
+                |   widget.onBind(myWidget.copy(${e.simpleName} = it))
+                |}
+            """.trimMargin())
+            if (index < constructorParameters.size - 1) {
+                notifyValues.append(",\n")
+            }
+        }
         return FunSpec.builder("bindModel")
             .addModifiers(KModifier.OVERRIDE)
             .addCode("""
-                            TODO()""".trimMargin())
+                |val myWidget = ${element.simpleName}(
+                |$attributeValues
+                |)
+                |widget.onBind(myWidget)
+                |$notifyValues
+                        |""".trimMargin())
             //                        .addStatement("return registeredWidgets")
             .build()
     }
@@ -123,7 +149,6 @@ class BeagleWidgetBindingAdapterProcessor(
                 .parameterizedBy(STAR)
         )
         val attributeValues = StringBuilder()
-        processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "element.enclosingElement.javaClass=${element.enclosingElement.javaClass}")
 
         val constructorParameters = getConstructorParameters(element)
         constructorParameters.forEachIndexed { index, e ->
@@ -153,8 +178,8 @@ class BeagleWidgetBindingAdapterProcessor(
         val bindingClassName = "${element.simpleName}Binding"
         return FunSpec.constructorBuilder()
             .addParameter("widget", ClassName(
-                BINDING_ADAPTER.packageName,
-                BINDING_ADAPTER.className
+                packageElement.toString(),
+                element.simpleName.toString()
             ))
             .addParameter("binding", ClassName(
                 packageElement.toString(),

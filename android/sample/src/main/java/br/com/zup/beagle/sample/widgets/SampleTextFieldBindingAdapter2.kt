@@ -19,15 +19,14 @@ package br.com.zup.beagle.sample.widgets
 import br.com.zup.beagle.core.Binding
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.setup.BindingAdapter
-import br.com.zup.beagle.utils.cast
-import br.com.zup.beagle.widget.core.BindingWidget
+import br.com.zup.beagle.utils.getValue
 
 data class SampleTextFieldBinding2(
     val placeholder: Binding<String>
 ) : ServerDrivenComponent
 
 final class SampleTextFieldBindingAdapter2(
-    private val widget: BindingWidget,
+    private val widget: SampleTextField,
     private val binding: SampleTextFieldBinding2
 ) : BindingAdapter {
 
@@ -37,9 +36,9 @@ final class SampleTextFieldBindingAdapter2(
 
     override fun bindModel() {
         val myWidget = SampleTextField(
-            placeholder = binding.placeholder.value.cast()
+            placeholder = getValue(binding.placeholder, widget.placeholder)
         )
-
+        widget.onBind(myWidget)
         binding.placeholder.observes {
             widget.onBind(myWidget.copy(placeholder = it))
         }
