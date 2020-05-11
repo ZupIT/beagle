@@ -16,7 +16,9 @@
 
 package br.com.zup.beagle.context
 
+import br.com.zup.beagle.data.serializer.adapter.ContextDataValue
+
 data class ContextData(
     val id: String,
-    val value: Any
+    @ContextDataValue val value: Any // Can be a Number, String, Boolean, JSONObject or JSONArray
 )
