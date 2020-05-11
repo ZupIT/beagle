@@ -7,7 +7,7 @@
       ▿ FormInput
         ▿ child: Text
           - alignment: Optional<Alignment>.none
-          - style: Optional<String>.none
+          - styleId: Optional<String>.none
           - text: "text"
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
@@ -61,7 +61,7 @@
         ▿ child: Button
           - action: Optional<Action>.none
           - clickAnalyticsEvent: Optional<AnalyticsClick>.none
-          ▿ style: Optional<String>
+          ▿ styleId: Optional<String>
             - some: "DesignSystem.Form.Submit"
           - text: "Submit Form"
           ▿ widgetProperties: WidgetProperties

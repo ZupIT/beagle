@@ -2,7 +2,7 @@
   ▿ action: Optional<Action>
     - some: Navigate.finishView
   - clickAnalyticsEvent: Optional<AnalyticsClick>.none
-  - style: Optional<String>.none
+  - styleId: Optional<String>.none
   - text: "button"
   ▿ widgetProperties: WidgetProperties
     - accessibility: Optional<Accessibility>.none

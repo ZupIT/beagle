@@ -1,7 +1,7 @@
 {
   "_beagleType_": "beagle:component:Text",
   "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  "style": "test.text.style",
+  "styleId": "test.text.style",
   "alignment": "RIGHT",
   "textColor": "579F2B",
   "appearance": {

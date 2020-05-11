@@ -1,7 +1,7 @@
 {
    "_beagleType_":"beagle:component:text",
    "text":"BeaglePreview",
-   "style": "test.text.style",
+   "styleId": "test.text.style",
    "alignment":"CENTER",
    "textColor": "579F2B",
    "flex":{

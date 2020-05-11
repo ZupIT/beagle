@@ -1,7 +1,7 @@
 ▿ LazyComponent
   ▿ initialState: Text
     - alignment: Optional<Alignment>.none
-    - style: Optional<String>.none
+    - styleId: Optional<String>.none
     - text: "text1"
     - textColor: Optional<String>.none
     ▿ widgetProperties: WidgetProperties

@@ -20,7 +20,7 @@ public struct Button: Widget, ClickedOnComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
     public let text: String
-    public let style: String?
+    public let styleId: String?
     public let action: Action?
     public var clickAnalyticsEvent: AnalyticsClick?
     public var widgetProperties: WidgetProperties
@@ -28,13 +28,13 @@ public struct Button: Widget, ClickedOnComponent, AutoInitiableAndDecodable {
 // sourcery:inline:auto:Button.Init
     public init(
         text: String,
-        style: String? = nil,
+        styleId: String? = nil,
         action: Action? = nil,
         clickAnalyticsEvent: AnalyticsClick? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.text = text
-        self.style = style
+        self.styleId = styleId
         self.action = action
         self.clickAnalyticsEvent = clickAnalyticsEvent
         self.widgetProperties = widgetProperties
@@ -58,7 +58,7 @@ extension Button: Renderable {
             dependencies.preFetchHelper.prefetchComponent(newPath: newPath)
         }
         
-        button.style = style
+        button.styleId = styleId
         button.beagle.setup(self)
         
         return button
@@ -66,7 +66,7 @@ extension Button: Renderable {
     
     final class BeagleUIButton: UIButton {
         
-        var style: String? {
+        var styleId: String? {
             didSet { applyStyle() }
         }
 
@@ -125,8 +125,8 @@ extension Button: Renderable {
         }
         
         private func applyStyle() {
-            guard let style = style else { return }
-            dependencies?.theme.applyStyle(for: self as UIButton, withId: style)
+            guard let styleId = styleId else { return }
+            dependencies?.theme.applyStyle(for: self as UIButton, withId: styleId)
         }
     }
 }
