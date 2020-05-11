@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+package br.com.zup.beagle.spring.util
 
-import br.com.zup.beagle.core.LayoutComponent
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.enums.BeaglePlatform
+import br.com.zup.beagle.utils.BeaglePlatformUtil
+import javax.servlet.http.HttpServletRequest
 
-data class ScrollView(
-    val children: List<ServerDrivenComponent>,
-    val scrollDirection: ScrollAxis? = null,
-    val scrollBarEnabled: Boolean? = null,
-    override val beaglePlatform: BeaglePlatform = BeaglePlatform.MOBILE
-) : ServerDrivenComponent, LayoutComponent
+object BeagleSessionUtil {
 
-enum class ScrollAxis {
-    VERTICAL,
-    HORIZONTAL
+    fun getBeaglePlatformFromSession(request: HttpServletRequest): BeaglePlatform {
+        val currentPlatform = request.session.getAttribute(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER)
+        return if (currentPlatform != null){
+            BeaglePlatform.valueOf(currentPlatform as String)
+        } else {
+            BeaglePlatform.ALL
+        }
+    }
+
 }

@@ -16,11 +16,11 @@
 
 package br.com.zup.beagle.core
 
-import br.com.zup.beagle.enums.BeagleChannel
+import br.com.zup.beagle.enums.BeaglePlatform
 
 interface ServerDrivenComponent {
 
-    val beagleChannel: BeagleChannel
-        get() = BeagleChannel.ALL
+    val beaglePlatform: BeaglePlatform
+        get() = BeaglePlatform.ALL
 
 }

@@ -32,24 +32,24 @@ class BeagleCacheHandler(excludeEndpoints: List<String> = listOf()) {
     private fun generateHashForJson(json: String) =
         Hashing.sha512().hashString(json, Charset.defaultCharset()).toString()
 
-    private fun getCacheKey(endpoint: String, currentChannel: String?) = currentChannel?.plus("_")?.plus(endpoint)
+    private fun getCacheKey(endpoint: String, currentPlatform: String?) = currentPlatform?.plus("_")?.plus(endpoint)
         ?: endpoint
 
     internal fun isEndpointInExcludedPatterns(endpoint: String) =
         this.excludePatterns.any { it.matcher(endpoint).find() }
 
-    internal fun isHashUpToDate(endpoint: String, currentChannel: String?, hash: String)
-        = this.endpointHashMap[getCacheKey(endpoint, currentChannel)] == hash
+    internal fun isHashUpToDate(endpoint: String, currentPlatform: String?, hash: String)
+        = this.endpointHashMap[getCacheKey(endpoint, currentPlatform)] == hash
 
-    internal fun generateAndAddHash(endpoint: String, currentChannel: String?, json: String) =
-        this.endpointHashMap.computeIfAbsent(getCacheKey(endpoint, currentChannel)) {
+    internal fun generateAndAddHash(endpoint: String, currentPlatform: String?, json: String) =
+        this.endpointHashMap.computeIfAbsent(getCacheKey(endpoint, currentPlatform)) {
             this.generateHashForJson(json)
         }
 
     fun <T> handleCache(
         endpoint: String,
         receivedHash: String?,
-        currentChannel: String?,
+        currentPlatform: String?,
         initialResponse: T,
         restHandler: RestCacheHandler<T>
     ) =
@@ -57,7 +57,7 @@ class BeagleCacheHandler(excludeEndpoints: List<String> = listOf()) {
             this.isEndpointInExcludedPatterns(endpoint) -> restHandler.callController(initialResponse)
             receivedHash != null && this.isHashUpToDate(
                 endpoint = endpoint,
-                currentChannel = currentChannel,
+                currentPlatform = currentPlatform,
                 hash = receivedHash
             ) ->
                 restHandler.addStatus(initialResponse, HttpURLConnection.HTTP_NOT_MODIFIED)
@@ -67,7 +67,7 @@ class BeagleCacheHandler(excludeEndpoints: List<String> = listOf()) {
                     .let {
                         restHandler.addHashHeader(it, this.generateAndAddHash(
                             endpoint = endpoint,
-                            currentChannel = currentChannel,
+                            currentPlatform = currentPlatform,
                             json = restHandler.getBody(it)
                         ))
                     }

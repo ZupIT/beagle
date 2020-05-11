@@ -16,16 +16,23 @@
 
 package br.com.zup.beagle.spring.interceptor
 
-import br.com.zup.beagle.utils.ChannelUtil
+import br.com.zup.beagle.utils.BeaglePlatformUtil
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.node.ObjectNode
 import org.springframework.web.servlet.HandlerInterceptor
 import org.springframework.web.servlet.ModelAndView
 import org.springframework.web.util.ContentCachingResponseWrapper
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class BeagleChannelInterceptor(private val objectMapper: ObjectMapper) : HandlerInterceptor {
+class BeaglePlatformInterceptor(private val objectMapper: ObjectMapper) : HandlerInterceptor {
+
+    override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
+        request.session.setAttribute(
+            BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER,
+            request.getHeader(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER)
+        )
+        return true
+    }
 
     override fun postHandle(
         request: HttpServletRequest,
@@ -34,9 +41,9 @@ class BeagleChannelInterceptor(private val objectMapper: ObjectMapper) : Handler
         modelAndView: ModelAndView?
     ) {
         val responseWrapper = (response as ContentCachingResponseWrapper)
-        val jsonTree = this.objectMapper.readTree(responseWrapper.contentAsByteArray) as ObjectNode
-        ChannelUtil.treatBeagleChannel(
-            request.getHeader(ChannelUtil.BEAGLE_CHANNEL_HEADER),
+        val jsonTree = this.objectMapper.readTree(responseWrapper.contentAsByteArray)
+        BeaglePlatformUtil.treatBeaglePlatform(
+            request.getHeader(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER),
             jsonTree
         )
         val jsonData = jsonTree.toPrettyString()

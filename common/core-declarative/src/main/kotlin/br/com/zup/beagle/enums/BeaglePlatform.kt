@@ -16,8 +16,20 @@
 
 package br.com.zup.beagle.enums
 
-enum class BeagleChannel {
+enum class BeaglePlatform {
     ALL,
     MOBILE,
+    ANDROID,
+    IOS,
     WEB;
+
+    fun isMobile() = this == ANDROID || this == IOS
+
+    fun allowToSendComponentToPlatform(beaglePlatform: BeaglePlatform) =
+        if (this == beaglePlatform
+            || beaglePlatform == ALL
+            || this == ALL) {
+            true
+        } else beaglePlatform == MOBILE
+            && isMobile()
 }

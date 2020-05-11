@@ -16,9 +16,8 @@
 
 package br.com.zup.beagle.micronaut.filter
 
-import br.com.zup.beagle.utils.ChannelUtil
+import br.com.zup.beagle.utils.BeaglePlatformUtil
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.node.ObjectNode
 import io.micronaut.context.annotation.Requirements
 import io.micronaut.context.annotation.Requires
 import io.micronaut.http.HttpRequest
@@ -30,16 +29,16 @@ import io.reactivex.Flowable
 import org.reactivestreams.Publisher
 
 @Filter("/**")
-@Requirements(Requires(classes = [ChannelUtil::class]))
-class BeagleChannelFilter(private val objectMapper: ObjectMapper) : HttpServerFilter {
+@Requirements(Requires(classes = [BeaglePlatformUtil::class]))
+class BeaglePlatformFilter(private val objectMapper: ObjectMapper) : HttpServerFilter {
     override fun doFilter(request: HttpRequest<*>, chain: ServerFilterChain): Publisher<MutableHttpResponse<*>>? {
         val response = Flowable.fromPublisher(chain.proceed(request)).blockingFirst() as MutableHttpResponse<Any>
         response.body.ifPresent {
             val jsonTree = this.objectMapper.readTree(
                 this.objectMapper.writeValueAsString(it)
-            ) as ObjectNode
-            ChannelUtil.treatBeagleChannel(
-                request.headers.get(ChannelUtil.BEAGLE_CHANNEL_HEADER),
+            )
+            BeaglePlatformUtil.treatBeaglePlatform(
+                request.headers.get(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER),
                 jsonTree
             )
             response.body(jsonTree.toPrettyString())
