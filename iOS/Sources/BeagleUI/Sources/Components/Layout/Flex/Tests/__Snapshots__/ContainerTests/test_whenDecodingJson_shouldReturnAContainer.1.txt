@@ -7,9 +7,9 @@
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
-        - appearance: Optional<Appearance>.none
         - flex: Optional<Flex>.none
         - id: Optional<String>.none
+        - style: Optional<Style>.none
     ▿ Text
       - alignment: Optional<Alignment>.none
       - styleId: Optional<String>.none
@@ -17,9 +17,9 @@
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
-        - appearance: Optional<Appearance>.none
         - flex: Optional<Flex>.none
         - id: Optional<String>.none
+        - style: Optional<Style>.none
     ▿ Text
       - alignment: Optional<Alignment>.none
       - styleId: Optional<String>.none
@@ -27,18 +27,11 @@
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
-        - appearance: Optional<Appearance>.none
         - flex: Optional<Flex>.none
         - id: Optional<String>.none
+        - style: Optional<Style>.none
   ▿ widgetProperties: WidgetProperties
     - accessibility: Optional<Accessibility>.none
-    ▿ appearance: Optional<Appearance>
-      ▿ some: Appearance
-        ▿ backgroundColor: Optional<String>
-          - some: "#500000FF"
-        ▿ cornerRadius: Optional<CornerRadius>
-          ▿ some: CornerRadius
-            - radius: 30.0
     ▿ flex: Optional<Flex>
       ▿ some: Flex
         - alignContent: Optional<AlignContent>.none
@@ -74,3 +67,10 @@
         - shrink: Optional<Double>.none
         - size: Optional<Size>.none
     - id: Optional<String>.none
+    ▿ style: Optional<Style>
+      ▿ some: Style
+        ▿ backgroundColor: Optional<String>
+          - some: "#500000FF"
+        ▿ cornerRadius: Optional<CornerRadius>
+          ▿ some: CornerRadius
+            - radius: 30.0

@@ -1,11 +1,4 @@
 ▿ ScrollView
-  ▿ appearance: Optional<Appearance>
-    ▿ some: Appearance
-      ▿ backgroundColor: Optional<String>
-        - some: "#60FF0000"
-      ▿ cornerRadius: Optional<CornerRadius>
-        ▿ some: CornerRadius
-          - radius: 30.0
   ▿ children: 3 elements
     ▿ Text
       - alignment: Optional<Alignment>.none
@@ -14,9 +7,9 @@
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
-        - appearance: Optional<Appearance>.none
         - flex: Optional<Flex>.none
         - id: Optional<String>.none
+        - style: Optional<Style>.none
     ▿ Text
       - alignment: Optional<Alignment>.none
       - styleId: Optional<String>.none
@@ -24,9 +17,9 @@
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
-        - appearance: Optional<Appearance>.none
         - flex: Optional<Flex>.none
         - id: Optional<String>.none
+        - style: Optional<Style>.none
     ▿ Text
       - alignment: Optional<Alignment>.none
       - styleId: Optional<String>.none
@@ -34,8 +27,15 @@
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
-        - appearance: Optional<Appearance>.none
         - flex: Optional<Flex>.none
         - id: Optional<String>.none
+        - style: Optional<Style>.none
   - scrollBarEnabled: Optional<Bool>.none
   - scrollDirection: Optional<ScrollAxis>.none
+  ▿ style: Optional<Style>
+    ▿ some: Style
+      ▿ backgroundColor: Optional<String>
+        - some: "#60FF0000"
+      ▿ cornerRadius: Optional<CornerRadius>
+        ▿ some: CornerRadius
+          - radius: 30.0

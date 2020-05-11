@@ -1,5 +1,4 @@
 ▿ ScreenComponent
-  - appearance: Optional<Appearance>.none
   ▿ child: Text
     - alignment: Optional<Alignment>.none
     - styleId: Optional<String>.none
@@ -7,9 +6,9 @@
     - textColor: Optional<String>.none
     ▿ widgetProperties: WidgetProperties
       - accessibility: Optional<Accessibility>.none
-      - appearance: Optional<Appearance>.none
       - flex: Optional<Flex>.none
       - id: Optional<String>.none
+      - style: Optional<Style>.none
   - identifier: Optional<String>.none
   ▿ navigationBar: Optional<NavigationBar>
     ▿ some: NavigationBar
@@ -32,3 +31,4 @@
       - title: "Form"
   - safeArea: Optional<SafeArea>.none
   - screenAnalyticsEvent: Optional<AnalyticsScreen>.none
+  - style: Optional<Style>.none

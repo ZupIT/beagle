@@ -17,7 +17,7 @@
       }
    },
    "id":"some id",
-   "appearance":{
+   "style":{
       "backgroundColor":"#800000FF",
       "cornerRadius":{
          "radius":30.0

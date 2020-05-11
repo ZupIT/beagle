@@ -12,13 +12,6 @@
         ▿ accessibilityLabel: Optional<String>
           - some: "This is a text as title"
         - accessible: true
-    ▿ appearance: Optional<Appearance>
-      ▿ some: Appearance
-        ▿ backgroundColor: Optional<String>
-          - some: "#800000FF"
-        ▿ cornerRadius: Optional<CornerRadius>
-          ▿ some: CornerRadius
-            - radius: 30.0
     ▿ flex: Optional<Flex>
       ▿ some: Flex
         - alignContent: Optional<AlignContent>.none
@@ -54,3 +47,10 @@
                 - value: 100.0
     ▿ id: Optional<String>
       - some: "some id"
+    ▿ style: Optional<Style>
+      ▿ some: Style
+        ▿ backgroundColor: Optional<String>
+          - some: "#800000FF"
+        ▿ cornerRadius: Optional<CornerRadius>
+          ▿ some: CornerRadius
+            - radius: 30.0

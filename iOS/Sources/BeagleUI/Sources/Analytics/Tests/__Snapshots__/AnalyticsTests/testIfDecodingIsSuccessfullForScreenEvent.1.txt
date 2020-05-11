@@ -1,5 +1,4 @@
 ▿ ScreenComponent
-  - appearance: Optional<Appearance>.none
   ▿ child: Container
     ▿ children: 1 element
       ▿ Text
@@ -10,7 +9,6 @@
         - textColor: Optional<String>.none
         ▿ widgetProperties: WidgetProperties
           - accessibility: Optional<Accessibility>.none
-          - appearance: Optional<Appearance>.none
           ▿ flex: Optional<Flex>
             ▿ some: Flex
               - alignContent: Optional<AlignContent>.none
@@ -45,14 +43,16 @@
                       - type: UnitType.percent
                       - value: 100.0
           - id: Optional<String>.none
+          - style: Optional<Style>.none
     ▿ widgetProperties: WidgetProperties
       - accessibility: Optional<Accessibility>.none
-      - appearance: Optional<Appearance>.none
       - flex: Optional<Flex>.none
       - id: Optional<String>.none
+      - style: Optional<Style>.none
   - identifier: Optional<String>.none
   - navigationBar: Optional<NavigationBar>.none
   - safeArea: Optional<SafeArea>.none
   ▿ screenAnalyticsEvent: Optional<AnalyticsScreen>
     ▿ some: AnalyticsScreen
       - screenName: "name from BFF"
+  - style: Optional<Style>.none
