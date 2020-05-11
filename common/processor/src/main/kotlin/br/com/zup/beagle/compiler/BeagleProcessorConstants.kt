@@ -22,8 +22,6 @@ const val KAPT_KEY = "kapt.kotlin.generated"
 const val GET = "get"
 const val INTERNAL_MARKER = '$'
 
-val GETTER = Regex("$GET(?!Class).*")
-
 val JAVA_TO_KOTLIN = arrayOf(
     Any::class,
     Boolean::class,

@@ -50,7 +50,7 @@ val ExecutableElement.fieldName
 
 val TypeElement.visibleGetters
     get() = this.enclosedElements
-        .filter { it.kind == ElementKind.METHOD && it.simpleName matches GETTER && Modifier.PUBLIC in it.modifiers }
+        .filter { it.kind == ElementKind.METHOD && GET in it.simpleName && Modifier.PUBLIC in it.modifiers }
         .map { it as ExecutableElement }
 
 fun Elements.getPackageAsString(element: Element) = this.getPackageOf(element).toString()
