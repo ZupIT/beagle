@@ -44,8 +44,8 @@ struct LazyComponentScreen: DeeplinkScreen {
                         Text("FormSubmit")
                     )
                 ]).applyFlex(Flex().justifyContent(.spaceBetween)),
-                shouldStoreFields: true,
-                group: "firstForm"
+                group: "firstForm",
+                shouldStoreFields: true
             )
         )
     }
@@ -68,9 +68,9 @@ struct LazyComponentScreen: DeeplinkScreen {
                         Text("FormSubmit")
                     )
                 ]).applyFlex(Flex().justifyContent(.spaceBetween)),
-                shouldStoreFields: true,
                 group: "firstForm",
-                additionalData: ["zip": "38408", "gender": "Male"]
+                additionalData: ["zip": "38408", "gender": "Male"],
+                shouldStoreFields: true
             )
         )
     }
