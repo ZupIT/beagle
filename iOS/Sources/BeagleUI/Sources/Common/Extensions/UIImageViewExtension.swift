@@ -18,15 +18,11 @@
 import UIKit
 
 extension UIImageView {
-    func setLocalImage(named name: String?, dependencies: RenderableDependencies) {
-        if let name = name {
-            setImageFromAsset(named: name, bundle: dependencies.appBundle)
-        }
+    func setImageFromAsset(named: String, bundle: Bundle) {
+        self.image = UIImage(named: named, in: bundle, compatibleWith: nil)
     }
     
-    func setRemoreImage(from url: String?, context: BeagleContext, dependencies: RenderableDependencies) {
-        guard let url = url else { return }
-        
+    func setRemoreImage(from url: String, context: BeagleContext, dependencies: RenderableDependencies) {
         dependencies.repository.fetchImage(url: url, additionalData: nil) { [weak self, weak context] result in
             guard let self = self else { return }
             guard case .success(let data) = result else { return }
@@ -37,9 +33,5 @@ extension UIImageView {
                 context?.applyLayout()
             }
         }
-    }
-    
-    func setImageFromAsset(named: String, bundle: Bundle) {
-        self.image = UIImage(named: named, in: bundle, compatibleWith: nil)
     }
 }
