@@ -52,6 +52,8 @@ public enum Log {
         case inputsNotFound(form: BeagleUI.Form)
         case divergentInputViewAndValueCount(form: BeagleUI.Form)
         case submittedValues(values: [String: String])
+        case keyDuplication(data: [String: String])
+        case unableToSaveData
     }
 
     public enum Navigator {
@@ -128,6 +130,10 @@ extension Log: LogType {
             return "You probably forgot to declare your FormInput widgets in form: \n\t \(form)"
         case .form(.divergentInputViewAndValueCount(let form)):
             return "Number of formInput and values are different. You probably declared formInputs with the same name in form: \n\t \(form)"
+        case .form(.unableToSaveData):
+            return "Unable to save form data. A group name must be given"
+        case .form(.keyDuplication(let data)):
+            return "Found a key duplication when merging form data:\n\(data)"
         case .form(let log):
             return String(describing: log)
 
@@ -166,7 +172,7 @@ extension Log: LogType {
             switch form {
             case .validatorNotFound, .submitNotFound, .inputsNotFound, .divergentInputViewAndValueCount:
                 return .error
-            case .submittedValues, .validationInputNotValid:
+            case .submittedValues, .validationInputNotValid, .unableToSaveData, .keyDuplication:
                 return .info
             }
 

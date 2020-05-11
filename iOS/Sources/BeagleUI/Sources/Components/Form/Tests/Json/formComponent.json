@@ -5,6 +5,12 @@
     "path" : "/sample/form",
     "method" : "POST"
   },
+  "additionalData" : {
+      "age" : "21",
+      "id" : "11111"
+  },
+  "group" : "group",
+  "shouldStoreFields" : true,
   "child" : {
     "_beagleType_" : "beagle:component:container",
     "children" : [ {

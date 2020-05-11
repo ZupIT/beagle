@@ -86,15 +86,16 @@ final class ScreenComponentTests: XCTestCase {
         // Given
         let action = ActionDummy()
         let barItem = NavigationBarItem(text: "shuttle", action: action)
-        let context = BeagleContextSpy()
+        let actionManager = ActionManagerSpy()
+        let context = BeagleContextSpy(actionManager: actionManager)
         
         // When
         let resultingView = barItem.toBarButtonItem(context: context, dependencies: BeagleScreenDependencies())
         _ = resultingView.target?.perform(resultingView.action)
         
         // Then
-        XCTAssertTrue(context.didCallDoAction)
-        XCTAssertEqual(context.actionCalled as? ActionDummy, action)
+        XCTAssertTrue(actionManager.didCallDoAction)
+        XCTAssertEqual(actionManager.actionCalled as? ActionDummy, action)
     }
     
     func test_shouldPrefetchNavigateAction() {

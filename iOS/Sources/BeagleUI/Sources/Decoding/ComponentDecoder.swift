@@ -118,7 +118,6 @@ final class ComponentDecoder: ComponentDecoding {
         registerComponent(Form.self, key: key(name: "Form", content: .component, namespace: .beagle))
         registerComponent(FormSubmit.self, key: key(name: "FormSubmit", content: .component, namespace: .beagle))
         registerComponent(FormInput.self, key: key(name: "FormInput", content: .component, namespace: .beagle))
-        registerComponent(FormInputHidden.self, key: key(name: "FormInputHidden", content: .component, namespace: .beagle))
     }
     
     private func registerLayoutTypes() {
