@@ -12,12 +12,12 @@
   - text: "button"
   ▿ widgetProperties: WidgetProperties
     - accessibility: Optional<Accessibility>.none
-    ▿ appearance: Optional<Appearance>
-      ▿ some: Appearance
+    - flex: Optional<Flex>.none
+    - id: Optional<String>.none
+    ▿ style: Optional<Style>
+      ▿ some: Style
         ▿ backgroundColor: Optional<String>
           - some: "#800000FF"
         ▿ cornerRadius: Optional<CornerRadius>
           ▿ some: CornerRadius
             - radius: 30.0
-    - flex: Optional<Flex>.none
-    - id: Optional<String>.none

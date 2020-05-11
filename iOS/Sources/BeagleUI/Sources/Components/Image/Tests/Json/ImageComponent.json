@@ -2,7 +2,7 @@
   "_beagleType_": "beagle:component:Image",
   "name": "test_image_square-x",
   "contentMode": "CENTER",
-  "appearance": {
+  "style": {
     "backgroundColor": "#800000FF",
     "cornerRadius": {
         "radius": 30.0

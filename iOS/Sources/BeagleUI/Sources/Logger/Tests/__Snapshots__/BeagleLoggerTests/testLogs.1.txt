@@ -32,7 +32,7 @@ didReceiveAction(Navigate.addView(NewPath(path: "path", shouldPrefetch: false, f
 
 didReceiveAction(Navigate.openDeepLink(DeepLinkNavigation(path: "path", data: nil, component: nil)))
 
-didReceiveAction(Navigate.openDeepLink(DeepLinkNavigation(path: "path", data: Optional(["key": "value"]), component: Optional(BeagleUI.Text(text: "bla", styleId: nil, alignment: nil, textColor: nil, widgetProperties: BeagleUI.WidgetProperties(id: nil, appearance: nil, flex: nil, accessibility: nil))))))
+didReceiveAction(Navigate.openDeepLink(DeepLinkNavigation(path: "path", data: Optional(["key": "value"]), component: Optional(BeagleUI.Text(text: "bla", styleId: nil, alignment: nil, textColor: nil, widgetProperties: BeagleUI.WidgetProperties(id: nil, style: nil, flex: nil, accessibility: nil))))))
 
 errorTryingToPopScreenOnNavigatorWithJustOneScreen
 

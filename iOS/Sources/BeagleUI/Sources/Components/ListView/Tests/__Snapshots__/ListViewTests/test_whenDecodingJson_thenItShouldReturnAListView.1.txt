@@ -8,9 +8,9 @@
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
-        - appearance: Optional<Appearance>.none
         - flex: Optional<Flex>.none
         - id: Optional<String>.none
+        - style: Optional<Style>.none
     ▿ Text
       - alignment: Optional<Alignment>.none
       - styleId: Optional<String>.none
@@ -18,9 +18,9 @@
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
-        - appearance: Optional<Appearance>.none
         - flex: Optional<Flex>.none
         - id: Optional<String>.none
+        - style: Optional<Style>.none
     ▿ Text
       - alignment: Optional<Alignment>.none
       - styleId: Optional<String>.none
@@ -28,6 +28,6 @@
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
-        - appearance: Optional<Appearance>.none
         - flex: Optional<Flex>.none
         - id: Optional<String>.none
+        - style: Optional<Style>.none

@@ -16,12 +16,12 @@
 
 import UIKit
 
-struct ScreenComponent: AppearanceComponent, ServerDrivenComponent, AutoInitiableAndDecodable {
+struct ScreenComponent: StyleComponent, ServerDrivenComponent, AutoInitiableAndDecodable {
 
     // MARK: - Public Properties
     
     public let identifier: String?
-    public let appearance: Appearance?
+    public let style: Style?
     public let safeArea: SafeArea?
     public let navigationBar: NavigationBar?
     public let screenAnalyticsEvent: AnalyticsScreen?
@@ -30,14 +30,14 @@ struct ScreenComponent: AppearanceComponent, ServerDrivenComponent, AutoInitiabl
 // sourcery:inline:auto:ScreenComponent.Init
     internal init(
         identifier: String? = nil,
-        appearance: Appearance? = nil,
+        style: Style? = nil,
         safeArea: SafeArea? = nil,
         navigationBar: NavigationBar? = nil,
         screenAnalyticsEvent: AnalyticsScreen? = nil,
         child: ServerDrivenComponent
     ) {
         self.identifier = identifier
-        self.appearance = appearance
+        self.style = style
         self.safeArea = safeArea
         self.navigationBar = navigationBar
         self.screenAnalyticsEvent = screenAnalyticsEvent
@@ -52,7 +52,7 @@ extension ScreenComponent: Renderable {
         prefetch(dependencies: dependencies)
         
         let contentView = buildChildView(context: context, dependencies: dependencies)
-        contentView.beagle.setup(appearance: appearance)
+        contentView.beagle.setup(style: style)
         return contentView
     }
 

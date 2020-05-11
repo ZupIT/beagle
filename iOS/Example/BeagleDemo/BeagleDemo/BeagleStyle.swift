@@ -17,19 +17,19 @@
 import UIKit
 import BeagleUI
 
-struct Style {
+struct AppStyle {
     
     static let theme = AppTheme(styles: [
-        .BUTTON_BLACK_TEXT_STYLE: Style.blackTextNormalStyle,
-        .TEXT_HELLO_WORD_STYLE: Style.designSystemTextHelloWord,
-        .TEXT_IMAGE_STYLE: Style.designSystemTextImage,
-        .TEXT_ACTION_CLICK_STYLE: Style.designSystemTextActionClick,
-        .TEXT_STYLISH_STYLE: Style.designSystemStylishButton,
-        .BUTTON_WITH_APPEARANCE_STYLE: Style.designSystemStylishButtonAndAppearance,
-        .FORM_SUBMIT_STYLE: Style.formButton,
-        .NAVIGATION_BAR_GREEN_STYLE: Style.designSystemStyleNavigationBar,
-        .NAVIGATION_BAR_DEFAULT_STYLE: Style.designSystemStyleNavigationBarDefault,
-        .TAB_VIEW_STYLE: Style.tabView
+        .BUTTON_BLACK_TEXT_STYLE: Self.blackTextNormalStyle,
+        .TEXT_HELLO_WORD_STYLE: Self.designSystemTextHelloWord,
+        .TEXT_IMAGE_STYLE: Self.designSystemTextImage,
+        .TEXT_ACTION_CLICK_STYLE: Self.designSystemTextActionClick,
+        .TEXT_STYLISH_STYLE: Self.designSystemStylishButton,
+        .BUTTON_WITH_APPEARANCE_STYLE: Self.designSystemStylishButtonAndAppearance,
+        .FORM_SUBMIT_STYLE: Self.formButton,
+        .NAVIGATION_BAR_GREEN_STYLE: Self.designSystemStyleNavigationBar,
+        .NAVIGATION_BAR_DEFAULT_STYLE: Self.designSystemStyleNavigationBarDefault,
+        .TAB_VIEW_STYLE: Self.tabView
         ]
     )
     

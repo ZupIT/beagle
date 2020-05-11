@@ -12,9 +12,9 @@
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
-            - appearance: Optional<Appearance>.none
             - flex: Optional<Flex>.none
             - id: Optional<String>.none
+            - style: Optional<Style>.none
         - errorMessage: Optional<String>.none
         - name: "optional-field"
         - required: Optional<Bool>.none
@@ -35,7 +35,6 @@
         - children: 0 elements
         ▿ widgetProperties: WidgetProperties
           - accessibility: Optional<Accessibility>.none
-          - appearance: Optional<Appearance>.none
           ▿ flex: Optional<Flex>
             ▿ some: Flex
               - alignContent: Optional<Alignment>.none
@@ -57,6 +56,7 @@
               - shrink: Optional<Double>.none
               - size: Optional<Size>.none
           - id: Optional<String>.none
+          - style: Optional<Style>.none
       ▿ FormSubmit
         ▿ child: Button
           - action: Optional<Action>.none
@@ -66,7 +66,6 @@
           - text: "Submit Form"
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
-            - appearance: Optional<Appearance>.none
             ▿ flex: Optional<Flex>
               ▿ some: Flex
                 - alignContent: Optional<Alignment>.none
@@ -100,15 +99,11 @@
                 - shrink: Optional<Double>.none
                 - size: Optional<Size>.none
             - id: Optional<String>.none
+            - style: Optional<Style>.none
         ▿ enabled: Optional<Bool>
           - some: false
     ▿ widgetProperties: WidgetProperties
       - accessibility: Optional<Accessibility>.none
-      ▿ appearance: Optional<Appearance>
-        ▿ some: Appearance
-          ▿ backgroundColor: Optional<String>
-            - some: "#B8E297"
-          - cornerRadius: Optional<CornerRadius>.none
       ▿ flex: Optional<Flex>
         ▿ some: Flex
           - alignContent: Optional<Alignment>.none
@@ -143,3 +138,8 @@
           - shrink: Optional<Double>.none
           - size: Optional<Size>.none
       - id: Optional<String>.none
+      ▿ style: Optional<Style>
+        ▿ some: Style
+          ▿ backgroundColor: Optional<String>
+            - some: "#B8E297"
+          - cornerRadius: Optional<CornerRadius>.none

@@ -5,7 +5,7 @@
     "_beagleType_": "beagle:action:navigate",
     "type": "FINISH_VIEW"
   },
-  "appearance": {
+  "style": {
     "backgroundColor": "#800000FF",
     "cornerRadius": {
         "radius": 30.0

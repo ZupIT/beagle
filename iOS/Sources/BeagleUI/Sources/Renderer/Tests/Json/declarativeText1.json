@@ -19,7 +19,7 @@
                         }
                     }
                 },
-                "appearance": {
+                "style": {
                     "backgroundColor": "ff00ff"
                 }
             },
@@ -42,7 +42,7 @@
                                 }
                             }
                         },
-                        "appearance": {
+                        "style": {
                             "backgroundColor": "ff0000"
                         }
                     },
@@ -62,7 +62,7 @@
                                 }
                             }
                         },
-                        "appearance": {
+                        "style": {
                             "backgroundColor": "00ff00"
                         }
                     },
@@ -82,7 +82,7 @@
                                 }
                             }
                         },
-                        "appearance": {
+                        "style": {
                             "backgroundColor": "ff0000"
                         }
                     }
@@ -99,7 +99,7 @@
                         }
                     }
                 },
-                "appearance": {
+                "style": {
                     "backgroundColor": "00ffff"
                 }
             }

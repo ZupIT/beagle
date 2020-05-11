@@ -68,7 +68,7 @@ struct FormScreen: DeeplinkScreen {
                         enabled: false
                     )
                 ],
-                widgetProperties: .init(appearance: Appearance(backgroundColor: .LIGHT_GREEN_COLOR), flex: Flex().grow(1).padding(EdgeValue().all(10)))
+                widgetProperties: .init(style: Style(backgroundColor: .LIGHT_GREEN_COLOR), flex: Flex().grow(1).padding(EdgeValue().all(10)))
             )
         )
         let screen = Screen(
