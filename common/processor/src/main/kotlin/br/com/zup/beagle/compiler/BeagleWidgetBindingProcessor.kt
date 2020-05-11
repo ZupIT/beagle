@@ -26,7 +26,7 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import java.io.File
 import javax.annotation.processing.ProcessingEnvironment
-import javax.lang.model.element.Element
+import javax.lang.model.element.ExecutableElement
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.TypeMirror
 
@@ -44,7 +44,7 @@ class BeagleWidgetBindingProcessor(processingEnvironment: ProcessingEnvironment,
     }
 
     private fun createBindingClass(element: TypeElement) =
-        element.constructorParameters.map { this.createBindParameter(it) }.let { parameters ->
+        element.visibleGetters.map { this.createBindParameter(it) }.let { parameters ->
             TypeSpec.classBuilder("${element.simpleName}$SUFFIX")
                 .superclass(this.typeUtils.getKotlinName(element.superclass))
                 .addSuperinterfaces(element.interfaces.map(TypeMirror::asTypeName))
@@ -53,9 +53,9 @@ class BeagleWidgetBindingProcessor(processingEnvironment: ProcessingEnvironment,
                 .build()
         }
 
-    private fun createBindParameter(element: Element) =
+    private fun createBindParameter(element: ExecutableElement) =
         ParameterSpec.builder(
-            element.simpleName.toString(),
-            Bind::class.asTypeName().parameterizedBy(this.typeUtils.getKotlinName(element.asType()))
+            element.fieldName,
+            Bind::class.asTypeName().parameterizedBy(this.typeUtils.getKotlinName(element.returnType))
         ).build()
 }

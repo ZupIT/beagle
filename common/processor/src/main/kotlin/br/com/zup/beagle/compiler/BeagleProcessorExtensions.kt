@@ -30,7 +30,8 @@ import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.ElementKind
 import javax.lang.model.element.ExecutableElement
-import javax.lang.model.element.VariableElement
+import javax.lang.model.element.Modifier
+import javax.lang.model.element.TypeElement
 import javax.lang.model.type.DeclaredType
 import javax.lang.model.type.TypeMirror
 import javax.lang.model.type.WildcardType
@@ -41,8 +42,16 @@ private val TypeName.kotlin get() = JAVA_TO_KOTLIN[this] ?: this
 
 val ProcessingEnvironment.kaptGeneratedDirectory get() = File(this.options[KAPT_KEY]!!)
 
-val Element.constructorParameters: List<VariableElement>
-    get() = (this.enclosedElements.first { it.kind == ElementKind.CONSTRUCTOR } as ExecutableElement).parameters
+val ExecutableElement.fieldName
+    get() = this.simpleName.toString()
+        .removePrefix(GET)
+        .takeWhile { it != INTERNAL_MARKER }
+        .let { it.replaceFirst(it.first(), it.first().toLowerCase()) }
+
+val TypeElement.visibleGetters
+    get() = this.enclosedElements
+        .filter { it.kind == ElementKind.METHOD && it.simpleName matches GETTER && Modifier.PUBLIC in it.modifiers }
+        .map { it as ExecutableElement }
 
 fun Elements.getPackageAsString(element: Element) = this.getPackageOf(element).toString()
 
