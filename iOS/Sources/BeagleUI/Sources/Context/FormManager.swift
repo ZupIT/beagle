@@ -156,9 +156,8 @@ class FormManager: FormManaging {
 
         dependencies.repository.submitForm(url: remote.path, additionalData: nil, data: data) {
             [weak self] result in guard let self = self else { return }
-            self.dependencies.formDataStoreHandler.formManagerDidSubmitForm(group: group)
             self.delegate?.hideLoading()
-            self.handleFormResult(result, sender: sender)
+            self.handleFormResult(result, sender: sender, group: group)
         }
         dependencies.logger.log(Log.form(.submittedValues(values: inputs)))
     }
@@ -210,9 +209,10 @@ class FormManager: FormManaging {
         return validator
     }
 
-    private func handleFormResult(_ result: Result<Action, Request.Error>, sender: Any) {
+    private func handleFormResult(_ result: Result<Action, Request.Error>, sender: Any, group: String?) {
         switch result {
         case .success(let action):
+            self.dependencies.formDataStoreHandler.formManagerDidSubmitForm(group: group)
             delegate?.executeAction(action, sender: sender)
         case .failure(let error):
             delegate?.handleContextError(.submitForm(error))

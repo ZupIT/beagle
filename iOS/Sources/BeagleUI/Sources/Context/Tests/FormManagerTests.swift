@@ -168,9 +168,9 @@ final class FormManagerTests: XCTestCase {
             FormInput(name: "password", required: true, validator: validator3, child: InputComponent(value: "password")),
             FormSubmit(child: Button(text: "Add"))
         ]),
-        shouldStoreFields: true,
         group: group,
-        additionalData: ["id": "111111"]
+        additionalData: ["id": "111111"],
+        shouldStoreFields: true
     ).toView(context: screen, dependencies: dependencies)
     
     private func setValidator3() {
