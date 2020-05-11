@@ -30,7 +30,7 @@ import javax.lang.model.element.ExecutableElement
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.TypeMirror
 
-class BeagleWidgetBindingProcessor(processingEnvironment: ProcessingEnvironment, private val outputDirectory: File) {
+class BeagleWidgetBindingHandler(processingEnvironment: ProcessingEnvironment, private val outputDirectory: File) {
     companion object {
         const val SUFFIX = "Binding"
     }
@@ -38,7 +38,7 @@ class BeagleWidgetBindingProcessor(processingEnvironment: ProcessingEnvironment,
     private val elementUtils = processingEnvironment.elementUtils
     private val typeUtils = processingEnvironment.typeUtils
 
-    fun process(element: TypeElement) {
+    fun handle(element: TypeElement) {
         FileSpec.get(this.elementUtils.getPackageAsString(element), this.createBindingClass(element))
             .writeTo(this.outputDirectory)
     }
