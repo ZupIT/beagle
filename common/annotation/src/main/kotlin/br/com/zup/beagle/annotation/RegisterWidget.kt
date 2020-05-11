@@ -18,4 +18,12 @@ package br.com.zup.beagle.annotation
 
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.RUNTIME)
+/**
+ * Annotates a class that register a new widget.
+ * # Example: #
+ * ```
+ *  @RegisterWidget
+ *  class MyWidget : Widget()
+ * ```
+ */
 annotation class RegisterWidget

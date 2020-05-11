@@ -1,3 +1,5 @@
+apply plugin: 'org.jetbrains.dokka'
+
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,27 +16,11 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.ui
-
-import br.com.zup.beagle.action.Action
-import br.com.zup.beagle.analytics.ClickEvent
-import br.com.zup.beagle.analytics.TouchableAnalytics
-import br.com.zup.beagle.widget.Widget
-
 /**
- * Example of a class comment.
- *
- * @param text: Example of a param comment.
+ * See https://github.com/Kotlin/dokka
  */
-data class Button(
-    /**
-     * Example of a property comment.
-     */
-    val text: String,
-    val style: String? = null,
-    /**
-     * Example of a property two comment.
-     */
-    val action: Action? = null,
-    override val clickAnalyticsEvent: ClickEvent? = null
-) : Widget(), TouchableAnalytics
+dokka {
+   // moduleName = "$rootProject.name"
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/javadoc"
+}
