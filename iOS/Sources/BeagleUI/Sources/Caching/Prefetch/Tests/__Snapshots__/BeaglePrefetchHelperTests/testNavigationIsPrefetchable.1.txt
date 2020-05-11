@@ -1,24 +1,28 @@
-  Navigate.openDeepLink(DeepLinkNavigation(path: "path", data: nil, component: nil))  -->  NULL 
+  Navigate.openNativeRoute(DeepLinkNavigation(path: "path", data: nil, component: nil, shouldResetApplication: false))  -->  NULL 
 
-  Navigate.openDeepLink(DeepLinkNavigation(path: "path", data: Optional(["data": "value"]), component: nil))  -->  NULL 
+  Navigate.openNativeRoute(DeepLinkNavigation(path: "path", data: Optional(["data": "value"]), component: nil, shouldResetApplication: false))  -->  NULL 
 
-  Navigate.openDeepLink(DeepLinkNavigation(path: "path", data: nil, component: Optional(BeagleUI.Container(children: [], id: nil, flex: nil, appearance: nil, accessibility: nil))))  -->  NULL 
+  Navigate.openNativeRoute(DeepLinkNavigation(path: "path", data: nil, component: Optional(BeagleUI.Container(children: [], id: nil, flex: nil, appearance: nil, accessibility: nil)), shouldResetApplication: false))  -->  NULL 
 
-  Navigate.addView(NewPath(path: "path", shouldPrefetch: true, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: true, fallback: nil) 
+  Navigate.resetApplication(NewPath(path: "path", shouldPrefetch: true, fallback: nil)  -->  NewPath(path: "path", shouldPrefetch: true, fallback: nil) 
 
-  Navigate.addView(NewPath(path: "path", shouldPrefetch: false, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: false, fallback: nil) 
+  Navigate.resetApplication(NewPath(path: "path", shouldPrefetch: false, fallback: nil)  -->  NewPath(path: "path", shouldPrefetch: false, fallback: nil) 
 
-  Navigate.presentView(NewPath(path: "path", shouldPrefetch: true, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: true, fallback: nil) 
+  Navigate.resetStack(NewPath(path: "path", shouldPrefetch: true, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: true, fallback: nil) 
 
-  Navigate.presentView(NewPath(path: "path", shouldPrefetch: false, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: false, fallback: nil) 
+  Navigate.resetStack(NewPath(path: "path", shouldPrefetch: false, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: false, fallback: nil) 
 
-  Navigate.swapView(NewPath(path: "path", shouldPrefetch: true, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: true, fallback: nil) 
+  Navigate.pushStack(NewPath(path: "path", shouldPrefetch: true, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: true, fallback: nil) 
 
-  Navigate.swapView(NewPath(path: "path", shouldPrefetch: false, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: false, fallback: nil) 
+  Navigate.pushStack(NewPath(path: "path", shouldPrefetch: false, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: false, fallback: nil) 
+
+  Navigate.pushView(NewPath(path: "path", shouldPrefetch: true, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: true, fallback: nil) 
+
+  Navigate.pushView(NewPath(path: "path", shouldPrefetch: false, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: false, fallback: nil) 
+
+  Navigate.popStack  -->  NULL 
 
   Navigate.popView  -->  NULL 
 
   Navigate.popToView(path)  -->  NULL 
-
-  Navigate.finishView  -->  NULL 
 

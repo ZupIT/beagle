@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,22 +16,41 @@
  */
 
 import XCTest
+import SnapshotTesting
 @testable import BeagleUI
 
-final class SpacerTests: XCTestCase {
-    
-    func test_toView_shouldReturnTheExpectedView() {
+class URLOpenerTests: XCTestCase {
+
+    func test_invalidURLPath_shouldLogError() {
+
         // Given
-        let dependencies = BeagleScreenDependencies()
-        let spacer = Spacer(1.0)
-    
+        let mockedLogger = LoggerMocked()
+        let dependencies = BeagleDependencies()
+        dependencies.logger = mockedLogger
+        let opener = URLOpenerDefault(dependencies: dependencies)
+
         // When
-        let view = spacer.toView(context: BeagleContextDummy(), dependencies: dependencies)
-        view.backgroundColor = .blue
+        opener.tryToOpen(path: "")
 
         // Then
-        assertSnapshotImage(view, size: CGSize(width: 100, height: 100))
+        assertSnapshot(matching: mockedLogger.log, as: .description)
     }
+}
 
-    // TODO: make a test that actually have a space with something else
+class URLOpenerDumb: URLOpener {
+
+    var hasInvokedTryToOpen = false
+
+    func tryToOpen(path: String) {
+        hasInvokedTryToOpen = true
+    }
+}
+
+class LoggerMocked: BeagleLoggerType {
+
+    var log: LogType?
+
+    func log(_ log: LogType) {
+        self.log = log
+    }
 }

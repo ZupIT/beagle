@@ -24,6 +24,7 @@ final class BeaglePrefetchHelperTests: XCTestCase {
         var cacheManager: CacheManagerProtocol?
         let repository: Repository
     }
+
     private let decoder = ComponentDecoder()
     private let jsonData = """
     {
@@ -33,7 +34,7 @@ final class BeaglePrefetchHelperTests: XCTestCase {
         "backgroundColor": "#4000FFFF"
       }
     }
-    """.data(using: .utf8)!
+    """.data(using: .utf8) ?? Data()
     
     func testPrefetchAndDequeue() {
         guard let remoteComponent = decodeComponent(from: jsonData) else {
@@ -81,22 +82,25 @@ final class BeaglePrefetchHelperTests: XCTestCase {
         let screen = Container(children: [])
 
         let actions: [Navigate] = [
-            .openDeepLink(.init(path: path, data: nil)),
-            .openDeepLink(.init(path: path, data: data)),
-            .openDeepLink(.init(path: path, component: screen)),
+            .openNativeRoute(.init(path: path, data: nil)),
+            .openNativeRoute(.init(path: path, data: data)),
+            .openNativeRoute(.init(path: path, component: screen)),
 
-            .addView(.init(path: path, shouldPrefetch: true)),
-            .addView(.init(path: path, shouldPrefetch: false)),
-            
-            .presentView(.init(path: path, shouldPrefetch: true)),
-            .presentView(.init(path: path, shouldPrefetch: false)),
-            
-            .swapView(.init(path: path, shouldPrefetch: true)),
-            .swapView(.init(path: path, shouldPrefetch: false)),
-            
+            .resetApplication(.init(path: path, shouldPrefetch: true)),
+            .resetApplication(.init(path: path, shouldPrefetch: false)),
+
+            .resetStack(.init(path: path, shouldPrefetch: true)),
+            .resetStack(.init(path: path, shouldPrefetch: false)),
+
+            .pushStack(.init(path: path, shouldPrefetch: true)),
+            .pushStack(.init(path: path, shouldPrefetch: false)),
+
+            .pushView(.init(path: path, shouldPrefetch: true)),
+            .pushView(.init(path: path, shouldPrefetch: false)),
+
+            .popStack,
             .popView,
-            .popToView(path),
-            .finishView
+            .popToView(path)
         ]
 
         let bools = actions.map { $0.newPath }

@@ -1,7 +1,7 @@
 ▿ Button
   - accessibility: Optional<Accessibility>.none
   ▿ action: Optional<Action>
-    - some: Navigate.finishView
+    - some: Navigate.popStack
   ▿ appearance: Optional<Appearance>
     ▿ some: Appearance
       ▿ backgroundColor: Optional<String>

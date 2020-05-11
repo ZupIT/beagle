@@ -25,12 +25,13 @@ final class NavigateTests: XCTestCase {
         let paths = ["path", nil]
         let datas = [ ["data": ""], nil]
         let shouldPrefetch = [true, false]
+        let shouldResetApplication = [true, false]
         var str = ""
 
         // swiftlint:disable closure_end_indentation
-        types.forEach { t in paths.forEach { p in datas.forEach { d in shouldPrefetch.forEach { s in
-            str += mapEntityToActionDescription(type: t, path: p, data: d, shouldPrefetch: s)
-        }}}}
+        types.forEach { t in paths.forEach { p in datas.forEach { d in shouldPrefetch.forEach { s in shouldResetApplication.forEach { sr in
+            str += mapEntityToActionDescription(type: t, path: p, data: d, shouldPrefetch: s, shouldResetApplication: sr)
+        }}}}}
 
         assertSnapshot(matching: str, as: .description)
     }
@@ -39,9 +40,10 @@ final class NavigateTests: XCTestCase {
         type: NavigateEntity.NavigationType,
         path: String?,
         data: [String: String]?,
-        shouldPrefetch: Bool
+        shouldPrefetch: Bool,
+        shouldResetApplication: Bool
     ) -> String {
-        let entity = NavigateEntity(type: type, path: path, shouldPrefetch: shouldPrefetch, screen: nil, data: data)
+        let entity = NavigateEntity(type: type, path: path, shouldPrefetch: shouldPrefetch, screen: nil, data: data, shouldResetApplication: shouldResetApplication)
         let pathDescription = path == nil ? "noPath" : "withPath"
         let dataDescription = data == nil ? "noData" : "withData"
 

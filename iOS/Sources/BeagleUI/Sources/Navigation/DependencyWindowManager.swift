@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,23 +15,25 @@
  * limitations under the License.
  */
 
-import XCTest
-@testable import BeagleUI
+import UIKit
 
-final class SpacerTests: XCTestCase {
-    
-    func test_toView_shouldReturnTheExpectedView() {
-        // Given
-        let dependencies = BeagleScreenDependencies()
-        let spacer = Spacer(1.0)
-    
-        // When
-        let view = spacer.toView(context: BeagleContextDummy(), dependencies: dependencies)
-        view.backgroundColor = .blue
+public protocol DependencyWindowManager {
+    var windowManager: WindowManager { get }
+}
 
-        // Then
-        assertSnapshotImage(view, size: CGSize(width: 100, height: 100))
+public protocol WindowProtocol {
+    func replace(rootViewController viewController: UIViewController, animated: Bool, completion: ((Bool) -> Void)?)
+}
+
+public protocol WindowManager {
+    var window: WindowProtocol? { get }
+}
+
+/// This class is responsible to  manage a Window.
+public final class WindowManagerDefault: WindowManager {
+
+    public var window: WindowProtocol? {
+        return UIApplication.shared.keyWindow
     }
 
-    // TODO: make a test that actually have a space with something else
 }

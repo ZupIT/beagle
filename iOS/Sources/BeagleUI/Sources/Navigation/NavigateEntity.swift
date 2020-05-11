@@ -23,6 +23,7 @@ extension Navigate: Decodable {
         case shouldPrefetch
         case screen
         case data
+        case shouldResetApplication
     }
 
     public init(from decoder: Decoder) throws {
@@ -32,7 +33,15 @@ extension Navigate: Decodable {
         let shouldPrefetch = try container.decodeIfPresent(Bool.self, forKey: .shouldPrefetch)
         let screen = try container.decodeIfPresent(ScreenComponent.self, forKey: .screen)
         let data = try container.decodeIfPresent([String: String].self, forKey: .data)
-        self = try NavigateEntity(type: type, path: path, shouldPrefetch: shouldPrefetch, screen: screen, data: data).mapToUIModel()
+        let shouldResetApplication = try container.decodeIfPresent(Bool.self, forKey: .shouldResetApplication)
+        self = try NavigateEntity(
+            type: type,
+            path: path,
+            shouldPrefetch: shouldPrefetch,
+            screen: screen,
+            data: data,
+            shouldResetApplication: shouldResetApplication
+        ).mapToUIModel()
     }
 }
 
@@ -42,15 +51,18 @@ struct NavigateEntity {
     let shouldPrefetch: Bool?
     let screen: ScreenComponent?
     let data: [String: String]?
+    let shouldResetApplication: Bool?
 
     enum NavigationType: String, Decodable, CaseIterable {
-        case openDeepLink = "OPEN_DEEP_LINK"
-        case swapView = "SWAP_VIEW"
-        case addView = "ADD_VIEW"
-        case finishView = "FINISH_VIEW"
-        case popView = "POP_VIEW"
-        case popToView = "POP_TO_VIEW"
-        case presentView = "PRESENT_VIEW"
+        case openExternalURL    = "OPEN_EXTERNAL_URL"
+        case openNativeRoute    = "OPEN_NATIVE_ROUTE"
+        case resetApplication   = "RESET_APPLICATION"
+        case resetStack         = "RESET_STACK"
+        case pushStack          = "PUSH_STACK"
+        case popStack           = "POP_STACK"
+        case pushView           = "PUSH_VIEW"
+        case popView            = "POP_VIEW"
+        case popToView          = "POP_TO_VIEW"
     }
 
     enum Destination {
@@ -68,36 +80,48 @@ struct NavigateEntity {
             let path = try usePath()
             return .popToView(path)
 
-        case .openDeepLink:
+        case .openExternalURL:
             let path = try usePath()
-            return .openDeepLink(.init(path: path, data: data))
+            return .openExternalURL(path)
 
-        case .swapView:
+        case .openNativeRoute:
+            let path = try usePath()
+            return .openNativeRoute(.init(path: path, data: data, shouldResetApplication: shouldResetApplication))
+
+        case .resetApplication:
             switch try destination() {
             case .declarative(let screen):
-                return .swapScreen(screen)
+                return .resetApplicationScreen(screen)
             case .remote(let newPath):
-                return .swapView(newPath)
+                return .resetApplication(newPath)
             }
 
-        case .addView:
+        case .resetStack:
             switch try destination() {
             case .declarative(let screen):
-                return .addScreen(screen)
+                return .resetStackScreen(screen)
             case .remote(let newPath):
-                return .addView(newPath)
+                return .resetStack(newPath)
             }
 
-        case .presentView:
+        case .pushView:
             switch try destination() {
             case .declarative(let screen):
-                return .presentScreen(screen)
+                return .pushScreen(screen)
             case .remote(let newPath):
-                return .presentView(newPath)
+                return .pushView(newPath)
             }
 
-        case .finishView:
-            return .finishView
+        case .pushStack:
+            switch try destination() {
+            case .declarative(let screen):
+                return .pushStackScreen(screen)
+            case .remote(let newPath):
+                return .pushStack(newPath)
+            }
+
+        case .popStack:
+            return .popStack
 
         case .popView:
             return .popView

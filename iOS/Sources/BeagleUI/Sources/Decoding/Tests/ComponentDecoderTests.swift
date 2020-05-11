@@ -83,13 +83,13 @@ final class ComponentDecoderTests: XCTestCase {
         let jsonData = """
         {
             "_beagleType_": "beagle:action:navigate",
-            "type": "FINISH_VIEW"
+            "type": "POP_STACK"
         }
         """.data(using: .utf8)!
 
         let action = try sut.decodeAction(from: jsonData)
 
-        guard case Navigate.finishView = action else {
+        guard case Navigate.popStack = action else {
             XCTFail("decoding failed"); return
         }
     }

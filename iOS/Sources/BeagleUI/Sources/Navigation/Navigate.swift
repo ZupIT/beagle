@@ -16,19 +16,18 @@
 
 /// Action to represent a screen transition
 public enum Navigate: Action {
-    
-    case openDeepLink(DeepLinkNavigation)
-    
-    case swapScreen(Screen)
-    case swapView(NewPath)
-    
-    case addScreen(Screen)
-    case addView(NewPath)
-    
-    case presentScreen(Screen)
-    case presentView(NewPath)
 
-    case finishView
+    case openExternalURL(Path)
+    case openNativeRoute(DeepLinkNavigation)
+    case resetApplicationScreen(Screen)
+    case resetApplication(NewPath)
+    case resetStackScreen(Screen)
+    case resetStack(NewPath)
+    case pushStackScreen(Screen)
+    case pushStack(NewPath)
+    case popStack
+    case pushScreen(Screen)
+    case pushView(NewPath)
     case popView
     case popToView(Path)
 
@@ -51,20 +50,27 @@ public enum Navigate: Action {
         public let path: Path
         public let data: Data?
         public let component: ServerDrivenComponent?
+        public let shouldResetApplication: Bool
 
-        public init(path: Path, data: Data? = nil, component: ServerDrivenComponent? = nil) {
+        public init(
+            path: Path,
+            data: Data? = nil,
+            component: ServerDrivenComponent? = nil,
+            shouldResetApplication reset: Bool? = false
+        ) {
             self.path = path
             self.data = data
             self.component = component
+            self.shouldResetApplication = reset ?? false
         }
     }
 
     var newPath: NewPath? {
         switch self {
-        case .addView(let newPath), .swapView(let newPath), .presentView(let newPath):
+        case .pushView(let newPath), .resetApplication(let newPath), .resetStack(let newPath), .pushStack(let newPath):
             return newPath
 
-        case .swapScreen, .addScreen, .presentScreen, .finishView, .popView, .popToView, .openDeepLink:
+        case .resetStackScreen, .resetApplicationScreen, .pushScreen, .pushStackScreen, .popStack, .popView, .popToView, .openNativeRoute, .openExternalURL:
             return nil
         }
     }
@@ -75,18 +81,20 @@ extension Navigate: CustomStringConvertible {
     public var description: String {
         let name: String
         switch self {
-        case .openDeepLink(let link): name = "openDeepLink(\(link))"
-        case .swapScreen(let screen): name = "swapScreen(\(screen))"
-        case .swapView(let path): name = "swapView(\(path))"
-        case .addScreen(let screen): name = "addScreen(\(screen))"
-        case .addView(let path): name = "addView(\(path))"
-        case .presentScreen(let screen): name = "presentScreen(\(screen))"
-        case .presentView(let path): name = "presentView(\(path))"
-        case .finishView: name = "finishView"
-        case .popView: name = "popView"
-        case .popToView(let path): name = "popToView(\(path))"
+        case .openExternalURL(let path):            name = "openExternalURL(\(path))"
+        case .openNativeRoute(let link):            name = "openNativeRoute(\(link))"
+        case .resetApplicationScreen(let screen):   name = "resetApplicationScreen(\(screen)"
+        case .resetApplication(let path):           name = "resetApplication(\(path)"
+        case .resetStackScreen(let screen):         name = "resetStackScreen(\(screen))"
+        case .resetStack(let path):                 name = "resetStack(\(path))"
+        case .pushStackScreen(let screen):          name = "pushStackScreen(\(screen))"
+        case .pushStack(let path):                  name = "pushStack(\(path))"
+        case .popStack:                             name = "popStack"
+        case .pushScreen(let screen):               name = "pushScreen(\(screen))"
+        case .pushView(let path):                   name = "pushView(\(path))"
+        case .popView:                              name = "popView"
+        case .popToView(let path):                  name = "popToView(\(path))"
         }
-
-        return "Navigate.\(name)"
+        return "\(String(describing: type(of: self))).\(name)"
     }
 }

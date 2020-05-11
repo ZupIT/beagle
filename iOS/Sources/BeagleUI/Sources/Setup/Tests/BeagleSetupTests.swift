@@ -42,6 +42,8 @@ final class BeagleSetupTests: XCTestCase {
         dep.decoder = ComponentDecodingDummy()
         dep.cacheManager = nil
         dep.logger = BeagleLoggerDumb()
+        dep.windowManager = WindowManagerDumb()
+        dep.opener = URLOpenerDumb()
 
         assertSnapshot(matching: dep, as: .dump)
     }

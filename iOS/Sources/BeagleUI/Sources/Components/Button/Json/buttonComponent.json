@@ -3,7 +3,7 @@
   "text": "button",
   "action": {
     "_beagleType_": "beagle:action:navigate",
-    "type": "FINISH_VIEW"
+    "type": "POP_STACK"
   },
   "appearance": {
     "backgroundColor": "#800000FF",

@@ -20,7 +20,12 @@
 		57A809D5243E5F0C0034D180 /* CacheDiskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A809D4243E5F0C0034D180 /* CacheDiskManager.swift */; };
 		57CBF5AA243F9EF300873997 /* CacheManagerDefaultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CBF5A9243F9EF300873997 /* CacheManagerDefaultTests.swift */; };
 		76191AA9241AC44C00A04C29 /* declarativeText1.json in Resources */ = {isa = PBXBuildFile; fileRef = 76191AA7241ABD8800A04C29 /* declarativeText1.json */; };
+		7653859B24697718008DDB79 /* DependencyURLOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7653859A24697718008DDB79 /* DependencyURLOpener.swift */; };
 		76BB91A5241AC6A800B9A239 /* declarativeText2.json in Resources */ = {isa = PBXBuildFile; fileRef = 76BB91A3241AC6A000B9A239 /* declarativeText2.json */; };
+		76BD6F5C2469997900CF082B /* WindowManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BD6F5B2469997900CF082B /* WindowManagerTests.swift */; };
+		76BD6F5E2469998500CF082B /* URLOpenerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BD6F5D2469998500CF082B /* URLOpenerTests.swift */; };
+		76E0EF612465E0BE00AE1BFB /* DependencyWindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E0EF602465E0BE00AE1BFB /* DependencyWindowManager.swift */; };
+		76E0EF632465E56100AE1BFB /* UIWindow+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E0EF622465E56100AE1BFB /* UIWindow+Extension.swift */; };
 		7C42EAF624228FC9007334A0 /* FormInputHidden.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C42EAF524228FC9007334A0 /* FormInputHidden.swift */; };
 		7C42EAF824228FE3007334A0 /* FormInputComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C42EAF724228FE3007334A0 /* FormInputComponent.swift */; };
 		7CDF84732416AE0D00234F40 /* UnitValueExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDF84712416ADCB00234F40 /* UnitValueExtensionTests.swift */; };
@@ -249,7 +254,12 @@
 		57A809D4243E5F0C0034D180 /* CacheDiskManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheDiskManager.swift; sourceTree = "<group>"; };
 		57CBF5A9243F9EF300873997 /* CacheManagerDefaultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManagerDefaultTests.swift; sourceTree = "<group>"; };
 		76191AA7241ABD8800A04C29 /* declarativeText1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = declarativeText1.json; sourceTree = "<group>"; };
+		7653859A24697718008DDB79 /* DependencyURLOpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyURLOpener.swift; sourceTree = "<group>"; };
 		76BB91A3241AC6A000B9A239 /* declarativeText2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = declarativeText2.json; sourceTree = "<group>"; };
+		76BD6F5B2469997900CF082B /* WindowManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManagerTests.swift; sourceTree = "<group>"; };
+		76BD6F5D2469998500CF082B /* URLOpenerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLOpenerTests.swift; sourceTree = "<group>"; };
+		76E0EF602465E0BE00AE1BFB /* DependencyWindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyWindowManager.swift; sourceTree = "<group>"; };
+		76E0EF622465E56100AE1BFB /* UIWindow+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Extension.swift"; sourceTree = "<group>"; };
 		7C03910724250772003E6FCD /* BeagleMessageLogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleMessageLogs.swift; sourceTree = "<group>"; };
 		7C03910924250FC6003E6FCD /* BeagleLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleLogger.swift; sourceTree = "<group>"; };
 		7C42EAF524228FC9007334A0 /* FormInputHidden.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormInputHidden.swift; sourceTree = "<group>"; };
@@ -942,11 +952,16 @@
 		C829CE9A23B12D4E001B7225 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
+				76E0EF622465E56100AE1BFB /* UIWindow+Extension.swift */,
+				76E0EF602465E0BE00AE1BFB /* DependencyWindowManager.swift */,
+				7653859A24697718008DDB79 /* DependencyURLOpener.swift */,
 				E7716B9C2375E9FF006E26F2 /* BeagleDeepLinkHandler.swift */,
 				A0F45497237B87E800B146A1 /* BeagleNavigator.swift */,
 				E522376E237C3C3B00E555BB /* Navigate.swift */,
 				C896F8842433A65E00245968 /* NavigateEntity.swift */,
 				C829CEBB23B165D8001B7225 /* Tests */,
+				76BD6F5B2469997900CF082B /* WindowManagerTests.swift */,
+				76BD6F5D2469998500CF082B /* URLOpenerTests.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -1748,6 +1763,7 @@
 				C89E80A52397FFD500C2D0ED /* PageIndicator.swift in Sources */,
 				E5223783237C3CAF00E555BB /* FormInput.swift in Sources */,
 				9397F5D02357615F00054D42 /* FlexViewConfigurator.swift in Sources */,
+				7653859B24697718008DDB79 /* DependencyURLOpener.swift in Sources */,
 				C862606223B504850084A086 /* BeagleScreenViewModel.swift in Sources */,
 				C8605F6A23B5423100FD4C4F /* LayoutManager.swift in Sources */,
 				A0642DCF23969BDE0028AFF3 /* OnStateUpdatable.swift in Sources */,
@@ -1759,6 +1775,7 @@
 				E52236C423745CBB00E555BB /* NSObjectExtension.swift in Sources */,
 				C048EBDB242BD78500A24075 /* Analytics.swift in Sources */,
 				A068234C238430C500CEE57A /* ValidatorProvider.swift in Sources */,
+				76E0EF612465E0BE00AE1BFB /* DependencyWindowManager.swift in Sources */,
 				C85688BB2433C4A400DD8B60 /* BeagleMessageLogs.swift in Sources */,
 				E52236CF2374885600E555BB /* CollectionExtension.swift in Sources */,
 				C0479F57243272460040E30C /* AnalyticsGestureRecognizer.swift in Sources */,
@@ -1771,6 +1788,7 @@
 				5754314923F207F000EF0E5A /* CacheLRU.swift in Sources */,
 				A0451C6123BA3AC300F77398 /* Appearance.swift in Sources */,
 				E73107BC23A971B000188B3D /* BeaglePrefetchHelper.swift in Sources */,
+				76E0EF632465E56100AE1BFB /* UIWindow+Extension.swift in Sources */,
 				C831ADF82385A282009D72D9 /* PageView.swift in Sources */,
 				C85688BC2433C4A800DD8B60 /* BeagleLogger.swift in Sources */,
 				E531D6B42359FE19007EEBA7 /* UIView+AutoLayout.swift in Sources */,
@@ -1843,6 +1861,7 @@
 				C829CF0A23B195A0001B7225 /* YogaTranslatorTests.swift in Sources */,
 				C829CF2A23B197FB001B7225 /* RepositoryTests.swift in Sources */,
 				C85D9BA8238858B40075B6C0 /* PageViewTests.swift in Sources */,
+				76BD6F5E2469998500CF082B /* URLOpenerTests.swift in Sources */,
 				E531D6BC235A007C007EEBA7 /* UIView+LoadingTests.swift in Sources */,
 				5763889F244A563A00CDBD35 /* CacheDiskManagerTests.swift in Sources */,
 				C867CDE823EB50DB00EB5DD5 /* UrlRequestBuilderTest.swift in Sources */,
@@ -1860,6 +1879,7 @@
 				E52236C623745CDC00E555BB /* NSObjectExtensionTests.swift in Sources */,
 				A0F4549A237C1B0F00B146A1 /* BeagleNavigatorTests.swift in Sources */,
 				E5A6F4AD2358A76F008906F8 /* XCTestCase+FatalError.swift in Sources */,
+				76BD6F5C2469997900CF082B /* WindowManagerTests.swift in Sources */,
 				C86E7C172395602400D6FEDB /* ComponentFromJsonFile.swift in Sources */,
 				C06B1E2E23FAC85E003912CF /* AccessibilityTest.swift in Sources */,
 				A0451C7B23BE205000F77398 /* UIView+AppearanceTests.swift in Sources */,

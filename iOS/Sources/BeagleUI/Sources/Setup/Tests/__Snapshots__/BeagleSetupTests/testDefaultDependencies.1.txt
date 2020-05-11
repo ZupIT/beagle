@@ -108,6 +108,9 @@
     ▿ httpRequestBuilder: HttpRequestBuilder
       - additionalHeaders: 0 key/value pairs
     - session: <__NSURLSessionLocal>
+  ▿ opener: URLOpenerDefault
+    ▿ dependencies: InnerDependenciesResolver
+      - container: (Function)
   ▿ preFetchHelper: BeaglePreFetchHelper
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
@@ -124,3 +127,4 @@
     - baseUrl: Optional<URL>.none
   - validatorProvider: Optional<ValidatorProvider>.none
   - viewConfigurator: (Function)
+  - windowManager: WindowManagerDefault
