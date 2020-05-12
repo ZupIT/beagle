@@ -12,7 +12,7 @@ extension AnyDecodable: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if container.decodeNil() {
-            self.init(())
+            self.init(()) // Void
         } else if let bool = try? container.decode(Bool.self) {
             self.init(bool)
         } else if let int = try? container.decode(Int.self) {
@@ -70,11 +70,42 @@ struct Unknown: Component {
     }
 }
 
+struct Context: Decodable {
+    let id: String
+    let value: Any
+    
+    enum Key: String, CodingKey {
+        case id
+        case value
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: Key.self)
+        self.id = try container.decode(String.self, forKey: .id)
+        self.value = try container.decode(AnyDecodable.self, forKey: .value).value
+    }
+}
+
+enum ValueExpression<T: Decodable>: Decodable {
+    case value(T)
+    case expression(Expression)
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let expression = try? container.decode(Expression.self) {
+            self = .expression(expression)
+        } else if let value = try? container.decode(T.self) {
+            self = .value(value)
+        } else {
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "ValueExpression cannot be decoded")
+        }
+    }
+}
+
 struct A: Component {
     let a: [Component]
     
-    // TODO: move to Component
-    let context: Any
+    let context: Context
     
     enum Key: String, CodingKey {
         case a
@@ -85,7 +116,7 @@ struct A: Component {
         let container = try decoder.container(keyedBy: Key.self)
         let a = try container.decode([Container].self, forKey: .a)
         self.a = a.map { $0.value ?? Unknown() }
-        self.context = try container.decode(AnyDecodable.self, forKey: .context).value
+        self.context = try container.decode(Context.self, forKey: .context)
     }
     
     func render() -> UIView {
@@ -97,8 +128,21 @@ struct A: Component {
         stack.spacing = 5
         stack.translatesAutoresizingMaskIntoConstraints = false
         
+        // config context
+        // adding all context to view
+        stack.contextMap = [context.id: Observable(context)]
+        
         a.forEach {
-            stack.addArrangedSubview($0.render())
+            let view = $0.render()
+            stack.addArrangedSubview(view)
+            
+            if let label = view as? UILabel, let c = $0 as? C {
+                switch c.c {
+                case .expression(let exp):
+                    label.text = label.getValue(for: exp)
+                default: () // nop
+                }
+            }
         }
         
         return stack
@@ -129,11 +173,17 @@ struct B: Component {
 }
 
 struct C: Component {
-    let c: String
+    let c: ValueExpression<String>
     
     func render() -> UIView {
         let label = UILabel()
-        label.text = c
+        switch c {
+        case .expression(let expression):
+//            label.text = "exp"
+            label.text = label.getValue(for: expression)
+        case .value(let value):
+            label.text = "\(value)"
+        }
         label.sizeToFit()
         return label
     }
@@ -145,12 +195,13 @@ let jsonData = """
 {
     "type": "component.a",
     "context": {
-        "a": [ { "b": "valor b" } ]
+        "id": "myContext",
+        "value": [ { "b": "valor b" } ]
     },
     "a": [
         {
             "type": "component.c",
-            "c": "#{a.b}"
+            "c": "${myContext[0].b}"
         },
         {
             "type": "component.c",
@@ -184,6 +235,15 @@ containerView.addConstraints(
     metrics: nil,
     views: ["rootView": rootView])
 )
+
+//if let label = containerView.subviews[0].subviews[0] as? UILabel {
+//    guard let expression = Expression(rawValue: "${myContext[0].b}") else { fatalError() }
+//    label.text = label.getValue(for: expression)
+//    label.setNeedsLayout()
+//    label.setNeedsDisplay()
+//}
+//print(containerView.value(forKey: "recursiveDescription")!)
+
 PlaygroundPage.current.liveView = containerView
 
 struct Expression {
@@ -233,9 +293,18 @@ struct Expression {
             return try evaluate(expression: Array(expression.dropFirst()), model: value, context: newContext)
         }
     }
+    
+    func getContext() -> String? {
+        switch self.expression.first {
+        case .property(let context):
+            return context
+        default:
+            return nil
+        }
+    }
 }
 
-extension Expression: RawRepresentable {
+extension Expression: RawRepresentable, Decodable {
 
     static let expression = #"^\$\{(\w+(?:\[\d+\])*(?:\.\w+(?:\[\d+\])*)*)\}$"#
     static let token = #"\w+"#
@@ -284,7 +353,6 @@ extension Expression: RawRepresentable {
         expression += "}"
         return expression
     }
-    
 }
 
 // Utils
@@ -321,53 +389,114 @@ extension String {
     }
 }
 
-print("------------------------------------------")
-
-let expr1 = Expression(expression: [.property("a"), .arrayItem(0), .property("b")])
-let expr2 = Expression(rawValue: "${a[0].b}")
-
-if let a = unrappedObject as? A, let expr2 = expr2 {
-    print("context: \(a.context)")
-    print("expr1: \(expr1)")
-    print("expr1RawValue: \(expr1.rawValue)")
-    print("expr2: \(expr2)")
-    print("expr2RawValue: \(expr2.rawValue)")
-    print("------------------------------------------")
-
-    let eval1 = try expr1.evaluate(model: a.context)
-    let eval2 = try expr2.evaluate(model: a.context)
-    print("evalexpr1: \(eval1)")
-    print("evalexpr2: \(eval2)")
-}
-
-print("------------------------------------------")
-print("keypath sample")
+//print("------------------------------------------")
+//print("keypath sample")
 // if the data were not dynamic (AnyType) maybe we could use keypath to represent expressions
 // transform expression -> keypath
-struct S1 {
-    let p: String
+//struct S1 {
+//    let p: String
+//}
+//
+//struct S2 {
+//    let p: Int
+//}
+//
+//struct S3 {
+//    let s1s: [S1]
+//    let s2: S2
+//}
+//
+//// ${context.s1s[0].p}
+//let keypath = \S3.s1s[0].p
+//// ${context.s2s.p}
+//let keypath2 = \S3.s2.p
+//
+//// we get evaluation for free
+//let sample = S3(s1s: [S1(p: "s1 p")], s2: S2(p: 2))
+//
+//print((get(keypath))(sample))
+//print((get(keypath2))(sample))
+//
+//func get<Root, Value>(_ kp: KeyPath<Root, Value>) -> (Root) -> Value {
+//  { $0[keyPath: kp] }
+//}
+
+protocol ObserverProtocol {
+    var id : String { get }
 }
 
-struct S2 {
-    let p: Int
+class Observable<T> {
+    typealias CompletionHandler = ((T) -> Void)
+    var value : T {
+        didSet {
+            self.notifyObservers(self.observers)
+        }
+    }
+    var observers : [String : CompletionHandler] = [:]
+    init(_ value: T) {
+        self.value = value
+    }
+    func addObserver(_ observer: ObserverProtocol, completion: @escaping CompletionHandler) {
+        self.observers[observer.id] = completion
+    }
+    func removeObserver(_ observer: ObserverProtocol) {
+        self.observers.removeValue(forKey: observer.id)
+    }
+    func notifyObservers(_ observers: [String : CompletionHandler]) {
+        observers.forEach({ $0.value(value) })
+    }
+    deinit {
+        observers.removeAll()
+    }
 }
 
-struct S3 {
-    let s1s: [S1]
-    let s2: S2
+extension UIView: ObserverProtocol {
+    var id: String {
+        get {
+            self.accessibilityIdentifier ?? ""
+        }
+    }
 }
 
-// ${context.s1s[0].p}
-let keypath = \S3.s1s[0].p
-// ${context.s2s.p}
-let keypath2 = \S3.s2.p
-
-// we get evaluation for free
-let sample = S3(s1s: [S1(p: "s1 p")], s2: S2(p: 2))
-
-print((get(keypath))(sample))
-print((get(keypath2))(sample))
-
-func get<Root, Value>(_ kp: KeyPath<Root, Value>) -> (Root) -> Value {
-  { $0[keyPath: kp] }
+extension UIView {
+    static var contextMapKey = "contextMapKey"
+    private class ObjectWrapper<T> {
+        let object: T?
+        init(_ object: T?) {
+            self.object = object
+        }
+    }
+    var contextMap: [String: Observable<Context>]? {
+        get {
+            let contextMap: [String: Observable<Context>]? = (objc_getAssociatedObject(self, &UIView.contextMapKey) as? ObjectWrapper)?.object
+            print("getContextMap: \(contextMap), object: \(self)")
+            return contextMap
+        }
+        set {
+            print("setContextMap: \(newValue), object: \(self)")
+            objc_setAssociatedObject(self, &UIView.contextMapKey, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    func getValue<T>(for expression: Expression) -> T? {
+        // change to config binding
+        
+        guard let contextMap = self.contextMap else {
+            print("parent: \(self.superview)")
+            guard let parent = self.superview else {
+                return nil
+                
+            }
+            return parent.getValue(for: expression)
+        }
+        guard let contextId = expression.getContext(), let context = contextMap[contextId] else {
+//            print("setContextMap: \(newValue), object: \(self)")
+            guard let parent = self.superview else {
+                return nil
+            }
+            return parent.getValue(for: expression)
+        }
+        let newExp = Expression(expression: Array<Expression.Node>(expression.expression.dropFirst()))
+        return try? newExp.evaluate(model: context.value.value) as? T
+    }
 }
