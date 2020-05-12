@@ -19,8 +19,26 @@ package br.com.zup.beagle.ext
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
 
+/**
+ * convert the int to value based in platform, like android this represent dp.
+ * @return the unit value for real
+ */
 fun Int.unitReal() = UnitValue(this.toDouble(), UnitType.REAL)
+
+/**
+ * convert the value based in percentage.
+ * @return the unit value for percent
+ */
 fun Int.unitPercent() = UnitValue(this.toDouble(), UnitType.PERCENT)
 
+/**
+ * convert the int to value based in platform, like android this represent dp.
+ * @return the unit value for real
+ */
 fun Double.unitReal() = UnitValue(this, UnitType.REAL)
+
+/**
+ * convert the value based in percentage.
+ * @return the unit value for percent
+ */
 fun Double.unitPercent() = UnitValue(this, UnitType.PERCENT)

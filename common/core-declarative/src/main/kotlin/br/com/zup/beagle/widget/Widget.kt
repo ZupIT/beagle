@@ -24,6 +24,10 @@ import br.com.zup.beagle.core.FlexComponent
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.widget.core.Flex
 
+/**
+ * Base of all widgets
+ */
+
 abstract class Widget : FlexComponent, AppearanceComponent, AccessibilityComponent,
     IdentifierComponent {
 
@@ -36,21 +40,37 @@ abstract class Widget : FlexComponent, AppearanceComponent, AccessibilityCompone
     final override var accessibility: Accessibility? = null
         private set
 
+    /**
+     * Add an identifier to this widget.
+     * @return the current widget
+     */
     open fun setId(id: String): Widget {
         this.id = id
         return this
     }
 
+    /**
+     * Apply the layout component.
+     * @return the current widget
+     */
     open fun applyFlex(flex: Flex): Widget {
         this.flex = flex
         return this
     }
 
+    /**
+     * Apply the appearance.
+     * @return the current widget
+     */
     open fun applyAppearance(appearance: Appearance): Widget {
         this.appearance = appearance
         return this
     }
 
+    /**
+     * Apply the accessibility .
+     * @return the current widget
+     */
     open fun applyAccessibility(accessibility: Accessibility): Widget {
         this.accessibility = accessibility
         return this
