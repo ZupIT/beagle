@@ -22,7 +22,7 @@ extension UIImageView {
         self.image = UIImage(named: named, in: bundle, compatibleWith: nil)
     }
     
-    func setRemoreImage(from url: String, context: BeagleContext, dependencies: RenderableDependencies) {
+    func setRemoteImage(from url: String, context: BeagleContext, dependencies: RenderableDependencies) {
         dependencies.repository.fetchImage(url: url, additionalData: nil) { [weak self, weak context] result in
             guard let self = self else { return }
             guard case .success(let data) = result else { return }
