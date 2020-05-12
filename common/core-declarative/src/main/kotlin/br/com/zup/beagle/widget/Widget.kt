@@ -26,8 +26,8 @@ import br.com.zup.beagle.widget.core.Flex
 
 /**
  * Base of all widgets
+ *
  */
-
 abstract class Widget : FlexComponent, AppearanceComponent, AccessibilityComponent,
     IdentifierComponent {
 

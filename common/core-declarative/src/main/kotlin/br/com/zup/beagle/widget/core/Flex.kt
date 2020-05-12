@@ -149,6 +149,9 @@ enum class FlexDirection {
  * @property RTL
  */
 enum class Direction {
+    /**
+     *  Get direction from parent
+     */
     INHERIT,
 
     /**

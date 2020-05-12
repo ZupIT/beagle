@@ -22,19 +22,15 @@ import br.com.zup.beagle.analytics.TouchableAnalytics
 import br.com.zup.beagle.widget.Widget
 
 /**
- * Example of a class comment.
+ * Define a button natively using the server driven information received through Beagle
  *
- * @param text: Example of a param comment.
+ * @param text define the button text content.
+ * @param style reference a native style in your local styles file to be applied on this button.
+ * @param action define a specific action that this button triggers when clicked on.
  */
 data class Button(
-    /**
-     * Example of a property comment.
-     */
     val text: String,
     val style: String? = null,
-    /**
-     * Example of a property two comment.
-     */
     val action: Action? = null,
     override val clickAnalyticsEvent: ClickEvent? = null
 ) : Widget(), TouchableAnalytics

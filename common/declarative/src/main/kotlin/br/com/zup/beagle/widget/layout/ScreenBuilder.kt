@@ -16,6 +16,10 @@
 
 package br.com.zup.beagle.widget.layout
 
+/**
+ * Component that create a builder to screen
+ * @property build create a screen
+ */
 interface ScreenBuilder {
-    fun build() : Screen
+    fun build(): Screen
 }

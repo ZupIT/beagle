@@ -20,6 +20,13 @@ import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.pager.PageIndicatorComponent
 
+/**
+ *  The PageView component is a specialized container to hold pages (views) that will be displayed horizontally.
+ *
+ * @param pages define a List of components (views) that are contained on this PageView. Consider the
+ * @param pageIndicator defines in what page the PageView is currently on.
+ *
+ */
 data class PageView(
     val pages: List<ServerDrivenComponent>,
     val pageIndicator: PageIndicatorComponent? = null
