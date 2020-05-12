@@ -2,7 +2,6 @@ name: iOS PR Verification
 
 on:
   pull_request:
-    branches: [ master ]
     # TODO: remove this path selector when we have more integrated tests
     paths: 'iOS/**'
 
@@ -24,5 +23,7 @@ jobs:
       
       - name: execute Fastlane
         env:
+          GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: bundle exec fastlane ios pull_request_verification

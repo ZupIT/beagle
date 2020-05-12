@@ -27,10 +27,10 @@ import br.com.zup.beagle.widget.interfaces.WidgetState
 import br.com.zup.beagle.widget.state.Observable
 
 class FormValidatorController(
-    private val validatorHandler: ValidatorHandler? = BeagleEnvironment.beagleSdk.validatorHandler
+    private val validatorHandler: ValidatorHandler? = BeagleEnvironment.beagleSdk.validatorHandler,
+    private val formInputValidatorList: MutableList<FormInputValidator> = mutableListOf()
 ) {
 
-    var formInputValidatorList = mutableListOf<FormInputValidator>()
     var formSubmitView: View? = null
 
     private fun subscribeOnValidState(formInput: FormInput) {
@@ -69,7 +69,7 @@ class FormValidatorController(
 
     fun configFormInputList(formInput: FormInput) {
         val inputWidget: InputWidget = formInput.child
-        var isValid = false
+        var isValid = !(formInput.required ?: false)
         getValidator(formInput.validator)?.let {
             isValid = it.isValid(inputWidget.getValue(), formInput.child)
         }

@@ -2,7 +2,6 @@ name: Beagle Android Pull Request
 
 on:
    pull_request:
-     branches: [master]
      paths:
         - 'android/**'
 jobs:
@@ -15,6 +14,8 @@ jobs:
               run: bundle install
             - name: Run pr check
               env:
+                GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
+                GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
                 CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
               run: bundle exec fastlane android pull_request_verification
         
