@@ -85,15 +85,14 @@ end
 desc "Generate release notes"
 private_lane :release_notes do
   get_previous_tag = sh "bash ./get_previous_tag.sh"
-  changelog = changelog_from_git_commits(
-    between: [get_previous_tag, ENV["VERSION_DEPLOY"]],
-    merge_commit_filtering: "exclude_merges",
-    pretty: "%s - (%ae %aD)"
-  )
 
+  lane_context[SharedValues::RELEASE_ANALYZED] = true
+  lane_context[SharedValues::RELEASE_LAST_TAG_HASH] = get_previous_tag
+  lane_context[SharedValues::RELEASE_NEXT_VERSION] = ENV["VERSION_DEPLOY"]
+  changelog = conventional_changelog(display_title: false, display_links: false)
   "\nRelease notes #{ ENV["VERSION_DEPLOY"] }
-  \nChanges:
-  \n#{changelog}"
+   \nChanges:
+   \n#{changelog}"
 end
 
 

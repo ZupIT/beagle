@@ -15,11 +15,12 @@
  */
 
 /// Types of transitions between screens
-public struct FieldError: Decodable {
+public struct FieldError: Decodable, AutoInitiable {
     
     public let inputName: String
     public let message: String
-    
+
+// sourcery:inline:auto:FieldError.Init
     public init(
         inputName: String,
         message: String
@@ -27,6 +28,7 @@ public struct FieldError: Decodable {
         self.inputName = inputName
         self.message = message
     }
+// sourcery:end
 }
 
 /// Action to represent a form validation error

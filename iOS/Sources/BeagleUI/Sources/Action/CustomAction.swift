@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-
 import Foundation
 
 /// A custom action to be implemented by the application
-public struct CustomAction: Action {
+public struct CustomAction: Action, AutoInitiable {
     
     public let name: String
     public let data: [String: String]
-    
+
+// sourcery:inline:auto:CustomAction.Init
     public init(
         name: String,
         data: [String: String]
@@ -30,4 +30,5 @@ public struct CustomAction: Action {
         self.name = name
         self.data = data
     }
+// sourcery:end
 }

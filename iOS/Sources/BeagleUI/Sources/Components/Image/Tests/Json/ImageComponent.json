@@ -1,6 +1,7 @@
 {
   "_beagleType_": "beagle:component:Image",
-  "path": "test_image_square-x",
+  "name": "test_image_square-x",
+  "url": "",
   "typePathImage": "Local",
   "contentMode": "CENTER",
   "appearance": {

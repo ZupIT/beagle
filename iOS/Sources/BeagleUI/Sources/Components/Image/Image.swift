@@ -16,7 +16,7 @@
 
 import UIKit
 
-public struct Image: Widget {
+public struct Image: Widget, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
     
@@ -24,49 +24,33 @@ public struct Image: Widget {
     public let name: String?
     public let typePathImage: TypePathImage
     public let contentMode: ImageContentMode?
+    public var widgetProperties: WidgetProperties
     
-    public var id: String?
-    public let appearance: Appearance?
-    public let flex: Flex?
-    public let accessibility: Accessibility?
-    
-    // MARK: - Initialization
-    
+// sourcery:inline:auto:Image.Init
     public init(
         url: String,
         contentMode: ImageContentMode? = nil,
-        id: String? = nil,
-        appearance: Appearance? = nil,
-        flex: Flex? = nil,
-        accessibility: Accessibility? = nil
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.url = url
         self.name = nil
         self.typePathImage = .Network
         self.contentMode = contentMode
-        self.id = id
-        self.appearance = appearance
-        self.flex = flex
-        self.accessibility = accessibility
+        self.widgetProperties = widgetProperties
     }
     
     public init(
         name: String,
         contentMode: ImageContentMode? = nil,
-        id: String? = nil,
-        appearance: Appearance? = nil,
-        flex: Flex? = nil,
-        accessibility: Accessibility? = nil
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.url = nil
         self.name = name
         self.typePathImage = .Local
         self.contentMode = contentMode
-        self.id = id
-        self.appearance = appearance
-        self.flex = flex
-        self.accessibility = accessibility
+        self.widgetProperties = widgetProperties
     }
+// sourcery:end
 }
 
 extension Image: Renderable {
@@ -86,7 +70,7 @@ extension Image: Renderable {
             }
         case .Network:
             if let url = url {
-                image.setRemoreImage(from: url, context: context, dependencies: dependencies)
+                image.setRemoteImage(from: url, context: context, dependencies: dependencies)
             } else {
                 dependencies.logger.log(Log.image(.withoutURL))
             }
