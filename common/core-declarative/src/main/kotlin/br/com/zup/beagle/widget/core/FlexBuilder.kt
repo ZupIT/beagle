@@ -89,6 +89,26 @@ class FlexBuilder {
 
     fun margin(margin: EdgeValue) = this.apply { this.margin = margin }
 
+    fun size(
+        width: UnitValue? = null,
+        height: UnitValue? = null,
+        aspectRatio: Double? = null,
+        maxWidth: UnitValue? = null,
+        minWidth: UnitValue? = null,
+        maxHeight: UnitValue? = null,
+        minHeight: UnitValue? = null
+    ) = this.size(
+        Size(
+            width = width,
+            maxWidth = maxWidth,
+            minWidth = minWidth,
+            height = height,
+            maxHeight = maxHeight,
+            minHeight = minHeight,
+            aspectRatio = aspectRatio
+        )
+    )
+
     fun position(
         all: UnitValue? = null,
         top: UnitValue? = null,
@@ -112,7 +132,6 @@ class FlexBuilder {
             vertical = vertical
         )
     )
-
 
     fun padding(
         all: UnitValue? = null,
@@ -161,4 +180,5 @@ class FlexBuilder {
             end = end
         )
     )
+
 }
