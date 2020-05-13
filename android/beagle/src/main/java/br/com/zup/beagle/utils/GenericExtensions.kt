@@ -44,7 +44,7 @@ fun <I, G> Any.implementsGenericTypeOf(
         }
 }
 
-fun <T : Any> getValue(binding: Bind<T>, property: T?): T? {
+fun <T : Any> getValue(binding: Bind<T>, property: T): T? {
     return when (binding) {
         is Binding.Expression<T> -> {
             property

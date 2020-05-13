@@ -37,7 +37,6 @@ import javax.lang.model.element.Element
 import javax.lang.model.element.ElementKind
 import javax.lang.model.element.ExecutableElement
 import javax.lang.model.element.PackageElement
-import javax.tools.Diagnostic
 
 class BeagleWidgetBindingAdapterProcessor(
     private val processingEnv: ProcessingEnvironment
@@ -73,7 +72,7 @@ class BeagleWidgetBindingAdapterProcessor(
             val beagleSetupFile = FileSpec.builder(
                 packageElement.toString(),
                 bindingAdapterClassName
-            )  .addImport(GET_VALUE.packageName, GET_VALUE.className).addType(typeSpec)
+            ).addImport(GET_VALUE.packageName, GET_VALUE.className).addType(typeSpec)
                 .build()
 
             try {
@@ -113,23 +112,21 @@ class BeagleWidgetBindingAdapterProcessor(
         constructorParameters.forEachIndexed { index, e ->
             notifyValues.append("""
                 |binding.${e.simpleName}.observes {
-                |   widget.onBind(myWidget.copy(${e.simpleName} = it))
+                |myWidget = myWidget.copy(${e.simpleName} = it)
+                |   widget.onBind(myWidget)
                 |}
+                |
             """.trimMargin())
-            if (index < constructorParameters.size - 1) {
-                notifyValues.append(",\n")
-            }
         }
         return FunSpec.builder("bindModel")
             .addModifiers(KModifier.OVERRIDE)
             .addCode("""
-                |val myWidget = ${element.simpleName}(
+                |var myWidget = ${element.simpleName}(
                 |$attributeValues
                 |)
                 |widget.onBind(myWidget)
                 |$notifyValues
                         |""".trimMargin())
-            //                        .addStatement("return registeredWidgets")
             .build()
     }
 

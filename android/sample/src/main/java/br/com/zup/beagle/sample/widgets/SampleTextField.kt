@@ -21,7 +21,6 @@ import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.core.BindingWidget
 import br.com.zup.beagle.widget.form.InputWidget
 
 @RegisterWidget
