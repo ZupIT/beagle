@@ -1,0 +1,17 @@
+▿ Image
+  ▿ contentMode: Optional<ImageContentMode>
+    - some: ImageContentMode.center
+  - name: Optional<String>.none
+  - typePathImage: TypePathImage.Local
+  - url: Optional<String>.none
+  ▿ widgetProperties: WidgetProperties
+    - accessibility: Optional<Accessibility>.none
+    ▿ appearance: Optional<Appearance>
+      ▿ some: Appearance
+        ▿ backgroundColor: Optional<String>
+          - some: "#800000FF"
+        ▿ cornerRadius: Optional<CornerRadius>
+          ▿ some: CornerRadius
+            - radius: 30.0
+    - flex: Optional<Flex>.none
+    - id: Optional<String>.none
