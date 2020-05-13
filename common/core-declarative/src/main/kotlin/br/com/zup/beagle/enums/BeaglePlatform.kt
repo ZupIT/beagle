@@ -30,6 +30,6 @@ enum class BeaglePlatform {
             || beaglePlatform == ALL
             || this == ALL) {
             true
-        } else beaglePlatform == MOBILE
-            && isMobile()
+        } else (beaglePlatform == MOBILE && isMobile())
+            || (this == MOBILE && beaglePlatform.isMobile())
 }

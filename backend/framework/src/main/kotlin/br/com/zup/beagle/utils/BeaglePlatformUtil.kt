@@ -17,21 +17,15 @@
 package br.com.zup.beagle.utils
 
 import br.com.zup.beagle.enums.BeaglePlatform
-import br.com.zup.beagle.serialization.jackson.BEAGLE_TYPE
-import br.com.zup.beagle.widget.layout.ScrollView
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.databind.node.TextNode
-import kotlin.reflect.full.memberProperties
 
 object BeaglePlatformUtil {
 
     const val BEAGLE_PLATFORM_HEADER = "beagle-platform"
     private const val BEAGLE_PLATFORM_FIELD = "beaglePlatform"
-    private const val BEAGLE_TYPE_CONTAINER = "beagle:component:container"
-    private const val BEAGLE_TYPE_SCROLLVIEW = "beagle:component:scrollview"
-    private const val CHILDREN = "children"
 
     fun treatBeaglePlatform(currentPlatform: String?, jsonNode: JsonNode): JsonNode {
         if (jsonNode is ObjectNode) {
@@ -51,14 +45,18 @@ object BeaglePlatformUtil {
         objectNode: ObjectNode
     ): Boolean {
         var isToRemove = false
+        val fieldsToRemove = mutableSetOf<String>()
         objectNode.fields().forEach {
             if (removeObjectFromTreeWhenPlatformIsDifferToCurrentPlatform(
                     currentPlatform = currentPlatform,
                     nodeEntry = it,
-                    objectNode = objectNode
+                    fieldsToRemove = fieldsToRemove
                 )) {
                 isToRemove = true
             }
+        }
+        fieldsToRemove.forEach {
+            objectNode.remove(it)
         }
         return isToRemove
     }
@@ -66,7 +64,7 @@ object BeaglePlatformUtil {
     private fun removeObjectFromTreeWhenPlatformIsDifferToCurrentPlatform(
         currentPlatform: BeaglePlatform,
         nodeEntry: MutableMap.MutableEntry<String, JsonNode>,
-        objectNode: ObjectNode
+        fieldsToRemove: MutableSet<String>
     ): Boolean {
         when {
             checkIfCurrentPlatformIsNotAllowedToViewComponent(currentPlatform, nodeEntry) -> {
@@ -77,9 +75,7 @@ object BeaglePlatformUtil {
                         currentPlatform,
                         nodeEntry.value as ObjectNode
                     )) {
-                    removeItemOrChangeToContainerIfScrollView(nodeEntry.value as ObjectNode) {
-                        objectNode.remove(nodeEntry.key)
-                    }
+                    fieldsToRemove.add(nodeEntry.key)
                 }
             }
             nodeEntry.value is ArrayNode -> {
@@ -90,23 +86,6 @@ object BeaglePlatformUtil {
             }
         }
         return false
-    }
-
-    private fun removeItemOrChangeToContainerIfScrollView(
-        objectNode: ObjectNode,
-        removeObjectFunction: () -> JsonNode
-    ) {
-        if ((objectNode.get(BEAGLE_TYPE) as TextNode).asText() == BEAGLE_TYPE_SCROLLVIEW) {
-            objectNode.replace(BEAGLE_TYPE, TextNode(BEAGLE_TYPE_CONTAINER))
-            ScrollView::class.memberProperties.forEach {
-                if (it.name != CHILDREN
-                    && objectNode.has(it.name)) {
-                    objectNode.remove(it.name)
-                }
-            }
-        } else {
-            removeObjectFunction.invoke()
-        }
     }
 
     private fun treatArrayNode(currentPlatform: BeaglePlatform, arrayNode: ArrayNode) {
@@ -122,9 +101,7 @@ object BeaglePlatformUtil {
             }
         }
         indexToRemoveList.forEach {
-            removeItemOrChangeToContainerIfScrollView(arrayNode.get(it) as ObjectNode) {
-                arrayNode.remove(it)
-            }
+            arrayNode.remove(it)
         }
     }
 
