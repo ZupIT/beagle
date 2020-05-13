@@ -16,20 +16,6 @@
 
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.core.Alignment
-import br.com.zup.beagle.widget.core.Direction
-import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.FlexDirection
-import br.com.zup.beagle.widget.core.FlexDisplay
-import br.com.zup.beagle.widget.core.FlexPositionType
-import br.com.zup.beagle.widget.core.FlexWrap
-import br.com.zup.beagle.widget.core.JustifyContent
-import br.com.zup.beagle.widget.core.Size
-import br.com.zup.beagle.widget.core.UnitValue
-import br.com.zup.beagle.widget.form.InputWidget
-
 class FlexBuilder {
     private var padding: EdgeValue? = null
     private var margin: EdgeValue? = null
@@ -146,7 +132,6 @@ class FlexBuilder {
             vertical = vertical
         )
     )
-
 
     fun padding(
         all: UnitValue? = null,
