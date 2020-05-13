@@ -24,8 +24,7 @@ extension UIImageView {
     
     func setRemoteImage(from url: String, context: BeagleContext, dependencies: RenderableDependencies) {
         dependencies.repository.fetchImage(url: url, additionalData: nil) { [weak self, weak context] result in
-            guard let self = self else { return }
-            guard case .success(let data) = result else { return }
+            guard let self = self, case .success(let data) = result else { return }
             let image = UIImage(data: data)
             DispatchQueue.main.async {
                 self.image = image

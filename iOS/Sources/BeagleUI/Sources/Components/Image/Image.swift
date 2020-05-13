@@ -33,7 +33,7 @@ public struct Image: Widget, AutoDecodable {
     ) {
         self.url = url
         self.name = nil
-        self.typePathImage = .Network
+        self.typePathImage = .network
         self.contentMode = contentMode
         self.widgetProperties = widgetProperties
     }
@@ -45,7 +45,7 @@ public struct Image: Widget, AutoDecodable {
     ) {
         self.url = nil
         self.name = name
-        self.typePathImage = .Local
+        self.typePathImage = .local
         self.contentMode = contentMode
         self.widgetProperties = widgetProperties
     }
@@ -60,13 +60,13 @@ extension Image: Renderable {
         
         image.beagle.setup(self)
         switch typePathImage {
-        case .Local:
+        case .local:
             if let name = name {
                 image.setImageFromAsset(named: name, bundle: dependencies.appBundle)
             } else {
                 dependencies.logger.log(Log.image(.withoutName))
             }
-        case .Network:
+        case .network:
             if let url = url {
                 image.setRemoteImage(from: url, context: context, dependencies: dependencies)
             } else {
@@ -79,6 +79,6 @@ extension Image: Renderable {
 }
 
 public enum TypePathImage: String, Codable {
-    case Network
-    case Local
+    case network
+    case local
 }
