@@ -18,6 +18,7 @@ package br.com.zup.beagle.context
 
 import androidx.collection.LruCache
 import br.com.zup.beagle.action.UpdateContext
+import br.com.zup.beagle.context.ContextDataManager.valueInExpression
 import br.com.zup.beagle.data.serializer.BeagleMoshi
 import br.com.zup.beagle.logger.BeagleMessageLogs
 import org.json.JSONArray
@@ -33,6 +34,8 @@ import java.util.*
 * 4 - Assim que o houver qualquer updateContext verificar se a mudança ocorreu com sucesso e trigar novamente o evalution de todos os Bind.Expression atrelado a esse context
 */
 
+private val EXPRESSION_REGEX = "@\\{([^)]+)}".toRegex()
+
 internal data class ContextBinding(
     val context: ContextData,
     val bindings: MutableList<Bind.Expression<*>>
@@ -41,19 +44,34 @@ internal data class ContextBinding(
 internal object ContextDataManager {
 
     private val lruCache: LruCache<String, Any> = LruCache(20)
+    private val contextIds = Stack<String>()
     private val contexts: MutableMap<String, ContextBinding> = mutableMapOf()
     private val jsonPathFinder = JsonPathFinder()
     private val jsonPathReplacer = JsonPathReplacer()
     private val moshi = BeagleMoshi.moshi
 
-    fun addContext(contextData: ContextData) {
+    fun pushContext(contextData: ContextData) {
+        contextIds.add(contextData.id)
         contexts[contextData.id] = ContextBinding(
             bindings = mutableListOf(),
             context = contextData
         )
     }
 
-    fun addBindingToContext(contextId: String, binding: Bind.Expression<*>) {
+    fun popContext() {
+        contextIds.pop()
+    }
+
+    fun addBindingToContext(binding: Bind.Expression<*>) {
+        val bindingValue = binding.valueInExpression()
+        val path = bindingValue.split(".")[0]
+
+        val contextId = if (contextIds.contains(path)) {
+            path
+        } else {
+            contextIds.peek()
+        }
+
         contexts[contextId]?.bindings?.add(binding)
     }
 
@@ -146,7 +164,7 @@ internal object ContextDataManager {
         val bindings = contextBinding.bindings
 
         bindings.forEach { bind ->
-            val expression = "@\\{([^)]+)}".toRegex().find(bind.value)?.groups?.get(1)?.value ?: ""
+            val expression = bind.valueInExpression()
             val path = addContextToPath(contextData.id, expression)
             val value = getValue(contextData, path)
 
@@ -159,4 +177,7 @@ internal object ContextDataManager {
             bind.notifyChanges(realValue)
         }
     }
+
+    private fun Bind.Expression<*>.valueInExpression(): String =
+        EXPRESSION_REGEX.find(this.value)?.groups?.get(1)?.value ?: ""
 }

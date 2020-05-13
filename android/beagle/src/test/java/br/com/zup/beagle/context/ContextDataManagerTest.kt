@@ -54,7 +54,7 @@ class ContextDataManagerTest {
         val contextData = ContextData(RandomData.string(), true)
 
         // When
-        ContextDataManager.addContext(contextData)
+        ContextDataManager.pushContext(contextData)
 
         // Then
         val contextBinding = contexts[contextData.id]
@@ -73,8 +73,8 @@ class ContextDataManagerTest {
             put("b", RandomData.boolean())
         }
         val contextData = ContextData(contextId, model)
-        ContextDataManager.addContext(contextData)
-        ContextDataManager.addBindingToContext(contextData.id, bind)
+        ContextDataManager.pushContext(contextData)
+        ContextDataManager.addBindingToContext(bind)
 
         // When Then
         bind.observe {
