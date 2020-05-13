@@ -28,6 +28,7 @@ public protocol BeagleDependenciesProtocol: DependencyActionExecutor,
     DependencyViewConfigurator,
     DependencyFlexConfigurator,
     RenderableDependencies,
+    DependencyFormDataStoreHandler,
     DependencyCacheManager {
 }
 
@@ -48,6 +49,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var navigation: BeagleNavigation
     public var preFetchHelper: BeaglePrefetchHelping
     public var cacheManager: CacheManagerProtocol?
+    public var formDataStoreHandler: FormDataStoreHandling
     public var logger: BeagleLoggerType
 
     public var flex: (UIView) -> FlexViewConfiguratorProtocol = {
@@ -78,7 +80,8 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.repository = RepositoryDefault(dependencies: resolver)
         self.cacheManager = CacheManagerDefault(dependencies: resolver)
         self.logger = BeagleLogger()
-
+        self.formDataStoreHandler = FormDataStoreHandler()
+        
         self.resolver.container = { [unowned self] in self }
     }
 }
