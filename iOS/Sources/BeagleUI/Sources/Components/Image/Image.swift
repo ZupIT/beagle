@@ -16,7 +16,7 @@
 
 import UIKit
 
-public struct Image: Widget, AutoInitiableAndDecodable {
+public struct Image: Widget, AutoDecodable {
     
     // MARK: - Public Properties
     
@@ -26,7 +26,6 @@ public struct Image: Widget, AutoInitiableAndDecodable {
     public let contentMode: ImageContentMode?
     public var widgetProperties: WidgetProperties
     
-// sourcery:inline:auto:Image.Init
     public init(
         url: String,
         contentMode: ImageContentMode? = nil,
@@ -38,7 +37,6 @@ public struct Image: Widget, AutoInitiableAndDecodable {
         self.contentMode = contentMode
         self.widgetProperties = widgetProperties
     }
-// sourcery:end
     
     public init(
         name: String,
@@ -70,7 +68,7 @@ extension Image: Renderable {
             }
         case .Network:
             if let url = url {
-                image.setRemoreImage(from: url, context: context, dependencies: dependencies)
+                image.setRemoteImage(from: url, context: context, dependencies: dependencies)
             } else {
                 dependencies.logger.log(Log.image(.withoutURL))
             }
