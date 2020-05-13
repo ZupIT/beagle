@@ -16,7 +16,14 @@
 
 package br.com.zup.beagle.context
 
+import androidx.collection.LruCache
 import br.com.zup.beagle.action.UpdateContext
+import br.com.zup.beagle.data.serializer.BeagleMoshi
+import br.com.zup.beagle.logger.BeagleMessageLogs
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
+import java.lang.IllegalStateException
 import java.util.*
 
 /*
@@ -26,16 +33,18 @@ import java.util.*
 * 4 - Assim que o houver qualquer updateContext verificar se a mudança ocorreu com sucesso e trigar novamente o evalution de todos os Bind.Expression atrelado a esse context
 */
 
-private data class ContextBinding(
-    val bindings: MutableList<Any>, // TODO: refactor to get binding expression
-    val context: ContextData
+internal data class ContextBinding(
+    val context: ContextData,
+    val bindings: MutableList<Bind.Expression<*>>
 )
 
-object ContextDataManager {
+internal object ContextDataManager {
 
+    private val lruCache: LruCache<String, Any> = LruCache(20)
     private val contexts: MutableMap<String, ContextBinding> = mutableMapOf()
     private val jsonPathFinder = JsonPathFinder()
     private val jsonPathReplacer = JsonPathReplacer()
+    private val moshi = BeagleMoshi.moshi
 
     fun addContext(contextData: ContextData) {
         contexts[contextData.id] = ContextBinding(
@@ -44,10 +53,8 @@ object ContextDataManager {
         )
     }
 
-    fun addBindingToContext(contextId: String, binding: Any) {
-        contexts[contextId]?.let {
-            it.bindings.add(binding)
-        }
+    fun addBindingToContext(contextId: String, binding: Bind.Expression<*>) {
+        contexts[contextId]?.bindings?.add(binding)
     }
 
     fun updateContext(updateContext: UpdateContext) {
@@ -55,27 +62,34 @@ object ContextDataManager {
             val path = updateContext.path ?: viewContext.context.id
             val result = setValue(viewContext, path, updateContext.value)
             if (result) {
-                notifyBindingChanges(viewContext.bindings, viewContext.context)
+                notifyBindingChanges(viewContext)
             }
         }
     }
 
-    fun getValue(contextId: String, path: String): Any? {
-        // TODO: implement LruCache to deal with expressions that were previous accessed
-
-        // TODO: handle exceptions and throw in logs
-        return contexts[contextId]?.let { viewContext ->
-            return getValue(viewContext.context, path)
+    fun evaluateContextBindings() {
+        contexts.forEach { entry ->
+            notifyBindingChanges(entry.value)
         }
     }
 
     private fun getValue(contextData: ContextData, path: String): Any? {
-        // TODO: handle exceptions and throw in logs
         return if (path == contextData.id) {
             contextData.value
         } else {
-            val keys = generateKeys(contextData.id, path)
-            return jsonPathFinder.find(keys, contextData.value)
+            val value = lruCache[path]
+            if (value != null) {
+                return value
+            }
+            return try {
+                val keys = generateKeys(contextData.id, path)
+                jsonPathFinder.find(keys, contextData.value)?.let { foundValue ->
+                    lruCache.put(path, foundValue)
+                }
+            } catch (ex: Exception) {
+                BeagleMessageLogs.errorWhileTryingToAccessContext(ex)
+                null
+            }
         }
     }
 
@@ -86,8 +100,13 @@ object ContextDataManager {
             contexts[context.id] = contextBinding.copy(context = newContext)
             true
         } else {
-            val keys = generateKeys(context.id, path)
-            jsonPathReplacer.replace(keys, value, context.value)
+            return try {
+                val keys = generateKeys(context.id, path)
+                jsonPathReplacer.replace(keys, value, context.value)
+            } catch (ex: Exception) {
+                BeagleMessageLogs.errorWhileTryingToChangeContext(ex)
+                false
+            }
         }
     }
 
@@ -114,11 +133,30 @@ object ContextDataManager {
         return newPath
     }
 
-    private fun notifyBindingChanges(bindings: List<Any>, contextData: ContextData) {
-        bindings.forEach {
-            // TODO: 1 - access expression and add context id if its not present
-            // TODO: 2 - call getValue
-            // TODO: 3 - deserialize data based on Bind<Class> and notify observer with new value
+    private fun addContextToPath(contextId: String, path: String): String {
+        return if (path.contains(contextId)) {
+            path
+        } else {
+            "$contextId.$path"
+        }
+    }
+
+    private fun notifyBindingChanges(contextBinding: ContextBinding) {
+        val contextData = contextBinding.context
+        val bindings = contextBinding.bindings
+
+        bindings.forEach { bind ->
+            val expression = "@\\{([^)]+)}".toRegex().find(bind.value)?.groups?.get(1)?.value ?: ""
+            val path = addContextToPath(contextData.id, expression)
+            val value = getValue(contextData, path)
+
+            val realValue: Any = if (value is JSONArray || value is JSONObject) {
+                moshi.adapter<Any>(bind.type).fromJson(value.toString()) ?: throw IllegalStateException()
+            } else {
+                value ?: throw IllegalStateException()
+            }
+
+            bind.notifyChanges(realValue)
         }
     }
 }
