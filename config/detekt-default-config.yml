@@ -70,7 +70,6 @@ complexity:
     active: true
     threshold: 7
     ignoreDefaultParameters: false
-    excludes: "**/widget/core/FlexBuilder.kt"
   MethodOverloading:
     active: false
     threshold: 6
