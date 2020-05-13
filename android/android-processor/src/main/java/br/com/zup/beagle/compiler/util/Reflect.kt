@@ -16,10 +16,7 @@
 
 package br.com.zup.beagle.compiler.util
 
-import com.squareup.kotlinpoet.TypeName
-import com.squareup.kotlinpoet.asTypeName
 import org.jetbrains.annotations.Nullable
-import javax.lang.model.element.Element
 import javax.lang.model.element.VariableElement
 
 internal fun isMarkedNullable(e: VariableElement): Boolean {
