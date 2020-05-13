@@ -39,7 +39,7 @@ class BeaglePreviewViewController: UIViewController {
     private var sceneViewController: BeagleScreenViewController!
 
     private func setupChildViewController() {
-        self.sceneViewController = BeagleScreenViewController(viewModel: .init(screenType: .declarativeText("")))
+        self.sceneViewController = BeagleScreenViewController(.declarativeText(""))
         self.sceneViewController.willMove(toParentViewController: self)
         self.sceneViewController.view.frame = self.view.bounds
         self.view.addSubview(self.sceneViewController.view)
