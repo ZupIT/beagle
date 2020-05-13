@@ -19,8 +19,10 @@ package br.com.zup.beagle.compiler
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.compiler.util.BINDING
 import br.com.zup.beagle.compiler.util.BINDING_ADAPTER
-import br.com.zup.beagle.compiler.util.GET_VALUE
+import br.com.zup.beagle.compiler.util.GET_VALUE_NOT_NULL
+import br.com.zup.beagle.compiler.util.GET_VALUE_NULL
 import br.com.zup.beagle.compiler.util.error
+import br.com.zup.beagle.compiler.util.isMarkedNullable
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
@@ -72,7 +74,8 @@ class BeagleWidgetBindingAdapterProcessor(
             val beagleSetupFile = FileSpec.builder(
                 packageElement.toString(),
                 bindingAdapterClassName
-            ).addImport(GET_VALUE.packageName, GET_VALUE.className).addType(typeSpec)
+            ).addImport(GET_VALUE_NULL.packageName, GET_VALUE_NULL.className).addType(typeSpec)
+                .addImport(GET_VALUE_NOT_NULL.packageName, GET_VALUE_NOT_NULL.className).addType(typeSpec)
                 .build()
 
             try {
@@ -100,10 +103,18 @@ class BeagleWidgetBindingAdapterProcessor(
     private fun functionBindModel(element: Element): FunSpec {
         val attributeValues = StringBuilder()
         val notifyValues = StringBuilder()
+        val packageElement: PackageElement = processingEnv.elementUtils.getPackageOf(element)
+        val widgetClassName = "${element.simpleName}"
+
+        val widgetClass = "$packageElement.${element.simpleName}"
 
         val constructorParameters = getConstructorParameters(element)
         constructorParameters.forEachIndexed { index, e ->
-            attributeValues.append("\t${e.simpleName} = getValue(binding.${e.simpleName}, widget.${e.simpleName})")
+            val isNullable = isMarkedNullable(e)
+            val getValueMethodName = if (isNullable) "getValueNull" else "getValueNotNull"
+
+            attributeValues.append("\t${e.simpleName} = ${getValueMethodName}(binding.${e.simpleName}, widget.${e.simpleName})")
+
             if (index < constructorParameters.size - 1) {
                 attributeValues.append(",\n")
             }
@@ -125,8 +136,8 @@ class BeagleWidgetBindingAdapterProcessor(
                 |$attributeValues
                 |)
                 |widget.onBind(myWidget)
-                |$notifyValues
-                        |""".trimMargin())
+                |   $notifyValues
+                |""".trimMargin())
             .build()
     }
 

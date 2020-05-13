@@ -84,7 +84,12 @@ val BINDING = BeagleClass(
     className = "Binding"
 )
 
-val GET_VALUE = BeagleClass(
+val GET_VALUE_NULL = BeagleClass(
     packageName = "br.com.zup.beagle.utils",
-    className = "getValue"
+    className = "getValueNull"
+)
+
+val GET_VALUE_NOT_NULL = BeagleClass(
+    packageName = "br.com.zup.beagle.utils",
+    className = "getValueNotNull"
 )

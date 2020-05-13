@@ -19,7 +19,7 @@ package br.com.zup.beagle.sample.widgets
 import br.com.zup.beagle.core.Binding
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.setup.BindingAdapter
-import br.com.zup.beagle.utils.getValue
+import br.com.zup.beagle.utils.getValueNull
 
 data class SampleTextFieldBinding2(
     val placeholder: Binding<String>
@@ -36,7 +36,7 @@ final class SampleTextFieldBindingAdapter2(
 
     override fun bindModel() {
         val myWidget = SampleTextField(
-            placeholder = getValue(binding.placeholder, widget.placeholder)
+            placeholder = getValueNull(binding.placeholder, widget.placeholder)
         )
         widget.onBind(myWidget)
         binding.placeholder.observes {

@@ -20,8 +20,6 @@ import br.com.zup.beagle.core.Bind
 import br.com.zup.beagle.core.Binding
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.WildcardType
-import kotlin.reflect.KClass
-import kotlin.reflect.full.declaredMemberProperties
 
 fun <I, G> Any.implementsGenericTypeOf(
     interfaceClazz: Class<I>,
@@ -44,7 +42,7 @@ fun <I, G> Any.implementsGenericTypeOf(
         }
 }
 
-fun <T : Any> getValue(binding: Bind<T>, property: T): T? {
+fun <T : Any> getValueNull(binding: Bind<T>, property: T?): T? {
     return when (binding) {
         is Binding.Expression<T> -> {
             property
@@ -58,16 +56,16 @@ fun <T : Any> getValue(binding: Bind<T>, property: T): T? {
     }
 }
 
-inline fun isMarkedNullable(propertyName: String, obj: Any): Boolean  {
-    return obj::class.declaredMemberProperties.first { it.name == propertyName }.returnType.isMarkedNullable
-}
-
-class ClassTest(val nullable: String?,val notNullable: String)
-
-fun main() {
-    println(isMarkedNullable("nullable", ClassTest(nullable = null,notNullable = "")))
-    println(isMarkedNullable("notNullable", ClassTest(nullable = null,notNullable = "")))
-//    ClassTest::class.declaredMemberProperties.forEach {
-//        println("Property $it isMarkedNullable=${it.returnType.isMarkedNullable}")
-//    }
+fun <T : Any> getValueNotNull(binding: Bind<T>, property: T): T {
+    return when (binding) {
+        is Binding.Expression<T> -> {
+            property
+        }
+        is Binding.Value<T> -> {
+            binding.value
+        }
+        else -> {
+            throw IllegalStateException("Invalid bind instance")
+        }
+    }
 }
