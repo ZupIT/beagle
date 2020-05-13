@@ -89,4 +89,76 @@ class FlexBuilder {
 
     fun margin(margin: EdgeValue) = this.apply { this.margin = margin }
 
+    fun position(
+        all: UnitValue? = null,
+        top: UnitValue? = null,
+        bottom: UnitValue? = null,
+        right: UnitValue? = null,
+        left: UnitValue? = null,
+        start: UnitValue? = null,
+        end: UnitValue? = null,
+        horizontal: UnitValue? = null,
+        vertical: UnitValue? = null
+    ) = this.position(
+        EdgeValue(
+            all = all,
+            top = top,
+            right = right,
+            bottom = bottom,
+            left = left,
+            start = start,
+            end = end,
+            horizontal = horizontal,
+            vertical = vertical
+        )
+    )
+
+
+    fun padding(
+        all: UnitValue? = null,
+        top: UnitValue? = null,
+        right: UnitValue? = null,
+        bottom: UnitValue? = null,
+        left: UnitValue? = null,
+        start: UnitValue? = null,
+        end: UnitValue? = null,
+        horizontal: UnitValue? = null,
+        vertical: UnitValue? = null
+    ) = this.padding(
+        EdgeValue(
+            all = all,
+            vertical = vertical,
+            horizontal = horizontal,
+            top = top,
+            right = right,
+            bottom = bottom,
+            left = left,
+            start = start,
+            end = end
+        )
+    )
+
+    fun margin(
+        all: UnitValue? = null,
+        top: UnitValue? = null,
+        bottom: UnitValue? = null,
+        right: UnitValue? = null,
+        left: UnitValue? = null,
+        start: UnitValue? = null,
+        end: UnitValue? = null,
+        horizontal: UnitValue? = null,
+        vertical: UnitValue? = null
+    ) = this.margin(
+        EdgeValue(
+            all = all,
+            vertical = vertical,
+            horizontal = horizontal,
+            top = top,
+            right = right,
+            bottom = bottom,
+            left = left,
+            start = start,
+            end = end
+        )
+    )
 }
