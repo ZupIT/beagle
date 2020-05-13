@@ -34,14 +34,14 @@ fastlane run_danger
 fastlane android pull_request_verification
 ```
 Pull Request verification
-### android remote_publish
+### common remote_publish
 ```
-fastlane android remote_publish
+fastlane common remote_publish
 ```
 Publish remote new version
-### android local_publish
+### common local_publish
 ```
-fastlane android local_publish
+fastlane common local_publish
 ```
 Publish local new version
 
