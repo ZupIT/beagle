@@ -326,10 +326,10 @@ class FlexYogaMapperTest {
     @Test
     fun makeYogaAlignSelf_should_return_null_when_AlignSelf_is_null() {
         // Given
-        val alignItems: AlignSelf? = null
+        val alignSelf: AlignSelf? = null
 
         // When
-        val actual = makeYogaAlignSelf(alignItems)
+        val actual = makeYogaAlignSelf(alignSelf)
 
         // Then
         assertNull(actual)
