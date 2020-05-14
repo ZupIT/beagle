@@ -21,9 +21,9 @@ data class Flex (
     val direction: Direction? = null, /* = Direction.LTR */
     val flexWrap: FlexWrap? = null, /* = FlexWrap.NO_WRAP */
     val justifyContent: JustifyContent? = null, /* = JustifyContent.FLEX_START */
-    val alignItems: Alignment? = null, /* = Alignment.STRETCH */
-    val alignSelf: Alignment? = null, /* = Alignment.AUTO */
-    val alignContent: Alignment? = null, /* = Alignment.FLEX_START */
+    val alignItems: AlignItems? = null, /* = Alignment.STRETCH */
+    val alignSelf: AlignSelf? = null, /* = Alignment.AUTO */
+    val alignContent: AlignContent? = null, /* = Alignment.FLEX_START */
     val positionType: FlexPositionType? = null, /* = FlexPositionType.RELATIVE */
     val basis: UnitValue? = null, /* = UnitValue(0.0, UnitType.AUTO) */
     val flex: Double? = null, /* = 0.0 */
@@ -86,14 +86,29 @@ enum class JustifyContent {
     SPACE_EVENLY
 }
 
-enum class Alignment {
+enum class AlignContent {
     FLEX_START,
     CENTER,
     FLEX_END,
     SPACE_BETWEEN,
     SPACE_AROUND,
+    STRETCH
+}
+
+enum class AlignSelf {
+    FLEX_START,
+    CENTER,
+    FLEX_END,
     BASELINE,
     AUTO,
+    STRETCH
+}
+
+enum class AlignItems {
+    FLEX_START,
+    CENTER,
+    FLEX_END,
+    BASELINE,
     STRETCH
 }
 
