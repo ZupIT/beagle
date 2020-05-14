@@ -147,7 +147,7 @@ platform :backend do
         ]
     )
     commit_hash = last_git_commit[:commit_hash]
-    codecov_reporter(token: ENV["CODECOV_TOKEN"], flags: "-F android -C #{commit_hash}")
+    codecov_reporter(token: ENV["CODECOV_TOKEN"], flags: "-F backend -C #{commit_hash}")
   end
 
 end
