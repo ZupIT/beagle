@@ -29,9 +29,11 @@ dependencies {
 
     kapt ProcessorLibraries.autoService
     kapt ProcessorLibraries.incapPrcessor
+    kaptTest project(Modules.beagleBackendProcessor)
 
     testRuntime TestLibraries.junit5Engine
     testImplementation TestLibraries.junit5Api
     testImplementation TestLibraries.kotlinTest
     testImplementation TestLibraries.mockk
+    testImplementation project(Modules.beagleCoreDeclarative)
 }

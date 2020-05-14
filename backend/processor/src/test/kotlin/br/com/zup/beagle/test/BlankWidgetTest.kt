@@ -14,13 +14,17 @@
  * limitations under the License.
  */
 
-apply plugin: 'kotlin'
+package br.com.zup.beagle.test
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
-dependencies {
-    implementation GeneralLibraries.kotlin
-    implementation GeneralLibraries.kotlinPoet
-    implementation project(Modules.beagleCoreDeclarative)
+internal class BlankWidgetTest {
+    @Test
+    fun test_construction() {
+        val actual = BlankWidgetBinding()
+        assertNotNull(actual)
+        assertEquals(BlankWidget::class.supertypes, BlankWidgetBinding::class.supertypes)
+    }
 }
