@@ -34,6 +34,10 @@ fastlane run_danger
 fastlane android pull_request_verification
 ```
 Pull Request verification
+
+----
+
+## common
 ### common remote_publish
 ```
 fastlane common remote_publish
@@ -51,6 +55,15 @@ Publish local new version
 ### ios pull_request_verification
 ```
 fastlane ios pull_request_verification
+```
+Pull Request verification
+
+----
+
+## backend
+### backend pull_request_verification
+```
+fastlane backend pull_request_verification
 ```
 Pull Request verification
 
