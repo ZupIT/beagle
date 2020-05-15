@@ -56,7 +56,7 @@ class BeagleWidgetBindingAdapterGenerator(private val processingEnv: ProcessingE
 
         val constructorParameters = listConstructorParameters(element)
         constructorParameters.forEachIndexed { index, e ->
-            val isNullable = isMarkedNullable(e)
+            val isNullable = e.isMarkedNullable()
             val getValueMethodName = if (isNullable) GET_VALUE_NULL_METHOD else GET_VALUE_NOT_NULL_METHOD
 
             val attr = e.simpleName

@@ -19,6 +19,6 @@ package br.com.zup.beagle.compiler.util
 import org.jetbrains.annotations.Nullable
 import javax.lang.model.element.VariableElement
 
-internal fun isMarkedNullable(e: VariableElement): Boolean {
-    return e.getAnnotation(Nullable::class.java) != null
+internal fun VariableElement.isMarkedNullable(): Boolean {
+    return this.getAnnotation(Nullable::class.java) != null
 }
