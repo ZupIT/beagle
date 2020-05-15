@@ -14,23 +14,27 @@
  * limitations under the License.
  */
 
-apply plugin: 'kotlin'
-apply plugin: 'kotlin-kapt'
+package br.com.zup.beagle.compiler
 
-group = GroupId.backendSample
-version = Releases.beagleVersionName
-sourceCompatibility = JavaVersion.VERSION_1_8
+import com.squareup.kotlinpoet.asTypeName
 
-dependencies {
-    implementation GeneralLibraries.kotlin
-    implementation project(Modules.beagleAnnotation)
-    implementation project(Modules.beagleDeclarative)
-    implementation project(Modules.beagleBackendDeclarative)
-    kapt project(Modules.beagleBackendProcessor)
-}
+const val KAPT_KEY = "kapt.kotlin.generated"
+const val GET = "get"
+const val INTERNAL_MARKER = '$'
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
-    }
-}
+val JAVA_TO_KOTLIN = arrayOf(
+    Any::class,
+    Boolean::class,
+    Byte::class,
+    Char::class,
+    Int::class,
+    Long::class,
+    Float::class,
+    Double::class,
+    String::class,
+    Iterable::class,
+    Collection::class,
+    List::class,
+    Set::class,
+    Map::class
+).associate { it.javaObjectType.asTypeName() to it.asTypeName() }
