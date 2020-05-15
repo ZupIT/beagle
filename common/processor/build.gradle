@@ -15,22 +15,12 @@
  */
 
 apply plugin: 'kotlin'
-apply plugin: 'kotlin-kapt'
 
-group = GroupId.backendSample
-version = Releases.beagleVersionName
 sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
     implementation GeneralLibraries.kotlin
-    implementation project(Modules.beagleAnnotation)
-    implementation project(Modules.beagleDeclarative)
-    implementation project(Modules.beagleBackendDeclarative)
-    kapt project(Modules.beagleBackendProcessor)
-}
-
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
-    }
+    implementation GeneralLibraries.kotlinPoet
+    implementation project(Modules.beagleCoreDeclarative)
 }

@@ -14,23 +14,17 @@
  * limitations under the License.
  */
 
-apply plugin: 'kotlin'
-apply plugin: 'kotlin-kapt'
+package br.com.zup.beagle.test
 
-group = GroupId.backendSample
-version = Releases.beagleVersionName
-sourceCompatibility = JavaVersion.VERSION_1_8
+import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
-dependencies {
-    implementation GeneralLibraries.kotlin
-    implementation project(Modules.beagleAnnotation)
-    implementation project(Modules.beagleDeclarative)
-    implementation project(Modules.beagleBackendDeclarative)
-    kapt project(Modules.beagleBackendProcessor)
-}
-
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+internal class BlankWidgetTest {
+    @Test
+    fun test_construction() {
+        val actual = BlankWidgetBinding()
+        assertNotNull(actual)
+        assertEquals(BlankWidget::class.supertypes, BlankWidgetBinding::class.supertypes)
     }
 }
