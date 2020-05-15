@@ -23,8 +23,8 @@ import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.WidgetView
 
 data class MutableText(
-    val firstText: String?,
-    val secondText: String?,
+    val firstText: String = "",
+    val secondText: String = "",
     val color: String? = "#000000"
 ): WidgetView() {
     override fun toView(context: Context) = TextView(context).apply {
