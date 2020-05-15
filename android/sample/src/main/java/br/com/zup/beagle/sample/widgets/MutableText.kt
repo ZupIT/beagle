@@ -25,7 +25,7 @@ import br.com.zup.beagle.widget.core.WidgetView
 data class MutableText(
     val firstText: String = "",
     val secondText: String = "",
-    val color: String? = "#000000"
+    val color: String = "#000000"
 ): WidgetView() {
     override fun toView(context: Context) = TextView(context).apply {
         val color = Color.parseColor(color)
