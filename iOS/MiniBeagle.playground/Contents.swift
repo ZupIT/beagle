@@ -1,6 +1,104 @@
 import UIKit
 import PlaygroundSupport
 
+// MARK: BeagleCore
+
+protocol Renderable {
+    func render() -> UIView // toView
+}
+
+//protocol Bindable {
+//    func configureBinding() -> Void
+//}
+
+protocol Component: Decodable, Renderable {}
+protocol Action: Decodable {}
+
+// MARK: BeagleModels
+
+struct UnknownComponent: Component {
+    func render() -> UIView {
+        let label = UILabel()
+        label.text = "unknown"
+        label.textColor = .red
+        label.backgroundColor = .yellow
+        return label
+    }
+}
+struct UnknownAction: Action {}
+
+struct Container: Component {
+    let context: Context?
+    
+    let children: [Component]
+    
+    func render() -> UIView {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.distribution = .fillEqually
+        stack.alignment = .center
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        
+        // config context
+        if let context = self.context {
+            stack.contextMap = [context.id: Observable(context)]
+        }
+        
+        children.forEach {
+            let view = $0.render()
+            stack.addArrangedSubview(view)
+            if let label = view as? UILabel, let text = $0 as? Text {
+                switch text.text {
+                case let .expression(exp):
+                    label.text = label.getValue(for: exp)
+                default: () // nop
+                }
+            }
+        }
+        return stack
+    }
+}
+
+struct Text: Component {
+    let text: ValueExpression<String?>
+    
+    func render() -> UIView {
+        let label = UILabel()
+        switch text {
+        // TODO: make this reusable
+        case let .expression(expression):
+            label.text = label.getValue(for: expression) ?? expression.rawValue
+        case let .value(value):
+            label.text = value
+        }
+        return label
+    }
+}
+
+struct Button: Component {
+    let text: String?
+    let action: Action?
+    
+    func render() -> UIView {
+        let button = UIButton()
+        button.setTitle(text, for: .normal)
+        button.setTitleColor(.blue, for: .normal)
+        return button
+    }
+}
+
+struct Context {
+    let id: String
+    let value: Any
+}
+
+enum ValueExpression<T: Decodable> {
+    case value(T)
+    case expression(Expression)
+}
+
+// MARK: BeagleDecoding
+
 struct AnyDecodable {
     let value: Any
     init<T>(_ value: T) {
@@ -31,19 +129,12 @@ extension AnyDecodable: Decodable {
     }
 }
 
-protocol Component: Decodable, Renderable {}
-protocol Renderable {
-    func render() -> UIView
-}
-
-// AnyDecodableContainer
-struct Container: Decodable {
-    let value: Component?
+struct AnyDecodableContainer: Decodable {
+    let value: Decodable?
     
-    static let types: [String: Component.Type] = ["component.a": A.self,
-                                                  "component.b": B.self,
-                                                  "component.c": C.self]
-    
+    static let types: [String: Decodable.Type] = ["component.container": Container.self,
+                                                  "component.text": Text.self,
+                                                  "component.button": Button.self]
     enum Key: CodingKey {
         case type
     }
@@ -51,7 +142,7 @@ struct Container: Decodable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: Key.self)
         let type = try container.decode(String.self, forKey: Key.type)
-        if let component = Container.types[type] {
+        if let component = AnyDecodableContainer.types[type] {
             self.value = try component.init(from: decoder)
         } else {
             self.value = nil
@@ -59,21 +150,46 @@ struct Container: Decodable {
     }
 }
 
-struct Unknown: Component {
-    func render() -> UIView {
-        let label = UILabel()
-        label.text = "unknown"
-        label.textColor = .red
-        label.backgroundColor = .yellow
-        label.sizeToFit()
-        return label
+extension Container: Decodable {
+    enum Key: String, CodingKey {
+        case children
+        case context
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: Key.self)
+        let children = try container.decode([AnyDecodableContainer].self, forKey: .children)
+        self.children = children.map { $0.value as? Component ?? UnknownComponent() }
+        self.context = try container.decode(Context.self, forKey: .context)
     }
 }
 
-struct Context: Decodable {
-    let id: String
-    let value: Any
+extension Text: Decodable {
+    enum Key: CodingKey {
+        case text
+    }
     
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: Key.self)
+        self.text = try container.decode(ValueExpression<String?>.self, forKey: Key.text)
+    }
+}
+
+extension Button: Decodable {
+    enum Key: CodingKey {
+        case text
+        case action
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: Key.self)
+        self.text = try container.decodeIfPresent(String.self, forKey: Key.text)
+        let action = try container.decodeIfPresent(AnyDecodableContainer.self, forKey: Key.action)
+        self.action = action as? Action
+    }
+}
+
+extension Context: Decodable {
     enum Key: String, CodingKey {
         case id
         case value
@@ -86,10 +202,7 @@ struct Context: Decodable {
     }
 }
 
-enum ValueExpression<T: Decodable>: Decodable {
-    case value(T)
-    case expression(Expression)
-    
+extension ValueExpression: Decodable {
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if let expression = try? container.decode(Expression.self) {
@@ -102,249 +215,81 @@ enum ValueExpression<T: Decodable>: Decodable {
     }
 }
 
-struct A: Component {
-    let a: [Component]
+// MARK: BeagleExpressions
+
+struct Expression: Decodable {
+    let nodes: [Node]
     
-    let context: Context
-    
-    enum Key: String, CodingKey {
-        case a
-        case context
-    }
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: Key.self)
-        let a = try container.decode([Container].self, forKey: .a)
-        self.a = a.map { $0.value ?? Unknown() }
-        self.context = try container.decode(Context.self, forKey: .context)
-    }
-    
-    func render() -> UIView {
-        let stack = UIStackView()
-        
-        stack.axis = .vertical
-        stack.distribution = .fillEqually
-        stack.alignment = .center
-        stack.spacing = 5
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        
-        // config context
-        // adding all context to view
-        stack.contextMap = [context.id: Observable(context)]
-        
-        a.forEach {
-            let view = $0.render()
-            stack.addArrangedSubview(view)
-            
-            if let label = view as? UILabel, let c = $0 as? C {
-                switch c.c {
-                case .expression(let exp):
-                    label.text = label.getValue(for: exp)
-                default: () // nop
-                }
-            }
-        }
-        
-        return stack
-    }
-}
-
-struct B: Component {
-    let b: Component?
-    
-    enum Key: CodingKey {
-        case b
-    }
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: Key.self)
-        let b = try container.decodeIfPresent(Container.self, forKey: Key.b)
-        self.b = b?.value
-    }
-    
-    func render() -> UIView {
-        let view = UIView()
-        if let b = self.b?.render() {
-            view.addSubview(b)
-        }
-        view.sizeToFit()
-        return view
-    }
-}
-
-struct C: Component {
-    let c: ValueExpression<String>
-    
-    func render() -> UIView {
-        let label = UILabel()
-        switch c {
-        case .expression(let expression):
-//            label.text = "exp"
-            label.text = label.getValue(for: expression)
-        case .value(let value):
-            label.text = "\(value)"
-        }
-        label.sizeToFit()
-        return label
-    }
-}
-
-// TODO: Create common properties like style
-
-let jsonData = """
-{
-    "type": "component.a",
-    "context": {
-        "id": "myContext",
-        "value": [ { "b": "valor b" } ]
-    },
-    "a": [
-        {
-            "type": "component.c",
-            "c": "${myContext[0].b}"
-        },
-        {
-            "type": "component.c",
-            "c": "4"
-        },
-        {
-            "type": "component.f",
-            "f": "unknown"
-        }
-    ]
-}
-""".data(using: .utf8)!
-
-let jsonDecoder = JSONDecoder()
-let object = try jsonDecoder.decode(Container.self, from: jsonData)
-let unrappedObject = object.value ?? Unknown()
-
-print("component: \(unrappedObject)")
-let rootView = unrappedObject.render()
-
-let containerView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 375.0, height: 667.0))
-containerView.addSubview(rootView)
-containerView.addConstraints(
-    NSLayoutConstraint.constraints(withVisualFormat: "H:|-[rootView]-|",
-    metrics: nil,
-    views: ["rootView": rootView])
-)
-
-containerView.addConstraints(
-    NSLayoutConstraint.constraints(withVisualFormat: "V:|-[rootView]->=8-|",
-    metrics: nil,
-    views: ["rootView": rootView])
-)
-
-//if let label = containerView.subviews[0].subviews[0] as? UILabel {
-//    guard let expression = Expression(rawValue: "${myContext[0].b}") else { fatalError() }
-//    label.text = label.getValue(for: expression)
-//    label.setNeedsLayout()
-//    label.setNeedsDisplay()
-//}
-//print(containerView.value(forKey: "recursiveDescription")!)
-
-PlaygroundPage.current.liveView = containerView
-
-struct Expression {
-    let expression: [Node]
-    
-    enum Node {
+    enum Node: Equatable {
         case property(String)
         case arrayItem(Int)
     }
-    
-    enum ExpressionError: Error {
-        case invalidExpression
-        // TODO: improve context detail
-        case typeMismatch(type: Any.Type, context: [Node])
-        case valueNotFound(key: String, context: [Node])
-        case valueNotFound(index: Int, context: [Node])
+        
+    func evaluate(model: Any) -> Any? {
+        var nodes = self.nodes[...]
+        return Expression.evaluate(&nodes, model)
     }
-    
-    func evaluate(model: Any) throws -> Any {
-        try Expression.evaluate(expression: expression, model: model, context: [.property("root")])
-    }
-    
-    // TODO: improve input/output management, maybe use Result for error handling
-    private static func evaluate(expression: [Node], model: Any, context: [Node]) throws -> Any {
-        var newContext = context
+    private static func evaluate(_ expression: inout ArraySlice<Node>, _ model: Any) -> Any? {
         guard let first = expression.first else {
             return model
         }
         switch first {
         case let .property(key):
-            guard let dictionary = model as? Dictionary<String, Any> else {
-                throw ExpressionError.typeMismatch(type: Dictionary<String, Any>.self, context: newContext)
+            guard let dictionary = model as? [String: Any], let value = dictionary[key] else {
+                return nil
             }
-            guard let value = dictionary[key] else {
-                throw ExpressionError.valueNotFound(key: key, context: newContext)
-            }
-            if let first = expression.first { newContext = context + [first] }
-            return try evaluate(expression: Array(expression.dropFirst()), model: value, context: newContext)
+            expression.removeFirst()
+            return evaluate(&expression, value)
         case let .arrayItem(index):
-            guard let array = model as? Array<Any> else {
-                throw ExpressionError.typeMismatch(type: Array<Any>.self, context: newContext)
+            guard let array = model as? [Any], let value = array[safe: index] else {
+                return nil
             }
-            guard let value = array[safe: index] else {
-                throw ExpressionError.valueNotFound(index: index, context: newContext)
-            }
-            if let first = expression.first { newContext = context + [first] }
-            return try evaluate(expression: Array(expression.dropFirst()), model: value, context: newContext)
+            expression.removeFirst()
+            return evaluate(&expression, value)
         }
     }
-    
-    func getContext() -> String? {
-        switch self.expression.first {
-        case .property(let context):
-            return context
-        default:
-            return nil
+    // verify context?
+    func context() -> String? {
+        if let node = nodes.first {
+            switch node {
+            case let .property(context):
+                return context
+            default:
+                return nil
+            }
         }
+        return  nil
     }
 }
 
-extension Expression: RawRepresentable, Decodable {
-
+extension Expression: RawRepresentable {
     static let expression = #"^\$\{(\w+(?:\[\d+\])*(?:\.\w+(?:\[\d+\])*)*)\}$"#
-    static let token = #"\w+"#
+    static let token = #"\w+"# // properties + arrayItems
     static let property = #"[a-zA-Z_]\w*"#
-    static let arrayIndex = #"\d+"#
+    static let arrayItem = #"\d+"#
     
-    // Decode
     init?(rawValue: String) {
-        // Lexer/Tokenize
         guard let expression = rawValue.match(pattern: Expression.expression) else {
-            return nil // invalid expression
+            return nil
         }
         let tokens = expression.matches(pattern: Expression.token)
-        self.expression = tokens.compactMap {
+        self.nodes = tokens.compactMap {
             if let property = $0.match(pattern: Expression.property) {
                 return Expression.Node.property(property)
-            } else if let index = $0.match(pattern: Expression.arrayIndex) {
+            } else if let index = $0.match(pattern: Expression.arrayItem) {
                 return Expression.Node.arrayItem(Int(index) ?? 0)
             } else {
-                // impossible case
                 return nil
             }
         }
     }
     
-    // Encode
-    // TODO: poor implementation
     var rawValue: String {
         var expression = "${"
-        switch self.expression.first {
-        case .property(let string):
-            expression += string
-        case .arrayItem(let index):
-            expression += "[\(index)]"
-        case .none: ()
-        }
-        for node in self.expression.dropFirst() {
+        for node in self.nodes {
             switch node {
             case .property(let string):
-                expression += "."
+                if node != nodes.first { expression += "." }
                 expression += string
             case .arrayItem(let index):
                 expression += "[\(index)]"
@@ -355,7 +300,8 @@ extension Expression: RawRepresentable, Decodable {
     }
 }
 
-// Utils
+// MARK: BeagleUtils
+
 extension NSRegularExpression {
     convenience init(_ pattern: String) {
         do {
@@ -389,42 +335,12 @@ extension String {
     }
 }
 
-//print("------------------------------------------")
-//print("keypath sample")
-// if the data were not dynamic (AnyType) maybe we could use keypath to represent expressions
-// transform expression -> keypath
-//struct S1 {
-//    let p: String
-//}
-//
-//struct S2 {
-//    let p: Int
-//}
-//
-//struct S3 {
-//    let s1s: [S1]
-//    let s2: S2
-//}
-//
-//// ${context.s1s[0].p}
-//let keypath = \S3.s1s[0].p
-//// ${context.s2s.p}
-//let keypath2 = \S3.s2.p
-//
-//// we get evaluation for free
-//let sample = S3(s1s: [S1(p: "s1 p")], s2: S2(p: 2))
-//
-//print((get(keypath))(sample))
-//print((get(keypath2))(sample))
-//
-//func get<Root, Value>(_ kp: KeyPath<Root, Value>) -> (Root) -> Value {
-//  { $0[keyPath: kp] }
-//}
+// MARK: BeagleExtensions
 
+// Observer pattern
 protocol ObserverProtocol {
     var id : String { get }
 }
-
 class Observable<T> {
     typealias CompletionHandler = ((T) -> Void)
     var value : T {
@@ -469,34 +385,111 @@ extension UIView {
     var contextMap: [String: Observable<Context>]? {
         get {
             let contextMap: [String: Observable<Context>]? = (objc_getAssociatedObject(self, &UIView.contextMapKey) as? ObjectWrapper)?.object
-            print("getContextMap: \(contextMap), object: \(self)")
+//            print("getContextMap: \(contextMap), object: \(self)")
             return contextMap
         }
         set {
-            print("setContextMap: \(newValue), object: \(self)")
+//            print("setContextMap: \(newValue), object: \(self)")
             objc_setAssociatedObject(self, &UIView.contextMapKey, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
     func getValue<T>(for expression: Expression) -> T? {
         // change to config binding
-        
         guard let contextMap = self.contextMap else {
-            print("parent: \(self.superview)")
+//            print("parent: \(self.superview)")
             guard let parent = self.superview else {
                 return nil
                 
             }
             return parent.getValue(for: expression)
         }
-        guard let contextId = expression.getContext(), let context = contextMap[contextId] else {
+        guard let contextId = expression.context(), let context = contextMap[contextId] else {
 //            print("setContextMap: \(newValue), object: \(self)")
             guard let parent = self.superview else {
                 return nil
             }
             return parent.getValue(for: expression)
         }
-        let newExp = Expression(expression: Array<Expression.Node>(expression.expression.dropFirst()))
-        return try? newExp.evaluate(model: context.value.value) as? T
+        let newExp = Expression(nodes: Array<Expression.Node>(expression.nodes.dropFirst()))
+        return newExp.evaluate(model: context.value.value) as? T
     }
 }
+
+// MARK: BeagleExample
+
+let jsonData = """
+{
+    "type": "component.container",
+    "context": {
+        "id": "myContext",
+        "value": [ { "b": "valor b" } ]
+    },
+    "children": [
+        {
+            "type": "component.text",
+            "text": "${myContext[0].b}"
+        },
+        {
+            "type": "component.button",
+            "text": "ok"
+        },
+        {
+            "type": "unknown"
+        }
+    ]
+}
+""".data(using: .utf8)!
+
+let jsonDecoder = JSONDecoder()
+let object = try jsonDecoder.decode(AnyDecodableContainer.self, from: jsonData)
+let unrappedObject = (object.value as? Component) ?? UnknownComponent()
+
+print("component: \(unrappedObject)")
+let rootView = unrappedObject.render()
+
+let containerView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 375.0, height: 667.0))
+containerView.addSubview(rootView)
+containerView.addConstraints(
+    NSLayoutConstraint.constraints(withVisualFormat: "H:|-[rootView]-|",
+    metrics: nil,
+    views: ["rootView": rootView])
+)
+containerView.addConstraints(
+    NSLayoutConstraint.constraints(withVisualFormat: "V:|-[rootView]->=8-|",
+    metrics: nil,
+    views: ["rootView": rootView])
+)
+PlaygroundPage.current.liveView = containerView
+
+//print("------------------------------------------")
+//print("keypath sample")
+// if the data were not dynamic (AnyType) maybe we could use keypath to represent expressions
+// transform expression -> keypath
+//struct S1 {
+//    let p: String
+//}
+//
+//struct S2 {
+//    let p: Int
+//}
+//
+//struct S3 {
+//    let s1s: [S1]
+//    let s2: S2
+//}
+//
+//// ${context.s1s[0].p}
+//let keypath = \S3.s1s[0].p
+//// ${context.s2s.p}
+//let keypath2 = \S3.s2.p
+//
+//// we get evaluation for free
+//let sample = S3(s1s: [S1(p: "s1 p")], s2: S2(p: 2))
+//
+//print((get(keypath))(sample))
+//print((get(keypath2))(sample))
+//
+//func get<Root, Value>(_ kp: KeyPath<Root, Value>) -> (Root) -> Value {
+//  { $0[keyPath: kp] }
+//}
