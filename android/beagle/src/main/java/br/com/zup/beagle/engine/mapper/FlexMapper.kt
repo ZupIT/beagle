@@ -147,8 +147,8 @@ class FlexMapper {
         }
     }
 
-    private fun setPadding(margin: EdgeValue?, yogaNode: YogaNode) {
-        applyEdgeValue(margin) { yogaEdge, unitValue ->
+    private fun setPadding(padding: EdgeValue?, yogaNode: YogaNode) {
+        applyEdgeValue(padding) { yogaEdge, unitValue ->
             if (unitValue.type == UnitType.REAL) {
                 yogaNode.setPadding(yogaEdge, unitValue.value.dp().toFloat())
             } else if (unitValue.type == UnitType.PERCENT) {

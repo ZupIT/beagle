@@ -41,9 +41,9 @@ import com.facebook.yoga.YogaFlexDirection
 import com.facebook.yoga.YogaJustify
 import com.facebook.yoga.YogaPositionType
 import com.facebook.yoga.YogaWrap
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
-
-import org.junit.Assert.*
 
 class FlexYogaMapperTest {
 
