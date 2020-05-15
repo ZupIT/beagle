@@ -17,18 +17,19 @@
 import UIKit
 import WebKit
 
-public struct WebView: FlexComponent {
+public struct WebView: FlexComponent, ServerDrivenComponent, AutoInitiableAndDecodable {
     public let url: String
     public let flex: Flex?
-    
-    public init
-    (
+
+// sourcery:inline:auto:WebView.Init
+    public init(
         url: String,
         flex: Flex? = nil
     ) {
         self.url = url
         self.flex = flex
     }
+// sourcery:end
 }
 
 extension WebView: Renderable {
@@ -36,18 +37,5 @@ extension WebView: Renderable {
         let webView = WebViewUIComponent(model: WebViewUIComponent.Model(url: url))
         webView.flex.setup(flex)
         return webView
-    }
-}
-
-extension WebView: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case url
-        case flex
-    }
-    
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.url = try container.decode(String.self, forKey: .url)
-        self.flex = try container.decodeIfPresent(Flex.self, forKey: .flex)
     }
 }

@@ -16,40 +16,30 @@
 
 import UIKit
 
-public struct NetworkImage: Widget {
+public struct NetworkImage: Widget, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
 
     public let path: String
     public let contentMode: ImageContentMode?
-    public let placeholder: ServerDrivenComponent?
-    public let fallback: String?
-    public var id: String?
-    public let appearance: Appearance?
-    public let flex: Flex?
-    public let accessibility: Accessibility?
+    public let placeholder: Image?
+    public var widgetProperties: WidgetProperties
     
     // MARK: - Initialization
-    
+
+// sourcery:inline:auto:NetworkImage.Init
     public init(
         path: String,
         contentMode: ImageContentMode? = nil,
-        placeholder: ServerDrivenComponent? = nil,
-        fallback: String? = nil,
-        id: String? = nil,
-        appearance: Appearance? = nil,
-        flex: Flex? = nil,
-        accessibility: Accessibility? = nil
+        placeholder: Image? = nil,
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.path = path
         self.contentMode = contentMode
         self.placeholder = placeholder
-        self.fallback = fallback
-        self.id = id
-        self.appearance = appearance
-        self.flex = flex
-        self.accessibility = accessibility
+        self.widgetProperties = widgetProperties
     }
+// sourcery:end
 }
 
 extension NetworkImage: Renderable {
@@ -60,9 +50,9 @@ extension NetworkImage: Renderable {
         imageView.beagle.setup(self)
         
         if let placeholder = placeholder {
-            let view = placeholder.toView(context: context, dependencies: dependencies)
-            context.lazyLoadImage(path: path, placeholderView: view, imageView: imageView, flex: flex ?? Flex())
-            return view
+            let imagePlaceholder = placeholder.toView(context: context, dependencies: dependencies)
+            context.lazyLoadImage(path: path, placeholderView: imagePlaceholder, imageView: imageView, flex: flex ?? Flex())
+            return imagePlaceholder
         }
 
         dependencies.repository.fetchImage(url: path, additionalData: nil) {
@@ -79,32 +69,5 @@ extension NetworkImage: Renderable {
             }
         }
         return imageView
-    }
-}
-
-// MARK: - Decodable
-
-extension NetworkImage: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case path
-        case contentMode
-        case placeholder
-        case fallback
-        case id
-        case appearance
-        case accessibility
-        case flex
-    }
-    
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.path = try container.decode(String.self, forKey: .path)
-        self.contentMode = try container.decodeIfPresent(ImageContentMode.self, forKey: .contentMode)
-        self.placeholder = try container.decodeIfPresent(forKey: .placeholder)
-        self.fallback = try container.decodeIfPresent(String.self, forKey: .fallback)
-        self.id = try container.decodeIfPresent(String.self, forKey: .id)
-        self.appearance = try container.decodeIfPresent(Appearance.self, forKey: .appearance)
-        self.accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
-        self.flex = try container.decodeIfPresent(Flex.self, forKey: .flex)
     }
 }

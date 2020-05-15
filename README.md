@@ -1,5 +1,6 @@
 ![Release](https://github.com/ZupIT/beagle/workflows/Beagle%20Release/badge.svg)
 [![codecov](https://codecov.io/gh/ZupIT/beagle/branch/master/graph/badge.svg?token=rViMmc9MYJ)](https://codecov.io/gh/ZupIT/beagle)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/ZupIT/beagle/blob/master/LICENSE.txt)
 
 ## What is Beagle?
 
@@ -171,3 +172,7 @@ When deserializing, Beagle turns a `widget` into a `view` applying the styles im
 - [Create a Backend project](https://zup-products.gitbook.io/beagle/introducing/beagle-backend)
 - [Create an Android project](https://zup-products.gitbook.io/beagle/introducing/android)
 - [Create an iOS project](https://zup-products.gitbook.io/beagle/introducing/ios)
+
+## Contributing guide
+
+Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to add new feature and contribute in general to Beagle

@@ -23,6 +23,8 @@ import br.com.zup.beagle.compiler.util.BEAGLE_CONFIG
 import br.com.zup.beagle.compiler.util.error
 import br.com.zup.beagle.compiler.util.implementsInterface
 import com.google.auto.service.AutoService
+import net.ltgt.gradle.incap.IncrementalAnnotationProcessor
+import net.ltgt.gradle.incap.IncrementalAnnotationProcessorType
 import java.util.*
 import javax.annotation.processing.AbstractProcessor
 import javax.annotation.processing.ProcessingEnvironment
@@ -34,6 +36,7 @@ import javax.lang.model.element.TypeElement
 
 @AutoService(Processor::class)
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
+@IncrementalAnnotationProcessor(IncrementalAnnotationProcessorType.ISOLATING)
 class BeagleAnnotationProcessor : AbstractProcessor() {
 
     private lateinit var validatorHandlerProcessor: ValidatorHandlerProcessor

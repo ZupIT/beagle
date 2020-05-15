@@ -57,7 +57,7 @@ struct TabViewScreen: DeeplinkScreen {
         
         let tab5 = TabItem(title: "Tab5", content:
             NetworkImage(path: .NETWORK_IMAGE_BEAGLE,
-                         placeholder: Text("loading image.. ")))
+                         placeholder: Image(name: "beagle")))
         
         return Screen(navigationBar: NavigationBar(title: "TabView"), child: TabView(tabItems: [tab1, tab2, tab3, tab4, tab5], style: .TAB_VIEW_STYLE))
     }
