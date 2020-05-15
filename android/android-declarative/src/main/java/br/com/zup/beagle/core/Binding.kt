@@ -29,7 +29,7 @@ sealed class Binding<T> : Bind<T> {
         this.onChange(value)
     }
 
-    data class Expression<T>(override val value: String): Binding<T>() {}
+    data class Expression<T>(override val value: String): Binding<T>()
     data class Value<T: Any>(override val value: T): Binding<T>()
 
 }

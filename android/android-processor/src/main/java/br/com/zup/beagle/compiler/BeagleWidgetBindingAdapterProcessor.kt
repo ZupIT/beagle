@@ -74,8 +74,9 @@ class BeagleWidgetBindingAdapterProcessor(
             val beagleSetupFile = FileSpec.builder(
                 packageElement.toString(),
                 bindingAdapterClassName
-            ).addImport(GET_VALUE_NULL.packageName, GET_VALUE_NULL.className).addType(typeSpec)
-                .addImport(GET_VALUE_NOT_NULL.packageName, GET_VALUE_NOT_NULL.className).addType(typeSpec)
+            ).addImport(GET_VALUE_NULL.packageName, GET_VALUE_NULL.className)
+                .addImport(GET_VALUE_NOT_NULL.packageName, GET_VALUE_NOT_NULL.className)
+                .addType(typeSpec)
                 .build()
 
             try {
@@ -113,7 +114,8 @@ class BeagleWidgetBindingAdapterProcessor(
             val isNullable = isMarkedNullable(e)
             val getValueMethodName = if (isNullable) "getValueNull" else "getValueNotNull"
 
-            attributeValues.append("\t${e.simpleName} = ${getValueMethodName}(binding.${e.simpleName}, widget.${e.simpleName})")
+            val attr = e.simpleName
+            attributeValues.append("\t$attr = ${getValueMethodName}(binding.$attr, widget.$attr)")
 
             if (index < constructorParameters.size - 1) {
                 attributeValues.append(",\n")
@@ -121,9 +123,10 @@ class BeagleWidgetBindingAdapterProcessor(
         }
 
         constructorParameters.forEachIndexed { index, e ->
+            val attr = e.simpleName
             notifyValues.append("""
-                |binding.${e.simpleName}.observes {
-                |myWidget = myWidget.copy(${e.simpleName} = it)
+                |binding.$attr.observes {
+                |   myWidget = myWidget.copy($attr = it)
                 |   widget.onBind(myWidget)
                 |}
                 |
