@@ -28,7 +28,7 @@ struct FormScreen: DeeplinkScreen {
     
     init() {}
     
-    init(path: String, data: [String : String]?) {}
+    init(path: String, data: [String: String]?) {}
     
     func screenController() -> UIViewController {
         let flexHorizontalMargin = Flex().margin(EdgeValue().all(10))

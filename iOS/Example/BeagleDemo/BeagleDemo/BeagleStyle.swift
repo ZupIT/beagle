@@ -30,11 +30,10 @@ struct Style {
         .NAVIGATION_BAR_GREEN_STYLE: Style.designSystemStyleNavigationBar,
         .NAVIGATION_BAR_DEFAULT_STYLE: Style.designSystemStyleNavigationBarDefault,
         .TAB_VIEW_STYLE: Style.tabView
-        ]
-    )
+    ])
     
     static func blackTextNormalStyle() -> (UITextView?) -> Void {
-        return BeagleStyle.text(font: .systemFont(ofSize: 16) ,color: .black)
+        return BeagleStyle.text(font: .systemFont(ofSize: 16), color: .black)
     }
     
     static func designSystemTextHelloWord() -> (UITextView?) -> Void {
@@ -62,7 +61,6 @@ struct Style {
                 $0?.titleLabel |> BeagleStyle.label(withFont: .systemFont(ofSize: 16, weight: .semibold))
         }
     }
-    
     
     static func designSystemStyleNavigationBar() -> (UINavigationBar?) -> Void {
         return {
