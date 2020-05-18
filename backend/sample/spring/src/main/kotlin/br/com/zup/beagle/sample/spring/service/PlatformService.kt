@@ -16,7 +16,11 @@
 
 package br.com.zup.beagle.sample.spring.service
 
+import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.enums.BeaglePlatform
+import br.com.zup.beagle.sample.widget.SamplePlatformTextField
+import br.com.zup.beagle.spring.util.BeagleSessionUtil
+import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Text
 import org.springframework.stereotype.Service
@@ -24,9 +28,10 @@ import org.springframework.stereotype.Service
 @Service
 class PlatformService {
 
-    fun renderComponentUsingPlatform(beaglePlatform: BeaglePlatform) =
-        when {
-            beaglePlatform.isMobile() -> {
+    fun renderComponentUsingPlatform(): ServerDrivenComponent {
+        val beaglePlatform = BeagleSessionUtil.getBeaglePlatformFromSession()
+        return when {
+            beaglePlatform.isMobilePlatform() -> {
                 ScrollView(
                     children = listOf(
                         Text("Mobile platform")
@@ -37,7 +42,23 @@ class PlatformService {
                 Text("Web platform")
             }
             else -> {
-                null
+                ScrollView(
+                    children = listOf(
+                        Text("Mobile platform"),
+                        Text("Web platform")
+                    )
+                )
             }
         }
+    }
+
+    fun renderComponent() = Container(
+        listOf(
+            SamplePlatformTextField("mobile only text", BeaglePlatform.MOBILE),
+            SamplePlatformTextField("web only text", BeaglePlatform.WEB),
+            SamplePlatformTextField("ios only text", BeaglePlatform.IOS),
+            SamplePlatformTextField("android only text", BeaglePlatform.ANDROID),
+            SamplePlatformTextField("text free for all")
+        )
+    )
 }

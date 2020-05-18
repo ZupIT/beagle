@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse
 class BeaglePlatformInterceptor(private val objectMapper: ObjectMapper) : HandlerInterceptor {
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
-        request.session.setAttribute(
+        request.setAttribute(
             BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER,
             request.getHeader(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER)
         )

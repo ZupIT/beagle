@@ -18,13 +18,17 @@ package br.com.zup.beagle.spring.util
 
 import br.com.zup.beagle.enums.BeaglePlatform
 import br.com.zup.beagle.utils.BeaglePlatformUtil
-import javax.servlet.http.HttpServletRequest
+import org.springframework.web.context.request.RequestAttributes
+import org.springframework.web.context.request.RequestContextHolder
 
 object BeagleSessionUtil {
 
-    fun getBeaglePlatformFromSession(request: HttpServletRequest): BeaglePlatform {
-        val currentPlatform = request.session.getAttribute(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER)
-        return if (currentPlatform != null){
+    fun getBeaglePlatformFromSession(): BeaglePlatform {
+        val currentPlatform = RequestContextHolder.currentRequestAttributes().getAttribute(
+            BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER,
+            RequestAttributes.SCOPE_REQUEST
+        )
+        return if (currentPlatform != null) {
             BeaglePlatform.valueOf(currentPlatform as String)
         } else {
             BeaglePlatform.ALL

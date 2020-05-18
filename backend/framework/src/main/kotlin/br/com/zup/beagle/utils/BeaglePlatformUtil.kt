@@ -100,8 +100,8 @@ object BeaglePlatformUtil {
                 }
             }
         }
-        indexToRemoveList.forEach {
-            arrayNode.remove(it)
+        indexToRemoveList.forEachIndexed { index, indexToRemove ->
+            arrayNode.remove(indexToRemove - index)
         }
     }
 

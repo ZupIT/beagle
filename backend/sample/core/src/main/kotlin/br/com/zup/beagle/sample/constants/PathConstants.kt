@@ -59,6 +59,7 @@ const val PATH_SCREEN_DEEP_LINK_ENDPOINT = "screen-deep-link"
 
 const val PATH_LAZY_COMPONENT_ENDPOINT = "/text-lazy-component"
 
+const val CUSTOM_PLATFORM_SAMPLE_ENDPOINT = "/sample/platform/custom"
 const val PLATFORM_SAMPLE_ENDPOINT = "/sample/platform"
 
 const val PATH_SAMPLE_VIEW_ENDPOINT = "http://localhost:8080/sample"

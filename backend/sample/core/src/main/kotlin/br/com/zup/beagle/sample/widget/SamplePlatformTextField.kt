@@ -14,27 +14,15 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.enums
+package br.com.zup.beagle.sample.widget
 
-enum class BeaglePlatform {
-    ALL,
-    MOBILE,
-    ANDROID,
-    IOS,
-    WEB;
+import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.enums.BeaglePlatform
+import br.com.zup.beagle.widget.form.InputWidget
 
-    fun isMobilePlatform() = this == MOBILE || this == ANDROID || this == IOS
-
-    fun allowToSendComponentToPlatform(beaglePlatform: BeaglePlatform): Boolean {
-        if (beaglePlatform == ALL) {
-            return true
-        }
-        return when (this) {
-            ALL -> true
-            MOBILE -> beaglePlatform.isMobilePlatform()
-            ANDROID -> beaglePlatform == ANDROID
-            IOS -> beaglePlatform == IOS
-            WEB -> beaglePlatform == WEB
-        }
-    }
-}
+@RegisterWidget
+class SamplePlatformTextField(
+    val placeholder: String,
+    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
+) : ServerDrivenComponent, InputWidget()

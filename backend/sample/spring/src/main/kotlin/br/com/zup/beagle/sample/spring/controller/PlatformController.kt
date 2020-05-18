@@ -16,18 +16,18 @@
 
 package br.com.zup.beagle.sample.spring.controller
 
+import br.com.zup.beagle.sample.constants.CUSTOM_PLATFORM_SAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.PLATFORM_SAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.spring.service.PlatformService
-import br.com.zup.beagle.spring.util.BeagleSessionUtil
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
-import javax.servlet.http.HttpServletRequest
 
 @RestController
 class PlatformController(private val platformService: PlatformService) {
 
+    @GetMapping(CUSTOM_PLATFORM_SAMPLE_ENDPOINT)
+    fun renderComponentUsingPlatform() = this.platformService.renderComponentUsingPlatform()
+
     @GetMapping(PLATFORM_SAMPLE_ENDPOINT)
-    fun platform(request: HttpServletRequest) = this.platformService.renderComponentUsingPlatform(
-        BeagleSessionUtil.getBeaglePlatformFromSession(request)
-    )
+    fun renderComponent() = this.platformService.renderComponent()
 }
