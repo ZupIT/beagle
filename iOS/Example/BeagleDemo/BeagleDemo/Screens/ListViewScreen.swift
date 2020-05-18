@@ -67,4 +67,3 @@ struct ListViewScreen: DeeplinkScreen {
         direction: .horizontal
     )
 }
-
