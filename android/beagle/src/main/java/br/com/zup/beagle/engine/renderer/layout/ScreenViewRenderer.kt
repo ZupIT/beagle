@@ -47,11 +47,11 @@ internal class ScreenViewRenderer(
         component.screenAnalyticsEvent?.let {
             container.addOnAttachStateChangeListener(object: View.OnAttachStateChangeListener {
                 override fun onViewAttachedToWindow(v: View?) {
-                    BeagleEnvironment.beagleSdk.analytics?.sendViewWillAppearEvent(it)
+                    BeagleEnvironment.beagleSdk.analytics?.trackEventOnScreenAppeared(it)
                 }
 
                 override fun onViewDetachedFromWindow(v: View?) {
-                    BeagleEnvironment.beagleSdk.analytics?.sendViewWillDisappearEvent(it)
+                    BeagleEnvironment.beagleSdk.analytics?.trackEventOnScreenDisappeared(it)
                 }
             })
         }

@@ -17,7 +17,7 @@
 package br.com.zup.beagle.analytics
 
 interface Analytics {
-    fun sendClickEvent(event: ClickEvent)
-    fun sendViewWillAppearEvent(event: ScreenEvent)
-    fun sendViewWillDisappearEvent(event: ScreenEvent)
+    fun trackEventOnClick(event: ClickEvent)
+    fun trackEventOnScreenAppeared(event: ScreenEvent)
+    fun trackEventOnScreenDisappeared(event: ScreenEvent)
 }

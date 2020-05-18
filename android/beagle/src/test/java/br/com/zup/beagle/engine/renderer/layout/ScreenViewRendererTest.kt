@@ -48,7 +48,6 @@ import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
 import io.mockk.verifyOrder
-import io.mockk.verifySequence
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -198,10 +197,10 @@ class ScreenViewRendererTest : BaseTest() {
 
         // Then
         val capturedEvent = CapturingSlot<ScreenEvent>()
-        verify { analytics.sendViewWillAppearEvent(capture(capturedEvent)) }
+        verify { analytics.trackEventOnScreenAppeared(capture(capturedEvent)) }
         assertEquals(screenName, capturedEvent.captured.screenName)
 
-        verify { analytics.sendViewWillDisappearEvent(capture(capturedEvent)) }
+        verify { analytics.trackEventOnScreenDisappeared(capture(capturedEvent)) }
         assertEquals(screenName, capturedEvent.captured.screenName)
     }
 

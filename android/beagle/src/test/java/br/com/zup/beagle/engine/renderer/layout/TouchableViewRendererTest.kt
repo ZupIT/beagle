@@ -29,7 +29,6 @@ import br.com.zup.beagle.data.PreFetchHelper
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.engine.renderer.ViewRenderer
 import br.com.zup.beagle.engine.renderer.ViewRendererFactory
-import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.view.BeagleFlexView
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.navigation.Touchable
@@ -41,7 +40,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.slot
 import io.mockk.verify
 import org.junit.Test
@@ -137,7 +135,7 @@ class TouchableViewRendererTest : BaseTest() {
         onClickListenerSlot.captured.onClick(view)
 
         // Then
-        verify { analytics.sendClickEvent(eq(clickAnalyticsEvent)) }
+        verify { analytics.trackEventOnClick(eq(clickAnalyticsEvent)) }
     }
 
     @Test
@@ -152,6 +150,6 @@ class TouchableViewRendererTest : BaseTest() {
         onClickListenerSlot.captured.onClick(view)
 
         // Then
-        verify(exactly = 0) { analytics.sendClickEvent(any()) }
+        verify(exactly = 0) { analytics.trackEventOnClick(any()) }
     }
 }

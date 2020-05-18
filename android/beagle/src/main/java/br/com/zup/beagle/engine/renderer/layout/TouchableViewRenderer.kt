@@ -41,7 +41,7 @@ internal class TouchableViewRenderer(
                 actionExecutor.doAction(context, component.action)
                 component.clickAnalyticsEvent?.let {
                     BeagleEnvironment.beagleSdk.analytics?.
-                    sendClickEvent(it)
+                    trackEventOnClick(it)
                 }
             }
         }

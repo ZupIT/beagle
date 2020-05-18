@@ -39,7 +39,7 @@ internal class ButtonViewRenderer(
                 actionExecutor.doAction(context, component.action)
                 component.clickAnalyticsEvent?.let {
                     BeagleEnvironment.beagleSdk.analytics?.
-                    sendClickEvent(it)
+                    trackEventOnClick(it)
                 }
             }
             setData(component)

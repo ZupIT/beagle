@@ -41,7 +41,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import io.mockk.verify
@@ -161,7 +160,7 @@ class ButtonViewRendererTest : BaseTest() {
         onClickListenerSlot.captured.onClick(view)
 
         // Then
-        verify { analytics.sendClickEvent(eq(clickAnalyticsEvent)) }
+        verify { analytics.trackEventOnClick(eq(clickAnalyticsEvent)) }
     }
 
     @Test
@@ -176,6 +175,6 @@ class ButtonViewRendererTest : BaseTest() {
         onClickListenerSlot.captured.onClick(view)
 
         // Then
-        verify(exactly = 0) { analytics.sendClickEvent(any()) }
+        verify(exactly = 0) { analytics.trackEventOnClick(any()) }
     }
 }
