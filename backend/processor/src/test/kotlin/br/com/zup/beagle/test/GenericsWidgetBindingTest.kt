@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.test
 
-import br.com.zup.beagle.core.Bind
+import br.com.zup.beagle.core.Binding
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -30,7 +30,7 @@ internal class GenericsWidgetBindingTest {
 
     @Test
     fun test_Value_construction() {
-        val actual = GenericsWidgetBinding(Bind.Value(A), Bind.Value(B), Bind.Value(C))
+        val actual = GenericsWidgetBinding(Binding.Value(A), Binding.Value(B), Binding.Value(C))
 
         assertEquals(A, actual.a.value)
         assertEquals(B, actual.b.value)
@@ -41,9 +41,9 @@ internal class GenericsWidgetBindingTest {
     @Test
     fun test_Expression_construction() {
         val actual = GenericsWidgetBinding(
-            Bind.Expression(EXPRESSION),
-            Bind.Expression(EXPRESSION),
-            Bind.Expression(EXPRESSION)
+            Binding.Expression(EXPRESSION),
+            Binding.Expression(EXPRESSION),
+            Binding.Expression(EXPRESSION)
         )
 
         assertEquals(EXPRESSION, actual.a.value)
@@ -54,7 +54,7 @@ internal class GenericsWidgetBindingTest {
 
     @Test
     fun test_Mixed_construction() {
-        val actual = GenericsWidgetBinding(Bind.Value(A), Bind.Value(B), Bind.Expression(EXPRESSION))
+        val actual = GenericsWidgetBinding(Binding.Value(A), Binding.Value(B), Binding.Expression(EXPRESSION))
 
         assertEquals(A, actual.a.value)
         assertEquals(B, actual.b.value)

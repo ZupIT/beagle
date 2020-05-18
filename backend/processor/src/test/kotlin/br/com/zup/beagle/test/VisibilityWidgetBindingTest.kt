@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.test
 
-import br.com.zup.beagle.core.Bind
+import br.com.zup.beagle.core.Binding
 import org.junit.jupiter.api.Test
 import kotlin.random.Random
 import kotlin.test.assertEquals
@@ -30,7 +30,7 @@ internal class VisibilityWidgetBindingTest {
 
     @Test
     fun test_Value_construction() {
-        val actual = VisibilityWidgetBinding(Bind.Value(B), Bind.Value(D))
+        val actual = VisibilityWidgetBinding(Binding.Value(B), Binding.Value(D))
 
         assertEquals(B, actual.b.value)
         assertEquals(D, actual.d.value)
@@ -39,7 +39,7 @@ internal class VisibilityWidgetBindingTest {
 
     @Test
     fun test_Expression_construction() {
-        val actual = VisibilityWidgetBinding(Bind.Expression(EXPRESSION), Bind.Expression(EXPRESSION))
+        val actual = VisibilityWidgetBinding(Binding.Expression(EXPRESSION), Binding.Expression(EXPRESSION))
 
         assertEquals(EXPRESSION, actual.b.value)
         assertEquals(EXPRESSION, actual.d.value)
@@ -48,7 +48,7 @@ internal class VisibilityWidgetBindingTest {
 
     @Test
     fun test_Mixed_construction() {
-        val actual = VisibilityWidgetBinding(Bind.Expression(EXPRESSION), Bind.Value(D))
+        val actual = VisibilityWidgetBinding(Binding.Expression(EXPRESSION), Binding.Value(D))
 
         assertEquals(EXPRESSION, actual.b.value)
         assertEquals(D, actual.d.value)

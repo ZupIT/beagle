@@ -36,4 +36,5 @@ dependencies {
     testImplementation TestLibraries.kotlinTest
     testImplementation TestLibraries.mockk
     testImplementation project(Modules.beagleCoreDeclarative)
+    testImplementation project(Modules.beagleBackendDeclarative)
 }
