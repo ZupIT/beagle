@@ -23,7 +23,7 @@ import br.com.zup.beagle.core.AppearanceComponent
 import br.com.zup.beagle.core.FlexComponent
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zuo.beagle.widget.core.FlexBuilder
+import br.com.zup.beagle.widget.core.FlexBuilder
 
 abstract class Widget : FlexComponent, AppearanceComponent, AccessibilityComponent,
     IdentifierComponent {
