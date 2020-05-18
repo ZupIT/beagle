@@ -14,17 +14,37 @@
  * limitations under the License.
  */
 
-public struct Style: Decodable, Equatable, AutoInitiable {
+public class Style: Decodable, AutoEquatable, AutoInitiable {
     
-    // MARK: - Public Properties
-    let backgroundColor: String?
-    let cornerRadius: CornerRadius?
+    public var flex: Flex?
+    public var direction: Direction?
+    public var display: Display?
+    public var size: Size?
+    public var margin: EdgeValue?
+    public var padding: EdgeValue?
+    public var position: EdgeValue?
+    public var backgroundColor: String?
+    public var cornerRadius: CornerRadius?
 
 // sourcery:inline:auto:Style.Init
     public init(
+        flex: Flex? = nil,
+        direction: Direction? = nil,
+        display: Display? = nil,
+        size: Size? = nil,
+        margin: EdgeValue? = nil,
+        padding: EdgeValue? = nil,
+        position: EdgeValue? = nil,
         backgroundColor: String? = nil,
         cornerRadius: CornerRadius? = nil
     ) {
+        self.flex = flex
+        self.direction = direction
+        self.display = display
+        self.size = size
+        self.margin = margin
+        self.padding = padding
+        self.position = position
         self.backgroundColor = backgroundColor
         self.cornerRadius = cornerRadius
     }
@@ -41,4 +61,21 @@ public struct CornerRadius: Decodable, AutoEquatable, AutoInitiable {
         self.radius = radius
     }
 // sourcery:end
+}
+
+// MARK: - Direction
+extension Style {
+    public enum Direction: String, Decodable {
+        case inherit = "INHERIT"
+        case ltr = "LTR"
+        case rtl = "RTL"
+    }
+}
+
+// MARK: - Display
+extension Style {
+    public enum Display: String, Decodable {
+        case flex = "FLEX"
+        case none = "NONE"
+    }
 }

@@ -14,14 +14,67 @@
  * limitations under the License.
  */
 
-// MARK: - Flex Builders
+// MARK: - Style Builders
 
-public extension Flex {
+public extension Style {
     @discardableResult
-    func direction(_ direction: Direction) -> Flex {
+    func direction(_ direction: Style.Direction) -> Style {
         self.direction = direction
         return self
     }
+    
+    @discardableResult
+    func display(_ display: Style.Display) -> Style {
+        self.display = display
+        return self
+    }
+
+    @discardableResult
+    func size(_ size: Size) -> Style {
+        self.size = size
+        return self
+    }
+
+    @discardableResult
+    func margin(_ margin: EdgeValue) -> Style {
+        self.margin = margin
+        return self
+    }
+
+    @discardableResult
+    func padding(_ padding: EdgeValue) -> Style {
+        self.padding = padding
+        return self
+    }
+
+    @discardableResult
+    func position(_ position: EdgeValue) -> Style {
+        self.position = position
+        return self
+    }
+    
+    @discardableResult
+    func flex(_ flex: Flex) -> Style {
+        self.flex = flex
+        return self
+    }
+    
+    @discardableResult
+    func backgroundColor(_ backgroundColor: String) -> Style {
+        self.backgroundColor = backgroundColor
+        return self
+    }
+    
+    @discardableResult
+    func cornerRadius(_ cornerRadius: CornerRadius) -> Style {
+        self.cornerRadius = cornerRadius
+        return self
+    }
+}
+
+// MARK: - Flex Builders
+
+public extension Flex {
     
     @discardableResult
     func flexDirection(_ flexDirection: FlexDirection) -> Flex {
@@ -88,37 +141,6 @@ public extension Flex {
         self.shrink = shrink
         return self
     }
-    
-    @discardableResult
-    func display(_ display: Display) -> Flex {
-        self.display = display
-        return self
-    }
-    
-    @discardableResult
-    func size(_ size: Size) -> Flex {
-        self.size = size
-        return self
-    }
-    
-    @discardableResult
-    func margin(_ margin: EdgeValue) -> Flex {
-        self.margin = margin
-        return self
-    }
-    
-    @discardableResult
-    func padding(_ padding: EdgeValue) -> Flex {
-        self.padding = padding
-        return self
-    }
-    
-    @discardableResult
-    func position(_ position: EdgeValue) -> Flex {
-        self.position = position
-        return self
-    }
-    
 }
 
 // MARK: - Size Builders

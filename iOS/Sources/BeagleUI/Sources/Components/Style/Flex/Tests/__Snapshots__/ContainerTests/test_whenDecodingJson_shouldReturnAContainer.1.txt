@@ -7,7 +7,6 @@
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
-        - flex: Optional<Flex>.none
         - id: Optional<String>.none
         - style: Optional<Style>.none
     ▿ Text
@@ -17,7 +16,6 @@
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
-        - flex: Optional<Flex>.none
         - id: Optional<String>.none
         - style: Optional<Style>.none
     ▿ Text
@@ -27,26 +25,35 @@
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
-        - flex: Optional<Flex>.none
         - id: Optional<String>.none
         - style: Optional<Style>.none
   ▿ widgetProperties: WidgetProperties
     - accessibility: Optional<Accessibility>.none
-    ▿ flex: Optional<Flex>
-      ▿ some: Flex
-        - alignContent: Optional<Alignment>.none
-        - alignItems: Optional<Alignment>.none
-        - alignSelf: Optional<Alignment>.none
-        - basis: Optional<UnitValue>.none
+    - id: Optional<String>.none
+    ▿ style: Optional<Style>
+      ▿ some: Style
+        ▿ backgroundColor: Optional<String>
+          - some: "#500000FF"
+        ▿ cornerRadius: Optional<CornerRadius>
+          ▿ some: CornerRadius
+            - radius: 30.0
         - direction: Optional<Direction>.none
         - display: Optional<Display>.none
-        - flex: Optional<Double>.none
-        - flexDirection: Optional<FlexDirection>.none
-        - flexWrap: Optional<Wrap>.none
-        ▿ grow: Optional<Double>
-          - some: 1.0
-        ▿ justifyContent: Optional<JustifyContent>
-          - some: JustifyContent.spaceEvenly
+        ▿ flex: Optional<Flex>
+          ▿ some: Flex
+            - alignContent: Optional<Alignment>.none
+            - alignItems: Optional<Alignment>.none
+            - alignSelf: Optional<Alignment>.none
+            - basis: Optional<UnitValue>.none
+            - flex: Optional<Double>.none
+            - flexDirection: Optional<FlexDirection>.none
+            - flexWrap: Optional<Wrap>.none
+            ▿ grow: Optional<Double>
+              - some: 1.0
+            ▿ justifyContent: Optional<JustifyContent>
+              - some: JustifyContent.spaceEvenly
+            - positionType: Optional<PositionType>.none
+            - shrink: Optional<Double>.none
         ▿ margin: Optional<EdgeValue>
           ▿ some: EdgeValue
             - all: Optional<UnitValue>.none
@@ -63,14 +70,4 @@
             - vertical: Optional<UnitValue>.none
         - padding: Optional<EdgeValue>.none
         - position: Optional<EdgeValue>.none
-        - positionType: Optional<PositionType>.none
-        - shrink: Optional<Double>.none
         - size: Optional<Size>.none
-    - id: Optional<String>.none
-    ▿ style: Optional<Style>
-      ▿ some: Style
-        ▿ backgroundColor: Optional<String>
-          - some: "#500000FF"
-        ▿ cornerRadius: Optional<CornerRadius>
-          ▿ some: CornerRadius
-            - radius: 30.0

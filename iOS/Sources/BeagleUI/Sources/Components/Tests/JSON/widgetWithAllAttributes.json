@@ -4,7 +4,12 @@
    "styleId": "test.text.style",
    "alignment":"CENTER",
    "textColor": "579F2B",
-   "flex":{
+   "id":"some id",
+   "style":{
+      "backgroundColor":"#800000FF",
+      "cornerRadius":{
+         "radius":30.0
+      },
       "size":{
          "width":{
             "value":100,
@@ -14,13 +19,6 @@
             "value":44,
             "type":"REAL"
          }
-      }
-   },
-   "id":"some id",
-   "style":{
-      "backgroundColor":"#800000FF",
-      "cornerRadius":{
-         "radius":30.0
       }
    },
    "accessibility":{

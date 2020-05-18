@@ -70,8 +70,8 @@ extension ScreenComponent: Renderable {
         let childView = child.toView(context: context, dependencies: dependencies)
         
         childHolder.addSubview(childView)
-        childHolder.flex.setup(Flex(grow: 1))
-        childView.flex.isEnabled = true
+        childHolder.style.setup(Style(flex: Flex(grow: 1)))
+        childView.style.isFlexEnabled = true
         
         return childHolder
     }

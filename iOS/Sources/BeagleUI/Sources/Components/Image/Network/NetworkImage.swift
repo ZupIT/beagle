@@ -49,7 +49,7 @@ extension NetworkImage: Renderable {
             let image = UIImage(data: data)
             DispatchQueue.main.async {
                 imageView.image = image
-                imageView.flex.markDirty()
+                imageView.style.markDirty()
                 context?.applyLayout()
             }
         }

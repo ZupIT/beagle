@@ -7,7 +7,7 @@
                 "_beagleType_": "beagle:component:text",
                 "text": "BeaglePreview",
                 "alignment": "CENTER",
-                "flex": {
+                "style": {
                     "size": {
                         "width": {
                             "value": 100,

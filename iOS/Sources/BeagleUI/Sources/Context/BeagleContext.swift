@@ -221,8 +221,8 @@ extension BeagleScreenViewController: BeagleContext {
         let updatable = initialView as? OnStateUpdatable
         let updated = updatable?.onUpdateState(component: lazyLoaded) ?? false
 
-        if updated && initialView.flex.isEnabled {
-            initialView.flex.markDirty()
+        if updated && initialView.style.isFlexEnabled {
+            initialView.style.markDirty()
         } else if !updated {
             replaceView(initialView, with: lazyLoaded)
         }
@@ -237,8 +237,8 @@ extension BeagleScreenViewController: BeagleContext {
         superview.insertSubview(newView, belowSubview: oldView)
         oldView.removeFromSuperview()
 
-        if oldView.flex.isEnabled && !newView.flex.isEnabled {
-            newView.flex.isEnabled = true
+        if oldView.style.isFlexEnabled && !newView.style.isFlexEnabled {
+            newView.style.isFlexEnabled = true
         }
     }
 }

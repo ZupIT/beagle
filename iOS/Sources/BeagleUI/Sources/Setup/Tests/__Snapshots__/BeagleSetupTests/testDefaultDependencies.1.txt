@@ -97,7 +97,6 @@
       - nonConformingFloatDecodingStrategy: NonConformingFloatDecodingStrategy.throw
       - userInfo: 0 key/value pairs
   - deepLinkHandler: Optional<DeepLinkScreenManaging>.none
-  - flex: (Function)
   - logger: BeagleLogger
   ▿ navigation: BeagleNavigator
     ▿ dependencies: InnerDependenciesResolver
@@ -119,6 +118,7 @@
     - serviceMaxCacheAge: "cache-control"
   ▿ resolver: InnerDependenciesResolver
     - container: (Function)
+  - style: (Function)
   ▿ theme: AppTheme
     - styles: 0 key/value pairs
   ▿ urlBuilder: UrlBuilder

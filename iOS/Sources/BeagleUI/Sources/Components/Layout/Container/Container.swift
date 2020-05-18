@@ -37,12 +37,12 @@ public struct Container: Widget, AutoInitiableAndDecodable {
 extension Container {
     
     public func applyFlex(_ flex: Flex) -> Container {
+        let style = (widgetProperties.style ?? Style()).flex(flex)
         return Container(
             children: children,
             widgetProperties: .init(
                 id: widgetProperties.id,
-                style: widgetProperties.style,
-                flex: flex,
+                style: style,
                 accessibility: widgetProperties.accessibility
             ))
     }
@@ -55,7 +55,7 @@ extension Container: Renderable {
         children.forEach {
             let childView = $0.toView(context: context, dependencies: dependencies)
             containerView.addSubview(childView)
-            childView.flex.isEnabled = true
+            childView.style.isFlexEnabled = true
         }
 
         containerView.beagle.setup(self)

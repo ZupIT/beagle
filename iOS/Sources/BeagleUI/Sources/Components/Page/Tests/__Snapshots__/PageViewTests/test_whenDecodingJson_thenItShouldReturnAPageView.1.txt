@@ -10,7 +10,6 @@
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
-            - flex: Optional<Flex>.none
             - id: Optional<String>.none
             - style: Optional<Style>.none
         ▿ Text
@@ -20,7 +19,6 @@
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
-            - flex: Optional<Flex>.none
             - id: Optional<String>.none
             - style: Optional<Style>.none
         ▿ Text
@@ -30,35 +28,37 @@
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
-            - flex: Optional<Flex>.none
             - id: Optional<String>.none
             - style: Optional<Style>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
-        ▿ flex: Optional<Flex>
-          ▿ some: Flex
-            - alignContent: Optional<Alignment>.none
-            - alignItems: Optional<Alignment>.none
-            - alignSelf: Optional<Alignment>.none
-            - basis: Optional<UnitValue>.none
+        - id: Optional<String>.none
+        ▿ style: Optional<Style>
+          ▿ some: Style
+            - backgroundColor: Optional<String>.none
+            - cornerRadius: Optional<CornerRadius>.none
             - direction: Optional<Direction>.none
             - display: Optional<Display>.none
-            - flex: Optional<Double>.none
-            ▿ flexDirection: Optional<FlexDirection>
-              - some: FlexDirection.column
-            ▿ flexWrap: Optional<Wrap>
-              - some: Wrap.noWrap
-            - grow: Optional<Double>.none
-            ▿ justifyContent: Optional<JustifyContent>
-              - some: JustifyContent.spaceAround
+            ▿ flex: Optional<Flex>
+              ▿ some: Flex
+                - alignContent: Optional<Alignment>.none
+                - alignItems: Optional<Alignment>.none
+                - alignSelf: Optional<Alignment>.none
+                - basis: Optional<UnitValue>.none
+                - flex: Optional<Double>.none
+                ▿ flexDirection: Optional<FlexDirection>
+                  - some: FlexDirection.column
+                ▿ flexWrap: Optional<Wrap>
+                  - some: Wrap.noWrap
+                - grow: Optional<Double>.none
+                ▿ justifyContent: Optional<JustifyContent>
+                  - some: JustifyContent.spaceAround
+                - positionType: Optional<PositionType>.none
+                - shrink: Optional<Double>.none
             - margin: Optional<EdgeValue>.none
             - padding: Optional<EdgeValue>.none
             - position: Optional<EdgeValue>.none
-            - positionType: Optional<PositionType>.none
-            - shrink: Optional<Double>.none
             - size: Optional<Size>.none
-        - id: Optional<String>.none
-        - style: Optional<Style>.none
     ▿ Container
       ▿ children: 3 elements
         ▿ Text
@@ -68,7 +68,6 @@
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
-            - flex: Optional<Flex>.none
             - id: Optional<String>.none
             - style: Optional<Style>.none
         ▿ Text
@@ -78,7 +77,6 @@
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
-            - flex: Optional<Flex>.none
             - id: Optional<String>.none
             - style: Optional<Style>.none
         ▿ Text
@@ -88,35 +86,37 @@
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
-            - flex: Optional<Flex>.none
             - id: Optional<String>.none
             - style: Optional<Style>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
-        ▿ flex: Optional<Flex>
-          ▿ some: Flex
-            - alignContent: Optional<Alignment>.none
-            - alignItems: Optional<Alignment>.none
-            - alignSelf: Optional<Alignment>.none
-            - basis: Optional<UnitValue>.none
+        - id: Optional<String>.none
+        ▿ style: Optional<Style>
+          ▿ some: Style
+            - backgroundColor: Optional<String>.none
+            - cornerRadius: Optional<CornerRadius>.none
             - direction: Optional<Direction>.none
             - display: Optional<Display>.none
-            - flex: Optional<Double>.none
-            ▿ flexDirection: Optional<FlexDirection>
-              - some: FlexDirection.column
-            ▿ flexWrap: Optional<Wrap>
-              - some: Wrap.noWrap
-            - grow: Optional<Double>.none
-            ▿ justifyContent: Optional<JustifyContent>
-              - some: JustifyContent.spaceAround
+            ▿ flex: Optional<Flex>
+              ▿ some: Flex
+                - alignContent: Optional<Alignment>.none
+                - alignItems: Optional<Alignment>.none
+                - alignSelf: Optional<Alignment>.none
+                - basis: Optional<UnitValue>.none
+                - flex: Optional<Double>.none
+                ▿ flexDirection: Optional<FlexDirection>
+                  - some: FlexDirection.column
+                ▿ flexWrap: Optional<Wrap>
+                  - some: Wrap.noWrap
+                - grow: Optional<Double>.none
+                ▿ justifyContent: Optional<JustifyContent>
+                  - some: JustifyContent.spaceAround
+                - positionType: Optional<PositionType>.none
+                - shrink: Optional<Double>.none
             - margin: Optional<EdgeValue>.none
             - padding: Optional<EdgeValue>.none
             - position: Optional<EdgeValue>.none
-            - positionType: Optional<PositionType>.none
-            - shrink: Optional<Double>.none
             - size: Optional<Size>.none
-        - id: Optional<String>.none
-        - style: Optional<Style>.none
     ▿ Container
       ▿ children: 3 elements
         ▿ Text
@@ -126,7 +126,6 @@
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
-            - flex: Optional<Flex>.none
             - id: Optional<String>.none
             - style: Optional<Style>.none
         ▿ Text
@@ -136,7 +135,6 @@
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
-            - flex: Optional<Flex>.none
             - id: Optional<String>.none
             - style: Optional<Style>.none
         ▿ Text
@@ -146,32 +144,34 @@
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
-            - flex: Optional<Flex>.none
             - id: Optional<String>.none
             - style: Optional<Style>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
-        ▿ flex: Optional<Flex>
-          ▿ some: Flex
-            - alignContent: Optional<Alignment>.none
-            - alignItems: Optional<Alignment>.none
-            - alignSelf: Optional<Alignment>.none
-            - basis: Optional<UnitValue>.none
+        - id: Optional<String>.none
+        ▿ style: Optional<Style>
+          ▿ some: Style
+            - backgroundColor: Optional<String>.none
+            - cornerRadius: Optional<CornerRadius>.none
             - direction: Optional<Direction>.none
             - display: Optional<Display>.none
-            - flex: Optional<Double>.none
-            ▿ flexDirection: Optional<FlexDirection>
-              - some: FlexDirection.column
-            ▿ flexWrap: Optional<Wrap>
-              - some: Wrap.noWrap
-            - grow: Optional<Double>.none
-            ▿ justifyContent: Optional<JustifyContent>
-              - some: JustifyContent.spaceAround
+            ▿ flex: Optional<Flex>
+              ▿ some: Flex
+                - alignContent: Optional<Alignment>.none
+                - alignItems: Optional<Alignment>.none
+                - alignSelf: Optional<Alignment>.none
+                - basis: Optional<UnitValue>.none
+                - flex: Optional<Double>.none
+                ▿ flexDirection: Optional<FlexDirection>
+                  - some: FlexDirection.column
+                ▿ flexWrap: Optional<Wrap>
+                  - some: Wrap.noWrap
+                - grow: Optional<Double>.none
+                ▿ justifyContent: Optional<JustifyContent>
+                  - some: JustifyContent.spaceAround
+                - positionType: Optional<PositionType>.none
+                - shrink: Optional<Double>.none
             - margin: Optional<EdgeValue>.none
             - padding: Optional<EdgeValue>.none
             - position: Optional<EdgeValue>.none
-            - positionType: Optional<PositionType>.none
-            - shrink: Optional<Double>.none
             - size: Optional<Size>.none
-        - id: Optional<String>.none
-        - style: Optional<Style>.none

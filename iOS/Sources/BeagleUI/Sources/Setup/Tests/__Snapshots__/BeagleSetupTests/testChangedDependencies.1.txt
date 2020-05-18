@@ -10,7 +10,6 @@
   - decoder: ComponentDecodingDummy
   ▿ deepLinkHandler: Optional<DeepLinkScreenManaging>
     - some: DeepLinkHandlerDummy
-  - flex: (Function)
   - logger: BeagleLoggerDumb
   ▿ navigation: BeagleNavigator
     ▿ dependencies: InnerDependenciesResolver
@@ -27,6 +26,7 @@
     - serviceMaxCacheAge: "cache-control"
   ▿ resolver: InnerDependenciesResolver
     - container: (Function)
+  - style: (Function)
   - theme: AppThemeDummy
   ▿ urlBuilder: UrlBuilder
     ▿ baseUrl: Optional<URL>

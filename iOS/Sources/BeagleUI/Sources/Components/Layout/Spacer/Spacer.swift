@@ -33,7 +33,7 @@ public struct Spacer: ServerDrivenComponent {
 extension Spacer: Renderable {
     
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        let flex = Flex(
+        let style = Style(
             size: Size(
                 width: UnitValue(value: size, type: .real),
                 height: UnitValue(value: size, type: .real)
@@ -45,7 +45,7 @@ extension Spacer: Renderable {
         view.isAccessibilityElement = false
         view.backgroundColor = .clear
 
-        view.flex.setup(flex)
+        view.beagle.setup(style: style)
         return view
     }
 }

@@ -16,26 +16,23 @@
 
 import UIKit
 
-public struct ScrollView: StyleComponent, ServerDrivenComponent, AutoInitiableAndDecodable {
+public struct ScrollView: ServerDrivenComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
     
     public let children: [ServerDrivenComponent]
     public let scrollDirection: ScrollAxis?
     public let scrollBarEnabled: Bool?
-    public let style: Style?
 
 // sourcery:inline:auto:ScrollView.Init
     public init(
         children: [ServerDrivenComponent],
         scrollDirection: ScrollAxis? = nil,
-        scrollBarEnabled: Bool? = nil,
-        style: Style? = nil
+        scrollBarEnabled: Bool? = nil
     ) {
         self.children = children
         self.scrollDirection = scrollDirection
         self.scrollBarEnabled = scrollBarEnabled
-        self.style = style
     }
 // sourcery:end
 }
@@ -64,17 +61,16 @@ extension ScrollView: Renderable {
         children.forEach {
             let childView = $0.toView(context: context, dependencies: dependencies)
             contentView.addSubview(childView)
-            childView.flex.isEnabled = true
+            childView.style.isFlexEnabled = true
         }
         scrollView.addSubview(contentView)
-        scrollView.beagle.setup(style: style)
-        scrollView.flex.setup(Flex(flexDirection: flexDirection, grow: 1))
+        scrollView.style.setup(Style(flex: Flex(flexDirection: flexDirection, grow: 1)))
         scrollView.showsVerticalScrollIndicator = scrollBarEnabled
         scrollView.showsHorizontalScrollIndicator = scrollBarEnabled
         scrollView.yoga.overflow = .scroll
         
         let flexContent = Flex(flexDirection: flexDirection, grow: 0, shrink: 0)
-        contentView.flex.setup(flexContent)
+        contentView.style.setup(Style(flex: flexContent))
         
         return scrollView
     }

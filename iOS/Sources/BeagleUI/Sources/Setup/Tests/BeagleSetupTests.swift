@@ -38,7 +38,7 @@ final class BeagleSetupTests: XCTestCase {
             dep.urlBuilder.baseUrl = url
         }
         dep.networkClient = NetworkClientDummy()
-        dep.flex = { _ in return FlexViewConfiguratorDummy() }
+        dep.style = { _ in return StyleViewConfiguratorDummy() }
         dep.decoder = ComponentDecodingDummy()
         dep.cacheManager = nil
         dep.logger = BeagleLoggerDumb()
@@ -116,7 +116,6 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
     
     var analytics: Analytics?
     var actionExecutor: ActionExecutor
-    var flex: FlexViewConfiguratorProtocol
     var repository: Repository
     var theme: Theme
     var validatorProvider: ValidatorProvider?
@@ -129,7 +128,6 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
 
     init(
         actionExecutor: ActionExecutor = ActionExecutorDummy(),
-        flex: FlexViewConfiguratorProtocol = FlexViewConfiguratorDummy(),
         repository: Repository = RepositoryStub(),
         theme: Theme = AppThemeDummy(),
         validatorProvider: ValidatorProvider = ValidatorProviding(),
@@ -141,7 +139,6 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
         analytics: Analytics = AnalyticsExecutorSpy()
     ) {
         self.actionExecutor = actionExecutor
-        self.flex = flex
         self.repository = repository
         self.theme = theme
         self.validatorProvider = validatorProvider

@@ -35,7 +35,7 @@ extension FormInputHidden: Renderable {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let view = HidenInputView(value: value)
         view.beagleFormElement = self
-        view.flex.setup(Flex(positionType: .absolute))
+        view.style.setup(Style(flex: Flex(positionType: .absolute)))
         return view
     }
 }

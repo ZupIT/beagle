@@ -26,7 +26,7 @@ public protocol BeagleDependenciesProtocol: DependencyActionExecutor,
     DependencyNavigationController,
     DependencyNavigation,
     DependencyViewConfigurator,
-    DependencyFlexConfigurator,
+    DependencyStyleViewConfigurator,
     RenderableDependencies,
     DependencyCacheManager {
 }
@@ -50,8 +50,8 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var cacheManager: CacheManagerProtocol?
     public var logger: BeagleLoggerType
 
-    public var flex: (UIView) -> FlexViewConfiguratorProtocol = {
-        return FlexViewConfigurator(view: $0)
+    public var style: (UIView) -> StyleViewConfiguratorProtocol = {
+        return StyleViewConfigurator(view: $0)
     }
 
     public var viewConfigurator: (UIView) -> ViewConfiguratorProtocol = {

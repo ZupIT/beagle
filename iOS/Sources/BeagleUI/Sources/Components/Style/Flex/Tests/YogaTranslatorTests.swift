@@ -243,7 +243,7 @@ final class YogaTranslatorTests: XCTestCase {
     func test_translateWhenLeftToRightDirection_shouldReturnLeftToRightYGDirection() {
         // Given
         let expectedYogaDirection: YGDirection = .LTR
-        let direction: Flex.Direction = .ltr
+        let direction: Style.Direction = .ltr
         // When
         let directionTranslated = yogaTranslator.translate(direction)
         // Then
@@ -253,7 +253,7 @@ final class YogaTranslatorTests: XCTestCase {
     func test_translateWhenRightToLeftlDirection_shouldReturnRightTLeftYGDirection() {
         // Given
         let expectedYogaDirection: YGDirection = .RTL
-        let direction: Flex.Direction = .rtl
+        let direction: Style.Direction = .rtl
         // When
         let directionTranslated = yogaTranslator.translate(direction)
         // Then
@@ -263,7 +263,7 @@ final class YogaTranslatorTests: XCTestCase {
     func test_translateWhenInheritDirection_shouldReturnInheritYGDirection() {
         // Given
         let expectedYogaDirection: YGDirection = .inherit
-        let direction: Flex.Direction = .inherit
+        let direction: Style.Direction = .inherit
         // When
         let directionTranslated = yogaTranslator.translate(direction)
         // Then
@@ -274,7 +274,7 @@ final class YogaTranslatorTests: XCTestCase {
     func test_translateWhenFlexDisplay_shouldReturnFlexYGDisplay() {
         // Given
         let expectedYogaDisplay: YGDisplay = .flex
-        let display: Flex.Display = .flex
+        let display: Style.Display = .flex
         // When
         let displayTranslated = yogaTranslator.translate(display)
         // Then
@@ -284,7 +284,7 @@ final class YogaTranslatorTests: XCTestCase {
     func test_translateWhenNoneDisplay_shouldReturnNoneYGDisplay() {
         // Given
         let expectedYogaDisplay: YGDisplay = .none
-        let display: Flex.Display = .none
+        let display: Style.Display = .none
         // When
         let displayTranslated = yogaTranslator.translate(display)
         // Then

@@ -55,11 +55,11 @@ extension ListView {
 extension ListView: Renderable {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let componentViews: [(view: UIView, size: CGSize)] = rows.compactMap {
-            let container = Container(children: [$0], widgetProperties: .init(flex: Flex(positionType: .absolute)))
+            let container = Container(children: [$0]).applyFlex(Flex(positionType: .absolute))
             let containerView = container.toView(context: context, dependencies: dependencies)
             let view = UIView()
             view.addSubview(containerView)
-            view.flex.applyLayout()
+            view.style.applyLayout()
             if let view = containerView.subviews.first {
                 view.removeFromSuperview()
                 return (view: view, size: view.bounds.size)

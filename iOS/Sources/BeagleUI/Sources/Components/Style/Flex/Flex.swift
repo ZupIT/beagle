@@ -16,7 +16,6 @@
 
 public class Flex: Decodable, AutoEquatable, AutoInitiable {
 
-    public var direction: Direction?
     public var flexDirection: FlexDirection?
     public var flexWrap: Wrap?
     public var justifyContent: JustifyContent?
@@ -28,15 +27,9 @@ public class Flex: Decodable, AutoEquatable, AutoInitiable {
     public var flex: Double?
     public var grow: Double?
     public var shrink: Double?
-    public var display: Display?
-    public var size: Size?
-    public var margin: EdgeValue?
-    public var padding: EdgeValue?
-    public var position: EdgeValue?
 
 // sourcery:inline:auto:Flex.Init
     public init(
-        direction: Direction? = nil,
         flexDirection: FlexDirection? = nil,
         flexWrap: Wrap? = nil,
         justifyContent: JustifyContent? = nil,
@@ -47,14 +40,8 @@ public class Flex: Decodable, AutoEquatable, AutoInitiable {
         basis: UnitValue? = nil,
         flex: Double? = nil,
         grow: Double? = nil,
-        shrink: Double? = nil,
-        display: Display? = nil,
-        size: Size? = nil,
-        margin: EdgeValue? = nil,
-        padding: EdgeValue? = nil,
-        position: EdgeValue? = nil
+        shrink: Double? = nil
     ) {
-        self.direction = direction
         self.flexDirection = flexDirection
         self.flexWrap = flexWrap
         self.justifyContent = justifyContent
@@ -66,25 +53,11 @@ public class Flex: Decodable, AutoEquatable, AutoInitiable {
         self.flex = flex
         self.grow = grow
         self.shrink = shrink
-        self.display = display
-        self.size = size
-        self.margin = margin
-        self.padding = padding
-        self.position = position
     }
 // sourcery:end
 }
 
 // MARK: - Flex FlexDirection
-extension Flex {
-    public enum Direction: String, Decodable {
-        case inherit = "INHERIT"
-        case ltr = "LTR"
-        case rtl = "RTL"
-    }
-}
-
-// MARK: - Flex Direction
 extension Flex {
     public enum FlexDirection: String, Decodable {
         case row = "ROW"
@@ -126,14 +99,6 @@ extension Flex {
         case baseline = "BASELINE"
         case auto = "AUTO"
         case stretch = "STRETCH"
-    }
-}
-
-// MARK: - Flex Display
-extension Flex {
-    public enum Display: String, Decodable {
-        case flex = "FLEX"
-        case none = "NONE"
     }
 }
 

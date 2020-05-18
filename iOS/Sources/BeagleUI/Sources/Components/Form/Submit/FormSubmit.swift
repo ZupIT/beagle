@@ -38,7 +38,7 @@ extension FormSubmit: Renderable {
     
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let childView = child.toView(context: context, dependencies: dependencies)
-        childView.flex.isEnabled = true
+        childView.style.isFlexEnabled = true
         childView.beagleFormElement = self
         
         let view = FormSubmitView(childView: childView, enabled: enabled, dependencies: dependencies)

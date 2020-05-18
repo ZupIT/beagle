@@ -17,30 +17,30 @@
 import Foundation
 import YogaKit
 
-public protocol FlexViewConfiguratorProtocol: AnyObject {
+public protocol StyleViewConfiguratorProtocol: AnyObject {
     var view: UIView? { get set }
 
-    func setup(_ flex: Flex?)
+    func setup(_ style: Style?)
     
     func applyLayout()
     func markDirty()
-    
-    var isEnabled: Bool { get set }
+
+    var isFlexEnabled: Bool { get set }
 }
 
-public protocol DependencyFlexConfigurator {
-    var flex: (UIView) -> FlexViewConfiguratorProtocol { get }
+public protocol DependencyStyleViewConfigurator {
+    var style: (UIView) -> StyleViewConfiguratorProtocol { get }
 }
 
 extension UIView {
-    public var flex: FlexViewConfiguratorProtocol {
-        return Beagle.dependencies.flex(self)
+    public var style: StyleViewConfiguratorProtocol {
+        return Beagle.dependencies.style(self)
     }
 }
 
 // MARK: - Implementation
 
-final class FlexViewConfigurator: FlexViewConfiguratorProtocol {
+final class StyleViewConfigurator: StyleViewConfiguratorProtocol {
     
     // MARK: - Dependencies
 
@@ -60,31 +60,40 @@ final class FlexViewConfigurator: FlexViewConfiguratorProtocol {
     
     // MARK: - Public Methods
 
-    func setup(_ flex: Flex?) {
+    func setup(_ style: Style?) {
         guard let yoga = view?.yoga else { return }
 
-        isEnabled = true
-        applyYogaProperties(from: flex ?? Flex(), to: yoga)
+        isFlexEnabled = true
+        applyYogaProperties(from: style ?? Style(), to: yoga)
     }
     
     func applyLayout() {
-        isEnabled = true
+        isFlexEnabled = true
         view?.yoga.applyLayout(preservingOrigin: true)
     }
-    
-    var isEnabled: Bool {
+
+    var isFlexEnabled: Bool {
         get { return view?.yoga.isEnabled ?? false }
         set { view?.yoga.isEnabled = newValue }
     }
-    
+
     func markDirty() {
         view?.yoga.markDirty()
     }
     
     // MARK: - Private Methods
     
+    private func applyYogaProperties(from style: Style, to layout: YGLayout) {
+        applyYogaProperties(from: style.flex ?? Flex(), to: layout)
+        layout.direction = yogaTranslator.translate(style.direction ?? .ltr)
+        layout.display = yogaTranslator.translate(style.display ?? .flex)
+        setSize(style.size, to: layout)
+        setMargin(style.margin, to: layout)
+        setPadding(style.padding, to: layout)
+        setPosition(style.position, to: layout)
+    }
+    
     private func applyYogaProperties(from flex: Flex, to layout: YGLayout) {
-        layout.direction = yogaTranslator.translate(flex.direction ?? .ltr)
         layout.flexDirection = yogaTranslator.translate(flex.flexDirection ?? .column)
         layout.flexWrap = yogaTranslator.translate(flex.flexWrap ?? .noWrap)
         layout.justifyContent = yogaTranslator.translate(flex.justifyContent ?? .flexStart)
@@ -96,11 +105,6 @@ final class FlexViewConfigurator: FlexViewConfiguratorProtocol {
         layout.flex = CGFloat(flex.flex ?? 0)
         layout.flexGrow = CGFloat(flex.grow ?? 0)
         layout.flexShrink = CGFloat(flex.shrink ?? 1)
-        layout.display = yogaTranslator.translate(flex.display ?? .flex)
-        setSize(flex.size, to: layout)
-        setMargin(flex.margin, to: layout)
-        setPadding(flex.padding, to: layout)
-        setPosition(flex.position, to: layout)
     }
     
     // MARK: - Flex Layout Methods

@@ -12,7 +12,6 @@
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
-            - flex: Optional<Flex>.none
             - id: Optional<String>.none
             - style: Optional<Style>.none
         - errorMessage: Optional<String>.none
@@ -35,28 +34,31 @@
         - children: 0 elements
         ▿ widgetProperties: WidgetProperties
           - accessibility: Optional<Accessibility>.none
-          ▿ flex: Optional<Flex>
-            ▿ some: Flex
-              - alignContent: Optional<Alignment>.none
-              - alignItems: Optional<Alignment>.none
-              - alignSelf: Optional<Alignment>.none
-              - basis: Optional<UnitValue>.none
+          - id: Optional<String>.none
+          ▿ style: Optional<Style>
+            ▿ some: Style
+              - backgroundColor: Optional<String>.none
+              - cornerRadius: Optional<CornerRadius>.none
               - direction: Optional<Direction>.none
               - display: Optional<Display>.none
-              - flex: Optional<Double>.none
-              - flexDirection: Optional<FlexDirection>.none
-              - flexWrap: Optional<Wrap>.none
-              ▿ grow: Optional<Double>
-                - some: 1.0
-              - justifyContent: Optional<JustifyContent>.none
+              ▿ flex: Optional<Flex>
+                ▿ some: Flex
+                  - alignContent: Optional<Alignment>.none
+                  - alignItems: Optional<Alignment>.none
+                  - alignSelf: Optional<Alignment>.none
+                  - basis: Optional<UnitValue>.none
+                  - flex: Optional<Double>.none
+                  - flexDirection: Optional<FlexDirection>.none
+                  - flexWrap: Optional<Wrap>.none
+                  ▿ grow: Optional<Double>
+                    - some: 1.0
+                  - justifyContent: Optional<JustifyContent>.none
+                  - positionType: Optional<PositionType>.none
+                  - shrink: Optional<Double>.none
               - margin: Optional<EdgeValue>.none
               - padding: Optional<EdgeValue>.none
               - position: Optional<EdgeValue>.none
-              - positionType: Optional<PositionType>.none
-              - shrink: Optional<Double>.none
               - size: Optional<Size>.none
-          - id: Optional<String>.none
-          - style: Optional<Style>.none
       ▿ FormSubmit
         ▿ child: Button
           - action: Optional<Action>.none
@@ -66,19 +68,14 @@
           - text: "Submit Form"
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
-            ▿ flex: Optional<Flex>
-              ▿ some: Flex
-                - alignContent: Optional<Alignment>.none
-                - alignItems: Optional<Alignment>.none
-                - alignSelf: Optional<Alignment>.none
-                - basis: Optional<UnitValue>.none
+            - id: Optional<String>.none
+            ▿ style: Optional<Style>
+              ▿ some: Style
+                - backgroundColor: Optional<String>.none
+                - cornerRadius: Optional<CornerRadius>.none
                 - direction: Optional<Direction>.none
                 - display: Optional<Display>.none
-                - flex: Optional<Double>.none
-                - flexDirection: Optional<FlexDirection>.none
-                - flexWrap: Optional<Wrap>.none
-                - grow: Optional<Double>.none
-                - justifyContent: Optional<JustifyContent>.none
+                - flex: Optional<Flex>.none
                 ▿ margin: Optional<EdgeValue>
                   ▿ some: EdgeValue
                     ▿ all: Optional<UnitValue>
@@ -95,29 +92,33 @@
                     - vertical: Optional<UnitValue>.none
                 - padding: Optional<EdgeValue>.none
                 - position: Optional<EdgeValue>.none
-                - positionType: Optional<PositionType>.none
-                - shrink: Optional<Double>.none
                 - size: Optional<Size>.none
-            - id: Optional<String>.none
-            - style: Optional<Style>.none
         ▿ enabled: Optional<Bool>
           - some: false
     ▿ widgetProperties: WidgetProperties
       - accessibility: Optional<Accessibility>.none
-      ▿ flex: Optional<Flex>
-        ▿ some: Flex
-          - alignContent: Optional<Alignment>.none
-          - alignItems: Optional<Alignment>.none
-          - alignSelf: Optional<Alignment>.none
-          - basis: Optional<UnitValue>.none
+      - id: Optional<String>.none
+      ▿ style: Optional<Style>
+        ▿ some: Style
+          ▿ backgroundColor: Optional<String>
+            - some: "#B8E297"
+          - cornerRadius: Optional<CornerRadius>.none
           - direction: Optional<Direction>.none
           - display: Optional<Display>.none
-          - flex: Optional<Double>.none
-          - flexDirection: Optional<FlexDirection>.none
-          - flexWrap: Optional<Wrap>.none
-          ▿ grow: Optional<Double>
-            - some: 1.0
-          - justifyContent: Optional<JustifyContent>.none
+          ▿ flex: Optional<Flex>
+            ▿ some: Flex
+              - alignContent: Optional<Alignment>.none
+              - alignItems: Optional<Alignment>.none
+              - alignSelf: Optional<Alignment>.none
+              - basis: Optional<UnitValue>.none
+              - flex: Optional<Double>.none
+              - flexDirection: Optional<FlexDirection>.none
+              - flexWrap: Optional<Wrap>.none
+              ▿ grow: Optional<Double>
+                - some: 1.0
+              - justifyContent: Optional<JustifyContent>.none
+              - positionType: Optional<PositionType>.none
+              - shrink: Optional<Double>.none
           - margin: Optional<EdgeValue>.none
           ▿ padding: Optional<EdgeValue>
             ▿ some: EdgeValue
@@ -134,12 +135,4 @@
               - top: Optional<UnitValue>.none
               - vertical: Optional<UnitValue>.none
           - position: Optional<EdgeValue>.none
-          - positionType: Optional<PositionType>.none
-          - shrink: Optional<Double>.none
           - size: Optional<Size>.none
-      - id: Optional<String>.none
-      ▿ style: Optional<Style>
-        ▿ some: Style
-          ▿ backgroundColor: Optional<String>
-            - some: "#B8E297"
-          - cornerRadius: Optional<CornerRadius>.none

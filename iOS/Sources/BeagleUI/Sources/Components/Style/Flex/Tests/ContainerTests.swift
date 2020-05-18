@@ -27,20 +27,20 @@ final class ContainerTests: XCTestCase {
         let sut = Container(children: [
             Text("Some texts."),
             Text("More texts.")
-        ], widgetProperties: .init(flex: Flex()))
+        ], widgetProperties: .init(style: Style()))
         
         let mirror = Mirror(reflecting: sut)
         // When
-        let flex = mirror.firstChild(of: WidgetProperties.self)?.flex
+        let style = mirror.firstChild(of: WidgetProperties.self)?.style
         let component = mirror.firstChild(of: [ServerDrivenComponent].self)
         // Then
         XCTAssertTrue(sut.children.count == 2)
-        XCTAssertNotNil(flex)
+        XCTAssertNotNil(style)
         XCTAssertNotNil(component)
         
     }
     
-    func test_applyFlex_shouldReturnContainer() {
+    func test_applyStyle_shouldReturnContainer() {
         // Given
         let component = Container(children: [
             Text("Some texts")
@@ -48,7 +48,7 @@ final class ContainerTests: XCTestCase {
         // When
         let container = component.applyFlex(Flex(justifyContent: .center))
         // Then
-        XCTAssertNotNil(container.flex)
+        XCTAssertNotNil(container.style?.flex)
     }
     
     func test_toView_shouldReturnTheExpectedView() throws {

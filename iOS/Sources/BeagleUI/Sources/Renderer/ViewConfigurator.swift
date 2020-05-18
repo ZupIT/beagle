@@ -49,7 +49,6 @@ class ViewConfigurator: ViewConfiguratorProtocol {
         setup(style: widget.style)
         setup(id: widget.id)
         setup(accessibility: widget.accessibility)
-        view?.flex.setup(widget.flex)
     }
 
     func setup(style: Style?) {
@@ -60,6 +59,7 @@ class ViewConfigurator: ViewConfiguratorProtocol {
             view?.layer.masksToBounds = true
             view?.layer.cornerRadius = CGFloat(cornerRadius.radius)
         }
+        view?.style.setup(style)
     }
 
     func setup(id: String?) {

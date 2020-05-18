@@ -47,7 +47,7 @@ struct DSCollection: Widget, AutoInitiableAndDecodable, AutoEquatable {
 extension DSCollection: Renderable {
     func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let view = DSCollectionUIComponent(dataSource: dataSource)
-        view.flex.setup(flex)
+        view.beagle.setup(style: style)
         return view
     }
 }

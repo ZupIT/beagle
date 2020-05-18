@@ -32,16 +32,28 @@ final class ScreenComponentTests: XCTestCase {
     
     func test_contentShouldUseOnlyTheSpaceRequiredByFlexRules() {
         let component = ScreenComponent(
+            style: .init(),
             safeArea: SafeArea.all,
             navigationBar: .init(title: "Test Flex"),
             child: Container(
                 children: [
                     Container(
                         children: [Text("Line 0,\nLine 1,\nLine 2,\nLine 3,\nLine 4.")],
-                        widgetProperties: .init(style: .init(backgroundColor: "#FF0000"), flex: .init(alignSelf: .center, size: .init(width: 50%, height: 75%)))
+                        widgetProperties: .init(
+                            style: .init(
+                                flex: .init(alignSelf: .center),
+                                size: .init(width: 50%, height: 75%),
+                                backgroundColor: "#FF0000"
+                            )
+                        )
                     )
                 ],
-                widgetProperties: .init(style: .init(backgroundColor: "#00FF00"), flex: .init(justifyContent: .center))
+                widgetProperties: .init(
+                    style: .init(
+                        flex: .init(justifyContent: .center),
+                        backgroundColor: "#00FF00"
+                    )
+                )
             )
         )
 

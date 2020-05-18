@@ -1,14 +1,14 @@
-
 {
     "_beagleType_": "beagle:component:pageView",
-
     "pages": [
         {
             "_beagleType_": "beagle:component:container",
-            "flex": {
-                "flexDirection": "COLUMN",
-                "flexWrap": "NO_WRAP",
-                "justifyContent": "SPACE_AROUND"
+            "style": {
+                "flex": {
+                    "flexDirection": "COLUMN",
+                    "flexWrap": "NO_WRAP",
+                    "justifyContent": "SPACE_AROUND"
+                }
             },
             "children": [
                 {
@@ -27,10 +27,12 @@
         },
         {
             "_beagleType_": "beagle:component:container",
-            "flex": {
-                "flexDirection": "COLUMN",
-                "flexWrap": "NO_WRAP",
-                "justifyContent": "SPACE_AROUND"
+            "style": {
+                "flex": {
+                    "flexDirection": "COLUMN",
+                    "flexWrap": "NO_WRAP",
+                    "justifyContent": "SPACE_AROUND"
+                }
             },
             "children": [
                 {
@@ -49,10 +51,12 @@
         },
         {
             "_beagleType_": "beagle:component:container",
-            "flex": {
-                "flexDirection": "COLUMN",
-                "flexWrap": "NO_WRAP",
-                "justifyContent": "SPACE_AROUND"
+            "style": {
+                "flex": {
+                    "flexDirection": "COLUMN",
+                    "flexWrap": "NO_WRAP",
+                    "justifyContent": "SPACE_AROUND"
+                }
             },
             "children": [
                 {
@@ -70,5 +74,4 @@
             ]
         }
     ]
-
 }

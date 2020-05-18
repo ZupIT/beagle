@@ -54,10 +54,28 @@ class FlexBuildersExtensionTests: XCTestCase {
             .alignItems(.center)
             .alignSelf(.center)
             .basis(10)
-            .direction(.ltr)
             .flexDirection(.column)
             .flexWrap(.noWrap)
             .justifyContent(.spaceBetween)
+            .positionType(.absolute)
+            .flex(2)
+            .grow(3)
+            .shrink(0)
+        
+        assertSnapshot(matching: sut, as: .dump)
+    }
+    
+    func test_StyleBuilder() {
+        let sut = Style()
+            .flex(Flex())
+            .direction(.inherit)
+            .display(.flex)
+            .size(Size())
+            .margin(EdgeValue())
+            .padding(EdgeValue())
+            .position(EdgeValue())
+            .backgroundColor("#FFFFFF")
+            .cornerRadius(CornerRadius(radius: 5))
         
         assertSnapshot(matching: sut, as: .dump)
     }

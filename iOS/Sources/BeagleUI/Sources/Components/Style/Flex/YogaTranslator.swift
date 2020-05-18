@@ -18,14 +18,14 @@ import Foundation
 import YogaKit
 
 protocol YogaTranslator {
-    func translate(_ direction: Flex.Direction) -> YGDirection
+    func translate(_ direction: Style.Direction) -> YGDirection
     func translate(_ flexDirection: Flex.FlexDirection) -> YGFlexDirection
     func translate(_ flexWrap: Flex.Wrap) -> YGWrap
     func translate(_ justifyContent: Flex.JustifyContent) -> YGJustify
     func translate(_ alignment: Flex.Alignment) -> YGAlign
     func translate(_ positionType: Flex.PositionType) -> YGPositionType
     func translate(_ unitValue: UnitValue) -> YGValue
-    func translate(_ display: Flex.Display) -> YGDisplay
+    func translate(_ display: Style.Display) -> YGDisplay
 }
 
 final class YogaTranslating: YogaTranslator {
@@ -91,7 +91,7 @@ final class YogaTranslating: YogaTranslator {
         }
     }
     
-    func translate(_ direction: Flex.Direction) -> YGDirection {
+    func translate(_ direction: Style.Direction) -> YGDirection {
         switch direction {
         case .inherit:
             return .inherit
@@ -102,7 +102,7 @@ final class YogaTranslating: YogaTranslator {
         }
     }
     
-    func translate(_ display: Flex.Display) -> YGDisplay {
+    func translate(_ display: Style.Display) -> YGDisplay {
         switch display {
         case .flex:
             return .flex

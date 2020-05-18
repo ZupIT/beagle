@@ -17,17 +17,17 @@
 import UIKit
 import WebKit
 
-public struct WebView: FlexComponent, ServerDrivenComponent, AutoInitiableAndDecodable {
+public struct WebView: Widget, AutoInitiableAndDecodable {
     public let url: String
-    public let flex: Flex?
+    public var widgetProperties: WidgetProperties
 
 // sourcery:inline:auto:WebView.Init
     public init(
         url: String,
-        flex: Flex? = nil
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.url = url
-        self.flex = flex
+        self.widgetProperties = widgetProperties
     }
 // sourcery:end
 }
@@ -35,7 +35,7 @@ public struct WebView: FlexComponent, ServerDrivenComponent, AutoInitiableAndDec
 extension WebView: Renderable {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let webView = WebViewUIComponent(model: WebViewUIComponent.Model(url: url))
-        webView.flex.setup(flex)
+        webView.beagle.setup(self)
         return webView
     }
 }

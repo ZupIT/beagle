@@ -96,8 +96,8 @@ final class BeagleScreenViewControllerTests: XCTestCase {
                 "My Content",
                 alignment: .center,
                 widgetProperties: .init(
-                style: .init(backgroundColor: "#00FFFF"),
-                flex: Flex(grow: 1))
+                    style: .init(flex: Flex(grow: 1), backgroundColor: "#00FFFF")
+                )
             )
         )
         
@@ -125,7 +125,13 @@ final class BeagleScreenViewControllerTests: XCTestCase {
             navigationBar: NavigationBar(title: "Test Safe Area"),
             child: Container(
                 children: [content],
-                widgetProperties: .init(style: Style(backgroundColor: "#00FF00"), flex: Flex(grow: 1, margin: .init(all: .init(value: 10, type: .real))))
+                widgetProperties: .init(
+                    style: Style(
+                        flex: Flex(grow: 1),
+                        margin: .init(all: 10),
+                        backgroundColor: "#00FF00"
+                    )
+                )
             )
         )
         let screenController = BeagleScreenViewController(screen: screen)
