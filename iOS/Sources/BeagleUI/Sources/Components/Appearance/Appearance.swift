@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-public struct Appearance: Decodable {
+public struct Appearance: Decodable, Equatable, AutoInitiable {
     
     // MARK: - Public Properties
     let backgroundColor: String?
     let cornerRadius: CornerRadius?
-    
-    // MARK: - Initialization
-    
+
+// sourcery:inline:auto:Appearance.Init
     public init(
         backgroundColor: String? = nil,
         cornerRadius: CornerRadius? = nil
@@ -29,14 +28,17 @@ public struct Appearance: Decodable {
         self.backgroundColor = backgroundColor
         self.cornerRadius = cornerRadius
     }
+// sourcery:end
 }
 
-public struct CornerRadius: Decodable {
+public struct CornerRadius: Decodable, AutoEquatable, AutoInitiable {
     let radius: Double
-    
+
+// sourcery:inline:auto:CornerRadius.Init
     public init(
         radius: Double
     ) {
         self.radius = radius
     }
+// sourcery:end
 }

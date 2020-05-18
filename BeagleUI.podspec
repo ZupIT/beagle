@@ -52,8 +52,12 @@ Pod::Spec.new do |spec|
   
   spec.subspec 'BeagleUI' do |beagleUI|
     source = 'iOS/Sources/BeagleUI/Sources'
-    beagleUI.source_files = source + '/**/*.swift'
-    beagleUI.resources = "iOS/**/*.xcdatamodeld"
+    sourcerySource = 'iOS/Sources/BeagleUI/SourceryFiles/'
+    beagleUI.source_files = source + '/**/*.swift',
+      sourcerySource + "Generated/*.generated.swift",
+      sourcerySource + "*.swift"
+    beagleUI.resources = "iOS/**/*.xcdatamodeld",
+      sourcerySource + "Templates/*"
     beagleUI.exclude_files = 
       source + "/**/Test/**/*.swift",
       source + "/**/Tests/**/*.swift",

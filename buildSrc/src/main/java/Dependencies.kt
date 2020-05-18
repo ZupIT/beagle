@@ -107,6 +107,8 @@ object Versions {
 
     const val springBoot = "2.2.5.RELEASE"
     const val micronaut = "1.3.3"
+
+    const val incap = "0.2"
 }
 
 object GeneralNames {
@@ -124,6 +126,11 @@ object BackendLibraries {
     const val guava = "com.google.guava:guava:${Versions.guava}"
     const val slf4jJUL = "org.slf4j:slf4j-jdk14:${Versions.slf4j}"
     const val log4j2 = "org.apache.logging.log4j:log4j-slf4j-impl:${Versions.log4j}"
+}
+
+object AndroidProcessorLibraries {
+    const val incap = "net.ltgt.gradle.incap:incap:${Versions.incap}"
+    const val incapPrcessor = "net.ltgt.gradle.incap:incap-processor:${Versions.incap}"
 }
 
 object GeneralLibraries {

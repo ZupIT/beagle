@@ -12,6 +12,14 @@ platform :android do
     codecov_reporter(token: ENV["CODECOV_TOKEN"], flags: "-F android -C #{commit_hash}")
   end
 
+end
+
+###
+###  Common (Android and Backend)
+###
+
+platform :common do
+
   desc "Publish remote new version"
   lane :remote_publish do
     gradle(task: "build")
@@ -23,6 +31,7 @@ platform :android do
       gradle(task: "build")
       gradle(task: "publishToMavenLocal")
     end
+
 end
 
 ###
@@ -30,6 +39,8 @@ end
 ###
 
 platform :ios do
+
+  desc "Pull Request verification"
   lane :pull_request_verification do
     xcversion(version: "~> 11.4")
     iOSSwiftLint
@@ -42,13 +53,31 @@ platform :ios do
     commit_hash = last_git_commit[:commit_hash]
     codecov_reporter(token: ENV["CODECOV_TOKEN"], flags: "-F ios -C #{commit_hash}")
   end
+
+  desc "Dependency Manager (Carthage) https://docs.fastlane.tools/actions/carthage/"
+  private_lane :init_ios_dependencies do
+    carthage(
+      command: "bootstrap",
+      platform: "iOS",
+      project_directory: "iOS/Sources/BeagleUI/", cache_builds: true
+    )
+  end
+
+  desc "Run iOS SwiftLint"
+  private_lane :iOSSwiftLint do
+    swiftlint(
+    mode: :lint,      # SwiftLint mode: :lint (default) or :autocorrect
+    ignore_exit_status: true    # Allow fastlane to continue even if SwiftLint returns a non-zero exit status
+  )
+  end
+
 end
 
 desc "Publish new release based on last two tags"
 lane :deploy do
-  git_pull(only_tags: true)
+  git_pull
   ENV["VERSION_DEPLOY"] = last_git_tag
-  sh "fastlane android remote_publish"
+  sh "fastlane common remote_publish"
 
   sh "bash ./delete_release.sh"
   set_github_release(
@@ -65,30 +94,60 @@ end
 desc "Generate release notes"
 private_lane :release_notes do
   get_previous_tag = sh "bash ./get_previous_tag.sh"
-  changelog = changelog_from_git_commits(
-    between: [get_previous_tag, ENV["VERSION_DEPLOY"]],
-    merge_commit_filtering: "exclude_merges",
-    pretty: "%s - (%ae %aD)"
-  )
 
+  lane_context[SharedValues::RELEASE_ANALYZED] = true
+  lane_context[SharedValues::RELEASE_LAST_TAG_HASH] = get_previous_tag
+  lane_context[SharedValues::RELEASE_NEXT_VERSION] = ENV["VERSION_DEPLOY"]
+  changelog = conventional_changelog(display_title: false, display_links: false)
   "\nRelease notes #{ ENV["VERSION_DEPLOY"] }
-  \nChanges:
-  \n#{changelog}"
+   \nChanges:
+   \n#{changelog}"
 end
 
-desc "Dependency Manager (Carthage) https://docs.fastlane.tools/actions/carthage/"
-private_lane :init_ios_dependencies do
-  carthage(
-    command: "bootstrap",
-    platform: "iOS",
-    project_directory: "iOS/Sources/BeagleUI/", cache_builds: true
-  )
+
+after_all do |lane, options|
+   if lane == :pull_request_verification
+      run_danger
+    end
 end
 
-desc "Run iOS SwiftLint"
-private_lane :iOSSwiftLint do
-  swiftlint(
-  mode: :lint,      # SwiftLint mode: :lint (default) or :autocorrect
-  ignore_exit_status: true    # Allow fastlane to continue even if SwiftLint returns a non-zero exit status
-)
+error do |lane, exception, options|
+  if lane == :pull_request_verification
+    run_danger
+  end
+end
+
+lane :run_danger do |options|
+   danger_id = options[:danger_id] || lane_context[SharedValues::PLATFORM_NAME].to_s
+   danger_file_path = options[:danger_file_path] || lane_context[SharedValues::PLATFORM_NAME].to_s
+   danger(
+     danger_id: danger_id,
+     dangerfile: "danger/#{danger_file_path}/Dangerfile",
+     github_api_token: ENV["GITHUB_TOKEN"],
+     verbose: true
+    )
+end
+
+###
+###  Backend
+###
+
+platform :backend do
+
+  desc "Pull Request verification"
+  lane :pull_request_verification do
+    gradle(task: "detekt")
+    gradle(tasks:
+        [
+            "backend:framework:test",
+            "backend:starters:beagle-micronaut-starter:test",
+            "backend:starters:beagle-spring-starter:test",
+            "backend:sample:micronaut:assemble",
+            "backend:sample:spring:assemble"
+        ]
+    )
+    commit_hash = last_git_commit[:commit_hash]
+    codecov_reporter(token: ENV["CODECOV_TOKEN"], flags: "-F backend -C #{commit_hash}")
+  end
+
 end

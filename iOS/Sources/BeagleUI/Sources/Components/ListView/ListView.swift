@@ -16,15 +16,14 @@
 
 import UIKit
 
-public struct ListView: ServerDrivenComponent {
+public struct ListView: ServerDrivenComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
     
     public let rows: [ServerDrivenComponent]
-    public let direction: Direction
-    
-    // MARK: - Initialization
-    
+    public var direction: Direction = .vertical
+
+// sourcery:inline:auto:ListView.Init
     public init(
         rows: [ServerDrivenComponent],
         direction: Direction = .vertical
@@ -32,6 +31,7 @@ public struct ListView: ServerDrivenComponent {
         self.rows = rows
         self.direction = direction
     }
+// sourcery:end
 }
 
 extension ListView {
@@ -55,7 +55,7 @@ extension ListView {
 extension ListView: Renderable {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let componentViews: [(view: UIView, size: CGSize)] = rows.compactMap {
-            let container = Container(children: [$0], flex: Flex(positionType: .absolute))
+            let container = Container(children: [$0], widgetProperties: .init(flex: Flex(positionType: .absolute)))
             let containerView = container.toView(context: context, dependencies: dependencies)
             let view = UIView()
             view.addSubview(containerView)
@@ -73,18 +73,5 @@ extension ListView: Renderable {
         )
         
         return ListViewUIComponent(model: model)
-    }
-}
-
-extension ListView: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case rows
-        case direction
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.rows = try container.decode(forKey: .rows)
-        self.direction = try container.decode(Direction.self, forKey: .direction)
     }
 }

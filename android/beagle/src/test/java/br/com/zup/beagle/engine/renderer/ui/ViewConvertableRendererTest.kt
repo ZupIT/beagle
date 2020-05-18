@@ -51,7 +51,7 @@ class ViewConvertableRendererTest : BaseTest() {
     @Test
     fun build_should_make_a_native_view() {
         // Given
-        every { widget.toView(rootView.getContext()) } returns view
+        every { widget.buildView(rootView.getContext()) } returns view
 
         // When
         val actual = viewConvertableRenderer.build(rootView)

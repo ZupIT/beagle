@@ -1,16 +1,17 @@
 ▿ Button
-  - accessibility: Optional<Accessibility>.none
   ▿ action: Optional<Action>
     - some: Navigate.finishView
-  ▿ appearance: Optional<Appearance>
-    ▿ some: Appearance
-      ▿ backgroundColor: Optional<String>
-        - some: "#800000FF"
-      ▿ cornerRadius: Optional<CornerRadius>
-        ▿ some: CornerRadius
-          - radius: 30.0
   - clickAnalyticsEvent: Optional<AnalyticsClick>.none
-  - flex: Optional<Flex>.none
-  - id: Optional<String>.none
   - style: Optional<String>.none
   - text: "button"
+  ▿ widgetProperties: WidgetProperties
+    - accessibility: Optional<Accessibility>.none
+    ▿ appearance: Optional<Appearance>
+      ▿ some: Appearance
+        ▿ backgroundColor: Optional<String>
+          - some: "#800000FF"
+        ▿ cornerRadius: Optional<CornerRadius>
+          ▿ some: CornerRadius
+            - radius: 30.0
+    - flex: Optional<Flex>.none
+    - id: Optional<String>.none

@@ -14,14 +14,8 @@
  * limitations under the License.
  */
 
-import UIKit
+package br.com.zup.beagle.utils
 
-final class ActionGestureRecognizer: UITapGestureRecognizer {
-    
-    let action: Action
-    
-    init(action: Action, target: Any?, selector: Selector?) {
-        self.action = action
-        super.init(target: target, action: selector)
-    }
-}
+import java.util.concurrent.TimeUnit
+
+internal fun nanoTimeInSeconds(): Long = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime())
