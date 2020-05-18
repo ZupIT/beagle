@@ -32,13 +32,15 @@ import org.reactivestreams.Publisher
 @Requirements(Requires(classes = [BeaglePlatformUtil::class]))
 class BeaglePlatformFilter(private val objectMapper: ObjectMapper) : HttpServerFilter {
     override fun doFilter(request: HttpRequest<*>, chain: ServerFilterChain): Publisher<MutableHttpResponse<*>>? {
+        val currentPlatform = request.headers.get(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER)
+        request.attributes.put(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER, currentPlatform)
         val response = Flowable.fromPublisher(chain.proceed(request)).blockingFirst() as MutableHttpResponse<Any>
         response.body.ifPresent {
             val jsonTree = this.objectMapper.readTree(
                 this.objectMapper.writeValueAsString(it)
             )
             BeaglePlatformUtil.treatBeaglePlatform(
-                request.headers.get(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER),
+                currentPlatform,
                 jsonTree
             )
             response.body(jsonTree.toPrettyString())

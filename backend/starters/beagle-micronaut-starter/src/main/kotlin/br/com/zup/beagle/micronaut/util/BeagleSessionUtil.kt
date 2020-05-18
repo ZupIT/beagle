@@ -14,17 +14,21 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.spring.service
+package br.com.zup.beagle.micronaut.util
 
-import br.com.zup.beagle.sample.builder.CustomPlatformBuilder
-import br.com.zup.beagle.sample.builder.PlatformBuilder
-import br.com.zup.beagle.spring.util.BeagleSessionUtil
-import org.springframework.stereotype.Service
+import br.com.zup.beagle.enums.BeaglePlatform
+import br.com.zup.beagle.utils.BeaglePlatformUtil
+import io.micronaut.http.context.ServerRequestContext
 
-@Service
-class PlatformService {
+object BeagleSessionUtil {
 
-    fun renderComponentUsingPlatform() = CustomPlatformBuilder(BeagleSessionUtil.getBeaglePlatformFromSession())
-
-    fun renderComponent() = PlatformBuilder
+    fun getBeaglePlatformFromSession(): BeaglePlatform {
+        var currentPlatform = BeaglePlatform.ALL
+        ServerRequestContext.currentRequest<Any>().ifPresent {
+            currentPlatform = BeaglePlatform.valueOf(
+                it.getAttribute(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER).orElse(BeaglePlatform.ALL.name) as String
+            )
+        }
+        return currentPlatform
+    }
 }

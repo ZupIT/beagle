@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletRequest
 internal class BeaglePlatformInterceptorTest {
 
     private val objectMapper = BeagleSerializationUtil.beagleObjectMapper()
-    private val beaglePlatformInterceptor = BeaglePlatformInterceptor(objectMapper)
+    private val beaglePlatformInterceptor = BeaglePlatformInterceptor(this.objectMapper)
 
     @Test
     fun preHandle() {

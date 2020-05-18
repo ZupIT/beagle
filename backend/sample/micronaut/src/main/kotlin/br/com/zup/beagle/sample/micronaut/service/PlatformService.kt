@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.spring.service
+package br.com.zup.beagle.sample.micronaut.service
 
+import br.com.zup.beagle.micronaut.util.BeagleSessionUtil
 import br.com.zup.beagle.sample.builder.CustomPlatformBuilder
 import br.com.zup.beagle.sample.builder.PlatformBuilder
-import br.com.zup.beagle.spring.util.BeagleSessionUtil
-import org.springframework.stereotype.Service
+import javax.inject.Singleton
 
-@Service
+@Singleton
 class PlatformService {
 
     fun renderComponentUsingPlatform() = CustomPlatformBuilder(BeagleSessionUtil.getBeaglePlatformFromSession())
