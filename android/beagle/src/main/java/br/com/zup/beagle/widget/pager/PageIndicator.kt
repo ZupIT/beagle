@@ -39,7 +39,7 @@ data class PageIndicator(
         this.viewFactory = viewFactory
     }
 
-    override fun toView(context: Context) = viewFactory.makePageIndicator(context).apply {
+    override fun buildView(context: Context) = viewFactory.makePageIndicator(context).apply {
         pageIndicator = this
         setSelectedColor(Color.parseColor(selectedColor))
         setUnselectedColor(Color.parseColor(unselectedColor))

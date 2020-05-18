@@ -1,18 +1,19 @@
 ▿ Text
-  - accessibility: Optional<Accessibility>.none
   ▿ alignment: Optional<Alignment>
     - some: Alignment.right
-  ▿ appearance: Optional<Appearance>
-    ▿ some: Appearance
-      ▿ backgroundColor: Optional<String>
-        - some: "#FFFF00"
-      ▿ cornerRadius: Optional<CornerRadius>
-        ▿ some: CornerRadius
-          - radius: 30.0
-  - flex: Optional<Flex>.none
-  - id: Optional<String>.none
   ▿ style: Optional<String>
     - some: "test.text.style"
   - text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
   ▿ textColor: Optional<String>
     - some: "579F2B"
+  ▿ widgetProperties: WidgetProperties
+    - accessibility: Optional<Accessibility>.none
+    ▿ appearance: Optional<Appearance>
+      ▿ some: Appearance
+        ▿ backgroundColor: Optional<String>
+          - some: "#FFFF00"
+        ▿ cornerRadius: Optional<CornerRadius>
+          ▿ some: CornerRadius
+            - radius: 30.0
+    - flex: Optional<Flex>.none
+    - id: Optional<String>.none

@@ -1,11 +1,12 @@
 ▿ LazyComponent
   ▿ initialState: Text
-    - accessibility: Optional<Accessibility>.none
     - alignment: Optional<Alignment>.none
-    - appearance: Optional<Appearance>.none
-    - flex: Optional<Flex>.none
-    - id: Optional<String>.none
     - style: Optional<String>.none
     - text: "text1"
     - textColor: Optional<String>.none
+    ▿ widgetProperties: WidgetProperties
+      - accessibility: Optional<Accessibility>.none
+      - appearance: Optional<Appearance>.none
+      - flex: Optional<Flex>.none
+      - id: Optional<String>.none
   - path: "/path"

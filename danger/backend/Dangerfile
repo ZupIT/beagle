@@ -1,0 +1,13 @@
+# Backend config
+
+checkstyle_dir = "**/build/reports/detekt/detekt.xml"
+Dir[checkstyle_dir].each do |file_name|
+  checkstyle_format.base_path = Dir.pwd
+  checkstyle_format.report file_name
+end
+
+junit_tests_dir = "**/test-results/**/*.xml"
+Dir[junit_tests_dir].each do |file_name|
+  junit.parse file_name
+  junit.report
+end

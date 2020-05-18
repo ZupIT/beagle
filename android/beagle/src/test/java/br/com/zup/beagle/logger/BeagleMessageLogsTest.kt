@@ -178,4 +178,19 @@ class BeagleMessageLogsTest {
         verify(exactly = 1) { BeagleLogger.warning("Are you missing to declare your FormSubmit component for " +
                 "form action '$formActionName'?") }
     }
+
+    @Test
+    fun logDataNotInsertedOnDatabase_should_call_BeagleLogger_warning() {
+        // Given
+        val key = RandomData.string()
+        val value = RandomData.string()
+
+        // When
+        BeagleMessageLogs.logDataNotInsertedOnDatabase(key, value)
+
+        // Then
+        verify(exactly = 1) { BeagleLogger.warning("Error when trying to insert key=$key " +
+            "with value=$value on Beagle default database.") }
+
+    }
 }

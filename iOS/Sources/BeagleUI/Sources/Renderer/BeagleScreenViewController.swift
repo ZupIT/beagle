@@ -18,22 +18,51 @@ import UIKit
 
 public class BeagleScreenViewController: UIViewController {
     
-    public let viewModel: BeagleScreenViewModel
-    private var viewIsPresented = false
-    private var layoutManager: LayoutManager?
-    private(set) var componentView: UIView?
+    let viewModel: BeagleScreenViewModel
+    
+    public var screenType: ScreenType {
+        return viewModel.screenType
+    }
+    
+    public var screen: Screen? {
+        return viewModel.screen
+    }
     
     var dependencies: ViewModel.Dependencies {
         return viewModel.dependencies
     }
     
+    var beagleNavigation: BeagleNavigationController? {
+        return navigationController as? BeagleNavigationController
+    }
+    
+    private(set) var contentController: UIViewController? {
+        willSet { removeContentController() }
+        didSet { addContentController() }
+    }
+    
     // MARK: - Initialization
     
-    public init(viewModel: BeagleScreenViewModel) {
+    public convenience init(component: ServerDrivenComponent) {
+        self.init(screen: component.toScreen())
+    }
+    
+    public convenience init(screen: Screen) {
+        self.init(.declarative(screen))
+    }
+    
+    public convenience init(remote: ScreenType.Remote) {
+        self.init(.remote(remote))
+    }
+    
+    public convenience init(_ screenType: ScreenType) {
+        self.init(viewModel: .init(screenType: screenType))
+    }
+    
+    required init(viewModel: BeagleScreenViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         extendedLayoutIncludesOpaqueBars = true
-        viewModel.stateObserver = self
     }
     
     @available(*, unavailable)
@@ -46,47 +75,31 @@ public class BeagleScreenViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         initView()
+        createContentController()
     }
     
     public override func viewWillAppear(_ animated: Bool) {
-        viewIsPresented = true
-        renderComponentIfNeeded()
         super.viewWillAppear(animated)
         updateNavigationBar(animated: animated)
     }
     
-    public override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        viewIsPresented = false
-    }
-    
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        viewModel.sendScreenAnalyticsEvent(.screenAppeared)
-    }
-    
-    public override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        viewModel.sendScreenAnalyticsEvent(.screenDisapeared)
-    }
-    
-    private func renderComponentIfNeeded() {
-        guard viewIsPresented, let screen = viewModel.screen else { return }
-        switch viewModel.state {
-        case .success, .failure:
-            renderScreen(screen)
-        case .loading, .rendered:
-            break
+    private func createContentController() {
+        if beagleNavigation == nil {
+            createNavigationContent()
+            return
         }
+        viewModel.stateObserver = self
+        viewModel.loadScreen()
     }
     
-    private func renderScreen(_ screen: Screen) {
-        buildViewFromScreen(screen)
-        viewModel.didRenderComponent()
+    private func createNavigationContent() {
+        let beagleNavigation = dependencies.navigationControllerType.init()
+        beagleNavigation.viewControllers = [BeagleScreenViewController(viewModel: viewModel)]
+        contentController = beagleNavigation
     }
     
     private func updateNavigationBar(animated: Bool) {
-        guard let screen = viewModel.screen else { return }
+        guard let screen = screen else { return }
         let screenNavigationBar = screen.navigationBar
         let hideNavBar = screenNavigationBar == nil
         navigationController?.setNavigationBarHidden(hideNavBar, animated: animated)
@@ -110,24 +123,39 @@ public class BeagleScreenViewController: UIViewController {
     
     fileprivate func updateView(state: ViewModel.State) {
         switch state {
-        case .loading:
-            viewIfLoaded?.showLoading(.whiteLarge)
-        case .success, .failure:
-            viewIfLoaded?.hideLoading()
-            renderComponentIfNeeded()
-            updateNavigationBar(animated: viewIsPresented)
-        case .rendered:
+        case .initialized:
             break
+        case .loading:
+            beagleNavigation?.startLoading(self)
+        case .success:
+            beagleNavigation?.stopLoading(self)
+            renderScreenIfNeeded()
+        case .failure(let error):
+            beagleNavigation?.stopLoading(self)
+            renderScreenIfNeeded()
+            handleError(error)
         }
     }
     
-    public override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        layoutManager?.applyLayout()
+    private func renderScreenIfNeeded() {
+        if contentController == nil, let screen = screen {
+            updateNavigationBar(animated: true)
+            contentController = ScreenController(
+                screen: screen,
+                context: self,
+                dependencies: viewModel.dependencies
+            )
+        }
     }
 
-    public func reloadScreen(with screenType: BeagleScreenViewModel.ScreenType) {
-        viewModel.reloadScreen(with: screenType)
+    public func reloadScreen(with screenType: ScreenType) {
+        contentController = nil
+        viewModel.screenType = screenType
+        createContentController()
+    }
+    
+    func handleError(_ error: ServerDrivenState.Error) {
+        beagleNavigation?.serverDrivenStateDidChange(to: .error(error), at: self)
     }
     
     // MARK: - View Setup
@@ -139,31 +167,28 @@ public class BeagleScreenViewController: UIViewController {
         // } else {
         view.backgroundColor = .white
         // }
-        updateView(state: viewModel.state)
     }
     
-    private func buildViewFromScreen(_ screen: Screen) {
-        let view = screen.toView(context: self, dependencies: viewModel.dependencies)
-        setupComponentView(view)
+    private func removeContentController() {
+        guard let contentController = contentController else { return }
+        contentController.willMove(toParentViewController: nil)
+        contentController.view.removeFromSuperview()
+        contentController.removeFromParentViewController()
     }
     
-    private func setupComponentView(_ componentView: UIView) {
-        view.addSubview(componentView)
-        self.componentView = componentView
-        layoutManager = LayoutManager(
-            context: self,
-            componentView: componentView,
-            safeArea: viewModel.screen?.safeArea
-        )
-        layoutManager?.applyLayout()
+    private func addContentController() {
+        guard let contentController = contentController else { return }
+        addChildViewController(contentController)
+        view.addSubview(contentController.view)
+        contentController.view.anchorTo(superview: view)
+        contentController.didMove(toParentViewController: self)
     }
 }
 
 // MARK: - Observer
 
 extension BeagleScreenViewController: BeagleScreenStateObserver {
-    
-    public func didChangeState(_ state: ViewModel.State) {
+    func didChangeState(_ state: BeagleScreenViewController.ViewModel.State) {
         updateView(state: state)
     }
 }
