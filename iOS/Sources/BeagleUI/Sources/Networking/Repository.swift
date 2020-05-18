@@ -55,6 +55,8 @@ public final class RepositoryDefault: Repository {
         DependencyComponentDecoding
         & DependencyNetworkClient
         & DependencyCacheManager
+        & DependencyUrlBuilder
+        & DependencyLogger
 
     let dependencies: Dependencies
 
@@ -84,8 +86,12 @@ public final class RepositoryDefault: Repository {
 
         var newData = additionalData
         appendCacheHeaders(cache, to: &newData)
-        
-        let request = Request(url: url, type: .fetchComponent, additionalData: newData)
+    
+        guard let request = handleUrlBuilderRequest(url: url, type: .fetchComponent, additionalData: newData) else {
+            completion(.failure(.urlBuilderError))
+            return nil
+        }
+
         return dependencies.networkClient.executeRequest(request) { [weak self] result in
             guard let self = self else { return }
 
@@ -104,7 +110,13 @@ public final class RepositoryDefault: Repository {
         data: Request.FormData,
         completion: @escaping (Result<Action, Request.Error>) -> Void
     ) -> RequestToken? {
-        let request = Request(url: url, type: .submitForm(data), additionalData: additionalData)
+        
+        guard let request = handleUrlBuilderRequest(url: url, type: .submitForm(data), additionalData: additionalData)
+            else {
+            completion(.failure(.urlBuilderError))
+            return nil
+        }
+
         return dependencies.networkClient.executeRequest(request) { [weak self] result in
             guard let self = self else { return }
 
@@ -122,7 +134,12 @@ public final class RepositoryDefault: Repository {
         additionalData: RemoteScreenAdditionalData?,
         completion: @escaping (Result<Data, Request.Error>) -> Void
     ) -> RequestToken? {
-        let request = Request(url: url, type: .fetchImage, additionalData: additionalData)
+        
+        guard let request = handleUrlBuilderRequest(url: url, type: .fetchImage, additionalData: additionalData) else {
+            completion(.failure(.urlBuilderError))
+            return nil
+        }
+        
         return dependencies.networkClient.executeRequest(request) { result in
             let mapped = result
                 .flatMapError { .failure(Request.Error.networkError($0)) }
@@ -208,5 +225,14 @@ public final class RepositoryDefault: Repository {
         if let cache = cache, dependencies.cacheManager?.isValid(reference: cache) != true {
             data?.headers[cacheHashHeader] = cache.hash
         }
+    }
+    
+    private func handleUrlBuilderRequest(url: String, type: Request.RequestType, additionalData: RemoteScreenAdditionalData?) -> Request? {
+        guard let builderUrl = dependencies.urlBuilder.build(path: url) else {
+            dependencies.logger.log(Log.network(.couldNotBuildUrl(url: url)))
+            return nil
+        }
+        
+        return Request(url: builderUrl, type: type, additionalData: additionalData)
     }
 }

@@ -91,8 +91,6 @@ private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     ActionExecuting.Dependencies,
     DependencyNavigationController,
     DependencyDeepLinkScreenManaging,
-    DependencyUrlBuilder,
-    DependencyLogger,
     DependencyRepository {
 
     var container: () -> BeagleDependenciesProtocol = {
