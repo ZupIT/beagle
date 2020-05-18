@@ -16,7 +16,7 @@
 
 import UIKit
 
-struct ScreenComponent: AppearanceComponent {
+struct ScreenComponent: AppearanceComponent, ServerDrivenComponent, AutoInitiableAndDecodable {
 
     // MARK: - Public Properties
     
@@ -24,12 +24,11 @@ struct ScreenComponent: AppearanceComponent {
     public let appearance: Appearance?
     public let safeArea: SafeArea?
     public let navigationBar: NavigationBar?
-    public let child: ServerDrivenComponent
     public let screenAnalyticsEvent: AnalyticsScreen?
-    
-    // MARK: - Initialization
-    
-    public init(
+    public let child: ServerDrivenComponent
+
+// sourcery:inline:auto:ScreenComponent.Init
+    internal init(
         identifier: String? = nil,
         appearance: Appearance? = nil,
         safeArea: SafeArea? = nil,
@@ -41,30 +40,10 @@ struct ScreenComponent: AppearanceComponent {
         self.appearance = appearance
         self.safeArea = safeArea
         self.navigationBar = navigationBar
-        self.child = child
         self.screenAnalyticsEvent = screenAnalyticsEvent
+        self.child = child
     }
-}
-
-extension ScreenComponent: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case identifier
-        case appearance
-        case safeArea
-        case navigationBar
-        case child
-        case screenAnalyticsEvent
-    }
-
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.identifier = try container.decodeIfPresent(String.self, forKey: .identifier)
-        self.appearance = try container.decodeIfPresent(Appearance.self, forKey: .appearance)
-        self.safeArea = try container.decodeIfPresent(SafeArea.self, forKey: .safeArea)
-        self.navigationBar = try container.decodeIfPresent(NavigationBar.self, forKey: .navigationBar)
-        self.screenAnalyticsEvent = try container.decodeIfPresent(AnalyticsScreen.self, forKey: .screenAnalyticsEvent)
-        self.child = try container.decode(forKey: .child)
-    }
+// sourcery:end
 }
 
 extension ScreenComponent: Renderable {
@@ -98,7 +77,7 @@ extension ScreenComponent: Renderable {
     }
 }
 
-public struct SafeArea: Equatable, Decodable {
+public struct SafeArea: Equatable, Decodable, AutoInitiable {
 
     // MARK: - Public Properties
 
@@ -107,8 +86,15 @@ public struct SafeArea: Equatable, Decodable {
     public let bottom: Bool?
     public let trailing: Bool?
 
-    // MARK: - Initialization
-
+    public static var all: SafeArea {
+        return SafeArea(top: true, leading: true, bottom: true, trailing: true)
+    }
+    
+    public static var none: SafeArea {
+        return SafeArea(top: false, leading: false, bottom: false, trailing: false)
+    }
+    
+// sourcery:inline:auto:SafeArea.Init
     public init(
         top: Bool? = nil,
         leading: Bool? = nil,
@@ -120,12 +106,5 @@ public struct SafeArea: Equatable, Decodable {
         self.bottom = bottom
         self.trailing = trailing
     }
-    
-    public static var all: SafeArea {
-        return SafeArea(top: true, leading: true, bottom: true, trailing: true)
-    }
-    
-    public static var none: SafeArea {
-        return SafeArea(top: false, leading: false, bottom: false, trailing: false)
-    }
+// sourcery:end
 }

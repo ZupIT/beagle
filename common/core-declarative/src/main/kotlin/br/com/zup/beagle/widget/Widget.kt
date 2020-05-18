@@ -23,6 +23,7 @@ import br.com.zup.beagle.core.AppearanceComponent
 import br.com.zup.beagle.core.FlexComponent
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.FlexBuilder
 
 abstract class Widget : FlexComponent, AppearanceComponent, AccessibilityComponent,
     IdentifierComponent {
@@ -45,6 +46,8 @@ abstract class Widget : FlexComponent, AppearanceComponent, AccessibilityCompone
         this.flex = flex
         return this
     }
+
+    fun buildAndApplyFlex(flexBuilder: FlexBuilder) = this.applyFlex(flexBuilder.build())
 
     open fun applyAppearance(appearance: Appearance): Widget {
         this.appearance = appearance

@@ -2,7 +2,8 @@ name: Beagle PR Danger
 
 on:
    pull_request:
-    branches:
+       types: [edited, synchronize, reopened, opened]
+       branches:
        - master
 jobs:
     danger-pr:

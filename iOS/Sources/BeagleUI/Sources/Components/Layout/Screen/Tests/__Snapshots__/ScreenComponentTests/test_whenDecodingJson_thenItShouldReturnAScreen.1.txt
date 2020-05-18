@@ -1,14 +1,15 @@
 ▿ ScreenComponent
   - appearance: Optional<Appearance>.none
   ▿ child: Text
-    - accessibility: Optional<Accessibility>.none
     - alignment: Optional<Alignment>.none
-    - appearance: Optional<Appearance>.none
-    - flex: Optional<Flex>.none
-    - id: Optional<String>.none
     - style: Optional<String>.none
     - text: "child"
     - textColor: Optional<String>.none
+    ▿ widgetProperties: WidgetProperties
+      - accessibility: Optional<Accessibility>.none
+      - appearance: Optional<Appearance>.none
+      - flex: Optional<Flex>.none
+      - id: Optional<String>.none
   - identifier: Optional<String>.none
   ▿ navigationBar: Optional<NavigationBar>
     ▿ some: NavigationBar

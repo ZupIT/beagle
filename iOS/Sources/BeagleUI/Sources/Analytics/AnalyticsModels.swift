@@ -18,12 +18,13 @@ import Foundation
 
 public protocol AnalyticsEvent: Codable { }
 
-public struct AnalyticsClick: AnalyticsEvent {
+public struct AnalyticsClick: AnalyticsEvent, AutoInitiable {
     
     public let category: String
     public let label: String?
     public let value: String?
-    
+
+// sourcery:inline:auto:AnalyticsClick.Init
     public init(
         category: String,
         label: String? = nil,
@@ -33,12 +34,17 @@ public struct AnalyticsClick: AnalyticsEvent {
         self.label = label
         self.value = value
     }
+// sourcery:end
 }
 
-public struct AnalyticsScreen: AnalyticsEvent {
+public struct AnalyticsScreen: AnalyticsEvent, AutoInitiable {
     public let screenName: String
-    
-    public init(screenName: String) {
+
+// sourcery:inline:auto:AnalyticsScreen.Init
+    public init(
+        screenName: String
+    ) {
         self.screenName = screenName
     }
+// sourcery:end
 }
