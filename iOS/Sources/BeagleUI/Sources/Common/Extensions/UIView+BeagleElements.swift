@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,29 +15,27 @@
  * limitations under the License.
  */
 
-import XCTest
-@testable import BeagleUI
+import UIKit
 
-final class FormSubmitTests: XCTestCase {
-    
-    func test_initWithChild_shouldReturnValidFormSubmit() {
-        // Given / When
-        let sut = FormSubmit(child:
-            Text("Text")
-        )
-        // Then
-        XCTAssert(sut.child is Text)
+extension UIView {
+    private struct AssociatedKeys {
+        static var BeagleElement = "beagleUI_BeagleElement"
     }
     
-    func test_toView_shouldReturnTheExpectedView() {
-        // Given
-        let formSubmit = FormSubmit(child: ComponentDummy())
-                
-        // When
-        let view = formSubmit.toView(context: BeagleContextDummy(), dependencies: BeagleScreenDependencies())
+    private class ObjectWrapper<T> {
+        let object: T?
         
-        // Then
-        XCTAssertTrue(view.subviews.first?.beagleElement is FormSubmit)
+        init(_ object: T?) {
+            self.object = object
+        }
     }
     
+    var beagleElement: ServerDrivenComponent? {
+        get {
+            return (objc_getAssociatedObject(self, &AssociatedKeys.BeagleElement) as? ObjectWrapper)?.object
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.BeagleElement, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
 }

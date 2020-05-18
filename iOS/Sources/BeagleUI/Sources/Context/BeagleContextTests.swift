@@ -56,7 +56,6 @@ class BeagleContextSpy: BeagleContext {
         didCallLazyLoadImage = true
     }
 
-
     func doAction(_ action: Action, sender: Any) {
         didCallDoAction = true
         actionCalled = action
@@ -162,11 +161,11 @@ final class BeagleContextTests: XCTestCase {
         // Given
         let context = BeagleContextDummy()
         let dependencies = BeagleScreenDependencies()
-        let placeholderComponent = Text("Loading .. ")
+        let placeholderComponent = Image(name: "beagle")
         let imageComponent = Image(name: "beagle")
         
-        guard let placeholderView = placeholderComponent.toView(context: context, dependencies: dependencies) as? UITextView,
-              let imageView = imageComponent.toView(context: context, dependencies: dependencies) as? UIImageView else {
+        guard let placeholderView = placeholderComponent.toView(context: context, dependencies: dependencies) as? UIImageView,
+            let imageView = imageComponent.toView(context: context, dependencies: dependencies) as? UIImageView else {
             XCTFail("Unable to transform component to view.")
             return
         }
@@ -180,7 +179,7 @@ final class BeagleContextTests: XCTestCase {
         sut.lazyLoadImage(path: "url", placeholderView: placeholderView, imageView: imageView, flex: Flex())
         
         // Then
-        assert(sut.view.subviews.first == imageView)
+        assert(sut.view.subviews[1] == imageView)
     }
 
 }

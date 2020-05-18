@@ -58,7 +58,7 @@ final class ActionExecutorTests: XCTestCase {
         
         let formInput = FormInput(name: inputName, child: ComponentDummy())
         let validationErrorListenerSpy = ValidationErrorListenerSpy()
-        validationErrorListenerSpy.beagleFormElement = formInput
+        validationErrorListenerSpy.beagleElement = formInput
         let form = Form(
             action: FormRemoteAction(path: "path", method: .post),
             child: Container(children: [formInput])

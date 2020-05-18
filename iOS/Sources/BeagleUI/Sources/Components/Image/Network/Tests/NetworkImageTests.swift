@@ -59,19 +59,19 @@ final class NetworkImageTests: XCTestCase {
     
     func test_whenHasPlaceholder_shouldReturnItAsInitialView() {
         // Given
-        let component = NetworkImage(path: "url", placeholder: Text("Loading .."))
+        let component = NetworkImage(path: "url", placeholder: Image(name: "imageBeagle"))
         let context = BeagleContextSpy()
         let repositoryStub = RepositoryStub(imageResult: .success(Data()))
         let dependencies = BeagleScreenDependencies(repository: repositoryStub)
         
         // When
-        guard let placeholderView = component.toView(context: context, dependencies: dependencies) as? UITextView else {
-            XCTFail("Build view not returning Text.")
+        guard let placeholderView = component.toView(context: context, dependencies: dependencies) as? UIImageView else {
+            XCTFail("Build view not returning Image.")
             return
         }
         
         // Then
         XCTAssert(context.didCallLazyLoadImage)
-        XCTAssertNotNil(placeholderView.text, "Expected placeholder to not be nil.")
+        XCTAssertNotNil(placeholderView, "Expected placeholder to not be nil.")
     }
 }

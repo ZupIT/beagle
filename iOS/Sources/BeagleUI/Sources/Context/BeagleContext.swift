@@ -92,7 +92,7 @@ extension BeagleScreenViewController: BeagleContext {
             action: #selector(handleSubmitFormGesture(_:))
         )
         if let control = submitView as? UIControl,
-           let formSubmit = submitView.beagleFormElement as? FormSubmit,
+           let formSubmit = submitView.beagleElement as? FormSubmit,
            let enabled = formSubmit.enabled {
             control.isEnabled = enabled
         }
@@ -162,7 +162,7 @@ extension BeagleScreenViewController: BeagleContext {
         result: inout [String: String]
     ) {
         guard
-            let formInput = view.beagleFormElement as? FormInputComponent,
+            let formInput = view.beagleElement as? FormInputComponent,
             let inputValue = view as? InputValue
         else { return }
 
@@ -253,10 +253,12 @@ extension BeagleScreenViewController: BeagleContext {
                 let image = UIImage(data: data)
                 imageView.image = image
                 self.update(from: placeholderView, to: imageView, flex: flex)
-            case .failure(_):
-                let image = UIImage(named: "") /// TODO: DISCUSS WITH ANDROID
+            case .failure:
+                guard let placeholder = placeholderView.beagleElement as? Image else { return }
+                let image = UIImage(named: placeholder.name)
                 imageView.image = image
                 self.update(from: placeholderView, to: imageView, flex: flex)
+                
             }
         }
     }

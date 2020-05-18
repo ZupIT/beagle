@@ -40,7 +40,7 @@ extension Form: Renderable {
         var hasFormSubmit = false
         
         func registerFormSubmit(view: UIView) {
-            if view.beagleFormElement is FormSubmit {
+            if view.beagleElement is FormSubmit {
                 hasFormSubmit = true
                 context.register(form: self, formView: childView, submitView: view, validatorHandler: dependencies.validatorProvider)
             }
@@ -55,27 +55,4 @@ extension Form: Renderable {
         }
         return childView
     }    
-}
-
-extension UIView {
-    private struct AssociatedKeys {
-        static var FormElement = "beagleUI_FormElement"
-    }
-    
-    private class ObjectWrapper<T> {
-        let object: T?
-        
-        init(_ object: T?) {
-            self.object = object
-        }
-    }
-    
-    var beagleFormElement: ServerDrivenComponent? {
-        get {
-            return (objc_getAssociatedObject(self, &AssociatedKeys.FormElement) as? ObjectWrapper)?.object
-        }
-        set {
-            objc_setAssociatedObject(self, &AssociatedKeys.FormElement, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
-    }
 }

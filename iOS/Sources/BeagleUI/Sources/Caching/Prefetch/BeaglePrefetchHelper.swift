@@ -35,6 +35,6 @@ public class BeaglePreFetchHelper: BeaglePrefetchHelping {
     
     public func prefetchComponent(newPath: Navigate.NewPath) {
         guard newPath.shouldPrefetch else { return }
-        dependencies.repository.fetchComponent(url: newPath.path, additionalData: nil, completion: { _ in })
+        dependencies.repository.fetchComponent(url: newPath.path, additionalData: nil) { _ in }
     }
 }

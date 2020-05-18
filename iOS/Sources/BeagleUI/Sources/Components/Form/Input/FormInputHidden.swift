@@ -34,7 +34,7 @@ public struct FormInputHidden: FormInputComponent, AutoInitiable {
 extension FormInputHidden: Renderable {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let view = HidenInputView(value: value)
-        view.beagleFormElement = self
+        view.beagleElement = self
         view.flex.setup(Flex(positionType: .absolute))
         return view
     }

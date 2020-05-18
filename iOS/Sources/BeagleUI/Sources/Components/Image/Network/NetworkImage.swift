@@ -51,6 +51,7 @@ extension NetworkImage: Renderable {
         
         if let placeholder = placeholder {
             let imagePlaceholder = placeholder.toView(context: context, dependencies: dependencies)
+            imagePlaceholder.beagle.setup(self)
             context.lazyLoadImage(path: path, placeholderView: imagePlaceholder, imageView: imageView, flex: flex ?? Flex())
             return imagePlaceholder
         }

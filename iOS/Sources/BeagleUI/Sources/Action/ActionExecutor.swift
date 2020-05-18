@@ -56,7 +56,7 @@ final class ActionExecuting: ActionExecutor {
         let inputViews = (sender as? SubmitFormGestureRecognizer)?.formInputViews()
         for error in action.errors {
             let errorListener = inputViews?.first { view in
-                (view.beagleFormElement as? FormInput)?.name == error.inputName
+                (view.beagleElement as? FormInput)?.name == error.inputName
             } as? ValidationErrorListener
             errorListener?.onValidationError(message: error.message)
         }
