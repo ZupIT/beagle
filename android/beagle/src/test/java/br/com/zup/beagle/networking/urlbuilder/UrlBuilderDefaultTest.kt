@@ -16,58 +16,65 @@
 
 package br.com.zup.beagle.networking.urlbuilder
 
-import br.com.zup.beagle.networking.urlbuilder.UrlBuilderDefault
-import br.com.zup.beagle.testutil.RandomData
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import java.io.File
+import java.io.InputStream
+import java.lang.reflect.Type
 
 class UrlBuilderDefaultTest {
 
     private lateinit var urlBuilderDefault: UrlBuilderDefault
 
+    lateinit var urlBuilders: List<UrlBuilderData>
+
     @Before
     fun setUp() {
         urlBuilderDefault = UrlBuilderDefault()
+
+        val jsonFileString = getJsonFromFile()
+
+        urlBuilders = getUrlBuilderListFromJson(jsonFileString)
+
     }
 
     @Test
     fun format_should_concatenate_relative_path() {
-        // Given
-        val endpoint = RandomData.httpUrl()
-        val path = "/" + RandomData.string()
+        urlBuilders.forEach{
+            // When
+            val actual = urlBuilderDefault.format(it.base, it.path)
 
-        // When
-        val actual = urlBuilderDefault.format(endpoint, path)
-
-        // Then
-        val expected = endpoint + path
-        Assert.assertEquals(expected, actual)
+            // Then
+            Assert.assertEquals(it.result, actual)
+        }
     }
 
-    @Test
-    fun format_should_return_absolute_path() {
-        // Given
-        val endpoint = RandomData.httpUrl()
-        val path = RandomData.httpUrl()
-
-        // When
-        val actual = urlBuilderDefault.format(endpoint, path)
-
-        // Then
-        Assert.assertEquals(path, actual)
+    private fun getUrlBuilderListFromJson(jsonFileString: String): List<UrlBuilderData> {
+        val moshi = Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
+        val type: Type = Types.newParameterizedType(MutableList::class.java, UrlBuilderData::class.java)
+        val adapter: JsonAdapter<List<UrlBuilderData>> = moshi.adapter(type)
+        return adapter.fromJson(jsonFileString) ?: listOf()
     }
 
-    @Test
-    fun format_should_return_path_that_has_no_slash() {
-        // Given
-        val endpoint = RandomData.httpUrl()
-        val path = RandomData.string()
+    private fun getJsonFromFile(): String {
+        val file = File("../../common/tests/", "UrlBuilderTestSpec.json")
 
-        // When
-        val actual = urlBuilderDefault.format(endpoint, path)
+        val inputStream: InputStream = file.inputStream()
 
-        // Then
-        Assert.assertEquals(path, actual)
+        return inputStream.bufferedReader().use { it.readText() }
     }
+
+    data class UrlBuilderData(
+        val base: String? = null,
+        val path: String = "",
+        val result: String? = null
+    )
+
 }
