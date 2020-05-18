@@ -65,11 +65,14 @@ class BeagleCacheHandler(excludeEndpoints: List<String> = listOf()) {
             else ->
                 restHandler.callController(initialResponse)
                     .let {
-                        restHandler.addHashHeader(it, this.generateAndAddHash(
-                            endpoint = endpoint,
-                            currentPlatform = currentPlatform,
-                            json = restHandler.getBody(it)
-                        ))
+                        restHandler.addHashHeader(
+                            it,
+                            this.generateAndAddHash(
+                                endpoint = endpoint,
+                                currentPlatform = currentPlatform,
+                                json = restHandler.getBody(it)
+                            )
+                        )
                     }
         }
 }
