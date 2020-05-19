@@ -3,8 +3,23 @@ import PlaygroundSupport
 
 // MARK: BeagleCore
 
+class BeagleContext { // ViewController
+    var bindingToConfig: [() -> Void]
+    
+    init() {
+        bindingToConfig = []
+    }
+    
+    func configAllBindings() {
+        bindingToConfig.forEach {
+            $0()
+        }
+        bindingToConfig = []
+    }
+}
+
 protocol Renderable {
-    func render() -> UIView // toView
+    func render(context: BeagleContext) -> UIView // toView
 }
 
 //protocol Bindable {
@@ -17,7 +32,7 @@ protocol Action: Decodable {}
 // MARK: BeagleModels
 
 struct UnknownComponent: Component {
-    func render() -> UIView {
+    func render(context: BeagleContext) -> UIView {
         let label = UILabel()
         label.text = "unknown"
         label.textColor = .red
@@ -32,7 +47,7 @@ struct Container: Component {
     
     let children: [Component]
     
-    func render() -> UIView {
+    func render(context: BeagleContext) -> UIView {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.distribution = .fillEqually
@@ -45,45 +60,62 @@ struct Container: Component {
         }
         
         children.forEach {
-            let view = $0.render()
-            stack.addArrangedSubview(view)
-            if let label = view as? UILabel, let text = $0 as? Text {
-                switch text.text {
-                case let .expression(exp):
-                    label.text = label.getValue(for: exp)
-                default: () // nop
-                }
-            }
+            stack.addArrangedSubview($0.render(context: context))
         }
+        
         return stack
     }
 }
 
 struct Text: Component {
-    let text: ValueExpression<String?>
+    let text: ValueExpression<String?> // Binding<String?>
     
-    func render() -> UIView {
+    func render(context: BeagleContext) -> UIView {
         let label = UILabel()
         switch text {
         // TODO: make this reusable
         case let .expression(expression):
-            label.text = label.getValue(for: expression) ?? expression.rawValue
+            context.bindingToConfig.append {
+                label.configBinding(for: expression) { label.text = $0 }
+            }
         case let .value(value):
             label.text = value
         }
         return label
     }
+    
+    
 }
 
 struct Button: Component {
     let text: String?
     let action: Action?
     
-    func render() -> UIView {
-        let button = UIButton()
+    func render(context: BeagleContext) -> UIView {
+        let button = CustomButton()
         button.setTitle(text, for: .normal)
         button.setTitleColor(.blue, for: .normal)
         return button
+    }
+}
+
+class CustomButton: UIButton {
+    init() {
+        super.init(frame: .zero)
+        self.addTarget(self, action: #selector(touchAction), for: .touchUpInside)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // TODO: create setContext Action
+    @objc func touchAction() {
+        let expression = Expression(nodes: [.property("myContext")])
+        let context = self.findContext(for: expression)
+        // [ { "b": "valor b" } ]
+        let newContext = Context(id: "myContext", value: [["b": "novo valor b"]])
+        context?.value = newContext
     }
 }
 
@@ -336,43 +368,45 @@ extension String {
 }
 
 // MARK: BeagleExtensions
-
 // Observer pattern
-protocol ObserverProtocol {
-    var id : String { get }
-}
+//protocol ObserverProtocol {
+//    var id : String { get }
+//}
+
 class Observable<T> {
     typealias CompletionHandler = ((T) -> Void)
     var value : T {
         didSet {
-            self.notifyObservers(self.observers)
+            self.notifyObservers()
         }
     }
-    var observers : [String : CompletionHandler] = [:]
+    var observers : [CompletionHandler] = []
     init(_ value: T) {
         self.value = value
     }
-    func addObserver(_ observer: ObserverProtocol, completion: @escaping CompletionHandler) {
-        self.observers[observer.id] = completion
+    func addObserver(completion: @escaping CompletionHandler) {
+        self.observers.append(completion)
     }
-    func removeObserver(_ observer: ObserverProtocol) {
-        self.observers.removeValue(forKey: observer.id)
-    }
-    func notifyObservers(_ observers: [String : CompletionHandler]) {
-        observers.forEach({ $0.value(value) })
+    
+//    func removeObserver(_ observer: ObserverProtocol) {
+//        self.observers.removeValue(forKey: observer.id)
+//    }
+    
+    func notifyObservers() {
+        observers.forEach { $0(value) }
     }
     deinit {
         observers.removeAll()
     }
 }
 
-extension UIView: ObserverProtocol {
-    var id: String {
-        get {
-            self.accessibilityIdentifier ?? ""
-        }
-    }
-}
+//extension UIView: ObserverProtocol {
+//    var id: String {
+//        get {
+//            self.accessibilityIdentifier ?? ""
+//        }
+//    }
+//}
 
 extension UIView {
     static var contextMapKey = "contextMapKey"
@@ -394,25 +428,37 @@ extension UIView {
         }
     }
     
-    func getValue<T>(for expression: Expression) -> T? {
+    func findContext(for expression: Expression) -> Observable<Context>? { // traversal
         // change to config binding
         guard let contextMap = self.contextMap else {
 //            print("parent: \(self.superview)")
             guard let parent = self.superview else {
                 return nil
-                
             }
-            return parent.getValue(for: expression)
+            return parent.findContext(for: expression)
         }
         guard let contextId = expression.context(), let context = contextMap[contextId] else {
 //            print("setContextMap: \(newValue), object: \(self)")
             guard let parent = self.superview else {
                 return nil
             }
-            return parent.getValue(for: expression)
+            return parent.findContext(for: expression)
         }
+        return context
+    }
+    
+    func configBinding<T>(for expression: Expression, completion: @escaping (T) -> Void) -> Void {
+        guard let context = findContext(for: expression) else { return }
         let newExp = Expression(nodes: Array<Expression.Node>(expression.nodes.dropFirst()))
-        return newExp.evaluate(model: context.value.value) as? T
+        let closure: (Context) -> Void = { context in
+            print("value changed")
+            if let value = newExp.evaluate(model: context.value) as? T {
+                completion(value)
+            }
+        }
+        print("value configured")
+        context.addObserver(completion: closure)
+        closure(context.value)
     }
 }
 
@@ -446,7 +492,10 @@ let object = try jsonDecoder.decode(AnyDecodableContainer.self, from: jsonData)
 let unrappedObject = (object.value as? Component) ?? UnknownComponent()
 
 print("component: \(unrappedObject)")
-let rootView = unrappedObject.render()
+let context = BeagleContext()
+
+let rootView = unrappedObject.render(context: context) // toView
+context.configAllBindings() // configBinding
 
 let containerView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 375.0, height: 667.0))
 containerView.addSubview(rootView)
@@ -464,8 +513,8 @@ PlaygroundPage.current.liveView = containerView
 
 //print("------------------------------------------")
 //print("keypath sample")
-// if the data were not dynamic (AnyType) maybe we could use keypath to represent expressions
-// transform expression -> keypath
+//// if the data were not dynamic (AnyType) maybe we could use keypath to represent expressions
+//// transform expression -> keypath
 //struct S1 {
 //    let p: String
 //}
