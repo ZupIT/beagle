@@ -82,38 +82,6 @@ internal class BeagleSerializerModifierTest {
             compareSerializers = Assertions::assertNotSame
         )
 
-    @Test
-    fun modifySerializer_for_ComposeComponent_should_return_BeagleBuilderSerializer() =
-        testModifySerializer(
-            clazz = ComposeComponent::class.java,
-            expectedSerializerClass = BeagleBuilderSerializer::class,
-            compareSerializers = Assertions::assertNotSame
-        )
-
-    @Test
-    fun modifySerializer_for_ComposeComponent_subtype_should_return_BeagleBuilderSerializer() =
-        testModifySerializer(
-            clazz = MyComposeComponent::class.java,
-            expectedSerializerClass = BeagleBuilderSerializer::class,
-            compareSerializers = Assertions::assertNotSame
-        )
-
-    @Test
-    fun modifySerializer_for_ScreenBuilder_should_return_BeagleBuilderSerializer() =
-        testModifySerializer(
-            clazz = ScreenBuilder::class.java,
-            expectedSerializerClass = BeagleBuilderSerializer::class,
-            compareSerializers = Assertions::assertNotSame
-        )
-
-    @Test
-    fun modifySerializer_for_ScreenBuilder_subtype_should_return_BeagleBuilderSerializer() =
-        testModifySerializer(
-            clazz = MyScreenBuilder::class.java,
-            expectedSerializerClass = BeagleBuilderSerializer::class,
-            compareSerializers = Assertions::assertNotSame
-        )
-
     private fun testModifySerializer(
         clazz: Class<*>,
         expectedSerializerClass: KClass<*>,

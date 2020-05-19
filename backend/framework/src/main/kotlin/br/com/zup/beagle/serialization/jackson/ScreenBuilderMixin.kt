@@ -16,16 +16,11 @@
 
 package br.com.zup.beagle.serialization.jackson
 
-import br.com.zup.beagle.core.Bind
-import br.com.zup.beagle.widget.core.ComposeComponent
+import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fasterxml.jackson.annotation.JsonValue
 
-object BeagleModule : SimpleModule() {
-    init {
-        this.setSerializerModifier(BeagleSerializerModifier)
-        this.setMixInAnnotation(ComposeComponent::class.java, ComposeComponentMixin::class.java)
-        this.setMixInAnnotation(ScreenBuilder::class.java, ScreenBuilderMixin::class.java)
-        this.setMixInAnnotation(Bind::class.java, BindMixin::class.java)
-    }
+internal object ScreenBuilderMixin : ScreenBuilder {
+    @JsonValue
+    override fun build() = Screen(child = ComposeComponentMixin)
 }
