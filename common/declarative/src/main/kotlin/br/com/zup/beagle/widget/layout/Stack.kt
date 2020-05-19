@@ -19,6 +19,12 @@ package br.com.zup.beagle.widget.layout
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+/**
+ * component will hold a stack of components. It display its children relative to the stack.
+ *
+ * @param children define the components to be stacked on the Stack component view.
+ *
+ */
 data class Stack(
     val children: List<ServerDrivenComponent>
 ) : ServerDrivenComponent, LayoutComponent
