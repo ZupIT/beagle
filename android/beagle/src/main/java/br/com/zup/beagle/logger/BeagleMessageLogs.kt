@@ -93,4 +93,9 @@ internal object BeagleMessageLogs {
         val errorMessage = "Error while trying to change context."
         BeagleLogger.error(errorMessage, ex)
     }
+
+    fun errorWhileTryingToNotifyContextChanges(ex: Throwable) {
+        val errorMessage = "Error while trying to notify context changes."
+        BeagleLogger.error(errorMessage, ex)
+    }
 }

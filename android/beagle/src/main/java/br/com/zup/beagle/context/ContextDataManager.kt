@@ -18,21 +18,13 @@ package br.com.zup.beagle.context
 
 import androidx.collection.LruCache
 import br.com.zup.beagle.action.UpdateContext
-import br.com.zup.beagle.context.ContextDataManager.valueInExpression
 import br.com.zup.beagle.data.serializer.BeagleMoshi
 import br.com.zup.beagle.logger.BeagleMessageLogs
+import com.squareup.moshi.Moshi
 import org.json.JSONArray
-import org.json.JSONException
 import org.json.JSONObject
 import java.lang.IllegalStateException
-import java.util.*
-
-/*
-* 1 - Ao renderizar um componente que tem contexto atrelado, varrer os filhos e verificar quais deles tem atributos do tipo Bind.Expression
-* 2 - Guardar esses atributos em um mapa onde a chave é o ID do contexto e os valores é uma lista de Bind.Expression
-* 3 - Ao finalizar o build da árvore, trigar o evaluation dos valores de todos contexts/Bind.Expression
-* 4 - Assim que o houver qualquer updateContext verificar se a mudança ocorreu com sucesso e trigar novamente o evalution de todos os Bind.Expression atrelado a esse context
-*/
+import java.util.Stack
 
 private val EXPRESSION_REGEX = "@\\{([^)]+)}".toRegex()
 
@@ -41,14 +33,16 @@ internal data class ContextBinding(
     val bindings: MutableList<Bind.Expression<*>>
 )
 
-internal object ContextDataManager {
+internal class ContextDataManager(
+    private val jsonPathFinder: JsonPathFinder = JsonPathFinder(),
+    private val jsonPathReplacer: JsonPathReplacer = JsonPathReplacer(),
+    private val contextPathResolver: ContextPathResolver = ContextPathResolver(),
+    private val moshi: Moshi = BeagleMoshi.moshi
+) {
 
     private val lruCache: LruCache<String, Any> = LruCache(20)
-    private val contextIds = Stack<String>()
+    private val contextIds: Stack<String> = Stack<String>()
     private val contexts: MutableMap<String, ContextBinding> = mutableMapOf()
-    private val jsonPathFinder = JsonPathFinder()
-    private val jsonPathReplacer = JsonPathReplacer()
-    private val moshi = BeagleMoshi.moshi
 
     fun pushContext(contextData: ContextData) {
         contextIds.add(contextData.id)
@@ -75,14 +69,11 @@ internal object ContextDataManager {
         contexts[contextId]?.bindings?.add(binding)
     }
 
-    fun updateContext(updateContext: UpdateContext) {
-        contexts[updateContext.contextId]?.let { viewContext ->
-            val path = updateContext.path ?: viewContext.context.id
-            val result = setValue(viewContext, path, updateContext.value)
-            if (result) {
-                notifyBindingChanges(viewContext)
-            }
-        }
+    fun updateContext(updateContext: UpdateContext): Boolean {
+        return contexts[updateContext.contextId]?.let { contextBinding ->
+            val path = updateContext.path ?: contextBinding.context.id
+            return setValue(contextBinding, path, updateContext.value)
+        } ?: false
     }
 
     fun evaluateContextBindings() {
@@ -100,10 +91,12 @@ internal object ContextDataManager {
                 return value
             }
             return try {
-                val keys = generateKeys(contextData.id, path)
-                jsonPathFinder.find(keys, contextData.value)?.let { foundValue ->
+                val keys = contextPathResolver.getKeysFromPath(contextData.id, path)
+                val foundValue = jsonPathFinder.find(keys, contextData.value)
+                if (foundValue != null) {
                     lruCache.put(path, foundValue)
                 }
+                return foundValue
             } catch (ex: Exception) {
                 BeagleMessageLogs.errorWhileTryingToAccessContext(ex)
                 null
@@ -119,43 +112,12 @@ internal object ContextDataManager {
             true
         } else {
             return try {
-                val keys = generateKeys(context.id, path)
+                val keys = contextPathResolver.getKeysFromPath(context.id, path)
                 jsonPathReplacer.replace(keys, value, context.value)
             } catch (ex: Exception) {
                 BeagleMessageLogs.errorWhileTryingToChangeContext(ex)
                 false
             }
-        }
-    }
-
-    private fun generateKeys(contextId: String, path: String): LinkedList<String> {
-        val newPath = removeContextFromPath(contextId, path)
-        val keys = JsonPathUtils.splitKeys(newPath)
-
-        if (keys.size == 1 && keys.first == path) {
-            throw JsonPathUtils.createInvalidPathException()
-        }
-
-        return keys
-    }
-
-    private fun removeContextFromPath(contextId: String, path: String): String {
-        val newPath = path.replace(contextId, "")
-
-        if (newPath.isEmpty()) {
-            throw JsonPathUtils.createInvalidPathException()
-        } else if (newPath.startsWith(".")) {
-            return newPath.replaceFirst(".", "")
-        }
-
-        return newPath
-    }
-
-    private fun addContextToPath(contextId: String, path: String): String {
-        return if (path.contains(contextId)) {
-            path
-        } else {
-            "$contextId.$path"
         }
     }
 
@@ -165,16 +127,19 @@ internal object ContextDataManager {
 
         bindings.forEach { bind ->
             val expression = bind.valueInExpression()
-            val path = addContextToPath(contextData.id, expression)
+            val path = contextPathResolver.addContextToPath(contextData.id, expression)
             val value = getValue(contextData, path)
 
-            val realValue: Any = if (value is JSONArray || value is JSONObject) {
-                moshi.adapter<Any>(bind.type).fromJson(value.toString()) ?: throw IllegalStateException()
-            } else {
-                value ?: throw IllegalStateException()
+            try {
+                val realValue: Any = if (value is JSONArray || value is JSONObject) {
+                    moshi.adapter<Any>(bind.type).fromJson(value.toString()) ?: throw IllegalStateException("JSON deserialization returned null")
+                } else {
+                    value ?: throw IllegalStateException("Expression evaluation returned null")
+                }
+                bind.notifyChanges(realValue)
+            } catch (ex: Exception) {
+                BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(ex)
             }
-
-            bind.notifyChanges(realValue)
         }
     }
 
