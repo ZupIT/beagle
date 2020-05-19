@@ -25,9 +25,9 @@ final class ListViewTests: XCTestCase {
     // MARK: - 3 Rows
 
     private let just3Rows: [ServerDrivenComponent] = [
-        Text("Item 1", appearance: .init(backgroundColor: "#FF0000")),
-        Text("Item 2", appearance: .init(backgroundColor: "#00FF00")),
-        Text("Item 3", appearance: .init(backgroundColor: "#0000FF"))
+        Text("Item 1", widgetProperties: .init(appearance: .init(backgroundColor: "#FF0000"))),
+        Text("Item 2", widgetProperties: .init(appearance: .init(backgroundColor: "#00FF00"))),
+        Text("Item 3", widgetProperties: .init(appearance: .init(backgroundColor: "#0000FF")))
     ]
 
     func testDirectionHorizontal() throws {
@@ -164,7 +164,7 @@ final class ListViewTests: XCTestCase {
         return Text(
             string,
             textColor: textColor,
-            appearance: Appearance(backgroundColor: backgroundColor)
+            widgetProperties: .init( appearance: Appearance(backgroundColor: backgroundColor))
         )
     }
 }

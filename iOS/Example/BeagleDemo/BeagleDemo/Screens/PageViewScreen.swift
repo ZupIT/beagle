@@ -44,7 +44,7 @@ struct Page {
             Text("Text with alignment atribute set to left",alignment: .left),
             NetworkImage(path:.NETWORK_IMAGE_BEAGLE),
         ],
-            flex: Flex().justifyContent(.spaceBetween).grow(1)
+            widgetProperties: .init(flex: Flex().justifyContent(.spaceBetween).grow(1))
         )
     }
 }
