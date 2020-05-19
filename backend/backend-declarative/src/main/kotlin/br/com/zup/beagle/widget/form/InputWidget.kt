@@ -37,6 +37,7 @@ abstract class InputWidget : Widget() {
 
     /**
      * Apply the appearance.
+     * @see Appearance
      * @return the current widget
      */
     override fun applyAppearance(appearance: Appearance): InputWidget {
@@ -45,6 +46,7 @@ abstract class InputWidget : Widget() {
 
     /**
      * Apply the layout component.
+     * @see Flex
      * @return the current widget
      */
     override fun applyFlex(flex: Flex): InputWidget {
@@ -53,6 +55,7 @@ abstract class InputWidget : Widget() {
 
     /**
      * Apply the accessibility .
+     * @see Accessibility
      * @return the current widget
      */
     override fun applyAccessibility(accessibility: Accessibility): InputWidget {

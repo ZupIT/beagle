@@ -20,7 +20,11 @@ apply plugin: 'org.jetbrains.dokka'
  * See https://github.com/Kotlin/dokka
  */
 dokka {
-   // moduleName = "$rootProject.name"
     outputFormat = 'html'
     outputDirectory = "$buildDir/javadoc"
+}
+
+task dokkaJar(type: Jar) {
+    classifier = 'javadoc'
+    from dokka
 }

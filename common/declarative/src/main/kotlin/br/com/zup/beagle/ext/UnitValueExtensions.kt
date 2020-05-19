@@ -19,6 +19,12 @@ package br.com.zup.beagle.ext
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
 
+
+/**
+ * UnitValue extensions
+ *
+ */
+
 /**
  * convert the int to value based in platform, like android this represent dp.
  * @return the unit value for real
