@@ -16,30 +16,24 @@
 
 package br.com.zup.beagle.networking.urlbuilder
 
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import br.com.zup.beagle.testutil.IoUtils
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import java.io.File
-import java.io.InputStream
-import java.lang.reflect.Type
 
 class UrlBuilderDefaultTest {
 
     private lateinit var urlBuilderDefault: UrlBuilderDefault
 
-    lateinit var urlBuilders: List<UrlBuilderData>
+    private lateinit var urlBuilders: List<UrlBuilderData>
 
     @Before
     fun setUp() {
         urlBuilderDefault = UrlBuilderDefault()
 
-        val jsonFileString = getJsonFromFile()
+        val jsonFileString = IoUtils.getJsonFromFile("../../common/tests/", "UrlBuilderTestSpec.json")
 
-        urlBuilders = getUrlBuilderListFromJson(jsonFileString)
+        urlBuilders = IoUtils.getDataFromJson(jsonFileString)
 
     }
 
@@ -52,23 +46,6 @@ class UrlBuilderDefaultTest {
             // Then
             Assert.assertEquals(it.result, actual)
         }
-    }
-
-    private fun getUrlBuilderListFromJson(jsonFileString: String): List<UrlBuilderData> {
-        val moshi = Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
-            .build()
-        val type: Type = Types.newParameterizedType(MutableList::class.java, UrlBuilderData::class.java)
-        val adapter: JsonAdapter<List<UrlBuilderData>> = moshi.adapter(type)
-        return adapter.fromJson(jsonFileString) ?: listOf()
-    }
-
-    private fun getJsonFromFile(): String {
-        val file = File("../../common/tests/", "UrlBuilderTestSpec.json")
-
-        val inputStream: InputStream = file.inputStream()
-
-        return inputStream.bufferedReader().use { it.readText() }
     }
 
     data class UrlBuilderData(
