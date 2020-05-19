@@ -22,7 +22,8 @@ import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.Flex
 
 /**
- * It could be an EditText view in Android, a Radio button in HTML, an UITextField in iOS or any other type of view that can receive and store input from users.
+ * <p>It could be an EditText view in Android, a Radio button in HTML,
+ * an UITextField in iOS or any other type of view that can receive and store input from users. </p>
  *
  */
 abstract class InputWidget : Widget() {
