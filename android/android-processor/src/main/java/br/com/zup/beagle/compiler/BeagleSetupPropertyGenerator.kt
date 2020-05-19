@@ -229,7 +229,7 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
     }
 }
 
-internal class PropertySpecifications(
+internal data class PropertySpecifications(
     var deepLinkHandler: TypeElement? = null,
     var customActionHandler: TypeElement? = null,
     var httpClient: TypeElement? = null,

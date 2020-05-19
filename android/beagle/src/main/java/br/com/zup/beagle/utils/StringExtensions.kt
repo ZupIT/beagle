@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
-apply plugin: 'io.gitlab.arturbosch.detekt'
+package br.com.zup.beagle.utils
 
-detekt {
-    config = files("$rootDir/config/detekt-default-config.yml")
+import android.graphics.Color
+
+internal fun String.toAndroidColor(): Int {
+    val hexColor = if (this.startsWith("#")) this else "#$this"
+    return Color.parseColor(hexColor)
 }
