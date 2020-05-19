@@ -19,6 +19,13 @@ package br.com.zup.beagle.widget.layout
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+/**
+ * component is a specialized container that will display its children vertically.
+ *
+ * @param children define a list of components to be displayed on this view.
+ * @param reversed will change the children display direction.
+ *
+ */
 data class Vertical(
     val children: List<ServerDrivenComponent>,
     val reversed: Boolean? = null
