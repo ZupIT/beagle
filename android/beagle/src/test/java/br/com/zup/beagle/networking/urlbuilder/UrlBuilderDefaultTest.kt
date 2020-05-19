@@ -33,7 +33,7 @@ class UrlBuilderDefaultTest {
 
         val jsonFileString = IoUtils.getJsonFromFile("../../common/tests/", "UrlBuilderTestSpec.json")
 
-        urlBuilders = IoUtils.getDataFromJson(jsonFileString)
+        urlBuilders = IoUtils.getDataListFromJson(jsonFileString)
 
     }
 

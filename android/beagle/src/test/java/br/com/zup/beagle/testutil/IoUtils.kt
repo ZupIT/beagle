@@ -34,7 +34,7 @@ object IoUtils {
         return inputStream.bufferedReader().use { it.readText() }
     }
 
-    inline fun <reified T> getDataFromJson(jsonFileString: String): List<T> {
+    inline fun <reified T> getDataListFromJson(jsonFileString: String): List<T> {
         val moshi = Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
             .build()
