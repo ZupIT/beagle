@@ -45,7 +45,7 @@ class UrlBuilderDefaultTest {
 
     @Test
     fun format_should_concatenate_relative_path() {
-        urlBuilders.forEach{
+        urlBuilders.forEach {
             // When
             val actual = urlBuilderDefault.format(it.base, it.path)
 
@@ -76,5 +76,4 @@ class UrlBuilderDefaultTest {
         val path: String = "",
         val result: String? = null
     )
-
 }
