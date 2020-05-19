@@ -70,13 +70,13 @@ internal class BeagleCacheHandlerTest {
         val cacheHandler = BeagleCacheHandler()
         cacheHandler.generateAndAddHash(
             endpoint = HOME_ENDPOINT,
-            currentPlatform = BeaglePlatform.ALL.name,
+            currentPlatform = BeaglePlatform.WEB.name,
             json = BUTTON_JSON
         )
         assertTrue {
             cacheHandler.isHashUpToDate(
                 endpoint = HOME_ENDPOINT,
-                currentPlatform = BeaglePlatform.ALL.name,
+                currentPlatform = BeaglePlatform.WEB.name,
                 hash = BUTTON_JSON_HASH
             )
         }
@@ -88,20 +88,20 @@ internal class BeagleCacheHandlerTest {
         val cacheHandler2 = BeagleCacheHandler()
         cacheHandler.generateAndAddHash(
             endpoint = HOME_ENDPOINT,
-            currentPlatform = BeaglePlatform.ALL.name,
+            currentPlatform = BeaglePlatform.ANDROID.name,
             json = BUTTON_JSON
         )
         assertFalse {
             cacheHandler.isHashUpToDate(
                 endpoint = HOME_ENDPOINT,
-                currentPlatform = BeaglePlatform.ALL.name,
+                currentPlatform = BeaglePlatform.ANDROID.name,
                 hash = "hash"
             )
         }
         assertFalse {
             cacheHandler2.isHashUpToDate(
                 endpoint = HOME_ENDPOINT,
-                currentPlatform = BeaglePlatform.ALL.name,
+                currentPlatform = BeaglePlatform.ANDROID.name,
                 hash = BUTTON_JSON_HASH
             )
         }
@@ -158,7 +158,7 @@ internal class BeagleCacheHandlerTest {
         cacheHandler.handleCache(
             endpoint = endpoint,
             receivedHash = hash,
-            currentPlatform = BeaglePlatform.ALL.name,
+            currentPlatform = BeaglePlatform.IOS.name,
             initialResponse = Response.START,
             restHandler = restCache
         )
@@ -169,7 +169,7 @@ internal class BeagleCacheHandlerTest {
     private fun preparePreviousCache(handler: BeagleCacheHandler) {
         handler.generateAndAddHash(
             endpoint = HOME_ENDPOINT,
-            currentPlatform = BeaglePlatform.ALL.name,
+            currentPlatform = BeaglePlatform.IOS.name,
             json = BUTTON_JSON
         )
     }
