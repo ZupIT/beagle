@@ -16,13 +16,8 @@
 
 package br.com.zup.beagle.serialization.jackson
 
-import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
 import io.mockk.mockk
-import io.mockk.verifyAll
 import kotlin.test.assertNotSame
 import kotlin.test.assertTrue
 
@@ -43,14 +38,4 @@ internal fun withFilterIdShouldReturnNewSerializer(create: SerializerCreator) {
     val result = serializer.withFilterId("Test")
 
     assertNotSame(serializer, result)
-}
-
-internal fun testSerialize(bean: Any, written: Any, create: SerializerCreator) {
-    val generator = mockk<JsonGenerator>()
-
-    every { generator.writeObject(any()) } just Runs
-
-    create(mockk()).serialize(bean, generator, mockk())
-
-    verifyAll { generator.writeObject(written) }
 }
