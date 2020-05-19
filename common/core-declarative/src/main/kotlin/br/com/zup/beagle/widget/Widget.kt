@@ -52,6 +52,9 @@ abstract class Widget : FlexComponent, AppearanceComponent, AccessibilityCompone
 
     /**
      * Apply the layout component.
+     *
+     * @see Flex
+     *
      * @return the current widget
      */
     open fun applyFlex(flex: Flex): Widget {
@@ -60,10 +63,20 @@ abstract class Widget : FlexComponent, AppearanceComponent, AccessibilityCompone
     }
 
 
+    /**
+     * Apply the layout component.
+     *
+     * @see FlexBuilder
+     *
+     * @return the current widget
+     */
     fun buildAndApplyFlex(flexBuilder: FlexBuilder) = this.applyFlex(flexBuilder.build())
 
     /**
      * Apply the appearance.
+     *
+     * @see Appearance
+     *
      * @return the current widget
      */
     open fun applyAppearance(appearance: Appearance): Widget {
@@ -73,6 +86,9 @@ abstract class Widget : FlexComponent, AppearanceComponent, AccessibilityCompone
 
     /**
      * Apply the accessibility .
+     *
+     * @see Accessibility
+     *
      * @return the current widget
      */
     open fun applyAccessibility(accessibility: Accessibility): Widget {
