@@ -36,13 +36,15 @@ enum class NavigationType {
     OPEN_DEEP_LINK,
 
     /**
-     * This type means the action to be performed is the opening of a new screen using the link passed in the path attribute.
+     * This type means the action to be performed is the opening
+     * of a new screen using the link passed in the path attribute.
      * This screen will also be stacked at the top of the hierarchy of views in the application flow.
      */
     ADD_VIEW,
 
     /**
-     * This attribute, when selected, opens a screen with the path informed from a new flow and clears the stack of previously loaded screens.
+     * This attribute, when selected, opens a screen with the path informed
+     * from a new flow and clears the stack of previously loaded screens.
      */
     SWAP_VIEW,
 
@@ -77,7 +79,8 @@ enum class NavigationType {
  * @param data pass information between screens.
  * @param screen This attribute has two distinct functions according to the path:
  *  <p><ul>
- *      li>If the Navigate object is built without a path, the screen will be rendered instead of making the service call.
+ *      li>If the Navigate object is built without a path, the screen
+ *      will be rendered instead of making the service call.
  *      <li>If the path response fails, the screen acts as a fallback..
  *  </ul><p>
  *

@@ -25,7 +25,9 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  *  It works like a loading component or a default picture that is set until the request is fulfilled.
  *
  * @param path The URL to make the request.
- * @param initialState define a ServerDrivenComponent that is set to be on view while the asynchronous request made is being fulfilled.
+ * @param initialState
+ *                          define a ServerDrivenComponent that is set to be on view while the asynchronous
+ *                          request made is being fulfilled.
  *
  */
 data class LazyComponent(

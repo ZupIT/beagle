@@ -48,7 +48,8 @@ enum class ListDirection {
 typealias RowBuilder = (index: Int) -> Widget
 
 /**
- * ListView is a Layout component that will define a list of views natively. These views could be any Server Driven Component..
+ * ListView is a Layout component that will define a list of views natively.
+ * These views could be any Server Driven Component.
  *
  * @param rows define the items on the list view.
  * @param direction define the list direction.

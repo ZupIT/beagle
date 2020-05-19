@@ -44,7 +44,8 @@ data class SafeArea(
 )
 
 /**
- *  The SafeArea will enable Safe areas to help you place your views within the visible portion of the overall interface.
+ *  The SafeArea will enable Safe areas to help you place your views
+ *  within the visible portion of the overall interface.
  * @see Accessibility
  *
  * @param text define the Title on the navigation bar
@@ -96,17 +97,25 @@ data class NavigationBar(
 
 /**
  * The screen element will help you define the screen view structure.
- * By using this component you can define configurations like whether or not you want to use safe areas or display a tool bar/navigation bar.
+ * By using this component you can define configurations like whether or
+ * not you want to use safe areas or display a tool bar/navigation bar.
  *
  * @see NavigationBar
  * @see ServerDrivenComponent
  * @see Appearance
  * @see ScreenEvent
  *
- * @param identifier identifies your screen globally inside your application so that it could have actions set on itself.
- * @param safeArea enable Safe areas to help you place your views within the visible portion of the overall interface. By default it is not enabled and it wont constrain considering any safe area.
+ * @param identifier
+ *                      identifies your screen globally inside your
+ *                      application so that it could have actions set on itself.
+ * @param safeArea
+ *                      enable Safe areas to help you place your views within the visible
+ *                      portion of the overall interface.
+ *                      By default it is not enabled and it wont constrain considering any safe area.
  * @param navigationBar enable a action bar/navigation bar into your view. By default it is set as null.
- * @param child define the child elements on this screen. It could be any visual component that extends the ServerDrivenComponent.1
+ * @param child
+ *                  define the child elements on this screen.
+ *                  It could be any visual component that extends the ServerDrivenComponent.1
  * @param appearance enable a few visual options to be changed.
  * @param screenAnalyticsEvent send event when screen appear/disappear
  *

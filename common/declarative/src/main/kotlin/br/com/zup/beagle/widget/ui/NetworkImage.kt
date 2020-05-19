@@ -22,7 +22,9 @@ import br.com.zup.beagle.widget.core.ImageContentMode
 /**
  * Network widget will load images according to the path specified on its attribute.
  *
- * @param path specify the URL where the image could be found. Beagle will turn the image into an object that can be displayed natively.
+ * @param path
+ *                  specify the URL where the image could be found.
+ *                  Beagle will turn the image into an object that can be displayed natively.
  * @param contentMode defines how the image fits the view it's in.
  */
 data class NetworkImage(

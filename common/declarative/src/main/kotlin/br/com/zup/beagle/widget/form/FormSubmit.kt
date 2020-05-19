@@ -22,8 +22,12 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 /**
  * component will define a submit handler for a form.
  *
- * @param child define the submit handler. It is generally set as a button to be clicked after a form is filled up.
- * @param enabled define as "true" by default and it will enable the button to be clicked on. If it is defined as "false" the button will start as "disabled"
+ * @param child
+ *                  define the submit handler.
+ *                  It is generally set as a button to be clicked after a form is filled up.
+ * @param enabled
+ *                  define as "true" by default and it will enable the button to be clicked on.
+ *                  If it is defined as "false" the button will start as "disabled"
  *
  */
 data class FormSubmit(

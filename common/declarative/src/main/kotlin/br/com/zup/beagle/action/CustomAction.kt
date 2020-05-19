@@ -17,12 +17,13 @@
 package br.com.zup.beagle.action
 
 /**
- * Define custom actions, such as an action that creates a customized Dialog. In this way, Action is an interface that allows you to define actions that can be performed by Widgets.
+ * Define custom actions, such as an action that creates a customized Dialog.
+ * In this way, Action is an interface that allows you to define actions that can be performed by Widgets.
  *
  * @param name define name of the action.
  * @param data sending data for the action.
  *
- *  * # Example: #
+ * # Example: #
  * ```
  *
  *  val action = Action(name = "openPosterDetector", data = emptyMap())

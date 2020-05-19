@@ -38,7 +38,8 @@ enum class FormMethodType {
     GET,
 
     /**
-     * The POST method is used to submit an entity to the specified resource, often causing a change in state or side effects on the server.
+     * The POST method is used to submit an entity to the specified resource,
+     * often causing a change in state or side effects on the server.
      *
      */
     POST,
@@ -60,7 +61,11 @@ enum class FormMethodType {
  *  Component represents a way to compose user inputs and submit  those values to your backend.
  *
  * @param action define the action you want to be when click in the form.
- * @param child  you should provide an hierarchy of visual components on which form will act upon. It's important to have somewhere in your component hierarchy input components (@see FormInput) and a submit component (@see FormSubmit ).
+ * @param child  you should provide an hierarchy of visual components on which form will act upon.
+ * It's important to have somewhere in your component hierarchy input components
+ * FormInput and a submit component FormSubmit.
+ * @see FormInput
+ * @see FormSubmit
  *
  */
 data class Form(

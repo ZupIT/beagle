@@ -26,19 +26,24 @@ package br.com.zup.beagle.widget.core
  */
 enum class ImageContentMode {
     /**
-     * Compute a scale that will maintain the original aspect ratio, but will also ensure that it fits entirely inside the destination view.
+     * Compute a scale that will maintain the original aspect ratio,
+     * but will also ensure that it fits entirely inside the destination view.
      * At least one axis (X or Y) will fit exactly. The result is centered inside the destination.
      */
     FIT_XY,
 
     /**
-     * Compute a scale that will maintain the original aspect ratio, but will also ensure that it fits entirely inside the destination view. At least one axis (X or Y) will fit exactly.
+     * Compute a scale that will maintain the original aspect ratio,
+     * but will also ensure that it fits entirely inside the destination view.
+     * At least one axis (X or Y) will fit exactly.
      * The result is centered inside the destination.
      */
     FIT_CENTER,
 
     /**
-     * Scale the image uniformly (maintain the image's aspect ratio) so that both dimensions (width and height) of the image will be equal to or larger than the corresponding dimension of the view (minus padding).
+     * Scale the image uniformly (maintain the image's aspect ratio) so that both dimensions
+     * (width and height) of the image will be equal to or larger than
+     * the corresponding dimension of the view (minus padding).
      */
     CENTER_CROP,
 

@@ -37,8 +37,11 @@ package br.com.zup.beagle.annotation
  * ```
  *
  * # Limitations #
- * The @BeaglePreview tag only works for methods that return widgets and don't have any attributes as a parameter and don't be private;
- * The LivePreview client is able to render any change based on values, that is, as long as a new feature or widget has NOT been added and there are no structural changes.
+ * <p> The @BeaglePreview tag only works for methods that return widgets
+ * and don't have any attributes as a parameter and don't be private;
+ * <p>
+ * The LivePreview client is able to render any change based on values, that is,
+ * as long as a new feature or widget has NOT been added and there are no structural changes.
  */
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
