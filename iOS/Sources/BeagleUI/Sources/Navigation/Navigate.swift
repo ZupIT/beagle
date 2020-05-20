@@ -19,20 +19,31 @@ public enum Navigate: Action {
 
     case openExternalURL(Path)
     case openNativeRoute(DeepLinkNavigation)
-    case resetApplicationScreen(Screen)
-    case resetApplication(NewPath)
-    case resetStackScreen(Screen)
-    case resetStack(NewPath)
-    case pushStackScreen(Screen)
-    case pushStack(NewPath)
+    case resetApplication(ScreenType)
+    case resetStack(ScreenType)
+    case pushStack(ScreenType)
     case popStack
-    case pushScreen(Screen)
-    case pushView(NewPath)
+    case pushView(ScreenType)
     case popView
     case popToView(Path)
 
     public typealias Path = String
     public typealias Data = [String: String]
+
+    public enum ScreenType {
+
+        case remote(NewPath)
+        case declarative(Screen)
+
+        var path: NewPath? {
+            switch self {
+            case .remote(let path):
+                return path
+            case .declarative:
+                return nil
+            }
+        }
+    }
 
     public struct NewPath {
         public let path: Path
@@ -67,10 +78,9 @@ public enum Navigate: Action {
 
     var newPath: NewPath? {
         switch self {
-        case .pushView(let newPath), .resetApplication(let newPath), .resetStack(let newPath), .pushStack(let newPath):
-            return newPath
-
-        case .resetStackScreen, .resetApplicationScreen, .pushScreen, .pushStackScreen, .popStack, .popView, .popToView, .openNativeRoute, .openExternalURL:
+        case .resetApplication(let type), .resetStack(let type), .pushStack(let type), .pushView(let type):
+            return type.path
+        case .openExternalURL, .openNativeRoute, .popStack, .popView, .popToView:
             return nil
         }
     }
@@ -83,14 +93,10 @@ extension Navigate: CustomStringConvertible {
         switch self {
         case .openExternalURL(let path):            name = "openExternalURL(\(path))"
         case .openNativeRoute(let link):            name = "openNativeRoute(\(link))"
-        case .resetApplicationScreen(let screen):   name = "resetApplicationScreen(\(screen)"
         case .resetApplication(let path):           name = "resetApplication(\(path)"
-        case .resetStackScreen(let screen):         name = "resetStackScreen(\(screen))"
         case .resetStack(let path):                 name = "resetStack(\(path))"
-        case .pushStackScreen(let screen):          name = "pushStackScreen(\(screen))"
         case .pushStack(let path):                  name = "pushStack(\(path))"
         case .popStack:                             name = "popStack"
-        case .pushScreen(let screen):               name = "pushScreen(\(screen))"
         case .pushView(let path):                   name = "pushView(\(path))"
         case .popView:                              name = "popView"
         case .popToView(let path):                  name = "popToView(\(path))"

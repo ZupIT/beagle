@@ -33,7 +33,7 @@ final class ComponentDecoderTests: XCTestCase {
         let expectedText = "something"
         let jsonData = """
         {
-            "_beagleType_": "custom:component:newcomponent",
+            "_beagleType_": "custom:newcomponent",
             "text": "\(expectedText)"
         }
         """.data(using: .utf8)!
@@ -51,7 +51,7 @@ final class ComponentDecoderTests: XCTestCase {
         let expectedText = "some text"
         let jsonData = """
         {
-            "_beagleType_": "beagle:component:text",
+            "_beagleType_": "beagle:text",
             "text": "\(expectedText)"
         }
         """.data(using: .utf8)!
@@ -82,7 +82,7 @@ final class ComponentDecoderTests: XCTestCase {
     func testDecodeAction() throws {
         let jsonData = """
         {
-            "_beagleType_": "beagle:action:navigate",
+            "_beagleType_": "beagle:navigate",
             "type": "POP_STACK"
         }
         """.data(using: .utf8)!

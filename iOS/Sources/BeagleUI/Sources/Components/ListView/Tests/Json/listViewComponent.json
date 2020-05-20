@@ -1,16 +1,16 @@
 {
-  "_beagleType_" : "beagle:component:listView",
+  "_beagleType_" : "beagle:listView",
   "direction": "VERTICAL",
   "rows" : [{
-    "_beagleType_" : "beagle:component:text",
+    "_beagleType_" : "beagle:text",
     "text" : "text1"
   },
   {
-    "_beagleType_" : "beagle:component:text",
+    "_beagleType_" : "beagle:text",
     "text" : "text2"
   },
   {
-    "_beagleType_" : "beagle:component:text",
+    "_beagleType_" : "beagle:text",
     "text" : "text3"
   }]
 }

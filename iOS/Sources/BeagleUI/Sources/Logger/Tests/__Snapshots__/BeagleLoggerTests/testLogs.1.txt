@@ -28,7 +28,7 @@ validatorNotFound(named: "validatorName")
 
 cantPopToAlreadyCurrentScreen(identifier: "identifier")
 
-didReceiveAction(Navigate.pushView(NewPath(path: "path", shouldPrefetch: false, fallback: nil)))
+didReceiveAction(Navigate.pushView(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: false, fallback: nil))))
 
 didReceiveAction(Navigate.openNativeRoute(DeepLinkNavigation(path: "path", data: nil, component: nil, shouldResetApplication: false)))
 

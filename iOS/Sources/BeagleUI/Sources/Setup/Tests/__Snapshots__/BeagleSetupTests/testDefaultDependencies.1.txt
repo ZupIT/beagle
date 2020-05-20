@@ -19,76 +19,76 @@
   ▿ decoder: ComponentDecoder
     ▿ decoders: 24 key/value pairs
       ▿ (2 elements)
-        - key: "beagle:action:customaction"
-        - value: CustomAction
-      ▿ (2 elements)
-        - key: "beagle:action:formremoteaction"
-        - value: FormRemoteAction
-      ▿ (2 elements)
-        - key: "beagle:action:formvalidation"
-        - value: FormValidation
-      ▿ (2 elements)
-        - key: "beagle:action:navigate"
-        - value: Navigate
-      ▿ (2 elements)
-        - key: "beagle:action:shownativedialog"
-        - value: ShowNativeDialog
-      ▿ (2 elements)
-        - key: "beagle:component:button"
+        - key: "beagle:button"
         - value: Button
       ▿ (2 elements)
-        - key: "beagle:component:container"
+        - key: "beagle:container"
         - value: Container
       ▿ (2 elements)
-        - key: "beagle:component:form"
+        - key: "beagle:customaction"
+        - value: CustomAction
+      ▿ (2 elements)
+        - key: "beagle:form"
         - value: Form
       ▿ (2 elements)
-        - key: "beagle:component:forminput"
+        - key: "beagle:forminput"
         - value: FormInput
       ▿ (2 elements)
-        - key: "beagle:component:forminputhidden"
+        - key: "beagle:forminputhidden"
         - value: FormInputHidden
       ▿ (2 elements)
-        - key: "beagle:component:formsubmit"
+        - key: "beagle:formremoteaction"
+        - value: FormRemoteAction
+      ▿ (2 elements)
+        - key: "beagle:formsubmit"
         - value: FormSubmit
       ▿ (2 elements)
-        - key: "beagle:component:image"
+        - key: "beagle:formvalidation"
+        - value: FormValidation
+      ▿ (2 elements)
+        - key: "beagle:image"
         - value: Image
       ▿ (2 elements)
-        - key: "beagle:component:lazycomponent"
+        - key: "beagle:lazycomponent"
         - value: LazyComponent
       ▿ (2 elements)
-        - key: "beagle:component:listview"
+        - key: "beagle:listview"
         - value: ListView
       ▿ (2 elements)
-        - key: "beagle:component:networkimage"
+        - key: "beagle:navigate"
+        - value: Navigate
+      ▿ (2 elements)
+        - key: "beagle:networkimage"
         - value: NetworkImage
       ▿ (2 elements)
-        - key: "beagle:component:pageindicator"
+        - key: "beagle:pageindicator"
         - value: PageIndicator
       ▿ (2 elements)
-        - key: "beagle:component:pageview"
+        - key: "beagle:pageview"
         - value: PageView
       ▿ (2 elements)
-        - key: "beagle:component:screencomponent"
+        - key: "beagle:screencomponent"
         - value: ScreenComponent
       ▿ (2 elements)
-        - key: "beagle:component:scrollview"
+        - key: "beagle:scrollview"
         - value: ScrollView
       ▿ (2 elements)
-        - key: "beagle:component:spacer"
+        - key: "beagle:shownativedialog"
+        - value: ShowNativeDialog
+      ▿ (2 elements)
+        - key: "beagle:spacer"
         - value: Spacer
       ▿ (2 elements)
-        - key: "beagle:component:tabview"
+        - key: "beagle:tabview"
         - value: TabView
       ▿ (2 elements)
-        - key: "beagle:component:text"
+        - key: "beagle:text"
         - value: Text
       ▿ (2 elements)
-        - key: "beagle:component:touchable"
+        - key: "beagle:touchable"
         - value: Touchable
       ▿ (2 elements)
-        - key: "beagle:component:webview"
+        - key: "beagle:webview"
         - value: WebView
     ▿ jsonDecoder: JSONDecoder
       - dataDecodingStrategy: DataDecodingStrategy.base64

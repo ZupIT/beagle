@@ -81,7 +81,7 @@ final class RepositoryTests: XCTestCase {
         // Given
         guard let jsonData = """
         {
-            "_beagleType_": "beagle:component:text",
+            "_beagleType_": "beagle:text",
             "text": "some text"
         }
         """.data(using: .utf8) else {

@@ -79,24 +79,29 @@ final class BeaglePrefetchHelperTests: XCTestCase {
     func testNavigationIsPrefetchable() {
         let path = "path"
         let data = ["data": "value"]
-        let screen = Container(children: [])
+        let container = Container(children: [])
 
         let actions: [Navigate] = [
+            .openExternalURL("http://localhost"),
             .openNativeRoute(.init(path: path, data: nil)),
             .openNativeRoute(.init(path: path, data: data)),
-            .openNativeRoute(.init(path: path, component: screen)),
+            .openNativeRoute(.init(path: path, component: container)),
 
-            .resetApplication(.init(path: path, shouldPrefetch: true)),
-            .resetApplication(.init(path: path, shouldPrefetch: false)),
+            .resetApplication(.declarative(Screen(child: container))),
+            .resetApplication(.remote(.init(path: path, shouldPrefetch: true))),
+            .resetApplication(.remote(.init(path: path, shouldPrefetch: false))),
 
-            .resetStack(.init(path: path, shouldPrefetch: true)),
-            .resetStack(.init(path: path, shouldPrefetch: false)),
+            .resetStack(.declarative(Screen(child: container))),
+            .resetStack(.remote(.init(path: path, shouldPrefetch: true))),
+            .resetStack(.remote(.init(path: path, shouldPrefetch: false))),
 
-            .pushStack(.init(path: path, shouldPrefetch: true)),
-            .pushStack(.init(path: path, shouldPrefetch: false)),
+            .pushStack(.declarative(Screen(child: container))),
+            .pushStack(.remote(.init(path: path, shouldPrefetch: true))),
+            .pushStack(.remote(.init(path: path, shouldPrefetch: false))),
 
-            .pushView(.init(path: path, shouldPrefetch: true)),
-            .pushView(.init(path: path, shouldPrefetch: false)),
+            .pushView(.declarative(Screen(child: container))),
+            .pushView(.remote(.init(path: path, shouldPrefetch: true))),
+            .pushView(.remote(.init(path: path, shouldPrefetch: false))),
 
             .popStack,
             .popView,

@@ -1,24 +1,34 @@
+  Navigate.openExternalURL(http://localhost)  -->  NULL 
+
   Navigate.openNativeRoute(DeepLinkNavigation(path: "path", data: nil, component: nil, shouldResetApplication: false))  -->  NULL 
 
   Navigate.openNativeRoute(DeepLinkNavigation(path: "path", data: Optional(["data": "value"]), component: nil, shouldResetApplication: false))  -->  NULL 
 
   Navigate.openNativeRoute(DeepLinkNavigation(path: "path", data: nil, component: Optional(BeagleUI.Container(children: [], id: nil, flex: nil, appearance: nil, accessibility: nil)), shouldResetApplication: false))  -->  NULL 
 
-  Navigate.resetApplication(NewPath(path: "path", shouldPrefetch: true, fallback: nil)  -->  NewPath(path: "path", shouldPrefetch: true, fallback: nil) 
+  Navigate.resetApplication(declarative(BeagleUI.Screen(identifier: nil, appearance: nil, safeArea: nil, navigationBar: nil, child: BeagleUI.Container(children: [], id: nil, flex: nil, appearance: nil, accessibility: nil), screenAnalyticsEvent: nil))  -->  NULL 
 
-  Navigate.resetApplication(NewPath(path: "path", shouldPrefetch: false, fallback: nil)  -->  NewPath(path: "path", shouldPrefetch: false, fallback: nil) 
+  Navigate.resetApplication(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: true, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: true, fallback: nil) 
 
-  Navigate.resetStack(NewPath(path: "path", shouldPrefetch: true, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: true, fallback: nil) 
+  Navigate.resetApplication(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: false, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: false, fallback: nil) 
 
-  Navigate.resetStack(NewPath(path: "path", shouldPrefetch: false, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: false, fallback: nil) 
+  Navigate.resetStack(declarative(BeagleUI.Screen(identifier: nil, appearance: nil, safeArea: nil, navigationBar: nil, child: BeagleUI.Container(children: [], id: nil, flex: nil, appearance: nil, accessibility: nil), screenAnalyticsEvent: nil)))  -->  NULL 
 
-  Navigate.pushStack(NewPath(path: "path", shouldPrefetch: true, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: true, fallback: nil) 
+  Navigate.resetStack(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: true, fallback: nil)))  -->  NewPath(path: "path", shouldPrefetch: true, fallback: nil) 
 
-  Navigate.pushStack(NewPath(path: "path", shouldPrefetch: false, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: false, fallback: nil) 
+  Navigate.resetStack(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: false, fallback: nil)))  -->  NewPath(path: "path", shouldPrefetch: false, fallback: nil) 
 
-  Navigate.pushView(NewPath(path: "path", shouldPrefetch: true, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: true, fallback: nil) 
+  Navigate.pushStack(declarative(BeagleUI.Screen(identifier: nil, appearance: nil, safeArea: nil, navigationBar: nil, child: BeagleUI.Container(children: [], id: nil, flex: nil, appearance: nil, accessibility: nil), screenAnalyticsEvent: nil)))  -->  NULL 
 
-  Navigate.pushView(NewPath(path: "path", shouldPrefetch: false, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: false, fallback: nil) 
+  Navigate.pushStack(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: true, fallback: nil)))  -->  NewPath(path: "path", shouldPrefetch: true, fallback: nil) 
+
+  Navigate.pushStack(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: false, fallback: nil)))  -->  NewPath(path: "path", shouldPrefetch: false, fallback: nil) 
+
+  Navigate.pushView(declarative(BeagleUI.Screen(identifier: nil, appearance: nil, safeArea: nil, navigationBar: nil, child: BeagleUI.Container(children: [], id: nil, flex: nil, appearance: nil, accessibility: nil), screenAnalyticsEvent: nil)))  -->  NULL 
+
+  Navigate.pushView(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: true, fallback: nil)))  -->  NewPath(path: "path", shouldPrefetch: true, fallback: nil) 
+
+  Navigate.pushView(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: false, fallback: nil)))  -->  NewPath(path: "path", shouldPrefetch: false, fallback: nil) 
 
   Navigate.popStack  -->  NULL 
 

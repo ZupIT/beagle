@@ -95,28 +95,28 @@ openNativeRoute-noPath-noData ->
 ERROR
 
 resetApplication-withPath-withData ->
-Navigate.resetApplication(NewPath(path: "path", shouldPrefetch: true, fallback: nil)
+Navigate.resetApplication(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: true, fallback: nil))
 
 resetApplication-withPath-withData ->
-Navigate.resetApplication(NewPath(path: "path", shouldPrefetch: true, fallback: nil)
+Navigate.resetApplication(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: true, fallback: nil))
 
 resetApplication-withPath-withData ->
-Navigate.resetApplication(NewPath(path: "path", shouldPrefetch: false, fallback: nil)
+Navigate.resetApplication(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: false, fallback: nil))
 
 resetApplication-withPath-withData ->
-Navigate.resetApplication(NewPath(path: "path", shouldPrefetch: false, fallback: nil)
+Navigate.resetApplication(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: false, fallback: nil))
 
 resetApplication-withPath-noData ->
-Navigate.resetApplication(NewPath(path: "path", shouldPrefetch: true, fallback: nil)
+Navigate.resetApplication(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: true, fallback: nil))
 
 resetApplication-withPath-noData ->
-Navigate.resetApplication(NewPath(path: "path", shouldPrefetch: true, fallback: nil)
+Navigate.resetApplication(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: true, fallback: nil))
 
 resetApplication-withPath-noData ->
-Navigate.resetApplication(NewPath(path: "path", shouldPrefetch: false, fallback: nil)
+Navigate.resetApplication(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: false, fallback: nil))
 
 resetApplication-withPath-noData ->
-Navigate.resetApplication(NewPath(path: "path", shouldPrefetch: false, fallback: nil)
+Navigate.resetApplication(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: false, fallback: nil))
 
 resetApplication-noPath-withData ->
 ERROR
@@ -143,28 +143,28 @@ resetApplication-noPath-noData ->
 ERROR
 
 resetStack-withPath-withData ->
-Navigate.resetStack(NewPath(path: "path", shouldPrefetch: true, fallback: nil))
+Navigate.resetStack(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: true, fallback: nil)))
 
 resetStack-withPath-withData ->
-Navigate.resetStack(NewPath(path: "path", shouldPrefetch: true, fallback: nil))
+Navigate.resetStack(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: true, fallback: nil)))
 
 resetStack-withPath-withData ->
-Navigate.resetStack(NewPath(path: "path", shouldPrefetch: false, fallback: nil))
+Navigate.resetStack(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: false, fallback: nil)))
 
 resetStack-withPath-withData ->
-Navigate.resetStack(NewPath(path: "path", shouldPrefetch: false, fallback: nil))
+Navigate.resetStack(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: false, fallback: nil)))
 
 resetStack-withPath-noData ->
-Navigate.resetStack(NewPath(path: "path", shouldPrefetch: true, fallback: nil))
+Navigate.resetStack(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: true, fallback: nil)))
 
 resetStack-withPath-noData ->
-Navigate.resetStack(NewPath(path: "path", shouldPrefetch: true, fallback: nil))
+Navigate.resetStack(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: true, fallback: nil)))
 
 resetStack-withPath-noData ->
-Navigate.resetStack(NewPath(path: "path", shouldPrefetch: false, fallback: nil))
+Navigate.resetStack(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: false, fallback: nil)))
 
 resetStack-withPath-noData ->
-Navigate.resetStack(NewPath(path: "path", shouldPrefetch: false, fallback: nil))
+Navigate.resetStack(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: false, fallback: nil)))
 
 resetStack-noPath-withData ->
 ERROR
@@ -191,28 +191,28 @@ resetStack-noPath-noData ->
 ERROR
 
 pushStack-withPath-withData ->
-Navigate.pushStack(NewPath(path: "path", shouldPrefetch: true, fallback: nil))
+Navigate.pushStack(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: true, fallback: nil)))
 
 pushStack-withPath-withData ->
-Navigate.pushStack(NewPath(path: "path", shouldPrefetch: true, fallback: nil))
+Navigate.pushStack(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: true, fallback: nil)))
 
 pushStack-withPath-withData ->
-Navigate.pushStack(NewPath(path: "path", shouldPrefetch: false, fallback: nil))
+Navigate.pushStack(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: false, fallback: nil)))
 
 pushStack-withPath-withData ->
-Navigate.pushStack(NewPath(path: "path", shouldPrefetch: false, fallback: nil))
+Navigate.pushStack(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: false, fallback: nil)))
 
 pushStack-withPath-noData ->
-Navigate.pushStack(NewPath(path: "path", shouldPrefetch: true, fallback: nil))
+Navigate.pushStack(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: true, fallback: nil)))
 
 pushStack-withPath-noData ->
-Navigate.pushStack(NewPath(path: "path", shouldPrefetch: true, fallback: nil))
+Navigate.pushStack(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: true, fallback: nil)))
 
 pushStack-withPath-noData ->
-Navigate.pushStack(NewPath(path: "path", shouldPrefetch: false, fallback: nil))
+Navigate.pushStack(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: false, fallback: nil)))
 
 pushStack-withPath-noData ->
-Navigate.pushStack(NewPath(path: "path", shouldPrefetch: false, fallback: nil))
+Navigate.pushStack(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: false, fallback: nil)))
 
 pushStack-noPath-withData ->
 ERROR
@@ -287,28 +287,28 @@ popStack-noPath-noData ->
 Navigate.popStack
 
 pushView-withPath-withData ->
-Navigate.pushView(NewPath(path: "path", shouldPrefetch: true, fallback: nil))
+Navigate.pushView(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: true, fallback: nil)))
 
 pushView-withPath-withData ->
-Navigate.pushView(NewPath(path: "path", shouldPrefetch: true, fallback: nil))
+Navigate.pushView(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: true, fallback: nil)))
 
 pushView-withPath-withData ->
-Navigate.pushView(NewPath(path: "path", shouldPrefetch: false, fallback: nil))
+Navigate.pushView(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: false, fallback: nil)))
 
 pushView-withPath-withData ->
-Navigate.pushView(NewPath(path: "path", shouldPrefetch: false, fallback: nil))
+Navigate.pushView(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: false, fallback: nil)))
 
 pushView-withPath-noData ->
-Navigate.pushView(NewPath(path: "path", shouldPrefetch: true, fallback: nil))
+Navigate.pushView(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: true, fallback: nil)))
 
 pushView-withPath-noData ->
-Navigate.pushView(NewPath(path: "path", shouldPrefetch: true, fallback: nil))
+Navigate.pushView(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: true, fallback: nil)))
 
 pushView-withPath-noData ->
-Navigate.pushView(NewPath(path: "path", shouldPrefetch: false, fallback: nil))
+Navigate.pushView(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: false, fallback: nil)))
 
 pushView-withPath-noData ->
-Navigate.pushView(NewPath(path: "path", shouldPrefetch: false, fallback: nil))
+Navigate.pushView(remote(BeagleUI.Navigate.NewPath(path: "path", shouldPrefetch: false, fallback: nil)))
 
 pushView-noPath-withData ->
 ERROR

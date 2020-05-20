@@ -1,10 +1,10 @@
 {
-    "_beagleType_": "beagle:component:screencomponent",
+    "_beagleType_": "beagle:screencomponent",
     "child": {
-        "_beagleType_": "beagle:component:container",
+        "_beagleType_": "beagle:container",
         "children": [
             {
-                "_beagleType_": "beagle:component:text",
+                "_beagleType_": "beagle:text",
                 "text": "BeaglePreview",
                 "alignment": "CENTER",
                 "flex": {

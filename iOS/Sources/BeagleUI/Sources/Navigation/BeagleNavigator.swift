@@ -54,29 +54,17 @@ class BeagleNavigator: BeagleNavigation {
                 openNativeRoute(path: deepLink.path, source: source, data: deepLink.data, resetApplication: deepLink.shouldResetApplication, animated: animated)
             }
 
-        case .resetApplicationScreen(let screen):
-            swapWindowViewController(viewController(screen: screen), context: context, animated: animated)
+        case .resetApplication(let type):
+            swapWindowViewController(with: type, context: context, animated: animated)
 
-        case .resetApplication(let newPath):
-            swapWindowViewController(viewController(newPath: newPath), context: context, animated: animated)
+        case .resetStack(let type):
+            swapTo(with: type, context: context, animated: animated)
 
-        case .resetStackScreen(let screen):
-            swapTo(viewController(screen: screen), context: context, animated: animated)
-            
-        case .resetStack(let newPath):
-            swapTo(viewController(newPath: newPath), context: context, animated: animated)
+        case .pushView(let type):
+            push(with: type, context: context, animated: animated)
 
-        case .pushScreen(let screen):
-            push(viewController(screen: screen), context: context, animated: animated)
-            
-        case .pushView(let newPath):
-            push(viewController(newPath: newPath), context: context, animated: animated)
-            
-        case .pushStackScreen(let screen):
-            present(viewController(screen: screen), context: context, animated: animated)
-            
-        case .pushStack(let newPath):
-            present(viewController(newPath: newPath), context: context, animated: animated)
+        case .pushStack(let type):
+            present(with: type, context: context, animated: animated)
 
         case .popStack:
             popStack(source: source, animated: animated)
@@ -173,17 +161,52 @@ class BeagleNavigator: BeagleNavigation {
     private func absoluteURL(for path: String) -> String? {
         return dependencies.urlBuilder.build(path: path)?.absoluteString
     }
-    
+
+    private func swapTo(with type: Navigate.ScreenType, context: BeagleContext, animated: Bool) {
+        let viewControllerToPresent: UIViewController
+        switch type {
+        case .remote(let path): viewControllerToPresent = viewController(newPath: path)
+        case .declarative(let screen): viewControllerToPresent = viewController(screen: screen)
+        }
+        context.screenController.navigationController?.setViewControllers([viewControllerToPresent], animated: animated)
+    }
     private func swapTo(_ viewController: UIViewController, context: BeagleContext, animated: Bool) {
         context.screenController.navigationController?.setViewControllers([viewController], animated: animated)
+    }
+
+    private func swapWindowViewController(with type: Navigate.ScreenType, context: BeagleContext, animated: Bool) {
+        let viewControllerToPresent: UIViewController
+        switch type {
+        case .remote(let path): viewControllerToPresent = viewController(newPath: path)
+        case .declarative(let screen): viewControllerToPresent = viewController(screen: screen)
+        }
+        dependencies.windowManager.window?.replace(rootViewController: viewControllerToPresent, animated: animated, completion: nil)
     }
 
     private func swapWindowViewController(_ viewController: UIViewController, context: BeagleContext, animated: Bool) {
         dependencies.windowManager.window?.replace(rootViewController: viewController, animated: animated, completion: nil)
     }
 
+    private func push(with type: Navigate.ScreenType, context: BeagleContext, animated: Bool) {
+        let viewControllerToPresent: UIViewController
+        switch type {
+        case .remote(let path): viewControllerToPresent = viewController(newPath: path)
+        case .declarative(let screen): viewControllerToPresent = viewController(screen: screen)
+        }
+        context.screenController.navigationController?.pushViewController(viewControllerToPresent, animated: animated)
+    }
+
     private func push(_ viewController: UIViewController, context: BeagleContext, animated: Bool) {
         context.screenController.navigationController?.pushViewController(viewController, animated: animated)
+    }
+
+    private func present(with type: Navigate.ScreenType, context: BeagleContext, animated: Bool) {
+        let viewControllerToPresent: UIViewController
+        switch type {
+        case .remote(let path): viewControllerToPresent = viewController(newPath: path)
+        case .declarative(let screen): viewControllerToPresent = viewController(screen: screen)
+        }
+        context.screenController.navigationController?.present(viewControllerToPresent, animated: animated)
     }
 
     private func present(_ viewController: UIViewController, context: BeagleContext, animated: Bool) {

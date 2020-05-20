@@ -45,6 +45,17 @@ extension Navigate: Decodable {
     }
 }
 
+extension NavigateEntity.Destination {
+    var screenType: Navigate.ScreenType {
+        switch self {
+        case .declarative(let screen):
+            return Navigate.ScreenType.declarative(screen)
+        case .remote(let path):
+            return Navigate.ScreenType.remote(path)
+        }
+    }
+}
+
 struct NavigateEntity {
     let type: NavigationType
     let path: String?
@@ -89,36 +100,20 @@ struct NavigateEntity {
             return .openNativeRoute(.init(path: path, data: data, shouldResetApplication: shouldResetApplication))
 
         case .resetApplication:
-            switch try destination() {
-            case .declarative(let screen):
-                return .resetApplicationScreen(screen)
-            case .remote(let newPath):
-                return .resetApplication(newPath)
-            }
+            let screenType = try destination().screenType
+            return .resetApplication(screenType)
 
         case .resetStack:
-            switch try destination() {
-            case .declarative(let screen):
-                return .resetStackScreen(screen)
-            case .remote(let newPath):
-                return .resetStack(newPath)
-            }
+            let screenType = try destination().screenType
+            return .resetStack(screenType)
 
         case .pushView:
-            switch try destination() {
-            case .declarative(let screen):
-                return .pushScreen(screen)
-            case .remote(let newPath):
-                return .pushView(newPath)
-            }
+            let screenType = try destination().screenType
+            return .pushView(screenType)
 
         case .pushStack:
-            switch try destination() {
-            case .declarative(let screen):
-                return .pushStackScreen(screen)
-            case .remote(let newPath):
-                return .pushStack(newPath)
-            }
+            let screenType = try destination().screenType
+            return .pushStack(screenType)
 
         case .popStack:
             return .popStack

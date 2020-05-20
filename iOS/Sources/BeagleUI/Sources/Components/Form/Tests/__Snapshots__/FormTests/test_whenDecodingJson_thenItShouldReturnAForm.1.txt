@@ -29,7 +29,7 @@
         - value: "123"
       ▿ FormInput
         ▿ child: UnknownComponent
-          - type: "custom:component:unknown"
+          - type: "custom:unknown"
         - errorMessage: Optional<String>.none
         - name: "another-required-field"
         ▿ required: Optional<Bool>
