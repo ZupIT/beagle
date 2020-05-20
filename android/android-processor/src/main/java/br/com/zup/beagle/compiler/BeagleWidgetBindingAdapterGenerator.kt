@@ -26,8 +26,6 @@ import com.squareup.kotlinpoet.STAR
 import com.squareup.kotlinpoet.asClassName
 import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.Element
-import javax.lang.model.element.ElementKind
-import javax.lang.model.element.ExecutableElement
 
 private const val WIDGET_PROPERTY = "widget"
 private const val BINDING_PROPERTY = "binding"
@@ -144,6 +142,4 @@ class BeagleWidgetBindingAdapterGenerator(private val processingEnv: ProcessingE
             ))
     }
 
-    private fun listConstructorParameters(element: Element) =
-        (element.enclosedElements.first { it.kind == ElementKind.CONSTRUCTOR } as ExecutableElement).parameters
 }
