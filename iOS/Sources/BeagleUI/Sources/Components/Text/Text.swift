@@ -15,6 +15,7 @@
  */
 
 import UIKit
+import Components
 
 public struct Text: Widget, AutoDecodable {
     

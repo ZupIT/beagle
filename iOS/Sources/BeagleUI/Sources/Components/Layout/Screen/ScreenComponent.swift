@@ -15,6 +15,7 @@
  */
 
 import UIKit
+import Components
 
 struct ScreenComponent: AppearanceComponent, ServerDrivenComponent, AutoInitiableAndDecodable {
 

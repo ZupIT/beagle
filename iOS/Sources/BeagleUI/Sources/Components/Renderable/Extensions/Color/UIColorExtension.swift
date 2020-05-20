@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -20,7 +21,7 @@ extension UIColor {
     
     /// Create a color from hex String.
     /// Format: [#][AA]RRGGBB
-    public convenience init(hex: String) {
+    convenience init(hex: String) {
         let hexDigits = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
         var int = UInt64()
         Scanner(string: hexDigits).scanHexInt64(&int)

@@ -16,6 +16,7 @@
 
 import UIKit
 import WebKit
+import Components
 
 public struct WebView: FlexComponent, ServerDrivenComponent, AutoInitiableAndDecodable {
     public let url: String

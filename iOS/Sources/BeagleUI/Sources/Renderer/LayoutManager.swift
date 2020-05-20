@@ -15,6 +15,7 @@
  */
 
 import UIKit
+import Components
 
 final class LayoutManager {
 

@@ -15,12 +15,12 @@
  */
 
 import UIKit
+import Components
 
 // MARK: - Widget
 
-public protocol Widget: ServerDrivenComponent, HasWidgetProperties {
+public protocol Widget: ServerDrivenComponent, HasWidgetProperties, ComponentWidget {
 
-    var widgetProperties: WidgetProperties { get set }
 }
 
 public extension Widget {
@@ -46,46 +46,3 @@ public extension Widget {
     }
 }
 
-// MARK: - Widget Properties
-
-public protocol HasWidgetProperties: AppearanceComponent, FlexComponent, AccessibilityComponent, IdentifiableComponent { }
-
-/// Properties that all widgets have and are important to Beagle.
-public struct WidgetProperties: HasWidgetProperties, AutoDecodable, Equatable, AutoInitiable {
-
-    public var id: String?
-    public var appearance: Appearance?
-    public var flex: Flex?
-    public var accessibility: Accessibility?
-
-// sourcery:inline:auto:WidgetProperties.Init
-    public init(
-        id: String? = nil,
-        appearance: Appearance? = nil,
-        flex: Flex? = nil,
-        accessibility: Accessibility? = nil
-    ) {
-        self.id = id
-        self.appearance = appearance
-        self.flex = flex
-        self.accessibility = accessibility
-    }
-// sourcery:end
-}
-
-public protocol AppearanceComponent {
-    var appearance: Appearance? { get }
-}
-
-public protocol FlexComponent {
-    var flex: Flex? { get }
-}
-
-public protocol AccessibilityComponent {
-    var accessibility: Accessibility? { get }
-}
-
-public protocol IdentifiableComponent {
-    /// string that uniquely identifies a component
-    var id: String? { get }
-}

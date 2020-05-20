@@ -15,6 +15,7 @@
  */
 
 import UIKit
+import Components
 
 public struct FormInputHidden: FormInputComponent, AutoInitiable {
     public let name: String

@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -17,7 +18,7 @@
 import XCTest
 @testable import BeagleUI
 
-final class UIViewAppearanceTests: XCTestCase {
+final class UIColorExtensionTests: XCTestCase {
     
     func test_invalidHexColor() {
         let color = UIColor(hex: "")

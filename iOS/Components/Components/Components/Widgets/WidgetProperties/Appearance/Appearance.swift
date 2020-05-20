@@ -17,8 +17,8 @@
 public struct Appearance: Decodable, Equatable, AutoInitiable {
     
     // MARK: - Public Properties
-    let backgroundColor: String?
-    let cornerRadius: CornerRadius?
+    public let backgroundColor: String?
+    public let cornerRadius: CornerRadius?
 
 // sourcery:inline:auto:Appearance.Init
     public init(
@@ -32,7 +32,7 @@ public struct Appearance: Decodable, Equatable, AutoInitiable {
 }
 
 public struct CornerRadius: Decodable, AutoEquatable, AutoInitiable {
-    let radius: Double
+    public let radius: Double
 
 // sourcery:inline:auto:CornerRadius.Init
     public init(

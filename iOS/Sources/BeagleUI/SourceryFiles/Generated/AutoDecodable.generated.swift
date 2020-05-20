@@ -295,23 +295,3 @@ extension WebView {
         flex = try container.decodeIfPresent(Flex.self, forKey: .flex)
     }
 }
-
-// MARK: WidgetProperties Decodable
-extension WidgetProperties {
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case appearance
-        case flex
-        case accessibility
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        id = try container.decodeIfPresent(String.self, forKey: .id)
-        appearance = try container.decodeIfPresent(Appearance.self, forKey: .appearance)
-        flex = try container.decodeIfPresent(Flex.self, forKey: .flex)
-        accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
-    }
-}

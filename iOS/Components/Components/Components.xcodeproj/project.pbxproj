@@ -11,7 +11,16 @@
 		C0FBBD262475803900B72A9B /* ComponentsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FBBD252475803900B72A9B /* ComponentsTests.swift */; };
 		C0FBBD282475803900B72A9B /* Components.h in Headers */ = {isa = PBXBuildFile; fileRef = C0FBBD1A2475803900B72A9B /* Components.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C0FBBD3324759EDD00B72A9B /* SnapshotTesting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FBBD3224759EDD00B72A9B /* SnapshotTesting.framework */; };
-		C0FBBDE72475C13F00B72A9B /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FBBDE62475C13F00B72A9B /* Widget.swift */; };
+		C0FBBDF52475C53600B72A9B /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FBBDF42475C53600B72A9B /* Widget.swift */; };
+		C0FBBE022475C79600B72A9B /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FBBDFB2475C79500B72A9B /* Accessibility.swift */; };
+		C0FBBE032475C79600B72A9B /* UnitValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FBBDFD2475C79500B72A9B /* UnitValue.swift */; };
+		C0FBBE042475C79600B72A9B /* EdgeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FBBDFE2475C79500B72A9B /* EdgeValue.swift */; };
+		C0FBBE052475C79600B72A9B /* Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FBBDFF2475C79500B72A9B /* Size.swift */; };
+		C0FBBE062475C79600B72A9B /* Flex.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FBBE002475C79500B72A9B /* Flex.swift */; };
+		C0FBBE122475C95800B72A9B /* Equality.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FBBE0A2475C95800B72A9B /* Equality.generated.swift */; };
+		C0FBBE132475C95800B72A9B /* AutoDecodable.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FBBE0B2475C95800B72A9B /* AutoDecodable.generated.swift */; };
+		C0FBBE142475C95800B72A9B /* SourceryProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FBBE0C2475C95800B72A9B /* SourceryProtocols.swift */; };
+		C0FBBE242475CD7E00B72A9B /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FBBE212475CD7E00B72A9B /* Appearance.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,7 +41,20 @@
 		C0FBBD252475803900B72A9B /* ComponentsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentsTests.swift; sourceTree = "<group>"; };
 		C0FBBD272475803900B72A9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C0FBBD3224759EDD00B72A9B /* SnapshotTesting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapshotTesting.framework; path = Carthage/Build/iOS/SnapshotTesting.framework; sourceTree = "<group>"; };
-		C0FBBDE62475C13F00B72A9B /* Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Widget.swift; sourceTree = "<group>"; };
+		C0FBBDF42475C53600B72A9B /* Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Widget.swift; sourceTree = "<group>"; };
+		C0FBBDFB2475C79500B72A9B /* Accessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accessibility.swift; sourceTree = "<group>"; };
+		C0FBBDFD2475C79500B72A9B /* UnitValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitValue.swift; sourceTree = "<group>"; };
+		C0FBBDFE2475C79500B72A9B /* EdgeValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EdgeValue.swift; sourceTree = "<group>"; };
+		C0FBBDFF2475C79500B72A9B /* Size.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Size.swift; sourceTree = "<group>"; };
+		C0FBBE002475C79500B72A9B /* Flex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Flex.swift; sourceTree = "<group>"; };
+		C0FBBE0A2475C95800B72A9B /* Equality.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equality.generated.swift; sourceTree = "<group>"; };
+		C0FBBE0B2475C95800B72A9B /* AutoDecodable.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoDecodable.generated.swift; sourceTree = "<group>"; };
+		C0FBBE0C2475C95800B72A9B /* SourceryProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceryProtocols.swift; sourceTree = "<group>"; };
+		C0FBBE0D2475C95800B72A9B /* sourceryScript.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = sourceryScript.sh; sourceTree = "<group>"; };
+		C0FBBE0F2475C95800B72A9B /* AutoDecodable.swifttemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AutoDecodable.swifttemplate; sourceTree = "<group>"; };
+		C0FBBE102475C95800B72A9B /* Equality.stencil */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Equality.stencil; sourceTree = "<group>"; };
+		C0FBBE112475C95800B72A9B /* Initiable.swifttemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Initiable.swifttemplate; sourceTree = "<group>"; };
+		C0FBBE212475CD7E00B72A9B /* Appearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +80,7 @@
 		C0FBBD0D2475803900B72A9B = {
 			isa = PBXGroup;
 			children = (
+				C0FBBE082475C95800B72A9B /* SourceryFiles */,
 				C0FBBD192475803900B72A9B /* Components */,
 				C0FBBD242475803900B72A9B /* ComponentsTests */,
 				C0FBBD182475803900B72A9B /* Products */,
@@ -77,6 +100,7 @@
 		C0FBBD192475803900B72A9B /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				C0FBBDF62475C66D00B72A9B /* Sources */,
 				C0FBBD3424759EF400B72A9B /* Widgets */,
 				C0FBBD1A2475803900B72A9B /* Components.h */,
 				C0FBBD1B2475803900B72A9B /* Info.plist */,
@@ -104,9 +128,84 @@
 		C0FBBD3424759EF400B72A9B /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
-				C0FBBDE62475C13F00B72A9B /* Widget.swift */,
+				C0FBBDF72475C67F00B72A9B /* WidgetProperties */,
+				C0FBBDF42475C53600B72A9B /* Widget.swift */,
 			);
 			path = Widgets;
+			sourceTree = "<group>";
+		};
+		C0FBBDF62475C66D00B72A9B /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		C0FBBDF72475C67F00B72A9B /* WidgetProperties */ = {
+			isa = PBXGroup;
+			children = (
+				C0FBBE1D2475CD7E00B72A9B /* Appearance */,
+				C0FBBDF82475C79500B72A9B /* Accessibility */,
+				C0FBBDFC2475C79500B72A9B /* Flex */,
+			);
+			path = WidgetProperties;
+			sourceTree = "<group>";
+		};
+		C0FBBDF82475C79500B72A9B /* Accessibility */ = {
+			isa = PBXGroup;
+			children = (
+				C0FBBDFB2475C79500B72A9B /* Accessibility.swift */,
+			);
+			path = Accessibility;
+			sourceTree = "<group>";
+		};
+		C0FBBDFC2475C79500B72A9B /* Flex */ = {
+			isa = PBXGroup;
+			children = (
+				C0FBBDFD2475C79500B72A9B /* UnitValue.swift */,
+				C0FBBDFE2475C79500B72A9B /* EdgeValue.swift */,
+				C0FBBDFF2475C79500B72A9B /* Size.swift */,
+				C0FBBE002475C79500B72A9B /* Flex.swift */,
+			);
+			path = Flex;
+			sourceTree = "<group>";
+		};
+		C0FBBE082475C95800B72A9B /* SourceryFiles */ = {
+			isa = PBXGroup;
+			children = (
+				C0FBBE092475C95800B72A9B /* Generated */,
+				C0FBBE0C2475C95800B72A9B /* SourceryProtocols.swift */,
+				C0FBBE0D2475C95800B72A9B /* sourceryScript.sh */,
+				C0FBBE0E2475C95800B72A9B /* Templates */,
+			);
+			path = SourceryFiles;
+			sourceTree = "<group>";
+		};
+		C0FBBE092475C95800B72A9B /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				C0FBBE0A2475C95800B72A9B /* Equality.generated.swift */,
+				C0FBBE0B2475C95800B72A9B /* AutoDecodable.generated.swift */,
+			);
+			path = Generated;
+			sourceTree = "<group>";
+		};
+		C0FBBE0E2475C95800B72A9B /* Templates */ = {
+			isa = PBXGroup;
+			children = (
+				C0FBBE0F2475C95800B72A9B /* AutoDecodable.swifttemplate */,
+				C0FBBE102475C95800B72A9B /* Equality.stencil */,
+				C0FBBE112475C95800B72A9B /* Initiable.swifttemplate */,
+			);
+			path = Templates;
+			sourceTree = "<group>";
+		};
+		C0FBBE1D2475CD7E00B72A9B /* Appearance */ = {
+			isa = PBXGroup;
+			children = (
+				C0FBBE212475CD7E00B72A9B /* Appearance.swift */,
+			);
+			path = Appearance;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -128,6 +227,7 @@
 			buildConfigurationList = C0FBBD2B2475803900B72A9B /* Build configuration list for PBXNativeTarget "Components" */;
 			buildPhases = (
 				C0FBBD122475803900B72A9B /* Headers */,
+				C0FBBE1A2475CA4E00B72A9B /* Sourcery Run Script */,
 				C0FBBD132475803900B72A9B /* Sources */,
 				C0FBBD142475803900B72A9B /* Frameworks */,
 				C0FBBD152475803900B72A9B /* Resources */,
@@ -236,6 +336,24 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/usr/local/bin/carthage copy-frameworks\n";
 		};
+		C0FBBE1A2475CA4E00B72A9B /* Sourcery Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Sourcery Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nSourceryFiles/sourceryScript.sh\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -243,7 +361,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0FBBDE72475C13F00B72A9B /* Widget.swift in Sources */,
+				C0FBBE022475C79600B72A9B /* Accessibility.swift in Sources */,
+				C0FBBE142475C95800B72A9B /* SourceryProtocols.swift in Sources */,
+				C0FBBE132475C95800B72A9B /* AutoDecodable.generated.swift in Sources */,
+				C0FBBE062475C79600B72A9B /* Flex.swift in Sources */,
+				C0FBBDF52475C53600B72A9B /* Widget.swift in Sources */,
+				C0FBBE242475CD7E00B72A9B /* Appearance.swift in Sources */,
+				C0FBBE032475C79600B72A9B /* UnitValue.swift in Sources */,
+				C0FBBE122475C95800B72A9B /* Equality.generated.swift in Sources */,
+				C0FBBE052475C79600B72A9B /* Size.swift in Sources */,
+				C0FBBE042475C79600B72A9B /* EdgeValue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

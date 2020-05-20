@@ -16,6 +16,7 @@
 
 import Foundation
 import UIKit
+import Components
 
 public struct NavigationBar: Decodable, AutoInitiable {
 

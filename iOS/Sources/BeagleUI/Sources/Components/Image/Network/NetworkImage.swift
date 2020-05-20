@@ -15,6 +15,7 @@
  */
 
 import UIKit
+import Components
 
 public struct NetworkImage: Widget, AutoInitiableAndDecodable {
     
