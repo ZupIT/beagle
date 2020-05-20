@@ -17,9 +17,9 @@
 import UIKit
 import BeagleUI
 
-struct DSCollectionDataSource : Decodable{
+struct DSCollectionDataSource : Decodable, AutoEquatable {
     
-    struct Card : Decodable {
+    struct Card : Decodable, Equatable {
         let name: String
         let age: Int
     }
@@ -27,24 +27,21 @@ struct DSCollectionDataSource : Decodable{
     let cards: [Card]
 }
 
-struct DSCollection: Widget {
-    var id: String?
-    var appearance: Appearance?
-    var flex: Flex?
-    var accessibility: Accessibility?
-    let dataSource: DSCollectionDataSource
+// Conforming to AutoEquatable is optional.
+struct DSCollection: Widget, AutoInitiableAndDecodable, AutoEquatable {
 
-    init(
-        appearance: Appearance? = nil,
-        flex: Flex? = nil,
-        accessibility: Accessibility? = nil,
-        dataSource: DSCollectionDataSource
+    let dataSource: DSCollectionDataSource
+    var widgetProperties: WidgetProperties
+
+// sourcery:inline:auto:DSCollection.Init
+    internal init(
+        dataSource: DSCollectionDataSource,
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
-        self.appearance = appearance
-        self.flex = flex
-        self.accessibility = accessibility
         self.dataSource = dataSource
+        self.widgetProperties = widgetProperties
     }
+// sourcery:end
 }
 
 extension DSCollection: Renderable {

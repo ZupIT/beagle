@@ -54,38 +54,33 @@ internal class BeagleTypeSerializer : BeanSerializerBase {
         filteredProperties: Array<BeanPropertyWriter>
     ) : super(source, properties, filteredProperties)
 
-    override fun withObjectIdWriter(objectIdWriter: ObjectIdWriter) =
-        BeagleTypeSerializer(this, objectIdWriter)
+    override fun withObjectIdWriter(writer: ObjectIdWriter) = BeagleTypeSerializer(this, writer)
 
-    override fun withIgnorals(toIgnore: MutableSet<String>) =
-        BeagleTypeSerializer(this, toIgnore)
+    override fun withIgnorals(toIgnore: MutableSet<String>) = BeagleTypeSerializer(this, toIgnore)
 
-    override fun asArraySerializer() =
-        BeanAsArraySerializer(this)
+    override fun asArraySerializer() = BeanAsArraySerializer(this)
 
-    override fun withFilterId(filterId: Any?) =
-        BeagleTypeSerializer(this, this._objectIdWriter, filterId)
+    override fun withFilterId(filterId: Any?) = BeagleTypeSerializer(this, this._objectIdWriter, filterId)
 
     override fun serialize(bean: Any, generator: JsonGenerator, provider: SerializerProvider) {
         generator.writeStartObject()
-        getBeagleType(bean)?.apply { generator.writeStringField(BEAGLE_TYPE, this) }
+        this.getBeagleType(bean)?.also { generator.writeStringField(BEAGLE_TYPE, it) }
         super.serializeFields(bean, generator, provider)
         generator.writeEndObject()
     }
 
-    private fun getBeagleType(bean: Any): String? {
-        val beanName = bean::class.simpleName?.toLowerCase(Locale.getDefault())
-
-        return when (bean) {
-            is Action -> "$BEAGLE_NAMESPACE:$ACTION_NAMESPACE:$beanName"
-            is Screen -> "$BEAGLE_NAMESPACE:$COMPONENT_NAMESPACE:$SCREEN_COMPONENT"
-            is ServerDrivenComponent ->
-                if (bean::class.findAnnotation<RegisterWidget>() != null) {
-                    "$CUSTOM_WIDGET_BEAGLE_NAMESPACE:$COMPONENT_NAMESPACE:$beanName"
-                } else {
-                    "$BEAGLE_NAMESPACE:$COMPONENT_NAMESPACE:$beanName"
-                }
-            else -> null
+    private fun getBeagleType(bean: Any) =
+        bean::class.simpleName?.toLowerCase(Locale.getDefault())?.let {
+            when (bean) {
+                is Action -> "$BEAGLE_NAMESPACE:$ACTION_NAMESPACE:$it"
+                is Screen -> "$BEAGLE_NAMESPACE:$COMPONENT_NAMESPACE:$SCREEN_COMPONENT"
+                is ServerDrivenComponent ->
+                    if (bean::class.findAnnotation<RegisterWidget>() != null) {
+                        "$CUSTOM_WIDGET_BEAGLE_NAMESPACE:$COMPONENT_NAMESPACE:$it"
+                    } else {
+                        "$BEAGLE_NAMESPACE:$COMPONENT_NAMESPACE:$it"
+                    }
+                else -> null
+            }
         }
-    }
 }

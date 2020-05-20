@@ -23,7 +23,7 @@ import br.com.zup.beagle.widget.core.BindingWidget
 import br.com.zup.beagle.widget.core.WidgetView
 
 class CustomWidget : WidgetView() {
-    override fun toView(context: Context): View {
+    override fun buildView(context: Context): View {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

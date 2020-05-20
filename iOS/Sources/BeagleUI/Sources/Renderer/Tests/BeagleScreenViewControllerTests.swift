@@ -95,8 +95,9 @@ final class BeagleScreenViewControllerTests: XCTestCase {
             content: Text(
                 "My Content",
                 alignment: .center,
+                widgetProperties: .init(
                 appearance: .init(backgroundColor: "#00FFFF"),
-                flex: Flex(grow: 1)
+                flex: Flex(grow: 1))
             )
         )
         
@@ -124,8 +125,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
             navigationBar: NavigationBar(title: "Test Safe Area"),
             child: Container(
                 children: [content],
-                flex: Flex(grow: 1, margin: .init(all: .init(value: 10, type: .real))),
-                appearance: Appearance(backgroundColor: "#00FF00")
+                widgetProperties: .init(appearance: Appearance(backgroundColor: "#00FF00"), flex: Flex(grow: 1, margin: .init(all: .init(value: 10, type: .real))))
             )
         )
         let screenController = BeagleScreenViewController(screen: screen)
@@ -188,7 +188,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         assertSnapshotImage(sut, size: CGSize(width: 50, height: 25))
     }
     
-    func test_loadPreFetchedScreen() {
+   func test_loadPreFetchedScreen() {
         
         let url = "screen-url"
         let cacheManager = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: CacheManagerDefault.Config(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 10))
@@ -206,7 +206,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         }
         let cacheReference = CacheReference(identifier: url, data: jsonData, hash: "123")
         cacheManager.addToCache(cacheReference)
-        let repository = RepositoryStub(componentResult: .success(Text("Remote Component", appearance: .init(backgroundColor: "#00FFFF"))))
+        let repository = RepositoryStub(componentResult: .success(Text("Remote Component", widgetProperties: .init(appearance: .init(backgroundColor: "#00FFFF")))))
         let dependencies = BeagleDependencies()
         dependencies.cacheManager = cacheManager
         dependencies.repository = repository
@@ -224,7 +224,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         let repository = RepositoryStub(componentResult: .failure(error))
         let fallback = Text(
             "Fallback screen.\n\(error.localizedDescription)",
-            appearance: .init(backgroundColor: "#FF0000")
+            widgetProperties: .init(appearance: .init(backgroundColor: "#FF0000"))
         ).toScreen()
         let dependencies = BeagleDependencies()
         dependencies.repository = repository

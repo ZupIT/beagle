@@ -42,7 +42,7 @@ data class TextField(
 
     private lateinit var textFieldView: EditText
 
-    override fun toView(context: Context) = EditText(context).apply {
+    override fun buildView(context: Context) = EditText(context).apply {
         textFieldView = this
         bind(this@TextField)
 

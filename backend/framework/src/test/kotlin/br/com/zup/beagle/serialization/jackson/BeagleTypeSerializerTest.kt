@@ -28,28 +28,15 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.Test
-import kotlin.test.assertNotSame
-import kotlin.test.assertTrue
 
 internal class BeagleTypeSerializerTest {
     @Test
-    fun withObjectIdWriter_should_return_new_BeagleTypeSerializer() {
-        val serializer = BeagleTypeSerializer(mockk())
-
-        val result = serializer.withObjectIdWriter(mockk())
-
-        assertNotSame(serializer, result)
-        assertTrue(block = result::usesObjectId)
-    }
+    fun withObjectIdWriter_should_return_new_BeagleTypeSerializer() =
+        withObjectIdWriterShouldReturnNewSerializer(::BeagleTypeSerializer)
 
     @Test
-    fun withFilterId_should_return_new_BeagleTypeSerializer() {
-        val serializer = BeagleTypeSerializer(mockk())
-
-        val result = serializer.withFilterId("Test")
-
-        assertNotSame(serializer, result)
-    }
+    fun withFilterId_should_return_new_BeagleTypeSerializer() =
+        withFilterIdShouldReturnNewSerializer(::BeagleTypeSerializer)
 
     @Test
     fun serialize_non_beagle_type_should_have_beagleType_field_null() = testSerialize("Text") {
@@ -74,7 +61,7 @@ internal class BeagleTypeSerializerTest {
     @Test
     fun serialize_Screen_should_have_screen_beagleType_field() =
         testSerialize(
-            Screen(child =CustomWidget),
+            Screen(child = CustomWidget),
             "$BEAGLE_NAMESPACE:$COMPONENT_NAMESPACE:$SCREEN_COMPONENT"
         )
 

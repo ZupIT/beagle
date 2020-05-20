@@ -14,24 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.widget
+package br.com.zup.beagle.serialization.jackson
 
 import br.com.zup.beagle.widget.core.ComposeComponent
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.JustifyContent
-import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.layout.Container
-import br.com.zup.beagle.widget.ui.Button
-import br.com.zup.beagle.widget.ui.Text
+import com.fasterxml.jackson.annotation.JsonValue
 
-class CustomComponent : ComposeComponent() {
-    override fun build(): Widget = Container(
-        children = listOf(
-            Button("Text 1"),
-            Text("Text 1")
-        )
-    ).applyFlex(flex = Flex(
-        justifyContent = JustifyContent.CENTER
-    )
-    )
+internal object ComposeComponentMixin : ComposeComponent() {
+    @JsonValue
+    override fun build() = this
 }
