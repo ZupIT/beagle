@@ -223,19 +223,27 @@ class JsonPathFinderTest {
         val result = jsonPathFinder.findByPath(keys, jsonArray)
 
         // Then
-        assertEquals(JSON_OBJECT, result.toString())
+        assertEquals("a", result.toString())
     }
 
-    /*// TODO: implement this case
     @Test
     fun find_should_return_JSON_inside_dimensional_array() {
         // Given
-        val contextData = makeContextData()
+        val keys = JsonPathUtils.splitKeys("a[0][1]")
+        val json = """
+        {
+            "a": [
+                ["a", "b"],
+                ["c", "d"]
+            ]
+        }
+        """.trimMargin()
+        val jsonObject = JSONObject(json)
 
         // When
-        val value = contextData.getValue("b.h[0][0]")
+        val result = jsonPathFinder.findByPath(keys, jsonObject)
 
         // Then
-        assertEquals(JSON_OBJECT, value.toString())
-    }*/
+        assertEquals("b", result)
+    }
 }

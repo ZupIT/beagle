@@ -218,35 +218,27 @@ class JsonPathSetterTest {
         assertEquals(newValue, jsonArray.getString(1))
     }
 
-    /*// TODO: implement this case
-    @Test
-    fun setValue_should_add_new_object_with_value_when_does_not_exist() {
-        // Given
-        val newValue = RandomData.string()
-        val contextData = makeContextData()
-
-        // When
-        val result = contextData.setValue("$CONTEXT_ID.z1.z2.z3", newValue)
-        val actualValue = contextData.getValue("$CONTEXT_ID.z.a")
-
-        // Then
-        assertTrue(result)
-        assertEquals(newValue, actualValue)
-    }
-
-    // TODO: implement this case
     @Test
     fun setValue_should_add_new_array_object_with_value_when_does_not_exist() {
         // Given
-        val newValue = RandomData.string()
-        val contextData = makeContextData()
+        val keys = JsonPathUtils.splitKeys("[0][0].a")
+        val json = """
+            [
+                [
+                    {
+                        "a": "hello"
+                    }
+                ]
+            ]
+        """.trimIndent()
+        val newValue = "hello2"
+        val jsonArray = JSONArray(json)
 
         // When
-        val result = contextData.setValue("$CONTEXT_ID[0][0].a", newValue)
-        val actualValue = contextData.getValue("$CONTEXT_ID[0][0].a")
+        val result = jsonPathReplacer.setByPath(keys, newValue, jsonArray)
 
         // Then
         assertTrue(result)
-        assertEquals(newValue, actualValue)
-    }*/
+        assertEquals(newValue, jsonArray.getJSONArray(0).getJSONObject(0).getString("a"))
+    }
 }

@@ -29,11 +29,11 @@ internal object JsonPathUtils {
         path.split(".").forEach { key ->
             if (key.endsWith("]")) {
                 val keyOnly = key.replace(ARRAY_POSITION_REGEX, "")
-                val arrayPosition = getArrayBrackets(key) ?: ""
                 if (keyOnly.isNotEmpty()) {
                     keys.add(keyOnly)
                 }
-                keys.add(arrayPosition)
+                val arrayKeys = splitArrays(key.replace(keyOnly, ""))
+                keys.addAll(arrayKeys)
             } else {
                 keys.add(key)
             }
@@ -42,16 +42,30 @@ internal object JsonPathUtils {
         return keys
     }
 
-    fun createArrayExpectedException(): Exception = IllegalStateException("Expected Array but received Object")
+    private fun splitArrays(key: String): LinkedList<String> {
+        val arrays = LinkedList<String>()
+        var arrayCharacters = key.toCharArray()
 
-    fun createInvalidPathException(): Exception = IllegalStateException("Invalid JSON path")
+        while (arrayCharacters.isNotEmpty()) {
+            val firstBracketIndex = 0
+            val nextBracketIndex = arrayCharacters.indexOfFirst { it == ']' }
+            val arrayPosition = if (firstBracketIndex + 1 == nextBracketIndex - 1) {
+                arrayCharacters[firstBracketIndex + 1]
+            } else {
+                String(arrayCharacters.sliceArray(IntRange(firstBracketIndex + 1, nextBracketIndex - 1)))
+            }
+            arrayCharacters = arrayCharacters.sliceArray(IntRange(nextBracketIndex + 1, arrayCharacters.size - 1))
+            arrays.add("[$arrayPosition]")
+        }
+
+        return arrays
+    }
+
+    fun createArrayExpectedException(): Exception = IllegalStateException("Expected Array but received Object")
 
     fun getIndexOnArrayBrackets(arrayIndex: String): Int {
         return ARRAY_POSITION_REGEX.find(arrayIndex)?.groups?.get(1)?.value?.toInt() ?:
         throw IllegalStateException("Invalid array position $arrayIndex.")
     }
-
-    private fun getArrayBrackets(arrayIndex: String): String? {
-        return ARRAY_POSITION_REGEX.find(arrayIndex)?.value
-    }
 }
+

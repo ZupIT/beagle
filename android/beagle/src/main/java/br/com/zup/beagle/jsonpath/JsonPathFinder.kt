@@ -33,12 +33,7 @@ internal class JsonPathFinder {
             if (value is JSONArray) {
                 val arrayIndex = JsonPathUtils.getIndexOnArrayBrackets(currentKey)
                 value.safeGet(arrayIndex)?.let {
-                    if (nextKeys.isEmpty()) {
-                        return it
-                    } else {
-                        currentKey = nextKeys.pop()
-                        it
-                    }
+                    return findByPath(nextKeys, it)
                 }
             } else {
                 throw IllegalStateException("Expected Array but received Object")
@@ -47,13 +42,14 @@ internal class JsonPathFinder {
             value
         }
 
-        return if (childValue is JSONObject) {
-            if (childValue.isNull(currentKey)) return null
-            val newValue = childValue.safeGet(currentKey)
-            findByPath(nextKeys, newValue)
-        } else {
+        if (childValue !is JSONObject) {
             throw IllegalStateException("Invalid JSON path at key \"$currentKey\"")
         }
+
+        if (childValue.isNull(currentKey)) return null
+
+        val newValue = childValue.safeGet(currentKey)
+        return findByPath(nextKeys, newValue)
     }
 
     private fun JSONObject.safeGet(key: String): Any? {
