@@ -97,7 +97,7 @@ class BeagleWidgetBindingProcessor(
     }
 
     companion object {
-        private const val TO_VIEW_METHOD = "toView"
+        private const val TO_VIEW_METHOD = "buildView"
         private const val ON_BIND_METHOD = "onBind"
         private const val WIDGET_INSTANCE_PROPERTY = "widgetInstance"
         private const val WIDGET_PROPERTY = "widget"

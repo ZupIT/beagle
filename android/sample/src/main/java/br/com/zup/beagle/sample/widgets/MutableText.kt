@@ -32,7 +32,7 @@ data class MutableText(
 
     @Transient
     private lateinit var widgetView: TextView
-    override fun toView(context: Context) = TextView(context).apply {
+    override fun buildView(context: Context) = TextView(context).apply {
         widgetView = this
     }
 
