@@ -29,7 +29,7 @@ object BeaglePlatformUtil {
 
     fun treatBeaglePlatform(currentPlatform: String?, jsonNode: JsonNode): JsonNode {
         if (jsonNode is ObjectNode) {
-            if (currentPlatform != null) {
+            if (currentPlatform != null && BeaglePlatform.ALL.name != currentPlatform) {
                 removeObjectFromTreeWhenPlatformIsDifferToCurrentPlatform(
                     BeaglePlatform.valueOf(currentPlatform),
                     jsonNode
@@ -55,9 +55,7 @@ object BeaglePlatformUtil {
                 isToRemove = true
             }
         }
-        fieldsToRemove.forEach {
-            objectNode.remove(it)
-        }
+        objectNode.remove(fieldsToRemove)
         return isToRemove
     }
 
@@ -66,22 +64,23 @@ object BeaglePlatformUtil {
         nodeEntry: MutableMap.MutableEntry<String, JsonNode>,
         fieldsToRemove: MutableSet<String>
     ): Boolean {
+        val currentNode = nodeEntry.value
         when {
             checkIfCurrentPlatformIsNotAllowedToViewComponent(currentPlatform, nodeEntry) -> {
                 return true
             }
-            nodeEntry.value is ObjectNode -> {
+            currentNode is ObjectNode -> {
                 if (removeObjectFromTreeWhenPlatformIsDifferToCurrentPlatform(
                         currentPlatform,
-                        nodeEntry.value as ObjectNode
+                        currentNode
                     )) {
                     fieldsToRemove.add(nodeEntry.key)
                 }
             }
-            nodeEntry.value is ArrayNode -> {
+            currentNode is ArrayNode -> {
                 treatArrayNode(
                     currentPlatform,
-                    nodeEntry.value as ArrayNode
+                    currentNode
                 )
             }
         }
@@ -110,10 +109,11 @@ object BeaglePlatformUtil {
             objectNode.remove(BEAGLE_PLATFORM_FIELD)
         }
         objectNode.fields().forEach {
-            if (it.value is ObjectNode) {
-                removeBeaglePlatformField(it.value as ObjectNode)
-            } else if (it.value is ArrayNode) {
-                (it.value as ArrayNode).forEach { node ->
+            val currentNode = it.value
+            if (currentNode is ObjectNode) {
+                removeBeaglePlatformField(currentNode)
+            } else if (currentNode is ArrayNode) {
+                currentNode.forEach { node ->
                     if (node is ObjectNode) {
                         removeBeaglePlatformField(node)
                     }

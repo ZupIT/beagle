@@ -25,16 +25,12 @@ enum class BeaglePlatform {
 
     fun isMobilePlatform() = this == MOBILE || this == ANDROID || this == IOS
 
-    fun allowToSendComponentToPlatform(beaglePlatform: BeaglePlatform): Boolean {
-        if (beaglePlatform == ALL) {
-            return true
-        }
-        return when (this) {
+    fun allowToSendComponentToPlatform(beaglePlatform: BeaglePlatform) =
+        when (this) {
             ALL -> true
             MOBILE -> beaglePlatform.isMobilePlatform()
             ANDROID -> beaglePlatform == ANDROID
             IOS -> beaglePlatform == IOS
             WEB -> beaglePlatform == WEB
         }
-    }
 }
