@@ -19,27 +19,34 @@ package br.com.zup.beagle.sample.widgets
 import android.content.Context
 import android.graphics.Color
 import android.widget.TextView
+import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.WidgetView
 
+@RegisterWidget
 data class MutableText(
     val firstText: String = "",
     val secondText: String = "",
     val color: String = "#000000"
-): WidgetView() {
+) : WidgetView() {
+
+    @Transient
+    private lateinit var widgetView: TextView
     override fun toView(context: Context) = TextView(context).apply {
-        val color = Color.parseColor(color)
-        text = firstText
-        setTextColor(color)
-        setOnClickListener {
-            text = if (text == firstText)
-                secondText
-            else
-                firstText
-        }
+        widgetView = this
     }
 
     override fun onBind(widget: Widget) {
-        TODO("Not yet implemented")
+        (widget as? MutableText)?.let { widget ->
+            val color = Color.parseColor(widget.color)
+            widgetView.text = widget.firstText
+            widgetView.setTextColor(color)
+            widgetView.setOnClickListener {
+                widgetView.text = if (widgetView.text == widget.firstText)
+                    widget.secondText
+                else
+                    widget.firstText
+            }
+        }
     }
 }

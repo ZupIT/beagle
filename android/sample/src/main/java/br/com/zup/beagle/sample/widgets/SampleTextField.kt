@@ -19,12 +19,11 @@ package br.com.zup.beagle.sample.widgets
 import android.content.Context
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
-import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.form.InputWidget
 
-@RegisterWidget
-data class SampleTextField(val placeholder: String?) : InputWidget() {
+//@RegisterWidget
+data class SampleTextField(val placeholder: String = "") : InputWidget() {
 
     @Transient
     private lateinit var textFieldView: EditText
@@ -40,7 +39,6 @@ data class SampleTextField(val placeholder: String?) : InputWidget() {
 
         textFieldView.isSingleLine = true
         doOnTextChanged { _, _, _, _ -> notifyChanges() }
-        hint = placeholder
     }
 
     override fun onBind(widget: Widget) {

@@ -42,6 +42,7 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
     private lateinit var validatorHandlerProcessor: ValidatorHandlerProcessor
     private lateinit var beagleSetupProcessor: BeagleSetupProcessor
     private lateinit var beagleWidgetBindingAdapterProcessor: BeagleWidgetBindingAdapterProcessor
+    private lateinit var beagleWidgetBindingProcessor: BeagleWidgetBindingProcessor
 
     override fun getSupportedAnnotationTypes(): Set<String> {
         return TreeSet(listOf(
@@ -57,6 +58,7 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
         validatorHandlerProcessor = ValidatorHandlerProcessor(processingEnvironment)
         beagleSetupProcessor = BeagleSetupProcessor(processingEnvironment)
         beagleWidgetBindingAdapterProcessor = BeagleWidgetBindingAdapterProcessor(processingEnvironment)
+        beagleWidgetBindingProcessor = BeagleWidgetBindingProcessor(processingEnv)
     }
 
     override fun process(
@@ -87,6 +89,7 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
             validatorHandlerProcessor.process(basePackageName, roundEnvironment)
             beagleSetupProcessor.process(basePackageName, beagleConfigClassName, roundEnvironment)
             beagleWidgetBindingAdapterProcessor.process(roundEnvironment)
+            beagleWidgetBindingProcessor.process(roundEnvironment)
         }
 
         return false

@@ -42,7 +42,7 @@ class BeagleWidgetBindingAdapterProcessor(
     ) {
         val registerWidgetAnnotatedClasses = roundEnvironment
             .getElementsAnnotatedWith(RegisterWidget::class.java)
-        registerWidgetAnnotatedClasses.forEachIndexed { _, element ->
+        registerWidgetAnnotatedClasses.forEach { element ->
 
             val bindingAdapterClassName = beagleWidgetBindingAdapterGenerator
                 .getBindingAdapterClassNameForWidget(element)
@@ -66,7 +66,7 @@ class BeagleWidgetBindingAdapterProcessor(
                 .build()
             val packageElement = beagleWidgetBindingAdapterGenerator.getPackageOf(element)
 
-            val beagleSetupFile = FileSpec.builder(
+            val fileSpec = FileSpec.builder(
                 packageElement,
                 bindingAdapterClassName
             ).addImport(GET_VALUE_NULL.packageName, GET_VALUE_NULL.className)
@@ -75,7 +75,7 @@ class BeagleWidgetBindingAdapterProcessor(
                 .build()
 
             try {
-                beagleSetupFile.writeTo(processingEnv.filer)
+                fileSpec.writeTo(processingEnv.filer)
             } catch (e: IOException) {
                 val errorMessage = "Error when trying to generate code.\n${e.message!!}"
                 processingEnv.messager.error(errorMessage)

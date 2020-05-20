@@ -21,7 +21,6 @@ import android.graphics.Color
 import android.text.InputType
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
-import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.sample.utils.MaskApplier
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.form.InputWidget
@@ -32,7 +31,7 @@ enum class TextFieldInputType {
     TEXT
 }
 
-@RegisterWidget
+//@RegisterWidget
 data class TextField(
     val description: String = "",
     val hint: String = "",

@@ -93,3 +93,18 @@ val GET_VALUE_NOT_NULL = BeagleClass(
     packageName = "br.com.zup.beagle.utils",
     className = "getValueNotNull"
 )
+
+val WIDGET = BeagleClass(
+    packageName = "br.com.zup.beagle.widget",
+    className = "Widget"
+)
+
+val ANDROID_VIEW = BeagleClass(
+    packageName = "android.view",
+    className = "View"
+)
+
+val ANDROID_CONTEXT = BeagleClass(
+    packageName = "android.content",
+    className = "Context"
+)
