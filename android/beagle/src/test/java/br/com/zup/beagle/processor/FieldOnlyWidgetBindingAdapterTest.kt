@@ -85,4 +85,25 @@ class FieldOnlyWidgetBindingAdapterTest {
         verify(exactly = once()) { expressionLong.observes(any()) }
         verify(exactly = once()) { expressionString.observes(any()) }
     }
+
+    @Test
+    fun fieldOnlyWidgetBindingAdapter_should_call_notify_widget_default_values() {
+
+        //given
+        val aPropertyValue = true
+        val bPropertyValue = 25L
+        val cPropertyValue = "DUMMY"
+
+        every { widget.a } returns aPropertyValue
+        every { widget.b } returns bPropertyValue
+        every { widget.c } returns cPropertyValue
+
+        val expected = FieldOnlyWidget(a = aPropertyValue, b = bPropertyValue, c = cPropertyValue)
+
+        //when
+        fieldOnlyWidgetBindingAdapter.bindModel()
+
+        //then
+        verify(exactly = once()) { widget.onBind(expected) }
+    }
 }
