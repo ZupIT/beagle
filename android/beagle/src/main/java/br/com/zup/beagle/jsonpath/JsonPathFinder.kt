@@ -24,7 +24,7 @@ import java.util.LinkedList
 
 internal class JsonPathFinder {
 
-    fun findByPath(nextKeys: LinkedList<String>, value: Any?): Any? {
+    tailrec fun findByPath(nextKeys: LinkedList<String>, value: Any?): Any? {
         if (nextKeys.isEmpty()) return value
 
         var currentKey = nextKeys.pop()

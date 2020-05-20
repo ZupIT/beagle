@@ -17,13 +17,13 @@
 package br.com.zup.beagle.jsonpath
 
 import java.lang.IllegalStateException
-import java.util.LinkedList
+import java.util.*
 
 val ARRAY_POSITION_REGEX = "\\[([^)]+)\\]".toRegex()
 
 internal object JsonPathUtils {
 
-    fun splitKeys(path: String): LinkedList<String> {
+    fun splitKeys(path: String): Queue<String> {
         val keys = LinkedList<String>()
 
         path.split(".").forEach { key ->
@@ -42,7 +42,7 @@ internal object JsonPathUtils {
         return keys
     }
 
-    private fun splitArrays(key: String): LinkedList<String> {
+    private fun splitArrays(key: String): Queue<String> {
         val arrays = LinkedList<String>()
         var arrayCharacters = key.toCharArray()
 
