@@ -73,4 +73,16 @@ class FieldOnlyWidgetBindingAdapterTest {
         //then
         verify(atLeast = once()) { widget.onBind(any()) }
     }
+
+    @Test
+    fun fieldOnlyWidgetBindingAdapter_should_call_observe_on_parameters() {
+
+        //when
+        fieldOnlyWidgetBindingAdapter.bindModel()
+
+        //then
+        verify(exactly = once()) { expressionBoolean.observes(any()) }
+        verify(exactly = once()) { expressionLong.observes(any()) }
+        verify(exactly = once()) { expressionString.observes(any()) }
+    }
 }
