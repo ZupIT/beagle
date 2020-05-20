@@ -33,7 +33,11 @@ import javax.lang.model.type.TypeMirror
 class BeagleWidgetBindingHandler(processingEnvironment: ProcessingEnvironment, private val outputDirectory: File =
     processingEnvironment.kaptGeneratedDirectory) {
     companion object {
-        const val SUFFIX = "Binding"
+        private const val SUFFIX = "Binding"
+        private val BINDING_CLASS = ClassName(
+            "br.com.zup.beagle.core",
+            "Binding"
+        )
     }
 
     private val elementUtils = processingEnvironment.elementUtils
@@ -59,13 +63,10 @@ class BeagleWidgetBindingHandler(processingEnvironment: ProcessingEnvironment, p
                 .addProperties(parameters.map { PropertySpec.from(it) })
         }
 
-    private fun createBindParameter(element: ExecutableElement) =
-        ParameterSpec.builder(
+    private fun createBindParameter(element: ExecutableElement): ParameterSpec {
+        return ParameterSpec.builder(
             element.fieldName,
-            //TODO extract constant below
-            ClassName(
-                "br.com.zup.beagle.core",
-                "Binding"
-            ).parameterizedBy(this.typeUtils.getKotlinName(element.returnType))
+            BINDING_CLASS.parameterizedBy(this.typeUtils.getKotlinName(element.returnType))
         ).build()
+    }
 }
