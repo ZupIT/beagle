@@ -21,6 +21,7 @@ import br.com.zup.beagle.BaseTest
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.engine.renderer.ViewRendererFactory
+import br.com.zup.beagle.enums.BeaglePlatform
 import br.com.zup.beagle.view.BeagleFlexView
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.core.Flex
@@ -38,7 +39,10 @@ import io.mockk.verify
 import org.junit.Test
 import kotlin.test.assertEquals
 
-internal class DirectionalView(val children: List<ServerDrivenComponent>) : ServerDrivenComponent
+internal class DirectionalView(
+    val children: List<ServerDrivenComponent>,
+    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
+) : ServerDrivenComponent
 
 internal class DirectionalViewRendererImpl(
     override val component: DirectionalView,

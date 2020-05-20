@@ -18,8 +18,10 @@ package br.com.zup.beagle.widget.lazy
 
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.enums.BeaglePlatform
 
 data class LazyComponent(
     val path: String,
-    val initialState: ServerDrivenComponent
+    val initialState: ServerDrivenComponent,
+    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
 ) : ServerDrivenComponent, LayoutComponent

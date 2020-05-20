@@ -18,9 +18,11 @@ package br.com.zup.beagle.widget.layout
 
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.enums.BeaglePlatform
 import br.com.zup.beagle.widget.pager.PageIndicatorComponent
 
 data class PageView(
     val pages: List<ServerDrivenComponent>,
-    val pageIndicator: PageIndicatorComponent? = null
+    val pageIndicator: PageIndicatorComponent? = null,
+    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
 ) : ServerDrivenComponent, LayoutComponent

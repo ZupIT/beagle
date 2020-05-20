@@ -16,7 +16,10 @@
 
 package br.com.zup.beagle.widget.pager
 
+import br.com.zup.beagle.enums.BeaglePlatform
+
 data class PageIndicator(
     val selectedColor: String,
-    val unselectedColor: String
+    val unselectedColor: String,
+    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
 ) : PageIndicatorComponent

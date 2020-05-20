@@ -18,8 +18,10 @@ package br.com.zup.beagle.widget.layout
 
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.enums.BeaglePlatform
 
 data class Vertical(
     val children: List<ServerDrivenComponent>,
-    val reversed: Boolean? = null
+    val reversed: Boolean? = null,
+    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
 ) : ServerDrivenComponent, LayoutComponent

@@ -19,7 +19,12 @@ package br.com.zup.beagle.widget.core
 import android.content.Context
 import android.view.View
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.enums.BeaglePlatform
 
 interface ViewConvertable : ServerDrivenComponent {
+
+    override val beaglePlatform: BeaglePlatform
+        get() = BeaglePlatform.ALL
+
     fun toView(context: Context): View
 }

@@ -18,6 +18,7 @@ package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.enums.BeaglePlatform
 import br.com.zup.beagle.widget.Widget
 
 enum class ListDirection {
@@ -29,7 +30,8 @@ typealias RowBuilder = (index: Int) -> Widget
 
 data class ListView(
     val rows: List<ServerDrivenComponent>,
-    val direction: ListDirection = ListDirection.VERTICAL
+    val direction: ListDirection = ListDirection.VERTICAL,
+    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
 ) : ServerDrivenComponent, LayoutComponent {
 
     companion object {

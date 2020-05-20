@@ -21,6 +21,4 @@ import br.com.zup.beagle.enums.BeaglePlatform
 interface ServerDrivenComponent {
 
     val beaglePlatform: BeaglePlatform
-        get() = BeaglePlatform.ALL
-
 }

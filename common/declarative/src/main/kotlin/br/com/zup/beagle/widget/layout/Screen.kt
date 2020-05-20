@@ -23,6 +23,7 @@ import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.Appearance
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.enums.BeaglePlatform
 
 data class SafeArea(
     val top: Boolean? = null,
@@ -35,7 +36,8 @@ data class NavigationBarItem(
     val text: String,
     val image: String? = null,
     val action: Action,
-    val accessibility: Accessibility? = null
+    val accessibility: Accessibility? = null,
+    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
 ) : IdentifierComponent {
     override var id: String? = null
         private set
