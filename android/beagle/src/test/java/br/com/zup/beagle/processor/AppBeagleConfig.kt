@@ -14,11 +14,20 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.compiler.util
+package br.com.zup.beagle.processor
 
-import org.jetbrains.annotations.Nullable
-import javax.lang.model.element.VariableElement
+import br.com.zup.beagle.annotation.BeagleComponent
+import br.com.zup.beagle.setup.BeagleConfig
+import br.com.zup.beagle.setup.Cache
+import br.com.zup.beagle.setup.Environment
 
-internal fun VariableElement.isMarkedNullable(): Boolean {
-    return this.getAnnotation(Nullable::class.java) != null
+@BeagleComponent
+class AppBeagleConfig : BeagleConfig {
+    override val environment: Environment get() = Environment.DEBUG
+    override val baseUrl: String get() = "http://sample.com"
+    override val cache: Cache = Cache(
+        enabled = true,
+        maxAge = 300,
+        memoryMaximumCapacity = 15
+    )
 }

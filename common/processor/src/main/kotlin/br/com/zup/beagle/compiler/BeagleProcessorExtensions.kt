@@ -25,13 +25,13 @@ import com.squareup.kotlinpoet.STAR
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.WildcardTypeName
 import com.squareup.kotlinpoet.asTypeName
+import org.jetbrains.annotations.Nullable
 import java.io.File
 import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.ElementKind
 import javax.lang.model.element.ExecutableElement
 import javax.lang.model.element.Modifier
-import javax.lang.model.element.TypeElement
 import javax.lang.model.type.DeclaredType
 import javax.lang.model.type.TypeMirror
 import javax.lang.model.type.WildcardType
@@ -48,10 +48,14 @@ val ExecutableElement.fieldName
         .takeWhile { it != INTERNAL_MARKER }
         .let { it.replaceFirst(it.first(), it.first().toLowerCase()) }
 
-val TypeElement.visibleGetters
+val Element.visibleGetters
     get() = this.enclosedElements
         .filter { it.kind == ElementKind.METHOD && GET in it.simpleName && Modifier.PUBLIC in it.modifiers }
         .map { it as ExecutableElement }
+
+fun Element.isMarkedNullable(): Boolean {
+    return this.getAnnotation(Nullable::class.java) != null
+}
 
 fun Elements.getPackageAsString(element: Element) = this.getPackageOf(element).toString()
 

@@ -17,7 +17,6 @@
 package br.com.zup.beagle.compiler
 
 import br.com.zup.beagle.compiler.util.BINDING
-import br.com.zup.beagle.compiler.util.isMarkedNullable
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
@@ -54,12 +53,12 @@ class BeagleWidgetBindingAdapterGenerator(private val processingEnv: ProcessingE
         val attributeValues = StringBuilder()
         val notifyValues = StringBuilder()
 
-        val constructorParameters = listConstructorParameters(element)
+        val constructorParameters = element.visibleGetters
         constructorParameters.forEachIndexed { index, e ->
             val isNullable = e.isMarkedNullable()
             val getValueMethodName = if (isNullable) GET_VALUE_NULL_METHOD else GET_VALUE_NOT_NULL_METHOD
 
-            val attr = e.simpleName
+            val attr = e.fieldName
             attributeValues.append("\t$attr = ${getValueMethodName}($BINDING_PROPERTY.$attr, $WIDGET_PROPERTY.$attr)")
 
             if (index < constructorParameters.size - 1) {
@@ -68,7 +67,7 @@ class BeagleWidgetBindingAdapterGenerator(private val processingEnv: ProcessingE
         }
 
         constructorParameters.forEachIndexed { index, e ->
-            val attr = e.simpleName
+            val attr = e.fieldName
             notifyValues.append("""
                 |$BINDING_PROPERTY.$attr.observes {
                 |   myWidget = myWidget.copy($attr = it)
@@ -111,9 +110,9 @@ class BeagleWidgetBindingAdapterGenerator(private val processingEnv: ProcessingE
         )
         val attributeValues = StringBuilder()
 
-        val constructorParameters = listConstructorParameters(element)
+        val constructorParameters = element.visibleGetters
         constructorParameters.forEachIndexed { index, e ->
-            attributeValues.append("\t$BINDING_PROPERTY.${e.simpleName}")
+            attributeValues.append("\t$BINDING_PROPERTY.${e.fieldName}")
             if (index < constructorParameters.size - 1) {
                 attributeValues.append(",\n")
             }
