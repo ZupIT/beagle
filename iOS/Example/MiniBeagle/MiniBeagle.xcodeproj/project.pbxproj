@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C86270402475E5DB00C33FCB /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = C862703F2475E5DB00C33FCB /* Util.swift */; };
 		C89011842475DED4009B2B79 /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89011832475DED4009B2B79 /* Expression.swift */; };
 		C8A5B5D42475D91600F0C8AD /* MiniBeagle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8A5B5CA2475D91600F0C8AD /* MiniBeagle.framework */; };
 		C8A5B5D92475D91600F0C8AD /* MiniBeagleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A5B5D82475D91600F0C8AD /* MiniBeagleTests.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C862703F2475E5DB00C33FCB /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		C89011832475DED4009B2B79 /* Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
 		C8A5B5CA2475D91600F0C8AD /* MiniBeagle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MiniBeagle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8A5B5CD2475D91600F0C8AD /* MiniBeagle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MiniBeagle.h; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 				C8A5B5E42475D97A00F0C8AD /* Context.swift */,
 				C8A5B5E52475D97A00F0C8AD /* Decoder.swift */,
 				C89011832475DED4009B2B79 /* Expression.swift */,
+				C862703F2475E5DB00C33FCB /* Util.swift */,
 				C817483B2475DCC8007CC11D /* info */,
 			);
 			path = Sources;
@@ -218,6 +221,7 @@
 			files = (
 				C8A5B5E82475D97A00F0C8AD /* Decoder.swift in Sources */,
 				C8A5B5E92475D97A00F0C8AD /* Components.swift in Sources */,
+				C86270402475E5DB00C33FCB /* Util.swift in Sources */,
 				C8A5B5E72475D97A00F0C8AD /* Context.swift in Sources */,
 				C89011842475DED4009B2B79 /* Expression.swift in Sources */,
 			);

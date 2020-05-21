@@ -54,6 +54,7 @@ struct Expression: Decodable {
             return evaluate(&expression, value)
         }
     }
+
     // verify context?
     func context() -> String? {
         if let node = nodes.first {
@@ -78,6 +79,7 @@ extension Expression: RawRepresentable {
         guard let expression = rawValue.match(pattern: Expression.expression) else {
             return nil
         }
+
         let tokens = expression.matches(pattern: Expression.token)
         self.nodes = tokens.compactMap {
             if let property = $0.match(pattern: Expression.property) {
