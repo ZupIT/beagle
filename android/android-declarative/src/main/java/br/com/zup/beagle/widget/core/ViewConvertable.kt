@@ -26,6 +26,4 @@ interface ViewConvertable : ServerDrivenComponent {
 
     override val beaglePlatform: BeaglePlatform
         get() = BeaglePlatform.ALL
-
-    fun toView(context: Context): View
 }
