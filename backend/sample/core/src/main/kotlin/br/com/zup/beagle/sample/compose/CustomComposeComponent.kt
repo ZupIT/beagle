@@ -20,7 +20,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
 import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.core.Alignment
+import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.ComposeComponent
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
@@ -37,7 +37,7 @@ class CustomComposeComponent : ComposeComponent() {
             )
         ).applyFlex(
             flex = Flex(
-                alignItems = Alignment.CENTER
+                alignItems = AlignItems.CENTER
             )
         )
     }
@@ -47,7 +47,7 @@ class CustomComposeComponent : ComposeComponent() {
             "Beagle framework"
         ).applyFlex(
             flex = Flex(
-                alignItems = Alignment.CENTER,
+                alignItems = AlignItems.CENTER,
                 margin = EdgeValue(
                     top = 16.unitReal(),
                     bottom = 16.unitReal()
