@@ -256,3 +256,13 @@ fun makeUndefinedComponentJson() = """
         "_beagleType_": "custom:component:new"
     }
 """
+
+fun makeBindComponent() = """
+    {
+        "_beagleType_": "custom:component:bindcomponent",
+        "value1": null,
+        "value2": "Hello",
+        "value3": "@{hello}",
+        "value4": {"value1": "hello", "value2": 123}
+    }
+"""
