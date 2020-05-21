@@ -19,6 +19,8 @@ package br.com.zup.beagle.context
 import androidx.collection.LruCache
 import br.com.zup.beagle.action.UpdateContext
 import br.com.zup.beagle.data.serializer.BeagleMoshi
+import br.com.zup.beagle.jsonpath.JsonPathFinder
+import br.com.zup.beagle.jsonpath.JsonPathReplacer
 import br.com.zup.beagle.logger.BeagleMessageLogs
 import com.squareup.moshi.Moshi
 import org.json.JSONArray

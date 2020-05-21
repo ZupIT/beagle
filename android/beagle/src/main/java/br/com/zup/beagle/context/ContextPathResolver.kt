@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.context
 
+import br.com.zup.beagle.jsonpath.JsonPathUtils
 import java.util.LinkedList
 
 class ContextPathResolver {
@@ -29,7 +30,7 @@ class ContextPathResolver {
         val newPath = path.replace(contextId, "")
 
         if (newPath.isEmpty()) {
-            throw JsonPathUtils.createInvalidPathException()
+            throw JsonPathUtils.createInvalidPathException(path)
         } else if (newPath.startsWith(".")) {
             return newPath.replaceFirst(".", "")
         }

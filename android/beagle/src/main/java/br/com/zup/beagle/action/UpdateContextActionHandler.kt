@@ -17,11 +17,10 @@
 package br.com.zup.beagle.action
 
 import android.content.Context
-import br.com.zup.beagle.context.ContextDataManager
 
 internal class UpdateContextActionHandler : DefaultActionHandler<UpdateContext> {
 
     override fun handle(context: Context, action: UpdateContext) {
-//        ContextDataManager.updateContext(action)
+        // TODO: call update context
     }
 }
