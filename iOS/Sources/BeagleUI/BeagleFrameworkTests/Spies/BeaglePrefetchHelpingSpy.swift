@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -16,14 +17,19 @@
 
 import Foundation
 
-// MARK: - Dependecy Protocol
-public protocol DependencyAnalyticsExecutor {
-    var analytics: Analytics? { get }
-}
-
-// MARK: - Executor Protocol
-public protocol Analytics {
-    func trackEventOnScreenAppeared(_ event: AnalyticsScreen)
-    func trackEventOnScreenDisappeared(_ event: AnalyticsScreen)
-    func trackEventOnClick(_ event: AnalyticsClick)
+final class BeaglePrefetchHelpingSpy: BeaglePrefetchHelping {
+    
+    private(set) var prefetched: [String] = []
+    private(set) var dequeued: [String] = []
+    var maximumScreensCapacity = 30
+    
+    func prefetchComponent(newPath: Navigate.NewPath) {
+        
+        prefetched.append(newPath.path)
+    }
+    
+    func dequeueComponent(path: String) -> ServerDrivenComponent? {
+        dequeued.append(path)
+        return nil
+    }
 }

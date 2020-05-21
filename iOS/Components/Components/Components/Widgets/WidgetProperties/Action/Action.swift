@@ -16,14 +16,15 @@
 
 import Foundation
 
-// MARK: - Dependecy Protocol
-public protocol DependencyAnalyticsExecutor {
-    var analytics: Analytics? { get }
+/// Markup to define an action to be triggred in response to some event
+public protocol Action: Decodable {}
+
+/// Defines a representation of an unknwon Action
+public struct UnknownAction: Action {
+    public let type: String
+    
+    public init(type: String) {
+        self.type = type
+    }
 }
 
-// MARK: - Executor Protocol
-public protocol Analytics {
-    func trackEventOnScreenAppeared(_ event: AnalyticsScreen)
-    func trackEventOnScreenDisappeared(_ event: AnalyticsScreen)
-    func trackEventOnClick(_ event: AnalyticsClick)
-}

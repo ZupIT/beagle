@@ -16,7 +16,7 @@
 
 import Foundation
 
-public protocol ComponentWidget {
+public protocol ComponentWidget: RawServerDrivenComponent {
     var widgetProperties: WidgetProperties { get set }
 }
 

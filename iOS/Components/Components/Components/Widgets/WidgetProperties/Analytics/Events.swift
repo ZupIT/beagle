@@ -16,14 +16,11 @@
 
 import Foundation
 
-// MARK: - Dependecy Protocol
-public protocol DependencyAnalyticsExecutor {
-    var analytics: Analytics? { get }
+// MARK: - Events
+public protocol ClickedOnComponent {
+    var clickAnalyticsEvent: AnalyticsClick? { get }
 }
 
-// MARK: - Executor Protocol
-public protocol Analytics {
-    func trackEventOnScreenAppeared(_ event: AnalyticsScreen)
-    func trackEventOnScreenDisappeared(_ event: AnalyticsScreen)
-    func trackEventOnClick(_ event: AnalyticsClick)
+public protocol ScreenEvent {
+    var screenAnalyticsEvent: AnalyticsScreen? { get }
 }

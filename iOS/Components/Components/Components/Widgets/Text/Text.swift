@@ -15,9 +15,8 @@
  */
 
 import UIKit
-import Components
 
-public struct Text: Widget, AutoDecodable {
+public struct Text: ComponentWidget, AutoDecodable {
     
     // MARK: - Public Properties
     public let text: String
@@ -40,8 +39,6 @@ public struct Text: Widget, AutoDecodable {
         self.widgetProperties = widgetProperties
     }
 }
-
-
 
 extension Text {
     public enum Alignment: String, Decodable {

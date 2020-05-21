@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -16,14 +17,13 @@
 
 import Foundation
 
-// MARK: - Dependecy Protocol
-public protocol DependencyAnalyticsExecutor {
-    var analytics: Analytics? { get }
-}
-
-// MARK: - Executor Protocol
-public protocol Analytics {
-    func trackEventOnScreenAppeared(_ event: AnalyticsScreen)
-    func trackEventOnScreenDisappeared(_ event: AnalyticsScreen)
-    func trackEventOnClick(_ event: AnalyticsClick)
+final class ThemeSpy: Theme {
+    
+    private(set) var styledView: UIView?
+    private(set) var styleApplied: String?
+    
+    func applyStyle<T>(for view: T, withId id: String) where T: UIView {
+        styledView = view
+        styleApplied = id
+    }
 }

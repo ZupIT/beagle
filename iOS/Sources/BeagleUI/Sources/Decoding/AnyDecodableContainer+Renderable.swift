@@ -14,16 +14,23 @@
  * limitations under the License.
  */
 
-import Foundation
+import UIKit
+import Components
 
-// MARK: - Dependecy Protocol
-public protocol DependencyAnalyticsExecutor {
-    var analytics: Analytics? { get }
-}
+extension UnknownComponent: Renderable {
+    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+        #if DEBUG
+        let label = UILabel(frame: .zero)
+        label.numberOfLines = 2
+        label.text = "Unknown Component of type:\n \(String(describing: type))"
+        label.textColor = .red
+        label.backgroundColor = .yellow
+        return label
 
-// MARK: - Executor Protocol
-public protocol Analytics {
-    func trackEventOnScreenAppeared(_ event: AnalyticsScreen)
-    func trackEventOnScreenDisappeared(_ event: AnalyticsScreen)
-    func trackEventOnClick(_ event: AnalyticsClick)
+        #else
+        let view = UIView()
+        return view
+
+        #endif
+    }
 }

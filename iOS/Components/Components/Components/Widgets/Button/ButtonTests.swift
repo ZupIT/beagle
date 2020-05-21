@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-import Foundation
+import XCTest
+import SnapshotTesting
+@testable import Components
 
-// MARK: - Dependecy Protocol
-public protocol DependencyAnalyticsExecutor {
-    var analytics: Analytics? { get }
-}
+final class ButtonTests: XCTestCase {
 
-// MARK: - Executor Protocol
-public protocol Analytics {
-    func trackEventOnScreenAppeared(_ event: AnalyticsScreen)
-    func trackEventOnScreenDisappeared(_ event: AnalyticsScreen)
-    func trackEventOnClick(_ event: AnalyticsClick)
+    func test_whenDecodingJson_thenItShouldReturnAButton() throws {
+        let component: Button = try componentFromJsonFile(fileName: "buttonComponent")
+        assertSnapshot(matching: component, as: .dump)
+    }
+    
 }

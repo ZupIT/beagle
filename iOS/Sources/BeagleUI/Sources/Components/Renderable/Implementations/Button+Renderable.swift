@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -16,32 +17,6 @@
 
 import UIKit
 import Components
-
-public struct Button: Widget, ClickedOnComponent, AutoInitiableAndDecodable {
-    
-    // MARK: - Public Properties
-    public let text: String
-    public let style: String?
-    public let action: Action?
-    public var clickAnalyticsEvent: AnalyticsClick?
-    public var widgetProperties: WidgetProperties
-
-// sourcery:inline:auto:Button.Init
-    public init(
-        text: String,
-        style: String? = nil,
-        action: Action? = nil,
-        clickAnalyticsEvent: AnalyticsClick? = nil,
-        widgetProperties: WidgetProperties = WidgetProperties()
-    ) {
-        self.text = text
-        self.style = style
-        self.action = action
-        self.clickAnalyticsEvent = clickAnalyticsEvent
-        self.widgetProperties = widgetProperties
-    }
-// sourcery:end
-}
 
 extension Button: Renderable {
     

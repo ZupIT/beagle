@@ -7,6 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C0E568F82476C7F0003D413F /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E568F22476C7F0003D413F /* Button.swift */; };
+		C0E568F92476C7F0003D413F /* test_whenDecodingJson_thenItShouldReturnAButton.1.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0E568F52476C7F0003D413F /* test_whenDecodingJson_thenItShouldReturnAButton.1.txt */; };
+		C0E5690B2476C873003D413F /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E569062476C873003D413F /* Text.swift */; };
+		C0E5690C2476C879003D413F /* TextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E568FF2476C873003D413F /* TextTests.swift */; };
+		C0E5690F2476C983003D413F /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5690E2476C983003D413F /* Events.swift */; };
+		C0E569112476C9DD003D413F /* AnalyticsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E569102476C9DD003D413F /* AnalyticsModels.swift */; };
+		C0E569122476ED98003D413F /* ButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E568EF2476C7F0003D413F /* ButtonTests.swift */; };
+		C0E5691D2476F12F003D413F /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5691C2476F12F003D413F /* Action.swift */; };
+		C0E569212476F23D003D413F /* AnyDecodableContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E569202476F23D003D413F /* AnyDecodableContainer.swift */; };
+		C0E569292476F583003D413F /* ComponentFromJsonFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E569282476F583003D413F /* ComponentFromJsonFile.swift */; };
+		C0E5692C2476F700003D413F /* RawServerDrivenComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5692B2476F700003D413F /* RawServerDrivenComponent.swift */; };
+		C0E5692E24770105003D413F /* ComponentDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5692D24770105003D413F /* ComponentDecoder.swift */; };
+		C0E5693124770758003D413F /* ComponentDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5693024770758003D413F /* ComponentDependencies.swift */; };
+		C0E5693724770C38003D413F /* ComponentDecoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5693324770C38003D413F /* ComponentDecoderTests.swift */; };
+		C0E5693924771282003D413F /* TextComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = C0E569012476C873003D413F /* TextComponent.json */; };
+		C0E5693D24771346003D413F /* buttonComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = C0E568F12476C7F0003D413F /* buttonComponent.json */; };
 		C0FBBD212475803900B72A9B /* Components.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FBBD172475803900B72A9B /* Components.framework */; };
 		C0FBBD262475803900B72A9B /* ComponentsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FBBD252475803900B72A9B /* ComponentsTests.swift */; };
 		C0FBBD282475803900B72A9B /* Components.h in Headers */ = {isa = PBXBuildFile; fileRef = C0FBBD1A2475803900B72A9B /* Components.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -34,6 +50,24 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C0E568EF2476C7F0003D413F /* ButtonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonTests.swift; sourceTree = "<group>"; };
+		C0E568F12476C7F0003D413F /* buttonComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = buttonComponent.json; sourceTree = "<group>"; };
+		C0E568F22476C7F0003D413F /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
+		C0E568F52476C7F0003D413F /* test_whenDecodingJson_thenItShouldReturnAButton.1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test_whenDecodingJson_thenItShouldReturnAButton.1.txt; sourceTree = "<group>"; };
+		C0E568FF2476C873003D413F /* TextTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextTests.swift; sourceTree = "<group>"; };
+		C0E569012476C873003D413F /* TextComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TextComponent.json; sourceTree = "<group>"; };
+		C0E569042476C873003D413F /* test_whenDecodingJson_shouldReturnAText.1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test_whenDecodingJson_shouldReturnAText.1.txt; sourceTree = "<group>"; };
+		C0E569062476C873003D413F /* Text.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
+		C0E5690E2476C983003D413F /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
+		C0E569102476C9DD003D413F /* AnalyticsModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsModels.swift; sourceTree = "<group>"; };
+		C0E5691C2476F12F003D413F /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
+		C0E569202476F23D003D413F /* AnyDecodableContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyDecodableContainer.swift; sourceTree = "<group>"; };
+		C0E569282476F583003D413F /* ComponentFromJsonFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentFromJsonFile.swift; sourceTree = "<group>"; };
+		C0E5692B2476F700003D413F /* RawServerDrivenComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawServerDrivenComponent.swift; sourceTree = "<group>"; };
+		C0E5692D24770105003D413F /* ComponentDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentDecoder.swift; sourceTree = "<group>"; };
+		C0E5693024770758003D413F /* ComponentDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentDependencies.swift; sourceTree = "<group>"; };
+		C0E5693324770C38003D413F /* ComponentDecoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentDecoderTests.swift; sourceTree = "<group>"; };
+		C0E5693624770C38003D413F /* testIfAllDecodersAreBeingRegistered.1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testIfAllDecodersAreBeingRegistered.1.txt; sourceTree = "<group>"; };
 		C0FBBD172475803900B72A9B /* Components.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Components.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0FBBD1A2475803900B72A9B /* Components.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Components.h; sourceTree = "<group>"; };
 		C0FBBD1B2475803900B72A9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -77,6 +111,160 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C0E568EE2476C7F0003D413F /* Button */ = {
+			isa = PBXGroup;
+			children = (
+				C0E568EF2476C7F0003D413F /* ButtonTests.swift */,
+				C0E568F02476C7F0003D413F /* Json */,
+				C0E568F22476C7F0003D413F /* Button.swift */,
+				C0E568F32476C7F0003D413F /* __Snapshots__ */,
+			);
+			path = Button;
+			sourceTree = "<group>";
+		};
+		C0E568F02476C7F0003D413F /* Json */ = {
+			isa = PBXGroup;
+			children = (
+				C0E568F12476C7F0003D413F /* buttonComponent.json */,
+			);
+			path = Json;
+			sourceTree = "<group>";
+		};
+		C0E568F32476C7F0003D413F /* __Snapshots__ */ = {
+			isa = PBXGroup;
+			children = (
+				C0E568F42476C7F0003D413F /* ButtonTests */,
+			);
+			path = __Snapshots__;
+			sourceTree = "<group>";
+		};
+		C0E568F42476C7F0003D413F /* ButtonTests */ = {
+			isa = PBXGroup;
+			children = (
+				C0E568F52476C7F0003D413F /* test_whenDecodingJson_thenItShouldReturnAButton.1.txt */,
+			);
+			path = ButtonTests;
+			sourceTree = "<group>";
+		};
+		C0E568FD2476C873003D413F /* Text */ = {
+			isa = PBXGroup;
+			children = (
+				C0E568FE2476C873003D413F /* Tests */,
+				C0E569062476C873003D413F /* Text.swift */,
+			);
+			path = Text;
+			sourceTree = "<group>";
+		};
+		C0E568FE2476C873003D413F /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				C0E568FF2476C873003D413F /* TextTests.swift */,
+				C0E569002476C873003D413F /* Json */,
+				C0E569022476C873003D413F /* __Snapshots__ */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		C0E569002476C873003D413F /* Json */ = {
+			isa = PBXGroup;
+			children = (
+				C0E569012476C873003D413F /* TextComponent.json */,
+			);
+			path = Json;
+			sourceTree = "<group>";
+		};
+		C0E569022476C873003D413F /* __Snapshots__ */ = {
+			isa = PBXGroup;
+			children = (
+				C0E569032476C873003D413F /* TextTests */,
+			);
+			path = __Snapshots__;
+			sourceTree = "<group>";
+		};
+		C0E569032476C873003D413F /* TextTests */ = {
+			isa = PBXGroup;
+			children = (
+				C0E569042476C873003D413F /* test_whenDecodingJson_shouldReturnAText.1.txt */,
+			);
+			path = TextTests;
+			sourceTree = "<group>";
+		};
+		C0E5690D2476C974003D413F /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				C0E569102476C9DD003D413F /* AnalyticsModels.swift */,
+				C0E5690E2476C983003D413F /* Events.swift */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
+		C0E5691B2476F124003D413F /* Action */ = {
+			isa = PBXGroup;
+			children = (
+				C0E5691C2476F12F003D413F /* Action.swift */,
+			);
+			path = Action;
+			sourceTree = "<group>";
+		};
+		C0E5691F2476F1E9003D413F /* Decoding */ = {
+			isa = PBXGroup;
+			children = (
+				C0E5693224770C38003D413F /* Tests */,
+				C0E5692D24770105003D413F /* ComponentDecoder.swift */,
+				C0E569202476F23D003D413F /* AnyDecodableContainer.swift */,
+			);
+			path = Decoding;
+			sourceTree = "<group>";
+		};
+		C0E569272476F56C003D413F /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				C0E569282476F583003D413F /* ComponentFromJsonFile.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		C0E5692A2476F6E8003D413F /* ServerDrivenComponent */ = {
+			isa = PBXGroup;
+			children = (
+				C0E5692B2476F700003D413F /* RawServerDrivenComponent.swift */,
+			);
+			path = ServerDrivenComponent;
+			sourceTree = "<group>";
+		};
+		C0E5692F247706BB003D413F /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				C0E5693024770758003D413F /* ComponentDependencies.swift */,
+			);
+			path = Dependencies;
+			sourceTree = "<group>";
+		};
+		C0E5693224770C38003D413F /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				C0E5693324770C38003D413F /* ComponentDecoderTests.swift */,
+				C0E5693424770C38003D413F /* __Snapshots__ */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		C0E5693424770C38003D413F /* __Snapshots__ */ = {
+			isa = PBXGroup;
+			children = (
+				C0E5693524770C38003D413F /* ComponentDecoderTests */,
+			);
+			path = __Snapshots__;
+			sourceTree = "<group>";
+		};
+		C0E5693524770C38003D413F /* ComponentDecoderTests */ = {
+			isa = PBXGroup;
+			children = (
+				C0E5693624770C38003D413F /* testIfAllDecodersAreBeingRegistered.1.txt */,
+			);
+			path = ComponentDecoderTests;
+			sourceTree = "<group>";
+		};
 		C0FBBD0D2475803900B72A9B = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +299,7 @@
 		C0FBBD242475803900B72A9B /* ComponentsTests */ = {
 			isa = PBXGroup;
 			children = (
+				C0E569272476F56C003D413F /* Helpers */,
 				C0FBBD252475803900B72A9B /* ComponentsTests.swift */,
 				C0FBBD272475803900B72A9B /* Info.plist */,
 			);
@@ -128,6 +317,8 @@
 		C0FBBD3424759EF400B72A9B /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
+				C0E568FD2476C873003D413F /* Text */,
+				C0E568EE2476C7F0003D413F /* Button */,
 				C0FBBDF72475C67F00B72A9B /* WidgetProperties */,
 				C0FBBDF42475C53600B72A9B /* Widget.swift */,
 			);
@@ -137,6 +328,9 @@
 		C0FBBDF62475C66D00B72A9B /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				C0E5692F247706BB003D413F /* Dependencies */,
+				C0E5692A2476F6E8003D413F /* ServerDrivenComponent */,
+				C0E5691F2476F1E9003D413F /* Decoding */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -144,6 +338,8 @@
 		C0FBBDF72475C67F00B72A9B /* WidgetProperties */ = {
 			isa = PBXGroup;
 			children = (
+				C0E5691B2476F124003D413F /* Action */,
+				C0E5690D2476C974003D413F /* Analytics */,
 				C0FBBE1D2475CD7E00B72A9B /* Appearance */,
 				C0FBBDF82475C79500B72A9B /* Accessibility */,
 				C0FBBDFC2475C79500B72A9B /* Flex */,
@@ -303,6 +499,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0E568F92476C7F0003D413F /* test_whenDecodingJson_thenItShouldReturnAButton.1.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,6 +507,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0E5693924771282003D413F /* TextComponent.json in Resources */,
+				C0E5693D24771346003D413F /* buttonComponent.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,15 +560,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0E5693124770758003D413F /* ComponentDependencies.swift in Sources */,
+				C0E5690F2476C983003D413F /* Events.swift in Sources */,
 				C0FBBE022475C79600B72A9B /* Accessibility.swift in Sources */,
 				C0FBBE142475C95800B72A9B /* SourceryProtocols.swift in Sources */,
 				C0FBBE132475C95800B72A9B /* AutoDecodable.generated.swift in Sources */,
+				C0E569212476F23D003D413F /* AnyDecodableContainer.swift in Sources */,
 				C0FBBE062475C79600B72A9B /* Flex.swift in Sources */,
+				C0E5692E24770105003D413F /* ComponentDecoder.swift in Sources */,
 				C0FBBDF52475C53600B72A9B /* Widget.swift in Sources */,
 				C0FBBE242475CD7E00B72A9B /* Appearance.swift in Sources */,
 				C0FBBE032475C79600B72A9B /* UnitValue.swift in Sources */,
+				C0E569112476C9DD003D413F /* AnalyticsModels.swift in Sources */,
+				C0E5690B2476C873003D413F /* Text.swift in Sources */,
+				C0E5692C2476F700003D413F /* RawServerDrivenComponent.swift in Sources */,
+				C0E568F82476C7F0003D413F /* Button.swift in Sources */,
 				C0FBBE122475C95800B72A9B /* Equality.generated.swift in Sources */,
 				C0FBBE052475C79600B72A9B /* Size.swift in Sources */,
+				C0E5691D2476F12F003D413F /* Action.swift in Sources */,
 				C0FBBE042475C79600B72A9B /* EdgeValue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -378,7 +586,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0E569122476ED98003D413F /* ButtonTests.swift in Sources */,
 				C0FBBD262475803900B72A9B /* ComponentsTests.swift in Sources */,
+				C0E5690C2476C879003D413F /* TextTests.swift in Sources */,
+				C0E569292476F583003D413F /* ComponentFromJsonFile.swift in Sources */,
+				C0E5693724770C38003D413F /* ComponentDecoderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

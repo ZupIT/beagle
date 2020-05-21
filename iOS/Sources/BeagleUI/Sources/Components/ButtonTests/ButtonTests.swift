@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -16,7 +17,7 @@
 
 import XCTest
 import SnapshotTesting
-@testable import BeagleUI
+@testable import Components
 
 final class ButtonTests: XCTestCase {
 
@@ -28,7 +29,7 @@ final class ButtonTests: XCTestCase {
         let component = Button(text: buttonTitle)
         let context = BeagleContextDummy()
 
-        //When        
+        //When
         guard let button = component.toView(context: context, dependencies: dependencies) as? UIButton else {
             XCTFail("Build View not returning UIButton")
             return
@@ -100,37 +101,4 @@ final class ButtonTests: XCTestCase {
         XCTAssertTrue(context.analyticsEventCalled)
     }
     
-    func test_whenDecodingJson_thenItShouldReturnAButton() throws {
-        let component: Button = try componentFromJsonFile(fileName: "buttonComponent")
-        assertSnapshot(matching: component, as: .dump)
-    }
-    
-}
-
-final class ThemeSpy: Theme {
-    
-    private(set) var styledView: UIView?
-    private(set) var styleApplied: String?
-    
-    func applyStyle<T>(for view: T, withId id: String) where T: UIView {
-        styledView = view
-        styleApplied = id
-    }
-}
-
-final class BeaglePrefetchHelpingSpy: BeaglePrefetchHelping {
-    
-    private(set) var prefetched: [String] = []
-    private(set) var dequeued: [String] = []
-    var maximumScreensCapacity = 30
-    
-    func prefetchComponent(newPath: Navigate.NewPath) {
-        
-        prefetched.append(newPath.path)
-    }
-    
-    func dequeueComponent(path: String) -> ServerDrivenComponent? {
-        dequeued.append(path)
-        return nil
-    }
 }

@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-import Foundation
+import XCTest
+import SnapshotTesting
+@testable import Components
 
-// MARK: - Dependecy Protocol
-public protocol DependencyAnalyticsExecutor {
-    var analytics: Analytics? { get }
-}
+final class TextTests: XCTestCase {
+    
+    func test_whenDecodingJson_shouldReturnAText() throws {
+        let component: Text = try componentFromJsonFile(fileName: "TextComponent")
+        assertSnapshot(matching: component, as: .dump)
+    }
 
-// MARK: - Executor Protocol
-public protocol Analytics {
-    func trackEventOnScreenAppeared(_ event: AnalyticsScreen)
-    func trackEventOnScreenDisappeared(_ event: AnalyticsScreen)
-    func trackEventOnClick(_ event: AnalyticsClick)
 }
