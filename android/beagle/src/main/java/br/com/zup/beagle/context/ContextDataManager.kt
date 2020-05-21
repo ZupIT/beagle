@@ -132,7 +132,8 @@ internal class ContextDataManager(
 
             try {
                 val realValue: Any = if (value is JSONArray || value is JSONObject) {
-                    moshi.adapter<Any>(bind.type).fromJson(value.toString()) ?: throw IllegalStateException("JSON deserialization returned null")
+                    moshi.adapter<Any>(bind.type).fromJson(value.toString()) ?:
+                        throw IllegalStateException("JSON deserialization returned null")
                 } else {
                     value ?: throw IllegalStateException("Expression evaluation returned null")
                 }
