@@ -34,7 +34,7 @@ class CustomInputWidget : InputWidget() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onBind(widget: Widget) {
+    override fun onBind(widget: Widget, view: View) {
         TODO("Not yet implemented")
     }
 }

@@ -42,6 +42,6 @@ internal class UndefinedWidget : InputWidget(), PageIndicatorComponent {
         ActivityRootView(context as AppCompatActivity)
     )
 
-    override fun onBind(widget: Widget) {
+    override fun onBind(widget: Widget, view: View) {
     }
 }

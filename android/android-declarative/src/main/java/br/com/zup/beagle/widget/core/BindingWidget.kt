@@ -16,9 +16,10 @@
 
 package br.com.zup.beagle.widget.core
 
+import android.view.View
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.Widget
 
 interface BindingWidget : ServerDrivenComponent  {
-    fun onBind(widget: Widget)
+    fun onBind(widget: Widget, view: View)
 }

@@ -19,6 +19,7 @@ package br.com.zup.beagle.sample.widgets
 import android.content.Context
 import android.graphics.Color
 import android.text.InputType
+import android.view.View
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.sample.utils.MaskApplier
@@ -80,7 +81,7 @@ data class TextField(
     }
 
 
-    override fun onBind(widget: Widget) {
+    override fun onBind(widget: Widget, view: View) {
         bind(widget as TextField)
     }
 

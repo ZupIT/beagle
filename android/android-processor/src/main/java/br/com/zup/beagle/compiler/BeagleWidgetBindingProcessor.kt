@@ -19,10 +19,13 @@ package br.com.zup.beagle.compiler
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.compiler.util.ANDROID_CONTEXT
 import br.com.zup.beagle.compiler.util.ANDROID_VIEW
+import br.com.zup.beagle.compiler.util.BINDING_ADAPTER
+import br.com.zup.beagle.compiler.util.GET_VALUE_NOT_NULL
+import br.com.zup.beagle.compiler.util.GET_VALUE_NULL
 import br.com.zup.beagle.compiler.util.WIDGET
-import br.com.zup.beagle.compiler.util.WIDGET_VIEW
 import br.com.zup.beagle.compiler.util.error
 import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
@@ -33,7 +36,11 @@ import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 
 class BeagleWidgetBindingProcessor(
-    private val processingEnv: ProcessingEnvironment
+    private val processingEnv: ProcessingEnvironment,
+    private val beagleWidgetBindingGenerator: BeagleWidgetBindingGenerator =
+        BeagleWidgetBindingGenerator(
+            processingEnv
+        )
 ) {
 
     fun process(
@@ -54,10 +61,29 @@ class BeagleWidgetBindingProcessor(
                     val beagleWidgetBindingHandler = BeagleWidgetBindingHandler(it)
                     val typeSpecBuilder = beagleWidgetBindingHandler.createBindingClass(element)
 
-                    typeSpecBuilder.addProperty(getAttributeWidgetInstance("${element.simpleName}"))
-                    typeSpecBuilder.addFunction(getFunctionToView())
+                    typeSpecBuilder.addProperty(getAttributeWidgetInstance(element))
+                    typeSpecBuilder.addProperty(getAttributeView())
+                    typeSpecBuilder.addFunction(getFunctionBuildView())
                     typeSpecBuilder.addFunction(getFunctionOnBind())
-                    val fileSpec = beagleWidgetBindingHandler.getFileSpec(element, typeSpecBuilder.build())
+                        .addFunction(
+                            beagleWidgetBindingGenerator.getFunctionBindModel(element)
+                        )
+                        .addFunction(
+                            beagleWidgetBindingGenerator.getFunctionGetBindAttributes(element)
+                        ).addSuperinterface(ClassName(
+                            BINDING_ADAPTER.packageName,
+                            BINDING_ADAPTER.className
+                        ))
+                    val typeSpec = typeSpecBuilder.build()
+                    val fileSpec = FileSpec.builder(
+                        processingEnv.elementUtils.getPackageAsString(element),
+                        "${element.simpleName}${BeagleWidgetBindingHandler.SUFFIX}"
+                    ).addImport(GET_VALUE_NULL.packageName, GET_VALUE_NULL.className)
+                        .addImport(GET_VALUE_NOT_NULL.packageName, GET_VALUE_NOT_NULL.className)
+                        .addImport(ANDROID_VIEW.packageName, ANDROID_VIEW.className)
+                        .addType(typeSpec)
+                        .build()
+
                     fileSpec.writeTo(processingEnv.filer)
                 } catch (e: IOException) {
                     val errorMessage = "Error when trying to generate code.\n${e.message!!}"
@@ -68,14 +94,16 @@ class BeagleWidgetBindingProcessor(
         }
     }
 
-    private fun getFunctionToView(): FunSpec {
+    private fun getFunctionBuildView(): FunSpec {
 
         val returnType = ClassName(ANDROID_VIEW.packageName, ANDROID_VIEW.className)
 
-        return FunSpec.builder(TO_VIEW_METHOD)
+        return FunSpec.builder(BUILD_VIEW_METHOD)
             .addModifiers(KModifier.OVERRIDE)
             .addParameter(CONTEXT_PROPERTY, ClassName(ANDROID_CONTEXT.packageName, ANDROID_CONTEXT.className))
-            .addStatement("return $WIDGET_INSTANCE_PROPERTY.$TO_VIEW_METHOD($CONTEXT_PROPERTY)")
+            .addStatement("""
+                this.$VIEW_PROPERTY = $WIDGET_INSTANCE_PROPERTY.buildView(context)
+                return this.$VIEW_PROPERTY""")
             .returns(returnType)
             .build()
     }
@@ -85,21 +113,36 @@ class BeagleWidgetBindingProcessor(
         return FunSpec.builder(ON_BIND_METHOD)
             .addModifiers(KModifier.OVERRIDE)
             .addParameter(WIDGET_PROPERTY, ClassName(WIDGET.packageName, WIDGET.className))
-            .addStatement("return $WIDGET_INSTANCE_PROPERTY.$ON_BIND_METHOD($WIDGET_PROPERTY)")
+            .addParameter(VIEW_PROPERTY, ClassName(ANDROID_VIEW.packageName, ANDROID_VIEW.className))
+            .addStatement("return $WIDGET_INSTANCE_PROPERTY.$ON_BIND_METHOD($WIDGET_PROPERTY, $VIEW_PROPERTY)")
             .build()
     }
 
-    private fun getAttributeWidgetInstance(widgetName: String): PropertySpec {
+    private fun getAttributeWidgetInstance(element: Element): PropertySpec {
         return PropertySpec.builder(
             WIDGET_INSTANCE_PROPERTY,
-            ClassName(WIDGET_VIEW.packageName, WIDGET_VIEW.className)
-        ).initializer("$widgetName()").build()
+            ClassName(
+                processingEnv.elementUtils.getPackageAsString(element),
+                "${element.simpleName}"
+            )
+        ).addAnnotation(Transient::class).initializer("${element.simpleName}()").build()
+    }
+
+    private fun getAttributeView(): PropertySpec {
+        return PropertySpec.builder(
+            name = VIEW_PROPERTY,
+            type = ClassName(
+                ANDROID_VIEW.packageName,
+                ANDROID_VIEW.className
+            ),
+            modifiers = *arrayOf(KModifier.LATEINIT)
+        ).mutable(true).addAnnotation(Transient::class).build()
     }
 
     companion object {
-        private const val TO_VIEW_METHOD = "buildView"
+        private const val BUILD_VIEW_METHOD = "buildView"
         private const val ON_BIND_METHOD = "onBind"
-        private const val WIDGET_INSTANCE_PROPERTY = "widgetInstance"
+        private const val VIEW_PROPERTY = "view"
         private const val WIDGET_PROPERTY = "widget"
         private const val CONTEXT_PROPERTY = "context"
     }

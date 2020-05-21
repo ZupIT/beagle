@@ -18,6 +18,7 @@ package br.com.zup.beagle.sample.widgets
 
 import android.content.Context
 import android.graphics.Color
+import android.view.View
 import android.widget.TextView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.Widget
@@ -30,14 +31,11 @@ data class MutableText(
     val color: String = "#000000"
 ) : WidgetView() {
 
-    @Transient
-    private lateinit var widgetView: TextView
-    override fun buildView(context: Context) = TextView(context).apply {
-        widgetView = this
-    }
+    override fun buildView(context: Context) = TextView(context)
 
-    override fun onBind(widget: Widget) {
+    override fun onBind(widget: Widget, view: View) {
         (widget as? MutableText)?.let { widget ->
+            val widgetView: TextView = view as TextView
             val color = Color.parseColor(widget.color)
             widgetView.text = widget.firstText
             widgetView.setTextColor(color)

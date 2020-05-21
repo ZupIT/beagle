@@ -17,6 +17,7 @@
 package br.com.zup.beagle.sample.widgets
 
 import android.content.Context
+import android.view.View
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.widget.Widget
@@ -41,7 +42,7 @@ data class SampleTextField(val placeholder: String = "") : InputWidget() {
         doOnTextChanged { _, _, _, _ -> notifyChanges() }
     }
 
-    override fun onBind(widget: Widget) {
+    override fun onBind(widget: Widget, view: View) {
         (widget as? SampleTextField)?.let {
             textFieldView.hint = it.placeholder
         }

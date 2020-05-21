@@ -31,7 +31,7 @@ data class FieldOnlyWidget(val a: Boolean = true,
         TODO("Not yet implemented")
     }
 
-    override fun onBind(widget: Widget) {
+    override fun onBind(widget: Widget, view: View) {
         TODO("Not yet implemented")
     }
 }

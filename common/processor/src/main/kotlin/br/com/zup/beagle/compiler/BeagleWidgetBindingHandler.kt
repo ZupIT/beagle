@@ -33,8 +33,8 @@ import javax.lang.model.type.TypeMirror
 class BeagleWidgetBindingHandler(processingEnvironment: ProcessingEnvironment, private val outputDirectory: File =
     processingEnvironment.kaptGeneratedDirectory) {
     companion object {
-        private const val SUFFIX = "Binding"
-        private val BINDING_CLASS = ClassName(
+        const val SUFFIX = "Binding"
+        val BINDING_CLASS = ClassName(
             "br.com.zup.beagle.core",
             "Binding"
         )

@@ -27,24 +27,23 @@ import com.squareup.kotlinpoet.asClassName
 import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.Element
 
-private const val WIDGET_PROPERTY = "widget"
-private const val BINDING_PROPERTY = "binding"
-private const val BIND_MODEL_METHOD = "bindModel"
-private const val ADAPTER_SUFFIX = "BindingAdapter"
-private const val GET_VALUE_NULL_METHOD = "getValueNull"
-private const val GET_VALUE_NOT_NULL_METHOD = "getValueNotNull"
-private const val GET_BIND_ATTRIBUTES_METHOD = "getBindAttributes"
+const val WIDGET_INSTANCE_PROPERTY = "widgetInstance"
+const val BINDING_PROPERTY = "binding"
+const val BIND_MODEL_METHOD = "bindModel"
+const val ADAPTER_SUFFIX = "BindingAdapter"
+const val GET_VALUE_NULL_METHOD = "getValueNull"
+const val GET_VALUE_NOT_NULL_METHOD = "getValueNotNull"
+const val GET_BIND_ATTRIBUTES_METHOD = "getBindAttributes"
 
-class BeagleWidgetBindingAdapterGenerator(private val processingEnv: ProcessingEnvironment) {
-    fun getPropertyBinding(element: Element) = addConstructorParameter(element)
+class BeagleWidgetBindingGenerator(private val processingEnv: ProcessingEnvironment) {
 
     fun getPropertyWidget(element: Element): PropertySpec {
         val packageElement = getPackageOf(element)
         val bindingClassName = "${element.simpleName}"
-        return PropertySpec.builder(WIDGET_PROPERTY, ClassName(
+        return PropertySpec.builder(WIDGET_INSTANCE_PROPERTY, ClassName(
             packageElement,
             bindingClassName
-        )).initializer(WIDGET_PROPERTY).build()
+        )).initializer(WIDGET_INSTANCE_PROPERTY).build()
     }
 
     fun getFunctionBindModel(element: Element): FunSpec {
@@ -57,7 +56,7 @@ class BeagleWidgetBindingAdapterGenerator(private val processingEnv: ProcessingE
             val getValueMethodName = if (isNullable) GET_VALUE_NULL_METHOD else GET_VALUE_NOT_NULL_METHOD
 
             val attr = e.fieldName
-            attributeValues.append("\t$attr = ${getValueMethodName}($BINDING_PROPERTY.$attr, $WIDGET_PROPERTY.$attr)")
+            attributeValues.append("\t$attr = ${getValueMethodName}($attr, $WIDGET_INSTANCE_PROPERTY.$attr)")
 
             if (index < constructorParameters.size - 1) {
                 attributeValues.append(",\n")
@@ -67,9 +66,9 @@ class BeagleWidgetBindingAdapterGenerator(private val processingEnv: ProcessingE
         constructorParameters.forEachIndexed { index, e ->
             val attr = e.fieldName
             notifyValues.append("""
-                |$BINDING_PROPERTY.$attr.observes {
+                |$attr.observes {
                 |   myWidget = myWidget.copy($attr = it)
-                |   $WIDGET_PROPERTY.onBind(myWidget)
+                |   $WIDGET_INSTANCE_PROPERTY.onBind(myWidget, view)
                 |}
                 |
             """.trimMargin())
@@ -80,7 +79,7 @@ class BeagleWidgetBindingAdapterGenerator(private val processingEnv: ProcessingE
                 |var myWidget = ${element.simpleName}(
                 |$attributeValues
                 |)
-                |$WIDGET_PROPERTY.onBind(myWidget)
+                |$WIDGET_INSTANCE_PROPERTY.onBind(myWidget, view)
                 |   $notifyValues
                 |""".trimMargin())
             .build()
@@ -90,15 +89,6 @@ class BeagleWidgetBindingAdapterGenerator(private val processingEnv: ProcessingE
         "${element.simpleName}$ADAPTER_SUFFIX"
 
     fun getPackageOf(element: Element) = processingEnv.elementUtils.getPackageOf(element).toString()
-
-    private fun addConstructorParameter(element: Element): PropertySpec {
-        val packageElement = getPackageOf(element)
-        val bindingClassName = "${element.simpleName}Binding"
-        return PropertySpec.builder(BINDING_PROPERTY, ClassName(
-            packageElement,
-            bindingClassName
-        )).initializer(BINDING_PROPERTY).build()
-    }
 
     fun getFunctionGetBindAttributes(element: Element): FunSpec {
 
@@ -110,7 +100,7 @@ class BeagleWidgetBindingAdapterGenerator(private val processingEnv: ProcessingE
 
         val constructorParameters = element.visibleGetters
         constructorParameters.forEachIndexed { index, e ->
-            attributeValues.append("\t$BINDING_PROPERTY.${e.fieldName}")
+            attributeValues.append("\t${e.fieldName}")
             if (index < constructorParameters.size - 1) {
                 attributeValues.append(",\n")
             }
@@ -128,18 +118,6 @@ class BeagleWidgetBindingAdapterGenerator(private val processingEnv: ProcessingE
             .build()
     }
 
-    fun getConstructorParametersSpec(element: Element): FunSpec.Builder {
-        val packageElement = getPackageOf(element)
-        val bindingClassName = "${element.simpleName}Binding"
-        return FunSpec.constructorBuilder()
-            .addParameter(WIDGET_PROPERTY, ClassName(
-                packageElement,
-                element.simpleName.toString()
-            ))
-            .addParameter(BINDING_PROPERTY, ClassName(
-                packageElement,
-                bindingClassName
-            ))
-    }
+
 
 }
