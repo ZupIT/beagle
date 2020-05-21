@@ -63,9 +63,9 @@ data class Flex(
     val direction: Direction? = null, /* = Direction.LTR */
     val flexWrap: FlexWrap? = null, /* = FlexWrap.NO_WRAP */
     val justifyContent: JustifyContent? = null, /* = JustifyContent.FLEX_START */
-    val alignItems: Alignment? = null, /* = Alignment.STRETCH */
-    val alignSelf: Alignment? = null, /* = Alignment.AUTO */
-    val alignContent: Alignment? = null, /* = Alignment.FLEX_START */
+    val alignItems: AlignItems? = null, /* = Alignment.STRETCH */
+    val alignSelf: AlignSelf? = null, /* = Alignment.AUTO */
+    val alignContent: AlignContent? = null, /* = Alignment.FLEX_START */
     val positionType: FlexPositionType? = null, /* = FlexPositionType.RELATIVE */
     val basis: UnitValue? = null, /* = UnitValue(0.0, UnitType.AUTO) */
     val flex: Double? = null, /* = 0.0 */
@@ -293,20 +293,19 @@ enum class JustifyContent {
 }
 
 /**
- * Describes how to align children within the main axis of their container.
- * For example, you can use this property to center a child horizontally
- * within a container with flexDirection set to row or vertically within a container with flexDirection set to column.
+ * Describes how to align distribution of lines along the transverse axis of the container.
+ * For example, you can use this property to center child lines horizontally
+ * inside a container with flexDirection defined as a column or vertically inside a container
+ * with flexDirection defined as a row.
  *
  * @property FLEX_START
  * @property CENTER
  * @property FLEX_END
  * @property SPACE_BETWEEN
  * @property SPACE_AROUND
- * @property BASELINE
- * @property AUTO
  * @property STRETCH
  */
-enum class Alignment {
+enum class AlignContent {
     /**
      * Align wrapped lines to the start of the container's cross axis.
      */
@@ -336,6 +335,41 @@ enum class Alignment {
     SPACE_AROUND,
 
     /**
+     * Stretch wrapped lines to match the height of the container's cross axis.
+     */
+    STRETCH
+}
+
+/**
+ *Describes how to align the children on the container's cross axis.
+ * Align self replaces any parent-defined options with align items.
+ *For example, you can use this property to center a child horizontally
+ *inside a container with flexDirection set to column or vertically inside a container with flexDirection set to row.
+ *
+ * @property FLEX_START
+ * @property CENTER
+ * @property FLEX_END
+ * @property BASELINE
+ * @property AUTO
+ * @property STRETCH
+ */
+enum class AlignSelf {
+    /**
+     * Align wrapped lines to the start of the container's cross axis.
+     */
+    FLEX_START,
+
+    /**
+     * Align wrapped lines in the center of the container's cross axis.
+     */
+    CENTER,
+
+    /**
+     * Align wrapped lines to the end of the container's cross axis.
+     */
+    FLEX_END,
+
+    /**
      * Align children of a container along a common baseline.
      * Individual children can be set to be the reference baseline for their parents.
      */
@@ -345,6 +379,45 @@ enum class Alignment {
      * Computes to the parent's
      */
     AUTO,
+
+    /**
+     * Stretch wrapped lines to match the height of the container's cross axis.
+     */
+    STRETCH
+}
+
+/**
+ * Describes how to align the children on the cross axis of the container.
+ * For example, you can use this property to center a child horizontally
+ * inside a container with flexDirection set to column or vertically inside a container with flexDirection set to row.
+ *
+ * @property FLEX_START
+ * @property CENTER
+ * @property FLEX_END
+ * @property BASELINE
+ * @property STRETCH
+ */
+enum class AlignItems {
+    /**
+     * Align wrapped lines to the start of the container's cross axis.
+     */
+    FLEX_START,
+
+    /**
+     * Align wrapped lines in the center of the container's cross axis.
+     */
+    CENTER,
+
+    /**
+     * Align wrapped lines to the end of the container's cross axis.
+     */
+    FLEX_END,
+
+    /**
+     * Align children of a container along a common baseline.
+     * Individual children can be set to be the reference baseline for their parents.
+     */
+    BASELINE,
 
     /**
      * Stretch wrapped lines to match the height of the container's cross axis.

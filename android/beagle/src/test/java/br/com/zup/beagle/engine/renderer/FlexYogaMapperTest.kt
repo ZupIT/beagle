@@ -16,14 +16,18 @@
 
 package br.com.zup.beagle.engine.renderer
 
-import br.com.zup.beagle.engine.mapper.makeYogaAlign
+import br.com.zup.beagle.engine.mapper.makeYogaAlignContent
+import br.com.zup.beagle.engine.mapper.makeYogaAlignItems
+import br.com.zup.beagle.engine.mapper.makeYogaAlignSelf
 import br.com.zup.beagle.engine.mapper.makeYogaDirection
 import br.com.zup.beagle.engine.mapper.makeYogaDisplay
 import br.com.zup.beagle.engine.mapper.makeYogaFlexDirection
 import br.com.zup.beagle.engine.mapper.makeYogaJustify
 import br.com.zup.beagle.engine.mapper.makeYogaPositionType
 import br.com.zup.beagle.engine.mapper.makeYogaWrap
-import br.com.zup.beagle.widget.core.Alignment
+import br.com.zup.beagle.widget.core.AlignContent
+import br.com.zup.beagle.widget.core.AlignItems
+import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.FlexWrap
 import br.com.zup.beagle.widget.core.Direction
 import br.com.zup.beagle.widget.core.FlexDirection
@@ -37,9 +41,9 @@ import com.facebook.yoga.YogaFlexDirection
 import com.facebook.yoga.YogaJustify
 import com.facebook.yoga.YogaPositionType
 import com.facebook.yoga.YogaWrap
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
-
-import org.junit.Assert.*
 
 class FlexYogaMapperTest {
 
@@ -92,108 +96,240 @@ class FlexYogaMapperTest {
     }
 
     @Test
-    fun makeYogaAlign_should_return_YogaAlign_CENTER_when_Alignment_CENTER() {
+    fun makeYogaAlignContent_should_return_YogaAlign_CENTER_when_AlignContent_CENTER() {
         // Given
-        val alignment = Alignment.CENTER
+        val alignContent = AlignContent.CENTER
 
         // When
-        val actual = makeYogaAlign(alignment)
+        val actual = makeYogaAlignContent(alignContent)
 
         // Then
         assertEquals(YogaAlign.CENTER, actual)
     }
 
     @Test
-    fun makeYogaAlign_should_return_YogaAlign_FLEX_START_when_Alignment_FLEX_START() {
+    fun makeYogaAlignContent_should_return_YogaAlign_FLEX_START_when_AlignContent_FLEX_START() {
         // Given
-        val alignment = Alignment.FLEX_START
+        val alignContent = AlignContent.FLEX_START
 
         // When
-        val actual = makeYogaAlign(alignment)
+        val actual = makeYogaAlignContent(alignContent)
 
         // Then
         assertEquals(YogaAlign.FLEX_START, actual)
     }
 
     @Test
-    fun makeYogaAlign_should_return_YogaAlign_FLEX_END_when_Alignment_FLEX_END() {
+    fun makeYogaAlignContent_should_return_YogaAlign_FLEX_END_when_AlignContent_FLEX_END() {
         // Given
-        val alignment = Alignment.FLEX_END
+        val alignContent = AlignContent.FLEX_END
 
         // When
-        val actual = makeYogaAlign(alignment)
+        val actual = makeYogaAlignContent(alignContent)
 
         // Then
         assertEquals(YogaAlign.FLEX_END, actual)
     }
 
     @Test
-    fun makeYogaAlign_should_return_YogaAlign_SPACE_BETWEEN_when_Alignment_SPACE_BETWEEN() {
+    fun makeYogaAlignContent_should_return_YogaAlign_SPACE_BETWEEN_when_AlignContent_SPACE_BETWEEN() {
         // Given
-        val alignment = Alignment.SPACE_BETWEEN
+        val alignContent = AlignContent.SPACE_BETWEEN
 
         // When
-        val actual = makeYogaAlign(alignment)
+        val actual = makeYogaAlignContent(alignContent)
 
         // Then
         assertEquals(YogaAlign.SPACE_BETWEEN, actual)
     }
 
     @Test
-    fun makeYogaAlign_should_return_YogaAlign_SPACE_AROUND_when_Alignment_SPACE_AROUND() {
+    fun makeYogaAlignContent_should_return_YogaAlign_SPACE_AROUND_when_AlignContent_SPACE_AROUND() {
         // Given
-        val alignment = Alignment.SPACE_AROUND
+        val alignContent = AlignContent.SPACE_AROUND
 
         // When
-        val actual = makeYogaAlign(alignment)
+        val actual = makeYogaAlignContent(alignContent)
 
         // Then
         assertEquals(YogaAlign.SPACE_AROUND, actual)
     }
 
     @Test
-    fun makeYogaAlign_should_return_YogaAlign_BASELINE_when_Alignment_BASELINE() {
+    fun makeYogaAlignContent_should_return_YogaAlign_STRETCH_when_AlignContent_STRETCH() {
         // Given
-        val alignment = Alignment.BASELINE
+        val alignContent = AlignContent.STRETCH
 
         // When
-        val actual = makeYogaAlign(alignment)
-
-        // Then
-        assertEquals(YogaAlign.BASELINE, actual)
-    }
-
-    @Test
-    fun makeYogaAlign_should_return_YogaAlign_AUTO_when_Alignment_AUTO() {
-        // Given
-        val alignment = Alignment.AUTO
-
-        // When
-        val actual = makeYogaAlign(alignment)
-
-        // Then
-        assertEquals(YogaAlign.AUTO, actual)
-    }
-
-    @Test
-    fun makeYogaAlign_should_return_YogaAlign_STRETCH_when_Alignment_STRETCH() {
-        // Given
-        val alignment = Alignment.STRETCH
-
-        // When
-        val actual = makeYogaAlign(alignment)
+        val actual = makeYogaAlignContent(alignContent)
 
         // Then
         assertEquals(YogaAlign.STRETCH, actual)
     }
 
     @Test
-    fun makeYogaAlign_should_return_null_when_Alignment_is_null() {
+    fun makeYogaAlignContent_should_return_null_when_AlignContent_is_null() {
         // Given
-        val alignment: Alignment? = null
+        val alignContent: AlignContent? = null
 
         // When
-        val actual = makeYogaAlign(alignment)
+        val actual = makeYogaAlignContent(alignContent)
+
+        // Then
+        assertNull(actual)
+    }
+
+    @Test
+    fun makeYogaAlignItems_should_return_YogaAlign_CENTER_when_AlignItems_CENTER(){
+        // Given
+        val alignItems = AlignItems.CENTER
+
+        // When
+       val actual = makeYogaAlignItems(alignItems)
+
+        // Then
+       assertEquals(YogaAlign.CENTER,actual)
+    }
+
+    @Test
+    fun makeYogaAlignItems_should_return_YogaAlign_FLEX_START_when_AlignItems_FLEX_START(){
+        // Given
+        val alignItems = AlignItems.FLEX_START
+
+        // When
+        val actual = makeYogaAlignItems(alignItems)
+
+        // Then
+        assertEquals(YogaAlign.FLEX_START,actual)
+    }
+
+    @Test
+    fun makeYogaAlignItems_should_return_YogaAlign_FLEX_END_when_AlignItems_FLEX_END(){
+        // Given
+        val alignItems = AlignItems.FLEX_END
+
+        // When
+        val actual = makeYogaAlignItems(alignItems)
+
+        // Then
+        assertEquals(YogaAlign.FLEX_END,actual)
+    }
+
+    @Test
+    fun makeYogaAlignItems_should_return_YogaAlign_BASELINE_when_AlignItems_BASELINE(){
+        // Given
+        val alignItems = AlignItems.BASELINE
+
+        // When
+        val actual = makeYogaAlignItems(alignItems)
+
+        // Then
+        assertEquals(YogaAlign.BASELINE,actual)
+    }
+
+    @Test
+    fun makeYogaAlignItems_should_return_YogaAlign_STRETCH_when_AlignItems_STRETCH(){
+        // Given
+        val alignItems = AlignItems.STRETCH
+
+        // When
+        val actual = makeYogaAlignItems(alignItems)
+
+        // Then
+        assertEquals(YogaAlign.STRETCH,actual)
+    }
+
+    @Test
+    fun makeYogaAlignItems_should_return_null_when_AlignItems_is_null() {
+        // Given
+        val alignItems: AlignItems? = null
+
+        // When
+        val actual = makeYogaAlignItems(alignItems)
+
+        // Then
+        assertNull(actual)
+    }
+
+    @Test
+    fun makeYogaAlignSelf_should_return_YogaAlign_STRETCH_when_AlignSelf_STRETCH(){
+        // Given
+        val alignSelf = AlignSelf.STRETCH
+
+        // When
+        val actual = makeYogaAlignSelf(alignSelf)
+
+        // Then
+        assertEquals(YogaAlign.STRETCH,actual)
+    }
+
+    @Test
+    fun makeYogaAlignSelf_should_return_YogaAlign_AUTO_when_AlignSelf_AUTO(){
+        // Given
+        val alignSelf = AlignSelf.AUTO
+
+        // When
+        val actual = makeYogaAlignSelf(alignSelf)
+
+        // Then
+        assertEquals(YogaAlign.AUTO,actual)
+    }
+
+    @Test
+    fun makeYogaAlignSelf_should_return_YogaAlign_BASELINE_when_AlignSelf_BASELINE(){
+        // Given
+        val alignSelf = AlignSelf.BASELINE
+
+        // When
+        val actual = makeYogaAlignSelf(alignSelf)
+
+        // Then
+        assertEquals(YogaAlign.BASELINE,actual)
+    }
+
+    @Test
+    fun makeYogaAlignSelf_should_return_YogaAlign_FLEX_END_when_AlignSelf_FLEX_END(){
+        // Given
+        val alignSelf = AlignSelf.FLEX_END
+
+        // When
+        val actual = makeYogaAlignSelf(alignSelf)
+
+        // Then
+        assertEquals(YogaAlign.FLEX_END,actual)
+    }
+
+    @Test
+    fun makeYogaAlignSelf_should_return_YogaAlign_CENTER_when_AlignSelf_CENTER(){
+        // Given
+        val alignSelf = AlignSelf.CENTER
+
+        // When
+        val actual = makeYogaAlignSelf(alignSelf)
+
+        // Then
+        assertEquals(YogaAlign.CENTER,actual)
+    }
+
+    @Test
+    fun makeYogaAlignSelf_should_return_YogaAlign_FLEX_START_when_AlignSelf_FLEX_START(){
+        // Given
+        val alignSelf = AlignSelf.FLEX_START
+
+        // When
+        val actual = makeYogaAlignSelf(alignSelf)
+
+        // Then
+        assertEquals(YogaAlign.FLEX_START,actual)
+    }
+
+    @Test
+    fun makeYogaAlignSelf_should_return_null_when_AlignSelf_is_null() {
+        // Given
+        val alignSelf: AlignSelf? = null
+
+        // When
+        val actual = makeYogaAlignSelf(alignSelf)
 
         // Then
         assertNull(actual)
@@ -202,10 +338,10 @@ class FlexYogaMapperTest {
     @Test
     fun makeYogaJustify_should_return_YogaJustify_FLEX_START_when_JustifyContent_FLEX_START() {
         // Given
-        val alignment = JustifyContent.FLEX_START
+        val justifyContent = JustifyContent.FLEX_START
 
         // When
-        val actual = makeYogaJustify(alignment)
+        val actual = makeYogaJustify(justifyContent)
 
         // Then
         assertEquals(YogaJustify.FLEX_START, actual)
@@ -214,10 +350,10 @@ class FlexYogaMapperTest {
     @Test
     fun makeYogaJustify_should_return_YogaJustify_CENTER_when_JustifyContent_CENTER() {
         // Given
-        val alignment = JustifyContent.CENTER
+        val justifyContent = JustifyContent.CENTER
 
         // When
-        val actual = makeYogaJustify(alignment)
+        val actual = makeYogaJustify(justifyContent)
 
         // Then
         assertEquals(YogaJustify.CENTER, actual)
@@ -226,10 +362,10 @@ class FlexYogaMapperTest {
     @Test
     fun makeYogaJustify_should_return_YogaJustify_FLEX_END_when_JustifyContent_FLEX_END() {
         // Given
-        val alignment = JustifyContent.FLEX_END
+        val justifyContent = JustifyContent.FLEX_END
 
         // When
-        val actual = makeYogaJustify(alignment)
+        val actual = makeYogaJustify(justifyContent)
 
         // Then
         assertEquals(YogaJustify.FLEX_END, actual)
@@ -238,10 +374,10 @@ class FlexYogaMapperTest {
     @Test
     fun makeYogaJustify_should_return_YogaJustify_SPACE_BETWEEN_when_JustifyContent_SPACE_BETWEEN() {
         // Given
-        val alignment = JustifyContent.SPACE_BETWEEN
+        val justifyContent = JustifyContent.SPACE_BETWEEN
 
         // When
-        val actual = makeYogaJustify(alignment)
+        val actual = makeYogaJustify(justifyContent)
 
         // Then
         assertEquals(YogaJustify.SPACE_BETWEEN, actual)
@@ -250,10 +386,10 @@ class FlexYogaMapperTest {
     @Test
     fun makeYogaJustify_should_return_YogaJustify_SPACE_AROUND_when_JustifyContent_SPACE_AROUND() {
         // Given
-        val alignment = JustifyContent.SPACE_AROUND
+        val justifyContent = JustifyContent.SPACE_AROUND
 
         // When
-        val actual = makeYogaJustify(alignment)
+        val actual = makeYogaJustify(justifyContent)
 
         // Then
         assertEquals(YogaJustify.SPACE_AROUND, actual)
@@ -262,10 +398,10 @@ class FlexYogaMapperTest {
     @Test
     fun makeYogaJustify_should_return_YogaJustify_SPACE_EVENLY_when_JustifyContent_SPACE_EVENLY() {
         // Given
-        val alignment = JustifyContent.SPACE_EVENLY
+        val justifyContent = JustifyContent.SPACE_EVENLY
 
         // When
-        val actual = makeYogaJustify(alignment)
+        val actual = makeYogaJustify(justifyContent)
 
         // Then
         assertEquals(YogaJustify.SPACE_EVENLY, actual)

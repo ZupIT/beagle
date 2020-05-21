@@ -17,7 +17,7 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
-import br.com.zup.beagle.widget.core.Alignment
+import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.layout.NavigationBar
@@ -37,7 +37,7 @@ object ClickActionScreenBuilder : ScreenBuilder {
         ).applyFlex(
             flex = Flex(
                 justifyContent = JustifyContent.CENTER,
-                alignItems = Alignment.CENTER
+                alignItems = AlignItems.CENTER
             )
         )
     )

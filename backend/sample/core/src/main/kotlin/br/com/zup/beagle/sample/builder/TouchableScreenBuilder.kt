@@ -25,7 +25,7 @@ import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_STYLE
 import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.core.Alignment
+import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
@@ -78,7 +78,7 @@ object TouchableScreenBuilder : ScreenBuilder {
                 ),
                 child = item.applyFlex(
                     flex = Flex(
-                        alignSelf = Alignment.CENTER,
+                        alignSelf = AlignSelf.CENTER,
                         margin = EdgeValue(
                             top = 8.unitReal(),
                             bottom = 8.unitReal()
@@ -94,7 +94,7 @@ object TouchableScreenBuilder : ScreenBuilder {
         style = SCREEN_TEXT_STYLE
     ).applyFlex(
         flex = Flex(
-            alignSelf = Alignment.CENTER,
+            alignSelf = AlignSelf.CENTER,
             margin = EdgeValue(
                 top = 8.unitReal()
             )
@@ -113,7 +113,7 @@ object TouchableScreenBuilder : ScreenBuilder {
                             width = 150.unitReal(),
                             height = 130.unitReal()
                         ),
-                        alignSelf = Alignment.CENTER
+                        alignSelf = AlignSelf.CENTER
                     )
                 ),
                 action = Navigate(
