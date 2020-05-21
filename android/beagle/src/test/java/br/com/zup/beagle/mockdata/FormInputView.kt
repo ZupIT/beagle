@@ -29,7 +29,7 @@ class CustomInputWidget : InputWidget() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun toView(context: Context): View {
+    override fun buildView(context: Context): View {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

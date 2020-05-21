@@ -16,7 +16,7 @@
 
 import UIKit
 
-public struct ScrollView: AppearanceComponent {
+public struct ScrollView: AppearanceComponent, ServerDrivenComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
     
@@ -24,9 +24,8 @@ public struct ScrollView: AppearanceComponent {
     public let scrollDirection: ScrollAxis?
     public let scrollBarEnabled: Bool?
     public let appearance: Appearance?
-    
-    // MARK: - Initialization
 
+// sourcery:inline:auto:ScrollView.Init
     public init(
         children: [ServerDrivenComponent],
         scrollDirection: ScrollAxis? = nil,
@@ -38,7 +37,7 @@ public struct ScrollView: AppearanceComponent {
         self.scrollBarEnabled = scrollBarEnabled
         self.appearance = appearance
     }
-    
+// sourcery:end
 }
 
 public enum ScrollAxis: String, Decodable {
@@ -52,23 +51,6 @@ public enum ScrollAxis: String, Decodable {
         case .horizontal:
             return .row
         }
-    }
-}
-
-extension ScrollView: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case children
-        case scrollDirection
-        case scrollBarEnabled
-        case appearance
-    }
-    
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.children = try container.decode(forKey: .children)
-        self.scrollDirection = try container.decodeIfPresent(ScrollAxis.self, forKey: .scrollDirection)
-        self.scrollBarEnabled = try container.decodeIfPresent(Bool.self, forKey: .scrollBarEnabled)
-        self.appearance = try container.decodeIfPresent(Appearance.self, forKey: .appearance)
     }
 }
 

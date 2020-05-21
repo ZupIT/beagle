@@ -48,6 +48,7 @@ class DisabledFormSubmitFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val declarative = makeCharade(
             CharadeInput(
                 name = "mary",

@@ -21,5 +21,5 @@ import android.view.View
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 interface ViewConvertable : ServerDrivenComponent {
-    fun toView(context: Context): View
+    fun buildView(context: Context): View
 }

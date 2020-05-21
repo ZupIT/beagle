@@ -19,6 +19,16 @@ package br.com.zup.beagle.widget.layout
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+/**
+ *  The horizontal component is a specialized container that will display its children horizontally.
+ *
+ * @param children define a list of components to be displayed on this view
+ * @param reversed
+ *                   The reversed attribute will change the children display direction.
+ *                   By default it is set as null and it will display components from LEFT to RIGHT.
+ *                   If you set this attribute to TRUE the display orientation will change from RIGHT to LEFT.
+ *
+ */
 data class Horizontal(
     val children: List<ServerDrivenComponent>,
     val reversed: Boolean? = null

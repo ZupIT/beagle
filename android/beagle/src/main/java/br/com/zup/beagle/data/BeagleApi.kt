@@ -50,11 +50,11 @@ internal class BeagleApi(
                     BeagleMessageLogs.logHttpResponseData(response)
                     cont.resume(response)
                 }, onError = { error ->
-                    BeagleMessageLogs.logUnknownHttpError(error)
-                    cont.resumeWithException(
-                        BeagleException(error.message ?: genericErrorMessage(screenRequest.url), error)
-                    )
-                })
+                BeagleMessageLogs.logUnknownHttpError(error)
+                cont.resumeWithException(
+                    BeagleException(error.message ?: genericErrorMessage(screenRequest.url), error)
+                )
+            })
             cont.invokeOnCancellation {
                 call.cancel()
             }

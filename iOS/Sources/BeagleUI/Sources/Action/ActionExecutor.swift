@@ -70,18 +70,14 @@ final class ActionExecuting: ActionExecutor {
     
     private func customAction(_ action: CustomAction, context: BeagleContext) {
         dependencies.customActionHandler?.handle(context: context, action: action) {
-            guard let model = (context as? BeagleScreenViewController)?.viewModel else {
-                assertionFailure("if this happens, it needs to be changed because context is not screen anymore"); return
-            }
-
             switch $0 {
             case .start:
-                model.state = .loading
+                context.screenController.viewModel.state = .loading
             case .error(let error):
-                model.state = .failure(.action(error))
-            case .success(action: let action):
-                model.state = .rendered
-                doAction(action, sender: self, context: context)
+                context.screenController.viewModel.state = .failure(.action(error))
+            case .success(let action):
+                context.screenController.viewModel.state = .success
+                self.doAction(action, sender: self, context: context)
             }
         }
     }

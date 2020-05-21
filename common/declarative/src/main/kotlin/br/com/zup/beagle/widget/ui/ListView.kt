@@ -20,13 +20,41 @@ import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.Widget
 
+/**
+ * The direction attribute will define the list direction.
+ *
+ * @property VERTICAL
+ * @property HORIZONTAL
+ *
+ */
 enum class ListDirection {
+    /**
+     * Items list are displayed in vertical direction like LINES.
+     *
+     */
     VERTICAL,
+
+    /**
+     * Items list are displayed in Horizontal direction like COLUMNS.
+     *
+     */
     HORIZONTAL
 }
 
+/**
+ * Represent a view in list
+ *
+ */
 typealias RowBuilder = (index: Int) -> Widget
 
+/**
+ * ListView is a Layout component that will define a list of views natively.
+ * These views could be any Server Driven Component.
+ *
+ * @param rows define the items on the list view.
+ * @param direction define the list direction.
+ *
+ */
 data class ListView(
     val rows: List<ServerDrivenComponent>,
     val direction: ListDirection = ListDirection.VERTICAL

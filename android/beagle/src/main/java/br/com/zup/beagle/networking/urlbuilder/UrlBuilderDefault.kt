@@ -18,13 +18,28 @@ package br.com.zup.beagle.networking.urlbuilder
 
 internal class UrlBuilderDefault : UrlBuilder {
 
-    override fun format(endpoint: String, path: String): String {
-        if (isRelativePath(path)) {
-            return endpoint + path
-        } else {
-            return path
+    override fun format(endpoint: String?, path: String): String? {
+        return when {
+            path.isEmpty() -> null
+            endpointIsNullAndHasAPath(endpoint, path) -> path
+            endpointIsNullAndHasNotAPath(endpoint, path) -> null
+            endpoint?.takeLast(1) == "/" && path.take(1) == "/" -> endpoint + path.takeLast(path.length - 1)
+            endpoint?.takeLast(1) == "/" && path == "/" -> endpoint
+            endpoint?.takeLast(1) != "/" && path == "/" -> endpoint + path
+            isRelativePath(path) -> endpoint + path
+            else -> path
         }
     }
+
+    private fun endpointIsNullAndHasNotAPath(
+        endpoint: String?,
+        path: String
+    ) = endpoint.isNullOrEmpty() && (path == "/" || path.isEmpty())
+
+    private fun endpointIsNullAndHasAPath(
+        endpoint: String?,
+        path: String
+    ) = endpoint.isNullOrEmpty() && path != "/" && path.isNotEmpty()
 
     private fun isRelativePath(path: String): Boolean {
         return path.startsWith("/")

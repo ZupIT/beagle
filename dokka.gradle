@@ -1,3 +1,5 @@
+apply plugin: 'org.jetbrains.dokka'
+
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,15 +16,15 @@
  * limitations under the License.
  */
 
+/**
+ * See https://github.com/Kotlin/dokka
+ */
+dokka {
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/javadoc"
+}
 
-import UIKit
-
-final class ActionGestureRecognizer: UITapGestureRecognizer {
-    
-    let action: Action
-    
-    init(action: Action, target: Any?, selector: Selector?) {
-        self.action = action
-        super.init(target: target, action: selector)
-    }
+task dokkaJar(type: Jar) {
+    classifier = 'javadoc'
+    from dokka
 }
