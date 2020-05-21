@@ -95,18 +95,14 @@ extension FormInput {
 extension Image {
 
     enum CodingKeys: String, CodingKey {
-        case url
-        case name
-        case typePathImage
+        case path
         case contentMode
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        url = try container.decodeIfPresent(String.self, forKey: .url)
-        name = try container.decodeIfPresent(String.self, forKey: .name)
-        typePathImage = try container.decode(TypePathImage.self, forKey: .typePathImage)
+        path = try container.decode(TypePathImage.self, forKey: .path)
         contentMode = try container.decodeIfPresent(ImageContentMode.self, forKey: .contentMode)
         widgetProperties = try WidgetProperties(from: decoder)
     }

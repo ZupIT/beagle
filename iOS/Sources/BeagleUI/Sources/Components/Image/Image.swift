@@ -19,33 +19,16 @@ import UIKit
 public struct Image: Widget, AutoDecodable {
     
     // MARK: - Public Properties
-    
-    public let url: String?
-    public let name: String?
-    public let typePathImage: TypePathImage
+    public let path: TypePathImage
     public let contentMode: ImageContentMode?
     public var widgetProperties: WidgetProperties
     
     public init(
-        url: String,
+        _ path: TypePathImage,
         contentMode: ImageContentMode? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
-        self.url = url
-        self.name = nil
-        self.typePathImage = .network
-        self.contentMode = contentMode
-        self.widgetProperties = widgetProperties
-    }
-    
-    public init(
-        name: String,
-        contentMode: ImageContentMode? = nil,
-        widgetProperties: WidgetProperties = WidgetProperties()
-    ) {
-        self.url = nil
-        self.name = name
-        self.typePathImage = .local
+        self.path = path
         self.contentMode = contentMode
         self.widgetProperties = widgetProperties
     }
@@ -59,26 +42,37 @@ extension Image: Renderable {
         image.contentMode = (contentMode ?? .fitCenter).toUIKit()
         
         image.beagle.setup(self)
-        switch typePathImage {
-        case .local:
-            if let name = name {
-                image.setImageFromAsset(named: name, bundle: dependencies.appBundle)
-            } else {
-                dependencies.logger.log(Log.image(.withoutName))
-            }
-        case .network:
-            if let url = url {
-                image.setRemoteImage(from: url, context: context, dependencies: dependencies)
-            } else {
-                dependencies.logger.log(Log.image(.withoutURL))
-            }
+        switch path {
+        case .local(let name):
+            image.setImageFromAsset(named: name, bundle: dependencies.appBundle)
+        case .network(let url):
+            image.setRemoteImage(from: url, context: context, dependencies: dependencies)
         }
         
         return image
     }
 }
 
-public enum TypePathImage: String, Codable {
-    case network
-    case local
+public enum TypePathImage: Decodable {
+    case network(String)
+    case local(String)
+    
+    enum CodingKeys: String, CodingKey {
+        case type = "_beagleImagePath_"
+        case url
+        case mobileId
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        let type = try container.decode(String.self, forKey: .type)
+        if type == "local" {
+            let mobileId = try container.decode(String.self, forKey: .mobileId)
+            self = .local(mobileId)
+        } else {
+            let url = try container.decode(String.self, forKey: .url)
+            self = .network(url)
+        }
+    }
 }
