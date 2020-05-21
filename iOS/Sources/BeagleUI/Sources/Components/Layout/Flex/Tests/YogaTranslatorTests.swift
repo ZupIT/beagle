@@ -56,85 +56,177 @@ final class YogaTranslatorTests: XCTestCase {
         XCTAssertEqual(expectedYogaWrap, wrapTranslated, "Expected wrapReverse type of YGWrap, but got \(String(describing: type(of: wrapTranslated.self)))")
     }
     
-    // MARK: - Alignment Tests
-    func test_translateWhenAutoAlignment_shouldReturnAutoYGAlign() {
+    // MARK: - AlignItems Tests
+       func test_translateWhenBaselineAlignItems_shouldReturnBaselineYGAlign() {
+           // Given
+           let expectedYogaAlign: YGAlign = .baseline
+           let baselineAlignItems: Flex.AlignItems = .baseline
+           // When
+           let alignItemsTranslated = yogaTranslator.translate(baselineAlignItems)
+           // Then
+           XCTAssertEqual(expectedYogaAlign, alignItemsTranslated, "Expected baseline type of YGAlign, but got \(String(describing: type(of: alignItemsTranslated.self)))")
+       }
+       
+       func test_translateWhenCenterAlignItems_shouldReturnCenterYGAlign() {
+           // Given
+           let expectedYogaAlign: YGAlign = .center
+           let centerAlignItems: Flex.AlignItems = .center
+           // When
+           let alignItemsTranslated = yogaTranslator.translate(centerAlignItems)
+           // Then
+           XCTAssertEqual(expectedYogaAlign, alignItemsTranslated, "Expected center type of YGAlign, but got \(String(describing: type(of: alignItemsTranslated.self)))")
+       }
+       
+       func test_translateWhenFlexStartAlignItems_shouldReturnFlexStartYGAlign() {
+           // Given
+           let expectedYogaAlign: YGAlign = .flexStart
+           let flexStartAlignItems: Flex.AlignItems = .flexStart
+           // When
+           let alignItemsTranslated = yogaTranslator.translate(flexStartAlignItems)
+           // Then
+           XCTAssertEqual(expectedYogaAlign, alignItemsTranslated, "Expected flexStart type of YGAlign, but got \(String(describing: type(of: alignItemsTranslated.self)))")
+       }
+       
+       func test_translateWhenFlexEndAlignItems_shouldReturnFlexEndYGAlign() {
+           // Given
+           let expectedYogaAlign: YGAlign = .flexEnd
+           let flexEndAlignItems: Flex.AlignItems = .flexEnd
+           // When
+           let alignItemsTranslated = yogaTranslator.translate(flexEndAlignItems)
+           // Then
+           XCTAssertEqual(expectedYogaAlign, alignItemsTranslated, "Expected flexEnd type of YGAlign, but got \(String(describing: type(of: alignItemsTranslated.self)))")
+       }
+       
+       func test_translateWhenStretchAlignItems_shouldReturnStretchYGAlign() {
+           // Given
+           let expectedYogaAlign: YGAlign = .stretch
+           let stretchAlignItems: Flex.AlignItems = .stretch
+           // When
+           let alignItemsTranslated = yogaTranslator.translate(stretchAlignItems)
+           // Then
+           XCTAssertEqual(expectedYogaAlign, alignItemsTranslated, "Expected stretch type of YGAlign, but got \(String(describing: type(of: alignItemsTranslated.self)))")
+       }
+    
+    // MARK: - AlignSelf Tests
+    func test_translateWhenAutoAlignSelf_shouldReturnAutoYGAlign() {
         // Given
         let expectedYogaAlign: YGAlign = .auto
-        let flexAlignment: Flex.Alignment = .auto
+        let autoAlignSelf: Flex.AlignSelf = .auto
         // When
-        let alignTranslated = yogaTranslator.translate(flexAlignment)
+        let alignSelfTranslated = yogaTranslator.translate(autoAlignSelf)
         // Then
-        XCTAssertEqual(expectedYogaAlign, alignTranslated, "Expected auto type of YGAlign, but got \(String(describing: type(of: alignTranslated.self)))")
+        XCTAssertEqual(expectedYogaAlign, alignSelfTranslated, "Expected auto type of YGAlign, but got \(String(describing: type(of: alignSelfTranslated.self)))")
     }
     
-    func test_translateWhenBaselineAlignment_shouldReturnBaselineYGAlign() {
+    func test_translateWhenBaselineAlignSelf_shouldReturnBaselineYGAlign() {
         // Given
         let expectedYogaAlign: YGAlign = .baseline
-        let flexAlignment: Flex.Alignment = .baseline
+        let baselineAlignSelf: Flex.AlignSelf = .baseline
         // When
-        let alignTranslated = yogaTranslator.translate(flexAlignment)
+        let alignSelfTranslated = yogaTranslator.translate(baselineAlignSelf)
         // Then
-        XCTAssertEqual(expectedYogaAlign, alignTranslated, "Expected baseline type of YGAlign, but got \(String(describing: type(of: alignTranslated.self)))")
+        XCTAssertEqual(expectedYogaAlign, alignSelfTranslated, "Expected baseline type of YGAlign, but got \(String(describing: type(of: alignSelfTranslated.self)))")
     }
     
-    func test_translateWhenCenterAlignment_shouldReturnCenterYGAlign() {
+    func test_translateWhenCenterAlignSelf_shouldReturnCenterYGAlign() {
         // Given
         let expectedYogaAlign: YGAlign = .center
-        let flexAlignment: Flex.Alignment = .center
+        let centerAlignSelf: Flex.AlignSelf = .center
         // When
-        let alignTranslated = yogaTranslator.translate(flexAlignment)
+        let alignSelfTranslated = yogaTranslator.translate(centerAlignSelf)
         // Then
-        XCTAssertEqual(expectedYogaAlign, alignTranslated, "Expected center type of YGAlign, but got \(String(describing: type(of: alignTranslated.self)))")
+        XCTAssertEqual(expectedYogaAlign, alignSelfTranslated, "Expected center type of YGAlign, but got \(String(describing: type(of: alignSelfTranslated.self)))")
     }
     
-    func test_translateWhenFlexStartAlignment_shouldReturnFlexStartYGAlign() {
+    func test_translateWhenFlexStartAlignSelf_shouldReturnFlexStartYGAlign() {
         // Given
         let expectedYogaAlign: YGAlign = .flexStart
-        let flexAlignment: Flex.Alignment = .flexStart
+        let flexStartAlignSelf: Flex.AlignSelf = .flexStart
         // When
-        let alignTranslated = yogaTranslator.translate(flexAlignment)
+        let alignSelfTranslated = yogaTranslator.translate(flexStartAlignSelf)
         // Then
-        XCTAssertEqual(expectedYogaAlign, alignTranslated, "Expected flexStart type of YGAlign, but got \(String(describing: type(of: alignTranslated.self)))")
+        XCTAssertEqual(expectedYogaAlign, alignSelfTranslated, "Expected flexStart type of YGAlign, but got \(String(describing: type(of: alignSelfTranslated.self)))")
     }
     
-    func test_translateWhenFlexEndAlignment_shouldReturnFlexEndYGAlign() {
+    func test_translateWhenFlexEndAlignSelf_shouldReturnFlexEndYGAlign() {
         // Given
         let expectedYogaAlign: YGAlign = .flexEnd
-        let flexAlignment: Flex.Alignment = .flexEnd
+        let flexEndAlignSelf: Flex.AlignSelf = .flexEnd
         // When
-        let alignTranslated = yogaTranslator.translate(flexAlignment)
+        let alignSelfTranslated = yogaTranslator.translate(flexEndAlignSelf)
         // Then
-        XCTAssertEqual(expectedYogaAlign, alignTranslated, "Expected flexEnd type of YGAlign, but got \(String(describing: type(of: alignTranslated.self)))")
+        XCTAssertEqual(expectedYogaAlign, alignSelfTranslated, "Expected flexEnd type of YGAlign, but got \(String(describing: type(of: alignSelfTranslated.self)))")
     }
     
-    func test_translateWhenSpaceAroundAlignment_shouldReturnSpaceAroundYGAlign() {
-        // Given
-        let expectedYogaAlign: YGAlign = .spaceAround
-        let flexAlignment: Flex.Alignment = .spaceAround
-        // When
-        let alignTranslated = yogaTranslator.translate(flexAlignment)
-        // Then
-        XCTAssertEqual(expectedYogaAlign, alignTranslated, "Expected spaceAround type of YGAlign, but got \(String(describing: type(of: alignTranslated.self)))")
-    }
-    
-    func test_translateWhenSpaceBetweenAlignment_shouldReturnSpaceBetweenYGAlign() {
-        // Given
-        let expectedYogaAlign: YGAlign = .spaceBetween
-        let flexAlignment: Flex.Alignment = .spaceBetween
-        // When
-        let alignTranslated = yogaTranslator.translate(flexAlignment)
-        // Then
-        XCTAssertEqual(expectedYogaAlign, alignTranslated, "Expected spaceBetween type of YGAlign, but got \(String(describing: type(of: alignTranslated.self)))")
-    }
-    
-    func test_translateWhenStretchAlignment_shouldReturnStretchYGAlign() {
+    func test_translateWhenStretchAlignSelf_shouldReturnStretchYGAlign() {
         // Given
         let expectedYogaAlign: YGAlign = .stretch
-        let flexAlignment: Flex.Alignment = .stretch
+        let stretchAlignSelf: Flex.AlignSelf = .stretch
         // When
-        let alignTranslated = yogaTranslator.translate(flexAlignment)
+        let alignSelfTranslated = yogaTranslator.translate(stretchAlignSelf)
         // Then
-        XCTAssertEqual(expectedYogaAlign, alignTranslated, "Expected stretch type of YGAlign, but got \(String(describing: type(of: alignTranslated.self)))")
+        XCTAssertEqual(expectedYogaAlign, alignSelfTranslated, "Expected stretch type of YGAlign, but got \(String(describing: type(of: alignSelfTranslated.self)))")
+    }
+    
+    // MARK: - AlignContent Tests
+    func test_translateWhenCenterAlignContent_shouldReturnCenterYGAlign() {
+        // Given
+        let expectedYogaAlign: YGAlign = .center
+        let centerAlignContent: Flex.AlignContent = .center
+        // When
+        let alignContentTranslated = yogaTranslator.translate(centerAlignContent)
+        // Then
+        XCTAssertEqual(expectedYogaAlign, alignContentTranslated, "Expected center type of YGAlign, but got \(String(describing: type(of: alignContentTranslated.self)))")
+    }
+    
+    func test_translateWhenFlexStartAlignContent_shouldReturnFlexStartYGAlign() {
+        // Given
+        let expectedYogaAlign: YGAlign = .flexStart
+        let flexStartAlignContent: Flex.AlignContent = .flexStart
+        // When
+        let alignContentTranslated = yogaTranslator.translate(flexStartAlignContent)
+        // Then
+        XCTAssertEqual(expectedYogaAlign, alignContentTranslated, "Expected flexStart type of YGAlign, but got \(String(describing: type(of: alignContentTranslated.self)))")
+    }
+    
+    func test_translateWhenFlexEndAlignContent_shouldReturnFlexEndYGAlign() {
+        // Given
+        let expectedYogaAlign: YGAlign = .flexEnd
+        let flexEndAlignContent: Flex.AlignContent = .flexEnd
+        // When
+        let alignContentTranslated = yogaTranslator.translate(flexEndAlignContent)
+        // Then
+        XCTAssertEqual(expectedYogaAlign, alignContentTranslated, "Expected flexEnd type of YGAlign, but got \(String(describing: type(of: alignContentTranslated.self)))")
+    }
+    
+    func test_translateWhenSpaceAroundAlignContent_shouldReturnSpaceAroundYGAlign() {
+        // Given
+        let expectedYogaAlign: YGAlign = .spaceAround
+        let spaceAroundAlignContent: Flex.AlignContent = .spaceAround
+        // When
+        let alignContentTranslated = yogaTranslator.translate(spaceAroundAlignContent)
+        // Then
+        XCTAssertEqual(expectedYogaAlign, alignContentTranslated, "Expected spaceAround type of YGAlign, but got \(String(describing: type(of: alignContentTranslated.self)))")
+    }
+    
+    func test_translateWhenSpaceBetweenAlignContent_shouldReturnSpaceBetweenYGAlign() {
+        // Given
+        let expectedYogaAlign: YGAlign = .spaceBetween
+        let spaceBetweenAlignContent: Flex.AlignContent = .spaceBetween
+        // When
+        let alignContentTranslated = yogaTranslator.translate(spaceBetweenAlignContent)
+        // Then
+        XCTAssertEqual(expectedYogaAlign, alignContentTranslated, "Expected spaceBetween type of YGAlign, but got \(String(describing: type(of: alignContentTranslated.self)))")
+    }
+    
+    func test_translateWhenStretchAlignContent_shouldReturnStretchYGAlign() {
+        // Given
+        let expectedYogaAlign: YGAlign = .stretch
+        let stretchAlignContent: Flex.AlignContent = .stretch
+        // When
+        let alignContentTranslated = yogaTranslator.translate(stretchAlignContent)
+        // Then
+        XCTAssertEqual(expectedYogaAlign, alignContentTranslated, "Expected stretch type of YGAlign, but got \(String(describing: type(of: alignContentTranslated.self)))")
     }
     
     // MARK: - Justify Content Tests
