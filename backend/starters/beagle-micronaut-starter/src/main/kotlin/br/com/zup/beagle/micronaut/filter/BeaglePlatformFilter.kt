@@ -34,17 +34,19 @@ class BeaglePlatformFilter(private val objectMapper: ObjectMapper) : HttpServerF
     override fun doFilter(request: HttpRequest<*>, chain: ServerFilterChain): Publisher<MutableHttpResponse<*>>? {
         val currentPlatform = request.headers.get(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER)
         request.attributes.put(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER, currentPlatform)
-        val response = Flowable.fromPublisher(chain.proceed(request)).blockingFirst() as MutableHttpResponse<Any>
-        response.body.ifPresent {
-            val jsonTree = this.objectMapper.readTree(
-                this.objectMapper.writeValueAsString(it)
-            )
-            BeaglePlatformUtil.treatBeaglePlatform(
-                currentPlatform,
-                jsonTree
-            )
-            response.body(jsonTree.toPrettyString())
-        }
-        return Flowable.just(response)
+        return Flowable.fromPublisher(chain.proceed(request))
+            .map<MutableHttpResponse<*>> { wrappedResponse ->
+                wrappedResponse.body.ifPresent {
+                    val jsonTree = this.objectMapper.readTree(
+                        this.objectMapper.writeValueAsString(it)
+                    )
+                    BeaglePlatformUtil.treatBeaglePlatform(
+                        currentPlatform,
+                        jsonTree
+                    )
+                    (wrappedResponse as MutableHttpResponse<String>).body(jsonTree.toPrettyString())
+                }
+                wrappedResponse
+            }
     }
 }

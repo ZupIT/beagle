@@ -36,12 +36,14 @@ internal class BeaglePlatformInterceptorTest {
     fun preHandle() {
         val request = mockk<HttpServletRequest>()
         val beaglePlatform = BeaglePlatform.MOBILE.name
+
         every {
             request.getHeader(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER)
         } returns beaglePlatform
         every {
             request.setAttribute(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER, beaglePlatform)
         } returns Unit
+
         this.beaglePlatformInterceptor.preHandle(request, mockk(), mockk())
         verify {
             request.setAttribute(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER, beaglePlatform)
@@ -54,6 +56,7 @@ internal class BeaglePlatformInterceptorTest {
         val request = mockk<HttpServletRequest>()
         val response = mockk<ContentCachingResponseWrapper>()
         val outputStream = mockk<ServletOutputStream>()
+
         every {
             request.getHeader(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER)
         } returns null
@@ -72,6 +75,7 @@ internal class BeaglePlatformInterceptorTest {
         every {
             response.setContentLength(json.length)
         } returns Unit
+
         this.beaglePlatformInterceptor.postHandle(
             request = request,
             response = response,
