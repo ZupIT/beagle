@@ -12,6 +12,9 @@
 		5754314B23F2080B00EF0E5A /* DoublyLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5754314A23F2080B00EF0E5A /* DoublyLinkedList.swift */; };
 		5754315023F2108400EF0E5A /* LRUCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5754314F23F2108400EF0E5A /* LRUCacheTests.swift */; };
 		5763889F244A563A00CDBD35 /* CacheDiskManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5763889E244A563A00CDBD35 /* CacheDiskManagerTests.swift */; };
+		5772F008247715DB00C03F36 /* ImageComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = A0451C6A23BA846F00F77398 /* ImageComponent.json */; };
+		5772F009247715E800C03F36 /* ImageComponent1.json in Resources */ = {isa = PBXBuildFile; fileRef = 5772F004247713CF00C03F36 /* ImageComponent1.json */; };
+		5772F00A2477162100C03F36 /* ImageComponent2.json in Resources */ = {isa = PBXBuildFile; fileRef = 5772F003247713CF00C03F36 /* ImageComponent2.json */; };
 		5786DF522465ECB000A5B06F /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5786DF512465ECB000A5B06F /* UIImageViewExtension.swift */; };
 		57A8097F243CF44A0034D180 /* CacheReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A8097E243CF44A0034D180 /* CacheReference.swift */; };
 		57A80981243CF4620034D180 /* DependencyCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A80980243CF4620034D180 /* DependencyCacheManager.swift */; };
@@ -78,7 +81,6 @@
 		A0451C6123BA3AC300F77398 /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0451C6023BA3AC300F77398 /* Appearance.swift */; };
 		A0451C6623BA6A5600F77398 /* UIView+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0451C6523BA6A5600F77398 /* UIView+Appearance.swift */; };
 		A0451C6823BA828100F77398 /* ImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0451C6723BA828100F77398 /* ImageTests.swift */; };
-		A0451C6B23BA846F00F77398 /* ImageComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = A0451C6A23BA846F00F77398 /* ImageComponent.json */; };
 		A0451C7823BA961000F77398 /* ImageTests.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0451C7723BA961000F77398 /* ImageTests.xcassets */; };
 		A0451C7B23BE205000F77398 /* UIView+AppearanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0451C7A23BE205000F77398 /* UIView+AppearanceTests.swift */; };
 		A0451C8B23BF7A0600F77398 /* Container.json in Resources */ = {isa = PBXBuildFile; fileRef = A0451C8A23BF7A0600F77398 /* Container.json */; };
@@ -247,6 +249,8 @@
 		5754314A23F2080B00EF0E5A /* DoublyLinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoublyLinkedList.swift; sourceTree = "<group>"; };
 		5754314F23F2108400EF0E5A /* LRUCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRUCacheTests.swift; sourceTree = "<group>"; };
 		5763889E244A563A00CDBD35 /* CacheDiskManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheDiskManagerTests.swift; sourceTree = "<group>"; };
+		5772F003247713CF00C03F36 /* ImageComponent2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ImageComponent2.json; sourceTree = "<group>"; };
+		5772F004247713CF00C03F36 /* ImageComponent1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ImageComponent1.json; sourceTree = "<group>"; };
 		5786DF512465ECB000A5B06F /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		57A8097E243CF44A0034D180 /* CacheReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheReference.swift; sourceTree = "<group>"; };
 		57A80980243CF4620034D180 /* DependencyCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyCacheManager.swift; sourceTree = "<group>"; };
@@ -850,6 +854,8 @@
 		A0451C6923BA83BD00F77398 /* Json */ = {
 			isa = PBXGroup;
 			children = (
+				5772F004247713CF00C03F36 /* ImageComponent1.json */,
+				5772F003247713CF00C03F36 /* ImageComponent2.json */,
 				A0451C6A23BA846F00F77398 /* ImageComponent.json */,
 			);
 			path = Json;
@@ -1686,13 +1692,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5772F00A2477162100C03F36 /* ImageComponent2.json in Resources */,
 				7CDF84962416DD8D00234F40 /* test_UnitValueWithPercentageOperatorAndFloatValue.1.txt in Resources */,
 				C86E7C1523954E2700D6FEDB /* PageViewInvalid.json in Resources */,
 				76BB91A5241AC6A800B9A239 /* declarativeText2.json in Resources */,
 				7CDF84932416DD8D00234F40 /* test_UnitValueExpressibleByIntegerLiteral.1.txt in Resources */,
 				C038B5CC2453651D00741697 /* widgetWithAllAttributes.json in Resources */,
 				C05E165A2437CC7C0088F9D2 /* buttonAnalyticsComponent.json in Resources */,
-				A0451C6B23BA846F00F77398 /* ImageComponent.json in Resources */,
 				7CDF84922416DD8D00234F40 /* test_SizeBuilder.1.txt in Resources */,
 				93327C7D241A768800639A93 /* lazyComponent.json in Resources */,
 				93327C7A241A6FCB00639A93 /* listViewComponent.json in Resources */,
@@ -1704,7 +1710,9 @@
 				76191AA9241AC44C00A04C29 /* declarativeText1.json in Resources */,
 				7CDF84952416DD8D00234F40 /* test_UnitValueWithPercentageOperatorAndIntegerValue.1.txt in Resources */,
 				C8FD20B323959AED003E6F5B /* PageViewWith3PagesAndIndicator.json in Resources */,
+				5772F008247715DB00C03F36 /* ImageComponent.json in Resources */,
 				C05E1652243663C20088F9D2 /* screenAnalyticsComponent.json in Resources */,
+				5772F009247715E800C03F36 /* ImageComponent1.json in Resources */,
 				C05E1658243668E30088F9D2 /* __Snapshots__ in Resources */,
 				93771AFE2417D68D009F7CF3 /* screenComponent.json in Resources */,
 				A0451C8B23BF7A0600F77398 /* Container.json in Resources */,

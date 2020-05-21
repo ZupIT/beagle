@@ -25,7 +25,7 @@ class ImageTests: XCTestCase {
     func test_toView_shouldReturnTheExpectedView() throws {
         //Given
         let expectedContentMode = UIImageView.ContentMode.scaleToFill
-        let component = Image(name: "teste", contentMode: .fitXY)
+        let component = Image(.local("teste"), contentMode: .fitXY)
         
         //When
         guard let imageView = component.toView(context: BeagleContextDummy(), dependencies: dependencies) as? UIImageView else {
@@ -55,9 +55,41 @@ class ImageTests: XCTestCase {
         assertSnapshotImage(view, size: CGSize(width: 400, height: 400))
     }
     
+    func test_localImageDeserialize() throws {
+        let dependencies = BeagleDependencies()
+        dependencies.appBundle = Bundle(for: ImageTests.self)
+        Beagle.dependencies = dependencies
+        addTeardownBlock {
+            Beagle.dependencies = BeagleDependencies()
+        }
+
+        let image: Image = try componentFromJsonFile(fileName: "ImageComponent1")
+        if case TypePathImage.local(let name) = image.path {
+            XCTAssertEqual(name, "test_image_square-x")
+        } else {
+            XCTFail("Failed to decode correct image name.")
+        }
+    }
+    
+    func test_remoteImageDeserialize() throws {
+        let dependencies = BeagleDependencies()
+        dependencies.appBundle = Bundle(for: ImageTests.self)
+        Beagle.dependencies = dependencies
+        addTeardownBlock {
+            Beagle.dependencies = BeagleDependencies()
+        }
+
+        let image: Image = try componentFromJsonFile(fileName: "ImageComponent2")
+        if case TypePathImage.network(let url) = image.path {
+            XCTAssertEqual(url, "www.com")
+        } else {
+            XCTFail("Failed to decode correct image url.")
+        }
+    }
+    
     func test_withInvalidURL_itShouldNotSetImage() throws {
         // Given
-        let component = Image(url: "www.com")
+        let component = Image(.network("www.com"))
         
         // When
         guard let imageView = component.toView(context: BeagleContextDummy(), dependencies: BeagleScreenDependencies()) as? UIImageView else {

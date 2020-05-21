@@ -34,7 +34,6 @@ public enum Log {
     case form(_ form: Form)
     case navigation(_ navigator: Navigator)
     case cache(_ cache: Cache)
-    case image(_ image: Image)
 
     public enum Decoding {
         case decodingError(type: String)
@@ -68,11 +67,6 @@ public enum Log {
         case fetchData(description: String)
         case removeData(description: String)
         case clear(description: String)
-    }
-    
-    public enum Image {
-        case withoutName
-        case withoutURL
     }
 
     public struct NetworkResponse {
@@ -116,7 +110,6 @@ extension Log: LogType {
         case .navigation: return "Navigation"
         case .network: return "Network"
         case .cache: return "Cache"
-        case .image: return "Image"
         }
     }
 
@@ -156,11 +149,6 @@ extension Log: LogType {
             return "Cold not load remove register from cache: \(description)"
         case .cache(.clear(let description)):
             return "Cold clear registers from cache: \(description)"
-            
-        case .image(.withoutName):
-            return "Cant show image of type local without name"
-        case .image(.withoutURL):
-            return "Cant show image of type remote without URL"
         }
     }
 
@@ -190,7 +178,7 @@ extension Log: LogType {
                 return .info
             }
         
-        case .cache, .image:
+        case .cache:
             return .error
         }
     }
