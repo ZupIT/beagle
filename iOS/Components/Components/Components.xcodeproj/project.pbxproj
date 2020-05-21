@@ -201,6 +201,7 @@
 		C0E5691B2476F124003D413F /* Action */ = {
 			isa = PBXGroup;
 			children = (
+				C0E5693E2477142E003D413F /* ActionTypes */,
 				C0E5691C2476F12F003D413F /* Action.swift */,
 			);
 			path = Action;
@@ -265,6 +266,13 @@
 			path = ComponentDecoderTests;
 			sourceTree = "<group>";
 		};
+		C0E5693E2477142E003D413F /* ActionTypes */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ActionTypes;
+			sourceTree = "<group>";
+		};
 		C0FBBD0D2475803900B72A9B = {
 			isa = PBXGroup;
 			children = (
@@ -317,10 +325,10 @@
 		C0FBBD3424759EF400B72A9B /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
+				C0FBBDF42475C53600B72A9B /* Widget.swift */,
 				C0E568FD2476C873003D413F /* Text */,
 				C0E568EE2476C7F0003D413F /* Button */,
 				C0FBBDF72475C67F00B72A9B /* WidgetProperties */,
-				C0FBBDF42475C53600B72A9B /* Widget.swift */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";

@@ -20,7 +20,10 @@ open class ComponentTools {
     public static var dependencies: ComponentDependencies = .init(decoder: ComponentDecoder())
 }
 
-open class ComponentDependencies {
+typealias Dependencies = DependencyComponentDecoding
+
+open class ComponentDependencies: Dependencies {
+    
     public var decoder: ComponentDecoding
     
     public init(decoder: ComponentDecoding) {

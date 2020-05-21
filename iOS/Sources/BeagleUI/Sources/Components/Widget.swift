@@ -19,30 +19,7 @@ import Components
 
 // MARK: - Widget
 
-public protocol Widget: ServerDrivenComponent, HasWidgetProperties, ComponentWidget {
-
-}
-
-public extension Widget {
-
-    var appearance: Appearance? {
-        get { return widgetProperties.appearance }
-        set { widgetProperties.appearance = newValue }
-    }
-
-    var flex: Flex? {
-        get { return widgetProperties.flex }
-        set { widgetProperties.flex = newValue }
-    }
-
-    var accessibility: Accessibility? {
-        get { return widgetProperties.accessibility }
-        set { widgetProperties.accessibility = newValue }
-    }
-
-    var id: String? {
-        get { return widgetProperties.id }
-        set { widgetProperties.id = newValue }
-    }
+public protocol Widget: ServerDrivenComponent, RawWidget {
+    
 }
 

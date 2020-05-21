@@ -16,7 +16,7 @@
 
 import UIKit
 
-public struct Text: ComponentWidget, AutoDecodable {
+public struct Text: RawWidget, AutoDecodable {
     
     // MARK: - Public Properties
     public let text: String
@@ -46,7 +46,7 @@ extension Text {
         case right = "RIGHT"
         case center = "CENTER"
         
-        func toUIKit() -> NSTextAlignment {
+        public func toUIKit() -> NSTextAlignment {
             switch self {
             case .left:
                 return .left

@@ -15,6 +15,7 @@
  */
 
 import Foundation
+import Components
 
 /// A custom action to be implemented by the application
 public struct CustomAction: Action, AutoInitiable {

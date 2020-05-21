@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 
-import Foundation
+import UIKit
+@testable import BeagleUI
 
 final class ThemeSpy: Theme {
     

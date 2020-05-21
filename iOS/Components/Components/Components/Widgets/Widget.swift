@@ -16,11 +16,34 @@
 
 import Foundation
 
-public protocol ComponentWidget: RawServerDrivenComponent {
+public protocol RawWidget: RawServerDrivenComponent, HasWidgetProperties {
     var widgetProperties: WidgetProperties { get set }
 }
 
 // MARK: - Widget Properties
+public extension RawWidget {
+
+    var appearance: Appearance? {
+        get { return widgetProperties.appearance }
+        set { widgetProperties.appearance = newValue }
+    }
+
+    var flex: Flex? {
+        get { return widgetProperties.flex }
+        set { widgetProperties.flex = newValue }
+    }
+
+    var accessibility: Accessibility? {
+        get { return widgetProperties.accessibility }
+        set { widgetProperties.accessibility = newValue }
+    }
+
+    var id: String? {
+        get { return widgetProperties.id }
+        set { widgetProperties.id = newValue }
+    }
+}
+
 
 public protocol HasWidgetProperties: AppearanceComponent, FlexComponent, AccessibilityComponent, IdentifiableComponent { }
 

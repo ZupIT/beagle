@@ -15,6 +15,7 @@
  */
 
 import Foundation
+import Components
 
 /// Action to represent a native alert
 public struct ShowNativeDialog: Action, AutoInitiable {

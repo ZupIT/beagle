@@ -71,6 +71,6 @@ extension KeyedDecodingContainer {
     }
 }
 
-struct UnknownComponent: RawServerDrivenComponent {
+public struct UnknownComponent: RawServerDrivenComponent {
     let type: String
 }

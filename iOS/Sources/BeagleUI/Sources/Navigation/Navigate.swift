@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import Components
+
 /// Action to represent a screen transition
 public enum Navigate: Action {
     

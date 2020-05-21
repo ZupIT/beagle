@@ -15,6 +15,7 @@
  */
 
 import UIKit
+import Components
 
 public enum Event {
     case action(Action)

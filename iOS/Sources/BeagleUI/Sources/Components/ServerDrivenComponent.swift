@@ -17,7 +17,7 @@
 import UIKit
 import Components
 
-public protocol ServerDrivenComponent: Renderable, Decodable {}
+public protocol ServerDrivenComponent: Renderable, RawServerDrivenComponent {}
 
 public protocol ComposeComponent: ServerDrivenComponent {
     func build() -> ServerDrivenComponent

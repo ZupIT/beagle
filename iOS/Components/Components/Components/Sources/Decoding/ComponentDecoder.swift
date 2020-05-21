@@ -53,7 +53,7 @@ final public class ComponentDecoder: ComponentDecoding {
     
     // MARK: - Initialization
     
-    init() {
+    public init() {
         registerDefaultTypes()
     }
     

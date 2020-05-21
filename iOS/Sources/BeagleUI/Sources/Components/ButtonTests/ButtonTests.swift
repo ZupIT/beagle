@@ -17,7 +17,7 @@
 
 import XCTest
 import SnapshotTesting
-@testable import Components
+@testable import BeagleUI
 
 final class ButtonTests: XCTestCase {
 

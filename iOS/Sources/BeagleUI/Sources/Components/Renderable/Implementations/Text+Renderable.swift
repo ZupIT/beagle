@@ -16,8 +16,9 @@
  */
 
 import UIKit
+import Components
 
-extension Text: Renderable {
+extension Text: Widget {
 
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let textView = UITextView()

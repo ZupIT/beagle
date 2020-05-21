@@ -18,7 +18,7 @@
 import UIKit
 import Components
 
-extension Button: Renderable {
+extension Button: Widget {
     
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         
