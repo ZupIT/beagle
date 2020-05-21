@@ -32,12 +32,15 @@ struct Context {
 
 extension UIView {
     static var contextMapKey = "contextMapKey"
+
     private class ObjectWrapper<T> {
         let object: T?
+        
         init(_ object: T?) {
             self.object = object
         }
     }
+
     var contextMap: [String: Observable<Context>]? {
         get {
             let contextMap: [String: Observable<Context>]? = (objc_getAssociatedObject(self, &UIView.contextMapKey) as? ObjectWrapper)?.object
@@ -51,23 +54,18 @@ extension UIView {
     func findContext(for expression: Expression) -> Observable<Context>? { // traversal
         // change to config binding
         guard let contextMap = self.contextMap else {
-            guard let parent = self.superview else {
-                return nil
-            }
-            return parent.findContext(for: expression)
+            return self.superview?.findContext(for: expression)
         }
         guard let contextId = expression.context(), let context = contextMap[contextId] else {
-            guard let parent = self.superview else {
-                return nil
-            }
-            return parent.findContext(for: expression)
+            return self.superview?.findContext(for: expression)
         }
         return context
     }
 
-    func configBinding<T>(for expression: Expression, completion: @escaping (T) -> Void) -> Void {
+    func configBinding<T>(for expression: Expression, completion: @escaping (T) -> Void) {
         guard let context = findContext(for: expression) else { return }
-        let newExp = Expression(nodes: Array<Expression.Node>(expression.nodes.dropFirst()))
+
+        let newExp = Expression(nodes: .init(expression.nodes.dropFirst()))
         let closure: (Context) -> Void = { context in
             print("value changed")
             if let value = newExp.evaluate(model: context.value) as? T {

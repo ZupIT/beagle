@@ -30,7 +30,6 @@ public protocol Action: Decodable {}
 
 public struct UnknownAction: Action {}
 
-
 public class BeagleContext { // ViewController
     public var bindingToConfig: [() -> Void]
 

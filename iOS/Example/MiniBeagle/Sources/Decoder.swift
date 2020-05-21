@@ -18,6 +18,7 @@
 
 public struct AnyDecodable {
     public let value: Any
+    
     public init<T>(_ value: T) {
         self.value = value
     }

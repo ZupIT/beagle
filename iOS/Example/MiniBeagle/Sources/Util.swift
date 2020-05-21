@@ -24,11 +24,11 @@ import Foundation
 class Observable<T> {
     typealias CompletionHandler = ((T) -> Void)
 
-    var value : T {
+    var value: T {
         didSet { self.notifyObservers() }
     }
 
-    var observers : [CompletionHandler] = []
+    var observers: [CompletionHandler] = []
 
     init(_ value: T) {
         self.value = value
