@@ -20,20 +20,23 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.lang.IllegalStateException
-import java.util.LinkedList
+import java.util.*
 
 internal class JsonPathFinder {
 
     tailrec fun findByPath(nextKeys: LinkedList<String>, value: Any?): Any? {
         if (nextKeys.isEmpty()) return value
 
-        var currentKey = nextKeys.pop()
+        val currentKey = nextKeys.poll()
 
         val childValue = if (currentKey.endsWith("]")) {
             if (value is JSONArray) {
                 val arrayIndex = JsonPathUtils.getIndexOnArrayBrackets(currentKey)
-                value.safeGet(arrayIndex)?.let {
-                    return findByPath(nextKeys, it)
+                val getValue = value.safeGet(arrayIndex)
+                if (getValue != null) {
+                    return findByPath(nextKeys, getValue)
+                } else {
+                    null
                 }
             } else {
                 throw IllegalStateException("Expected Array but received Object")

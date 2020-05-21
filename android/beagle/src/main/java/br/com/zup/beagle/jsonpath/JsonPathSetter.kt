@@ -27,7 +27,7 @@ internal class JsonPathSetter(
     fun setByPath(keys: LinkedList<String>, newValue: Any, root: Any): Boolean {
         return when {
             keys.isEmpty() -> false
-            keys.size == 1 -> replaceValue(keys.pop(), newValue, root)
+            keys.size == 1 -> replaceValue(keys.poll(), newValue, root)
             else -> {
                 val lastKey = keys.pollLast()
                 val foundValue = jsonPathFinder.findByPath(keys, root)

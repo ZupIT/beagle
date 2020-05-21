@@ -23,7 +23,7 @@ val ARRAY_POSITION_REGEX = "\\[([^)]+)\\]".toRegex()
 
 internal object JsonPathUtils {
 
-    fun splitKeys(path: String): Queue<String> {
+    fun splitKeys(path: String): LinkedList<String> {
         val keys = LinkedList<String>()
 
         path.split(".").forEach { key ->
@@ -32,7 +32,10 @@ internal object JsonPathUtils {
                 if (keyOnly.isNotEmpty()) {
                     keys.add(keyOnly)
                 }
-                val arrayKeys = splitArrays(key.replace(keyOnly, ""))
+                val arrayKeys = key.replace(keyOnly, "")
+                    .split("[")
+                    .filter { it.isNotEmpty() }
+                    .map { "[$it" }
                 keys.addAll(arrayKeys)
             } else {
                 keys.add(key)
@@ -40,25 +43,6 @@ internal object JsonPathUtils {
         }
 
         return keys
-    }
-
-    private fun splitArrays(key: String): Queue<String> {
-        val arrays = LinkedList<String>()
-        var arrayCharacters = key.toCharArray()
-
-        while (arrayCharacters.isNotEmpty()) {
-            val firstBracketIndex = 0
-            val nextBracketIndex = arrayCharacters.indexOfFirst { it == ']' }
-            val arrayPosition = if (firstBracketIndex + 1 == nextBracketIndex - 1) {
-                arrayCharacters[firstBracketIndex + 1]
-            } else {
-                String(arrayCharacters.sliceArray(IntRange(firstBracketIndex + 1, nextBracketIndex - 1)))
-            }
-            arrayCharacters = arrayCharacters.sliceArray(IntRange(nextBracketIndex + 1, arrayCharacters.size - 1))
-            arrays.add("[$arrayPosition]")
-        }
-
-        return arrays
     }
 
     fun createArrayExpectedException(): Exception = IllegalStateException("Expected Array but received Object")
