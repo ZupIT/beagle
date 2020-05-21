@@ -79,6 +79,7 @@ dependencies {
     testImplementation TestLibraries.kotlinCoroutinesTest
     testImplementation TestLibraries.mockk
     testImplementation TestLibraries.archCoreTesting
+    testImplementation GeneralLibraries.jsonObject
 
     // Integration Testing
     androidTestImplementation TestLibraries.testRunner

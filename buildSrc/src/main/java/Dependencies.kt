@@ -96,6 +96,8 @@ object Versions {
 
     const val jacksonKotlin = "2.10.2"
 
+    const val jsonObject = "20190722"
+
     const val mockk = "1.9.3"
 
     const val testRunner = "1.2.0"
@@ -152,6 +154,8 @@ object GeneralLibraries {
     const val jacksonKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.jacksonKotlin}"
 
     const val okHttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
+
+    const val jsonObject = "org.json:json:${Versions.jsonObject}"
 }
 
 object GoogleLibraries {
