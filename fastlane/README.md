@@ -20,6 +20,11 @@ or alternatively using `brew cask install fastlane`
 fastlane deploy
 ```
 Publish new release based on last two tags
+### run_danger
+```
+fastlane run_danger
+```
+
 
 ----
 
@@ -29,14 +34,18 @@ Publish new release based on last two tags
 fastlane android pull_request_verification
 ```
 Pull Request verification
-### android remote_publish
+
+----
+
+## common
+### common remote_publish
 ```
-fastlane android remote_publish
+fastlane common remote_publish
 ```
 Publish remote new version
-### android local_publish
+### common local_publish
 ```
-fastlane android local_publish
+fastlane common local_publish
 ```
 Publish local new version
 
@@ -47,7 +56,16 @@ Publish local new version
 ```
 fastlane ios pull_request_verification
 ```
+Pull Request verification
 
+----
+
+## backend
+### backend pull_request_verification
+```
+fastlane backend pull_request_verification
+```
+Pull Request verification
 
 ----
 

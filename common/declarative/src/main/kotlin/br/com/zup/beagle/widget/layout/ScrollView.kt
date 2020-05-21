@@ -20,6 +20,14 @@ import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.enums.BeaglePlatform
 
+/**
+ * Component is a specialized container that will display its components in a Scroll
+ *
+ * @param children define a list of components to be displayed on this view.
+ * @param scrollDirection define the scroll roll direction on screen.
+ * @param scrollBarEnabled determine if the Scroll bar is displayed or not. It is displayed by default.
+ *
+ */
 data class ScrollView(
     val children: List<ServerDrivenComponent>,
     val scrollDirection: ScrollAxis? = null,

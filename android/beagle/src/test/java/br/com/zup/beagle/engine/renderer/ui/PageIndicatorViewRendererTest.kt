@@ -18,7 +18,6 @@ package br.com.zup.beagle.engine.renderer.ui
 
 import android.content.Context
 import android.graphics.Color
-import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.testutil.setPrivateField
@@ -27,7 +26,6 @@ import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.pager.PageIndicator
 import io.mockk.MockKAnnotations
 import io.mockk.every
-import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkStatic
 import io.mockk.verify
@@ -62,7 +60,7 @@ class PageIndicatorViewTest {
 
     @Test
     fun toView_should_return_BeaglePageIndicatorView_and_set_colors() {
-        val view = pageIndicator.toView(context)
+        val view = pageIndicator.buildView(context)
 
         assertEquals(beaglePageIndicatorView, view)
         verify(exactly = once()) { beaglePageIndicatorView.setSelectedColor(0) }

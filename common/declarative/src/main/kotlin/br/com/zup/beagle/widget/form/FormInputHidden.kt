@@ -19,6 +19,15 @@ package br.com.zup.beagle.widget.form
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.enums.BeaglePlatform
 
+/**
+ * represents the  <input type="hidden"> in a form.
+ * It lets you include data that cannot be seen or modified by users when a form is submitted.
+ * This item is not rendered on screen.
+ *
+ * @param name define this form item name and the key to retrieve its value when submitted inside a form.
+ * @param value contain the data you wish to transfer.
+ *
+ */
 data class FormInputHidden(
     val name: String,
     val value: String,

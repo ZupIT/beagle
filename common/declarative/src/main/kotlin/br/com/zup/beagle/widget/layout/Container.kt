@@ -21,6 +21,12 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.enums.BeaglePlatform
 import br.com.zup.beagle.widget.Widget
 
+/**
+ *  The container component is a general container that can hold other components inside.
+ *
+ * @param children define a list of components that are part of the container.
+ *
+ */
 data class Container(
     val children: List<ServerDrivenComponent>,
     override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL

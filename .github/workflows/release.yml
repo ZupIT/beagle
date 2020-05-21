@@ -10,6 +10,9 @@ jobs:
         runs-on: macos-latest
         steps:
             - uses: actions/checkout@v2.1.0
+              with:
+                  fetch-depth: '0'
+                  ref: 'master'
             - name: Install Fastlane
               run: bundle install
             - name: Deploy new version

@@ -16,14 +16,9 @@
 
 import Foundation
 
-public struct FormRemoteAction: Action {
+public struct FormRemoteAction: Action, AutoInitiable {
     public let path: String
     public let method: Method
-
-    public init(path: String, method: Method) {
-        self.path = path
-        self.method = method
-    }
 
     public enum Method: String, Decodable, CaseIterable {
         case get = "GET"
@@ -31,4 +26,14 @@ public struct FormRemoteAction: Action {
         case put = "PUT"
         case delete = "DELETE"
     }
+
+// sourcery:inline:auto:FormRemoteAction.Init
+    public init(
+        path: String,
+        method: Method
+    ) {
+        self.path = path
+        self.method = method
+    }
+// sourcery:end
 }

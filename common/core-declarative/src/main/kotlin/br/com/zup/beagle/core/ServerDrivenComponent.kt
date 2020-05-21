@@ -18,6 +18,10 @@ package br.com.zup.beagle.core
 
 import br.com.zup.beagle.enums.BeaglePlatform
 
+/**
+ * Base of components
+ */
+
 interface ServerDrivenComponent {
 
     val beaglePlatform: BeaglePlatform

@@ -38,6 +38,6 @@ struct ComposeText: ComposeComponent {
         return Container(children: [
             Text(title),
             Text(subtitle)
-        ], flex: Flex())
+        ], widgetProperties: .init(flex: Flex()))
     }
 }

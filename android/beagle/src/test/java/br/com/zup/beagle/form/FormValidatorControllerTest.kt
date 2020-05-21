@@ -29,6 +29,7 @@ import io.mockk.impl.annotations.RelaxedMockK
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class FormValidatorControllerTest {
@@ -47,6 +48,8 @@ class FormValidatorControllerTest {
     lateinit var formInputValidator: FormInputValidator
     @RelaxedMockK
     lateinit var validator: Validator<Any, Any>
+    @RelaxedMockK
+    lateinit var formInputValidatorList: MutableList<FormInputValidator>
 
     private val submitViewEnabledSlot = slot<Boolean>()
 
@@ -82,7 +85,10 @@ class FormValidatorControllerTest {
         val result = false
         every { formInputValidator.isValid } returns false
         every { formSubmit.enabled } returns false
-        formValidatorController.formInputValidatorList.add(formInputValidator)
+        val iterator = mockk<MutableIterator<FormInputValidator>>()
+        every { formInputValidatorList.iterator() } returns iterator
+        every { iterator.hasNext() } returns true
+        every { iterator.next() } returns formInputValidator
 
         // WHEN
         formValidatorController.configFormSubmit()
@@ -94,16 +100,35 @@ class FormValidatorControllerTest {
     @Test
     fun configFormInputList_should_increment_list_and_call_subscribeOnValidState() {
         // GIVEN
-        val result = 1
         every { formInput.validator } returns "stub"
         every { formInput.child } returns inputWidget
+        every { formInput.required } returns true
         every { validatorHandler.getValidator(any()) } returns validator
 
         // WHEN
         formValidatorController.configFormInputList(formInput)
 
         // THEN
-        assertTrue { result == formValidatorController.formInputValidatorList.size }
+        verify(exactly = once()) { formInputValidatorList.add(any()) }
         verify(exactly = once()) { validator.isValid(any(), any()) }
+    }
+
+    @Test
+    fun configFormInputList_should_set_isValid_by_required() {
+        // GIVEN
+        val required = true
+        every { formInput.validator } returns null
+        every { formInput.child } returns inputWidget
+        every { formInput.required } returns required
+        every { validatorHandler.getValidator(any()) } returns validator
+        val slot = slot<FormInputValidator>()
+        every { formInputValidatorList.add(capture(slot)) } returns true
+
+        // WHEN
+        formValidatorController.configFormInputList(formInput)
+
+        // THEN
+        verify(exactly = 0) { validator.isValid(any(), any()) }
+        assertFalse { slot.captured.isValid }
     }
 }

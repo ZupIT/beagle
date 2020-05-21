@@ -2,29 +2,32 @@
   - direction: Direction.vertical
   ▿ rows: 3 elements
     ▿ Text
-      - accessibility: Optional<Accessibility>.none
       - alignment: Optional<Alignment>.none
-      - appearance: Optional<Appearance>.none
-      - flex: Optional<Flex>.none
-      - id: Optional<String>.none
       - style: Optional<String>.none
       - text: "text1"
       - textColor: Optional<String>.none
+      ▿ widgetProperties: WidgetProperties
+        - accessibility: Optional<Accessibility>.none
+        - appearance: Optional<Appearance>.none
+        - flex: Optional<Flex>.none
+        - id: Optional<String>.none
     ▿ Text
-      - accessibility: Optional<Accessibility>.none
       - alignment: Optional<Alignment>.none
-      - appearance: Optional<Appearance>.none
-      - flex: Optional<Flex>.none
-      - id: Optional<String>.none
       - style: Optional<String>.none
       - text: "text2"
       - textColor: Optional<String>.none
+      ▿ widgetProperties: WidgetProperties
+        - accessibility: Optional<Accessibility>.none
+        - appearance: Optional<Appearance>.none
+        - flex: Optional<Flex>.none
+        - id: Optional<String>.none
     ▿ Text
-      - accessibility: Optional<Accessibility>.none
       - alignment: Optional<Alignment>.none
-      - appearance: Optional<Appearance>.none
-      - flex: Optional<Flex>.none
-      - id: Optional<String>.none
       - style: Optional<String>.none
       - text: "text3"
       - textColor: Optional<String>.none
+      ▿ widgetProperties: WidgetProperties
+        - accessibility: Optional<Accessibility>.none
+        - appearance: Optional<Appearance>.none
+        - flex: Optional<Flex>.none
+        - id: Optional<String>.none

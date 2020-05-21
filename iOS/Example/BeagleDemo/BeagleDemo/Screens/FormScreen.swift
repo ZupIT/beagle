@@ -40,10 +40,7 @@ struct FormScreen: DeeplinkScreen {
                         name: "optional-field",
                         child: DemoTextField(
                             placeholder: "Optional field",
-                            id: nil,
-                            appearance: nil,
-                            flex: flexHorizontalMargin,
-                            accessibility: nil
+                            widgetProperties: .init(flex: flexHorizontalMargin)
                         )
                     ),
                     FormInput(
@@ -52,10 +49,7 @@ struct FormScreen: DeeplinkScreen {
                         validator: FormScreen.textValidatorName,
                         child: DemoTextField(
                             placeholder: "Required field",
-                            id: nil,
-                            appearance: nil,
-                            flex: flexHorizontalMargin,
-                            accessibility: nil
+                            widgetProperties: .init(flex: flexHorizontalMargin)
                         )
                     ),
                     FormInput(
@@ -64,20 +58,17 @@ struct FormScreen: DeeplinkScreen {
                         validator: FormScreen.textValidatorName,
                         child: DemoTextField(
                             placeholder: "Another required field",
-                            id: nil,
-                            appearance: nil,
-                            flex: flexHorizontalMargin,
-                            accessibility: nil
+                            widgetProperties: .init(flex: flexHorizontalMargin)
+                            
                         )
                     ),
-                    Container(children: [], flex: Flex(grow: 1)),
+                    Container(children: [], widgetProperties: .init(flex: Flex(grow: 1))),
                     FormSubmit(
-                        child: Button(text: "Submit Form", style: .FORM_SUBMIT_STYLE, flex: flexHorizontalMargin),
+                        child: Button(text: "Submit Form", style: .FORM_SUBMIT_STYLE, widgetProperties: .init(flex: flexHorizontalMargin)),
                         enabled: false
                     )
                 ],
-                flex: Flex().grow(1).padding(EdgeValue().all(10)),
-                appearance: Appearance(backgroundColor: .LIGHT_GREEN_COLOR)
+                widgetProperties: .init(appearance: Appearance(backgroundColor: .LIGHT_GREEN_COLOR), flex: Flex().grow(1).padding(EdgeValue().all(10)))
             )
         )
         let screen = Screen(
@@ -89,15 +80,7 @@ struct FormScreen: DeeplinkScreen {
     
 }
 
-struct DemoTextField: Widget {
-
-    var placeholder: String
-
-    var id: String?
-    var appearance: Appearance?
-    var flex: Flex?
-    var accessibility: Accessibility?
-    
+extension DemoTextField: Renderable {
     func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let textField = View()
         textField.borderStyle = .roundedRect
@@ -107,7 +90,25 @@ struct DemoTextField: Widget {
 
         return textField
     }
+}
+
+struct DemoTextField: Widget, AutoInitiableAndDecodable {
     
+    var placeholder: String
+    var widgetProperties: WidgetProperties
+
+// sourcery:inline:auto:DemoTextField.Init
+    internal init(
+        placeholder: String,
+        widgetProperties: WidgetProperties = WidgetProperties()
+    ) {
+        self.placeholder = placeholder
+        self.widgetProperties = widgetProperties
+    }
+// sourcery:end
+}
+
+extension DemoTextField {
     final class View: UITextField, UITextFieldDelegate, InputValue, WidgetStateObservable {
         
         var observable = Observable<WidgetState>(value: WidgetState(value: text))

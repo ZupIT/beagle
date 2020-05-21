@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.ext
+import Foundation
 
-import br.com.zup.beagle.widget.core.UnitType
-import br.com.zup.beagle.widget.core.UnitValue
+// MARK: - Equatable
+public protocol AutoEquatable { }
 
-fun Int.unitReal() = UnitValue(this.toDouble(), UnitType.REAL)
-fun Int.unitPercent() = UnitValue(this.toDouble(), UnitType.PERCENT)
+// MARK: - Decodable
+public protocol AutoDecodable: Decodable { }
 
-fun Double.unitReal() = UnitValue(this, UnitType.REAL)
-fun Double.unitPercent() = UnitValue(this, UnitType.PERCENT)
+// MARK: - Init
+public protocol AutoInitiable { }
+
+// MARK: - Init and Decodable
+public protocol AutoInitiableAndDecodable: AutoDecodable, AutoInitiable { }
