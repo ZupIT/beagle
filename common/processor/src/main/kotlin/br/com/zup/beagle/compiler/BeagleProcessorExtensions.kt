@@ -37,10 +37,12 @@ import javax.lang.model.type.TypeMirror
 import javax.lang.model.type.WildcardType
 import javax.lang.model.util.Elements
 import javax.lang.model.util.Types
+import kotlin.reflect.KClass
 
 private val TypeName.kotlin get() = JAVA_TO_KOTLIN[this] ?: this
 
 val ProcessingEnvironment.kaptGeneratedDirectory get() = File(this.options[KAPT_KEY]!!)
+val TypeMirror.elementType: TypeMirror get() = if (this is DeclaredType) this.typeArguments[0] else this
 
 val ExecutableElement.fieldName
     get() = this.simpleName.toString()
@@ -48,18 +50,34 @@ val ExecutableElement.fieldName
         .takeWhile { it != INTERNAL_MARKER }
         .let { it.replaceFirst(it.first(), it.first().toLowerCase()) }
 
-val TypeElement.visibleGetters
-    get() = this.enclosedElements
-        .filter { it.kind == ElementKind.METHOD && GET in it.simpleName && Modifier.PUBLIC in it.modifiers }
-        .map { it as ExecutableElement }
+val TypeElement.visibleGetters get() = this.enclosedElements.filterVisibleGetters { GET in it.simpleName }
+
+fun Element.getNameWith(suffix: String = "") = "${this.simpleName}$suffix"
+
+fun Types.isIterable(type: TypeMirror) = this.isSubtype(type, Iterable::class)
 
 fun Elements.getPackageAsString(element: Element) = this.getPackageOf(element).toString()
+
+fun ClassName.specialize(vararg names: TypeName) = this.parameterizedBy(names.map { it.kotlin })
+
+fun Elements.getVisibleGetters(element: TypeElement) =
+    this.getAllMembers(element).filterVisibleGetters { GETTER matches it.simpleName }
 
 fun PropertySpec.Companion.from(parameter: ParameterSpec) =
     this.builder(parameter.name, parameter.type).initializer(parameter.name).build()
 
 fun FunSpec.Companion.constructorFrom(parameters: List<ParameterSpec>) =
     this.constructorBuilder().addParameters(parameters).build()
+
+tailrec fun Types.getFinalElementType(type: TypeMirror): TypeMirror =
+    if (this.isIterable(type)) this.getFinalElementType(type.elementType) else type
+
+fun Types.isSubtype(type: TypeMirror, superType: KClass<*>): Boolean =
+    when (this.erasure(type).asTypeName()) {
+        Any::class.java.asTypeName() -> false
+        superType.java.asTypeName() -> true
+        else -> this.directSupertypes(type).any { this.isSubtype(it, superType) }
+    }
 
 fun Types.getKotlinName(type: TypeMirror): TypeName = when {
     type is DeclaredType && !type.typeArguments.isNullOrEmpty() ->
@@ -72,3 +90,7 @@ fun Types.getKotlinName(type: TypeMirror): TypeName = when {
     }
     else -> type.asTypeName().kotlin
 }
+
+private fun List<Element>.filterVisibleGetters(isGetterByName: (Element) -> Boolean) =
+    this.filter { it.kind == ElementKind.METHOD && isGetterByName(it) && Modifier.PUBLIC in it.modifiers }
+        .map { it as ExecutableElement }

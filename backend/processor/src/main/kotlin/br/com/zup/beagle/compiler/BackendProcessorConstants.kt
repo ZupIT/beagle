@@ -16,15 +16,22 @@
 
 package br.com.zup.beagle.compiler
 
+import br.com.zup.beagle.expression.BeagleIterableSubexpression
+import br.com.zup.beagle.expression.Expression
 import com.squareup.kotlinpoet.asTypeName
 
-const val KAPT_KEY = "kapt.kotlin.generated"
-const val GET = "get"
-const val INTERNAL_MARKER = '$'
+internal const val ROOT_SUFFIX = "_"
+internal const val INTERNAL_SUFFIX = "BeagleSubexpression"
+internal const val PLACEHOLDER = "%L"
+internal const val PARAMETER = "expression"
+internal const val ACCESS = "$PARAMETER.access"
+internal const val ITERABLE_PARAM = "it"
 
-val GETTER = Regex("$GET(?!Class).*")
+internal val EXPRESSION = Expression::class.asTypeName()
+internal val START = Expression.Start::class.asTypeName()
+internal val LIST_SUBEXPRESSION = BeagleIterableSubexpression::class.asTypeName()
 
-val JAVA_TO_KOTLIN = arrayOf(
+internal val LEAF_TYPES = arrayOf(
     Any::class,
     Boolean::class,
     Byte::class,
@@ -33,10 +40,5 @@ val JAVA_TO_KOTLIN = arrayOf(
     Long::class,
     Float::class,
     Double::class,
-    String::class,
-    Iterable::class,
-    Collection::class,
-    List::class,
-    Set::class,
-    Map::class
-).associate { it.javaObjectType.asTypeName() to it.asTypeName() }
+    String::class
+).map { it.javaObjectType.asTypeName() }

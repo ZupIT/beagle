@@ -22,8 +22,12 @@ targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
     implementation GeneralLibraries.kotlin
+    implementation GeneralLibraries.kotlinPoet
+
     implementation project(Modules.beagleAnnotation)
+    implementation project(Modules.beagleBackendDeclarative)
     implementation project(Modules.beagleCommonProcessor)
+
     implementation ProcessorLibraries.autoService
     implementation ProcessorLibraries.incap
 

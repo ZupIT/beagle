@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.compiler
 
+import br.com.zup.beagle.annotation.BeagleExpressionRoot
 import br.com.zup.beagle.annotation.RegisterWidget
 import com.google.auto.service.AutoService
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessor
@@ -32,28 +33,35 @@ import javax.tools.Diagnostic
 @IncrementalAnnotationProcessor(IncrementalAnnotationProcessorType.ISOLATING)
 class BeagleBackendProcessor : AbstractProcessor() {
     companion object {
-        val ANNOTATION = RegisterWidget::class
-        val WARNING_MESSAGE = "This @${ANNOTATION.simpleName} is not a class"
+        val BINDING_ANNOTATION = RegisterWidget::class
+        val EXPRESSION_ANNOTATION = BeagleExpressionRoot::class
+        val BINDING_WARNING = "This @${BINDING_ANNOTATION.simpleName} is not a class"
+        val EXPRESSION_WARNING = "This @${EXPRESSION_ANNOTATION.simpleName} is not a class"
     }
 
     override fun getSupportedSourceVersion() = SourceVersion.latestSupported()!!
 
-    override fun getSupportedAnnotationTypes() = mutableSetOf(ANNOTATION.qualifiedName)
+    override fun getSupportedAnnotationTypes() = mutableSetOf(BINDING_ANNOTATION.qualifiedName, EXPRESSION_ANNOTATION.qualifiedName)
 
     override fun process(annotations: MutableSet<out TypeElement>?, roundEnvironment: RoundEnvironment?): Boolean {
-        roundEnvironment?.getElementsAnnotatedWith(ANNOTATION.java)?.forEach(this::processElement)
+        roundEnvironment?.getElementsAnnotatedWith(BINDING_ANNOTATION.java)?.forEach {
+            this.processElement(it, BINDING_WARNING, BeagleWidgetBindingHandler(this.processingEnv)::handle)
+        }
+        roundEnvironment?.getElementsAnnotatedWith(EXPRESSION_ANNOTATION.java)?.forEach { element ->
+            this.processElement(element, EXPRESSION_WARNING) { BeagleExpressionHandler(this.processingEnv).handle(it) }
+        }
         return false
     }
 
-    private fun processElement(element: Element) {
+    private fun processElement(element: Element, warningMessage: String, handle: (TypeElement) -> Unit) {
         if (element is TypeElement && element.kind.isClass) {
             try {
-                this.processingEnv.let { BeagleWidgetBindingHandler(it, it.kaptGeneratedDirectory) }.handle(element)
+                handle(element)
             } catch (e: Exception) {
                 this.processingEnv.messager.printMessage(Diagnostic.Kind.ERROR, e.localizedMessage, element)
             }
         } else {
-            this.processingEnv.messager.printMessage(Diagnostic.Kind.WARNING, WARNING_MESSAGE, element)
+            this.processingEnv.messager.printMessage(Diagnostic.Kind.WARNING, warningMessage, element)
         }
     }
 }
