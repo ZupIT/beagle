@@ -17,7 +17,6 @@
 package br.com.zup.beagle.sample.compose
 
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.enums.BeaglePlatform
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
 import br.com.zup.beagle.widget.Widget
@@ -29,9 +28,7 @@ import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.Text
 
-class CustomComposeComponent(
-    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
-) : ComposeComponent() {
+class CustomComposeComponent : ComposeComponent() {
     override fun build(): ServerDrivenComponent {
         return Container(
             children = listOf(
