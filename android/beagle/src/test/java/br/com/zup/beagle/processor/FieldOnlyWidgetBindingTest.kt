@@ -16,29 +16,31 @@
 
 package br.com.zup.beagle.processor
 
+import android.view.View
 import br.com.zup.beagle.core.Binding
-import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BindingAdapter
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
-import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class FieldOnlyWidgetBindingAdapterTest {
+class FieldOnlyWidgetBindingTest {
     @InjectMockKs
-    lateinit var fieldOnlyWidgetBindingAdapter: FieldOnlyWidgetBinding
+    lateinit var fieldOnlyWidgetBinding: FieldOnlyWidgetBinding
 
     @RelaxedMockK
     lateinit var widget: FieldOnlyWidget
 
     @RelaxedMockK
     lateinit var binding: FieldOnlyWidgetBinding
+
+    @RelaxedMockK
+    lateinit var view: View
 
     val expressionBoolean: Binding<Boolean> = mockk<Binding.Expression<Boolean>>(relaxed = true)
     val expressionLong: Binding<Long> = mockk<Binding.Expression<Long>>(relaxed = true)
@@ -47,38 +49,37 @@ class FieldOnlyWidgetBindingAdapterTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-
         every { binding.a } returns expressionBoolean
         every { binding.b } returns expressionLong
         every { binding.c } returns expressionString
     }
 
-//    @Test
-//    fun fieldOnlyWidgetBindingAdapter_should_be_instance_of_BindingAdapter() {
-//        assertTrue(fieldOnlyWidgetBindingAdapter is BindingAdapter)
-//    }
-//
-//    @Test
-//    fun fieldOnlyWidgetBindingAdapter_should_have_3_elements_in_list() {
-//        val expectedSize = 3
-//        assertEquals(expectedSize, fieldOnlyWidgetBindingAdapter.getBindAttributes().size)
-//    }
-//
+    @Test
+    fun fieldOnlyWidgetBindingAdapter_should_be_instance_of_BindingAdapter() {
+        assertTrue(fieldOnlyWidgetBinding is BindingAdapter)
+    }
+
+    @Test
+    fun fieldOnlyWidgetBindingAdapter_should_have_3_elements_in_list() {
+        val expectedSize = 3
+        assertEquals(expectedSize, fieldOnlyWidgetBinding.getBindAttributes().size)
+    }
+
 //    @Test
 //    fun fieldOnlyWidgetBindingAdapter_should_call_on_bind_at_least_once() {
 //
 //        //when
-//        fieldOnlyWidgetBindingAdapter.bindModel()
+//        fieldOnlyWidgetBinding.bindModel()
 //
 //        //then
-//        verify(atLeast = once()) { widget.onBind(any()) }
+//        verify(atLeast = once()) { widget.onBind(any(), any()) }
 //    }
 //
 //    @Test
 //    fun fieldOnlyWidgetBindingAdapter_should_call_observe_on_parameters() {
 //
 //        //when
-//        fieldOnlyWidgetBindingAdapter.bindModel()
+//        fieldOnlyWidgetBinding.bindModel()
 //
 //        //then
 //        verify(exactly = once()) { expressionBoolean.observes(any()) }
@@ -101,9 +102,9 @@ class FieldOnlyWidgetBindingAdapterTest {
 //        val expected = FieldOnlyWidget(a = aPropertyValue, b = bPropertyValue, c = cPropertyValue)
 //
 //        //when
-//        fieldOnlyWidgetBindingAdapter.bindModel()
+//        fieldOnlyWidgetBinding.bindModel()
 //
 //        //then
-//        verify(exactly = once()) { widget.onBind(expected) }
+//        verify(exactly = once()) { widget.onBind(expected, view) }
 //    }
 }

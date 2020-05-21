@@ -27,13 +27,12 @@ import com.squareup.kotlinpoet.asClassName
 import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.Element
 
-const val WIDGET_INSTANCE_PROPERTY = "widgetInstance"
-const val BINDING_PROPERTY = "binding"
-const val BIND_MODEL_METHOD = "bindModel"
-const val ADAPTER_SUFFIX = "BindingAdapter"
-const val GET_VALUE_NULL_METHOD = "getValueNull"
-const val GET_VALUE_NOT_NULL_METHOD = "getValueNotNull"
-const val GET_BIND_ATTRIBUTES_METHOD = "getBindAttributes"
+internal const val WIDGET_INSTANCE_PROPERTY = "widgetInstance"
+internal const val BIND_MODEL_METHOD = "bindModel"
+internal const val ADAPTER_SUFFIX = "BindingAdapter"
+internal const val GET_VALUE_NULL_METHOD = "getValueNull"
+internal const val GET_VALUE_NOT_NULL_METHOD = "getValueNotNull"
+internal const val GET_BIND_ATTRIBUTES_METHOD = "getBindAttributes"
 
 class BeagleWidgetBindingGenerator(private val processingEnv: ProcessingEnvironment) {
 
@@ -50,20 +49,20 @@ class BeagleWidgetBindingGenerator(private val processingEnv: ProcessingEnvironm
         val attributeValues = StringBuilder()
         val notifyValues = StringBuilder()
 
-        val constructorParameters = element.visibleGetters
-        constructorParameters.forEachIndexed { index, e ->
+        val parameters = element.visibleGetters
+        parameters.forEachIndexed { index, e ->
             val isNullable = e.isMarkedNullable()
             val getValueMethodName = if (isNullable) GET_VALUE_NULL_METHOD else GET_VALUE_NOT_NULL_METHOD
 
             val attr = e.fieldName
             attributeValues.append("\t$attr = ${getValueMethodName}($attr, $WIDGET_INSTANCE_PROPERTY.$attr)")
 
-            if (index < constructorParameters.size - 1) {
+            if (index < parameters.size - 1) {
                 attributeValues.append(",\n")
             }
         }
 
-        constructorParameters.forEachIndexed { index, e ->
+        parameters.forEach{ e ->
             val attr = e.fieldName
             notifyValues.append("""
                 |$attr.observes {

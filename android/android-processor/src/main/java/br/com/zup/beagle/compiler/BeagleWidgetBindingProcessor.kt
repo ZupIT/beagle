@@ -102,8 +102,8 @@ class BeagleWidgetBindingProcessor(
             .addModifiers(KModifier.OVERRIDE)
             .addParameter(CONTEXT_PROPERTY, ClassName(ANDROID_CONTEXT.packageName, ANDROID_CONTEXT.className))
             .addStatement("""
-                this.$VIEW_PROPERTY = $WIDGET_INSTANCE_PROPERTY.buildView(context)
-                return this.$VIEW_PROPERTY""")
+                |   this.$VIEW_PROPERTY = $WIDGET_INSTANCE_PROPERTY.buildView(context)
+                |return this.$VIEW_PROPERTY""".trimMargin())
             .returns(returnType)
             .build()
     }
