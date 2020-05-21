@@ -156,10 +156,10 @@ final class BeagleNavigatorTests: XCTestCase {
         let dependecies = BeagleDependencies()
         dependecies.urlBuilder.baseUrl = URL(string: "https://server.com/path/")
         let sut = BeagleNavigator(dependencies: dependecies)
-        let screen = beagleViewController(screen: .remote(.init(url: "screen")))
+        let screen = beagleViewController(screen: .remote(.init(url: "/screen")))
 
         let navigation = BeagleNavigationController()
-        let stack = [screen, UIViewController(), UIViewController()]
+        let stack = [screen, BeagleScreenViewController(component: ComponentDummy()), BeagleScreenViewController(component: ComponentDummy())]
         navigation.viewControllers = stack
         
         sut.navigate(
@@ -170,8 +170,8 @@ final class BeagleNavigatorTests: XCTestCase {
         
         navigation.viewControllers = stack
         sut.navigate(
-            action: Navigate.popToView("/path/screen"),
-            context: screen
+            action: Navigate.popToView("/screen"),
+            context: BeagleContextDummy(viewController: stack[2])
         )
         XCTAssert(navigation.viewControllers.last == screen)
     }

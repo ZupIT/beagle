@@ -18,6 +18,17 @@ package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.widget.Widget
 
+/**
+ * A text widget will define a text view natively using the server driven information received through Beagle.
+ *
+ * @param text defines the text view content. This attribute must be declared and it cannot be null.
+ * @param style
+ *              will reference a style in your local styles file to be applied on this text view.
+ *              This attribute can be set as null.
+ * @param textColor defines the text color natively.
+ * @param alignment defines the text content alignment inside the text view.
+ *
+ */
 data class Text(
     val text: String,
     val style: String? = null,
@@ -25,8 +36,30 @@ data class Text(
     val alignment: TextAlignment? = null
 ) : Widget()
 
+/**
+ * Defines the text content alignment inside the text view
+ *
+ * @property LEFT
+ * @property CENTER
+ * @property RIGHT
+ *
+ */
 enum class TextAlignment {
+    /**
+     * Text content is LEFT aligned inside the text view.
+     *
+     */
     LEFT,
+
+    /**
+     * Text content is CENTER aligned inside the text view.
+     *
+     */
     CENTER,
+
+    /**
+     * Text content is RIGHT aligned inside the text view.
+     *
+     */
     RIGHT
 }

@@ -1,0 +1,22 @@
+name: Beagle Backend Pull Request
+
+on:
+   pull_request:
+     paths:
+        - 'backend/**'
+        - 'common/**'
+jobs:
+    pr-verification:
+        name: PR Check
+        runs-on: macos-latest
+        steps:
+            - uses: actions/checkout@v1
+            - name: Install Fastlane
+              run: bundle install
+            - name: Run pr check
+              env:
+                GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
+                GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+                CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+              run: bundle exec fastlane backend pull_request_verification
+        
