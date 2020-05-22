@@ -19,18 +19,42 @@ import UIKit
 public struct Image: Widget, AutoDecodable {
     
     // MARK: - Public Properties
-    public let path: TypePathImage
+    public let path: PathType
     public let contentMode: ImageContentMode?
     public var widgetProperties: WidgetProperties
     
     public init(
-        _ path: TypePathImage,
+        _ path: PathType,
         contentMode: ImageContentMode? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.path = path
         self.contentMode = contentMode
         self.widgetProperties = widgetProperties
+    }
+    
+    public enum PathType: Decodable {
+        case network(String)
+        case local(String)
+        
+        enum CodingKeys: String, CodingKey {
+            case type = "_beagleImagePath_"
+            case url
+            case mobileId
+        }
+        
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            
+            let type = try container.decode(String.self, forKey: .type)
+            if type == "local" {
+                let mobileId = try container.decode(String.self, forKey: .mobileId)
+                self = .local(mobileId)
+            } else {
+                let url = try container.decode(String.self, forKey: .url)
+                self = .network(url)
+            }
+        }
     }
 }
 
@@ -50,29 +74,5 @@ extension Image: Renderable {
         }
         
         return image
-    }
-}
-
-public enum TypePathImage: Decodable {
-    case network(String)
-    case local(String)
-    
-    enum CodingKeys: String, CodingKey {
-        case type = "_beagleImagePath_"
-        case url
-        case mobileId
-    }
-    
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        
-        let type = try container.decode(String.self, forKey: .type)
-        if type == "local" {
-            let mobileId = try container.decode(String.self, forKey: .mobileId)
-            self = .local(mobileId)
-        } else {
-            let url = try container.decode(String.self, forKey: .url)
-            self = .network(url)
-        }
     }
 }
