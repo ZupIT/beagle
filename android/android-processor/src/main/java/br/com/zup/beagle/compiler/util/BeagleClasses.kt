@@ -79,9 +79,9 @@ val BINDING_WIDGET = BeagleClass(
     "BindingWidget"
 )
 
-val BINDING = BeagleClass(
+val BIND = BeagleClass(
     packageName = "br.com.zup.beagle.core",
-    className = "Binding"
+    className = "Bind"
 )
 
 val GET_VALUE_NULL = BeagleClass(

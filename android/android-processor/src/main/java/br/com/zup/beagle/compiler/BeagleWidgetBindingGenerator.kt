@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.compiler
 
-import br.com.zup.beagle.compiler.util.BINDING
+import br.com.zup.beagle.compiler.util.BIND
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
@@ -92,7 +92,7 @@ class BeagleWidgetBindingGenerator(private val processingEnv: ProcessingEnvironm
     fun getFunctionGetBindAttributes(element: Element): FunSpec {
 
         val returnType = List::class.asClassName().parameterizedBy(
-            ClassName(BINDING.packageName, BINDING.className)
+            ClassName(BIND.packageName, BIND.className)
                 .parameterizedBy(STAR)
         )
         val attributeValues = StringBuilder()

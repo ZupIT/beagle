@@ -32,8 +32,8 @@ import javax.lang.model.type.TypeMirror
 import kotlin.reflect.KClass
 
 class BeagleWidgetBindingHandler(
-    processingEnvironment: ProcessingEnvironment = processingEnvironment.kaptGeneratedDirectory,
-    private val outputDirectory: File,
+    processingEnvironment: ProcessingEnvironment,
+    private val outputDirectory: File = processingEnvironment.kaptGeneratedDirectory,
     private val bindClass: KClass<out BindAttribute<*>>
 ) {
     companion object {

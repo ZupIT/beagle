@@ -19,11 +19,13 @@ package br.com.zup.beagle.compiler
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.compiler.util.ANDROID_CONTEXT
 import br.com.zup.beagle.compiler.util.ANDROID_VIEW
+import br.com.zup.beagle.compiler.util.BIND
 import br.com.zup.beagle.compiler.util.BINDING_ADAPTER
 import br.com.zup.beagle.compiler.util.GET_VALUE_NOT_NULL
 import br.com.zup.beagle.compiler.util.GET_VALUE_NULL
 import br.com.zup.beagle.compiler.util.WIDGET
 import br.com.zup.beagle.compiler.util.error
+import br.com.zup.beagle.core.BindAttribute
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
@@ -34,6 +36,7 @@ import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
+import kotlin.reflect.KClass
 
 class BeagleWidgetBindingProcessor(
     private val processingEnv: ProcessingEnvironment,
@@ -58,7 +61,9 @@ class BeagleWidgetBindingProcessor(
         if (element is TypeElement && element.kind.isClass) {
             this.processingEnv.let {
                 try {
-                    val beagleWidgetBindingHandler = BeagleWidgetBindingHandler(it)
+                    val beagleWidgetBindingHandler = BeagleWidgetBindingHandler(it, bindClass = Class.forName(
+                        BIND.toString()
+                    ).kotlin as KClass<out BindAttribute<*>>)
                     val typeSpecBuilder = beagleWidgetBindingHandler.createBindingClass(element)
 
                     typeSpecBuilder.addProperty(getAttributeWidgetInstance(element))

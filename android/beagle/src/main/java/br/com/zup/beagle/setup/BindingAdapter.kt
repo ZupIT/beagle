@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.setup
 
-import br.com.zup.beagle.core.Binding
+import br.com.zup.beagle.core.Bind
 
 interface BindingAdapter {
-    fun getBindAttributes(): List<Binding<*>>
+    fun getBindAttributes(): List<Bind<*>>
     fun bindModel()
 }

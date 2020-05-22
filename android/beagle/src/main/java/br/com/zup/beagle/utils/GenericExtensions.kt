@@ -17,7 +17,6 @@
 package br.com.zup.beagle.utils
 
 import br.com.zup.beagle.core.Bind
-import br.com.zup.beagle.core.Binding
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.WildcardType
 
@@ -44,10 +43,10 @@ fun <I, G> Any.implementsGenericTypeOf(
 
 fun <T : Any> getValueNull(binding: Bind<T>, property: T?): T? {
     return when (binding) {
-        is Binding.Expression<T> -> {
+        is Bind.Expression<T> -> {
             property
         }
-        is Binding.Value<T> -> {
+        is Bind.Value<T> -> {
             binding.value
         }
         else -> {
@@ -58,10 +57,10 @@ fun <T : Any> getValueNull(binding: Bind<T>, property: T?): T? {
 
 fun <T : Any> getValueNotNull(binding: Bind<T>, property: T): T {
     return when (binding) {
-        is Binding.Expression<T> -> {
+        is Bind.Expression<T> -> {
             property
         }
-        is Binding.Value<T> -> {
+        is Bind.Value<T> -> {
             binding.value
         }
         else -> {

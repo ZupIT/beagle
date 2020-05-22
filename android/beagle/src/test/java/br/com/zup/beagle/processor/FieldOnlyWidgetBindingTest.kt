@@ -17,7 +17,7 @@
 package br.com.zup.beagle.processor
 
 import android.view.View
-import br.com.zup.beagle.core.Binding
+import br.com.zup.beagle.core.Bind
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BindingAdapter
 import io.mockk.MockKAnnotations
@@ -48,9 +48,9 @@ class FieldOnlyWidgetBindingTest {
     @RelaxedMockK
     lateinit var fieldOnlyWidget: FieldOnlyWidget
 
-    val expressionBoolean: Binding<Boolean> = mockk<Binding.Expression<Boolean>>(relaxed = true)
-    val expressionLong: Binding<Long> = mockk<Binding.Expression<Long>>(relaxed = true)
-    val expressionString: Binding<String> = mockk<Binding.Expression<String>>(relaxed = true)
+    val expressionBoolean: Bind<Boolean> = mockk<Bind.Expression<Boolean>>(relaxed = true)
+    val expressionLong: Bind<Long> = mockk<Bind.Expression<Long>>(relaxed = true)
+    val expressionString: Bind<String> = mockk<Bind.Expression<String>>(relaxed = true)
 
     @Before
     fun setUp() {

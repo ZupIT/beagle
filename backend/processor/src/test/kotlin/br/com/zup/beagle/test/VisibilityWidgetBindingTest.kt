@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.test
 
-import br.com.zup.beagle.core.Binding
 import org.junit.jupiter.api.Test
 import kotlin.random.Random
 import kotlin.test.assertEquals
