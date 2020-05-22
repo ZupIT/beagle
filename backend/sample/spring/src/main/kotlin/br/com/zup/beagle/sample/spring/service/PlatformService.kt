@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+package br.com.zup.beagle.sample.spring.service
 
-import br.com.zup.beagle.core.LayoutComponent
-import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.enums.BeaglePlatform
+import br.com.zup.beagle.sample.builder.CustomPlatformBuilder
+import br.com.zup.beagle.sample.builder.PlatformBuilder
+import br.com.zup.beagle.spring.util.BeagleSessionUtil
+import org.springframework.stereotype.Service
 
-/**
- * component will hold a stack of components. It display its children relative to the stack.
- *
- * @param children define the components to be stacked on the Stack component view.
- *
- */
-data class Stack(
-    val children: List<ServerDrivenComponent>,
-    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
-) : ServerDrivenComponent, LayoutComponent
+@Service
+class PlatformService {
+
+    fun renderComponentUsingPlatform() = CustomPlatformBuilder(BeagleSessionUtil.getBeaglePlatformFromSession())
+
+    fun renderComponent() = PlatformBuilder
+}

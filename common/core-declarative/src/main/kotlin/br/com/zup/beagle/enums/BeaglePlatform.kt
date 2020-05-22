@@ -14,19 +14,23 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+package br.com.zup.beagle.enums
 
-import br.com.zup.beagle.core.LayoutComponent
-import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.enums.BeaglePlatform
+enum class BeaglePlatform {
+    ALL,
+    MOBILE,
+    ANDROID,
+    IOS,
+    WEB;
 
-/**
- * component will hold a stack of components. It display its children relative to the stack.
- *
- * @param children define the components to be stacked on the Stack component view.
- *
- */
-data class Stack(
-    val children: List<ServerDrivenComponent>,
-    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
-) : ServerDrivenComponent, LayoutComponent
+    fun isMobilePlatform() = this == MOBILE || this == ANDROID || this == IOS
+
+    fun allowToSendComponentToPlatform(beaglePlatform: BeaglePlatform) =
+        when (this) {
+            ALL -> true
+            MOBILE -> beaglePlatform.isMobilePlatform()
+            ANDROID -> beaglePlatform == ANDROID
+            IOS -> beaglePlatform == IOS
+            WEB -> beaglePlatform == WEB
+        }
+}

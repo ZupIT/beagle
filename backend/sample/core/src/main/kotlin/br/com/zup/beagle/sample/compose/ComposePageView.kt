@@ -27,6 +27,7 @@ import br.com.zup.beagle.widget.ui.Text
 import br.com.zup.beagle.widget.ui.TextAlignment
 
 object ComposePageView : ComposeComponent() {
+
     override fun build() = PageView(
         pageIndicator = PageIndicator(
             selectedColor = BLACK,

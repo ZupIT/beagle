@@ -21,6 +21,7 @@ import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.TouchableAnalytics
 import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.enums.BeaglePlatform
 
 /**
  *   The Touchable component defines a click listener.
@@ -33,5 +34,6 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 data class Touchable(
     val action: Action,
     override val child: ServerDrivenComponent,
-    override val clickAnalyticsEvent: ClickEvent? = null
+    override val clickAnalyticsEvent: ClickEvent? = null,
+    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
 ) : ServerDrivenComponent, GhostComponent, TouchableAnalytics

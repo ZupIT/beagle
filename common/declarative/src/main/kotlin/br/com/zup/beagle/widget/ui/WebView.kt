@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.widget.ui
 
+import br.com.zup.beagle.enums.BeaglePlatform
 import br.com.zup.beagle.widget.Widget
 
 /**
@@ -27,5 +28,6 @@ import br.com.zup.beagle.widget.Widget
  *
  */
 data class WebView(
-    val url: String
+    val url: String,
+    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
 ) : Widget()

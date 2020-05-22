@@ -19,6 +19,7 @@ package br.com.zup.beagle.widget.ui
 import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.TouchableAnalytics
+import br.com.zup.beagle.enums.BeaglePlatform
 import br.com.zup.beagle.widget.Widget
 
 /**
@@ -32,5 +33,6 @@ data class Button(
     val text: String,
     val style: String? = null,
     val action: Action? = null,
-    override val clickAnalyticsEvent: ClickEvent? = null
+    override val clickAnalyticsEvent: ClickEvent? = null,
+    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
 ) : Widget(), TouchableAnalytics

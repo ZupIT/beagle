@@ -18,6 +18,7 @@ package br.com.zup.beagle.widget.form
 
 import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.enums.BeaglePlatform
 
 /**
  *  this class works like a regular input type in HTML.
@@ -42,5 +43,6 @@ data class FormInput(
     val required: Boolean? = null,
     val validator: String? = null,
     val errorMessage: String? = null,
-    override val child: InputWidget
+    override val child: InputWidget,
+    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
 ) : ServerDrivenComponent, GhostComponent

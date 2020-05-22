@@ -19,6 +19,7 @@ package br.com.zup.beagle.serialization.jackson
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.NavigationType
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.enums.BeaglePlatform
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Text
@@ -74,7 +75,7 @@ internal class BeagleTypeSerializerTest {
     @Test
     fun serialize_Screen_should_have_screen_beagleType_field() =
         testSerialize(
-            Screen(child =CustomWidget),
+            Screen(child = CustomWidget),
             "$BEAGLE_NAMESPACE:$COMPONENT_NAMESPACE:$SCREEN_COMPONENT"
         )
 
@@ -95,5 +96,8 @@ internal class BeagleTypeSerializerTest {
     }
 
     @RegisterWidget
-    private object CustomWidget : Widget()
+    private object CustomWidget : Widget() {
+        override val beaglePlatform: BeaglePlatform
+            get() = BeaglePlatform.ALL
+    }
 }

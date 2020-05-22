@@ -19,6 +19,7 @@ package br.com.zup.beagle.widget.form
 import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.enums.BeaglePlatform
 
 /**
  *  Defines the type of operation submitted by this form. It will map these values to Http methods.
@@ -70,7 +71,8 @@ enum class FormMethodType {
  */
 data class Form(
     val action: Action,
-    val child: ServerDrivenComponent
+    val child: ServerDrivenComponent,
+    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
 ) : ServerDrivenComponent, LayoutComponent
 
 

@@ -18,6 +18,7 @@ package br.com.zup.beagle.widget.layout
 
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.enums.BeaglePlatform
 
 /**
  * component is used to fill up spaces that shouldn't be filled by any other widget or component
@@ -26,5 +27,6 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  *
  */
 data class Spacer(
-    val size: Double
+    val size: Double,
+    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
 ) : ServerDrivenComponent, LayoutComponent

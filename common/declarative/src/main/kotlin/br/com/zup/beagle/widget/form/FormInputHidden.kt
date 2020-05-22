@@ -17,6 +17,7 @@
 package br.com.zup.beagle.widget.form
 
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.enums.BeaglePlatform
 
 /**
  * represents the  <input type="hidden"> in a form.
@@ -29,5 +30,6 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  */
 data class FormInputHidden(
     val name: String,
-    val value: String
+    val value: String,
+    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
 ) : ServerDrivenComponent
