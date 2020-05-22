@@ -16,7 +16,6 @@
 
 import Foundation
 import UIKit
-import Components
 
 public struct NavigationBar: Decodable, AutoInitiable {
 
@@ -66,49 +65,4 @@ public struct NavigationBarItem: AutoInitiableAndDecodable, AccessibilityCompone
         self.accessibility = accessibility
     }
 // sourcery:end
-}
-
-extension NavigationBarItem {
-    
-    public func toBarButtonItem(
-        context: BeagleContext,
-        dependencies: RenderableDependencies
-    ) -> UIBarButtonItem {
-        let barButtonItem = NavigationBarButtonItem(barItem: self, context: context, dependencies: dependencies)
-        return barButtonItem
-    }
-    
-    final private class NavigationBarButtonItem: UIBarButtonItem {
-        
-        private let barItem: NavigationBarItem
-        private weak var context: BeagleContext?
-        
-        init(
-            barItem: NavigationBarItem,
-            context: BeagleContext,
-            dependencies: RenderableDependencies
-        ) {
-            self.barItem = barItem
-            self.context = context
-            super.init()
-            if let imageName = barItem.image {
-                image = UIImage(named: imageName, in: dependencies.appBundle, compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
-                accessibilityHint = barItem.text
-            } else {
-                title = barItem.text
-            }
-            accessibilityIdentifier = barItem.id
-            target = self
-            action = #selector(triggerAction)
-            ViewConfigurator.applyAccessibility(barItem.accessibility, to: self)
-        }
-        
-        required init?(coder aDecoder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
-        
-        @objc private func triggerAction() {
-            context?.doAction(barItem.action, sender: self)
-        }
-    }
 }

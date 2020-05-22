@@ -15,6 +15,7 @@
  */
 
 import Foundation
+import Components
 
 public protocol LogType {
     var category: String { get }

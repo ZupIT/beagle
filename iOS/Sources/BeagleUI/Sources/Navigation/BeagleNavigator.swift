@@ -15,6 +15,7 @@
  */
 
 import UIKit
+import Components
 
 public protocol DependencyNavigationController {
     var navigationControllerType: BeagleNavigationController.Type { get }
@@ -96,8 +97,9 @@ class BeagleNavigator: BeagleNavigation {
             return
         }
     }
-
-    private func openDeepLink(component: ServerDrivenComponent, source: UIViewController, data: [String: String]?, animated: Bool) {
+    
+    //TODO: Check for possible failure here ServerDrivenComponent to Components.ServerDrivenComponent
+    private func openDeepLink(component: Components.ServerDrivenComponent, source: UIViewController, data: [String: String]?, animated: Bool) {
         let viewController = Beagle.screen(.declarative(Screen(child: component)))
         let navigationToPresent = dependencies.navigationControllerType.init()
         navigationToPresent.viewControllers = [viewController]
@@ -144,9 +146,9 @@ class BeagleNavigator: BeagleNavigation {
         case .remote(let remote):
             return absoluteURL(for: remote.url) == absoluteURL(for: identifier)
         case .declarative(let screen):
-            return screen.identifier == identifier
+            return screen.id == identifier
         case .declarativeText:
-            return screenController?.screen?.identifier == identifier
+            return screenController?.screen?.id == identifier
         }
     }
     

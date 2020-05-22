@@ -16,23 +16,6 @@
 
 import Foundation
 
-public protocol ServerDrivenComponent: Decodable {
-    
-}
-
-extension ServerDrivenComponent {
-    public func toScreen() -> Screen {
-        let screen = self as? ScreenComponent
-        let safeArea = screen?.safeArea
-            ?? SafeArea(top: true, leading: true, bottom: true, trailing: true)
-
-        return Screen(
-            id: screen?.identifier,
-            appearance: screen?.appearance,
-            safeArea: safeArea,
-            navigationBar: screen?.navigationBar,
-            screenAnalyticsEvent: screen?.screenAnalyticsEvent,
-            child: screen?.child ?? self
-        )
-    }
-}
+//public protocol Screen: AppearanceComponent, IdentifiableComponent {
+//
+//}

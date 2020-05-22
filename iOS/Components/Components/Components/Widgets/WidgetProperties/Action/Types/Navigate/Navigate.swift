@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-import Components
-
 /// Action to represent a screen transition
 public enum Navigate: Action {
     
@@ -49,7 +47,7 @@ public enum Navigate: Action {
         }
     }
     
-    public struct DeepLinkNavigation {
+    public class DeepLinkNavigation {
         public let path: Path
         public let data: Data?
         public let component: ServerDrivenComponent?
@@ -61,7 +59,7 @@ public enum Navigate: Action {
         }
     }
 
-    var newPath: NewPath? {
+    public var newPath: NewPath? {
         switch self {
         case .addView(let newPath), .swapView(let newPath), .presentView(let newPath):
             return newPath
@@ -69,6 +67,26 @@ public enum Navigate: Action {
         case .swapScreen, .addScreen, .presentScreen, .finishView, .popView, .popToView, .openDeepLink:
             return nil
         }
+    }
+}
+
+extension Navigate: Decodable {
+    enum CodingKeys: String, CodingKey {
+        case type
+        case path
+        case shouldPrefetch
+        case screen
+        case data
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let type = try container.decode(NavigateEntity.NavigationType.self, forKey: .type)
+        let path = try container.decodeIfPresent(String.self, forKey: .path)
+        let shouldPrefetch = try container.decodeIfPresent(Bool.self, forKey: .shouldPrefetch)
+        let screen = try container.decodeIfPresent(ScreenComponent.self, forKey: .screen)
+        let data = try container.decodeIfPresent([String: String].self, forKey: .data)
+        self = try NavigateEntity(type: type, path: path, shouldPrefetch: shouldPrefetch, screen: screen, data: data).mapToUIModel()
     }
 }
 

@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-import UIKit
-import Components
+import Foundation
 
-public struct Screen: AppearanceComponent, AutoInitiable {
-    
+public struct ScreenComponent: AppearanceComponent, ServerDrivenComponent, AutoInitiableAndDecodable {
+
     // MARK: - Public Properties
     
     public let identifier: String?
@@ -28,7 +27,7 @@ public struct Screen: AppearanceComponent, AutoInitiable {
     public let screenAnalyticsEvent: AnalyticsScreen?
     public let child: ServerDrivenComponent
 
-// sourcery:inline:auto:Screen.Init
+// sourcery:inline:auto:ScreenComponent.Init
     public init(
         identifier: String? = nil,
         appearance: Appearance? = nil,
@@ -45,17 +44,4 @@ public struct Screen: AppearanceComponent, AutoInitiable {
         self.child = child
     }
 // sourcery:end
-}
-
-extension Screen {
-   func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        return ScreenComponent(
-            identifier: identifier,
-            appearance: appearance,
-            safeArea: safeArea,
-            navigationBar: navigationBar,
-            screenAnalyticsEvent: screenAnalyticsEvent,
-            child: child
-        ).toView(context: context, dependencies: dependencies)
-    }
 }

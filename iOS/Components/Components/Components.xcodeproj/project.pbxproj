@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C0B31F562478628A0072CCF4 /* NavigateEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B31F552478628A0072CCF4 /* NavigateEntity.swift */; };
+		C0B31F5D2478642C0072CCF4 /* SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B31F592478642B0072CCF4 /* SafeArea.swift */; };
+		C0B31F5E2478642C0072CCF4 /* ScreenComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B31F5A2478642B0072CCF4 /* ScreenComponent.swift */; };
+		C0B31F5F2478642C0072CCF4 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B31F5B2478642C0072CCF4 /* NavigationBar.swift */; };
+		C0B31F602478642C0072CCF4 /* ScreenProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B31F5C2478642C0072CCF4 /* ScreenProtocol.swift */; };
+		C0B31F622478656F0072CCF4 /* Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B31F612478656F0072CCF4 /* Screen.swift */; };
 		C0E568F82476C7F0003D413F /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E568F22476C7F0003D413F /* Button.swift */; };
 		C0E5690B2476C873003D413F /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E569062476C873003D413F /* Text.swift */; };
 		C0E5690C2476C879003D413F /* TextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E568FF2476C873003D413F /* TextTests.swift */; };
@@ -33,6 +39,7 @@
 		C0E5697724784A4C003D413F /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5697624784A4C003D413F /* WebView.swift */; };
 		C0E5697A24784AE6003D413F /* WebViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5697924784AE6003D413F /* WebViewTests.swift */; };
 		C0E5697F24784BDB003D413F /* WebView.json in Resources */ = {isa = PBXBuildFile; fileRef = C0E5697C24784B26003D413F /* WebView.json */; };
+		C0E5698524784E29003D413F /* Navigate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5698424784E29003D413F /* Navigate.swift */; };
 		C0FBBD212475803900B72A9B /* Components.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FBBD172475803900B72A9B /* Components.framework */; };
 		C0FBBD262475803900B72A9B /* ComponentsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FBBD252475803900B72A9B /* ComponentsTests.swift */; };
 		C0FBBD282475803900B72A9B /* Components.h in Headers */ = {isa = PBXBuildFile; fileRef = C0FBBD1A2475803900B72A9B /* Components.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -60,6 +67,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C0B31F552478628A0072CCF4 /* NavigateEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigateEntity.swift; sourceTree = "<group>"; };
+		C0B31F592478642B0072CCF4 /* SafeArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeArea.swift; sourceTree = "<group>"; };
+		C0B31F5A2478642B0072CCF4 /* ScreenComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenComponent.swift; sourceTree = "<group>"; };
+		C0B31F5B2478642C0072CCF4 /* NavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
+		C0B31F5C2478642C0072CCF4 /* ScreenProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenProtocol.swift; sourceTree = "<group>"; };
+		C0B31F612478656F0072CCF4 /* Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Screen.swift; sourceTree = "<group>"; };
 		C0E568EF2476C7F0003D413F /* ButtonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonTests.swift; sourceTree = "<group>"; };
 		C0E568F12476C7F0003D413F /* buttonComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = buttonComponent.json; sourceTree = "<group>"; };
 		C0E568F22476C7F0003D413F /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
@@ -87,11 +100,12 @@
 		C0E569682478292B003D413F /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C0E5696B247847A8003D413F /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C0E5696D247847CB003D413F /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
-		C0E5696E24784808003D413F /* Button */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Button; sourceTree = "<group>"; };
+		C0E5696E24784808003D413F /* Button */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Button; sourceTree = "<group>"; };
 		C0E5697624784A4C003D413F /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		C0E5697924784AE6003D413F /* WebViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewTests.swift; sourceTree = "<group>"; };
 		C0E5697C24784B26003D413F /* WebView.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = WebView.json; sourceTree = "<group>"; };
 		C0E5697E24784BA3003D413F /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
+		C0E5698424784E29003D413F /* Navigate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Navigate.swift; sourceTree = "<group>"; };
 		C0FBBD172475803900B72A9B /* Components.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Components.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0FBBD1A2475803900B72A9B /* Components.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Components.h; sourceTree = "<group>"; };
 		C0FBBD1B2475803900B72A9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -135,6 +149,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C0B31F4624785B050072CCF4 /* Screen */ = {
+			isa = PBXGroup;
+			children = (
+				C0B31F5B2478642C0072CCF4 /* NavigationBar.swift */,
+				C0B31F592478642B0072CCF4 /* SafeArea.swift */,
+				C0B31F5A2478642B0072CCF4 /* ScreenComponent.swift */,
+				C0B31F5C2478642C0072CCF4 /* ScreenProtocol.swift */,
+				C0B31F612478656F0072CCF4 /* Screen.swift */,
+			);
+			path = Screen;
+			sourceTree = "<group>";
+		};
 		C0E568EE2476C7F0003D413F /* Button */ = {
 			isa = PBXGroup;
 			children = (
@@ -193,7 +219,7 @@
 		C0E5691B2476F124003D413F /* Action */ = {
 			isa = PBXGroup;
 			children = (
-				C0E5693E2477142E003D413F /* ActionTypes */,
+				C0E5693E2477142E003D413F /* Types */,
 				C0E5691C2476F12F003D413F /* Action.swift */,
 			);
 			path = Action;
@@ -220,6 +246,7 @@
 		C0E5692A2476F6E8003D413F /* ServerDrivenComponent */ = {
 			isa = PBXGroup;
 			children = (
+				C0B31F4624785B050072CCF4 /* Screen */,
 				C0E5697524784A2E003D413F /* WebView */,
 				C0E5693F24772642003D413F /* Touchable */,
 				C0E5692B2476F700003D413F /* ServerDrivenComponent.swift */,
@@ -260,11 +287,16 @@
 			path = ComponentDecoderTests;
 			sourceTree = "<group>";
 		};
-		C0E5693E2477142E003D413F /* ActionTypes */ = {
+		C0E5693E2477142E003D413F /* Types */ = {
 			isa = PBXGroup;
 			children = (
+				C0E5698624784E99003D413F /* FormValidation */,
+				C0E5698924784EB4003D413F /* FormRemoteAction */,
+				C0E5698824784EAC003D413F /* CustomAction */,
+				C0E5698724784EA1003D413F /* ShowNativeDialog */,
+				C0E5698324784E16003D413F /* Navigate */,
 			);
-			path = ActionTypes;
+			path = Types;
 			sourceTree = "<group>";
 		};
 		C0E5693F24772642003D413F /* Touchable */ = {
@@ -363,6 +395,43 @@
 				C0E5697C24784B26003D413F /* WebView.json */,
 			);
 			path = JSON;
+			sourceTree = "<group>";
+		};
+		C0E5698324784E16003D413F /* Navigate */ = {
+			isa = PBXGroup;
+			children = (
+				C0B31F552478628A0072CCF4 /* NavigateEntity.swift */,
+				C0E5698424784E29003D413F /* Navigate.swift */,
+			);
+			path = Navigate;
+			sourceTree = "<group>";
+		};
+		C0E5698624784E99003D413F /* FormValidation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = FormValidation;
+			sourceTree = "<group>";
+		};
+		C0E5698724784EA1003D413F /* ShowNativeDialog */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ShowNativeDialog;
+			sourceTree = "<group>";
+		};
+		C0E5698824784EAC003D413F /* CustomAction */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CustomAction;
+			sourceTree = "<group>";
+		};
+		C0E5698924784EB4003D413F /* FormRemoteAction */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = FormRemoteAction;
 			sourceTree = "<group>";
 		};
 		C0FBBD0D2475803900B72A9B = {
@@ -664,6 +733,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0B31F622478656F0072CCF4 /* Screen.swift in Sources */,
 				C0E5693124770758003D413F /* ComponentDependencies.swift in Sources */,
 				C0E5690F2476C983003D413F /* Events.swift in Sources */,
 				C0FBBE022475C79600B72A9B /* Accessibility.swift in Sources */,
@@ -686,8 +756,14 @@
 				C0E568F82476C7F0003D413F /* Button.swift in Sources */,
 				C0FBBE122475C95800B72A9B /* Equality.generated.swift in Sources */,
 				C0FBBE052475C79600B72A9B /* Size.swift in Sources */,
+				C0B31F5F2478642C0072CCF4 /* NavigationBar.swift in Sources */,
 				C0E5691D2476F12F003D413F /* Action.swift in Sources */,
+				C0B31F5E2478642C0072CCF4 /* ScreenComponent.swift in Sources */,
+				C0B31F602478642C0072CCF4 /* ScreenProtocol.swift in Sources */,
+				C0E5698524784E29003D413F /* Navigate.swift in Sources */,
 				C0FBBE042475C79600B72A9B /* EdgeValue.swift in Sources */,
+				C0B31F5D2478642C0072CCF4 /* SafeArea.swift in Sources */,
+				C0B31F562478628A0072CCF4 /* NavigateEntity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

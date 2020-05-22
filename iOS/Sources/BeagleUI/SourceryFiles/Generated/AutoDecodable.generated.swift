@@ -102,52 +102,6 @@ extension ListView {
     }
 }
 
-// MARK: NavigationBarItem Decodable
-extension NavigationBarItem {
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case image
-        case text
-        case action
-        case accessibility
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        id = try container.decodeIfPresent(String.self, forKey: .id)
-        image = try container.decodeIfPresent(String.self, forKey: .image)
-        text = try container.decode(String.self, forKey: .text)
-        action = try container.decode( forKey: .action)
-        accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
-    }
-}
-
-// MARK: ScreenComponent Decodable
-extension ScreenComponent {
-
-    enum CodingKeys: String, CodingKey {
-        case identifier
-        case appearance
-        case safeArea
-        case navigationBar
-        case screenAnalyticsEvent
-        case child
-    }
-
-    internal init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        identifier = try container.decodeIfPresent(String.self, forKey: .identifier)
-        appearance = try container.decodeIfPresent(Appearance.self, forKey: .appearance)
-        safeArea = try container.decodeIfPresent(SafeArea.self, forKey: .safeArea)
-        navigationBar = try container.decodeIfPresent(NavigationBar.self, forKey: .navigationBar)
-        screenAnalyticsEvent = try container.decodeIfPresent(AnalyticsScreen.self, forKey: .screenAnalyticsEvent)
-        child = try container.decode( forKey: .child)
-    }
-}
-
 // MARK: ScrollView Decodable
 extension ScrollView {
 
@@ -183,21 +137,5 @@ extension TabItem {
         icon = try container.decodeIfPresent(String.self, forKey: .icon)
         title = try container.decodeIfPresent(String.self, forKey: .title)
         content = try container.decode( forKey: .content)
-    }
-}
-
-// MARK: WebView Decodable
-extension WebView {
-
-    enum CodingKeys: String, CodingKey {
-        case url
-        case flex
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        url = try container.decode(String.self, forKey: .url)
-        flex = try container.decodeIfPresent(Flex.self, forKey: .flex)
     }
 }

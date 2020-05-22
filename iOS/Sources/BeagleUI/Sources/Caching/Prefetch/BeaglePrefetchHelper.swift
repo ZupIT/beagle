@@ -15,6 +15,7 @@
  */
 
 import Foundation
+import Components
 
 public protocol DependencyPreFetching {
     var preFetchHelper: BeaglePrefetchHelping { get }

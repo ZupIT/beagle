@@ -14,25 +14,18 @@
  * limitations under the License.
  */
 
-import Foundation
+import UIKit
+import Components
 
-public protocol ServerDrivenComponent: Decodable {
-    
-}
-
-extension ServerDrivenComponent {
-    public func toScreen() -> Screen {
-        let screen = self as? ScreenComponent
-        let safeArea = screen?.safeArea
-            ?? SafeArea(top: true, leading: true, bottom: true, trailing: true)
-
-        return Screen(
-            id: screen?.identifier,
-            appearance: screen?.appearance,
+extension Screen {
+   func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+        return ScreenComponent(
+            identifier: id,
+            appearance: appearance,
             safeArea: safeArea,
-            navigationBar: screen?.navigationBar,
-            screenAnalyticsEvent: screen?.screenAnalyticsEvent,
-            child: screen?.child ?? self
-        )
+            navigationBar: navigationBar,
+            screenAnalyticsEvent: screenAnalyticsEvent,
+            child: child
+        ).toView(context: context, dependencies: dependencies)
     }
 }

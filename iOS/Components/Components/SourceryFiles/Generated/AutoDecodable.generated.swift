@@ -55,6 +55,28 @@ extension Image {
     }
 }
 
+// MARK: NavigationBarItem Decodable
+extension NavigationBarItem {
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case image
+        case text
+        case action
+        case accessibility
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decodeIfPresent(String.self, forKey: .id)
+        image = try container.decodeIfPresent(String.self, forKey: .image)
+        text = try container.decode(String.self, forKey: .text)
+        action = try container.decode( forKey: .action)
+        accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
+    }
+}
+
 // MARK: NetworkImage Decodable
 extension NetworkImage {
 
@@ -69,6 +91,30 @@ extension NetworkImage {
         path = try container.decode(String.self, forKey: .path)
         contentMode = try container.decodeIfPresent(ImageContentMode.self, forKey: .contentMode)
         widgetProperties = try WidgetProperties(from: decoder)
+    }
+}
+
+// MARK: ScreenComponent Decodable
+extension ScreenComponent {
+
+    enum CodingKeys: String, CodingKey {
+        case identifier
+        case appearance
+        case safeArea
+        case navigationBar
+        case screenAnalyticsEvent
+        case child
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        identifier = try container.decodeIfPresent(String.self, forKey: .identifier)
+        appearance = try container.decodeIfPresent(Appearance.self, forKey: .appearance)
+        safeArea = try container.decodeIfPresent(SafeArea.self, forKey: .safeArea)
+        navigationBar = try container.decodeIfPresent(NavigationBar.self, forKey: .navigationBar)
+        screenAnalyticsEvent = try container.decodeIfPresent(AnalyticsScreen.self, forKey: .screenAnalyticsEvent)
+        child = try container.decode( forKey: .child)
     }
 }
 

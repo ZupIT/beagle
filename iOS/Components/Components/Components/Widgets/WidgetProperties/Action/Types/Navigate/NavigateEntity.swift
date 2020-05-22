@@ -16,26 +16,6 @@
 
 import Foundation
 
-extension Navigate: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case type
-        case path
-        case shouldPrefetch
-        case screen
-        case data
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        let type = try container.decode(NavigateEntity.NavigationType.self, forKey: .type)
-        let path = try container.decodeIfPresent(String.self, forKey: .path)
-        let shouldPrefetch = try container.decodeIfPresent(Bool.self, forKey: .shouldPrefetch)
-        let screen = try container.decodeIfPresent(ScreenComponent.self, forKey: .screen)
-        let data = try container.decodeIfPresent([String: String].self, forKey: .data)
-        self = try NavigateEntity(type: type, path: path, shouldPrefetch: shouldPrefetch, screen: screen, data: data).mapToUIModel()
-    }
-}
-
 struct NavigateEntity {
     let type: NavigationType
     let path: String?

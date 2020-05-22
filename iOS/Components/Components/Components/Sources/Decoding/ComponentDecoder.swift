@@ -102,7 +102,7 @@ final public class ComponentDecoder: ComponentDecoding {
     }
     
     private func registerActions() {
-//        registerComponent(Navigate.self, key: key(name: "Navigate", content: .action, namespace: .beagle))
+        registerComponent(Navigate.self, key: key(name: "Navigate", content: .action, namespace: .beagle))
 //        registerComponent(FormValidation.self, key: key(name: "FormValidation", content: .action, namespace: .beagle))
 //        registerComponent(ShowNativeDialog.self, key: key(name: "ShowNativeDialog", content: .action, namespace: .beagle))
 //        registerComponent(CustomAction.self, key: key(name: "CustomAction", content: .action, namespace: .beagle))
