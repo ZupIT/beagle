@@ -28,6 +28,9 @@
 		C0B31F882478780A0072CCF4 /* FormInputHidden.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B31F872478780A0072CCF4 /* FormInputHidden.swift */; };
 		C0B31F8A247878430072CCF4 /* InputValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B31F89247878430072CCF4 /* InputValue.swift */; };
 		C0B31F8C247878AA0072CCF4 /* FormInputTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B31F8B247878AA0072CCF4 /* FormInputTests.swift */; };
+		C0B31F8F24787A880072CCF4 /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B31F8E24787A870072CCF4 /* Container.swift */; };
+		C0B31F9324787B410072CCF4 /* Container.json in Resources */ = {isa = PBXBuildFile; fileRef = C0B31F9224787B410072CCF4 /* Container.json */; };
+		C0B31F9624787B6B0072CCF4 /* ContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B31F9524787B6B0072CCF4 /* ContainerTests.swift */; };
 		C0E568F82476C7F0003D413F /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E568F22476C7F0003D413F /* Button.swift */; };
 		C0E5690B2476C873003D413F /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E569062476C873003D413F /* Text.swift */; };
 		C0E5690C2476C879003D413F /* TextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E568FF2476C873003D413F /* TextTests.swift */; };
@@ -103,6 +106,10 @@
 		C0B31F872478780A0072CCF4 /* FormInputHidden.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormInputHidden.swift; sourceTree = "<group>"; };
 		C0B31F89247878430072CCF4 /* InputValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputValue.swift; sourceTree = "<group>"; };
 		C0B31F8B247878AA0072CCF4 /* FormInputTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormInputTests.swift; sourceTree = "<group>"; };
+		C0B31F8E24787A870072CCF4 /* Container.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Container.swift; sourceTree = "<group>"; };
+		C0B31F9224787B410072CCF4 /* Container.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Container.json; sourceTree = "<group>"; };
+		C0B31F9424787B560072CCF4 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
+		C0B31F9524787B6B0072CCF4 /* ContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerTests.swift; sourceTree = "<group>"; };
 		C0E568EF2476C7F0003D413F /* ButtonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonTests.swift; sourceTree = "<group>"; };
 		C0E568F12476C7F0003D413F /* buttonComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = buttonComponent.json; sourceTree = "<group>"; };
 		C0E568F22476C7F0003D413F /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
@@ -255,6 +262,33 @@
 				C0B31F8B247878AA0072CCF4 /* FormInputTests.swift */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		C0B31F8D24787A520072CCF4 /* Container */ = {
+			isa = PBXGroup;
+			children = (
+				C0B31F9024787AE30072CCF4 /* Tests */,
+				C0B31F8E24787A870072CCF4 /* Container.swift */,
+			);
+			path = Container;
+			sourceTree = "<group>";
+		};
+		C0B31F9024787AE30072CCF4 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				C0B31F9524787B6B0072CCF4 /* ContainerTests.swift */,
+				C0B31F9424787B560072CCF4 /* __Snapshots__ */,
+				C0B31F9124787AE90072CCF4 /* JSON */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		C0B31F9124787AE90072CCF4 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				C0B31F9224787B410072CCF4 /* Container.json */,
+			);
+			path = JSON;
 			sourceTree = "<group>";
 		};
 		C0E568EE2476C7F0003D413F /* Button */ = {
@@ -588,6 +622,7 @@
 			isa = PBXGroup;
 			children = (
 				C0FBBDF42475C53600B72A9B /* Widget.swift */,
+				C0B31F8D24787A520072CCF4 /* Container */,
 				C0E5696424781FDB003D413F /* NetworkImage */,
 				C0E5695524781AD7003D413F /* Image */,
 				C0E568FD2476C873003D413F /* Text */,
@@ -782,6 +817,7 @@
 				C0E5693924771282003D413F /* TextComponent.json in Resources */,
 				C0E5696224781EAE003D413F /* ImageComponent.json in Resources */,
 				C0E5695424781590003D413F /* TouchableDecoderTest.json in Resources */,
+				C0B31F9324787B410072CCF4 /* Container.json in Resources */,
 				C0E5693D24771346003D413F /* buttonComponent.json in Resources */,
 				C0E5697F24784BDB003D413F /* WebView.json in Resources */,
 				C0B31F7424786F680072CCF4 /* formComponent.json in Resources */,
@@ -861,6 +897,7 @@
 				C0E5690B2476C873003D413F /* Text.swift in Sources */,
 				C0E5696624781FEB003D413F /* NetworkImage.swift in Sources */,
 				C0E5692C2476F700003D413F /* ServerDrivenComponent.swift in Sources */,
+				C0B31F8F24787A880072CCF4 /* Container.swift in Sources */,
 				C0E568F82476C7F0003D413F /* Button.swift in Sources */,
 				C0FBBE122475C95800B72A9B /* Equality.generated.swift in Sources */,
 				C0FBBE052475C79600B72A9B /* Size.swift in Sources */,
@@ -893,6 +930,7 @@
 				C0E5690C2476C879003D413F /* TextTests.swift in Sources */,
 				C0E5694424781302003D413F /* TouchableTests.swift in Sources */,
 				C0E569292476F583003D413F /* ComponentFromJsonFile.swift in Sources */,
+				C0B31F9624787B6B0072CCF4 /* ContainerTests.swift in Sources */,
 				C0E5695824781AF9003D413F /* ImageTests.swift in Sources */,
 				C0E5693724770C38003D413F /* ComponentDecoderTests.swift in Sources */,
 			);

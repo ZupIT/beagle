@@ -65,11 +65,6 @@ final class ContainerTests: XCTestCase {
         XCTAssert(resultingView.subviews.count == numberOfChilds)
     }
     
-    func test_whenDecodingJson_shouldReturnAContainer() throws {
-        let component: Container = try componentFromJsonFile(fileName: "Container")
-        assertSnapshot(matching: component, as: .dump)
-    }
-    
     func test_renderContainer() throws {
         let component: Container = try componentFromJsonFile(fileName: "Container")
         let screen = Beagle.screen(.declarative(component.toScreen()))

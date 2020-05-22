@@ -17,23 +17,6 @@
 import UIKit
 import Components
 
-public struct Container: Widget, AutoInitiableAndDecodable {
-    
-    // MARK: - Public Properties
-    public let children: [ServerDrivenComponent]
-    public var widgetProperties: WidgetProperties
-    
-// sourcery:inline:auto:Container.Init
-    public init(
-        children: [ServerDrivenComponent],
-        widgetProperties: WidgetProperties = WidgetProperties()
-    ) {
-        self.children = children
-        self.widgetProperties = widgetProperties
-    }
-// sourcery:end
-}
-
 // MARK: - Configuration
 extension Container {
     
@@ -49,14 +32,16 @@ extension Container {
     }
 }
 
-extension Container: Renderable {
+//TODO: avoid casting to serverDrivenComponent
+extension Container: Widget {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let containerView = UIView()
         
         children.forEach {
-            let childView = $0.toView(context: context, dependencies: dependencies)
-            containerView.addSubview(childView)
-            childView.flex.isEnabled = true
+            if let childView = ($0 as? ServerDrivenComponent)?.toView(context: context, dependencies: dependencies) {
+                containerView.addSubview(childView)
+                childView.flex.isEnabled = true
+            }
         }
 
         containerView.beagle.setup(self)

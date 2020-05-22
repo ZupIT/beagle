@@ -110,7 +110,7 @@ final public class ComponentDecoder: ComponentDecoding {
     }
     
     private func registerCoreTypes() {
-//        registerComponent(Container.self, key: key(name: "Container", content: .component, namespace: .beagle))
+        registerComponent(Container.self, key: key(name: "Container", content: .component, namespace: .beagle))
         registerComponent(Touchable.self, key: key(name: "Touchable", content: .component, namespace: .beagle))
     }
     
@@ -122,7 +122,7 @@ final public class ComponentDecoder: ComponentDecoding {
     }
     
     private func registerLayoutTypes() {
-//        registerComponent(ScreenComponent.self, key: key(name: "ScreenComponent", content: .component, namespace: .beagle))
+        registerComponent(ScreenComponent.self, key: key(name: "ScreenComponent", content: .component, namespace: .beagle))
 //        registerComponent(Spacer.self, key: key(name: "Spacer", content: .component, namespace: .beagle))
 //        registerComponent(ScrollView.self, key: key(name: "ScrollView", content: .component, namespace: .beagle))
     }

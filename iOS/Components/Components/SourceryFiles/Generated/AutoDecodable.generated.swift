@@ -38,6 +38,21 @@ extension Button {
     }
 }
 
+// MARK: Container Decodable
+extension Container {
+
+    enum CodingKeys: String, CodingKey {
+        case children
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        children = try container.decode( forKey: .children)
+        widgetProperties = try WidgetProperties(from: decoder)
+    }
+}
+
 // MARK: Form Decodable
 extension Form {
 
