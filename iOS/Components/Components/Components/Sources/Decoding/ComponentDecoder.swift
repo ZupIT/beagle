@@ -103,10 +103,10 @@ final public class ComponentDecoder: ComponentDecoding {
     
     private func registerActions() {
         registerComponent(Navigate.self, key: key(name: "Navigate", content: .action, namespace: .beagle))
-//        registerComponent(FormValidation.self, key: key(name: "FormValidation", content: .action, namespace: .beagle))
-//        registerComponent(ShowNativeDialog.self, key: key(name: "ShowNativeDialog", content: .action, namespace: .beagle))
-//        registerComponent(CustomAction.self, key: key(name: "CustomAction", content: .action, namespace: .beagle))
-//        registerComponent(FormRemoteAction.self, key: key(name: "FormRemoteAction", content: .action, namespace: .beagle))
+        registerComponent(FormValidation.self, key: key(name: "FormValidation", content: .action, namespace: .beagle))
+        registerComponent(ShowNativeDialog.self, key: key(name: "ShowNativeDialog", content: .action, namespace: .beagle))
+        registerComponent(CustomAction.self, key: key(name: "CustomAction", content: .action, namespace: .beagle))
+        registerComponent(FormRemoteAction.self, key: key(name: "FormRemoteAction", content: .action, namespace: .beagle))
     }
     
     private func registerCoreTypes() {
@@ -115,10 +115,10 @@ final public class ComponentDecoder: ComponentDecoding {
     }
     
     private func registerFormModels() {
-//        registerComponent(Form.self, key: key(name: "Form", content: .component, namespace: .beagle))
-//        registerComponent(FormSubmit.self, key: key(name: "FormSubmit", content: .component, namespace: .beagle))
-//        registerComponent(FormInput.self, key: key(name: "FormInput", content: .component, namespace: .beagle))
-//        registerComponent(FormInputHidden.self, key: key(name: "FormInputHidden", content: .component, namespace: .beagle))
+        registerComponent(Form.self, key: key(name: "Form", content: .component, namespace: .beagle))
+        registerComponent(FormSubmit.self, key: key(name: "FormSubmit", content: .component, namespace: .beagle))
+        registerComponent(FormInput.self, key: key(name: "FormInput", content: .component, namespace: .beagle))
+        registerComponent(FormInputHidden.self, key: key(name: "FormInputHidden", content: .component, namespace: .beagle))
     }
     
     private func registerLayoutTypes() {

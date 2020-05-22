@@ -42,11 +42,6 @@ final class FormTests: XCTestCase {
         // Then
         XCTAssertTrue(context.didCallRegisterFormSubmit)
     }
-    
-    func test_whenDecodingJson_thenItShouldReturnAForm() throws {
-        let component: Form = try componentFromJsonFile(fileName: "formComponent")
-        assertSnapshot(matching: component, as: .dump)
-    }
 
     func test_registerForm_shouldAddGestureRecognizer() throws {
         // Given

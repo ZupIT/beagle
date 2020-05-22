@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,19 +16,18 @@
  */
 
 import XCTest
-@testable import BeagleUI
+@testable import Components
+import SnapshotTesting
 
-final class FormSubmitTests: XCTestCase {
-    
-    func test_toView_shouldReturnTheExpectedView() {
-        // Given
-        let formSubmit = FormSubmit(child: ComponentDummy())
-                
-        // When
-        let view = formSubmit.toView(context: BeagleContextDummy(), dependencies: BeagleScreenDependencies())
-        
+class FormSubmitTests: XCTestCase {
+
+    func test_initWithChild_shouldReturnValidFormSubmit() {
+        // Given / When
+        let sut = FormSubmit(child:
+            Text("Text")
+        )
         // Then
-        XCTAssertTrue(view.subviews.first?.beagleFormElement is FormSubmit)
+        XCTAssert(sut.child is Text)
     }
-    
+
 }

@@ -15,21 +15,8 @@
  */
 
 import Foundation
-import Components
 
-/// A custom action to be implemented by the application
-public struct CustomAction: Action, AutoInitiable {
-    
-    public let name: String
-    public let data: [String: String]
-
-// sourcery:inline:auto:CustomAction.Init
-    public init(
-        name: String,
-        data: [String: String]
-    ) {
-        self.name = name
-        self.data = data
-    }
-// sourcery:end
+//TODO: Don't know for sure if this should be in Components
+public protocol InputValue {
+    func getValue() -> Any
 }

@@ -17,27 +17,12 @@
 import UIKit
 import Components
 
-public struct Form: ServerDrivenComponent, AutoInitiableAndDecodable {
-    
-    // MARK: - Public Properties
-
-    public let action: Action
-    public let child: ServerDrivenComponent
-
-// sourcery:inline:auto:Form.Init
-    public init(
-        action: Action,
-        child: ServerDrivenComponent
-    ) {
-        self.action = action
-        self.child = child
-    }
-// sourcery:end
-}
-
+//TODO: avoid casting child to serverDriven Component
 extension Form: Renderable {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        let childView = child.toView(context: context, dependencies: dependencies)
+        guard let childView = (child as? ServerDrivenComponent)?.toView(context: context, dependencies: dependencies) else {
+            return UIView()
+        }
         var hasFormSubmit = false
         
         func registerFormSubmit(view: UIView) {
@@ -71,7 +56,8 @@ extension UIView {
         }
     }
     
-    var beagleFormElement: ServerDrivenComponent? {
+    //TODO: check for possible failure here
+    var beagleFormElement: Components.ServerDrivenComponent? {
         get {
             return (objc_getAssociatedObject(self, &AssociatedKeys.FormElement) as? ObjectWrapper)?.object
         }

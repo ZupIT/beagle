@@ -15,24 +15,20 @@
  */
 
 import Foundation
-import Components
 
-/// Action to represent a native alert
-public struct ShowNativeDialog: Action, AutoInitiable {
+/// A custom action to be implemented by the application
+public struct CustomAction: Action, AutoInitiable {
     
-    public let title: String
-    public let message: String
-    public let buttonText: String
+    public let name: String
+    public let data: [String: String]
 
-// sourcery:inline:auto:ShowNativeDialog.Init
+// sourcery:inline:auto:CustomAction.Init
     public init(
-        title: String,
-        message: String,
-        buttonText: String
+        name: String,
+        data: [String: String]
     ) {
-        self.title = title
-        self.message = message
-        self.buttonText = buttonText
+        self.name = name
+        self.data = data
     }
 // sourcery:end
 }

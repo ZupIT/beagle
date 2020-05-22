@@ -16,35 +16,20 @@
 
 import UIKit
 
-public struct FormInput: FormInputComponent, AutoInitiableAndDecodable {
+public struct Form: ServerDrivenComponent, AutoInitiableAndDecodable {
     
-    public let name: String
-    public let required: Bool?
-    public let validator: String?
-    public let errorMessage: String?
+    // MARK: - Public Properties
+
+    public let action: Action
     public let child: ServerDrivenComponent
 
-// sourcery:inline:auto:FormInput.Init
+// sourcery:inline:auto:Form.Init
     public init(
-        name: String,
-        required: Bool? = nil,
-        validator: String? = nil,
-        errorMessage: String? = nil,
+        action: Action,
         child: ServerDrivenComponent
     ) {
-        self.name = name
-        self.required = required
-        self.validator = validator
-        self.errorMessage = errorMessage
+        self.action = action
         self.child = child
     }
 // sourcery:end
-}
-
-extension FormInput: Renderable {
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        let childView = child.toView(context: context, dependencies: dependencies)
-        childView.beagleFormElement = self
-        return childView
-    }
 }

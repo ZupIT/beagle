@@ -17,21 +17,6 @@
 import UIKit
 import Components
 
-public struct FormInputHidden: FormInputComponent, AutoInitiable {
-    public let name: String
-    public let value: String
-
-// sourcery:inline:auto:FormInputHidden.Init
-    public init(
-        name: String,
-        value: String
-    ) {
-        self.name = name
-        self.value = value
-    }
-// sourcery:end
-}
-
 extension FormInputHidden: Renderable {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let view = HidenInputView(value: value)

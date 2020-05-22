@@ -15,29 +15,15 @@
  */
 
 import UIKit
+import Components
 
-public struct FormSubmit: ServerDrivenComponent {
-    
-    // MARK: - Public Properties
-    public let child: ServerDrivenComponent
-    public var enabled: Bool?
-    
-    // MARK: - Initialization
-    
-    public init(
-        child: ServerDrivenComponent,
-        enabled: Bool? = nil
-    ) {
-        self.child = child
-        self.enabled = enabled
-    }
-    
-}
-
+//TODO: avoid the casting to SErver driven component
 extension FormSubmit: Renderable {
     
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        let childView = child.toView(context: context, dependencies: dependencies)
+        guard let childView = (child as? ServerDrivenComponent)?.toView(context: context, dependencies: dependencies) else {
+            return UIView()
+        }
         childView.flex.isEnabled = true
         childView.beagleFormElement = self
         
@@ -72,18 +58,5 @@ extension FormSubmit: Renderable {
                 .compactMap { $0 as? SubmitFormGestureRecognizer }
                 .forEach { $0.updateSubmitView() }
         }
-    }
-}
-
-extension FormSubmit: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case child
-        case enabled
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.child = try container.decode(forKey: .child)
-        self.enabled = try container.decodeIfPresent(Bool.self, forKey: .enabled)
     }
 }

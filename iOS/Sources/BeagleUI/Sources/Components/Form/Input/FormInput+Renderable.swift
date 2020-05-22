@@ -14,20 +14,16 @@
  * limitations under the License.
  */
 
-import XCTest
-@testable import BeagleUI
+import UIKit
+import Components
 
-final class FormSubmitTests: XCTestCase {
-    
-    func test_toView_shouldReturnTheExpectedView() {
-        // Given
-        let formSubmit = FormSubmit(child: ComponentDummy())
-                
-        // When
-        let view = formSubmit.toView(context: BeagleContextDummy(), dependencies: BeagleScreenDependencies())
-        
-        // Then
-        XCTAssertTrue(view.subviews.first?.beagleFormElement is FormSubmit)
+//TODO: avoid casting to serverDrivenComponent
+extension FormInput: Renderable {
+    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+        guard let childView = (child as? ServerDrivenComponent)?.toView(context: context, dependencies: dependencies) else {
+            return UIView()
+        }
+        childView.beagleFormElement = self
+        return childView
     }
-    
 }

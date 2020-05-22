@@ -49,9 +49,9 @@ public enum Log {
     public enum Form {
         case validatorNotFound(named: String)
         case validationInputNotValid(inputName: String)
-        case submitNotFound(form: BeagleUI.Form)
-        case inputsNotFound(form: BeagleUI.Form)
-        case divergentInputViewAndValueCount(form: BeagleUI.Form)
+        case submitNotFound(form: Components.Form)
+        case inputsNotFound(form: Components.Form)
+        case divergentInputViewAndValueCount(form: Components.Form)
         case submittedValues(values: [String: String])
     }
 

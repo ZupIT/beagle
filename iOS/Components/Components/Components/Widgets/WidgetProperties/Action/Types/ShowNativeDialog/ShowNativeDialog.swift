@@ -14,20 +14,24 @@
  * limitations under the License.
  */
 
-import XCTest
-@testable import BeagleUI
+import Foundation
 
-final class FormSubmitTests: XCTestCase {
+/// Action to represent a native alert
+public struct ShowNativeDialog: Action, AutoInitiable {
     
-    func test_toView_shouldReturnTheExpectedView() {
-        // Given
-        let formSubmit = FormSubmit(child: ComponentDummy())
-                
-        // When
-        let view = formSubmit.toView(context: BeagleContextDummy(), dependencies: BeagleScreenDependencies())
-        
-        // Then
-        XCTAssertTrue(view.subviews.first?.beagleFormElement is FormSubmit)
+    public let title: String
+    public let message: String
+    public let buttonText: String
+
+// sourcery:inline:auto:ShowNativeDialog.Init
+    public init(
+        title: String,
+        message: String,
+        buttonText: String
+    ) {
+        self.title = title
+        self.message = message
+        self.buttonText = buttonText
     }
-    
+// sourcery:end
 }

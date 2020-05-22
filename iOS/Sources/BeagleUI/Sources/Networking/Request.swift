@@ -15,6 +15,7 @@
  */
 
 import Foundation
+import Components
 
 public struct Request {
     public let url: String

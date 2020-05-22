@@ -38,6 +38,44 @@ extension Button {
     }
 }
 
+// MARK: Form Decodable
+extension Form {
+
+    enum CodingKeys: String, CodingKey {
+        case action
+        case child
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        action = try container.decode( forKey: .action)
+        child = try container.decode( forKey: .child)
+    }
+}
+
+// MARK: FormInput Decodable
+extension FormInput {
+
+    enum CodingKeys: String, CodingKey {
+        case name
+        case required
+        case validator
+        case errorMessage
+        case child
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        name = try container.decode(String.self, forKey: .name)
+        required = try container.decodeIfPresent(Bool.self, forKey: .required)
+        validator = try container.decodeIfPresent(String.self, forKey: .validator)
+        errorMessage = try container.decodeIfPresent(String.self, forKey: .errorMessage)
+        child = try container.decode( forKey: .child)
+    }
+}
+
 // MARK: Image Decodable
 extension Image {
 

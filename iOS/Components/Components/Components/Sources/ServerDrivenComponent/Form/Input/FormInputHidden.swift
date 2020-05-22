@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-import XCTest
-@testable import BeagleUI
+import UIKit
 
-final class FormSubmitTests: XCTestCase {
-    
-    func test_toView_shouldReturnTheExpectedView() {
-        // Given
-        let formSubmit = FormSubmit(child: ComponentDummy())
-                
-        // When
-        let view = formSubmit.toView(context: BeagleContextDummy(), dependencies: BeagleScreenDependencies())
-        
-        // Then
-        XCTAssertTrue(view.subviews.first?.beagleFormElement is FormSubmit)
+public struct FormInputHidden: FormInputComponent, AutoInitiable {
+    public let name: String
+    public let value: String
+
+// sourcery:inline:auto:FormInputHidden.Init
+    public init(
+        name: String,
+        value: String
+    ) {
+        self.name = name
+        self.value = value
     }
-    
+// sourcery:end
 }

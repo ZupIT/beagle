@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,8 +15,19 @@
  * limitations under the License.
  */
 
-import Foundation
+import XCTest
+@testable import Components
+import SnapshotTesting
 
-public protocol InputValue {
-    func getValue() -> Any
+class FormInputTests: XCTestCase {
+
+    func test_initWithChild_shouldReturnValidFormInput() {
+        // Given / When
+        let sut = FormInput(name: "name", child:
+            Text("Text")
+        )
+        // Then
+        XCTAssert(sut.child is Text)
+    }
+
 }

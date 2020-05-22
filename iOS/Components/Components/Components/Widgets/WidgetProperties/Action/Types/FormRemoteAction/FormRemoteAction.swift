@@ -15,7 +15,6 @@
  */
 
 import Foundation
-import Components
 
 public struct FormRemoteAction: Action, AutoInitiable {
     public let path: String
