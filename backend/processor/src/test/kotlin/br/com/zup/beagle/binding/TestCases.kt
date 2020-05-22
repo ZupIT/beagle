@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.test
+package br.com.zup.beagle.binding
 
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.LayoutComponent

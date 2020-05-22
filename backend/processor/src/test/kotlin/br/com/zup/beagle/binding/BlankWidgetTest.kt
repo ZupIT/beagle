@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.test
+package br.com.zup.beagle.binding
 
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals

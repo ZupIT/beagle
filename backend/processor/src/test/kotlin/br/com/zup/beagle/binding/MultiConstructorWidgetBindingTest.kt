@@ -14,29 +14,31 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.test
+package br.com.zup.beagle.binding
 
 import br.com.zup.beagle.core.Bind
 import org.junit.jupiter.api.Test
+import java.util.*
+import kotlin.test.assertEquals
 
-internal class InterfaceWidgetBindingTest {
+internal class MultiConstructorWidgetBindingTest {
     @Test
     fun test_Value_construction() {
-        val value = object {}
+        val value = UUID.randomUUID().toString()
 
-        val actual = InterfaceWidgetBinding(Bind.Value(value))
+        val actual = MultiConstructorWidgetBinding(Bind.Value(value))
 
-        kotlin.test.assertEquals(value, actual.something.value)
-        kotlin.test.assertEquals(InterfaceWidget::class.supertypes, InterfaceWidgetBinding::class.supertypes)
+        assertEquals(value, actual.value.value)
+        assertEquals(MultiConstructorWidget::class.supertypes, MultiConstructorWidgetBinding::class.supertypes)
     }
 
     @Test
     fun test_Expression_construction() {
         val expression = "@{}"
 
-        val actual = InterfaceWidgetBinding(Bind.Expression(expression))
+        val actual = MultiConstructorWidgetBinding(Bind.Expression(expression))
 
-        kotlin.test.assertEquals(expression, actual.something.value)
-        kotlin.test.assertEquals(InterfaceWidget::class.supertypes, InterfaceWidgetBinding::class.supertypes)
+        assertEquals(expression, actual.value.value)
+        assertEquals(MultiConstructorWidget::class.supertypes, MultiConstructorWidgetBinding::class.supertypes)
     }
 }
