@@ -21,7 +21,6 @@ import br.com.zup.beagle.utils.dp
 import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.AlignSelf
-import br.com.zup.beagle.widget.core.Direction
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
@@ -33,7 +32,6 @@ import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
 import com.facebook.yoga.YogaAlign
-import com.facebook.yoga.YogaDirection
 import com.facebook.yoga.YogaDisplay
 import com.facebook.yoga.YogaEdge
 import com.facebook.yoga.YogaFlexDirection
@@ -76,7 +74,6 @@ class FlexMapperTest {
         every { ONE_UNIT_VALUE.dp() } returns ONE_UNIT_VALUE
         every { YogaNode.create() } returns yogaNode
         every { yogaNode.flexDirection = any() } just Runs
-        every { yogaNode.setDirection(any()) } just Runs
         every { yogaNode.wrap = any() } just Runs
         every { yogaNode.justifyContent = any() } just Runs
         every { yogaNode.alignItems = any() } just Runs
@@ -127,20 +124,6 @@ class FlexMapperTest {
 
         // Then
         verify(exactly = once()) { yogaNode.flexDirection = YogaFlexDirection.COLUMN }
-    }
-
-    @Test
-    fun makeYogaNode_should_set_direction_as_INHERIT() {
-        // Given
-        val flex = Flex(
-            direction = Direction.INHERIT
-        )
-
-        // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
-
-        // Then
-        verify(exactly = once()) { yogaNode.setDirection(YogaDirection.INHERIT) }
     }
 
     @Test
