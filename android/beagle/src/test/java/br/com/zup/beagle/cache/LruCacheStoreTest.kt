@@ -47,7 +47,6 @@ class LruCacheStoreTest {
         mockkObject(BeagleEnvironment)
 
         cacheStore = LruCacheStore(cache = cachedData)
-        cachedData.maxSize()
     }
 
     @After
