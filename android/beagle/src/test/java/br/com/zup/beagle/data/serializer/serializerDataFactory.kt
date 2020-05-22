@@ -257,13 +257,15 @@ fun makeUndefinedComponentJson() = """
     }
 """
 
+fun makeInternalObject() = """{"value1": "hello", "value2": 123}"""
+
 fun makeBindComponent() = """
     {
         "_beagleType_": "custom:component:bindcomponent",
         "value1": null,
         "value2": "Hello",
         "value3": "@{hello}",
-        "value4": {"value1": "hello", "value2": 123}
+        "value4": ${makeInternalObject()}
     }
 """
 

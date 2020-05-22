@@ -24,6 +24,7 @@ dependencies {
     implementation GeneralLibraries.kotlin
     implementation project(Modules.beagleAnnotation)
     implementation project(Modules.beagleCommonProcessor)
+    implementation project(Modules.beagleBackendDeclarative)
     implementation ProcessorLibraries.autoService
     implementation ProcessorLibraries.incap
 
@@ -35,5 +36,4 @@ dependencies {
     testImplementation TestLibraries.junit5Api
     testImplementation TestLibraries.kotlinTest
     testImplementation TestLibraries.mockk
-    testImplementation project(Modules.beagleCoreDeclarative)
 }

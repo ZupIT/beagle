@@ -706,8 +706,26 @@ class BeagleMoshiTest {
         val bindComponent = component as BindComponent
         assertNull(bindComponent.value1)
         assertEquals("Hello", bindComponent.value2.value)
+        assertEquals(String::class.java, bindComponent.value2.type)
         assertEquals("@{hello}", bindComponent.value3.value)
+        assertEquals(Boolean::class.javaObjectType, bindComponent.value3.type)
         assertNotNull(bindComponent.value4.value)
+        assertEquals(InternalObject::class.java, bindComponent.value4.type)
+    }
+
+    @Test
+    fun moshi_should_deserialize_internalObject_using_component_type_attribute() {
+        // Given
+        val jsonComponent = makeBindComponent()
+        val internalObjectJson = makeInternalObject()
+
+        // When
+        val bindComponent = beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).fromJson(jsonComponent) as BindComponent
+        val internalObject = beagleMoshiFactory.moshi.adapter<Any>(bindComponent.value4.type).fromJson(internalObjectJson) as InternalObject
+
+        // Then
+        assertEquals("hello", internalObject.value1)
+        assertEquals(123, internalObject.value2)
     }
 
     @Test
@@ -716,7 +734,7 @@ class BeagleMoshiTest {
         val component = BindComponent(
             value1 = null,
             value2 = Bind.Value("Hello"),
-            value3 = Bind.Expression("@{hello}"),
+            value3 = Bind.Expression("@{hello}", Boolean::class.java),
             value4 = Bind.Value(InternalObject("", 1))
         )
 
