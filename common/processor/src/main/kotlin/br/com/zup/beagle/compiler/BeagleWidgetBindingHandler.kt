@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.compiler
 
-import com.squareup.kotlinpoet.ClassName
+import br.com.zup.beagle.core.BindAttribute
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterSpec
@@ -29,15 +29,15 @@ import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.ExecutableElement
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.TypeMirror
+import kotlin.reflect.KClass
 
-class BeagleWidgetBindingHandler(processingEnvironment: ProcessingEnvironment, private val outputDirectory: File =
-    processingEnvironment.kaptGeneratedDirectory) {
+class BeagleWidgetBindingHandler(
+    processingEnvironment: ProcessingEnvironment = processingEnvironment.kaptGeneratedDirectory,
+    private val outputDirectory: File,
+    private val bindClass: KClass<out BindAttribute<*>>
+) {
     companion object {
         const val SUFFIX = "Binding"
-        val BINDING_CLASS = ClassName(
-            "br.com.zup.beagle.core",
-            "Binding"
-        )
     }
 
     private val elementUtils = processingEnvironment.elementUtils
@@ -66,7 +66,7 @@ class BeagleWidgetBindingHandler(processingEnvironment: ProcessingEnvironment, p
     private fun createBindParameter(element: ExecutableElement): ParameterSpec {
         return ParameterSpec.builder(
             element.fieldName,
-            BINDING_CLASS.parameterizedBy(this.typeUtils.getKotlinName(element.returnType))
+            bindClass.asTypeName().parameterizedBy(this.typeUtils.getKotlinName(element.returnType))
         ).build()
     }
 }

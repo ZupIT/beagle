@@ -256,3 +256,44 @@ fun makeUndefinedComponentJson() = """
         "_beagleType_": "custom:component:new"
     }
 """
+
+fun makeInternalObject() = """{"value1": "hello", "value2": 123}"""
+
+fun makeBindComponent() = """
+    {
+        "_beagleType_": "custom:component:bindcomponent",
+        "value1": null,
+        "value2": "Hello",
+        "value3": "@{hello}",
+        "value4": ${makeInternalObject()}
+    }
+"""
+
+fun makeContextWithJsonObject() = """
+    {
+        "id": "contextId",
+        "value": {
+            "a": true,
+            "b": "a"
+        }
+    }
+"""
+
+fun makeContextWithJsonArray() = """
+    {
+        "id": "contextId",
+        "value": [
+            {
+                "a": true,
+                "b": "a"
+            }
+        ]
+    }
+"""
+
+fun makeContextWithPrimitive() = """
+    {
+        "id": "contextId",
+        "value": true
+    }
+"""

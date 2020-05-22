@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.core
+package br.com.zup.beagle.action
 
-import java.io.Serializable
+import android.content.Context
 
-interface Bind<T> : Serializable {
-    val value: Any
+internal class UpdateContextActionHandler : DefaultActionHandler<UpdateContext> {
+
+    override fun handle(context: Context, action: UpdateContext) {
+        // TODO: call update context
+    }
 }

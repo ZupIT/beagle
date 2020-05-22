@@ -14,26 +14,16 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.testutil
+package br.com.zup.beagle.mockdata
 
-import kotlin.random.Random
+import br.com.zup.beagle.core.Bind
+import br.com.zup.beagle.core.ServerDrivenComponent
 
-object RandomData {
+data class InternalObject(val value1: String, val value2: Int)
 
-    fun boolean(): Boolean = Random.nextBoolean()
-
-    fun int(): Int = Random.nextInt(1, 10000)
-
-    fun double(): Double = Random.nextDouble(1.0, 10000.0)
-
-    fun string(size: Int = 20): String {
-        val alphabet: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
-        return List(size) { alphabet.random() }.joinToString("")
-    }
-
-    fun email(): String = "${string(5)}@${string(3)}.com"
-
-    fun httpUrl(): String = "http://${string(5)}.com"
-
-    fun httpsUrl(): String = "https://${string(5)}.com"
-}
+data class BindComponent(
+    val value1: Bind<Int>?,
+    val value2: Bind<String>,
+    val value3: Bind<Boolean>,
+    val value4: Bind<InternalObject>
+) : ServerDrivenComponent

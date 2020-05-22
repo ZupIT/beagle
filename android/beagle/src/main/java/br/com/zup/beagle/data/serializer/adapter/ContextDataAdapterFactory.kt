@@ -16,59 +16,57 @@
 
 package br.com.zup.beagle.data.serializer.adapter
 
-import android.content.Context
-import android.view.View
-import androidx.fragment.app.Fragment
 import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.JsonQualifier
 import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
+import org.json.JSONArray
+import org.json.JSONObject
 import java.lang.reflect.Type
 
-internal class AndroidFrameworkIgnoreAdapterFactory : JsonAdapter.Factory {
+@Retention(AnnotationRetention.RUNTIME)
+@JsonQualifier
+internal annotation class ContextDataValue
+
+internal class ContextDataAdapterFactory : JsonAdapter.Factory {
 
     override fun create(
         type: Type,
         annotations: MutableSet<out Annotation>,
         moshi: Moshi
     ): JsonAdapter<*>? {
-        return if (isTypeFromAndroid(type)) {
-            AndroidFrameworkIgnoreAdapter()
-        } else {
-            null
-        }
-    }
-
-    private fun isTypeFromAndroid(type: Type): Boolean {
-        listOf(View::class.java, Context::class.java, Fragment::class.java).forEach {
-            val superclass = Types.getRawType(type).superclass as? Class<Any>
-
-            if (checkIfSuperClassIsTypeOf(superclass, it)) {
-                return true
-            }
-        }
-
-        return false
-    }
-
-    private fun checkIfSuperClassIsTypeOf(superclass: Class<in Any>?, clazz: Class<out Any>): Boolean {
-        return when (superclass) {
-            null -> false
-            clazz -> true
-            else -> checkIfSuperClassIsTypeOf(superclass.superclass, clazz)
+        return Types.nextAnnotations(annotations, ContextDataValue::class.java)?.let {
+            val adapter: JsonAdapter<Any> = moshi.adapter(type)
+            AnyToJsonObjectAdapter(adapter)
         }
     }
 }
 
-internal class AndroidFrameworkIgnoreAdapter : JsonAdapter<Any>() {
+internal class AnyToJsonObjectAdapter(
+    private val adapter: JsonAdapter<Any>
+) : JsonAdapter<Any>() {
 
     override fun fromJson(reader: JsonReader): Any? {
-        reader.skipValue()
-        return null
+        val type = reader.peek()
+        val value = reader.readJsonValue()
+        return when (type) {
+            JsonReader.Token.BEGIN_OBJECT -> {
+                val json = adapter.toJson(value)
+                return JSONObject(json)
+            }
+            JsonReader.Token.BEGIN_ARRAY -> {
+                val json = adapter.toJson(value)
+                return JSONArray(json)
+            }
+            else -> {
+                value
+            }
+        }
     }
 
     override fun toJson(writer: JsonWriter, value: Any?) {
-        writer.nullValue()
+        adapter.toJson(writer, value)
     }
 }

@@ -21,29 +21,56 @@ import br.com.zup.beagle.action.CustomAction
 import br.com.zup.beagle.action.FormValidation
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.core.Bind
+import br.com.zup.beagle.context.ContextData
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.mockdata.BindComponent
 import br.com.zup.beagle.mockdata.CustomInputWidget
 import br.com.zup.beagle.mockdata.CustomWidget
+import br.com.zup.beagle.mockdata.InternalObject
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.widget.core.WidgetView
-import br.com.zup.beagle.widget.form.*
-import br.com.zup.beagle.widget.layout.*
+import br.com.zup.beagle.widget.form.Form
+import br.com.zup.beagle.widget.form.FormInput
+import br.com.zup.beagle.widget.form.FormMethodType
+import br.com.zup.beagle.widget.form.FormRemoteAction
+import br.com.zup.beagle.widget.form.FormSubmit
+import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.Horizontal
+import br.com.zup.beagle.widget.layout.PageView
+import br.com.zup.beagle.widget.layout.ScreenComponent
+import br.com.zup.beagle.widget.layout.ScrollView
+import br.com.zup.beagle.widget.layout.Spacer
+import br.com.zup.beagle.widget.layout.Stack
+import br.com.zup.beagle.widget.layout.Vertical
 import br.com.zup.beagle.widget.lazy.LazyComponent
 import br.com.zup.beagle.widget.pager.PageIndicator
-import br.com.zup.beagle.widget.ui.*
-import io.mockk.*
+import br.com.zup.beagle.widget.ui.Button
+import br.com.zup.beagle.widget.ui.Image
+import br.com.zup.beagle.widget.ui.ListView
+import br.com.zup.beagle.widget.ui.NetworkImage
+import br.com.zup.beagle.widget.ui.Text
+import br.com.zup.beagle.widget.ui.UndefinedWidget
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.mockkObject
+import io.mockk.unmockkObject
+import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @Suppress("UNCHECKED_CAST")
 private val WIDGETS = listOf(
     CustomWidget::class.java as Class<WidgetView>,
-    CustomInputWidget::class.java as Class<WidgetView>
+    CustomInputWidget::class.java as Class<WidgetView>,
+    BindComponent::class.java as Class<WidgetView>
 )
 
 class BeagleMoshiTest {
@@ -665,5 +692,96 @@ class BeagleMoshiTest {
 
         // Then
         assertNotNull(JSONObject(jsonComponent))
+    }
+
+    @Test
+    fun moshi_should_deserialize_bindComponent() {
+        // Given
+        val jsonComponent = makeBindComponent()
+
+        // When
+        val component = beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).fromJson(jsonComponent)
+
+        // Then
+        val bindComponent = component as BindComponent
+        assertNull(bindComponent.value1)
+        assertEquals("Hello", bindComponent.value2.value)
+        assertEquals(String::class.java, bindComponent.value2.type)
+        assertEquals("@{hello}", bindComponent.value3.value)
+        assertEquals(Boolean::class.javaObjectType, bindComponent.value3.type)
+        assertNotNull(bindComponent.value4.value)
+        assertEquals(InternalObject::class.java, bindComponent.value4.type)
+    }
+
+    @Test
+    fun moshi_should_deserialize_internalObject_using_component_type_attribute() {
+        // Given
+        val jsonComponent = makeBindComponent()
+        val internalObjectJson = makeInternalObject()
+
+        // When
+        val bindComponent = beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).fromJson(jsonComponent) as BindComponent
+        val internalObject = beagleMoshiFactory.moshi.adapter<Any>(bindComponent.value4.type).fromJson(internalObjectJson) as InternalObject
+
+        // Then
+        assertEquals("hello", internalObject.value1)
+        assertEquals(123, internalObject.value2)
+    }
+
+    @Test
+    fun moshi_should_serialize_bindComponent() {
+        // Given
+        val component = BindComponent(
+            value1 = null,
+            value2 = Bind.Value("Hello"),
+            value3 = Bind.Expression("@{hello}", Boolean::class.java),
+            value4 = Bind.Value(InternalObject("", 1))
+        )
+
+        // When
+        val json = beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).toJson(component)
+
+        // Then
+        assertNotNull(JSONObject(json))
+    }
+
+    @Test
+    fun make_should_create_contextData_with_jsonObject() {
+        // Given
+        val contextDataJson = makeContextWithJsonObject()
+
+        // When
+        val contextData =
+            beagleMoshiFactory.moshi.adapter(ContextData::class.java).fromJson(contextDataJson)
+
+        // Then
+        assertTrue(contextData?.value is JSONObject)
+    }
+
+    @Test
+    fun make_should_create_contextData_with_jsonArray() {
+        // Given
+        val contextDataJson = makeContextWithJsonArray()
+
+        // When
+        val contextData =
+            beagleMoshiFactory.moshi.adapter(ContextData::class.java).fromJson(contextDataJson)
+
+        // Then
+        assertTrue(contextData?.value is JSONArray)
+    }
+
+    @Test
+    fun make_should_create_contextData_with_primitive() {
+        // Given
+        val contextDataJson = makeContextWithPrimitive()
+
+        // When
+        val contextData =
+            beagleMoshiFactory.moshi.adapter(ContextData::class.java).fromJson(contextDataJson)
+
+        // Then
+        assertEquals("contextId", contextData?.id)
+        assertEquals(true, contextData?.value)
     }
 }

@@ -28,7 +28,8 @@ internal class ActionExecutor(
         NavigationActionHandler(),
     private val showNativeDialogActionHandler: ShowNativeDialogActionHandler =
         ShowNativeDialogActionHandler(),
-    private val formValidationActionHandler: DefaultActionHandler<FormValidation>? = null
+    private val formValidationActionHandler: DefaultActionHandler<FormValidation>? = null,
+    private val updateContextActionHandler: UpdateContextActionHandler = UpdateContextActionHandler()
 ) {
 
     fun doAction(context: Context, action: Action?) {
@@ -36,7 +37,7 @@ internal class ActionExecutor(
             is Navigate -> navigationActionHandler.handle(context, action)
             is ShowNativeDialog -> showNativeDialogActionHandler.handle(context, action)
             is FormValidation -> formValidationActionHandler?.handle(context, action)
-
+            is UpdateContext -> updateContextActionHandler.handle(context, action)
             is CustomAction -> customActionHandler?.handle(context, action, object : ActionListener {
 
                 override fun onSuccess(action: Action) {
