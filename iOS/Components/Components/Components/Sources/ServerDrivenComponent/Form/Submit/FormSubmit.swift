@@ -16,14 +16,13 @@
 
 import UIKit
 
-public struct FormSubmit: ServerDrivenComponent {
+public struct FormSubmit: ServerDrivenComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
     public let child: ServerDrivenComponent
     public var enabled: Bool?
-    
-    // MARK: - Initialization
-    
+
+// sourcery:inline:auto:FormSubmit.Init
     public init(
         child: ServerDrivenComponent,
         enabled: Bool? = nil
@@ -31,19 +30,5 @@ public struct FormSubmit: ServerDrivenComponent {
         self.child = child
         self.enabled = enabled
     }
-    
-}
-
-//TODO: i think we can let sourcery do this
-extension FormSubmit: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case child
-        case enabled
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.child = try container.decode(forKey: .child)
-        self.enabled = try container.decodeIfPresent(Bool.self, forKey: .enabled)
-    }
+// sourcery:end
 }

@@ -91,6 +91,22 @@ extension FormInput {
     }
 }
 
+// MARK: FormSubmit Decodable
+extension FormSubmit {
+
+    enum CodingKeys: String, CodingKey {
+        case child
+        case enabled
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        child = try container.decode( forKey: .child)
+        enabled = try container.decodeIfPresent(Bool.self, forKey: .enabled)
+    }
+}
+
 // MARK: Image Decodable
 extension Image {
 
