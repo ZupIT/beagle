@@ -19,24 +19,57 @@ package br.com.zup.beagle.view
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
-import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.action.Route
+import br.com.zup.beagle.setup.BeagleEnvironment
 
 internal object BeagleNavigator {
 
-    fun finish(context: Context) {
+    fun openExternalURL(context: Context, url: String) {
+//        try {
+//            test if throw exception
+//        } catch () {
+//
+//        }
+        val webPage: Uri = Uri.parse(url)
+        val intent = Intent(Intent.ACTION_VIEW, webPage)
+        context.startActivity(intent)
+    }
+
+    fun openNativeRoute(context: Context, route: String, data: Map<String, String>?, shouldResetApplication: Boolean) {
+        BeagleEnvironment.beagleSdk.deepLinkHandler?.getDeepLinkIntent(route, data, shouldResetApplication)?.let {
+            context.startActivity(it)
+        }
+    }
+
+    fun pushStack(context: Context, route: Route) {
+        context.startActivity(generateIntent(context, route))
+    }
+
+    fun popStack(context: Context) {
         if (context is Activity) {
             context.finish()
         }
     }
 
-    fun pop(context: Context) {
-        val f =
-            (context as? FragmentActivity)?.supportFragmentManager?.fragments?.lastOrNull {
-                it is DialogFragment
-            } as DialogFragment?
+    fun pushView(context: Context, route: Route) {
+        if (context is BeagleActivity) {
+            when (route) {
+                is Route.Remote -> context.navigateTo(ScreenRequest(route.route), route.fallback)
+                is Route.Local -> context.navigateTo(ScreenRequest(""), route.screen)
+            }
+        } else {
+            context.startActivity(generateIntent(context, route))
+        }
+    }
+
+    fun popView(context: Context) {
+        val f = (context as? FragmentActivity)?.supportFragmentManager?.fragments?.lastOrNull {
+            it is DialogFragment
+        } as DialogFragment?
         if (f != null) {
             f.dismiss()
             return
@@ -47,28 +80,27 @@ internal object BeagleNavigator {
         }
     }
 
-    fun addScreen(context: Context, url: String?, screen: Screen? = null) {
-        if (context is BeagleActivity) {
-            context.navigateTo(ScreenRequest(url ?: ""), screen)
-        } else {
-            context.startActivity(BeagleActivity.newIntent(context, ScreenRequest(url ?: ""), screen))
+    fun popToView(context: Context, route: String) {
+        if (context is AppCompatActivity) {
+            context.supportFragmentManager.popBackStack(route, 0)
         }
     }
 
-    fun swapScreen(context: Context, url: String?, screen: Screen? = null) {
-        context.startActivity(BeagleActivity.newIntent(context, ScreenRequest(url ?: ""), screen).apply {
+    fun resetApplication(context: Context, route: Route) {
+        context.startActivity(generateIntent(context, route).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
         })
     }
 
-    fun popToScreen(context: Context, url: String) {
-        if (context is AppCompatActivity) {
-            context.supportFragmentManager
-                .popBackStack(url, 0)
-        }
+    fun resetStack(context: Context, route: Route) {
+        popStack(context)
+        context.startActivity(generateIntent(context, route))
     }
 
-    fun presentScreen(context: Context, url: String?, screen: Screen? = null) {
-        context.startActivity(BeagleActivity.newIntent(context, ScreenRequest(url ?: ""), screen))
+    private fun generateIntent(context: Context, route: Route): Intent {
+        return when (route) {
+            is Route.Remote -> BeagleActivity.newIntent(context, ScreenRequest(route.route), route.fallback)
+            is Route.Local -> BeagleActivity.newIntent(context, ScreenRequest(""), route.screen)
+        }
     }
 }
