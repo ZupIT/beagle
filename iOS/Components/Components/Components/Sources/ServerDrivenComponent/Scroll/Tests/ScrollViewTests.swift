@@ -14,25 +14,15 @@
  * limitations under the License.
  */
 
-import UIKit
-import Components
+import XCTest
+import SnapshotTesting
+@testable import Components
 
-extension Spacer: Renderable {
-    
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        let flex = Flex(
-            size: Size(
-                width: UnitValue(value: size, type: .real),
-                height: UnitValue(value: size, type: .real)
-            )
-        )
-        
-        let view = UIView()
-        view.isUserInteractionEnabled = false
-        view.isAccessibilityElement = false
-        view.backgroundColor = .clear
+final class ScrollViewTests: XCTestCase {
 
-        view.flex.setup(flex)
-        return view
+    func test_whenDecodingJson_shouldReturnAScrollView() throws {
+        let component: ScrollView = try componentFromJsonFile(fileName: "ScrollViewComponent")
+        assertSnapshot(matching: component, as: .dump)
     }
+
 }

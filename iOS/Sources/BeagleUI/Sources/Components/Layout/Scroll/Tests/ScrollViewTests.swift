@@ -73,11 +73,6 @@ final class ScrollViewTests: XCTestCase {
         
     }
     
-    func test_whenDecodingJson_shouldReturnAScrollView() throws {
-        let component: ScrollView = try componentFromJsonFile(fileName: "ScrollViewComponent")
-        assertSnapshot(matching: component, as: .dump)
-    }
-    
     func test_renderScrollView() throws {
         let component: ScrollView = try componentFromJsonFile(fileName: "ScrollViewComponent")
         let screen = Beagle.screen(.declarative(component.toScreen()))

@@ -14,25 +14,14 @@
  * limitations under the License.
  */
 
-import UIKit
-import Components
+import XCTest
+@testable import Components
+import SnapshotTesting
 
-extension Spacer: Renderable {
+// TODO: make a decoding snapshot testing
+final class SpacerTests: XCTestCase {
     
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        let flex = Flex(
-            size: Size(
-                width: UnitValue(value: size, type: .real),
-                height: UnitValue(value: size, type: .real)
-            )
-        )
-        
-        let view = UIView()
-        view.isUserInteractionEnabled = false
-        view.isAccessibilityElement = false
-        view.backgroundColor = .clear
+    
 
-        view.flex.setup(flex)
-        return view
-    }
+    
 }

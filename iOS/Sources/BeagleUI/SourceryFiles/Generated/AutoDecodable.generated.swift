@@ -49,26 +49,6 @@ extension ListView {
     }
 }
 
-// MARK: ScrollView Decodable
-extension ScrollView {
-
-    enum CodingKeys: String, CodingKey {
-        case children
-        case scrollDirection
-        case scrollBarEnabled
-        case appearance
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        children = try container.decode( forKey: .children)
-        scrollDirection = try container.decodeIfPresent(ScrollAxis.self, forKey: .scrollDirection)
-        scrollBarEnabled = try container.decodeIfPresent(Bool.self, forKey: .scrollBarEnabled)
-        appearance = try container.decodeIfPresent(Appearance.self, forKey: .appearance)
-    }
-}
-
 // MARK: TabItem Decodable
 extension TabItem {
 

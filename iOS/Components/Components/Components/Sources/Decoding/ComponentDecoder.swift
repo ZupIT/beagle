@@ -123,8 +123,8 @@ final public class ComponentDecoder: ComponentDecoding {
     
     private func registerLayoutTypes() {
         registerComponent(ScreenComponent.self, key: key(name: "ScreenComponent", content: .component, namespace: .beagle))
-//        registerComponent(Spacer.self, key: key(name: "Spacer", content: .component, namespace: .beagle))
-//        registerComponent(ScrollView.self, key: key(name: "ScrollView", content: .component, namespace: .beagle))
+        registerComponent(Spacer.self, key: key(name: "Spacer", content: .component, namespace: .beagle))
+        registerComponent(ScrollView.self, key: key(name: "ScrollView", content: .component, namespace: .beagle))
     }
     
     private func registerUITypes() {

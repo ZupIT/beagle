@@ -17,44 +17,7 @@
 import UIKit
 import Components
 
-public struct ScrollView: AppearanceComponent, ServerDrivenComponent, AutoInitiableAndDecodable {
-    
-    // MARK: - Public Properties
-    
-    public let children: [ServerDrivenComponent]
-    public let scrollDirection: ScrollAxis?
-    public let scrollBarEnabled: Bool?
-    public let appearance: Appearance?
-
-// sourcery:inline:auto:ScrollView.Init
-    public init(
-        children: [ServerDrivenComponent],
-        scrollDirection: ScrollAxis? = nil,
-        scrollBarEnabled: Bool? = nil,
-        appearance: Appearance? = nil
-    ) {
-        self.children = children
-        self.scrollDirection = scrollDirection
-        self.scrollBarEnabled = scrollBarEnabled
-        self.appearance = appearance
-    }
-// sourcery:end
-}
-
-public enum ScrollAxis: String, Decodable {
-    case vertical = "VERTICAL"
-    case horizontal = "HORIZONTAL"
-    
-    var flexDirection: Flex.FlexDirection {
-        switch self {
-        case .vertical:
-            return .column
-        case .horizontal:
-            return .row
-        }
-    }
-}
-
+//TODO: Avoid casting to server driven Component
 extension ScrollView: Renderable {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let scrollBarEnabled = self.scrollBarEnabled ?? true
@@ -63,9 +26,10 @@ extension ScrollView: Renderable {
         let contentView = UIView()
         
         children.forEach {
-            let childView = $0.toView(context: context, dependencies: dependencies)
-            contentView.addSubview(childView)
-            childView.flex.isEnabled = true
+            if let childView = ($0 as? ServerDrivenComponent)?.toView(context: context, dependencies: dependencies) {
+                contentView.addSubview(childView)
+                childView.flex.isEnabled = true
+            }
         }
         scrollView.addSubview(contentView)
         scrollView.beagle.setup(appearance: appearance)

@@ -1134,8 +1134,8 @@
 		C829CEFC23B19550001B7225 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				A0451C9523BFB93400F77398 /* __Snapshots__ */,
 				C65F25362375E6C2007670EC /* ScrollViewTests.swift */,
+				A0451C9523BFB93400F77398 /* __Snapshots__ */,
 				C898E23F23BFD74E004FEDB6 /* Json */,
 			);
 			path = Tests;
