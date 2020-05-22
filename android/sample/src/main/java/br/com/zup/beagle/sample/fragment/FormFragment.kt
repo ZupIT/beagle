@@ -39,6 +39,7 @@ import br.com.zup.beagle.widget.ui.Button
 
 class FormFragment : Fragment() {
 
+    @Suppress("LongMethod")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
