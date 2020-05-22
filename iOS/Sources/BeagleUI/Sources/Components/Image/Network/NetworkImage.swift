@@ -17,7 +17,7 @@
 import UIKit
 import Components
 
-extension NetworkImage: Renderable {
+extension NetworkImage: Widget {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let imageView = UIImageView()
         imageView.clipsToBounds = true

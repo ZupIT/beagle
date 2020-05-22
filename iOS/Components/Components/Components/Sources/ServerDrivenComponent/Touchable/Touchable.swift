@@ -16,18 +16,18 @@
 
 import Foundation
 
-public struct Touchable: RawServerDrivenComponent, ClickedOnComponent, AutoInitiableAndDecodable {
+public struct Touchable: ServerDrivenComponent, ClickedOnComponent, AutoInitiableAndDecodable {
     // MARK: - Public Properties
     public let action: Action
     public let clickAnalyticsEvent: AnalyticsClick?
-    public let child: RawServerDrivenComponent
+    public let child: ServerDrivenComponent
 
     //TODO:Component sweep through vars and, if one of them is RawServerDriventComponent, make the constructor internal
 // sourcery:inline:auto:Touchable.Init
     public init(
         action: Action,
         clickAnalyticsEvent: AnalyticsClick? = nil,
-        child: RawServerDrivenComponent
+        child: ServerDrivenComponent
     ) {
         self.action = action
         self.clickAnalyticsEvent = clickAnalyticsEvent

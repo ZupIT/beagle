@@ -16,7 +16,7 @@
 
 import UIKit
 
-public struct Text: RawWidget, AutoDecodable {
+public struct Text: Widget, AutoDecodable {
     
     // MARK: - Public Properties
     public let text: String

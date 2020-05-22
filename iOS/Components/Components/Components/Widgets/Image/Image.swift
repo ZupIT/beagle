@@ -17,7 +17,7 @@
 
 import Foundation
 
-public struct Image: RawWidget, AutoInitiableAndDecodable {
+public struct Image: Widget, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
     

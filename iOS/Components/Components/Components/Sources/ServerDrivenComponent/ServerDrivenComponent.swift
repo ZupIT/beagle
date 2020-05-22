@@ -16,6 +16,6 @@
 
 import Foundation
 
-public protocol RawServerDrivenComponent: Decodable {
+public protocol ServerDrivenComponent: Decodable {
     
 }

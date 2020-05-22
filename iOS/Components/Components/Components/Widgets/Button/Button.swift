@@ -16,7 +16,7 @@
 
 import UIKit
 
-public struct Button: RawWidget, ClickedOnComponent, AutoInitiableAndDecodable {
+public struct Button: Widget, ClickedOnComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
     public let text: String

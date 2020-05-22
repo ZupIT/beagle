@@ -70,23 +70,6 @@ extension FormInput {
     }
 }
 
-// MARK: Image Decodable
-extension Image {
-
-    enum CodingKeys: String, CodingKey {
-        case name
-        case contentMode
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        name = try container.decode(String.self, forKey: .name)
-        contentMode = try container.decodeIfPresent(ImageContentMode.self, forKey: .contentMode)
-        widgetProperties = try WidgetProperties(from: decoder)
-    }
-}
-
 // MARK: LazyComponent Decodable
 extension LazyComponent {
 
@@ -138,23 +121,6 @@ extension NavigationBarItem {
         text = try container.decode(String.self, forKey: .text)
         action = try container.decode( forKey: .action)
         accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
-    }
-}
-
-// MARK: NetworkImage Decodable
-extension NetworkImage {
-
-    enum CodingKeys: String, CodingKey {
-        case path
-        case contentMode
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        path = try container.decode(String.self, forKey: .path)
-        contentMode = try container.decodeIfPresent(ImageContentMode.self, forKey: .contentMode)
-        widgetProperties = try WidgetProperties(from: decoder)
     }
 }
 

@@ -17,7 +17,7 @@
 import UIKit
 import Components
 
-extension Image: Renderable {
+extension Image: Widget {
 
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let image = UIImageView(frame: .zero)

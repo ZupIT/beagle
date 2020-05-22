@@ -19,7 +19,7 @@ import Components
 
 // MARK: - Widget
 
-public protocol Widget: ServerDrivenComponent, RawWidget {
+public protocol Widget: ServerDrivenComponent, Components.Widget {
     
 }
 

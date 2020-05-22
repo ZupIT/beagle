@@ -55,6 +55,23 @@ extension Image {
     }
 }
 
+// MARK: NetworkImage Decodable
+extension NetworkImage {
+
+    enum CodingKeys: String, CodingKey {
+        case path
+        case contentMode
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        path = try container.decode(String.self, forKey: .path)
+        contentMode = try container.decodeIfPresent(ImageContentMode.self, forKey: .contentMode)
+        widgetProperties = try WidgetProperties(from: decoder)
+    }
+}
+
 // MARK: Text Decodable
 extension Text {
 

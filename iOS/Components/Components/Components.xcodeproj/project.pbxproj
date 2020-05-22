@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		C0E568F82476C7F0003D413F /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E568F22476C7F0003D413F /* Button.swift */; };
-		C0E568F92476C7F0003D413F /* test_whenDecodingJson_thenItShouldReturnAButton.1.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0E568F52476C7F0003D413F /* test_whenDecodingJson_thenItShouldReturnAButton.1.txt */; };
 		C0E5690B2476C873003D413F /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E569062476C873003D413F /* Text.swift */; };
 		C0E5690C2476C879003D413F /* TextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E568FF2476C873003D413F /* TextTests.swift */; };
 		C0E5690F2476C983003D413F /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5690E2476C983003D413F /* Events.swift */; };
@@ -17,7 +16,7 @@
 		C0E5691D2476F12F003D413F /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5691C2476F12F003D413F /* Action.swift */; };
 		C0E569212476F23D003D413F /* AnyDecodableContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E569202476F23D003D413F /* AnyDecodableContainer.swift */; };
 		C0E569292476F583003D413F /* ComponentFromJsonFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E569282476F583003D413F /* ComponentFromJsonFile.swift */; };
-		C0E5692C2476F700003D413F /* RawServerDrivenComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5692B2476F700003D413F /* RawServerDrivenComponent.swift */; };
+		C0E5692C2476F700003D413F /* ServerDrivenComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5692B2476F700003D413F /* ServerDrivenComponent.swift */; };
 		C0E5692E24770105003D413F /* ComponentDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5692D24770105003D413F /* ComponentDecoder.swift */; };
 		C0E5693124770758003D413F /* ComponentDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5693024770758003D413F /* ComponentDependencies.swift */; };
 		C0E5693724770C38003D413F /* ComponentDecoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5693324770C38003D413F /* ComponentDecoderTests.swift */; };
@@ -61,7 +60,6 @@
 		C0E568EF2476C7F0003D413F /* ButtonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonTests.swift; sourceTree = "<group>"; };
 		C0E568F12476C7F0003D413F /* buttonComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = buttonComponent.json; sourceTree = "<group>"; };
 		C0E568F22476C7F0003D413F /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
-		C0E568F52476C7F0003D413F /* test_whenDecodingJson_thenItShouldReturnAButton.1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test_whenDecodingJson_thenItShouldReturnAButton.1.txt; sourceTree = "<group>"; };
 		C0E568FF2476C873003D413F /* TextTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextTests.swift; sourceTree = "<group>"; };
 		C0E569012476C873003D413F /* TextComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TextComponent.json; sourceTree = "<group>"; };
 		C0E569062476C873003D413F /* Text.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
@@ -70,22 +68,23 @@
 		C0E5691C2476F12F003D413F /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		C0E569202476F23D003D413F /* AnyDecodableContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyDecodableContainer.swift; sourceTree = "<group>"; };
 		C0E569282476F583003D413F /* ComponentFromJsonFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentFromJsonFile.swift; sourceTree = "<group>"; };
-		C0E5692B2476F700003D413F /* RawServerDrivenComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawServerDrivenComponent.swift; sourceTree = "<group>"; };
+		C0E5692B2476F700003D413F /* ServerDrivenComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDrivenComponent.swift; sourceTree = "<group>"; };
 		C0E5692D24770105003D413F /* ComponentDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentDecoder.swift; sourceTree = "<group>"; };
 		C0E5693024770758003D413F /* ComponentDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentDependencies.swift; sourceTree = "<group>"; };
 		C0E5693324770C38003D413F /* ComponentDecoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentDecoderTests.swift; sourceTree = "<group>"; };
 		C0E5693624770C38003D413F /* testIfAllDecodersAreBeingRegistered.1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testIfAllDecodersAreBeingRegistered.1.txt; sourceTree = "<group>"; };
 		C0E5694024772680003D413F /* Touchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Touchable.swift; sourceTree = "<group>"; };
 		C0E5694324781302003D413F /* TouchableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchableTests.swift; sourceTree = "<group>"; };
-		C0E5694F2478157D003D413F /* testInitFromDecoder.1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testInitFromDecoder.1.txt; sourceTree = "<group>"; };
 		C0E569512478157D003D413F /* TouchableDecoderTest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TouchableDecoderTest.json; sourceTree = "<group>"; };
 		C0E5695724781AF9003D413F /* ImageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTests.swift; sourceTree = "<group>"; };
 		C0E5695924781B0B003D413F /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		C0E5695B24781B5F003D413F /* ImageContentMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageContentMode.swift; sourceTree = "<group>"; };
 		C0E5695E24781EAE003D413F /* ImageComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ImageComponent.json; sourceTree = "<group>"; };
-		C0E5696124781EAE003D413F /* test_whenDecodingJson_thenItShouldReturnAnImage.1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test_whenDecodingJson_thenItShouldReturnAnImage.1.txt; sourceTree = "<group>"; };
 		C0E5696524781FEB003D413F /* NetworkImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkImage.swift; sourceTree = "<group>"; };
 		C0E569682478292B003D413F /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
+		C0E5696B247847A8003D413F /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
+		C0E5696D247847CB003D413F /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
+		C0E5696E24784808003D413F /* Button */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Button; sourceTree = "<group>"; };
 		C0FBBD172475803900B72A9B /* Components.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Components.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0FBBD1A2475803900B72A9B /* Components.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Components.h; sourceTree = "<group>"; };
 		C0FBBD1B2475803900B72A9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -133,9 +132,9 @@
 			isa = PBXGroup;
 			children = (
 				C0E568EF2476C7F0003D413F /* ButtonTests.swift */,
-				C0E568F02476C7F0003D413F /* Json */,
 				C0E568F22476C7F0003D413F /* Button.swift */,
-				C0E568F32476C7F0003D413F /* __Snapshots__ */,
+				C0E5696E24784808003D413F /* Button */,
+				C0E568F02476C7F0003D413F /* Json */,
 			);
 			path = Button;
 			sourceTree = "<group>";
@@ -146,22 +145,6 @@
 				C0E568F12476C7F0003D413F /* buttonComponent.json */,
 			);
 			path = Json;
-			sourceTree = "<group>";
-		};
-		C0E568F32476C7F0003D413F /* __Snapshots__ */ = {
-			isa = PBXGroup;
-			children = (
-				C0E568F42476C7F0003D413F /* ButtonTests */,
-			);
-			path = __Snapshots__;
-			sourceTree = "<group>";
-		};
-		C0E568F42476C7F0003D413F /* ButtonTests */ = {
-			isa = PBXGroup;
-			children = (
-				C0E568F52476C7F0003D413F /* test_whenDecodingJson_thenItShouldReturnAButton.1.txt */,
-			);
-			path = ButtonTests;
 			sourceTree = "<group>";
 		};
 		C0E568FD2476C873003D413F /* Text */ = {
@@ -231,7 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				C0E5693F24772642003D413F /* Touchable */,
-				C0E5692B2476F700003D413F /* RawServerDrivenComponent.swift */,
+				C0E5692B2476F700003D413F /* ServerDrivenComponent.swift */,
 			);
 			path = ServerDrivenComponent;
 			sourceTree = "<group>";
@@ -288,27 +271,11 @@
 		C0E56942247812F0003D413F /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				C0E5694D2478157D003D413F /* __Snapshots__ */,
+				C0E5696B247847A8003D413F /* __Snapshots__ */,
 				C0E569502478157D003D413F /* Json */,
 				C0E5694324781302003D413F /* TouchableTests.swift */,
 			);
 			path = Tests;
-			sourceTree = "<group>";
-		};
-		C0E5694D2478157D003D413F /* __Snapshots__ */ = {
-			isa = PBXGroup;
-			children = (
-				C0E5694E2478157D003D413F /* TouchableTests */,
-			);
-			path = __Snapshots__;
-			sourceTree = "<group>";
-		};
-		C0E5694E2478157D003D413F /* TouchableTests */ = {
-			isa = PBXGroup;
-			children = (
-				C0E5694F2478157D003D413F /* testInitFromDecoder.1.txt */,
-			);
-			path = TouchableTests;
 			sourceTree = "<group>";
 		};
 		C0E569502478157D003D413F /* Json */ = {
@@ -332,7 +299,7 @@
 		C0E5695624781AE1003D413F /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				C0E5695F24781EAE003D413F /* __Snapshots__ */,
+				C0E5696D247847CB003D413F /* __Snapshots__ */,
 				C0E5695D24781EAE003D413F /* Json */,
 				C0E5695724781AF9003D413F /* ImageTests.swift */,
 			);
@@ -345,22 +312,6 @@
 				C0E5695E24781EAE003D413F /* ImageComponent.json */,
 			);
 			path = Json;
-			sourceTree = "<group>";
-		};
-		C0E5695F24781EAE003D413F /* __Snapshots__ */ = {
-			isa = PBXGroup;
-			children = (
-				C0E5696024781EAE003D413F /* ImageTests */,
-			);
-			path = __Snapshots__;
-			sourceTree = "<group>";
-		};
-		C0E5696024781EAE003D413F /* ImageTests */ = {
-			isa = PBXGroup;
-			children = (
-				C0E5696124781EAE003D413F /* test_whenDecodingJson_thenItShouldReturnAnImage.1.txt */,
-			);
-			path = ImageTests;
 			sourceTree = "<group>";
 		};
 		C0E5696424781FDB003D413F /* NetworkImage */ = {
@@ -615,7 +566,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0E568F92476C7F0003D413F /* test_whenDecodingJson_thenItShouldReturnAButton.1.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -695,7 +645,7 @@
 				C0E569112476C9DD003D413F /* AnalyticsModels.swift in Sources */,
 				C0E5690B2476C873003D413F /* Text.swift in Sources */,
 				C0E5696624781FEB003D413F /* NetworkImage.swift in Sources */,
-				C0E5692C2476F700003D413F /* RawServerDrivenComponent.swift in Sources */,
+				C0E5692C2476F700003D413F /* ServerDrivenComponent.swift in Sources */,
 				C0E568F82476C7F0003D413F /* Button.swift in Sources */,
 				C0FBBE122475C95800B72A9B /* Equality.generated.swift in Sources */,
 				C0FBBE052475C79600B72A9B /* Size.swift in Sources */,

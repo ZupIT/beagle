@@ -18,7 +18,7 @@
 import Foundation
 
 //TODO: Implement test decoding with snapshot
-public struct NetworkImage: RawWidget, AutoInitiableAndDecodable {
+public struct NetworkImage: Widget, AutoInitiableAndDecodable {
     
     public let path: String
     public let contentMode: ImageContentMode?
