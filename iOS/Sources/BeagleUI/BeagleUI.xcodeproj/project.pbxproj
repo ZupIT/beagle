@@ -601,13 +601,6 @@
 			path = UnitValueExtensionTests;
 			sourceTree = "<group>";
 		};
-		7CFE3A7824133C020087F664 /* Container */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Container;
-			sourceTree = "<group>";
-		};
 		930967B42416D1D40052E51C /* Json */ = {
 			isa = PBXGroup;
 			children = (
@@ -673,7 +666,6 @@
 		936817FA232A881600E6E724 /* Layout */ = {
 			isa = PBXGroup;
 			children = (
-				7CFE3A7824133C020087F664 /* Container */,
 				C829CEA323B15B0C001B7225 /* Screen */,
 				C829CE9823B12D13001B7225 /* Flex */,
 				C829CEA523B15B71001B7225 /* Scroll */,

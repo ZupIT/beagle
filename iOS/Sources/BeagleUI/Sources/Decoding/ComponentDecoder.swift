@@ -18,9 +18,10 @@ import Foundation
 
 public protocol ComponentDecoding {
     typealias Error = ComponentDecodingError
-
+    
     func register<T: ServerDrivenComponent>(_ type: T.Type, for typeName: String)
-    func decodableType(forType type: String) -> Decodable.Type?
+    func componentType(forType type: String) -> Decodable.Type?
+    func actionType(forType type: String) -> Decodable.Type?
     func decodeComponent(from data: Data) throws -> ServerDrivenComponent
     func decodeAction(from data: Data) throws -> Action
 }
@@ -44,7 +45,8 @@ final class ComponentDecoder: ComponentDecoding {
         case custom
     }
 
-    private(set) var decoders: [String: Decodable.Type] = [:]
+    private(set) var componentDecoders: [String: Decodable.Type] = [:]
+    private(set) var actionDecoders: [String: Decodable.Type] = [:]
     
     // MARK: - Initialization
     
@@ -56,8 +58,12 @@ final class ComponentDecoder: ComponentDecoding {
         registerComponent(type, key: key(name: typeName, namespace: .custom))
     }
     
-    func decodableType(forType type: String) -> Decodable.Type? {
-        return decoders[type]
+    func componentType(forType type: String) -> Decodable.Type? {
+        return componentDecoders[type.lowercased()]
+    }
+    
+    func actionType(forType type: String) -> Decodable.Type? {
+        return actionDecoders[type.lowercased()]
     }
     
     func decodeComponent(from data: Data) throws -> ServerDrivenComponent {
@@ -96,11 +102,12 @@ final class ComponentDecoder: ComponentDecoding {
     }
     
     private func registerActions() {
-        registerComponent(Navigate.self, key: key(name: "Navigate", namespace: .beagle))
-        registerComponent(FormValidation.self, key: key(name: "FormValidation", namespace: .beagle))
-        registerComponent(ShowNativeDialog.self, key: key(name: "ShowNativeDialog", namespace: .beagle))
-        registerComponent(CustomAction.self, key: key(name: "CustomAction", namespace: .beagle))
-        registerComponent(FormRemoteAction.self, key: key(name: "FormRemoteAction", namespace: .beagle))
+        registerAction(Navigate.self, key: key(name: "Navigate", namespace: .beagle))
+        
+        registerAction(FormValidation.self, key: key(name: "FormValidation", namespace: .beagle))
+        registerAction(ShowNativeDialog.self, key: key(name: "ShowNativeDialog", namespace: .beagle))
+        registerAction(CustomAction.self, key: key(name: "CustomAction", namespace: .beagle))
+        registerAction(FormRemoteAction.self, key: key(name: "FormRemoteAction", namespace: .beagle))
     }
     
     private func registerCoreTypes() {
@@ -135,6 +142,10 @@ final class ComponentDecoder: ComponentDecoding {
     }
         
     private func registerComponent<T: Decodable>(_ type: T.Type, key: String) {
-        decoders[key.lowercased()] = type
+        componentDecoders[key.lowercased()] = type
+    }
+    
+    private func registerAction<T: Decodable>(_ type: T.Type, key: String) {
+        actionDecoders[key.lowercased()] = type
     }
 }

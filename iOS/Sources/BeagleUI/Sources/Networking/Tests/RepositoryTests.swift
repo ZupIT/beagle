@@ -81,7 +81,7 @@ final class RepositoryTests: XCTestCase {
         // Given
         guard let jsonData = """
         {
-            "_beagleType_": "beagle:text",
+            "_beagleComponent_": "beagle:text",
             "text": "some text"
         }
         """.data(using: .utf8) else {
@@ -150,8 +150,9 @@ final class RepositoryTests: XCTestCase {
 final class ComponentDecodingStub: ComponentDecoding {
     
     func register<T>(_ type: T.Type, for typeName: String) where T: ServerDrivenComponent {}
-    func decodableType(forType type: String) -> Decodable.Type? { return nil }
-
+    func componentType(forType type: String) -> Decodable.Type? { return nil }
+    func actionType(forType type: String) -> Decodable.Type? { return nil }
+    
     var componentToReturnOnDecode: ServerDrivenComponent?
     var errorToThrowOnDecode: Error?
     

@@ -76,7 +76,8 @@ final class DeepLinkHandlerDummy: DeepLinkScreenManaging {
 
 final class ComponentDecodingDummy: ComponentDecoding {
     func register<T>(_ type: T.Type, for typeName: String) where T: ServerDrivenComponent {}
-    func decodableType(forType type: String) -> Decodable.Type? { return nil }
+    func componentType(forType type: String) -> Decodable.Type? { return nil }
+    func actionType(forType type: String) -> Decodable.Type? { return nil }
     func decodeComponent(from data: Data) throws -> ServerDrivenComponent { return ComponentDummy() }
     func decodeAction(from data: Data) throws -> Action { return ActionDummy() }
 }

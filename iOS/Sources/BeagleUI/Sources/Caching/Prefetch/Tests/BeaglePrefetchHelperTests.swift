@@ -28,7 +28,7 @@ final class BeaglePrefetchHelperTests: XCTestCase {
     private let decoder = ComponentDecoder()
     private let jsonData = """
     {
-      "_beagleType_": "beagle:component:text",
+      "_beagleComponent_": "beagle:text",
       "text": "cache",
       "appearance": {
         "backgroundColor": "#4000FFFF"

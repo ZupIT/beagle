@@ -17,16 +17,29 @@
         - container: (Function)
   - customActionHandler: Optional<CustomActionHandler>.none
   ▿ decoder: ComponentDecoder
-    ▿ decoders: 24 key/value pairs
+    ▿ actionDecoders: 5 key/value pairs
+      ▿ (2 elements)
+        - key: "beagle:customaction"
+        - value: CustomAction
+      ▿ (2 elements)
+        - key: "beagle:formremoteaction"
+        - value: FormRemoteAction
+      ▿ (2 elements)
+        - key: "beagle:formvalidation"
+        - value: FormValidation
+      ▿ (2 elements)
+        - key: "beagle:navigate"
+        - value: Navigate
+      ▿ (2 elements)
+        - key: "beagle:shownativedialog"
+        - value: ShowNativeDialog
+    ▿ componentDecoders: 19 key/value pairs
       ▿ (2 elements)
         - key: "beagle:button"
         - value: Button
       ▿ (2 elements)
         - key: "beagle:container"
         - value: Container
-      ▿ (2 elements)
-        - key: "beagle:customaction"
-        - value: CustomAction
       ▿ (2 elements)
         - key: "beagle:form"
         - value: Form
@@ -37,14 +50,8 @@
         - key: "beagle:forminputhidden"
         - value: FormInputHidden
       ▿ (2 elements)
-        - key: "beagle:formremoteaction"
-        - value: FormRemoteAction
-      ▿ (2 elements)
         - key: "beagle:formsubmit"
         - value: FormSubmit
-      ▿ (2 elements)
-        - key: "beagle:formvalidation"
-        - value: FormValidation
       ▿ (2 elements)
         - key: "beagle:image"
         - value: Image
@@ -54,9 +61,6 @@
       ▿ (2 elements)
         - key: "beagle:listview"
         - value: ListView
-      ▿ (2 elements)
-        - key: "beagle:navigate"
-        - value: Navigate
       ▿ (2 elements)
         - key: "beagle:networkimage"
         - value: NetworkImage
@@ -72,9 +76,6 @@
       ▿ (2 elements)
         - key: "beagle:scrollview"
         - value: ScrollView
-      ▿ (2 elements)
-        - key: "beagle:shownativedialog"
-        - value: ShowNativeDialog
       ▿ (2 elements)
         - key: "beagle:spacer"
         - value: Spacer

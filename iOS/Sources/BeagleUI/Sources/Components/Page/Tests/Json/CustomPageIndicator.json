@@ -1,6 +1,6 @@
 
 {
-    "_beagleType_": "custom:CustomPageIndicator",
+    "_beagleComponent_": "custom:CustomPageIndicator",
     "selectedColor": "selectedColor",
     "defaultColor": "defaultColor"
 }
