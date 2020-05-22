@@ -20,17 +20,17 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
 
-internal class JsonPathSetter(
+internal class JsonPathReplacer(
     private val jsonPathFinder: JsonPathFinder = JsonPathFinder()
 ) {
 
-    fun setByPath(keys: LinkedList<String>, newValue: Any, root: Any): Boolean {
+    fun replace(keys: LinkedList<String>, newValue: Any, root: Any): Boolean {
         return when {
             keys.isEmpty() -> false
             keys.size == 1 -> replaceValue(keys.poll(), newValue, root)
             else -> {
                 val lastKey = keys.pollLast()
-                val foundValue = jsonPathFinder.findByPath(keys, root)
+                val foundValue = jsonPathFinder.find(keys, root)
                 return replaceValue(lastKey, newValue, foundValue)
             }
         }

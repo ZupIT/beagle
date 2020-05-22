@@ -50,9 +50,9 @@ private val JSON = """
     }
 """
 
-class JsonPathSetterTest {
+class JsonPathReplacerTest {
 
-    private val jsonPathReplacer = JsonPathSetter()
+    private val jsonPathReplacer = JsonPathReplacer()
     private val jsonObject = JSONObject(JSON)
 
     @Test
@@ -62,7 +62,7 @@ class JsonPathSetterTest {
         val newValue = RandomData.string()
 
         // When
-        val result = jsonPathReplacer.setByPath(keys, newValue, jsonObject)
+        val result = jsonPathReplacer.replace(keys, newValue, jsonObject)
 
         // Then
         assertTrue(result)
@@ -76,7 +76,7 @@ class JsonPathSetterTest {
         val newValue = RandomData.string()
 
         // When
-        val result = jsonPathReplacer.setByPath(keys, newValue, jsonObject)
+        val result = jsonPathReplacer.replace(keys, newValue, jsonObject)
 
         // Then
         assertTrue(result)
@@ -90,7 +90,7 @@ class JsonPathSetterTest {
         val newValue = false
 
         // When
-        val result = jsonPathReplacer.setByPath(keys, newValue, jsonObject)
+        val result = jsonPathReplacer.replace(keys, newValue, jsonObject)
 
         // Then
         assertTrue(result)
@@ -107,7 +107,7 @@ class JsonPathSetterTest {
         }
 
         // When
-        val result = jsonPathReplacer.setByPath(keys, newValue, jsonObject)
+        val result = jsonPathReplacer.replace(keys, newValue, jsonObject)
 
         // Then
         assertTrue(result)
@@ -119,7 +119,7 @@ class JsonPathSetterTest {
         val keys = JsonPathUtils.splitKeys("b.c[0]")
 
         assertFails {
-            jsonPathReplacer.setByPath(keys, JSONObject(), jsonObject)
+            jsonPathReplacer.replace(keys, JSONObject(), jsonObject)
         }
     }
 
@@ -128,7 +128,7 @@ class JsonPathSetterTest {
         val keys = JsonPathUtils.splitKeys("b.h[]")
 
         assertFails {
-            jsonPathReplacer.setByPath(keys, JSONObject(), jsonObject)
+            jsonPathReplacer.replace(keys, JSONObject(), jsonObject)
         }
     }
 
@@ -141,7 +141,7 @@ class JsonPathSetterTest {
         }
 
         // When
-        val result = jsonPathReplacer.setByPath(keys, newJsonObject, jsonObject)
+        val result = jsonPathReplacer.replace(keys, newJsonObject, jsonObject)
 
         // Then
         assertTrue(result)
@@ -155,7 +155,7 @@ class JsonPathSetterTest {
         val newValue = RandomData.double()
 
         // When
-        val result = jsonPathReplacer.setByPath(keys, newValue, jsonObject)
+        val result = jsonPathReplacer.replace(keys, newValue, jsonObject)
 
         // Then
         assertTrue(result)
@@ -173,7 +173,7 @@ class JsonPathSetterTest {
         val newValue = RandomData.double()
 
         // When
-        val result = jsonPathReplacer.setByPath(keys, newValue, jsonObject)
+        val result = jsonPathReplacer.replace(keys, newValue, jsonObject)
 
         // Then
         assertTrue(result)
@@ -193,7 +193,7 @@ class JsonPathSetterTest {
         }
 
         // When
-        val result = jsonPathReplacer.setByPath(keys, newJsonObject, jsonObject)
+        val result = jsonPathReplacer.replace(keys, newJsonObject, jsonObject)
 
         // Then
         assertTrue(result)
@@ -211,7 +211,7 @@ class JsonPathSetterTest {
         }
 
         // When
-        val result = jsonPathReplacer.setByPath(keys, newValue, jsonArray)
+        val result = jsonPathReplacer.replace(keys, newValue, jsonArray)
 
         // Then
         assertTrue(result)
@@ -235,7 +235,7 @@ class JsonPathSetterTest {
         val jsonArray = JSONArray(json)
 
         // When
-        val result = jsonPathReplacer.setByPath(keys, newValue, jsonArray)
+        val result = jsonPathReplacer.replace(keys, newValue, jsonArray)
 
         // Then
         assertTrue(result)
