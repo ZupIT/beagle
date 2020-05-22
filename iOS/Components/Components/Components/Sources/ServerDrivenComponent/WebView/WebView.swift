@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,21 +15,19 @@
  * limitations under the License.
  */
 
-import XCTest
-import SnapshotTesting
-import WebKit
-@testable import BeagleUI
+import Foundation
 
-final class WebViewTests: XCTestCase {
-    
-    func test_whenDecondingJson_shouldReturnAWebView() throws {
-        let component: WebView = try componentFromJsonFile(fileName: "WebView")
-        assertSnapshot(matching: component, as: .dump)
+public struct WebView: FlexComponent, ServerDrivenComponent, AutoInitiableAndDecodable {
+    public let url: String
+    public let flex: Flex?
+
+// sourcery:inline:auto:WebView.Init
+    public init(
+        url: String,
+        flex: Flex? = nil
+    ) {
+        self.url = url
+        self.flex = flex
     }
-    
-    func test_renderWebViewComponent() throws {
-        let component: WebView = try componentFromJsonFile(fileName: "WebView")
-        let view = component.toView(context: BeagleContextDummy(), dependencies: BeagleDependencies())
-        assert(view is WebViewUIComponent)
-    }
+// sourcery:end
 }

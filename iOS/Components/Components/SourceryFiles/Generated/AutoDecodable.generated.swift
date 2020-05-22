@@ -111,6 +111,22 @@ extension Touchable {
     }
 }
 
+// MARK: WebView Decodable
+extension WebView {
+
+    enum CodingKeys: String, CodingKey {
+        case url
+        case flex
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        url = try container.decode(String.self, forKey: .url)
+        flex = try container.decodeIfPresent(Flex.self, forKey: .flex)
+    }
+}
+
 // MARK: WidgetProperties Decodable
 extension WidgetProperties {
 

@@ -88,7 +88,7 @@ final class ComponentDecoderTests: XCTestCase {
 //        """.data(using: .utf8)!
 //
 //        let action = try sut.decodeAction(from: jsonData)
-//        
+//
 //        //TODO:Component
 //        guard case Navigate.finishView = action else {
 //            XCTFail("decoding failed"); return
@@ -97,11 +97,11 @@ final class ComponentDecoderTests: XCTestCase {
 }
 
 // MARK: - Testing Helpers
-struct NewComponent: RawServerDrivenComponent {
+struct NewComponent: ServerDrivenComponent {
     var text: String
     
 }
 
-struct Unknown: RawServerDrivenComponent {
+struct Unknown: ServerDrivenComponent {
     
 }
