@@ -220,24 +220,6 @@ extension TabItem {
     }
 }
 
-// MARK: Touchable Decodable
-extension Touchable {
-
-    enum CodingKeys: String, CodingKey {
-        case action
-        case clickAnalyticsEvent
-        case child
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        action = try container.decode( forKey: .action)
-        clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
-        child = try container.decode( forKey: .child)
-    }
-}
-
 // MARK: WebView Decodable
 extension WebView {
 

@@ -111,7 +111,7 @@ final public class ComponentDecoder: ComponentDecoding {
     
     private func registerCoreTypes() {
 //        registerComponent(Container.self, key: key(name: "Container", content: .component, namespace: .beagle))
-//        registerComponent(Touchable.self, key: key(name: "Touchable", content: .component, namespace: .beagle))
+        registerComponent(Touchable.self, key: key(name: "Touchable", content: .component, namespace: .beagle))
     }
     
     private func registerFormModels() {
@@ -129,7 +129,7 @@ final public class ComponentDecoder: ComponentDecoding {
     
     private func registerUITypes() {
         registerComponent(Button.self, key: key(name: "Button", content: .component, namespace: .beagle))
-//        registerComponent(Image.self, key: key(name: "Image", content: .component, namespace: .beagle))
+        registerComponent(Image.self, key: key(name: "Image", content: .component, namespace: .beagle))
 //        registerComponent(NetworkImage.self, key: key(name: "NetworkImage", content: .component, namespace: .beagle))
 //        registerComponent(ListView.self, key: key(name: "ListView", content: .component, namespace: .beagle))
         registerComponent(Text.self, key: key(name: "Text", content: .component, namespace: .beagle))

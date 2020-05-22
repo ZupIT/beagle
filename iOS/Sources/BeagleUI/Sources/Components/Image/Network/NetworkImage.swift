@@ -17,25 +17,6 @@
 import UIKit
 import Components
 
-public struct NetworkImage: Widget, AutoInitiableAndDecodable {
-    
-    public let path: String
-    public let contentMode: ImageContentMode?
-    public var widgetProperties: WidgetProperties
-
-// sourcery:inline:auto:NetworkImage.Init
-    public init(
-        path: String,
-        contentMode: ImageContentMode? = nil,
-        widgetProperties: WidgetProperties = WidgetProperties()
-    ) {
-        self.path = path
-        self.contentMode = contentMode
-        self.widgetProperties = widgetProperties
-    }
-// sourcery:end
-}
-
 extension NetworkImage: Renderable {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let imageView = UIImageView()

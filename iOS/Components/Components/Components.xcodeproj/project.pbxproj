@@ -23,6 +23,14 @@
 		C0E5693724770C38003D413F /* ComponentDecoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5693324770C38003D413F /* ComponentDecoderTests.swift */; };
 		C0E5693924771282003D413F /* TextComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = C0E569012476C873003D413F /* TextComponent.json */; };
 		C0E5693D24771346003D413F /* buttonComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = C0E568F12476C7F0003D413F /* buttonComponent.json */; };
+		C0E5694124772680003D413F /* Touchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5694024772680003D413F /* Touchable.swift */; };
+		C0E5694424781302003D413F /* TouchableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5694324781302003D413F /* TouchableTests.swift */; };
+		C0E5695424781590003D413F /* TouchableDecoderTest.json in Resources */ = {isa = PBXBuildFile; fileRef = C0E569512478157D003D413F /* TouchableDecoderTest.json */; };
+		C0E5695824781AF9003D413F /* ImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5695724781AF9003D413F /* ImageTests.swift */; };
+		C0E5695A24781B0B003D413F /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5695924781B0B003D413F /* Image.swift */; };
+		C0E5695C24781B5F003D413F /* ImageContentMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5695B24781B5F003D413F /* ImageContentMode.swift */; };
+		C0E5696224781EAE003D413F /* ImageComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = C0E5695E24781EAE003D413F /* ImageComponent.json */; };
+		C0E5696624781FEB003D413F /* NetworkImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5696524781FEB003D413F /* NetworkImage.swift */; };
 		C0FBBD212475803900B72A9B /* Components.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FBBD172475803900B72A9B /* Components.framework */; };
 		C0FBBD262475803900B72A9B /* ComponentsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FBBD252475803900B72A9B /* ComponentsTests.swift */; };
 		C0FBBD282475803900B72A9B /* Components.h in Headers */ = {isa = PBXBuildFile; fileRef = C0FBBD1A2475803900B72A9B /* Components.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -56,7 +64,6 @@
 		C0E568F52476C7F0003D413F /* test_whenDecodingJson_thenItShouldReturnAButton.1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test_whenDecodingJson_thenItShouldReturnAButton.1.txt; sourceTree = "<group>"; };
 		C0E568FF2476C873003D413F /* TextTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextTests.swift; sourceTree = "<group>"; };
 		C0E569012476C873003D413F /* TextComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TextComponent.json; sourceTree = "<group>"; };
-		C0E569042476C873003D413F /* test_whenDecodingJson_shouldReturnAText.1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test_whenDecodingJson_shouldReturnAText.1.txt; sourceTree = "<group>"; };
 		C0E569062476C873003D413F /* Text.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		C0E5690E2476C983003D413F /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 		C0E569102476C9DD003D413F /* AnalyticsModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsModels.swift; sourceTree = "<group>"; };
@@ -68,6 +75,17 @@
 		C0E5693024770758003D413F /* ComponentDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentDependencies.swift; sourceTree = "<group>"; };
 		C0E5693324770C38003D413F /* ComponentDecoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentDecoderTests.swift; sourceTree = "<group>"; };
 		C0E5693624770C38003D413F /* testIfAllDecodersAreBeingRegistered.1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testIfAllDecodersAreBeingRegistered.1.txt; sourceTree = "<group>"; };
+		C0E5694024772680003D413F /* Touchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Touchable.swift; sourceTree = "<group>"; };
+		C0E5694324781302003D413F /* TouchableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchableTests.swift; sourceTree = "<group>"; };
+		C0E5694F2478157D003D413F /* testInitFromDecoder.1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testInitFromDecoder.1.txt; sourceTree = "<group>"; };
+		C0E569512478157D003D413F /* TouchableDecoderTest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TouchableDecoderTest.json; sourceTree = "<group>"; };
+		C0E5695724781AF9003D413F /* ImageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTests.swift; sourceTree = "<group>"; };
+		C0E5695924781B0B003D413F /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		C0E5695B24781B5F003D413F /* ImageContentMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageContentMode.swift; sourceTree = "<group>"; };
+		C0E5695E24781EAE003D413F /* ImageComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ImageComponent.json; sourceTree = "<group>"; };
+		C0E5696124781EAE003D413F /* test_whenDecodingJson_thenItShouldReturnAnImage.1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test_whenDecodingJson_thenItShouldReturnAnImage.1.txt; sourceTree = "<group>"; };
+		C0E5696524781FEB003D413F /* NetworkImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkImage.swift; sourceTree = "<group>"; };
+		C0E569682478292B003D413F /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C0FBBD172475803900B72A9B /* Components.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Components.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0FBBD1A2475803900B72A9B /* Components.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Components.h; sourceTree = "<group>"; };
 		C0FBBD1B2475803900B72A9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -158,9 +176,9 @@
 		C0E568FE2476C873003D413F /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				C0E569682478292B003D413F /* __Snapshots__ */,
 				C0E568FF2476C873003D413F /* TextTests.swift */,
 				C0E569002476C873003D413F /* Json */,
-				C0E569022476C873003D413F /* __Snapshots__ */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -171,22 +189,6 @@
 				C0E569012476C873003D413F /* TextComponent.json */,
 			);
 			path = Json;
-			sourceTree = "<group>";
-		};
-		C0E569022476C873003D413F /* __Snapshots__ */ = {
-			isa = PBXGroup;
-			children = (
-				C0E569032476C873003D413F /* TextTests */,
-			);
-			path = __Snapshots__;
-			sourceTree = "<group>";
-		};
-		C0E569032476C873003D413F /* TextTests */ = {
-			isa = PBXGroup;
-			children = (
-				C0E569042476C873003D413F /* test_whenDecodingJson_shouldReturnAText.1.txt */,
-			);
-			path = TextTests;
 			sourceTree = "<group>";
 		};
 		C0E5690D2476C974003D413F /* Analytics */ = {
@@ -228,6 +230,7 @@
 		C0E5692A2476F6E8003D413F /* ServerDrivenComponent */ = {
 			isa = PBXGroup;
 			children = (
+				C0E5693F24772642003D413F /* Touchable */,
 				C0E5692B2476F700003D413F /* RawServerDrivenComponent.swift */,
 			);
 			path = ServerDrivenComponent;
@@ -271,6 +274,109 @@
 			children = (
 			);
 			path = ActionTypes;
+			sourceTree = "<group>";
+		};
+		C0E5693F24772642003D413F /* Touchable */ = {
+			isa = PBXGroup;
+			children = (
+				C0E56942247812F0003D413F /* Tests */,
+				C0E5694024772680003D413F /* Touchable.swift */,
+			);
+			path = Touchable;
+			sourceTree = "<group>";
+		};
+		C0E56942247812F0003D413F /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				C0E5694D2478157D003D413F /* __Snapshots__ */,
+				C0E569502478157D003D413F /* Json */,
+				C0E5694324781302003D413F /* TouchableTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		C0E5694D2478157D003D413F /* __Snapshots__ */ = {
+			isa = PBXGroup;
+			children = (
+				C0E5694E2478157D003D413F /* TouchableTests */,
+			);
+			path = __Snapshots__;
+			sourceTree = "<group>";
+		};
+		C0E5694E2478157D003D413F /* TouchableTests */ = {
+			isa = PBXGroup;
+			children = (
+				C0E5694F2478157D003D413F /* testInitFromDecoder.1.txt */,
+			);
+			path = TouchableTests;
+			sourceTree = "<group>";
+		};
+		C0E569502478157D003D413F /* Json */ = {
+			isa = PBXGroup;
+			children = (
+				C0E569512478157D003D413F /* TouchableDecoderTest.json */,
+			);
+			path = Json;
+			sourceTree = "<group>";
+		};
+		C0E5695524781AD7003D413F /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				C0E5695924781B0B003D413F /* Image.swift */,
+				C0E5695B24781B5F003D413F /* ImageContentMode.swift */,
+				C0E5695624781AE1003D413F /* Tests */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
+		C0E5695624781AE1003D413F /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				C0E5695F24781EAE003D413F /* __Snapshots__ */,
+				C0E5695D24781EAE003D413F /* Json */,
+				C0E5695724781AF9003D413F /* ImageTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		C0E5695D24781EAE003D413F /* Json */ = {
+			isa = PBXGroup;
+			children = (
+				C0E5695E24781EAE003D413F /* ImageComponent.json */,
+			);
+			path = Json;
+			sourceTree = "<group>";
+		};
+		C0E5695F24781EAE003D413F /* __Snapshots__ */ = {
+			isa = PBXGroup;
+			children = (
+				C0E5696024781EAE003D413F /* ImageTests */,
+			);
+			path = __Snapshots__;
+			sourceTree = "<group>";
+		};
+		C0E5696024781EAE003D413F /* ImageTests */ = {
+			isa = PBXGroup;
+			children = (
+				C0E5696124781EAE003D413F /* test_whenDecodingJson_thenItShouldReturnAnImage.1.txt */,
+			);
+			path = ImageTests;
+			sourceTree = "<group>";
+		};
+		C0E5696424781FDB003D413F /* NetworkImage */ = {
+			isa = PBXGroup;
+			children = (
+				C0E5696724782021003D413F /* Tests */,
+				C0E5696524781FEB003D413F /* NetworkImage.swift */,
+			);
+			path = NetworkImage;
+			sourceTree = "<group>";
+		};
+		C0E5696724782021003D413F /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		C0FBBD0D2475803900B72A9B = {
@@ -326,6 +432,8 @@
 			isa = PBXGroup;
 			children = (
 				C0FBBDF42475C53600B72A9B /* Widget.swift */,
+				C0E5696424781FDB003D413F /* NetworkImage */,
+				C0E5695524781AD7003D413F /* Image */,
 				C0E568FD2476C873003D413F /* Text */,
 				C0E568EE2476C7F0003D413F /* Button */,
 				C0FBBDF72475C67F00B72A9B /* WidgetProperties */,
@@ -516,6 +624,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0E5693924771282003D413F /* TextComponent.json in Resources */,
+				C0E5696224781EAE003D413F /* ImageComponent.json in Resources */,
+				C0E5695424781590003D413F /* TouchableDecoderTest.json in Resources */,
 				C0E5693D24771346003D413F /* buttonComponent.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -572,8 +682,11 @@
 				C0E5690F2476C983003D413F /* Events.swift in Sources */,
 				C0FBBE022475C79600B72A9B /* Accessibility.swift in Sources */,
 				C0FBBE142475C95800B72A9B /* SourceryProtocols.swift in Sources */,
+				C0E5695C24781B5F003D413F /* ImageContentMode.swift in Sources */,
 				C0FBBE132475C95800B72A9B /* AutoDecodable.generated.swift in Sources */,
+				C0E5694124772680003D413F /* Touchable.swift in Sources */,
 				C0E569212476F23D003D413F /* AnyDecodableContainer.swift in Sources */,
+				C0E5695A24781B0B003D413F /* Image.swift in Sources */,
 				C0FBBE062475C79600B72A9B /* Flex.swift in Sources */,
 				C0E5692E24770105003D413F /* ComponentDecoder.swift in Sources */,
 				C0FBBDF52475C53600B72A9B /* Widget.swift in Sources */,
@@ -581,6 +694,7 @@
 				C0FBBE032475C79600B72A9B /* UnitValue.swift in Sources */,
 				C0E569112476C9DD003D413F /* AnalyticsModels.swift in Sources */,
 				C0E5690B2476C873003D413F /* Text.swift in Sources */,
+				C0E5696624781FEB003D413F /* NetworkImage.swift in Sources */,
 				C0E5692C2476F700003D413F /* RawServerDrivenComponent.swift in Sources */,
 				C0E568F82476C7F0003D413F /* Button.swift in Sources */,
 				C0FBBE122475C95800B72A9B /* Equality.generated.swift in Sources */,
@@ -597,7 +711,9 @@
 				C0E569122476ED98003D413F /* ButtonTests.swift in Sources */,
 				C0FBBD262475803900B72A9B /* ComponentsTests.swift in Sources */,
 				C0E5690C2476C879003D413F /* TextTests.swift in Sources */,
+				C0E5694424781302003D413F /* TouchableTests.swift in Sources */,
 				C0E569292476F583003D413F /* ComponentFromJsonFile.swift in Sources */,
+				C0E5695824781AF9003D413F /* ImageTests.swift in Sources */,
 				C0E5693724770C38003D413F /* ComponentDecoderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

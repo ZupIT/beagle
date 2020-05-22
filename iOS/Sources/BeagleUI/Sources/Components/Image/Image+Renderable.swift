@@ -17,27 +17,6 @@
 import UIKit
 import Components
 
-public struct Image: Widget, AutoInitiableAndDecodable {
-    
-    // MARK: - Public Properties
-    
-    public let name: String
-    public let contentMode: ImageContentMode?
-    public var widgetProperties: WidgetProperties
-    
-// sourcery:inline:auto:Image.Init
-    public init(
-        name: String,
-        contentMode: ImageContentMode? = nil,
-        widgetProperties: WidgetProperties = WidgetProperties()
-    ) {
-        self.name = name
-        self.contentMode = contentMode
-        self.widgetProperties = widgetProperties
-    }
-// sourcery:end
-}
-
 extension Image: Renderable {
 
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {

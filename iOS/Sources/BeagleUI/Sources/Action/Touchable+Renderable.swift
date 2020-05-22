@@ -15,28 +15,22 @@
  */
 
 import UIKit
+import Components
 
-public struct Touchable: ServerDrivenComponent, ClickedOnComponent, AutoInitiableAndDecodable {
-    // MARK: - Public Properties
-    public let action: Action
-    public let clickAnalyticsEvent: AnalyticsClick?
-    public let child: ServerDrivenComponent
-
-// sourcery:inline:auto:Touchable.Init
+extension Touchable {
     public init(
         action: Action,
         clickAnalyticsEvent: AnalyticsClick? = nil,
-        child: ServerDrivenComponent
+        renderableChild: ServerDrivenComponent
     ) {
-        self.action = action
-        self.clickAnalyticsEvent = clickAnalyticsEvent
-        self.child = child
+        self = Touchable(action: action, clickAnalyticsEvent: clickAnalyticsEvent, child: renderableChild)
     }
-// sourcery:end
 }
 
 extension Touchable: Renderable {
+    
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+        guard let child = (child as? ServerDrivenComponent) else { return UIView() }
         let childView = child.toView(context: context, dependencies: dependencies)
         var events: [Event] = [.action(action)]
         if let clickAnalyticsEvent = clickAnalyticsEvent {

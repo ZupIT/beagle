@@ -38,6 +38,23 @@ extension Button {
     }
 }
 
+// MARK: Image Decodable
+extension Image {
+
+    enum CodingKeys: String, CodingKey {
+        case name
+        case contentMode
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        name = try container.decode(String.self, forKey: .name)
+        contentMode = try container.decodeIfPresent(ImageContentMode.self, forKey: .contentMode)
+        widgetProperties = try WidgetProperties(from: decoder)
+    }
+}
+
 // MARK: Text Decodable
 extension Text {
 
@@ -56,6 +73,24 @@ extension Text {
         alignment = try container.decodeIfPresent(Alignment.self, forKey: .alignment)
         textColor = try container.decodeIfPresent(String.self, forKey: .textColor)
         widgetProperties = try WidgetProperties(from: decoder)
+    }
+}
+
+// MARK: Touchable Decodable
+extension Touchable {
+
+    enum CodingKeys: String, CodingKey {
+        case action
+        case clickAnalyticsEvent
+        case child
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        action = try container.decode( forKey: .action)
+        clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
+        child = try container.decode( forKey: .child)
     }
 }
 

@@ -36,11 +36,6 @@ class ImageTests: XCTestCase {
         // Then
         XCTAssertEqual(expectedContentMode, imageView.contentMode)
     }
-
-    func test_whenDecodingJson_thenItShouldReturnAnImage() throws {
-        let component: Image = try componentFromJsonFile(fileName: "ImageComponent")
-        assertSnapshot(matching: component, as: .dump)
-    }
     
     func test_renderImage() throws {
         let dependencies = BeagleDependencies()

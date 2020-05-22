@@ -19,11 +19,6 @@ import XCTest
 import SnapshotTesting
 
 final class TouchableTests: XCTestCase {
-    
-    func testInitFromDecoder() throws {
-        let component: Touchable = try componentFromJsonFile(fileName: "TouchableDecoderTest")
-        assertSnapshot(matching: component, as: .dump)
-    }
 
     func testTouchableView() throws {
         let touchable = Touchable(action: Navigate.popView, child: Text("Touchable"))
