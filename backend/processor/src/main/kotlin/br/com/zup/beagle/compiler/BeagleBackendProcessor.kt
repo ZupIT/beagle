@@ -18,6 +18,7 @@ package br.com.zup.beagle.compiler
 
 import br.com.zup.beagle.annotation.BeagleExpressionRoot
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.Bind
 import com.google.auto.service.AutoService
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessor
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessorType
@@ -45,7 +46,7 @@ class BeagleBackendProcessor : AbstractProcessor() {
 
     override fun process(annotations: MutableSet<out TypeElement>?, roundEnvironment: RoundEnvironment?): Boolean {
         roundEnvironment?.getElementsAnnotatedWith(BINDING_ANNOTATION.java)?.forEach {
-            this.processElement(it, BINDING_WARNING, BeagleWidgetBindingHandler(this.processingEnv)::handle)
+            this.processElement(it, BINDING_WARNING, BeagleWidgetBindingHandler(this.processingEnv, Bind::class)::handle)
         }
         roundEnvironment?.getElementsAnnotatedWith(EXPRESSION_ANNOTATION.java)?.forEach { element ->
             this.processElement(element, EXPRESSION_WARNING) { BeagleExpressionHandler(this.processingEnv).handle(it) }

@@ -61,7 +61,7 @@ class JsonPathFinderTest {
         val keys = JsonPathUtils.splitKeys("i")
 
         // When
-        val result = jsonPathFinder.findByPath(keys, jsonObject)
+        val result = jsonPathFinder.find(keys, jsonObject)
 
         // Then
         assertNull(result)
@@ -73,7 +73,7 @@ class JsonPathFinderTest {
         val keys = JsonPathUtils.splitKeys("z")
 
         // When
-        val result = jsonPathFinder.findByPath(keys, jsonObject)
+        val result = jsonPathFinder.find(keys, jsonObject)
 
         // Then
         assertNull(result)
@@ -85,7 +85,7 @@ class JsonPathFinderTest {
         val keys = JsonPathUtils.splitKeys("a")
 
         // When
-        val result = jsonPathFinder.findByPath(keys, jsonObject)
+        val result = jsonPathFinder.find(keys, jsonObject)
 
         // Then
         assertTrue(result is String)
@@ -98,7 +98,7 @@ class JsonPathFinderTest {
         val keys = JsonPathUtils.splitKeys("b.c.d")
 
         // When
-        val result = jsonPathFinder.findByPath(keys, jsonObject)
+        val result = jsonPathFinder.find(keys, jsonObject)
 
         // Then
         assertTrue(result is Boolean)
@@ -111,7 +111,7 @@ class JsonPathFinderTest {
         val keys = JsonPathUtils.splitKeys("b.c.e")
 
         // When
-        val result = jsonPathFinder.findByPath(keys, jsonObject)
+        val result = jsonPathFinder.find(keys, jsonObject)
 
         // Then
         assertTrue(result is Long)
@@ -124,7 +124,7 @@ class JsonPathFinderTest {
         val keys = JsonPathUtils.splitKeys("b.c.f")
 
         // When
-        val result = jsonPathFinder.findByPath(keys, jsonObject)
+        val result = jsonPathFinder.find(keys, jsonObject)
 
         // Then
         assertTrue(result is Int)
@@ -137,7 +137,7 @@ class JsonPathFinderTest {
         val keys = JsonPathUtils.splitKeys("b.c.g")
 
         // When
-        val result = jsonPathFinder.findByPath(keys, jsonObject)
+        val result = jsonPathFinder.find(keys, jsonObject)
 
         // Then
         assertTrue(result is JSONObject)
@@ -149,7 +149,7 @@ class JsonPathFinderTest {
         val keys = JsonPathUtils.splitKeys("b.c[0]")
 
         assertFails {
-            jsonPathFinder.findByPath(keys, jsonObject)
+            jsonPathFinder.find(keys, jsonObject)
         }
     }
 
@@ -159,7 +159,7 @@ class JsonPathFinderTest {
 
 
         assertFails {
-            jsonPathFinder.findByPath(keys, jsonObject)
+            jsonPathFinder.find(keys, jsonObject)
         }
     }
 
@@ -168,7 +168,7 @@ class JsonPathFinderTest {
         val keys = JsonPathUtils.splitKeys("b.h[3]")
 
         assertFails {
-            jsonPathFinder.findByPath(keys, jsonObject)
+            jsonPathFinder.find(keys, jsonObject)
         }
     }
 
@@ -178,7 +178,7 @@ class JsonPathFinderTest {
         val keys = JsonPathUtils.splitKeys("b.h[0].a")
 
         // When
-        val result = jsonPathFinder.findByPath(keys, jsonObject)
+        val result = jsonPathFinder.find(keys, jsonObject)
 
         // Then
         assertTrue(result is Double)
@@ -191,7 +191,7 @@ class JsonPathFinderTest {
         val keys = JsonPathUtils.splitKeys("b.h[1].a")
 
         // When
-        val result = jsonPathFinder.findByPath(keys, jsonObject)
+        val result = jsonPathFinder.find(keys, jsonObject)
 
         // Then
         assertTrue(result is Double)
@@ -204,7 +204,7 @@ class JsonPathFinderTest {
         val keys = JsonPathUtils.splitKeys("b.h[0]")
 
         // When
-        val result = jsonPathFinder.findByPath(keys, jsonObject)
+        val result = jsonPathFinder.find(keys, jsonObject)
 
         // Then
         assertEquals(JSON_OBJECT, result.toString())
@@ -220,7 +220,7 @@ class JsonPathFinderTest {
         }
 
         // When
-        val result = jsonPathFinder.findByPath(keys, jsonArray)
+        val result = jsonPathFinder.find(keys, jsonArray)
 
         // Then
         assertEquals("a", result.toString())
@@ -241,7 +241,7 @@ class JsonPathFinderTest {
         val jsonObject = JSONObject(json)
 
         // When
-        val result = jsonPathFinder.findByPath(keys, jsonObject)
+        val result = jsonPathFinder.find(keys, jsonObject)
 
         // Then
         assertEquals("b", result)

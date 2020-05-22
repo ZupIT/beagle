@@ -36,20 +36,23 @@ internal class BindAdapterFactory : JsonAdapter.Factory {
         if (rawType == Bind::class.java && type is ParameterizedType) {
             val subType = type.actualTypeArguments.first()
             val adapter: JsonAdapter<Any> = moshi.adapter(subType)
-            return BindAdapter(adapter)
+            return BindAdapter(adapter, subType)
 
         }
         return null
     }
 }
 
-private class BindAdapter(private val adapter: JsonAdapter<Any>) : JsonAdapter<Bind<Any>>() {
+private class BindAdapter(
+    private val adapter: JsonAdapter<Any>,
+    private val type: Type
+) : JsonAdapter<Bind<Any>>() {
 
     override fun fromJson(reader: JsonReader): Bind<Any>? {
         val expression = reader.peekJson().readJsonValue()
         if (expression != null && expression is String && expression.matches(Regex("^\\@\\{([^)]+)\\}\$"))) {
             reader.skipValue()
-            return Bind.Expression(expression)
+            return Bind.Expression(expression, type as Class<Any>)
         }
 
         val value = adapter.fromJson(reader)
