@@ -17,6 +17,8 @@
 import UIKit
 import WebKit
 
+//TODO: implement snapshot testing. We should test this as image
+// test loading, idle and loaded state if possible.
 final class WebViewUIComponent: UIView {
     
     private var webView = WKWebView()

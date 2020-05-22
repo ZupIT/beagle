@@ -112,6 +112,7 @@
 		C0E569262476F46F003D413F /* TextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E569252476F46F003D413F /* TextTests.swift */; };
 		C0E56970247848B4003D413F /* Text+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FBBDD62475B5BE00B72A9B /* Text+Renderable.swift */; };
 		C0E56972247848D8003D413F /* ButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E569192476F084003D413F /* ButtonTests.swift */; };
+		C0E5698224784D09003D413F /* WebViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E5698124784D09003D413F /* WebViewTests.swift */; };
 		C62E8EAE2373588900FF1497 /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62E8EAD2373588900FF1497 /* ScrollView.swift */; };
 		C65F25372375E6C2007670EC /* ScrollViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65F25362375E6C2007670EC /* ScrollViewTests.swift */; };
 		C81C9C7423AA9B4800C557D2 /* ListViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CDAA6523AA969300E95AA6 /* ListViewTests.swift */; };
@@ -349,6 +350,7 @@
 		C0E569192476F084003D413F /* ButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTests.swift; sourceTree = "<group>"; };
 		C0E569252476F46F003D413F /* TextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTests.swift; sourceTree = "<group>"; };
 		C0E5697324784909003D413F /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
+		C0E5698124784D09003D413F /* WebViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewTests.swift; sourceTree = "<group>"; };
 		C0EC906B246304F700FFCDE9 /* AutoDecodable.swifttemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = AutoDecodable.swifttemplate; sourceTree = "<group>"; };
 		C0EC906C246304F700FFCDE9 /* Equality.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = Equality.stencil; sourceTree = "<group>"; };
 		C0EC906D246304F700FFCDE9 /* Initiable.swifttemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = Initiable.swifttemplate; sourceTree = "<group>"; };
@@ -753,6 +755,7 @@
 		98E08D18242289AB00FBD21B /* WebView+Renderable */ = {
 			isa = PBXGroup;
 			children = (
+				C0E5698024784D09003D413F /* Tests */,
 				98E08D19242289C100FBD21B /* WebView+Renderable.swift */,
 				98E08D1B242289D200FBD21B /* WebViewUIComponent.swift */,
 			);
@@ -870,6 +873,14 @@
 				C0E568FB2476C837003D413F /* Button+Renderable.swift */,
 			);
 			path = "Button+Renderable";
+			sourceTree = "<group>";
+		};
+		C0E5698024784D09003D413F /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				C0E5698124784D09003D413F /* WebViewTests.swift */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		C0EC906A246304F700FFCDE9 /* Templates */ = {
@@ -1837,6 +1848,7 @@
 				C829CF2323B197CF001B7225 /* FormInputTests.swift in Sources */,
 				983E8C972396DFAA0018C6CA /* TabBarCollectionViewCellTests.swift in Sources */,
 				A0EF0ABE238B05A10019BE83 /* ValidatorHandlerTests.swift in Sources */,
+				C0E5698224784D09003D413F /* WebViewTests.swift in Sources */,
 				A0451C6823BA828100F77398 /* ImageTests.swift in Sources */,
 				93B9746E23A287A800B0D1CF /* NSErrorExtensionTests.swift in Sources */,
 				98FC964C23EA518600A8CEC8 /* ObservableTests.swift in Sources */,
