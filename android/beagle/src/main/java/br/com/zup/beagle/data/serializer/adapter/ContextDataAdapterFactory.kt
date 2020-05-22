@@ -28,7 +28,7 @@ import java.lang.reflect.Type
 
 @Retention(AnnotationRetention.RUNTIME)
 @JsonQualifier
-annotation class ContextDataValue
+internal annotation class ContextDataValue
 
 internal class ContextDataAdapterFactory : JsonAdapter.Factory {
 
