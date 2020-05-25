@@ -13,6 +13,11 @@
 		C09AFDC9247C0A4A003A4C7E /* ComponentDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09AFDC5247C0A4A003A4C7E /* ComponentDecoder.swift */; };
 		C09AFDCA247C0A4A003A4C7E /* AnyDecodableContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09AFDC6247C0A4A003A4C7E /* AnyDecodableContainer.swift */; };
 		C09AFDCD247C0AFD003A4C7E /* ComponentDecoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09AFDC1247C0A4A003A4C7E /* ComponentDecoderTests.swift */; };
+		C09AFDF5247C0E43003A4C7E /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09AFDE8247C0E43003A4C7E /* PageView.swift */; };
+		C09AFDF6247C0E56003A4C7E /* PageViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09AFDD6247C0E43003A4C7E /* PageViewTests.swift */; };
+		C09AFDF7247C0EE9003A4C7E /* PageViewWith3PagesAndIndicator.json in Resources */ = {isa = PBXBuildFile; fileRef = C09AFDE2247C0E43003A4C7E /* PageViewWith3PagesAndIndicator.json */; };
+		C09AFDF8247C0EEC003A4C7E /* PageViewWith3Pages.json in Resources */ = {isa = PBXBuildFile; fileRef = C09AFDE3247C0E43003A4C7E /* PageViewWith3Pages.json */; };
+		C09AFE00247C105A003A4C7E /* PageIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09AFDFF247C105A003A4C7E /* PageIndicator.swift */; };
 		C0B31F562478628A0072CCF4 /* NavigateEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B31F552478628A0072CCF4 /* NavigateEntity.swift */; };
 		C0B31F5D2478642C0072CCF4 /* SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B31F592478642B0072CCF4 /* SafeArea.swift */; };
 		C0B31F5E2478642C0072CCF4 /* ScreenComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B31F5A2478642B0072CCF4 /* ScreenComponent.swift */; };
@@ -102,6 +107,12 @@
 		C09AFDC6247C0A4A003A4C7E /* AnyDecodableContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyDecodableContainer.swift; sourceTree = "<group>"; };
 		C09AFDCB247C0AEF003A4C7E /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C09AFDCF247C0C10003A4C7E /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
+		C09AFDD6247C0E43003A4C7E /* PageViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewTests.swift; sourceTree = "<group>"; };
+		C09AFDE2247C0E43003A4C7E /* PageViewWith3PagesAndIndicator.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PageViewWith3PagesAndIndicator.json; sourceTree = "<group>"; };
+		C09AFDE3247C0E43003A4C7E /* PageViewWith3Pages.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PageViewWith3Pages.json; sourceTree = "<group>"; };
+		C09AFDE8247C0E43003A4C7E /* PageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
+		C09AFDF9247C0F0C003A4C7E /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
+		C09AFDFF247C105A003A4C7E /* PageIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageIndicator.swift; sourceTree = "<group>"; };
 		C0B31F552478628A0072CCF4 /* NavigateEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigateEntity.swift; sourceTree = "<group>"; };
 		C0B31F592478642B0072CCF4 /* SafeArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeArea.swift; sourceTree = "<group>"; };
 		C0B31F5A2478642B0072CCF4 /* ScreenComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenComponent.swift; sourceTree = "<group>"; };
@@ -248,6 +259,43 @@
 				C09AFDCB247C0AEF003A4C7E /* __Snapshots__ */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		C09AFDD4247C0E43003A4C7E /* Page */ = {
+			isa = PBXGroup;
+			children = (
+				C09AFDE8247C0E43003A4C7E /* PageView.swift */,
+				C09AFDFA247C0FEE003A4C7E /* Indicator */,
+				C09AFDD5247C0E43003A4C7E /* Tests */,
+			);
+			path = Page;
+			sourceTree = "<group>";
+		};
+		C09AFDD5247C0E43003A4C7E /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				C09AFDD6247C0E43003A4C7E /* PageViewTests.swift */,
+				C09AFDF9247C0F0C003A4C7E /* __Snapshots__ */,
+				C09AFDE1247C0E43003A4C7E /* Json */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		C09AFDE1247C0E43003A4C7E /* Json */ = {
+			isa = PBXGroup;
+			children = (
+				C09AFDE2247C0E43003A4C7E /* PageViewWith3PagesAndIndicator.json */,
+				C09AFDE3247C0E43003A4C7E /* PageViewWith3Pages.json */,
+			);
+			path = Json;
+			sourceTree = "<group>";
+		};
+		C09AFDFA247C0FEE003A4C7E /* Indicator */ = {
+			isa = PBXGroup;
+			children = (
+				C09AFDFF247C105A003A4C7E /* PageIndicator.swift */,
+			);
+			path = Indicator;
 			sourceTree = "<group>";
 		};
 		C0B31F4624785B050072CCF4 /* Screen */ = {
@@ -490,6 +538,7 @@
 			isa = PBXGroup;
 			children = (
 				C0E5692B2476F700003D413F /* ServerDrivenComponent.swift */,
+				C09AFDD4247C0E43003A4C7E /* Page */,
 				C09AFDAC247C0538003A4C7E /* ListView */,
 				C0B31FA924787F730072CCF4 /* Scroll */,
 				C0B31F9924787DE20072CCF4 /* Spacer */,
@@ -914,6 +963,8 @@
 				C0E5693D24771346003D413F /* buttonComponent.json in Resources */,
 				C0B31FCE247882B20072CCF4 /* ScrollViewComponent.json in Resources */,
 				C0E5697F24784BDB003D413F /* WebView.json in Resources */,
+				C09AFDF8247C0EEC003A4C7E /* PageViewWith3Pages.json in Resources */,
+				C09AFDF7247C0EE9003A4C7E /* PageViewWith3PagesAndIndicator.json in Resources */,
 				C0B31F7424786F680072CCF4 /* formComponent.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -976,6 +1027,7 @@
 				C0B31F7024786F270072CCF4 /* Form.swift in Sources */,
 				C0E5695C24781B5F003D413F /* ImageContentMode.swift in Sources */,
 				C0FBBE132475C95800B72A9B /* AutoDecodable.generated.swift in Sources */,
+				C09AFE00247C105A003A4C7E /* PageIndicator.swift in Sources */,
 				C0E5694124772680003D413F /* Touchable.swift in Sources */,
 				C0B31F6624786DB00072CCF4 /* CustomAction.swift in Sources */,
 				C0B31F6424786D790072CCF4 /* ShowNativeDialog.swift in Sources */,
@@ -1007,6 +1059,7 @@
 				C0B31F6824786E1F0072CCF4 /* FormRemoteAction.swift in Sources */,
 				C0E5698524784E29003D413F /* Navigate.swift in Sources */,
 				C0FBBE042475C79600B72A9B /* EdgeValue.swift in Sources */,
+				C09AFDF5247C0E43003A4C7E /* PageView.swift in Sources */,
 				C0B31F5D2478642C0072CCF4 /* SafeArea.swift in Sources */,
 				C0B31F562478628A0072CCF4 /* NavigateEntity.swift in Sources */,
 				C0B31F862478772D0072CCF4 /* FormInputComponent.swift in Sources */,
@@ -1027,6 +1080,7 @@
 				C0FBBD262475803900B72A9B /* ComponentsTests.swift in Sources */,
 				C0E5690C2476C879003D413F /* TextTests.swift in Sources */,
 				C0B31FC7247882180072CCF4 /* ScrollViewTests.swift in Sources */,
+				C09AFDF6247C0E56003A4C7E /* PageViewTests.swift in Sources */,
 				C0E5694424781302003D413F /* TouchableTests.swift in Sources */,
 				C0E569292476F583003D413F /* ComponentFromJsonFile.swift in Sources */,
 				C0B31F9624787B6B0072CCF4 /* ContainerTests.swift in Sources */,

@@ -15,7 +15,6 @@
  */
 
 import UIKit
-import Components
 
 public struct PageView: ServerDrivenComponent, AutoInitiable {
 
@@ -31,29 +30,6 @@ public struct PageView: ServerDrivenComponent, AutoInitiable {
         self.pageIndicator = pageIndicator
     }
 // sourcery:end
-}
-
-extension PageView: Renderable {
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        let pagesControllers = pages.map {
-            BeagleScreenViewController(
-                viewModel: .init(screenType: .declarative($0.toScreen()))
-            )
-        }
-
-        var indicatorView: PageIndicatorUIView?
-        if let indicator = pageIndicator {
-            indicatorView = indicator.toView(context: context, dependencies: dependencies) as? PageIndicatorUIView
-        }
-
-        let view = PageViewUIComponent(
-            model: .init(pages: pagesControllers),
-            indicatorView: indicatorView
-        )
-        
-        view.flex.setup(Flex(grow: 1.0))
-        return view
-    }
 }
 
 extension PageView: Decodable {

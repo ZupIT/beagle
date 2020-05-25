@@ -20,16 +20,6 @@ import SnapshotTesting
 
 class PageViewTests: XCTestCase {
 
-    func test_whenDecodingJson_thenItShouldReturnAPageView() throws {
-        let component: PageView = try componentFromJsonFile(fileName: "PageViewWith3Pages")
-        assertSnapshot(matching: component, as: .dump)
-    }
-
-    func test_whenDecodingJson_thenItShouldReturnPageViewWithIndicator() throws {
-        let component: PageView = try componentFromJsonFile(fileName: "PageViewWith3PagesAndIndicator")
-        assertSnapshot(matching: component, as: .dump)
-    }
-
     func test_whenDecodingInvalidJson() throws {
         XCTAssertThrowsError(
             try componentFromJsonFile(componentType: PageView.self, fileName: "PageViewInvalid")
