@@ -783,7 +783,7 @@
 		C0FBBD0D2475803900B72A9B = {
 			isa = PBXGroup;
 			children = (
-				C0FBBE082475C95800B72A9B /* SourceryFiles */,
+				C0FBBE082475C95800B72A9B /* CodeGeneration */,
 				C0FBBD192475803900B72A9B /* Components */,
 				C0FBBD242475803900B72A9B /* ComponentsTests */,
 				C0FBBD182475803900B72A9B /* Products */,
@@ -884,15 +884,15 @@
 			path = Flex;
 			sourceTree = "<group>";
 		};
-		C0FBBE082475C95800B72A9B /* SourceryFiles */ = {
+		C0FBBE082475C95800B72A9B /* CodeGeneration */ = {
 			isa = PBXGroup;
 			children = (
-				C0FBBE092475C95800B72A9B /* Generated */,
-				C0FBBE0C2475C95800B72A9B /* SourceryProtocols.swift */,
 				C0FBBE0D2475C95800B72A9B /* sourceryScript.sh */,
+				C0FBBE0C2475C95800B72A9B /* SourceryProtocols.swift */,
+				C0FBBE092475C95800B72A9B /* Generated */,
 				C0FBBE0E2475C95800B72A9B /* Templates */,
 			);
-			path = SourceryFiles;
+			path = CodeGeneration;
 			sourceTree = "<group>";
 		};
 		C0FBBE092475C95800B72A9B /* Generated */ = {
