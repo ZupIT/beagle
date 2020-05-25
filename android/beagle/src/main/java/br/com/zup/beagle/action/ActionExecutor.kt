@@ -20,6 +20,7 @@ import android.content.Context
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.view.BeagleActivity
 import br.com.zup.beagle.view.ServerDrivenState
+import br.com.zup.beagle.widget.core.Action
 
 internal class ActionExecutor(
     private val customActionHandler: CustomActionHandler? =
@@ -31,28 +32,30 @@ internal class ActionExecutor(
     private val formValidationActionHandler: DefaultActionHandler<FormValidation>? = null
 ) {
 
-    fun doAction(context: Context, action: Action?) {
-        when (action) {
-            is Navigate -> navigationActionHandler.handle(context, action)
-            is ShowNativeDialog -> showNativeDialogActionHandler.handle(context, action)
-            is FormValidation -> formValidationActionHandler?.handle(context, action)
+    fun doAction(context: Context, actions: List<Action>?) {
+        actions?.forEach { action ->
+            when (action) {
+                is Navigate -> navigationActionHandler.handle(context, action)
+                is ShowNativeDialog -> showNativeDialogActionHandler.handle(context, action)
+                is FormValidation -> formValidationActionHandler?.handle(context, action)
 
-            is CustomAction -> customActionHandler?.handle(context, action, object : ActionListener {
+                is CustomAction -> customActionHandler?.handle(context, action, object : ActionListener {
 
-                override fun onSuccess(action: Action) {
-                    changeActivityState(context, ServerDrivenState.Loading(false))
-                    doAction(context, action)
-                }
+                    override fun onSuccess(action: Action) {
+                        changeActivityState(context, ServerDrivenState.Loading(false))
+                        doAction(context, listOf(action))
+                    }
 
-                override fun onError(e: Throwable) {
-                    changeActivityState(context, ServerDrivenState.Loading(false))
-                    changeActivityState(context, ServerDrivenState.Error(e))
-                }
+                    override fun onError(e: Throwable) {
+                        changeActivityState(context, ServerDrivenState.Loading(false))
+                        changeActivityState(context, ServerDrivenState.Error(e))
+                    }
 
-                override fun onStart() {
-                    changeActivityState(context, ServerDrivenState.Loading(true))
-                }
-            })
+                    override fun onStart() {
+                        changeActivityState(context, ServerDrivenState.Loading(true))
+                    }
+                })
+            }
         }
     }
 

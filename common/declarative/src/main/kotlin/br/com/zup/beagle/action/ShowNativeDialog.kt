@@ -16,6 +16,9 @@
 
 package br.com.zup.beagle.action
 
+import br.com.zup.beagle.widget.core.Action
+import br.com.zup.beagle.widget.core.CoreDeclarativeDsl
+
 /**
  * will show dialogues natively, such as an error alert indicating alternative flows, business system errors and others.
  *
@@ -29,3 +32,21 @@ data class ShowNativeDialog(
     val message: String,
     val buttonText: String
 ) : Action
+
+
+@CoreDeclarativeDsl
+class ShowNativeDialogBuilder {
+    var title = ""
+    var message = ""
+    var buttonText = ""
+
+    fun build() = ShowNativeDialog(title = title, message = message, buttonText = buttonText)
+}
+
+fun showNativeDialog(lambda: ShowNativeDialogBuilder.() -> Unit): ShowNativeDialog {
+    return ShowNativeDialogBuilder().apply(lambda).build()
+}
+
+fun ArrayList<Action>.showNativeDialog(lambda: ShowNativeDialogBuilder.() -> Unit) {
+    add(br.com.zup.beagle.action.showNativeDialog(lambda))
+}

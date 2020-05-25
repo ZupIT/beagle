@@ -14,8 +14,16 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.action
+package br.com.zup.beagle.action.components
+
+import br.com.zup.beagle.widget.core.Action
+
 /**
- * Base of actions
+ * Component that hold the actions on click
+ * @property onPress attribute to define actions when press
+ * @property onLongPress attribute to define actions when long press
  */
-interface Action
+interface ButtonActionsComponent {
+    val onPress: List<Action>?
+    val onLongPress: List<Action>?
+}

@@ -167,10 +167,10 @@ class SampleNavigationTypeService {
         Button(
             text = text,
             style = BUTTON_STYLE_APPEARANCE,
-            action = Navigate(
+            onPress= listOf( Navigate(
                 type = navigationType,
                 path = path
-            )
+            ))
         ).applyAppearance(
             Appearance(
                 backgroundColor = backgroundColor,

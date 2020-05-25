@@ -17,21 +17,36 @@
 package br.com.zup.beagle.engine.renderer.layout
 
 import android.view.View
+import br.com.zup.beagle.action.ActionExecutor
 import br.com.zup.beagle.engine.renderer.LayoutViewRenderer
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.form.FormInput
+import br.com.zup.beagle.widget.form.InputWidget
+import br.com.zup.beagle.widget.interfaces.Observer
+import br.com.zup.beagle.widget.state.Observable
+
 
 internal class FormInputViewRenderer(
     override val component: FormInput,
     viewRendererFactory: ViewRendererFactory = ViewRendererFactory(),
-    viewFactory: ViewFactory = ViewFactory()
+    viewFactory: ViewFactory = ViewFactory(),
+    private val actionExecutor: ActionExecutor = ActionExecutor()
 ) : LayoutViewRenderer<FormInput>(viewRendererFactory, viewFactory) {
 
     override fun buildView(rootView: RootView): View {
         return viewRendererFactory.make(component.child).build(rootView).apply {
             tag = component
+            val inputWidget: InputWidget = component.child
+            inputWidget.getAction().addObserver(object : Observer<Int> {
+                override fun update(o: Observable<Int>, arg: Int) {
+                    if (arg == 2) {
+                        actionExecutor.doAction(context, component.onFocus)
+                    }
+                }
+
+            })
         }
     }
 }

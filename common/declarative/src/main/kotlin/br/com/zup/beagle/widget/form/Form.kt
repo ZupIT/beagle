@@ -16,7 +16,8 @@
 
 package br.com.zup.beagle.widget.form
 
-import br.com.zup.beagle.action.Action
+import br.com.zup.beagle.widget.core.Action
+import br.com.zup.beagle.action.components.FormActionsComponent
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
@@ -70,8 +71,11 @@ enum class FormMethodType {
  */
 data class Form(
     val action: Action,
-    val child: ServerDrivenComponent
-) : ServerDrivenComponent, LayoutComponent
+    val child: ServerDrivenComponent,
+    override val onSubmit: List<Action>? = null,
+    override val onReset: List<Action>? = null
+) : ServerDrivenComponent, LayoutComponent,  FormActionsComponent
+
 
 
 /**

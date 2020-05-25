@@ -14,8 +14,18 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.action
+package br.com.zup.beagle.action.components
 
 import br.com.zup.beagle.widget.core.Action
 
-interface ActionHandler<T : Action>
+/**
+ * Component that hold the actions on click
+ * @property onChange attribute to define actions when change the input
+ * @property onFocus attribute to define actions when input focused
+ * @property onBlur attribute to define actions when input lost the focus
+ */
+interface InputActionsComponent {
+    val onChange: List<Action>?
+    val onFocus: List<Action>?
+    val onBlur: List<Action>?
+}

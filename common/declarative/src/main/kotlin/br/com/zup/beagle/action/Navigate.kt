@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.action
 
+import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.widget.layout.Screen
 
 /**

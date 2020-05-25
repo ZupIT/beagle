@@ -14,8 +14,16 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.action
+package br.com.zup.beagle.action.components
 
 import br.com.zup.beagle.widget.core.Action
 
-interface ActionHandler<T : Action>
+/**
+ * Component that hold the actions on click
+ * @property onSubmit attribute to define actions when submit
+ * @property onReset attribute to define actions when reset
+ */
+interface FormActionsComponent {
+    val onSubmit: List<Action>?
+    val onReset: List<Action>?
+}

@@ -17,6 +17,7 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.action.showNativeDialog
 import br.com.zup.beagle.core.Appearance
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_FORM
@@ -25,11 +26,8 @@ import br.com.zup.beagle.sample.constants.SUBMIT_FORM_ENDPOINT
 import br.com.zup.beagle.sample.widget.SampleTextField
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.form.Form
-import br.com.zup.beagle.widget.form.FormInput
-import br.com.zup.beagle.widget.form.FormMethodType
-import br.com.zup.beagle.widget.form.FormRemoteAction
-import br.com.zup.beagle.widget.form.FormSubmit
+import br.com.zup.beagle.widget.core.flex
+import br.com.zup.beagle.widget.form.*
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
@@ -40,7 +38,9 @@ import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Button
 
 object FormScreenBuilder : ScreenBuilder {
-    private val flexHorizontalMargin = Flex(margin = EdgeValue(all = 10.unitReal()))
+    private val flexHorizontalMargin = flex {
+        margin(EdgeValue(all = 10.unitReal()))
+    }
 
     override fun build() = Screen(
         navigationBar = NavigationBar(
@@ -114,12 +114,31 @@ object FormScreenBuilder : ScreenBuilder {
         validator: String? = null,
         placeholder: String
     ) =
-        FormInput(
-            name = name,
-            required = required,
-            validator = validator,
+        formInput {
+            this.name = name
+            this.required = required
+            this.validator = validator
+            onFocus {
+                showNativeDialog {
+                    title = "teste uzias"
+                }
+            }
             child = SampleTextField(
                 placeholder = placeholder
             ).applyFlex(flexHorizontalMargin)
-        )
+        }
+
+
+/*        FormInput(
+            name = name,
+            required = required,
+            validator = validator,
+            onFocus = listOf(
+                showNativeDialog {
+                    title = "teste uzias"
+                }),
+            child = SampleTextField(
+                placeholder = placeholder
+            ).applyFlex(flexHorizontalMargin)
+        )*/
 }

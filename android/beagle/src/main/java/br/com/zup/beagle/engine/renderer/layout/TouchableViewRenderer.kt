@@ -35,13 +35,14 @@ internal class TouchableViewRenderer(
 ) : LayoutViewRenderer<Touchable>(viewRendererFactory, viewFactory) {
 
     override fun buildView(rootView: RootView): View {
-        preFetchHelper.handlePreFetch(rootView, component.action)
+        component.onPress.forEach { action ->
+            preFetchHelper.handlePreFetch(rootView, action)
+        }
         return viewRendererFactory.make(component.child).build(rootView).apply {
             setOnClickListener {
-                actionExecutor.doAction(context, component.action)
+                actionExecutor.doAction(context, component.onPress)
                 component.clickAnalyticsEvent?.let {
-                    BeagleEnvironment.beagleSdk.analytics?.
-                    sendClickEvent(it)
+                    BeagleEnvironment.beagleSdk.analytics?.sendClickEvent(it)
                 }
             }
         }

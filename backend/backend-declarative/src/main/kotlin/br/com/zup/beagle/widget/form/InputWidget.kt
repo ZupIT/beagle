@@ -19,7 +19,9 @@ package br.com.zup.beagle.widget.form
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.Appearance
 import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.FlexBuilder
 
 /**
  * <p>It could be an EditText view in Android, a Radio button in HTML,
@@ -27,6 +29,7 @@ import br.com.zup.beagle.widget.core.Flex
  *
  */
 abstract class InputWidget : Widget() {
+
 
     /**
      * Add an identifier to this widget.
@@ -53,6 +56,8 @@ abstract class InputWidget : Widget() {
     override fun applyFlex(flex: Flex): InputWidget {
         return super.applyFlex(flex) as InputWidget
     }
+
+    fun flex(block: FlexBuilder.() -> Unit) = applyFlex(FlexBuilder().apply(block).build())
 
     /**
      * Apply the accessibility .

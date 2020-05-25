@@ -109,11 +109,11 @@ object ButtonScreenBuilder : ScreenBuilder {
         val button = Button(
             text = text,
             style = style,
-            action = Navigate(
+            onPress= listOf(Navigate(
                 shouldPrefetch = true,
                 type = NavigationType.ADD_VIEW,
                 path = SCREEN_ACTION_CLICK_ENDPOINT
-            )
+            ))
         )
 
         if (flex != null) {

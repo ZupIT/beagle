@@ -18,6 +18,8 @@ package br.com.zup.beagle.widget.form
 
 import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.widget.core.Action
+import br.com.zup.beagle.widget.core.CoreDeclarativeDsl
 
 /**
  *  this class works like a regular input type in HTML.
@@ -42,5 +44,49 @@ data class FormInput(
     val required: Boolean? = null,
     val validator: String? = null,
     val errorMessage: String? = null,
+    val onChange: List<Action>? = null,
+    val onFocus: List<Action>? = null,
+    val onBlur: List<Action>? = null,
     override val child: InputWidget
 ) : ServerDrivenComponent, GhostComponent
+
+@CoreDeclarativeDsl
+class FormInputBuilder {
+    var name: String = ""
+    var required: Boolean? = null
+    var validator: String? = null
+    var errorMessage: String? = null
+    private var onChangeActions = mutableListOf<Action>()
+    private var onFocusActions = mutableListOf<Action>()
+    private var onBlurActions = mutableListOf<Action>()
+
+    var child: InputWidget? = null
+
+    fun onChange(block: OnActions.() -> Unit) {
+        onChangeActions.addAll(OnActions().apply(block))
+    }
+
+    fun onFocus(block: OnActions.() -> Unit) {
+        onFocusActions.addAll(OnActions().apply(block))
+    }
+
+    fun onBlur(block: OnActions.() -> Unit) {
+        onBlurActions.addAll(OnActions().apply(block))
+    }
+
+    fun build() = FormInput(
+        name = name,
+        required = required,
+        errorMessage = errorMessage,
+        onChange = onChangeActions,
+        onFocus = onFocusActions,
+        onBlur = onBlurActions,
+        child = child!!
+    )
+}
+
+class OnActions : ArrayList<Action>()
+
+fun formInput(lambda: FormInputBuilder.() -> Unit): FormInput {
+    return FormInputBuilder().apply(lambda).build()
+}

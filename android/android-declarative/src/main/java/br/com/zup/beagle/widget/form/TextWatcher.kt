@@ -14,8 +14,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.action
+package br.com.zup.beagle.widget.form
 
-import br.com.zup.beagle.widget.core.Action
+import br.com.zup.beagle.widget.state.Observable
 
-interface ActionHandler<T : Action>
+interface TextWatcher {
+    fun onChange()
+    fun onFocus()
+    fun onBlur()
+    fun getAction(): Observable<Int>
+}

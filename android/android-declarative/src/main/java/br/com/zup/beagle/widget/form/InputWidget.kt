@@ -24,16 +24,21 @@ import br.com.zup.beagle.widget.interfaces.StateChangeable
 import br.com.zup.beagle.widget.interfaces.WidgetState
 import br.com.zup.beagle.widget.state.Observable
 
-abstract class InputWidget : WidgetView(), StateChangeable {
+abstract class InputWidget : WidgetView(), StateChangeable, TextWatcher {
 
     @Transient
     private val stateObservable = Observable<WidgetState>()
+
+    @Transient
+    private val actionObservable = Observable<Int>()
 
     abstract fun getValue(): Any
 
     abstract fun onErrorMessage(message: String)
 
     override fun getState(): Observable<WidgetState> = stateObservable
+
+    override fun getAction(): Observable<Int> = actionObservable
 
     fun notifyChanges() {
         stateObservable.notifyObservers(WidgetState(getValue()))
@@ -53,5 +58,18 @@ abstract class InputWidget : WidgetView(), StateChangeable {
 
     override fun applyAccessibility(accessibility: Accessibility): InputWidget {
         return super.applyAccessibility(accessibility) as InputWidget
+    }
+
+    // PEGAR ACTIONS
+    override fun onBlur() {
+        actionObservable.notifyObservers(3)
+    }
+
+    override fun onChange() {
+        actionObservable.notifyObservers(1)
+    }
+
+    override fun onFocus() {
+        actionObservable.notifyObservers(2)
     }
 }

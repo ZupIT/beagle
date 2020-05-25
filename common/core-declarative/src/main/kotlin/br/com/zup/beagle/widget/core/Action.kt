@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.action
+package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.widget.core.Action
+/**
+ * Base of actions
+ */
+interface Action
 
-interface ActionHandler<T : Action>
