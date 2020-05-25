@@ -27,7 +27,8 @@ import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.ScreenEvent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.utils.toView
-import br.com.zup.beagle.widget.core.Alignment
+import br.com.zup.beagle.widget.core.AlignContent
+import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.core.JustifyContent
@@ -49,8 +50,8 @@ class NavigationFragment : Fragment() {
                 Flex(
                     flexDirection = FlexDirection.COLUMN,
                     justifyContent = JustifyContent.CENTER,
-                    alignItems = Alignment.CENTER,
-                    alignContent = Alignment.SPACE_BETWEEN,
+                    alignItems = AlignItems.CENTER,
+                    alignContent = AlignContent.SPACE_BETWEEN,
                     grow = 1.0
                 )
             ),

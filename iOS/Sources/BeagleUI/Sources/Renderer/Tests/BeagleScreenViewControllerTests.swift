@@ -246,12 +246,13 @@ final class BeagleScreenViewControllerTests: XCTestCase {
 
     func test_whenReloadScreenWithDeclarativeText_isShouldRenderCorrectly() throws {
 
-        let json = try jsonFromFile(fileName: "declarativeText2")
+        let json1 = try jsonFromFile(fileName: "declarativeText1")
+        let json2 = try jsonFromFile(fileName: "declarativeText2")
 
-        let screen = BeagleScreenViewController(component: Container(children: []))
-        
-        screen.reloadScreen(with: .declarativeText(json))
+        let screen = BeagleScreenViewController(.declarativeText(json1))
+        assertSnapshotImage(screen, size: CGSize(width: 256, height: 512))
 
+        screen.reloadScreen(with: .declarativeText(json2))
         assertSnapshotImage(screen, size: CGSize(width: 256, height: 512))
     }
 }

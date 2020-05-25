@@ -16,13 +16,17 @@
 
 package br.com.zup.beagle.engine.mapper
 
+import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.utils.dp
-import br.com.zup.beagle.widget.core.Alignment
+import br.com.zup.beagle.widget.core.AlignContent
+import br.com.zup.beagle.widget.core.AlignItems
+import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Direction
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.core.FlexDisplay
+import br.com.zup.beagle.widget.core.FlexPositionType
 import br.com.zup.beagle.widget.core.FlexWrap
 import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.core.Size
@@ -35,6 +39,7 @@ import com.facebook.yoga.YogaEdge
 import com.facebook.yoga.YogaFlexDirection
 import com.facebook.yoga.YogaJustify
 import com.facebook.yoga.YogaNode
+import com.facebook.yoga.YogaPositionType
 import com.facebook.yoga.YogaWrap
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -47,9 +52,6 @@ import io.mockk.verify
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import br.com.zup.beagle.extensions.once
-import br.com.zup.beagle.widget.core.FlexPositionType
-import com.facebook.yoga.YogaPositionType
 
 private const val HUNDRED_UNIT_VALUE = 100.0
 private const val ONE_UNIT_VALUE = 1.0
@@ -170,10 +172,10 @@ class FlexMapperTest {
     }
 
     @Test
-    fun makeYogaNode_should_set_alignItems_as_SPACE_BETWEEN() {
+    fun makeYogaNode_should_set_alignItems_as_FLEX_START() {
         // Given
         val flex = Flex(
-            alignItems = Alignment.FLEX_START
+            alignItems = AlignItems.FLEX_START
         )
 
         // When
@@ -184,10 +186,10 @@ class FlexMapperTest {
     }
 
     @Test
-    fun makeYogaNode_should_set_alignSelf_as_SPACE_BETWEEN() {
+    fun makeYogaNode_should_set_alignSelf_as_FLEX_START() {
         // Given
         val flex = Flex(
-            alignSelf = Alignment.FLEX_START
+            alignSelf = AlignSelf.FLEX_START
         )
 
         // When
@@ -198,10 +200,10 @@ class FlexMapperTest {
     }
 
     @Test
-    fun makeYogaNode_should_set_alignContent_as_SPACE_BETWEEN() {
+    fun makeYogaNode_should_set_alignContent_as_FLEX_START() {
         // Given
         val flex = Flex(
-            alignContent = Alignment.FLEX_START
+            alignContent = AlignContent.FLEX_START
         )
 
         // When

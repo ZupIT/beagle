@@ -100,7 +100,7 @@ class PageViewRendererTest : BaseTest() {
     fun build_when_page_indicator_is_not_null() {
         // GIVEN
         every { pageView.pageIndicator } returns pageIndicatorComponent
-        every { pageIndicatorComponent.toView(any()) } returns pageIndicatorView
+        every { pageIndicatorComponent.buildView(any()) } returns pageIndicatorView
 
         // WHEN
         pageViewRenderer.build(rootView)

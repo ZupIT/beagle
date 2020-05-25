@@ -21,6 +21,13 @@ import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.TouchableAnalytics
 import br.com.zup.beagle.widget.Widget
 
+/**
+ * Define a button natively using the server driven information received through Beagle
+ *
+ * @param text define the button text content.
+ * @param style reference a native style in your local styles file to be applied on this button.
+ * @param action define a specific action that this button triggers when clicked on.
+ */
 data class Button(
     val text: String,
     val style: String? = null,

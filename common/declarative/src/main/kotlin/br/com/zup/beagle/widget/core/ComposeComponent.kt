@@ -18,6 +18,13 @@ package br.com.zup.beagle.widget.core
 
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+/**
+ * TODO
+ */
 abstract class ComposeComponent : ServerDrivenComponent {
+
+    /**
+     * TODO
+     */
     abstract fun build(): ServerDrivenComponent
 }

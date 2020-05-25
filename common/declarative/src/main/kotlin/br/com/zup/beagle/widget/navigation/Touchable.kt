@@ -22,6 +22,14 @@ import br.com.zup.beagle.analytics.TouchableAnalytics
 import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+/**
+ *   The Touchable component defines a click listener.
+ *
+ * @param action define an Action to be executed when the child component is clicked.
+ * @param child define the widget that will trigger the Action.
+ * @param clickAnalyticsEvent define the event will triggered when click
+ *
+ */
 data class Touchable(
     val action: Action,
     override val child: ServerDrivenComponent,

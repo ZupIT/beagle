@@ -21,20 +21,44 @@ import br.com.zup.beagle.core.Appearance
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.Flex
 
+/**
+ * <p>It could be an EditText view in Android, a Radio button in HTML,
+ * an UITextField in iOS or any other type of view that can receive and store input from users. </p>
+ *
+ */
 abstract class InputWidget : Widget() {
 
+    /**
+     * Add an identifier to this widget.
+     * @return the current widget
+     */
     override fun setId(id: String): InputWidget {
         return super.setId(id) as InputWidget
     }
 
+    /**
+     * Apply the appearance.
+     * @see Appearance
+     * @return the current widget
+     */
     override fun applyAppearance(appearance: Appearance): InputWidget {
         return super.applyAppearance(appearance) as InputWidget
     }
 
+    /**
+     * Apply the layout component.
+     * @see Flex
+     * @return the current widget
+     */
     override fun applyFlex(flex: Flex): InputWidget {
         return super.applyFlex(flex) as InputWidget
     }
 
+    /**
+     * Apply the accessibility .
+     * @see Accessibility
+     * @return the current widget
+     */
     override fun applyAccessibility(accessibility: Accessibility): InputWidget {
         return super.applyAccessibility(accessibility) as InputWidget
     }
