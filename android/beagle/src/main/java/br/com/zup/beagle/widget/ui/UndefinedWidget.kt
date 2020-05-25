@@ -37,7 +37,7 @@ internal class UndefinedWidget : InputWidget(), PageIndicatorComponent {
 
     override fun getValue(): Any = ""
 
-    override fun toView(context: Context): View = UndefinedViewRenderer(this).build(
+    override fun buildView(context: Context): View = UndefinedViewRenderer(this).build(
         ActivityRootView(context as AppCompatActivity)
     )
 }

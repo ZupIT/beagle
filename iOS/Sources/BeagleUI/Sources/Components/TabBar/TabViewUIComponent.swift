@@ -17,22 +17,31 @@
 import UIKit
 
 extension TabViewUIComponent {
-    struct Model {
+    struct Model: AutoInitiable {
         var tabIndex: Int
         var tabViewItems: [TabItem]
         var selectedTextColor: UIColor?
         var unselectedTextColor: UIColor?
         var selectedIconColor: UIColor?
         var unselectedIconColor: UIColor?
-        
-        init(tabIndex: Int, tabViewItems: [TabItem], selectedTextColor: UIColor? = nil, unselectedTextColor: UIColor? = nil, selectedIconColor: UIColor? = nil, unselectedIconColor: UIColor? = nil) {
-            self.tabIndex = tabIndex
-            self.tabViewItems = tabViewItems
-            self.selectedTextColor = selectedTextColor
-            self.unselectedTextColor = unselectedTextColor
-            self.selectedIconColor = selectedIconColor
-            self.unselectedIconColor = unselectedIconColor
-        }
+
+// sourcery:inline:auto:TabViewUIComponent.Model.Init
+     init(
+        tabIndex: Int,
+        tabViewItems: [TabItem],
+        selectedTextColor: UIColor? = nil,
+        unselectedTextColor: UIColor? = nil,
+        selectedIconColor: UIColor? = nil,
+        unselectedIconColor: UIColor? = nil
+    ) {
+        self.tabIndex = tabIndex
+        self.tabViewItems = tabViewItems
+        self.selectedTextColor = selectedTextColor
+        self.unselectedTextColor = unselectedTextColor
+        self.selectedIconColor = selectedIconColor
+        self.unselectedIconColor = unselectedIconColor
+    }
+// sourcery:end
     }
 }
 

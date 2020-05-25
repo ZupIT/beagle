@@ -27,7 +27,7 @@ final class ButtonTests: XCTestCase {
         let buttonTitle = "title"
         let component = Button(text: buttonTitle)
         let context = BeagleContextDummy()
-        
+
         //When        
         guard let button = component.toView(context: context, dependencies: dependencies) as? UIButton else {
             XCTFail("Build View not returning UIButton")

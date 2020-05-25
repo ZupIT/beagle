@@ -15,5 +15,7 @@
  */
 
 package br.com.zup.beagle.action
-
+/**
+ * Base of actions
+ */
 interface Action

@@ -16,4 +16,7 @@
 
 package br.com.zup.beagle.core
 
+/**
+ * Base of layout with contain children
+ */
 interface LayoutComponent

@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-import UIKit
+package br.com.zup.beagle.utils
 
-final class ActionGestureRecognizer: UITapGestureRecognizer {
-    
-    let action: Action
-    
-    init(action: Action, target: Any?, selector: Selector?) {
-        self.action = action
-        super.init(target: target, action: selector)
+import android.graphics.Canvas
+import android.graphics.Path
+import android.graphics.RectF
+
+internal fun Canvas.applyRadius(radius: Float) {
+    if (radius > FLOAT_ZERO) {
+        val path = Path()
+        val rect = RectF(FLOAT_ZERO, FLOAT_ZERO, this.width.toFloat(), this.height.toFloat())
+        path.addRoundRect(rect, radius, radius, Path.Direction.CW)
+        this.clipPath(path)
     }
 }

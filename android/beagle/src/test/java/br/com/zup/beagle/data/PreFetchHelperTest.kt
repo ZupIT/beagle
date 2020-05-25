@@ -53,14 +53,14 @@ class PreFetchHelperTest : BaseTest() {
     override fun setUp() {
         super.setUp()
 
-        mockkStatic("br.com.zup.beagle.utils.ViewExtensionsKt")
+        mockkStatic("br.com.zup.beagle.utils.RootViewKt")
         every { rootView.generateViewModelInstance() } returns beagleViewModel
         coEvery { beagleViewModel.fetchForCache(any()) } returns mockk()
     }
 
     override fun tearDown() {
         super.tearDown()
-        unmockkStatic("br.com.zup.beagle.utils.ViewExtensionsKt")
+        unmockkStatic("br.com.zup.beagle.utils.RootViewKt")
     }
 
     @Test

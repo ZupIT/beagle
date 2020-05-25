@@ -1,0 +1,17 @@
+▿ Button
+  ▿ action: Optional<Action>
+    - some: Navigate.popStack
+  - clickAnalyticsEvent: Optional<AnalyticsClick>.none
+  - style: Optional<String>.none
+  - text: "button"
+  ▿ widgetProperties: WidgetProperties
+    - accessibility: Optional<Accessibility>.none
+    ▿ appearance: Optional<Appearance>
+      ▿ some: Appearance
+        ▿ backgroundColor: Optional<String>
+          - some: "#800000FF"
+        ▿ cornerRadius: Optional<CornerRadius>
+          ▿ some: CornerRadius
+            - radius: 30.0
+    - flex: Optional<Flex>.none
+    - id: Optional<String>.none

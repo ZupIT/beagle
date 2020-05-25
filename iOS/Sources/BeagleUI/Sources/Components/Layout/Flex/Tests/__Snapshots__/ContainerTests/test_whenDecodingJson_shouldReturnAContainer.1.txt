@@ -1,72 +1,76 @@
 ▿ Container
-  - accessibility: Optional<Accessibility>.none
-  ▿ appearance: Optional<Appearance>
-    ▿ some: Appearance
-      ▿ backgroundColor: Optional<String>
-        - some: "#500000FF"
-      ▿ cornerRadius: Optional<CornerRadius>
-        ▿ some: CornerRadius
-          - radius: 30.0
   ▿ children: 3 elements
     ▿ Text
-      - accessibility: Optional<Accessibility>.none
       - alignment: Optional<Alignment>.none
-      - appearance: Optional<Appearance>.none
-      - flex: Optional<Flex>.none
-      - id: Optional<String>.none
       - style: Optional<String>.none
       - text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum et felis tortor. Maecenas laoreet metus in augue mattis, quis imperdiet urna ornare. Sed commodo fringilla massa, sit amet molestie nunc. Quisque euismod eros felis. Nam dapibus venenatis consequat."
       - textColor: Optional<String>.none
+      ▿ widgetProperties: WidgetProperties
+        - accessibility: Optional<Accessibility>.none
+        - appearance: Optional<Appearance>.none
+        - flex: Optional<Flex>.none
+        - id: Optional<String>.none
     ▿ Text
-      - accessibility: Optional<Accessibility>.none
       - alignment: Optional<Alignment>.none
-      - appearance: Optional<Appearance>.none
-      - flex: Optional<Flex>.none
-      - id: Optional<String>.none
       - style: Optional<String>.none
       - text: "Donec orci elit, scelerisque vel mattis at, ornare in libero. Cras vestibulum justo et lacus accumsan malesuada. Pellentesque gravida risus tincidunt sapien commodo iaculis. Praesent eget consectetur ligula, vitae fringilla urna. Donec erat arcu, fermentum sed orci in, euismod dictum augue. Aenean ac ullamcorper ante, sit amet commodo elit. Mauris et nibh ac ante luctus fermentum varius nec mauris."
       - textColor: Optional<String>.none
+      ▿ widgetProperties: WidgetProperties
+        - accessibility: Optional<Accessibility>.none
+        - appearance: Optional<Appearance>.none
+        - flex: Optional<Flex>.none
+        - id: Optional<String>.none
     ▿ Text
-      - accessibility: Optional<Accessibility>.none
       - alignment: Optional<Alignment>.none
-      - appearance: Optional<Appearance>.none
-      - flex: Optional<Flex>.none
-      - id: Optional<String>.none
       - style: Optional<String>.none
       - text: "Sed vel nisl tortor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec fringilla velit vulputate ultricies auctor. Sed et enim lacinia risus hendrerit efficitur vitae vel tellus."
       - textColor: Optional<String>.none
-  ▿ flex: Optional<Flex>
-    ▿ some: Flex
-      - alignContent: Optional<Alignment>.none
-      - alignItems: Optional<Alignment>.none
-      - alignSelf: Optional<Alignment>.none
-      - basis: Optional<UnitValue>.none
-      - direction: Optional<Direction>.none
-      - display: Optional<Display>.none
-      - flex: Optional<Double>.none
-      - flexDirection: Optional<FlexDirection>.none
-      - flexWrap: Optional<Wrap>.none
-      ▿ grow: Optional<Double>
-        - some: 1.0
-      ▿ justifyContent: Optional<JustifyContent>
-        - some: JustifyContent.spaceEvenly
-      ▿ margin: Optional<EdgeValue>
-        ▿ some: EdgeValue
-          - all: Optional<UnitValue>.none
-          - bottom: Optional<UnitValue>.none
-          - end: Optional<UnitValue>.none
-          ▿ horizontal: Optional<UnitValue>
-            ▿ some: UnitValue
-              - type: UnitType.real
-              - value: 20.0
-          - left: Optional<UnitValue>.none
-          - right: Optional<UnitValue>.none
-          - start: Optional<UnitValue>.none
-          - top: Optional<UnitValue>.none
-          - vertical: Optional<UnitValue>.none
-      - padding: Optional<EdgeValue>.none
-      - position: Optional<EdgeValue>.none
-      - positionType: Optional<PositionType>.none
-      - shrink: Optional<Double>.none
-      - size: Optional<Size>.none
-  - id: Optional<String>.none
+      ▿ widgetProperties: WidgetProperties
+        - accessibility: Optional<Accessibility>.none
+        - appearance: Optional<Appearance>.none
+        - flex: Optional<Flex>.none
+        - id: Optional<String>.none
+  ▿ widgetProperties: WidgetProperties
+    - accessibility: Optional<Accessibility>.none
+    ▿ appearance: Optional<Appearance>
+      ▿ some: Appearance
+        ▿ backgroundColor: Optional<String>
+          - some: "#500000FF"
+        ▿ cornerRadius: Optional<CornerRadius>
+          ▿ some: CornerRadius
+            - radius: 30.0
+    ▿ flex: Optional<Flex>
+      ▿ some: Flex
+        - alignContent: Optional<AlignContent>.none
+        - alignItems: Optional<AlignItems>.none
+        - alignSelf: Optional<AlignSelf>.none
+        - basis: Optional<UnitValue>.none
+        - direction: Optional<Direction>.none
+        - display: Optional<Display>.none
+        - flex: Optional<Double>.none
+        - flexDirection: Optional<FlexDirection>.none
+        - flexWrap: Optional<Wrap>.none
+        ▿ grow: Optional<Double>
+          - some: 1.0
+        ▿ justifyContent: Optional<JustifyContent>
+          - some: JustifyContent.spaceEvenly
+        ▿ margin: Optional<EdgeValue>
+          ▿ some: EdgeValue
+            - all: Optional<UnitValue>.none
+            - bottom: Optional<UnitValue>.none
+            - end: Optional<UnitValue>.none
+            ▿ horizontal: Optional<UnitValue>
+              ▿ some: UnitValue
+                - type: UnitType.real
+                - value: 20.0
+            - left: Optional<UnitValue>.none
+            - right: Optional<UnitValue>.none
+            - start: Optional<UnitValue>.none
+            - top: Optional<UnitValue>.none
+            - vertical: Optional<UnitValue>.none
+        - padding: Optional<EdgeValue>.none
+        - position: Optional<EdgeValue>.none
+        - positionType: Optional<PositionType>.none
+        - shrink: Optional<Double>.none
+        - size: Optional<Size>.none
+    - id: Optional<String>.none

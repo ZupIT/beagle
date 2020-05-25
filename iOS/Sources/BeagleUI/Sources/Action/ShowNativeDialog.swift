@@ -17,12 +17,13 @@
 import Foundation
 
 /// Action to represent a native alert
-public struct ShowNativeDialog: Action {
+public struct ShowNativeDialog: Action, AutoInitiable {
     
     public let title: String
     public let message: String
     public let buttonText: String
-    
+
+// sourcery:inline:auto:ShowNativeDialog.Init
     public init(
         title: String,
         message: String,
@@ -32,4 +33,5 @@ public struct ShowNativeDialog: Action {
         self.message = message
         self.buttonText = buttonText
     }
+// sourcery:end
 }

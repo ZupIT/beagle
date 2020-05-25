@@ -83,7 +83,9 @@ final class ActionExecutorTests: XCTestCase {
             message: "Message",
             buttonText: "Button")
         
-        let viewControllerSpy = UINavigationControllerSpy()
+        let viewControllerSpy = UINavigationControllerSpy(
+            viewModel: .init(screenType: .declarative(ComponentDummy().toScreen()))
+        )
         let context = BeagleContextDummy(viewController: viewControllerSpy)
         
         // When
@@ -119,11 +121,11 @@ final class ActionExecutorTests: XCTestCase {
             listener(.success(action: ActionDummy()))
         }
 
-        let expectedStates: [BeagleScreenViewModel.State] = [.loading, .loading, .failure(.action(error)), .rendered]
+        let expectedStates: [BeagleScreenViewModel.State] = [.loading, .failure(.action(error)), .success]
 
         let handlers = CustomActionHandling(handlers: [name: handler])
 
-        let model = BeagleScreenViewModelMock(screenType: .remote(.init(url: "")))
+        let model = BeagleScreenViewModelMock(screenType: .remote(.init(url: "www.url.com")))
         let view = BeagleScreenViewController(viewModel: model)
 
         let executor = ActionExecuting(dependencies: Dependencies(customActionHandler: handlers))
@@ -184,8 +186,8 @@ class BeagleScreenViewModelMock: BeagleScreenViewModel {
 extension BeagleScreenViewModel.State: Equatable {
     public static func == (lhs: BeagleScreenViewModel.State, rhs: BeagleScreenViewModel.State) -> Bool {
         switch (lhs, rhs) {
+        case (.initialized, .initialized): return true
         case (.loading, .loading): return true
-        case (.rendered, .rendered): return true
         case (.success, .success): return true
         case (.failure, .failure): return true
         default: return false

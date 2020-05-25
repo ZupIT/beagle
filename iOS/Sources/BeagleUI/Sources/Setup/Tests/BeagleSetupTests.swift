@@ -128,6 +128,7 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
     var cacheManager: CacheManagerProtocol
     var decoder: ComponentDecoding
     var logger: BeagleLoggerType
+    var navigationControllerType = BeagleNavigationController.self
 
     init(
         actionExecutor: ActionExecutor = ActionExecutorDummy(),

@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-public class Flex: Decodable {
+public class Flex: Decodable, AutoEquatable, AutoInitiable {
 
     public var direction: Direction?
     public var flexDirection: FlexDirection?
     public var flexWrap: Wrap?
     public var justifyContent: JustifyContent?
-    public var alignItems: Alignment?
-    public var alignSelf: Alignment?
-    public var alignContent: Alignment?
+    public var alignItems: AlignItems?
+    public var alignSelf: AlignSelf?
+    public var alignContent: AlignContent?
     public var positionType: PositionType?
     public var basis: UnitValue?
     public var flex: Double?
@@ -33,28 +33,29 @@ public class Flex: Decodable {
     public var margin: EdgeValue?
     public var padding: EdgeValue?
     public var position: EdgeValue?
-    
+
+// sourcery:inline:auto:Flex.Init
     public init(
-        direction: Flex.Direction? = nil,
-        flexDirection: Flex.FlexDirection? = nil,
-        flexWrap: Flex.Wrap? = nil,
-        justifyContent: Flex.JustifyContent? = nil,
-        alignItems: Flex.Alignment? = nil,
-        alignSelf: Flex.Alignment? = nil,
-        alignContent: Flex.Alignment? = nil,
-        positionType: Flex.PositionType? = nil,
+        direction: Direction? = nil,
+        flexDirection: FlexDirection? = nil,
+        flexWrap: Wrap? = nil,
+        justifyContent: JustifyContent? = nil,
+        alignItems: AlignItems? = nil,
+        alignSelf: AlignSelf? = nil,
+        alignContent: AlignContent? = nil,
+        positionType: PositionType? = nil,
         basis: UnitValue? = nil,
         flex: Double? = nil,
         grow: Double? = nil,
         shrink: Double? = nil,
-        display: Flex.Display? = nil,
+        display: Display? = nil,
         size: Size? = nil,
         margin: EdgeValue? = nil,
         padding: EdgeValue? = nil,
         position: EdgeValue? = nil
     ) {
-        self.flexDirection = flexDirection
         self.direction = direction
+        self.flexDirection = flexDirection
         self.flexWrap = flexWrap
         self.justifyContent = justifyContent
         self.alignItems = alignItems
@@ -71,6 +72,7 @@ public class Flex: Decodable {
         self.padding = padding
         self.position = position
     }
+// sourcery:end
 }
 
 // MARK: - Flex FlexDirection
@@ -113,16 +115,37 @@ extension Flex {
     }
 }
 
-// MARK: - Flex Alignment
+// MARK: - Flex AlignItems
 extension Flex {
-    public enum Alignment: String, Decodable {
+    public enum AlignItems: String, Decodable {
+        case flexStart = "FLEX_START"
+        case center = "CENTER"
+        case flexEnd = "FLEX_END"
+        case baseline = "BASELINE"
+        case stretch = "STRETCH"
+    }
+}
+
+// MARK: - Flex AlignSelf
+extension Flex {
+    public enum AlignSelf: String, Decodable {
+        case flexStart = "FLEX_START"
+        case center = "CENTER"
+        case flexEnd = "FLEX_END"
+        case baseline = "BASELINE"
+        case auto = "AUTO"
+        case stretch = "STRETCH"
+    }
+}
+
+// MARK: - Flex AlignContent
+extension Flex {
+    public enum AlignContent: String, Decodable {
         case flexStart = "FLEX_START"
         case center = "CENTER"
         case flexEnd = "FLEX_END"
         case spaceBetween = "SPACE_BETWEEN"
         case spaceAround = "SPACE_AROUND"
-        case baseline = "BASELINE"
-        case auto = "AUTO"
         case stretch = "STRETCH"
     }
 }

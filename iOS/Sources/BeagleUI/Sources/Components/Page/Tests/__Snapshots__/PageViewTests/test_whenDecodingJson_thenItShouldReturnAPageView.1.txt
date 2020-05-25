@@ -2,164 +2,176 @@
   - pageIndicator: Optional<PageIndicatorComponent>.none
   ▿ pages: 3 elements
     ▿ Container
-      - accessibility: Optional<Accessibility>.none
-      - appearance: Optional<Appearance>.none
       ▿ children: 3 elements
         ▿ Text
-          - accessibility: Optional<Accessibility>.none
           - alignment: Optional<Alignment>.none
-          - appearance: Optional<Appearance>.none
-          - flex: Optional<Flex>.none
-          - id: Optional<String>.none
           - style: Optional<String>.none
           - text: "1 This is a text"
           - textColor: Optional<String>.none
+          ▿ widgetProperties: WidgetProperties
+            - accessibility: Optional<Accessibility>.none
+            - appearance: Optional<Appearance>.none
+            - flex: Optional<Flex>.none
+            - id: Optional<String>.none
         ▿ Text
-          - accessibility: Optional<Accessibility>.none
           - alignment: Optional<Alignment>.none
-          - appearance: Optional<Appearance>.none
-          - flex: Optional<Flex>.none
-          - id: Optional<String>.none
           - style: Optional<String>.none
           - text: "This is a text"
           - textColor: Optional<String>.none
+          ▿ widgetProperties: WidgetProperties
+            - accessibility: Optional<Accessibility>.none
+            - appearance: Optional<Appearance>.none
+            - flex: Optional<Flex>.none
+            - id: Optional<String>.none
         ▿ Text
-          - accessibility: Optional<Accessibility>.none
           - alignment: Optional<Alignment>.none
-          - appearance: Optional<Appearance>.none
-          - flex: Optional<Flex>.none
-          - id: Optional<String>.none
           - style: Optional<String>.none
           - text: "This is a text"
           - textColor: Optional<String>.none
-      ▿ flex: Optional<Flex>
-        ▿ some: Flex
-          - alignContent: Optional<Alignment>.none
-          - alignItems: Optional<Alignment>.none
-          - alignSelf: Optional<Alignment>.none
-          - basis: Optional<UnitValue>.none
-          - direction: Optional<Direction>.none
-          - display: Optional<Display>.none
-          - flex: Optional<Double>.none
-          ▿ flexDirection: Optional<FlexDirection>
-            - some: FlexDirection.column
-          ▿ flexWrap: Optional<Wrap>
-            - some: Wrap.noWrap
-          - grow: Optional<Double>.none
-          ▿ justifyContent: Optional<JustifyContent>
-            - some: JustifyContent.spaceAround
-          - margin: Optional<EdgeValue>.none
-          - padding: Optional<EdgeValue>.none
-          - position: Optional<EdgeValue>.none
-          - positionType: Optional<PositionType>.none
-          - shrink: Optional<Double>.none
-          - size: Optional<Size>.none
-      - id: Optional<String>.none
+          ▿ widgetProperties: WidgetProperties
+            - accessibility: Optional<Accessibility>.none
+            - appearance: Optional<Appearance>.none
+            - flex: Optional<Flex>.none
+            - id: Optional<String>.none
+      ▿ widgetProperties: WidgetProperties
+        - accessibility: Optional<Accessibility>.none
+        - appearance: Optional<Appearance>.none
+        ▿ flex: Optional<Flex>
+          ▿ some: Flex
+            - alignContent: Optional<AlignContent>.none
+            - alignItems: Optional<AlignItems>.none
+            - alignSelf: Optional<AlignSelf>.none
+            - basis: Optional<UnitValue>.none
+            - direction: Optional<Direction>.none
+            - display: Optional<Display>.none
+            - flex: Optional<Double>.none
+            ▿ flexDirection: Optional<FlexDirection>
+              - some: FlexDirection.column
+            ▿ flexWrap: Optional<Wrap>
+              - some: Wrap.noWrap
+            - grow: Optional<Double>.none
+            ▿ justifyContent: Optional<JustifyContent>
+              - some: JustifyContent.spaceAround
+            - margin: Optional<EdgeValue>.none
+            - padding: Optional<EdgeValue>.none
+            - position: Optional<EdgeValue>.none
+            - positionType: Optional<PositionType>.none
+            - shrink: Optional<Double>.none
+            - size: Optional<Size>.none
+        - id: Optional<String>.none
     ▿ Container
-      - accessibility: Optional<Accessibility>.none
-      - appearance: Optional<Appearance>.none
       ▿ children: 3 elements
         ▿ Text
-          - accessibility: Optional<Accessibility>.none
           - alignment: Optional<Alignment>.none
-          - appearance: Optional<Appearance>.none
-          - flex: Optional<Flex>.none
-          - id: Optional<String>.none
           - style: Optional<String>.none
           - text: "2 This is a text"
           - textColor: Optional<String>.none
+          ▿ widgetProperties: WidgetProperties
+            - accessibility: Optional<Accessibility>.none
+            - appearance: Optional<Appearance>.none
+            - flex: Optional<Flex>.none
+            - id: Optional<String>.none
         ▿ Text
-          - accessibility: Optional<Accessibility>.none
           - alignment: Optional<Alignment>.none
-          - appearance: Optional<Appearance>.none
-          - flex: Optional<Flex>.none
-          - id: Optional<String>.none
           - style: Optional<String>.none
           - text: "This is a text"
           - textColor: Optional<String>.none
+          ▿ widgetProperties: WidgetProperties
+            - accessibility: Optional<Accessibility>.none
+            - appearance: Optional<Appearance>.none
+            - flex: Optional<Flex>.none
+            - id: Optional<String>.none
         ▿ Text
-          - accessibility: Optional<Accessibility>.none
           - alignment: Optional<Alignment>.none
-          - appearance: Optional<Appearance>.none
-          - flex: Optional<Flex>.none
-          - id: Optional<String>.none
           - style: Optional<String>.none
           - text: "This is a text"
           - textColor: Optional<String>.none
-      ▿ flex: Optional<Flex>
-        ▿ some: Flex
-          - alignContent: Optional<Alignment>.none
-          - alignItems: Optional<Alignment>.none
-          - alignSelf: Optional<Alignment>.none
-          - basis: Optional<UnitValue>.none
-          - direction: Optional<Direction>.none
-          - display: Optional<Display>.none
-          - flex: Optional<Double>.none
-          ▿ flexDirection: Optional<FlexDirection>
-            - some: FlexDirection.column
-          ▿ flexWrap: Optional<Wrap>
-            - some: Wrap.noWrap
-          - grow: Optional<Double>.none
-          ▿ justifyContent: Optional<JustifyContent>
-            - some: JustifyContent.spaceAround
-          - margin: Optional<EdgeValue>.none
-          - padding: Optional<EdgeValue>.none
-          - position: Optional<EdgeValue>.none
-          - positionType: Optional<PositionType>.none
-          - shrink: Optional<Double>.none
-          - size: Optional<Size>.none
-      - id: Optional<String>.none
+          ▿ widgetProperties: WidgetProperties
+            - accessibility: Optional<Accessibility>.none
+            - appearance: Optional<Appearance>.none
+            - flex: Optional<Flex>.none
+            - id: Optional<String>.none
+      ▿ widgetProperties: WidgetProperties
+        - accessibility: Optional<Accessibility>.none
+        - appearance: Optional<Appearance>.none
+        ▿ flex: Optional<Flex>
+          ▿ some: Flex
+            - alignContent: Optional<AlignContent>.none
+            - alignItems: Optional<AlignItems>.none
+            - alignSelf: Optional<AlignSelf>.none
+            - basis: Optional<UnitValue>.none
+            - direction: Optional<Direction>.none
+            - display: Optional<Display>.none
+            - flex: Optional<Double>.none
+            ▿ flexDirection: Optional<FlexDirection>
+              - some: FlexDirection.column
+            ▿ flexWrap: Optional<Wrap>
+              - some: Wrap.noWrap
+            - grow: Optional<Double>.none
+            ▿ justifyContent: Optional<JustifyContent>
+              - some: JustifyContent.spaceAround
+            - margin: Optional<EdgeValue>.none
+            - padding: Optional<EdgeValue>.none
+            - position: Optional<EdgeValue>.none
+            - positionType: Optional<PositionType>.none
+            - shrink: Optional<Double>.none
+            - size: Optional<Size>.none
+        - id: Optional<String>.none
     ▿ Container
-      - accessibility: Optional<Accessibility>.none
-      - appearance: Optional<Appearance>.none
       ▿ children: 3 elements
         ▿ Text
-          - accessibility: Optional<Accessibility>.none
           - alignment: Optional<Alignment>.none
-          - appearance: Optional<Appearance>.none
-          - flex: Optional<Flex>.none
-          - id: Optional<String>.none
           - style: Optional<String>.none
           - text: "3 This is a text"
           - textColor: Optional<String>.none
+          ▿ widgetProperties: WidgetProperties
+            - accessibility: Optional<Accessibility>.none
+            - appearance: Optional<Appearance>.none
+            - flex: Optional<Flex>.none
+            - id: Optional<String>.none
         ▿ Text
-          - accessibility: Optional<Accessibility>.none
           - alignment: Optional<Alignment>.none
-          - appearance: Optional<Appearance>.none
-          - flex: Optional<Flex>.none
-          - id: Optional<String>.none
           - style: Optional<String>.none
           - text: "This is a text"
           - textColor: Optional<String>.none
+          ▿ widgetProperties: WidgetProperties
+            - accessibility: Optional<Accessibility>.none
+            - appearance: Optional<Appearance>.none
+            - flex: Optional<Flex>.none
+            - id: Optional<String>.none
         ▿ Text
-          - accessibility: Optional<Accessibility>.none
           - alignment: Optional<Alignment>.none
-          - appearance: Optional<Appearance>.none
-          - flex: Optional<Flex>.none
-          - id: Optional<String>.none
           - style: Optional<String>.none
           - text: "This is a text"
           - textColor: Optional<String>.none
-      ▿ flex: Optional<Flex>
-        ▿ some: Flex
-          - alignContent: Optional<Alignment>.none
-          - alignItems: Optional<Alignment>.none
-          - alignSelf: Optional<Alignment>.none
-          - basis: Optional<UnitValue>.none
-          - direction: Optional<Direction>.none
-          - display: Optional<Display>.none
-          - flex: Optional<Double>.none
-          ▿ flexDirection: Optional<FlexDirection>
-            - some: FlexDirection.column
-          ▿ flexWrap: Optional<Wrap>
-            - some: Wrap.noWrap
-          - grow: Optional<Double>.none
-          ▿ justifyContent: Optional<JustifyContent>
-            - some: JustifyContent.spaceAround
-          - margin: Optional<EdgeValue>.none
-          - padding: Optional<EdgeValue>.none
-          - position: Optional<EdgeValue>.none
-          - positionType: Optional<PositionType>.none
-          - shrink: Optional<Double>.none
-          - size: Optional<Size>.none
-      - id: Optional<String>.none
+          ▿ widgetProperties: WidgetProperties
+            - accessibility: Optional<Accessibility>.none
+            - appearance: Optional<Appearance>.none
+            - flex: Optional<Flex>.none
+            - id: Optional<String>.none
+      ▿ widgetProperties: WidgetProperties
+        - accessibility: Optional<Accessibility>.none
+        - appearance: Optional<Appearance>.none
+        ▿ flex: Optional<Flex>
+          ▿ some: Flex
+            - alignContent: Optional<AlignContent>.none
+            - alignItems: Optional<AlignItems>.none
+            - alignSelf: Optional<AlignSelf>.none
+            - basis: Optional<UnitValue>.none
+            - direction: Optional<Direction>.none
+            - display: Optional<Display>.none
+            - flex: Optional<Double>.none
+            ▿ flexDirection: Optional<FlexDirection>
+              - some: FlexDirection.column
+            ▿ flexWrap: Optional<Wrap>
+              - some: Wrap.noWrap
+            - grow: Optional<Double>.none
+            ▿ justifyContent: Optional<JustifyContent>
+              - some: JustifyContent.spaceAround
+            - margin: Optional<EdgeValue>.none
+            - padding: Optional<EdgeValue>.none
+            - position: Optional<EdgeValue>.none
+            - positionType: Optional<PositionType>.none
+            - shrink: Optional<Double>.none
+            - size: Optional<Size>.none
+        - id: Optional<String>.none

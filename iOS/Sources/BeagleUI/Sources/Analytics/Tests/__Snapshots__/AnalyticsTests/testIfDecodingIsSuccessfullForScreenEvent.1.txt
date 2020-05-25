@@ -1,53 +1,55 @@
 ▿ ScreenComponent
   - appearance: Optional<Appearance>.none
   ▿ child: Container
-    - accessibility: Optional<Accessibility>.none
-    - appearance: Optional<Appearance>.none
     ▿ children: 1 element
       ▿ Text
-        - accessibility: Optional<Accessibility>.none
         ▿ alignment: Optional<Alignment>
           - some: Alignment.center
-        - appearance: Optional<Appearance>.none
-        ▿ flex: Optional<Flex>
-          ▿ some: Flex
-            - alignContent: Optional<Alignment>.none
-            - alignItems: Optional<Alignment>.none
-            - alignSelf: Optional<Alignment>.none
-            - basis: Optional<UnitValue>.none
-            - direction: Optional<Direction>.none
-            - display: Optional<Display>.none
-            - flex: Optional<Double>.none
-            - flexDirection: Optional<FlexDirection>.none
-            - flexWrap: Optional<Wrap>.none
-            - grow: Optional<Double>.none
-            - justifyContent: Optional<JustifyContent>.none
-            - margin: Optional<EdgeValue>.none
-            - padding: Optional<EdgeValue>.none
-            - position: Optional<EdgeValue>.none
-            - positionType: Optional<PositionType>.none
-            - shrink: Optional<Double>.none
-            ▿ size: Optional<Size>
-              ▿ some: Size
-                - aspectRatio: Optional<Double>.none
-                ▿ height: Optional<UnitValue>
-                  ▿ some: UnitValue
-                    - type: UnitType.real
-                    - value: 44.0
-                - maxHeight: Optional<UnitValue>.none
-                - maxWidth: Optional<UnitValue>.none
-                - minHeight: Optional<UnitValue>.none
-                - minWidth: Optional<UnitValue>.none
-                ▿ width: Optional<UnitValue>
-                  ▿ some: UnitValue
-                    - type: UnitType.percent
-                    - value: 100.0
-        - id: Optional<String>.none
         - style: Optional<String>.none
         - text: "BeaglePreview"
         - textColor: Optional<String>.none
-    - flex: Optional<Flex>.none
-    - id: Optional<String>.none
+        ▿ widgetProperties: WidgetProperties
+          - accessibility: Optional<Accessibility>.none
+          - appearance: Optional<Appearance>.none
+          ▿ flex: Optional<Flex>
+            ▿ some: Flex
+              - alignContent: Optional<AlignContent>.none
+              - alignItems: Optional<AlignItems>.none
+              - alignSelf: Optional<AlignSelf>.none
+              - basis: Optional<UnitValue>.none
+              - direction: Optional<Direction>.none
+              - display: Optional<Display>.none
+              - flex: Optional<Double>.none
+              - flexDirection: Optional<FlexDirection>.none
+              - flexWrap: Optional<Wrap>.none
+              - grow: Optional<Double>.none
+              - justifyContent: Optional<JustifyContent>.none
+              - margin: Optional<EdgeValue>.none
+              - padding: Optional<EdgeValue>.none
+              - position: Optional<EdgeValue>.none
+              - positionType: Optional<PositionType>.none
+              - shrink: Optional<Double>.none
+              ▿ size: Optional<Size>
+                ▿ some: Size
+                  - aspectRatio: Optional<Double>.none
+                  ▿ height: Optional<UnitValue>
+                    ▿ some: UnitValue
+                      - type: UnitType.real
+                      - value: 44.0
+                  - maxHeight: Optional<UnitValue>.none
+                  - maxWidth: Optional<UnitValue>.none
+                  - minHeight: Optional<UnitValue>.none
+                  - minWidth: Optional<UnitValue>.none
+                  ▿ width: Optional<UnitValue>
+                    ▿ some: UnitValue
+                      - type: UnitType.percent
+                      - value: 100.0
+          - id: Optional<String>.none
+    ▿ widgetProperties: WidgetProperties
+      - accessibility: Optional<Accessibility>.none
+      - appearance: Optional<Appearance>.none
+      - flex: Optional<Flex>.none
+      - id: Optional<String>.none
   - identifier: Optional<String>.none
   - navigationBar: Optional<NavigationBar>.none
   - safeArea: Optional<SafeArea>.none

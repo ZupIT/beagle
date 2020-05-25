@@ -20,17 +20,25 @@ import XCTest
 final class RepositoryTests: XCTestCase {
 
     private struct Dependencies: RepositoryDefault.Dependencies {
+        
+        var logger: BeagleLoggerType
+        var urlBuilder: UrlBuilderProtocol
+        
         var cacheManager: CacheManagerProtocol?
         var baseURL: URL?
         var networkClient: NetworkClient
         var decoder: ComponentDecoding
 
         init(
+            logger: BeagleLoggerType = BeagleLoggerDumb(),
+            urlBuilder: UrlBuilderProtocol = UrlBuilder(),
             cacheManager: CacheManagerProtocol = CacheManagerDummy(),
             baseURL: URL? = nil,
             networkClient: NetworkClient = NetworkClientDummy(),
             decoder: ComponentDecoding = ComponentDecodingDummy()
         ) {
+            self.logger = logger
+            self.urlBuilder = urlBuilder
             self.cacheManager = cacheManager
             self.baseURL = baseURL
             self.networkClient = networkClient
@@ -69,8 +77,8 @@ final class RepositoryTests: XCTestCase {
 
         // Then
         guard
-            case .networkError? = fetchError,
-            case .networkError? = formError
+            case .urlBuilderError = fetchError,
+            case .urlBuilderError = formError
         else {
             XCTFail("Expected an error")
             return

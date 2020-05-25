@@ -23,6 +23,7 @@ public protocol BeagleDependenciesProtocol: DependencyActionExecutor,
     DependencyNetworkClient,
     DependencyDeepLinkScreenManaging,
     DependencyCustomActionHandler,
+    DependencyNavigationController,
     DependencyNavigation,
     DependencyViewConfigurator,
     DependencyFlexConfigurator,
@@ -45,6 +46,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var actionExecutor: ActionExecutor
     public var repository: Repository
     public var analytics: Analytics?
+    public var navigationControllerType: BeagleNavigationController.Type
     public var navigation: BeagleNavigation
     public var preFetchHelper: BeaglePrefetchHelping
     public var cacheManager: CacheManagerProtocol?
@@ -72,6 +74,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.customActionHandler = nil
         self.appBundle = Bundle.main
         self.theme = AppTheme(styles: [:])
+        self.navigationControllerType = BeagleNavigationController.self
 
         self.networkClient = NetworkClientDefault(dependencies: resolver)
         self.navigation = BeagleNavigator(dependencies: resolver)
@@ -92,9 +95,8 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
 /// - Example: see where `resolver` is being used in the `BeagleDependencies` `init`.
 private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     ActionExecuting.Dependencies,
+    DependencyNavigationController,
     DependencyDeepLinkScreenManaging,
-    DependencyUrlBuilder,
-    DependencyLogger,
     DependencyRepository,
     DependencyWindowManager,
     DependencyURLOpener {
@@ -106,6 +108,7 @@ private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     var urlBuilder: UrlBuilderProtocol { return container().urlBuilder }
     var decoder: ComponentDecoding { return container().decoder }
     var networkClient: NetworkClient { return container().networkClient }
+    var navigationControllerType: BeagleNavigationController.Type { return container().navigationControllerType }
     var navigation: BeagleNavigation { return container().navigation }
     var deepLinkHandler: DeepLinkScreenManaging? { return container().deepLinkHandler }
     var customActionHandler: CustomActionHandler? { return container().customActionHandler }

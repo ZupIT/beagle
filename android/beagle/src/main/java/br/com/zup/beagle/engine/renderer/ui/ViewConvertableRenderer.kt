@@ -23,6 +23,6 @@ import br.com.zup.beagle.widget.core.ViewConvertable
 
 internal class ViewConvertableRenderer(override val component: ViewConvertable) : UIViewRenderer<ViewConvertable>() {
     override fun buildView(rootView: RootView): View {
-        return component.toView(rootView.getContext())
+        return component.buildView(rootView.getContext())
     }
 }
