@@ -16,9 +16,6 @@
 
 package br.com.zup.beagle.widget.core
 
-
-fun flex(block: FlexBuilder.() -> Unit): Flex = FlexBuilder().apply(block).build()
-
 class FlexBuilder {
     private var padding: EdgeValue? = null
     private var margin: EdgeValue? = null

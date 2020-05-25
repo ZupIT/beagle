@@ -21,7 +21,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import br.com.zup.beagle.action.showNativeDialog
 import br.com.zup.beagle.sample.widgets.TextField
 import br.com.zup.beagle.sample.widgets.TextFieldInputType
 import br.com.zup.beagle.utils.toView
@@ -29,66 +28,50 @@ import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
-import br.com.zup.beagle.widget.form.*
+import br.com.zup.beagle.widget.form.Form
+import br.com.zup.beagle.widget.form.FormInput
+import br.com.zup.beagle.widget.form.FormInputHidden
+import br.com.zup.beagle.widget.form.FormSubmit
+import br.com.zup.beagle.widget.form.FormRemoteAction
+import br.com.zup.beagle.widget.form.FormMethodType
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.ui.Button
 
 class FormFragment : Fragment() {
 
+    @Suppress("LongMethod")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-/*        FormInput(
-            name = "nome",
-            child = TextField(
-                hint = "nome",
-                onFocus = listOf(
-                    showNativeDialog {
-                        title = "Teste"
-                        message = "olha essa msg"
-                        buttonText = "Button text"
-                    }
-                )
-            )
-        )*/
         val declarative = Form(
             child = Container(
                 children = listOf(
                     FormInputHidden(
                         name = "hiddenParam",
                         value = "hiddenParamValue"
-                    ), FormInputHidden(
+                    ),FormInputHidden(
                     name = "hiddenParam1",
                     value = "hiddenParamValue1"
-                ), FormInputHidden(
+                ),FormInputHidden(
                     name = "hiddenParam2",
                     value = "hiddenParamValue2"
-                ), FormInputHidden(
+                ),FormInputHidden(
                     name = "hiddenParam3",
                     value = "hiddenParamValue3"
-                ), FormInputHidden(
+                ),FormInputHidden(
                     name = "hiddenParam4",
                     value = "hiddenParamValue4"
-                ), FormInputHidden(
+                ),FormInputHidden(
                     name = "hiddenParam5",
                     value = "hiddenParamValue5"
                 ),
-                    formInput {
-                        name = "nome"
-                        onFocus {
-                            showNativeDialog {
-                                title = "Teste"
-                                message = "olha essa msg"
-                                buttonText = "Button text"
-                            }
-                        }
-
+                    FormInput(
+                        name = "nome",
                         child = TextField(
-                            hint = "nome")
-                    }
-                    ,
+                            hint = "nome"
+                        )
+                    ),
                     FormInput(
                         name = "email",
                         child = TextField(

@@ -68,10 +68,10 @@ class NavigationFragment : Fragment() {
                 child = Button(text = "Click to navigate").applyFlex(
                     Flex(size = Size(width = UnitValue(80.0, UnitType.PERCENT)))
                 ),
-                onPress = listOf(Navigate(
+                action = Navigate(
                     type = NavigationType.ADD_VIEW,
                     path = "https://t001-2751a.firebaseapp.com/flow/step1.json"
-                )),
+                ),
                 clickAnalyticsEvent = ClickEvent(
                     category = "Categoria",
                     label = "Descrição",

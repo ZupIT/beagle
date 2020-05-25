@@ -144,7 +144,7 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
         for (i in items.indices) {
             toolbar.menu.add(Menu.NONE, items[i].id?.toAndroidId() ?: i, Menu.NONE, items[i].text).apply {
                 setOnMenuItemClickListener {
-                    actionExecutor.doAction(context, listOf(items[i].action))
+                    actionExecutor.doAction(context, items[i].action)
                     return@setOnMenuItemClickListener true
                 }
 

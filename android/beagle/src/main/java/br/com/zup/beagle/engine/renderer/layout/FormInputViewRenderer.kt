@@ -22,8 +22,10 @@ import br.com.zup.beagle.engine.renderer.LayoutViewRenderer
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.view.ViewFactory
+import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.InputWidget
+import br.com.zup.beagle.widget.form.TextWatcherTypeAction
 import br.com.zup.beagle.widget.interfaces.Observer
 import br.com.zup.beagle.widget.state.Observable
 
@@ -39,14 +41,20 @@ internal class FormInputViewRenderer(
         return viewRendererFactory.make(component.child).build(rootView).apply {
             tag = component
             val inputWidget: InputWidget = component.child
-            inputWidget.getAction().addObserver(object : Observer<Int> {
-                override fun update(o: Observable<Int>, arg: Int) {
-                    if (arg == 2) {
-                        actionExecutor.doAction(context, component.onFocus)
-                    }
+            inputWidget.getAction().addObserver(object : Observer<TextWatcherTypeAction> {
+                override fun update(o: Observable<TextWatcherTypeAction>, arg: TextWatcherTypeAction) {
+                    actionExecutor.doAction(context, getActions(component, arg))
                 }
 
             })
+        }
+    }
+
+    private fun getActions(formInput: FormInput, type: TextWatcherTypeAction): List<Action>? {
+        return when (type) {
+            TextWatcherTypeAction.ON_CHANGE -> formInput.onChange
+            TextWatcherTypeAction.ON_FOCUS -> formInput.onFocus
+            TextWatcherTypeAction.ON_BLUR -> formInput.onBlur
         }
     }
 }

@@ -17,7 +17,6 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.action.ShowNativeDialog
-import br.com.zup.beagle.action.showNativeDialog
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.ScreenEvent
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -53,12 +52,10 @@ object AnalyticsScreenBuilder : ScreenBuilder {
             text = "Touchable with Click Analytics Event"
         )
         return Touchable(
-            onPress = listOf(
-                showNativeDialog {
-                    title = "title"
-                    message = "message"
-                    buttonText = "Close"
-                }
+            action = ShowNativeDialog(
+                title = "title",
+                message = "message",
+                buttonText = "Close"
             ),
             child = text,
             clickAnalyticsEvent = ClickEvent(

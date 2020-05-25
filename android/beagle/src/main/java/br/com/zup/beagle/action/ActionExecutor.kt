@@ -32,6 +32,10 @@ internal class ActionExecutor(
     private val formValidationActionHandler: DefaultActionHandler<FormValidation>? = null
 ) {
 
+    fun doAction(context: Context, action: Action) {
+        doAction(context, listOf(action))
+    }
+
     fun doAction(context: Context, actions: List<Action>?) {
         actions?.forEach { action ->
             when (action) {

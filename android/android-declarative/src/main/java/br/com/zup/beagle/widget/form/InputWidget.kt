@@ -30,7 +30,7 @@ abstract class InputWidget : WidgetView(), StateChangeable, TextWatcher {
     private val stateObservable = Observable<WidgetState>()
 
     @Transient
-    private val actionObservable = Observable<Int>()
+    private val actionObservable = Observable<TextWatcherTypeAction>()
 
     abstract fun getValue(): Any
 
@@ -38,7 +38,7 @@ abstract class InputWidget : WidgetView(), StateChangeable, TextWatcher {
 
     override fun getState(): Observable<WidgetState> = stateObservable
 
-    override fun getAction(): Observable<Int> = actionObservable
+    override fun getAction(): Observable<TextWatcherTypeAction> = actionObservable
 
     fun notifyChanges() {
         stateObservable.notifyObservers(WidgetState(getValue()))
@@ -60,16 +60,15 @@ abstract class InputWidget : WidgetView(), StateChangeable, TextWatcher {
         return super.applyAccessibility(accessibility) as InputWidget
     }
 
-    // PEGAR ACTIONS
     override fun onBlur() {
-        actionObservable.notifyObservers(3)
+        actionObservable.notifyObservers(TextWatcherTypeAction.ON_BLUR)
     }
 
     override fun onChange() {
-        actionObservable.notifyObservers(1)
+        actionObservable.notifyObservers(TextWatcherTypeAction.ON_CHANGE)
     }
 
     override fun onFocus() {
-        actionObservable.notifyObservers(2)
+        actionObservable.notifyObservers(TextWatcherTypeAction.ON_FOCUS)
     }
 }

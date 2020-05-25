@@ -72,10 +72,10 @@ object TouchableScreenBuilder : ScreenBuilder {
         children = listOf(
             buildTitle(title),
             Touchable(
-                onPress = listOf(Navigate(
+                action = Navigate(
                     path = SCREEN_ACTION_CLICK_ENDPOINT,
                     type = NavigationType.ADD_VIEW
-                )),
+                ),
                 child = item.applyFlex(
                     flex = Flex(
                         alignSelf = Alignment.CENTER,
@@ -116,10 +116,10 @@ object TouchableScreenBuilder : ScreenBuilder {
                         alignSelf = Alignment.CENTER
                     )
                 ),
-                onPress = listOf(Navigate(
+                action = Navigate(
                     path = SCREEN_ACTION_CLICK_ENDPOINT,
                     type = NavigationType.ADD_VIEW
-                ))
+                )
             )
         )
     )

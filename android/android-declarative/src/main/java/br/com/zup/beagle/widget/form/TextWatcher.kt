@@ -22,5 +22,11 @@ interface TextWatcher {
     fun onChange()
     fun onFocus()
     fun onBlur()
-    fun getAction(): Observable<Int>
+    fun getAction(): Observable<TextWatcherTypeAction>
+}
+
+enum class TextWatcherTypeAction {
+    ON_CHANGE,
+    ON_FOCUS,
+    ON_BLUR
 }
