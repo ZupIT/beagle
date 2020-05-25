@@ -49,4 +49,5 @@ internal class LruCacheStore(
     companion object {
         val instance: LruCacheStore by lazy { LruCacheStore() }
     }
+
 }
