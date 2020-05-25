@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.test
 
+import br.com.zup.beagle.core.Bind
 import org.junit.jupiter.api.Test
 import kotlin.random.Random
 import kotlin.test.assertEquals
@@ -29,7 +30,7 @@ internal class MixedWidgetBindingTest {
 
     @Test
     fun test_Value_construction() {
-        val actual = MixedWidgetBinding(Binding.Value(OTHER), Binding.Value(SOMETHING))
+        val actual = MixedWidgetBinding(Bind.Value(OTHER), Bind.Value(SOMETHING))
 
         assertEquals(OTHER, actual.other.value)
         assertEquals(SOMETHING, actual.something.value)
@@ -38,7 +39,7 @@ internal class MixedWidgetBindingTest {
 
     @Test
     fun test_Expression_construction() {
-        val actual = MixedWidgetBinding(Binding.Expression(EXPRESSION), Binding.Expression(EXPRESSION))
+        val actual = MixedWidgetBinding(Bind.Expression(EXPRESSION), Bind.Expression(EXPRESSION))
 
         assertEquals(EXPRESSION, actual.other.value)
         assertEquals(EXPRESSION, actual.something.value)
@@ -47,7 +48,7 @@ internal class MixedWidgetBindingTest {
 
     @Test
     fun test_Mixed_construction() {
-        val actual = MixedWidgetBinding(Binding.Value(OTHER), Binding.Expression(EXPRESSION))
+        val actual = MixedWidgetBinding(Bind.Value(OTHER), Bind.Expression(EXPRESSION))
 
         assertEquals(OTHER, actual.other.value)
         assertEquals(EXPRESSION, actual.something.value)

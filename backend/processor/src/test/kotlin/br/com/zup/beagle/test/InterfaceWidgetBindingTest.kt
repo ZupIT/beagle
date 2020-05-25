@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.test
 
+import br.com.zup.beagle.core.Bind
 import org.junit.jupiter.api.Test
 
 internal class InterfaceWidgetBindingTest {
@@ -23,7 +24,7 @@ internal class InterfaceWidgetBindingTest {
     fun test_Value_construction() {
         val value = object {}
 
-        val actual = InterfaceWidgetBinding(Binding.Value(value))
+        val actual = InterfaceWidgetBinding(Bind.Value(value))
 
         kotlin.test.assertEquals(value, actual.something.value)
         kotlin.test.assertEquals(InterfaceWidget::class.supertypes, InterfaceWidgetBinding::class.supertypes)
@@ -33,7 +34,7 @@ internal class InterfaceWidgetBindingTest {
     fun test_Expression_construction() {
         val expression = "@{}"
 
-        val actual = InterfaceWidgetBinding(Binding.Expression(expression))
+        val actual = InterfaceWidgetBinding(Bind.Expression(expression))
 
         kotlin.test.assertEquals(expression, actual.something.value)
         kotlin.test.assertEquals(InterfaceWidget::class.supertypes, InterfaceWidgetBinding::class.supertypes)

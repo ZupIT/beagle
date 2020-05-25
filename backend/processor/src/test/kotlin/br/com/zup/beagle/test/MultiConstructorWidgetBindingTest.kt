@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.test
 
+import br.com.zup.beagle.core.Bind
 import org.junit.jupiter.api.Test
 import java.util.UUID
 import kotlin.test.assertEquals
@@ -25,7 +26,7 @@ internal class MultiConstructorWidgetBindingTest {
     fun test_Value_construction() {
         val value = UUID.randomUUID().toString()
 
-        val actual = MultiConstructorWidgetBinding(Binding.Value(value))
+        val actual = MultiConstructorWidgetBinding(Bind.Value(value))
 
         assertEquals(value, actual.value.value)
         assertEquals(MultiConstructorWidget::class.supertypes, MultiConstructorWidgetBinding::class.supertypes)
@@ -35,7 +36,7 @@ internal class MultiConstructorWidgetBindingTest {
     fun test_Expression_construction() {
         val expression = "@{}"
 
-        val actual = MultiConstructorWidgetBinding(Binding.Expression(expression))
+        val actual = MultiConstructorWidgetBinding(Bind.Expression(expression))
 
         assertEquals(expression, actual.value.value)
         assertEquals(MultiConstructorWidget::class.supertypes, MultiConstructorWidgetBinding::class.supertypes)

@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.test
 
+import br.com.zup.beagle.core.Bind
 import org.junit.jupiter.api.Test
 import java.util.UUID
 import kotlin.random.Random
@@ -31,7 +32,7 @@ internal class FieldOnlyWidgetBindingTest {
 
     @Test
     fun test_Value_construction() {
-        val actual = FieldOnlyWidgetBinding(Binding.Value(A), Binding.Value(B), Binding.Value(C))
+        val actual = FieldOnlyWidgetBinding(Bind.Value(A), Bind.Value(B), Bind.Value(C))
 
         assertEquals(A, actual.a.value)
         assertEquals(B, actual.b.value)
@@ -42,9 +43,9 @@ internal class FieldOnlyWidgetBindingTest {
     @Test
     fun test_Expression_construction() {
         val actual = FieldOnlyWidgetBinding(
-            Binding.Expression(EXPRESSION),
-            Binding.Expression(EXPRESSION),
-            Binding.Expression(EXPRESSION)
+            Bind.Expression(EXPRESSION),
+            Bind.Expression(EXPRESSION),
+            Bind.Expression(EXPRESSION)
         )
 
         assertEquals(EXPRESSION, actual.a.value)
@@ -55,7 +56,7 @@ internal class FieldOnlyWidgetBindingTest {
 
     @Test
     fun test_Mixed_construction() {
-        val actual = FieldOnlyWidgetBinding(Binding.Value(A), Binding.Expression(EXPRESSION), Binding.Value(C))
+        val actual = FieldOnlyWidgetBinding(Bind.Value(A), Bind.Expression(EXPRESSION), Bind.Value(C))
 
         assertEquals(A, actual.a.value)
         assertEquals(EXPRESSION, actual.b.value)
