@@ -14,28 +14,20 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.mockdata
+package br.com.zup.beagle.processor
 
-import android.content.Context
-import android.view.View
-import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.form.InputWidget
-import io.mockk.mockk
+import androidx.appcompat.widget.Toolbar
+import br.com.zup.beagle.annotation.BeagleComponent
+import br.com.zup.beagle.view.BeagleActivity
+import br.com.zup.beagle.view.ServerDrivenState
 
-class CustomInputWidget : InputWidget() {
-    override fun onErrorMessage(message: String) {
-        return mockk()
-    }
+@BeagleComponent
+class SampleServerDrivenActivity : BeagleActivity() {
 
-    override fun getValue(): Any {
-        return mockk()
-    }
+    override fun getServerDrivenContainerId(): Int = 1
 
-    override fun buildView(context: Context): View {
-        return mockk()
-    }
+    override fun getToolbar(): Toolbar = Toolbar(this)
 
-    override fun onBind(widget: Widget, view: View) {
-        return mockk()
+    override fun onServerDrivenContainerStateChanged(state: ServerDrivenState) {
     }
 }

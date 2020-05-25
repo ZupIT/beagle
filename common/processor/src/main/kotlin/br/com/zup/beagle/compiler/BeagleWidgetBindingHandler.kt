@@ -31,7 +31,10 @@ import javax.lang.model.element.TypeElement
 import javax.lang.model.type.TypeMirror
 import kotlin.reflect.KClass
 
-class BeagleWidgetBindingHandler(processingEnvironment: ProcessingEnvironment, private val bindClass: KClass<out BindAttribute<*>>) {
+class BeagleWidgetBindingHandler(
+    processingEnvironment: ProcessingEnvironment,
+    private val bindClass: KClass<out BindAttribute<*>>
+) {
     companion object {
         const val SUFFIX = "Binding"
     }
@@ -40,19 +43,23 @@ class BeagleWidgetBindingHandler(processingEnvironment: ProcessingEnvironment, p
     private val typeUtils = processingEnvironment.typeUtils
     private val outputDirectory = processingEnvironment.kaptGeneratedDirectory
 
-    fun handle(element: TypeElement) {
-        FileSpec.get(this.elementUtils.getPackageAsString(element), this.createBindingClass(element))
+    fun handle(element: TypeElement) =
+        getFileSpec(element)
             .writeTo(this.outputDirectory)
-    }
 
-    private fun createBindingClass(element: TypeElement) =
+    fun getFileSpec(element: TypeElement) =
+        getFileSpec(element, this.createBindingClass(element).build())
+
+    fun getFileSpec(element: TypeElement, typeSpec: TypeSpec) =
+        FileSpec.get(this.elementUtils.getPackageAsString(element), typeSpec)
+
+    fun createBindingClass(element: TypeElement) =
         element.visibleGetters.map { this.createBindParameter(it) }.let { parameters ->
             TypeSpec.classBuilder("${element.simpleName}$SUFFIX")
                 .superclass(this.typeUtils.getKotlinName(element.superclass))
                 .addSuperinterfaces(element.interfaces.map(TypeMirror::asTypeName))
                 .primaryConstructor(FunSpec.constructorFrom(parameters))
                 .addProperties(parameters.map { PropertySpec.from(it) })
-                .build()
         }
 
     private fun createBindParameter(element: ExecutableElement) =

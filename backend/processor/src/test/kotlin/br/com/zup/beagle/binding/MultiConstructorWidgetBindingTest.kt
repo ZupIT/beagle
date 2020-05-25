@@ -18,7 +18,7 @@ package br.com.zup.beagle.binding
 
 import br.com.zup.beagle.core.Bind
 import org.junit.jupiter.api.Test
-import java.util.*
+import java.util.UUID
 import kotlin.test.assertEquals
 
 internal class MultiConstructorWidgetBindingTest {
