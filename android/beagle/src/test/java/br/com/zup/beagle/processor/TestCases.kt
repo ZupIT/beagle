@@ -21,6 +21,7 @@ import android.view.View
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.WidgetView
+import io.mockk.mockk
 
 @RegisterWidget
 data class FieldOnlyWidget(val a: Boolean = true,
@@ -28,10 +29,10 @@ data class FieldOnlyWidget(val a: Boolean = true,
                            val c: String = "Hello") : WidgetView() {
 
     override fun buildView(context: Context): View {
-        TODO("Not yet implemented")
+        return mockk()
     }
 
     override fun onBind(widget: Widget, view: View) {
-        TODO("Not yet implemented")
+        return mockk()
     }
 }

@@ -20,21 +20,22 @@ import android.content.Context
 import android.view.View
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.form.InputWidget
+import io.mockk.mockk
 
 class CustomInputWidget : InputWidget() {
     override fun onErrorMessage(message: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return mockk()
     }
 
     override fun getValue(): Any {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return mockk()
     }
 
     override fun buildView(context: Context): View {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return mockk()
     }
 
     override fun onBind(widget: Widget, view: View) {
-        TODO("Not yet implemented")
+        return mockk()
     }
 }
