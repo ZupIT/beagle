@@ -64,7 +64,7 @@ class ImageTests: XCTestCase {
         }
 
         let image: Image = try componentFromJsonFile(fileName: "ImageComponent1")
-        if case TypePathImage.local(let name) = image.path {
+        if case Image.PathType.local(let name) = image.path {
             XCTAssertEqual(name, "test_image_square-x")
         } else {
             XCTFail("Failed to decode correct image name.")
@@ -80,7 +80,7 @@ class ImageTests: XCTestCase {
         }
 
         let image: Image = try componentFromJsonFile(fileName: "ImageComponent2")
-        if case TypePathImage.network(let url) = image.path {
+        if case Image.PathType.network(let url) = image.path {
             XCTAssertEqual(url, "www.com")
         } else {
             XCTFail("Failed to decode correct image url.")
