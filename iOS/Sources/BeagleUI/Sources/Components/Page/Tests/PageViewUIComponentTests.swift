@@ -16,6 +16,7 @@
 
 import XCTest
 @testable import BeagleUI
+import Schema
 
 class PageViewUIComponentTests: XCTestCase {
 
@@ -30,7 +31,7 @@ class PageViewUIComponentTests: XCTestCase {
         makeScreen(Text("Index: 3"))
     ]
 
-    private func makeScreen(_ component: ServerDrivenComponent) -> BeagleScreenViewController {
+    private func makeScreen(_ component: BeagleUI.ServerDrivenComponent) -> BeagleScreenViewController {
         return Beagle.screen(.declarative(component.toScreen()))
     }
 

@@ -17,8 +17,9 @@
 import XCTest
 @testable import BeagleUI
 import SnapshotTesting
+import Schema
 
-class BeagleContextSpy: BeagleContext {
+class BeagleContextSpy: BeagleUI.BeagleContext {
     
     private(set) var analyticsEventCalled = false
     private(set) var didCallRegisterEvents = false
@@ -39,7 +40,7 @@ class BeagleContextSpy: BeagleContext {
         analyticsEventCalled = true
     }
 
-    func register(formSubmitEnabledWidget: Widget?, formSubmitDisabledWidget: Widget?) {
+    func register(formSubmitEnabledWidget: BeagleUI.Widget?, formSubmitDisabledWidget: BeagleUI.Widget?) {
         didCallRegisterEnabledWidget = true
     }
 
@@ -173,7 +174,7 @@ class UINavigationControllerSpy: BeagleScreenViewController {
 class OnStateUpdatableViewSpy: UIView, OnStateUpdatable {
     private(set) var didCallOnUpdateState = false
     
-    func onUpdateState(component: ServerDrivenComponent) -> Bool {
+    func onUpdateState(component: BeagleUI.ServerDrivenComponent) -> Bool {
         didCallOnUpdateState = true
         return true
     }

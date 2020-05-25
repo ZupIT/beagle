@@ -17,6 +17,8 @@
 import XCTest
 import SnapshotTesting
 @testable import BeagleUI
+import Schema
+import SchemaTests
 
 final class LazyComponentTests: XCTestCase {
     
@@ -59,23 +61,19 @@ final class LazyComponentTests: XCTestCase {
         )
         
         assertSnapshotImage(screen, size: size)
-        repository.componentCompletion?(.success(UnknownComponent(type: "LazyError")))
+        repository.componentCompletion?(.success(UnknownComponent(type: "LazyError") as! BeagleUI.ServerDrivenComponent))
         assertSnapshotImage(screen, size: size)
     }
-    
-    func test_whenDecodingJson_thenItShouldReturnALazyComponent() throws {
-        let component: LazyComponent = try componentFromJsonFile(fileName: "lazyComponent")
-        assertSnapshot(matching: component, as: .dump)
-    }
+
 }
 
 class LazyRepositoryStub: Repository {
 
-    var componentCompletion: ((Result<ServerDrivenComponent, Request.Error>) -> Void)?
+    var componentCompletion: ((Result<BeagleUI.ServerDrivenComponent, Request.Error>) -> Void)?
     var formCompletion: ((Result<Action, Request.Error>) -> Void)?
     var imageCompletion: ((Result<Data, Request.Error>) -> Void)?
 
-    func fetchComponent(url: String, additionalData: RemoteScreenAdditionalData?, completion: @escaping (Result<ServerDrivenComponent, Request.Error>) -> Void) -> RequestToken? {
+    func fetchComponent(url: String, additionalData: RemoteScreenAdditionalData?, completion: @escaping (Result<BeagleUI.ServerDrivenComponent, Request.Error>) -> Void) -> RequestToken? {
         componentCompletion = completion
         return nil
     }

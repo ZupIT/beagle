@@ -17,6 +17,7 @@
 import XCTest
 @testable import BeagleUI
 import SnapshotTesting
+import Schema
 
 final class BeagleSetupTests: XCTestCase {
     // swiftlint:disable discouraged_direct_init
@@ -73,9 +74,9 @@ final class DeepLinkHandlerDummy: DeepLinkScreenManaging {
 }
 
 final class ComponentDecodingDummy: ComponentDecoding {
-    func register<T>(_ type: T.Type, for typeName: String) where T: ServerDrivenComponent {}
+    func register<T>(_ type: T.Type, for typeName: String) where T: Schema.ServerDrivenComponent {}
     func decodableType(forType type: String) -> Decodable.Type? { return nil }
-    func decodeComponent(from data: Data) throws -> ServerDrivenComponent { return ComponentDummy() }
+    func decodeComponent(from data: Data) throws -> Schema.ServerDrivenComponent { return ComponentDummy() }
     func decodeAction(from data: Data) throws -> Action { return ActionDummy() }
 }
 
@@ -95,7 +96,7 @@ final class PreFetchHelperDummy: BeaglePrefetchHelping {
     func prefetchComponent(newPath: Navigate.NewPath) { }
 }
 
-struct ComponentDummy: ServerDrivenComponent, Equatable, CustomStringConvertible {
+struct ComponentDummy: BeagleUI.ServerDrivenComponent, Equatable, CustomStringConvertible {
     
     private let uuid = UUID()
     
@@ -103,7 +104,7 @@ struct ComponentDummy: ServerDrivenComponent, Equatable, CustomStringConvertible
         return "ComponentDummy()"
     }
     
-    func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+    func toView(context: BeagleUI.BeagleContext, dependencies: BeagleUI.RenderableDependencies) -> UIView {
         return DummyView()
     }
 }

@@ -80,19 +80,19 @@ final class ComponentDecoderTests: XCTestCase {
     }
 
     func testDecodeAction() throws {
-//        let jsonData = """
-//        {
-//            "_beagleType_": "beagle:action:navigate",
-//            "type": "FINISH_VIEW"
-//        }
-//        """.data(using: .utf8)!
-//
-//        let action = try sut.decodeAction(from: jsonData)
-//
-//        //TODO:Component
-//        guard case Navigate.finishView = action else {
-//            XCTFail("decoding failed"); return
-//        }
+        let jsonData = """
+        {
+            "_beagleType_": "beagle:action:navigate",
+            "type": "FINISH_VIEW"
+        }
+        """.data(using: .utf8)!
+
+        let action = try sut.decodeAction(from: jsonData)
+
+        //TODO:Component
+        guard case Navigate.finishView = action else {
+            XCTFail("decoding failed"); return
+        }
     }
 }
 

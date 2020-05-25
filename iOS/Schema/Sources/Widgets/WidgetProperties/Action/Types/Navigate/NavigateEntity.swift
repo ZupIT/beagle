@@ -16,14 +16,33 @@
 
 import Foundation
 
-struct NavigateEntity {
+//TODO: Check map to ui model here
+public struct NavigateEntity: AutoInitiable {
     let type: NavigationType
     let path: String?
     let shouldPrefetch: Bool?
     let screen: ScreenComponent?
     let data: [String: String]?
 
-    enum NavigationType: String, Decodable, CaseIterable {
+// sourcery:inline:auto:NavigateEntity.Init
+    public init(
+        type: NavigationType,
+        path: String? = nil,
+        shouldPrefetch: Bool? = nil,
+        screen: ScreenComponent? = nil,
+        data: [String: String]? = nil
+    ) {
+        self.type = type
+        self.path = path
+        self.shouldPrefetch = shouldPrefetch
+        self.screen = screen
+        self.data = data
+    }
+// sourcery:end
+}
+
+extension NavigateEntity {
+    public enum NavigationType: String, Decodable, CaseIterable {
         case openDeepLink = "OPEN_DEEP_LINK"
         case swapView = "SWAP_VIEW"
         case addView = "ADD_VIEW"
@@ -33,16 +52,16 @@ struct NavigateEntity {
         case presentView = "PRESENT_VIEW"
     }
 
-    enum Destination {
+    public enum Destination {
         case declarative(Screen)
         case remote(Navigate.NewPath)
     }
 
-    struct Error: Swift.Error {
+    public struct Error: Swift.Error {
         let reason: String
     }
 
-    func mapToUIModel() throws -> Navigate {
+    public func mapToUIModel() throws -> Navigate {
         switch type {
         case .popToView:
             let path = try usePath()
@@ -84,14 +103,14 @@ struct NavigateEntity {
         }
     }
 
-    func usePath() throws -> String {
+    public func usePath() throws -> String {
         guard let path = self.path else {
             throw Error(reason: "Error: Navigate of `type` \(type), should have property `path`")
         }
         return path
     }
 
-    func destination() throws -> Destination {
+    public func destination() throws -> Destination {
         let screen = self.screen?.toScreen()
         if let screen = screen, path == nil {
             return .declarative(screen)

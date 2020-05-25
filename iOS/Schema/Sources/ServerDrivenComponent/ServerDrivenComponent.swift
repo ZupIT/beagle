@@ -15,9 +15,28 @@
  */
 
 import Foundation
+import UIKit
 
-public protocol ServerDrivenComponent: Decodable {
+public protocol ServerDrivenComponent: Decodable, Renderable {
     
+}
+
+public protocol BeagleContext: AnyObject {
+
+}
+
+public protocol RenderableDependencies {
+    
+}
+
+public protocol Renderable {
+    func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView
+}
+
+extension Renderable {
+    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+        preconditionFailure("You must implement toView")
+    }
 }
 
 extension ServerDrivenComponent {

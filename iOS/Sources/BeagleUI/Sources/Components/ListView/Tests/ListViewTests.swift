@@ -17,6 +17,7 @@
 import XCTest
 @testable import BeagleUI
 import SnapshotTesting
+import Schema
 
 final class ListViewTests: XCTestCase {
 
@@ -24,7 +25,7 @@ final class ListViewTests: XCTestCase {
 
     // MARK: - 3 Rows
 
-    private let just3Rows: [ServerDrivenComponent] = [
+    private let just3Rows: [BeagleUI.ServerDrivenComponent] = [
         Text("Item 1", widgetProperties: .init(appearance: .init(backgroundColor: "#FF0000"))),
         Text("Item 2", widgetProperties: .init(appearance: .init(backgroundColor: "#00FF00"))),
         Text("Item 3", widgetProperties: .init(appearance: .init(backgroundColor: "#0000FF")))
@@ -54,7 +55,7 @@ final class ListViewTests: XCTestCase {
 
     // MARK: - Many Rows
 
-    private let manyRows: [ServerDrivenComponent] = (0..<20).map { i in
+    private let manyRows: [BeagleUI.ServerDrivenComponent] = (0..<20).map { i in
         return ListViewTests.createText("Item \(i)", position: Double(i) / 19)
     }
 
@@ -82,7 +83,7 @@ final class ListViewTests: XCTestCase {
 
     // MARK: - Many Large Rows
 
-    private let manyLargeRows: [ServerDrivenComponent] = (0..<20).map { i in
+    private let manyLargeRows: [BeagleUI.ServerDrivenComponent] = (0..<20).map { i in
         return ListViewTests.createText(
             "< \(i) \(String(repeating: "-", count: 22)) \(i) >",
             position: Double(i) / 19
@@ -113,7 +114,7 @@ final class ListViewTests: XCTestCase {
 
     // MARK: Rows with Different Sizes
 
-    private let rowsWithDifferentSizes: [ServerDrivenComponent] = (0..<20).map { i in
+    private let rowsWithDifferentSizes: [BeagleUI.ServerDrivenComponent] = (0..<20).map { i in
         return ListViewTests.createText(
             "< \(i) ---\(i % 3 == 0 ? "/↩\n↩\n /" : "")--- \(i) >",
             position: Double(i) / 19
@@ -142,7 +143,6 @@ final class ListViewTests: XCTestCase {
         assertSnapshotImage(view, size: imageSize)
     }
     
-
     // MARK: - Helper
 
     private func makeListUiView(_ listComponent: ListView) -> UIView {

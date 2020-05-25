@@ -16,6 +16,7 @@
 
 import XCTest
 @testable import BeagleUI
+import Schema
 
 final class TabViewUIComponentTests: XCTestCase {
     
@@ -41,7 +42,7 @@ final class TabViewUIComponentTests: XCTestCase {
 
     private lazy var sut = TabViewUIComponent(model: model)
 
-    private func makeScreen(_ component: ServerDrivenComponent) -> BeagleScreenViewController {
+    private func makeScreen(_ component: BeagleUI.ServerDrivenComponent) -> BeagleScreenViewController {
         return Beagle.screen(.declarative(component.toScreen()))
     }
 

@@ -17,6 +17,9 @@
 import XCTest
 import SnapshotTesting
 @testable import BeagleUI
+import Schema
+import SchemaTests
+
 // swiftlint:disable implicitly_unwrapped_optional
 class AnalyticsTests: XCTestCase {
 

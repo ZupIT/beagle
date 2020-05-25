@@ -18,6 +18,7 @@ import Foundation
 import XCTest
 @testable import BeagleUI
 import SnapshotTesting
+import Schema
 
 class BeagleLoggerTests: XCTestCase {
     // swiftlint:disable force_unwrapping

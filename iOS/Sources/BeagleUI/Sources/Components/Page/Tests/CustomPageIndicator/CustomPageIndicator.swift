@@ -16,6 +16,7 @@
 
 import UIKit
 @testable import BeagleUI
+import Schema
 
 // MARK: - CustomPageIndicator Component
 
@@ -36,7 +37,7 @@ public struct CustomPageIndicator: PageIndicatorComponent {
         self.defaultColor = defaultColor
     }
     
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+    public func toView(context: BeagleUI.BeagleContext, dependencies: BeagleUI.RenderableDependencies) -> UIView {
         return CustomPageIndicatorUIComponent()
     }
 }

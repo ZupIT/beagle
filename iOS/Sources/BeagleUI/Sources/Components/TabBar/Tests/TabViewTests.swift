@@ -17,6 +17,7 @@
 import XCTest
 @testable import BeagleUI
 import SnapshotTesting
+import Schema
 
 final class TabViewTests: XCTestCase {
     

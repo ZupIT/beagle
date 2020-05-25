@@ -19,6 +19,7 @@ import Foundation
 import XCTest
 @testable import BeagleUI
 import SnapshotTesting
+import Schema
 
 final class UrlRequestBuilderTest: XCTestCase {
 

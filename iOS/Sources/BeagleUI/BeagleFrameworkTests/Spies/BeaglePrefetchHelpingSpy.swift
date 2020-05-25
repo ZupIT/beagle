@@ -17,6 +17,7 @@
 
 import Foundation
 @testable import BeagleUI
+import Schema
 
 final class BeaglePrefetchHelpingSpy: BeaglePrefetchHelping {
     
@@ -29,7 +30,7 @@ final class BeaglePrefetchHelpingSpy: BeaglePrefetchHelping {
         prefetched.append(newPath.path)
     }
     
-    func dequeueComponent(path: String) -> ServerDrivenComponent? {
+    func dequeueComponent(path: String) -> BeagleUI.ServerDrivenComponent? {
         dequeued.append(path)
         return nil
     }

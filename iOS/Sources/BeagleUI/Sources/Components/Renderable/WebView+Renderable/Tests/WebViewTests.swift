@@ -18,10 +18,13 @@ import XCTest
 import SnapshotTesting
 import WebKit
 @testable import BeagleUI
+import Schema
+import SchemaTests
 
 final class WebViewTests: XCTestCase {
     
     func test_renderWebViewComponent() throws {
+    
         let component: WebView = try componentFromJsonFile(fileName: "WebView")
         let view = component.toView(context: BeagleContextDummy(), dependencies: BeagleDependencies())
         assert(view is WebViewUIComponent)

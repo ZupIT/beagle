@@ -17,6 +17,7 @@
 import XCTest
 @testable import BeagleUI
 import SnapshotTesting
+import Schema
 // swiftlint:disable force_unwrapping
 
 final class BeaglePrefetchHelperTests: XCTestCase {
@@ -109,10 +110,10 @@ final class BeaglePrefetchHelperTests: XCTestCase {
         assertSnapshot(matching: result, as: .description)
     }
     
-    private func decodeComponent(from data: Data) -> ServerDrivenComponent? {
+    private func decodeComponent(from data: Data) -> BeagleUI.ServerDrivenComponent? {
         do {
             let component = try decoder.decodeComponent(from: data)
-            return component
+            return component as? BeagleUI.ServerDrivenComponent
         } catch {
             return nil
         }

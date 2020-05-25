@@ -17,6 +17,8 @@
 import XCTest
 import SnapshotTesting
 @testable import BeagleUI
+import Schema
+import SchemaTests
 
 final class ScreenComponentTests: XCTestCase {
 
@@ -159,14 +161,14 @@ final class ScreenComponentTests: XCTestCase {
 // MARK: - Testing Helpers
 
 final class ActionExecutorDummy: ActionExecutor {
-    func doAction(_ action: Action, sender: Any, context: BeagleContext) {
+    func doAction(_ action: Action, sender: Any, context: BeagleUI.BeagleContext) {
     }
 }
 
 final class ActionExecutorSpy: ActionExecutor {
     private(set) var didCallDoAction = false
     
-    func doAction(_ action: Action, sender: Any, context: BeagleContext) {
+    func doAction(_ action: Action, sender: Any, context: BeagleUI.BeagleContext) {
         didCallDoAction = true
     }
 }

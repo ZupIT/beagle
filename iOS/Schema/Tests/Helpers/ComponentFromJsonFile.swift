@@ -17,12 +17,12 @@
 import Foundation
 @testable import Schema
 
-enum ComponentFromJsonError: Error {
+public enum ComponentFromJsonError: Error {
     case wrongUrlPath
     case couldNotMatchComponentType
 }
 
-func componentFromJsonFile<W: ServerDrivenComponent>(
+public func componentFromJsonFile<W: ServerDrivenComponent>(
     fileName: String,
     decoder: ComponentDecoding = ComponentDecoder()
 ) throws -> W {
@@ -43,7 +43,7 @@ func componentFromJsonFile<W: ServerDrivenComponent>(
     return typed
 }
 
-func jsonFromFile(
+public func jsonFromFile(
     fileName: String
 ) throws -> String {
 
@@ -62,7 +62,7 @@ func jsonFromFile(
 
 /// This method was only created due to some problems with Swift Type Inference.
 /// So when you pass the type as a parameter, swift can infer the correct type.
-func componentFromJsonFile<W: ServerDrivenComponent>(
+public func componentFromJsonFile<W: ServerDrivenComponent>(
     componentType: W.Type,
     fileName: String,
     decoder: ComponentDecoding = ComponentDecoder()

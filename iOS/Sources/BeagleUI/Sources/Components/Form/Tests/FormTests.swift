@@ -17,6 +17,7 @@
 import XCTest
 import SnapshotTesting
 @testable import BeagleUI
+import Schema
 
 // TODO: refactor this tests that are not actually asserting against behaviour
 
@@ -158,10 +159,10 @@ final class FormTests: XCTestCase {
 
 // MARK: - Stubs
 
-private struct InputComponent: ServerDrivenComponent {
+private struct InputComponent: BeagleUI.ServerDrivenComponent {
     let value: String
 
-    func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+    func toView(context: BeagleUI.BeagleContext, dependencies: BeagleUI.RenderableDependencies) -> UIView {
         return InputStub(value: value)
     }
 }
