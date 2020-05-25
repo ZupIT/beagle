@@ -14,28 +14,20 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.mockdata
+package br.com.zup.beagle.processor
 
-import android.content.Context
-import android.view.View
-import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.form.InputWidget
-import io.mockk.mockk
+import br.com.zup.beagle.annotation.BeagleComponent
+import br.com.zup.beagle.setup.BeagleConfig
+import br.com.zup.beagle.setup.Cache
+import br.com.zup.beagle.setup.Environment
 
-class CustomInputWidget : InputWidget() {
-    override fun onErrorMessage(message: String) {
-        return mockk()
-    }
-
-    override fun getValue(): Any {
-        return mockk()
-    }
-
-    override fun buildView(context: Context): View {
-        return mockk()
-    }
-
-    override fun onBind(widget: Widget, view: View) {
-        return mockk()
-    }
+@BeagleComponent
+class AppBeagleConfig : BeagleConfig {
+    override val environment: Environment get() = Environment.DEBUG
+    override val baseUrl: String get() = "http://sample.com"
+    override val cache: Cache = Cache(
+        enabled = true,
+        maxAge = 300,
+        memoryMaximumCapacity = 15
+    )
 }

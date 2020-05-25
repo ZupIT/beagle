@@ -14,37 +14,25 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.widgets
+package br.com.zup.beagle.processor
 
 import android.content.Context
-import android.graphics.Color
 import android.view.View
-import android.widget.TextView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.WidgetView
+import io.mockk.mockk
 
 @RegisterWidget
-data class MutableText(
-    val firstText: String = "",
-    val secondText: String = "",
-    val color: String = "#000000"
-) : WidgetView() {
+data class FieldOnlyWidget(val a: Boolean = true,
+                           val b: Long = 123L,
+                           val c: String = "Hello") : WidgetView() {
 
-    override fun buildView(context: Context) = TextView(context)
+    override fun buildView(context: Context): View {
+        return mockk()
+    }
 
     override fun onBind(widget: Widget, view: View) {
-        (widget as? MutableText)?.let { widget ->
-            val widgetView: TextView = view as TextView
-            val color = Color.parseColor(widget.color)
-            widgetView.text = widget.firstText
-            widgetView.setTextColor(color)
-            widgetView.setOnClickListener {
-                widgetView.text = if (widgetView.text == widget.firstText)
-                    widget.secondText
-                else
-                    widget.firstText
-            }
-        }
+        return mockk()
     }
 }

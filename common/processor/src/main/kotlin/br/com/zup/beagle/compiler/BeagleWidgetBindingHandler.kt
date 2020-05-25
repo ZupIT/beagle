@@ -33,7 +33,7 @@ import kotlin.reflect.KClass
 
 class BeagleWidgetBindingHandler(
     processingEnvironment: ProcessingEnvironment,
-    private val outputDirectory: File,
+    private val outputDirectory: File = processingEnvironment.kaptGeneratedDirectory,
     private val bindClass: KClass<out BindAttribute<*>>
 ) {
     companion object {
@@ -43,19 +43,23 @@ class BeagleWidgetBindingHandler(
     private val elementUtils = processingEnvironment.elementUtils
     private val typeUtils = processingEnvironment.typeUtils
 
-    fun handle(element: TypeElement) {
-        FileSpec.get(this.elementUtils.getPackageAsString(element), this.createBindingClass(element))
+    fun handle(element: TypeElement) =
+        getFileSpec(element)
             .writeTo(this.outputDirectory)
-    }
 
-    private fun createBindingClass(element: TypeElement) =
+    fun getFileSpec(element: TypeElement) =
+        getFileSpec(element, this.createBindingClass(element).build())
+
+    fun getFileSpec(element: TypeElement, typeSpec: TypeSpec) =
+        FileSpec.get(this.elementUtils.getPackageAsString(element), typeSpec)
+
+    fun createBindingClass(element: TypeElement) =
         element.visibleGetters.map { this.createBindParameter(it) }.let { parameters ->
             TypeSpec.classBuilder("${element.simpleName}$SUFFIX")
                 .superclass(this.typeUtils.getKotlinName(element.superclass))
                 .addSuperinterfaces(element.interfaces.map(TypeMirror::asTypeName))
                 .primaryConstructor(FunSpec.constructorFrom(parameters))
                 .addProperties(parameters.map { PropertySpec.from(it) })
-                .build()
         }
 
     private fun createBindParameter(element: ExecutableElement) =

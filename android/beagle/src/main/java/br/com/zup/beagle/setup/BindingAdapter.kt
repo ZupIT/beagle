@@ -14,28 +14,11 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.mockdata
+package br.com.zup.beagle.setup
 
-import android.content.Context
-import android.view.View
-import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.form.InputWidget
-import io.mockk.mockk
+import br.com.zup.beagle.core.Bind
 
-class CustomInputWidget : InputWidget() {
-    override fun onErrorMessage(message: String) {
-        return mockk()
-    }
-
-    override fun getValue(): Any {
-        return mockk()
-    }
-
-    override fun buildView(context: Context): View {
-        return mockk()
-    }
-
-    override fun onBind(widget: Widget, view: View) {
-        return mockk()
-    }
+interface BindingAdapter {
+    fun getBindAttributes(): List<Bind<*>>
+    fun bindModel()
 }

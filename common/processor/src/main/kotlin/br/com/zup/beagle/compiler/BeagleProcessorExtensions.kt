@@ -25,6 +25,7 @@ import com.squareup.kotlinpoet.STAR
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.WildcardTypeName
 import com.squareup.kotlinpoet.asTypeName
+import org.jetbrains.annotations.Nullable
 import java.io.File
 import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.Element
@@ -52,6 +53,8 @@ val TypeElement.visibleGetters
     get() = this.enclosedElements
         .filter { it.kind == ElementKind.METHOD && GET in it.simpleName && Modifier.PUBLIC in it.modifiers }
         .map { it as ExecutableElement }
+
+val Element.isMarkedNullable get() = this.getAnnotation(Nullable::class.java) != null
 
 fun Elements.getPackageAsString(element: Element) = this.getPackageOf(element).toString()
 
