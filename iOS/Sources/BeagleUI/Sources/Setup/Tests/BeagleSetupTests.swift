@@ -95,7 +95,7 @@ final class CacheManagerDummy: CacheManagerProtocol {
 }
 
 final class PreFetchHelperDummy: BeaglePrefetchHelping {
-    func prefetchComponent(newPath: Navigate.NewPath) { }
+    func prefetchComponent(newPath: Route.NewPath) { }
 }
 
 struct ComponentDummy: ServerDrivenComponent, Equatable, CustomStringConvertible {

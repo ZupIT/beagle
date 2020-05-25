@@ -1,4 +1,4 @@
-▿ 5 key/value pairs
+▿ 13 key/value pairs
   ▿ (2 elements)
     - key: "beagle:customaction"
     - value: CustomAction
@@ -9,8 +9,32 @@
     - key: "beagle:formvalidation"
     - value: FormValidation
   ▿ (2 elements)
-    - key: "beagle:navigate"
-    - value: Navigate
+    - key: "beagle:openexternalurl"
+    - value: OpenExternalURL
+  ▿ (2 elements)
+    - key: "beagle:opennativeroute"
+    - value: OpenNativeRoute
+  ▿ (2 elements)
+    - key: "beagle:popstack"
+    - value: PopStack
+  ▿ (2 elements)
+    - key: "beagle:poptoview"
+    - value: PopToView
+  ▿ (2 elements)
+    - key: "beagle:popview"
+    - value: PopView
+  ▿ (2 elements)
+    - key: "beagle:pushstack"
+    - value: PushStack
+  ▿ (2 elements)
+    - key: "beagle:pushview"
+    - value: PushView
+  ▿ (2 elements)
+    - key: "beagle:resetapplication"
+    - value: ResetApplication
+  ▿ (2 elements)
+    - key: "beagle:resetstack"
+    - value: ResetStack
   ▿ (2 elements)
     - key: "beagle:shownativedialog"
     - value: ShowNativeDialog

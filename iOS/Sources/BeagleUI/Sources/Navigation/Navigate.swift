@@ -14,93 +14,149 @@
  * limitations under the License.
  */
 
-/// Action to represent a screen transition
-public enum Navigate: Action {
+public protocol Navigate: Action {}
 
-    case openExternalURL(Path)
-    case openNativeRoute(DeepLinkNavigation)
-    case resetApplication(ScreenType)
-    case resetStack(ScreenType)
-    case pushStack(ScreenType)
-    case popStack
-    case pushView(ScreenType)
-    case popView
-    case popToView(Path)
-
-    public typealias Path = String
-    public typealias Data = [String: String]
-
-    public enum ScreenType {
-
-        case remote(NewPath)
-        case declarative(Screen)
-
-        var path: NewPath? {
-            switch self {
-            case .remote(let path):
-                return path
-            case .declarative:
-                return nil
-            }
-        }
-    }
-
-    public struct NewPath {
-        public let path: Path
-        public let shouldPrefetch: Bool
-        public let fallback: Screen?
-        
-        public init(path: Path, shouldPrefetch: Bool = false, fallback: Screen? = nil) {
-            self.path = path
-            self.shouldPrefetch = shouldPrefetch
-            self.fallback = fallback
-        }
-    }
-    
-    public struct DeepLinkNavigation {
-        public let path: Path
-        public let data: Data?
-        public let component: ServerDrivenComponent?
-        public let shouldResetApplication: Bool
-
-        public init(
-            path: Path,
-            data: Data? = nil,
-            component: ServerDrivenComponent? = nil,
-            shouldResetApplication reset: Bool? = false
-        ) {
-            self.path = path
-            self.data = data
-            self.component = component
-            self.shouldResetApplication = reset ?? false
-        }
-    }
-
-    var newPath: NewPath? {
+extension Navigate {
+    func newPath() -> Route.NewPath? {
         switch self {
-        case .resetApplication(let type), .resetStack(let type), .pushStack(let type), .pushView(let type):
-            return type.path
-        case .openExternalURL, .openNativeRoute, .popStack, .popView, .popToView:
+        case let action as ResetApplication:
+            return action.route.path
+        case let action as ResetStack:
+            return action.route.path
+        case let action as PushStack:
+            return action.route.path
+        case let action as PushView:
+            return action.route.path
+        default:
             return nil
         }
     }
 }
 
-extension Navigate: CustomStringConvertible {
+public enum Route {
+    public struct NewPath {
+        public let route: String
+        public let shouldPrefetch: Bool
+        public let fallback: Screen?
 
-    public var description: String {
-        let name: String
-        switch self {
-        case .openExternalURL(let path):            name = "openExternalURL(\(path))"
-        case .openNativeRoute(let link):            name = "openNativeRoute(\(link))"
-        case .resetApplication(let path):           name = "resetApplication(\(path)"
-        case .resetStack(let path):                 name = "resetStack(\(path))"
-        case .pushStack(let path):                  name = "pushStack(\(path))"
-        case .popStack:                             name = "popStack"
-        case .pushView(let path):                   name = "pushView(\(path))"
-        case .popView:                              name = "popView"
-        case .popToView(let path):                  name = "popToView(\(path))"
+        public init(route: String, shouldPrefetch: Bool = false, fallback: Screen? = nil) {
+            self.route = route
+            self.shouldPrefetch = shouldPrefetch
+            self.fallback = fallback
         }
-        return "\(String(describing: type(of: self))).\(name)"
+    }
+    
+    case remote(NewPath)
+    case declarative(Screen)
+    
+    var path: NewPath? {
+        switch self {
+        case .remote(let path):
+            return path
+        case .declarative:
+            return nil
+        }
+    }
+}
+
+public struct OpenExternalURL: Navigate {
+    let url: String
+
+    public init(
+        _ url: String
+    ) {
+        self.url = url
+    }
+}
+
+public struct OpenNativeRoute: Navigate {
+    let route: String
+    var data: [String: String]?
+    var shouldResetApplication: Bool = false
+
+    public init(
+        route: String,
+        data: [String: String]? = nil,
+        shouldResetApplication: Bool = false
+    ) {
+        self.route = route
+        self.data = data
+        self.shouldResetApplication = shouldResetApplication
+    }
+}
+
+public struct ResetApplication: Navigate {
+    let route: Route
+
+    public init(
+        _ route: Route
+    ) {
+        self.route = route
+    }
+}
+
+public struct ResetStack: Navigate {
+    let route: Route
+
+    public init(
+        _ route: Route
+    ) {
+        self.route = route
+    }
+}
+
+public struct PushStack: Navigate {
+    let route: Route
+
+    public init(
+        _ route: Route
+    ) {
+        self.route = route
+    }
+}
+
+public struct PopStack: Navigate {}
+
+public struct PushView: Navigate {
+    let route: Route
+
+    public init(
+        _ route: Route
+    ) {
+        self.route = route
+    }
+}
+
+public struct PopView: Navigate {}
+
+public struct PopToView: Navigate {
+    let route: String
+
+    public init(
+        _ route: String
+    ) {
+        self.route = route
+    }
+}
+
+extension Route: Decodable {
+    
+    enum CodingKeys: CodingKey {
+        case screen
+        case route
+        case shouldPrefetch
+        case fallback
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        if let screen = try? container.decode(ScreenComponent.self, forKey: .screen) {
+            self = Route.declarative(screen.toScreen())
+        } else {
+            let route = try container.decode(String.self, forKey: .route)
+            let shouldPrefetch = try container.decodeIfPresent(Bool.self, forKey: .screen)
+            let fallback = try container.decodeIfPresent(ScreenComponent.self, forKey: .screen)
+            self = Route.remote(Route.NewPath(route: route, shouldPrefetch: shouldPrefetch ?? false, fallback: fallback?.toScreen()))
+        }
     }
 }

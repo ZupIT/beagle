@@ -35,39 +35,39 @@ struct MainScreen: DeeplinkScreen {
             children: [
                 Button(
                     text: "Navigator",
-                    action: Navigate.pushView(.remote(.init(path: .NAVIGATE_ENDPOINT, shouldPrefetch: true)))
+                    action: PushView(.remote(.init(route: .NAVIGATE_ENDPOINT, shouldPrefetch: true)))
                 ),
                 Button(
                     text: "Form & Lazy Component",
-                    action: Navigate.openNativeRoute(.init(path: .LAZY_COMPONENTS_ENDPOINT))
+                    action: OpenNativeRoute(route: .LAZY_COMPONENTS_ENDPOINT)
                 ),
                 Button(
                     text: "Page View",
-                    action: Navigate.openNativeRoute(.init(path: .PAGE_VIEW_ENDPOINT))
+                    action: OpenNativeRoute(route: .PAGE_VIEW_ENDPOINT)
                 ),
                 Button(
                     text: "Tab View",
-                    action: Navigate.openNativeRoute(.init(path: .TAB_VIEW_ENDPOINT))
+                    action: OpenNativeRoute(route: .TAB_VIEW_ENDPOINT)
                 ),
                 Button(
                     text: "List View",
-                    action: Navigate.openNativeRoute(.init(path: .LIST_VIEW_ENDPOINT))
+                    action: OpenNativeRoute(route: .LIST_VIEW_ENDPOINT)
                 ),
                 Button(
                     text: "Form",
-                    action: Navigate.openNativeRoute(.init(path: .FORM_ENDPOINT))
+                    action: OpenNativeRoute(route: .FORM_ENDPOINT)
                 ),
                 Button(
                     text: "Custom Component",
-                    action: Navigate.openNativeRoute(.init(path: .CUSTOM_COMPONENT_ENDPOINT))
+                    action: OpenNativeRoute(route: .CUSTOM_COMPONENT_ENDPOINT)
                 ),
                 Button(
                     text: "Web View",
-                    action: Navigate.openNativeRoute(.init(path: .WEB_VIEW_ENDPOINT))
+                    action: OpenNativeRoute(route: .WEB_VIEW_ENDPOINT)
                 ),
                 Button(
                     text: "Sample BFF",
-                    action: Navigate.pushView(.remote(.init(path: .COMPONENTS_ENDPOINT)))
+                    action: PushView(.remote(.init(route: .COMPONENTS_ENDPOINT)))
                 )
             ]
         )

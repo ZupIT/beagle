@@ -49,37 +49,27 @@ class BeagleNavigator: BeagleNavigation {
         dependencies.logger.log(Log.navigation(.didReceiveAction(action)))
         let source = context.screenController
         switch action {
-        case .openExternalURL(let path):
-            openExternalURL(path: path, source: source)
-
-        case .openNativeRoute(let deepLink):
-            if let component = deepLink.component {
-                openNativeRoute(component: component, source: source, data: deepLink.data, resetApplication: deepLink.shouldResetApplication, animated: animated)
-            } else {
-                openNativeRoute(path: deepLink.path, source: source, data: deepLink.data, resetApplication: deepLink.shouldResetApplication, animated: animated)
-            }
-
-        case .resetApplication(let type):
-            swapWindowViewController(with: type, context: context, animated: animated)
-
-        case .resetStack(let type):
-            swapTo(with: type, context: context, animated: animated)
-
-        case .pushView(let type):
-            push(with: type, context: context, animated: animated)
-
-        case .pushStack(let type):
-            present(with: type, context: context, animated: animated)
-
-        case .popStack:
-            popStack(source: source, animated: animated)
-
-        case .popView:
+        case let action as OpenExternalURL:
+            openExternalURL(path: action.url, source: source)
+        case let action as OpenNativeRoute:
+            openNativeRoute(path: action.route, source: source, data: action.data, resetApplication: action.shouldResetApplication, animated: animated)
+        case let action as ResetApplication:
+            swapWindowViewController(with: action.route, context: context, animated: animated)
+        case let action as ResetStack:
+            swapTo(with: action.route, context: context, animated: animated)
+        case let action as PushView:
+            push(with: action.route, context: context, animated: animated)
+        case is PopView:
             popView(source: source, animated: animated)
-
-        case .popToView(let path):
-            popToView(identifier: path, source: source, animated: animated)
-        }
+        case let action as PopToView:
+            popToView(identifier: action.route, source: source, animated: animated)
+        case let action as PushStack:
+            present(with: action.route, context: context, animated: animated)
+        case is PopStack:
+            popStack(source: source, animated: animated)
+        default:
+            dependencies.logger.log(Log.navigation(.invalidAction(action)))
+        }        
     }
     
     // MARK: - Navigation Methods
@@ -102,18 +92,6 @@ class BeagleNavigator: BeagleNavigation {
         } catch {
             dependencies.logger.log(Log.navigation(.didNotFindDeepLinkScreen(path: path)))
             return
-        }
-    }
-
-    private func openNativeRoute(component: ServerDrivenComponent, source: UIViewController, data: [String: String]?, resetApplication: Bool, animated: Bool) {
-
-        let viewController = Beagle.screen(.declarative(Screen(child: component)))
-        let navigationToPresent = UINavigationController(rootViewController: viewController)
-
-        if resetApplication {
-            dependencies.windowManager.window?.replace(rootViewController: navigationToPresent, animated: animated, completion: nil)
-        } else {
-            source.navigationController?.present(navigationToPresent, animated: animated, completion: nil)
         }
     }
     
@@ -167,7 +145,7 @@ class BeagleNavigator: BeagleNavigation {
         return dependencies.urlBuilder.build(path: path)?.absoluteString
     }
 
-    private func swapTo(with type: Navigate.ScreenType, context: BeagleContext, animated: Bool) {
+    private func swapTo(with type: Route, context: BeagleContext, animated: Bool) {
         let viewControllerToPresent: UIViewController
         switch type {
         case .remote(let path): viewControllerToPresent = viewController(newPath: path)
@@ -179,7 +157,7 @@ class BeagleNavigator: BeagleNavigation {
         context.screenController.navigationController?.setViewControllers([viewController], animated: animated)
     }
 
-    private func swapWindowViewController(with type: Navigate.ScreenType, context: BeagleContext, animated: Bool) {
+    private func swapWindowViewController(with type: Route, context: BeagleContext, animated: Bool) {
         let viewControllerToPresent: UIViewController
         switch type {
         case .remote(let path): viewControllerToPresent = viewController(newPath: path)
@@ -192,7 +170,7 @@ class BeagleNavigator: BeagleNavigation {
         dependencies.windowManager.window?.replace(rootViewController: viewController, animated: animated, completion: nil)
     }
 
-    private func push(with type: Navigate.ScreenType, context: BeagleContext, animated: Bool) {
+    private func push(with type: Route, context: BeagleContext, animated: Bool) {
         let viewControllerToPresent: UIViewController
         switch type {
         case .remote(let path): viewControllerToPresent = viewController(newPath: path)
@@ -205,7 +183,7 @@ class BeagleNavigator: BeagleNavigation {
         context.screenController.navigationController?.pushViewController(viewController, animated: animated)
     }
 
-    private func present(with type: Navigate.ScreenType, context: BeagleContext, animated: Bool) {
+    private func present(with type: Route, context: BeagleContext, animated: Bool) {
         let viewControllerToPresent: UIViewController
         switch type {
         case .remote(let path): viewControllerToPresent = viewController(newPath: path)
@@ -226,10 +204,10 @@ class BeagleNavigator: BeagleNavigation {
         ))
     }
     
-    private func viewController(newPath: Navigate.NewPath) -> UIViewController {
+    private func viewController(newPath: Route.NewPath) -> UIViewController {
         return BeagleScreenViewController(viewModel: .init(
             screenType: .remote(.init(
-                url: newPath.path,
+                url: newPath.route,
                 fallback: newPath.fallback
             ))
         ))

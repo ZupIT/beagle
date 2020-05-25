@@ -46,7 +46,7 @@ final class BeaglePrefetchHelperTests: XCTestCase {
         let sut = BeaglePreFetchHelper(dependencies: dependencies)
         let url = "url-test"
 
-        sut.prefetchComponent(newPath: .init(path: url, shouldPrefetch: true))
+        sut.prefetchComponent(newPath: .init(route: url, shouldPrefetch: true))
         let reference = CacheReference(identifier: url, data: jsonData, hash: "123")
         cacheManager.addToCache(reference)
         
@@ -67,9 +67,9 @@ final class BeaglePrefetchHelperTests: XCTestCase {
         let reference = CacheReference(identifier: url, data: jsonData, hash: "123")
         cacheManager.addToCache(reference)
 
-        sut.prefetchComponent(newPath: .init(path: url, shouldPrefetch: true))
+        sut.prefetchComponent(newPath: .init(route: url, shouldPrefetch: true))
         let result1 = dependencies.cacheManager?.getReference(identifiedBy: url)
-        sut.prefetchComponent(newPath: .init(path: url, shouldPrefetch: true))
+        sut.prefetchComponent(newPath: .init(route: url, shouldPrefetch: true))
         let result2 = dependencies.cacheManager?.getReference(identifiedBy: url)
         
         XCTAssert(result1?.data == jsonData, "Retrived wrong component.")
@@ -82,30 +82,29 @@ final class BeaglePrefetchHelperTests: XCTestCase {
         let container = Container(children: [])
 
         let actions: [Navigate] = [
-            .openExternalURL("http://localhost"),
-            .openNativeRoute(.init(path: path, data: nil)),
-            .openNativeRoute(.init(path: path, data: data)),
-            .openNativeRoute(.init(path: path, component: container)),
+            OpenExternalURL("http://localhost"),
+            OpenNativeRoute(route: path, data: nil),
+            OpenNativeRoute(route: path, data: data),
 
-            .resetApplication(.declarative(Screen(child: container))),
-            .resetApplication(.remote(.init(path: path, shouldPrefetch: true))),
-            .resetApplication(.remote(.init(path: path, shouldPrefetch: false))),
+            ResetApplication(.declarative(Screen(child: container))),
+            ResetApplication(.remote(.init(route: path, shouldPrefetch: true))),
+            ResetApplication(.remote(.init(route: path, shouldPrefetch: false))),
 
-            .resetStack(.declarative(Screen(child: container))),
-            .resetStack(.remote(.init(path: path, shouldPrefetch: true))),
-            .resetStack(.remote(.init(path: path, shouldPrefetch: false))),
+            ResetStack(.declarative(Screen(child: container))),
+            ResetStack(.remote(.init(route: path, shouldPrefetch: true))),
+            ResetStack(.remote(.init(route: path, shouldPrefetch: false))),
 
-            .pushStack(.declarative(Screen(child: container))),
-            .pushStack(.remote(.init(path: path, shouldPrefetch: true))),
-            .pushStack(.remote(.init(path: path, shouldPrefetch: false))),
+            PushStack(.declarative(Screen(child: container))),
+            PushStack(.remote(.init(route: path, shouldPrefetch: true))),
+            PushStack(.remote(.init(route: path, shouldPrefetch: false))),
 
-            .pushView(.declarative(Screen(child: container))),
-            .pushView(.remote(.init(path: path, shouldPrefetch: true))),
-            .pushView(.remote(.init(path: path, shouldPrefetch: false))),
+            PushView(.declarative(Screen(child: container))),
+            PushView(.remote(.init(route: path, shouldPrefetch: true))),
+            PushView(.remote(.init(route: path, shouldPrefetch: false))),
 
-            .popStack,
-            .popView,
-            .popToView(path)
+            PopStack(),
+            PopView(),
+            PopToView(path)
         ]
 
         let bools = actions.map { $0.newPath }

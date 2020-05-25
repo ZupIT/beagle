@@ -26,7 +26,7 @@ final class TouchableTests: XCTestCase {
     }
 
     func testTouchableView() throws {
-        let touchable = Touchable(action: Navigate.popView, child: Text("Touchable"))
+        let touchable = Touchable(action: PopView(), child: Text("Touchable"))
         let view = touchable.toView(context: BeagleContextDummy(), dependencies: BeagleDependencies())
 
         assertSnapshotImage(view, size: CGSize(width: 100, height: 80))

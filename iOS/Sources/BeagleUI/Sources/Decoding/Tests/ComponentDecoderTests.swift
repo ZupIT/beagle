@@ -87,14 +87,13 @@ final class ComponentDecoderTests: XCTestCase {
     func testDecodeAction() throws {
         let jsonData = """
         {
-            "_beagleAction_": "beagle:navigate",
-            "type": "POP_STACK"
+            "_beagleAction_": "beagle:popStack"
         }
         """.data(using: .utf8)!
 
         let action = try sut.decodeAction(from: jsonData)
 
-        guard case Navigate.popStack = action else {
+        if !(action is PopStack) {
             XCTFail("decoding failed"); return
         }
     }

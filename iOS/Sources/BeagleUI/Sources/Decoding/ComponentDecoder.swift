@@ -102,8 +102,15 @@ final class ComponentDecoder: ComponentDecoding {
     }
     
     private func registerActions() {
-        registerAction(Navigate.self, key: key(name: "Navigate", namespace: .beagle))
-        
+        registerAction(OpenExternalURL.self, key: key(name: "OpenExternalURL", namespace: .beagle))
+        registerAction(OpenNativeRoute.self, key: key(name: "OpenNativeRoute", namespace: .beagle))
+        registerAction(ResetApplication.self, key: key(name: "ResetApplication", namespace: .beagle))
+        registerAction(ResetStack.self, key: key(name: "ResetStack", namespace: .beagle))
+        registerAction(PushStack.self, key: key(name: "PushStack", namespace: .beagle))
+        registerAction(PopStack.self, key: key(name: "PopStack", namespace: .beagle))
+        registerAction(PushView.self, key: key(name: "PushView", namespace: .beagle))
+        registerAction(PopView.self, key: key(name: "PopView", namespace: .beagle))
+        registerAction(PopToView.self, key: key(name: "PopToView", namespace: .beagle))
         registerAction(FormValidation.self, key: key(name: "FormValidation", namespace: .beagle))
         registerAction(ShowNativeDialog.self, key: key(name: "ShowNativeDialog", namespace: .beagle))
         registerAction(CustomAction.self, key: key(name: "CustomAction", namespace: .beagle))

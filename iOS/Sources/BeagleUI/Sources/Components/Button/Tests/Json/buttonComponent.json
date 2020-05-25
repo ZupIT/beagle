@@ -2,8 +2,7 @@
   "_beagleComponent_": "beagle:Button",
   "text": "button",
   "action": {
-    "_beagleAction_": "beagle:navigate",
-    "type": "POP_STACK"
+    "_beagleAction_": "beagle:popStack"
   },
   "appearance": {
     "backgroundColor": "#800000FF",
