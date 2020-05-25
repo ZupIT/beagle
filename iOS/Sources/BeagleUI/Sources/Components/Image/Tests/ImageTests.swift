@@ -43,12 +43,7 @@ class ImageTests: XCTestCase {
     }
     
     func test_renderImage() throws {
-        let dependencies = BeagleDependencies()
-        dependencies.appBundle = Bundle(for: ImageTests.self)
-        Beagle.dependencies = dependencies
-        addTeardownBlock {
-            Beagle.dependencies = BeagleDependencies()
-        }
+        setupDepedencies()
 
         let image: Image = try componentFromJsonFile(fileName: "ImageComponent")
         let view = image.toView(context: BeagleContextDummy(), dependencies: dependencies)
@@ -56,12 +51,7 @@ class ImageTests: XCTestCase {
     }
     
     func test_localImageDeserialize() throws {
-        let dependencies = BeagleDependencies()
-        dependencies.appBundle = Bundle(for: ImageTests.self)
-        Beagle.dependencies = dependencies
-        addTeardownBlock {
-            Beagle.dependencies = BeagleDependencies()
-        }
+        setupDepedencies()
 
         let image: Image = try componentFromJsonFile(fileName: "ImageComponent1")
         if case Image.PathType.local(let name) = image.path {
@@ -72,12 +62,7 @@ class ImageTests: XCTestCase {
     }
     
     func test_remoteImageDeserialize() throws {
-        let dependencies = BeagleDependencies()
-        dependencies.appBundle = Bundle(for: ImageTests.self)
-        Beagle.dependencies = dependencies
-        addTeardownBlock {
-            Beagle.dependencies = BeagleDependencies()
-        }
+        setupDepedencies()
 
         let image: Image = try componentFromJsonFile(fileName: "ImageComponent2")
         if case Image.PathType.network(let url) = image.path {
@@ -99,5 +84,14 @@ class ImageTests: XCTestCase {
         
         // Then
         XCTAssertNil(imageView.image, "Expected image to be nil.")
+    }
+    
+    private func setupDepedencies() {
+        let dependencies = BeagleDependencies()
+        dependencies.appBundle = Bundle(for: ImageTests.self)
+        Beagle.dependencies = dependencies
+        addTeardownBlock {
+            Beagle.dependencies = BeagleDependencies()
+        }
     }
 }
