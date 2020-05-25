@@ -17,6 +17,7 @@
 package br.com.zup.beagle.action
 
 import android.content.Context
+import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.view.BeagleActivity
@@ -28,7 +29,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class ActionExecutorTest {
 

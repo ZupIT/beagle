@@ -70,10 +70,10 @@ object NavigationBarViewScreenBuilder : ScreenBuilder {
 
     private fun createMenu(text: String, path: String) = Button(
         text = text,
-        action = Navigate(
+        onPress = listOf(Navigate(
             type = NavigationType.ADD_VIEW,
             path = path
-        ),
+        )),
         style = BUTTON_STYLE_TITLE
     ).applyFlex(
         flex = Flex(

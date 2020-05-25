@@ -39,5 +39,8 @@ class SampleTextField(private val placeholder: String) : InputWidget() {
         textFieldView.hint = placeholder
         textFieldView.isSingleLine = true
         doOnTextChanged { _, _, _, _ -> notifyChanges() }
+        textFieldView.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) onFocus() else onBlur()
+        }
     }
 }

@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.data
 
-import br.com.zup.beagle.action.Action
+import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.NavigationType
 import br.com.zup.beagle.engine.renderer.RootView

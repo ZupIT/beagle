@@ -23,6 +23,7 @@ import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.sample.utils.MaskApplier
+import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.widget.form.InputWidget
 
 enum class TextFieldInputType {
@@ -42,11 +43,12 @@ data class TextField(
 
     private lateinit var textFieldView: EditText
 
+
     override fun buildView(context: Context) = EditText(context).apply {
         textFieldView = this
         bind()
-
-        doOnTextChanged { _, _, _, _ -> notifyChanges() }
+        doOnTextChanged { _, _, _, _ ->
+            notifyChanges() }
     }
 
     override fun onErrorMessage(message: String) {
@@ -61,6 +63,9 @@ data class TextField(
         textFieldView.hint = hint
         textFieldView.setTextColor(color)
         textFieldView.setHintTextColor(color)
+        textFieldView.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) onFocus() else onBlur()
+        }
 
         inputType?.let {
             if (it == TextFieldInputType.NUMBER) {

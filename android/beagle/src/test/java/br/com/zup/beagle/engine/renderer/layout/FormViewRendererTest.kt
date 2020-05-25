@@ -51,6 +51,7 @@ import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
+import io.mockk.verifyOrder
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -282,7 +283,7 @@ class FormViewRendererTest : BaseTest() {
     @Test
     fun onClick_of_formSubmit_should_submit_remote_form() {
         // Given
-        every { form.action } returns remoteAction
+        every { form.onSubmit } returns listOf(remoteAction)
 
         // When
         executeFormSubmitOnClickListener()
@@ -295,7 +296,7 @@ class FormViewRendererTest : BaseTest() {
     @Test
     fun onClick_of_formSubmit_should_trigger_navigate_action() {
         // Given
-        every { form.action } returns navigateAction
+        every { form.onSubmit } returns listOf(navigateAction)
 
         // When
         executeFormSubmitOnClickListener()
@@ -304,6 +305,26 @@ class FormViewRendererTest : BaseTest() {
         verify(exactly = once()) { formSubmitView.hideKeyboard() }
         verify(exactly = once()) { actionExecutor.doAction(any(), navigateAction) }
     }
+
+    @Test
+    fun onClick_of_formSubmit_should_trigger_list_action() {
+        // Given
+        every { form.onSubmit } returns listOf(navigateAction, remoteAction)
+        val formResult = FormResult.Success(mockk())
+
+        // When
+        executeFormSubmitOnClickListener()
+        formSubmitCallbackSlot.captured(formResult)
+        runnableSlot.captured.run()
+
+        // Then
+        verify(exactly = once()) { formSubmitView.hideKeyboard() }
+        verifyOrder {
+            actionExecutor.doAction(any(), navigateAction)
+            actionExecutor.doAction(beagleActivity, formResult.action)
+        }
+    }
+
 
     @Test
     fun onClick_of_formSubmit_should_validate_formField_that_is_required_and_is_valid() {
@@ -316,7 +337,7 @@ class FormViewRendererTest : BaseTest() {
 
         // Then
         verify(exactly = once()) { validator.isValid(INPUT_VALUE, any()) }
-}
+    }
 
     @Test
     fun onClick_of_formSubmit_should_validate_formField_that_is_required_and_that_not_is_valid() {
@@ -334,7 +355,7 @@ class FormViewRendererTest : BaseTest() {
     @Test
     fun onClick_of_formSubmit_should_handleFormSubmit_and_call_actionExecutor() {
         // Given
-        every { form.action } returns remoteAction
+        every { form.onSubmit } returns listOf(remoteAction)
         val formResult = FormResult.Success(mockk())
 
         // When
@@ -349,7 +370,7 @@ class FormViewRendererTest : BaseTest() {
     @Test
     fun onClick_of_formSubmit_should_trigger_action_and_call_showError() {
         // Given
-        every { form.action } returns remoteAction
+        every { form.onSubmit } returns listOf(remoteAction)
         every { beagleActivity.onServerDrivenContainerStateChanged(any()) } just Runs
         val formResult = FormResult.Error(mockk())
 

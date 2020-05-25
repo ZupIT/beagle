@@ -14,8 +14,19 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.action
+package br.com.zup.beagle.widget.form
 
-import br.com.zup.beagle.widget.core.Action
+import br.com.zup.beagle.widget.state.Observable
 
-interface ActionHandler<T : Action>
+interface InputWidgetWatcher {
+    fun onChange()
+    fun onFocus()
+    fun onBlur()
+    fun getAction(): Observable<Pair<InputWidgetWatcherActionType, Any>>
+}
+
+enum class InputWidgetWatcherActionType {
+    ON_CHANGE,
+    ON_FOCUS,
+    ON_BLUR
+}

@@ -61,10 +61,10 @@ class ComposeComponentFragment : Fragment() {
 class ComposeFormName : ComposeComponent() {
     override fun build(): ServerDrivenComponent {
         return Form(
-            action = FormRemoteAction(
+            onSubmit = listOf(FormRemoteAction(
                 path = "/validate-name",
                 method = FormMethodType.POST
-            ),
+            )),
 
             child = Container(
                 children = listOf(

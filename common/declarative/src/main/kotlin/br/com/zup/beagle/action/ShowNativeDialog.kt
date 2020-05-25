@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.action
 
+import br.com.zup.beagle.widget.core.Action
+
 /**
  * will show dialogues natively, such as an error alert indicating alternative flows, business system errors and others.
  *

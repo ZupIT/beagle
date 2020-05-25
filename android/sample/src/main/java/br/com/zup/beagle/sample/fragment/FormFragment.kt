@@ -21,6 +21,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.sample.widgets.TextField
 import br.com.zup.beagle.sample.widgets.TextFieldInputType
 import br.com.zup.beagle.utils.toView
@@ -50,40 +51,52 @@ class FormFragment : Fragment() {
                     FormInputHidden(
                         name = "hiddenParam",
                         value = "hiddenParamValue"
-                    ),FormInputHidden(
-                        name = "hiddenParam1",
-                        value = "hiddenParamValue1"
-                    ),FormInputHidden(
-                        name = "hiddenParam2",
-                        value = "hiddenParamValue2"
-                    ),FormInputHidden(
-                        name = "hiddenParam3",
-                        value = "hiddenParamValue3"
-                    ),FormInputHidden(
-                        name = "hiddenParam4",
-                        value = "hiddenParamValue4"
-                    ),FormInputHidden(
-                        name = "hiddenParam5",
-                        value = "hiddenParamValue5"
-                    ),
+                    ), FormInputHidden(
+                    name = "hiddenParam1",
+                    value = "hiddenParamValue1"
+                ), FormInputHidden(
+                    name = "hiddenParam2",
+                    value = "hiddenParamValue2"
+                ), FormInputHidden(
+                    name = "hiddenParam3",
+                    value = "hiddenParamValue3"
+                ), FormInputHidden(
+                    name = "hiddenParam4",
+                    value = "hiddenParamValue4"
+                ), FormInputHidden(
+                    name = "hiddenParam5",
+                    value = "hiddenParamValue5"
+                ),
                     FormInput(
                         name = "nome",
                         child = TextField(
                             hint = "nome"
-                        )
+                        ).setOnBlur(listOf(ShowNativeDialog(
+                            title = "onblur",
+                            message = "onblur",
+                            buttonText = "onblur"
+                        )))
                     ),
                     FormInput(
                         name = "email",
                         child = TextField(
                             hint = "email"
-                        )
+                        ).setOnFocus(listOf(ShowNativeDialog(
+                            title = "onfocus",
+                            message = "onfocus",
+                            buttonText = "onfocus"
+                        )))
                     ),
                     FormInput(
                         name = "senha",
                         child = TextField(
                             hint = "senha",
                             inputType = TextFieldInputType.PASSWORD
-                        )
+                        ).setOnChange(listOf(ShowNativeDialog(
+                            title = "onchange",
+                            message = "onchange",
+                            buttonText = "onchange"
+                        )))
                     ),
                     FormSubmit(
                         child = Button(
@@ -99,10 +112,10 @@ class FormFragment : Fragment() {
                     )
                 )
             ),
-            action = FormRemoteAction(
+            onSubmit = listOf(FormRemoteAction(
                 method = FormMethodType.POST,
                 path = "endereco/endpoint"
-            )
+            ))
         )
 
 
