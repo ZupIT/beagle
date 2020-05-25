@@ -16,8 +16,10 @@
 
 package br.com.zup.beagle.widget.layout
 
+import br.com.zup.beagle.core.CoreDeclarativeDsl
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.ServerDrivenComponentList
 
 /**
  * component is used to fill up spaces that shouldn't be filled by any other widget or component
@@ -28,3 +30,18 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 data class Spacer(
     val size: Double
 ) : ServerDrivenComponent, LayoutComponent
+
+fun spacer(block: SpacerActionBuilder.() -> Unit): Spacer = SpacerActionBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class SpacerActionBuilder {
+
+    var size: Double = 0.0
+
+    fun build(): Spacer = Spacer(size)
+
+}
+
+fun ServerDrivenComponentList.spacer(block: SpacerActionBuilder.() -> Unit) {
+    add(SpacerActionBuilder().apply(block).build())
+}

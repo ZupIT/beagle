@@ -54,8 +54,9 @@ object NavigationBarViewScreenBuilder : ScreenBuilder {
                         title = "NavigationBar",
                         message = "This component that allows to place titles and button action.",
                         buttonText = "OK"
-                    )
-                ).setId("nbiInformation")
+                    ),
+                    id = "nbiInformation"
+                )
             )
         ),
         child = Container(

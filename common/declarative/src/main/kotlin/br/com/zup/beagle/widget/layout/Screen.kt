@@ -19,10 +19,7 @@ package br.com.zup.beagle.widget.layout
 import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.analytics.ScreenAnalytics
 import br.com.zup.beagle.analytics.ScreenEvent
-import br.com.zup.beagle.core.Accessibility
-import br.com.zup.beagle.core.Appearance
-import br.com.zup.beagle.core.IdentifierComponent
-import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.*
 
 /**
  * The SafeArea will enable Safe areas to help you place your views within the visible portion of the overall interface.
@@ -43,6 +40,21 @@ data class SafeArea(
     val trailing: Boolean? = null
 )
 
+fun safeArea(block: SafeAreaActionBuilder.() -> Unit): SafeArea = SafeAreaActionBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class SafeAreaActionBuilder {
+
+    var top: Boolean? = null
+    var leading: Boolean? = null
+    var bottom: Boolean? = null
+    var trailing: Boolean? = null
+
+    fun build(): SafeArea = SafeArea(top, leading, bottom, trailing)
+
+}
+
+
 /**
  *  The SafeArea will enable Safe areas to help you place your views
  *  within the visible portion of the overall interface.
@@ -58,19 +70,35 @@ data class NavigationBarItem(
     val text: String,
     val image: String? = null,
     val action: Action,
-    val accessibility: Accessibility? = null
-) : IdentifierComponent {
-    override var id: String? = null
-        private set
+    val accessibility: Accessibility? = null,
+    override val id: String? = null
+) : IdentifierComponent
 
-    /**
-     * Add an identifier to this widget.
-     * @return the current navigation bar item
-     */
-    fun setId(id: String): NavigationBarItem {
-        this.id = id
-        return this
+class NavigationBarItems : ArrayList<NavigationBarItem>() {
+
+    fun navigationBarItem(block: NavigationBarItemBuilder.() -> Unit) {
+        add(NavigationBarItemBuilder().apply(block).build())
     }
+
+}
+
+fun navigationBarItem(block: NavigationBarItemBuilder.() -> Unit): NavigationBarItem =
+    NavigationBarItemBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class NavigationBarItemBuilder {
+
+    var text: String = ""
+    var image: String? = null
+    var action: Action? = null
+    var accessibility: Accessibility? = null
+    var id: String? = null
+
+    fun build(): NavigationBarItem = NavigationBarItem(text = text, image = image, accessibility = accessibility,
+        id = id,
+        //TODO NEED TO BE IMPLEMENTS REQUIRED BY DSL
+        action = action!!)
+
 }
 
 /**
@@ -93,6 +121,26 @@ data class NavigationBar(
     val navigationBarItems: List<NavigationBarItem>? = null,
     val backButtonAccessibility: Accessibility? = null
 )
+
+fun navigationBar(block: NavigationBarBuilder.() -> Unit): NavigationBar = NavigationBarBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class NavigationBarBuilder {
+
+    var title: String = ""
+    var showBackButton: Boolean = true
+    var style: String? = null
+    var backButtonAccessibility: Accessibility? = null
+
+    private val navigationBarItems = mutableListOf<NavigationBarItem>()
+
+    fun navigationBarItems(block: NavigationBarItems.() -> Unit) {
+        navigationBarItems.addAll(NavigationBarItems().apply(block))
+    }
+
+    fun build(): NavigationBar = NavigationBar(title, showBackButton, style, navigationBarItems, backButtonAccessibility)
+
+}
 
 
 /**
@@ -128,3 +176,22 @@ data class Screen(
     val appearance: Appearance? = null,
     override val screenAnalyticsEvent: ScreenEvent? = null
 ) : ScreenAnalytics
+
+fun screen(block: ScreenCoreBuilder.() -> Unit): Screen = ScreenCoreBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class ScreenCoreBuilder {
+
+    var identifier: String? = null
+    var safeArea: SafeArea? = null
+    var navigationBar: NavigationBar? = null
+    var child: ServerDrivenComponent? = null
+    var appearance: Appearance? = null
+    var screenAnalyticsEvent: ScreenEvent? = null
+
+    fun build(): Screen = Screen(identifier = identifier, safeArea = safeArea, navigationBar = navigationBar,
+        //TODO NEED TO BE IMPLEMENTS REQUIRED BY DSL
+        child = child!!, appearance = appearance, screenAnalyticsEvent = screenAnalyticsEvent)
+
+}
+

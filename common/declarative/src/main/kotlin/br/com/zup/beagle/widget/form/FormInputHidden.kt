@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.widget.form
 
+import br.com.zup.beagle.core.CoreDeclarativeDsl
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
@@ -31,3 +32,18 @@ data class FormInputHidden(
     val name: String,
     val value: String
 ) : ServerDrivenComponent
+
+
+fun formInputHidden(lambda: FormInputHiddenBuilder.() -> Unit): FormInputHidden {
+    return FormInputHiddenBuilder().apply(lambda).build()
+}
+
+@CoreDeclarativeDsl
+class FormInputHiddenBuilder {
+    var name: String = ""
+    var value: String = ""
+
+    fun build() = FormInputHidden(
+        name, value
+    )
+}

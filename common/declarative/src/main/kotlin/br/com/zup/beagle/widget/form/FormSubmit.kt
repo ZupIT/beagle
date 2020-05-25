@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.widget.form
 
+import br.com.zup.beagle.core.CoreDeclarativeDsl
 import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
@@ -34,3 +35,19 @@ data class FormSubmit(
     override val child: ServerDrivenComponent,
     val enabled: Boolean = true
 ) : ServerDrivenComponent, GhostComponent
+
+
+fun formSubmit(lambda: FormSubmitBuilder.() -> Unit): FormSubmit {
+    return FormSubmitBuilder().apply(lambda).build()
+}
+
+@CoreDeclarativeDsl
+class FormSubmitBuilder {
+    var child: ServerDrivenComponent? = null
+    var enabled: Boolean = true
+
+    fun build() = FormSubmit(
+        //TODO NEED TO BE IMPLEMENTS REQUIRED BY DSL
+        child!!, enabled
+    )
+}

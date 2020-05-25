@@ -19,6 +19,8 @@ package br.com.zup.beagle.widget.ui
 import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.TouchableAnalytics
+import br.com.zup.beagle.core.CoreDeclarativeDsl
+import br.com.zup.beagle.core.ServerDrivenComponentList
 import br.com.zup.beagle.widget.Widget
 
 /**
@@ -34,3 +36,21 @@ data class Button(
     val action: Action? = null,
     override val clickAnalyticsEvent: ClickEvent? = null
 ) : Widget(), TouchableAnalytics
+
+fun button(block: ButtonBuilder.() -> Unit): Button = ButtonBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class ButtonBuilder {
+
+    val text: String = ""
+    val style: String? = null
+    var action: Action? = null
+    var clickAnalyticsEvent: ClickEvent? = null
+
+    fun build(): Button = Button(text, style, action, clickAnalyticsEvent)
+
+}
+
+fun ServerDrivenComponentList.button(block: ButtonBuilder.() -> Unit) {
+    add(ButtonBuilder().apply(block).build())
+}

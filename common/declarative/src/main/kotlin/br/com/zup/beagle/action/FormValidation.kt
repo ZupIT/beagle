@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.action
 
+import br.com.zup.beagle.core.CoreDeclarativeDsl
+
 /**
  * Configures the error messages returned by a service external to the application.
  * For example, when checking the registration status of a CPF in the recipe,
@@ -28,6 +30,21 @@ data class FormValidation(
     val errors: List<FieldError>
 ) : Action
 
+fun formValidation(block: FormValidationBuilder.() -> Unit): FormValidation = FormValidationBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class FormValidationBuilder {
+
+    private val errors = mutableListOf<FieldError>()
+
+    fun errors(block: FieldsErrors.() -> Unit) {
+        errors.addAll(FieldsErrors().apply(block))
+    }
+
+    fun build(): FormValidation = FormValidation(errors)
+
+}
+
 /**
  * class to define error.
  *
@@ -39,3 +56,21 @@ data class FieldError(
     val inputName: String,
     val message: String
 )
+
+
+class FieldsErrors : ArrayList<FieldError>() {
+
+    fun fieldError(block: FieldErrorBuilder.() -> Unit) {
+        add(FieldErrorBuilder().apply(block).build())
+    }
+
+}
+
+@CoreDeclarativeDsl
+class FieldErrorBuilder {
+
+    var inputName: String = ""
+    var message: String = ""
+    fun build(): FieldError = FieldError(inputName, message)
+
+}

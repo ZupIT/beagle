@@ -16,8 +16,10 @@
 
 package br.com.zup.beagle.widget.lazy
 
+import br.com.zup.beagle.core.CoreDeclarativeDsl
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.ServerDrivenComponentList
 
 /**
  *  The LazyComponent is used when an asynchronous BFF request is made.
@@ -34,3 +36,23 @@ data class LazyComponent(
     val path: String,
     val initialState: ServerDrivenComponent
 ) : ServerDrivenComponent, LayoutComponent
+
+
+fun lazyComponent(block: LazyComponentBuilder.() -> Unit): LazyComponent = LazyComponentBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class LazyComponentBuilder {
+
+    var path: String = ""
+    var initialState: ServerDrivenComponent? = null
+
+    fun build(): LazyComponent = LazyComponent(path,
+        //TODO NEED TO BE IMPLEMENTS REQUIRED BY DSL
+        initialState!!)
+
+}
+
+fun ServerDrivenComponentList.lazyComponent(block: LazyComponentBuilder.() -> Unit) {
+    add(LazyComponentBuilder().apply(block).build())
+}
+

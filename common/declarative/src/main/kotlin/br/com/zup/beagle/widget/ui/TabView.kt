@@ -16,7 +16,9 @@
 
 package br.com.zup.beagle.widget.ui
 
+import br.com.zup.beagle.core.CoreDeclarativeDsl
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.ServerDrivenComponentList
 
 /**
  * TabView is a component responsible for the navigation between views.
@@ -30,6 +32,28 @@ data class TabView(
     val tabItems: List<TabItem>,
     val style: String? = null
 ) : ServerDrivenComponent
+
+
+fun tabView(block: TabViewBuilder.() -> Unit): TabView = TabViewBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class TabViewBuilder {
+
+    var style: String? = null
+
+    private val tabItems = mutableListOf<TabItem>()
+
+    fun tabItems(block: TabItems.() -> Unit) {
+        tabItems.addAll(TabItems().apply(block))
+    }
+
+    fun build(): TabView = TabView(tabItems, style)
+
+}
+
+fun ServerDrivenComponentList.tabView(block: TabViewBuilder.() -> Unit) {
+    add(TabViewBuilder().apply(block).build())
+}
 
 /**
  * Define the view has in the tab view
@@ -48,3 +72,24 @@ data class TabItem(
     val content: ServerDrivenComponent,
     val icon: String? = null
 )
+
+
+class TabItems : ArrayList<TabItem>() {
+
+    fun tabItem(block: TabItemBuilder.() -> Unit) {
+        add(TabItemBuilder().apply(block).build())
+    }
+
+}
+
+class TabItemBuilder {
+
+    var title: String? = null
+    var content: ServerDrivenComponent? = null
+    var icon: String? = null
+
+    fun build(): TabItem = TabItem(title,
+        //TODO NEED TO BE IMPLEMENTS REQUIRED BY DSL
+        content!!, icon)
+
+}

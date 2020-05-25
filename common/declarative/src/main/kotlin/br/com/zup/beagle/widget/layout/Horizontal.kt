@@ -16,8 +16,10 @@
 
 package br.com.zup.beagle.widget.layout
 
+import br.com.zup.beagle.core.CoreDeclarativeDsl
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.ServerDrivenComponentList
 
 /**
  *  The horizontal component is a specialized container that will display its children horizontally.
@@ -33,3 +35,23 @@ data class Horizontal(
     val children: List<ServerDrivenComponent>,
     val reversed: Boolean? = null
 ) : ServerDrivenComponent, LayoutComponent
+
+fun horizontal(block: HorizontalBuilder.() -> Unit): Horizontal = HorizontalBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class HorizontalBuilder {
+
+    var reversed: Boolean? = null
+    private val children = mutableListOf<ServerDrivenComponent>()
+
+    fun children(block: ServerDrivenComponentList.() -> Unit) {
+        children.addAll(ServerDrivenComponentList().apply(block))
+    }
+
+    fun build(): Horizontal = Horizontal(children, reversed)
+
+}
+
+fun ServerDrivenComponentList.horizontal(block: HorizontalBuilder.() -> Unit) {
+    add(HorizontalBuilder().apply(block).build())
+}

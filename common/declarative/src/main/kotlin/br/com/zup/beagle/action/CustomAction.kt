@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.action
 
+import br.com.zup.beagle.core.CoreDeclarativeDsl
+
 /**
  * Define custom actions, such as an action that creates a customized Dialog.
  * In this way, Action is an interface that allows you to define actions that can be performed by Widgets.
@@ -35,3 +37,17 @@ data class CustomAction(
     val name: String,
     val data: Map<String, String>
 ) : Action
+
+
+fun customAction(block: CustomActionBuilder.() -> Unit): CustomAction = CustomActionBuilder().apply(block).build()
+
+
+@CoreDeclarativeDsl
+class CustomActionBuilder {
+
+    var name: String = ""
+    var data: Map<String, String> = mapOf()
+
+    fun build(): CustomAction = CustomAction(name, data)
+
+}

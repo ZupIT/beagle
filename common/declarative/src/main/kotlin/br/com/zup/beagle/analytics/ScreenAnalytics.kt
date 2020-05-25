@@ -23,3 +23,4 @@ package br.com.zup.beagle.analytics
 interface ScreenAnalytics {
     val screenAnalyticsEvent: ScreenEvent?
 }
+

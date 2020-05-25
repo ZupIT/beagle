@@ -16,8 +16,10 @@
 
 package br.com.zup.beagle.widget.layout
 
+import br.com.zup.beagle.core.CoreDeclarativeDsl
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.ServerDrivenComponentList
 
 /**
  * component will hold a stack of components. It display its children relative to the stack.
@@ -28,3 +30,22 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 data class Stack(
     val children: List<ServerDrivenComponent>
 ) : ServerDrivenComponent, LayoutComponent
+
+fun stack(block: StackBuilder.() -> Unit): Stack = StackBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class StackBuilder {
+
+    private val children = mutableListOf<ServerDrivenComponent>()
+
+    fun children(block: ServerDrivenComponentList.() -> Unit) {
+        children.addAll(ServerDrivenComponentList().apply(block))
+    }
+
+    fun build(): Stack = Stack(children)
+
+}
+
+fun ServerDrivenComponentList.stack(block: StackBuilder.() -> Unit) {
+    add(StackBuilder().apply(block).build())
+}

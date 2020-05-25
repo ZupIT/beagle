@@ -15,10 +15,6 @@
  */
 
 package br.com.zup.beagle.core
-/**
- * Base of components
- */
-interface ServerDrivenComponent
 
-
-class ServerDrivenComponentList: ArrayList<ServerDrivenComponent>()
+@DslMarker
+annotation class CoreDeclarativeDsl

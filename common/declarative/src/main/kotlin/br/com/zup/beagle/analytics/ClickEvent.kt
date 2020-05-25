@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.analytics
 
+import br.com.zup.beagle.core.CoreDeclarativeDsl
+
 /**
  * Define click event
  *
@@ -29,3 +31,16 @@ data class ClickEvent(
     val label: String? = null,
     val value: String? = null
 )
+
+fun clickEvent(block: ClickEventBuilder.() -> Unit): ClickEvent = ClickEventBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class ClickEventBuilder {
+
+    var category: String = ""
+    var label: String? = null
+    var value: String? = null
+
+    fun build(): ClickEvent = ClickEvent(category, label, value)
+
+}

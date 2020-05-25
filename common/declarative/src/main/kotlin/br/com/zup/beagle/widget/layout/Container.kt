@@ -16,8 +16,10 @@
 
 package br.com.zup.beagle.widget.layout
 
+import br.com.zup.beagle.core.CoreDeclarativeDsl
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.ServerDrivenComponentList
 import br.com.zup.beagle.widget.Widget
 
 /**
@@ -29,3 +31,22 @@ import br.com.zup.beagle.widget.Widget
 data class Container(
     val children: List<ServerDrivenComponent>
 ) : Widget(), LayoutComponent
+
+fun container(block: ContainerBuilder.() -> Unit): Container = ContainerBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class ContainerBuilder {
+
+    private val children = mutableListOf<ServerDrivenComponent>()
+
+    fun children(block: ServerDrivenComponentList.() -> Unit) {
+        children.addAll(ServerDrivenComponentList().apply(block))
+    }
+
+    fun build(): Container = Container(children)
+
+}
+
+fun ServerDrivenComponentList.container(block: ContainerBuilder.() -> Unit) {
+    add(ContainerBuilder().apply(block).build())
+}

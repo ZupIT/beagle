@@ -62,6 +62,7 @@ abstract class Widget : FlexComponent, AppearanceComponent, AccessibilityCompone
         return this
     }
 
+    fun flex(block: FlexBuilder.() -> Unit): Widget = applyFlex(FlexBuilder().apply(block).build())
 
     /**
      * Apply the layout component.

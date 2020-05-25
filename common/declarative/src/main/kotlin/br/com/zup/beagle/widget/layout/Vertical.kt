@@ -16,8 +16,10 @@
 
 package br.com.zup.beagle.widget.layout
 
+import br.com.zup.beagle.core.CoreDeclarativeDsl
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.ServerDrivenComponentList
 
 /**
  * component is a specialized container that will display its children vertically.
@@ -30,3 +32,23 @@ data class Vertical(
     val children: List<ServerDrivenComponent>,
     val reversed: Boolean? = null
 ) : ServerDrivenComponent, LayoutComponent
+
+fun vertical(block: VerticalBuilder.() -> Unit): Vertical = VerticalBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class VerticalBuilder {
+
+    var reversed: Boolean? = null
+    private val children = mutableListOf<ServerDrivenComponent>()
+
+    fun children(block: ServerDrivenComponentList.() -> Unit) {
+        children.addAll(ServerDrivenComponentList().apply(block))
+    }
+
+    fun build(): Vertical = Vertical(children, reversed)
+
+}
+
+fun ServerDrivenComponentList.horizontal(block: VerticalBuilder.() -> Unit) {
+    add(VerticalBuilder().apply(block).build())
+}

@@ -16,8 +16,10 @@
 
 package br.com.zup.beagle.widget.layout
 
+import br.com.zup.beagle.core.CoreDeclarativeDsl
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.ServerDrivenComponentList
 
 /**
  * Component is a specialized container that will display its components in a Scroll
@@ -37,3 +39,27 @@ enum class ScrollAxis {
     VERTICAL,
     HORIZONTAL
 }
+
+
+fun scrollView(block: ScrollViewBuilder.() -> Unit): ScrollView = ScrollViewBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class ScrollViewBuilder {
+
+    var scrollDirection: ScrollAxis? = null
+    var scrollBarEnabled: Boolean? = null
+
+    private val children = mutableListOf<ServerDrivenComponent>()
+
+    fun children(block: ServerDrivenComponentList.() -> Unit) {
+        children.addAll(ServerDrivenComponentList().apply(block))
+    }
+
+    fun build(): ScrollView = ScrollView(children, scrollDirection, scrollBarEnabled)
+
+}
+
+fun ServerDrivenComponentList.scrollView(block: ScrollViewBuilder.() -> Unit) {
+    add(ScrollViewBuilder().apply(block).build())
+}
+

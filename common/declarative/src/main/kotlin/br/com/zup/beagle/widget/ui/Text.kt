@@ -16,6 +16,10 @@
 
 package br.com.zup.beagle.widget.ui
 
+import br.com.zup.beagle.action.Action
+import br.com.zup.beagle.analytics.ClickEvent
+import br.com.zup.beagle.core.CoreDeclarativeDsl
+import br.com.zup.beagle.core.ServerDrivenComponentList
 import br.com.zup.beagle.widget.Widget
 
 /**
@@ -62,4 +66,23 @@ enum class TextAlignment {
      *
      */
     RIGHT
+}
+
+
+fun text(block: TextBuilder.() -> Unit): Text = TextBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class TextBuilder {
+
+    var text: String = ""
+    var style: String? = null
+    var textColor: String? = null
+    var alignment: TextAlignment? = null
+
+    fun build(): Text = Text(text, style, textColor, alignment)
+
+}
+
+fun ServerDrivenComponentList.button(block: TextBuilder.() -> Unit) {
+    add(TextBuilder().apply(block).build())
 }

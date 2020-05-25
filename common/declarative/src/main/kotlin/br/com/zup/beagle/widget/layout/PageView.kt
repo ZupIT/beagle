@@ -16,8 +16,10 @@
 
 package br.com.zup.beagle.widget.layout
 
+import br.com.zup.beagle.core.CoreDeclarativeDsl
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.ServerDrivenComponentList
 import br.com.zup.beagle.widget.pager.PageIndicatorComponent
 
 /**
@@ -31,3 +33,25 @@ data class PageView(
     val pages: List<ServerDrivenComponent>,
     val pageIndicator: PageIndicatorComponent? = null
 ) : ServerDrivenComponent, LayoutComponent
+
+fun pageView(block: PageViewBuilder.() -> Unit): PageView = PageViewBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class PageViewBuilder {
+
+    var pageIndicator: PageIndicatorComponent? = null
+    private val pages = mutableListOf<ServerDrivenComponent>()
+
+    fun pages(block: ServerDrivenComponentList.() -> Unit) {
+        pages.addAll(ServerDrivenComponentList().apply(block))
+    }
+
+    fun build(): PageView = PageView(pages,
+        //TODO NEED TO BE IMPLEMENTS REQUIRED BY DSL
+        pageIndicator!!)
+
+}
+
+fun ServerDrivenComponentList.pageView(block: PageViewBuilder.() -> Unit) {
+    add(PageViewBuilder().apply(block).build())
+}

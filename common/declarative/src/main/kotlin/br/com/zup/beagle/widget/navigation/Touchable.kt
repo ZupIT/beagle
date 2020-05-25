@@ -19,8 +19,10 @@ package br.com.zup.beagle.widget.navigation
 import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.TouchableAnalytics
+import br.com.zup.beagle.core.CoreDeclarativeDsl
 import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.ServerDrivenComponentList
 
 /**
  *   The Touchable component defines a click listener.
@@ -35,3 +37,22 @@ data class Touchable(
     override val child: ServerDrivenComponent,
     override val clickAnalyticsEvent: ClickEvent? = null
 ) : ServerDrivenComponent, GhostComponent, TouchableAnalytics
+
+
+fun touchable(block: TouchableBuilder.() -> Unit): Touchable = TouchableBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class TouchableBuilder {
+
+    var action: Action? = null
+    var child: ServerDrivenComponent? = null
+    var clickAnalyticsEvent: ClickEvent? = null
+
+    //TODO NEED TO BE IMPLEMENTS REQUIRED BY DSL
+    fun build(): Touchable = Touchable(action!!, child!!, clickAnalyticsEvent)
+
+}
+
+fun ServerDrivenComponentList.touchable(block: TouchableBuilder.() -> Unit) {
+    add(TouchableBuilder().apply(block).build())
+}

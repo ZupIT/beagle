@@ -18,6 +18,11 @@
 
 package br.com.zup.beagle.widget.core
 
+import br.com.zup.beagle.core.CoreDeclarativeDsl
+
+fun flex(block: FlexBuilder.() -> Unit): Flex = FlexBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
 class FlexBuilder {
     private var padding: EdgeValue? = null
     private var margin: EdgeValue? = null
@@ -184,3 +189,5 @@ class FlexBuilder {
     )
 
 }
+
+

@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.widget.ui
 
+import br.com.zup.beagle.core.CoreDeclarativeDsl
+import br.com.zup.beagle.core.ServerDrivenComponentList
 import br.com.zup.beagle.widget.Widget
 
 /**
@@ -29,3 +31,19 @@ import br.com.zup.beagle.widget.Widget
 data class WebView(
     val url: String
 ) : Widget()
+
+
+fun webView(block: WebViewBuilder.() -> Unit): WebView = WebViewBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class WebViewBuilder {
+
+    val url: String = ""
+
+    fun build(): WebView = WebView(url)
+
+}
+
+fun ServerDrivenComponentList.url(block: WebViewBuilder.() -> Unit) {
+    add(WebViewBuilder().apply(block).build())
+}

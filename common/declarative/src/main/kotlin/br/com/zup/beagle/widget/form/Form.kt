@@ -17,6 +17,7 @@
 package br.com.zup.beagle.widget.form
 
 import br.com.zup.beagle.action.Action
+import br.com.zup.beagle.core.CoreDeclarativeDsl
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
@@ -73,6 +74,19 @@ data class Form(
     val child: ServerDrivenComponent
 ) : ServerDrivenComponent, LayoutComponent
 
+fun form(block: FormBuilder.() -> Unit): Form = FormBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class FormBuilder {
+
+    var action: Action? = null
+    var child: ServerDrivenComponent? = null
+
+    //TODO NEED TO BE IMPLEMENTS REQUIRED BY DSL
+    fun build(): Form = Form(action!!, child!!)
+
+}
+
 
 /**
  *  Define remote action, when you want to do some request when submit the form.
@@ -87,4 +101,18 @@ data class FormRemoteAction(
 ) : Action {
     override fun toString() = "FormRemoteAction: $path / ${method.name}"
 }
+
+fun formRemoteAction(block: FormRemoteActionBuilder.() -> Unit): FormRemoteAction = FormRemoteActionBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class FormRemoteActionBuilder {
+
+    var path: String = ""
+    var method: FormMethodType = FormMethodType.GET
+
+    //TODO NEED TO BE IMPLEMENTS REQUIRED BY DSL ? MAYBE
+    fun build(): FormRemoteAction = FormRemoteAction(path, method)
+
+}
+
 

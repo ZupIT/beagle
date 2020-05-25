@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.action
 
+import br.com.zup.beagle.core.CoreDeclarativeDsl
 import br.com.zup.beagle.widget.layout.Screen
 
 /**
@@ -92,3 +93,20 @@ data class Navigate(
     val data: Map<String, String>? = null,
     val screen: Screen? = null
 ) : Action
+
+
+fun navigate(block: NavigateBuilder.() -> Unit): Navigate = NavigateBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class NavigateBuilder {
+
+    var type: NavigationType = NavigationType.ADD_VIEW
+    var shouldPrefetch: Boolean = false
+    var path: String? = null
+    var data: Map<String, String>? = null
+    var screen: Screen? = null
+
+    fun build(): Navigate = Navigate(type = type, shouldPrefetch = shouldPrefetch, path = path,
+        data = data, screen = screen)
+
+}

@@ -16,9 +16,22 @@
 
 package br.com.zup.beagle.analytics
 
+import br.com.zup.beagle.core.CoreDeclarativeDsl
+
 /**
  * Beagle analytics is used to track screen.
  */
 data class ScreenEvent(
     val screenName: String
 )
+
+fun screenEvent(block: ScreenEventBuilder.() -> Unit): ScreenEvent = ScreenEventBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class ScreenEventBuilder {
+
+    var screenName: String = ""
+
+    fun build(): ScreenEvent = ScreenEvent(screenName)
+
+}

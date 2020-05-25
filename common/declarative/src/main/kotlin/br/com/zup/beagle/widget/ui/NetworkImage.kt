@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.widget.ui
 
+import br.com.zup.beagle.core.CoreDeclarativeDsl
+import br.com.zup.beagle.core.ServerDrivenComponentList
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.ImageContentMode
 
@@ -31,3 +33,18 @@ data class NetworkImage(
     val path: String,
     val contentMode: ImageContentMode? = null /* = ImageContentMode.FIT_CENTER */
 ) : Widget()
+
+fun networkImage(block: NetworkImageBuilder.() -> Unit): NetworkImage = NetworkImageBuilder().apply(block).build()
+
+@CoreDeclarativeDsl
+class NetworkImageBuilder {
+
+    val path: String = ""
+    val contentMode: ImageContentMode? = null
+    fun build(): NetworkImage = NetworkImage(path, contentMode)
+
+}
+
+fun ServerDrivenComponentList.networkImage(block: NetworkImageBuilder.() -> Unit) {
+    add(NetworkImageBuilder().apply(block).build())
+}

@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.widget.form
 
+import br.com.zup.beagle.core.CoreDeclarativeDsl
 import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
@@ -44,3 +45,26 @@ data class FormInput(
     val errorMessage: String? = null,
     override val child: InputWidget
 ) : ServerDrivenComponent, GhostComponent
+
+fun formInput(lambda: FormInputBuilder.() -> Unit): FormInput {
+    return FormInputBuilder().apply(lambda).build()
+}
+
+@CoreDeclarativeDsl
+class FormInputBuilder {
+    var name: String = ""
+    var required: Boolean? = null
+    var validator: String? = null
+    var errorMessage: String? = null
+
+    var child: InputWidget? = null
+
+    fun build() = FormInput(
+        name = name,
+        required = required,
+        errorMessage = errorMessage,
+        //TODO NEED TO BE IMPLEMENTS REQUIRED BY DSL
+        child = child!!
+    )
+}
+
