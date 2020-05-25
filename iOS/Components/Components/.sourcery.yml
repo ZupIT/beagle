@@ -1,9 +1,0 @@
-sources:
-  - Components
-  - SourceryFiles/SourceryProtocols.swift
-templates:
-  - SourceryFiles/Templates
-output:
-  SourceryFiles/Generated
-args:
-  shouldNotImportBeagleUI: 1

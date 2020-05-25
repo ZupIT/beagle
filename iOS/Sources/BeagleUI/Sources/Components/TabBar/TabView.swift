@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import Components
+import Schema
 
 extension TabView: Renderable {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {

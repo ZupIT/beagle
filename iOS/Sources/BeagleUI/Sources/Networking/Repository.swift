@@ -15,7 +15,7 @@
  */
 
 import Foundation
-import Components
+import Schema
 
 public protocol Repository {
 

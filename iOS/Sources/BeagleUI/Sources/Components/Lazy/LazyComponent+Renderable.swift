@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import Components
+import Schema
 
 //TODO: avoid casting to ServerDrivenComponent
 extension LazyComponent: Renderable {

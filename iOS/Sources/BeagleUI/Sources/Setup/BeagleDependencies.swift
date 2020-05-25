@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import Components
+import Schema
 
 public protocol BeagleDependenciesProtocol: DependencyActionExecutor,
     DependencyAnalyticsExecutor,

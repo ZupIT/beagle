@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import Components
+import Schema
 
 //TODO: avoid the casting to SErver driven component
 extension FormSubmit: Renderable {

@@ -15,9 +15,9 @@
  */
 
 import UIKit
-import Components
+import Schema
 
-public protocol ServerDrivenComponent: Renderable, Components.ServerDrivenComponent {}
+public protocol ServerDrivenComponent: Renderable, Schema.ServerDrivenComponent {}
 
 public protocol ComposeComponent: ServerDrivenComponent {
     func build() -> ServerDrivenComponent

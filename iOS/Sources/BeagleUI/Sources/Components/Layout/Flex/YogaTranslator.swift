@@ -16,7 +16,7 @@
 
 import Foundation
 import YogaKit
-import Components
+import Schema
 
 protocol YogaTranslator {
     func translate(_ direction: Flex.Direction) -> YGDirection

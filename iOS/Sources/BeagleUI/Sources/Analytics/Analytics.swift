@@ -15,7 +15,7 @@
  */
 
 import Foundation
-import Components
+import Schema
 
 // MARK: - Dependecy Protocol
 public protocol DependencyAnalyticsExecutor {

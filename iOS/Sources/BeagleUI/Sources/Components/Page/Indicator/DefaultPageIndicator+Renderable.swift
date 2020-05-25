@@ -16,7 +16,7 @@
 
 import Foundation
 import UIKit
-import Components
+import Schema
 
 extension PageIndicator: Renderable {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {

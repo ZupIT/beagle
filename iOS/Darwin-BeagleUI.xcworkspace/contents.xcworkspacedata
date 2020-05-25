@@ -3,9 +3,9 @@
    version = "1.0">
    <Group
       location = "container:"
-      name = "Components">
+      name = "Schema">
       <FileRef
-         location = "group:Components/Components/Components.xcodeproj">
+         location = "group:Schema/Schema.xcodeproj">
       </FileRef>
    </Group>
    <Group

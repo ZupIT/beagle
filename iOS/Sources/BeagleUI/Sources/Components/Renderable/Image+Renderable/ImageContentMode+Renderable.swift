@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import Components
+import Schema
 
 extension ImageContentMode {
     func toUIKit() -> UIImageView.ContentMode {

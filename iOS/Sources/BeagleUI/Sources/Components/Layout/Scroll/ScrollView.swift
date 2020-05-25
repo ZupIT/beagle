@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import Components
+import Schema
 
 //TODO: Avoid casting to server driven Component
 extension ScrollView: Renderable {

@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import Components
+import Schema
 
 extension Screen {
    func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {

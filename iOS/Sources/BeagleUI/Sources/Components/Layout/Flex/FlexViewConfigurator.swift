@@ -16,7 +16,7 @@
 
 import Foundation
 import YogaKit
-import Components
+import Schema
 
 public protocol FlexViewConfiguratorProtocol: AnyObject {
     var view: UIView? { get set }

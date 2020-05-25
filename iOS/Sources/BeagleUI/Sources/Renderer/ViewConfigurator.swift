@@ -16,7 +16,7 @@
 
 import Foundation
 import UIKit
-import Components
+import Schema
 
 public protocol ViewConfiguratorProtocol: AnyObject {
     var view: UIView? { get set }

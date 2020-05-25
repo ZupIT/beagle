@@ -16,7 +16,7 @@
 
 import UIKit
 import WebKit
-import Components
+import Schema
 
 //TODO: 
 extension WebView: Renderable {

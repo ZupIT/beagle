@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import Components
+import Schema
 
 // TODO: avoid casting to serverDriven Component
 extension PageView: Renderable {

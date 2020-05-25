@@ -15,11 +15,11 @@
  */
 
 import UIKit
-import Components
+import Schema
 
 // MARK: - Widget
 
-public protocol Widget: ServerDrivenComponent, Components.Widget {
+public protocol Widget: ServerDrivenComponent, Schema.Widget {
     
 }
 

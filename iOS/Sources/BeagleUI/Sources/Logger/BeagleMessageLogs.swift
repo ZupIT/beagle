@@ -15,7 +15,7 @@
  */
 
 import Foundation
-import Components
+import Schema
 
 public protocol LogType {
     var category: String { get }
@@ -49,9 +49,9 @@ public enum Log {
     public enum Form {
         case validatorNotFound(named: String)
         case validationInputNotValid(inputName: String)
-        case submitNotFound(form: Components.Form)
-        case inputsNotFound(form: Components.Form)
-        case divergentInputViewAndValueCount(form: Components.Form)
+        case submitNotFound(form: Schema.Form)
+        case inputsNotFound(form: Schema.Form)
+        case divergentInputViewAndValueCount(form: Schema.Form)
         case submittedValues(values: [String: String])
     }
 

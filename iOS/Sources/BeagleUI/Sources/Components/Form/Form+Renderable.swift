@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import Components
+import Schema
 
 //TODO: avoid casting child to serverDriven Component
 extension Form: Renderable {
@@ -57,7 +57,7 @@ extension UIView {
     }
     
     //TODO: check for possible failure here
-    var beagleFormElement: Components.ServerDrivenComponent? {
+    var beagleFormElement: Schema.ServerDrivenComponent? {
         get {
             return (objc_getAssociatedObject(self, &AssociatedKeys.FormElement) as? ObjectWrapper)?.object
         }

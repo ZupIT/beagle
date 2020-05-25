@@ -16,7 +16,7 @@
  */
 
 import UIKit
-import Components
+import Schema
 
 extension NavigationBarItem {
     

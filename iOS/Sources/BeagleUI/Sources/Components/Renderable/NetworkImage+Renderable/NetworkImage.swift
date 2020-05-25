@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import Components
+import Schema
 
 extension NetworkImage: Widget {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {

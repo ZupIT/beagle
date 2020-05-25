@@ -15,7 +15,7 @@
  */
 
 import Foundation
-import Components
+import Schema
 
 public enum ScreenType {
     case remote(Remote)

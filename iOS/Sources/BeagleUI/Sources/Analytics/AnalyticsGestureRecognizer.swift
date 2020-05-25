@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import Components
+import Schema
 
 final class EventsGestureRecognizer: UITapGestureRecognizer {
     let events: [Event]

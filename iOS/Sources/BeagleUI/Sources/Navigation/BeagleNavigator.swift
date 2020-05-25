@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import Components
+import Schema
 
 public protocol DependencyNavigationController {
     var navigationControllerType: BeagleNavigationController.Type { get }
@@ -99,7 +99,7 @@ class BeagleNavigator: BeagleNavigation {
     }
     
     //TODO: Check for possible failure here ServerDrivenComponent to Components.ServerDrivenComponent
-    private func openDeepLink(component: Components.ServerDrivenComponent, source: UIViewController, data: [String: String]?, animated: Bool) {
+    private func openDeepLink(component: Schema.ServerDrivenComponent, source: UIViewController, data: [String: String]?, animated: Bool) {
         let viewController = Beagle.screen(.declarative(Screen(child: component)))
         let navigationToPresent = dependencies.navigationControllerType.init()
         navigationToPresent.viewControllers = [viewController]

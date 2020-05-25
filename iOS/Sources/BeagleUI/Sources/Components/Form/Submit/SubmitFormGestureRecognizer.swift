@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import Components
+import Schema
 
 final class SubmitFormGestureRecognizer: UITapGestureRecognizer {
     

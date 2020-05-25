@@ -15,7 +15,7 @@
  */
 
 // MARK: - Flex Builders
-import Components
+import Schema
 
 public extension Flex {
     @discardableResult
