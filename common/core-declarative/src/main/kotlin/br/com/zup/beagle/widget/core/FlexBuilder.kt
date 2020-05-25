@@ -28,7 +28,6 @@ import br.com.zup.beagle.widget.core.FlexWrap
 import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.UnitValue
-import br.com.zup.beagle.widget.form.InputWidget
 
 class FlexBuilder {
     private var padding: EdgeValue? = null
