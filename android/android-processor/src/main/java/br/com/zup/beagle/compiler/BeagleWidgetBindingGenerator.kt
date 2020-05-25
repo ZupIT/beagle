@@ -26,6 +26,7 @@ import com.squareup.kotlinpoet.STAR
 import com.squareup.kotlinpoet.asClassName
 import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.Element
+import javax.lang.model.element.TypeElement
 
 internal const val WIDGET_INSTANCE_PROPERTY = "widgetInstance"
 internal const val BIND_MODEL_METHOD = "bindModel"
@@ -45,7 +46,7 @@ class BeagleWidgetBindingGenerator(private val processingEnv: ProcessingEnvironm
         )).initializer(WIDGET_INSTANCE_PROPERTY).build()
     }
 
-    fun getFunctionBindModel(element: Element): FunSpec {
+    fun getFunctionBindModel(element: TypeElement): FunSpec {
         val attributeValues = StringBuilder()
         val notifyValues = StringBuilder()
 
@@ -89,7 +90,7 @@ class BeagleWidgetBindingGenerator(private val processingEnv: ProcessingEnvironm
 
     fun getPackageOf(element: Element) = processingEnv.elementUtils.getPackageOf(element).toString()
 
-    fun getFunctionGetBindAttributes(element: Element): FunSpec {
+    fun getFunctionGetBindAttributes(element: TypeElement): FunSpec {
 
         val returnType = List::class.asClassName().parameterizedBy(
             ClassName(BIND.packageName, BIND.className)
@@ -116,7 +117,5 @@ class BeagleWidgetBindingGenerator(private val processingEnv: ProcessingEnvironm
             .returns(returnType)
             .build()
     }
-
-
 
 }

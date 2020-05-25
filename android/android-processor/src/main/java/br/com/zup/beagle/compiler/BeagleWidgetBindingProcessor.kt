@@ -25,6 +25,7 @@ import br.com.zup.beagle.compiler.util.GET_VALUE_NOT_NULL
 import br.com.zup.beagle.compiler.util.GET_VALUE_NULL
 import br.com.zup.beagle.compiler.util.WIDGET
 import br.com.zup.beagle.compiler.util.error
+import br.com.zup.beagle.compiler.util.warning
 import br.com.zup.beagle.core.BindAttribute
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
@@ -57,7 +58,7 @@ class BeagleWidgetBindingProcessor(
 
     }
 
-    private fun handle(element: Element?) {
+    private fun handle(element: Element) {
         if (element is TypeElement && element.kind.isClass) {
             this.processingEnv.let {
                 try {
@@ -96,6 +97,8 @@ class BeagleWidgetBindingProcessor(
                 }
 
             }
+        } else {
+            processingEnv.messager.warning(element, "Skipped element $element.simpleName")
         }
     }
 
@@ -123,7 +126,7 @@ class BeagleWidgetBindingProcessor(
             .build()
     }
 
-    private fun getAttributeWidgetInstance(element: Element): PropertySpec {
+    private fun getAttributeWidgetInstance(element: TypeElement): PropertySpec {
         return PropertySpec.builder(
             WIDGET_INSTANCE_PROPERTY,
             ClassName(

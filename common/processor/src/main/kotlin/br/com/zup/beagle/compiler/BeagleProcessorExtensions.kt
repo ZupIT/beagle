@@ -32,6 +32,7 @@ import javax.lang.model.element.Element
 import javax.lang.model.element.ElementKind
 import javax.lang.model.element.ExecutableElement
 import javax.lang.model.element.Modifier
+import javax.lang.model.element.TypeElement
 import javax.lang.model.type.DeclaredType
 import javax.lang.model.type.TypeMirror
 import javax.lang.model.type.WildcardType
@@ -48,7 +49,7 @@ val ExecutableElement.fieldName
         .takeWhile { it != INTERNAL_MARKER }
         .let { it.replaceFirst(it.first(), it.first().toLowerCase()) }
 
-val Element.visibleGetters
+val TypeElement.visibleGetters
     get() = this.enclosedElements
         .filter { it.kind == ElementKind.METHOD && GET in it.simpleName && Modifier.PUBLIC in it.modifiers }
         .map { it as ExecutableElement }
