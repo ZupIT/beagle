@@ -17,40 +17,17 @@
 import UIKit
 import Components
 
-public struct ListView: ServerDrivenComponent, AutoInitiableAndDecodable {
+extension ListView.Direction {
     
-    // MARK: - Public Properties
-    
-    public let rows: [ServerDrivenComponent]
-    public var direction: Direction = .vertical
-
-// sourcery:inline:auto:ListView.Init
-    public init(
-        rows: [ServerDrivenComponent],
-        direction: Direction = .vertical
-    ) {
-        self.rows = rows
-        self.direction = direction
-    }
-// sourcery:end
-}
-
-extension ListView {
-    
-    public enum Direction: String, Decodable {
-        
-        case vertical = "VERTICAL"
-        case horizontal = "HORIZONTAL"
-
-        func toUIKit() -> UICollectionView.ScrollDirection {
-            switch self {
-            case .horizontal:
-                return .horizontal
-            case .vertical:
-                return .vertical
-            }
+    func toUIKit() -> UICollectionView.ScrollDirection {
+        switch self {
+        case .horizontal:
+            return .horizontal
+        case .vertical:
+            return .vertical
         }
     }
+    
 }
 
 extension ListView: Renderable {
@@ -67,7 +44,7 @@ extension ListView: Renderable {
             }
             return nil
         }
-    
+        
         let model = ListViewUIComponent.Model(
             component: self,
             componentViews: componentViews

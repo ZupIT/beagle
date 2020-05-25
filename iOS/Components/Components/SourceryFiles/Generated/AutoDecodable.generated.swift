@@ -124,6 +124,22 @@ extension Image {
     }
 }
 
+// MARK: ListView Decodable
+extension ListView {
+
+    enum CodingKeys: String, CodingKey {
+        case rows
+        case direction
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        rows = try container.decode( forKey: .rows)
+        direction = try container.decode(Direction.self, forKey: .direction)
+    }
+}
+
 // MARK: NavigationBarItem Decodable
 extension NavigationBarItem {
 

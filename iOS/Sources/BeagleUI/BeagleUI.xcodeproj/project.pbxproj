@@ -37,7 +37,6 @@
 		931B6E32237610B300DE73FD /* FunctiontalUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931B6E31237610B300DE73FD /* FunctiontalUtils.swift */; };
 		9327116523F1C9D100778B56 /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327116423F1C9D100778B56 /* Widget.swift */; };
 		932925E02327E11000A61F01 /* BeagleUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 932925D22327E11000A61F01 /* BeagleUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		93327C7A241A6FCB00639A93 /* listViewComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = 93327C79241A6FCB00639A93 /* listViewComponent.json */; };
 		93327C7D241A768800639A93 /* lazyComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = 93327C7C241A768800639A93 /* lazyComponent.json */; };
 		9362B6D223E85B4B0033FAD7 /* __Snapshots__ in Resources */ = {isa = PBXBuildFile; fileRef = 9362B6D123E85B4B0033FAD7 /* __Snapshots__ */; };
 		93681805232A886C00E6E724 /* ScreenComponent+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93681804232A886C00E6E724 /* ScreenComponent+Renderable.swift */; };
@@ -165,7 +164,7 @@
 		E52236CB23745DED00E555BB /* HTTPRequestCanceling.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52236CA23745DED00E555BB /* HTTPRequestCanceling.swift */; };
 		E52236CD23745E8E00E555BB /* ListViewUIComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52236CC23745E8E00E555BB /* ListViewUIComponent.swift */; };
 		E52236CF2374885600E555BB /* CollectionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52236CE2374885600E555BB /* CollectionExtension.swift */; };
-		E522376B237C3C1300E555BB /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5223768237C3C1300E555BB /* ListView.swift */; };
+		E522376B237C3C1300E555BB /* ListView+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5223768237C3C1300E555BB /* ListView+Renderable.swift */; };
 		E522377B237C3C5500E555BB /* ServerDrivenComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5223777237C3C5500E555BB /* ServerDrivenComponent.swift */; };
 		E522377D237C3C5500E555BB /* Touchable+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5223779237C3C5500E555BB /* Touchable+Renderable.swift */; };
 		E522377E237C3C5500E555BB /* Container+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E522377A237C3C5500E555BB /* Container+Renderable.swift */; };
@@ -258,7 +257,6 @@
 		932925CF2327E11000A61F01 /* BeagleUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BeagleUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		932925D22327E11000A61F01 /* BeagleUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BeagleUI.h; sourceTree = "<group>"; };
 		932925D32327E11000A61F01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		93327C79241A6FCB00639A93 /* listViewComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = listViewComponent.json; sourceTree = "<group>"; };
 		93327C7C241A768800639A93 /* lazyComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lazyComponent.json; sourceTree = "<group>"; };
 		9362B6D123E85B4B0033FAD7 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		9367F9AE237C415800231A9C /* ThemeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTests.swift; sourceTree = "<group>"; };
@@ -402,7 +400,7 @@
 		E52236CA23745DED00E555BB /* HTTPRequestCanceling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPRequestCanceling.swift; sourceTree = "<group>"; };
 		E52236CC23745E8E00E555BB /* ListViewUIComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewUIComponent.swift; sourceTree = "<group>"; };
 		E52236CE2374885600E555BB /* CollectionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionExtension.swift; sourceTree = "<group>"; };
-		E5223768237C3C1300E555BB /* ListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListView.swift; path = Sources/Components/ListView/ListView.swift; sourceTree = SOURCE_ROOT; };
+		E5223768237C3C1300E555BB /* ListView+Renderable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ListView+Renderable.swift"; path = "Sources/Components/ListView/ListView+Renderable.swift"; sourceTree = SOURCE_ROOT; };
 		E5223777237C3C5500E555BB /* ServerDrivenComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServerDrivenComponent.swift; path = Sources/Components/ServerDrivenComponent.swift; sourceTree = SOURCE_ROOT; };
 		E5223779237C3C5500E555BB /* Touchable+Renderable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Touchable+Renderable.swift"; path = "Sources/Action/Touchable+Renderable.swift"; sourceTree = SOURCE_ROOT; };
 		E522377A237C3C5500E555BB /* Container+Renderable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Container+Renderable.swift"; path = "Sources/Components/Layout/Container/Container+Renderable.swift"; sourceTree = SOURCE_ROOT; };
@@ -604,14 +602,6 @@
 				932925D32327E11000A61F01 /* Info.plist */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		93327C78241A6EDB00639A93 /* Json */ = {
-			isa = PBXGroup;
-			children = (
-				93327C79241A6FCB00639A93 /* listViewComponent.json */,
-			);
-			path = Json;
 			sourceTree = "<group>";
 		};
 		93327C7B241A75C400639A93 /* Json */ = {
@@ -905,7 +895,7 @@
 			isa = PBXGroup;
 			children = (
 				E52236C123745A7F00E555BB /* ListItemCollectionViewCell.swift */,
-				E5223768237C3C1300E555BB /* ListView.swift */,
+				E5223768237C3C1300E555BB /* ListView+Renderable.swift */,
 				E52236CC23745E8E00E555BB /* ListViewUIComponent.swift */,
 				C829CEC423B167C0001B7225 /* Tests */,
 			);
@@ -1079,7 +1069,6 @@
 				C8CDAA6423AA6E5B00E95AA6 /* __Snapshots__ */,
 				C8CDAA6523AA969300E95AA6 /* ListViewTests.swift */,
 				E56A02B92345367D00C0F23D /* ListViewInitTests.swift */,
-				93327C78241A6EDB00639A93 /* Json */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1577,7 +1566,6 @@
 				C05E165A2437CC7C0088F9D2 /* buttonAnalyticsComponent.json in Resources */,
 				7CDF84922416DD8D00234F40 /* test_SizeBuilder.1.txt in Resources */,
 				93327C7D241A768800639A93 /* lazyComponent.json in Resources */,
-				93327C7A241A6FCB00639A93 /* listViewComponent.json in Resources */,
 				A07A1E872421490000D39ADD /* HorizontalScrollView.json in Resources */,
 				C89E816F23982B4700C2D0ED /* CustomPageIndicator.json in Resources */,
 				98A7F36A23A84AFF00E88C70 /* TabView.json in Resources */,
@@ -1712,7 +1700,7 @@
 				98E08D1A242289C100FBD21B /* WebView+Renderable.swift in Sources */,
 				A0FBC1B2238F1D8B005C5E67 /* LazyComponent.swift in Sources */,
 				A0D608D92448DF8700F7D851 /* ScreenController.swift in Sources */,
-				E522376B237C3C1300E555BB /* ListView.swift in Sources */,
+				E522376B237C3C1300E555BB /* ListView+Renderable.swift in Sources */,
 				E5223785237C3CC500E555BB /* FormSubmit+Renderable.swift in Sources */,
 				981DB2EF23748BAB001CE5E0 /* UnitValueExtension.swift in Sources */,
 				E531D6C1235A3230007EEBA7 /* NSErrorExtension.swift in Sources */,

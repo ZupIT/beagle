@@ -142,10 +142,6 @@ final class ListViewTests: XCTestCase {
         assertSnapshotImage(view, size: imageSize)
     }
     
-    func test_whenDecodingJson_thenItShouldReturnAListView() throws {
-        let component: ListView = try componentFromJsonFile(fileName: "listViewComponent")
-        assertSnapshot(matching: component, as: .dump)
-    }
 
     // MARK: - Helper
 

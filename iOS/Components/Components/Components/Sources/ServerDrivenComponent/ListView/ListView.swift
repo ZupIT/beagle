@@ -14,21 +14,28 @@
  * limitations under the License.
  */
 
-import UIKit
-
-public struct Container: Widget, AutoInitiableAndDecodable {
+public struct ListView: ServerDrivenComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
-    public let children: [ServerDrivenComponent]
-    public var widgetProperties: WidgetProperties
     
-// sourcery:inline:auto:Container.Init
+    public let rows: [ServerDrivenComponent]
+    public var direction: Direction = .vertical
+
+// sourcery:inline:auto:ListView.Init
     public init(
-        children: [ServerDrivenComponent],
-        widgetProperties: WidgetProperties = WidgetProperties()
+        rows: [ServerDrivenComponent],
+        direction: Direction = .vertical
     ) {
-        self.children = children
-        self.widgetProperties = widgetProperties
+        self.rows = rows
+        self.direction = direction
     }
 // sourcery:end
+}
+
+extension ListView {
+    public enum Direction: String, Decodable {
+           
+        case vertical = "VERTICAL"
+        case horizontal = "HORIZONTAL"
+    }
 }

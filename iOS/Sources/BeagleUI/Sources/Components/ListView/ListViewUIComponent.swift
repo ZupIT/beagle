@@ -15,6 +15,7 @@
  */
 
 import UIKit
+import Components
 
 // MARK: - Model
 extension ListViewUIComponent {

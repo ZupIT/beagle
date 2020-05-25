@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,21 +15,15 @@
  * limitations under the License.
  */
 
-import UIKit
+import XCTest
+@testable import Components
+import SnapshotTesting
 
-public struct Container: Widget, AutoInitiableAndDecodable {
-    
-    // MARK: - Public Properties
-    public let children: [ServerDrivenComponent]
-    public var widgetProperties: WidgetProperties
-    
-// sourcery:inline:auto:Container.Init
-    public init(
-        children: [ServerDrivenComponent],
-        widgetProperties: WidgetProperties = WidgetProperties()
-    ) {
-        self.children = children
-        self.widgetProperties = widgetProperties
+class ListViewTests: XCTestCase {
+
+    func test_whenDecodingJson_thenItShouldReturnAListView() throws {
+        let component: ListView = try componentFromJsonFile(fileName: "listViewComponent")
+        assertSnapshot(matching: component, as: .dump)
     }
-// sourcery:end
+
 }
