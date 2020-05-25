@@ -20,6 +20,7 @@ import android.view.View
 import br.com.zup.beagle.core.Bind
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BindingAdapter
+import br.com.zup.beagle.widget.core.WidgetView
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -32,15 +33,9 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-internal const val WIDGET_INSTANCE_PROPERTY = "widgetInstance"
-internal const val VIEW_PROPERTY = "view"
-
 class FieldOnlyWidgetBindingTest {
     @InjectMockKs
-    lateinit var fieldOnlyWidgetBinding: FieldOnlyWidgetBinding
-
-    @RelaxedMockK
-    lateinit var binding: FieldOnlyWidgetBinding
+    lateinit var widgetBinding: FieldOnlyWidgetBinding
 
     @RelaxedMockK
     lateinit var view: View
@@ -55,8 +50,8 @@ class FieldOnlyWidgetBindingTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        setInstanceField(fieldOnlyWidgetBinding, WIDGET_INSTANCE_PROPERTY, fieldOnlyWidget)
-        setInstanceField(fieldOnlyWidgetBinding, VIEW_PROPERTY, view)
+        setInstanceField(widgetBinding, WIDGET_INSTANCE_PROPERTY, fieldOnlyWidget)
+        setInstanceField(widgetBinding, VIEW_PROPERTY, view)
     }
 
     fun after() {
@@ -71,20 +66,21 @@ class FieldOnlyWidgetBindingTest {
 
     @Test
     fun fieldOnlyWidgetBindingAdapter_should_be_instance_of_BindingAdapter() {
-        assertTrue(fieldOnlyWidgetBinding is BindingAdapter)
+        assertTrue(widgetBinding is BindingAdapter)
+        assertTrue(widgetBinding is WidgetView)
     }
 
     @Test
     fun fieldOnlyWidgetBindingAdapter_should_have_3_elements_in_list() {
         val expectedSize = 3
-        assertEquals(expectedSize, fieldOnlyWidgetBinding.getBindAttributes().size)
+        assertEquals(expectedSize, widgetBinding.getBindAttributes().size)
     }
 
     @Test
     fun fieldOnlyWidgetBindingAdapter_should_call_on_bind_at_least_once() {
 
         //when
-        fieldOnlyWidgetBinding.bindModel()
+        widgetBinding.bindModel()
 
         //then
         verify(atLeast = once()) { fieldOnlyWidget.onBind(any(), any()) }
@@ -94,12 +90,12 @@ class FieldOnlyWidgetBindingTest {
     fun fieldOnlyWidgetBindingAdapter_should_call_observe_on_parameters() {
 
         //when
-        fieldOnlyWidgetBinding.bindModel()
+        widgetBinding.bindModel()
 
         //then
-        verify(atLeast = once()) { fieldOnlyWidgetBinding.a.observes(any()) }
-        verify(atLeast = once()) { fieldOnlyWidgetBinding.b.observes(any()) }
-        verify(atLeast = once()) { fieldOnlyWidgetBinding.c.observes(any()) }
+        verify(atLeast = once()) { widgetBinding.a.observes(any()) }
+        verify(atLeast = once()) { widgetBinding.b.observes(any()) }
+        verify(atLeast = once()) { widgetBinding.c.observes(any()) }
     }
 
     @Test
@@ -117,7 +113,7 @@ class FieldOnlyWidgetBindingTest {
         val expected = FieldOnlyWidget(a = aPropertyValue, b = bPropertyValue, c = cPropertyValue)
 
         //when
-        fieldOnlyWidgetBinding.bindModel()
+        widgetBinding.bindModel()
 
         //then
         verify(exactly = once()) { fieldOnlyWidget.onBind(expected, view) }

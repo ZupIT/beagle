@@ -50,9 +50,12 @@ val ExecutableElement.fieldName
         .let { it.replaceFirst(it.first(), it.first().toLowerCase()) }
 
 val TypeElement.visibleGetters
-    get() = this.enclosedElements
-        .filter { it.kind == ElementKind.METHOD && GET in it.simpleName && Modifier.PUBLIC in it.modifiers }
-        .map { it as ExecutableElement }
+    get() = this.enclosedElements.filter { it.kind.isField }.map { it.simpleName.toString() }.toSet().let { names ->
+        this.enclosedElements
+            .filter { it.kind == ElementKind.METHOD && GET in it.simpleName && Modifier.PUBLIC in it.modifiers }
+            .map { it as ExecutableElement }
+            .filter { it.fieldName in names }
+    }
 
 val Element.isMarkedNullable get() = this.getAnnotation(Nullable::class.java) != null
 
