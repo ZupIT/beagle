@@ -36,5 +36,4 @@ dependencies {
     testImplementation TestLibraries.junit5Api
     testImplementation TestLibraries.kotlinTest
     testImplementation TestLibraries.mockk
-    testImplementation project(Modules.beagleCoreDeclarative)
 }

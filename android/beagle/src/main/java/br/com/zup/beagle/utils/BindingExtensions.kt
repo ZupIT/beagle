@@ -26,9 +26,6 @@ fun <T : Any> getValueNull(binding: Bind<T>, property: T?): T? {
         is Bind.Value<T> -> {
             binding.value
         }
-        else -> {
-            throw IllegalStateException("Invalid bind instance")
-        }
     }
 }
 
@@ -39,9 +36,6 @@ fun <T : Any> getValueNotNull(binding: Bind<T>, property: T): T {
         }
         is Bind.Value<T> -> {
             binding.value
-        }
-        else -> {
-            throw IllegalStateException("Invalid bind instance")
         }
     }
 }

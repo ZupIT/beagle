@@ -43,10 +43,9 @@ class BeagleWidgetBindingHandler(
     private val elementUtils = processingEnvironment.elementUtils
     private val typeUtils = processingEnvironment.typeUtils
 
-    fun handle(element: TypeElement) {
+    fun handle(element: TypeElement) =
         getFileSpec(element)
             .writeTo(this.outputDirectory)
-    }
 
     fun getFileSpec(element: TypeElement) =
         getFileSpec(element, this.createBindingClass(element).build())
@@ -54,7 +53,7 @@ class BeagleWidgetBindingHandler(
     fun getFileSpec(element: TypeElement, typeSpec: TypeSpec) =
         FileSpec.get(this.elementUtils.getPackageAsString(element), typeSpec)
 
-    fun createBindingClass(element: TypeElement): TypeSpec.Builder =
+    fun createBindingClass(element: TypeElement) =
         element.visibleGetters.map { this.createBindParameter(it) }.let { parameters ->
             TypeSpec.classBuilder("${element.simpleName}$SUFFIX")
                 .superclass(this.typeUtils.getKotlinName(element.superclass))
@@ -63,10 +62,9 @@ class BeagleWidgetBindingHandler(
                 .addProperties(parameters.map { PropertySpec.from(it) })
         }
 
-    private fun createBindParameter(element: ExecutableElement): ParameterSpec {
-        return ParameterSpec.builder(
+    private fun createBindParameter(element: ExecutableElement) =
+        ParameterSpec.builder(
             element.fieldName,
             bindClass.asTypeName().parameterizedBy(this.typeUtils.getKotlinName(element.returnType))
         ).build()
-    }
 }

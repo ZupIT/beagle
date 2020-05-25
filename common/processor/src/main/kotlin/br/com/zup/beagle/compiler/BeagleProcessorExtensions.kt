@@ -53,9 +53,7 @@ val Element.visibleGetters
         .filter { it.kind == ElementKind.METHOD && GET in it.simpleName && Modifier.PUBLIC in it.modifiers }
         .map { it as ExecutableElement }
 
-fun Element.isMarkedNullable(): Boolean {
-    return this.getAnnotation(Nullable::class.java) != null
-}
+val Element.isMarkedNullable get() = this.getAnnotation(Nullable::class.java) != null
 
 fun Elements.getPackageAsString(element: Element) = this.getPackageOf(element).toString()
 

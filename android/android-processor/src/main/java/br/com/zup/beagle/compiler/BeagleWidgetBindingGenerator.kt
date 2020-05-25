@@ -51,7 +51,7 @@ class BeagleWidgetBindingGenerator(private val processingEnv: ProcessingEnvironm
 
         val parameters = element.visibleGetters
         parameters.forEachIndexed { index, e ->
-            val isNullable = e.isMarkedNullable()
+            val isNullable = e.isMarkedNullable
             val getValueMethodName = if (isNullable) GET_VALUE_NULL_METHOD else GET_VALUE_NOT_NULL_METHOD
 
             val attr = e.fieldName
