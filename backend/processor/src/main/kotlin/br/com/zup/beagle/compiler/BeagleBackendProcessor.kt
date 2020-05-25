@@ -42,19 +42,22 @@ class BeagleBackendProcessor : AbstractProcessor() {
 
     override fun getSupportedSourceVersion() = SourceVersion.latestSupported()!!
 
-    override fun getSupportedAnnotationTypes() = mutableSetOf(BINDING_ANNOTATION.qualifiedName, EXPRESSION_ANNOTATION.qualifiedName)
+    override fun getSupportedAnnotationTypes() = mutableSetOf(
+        BINDING_ANNOTATION.qualifiedName,
+        EXPRESSION_ANNOTATION.qualifiedName
+    )
 
     override fun process(annotations: MutableSet<out TypeElement>?, roundEnvironment: RoundEnvironment?): Boolean {
         roundEnvironment?.getElementsAnnotatedWith(BINDING_ANNOTATION.java)?.forEach {
-            this.processElement(it, BINDING_WARNING, BeagleWidgetBindingHandler(this.processingEnv, Bind::class)::handle)
+            this.process(it, BINDING_WARNING, BeagleWidgetBindingHandler(this.processingEnv, Bind::class)::handle)
         }
         roundEnvironment?.getElementsAnnotatedWith(EXPRESSION_ANNOTATION.java)?.forEach { element ->
-            this.processElement(element, EXPRESSION_WARNING) { BeagleExpressionHandler(this.processingEnv).handle(it) }
+            this.process(element, EXPRESSION_WARNING) { BeagleExpressionHandler(this.processingEnv).handle(it) }
         }
         return false
     }
 
-    private fun processElement(element: Element, warningMessage: String, handle: (TypeElement) -> Unit) {
+    private fun process(element: Element, warningMessage: String, handle: (TypeElement) -> Unit) {
         if (element is TypeElement && element.kind.isClass) {
             try {
                 handle(element)
