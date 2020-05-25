@@ -25,7 +25,7 @@ class ImageTests: XCTestCase {
     func test_toView_shouldReturnTheExpectedView() throws {
         //Given
         let expectedContentMode = UIImageView.ContentMode.scaleToFill
-        let component = Image(name: "teste", contentMode: .fitXY)
+        let component = Image(.local("teste"), contentMode: .fitXY)
         
         //When
         guard let imageView = component.toView(context: BeagleContextDummy(), dependencies: dependencies) as? UIImageView else {
@@ -43,15 +43,55 @@ class ImageTests: XCTestCase {
     }
     
     func test_renderImage() throws {
+        setupDepedencies()
+
+        let image: Image = try componentFromJsonFile(fileName: "ImageComponent")
+        let view = image.toView(context: BeagleContextDummy(), dependencies: dependencies)
+        assertSnapshotImage(view, size: CGSize(width: 400, height: 400))
+    }
+    
+    func test_localImageDeserialize() throws {
+        setupDepedencies()
+
+        let image: Image = try componentFromJsonFile(fileName: "ImageComponent1")
+        if case Image.PathType.local(let name) = image.path {
+            XCTAssertEqual(name, "test_image_square-x")
+        } else {
+            XCTFail("Failed to decode correct image name.")
+        }
+    }
+    
+    func test_remoteImageDeserialize() throws {
+        setupDepedencies()
+
+        let image: Image = try componentFromJsonFile(fileName: "ImageComponent2")
+        if case Image.PathType.network(let url) = image.path {
+            XCTAssertEqual(url, "www.com")
+        } else {
+            XCTFail("Failed to decode correct image url.")
+        }
+    }
+    
+    func test_withInvalidURL_itShouldNotSetImage() throws {
+        // Given
+        let component = Image(.network("www.com"))
+        
+        // When
+        guard let imageView = component.toView(context: BeagleContextDummy(), dependencies: BeagleScreenDependencies()) as? UIImageView else {
+            XCTFail("Build view not returning UIImageView")
+            return
+        }
+        
+        // Then
+        XCTAssertNil(imageView.image, "Expected image to be nil.")
+    }
+    
+    private func setupDepedencies() {
         let dependencies = BeagleDependencies()
         dependencies.appBundle = Bundle(for: ImageTests.self)
         Beagle.dependencies = dependencies
         addTeardownBlock {
             Beagle.dependencies = BeagleDependencies()
         }
-
-        let image: Image = try componentFromJsonFile(fileName: "ImageComponent")
-        let view = image.toView(context: BeagleContextDummy(), dependencies: dependencies)
-        assertSnapshotImage(view, size: CGSize(width: 400, height: 400))
     }
 }

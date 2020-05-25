@@ -1,9 +1,8 @@
 {
   "_beagleType_": "beagle:component:Image",
   "path": {
-    "_beagleImagePath_": "local",
-    "url": "/assets/images/test_image_square-x.png",
-    "mobileId": "test_image_square-x"
+    "_beagleImagePath_": "remote",
+    "url": "www.com"
   },
   "contentMode": "CENTER",
   "appearance": {
