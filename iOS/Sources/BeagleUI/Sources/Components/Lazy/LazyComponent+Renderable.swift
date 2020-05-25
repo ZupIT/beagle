@@ -15,28 +15,14 @@
  */
 
 import UIKit
+import Components
 
- public struct LazyComponent: ServerDrivenComponent, AutoInitiableAndDecodable {
-    
-    // MARK: - Public Properties
-    
-    public let path: String
-    public let initialState: ServerDrivenComponent
-
-// sourcery:inline:auto:LazyComponent.Init
-    public init(
-        path: String,
-        initialState: ServerDrivenComponent
-    ) {
-        self.path = path
-        self.initialState = initialState
-    }
-// sourcery:end
-}
-
+//TODO: avoid casting to ServerDrivenComponent
 extension LazyComponent: Renderable {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        let view = initialState.toView(context: context, dependencies: dependencies)
+        guard let view = (initialState as? ServerDrivenComponent)?.toView(context: context, dependencies: dependencies) else {
+            return UIView()
+        }
         context.lazyLoad(url: path, initialState: view)
         return view
     }

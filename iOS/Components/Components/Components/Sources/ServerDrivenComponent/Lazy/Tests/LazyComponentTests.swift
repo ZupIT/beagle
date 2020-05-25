@@ -14,17 +14,14 @@
  * limitations under the License.
  */
 
-import UIKit
-import Components
+import XCTest
+import SnapshotTesting
+@testable import Components
 
-extension TabView: Renderable {
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        let model = TabViewUIComponent.Model(tabIndex: 0, tabViewItems: tabItems)
-        let tabView = TabViewUIComponent(model: model)
-        if let style = style {
-            dependencies.theme.applyStyle(for: tabView as UIView, withId: style)
-        }
-        tabView.flex.setup(Flex(grow: 1))
-        return tabView
+final class LazyComponentTests: XCTestCase {
+    
+    func test_whenDecodingJson_thenItShouldReturnALazyComponent() throws {
+        let component: LazyComponent = try componentFromJsonFile(fileName: "lazyComponent")
+        assertSnapshot(matching: component, as: .dump)
     }
 }

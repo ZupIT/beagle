@@ -15,6 +15,7 @@
  */
 
 import UIKit
+import Components
 
 extension TabBarCollectionViewCell {
     struct Model {

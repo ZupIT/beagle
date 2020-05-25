@@ -60,7 +60,6 @@
 		983E8C992396DFC90018C6CA /* TabViewUIComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983E8C982396DFC90018C6CA /* TabViewUIComponentTests.swift */; };
 		9848A53023AAF1C2002474AD /* ContainerIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9848A52F23AAF1C2002474AD /* ContainerIndicatorView.swift */; };
 		988F81FB23E24ECA008562BE /* UIView+Subviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988F81FA23E24ECA008562BE /* UIView+Subviews.swift */; };
-		98A7F36A23A84AFF00E88C70 /* TabView.json in Resources */ = {isa = PBXBuildFile; fileRef = 98A7F36923A84AFF00E88C70 /* TabView.json */; };
 		98B7D95623DB2722002622AC /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B7D95523DB2722002622AC /* Observable.swift */; };
 		98E08D1A242289C100FBD21B /* WebView+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E08D19242289C100FBD21B /* WebView+Renderable.swift */; };
 		98E08D1C242289D200FBD21B /* WebViewUIComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E08D1B242289D200FBD21B /* WebViewUIComponent.swift */; };
@@ -87,7 +86,7 @@
 		A0F45498237B87E900B146A1 /* BeagleNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F45497237B87E800B146A1 /* BeagleNavigator.swift */; };
 		A0F4549A237C1B0F00B146A1 /* BeagleNavigatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F45499237C1B0F00B146A1 /* BeagleNavigatorTests.swift */; };
 		A0FBC1AE238F1C9A005C5E67 /* LazyComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0FBC1AD238F1C9A005C5E67 /* LazyComponentTests.swift */; };
-		A0FBC1B2238F1D8B005C5E67 /* LazyComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0FBC1B1238F1D8B005C5E67 /* LazyComponent.swift */; };
+		A0FBC1B2238F1D8B005C5E67 /* LazyComponent+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0FBC1B1238F1D8B005C5E67 /* LazyComponent+Renderable.swift */; };
 		C038B5C92453649A00741697 /* WidgetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C038B5C82453649A00741697 /* WidgetTests.swift */; };
 		C038B5CC2453651D00741697 /* widgetWithAllAttributes.json in Resources */ = {isa = PBXBuildFile; fileRef = C038B5CB2453651D00741697 /* widgetWithAllAttributes.json */; };
 		C0479F57243272460040E30C /* AnalyticsGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0479F56243272460040E30C /* AnalyticsGestureRecognizer.swift */; };
@@ -285,7 +284,6 @@
 		983E8C982396DFC90018C6CA /* TabViewUIComponentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewUIComponentTests.swift; sourceTree = "<group>"; };
 		9848A52F23AAF1C2002474AD /* ContainerIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerIndicatorView.swift; sourceTree = "<group>"; };
 		988F81FA23E24ECA008562BE /* UIView+Subviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Subviews.swift"; sourceTree = "<group>"; };
-		98A7F36923A84AFF00E88C70 /* TabView.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TabView.json; sourceTree = "<group>"; };
 		98B7D95523DB2722002622AC /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		98E08D19242289C100FBD21B /* WebView+Renderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebView+Renderable.swift"; sourceTree = "<group>"; };
 		98E08D1B242289D200FBD21B /* WebViewUIComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewUIComponent.swift; sourceTree = "<group>"; };
@@ -316,7 +314,7 @@
 		A0F45499237C1B0F00B146A1 /* BeagleNavigatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleNavigatorTests.swift; sourceTree = "<group>"; };
 		A0F4549B237C474C00B146A1 /* BeagleContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleContextTests.swift; sourceTree = "<group>"; };
 		A0FBC1AD238F1C9A005C5E67 /* LazyComponentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyComponentTests.swift; sourceTree = "<group>"; };
-		A0FBC1B1238F1D8B005C5E67 /* LazyComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LazyComponent.swift; path = Sources/Components/Lazy/LazyComponent.swift; sourceTree = SOURCE_ROOT; };
+		A0FBC1B1238F1D8B005C5E67 /* LazyComponent+Renderable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "LazyComponent+Renderable.swift"; path = "Sources/Components/Lazy/LazyComponent+Renderable.swift"; sourceTree = SOURCE_ROOT; };
 		C038B5C82453649A00741697 /* WidgetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetTests.swift; sourceTree = "<group>"; };
 		C038B5CB2453651D00741697 /* widgetWithAllAttributes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = widgetWithAllAttributes.json; sourceTree = "<group>"; };
 		C0479F56243272460040E30C /* AnalyticsGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsGestureRecognizer.swift; sourceTree = "<group>"; };
@@ -710,7 +708,6 @@
 			isa = PBXGroup;
 			children = (
 				C8646E1123EDB09B00A80905 /* __Snapshots__ */,
-				98A7F36923A84AFF00E88C70 /* TabView.json */,
 				983E8C962396DFAA0018C6CA /* TabBarCollectionViewCellTests.swift */,
 				983E8C902396DF430018C6CA /* TabViewTests.swift */,
 				983E8C982396DFC90018C6CA /* TabViewUIComponentTests.swift */,
@@ -905,7 +902,7 @@
 		C829CE9F23B158F5001B7225 /* Lazy */ = {
 			isa = PBXGroup;
 			children = (
-				A0FBC1B1238F1D8B005C5E67 /* LazyComponent.swift */,
+				A0FBC1B1238F1D8B005C5E67 /* LazyComponent+Renderable.swift */,
 				A0642DCE23969BDE0028AFF3 /* OnStateUpdatable.swift */,
 				C829CF0B23B195E3001B7225 /* Tests */,
 			);
@@ -1568,7 +1565,6 @@
 				93327C7D241A768800639A93 /* lazyComponent.json in Resources */,
 				A07A1E872421490000D39ADD /* HorizontalScrollView.json in Resources */,
 				C89E816F23982B4700C2D0ED /* CustomPageIndicator.json in Resources */,
-				98A7F36A23A84AFF00E88C70 /* TabView.json in Resources */,
 				A0451C7823BA961000F77398 /* ImageTests.xcassets in Resources */,
 				76191AA9241AC44C00A04C29 /* declarativeText1.json in Resources */,
 				7CDF84952416DD8D00234F40 /* test_UnitValueWithPercentageOperatorAndIntegerValue.1.txt in Resources */,
@@ -1698,7 +1694,7 @@
 				C85688BC2433C4A800DD8B60 /* BeagleLogger.swift in Sources */,
 				E531D6B42359FE19007EEBA7 /* UIView+AutoLayout.swift in Sources */,
 				98E08D1A242289C100FBD21B /* WebView+Renderable.swift in Sources */,
-				A0FBC1B2238F1D8B005C5E67 /* LazyComponent.swift in Sources */,
+				A0FBC1B2238F1D8B005C5E67 /* LazyComponent+Renderable.swift in Sources */,
 				A0D608D92448DF8700F7D851 /* ScreenController.swift in Sources */,
 				E522376B237C3C1300E555BB /* ListView+Renderable.swift in Sources */,
 				E5223785237C3CC500E555BB /* FormSubmit+Renderable.swift in Sources */,

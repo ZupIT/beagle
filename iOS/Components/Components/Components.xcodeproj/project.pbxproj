@@ -21,6 +21,10 @@
 		C09AFE15247C1524003A4C7E /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09AFE0B247C1524003A4C7E /* TabView.swift */; };
 		C09AFE2B247C2982003A4C7E /* TabViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09AFE22247C2972003A4C7E /* TabViewTests.swift */; };
 		C09AFE2D247C29D1003A4C7E /* TabView.json in Resources */ = {isa = PBXBuildFile; fileRef = C09AFE24247C2972003A4C7E /* TabView.json */; };
+		C09AFE3C247C2B4D003A4C7E /* LazyComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09AFE38247C2B4C003A4C7E /* LazyComponent.swift */; };
+		C09AFE44247C2B62003A4C7E /* LazyComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09AFE3E247C2B62003A4C7E /* LazyComponentTests.swift */; };
+		C09AFE45247C2B62003A4C7E /* lazyComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = C09AFE40247C2B62003A4C7E /* lazyComponent.json */; };
+		C09AFE48247C2B72003A4C7E /* __Snapshots__ in Resources */ = {isa = PBXBuildFile; fileRef = C09AFE47247C2B72003A4C7E /* __Snapshots__ */; };
 		C0B31F562478628A0072CCF4 /* NavigateEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B31F552478628A0072CCF4 /* NavigateEntity.swift */; };
 		C0B31F5D2478642C0072CCF4 /* SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B31F592478642B0072CCF4 /* SafeArea.swift */; };
 		C0B31F5E2478642C0072CCF4 /* ScreenComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B31F5A2478642B0072CCF4 /* ScreenComponent.swift */; };
@@ -120,6 +124,10 @@
 		C09AFE22247C2972003A4C7E /* TabViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabViewTests.swift; sourceTree = "<group>"; };
 		C09AFE24247C2972003A4C7E /* TabView.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TabView.json; sourceTree = "<group>"; };
 		C09AFE2C247C29A2003A4C7E /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
+		C09AFE38247C2B4C003A4C7E /* LazyComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyComponent.swift; sourceTree = "<group>"; };
+		C09AFE3E247C2B62003A4C7E /* LazyComponentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyComponentTests.swift; sourceTree = "<group>"; };
+		C09AFE40247C2B62003A4C7E /* lazyComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lazyComponent.json; sourceTree = "<group>"; };
+		C09AFE47247C2B72003A4C7E /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C0B31F552478628A0072CCF4 /* NavigateEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigateEntity.swift; sourceTree = "<group>"; };
 		C0B31F592478642B0072CCF4 /* SafeArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeArea.swift; sourceTree = "<group>"; };
 		C0B31F5A2478642B0072CCF4 /* ScreenComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenComponent.swift; sourceTree = "<group>"; };
@@ -330,6 +338,33 @@
 				C09AFE24247C2972003A4C7E /* TabView.json */,
 			);
 			path = JSON;
+			sourceTree = "<group>";
+		};
+		C09AFE30247C2B4C003A4C7E /* Lazy */ = {
+			isa = PBXGroup;
+			children = (
+				C09AFE38247C2B4C003A4C7E /* LazyComponent.swift */,
+				C09AFE3D247C2B62003A4C7E /* Tests */,
+			);
+			path = Lazy;
+			sourceTree = "<group>";
+		};
+		C09AFE3D247C2B62003A4C7E /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				C09AFE3E247C2B62003A4C7E /* LazyComponentTests.swift */,
+				C09AFE47247C2B72003A4C7E /* __Snapshots__ */,
+				C09AFE3F247C2B62003A4C7E /* Json */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		C09AFE3F247C2B62003A4C7E /* Json */ = {
+			isa = PBXGroup;
+			children = (
+				C09AFE40247C2B62003A4C7E /* lazyComponent.json */,
+			);
+			path = Json;
 			sourceTree = "<group>";
 		};
 		C0B31F4624785B050072CCF4 /* Screen */ = {
@@ -572,6 +607,7 @@
 			isa = PBXGroup;
 			children = (
 				C0E5692B2476F700003D413F /* ServerDrivenComponent.swift */,
+				C09AFE30247C2B4C003A4C7E /* Lazy */,
 				C09AFE01247C1524003A4C7E /* TabBar */,
 				C09AFDD4247C0E43003A4C7E /* Page */,
 				C09AFDAC247C0538003A4C7E /* ListView */,
@@ -992,11 +1028,13 @@
 			files = (
 				C09AFDB5247C08A7003A4C7E /* listViewComponent.json in Resources */,
 				C0E5693924771282003D413F /* TextComponent.json in Resources */,
+				C09AFE45247C2B62003A4C7E /* lazyComponent.json in Resources */,
 				C09AFE2D247C29D1003A4C7E /* TabView.json in Resources */,
 				C0E5696224781EAE003D413F /* ImageComponent.json in Resources */,
 				C0E5695424781590003D413F /* TouchableDecoderTest.json in Resources */,
 				C0B31F9324787B410072CCF4 /* Container.json in Resources */,
 				C0E5693D24771346003D413F /* buttonComponent.json in Resources */,
+				C09AFE48247C2B72003A4C7E /* __Snapshots__ in Resources */,
 				C0B31FCE247882B20072CCF4 /* ScrollViewComponent.json in Resources */,
 				C0E5697F24784BDB003D413F /* WebView.json in Resources */,
 				C09AFDF8247C0EEC003A4C7E /* PageViewWith3Pages.json in Resources */,
@@ -1083,6 +1121,7 @@
 				C0E568F82476C7F0003D413F /* Button.swift in Sources */,
 				C09AFE15247C1524003A4C7E /* TabView.swift in Sources */,
 				C0FBBE122475C95800B72A9B /* Equality.generated.swift in Sources */,
+				C09AFE3C247C2B4D003A4C7E /* LazyComponent.swift in Sources */,
 				C0FBBE052475C79600B72A9B /* Size.swift in Sources */,
 				C0B31F5F2478642C0072CCF4 /* NavigationBar.swift in Sources */,
 				C0E5691D2476F12F003D413F /* Action.swift in Sources */,
@@ -1123,6 +1162,7 @@
 				C0B31F9624787B6B0072CCF4 /* ContainerTests.swift in Sources */,
 				C0E5695824781AF9003D413F /* ImageTests.swift in Sources */,
 				C0B31FCA247882490072CCF4 /* FormSubmitTests.swift in Sources */,
+				C09AFE44247C2B62003A4C7E /* LazyComponentTests.swift in Sources */,
 				C0B31FC62478820F0072CCF4 /* SpacerTests.swift in Sources */,
 				C09AFE2B247C2982003A4C7E /* TabViewTests.swift in Sources */,
 			);

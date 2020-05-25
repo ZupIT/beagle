@@ -20,11 +20,6 @@ import SnapshotTesting
 
 final class TabViewTests: XCTestCase {
     
-    func test_whenDecodingJson_thenItShouldReturnATabView() throws {
-        let component: TabView = try componentFromJsonFile(fileName: "TabView")
-        assertSnapshot(matching: component, as: .dump)
-    }
-    
     func test_viewWithTabView() {
         let tabView = TabView(tabItems: [
             tabItem(index: 1, flex: Flex(alignContent: .center)),

@@ -124,6 +124,22 @@ extension Image {
     }
 }
 
+// MARK: LazyComponent Decodable
+extension LazyComponent {
+
+    enum CodingKeys: String, CodingKey {
+        case path
+        case initialState
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        path = try container.decode(String.self, forKey: .path)
+        initialState = try container.decode( forKey: .initialState)
+    }
+}
+
 // MARK: ListView Decodable
 extension ListView {
 

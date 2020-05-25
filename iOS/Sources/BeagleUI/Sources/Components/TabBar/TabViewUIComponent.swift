@@ -15,6 +15,7 @@
  */
 
 import UIKit
+import Components
 
 extension TabViewUIComponent {
     struct Model: AutoInitiable {

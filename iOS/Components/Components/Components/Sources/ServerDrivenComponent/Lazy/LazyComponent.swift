@@ -14,17 +14,20 @@
  * limitations under the License.
  */
 
-import UIKit
-import Components
+ public struct LazyComponent: ServerDrivenComponent, AutoInitiableAndDecodable {
+    
+    // MARK: - Public Properties
+    
+    public let path: String
+    public let initialState: ServerDrivenComponent
 
-extension TabView: Renderable {
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        let model = TabViewUIComponent.Model(tabIndex: 0, tabViewItems: tabItems)
-        let tabView = TabViewUIComponent(model: model)
-        if let style = style {
-            dependencies.theme.applyStyle(for: tabView as UIView, withId: style)
-        }
-        tabView.flex.setup(Flex(grow: 1))
-        return tabView
+// sourcery:inline:auto:LazyComponent.Init
+    public init(
+        path: String,
+        initialState: ServerDrivenComponent
+    ) {
+        self.path = path
+        self.initialState = initialState
     }
+// sourcery:end
 }
