@@ -18,4 +18,8 @@ package br.com.zup.beagle.widget.pager
 
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+/**
+ * Base of page indicator component
+ *
+ */
 interface PageIndicatorComponent : ServerDrivenComponent

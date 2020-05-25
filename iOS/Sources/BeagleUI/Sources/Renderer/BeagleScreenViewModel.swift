@@ -18,7 +18,9 @@ import UIKit
 
 class BeagleScreenViewModel {
         
-    var screenType: ScreenType
+    var screenType: ScreenType {
+        didSet { screen = nil }
+    }
     var screen: Screen?
     var state: State {
         didSet { stateObserver?.didChangeState(state) }

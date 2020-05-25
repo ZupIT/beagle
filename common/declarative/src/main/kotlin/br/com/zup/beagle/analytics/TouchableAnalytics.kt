@@ -16,6 +16,10 @@
 
 package br.com.zup.beagle.analytics
 
+/**
+ * Component that hold the click analytics
+ * @property clickAnalyticsEvent attribute to define click event name
+ */
 interface TouchableAnalytics {
     val clickAnalyticsEvent: ClickEvent?
 }

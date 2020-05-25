@@ -44,7 +44,7 @@ private const val FORM_GROUP = "FORM_GROUP"
 
 class FormFragment : Fragment() {
 
-
+    @Suppress("LongMethod")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

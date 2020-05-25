@@ -14,13 +14,17 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.ext
+package br.com.zup.beagle.utils
 
-import br.com.zup.beagle.widget.core.UnitType
-import br.com.zup.beagle.widget.core.UnitValue
+import android.graphics.Canvas
+import android.graphics.Path
+import android.graphics.RectF
 
-fun Int.unitReal() = UnitValue(this.toDouble(), UnitType.REAL)
-fun Int.unitPercent() = UnitValue(this.toDouble(), UnitType.PERCENT)
-
-fun Double.unitReal() = UnitValue(this, UnitType.REAL)
-fun Double.unitPercent() = UnitValue(this, UnitType.PERCENT)
+internal fun Canvas.applyRadius(radius: Float) {
+    if (radius > FLOAT_ZERO) {
+        val path = Path()
+        val rect = RectF(FLOAT_ZERO, FLOAT_ZERO, this.width.toFloat(), this.height.toFloat())
+        path.addRoundRect(rect, radius, radius, Path.Direction.CW)
+        this.clipPath(path)
+    }
+}

@@ -44,6 +44,7 @@ import br.com.zup.beagle.widget.form.FormSubmit
 import br.com.zup.beagle.widget.form.FormRemoteAction
 import br.com.zup.beagle.widget.form.InputWidget
 
+@Suppress("LongParameterList")
 internal class FormViewRenderer(
     override val component: Form,
     private val validatorHandler: ValidatorHandler? = BeagleEnvironment.beagleSdk.validatorHandler,
