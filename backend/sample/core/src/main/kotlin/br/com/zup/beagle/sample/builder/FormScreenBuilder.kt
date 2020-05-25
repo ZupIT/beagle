@@ -62,10 +62,10 @@ object FormScreenBuilder : ScreenBuilder {
             scrollDirection = ScrollAxis.VERTICAL,
             children = listOf(
                 Form(
-                    action = FormRemoteAction(
+                    onSubmit = listOf(FormRemoteAction(
                         path = SUBMIT_FORM_ENDPOINT,
                         method = FormMethodType.POST
-                    ),
+                    )),
                     child = Container(
                         children = listOf(
                             customFormInput(
@@ -121,6 +121,6 @@ object FormScreenBuilder : ScreenBuilder {
             validator = validator,
             child = SampleTextField(
                 placeholder = placeholder
-            ).applyFlex(flexHorizontalMargin)
+            ).applyFlex(flexHorizontalMargin).setOnFocus(listOf(ShowNativeDialog(title = "dasasd", message = "asdas", buttonText = "asdadsas")))
         )
 }

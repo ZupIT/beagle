@@ -43,11 +43,12 @@ data class TextField(
 
     private lateinit var textFieldView: EditText
 
+
     override fun buildView(context: Context) = EditText(context).apply {
         textFieldView = this
         bind()
-
-        doOnTextChanged { _, _, _, _ -> notifyChanges() }
+        doOnTextChanged { _, _, _, _ ->
+            notifyChanges() }
     }
 
     override fun onErrorMessage(message: String) {
@@ -62,10 +63,8 @@ data class TextField(
         textFieldView.hint = hint
         textFieldView.setTextColor(color)
         textFieldView.setHintTextColor(color)
-        textFieldView.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus) {
-                onFocus()
-            }
+        textFieldView.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) onFocus() else onBlur()
         }
 
         inputType?.let {

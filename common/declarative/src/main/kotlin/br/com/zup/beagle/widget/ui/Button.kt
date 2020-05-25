@@ -17,7 +17,6 @@
 package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.widget.core.Action
-import br.com.zup.beagle.action.components.ButtonActionsComponent
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.TouchableAnalytics
 import br.com.zup.beagle.widget.Widget
@@ -35,7 +34,7 @@ import br.com.zup.beagle.widget.Widget
 data class Button(
     val text: String,
     val style: String? = null,
-    override val onPress: List<Action>? = null,
-    override val onLongPress: List<Action>? = null,
+    val onPress: List<Action>? = null,
+    val onLongPress: List<Action>? = null,
     override val clickAnalyticsEvent: ClickEvent? = null
-) : Widget(), TouchableAnalytics, ButtonActionsComponent
+) : Widget(), TouchableAnalytics

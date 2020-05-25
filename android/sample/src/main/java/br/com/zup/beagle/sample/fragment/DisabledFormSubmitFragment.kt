@@ -71,10 +71,10 @@ class DisabledFormSubmitFragment : Fragment() {
                     makeCharadeFormSubmit()
                 )
             ),
-            action = FormRemoteAction(
+            onSubmit = listOf(FormRemoteAction(
                 method = FormMethodType.POST,
                 path = "endereco/endpoint"
-            )
+            ))
         )
     }
 

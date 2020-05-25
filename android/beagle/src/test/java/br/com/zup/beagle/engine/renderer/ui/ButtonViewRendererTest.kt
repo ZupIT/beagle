@@ -32,6 +32,7 @@ import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.utils.StyleManager
 import br.com.zup.beagle.view.BeagleButtonView
 import br.com.zup.beagle.view.ViewFactory
+import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.widget.ui.Button
 import io.mockk.CapturingSlot
 import io.mockk.Runs
@@ -90,8 +91,9 @@ class ButtonViewRendererTest : BaseTest() {
 
         every { button.style } returns DEFAULT_STYLE
         every { button.text } returns DEFAULT_TEXT
-        every { button.action } returns null
-        every { actionExecutor.doAction(any(), any()) } just Runs
+        every { button.onPress } returns null
+        every { button.onLongPress } returns null
+        every { actionExecutor.doAction(any(), any<List<Action>>()) } just Runs
         every { rootView.getContext() } returns context
         every { viewFactory.makeButton(context) } returns buttonView
         every { TextViewCompat.setTextAppearance(any(), any()) } just Runs

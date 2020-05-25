@@ -17,7 +17,6 @@
 package br.com.zup.beagle.widget.form
 
 import br.com.zup.beagle.widget.core.Action
-import br.com.zup.beagle.action.components.FormActionsComponent
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
@@ -61,7 +60,7 @@ enum class FormMethodType {
 /**
  *  Component represents a way to compose user inputs and submit  those values to your backend.
  *
- * @param action define the action you want to be when click in the form.
+ * @param onSubmit define the actions you want to be when click in the form.
  * @param child  you should provide an hierarchy of visual components on which form will act upon.
  * It's important to have somewhere in your component hierarchy input components
  * FormInput and a submit component FormSubmit.
@@ -70,12 +69,9 @@ enum class FormMethodType {
  *
  */
 data class Form(
-    val action: Action,
     val child: ServerDrivenComponent,
-    override val onSubmit: List<Action>? = null,
-    override val onReset: List<Action>? = null
-) : ServerDrivenComponent, LayoutComponent,  FormActionsComponent
-
+    val onSubmit: List<Action>? = null
+) : ServerDrivenComponent, LayoutComponent
 
 
 /**

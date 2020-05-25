@@ -43,8 +43,5 @@ data class FormInput(
     val required: Boolean? = null,
     val validator: String? = null,
     val errorMessage: String? = null,
-    val onChange: List<Action>? = null,
-    val onFocus: List<Action>? = null,
-    val onBlur: List<Action>? = null,
     override val child: InputWidget
 ) : ServerDrivenComponent, GhostComponent

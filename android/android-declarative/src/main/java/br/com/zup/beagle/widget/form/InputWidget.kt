@@ -18,19 +18,28 @@ package br.com.zup.beagle.widget.form
 
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.Appearance
+import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.WidgetView
 import br.com.zup.beagle.widget.interfaces.StateChangeable
 import br.com.zup.beagle.widget.interfaces.WidgetState
 import br.com.zup.beagle.widget.state.Observable
 
-abstract class InputWidget : WidgetView(), StateChangeable, TextWatcher {
+@Suppress("TooManyFunctions")
+abstract class InputWidget : WidgetView(), StateChangeable, InputWidgetWatcher {
+
+    var onChange: List<Action>? = null
+        private set
+    var onFocus: List<Action>? = null
+        private set
+    var onBlur: List<Action>? = null
+        private set
 
     @Transient
     private val stateObservable = Observable<WidgetState>()
 
     @Transient
-    private val actionObservable = Observable<TextWatcherTypeAction>()
+    private var actionObservable = Observable<Pair<InputWidgetWatcherActionType, Any>>()
 
     abstract fun getValue(): Any
 
@@ -38,11 +47,7 @@ abstract class InputWidget : WidgetView(), StateChangeable, TextWatcher {
 
     override fun getState(): Observable<WidgetState> = stateObservable
 
-    override fun getAction(): Observable<TextWatcherTypeAction> = actionObservable
-
-    fun notifyChanges() {
-        stateObservable.notifyObservers(WidgetState(getValue()))
-    }
+    override fun getAction(): Observable<Pair<InputWidgetWatcherActionType, Any>> = actionObservable
 
     override fun setId(id: String): InputWidget {
         return super.setId(id) as InputWidget
@@ -60,15 +65,63 @@ abstract class InputWidget : WidgetView(), StateChangeable, TextWatcher {
         return super.applyAccessibility(accessibility) as InputWidget
     }
 
+    /**
+     * call this action when the field lost focus.
+     */
     override fun onBlur() {
-        actionObservable.notifyObservers(TextWatcherTypeAction.ON_BLUR)
+        actionObservable.notifyObservers(getActionTypeWithValue(InputWidgetWatcherActionType.ON_BLUR))
     }
 
+    /**
+     * call this action when the field change value.
+     */
     override fun onChange() {
-        actionObservable.notifyObservers(TextWatcherTypeAction.ON_CHANGE)
+        actionObservable.notifyObservers(getActionTypeWithValue(InputWidgetWatcherActionType.ON_CHANGE))
     }
 
+    /**
+     * call this action when the field focused.
+     */
     override fun onFocus() {
-        actionObservable.notifyObservers(TextWatcherTypeAction.ON_FOCUS)
+        actionObservable.notifyObservers(getActionTypeWithValue(InputWidgetWatcherActionType.ON_FOCUS))
     }
+
+    /**
+     * Notify the view the value updated
+     *
+     */
+    fun notifyChanges() {
+        onChange()
+        stateObservable.notifyObservers(WidgetState(getValue()))
+    }
+
+    /**
+     * Add actions to on change to this widget.
+     * @return the current widget
+     */
+    fun setOnChange(actions: List<Action>): InputWidget {
+        this.onChange = actions
+        return this
+    }
+
+    /**
+     * Add actions to on focus to this widget.
+     * @return the current widget
+     */
+    fun setOnFocus(actions: List<Action>): InputWidget {
+        this.onFocus = actions
+        return this
+    }
+
+    /**
+     * Add actions to on focus to this widget.
+     * @return the current widget
+     */
+    fun setOnBlur(actions: List<Action>): InputWidget {
+        this.onBlur = actions
+        return this
+    }
+
+    private fun getActionTypeWithValue(type: InputWidgetWatcherActionType):
+        Pair<InputWidgetWatcherActionType, Any> = type to getValue()
 }

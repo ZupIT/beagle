@@ -625,11 +625,11 @@ class BeagleMoshiTest {
     fun make_should_return_moshi_to_serialize_a_Form() {
         // Given
         val component = Form(
-            action = FormRemoteAction(
+            onSubmit = listOf(FormRemoteAction(
                 RandomData.string(),
                 FormMethodType.POST
-            ),
-            child = UndefinedWidget()
+            )
+            ), child = UndefinedWidget()
         )
 
         // When

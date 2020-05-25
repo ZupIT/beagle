@@ -25,7 +25,7 @@ import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.InputWidget
-import br.com.zup.beagle.widget.form.TextWatcherTypeAction
+import br.com.zup.beagle.widget.form.InputWidgetWatcherActionType
 import br.com.zup.beagle.widget.interfaces.Observer
 import br.com.zup.beagle.widget.state.Observable
 
@@ -41,20 +41,20 @@ internal class FormInputViewRenderer(
         return viewRendererFactory.make(component.child).build(rootView).apply {
             tag = component
             val inputWidget: InputWidget = component.child
-            inputWidget.getAction().addObserver(object : Observer<TextWatcherTypeAction> {
-                override fun update(o: Observable<TextWatcherTypeAction>, arg: TextWatcherTypeAction) {
-                    actionExecutor.doAction(context, getActions(component, arg))
+            inputWidget.getAction().addObserver(object : Observer<Pair<InputWidgetWatcherActionType, Any>> {
+                override fun update(o: Observable<Pair<InputWidgetWatcherActionType, Any>>,
+                                    arg: Pair<InputWidgetWatcherActionType, Any>) {
+                    actionExecutor.doAction(context, getActions(inputWidget, arg.first))
                 }
-
             })
         }
     }
 
-    private fun getActions(formInput: FormInput, type: TextWatcherTypeAction): List<Action>? {
+    private fun getActions(inputWidget: InputWidget, type: InputWidgetWatcherActionType): List<Action>? {
         return when (type) {
-            TextWatcherTypeAction.ON_CHANGE -> formInput.onChange
-            TextWatcherTypeAction.ON_FOCUS -> formInput.onFocus
-            TextWatcherTypeAction.ON_BLUR -> formInput.onBlur
+            InputWidgetWatcherActionType.ON_CHANGE -> inputWidget.onChange
+            InputWidgetWatcherActionType.ON_FOCUS -> inputWidget.onFocus
+            InputWidgetWatcherActionType.ON_BLUR -> inputWidget.onBlur
         }
     }
 }

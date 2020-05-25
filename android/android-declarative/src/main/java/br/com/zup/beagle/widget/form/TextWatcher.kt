@@ -18,14 +18,14 @@ package br.com.zup.beagle.widget.form
 
 import br.com.zup.beagle.widget.state.Observable
 
-interface TextWatcher {
+interface InputWidgetWatcher {
     fun onChange()
     fun onFocus()
     fun onBlur()
-    fun getAction(): Observable<TextWatcherTypeAction>
+    fun getAction(): Observable<Pair<InputWidgetWatcherActionType, Any>>
 }
 
-enum class TextWatcherTypeAction {
+enum class InputWidgetWatcherActionType {
     ON_CHANGE,
     ON_FOCUS,
     ON_BLUR
