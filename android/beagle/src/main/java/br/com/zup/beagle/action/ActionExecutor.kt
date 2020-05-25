@@ -47,7 +47,7 @@ internal class ActionExecutor(
 
                     override fun onSuccess(action: Action) {
                         changeActivityState(context, ServerDrivenState.Loading(false))
-                        doAction(context, listOf(action))
+                        doAction(context, action)
                     }
 
                     override fun onError(e: Throwable) {

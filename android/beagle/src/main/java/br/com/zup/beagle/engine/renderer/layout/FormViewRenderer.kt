@@ -160,10 +160,10 @@ internal class FormViewRenderer(
                     handleFormResult(context, it)
                 }
             }
-            is CustomAction -> actionExecutor.doAction(context, listOf(CustomAction(
+            is CustomAction -> actionExecutor.doAction(context, CustomAction(
                 name = action.name,
                 data = formsValue.plus(action.data)
-            )))
+            ))
             else ->
                 actionExecutor.doAction(context, listOf(action))
         }
@@ -171,7 +171,7 @@ internal class FormViewRenderer(
 
     private fun handleFormResult(context: Context, formResult: FormResult) {
         when (formResult) {
-            is FormResult.Success -> actionExecutor.doAction(context, listOf(formResult.action))
+            is FormResult.Success -> actionExecutor.doAction(context, formResult.action)
             is FormResult.Error -> (context as? BeagleActivity)?.onServerDrivenContainerStateChanged(
                 ServerDrivenState.Error(formResult.throwable)
             )
