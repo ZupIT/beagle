@@ -223,6 +223,24 @@ extension ScrollView {
     }
 }
 
+// MARK: TabItem Decodable
+extension TabItem {
+
+    enum CodingKeys: String, CodingKey {
+        case icon
+        case title
+        case content
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        icon = try container.decodeIfPresent(String.self, forKey: .icon)
+        title = try container.decodeIfPresent(String.self, forKey: .title)
+        content = try container.decode( forKey: .content)
+    }
+}
+
 // MARK: Text Decodable
 extension Text {
 

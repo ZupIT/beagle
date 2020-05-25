@@ -18,6 +18,9 @@
 		C09AFDF7247C0EE9003A4C7E /* PageViewWith3PagesAndIndicator.json in Resources */ = {isa = PBXBuildFile; fileRef = C09AFDE2247C0E43003A4C7E /* PageViewWith3PagesAndIndicator.json */; };
 		C09AFDF8247C0EEC003A4C7E /* PageViewWith3Pages.json in Resources */ = {isa = PBXBuildFile; fileRef = C09AFDE3247C0E43003A4C7E /* PageViewWith3Pages.json */; };
 		C09AFE00247C105A003A4C7E /* PageIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09AFDFF247C105A003A4C7E /* PageIndicator.swift */; };
+		C09AFE15247C1524003A4C7E /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09AFE0B247C1524003A4C7E /* TabView.swift */; };
+		C09AFE2B247C2982003A4C7E /* TabViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09AFE22247C2972003A4C7E /* TabViewTests.swift */; };
+		C09AFE2D247C29D1003A4C7E /* TabView.json in Resources */ = {isa = PBXBuildFile; fileRef = C09AFE24247C2972003A4C7E /* TabView.json */; };
 		C0B31F562478628A0072CCF4 /* NavigateEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B31F552478628A0072CCF4 /* NavigateEntity.swift */; };
 		C0B31F5D2478642C0072CCF4 /* SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B31F592478642B0072CCF4 /* SafeArea.swift */; };
 		C0B31F5E2478642C0072CCF4 /* ScreenComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B31F5A2478642B0072CCF4 /* ScreenComponent.swift */; };
@@ -113,6 +116,10 @@
 		C09AFDE8247C0E43003A4C7E /* PageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
 		C09AFDF9247C0F0C003A4C7E /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C09AFDFF247C105A003A4C7E /* PageIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageIndicator.swift; sourceTree = "<group>"; };
+		C09AFE0B247C1524003A4C7E /* TabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
+		C09AFE22247C2972003A4C7E /* TabViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabViewTests.swift; sourceTree = "<group>"; };
+		C09AFE24247C2972003A4C7E /* TabView.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TabView.json; sourceTree = "<group>"; };
+		C09AFE2C247C29A2003A4C7E /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C0B31F552478628A0072CCF4 /* NavigateEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigateEntity.swift; sourceTree = "<group>"; };
 		C0B31F592478642B0072CCF4 /* SafeArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeArea.swift; sourceTree = "<group>"; };
 		C0B31F5A2478642B0072CCF4 /* ScreenComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenComponent.swift; sourceTree = "<group>"; };
@@ -296,6 +303,33 @@
 				C09AFDFF247C105A003A4C7E /* PageIndicator.swift */,
 			);
 			path = Indicator;
+			sourceTree = "<group>";
+		};
+		C09AFE01247C1524003A4C7E /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				C09AFE21247C2972003A4C7E /* Tests */,
+				C09AFE0B247C1524003A4C7E /* TabView.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
+		C09AFE21247C2972003A4C7E /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				C09AFE22247C2972003A4C7E /* TabViewTests.swift */,
+				C09AFE2C247C29A2003A4C7E /* __Snapshots__ */,
+				C09AFE23247C2972003A4C7E /* JSON */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		C09AFE23247C2972003A4C7E /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				C09AFE24247C2972003A4C7E /* TabView.json */,
+			);
+			path = JSON;
 			sourceTree = "<group>";
 		};
 		C0B31F4624785B050072CCF4 /* Screen */ = {
@@ -538,6 +572,7 @@
 			isa = PBXGroup;
 			children = (
 				C0E5692B2476F700003D413F /* ServerDrivenComponent.swift */,
+				C09AFE01247C1524003A4C7E /* TabBar */,
 				C09AFDD4247C0E43003A4C7E /* Page */,
 				C09AFDAC247C0538003A4C7E /* ListView */,
 				C0B31FA924787F730072CCF4 /* Scroll */,
@@ -957,6 +992,7 @@
 			files = (
 				C09AFDB5247C08A7003A4C7E /* listViewComponent.json in Resources */,
 				C0E5693924771282003D413F /* TextComponent.json in Resources */,
+				C09AFE2D247C29D1003A4C7E /* TabView.json in Resources */,
 				C0E5696224781EAE003D413F /* ImageComponent.json in Resources */,
 				C0E5695424781590003D413F /* TouchableDecoderTest.json in Resources */,
 				C0B31F9324787B410072CCF4 /* Container.json in Resources */,
@@ -1045,6 +1081,7 @@
 				C09AFDAE247C0538003A4C7E /* ListView.swift in Sources */,
 				C0B31F8F24787A880072CCF4 /* Container.swift in Sources */,
 				C0E568F82476C7F0003D413F /* Button.swift in Sources */,
+				C09AFE15247C1524003A4C7E /* TabView.swift in Sources */,
 				C0FBBE122475C95800B72A9B /* Equality.generated.swift in Sources */,
 				C0FBBE052475C79600B72A9B /* Size.swift in Sources */,
 				C0B31F5F2478642C0072CCF4 /* NavigationBar.swift in Sources */,
@@ -1087,6 +1124,7 @@
 				C0E5695824781AF9003D413F /* ImageTests.swift in Sources */,
 				C0B31FCA247882490072CCF4 /* FormSubmitTests.swift in Sources */,
 				C0B31FC62478820F0072CCF4 /* SpacerTests.swift in Sources */,
+				C09AFE2B247C2982003A4C7E /* TabViewTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
