@@ -25,6 +25,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.extensions.once
+import br.com.zup.beagle.logger.BeagleLogger
 import br.com.zup.beagle.navigation.DeepLinkHandler
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.testutil.RandomData
@@ -44,6 +45,7 @@ import io.mockk.verify
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import java.lang.Exception
 import kotlin.test.assertEquals
 
 private val route = Route.Remote(RandomData.httpUrl())
@@ -65,6 +67,7 @@ class BeagleNavigatorTest {
     fun setUp() {
         MockKAnnotations.init(this)
         mockkObject(BeagleEnvironment)
+        mockkObject(BeagleLogger)
         mockkStatic("android.net.Uri")
 
         every { BeagleEnvironment.beagleSdk.config.baseUrl } returns RandomData.httpUrl()
@@ -105,6 +108,22 @@ class BeagleNavigatorTest {
         // Then
         verify(exactly = once()) { Uri.parse(url) }
         verify(exactly = once()) { context.startActivity(any()) }
+    }
+
+    @Test
+    fun openExternalURL_should_catch_when_url_is_invalid() {
+        // Given
+        val webPage: Uri = mockk()
+        val url = "invalid url"
+        every { context.startActivity(any()) } throws Exception()
+        every { Uri.parse(url) } returns webPage
+        every { BeagleLogger.error(any()) } just Runs
+
+        // When
+        BeagleNavigator.openExternalURL(context, url)
+
+        // Then
+        verify(exactly = once()) { BeagleLogger.error(any()) }
     }
 
     @Test

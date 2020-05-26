@@ -75,7 +75,7 @@ internal class BeagleTypeSerializer : BeanSerializerBase {
     }
 
     private fun getBeagleTypeValue(bean: Any): String? {
-        val beanName = bean::class.simpleName?.capitalize()
+        val beanName = bean::class.simpleName?.decapitalize()
 
         return when (bean) {
             is Action -> "$BEAGLE_NAMESPACE:$beanName"

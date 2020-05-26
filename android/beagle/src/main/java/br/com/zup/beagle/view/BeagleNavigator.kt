@@ -24,19 +24,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import br.com.zup.beagle.action.Route
+import br.com.zup.beagle.logger.BeagleLogger
 import br.com.zup.beagle.setup.BeagleEnvironment
+import java.lang.Exception
 
 internal object BeagleNavigator {
 
     fun openExternalURL(context: Context, url: String) {
-//        try {
-//            test if throw exception
-//        } catch () {
-//
-//        }
-        val webPage: Uri = Uri.parse(url)
-        val intent = Intent(Intent.ACTION_VIEW, webPage)
-        context.startActivity(intent)
+        try {
+            val webPage: Uri = Uri.parse(url)
+            val intent = Intent(Intent.ACTION_VIEW, webPage)
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            BeagleLogger.error(e.toString())
+        }
     }
 
     fun openNativeRoute(context: Context, route: String, data: Map<String, String>?, shouldResetApplication: Boolean) {
