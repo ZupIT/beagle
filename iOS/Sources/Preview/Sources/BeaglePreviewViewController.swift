@@ -18,7 +18,11 @@ import UIKit
 
 import BeagleUI
 
-class BeaglePreviewViewController: UIViewController {
+class BeaglePreviewViewController: UIViewController, HasDependencies, WSConnectionHandlerDelegate {
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func loadView() {
         view = UIView()
@@ -27,24 +31,49 @@ class BeaglePreviewViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupChildViewController()
+        embedChildViewController()
     }
 
-    func reloadScreen(with json: String) {
-        self.sceneViewController.reloadScreen(with: .declarativeText(json))
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.dependencies.connection.start()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.dependencies.connection.stop()
+    }
+
+    // MARK: HasDependencies
+
+    typealias DependencyType = WSConnetionHandlerDependency
+    var dependencies: DependencyType
+
+    required init(dependencies: DependencyType) {
+        self.dependencies = dependencies
+        super.init(nibName: nil, bundle: nil)
+        self.dependencies.connection.delegate = self
+    }
+
+    // MARK: WSConnectionHandlerDelegate
+
+    func onWebSocketEvent(_ event: WSConnectionEvent) {
+        if case .layoutChange(let layout) = event {
+            viewController.reloadScreen(with: ScreenType.declarativeText(layout))
+        }
     }
 
     // MARK: Private
 
-    private var sceneViewController: BeagleScreenViewController!
+    private var viewController: BeagleScreenViewController!
 
-    private func setupChildViewController() {
-        self.sceneViewController = BeagleScreenViewController(.declarativeText(""))
-        self.sceneViewController.willMove(toParentViewController: self)
-        self.sceneViewController.view.frame = self.view.bounds
-        self.view.addSubview(self.sceneViewController.view)
-        self.addChildViewController(self.sceneViewController)
-        self.sceneViewController.didMove(toParentViewController: self)
+    private func embedChildViewController() {
+        viewController = BeagleScreenViewController(.declarativeText(""))
+        viewController.willMove(toParentViewController: self)
+        viewController.view.frame = view.bounds
+        view.addSubview(viewController.view)
+        addChildViewController(viewController)
+        viewController.didMove(toParentViewController: self)
     }
 
 }
