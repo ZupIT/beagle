@@ -331,36 +331,7 @@ final class YogaTranslatorTests: XCTestCase {
         XCTAssertEqual(expectedYogaFlexDirection, flexDirectionTranslated, "Expected columnReverse type of YGFlexDirection, but got \(String(describing: type(of: flexDirectionTranslated.self)))")
     }
     
-    // MARK: - Direction Tests
-    func test_translateWhenLeftToRightDirection_shouldReturnLeftToRightYGDirection() {
-        // Given
-        let expectedYogaDirection: YGDirection = .LTR
-        let direction: Flex.Direction = .ltr
-        // When
-        let directionTranslated = yogaTranslator.translate(direction)
-        // Then
-        XCTAssertEqual(expectedYogaDirection, directionTranslated, "Expected ltr type of YGDirection, but got \(String(describing: type(of: directionTranslated.self)))")
-    }
-    
-    func test_translateWhenRightToLeftlDirection_shouldReturnRightTLeftYGDirection() {
-        // Given
-        let expectedYogaDirection: YGDirection = .RTL
-        let direction: Flex.Direction = .rtl
-        // When
-        let directionTranslated = yogaTranslator.translate(direction)
-        // Then
-        XCTAssertEqual(expectedYogaDirection, directionTranslated, "Expected rtl type of YGDirection, but got \(String(describing: type(of: directionTranslated.self)))")
-    }
-    
-    func test_translateWhenInheritDirection_shouldReturnInheritYGDirection() {
-        // Given
-        let expectedYogaDirection: YGDirection = .inherit
-        let direction: Flex.Direction = .inherit
-        // When
-        let directionTranslated = yogaTranslator.translate(direction)
-        // Then
-        XCTAssertEqual(expectedYogaDirection, directionTranslated, "Expected inherit type of YGDirection, but got \(String(describing: type(of: directionTranslated.self)))")
-    }
+   
     
     // MARK: - Display Tests
     func test_translateWhenFlexDisplay_shouldReturnFlexYGDisplay() {

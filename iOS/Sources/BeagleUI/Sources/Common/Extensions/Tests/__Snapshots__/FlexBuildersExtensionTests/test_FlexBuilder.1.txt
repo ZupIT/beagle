@@ -9,8 +9,6 @@
     ▿ some: UnitValue
       - type: UnitType.real
       - value: 10.0
-  ▿ direction: Optional<Direction>
-    - some: Direction.ltr
   - display: Optional<Display>.none
   - flex: Optional<Double>.none
   ▿ flexDirection: Optional<FlexDirection>

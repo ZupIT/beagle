@@ -616,6 +616,7 @@
 		7CFE3A7824133C020087F664 /* Container */ = {
 			isa = PBXGroup;
 			children = (
+				E522377A237C3C5500E555BB /* Container.swift */,
 			);
 			path = Container;
 			sourceTree = "<group>";
@@ -982,7 +983,6 @@
 				9397F5CE2357615F00054D42 /* FlexViewConfigurator.swift */,
 				7CFE3A702412E3040087F664 /* Size.swift */,
 				7CFE3A722412E3430087F664 /* EdgeValue.swift */,
-				E522377A237C3C5500E555BB /* Container.swift */,
 				E5223773237C3C4800E555BB /* UnitValue.swift */,
 				9397F5CF2357615F00054D42 /* YogaTranslator.swift */,
 				C829CEE423B192A3001B7225 /* Tests */,
