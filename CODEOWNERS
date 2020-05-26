@@ -1,4 +1,5 @@
 CODEOWNERS
+*         @dantes-git @gabcoelho @pedropnaves @tarcisiogc @tuliopereirazup @hernandazevedozup @matheusribeirozup @hthemir @heliojuniorzup @tiagonuneszup @danilorochazup @ze12augusto @LG95 @lucka3s @theffc @victormr @yandiaszup @gmarson @uziasferreiragzup @marcelomp
 
 android/*  @tuliopereirazup @hernandazevedozup @matheusribeirozup @uziasferreiragzup @hthemir @tiagonuneszup @danilorochazup @lucka3s
 iOS/* @theffc @gabcoelho @dantes-git @heliojuniorzup @victormr @yandiaszup @gmarson @marcelomp
