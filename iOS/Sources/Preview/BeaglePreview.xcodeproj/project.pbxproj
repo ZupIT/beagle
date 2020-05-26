@@ -13,6 +13,7 @@
 		7623CF8F24254D3900688C4B /* BeaglePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7623CF8C24254D3900688C4B /* BeaglePreview.swift */; };
 		7623CF922425529A00688C4B /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7623CF912425529A00688C4B /* Starscream.framework */; };
 		7623CF94242552D700688C4B /* BeagleUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7623CF93242552D700688C4B /* BeagleUI.framework */; };
+		76D6A324247596AB00C7EEF7 /* ConnectionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D6A323247596AB00C7EEF7 /* ConnectionHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		7623CF8C24254D3900688C4B /* BeaglePreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaglePreview.swift; sourceTree = "<group>"; };
 		7623CF912425529A00688C4B /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = Carthage/Build/iOS/Starscream.framework; sourceTree = "<group>"; };
 		7623CF93242552D700688C4B /* BeagleUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeagleUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		76D6A323247596AB00C7EEF7 /* ConnectionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,9 +71,10 @@
 		7623CF8924254D3900688C4B /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				7623CF8C24254D3900688C4B /* BeaglePreview.swift */,
 				7623CF8A24254D3900688C4B /* BeaglePreviewConfig.swift */,
 				7623CF8B24254D3900688C4B /* BeaglePreviewViewController.swift */,
-				7623CF8C24254D3900688C4B /* BeaglePreview.swift */,
+				76D6A323247596AB00C7EEF7 /* ConnectionHandler.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -163,6 +166,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76D6A324247596AB00C7EEF7 /* ConnectionHandler.swift in Sources */,
 				7623CF8F24254D3900688C4B /* BeaglePreview.swift in Sources */,
 				7623CF8D24254D3900688C4B /* BeaglePreviewConfig.swift in Sources */,
 				7623CF8E24254D3900688C4B /* BeaglePreviewViewController.swift in Sources */,

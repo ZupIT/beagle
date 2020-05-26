@@ -73,7 +73,7 @@ final class WebViewUIComponent: UIView {
 }
 
 extension WebViewUIComponent: WKNavigationDelegate {
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation) {
         loadingView.stopAnimating()
         webView.isHidden = false
     }

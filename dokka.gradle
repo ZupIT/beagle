@@ -23,8 +23,3 @@ dokka {
     outputFormat = 'html'
     outputDirectory = "$buildDir/javadoc"
 }
-
-task dokkaJar(type: Jar) {
-    classifier = 'javadoc'
-    from dokka
-}
