@@ -18,7 +18,7 @@ import UIKit
 import Schema
 
 //TODO: Avoid casting to server driven Component
-extension ScrollView: Renderable {
+extension ScrollView: ServerDrivenComponent {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let scrollBarEnabled = self.scrollBarEnabled ?? true
         let flexDirection = (scrollDirection ?? .vertical).flexDirection

@@ -18,7 +18,7 @@ import XCTest
 @testable import Schema
 import SnapshotTesting
 
-final class ComponentDecoderTests: XCTestCase {
+public final class ComponentDecoderTests: XCTestCase {
     // swiftlint:disable force_unwrapping
     
     private lazy var sut = ComponentTools.dependencies.decoder

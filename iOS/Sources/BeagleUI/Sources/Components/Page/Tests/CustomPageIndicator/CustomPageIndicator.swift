@@ -20,7 +20,7 @@ import Schema
 
 // MARK: - CustomPageIndicator Component
 
-public struct CustomPageIndicator: PageIndicatorComponent {
+public struct CustomPageIndicator: PageIndicatorComponent, BeagleUI.ServerDrivenComponent {
 
     // MARK: - Public Properties
 

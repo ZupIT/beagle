@@ -17,7 +17,7 @@
 import UIKit
 import Schema
 
-extension ScreenComponent: Renderable {
+extension ScreenComponent: ServerDrivenComponent {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
 
         prefetch(dependencies: dependencies)
