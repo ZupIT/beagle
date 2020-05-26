@@ -502,17 +502,17 @@
 			children = (
 				C8EAC4F7247C2835003089BE /* __Snapshots__ */,
 				C864D263247C240200E7A1F9 /* ImageTests.swift */,
-				C864D264247C240200E7A1F9 /* Json */,
+				C864D264247C240200E7A1F9 /* JSON */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
 		};
-		C864D264247C240200E7A1F9 /* Json */ = {
+		C864D264247C240200E7A1F9 /* JSON */ = {
 			isa = PBXGroup;
 			children = (
 				C864D265247C240200E7A1F9 /* ImageComponent.json */,
 			);
-			path = Json;
+			path = JSON;
 			sourceTree = "<group>";
 		};
 		C864D26B247C240200E7A1F9 /* Container */ = {

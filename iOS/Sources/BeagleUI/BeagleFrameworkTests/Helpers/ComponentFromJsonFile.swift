@@ -27,7 +27,10 @@ func componentFromJsonFile<W: BeagleUI.ServerDrivenComponent>(
     fileName: String,
     decoder: ComponentDecoding = ComponentDecoder()
 ) throws -> W {
-    guard let url = Bundle.main.url(forResource: fileName, withExtension: "json") else {
+    guard let url = Bundle(for: ScreenComponentTests.self).url(
+        forResource: fileName,
+        withExtension: ".json"
+    ) else {
         throw ComponentFromJsonError.wrongUrlPath
     }
 
@@ -42,12 +45,29 @@ func componentFromJsonFile<W: BeagleUI.ServerDrivenComponent>(
 }
 
 
+//func jsonFromFile(
+//    fileName: String
+//) throws -> String {
+//    guard let url = Bundle.main.url(forResource: fileName, withExtension: "json") else {
+//        throw ComponentFromJsonError.wrongUrlPath
+//    }
+//    let jsonData = try Data(contentsOf: url)
+//    let json = String(bytes: jsonData, encoding: .utf8) ?? ""
+//
+//    return json
+//}
+
 func jsonFromFile(
     fileName: String
 ) throws -> String {
-    guard let url = Bundle.main.url(forResource: fileName, withExtension: "json") else {
+
+    guard let url = Bundle(for: ScreenComponentTests.self).url(
+        forResource: fileName,
+        withExtension: "json"
+    ) else {
         throw ComponentFromJsonError.wrongUrlPath
     }
+
     let jsonData = try Data(contentsOf: url)
     let json = String(bytes: jsonData, encoding: .utf8) ?? ""
 

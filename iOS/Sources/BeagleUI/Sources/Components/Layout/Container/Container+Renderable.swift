@@ -38,7 +38,6 @@ extension Container: Widget {
         let containerView = UIView()
         
         children.forEach {
-            let b = $0.toView(context: context, dependencies: dependencies)
             if let childView = ($0 as? ServerDrivenComponent)?.toView(context: context, dependencies: dependencies) {
                 containerView.addSubview(childView)
                 childView.flex.isEnabled = true

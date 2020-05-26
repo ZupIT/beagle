@@ -23,7 +23,7 @@ public enum Event {
 }
 
 /// Interface to access application specific operations
-public protocol BeagleContext: Schema.BeagleContext {
+public protocol BeagleContext: AnyObject {
 
     var screenController: BeagleScreenViewController { get }
 

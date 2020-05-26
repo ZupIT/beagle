@@ -34,7 +34,6 @@ public protocol Renderable {
 }
 
 public protocol RenderableDependencies:
-    Schema.RenderableDependencies,
     DependencyTheme,
     DependencyValidatorProvider,
     DependencyPreFetching,
