@@ -14,16 +14,11 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.micronaut.configuration
+package br.com.zup.beagle.serialization.jackson
 
-import br.com.zup.beagle.serialization.jackson.BeagleModule
-import io.micronaut.context.annotation.Factory
-import io.micronaut.context.annotation.Requires
-import javax.inject.Singleton
+import kotlin.reflect.KClass
 
-@Factory
-@Requires(classes = [BeagleModule::class])
-class BeagleJacksonConfiguration {
-    @Singleton
-    fun beagleModule() = BeagleModule()
-}
+internal fun getClass(
+    clazz: KClass<*>,
+    classLoader: ClassLoader
+) = Class.forName(clazz.qualifiedName, false, classLoader)

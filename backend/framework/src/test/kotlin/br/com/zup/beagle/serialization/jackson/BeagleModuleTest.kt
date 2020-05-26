@@ -41,6 +41,6 @@ internal class BeagleModuleTest {
     private fun KClass<BeagleModule>.property(name: String) =
         this.memberProperties.find { it.name == name }?.run {
             this.isAccessible = true
-            this.get(BeagleModule)
+            this.get(BeagleModule())
         }!!
 }
