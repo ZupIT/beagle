@@ -31,3 +31,4 @@ include Modules.beagleBackendDeclarative
 include Modules.beagleBackendSpringStarter
 include Modules.beagleBackendMicronautStarter
 include Modules.beagleSchemaKotlin
+include Modules.beagleUtils
