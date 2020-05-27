@@ -16,7 +16,9 @@
 
 package br.com.zup.beagle.engine.mapper
 
-import br.com.zup.beagle.widget.core.Alignment
+import br.com.zup.beagle.widget.core.AlignContent
+import br.com.zup.beagle.widget.core.AlignSelf
+import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.Direction
 import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.core.FlexDisplay
@@ -39,17 +41,37 @@ internal fun makeYogaWrap(flexWrap: FlexWrap?): YogaWrap? = when (flexWrap) {
     else -> null
 }
 
-internal fun makeYogaAlign(alignment: Alignment?): YogaAlign? = when (alignment) {
-    Alignment.CENTER -> YogaAlign.CENTER
-    Alignment.FLEX_START -> YogaAlign.FLEX_START
-    Alignment.FLEX_END -> YogaAlign.FLEX_END
-    Alignment.SPACE_BETWEEN -> YogaAlign.SPACE_BETWEEN
-    Alignment.SPACE_AROUND -> YogaAlign.SPACE_AROUND
-    Alignment.BASELINE -> YogaAlign.BASELINE
-    Alignment.AUTO -> YogaAlign.AUTO
-    Alignment.STRETCH -> YogaAlign.STRETCH
-    else -> null
-}
+internal fun makeYogaAlignContent(alignContent: AlignContent?): YogaAlign? =
+    when (alignContent) {
+        AlignContent.CENTER -> YogaAlign.CENTER
+        AlignContent.FLEX_START -> YogaAlign.FLEX_START
+        AlignContent.FLEX_END -> YogaAlign.FLEX_END
+        AlignContent.SPACE_BETWEEN -> YogaAlign.SPACE_BETWEEN
+        AlignContent.SPACE_AROUND -> YogaAlign.SPACE_AROUND
+        AlignContent.STRETCH -> YogaAlign.STRETCH
+        else -> null
+    }
+
+internal fun makeYogaAlignItems(alignItems: AlignItems?): YogaAlign? =
+    when (alignItems) {
+        AlignItems.CENTER -> YogaAlign.CENTER
+        AlignItems.FLEX_START -> YogaAlign.FLEX_START
+        AlignItems.FLEX_END -> YogaAlign.FLEX_END
+        AlignItems.BASELINE -> YogaAlign.BASELINE
+        AlignItems.STRETCH -> YogaAlign.STRETCH
+        else -> null
+    }
+
+internal fun makeYogaAlignSelf(alignSelf: AlignSelf?): YogaAlign? =
+    when (alignSelf) {
+        AlignSelf.CENTER -> YogaAlign.CENTER
+        AlignSelf.FLEX_START -> YogaAlign.FLEX_START
+        AlignSelf.FLEX_END -> YogaAlign.FLEX_END
+        AlignSelf.BASELINE -> YogaAlign.BASELINE
+        AlignSelf.AUTO -> YogaAlign.AUTO
+        AlignSelf.STRETCH -> YogaAlign.STRETCH
+        else -> null
+    }
 
 internal fun makeYogaJustify(justifyContent: JustifyContent?): YogaJustify? =
     when (justifyContent) {

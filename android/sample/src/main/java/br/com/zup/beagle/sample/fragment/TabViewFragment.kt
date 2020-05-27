@@ -23,7 +23,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.utils.toView
-import br.com.zup.beagle.widget.core.Alignment
+import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.JustifyContent
@@ -73,7 +73,7 @@ class TabViewFragment : Fragment() {
                     Text("text").applyFlex(
                         Flex(
                             justifyContent = JustifyContent.CENTER,
-                            alignItems = Alignment.CENTER
+                            alignItems = AlignItems.CENTER
                         )
                     )
                 ),
@@ -83,7 +83,7 @@ class TabViewFragment : Fragment() {
                     Text("text").applyFlex(
                         Flex(
                             justifyContent = JustifyContent.FLEX_START,
-                            alignItems = Alignment.FLEX_END
+                            alignItems = AlignItems.FLEX_END
                         )
                     )
                 )

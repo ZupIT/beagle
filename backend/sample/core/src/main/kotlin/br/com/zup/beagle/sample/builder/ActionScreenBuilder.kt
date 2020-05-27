@@ -22,7 +22,7 @@ import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.sample.constants.NAVIGATION_BAR_STYLE_DEFAULT
 import br.com.zup.beagle.sample.constants.PATH_SCREEN_DEEP_LINK_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
-import br.com.zup.beagle.widget.core.Alignment
+import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
@@ -74,7 +74,7 @@ object ActionScreenBuilder : ScreenBuilder {
                 ),
                 child = Text("Click me!").applyFlex(
                     flex = Flex(
-                        alignSelf = Alignment.CENTER
+                        alignSelf = AlignSelf.CENTER
                     )
                 )
             )

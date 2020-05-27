@@ -18,7 +18,7 @@ package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
-import br.com.zup.beagle.widget.core.Alignment
+import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
@@ -40,7 +40,7 @@ object TabViewScreenBuilder : ScreenBuilder {
                 Image(Remote(BEACH_NETWORK_IMAGE)),
                 Text("Text2 Tab 2")
             )
-        ).applyFlex(Flex(alignContent = Alignment.CENTER))
+        ).applyFlex(Flex(alignContent = AlignContent.CENTER))
     )
 
     private val tab2 = TabItem(
@@ -50,7 +50,7 @@ object TabViewScreenBuilder : ScreenBuilder {
                 Text("Text1 Tab 2"),
                 Text("Text2 Tab 2")
             )
-        ).applyFlex(Flex(alignContent = Alignment.CENTER))
+        ).applyFlex(Flex(alignContent = AlignContent.CENTER))
     )
 
     private val tab3 = TabItem(
@@ -60,7 +60,7 @@ object TabViewScreenBuilder : ScreenBuilder {
                 Text("Text1 Tab 3"),
                 Text("Text2 Tab 3")
             )
-        ).applyFlex(Flex(alignContent = Alignment.CENTER))
+        ).applyFlex(Flex(alignContent = AlignContent.CENTER))
     )
 
     private val tab4 = TabItem(
@@ -71,7 +71,7 @@ object TabViewScreenBuilder : ScreenBuilder {
                 Text("Text1 Tab 4"),
                 Text("Text2 Tab 4")
             )
-        ).applyFlex(Flex(alignContent = Alignment.CENTER))
+        ).applyFlex(Flex(alignContent = AlignContent.CENTER))
     )
 
     override fun build() = Screen(

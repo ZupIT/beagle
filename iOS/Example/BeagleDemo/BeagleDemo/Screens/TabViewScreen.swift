@@ -18,7 +18,7 @@ import UIKit
 import BeagleUI
 
 struct TabViewScreen: DeeplinkScreen {
-    init(path: String, data: [String : String]?) {
+    init(path: String, data: [String: String]?) {
     }
 
     func screenController() -> UIViewController {
@@ -29,7 +29,7 @@ struct TabViewScreen: DeeplinkScreen {
         let tab1 = TabItem(icon: "beagle", content:
             Container(children: [
                 Text("Blaaslkdjfaskldjfalskdjfasldjfasldfj"),
-                NetworkImage(path: .NETWORK_IMAGE_BEAGLE),
+                Image(.network(.NETWORK_IMAGE_BEAGLE)),
                 Text("Blaaslkdjfaskldjfalskdjfasldjfasldfj")
             ]).applyFlex(Flex().alignContent(.center))
         )

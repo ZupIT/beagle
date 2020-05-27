@@ -22,7 +22,9 @@ protocol YogaTranslator {
     func translate(_ flexDirection: Flex.FlexDirection) -> YGFlexDirection
     func translate(_ flexWrap: Flex.Wrap) -> YGWrap
     func translate(_ justifyContent: Flex.JustifyContent) -> YGJustify
-    func translate(_ alignment: Flex.Alignment) -> YGAlign
+    func translate(_ alignItems: Flex.AlignItems) -> YGAlign
+    func translate(_ alignSelf: Flex.AlignSelf) -> YGAlign
+    func translate(_ alignContent: Flex.AlignContent) -> YGAlign
     func translate(_ positionType: Flex.PositionType) -> YGPositionType
     func translate(_ unitValue: UnitValue) -> YGValue
     func translate(_ display: Flex.Display) -> YGDisplay
@@ -40,24 +42,52 @@ final class YogaTranslating: YogaTranslator {
         }
     }
     
-    func translate(_ alignment: Flex.Alignment) -> YGAlign {
-        switch alignment {
+    func translate(_ alignItems: Flex.AlignItems) -> YGAlign {
+        switch alignItems {
         case .flexStart:
             return .flexStart
         case .center:
             return .center
         case .flexEnd:
             return .flexEnd
+        case .baseline:
+            return .baseline
+        case .stretch:
+            return .stretch
+        }
+    }
+    
+    func translate(_ alignSelf: Flex.AlignSelf) -> YGAlign {
+        switch alignSelf {
+        case .flexStart:
+            return .flexStart
+        case .center:
+            return .center
+        case .flexEnd:
+            return .flexEnd
+        case .baseline:
+            return .baseline
+        case .stretch:
+            return .stretch
+        case .auto:
+            return .auto
+        }
+    }
+    
+    func translate(_ alignContent: Flex.AlignContent) -> YGAlign {
+        switch alignContent {
+        case .flexStart:
+            return .flexStart
+        case .center:
+            return .center
+        case .flexEnd:
+            return .flexEnd
+        case .stretch:
+            return .stretch
         case .spaceBetween:
             return .spaceBetween
         case .spaceAround:
             return .spaceAround
-        case .baseline:
-            return .baseline
-        case .auto:
-            return .auto
-        case .stretch:
-            return .stretch
         }
     }
     
