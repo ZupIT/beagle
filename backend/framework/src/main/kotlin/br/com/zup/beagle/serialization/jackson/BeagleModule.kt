@@ -29,15 +29,15 @@ class BeagleModule(
         this.setSerializerModifier(BeagleSerializerModifier(this.classLoader))
         this.setMixInAnnotation(
             getClass(ComposeComponent::class, this.classLoader),
-            getClass(ComposeComponentMixin::class, this.classLoader)
+            ComposeComponentMixin::class.java
         )
         this.setMixInAnnotation(
             getClass(ScreenBuilder::class, this.classLoader),
-            getClass(ScreenBuilderMixin::class, this.classLoader)
+            ScreenBuilderMixin::class.java
         )
         this.setMixInAnnotation(
             getClass(BindAttribute::class, this.classLoader),
-            getClass(BindMixin::class, this.classLoader)
+            BindMixin::class.java
         )
     }
 }
