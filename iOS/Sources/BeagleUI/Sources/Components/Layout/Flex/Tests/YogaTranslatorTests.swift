@@ -331,8 +331,6 @@ final class YogaTranslatorTests: XCTestCase {
         XCTAssertEqual(expectedYogaFlexDirection, flexDirectionTranslated, "Expected columnReverse type of YGFlexDirection, but got \(String(describing: type(of: flexDirectionTranslated.self)))")
     }
     
-   
-    
     // MARK: - Display Tests
     func test_translateWhenFlexDisplay_shouldReturnFlexYGDisplay() {
         // Given
