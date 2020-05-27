@@ -33,8 +33,7 @@ public protocol Renderable {
     func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView
 }
 
-public protocol RenderableDependencies:
-    DependencyTheme,
+public protocol RenderableDependencies: DependencyTheme,
     DependencyValidatorProvider,
     DependencyPreFetching,
     DependencyAppBundle,

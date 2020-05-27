@@ -19,6 +19,7 @@ import SnapshotTesting
 @testable import BeagleUI
 import Schema
 import SchemaTests
+// swiftlint:disable force_cast
 
 final class LazyComponentTests: XCTestCase {
     

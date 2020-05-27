@@ -47,7 +47,7 @@ public enum Navigate: Action {
         }
     }
     
-    public class DeepLinkNavigation {
+    public struct DeepLinkNavigation {
         public let path: Path
         public let data: Data?
         public let component: ServerDrivenComponent?
