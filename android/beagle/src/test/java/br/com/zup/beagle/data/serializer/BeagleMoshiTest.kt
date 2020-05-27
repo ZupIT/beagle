@@ -27,12 +27,31 @@ import br.com.zup.beagle.mockdata.CustomWidget
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.widget.core.WidgetView
-import br.com.zup.beagle.widget.form.*
-import br.com.zup.beagle.widget.layout.*
+import br.com.zup.beagle.widget.form.Form
+import br.com.zup.beagle.widget.form.FormInput
+import br.com.zup.beagle.widget.form.FormMethodType
+import br.com.zup.beagle.widget.form.FormRemoteAction
+import br.com.zup.beagle.widget.form.FormSubmit
+import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.Horizontal
+import br.com.zup.beagle.widget.layout.PageView
+import br.com.zup.beagle.widget.layout.ScreenComponent
+import br.com.zup.beagle.widget.layout.ScrollView
+import br.com.zup.beagle.widget.layout.Spacer
+import br.com.zup.beagle.widget.layout.Stack
+import br.com.zup.beagle.widget.layout.Vertical
 import br.com.zup.beagle.widget.lazy.LazyComponent
 import br.com.zup.beagle.widget.pager.PageIndicator
-import br.com.zup.beagle.widget.ui.*
-import io.mockk.*
+import br.com.zup.beagle.widget.ui.Button
+import br.com.zup.beagle.widget.ui.ListView
+import br.com.zup.beagle.widget.ui.NetworkImage
+import br.com.zup.beagle.widget.ui.OldImage
+import br.com.zup.beagle.widget.ui.Text
+import br.com.zup.beagle.widget.ui.UndefinedWidget
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.mockkObject
+import io.mockk.unmockkObject
 import org.json.JSONObject
 import org.junit.After
 import org.junit.Before
@@ -266,13 +285,13 @@ class BeagleMoshiTest {
 
         // Then
         assertNotNull(actual)
-        assertTrue(actual is Image)
+        assertTrue(actual is OldImage)
     }
 
     @Test
     fun make_should_return_moshi_to_serialize_a_Image() {
         // Given
-        val component = Image(RandomData.string())
+        val component = OldImage(RandomData.string())
 
         // When
         val actual =

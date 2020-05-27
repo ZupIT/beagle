@@ -29,7 +29,8 @@ import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.ui.NetworkImage
+import br.com.zup.beagle.widget.ui.ImagePath.Remote
+import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.Text
 
 class ImageViewFragment : Fragment() {
@@ -40,8 +41,8 @@ class ImageViewFragment : Fragment() {
         val declarative = Screen(
             child = Container(
                 children = listOf(
-                    NetworkImage(
-                        path = "https://cdn-images-1.medium.com/max/1200/1*kjiNJPB3Y-ZVmjxco_bORA.png"
+                    Image(
+                        Remote("https://cdn-images-1.medium.com/max/1200/1*kjiNJPB3Y-ZVmjxco_bORA.png")
                     ).applyFlex(
                         Flex(
                             margin = EdgeValue(top = 10.unitReal())
