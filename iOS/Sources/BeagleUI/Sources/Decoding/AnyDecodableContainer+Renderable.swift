@@ -17,7 +17,7 @@
 import UIKit
 import Schema
 
-extension UnknownComponent: Renderable {
+extension UnknownComponent: ServerDrivenComponent {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         #if DEBUG
         let label = UILabel(frame: .zero)

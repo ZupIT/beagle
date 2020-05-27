@@ -44,7 +44,6 @@ public extension Widget {
     }
 }
 
-
 public protocol HasWidgetProperties: AppearanceComponent, FlexComponent, AccessibilityComponent, IdentifiableComponent { }
 
 public protocol AppearanceComponent {

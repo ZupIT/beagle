@@ -27,4 +27,3 @@ public struct UnknownAction: Action {
         self.type = type
     }
 }
-

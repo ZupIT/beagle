@@ -78,12 +78,11 @@ class TextTests: XCTestCase {
         // Then
         XCTAssertEqual(label.textAlignment, NSTextAlignment.left)
     }
-    
-    //TODO fix this
-//    func test_renderTextComponent() throws {
-//        let component: Text = try componentFromJsonFile(fileName: "TextComponent")
-//        let view = component.toView(context: BeagleContextDummy(), dependencies: dependencies)
-//        assertSnapshotImage(view, size: CGSize(width: 300, height: 150))
-//    }
+
+    func test_renderTextComponent() throws {
+        let component: Text = try componentFromJsonFile(fileName: "TextComponent")
+        let view = component.toView(context: BeagleContextDummy(), dependencies: dependencies)
+        assertSnapshotImage(view, size: CGSize(width: 300, height: 150))
+    }
 
 }

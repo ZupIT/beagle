@@ -27,7 +27,7 @@ extension Touchable {
     }
 }
 
-extension Touchable: Renderable {
+extension Touchable: ServerDrivenComponent {
     
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         guard let child = (child as? ServerDrivenComponent) else { return UIView() }

@@ -18,7 +18,7 @@ import Foundation
 import UIKit
 import Schema
 
-extension PageIndicator: Renderable {
+extension PageIndicator: ServerDrivenComponent {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let view = PageIndicatorUIComponent(selectedColor: selectedColor, unselectedColor: unselectedColor)
         return view

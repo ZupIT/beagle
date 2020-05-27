@@ -49,12 +49,13 @@ class BeagleNavigator: BeagleNavigation {
         let source = context.screenController
         switch action {
         case .openDeepLink(let deepLink):
-            if let component = deepLink.component {
+            //TODO: avoid casting to ServerDrivenComponent
+            if let component = deepLink.component as? ServerDrivenComponent {
                 openDeepLink(component: component, source: source, data: deepLink.data, animated: animated)
             } else {
                 openDeepLink(path: deepLink.path, source: source, data: deepLink.data, animated: animated)
             }
-
+            
         case .swapScreen(let screen):
             swapTo(viewController(screen: screen), context: context, animated: animated)
             
@@ -98,8 +99,7 @@ class BeagleNavigator: BeagleNavigation {
         }
     }
     
-    //TODO: Check for possible failure here ServerDrivenComponent to Components.ServerDrivenComponent
-    private func openDeepLink(component: Schema.ServerDrivenComponent, source: UIViewController, data: [String: String]?, animated: Bool) {
+    private func openDeepLink(component: BeagleUI.ServerDrivenComponent, source: UIViewController, data: [String: String]?, animated: Bool) {
         let viewController = Beagle.screen(.declarative(Screen(child: component)))
         let navigationToPresent = dependencies.navigationControllerType.init()
         navigationToPresent.viewControllers = [viewController]

@@ -195,7 +195,7 @@ private class HiddenStub: UIView, InputValue {
     init(_ formInputHidden: FormInputHidden, value: String) {
         self.value = value
         super.init(frame: .zero)
-        self.beagleFormElement = formInputHidden as? BeagleUI.ServerDrivenComponent
+        self.beagleFormElement = formInputHidden
     }
 
     required init?(coder: NSCoder) {
@@ -213,7 +213,7 @@ private class SubmitStub: UIView, Observer, WidgetStateObservable {
 
     init(_ formSubmit: FormSubmit) {
         super.init(frame: .zero)
-        self.beagleFormElement = formSubmit as? BeagleUI.ServerDrivenComponent
+        self.beagleFormElement = formSubmit
     }
 
     required init?(coder: NSCoder) {

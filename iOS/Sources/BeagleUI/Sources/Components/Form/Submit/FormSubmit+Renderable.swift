@@ -17,7 +17,7 @@
 import UIKit
 import Schema
 
-//TODO: avoid the casting to SErver driven component
+//TODO: avoid casting to ServerDrivenComponent
 extension FormSubmit: ServerDrivenComponent {
     
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {

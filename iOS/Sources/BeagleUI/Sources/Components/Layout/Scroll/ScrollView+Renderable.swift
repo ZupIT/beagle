@@ -17,7 +17,7 @@
 import UIKit
 import Schema
 
-//TODO: Avoid casting to server driven Component
+//TODO: avoid casting to ServerDrivenComponent
 extension ScrollView: ServerDrivenComponent {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let scrollBarEnabled = self.scrollBarEnabled ?? true

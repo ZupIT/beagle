@@ -56,7 +56,6 @@
 		C864D2E2247C240200E7A1F9 /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D296247C240200E7A1F9 /* Events.swift */; };
 		C864D2E6247C240200E7A1F9 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D29F247C240200E7A1F9 /* Text.swift */; };
 		C864D2E7247C240200E7A1F9 /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D2A0247C240200E7A1F9 /* Widget.swift */; };
-		C864D2EF247C245C00E7A1F9 /* ComponentsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D2EB247C245B00E7A1F9 /* ComponentsTests.swift */; };
 		C864D2F0247C245C00E7A1F9 /* ComponentFromJsonFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D2ED247C245B00E7A1F9 /* ComponentFromJsonFile.swift */; };
 		C864D2F6247C257500E7A1F9 /* WebViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D233247C240200E7A1F9 /* WebViewTests.swift */; };
 		C864D2F7247C257C00E7A1F9 /* WebView.json in Resources */ = {isa = PBXBuildFile; fileRef = C864D235247C240200E7A1F9 /* WebView.json */; };
@@ -178,7 +177,6 @@
 		C864D29F247C240200E7A1F9 /* Text.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		C864D2A0247C240200E7A1F9 /* Widget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Widget.swift; sourceTree = "<group>"; };
 		C864D2E9247C243C00E7A1F9 /* Templates */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Templates; sourceTree = "<group>"; };
-		C864D2EB247C245B00E7A1F9 /* ComponentsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentsTests.swift; sourceTree = "<group>"; };
 		C864D2ED247C245B00E7A1F9 /* ComponentFromJsonFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentFromJsonFile.swift; sourceTree = "<group>"; };
 		C864D2EE247C245B00E7A1F9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C864D2F8247C259100E7A1F9 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
@@ -730,7 +728,6 @@
 			isa = PBXGroup;
 			children = (
 				C0FBBD182475803900B72A9B /* Products */,
-				C864D2EB247C245B00E7A1F9 /* ComponentsTests.swift */,
 				C864D2EC247C245B00E7A1F9 /* Helpers */,
 				C864D2EE247C245B00E7A1F9 /* Info.plist */,
 			);
@@ -941,6 +938,7 @@
 				C0FBBD132475803900B72A9B /* Sources */,
 				C0FBBD142475803900B72A9B /* Frameworks */,
 				C0FBBD152475803900B72A9B /* Resources */,
+				C02918A3247EF8AC00C3AA13 /* SwiftLint Run Script */,
 			);
 			buildRules = (
 			);
@@ -1043,6 +1041,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		C02918A3247EF8AC00C3AA13 /* SwiftLint Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "SwiftLint Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 		C0FBBD362475A10700B72A9B /* Run Carthage Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1154,7 +1170,6 @@
 				C0291898247EDF8500C3AA13 /* PageIndicatorTests.swift in Sources */,
 				C864D2FC247C25C800E7A1F9 /* FormSubmitTests.swift in Sources */,
 				C02918A0247EE2BF00C3AA13 /* CustomPageIndicator.swift in Sources */,
-				C864D2EF247C245C00E7A1F9 /* ComponentsTests.swift in Sources */,
 				C864D2F9247C259E00E7A1F9 /* FormTests.swift in Sources */,
 				C8EAC4FC247C288B003089BE /* ButtonTests.swift in Sources */,
 				C8EBCC87247C30C5002030CC /* PageViewTests.swift in Sources */,

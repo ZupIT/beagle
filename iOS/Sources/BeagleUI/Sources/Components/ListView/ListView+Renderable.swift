@@ -30,7 +30,7 @@ extension ListView.Direction {
     
 }
 
-extension ListView: Renderable {
+extension ListView: ServerDrivenComponent {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let componentViews: [(view: UIView, size: CGSize)] = rows.compactMap {
             let container = Container(children: [$0], widgetProperties: .init(flex: Flex(positionType: .absolute)))

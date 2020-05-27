@@ -19,7 +19,4 @@ import Schema
 
 // MARK: - Widget
 
-public protocol Widget: ServerDrivenComponent, Schema.Widget {
-    
-}
-
+public protocol Widget: ServerDrivenComponent, Schema.Widget { }

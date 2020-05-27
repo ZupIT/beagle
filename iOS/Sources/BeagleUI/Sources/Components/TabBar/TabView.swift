@@ -17,7 +17,7 @@
 import UIKit
 import Schema
 
-extension TabView: Renderable {
+extension TabView: ServerDrivenComponent {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let model = TabViewUIComponent.Model(tabIndex: 0, tabViewItems: tabItems)
         let tabView = TabViewUIComponent(model: model)

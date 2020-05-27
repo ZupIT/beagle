@@ -89,7 +89,6 @@ public final class ComponentDecoderTests: XCTestCase {
 
         let action = try sut.decodeAction(from: jsonData)
 
-        //TODO:Component
         guard case Navigate.finishView = action else {
             XCTFail("decoding failed"); return
         }

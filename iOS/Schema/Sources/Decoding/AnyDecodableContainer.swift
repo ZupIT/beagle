@@ -41,7 +41,6 @@ extension AnyDecodableContainer: Decodable {
     }
 }
 
-
 extension KeyedDecodingContainer {
     public func decode(forKey key: KeyedDecodingContainer<K>.Key) throws -> Action {
         let content = try decode(AnyDecodableContainer.self, forKey: key)

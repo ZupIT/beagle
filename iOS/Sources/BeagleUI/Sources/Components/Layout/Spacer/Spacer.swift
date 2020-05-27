@@ -17,7 +17,7 @@
 import UIKit
 import Schema
 
-extension Spacer: Renderable {
+extension Spacer: ServerDrivenComponent {
     
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let flex = Flex(

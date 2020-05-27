@@ -21,7 +21,5 @@ import SnapshotTesting
 // TODO: make a decoding snapshot testing
 final class SpacerTests: XCTestCase {
     
-    
 
-    
 }

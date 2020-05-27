@@ -36,7 +36,7 @@ extension ScreenComponent: ServerDrivenComponent {
             .forEach { dependencies.preFetchHelper.prefetchComponent(newPath: $0) }
     }
     
-    //TODO: perhaps this can be solved with inheritance and adding a ScreenComponent child var that actually is Renderable
+    //TODO: avoid casting to ServerDrivenComponent
     private func buildChildView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let childHolder = UIView()
         guard let childView = (child as? ServerDrivenComponent)?.toView(context: context, dependencies: dependencies) else {

@@ -32,7 +32,7 @@ extension Container {
     }
 }
 
-//TODO: avoid casting to serverDrivenComponent
+//TODO: avoid casting to ServerDrivenComponent
 extension Container: Widget {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let containerView = UIView()

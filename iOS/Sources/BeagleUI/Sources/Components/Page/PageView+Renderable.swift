@@ -17,7 +17,7 @@
 import UIKit
 import Schema
 
-// TODO: avoid casting to serverDriven Component
+//TODO: avoid casting to ServerDrivenComponent
 extension PageView: ServerDrivenComponent {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let pagesControllers = pages.map {

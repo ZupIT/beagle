@@ -41,4 +41,3 @@ public struct Button: Widget, ClickedOnComponent, AutoInitiableAndDecodable {
     }
 // sourcery:end
 }
-
