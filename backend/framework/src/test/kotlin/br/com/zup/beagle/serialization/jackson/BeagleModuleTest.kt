@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.serialization.jackson
 
-import br.com.zup.beagle.core.Bind
+import br.com.zup.beagle.core.BindAttribute
 import br.com.zup.beagle.widget.core.ComposeComponent
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import org.junit.jupiter.api.Test
@@ -35,7 +35,7 @@ internal class BeagleModuleTest {
 
         assertEquals(ComposeComponentMixin::class.java, mixins[ComposeComponent::class.java])
         assertEquals(ScreenBuilderMixin::class.java, mixins[ScreenBuilder::class.java])
-        assertEquals(BindMixin::class.java, mixins[Bind::class.java])
+        assertEquals(BindMixin::class.java, mixins[BindAttribute::class.java])
     }
 
     private fun KClass<BeagleModule>.property(name: String) =
