@@ -1,36 +1,36 @@
-  OpenExternalURL(url: "http://localhost")  -->  (Function) 
+  openExternalURL("http://localhost")  -->  NULL 
 
-  OpenNativeRoute(route: "path", data: nil, shouldResetApplication: false)  -->  (Function) 
+  openNativeRoute("path", data: nil, shouldResetApplication: false)  -->  NULL 
 
-  OpenNativeRoute(route: "path", data: Optional(["data": "value"]), shouldResetApplication: false)  -->  (Function) 
+  openNativeRoute("path", data: Optional(["data": "value"]), shouldResetApplication: false)  -->  NULL 
 
-  ResetApplication(route: BeagleUI.Route.declarative(BeagleUI.Screen(identifier: nil, appearance: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: BeagleUI.Container(children: [], widgetProperties: BeagleUI.WidgetProperties(id: nil, appearance: nil, flex: nil, accessibility: nil)))))  -->  (Function) 
+  resetApplication(BeagleUI.Route.declarative(BeagleUI.Screen(identifier: nil, appearance: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: BeagleUI.Container(children: [], widgetProperties: BeagleUI.WidgetProperties(id: nil, appearance: nil, flex: nil, accessibility: nil)))))  -->  NULL 
 
-  ResetApplication(route: BeagleUI.Route.remote(BeagleUI.Route.NewPath(route: "path", shouldPrefetch: true, fallback: nil)))  -->  (Function) 
+  resetApplication(BeagleUI.Route.remote("path", shouldPrefetch: true, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: true, fallback: nil) 
 
-  ResetApplication(route: BeagleUI.Route.remote(BeagleUI.Route.NewPath(route: "path", shouldPrefetch: false, fallback: nil)))  -->  (Function) 
+  resetApplication(BeagleUI.Route.remote("path", shouldPrefetch: false, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: false, fallback: nil) 
 
-  ResetStack(route: BeagleUI.Route.declarative(BeagleUI.Screen(identifier: nil, appearance: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: BeagleUI.Container(children: [], widgetProperties: BeagleUI.WidgetProperties(id: nil, appearance: nil, flex: nil, accessibility: nil)))))  -->  (Function) 
+  resetStack(BeagleUI.Route.declarative(BeagleUI.Screen(identifier: nil, appearance: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: BeagleUI.Container(children: [], widgetProperties: BeagleUI.WidgetProperties(id: nil, appearance: nil, flex: nil, accessibility: nil)))))  -->  NULL 
 
-  ResetStack(route: BeagleUI.Route.remote(BeagleUI.Route.NewPath(route: "path", shouldPrefetch: true, fallback: nil)))  -->  (Function) 
+  resetStack(BeagleUI.Route.remote("path", shouldPrefetch: true, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: true, fallback: nil) 
 
-  ResetStack(route: BeagleUI.Route.remote(BeagleUI.Route.NewPath(route: "path", shouldPrefetch: false, fallback: nil)))  -->  (Function) 
+  resetStack(BeagleUI.Route.remote("path", shouldPrefetch: false, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: false, fallback: nil) 
 
-  PushStack(route: BeagleUI.Route.declarative(BeagleUI.Screen(identifier: nil, appearance: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: BeagleUI.Container(children: [], widgetProperties: BeagleUI.WidgetProperties(id: nil, appearance: nil, flex: nil, accessibility: nil)))))  -->  (Function) 
+  pushStack(BeagleUI.Route.declarative(BeagleUI.Screen(identifier: nil, appearance: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: BeagleUI.Container(children: [], widgetProperties: BeagleUI.WidgetProperties(id: nil, appearance: nil, flex: nil, accessibility: nil)))))  -->  NULL 
 
-  PushStack(route: BeagleUI.Route.remote(BeagleUI.Route.NewPath(route: "path", shouldPrefetch: true, fallback: nil)))  -->  (Function) 
+  pushStack(BeagleUI.Route.remote("path", shouldPrefetch: true, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: true, fallback: nil) 
 
-  PushStack(route: BeagleUI.Route.remote(BeagleUI.Route.NewPath(route: "path", shouldPrefetch: false, fallback: nil)))  -->  (Function) 
+  pushStack(BeagleUI.Route.remote("path", shouldPrefetch: false, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: false, fallback: nil) 
 
-  PushView(route: BeagleUI.Route.declarative(BeagleUI.Screen(identifier: nil, appearance: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: BeagleUI.Container(children: [], widgetProperties: BeagleUI.WidgetProperties(id: nil, appearance: nil, flex: nil, accessibility: nil)))))  -->  (Function) 
+  pushView(BeagleUI.Route.declarative(BeagleUI.Screen(identifier: nil, appearance: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: BeagleUI.Container(children: [], widgetProperties: BeagleUI.WidgetProperties(id: nil, appearance: nil, flex: nil, accessibility: nil)))))  -->  NULL 
 
-  PushView(route: BeagleUI.Route.remote(BeagleUI.Route.NewPath(route: "path", shouldPrefetch: true, fallback: nil)))  -->  (Function) 
+  pushView(BeagleUI.Route.remote("path", shouldPrefetch: true, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: true, fallback: nil) 
 
-  PushView(route: BeagleUI.Route.remote(BeagleUI.Route.NewPath(route: "path", shouldPrefetch: false, fallback: nil)))  -->  (Function) 
+  pushView(BeagleUI.Route.remote("path", shouldPrefetch: false, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: false, fallback: nil) 
 
-  PopStack()  -->  (Function) 
+  popStack  -->  NULL 
 
-  PopView()  -->  (Function) 
+  popView  -->  NULL 
 
-  PopToView(route: "path")  -->  (Function) 
+  popToView("path")  -->  NULL 
 

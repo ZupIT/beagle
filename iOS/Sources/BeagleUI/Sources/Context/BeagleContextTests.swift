@@ -71,7 +71,7 @@ final class BeagleContextTests: XCTestCase {
             dependencies: BeagleScreenDependencies()
         ))
         let view = UILabel()
-        let action = PopView()
+        let action = Navigate.popView
         
         // When
         sut.register(events: [.action(action)], inView: view)
@@ -100,7 +100,7 @@ final class BeagleContextTests: XCTestCase {
         }
         
         let view = UILabel()
-        let action = PopView()
+        let action = Navigate.popView
         sut.register(events: [.action(action)], inView: view)
         
         guard let eventsGestureRecognizer = view.gestureRecognizers?.first as? EventsGestureRecognizer else {

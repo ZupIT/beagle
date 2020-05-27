@@ -23,7 +23,7 @@ final class BeagleNavigatorTests: XCTestCase {
 
         // Given
         let opener = URLOpenerDumb()
-        let action = OpenExternalURL("https://localhost:8080")
+        let action = Navigate.openExternalURL("https://localhost:8080")
         let context = BeagleScreenViewController(component: ComponentDummy())
         let sut = BeagleNavigator(dependencies: NavigatorDependencies(opener: opener))
 
@@ -37,7 +37,7 @@ final class BeagleNavigatorTests: XCTestCase {
     func test_openDeepLink_shouldNotPushANativeScreenToNavigationWhenDeepLinkHandlerItsNotSet() {
         // Given
         let sut = BeagleNavigator(dependencies: NavigatorDependencies())
-        let action = OpenNativeRoute(route: "https://example.com/screen.json")
+        let action = Navigate.openNativeRoute("https://example.com/screen.json")
         let context = BeagleScreenViewController(component: ComponentDummy())
         let navigation = BeagleNavigationController(rootViewController: context)
         
@@ -57,7 +57,7 @@ final class BeagleNavigatorTests: XCTestCase {
         let sut = BeagleNavigator(dependencies: dependencies)
         let context = BeagleScreenViewController(component: ComponentDummy())
 
-        let resetRemote = ResetApplication(.remote(.init(route: "https://example.com/screen.json")))
+        let resetRemote = Navigate.resetApplication(.remote("https://example.com/screen.json"))
 
         // When
         sut.navigate(action: resetRemote, context: context)
@@ -75,7 +75,7 @@ final class BeagleNavigatorTests: XCTestCase {
         let sut = BeagleNavigator(dependencies: dependencies)
         let context = BeagleScreenViewController(component: ComponentDummy())
 
-        let resetDeclarative = ResetApplication(.declarative(Screen(child: Text("Declarative"))))
+        let resetDeclarative = Navigate.resetApplication(.declarative(Screen(child: Text("Declarative"))))
 
         // When
         sut.navigate(action: resetDeclarative, context: context)
@@ -85,8 +85,8 @@ final class BeagleNavigatorTests: XCTestCase {
     }
 
     func test_swapView_shouldReplaceNavigationStack() {
-        let swapRemote = ResetStack(.remote(.init(route: "https://example.com/screen.json")))
-        let swapDeclarative = ResetStack(.declarative(Screen(child: Text("Declarative"))))
+        let swapRemote = Navigate.resetStack(.remote("https://example.com/screen.json"))
+        let swapDeclarative = Navigate.resetStack(.declarative(Screen(child: Text("Declarative"))))
         
         swapViewTest(swapRemote)
         swapViewTest(swapDeclarative)
@@ -106,8 +106,8 @@ final class BeagleNavigatorTests: XCTestCase {
     }
 
     func test_addView_shouldPushScreenInNavigation() {
-        let addViewRemote = PushView(.remote(.init(route: "https://example.com/screen.json")))
-        let addViewDeclarative = PushView(.declarative(Screen(child: Text("Declarative"))))
+        let addViewRemote = Navigate.pushView(.remote("https://example.com/screen.json"))
+        let addViewDeclarative = Navigate.pushView(.declarative(Screen(child: Text("Declarative"))))
         
         addViewTest(addViewRemote)
         addViewTest(addViewDeclarative)
@@ -127,7 +127,7 @@ final class BeagleNavigatorTests: XCTestCase {
     func test_popStack_shouldDismissNavigation() {
         // Given
         let sut = BeagleNavigator(dependencies: NavigatorDependencies())
-        let action = PopStack()
+        let action = Navigate.popStack
         let navigationSpy = UINavigationControllerSpy(
             viewModel: .init(screenType: .declarative(ComponentDummy().toScreen()))
         )
@@ -142,7 +142,7 @@ final class BeagleNavigatorTests: XCTestCase {
     func test_popView_shouldPopNavigationScreen() {
         // Given
         let sut = BeagleNavigator(dependencies: NavigatorDependencies())
-        let action = PopView()
+        let action = Navigate.popView
         let firstViewController = BeagleScreenViewController(component: Text("First"))
         let secondViewController = BeagleScreenViewController(component: Text("Second"))
         let thirdViewController = BeagleScreenViewController(component: Text("Third"))
@@ -163,7 +163,7 @@ final class BeagleNavigatorTests: XCTestCase {
         let screenURL3 = "https://example.com/screen3.json"
         let sut = BeagleNavigator(dependencies: NavigatorDependencies())
         let component = SimpleComponent()
-        let action = PopToView(screenURL1)
+        let action = Navigate.popToView(screenURL1)
         let vc1 = beagleViewController(screen: .declarative(component.content.toScreen()))
         let vc2 = beagleViewController(screen: .remote(.init(url: screenURL2)))
         let vc3 = beagleViewController(screen: .remote(.init(url: screenURL3)))
@@ -185,7 +185,7 @@ final class BeagleNavigatorTests: XCTestCase {
         let screenURL2 = "https://example.com/screen2.json"
         let screenURL3 = "https://example.com/screen3.json"
         let sut = BeagleNavigator(dependencies: NavigatorDependencies())
-        let action = PopToView(screenURL2)
+        let action = Navigate.popToView(screenURL2)
         let vc1 = beagleViewController(screen: .remote(.init(url: screenURL1)))
         let vc2 = beagleViewController(screen: .remote(.init(url: screenURL2)))
         let vc3 = beagleViewController(screen: .remote(.init(url: screenURL3)))
@@ -212,14 +212,14 @@ final class BeagleNavigatorTests: XCTestCase {
         navigation.viewControllers = stack
         
         sut.navigate(
-            action: PopToView("https://server.com/path/screen"),
+            action: Navigate.popToView("https://server.com/path/screen"),
             context: screen
         )
         XCTAssert(navigation.viewControllers.last == screen)
         
         navigation.viewControllers = stack
         sut.navigate(
-            action: PopToView("/screen"),
+            action: Navigate.popToView("/screen"),
             context: BeagleContextDummy(viewController: stack[2])
         )
         XCTAssert(navigation.viewControllers.last == screen)
@@ -232,7 +232,7 @@ final class BeagleNavigatorTests: XCTestCase {
         let vc2 = beagleViewController(screen: .declarative(Screen(identifier: "2", child: Text("Screen 2"))))
         let vc3 = UIViewController()
         let vc4 = beagleViewController(screen: .declarative(Screen(identifier: "4", child: Text("Screen 4"))))
-        let action = PopToView("2")
+        let action = Navigate.popToView("2")
         
         let context = BeagleContextDummy(viewController: vc4)
         let navigation = UINavigationController()
@@ -247,8 +247,8 @@ final class BeagleNavigatorTests: XCTestCase {
     }
 
     func test_pushStack_shouldPresentTheScreen() {
-        let presentViewRemote = PushStack(.remote(.init(route: "https://example.com/screen.json")))
-        let presentViewDeclarative = PushStack(.declarative(Screen(child: Text("Declarative"))))
+        let presentViewRemote = Navigate.pushStack(.remote("https://example.com/screen.json"))
+        let presentViewDeclarative = Navigate.pushStack(.declarative(Screen(child: Text("Declarative"))))
         
         pushStackTest(presentViewRemote)
         pushStackTest(presentViewDeclarative)
@@ -273,7 +273,7 @@ final class BeagleNavigatorTests: XCTestCase {
         
         let data = ["uma": "uma", "dois": "duas"]
         let path = "https://example.com/screen.json"
-        let action = OpenNativeRoute(route: path, data: data)
+        let action = Navigate.openNativeRoute(path, data: data)
         let firstViewController = BeagleScreenViewController(component: Text("First"))
         let navigation = BeagleNavigationController(rootViewController: firstViewController)
         

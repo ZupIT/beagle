@@ -1,0 +1,6 @@
+▿ Navigate
+  ▿ resetStack: Route
+    ▿ remote: (3 elements)
+      - .0: "schema://path"
+      - shouldPrefetch: false
+      - fallback: Optional<Screen>.none

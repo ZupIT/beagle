@@ -54,7 +54,7 @@ extension Button: Renderable {
         )
         button.setTitle(text, for: .normal)
         
-        if let newPath = (action as? Navigate)?.newPath() {
+        if let newPath = (action as? Navigate)?.newPath {
             dependencies.preFetchHelper.prefetchComponent(newPath: newPath)
         }
         

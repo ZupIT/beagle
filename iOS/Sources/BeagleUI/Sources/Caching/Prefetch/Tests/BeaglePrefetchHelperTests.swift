@@ -82,29 +82,29 @@ final class BeaglePrefetchHelperTests: XCTestCase {
         let container = Container(children: [])
 
         let actions: [Navigate] = [
-            OpenExternalURL("http://localhost"),
-            OpenNativeRoute(route: path, data: nil),
-            OpenNativeRoute(route: path, data: data),
+            Navigate.openExternalURL("http://localhost"),
+            Navigate.openNativeRoute(path, data: nil),
+            Navigate.openNativeRoute(path, data: data),
 
-            ResetApplication(.declarative(Screen(child: container))),
-            ResetApplication(.remote(.init(route: path, shouldPrefetch: true))),
-            ResetApplication(.remote(.init(route: path, shouldPrefetch: false))),
+            Navigate.resetApplication(.declarative(Screen(child: container))),
+            Navigate.resetApplication(.remote(path, shouldPrefetch: true)),
+            Navigate.resetApplication(.remote(path, shouldPrefetch: false)),
 
-            ResetStack(.declarative(Screen(child: container))),
-            ResetStack(.remote(.init(route: path, shouldPrefetch: true))),
-            ResetStack(.remote(.init(route: path, shouldPrefetch: false))),
+            Navigate.resetStack(.declarative(Screen(child: container))),
+            Navigate.resetStack(.remote(path, shouldPrefetch: true)),
+            Navigate.resetStack(.remote(path, shouldPrefetch: false)),
 
-            PushStack(.declarative(Screen(child: container))),
-            PushStack(.remote(.init(route: path, shouldPrefetch: true))),
-            PushStack(.remote(.init(route: path, shouldPrefetch: false))),
+            Navigate.pushStack(.declarative(Screen(child: container))),
+            Navigate.pushStack(.remote(path, shouldPrefetch: true)),
+            Navigate.pushStack(.remote(path, shouldPrefetch: false)),
 
-            PushView(.declarative(Screen(child: container))),
-            PushView(.remote(.init(route: path, shouldPrefetch: true))),
-            PushView(.remote(.init(route: path, shouldPrefetch: false))),
+            Navigate.pushView(.declarative(Screen(child: container))),
+            Navigate.pushView(.remote(path, shouldPrefetch: true)),
+            Navigate.pushView(.remote(path, shouldPrefetch: false)),
 
-            PopStack(),
-            PopView(),
-            PopToView(path)
+            Navigate.popStack,
+            Navigate.popView,
+            Navigate.popToView(path)
         ]
 
         let bools = actions.map { $0.newPath }

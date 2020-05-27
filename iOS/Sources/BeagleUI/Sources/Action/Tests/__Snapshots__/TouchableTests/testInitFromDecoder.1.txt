@@ -1,5 +1,5 @@
 ▿ Touchable
-  - action: PopView
+  - action: Navigate.popView
   ▿ child: Text
     - alignment: Optional<Alignment>.none
     - style: Optional<String>.none

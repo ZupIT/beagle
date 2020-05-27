@@ -14,21 +14,46 @@
  * limitations under the License.
  */
 
-public protocol Navigate: Action {}
+public enum Navigate: Action {
+    
+    case openExternalURL(String)
+    case openNativeRoute(String, data: [String: String]? = nil, shouldResetApplication: Bool = false)
 
-extension Navigate {
-    func newPath() -> Route.NewPath? {
+    case resetApplication(Route)
+    case resetStack(Route)
+        
+    case pushStack(Route)
+    case popStack
+
+    case pushView(Route)
+    case popView
+    case popToView(String)
+    
+    var newPath: Route.NewPath? {
         switch self {
-        case let action as ResetApplication:
-            return action.route.path
-        case let action as ResetStack:
-            return action.route.path
-        case let action as PushStack:
-            return action.route.path
-        case let action as PushView:
-            return action.route.path
+        case let .resetApplication(route),
+             let .resetStack(route),
+             let .pushStack(route),
+             let .pushView(route):
+            return route.path
         default:
             return nil
+        }
+    }
+    
+    public struct DeepLink {
+        let route: String
+        var data: [String: String]?
+        var shouldResetApplication: Bool = false
+
+        public init(
+            route: String,
+            data: [String: String]? = nil,
+            shouldResetApplication: Bool = false
+        ) {
+            self.route = route
+            self.data = data
+            self.shouldResetApplication = shouldResetApplication
         }
     }
 }
@@ -46,96 +71,61 @@ public enum Route {
         }
     }
     
-    case remote(NewPath)
+    case remote(String, shouldPrefetch: Bool = false, fallback: Screen? = nil)
     case declarative(Screen)
     
     var path: NewPath? {
         switch self {
-        case .remote(let path):
-            return path
+        case let .remote(route, shouldPrefetch, fallback):
+            return NewPath(route: route, shouldPrefetch: shouldPrefetch, fallback: fallback)
         case .declarative:
             return nil
         }
     }
 }
 
-public struct OpenExternalURL: Navigate {
-    let url: String
+// MARK: Decodable
 
-    public init(
-        _ url: String
-    ) {
-        self.url = url
+extension Navigate.DeepLink: Decodable {}
+
+extension Navigate: Decodable {
+    
+    enum CodingKeys: CodingKey {
+        case _beagleAction_
+        case route
+        case url
     }
-}
-
-public struct OpenNativeRoute: Navigate {
-    let route: String
-    var data: [String: String]?
-    var shouldResetApplication: Bool = false
-
-    public init(
-        route: String,
-        data: [String: String]? = nil,
-        shouldResetApplication: Bool = false
-    ) {
-        self.route = route
-        self.data = data
-        self.shouldResetApplication = shouldResetApplication
-    }
-}
-
-public struct ResetApplication: Navigate {
-    let route: Route
-
-    public init(
-        _ route: Route
-    ) {
-        self.route = route
-    }
-}
-
-public struct ResetStack: Navigate {
-    let route: Route
-
-    public init(
-        _ route: Route
-    ) {
-        self.route = route
-    }
-}
-
-public struct PushStack: Navigate {
-    let route: Route
-
-    public init(
-        _ route: Route
-    ) {
-        self.route = route
-    }
-}
-
-public struct PopStack: Navigate {}
-
-public struct PushView: Navigate {
-    let route: Route
-
-    public init(
-        _ route: Route
-    ) {
-        self.route = route
-    }
-}
-
-public struct PopView: Navigate {}
-
-public struct PopToView: Navigate {
-    let route: String
-
-    public init(
-        _ route: String
-    ) {
-        self.route = route
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let type = try container.decode(String.self, forKey: ._beagleAction_)
+        switch type.lowercased() {
+        case "beagle:openexternalurl":
+            self = .openExternalURL(try container.decode(String.self, forKey: .url))
+        case "beagle:opennativeroute":
+            let deepLink: Navigate.DeepLink = try .init(from: decoder)
+            self = .openNativeRoute(deepLink.route,
+                                    data: deepLink.data,
+                                    shouldResetApplication: deepLink.shouldResetApplication)
+        case "beagle:resetapplication":
+            self = .resetApplication(try container.decode(Route.self, forKey: .route))
+        case "beagle:resetstack":
+            self = .resetStack(try container.decode(Route.self, forKey: .route))
+        case "beagle:pushstack":
+            self = .pushStack(try container.decode(Route.self, forKey: .route))
+        case "beagle:popstack":
+            self = .popStack
+        case "beagle:pushview":
+            self = .pushView(try container.decode(Route.self, forKey: .route))
+        case "beagle:popview":
+            self = .popView
+        case "beagle:poptoview":
+            self = .popToView(try container.decode(String.self, forKey: .route))
+        default:
+            throw DecodingError.dataCorruptedError(forKey: ._beagleAction_,
+                                                   in: container,
+                                                   debugDescription: "Can't decode '\(type)'")
+        }
     }
 }
 
@@ -143,6 +133,22 @@ extension Route: Decodable {
     
     enum CodingKeys: CodingKey {
         case screen
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        if let screen = try? container.decode(ScreenComponent.self, forKey: .screen) {
+            self = .declarative(screen.toScreen())
+        } else {
+            let newPath: Route.NewPath = try .init(from: decoder)
+            self = .remote(newPath.route, shouldPrefetch: newPath.shouldPrefetch, fallback: newPath.fallback)
+        }
+    }
+}
+
+extension Route.NewPath: Decodable {
+    
+    enum CodingKeys: CodingKey {
         case route
         case shouldPrefetch
         case fallback
@@ -150,13 +156,8 @@ extension Route: Decodable {
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        if let screen = try? container.decode(ScreenComponent.self, forKey: .screen) {
-            self = Route.declarative(screen.toScreen())
-        } else {
-            let route = try container.decode(String.self, forKey: .route)
-            let shouldPrefetch = try container.decodeIfPresent(Bool.self, forKey: .screen)
-            let fallback = try container.decodeIfPresent(ScreenComponent.self, forKey: .screen)
-            self = Route.remote(Route.NewPath(route: route, shouldPrefetch: shouldPrefetch ?? false, fallback: fallback?.toScreen()))
-        }
+        self.route = try container.decode(String.self, forKey: .route)
+        self.shouldPrefetch = try container.decodeIfPresent(Bool.self, forKey: .shouldPrefetch) ?? false
+        self.fallback = try container.decodeIfPresent(ScreenComponent.self, forKey: .fallback)?.toScreen()
     }
 }

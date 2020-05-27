@@ -39,7 +39,7 @@ final class ActionExecutorTests: XCTestCase {
         let sut = ActionExecuting(dependencies: Dependencies(
             navigation: navigationSpy
         ))
-        let action = PushView(.remote(.init(route: "")))
+        let action = Navigate.pushView(.remote(""))
         
         // When
         sut.doAction(action, sender: self, context: BeagleContextDummy())

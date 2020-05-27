@@ -55,7 +55,6 @@ public enum Log {
     }
 
     public enum Navigator {
-        case invalidAction(Navigate)
         case didReceiveAction(Navigate)
         case errorTryingToPopScreenOnNavigatorWithJustOneScreen
         case didNotFindDeepLinkScreen(path: String)
@@ -176,7 +175,7 @@ extension Log: LogType {
 
         case .navigation(let nav):
             switch nav {
-            case .errorTryingToPopScreenOnNavigatorWithJustOneScreen, .didNotFindDeepLinkScreen, .cantPopToAlreadyCurrentScreen, .invalidExternalUrl, .unableToOpenExternalUrl, .invalidAction:
+            case .errorTryingToPopScreenOnNavigatorWithJustOneScreen, .didNotFindDeepLinkScreen, .cantPopToAlreadyCurrentScreen, .invalidExternalUrl, .unableToOpenExternalUrl:
                 return .error
             case .didReceiveAction, .didNavigateToExternalUrl:
                 return .info

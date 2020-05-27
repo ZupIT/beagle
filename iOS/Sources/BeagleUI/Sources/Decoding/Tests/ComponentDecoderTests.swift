@@ -93,7 +93,7 @@ final class ComponentDecoderTests: XCTestCase {
 
         let action = try sut.decodeAction(from: jsonData)
 
-        if !(action is PopStack) {
+        guard case Navigate.popStack = action else {
             XCTFail("decoding failed"); return
         }
     }

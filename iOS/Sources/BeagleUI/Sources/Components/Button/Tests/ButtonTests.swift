@@ -57,7 +57,7 @@ final class ButtonTests: XCTestCase {
         let dependencies = BeagleScreenDependencies(preFetchHelper: prefetch)
         
         let navigatePath = "path-to-prefetch"
-        let navigate = PushStack(.remote(.init(route: navigatePath)))
+        let navigate = Navigate.pushStack(.remote(navigatePath))
         let button = Button(text: "prefetch", action: navigate)
         
         _ = button.toView(context: BeagleContextDummy(), dependencies: dependencies)

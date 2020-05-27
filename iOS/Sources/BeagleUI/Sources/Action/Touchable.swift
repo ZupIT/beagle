@@ -49,7 +49,7 @@ extension Touchable: Renderable {
     }
     
     private func prefetchComponent(context: BeagleContext, dependencies: RenderableDependencies) {
-        guard let newPath = (action as? Navigate)?.newPath() else { return }
+        guard let newPath = (action as? Navigate)?.newPath else { return }
         dependencies.preFetchHelper.prefetchComponent(newPath: newPath)
     }
 }

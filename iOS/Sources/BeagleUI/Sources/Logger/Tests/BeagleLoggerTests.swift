@@ -40,9 +40,9 @@ class BeagleLoggerTests: XCTestCase {
             Log.form(.validatorNotFound(named: "validatorName")),
 
             Log.navigation(.cantPopToAlreadyCurrentScreen(identifier: "identifier")),
-            Log.navigation(.didReceiveAction(PushView(.remote(.init(route: path))))),
-            Log.navigation(.didReceiveAction(OpenNativeRoute(route: path))),
-            Log.navigation(.didReceiveAction(OpenNativeRoute(route: path, data: ["key": "value"]))),
+            Log.navigation(.didReceiveAction(Navigate.pushView(.remote(path)))),
+            Log.navigation(.didReceiveAction(Navigate.openNativeRoute(path))),
+            Log.navigation(.didReceiveAction(Navigate.openNativeRoute(path, data: ["key": "value"]))),
             Log.navigation(.errorTryingToPopScreenOnNavigatorWithJustOneScreen),
             Log.navigation(.didNotFindDeepLinkScreen(path: path)),
 

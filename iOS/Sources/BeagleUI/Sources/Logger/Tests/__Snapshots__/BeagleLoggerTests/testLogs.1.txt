@@ -28,11 +28,11 @@ validatorNotFound(named: "validatorName")
 
 cantPopToAlreadyCurrentScreen(identifier: "identifier")
 
-didReceiveAction(BeagleUI.PushView(route: BeagleUI.Route.remote(BeagleUI.Route.NewPath(route: "path", shouldPrefetch: false, fallback: nil))))
+didReceiveAction(BeagleUI.Navigate.pushView(BeagleUI.Route.remote("path", shouldPrefetch: false, fallback: nil)))
 
-didReceiveAction(BeagleUI.OpenNativeRoute(route: "path", data: nil, shouldResetApplication: false))
+didReceiveAction(BeagleUI.Navigate.openNativeRoute("path", data: nil, shouldResetApplication: false))
 
-didReceiveAction(BeagleUI.OpenNativeRoute(route: "path", data: Optional(["key": "value"]), shouldResetApplication: false))
+didReceiveAction(BeagleUI.Navigate.openNativeRoute("path", data: Optional(["key": "value"]), shouldResetApplication: false))
 
 errorTryingToPopScreenOnNavigatorWithJustOneScreen
 

@@ -53,16 +53,11 @@ public final class URLOpenerDefault: URLOpener {
             return
         }
 
-        if #available(iOS 10.0, *) {
-            UIApplication.shared.open(pathURL, options: [:]) { [weak self] success in
-                guard let self = self else { return }
-                let navigationEvent: Log.Navigator = success ?
-                    .didNavigateToExternalUrl(path: path) : .unableToOpenExternalUrl(path: path)
-                self.dependencies.logger.log(Log.navigation(navigationEvent))
-            }
-        } else {
-            UIApplication.shared.openURL(pathURL)
-            self.dependencies.logger.log(Log.navigation(.didNavigateToExternalUrl(path: path)))
+        UIApplication.shared.open(pathURL, options: [:]) { [weak self] success in
+            guard let self = self else { return }
+            let navigationEvent: Log.Navigator = success ?
+                .didNavigateToExternalUrl(path: path) : .unableToOpenExternalUrl(path: path)
+            self.dependencies.logger.log(Log.navigation(navigationEvent))
         }
     }
 }
