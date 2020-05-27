@@ -1,13 +1,13 @@
 {
-    "_beagleType_": "beagle:component:tabView",
+    "_beagleComponent_": "beagle:tabView",
     "tabItems": [
         {
-            "_beagleType_": "beagle:component:tabItem",
+            "_beagleComponent_": "beagle:tabItem",
             "icon": "beagle",
             "title": "tab 1",
             "content":
                 {
-                    "_beagleType_": "beagle:component:container",
+                    "_beagleComponent_": "beagle:container",
                     "flex": {
                         "flexDirection": "COLUMN",
                         "flexWrap": "NO_WRAP",
@@ -15,15 +15,15 @@
                     },
                     "children": [
                         {
-                            "_beagleType_": "beagle:component:text",
+                            "_beagleComponent_": "beagle:text",
                             "text": "1 This is a text"
                         },
                         {
-                            "_beagleType_": "beagle:component:text",
+                            "_beagleComponent_": "beagle:text",
                             "text": "This is a text"
                         },
                         {
-                            "_beagleType_": "beagle:component:text",
+                            "_beagleComponent_": "beagle:text",
                             "text": "This is a text"
                         }
                     ]

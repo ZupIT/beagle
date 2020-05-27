@@ -1,5 +1,5 @@
 {
-   "_beagleType_":"beagle:component:text",
+   "_beagleComponent_":"beagle:text",
    "text":"BeaglePreview",
    "style": "test.text.style",
    "alignment":"CENTER",
