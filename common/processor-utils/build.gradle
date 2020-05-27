@@ -24,3 +24,5 @@ dependencies {
     implementation GeneralLibraries.kotlinPoet
     implementation project(Modules.beagleCoreDeclarative)
 }
+
+apply from: rootProject.file('maven-publish.gradle')
