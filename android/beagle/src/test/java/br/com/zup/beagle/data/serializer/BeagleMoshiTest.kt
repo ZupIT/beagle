@@ -47,7 +47,7 @@ import br.com.zup.beagle.widget.layout.Vertical
 import br.com.zup.beagle.widget.lazy.LazyComponent
 import br.com.zup.beagle.widget.pager.PageIndicator
 import br.com.zup.beagle.widget.ui.Button
-import br.com.zup.beagle.widget.ui.Image
+import br.com.zup.beagle.widget.ui.OldImage
 import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.NetworkImage
 import br.com.zup.beagle.widget.ui.Text
@@ -293,13 +293,13 @@ class BeagleMoshiTest {
 
         // Then
         assertNotNull(actual)
-        assertTrue(actual is Image)
+        assertTrue(actual is OldImage)
     }
 
     @Test
     fun make_should_return_moshi_to_serialize_a_Image() {
         // Given
-        val component = Image(RandomData.string())
+        val component = OldImage(RandomData.string())
 
         // When
         val actual =

@@ -16,7 +16,14 @@
 
 package br.com.zup.beagle.widget.ui
 
-import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.core.ImageContentMode
+sealed class ImagePath(val url: String?) {
+    class Local internal constructor(webUrl: String?, val mobileId: String?): ImagePath(webUrl) {
+        companion object {
+            fun both(webUrl: String, mobileId: String) = Local(webUrl, mobileId)
+            fun justMobile(mobileId: String) = Local(null, mobileId)
+            fun justWeb(webUrl: String) = Local(webUrl, null)
+        }
+    }
 
-data class Image(val path: ImagePath, val mode: ImageContentMode? = null) : Widget()
+    class Remote(remoteUrl: String): ImagePath(remoteUrl)
+}

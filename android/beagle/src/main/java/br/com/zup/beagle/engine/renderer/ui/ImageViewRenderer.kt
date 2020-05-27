@@ -24,13 +24,13 @@ import br.com.zup.beagle.engine.renderer.UIViewRenderer
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.core.ImageContentMode
-import br.com.zup.beagle.widget.ui.Image
+import br.com.zup.beagle.widget.ui.OldImage
 
 internal class ImageViewRenderer(
-    override val component: Image,
+    override val component: OldImage,
     private val viewFactory: ViewFactory = ViewFactory(),
     private val viewMapper: ViewMapper = ViewMapper()
-) : UIViewRenderer<Image>() {
+) : UIViewRenderer<OldImage>() {
 
     override fun buildView(rootView: RootView): View {
         return viewFactory.makeImageView(rootView.getContext()).apply {
@@ -38,7 +38,7 @@ internal class ImageViewRenderer(
         }
     }
 
-    private fun ImageView.setData(widget: Image, viewMapper: ViewMapper) {
+    private fun ImageView.setData(widget: OldImage, viewMapper: ViewMapper) {
         val contentMode = widget.contentMode ?: ImageContentMode.FIT_CENTER
         scaleType = viewMapper.toScaleType(contentMode)
         val designSystem = BeagleEnvironment.beagleSdk.designSystem

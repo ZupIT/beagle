@@ -30,9 +30,10 @@ import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.lazy.LazyComponent
 import br.com.zup.beagle.widget.ui.Image
+import br.com.zup.beagle.widget.ui.ImagePath.Local
+import br.com.zup.beagle.widget.ui.ImagePath.Remote
 import br.com.zup.beagle.widget.ui.ListDirection
 import br.com.zup.beagle.widget.ui.ListView
-import br.com.zup.beagle.widget.ui.NetworkImage
 import br.com.zup.beagle.widget.ui.Text
 
 class ListViewFragment : Fragment() {
@@ -71,12 +72,12 @@ class ListViewFragment : Fragment() {
             Text("0011"),
             Text("0012"),
             Text("0013"),
-            Image(name = "beagle"),
+            Image(Local.justMobile("beagle")),
             Text("0014"),
             Text("0015"),
             Text("0016"),
-            NetworkImage(
-                path = "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271"
+            Image(
+                Remote("https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271")
             ),
             Text("0017"),
             Text("0018"),

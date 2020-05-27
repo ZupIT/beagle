@@ -25,7 +25,8 @@ import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.ui.NetworkImage
+import br.com.zup.beagle.widget.ui.Image
+import br.com.zup.beagle.widget.ui.ImagePath.Remote
 import br.com.zup.beagle.widget.ui.TabItem
 import br.com.zup.beagle.widget.ui.TabView
 import br.com.zup.beagle.widget.ui.Text
@@ -36,7 +37,7 @@ object TabViewScreenBuilder : ScreenBuilder {
         content = Container(
             children = listOf(
                 Text("Text1 Tab 2"),
-                NetworkImage(BEACH_NETWORK_IMAGE),
+                Image(Remote(BEACH_NETWORK_IMAGE)),
                 Text("Text2 Tab 2")
             )
         ).applyFlex(Flex(alignContent = Alignment.CENTER))

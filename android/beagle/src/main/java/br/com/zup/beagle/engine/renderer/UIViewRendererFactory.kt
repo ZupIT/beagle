@@ -36,7 +36,7 @@ import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.FormInputHidden
 import br.com.zup.beagle.widget.form.FormSubmit
 import br.com.zup.beagle.widget.ui.Button
-import br.com.zup.beagle.widget.ui.Image
+import br.com.zup.beagle.widget.ui.OldImage
 import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.NetworkImage
 import br.com.zup.beagle.widget.ui.TabView
@@ -53,7 +53,7 @@ internal class UIViewRendererFactory : AbstractViewRendererFactory {
             when (component) {
                 is Button -> ButtonViewRenderer(component)
                 is Text -> TextViewRenderer(component)
-                is Image -> ImageViewRenderer(component)
+                is OldImage -> ImageViewRenderer(component)
                 is NetworkImage -> NetworkImageViewRenderer(component)
                 is ListView -> ListViewRenderer(component)
                 is FormInput -> FormInputViewRenderer(component)

@@ -33,7 +33,8 @@ import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScrollView
-import br.com.zup.beagle.widget.ui.NetworkImage
+import br.com.zup.beagle.widget.ui.Image
+import br.com.zup.beagle.widget.ui.ImagePath.Remote
 import br.com.zup.beagle.widget.ui.Text
 
 class ScrollViewFragment : Fragment() {
@@ -59,8 +60,8 @@ class ScrollViewFragment : Fragment() {
 
     private fun buildScrollView() = ScrollView(
         children = listOf(
-            NetworkImage(
-                path = "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271"
+            Image(
+                Remote("https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271")
             ).applyFlex(Flex(shrink = 0.0, size = Size(width = 200.unitReal(), height = 200.unitReal())))
                 .applyAppearance(Appearance(cornerRadius = CornerRadius(30.0))),
             Text("Text 1").applyFlex(flex),
