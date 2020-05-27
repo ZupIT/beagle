@@ -16,9 +16,10 @@
 
 package br.com.zup.beagle.serialization.jackson
 
+import br.com.zup.beagle.core.BindAttribute
 import com.fasterxml.jackson.annotation.JsonValue
 
-internal interface BindMixin {
+internal object BindMixin : BindAttribute<Any> {
     @get:JsonValue
-    val value: Any
+    override val value: Any = this
 }
