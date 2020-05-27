@@ -1,3 +1,5 @@
+@file:Suppress("TooManyFunctions", "LongParameterList")
+
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -27,9 +29,9 @@ class FlexBuilder {
     private var shrink: Double? = null
     private var grow: Double? = null
     private var flex: Double? = null
-    private var alignSelf: Alignment? = null
-    private var alignItems: Alignment? = null
-    private var alignContent: Alignment? = null
+    private var alignSelf: AlignSelf? = null
+    private var alignItems: AlignItems? = null
+    private var alignContent: AlignContent? = null
     private var direction: Direction? = null
     private var justifyContent: JustifyContent? = null
     private var basis: UnitValue? = null
@@ -55,11 +57,11 @@ class FlexBuilder {
         alignContent = this.alignContent
     )
 
-    fun alignContent(type: Alignment) = this.apply { this.alignContent = type }
+    fun alignContent(type: AlignContent) = this.apply { this.alignContent = type }
 
-    fun alignItems(type: Alignment) = this.apply { this.alignItems = type }
+    fun alignItems(type: AlignItems) = this.apply { this.alignItems = type }
 
-    fun alignSelf(type: Alignment) = this.apply { this.alignSelf = type }
+    fun alignSelf(type: AlignSelf) = this.apply { this.alignSelf = type }
 
     fun direction(type: Direction) = this.apply { this.direction = type }
 
