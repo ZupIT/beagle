@@ -21,7 +21,6 @@ import android.view.View
 import br.com.zup.beagle.BaseTest
 import br.com.zup.beagle.action.ActionExecutor
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.NavigationType
 import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -29,7 +28,6 @@ import br.com.zup.beagle.data.PreFetchHelper
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.engine.renderer.ViewRenderer
 import br.com.zup.beagle.engine.renderer.ViewRendererFactory
-import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.view.BeagleFlexView
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.navigation.Touchable
@@ -41,7 +39,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.slot
 import io.mockk.verify
 import org.junit.Test
@@ -49,7 +46,7 @@ import kotlin.test.assertEquals
 
 class TouchableViewRendererTest : BaseTest() {
 
-    val touchableAction =  Navigate(NavigationType.ADD_VIEW)
+    val touchableAction = Navigate.PopView()
 
     @MockK
     private lateinit var touchable: Touchable
