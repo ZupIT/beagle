@@ -24,6 +24,15 @@ import SchemaTests
 class CustomPageIndicatorTest: XCTestCase {
 
     private static let typeName = "CustomPageIndicator"
+    private let indicator = CustomPageIndicator(
+        selectedColor: "selectedColor",
+        defaultColor: "defaultColor"
+    )
+    
+    private lazy var decoder: ComponentDecoding = {
+        Beagle.dependencies.decoder
+    }()
+    private lazy var dependencies = BeagleScreenDependencies()
     
     override func setUp() {
         super.setUp()
@@ -39,36 +48,9 @@ class CustomPageIndicatorTest: XCTestCase {
         super.tearDown()
     }
 
-    private lazy var decoder: ComponentDecoding = {
-        Beagle.dependencies.decoder
-    }()
-
-    let indicator = CustomPageIndicator(
-        selectedColor: "selectedColor",
-        defaultColor: "defaultColor"
-    )
-
-    private lazy var dependencies = BeagleScreenDependencies()
-
-    func test_indicator_decoder() throws {
-        let component: CustomPageIndicator = try componentFromJsonFile(
-            fileName: CustomPageIndicatorTest.typeName,
-            decoder: decoder
-        )
-        assertSnapshot(matching: component, as: .dump)
-    }
-
     func test_indicator_render() {
         let view = indicator.toView(context: BeagleContextDummy(), dependencies: dependencies)
         assertSnapshotImage(view, size: .init(width: 200, height: 30))
-    }
-
-    func test_pageViewWithCustomIndicator_decoder() throws {
-        let component: PageView = try componentFromJsonFile(
-            fileName: "PageViewWithCustomIndicator",
-            decoder: decoder
-        )
-        assertSnapshot(matching: component.pageIndicator, as: .dump)
     }
 
     func test_pageViewWithCustomIndicator_render() {

@@ -18,7 +18,7 @@ import UIKit
 import Schema
 
 //TODO: avoid casting child to serverDriven Component
-extension Form: Renderable {
+extension Form: ServerDrivenComponent {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         guard let childView = (child as? ServerDrivenComponent)?.toView(context: context, dependencies: dependencies) else {
             return UIView()
@@ -57,7 +57,7 @@ extension UIView {
     }
     
     //TODO: check for possible failure here
-    var beagleFormElement: Schema.ServerDrivenComponent? {
+    var beagleFormElement: BeagleUI.ServerDrivenComponent? {
         get {
             return (objc_getAssociatedObject(self, &AssociatedKeys.FormElement) as? ObjectWrapper)?.object
         }

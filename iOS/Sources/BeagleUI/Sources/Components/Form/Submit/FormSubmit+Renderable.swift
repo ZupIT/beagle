@@ -18,7 +18,7 @@ import UIKit
 import Schema
 
 //TODO: avoid the casting to SErver driven component
-extension FormSubmit: Renderable {
+extension FormSubmit: ServerDrivenComponent {
     
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         guard let childView = (child as? ServerDrivenComponent)?.toView(context: context, dependencies: dependencies) else {

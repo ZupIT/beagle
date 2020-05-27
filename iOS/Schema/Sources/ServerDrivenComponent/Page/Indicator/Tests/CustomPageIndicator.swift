@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,16 +15,26 @@
  * limitations under the License.
  */
 
-import UIKit
-import Schema
+import Foundation
+@testable import Schema
 
-//TODO: avoid casting to serverDrivenComponent
-extension FormInput: ServerDrivenComponent {
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        guard let childView = (child as? ServerDrivenComponent)?.toView(context: context, dependencies: dependencies) else {
-            return UIView()
-        }
-        childView.beagleFormElement = self
-        return childView
+// MARK: - CustomPageIndicator Component
+
+public struct CustomPageIndicator: PageIndicatorComponent, ServerDrivenComponent {
+
+    // MARK: - Public Properties
+
+    public let selectedColor: String
+    public let defaultColor: String
+
+    // MARK: Initialization
+
+    public init(
+        selectedColor: String,
+        defaultColor: String
+    ) {
+        self.selectedColor = selectedColor
+        self.defaultColor = defaultColor
     }
+
 }
