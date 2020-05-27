@@ -114,7 +114,7 @@ class BeagleWidgetBindingProcessor(
     }
 
     private fun isInputWidget(element: TypeElement) =
-        element.superclass.toString() == INPUT_WIDGET.toString()
+        processingEnv.typeUtils.isSubtype(element.asType(), INPUT_WIDGET.toString())
 
     private fun getFunctionBuildView(): FunSpec {
 

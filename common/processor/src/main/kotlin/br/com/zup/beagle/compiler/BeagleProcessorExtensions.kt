@@ -57,6 +57,13 @@ val TypeElement.visibleGetters
             .filter { it.fieldName in names }
     }
 
+fun Types.isSubtype(type: TypeMirror, superTypeName: String): Boolean =
+    when (this.erasure(type).asTypeName().toString()) {
+        Any::class.java.canonicalName -> false
+        superTypeName -> true
+        else -> this.directSupertypes(type).any { this.isSubtype(it, superTypeName) }
+    }
+
 val Element.isMarkedNullable get() = this.getAnnotation(Nullable::class.java) != null
 
 fun Elements.getPackageAsString(element: Element) = this.getPackageOf(element).toString()
