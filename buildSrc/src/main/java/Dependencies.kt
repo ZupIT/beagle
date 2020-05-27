@@ -37,7 +37,7 @@ object Modules {
     const val beagleCoreDeclarative = ":common:core-declarative"
     const val beagleDeclarative = ":common:declarative"
     const val beagleAnnotation = ":common:annotation"
-    const val beagleCommonProcessor = ":common:processor"
+    const val beagleCommonProcessorUtils = ":common:processor-utils"
     const val beagleBackendDeclarative = ":backend:backend-declarative"
     const val beagleBackendProcessor = ":backend:processor"
     const val beagleBackendFramework = ":backend:framework"
