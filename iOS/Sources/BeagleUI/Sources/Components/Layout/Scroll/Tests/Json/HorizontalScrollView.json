@@ -1,5 +1,5 @@
 {
-  "_beagleType_": "beagle:component:scrollview",
+  "_beagleComponent_": "beagle:scrollview",
   "scrollDirection": "HORIZONTAL",
   "scrollBarEnabled": true,
   "appearance": {
@@ -7,16 +7,16 @@
   },
   "children": [
     {
-      "_beagleType_": "beagle:component:text",
+      "_beagleComponent_": "beagle:text",
       "text": "Scroll View Horizontal."
     },
     
     {
-      "_beagleType_": "beagle:component:text",
+      "_beagleComponent_": "beagle:text",
       "text": "Some text."
     },
     {
-      "_beagleType_": "beagle:component:text",
+      "_beagleComponent_": "beagle:text",
       "text": "Aenean ultricies. Turpis sit amet vulputate ultrices. Felis sem pulvinar diam, at tincidunt enim felis vitae ante."
     }
   ]

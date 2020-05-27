@@ -1,5 +1,5 @@
 {
-  "_beagleType_": "beagle:component:Image",
+  "_beagleComponent_": "beagle:Image",
   "name": "test_image_square-x",
   "contentMode": "CENTER",
   "appearance": {

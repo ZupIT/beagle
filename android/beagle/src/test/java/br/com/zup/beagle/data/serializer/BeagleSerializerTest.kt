@@ -16,12 +16,12 @@
 
 package br.com.zup.beagle.data.serializer
 
-import br.com.zup.beagle.exception.BeagleException
-import br.com.zup.beagle.logger.BeagleMessageLogs
 import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.NavigationType
+import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.exception.BeagleException
+import br.com.zup.beagle.logger.BeagleMessageLogs
 import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.widget.ui.Button
 import com.squareup.moshi.JsonAdapter
@@ -36,7 +36,6 @@ import io.mockk.unmockkObject
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-
 import java.io.IOException
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
@@ -159,7 +158,7 @@ class BeagleSerializerTest {
     fun deserializeAction_should_return_a_Action_when_pass_a_valid_json_representation() {
         // Given
         val json = "{}"
-        val navigate = Navigate(NavigationType.ADD_VIEW)
+        val navigate = Navigate.PushView(Route.Remote(""))
         every { actionJsonAdapter.fromJson(json) } returns navigate
 
         // When
