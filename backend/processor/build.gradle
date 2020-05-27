@@ -37,3 +37,5 @@ dependencies {
     testImplementation TestLibraries.kotlinTest
     testImplementation TestLibraries.mockk
 }
+
+apply from: rootProject.file('maven-publish.gradle')
