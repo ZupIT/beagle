@@ -16,6 +16,7 @@
 
 import UIKit
 import BeagleUI
+import Schema
 
 struct FormScreen: DeeplinkScreen {
     static var textValidatorName: String { return "text-is-not-blank" }

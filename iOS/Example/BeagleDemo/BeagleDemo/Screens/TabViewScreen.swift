@@ -16,6 +16,7 @@
 
 import UIKit
 import BeagleUI
+import Schema
 
 struct TabViewScreen: DeeplinkScreen {
     init(path: String, data: [String : String]?) {

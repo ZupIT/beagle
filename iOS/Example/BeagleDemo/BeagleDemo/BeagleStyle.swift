@@ -16,6 +16,7 @@
 
 import UIKit
 import BeagleUI
+import Schema
 
 struct Style {
     

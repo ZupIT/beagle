@@ -1657,7 +1657,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nSourceryFiles/sourceryScript.sh\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n../../Schema/Sources/CodeGeneration/sourceryScript.sh\n";
 		};
 		C8E42FCE23C7C6A500B1963F /* Carthage Run Script */ = {
 			isa = PBXShellScriptBuildPhase;

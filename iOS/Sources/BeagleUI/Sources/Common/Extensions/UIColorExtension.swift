@@ -21,7 +21,7 @@ extension UIColor {
     
     /// Create a color from hex String.
     /// Format: [#][AA]RRGGBB
-    convenience init(hex: String) {
+    public convenience init(hex: String) {
         let hexDigits = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
         var int = UInt64()
         Scanner(string: hexDigits).scanHexInt64(&int)
