@@ -19,6 +19,7 @@ import UIKit
 protocol HasDependencies: AnyObject {
 
     associatedtype DependencyType
+
     var dependencies: DependencyType { get set }
 
     init(dependencies: DependencyType)

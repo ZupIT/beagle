@@ -47,6 +47,7 @@ class BeaglePreviewViewController: UIViewController, HasDependencies, WSConnecti
     // MARK: HasDependencies
 
     typealias DependencyType = WSConnetionHandlerDependency
+
     var dependencies: DependencyType
 
     required init(dependencies: DependencyType) {
@@ -59,16 +60,22 @@ class BeaglePreviewViewController: UIViewController, HasDependencies, WSConnecti
 
     func onWebSocketEvent(_ event: WSConnectionEvent) {
         if case .layoutChange(let layout) = event {
-            viewController.reloadScreen(with: ScreenType.declarativeText(layout))
+            viewController?.reloadScreen(with: ScreenType.declarativeText(layout))
         }
     }
 
     // MARK: Private
 
-    private var viewController: BeagleScreenViewController!
+    private var viewController: BeagleScreenViewController?
 
     private func embedChildViewController() {
+
         viewController = BeagleScreenViewController(.declarativeText(""))
+
+        guard let viewController = self.viewController else {
+            return
+        }
+
         viewController.willMove(toParentViewController: self)
         viewController.view.frame = view.bounds
         view.addSubview(viewController.view)

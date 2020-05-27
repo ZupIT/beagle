@@ -74,7 +74,7 @@ class SSConnectionHandler: WSConnectionHandler, WebSocketDelegate {
     // MARK: Private
 
     private var config: BeaglePreviewConfig
-    private var socket: WebSocket!
+    private var socket: WebSocket?
     var isRunning: Bool = false
     var isConnected: Bool = false {
         didSet {
@@ -113,14 +113,19 @@ class SSConnectionHandler: WSConnectionHandler, WebSocketDelegate {
         }
 
         print("trying connection...")
-        socket = WebSocket(request: URLRequest(url: URL(string: self.config.host)!))
-        socket.delegate = self
-        socket.connect()
+        guard let url = URL(string: self.config.host) else {
+            print("invalid host skipping start!")
+            return
+        }
+
+        socket = WebSocket(request: URLRequest(url: url))
+        socket?.delegate = self
+        socket?.connect()
 
         print("re-scheduling connect...")
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + config.reconnectionInterval, execute: { [unowned self] in
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + config.reconnectionInterval) { [unowned self] in
             self.tryToConnect()
-        })
+        }
     }
 
     private func tryToPing() {
@@ -136,12 +141,12 @@ class SSConnectionHandler: WSConnectionHandler, WebSocketDelegate {
         }
 
         print("pinging server!")
-        socket.write(ping: Data())
+        socket?.write(ping: Data())
 
         print("re-scheduling ping...")
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + config.reconnectionInterval, execute: { [unowned self] in
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + config.reconnectionInterval) { [unowned self] in
             self.tryToPing()
-        })
+        }
     }
 }
 
