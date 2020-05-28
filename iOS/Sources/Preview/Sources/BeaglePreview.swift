@@ -29,11 +29,18 @@ public class BeaglePreview {
     // MARK: Private
 
     private static let preview = BeaglePreview()
-    private var viewController: BeaglePreviewViewController!
+    
+    private var viewController: BeaglePreviewViewController?
 
     private func present(in presentingViewController: UIViewController) {
+
         self.viewController = BeaglePreviewViewController(dependencies: BeaglePreviewDependencies.default)
-        self.viewController.modalPresentationStyle = .fullScreen
+
+        guard let viewController = self.viewController else {
+            return
+        }
+
+        viewController.modalPresentationStyle = .fullScreen
         presentingViewController.present(viewController, animated: true, completion: nil)
     }
 

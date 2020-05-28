@@ -16,7 +16,7 @@
 
 import UIKit
 
-private let defaultLivePreviewHost: String = "ws://localhost:9721"
+private let defaultLivePreviewHost = "ws://localhost:9721"
 private let defaultReconnectionInterval: TimeInterval = 3.0
 
 public struct BeaglePreviewConfig {

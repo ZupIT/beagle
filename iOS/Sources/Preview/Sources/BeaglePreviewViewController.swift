@@ -36,12 +36,12 @@ class BeaglePreviewViewController: UIViewController, HasDependencies, WSConnecti
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.dependencies.connection.start()
+        dependencies.connection.start()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.dependencies.connection.stop()
+        dependencies.connection.stop()
     }
 
     // MARK: HasDependencies
