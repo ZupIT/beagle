@@ -19,6 +19,8 @@
       - container: (Function)
   - navigationControllerType: BeagleNavigationController
   - networkClient: NetworkClientDummy
+  ▿ opener: URLOpenerDumb
+    - hasInvokedTryToOpen: false
   ▿ preFetchHelper: BeaglePreFetchHelper
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
@@ -37,3 +39,7 @@
     ▿ some: ValidatorProviding
       - handlers: 0 key/value pairs
   - viewConfigurator: (Function)
+  ▿ windowManager: WindowManagerDumb
+    ▿ window: Optional<WindowProtocol>
+      ▿ some: WindowMock
+        - hasInvokedReplaceRootViewController: false

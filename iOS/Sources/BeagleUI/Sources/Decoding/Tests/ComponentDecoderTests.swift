@@ -23,9 +23,14 @@ final class ComponentDecoderTests: XCTestCase {
     
     private lazy var sut = Beagle.dependencies.decoder
 
-    func testIfAllDecodersAreBeingRegistered() {
+    func testIfAllComponentsAreBeingRegistered() {
         let sut = ComponentDecoder()
-        assertSnapshot(matching: sut.decoders, as: .dump)
+        assertSnapshot(matching: sut.componentDecoders, as: .dump)
+    }
+    
+    func testIfAllActionsAreBeingRegistered() {
+        let sut = ComponentDecoder()
+        assertSnapshot(matching: sut.actionDecoders, as: .dump)
     }
     
     func test_whenANewTypeIsRegistered_thenItShouldBeAbleToDecodeIt() throws {
@@ -33,7 +38,7 @@ final class ComponentDecoderTests: XCTestCase {
         let expectedText = "something"
         let jsonData = """
         {
-            "_beagleType_": "custom:component:newcomponent",
+            "_beagleComponent_": "custom:newcomponent",
             "text": "\(expectedText)"
         }
         """.data(using: .utf8)!
@@ -51,7 +56,7 @@ final class ComponentDecoderTests: XCTestCase {
         let expectedText = "some text"
         let jsonData = """
         {
-            "_beagleType_": "beagle:component:text",
+            "_beagleComponent_": "beagle:text",
             "text": "\(expectedText)"
         }
         """.data(using: .utf8)!
@@ -67,7 +72,7 @@ final class ComponentDecoderTests: XCTestCase {
         // Given
         let jsonData = """
         {
-            "_beagleType_": "beagle:component:unknown",
+            "_beagleComponent_": "beagle:unknown",
             "text": "some text"
         }
         """.data(using: .utf8)!
@@ -76,20 +81,19 @@ final class ComponentDecoderTests: XCTestCase {
         let unknown = try sut.decodeComponent(from: jsonData) as? UnknownComponent
 
         // Then
-        XCTAssert(unknown?.type == "beagle:component:unknown")
+        XCTAssert(unknown?.type == "beagle:unknown")
     }
 
     func testDecodeAction() throws {
         let jsonData = """
         {
-            "_beagleType_": "beagle:action:navigate",
-            "type": "FINISH_VIEW"
+            "_beagleAction_": "beagle:popStack"
         }
         """.data(using: .utf8)!
 
         let action = try sut.decodeAction(from: jsonData)
 
-        guard case Navigate.finishView = action else {
+        guard case Navigate.popStack = action else {
             XCTFail("decoding failed"); return
         }
     }

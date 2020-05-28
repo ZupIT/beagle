@@ -11,7 +11,7 @@
         - key: "id"
         - value: "11111"
   ▿ child: Container
-    ▿ children: 5 elements
+    ▿ children: 4 elements
       ▿ FormInput
         ▿ child: Text
           - alignment: Optional<Alignment>.none
@@ -27,11 +27,9 @@
         - name: "optional-field"
         - required: Optional<Bool>.none
         - validator: Optional<String>.none
-      ▿ UnknownComponent
-        - type: "beagle:component:forminputhidden"
       ▿ FormInput
         ▿ child: UnknownComponent
-          - type: "custom:component:unknown"
+          - type: "custom:unknown"
         - errorMessage: Optional<String>.none
         - name: "another-required-field"
         ▿ required: Optional<Bool>

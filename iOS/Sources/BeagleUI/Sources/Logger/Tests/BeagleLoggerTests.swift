@@ -41,11 +41,15 @@ class BeagleLoggerTests: XCTestCase {
             Log.form(.keyDuplication(data: ["key": "value"])),
 
             Log.navigation(.cantPopToAlreadyCurrentScreen(identifier: "identifier")),
-            Log.navigation(.didReceiveAction(Navigate.addView(.init(path: path)))),
-            Log.navigation(.didReceiveAction(Navigate.openDeepLink(.init(path: path)))),
-            Log.navigation(.didReceiveAction(Navigate.openDeepLink(.init(path: path, data: ["key": "value"], component: Text("bla"))))),
+            Log.navigation(.didReceiveAction(Navigate.pushView(.remote(path)))),
+            Log.navigation(.didReceiveAction(Navigate.openNativeRoute(path))),
+            Log.navigation(.didReceiveAction(Navigate.openNativeRoute(path, data: ["key": "value"]))),
             Log.navigation(.errorTryingToPopScreenOnNavigatorWithJustOneScreen),
             Log.navigation(.didNotFindDeepLinkScreen(path: path)),
+
+            Log.navigation(.didNavigateToExternalUrl(path: "externalURL")),
+            Log.navigation(.invalidExternalUrl(path: "invalidExternalURLPath")),
+            Log.navigation(.unableToOpenExternalUrl(path: "validURLButWasUnableToOpen")),
 
             Log.decode(.decodingError(type: "error"))
         ]

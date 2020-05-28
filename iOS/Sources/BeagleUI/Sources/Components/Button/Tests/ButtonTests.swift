@@ -57,7 +57,7 @@ final class ButtonTests: XCTestCase {
         let dependencies = BeagleScreenDependencies(preFetchHelper: prefetch)
         
         let navigatePath = "path-to-prefetch"
-        let navigate = Navigate.presentView(.init(path: navigatePath))
+        let navigate = Navigate.pushStack(.remote(navigatePath))
         let button = Button(text: "prefetch", action: navigate)
         
         _ = button.toView(context: BeagleContextDummy(), dependencies: dependencies)
@@ -127,9 +127,9 @@ final class BeaglePrefetchHelpingSpy: BeaglePrefetchHelping {
     private(set) var dequeued: [String] = []
     var maximumScreensCapacity = 30
     
-    func prefetchComponent(newPath: Navigate.NewPath) {
+    func prefetchComponent(newPath: Route.NewPath) {
         
-        prefetched.append(newPath.path)
+        prefetched.append(newPath.route)
     }
     
     func dequeueComponent(path: String) -> ServerDrivenComponent? {

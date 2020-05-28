@@ -165,12 +165,12 @@ public class BeagleScreenViewController: UIViewController {
     // MARK: - View Setup
     
     private func initView() {
-        // TODO: uncomment this when using Xcode > 10.3 (which will support iOS 13)
-        // if #available(iOS 13.0, *) {
-        //    view.backgroundColor = UIColor.systemBackground
-        // } else {
-        view.backgroundColor = .white
-        // }
+         if #available(iOS 13.0, *) {
+            view.backgroundColor = UIColor.systemBackground
+         } else {
+            view.backgroundColor = .white
+         }
+        updateView(state: viewModel.state)
     }
     
     private func removeContentController() {

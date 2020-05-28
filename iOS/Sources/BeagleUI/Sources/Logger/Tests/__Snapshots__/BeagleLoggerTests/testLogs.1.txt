@@ -31,14 +31,20 @@ Found a key duplication when merging form data:
 
 cantPopToAlreadyCurrentScreen(identifier: "identifier")
 
-didReceiveAction(Navigate.addView(NewPath(path: "path", shouldPrefetch: false, fallback: nil)))
+didReceiveAction(BeagleUI.Navigate.pushView(BeagleUI.Route.remote("path", shouldPrefetch: false, fallback: nil)))
 
-didReceiveAction(Navigate.openDeepLink(DeepLinkNavigation(path: "path", data: nil, component: nil)))
+didReceiveAction(BeagleUI.Navigate.openNativeRoute("path", data: nil, shouldResetApplication: false))
 
-didReceiveAction(Navigate.openDeepLink(DeepLinkNavigation(path: "path", data: Optional(["key": "value"]), component: Optional(BeagleUI.Text(text: "bla", style: nil, alignment: nil, textColor: nil, widgetProperties: BeagleUI.WidgetProperties(id: nil, appearance: nil, flex: nil, accessibility: nil))))))
+didReceiveAction(BeagleUI.Navigate.openNativeRoute("path", data: Optional(["key": "value"]), shouldResetApplication: false))
 
 errorTryingToPopScreenOnNavigatorWithJustOneScreen
 
 Beagle Navigator couldn't find a deep link screen with path: path. Check your deep link handler, or the path in the navigate action
+
+didNavigateToExternalUrl(path: "externalURL")
+
+invalidExternalUrl(path: "invalidExternalURLPath")
+
+unableToOpenExternalUrl(path: "validURLButWasUnableToOpen")
 
 Could not decode: error. Check if that type has been registered.

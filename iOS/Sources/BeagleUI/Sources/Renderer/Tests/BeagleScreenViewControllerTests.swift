@@ -30,12 +30,11 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         
         // Then
 
-        // TODO: uncomment this when using Xcode > 10.3 (which will support iOS 13)
-        // if #available(iOS 13.0, *) {
-        //    XCTAssertEqual(sut.view.backgroundColor, .systemBackground)
-        // } else {
+         if #available(iOS 13.0, *) {
+            XCTAssertEqual(sut.view.backgroundColor, .systemBackground)
+         } else {
             XCTAssertEqual(sut.view.backgroundColor, .white)
-        // }
+         }
     }
     
     func test_onViewWillAppear_navigationBarShouldBeHidden() {
