@@ -29,7 +29,7 @@ struct DSCollectionDataSource : Decodable, AutoEquatable {
 }
 
 // Conforming to AutoEquatable is optional.
-struct DSCollection: Widget, AutoInitiableAndDecodable, AutoEquatable {
+struct DSCollection: BeagleUI.Widget, AutoInitiableAndDecodable, AutoEquatable {
 
     let dataSource: DSCollectionDataSource
     var widgetProperties: WidgetProperties

@@ -1,8 +1,8 @@
 sources:
   - Sources
-  - Sources/CodeGeneration/SourceryProtocols.swift
+  - ../Sources/BeagleUI/CodeGeneration/SourceryProtocols.swift
 templates:
-  - Sources/CodeGeneration/Templates
+  - ../Sources/BeagleUI/CodeGeneration/Templates
 output:
   Sources/CodeGeneration/Generated
 args:

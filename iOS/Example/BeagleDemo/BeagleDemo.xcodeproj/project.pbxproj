@@ -122,7 +122,7 @@
 		932925B02327E0E400A61F01 /* BeagleDemo */ = {
 			isa = PBXGroup;
 			children = (
-				C0D0F47E245B48BB00FB57C1 /* SourceryFiles */,
+				C0D0F47E245B48BB00FB57C1 /* CodeGeneration */,
 				6E2C784B241984F800448728 /* Constants */,
 				E75619862408363E0025E0A9 /* DesignSystem */,
 				A0642DC9239689E60028AFF3 /* Screens */,
@@ -164,12 +164,12 @@
 			path = Screens;
 			sourceTree = "<group>";
 		};
-		C0D0F47E245B48BB00FB57C1 /* SourceryFiles */ = {
+		C0D0F47E245B48BB00FB57C1 /* CodeGeneration */ = {
 			isa = PBXGroup;
 			children = (
 				C8A2F6F02464C1F9002198B1 /* Generated */,
 			);
-			path = SourceryFiles;
+			path = CodeGeneration;
 			sourceTree = "<group>";
 		};
 		C8A2F6F02464C1F9002198B1 /* Generated */ = {
@@ -284,7 +284,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n../../Schema/Sources/CodeGeneration/sourceryScript.sh\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n../../Sources/BeagleUI/CodeGeneration/sourceryScript.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -41,7 +41,8 @@ func customEncodingMethod(for variable: Variable, of type: Type) -> SourceryMeth
 func needsCustomBeagleDecoding(_ variable: Variable) -> Bool {
     return variable.unwrappedTypeName == "Action" ||
             variable.unwrappedTypeName == "ServerDrivenComponent" ||
-            variable.unwrappedTypeName == "[ServerDrivenComponent]"
+            variable.unwrappedTypeName == "[ServerDrivenComponent]" || variable.unwrappedTypeName == "RawServerDrivenComponent" ||
+            variable.unwrappedTypeName == "[RawServerDrivenComponent]"
 }
 
 func codingKeysFor(_ type: Type) -> (generated: [String], all: [String]) {
@@ -111,14 +112,14 @@ func importBeagleUIString(_ arguments: Dictionary<String,AnyObject>? ) -> String
             return ""
         }
     }
-    return "\nimport BeagleUI\n"
+    return "\nimport Schema\nimport BeagleUI\n"
 }
 
 -%>
 <%= importBeagleUIString(argument) -%>
 <% for type in types.all
         where (type is Struct || type is Enum)
-        && (type.implements["AutoDecodable"] != nil) { -%>
+        && (type.implements["AutoDecodable"] != nil || type.implements["AutoInitiableAndDecodable"] != nil) { -%>
     <%_ let codingKeys = codingKeysFor(type) -%>
     <%_ if let codingKeysType = type.containedType["CodingKeys"] as? Enum, codingKeys.generated.count > 0 { -%>
 // sourcery:inline:auto:<%= codingKeysType.name %>.AutoCodable

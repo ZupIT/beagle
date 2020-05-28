@@ -17,6 +17,7 @@
 * limitations under the License.
 */
 
+import Schema
 import BeagleUI
 
 // MARK: DSCollection Decodable

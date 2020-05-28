@@ -108,7 +108,8 @@
 		C0B31F45247858AE0072CCF4 /* ButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E569192476F084003D413F /* ButtonTests.swift */; };
 		C0B31F4E24785CFF0072CCF4 /* NavigationBar+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B31F4D24785CFF0072CCF4 /* NavigationBar+UIKit.swift */; };
 		C0B31F7624786FC60072CCF4 /* Form+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B31F7524786FC60072CCF4 /* Form+Renderable.swift */; };
-		C0D6753424572DEA009F0E94 /* SourceryProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D6753324572DEA009F0E94 /* SourceryProtocols.swift */; };
+		C0CE9488248038100029B35F /* SourceryProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CE9487248038100029B35F /* SourceryProtocols.swift */; };
+		C0E12CC924804F90001C5A0C /* Templates in Resources */ = {isa = PBXBuildFile; fileRef = C0E12CC824804F90001C5A0C /* Templates */; };
 		C0E568FC2476C837003D413F /* Button+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E568FB2476C837003D413F /* Button+Renderable.swift */; };
 		C0E569152476F026003D413F /* BeaglePrefetchHelpingSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E569142476F026003D413F /* BeaglePrefetchHelpingSpy.swift */; };
 		C0E569172476F047003D413F /* ThemeSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E569162476F047003D413F /* ThemeSpy.swift */; };
@@ -340,7 +341,9 @@
 		C09D9CC22475D78300A18A89 /* AccessibilityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityTests.swift; sourceTree = "<group>"; };
 		C0B31F4D24785CFF0072CCF4 /* NavigationBar+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationBar+UIKit.swift"; sourceTree = "<group>"; };
 		C0B31F7524786FC60072CCF4 /* Form+Renderable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Form+Renderable.swift"; sourceTree = "<group>"; };
-		C0D6753324572DEA009F0E94 /* SourceryProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceryProtocols.swift; sourceTree = "<group>"; };
+		C0CE9487248038100029B35F /* SourceryProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceryProtocols.swift; sourceTree = "<group>"; };
+		C0E12CC624804F83001C5A0C /* sourceryScript.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = sourceryScript.sh; sourceTree = "<group>"; };
+		C0E12CC824804F90001C5A0C /* Templates */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Templates; sourceTree = "<group>"; };
 		C0E568FB2476C837003D413F /* Button+Renderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+Renderable.swift"; sourceTree = "<group>"; };
 		C0E569142476F026003D413F /* BeaglePrefetchHelpingSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaglePrefetchHelpingSpy.swift; sourceTree = "<group>"; };
 		C0E569162476F047003D413F /* ThemeSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSpy.swift; sourceTree = "<group>"; };
@@ -348,10 +351,6 @@
 		C0E569252476F46F003D413F /* TextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTests.swift; sourceTree = "<group>"; };
 		C0E5697324784909003D413F /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C0E5698124784D09003D413F /* WebViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewTests.swift; sourceTree = "<group>"; };
-		C0EC906B246304F700FFCDE9 /* AutoDecodable.swifttemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = AutoDecodable.swifttemplate; sourceTree = "<group>"; };
-		C0EC906C246304F700FFCDE9 /* Equality.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = Equality.stencil; sourceTree = "<group>"; };
-		C0EC906D246304F700FFCDE9 /* Initiable.swifttemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = Initiable.swifttemplate; sourceTree = "<group>"; };
-		C0F01689245B09430041A30C /* sourceryScript.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = sourceryScript.sh; sourceTree = "<group>"; };
 		C0FBBDD62475B5BE00B72A9B /* Text+Renderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Text+Renderable.swift"; sourceTree = "<group>"; };
 		C62E8EAD2373588900FF1497 /* ScrollView+Renderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScrollView+Renderable.swift"; sourceTree = "<group>"; };
 		C65F25362375E6C2007670EC /* ScrollViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewTests.swift; sourceTree = "<group>"; };
@@ -589,7 +588,7 @@
 		932925C52327E11000A61F01 = {
 			isa = PBXGroup;
 			children = (
-				C0D6753224572D84009F0E94 /* SourceryFiles */,
+				C0D6753224572D84009F0E94 /* CodeGeneration */,
 				939CE4C4232996FD00EEEDFC /* Sources */,
 				932925D12327E11000A61F01 /* Resources */,
 				E5CE41E82332B9B600295277 /* BeagleFrameworkTests */,
@@ -843,15 +842,15 @@
 			path = "Acessibility+Renderable";
 			sourceTree = "<group>";
 		};
-		C0D6753224572D84009F0E94 /* SourceryFiles */ = {
+		C0D6753224572D84009F0E94 /* CodeGeneration */ = {
 			isa = PBXGroup;
 			children = (
-				C0F01689245B09430041A30C /* sourceryScript.sh */,
-				C0D6753324572DEA009F0E94 /* SourceryProtocols.swift */,
+				C0E12CC624804F83001C5A0C /* sourceryScript.sh */,
+				C0CE9487248038100029B35F /* SourceryProtocols.swift */,
+				C0E12CC824804F90001C5A0C /* Templates */,
 				C8A2F6EB2464C019002198B1 /* Generated */,
-				C0EC906A246304F700FFCDE9 /* Templates */,
 			);
-			path = SourceryFiles;
+			path = CodeGeneration;
 			sourceTree = "<group>";
 		};
 		C0E569132476F003003D413F /* Spies */ = {
@@ -890,16 +889,6 @@
 				C0E5698124784D09003D413F /* WebViewTests.swift */,
 			);
 			path = Tests;
-			sourceTree = "<group>";
-		};
-		C0EC906A246304F700FFCDE9 /* Templates */ = {
-			isa = PBXGroup;
-			children = (
-				C0EC906B246304F700FFCDE9 /* AutoDecodable.swifttemplate */,
-				C0EC906C246304F700FFCDE9 /* Equality.stencil */,
-				C0EC906D246304F700FFCDE9 /* Initiable.swifttemplate */,
-			);
-			path = Templates;
 			sourceTree = "<group>";
 		};
 		C0FBBDD52475B41D00B72A9B /* Renderable */ = {
@@ -1599,6 +1588,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0E12CC924804F90001C5A0C /* Templates in Resources */,
 				9362B6D223E85B4B0033FAD7 /* __Snapshots__ in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1657,7 +1647,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n../../Schema/Sources/CodeGeneration/sourceryScript.sh\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nCodeGeneration/sourceryScript.sh\n";
 		};
 		C8E42FCE23C7C6A500B1963F /* Carthage Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1735,7 +1725,6 @@
 				C048EBDB242BD78500A24075 /* Analytics.swift in Sources */,
 				A068234C238430C500CEE57A /* ValidatorProvider.swift in Sources */,
 				C85688BB2433C4A400DD8B60 /* BeagleMessageLogs.swift in Sources */,
-				C0D6753424572DEA009F0E94 /* SourceryProtocols.swift in Sources */,
 				C0B31F7624786FC60072CCF4 /* Form+Renderable.swift in Sources */,
 				E52236CF2374885600E555BB /* CollectionExtension.swift in Sources */,
 				C0479F57243272460040E30C /* AnalyticsGestureRecognizer.swift in Sources */,
@@ -1787,6 +1776,7 @@
 				E5CB5D65234E7CF6009783A7 /* BeagleScreenViewController.swift in Sources */,
 				E52236CB23745DED00E555BB /* HTTPRequestCanceling.swift in Sources */,
 				57A8098C243CF4C90034D180 /* CacheEntity+CoreDataProperties.swift in Sources */,
+				C0CE9488248038100029B35F /* SourceryProtocols.swift in Sources */,
 				C85E1CCD23EB461200C1E323 /* Request.swift in Sources */,
 				E531D6B12359FD18007EEBA7 /* LoadingView.swift in Sources */,
 				9848A53023AAF1C2002474AD /* ContainerIndicatorView.swift in Sources */,

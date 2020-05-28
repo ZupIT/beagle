@@ -93,7 +93,7 @@ extension DemoTextField: Renderable {
     }
 }
 
-struct DemoTextField: Widget, AutoInitiableAndDecodable {
+struct DemoTextField: BeagleUI.Widget, AutoInitiableAndDecodable {
     
     var placeholder: String
     var widgetProperties: WidgetProperties

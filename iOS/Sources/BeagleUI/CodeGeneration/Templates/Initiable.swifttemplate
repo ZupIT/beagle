@@ -38,7 +38,7 @@ func variableOptionalAndValue(_ variable: Variable, _ classType: Type?) -> Strin
 }
 -%>
 <% for type in types.all
-    where (type.implements["AutoInitiable"] != nil) {
+    where (type.implements["AutoInitiable"] != nil || type.implements["AutoInitiableAndDecodable"] != nil) {
 -%>
 // sourcery:inline:auto:<%= type.name %>.Init
     <%_ var firstTime: Bool = true -%>

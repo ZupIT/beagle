@@ -55,7 +55,7 @@ struct LazyComponentScreen: DeeplinkScreen {
 }
 
 extension UITextView: OnStateUpdatable {
-    public func onUpdateState(component: ServerDrivenComponent) -> Bool {
+    public func onUpdateState(component: BeagleUI.ServerDrivenComponent) -> Bool {
         guard let w = component as? Text else {
             return false
         }

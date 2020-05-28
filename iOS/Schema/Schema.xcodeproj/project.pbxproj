@@ -75,7 +75,6 @@
 		C8EAC500247C2920003089BE /* TextComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = C864D29B247C240200E7A1F9 /* TextComponent.json */; };
 		C8EAC502247C29BC003089BE /* ComponentDecoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D258247C240200E7A1F9 /* ComponentDecoderTests.swift */; };
 		C8EAC503247C2A09003089BE /* formComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = C864D22C247C240200E7A1F9 /* formComponent.json */; };
-		C8EAC504247C2A14003089BE /* sourceryScript.sh in Resources */ = {isa = PBXBuildFile; fileRef = C864D24F247C240200E7A1F9 /* sourceryScript.sh */; };
 		C8EBCC22247C2F7C002030CC /* Spacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8EBCC1F247C2F7C002030CC /* Spacer.swift */; };
 		C8EBCC24247C2F8D002030CC /* SpacerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8EBCC21247C2F7C002030CC /* SpacerTests.swift */; };
 		C8EBCC31247C3002002030CC /* LazyComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8EBCC2D247C3002002030CC /* LazyComponent.swift */; };
@@ -141,7 +140,6 @@
 		C864D24C247C240200E7A1F9 /* Equality.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equality.generated.swift; sourceTree = "<group>"; };
 		C864D24D247C240200E7A1F9 /* AutoDecodable.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoDecodable.generated.swift; sourceTree = "<group>"; };
 		C864D24E247C240200E7A1F9 /* SourceryProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceryProtocols.swift; sourceTree = "<group>"; };
-		C864D24F247C240200E7A1F9 /* sourceryScript.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = sourceryScript.sh; sourceTree = "<group>"; };
 		C864D255247C240200E7A1F9 /* ComponentDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentDependencies.swift; sourceTree = "<group>"; };
 		C864D258247C240200E7A1F9 /* ComponentDecoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentDecoderTests.swift; sourceTree = "<group>"; };
 		C864D25C247C240200E7A1F9 /* ComponentDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentDecoder.swift; sourceTree = "<group>"; };
@@ -176,7 +174,6 @@
 		C864D29B247C240200E7A1F9 /* TextComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TextComponent.json; sourceTree = "<group>"; };
 		C864D29F247C240200E7A1F9 /* Text.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		C864D2A0247C240200E7A1F9 /* Widget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Widget.swift; sourceTree = "<group>"; };
-		C864D2E9247C243C00E7A1F9 /* Templates */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Templates; sourceTree = "<group>"; };
 		C864D2ED247C245B00E7A1F9 /* ComponentFromJsonFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentFromJsonFile.swift; sourceTree = "<group>"; };
 		C864D2EE247C245B00E7A1F9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C864D2F8247C259100E7A1F9 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
@@ -449,8 +446,6 @@
 		C864D24A247C240200E7A1F9 /* CodeGeneration */ = {
 			isa = PBXGroup;
 			children = (
-				C864D2E9247C243C00E7A1F9 /* Templates */,
-				C864D24F247C240200E7A1F9 /* sourceryScript.sh */,
 				C864D24E247C240200E7A1F9 /* SourceryProtocols.swift */,
 				C864D24B247C240200E7A1F9 /* Generated */,
 			);
@@ -1030,7 +1025,6 @@
 				C029189D247EE03200C3AA13 /* PageViewWithCustomIndicator.json in Resources */,
 				C8EAC500247C2920003089BE /* TextComponent.json in Resources */,
 				C029189B247EE02200C3AA13 /* CustomPageIndicator.json in Resources */,
-				C8EAC504247C2A14003089BE /* sourceryScript.sh in Resources */,
 				C8EBCC85247C3094002030CC /* listViewComponent.json in Resources */,
 				C8EBCC8C247C30EE002030CC /* ScrollViewComponent.json in Resources */,
 				C8EBCC89247C30C9002030CC /* PageViewWith3Pages.json in Resources */,
@@ -1095,7 +1089,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nSources/CodeGeneration/sourceryScript.sh\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n../Sources/BeagleUI/CodeGeneration/sourceryScript.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
