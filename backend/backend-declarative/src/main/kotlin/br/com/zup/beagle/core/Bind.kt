@@ -17,8 +17,12 @@
 package br.com.zup.beagle.core
 
 import java.io.Serializable
+import br.com.zup.beagle.expression.Expression as ExpressionRepresentation
 
 sealed class Bind<T> : BindAttribute<T>, Serializable {
-    data class Expression<T>(override val value: String): Bind<T>()
+    data class Expression<T>(override val value: String): Bind<T>() {
+        constructor(expression: ExpressionRepresentation<T>) : this(expression.representation)
+    }
+
     data class Value<T: Any>(override val value: T): Bind<T>()
 }
