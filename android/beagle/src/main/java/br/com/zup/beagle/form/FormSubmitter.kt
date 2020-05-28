@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.form
 
+import android.net.Uri
 import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.data.serializer.BeagleSerializer
 import br.com.zup.beagle.exception.BeagleException
@@ -88,16 +89,16 @@ internal class FormSubmitter(
 
     private fun createUrl(form: FormRemoteAction, formsValue: Map<String, String>): String {
         return if (form.method == FormMethodType.GET || form.method == FormMethodType.DELETE) {
-            var query = if (formsValue.isNotEmpty()) {
+            var query = if (formsValue.values.filter { isFormsValueValid(it) }.isNotEmpty()) {
                 "?"
             } else {
                 ""
             }
 
             for ((index, value) in formsValue.iterator().withIndex()) {
-                query += "${value.key}=${value.value}"
-                if (index < formsValue.size - 1) {
-                    query += "&"
+                if(isFormsValueValid(value.value)){
+                    if (index != 0) query += "&"
+                    query += "${value.key}=${Uri.encode(value.value)}"
                 }
             }
 
@@ -106,4 +107,6 @@ internal class FormSubmitter(
             form.path
         }
     }
+
+    private fun isFormsValueValid(value: String?) = !value.isNullOrEmpty()
 }
