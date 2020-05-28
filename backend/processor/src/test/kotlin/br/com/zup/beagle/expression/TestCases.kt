@@ -19,45 +19,48 @@ package br.com.zup.beagle.expression
 import br.com.zup.beagle.annotation.BeagleExpressionRoot
 
 @BeagleExpressionRoot
-data class BasicModel(val name: String)
+data class BasicContext(val name: String)
 
 @BeagleExpressionRoot
-data class CompositeModel(val model: ComposedModel)
-data class ComposedModel(val name: String)
+data class CompositeContext(val context: ComposedContext)
+data class ComposedContext(val name: String)
 
 @BeagleExpressionRoot
-data class CollectionModel(val names: Collection<Int>)
+data class CollectionContext(val names: Collection<Int>)
 
 @BeagleExpressionRoot
-data class IterableModel(val names: Iterable<Char>)
+data class IterableContext(val names: Iterable<Char>)
 
 @BeagleExpressionRoot
-data class ListModel(val names: List<Boolean>)
+data class ListContext(val names: List<Boolean>)
 
 @BeagleExpressionRoot
-data class SetModel(val names: Set<Byte>)
+data class SetContext(val names: Set<Byte>)
 
 @BeagleExpressionRoot
-data class SuperIterableModel(val things: Collection<Iterable<List<Set<Any>>>>)
+data class SuperIterableContext(val things: Collection<Iterable<List<Set<Any>>>>)
 
 @BeagleExpressionRoot
-data class MultiOriginModel(val model: ComposedModel)
+data class MultiOriginContext(val first: FirstOriginContext, val second: SecondOriginContext)
+data class FirstOriginContext(val target: TargetContext, val b : Double)
+data class SecondOriginContext(val target: TargetContext, val c : Long)
+data class TargetContext(val a: Int)
 
 @BeagleExpressionRoot
-data class DeepMultiOriginModel(val model: CompositeModel)
+data class OtherRootAsSubexpressionContext(val context: CompositeContext)
 
 @BeagleExpressionRoot
-data class RecursiveModel(val model: RecursiveModel?, val done: Boolean)
+data class RecursiveContext(val context: RecursiveContext?, val done: Boolean)
 
 @BeagleExpressionRoot
-data class RecursiveListModel(val models: List<RecursiveListModel>, val done: Boolean)
+data class RecursiveListContext(val contexts: List<RecursiveListContext>, val done: Boolean)
 
 @BeagleExpressionRoot
-data class CyclicModel(val cycle: Cycle?, val done: Boolean)
-data class Cycle(val cyclicModel: CyclicModel)
+data class CyclicContext(val cycle: Cycle?, val done: Boolean)
+data class Cycle(val cyclicContext: CyclicContext)
 
 @BeagleExpressionRoot
-data class LeafModel(
+data class LeafContext(
     val a: Any,
     val b: Boolean,
     val c: Byte,
@@ -67,47 +70,47 @@ data class LeafModel(
     val g: Float,
     val h: Double,
     val i: String
-//    val j: BigInteger,
-//    val k: BigDecimal,
-//    val l: Date,
-//    val m: Instant
 )
 
 @BeagleExpressionRoot
-data class NullableModel(val a: Int?, val b: BasicModel?, val c: List<String?>)
+data class NullableContext(val a: Int?, val b: BasicContext?, val c: List<String?>)
 
 @BeagleExpressionRoot
-data class VisibilityModel(private val a: Boolean, internal val b: Byte, protected val c: Int, val d: Long)
+data class VisibilityContext(private val a: Boolean, internal val b: Byte, protected val c: Int, val d: Long)
 
 @BeagleExpressionRoot
-data class EnumModel(val a: EnumWithoutFields, val b: EnumWithFields)
+data class EnumContext(val a: EnumWithoutFields, val b: EnumWithFields)
 enum class EnumWithoutFields { VALUE }
 enum class EnumWithFields(val value: Int) { VALUE(0) }
 
 @BeagleExpressionRoot
-class ChildModel(a: Boolean, override val b: Int, override val c: Double, val d: String) : ParentModel(a, b)
-abstract class ParentModel(val a: Boolean, open val b: Int?) {
+class ChildContext(a: Boolean, override val b: Int, override val c: Double, val d: String) : ParentContext(a, b)
+abstract class ParentContext(val a: Boolean, open val b: Int?) {
     abstract val c: Double?
 }
 
 @BeagleExpressionRoot
-class GetModel {
+class GetContext {
     fun getA() = 0
-    fun getB() = BasicModel("")
+    fun getB() = BasicContext("")
 }
 
 @BeagleExpressionRoot
-object ObjectModel {
+object ObjectContext {
     val a = 0
     const val b = 1L
 }
 
 @BeagleExpressionRoot
-data class EasyFalseCycleModel(val a: ModelA, val b: ModelB)
-data class ModelA(val b: ModelB)
-object ModelB
+data class EasyFalseCycleContext(val a: ContextA, val b: ContextB)
+data class ContextA(val c: ContextB)
+object ContextB {
+    val done = true
+}
 
 @BeagleExpressionRoot
-data class HardFalseCycleModel(val a: Model2, val b: Model1)
-data class Model1(val b: Model2)
-object Model2
+data class HardFalseCycleContext(val a: Context2, val b: Context1)
+data class Context1(val c: Context2)
+object Context2 {
+    val done = true
+}
