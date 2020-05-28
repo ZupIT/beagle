@@ -1,5 +1,5 @@
 {
-  "_beagleType_": "beagle:component:Image",
+  "_beagleComponent_": "beagle:Image",
   "path": {
     "_beagleImagePath_": "remote",
     "url": "www.com"

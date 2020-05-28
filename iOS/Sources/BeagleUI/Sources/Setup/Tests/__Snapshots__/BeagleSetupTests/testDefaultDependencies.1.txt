@@ -17,11 +17,7 @@
         - container: (Function)
   - customActionHandler: Optional<CustomActionHandler>.none
   ▿ decoder: ComponentDecoder
-<<<<<<< HEAD
-    ▿ decoders: 23 key/value pairs
-=======
     ▿ actionDecoders: 13 key/value pairs
->>>>>>> 202c30c1ca4609be702fa30653cd9ce27c56f88a
       ▿ (2 elements)
         - key: "beagle:customaction"
         - value: CustomAction
@@ -61,7 +57,7 @@
       ▿ (2 elements)
         - key: "beagle:shownativedialog"
         - value: ShowNativeDialog
-    ▿ componentDecoders: 19 key/value pairs
+    ▿ componentDecoders: 18 key/value pairs
       ▿ (2 elements)
         - key: "beagle:button"
         - value: Button
