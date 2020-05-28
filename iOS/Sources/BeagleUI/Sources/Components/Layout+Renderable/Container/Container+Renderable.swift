@@ -17,7 +17,6 @@
 import UIKit
 import Schema
 
-// MARK: - Configuration
 extension Container {
     
     public func applyFlex(_ flex: Flex) -> Container {
@@ -28,23 +27,20 @@ extension Container {
                 appearance: widgetProperties.appearance,
                 flex: flex,
                 accessibility: widgetProperties.accessibility
-            ))
+            )
+        )
     }
 }
 
-//TODO: avoid casting to ServerDrivenComponent
 extension Container: Widget {
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        let containerView = UIView()
-        
-        children.forEach {
-            if let childView = ($0 as? ServerDrivenComponent)?.toView(context: context, dependencies: dependencies) {
-                containerView.addSubview(childView)
-                childView.flex.isEnabled = true
-            }
-        }
 
-        containerView.beagle.setup(self)
+    public func toView(renderer: BeagleRenderer) -> UIView {
+        let containerView = UIView()
+
+        children.forEach {
+            let view = renderer.render($0)
+            containerView.addSubview(view)
+        }
         
         return containerView
     }

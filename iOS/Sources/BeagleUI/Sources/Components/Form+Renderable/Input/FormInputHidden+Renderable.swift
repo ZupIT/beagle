@@ -19,7 +19,7 @@ import Schema
 
 //TODO: avoid casting to serverDrivenComponent
 extension FormInputHidden: ServerDrivenComponent {
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+    public func toView(renderer: BeagleRenderer) -> UIView {
         let view = HidenInputView(value: value)
         view.beagleFormElement = self
         view.flex.setup(Flex(positionType: .absolute))

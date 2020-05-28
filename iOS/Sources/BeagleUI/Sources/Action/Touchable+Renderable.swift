@@ -29,21 +29,20 @@ extension Touchable {
 
 extension Touchable: ServerDrivenComponent {
     
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        guard let child = (child as? ServerDrivenComponent) else { return UIView() }
-        let childView = child.toView(context: context, dependencies: dependencies)
+    public func toView(renderer: BeagleRenderer) -> UIView {
+        let childView = renderer.render(child)
         var events: [Event] = [.action(action)]
         if let clickAnalyticsEvent = clickAnalyticsEvent {
             events.append(.analytics(clickAnalyticsEvent))
         }
         
-        context.register(events: events, inView: childView)
-        prefetchComponent(context: context, dependencies: dependencies)
+        renderer.context.register(events: events, inView: childView)
+        prefetchComponent(helper: renderer.dependencies.preFetchHelper)
         return childView
     }
     
-    private func prefetchComponent(context: BeagleContext, dependencies: RenderableDependencies) {
+    private func prefetchComponent(helper: BeaglePrefetchHelping) {
         guard let newPath = (action as? Navigate)?.newPath else { return }
-        dependencies.preFetchHelper.prefetchComponent(newPath: newPath)
+        helper.prefetchComponent(newPath: newPath)
     }
 }

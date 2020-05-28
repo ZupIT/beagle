@@ -18,12 +18,16 @@ import UIKit
 import Schema
 
 extension TabView: ServerDrivenComponent {
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+
+    public func toView(renderer: BeagleRenderer) -> UIView {
         let model = TabViewUIComponent.Model(tabIndex: 0, tabViewItems: tabItems)
         let tabView = TabViewUIComponent(model: model)
+
+        // TODO: use style in BeagleRenderer
         if let style = style {
-            dependencies.theme.applyStyle(for: tabView as UIView, withId: style)
+            renderer.dependencies.theme.applyStyle(for: tabView as UIView, withId: style)
         }
+
         tabView.flex.setup(Flex(grow: 1))
         return tabView
     }

@@ -19,27 +19,27 @@ import Schema
 
 //TODO: avoid casting to ServerDrivenComponent
 extension ScrollView: ServerDrivenComponent {
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+
+    public func toView(renderer: BeagleRenderer) -> UIView {
         let scrollBarEnabled = self.scrollBarEnabled ?? true
         let flexDirection = (scrollDirection ?? .vertical).flexDirection
         let scrollView = BeagleContainerScrollView()
         let contentView = UIView()
         
         children.forEach {
-            if let childView = ($0 as? ServerDrivenComponent)?.toView(context: context, dependencies: dependencies) {
-                contentView.addSubview(childView)
-                childView.flex.isEnabled = true
-            }
+            let childView = renderer.render($0)
+            contentView.addSubview(childView)
         }
+        
         scrollView.addSubview(contentView)
-        scrollView.beagle.setup(appearance: appearance)
         scrollView.flex.setup(Flex(flexDirection: flexDirection, grow: 1))
         scrollView.showsVerticalScrollIndicator = scrollBarEnabled
         scrollView.showsHorizontalScrollIndicator = scrollBarEnabled
         scrollView.yoga.overflow = .scroll
-        
-        let flexContent = Flex(flexDirection: flexDirection, grow: 0, shrink: 0)
-        contentView.flex.setup(flexContent)
+
+        contentView.flex.setup(
+            Flex(flexDirection: flexDirection, grow: 0, shrink: 0)
+        )
         
         return scrollView
     }

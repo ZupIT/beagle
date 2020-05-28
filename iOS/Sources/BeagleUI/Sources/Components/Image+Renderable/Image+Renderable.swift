@@ -19,14 +19,11 @@ import Schema
 
 extension Image: Widget {
 
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+    public func toView(renderer: BeagleRenderer) -> UIView {
         let image = UIImageView(frame: .zero)
         image.clipsToBounds = true
         image.contentMode = (contentMode ?? .fitCenter).toUIKit()
-        image.setImageFromAsset(named: name, bundle: dependencies.appBundle)
-        
-        image.beagle.setup(self)
-        
+        image.setImageFromAsset(named: name, bundle: renderer.dependencies.appBundle)
         return image
     }
 }

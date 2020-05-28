@@ -233,7 +233,7 @@ extension BeagleScreenViewController: BeagleContext {
     private func replaceView(_ oldView: UIView, with component: ServerDrivenComponent) {
         guard let superview = oldView.superview else { return }
 
-        let newView = component.toView(context: self, dependencies: dependencies)
+        let newView = dependencies.renderer(self, dependencies).render(component)
         newView.frame = oldView.frame
         superview.insertSubview(newView, belowSubview: oldView)
         oldView.removeFromSuperview()

@@ -18,7 +18,12 @@ import UIKit
 import Schema
 
 extension UnknownComponent: ServerDrivenComponent {
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+
+    public func toView(renderer: BeagleRenderer) -> UIView {
+        return makeView()
+    }
+
+    func makeView() -> UIView {
         #if DEBUG
         let label = UILabel(frame: .zero)
         label.numberOfLines = 2

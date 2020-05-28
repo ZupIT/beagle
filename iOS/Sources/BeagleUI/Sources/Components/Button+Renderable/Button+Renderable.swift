@@ -20,22 +20,20 @@ import Schema
 
 extension Button: Widget {
     
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        
+    public func toView(renderer: BeagleRenderer) -> UIView {
         let button = BeagleUIButton.button(
-            context: context,
+            context: renderer.context,
             action: action,
             clickAnalyticsEvent: clickAnalyticsEvent,
-            dependencies: dependencies
+            dependencies: renderer.dependencies
         )
         button.setTitle(text, for: .normal)
         
         if let newPath = (action as? Navigate)?.newPath {
-            dependencies.preFetchHelper.prefetchComponent(newPath: newPath)
+            renderer.dependencies.preFetchHelper.prefetchComponent(newPath: newPath)
         }
         
         button.style = style
-        button.beagle.setup(self)
         
         return button
     }

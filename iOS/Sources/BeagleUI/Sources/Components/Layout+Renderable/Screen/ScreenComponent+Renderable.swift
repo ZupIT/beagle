@@ -18,13 +18,12 @@ import UIKit
 import Schema
 
 extension ScreenComponent: ServerDrivenComponent {
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
 
-        prefetch(dependencies: dependencies)
+    public func toView(renderer: BeagleRenderer) -> UIView {
+
+        prefetch(dependencies: renderer.dependencies)
         
-        let contentView = buildChildView(context: context, dependencies: dependencies)
-        contentView.beagle.setup(appearance: appearance)
-        return contentView
+        return buildChildView(renderer: renderer)
     }
 
     // MARK: - Private Functions
@@ -35,18 +34,13 @@ extension ScreenComponent: ServerDrivenComponent {
             .compactMap { $0.newPath }
             .forEach { dependencies.preFetchHelper.prefetchComponent(newPath: $0) }
     }
-    
-    //TODO: avoid casting to ServerDrivenComponent
-    private func buildChildView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        let childHolder = UIView()
-        guard let childView = (child as? ServerDrivenComponent)?.toView(context: context, dependencies: dependencies) else {
-            return childHolder
-        }
-        
-        childHolder.addSubview(childView)
-        childHolder.flex.setup(Flex(grow: 1))
-        childView.flex.isEnabled = true
-        
-        return childHolder
+
+    private func buildChildView(renderer: BeagleRenderer) -> UIView {
+        let view = renderer.render(child)
+        let holder = UIView()
+        holder.addSubview(view)
+        holder.flex.setup(Flex(grow: 1))
+
+        return holder
     }
 }

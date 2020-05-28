@@ -46,7 +46,8 @@ final class ScreenController: UIViewController {
     // MARK: - Lifecycle
     
     public override func loadView() {
-        view = screen.toView(context: context, dependencies: dependencies)
+        let renderer = dependencies.renderer(context, dependencies)
+        view = screen.toView(renderer: renderer)
     }
     
     public override func viewDidLayoutSubviews() {

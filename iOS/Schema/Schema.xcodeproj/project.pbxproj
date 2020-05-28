@@ -353,10 +353,10 @@
 		C864D21D247C240200E7A1F9 /* Form */ = {
 			isa = PBXGroup;
 			children = (
-				C864D21E247C240200E7A1F9 /* Submit */,
-				C864D222247C240200E7A1F9 /* Input */,
-				C864D229247C240200E7A1F9 /* Tests */,
 				C864D230247C240200E7A1F9 /* Form.swift */,
+				C864D222247C240200E7A1F9 /* Input */,
+				C864D21E247C240200E7A1F9 /* Submit */,
+				C864D229247C240200E7A1F9 /* Tests */,
 			);
 			path = Form;
 			sourceTree = "<group>";
@@ -419,8 +419,8 @@
 		C864D231247C240200E7A1F9 /* WebView */ = {
 			isa = PBXGroup;
 			children = (
-				C864D232247C240200E7A1F9 /* Tests */,
 				C864D239247C240200E7A1F9 /* WebView.swift */,
+				C864D232247C240200E7A1F9 /* Tests */,
 			);
 			path = WebView;
 			sourceTree = "<group>";
@@ -860,9 +860,9 @@
 		C8EBCC53247C3026002030CC /* Page */ = {
 			isa = PBXGroup;
 			children = (
+				C8EBCC5F247C3026002030CC /* PageView.swift */,
 				C8EBCC54247C3026002030CC /* Indicator */,
 				C8EBCC56247C3026002030CC /* Tests */,
-				C8EBCC5F247C3026002030CC /* PageView.swift */,
 			);
 			path = Page;
 			sourceTree = "<group>";
@@ -925,8 +925,8 @@
 		C8EBCC74247C3041002030CC /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
-				C8EBCC75247C3041002030CC /* Tests */,
 				C8EBCC7C247C3041002030CC /* TabView.swift */,
+				C8EBCC75247C3041002030CC /* Tests */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";

@@ -17,12 +17,10 @@
 import UIKit
 import Schema
 
-//TODO: avoid casting to ServerDrivenComponent
 extension FormInput: ServerDrivenComponent {
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        guard let childView = (child as? ServerDrivenComponent)?.toView(context: context, dependencies: dependencies) else {
-            return UIView()
-        }
+
+    public func toView(renderer: BeagleRenderer) -> UIView {
+        let childView = renderer.render(child)
         childView.beagleFormElement = self
         return childView
     }

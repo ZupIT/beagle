@@ -17,13 +17,11 @@
 import UIKit
 import Schema
 
-//TODO: avoid casting to ServerDrivenComponent
 extension LazyComponent: ServerDrivenComponent {
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        guard let view = (initialState as? ServerDrivenComponent)?.toView(context: context, dependencies: dependencies) else {
-            return UIView()
-        }
-        context.lazyLoad(url: path, initialState: view)
-        return view
+
+    public func toView(renderer: BeagleRenderer) -> UIView {
+        let initialView = renderer.render(initialState)
+        renderer.context.lazyLoad(url: path, initialState: initialView)
+        return initialView
     }
 }

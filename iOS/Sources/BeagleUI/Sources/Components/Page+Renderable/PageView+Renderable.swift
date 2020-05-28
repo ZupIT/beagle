@@ -19,7 +19,8 @@ import Schema
 
 //TODO: avoid casting to ServerDrivenComponent
 extension PageView: ServerDrivenComponent {
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+
+    public func toView(renderer: BeagleRenderer) -> UIView {
         let pagesControllers = pages.map {
             BeagleScreenViewController(
                 viewModel: .init(screenType: .declarative($0.toScreen()))
@@ -27,8 +28,8 @@ extension PageView: ServerDrivenComponent {
         }
 
         var indicatorView: PageIndicatorUIView?
-        if let indicator = pageIndicator as? ServerDrivenComponent {
-            indicatorView = indicator.toView(context: context, dependencies: dependencies) as? PageIndicatorUIView
+        if let indicator = pageIndicator {
+            indicatorView = renderer.render(indicator) as? PageIndicatorUIView
         }
 
         let view = PageViewUIComponent(

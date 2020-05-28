@@ -19,9 +19,7 @@ import WebKit
 import Schema
 
 extension WebView: ServerDrivenComponent {
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        let webView = WebViewUIComponent(model: WebViewUIComponent.Model(url: url))
-        webView.flex.setup(flex)
-        return webView
+    public func toView(renderer: BeagleRenderer) -> UIView {
+        return WebViewUIComponent(model: WebViewUIComponent.Model(url: url))
     }
 }

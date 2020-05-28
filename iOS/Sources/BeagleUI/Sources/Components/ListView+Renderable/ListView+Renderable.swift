@@ -31,10 +31,11 @@ extension ListView.Direction {
 }
 
 extension ListView: ServerDrivenComponent {
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+
+    public func toView(renderer: BeagleRenderer) -> UIView {
         let componentViews: [(view: UIView, size: CGSize)] = rows.compactMap {
             let container = Container(children: [$0], widgetProperties: .init(flex: Flex(positionType: .absolute)))
-            let containerView = container.toView(context: context, dependencies: dependencies)
+            let containerView = renderer.render(container)
             let view = UIView()
             view.addSubview(containerView)
             view.flex.applyLayout()

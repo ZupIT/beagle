@@ -18,14 +18,14 @@ import UIKit
 import Schema
 
 extension Screen {
-   func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        return ScreenComponent(
+   public func toView(renderer: BeagleRenderer) -> UIView {
+        return renderer.render(ScreenComponent(
             identifier: id,
             appearance: appearance,
             safeArea: safeArea,
             navigationBar: navigationBar,
             screenAnalyticsEvent: screenAnalyticsEvent,
             child: child
-        ).toView(context: context, dependencies: dependencies)
+        ))
     }
 }

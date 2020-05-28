@@ -17,18 +17,21 @@
 import UIKit
 import Schema
 
-//TODO: avoid casting to ServerDrivenComponent
 extension Form: ServerDrivenComponent {
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        guard let childView = (child as? ServerDrivenComponent)?.toView(context: context, dependencies: dependencies) else {
-            return UIView()
-        }
+
+    public func toView(renderer: BeagleRenderer) -> UIView {
+        let childView = renderer.render(child)
         var hasFormSubmit = false
         
         func registerFormSubmit(view: UIView) {
             if view.beagleFormElement is FormSubmit {
                 hasFormSubmit = true
-                context.register(form: self, formView: childView, submitView: view, validatorHandler: dependencies.validatorProvider)
+                renderer.context.register(
+                    form: self,
+                    formView: childView,
+                    submitView: view,
+                    validatorHandler: renderer.dependencies.validatorProvider
+                )
             }
             for subview in view.subviews {
                 registerFormSubmit(view: subview)
@@ -37,10 +40,10 @@ extension Form: ServerDrivenComponent {
         
         registerFormSubmit(view: childView)
         if !hasFormSubmit {
-            dependencies.logger.log(Log.form(.submitNotFound(form: self)))
+            renderer.dependencies.logger.log(Log.form(.submitNotFound(form: self)))
         }
         return childView
-    }    
+    }
 }
 
 extension UIView {

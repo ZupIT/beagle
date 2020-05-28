@@ -20,14 +20,11 @@ import Schema
 //TODO: avoid casting to ServerDrivenComponent
 extension FormSubmit: ServerDrivenComponent {
     
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        guard let childView = (child as? ServerDrivenComponent)?.toView(context: context, dependencies: dependencies) else {
-            return UIView()
-        }
-        childView.flex.isEnabled = true
+    public func toView(renderer: BeagleRenderer) -> UIView {
+        let childView = renderer.render(child)
         childView.beagleFormElement = self
         
-        let view = FormSubmitView(childView: childView, enabled: enabled, dependencies: dependencies)
+        let view = FormSubmitView(childView: childView, enabled: enabled)
         return view
     }
     
@@ -35,16 +32,13 @@ extension FormSubmit: ServerDrivenComponent {
         
         let childView: UIView
         let observable: Observable<WidgetState>
-        private var dependencies: RenderableDependencies?
         
         init(
             childView: UIView,
-            enabled: Bool?,
-            dependencies: RenderableDependencies?
+            enabled: Bool?
         ) {
             self.childView = childView
             self.observable = Observable(value: WidgetState(value: enabled))
-            self.dependencies = dependencies
             super.init(frame: .zero)
             addSubview(childView)
         }

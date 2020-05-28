@@ -20,7 +20,7 @@ import Schema
 
 extension Text: Widget {
 
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+    public func toView(renderer: BeagleRenderer) -> UIView {
         let textView = UITextView()
         textView.isEditable = false
         textView.isSelectable = false
@@ -33,15 +33,14 @@ extension Text: Widget {
         
         textView.textAlignment = alignment?.toUIKit() ?? .natural
         textView.text = text
-        
+
+        // TODO: we could make this automatically inside renderer like we do with other porperties
         if let style = style {
-            dependencies.theme.applyStyle(for: textView, withId: style)
+            renderer.dependencies.theme.applyStyle(for: textView, withId: style)
         }
         if let color = textColor {
             textView.textColor = UIColor(hex: color)
         }
-
-        textView.beagle.setup(self)
         
         return textView
     }

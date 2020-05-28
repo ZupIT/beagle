@@ -29,9 +29,9 @@ public protocol BeagleDependenciesProtocol: DependencyActionExecutor,
     DependencyViewConfigurator,
     DependencyFlexConfigurator,
     RenderableDependencies,
-    DependencyCacheManager,
     DependencyWindowManager,
-    DependencyURLOpener {
+    DependencyURLOpener,
+    DependencyRenderer {
 }
 
 open class BeagleDependencies: BeagleDependenciesProtocol {
@@ -55,6 +55,10 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var windowManager: WindowManager
     public var opener: URLOpener
 
+    public var renderer: (BeagleContext, RenderableDependencies) -> BeagleRenderer = {
+        return BeagleRenderer(context: $0, dependencies: $1)
+    }
+
     public var flex: (UIView) -> FlexViewConfiguratorProtocol = {
         return FlexViewConfigurator(view: $0)
     }
@@ -76,13 +80,13 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.appBundle = Bundle.main
         self.theme = AppTheme(styles: [:])
         self.navigationControllerType = BeagleNavigationController.self
+        self.logger = BeagleLogger()
 
         self.networkClient = NetworkClientDefault(dependencies: resolver)
         self.navigation = BeagleNavigator(dependencies: resolver)
         self.actionExecutor = ActionExecuting(dependencies: resolver)
         self.repository = RepositoryDefault(dependencies: resolver)
         self.cacheManager = CacheManagerDefault(dependencies: resolver)
-        self.logger = BeagleLogger()
         self.windowManager = WindowManagerDefault()
         self.opener = URLOpenerDefault(dependencies: resolver)
 

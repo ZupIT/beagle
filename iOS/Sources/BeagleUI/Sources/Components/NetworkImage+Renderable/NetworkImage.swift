@@ -18,21 +18,23 @@ import UIKit
 import Schema
 
 extension NetworkImage: Widget {
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+
+    public func toView(renderer: BeagleRenderer) -> UIView {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.contentMode = (contentMode ?? .fitCenter).toUIKit()
 
         imageView.beagle.setup(self)
         
-        dependencies.repository.fetchImage(url: path, additionalData: nil) { [weak imageView, weak context] result in
+        renderer.dependencies.repository.fetchImage(url: path, additionalData: nil) {
+            [weak imageView, weak renderer] result in
             guard let imageView = imageView else { return }
             guard case .success(let data) = result else { return }
             let image = UIImage(data: data)
             DispatchQueue.main.async {
                 imageView.image = image
                 imageView.flex.markDirty()
-                context?.applyLayout()
+                renderer?.context.applyLayout()
             }
         }
                 

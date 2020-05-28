@@ -19,19 +19,16 @@ import Schema
 
 extension Spacer: ServerDrivenComponent {
     
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        let flex = Flex(
-            size: Size(
-                width: UnitValue(value: size, type: .real),
-                height: UnitValue(value: size, type: .real)
-            )
-        )
-        
+    public func toView(renderer: BeagleRenderer) -> UIView {
         let view = UIView()
         view.isUserInteractionEnabled = false
         view.isAccessibilityElement = false
         view.backgroundColor = .clear
 
+        let flex = Flex(size: Size(
+            width: UnitValue(value: size, type: .real),
+            height: UnitValue(value: size, type: .real)
+        ))
         view.flex.setup(flex)
         return view
     }

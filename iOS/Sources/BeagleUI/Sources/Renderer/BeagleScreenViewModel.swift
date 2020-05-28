@@ -43,6 +43,7 @@ class BeagleScreenViewModel {
         & RenderableDependencies
         & DependencyComponentDecoding
         & DependencyNavigationController
+        & DependencyRenderer
 
     // MARK: Observer
 
