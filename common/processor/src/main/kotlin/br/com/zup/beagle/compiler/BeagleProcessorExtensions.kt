@@ -44,6 +44,7 @@ private val TypeName.kotlin get() = JAVA_TO_KOTLIN[this] ?: this
 
 val ProcessingEnvironment.kaptGeneratedDirectory get() = File(this.options[KAPT_KEY]!!)
 val TypeMirror.elementType: TypeMirror get() = if (this is DeclaredType) this.typeArguments[0] else this
+val Element.isMarkedNullable get() = this.getAnnotation(Nullable::class.java) != null
 
 val ExecutableElement.fieldName
     get() = this.simpleName.toString()
@@ -51,13 +52,14 @@ val ExecutableElement.fieldName
         .takeWhile { it != INTERNAL_MARKER }
         .let { it.replaceFirst(it.first(), it.first().toLowerCase()) }
 
-val TypeElement.visibleGetters get() = this.enclosedElements.filterVisibleGetters { GET in it.simpleName }
+val TypeElement.visibleGetters
+    get() = this.enclosedElements.filter { it.kind.isField }.map { it.simpleName.toString() }.toSet().let { names ->
+        this.enclosedElements.filterVisibleGetters { GET in it.simpleName }.filter { it.fieldName in names }
+    }
 
-fun Element.getNameWith(suffix: String = "") = "${this.simpleName}$suffix"
+fun Element.getNameWith(suffix: String) = "${this.simpleName}$suffix"
 
 fun Types.isIterable(type: TypeMirror) = this.isSubtype(type, Iterable::class)
-
-val Element.isMarkedNullable get() = this.getAnnotation(Nullable::class.java) != null
 
 fun Elements.getPackageAsString(element: Element) = this.getPackageOf(element).toString()
 
@@ -75,11 +77,14 @@ fun FunSpec.Companion.constructorFrom(parameters: List<ParameterSpec>) =
 tailrec fun Types.getFinalElementType(type: TypeMirror): TypeMirror =
     if (this.isIterable(type)) this.getFinalElementType(type.elementType) else type
 
-fun Types.isSubtype(type: TypeMirror, superType: KClass<*>): Boolean =
-    when (this.erasure(type).asTypeName()) {
-        Any::class.java.asTypeName() -> false
-        superType.java.asTypeName() -> true
-        else -> this.directSupertypes(type).any { this.isSubtype(it, superType) }
+fun Types.isSubtype(type: TypeMirror, superType: KClass<*>) =
+    this.isSubtype(type, superType.java.asTypeName().toString())
+
+fun Types.isSubtype(type: TypeMirror, superTypeName: String): Boolean =
+    when (this.erasure(type).asTypeName().toString()) {
+        Any::class.java.canonicalName -> false
+        superTypeName -> true
+        else -> this.directSupertypes(type).any { this.isSubtype(it, superTypeName) }
     }
 
 fun Types.getKotlinName(type: TypeMirror): TypeName = when {

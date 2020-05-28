@@ -92,7 +92,8 @@ internal class BeagleSerializerModifierTest {
 
         every { description.beanClass } returns clazz
 
-        val result = BeagleSerializerModifier.modifySerializer(mockk(), description, serializer)
+        val result = BeagleSerializerModifier(BeagleSerializerModifier::class.java.classLoader)
+            .modifySerializer(mockk(), description, serializer)
 
         compareSerializers(serializer, result)
         assertTrue { expectedSerializerClass.isInstance(result) }

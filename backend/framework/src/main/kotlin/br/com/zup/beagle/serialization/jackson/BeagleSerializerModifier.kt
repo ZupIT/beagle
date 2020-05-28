@@ -25,17 +25,26 @@ import com.fasterxml.jackson.databind.SerializationConfig
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase
 
-internal object BeagleSerializerModifier : BeanSerializerModifier() {
-    private val beagleBaseClasses = arrayOf(Action::class, Screen::class, ServerDrivenComponent::class)
+internal class BeagleSerializerModifier(
+    private val classLoader: ClassLoader
+) : BeanSerializerModifier() {
+    private var beagleBaseClasses = listOf(Action::class.java, Screen::class.java, ServerDrivenComponent::class.java)
+
+    init {
+        this.beagleBaseClasses = this.beagleBaseClasses.map { Class.forName(it.name, true, this.classLoader) }
+    }
 
     override fun modifySerializer(
         config: SerializationConfig,
         description: BeanDescription,
         serializer: JsonSerializer<*>
     ) =
-        if (serializer is BeanSerializerBase && this.isBeagleBase(description)) BeagleTypeSerializer(serializer)
-        else serializer
+        if (serializer is BeanSerializerBase && this.beagleBaseClasses.findAssignableFrom(description)) {
+            BeagleTypeSerializer(serializer, this.classLoader)
+        } else {
+            serializer
+        }
 
-    private fun isBeagleBase(description: BeanDescription) =
-        beagleBaseClasses.any { it.java.isAssignableFrom(description.beanClass) }
+    private fun List<Class<*>>.findAssignableFrom(description: BeanDescription) =
+        this.find { it.isAssignableFrom(description.beanClass) } != null
 }
