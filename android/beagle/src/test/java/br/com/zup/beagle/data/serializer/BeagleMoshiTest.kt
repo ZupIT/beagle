@@ -518,7 +518,7 @@ class BeagleMoshiTest {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_Navigate() {
+    fun make_should_return_moshi_to_deserialize_a_PushView_action() {
         // Given
         val json = makeNavigationActionJson()
 

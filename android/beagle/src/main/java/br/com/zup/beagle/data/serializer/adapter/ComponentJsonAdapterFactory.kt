@@ -44,10 +44,10 @@ import br.com.zup.beagle.widget.ui.NetworkImage
 import br.com.zup.beagle.widget.ui.TabView
 import br.com.zup.beagle.widget.ui.Text
 import br.com.zup.beagle.widget.ui.UndefinedWidget
+import java.util.*
 
-private const val BEAGLE_WIDGET_TYPE = "_beagleType_"
+private const val BEAGLE_WIDGET_TYPE = "_beagleComponent_"
 private const val BEAGLE_NAMESPACE = "beagle"
-private const val COMPONENT_NAMESPACE = "component"
 
 internal object ComponentJsonAdapterFactory {
 
@@ -131,6 +131,6 @@ internal object ComponentJsonAdapterFactory {
     }
 
     private fun createNamespace(appNamespace: String, clazz: Class<*>): String {
-        return "$appNamespace:$COMPONENT_NAMESPACE:${clazz.simpleName.toLowerCase()}"
+        return "$appNamespace:${clazz.simpleName.toLowerCase(Locale.getDefault())}"
     }
 }

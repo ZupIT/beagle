@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    @Suppress("ComplexMethod")
     private fun menuSelected(itemSelected: Int) {
         when (itemSelected) {
             R.id.textField -> goToFragment(TextFieldFragment.newInstance())

@@ -17,7 +17,7 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.NavigationType
+import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
@@ -73,10 +73,7 @@ object TouchableScreenBuilder : ScreenBuilder {
         children = listOf(
             buildTitle(title),
             Touchable(
-                action = Navigate(
-                    path = SCREEN_ACTION_CLICK_ENDPOINT,
-                    type = NavigationType.ADD_VIEW
-                ),
+                action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT)),
                 child = item.applyFlex(
                     flex = Flex(
                         alignSelf = AlignSelf.CENTER,
@@ -117,10 +114,7 @@ object TouchableScreenBuilder : ScreenBuilder {
                         alignSelf = AlignSelf.CENTER
                     )
                 ),
-                action = Navigate(
-                    path = SCREEN_ACTION_CLICK_ENDPOINT,
-                    type = NavigationType.ADD_VIEW
-                )
+                action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))
             )
         )
     )
