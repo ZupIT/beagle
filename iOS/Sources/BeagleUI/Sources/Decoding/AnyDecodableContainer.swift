@@ -25,18 +25,28 @@ public struct AnyDecodableContainer {
 extension AnyDecodableContainer: Decodable {
 
     enum CodingKeys: String, CodingKey {
-        case type = "_beagleType_"
+        case componentType = "_beagleComponent_"
+        case actionType = "_beagleAction_"
     }
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let type = try container.decode(String.self, forKey: .type)
-
-        if let decodable = Beagle.dependencies.decoder.decodableType(forType: type.lowercased()) {
-            content = try decodable.init(from: decoder)
+        
+        if let type = try? container.decode(String.self, forKey: .componentType) {
+            if let decodable = Beagle.dependencies.decoder.componentType(forType: type) {
+                content = try decodable.init(from: decoder)
+            } else {
+                Beagle.dependencies.logger.log(Log.decode(.decodingError(type: type)))
+                content = UnknownComponent(type: type)
+            }
         } else {
-            Beagle.dependencies.logger.log(Log.decode(.decodingError(type: type)))
-            content = UnknownComponent(type: type)
+            let type = try container.decode(String.self, forKey: .actionType)
+            if let decodable = Beagle.dependencies.decoder.actionType(forType: type) {
+                content = try decodable.init(from: decoder)
+            } else {
+                Beagle.dependencies.logger.log(Log.decode(.decodingError(type: type)))
+                content = UnknownAction(type: type)
+            }
         }
     }
 }

@@ -15,6 +15,7 @@
  */
 
 import XCTest
+
 @testable import BeagleUI
 
 class AccessibilityTest: XCTestCase {

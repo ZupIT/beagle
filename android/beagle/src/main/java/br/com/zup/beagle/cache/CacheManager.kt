@@ -36,7 +36,7 @@ internal data class BeagleCache(
 
 internal class CacheManager(
     private val storeHandler: StoreHandler = StoreHandlerFactory().make(),
-    private val timerCacheStore: LruCacheStore = LruCacheStore,
+    private val timerCacheStore: LruCacheStore = LruCacheStore.instance,
     private val beagleEnvironment: BeagleEnvironment = BeagleEnvironment
 ) {
 
