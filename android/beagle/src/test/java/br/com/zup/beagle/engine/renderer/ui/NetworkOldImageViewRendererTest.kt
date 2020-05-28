@@ -55,7 +55,7 @@ import org.junit.Test
 
 private const val DEFAULT_URL = "http://teste.com/test.png"
 
-class NetworkImageViewRendererTest : BaseTest() {
+class NetworkOldImageViewRendererTest : BaseTest() {
 
     @MockK
     private lateinit var viewFactory: ViewFactory

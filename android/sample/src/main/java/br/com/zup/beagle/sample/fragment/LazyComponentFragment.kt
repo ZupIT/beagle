@@ -30,7 +30,8 @@ import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.lazy.LazyComponent
-import br.com.zup.beagle.widget.ui.NetworkImage
+import br.com.zup.beagle.widget.ui.Image
+import br.com.zup.beagle.widget.ui.ImagePath.Remote
 import br.com.zup.beagle.widget.ui.Text
 
 class LazyComponentFragment : Fragment() {
@@ -48,8 +49,8 @@ class LazyComponentFragment : Fragment() {
 
     private fun buildScrollView() = ScrollView(
         children = listOf(
-            NetworkImage(
-                path = "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271"
+            Image(
+                Remote("https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271")
             ).applyAppearance(Appearance(cornerRadius = CornerRadius(30.0))),
             LazyComponent(
                 path = "http://www.mocky.io/v2/5e4e91c02f00001f2016a8f2",

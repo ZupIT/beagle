@@ -27,7 +27,7 @@ import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.view.BeagleImageView
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.core.ImageContentMode
-import br.com.zup.beagle.widget.ui.Image
+import br.com.zup.beagle.widget.ui.OldImage
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -43,7 +43,7 @@ import kotlin.test.assertTrue
 
 private val IMAGE_RES = RandomData.int()
 
-class ImageViewRendererTest : BaseTest() {
+class OldImageViewRendererTest : BaseTest() {
 
     @MockK
     private lateinit var viewFactory: ViewFactory
@@ -56,7 +56,7 @@ class ImageViewRendererTest : BaseTest() {
     @MockK
     private lateinit var rootView: RootView
     @RelaxedMockK
-    private lateinit var image: Image
+    private lateinit var oldImage: OldImage
 
     private val scaleTypeSlot = slot<ImageView.ScaleType>()
 
@@ -87,9 +87,9 @@ class ImageViewRendererTest : BaseTest() {
     fun build_with_image_should_set_fit_center_when_content_mode_is_null_and_design_system_is_not_null() {
         // Given
         val scaleType = ImageView.ScaleType.FIT_CENTER
-        every { image.contentMode } returns null
+        every { oldImage.contentMode } returns null
         every { viewMapper.toScaleType(any()) } returns scaleType
-        every { image.name } returns "imageName"
+        every { oldImage.name } returns "imageName"
         every { imageView.scaleType = capture(scaleTypeSlot) } just Runs
 
         // When
@@ -104,7 +104,7 @@ class ImageViewRendererTest : BaseTest() {
     fun build_with_image_should_set_desired_scaleType_and_design_system_is_null() {
         // Given
         val scaleType = ImageView.ScaleType.CENTER_CROP
-        every { image.contentMode } returns ImageContentMode.CENTER_CROP
+        every { oldImage.contentMode } returns ImageContentMode.CENTER_CROP
         every { viewMapper.toScaleType(any()) } returns scaleType
         every { BeagleEnvironment.beagleSdk.designSystem } returns null
         every { imageView.scaleType = capture(scaleTypeSlot) } just Runs

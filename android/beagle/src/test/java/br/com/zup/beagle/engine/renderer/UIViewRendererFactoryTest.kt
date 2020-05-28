@@ -32,7 +32,7 @@ import br.com.zup.beagle.widget.core.WidgetView
 import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.FormSubmit
 import br.com.zup.beagle.widget.ui.Button
-import br.com.zup.beagle.widget.ui.Image
+import br.com.zup.beagle.widget.ui.OldImage
 import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.NetworkImage
 import br.com.zup.beagle.widget.ui.Text
@@ -91,7 +91,7 @@ class UIViewRendererFactoryTest {
     @Test
     fun make_should_return_ImageViewRenderer_when_component_is_a_Image() {
         // Given
-        val component = Image(name = "")
+        val component = OldImage(name = "")
 
         // When
         val actual = viewRendererFactory.make(component)

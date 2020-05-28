@@ -107,7 +107,7 @@ fun makeTextJson() = """
 
 fun makeImageJson() = """
     {
-        "_beagleComponent_": "beagle:image",
+        "_beagleComponent_": "beagle:oldimage",
         "name": "test"
     }
 """

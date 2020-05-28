@@ -25,6 +25,7 @@ import br.com.zup.beagle.widget.core.ComposeComponent
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.Text
 
@@ -56,9 +57,5 @@ class CustomComposeComponent : ComposeComponent() {
         )
     }
 
-    private fun buildImageBeagle(): Widget {
-        return Image(
-            LOGO_BEAGLE
-        )
-    }
+    private fun buildImageBeagle() = Image(Local.justMobile(LOGO_BEAGLE))
 }

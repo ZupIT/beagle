@@ -38,7 +38,7 @@ import br.com.zup.beagle.widget.navigation.Touchable
 import br.com.zup.beagle.widget.pager.PageIndicator
 import br.com.zup.beagle.widget.pager.PageIndicatorComponent
 import br.com.zup.beagle.widget.ui.Button
-import br.com.zup.beagle.widget.ui.Image
+import br.com.zup.beagle.widget.ui.OldImage
 import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.NetworkImage
 import br.com.zup.beagle.widget.ui.TabView
@@ -92,7 +92,7 @@ internal object ComponentJsonAdapterFactory {
         factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
         return factory.withSubtype(Text::class.java, createNamespaceFor<Text>())
-            .withSubtype(Image::class.java, createNamespaceFor<Image>())
+            .withSubtype(OldImage::class.java, createNamespaceFor<OldImage>())
             .withSubtype(NetworkImage::class.java, createNamespaceFor<NetworkImage>())
             .withSubtype(Button::class.java, createNamespaceFor<Button>())
             .withSubtype(ListView::class.java, createNamespaceFor<ListView>())

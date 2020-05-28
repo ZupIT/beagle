@@ -38,7 +38,8 @@ import br.com.zup.beagle.widget.layout.ScrollAxis
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.navigation.Touchable
 import br.com.zup.beagle.widget.ui.Image
-import br.com.zup.beagle.widget.ui.NetworkImage
+import br.com.zup.beagle.widget.ui.ImagePath.Local
+import br.com.zup.beagle.widget.ui.ImagePath.Remote
 import br.com.zup.beagle.widget.ui.Text
 
 object TouchableScreenBuilder : ScreenBuilder {
@@ -62,7 +63,7 @@ object TouchableScreenBuilder : ScreenBuilder {
             scrollDirection = ScrollAxis.VERTICAL,
             children = listOf(
                 touchableCustom(title = "Text with Touchable", item = Text("Click here!")),
-                touchableCustom(title = "Image with Touchable", item = Image(LOGO_BEAGLE)),
+                touchableCustom(title = "Image with Touchable", item = Image(Local.justMobile(LOGO_BEAGLE))),
                 networkImageTouchable()
             )
         )
@@ -102,8 +103,8 @@ object TouchableScreenBuilder : ScreenBuilder {
         children = listOf(
             buildTitle("NetworkImage with Touchable"),
             Touchable(
-                child = NetworkImage(
-                    path = BEACH_NETWORK_IMAGE
+                child = Image(
+                    Remote(BEACH_NETWORK_IMAGE)
                 ).applyFlex(
                     flex = Flex(
                         size = Size(
