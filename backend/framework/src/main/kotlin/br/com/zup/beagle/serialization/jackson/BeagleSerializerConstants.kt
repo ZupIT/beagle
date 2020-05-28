@@ -18,6 +18,7 @@ package br.com.zup.beagle.serialization.jackson
 
 const val COMPONENT_TYPE = "_beagleComponent_"
 const val ACTION_TYPE = "_beagleAction_"
+const val IMAGE_PATH_TYPE = "beaglePathType"
 const val SCREEN_COMPONENT = "screenComponent"
 const val BEAGLE_NAMESPACE = "beagle"
 const val CUSTOM_WIDGET_BEAGLE_NAMESPACE = "custom"

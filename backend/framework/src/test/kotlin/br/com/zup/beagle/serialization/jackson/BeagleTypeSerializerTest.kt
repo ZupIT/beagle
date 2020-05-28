@@ -20,6 +20,7 @@ import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.Text
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.SerializerProvider
@@ -51,26 +52,29 @@ internal class BeagleTypeSerializerTest {
     }
 
     @Test
-    fun serialize_non_beagle_type_should_have_beagleType_field_null() = testSerialize("Text") {
+    fun serialize_non_beagle_type_should_have_beagleComponent_field_null() = testSerialize("Text") {
         verify(exactly = 0) { it.writeStringField(COMPONENT_TYPE, any()) }
     }
 
     @Test
-    fun serialize_beagle_native_ServerDrivenComponent_should_have_component_beagleType_field_with_beagle_prefix() =
-        testComponentSerialize(Text("test"), "$BEAGLE_NAMESPACE:text")
+    fun serialize_beagle_native_ServerDrivenComponent_should_have_component_beagleComponent_field_with_beagle_prefix() =
+        testTypeSerialize(Text("test"), COMPONENT_TYPE, "$BEAGLE_NAMESPACE:text")
 
     @Test
-    fun serialize_custom_ServerDrivenComponent_should_have_component_beagleType_field_with_custom_prefix() =
-        testComponentSerialize(CustomWidget, "$CUSTOM_WIDGET_BEAGLE_NAMESPACE:customWidget")
+    fun serialize_custom_ServerDrivenComponent_should_have_component_beagleComponent_field_with_custom_prefix() =
+        testTypeSerialize(CustomWidget, COMPONENT_TYPE, "$CUSTOM_WIDGET_BEAGLE_NAMESPACE:customWidget")
 
     @Test
-    fun serialize_Action_should_have_action_beagleType_field() = testSerialize(Navigate.PopStack()) {
-        verify(exactly = 1) { it.writeStringField(ACTION_TYPE, "$BEAGLE_NAMESPACE:popStack") }
-    }
+    fun serialize_Action_should_have_beagleAction_field() =
+        testTypeSerialize(Navigate.PopStack(), ACTION_TYPE, "$BEAGLE_NAMESPACE:popStack")
 
     @Test
-    fun serialize_Screen_should_have_screen_beagleType_field() =
-        testComponentSerialize(Screen(child = CustomWidget), "$BEAGLE_NAMESPACE:$SCREEN_COMPONENT")
+    fun serialize_Screen_should_have_screen_beagleComponent_field() =
+        testTypeSerialize(Screen(child = CustomWidget), COMPONENT_TYPE, "$BEAGLE_NAMESPACE:$SCREEN_COMPONENT")
+
+    @Test
+    fun serialize_ImagePathLocal_should_have_beagleImagePath_field() =
+        testTypeSerialize(Local.justMobile(""), IMAGE_PATH_TYPE, "local")
 
     private fun testSerialize(bean: Any, verify: (JsonGenerator) -> Unit) {
         val generator = mockk<JsonGenerator>(relaxUnitFun = true)
@@ -83,8 +87,8 @@ internal class BeagleTypeSerializerTest {
         verify(generator)
     }
 
-    private fun testComponentSerialize(bean: Any, beagleType: String) = testSerialize(bean) {
-        verify(exactly = 1) { it.writeStringField(COMPONENT_TYPE, beagleType) }
+    private fun testTypeSerialize(bean: Any, typeKey: String, typeValue: String) = testSerialize(bean) {
+        verify(exactly = 1) { it.writeStringField(typeKey, typeValue) }
     }
 
     @RegisterWidget
