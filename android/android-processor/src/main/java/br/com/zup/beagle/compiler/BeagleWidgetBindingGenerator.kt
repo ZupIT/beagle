@@ -21,30 +21,21 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.STAR
 import com.squareup.kotlinpoet.asClassName
 import javax.annotation.processing.ProcessingEnvironment
-import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 
 internal const val WIDGET_INSTANCE_PROPERTY = "widgetInstance"
 internal const val BIND_MODEL_METHOD = "bindModel"
-internal const val ADAPTER_SUFFIX = "BindingAdapter"
 internal const val GET_VALUE_NULL_METHOD = "getValueNull"
 internal const val GET_VALUE_NOT_NULL_METHOD = "getValueNotNull"
 internal const val GET_BIND_ATTRIBUTES_METHOD = "getBindAttributes"
+internal const val RETRIEVE_VALUE_METHOD = "getValue"
+internal const val ON_ERROR_MESSAGE_METHOD = "onErrorMessage"
+internal const val MESSAGE_PARAMETER = "message"
 
 class BeagleWidgetBindingGenerator(private val processingEnv: ProcessingEnvironment) {
-
-    fun getPropertyWidget(element: Element): PropertySpec {
-        val packageElement = getPackageOf(element)
-        val bindingClassName = "${element.simpleName}"
-        return PropertySpec.builder(WIDGET_INSTANCE_PROPERTY, ClassName(
-            packageElement,
-            bindingClassName
-        )).initializer(WIDGET_INSTANCE_PROPERTY).build()
-    }
 
     fun getFunctionBindModel(element: TypeElement): FunSpec {
         val attributeValues = StringBuilder()
@@ -63,7 +54,7 @@ class BeagleWidgetBindingGenerator(private val processingEnv: ProcessingEnvironm
             }
         }
 
-        parameters.forEach{ e ->
+        parameters.forEach { e ->
             val attr = e.fieldName
             notifyValues.append("""
                 |$attr.observes {
@@ -85,10 +76,23 @@ class BeagleWidgetBindingGenerator(private val processingEnv: ProcessingEnvironm
             .build()
     }
 
-    fun getBindingAdapterClassNameForWidget(element: Element) =
-        "${element.simpleName}$ADAPTER_SUFFIX"
+    fun getFunctionRetrieveValue(): FunSpec {
 
-    fun getPackageOf(element: Element) = processingEnv.elementUtils.getPackageOf(element).toString()
+        return FunSpec.builder(RETRIEVE_VALUE_METHOD)
+            .addModifiers(KModifier.OVERRIDE)
+            .returns(Any::class)
+            .addStatement("return $WIDGET_INSTANCE_PROPERTY.${RETRIEVE_VALUE_METHOD}()")
+            .build()
+    }
+
+    fun getFunctionOnErrorMessage(): FunSpec {
+
+        return FunSpec.builder(ON_ERROR_MESSAGE_METHOD)
+            .addModifiers(KModifier.OVERRIDE)
+            .addParameter(MESSAGE_PARAMETER, String::class)
+            .addStatement("return $WIDGET_INSTANCE_PROPERTY.${ON_ERROR_MESSAGE_METHOD}(message)")
+            .build()
+    }
 
     fun getFunctionGetBindAttributes(element: TypeElement): FunSpec {
 
@@ -98,10 +102,10 @@ class BeagleWidgetBindingGenerator(private val processingEnv: ProcessingEnvironm
         )
         val attributeValues = StringBuilder()
 
-        val constructorParameters = element.visibleGetters
-        constructorParameters.forEachIndexed { index, e ->
+        val parameters = element.visibleGetters
+        parameters.forEachIndexed { index, e ->
             attributeValues.append("\t${e.fieldName}")
-            if (index < constructorParameters.size - 1) {
+            if (index < parameters.size - 1) {
                 attributeValues.append(",\n")
             }
         }

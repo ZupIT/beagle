@@ -50,9 +50,19 @@ val ExecutableElement.fieldName
         .let { it.replaceFirst(it.first(), it.first().toLowerCase()) }
 
 val TypeElement.visibleGetters
-    get() = this.enclosedElements
-        .filter { it.kind == ElementKind.METHOD && GET in it.simpleName && Modifier.PUBLIC in it.modifiers }
-        .map { it as ExecutableElement }
+    get() = this.enclosedElements.filter { it.kind.isField }.map { it.simpleName.toString() }.toSet().let { names ->
+        this.enclosedElements
+            .filter { it.kind == ElementKind.METHOD && GET in it.simpleName && Modifier.PUBLIC in it.modifiers }
+            .map { it as ExecutableElement }
+            .filter { it.fieldName in names }
+    }
+
+fun Types.isSubtype(type: TypeMirror, superTypeName: String): Boolean =
+    when (this.erasure(type).asTypeName().toString()) {
+        Any::class.java.canonicalName -> false
+        superTypeName -> true
+        else -> this.directSupertypes(type).any { this.isSubtype(it, superTypeName) }
+    }
 
 val Element.isMarkedNullable get() = this.getAnnotation(Nullable::class.java) != null
 

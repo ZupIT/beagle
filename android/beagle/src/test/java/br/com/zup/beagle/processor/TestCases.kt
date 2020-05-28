@@ -21,12 +21,35 @@ import android.view.View
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.WidgetView
+import br.com.zup.beagle.widget.form.InputWidget
 import io.mockk.mockk
+
+internal const val WIDGET_INSTANCE_PROPERTY = "widgetInstance"
+internal const val VIEW_PROPERTY = "view"
 
 @RegisterWidget
 data class FieldOnlyWidget(val a: Boolean = true,
                            val b: Long = 123L,
                            val c: String = "Hello") : WidgetView() {
+
+    override fun buildView(context: Context): View {
+        return mockk()
+    }
+
+    override fun onBind(widget: Widget, view: View) {
+        return mockk()
+    }
+}
+
+@RegisterWidget
+data class CustomInputWidget(val text: String = "") : InputWidget() {
+    override fun onErrorMessage(message: String) {
+        return mockk()
+    }
+
+    override fun getValue(): Any {
+        return mockk()
+    }
 
     override fun buildView(context: Context): View {
         return mockk()
