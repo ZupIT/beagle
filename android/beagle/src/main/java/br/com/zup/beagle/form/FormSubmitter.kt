@@ -89,18 +89,11 @@ internal class FormSubmitter(
 
     private fun createUrl(form: FormRemoteAction, formsValue: Map<String, String>): String {
         return if (form.method == FormMethodType.GET || form.method == FormMethodType.DELETE) {
-            var query = if (formsValue.values.filter { isFormsValueValid(it) }.isNotEmpty()) {
-                "?"
-            } else {
-                ""
-            }
-
-            for ((index, value) in formsValue.iterator().withIndex()) {
-                if(isFormsValueValid(value.value)){
-                    if (index != 0) query += "&"
-                    query += "${value.key}=${Uri.encode(value.value)}"
-                }
-            }
+            val query = formsValue.filterValues {
+                isFormsValueValid(it)
+            }.toList().map {
+                "${it.first}=${Uri.encode(it.second)}"
+            }.joinToString(separator = "&", prefix = "?").replace(Regex("^\\?$"), "")
 
             "${form.path}$query"
         } else {
