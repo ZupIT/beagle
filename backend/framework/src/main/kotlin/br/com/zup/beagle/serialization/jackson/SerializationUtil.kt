@@ -16,10 +16,9 @@
 
 package br.com.zup.beagle.serialization.jackson
 
-import br.com.zup.beagle.core.BindAttribute
-import com.fasterxml.jackson.annotation.JsonValue
+import kotlin.reflect.KClass
 
-internal object BindMixin : BindAttribute<Any> {
-    @get:JsonValue
-    override val value: Any = this
-}
+internal fun getClass(
+    clazz: KClass<*>,
+    classLoader: ClassLoader
+) = Class.forName(clazz.qualifiedName, false, classLoader)
