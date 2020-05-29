@@ -12,7 +12,6 @@
 		C029189B247EE02200C3AA13 /* CustomPageIndicator.json in Resources */ = {isa = PBXBuildFile; fileRef = C0291899247EE02200C3AA13 /* CustomPageIndicator.json */; };
 		C029189D247EE03200C3AA13 /* PageViewWithCustomIndicator.json in Resources */ = {isa = PBXBuildFile; fileRef = C029189C247EE03200C3AA13 /* PageViewWithCustomIndicator.json */; };
 		C02918A0247EE2BF00C3AA13 /* CustomPageIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C029189F247EE2BF00C3AA13 /* CustomPageIndicator.swift */; };
-		C08D4DCD2481819900AAAC0A /* SourceryProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4DCC2481819900AAAC0A /* SourceryProtocols.swift */; };
 		C0FBBD212475803900B72A9B /* Schema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FBBD172475803900B72A9B /* Schema.framework */; };
 		C0FBBD3324759EDD00B72A9B /* SnapshotTesting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FBBD3224759EDD00B72A9B /* SnapshotTesting.framework */; };
 		C864D2A2247C240200E7A1F9 /* FormSubmit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D221247C240200E7A1F9 /* FormSubmit.swift */; };
@@ -31,6 +30,7 @@
 		C864D2B9247C240200E7A1F9 /* ServerDrivenComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D249247C240200E7A1F9 /* ServerDrivenComponent.swift */; };
 		C864D2BA247C240200E7A1F9 /* Equality.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D24C247C240200E7A1F9 /* Equality.generated.swift */; };
 		C864D2BB247C240200E7A1F9 /* AutoDecodable.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D24D247C240200E7A1F9 /* AutoDecodable.generated.swift */; };
+		C864D2BC247C240200E7A1F9 /* SourceryProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D24E247C240200E7A1F9 /* SourceryProtocols.swift */; };
 		C864D2C1247C240200E7A1F9 /* ComponentDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D255247C240200E7A1F9 /* ComponentDependencies.swift */; };
 		C864D2C4247C240200E7A1F9 /* ComponentDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D25C247C240200E7A1F9 /* ComponentDecoder.swift */; };
 		C864D2C5247C240200E7A1F9 /* AnyDecodableContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D25D247C240200E7A1F9 /* AnyDecodableContainer.swift */; };
@@ -112,7 +112,6 @@
 		C029189C247EE03200C3AA13 /* PageViewWithCustomIndicator.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PageViewWithCustomIndicator.json; sourceTree = "<group>"; };
 		C029189E247EE1A300C3AA13 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C029189F247EE2BF00C3AA13 /* CustomPageIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPageIndicator.swift; sourceTree = "<group>"; };
-		C08D4DCC2481819900AAAC0A /* SourceryProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SourceryProtocols.swift; path = ../../../Sources/BeagleUI/CodeGeneration/SourceryProtocols.swift; sourceTree = "<group>"; };
 		C0FBBD172475803900B72A9B /* Schema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Schema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0FBBD202475803900B72A9B /* SchemaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SchemaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0FBBD3224759EDD00B72A9B /* SnapshotTesting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapshotTesting.framework; path = Carthage/Build/iOS/SnapshotTesting.framework; sourceTree = "<group>"; };
@@ -140,6 +139,7 @@
 		C864D249247C240200E7A1F9 /* ServerDrivenComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerDrivenComponent.swift; sourceTree = "<group>"; };
 		C864D24C247C240200E7A1F9 /* Equality.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equality.generated.swift; sourceTree = "<group>"; };
 		C864D24D247C240200E7A1F9 /* AutoDecodable.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoDecodable.generated.swift; sourceTree = "<group>"; };
+		C864D24E247C240200E7A1F9 /* SourceryProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceryProtocols.swift; sourceTree = "<group>"; };
 		C864D255247C240200E7A1F9 /* ComponentDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentDependencies.swift; sourceTree = "<group>"; };
 		C864D258247C240200E7A1F9 /* ComponentDecoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentDecoderTests.swift; sourceTree = "<group>"; };
 		C864D25C247C240200E7A1F9 /* ComponentDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentDecoder.swift; sourceTree = "<group>"; };
@@ -446,7 +446,7 @@
 		C864D24A247C240200E7A1F9 /* CodeGeneration */ = {
 			isa = PBXGroup;
 			children = (
-				C08D4DCC2481819900AAAC0A /* SourceryProtocols.swift */,
+				C864D24E247C240200E7A1F9 /* SourceryProtocols.swift */,
 				C864D24B247C240200E7A1F9 /* Generated */,
 			);
 			path = CodeGeneration;
@@ -1109,6 +1109,7 @@
 				C864D2E1247C240200E7A1F9 /* AnalyticsModels.swift in Sources */,
 				C864D2B5247C240200E7A1F9 /* NavigationBar.swift in Sources */,
 				C8EBCC31247C3002002030CC /* LazyComponent.swift in Sources */,
+				C864D2BC247C240200E7A1F9 /* SourceryProtocols.swift in Sources */,
 				C864D2DE247C240200E7A1F9 /* EdgeValue.swift in Sources */,
 				C864D2CF247C240200E7A1F9 /* Container.swift in Sources */,
 				C864D2D9247C240200E7A1F9 /* FormValidation.swift in Sources */,
@@ -1133,7 +1134,6 @@
 				C864D2B8247C240200E7A1F9 /* ScreenComponent.swift in Sources */,
 				C864D2D4247C240200E7A1F9 /* Appearance.swift in Sources */,
 				C864D2E2247C240200E7A1F9 /* Events.swift in Sources */,
-				C08D4DCD2481819900AAAC0A /* SourceryProtocols.swift in Sources */,
 				C864D2BA247C240200E7A1F9 /* Equality.generated.swift in Sources */,
 				C864D2A4247C240200E7A1F9 /* FormInput.swift in Sources */,
 				C8EBCC22247C2F7C002030CC /* Spacer.swift in Sources */,

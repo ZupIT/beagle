@@ -17,13 +17,13 @@
 import Foundation
 
 // MARK: - Equatable
-public protocol AutoEquatable { }
+protocol AutoEquatable { }
 
 // MARK: - Decodable
-public protocol AutoDecodable: Decodable { }
+protocol AutoDecodable: Decodable { }
 
 // MARK: - Init
-public protocol AutoInitiable { }
+protocol AutoInitiable { }
 
 // MARK: - Init and Decodable
-public protocol AutoInitiableAndDecodable: AutoDecodable, AutoInitiable { }
+protocol AutoInitiableAndDecodable: AutoDecodable, AutoInitiable { }
