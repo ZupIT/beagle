@@ -75,7 +75,7 @@ internal class BeagleExpressionHandler(processingEnvironment: ProcessingEnvironm
             }.build()
 
     private fun createGenerationType(fieldType: TypeMirror): TypeName = when {
-        this.typeUtils.isLeaf(fieldType) -> EXPRESSION.specialize(fieldType.asTypeName())
+        this.typeUtils.isLeaf(fieldType) -> BIND.specialize(fieldType.asTypeName())
         this.typeUtils.isIterable(fieldType) ->
             fieldType.elementType.let {
                 LIST_SUBEXPRESSION.parameterizedBy(this.typeUtils.getKotlinName(it), this.createGenerationType(it))
@@ -90,7 +90,7 @@ internal class BeagleExpressionHandler(processingEnvironment: ProcessingEnvironm
         )
 
     private fun createGenerationFormat(fieldType: TypeMirror, depth: Int = 0): String = when {
-        this.typeUtils.isLeaf(fieldType) -> PLACEHOLDER
+        this.typeUtils.isLeaf(fieldType) -> "$BIND_EXPRESSION($PLACEHOLDER)"
         this.typeUtils.isIterable(fieldType) ->
             this.createGenerationFormat(fieldType.elementType, depth + 1)
                 .replace(PLACEHOLDER, "$ITERABLE_PARAM$depth")

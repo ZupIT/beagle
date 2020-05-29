@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.compiler
 
+import br.com.zup.beagle.core.Bind
 import br.com.zup.beagle.expression.BeagleIterableSubexpression
 import br.com.zup.beagle.expression.Expression
 import com.squareup.kotlinpoet.asTypeName
@@ -30,6 +31,8 @@ internal const val ITERABLE_PARAM = "it"
 internal val EXPRESSION = Expression::class.asTypeName()
 internal val START = Expression.Start::class.asTypeName()
 internal val LIST_SUBEXPRESSION = BeagleIterableSubexpression::class.asTypeName()
+internal val BIND = Bind::class.asTypeName()
+internal val BIND_EXPRESSION = Bind.Expression::class.asTypeName()
 
 internal val LEAF_TYPES = arrayOf(
     Any::class,

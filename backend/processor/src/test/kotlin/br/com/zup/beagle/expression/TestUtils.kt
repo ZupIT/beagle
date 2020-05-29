@@ -16,10 +16,13 @@
 
 package br.com.zup.beagle.expression
 
+import br.com.zup.beagle.core.Bind
 import kotlin.reflect.KClass
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
-inline fun <reified T : Any> checkExpression(expression: Expression<T>, representation: String, target: KClass<T>) {
-    assertEquals(representation, expression.representation)
+inline fun <reified T : Any> checkExpression(expression: Bind<T>, representation: String, target: KClass<T>) {
+    assertTrue(expression is Bind.Expression<T>)
+    assertEquals(representation, expression.value)
     assertEquals(target.qualifiedName, T::class.qualifiedName)
 }

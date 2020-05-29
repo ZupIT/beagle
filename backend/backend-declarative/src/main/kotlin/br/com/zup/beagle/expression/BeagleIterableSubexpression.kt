@@ -18,7 +18,7 @@ package br.com.zup.beagle.expression
 
 import br.com.zup.beagle.expression.Expression.Companion.access
 
-class BeagleIterableSubexpression<T, N>(
+class BeagleIterableSubexpression<T, out N>(
     private val expression: Expression<out Iterable<T>>,
     private val createNext: (Expression<T>) -> N
 ) {
