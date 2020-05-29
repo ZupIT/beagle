@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,8 +15,15 @@
  * limitations under the License.
  */
 
-import Foundation
+import XCTest
+@testable import Schema
+import SnapshotTesting
 
-//public protocol Screen: AppearanceComponent, IdentifiableComponent {
-//
-//}
+class ScreenComponentTests: XCTestCase {
+
+    func test_whenDecodingJson_thenItShouldReturnAScreen() throws {
+        let component: ScreenComponent = try componentFromJsonFile(fileName: "screenComponent")
+        assertSnapshot(matching: component, as: .dump)
+    }
+
+}

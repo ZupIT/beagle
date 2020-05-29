@@ -32,6 +32,12 @@ final class SpacerTests: XCTestCase {
         // Then
         assertSnapshotImage(view, size: CGSize(width: 100, height: 100))
     }
-
-    // TODO: make a test that actually hava a space with something else
+    
+//    func test_screenWithSpacedButtons() throws {
+//        let component: ScreenComponent = try componentFromJsonFile(fileName: "Spacer")
+//        let screen = component.toScreen()
+//        let view = screen.toView(context: BeagleContextDummy(), dependencies: BeagleScreenDependencies())
+//        let frame = view.frame
+//        assertSnapshotImage(view)
+//    }
 }

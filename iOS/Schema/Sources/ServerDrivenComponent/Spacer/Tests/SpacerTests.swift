@@ -18,8 +18,9 @@ import XCTest
 @testable import Schema
 import SnapshotTesting
 
-// TODO: make a decoding snapshot testing
 final class SpacerTests: XCTestCase {
-    
-
+    func test_whenDecodingJson_shouldReturnScreenWithSpacedButtons() throws {
+        let component: ScreenComponent = try componentFromJsonFile(fileName: "Spacer")
+        assertSnapshot(matching: component, as: .dump)
+    }
 }

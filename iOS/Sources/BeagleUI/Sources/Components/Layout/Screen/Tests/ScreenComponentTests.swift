@@ -115,11 +115,6 @@ final class ScreenComponentTests: XCTestCase {
         XCTAssertEqual([navigatePath], prefetch.prefetched)
     }
     
-    func test_whenDecodingJson_thenItShouldReturnAScreen() throws {
-        let component: ScreenComponent = try componentFromJsonFile(fileName: "screenComponent")
-        assertSnapshot(matching: component, as: .dump)
-    }
-    
     func testIfAnalyticsScreenShouldBeTriggered() {
         // Given
         let analyticsEvent = AnalyticsScreen(screenName: "screen name")
