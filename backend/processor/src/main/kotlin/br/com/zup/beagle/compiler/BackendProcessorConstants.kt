@@ -18,7 +18,7 @@ package br.com.zup.beagle.compiler
 
 import br.com.zup.beagle.core.Bind
 import br.com.zup.beagle.expression.BeagleIterableSubexpression
-import br.com.zup.beagle.expression.Expression
+import br.com.zup.beagle.expression.ExpressionHelper
 import com.squareup.kotlinpoet.asTypeName
 
 internal const val ROOT_SUFFIX = "_"
@@ -28,8 +28,8 @@ internal const val PARAMETER = "expression"
 internal const val ACCESS = "$PARAMETER.access"
 internal const val ITERABLE_PARAM = "it"
 
-internal val EXPRESSION = Expression::class.asTypeName()
-internal val START = Expression.Start::class.asTypeName()
+internal val EXPRESSION = ExpressionHelper::class.asTypeName()
+internal val START = ExpressionHelper.Start::class.asTypeName()
 internal val LIST_SUBEXPRESSION = BeagleIterableSubexpression::class.asTypeName()
 internal val BIND = Bind::class.asTypeName()
 internal val BIND_EXPRESSION = Bind.Expression::class.asTypeName()

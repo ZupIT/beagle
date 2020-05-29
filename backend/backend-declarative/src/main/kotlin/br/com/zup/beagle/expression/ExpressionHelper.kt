@@ -16,24 +16,24 @@
 
 package br.com.zup.beagle.expression
 
-sealed class Expression<T>(private val intermediate: String) {
+sealed class ExpressionHelper<T>(private val intermediate: String) {
     companion object {
         private const val START = "@{"
         private const val END = "}"
 
-        fun <T> Expression<out Iterable<T>>.access(index: Int): Expression<T> = ArrayAccess(index, this)
+        fun <T> ExpressionHelper<out Iterable<T>>.access(index: Int): ExpressionHelper<T> = ArrayAccess(index, this)
     }
 
     val representation by lazy { "${this.intermediate}$END" }
 
-    fun <N> access(member: String): Expression<N> = ObjectAccess(member, this)
+    fun <N> access(member: String): ExpressionHelper<N> = ObjectAccess(member, this)
 
     class Start<O>(initialMember: String) :
-        Expression<O>("$START$initialMember")
+        ExpressionHelper<O>("$START$initialMember")
 
-    private class ObjectAccess<I, O>(member: String, expression: Expression<I>) :
-        Expression<O>("${expression.intermediate}.$member")
+    private class ObjectAccess<I, O>(member: String, expression: ExpressionHelper<I>) :
+        ExpressionHelper<O>("${expression.intermediate}.$member")
 
-    private class ArrayAccess<T>(index: Int, expression: Expression<out Iterable<T>>) :
-        Expression<T>("${expression.intermediate}[$index]")
+    private class ArrayAccess<T>(index: Int, expression: ExpressionHelper<out Iterable<T>>) :
+        ExpressionHelper<T>("${expression.intermediate}[$index]")
 }

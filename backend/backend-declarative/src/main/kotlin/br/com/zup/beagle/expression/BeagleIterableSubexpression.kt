@@ -16,11 +16,11 @@
 
 package br.com.zup.beagle.expression
 
-import br.com.zup.beagle.expression.Expression.Companion.access
+import br.com.zup.beagle.expression.ExpressionHelper.Companion.access
 
 class BeagleIterableSubexpression<T, out N>(
-    private val expression: Expression<out Iterable<T>>,
-    private val createNext: (Expression<T>) -> N
+    private val expression: ExpressionHelper<out Iterable<T>>,
+    private val createNext: (ExpressionHelper<T>) -> N
 ) {
     operator fun get(index: Int) = this.createNext(this.expression.access(index))
 }
