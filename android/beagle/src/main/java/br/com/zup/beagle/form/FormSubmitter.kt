@@ -91,8 +91,8 @@ internal class FormSubmitter(
         return if (form.method == FormMethodType.GET || form.method == FormMethodType.DELETE) {
             val query = formsValue.filterValues {
                 isFormsValueValid(it)
-            }.toList().map {
-                "${it.first}=${Uri.encode(it.second)}"
+            }.map {
+                "${it.key}=${Uri.encode(it.value)}"
             }.joinToString(separator = "&", prefix = "?").replace(Regex("^\\?$"), "")
 
             "${form.path}$query"
