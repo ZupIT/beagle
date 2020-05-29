@@ -18,14 +18,19 @@ package br.com.zup.beagle.view
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import br.com.zup.beagle.R
+import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.extensions.once
+import br.com.zup.beagle.logger.BeagleLogger
+import br.com.zup.beagle.navigation.DeepLinkHandler
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.testutil.RandomData
+import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.ui.Text
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -33,15 +38,18 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
+import io.mockk.mockkStatic
 import io.mockk.slot
-import io.mockk.unmockkObject
+import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import java.lang.Exception
 import kotlin.test.assertEquals
 
-private val URL = RandomData.httpUrl()
+private val route = Route.Remote(RandomData.httpUrl())
+private val url = RandomData.httpUrl()
 
 class BeagleNavigatorTest {
 
@@ -49,15 +57,18 @@ class BeagleNavigatorTest {
     private lateinit var context: BeagleActivity
     @MockK
     private lateinit var fragmentTransaction: FragmentTransaction
-    @MockK
-    private lateinit var fragment: BeagleFragment
     @MockK(relaxed = true)
     private lateinit var intent: Intent
+
+    @MockK
+    private lateinit var deepLinkHandler: DeepLinkHandler
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
         mockkObject(BeagleEnvironment)
+        mockkObject(BeagleLogger)
+        mockkStatic("android.net.Uri")
 
         every { BeagleEnvironment.beagleSdk.config.baseUrl } returns RandomData.httpUrl()
 
@@ -71,12 +82,7 @@ class BeagleNavigatorTest {
         every { supportFragmentManager.fragments } returns mutableListOf<Fragment>()
         every { supportFragmentManager.beginTransaction() } returns fragmentTransaction
         every {
-            fragmentTransaction.setCustomAnimations(
-                any(),
-                any(),
-                any(),
-                any()
-            )
+            fragmentTransaction.setCustomAnimations(any(), any(), any(), any())
         } returns fragmentTransaction
         every { fragmentTransaction.replace(any(), any()) } returns fragmentTransaction
         every { fragmentTransaction.addToBackStack(any()) } returns fragmentTransaction
@@ -85,70 +91,117 @@ class BeagleNavigatorTest {
 
     @After
     fun tearDown() {
-        unmockkObject(BeagleFragment.Companion)
-        unmockkObject(BeagleActivity.Companion)
-        unmockkObject(BeagleEnvironment)
+        unmockkAll()
     }
 
     @Test
-    fun finish_should_call_finish_activity() {
+    fun openExternalURL_should_call_intent() {
         // Given
-        every { context.finish() } just Runs
-
-        // When
-        BeagleNavigator.finish(context)
-
-        // Then
-        verify(exactly = once()) { context.finish() }
-    }
-
-    @Test
-    fun pop_should_call_activity_onBackPressed() {
-        // Given
-        every { context.onBackPressed() } just Runs
-
-        // When
-        BeagleNavigator.pop(context)
-
-        // Then
-        verify(exactly = once()) { context.onBackPressed() }
-    }
-
-    @Test
-    fun addScreen_should_call_BeagleActivity_navigateTo() {
-        // Given
-        val screenRequest = ScreenRequest(URL)
-        every { context.navigateTo(screenRequest, null) } just Runs
-
-        // When
-        BeagleNavigator.addScreen(context, URL)
-
-        // Then
-        verify(exactly = once()) { context.navigateTo(screenRequest, null) }
-    }
-
-    @Test
-    fun addScreen_should_start_BeagleActivity() {
-        // Given
-        val context = mockk<Activity>()
+        val webPage: Uri = mockk()
+        val url = RandomData.httpUrl()
         every { context.startActivity(any()) } just Runs
+        every { Uri.parse(url) } returns webPage
 
         // When
-        BeagleNavigator.addScreen(context, URL)
+        BeagleNavigator.openExternalURL(context, url)
+
+        // Then
+        verify(exactly = once()) { Uri.parse(url) }
+        verify(exactly = once()) { context.startActivity(any()) }
+    }
+
+    @Test
+    fun openExternalURL_should_catch_when_url_is_invalid() {
+        // Given
+        val webPage: Uri = mockk()
+        val url = "invalid url"
+        every { context.startActivity(any()) } throws Exception()
+        every { Uri.parse(url) } returns webPage
+        every { BeagleLogger.error(any()) } just Runs
+
+        // When
+        BeagleNavigator.openExternalURL(context, url)
+
+        // Then
+        verify(exactly = once()) { BeagleLogger.error(any()) }
+    }
+
+    @Test
+    fun handle_should_call_OpenNativeRoute_to_startActivity() {
+        // Given
+        val map = mapOf("keyStub" to "valueStub")
+        val intent = mockk<Intent>()
+        every { context.startActivity(any()) } just Runs
+        every { BeagleEnvironment.beagleSdk.deepLinkHandler } returns deepLinkHandler
+        every { deepLinkHandler.getDeepLinkIntent(any(), any(), any()) } returns intent
+
+        // When
+        BeagleNavigator.openNativeRoute(context, url, map, false)
 
         // Then
         verify(exactly = once()) { context.startActivity(intent) }
     }
 
     @Test
-    fun swapScreen_should_start_BeagleActivity_and_clear_stack() {
+    fun popStack_should_call_finish_activity() {
+        // Given
+        every { context.finish() } just Runs
+
+        // When
+        BeagleNavigator.popStack(context)
+
+        // Then
+        verify(exactly = once()) { context.finish() }
+    }
+
+    @Test
+    fun popView_should_call_activity_onBackPressed() {
+        // Given
+        every { context.onBackPressed() } just Runs
+
+        // When
+        BeagleNavigator.popView(context)
+
+        // Then
+        verify(exactly = once()) { context.onBackPressed() }
+    }
+
+    @Test
+    fun pushView_should_call_BeagleActivity_navigateTo() {
+        // Given
+        val screenRequest = ScreenRequest(route.route)
+        every { context.navigateTo(screenRequest, null) } just Runs
+
+        // When
+        BeagleNavigator.pushView(context, route)
+
+        // Then
+        verify(exactly = once()) { context.navigateTo(screenRequest, null) }
+    }
+
+    @Test
+    fun pushView_should_start_BeagleActivity() {
+        // Given
+        val context = mockk<Activity>()
+        val route = Route.Local(Screen(child = Text("stub")))
+        every { context.startActivity(any()) } just Runs
+
+        // When
+        BeagleNavigator.pushView(context, route)
+
+        // Then
+        verify(exactly = once()) { context.startActivity(intent) }
+    }
+
+    @Test
+    fun resetApplication_should_start_BeagleActivity_and_clear_stack() {
         // Given
         every { context.startActivity(any()) } just Runs
         val flagSlot = slot<Int>()
         every { intent.addFlags(capture(flagSlot)) } returns intent
 
         // When
-        BeagleNavigator.swapScreen(context, URL)
+        BeagleNavigator.resetApplication(context, route)
 
         // Then
         verify(exactly = once()) { context.startActivity(intent) }
@@ -159,32 +212,46 @@ class BeagleNavigatorTest {
     }
 
     @Test
-    fun popToScreen_should_call_popToBackStack() {
+    fun resetStack_should_start_BeagleActivity_and_clear_stack() {
+        // Given
+        every { context.finish() } just Runs
+        every { context.startActivity(any()) } just Runs
+
+        // When
+        BeagleNavigator.resetStack(context, route)
+
+        // Then
+        verify(exactly = once()) { BeagleNavigator.popStack(context) }
+        verify(exactly = once()) { context.startActivity(intent) }
+    }
+
+    @Test
+    fun popToView_should_call_popToBackStack() {
         // Given
         every { context.supportFragmentManager.popBackStack(any<String>(), any()) } just Runs
 
         // When
-        BeagleNavigator.popToScreen(context, URL)
+        BeagleNavigator.popToView(context, url)
 
         // Then
-        verify(exactly = 1) { context.supportFragmentManager.popBackStack(URL, 0) }
+        verify(exactly = once()) { context.supportFragmentManager.popBackStack(url, 0) }
     }
 
     @Test
-    fun presentScreen_should_start_BeagleActivity() {
+    fun pushStack_should_start_BeagleActivity() {
         // Given
         val context = mockk<Activity>()
         every { context.startActivity(any()) } just Runs
 
         // When
-        BeagleNavigator.presentScreen(context, URL)
+        BeagleNavigator.pushStack(context, route)
 
         // Then
         verify(exactly = once()) { context.startActivity(intent) }
     }
 
     @Test
-    fun pop_should_call_dialog_dismiss() {
+    fun popView_should_call_dialog_dismiss() {
         // Given
         every { context.onBackPressed() } just Runs
         val supportFragmentManager = mockk<FragmentManager>()
@@ -194,7 +261,7 @@ class BeagleNavigatorTest {
         every { dialogFragment.dismiss() } just Runs
 
         // When
-        BeagleNavigator.pop(context)
+        BeagleNavigator.popView(context)
 
         // Then
         verify(exactly = once()) { dialogFragment.dismiss() }

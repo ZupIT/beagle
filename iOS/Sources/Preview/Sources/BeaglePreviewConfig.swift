@@ -17,10 +17,12 @@
 import UIKit
 
 private let defaultLivePreviewHost = "ws://localhost:9721"
+private let defaultReconnectionInterval: TimeInterval = 3.0
 
 public struct BeaglePreviewConfig {
 
     public var host: String
+    public var reconnectionInterval: TimeInterval
 
     public static func load(from fileName: String) throws -> BeaglePreviewConfig {
         return buildDefaultConfig()
@@ -28,11 +30,13 @@ public struct BeaglePreviewConfig {
 
     public static func buildDefaultConfig() -> BeaglePreviewConfig {
         return BeaglePreviewConfig(
-            host: defaultLivePreviewHost
+            host: defaultLivePreviewHost,
+            reconnectionInterval: defaultReconnectionInterval
         )
     }
 
-    public init(host: String) {
+    public init(host: String, reconnectionInterval: TimeInterval) {
         self.host = host
+        self.reconnectionInterval = reconnectionInterval
     }
 }

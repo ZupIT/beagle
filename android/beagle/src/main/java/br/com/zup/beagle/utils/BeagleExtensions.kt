@@ -32,6 +32,6 @@ internal fun BeagleActivity.configureSupportActionBar() {
         this.supportActionBar?.hide()
     }
     toolbar.setNavigationOnClickListener {
-        BeagleNavigator.pop(this)
+        BeagleNavigator.popView(this)
     }
 }

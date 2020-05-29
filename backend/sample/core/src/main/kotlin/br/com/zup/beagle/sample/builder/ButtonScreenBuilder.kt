@@ -17,7 +17,7 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.NavigationType
+import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.core.Appearance
 import br.com.zup.beagle.core.CornerRadius
@@ -109,11 +109,7 @@ object ButtonScreenBuilder : ScreenBuilder {
         val button = Button(
             text = text,
             style = style,
-            action = Navigate(
-                shouldPrefetch = true,
-                type = NavigationType.ADD_VIEW,
-                path = SCREEN_ACTION_CLICK_ENDPOINT
-            )
+            action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT, true))
         )
 
         if (flex != null) {
