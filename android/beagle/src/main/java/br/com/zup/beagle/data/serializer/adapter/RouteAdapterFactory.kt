@@ -42,9 +42,9 @@ internal class RouteAdapter(private val moshi: Moshi) : JsonAdapter<Route>() {
         @Suppress("UNCHECKED_CAST")
         val value = jsonValue as Map<String, Any>
         return if (value.containsKey("route")) {
-            Route.Remote(value["route"] as String, value["shouldPrefetch"] as Boolean, value["fallback"] as Screen?)
+            Route.Remote(value["route"] as String, value["shouldPrefetch"] as Boolean, screenFromJSON(value["fallback"]))
         } else {
-            Route.Local(value["screen"] as Screen)
+            Route.Local(screenFromJSON(value["screen"])!!)
         }
     }
 
@@ -66,4 +66,7 @@ internal class RouteAdapter(private val moshi: Moshi) : JsonAdapter<Route>() {
         }
         writer.endObject()
     }
+
+    private fun screenFromJSON(value: Any?) =
+        moshi.adapter(Screen::class.java).fromJsonValue(value)
 }
