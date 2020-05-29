@@ -21,23 +21,12 @@
 /// Handles the size of the item
 public class Size: Decodable, AutoEquatable, AutoInitiable {
     // MARK: - Public Properties
-    
-    /// Sets the size of  width.
+
     public var width: UnitValue?
-    
-    /// Sets the size of  height.
     public var height: UnitValue?
-    
-    /// Set a maximum width.
     public var maxWidth: UnitValue?
-    
-    /// Set a maximum height.
     public var maxHeight: UnitValue?
-    
-    /// Set a minimum width.
     public var minWidth: UnitValue?
-    
-    /// Set a minimum height.
     public var minHeight: UnitValue?
     
     /// Set a height and width ratio.

@@ -71,7 +71,6 @@ final class WebViewUIComponent: UIView {
         webView.isLoading ? loadingView.startAnimating() : loadingView.stopAnimating()
     }
 }
-
 extension WebViewUIComponent: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation) {
         loadingView.stopAnimating()

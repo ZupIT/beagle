@@ -18,17 +18,11 @@
 public struct UnitValue: Decodable, Equatable {
     
     // MARK: - Constants
-    
-    /// It is a return method 0
     public static let zero = UnitValue(value: 0.0, type: .real)
     public static let auto = UnitValue(value: 0.0, type: .auto)
     
     // MARK: - Public Properties
-    
-    /// Receive the amount to be applied.
     public let value: Double
-    
-    /// Receives the type that can be applied real, percentage or auto.
     public let type: UnitType
     
     // MARK: - Initialization
@@ -42,8 +36,6 @@ public struct UnitValue: Decodable, Equatable {
     }
     
 }
-
-/// Enum with Type  property cases.
 public enum UnitType: String, Decodable {
     case auto = "AUTO"
     case real = "REAL"

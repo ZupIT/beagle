@@ -29,7 +29,7 @@ public class Flex: Decodable, AutoEquatable, AutoInitiable {
     /// Align items describes how to align children along the cross axis of their container.
     public var alignItems: AlignItems?
     
-    /// Align self has the same options and effect as align items  but instead of affecting the children within a container.
+    /// This property allows to override the behavior of an item defined by the align-items property.
     public var alignSelf: AlignSelf?
     
     /// Align content defines the distribution of lines along the cross-axis.
@@ -59,7 +59,7 @@ public class Flex: Decodable, AutoEquatable, AutoInitiable {
     /// Allows you to apply a space to the child element.
     public var margin: EdgeValue?
     
-    /// Affects the size of the node it is applied to.Padding in Yoga acts as if box-sizing: border-box; was set.That is padding will not add to the total size of an element if it has an explicit size set.For auto sized nodes padding will increase thenode as well as offset the location of any children..
+    /// Allows you to apply a space to the parent element. So when a child is created it starts with padding-defined spacing.
     public var padding: EdgeValue?
     
     /// Sets the placement of the component in its parent.
@@ -106,7 +106,6 @@ public class Flex: Decodable, AutoEquatable, AutoInitiable {
 
 // MARK: - Flex Direction
 extension Flex {
-    /// Enum with FlexDirection property cases.
     public enum FlexDirection: String, Decodable {
         case row = "ROW"
         case rowReverse = "ROW_REVERSE"
@@ -117,7 +116,6 @@ extension Flex {
 
 // MARK: - Flex Wrap
 extension Flex {
-    /// Enum with Wrap property cases.
     public enum Wrap: String, Decodable {
         case noWrap = "NO_WRAP"
         case wrap = "WRAP"
@@ -127,7 +125,6 @@ extension Flex {
 
 // MARK: - Flex JustifyContent
 extension Flex {
-    /// Enum with JustifyContent property cases.
     public enum JustifyContent: String, Decodable {
         case flexStart = "FLEX_START"
         case center = "CENTER"
@@ -140,7 +137,6 @@ extension Flex {
 
 // MARK: - Flex AlignItems
 extension Flex {
-    /// Enum with AlignItems property cases.
     public enum AlignItems: String, Decodable {
         case flexStart = "FLEX_START"
         case center = "CENTER"
@@ -152,7 +148,6 @@ extension Flex {
 
 // MARK: - Flex AlignSelf
 extension Flex {
-    /// Enum with AlignSelf property cases.
     public enum AlignSelf: String, Decodable {
         case flexStart = "FLEX_START"
         case center = "CENTER"
@@ -165,7 +160,6 @@ extension Flex {
 
 // MARK: - Flex AlignContent
 extension Flex {
-    /// Enum with AlignContent property cases.
     public enum AlignContent: String, Decodable {
         case flexStart = "FLEX_START"
         case center = "CENTER"
@@ -178,7 +172,6 @@ extension Flex {
 
 // MARK: - Flex Display
 extension Flex {
-    /// Enum with Display property cases.
     public enum Display: String, Decodable {
         case flex = "FLEX"
         case none = "NONE"
@@ -187,7 +180,6 @@ extension Flex {
 
 // MARK: - Position
 extension Flex {
-    /// Enum with PositionType property cases.
     public enum PositionType: String, Decodable {
         case relative = "RELATIVE"
         case absolute = "ABSOLUTE"

@@ -73,7 +73,10 @@ nesting:
   type_level:
     warning: 3
   statement_level:
-    warning: 4
+    warning: 5
+
+trailing_closure:
+  only_single_muted_parameter: true
 
 force_cast: warning
 force_try:
