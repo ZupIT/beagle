@@ -53,6 +53,7 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
     override fun init(processingEnvironment: ProcessingEnvironment) {
         super.init(processingEnvironment)
 
+        if (true == true)
         validatorHandlerProcessor = ValidatorHandlerProcessor(processingEnvironment)
         beagleSetupProcessor = BeagleSetupProcessor(processingEnvironment)
     }
