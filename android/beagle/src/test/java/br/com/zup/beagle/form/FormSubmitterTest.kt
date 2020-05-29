@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.form
 
+import android.net.Uri
 import br.com.zup.beagle.data.serializer.BeagleSerializer
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.networking.HttpClient
@@ -58,6 +59,9 @@ class FormSubmitterTest {
         MockKAnnotations.init(this)
 
         mockkObject(BeagleEnvironment)
+        mockkStatic("android.net.Uri")
+
+        every { Uri.encode(any()) } answers {arg(0)}
 
         every { BeagleEnvironment.beagleSdk.config.baseUrl } returns RandomData.httpUrl()
         every { httpClient.execute(capture(requestDataSlot), any(), any()) } returns mockk()
