@@ -592,6 +592,14 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
+		6ECD97112481A2AE00188EF1 /* Container */ = {
+			isa = PBXGroup;
+			children = (
+				E522377A237C3C5500E555BB /* Container.swift */,
+			);
+			path = Container;
+			sourceTree = "<group>";
+		};
 		76191AA6241ABD6000A04C29 /* Json */ = {
 			isa = PBXGroup;
 			children = (
@@ -641,17 +649,6 @@
 			path = UnitValueExtensionTests;
 			sourceTree = "<group>";
 		};
-<<<<<<< HEAD
-		7CFE3A7824133C020087F664 /* Container */ = {
-			isa = PBXGroup;
-			children = (
-				E522377A237C3C5500E555BB /* Container.swift */,
-			);
-			path = Container;
-			sourceTree = "<group>";
-		};
-=======
->>>>>>> c9ca6216c178dc012ec7bf532a8f55f6d777d7d4
 		930967B42416D1D40052E51C /* Json */ = {
 			isa = PBXGroup;
 			children = (
@@ -744,6 +741,7 @@
 		936817FA232A881600E6E724 /* Layout */ = {
 			isa = PBXGroup;
 			children = (
+				6ECD97112481A2AE00188EF1 /* Container */,
 				C829CEA323B15B0C001B7225 /* Screen */,
 				C829CE9823B12D13001B7225 /* Flex */,
 				C829CEA523B15B71001B7225 /* Scroll */,
