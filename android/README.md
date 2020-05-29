@@ -3,6 +3,8 @@
 
 Beagle is a cross-platform framework that allows to apply Server-Driven UI natively in iOS, Android and Web.Then, the layouts can be created in a Backend for Frontend middleware.
 
+teste
+
 ## Getting started
 
 ### Setting up the Android dependencies
