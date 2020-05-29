@@ -18,7 +18,6 @@ package br.com.zup.beagle.action
 
 data class SendRequestAction(
     val url: String,
-    val data: Map<String, String>?,
     val method: RequestActionMethod = RequestActionMethod.GET,
     val headers: Map<String, String> = mapOf(),
     val body: String? = null,

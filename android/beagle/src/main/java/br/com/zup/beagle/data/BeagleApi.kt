@@ -34,15 +34,12 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 internal class BeagleApi(
-    private val httpClient: HttpClient = HttpClientFactory().make(),
-    private val urlBuilder: UrlBuilder = UrlBuilderFactory().make(),
-    private val beagleEnvironment: BeagleEnvironment = BeagleEnvironment
+    private val httpClient: HttpClient = HttpClientFactory().make()
 ) {
 
     @Throws(BeagleException::class)
-    suspend fun fetchData(screenRequest: ScreenRequest): ResponseData = suspendCancellableCoroutine { cont ->
+    suspend fun fetchData(request: RequestData): ResponseData = suspendCancellableCoroutine { cont ->
         try {
-            val request = makeRequestData(screenRequest)
             BeagleMessageLogs.logHttpRequestData(request)
             val call = httpClient.execute(
                 request = request,
@@ -52,7 +49,7 @@ internal class BeagleApi(
                 }, onError = { error ->
                 BeagleMessageLogs.logUnknownHttpError(error)
                 cont.resumeWithException(
-                    BeagleException(error.message ?: genericErrorMessage(screenRequest.url), error)
+                    BeagleException(error.message ?: genericErrorMessage(request.uri.toString()), error)
                 )
             })
             cont.invokeOnCancellation {
@@ -60,32 +57,8 @@ internal class BeagleApi(
             }
         } catch (ex: Exception) {
             BeagleMessageLogs.logUnknownHttpError(ex)
-            cont.resumeWithException(BeagleException(ex.message ?: genericErrorMessage(screenRequest.url), ex))
+            cont.resumeWithException(BeagleException(ex.message ?: genericErrorMessage(request.uri.toString()), ex))
         }
-    }
-
-    private fun makeRequestData(screenRequest: ScreenRequest): RequestData {
-        val newUrl = urlBuilder.format(beagleEnvironment.beagleSdk.config.baseUrl, screenRequest.url)
-        val method = generateRequestDataMethod(screenRequest.method)
-        val headers = screenRequest.headers.toMutableMap().apply {
-            put("Content-Type", "application/json")
-        }
-
-        return RequestData(
-            uri = URI(newUrl),
-            method = method,
-            headers = headers,
-            body = screenRequest.body
-        )
-    }
-
-    private fun generateRequestDataMethod(screenMethod: ScreenMethod) = when (screenMethod) {
-        ScreenMethod.GET -> HttpMethod.GET
-        ScreenMethod.POST -> HttpMethod.POST
-        ScreenMethod.PUT -> HttpMethod.PUT
-        ScreenMethod.DELETE -> HttpMethod.DELETE
-        ScreenMethod.HEAD -> HttpMethod.HEAD
-        ScreenMethod.PATCH -> HttpMethod.PATCH
     }
 
     private fun genericErrorMessage(url: String) = "fetchData error for url $url"
