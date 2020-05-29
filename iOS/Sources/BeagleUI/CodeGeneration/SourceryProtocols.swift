@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+//Important: this file belongs to BeagleUI and it is being referenced in Schema
+
 import Foundation
 
 // MARK: - Equatable
