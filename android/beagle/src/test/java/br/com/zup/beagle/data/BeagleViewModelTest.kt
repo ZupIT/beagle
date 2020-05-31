@@ -136,22 +136,6 @@ class BeagleViewModelTest {
     }
 
     @Test
-    fun fetchAction_should_return_a_error_ViewState() {
-        // Given
-        val url = RandomData.httpUrl()
-        val exception = BeagleException("Error")
-        coEvery { actionRequester.fetchAction(any()) } throws exception
-
-        // When
-        beagleUIViewModel.fetchAction(url)
-
-        // Then
-        assertLoading(viewModelStates[0], true)
-        assertEquals(ViewState.Error(exception), viewModelStates[1])
-        assertLoading(viewModelStates[2], false)
-    }
-
-    @Test
     fun onCleared_should_call_cancel() {
         // Given
         val viewModelSpy = spyk(beagleUIViewModel)

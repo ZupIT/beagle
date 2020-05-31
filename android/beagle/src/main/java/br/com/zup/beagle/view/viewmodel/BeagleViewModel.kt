@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.view.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import br.com.zup.beagle.action.Action
@@ -42,40 +43,43 @@ sealed class ViewState {
 }
 
 internal class BeagleViewModel(
-    private val componentRequester: ComponentRequester = ComponentRequester(),
-    private val actionRequester: ActionRequester = ActionRequester()
+    private val componentRequester: ComponentRequester = ComponentRequester()
 ) : ViewModel(), CoroutineScope {
 
     private val job = Job()
     override val coroutineContext = job + CoroutineDispatchers.Main
 
-    val state = MutableLiveData<ViewState>()
     private val urlObservableReference = AtomicReference(UrlObservable())
 
-    fun fetchComponent(screenRequest: ScreenRequest, screen: ScreenComponent? = null) = launch {
-        if (screenRequest.url.isNotEmpty()) {
-            try {
-                if (hasFetchInProgress(screenRequest.url)) {
-                    waitFetchProcess(screenRequest.url)
-                } else {
-                    setLoading(screenRequest.url, true)
-                    val component = componentRequester.fetchComponent(screenRequest)
-                    state.value = ViewState.DoRender(screenRequest.url, component)
+    fun fetchComponent(screenRequest: ScreenRequest, screen: ScreenComponent? = null): LiveData<ViewState> {
+        val state = MutableLiveData<ViewState>()
+        launch {
+            if (screenRequest.url.isNotEmpty()) {
+                try {
+                    if (hasFetchInProgress(screenRequest.url)) {
+                        waitFetchProcess(screenRequest.url, state)
+                    } else {
+                        setLoading(screenRequest.url, true, state)
+                        val component = componentRequester.fetchComponent(screenRequest)
+                        state.value = ViewState.DoRender(screenRequest.url, component)
+                    }
+                } catch (exception: BeagleException) {
+                    if (screen != null) {
+                        state.value = ViewState.DoRender(screen.identifier, screen)
+                    } else {
+                        state.value = ViewState.Error(exception)
+                    }
                 }
-            } catch (exception: BeagleException) {
-                if (screen != null) {
-                    state.value = ViewState.DoRender(screen.identifier, screen)
-                } else {
-                    state.value = ViewState.Error(exception)
-                }
+                setLoading(screenRequest.url, false, state)
+            } else if (screen != null) {
+                state.value = ViewState.DoRender(screen.identifier, screen)
             }
-            setLoading(screenRequest.url, false)
-        } else if (screen != null) {
-            state.value = ViewState.DoRender(screen.identifier, screen)
         }
+
+        return state
     }
 
-    private fun setLoading(url: String, loading: Boolean) {
+    private fun setLoading(url: String, loading: Boolean, state: MutableLiveData<ViewState>) {
         urlObservableReference.get().setLoading(url, loading)
         state.value = ViewState.Loading(loading)
     }
@@ -93,7 +97,7 @@ internal class BeagleViewModel(
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun waitFetchProcess(url: String) {
+    private fun waitFetchProcess(url: String, state: MutableLiveData<ViewState>) {
         urlObservableReference.get().deleteObservers()
         urlObservableReference.get().addObserver { _, arg ->
             (arg as? Pair<String, ServerDrivenComponent>)?.let {
@@ -106,19 +110,6 @@ internal class BeagleViewModel(
 
     private fun hasFetchInProgress(url: String) =
         urlObservableReference.get().hasUrl(url)
-
-    fun fetchAction(url: String) = launch {
-        state.value = ViewState.Loading(true)
-
-        try {
-            val action = actionRequester.fetchAction(url)
-            state.value = ViewState.DoAction(action)
-        } catch (exception: BeagleException) {
-            state.value = ViewState.Error(exception)
-        }
-
-        state.value = ViewState.Loading(false)
-    }
 
     public override fun onCleared() {
         cancel()

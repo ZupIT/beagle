@@ -38,14 +38,14 @@ internal class ScreenViewRenderer(
 ) : LayoutViewRenderer<ScreenComponent>(viewRendererFactory, viewFactory) {
 
     override fun buildView(rootView: RootView): View {
-        addNavigationBarIfNecessary(rootView.getContext(), component.navigationBar)
+        addNavigationBarIfNecessary(component.navigationBar, rootView)
 
         val container = viewFactory.makeBeagleFlexView(rootView.getContext(), Flex(grow = 1.0))
 
         container.addServerDrivenComponent(component.child, rootView)
 
         component.screenAnalyticsEvent?.let {
-            container.addOnAttachStateChangeListener(object: View.OnAttachStateChangeListener {
+            container.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
                 override fun onViewAttachedToWindow(v: View?) {
                     BeagleEnvironment.beagleSdk.analytics?.sendViewWillAppearEvent(it)
                 }
@@ -59,12 +59,13 @@ internal class ScreenViewRenderer(
         return container
     }
 
-    private fun addNavigationBarIfNecessary(context: Context, navigationBar: NavigationBar?) {
-        if (context is BeagleActivity) {
+    private fun addNavigationBarIfNecessary(navigationBar: NavigationBar?, rootView: RootView) {
+        if (rootView.getContext() is BeagleActivity) {
+            val activity = rootView.getContext() as BeagleActivity
             if (navigationBar != null) {
-                configNavigationBar(context, navigationBar)
+                configNavigationBar(activity, navigationBar, rootView)
             } else {
-                hideNavigationBar(context)
+                hideNavigationBar(activity)
             }
         }
     }
@@ -79,10 +80,11 @@ internal class ScreenViewRenderer(
 
     private fun configNavigationBar(
         context: BeagleActivity,
-        navigationBar: NavigationBar
+        navigationBar: NavigationBar,
+        rootView: RootView
     ) {
         context.configureSupportActionBar()
         toolbarManager.configureNavigationBarForScreen(context, navigationBar)
-        toolbarManager.configureToolbar(context, navigationBar)
+        toolbarManager.configureToolbar(context, navigationBar, rootView)
     }
 }

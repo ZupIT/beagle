@@ -38,9 +38,8 @@ internal class BeagleFragment : Fragment() {
         beagleSerializer.deserializeComponent(json)
     }
 
-    val viewModel by lazy { ViewModelProvider(this).get(ActionRequestViewModel::class.java) }
-
     companion object {
+
         @JvmStatic
         fun newInstance(component: ServerDrivenComponent) = newInstance(
             beagleSerializer.serializeComponent(component)
@@ -52,9 +51,6 @@ internal class BeagleFragment : Fragment() {
             bundle.putString(JSON_SCREEN_KEY, json)
             arguments = bundle
         }
-
-        @JvmStatic
-        fun newInstance(): BeagleFragment = BeagleFragment()
 
         private val beagleSerializer: BeagleSerializer = BeagleSerializer()
         private const val JSON_SCREEN_KEY = "JSON_SCREEN_KEY"

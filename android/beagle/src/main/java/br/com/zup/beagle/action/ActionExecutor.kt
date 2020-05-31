@@ -17,6 +17,7 @@
 package br.com.zup.beagle.action
 
 import android.content.Context
+import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.view.BeagleActivity
 import br.com.zup.beagle.view.BeagleFragment
@@ -29,20 +30,27 @@ internal class ActionExecutor(
         NavigationActionHandler(),
     private val showNativeDialogActionHandler: ShowNativeDialogActionHandler =
         ShowNativeDialogActionHandler(),
-    private val formValidationActionHandler: DefaultActionHandler<FormValidation>? = null
+    private val formValidationActionHandler: DefaultActionHandler<FormValidation>? = null,
+    private val sendRequestActionHandler: SendRequestActionHandler = SendRequestActionHandler()
 ) {
 
-    fun doAction(beagleFragment: BeagleFragment, action: Action?) {
-        val context = beagleFragment.requireContext()
+    fun doAction(rootView: RootView, action: Action?) {
+        val context = rootView.getContext()
         when (action) {
             is Navigate -> navigationActionHandler.handle(context, action)
             is ShowNativeDialog -> showNativeDialogActionHandler.handle(context, action)
             is FormValidation -> formValidationActionHandler?.handle(context, action)
+            is SendRequestAction -> sendRequestActionHandler.handle(rootView, action,
+                object : SendRequestActionHandler.SendRequestListener {
+                    override fun execute(actions: List<Action>) {
+                        actions.forEach { action -> doAction(rootView, action) }
+                    }
+                })
             is CustomAction -> customActionHandler?.handle(context, action, object : ActionListener {
 
                 override fun onSuccess(action: Action) {
                     changeActivityState(context, ServerDrivenState.Loading(false))
-                    doAction(beagleFragment, action)
+                    doAction(rootView, action)
                 }
 
                 override fun onError(e: Throwable) {

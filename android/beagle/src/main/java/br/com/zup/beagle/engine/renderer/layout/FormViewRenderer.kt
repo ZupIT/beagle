@@ -67,7 +67,7 @@ internal class FormViewRenderer(
         val view = viewRendererFactory.make(component.child).build(rootView)
 
         if (view is ViewGroup) {
-            fetchFormViews(view, rootView.getBeagleFragment())
+            fetchFormViews(view, rootView)
         }
 
         if (formInputs.size == 0) {
@@ -81,7 +81,7 @@ internal class FormViewRenderer(
         return view
     }
 
-    private fun fetchFormViews(viewGroup: ViewGroup, fragment: BeagleFragment) {
+    private fun fetchFormViews(viewGroup: ViewGroup, rootView: RootView) {
         viewGroup.children.forEach { childView ->
             if (childView.tag != null) {
                 val tag = childView.tag
@@ -92,25 +92,25 @@ internal class FormViewRenderer(
                     formInputHiddenList.add(tag)
                 } else if (childView.tag is FormSubmit && formSubmitView == null) {
                     formSubmitView = childView
-                    addClickToFormSubmit(childView, fragment)
+                    addClickToFormSubmit(childView, rootView)
                     formValidatorController.formSubmitView = childView
                 }
             } else if (childView is ViewGroup) {
-                fetchFormViews(childView, fragment)
+                fetchFormViews(childView, rootView)
             }
         }
 
         formValidatorController.configFormSubmit()
     }
 
-    private fun addClickToFormSubmit(formSubmitView: View, beagleFragment: BeagleFragment) {
+    private fun addClickToFormSubmit(formSubmitView: View, rootView: RootView) {
         formSubmitView.setOnClickListener {
             formValidationActionHandler.formInputs = formInputs
-            handleFormSubmit(beagleFragment)
+            handleFormSubmit(rootView)
         }
     }
 
-    private fun handleFormSubmit(beagleFragment: BeagleFragment) {
+    private fun handleFormSubmit(rootView: RootView) {
         val formsValue = mutableMapOf<String, String>()
 
         formInputs.forEach { formInput ->
@@ -128,7 +128,7 @@ internal class FormViewRenderer(
 
         if (formsValue.size == (formInputs.size + formInputHiddenList.size)) {
             formSubmitView?.hideKeyboard()
-            submitForm(formsValue, beagleFragment)
+            submitForm(formsValue, rootView)
         }
     }
 
@@ -154,27 +154,27 @@ internal class FormViewRenderer(
 
     private fun submitForm(
         formsValue: MutableMap<String, String>,
-        beagleFragment: BeagleFragment
+        rootView: RootView
     ) {
         when (val action = component.action) {
             is FormRemoteAction -> formSubmitter.submitForm(action, formsValue) {
-                /*    (context as AppCompatActivity).runOnUiThread {
-                        handleFormResult(context, it)
-                    }*/
+                (rootView.getContext() as AppCompatActivity).runOnUiThread {
+                    handleFormResult(rootView, it)
+                }
             }
-            is CustomAction -> actionExecutor.doAction(beagleFragment, CustomAction(
+            is CustomAction -> actionExecutor.doAction(rootView, CustomAction(
                 name = action.name,
                 data = formsValue.plus(action.data)
             ))
             else ->
-                actionExecutor.doAction(beagleFragment, action)
+                actionExecutor.doAction(rootView, action)
         }
     }
 
-    private fun handleFormResult(context: Context, formResult: FormResult) {
+    private fun handleFormResult(rootView: RootView, formResult: FormResult) {
         when (formResult) {
-//            is FormResult.Success -> actionExecutor.doAction(context, formResult.action)
-            is FormResult.Error -> (context as? BeagleActivity)?.onServerDrivenContainerStateChanged(
+            is FormResult.Success -> actionExecutor.doAction(rootView, formResult.action)
+            is FormResult.Error -> (rootView.getContext() as? BeagleActivity)?.onServerDrivenContainerStateChanged(
                 ServerDrivenState.Error(formResult.throwable)
             )
         }
