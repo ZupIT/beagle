@@ -16,14 +16,40 @@
 
 package br.com.zup.beagle.action
 
-import android.content.Context
+import androidx.lifecycle.Observer
+import br.com.zup.beagle.action.request.presentation.ActionRequestViewModel
+import br.com.zup.beagle.action.request.presentation.mapper.toRequest
+import br.com.zup.beagle.view.BeagleFragment
 import br.com.zup.beagle.view.ViewFactory
 
 internal class SendRequestActionHandler(
     private val viewFactory: ViewFactory = ViewFactory()
-) : DefaultActionHandler<SendRequestAction> {
+) {
 
-    override fun handle(context: Context, action: SendRequestAction) {
+    fun handle(fragment: BeagleFragment, action: SendRequestAction, listener: SendRequestListener) {
+        fragment.viewModel.fetch(action.toRequest())
+            .observe(fragment, Observer { state ->
+                val actions = mutableListOf<Action>()
+                action.onFinish?.let {
+                    actions.add(it)
+                }
+                when (state) {
+                    is ActionRequestViewModel.FetchViewState.Error -> action.onError?.let {
+                        actions.add(it)
+                    }
+                    is ActionRequestViewModel.FetchViewState.Success -> action.onSuccess?.let {
+                        actions.add(it)
+                    }
+                }
 
+                if (actions.isNotEmpty()) {
+                    listener.execute(actions)
+                }
+
+            })
+    }
+
+    interface SendRequestListener {
+        fun execute(action: List<Action>)
     }
 }

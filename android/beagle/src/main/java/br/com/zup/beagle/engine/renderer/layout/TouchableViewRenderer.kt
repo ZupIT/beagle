@@ -38,7 +38,7 @@ internal class TouchableViewRenderer(
         preFetchHelper.handlePreFetch(rootView, component.action)
         return viewRendererFactory.make(component.child).build(rootView).apply {
             setOnClickListener {
-                actionExecutor.doAction(context, component.action)
+                actionExecutor.doAction(rootView.getBeagleFragment(), component.action)
                 component.clickAnalyticsEvent?.let {
                     BeagleEnvironment.beagleSdk.analytics?.
                     sendClickEvent(it)

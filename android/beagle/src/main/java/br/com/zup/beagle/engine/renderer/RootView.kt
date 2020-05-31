@@ -20,10 +20,12 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
+import br.com.zup.beagle.view.BeagleFragment
 
 internal interface RootView {
     fun getContext(): Context
     fun getLifecycleOwner(): LifecycleOwner
+    fun getBeagleFragment(): BeagleFragment
 }
 
 internal class FragmentRootView(
@@ -32,6 +34,10 @@ internal class FragmentRootView(
     override fun getContext(): Context = fragment.requireContext()
 
     override fun getLifecycleOwner(): LifecycleOwner = fragment.viewLifecycleOwner
+
+    override fun getBeagleFragment(): BeagleFragment {
+        TODO("Not yet implemented")
+    }
 }
 
 internal class ActivityRootView(
@@ -40,4 +46,7 @@ internal class ActivityRootView(
     override fun getContext(): Context = activity
 
     override fun getLifecycleOwner(): LifecycleOwner = activity
+    override fun getBeagleFragment(): BeagleFragment {
+        TODO("Not yet implemented")
+    }
 }

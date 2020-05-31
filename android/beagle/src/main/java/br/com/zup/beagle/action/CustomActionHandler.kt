@@ -17,6 +17,7 @@
 package br.com.zup.beagle.action
 
 import android.content.Context
+import br.com.zup.beagle.view.BeagleFragment
 
 interface CustomActionHandler : ActionHandler<CustomAction> {
     fun handle(context: Context, action: CustomAction, listener: ActionListener)
@@ -24,6 +25,10 @@ interface CustomActionHandler : ActionHandler<CustomAction> {
 
 interface DefaultActionHandler<T : Action> {
     fun handle(context: Context, action: T)
+}
+
+internal interface ViewActionHandler<T : Action> {
+    fun handle(fragment: BeagleFragment, action: T)
 }
 
 interface ActionListener {

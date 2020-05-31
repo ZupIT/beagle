@@ -32,6 +32,7 @@ import br.com.zup.beagle.action.ActionExecutor
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.setup.DesignSystem
 import br.com.zup.beagle.view.BeagleActivity
+import br.com.zup.beagle.view.BeagleFragment
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 
@@ -61,7 +62,7 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
             menu.clear()
             configToolbarStyle(context, this, navigationBar)
             navigationBar.navigationBarItems?.let { items ->
-                configToolbarItems(context, this, items)
+                configToolbarItems(context.fragment, this, items)
             }
         }
     }
@@ -136,7 +137,7 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
     }
 
     private fun configToolbarItems(
-        context: Context,
+        beagleFragment: BeagleFragment,
         toolbar: Toolbar,
         items: List<NavigationBarItem>
     ) {
@@ -144,7 +145,7 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
         for (i in items.indices) {
             toolbar.menu.add(Menu.NONE, items[i].id?.toAndroidId() ?: i, Menu.NONE, items[i].text).apply {
                 setOnMenuItemClickListener {
-                    actionExecutor.doAction(context, items[i].action)
+                    actionExecutor.doAction(beagleFragment, items[i].action)
                     return@setOnMenuItemClickListener true
                 }
 
@@ -153,7 +154,7 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
                 if (items[i].image == null) {
                     setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
                 } else {
-                    configMenuItem(designSystem, items, i, context)
+                    configMenuItem(designSystem, items, i, beagleFragment.requireContext())
                 }
             }
         }

@@ -22,10 +22,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import br.com.zup.beagle.action.request.presentation.ActionRequestViewModel
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.data.serializer.BeagleSerializer
 import br.com.zup.beagle.utils.applyBackgroundFromWindowBackgroundTheme
 import br.com.zup.beagle.utils.toView
+import br.com.zup.beagle.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.widget.ui.UndefinedWidget
 
 internal class BeagleFragment : Fragment() {
@@ -34,6 +37,8 @@ internal class BeagleFragment : Fragment() {
         val json = arguments?.getString(JSON_SCREEN_KEY) ?: beagleSerializer.serializeComponent(UndefinedWidget())
         beagleSerializer.deserializeComponent(json)
     }
+
+    val viewModel by lazy { ViewModelProvider(this).get(ActionRequestViewModel::class.java) }
 
     companion object {
         @JvmStatic
@@ -47,6 +52,9 @@ internal class BeagleFragment : Fragment() {
             bundle.putString(JSON_SCREEN_KEY, json)
             arguments = bundle
         }
+
+        @JvmStatic
+        fun newInstance(): BeagleFragment = BeagleFragment()
 
         private val beagleSerializer: BeagleSerializer = BeagleSerializer()
         private const val JSON_SCREEN_KEY = "JSON_SCREEN_KEY"

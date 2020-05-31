@@ -35,6 +35,7 @@ import br.com.zup.beagle.logger.BeagleMessageLogs
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.utils.hideKeyboard
 import br.com.zup.beagle.view.BeagleActivity
+import br.com.zup.beagle.view.BeagleFragment
 import br.com.zup.beagle.view.ServerDrivenState
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.form.Form
@@ -66,7 +67,7 @@ internal class FormViewRenderer(
         val view = viewRendererFactory.make(component.child).build(rootView)
 
         if (view is ViewGroup) {
-            fetchFormViews(view)
+            fetchFormViews(view, rootView.getBeagleFragment())
         }
 
         if (formInputs.size == 0) {
@@ -80,7 +81,7 @@ internal class FormViewRenderer(
         return view
     }
 
-    private fun fetchFormViews(viewGroup: ViewGroup) {
+    private fun fetchFormViews(viewGroup: ViewGroup, fragment: BeagleFragment) {
         viewGroup.children.forEach { childView ->
             if (childView.tag != null) {
                 val tag = childView.tag
@@ -91,25 +92,25 @@ internal class FormViewRenderer(
                     formInputHiddenList.add(tag)
                 } else if (childView.tag is FormSubmit && formSubmitView == null) {
                     formSubmitView = childView
-                    addClickToFormSubmit(childView)
+                    addClickToFormSubmit(childView, fragment)
                     formValidatorController.formSubmitView = childView
                 }
             } else if (childView is ViewGroup) {
-                fetchFormViews(childView)
+                fetchFormViews(childView, fragment)
             }
         }
 
         formValidatorController.configFormSubmit()
     }
 
-    private fun addClickToFormSubmit(formSubmitView: View) {
+    private fun addClickToFormSubmit(formSubmitView: View, beagleFragment: BeagleFragment) {
         formSubmitView.setOnClickListener {
             formValidationActionHandler.formInputs = formInputs
-            handleFormSubmit(formSubmitView.context)
+            handleFormSubmit(beagleFragment)
         }
     }
 
-    private fun handleFormSubmit(context: Context) {
+    private fun handleFormSubmit(beagleFragment: BeagleFragment) {
         val formsValue = mutableMapOf<String, String>()
 
         formInputs.forEach { formInput ->
@@ -127,7 +128,7 @@ internal class FormViewRenderer(
 
         if (formsValue.size == (formInputs.size + formInputHiddenList.size)) {
             formSubmitView?.hideKeyboard()
-            submitForm(formsValue, context)
+            submitForm(formsValue, beagleFragment)
         }
     }
 
@@ -153,26 +154,26 @@ internal class FormViewRenderer(
 
     private fun submitForm(
         formsValue: MutableMap<String, String>,
-        context: Context
+        beagleFragment: BeagleFragment
     ) {
         when (val action = component.action) {
             is FormRemoteAction -> formSubmitter.submitForm(action, formsValue) {
-                (context as AppCompatActivity).runOnUiThread {
-                    handleFormResult(context, it)
-                }
+                /*    (context as AppCompatActivity).runOnUiThread {
+                        handleFormResult(context, it)
+                    }*/
             }
-            is CustomAction -> actionExecutor.doAction(context, CustomAction(
+            is CustomAction -> actionExecutor.doAction(beagleFragment, CustomAction(
                 name = action.name,
                 data = formsValue.plus(action.data)
             ))
             else ->
-                actionExecutor.doAction(context, action)
+                actionExecutor.doAction(beagleFragment, action)
         }
     }
 
     private fun handleFormResult(context: Context, formResult: FormResult) {
         when (formResult) {
-            is FormResult.Success -> actionExecutor.doAction(context, formResult.action)
+//            is FormResult.Success -> actionExecutor.doAction(context, formResult.action)
             is FormResult.Error -> (context as? BeagleActivity)?.onServerDrivenContainerStateChanged(
                 ServerDrivenState.Error(formResult.throwable)
             )

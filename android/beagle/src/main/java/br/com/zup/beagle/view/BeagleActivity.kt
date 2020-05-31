@@ -70,6 +70,9 @@ abstract class BeagleActivity : AppCompatActivity() {
     private val screenRequest by lazy { intent.extras?.getParcelable<ScreenRequest>(FIRST_SCREEN_REQUEST_KEY) }
     private val screen by lazy { intent.extras?.getString(FIRST_SCREEN_KEY) }
 
+    // TODO
+    internal val fragment = BeagleFragment.newInstance()
+
     companion object {
         fun newIntent(context: Context, screenJson: String): Intent {
             return newIntent(context).apply {

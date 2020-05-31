@@ -19,6 +19,7 @@ package br.com.zup.beagle.action
 import android.content.Context
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.view.BeagleActivity
+import br.com.zup.beagle.view.BeagleFragment
 import br.com.zup.beagle.view.ServerDrivenState
 
 internal class ActionExecutor(
@@ -31,7 +32,8 @@ internal class ActionExecutor(
     private val formValidationActionHandler: DefaultActionHandler<FormValidation>? = null
 ) {
 
-    fun doAction(context: Context, action: Action?) {
+    fun doAction(beagleFragment: BeagleFragment, action: Action?) {
+        val context = beagleFragment.requireContext()
         when (action) {
             is Navigate -> navigationActionHandler.handle(context, action)
             is ShowNativeDialog -> showNativeDialogActionHandler.handle(context, action)
@@ -40,7 +42,7 @@ internal class ActionExecutor(
 
                 override fun onSuccess(action: Action) {
                     changeActivityState(context, ServerDrivenState.Loading(false))
-                    doAction(context, action)
+                    doAction(beagleFragment, action)
                 }
 
                 override fun onError(e: Throwable) {

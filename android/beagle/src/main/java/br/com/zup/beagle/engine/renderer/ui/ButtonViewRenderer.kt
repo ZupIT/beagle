@@ -41,7 +41,7 @@ internal class ButtonViewRenderer(
         }
         return viewFactory.makeButton(rootView.getContext()).apply {
             setOnClickListener {
-                actionExecutor.doAction(context, component.action)
+                actionExecutor.doAction(rootView.getBeagleFragment(), component.action)
                 component.clickAnalyticsEvent?.let {
                     BeagleEnvironment.beagleSdk.analytics?.
                     sendClickEvent(it)
