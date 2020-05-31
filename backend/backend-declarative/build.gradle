@@ -15,11 +15,15 @@
  */
 
 apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
 
 dependencies {
     implementation GeneralLibraries.kotlin
 
     implementation project(Modules.beagleCoreDeclarative)
+
+    implementation GeneralLibraries.autoDsl
+    kapt GeneralLibraries.autoDslProcessor
 }
 
 apply from: rootProject.file('maven-publish.gradle')

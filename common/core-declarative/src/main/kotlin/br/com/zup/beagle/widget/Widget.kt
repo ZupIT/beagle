@@ -19,11 +19,12 @@ package br.com.zup.beagle.widget
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.AccessibilityComponent
 import br.com.zup.beagle.core.Appearance
+import br.com.zup.beagle.core.AppearanceAutoDslBuilder
 import br.com.zup.beagle.core.AppearanceComponent
 import br.com.zup.beagle.core.FlexComponent
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.FlexBuilder
+import br.com.zup.beagle.widget.core.FlexAutoDslBuilder
 
 /**
  * Base of all widgets
@@ -57,20 +58,21 @@ abstract class Widget : FlexComponent, AppearanceComponent, AccessibilityCompone
      *
      * @return the current widget
      */
+    open fun flex(block: FlexAutoDslBuilder.() -> Unit): Widget {
+        this.flex = FlexAutoDslBuilder().apply(block).build()
+
+        return this
+    }
+
     open fun applyFlex(flex: Flex): Widget {
         this.flex = flex
         return this
     }
 
-
-    /**
-     * Apply the layout component.
-     *
-     * @see FlexBuilder
-     *
-     * @return the current widget
-     */
-    fun buildAndApplyFlex(flexBuilder: FlexBuilder) = this.applyFlex(flexBuilder.build())
+    open fun applyAppearance(appearance: Appearance): Widget {
+        this.appearance = appearance
+        return this
+    }
 
     /**
      * Apply the appearance.
@@ -79,8 +81,8 @@ abstract class Widget : FlexComponent, AppearanceComponent, AccessibilityCompone
      *
      * @return the current widget
      */
-    open fun applyAppearance(appearance: Appearance): Widget {
-        this.appearance = appearance
+    open fun appearance(block: AppearanceAutoDslBuilder.() -> Unit): Widget {
+        this.appearance = AppearanceAutoDslBuilder().apply(block).build()
         return this
     }
 

@@ -17,6 +17,7 @@
 package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.widget.Widget
+import com.autodsl.annotation.AutoDsl
 
 /**
  * A WebView widget will define a WebView natively using the server driven information received through Beagle.
@@ -26,6 +27,7 @@ import br.com.zup.beagle.widget.Widget
  *              This attribute must be declared and it cannot be null.
  *
  */
+@AutoDsl
 data class WebView(
     val url: String
 ) : Widget()

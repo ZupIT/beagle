@@ -18,7 +18,9 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven { url "https://dl.bintray.com/juanchosaravia/autodsl" }
     }
+
     dependencies {
         classpath "com.android.tools.build:gradle:${Versions.gradle}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
@@ -26,6 +28,7 @@ buildscript {
         classpath "com.karumi:shot:${Versions.karumi}"
         classpath "com.github.dcendents:android-maven-gradle-plugin:${Versions.dcendents}"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:${Versions.dokka}"
+
     }
 }
 

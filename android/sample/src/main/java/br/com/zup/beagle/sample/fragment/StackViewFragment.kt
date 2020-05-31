@@ -21,13 +21,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import br.com.zup.beagle.action.showNativeDialog
+import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.utils.toView
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.layout.Stack
+import br.com.zup.beagle.widget.layout.navigationBarItem
+import br.com.zup.beagle.widget.layout.screen
+import br.com.zup.beagle.widget.layout.stack
 import br.com.zup.beagle.widget.ui.Text
+import br.com.zup.beagle.widget.ui.text
 
 class StackViewFragment : Fragment() {
 
@@ -35,13 +41,28 @@ class StackViewFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val declarative = Stack(
-            children = listOf(
-                Text("Text 1").applyFlex(Flex(margin = EdgeValue(top = UnitValue(5.0, UnitType.REAL)))),
-                Text("Text 2"),
-                Text("Text 3")
-            )
-        )
+        val declarative = screen {
+            withChild(br.com.zup.beagle.widget.layout.container {
+                children {
+                    +text {
+                        text = "Text 1"
+                    }.flex {
+                        margin {
+                            EdgeValue(
+                                top = 5.unitReal()
+                            )
+                        }
+                    }
+
+                    +text {
+                        text = "Text 2"
+                    }
+                    +text {
+                        text = "Text 3"
+                    }
+                }
+            })
+        }
 
         return context?.let { declarative.toView(this) }
     }

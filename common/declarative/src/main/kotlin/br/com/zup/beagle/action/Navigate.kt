@@ -17,12 +17,12 @@
 package br.com.zup.beagle.action
 
 import br.com.zup.beagle.widget.layout.Screen
-
 /**
  * This defines navigation type,
  * it can be a navigation to a remote route in which Beagle will deserialize the content
  * or to a local screen already built.
  */
+
 sealed class Route {
     /**
      * Class that takes care of navigation to remote content.

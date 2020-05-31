@@ -86,15 +86,13 @@ object AccessibilityScreenBuilder : ScreenBuilder {
                 accessible = accessible,
                 accessibilityLabel = accessibilityLabel
             )
-        ).applyFlex(
-            flex = Flex(
-                alignItems = AlignItems.CENTER,
-                margin = EdgeValue(
-                    top = 8.unitReal(),
-                    bottom = 8.unitReal()
-                )
-            )
-        )
+        ).flex {
+            alignItems = AlignItems.CENTER
+            margin {
+                top = 8.unitReal()
+                bottom = 8.unitReal()
+            }
+        }
 
     private fun buttonAccessibility(
         textButton: String,
@@ -104,18 +102,14 @@ object AccessibilityScreenBuilder : ScreenBuilder {
         Button(
             text = textButton,
             style = BUTTON_STYLE_ACCESSIBILITY
-        ).applyFlex(
-            flex = Flex(
-                size = Size(
-                    height = 40.unitReal()
-                ),
-                alignItems = AlignItems.CENTER,
-                margin = EdgeValue(
-                    top = 8.unitReal(),
-                    bottom = 8.unitReal()
-                )
-            )
-        ).applyAccessibility(
+        ).flex {
+            size { height = 40.unitReal() }
+            alignItems = AlignItems.CENTER
+            margin {
+                top = 8.unitReal()
+                bottom = 8.unitReal()
+            }
+        }.applyAccessibility(
             accessibility = Accessibility(
                 accessible = accessible,
                 accessibilityLabel = accessibilityLabel

@@ -16,9 +16,12 @@
 
 package br.com.zup.beagle.analytics
 
+import com.autodsl.annotation.AutoDsl
+
 /**
  * Beagle analytics is used to track screen.
  */
+@AutoDsl
 data class ScreenEvent(
     val screenName: String
 )

@@ -16,11 +16,14 @@
 
 package br.com.zup.beagle.widget.core
 
+import com.autodsl.annotation.AutoDsl
+
 /**
  * Represents measurement values that contain both the numeric magnitude and the unit of measurement.
  * @property value the numeric measurement value.
  * @property type the unit of measurement.
  */
+@AutoDsl
 data class UnitValue(
     val value: Double,
     val type: UnitType

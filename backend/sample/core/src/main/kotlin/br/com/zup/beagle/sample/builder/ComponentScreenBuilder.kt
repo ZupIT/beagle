@@ -84,11 +84,9 @@ object ComponentScreenBuilder : ScreenBuilder {
         text = text,
         action = Navigate.PushView(Route.Remote(path)),
         style = BUTTON_STYLE_TITLE
-    ).applyFlex(
-        flex = Flex(
-            margin = EdgeValue(
-                top = 8.unitReal()
-            )
-        )
-    )
+    ).flex {
+        margin {
+            top = 8.unitReal()
+        }
+    }
 }

@@ -23,6 +23,7 @@ import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.Appearance
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import com.autodsl.annotation.AutoDsl
 
 /**
  * The SafeArea will enable Safe areas to help you place your views within the visible portion of the overall interface.
@@ -36,6 +37,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * @param trailing enable the safeArea constraint only on the RIGHT of the screen view.
  *
  */
+@AutoDsl
 data class SafeArea(
     val top: Boolean? = null,
     val leading: Boolean? = null,
@@ -54,6 +56,7 @@ data class SafeArea(
  * @param accessibility define Accessibility details for the item
  *
  */
+@AutoDsl
 data class NavigationBarItem(
     val text: String,
     val image: String? = null,
@@ -86,6 +89,7 @@ data class NavigationBarItem(
  * @param backButtonAccessibility define accessibility details for the item
  *
  */
+@AutoDsl
 data class NavigationBar(
     val title: String,
     val showBackButton: Boolean = true,
@@ -120,6 +124,7 @@ data class NavigationBar(
  * @param screenAnalyticsEvent send event when screen appear/disappear
  *
  */
+@AutoDsl
 data class Screen(
     val identifier: String? = null,
     val safeArea: SafeArea? = null,

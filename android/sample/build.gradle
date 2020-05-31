@@ -48,6 +48,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/annotation.kotlin_module'
+    }
 }
 
 dependencies {

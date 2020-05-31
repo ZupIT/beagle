@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.action
 
+import com.autodsl.annotation.AutoDsl
+
 /**
  * will show dialogues natively, such as an error alert indicating alternative flows, business system errors and others.
  *
@@ -24,6 +26,8 @@ package br.com.zup.beagle.action
  * @param buttonText define text of button in dialog.
  *
  */
+
+@AutoDsl
 data class ShowNativeDialog(
     val title: String,
     val message: String,

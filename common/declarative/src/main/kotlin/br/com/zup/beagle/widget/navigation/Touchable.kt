@@ -21,6 +21,7 @@ import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.TouchableAnalytics
 import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import com.autodsl.annotation.AutoDsl
 
 /**
  *   The Touchable component defines a click listener.
@@ -30,6 +31,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * @param clickAnalyticsEvent define the event will triggered when click
  *
  */
+@AutoDsl
 data class Touchable(
     val action: Action,
     override val child: ServerDrivenComponent,

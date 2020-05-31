@@ -20,6 +20,7 @@ import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.TouchableAnalytics
 import br.com.zup.beagle.widget.Widget
+import com.autodsl.annotation.AutoDsl
 
 /**
  * Define a button natively using the server driven information received through Beagle
@@ -28,6 +29,7 @@ import br.com.zup.beagle.widget.Widget
  * @param style reference a native style in your local styles file to be applied on this button.
  * @param action define a specific action that this button triggers when clicked on.
  */
+@AutoDsl
 data class Button(
     val text: String,
     val style: String? = null,

@@ -19,6 +19,7 @@ package br.com.zup.beagle.widget.layout
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.Widget
+import com.autodsl.annotation.AutoDsl
 
 /**
  *  The container component is a general container that can hold other components inside.
@@ -26,6 +27,7 @@ import br.com.zup.beagle.widget.Widget
  * @param children define a list of components that are part of the container.
  *
  */
+@AutoDsl
 data class Container(
     val children: List<ServerDrivenComponent>
 ) : Widget(), LayoutComponent

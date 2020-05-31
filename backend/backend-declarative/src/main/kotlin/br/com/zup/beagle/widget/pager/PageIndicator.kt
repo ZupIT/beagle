@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.widget.pager
 
+import com.autodsl.annotation.AutoDsl
+
 /**
  *  The PageView component is a specialized container to hold pages (views) that will be displayed horizontally.
  *
@@ -23,6 +25,8 @@ package br.com.zup.beagle.widget.pager
  * @param unselectedColor this is a string value and it must be filled as HEX (Hexadecimal)
  *
  */
+
+@AutoDsl
 data class PageIndicator(
     val selectedColor: String,
     val unselectedColor: String

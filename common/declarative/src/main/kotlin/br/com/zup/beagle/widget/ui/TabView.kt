@@ -17,6 +17,7 @@
 package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.core.ServerDrivenComponent
+import com.autodsl.annotation.AutoDsl
 
 /**
  * TabView is a component responsible for the navigation between views.
@@ -26,6 +27,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * @param style reference a native style in your local styles file to be applied on this view.
  *
  */
+@AutoDsl
 data class TabView(
     val tabItems: List<TabItem>,
     val style: String? = null
@@ -43,6 +45,7 @@ data class TabView(
  *                  If it is left as null or not declared it won't display any icon.
  *
  */
+@AutoDsl
 data class TabItem(
     val title: String? = null,
     val content: ServerDrivenComponent,

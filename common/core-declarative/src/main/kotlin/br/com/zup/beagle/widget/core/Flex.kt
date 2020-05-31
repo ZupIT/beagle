@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.widget.core
 
+import com.autodsl.annotation.AutoDsl
+
 /**
  *
  * The flex is a Layout component that will handle your visual component positioning at the screen.
@@ -58,6 +60,8 @@ package br.com.zup.beagle.widget.core
  * @param position add padding to position.
  *
  */
+
+@AutoDsl
 data class Flex(
     val flexDirection: FlexDirection? = null, /* = FlexDirection.COLUMN */
     val direction: Direction? = null, /* = Direction.LTR */
@@ -91,6 +95,7 @@ data class Flex(
  * @param aspectRatio defined as the ratio between the width and the height of a node.
  *
  */
+@AutoDsl
 data class Size(
     val width: UnitValue? = null,
     val height: UnitValue? = null,
@@ -133,6 +138,7 @@ data class Size(
  *               specify the offset the all edge of the item should have from
  *               it’s closest sibling (item) or parent (container).
  */
+@AutoDsl
 data class EdgeValue(
     val left: UnitValue? = null,
     val top: UnitValue? = null,

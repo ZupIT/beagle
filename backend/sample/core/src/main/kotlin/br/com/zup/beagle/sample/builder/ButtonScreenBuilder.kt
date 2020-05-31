@@ -94,12 +94,12 @@ object ButtonScreenBuilder : ScreenBuilder {
                 top = 15.unitReal()
             )
         )
-    ).applyAppearance(
-        Appearance(
-            backgroundColor = CYAN_BLUE,
-            cornerRadius = CornerRadius(radius = 16.0)
-        )
-    )
+    ).appearance {
+        backgroundColor = CYAN_BLUE
+        cornerRadius {
+            radius = 16.0
+        }
+    }
 
     private fun createButton(
         text: String,

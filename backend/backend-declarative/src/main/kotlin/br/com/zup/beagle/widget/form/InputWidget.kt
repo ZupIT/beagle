@@ -18,8 +18,10 @@ package br.com.zup.beagle.widget.form
 
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.Appearance
+import br.com.zup.beagle.core.AppearanceAutoDslBuilder
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.FlexAutoDslBuilder
 
 /**
  * <p>It could be an EditText view in Android, a Radio button in HTML,
@@ -45,6 +47,7 @@ abstract class InputWidget : Widget() {
         return super.applyAppearance(appearance) as InputWidget
     }
 
+
     /**
      * Apply the layout component.
      * @see Flex
@@ -52,6 +55,16 @@ abstract class InputWidget : Widget() {
      */
     override fun applyFlex(flex: Flex): InputWidget {
         return super.applyFlex(flex) as InputWidget
+    }
+
+
+    override fun flex(block: FlexAutoDslBuilder.() -> Unit): InputWidget {
+        return super.flex(block) as InputWidget
+    }
+
+
+    override fun appearance(block: AppearanceAutoDslBuilder.() -> Unit): InputWidget {
+        return super.appearance(block) as InputWidget
     }
 
     /**

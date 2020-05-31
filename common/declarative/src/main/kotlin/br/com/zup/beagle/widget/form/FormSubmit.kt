@@ -18,6 +18,7 @@ package br.com.zup.beagle.widget.form
 
 import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import com.autodsl.annotation.AutoDsl
 
 /**
  * component will define a submit handler for a form.
@@ -30,6 +31,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  *                  If it is defined as "false" the button will start as "disabled"
  *
  */
+@AutoDsl
 data class FormSubmit(
     override val child: ServerDrivenComponent,
     val enabled: Boolean = true

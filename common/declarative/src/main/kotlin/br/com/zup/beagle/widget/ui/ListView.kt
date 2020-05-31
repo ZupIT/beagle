@@ -19,6 +19,7 @@ package br.com.zup.beagle.widget.ui
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.Widget
+import com.autodsl.annotation.AutoDsl
 
 /**
  * The direction attribute will define the list direction.
@@ -55,6 +56,7 @@ typealias RowBuilder = (index: Int) -> Widget
  * @param direction define the list direction.
  *
  */
+@AutoDsl
 data class ListView(
     val rows: List<ServerDrivenComponent>,
     val direction: ListDirection = ListDirection.VERTICAL

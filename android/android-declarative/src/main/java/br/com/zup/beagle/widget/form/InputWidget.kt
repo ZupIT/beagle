@@ -18,7 +18,10 @@ package br.com.zup.beagle.widget.form
 
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.Appearance
+import br.com.zup.beagle.core.AppearanceAutoDslBuilder
+import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.FlexAutoDslBuilder
 import br.com.zup.beagle.widget.core.WidgetView
 import br.com.zup.beagle.widget.interfaces.StateChangeable
 import br.com.zup.beagle.widget.interfaces.WidgetState
@@ -43,12 +46,20 @@ abstract class InputWidget : WidgetView(), StateChangeable {
         return super.setId(id) as InputWidget
     }
 
-    override fun applyAppearance(appearance: Appearance): InputWidget {
-        return super.applyAppearance(appearance) as InputWidget
+    override fun appearance(block: AppearanceAutoDslBuilder.() -> Unit): InputWidget {
+        return super.appearance(block) as InputWidget
+    }
+
+    override fun flex(block: FlexAutoDslBuilder.() -> Unit): InputWidget {
+        return super.flex(block) as InputWidget
     }
 
     override fun applyFlex(flex: Flex): InputWidget {
         return super.applyFlex(flex) as InputWidget
+    }
+
+    override fun applyAppearance(appearance: Appearance): InputWidget {
+        return super.applyAppearance(appearance) as InputWidget
     }
 
     override fun applyAccessibility(accessibility: Accessibility): InputWidget {

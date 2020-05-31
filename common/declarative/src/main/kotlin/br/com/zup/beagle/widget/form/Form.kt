@@ -19,6 +19,7 @@ package br.com.zup.beagle.widget.form
 import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import com.autodsl.annotation.AutoDsl
 
 /**
  *  Defines the type of operation submitted by this form. It will map these values to Http methods.
@@ -68,6 +69,7 @@ enum class FormMethodType {
  * @see FormSubmit
  *
  */
+@AutoDsl
 data class Form(
     val action: Action,
     val child: ServerDrivenComponent
@@ -81,6 +83,7 @@ data class Form(
  * @param method defines the type of operation submitted by this form. It will map these values to Http methods.
  *
  */
+@AutoDsl
 data class FormRemoteAction(
     val path: String,
     val method: FormMethodType

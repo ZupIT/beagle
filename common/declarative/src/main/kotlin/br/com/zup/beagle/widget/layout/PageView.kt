@@ -19,6 +19,7 @@ package br.com.zup.beagle.widget.layout
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.pager.PageIndicatorComponent
+import com.autodsl.annotation.AutoDsl
 
 /**
  *  The PageView component is a specialized container to hold pages (views) that will be displayed horizontally.
@@ -27,6 +28,7 @@ import br.com.zup.beagle.widget.pager.PageIndicatorComponent
  * @param pageIndicator defines in what page the PageView is currently on.
  *
  */
+@AutoDsl
 data class PageView(
     val pages: List<ServerDrivenComponent>,
     val pageIndicator: PageIndicatorComponent? = null

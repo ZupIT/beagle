@@ -18,6 +18,7 @@ package br.com.zup.beagle.widget.layout
 
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import com.autodsl.annotation.AutoDsl
 
 /**
  *  The horizontal component is a specialized container that will display its children horizontally.
@@ -29,6 +30,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  *                   If you set this attribute to TRUE the display orientation will change from RIGHT to LEFT.
  *
  */
+@AutoDsl
 data class Horizontal(
     val children: List<ServerDrivenComponent>,
     val reversed: Boolean? = null

@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.analytics
 
+import com.autodsl.annotation.AutoDsl
+
 /**
  * Define click event
  *
@@ -24,6 +26,7 @@ package br.com.zup.beagle.analytics
  * @param value
  *
  */
+@AutoDsl
 data class ClickEvent(
     val category: String,
     val label: String? = null,

@@ -72,11 +72,9 @@ object ActionScreenBuilder : ScreenBuilder {
                     message = "Action",
                     buttonText = "OK"
                 ),
-                child = Text("Click me!").applyFlex(
-                    flex = Flex(
-                        alignSelf = AlignSelf.CENTER
-                    )
-                )
+                child = Text("Click me!").flex {
+                    alignSelf = AlignSelf.CENTER
+                }
             )
         )
     )
