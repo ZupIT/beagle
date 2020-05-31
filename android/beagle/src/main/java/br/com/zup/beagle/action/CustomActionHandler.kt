@@ -27,10 +27,6 @@ interface DefaultActionHandler<T : Action> {
     fun handle(context: Context, action: T)
 }
 
-internal interface ViewActionHandler<T : Action> {
-    fun handle(fragment: BeagleFragment, action: T)
-}
-
 interface ActionListener {
     fun onError(e: Throwable)
     fun onSuccess(action: Action)
