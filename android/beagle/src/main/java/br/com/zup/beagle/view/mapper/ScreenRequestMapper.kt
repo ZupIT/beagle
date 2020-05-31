@@ -38,13 +38,10 @@ internal object ScreenRequestMapper {
                       screenRequest: ScreenRequest): RequestData {
         val newUrl = urlBuilder.format(beagleEnvironment.beagleSdk.config.baseUrl, screenRequest.url)
         val method = generateRequestDataMethod(screenRequest.method)
-        val headers = screenRequest.headers.toMutableMap().apply {
-            put("Content-Type", "application/json")
-        }
         return RequestData(
-            uri = URI(newUrl),
+            uri = URI(newUrl!!),
             method = method,
-            headers = headers,
+            headers = screenRequest.headers,
             body = screenRequest.body
         )
     }

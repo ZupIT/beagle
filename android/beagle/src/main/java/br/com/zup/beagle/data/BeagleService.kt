@@ -86,7 +86,7 @@ internal class BeagleService(
     }
 
     private fun makeRequestData(screenRequest: ScreenRequest): RequestData {
-        val newUrl = urlBuilder.format(BeagleEnvironment.beagleSdk.config.baseUrl, screenRequest.url)
+        val newUrl = urlBuilder.format(BeagleEnvironment.beagleSdk.config.baseUrl, screenRequest.url)!!
         val request = RequestData(
             uri = URI(newUrl),
             method = generateRequestDataMethod(screenRequest.method),

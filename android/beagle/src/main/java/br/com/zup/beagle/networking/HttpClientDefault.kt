@@ -57,9 +57,9 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
 
     private fun getOrDeleteOrHeadHasData(request: RequestData): Boolean {
         return (request.method == HttpMethod.GET ||
-                request.method == HttpMethod.DELETE ||
-                request.method == HttpMethod.HEAD) &&
-                request.body != null
+            request.method == HttpMethod.DELETE ||
+            request.method == HttpMethod.HEAD) &&
+            request.body != null
     }
 
     private fun doHttpRequest(
@@ -70,6 +70,8 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
         request.headers.forEach {
             urlConnection.setRequestProperty(it.key, it.value)
         }
+
+        urlConnection.setRequestProperty("Content-Type", "application/json")
 
         addRequestMethod(urlConnection, request.method)
 
