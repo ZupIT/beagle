@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.view
+package br.com.zup.beagle.view.custom
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -25,6 +25,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.engine.mapper.FlexMapper
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.engine.renderer.ViewRendererFactory
+import br.com.zup.beagle.view.YogaLayout
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.WidgetView
 

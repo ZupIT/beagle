@@ -17,7 +17,7 @@
 package br.com.zup.beagle.action
 
 import android.content.Context
-import br.com.zup.beagle.view.BeagleNavigator
+import br.com.zup.beagle.view.utils.BeagleNavigator
 
 internal class NavigationActionHandler : DefaultActionHandler<Navigate> {
 

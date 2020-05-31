@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.view
+package br.com.zup.beagle.view.utils
 
 import android.app.Activity
 import android.content.Context
@@ -26,6 +26,8 @@ import androidx.fragment.app.FragmentActivity
 import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.logger.BeagleLogger
 import br.com.zup.beagle.setup.BeagleEnvironment
+import br.com.zup.beagle.view.BeagleActivity
+import br.com.zup.beagle.view.ScreenRequest
 import java.lang.Exception
 
 internal object BeagleNavigator {

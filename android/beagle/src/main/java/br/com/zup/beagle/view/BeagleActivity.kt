@@ -28,12 +28,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.R
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.data.BeagleViewModel
-import br.com.zup.beagle.data.ViewState
 import br.com.zup.beagle.data.serializer.BeagleSerializer
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.utils.configureSupportActionBar
 import br.com.zup.beagle.utils.toComponent
+import br.com.zup.beagle.view.viewmodel.BeagleViewModel
+import br.com.zup.beagle.view.viewmodel.ViewState
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenComponent
 import kotlinx.android.parcel.Parcelize

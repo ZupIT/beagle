@@ -26,6 +26,14 @@ import android.widget.HorizontalScrollView
 import android.widget.ScrollView
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import br.com.zup.beagle.view.custom.BeagleButtonView
+import br.com.zup.beagle.view.custom.BeagleFlexView
+import br.com.zup.beagle.view.custom.BeagleImageView
+import br.com.zup.beagle.view.custom.BeaglePageIndicatorView
+import br.com.zup.beagle.view.custom.BeaglePageView
+import br.com.zup.beagle.view.custom.BeagleTabLayout
+import br.com.zup.beagle.view.custom.BeagleTextView
+import br.com.zup.beagle.view.custom.BeagleView
 import br.com.zup.beagle.widget.core.Flex
 
 internal class ViewFactory {

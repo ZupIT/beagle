@@ -14,24 +14,9 @@
  * limitations under the License.
  */
 
-@file:JvmName("BeagleUtils")
+package br.com.zup.beagle.action.request.domain
 
-package br.com.zup.beagle.utils
-
-import br.com.zup.beagle.view.BeagleActivity
-import br.com.zup.beagle.view.utils.BeagleNavigator
-
-fun String.toAndroidId(): Int {
-    return this.hashCode()
-}
-
-internal fun BeagleActivity.configureSupportActionBar() {
-    val toolbar = this.getToolbar()
-    if (this.supportActionBar == null) {
-        this.setSupportActionBar(toolbar)
-        this.supportActionBar?.hide()
-    }
-    toolbar.setNavigationOnClickListener {
-        BeagleNavigator.popView(this)
-    }
-}
+data class Request(val url: String,
+                   val method: RequestMethod = RequestMethod.GET,
+                   val headers: Map<String, String> = mapOf(),
+                   val body: String? = null)

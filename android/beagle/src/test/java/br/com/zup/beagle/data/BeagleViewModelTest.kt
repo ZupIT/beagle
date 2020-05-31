@@ -23,7 +23,9 @@ import br.com.zup.beagle.exception.BeagleException
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.utils.CoroutineDispatchers
+import br.com.zup.beagle.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.view.ScreenRequest
+import br.com.zup.beagle.view.viewmodel.ViewState
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery

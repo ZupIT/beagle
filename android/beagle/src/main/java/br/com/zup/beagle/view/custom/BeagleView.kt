@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.view
+package br.com.zup.beagle.view.custom
 
 import android.content.Context
 import android.view.View
 import androidx.lifecycle.Observer
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.data.BeagleViewModel
-import br.com.zup.beagle.data.ViewState
+import br.com.zup.beagle.view.viewmodel.BeagleViewModel
+import br.com.zup.beagle.view.viewmodel.ViewState
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.interfaces.OnStateUpdatable
 import br.com.zup.beagle.utils.implementsGenericTypeOf
+import br.com.zup.beagle.view.ScreenRequest
 
 sealed class BeagleViewState {
     data class Error(val throwable: Throwable) : BeagleViewState()

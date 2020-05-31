@@ -20,7 +20,7 @@ import android.view.View
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.engine.renderer.UIViewRenderer
 import br.com.zup.beagle.view.ViewFactory
-import br.com.zup.beagle.view.setTextWidget
+import br.com.zup.beagle.view.custom.setTextWidget
 import br.com.zup.beagle.widget.ui.Text
 
 internal class TextViewRenderer(

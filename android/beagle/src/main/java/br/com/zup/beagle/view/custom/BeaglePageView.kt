@@ -14,24 +14,15 @@
  * limitations under the License.
  */
 
-@file:JvmName("BeagleUtils")
+package br.com.zup.beagle.view.custom
 
-package br.com.zup.beagle.utils
+import android.content.Context
+import androidx.viewpager.widget.ViewPager
+import br.com.zup.beagle.widget.pager.PageIndicatorOutput
 
-import br.com.zup.beagle.view.BeagleActivity
-import br.com.zup.beagle.view.utils.BeagleNavigator
+class BeaglePageView(context: Context) : ViewPager(context), PageIndicatorOutput {
 
-fun String.toAndroidId(): Int {
-    return this.hashCode()
-}
-
-internal fun BeagleActivity.configureSupportActionBar() {
-    val toolbar = this.getToolbar()
-    if (this.supportActionBar == null) {
-        this.setSupportActionBar(toolbar)
-        this.supportActionBar?.hide()
-    }
-    toolbar.setNavigationOnClickListener {
-        BeagleNavigator.popView(this)
+    override fun swapToPage(newIndex: Int) {
+        setCurrentItem(newIndex, true)
     }
 }

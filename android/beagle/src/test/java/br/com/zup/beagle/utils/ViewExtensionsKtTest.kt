@@ -17,8 +17,6 @@
 package br.com.zup.beagle.utils
 
 import android.app.Activity
-import android.content.res.TypedArray
-import android.graphics.drawable.Drawable
 import android.os.IBinder
 import android.view.View
 import android.view.ViewGroup
@@ -28,23 +26,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.BaseTest
-import br.com.zup.beagle.engine.mapper.ViewMapper
 import br.com.zup.beagle.engine.renderer.ActivityRootView
 import br.com.zup.beagle.engine.renderer.FragmentRootView
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.setup.DesignSystem
 import br.com.zup.beagle.testutil.RandomData
-import br.com.zup.beagle.view.BeagleButtonView
-import br.com.zup.beagle.view.BeagleView
+import br.com.zup.beagle.view.custom.BeagleButtonView
+import br.com.zup.beagle.view.custom.BeagleView
 import br.com.zup.beagle.view.ScreenRequest
-import br.com.zup.beagle.view.StateChangedListener
+import br.com.zup.beagle.view.custom.StateChangedListener
 import br.com.zup.beagle.view.ViewFactory
-import br.com.zup.beagle.widget.ui.Button
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic

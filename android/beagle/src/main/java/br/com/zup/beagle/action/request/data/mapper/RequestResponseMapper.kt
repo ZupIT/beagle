@@ -14,24 +14,20 @@
  * limitations under the License.
  */
 
-@file:JvmName("BeagleUtils")
+package br.com.zup.beagle.action.request.data.mapper
 
-package br.com.zup.beagle.utils
+import br.com.zup.beagle.action.request.domain.RequestResponse
+import br.com.zup.beagle.networking.ResponseData
 
-import br.com.zup.beagle.view.BeagleActivity
-import br.com.zup.beagle.view.utils.BeagleNavigator
+internal fun ResponseData.toRequestResponse(): RequestResponse = RequestResponseMapper.toRequestResponse(this)
 
-fun String.toAndroidId(): Int {
-    return this.hashCode()
-}
+internal object RequestResponseMapper {
+    fun toRequestResponse(response: ResponseData): RequestResponse {
 
-internal fun BeagleActivity.configureSupportActionBar() {
-    val toolbar = this.getToolbar()
-    if (this.supportActionBar == null) {
-        this.setSupportActionBar(toolbar)
-        this.supportActionBar?.hide()
-    }
-    toolbar.setNavigationOnClickListener {
-        BeagleNavigator.popView(this)
+        return RequestResponse(
+            statusCode = response.statusCode,
+            data = String(response.data),
+            headers = response.headers
+        )
     }
 }

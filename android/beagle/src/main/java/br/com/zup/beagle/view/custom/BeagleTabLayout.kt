@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.view
+package br.com.zup.beagle.view.custom
 
 import android.content.Context
 import android.util.AttributeSet

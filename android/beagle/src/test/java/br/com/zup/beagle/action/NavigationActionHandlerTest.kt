@@ -21,7 +21,7 @@ import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.navigation.DeepLinkHandler
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.testutil.RandomData
-import br.com.zup.beagle.view.BeagleNavigator
+import br.com.zup.beagle.view.utils.BeagleNavigator
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every

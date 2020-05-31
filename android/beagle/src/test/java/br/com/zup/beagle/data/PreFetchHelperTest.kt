@@ -22,6 +22,7 @@ import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.utils.generateViewModelInstance
+import br.com.zup.beagle.view.viewmodel.BeagleViewModel
 import io.mockk.called
 import io.mockk.coEvery
 import io.mockk.every

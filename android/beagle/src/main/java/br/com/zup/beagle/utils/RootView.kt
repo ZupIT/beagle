@@ -17,7 +17,7 @@
 package br.com.zup.beagle.utils
 
 import androidx.lifecycle.ViewModelProvider
-import br.com.zup.beagle.data.BeagleViewModel
+import br.com.zup.beagle.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.engine.renderer.ActivityRootView
 import br.com.zup.beagle.engine.renderer.FragmentRootView
 import br.com.zup.beagle.engine.renderer.RootView

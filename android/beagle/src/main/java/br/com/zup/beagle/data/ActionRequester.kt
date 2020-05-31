@@ -19,8 +19,6 @@ package br.com.zup.beagle.data
 import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.data.serializer.BeagleSerializer
 import br.com.zup.beagle.exception.BeagleException
-import br.com.zup.beagle.view.ScreenRequest
-import br.com.zup.beagle.view.mapper.toRequestData
 
 internal class ActionRequester(
     private val beagleApi: BeagleApi = BeagleApi(),
@@ -29,7 +27,7 @@ internal class ActionRequester(
 
     @Throws(BeagleException::class)
     suspend fun fetchAction(url: String): Action {
-        val jsonResponse = String(beagleApi.fetchData(ScreenRequest(url).toRequestData()).data)
+        val jsonResponse = String(beagleApi.fetchData(url.toRequestData()).data)
         return deserializeAction(jsonResponse)
     }
 

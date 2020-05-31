@@ -14,15 +14,19 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.view
+package br.com.zup.beagle.view.custom
 
 import android.content.Context
-import androidx.viewpager.widget.ViewPager
-import br.com.zup.beagle.widget.pager.PageIndicatorOutput
+import android.graphics.Canvas
+import androidx.appcompat.widget.AppCompatImageView
+import br.com.zup.beagle.utils.applyRadius
 
-class BeaglePageView(context: Context) : ViewPager(context), PageIndicatorOutput {
+internal class BeagleImageView(context: Context) : AppCompatImageView(context) {
 
-    override fun swapToPage(newIndex: Int) {
-        setCurrentItem(newIndex, true)
+    var cornerRadius = 0.0f
+
+    override fun onDraw(canvas: Canvas?) {
+        canvas?.applyRadius(cornerRadius)
+        super.onDraw(canvas)
     }
 }

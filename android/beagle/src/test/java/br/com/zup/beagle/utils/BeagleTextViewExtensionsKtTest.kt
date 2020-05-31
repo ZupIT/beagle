@@ -24,8 +24,8 @@ import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.setup.DesignSystem
 import br.com.zup.beagle.testutil.RandomData
-import br.com.zup.beagle.view.BeagleTextView
-import br.com.zup.beagle.view.setTextWidget
+import br.com.zup.beagle.view.custom.BeagleTextView
+import br.com.zup.beagle.view.custom.setTextWidget
 import br.com.zup.beagle.widget.ui.Text
 import br.com.zup.beagle.widget.ui.TextAlignment
 import io.mockk.*

@@ -30,7 +30,7 @@ import br.com.zup.beagle.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.utils.ToolbarManager
 import br.com.zup.beagle.view.BeagleActivity
-import br.com.zup.beagle.view.BeagleFlexView
+import br.com.zup.beagle.view.custom.BeagleFlexView
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.NavigationBar
@@ -48,7 +48,6 @@ import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
 import io.mockk.verifyOrder
-import io.mockk.verifySequence
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
