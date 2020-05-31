@@ -23,9 +23,7 @@ import br.com.zup.beagle.action.request.presentation.mapper.toRequest
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.view.ViewFactory
 
-internal class SendRequestActionHandler(
-    private val viewFactory: ViewFactory = ViewFactory()
-) {
+internal class SendRequestActionHandler {
 
     fun handle(rootView: RootView, action: SendRequestAction, listener: SendRequestListener) {
         val viewModel = ViewModelProvider(rootView.getViewModelStoreOwner()).get(ActionRequestViewModel::class.java)

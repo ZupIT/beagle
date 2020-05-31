@@ -18,6 +18,7 @@ package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.Route
+import br.com.zup.beagle.action.SendRequestAction
 import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.sample.constants.NAVIGATION_BAR_STYLE_DEFAULT
 import br.com.zup.beagle.sample.constants.PATH_SCREEN_DEEP_LINK_ENDPOINT
@@ -29,6 +30,7 @@ import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
+import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.navigation.Touchable
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
@@ -51,14 +53,15 @@ object ActionScreenBuilder : ScreenBuilder {
                 )
             )
         ),
-        child = Container(
+        child = ScrollView(
             children = listOf(
                 getShowNativeDialogAction(),
                 getNavigateWithPath(),
                 getNavigateWithScreen(),
                 getNavigateWithPathScreen(),
                 getNavigateWithPrefetch(),
-                getNavigateWithDeepLink()
+                getNavigateWithDeepLink(),
+                getSendRequestAction()
             )
         )
     )
@@ -142,6 +145,32 @@ object ActionScreenBuilder : ScreenBuilder {
                 action = Navigate.OpenNativeRoute(
                     route = PATH_SCREEN_DEEP_LINK_ENDPOINT,
                     data = mapOf("data" to "for", "native" to "view")
+                ),
+                text = "Click me!"
+            )
+        )
+    )
+
+
+    private fun getSendRequestAction() = Container(
+        children = listOf(
+            Text("Send request action"),
+            Button(
+                action = SendRequestAction(url = SCREEN_ACTION_CLICK_ENDPOINT, onSuccess = ShowNativeDialog(
+                    title = "Success",
+                    message = "Action",
+                    buttonText = "OK"
+                ),
+                    onError = ShowNativeDialog(
+                        title = "Error",
+                        message = "Action",
+                        buttonText = "OK"
+                    ),
+                    onFinish = ShowNativeDialog(
+                        title = "Finish",
+                        message = "Action",
+                        buttonText = "OK"
+                    )
                 ),
                 text = "Click me!"
             )

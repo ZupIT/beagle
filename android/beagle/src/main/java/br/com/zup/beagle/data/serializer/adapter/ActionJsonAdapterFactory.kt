@@ -20,6 +20,7 @@ import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.action.CustomAction
 import br.com.zup.beagle.action.FormValidation
 import br.com.zup.beagle.action.Navigate
+import br.com.zup.beagle.action.SendRequestAction
 import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.data.serializer.PolymorphicJsonAdapterFactory
 import br.com.zup.beagle.widget.form.FormRemoteAction
@@ -45,6 +46,7 @@ internal object ActionJsonAdapterFactory {
             .withSubtype(Navigate.PopToView::class.java, createNamespaceFor<Navigate.PopToView>())
             .withSubtype(Navigate.ResetApplication::class.java, createNamespaceFor<Navigate.ResetApplication>())
             .withSubtype(Navigate.ResetStack::class.java, createNamespaceFor<Navigate.ResetStack>())
+            .withSubtype(SendRequestAction::class.java, createNamespaceFor<SendRequestAction>())
     }
 
     private inline fun <reified T : Action> createNamespaceFor(): String {
