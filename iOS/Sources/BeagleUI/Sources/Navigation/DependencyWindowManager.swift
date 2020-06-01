@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,13 +15,25 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.ext
+import UIKit
 
-import br.com.zup.beagle.widget.core.UnitType
-import br.com.zup.beagle.widget.core.UnitValue
+public protocol DependencyWindowManager {
+    var windowManager: WindowManager { get }
+}
 
-fun Int.unitReal() = UnitValue(this.toDouble(), UnitType.REAL)
-fun Int.unitPercent() = UnitValue(this.toDouble(), UnitType.PERCENT)
+public protocol WindowProtocol {
+    func replace(rootViewController viewController: UIViewController, animated: Bool, completion: ((Bool) -> Void)?)
+}
 
-fun Double.unitReal() = UnitValue(this, UnitType.REAL)
-fun Double.unitPercent() = UnitValue(this, UnitType.PERCENT)
+public protocol WindowManager {
+    var window: WindowProtocol? { get }
+}
+
+/// This class is responsible to  manage a Window.
+public final class WindowManagerDefault: WindowManager {
+
+    public var window: WindowProtocol? {
+        return UIApplication.shared.keyWindow
+    }
+
+}

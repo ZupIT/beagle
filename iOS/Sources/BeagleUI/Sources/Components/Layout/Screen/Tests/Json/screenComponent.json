@@ -1,5 +1,5 @@
 {
-  "_beagleType_" : "beagle:component:screencomponent",
+  "_beagleComponent_" : "beagle:screencomponent",
   "navigationBar" : {
     "title" : "Form",
     "showBackButton" : true,
@@ -7,7 +7,7 @@
       "text" : "",
       "image" : "informationImage",
       "action" : {
-        "_beagleType_" : "beagle:action:shownativedialog",
+        "_beagleAction_" : "beagle:shownativedialog",
         "title" : "Form",
         "message" : "A formSubmit component will define a submit handler in a form.",
         "buttonText" : "OK"
@@ -15,7 +15,7 @@
     }]
   },
   "child" : {
-    "_beagleType_" : "beagle:component:text",
+    "_beagleComponent_" : "beagle:text",
     "text" : "child"
   }
 }

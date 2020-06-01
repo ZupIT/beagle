@@ -20,7 +20,7 @@ import XCTest
 @testable import BeagleUI
 import SnapshotTesting
 
-final class UrlRequestBuilderTest: XCTestCase {
+final class HttpRequestBuilderTest: XCTestCase {
 
     let sut = HttpRequestBuilder()
 
@@ -100,11 +100,14 @@ final class UrlRequestBuilderTest: XCTestCase {
     }
 }
 
+// swiftlint:disable unused_setter_value
 extension String: RemoteScreenAdditionalData {
-    public var headers: [String : String] {
+    public var headers: [String: String] {
         get {
             [:]
         }
-        set(newValue) { }
+        // swiftlint:disable unused_setter_value
+        set(newValue) {}
     }
 }
+// swiftlint:enable unused_setter_value

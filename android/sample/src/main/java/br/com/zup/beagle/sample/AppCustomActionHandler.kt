@@ -21,7 +21,7 @@ import br.com.zup.beagle.action.ActionListener
 import br.com.zup.beagle.action.CustomAction
 import br.com.zup.beagle.action.CustomActionHandler
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.NavigationType
+import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.annotation.BeagleComponent
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
@@ -37,11 +37,12 @@ class AppCustomActionHandler : CustomActionHandler {
             "formAsyncSubmit" -> Thread().run {
                 print("I'm doing something clever here")
                 sleep(3000)
-                listener.onSuccess(Navigate(
-                    type = NavigationType.ADD_VIEW,
-                    screen = Screen(
-                        child = Text("Testing CustomAction"),
-                        navigationBar = NavigationBar(title = "After CustomAction")
+                listener.onSuccess(Navigate.PushView(
+                    Route.Local(
+                        Screen(
+                            child = Text("Testing CustomAction"),
+                            navigationBar = NavigationBar(title = "After CustomAction")
+                        )
                     )
                 ))
             }

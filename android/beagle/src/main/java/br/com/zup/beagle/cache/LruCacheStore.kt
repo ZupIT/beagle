@@ -32,10 +32,10 @@ data class TimerCache(
     }
 }
 
-internal object LruCacheStore {
-
-    private val maxSize: Int = BeagleEnvironment.beagleSdk.config.cache.memoryMaximumCapacity
-    private var cache: LruCache<String, TimerCache> = LruCache(maxSize)
+internal class LruCacheStore(
+    private val cache: LruCache<String, TimerCache> = LruCache<String, TimerCache>(
+        BeagleEnvironment.beagleSdk.config.cache.memoryMaximumCapacity)
+) {
 
     fun save(cacheKey: String, timerCache: TimerCache) {
         cache.put(cacheKey, timerCache)
@@ -43,5 +43,10 @@ internal object LruCacheStore {
 
     fun restore(cacheKey: String): TimerCache? {
         return cache[cacheKey]
+    }
+
+
+    companion object {
+        val instance: LruCacheStore by lazy { LruCacheStore() }
     }
 }

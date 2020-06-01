@@ -20,6 +20,12 @@ import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.Widget
 
+/**
+ *  The container component is a general container that can hold other components inside.
+ *
+ * @param children define a list of components that are part of the container.
+ *
+ */
 data class Container(
     val children: List<ServerDrivenComponent>
 ) : Widget(), LayoutComponent

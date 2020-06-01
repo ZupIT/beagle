@@ -21,6 +21,7 @@ import br.com.zup.beagle.data.serializer.adapter.AndroidFrameworkIgnoreAdapterFa
 import br.com.zup.beagle.data.serializer.adapter.BindAdapterFactory
 import br.com.zup.beagle.data.serializer.adapter.ContextDataAdapterFactory
 import br.com.zup.beagle.data.serializer.adapter.ComponentJsonAdapterFactory
+import br.com.zup.beagle.data.serializer.adapter.RouteAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
@@ -31,6 +32,7 @@ internal object BeagleMoshi {
             .add(BindAdapterFactory())
             .add(AndroidFrameworkIgnoreAdapterFactory())
             .add(ComponentJsonAdapterFactory.make())
+            .add(RouteAdapterFactory())
             .add(ActionJsonAdapterFactory.make())
             .add(KotlinJsonAdapterFactory())
             .add(ContextDataAdapterFactory())

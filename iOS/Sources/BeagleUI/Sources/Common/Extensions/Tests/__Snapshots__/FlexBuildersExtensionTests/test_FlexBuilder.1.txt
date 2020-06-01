@@ -1,10 +1,10 @@
 ▿ Flex
-  ▿ alignContent: Optional<Alignment>
-    - some: Alignment.center
-  ▿ alignItems: Optional<Alignment>
-    - some: Alignment.center
-  ▿ alignSelf: Optional<Alignment>
-    - some: Alignment.center
+  ▿ alignContent: Optional<AlignContent>
+    - some: AlignContent.center
+  ▿ alignItems: Optional<AlignItems>
+    - some: AlignItems.center
+  ▿ alignSelf: Optional<AlignSelf>
+    - some: AlignSelf.center
   ▿ basis: Optional<UnitValue>
     ▿ some: UnitValue
       - type: UnitType.real

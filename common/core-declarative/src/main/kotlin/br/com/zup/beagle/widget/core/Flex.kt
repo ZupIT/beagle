@@ -16,14 +16,56 @@
 
 package br.com.zup.beagle.widget.core
 
-data class Flex (
+/**
+ *
+ * The flex is a Layout component that will handle your visual component positioning at the screen.
+ * Internally Beagle uses a Layout engine called Yoga Layout to position elements on screen.
+ * In fact it will use the HTML Flexbox properties applied on the visual components and its children.
+ *
+ * @param flexDirection
+ *                          controls the direction in which the children of a node are laid out.
+ *                          This is also referred to as the main axis
+ * @param direction specifies the direction in which children and text in a hierarchy should be laid out.
+ * @param flexWrap
+ *                  set on containers and controls what happens when children
+ *                  overflow the size of the container along the main axis.
+ * @param justifyContent align children within the main axis of their container.
+ * @param alignItems Align items describes how to align children along the cross axis of their container.
+ * @param alignSelf
+ *                      Align self has the same options and effect as align items
+ *                      but instead of affecting the children within a container.
+ * @param alignContent Align content defines the distribution of lines along the cross-axis..
+ * @param positionType The position type of an element defines how it is positioned within its parent.
+ * @param basis is an axis-independent way of providing the default size of an item along the main axis.
+ * @param flex TODO.
+ * @param grow describes how any space within a container should be distributed among its children along the main axis.
+ * @param shrink
+ *              describes how to shrink children along the main axis in the case that
+ *              the total size of the children overflow the size of the container on the main axis.
+ * @param display enables a flex context for all its direct children.
+ * @param size add size to current view applying the flex.
+ * @param margin
+ *                  effects the spacing around the outside of a node.
+ *                  A node with margin will offset itself from the bounds of its parent
+ *                  but also offset the location of any siblings.
+ *                  The margin of a node contributes to the total size of its parent if the parent is auto sized.
+ * @param padding
+ *                  affects the size of the node it is applied to.
+ *                  Padding in Yoga acts as if box-sizing: border-box; was set.
+ *                  That is padding will not add to the total size of an element if it has an explicit size set.
+ *                  For auto sized nodes padding will increase the size of the
+ *                  node as well as offset the location of any children..
+ * @param position add padding to position.
+ *
+ */
+data class Flex(
     val flexDirection: FlexDirection? = null, /* = FlexDirection.COLUMN */
     val direction: Direction? = null, /* = Direction.LTR */
     val flexWrap: FlexWrap? = null, /* = FlexWrap.NO_WRAP */
     val justifyContent: JustifyContent? = null, /* = JustifyContent.FLEX_START */
-    val alignItems: Alignment? = null, /* = Alignment.STRETCH */
-    val alignSelf: Alignment? = null, /* = Alignment.AUTO */
-    val alignContent: Alignment? = null, /* = Alignment.FLEX_START */
+    val alignItems: AlignItems? = null, /* = Alignment.STRETCH */
+    val alignSelf: AlignSelf? = null, /* = Alignment.AUTO */
+    val alignContent: AlignContent? = null, /* = Alignment.FLEX_START */
     val positionType: FlexPositionType? = null, /* = FlexPositionType.RELATIVE */
     val basis: UnitValue? = null, /* = UnitValue(0.0, UnitType.AUTO) */
     val flex: Double? = null, /* = 0.0 */
@@ -36,7 +78,20 @@ data class Flex (
     val position: EdgeValue? = null
 )
 
-data class Size (
+/**
+ *
+ * Size handles the size of the item
+ *
+ * @param width The value specifies the view's width
+ * @param height The value specifies the view's height
+ * @param maxWidth The value specifies the view's max width
+ * @param maxHeight The value specifies the view's max height.
+ * @param minWidth The value specifies the view's min width.
+ * @param minHeight The value specifies the view's min height.
+ * @param aspectRatio defined as the ratio between the width and the height of a node.
+ *
+ */
+data class Size(
     val width: UnitValue? = null,
     val height: UnitValue? = null,
     val maxWidth: UnitValue? = null,
@@ -46,6 +101,38 @@ data class Size (
     val aspectRatio: Double? = null
 )
 
+/**
+ *
+ * specify the offset the edge of the item should have from it’s closest sibling (item) or parent (container)
+ *
+ * @param left
+ *              specify the offset the left edge of the item should have from
+ *              it’s closest sibling (item) or parent (container).
+ * @param top
+ *              specify the offset the top edge of the item should have from
+ *              it’s closest sibling (item) or parent (container).
+ * @param right
+ *              specify the offset the right edge of the item should have from
+ *              it’s closest sibling (item) or parent (container).
+ * @param bottom
+ *               specify the offset the bottom edge of the item should have from
+ *               it’s closest sibling (item) or parent (container).
+ * @param start
+ *               specify the offset the start edge of the item should have from
+ *               it’s closest sibling (item) or parent (container).
+ * @param end
+ *               specify the offset the end edge of the item should have from
+ *               it’s closest sibling (item) or parent (container).
+ * @param horizontal
+ *               specify the offset the horizontal edge of the item should have from
+ *               it’s closest sibling (item) or parent (container).
+ * @param vertical
+ *               specify the offset the vertical edge of the item should have from
+ *               it’s closest sibling (item) or parent (container).
+ * @param all
+ *               specify the offset the all edge of the item should have from
+ *               it’s closest sibling (item) or parent (container).
+ */
 data class EdgeValue(
     val left: UnitValue? = null,
     val top: UnitValue? = null,
@@ -58,51 +145,324 @@ data class EdgeValue(
     val all: UnitValue? = null
 )
 
+
+/**
+ *  controls the direction in which the children of a node are laid out. This is also referred to as the main axis.
+ *  The cross axis is the axis perpendicular to the main axis, or the axis which the wrapping lines are laid out in.
+ *
+ * @property COLUMN
+ * @property ROW
+ * @property COLUMN_REVERSE
+ * @property ROW_REVERSE
+ */
 enum class FlexDirection {
+    /**
+     * Align children from top to bottom. If wrapping is enabled,
+     * then the next line will start to the right of the first item on the top of the container
+     */
     COLUMN,
+
+    /**
+     *  Align children from left to right. If wrapping is enabled,
+     *  then the next line will start under the first item on the left of the container.
+     */
     ROW,
+
+    /**
+     *  Align children from bottom to top. If wrapping is enabled,
+     *  then the next line will start to the right of the first item on the bottom of the container.
+     */
     COLUMN_REVERSE,
+
+    /**
+     *  Align children from right to left. If wrapping is enabled,
+     *  then the next line will start under the first item on the right of the container.
+     */
     ROW_REVERSE
 }
 
+/**
+ * Layout direction specifies the direction in which children and text in a hierarchy should be laid out.
+ * Layout direction also affects what edge start and end refer to.
+ * By default, React Native lays out with LTR layout direction.
+ * In this mode start refers to left and end refers to right.
+ *
+ * @property LTR
+ * @property RTL
+ */
 enum class Direction {
+    /**
+     *  Get direction from parent
+     */
     INHERIT,
+
+    /**
+     *  Text and children are laid out from left to right.
+     *  Margin and padding applied to the start of an element are applied on the left side.
+     */
     LTR,
+
+    /**
+     *  Text and children are laid out from right to left.
+     *  Margin and padding applied to the start of an element are applied on the right side.
+     */
     RTL
 }
 
+/**
+ * FlexWrap is set on containers and it controls what happens when children overflow
+ * the size of the container along the main axis.
+ * By default, children are forced into a single line (which can shrink elements).
+ * If wrapping is allowed, items are wrapped into multiple lines along the main axis if needed.
+ *
+ * @property NO_WRAP
+ * @property WRAP
+ * @property WRAP_REVERSE
+ */
 enum class FlexWrap {
+    /**
+     *  The flex items are laid out in a single line which may cause the flex container to overflow.
+     *  The cross-start is either equivalent to start or before depending flex-direction value.
+     *  This is the default value.
+     */
     NO_WRAP,
+
+    /**
+     *  The flex items break into multiple lines.
+     *  The cross-start is either equivalent to start or
+     *  before depending flex-direction value and the cross-end is the opposite of the specified cross-start.
+     */
     WRAP,
+
+    /**
+     *  Behaves the same as wrap but cross-start and cross-end are permuted.
+     */
     WRAP_REVERSE
 }
 
+/**
+ * Describes how to align children within the main axis of their container.
+ * For example, you can use this property to center a child horizontally within a container with flexDirection
+ * set to row or vertically within a container with flexDirection set to column.
+ *
+ * @property FLEX_START
+ * @property CENTER
+ * @property FLEX_END
+ * @property SPACE_BETWEEN
+ * @property SPACE_AROUND
+ * @property SPACE_EVENLY
+ *
+ *
+ */
 enum class JustifyContent {
+    /**
+     * Align children of a container to the start of the container's main axis.
+     */
     FLEX_START,
+
+    /**
+     * Align children of a container in the center of the container's main axis.
+     */
     CENTER,
+
+    /**
+     * Align children of a container to the end of the container's main axis.
+     */
     FLEX_END,
+
+    /**
+     * Evenly space off children across the container's main axis,
+     * distributing the remaining space between the children.
+     */
     SPACE_BETWEEN,
+
+    /**
+     * Evenly space off children across the container's main axis,
+     * distributing the remaining space around the children.
+     * Compared to space-between, using space-around will result in space
+     * being distributed to the beginning of the first child and end of the last child.
+     */
     SPACE_AROUND,
+
+    /**
+     *  evenly distribute children within the alignment container along the main axis.
+     *  The spacing between each pair of adjacent items,
+     *  the main-start edge and the first item, and the main-end edge and the last item, are all exactly the same.
+     */
     SPACE_EVENLY
 }
 
-enum class Alignment {
+/**
+ * Describes how to align distribution of lines along the transverse axis of the container.
+ * For example, you can use this property to center child lines horizontally
+ * inside a container with flexDirection defined as a column or vertically inside a container
+ * with flexDirection defined as a row.
+ *
+ * @property FLEX_START
+ * @property CENTER
+ * @property FLEX_END
+ * @property SPACE_BETWEEN
+ * @property SPACE_AROUND
+ * @property STRETCH
+ */
+enum class AlignContent {
+    /**
+     * Align wrapped lines to the start of the container's cross axis.
+     */
     FLEX_START,
+
+    /**
+     * Align wrapped lines in the center of the container's cross axis.
+     */
     CENTER,
+
+    /**
+     * Align wrapped lines to the end of the container's cross axis.
+     */
     FLEX_END,
+
+    /**
+     * Evenly space wrapped lines across the container's main axis,
+     * distributing the remaining space between the lines.
+     */
     SPACE_BETWEEN,
+
+    /**
+     * Evenly space wrapped lines across the container's main axis, distributing the remaining space around the lines.
+     * Compared to space-between, using space-around will result in space being
+     * distributed to the beginning of the first line and the end of the last line.
+     */
     SPACE_AROUND,
-    BASELINE,
-    AUTO,
+
+    /**
+     * Stretch wrapped lines to match the height of the container's cross axis.
+     */
     STRETCH
 }
 
+/**
+ *Describes how to align the children on the container's cross axis.
+ * Align self replaces any parent-defined options with align items.
+ *For example, you can use this property to center a child horizontally
+ *inside a container with flexDirection set to column or vertically inside a container with flexDirection set to row.
+ *
+ * @property FLEX_START
+ * @property CENTER
+ * @property FLEX_END
+ * @property BASELINE
+ * @property AUTO
+ * @property STRETCH
+ */
+enum class AlignSelf {
+    /**
+     * Align wrapped lines to the start of the container's cross axis.
+     */
+    FLEX_START,
+
+    /**
+     * Align wrapped lines in the center of the container's cross axis.
+     */
+    CENTER,
+
+    /**
+     * Align wrapped lines to the end of the container's cross axis.
+     */
+    FLEX_END,
+
+    /**
+     * Align children of a container along a common baseline.
+     * Individual children can be set to be the reference baseline for their parents.
+     */
+    BASELINE,
+
+    /**
+     * Computes to the parent's
+     */
+    AUTO,
+
+    /**
+     * Stretch wrapped lines to match the height of the container's cross axis.
+     */
+    STRETCH
+}
+
+/**
+ * Describes how to align the children on the cross axis of the container.
+ * For example, you can use this property to center a child horizontally
+ * inside a container with flexDirection set to column or vertically inside a container with flexDirection set to row.
+ *
+ * @property FLEX_START
+ * @property CENTER
+ * @property FLEX_END
+ * @property BASELINE
+ * @property STRETCH
+ */
+enum class AlignItems {
+    /**
+     * Align wrapped lines to the start of the container's cross axis.
+     */
+    FLEX_START,
+
+    /**
+     * Align wrapped lines in the center of the container's cross axis.
+     */
+    CENTER,
+
+    /**
+     * Align wrapped lines to the end of the container's cross axis.
+     */
+    FLEX_END,
+
+    /**
+     * Align children of a container along a common baseline.
+     * Individual children can be set to be the reference baseline for their parents.
+     */
+    BASELINE,
+
+    /**
+     * Stretch wrapped lines to match the height of the container's cross axis.
+     */
+    STRETCH
+}
+
+/**
+ * This defines a flex container;
+ * inline or block depending on the given value. It enables a flex context for all its direct children.
+ *
+ * @property FLEX
+ * @property NONE
+ */
 enum class FlexDisplay {
+    /**
+     * Apply the flex properties.
+     */
     FLEX,
+
+    /**
+     * No flex properties will be applied to the element.
+     */
     NONE
 }
 
+/**
+ * The position type of an element defines how it is positioned within its parent.
+ *
+ * @property ABSOLUTE
+ * @property RELATIVE
+ */
 enum class FlexPositionType {
+
+    /**
+     * This means an element is positioned according to the normal flow of the layout,
+     * and then offset relative to that position based on the values of top, right, bottom, and left.
+     * The offset does not affect the position of any sibling or parent elements.
+     */
     ABSOLUTE,
+
+    /**
+     * When positioned absolutely an element doesn't take part in the normal layout flow.
+     * It is instead laid out independent of its siblings.
+     * The position is determined based on the top, right, bottom, and left values.
+     */
     RELATIVE
 }
