@@ -16,7 +16,7 @@
               - appearance: Optional<Appearance>.none
               - flex: Optional<Flex>.none
               - id: Optional<String>.none
-          - identifier: Optional<String>.none
+          - id: Optional<String>.none
           - navigationBar: Optional<NavigationBar>.none
           ▿ safeArea: Optional<SafeArea>
             ▿ some: SafeArea
