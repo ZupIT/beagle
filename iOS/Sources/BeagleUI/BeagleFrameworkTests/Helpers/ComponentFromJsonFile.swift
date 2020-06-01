@@ -45,17 +45,27 @@ func componentFromJsonFile<W: BeagleUI.ServerDrivenComponent>(
 }
 
 
-//func jsonFromFile(
-//    fileName: String
-//) throws -> String {
-//    guard let url = Bundle.main.url(forResource: fileName, withExtension: "json") else {
-//        throw ComponentFromJsonError.wrongUrlPath
-//    }
-//    let jsonData = try Data(contentsOf: url)
-//    let json = String(bytes: jsonData, encoding: .utf8) ?? ""
-//
-//    return json
-//}
+// TODO: Make decoding process generic
+func actionFromJsonFile<W: Action>(
+    fileName: String,
+    decoder: ComponentDecoding = ComponentDecoder()
+) throws -> W {
+    guard let url = Bundle(for: ScreenComponentTests.self).url(
+        forResource: fileName,
+        withExtension: ".json"
+    ) else {
+        throw ComponentFromJsonError.wrongUrlPath
+    }
+
+    let json = try Data(contentsOf: url)
+    let action = try decoder.decodeAction(from: json)
+
+    guard let typed = action as? W else {
+        throw ComponentFromJsonError.couldNotMatchComponentType
+    }
+
+    return typed
+}
 
 func jsonFromFile(
     fileName: String

@@ -1,0 +1,2 @@
+▿ Optional<UIWindow>
+  - some: <UIWindow; frame = (0 0; 0 0); hidden = YES; gestureRecognizers = <NSArray>; layer = <UIWindowLayer>>

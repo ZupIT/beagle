@@ -18,7 +18,6 @@
 import XCTest
 import SnapshotTesting
 @testable import BeagleUI
-import SnapshotTesting
 import Schema
 
 final class NavigateTests: XCTestCase {

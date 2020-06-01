@@ -101,41 +101,4 @@ final class ButtonTests: XCTestCase {
         XCTAssertEqual(context.actionCalled as? ActionDummy, action)
         XCTAssertTrue(context.analyticsEventCalled)
     }
-    
-<<<<<<< HEAD:iOS/Sources/BeagleUI/Sources/Components/Renderable/Button+Renderable/ButtonTests.swift
-=======
-    func test_whenDecodingJson_thenItShouldReturnAButton() throws {
-        let component: Button = try componentFromJsonFile(fileName: "buttonComponent")
-        assertSnapshot(matching: component, as: .dump)
-    }
-    
-}
-
-final class ThemeSpy: Theme {
-    
-    private(set) var styledView: UIView?
-    private(set) var styleApplied: String?
-    
-    func applyStyle<T>(for view: T, withId id: String) where T: UIView {
-        styledView = view
-        styleApplied = id
-    }
-}
-
-final class BeaglePrefetchHelpingSpy: BeaglePrefetchHelping {
-    
-    private(set) var prefetched: [String] = []
-    private(set) var dequeued: [String] = []
-    var maximumScreensCapacity = 30
-    
-    func prefetchComponent(newPath: Route.NewPath) {
-        
-        prefetched.append(newPath.route)
-    }
-    
-    func dequeueComponent(path: String) -> ServerDrivenComponent? {
-        dequeued.append(path)
-        return nil
-    }
->>>>>>> feature/schema:iOS/Sources/BeagleUI/Sources/Components/Renderable/Button+Renderable/Tests/ButtonTests.swift
 }

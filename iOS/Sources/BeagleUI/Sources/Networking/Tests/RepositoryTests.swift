@@ -157,7 +157,7 @@ final class RepositoryTests: XCTestCase {
 // MARK: - Testing Helpers
 
 final class ComponentDecodingStub: ComponentDecoding {
-    func register<T>(_ type: T.Type, for typeName: String) where T: Schema.ServerDrivenComponent { }
+    func register<T>(_ type: T.Type, for typeName: String) where T: Schema.ServerDrivenComponent {}
     func componentType(forType type: String) -> Decodable.Type? { return nil }
     func actionType(forType type: String) -> Decodable.Type? { return nil }
     
