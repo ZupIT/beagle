@@ -20,7 +20,6 @@ import android.content.Context
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.view.BeagleActivity
-import br.com.zup.beagle.view.BeagleFragment
 import br.com.zup.beagle.view.ServerDrivenState
 
 internal class ActionExecutor(
@@ -40,12 +39,11 @@ internal class ActionExecutor(
             is Navigate -> navigationActionHandler.handle(context, action)
             is ShowNativeDialog -> showNativeDialogActionHandler.handle(context, action)
             is FormValidation -> formValidationActionHandler?.handle(context, action)
-            is SendRequestAction -> sendRequestActionHandler.handle(rootView, action,
-                object : SendRequestActionHandler.SendRequestListener {
-                    override fun execute(actions: List<Action>) {
-                        actions.forEach { action -> doAction(rootView, action) }
-                    }
-                })
+            is SendRequestAction -> sendRequestActionHandler.handle(rootView = rootView,
+                action = action) { actions ->
+                actions.forEach { action -> doAction(rootView, action) }
+            }
+
             is CustomAction -> customActionHandler?.handle(context, action, object : ActionListener {
 
                 override fun onSuccess(action: Action) {

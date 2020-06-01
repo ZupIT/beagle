@@ -17,16 +17,21 @@
 package br.com.zup.beagle.action
 
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.action.request.presentation.ActionRequestViewModel
 import br.com.zup.beagle.action.request.presentation.mapper.toRequest
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.view.ViewFactory
 
+
+internal typealias SendRequestListener = (actions: List<Action>) -> Unit
+
 internal class SendRequestActionHandler {
 
-    fun handle(rootView: RootView, action: SendRequestAction, listener: SendRequestListener) {
-        val viewModel = ViewModelProvider(rootView.getViewModelStoreOwner()).get(ActionRequestViewModel::class.java)
+    fun handle(rootView: RootView, action: SendRequestAction, viewModel: ActionRequestViewModel =
+        ViewModelProvider(rootView.getViewModelStoreOwner()).get(ActionRequestViewModel::class.java),
+               listener: SendRequestListener) {
         viewModel.fetch(action.toRequest())
             .observe(rootView.getLifecycleOwner(), Observer { state ->
                 val actions = mutableListOf<Action>()
@@ -43,13 +48,9 @@ internal class SendRequestActionHandler {
                 }
 
                 if (actions.isNotEmpty()) {
-                    listener.execute(actions)
+                    listener(actions)
                 }
 
             })
-    }
-
-    interface SendRequestListener {
-        fun execute(actions: List<Action>)
     }
 }
