@@ -29,17 +29,18 @@ import br.com.zup.beagle.utils.CoroutineDispatchers
 import br.com.zup.beagle.view.ScreenRequest
 import br.com.zup.beagle.widget.layout.ScreenComponent
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Delay
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Observable
 import java.util.concurrent.atomic.AtomicReference
 
 sealed class ViewState {
     data class Error(val throwable: Throwable) : ViewState()
-    class Loading(val value: Boolean) : ViewState()
-    class DoRender(val screenId: String?, val component: ServerDrivenComponent) : ViewState()
-    class DoAction(val action: Action) : ViewState()
+    data class Loading(val value: Boolean) : ViewState()
+    data class DoRender(val screenId: String?, val component: ServerDrivenComponent) : ViewState()
 }
 
 internal class BeagleViewModel(
@@ -53,30 +54,30 @@ internal class BeagleViewModel(
 
     fun fetchComponent(screenRequest: ScreenRequest, screen: ScreenComponent? = null): LiveData<ViewState> {
         val state = MutableLiveData<ViewState>()
-        launch {
-            if (screenRequest.url.isNotEmpty()) {
-                try {
-                    if (hasFetchInProgress(screenRequest.url)) {
-                        waitFetchProcess(screenRequest.url, state)
-                    } else {
-                        setLoading(screenRequest.url, true, state)
-                        val component = componentRequester.fetchComponent(screenRequest)
-                        state.value = ViewState.DoRender(screenRequest.url, component)
+        return state.also {
+            launch {
+                if (screenRequest.url.isNotEmpty()) {
+                    try {
+                        if (hasFetchInProgress(screenRequest.url)) {
+                            waitFetchProcess(screenRequest.url, state)
+                        } else {
+                            setLoading(screenRequest.url, true, state)
+                            val component = componentRequester.fetchComponent(screenRequest)
+                            state.value = ViewState.DoRender(screenRequest.url, component)
+                        }
+                    } catch (exception: BeagleException) {
+                        if (screen != null) {
+                            state.value = ViewState.DoRender(screen.identifier, screen)
+                        } else {
+                            state.value = ViewState.Error(exception)
+                        }
                     }
-                } catch (exception: BeagleException) {
-                    if (screen != null) {
-                        state.value = ViewState.DoRender(screen.identifier, screen)
-                    } else {
-                        state.value = ViewState.Error(exception)
-                    }
+                    setLoading(screenRequest.url, false, state)
+                } else if (screen != null) {
+                    state.value = ViewState.DoRender(screen.identifier, screen)
                 }
-                setLoading(screenRequest.url, false, state)
-            } else if (screen != null) {
-                state.value = ViewState.DoRender(screen.identifier, screen)
             }
         }
-
-        return state
     }
 
     private fun setLoading(url: String, loading: Boolean, state: MutableLiveData<ViewState>) {

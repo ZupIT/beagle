@@ -12,7 +12,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *//*
+
 
 package br.com.zup.beagle.utils
 
@@ -222,4 +223,4 @@ class ToolbarManagerTest : BaseTest() {
         verify(exactly = once()) { menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS) }
         verify(exactly = once()) { menuItem.icon = icon }
     }
-}
+}*/
