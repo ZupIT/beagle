@@ -328,6 +328,8 @@ class BeagleContextDummy: BeagleUI.BeagleContext {
     func register(events: [Event], inView view: UIView) { }
 }
 
+let renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: BeagleScreenDependencies())
+
 struct NavigatorDependencies: BeagleNavigator.Dependencies {
     var deepLinkHandler: DeepLinkScreenManaging?
     var urlBuilder: UrlBuilderProtocol = UrlBuilder()

@@ -48,14 +48,12 @@ final class ScrollViewTests: XCTestCase {
     
     func test_toView_shouldReturnTheExpectedView() {
         // Given
-        let dependencies = BeagleScreenDependencies()
-        
         let container = ScrollView(children: [
             ComponentDummy()
         ])
 
         // When
-        let resultingView = container.toView(context: BeagleContextDummy(), dependencies: dependencies)
+        let resultingView = renderer.render(container)
         
         // Then
         XCTAssert(resultingView.subviews.count == 1)

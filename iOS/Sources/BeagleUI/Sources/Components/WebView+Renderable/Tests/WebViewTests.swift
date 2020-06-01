@@ -26,7 +26,8 @@ final class WebViewTests: XCTestCase {
     func test_renderWebViewComponent() throws {
     
         let component: WebView = try componentFromJsonFile(fileName: "WebView")
-        let view = component.toView(context: BeagleContextDummy(), dependencies: BeagleDependencies())
-        assert(view is WebViewUIComponent)
+        let renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: BeagleDependencies())
+        let view = renderer.render(component)
+        XCTAssert(view is WebViewUIComponent)
     }
 }

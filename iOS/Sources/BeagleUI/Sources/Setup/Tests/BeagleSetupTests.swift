@@ -107,7 +107,7 @@ struct ComponentDummy: BeagleUI.ServerDrivenComponent, Equatable, CustomStringCo
         return "ComponentDummy()"
     }
     
-    func toView(context: BeagleUI.BeagleContext, dependencies: BeagleUI.RenderableDependencies) -> UIView {
+    func toView(renderer: BeagleRenderer) -> UIView {
         return DummyView()
     }
 }
@@ -130,6 +130,10 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
     var decoder: ComponentDecoding
     var logger: BeagleLoggerType
     var navigationControllerType = BeagleNavigationController.self
+
+    var renderer: (BeagleContext, RenderableDependencies) -> BeagleRenderer = {
+        return BeagleRenderer(context: $0, dependencies: $1)
+    }
 
     init(
         actionExecutor: ActionExecutor = ActionExecutorDummy(),

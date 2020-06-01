@@ -21,8 +21,7 @@ import Schema
 import SchemaTests
 
 class ImageTests: XCTestCase {
-    
-    private let dependencies = BeagleScreenDependencies()
+
     
     func test_toView_shouldReturnTheExpectedView() throws {
         //Given
@@ -30,7 +29,7 @@ class ImageTests: XCTestCase {
         let component = Image(name: "teste", contentMode: .fitXY)
         
         //When
-        guard let imageView = component.toView(context: BeagleContextDummy(), dependencies: dependencies) as? UIImageView else {
+        guard let imageView = renderer.render(component) as? UIImageView else {
             XCTFail("Build View not returning UIImageView")
             return
         }
@@ -40,15 +39,20 @@ class ImageTests: XCTestCase {
     }
     
     func test_renderImage() throws {
+        // Given
         let dependencies = BeagleDependencies()
         dependencies.appBundle = Bundle(for: ImageTests.self)
         Beagle.dependencies = dependencies
         addTeardownBlock {
             Beagle.dependencies = BeagleDependencies()
         }
+        let renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: dependencies)
 
+        // When
         let image: Image = try componentFromJsonFile(fileName: "ImageComponent")
-        let view = image.toView(context: BeagleContextDummy(), dependencies: dependencies)
+        let view = renderer.render(image)
+
+        // Then
         assertSnapshotImage(view, size: CGSize(width: 400, height: 400))
     }
 }

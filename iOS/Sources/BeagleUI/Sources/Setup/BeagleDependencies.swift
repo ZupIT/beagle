@@ -31,6 +31,7 @@ public protocol BeagleDependenciesProtocol: DependencyActionExecutor,
     RenderableDependencies,
     DependencyWindowManager,
     DependencyURLOpener,
+    DependencyCacheManager,
     DependencyRenderer {
 }
 

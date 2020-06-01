@@ -38,9 +38,10 @@ final class LazyComponentTests: XCTestCase {
         // Given
         let lazyComponent = LazyComponent(path: "path", initialState: ComponentDummy())
         let context = BeagleContextSpy()
+        let renderer = BeagleRenderer(context: context, dependencies: BeagleScreenDependencies())
         
         // When
-        _ = lazyComponent.toView(context: context, dependencies: BeagleScreenDependencies())
+        _ = renderer.render(lazyComponent)
         
         // Then
         XCTAssertTrue(context.didCallLazyLoad)

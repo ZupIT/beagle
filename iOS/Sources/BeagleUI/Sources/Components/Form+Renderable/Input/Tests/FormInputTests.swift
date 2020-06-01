@@ -25,7 +25,7 @@ final class FormInputTests: XCTestCase {
         let formInput = FormInput(name: "username", child: ComponentDummy())
         
         // When
-        let formInputView = formInput.toView(context: BeagleContextDummy(), dependencies: BeagleScreenDependencies())
+        let formInputView = renderer.render(formInput)
         
         // Then
         XCTAssertTrue(formInputView.beagleFormElement is FormInput)
@@ -38,7 +38,7 @@ final class FormInputTests: XCTestCase {
         let formInputHiden = FormInputHidden(name: name, value: value)
         
         // When
-        let view = formInputHiden.toView(context: BeagleContextDummy(), dependencies: BeagleScreenDependencies()) as? InputValue
+        let view = renderer.render(formInputHiden) as? InputValue
         
         // Then
         XCTAssert(view?.getValue() is String)

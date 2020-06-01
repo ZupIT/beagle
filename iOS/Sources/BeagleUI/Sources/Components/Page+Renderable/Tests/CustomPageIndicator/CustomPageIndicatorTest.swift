@@ -49,7 +49,7 @@ class CustomPageIndicatorTest: XCTestCase {
     }
 
     func test_indicator_render() {
-        let view = indicator.toView(context: BeagleContextDummy(), dependencies: dependencies)
+        let view = renderer.render(indicator)
         assertSnapshotImage(view, size: .init(width: 200, height: 30))
     }
 

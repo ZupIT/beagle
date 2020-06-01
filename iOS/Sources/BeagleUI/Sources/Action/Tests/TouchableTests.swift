@@ -23,7 +23,8 @@ final class TouchableTests: XCTestCase {
 
     func testTouchableView() throws {
         let touchable = Touchable(action: Navigate.popView, child: Text("Touchable"))
-        let view = touchable.toView(context: BeagleContextDummy(), dependencies: BeagleDependencies())
+        let renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: BeagleDependencies())
+        let view = renderer.render(touchable)
 
         assertSnapshotImage(view, size: CGSize(width: 100, height: 80))
     }
@@ -38,6 +39,8 @@ final class TouchableTests: XCTestCase {
             actionExecutor: actionExecutorSpy,
             analytics: analyticsExecutorSpy
         )
+
+        let renderer = BeagleRenderer(context: context, dependencies: dependencies)
         
         let controller = BeagleScreenViewController(viewModel: .init(
             screenType: .declarative(component.content.toScreen()),
@@ -53,7 +56,7 @@ final class TouchableTests: XCTestCase {
         let actionDummy = ActionDummy()
         let analyticsAction = AnalyticsClick(category: "some category")
         let touchable = Touchable(action: actionDummy, clickAnalyticsEvent: analyticsAction, child: Text("mocked text"))
-        let view = touchable.toView(context: context, dependencies: dependencies)
+        let view = renderer.render(touchable)
         
         sut.register(events: [.action(actionDummy), .analytics(analyticsAction)], inView: view)
         

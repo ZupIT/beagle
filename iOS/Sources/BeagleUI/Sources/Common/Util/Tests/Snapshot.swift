@@ -29,6 +29,8 @@ func assertSnapshotImage(
     testName: String = #function,
     line: UInt = #line
 ) {
+    SnapshotTesting.diffTool = "ksdiff"
+
     let strategy: Snapshotting<UIView, UIImage> = Snapshotting.image(
         precision: imageDiffPrecision,
         size: size ?? imageSize
@@ -52,6 +54,8 @@ func assertSnapshotImage(
     testName: String = #function,
     line: UInt = #line
 ) {
+    SnapshotTesting.diffTool = "ksdiff"
+
     let strategy: Snapshotting<UIViewController, UIImage> = Snapshotting.image(
         precision: imageDiffPrecision,
         size: size ?? imageSize

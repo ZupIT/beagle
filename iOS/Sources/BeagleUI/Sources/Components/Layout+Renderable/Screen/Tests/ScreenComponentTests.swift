@@ -102,6 +102,7 @@ final class ScreenComponentTests: XCTestCase {
     func test_shouldPrefetchNavigateAction() {
         let prefetch = BeaglePrefetchHelpingSpy()
         let dependencies = BeagleScreenDependencies(preFetchHelper: prefetch)
+        let renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: dependencies)
         
         let navigatePath = "button-item-prefetch"
         let navigate = Navigate.pushView(.remote(navigatePath, shouldPrefetch: true))
@@ -111,7 +112,7 @@ final class ScreenComponentTests: XCTestCase {
             child: ComponentDummy()
         )
         
-        _ = screen.toView(context: BeagleContextDummy(), dependencies: dependencies)
+        _ = renderer.render(screen)
         XCTAssertEqual([navigatePath], prefetch.prefetched)
     }
     

@@ -21,6 +21,10 @@ public protocol ServerDrivenComponent: Decodable {
     
 }
 
+public protocol ComposeComponent: ServerDrivenComponent {
+    func build() -> ServerDrivenComponent
+}
+
 extension ServerDrivenComponent {
     public func toScreen() -> Screen {
         let screen = self as? ScreenComponent

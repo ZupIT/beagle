@@ -37,7 +37,7 @@ public struct CustomPageIndicator: PageIndicatorComponent, BeagleUI.ServerDriven
         self.defaultColor = defaultColor
     }
     
-    public func toView(context: BeagleUI.BeagleContext, dependencies: BeagleUI.RenderableDependencies) -> UIView {
+    public func toView(renderer: BeagleRenderer) -> UIView {
         return CustomPageIndicatorUIComponent()
     }
 }

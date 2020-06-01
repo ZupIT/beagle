@@ -36,9 +36,10 @@ final class FormTests: XCTestCase {
     func test_buildView_shouldRegisterFormSubmit() throws {
         // Given
         let context = BeagleContextSpy()
+        let renderer = BeagleRenderer(context: context, dependencies: dependencies)
                 
         // When
-        _ = form.toView(context: context, dependencies: dependencies)
+        _ = renderer.render(form)
         
         // Then
         XCTAssertTrue(context.didCallRegisterFormSubmit)
@@ -73,11 +74,12 @@ final class FormTests: XCTestCase {
             return false
         }
 
-        let view = Form(action: ActionDummy(), child: Container(children: [
+        let form = Form(action: ActionDummy(), child: Container(children: [
             FormInput(name: "name", required: true, validator: validator1, child: InputComponent(value: "John Doe")),
             FormInput(name: "password", required: true, validator: validator2, child: InputComponent(value: "password")),
             FormSubmit(child: Button(text: "Add"))
-        ])).toView(context: screen, dependencies: dependencies)
+        ]))
+        let view = renderer.render(form)
 
         let gesture = submitGesture(in: view)
 
@@ -125,7 +127,9 @@ final class FormTests: XCTestCase {
         XCTAssertFalse(actionExecutorSpy.didCallDoAction)
     }
 
-    private lazy var formView = form.toView(context: screen, dependencies: dependencies)
+    private lazy var formView = renderer.render(form)
+
+    private lazy var renderer = BeagleRenderer(context: screen, dependencies: dependencies)
 
     private lazy var screen = BeagleScreenViewController(viewModel: .init(
         screenType: .declarative(SimpleComponent().content.toScreen()),
@@ -162,7 +166,7 @@ final class FormTests: XCTestCase {
 private struct InputComponent: BeagleUI.ServerDrivenComponent {
     let value: String
 
-    func toView(context: BeagleUI.BeagleContext, dependencies: BeagleUI.RenderableDependencies) -> UIView {
+    func toView(renderer: BeagleRenderer) -> UIView {
         return InputStub(value: value)
     }
 }

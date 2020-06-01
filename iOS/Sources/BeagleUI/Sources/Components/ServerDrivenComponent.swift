@@ -19,17 +19,19 @@ import Schema
 
 public protocol ServerDrivenComponent: Renderable, Schema.ServerDrivenComponent {}
 
-public protocol ComposeComponent: ServerDrivenComponent {
-    func build() -> ServerDrivenComponent
-}
+public protocol ComposeComponent: Renderable, Schema.ComposeComponent {}
 
 extension ComposeComponent {
     public func toView(renderer: BeagleRenderer) -> UIView {
-        return build().toView(renderer: renderer)
+        return renderer.render(build())
     }
 }
 
 public protocol Renderable {
+
+    /// here is where your component should turn into a UIView. If your component has child components,
+    /// let *renderer* do the job to render those children into UIViews; don't call this method directly
+    /// in your children.
     func toView(renderer: BeagleRenderer) -> UIView
 }
 

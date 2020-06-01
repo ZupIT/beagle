@@ -23,11 +23,10 @@ final class SpacerTests: XCTestCase {
     
     func test_toView_shouldReturnTheExpectedView() {
         // Given
-        let dependencies = BeagleScreenDependencies()
         let spacer = Spacer(1.0)
         
         // When
-        let view = spacer.toView(context: BeagleContextDummy(), dependencies: dependencies)
+        let view = renderer.render(spacer)
         view.backgroundColor = .blue
         
         // Then

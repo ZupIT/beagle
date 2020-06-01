@@ -33,14 +33,15 @@ class TextTests: XCTestCase {
     private lazy var dependencies = BeagleScreenDependencies(
         theme: theme
     )
+
+    private lazy var renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: dependencies)
     
     func testEqualTextContent() throws {
         // Given
         let component = Text("Test")
-        let context = BeagleContextDummy()
         
         // When
-        guard let label = component.toView(context: context, dependencies: dependencies) as? UITextView else {
+        guard let label = renderer.render(component) as? UITextView else {
             XCTFail("Unable to type cast to UITextView.")
             return
         }
@@ -52,10 +53,9 @@ class TextTests: XCTestCase {
     func testTextWithRightAlignment() throws {
         // Given
         let component = Text("Test")
-        let context = BeagleContextDummy()
         
         // When
-        guard let label = component.toView(context: context, dependencies: dependencies) as? UITextView else {
+        guard let label = renderer.render(component) as? UITextView else {
             XCTFail("Unable to type cast to UITextView.")
             return
         }
@@ -67,10 +67,9 @@ class TextTests: XCTestCase {
     func testTextWithLeftAlignment() throws {
         // Given
         let component = Text("Test", alignment: .left)
-        let context = BeagleContextDummy()
         
         // When
-        guard let label = component.toView(context: context, dependencies: dependencies) as? UITextView else {
+        guard let label = renderer.render(component) as? UITextView else {
             XCTFail("Unable to type cast to UITextView.")
             return
         }
@@ -81,7 +80,7 @@ class TextTests: XCTestCase {
 
     func test_renderTextComponent() throws {
         let component: Text = try componentFromJsonFile(fileName: "TextComponent")
-        let view = component.toView(context: BeagleContextDummy(), dependencies: dependencies)
+        let view = renderer.render(component)
         assertSnapshotImage(view, size: CGSize(width: 300, height: 150))
     }
 

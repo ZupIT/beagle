@@ -146,10 +146,8 @@ final class ListViewTests: XCTestCase {
     // MARK: - Helper
 
     private func makeListUiView(_ listComponent: ListView) -> UIView {
-        return listComponent.toView(
-            context: BeagleContextDummy(),
-            dependencies: BeagleDependencies()
-        )
+        let renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: BeagleDependencies())
+        return renderer.render(listComponent)
     }
 
     private static func createText(_ string: String, position: Double) -> Text {

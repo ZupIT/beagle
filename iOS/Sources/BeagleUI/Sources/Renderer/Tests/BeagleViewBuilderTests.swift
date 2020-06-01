@@ -23,13 +23,10 @@ final class BeagleViewBuilderTests: XCTestCase {
     func test_buildFromRootComponent_shouldReturnTheExpectedRootView() {
         // Given
         let component = Text("Text")
-        let context = BeagleContextDummy()
+        let renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: BeagleDependencies())
         
         // When
-        let rootView = component.toView(
-            context: context,
-            dependencies: BeagleDependencies()
-        )
+        let rootView = renderer.render(component)
         
         // Then
         XCTAssertTrue(rootView is UITextView, "Expected a `UITextView`, but got \(String(describing: rootView)).")
