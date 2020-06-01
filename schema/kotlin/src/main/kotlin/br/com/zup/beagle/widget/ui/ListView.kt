@@ -59,26 +59,24 @@ data class ListView(
     val rows: List<ServerDrivenComponent>,
     val direction: ListDirection = ListDirection.VERTICAL
 ) : ServerDrivenComponent, LayoutComponent {
+    companion object {}
+}
 
-    companion object {
-        @JvmStatic
-        fun dynamic(
-            size: Int,
-            direction: ListDirection = ListDirection.VERTICAL,
-            rowBuilder: RowBuilder
-        ): ListView {
-            val rows = generateRows(size, rowBuilder)
-            return ListView(rows = rows, direction = direction)
-        }
+fun ListView.Companion.dynamic(
+    size: Int,
+    direction: ListDirection = ListDirection.VERTICAL,
+    rowBuilder: RowBuilder
+): ListView {
+    val rows = generateRows(size, rowBuilder)
+    return ListView(rows = rows, direction = direction)
+}
 
-        private fun generateRows(size: Int, rowBuilder: RowBuilder): List<Widget> {
-            val children = mutableListOf<Widget>()
+private fun generateRows(size: Int, rowBuilder: RowBuilder): List<Widget> {
+    val children = mutableListOf<Widget>()
 
-            for (i in 0 until size) {
-                children.add(rowBuilder(i))
-            }
-
-            return children
-        }
+    for (i in 0 until size) {
+        children.add(rowBuilder(i))
     }
+
+    return children
 }
