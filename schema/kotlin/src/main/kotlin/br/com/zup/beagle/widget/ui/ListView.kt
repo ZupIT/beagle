@@ -59,7 +59,7 @@ data class ListView(
     val rows: List<ServerDrivenComponent>,
     val direction: ListDirection = ListDirection.VERTICAL
 ) : ServerDrivenComponent, LayoutComponent {
-    companion object {}
+    companion object
 }
 
 fun ListView.Companion.dynamic(
