@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import UIKit
 import XCTest
 @testable import BeagleUI
 import Schema
@@ -24,20 +25,18 @@ final class SpacerTests: XCTestCase {
         // Given
         let dependencies = BeagleScreenDependencies()
         let spacer = Spacer(1.0)
-    
+        
         // When
         let view = spacer.toView(context: BeagleContextDummy(), dependencies: dependencies)
         view.backgroundColor = .blue
-
+        
         // Then
         assertSnapshotImage(view, size: CGSize(width: 100, height: 100))
     }
     
-//    func test_screenWithSpacedButtons() throws {
-//        let component: ScreenComponent = try componentFromJsonFile(fileName: "Spacer")
-//        let screen = component.toScreen()
-//        let view = screen.toView(context: BeagleContextDummy(), dependencies: BeagleScreenDependencies())
-//        let frame = view.frame
-//        assertSnapshotImage(view)
-//    }
+    func test_screenWithSpacedButtons() throws {
+        let component: ScreenComponent = try componentFromJsonFile(fileName: "Spacer")
+        let screen = Beagle.screen(.declarative(component.toScreen()))
+        assertSnapshotImage(screen)
+    }
 }

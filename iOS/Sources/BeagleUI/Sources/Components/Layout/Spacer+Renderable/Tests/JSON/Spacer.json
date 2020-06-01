@@ -1,113 +1,92 @@
 {
-  "_beagleType_" : "beagle:component:screencomponent",
-  "navigationBar" : {
-    "title" : "Beagle NavigationBar",
-    "showBackButton" : true,
-    "style" : "DesignSystem.Navigationbar.Style.Default",
-    "navigationBarItems" : [ {
-      "_beagleType_" : "beagle:component:navigationbaritem",
-      "text" : "Ajuda",
-      "image" : "informationImage",
-      "action" : {
-        "_beagleType_" : "beagle:action:shownativedialog",
-        "title" : "NavigationBar",
-        "message" : "This component that allows to place titles and button action.",
-        "buttonText" : "OK"
-      },
-      "accessibility" : {
-        "accessible" : true,
-        "accessibilityLabel" : "Content Description"
-      },
-      "id" : "nbiInformation"
-    } ],
-    "backButtonAccessibility" : {
-      "accessible" : true,
-      "accessibilityLabel" : "Voltar"
+    "_beagleType_":"beagle:component:screencomponent",
+    "child":{
+        "_beagleType_":"beagle:component:container",
+        "children":[
+            {
+                "_beagleType_":"beagle:component:button",
+                "text":"Button 1"
+            },
+            {
+                "_beagleType_":"beagle:component:container",
+                "appearance":{
+                    "backgroundColor":"#500000FF",
+                },
+                "children":[
+                    {
+                        "_beagleType_":"beagle:component:spacer",
+                        "size":5.0
+                    },
+                ]
+            },
+            {
+                "_beagleType_":"beagle:component:button",
+                "text":"Button 2"
+            },
+            {
+                "_beagleType_":"beagle:component:container",
+                "appearance":{
+                    "backgroundColor":"#500000FF",
+                },
+                "children":[
+                    {
+                        "_beagleType_":"beagle:component:spacer",
+                        "size":10.0
+                    },
+                ]
+            },
+            {
+                "_beagleType_":"beagle:component:text",
+                "text":"Text 1"
+            },
+            {
+                "_beagleType_":"beagle:component:container",
+                "appearance":{
+                    "backgroundColor":"#500000FF",
+                },
+                "children":[
+                    {
+                        "_beagleType_":"beagle:component:spacer",
+                        "size":15.0
+                    },
+                ]
+            },
+            {
+                "_beagleType_":"beagle:component:button",
+                "text":"Button 3"
+            },
+            {
+                "_beagleType_":"beagle:component:container",
+                "appearance":{
+                    "backgroundColor":"#500000FF",
+                },
+                "children":[
+                    {
+                        "_beagleType_":"beagle:component:spacer",
+                        "size": -15.0
+                    },
+                ]
+            },
+            {
+                "_beagleType_":"beagle:component:text",
+                "text":"Text 2"
+            },
+            {
+                "_beagleType_":"beagle:component:container",
+                "appearance":{
+                    "backgroundColor":"#500000FF",
+                },
+                "children":[
+                    {
+                        "_beagleType_":"beagle:component:spacer",
+                        "size":0.0
+                    },
+                ]
+            },
+            {
+                "_beagleType_":"beagle:component:button",
+                "text":"Button 4"
+            }
+        ]
     }
-  },
-  "child" : {
-    "_beagleType_" : "beagle:component:container",
-    "children" : [ {
-      "_beagleType_" : "beagle:component:button",
-      "text" : "Button 1",
-      "style" : "DesignSystem.Button.Style",
-      "action" : {
-        "_beagleType_" : "beagle:action:navigate",
-        "type" : "ADD_VIEW",
-        "shouldPrefetch" : false,
-        "path" : "/navigationbar"
-      },
-      "flex" : {
-        "margin" : {
-          "top" : {
-            "value" : 8.0,
-            "type" : "REAL"
-          }
-        }
-      }
-    }, {
-      "_beagleType_" : "beagle:component:spacer",
-      "size" : 5.0
-    }, {
-      "_beagleType_" : "beagle:component:button",
-      "text" : "Button 2",
-      "style" : "DesignSystem.Button.Style",
-      "action" : {
-        "_beagleType_" : "beagle:action:navigate",
-        "type" : "ADD_VIEW",
-        "shouldPrefetch" : false,
-        "path" : "/navigationbar/style"
-      },
-      "flex" : {
-        "margin" : {
-          "top" : {
-            "value" : 8.0,
-            "type" : "REAL"
-          }
-        }
-      }
-    }, {
-      "_beagleType_" : "beagle:component:spacer",
-      "size" : 10.0
-    }, {
-      "_beagleType_" : "beagle:component:button",
-      "text" : "Button 3",
-      "style" : "DesignSystem.Button.Style",
-      "action" : {
-        "_beagleType_" : "beagle:action:navigate",
-        "type" : "ADD_VIEW",
-        "shouldPrefetch" : false,
-        "path" : "/navigationbar/item/text"
-      },
-      "flex" : {
-        "margin" : {
-          "top" : {
-            "value" : 8.0,
-            "type" : "REAL"
-          }
-        }
-      }
-    }, {
-      "_beagleType_" : "beagle:component:spacer",
-      "size" : 0.0
-    }, {
-      "_beagleType_" : "beagle:component:button",
-      "text" : "Button 4",
-      "style" : "DesignSystem.Button.Style",
-      "action" : {
-        "_beagleType_" : "beagle:action:navigate",
-        "type" : "ADD_VIEW",
-        "shouldPrefetch" : false,
-        "path" : "/navigationbar/item/image"
-      },
-      "flex" : {
-        "margin" : {
-          "top" : {
-            "value" : 8.0,
-            "type" : "REAL"
-          }
-        }
-      }
-    } ]
-  }
 }
