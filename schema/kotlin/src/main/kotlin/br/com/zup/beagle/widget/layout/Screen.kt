@@ -54,20 +54,24 @@ data class SafeArea(
  * @param accessibility define Accessibility details for the item
  *
  */
+
+interface NavigationBarItemTemplate : IdentifierComponent {
+    fun setId(id: String) : NavigationBarItem
+}
+
 data class NavigationBarItem(
     val text: String,
     val image: String? = null,
     val action: Action,
     val accessibility: Accessibility? = null
-) : IdentifierComponent {
+) : NavigationBarItemTemplate {
     override var id: String? = null
         private set
-
     /**
      * Add an identifier to this widget.
      * @return the current navigation bar item
      */
-    fun setId(id: String): NavigationBarItem {
+    override fun setId(id: String): NavigationBarItem {
         this.id = id
         return this
     }
