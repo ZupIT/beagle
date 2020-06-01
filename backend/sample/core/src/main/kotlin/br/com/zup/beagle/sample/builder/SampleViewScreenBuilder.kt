@@ -40,7 +40,7 @@ object SampleViewScreenBuilder : ScreenBuilder {
                 NavigationBarItem(
                     text = "Second",
                     image = "question",
-                    action = Navigate.PopView
+                    action = Navigate.PopView()
                 )
             )
         ),
