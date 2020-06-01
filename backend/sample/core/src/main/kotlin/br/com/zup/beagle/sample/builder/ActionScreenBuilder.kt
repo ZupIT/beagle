@@ -129,7 +129,8 @@ object ActionScreenBuilder : ScreenBuilder {
         children = listOf(
             Text("Navigate with prefetch"),
             Button(
-                onPress = listOf(Navigate.PushView(Route.Remote(shouldPrefetch = true, route = SCREEN_ACTION_CLICK_ENDPOINT))),
+                onPress = listOf(Navigate.PushView(Route.Remote(shouldPrefetch = true,
+                    route = SCREEN_ACTION_CLICK_ENDPOINT))),
                 text = "Click me!"
             )
         )
