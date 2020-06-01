@@ -19,6 +19,7 @@ package br.com.zup.beagle.data.serializer.adapter
 import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.widget.layout.Screen
 import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
 import com.squareup.moshi.Moshi
@@ -42,9 +43,10 @@ internal class RouteAdapter(private val moshi: Moshi) : JsonAdapter<Route>() {
         @Suppress("UNCHECKED_CAST")
         val value = jsonValue as Map<String, Any>
         return if (value.containsKey("route")) {
-            Route.Remote(value["route"] as String, value["shouldPrefetch"] as Boolean, value["fallback"] as Screen?)
+            Route.Remote(value["route"] as String, value["shouldPrefetch"] as Boolean, convertScreen(value["fallback"]))
         } else {
-            Route.Local(value["screen"] as Screen)
+            val message = "Expected a Screen for the screen key in $value."
+            Route.Local(convertScreen(value["screen"]) ?: throw JsonDataException(message))
         }
     }
 
@@ -66,4 +68,7 @@ internal class RouteAdapter(private val moshi: Moshi) : JsonAdapter<Route>() {
         }
         writer.endObject()
     }
+
+    private fun convertScreen(value: Any?) =
+        moshi.adapter(Screen::class.java).fromJsonValue(value)
 }
