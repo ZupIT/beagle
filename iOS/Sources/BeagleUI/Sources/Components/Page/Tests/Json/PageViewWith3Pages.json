@@ -1,10 +1,10 @@
 
 {
-    "_beagleType_": "beagle:component:pageView",
+    "_beagleComponent_": "beagle:pageView",
 
     "pages": [
         {
-            "_beagleType_": "beagle:component:container",
+            "_beagleComponent_": "beagle:container",
             "flex": {
                 "flexDirection": "COLUMN",
                 "flexWrap": "NO_WRAP",
@@ -12,21 +12,21 @@
             },
             "children": [
                 {
-                    "_beagleType_": "beagle:component:text",
+                    "_beagleComponent_": "beagle:text",
                     "text": "1 This is a text"
                 },
                 {
-                    "_beagleType_": "beagle:component:text",
+                    "_beagleComponent_": "beagle:text",
                     "text": "This is a text"
                 },
                 {
-                    "_beagleType_": "beagle:component:text",
+                    "_beagleComponent_": "beagle:text",
                     "text": "This is a text"
                 }
             ]
         },
         {
-            "_beagleType_": "beagle:component:container",
+            "_beagleComponent_": "beagle:container",
             "flex": {
                 "flexDirection": "COLUMN",
                 "flexWrap": "NO_WRAP",
@@ -34,21 +34,21 @@
             },
             "children": [
                 {
-                    "_beagleType_": "beagle:component:text",
+                    "_beagleComponent_": "beagle:text",
                     "text": "2 This is a text"
                 },
                 {
-                    "_beagleType_": "beagle:component:text",
+                    "_beagleComponent_": "beagle:text",
                     "text": "This is a text"
                 },
                 {
-                    "_beagleType_": "beagle:component:text",
+                    "_beagleComponent_": "beagle:text",
                     "text": "This is a text"
                 }
             ]
         },
         {
-            "_beagleType_": "beagle:component:container",
+            "_beagleComponent_": "beagle:container",
             "flex": {
                 "flexDirection": "COLUMN",
                 "flexWrap": "NO_WRAP",
@@ -56,15 +56,15 @@
             },
             "children": [
                 {
-                    "_beagleType_": "beagle:component:text",
+                    "_beagleComponent_": "beagle:text",
                     "text": "3 This is a text"
                 },
                 {
-                    "_beagleType_": "beagle:component:text",
+                    "_beagleComponent_": "beagle:text",
                     "text": "This is a text"
                 },
                 {
-                    "_beagleType_": "beagle:component:text",
+                    "_beagleComponent_": "beagle:text",
                     "text": "This is a text"
                 }
             ]
