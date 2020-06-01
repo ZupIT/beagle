@@ -45,7 +45,7 @@ internal class RouteAdapter(private val moshi: Moshi) : JsonAdapter<Route>() {
         return if (value.containsKey("route")) {
             Route.Remote(value["route"] as String, value["shouldPrefetch"] as Boolean, convertScreen(value["fallback"]))
         } else {
-            val message = "Excepted a Screen in the screen key in $value."
+            val message = "Expected a Screen for the screen key in $value."
             Route.Local(convertScreen(value["screen"]) ?: throw JsonDataException(message))
         }
     }
