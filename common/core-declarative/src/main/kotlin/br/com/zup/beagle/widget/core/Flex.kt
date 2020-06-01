@@ -25,7 +25,6 @@ package br.com.zup.beagle.widget.core
  * @param flexDirection
  *                          controls the direction in which the children of a node are laid out.
  *                          This is also referred to as the main axis
- * @param direction specifies the direction in which children and text in a hierarchy should be laid out.
  * @param flexWrap
  *                  set on containers and controls what happens when children
  *                  overflow the size of the container along the main axis.
@@ -60,7 +59,6 @@ package br.com.zup.beagle.widget.core
  */
 data class Flex(
     val flexDirection: FlexDirection? = null, /* = FlexDirection.COLUMN */
-    val direction: Direction? = null, /* = Direction.LTR */
     val flexWrap: FlexWrap? = null, /* = FlexWrap.NO_WRAP */
     val justifyContent: JustifyContent? = null, /* = JustifyContent.FLEX_START */
     val alignItems: AlignItems? = null, /* = Alignment.STRETCH */
@@ -145,7 +143,6 @@ data class EdgeValue(
     val all: UnitValue? = null
 )
 
-
 /**
  *  controls the direction in which the children of a node are laid out. This is also referred to as the main axis.
  *  The cross axis is the axis perpendicular to the main axis, or the axis which the wrapping lines are laid out in.
@@ -179,34 +176,6 @@ enum class FlexDirection {
      *  then the next line will start under the first item on the right of the container.
      */
     ROW_REVERSE
-}
-
-/**
- * Layout direction specifies the direction in which children and text in a hierarchy should be laid out.
- * Layout direction also affects what edge start and end refer to.
- * By default, React Native lays out with LTR layout direction.
- * In this mode start refers to left and end refers to right.
- *
- * @property LTR
- * @property RTL
- */
-enum class Direction {
-    /**
-     *  Get direction from parent
-     */
-    INHERIT,
-
-    /**
-     *  Text and children are laid out from left to right.
-     *  Margin and padding applied to the start of an element are applied on the left side.
-     */
-    LTR,
-
-    /**
-     *  Text and children are laid out from right to left.
-     *  Margin and padding applied to the start of an element are applied on the right side.
-     */
-    RTL
 }
 
 /**

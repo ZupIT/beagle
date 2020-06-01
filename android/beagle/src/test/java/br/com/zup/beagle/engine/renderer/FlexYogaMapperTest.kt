@@ -19,7 +19,6 @@ package br.com.zup.beagle.engine.renderer
 import br.com.zup.beagle.engine.mapper.makeYogaAlignContent
 import br.com.zup.beagle.engine.mapper.makeYogaAlignItems
 import br.com.zup.beagle.engine.mapper.makeYogaAlignSelf
-import br.com.zup.beagle.engine.mapper.makeYogaDirection
 import br.com.zup.beagle.engine.mapper.makeYogaDisplay
 import br.com.zup.beagle.engine.mapper.makeYogaFlexDirection
 import br.com.zup.beagle.engine.mapper.makeYogaJustify
@@ -29,13 +28,11 @@ import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.FlexWrap
-import br.com.zup.beagle.widget.core.Direction
 import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.core.FlexDisplay
 import br.com.zup.beagle.widget.core.FlexPositionType
 import br.com.zup.beagle.widget.core.JustifyContent
 import com.facebook.yoga.YogaAlign
-import com.facebook.yoga.YogaDirection
 import com.facebook.yoga.YogaDisplay
 import com.facebook.yoga.YogaFlexDirection
 import com.facebook.yoga.YogaJustify
@@ -414,56 +411,6 @@ class FlexYogaMapperTest {
 
         // When
         val actual = makeYogaJustify(justifyContent)
-
-        // Then
-        assertNull(actual)
-    }
-
-    @Test
-    fun makeYogaDirection_should_return_YogaDirection_INHERIT_when_ItemDirection_INHERIT() {
-        // Given
-        val direction = Direction.INHERIT
-
-        // When
-        val actual =
-            makeYogaDirection(direction)
-
-        // Then
-        assertEquals(YogaDirection.INHERIT, actual)
-    }
-
-    @Test
-    fun makeYogaDirection_should_return_YogaDirection_LTR_when_ItemDirection_LTR() {
-        // Given
-        val direction = Direction.LTR
-
-        // When
-        val actual =
-            makeYogaDirection(direction)
-
-        // Then
-        assertEquals(YogaDirection.LTR, actual)
-    }
-
-    @Test
-    fun makeYogaDirection_should_return_YogaDirection_RTL_when_ItemDirection_RTL() {
-        // Given
-        val direction = Direction.RTL
-
-        // When
-        val actual = makeYogaDirection(direction)
-
-        // Then
-        assertEquals(YogaDirection.RTL, actual)
-    }
-
-    @Test
-    fun makeYogaDirection_should_return_null_when_Direction_is_null() {
-        // Given
-        val direction: Direction? = null
-
-        // When
-        val actual = makeYogaDirection(direction)
 
         // Then
         assertNull(actual)
