@@ -17,10 +17,6 @@
 import Foundation
 import UIKit
 
-//protocol Bindable {
-//    func configureBinding() -> Void
-//}
-
 public protocol Renderable {
     func render(context: BeagleContext) -> UIView // toView
 }
@@ -88,7 +84,6 @@ struct Text: Component {
     func render(context: BeagleContext) -> UIView {
         let label = UILabel()
         switch text {
-        // TODO: make this reusable
         case let .expression(expression):
             context.bindingToConfig.append {
                 label.configBinding(for: expression) { label.text = $0 }
@@ -122,7 +117,6 @@ class CustomButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // TODO: create setContext Action
     @objc func touchAction() {
         let expression = Expression(nodes: [.property("myContext")])
         let context = self.findContext(for: expression)

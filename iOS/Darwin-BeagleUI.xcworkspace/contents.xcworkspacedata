@@ -31,9 +31,6 @@
       <FileRef
          location = "group:Libraries/YogaKit/YogaKit.playground">
       </FileRef>
-      <FileRef
-         location = "group:MiniBeagle.playground">
-      </FileRef>
    </Group>
    <Group
       location = "container:"

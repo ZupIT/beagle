@@ -22,14 +22,6 @@ struct Context {
     let value: Any
 }
 
-//extension UIView: ObserverProtocol {
-//    var id: String {
-//        get {
-//            self.accessibilityIdentifier ?? ""
-//        }
-//    }
-//}
-
 extension UIView {
     static var contextMapKey = "contextMapKey"
 

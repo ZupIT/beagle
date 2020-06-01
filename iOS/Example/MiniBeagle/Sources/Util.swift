@@ -16,11 +16,6 @@
 
 import Foundation
 
-// Observer pattern
-//protocol ObserverProtocol {
-//    var id : String { get }
-//}
-
 class Observable<T> {
     typealias CompletionHandler = ((T) -> Void)
 
@@ -37,10 +32,6 @@ class Observable<T> {
     func addObserver(completion: @escaping CompletionHandler) {
         self.observers.append(completion)
     }
-
-//    func removeObserver(_ observer: ObserverProtocol) {
-//        self.observers.removeValue(forKey: observer.id)
-//    }
 
     func notifyObservers() {
         observers.forEach { $0(value) }
