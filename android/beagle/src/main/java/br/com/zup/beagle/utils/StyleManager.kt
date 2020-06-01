@@ -80,7 +80,7 @@ class StyleManager(
     }
 
     fun getTabBarTypedArray(context: Context, style: String?): TypedArray? {
-        val tabStyle = designSystem?.tabBarStyle(style ?: "")
+        val tabStyle = designSystem?.tabViewStyle(style ?: "")
         return getTypedArray(
             context,
             tabStyle,

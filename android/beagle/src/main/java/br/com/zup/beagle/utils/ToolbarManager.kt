@@ -179,11 +179,13 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
         design?.let { designSystem ->
             items[i].image?.let { image ->
                 setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-                icon = ResourcesCompat.getDrawable(
-                    context.resources,
-                    designSystem.image(image),
-                    null
-                )
+                icon = designSystem.image(image)?.let {
+                    ResourcesCompat.getDrawable(
+                        context.resources,
+                        it,
+                        null
+                    )
+                }
             }
         }
     }

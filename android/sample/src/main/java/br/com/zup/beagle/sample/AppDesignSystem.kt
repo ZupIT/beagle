@@ -20,7 +20,7 @@ import br.com.zup.beagle.annotation.BeagleComponent
 import br.com.zup.beagle.setup.DesignSystem
 
 @BeagleComponent
-class AppDesignSystem : DesignSystem {
+class AppDesignSystem : DesignSystem() {
 
     override fun toolbarStyle(name: String): Int {
         return when(name) {
@@ -30,9 +30,9 @@ class AppDesignSystem : DesignSystem {
         }
     }
 
-    override fun tabBarStyle(name: String) = R.style.DesignSystem_TabView_Default
+    override fun tabViewStyle(name: String) = R.style.DesignSystem_TabView_Default
 
-    override fun image(name: String): Int {
+    override fun image(name: String): Int? {
         return when (name) {
             "imageBeagle" -> R.drawable.beagle_image
             "informationImage" -> android.R.drawable.ic_menu_help
@@ -47,7 +47,7 @@ class AppDesignSystem : DesignSystem {
         return R.style.AppTheme_NoToolbar
     }
 
-    override fun textAppearance(name: String): Int {
+    override fun textAppearance(name: String): Int? {
         return when (name) {
             "DesignSystem.Text.H2" -> R.style.DesignSystem_Text_H2
             "DesignSystem.Text.H3" -> R.style.DesignSystem_Text_H3
@@ -57,7 +57,7 @@ class AppDesignSystem : DesignSystem {
         }
     }
 
-    override fun buttonStyle(name: String): Int {
+    override fun buttonStyle(name: String): Int? {
         return when (name) {
             "DesignSystem.Button.White" -> R.style.DesignSystem_Button_White
             "DesignSystem.Button.Text" -> R.style.DesignSystem_Button_Text
