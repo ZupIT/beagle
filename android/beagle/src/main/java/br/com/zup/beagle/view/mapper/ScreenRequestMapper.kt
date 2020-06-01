@@ -39,7 +39,7 @@ internal object ScreenRequestMapper {
         val newUrl = urlBuilder.format(beagleEnvironment.beagleSdk.config.baseUrl, screenRequest.url)
         val method = generateRequestDataMethod(screenRequest.method)
         return RequestData(
-            uri = URI(newUrl!!),
+            uri = URI(newUrl),
             method = method,
             headers = screenRequest.headers,
             body = screenRequest.body

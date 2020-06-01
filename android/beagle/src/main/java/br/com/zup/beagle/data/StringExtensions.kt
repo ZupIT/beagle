@@ -26,7 +26,7 @@ import java.net.URI
 internal fun String.toRequestData(urlBuilder: UrlBuilder = UrlBuilderFactory().make(),
                                   beagleEnvironment: BeagleEnvironment = BeagleEnvironment,
                                   method: HttpMethod = HttpMethod.GET): RequestData {
-    val newUrl = this.formatUrl(urlBuilder, beagleEnvironment)!!
+    val newUrl = this.formatUrl(urlBuilder, beagleEnvironment)
     return RequestData(
         uri = URI(newUrl),
         method = method

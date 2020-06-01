@@ -28,7 +28,7 @@ internal fun Request.toRequestData(): RequestData = RequestMapper.toRequestData(
 internal object RequestMapper {
     fun toRequestData(request: Request): RequestData {
         val method = toHttpMethod(request.method)
-        val newUrl = request.url.formatUrl()!!
+        val newUrl = request.url.formatUrl()
 
         return RequestData(
             uri = URI(newUrl),
