@@ -17,7 +17,6 @@
 package br.com.zup.beagle.action
 
 import android.content.Context
-import android.content.Intent
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.navigation.DeepLinkHandler
 import br.com.zup.beagle.setup.BeagleEnvironment
@@ -28,7 +27,6 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.unmockkObject
 import io.mockk.verify
@@ -40,6 +38,7 @@ class NavigationActionHandlerTest {
 
     @MockK
     private lateinit var context: Context
+
     @MockK
     private lateinit var deepLinkHandler: DeepLinkHandler
 
@@ -62,163 +61,141 @@ class NavigationActionHandlerTest {
     }
 
     @Test
-    fun handle_should_call_openDeepLink_with_null_deepLinkHandler() {
+    fun handle_should_call_openNativeRoute_with_null_deepLinkHandler() {
         // Given
-        val navigate = Navigate(
-            type = NavigationType.OPEN_DEEP_LINK,
-            path = RandomData.httpUrl()
-        )
+        val navigate = Navigate.OpenNativeRoute(RandomData.httpUrl())
         every { BeagleEnvironment.beagleSdk.deepLinkHandler } returns null
 
         // When
         navigationActionHandler.handle(context, navigate)
 
         // Then
-        verify(exactly = 0) { deepLinkHandler.getDeepLinkIntent(any(), any()) }
+        verify(exactly = 0) { deepLinkHandler.getDeepLinkIntent(any(), any(), any()) }
     }
 
     @Test
-    fun handle_should_call_openDeepLink_to_startActivity() {
+    fun handle_should_call_openExternalURL() {
         // Given
-        val navigate = Navigate(
-            type = NavigationType.OPEN_DEEP_LINK,
-            path = RandomData.httpUrl()
-        )
-        val intent = mockk<Intent>()
-        every { context.startActivity(any()) } just Runs
-        every { BeagleEnvironment.beagleSdk.deepLinkHandler } returns deepLinkHandler
-        every { deepLinkHandler.getDeepLinkIntent(any(), any()) } returns intent
+        val url = RandomData.httpUrl()
+        val navigate = Navigate.OpenExternalURL(url)
+        every { BeagleNavigator.openExternalURL(any(), any()) } just Runs
 
         // When
         navigationActionHandler.handle(context, navigate)
 
         // Then
-        verify(exactly = once()) { context.startActivity(intent) }
+        verify(exactly = once()) { BeagleNavigator.openExternalURL(context, url) }
     }
 
     @Test
-    fun handle_should_not_try_to_call_deepLinkHandler() {
+    fun handle_should_call_openNativeRoute() {
         // Given
-        val navigate = Navigate(
-            type = NavigationType.OPEN_DEEP_LINK
-        )
+        val route = RandomData.httpUrl()
+        val data = mapOf("keyStub" to "valueStub")
+        val shouldResetApplication = true
+        val navigate = Navigate.OpenNativeRoute(route, shouldResetApplication, data)
+        every { BeagleNavigator.openNativeRoute(any(), any(), any(), any()) } just Runs
 
         // When
         navigationActionHandler.handle(context, navigate)
 
         // Then
-        verify(exactly = 0) { deepLinkHandler.getDeepLinkIntent(any(), any()) }
+        verify(exactly = once()) { BeagleNavigator.openNativeRoute(context, route, data, shouldResetApplication) }
     }
 
     @Test
-    fun handle_should_call_swapView() {
+    fun handle_should_call_resetApplication() {
         // Given
-        val path = RandomData.httpUrl()
-        val navigate = Navigate(
-            type = NavigationType.SWAP_VIEW,
-            path = path
-        )
-        every { BeagleNavigator.swapScreen(any(), any()) } just Runs
+        val route = Route.Remote(RandomData.httpUrl())
+        val navigate = Navigate.ResetApplication(route)
+        every { BeagleNavigator.resetApplication(any(), any()) } just Runs
 
         // When
         navigationActionHandler.handle(context, navigate)
 
         // Then
-        verify(exactly = once()) { BeagleNavigator.swapScreen(context, path) }
+        verify(exactly = once()) { BeagleNavigator.resetApplication(context, route) }
     }
 
     @Test
-    fun handle_should_call__addView() {
+    fun handle_should_call_resetStack() {
         // Given
-        val path = RandomData.httpUrl()
-        val navigate = Navigate(
-            type = NavigationType.ADD_VIEW,
-            path = path
-        )
-        every { BeagleNavigator.addScreen(any(), any()) } just Runs
+        val route = Route.Remote(RandomData.httpUrl())
+        val navigate = Navigate.ResetStack(route)
+        every { BeagleNavigator.resetStack(any(), any()) } just Runs
 
         // When
         navigationActionHandler.handle(context, navigate)
 
         // Then
-        verify(exactly = once()) { BeagleNavigator.addScreen(context, path) }
+        verify(exactly = once()) { BeagleNavigator.resetStack(context, route) }
     }
 
     @Test
-    fun handle_should_call_finishView() {
+    fun handle_should_call_pushView() {
         // Given
-        val navigate = Navigate(
-            type = NavigationType.FINISH_VIEW
-        )
-        every { BeagleNavigator.finish(any()) } just Runs
+        val route = Route.Remote(RandomData.httpUrl())
+        val navigate = Navigate.PushView(route)
+        every { BeagleNavigator.pushView(any(), any()) } just Runs
 
         // When
         navigationActionHandler.handle(context, navigate)
 
         // Then
-        verify(exactly = once()) { BeagleNavigator.finish(context) }
+        verify(exactly = once()) { BeagleNavigator.pushView(context, route) }
+    }
+
+    @Test
+    fun handle_should_call_popStack() {
+        // Given
+        val navigate = Navigate.PopStack()
+        every { BeagleNavigator.popStack(any()) } just Runs
+
+        // When
+        navigationActionHandler.handle(context, navigate)
+
+        // Then
+        verify(exactly = once()) { BeagleNavigator.popStack(context) }
     }
 
     @Test
     fun handle_should_call_popView() {
         // Given
-        val navigate = Navigate(
-            type = NavigationType.POP_VIEW
-        )
-        every { BeagleNavigator.addScreen(any(), any()) } just Runs
+        val navigate = Navigate.PopView()
+        every { BeagleNavigator.popView(any()) } just Runs
 
         // When
         navigationActionHandler.handle(context, navigate)
 
         // Then
-        verify(exactly = once()) { BeagleNavigator.pop(context) }
+        verify(exactly = once()) { BeagleNavigator.popView(context) }
     }
 
     @Test
     fun handle_should_call_popToView() {
         // Given
         val path = RandomData.httpUrl()
-        val navigate = Navigate(
-            type = NavigationType.POP_TO_VIEW,
-            path = path
-        )
-        every { BeagleNavigator.popToScreen(any(), any()) } just Runs
+        val navigate = Navigate.PopToView(path)
+        every { BeagleNavigator.popToView(any(), any()) } just Runs
 
         // When
         navigationActionHandler.handle(context, navigate)
 
         // Then
-        verify(exactly = 1) { BeagleNavigator.popToScreen(context, path) }
+        verify(exactly = once()) { BeagleNavigator.popToView(context, path) }
     }
 
     @Test
-    fun handle_should_call_popToView_with_null_eventData() {
+    fun handle_should_call_pushStack() {
         // Given
-        val navigate = Navigate(
-            type = NavigationType.POP_TO_VIEW
-        )
+        val route = Route.Remote(RandomData.httpUrl())
+        val navigate = Navigate.PushStack(route)
+        every { BeagleNavigator.pushStack(any(), any()) } just Runs
 
         // When
         navigationActionHandler.handle(context, navigate)
 
         // Then
-        verify(exactly = 0) { BeagleNavigator.popToScreen(any(), any()) }
-    }
-
-    @Test
-    fun handle_should_call_presentView() {
-        // Given
-        val path = RandomData.httpUrl()
-        val navigate = Navigate(
-            type = NavigationType.PRESENT_VIEW,
-            path = path
-        )
-        every { BeagleNavigator.presentScreen(any(), any()) } just Runs
-
-        // When
-        navigationActionHandler.handle(context, navigate)
-
-        // Then
-        verify(exactly = 1) { BeagleNavigator.presentScreen(context, path) }
+        verify(exactly = once()) { BeagleNavigator.pushStack(context, route) }
     }
 }

@@ -24,7 +24,7 @@
         - value: "123"
       ▿ FormInput
         ▿ child: UnknownComponent
-          - type: "custom:component:unknown"
+          - type: "custom:unknown"
         - errorMessage: Optional<String>.none
         - name: "another-required-field"
         ▿ required: Optional<Bool>
@@ -38,9 +38,9 @@
           - appearance: Optional<Appearance>.none
           ▿ flex: Optional<Flex>
             ▿ some: Flex
-              - alignContent: Optional<Alignment>.none
-              - alignItems: Optional<Alignment>.none
-              - alignSelf: Optional<Alignment>.none
+              - alignContent: Optional<AlignContent>.none
+              - alignItems: Optional<AlignItems>.none
+              - alignSelf: Optional<AlignSelf>.none
               - basis: Optional<UnitValue>.none
               - direction: Optional<Direction>.none
               - display: Optional<Display>.none
@@ -69,9 +69,9 @@
             - appearance: Optional<Appearance>.none
             ▿ flex: Optional<Flex>
               ▿ some: Flex
-                - alignContent: Optional<Alignment>.none
-                - alignItems: Optional<Alignment>.none
-                - alignSelf: Optional<Alignment>.none
+                - alignContent: Optional<AlignContent>.none
+                - alignItems: Optional<AlignItems>.none
+                - alignSelf: Optional<AlignSelf>.none
                 - basis: Optional<UnitValue>.none
                 - direction: Optional<Direction>.none
                 - display: Optional<Display>.none
@@ -111,9 +111,9 @@
           - cornerRadius: Optional<CornerRadius>.none
       ▿ flex: Optional<Flex>
         ▿ some: Flex
-          - alignContent: Optional<Alignment>.none
-          - alignItems: Optional<Alignment>.none
-          - alignSelf: Optional<Alignment>.none
+          - alignContent: Optional<AlignContent>.none
+          - alignItems: Optional<AlignItems>.none
+          - alignSelf: Optional<AlignSelf>.none
           - basis: Optional<UnitValue>.none
           - direction: Optional<Direction>.none
           - display: Optional<Display>.none

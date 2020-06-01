@@ -19,13 +19,26 @@ import XCTest
 import Schema
 
 final class BeagleNavigatorTests: XCTestCase {
+
+    func test_open_valid_ExternalURL() {
+
+        // Given
+        let opener = URLOpenerDumb()
+        let action = Navigate.openExternalURL("https://localhost:8080")
+        let context = BeagleScreenViewController(component: ComponentDummy())
+        let sut = BeagleNavigator(dependencies: NavigatorDependencies(opener: opener))
+
+        // When
+        sut.navigate(action: action, context: context)
+
+        // Then
+        XCTAssert(opener.hasInvokedTryToOpen == true)
+    }
     
     func test_openDeepLink_shouldNotPushANativeScreenToNavigationWhenDeepLinkHandlerItsNotSet() {
         // Given
         let sut = BeagleNavigator(dependencies: NavigatorDependencies())
-        let action = Navigate.openDeepLink(.init(
-            path: "https://example.com/screen.json"
-        ))
+        let action = Navigate.openNativeRoute("https://example.com/screen.json")
         let context = BeagleScreenViewController(component: ComponentDummy())
         let navigation = BeagleNavigationController(rootViewController: context)
         
@@ -36,9 +49,45 @@ final class BeagleNavigatorTests: XCTestCase {
         XCTAssert(navigation.viewControllers.count == 1)
     }
 
+    func test_swapView_shouldReplaceApplicationStackWithRemoteScreen() {
+
+        // Given
+        let windowMock = WindowMock()
+        let windowManager = WindowManagerDumb(window: windowMock)
+        let dependencies = NavigatorDependencies(windowManager: windowManager)
+        let sut = BeagleNavigator(dependencies: dependencies)
+        let context = BeagleScreenViewController(component: ComponentDummy())
+
+        let resetRemote = Navigate.resetApplication(.remote("https://example.com/screen.json"))
+
+        // When
+        sut.navigate(action: resetRemote, context: context)
+
+        // Then
+        XCTAssert(windowMock.hasInvokedReplaceRootViewController == true)
+    }
+
+    func test_swapView_shouldReplaceApplicationStackWithDeclarativeScreen() {
+
+        // Given
+        let windowMock = WindowMock()
+        let windowManager = WindowManagerDumb(window: windowMock)
+        let dependencies = NavigatorDependencies(windowManager: windowManager)
+        let sut = BeagleNavigator(dependencies: dependencies)
+        let context = BeagleScreenViewController(component: ComponentDummy())
+
+        let resetDeclarative = Navigate.resetApplication(.declarative(Screen(child: Text("Declarative"))))
+
+        // When
+        sut.navigate(action: resetDeclarative, context: context)
+
+        // Then
+        XCTAssert(windowMock.hasInvokedReplaceRootViewController == true)
+    }
+
     func test_swapView_shouldReplaceNavigationStack() {
-        let swapRemote = Navigate.swapView(.init(path: "https://example.com/screen.json"))
-        let swapDeclarative = Navigate.swapScreen(Screen(child: Text("Declarative")))
+        let swapRemote = Navigate.resetStack(.remote("https://example.com/screen.json"))
+        let swapDeclarative = Navigate.resetStack(.declarative(Screen(child: Text("Declarative"))))
         
         swapViewTest(swapRemote)
         swapViewTest(swapDeclarative)
@@ -58,8 +107,8 @@ final class BeagleNavigatorTests: XCTestCase {
     }
 
     func test_addView_shouldPushScreenInNavigation() {
-        let addViewRemote = Navigate.addView(.init(path: "https://example.com/screen.json"))
-        let addViewDeclarative = Navigate.addScreen(Screen(child: Text("Declarative")))
+        let addViewRemote = Navigate.pushView(.remote("https://example.com/screen.json"))
+        let addViewDeclarative = Navigate.pushView(.declarative(Screen(child: Text("Declarative"))))
         
         addViewTest(addViewRemote)
         addViewTest(addViewDeclarative)
@@ -76,10 +125,10 @@ final class BeagleNavigatorTests: XCTestCase {
         XCTAssert(navigation.viewControllers.last is BeagleScreenViewController)
     }
 
-    func test_finishView_shouldDismissNavigation() {
+    func test_popStack_shouldDismissNavigation() {
         // Given
         let sut = BeagleNavigator(dependencies: NavigatorDependencies())
-        let action = Navigate.finishView
+        let action = Navigate.popStack
         let navigationSpy = UINavigationControllerSpy(
             viewModel: .init(screenType: .declarative(ComponentDummy().toScreen()))
         )
@@ -157,10 +206,10 @@ final class BeagleNavigatorTests: XCTestCase {
         let dependecies = BeagleDependencies()
         dependecies.urlBuilder.baseUrl = URL(string: "https://server.com/path/")
         let sut = BeagleNavigator(dependencies: dependecies)
-        let screen = beagleViewController(screen: .remote(.init(url: "screen")))
+        let screen = beagleViewController(screen: .remote(.init(url: "/screen")))
 
         let navigation = BeagleNavigationController()
-        let stack = [screen, UIViewController(), UIViewController()]
+        let stack = [screen, BeagleScreenViewController(component: ComponentDummy()), BeagleScreenViewController(component: ComponentDummy())]
         navigation.viewControllers = stack
         
         sut.navigate(
@@ -171,8 +220,8 @@ final class BeagleNavigatorTests: XCTestCase {
         
         navigation.viewControllers = stack
         sut.navigate(
-            action: Navigate.popToView("/path/screen"),
-            context: screen
+            action: Navigate.popToView("/screen"),
+            context: BeagleContextDummy(viewController: stack[2])
         )
         XCTAssert(navigation.viewControllers.last == screen)
     }
@@ -198,15 +247,15 @@ final class BeagleNavigatorTests: XCTestCase {
         XCTAssert(navigation.viewControllers.last == vc2)
     }
 
-    func test_presentView_shouldPresentTheScreen() {
-        let presentViewRemote = Navigate.presentView(.init(path: "https://example.com/screen.json"))
-        let presentViewDeclarative = Navigate.presentScreen(Screen(child: Text("Declarative")))
+    func test_pushStack_shouldPresentTheScreen() {
+        let presentViewRemote = Navigate.pushStack(.remote("https://example.com/screen.json"))
+        let presentViewDeclarative = Navigate.pushStack(.declarative(Screen(child: Text("Declarative"))))
         
-        presentViewTest(presentViewRemote)
-        presentViewTest(presentViewDeclarative)
+        pushStackTest(presentViewRemote)
+        pushStackTest(presentViewDeclarative)
     }
     
-    private func presentViewTest(_ navigate: Navigate) {
+    private func pushStackTest(_ navigate: Navigate) {
         let sut = BeagleNavigator(dependencies: NavigatorDependencies())
         let navigationSpy = UINavigationControllerSpy(
             viewModel: .init(screenType: .declarative(ComponentDummy().toScreen()))
@@ -225,7 +274,7 @@ final class BeagleNavigatorTests: XCTestCase {
         
         let data = ["uma": "uma", "dois": "duas"]
         let path = "https://example.com/screen.json"
-        let action = Navigate.openDeepLink(.init(path: path, data: data))
+        let action = Navigate.openNativeRoute(path, data: data)
         let firstViewController = BeagleScreenViewController(component: Text("First"))
         let navigation = BeagleNavigationController(rootViewController: firstViewController)
         
@@ -283,15 +332,21 @@ struct NavigatorDependencies: BeagleNavigator.Dependencies {
     var deepLinkHandler: DeepLinkScreenManaging?
     var urlBuilder: UrlBuilderProtocol = UrlBuilder()
     var logger: BeagleLoggerType = BeagleLoggerDumb()
+    var windowManager: WindowManager = WindowManagerDumb()
+    var opener: URLOpener = URLOpenerDumb()
     var navigationControllerType = BeagleNavigationController.self
 
     init(
         deepLinkHandler: DeepLinkScreenManaging? = nil,
         urlBuilder: UrlBuilderProtocol = UrlBuilder(),
-        logger: BeagleLoggerType = BeagleLoggerDumb()
+        logger: BeagleLoggerType = BeagleLoggerDumb(),
+        windowManager: WindowManager = WindowManagerDumb(),
+        opener: URLOpener = URLOpenerDumb()
     ) {
         self.deepLinkHandler = deepLinkHandler
         self.urlBuilder = urlBuilder
         self.logger = logger
+        self.windowManager = windowManager
+        self.opener = opener
     }
 }

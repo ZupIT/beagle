@@ -41,7 +41,7 @@ fun makeFlexJson() = """
 
 fun makeScreenJson() = """
     {
-        "_beagleType_": "beagle:component:screencomponent",
+        "_beagleComponent_": "beagle:screenComponent",
         "navigationBar": {
             "title": "${RandomData.string()}",
             "showBackButton": true
@@ -52,7 +52,7 @@ fun makeScreenJson() = """
 
 fun makeContainerJson() = """
     {
-        "_beagleType_": "beagle:component:container",
+        "_beagleComponent_": "beagle:container",
         "flex": ${makeFlexJson()},
         "children": [${makeButtonJson()}, ${makeButtonJson()}]
     }
@@ -60,7 +60,7 @@ fun makeContainerJson() = """
 
 fun makeVerticalJson() = """
     {
-        "_beagleType_": "beagle:component:vertical",
+        "_beagleComponent_": "beagle:vertical",
         "reversed": false,
         "flex": ${makeFlexJson()},
         "children": [${makeButtonJson()}, ${makeButtonJson()}]
@@ -69,7 +69,7 @@ fun makeVerticalJson() = """
 
 fun makeHorizontalJson() = """
     {
-        "_beagleType_": "beagle:component:horizontal",
+        "_beagleComponent_": "beagle:horizontal",
         "reversed": false,
         "flex": ${makeFlexJson()},
         "children": [${makeButtonJson()}, ${makeButtonJson()}]
@@ -78,7 +78,7 @@ fun makeHorizontalJson() = """
 
 fun makeStackJson() = """
     {
-        "_beagleType_": "beagle:component:stack",
+        "_beagleComponent_": "beagle:stack",
         "flex": ${makeFlexJson()},
         "children": [${makeButtonJson()}, ${makeButtonJson()}]
     }
@@ -86,42 +86,42 @@ fun makeStackJson() = """
 
 fun makeSpacerJson() = """
     {
-        "_beagleType_": "beagle:component:spacer",
+        "_beagleComponent_": "beagle:spacer",
         "size": 30.0
     }
 """
 
 fun makeButtonJson() = """
     {
-        "_beagleType_": "beagle:component:button",
+        "_beagleComponent_": "beagle:button",
         "text": "Test"
     }
 """
 
 fun makeTextJson() = """
     {
-        "_beagleType_": "beagle:component:text",
+        "_beagleComponent_": "beagle:text",
         "text": "Test"
     }
 """
 
 fun makeImageJson() = """
     {
-        "_beagleType_": "beagle:component:image",
+        "_beagleComponent_": "beagle:image",
         "name": "test"
     }
 """
 
 fun makeNetworkImageJson() = """
     {
-        "_beagleType_": "beagle:component:networkimage",
+        "_beagleComponent_": "beagle:networkImage",
         "path": "http://test.com/test.png"
     }
 """
 
 fun makeListViewJson() = """
     {
-        "_beagleType_": "beagle:component:listview",
+        "_beagleComponent_": "beagle:listView",
         "rows": [${makeButtonJson()}],
         "remoteDataSource": "/dataSource",
         "loadingState": ${makeVerticalJson()}
@@ -130,13 +130,13 @@ fun makeListViewJson() = """
 
 fun makeCustomJson() = """
     {
-        "_beagleType_": "custom:component:customwidget"
+        "_beagleComponent_": "custom:customWidget"
     }
 """
 
 fun makeLazyComponentJson() = """
     {
-        "_beagleType_": "beagle:component:lazycomponent",
+        "_beagleComponent_": "beagle:lazyComponent",
         "path": "${RandomData.httpUrl()}",
         "initialState": ${makeButtonJson()}
     }
@@ -144,10 +144,10 @@ fun makeLazyComponentJson() = """
 
 fun makeScrollViewJson() = """
     {
-    "_beagleType_": "beagle:component:scrollview",
+    "_beagleComponent_": "beagle:scrollView",
     "children": [
         {
-            "_beagleType_": "beagle:component:container",
+            "_beagleComponent_": "beagle:container",
             "flex": {
                 "flexDirection": "ROW"
             },
@@ -167,7 +167,7 @@ fun makeScrollViewJson() = """
 
 fun makePageViewJson() = """
     {
-        "_beagleType_": "beagle:component:pageview",
+        "_beagleComponent_": "beagle:pageView",
         "pages": [
             ${makeButtonJson()},
             ${makeButtonJson()},
@@ -178,7 +178,7 @@ fun makePageViewJson() = """
 
 fun makePageIndicatorJson() = """
     {
-        "_beagleType_": "beagle:component:pageindicator",
+        "_beagleComponent_": "beagle:pageIndicator",
         "selectedColor": "#FFFFFF",
         "unselectedColor": "#888888"
     }
@@ -186,17 +186,17 @@ fun makePageIndicatorJson() = """
 
 fun makeNavigationActionJson() = """
     {
-        "_beagleType_": "beagle:action:navigate",
-        "type": "ADD_VIEW",
-        "value": {
-            "path": "${RandomData.httpUrl()}"
+        "_beagleAction_": "beagle:pushView",
+        "route": {
+            "route": "${RandomData.httpUrl()}",
+            "shouldPrefetch": true
         }
     }
 """
 
 fun makeShowNativeDialogJson() = """
     {
-        "_beagleType_": "beagle:action:shownativedialog",
+        "_beagleAction_": "beagle:showNativeDialog",
         "title": "${RandomData.string()}",
         "message": "${RandomData.string()}",
         "buttonText": "Ok"
@@ -205,7 +205,7 @@ fun makeShowNativeDialogJson() = """
 
 fun makeCustomActionJson() = """
     {
-        "_beagleType_": "beagle:action:customaction",
+        "_beagleAction_": "beagle:customAction",
         "name": "${RandomData.string()}",
         "data": {}
     }
@@ -213,20 +213,20 @@ fun makeCustomActionJson() = """
 
 fun makeFormValidationJson() = """
     {
-        "_beagleType_": "beagle:action:formvalidation",
+        "_beagleAction_": "beagle:formValidation",
         "errors": []
     }
 """
 
 fun makeCustomInputWidgetJson() = """
     {
-        "_beagleType_": "sample:component:custominputwidget"
+        "_beagleComponent_": "sample:customInputWidget"
     }
 """
 
 fun makeFormInputJson() = """
     {
-        "_beagleType_": "beagle:component:forminput",
+        "_beagleComponent_": "beagle:formInput",
         "name": "${RandomData.string()}",
         "child": ${makeCustomInputWidgetJson()}
     }
@@ -234,16 +234,16 @@ fun makeFormInputJson() = """
 
 fun makeFormSubmitJson() = """
     {
-        "_beagleType_": "beagle:component:formsubmit",
+        "_beagleComponent_": "beagle:formSubmit",
         "child": ${makeButtonJson()}
     }
 """
 
 fun makeFormJson() = """
     {
-        "_beagleType_": "beagle:component:form",
+        "_beagleComponent_": "beagle:form",
         "action": {
-            "_beagleType_": "beagle:action:formremoteaction",
+            "_beagleAction_": "beagle:formRemoteAction",
             "path": "${RandomData.string()}",
             "method": "POST"
         },
@@ -253,6 +253,6 @@ fun makeFormJson() = """
 
 fun makeUndefinedComponentJson() = """
     {
-        "_beagleType_": "custom:component:new"
+        "_beagleComponent_": "custom:new"
     }
 """

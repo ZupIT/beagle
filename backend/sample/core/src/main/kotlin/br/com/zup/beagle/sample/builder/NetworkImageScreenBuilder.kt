@@ -20,7 +20,7 @@ import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
 import br.com.zup.beagle.sample.constants.TEXT_NETWORK_IMAGE
-import br.com.zup.beagle.widget.core.Alignment
+import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ImageContentMode
@@ -71,7 +71,7 @@ object NetworkImageScreenBuilder : ScreenBuilder {
                         width = 150.unitReal(),
                         height = 130.unitReal()
                     ),
-                    alignSelf = Alignment.CENTER
+                    alignSelf = AlignSelf.CENTER
                 )
             )
         )
@@ -82,7 +82,7 @@ object NetworkImageScreenBuilder : ScreenBuilder {
         style = TEXT_NETWORK_IMAGE
     ).applyFlex(
         flex = Flex(
-            alignSelf = Alignment.CENTER,
+            alignSelf = AlignSelf.CENTER,
             margin = EdgeValue(
                 top = 8.unitReal()
             )

@@ -17,7 +17,7 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.NavigationType
+import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.ext.unitReal
@@ -70,10 +70,7 @@ object NavigationBarViewScreenBuilder : ScreenBuilder {
 
     private fun createMenu(text: String, path: String) = Button(
         text = text,
-        action = Navigate(
-            type = NavigationType.ADD_VIEW,
-            path = path
-        ),
+        action = Navigate.PushView(Route.Remote(path)),
         style = BUTTON_STYLE_TITLE
     ).applyFlex(
         flex = Flex(

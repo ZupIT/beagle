@@ -40,7 +40,7 @@ final class ActionExecutorTests: XCTestCase {
         let sut = ActionExecuting(dependencies: Dependencies(
             navigation: navigationSpy
         ))
-        let action = Navigate.addView(.init(path: ""))
+        let action = Navigate.pushView(.remote(""))
         
         // When
         sut.doAction(action, sender: self, context: BeagleContextDummy())
@@ -126,7 +126,7 @@ final class ActionExecutorTests: XCTestCase {
 
         let handlers = CustomActionHandling(handlers: [name: handler])
 
-        let model = BeagleScreenViewModelMock(screenType: .remote(.init(url: "")))
+        let model = BeagleScreenViewModelMock(screenType: .remote(.init(url: "www.url.com")))
         let view = BeagleScreenViewController(viewModel: model)
 
         let executor = ActionExecuting(dependencies: Dependencies(customActionHandler: handlers))

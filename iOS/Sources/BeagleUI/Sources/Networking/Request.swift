@@ -18,12 +18,12 @@ import Foundation
 import Schema
 
 public struct Request {
-    public let url: String
+    public let url: URL
     public let type: RequestType
     public let additionalData: RemoteScreenAdditionalData?
 
     public init(
-        url: String,
+        url: URL,
         type: RequestType,
         additionalData: RemoteScreenAdditionalData?
     ) {
@@ -55,5 +55,6 @@ public struct Request {
         case networkError(Swift.Error)
         case decoding(Swift.Error)
         case loadFromTextError
+        case urlBuilderError
     }
 }

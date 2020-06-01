@@ -8,12 +8,6 @@
       "_beagleType_" : "beagle:component:navigationbaritem",
       "text" : "Ajuda",
       "image" : "informationImage",
-      "action" : {
-        "_beagleType_" : "beagle:action:shownativedialog",
-        "title" : "NavigationBar",
-        "message" : "This component that allows to place titles and button action.",
-        "buttonText" : "OK"
-      },
       "accessibility" : {
         "accessible" : true,
         "accessibilityLabel" : "Content Description"
@@ -31,12 +25,6 @@
       "_beagleType_" : "beagle:component:button",
       "text" : "Button 1",
       "style" : "DesignSystem.Button.Style",
-      "action" : {
-        "_beagleType_" : "beagle:action:navigate",
-        "type" : "ADD_VIEW",
-        "shouldPrefetch" : false,
-        "path" : "/navigationbar"
-      },
       "flex" : {
         "margin" : {
           "top" : {
@@ -52,12 +40,6 @@
       "_beagleType_" : "beagle:component:button",
       "text" : "Button 2",
       "style" : "DesignSystem.Button.Style",
-      "action" : {
-        "_beagleType_" : "beagle:action:navigate",
-        "type" : "ADD_VIEW",
-        "shouldPrefetch" : false,
-        "path" : "/navigationbar/style"
-      },
       "flex" : {
         "margin" : {
           "top" : {
@@ -73,12 +55,6 @@
       "_beagleType_" : "beagle:component:button",
       "text" : "Button 3",
       "style" : "DesignSystem.Button.Style",
-      "action" : {
-        "_beagleType_" : "beagle:action:navigate",
-        "type" : "ADD_VIEW",
-        "shouldPrefetch" : false,
-        "path" : "/navigationbar/item/text"
-      },
       "flex" : {
         "margin" : {
           "top" : {
@@ -94,12 +70,6 @@
       "_beagleType_" : "beagle:component:button",
       "text" : "Button 4",
       "style" : "DesignSystem.Button.Style",
-      "action" : {
-        "_beagleType_" : "beagle:action:navigate",
-        "type" : "ADD_VIEW",
-        "shouldPrefetch" : false,
-        "path" : "/navigationbar/item/image"
-      },
       "flex" : {
         "margin" : {
           "top" : {

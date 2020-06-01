@@ -22,21 +22,32 @@ public struct AnyDecodableContainer {
     
 }
 // MARK: - Decodable
+//TODO: Resolve Logger
 extension AnyDecodableContainer: Decodable {
     
     enum CodingKeys: String, CodingKey {
-        case type = "_beagleType_"
+        case componentType = "_beagleComponent_"
+        case actionType = "_beagleAction_"
     }
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let type = try container.decode(String.self, forKey: .type)
-
-        if let decodable = ComponentTools.dependencies.decoder.decodableType(forType: type.lowercased()) {
+        
+        if let type = try? container.decode(String.self, forKey: .componentType) {
+        if let decodable = ComponentTools.dependencies.decoder.componentType(forType: type.lowercased()) {
             content = try decodable.init(from: decoder)
+            } else {
+                //Beagle.dependencies.logger.log(Log.decode(.decodingError(type: type)))
+                content = UnknownComponent(type: type)
+            }
         } else {
-            //Beagle.dependencies.logger.log(Log.decode(.decodingError(type: type)))
-            content = UnknownComponent(type: type)
+            let type = try container.decode(String.self, forKey: .actionType)
+            if let decodable = ComponentTools.dependencies.decoder.actionType(forType: type) {
+                content = try decodable.init(from: decoder)
+            } else {
+                //Beagle.dependencies.logger.log(Log.decode(.decodingError(type: type)))
+                content = UnknownAction(type: type)
+            }
         }
     }
 }

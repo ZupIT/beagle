@@ -21,17 +21,25 @@ import Schema
 final class RepositoryTests: XCTestCase {
 
     private struct Dependencies: RepositoryDefault.Dependencies {
+        
+        var logger: BeagleLoggerType
+        var urlBuilder: UrlBuilderProtocol
+        
         var cacheManager: CacheManagerProtocol?
         var baseURL: URL?
         var networkClient: NetworkClient
         var decoder: ComponentDecoding
 
         init(
+            logger: BeagleLoggerType = BeagleLoggerDumb(),
+            urlBuilder: UrlBuilderProtocol = UrlBuilder(),
             cacheManager: CacheManagerProtocol = CacheManagerDummy(),
             baseURL: URL? = nil,
             networkClient: NetworkClient = NetworkClientDummy(),
             decoder: ComponentDecoding = ComponentDecodingDummy()
         ) {
+            self.logger = logger
+            self.urlBuilder = urlBuilder
             self.cacheManager = cacheManager
             self.baseURL = baseURL
             self.networkClient = networkClient
@@ -70,8 +78,8 @@ final class RepositoryTests: XCTestCase {
 
         // Then
         guard
-            case .networkError? = fetchError,
-            case .networkError? = formError
+            case .urlBuilderError = fetchError,
+            case .urlBuilderError = formError
         else {
             XCTFail("Expected an error")
             return
@@ -82,7 +90,7 @@ final class RepositoryTests: XCTestCase {
         // Given
         guard let jsonData = """
         {
-            "_beagleType_": "beagle:component:text",
+            "_beagleComponent_": "beagle:text",
             "text": "some text"
         }
         """.data(using: .utf8) else {
@@ -149,10 +157,10 @@ final class RepositoryTests: XCTestCase {
 // MARK: - Testing Helpers
 
 final class ComponentDecodingStub: ComponentDecoding {
+    func register<T>(_ type: T.Type, for typeName: String) where T: Schema.ServerDrivenComponent { }
+    func componentType(forType type: String) -> Decodable.Type? { return nil }
+    func actionType(forType type: String) -> Decodable.Type? { return nil }
     
-    func register<T>(_ type: T.Type, for typeName: String) where T: Schema.ServerDrivenComponent {}
-    func decodableType(forType type: String) -> Decodable.Type? { return nil }
-
     var componentToReturnOnDecode: Schema.ServerDrivenComponent?
     var errorToThrowOnDecode: Error?
     

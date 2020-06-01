@@ -17,7 +17,7 @@
 package br.com.zup.beagle.sample.spring.service
 
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.NavigationType
+import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.core.Appearance
 import br.com.zup.beagle.core.CornerRadius
@@ -46,15 +46,14 @@ import org.springframework.stereotype.Service
 class SampleNavigationTypeService {
 
     private val buttonPopView = createButton(
-        text = "POP_VIEW",
-        navigationType = NavigationType.POP_VIEW,
+        text = "PopView",
+        navigate = Navigate.PopView(),
         backgroundColor = CYAN_BLUE
     )
 
     private val buttonAddViewStep1 = createButton(
-        text = "ADD_VIEW (Step 1)",
-        path = NAVIGATION_TYPE_ENDPOINT,
-        navigationType = NavigationType.ADD_VIEW,
+        text = "PushView (Step 1)",
+        navigate = Navigate.PushView(Route.Remote(NAVIGATION_TYPE_ENDPOINT)),
         backgroundColor = LIGHT_RED
     )
 
@@ -78,15 +77,13 @@ class SampleNavigationTypeService {
             children = listOf(
                 buttonPopView,
                 createButton(
-                    text = "ADD_VIEW (Step 2)",
-                    path = REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT,
-                    navigationType = NavigationType.ADD_VIEW,
+                    text = "PushView (Step 2)",
+                    navigate = Navigate.PushView(Route.Remote(REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT)),
                     backgroundColor = LIGHT_RED
                 )
             )
         )
     )
-
 
     fun step2() = Screen(
         navigationBar = NavigationBar(
@@ -97,21 +94,18 @@ class SampleNavigationTypeService {
             children = listOf(
                 buttonPopView,
                 createButton(
-                    text = "ADD_VIEW (Step 3)",
-                    path = REPRESENTATION_NAVIGATION_TYPE_STEP3_ENDPOINT,
-                    navigationType = NavigationType.ADD_VIEW,
+                    text = "PushView (Step 3)",
+                    navigate = Navigate.PushView(Route.Remote(REPRESENTATION_NAVIGATION_TYPE_STEP3_ENDPOINT)),
                     backgroundColor = LIGHT_RED
                 ),
                 createButton(
-                    text = "PRESENT_VIEW",
-                    path = REPRESENTATION_PRESENT_ENDPOINT,
-                    navigationType = NavigationType.PRESENT_VIEW,
+                    text = "PushStack",
+                    navigate = Navigate.PushStack(Route.Remote(REPRESENTATION_PRESENT_ENDPOINT)),
                     backgroundColor = LIGHT_ORANGE
                 )
             )
         )
     )
-
 
     fun presentView() = Screen(
         navigationBar = NavigationBar(
@@ -123,14 +117,13 @@ class SampleNavigationTypeService {
                 buttonPopView,
                 buttonAddViewStep1,
                 createButton(
-                    text = "FINISH_VIEW",
-                    navigationType = NavigationType.FINISH_VIEW,
+                    text = "PopStack",
+                    navigate = Navigate.PopStack(),
                     backgroundColor = CYAN_GREEN
                 )
             )
         )
     )
-
 
     fun step3() = Screen(
         navigationBar = NavigationBar(
@@ -141,36 +134,25 @@ class SampleNavigationTypeService {
             children = listOf(
                 buttonPopView,
                 createButton(
-                    text = "SWAP_VIEW (Step 1)",
-                    path = NAVIGATION_TYPE_ENDPOINT,
-                    navigationType = NavigationType.SWAP_VIEW,
+                    text = "ResetApplication (Step 1)",
+                    navigate = Navigate.ResetApplication(Route.Remote(NAVIGATION_TYPE_ENDPOINT)),
                     backgroundColor = RED_ORANGE
                 ),
                 createButton(
-                    text = "POP_TO_VIEW (Step 1)",
-                    path = NAVIGATION_TYPE_ENDPOINT,
-                    navigationType = NavigationType.POP_TO_VIEW,
+                    text = "PopToView (Step 1)",
+                    navigate = Navigate.PopToView(NAVIGATION_TYPE_ENDPOINT),
                     backgroundColor = RED
                 ),
                 buttonAddViewStep1
-
             )
         )
     )
 
-    private fun createButton(
-        text: String,
-        path: String? = null,
-        navigationType: NavigationType,
-        backgroundColor: String
-    ) =
+    private fun createButton(text: String, navigate: Navigate, backgroundColor: String) =
         Button(
             text = text,
             style = BUTTON_STYLE_APPEARANCE,
-            action = Navigate(
-                type = navigationType,
-                path = path
-            )
+            action = navigate
         ).applyAppearance(
             Appearance(
                 backgroundColor = backgroundColor,

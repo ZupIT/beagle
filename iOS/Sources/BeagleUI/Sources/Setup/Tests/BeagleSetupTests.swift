@@ -43,6 +43,8 @@ final class BeagleSetupTests: XCTestCase {
         dep.decoder = ComponentDecodingDummy()
         dep.cacheManager = nil
         dep.logger = BeagleLoggerDumb()
+        dep.windowManager = WindowManagerDumb()
+        dep.opener = URLOpenerDumb()
 
         assertSnapshot(matching: dep, as: .dump)
     }
@@ -75,7 +77,8 @@ final class DeepLinkHandlerDummy: DeepLinkScreenManaging {
 
 final class ComponentDecodingDummy: ComponentDecoding {
     func register<T>(_ type: T.Type, for typeName: String) where T: Schema.ServerDrivenComponent {}
-    func decodableType(forType type: String) -> Decodable.Type? { return nil }
+    func componentType(forType type: String) -> Decodable.Type? { return nil }
+    func actionType(forType type: String) -> Decodable.Type? { return nil }
     func decodeComponent(from data: Data) throws -> Schema.ServerDrivenComponent { return ComponentDummy() }
     func decodeAction(from data: Data) throws -> Action { return ActionDummy() }
 }
@@ -93,7 +96,7 @@ final class CacheManagerDummy: CacheManagerProtocol {
 }
 
 final class PreFetchHelperDummy: BeaglePrefetchHelping {
-    func prefetchComponent(newPath: Navigate.NewPath) { }
+    func prefetchComponent(newPath: Route.NewPath) { }
 }
 
 struct ComponentDummy: BeagleUI.ServerDrivenComponent, Equatable, CustomStringConvertible {

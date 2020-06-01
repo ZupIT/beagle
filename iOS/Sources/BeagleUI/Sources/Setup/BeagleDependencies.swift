@@ -29,7 +29,9 @@ public protocol BeagleDependenciesProtocol: DependencyActionExecutor,
     DependencyViewConfigurator,
     DependencyFlexConfigurator,
     RenderableDependencies,
-    DependencyCacheManager {
+    DependencyCacheManager,
+    DependencyWindowManager,
+    DependencyURLOpener {
 }
 
 open class BeagleDependencies: BeagleDependenciesProtocol {
@@ -50,6 +52,8 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var preFetchHelper: BeaglePrefetchHelping
     public var cacheManager: CacheManagerProtocol?
     public var logger: BeagleLoggerType
+    public var windowManager: WindowManager
+    public var opener: URLOpener
 
     public var flex: (UIView) -> FlexViewConfiguratorProtocol = {
         return FlexViewConfigurator(view: $0)
@@ -79,6 +83,8 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.repository = RepositoryDefault(dependencies: resolver)
         self.cacheManager = CacheManagerDefault(dependencies: resolver)
         self.logger = BeagleLogger()
+        self.windowManager = WindowManagerDefault()
+        self.opener = URLOpenerDefault(dependencies: resolver)
 
         self.resolver.container = { [unowned self] in self }
     }
@@ -92,9 +98,9 @@ private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     ActionExecuting.Dependencies,
     DependencyNavigationController,
     DependencyDeepLinkScreenManaging,
-    DependencyUrlBuilder,
-    DependencyLogger,
-    DependencyRepository {
+    DependencyRepository,
+    DependencyWindowManager,
+    DependencyURLOpener {
 
     var container: () -> BeagleDependenciesProtocol = {
         fatalError("You should set this closure to get the dependencies container")
@@ -110,4 +116,6 @@ private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     var logger: BeagleLoggerType { return container().logger }
     var cacheManager: CacheManagerProtocol? { return container().cacheManager }
     var repository: Repository { return container().repository }
+    var windowManager: WindowManager { return container().windowManager }
+    var opener: URLOpener { return container().opener }
 }
