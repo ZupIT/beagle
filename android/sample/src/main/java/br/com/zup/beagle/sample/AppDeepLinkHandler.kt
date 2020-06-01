@@ -24,6 +24,7 @@ import br.com.zup.beagle.navigation.DeepLinkHandler
 class AppDeepLinkHandler : DeepLinkHandler {
     override fun getDeepLinkIntent(
         path: String,
-        data: Map<String, String>?
+        data: Map<String, String>?,
+        shouldResetApplication: Boolean
     ): Intent = Intent(path)
 }

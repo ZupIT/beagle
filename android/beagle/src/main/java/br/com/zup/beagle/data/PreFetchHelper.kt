@@ -16,29 +16,33 @@
 
 package br.com.zup.beagle.data
 
-import br.com.zup.beagle.widget.core.Action
+import  br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.NavigationType
+import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.utils.generateViewModelInstance
 
 internal class PreFetchHelper {
 
-    fun handlePreFetch(rootView: RootView, action: Action) {
-        if (action is Navigate && action.shouldPrefetch) {
-            when (action.type) {
-                NavigationType.SWAP_VIEW -> preFetch(rootView, action)
-                NavigationType.ADD_VIEW -> preFetch(rootView, action)
-                NavigationType.PRESENT_VIEW -> preFetch(rootView, action)
-                else -> {}
-            }
+    fun handlePreFetch(rootView: RootView, actions: List<Action>) {
+        actions.forEach { action ->
+            handlePreFetch(rootView, action)
         }
     }
 
-    private fun preFetch(rootView: RootView, action: Navigate) {
-        val viewModel = rootView.generateViewModelInstance()
-        action.path?.let {
-            viewModel.fetchForCache(it)
+    fun handlePreFetch(rootView: RootView, action: Action) {
+        when (action) {
+            is Navigate.PushStack -> preFetch(rootView, action.route)
+            is Navigate.PushView -> preFetch(rootView, action.route)
+            is Navigate.ResetApplication -> preFetch(rootView, action.route)
+            is Navigate.ResetStack -> preFetch(rootView, action.route)
+        }
+    }
+
+    private fun preFetch(rootView: RootView, route: Route) {
+        if (route is Route.Remote && route.shouldPrefetch) {
+            val viewModel = rootView.generateViewModelInstance()
+            viewModel.fetchForCache(route.route)
         }
     }
 }

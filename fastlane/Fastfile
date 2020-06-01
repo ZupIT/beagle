@@ -143,7 +143,8 @@ platform :backend do
             "backend:starters:beagle-micronaut-starter:test",
             "backend:starters:beagle-spring-starter:test",
             "backend:sample:micronaut:assemble",
-            "backend:sample:spring:assemble"
+            "backend:sample:spring:assemble",
+            "backend:processor:test"
         ]
     )
     commit_hash = last_git_commit[:commit_hash]

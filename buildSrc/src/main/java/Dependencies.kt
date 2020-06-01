@@ -37,7 +37,9 @@ object Modules {
     const val beagleCoreDeclarative = ":common:core-declarative"
     const val beagleDeclarative = ":common:declarative"
     const val beagleAnnotation = ":common:annotation"
+    const val beagleCommonProcessor = ":common:processor"
     const val beagleBackendDeclarative = ":backend:backend-declarative"
+    const val beagleBackendProcessor = ":backend:processor"
     const val beagleBackendFramework = ":backend:framework"
     const val beagleBackendSpringStarter = ":backend:starters:beagle-spring-starter"
     const val beagleBackendMicronautStarter = ":backend:starters:beagle-micronaut-starter"
@@ -90,9 +92,11 @@ object Versions {
 
     const val materialDesign = "1.0.0"
     const val googleCompileTesting = "0.18"
-    const val googleAutoService = "1.0-rc2"
+    const val googleAutoService = "1.0-rc6"
 
     const val jacksonKotlin = "2.10.2"
+
+    const val jsonObject = "20190722"
 
     const val mockk = "1.9.3"
 
@@ -128,7 +132,8 @@ object BackendLibraries {
     const val log4j2 = "org.apache.logging.log4j:log4j-slf4j-impl:${Versions.log4j}"
 }
 
-object AndroidProcessorLibraries {
+object ProcessorLibraries {
+    const val autoService = "com.google.auto.service:auto-service:${Versions.googleAutoService}"
     const val incap = "net.ltgt.gradle.incap:incap:${Versions.incap}"
     const val incapPrcessor = "net.ltgt.gradle.incap:incap-processor:${Versions.incap}"
 }
@@ -149,10 +154,11 @@ object GeneralLibraries {
     const val jacksonKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.jacksonKotlin}"
 
     const val okHttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
+
+    const val jsonObject = "org.json:json:${Versions.jsonObject}"
 }
 
 object GoogleLibraries {
-    const val autoService = "com.google.auto.service:auto-service:${Versions.googleAutoService}"
     const val materialDesign = "com.google.android.material:material:${Versions.materialDesign}"
 }
 

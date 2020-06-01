@@ -18,11 +18,8 @@ package br.com.zup.beagle.data
 
 import br.com.zup.beagle.BaseTest
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.NavigationType.ADD_VIEW
-import br.com.zup.beagle.action.NavigationType.PRESENT_VIEW
-import br.com.zup.beagle.action.NavigationType.SWAP_VIEW
+import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.engine.renderer.RootView
-import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.utils.generateViewModelInstance
 import io.mockk.called
@@ -40,11 +37,13 @@ class PreFetchHelperTest : BaseTest() {
     private val helper = PreFetchHelper()
     @MockK
     private lateinit var rootView: RootView
+    private val route = Route.Remote(route = RandomData.string(), shouldPrefetch = true)
     private val cachedTypes =
         listOf(
-            ADD_VIEW,
-            SWAP_VIEW,
-            PRESENT_VIEW
+            Navigate.PushStack(route),
+            Navigate.PushView(route),
+            Navigate.ResetApplication(route),
+            Navigate.ResetStack(route)
         )
 
     @MockK
@@ -66,9 +65,8 @@ class PreFetchHelperTest : BaseTest() {
     @Test
     fun should_call_fetch_for_cache_test() {
         cachedTypes.forEach {
-            val url = RandomData.string()
-            helper.handlePreFetch(rootView, Navigate(type = it, path = url, shouldPrefetch = true))
-            verify(exactly = once()) { beagleViewModel.fetchForCache(url) }
+            helper.handlePreFetch(rootView, it)
+            verify { beagleViewModel.fetchForCache(route.route) }
         }
     }
 
@@ -76,7 +74,7 @@ class PreFetchHelperTest : BaseTest() {
     fun should_not_call_fetch_for_cache_test() {
         cachedTypes.forEach {
             val url = RandomData.string()
-            helper.handlePreFetch(rootView, Navigate(type = it, path = url))
+            helper.handlePreFetch(rootView, it)
             verify { beagleViewModel.fetchForCache(url) wasNot called }
         }
     }

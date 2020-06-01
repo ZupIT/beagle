@@ -19,11 +19,11 @@ package br.com.zup.beagle.sample.widgets
 import android.content.Context
 import android.graphics.Color
 import android.text.InputType
+import android.view.View
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
-import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.sample.utils.MaskApplier
-import br.com.zup.beagle.widget.core.Action
+import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.form.InputWidget
 
 enum class TextFieldInputType {
@@ -32,7 +32,7 @@ enum class TextFieldInputType {
     TEXT
 }
 
-@RegisterWidget
+//@RegisterWidget
 data class TextField(
     val description: String = "",
     val hint: String = "",
@@ -46,9 +46,9 @@ data class TextField(
 
     override fun buildView(context: Context) = EditText(context).apply {
         textFieldView = this
-        bind()
-        doOnTextChanged { _, _, _, _ ->
-            notifyChanges() }
+        bind(this@TextField)
+
+        doOnTextChanged { _, _, _, _ -> notifyChanges() }
     }
 
     override fun onErrorMessage(message: String) {
@@ -57,29 +57,36 @@ data class TextField(
 
     override fun getValue() = textFieldView.text.toString()
 
-    private fun bind() {
-        val color = Color.parseColor(getColorWithHashTag(color))
-        textFieldView.setText(description)
-        textFieldView.hint = hint
-        textFieldView.setTextColor(color)
-        textFieldView.setHintTextColor(color)
-        textFieldView.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) onFocus() else onBlur()
-        }
+    private fun bind(textField: TextField) {
+        textField.apply {
+            val color = Color.parseColor(getColorWithHashTag(color))
+            textFieldView.setText(description)
+            textFieldView.hint = hint
+            textFieldView.setTextColor(color)
+            textFieldView.setHintTextColor(color)
+            textFieldView.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) onFocus() else onBlur()
+            }
 
-        inputType?.let {
-            if (it == TextFieldInputType.NUMBER) {
-                textFieldView.inputType = InputType.TYPE_CLASS_NUMBER or
-                    InputType.TYPE_NUMBER_FLAG_SIGNED
-            } else if (it == TextFieldInputType.PASSWORD) {
-                textFieldView.inputType = InputType.TYPE_CLASS_TEXT or
-                    InputType.TYPE_TEXT_VARIATION_PASSWORD
+            inputType?.let {
+                if (it == TextFieldInputType.NUMBER) {
+                    textFieldView.inputType = InputType.TYPE_CLASS_NUMBER or
+                        InputType.TYPE_NUMBER_FLAG_SIGNED
+                } else if (it == TextFieldInputType.PASSWORD) {
+                    textFieldView.inputType = InputType.TYPE_CLASS_TEXT or
+                        InputType.TYPE_TEXT_VARIATION_PASSWORD
+                }
+            }
+
+            mask?.let {
+                MaskApplier(textFieldView, it)
             }
         }
+    }
 
-        mask?.let {
-            MaskApplier(textFieldView, it)
-        }
+
+    override fun onBind(widget: Widget, view: View) {
+        bind(widget as TextField)
     }
 
     private fun getColorWithHashTag(value: String): String = if (value.startsWith("#")) value else "#$value"

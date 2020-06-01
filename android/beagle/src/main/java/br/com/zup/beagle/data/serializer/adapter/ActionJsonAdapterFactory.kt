@@ -23,10 +23,10 @@ import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.data.serializer.PolymorphicJsonAdapterFactory
 import br.com.zup.beagle.widget.form.FormRemoteAction
+import java.util.*
 
-private const val BEAGLE_WIDGET_TYPE = "_beagleType_"
+private const val BEAGLE_WIDGET_TYPE = "_beagleAction_"
 private const val BEAGLE_NAMESPACE = "beagle"
-private const val ACTION_NAMESPACE = "action"
 
 internal object ActionJsonAdapterFactory {
 
@@ -34,12 +34,20 @@ internal object ActionJsonAdapterFactory {
         return PolymorphicJsonAdapterFactory.of(Action::class.java, BEAGLE_WIDGET_TYPE)
             .withSubtype(CustomAction::class.java, createNamespaceFor<CustomAction>())
             .withSubtype(FormValidation::class.java, createNamespaceFor<FormValidation>())
-            .withSubtype(Navigate::class.java, createNamespaceFor<Navigate>())
             .withSubtype(ShowNativeDialog::class.java, createNamespaceFor<ShowNativeDialog>())
             .withSubtype(FormRemoteAction::class.java, createNamespaceFor<FormRemoteAction>())
+            .withSubtype(Navigate.OpenExternalURL::class.java, createNamespaceFor<Navigate.OpenExternalURL>())
+            .withSubtype(Navigate.OpenNativeRoute::class.java, createNamespaceFor<Navigate.OpenNativeRoute>())
+            .withSubtype(Navigate.PushStack::class.java, createNamespaceFor<Navigate.PushStack>())
+            .withSubtype(Navigate.PopStack::class.java, createNamespaceFor<Navigate.PopStack>())
+            .withSubtype(Navigate.PushView::class.java, createNamespaceFor<Navigate.PushView>())
+            .withSubtype(Navigate.PopView::class.java, createNamespaceFor<Navigate.PopView>())
+            .withSubtype(Navigate.PopToView::class.java, createNamespaceFor<Navigate.PopToView>())
+            .withSubtype(Navigate.ResetApplication::class.java, createNamespaceFor<Navigate.ResetApplication>())
+            .withSubtype(Navigate.ResetStack::class.java, createNamespaceFor<Navigate.ResetStack>())
     }
 
     private inline fun <reified T : Action> createNamespaceFor(): String {
-        return "$BEAGLE_NAMESPACE:$ACTION_NAMESPACE:${T::class.java.simpleName.toLowerCase()}"
+        return "$BEAGLE_NAMESPACE:${T::class.java.simpleName.toLowerCase(Locale.getDefault())}"
     }
 }

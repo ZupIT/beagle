@@ -1,5 +1,5 @@
 {
-  "_beagleType_": "beagle:component:ScrollView",
+  "_beagleComponent_": "beagle:ScrollView",
   "appearance": {
     "backgroundColor": "#60FF0000",
     "cornerRadius": {
@@ -8,15 +8,15 @@
   },
   "children": [
     {
-      "_beagleType_": "beagle:component:Text",
+      "_beagleComponent_": "beagle:Text",
       "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tempus tempor diam vitae tempor. Phasellus orci justo, sollicitudin non enim euismod, posuere vehicula dolor.\n---"
     },
     {
-      "_beagleType_": "beagle:component:Text",
+      "_beagleComponent_": "beagle:Text",
       "text": "Morbi quis mi eu tellus tincidunt aliquam vitae nec nisl. Vivamus turpis lacus, sodales mollis arcu vitae, commodo maximus velit. Integer et arcu nisi. Vivamus erat dui, elementum vel tincidunt vel, finibus nec arcu.\n---"
     },
     {
-      "_beagleType_": "beagle:component:Text",
+      "_beagleComponent_": "beagle:Text",
       "text": "Aenean ultricies, turpis sit amet vulputate ultrices, felis sem pulvinar diam, at tincidunt enim felis vitae ante. Nulla hendrerit convallis arcu, at convallis nisl sodales nec.\n---"
     }
   ]

@@ -1,10 +1,10 @@
 {
-    "_beagleType_": "beagle:component:screencomponent",
+    "_beagleComponent_": "beagle:screencomponent",
     "child": {
-        "_beagleType_": "beagle:component:container",
+        "_beagleComponent_": "beagle:container",
         "children": [
             {
-                "_beagleType_": "beagle:component:text",
+                "_beagleComponent_": "beagle:text",
                 "text": "BeaglePreview",
                 "alignment": "CENTER",
                 "flex": {
@@ -24,10 +24,10 @@
                 }
             },
             {
-                "_beagleType_": "beagle:component:container",
+                "_beagleComponent_": "beagle:container",
                 "children": [
                     {
-                        "_beagleType_": "beagle:component:text",
+                        "_beagleComponent_": "beagle:text",
                         "text": "element 1",
                         "alignment": "CENTER",
                         "flex": {
@@ -47,7 +47,7 @@
                         }
                     },
                     {
-                        "_beagleType_": "beagle:component:text",
+                        "_beagleComponent_": "beagle:text",
                         "text": "element 2",
                         "alignment": "CENTER",
                         "flex": {
@@ -67,7 +67,7 @@
                         }
                     },
                     {
-                        "_beagleType_": "beagle:component:text",
+                        "_beagleComponent_": "beagle:text",
                         "text": "element 3",
                         "alignment": "CENTER",
                         "flex": {

@@ -1,0 +1,2 @@
+▿ Navigate
+  - openExternalURL: "schema://domain/path"

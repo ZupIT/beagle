@@ -23,7 +23,6 @@ import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.view.BeagleActivity
 import br.com.zup.beagle.view.ServerDrivenState
 import io.mockk.*
-import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import org.junit.After
 import org.junit.Before
@@ -41,6 +40,8 @@ class ActionExecutorTest {
     @MockK
     private lateinit var formValidationActionHandler: DefaultActionHandler<FormValidation>
     @MockK
+    private lateinit var updateContextActionHandler: UpdateContextActionHandler
+    @MockK
     private lateinit var context: Context
     @MockK
     private lateinit var customAction: CustomAction
@@ -50,7 +51,6 @@ class ActionExecutorTest {
     private val actionListener = slot<ActionListener>()
     private val activityStates = mutableListOf<ServerDrivenState>()
 
-    @InjectMockKs
     private lateinit var actionExecutor: ActionExecutor
 
     @Before
@@ -62,6 +62,14 @@ class ActionExecutorTest {
         every { BeagleEnvironment.beagleSdk } returns mockk(relaxed = true)
         every { customActionHandler.handle(activity, customAction, capture(actionListener)) } just Runs
         every { activity.onServerDrivenContainerStateChanged(capture(activityStates)) } just Runs
+
+        actionExecutor = ActionExecutor(
+            customActionHandler,
+            navigationActionHandler,
+            showNativeDialogActionHandler,
+            formValidationActionHandler,
+            updateContextActionHandler
+        )
     }
 
     @After
@@ -123,6 +131,19 @@ class ActionExecutorTest {
     }
 
     @Test
+    fun doAction_should_handle_UpdateContextActionHandler_action() {
+        // Given
+        val action = mockk<UpdateContext>()
+        every { updateContextActionHandler.handle(any(), any()) } just Runs
+
+        // When
+        actionExecutor.doAction(context, action)
+
+        // Then
+        verify(exactly = once()) { updateContextActionHandler.handle(context, action) }
+    }
+
+    @Test
     fun doAction_should_not_handle_CustomAction_action_when_handler_is_null() {
         // Given
         val actionExecutor = ActionExecutor(customActionHandler = null)
@@ -139,13 +160,12 @@ class ActionExecutorTest {
     @Test
     fun do_customAction_and_listen_onStart() {
         // Given
-        val executor = ActionExecutor(customActionHandler)
         val expectedStates = listOf<ServerDrivenState>(
             ServerDrivenState.Loading(true)
         )
 
         // When
-        executor.doAction(activity, customAction)
+        actionExecutor.doAction(activity, customAction)
         actionListener.captured.onStart()
 
         // Then
@@ -157,14 +177,13 @@ class ActionExecutorTest {
     @Test
     fun do_customAction_and_listen_onSuccess() {
         // Given
-        val executor = ActionExecutor(customActionHandler)
         val expectedState = listOf<ServerDrivenState>(
             ServerDrivenState.Loading(false)
         )
         val dumbAction = mockk<Action>()
 
         // When
-        executor.doAction(activity, customAction)
+        actionExecutor.doAction(activity, customAction)
         actionListener.captured.onSuccess(dumbAction)
 
         // Then
@@ -175,8 +194,7 @@ class ActionExecutorTest {
 
     @Test
     fun do_customAction_and_listen_onError() {
-        // Given
-        val executor = ActionExecutor(customActionHandler)
+        // Given )
         val error = mockk<Throwable>()
         val expectedState = listOf(
             ServerDrivenState.Loading(false),
@@ -184,7 +202,7 @@ class ActionExecutorTest {
         )
 
         // When
-        executor.doAction(activity, customAction)
+        actionExecutor.doAction(activity, customAction)
         actionListener.captured.onError(error)
 
         // Then
