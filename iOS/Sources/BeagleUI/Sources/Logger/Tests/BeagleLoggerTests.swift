@@ -59,7 +59,7 @@ class BeagleLoggerTests: XCTestCase {
 
         // Then
         let result = messages.joined(separator: "\n\n")
-        assertSnapshot(matching: result, as: .description)
+        assertSnapshot(matching: result, as: .description
     }
 }
 
