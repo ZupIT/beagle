@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -23,17 +22,31 @@ public protocol DependencyRenderer {
     var renderer: (BeagleContext, RenderableDependencies) -> BeagleRenderer { get set }
 }
 
-public class BeagleRenderer {
+/// Use this class whenever you want to transform a Component into a UIView
+open class BeagleRenderer {
 
-    let context: BeagleContext
-    let dependencies: RenderableDependencies
+    public let context: BeagleContext
+    public let dependencies: RenderableDependencies
 
     internal init(context: BeagleContext, dependencies: RenderableDependencies) {
         self.context = context
         self.dependencies = dependencies
     }
 
+    /// main function of this class. Call it to transform a Component into a UIView
     open func render(_ component: Schema.ServerDrivenComponent) -> UIView {
+        let view = makeView(component: component)
+
+        setupView(view, of: component)
+
+        return view
+    }
+
+    open func render(_ children: [Schema.ServerDrivenComponent]) -> [UIView] {
+        return children.map { render($0) }
+    }
+
+    private func makeView(component: Schema.ServerDrivenComponent) -> UIView {
         guard let renderable = component as? Renderable else {
             assertionFailure("This should never happen since we ensure users only subscribe components that are Renderable")
             let type = String(describing: component.self)
@@ -41,30 +54,27 @@ public class BeagleRenderer {
             return UnknownComponent(type: type).makeView()
         }
 
-        let view = renderable.toView(renderer: self)
-
-        // this switch could actually be inside the ViewConfigurator
-        if let widget = renderable as? Widget {
-            view.beagle.setup(widget)
-        } else {
-            if let c = renderable as? AccessibilityComponent {
-                view.beagle.setup(accessibility: c.accessibility)
-            }
-            if let c = renderable as? IdentifiableComponent {
-                view.beagle.setup(id: c.id)
-            }
-            if let c = renderable as? AppearanceComponent {
-                view.beagle.setup(appearance: c.appearance)
-            }
-            if let c = renderable as? FlexComponent {
-                view.flex.setup(c.flex)
-            }
-        }
-
-        return view
+        return renderable.toView(renderer: self)
     }
 
-    open func render(_ children: [Schema.ServerDrivenComponent]) -> [UIView] {
-        return children.map { render($0) }
+    private func setupView(_ view: UIView, of component: Schema.ServerDrivenComponent) {
+        // this switch could actually be inside the ViewConfigurator
+        if let widget = component as? Widget {
+            view.beagle.setup(widget)
+            return
+        }
+
+        if let c = component as? AccessibilityComponent {
+            view.beagle.setup(accessibility: c.accessibility)
+        }
+        if let c = component as? IdentifiableComponent {
+            view.beagle.setup(id: c.id)
+        }
+        if let c = component as? AppearanceComponent {
+            view.beagle.setup(appearance: c.appearance)
+        }
+        if let c = component as? FlexComponent {
+            view.flex.setup(c.flex)
+        }
     }
 }
