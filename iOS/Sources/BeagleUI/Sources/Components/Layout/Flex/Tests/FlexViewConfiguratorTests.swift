@@ -48,8 +48,22 @@ final class FlexViewConfiguratorTests: XCTestCase {
         XCTAssertEqual(view.yoga.alignSelf, .auto)
         XCTAssertEqual(view.yoga.alignContent, .flexStart)
         XCTAssertEqual(view.yoga.position, .relative)
-        XCTAssertEqual(view.yoga.flexBasis.unit, .auto)
-        XCTAssertEqual(view.yoga.flex, 0)
+        XCTAssertEqual(view.yoga.display, .flex)
+    }
+    
+    func test_setupFlex_shouldApplyValueProperties() {
+        // Given
+        let view = UIView()
+        let sut = FlexViewConfigurator(view: view)
+        
+        let flex = Flex(basis: UnitValue(value: 50, type: .real), flex: 1, grow: 0, shrink: 1)
+        
+        //When
+        sut.setup(flex)
+        
+        //Then
+        XCTAssertEqual(view.yoga.flexBasis.value, 50)
+        XCTAssertEqual(view.yoga.flex, 1)
         XCTAssertEqual(view.yoga.flexGrow, 0)
         XCTAssertEqual(view.yoga.flexShrink, 1)
         XCTAssertEqual(view.yoga.display, .flex)
