@@ -22,7 +22,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.NavigationType
+import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.sample.widgets.TextField
 import br.com.zup.beagle.sample.widgets.TextFieldInputType
 import br.com.zup.beagle.utils.toView
@@ -91,9 +91,8 @@ class FormFragment : Fragment() {
                     )
                 )
             ),
-            action = Navigate(
-                type = NavigationType.ADD_VIEW,
-                screen = screen2()
+            action = Navigate.PushStack(
+                route = Route.Local(screen2())
             ),
             shouldStoreFields = true,
             group = FORM_GROUP
