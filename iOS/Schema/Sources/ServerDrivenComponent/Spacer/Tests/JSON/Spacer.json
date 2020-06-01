@@ -1,83 +1,96 @@
 {
-  "_beagleType_" : "beagle:component:screencomponent",
-  "navigationBar" : {
-    "title" : "Beagle NavigationBar",
-    "showBackButton" : true,
-    "style" : "DesignSystem.Navigationbar.Style.Default",
-    "navigationBarItems" : [ {
-      "_beagleType_" : "beagle:component:navigationbaritem",
-      "text" : "Ajuda",
-      "image" : "informationImage",
-      "accessibility" : {
-        "accessible" : true,
-        "accessibilityLabel" : "Content Description"
-      },
-      "id" : "nbiInformation"
-    } ],
-    "backButtonAccessibility" : {
-      "accessible" : true,
-      "accessibilityLabel" : "Voltar"
-    }
-  },
-  "child" : {
-    "_beagleType_" : "beagle:component:container",
-    "children" : [ {
-      "_beagleType_" : "beagle:component:button",
-      "text" : "Button 1",
-      "style" : "DesignSystem.Button.Style",
-      "flex" : {
-        "margin" : {
-          "top" : {
-            "value" : 8.0,
-            "type" : "REAL"
-          }
-        }
-      }
-    }, {
-      "_beagleType_" : "beagle:component:spacer",
-      "size" : 5.0
-    }, {
-      "_beagleType_" : "beagle:component:button",
-      "text" : "Button 2",
-      "style" : "DesignSystem.Button.Style",
-      "flex" : {
-        "margin" : {
-          "top" : {
-            "value" : 8.0,
-            "type" : "REAL"
-          }
-        }
-      }
-    }, {
-      "_beagleType_" : "beagle:component:spacer",
-      "size" : 10.0
-    }, {
-      "_beagleType_" : "beagle:component:button",
-      "text" : "Button 3",
-      "style" : "DesignSystem.Button.Style",
-      "flex" : {
-        "margin" : {
-          "top" : {
-            "value" : 8.0,
-            "type" : "REAL"
-          }
-        }
-      }
-    }, {
-      "_beagleType_" : "beagle:component:spacer",
-      "size" : 0.0
-    }, {
-      "_beagleType_" : "beagle:component:button",
-      "text" : "Button 4",
-      "style" : "DesignSystem.Button.Style",
-      "flex" : {
-        "margin" : {
-          "top" : {
-            "value" : 8.0,
-            "type" : "REAL"
-          }
-        }
-      }
-    } ]
-  }
+   "_beagleComponent_":"beagle:screenComponent",
+   "child":{
+      "_beagleComponent_":"beagle:container",
+      "children":[
+         {
+            "_beagleComponent_":"beagle:button",
+            "text":"NavigationBar",
+            "style":"DesignSystem.Button.Style",
+            "flex":{
+               "margin":{
+                  "top":{
+                     "value":8.0,
+                     "type":"REAL"
+                  }
+               }
+            }
+         },
+         {
+            "_beagleComponent_":"beagle:container",
+            "children":[
+               {
+                  "_beagleComponent_":"beagle:spacer",
+                  "size":5.0
+               }
+            ],
+            "appearance":{
+               "backgroundColor":"500000FF"
+            }
+         },
+         {
+            "_beagleComponent_":"beagle:button",
+            "text":"NavigationBar with Style",
+            "style":"DesignSystem.Button.Style",
+            "flex":{
+               "margin":{
+                  "top":{
+                     "value":8.0,
+                     "type":"REAL"
+                  }
+               }
+            }
+         },
+         {
+            "_beagleComponent_":"beagle:container",
+            "children":[
+               {
+                  "_beagleComponent_":"beagle:spacer",
+                  "size":10.0
+               }
+            ],
+            "appearance":{
+               "backgroundColor":"500000FF"
+            }
+         },
+         {
+            "_beagleComponent_":"beagle:button",
+            "text":"NavigationBar with Item(Text)",
+            "style":"DesignSystem.Button.Style",
+            "flex":{
+               "margin":{
+                  "top":{
+                     "value":8.0,
+                     "type":"REAL"
+                  }
+               }
+            }
+         },
+         {
+            "_beagleComponent_":"beagle:container",
+            "children":[
+               {
+                  "_beagleComponent_":"beagle:spacer",
+                  "size":15.0
+               }
+            ],
+            "appearance":{
+               "backgroundColor":"500000FF"
+            }
+         },
+         {
+            "_beagleComponent_":"beagle:button",
+            "text":"NavigationBar with Item(Image)",
+            "style":"DesignSystem.Button.Style",
+            "flex":{
+               "margin":{
+                  "top":{
+                     "value":8.0,
+                     "type":"REAL"
+                  }
+               }
+            }
+         }
+      ]
+   }
 }

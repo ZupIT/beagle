@@ -42,7 +42,6 @@
 		C864D2CF247C240200E7A1F9 /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D273247C240200E7A1F9 /* Container.swift */; };
 		C864D2D2247C240200E7A1F9 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D278247C240200E7A1F9 /* Button.swift */; };
 		C864D2D4247C240200E7A1F9 /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D27E247C240200E7A1F9 /* Appearance.swift */; };
-		C864D2D5247C240200E7A1F9 /* NavigateEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D282247C240200E7A1F9 /* NavigateEntity.swift */; };
 		C864D2D6247C240200E7A1F9 /* Navigate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D283247C240200E7A1F9 /* Navigate.swift */; };
 		C864D2D7247C240200E7A1F9 /* ShowNativeDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D285247C240200E7A1F9 /* ShowNativeDialog.swift */; };
 		C864D2D8247C240200E7A1F9 /* FormRemoteAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D287247C240200E7A1F9 /* FormRemoteAction.swift */; };
@@ -162,7 +161,6 @@
 		C864D277247C240200E7A1F9 /* buttonComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = buttonComponent.json; sourceTree = "<group>"; };
 		C864D278247C240200E7A1F9 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		C864D27E247C240200E7A1F9 /* Appearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
-		C864D282247C240200E7A1F9 /* NavigateEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigateEntity.swift; sourceTree = "<group>"; };
 		C864D283247C240200E7A1F9 /* Navigate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Navigate.swift; sourceTree = "<group>"; };
 		C864D285247C240200E7A1F9 /* ShowNativeDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowNativeDialog.swift; sourceTree = "<group>"; };
 		C864D287247C240200E7A1F9 /* FormRemoteAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormRemoteAction.swift; sourceTree = "<group>"; };
@@ -666,7 +664,6 @@
 		C864D281247C240200E7A1F9 /* Navigate */ = {
 			isa = PBXGroup;
 			children = (
-				C864D282247C240200E7A1F9 /* NavigateEntity.swift */,
 				C864D283247C240200E7A1F9 /* Navigate.swift */,
 			);
 			path = Navigate;
@@ -1168,7 +1165,6 @@
 				C864D2DB247C240200E7A1F9 /* Action.swift in Sources */,
 				C864D2C1247C240200E7A1F9 /* ComponentDependencies.swift in Sources */,
 				C864D2AB247C240200E7A1F9 /* Form.swift in Sources */,
-				C864D2D5247C240200E7A1F9 /* NavigateEntity.swift in Sources */,
 				C864D2DF247C240200E7A1F9 /* Size.swift in Sources */,
 				C864D2DC247C240200E7A1F9 /* Accessibility.swift in Sources */,
 				C8EBCC3B247C300E002030CC /* ListView.swift in Sources */,
