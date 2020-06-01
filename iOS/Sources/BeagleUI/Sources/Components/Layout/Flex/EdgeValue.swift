@@ -15,10 +15,9 @@
  */
 
 // MARK: - EdgeValue
-/// Specify the offset the edge of the item should have from it’s closest sibling (item) or parent (container)
+/// Specifies the offset value of the edges that an item should have from it’s closest sibling (item) or parent (container).
 public class EdgeValue: Decodable, AutoEquatable, AutoInitiable {
     // MARK: - Public Properties
-    /// Specifies the offset value of the  edges that an item should have from it’s closest sibling (item) or parent (container).
     public var left: UnitValue?
     public var top: UnitValue?
     public var right: UnitValue?
