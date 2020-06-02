@@ -52,7 +52,7 @@ internal class PageViewRenderer(
 
         component.pageIndicator?.let {
             val pageIndicatorView = viewRendererFactory.make(it).build(rootView)
-            setupPageIndicator(component.pages.size, viewPager, component.pageIndicator as PageIndicatorView?)
+            setupPageIndicator(component.pages.size, viewPager, component.pageIndicator as PageIndicatorComponentView?)
             container.addView(pageIndicatorView)
         }
 

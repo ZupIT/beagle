@@ -30,7 +30,7 @@ internal class FormValidationActionHandler : DefaultActionHandler<FormValidation
             val formInput = formInputs?.find {
                 it.name == error.inputName
             }
-            val childInputWidget : InputWidgetView? = formInput?.child as InputWidgetView
+            val childInputWidget : InputWidgetView? = formInput?.child as InputWidgetView?
 
             childInputWidget?.onErrorMessage(error.message) ?:
                 BeagleLogger.warning("Input name with name ${error.inputName} does " +
