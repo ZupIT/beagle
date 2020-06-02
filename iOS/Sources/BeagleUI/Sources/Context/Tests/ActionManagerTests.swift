@@ -18,33 +18,31 @@ import XCTest
 @testable import BeagleUI
 import SnapshotTesting
 
-final class TouchableTests: XCTestCase {
-    
-    func testInitFromDecoder() throws {
-        let component: Touchable = try componentFromJsonFile(fileName: "TouchableDecoderTest")
-        assertSnapshot(matching: component, as: .dump)
+final class ActionManagerTests: XCTestCase {
+    func test_registerAction_shouldAddGestureRecognizer() {
+        // Given
+        let sut = ActionManager()
+        let view = UILabel()
+        let action = Navigate.popView
+        
+        // When
+        sut.register(events: [.action(action)], inView: view)
+        
+        // Then
+        XCTAssertEqual(1, view.gestureRecognizers?.count)
+        XCTAssertTrue(view.isUserInteractionEnabled)
     }
-
-    func testTouchableView() throws {
-        let touchable = Touchable(action: Navigate.popView, child: Text("Touchable"))
-        let view = touchable.toView(context: BeagleContextDummy(), dependencies: BeagleDependencies())
-
-        assertSnapshotImage(view, size: CGSize(width: 100, height: 80))
-    }
     
-    func testIfAnalyticsClickAndActionShouldBeTriggered() {
+    func test_action_shouldBeTriggered() {
         // Given
         let component = SimpleComponent()
-        let analyticsExecutorSpy = AnalyticsExecutorSpy()
         let actionExecutorSpy = ActionExecutorSpy()
-        let dependencies = BeagleScreenDependencies(
-            actionExecutor: actionExecutorSpy,
-            analytics: analyticsExecutorSpy
-        )
-        
+
         let controller = BeagleScreenViewController(viewModel: .init(
             screenType: .declarative(component.content.toScreen()),
-            dependencies: dependencies
+            dependencies: BeagleScreenDependencies(
+                actionExecutor: actionExecutorSpy
+            )
         ))
         
         let navigationController = UINavigationController(rootViewController: controller)
@@ -53,20 +51,15 @@ final class TouchableTests: XCTestCase {
             return
         }
         
-        let actionDummy = ActionDummy()
-        let analyticsAction = AnalyticsClick(category: "some category")
-        let touchable = Touchable(action: actionDummy, clickAnalyticsEvent: analyticsAction, child: Text("mocked text"))
-        let view = touchable.toView(context: sut, dependencies: dependencies)
+        let view = UILabel()
+        let action = Navigate.popView
+        sut.actionManager.register(events: [.action(action)], inView: view)
         
-        sut.actionManager.register(events: [.action(actionDummy), .analytics(analyticsAction)], inView: view)
-        
-        let gesture = view.gestureRecognizers?.first { $0 is EventsGestureRecognizer }
-    
-        guard let eventsGestureRecognizer = gesture as? EventsGestureRecognizer else {
-            XCTFail("Could not find `EventsGestureRecognizer`")
+        guard let eventsGestureRecognizer = view.gestureRecognizers?.first as? EventsGestureRecognizer else {
+            XCTFail("Could not find `EventsGestureRecognizer`.")
             return
         }
-                
+        
         // When
         guard let actionManager = sut.actionManager as? ActionManager else {
             XCTFail("Action Manager its not expected type")
@@ -75,7 +68,6 @@ final class TouchableTests: XCTestCase {
         actionManager.handleGestureRecognizer(eventsGestureRecognizer)
                 
         // Then
-        XCTAssertTrue(analyticsExecutorSpy.didTrackEventOnClick)
         XCTAssertTrue(actionExecutorSpy.didCallDoAction)
     }
 }
