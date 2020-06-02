@@ -21,6 +21,8 @@ public protocol DependencyNavigationController {
 }
 
 public protocol BeagleNavigation {
+    var defaultAnimation: BeagleNavigatorAnimation? { get set }
+    
     func navigate(action: Navigate, context: BeagleContext, animated: Bool)
 }
 
@@ -42,6 +44,8 @@ class BeagleNavigator: BeagleNavigation {
     init(dependencies: Dependencies) {
         self.dependencies = dependencies
     }
+    
+    var defaultAnimation: BeagleNavigatorAnimation?
     
     // MARK: - Navigate
     
@@ -81,7 +85,11 @@ class BeagleNavigator: BeagleNavigation {
         do {
             guard let deepLinkHandler = dependencies.deepLinkHandler else { return }
             let viewController = try deepLinkHandler.getNativeScreen(with: path, data: data)
-
+            
+            if let transition = getPushTransition() {
+                source.navigationController?.view.layer.add(transition, forKey: nil)
+            }
+            
             if resetApplication {
                 dependencies.windowManager.window?.replace(rootViewController: viewController, animated: animated, completion: nil)
             } else {
@@ -102,12 +110,18 @@ class BeagleNavigator: BeagleNavigation {
     }
     
     private func pushView(with type: Route, context: BeagleContext, animated: Bool) {
+        if let transition = getPushTransition() {
+            context.screenController.navigationController?.view.layer.add(transition, forKey: nil)
+        }
         context.screenController.navigationController?.pushViewController(viewControllerToPresent(type), animated: animated)
     }
     
     private func popView(source: UIViewController, animated: Bool) {
         if source.navigationController?.viewControllers.count == 1 {
             dependencies.logger.log(Log.navigation(.errorTryingToPopScreenOnNavigatorWithJustOneScreen))
+        }
+        if let transition = getPopTransition() {
+            source.navigationController?.view.layer.add(transition, forKey: nil)
         }
         source.navigationController?.popViewController(animated: animated)
     }
@@ -125,7 +139,9 @@ class BeagleNavigator: BeagleNavigation {
             dependencies.logger.log(Log.navigation(.cantPopToAlreadyCurrentScreen(identifier: identifier)))
             return
         }
-
+        if let transition = getPopTransition() {
+            source.navigationController?.view.layer.add(transition, forKey: nil)
+        }
         source.navigationController?.popToViewController(target, animated: animated)
     }
 
@@ -137,6 +153,12 @@ class BeagleNavigator: BeagleNavigation {
         case let .declarative(screen):
             navigationToPresent.viewControllers = [viewController(screen: screen)]
         }
+        if #available(iOS 13.0, *) {
+            navigationToPresent.modalPresentationStyle = defaultAnimation?.modalPresentationStyle ?? .automatic
+        } else {
+            navigationToPresent.modalPresentationStyle = defaultAnimation?.modalPresentationStyle ?? .fullScreen
+        }
+        navigationToPresent.modalTransitionStyle = defaultAnimation?.modalTransitionStyle ?? .coverVertical
         context.screenController.present(navigationToPresent, animated: animated)
     }
     
@@ -190,5 +212,31 @@ class BeagleNavigator: BeagleNavigation {
                 fallback: fallback
             ))
         ))
+    }
+
+    private func getPushTransition() -> CATransition? {
+        if let animation = defaultAnimation,
+            let pushTransition = animation.pushTransition,
+            let transition = pushTransition.type {
+            let caTransition = CATransition()
+            caTransition.duration = pushTransition.duration ?? 0.5
+            caTransition.type = transition.toCATransitionType()
+            caTransition.subtype = pushTransition.subtype?.toCATransitionSubtype()
+            return caTransition
+        }
+        return nil
+    }
+    
+    private func getPopTransition() -> CATransition? {
+        if let animation = defaultAnimation,
+            let popTransition = animation.popTransition,
+            let transition = popTransition.type {
+            let caTransition = CATransition()
+            caTransition.duration = popTransition.duration ?? 0.5
+            caTransition.type = transition.toCATransitionType()
+            caTransition.subtype = popTransition.subtype?.toCATransitionSubtype()
+            return caTransition
+        }
+        return nil
     }
 }

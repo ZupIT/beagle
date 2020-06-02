@@ -147,6 +147,8 @@ class CustomActionHandlerDummy: CustomActionHandler {
 }
 
 class BeagleNavigationSpy: BeagleNavigation {
+    var defaultAnimation: BeagleNavigatorAnimation?
+        
     private(set) var didCallNavigate = false
 
     func navigate(action: Navigate, context: BeagleContext, animated: Bool) {
