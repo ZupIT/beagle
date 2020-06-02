@@ -21,6 +21,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import br.com.zup.beagle.action.Navigate
+import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.sample.widgets.TextField
 import br.com.zup.beagle.sample.widgets.TextFieldInputType
 import br.com.zup.beagle.utils.toView
@@ -35,10 +37,14 @@ import br.com.zup.beagle.widget.form.FormSubmit
 import br.com.zup.beagle.widget.form.FormRemoteAction
 import br.com.zup.beagle.widget.form.FormMethodType
 import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Button
+
+private const val FORM_GROUP = "FORM_GROUP"
 
 class FormFragment : Fragment() {
 
+    @Suppress("LongMethod")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,39 +55,26 @@ class FormFragment : Fragment() {
                     FormInputHidden(
                         name = "hiddenParam",
                         value = "hiddenParamValue"
-                    ),FormInputHidden(
-                        name = "hiddenParam1",
-                        value = "hiddenParamValue1"
-                    ),FormInputHidden(
-                        name = "hiddenParam2",
-                        value = "hiddenParamValue2"
-                    ),FormInputHidden(
-                        name = "hiddenParam3",
-                        value = "hiddenParamValue3"
-                    ),FormInputHidden(
-                        name = "hiddenParam4",
-                        value = "hiddenParamValue4"
-                    ),FormInputHidden(
-                        name = "hiddenParam5",
-                        value = "hiddenParamValue5"
-                    ),
+                    ), FormInputHidden(
+                    name = "hiddenParam1",
+                    value = "hiddenParamValue1"
+                ), FormInputHidden(
+                    name = "hiddenParam2",
+                    value = "hiddenParamValue2"
+                ), FormInputHidden(
+                    name = "hiddenParam3",
+                    value = "hiddenParamValue3"
+                ), FormInputHidden(
+                    name = "hiddenParam4",
+                    value = "hiddenParamValue4"
+                ), FormInputHidden(
+                    name = "hiddenParam5",
+                    value = "hiddenParamValue5"
+                ),
                     FormInput(
                         name = "nome",
                         child = TextField(
                             hint = "nome"
-                        )
-                    ),
-                    FormInput(
-                        name = "email",
-                        child = TextField(
-                            hint = "email"
-                        )
-                    ),
-                    FormInput(
-                        name = "senha",
-                        child = TextField(
-                            hint = "senha",
-                            inputType = TextFieldInputType.PASSWORD
                         )
                     ),
                     FormSubmit(
@@ -98,14 +91,51 @@ class FormFragment : Fragment() {
                     )
                 )
             ),
-            action = FormRemoteAction(
-                method = FormMethodType.POST,
-                path = "endereco/endpoint"
-            )
+            action = Navigate.PushStack(
+                route = Route.Local(screen2())
+            ),
+            shouldStoreFields = true,
+            group = FORM_GROUP
         )
 
 
         return declarative.toView(this)
+    }
+
+    fun screen2(): Screen {
+        return Screen(
+            child = Form(
+                child = Container(
+                    children = listOf(
+                        FormInput(
+                            name = "email",
+                            child = TextField(
+                                hint = "email"
+                            )
+                        ),
+                        FormInput(
+                            name = "senha",
+                            child = TextField(
+                                hint = "senha",
+                                inputType = TextFieldInputType.PASSWORD
+                            )
+                        ),
+                        FormSubmit(
+                            child = Button(
+                                style = "DesignSystem.Button.Text",
+                                text = "submit"
+                            ).applyFlex(Flex(margin = EdgeValue(top = UnitValue(30.0, UnitType.REAL))))
+                        )
+                    )
+                ),
+                action = FormRemoteAction(
+                    method = FormMethodType.POST,
+                    path = "endereco/endpoint"
+                ),
+                group = FORM_GROUP
+
+            )
+        )
     }
 
     companion object {

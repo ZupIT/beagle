@@ -116,11 +116,11 @@ extension Button: Renderable {
         
         @objc func triggerTouchUpInsideActions() {
             if let action = action {
-                context?.doAction(action, sender: self)
+                context?.actionManager.doAction(action, sender: self)
             }
             
             if let click = clickAnalyticsEvent {
-                context?.doAnalyticsAction(click, sender: self)
+                context?.actionManager.doAnalyticsAction(click, sender: self)
             }
         }
         

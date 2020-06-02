@@ -46,7 +46,7 @@ final class SubmitFormGestureRecognizer: UITapGestureRecognizer {
             pendingViews.append(formView)
         }
         while let view = pendingViews.popLast() {
-            if view.beagleElement is FormInputComponent {
+            if view.beagleElement is FormInput {
                 inputViews.append(view)
             } else {
                 pendingViews.append(contentsOf: view.subviews)

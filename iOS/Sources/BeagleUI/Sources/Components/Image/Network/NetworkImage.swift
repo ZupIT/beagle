@@ -52,12 +52,12 @@ extension NetworkImage: Renderable {
         if let placeholder = placeholder {
             let imagePlaceholder = placeholder.toView(context: context, dependencies: dependencies)
             imagePlaceholder.beagle.setup(self)
-            context.lazyLoadImage(path: path, placeholderView: imagePlaceholder, imageView: imageView, flex: flex ?? Flex())
+            context.lazyLoadManager.lazyLoadImage(path: path, placeholderView: imagePlaceholder, imageView: imageView, flex: flex ?? Flex())
             return imagePlaceholder
         }
 
         dependencies.repository.fetchImage(url: path, additionalData: nil) {
-            [weak imageView, weak context] result in
+            [weak imageView] result in
             guard let imageView = imageView else { return }
             guard case .success(let data) = result else {
                 return
@@ -66,7 +66,6 @@ extension NetworkImage: Renderable {
             DispatchQueue.main.async {
                 imageView.image = image
                 imageView.flex.markDirty()
-                context?.applyLayout()
             }
         }
         return imageView

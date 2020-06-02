@@ -30,12 +30,14 @@ buildscript {
 }
 
 plugins {
-    id "io.gitlab.arturbosch.detekt" version "1.0.1"
+    id "io.gitlab.arturbosch.detekt" version "1.9.1"
     id "com.github.ben-manes.versions" version "0.28.0"
+    id 'org.jetbrains.dokka' version '0.10.1'
 }
 
 allprojects {
     apply from: "$rootDir/detekt.gradle"
+    apply from: rootProject.file('dokka.gradle')
 
     repositories {
         google()

@@ -1,9 +1,9 @@
 {
-  "_beagleType_" : "beagle:component:networkImage",
+  "_beagleComponent_" : "beagle:networkImage",
   "path": "www.com",
   "contentMode": "FIT_CENTER",
   "placeholder" : {
-    "_beagleType_" : "beagle:component:image",
+    "_beagleComponent_" : "beagle:image",
     "name" : "imageBeagle"
   }
 }

@@ -18,11 +18,31 @@ package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+/**
+ * TabView is a component responsible for the navigation between views.
+ * It works by displaying tabs corresponding to the different views that can be accessed.
+ *
+ * @param tabItems define yours view has in tab
+ * @param style reference a native style in your local styles file to be applied on this view.
+ *
+ */
 data class TabView(
     val tabItems: List<TabItem>,
     val style: String? = null
 ) : ServerDrivenComponent
 
+/**
+ * Define the view has in the tab view
+ *
+ * @param title displays the text on the TabView component. If it is null or not declared it won't display any text.
+ * @param content
+ *                  inflate a view on the TabView according to the Tab item clicked.
+ *                  It could receive any view (Server Driven).
+ * @param icon
+ *                  display an icon image on the TabView component.
+ *                  If it is left as null or not declared it won't display any icon.
+ *
+ */
 data class TabItem(
     val title: String? = null,
     val content: ServerDrivenComponent,

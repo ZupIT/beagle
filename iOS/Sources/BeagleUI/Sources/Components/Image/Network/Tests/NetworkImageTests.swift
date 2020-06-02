@@ -71,7 +71,6 @@ final class NetworkImageTests: XCTestCase {
         }
         
         // Then
-        XCTAssert(context.didCallLazyLoadImage)
         XCTAssertNotNil(placeholderView, "Expected placeholder to not be nil.")
     }
 }

@@ -18,7 +18,7 @@ package br.com.zup.beagle.sample.compose
 
 import br.com.zup.beagle.sample.constants.BLACK
 import br.com.zup.beagle.sample.constants.LIGHT_GREY
-import br.com.zup.beagle.widget.core.Alignment
+import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.ComposeComponent
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.PageView
@@ -38,7 +38,7 @@ object ComposePageView : ComposeComponent() {
     private fun createText(i: Int) = Text("Page $i", alignment = TextAlignment.CENTER)
         .applyFlex(
             Flex(
-                alignSelf = Alignment.CENTER,
+                alignSelf = AlignSelf.CENTER,
                 grow = 1.0
             )
         )

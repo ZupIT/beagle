@@ -44,6 +44,7 @@ import br.com.zup.beagle.widget.form.FormSubmit
 import br.com.zup.beagle.widget.form.FormRemoteAction
 import br.com.zup.beagle.widget.form.InputWidget
 
+@Suppress("LongParameterList")
 internal class FormViewRenderer(
     override val component: Form,
     private val validatorHandler: ValidatorHandler? = BeagleEnvironment.beagleSdk.validatorHandler,
@@ -53,6 +54,7 @@ internal class FormViewRenderer(
     private val actionExecutor: ActionExecutor = ActionExecutor(
         formValidationActionHandler = formValidationActionHandler
     ),
+    private val formDataStoreHandler: FormDataStoreHandler = FormDataStoreHandler.shared,
     viewRendererFactory: ViewRendererFactory = ViewRendererFactory(),
     viewFactory: ViewFactory = ViewFactory()
 ) : LayoutViewRenderer<Form>(viewRendererFactory, viewFactory) {
@@ -123,10 +125,34 @@ internal class FormViewRenderer(
         formInputHiddenList.forEach { formInputHidden ->
             formsValue[formInputHidden.name] = formInputHidden.value
         }
-
         if (formsValue.size == (formInputs.size + formInputHiddenList.size)) {
+            updateStoredData(formsValue)
             formSubmitView?.hideKeyboard()
             submitForm(formsValue, context)
+        }
+    }
+
+    private fun updateStoredData(formsValue: MutableMap<String, String>) {
+        persistCurrentData(formsValue)
+        loadStoredData(formsValue)
+    }
+
+    private fun persistCurrentData(formsValue: MutableMap<String, String>) {
+        val group = component.group
+        if (!component.shouldStoreFields || group == null) return
+        for ((key, value) in formsValue) {
+            formDataStoreHandler.put(group, key, value)
+        }
+    }
+
+    private fun loadStoredData(formsValue: MutableMap<String, String>) {
+        val group = component.group
+        if (component.shouldStoreFields || group == null) return
+        val storedValues = formDataStoreHandler.getAllValues(group)
+        for( (key, value) in storedValues) {
+            if(formsValue[key] == null) {
+                formsValue[key] = value
+            }
         }
     }
 
@@ -171,7 +197,12 @@ internal class FormViewRenderer(
 
     private fun handleFormResult(context: Context, formResult: FormResult) {
         when (formResult) {
-            is FormResult.Success -> actionExecutor.doAction(context, formResult.action)
+            is FormResult.Success -> {
+                component.group?.let {
+                    formDataStoreHandler.clear(it)
+                }
+                actionExecutor.doAction(context, formResult.action)
+            }
             is FormResult.Error -> (context as? BeagleActivity)?.onServerDrivenContainerStateChanged(
                 ServerDrivenState.Error(formResult.throwable)
             )

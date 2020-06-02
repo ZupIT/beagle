@@ -16,7 +16,7 @@
 
 import UIKit
 
-public struct FormInput: FormInputComponent, AutoInitiableAndDecodable {
+public struct FormInput: ServerDrivenComponent, AutoInitiableAndDecodable {
     
     public let name: String
     public let required: Bool?

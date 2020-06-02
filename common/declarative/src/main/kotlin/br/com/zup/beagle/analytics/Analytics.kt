@@ -16,8 +16,22 @@
 
 package br.com.zup.beagle.analytics
 
+/**
+ * Beagle analytics is used to track click events.
+ */
 interface Analytics {
+    /**
+     * sends the click event had in the view
+     */
     fun sendClickEvent(event: ClickEvent)
+
+    /**
+     * sends the event when view appear
+     */
     fun sendViewWillAppearEvent(event: ScreenEvent)
+
+    /**
+     * sends the event when view disappear
+     */
     fun sendViewWillDisappearEvent(event: ScreenEvent)
 }

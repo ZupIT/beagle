@@ -18,12 +18,7 @@ allprojects {
         google()
         jcenter()
         maven {
-            credentials {
-                // user@password with read only access
-                username "beagle"
-                password "Xq7wAh3xDkGN"
-            }
-            url 'https://repo-iti.zup.com.br/repository/beagle-jars-all/'
+            url 'https://dl.bintray.com/zupit/repo'
         }
     }
 }
