@@ -19,7 +19,7 @@ import Foundation
 public class HttpRequestBuilder {
 
     public var additionalHeaders = [String: String]()
-
+    
     public init() { }
 
     public func build(
@@ -41,7 +41,7 @@ public class HttpRequestBuilder {
             body: body
         )
     }
-
+    
     public struct Result {
         var url: URL
         var method: String

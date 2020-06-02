@@ -1,0 +1,13 @@
+{
+    "_beagleAction_": "beagle:pushView",
+    "route": {
+        "route": "schema://path",
+        "shouldPrefetch": true,
+        "fallback": {
+            "child" : {
+              "_beagleComponent_" : "beagle:text",
+              "text" : "child"
+            }
+        }
+    }
+}

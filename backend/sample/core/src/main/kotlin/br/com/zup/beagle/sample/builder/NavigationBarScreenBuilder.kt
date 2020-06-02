@@ -17,7 +17,7 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.sample.constants.TEXT_FONT_MAX
-import br.com.zup.beagle.widget.core.Alignment
+import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
@@ -44,7 +44,7 @@ class NavigationBarScreenBuilder(
     private fun createBeagleText(text: String) = Text(text = text, style = TEXT_FONT_MAX)
         .applyFlex(
             flex = Flex(
-                alignItems = Alignment.CENTER
+                alignItems = AlignItems.CENTER
             )
         )
 }

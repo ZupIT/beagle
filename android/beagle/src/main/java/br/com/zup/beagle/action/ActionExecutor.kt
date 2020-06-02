@@ -36,7 +36,6 @@ internal class ActionExecutor(
             is Navigate -> navigationActionHandler.handle(context, action)
             is ShowNativeDialog -> showNativeDialogActionHandler.handle(context, action)
             is FormValidation -> formValidationActionHandler?.handle(context, action)
-
             is CustomAction -> customActionHandler?.handle(context, action, object : ActionListener {
 
                 override fun onSuccess(action: Action) {

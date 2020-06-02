@@ -16,10 +16,25 @@
 
 package br.com.zup.beagle.action
 
+/**
+ * Configures the error messages returned by a service external to the application.
+ * For example, when checking the registration status of a CPF in the recipe,
+ * we can return the API error message to the application using FormValidation.
+ *
+ * @param errors list of errors.
+ *
+ */
 data class FormValidation(
     val errors: List<FieldError>
 ) : Action
 
+/**
+ * class to define error.
+ *
+ * @param inputName component name to which this error refers.
+ * @param message The error message displayed.
+ *
+ */
 data class FieldError(
     val inputName: String,
     val message: String

@@ -37,9 +37,9 @@
         - appearance: Optional<Appearance>.none
         ▿ flex: Optional<Flex>
           ▿ some: Flex
-            - alignContent: Optional<Alignment>.none
-            - alignItems: Optional<Alignment>.none
-            - alignSelf: Optional<Alignment>.none
+            - alignContent: Optional<AlignContent>.none
+            - alignItems: Optional<AlignItems>.none
+            - alignSelf: Optional<AlignSelf>.none
             - basis: Optional<UnitValue>.none
             - direction: Optional<Direction>.none
             - display: Optional<Display>.none
@@ -95,9 +95,9 @@
         - appearance: Optional<Appearance>.none
         ▿ flex: Optional<Flex>
           ▿ some: Flex
-            - alignContent: Optional<Alignment>.none
-            - alignItems: Optional<Alignment>.none
-            - alignSelf: Optional<Alignment>.none
+            - alignContent: Optional<AlignContent>.none
+            - alignItems: Optional<AlignItems>.none
+            - alignSelf: Optional<AlignSelf>.none
             - basis: Optional<UnitValue>.none
             - direction: Optional<Direction>.none
             - display: Optional<Display>.none
@@ -153,9 +153,9 @@
         - appearance: Optional<Appearance>.none
         ▿ flex: Optional<Flex>
           ▿ some: Flex
-            - alignContent: Optional<Alignment>.none
-            - alignItems: Optional<Alignment>.none
-            - alignSelf: Optional<Alignment>.none
+            - alignContent: Optional<AlignContent>.none
+            - alignItems: Optional<AlignItems>.none
+            - alignSelf: Optional<AlignSelf>.none
             - basis: Optional<UnitValue>.none
             - direction: Optional<Direction>.none
             - display: Optional<Display>.none

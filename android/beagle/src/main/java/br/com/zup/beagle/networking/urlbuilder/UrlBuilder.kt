@@ -18,5 +18,5 @@ package br.com.zup.beagle.networking.urlbuilder
 
 interface UrlBuilder {
 
-    fun format(endpoint: String, path: String): String
+    fun format(endpoint: String?, path: String): String?
 }
