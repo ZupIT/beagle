@@ -31,13 +31,23 @@ import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 
 private const val ENDPOINT_KEY = "ENDPOINT_KEY"
+private const val RECONNECT_INTERVAL_KEY = "RECONNECT_INTERVAL_KEY"
 private const val TAG = "BeagleSDK"
+private const val DEFAULT_INTERVAL = 1000L
 
 class PreviewActivity : BeagleActivity() {
 
+    private val reconnectInterval by lazy {
+        intent.extras?.getLong(RECONNECT_INTERVAL_KEY, DEFAULT_INTERVAL) ?: DEFAULT_INTERVAL
+    }
+    private val endpoint by lazy { intent.extras?.getString(ENDPOINT_KEY) }
+
     companion object {
-        fun newIntent(context: Context): Intent {
-            return Intent(context, PreviewActivity::class.java)
+        fun newIntent(context: Context, reconnectInterval: Long? = null, endpoint: String? = null): Intent {
+            return Intent(context, PreviewActivity::class.java).apply {
+                putExtra(RECONNECT_INTERVAL_KEY, reconnectInterval)
+                putExtra(ENDPOINT_KEY, endpoint)
+            }
         }
     }
 
@@ -53,9 +63,9 @@ class PreviewActivity : BeagleActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preview)
 
-        beaglePreview = BeaglePreview(intent.extras?.getString(ENDPOINT_KEY))
+        beaglePreview = BeaglePreview(endpoint, reconnectInterval)
 
-        beaglePreview.start(object : WebSocketListener() {
+        beaglePreview.startListening(object : WebSocketListener() {
             override fun onOpen(webSocket: WebSocket, response: Response) {
                 super.onOpen(webSocket, response)
                 Log.d(TAG, "onOpen: ${response.message}")
@@ -85,13 +95,15 @@ class PreviewActivity : BeagleActivity() {
 
             override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
                 super.onFailure(webSocket, t, response)
-                Log.e(TAG, "onFailure: webSocket closed")
+                Log.w(TAG, "onFailure: closed webSocket trying to reconnect")
+                beaglePreview.reconnect()
             }
         })
     }
 
     override fun onDestroy() {
+        beaglePreview.closeWebSocket()
+        beaglePreview.doNotReconnect()
         super.onDestroy()
-        beaglePreview.close()
     }
 }

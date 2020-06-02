@@ -59,7 +59,7 @@ public class CacheManagerDefault: CacheManagerProtocol {
         self.dependencies = dependencies
     }
     
-    // MARK: PUBLIC
+    // MARK: Public
 
     public func addToCache(_ reference: CacheReference) {
         saveInMemory(reference: reference)

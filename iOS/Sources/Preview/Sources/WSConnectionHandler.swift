@@ -14,7 +14,24 @@
  * limitations under the License.
  */
 
-///This Protocol defines a FormInput Server Driven Component
-public protocol FormInputComponent: ServerDrivenComponent {
-    var name: String { get }
+import UIKit
+
+enum WSConnectionEvent {
+    case connected
+    case disconnected
+    case layoutChange(String)
+}
+
+protocol WSConnectionHandlerDelegate: AnyObject {
+
+    func onWebSocketEvent(_ event: WSConnectionEvent)
+}
+
+protocol WSConnectionHandler {
+
+    var delegate: WSConnectionHandlerDelegate? { get set }
+
+    func start()
+
+    func stop()
 }
