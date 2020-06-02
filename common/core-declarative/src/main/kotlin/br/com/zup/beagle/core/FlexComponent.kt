@@ -18,6 +18,13 @@ package br.com.zup.beagle.core
 
 import br.com.zup.beagle.widget.core.Flex
 
-interface FlexComponent: ServerDrivenComponent {
+/**
+ * Component that hold the flex
+ * @property flex
+ *                  is a Layout component that will handle your visual component positioning at the screen.
+ *                  Internally Beagle uses a Layout engine called Yoga Layout to position elements on screen.
+ *                  In fact it will use the HTML Flexbox  properties applied on the visual components and its children.
+ */
+interface FlexComponent : ServerDrivenComponent {
     val flex: Flex?
 }

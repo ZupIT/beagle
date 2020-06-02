@@ -66,7 +66,7 @@ extension ScreenComponent: Renderable {
     }
     
     private func buildChildView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        let childHolder = UIView()
+        let childHolder = ScreenView()
         let childView = child.toView(context: context, dependencies: dependencies)
         
         childHolder.addSubview(childView)
@@ -76,6 +76,8 @@ extension ScreenComponent: Renderable {
         return childHolder
     }
 }
+
+final class ScreenView: UIView {}
 
 public struct SafeArea: Equatable, Decodable, AutoInitiable {
 

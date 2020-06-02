@@ -22,12 +22,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.NavigationType
+import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.ScreenEvent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.utils.toView
-import br.com.zup.beagle.widget.core.Alignment
+import br.com.zup.beagle.widget.core.AlignContent
+import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.core.JustifyContent
@@ -49,8 +50,8 @@ class NavigationFragment : Fragment() {
                 Flex(
                     flexDirection = FlexDirection.COLUMN,
                     justifyContent = JustifyContent.CENTER,
-                    alignItems = Alignment.CENTER,
-                    alignContent = Alignment.SPACE_BETWEEN,
+                    alignItems = AlignItems.CENTER,
+                    alignContent = AlignContent.SPACE_BETWEEN,
                     grow = 1.0
                 )
             ),
@@ -68,10 +69,7 @@ class NavigationFragment : Fragment() {
                 child = Button(text = "Click to navigate").applyFlex(
                     Flex(size = Size(width = UnitValue(80.0, UnitType.PERCENT)))
                 ),
-                action = Navigate(
-                    type = NavigationType.ADD_VIEW,
-                    path = "https://t001-2751a.firebaseapp.com/flow/step1.json"
-                ),
+                action = Navigate.PushView(Route.Remote("https://t001-2751a.firebaseapp.com/flow/step1.json")),
                 clickAnalyticsEvent = ClickEvent(
                     category = "Categoria",
                     label = "Descrição",

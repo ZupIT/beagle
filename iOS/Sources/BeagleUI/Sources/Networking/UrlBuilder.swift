@@ -35,6 +35,26 @@ public class UrlBuilder: UrlBuilderProtocol {
     }
 
     public func build(path: String) -> URL? {
-        return URL(string: path, relativeTo: baseUrl)
+        switch getUrlType(path: path, baseUrl: baseUrl) {
+        case .noStripePrefix:
+            return URL(string: path)
+        case .stripePrefix:
+            guard var absolute = baseUrl?.absoluteString else {
+                return URL(string: path)
+            }
+            if absolute.hasSuffix("/") {
+                absolute.removeLast()
+            }
+            return URL(string: absolute + path)
+        }
     }
+    
+    private func getUrlType(path: String, baseUrl: URL?) -> UrlType {
+        return path.hasPrefix("/") ? .stripePrefix : .noStripePrefix
+    }
+}
+
+private enum UrlType {
+    case noStripePrefix
+    case stripePrefix
 }

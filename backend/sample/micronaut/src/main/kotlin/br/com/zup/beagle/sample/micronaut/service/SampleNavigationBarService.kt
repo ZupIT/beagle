@@ -17,7 +17,7 @@
 package br.com.zup.beagle.sample.micronaut.service
 
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.NavigationType
+import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.sample.builder.NavigationBarScreenBuilder
 import br.com.zup.beagle.sample.builder.NavigationBarViewScreenBuilder
 import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
@@ -47,10 +47,7 @@ class SampleNavigationBarService {
         navigationBarItems = listOf(
             NavigationBarItem(
                 text = "Entrar",
-                action = Navigate(
-                    type = NavigationType.ADD_VIEW,
-                    path = SCREEN_ACTION_CLICK_ENDPOINT
-                )
+                action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))
             )
         )
     )
@@ -62,10 +59,7 @@ class SampleNavigationBarService {
             NavigationBarItem(
                 text = "",
                 image = LOGO_BEAGLE,
-                action = Navigate(
-                    type = NavigationType.ADD_VIEW,
-                    path = SCREEN_ACTION_CLICK_ENDPOINT
-                )
+                action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))
             )
         )
     )

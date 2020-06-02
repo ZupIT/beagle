@@ -12,6 +12,14 @@ platform :android do
     codecov_reporter(token: ENV["CODECOV_TOKEN"], flags: "-F android -C #{commit_hash}")
   end
 
+end
+
+###
+###  Common (Android and Backend)
+###
+
+platform :common do
+
   desc "Publish remote new version"
   lane :remote_publish do
     gradle(task: "build")
@@ -23,6 +31,7 @@ platform :android do
       gradle(task: "build")
       gradle(task: "publishToMavenLocal")
     end
+
 end
 
 ###
@@ -68,7 +77,7 @@ desc "Publish new release based on last two tags"
 lane :deploy do
   git_pull
   ENV["VERSION_DEPLOY"] = last_git_tag
-  sh "fastlane android remote_publish"
+  sh "fastlane common remote_publish"
 
   sh "bash ./delete_release.sh"
   set_github_release(
@@ -117,4 +126,28 @@ lane :run_danger do |options|
      github_api_token: ENV["GITHUB_TOKEN"],
      verbose: true
     )
+end
+
+###
+###  Backend
+###
+
+platform :backend do
+
+  desc "Pull Request verification"
+  lane :pull_request_verification do
+    gradle(task: "detekt")
+    gradle(tasks:
+        [
+            "backend:framework:test",
+            "backend:starters:beagle-micronaut-starter:test",
+            "backend:starters:beagle-spring-starter:test",
+            "backend:sample:micronaut:assemble",
+            "backend:sample:spring:assemble"
+        ]
+    )
+    commit_hash = last_git_commit[:commit_hash]
+    codecov_reporter(token: ENV["CODECOV_TOKEN"], flags: "-F backend -C #{commit_hash}")
+  end
+
 end

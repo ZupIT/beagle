@@ -32,5 +32,5 @@ final class SpacerTests: XCTestCase {
         assertSnapshotImage(view, size: CGSize(width: 100, height: 100))
     }
 
-    // TODO: make a test that actually hava a space with something else
+    // TODO: make a test that actually have a space with something else
 }

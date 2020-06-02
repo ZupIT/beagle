@@ -17,7 +17,7 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.NavigationType
+import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
@@ -25,7 +25,7 @@ import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_STYLE
 import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.core.Alignment
+import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
@@ -72,13 +72,10 @@ object TouchableScreenBuilder : ScreenBuilder {
         children = listOf(
             buildTitle(title),
             Touchable(
-                action = Navigate(
-                    path = SCREEN_ACTION_CLICK_ENDPOINT,
-                    type = NavigationType.ADD_VIEW
-                ),
+                action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT)),
                 child = item.applyFlex(
                     flex = Flex(
-                        alignSelf = Alignment.CENTER,
+                        alignSelf = AlignSelf.CENTER,
                         margin = EdgeValue(
                             top = 8.unitReal(),
                             bottom = 8.unitReal()
@@ -94,7 +91,7 @@ object TouchableScreenBuilder : ScreenBuilder {
         style = SCREEN_TEXT_STYLE
     ).applyFlex(
         flex = Flex(
-            alignSelf = Alignment.CENTER,
+            alignSelf = AlignSelf.CENTER,
             margin = EdgeValue(
                 top = 8.unitReal()
             )
@@ -113,13 +110,10 @@ object TouchableScreenBuilder : ScreenBuilder {
                             width = 150.unitReal(),
                             height = 130.unitReal()
                         ),
-                        alignSelf = Alignment.CENTER
+                        alignSelf = AlignSelf.CENTER
                     )
                 ),
-                action = Navigate(
-                    path = SCREEN_ACTION_CLICK_ENDPOINT,
-                    type = NavigationType.ADD_VIEW
-                )
+                action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))
             )
         )
     )

@@ -16,6 +16,14 @@
 
 package br.com.zup.beagle.analytics
 
+/**
+ * Define click event
+ *
+ * @param category
+ * @param label
+ * @param value
+ *
+ */
 data class ClickEvent(
     val category: String,
     val label: String? = null,

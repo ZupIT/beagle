@@ -1,6 +1,6 @@
 ▿ Button
   ▿ action: Optional<Action>
-    - some: Navigate.finishView
+    - some: Navigate.popStack
   ▿ clickAnalyticsEvent: Optional<AnalyticsClick>
     ▿ some: AnalyticsClick
       - category: "mocked category"

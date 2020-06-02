@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("TooManyFunctions", "LongParameterList")
+
 package br.com.zup.beagle.sample.micronaut.controller
 
 import br.com.zup.beagle.sample.constants.ACCESSIBILITY_SCREEN_ENDPOINT

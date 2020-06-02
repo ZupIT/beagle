@@ -22,7 +22,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.utils.toView
-import br.com.zup.beagle.widget.core.Alignment
+import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.PageView
 import br.com.zup.beagle.widget.pager.PageIndicator
@@ -43,19 +43,19 @@ class PageViewFragment : Fragment() {
             pages = listOf(
                 Text("Page 1", alignment = TextAlignment.CENTER).applyFlex(
                     Flex(
-                        alignSelf = Alignment.CENTER,
+                        alignSelf = AlignSelf.CENTER,
                         grow = 1.0
                     )
                 ),
                 Text("Page 2", alignment = TextAlignment.CENTER).applyFlex(
                     Flex(
-                        alignSelf = Alignment.CENTER,
+                        alignSelf = AlignSelf.CENTER,
                         grow = 1.0
                     )
                 ),
                 Text("Page 3", alignment = TextAlignment.CENTER).applyFlex(
                     Flex(
-                        alignSelf = Alignment.CENTER,
+                        alignSelf = AlignSelf.CENTER,
                         grow = 1.0
                     )
                 )

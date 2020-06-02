@@ -19,6 +19,17 @@ package br.com.zup.beagle.widget.lazy
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+/**
+ *  The LazyComponent is used when an asynchronous BFF request is made.
+ *  An initialState view is set on this component.
+ *  It works like a loading component or a default picture that is set until the request is fulfilled.
+ *
+ * @param path The URL to make the request.
+ * @param initialState
+ *                          define a ServerDrivenComponent that is set to be on view while the asynchronous
+ *                          request made is being fulfilled.
+ *
+ */
 data class LazyComponent(
     val path: String,
     val initialState: ServerDrivenComponent
