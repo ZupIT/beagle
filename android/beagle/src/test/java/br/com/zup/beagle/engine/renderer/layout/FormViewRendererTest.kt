@@ -40,17 +40,9 @@ import br.com.zup.beagle.view.BeagleActivity
 import br.com.zup.beagle.view.ServerDrivenState
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.form.*
-import io.mockk.Runs
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkObject
-import io.mockk.mockkStatic
-import io.mockk.slot
-import io.mockk.unmockkAll
-import io.mockk.verify
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -58,6 +50,8 @@ private const val FORM_INPUT_VIEWS_FIELD_NAME = "formInputs"
 private const val FORM_INPUT_HIDDEN_VIEWS_FIELD_NAME = "formInputHiddenList"
 private const val FORM_SUBMIT_VIEW_FIELD_NAME = "formSubmitView"
 private val INPUT_VALUE = RandomData.string()
+private const val INPUT_NAME = "INPUT_NAME"
+private const val FORM_GROUP_VALUE = "GROUP"
 
 class FormViewRendererTest : BaseTest() {
 
@@ -98,6 +92,9 @@ class FormViewRendererTest : BaseTest() {
     private lateinit var viewFactory: ViewFactory
 
     @MockK
+    private lateinit var formDataStoreHandler: FormDataStoreHandler
+
+    @MockK
     private lateinit var beagleActivity: BeagleActivity
 
     @MockK
@@ -127,6 +124,7 @@ class FormViewRendererTest : BaseTest() {
     private val onClickListenerSlot = slot<View.OnClickListener>()
     private val formSubmitCallbackSlot = slot<(formResult: FormResult) -> Unit>()
     private val runnableSlot = slot<Runnable>()
+    private val formParamsSlot = slot<Map<String, String>>()
 
     private lateinit var formViewRenderer: FormViewRenderer
 
@@ -140,6 +138,7 @@ class FormViewRendererTest : BaseTest() {
             formSubmitter,
             formValidatorController,
             actionExecutor,
+            formDataStoreHandler,
             viewRendererFactory,
             viewFactory
         )
@@ -151,8 +150,12 @@ class FormViewRendererTest : BaseTest() {
         every { BeagleMessageLogs.logFormSubmitNotFound(any()) } just Runs
         every { viewRendererFactory.make(form) } returns viewRenderer
         every { viewRenderer.build(rootView) } returns viewGroup
+        every { formDataStoreHandler.getAllValues(any()) } returns HashMap()
+        every { formDataStoreHandler.put(any(), any(), any()) } just Runs
+        every { formDataStoreHandler.clear(any()) } just Runs
         every { form.child } returns form
         every { formInput.required } returns false
+        every { formInput.name } returns INPUT_NAME
         every { inputWidget.getValue() } returns INPUT_VALUE
         every { formInput.child } returns inputWidget
         every { formInputView.context } returns beagleActivity
@@ -167,7 +170,7 @@ class FormViewRendererTest : BaseTest() {
         every { formValidationActionHandler.formInputs = any() } just Runs
         every { beagleActivity.getSystemService(any()) } returns inputMethodManager
         every { beagleActivity.runOnUiThread(capture(runnableSlot)) } just Runs
-        every { formSubmitter.submitForm(any(), any(), capture(formSubmitCallbackSlot)) } just Runs
+        every { formSubmitter.submitForm(any(), capture(formParamsSlot), capture(formSubmitCallbackSlot)) } just Runs
         every { validatorHandler.getValidator(any()) } returns validator
     }
 
@@ -367,5 +370,76 @@ class FormViewRendererTest : BaseTest() {
     private fun executeFormSubmitOnClickListener() {
         formViewRenderer.build(rootView)
         onClickListenerSlot.captured.onClick(formSubmitView)
+    }
+
+    @Test
+    fun on_form_submit_should_save_data_locally_if_flag_enabled() {
+        // Given
+        every { form.shouldStoreFields } returns true
+        every { form.group } returns FORM_GROUP_VALUE
+
+        // When
+        executeFormSubmitOnClickListener()
+
+        // Then
+        verify {
+            formDataStoreHandler.put(
+                eq(FORM_GROUP_VALUE),
+                eq(INPUT_NAME),
+                eq(INPUT_VALUE))
+        }
+    }
+
+    @Test
+    fun on_form_submit_should_not_save_data_locally_if_flag_disabled() {
+        // Given
+        every { form.shouldStoreFields } returns false
+
+        // When
+        executeFormSubmitOnClickListener()
+
+        // Then
+        verify(exactly = 0) {
+            formDataStoreHandler.put(any(), any(), any())
+        }
+    }
+
+    @Test
+    fun on_form_submit_should_send_saved_data() {
+        // Given
+        val savedKey = "savedKey"
+        val savedValue = "savedValue"
+        val savedMap = HashMap<String, String>()
+        savedMap[savedKey] = savedValue
+
+        every { form.shouldStoreFields } returns false
+        every { form.group } returns FORM_GROUP_VALUE
+        every { form.action } returns remoteAction
+
+        every { formDataStoreHandler.getAllValues(FORM_GROUP_VALUE) } returns savedMap
+
+        // When
+        executeFormSubmitOnClickListener()
+
+        // Then
+        assertEquals(formParamsSlot.captured[savedKey], savedValue)
+    }
+
+    @Test
+    fun when_form_submit_succeeds_should_clear_saved_data() {
+        // Given
+        every { form.shouldStoreFields } returns false
+        every { form.group } returns FORM_GROUP_VALUE
+        every { form.action } returns remoteAction
+
+        // When
+        executeFormSubmitOnClickListener()
+        formSubmitCallbackSlot.captured(FormResult.Success(remoteAction))
+        runnableSlot.captured.run()
+
+        // Then
+        verify {
+            formDataStoreHandler.clear(eq(FORM_GROUP_VALUE))
+        }
     }
 }

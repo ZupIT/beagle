@@ -37,7 +37,7 @@ import UIKit
 extension LazyComponent: Renderable {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let view = initialState.toView(context: context, dependencies: dependencies)
-        context.lazyLoad(url: path, initialState: view)
+        context.lazyLoadManager.lazyLoad(url: path, initialState: view)
         return view
     }
 }

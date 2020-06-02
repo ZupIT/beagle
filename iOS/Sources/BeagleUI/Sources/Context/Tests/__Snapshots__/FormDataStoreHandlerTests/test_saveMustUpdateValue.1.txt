@@ -1,0 +1,11 @@
+▿ Optional<Dictionary<String, String>>
+  ▿ some: 3 key/value pairs
+    ▿ (2 elements)
+      - key: "age"
+      - value: "25"
+    ▿ (2 elements)
+      - key: "name"
+      - value: "yan dias"
+    ▿ (2 elements)
+      - key: "zip"
+      - value: "32332"
