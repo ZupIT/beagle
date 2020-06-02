@@ -24,10 +24,9 @@ import SchemaTests
 final class WebViewTests: XCTestCase {
     
     func test_renderWebViewComponent() throws {
-    
-        let component: WebView = try componentFromJsonFile(fileName: "WebView")
+        let webView = WebView(url: "https://maps.google.com/")
         let renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: BeagleDependencies())
-        let view = renderer.render(component)
+        let view = renderer.render(webView)
         XCTAssert(view is WebViewUIComponent)
     }
 }

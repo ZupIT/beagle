@@ -68,8 +68,19 @@ final class ContainerTests: XCTestCase {
     }
     
     func test_renderContainer() throws {
-        let component: Container = try componentFromJsonFile(fileName: "Container")
-        let screen = Beagle.screen(.declarative(component.toScreen()))
+        let container = Container(
+            children: [
+                Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum et felis tortor. Maecenas laoreet metus in augue mattis, quis imperdiet urna ornare. Sed commodo fringilla massa, sit amet molestie nunc. Quisque euismod eros felis. Nam dapibus venenatis consequat."),
+                Text("Donec orci elit, scelerisque vel mattis at, ornare in libero. Cras vestibulum justo et lacus accumsan malesuada. Pellentesque gravida risus tincidunt sapien commodo iaculis. Praesent eget consectetur ligula, vitae fringilla urna. Donec erat arcu, fermentum sed orci in, euismod dictum augue. Aenean ac ullamcorper ante, sit amet commodo elit. Mauris et nibh ac ante luctus fermentum varius nec mauris."),
+                Text("Sed vel nisl tortor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec fringilla velit vulputate ultricies auctor. Sed et enim lacinia risus hendrerit efficitur vitae vel tellus.")
+            ],
+            widgetProperties: .init(
+                appearance: .init(backgroundColor: "#500000FF", cornerRadius: .init(radius: 30.0)),
+                flex: Flex().grow(1).justifyContent(.spaceEvenly).margin(EdgeValue().horizontal(20))
+            )
+        )
+
+        let screen = Beagle.screen(.declarative(container.toScreen()))
         assertSnapshotImage(screen, size: ViewImageConfig.iPhoneXr.size!)
     }
 }

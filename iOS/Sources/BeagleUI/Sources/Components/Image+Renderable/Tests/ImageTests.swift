@@ -22,7 +22,6 @@ import SchemaTests
 
 class ImageTests: XCTestCase {
 
-    
     func test_toView_shouldReturnTheExpectedView() throws {
         //Given
         let expectedContentMode = UIImageView.ContentMode.scaleToFill

@@ -42,3 +42,27 @@ public protocol RenderableDependencies: DependencyTheme,
     DependencyRepository,
     DependencyLogger {
 }
+
+
+extension UnknownComponent: ServerDrivenComponent {
+
+    public func toView(renderer: BeagleRenderer) -> UIView {
+        return makeView()
+    }
+
+    func makeView() -> UIView {
+        #if DEBUG
+        let label = UILabel(frame: .zero)
+        label.numberOfLines = 2
+        label.text = "Unknown Component of type:\n \(String(describing: type))"
+        label.textColor = .red
+        label.backgroundColor = .yellow
+        return label
+
+        #else
+        let view = UIView()
+        return view
+
+        #endif
+    }
+}

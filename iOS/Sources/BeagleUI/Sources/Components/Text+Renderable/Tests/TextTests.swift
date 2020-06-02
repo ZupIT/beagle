@@ -79,8 +79,18 @@ class TextTests: XCTestCase {
     }
 
     func test_renderTextComponent() throws {
-        let component: Text = try componentFromJsonFile(fileName: "TextComponent")
-        let view = renderer.render(component)
+        let text = Text(
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            style: "test.text.style",
+            alignment: .right,
+            textColor: "579F2B",
+            widgetProperties: .init(appearance: Appearance(
+                backgroundColor: "#FFFF00",
+                cornerRadius: .init(radius: 30)
+            ))
+        )
+
+        let view = renderer.render(text)
         assertSnapshotImage(view, size: CGSize(width: 300, height: 150))
     }
 
