@@ -47,7 +47,7 @@ class SampleNavigationTypeService {
 
     private val buttonPopView = createButton(
         text = "PopView",
-        navigate = Navigate.PopView,
+        navigate = Navigate.PopView(),
         backgroundColor = CYAN_BLUE
     )
 
