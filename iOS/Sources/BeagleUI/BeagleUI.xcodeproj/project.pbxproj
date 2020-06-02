@@ -12,6 +12,7 @@
 		5754314B23F2080B00EF0E5A /* DoublyLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5754314A23F2080B00EF0E5A /* DoublyLinkedList.swift */; };
 		5754315023F2108400EF0E5A /* LRUCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5754314F23F2108400EF0E5A /* LRUCacheTests.swift */; };
 		5763889F244A563A00CDBD35 /* CacheDiskManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5763889E244A563A00CDBD35 /* CacheDiskManagerTests.swift */; };
+		576F61052487004900273BA0 /* ContextObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576F61042487004900273BA0 /* ContextObserver.swift */; };
 		57A8097F243CF44A0034D180 /* CacheReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A8097E243CF44A0034D180 /* CacheReference.swift */; };
 		57A80981243CF4620034D180 /* DependencyCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A80980243CF4620034D180 /* DependencyCacheManager.swift */; };
 		57A8098B243CF4C90034D180 /* CoreCache.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57A80985243CF4C80034D180 /* CoreCache.xcdatamodeld */; };
@@ -19,6 +20,11 @@
 		57A8098E243CF5020034D180 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57A8098D243CF5020034D180 /* CoreData.framework */; };
 		57A809D5243E5F0C0034D180 /* CacheDiskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A809D4243E5F0C0034D180 /* CacheDiskManager.swift */; };
 		57CBF5AA243F9EF300873997 /* CacheManagerDefaultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CBF5A9243F9EF300873997 /* CacheManagerDefaultTests.swift */; };
+		57E7F96D247D9E3400FBD398 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E7F96C247D9E3400FBD398 /* Context.swift */; };
+		57E7F970247D9EDC00FBD398 /* UIView+Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E7F96F247D9EDC00FBD398 /* UIView+Context.swift */; };
+		57E7F972247D9F1500FBD398 /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E7F971247D9F1500FBD398 /* Expression.swift */; };
+		57E7F974247D9F4400FBD398 /* NSRegularExpression+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E7F973247D9F4400FBD398 /* NSRegularExpression+Extension.swift */; };
+		57E7F976247DA28600FBD398 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E7F975247DA28600FBD398 /* String+Extension.swift */; };
 		76191AA9241AC44C00A04C29 /* declarativeText1.json in Resources */ = {isa = PBXBuildFile; fileRef = 76191AA7241ABD8800A04C29 /* declarativeText1.json */; };
 		76BB91A5241AC6A800B9A239 /* declarativeText2.json in Resources */ = {isa = PBXBuildFile; fileRef = 76BB91A3241AC6A000B9A239 /* declarativeText2.json */; };
 		7C42EAF624228FC9007334A0 /* FormInputHidden.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C42EAF524228FC9007334A0 /* FormInputHidden.swift */; };
@@ -250,6 +256,7 @@
 		5754314A23F2080B00EF0E5A /* DoublyLinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoublyLinkedList.swift; sourceTree = "<group>"; };
 		5754314F23F2108400EF0E5A /* LRUCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRUCacheTests.swift; sourceTree = "<group>"; };
 		5763889E244A563A00CDBD35 /* CacheDiskManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheDiskManagerTests.swift; sourceTree = "<group>"; };
+		576F61042487004900273BA0 /* ContextObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextObserver.swift; sourceTree = "<group>"; };
 		57A8097E243CF44A0034D180 /* CacheReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheReference.swift; sourceTree = "<group>"; };
 		57A80980243CF4620034D180 /* DependencyCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyCacheManager.swift; sourceTree = "<group>"; };
 		57A80986243CF4C80034D180 /* CoreCache.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreCache.xcdatamodel; sourceTree = "<group>"; };
@@ -257,6 +264,11 @@
 		57A8098D243CF5020034D180 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		57A809D4243E5F0C0034D180 /* CacheDiskManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheDiskManager.swift; sourceTree = "<group>"; };
 		57CBF5A9243F9EF300873997 /* CacheManagerDefaultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManagerDefaultTests.swift; sourceTree = "<group>"; };
+		57E7F96C247D9E3400FBD398 /* Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
+		57E7F96F247D9EDC00FBD398 /* UIView+Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Context.swift"; sourceTree = "<group>"; };
+		57E7F971247D9F1500FBD398 /* Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
+		57E7F973247D9F4400FBD398 /* NSRegularExpression+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSRegularExpression+Extension.swift"; sourceTree = "<group>"; };
+		57E7F975247DA28600FBD398 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		76191AA7241ABD8800A04C29 /* declarativeText1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = declarativeText1.json; sourceTree = "<group>"; };
 		76BB91A3241AC6A000B9A239 /* declarativeText2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = declarativeText2.json; sourceTree = "<group>"; };
 		7C03910724250772003E6FCD /* BeagleMessageLogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleMessageLogs.swift; sourceTree = "<group>"; };
@@ -562,6 +574,17 @@
 				57CBF5A9243F9EF300873997 /* CacheManagerDefaultTests.swift */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		57E7F96E247D9EBD00FBD398 /* UIView */ = {
+			isa = PBXGroup;
+			children = (
+				E531D6B32359FE19007EEBA7 /* UIView+AutoLayout.swift */,
+				E531D6B92359FEE1007EEBA7 /* UIView+Loading.swift */,
+				988F81FA23E24ECA008562BE /* UIView+Subviews.swift */,
+				57E7F96F247D9EDC00FBD398 /* UIView+Context.swift */,
+			);
+			path = UIView;
 			sourceTree = "<group>";
 		};
 		76191AA6241ABD6000A04C29 /* Json */ = {
@@ -1279,6 +1302,8 @@
 				C829CF1123B1967D001B7225 /* __Snapshots__ */,
 				A0F45495237AF16800B146A1 /* BeagleContext.swift */,
 				A0F4549B237C474C00B146A1 /* BeagleContextTests.swift */,
+				57E7F96C247D9E3400FBD398 /* Context.swift */,
+				57E7F971247D9F1500FBD398 /* Expression.swift */,
 			);
 			path = Context;
 			sourceTree = "<group>";
@@ -1288,6 +1313,7 @@
 			children = (
 				98B7D95523DB2722002622AC /* Observable.swift */,
 				C8311A6824099A8700E95C15 /* WidgetStateObservable.swift */,
+				576F61042487004900273BA0 /* ContextObserver.swift */,
 				98FC964A23EA516A00A8CEC8 /* Tests */,
 			);
 			path = Observable;
@@ -1525,12 +1551,12 @@
 		E531D6B22359FE09007EEBA7 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				57E7F96E247D9EBD00FBD398 /* UIView */,
 				E52236CE2374885600E555BB /* CollectionExtension.swift */,
+				57E7F975247DA28600FBD398 /* String+Extension.swift */,
+				57E7F973247D9F4400FBD398 /* NSRegularExpression+Extension.swift */,
 				E531D6BF235A30DB007EEBA7 /* NSErrorExtension.swift */,
 				E52236C323745CBB00E555BB /* NSObjectExtension.swift */,
-				E531D6B32359FE19007EEBA7 /* UIView+AutoLayout.swift */,
-				E531D6B92359FEE1007EEBA7 /* UIView+Loading.swift */,
-				988F81FA23E24ECA008562BE /* UIView+Subviews.swift */,
 				981DB2EE23748BAB001CE5E0 /* UnitValueExtension.swift */,
 				7CFE3A742412E3B50087F664 /* FlexBuildersExtension.swift */,
 				C829CEAF23B15FF0001B7225 /* Tests */,
@@ -1823,6 +1849,7 @@
 			files = (
 				A0EF0AAC238811AA0019BE83 /* CustomActionHandler.swift in Sources */,
 				57A809D5243E5F0C0034D180 /* CacheDiskManager.swift in Sources */,
+				57E7F976247DA28600FBD398 /* String+Extension.swift in Sources */,
 				C85D9BA1238701E60075B6C0 /* PageViewUIComponent.swift in Sources */,
 				983E8C8C2396C7FA0018C6CA /* TabViewUIComponent.swift in Sources */,
 				E522376C237C3C1300E555BB /* Button.swift in Sources */,
@@ -1871,12 +1898,14 @@
 				A0451C6123BA3AC300F77398 /* Appearance.swift in Sources */,
 				E73107BC23A971B000188B3D /* BeaglePrefetchHelper.swift in Sources */,
 				C831ADF82385A282009D72D9 /* PageView.swift in Sources */,
+				57E7F972247D9F1500FBD398 /* Expression.swift in Sources */,
 				C85688BC2433C4A800DD8B60 /* BeagleLogger.swift in Sources */,
 				E531D6B42359FE19007EEBA7 /* UIView+AutoLayout.swift in Sources */,
 				A06823502384328700CEE57A /* InputValue.swift in Sources */,
 				98E08D1A242289C100FBD21B /* WebView.swift in Sources */,
 				A0FBC1B2238F1D8B005C5E67 /* LazyComponent.swift in Sources */,
 				A0D608D92448DF8700F7D851 /* ScreenController.swift in Sources */,
+				57E7F970247D9EDC00FBD398 /* UIView+Context.swift in Sources */,
 				E522376B237C3C1300E555BB /* ListView.swift in Sources */,
 				E5223785237C3CC500E555BB /* FormSubmit.swift in Sources */,
 				981DB2EF23748BAB001CE5E0 /* UnitValueExtension.swift in Sources */,
@@ -1911,15 +1940,18 @@
 				7C42EAF624228FC9007334A0 /* FormInputHidden.swift in Sources */,
 				E7523AF8239E8F2100F93385 /* BeagleDependencies.swift in Sources */,
 				E522377E237C3C5500E555BB /* Container.swift in Sources */,
+				576F61052487004900273BA0 /* ContextObserver.swift in Sources */,
 				E5223781237C3C9A00E555BB /* Form.swift in Sources */,
 				57A8098B243CF4C90034D180 /* CoreCache.xcdatamodeld in Sources */,
 				E522376F237C3C3B00E555BB /* Action.swift in Sources */,
 				E5CE41A32331D55000295277 /* ComponentDecoder.swift in Sources */,
 				93681805232A886C00E6E724 /* ScreenComponent.swift in Sources */,
+				57E7F974247D9F4400FBD398 /* NSRegularExpression+Extension.swift in Sources */,
 				C0B1AAB223F2EE9300F94ECA /* Accessibility.swift in Sources */,
 				E5CB5D65234E7CF6009783A7 /* BeagleScreenViewController.swift in Sources */,
 				E52236CB23745DED00E555BB /* HTTPRequestCanceling.swift in Sources */,
 				57A8098C243CF4C90034D180 /* CacheEntity+CoreDataProperties.swift in Sources */,
+				57E7F96D247D9E3400FBD398 /* Context.swift in Sources */,
 				C85E1CCD23EB461200C1E323 /* Request.swift in Sources */,
 				E531D6B12359FD18007EEBA7 /* LoadingView.swift in Sources */,
 				E5223774237C3C4800E555BB /* Flex.swift in Sources */,

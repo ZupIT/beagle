@@ -19,6 +19,7 @@ import UIKit
 public class BeagleScreenViewController: UIViewController {
     
     let viewModel: BeagleScreenViewModel
+    public var bindingToConfig: [() -> Void] = []
     
     public var screenType: ScreenType {
         return viewModel.screenType

@@ -43,6 +43,7 @@ extension Container {
 
     enum CodingKeys: String, CodingKey {
         case children
+        case context
     }
 
     public init(from decoder: Decoder) throws {
@@ -50,6 +51,7 @@ extension Container {
 
         children = try container.decode( forKey: .children)
         widgetProperties = try WidgetProperties(from: decoder)
+        context = try container.decodeIfPresent(Context.self, forKey: .context)
     }
 }
 
@@ -254,7 +256,7 @@ extension Text {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        text = try container.decode(String.self, forKey: .text)
+        text = try container.decode(ValueExpression<String?>.self, forKey: .text)
         style = try container.decodeIfPresent(String.self, forKey: .style)
         alignment = try container.decodeIfPresent(Alignment.self, forKey: .alignment)
         textColor = try container.decodeIfPresent(String.self, forKey: .textColor)

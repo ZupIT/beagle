@@ -25,7 +25,9 @@ public enum Event {
 public protocol BeagleContext: AnyObject {
 
     var screenController: BeagleScreenViewController { get }
-
+    var bindingToConfig: [() -> Void] { get set }
+    
+    func configAllBindings()
     func applyLayout()
     func register(events: [Event], inView view: UIView)
     func register(form: Form, formView: UIView, submitView: UIView, validatorHandler: ValidatorProvider?)
@@ -35,7 +37,14 @@ public protocol BeagleContext: AnyObject {
 }
 
 extension BeagleScreenViewController: BeagleContext {
-
+    
+    public func configAllBindings() {
+        bindingToConfig.forEach {
+            $0()
+        }
+        bindingToConfig = []
+    }
+    
     public var screenController: BeagleScreenViewController {
         return self
     }

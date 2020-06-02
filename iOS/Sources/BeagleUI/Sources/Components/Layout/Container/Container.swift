@@ -21,14 +21,17 @@ public struct Container: Widget, AutoInitiableAndDecodable {
     // MARK: - Public Properties
     public let children: [ServerDrivenComponent]
     public var widgetProperties: WidgetProperties
+    public let context: Context?
     
 // sourcery:inline:auto:Container.Init
     public init(
         children: [ServerDrivenComponent],
-        widgetProperties: WidgetProperties = WidgetProperties()
+        widgetProperties: WidgetProperties = WidgetProperties(),
+        context: Context? = nil
     ) {
         self.children = children
         self.widgetProperties = widgetProperties
+        self.context = context
     }
 // sourcery:end
 }
@@ -52,14 +55,21 @@ extension Container: Renderable {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let containerView = UIView()
         
+        //TODO: config context
+        // colocar isso aqui  na parte de render do fred
+        if let context = self.context {
+            containerView.contextMap = [context.id: Observable(value: context)]
+        }
+        
         children.forEach {
             let childView = $0.toView(context: context, dependencies: dependencies)
             containerView.addSubview(childView)
             childView.flex.isEnabled = true
-        }
+        }        
 
         containerView.beagle.setup(self)
         
         return containerView
     }
 }
+

@@ -46,6 +46,7 @@ final class ScreenController: UIViewController {
     
     public override func loadView() {
         view = screen.toView(context: context, dependencies: dependencies)
+        context.configAllBindings()
     }
     
     public override func viewDidLayoutSubviews() {
