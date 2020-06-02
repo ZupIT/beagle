@@ -36,16 +36,24 @@ internal class ButtonViewRenderer(
 ) : UIViewRenderer<Button>() {
 
     override fun buildView(rootView: RootView): View {
-        component.action?.let {
+        component.onPress?.let {
             preFetchHelper.handlePreFetch(rootView, it)
         }
+
         return viewFactory.makeButton(rootView.getContext()).apply {
             setOnClickListener {
-                actionExecutor.doAction(context, component.action)
+                actionExecutor.doAction(context, component.onPress)
                 component.clickAnalyticsEvent?.let {
-                    BeagleEnvironment.beagleSdk.analytics?.
-                    sendClickEvent(it)
+                    BeagleEnvironment.beagleSdk.analytics?.sendClickEvent(it)
                 }
+            }
+            setOnLongClickListener {
+                actionExecutor.doAction(context, component.onLongPress)
+                component.clickAnalyticsEvent?.let {
+                    BeagleEnvironment.beagleSdk.analytics?.sendClickEvent(it)
+                }
+
+                return@setOnLongClickListener true
             }
             setData(component)
         }

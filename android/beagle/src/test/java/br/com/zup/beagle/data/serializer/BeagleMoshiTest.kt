@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.data.serializer
 
-import br.com.zup.beagle.action.Action
+import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.action.CustomAction
 import br.com.zup.beagle.action.FormValidation
 import br.com.zup.beagle.action.Navigate
@@ -652,11 +652,11 @@ class BeagleMoshiTest {
     fun make_should_return_moshi_to_serialize_a_Form() {
         // Given
         val component = Form(
-            action = FormRemoteAction(
+            onSubmit = listOf(FormRemoteAction(
                 RandomData.string(),
                 FormMethodType.POST
-            ),
-            child = UndefinedWidget()
+            )
+            ), child = UndefinedWidget()
         )
 
         // When

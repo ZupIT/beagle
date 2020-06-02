@@ -21,6 +21,6 @@ import android.content.Context
 internal class UpdateContextActionHandler : DefaultActionHandler<UpdateContext> {
 
     override fun handle(context: Context, action: UpdateContext) {
-        // TODO: call update context
+        // call update context
     }
 }

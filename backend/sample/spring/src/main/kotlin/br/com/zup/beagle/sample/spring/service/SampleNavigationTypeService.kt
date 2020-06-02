@@ -152,7 +152,7 @@ class SampleNavigationTypeService {
         Button(
             text = text,
             style = BUTTON_STYLE_APPEARANCE,
-            action = navigate
+            onPress = listOf(navigate)
         ).applyAppearance(
             Appearance(
                 backgroundColor = backgroundColor,

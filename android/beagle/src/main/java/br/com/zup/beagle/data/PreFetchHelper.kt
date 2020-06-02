@@ -16,13 +16,19 @@
 
 package br.com.zup.beagle.data
 
-import br.com.zup.beagle.action.Action
+import  br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.utils.generateViewModelInstance
 
 internal class PreFetchHelper {
+
+    fun handlePreFetch(rootView: RootView, actions: List<Action>) {
+        actions.forEach { action ->
+            handlePreFetch(rootView, action)
+        }
+    }
 
     fun handlePreFetch(rootView: RootView, action: Action) {
         when (action) {

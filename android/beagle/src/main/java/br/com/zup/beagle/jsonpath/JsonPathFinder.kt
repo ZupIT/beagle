@@ -24,6 +24,7 @@ import java.util.*
 
 internal class JsonPathFinder {
 
+    @Suppress("ReturnCount")
     tailrec fun find(nextKeys: LinkedList<String>, value: Any?): Any? {
         if (nextKeys.isEmpty()) return value
 
