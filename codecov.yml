@@ -45,11 +45,13 @@ flags:
     paths:
       - android/
       - common/
+      - schema/
     carryforward: true
   backend:
     paths:
       - backend/
       - common/
+      - schema/
     carryforward: true
 ignore:
  - "iOS/Sources/BeagleUI/**/Tests/"
