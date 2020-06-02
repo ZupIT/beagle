@@ -21,7 +21,7 @@ import br.com.zup.beagle.engine.renderer.layout.FormInputValidator
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.FormSubmit
-import br.com.zup.beagle.widget.form.InputWidget
+import br.com.zup.beagle.widget.form.InputWidgetView
 import io.mockk.*
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -30,7 +30,6 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 class FormValidatorControllerTest {
 
@@ -41,7 +40,7 @@ class FormValidatorControllerTest {
     @MockK
     private lateinit var formSubmit: FormSubmit
     @RelaxedMockK
-    private lateinit var inputWidget: InputWidget
+    private lateinit var inputWidget: InputWidgetView
     @MockK
     private lateinit var formInput: FormInput
     @MockK

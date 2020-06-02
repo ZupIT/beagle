@@ -23,7 +23,7 @@ import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.testutil.setPrivateField
 import br.com.zup.beagle.view.BeaglePageIndicatorView
 import br.com.zup.beagle.view.ViewFactory
-import br.com.zup.beagle.widget.pager.PageIndicator
+import br.com.zup.beagle.widget.pager.PageIndicatorView
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -42,13 +42,13 @@ class PageIndicatorViewTest {
     @MockK
     private lateinit var beaglePageIndicatorView: BeaglePageIndicatorView
 
-    private lateinit var pageIndicator: PageIndicator
+    private lateinit var pageIndicator: PageIndicatorView
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxUnitFun = true)
 
-        pageIndicator = PageIndicator(RandomData.string(), RandomData.string(), viewFactory).apply {
+        pageIndicator = PageIndicatorView(RandomData.string(), RandomData.string(), viewFactory).apply {
             setPrivateField("pageIndicator", beaglePageIndicatorView)
         }
 

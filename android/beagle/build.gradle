@@ -57,7 +57,8 @@ dependencies {
     implementation GeneralLibraries.kotlinCoroutines
 
     api project(Modules.beagleAndroidDeclarative)
-    api project(Modules.beagleDeclarative)
+    api project(Modules.beagleSchemaKotlin)
+    api project(Modules.beagleUtils)
     api project(Modules.beagleAnnotation)
     api project(Modules.beagleAndroidAnnotation)
 

@@ -35,8 +35,7 @@ android {
 
 dependencies {
     implementation GeneralLibraries.kotlin
-
-    implementation project(Modules.beagleCoreDeclarative)
+    implementation project(Modules.beagleSchemaKotlin)
 }
 
 apply from: rootProject.file('maven-publish.gradle')

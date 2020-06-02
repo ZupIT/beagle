@@ -23,7 +23,7 @@ import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.sample.utils.MaskApplier
-import br.com.zup.beagle.widget.form.InputWidget
+import br.com.zup.beagle.widget.form.InputWidgetView
 
 enum class TextFieldInputType {
     NUMBER,
@@ -38,7 +38,7 @@ data class TextField(
     val color: String = "#000000",
     val mask: String? = null,
     val inputType: TextFieldInputType? = null
-) : InputWidget() {
+) : InputWidgetView() {
 
     private lateinit var textFieldView: EditText
 

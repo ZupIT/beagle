@@ -21,11 +21,11 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import br.com.zup.beagle.engine.renderer.ActivityRootView
 import br.com.zup.beagle.engine.renderer.ui.UndefinedViewRenderer
-import br.com.zup.beagle.widget.form.InputWidget
+import br.com.zup.beagle.widget.form.InputWidgetView
 import br.com.zup.beagle.widget.pager.PageIndicatorOutput
-import br.com.zup.beagle.widget.pager.PageIndicatorComponent
+import br.com.zup.beagle.widget.pager.PageIndicatorComponentView
 
-internal class UndefinedWidget : InputWidget(), PageIndicatorComponent {
+internal class UndefinedWidgetView : InputWidgetView(), PageIndicatorComponentView {
 
     override fun onErrorMessage(message: String) {}
 

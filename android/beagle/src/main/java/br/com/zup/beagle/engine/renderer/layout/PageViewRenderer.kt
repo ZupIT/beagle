@@ -27,7 +27,8 @@ import br.com.zup.beagle.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.view.BeaglePageView
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.layout.PageView
-import br.com.zup.beagle.widget.pager.PageIndicatorComponent
+import br.com.zup.beagle.widget.pager.PageIndicatorComponentView
+import br.com.zup.beagle.widget.pager.PageIndicatorView
 
 internal class PageViewRenderer(
     override val component: PageView,
@@ -51,7 +52,7 @@ internal class PageViewRenderer(
 
         component.pageIndicator?.let {
             val pageIndicatorView = viewRendererFactory.make(it).build(rootView)
-            setupPageIndicator(component.pages.size, viewPager, component.pageIndicator)
+            setupPageIndicator(component.pages.size, viewPager, component.pageIndicator as PageIndicatorView?)
             container.addView(pageIndicatorView)
         }
 
@@ -61,7 +62,7 @@ internal class PageViewRenderer(
     private fun setupPageIndicator(
         pages: Int,
         viewPager: BeaglePageView,
-        pageIndicator: PageIndicatorComponent?
+        pageIndicator: PageIndicatorComponentView?
     ) {
         pageIndicator?.initPageView(viewPager)
         pageIndicator?.setCount(pages)

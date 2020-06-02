@@ -23,8 +23,8 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 dependencies {
     implementation GeneralLibraries.kotlin
     implementation project(Modules.beagleAnnotation)
-    implementation project(Modules.beagleDeclarative)
-    implementation project(Modules.beagleBackendDeclarative)
+    implementation project(Modules.beagleSchemaKotlin)
+    implementation project(Modules.beagleUtils)
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {

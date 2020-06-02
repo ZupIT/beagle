@@ -24,7 +24,7 @@ import br.com.zup.beagle.widget.form.Form
 import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.FormInputHidden
 import br.com.zup.beagle.widget.form.FormSubmit
-import br.com.zup.beagle.widget.form.InputWidget
+import br.com.zup.beagle.widget.form.InputWidgetView
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Horizontal
 import br.com.zup.beagle.widget.layout.PageView
@@ -35,15 +35,15 @@ import br.com.zup.beagle.widget.layout.Stack
 import br.com.zup.beagle.widget.layout.Vertical
 import br.com.zup.beagle.widget.lazy.LazyComponent
 import br.com.zup.beagle.widget.navigation.Touchable
-import br.com.zup.beagle.widget.pager.PageIndicator
-import br.com.zup.beagle.widget.pager.PageIndicatorComponent
+import br.com.zup.beagle.widget.pager.PageIndicatorView
+import br.com.zup.beagle.widget.pager.PageIndicatorComponentView
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.NetworkImage
 import br.com.zup.beagle.widget.ui.TabView
 import br.com.zup.beagle.widget.ui.Text
-import br.com.zup.beagle.widget.ui.UndefinedWidget
+import br.com.zup.beagle.widget.ui.UndefinedWidgetView
 import java.util.*
 
 private const val BEAGLE_WIDGET_TYPE = "_beagleComponent_"
@@ -68,8 +68,8 @@ internal object ComponentJsonAdapterFactory {
     private fun registerBaseSubTypes(
         factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
-        return factory.withBaseSubType(PageIndicatorComponent::class.java)
-            .withBaseSubType(InputWidget::class.java)
+        return factory.withBaseSubType(PageIndicatorComponentView::class.java)
+            .withBaseSubType(InputWidgetView::class.java)
             .withBaseSubType(Widget::class.java)
     }
 
@@ -98,11 +98,11 @@ internal object ComponentJsonAdapterFactory {
             .withSubtype(ListView::class.java, createNamespaceFor<ListView>())
             .withSubtype(Touchable::class.java, createNamespaceFor<Touchable>())
             .withSubtype(TabView::class.java, createNamespaceFor<TabView>())
-            .withSubtype(PageIndicator::class.java, createNamespaceFor<PageIndicator>())
+            .withSubtype(PageIndicatorView::class.java, createNamespaceFor<PageIndicatorView>())
             .withSubtype(FormInput::class.java, createNamespaceFor<FormInput>())
             .withSubtype(FormInputHidden::class.java, createNamespaceFor<FormInputHidden>())
             .withSubtype(FormSubmit::class.java, createNamespaceFor<FormSubmit>())
-            .withSubtype(UndefinedWidget::class.java, createNamespaceFor<UndefinedWidget>())
+            .withSubtype(UndefinedWidgetView::class.java, createNamespaceFor<UndefinedWidgetView>())
     }
 
     private fun registerCustomWidget(
@@ -123,7 +123,7 @@ internal object ComponentJsonAdapterFactory {
     private fun registerUndefinedWidget(
         factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
-        return factory.withDefaultValue(UndefinedWidget())
+        return factory.withDefaultValue(UndefinedWidgetView())
     }
 
     private inline fun <reified T : ServerDrivenComponent> createNamespaceFor(): String {

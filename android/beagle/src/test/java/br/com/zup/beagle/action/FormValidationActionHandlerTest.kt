@@ -22,7 +22,7 @@ import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.logger.BeagleLogger
 import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.widget.form.FormInput
-import br.com.zup.beagle.widget.form.InputWidget
+import br.com.zup.beagle.widget.form.InputWidgetView
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -62,7 +62,7 @@ class FormValidationActionHandlerTest {
         // Given
         val view = mockk<View>(relaxed = true)
         val formInput = mockk<FormInput>(relaxed = true)
-        val inputWidget = mockk<InputWidget>(relaxed = true)
+        val inputWidget = mockk<InputWidgetView>(relaxed = true)
         val inputName = RandomData.string()
         val validationMessage = RandomData.string()
         val formValidation = FormValidation(

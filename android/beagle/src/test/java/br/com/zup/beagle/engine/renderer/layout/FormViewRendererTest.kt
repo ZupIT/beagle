@@ -116,7 +116,7 @@ class FormViewRendererTest : BaseTest() {
     private lateinit var rootView: RootView
 
     @RelaxedMockK
-    private lateinit var inputWidget: InputWidget
+    private lateinit var inputWidget: InputWidgetView
 
     @MockK
     private lateinit var remoteAction: FormRemoteAction

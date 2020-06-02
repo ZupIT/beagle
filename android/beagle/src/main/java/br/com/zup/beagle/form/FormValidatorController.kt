@@ -21,7 +21,7 @@ import br.com.zup.beagle.engine.renderer.layout.FormInputValidator
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.FormSubmit
-import br.com.zup.beagle.widget.form.InputWidget
+import br.com.zup.beagle.widget.form.InputWidgetView
 import br.com.zup.beagle.widget.interfaces.Observer
 import br.com.zup.beagle.widget.interfaces.WidgetState
 import br.com.zup.beagle.widget.state.Observable
@@ -34,7 +34,7 @@ class FormValidatorController(
     var formSubmitView: View? = null
 
     private fun subscribeOnValidState(formInput: FormInput) {
-        val inputWidget: InputWidget = formInput.child
+        val inputWidget: InputWidgetView = formInput.child as InputWidgetView
         inputWidget.getState().addObserver(object : Observer<WidgetState> {
             override fun update(o: Observable<WidgetState>, arg: WidgetState) {
                 getValidator(formInput.validator)?.let {
@@ -68,7 +68,7 @@ class FormValidatorController(
     }
 
     fun configFormInputList(formInput: FormInput) {
-        val inputWidget: InputWidget = formInput.child
+        val inputWidget: InputWidgetView = formInput.child as InputWidgetView
         var isValid = !(formInput.required ?: false)
         getValidator(formInput.validator)?.let {
             isValid = it.isValid(inputWidget.getValue(), formInput.child)

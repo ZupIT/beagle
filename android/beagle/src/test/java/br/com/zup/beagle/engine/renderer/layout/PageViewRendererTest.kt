@@ -29,7 +29,7 @@ import br.com.zup.beagle.view.BeaglePageIndicatorView
 import br.com.zup.beagle.view.BeaglePageView
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.layout.PageView
-import br.com.zup.beagle.widget.pager.PageIndicatorComponent
+import br.com.zup.beagle.widget.pager.PageIndicatorComponentView
 import br.com.zup.beagle.widget.ui.Button
 import io.mockk.Runs
 import io.mockk.every
@@ -59,7 +59,7 @@ class PageViewRendererTest : BaseTest() {
 
     private var pageViewPages = listOf<ServerDrivenComponent>(Button(""))
     @RelaxedMockK
-    private lateinit var pageIndicatorComponent: PageIndicatorComponent
+    private lateinit var pageIndicatorComponent: PageIndicatorComponentView
     @MockK
     private lateinit var pageIndicatorView: BeaglePageIndicatorView
     @MockK

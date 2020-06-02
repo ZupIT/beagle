@@ -26,7 +26,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.data.serializer.BeagleSerializer
 import br.com.zup.beagle.utils.applyBackgroundFromWindowBackgroundTheme
 import br.com.zup.beagle.utils.toView
-import br.com.zup.beagle.widget.ui.UndefinedWidget
+import br.com.zup.beagle.widget.ui.UndefinedWidgetView
 
 private val beagleSerializer: BeagleSerializer = BeagleSerializer()
 private const val JSON_SCREEN_KEY = "JSON_SCREEN_KEY"
@@ -34,7 +34,7 @@ private const val JSON_SCREEN_KEY = "JSON_SCREEN_KEY"
 internal class BeagleFragment : Fragment() {
 
     private val screen: ServerDrivenComponent by lazy {
-        val json = arguments?.getString(JSON_SCREEN_KEY) ?: beagleSerializer.serializeComponent(UndefinedWidget())
+        val json = arguments?.getString(JSON_SCREEN_KEY) ?: beagleSerializer.serializeComponent(UndefinedWidgetView())
         beagleSerializer.deserializeComponent(json)
     }
 

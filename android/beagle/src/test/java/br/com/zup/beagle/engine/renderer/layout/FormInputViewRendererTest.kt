@@ -24,7 +24,7 @@ import br.com.zup.beagle.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.form.FormInput
-import br.com.zup.beagle.widget.form.InputWidget
+import br.com.zup.beagle.widget.form.InputWidgetView
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -50,7 +50,7 @@ class FormInputViewRendererTest : BaseTest() {
     @MockK
     private lateinit var view: View
     @MockK
-    private lateinit var inputWidget: InputWidget
+    private lateinit var inputWidget: InputWidgetView
     @MockK
     private lateinit var context: Context
 

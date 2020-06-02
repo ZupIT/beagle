@@ -20,10 +20,10 @@ import android.content.Context
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.widget.form.InputWidget
+import br.com.zup.beagle.widget.form.InputWidgetView
 
 @RegisterWidget
-class SampleTextField(private val placeholder: String) : InputWidget() {
+class SampleTextField(private val placeholder: String) : InputWidgetView() {
 
     @Transient
     private lateinit var textFieldView: EditText
