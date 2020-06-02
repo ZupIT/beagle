@@ -19,9 +19,7 @@ package br.com.zup.beagle.view.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.data.ActionRequester
 import br.com.zup.beagle.data.ComponentRequester
 import br.com.zup.beagle.exception.BeagleException
 import br.com.zup.beagle.logger.BeagleLogger
@@ -29,13 +27,12 @@ import br.com.zup.beagle.utils.CoroutineDispatchers
 import br.com.zup.beagle.view.ScreenRequest
 import br.com.zup.beagle.widget.layout.ScreenComponent
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Delay
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Observable
 import java.util.concurrent.atomic.AtomicReference
+import kotlin.coroutines.CoroutineContext
 
 sealed class ViewState {
     data class Error(val throwable: Throwable) : ViewState()
@@ -53,36 +50,7 @@ internal class BeagleViewModel(
     private val urlObservableReference = AtomicReference(UrlObservable())
 
     fun fetchComponent(screenRequest: ScreenRequest, screen: ScreenComponent? = null): LiveData<ViewState> {
-        val state = MutableLiveData<ViewState>()
-        return state.also {
-            launch {
-                if (screenRequest.url.isNotEmpty()) {
-                    try {
-                        if (hasFetchInProgress(screenRequest.url)) {
-                            waitFetchProcess(screenRequest.url, state)
-                        } else {
-                            setLoading(screenRequest.url, true, state)
-                            val component = componentRequester.fetchComponent(screenRequest)
-                            state.value = ViewState.DoRender(screenRequest.url, component)
-                        }
-                    } catch (exception: BeagleException) {
-                        if (screen != null) {
-                            state.value = ViewState.DoRender(screen.identifier, screen)
-                        } else {
-                            state.value = ViewState.Error(exception)
-                        }
-                    }
-                    setLoading(screenRequest.url, false, state)
-                } else if (screen != null) {
-                    state.value = ViewState.DoRender(screen.identifier, screen)
-                }
-            }
-        }
-    }
-
-    private fun setLoading(url: String, loading: Boolean, state: MutableLiveData<ViewState>) {
-        urlObservableReference.get().setLoading(url, loading)
-        state.value = ViewState.Loading(loading)
+        return FetchComponentLiveData(screenRequest, screen, componentRequester, urlObservableReference, coroutineContext)
     }
 
     fun fetchForCache(url: String) = launch {
@@ -96,21 +64,6 @@ internal class BeagleViewModel(
 
         urlObservableReference.get().setLoading(url, false)
     }
-
-    @Suppress("UNCHECKED_CAST")
-    private fun waitFetchProcess(url: String, state: MutableLiveData<ViewState>) {
-        urlObservableReference.get().deleteObservers()
-        urlObservableReference.get().addObserver { _, arg ->
-            (arg as? Pair<String, ServerDrivenComponent>)?.let {
-                urlObservableReference.get().setLoading(url, false)
-                if (url == it.first)
-                    state.value = ViewState.DoRender(url, it.second)
-            }
-        }
-    }
-
-    private fun hasFetchInProgress(url: String) =
-        urlObservableReference.get().hasUrl(url)
 
     public override fun onCleared() {
         cancel()
@@ -134,6 +87,67 @@ internal class BeagleViewModel(
             val pair = url to component
             notifyObservers(pair)
         }
+    }
+
+    private class FetchComponentLiveData(private val screenRequest: ScreenRequest,
+                                         private val screen: ScreenComponent?,
+                                         private val componentRequester: ComponentRequester,
+                                         private val urlObservable: AtomicReference<UrlObservable>,
+                                         override val coroutineContext: CoroutineContext) : LiveData<ViewState>(),
+        CoroutineScope {
+
+        override fun onActive() {
+            fetchComponents()
+
+            super.onActive()
+        }
+
+        private fun fetchComponents() {
+            launch {
+                if (screenRequest.url.isNotEmpty()) {
+                    try {
+                        if (hasFetchInProgress(screenRequest.url)) {
+                            waitFetchProcess(screenRequest.url)
+                        } else {
+                            setLoading(screenRequest.url, true)
+                            val component = componentRequester.fetchComponent(screenRequest)
+                            value = ViewState.DoRender(screenRequest.url, component)
+                        }
+                    } catch (exception: BeagleException) {
+                        value = if (screen != null) {
+                            ViewState.DoRender(screen.identifier, screen)
+                        } else {
+                            ViewState.Error(exception)
+                        }
+                    }
+                    setLoading(screenRequest.url, false)
+                } else if (screen != null) {
+                    value = ViewState.DoRender(screen.identifier, screen)
+                }
+            }
+        }
+
+        private fun setLoading(url: String, loading: Boolean) {
+            urlObservable.get().setLoading(url, loading)
+            value = ViewState.Loading(loading)
+        }
+
+
+        @Suppress("UNCHECKED_CAST")
+        private fun waitFetchProcess(url: String) {
+            urlObservable.get().deleteObservers()
+            urlObservable.get().addObserver { _, arg ->
+                (arg as? Pair<String, ServerDrivenComponent>)?.let {
+                    urlObservable.get().setLoading(url, false)
+                    if (url == it.first)
+                        value = ViewState.DoRender(url, it.second)
+                }
+            }
+        }
+
+        private fun hasFetchInProgress(url: String) =
+            urlObservable.get().hasUrl(url)
+
     }
 }
 

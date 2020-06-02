@@ -58,7 +58,7 @@ class TextViewRendererTest : BaseTest() {
     override fun setUp() {
         super.setUp()
 
-        mockkStatic("br.com.zup.beagle.view.BeagleTextViewKt")
+        mockkStatic("br.com.zup.beagle.view.custom.BeagleTextViewKt")
 
         every { textView.setTextWidget(any()) } just Runs
         every { text.style } returns DEFAULT_STYLE

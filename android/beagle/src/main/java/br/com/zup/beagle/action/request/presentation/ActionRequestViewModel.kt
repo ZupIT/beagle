@@ -17,52 +17,63 @@
 package br.com.zup.beagle.action.request.presentation
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import br.com.zup.beagle.action.request.data.ActionRequestRepository
-import br.com.zup.beagle.action.request.domain.Request
-import br.com.zup.beagle.action.request.domain.RequestResponse
-import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.action.SendRequestAction
+import br.com.zup.beagle.action.request.presentation.mapper.toRequestData
+import br.com.zup.beagle.data.ActionRequester
 import br.com.zup.beagle.exception.BeagleException
-import br.com.zup.beagle.logger.BeagleLogger
+import br.com.zup.beagle.networking.ResponseData
 import br.com.zup.beagle.utils.CoroutineDispatchers
-import br.com.zup.beagle.view.ScreenRequest
-import br.com.zup.beagle.view.viewmodel.ViewState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 internal class ActionRequestViewModel(
-    private val repository: ActionRequestRepository = ActionRequestRepository.Impl()
+    private val requester: ActionRequester = ActionRequester()
 ) : ViewModel(), CoroutineScope {
 
     private val job = Job()
     override val coroutineContext = job + CoroutineDispatchers.Main
 
-    fun fetch(request: Request): LiveData<FetchViewState> {
-        val liveData = MutableLiveData<FetchViewState>()
-        launch {
-            try {
-                val response = repository.fetchData(request)
-                val state = FetchViewState.Success(response)
-                liveData.value = state
-            } catch (exception: BeagleException) {
-                liveData.value = FetchViewState.Error(exception)
-            }
-        }
-        return liveData
+    fun fetch(sendRequestAction: SendRequestAction): LiveData<FetchViewState> {
+        return FetchComponentLiveData(requester, sendRequestAction, coroutineContext)
     }
 
     public override fun onCleared() {
         cancel()
     }
 
-
     sealed class FetchViewState {
         data class Error(val throwable: Throwable) : FetchViewState()
-        data class Success(val response: RequestResponse) : FetchViewState()
+        data class Success(val response: ResponseData) : FetchViewState()
     }
+
+    private class FetchComponentLiveData(private val requester: ActionRequester,
+                                         private val sendRequestAction: SendRequestAction,
+                                         override val coroutineContext: CoroutineContext) : LiveData<FetchViewState>(),
+        CoroutineScope {
+
+        override fun onActive() {
+            fetchData()
+
+            super.onActive()
+        }
+
+        private fun fetchData() {
+            launch {
+                value = try {
+                    val response = requester.fetchData(sendRequestAction.toRequestData())
+                    FetchViewState.Success(response)
+                } catch (exception: BeagleException) {
+                    FetchViewState.Error(exception)
+                }
+            }
+
+        }
+    }
+
 }
 
 

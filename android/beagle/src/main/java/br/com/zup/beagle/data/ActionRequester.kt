@@ -19,6 +19,8 @@ package br.com.zup.beagle.data
 import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.data.serializer.BeagleSerializer
 import br.com.zup.beagle.exception.BeagleException
+import br.com.zup.beagle.networking.RequestData
+import br.com.zup.beagle.networking.ResponseData
 
 internal class ActionRequester(
     private val beagleApi: BeagleApi = BeagleApi(),
@@ -29,6 +31,11 @@ internal class ActionRequester(
     suspend fun fetchAction(url: String): Action {
         val jsonResponse = String(beagleApi.fetchData(url.toRequestData()).data)
         return deserializeAction(jsonResponse)
+    }
+
+    @Throws(BeagleException::class)
+     suspend fun fetchData(requestData: RequestData): ResponseData {
+        return beagleApi.fetchData(requestData)
     }
 
     private fun deserializeAction(response: String): Action {

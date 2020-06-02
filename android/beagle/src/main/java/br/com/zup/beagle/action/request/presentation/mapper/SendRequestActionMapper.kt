@@ -18,17 +18,20 @@ package br.com.zup.beagle.action.request.presentation.mapper
 
 import br.com.zup.beagle.action.RequestActionMethod
 import br.com.zup.beagle.action.SendRequestAction
-import br.com.zup.beagle.action.request.domain.Request
-import br.com.zup.beagle.action.request.domain.RequestMethod
+import br.com.zup.beagle.data.formatUrl
+import br.com.zup.beagle.networking.HttpMethod
+import br.com.zup.beagle.networking.RequestData
+import java.net.URI
 
-internal fun SendRequestAction.toRequest(): Request = SendRequestActionMapper.toRequest(this)
+internal fun SendRequestAction.toRequestData(): RequestData = SendRequestActionMapper.toRequestData(this)
 
 internal object SendRequestActionMapper {
-    fun toRequest(sendRequestAction: SendRequestAction): Request {
+    fun toRequestData(sendRequestAction: SendRequestAction): RequestData {
         val method = toHttpMethod(sendRequestAction.method)
 
-        return Request(
-            url = sendRequestAction.url,
+        val urlFormatted = sendRequestAction.url.formatUrl()
+        return RequestData(
+            uri = URI(urlFormatted),
             method = method,
             headers = sendRequestAction.headers,
             body = sendRequestAction.body
@@ -36,11 +39,11 @@ internal object SendRequestActionMapper {
     }
 
     private fun toHttpMethod(method: RequestActionMethod) = when (method) {
-        RequestActionMethod.GET -> RequestMethod.GET
-        RequestActionMethod.POST -> RequestMethod.POST
-        RequestActionMethod.PUT -> RequestMethod.PUT
-        RequestActionMethod.DELETE -> RequestMethod.DELETE
-        RequestActionMethod.HEAD -> RequestMethod.HEAD
-        RequestActionMethod.PATCH -> RequestMethod.PATCH
+        RequestActionMethod.GET -> HttpMethod.GET
+        RequestActionMethod.POST -> HttpMethod.POST
+        RequestActionMethod.PUT -> HttpMethod.PUT
+        RequestActionMethod.DELETE -> HttpMethod.DELETE
+        RequestActionMethod.HEAD -> HttpMethod.HEAD
+        RequestActionMethod.PATCH -> HttpMethod.PATCH
     }
 }
