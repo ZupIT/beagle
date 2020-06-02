@@ -28,4 +28,4 @@ include Modules.beagleAnnotation
 include Modules.beagleBackendSpringStarter
 include Modules.beagleBackendMicronautStarter
 include Modules.beagleSchemaKotlin
-include Modules.beagleUtils
+include Modules.beagleExtendedSchema
