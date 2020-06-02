@@ -664,22 +664,10 @@
 		C864D27F247C240200E7A1F9 /* Action */ = {
 			isa = PBXGroup;
 			children = (
-				C864D280247C240200E7A1F9 /* Types */,
 				C864D28C247C240200E7A1F9 /* Action.swift */,
+				C8BB30B924870422002DD3C1 /* Types */,
 			);
 			path = Action;
-			sourceTree = "<group>";
-		};
-		C864D280247C240200E7A1F9 /* Types */ = {
-			isa = PBXGroup;
-			children = (
-				C864D281247C240200E7A1F9 /* Navigate */,
-				C864D284247C240200E7A1F9 /* ShowNativeDialog */,
-				C864D286247C240200E7A1F9 /* FormRemoteAction */,
-				C864D288247C240200E7A1F9 /* FormValidation */,
-				C864D28A247C240200E7A1F9 /* CustomAction */,
-			);
-			path = Types;
 			sourceTree = "<group>";
 		};
 		C864D281247C240200E7A1F9 /* Navigate */ = {
@@ -689,38 +677,6 @@
 				C8BB30A22486FCE9002DD3C1 /* Tests */,
 			);
 			path = Navigate;
-			sourceTree = "<group>";
-		};
-		C864D284247C240200E7A1F9 /* ShowNativeDialog */ = {
-			isa = PBXGroup;
-			children = (
-				C864D285247C240200E7A1F9 /* ShowNativeDialog.swift */,
-			);
-			path = ShowNativeDialog;
-			sourceTree = "<group>";
-		};
-		C864D286247C240200E7A1F9 /* FormRemoteAction */ = {
-			isa = PBXGroup;
-			children = (
-				C864D287247C240200E7A1F9 /* FormRemoteAction.swift */,
-			);
-			path = FormRemoteAction;
-			sourceTree = "<group>";
-		};
-		C864D288247C240200E7A1F9 /* FormValidation */ = {
-			isa = PBXGroup;
-			children = (
-				C864D289247C240200E7A1F9 /* FormValidation.swift */,
-			);
-			path = FormValidation;
-			sourceTree = "<group>";
-		};
-		C864D28A247C240200E7A1F9 /* CustomAction */ = {
-			isa = PBXGroup;
-			children = (
-				C864D28B247C240200E7A1F9 /* CustomAction.swift */,
-			);
-			path = CustomAction;
 			sourceTree = "<group>";
 		};
 		C864D28D247C240200E7A1F9 /* Accessibility */ = {
@@ -820,6 +776,18 @@
 				C8BB30AE2486FDB1002DD3C1 /* resetstack.json */,
 			);
 			path = Json;
+			sourceTree = "<group>";
+		};
+		C8BB30B924870422002DD3C1 /* Types */ = {
+			isa = PBXGroup;
+			children = (
+				C864D28B247C240200E7A1F9 /* CustomAction.swift */,
+				C864D287247C240200E7A1F9 /* FormRemoteAction.swift */,
+				C864D289247C240200E7A1F9 /* FormValidation.swift */,
+				C864D285247C240200E7A1F9 /* ShowNativeDialog.swift */,
+				C864D281247C240200E7A1F9 /* Navigate */,
+			);
+			path = Types;
 			sourceTree = "<group>";
 		};
 		C8EAC4FE247C28BF003089BE /* Tests */ = {
