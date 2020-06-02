@@ -17,18 +17,33 @@
 package br.com.zup.beagle.engine.renderer
 
 import android.view.View
+import br.com.zup.beagle.context.ScreenContextViewModel
+import br.com.zup.beagle.core.Bind
+import br.com.zup.beagle.core.ContextComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.engine.util.ContextViewRenderer
+import br.com.zup.beagle.setup.BindingAdapter
 import br.com.zup.beagle.utils.ComponentStylization
+import br.com.zup.beagle.utils.generateViewModelInstance
+import br.com.zup.beagle.view.BeagleFragment
 import br.com.zup.beagle.view.ViewFactory
 
 internal abstract class ViewRenderer<T : ServerDrivenComponent>(
-    private val componentStylization: ComponentStylization<T> = ComponentStylization()
+    private val componentStylization: ComponentStylization<T> = ComponentStylization(),
+    private val contextViewRenderer: ContextViewRenderer = ContextViewRenderer()
 ) {
     abstract val component: T
 
     fun build(rootView: RootView): View {
+        val component = component
+
+        contextViewRenderer.startContextBinding(rootView, component)
+
         val builtView = buildView(rootView)
         componentStylization.apply(builtView, component)
+
+        contextViewRenderer.finishContextBinding(rootView, component)
+
         return builtView
     }
 

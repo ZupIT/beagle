@@ -118,7 +118,7 @@ internal object ComponentJsonAdapterFactory {
         }
 
         return newFactory
-    }
+    }    
 
     private fun registerUndefinedWidget(
         factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>
@@ -131,6 +131,7 @@ internal object ComponentJsonAdapterFactory {
     }
 
     private fun createNamespace(appNamespace: String, clazz: Class<*>): String {
-        return "$appNamespace:$COMPONENT_NAMESPACE:${clazz.simpleName.toLowerCase()}"
+        val typeName = clazz.simpleName.toLowerCase().replace("binding", "")
+        return "$appNamespace:$COMPONENT_NAMESPACE:$typeName"
     }
 }

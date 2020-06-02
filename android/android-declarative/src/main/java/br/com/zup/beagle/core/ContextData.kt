@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.core
+package br.com.zup.beagle.core
 
-import android.view.View
-import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.annotation.ContextDataValue
 
-interface BindingWidget : ServerDrivenComponent  {
-    fun onBind(widget: Widget, view: View)
-}
+data class ContextData(
+    val id: String,
+    @property:ContextDataValue
+    val value: Any // Should be a Number, String, Boolean, JSONObject or JSONArray
+)
+

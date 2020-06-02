@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.state
+package br.com.zup.beagle.context
 
-internal data class UrlExpression(
-    val originalExpression: String,
-    val expressionId: String,
-    val expressionProperty: String
-)
+import androidx.lifecycle.ViewModel
+
+internal class ScreenContextViewModel : ViewModel() {
+    val contextDataManager = ContextDataManager()
+}

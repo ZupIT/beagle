@@ -16,19 +16,17 @@
 
 package br.com.zup.beagle.data.serializer.adapter
 
+//import br.com.zup.beagle.annotation.ContextDataValue
+import br.com.zup.beagle.annotation.ContextDataValue
 import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.JsonQualifier
 import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
+import okio.Buffer
 import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.reflect.Type
-
-@Retention(AnnotationRetention.RUNTIME)
-@JsonQualifier
-internal annotation class ContextDataValue
 
 internal class ContextDataAdapterFactory : JsonAdapter.Factory {
 
@@ -67,6 +65,13 @@ internal class AnyToJsonObjectAdapter(
     }
 
     override fun toJson(writer: JsonWriter, value: Any?) {
-        adapter.toJson(writer, value)
+        if (value is JSONObject || value is JSONArray) {
+            val json = value.toString()
+            val buffer = Buffer()
+            buffer.write(json.toByteArray())
+            writer.value(buffer)
+        } else {
+            adapter.toJson(writer, value)
+        }
     }
 }

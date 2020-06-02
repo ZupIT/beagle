@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.processor
 
+import android.content.Context
 import android.view.View
 import br.com.zup.beagle.core.Bind
 import br.com.zup.beagle.extensions.once
@@ -44,6 +45,9 @@ class FieldOnlyWidgetBindingTest {
 
     @RelaxedMockK
     lateinit var view: View
+
+    @RelaxedMockK
+    lateinit var context: Context
 
     @RelaxedMockK
     lateinit var fieldOnlyWidget: FieldOnlyWidget
@@ -84,7 +88,7 @@ class FieldOnlyWidgetBindingTest {
     fun fieldOnlyWidgetBindingAdapter_should_call_on_bind_at_least_once() {
 
         //when
-        fieldOnlyWidgetBinding.bindModel()
+        fieldOnlyWidgetBinding.buildView(context)
 
         //then
         verify(atLeast = once()) { fieldOnlyWidget.onBind(any(), any()) }
@@ -94,7 +98,7 @@ class FieldOnlyWidgetBindingTest {
     fun fieldOnlyWidgetBindingAdapter_should_call_observe_on_parameters() {
 
         //when
-        fieldOnlyWidgetBinding.bindModel()
+        fieldOnlyWidgetBinding.buildView(context)
 
         //then
         verify(atLeast = once()) { fieldOnlyWidgetBinding.a.observes(any()) }
@@ -117,7 +121,7 @@ class FieldOnlyWidgetBindingTest {
         val expected = FieldOnlyWidget(a = aPropertyValue, b = bPropertyValue, c = cPropertyValue)
 
         //when
-        fieldOnlyWidgetBinding.bindModel()
+        fieldOnlyWidgetBinding.buildView(context)
 
         //then
         verify(exactly = once()) { fieldOnlyWidget.onBind(expected, view) }

@@ -44,12 +44,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        startActivity(BeagleActivity.newIntent(this, ScreenRequest("http://www.mocky.io/v2/5ecd4f4832000068002368b2")))
+        /*setContentView(R.layout.activity_main)
 
         supportActionBar?.apply {
             title = "Beagle Sample"
             elevation = 4.0f.dp()
-        }
+        }*/
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

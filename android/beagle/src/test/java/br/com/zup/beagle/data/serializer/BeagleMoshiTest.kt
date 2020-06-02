@@ -22,9 +22,9 @@ import br.com.zup.beagle.action.FormValidation
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.core.Bind
-import br.com.zup.beagle.context.ContextData
+import br.com.zup.beagle.core.ContextData
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.mockdata.BindComponent
+import br.com.zup.beagle.mockdata.ComponentBinding
 import br.com.zup.beagle.mockdata.CustomInputWidget
 import br.com.zup.beagle.mockdata.CustomWidget
 import br.com.zup.beagle.mockdata.InternalObject
@@ -70,7 +70,7 @@ import kotlin.test.assertTrue
 private val WIDGETS = listOf(
     CustomWidget::class.java as Class<WidgetView>,
     CustomInputWidget::class.java as Class<WidgetView>,
-    BindComponent::class.java as Class<WidgetView>
+    ComponentBinding::class.java as Class<WidgetView>
 )
 
 class BeagleMoshiTest {
@@ -703,7 +703,7 @@ class BeagleMoshiTest {
         val component = beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).fromJson(jsonComponent)
 
         // Then
-        val bindComponent = component as BindComponent
+        val bindComponent = component as ComponentBinding
         assertNull(bindComponent.value1)
         assertEquals("Hello", bindComponent.value2.value)
         assertEquals(String::class.java, bindComponent.value2.type)
@@ -720,7 +720,7 @@ class BeagleMoshiTest {
         val internalObjectJson = makeInternalObject()
 
         // When
-        val bindComponent = beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).fromJson(jsonComponent) as BindComponent
+        val bindComponent = beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).fromJson(jsonComponent) as ComponentBinding
         val internalObject = beagleMoshiFactory.moshi.adapter<Any>(bindComponent.value4.type).fromJson(internalObjectJson) as InternalObject
 
         // Then
@@ -731,7 +731,7 @@ class BeagleMoshiTest {
     @Test
     fun moshi_should_serialize_bindComponent() {
         // Given
-        val component = BindComponent(
+        val component = ComponentBinding(
             value1 = null,
             value2 = Bind.Value("Hello"),
             value3 = Bind.Expression("@{hello}", Boolean::class.java),
@@ -751,8 +751,7 @@ class BeagleMoshiTest {
         val contextDataJson = makeContextWithJsonObject()
 
         // When
-        val contextData =
-            beagleMoshiFactory.moshi.adapter(ContextData::class.java).fromJson(contextDataJson)
+        val contextData = beagleMoshiFactory.moshi.adapter(ContextData::class.java).fromJson(contextDataJson)
 
         // Then
         assertTrue(contextData?.value is JSONObject)
@@ -764,8 +763,7 @@ class BeagleMoshiTest {
         val contextDataJson = makeContextWithJsonArray()
 
         // When
-        val contextData =
-            beagleMoshiFactory.moshi.adapter(ContextData::class.java).fromJson(contextDataJson)
+        val contextData = beagleMoshiFactory.moshi.adapter(ContextData::class.java).fromJson(contextDataJson)
 
         // Then
         assertTrue(contextData?.value is JSONArray)
@@ -777,11 +775,28 @@ class BeagleMoshiTest {
         val contextDataJson = makeContextWithPrimitive()
 
         // When
-        val contextData =
-            beagleMoshiFactory.moshi.adapter(ContextData::class.java).fromJson(contextDataJson)
+        val contextData = beagleMoshiFactory.moshi.adapter(ContextData::class.java).fromJson(contextDataJson)
 
         // Then
         assertEquals("contextId", contextData?.id)
         assertEquals(true, contextData?.value)
+    }
+
+    @Test
+    fun make_should_deserialize_contextData_with_jsonArray() {
+        // Given
+        val contextData = ContextData(
+            id = RandomData.string(),
+            value = JSONArray().apply {
+                put(1)
+                put(2)
+            }
+        )
+
+        // When
+        val json = beagleMoshiFactory.moshi.adapter(ContextData::class.java).toJson(contextData)
+
+        // Then
+        assertNotNull(JSONObject(json))
     }
 }

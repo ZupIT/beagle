@@ -74,7 +74,7 @@ class BeagleWidgetBindingGenerator(private val processingEnv: ProcessingEnvironm
             """.trimMargin())
         }
         return FunSpec.builder(BIND_MODEL_METHOD)
-            .addModifiers(KModifier.OVERRIDE)
+            .addModifiers(KModifier.PRIVATE)
             .addCode("""
                 |var myWidget = ${element.simpleName}(
                 |$attributeValues

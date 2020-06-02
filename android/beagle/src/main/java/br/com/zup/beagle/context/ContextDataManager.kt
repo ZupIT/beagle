@@ -18,6 +18,8 @@ package br.com.zup.beagle.context
 
 import androidx.collection.LruCache
 import br.com.zup.beagle.action.UpdateContext
+import br.com.zup.beagle.core.Bind
+import br.com.zup.beagle.core.ContextData
 import br.com.zup.beagle.data.serializer.BeagleMoshi
 import br.com.zup.beagle.jsonpath.JsonPathFinder
 import br.com.zup.beagle.jsonpath.JsonPathReplacer
@@ -28,7 +30,7 @@ import org.json.JSONObject
 import java.lang.IllegalStateException
 import java.util.Stack
 
-private val EXPRESSION_REGEX = "@\\{([^)]+)}".toRegex()
+private val EXPRESSION_REGEX = "@\\{([^)]+)\\}".toRegex()
 
 internal data class ContextBinding(
     val context: ContextData,
@@ -55,7 +57,9 @@ internal class ContextDataManager(
     }
 
     fun popContext() {
-        contextIds.pop()
+        if (contextIds.isNotEmpty()) {
+            contextIds.pop()
+        }
     }
 
     fun addBindingToContext(binding: Bind.Expression<*>) {
@@ -139,7 +143,7 @@ internal class ContextDataManager(
                 } else {
                     value ?: throw IllegalStateException("Expression evaluation returned null")
                 }
-                bind.notifyChanges(realValue)
+                bind.notifyChange(realValue)
             } catch (ex: Exception) {
                 BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(ex)
             }

@@ -36,7 +36,7 @@ internal class PreFetchHelper {
     }
 
     private fun preFetch(rootView: RootView, action: Navigate) {
-        val viewModel = rootView.generateViewModelInstance()
+        val viewModel = rootView.generateViewModelInstance<BeagleViewModel>()
         action.path?.let {
             viewModel.fetchForCache(it)
         }

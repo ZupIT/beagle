@@ -261,7 +261,7 @@ fun makeInternalObject() = """{"value1": "hello", "value2": 123}"""
 
 fun makeBindComponent() = """
     {
-        "_beagleType_": "custom:component:bindcomponent",
+        "_beagleType_": "custom:component:component",
         "value1": null,
         "value2": "Hello",
         "value3": "@{hello}",

@@ -123,19 +123,6 @@ internal inline fun <reified T> ViewGroup.findChildViewForType(type: Class<T>): 
     return elementList
 }
 
-internal fun RootView.generateViewModelInstance(): BeagleViewModel {
-    return when (this) {
-        is ActivityRootView -> {
-            val activity = this.activity
-            ViewModelProvider(activity).get(BeagleViewModel::class.java)
-        }
-        else -> {
-            val fragment = (this as FragmentRootView).fragment
-            ViewModelProvider(fragment).get(BeagleViewModel::class.java)
-        }
-    }
-}
-
 internal fun View.applyAppearance(component: ServerDrivenComponent) {
     (component as? AppearanceComponent)?.let {
         if (it.appearance?.backgroundColor != null) {

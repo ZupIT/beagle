@@ -21,7 +21,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 
 data class InternalObject(val value1: String, val value2: Int)
 
-data class BindComponent(
+data class ComponentBinding(
     val value1: Bind<Int>?,
     val value2: Bind<String>,
     val value3: Bind<Boolean>,

@@ -26,8 +26,8 @@ sealed class Bind<T> : BindAttribute<T> {
         this.onChange = onChange
     }
 
-    fun notifyChange(value: T) {
-        this.onChange(value)
+    fun notifyChange(value: Any) {
+        this.onChange(value as T)
     }
 
     class Expression<T>(
