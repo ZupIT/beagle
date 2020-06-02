@@ -39,9 +39,11 @@ internal class ActionExecutor(
             is Navigate -> navigationActionHandler.handle(context, action)
             is ShowNativeDialog -> showNativeDialogActionHandler.handle(context, action)
             is FormValidation -> formValidationActionHandler?.handle(context, action)
-            is SendRequestAction -> sendRequestActionHandler.handle(rootView = rootView,
-                action = action) { actions ->
-                actions.forEach { action -> doAction(rootView, action) }
+            is SendRequestAction -> {
+                sendRequestActionHandler.handle(rootView = rootView,
+                    action = action) { actions ->
+                    actions.forEach { action -> doAction(rootView, action) }
+                }
             }
 
             is CustomAction -> customActionHandler?.handle(context, action, object : ActionListener {

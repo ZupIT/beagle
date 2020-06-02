@@ -12,12 +12,10 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-
-
+ */
 
 package br.com.zup.beagle.action
 
-import android.content.Context
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BeagleEnvironment
@@ -30,7 +28,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class ActionExecutorTest {
 
@@ -47,13 +44,16 @@ class ActionExecutorTest {
     private lateinit var formValidationActionHandler: DefaultActionHandler<FormValidation>
 
     @MockK
+    private lateinit var sendRequestActionHandler: SendRequestActionHandler
+
+    @MockK
     private lateinit var rootView: RootView
 
     @MockK
-    private lateinit var customAction: CustomAction
+    private lateinit var activity: BeagleActivity
 
     @MockK
-    private lateinit var activity: BeagleActivity
+    private lateinit var customAction: CustomAction
 
     private val actionListener = slot<ActionListener>()
     private val activityStates = mutableListOf<ServerDrivenState>()
@@ -67,6 +67,7 @@ class ActionExecutorTest {
 
         mockkObject(BeagleEnvironment)
 
+        every { rootView.getContext() } returns activity
         every { BeagleEnvironment.beagleSdk } returns mockk(relaxed = true)
         every { customActionHandler.handle(activity, customAction, capture(actionListener)) } just Runs
         every { activity.onServerDrivenContainerStateChanged(capture(activityStates)) } just Runs
@@ -87,7 +88,7 @@ class ActionExecutorTest {
         actionExecutor.doAction(rootView, action)
 
         // Then
-        verify(exactly = once()) { navigationActionHandler.handle(rootView.getContext(), action) }
+        verify(exactly = once()) { navigationActionHandler.handle(activity, action) }
     }
 
     @Test
@@ -100,7 +101,7 @@ class ActionExecutorTest {
         actionExecutor.doAction(rootView, action)
 
         // Then
-        verify(exactly = once()) { showNativeDialogActionHandler.handle(rootView.getContext(), action) }
+        verify(exactly = once()) { showNativeDialogActionHandler.handle(activity, action) }
     }
 
     @Test
@@ -113,7 +114,7 @@ class ActionExecutorTest {
         actionExecutor.doAction(rootView, action)
 
         // Then
-        verify(exactly = once()) { formValidationActionHandler.handle(rootView.getContext(), action) }
+        verify(exactly = once()) { formValidationActionHandler.handle(activity, action) }
     }
 
     @Test
@@ -127,7 +128,7 @@ class ActionExecutorTest {
         actionExecutor.doAction(rootView, action)
 
         // Then
-        verify(exactly = 0) { formValidationActionHandler.handle(rootView.getContext(), action) }
+        verify(exactly = 0) { formValidationActionHandler.handle(activity, action) }
     }
 
     @Test
@@ -141,7 +142,7 @@ class ActionExecutorTest {
         actionExecutor.doAction(rootView, action)
 
         // Then
-        verify(exactly = 0) { customActionHandler.handle(rootView.getContext(), action, listener) }
+        verify(exactly = 0) { customActionHandler.handle(activity, action, listener) }
     }
 
     @Test
@@ -153,7 +154,7 @@ class ActionExecutorTest {
         )
 
         // When
-        executor.doAction(activity, customAction)
+        executor.doAction(rootView, customAction)
         actionListener.captured.onStart()
 
         // Then
@@ -172,8 +173,8 @@ class ActionExecutorTest {
         val dumbAction = mockk<Action>()
 
         // When
-        executor.doAction(activity, customAction)
-        actionListener.captured.onSuccess(dumbAction)dumbAction
+        executor.doAction(rootView, customAction)
+        actionListener.captured.onSuccess(dumbAction)
 
         // Then
         verify(exactly = once()) { customActionHandler.handle(activity, customAction, actionListener.captured) }
@@ -192,7 +193,7 @@ class ActionExecutorTest {
         )
 
         // When
-        executor.doAction(activity, customAction)
+        executor.doAction(rootView, customAction)
         actionListener.captured.onError(error)
 
         // Then
@@ -201,4 +202,3 @@ class ActionExecutorTest {
         assertEquals(expectedState, activityStates)
     }
 }
-*/
