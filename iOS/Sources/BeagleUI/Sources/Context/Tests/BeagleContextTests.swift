@@ -31,6 +31,43 @@ final class BeagleContextTests: XCTestCase {
         // Then
         XCTAssertTrue(sut.screenController is BeagleScreenViewController)
     }
+    
+    func test_lazyLoad_shouldReplaceTheInitialContent() {
+        let dependencies = BeagleDependencies()
+        dependencies.repository = RepositoryStub(
+            componentResult: .success(SimpleComponent().content)
+        )
+
+        let sut = BeagleScreenViewController(viewModel: .init(
+            screenType: .remote(.init(url: "")),
+            dependencies: dependencies
+        ))
+
+        assertSnapshotImage(sut)
+    }
+    
+    func test_lazyLoad_withUpdatableView_shouldCallUpdate() {
+        // Given
+        let initialView = OnStateUpdatableViewSpy()
+        initialView.yoga.isEnabled = true
+        let repositoryStub = RepositoryStub(
+            componentResult: .success(ComponentDummy())
+        )
+        let sut = BeagleScreenViewController(viewModel: .init(
+            screenType: .declarative(ComponentDummy().toScreen()),
+            dependencies: BeagleScreenDependencies(
+                repository: repositoryStub
+            )
+        ))
+        sut.view.addSubview(initialView)
+        
+        // When
+        sut.lazyLoadManager.lazyLoad(url: "URL", initialState: initialView)
+        
+        // Then
+        XCTAssert(initialView.superview != nil)
+        XCTAssert(initialView.didCallOnUpdateState)
+    }
 }
 
 // MARK: - Testing Helpers

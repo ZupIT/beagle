@@ -77,8 +77,8 @@ final class ButtonTests: XCTestCase {
         // Given
         let action = ActionDummy()
         let button = Button(text: "Trigger Action", action: action)
-<<<<<<< HEAD:iOS/Sources/BeagleUI/Sources/Components/Button+Renderable/Tests/ButtonTests.swift
-        let context = BeagleContextSpy()
+        let actionManager = ActionManagerSpy()
+        let context = BeagleContextSpy(actionManager: actionManager)
         let renderer = BeagleRenderer(context: context, dependencies: dependencies)
 
         // When
@@ -86,43 +86,24 @@ final class ButtonTests: XCTestCase {
         (view as? Button.BeagleUIButton)?.triggerTouchUpInsideActions()
 
         // Then
-        XCTAssertEqual(context.actionCalled as? ActionDummy, action)
-=======
-        let actionManager = ActionManagerSpy()
-        let context = BeagleContextSpy(actionManager: actionManager)
-        
-        let view = button.toView(context: context, dependencies: dependencies)
-        (view as? Button.BeagleUIButton)?.triggerTouchUpInsideActions()
-        
         XCTAssertEqual(actionManager.actionCalled as? ActionDummy, action)
->>>>>>> master:iOS/Sources/BeagleUI/Sources/Components/Button/Tests/ButtonTests.swift
     }
     
     func test_analytics_click_shouldBeTriggered() {
         // Given
         var dependencies = BeagleScreenDependencies()
         dependencies.analytics = AnalyticsExecutorSpy()
-<<<<<<< HEAD:iOS/Sources/BeagleUI/Sources/Components/Button+Renderable/Tests/ButtonTests.swift
-        let context = BeagleContextSpy()
-        let renderer = BeagleRenderer(context: context, dependencies: dependencies)
-
         let button = Button(text: "Trigger analytics click", clickAnalyticsEvent: .init(category: "some category"))
+        let actionManager = ActionManagerSpy()
+        let context = BeagleContextSpy(actionManager: actionManager)
+        let renderer = BeagleRenderer(context: context, dependencies: dependencies)
 
         // When
         let view = renderer.render(button)
         (view as? Button.BeagleUIButton)?.triggerTouchUpInsideActions()
-
-        // Then
-        XCTAssertTrue(context.analyticsEventCalled)
-=======
-        let button = Button(text: "Trigger analytics click", clickAnalyticsEvent: .init(category: "some category"))
-        let actionManager = ActionManagerSpy()
-        let context = BeagleContextSpy(actionManager: actionManager)
-        let view = button.toView(context: context, dependencies: dependencies)
-        (view as? Button.BeagleUIButton)?.triggerTouchUpInsideActions()
         
+        // Then
         XCTAssertTrue(actionManager.analyticsEventCalled)
->>>>>>> master:iOS/Sources/BeagleUI/Sources/Components/Button/Tests/ButtonTests.swift
     }
     
     func test_analytics_click_and_action_shouldBeTriggered() {
@@ -130,28 +111,18 @@ final class ButtonTests: XCTestCase {
         var dependencies = BeagleScreenDependencies()
         let action = ActionDummy()
         dependencies.analytics = AnalyticsExecutorSpy()
-<<<<<<< HEAD:iOS/Sources/BeagleUI/Sources/Components/Button+Renderable/Tests/ButtonTests.swift
-        let context = BeagleContextSpy()
+        let actionManager = ActionManagerSpy()
+        let context = BeagleContextSpy(actionManager: actionManager)
         let renderer = BeagleRenderer(context: context, dependencies: dependencies)
-
         let button = Button(text: "Trigger analytics click", action: action, clickAnalyticsEvent: .init(category: "some category"))
 
         // When
         let view = renderer.render(button)
         (view as? Button.BeagleUIButton)?.triggerTouchUpInsideActions()
-
-        // Then
-        XCTAssertEqual(context.actionCalled as? ActionDummy, action)
-        XCTAssertTrue(context.analyticsEventCalled)
-=======
-        let button = Button(text: "Trigger analytics click", action: action, clickAnalyticsEvent: .init(category: "some category"))
-        let actionManager = ActionManagerSpy()
-        let context = BeagleContextSpy(actionManager: actionManager)
-        let view = button.toView(context: context, dependencies: dependencies)
-        (view as? Button.BeagleUIButton)?.triggerTouchUpInsideActions()
         
+        // Then
         XCTAssertEqual(actionManager.actionCalled as? ActionDummy, action)
         XCTAssertTrue(actionManager.analyticsEventCalled)
->>>>>>> master:iOS/Sources/BeagleUI/Sources/Components/Button/Tests/ButtonTests.swift
+
     }
 }

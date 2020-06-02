@@ -19,55 +19,8 @@ import XCTest
 import SnapshotTesting
 import Schema
 
-<<<<<<< HEAD:iOS/Sources/BeagleUI/Sources/Context/BeagleContextTests.swift
-class BeagleContextSpy: BeagleUI.BeagleContext {
-    
-    private(set) var analyticsEventCalled = false
-    private(set) var didCallRegisterEvents = false
-    private(set) var didCallRegisterFormSubmit = false
-    private(set) var didCallLazyLoad = false
-    private(set) var didCallDoAction = false
-    private(set) var didCallRegisterEnabledWidget = false
-    private(set) var actionCalled: Action?
-    private(set) var didCallApplyLayout = true
-
-    var screenController = BeagleScreenViewController(component: Text(""))
-
-    func register(events: [Event], inView view: UIView) {
-        didCallRegisterEvents = true
-    }
-    
-    func doAnalyticsAction(_ action: AnalyticsClick, sender: Any) {
-        analyticsEventCalled = true
-    }
-
-    func register(formSubmitEnabledWidget: BeagleUI.Widget?, formSubmitDisabledWidget: BeagleUI.Widget?) {
-        didCallRegisterEnabledWidget = true
-    }
-
-    func register(form: Form, formView: UIView, submitView: UIView, validatorHandler validator: ValidatorProvider?) {
-        didCallRegisterFormSubmit = true
-    }
-
-    func lazyLoad(url: String, initialState: UIView) {
-        didCallLazyLoad = true
-    }
-
-    func doAction(_ action: Action, sender: Any) {
-        didCallDoAction = true
-        actionCalled = action
-    }
-
-    func applyLayout() {
-        didCallApplyLayout = true
-    }
-}
-
-final class BeagleContextTests: XCTestCase {
-    
-=======
 final class ActionManagerTests: XCTestCase {
->>>>>>> master:iOS/Sources/BeagleUI/Sources/Context/Tests/ActionManagerTests.swift
+    
     func test_registerAction_shouldAddGestureRecognizer() {
         // Given
         let sut = ActionManager()
@@ -119,70 +72,4 @@ final class ActionManagerTests: XCTestCase {
         // Then
         XCTAssertTrue(actionExecutorSpy.didCallDoAction)
     }
-<<<<<<< HEAD:iOS/Sources/BeagleUI/Sources/Context/BeagleContextTests.swift
-    
-    func test_lazyLoad_shouldReplaceTheInitialContent() {
-        let dependencies = BeagleDependencies()
-        dependencies.repository = RepositoryStub(
-            componentResult: .success(SimpleComponent().content)
-        )
-
-        let sut = BeagleScreenViewController(viewModel: .init(
-            screenType: .remote(.init(url: "")),
-            dependencies: dependencies
-        ))
-
-        assertSnapshotImage(sut)
-    }
-    
-    func test_lazyLoad_withUpdatableView_shouldCallUpdate() {
-        // Given
-        let initialView = OnStateUpdatableViewSpy()
-        initialView.yoga.isEnabled = true
-        let repositoryStub = RepositoryStub(
-            componentResult: .success(ComponentDummy())
-        )
-        let sut = BeagleScreenViewController(viewModel: .init(
-            screenType: .declarative(ComponentDummy().toScreen()),
-            dependencies: BeagleScreenDependencies(
-                repository: repositoryStub
-            )
-        ))
-        sut.view.addSubview(initialView)
-        
-        // When
-        sut.lazyLoad(url: "URL", initialState: initialView)
-        
-        // Then
-        XCTAssert(initialView.superview != nil)
-        XCTAssert(initialView.didCallOnUpdateState)
-    }
-}
-
-// MARK: - Testing Helpers
-
-class UINavigationControllerSpy: BeagleScreenViewController {
-
-    private(set) var presentViewControllerCalled = false
-    private(set) var dismissViewControllerCalled = false
-
-    override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
-        presentViewControllerCalled = true
-        super.present(viewControllerToPresent, animated: flag, completion: completion)
-    }
-    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
-        dismissViewControllerCalled = true
-        super.dismiss(animated: flag, completion: completion)
-    }
-}
-
-class OnStateUpdatableViewSpy: UIView, OnStateUpdatable {
-    private(set) var didCallOnUpdateState = false
-    
-    func onUpdateState(component: BeagleUI.ServerDrivenComponent) -> Bool {
-        didCallOnUpdateState = true
-        return true
-    }
-=======
->>>>>>> master:iOS/Sources/BeagleUI/Sources/Context/Tests/ActionManagerTests.swift
 }

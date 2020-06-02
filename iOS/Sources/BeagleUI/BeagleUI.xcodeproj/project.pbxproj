@@ -147,6 +147,7 @@
 		C08D4EA6248599D200AAAC0A /* UrlBuilderTestSpec.json in Resources */ = {isa = PBXBuildFile; fileRef = C08D4EA5248599D200AAAC0A /* UrlBuilderTestSpec.json */; };
 		C08D4EA82486B72300AAAC0A /* FormManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C42EDFF243FBDA100DEEEA7 /* FormManager.swift */; };
 		C08D4EA92486B74500AAAC0A /* FormDataStoreHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFF7FA8243E1C9E0052CC86 /* FormDataStoreHandler.swift */; };
+		C08D4EAC2486BC1400AAAC0A /* ScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4EAB2486BC1400AAAC0A /* ScreenView.swift */; };
 		C09D9CBD2475CF0100A18A89 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09D9CBC2475CF0100A18A89 /* UIColorExtension.swift */; };
 		C09D9CC02475CF6500A18A89 /* UIColorExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09D9CBF2475CF6500A18A89 /* UIColorExtensionTests.swift */; };
 		C0B31F7624786FC60072CCF4 /* Form+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B31F7524786FC60072CCF4 /* Form+Renderable.swift */; };
@@ -411,6 +412,7 @@
 		C08D4E99248594D600AAAC0A /* Image+Renderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Renderable.swift"; sourceTree = "<group>"; };
 		C08D4EA02485951C00AAAC0A /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C08D4EA5248599D200AAAC0A /* UrlBuilderTestSpec.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = UrlBuilderTestSpec.json; path = ../../../../../../../common/tests/UrlBuilderTestSpec.json; sourceTree = "<group>"; };
+		C08D4EAB2486BC1400AAAC0A /* ScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenView.swift; sourceTree = "<group>"; };
 		C09D9CBC2475CF0100A18A89 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		C09D9CBF2475CF6500A18A89 /* UIColorExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensionTests.swift; sourceTree = "<group>"; };
 		C0B31F7524786FC60072CCF4 /* Form+Renderable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Form+Renderable.swift"; sourceTree = "<group>"; };
@@ -1143,6 +1145,14 @@
 			path = JSON;
 			sourceTree = "<group>";
 		};
+		C08D4EAA2486BBF700AAAC0A /* Screen+Renderable */ = {
+			isa = PBXGroup;
+			children = (
+				C08D4EAB2486BC1400AAAC0A /* ScreenView.swift */,
+			);
+			path = "Screen+Renderable";
+			sourceTree = "<group>";
+		};
 		C0D6753224572D84009F0E94 /* CodeGeneration */ = {
 			isa = PBXGroup;
 			children = (
@@ -1429,6 +1439,7 @@
 			children = (
 				E5223777237C3C5500E555BB /* ServerDrivenComponent.swift */,
 				9327116423F1C9D100778B56 /* Widget.swift */,
+				C08D4EAA2486BBF700AAAC0A /* Screen+Renderable */,
 				C08D4E8E248594D600AAAC0A /* Image+Renderable */,
 				C08D4E592485939800AAAC0A /* Acessibility+Renderable */,
 				C08D4E6A2485939900AAAC0A /* Button+Renderable */,
@@ -1844,6 +1855,7 @@
 				988F81FB23E24ECA008562BE /* UIView+Subviews.swift in Sources */,
 				E531D6BA2359FEE1007EEBA7 /* UIView+Loading.swift in Sources */,
 				C8311A6924099A8700E95C15 /* WidgetStateObservable.swift in Sources */,
+				C08D4EAC2486BC1400AAAC0A /* ScreenView.swift in Sources */,
 				C08D4E2624857B8E00AAAC0A /* Spacer+Renderable.swift in Sources */,
 				57A8097F243CF44A0034D180 /* CacheReference.swift in Sources */,
 				C08D4E3324857C7700AAAC0A /* UIWindow+Extension.swift in Sources */,

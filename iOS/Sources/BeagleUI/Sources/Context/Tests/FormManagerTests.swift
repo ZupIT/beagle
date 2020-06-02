@@ -17,6 +17,7 @@
 import XCTest
 @testable import BeagleUI
 import SnapshotTesting
+import Schema
 
 final class FormManagerTests: XCTestCase {
     
@@ -33,6 +34,8 @@ final class FormManagerTests: XCTestCase {
     
     private lazy var formView = form.toView(context: screen, dependencies: dependencies)
 
+    
+    
     private lazy var screen = BeagleScreenViewController(viewModel: .init(
         screenType: .declarative(SimpleComponent().content.toScreen()),
         dependencies: dependencies
@@ -256,10 +259,10 @@ private class DataStoreHandlerStub: FormDataStoreHandling {
     }
 }
 
-private struct InputComponent: ServerDrivenComponent {
+private struct InputComponent: BeagleUI.ServerDrivenComponent {
     let value: String
-
-    func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+    
+    func toView(renderer: BeagleRenderer) -> UIView {
         return InputStub(value: value)
     }
 }
