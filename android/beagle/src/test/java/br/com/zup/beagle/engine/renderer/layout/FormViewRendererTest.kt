@@ -172,6 +172,7 @@ class FormViewRendererTest : BaseTest() {
         every { beagleActivity.runOnUiThread(capture(runnableSlot)) } just Runs
         every { formSubmitter.submitForm(any(), capture(formParamsSlot), capture(formSubmitCallbackSlot)) } just Runs
         every { validatorHandler.getValidator(any()) } returns validator
+        every { rootView.getContext() } returns beagleActivity
     }
 
     override fun tearDown() {
@@ -319,7 +320,7 @@ class FormViewRendererTest : BaseTest() {
 
         // Then
         verify(exactly = once()) { validator.isValid(INPUT_VALUE, any()) }
-}
+    }
 
     @Test
     fun onClick_of_formSubmit_should_validate_formField_that_is_required_and_that_not_is_valid() {
@@ -346,7 +347,7 @@ class FormViewRendererTest : BaseTest() {
         runnableSlot.captured.run()
 
         // Then
-        verify(exactly = once()) { actionExecutor.doAction(beagleActivity, formResult.action) }
+        verify(exactly = once()) { actionExecutor.doAction(rootView, formResult.action) }
     }
 
     @Test
