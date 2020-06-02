@@ -62,15 +62,15 @@ data class NavigationBarItem(
     val accessibility: Accessibility? = null
 ) : IdentifierComponent {
     override var id: String? = null
-        private set
-    /**
-     * Add an identifier to this widget.
-     * @return the current navigation bar item
-     */
-    fun setId(id: String): NavigationBarItem {
-        this.id = id
-        return this
-    }
+}
+
+/**
+ * Add an identifier to this widget.
+ * @return the current navigation bar item
+ */
+fun NavigationBarItem.setId(id: String): NavigationBarItem {
+    this.id = id
+    return this
 }
 
 /**

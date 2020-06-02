@@ -32,14 +32,10 @@ import br.com.zup.beagle.widget.core.FlexBuilder
 abstract class Widget : FlexComponent, AppearanceComponent, AccessibilityComponent,
     IdentifierComponent {
 
-    final override var id: String? = null
-        private set
-    final override var flex: Flex? = null
-        private set
-    final override var appearance: Appearance? = null
-        private set
-    final override var accessibility: Accessibility? = null
-        private set
+    override var id: String? = null
+    override var flex: Flex? = null
+    override var appearance: Appearance? = null
+    override var accessibility: Accessibility? = null
 
     /**
      * Add an identifier to this widget.
@@ -70,7 +66,7 @@ abstract class Widget : FlexComponent, AppearanceComponent, AccessibilityCompone
      *
      * @return the current widget
      */
-    fun buildAndApplyFlex(flexBuilder: FlexBuilder) = this.applyFlex(flexBuilder.build())
+    open fun buildAndApplyFlex(flexBuilder: FlexBuilder) = this.applyFlex(flexBuilder.build())
 
     /**
      * Apply the appearance.
