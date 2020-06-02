@@ -44,16 +44,6 @@
 		931B6E32237610B300DE73FD /* FunctiontalUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931B6E31237610B300DE73FD /* FunctiontalUtils.swift */; };
 		9327116523F1C9D100778B56 /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327116423F1C9D100778B56 /* Widget.swift */; };
 		932925E02327E11000A61F01 /* BeagleUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 932925D22327E11000A61F01 /* BeagleUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		934F8972247E99FD00B90D3C /* NavigateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934F8971247E99FD00B90D3C /* NavigateTests.swift */; };
-		934F897D247E9EB100B90D3C /* pushstack.json in Resources */ = {isa = PBXBuildFile; fileRef = 934F8974247E9EB000B90D3C /* pushstack.json */; };
-		934F897E247E9EB100B90D3C /* popstack.json in Resources */ = {isa = PBXBuildFile; fileRef = 934F8975247E9EB000B90D3C /* popstack.json */; };
-		934F897F247E9EB100B90D3C /* resetapplication.json in Resources */ = {isa = PBXBuildFile; fileRef = 934F8976247E9EB000B90D3C /* resetapplication.json */; };
-		934F8980247E9EB100B90D3C /* openexternalurl.json in Resources */ = {isa = PBXBuildFile; fileRef = 934F8977247E9EB000B90D3C /* openexternalurl.json */; };
-		934F8981247E9EB100B90D3C /* pushview.json in Resources */ = {isa = PBXBuildFile; fileRef = 934F8978247E9EB000B90D3C /* pushview.json */; };
-		934F8982247E9EB100B90D3C /* resetstack.json in Resources */ = {isa = PBXBuildFile; fileRef = 934F8979247E9EB100B90D3C /* resetstack.json */; };
-		934F8983247E9EB100B90D3C /* poptoview.json in Resources */ = {isa = PBXBuildFile; fileRef = 934F897A247E9EB100B90D3C /* poptoview.json */; };
-		934F8984247E9EB100B90D3C /* popview.json in Resources */ = {isa = PBXBuildFile; fileRef = 934F897B247E9EB100B90D3C /* popview.json */; };
-		934F8985247E9EB100B90D3C /* opennativeroute.json in Resources */ = {isa = PBXBuildFile; fileRef = 934F897C247E9EB100B90D3C /* opennativeroute.json */; };
 		93771AFF2417D69A009F7CF3 /* formComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = 93771AF92417D621009F7CF3 /* formComponent.json */; };
 		93ADB87923FAD31D005B7CD2 /* ComposeComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93ADB87823FAD31D005B7CD2 /* ComposeComponentTests.swift */; };
 		93B9744F23A2833600B0D1CF /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B9743F23A2833600B0D1CF /* NetworkClient.swift */; };
@@ -290,16 +280,6 @@
 		932925D22327E11000A61F01 /* BeagleUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BeagleUI.h; sourceTree = "<group>"; };
 		932925D32327E11000A61F01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		934F896F247BF3DC00B90D3C /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
-		934F8971247E99FD00B90D3C /* NavigateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigateTests.swift; sourceTree = "<group>"; };
-		934F8974247E9EB000B90D3C /* pushstack.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pushstack.json; sourceTree = "<group>"; };
-		934F8975247E9EB000B90D3C /* popstack.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = popstack.json; sourceTree = "<group>"; };
-		934F8976247E9EB000B90D3C /* resetapplication.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = resetapplication.json; sourceTree = "<group>"; };
-		934F8977247E9EB000B90D3C /* openexternalurl.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = openexternalurl.json; sourceTree = "<group>"; };
-		934F8978247E9EB000B90D3C /* pushview.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pushview.json; sourceTree = "<group>"; };
-		934F8979247E9EB100B90D3C /* resetstack.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = resetstack.json; sourceTree = "<group>"; };
-		934F897A247E9EB100B90D3C /* poptoview.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = poptoview.json; sourceTree = "<group>"; };
-		934F897B247E9EB100B90D3C /* popview.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = popview.json; sourceTree = "<group>"; };
-		934F897C247E9EB100B90D3C /* opennativeroute.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = opennativeroute.json; sourceTree = "<group>"; };
 		934F8986247EA33D00B90D3C /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		9367F9AE237C415800231A9C /* ThemeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTests.swift; sourceTree = "<group>"; };
 		93771AF92417D621009F7CF3 /* formComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = formComponent.json; sourceTree = "<group>"; };
@@ -664,22 +644,6 @@
 				932925D32327E11000A61F01 /* Info.plist */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		934F8973247E9ABD00B90D3C /* Json */ = {
-			isa = PBXGroup;
-			children = (
-				934F8977247E9EB000B90D3C /* openexternalurl.json */,
-				934F897C247E9EB100B90D3C /* opennativeroute.json */,
-				934F8975247E9EB000B90D3C /* popstack.json */,
-				934F897A247E9EB100B90D3C /* poptoview.json */,
-				934F897B247E9EB100B90D3C /* popview.json */,
-				934F8974247E9EB000B90D3C /* pushstack.json */,
-				934F8978247E9EB000B90D3C /* pushview.json */,
-				934F8976247E9EB000B90D3C /* resetapplication.json */,
-				934F8979247E9EB100B90D3C /* resetstack.json */,
-			);
-			path = Json;
 			sourceTree = "<group>";
 		};
 		93771AF62417D372009F7CF3 /* Json */ = {
@@ -1245,11 +1209,9 @@
 			isa = PBXGroup;
 			children = (
 				A0F45499237C1B0F00B146A1 /* BeagleNavigatorTests.swift */,
-				934F8971247E99FD00B90D3C /* NavigateTests.swift */,
 				C08D4E3424857CBA00AAAC0A /* URLOpenerTests.swift */,
 				C08D4E3524857CBA00AAAC0A /* WindowManagerTests.swift */,
 				934F8986247EA33D00B90D3C /* __Snapshots__ */,
-				934F8973247E9ABD00B90D3C /* Json */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1669,18 +1631,13 @@
 				7CDF84962416DD8D00234F40 /* test_UnitValueWithPercentageOperatorAndFloatValue.1.txt in Resources */,
 				C86E7C1523954E2700D6FEDB /* PageViewInvalid.json in Resources */,
 				C08D4E462485804B00AAAC0A /* lazyComponent.json in Resources */,
-				934F8982247E9EB100B90D3C /* resetstack.json in Resources */,
-				934F8980247E9EB100B90D3C /* openexternalurl.json in Resources */,
 				76BB91A5241AC6A800B9A239 /* declarativeText2.json in Resources */,
 				7CDF84932416DD8D00234F40 /* test_UnitValueExpressibleByIntegerLiteral.1.txt in Resources */,
 				C038B5CC2453651D00741697 /* widgetWithAllAttributes.json in Resources */,
 				C05E165A2437CC7C0088F9D2 /* buttonAnalyticsComponent.json in Resources */,
 				C08D4E9C248594F700AAAC0A /* ImageTests.xcassets in Resources */,
-				934F897E247E9EB100B90D3C /* popstack.json in Resources */,
 				7CDF84922416DD8D00234F40 /* test_SizeBuilder.1.txt in Resources */,
-				934F8985247E9EB100B90D3C /* opennativeroute.json in Resources */,
 				C08D4E9E248594FE00AAAC0A /* ImageComponent.json in Resources */,
-				934F897D247E9EB100B90D3C /* pushstack.json in Resources */,
 				76191AA9241AC44C00A04C29 /* declarativeText1.json in Resources */,
 				7CDF84952416DD8D00234F40 /* test_UnitValueWithPercentageOperatorAndIntegerValue.1.txt in Resources */,
 				C08D4E1C24857B2A00AAAC0A /* HorizontalScrollView.json in Resources */,
@@ -1689,13 +1646,9 @@
 				C05E1658243668E30088F9D2 /* __Snapshots__ in Resources */,
 				7CDF84942416DD8D00234F40 /* test_UnitValueExpressibleByFloatLiteral.1.txt in Resources */,
 				7CDF84912416DD8D00234F40 /* test_EdgeValueBuilder.1.txt in Resources */,
-				934F897F247E9EB100B90D3C /* resetapplication.json in Resources */,
 				7CDF84902416DD8D00234F40 /* test_FlexBuilder.1.txt in Resources */,
 				C08D4E1B24857B2800AAAC0A /* ScrollViewComponent.json in Resources */,
 				C08D4EA6248599D200AAAC0A /* UrlBuilderTestSpec.json in Resources */,
-				934F8984247E9EB100B90D3C /* popview.json in Resources */,
-				934F8983247E9EB100B90D3C /* poptoview.json in Resources */,
-				934F8981247E9EB100B90D3C /* pushview.json in Resources */,
 				93771AFF2417D69A009F7CF3 /* formComponent.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1928,7 +1881,6 @@
 				983E8C972396DFAA0018C6CA /* TabBarCollectionViewCellTests.swift in Sources */,
 				A0EF0ABE238B05A10019BE83 /* ValidatorHandlerTests.swift in Sources */,
 				93B9746E23A287A800B0D1CF /* NSErrorExtensionTests.swift in Sources */,
-				934F8972247E99FD00B90D3C /* NavigateTests.swift in Sources */,
 				98FC964C23EA518600A8CEC8 /* ObservableTests.swift in Sources */,
 				C81C9C7423AA9B4800C557D2 /* ListViewTests.swift in Sources */,
 				C0E569172476F047003D413F /* ThemeSpy.swift in Sources */,
