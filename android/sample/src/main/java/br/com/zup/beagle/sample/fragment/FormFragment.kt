@@ -36,7 +36,10 @@ import br.com.zup.beagle.widget.form.FormSubmit
 import br.com.zup.beagle.widget.form.FormRemoteAction
 import br.com.zup.beagle.widget.form.FormMethodType
 import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Button
+
+private const val FORM_GROUP = "FORM_GROUP"
 
 class FormFragment : Fragment() {
 
@@ -77,27 +80,6 @@ class FormFragment : Fragment() {
                             buttonText = "onblur"
                         )))
                     ),
-                    FormInput(
-                        name = "email",
-                        child = TextField(
-                            hint = "email"
-                        ).setOnFocus(listOf(ShowNativeDialog(
-                            title = "onfocus",
-                            message = "onfocus",
-                            buttonText = "onfocus"
-                        )))
-                    ),
-                    FormInput(
-                        name = "senha",
-                        child = TextField(
-                            hint = "senha",
-                            inputType = TextFieldInputType.PASSWORD
-                        ).setOnChange(listOf(ShowNativeDialog(
-                            title = "onchange",
-                            message = "onchange",
-                            buttonText = "onchange"
-                        )))
-                    ),
                     FormSubmit(
                         child = Button(
                             style = "DesignSystem.Button.Text",
@@ -115,11 +97,49 @@ class FormFragment : Fragment() {
             onSubmit = listOf(FormRemoteAction(
                 method = FormMethodType.POST,
                 path = "endereco/endpoint"
-            ))
+            )),
+            shouldStoreFields = true,
+            group = FORM_GROUP
         )
 
 
         return declarative.toView(this)
+    }
+
+    fun screen2(): Screen {
+        return Screen(
+            child = Form(
+                child = Container(
+                    children = listOf(
+                        FormInput(
+                            name = "email",
+                            child = TextField(
+                                hint = "email"
+                            )
+                        ),
+                        FormInput(
+                            name = "senha",
+                            child = TextField(
+                                hint = "senha",
+                                inputType = TextFieldInputType.PASSWORD
+                            )
+                        ),
+                        FormSubmit(
+                            child = Button(
+                                style = "DesignSystem.Button.Text",
+                                text = "submit"
+                            ).applyFlex(Flex(margin = EdgeValue(top = UnitValue(30.0, UnitType.REAL))))
+                        )
+                    )
+                ),
+                onSubmit = listOf(FormRemoteAction(
+                    method = FormMethodType.POST,
+                    path = "endereco/endpoint"
+                )),
+                group = FORM_GROUP
+
+            )
+        )
     }
 
     companion object {
