@@ -30,7 +30,7 @@ struct CustomComponentScreen: DeeplinkScreen {
             navigationBar: NavigationBar(title: "Custom Component"),
             child: Container(
                 children: [
-                    Text("Here its a custom component\n in this case a Collection View", alignment: .center),
+                    Text(.value("Here its a custom component\n in this case a Collection View"), alignment: .center),
                     DSCollection(
                         dataSource: DSCollectionDataSource(cards: [
                             DSCollectionDataSource.Card(name: "Pocas", age: 22),

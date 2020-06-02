@@ -32,20 +32,20 @@ struct LazyComponentScreen: DeeplinkScreen {
             child: Form(
                 action: FormRemoteAction(path: .TEXT_FORM_ENDPOINT, method: .get),
                 child: Container(children: [
-                    Text("Form & LazyComponent"),
+                    Text(.value("Form & LazyComponent")),
                     FormInput(
                         name: "field",
                         child: LazyComponent(
                             path: .TEXT_LAZY_COMPONENTS_ENDPOINT,
-                            initialState: Text("Loading...")
+                            initialState: Text(.value("Loading..."))
                         )
                     ),
-                    Text("Text above input hidden"),
+                    Text(.value("Text above input hidden")),
                     FormInputHidden(name: "id", value: "123"),
                     FormInputHidden(name: "age", value: "45"),
-                    Text("Text bellow input hiden"),
+                    Text(.value("Text bellow input hiden")),
                     FormSubmit(child:
-                        Text("FormSubmit")
+                        Text(.value("FormSubmit"))
                     )
                 ]).applyFlex(Flex().justifyContent(.spaceBetween))
             )
@@ -58,7 +58,11 @@ extension UITextView: OnStateUpdatable {
         guard let w = component as? Text else {
             return false
         }
-        text = w.text
+        // TODO: oq fazer quando é expression?
+        if case let ValueExpression.value(value) = w.text {
+            text = value
+        }
+        
         return true
     }
 }
