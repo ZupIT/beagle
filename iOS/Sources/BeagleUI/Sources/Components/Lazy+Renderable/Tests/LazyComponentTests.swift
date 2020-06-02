@@ -37,14 +37,10 @@ final class LazyComponentTests: XCTestCase {
     func test_toView_shouldReturnTheExpectedView() {
         // Given
         let lazyComponent = LazyComponent(path: "path", initialState: ComponentDummy())
-<<<<<<< HEAD:iOS/Sources/BeagleUI/Sources/Components/Lazy+Renderable/Tests/LazyComponentTests.swift
-        let context = BeagleContextSpy()
-        let renderer = BeagleRenderer(context: context, dependencies: BeagleScreenDependencies())
-=======
         let lazyLoadManagerSpy = LazyLoadManagerSpy()
         let context = BeagleContextSpy(lazyLoadManager: lazyLoadManagerSpy)
->>>>>>> master:iOS/Sources/BeagleUI/Sources/Components/Lazy/Tests/LazyComponentTests.swift
-        
+        let renderer = BeagleRenderer(context: context, dependencies: BeagleScreenDependencies())
+
         // When
         _ = renderer.render(lazyComponent)
         

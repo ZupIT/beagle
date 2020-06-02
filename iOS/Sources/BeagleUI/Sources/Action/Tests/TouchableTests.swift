@@ -32,6 +32,7 @@ final class TouchableTests: XCTestCase {
     func testIfAnalyticsClickAndActionShouldBeTriggered() {
         // Given
         let component = SimpleComponent()
+        let context = BeagleContextSpy()
         let analyticsExecutorSpy = AnalyticsExecutorSpy()
         let actionExecutorSpy = ActionExecutorSpy()
         let dependencies = BeagleScreenDependencies(
