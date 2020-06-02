@@ -32,7 +32,6 @@ final class TouchableTests: XCTestCase {
     func testIfAnalyticsClickAndActionShouldBeTriggered() {
         // Given
         let component = SimpleComponent()
-        let context = BeagleContextSpy()
         let analyticsExecutorSpy = AnalyticsExecutorSpy()
         let actionExecutorSpy = ActionExecutorSpy()
         let dependencies = BeagleScreenDependencies(
@@ -58,7 +57,7 @@ final class TouchableTests: XCTestCase {
         let touchable = Touchable(action: actionDummy, clickAnalyticsEvent: analyticsAction, child: Text("mocked text"))
         let view = renderer.render(touchable)
         
-        sut.register(events: [.action(actionDummy), .analytics(analyticsAction)], inView: view)
+        sut.actionManager.register(events: [.action(actionDummy), .analytics(analyticsAction)], inView: view)
         
         let gesture = view.gestureRecognizers?.first { $0 is EventsGestureRecognizer }
     
@@ -68,10 +67,13 @@ final class TouchableTests: XCTestCase {
         }
                 
         // When
-        sut.handleGestureRecognizer(eventsGestureRecognizer)
+        guard let actionManager = sut.actionManager as? ActionManager else {
+            XCTFail("Action Manager its not expected type")
+            return
+        }
+        actionManager.handleGestureRecognizer(eventsGestureRecognizer)
                 
         // Then
-        XCTAssert(context.didCallRegisterEvents)
         XCTAssertTrue(analyticsExecutorSpy.didTrackEventOnClick)
         XCTAssertTrue(actionExecutorSpy.didCallDoAction)
     }

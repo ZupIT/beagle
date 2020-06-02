@@ -30,6 +30,7 @@ final class FormInputTests: XCTestCase {
         // Then
         XCTAssertTrue(formInputView.beagleFormElement is FormInput)
     }
+<<<<<<< HEAD:iOS/Sources/BeagleUI/Sources/Components/Form+Renderable/Input/Tests/FormInputTests.swift
     
     func test_formInputHidenView_ShouldReturnExpectedValue() {
         // Given
@@ -45,4 +46,6 @@ final class FormInputTests: XCTestCase {
         XCTAssert(name == formInputHiden.name)
         XCTAssert(value == view?.getValue() as? String)
     }
+=======
+>>>>>>> master:iOS/Sources/BeagleUI/Sources/Components/Form/Input/Tests/FormInputTests.swift
 }

@@ -39,6 +39,7 @@ class BeagleLoggerTests: XCTestCase {
             Log.form(.submittedValues(values: ["key1": "value1"])),
             Log.form(.validationInputNotValid(inputName: "inputName")),
             Log.form(.validatorNotFound(named: "validatorName")),
+            Log.form(.keyDuplication(data: ["key": "value"])),
 
             Log.navigation(.cantPopToAlreadyCurrentScreen(identifier: "identifier")),
             Log.navigation(.didReceiveAction(Navigate.pushView(.remote(path)))),

@@ -22,20 +22,22 @@ public enum ScreenType {
     case declarative(Screen)
     case declarativeText(String)
 
-    public struct Remote {
+    public struct Remote: AutoInitiable {
         let url: String
         let fallback: Screen?
         let additionalData: RemoteScreenAdditionalData?
 
-        public init(
-            url: String,
-            fallback: Screen? = nil,
-            additionalData: RemoteScreenAdditionalData? = nil
-            ) {
-            self.url = url
-            self.fallback = fallback
-            self.additionalData = additionalData
-        }
+// sourcery:inline:auto:ScreenType.Remote.Init
+    public init(
+        url: String,
+        fallback: Screen? = nil,
+        additionalData: RemoteScreenAdditionalData? = nil
+    ) {
+        self.url = url
+        self.fallback = fallback
+        self.additionalData = additionalData
+    }
+// sourcery:end
     }
 }
 

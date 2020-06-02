@@ -19,6 +19,7 @@ import XCTest
 import SnapshotTesting
 import Schema
 
+<<<<<<< HEAD:iOS/Sources/BeagleUI/Sources/Context/BeagleContextTests.swift
 class BeagleContextSpy: BeagleUI.BeagleContext {
     
     private(set) var analyticsEventCalled = false
@@ -64,13 +65,12 @@ class BeagleContextSpy: BeagleUI.BeagleContext {
 
 final class BeagleContextTests: XCTestCase {
     
+=======
+final class ActionManagerTests: XCTestCase {
+>>>>>>> master:iOS/Sources/BeagleUI/Sources/Context/Tests/ActionManagerTests.swift
     func test_registerAction_shouldAddGestureRecognizer() {
         // Given
-        let component = SimpleComponent()
-        let sut = BeagleScreenViewController(viewModel: .init(
-            screenType: .declarative(component.content.toScreen()),
-            dependencies: BeagleScreenDependencies()
-        ))
+        let sut = ActionManager()
         let view = UILabel()
         let action = Navigate.popView
         
@@ -102,7 +102,7 @@ final class BeagleContextTests: XCTestCase {
         
         let view = UILabel()
         let action = Navigate.popView
-        sut.register(events: [.action(action)], inView: view)
+        sut.actionManager.register(events: [.action(action)], inView: view)
         
         guard let eventsGestureRecognizer = view.gestureRecognizers?.first as? EventsGestureRecognizer else {
             XCTFail("Could not find `EventsGestureRecognizer`.")
@@ -110,11 +110,16 @@ final class BeagleContextTests: XCTestCase {
         }
         
         // When
-        sut.handleGestureRecognizer(eventsGestureRecognizer)
+        guard let actionManager = sut.actionManager as? ActionManager else {
+            XCTFail("Action Manager its not expected type")
+            return
+        }
+        actionManager.handleGestureRecognizer(eventsGestureRecognizer)
                 
         // Then
         XCTAssertTrue(actionExecutorSpy.didCallDoAction)
     }
+<<<<<<< HEAD:iOS/Sources/BeagleUI/Sources/Context/BeagleContextTests.swift
     
     func test_lazyLoad_shouldReplaceTheInitialContent() {
         let dependencies = BeagleDependencies()
@@ -178,4 +183,6 @@ class OnStateUpdatableViewSpy: UIView, OnStateUpdatable {
         didCallOnUpdateState = true
         return true
     }
+=======
+>>>>>>> master:iOS/Sources/BeagleUI/Sources/Context/Tests/ActionManagerTests.swift
 }

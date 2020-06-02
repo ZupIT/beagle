@@ -32,6 +32,7 @@ public protocol BeagleDependenciesProtocol: DependencyActionExecutor,
     DependencyWindowManager,
     DependencyURLOpener,
     DependencyCacheManager,
+DependencyFormDataStoreHandler,
     DependencyRenderer {
 }
 
@@ -52,6 +53,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var navigation: BeagleNavigation
     public var preFetchHelper: BeaglePrefetchHelping
     public var cacheManager: CacheManagerProtocol?
+    public var formDataStoreHandler: FormDataStoreHandling
     public var logger: BeagleLoggerType
     public var windowManager: WindowManager
     public var opener: URLOpener
@@ -88,6 +90,8 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.actionExecutor = ActionExecuting(dependencies: resolver)
         self.repository = RepositoryDefault(dependencies: resolver)
         self.cacheManager = CacheManagerDefault(dependencies: resolver)
+        self.logger = BeagleLogger()
+        self.formDataStoreHandler = FormDataStoreHandler()
         self.windowManager = WindowManagerDefault()
         self.opener = URLOpenerDefault(dependencies: resolver)
 

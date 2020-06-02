@@ -75,6 +75,12 @@ final class DeepLinkHandlerDummy: DeepLinkScreenManaging {
     }
 }
 
+final class FormDataStoreHandlerDummy: FormDataStoreHandling {
+    func formManagerDidSubmitForm(group: String?) { }
+    func save(data: [String: String], group: String) { }
+    func read(group: String) -> [String: String]? { return nil }
+}
+
 final class ComponentDecodingDummy: ComponentDecoding {
     func register<T>(_ type: T.Type, for typeName: String) where T: Schema.ServerDrivenComponent {}
     func componentType(forType type: String) -> Decodable.Type? { return nil }
@@ -126,9 +132,10 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
     var validatorProvider: ValidatorProvider?
     var preFetchHelper: BeaglePrefetchHelping
     var appBundle: Bundle
-    var cacheManager: CacheManagerProtocol
+    var cacheManager: CacheManagerProtocol?
     var decoder: ComponentDecoding
     var logger: BeagleLoggerType
+    var formDataStoreHandler: FormDataStoreHandling
     var navigationControllerType = BeagleNavigationController.self
 
     var renderer: (BeagleContext, RenderableDependencies) -> BeagleRenderer = {
@@ -146,7 +153,8 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
         cacheManager: CacheManagerProtocol = CacheManagerDummy(),
         decoder: ComponentDecoding = ComponentDecodingDummy(),
         logger: BeagleLoggerType = BeagleLoggerDumb(),
-        analytics: Analytics = AnalyticsExecutorSpy()
+        analytics: Analytics = AnalyticsExecutorSpy(),
+        formDataStoreHandler: FormDataStoreHandling = FormDataStoreHandlerDummy()
     ) {
         self.actionExecutor = actionExecutor
         self.flex = flex
@@ -159,6 +167,7 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
         self.decoder = decoder
         self.logger = logger
         self.analytics = analytics
+        self.formDataStoreHandler = formDataStoreHandler
     }
 }
 

@@ -36,7 +36,7 @@ extension Touchable: ServerDrivenComponent {
             events.append(.analytics(clickAnalyticsEvent))
         }
         
-        renderer.context.register(events: events, inView: childView)
+        renderer.context.actionManager.register(events: events, inView: childView)
         prefetchComponent(helper: renderer.dependencies.preFetchHelper)
         return childView
     }

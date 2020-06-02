@@ -34,5 +34,4 @@ public struct Touchable: ServerDrivenComponent, ClickedOnComponent, AutoInitiabl
         self.child = child
     }
 // sourcery:end
-    
 }

@@ -26,7 +26,7 @@ extension Form: ServerDrivenComponent {
         func registerFormSubmit(view: UIView) {
             if view.beagleFormElement is FormSubmit {
                 hasFormSubmit = true
-                renderer.context.register(
+                renderer.context.formManager.register(
                     form: self,
                     formView: childView,
                     submitView: view,

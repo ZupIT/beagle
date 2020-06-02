@@ -21,7 +21,7 @@ extension LazyComponent: ServerDrivenComponent {
 
     public func toView(renderer: BeagleRenderer) -> UIView {
         let initialView = renderer.render(initialState)
-        renderer.context.lazyLoad(url: path, initialState: initialView)
+        renderer.context.lazyLoadManager.lazyLoad(url: path, initialState: initialView)
         return initialView
     }
 }

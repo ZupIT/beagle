@@ -42,6 +42,7 @@ class BeagleScreenViewModel {
         & DependencyAnalyticsExecutor
         & RenderableDependencies
         & DependencyComponentDecoding
+        & DependencyFormDataStoreHandler
         & DependencyNavigationController
         & DependencyRenderer
 

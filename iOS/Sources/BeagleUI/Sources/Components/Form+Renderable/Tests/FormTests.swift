@@ -19,31 +19,36 @@ import SnapshotTesting
 @testable import BeagleUI
 import Schema
 
-// TODO: refactor this tests that are not actually asserting against behaviour
-
 final class FormTests: XCTestCase {
 
     private lazy var form: Form = {
         let action = FormRemoteAction(path: "submit", method: .post)
         let form = Form(action: action, child: Container(children: [
             FormInput(name: "name", child: InputComponent(value: "John Doe")),
-            FormInputHidden(name: "id", value: "123123"),
             FormSubmit(child: Button(text: "Add"), enabled: true)
         ]))
         return form
     }()
+
+    private lazy var dependencies = BeagleScreenDependencies()
     
     func test_buildView_shouldRegisterFormSubmit() throws {
         // Given
+<<<<<<< HEAD:iOS/Sources/BeagleUI/Sources/Components/Form+Renderable/Tests/FormTests.swift
         let context = BeagleContextSpy()
         let renderer = BeagleRenderer(context: context, dependencies: dependencies)
+=======
+        let formManager = FormManagerSpy()
+        let context = BeagleContextSpy(formManager: formManager)
+>>>>>>> master:iOS/Sources/BeagleUI/Sources/Components/Form/Tests/FormTests.swift
                 
         // When
         _ = renderer.render(form)
         
         // Then
-        XCTAssertTrue(context.didCallRegisterFormSubmit)
+        XCTAssertTrue(formManager.didCallRegisterFormSubmit)
     }
+<<<<<<< HEAD:iOS/Sources/BeagleUI/Sources/Components/Form+Renderable/Tests/FormTests.swift
 
     func test_registerForm_shouldAddGestureRecognizer() throws {
         // Given
@@ -158,6 +163,12 @@ final class FormTests: XCTestCase {
         } else {
             return view.subviews.first { findSubmitView(in: $0) != nil } as? FormSubmit.FormSubmitView
         }
+=======
+    
+    func test_whenDecodingJson_thenItShouldReturnAForm() throws {
+        let component: Form = try componentFromJsonFile(fileName: "formComponent")
+        assertSnapshot(matching: component, as: .dump)
+>>>>>>> master:iOS/Sources/BeagleUI/Sources/Components/Form/Tests/FormTests.swift
     }
 }
 
@@ -189,42 +200,5 @@ private class InputStub: UIView, InputValue, ValidationErrorListener, WidgetStat
         return value
     }
     func onValidationError(message: String?) {
-    }
-}
-
-private class HiddenStub: UIView, InputValue {
-
-    let value: String
-
-    init(_ formInputHidden: FormInputHidden, value: String) {
-        self.value = value
-        super.init(frame: .zero)
-        self.beagleFormElement = formInputHidden
-    }
-
-    required init?(coder: NSCoder) {
-        BeagleUI.fatalError("init(coder:) has not been implemented")
-    }
-
-    func getValue() -> Any {
-        return value
-    }
-}
-
-private class SubmitStub: UIView, Observer, WidgetStateObservable {
-    var observable: Observable<WidgetState> = Observable<WidgetState>(value: WidgetState(value: false))
-    var didCallChangeValue = false
-
-    init(_ formSubmit: FormSubmit) {
-        super.init(frame: .zero)
-        self.beagleFormElement = formSubmit
-    }
-
-    required init?(coder: NSCoder) {
-        BeagleUI.fatalError("init(coder:) has not been implemented")
-    }
-
-    func didChangeValue(_ value: Any?) {
-        didCallChangeValue = true
     }
 }
