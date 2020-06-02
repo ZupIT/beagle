@@ -68,10 +68,7 @@ data class NavigationBarItem(
  * Add an identifier to this widget.
  * @return the current navigation bar item
  */
-fun NavigationBarItem.setId(id: String): NavigationBarItem {
-    this.id = id
-    return this
-}
+fun NavigationBarItem.setId(id: String) = this.apply { this.id = id }
 
 /**
  *  Typically displayed at the top of the window, containing buttons for navigating within a hierarchy of screens
