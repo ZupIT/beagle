@@ -32,67 +32,51 @@ import br.com.zup.beagle.widget.core.FlexBuilder
 abstract class Widget : FlexComponent, AppearanceComponent, AccessibilityComponent,
     IdentifierComponent {
 
-    final override var id: String? = null
-        private set
-    final override var flex: Flex? = null
-        private set
-    final override var appearance: Appearance? = null
-        private set
-    final override var accessibility: Accessibility? = null
-        private set
+    override var id: String? = null
+    override var flex: Flex? = null
+    override var appearance: Appearance? = null
+    override var accessibility: Accessibility? = null
 
-    /**
-     * Add an identifier to this widget.
-     * @return the current widget
-     */
-    open fun setId(id: String): Widget {
-        this.id = id
-        return this
-    }
-
-    /**
-     * Apply the layout component.
-     *
-     * @see Flex
-     *
-     * @return the current widget
-     */
-    open fun applyFlex(flex: Flex): Widget {
-        this.flex = flex
-        return this
-    }
-
-
-    /**
-     * Apply the layout component.
-     *
-     * @see FlexBuilder
-     *
-     * @return the current widget
-     */
-    fun buildAndApplyFlex(flexBuilder: FlexBuilder) = this.applyFlex(flexBuilder.build())
-
-    /**
-     * Apply the appearance.
-     *
-     * @see Appearance
-     *
-     * @return the current widget
-     */
-    open fun applyAppearance(appearance: Appearance): Widget {
-        this.appearance = appearance
-        return this
-    }
-
-    /**
-     * Apply the accessibility .
-     *
-     * @see Accessibility
-     *
-     * @return the current widget
-     */
-    open fun applyAccessibility(accessibility: Accessibility): Widget {
-        this.accessibility = accessibility
-        return this
-    }
 }
+
+/**
+ * Add an identifier to this widget.
+ * @return the current widget
+ */
+fun <T : Widget> T.setId(id: String) = this.apply { this.id = id }
+
+/**
+ * Apply the layout component.
+ *
+ * @see Flex
+ *
+ * @return the current widget
+ */
+fun <T : Widget> T.applyFlex(flex: Flex) = this.apply { this.flex = flex }
+
+/**
+ * Apply the layout component.
+ *
+ * @see FlexBuilder
+ *
+ * @return the current widget
+ */
+fun <T : Widget> T.buildAndApplyFlex(flexBuilder: FlexBuilder) = this.applyFlex(flexBuilder.build())
+
+/**
+ * Apply the appearance.
+ *
+ * @see Appearance
+ *
+ * @return the current widget
+ */
+fun <T : Widget> T.applyAppearance(appearance: Appearance) = this.apply { this.appearance = appearance }
+
+/**
+ * Apply the accessibility .
+ *
+ * @see Accessibility
+ *
+ * @return the current widget
+ */
+fun <T : Widget> T.applyAccessibility(accessibility: Accessibility) = this.apply { this.accessibility = accessibility }

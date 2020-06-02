@@ -54,6 +54,7 @@ data class SafeArea(
  * @param accessibility define Accessibility details for the item
  *
  */
+
 data class NavigationBarItem(
     val text: String,
     val image: String? = null,
@@ -61,17 +62,13 @@ data class NavigationBarItem(
     val accessibility: Accessibility? = null
 ) : IdentifierComponent {
     override var id: String? = null
-        private set
-
-    /**
-     * Add an identifier to this widget.
-     * @return the current navigation bar item
-     */
-    fun setId(id: String): NavigationBarItem {
-        this.id = id
-        return this
-    }
 }
+
+/**
+ * Add an identifier to this widget.
+ * @return the current navigation bar item
+ */
+fun NavigationBarItem.setId(id: String) = this.apply { this.id = id }
 
 /**
  *  Typically displayed at the top of the window, containing buttons for navigating within a hierarchy of screens
