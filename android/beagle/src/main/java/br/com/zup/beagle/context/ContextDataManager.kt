@@ -85,24 +85,28 @@ internal class ContextDataManager(
     }
 
     private fun getValue(contextData: ContextData, path: String): Any? {
-        return if (path == contextData.id) {
-            contextData.value
-        } else {
+        return if (path != contextData.id) {
             val value = lruCache[path]
             if (value != null) {
                 return value
             }
-            return try {
-                val keys = contextPathResolver.getKeysFromPath(contextData.id, path)
-                val foundValue = jsonPathFinder.find(keys, contextData.value)
-                if (foundValue != null) {
-                    lruCache.put(path, foundValue)
-                }
-                return foundValue
-            } catch (ex: Exception) {
-                BeagleMessageLogs.errorWhileTryingToAccessContext(ex)
-                null
+            saveValue(contextData, path)
+        } else {
+            contextData.value
+        }
+    }
+
+    private fun saveValue(contextData: ContextData, path: String): Any? {
+        return try {
+            val keys = contextPathResolver.getKeysFromPath(contextData.id, path)
+            val foundValue = jsonPathFinder.find(keys, contextData.value)
+            if (foundValue != null) {
+                lruCache.put(path, foundValue)
             }
+             foundValue
+        } catch (ex: Exception) {
+            BeagleMessageLogs.errorWhileTryingToAccessContext(ex)
+            null
         }
     }
 

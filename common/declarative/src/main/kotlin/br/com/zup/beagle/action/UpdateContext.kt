@@ -1,7 +1,3 @@
-package br.com.zup.beagle.action
-
-import br.com.zup.beagle.widget.core.Action
-
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -17,6 +13,10 @@ import br.com.zup.beagle.widget.core.Action
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package br.com.zup.beagle.action
+
+import br.com.zup.beagle.widget.core.Action
 
 data class UpdateContext(
     val contextId: String,

@@ -96,7 +96,7 @@ abstract class InputWidget : WidgetView(), StateChangeable, InputWidgetWatcher {
     }
 
     /**
-     * Add actions to on change to this widget.
+     * Update list of actions to on change to this widget.
      * @return the current widget
      */
     fun setOnChange(actions: List<Action>): InputWidget {
@@ -105,7 +105,7 @@ abstract class InputWidget : WidgetView(), StateChangeable, InputWidgetWatcher {
     }
 
     /**
-     * Add actions to on focus to this widget.
+     * Update list of actions to on focus to this widget.
      * @return the current widget
      */
     fun setOnFocus(actions: List<Action>): InputWidget {
@@ -114,7 +114,7 @@ abstract class InputWidget : WidgetView(), StateChangeable, InputWidgetWatcher {
     }
 
     /**
-     * Add actions to on focus to this widget.
+     * Update list of actions to on focus to this widget.
      * @return the current widget
      */
     fun setOnBlur(actions: List<Action>): InputWidget {
