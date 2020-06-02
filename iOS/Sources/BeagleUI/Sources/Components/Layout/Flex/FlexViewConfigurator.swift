@@ -79,9 +79,18 @@ final class FlexViewConfigurator: FlexViewConfiguratorProtocol {
     
     func markDirty() {
         view?.yoga.markDirty()
+        setNeedsLayout()
     }
     
     // MARK: - Private Methods
+    
+    private func setNeedsLayout() {
+        var view = self.view
+        while view != nil {
+            (view as? ScreenView)?.setNeedsLayout()
+            view = view?.superview
+        }
+    }
     
     private func applyYogaProperties(from flex: Flex, to layout: YGLayout) {
         layout.direction = yogaTranslator.translate(flex.direction ?? .ltr)

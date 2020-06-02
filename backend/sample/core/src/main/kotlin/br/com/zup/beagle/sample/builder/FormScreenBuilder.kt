@@ -42,6 +42,7 @@ import br.com.zup.beagle.widget.ui.Button
 object FormScreenBuilder : ScreenBuilder {
     private val flexHorizontalMargin = Flex(margin = EdgeValue(all = 10.unitReal()))
 
+    @Suppress("LongMethod")
     override fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Form",

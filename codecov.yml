@@ -44,6 +44,10 @@ flags:
   android:
     paths:
       - android/
+      - common/
+    carryforward: true
+  backend:
+    paths:
       - backend/
       - common/
     carryforward: true

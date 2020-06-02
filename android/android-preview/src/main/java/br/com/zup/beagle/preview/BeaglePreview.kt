@@ -20,25 +20,47 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
+import java.util.Timer
+import kotlin.concurrent.timerTask
 
-internal const val PREVIEW_ENDPOINT = "http://10.0.2.2"
-internal const val DEFAULT_PORT = "9721"
-internal const val CLOSE_CODE = 1001
-internal const val CLOSE_REASON = "onDestroy"
+internal const val DEFAULT_ENDPOINT = "http://10.0.2.2:9721/"
 
-class BeaglePreview(host: String? = null, private val okHttpClient: OkHttpClient = OkHttpClient()) {
+class BeaglePreview(
+    host: String? = null,
+    private val reconnectInterval: Long = 1000,
+    private val okHttpClient: OkHttpClient = OkHttpClient(),
+    private val timer: Timer = Timer()
+) {
 
     private val request: Request = Request
         .Builder()
-        .url("${host ?: PREVIEW_ENDPOINT}:$DEFAULT_PORT")
+        .url(host ?: DEFAULT_ENDPOINT)
         .build()
     private lateinit var webSocket: WebSocket
+    private lateinit var webSocketListener: WebSocketListener
+    private var shouldReconnect = true
 
-    fun start(webSocketListener: WebSocketListener) {
+    fun startListening(listener: WebSocketListener? = null) {
+        listener?.let {
+            webSocketListener = it
+        }
         webSocket = okHttpClient.newWebSocket(request, webSocketListener)
     }
 
-    fun close() {
-        webSocket.close(code = CLOSE_CODE, reason = CLOSE_REASON)
+    fun closeWebSocket() {
+        webSocket.cancel()
+    }
+
+    fun doNotReconnect() {
+        shouldReconnect = false
+    }
+
+    fun reconnect() {
+        if (shouldReconnect) {
+            timer.schedule(timerTask {
+                closeWebSocket()
+                startListening()
+            }, reconnectInterval)
+        }
     }
 }

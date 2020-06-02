@@ -1,0 +1,9 @@
+▿ Navigate
+  ▿ openNativeRoute: (3 elements)
+    - .0: "deeplink"
+    ▿ data: Optional<Dictionary<String, String>>
+      ▿ some: 1 key/value pair
+        ▿ (2 elements)
+          - key: "a"
+          - value: "value a"
+    - shouldResetApplication: true

@@ -16,6 +16,14 @@
 
 package br.com.zup.beagle.action
 
+/**
+ * will show dialogues natively, such as an error alert indicating alternative flows, business system errors and others.
+ *
+ * @param title defines the title on the Dialog.
+ * @param message defines the Dialog message.
+ * @param buttonText define text of button in dialog.
+ *
+ */
 data class ShowNativeDialog(
     val title: String,
     val message: String,

@@ -36,6 +36,9 @@
       location = "container:"
       name = "Example">
       <FileRef
+         location = "group:Example/BeaglePreviewDemo/BeaglePreviewDemo.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:Example/BeagleDemo/BeagleDemo.xcodeproj">
       </FileRef>
    </Group>
