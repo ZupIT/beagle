@@ -24,7 +24,7 @@ import br.com.zup.beagle.widget.form.Form
 import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.FormInputHidden
 import br.com.zup.beagle.widget.form.FormSubmit
-import br.com.zup.beagle.widget.form.InputWidgetView
+import br.com.zup.beagle.widget.form.InputWidget
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Horizontal
 import br.com.zup.beagle.widget.layout.PageView
@@ -35,8 +35,9 @@ import br.com.zup.beagle.widget.layout.Stack
 import br.com.zup.beagle.widget.layout.Vertical
 import br.com.zup.beagle.widget.lazy.LazyComponent
 import br.com.zup.beagle.widget.navigation.Touchable
+import br.com.zup.beagle.widget.pager.PageIndicator
+import br.com.zup.beagle.widget.pager.PageIndicatorComponent
 import br.com.zup.beagle.widget.pager.PageIndicatorView
-import br.com.zup.beagle.widget.pager.PageIndicatorComponentView
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.ListView
@@ -68,8 +69,8 @@ internal object ComponentJsonAdapterFactory {
     private fun registerBaseSubTypes(
         factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
-        return factory.withBaseSubType(PageIndicatorComponentView::class.java)
-            .withBaseSubType(InputWidgetView::class.java)
+        return factory.withBaseSubType(PageIndicatorComponent::class.java)
+            .withBaseSubType(InputWidget::class.java)
             .withBaseSubType(Widget::class.java)
     }
 
@@ -98,7 +99,7 @@ internal object ComponentJsonAdapterFactory {
             .withSubtype(ListView::class.java, createNamespaceFor<ListView>())
             .withSubtype(Touchable::class.java, createNamespaceFor<Touchable>())
             .withSubtype(TabView::class.java, createNamespaceFor<TabView>())
-            .withSubtype(PageIndicatorView::class.java, createNamespaceFor<PageIndicatorView>())
+            .withSubtype(PageIndicatorView::class.java, createNamespaceFor<PageIndicator>())
             .withSubtype(FormInput::class.java, createNamespaceFor<FormInput>())
             .withSubtype(FormInputHidden::class.java, createNamespaceFor<FormInputHidden>())
             .withSubtype(FormSubmit::class.java, createNamespaceFor<FormSubmit>())
