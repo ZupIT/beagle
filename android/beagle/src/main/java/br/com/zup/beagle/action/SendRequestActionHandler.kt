@@ -18,7 +18,7 @@ package br.com.zup.beagle.action
 
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import br.com.zup.beagle.action.request.presentation.ActionRequestViewModel
+import br.com.zup.beagle.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.engine.renderer.RootView
 
 internal typealias SendRequestListener = (actions: List<Action>) -> Unit

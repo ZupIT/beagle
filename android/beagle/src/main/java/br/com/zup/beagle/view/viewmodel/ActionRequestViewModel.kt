@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.action.request.presentation
+package br.com.zup.beagle.view.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import br.com.zup.beagle.action.SendRequestAction
-import br.com.zup.beagle.action.request.presentation.mapper.toRequestData
+import br.com.zup.beagle.view.mapper.toRequestData
 import br.com.zup.beagle.data.ActionRequester
 import br.com.zup.beagle.exception.BeagleException
 import br.com.zup.beagle.networking.ResponseData

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.action.request.presentation.mapper
+package br.com.zup.beagle.view.mapper
 
 import br.com.zup.beagle.action.RequestActionMethod
 import br.com.zup.beagle.action.SendRequestAction
