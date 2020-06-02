@@ -17,9 +17,9 @@
 import UIKit
 import BeagleUI
 
-struct AppStyle {
+struct AppTheme {
     
-    static let theme = AppTheme(styles: [
+    static let theme = BeagleUI.AppTheme(styles: [
         .BUTTON_BLACK_TEXT_STYLE: Self.blackTextNormalStyle,
         .TEXT_HELLO_WORD_STYLE: Self.designSystemTextHelloWord,
         .TEXT_IMAGE_STYLE: Self.designSystemTextImage,
