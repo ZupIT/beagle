@@ -18,7 +18,8 @@ package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.ui.ListDirection.HORIZONTAL
+import br.com.zup.beagle.widget.ui.ListDirection.VERTICAL
 
 /**
  * The direction attribute will define the list direction.
@@ -42,12 +43,6 @@ enum class ListDirection {
 }
 
 /**
- * Represent a view in list
- *
- */
-typealias RowBuilder = (index: Int) -> Widget
-
-/**
  * ListView is a Layout component that will define a list of views natively.
  * These views could be any Server Driven Component.
  *
@@ -57,26 +52,7 @@ typealias RowBuilder = (index: Int) -> Widget
  */
 data class ListView(
     val rows: List<ServerDrivenComponent>,
-    val direction: ListDirection = ListDirection.VERTICAL
+    val direction: ListDirection = VERTICAL
 ) : ServerDrivenComponent, LayoutComponent {
     companion object
-}
-
-fun ListView.Companion.dynamic(
-    size: Int,
-    direction: ListDirection = ListDirection.VERTICAL,
-    rowBuilder: RowBuilder
-): ListView {
-    val rows = generateRows(size, rowBuilder)
-    return ListView(rows = rows, direction = direction)
-}
-
-private fun generateRows(size: Int, rowBuilder: RowBuilder): List<Widget> {
-    val children = mutableListOf<Widget>()
-
-    for (i in 0 until size) {
-        children.add(rowBuilder(i))
-    }
-
-    return children
 }

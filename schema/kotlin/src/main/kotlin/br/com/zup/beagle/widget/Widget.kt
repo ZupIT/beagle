@@ -23,7 +23,6 @@ import br.com.zup.beagle.core.AppearanceComponent
 import br.com.zup.beagle.core.FlexComponent
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.FlexBuilder
 
 /**
  * Base of all widgets
@@ -38,45 +37,3 @@ abstract class Widget : FlexComponent, AppearanceComponent, AccessibilityCompone
     override var accessibility: Accessibility? = null
 
 }
-
-/**
- * Add an identifier to this widget.
- * @return the current widget
- */
-fun <T : Widget> T.setId(id: String) = this.apply { this.id = id }
-
-/**
- * Apply the layout component.
- *
- * @see Flex
- *
- * @return the current widget
- */
-fun <T : Widget> T.applyFlex(flex: Flex) = this.apply { this.flex = flex }
-
-/**
- * Apply the layout component.
- *
- * @see FlexBuilder
- *
- * @return the current widget
- */
-fun <T : Widget> T.buildAndApplyFlex(flexBuilder: FlexBuilder) = this.applyFlex(flexBuilder.build())
-
-/**
- * Apply the appearance.
- *
- * @see Appearance
- *
- * @return the current widget
- */
-fun <T : Widget> T.applyAppearance(appearance: Appearance) = this.apply { this.appearance = appearance }
-
-/**
- * Apply the accessibility .
- *
- * @see Accessibility
- *
- * @return the current widget
- */
-fun <T : Widget> T.applyAccessibility(accessibility: Accessibility) = this.apply { this.accessibility = accessibility }

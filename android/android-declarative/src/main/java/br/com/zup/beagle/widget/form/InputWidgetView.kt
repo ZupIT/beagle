@@ -38,20 +38,4 @@ abstract class InputWidgetView : InputWidget(), ViewConvertable, StateChangeable
     fun notifyChanges() {
         stateObservable.notifyObservers(WidgetState(getValue()))
     }
-
-    override fun setId(id: String): InputWidgetView {
-        return super.setId(id) as InputWidgetView
-    }
-
-    override fun applyAppearance(appearance: Appearance): InputWidgetView {
-        return super.applyAppearance(appearance) as InputWidgetView
-    }
-
-    override fun applyFlex(flex: Flex): InputWidgetView {
-        return super.applyFlex(flex) as InputWidgetView
-    }
-
-    override fun applyAccessibility(accessibility: Accessibility): InputWidgetView {
-        return super.applyAccessibility(accessibility) as InputWidgetView
-    }
 }

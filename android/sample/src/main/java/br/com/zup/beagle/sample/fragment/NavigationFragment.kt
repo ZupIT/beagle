@@ -26,6 +26,7 @@ import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.ScreenEvent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.utils.toView
 import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.AlignItems
