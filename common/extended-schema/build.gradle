@@ -24,3 +24,5 @@ dependencies {
     testImplementation TestLibraries.junit5Api
     testRuntime TestLibraries.junit5Engine
 }
+
+apply from: rootProject.file('maven-publish.gradle')
