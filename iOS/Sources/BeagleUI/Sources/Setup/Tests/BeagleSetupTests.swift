@@ -42,6 +42,8 @@ final class BeagleSetupTests: XCTestCase {
         dep.decoder = ComponentDecodingDummy()
         dep.cacheManager = nil
         dep.logger = BeagleLoggerDumb()
+        dep.windowManager = WindowManagerDumb()
+        dep.opener = URLOpenerDumb()
 
         assertSnapshot(matching: dep, as: .dump)
     }
@@ -72,9 +74,16 @@ final class DeepLinkHandlerDummy: DeepLinkScreenManaging {
     }
 }
 
+final class FormDataStoreHandlerDummy: FormDataStoreHandling {
+    func formManagerDidSubmitForm(group: String?) { }
+    func save(data: [String: String], group: String) { }
+    func read(group: String) -> [String: String]? { return nil }
+}
+
 final class ComponentDecodingDummy: ComponentDecoding {
     func register<T>(_ type: T.Type, for typeName: String) where T: ServerDrivenComponent {}
-    func decodableType(forType type: String) -> Decodable.Type? { return nil }
+    func componentType(forType type: String) -> Decodable.Type? { return nil }
+    func actionType(forType type: String) -> Decodable.Type? { return nil }
     func decodeComponent(from data: Data) throws -> ServerDrivenComponent { return ComponentDummy() }
     func decodeAction(from data: Data) throws -> Action { return ActionDummy() }
 }
@@ -92,7 +101,7 @@ final class CacheManagerDummy: CacheManagerProtocol {
 }
 
 final class PreFetchHelperDummy: BeaglePrefetchHelping {
-    func prefetchComponent(newPath: Navigate.NewPath) { }
+    func prefetchComponent(newPath: Route.NewPath) { }
 }
 
 struct ComponentDummy: ServerDrivenComponent, Equatable, CustomStringConvertible {
@@ -122,9 +131,10 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
     var validatorProvider: ValidatorProvider?
     var preFetchHelper: BeaglePrefetchHelping
     var appBundle: Bundle
-    var cacheManager: CacheManagerProtocol
+    var cacheManager: CacheManagerProtocol?
     var decoder: ComponentDecoding
     var logger: BeagleLoggerType
+    var formDataStoreHandler: FormDataStoreHandling
     var navigationControllerType = BeagleNavigationController.self
 
     init(
@@ -138,7 +148,8 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
         cacheManager: CacheManagerProtocol = CacheManagerDummy(),
         decoder: ComponentDecoding = ComponentDecodingDummy(),
         logger: BeagleLoggerType = BeagleLoggerDumb(),
-        analytics: Analytics = AnalyticsExecutorSpy()
+        analytics: Analytics = AnalyticsExecutorSpy(),
+        formDataStoreHandler: FormDataStoreHandling = FormDataStoreHandlerDummy()
     ) {
         self.actionExecutor = actionExecutor
         self.flex = flex
@@ -151,6 +162,7 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
         self.decoder = decoder
         self.logger = logger
         self.analytics = analytics
+        self.formDataStoreHandler = formDataStoreHandler
     }
 }
 

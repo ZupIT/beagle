@@ -22,9 +22,10 @@ import android.view.View
 import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.BaseTest
 import br.com.zup.beagle.action.ActionExecutor
+import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.analytics.ClickEvent
-import br.com.zup.beagle.engine.mapper.ViewMapper
+import br.com.zup.beagle.data.PreFetchHelper
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BeagleEnvironment
@@ -32,6 +33,7 @@ import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.utils.StyleManager
 import br.com.zup.beagle.view.BeagleButtonView
 import br.com.zup.beagle.view.ViewFactory
+import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.widget.ui.Button
 import io.mockk.CapturingSlot
 import io.mockk.Runs
@@ -41,7 +43,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import io.mockk.verify
@@ -56,26 +57,36 @@ class ButtonViewRendererTest : BaseTest() {
 
     @MockK
     private lateinit var viewFactory: ViewFactory
+
     @MockK
     private lateinit var rootView: RootView
+
     @MockK
     private lateinit var context: Context
+
     @RelaxedMockK
     private lateinit var buttonView: BeagleButtonView
+
     @RelaxedMockK
     private lateinit var button: Button
+
     @RelaxedMockK
     private lateinit var analytics: Analytics
+
     @MockK
     private lateinit var actionExecutor: ActionExecutor
+
     @MockK
     private lateinit var view: View
+
     @RelaxedMockK
     private lateinit var styleManager: StyleManager
-    @MockK
-    private lateinit var viewMapper: ViewMapper
+
     @RelaxedMockK
     private lateinit var typedArray: TypedArray
+
+    @RelaxedMockK
+    private lateinit var preFetchHelper: PreFetchHelper
 
     @InjectMockKs
     private lateinit var buttonViewRenderer: ButtonViewRenderer
@@ -90,8 +101,9 @@ class ButtonViewRendererTest : BaseTest() {
 
         every { button.style } returns DEFAULT_STYLE
         every { button.text } returns DEFAULT_TEXT
-        every { button.action } returns null
-        every { actionExecutor.doAction(any(), any()) } just Runs
+        every { button.onPress } returns null
+        every { button.onLongPress } returns null
+        every { actionExecutor.doAction(any(), any<List<Action>>()) } just Runs
         every { rootView.getContext() } returns context
         every { viewFactory.makeButton(context) } returns buttonView
         every { TextViewCompat.setTextAppearance(any(), any()) } just Runs
@@ -102,7 +114,20 @@ class ButtonViewRendererTest : BaseTest() {
         super.tearDown()
         unmockkAll()
     }
-    
+
+    @Test
+    fun build_should_call_prefetch_when_action_not_null() {
+        // Given
+        val actions = listOf(Navigate.PopView())
+        every { button.onPress } returns actions
+
+        // When
+        buttonViewRenderer.build(rootView)
+
+        // Then
+        verify(exactly = once()) { preFetchHelper.handlePreFetch(rootView, actions) }
+    }
+
     @Test
     fun build_should_return_a_button_instance() {
         // When

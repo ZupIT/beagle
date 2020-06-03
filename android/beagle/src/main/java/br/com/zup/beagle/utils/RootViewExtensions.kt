@@ -24,11 +24,6 @@ import br.com.zup.beagle.engine.renderer.ActivityRootView
 import br.com.zup.beagle.engine.renderer.FragmentRootView
 import br.com.zup.beagle.engine.renderer.RootView
 
-internal object ViewModelProviderFactory {
-    fun of(fragment: Fragment) = ViewModelProvider(fragment)
-    fun of(activity: AppCompatActivity) = ViewModelProvider(activity)
-}
-
 internal inline fun <reified T : ViewModel> RootView.generateViewModelInstance(): T {
     return when (this) {
         is ActivityRootView -> {
@@ -40,4 +35,9 @@ internal inline fun <reified T : ViewModel> RootView.generateViewModelInstance()
             ViewModelProviderFactory.of(fragment).get(T::class.java)
         }
     }
+}
+
+internal object ViewModelProviderFactory {
+    fun of(fragment: Fragment) = ViewModelProvider(fragment)
+    fun of(activity: AppCompatActivity) = ViewModelProvider(activity)
 }

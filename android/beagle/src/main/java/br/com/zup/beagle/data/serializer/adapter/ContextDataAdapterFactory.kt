@@ -52,11 +52,11 @@ internal class AnyToJsonObjectAdapter(
         return when (type) {
             JsonReader.Token.BEGIN_OBJECT -> {
                 val json = adapter.toJson(value)
-                return JSONObject(json)
+                JSONObject(json)
             }
             JsonReader.Token.BEGIN_ARRAY -> {
                 val json = adapter.toJson(value)
-                return JSONArray(json)
+                JSONArray(json)
             }
             else -> {
                 value

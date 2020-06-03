@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,50 +16,53 @@
  */
 
 import XCTest
-@testable import BeagleUI
 import SnapshotTesting
+@testable import BeagleUI
 
 final class NavigateTests: XCTestCase {
 
-    func testAllEntityToAction() throws {
-        let types = NavigateEntity.NavigationType.allCases
-        let paths = ["path", nil]
-        let datas = [ ["data": ""], nil]
-        let shouldPrefetch = [true, false]
-        var str = ""
-
-        // swiftlint:disable closure_end_indentation
-        types.forEach { t in paths.forEach { p in datas.forEach { d in shouldPrefetch.forEach { s in
-            str += mapEntityToActionDescription(type: t, path: p, data: d, shouldPrefetch: s)
-        }}}}
-
-        assertSnapshot(matching: str, as: .description)
+    func test_whenDecodingJson_thenItShouldReturnOpenExternalUrl() throws {
+        let action: Navigate = try actionFromJsonFile(fileName: "openexternalurl")
+        assertSnapshot(matching: action, as: .dump)
     }
-
-    private func mapEntityToActionDescription(
-        type: NavigateEntity.NavigationType,
-        path: String?,
-        data: [String: String]?,
-        shouldPrefetch: Bool
-    ) -> String {
-        let entity = NavigateEntity(type: type, path: path, shouldPrefetch: shouldPrefetch, screen: nil, data: data)
-        let pathDescription = path == nil ? "noPath" : "withPath"
-        let dataDescription = data == nil ? "noData" : "withData"
-
-        let actionDescription: String
-        do {
-            let action = try entity.mapToUIModel()
-            actionDescription = "\(action)"
-        } catch {
-            actionDescription = "ERROR"
-        }
-
-        return """
-        \(type)-\(pathDescription)-\(dataDescription) ->
-        \(actionDescription)
-        
-        
-        """
+    
+    func test_whenDecodingJson_thenItShouldReturnOpenNativeRoute() throws {
+        let action: Navigate = try actionFromJsonFile(fileName: "opennativeroute")
+        assertSnapshot(matching: action, as: .dump)
     }
-
+    
+    func test_whenDecodingJson_thenItShouldReturnResetApplication() throws {
+        let action: Navigate = try actionFromJsonFile(fileName: "resetapplication")
+        assertSnapshot(matching: action, as: .dump)
+    }
+    
+    func test_whenDecodingJson_thenItShouldReturnResetStack() throws {
+        let action: Navigate = try actionFromJsonFile(fileName: "resetstack")
+        assertSnapshot(matching: action, as: .dump)
+    }
+    
+    func test_whenDecodingJson_thenItShouldReturnPushStack() throws {
+        let action: Navigate = try actionFromJsonFile(fileName: "pushstack")
+        assertSnapshot(matching: action, as: .dump)
+    }
+    
+    func test_whenDecodingJson_thenItShouldReturnPopStack() throws {
+        let action: Navigate = try actionFromJsonFile(fileName: "popstack")
+        assertSnapshot(matching: action, as: .dump)
+    }
+    
+    func test_whenDecodingJson_thenItShouldReturnPushView() throws {
+        let action: Navigate = try actionFromJsonFile(fileName: "pushview")
+        assertSnapshot(matching: action, as: .dump)
+    }
+    
+    func test_whenDecodingJson_thenItShouldReturnPopView() throws {
+        let action: Navigate = try actionFromJsonFile(fileName: "popview")
+        assertSnapshot(matching: action, as: .dump)
+    }
+    
+    func test_whenDecodingJson_thenItShouldReturnPopToView() throws {
+        let action: Navigate = try actionFromJsonFile(fileName: "poptoview")
+        assertSnapshot(matching: action, as: .dump)
+    }
 }

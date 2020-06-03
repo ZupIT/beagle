@@ -1,0 +1,11 @@
+{
+    "_beagleAction_": "beagle:pushStack",
+    "route": {
+        "screen": {
+            "child" : {
+              "_beagleComponent_" : "beagle:text",
+              "text" : "child"
+            }
+        }
+    }
+}

@@ -23,6 +23,7 @@ import br.com.zup.beagle.compiler.util.BIND
 import br.com.zup.beagle.compiler.util.BINDING_ADAPTER
 import br.com.zup.beagle.compiler.util.GET_VALUE_NOT_NULL
 import br.com.zup.beagle.compiler.util.GET_VALUE_NULL
+import br.com.zup.beagle.compiler.util.INPUT_WIDGET
 import br.com.zup.beagle.compiler.util.WIDGET
 import br.com.zup.beagle.compiler.util.error
 import br.com.zup.beagle.compiler.util.warning
@@ -32,6 +33,7 @@ import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.TypeSpec
 import java.io.IOException
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
@@ -39,6 +41,7 @@ import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 import kotlin.reflect.KClass
 
+@Suppress("UNCHECKED_CAST")
 class BeagleWidgetBindingProcessor(
     private val processingEnv: ProcessingEnvironment,
     private val beagleWidgetBindingGenerator: BeagleWidgetBindingGenerator =
@@ -60,47 +63,58 @@ class BeagleWidgetBindingProcessor(
 
     private fun handle(element: Element) {
         if (element is TypeElement && element.kind.isClass) {
-            this.processingEnv.let {
-                try {
-                    val beagleWidgetBindingHandler = BeagleWidgetBindingHandler(it, bindClass = Class.forName(
-                        BIND.toString()
-                    ).kotlin as KClass<out BindAttribute<*>>)
-                    val typeSpecBuilder = beagleWidgetBindingHandler.createBindingClass(element)
+            try {
+                val beagleWidgetBindingHandler = BeagleWidgetBindingHandler(processingEnv, bindClass = Class.forName(
+                    BIND.toString()
+                ).kotlin as KClass<out BindAttribute<*>>)
+                val typeSpecBuilder = beagleWidgetBindingHandler.createBindingClass(element)
 
-                    typeSpecBuilder.addProperty(getAttributeWidgetInstance(element))
-                    typeSpecBuilder.addProperty(getAttributeView())
-                    typeSpecBuilder.addFunction(getFunctionBuildView())
-                    typeSpecBuilder.addFunction(getFunctionOnBind())
-                        .addFunction(
-                            beagleWidgetBindingGenerator.getFunctionBindModel(element)
-                        )
-                        .addFunction(
-                            beagleWidgetBindingGenerator.getFunctionGetBindAttributes(element)
-                        ).addSuperinterface(ClassName(
-                            BINDING_ADAPTER.packageName,
-                            BINDING_ADAPTER.className
-                        ))
-                    val typeSpec = typeSpecBuilder.build()
-                    val fileSpec = FileSpec.builder(
-                        processingEnv.elementUtils.getPackageAsString(element),
-                        "${element.simpleName}${BeagleWidgetBindingHandler.SUFFIX}"
-                    ).addImport(GET_VALUE_NULL.packageName, GET_VALUE_NULL.className)
-                        .addImport(GET_VALUE_NOT_NULL.packageName, GET_VALUE_NOT_NULL.className)
-                        .addImport(ANDROID_VIEW.packageName, ANDROID_VIEW.className)
-                        .addType(typeSpec)
-                        .build()
+                typeSpecBuilder.addProperty(getAttributeWidgetInstance(element))
+                typeSpecBuilder.addProperty(getAttributeView())
+                typeSpecBuilder.addFunction(getFunctionBuildView())
+                typeSpecBuilder.addFunction(getFunctionOnBind())
+                    .addFunction(
+                        beagleWidgetBindingGenerator.getFunctionBindModel(element)
+                    )
+                    .addFunction(
+                        beagleWidgetBindingGenerator.getFunctionGetBindAttributes(element)
+                    ).addSuperinterface(ClassName(
+                        BINDING_ADAPTER.packageName,
+                        BINDING_ADAPTER.className
+                    ))
 
-                    fileSpec.writeTo(processingEnv.filer)
-                } catch (e: IOException) {
-                    val errorMessage = "Error when trying to generate code.\n${e.message!!}"
-                    processingEnv.messager.error(errorMessage)
-                }
+                if (isInputWidget(element))
+                    addInputWidgetMethods(typeSpecBuilder)
 
+                val typeSpec = typeSpecBuilder.build()
+                val fileSpec = FileSpec.builder(
+                    processingEnv.elementUtils.getPackageAsString(element),
+                    "${element.simpleName}${BeagleWidgetBindingHandler.SUFFIX}"
+                ).addImport(GET_VALUE_NULL.packageName, GET_VALUE_NULL.className)
+                    .addImport(GET_VALUE_NOT_NULL.packageName, GET_VALUE_NOT_NULL.className)
+                    .addImport(ANDROID_VIEW.packageName, ANDROID_VIEW.className)
+                    .addType(typeSpec)
+                    .build()
+
+                fileSpec.writeTo(processingEnv.filer)
+            } catch (e: IOException) {
+                val errorMessage = "Error when trying to generate code.\n${e.message!!}"
+                processingEnv.messager.error(errorMessage)
             }
         } else {
             processingEnv.messager.warning(element, "Skipped element $element.simpleName")
         }
     }
+
+    private fun addInputWidgetMethods(typeSpecBuilder: TypeSpec.Builder) {
+        typeSpecBuilder.addFunction(
+            beagleWidgetBindingGenerator.getFunctionRetrieveValue()
+        )
+            .addFunction(beagleWidgetBindingGenerator.getFunctionOnErrorMessage())
+    }
+
+    private fun isInputWidget(element: TypeElement) =
+        processingEnv.typeUtils.isSubtype(element.asType(), INPUT_WIDGET.toString())
 
     private fun getFunctionBuildView(): FunSpec {
 

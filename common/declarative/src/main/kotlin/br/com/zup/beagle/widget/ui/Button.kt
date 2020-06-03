@@ -16,14 +16,25 @@
 
 package br.com.zup.beagle.widget.ui
 
-import br.com.zup.beagle.action.Action
+import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.TouchableAnalytics
 import br.com.zup.beagle.widget.Widget
 
+/**
+ * Define a button natively using the server driven information received through Beagle
+ *
+ * @param text define the button text content.
+ * @param style reference a native style in your local styles file to be applied on this button.
+ * @param onPress attribute to define action when onPress
+ * @param onLongPress attribute to define action when onLongPress
+ * @property clickAnalyticsEvent attribute to define click event name
+ *
+ */
 data class Button(
     val text: String,
     val style: String? = null,
-    val action: Action? = null,
+    val onPress: List<Action>? = null,
+    val onLongPress: List<Action>? = null,
     override val clickAnalyticsEvent: ClickEvent? = null
 ) : Widget(), TouchableAnalytics

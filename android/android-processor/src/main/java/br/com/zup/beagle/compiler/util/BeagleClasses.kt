@@ -99,6 +99,11 @@ val WIDGET = BeagleClass(
     className = "Widget"
 )
 
+val INPUT_WIDGET = BeagleClass(
+    packageName = "br.com.zup.beagle.widget.form",
+    className = "InputWidget"
+)
+
 val ANDROID_VIEW = BeagleClass(
     packageName = "android.view",
     className = "View"

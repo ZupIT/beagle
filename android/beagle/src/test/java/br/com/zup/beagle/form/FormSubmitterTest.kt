@@ -235,9 +235,4 @@ class FormSubmitterTest {
         path = ACTION,
         method = method
     )
-
-    private fun createForm(action: FormRemoteAction) = Form(
-        action = action,
-        child = mockk()
-    )
 }

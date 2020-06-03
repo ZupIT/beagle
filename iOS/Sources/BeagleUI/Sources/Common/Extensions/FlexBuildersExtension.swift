@@ -42,19 +42,19 @@ public extension Flex {
     }
     
     @discardableResult
-    func alignItems(_ alignItems: Alignment) -> Flex {
+    func alignItems(_ alignItems: AlignItems) -> Flex {
         self.alignItems = alignItems
         return self
     }
     
     @discardableResult
-    func alignSelf(_ alignSelf: Alignment) -> Flex {
+    func alignSelf(_ alignSelf: AlignSelf) -> Flex {
         self.alignSelf = alignSelf
         return self
     }
     
     @discardableResult
-    func alignContent(_ alignContent: Alignment) -> Flex {
+    func alignContent(_ alignContent: AlignContent) -> Flex {
         self.alignContent = alignContent
         return self
     }

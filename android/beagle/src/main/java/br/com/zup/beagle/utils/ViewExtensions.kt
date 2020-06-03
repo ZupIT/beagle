@@ -48,79 +48,13 @@ import br.com.zup.beagle.view.ViewFactory
 
 internal var viewExtensionsViewFactory = ViewFactory()
 internal var styleManagerFactory = StyleManager()
-internal var beagleSerializerFactory = BeagleSerializer()
 const val FLOAT_ZERO = 0.0f
-
-fun ViewGroup.loadView(activity: AppCompatActivity, screenRequest: ScreenRequest) {
-    loadView(this, ActivityRootView(activity), screenRequest)
-}
-
-fun ViewGroup.loadView(fragment: Fragment, screenRequest: ScreenRequest) {
-    loadView(this, FragmentRootView(fragment), screenRequest)
-}
-
-private fun loadView(viewGroup: ViewGroup, rootView: RootView, screenRequest: ScreenRequest) {
-    viewGroup.addView(
-        viewExtensionsViewFactory.makeBeagleView(viewGroup.context).apply {
-            this.loadView(rootView, screenRequest)
-        }
-    )
-}
-
-fun ViewGroup.renderScreen(context: Context, screenJson: String) {
-    removeAllViewsInLayout()
-    addView(beagleSerializerFactory.deserializeComponent(screenJson).toView(context))
-}
-
-fun ViewGroup.setBeagleStateChangedListener(listener: StateChangedListener) {
-    check(size != 0) { "Did you miss to call loadView()?" }
-
-    val view = children.find { it is BeagleView } as? BeagleView
-
-    if (view != null) {
-        view.stateChangedListener = listener
-    } else {
-        throw IllegalStateException("Did you miss to call loadView()?")
-    }
-}
 
 internal fun View.hideKeyboard() {
     val activity = context as AppCompatActivity
     val view = activity.currentFocus ?: viewExtensionsViewFactory.makeView(activity)
     val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(view.windowToken, 0)
-}
-
-private fun <T> findChildViewForType(
-    viewGroup: ViewGroup,
-    elementList: MutableList<View>,
-    type: Class<T>
-) {
-
-    if (isAssignableFrom(viewGroup, type))
-        elementList.add(viewGroup)
-
-    viewGroup.children.forEach { childView ->
-        when {
-            childView is ViewGroup -> findChildViewForType(childView, elementList, type)
-            isAssignableFrom(childView, type) -> {
-                elementList.add(childView)
-            }
-        }
-    }
-}
-
-private fun <T> isAssignableFrom(
-    viewGroup: View,
-    type: Class<T>
-) = viewGroup.tag != null && type.isAssignableFrom(viewGroup.tag.javaClass)
-
-internal inline fun <reified T> ViewGroup.findChildViewForType(type: Class<T>): MutableList<View> {
-    val elementList = mutableListOf<View>()
-
-    findChildViewForType(this, elementList, type)
-
-    return elementList
 }
 
 internal fun View.applyAppearance(component: ServerDrivenComponent) {
@@ -154,26 +88,12 @@ internal fun View.applyBackgroundColor(appearanceWidget: AppearanceComponent) {
     }
 }
 
-internal fun String.toAndroidColor(): Int {
-    val hexColor = if (this.startsWith("#")) this else "#$this"
-    return Color.parseColor(hexColor)
-}
-
 internal fun View.applyCornerRadius(appearanceWidget: AppearanceComponent) {
     appearanceWidget.appearance?.cornerRadius?.let { cornerRadius ->
         if (cornerRadius.radius > FLOAT_ZERO) {
             (this as? BeagleImageView)?.cornerRadius = cornerRadius.radius.toFloat()
             (this.background as? GradientDrawable)?.cornerRadius = cornerRadius.radius.toFloat()
         }
-    }
-}
-
-internal fun Canvas.applyRadius(radius: Float) {
-    if (radius > FLOAT_ZERO) {
-        val path = Path()
-        val rect = RectF(FLOAT_ZERO, FLOAT_ZERO, this.width.toFloat(), this.height.toFloat())
-        path.addRoundRect(rect, radius, radius, Path.Direction.CW)
-        this.clipPath(path)
     }
 }
 
