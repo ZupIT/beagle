@@ -94,13 +94,13 @@ internal class ContextDataManager(
             if (value != null) {
                 return value
             }
-            saveValue(contextData, path)
+            findAndCacheValue(contextData, path)
         } else {
             contextData.value
         }
     }
 
-    private fun saveValue(contextData: ContextData, path: String): Any? {
+    private fun findAndCacheValue(contextData: ContextData, path: String): Any? {
         return try {
             val keys = contextPathResolver.getKeysFromPath(contextData.id, path)
             val foundValue = jsonPathFinder.find(keys, contextData.value)
