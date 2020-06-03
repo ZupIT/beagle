@@ -113,11 +113,7 @@ object BeaglePlatformUtil {
             if (currentNode is ObjectNode) {
                 removeBeaglePlatformField(currentNode)
             } else if (currentNode is ArrayNode) {
-                currentNode.forEach { node ->
-                    if (node is ObjectNode) {
-                        removeBeaglePlatformField(node)
-                    }
-                }
+                currentNode.filterIsInstance<ObjectNode>().forEach { node -> removeBeaglePlatformField(node) }
             }
         }
     }
