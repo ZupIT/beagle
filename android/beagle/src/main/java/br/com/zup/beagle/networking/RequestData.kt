@@ -16,14 +16,21 @@
 
 package br.com.zup.beagle.networking
 
+import br.com.zup.beagle.enums.BeaglePlatform
 import java.net.URI
 
-data class RequestData(
+class RequestData(
     val uri: URI,
     val method: HttpMethod = HttpMethod.GET,
-    val headers: Map<String, String> = mapOf(),
+    headers: Map<String, String> = mapOf(),
     val body: String? = null
-)
+) {
+    companion object {
+        const val BEAGLE_PLATFORM_HEADER = "beagle-platform"
+    }
+
+    val headers = headers.plus(BEAGLE_PLATFORM_HEADER to BeaglePlatform.ANDROID.name)
+}
 
 enum class HttpMethod {
     GET,

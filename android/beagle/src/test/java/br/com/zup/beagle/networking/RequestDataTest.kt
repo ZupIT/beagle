@@ -16,14 +16,13 @@
 
 package br.com.zup.beagle.networking
 
+import br.com.zup.beagle.enums.BeaglePlatform
 import br.com.zup.beagle.testutil.RandomData
 import org.junit.Before
-
 import org.junit.Test
 import java.net.URI
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 class RequestDataTest {
 
@@ -40,8 +39,9 @@ class RequestDataTest {
     }
 
     @Test
-    fun requestData_should_have_empty_headers() {
-        assertTrue(requestData.headers.isEmpty())
+    fun requestData_should_have_just_beaglePlatform_header() {
+        assertEquals(1, requestData.headers.size)
+        assertEquals(BeaglePlatform.ANDROID.name, requestData.headers[RequestData.BEAGLE_PLATFORM_HEADER])
     }
 
     @Test
