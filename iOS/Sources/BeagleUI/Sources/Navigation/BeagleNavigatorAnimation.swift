@@ -53,14 +53,14 @@ public struct Transition {
 }
 
 public enum TransitionType {
-    case fade
+    case fadeIn
     case moveIn
     case push
     case reveal
     
     func toCATransitionType() -> String {
         switch self {
-        case .fade: return kCATransitionFade
+        case .fadeIn: return kCATransitionFade
         case .moveIn: return kCATransitionMoveIn
         case .push: return kCATransitionPush
         case .reveal: return kCATransitionReveal
