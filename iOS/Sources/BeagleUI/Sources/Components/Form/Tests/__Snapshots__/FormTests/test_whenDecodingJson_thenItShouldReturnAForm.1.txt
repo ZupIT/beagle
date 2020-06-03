@@ -2,8 +2,16 @@
   ▿ action: FormRemoteAction
     - method: Method.post
     - path: "/sample/form"
+  ▿ additionalData: Optional<Dictionary<String, String>>
+    ▿ some: 2 key/value pairs
+      ▿ (2 elements)
+        - key: "age"
+        - value: "21"
+      ▿ (2 elements)
+        - key: "id"
+        - value: "11111"
   ▿ child: Container
-    ▿ children: 5 elements
+    ▿ children: 4 elements
       ▿ FormInput
         ▿ child: Text
           - alignment: Optional<Alignment>.none
@@ -19,12 +27,9 @@
         - name: "optional-field"
         - required: Optional<Bool>.none
         - validator: Optional<String>.none
-      ▿ FormInputHidden
-        - name: "id"
-        - value: "123"
       ▿ FormInput
         ▿ child: UnknownComponent
-          - type: "custom:component:unknown"
+          - type: "custom:unknown"
         - errorMessage: Optional<String>.none
         - name: "another-required-field"
         ▿ required: Optional<Bool>
@@ -143,3 +148,6 @@
           - shrink: Optional<Double>.none
           - size: Optional<Size>.none
       - id: Optional<String>.none
+  ▿ group: Optional<String>
+    - some: "group"
+  - shouldStoreFields: true

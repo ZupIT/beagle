@@ -29,6 +29,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Observable
 import java.util.concurrent.atomic.AtomicReference
 
@@ -69,7 +70,9 @@ internal class BeagleViewModel(
             }
             setLoading(screenRequest.url, false)
         } else if (screen != null) {
-            state.value = ViewState.DoRender(screen.identifier, screen)
+            withContext(CoroutineDispatchers.Default) {
+                state.postValue(ViewState.DoRender(screen.identifier, screen))
+            }
         }
     }
 

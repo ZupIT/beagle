@@ -1,11 +1,10 @@
 {
-  "_beagleType_": "beagle:component:touchable",
+  "_beagleComponent_": "beagle:touchable",
   "action": {
-      "_beagleType_": "beagle:action:navigate",
-      "type": "POP_VIEW"
+      "_beagleAction_": "beagle:popView"
   },
   "child": {
-      "_beagleType_": "beagle:component:text",
+      "_beagleComponent_": "beagle:text",
       "text": "touchable"
   }
 }

@@ -17,7 +17,6 @@
 package br.com.zup.beagle.serialization.jackson
 
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.NavigationType
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.layout.Screen
@@ -53,30 +52,25 @@ internal class BeagleTypeSerializerTest {
 
     @Test
     fun serialize_non_beagle_type_should_have_beagleType_field_null() = testSerialize("Text") {
-        verify(exactly = 0) { it.writeStringField(BEAGLE_TYPE, any()) }
+        verify(exactly = 0) { it.writeStringField(COMPONENT_TYPE, any()) }
     }
 
     @Test
     fun serialize_beagle_native_ServerDrivenComponent_should_have_component_beagleType_field_with_beagle_prefix() =
-        testSerialize(Text("test"), "$BEAGLE_NAMESPACE:$COMPONENT_NAMESPACE:text")
+        testComponentSerialize(Text("test"), "$BEAGLE_NAMESPACE:text")
 
     @Test
     fun serialize_custom_ServerDrivenComponent_should_have_component_beagleType_field_with_custom_prefix() =
-        testSerialize(CustomWidget, "$CUSTOM_WIDGET_BEAGLE_NAMESPACE:$COMPONENT_NAMESPACE:customwidget")
+        testComponentSerialize(CustomWidget, "$CUSTOM_WIDGET_BEAGLE_NAMESPACE:customWidget")
 
     @Test
-    fun serialize_Action_should_have_action_beagleType_field() =
-        testSerialize(
-            Navigate(NavigationType.FINISH_VIEW),
-            "$BEAGLE_NAMESPACE:$ACTION_NAMESPACE:navigate"
-        )
+    fun serialize_Action_should_have_action_beagleType_field() = testSerialize(Navigate.PopStack()) {
+        verify(exactly = 1) { it.writeStringField(ACTION_TYPE, "$BEAGLE_NAMESPACE:popStack") }
+    }
 
     @Test
     fun serialize_Screen_should_have_screen_beagleType_field() =
-        testSerialize(
-            Screen(child =CustomWidget),
-            "$BEAGLE_NAMESPACE:$COMPONENT_NAMESPACE:$SCREEN_COMPONENT"
-        )
+        testComponentSerialize(Screen(child = CustomWidget), "$BEAGLE_NAMESPACE:$SCREEN_COMPONENT")
 
     private fun testSerialize(bean: Any, verify: (JsonGenerator) -> Unit) {
         val generator = mockk<JsonGenerator>(relaxUnitFun = true)
@@ -84,14 +78,13 @@ internal class BeagleTypeSerializerTest {
 
         every { provider.activeView } returns Any::class.java
 
-        BeagleTypeSerializer(mockk(relaxed = true), arrayOf(), arrayOf())
-            .serialize(bean, generator, provider)
+        BeagleTypeSerializer(mockk(relaxed = true), arrayOf(), arrayOf()).serialize(bean, generator, provider)
 
         verify(generator)
     }
 
-    private fun testSerialize(bean: Any, beagleType: String) = testSerialize(bean) {
-        verify(exactly = 1) { it.writeStringField(BEAGLE_TYPE, beagleType) }
+    private fun testComponentSerialize(bean: Any, beagleType: String) = testSerialize(bean) {
+        verify(exactly = 1) { it.writeStringField(COMPONENT_TYPE, beagleType) }
     }
 
     @RegisterWidget

@@ -16,9 +16,8 @@
 
 public protocol NetworkClient {
     typealias Error = NetworkError
-    typealias Result = BeagleUI.Result<NetworkResponse, NetworkError>
-
-    typealias RequestCompletion = (Result) -> Void
+    typealias NetworkResult = Result<NetworkResponse, NetworkError>
+    typealias RequestCompletion = (NetworkResult) -> Void
 
     @discardableResult
     func executeRequest(

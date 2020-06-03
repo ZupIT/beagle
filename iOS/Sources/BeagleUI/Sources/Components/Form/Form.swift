@@ -22,14 +22,23 @@ public struct Form: ServerDrivenComponent, AutoInitiableAndDecodable {
 
     public let action: Action
     public let child: ServerDrivenComponent
-
+    public let group: String?
+    public let additionalData: [String: String]?
+    public var shouldStoreFields: Bool = false
+    
 // sourcery:inline:auto:Form.Init
     public init(
         action: Action,
-        child: ServerDrivenComponent
+        child: ServerDrivenComponent,
+        group: String? = nil,
+        additionalData: [String: String]? = nil,
+        shouldStoreFields: Bool = false
     ) {
         self.action = action
         self.child = child
+        self.group = group
+        self.additionalData = additionalData
+        self.shouldStoreFields = shouldStoreFields
     }
 // sourcery:end
 }
@@ -42,7 +51,7 @@ extension Form: Renderable {
         func registerFormSubmit(view: UIView) {
             if view.beagleFormElement is FormSubmit {
                 hasFormSubmit = true
-                context.register(form: self, formView: childView, submitView: view, validatorHandler: dependencies.validatorProvider)
+                context.formManager.register(form: self, formView: childView, submitView: view, validatorHandler: dependencies.validatorProvider)
             }
             for subview in view.subviews {
                 registerFormSubmit(view: subview)
@@ -71,6 +80,7 @@ extension UIView {
     }
     
     var beagleFormElement: ServerDrivenComponent? {
+        // swiftlint:disable implicit_getter
         get {
             return (objc_getAssociatedObject(self, &AssociatedKeys.FormElement) as? ObjectWrapper)?.object
         }

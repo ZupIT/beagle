@@ -23,42 +23,25 @@ public class BeaglePreview {
     // MARK: Static
 
     public static func present(in viewController: UIViewController) {
-        self.shared.present(in: viewController)
-    }
-
-    deinit {
-        self.viewController = nil
-        self.connection.disconnect()
+        self.preview.present(in: viewController)
     }
 
     // MARK: Private
 
-    private static let shared = BeaglePreview()
-
-    private var connection = ConnectionHandler()
+    private static let preview = BeaglePreview()
+    
     private var viewController: BeaglePreviewViewController?
-
-    private init() {
-        self.connection.delegate = self
-    }
 
     private func present(in presentingViewController: UIViewController) {
 
-        let viewController = BeaglePreviewViewController()
+        self.viewController = BeaglePreviewViewController(dependencies: BeaglePreviewDependencies.default)
+
+        guard let viewController = self.viewController else {
+            return
+        }
+
         viewController.modalPresentationStyle = .fullScreen
-        presentingViewController.present(viewController, animated: true, completion: { [weak self] in
-            guard let self = self else { return }
-            self.connection.connect()
-        })
-
-        self.viewController = viewController
+        presentingViewController.present(viewController, animated: true, completion: nil)
     }
 
-}
-
-extension BeaglePreview: ConnectionHandlerDelegate {
-
-    func onLayoutChange(_ json: String) {
-        viewController?.reloadScreen(with: json)
-    }
 }
