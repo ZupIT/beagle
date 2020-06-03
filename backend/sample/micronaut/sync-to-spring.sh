@@ -2,8 +2,8 @@ MICRONAUT_DIR=src/main/kotlin/br/com/zup/beagle/sample/micronaut
 SPRING_DIR=../spring/src/main/kotlin/br/com/zup/beagle/sample/spring
 
 function convert_package() {
-    for source in "$MICRONAUT_DIR/$2"/*.kt; do
-        sed -f "$1" micronaut2spring.sed > "$SPRING_DIR/$2/$(basename "$source")"
+    for source in "$MICRONAUT_DIR/$1"/*.kt; do
+        sed -f micronaut2spring.sed "$source" > "$SPRING_DIR/$1/$(basename "$source")"
     done
 }
 
