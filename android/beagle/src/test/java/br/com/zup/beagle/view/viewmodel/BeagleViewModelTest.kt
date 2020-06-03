@@ -111,6 +111,7 @@ class BeagleViewModelTest {
         // When
         beagleUIViewModel.fetchComponent(screenRequest)
             .observeForever(observer)
+
         // Then
         verifyOrder {
             observer.onChanged(ViewState.Loading(true))
