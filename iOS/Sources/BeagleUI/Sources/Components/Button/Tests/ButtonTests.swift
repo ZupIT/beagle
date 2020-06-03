@@ -68,23 +68,25 @@ final class ButtonTests: XCTestCase {
         
         let action = ActionDummy()
         let button = Button(text: "Trigger Action", action: action)
-        let context = BeagleContextSpy()
+        let actionManager = ActionManagerSpy()
+        let context = BeagleContextSpy(actionManager: actionManager)
         
         let view = button.toView(context: context, dependencies: dependencies)
         (view as? Button.BeagleUIButton)?.triggerTouchUpInsideActions()
         
-        XCTAssertEqual(context.actionCalled as? ActionDummy, action)
+        XCTAssertEqual(actionManager.actionCalled as? ActionDummy, action)
     }
     
     func test_analytics_click_shouldBeTriggered() {
         var dependencies = BeagleScreenDependencies()
         dependencies.analytics = AnalyticsExecutorSpy()
         let button = Button(text: "Trigger analytics click", clickAnalyticsEvent: .init(category: "some category"))
-        let context = BeagleContextSpy()
+        let actionManager = ActionManagerSpy()
+        let context = BeagleContextSpy(actionManager: actionManager)
         let view = button.toView(context: context, dependencies: dependencies)
         (view as? Button.BeagleUIButton)?.triggerTouchUpInsideActions()
         
-        XCTAssertTrue(context.analyticsEventCalled)
+        XCTAssertTrue(actionManager.analyticsEventCalled)
     }
     
     func test_analytics_click_and_action_shouldBeTriggered() {
@@ -92,12 +94,13 @@ final class ButtonTests: XCTestCase {
         let action = ActionDummy()
         dependencies.analytics = AnalyticsExecutorSpy()
         let button = Button(text: "Trigger analytics click", action: action, clickAnalyticsEvent: .init(category: "some category"))
-        let context = BeagleContextSpy()
+        let actionManager = ActionManagerSpy()
+        let context = BeagleContextSpy(actionManager: actionManager)
         let view = button.toView(context: context, dependencies: dependencies)
         (view as? Button.BeagleUIButton)?.triggerTouchUpInsideActions()
         
-        XCTAssertEqual(context.actionCalled as? ActionDummy, action)
-        XCTAssertTrue(context.analyticsEventCalled)
+        XCTAssertEqual(actionManager.actionCalled as? ActionDummy, action)
+        XCTAssertTrue(actionManager.analyticsEventCalled)
     }
     
     func test_whenDecodingJson_thenItShouldReturnAButton() throws {

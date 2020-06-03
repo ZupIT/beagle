@@ -1,4 +1,4 @@
-▿ 19 key/value pairs
+▿ 18 key/value pairs
   ▿ (2 elements)
     - key: "beagle:button"
     - value: Button
@@ -11,9 +11,6 @@
   ▿ (2 elements)
     - key: "beagle:forminput"
     - value: FormInput
-  ▿ (2 elements)
-    - key: "beagle:forminputhidden"
-    - value: FormInputHidden
   ▿ (2 elements)
     - key: "beagle:formsubmit"
     - value: FormSubmit
