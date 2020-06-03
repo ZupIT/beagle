@@ -47,7 +47,12 @@ class URLOpenerDumb: URLOpener {
 }
 
 class LoggerMocked: BeagleLoggerType {
-
+    var logDecodingErrorCalled = false
+    
+    func logDecodingError(type: String) {
+        logDecodingErrorCalled = true
+    }
+    
     var log: LogType?
 
     func log(_ log: LogType) {

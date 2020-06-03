@@ -69,7 +69,7 @@ public class NetworkClientDefault: NetworkClient {
         data: Data?,
         response: URLResponse?,
         error: Swift.Error?
-    ) -> NetworkClient.Result {
+    ) -> NetworkClient.NetworkResult {
         if let error = error {
             return .failure(.init(error: error))
         }

@@ -21,7 +21,7 @@ import SnapshotTesting
 public final class ComponentDecoderTests: XCTestCase {
     // swiftlint:disable force_unwrapping
     
-    private lazy var sut = ComponentTools.dependencies.decoder
+    private lazy var sut = Schema.dependencies.decoder
 
     func testIfAllComponentsAreBeingRegistered() {
         let sut = ComponentDecoder()

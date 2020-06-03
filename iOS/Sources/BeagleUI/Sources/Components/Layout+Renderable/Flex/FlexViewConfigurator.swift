@@ -102,15 +102,23 @@ final class FlexViewConfigurator: FlexViewConfiguratorProtocol {
         layout.alignSelf = yogaTranslator.translate(flex.alignSelf ?? .auto)
         layout.alignContent = yogaTranslator.translate(flex.alignContent ?? .flexStart)
         layout.position = yogaTranslator.translate(flex.positionType ?? .relative)
-        layout.flexBasis = yogaTranslator.translate(flex.basis ?? .auto)
-        layout.flex = CGFloat(flex.flex ?? 0)
-        layout.flexGrow = CGFloat(flex.grow ?? 0)
-        layout.flexShrink = CGFloat(flex.shrink ?? 1)
         layout.display = yogaTranslator.translate(flex.display ?? .flex)
         setSize(flex.size, to: layout)
         setMargin(flex.margin, to: layout)
         setPadding(flex.padding, to: layout)
         setPosition(flex.position, to: layout)
+        if let basis = flex.basis {
+            layout.flexBasis = yogaTranslator.translate(basis)
+        }
+        if let flex = flex.flex {
+            layout.flex = CGFloat(flex)
+        }
+        if let grow = flex.grow {
+            layout.flexGrow = CGFloat(grow)
+        }
+        if let shrink = flex.shrink {
+            layout.flexShrink = CGFloat(shrink)
+        }
     }
     
     // MARK: - Flex Layout Methods
@@ -212,6 +220,12 @@ final class FlexViewConfigurator: FlexViewConfiguratorProtocol {
         guard let position = position else {
             return
         }
+        if let all = position.all {
+            layout.left = yogaTranslator.translate(all)
+            layout.right = yogaTranslator.translate(all)
+            layout.top = yogaTranslator.translate(all)
+            layout.bottom = yogaTranslator.translate(all)
+        }
         if let left = position.left {
             layout.left = yogaTranslator.translate(left)
         }
@@ -229,6 +243,14 @@ final class FlexViewConfigurator: FlexViewConfiguratorProtocol {
         }
         if let end = position.end {
             layout.end = yogaTranslator.translate(end)
+        }
+        if let vertical = position.vertical {
+            layout.top = yogaTranslator.translate(vertical)
+            layout.bottom = yogaTranslator.translate(vertical)
+        }
+        if let horizontal = position.horizontal {
+            layout.left = yogaTranslator.translate(horizontal)
+            layout.right = yogaTranslator.translate(horizontal)
         }
     }
 }

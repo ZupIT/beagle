@@ -59,7 +59,9 @@ extension UIView {
         }
     }
     
+
     var beagleFormElement: BeagleUI.ServerDrivenComponent? {
+        // swiftlint:disable implicit_getter
         get {
             return (objc_getAssociatedObject(self, &AssociatedKeys.FormElement) as? ObjectWrapper)?.object
         }

@@ -65,6 +65,10 @@ class BeagleLoggerTests: XCTestCase {
 }
 
 class BeagleLoggerDumb: BeagleLoggerType {
+    func logDecodingError(type: String) {
+        
+    }
+    
     func log(_ log: LogType) {
         return
     }

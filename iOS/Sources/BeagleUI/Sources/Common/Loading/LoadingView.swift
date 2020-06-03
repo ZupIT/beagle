@@ -33,7 +33,7 @@ final class LoadingView: UIView {
     }()
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        let view = UIActivityIndicatorView(style: .whiteLarge)
         
         view.color = .white
         return view
@@ -43,8 +43,8 @@ final class LoadingView: UIView {
     
     /// Exposes the `ActivityIndicator.Style`
     var activityIndicatorStyle: UIActivityIndicatorView.Style {
-        set { activityIndicator.activityIndicatorViewStyle = newValue }
-        get { return activityIndicator.activityIndicatorViewStyle }
+        set { activityIndicator.style = newValue }
+        get { return activityIndicator.style }
     }
     
     // MARK: - Life Cycle

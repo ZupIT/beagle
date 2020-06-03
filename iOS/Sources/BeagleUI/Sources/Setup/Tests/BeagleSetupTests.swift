@@ -123,7 +123,7 @@ final class DummyView: UIView {}
 struct ActionDummy: Action, Equatable {}
 
 struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
-    
+    var schemaDependencies: SchemaDependencies
     var analytics: Analytics?
     var actionExecutor: ActionExecutor
     var flex: FlexViewConfiguratorProtocol
@@ -166,6 +166,7 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
         self.cacheManager = cacheManager
         self.decoder = decoder
         self.logger = logger
+        self.schemaDependencies = SchemaDependencies(loggerHelper: self.logger)
         self.analytics = analytics
         self.formDataStoreHandler = formDataStoreHandler
     }

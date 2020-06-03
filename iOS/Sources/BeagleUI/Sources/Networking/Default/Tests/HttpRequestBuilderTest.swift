@@ -110,4 +110,3 @@ extension String: RemoteScreenAdditionalData {
         set(newValue) {}
     }
 }
-// swiftlint:enable unused_setter_value

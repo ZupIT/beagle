@@ -30,7 +30,7 @@ extension UIWindow: WindowProtocol {
         viewController.view.frame = CGRect(x: 0, y: size.height, width: size.width, height: size.height)
 
         if !animated {
-            bringSubview(toFront: rootViewController.view)
+            bringSubviewToFront(rootViewController.view)
         }
 
         let animations: () -> Void = {

@@ -21,7 +21,7 @@ import SnapshotTesting
 
 class PageIndicatorTests: XCTestCase {
 
-    private lazy var dependencies = ComponentTools.dependencies
+    private lazy var dependencies = Schema.dependencies
     private static let typeName = "CustomPageIndicator"
     private let indicator = CustomPageIndicator(
         selectedColor: "selectedColor",

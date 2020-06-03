@@ -21,7 +21,7 @@ import Schema
 final class RepositoryTests: XCTestCase {
 
     private struct Dependencies: RepositoryDefault.Dependencies {
-        
+        var schemaDependencies: SchemaDependencies
         var logger: BeagleLoggerType
         var urlBuilder: UrlBuilderProtocol
         
@@ -39,6 +39,7 @@ final class RepositoryTests: XCTestCase {
             decoder: ComponentDecoding = ComponentDecodingDummy()
         ) {
             self.logger = logger
+            self.schemaDependencies = SchemaDependencies(loggerHelper: self.logger)
             self.urlBuilder = urlBuilder
             self.cacheManager = cacheManager
             self.baseURL = baseURL
@@ -235,11 +236,11 @@ final class RepositoryStub: Repository {
 
 class NetworkClientStub: NetworkClient {
 
-    let result: NetworkClient.Result
+    let result: NetworkClient.NetworkResult
 
     private(set) var executedRequest: Request?
 
-    init(result: NetworkClient.Result) {
+    init(result: NetworkClient.NetworkResult) {
         self.result = result
     }
 

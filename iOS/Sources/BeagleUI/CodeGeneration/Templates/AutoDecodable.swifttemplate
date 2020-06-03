@@ -115,6 +115,14 @@ func importBeagleUIString(_ arguments: Dictionary<String,AnyObject>? ) -> String
     return "\nimport Schema\nimport BeagleUI\n"
 }
 
+func containerDeclaration(generatedCodingKeys: [String]) -> String {
+    if generatedCodingKeys.contains("widgetProperties") && generatedCodingKeys.count == 1 {
+        return ""
+    } else {
+        return "let container = try decoder.container(keyedBy: CodingKeys.self)\n"
+    }
+}
+
 -%>
 <%= importBeagleUIString(argument) -%>
 <% for type in types.all
@@ -135,7 +143,7 @@ extension <%= type.name %> {
 
     enum CodingKeys: String, CodingKey {
         <%_ for key in codingKeys.generated { -%>
-        <%_ if key != "widgetProperties" { -%>
+        <%_ if key != "widgetProperties" || codingKeys.generated.count <= 1 { -%>
         case <%= key %>
         <%_ } -%>
         <%_ } -%>
@@ -148,7 +156,7 @@ extension <%= type.name %> {
         <%_ if containerMethod.callName == "singleValueContainer" { %>decoder<% } else { -%><%= type.name %><% } -%>
         <%_ %>.<%= containerMethod.callName %>(<% if !containerMethod.parameters.isEmpty { %>decoder<% } %>)
         <%_ } else { -%>
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        <%= containerDeclaration(generatedCodingKeys: codingKeys.generated) -%>
         <%_ } -%>
 
         <%_ if let enumType = type as? Enum { -%>
