@@ -219,6 +219,12 @@ final class FlexViewConfigurator: FlexViewConfiguratorProtocol {
         guard let position = position else {
             return
         }
+        if let all = position.all {
+            layout.left = yogaTranslator.translate(all)
+            layout.right = yogaTranslator.translate(all)
+            layout.top = yogaTranslator.translate(all)
+            layout.bottom = yogaTranslator.translate(all)
+        }
         if let left = position.left {
             layout.left = yogaTranslator.translate(left)
         }
@@ -236,6 +242,14 @@ final class FlexViewConfigurator: FlexViewConfiguratorProtocol {
         }
         if let end = position.end {
             layout.end = yogaTranslator.translate(end)
+        }
+        if let vertical = position.vertical {
+            layout.top = yogaTranslator.translate(vertical)
+            layout.bottom = yogaTranslator.translate(vertical)
+        }
+        if let horizontal = position.horizontal {
+            layout.left = yogaTranslator.translate(horizontal)
+            layout.right = yogaTranslator.translate(horizontal)
         }
     }
 }

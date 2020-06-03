@@ -142,6 +142,50 @@ final class FlexViewConfiguratorTests: XCTestCase {
         XCTAssertEqual(view.yoga.end, expectedYGValue)
     }
     
+    func test_setupFlex_positionAll() {
+        // Given
+        let view = UIView()
+        let sut = FlexViewConfigurator(view: view)
+        let flex = Flex(position: .init(.init(all: .init(value: 50, type: .real))))
+        
+        //When
+        sut.setup(flex)
+        
+        //Then
+        XCTAssertEqual(view.yoga.left, 50)
+        XCTAssertEqual(view.yoga.top, 50)
+        XCTAssertEqual(view.yoga.right, 50)
+        XCTAssertEqual(view.yoga.bottom, 50)
+    }
+    
+    func test_setupFlex_positionVertical() {
+        // Given
+        let view = UIView()
+        let sut = FlexViewConfigurator(view: view)
+        let flex = Flex(position: .init(.init(vertical: .init(value: 50, type: .real))))
+        
+        //When
+        sut.setup(flex)
+        
+        //Then
+        XCTAssertEqual(view.yoga.top, 50)
+        XCTAssertEqual(view.yoga.bottom, 50)
+    }
+    
+    func test_setupFlex_positionHorizontal() {
+        // Given
+        let view = UIView()
+        let sut = FlexViewConfigurator(view: view)
+        let flex = Flex(position: .init(.init(horizontal: .init(value: 50, type: .real))))
+        
+        //When
+        sut.setup(flex)
+        
+        //Then
+        XCTAssertEqual(view.yoga.left, 50)
+        XCTAssertEqual(view.yoga.right, 50)
+    }
+    
     func test_applyYogaLayout_shouldEnableYoga_and_applyLayout() {
         // Given
         let expectedOrigin = CGPoint(x: 1, y: 1)
