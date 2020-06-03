@@ -14,20 +14,25 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.data
+package br.com.zup.beagle.view.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import br.com.zup.beagle.action.Action
+import br.com.zup.beagle.action.SendRequestAction
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.data.ActionRequester
+import br.com.zup.beagle.data.ComponentRequester
 import br.com.zup.beagle.exception.BeagleException
 import br.com.zup.beagle.extensions.once
+import br.com.zup.beagle.networking.ResponseData
 import br.com.zup.beagle.testutil.CoroutineTestRule
 import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.utils.CoroutineDispatchers
-import br.com.zup.beagle.view.viewmodel.BeagleViewModel
+import br.com.zup.beagle.utils.generateViewModelInstance
 import br.com.zup.beagle.view.ScreenRequest
-import br.com.zup.beagle.view.viewmodel.ViewState
+import br.com.zup.beagle.view.mapper.SendRequestActionMapper
+import br.com.zup.beagle.view.mapper.toRequestData
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -35,20 +40,26 @@ import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkStatic
 import io.mockk.spyk
+import io.mockk.unmockkAll
+import io.mockk.unmockkStatic
 import io.mockk.verify
 import io.mockk.verifyOrder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
-import org.junit.Assert.assertEquals
+import org.junit.After
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertTrue
 
+
 @ExperimentalCoroutinesApi
-class BeagleViewModelTest {
+class ActionRequestViewModelTest {
 
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -56,76 +67,65 @@ class BeagleViewModelTest {
     @get:Rule
     val scope = CoroutineTestRule()
 
-    @MockK
-    private lateinit var component: ServerDrivenComponent
+    private val actionRequester: ActionRequester = mockk()
 
-    @MockK
-    private lateinit var action: Action
+    private val observer: Observer<ActionRequestViewModel.FetchViewState> = mockk()
 
-    @MockK
-    private lateinit var componentRequester: ComponentRequester
-
-    @MockK
-    private lateinit var actionRequester: ActionRequester
-
-    @MockK
-    private lateinit var observer: Observer<ViewState>
+    private val action: SendRequestAction = mockk()
 
     @InjectMockKs
-    private lateinit var beagleUIViewModel: BeagleViewModel
+    private lateinit var viewModel: ActionRequestViewModel
 
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
+        mockkStatic("br.com.zup.beagle.view.mapper.SendRequestActionMapperKt")
 
-        CoroutineDispatchers.Main = Dispatchers.Unconfined
-
-        coEvery { componentRequester.fetchComponent(any()) } returns component
-        coEvery { actionRequester.fetchAction(any()) } returns action
         every { observer.onChanged(any()) } just Runs
     }
 
+    @After
+    fun tearDown() {
+        unmockkAll()
+    }
+
     @Test
-    @Suppress("UNCHECKED_CAST")
-    fun fetch_should_return_render_ViewState() {
+    fun `should emit success when fetch data`() {
         // Given
-        val screenRequest = ScreenRequest(RandomData.httpUrl())
+        val response: ResponseData = mockk()
+        every { action.toRequestData() } returns mockk()
+        coEvery { actionRequester.fetchData(any()) } returns response
 
         // When
-        beagleUIViewModel.fetchComponent(screenRequest).observeForever(observer)
+        viewModel.fetch(action).observeForever(observer)
 
         // Then
-        verifyOrder {
-            observer.onChanged(ViewState.Loading(true))
-            observer.onChanged(ViewState.DoRender(screenRequest.url, component))
-            observer.onChanged(ViewState.Loading(false))
+        verify(exactly = once()) {
+            observer.onChanged(ActionRequestViewModel.FetchViewState.Success(response))
         }
     }
 
     @Test
-    fun fetch_should_return_a_error_ViewState() {
+    fun `should emit fail when fetch data`() {
         // Given
-        val screenRequest = ScreenRequest(RandomData.httpUrl())
+        every { action.toRequestData() } returns mockk()
         val exception = BeagleException("Error")
-        coEvery { componentRequester.fetchComponent(any()) } throws exception
+        coEvery { actionRequester.fetchData(any()) } throws exception
 
         // When
-        beagleUIViewModel.fetchComponent(screenRequest)
-            .observeForever(observer)
+        viewModel.fetch(action).observeForever(observer)
+
         // Then
-        verifyOrder {
-            observer.onChanged(ViewState.Loading(true))
-            observer.onChanged(ViewState.Error(exception))
-            observer.onChanged(ViewState.Loading(false))
+        verify(exactly = once()) {
+            observer.onChanged(ActionRequestViewModel.FetchViewState.Error(exception))
         }
     }
 
-
     @Test
-    fun onCleared_should_call_cancel() {
+    fun `should clean when cancel`() {
         // Given
-        val viewModelSpy = spyk(beagleUIViewModel)
+        val viewModelSpy = spyk(viewModel)
         every { viewModelSpy.cancel() } just Runs
 
         // When
@@ -133,10 +133,5 @@ class BeagleViewModelTest {
 
         // Then
         verify(exactly = once()) { viewModelSpy.cancel() }
-    }
-
-    private fun assertLoading(viewState: ViewState, expected: Boolean) {
-        assertTrue(viewState is ViewState.Loading)
-        assertEquals(expected, viewState.value)
     }
 }

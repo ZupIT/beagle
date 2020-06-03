@@ -37,12 +37,16 @@ internal class ActionExecutor(
         val context = rootView.getContext()
         when (action) {
             is Navigate -> navigationActionHandler.handle(context, action)
-            is ShowNativeDialog -> showNativeDialogActionHandler.handle(context, action)
+            is ShowNativeDialog ->
+                showNativeDialogActionHandler.handle(context, action)
             is FormValidation -> formValidationActionHandler?.handle(context, action)
             is SendRequestAction -> {
                 sendRequestActionHandler.handle(rootView = rootView,
                     action = action) { actions ->
-                    actions.forEach { action -> doAction(rootView, action) }
+                    actions.forEach {
+                        action ->
+                        doAction(rootView, action)
+                    }
                 }
             }
 

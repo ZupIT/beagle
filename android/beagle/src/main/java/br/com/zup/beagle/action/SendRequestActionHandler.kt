@@ -44,7 +44,7 @@ internal class SendRequestActionHandler {
                 }
 
                 if (actions.isNotEmpty()) {
-                    listener(actions)
+                    listener.invoke(actions)
                 }
 
             })

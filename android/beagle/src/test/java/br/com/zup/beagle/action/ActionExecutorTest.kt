@@ -16,14 +16,18 @@
 
 package br.com.zup.beagle.action
 
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.view.BeagleActivity
 import br.com.zup.beagle.view.ServerDrivenState
+import br.com.zup.beagle.view.viewmodel.ActionRequestViewModel
 import io.mockk.*
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -46,7 +50,7 @@ class ActionExecutorTest {
     @MockK
     private lateinit var sendRequestActionHandler: SendRequestActionHandler
 
-    @MockK
+    @RelaxedMockK
     private lateinit var rootView: RootView
 
     @MockK
@@ -200,5 +204,44 @@ class ActionExecutorTest {
         verify(exactly = once()) { customActionHandler.handle(activity, customAction, actionListener.captured) }
         verify(exactly = 2) { activity.onServerDrivenContainerStateChanged(any()) }
         assertEquals(expectedState, activityStates)
+    }
+
+
+    @Test
+    fun `should handle request action when do action`() {
+        // Given
+        val action = mockk<SendRequestAction>()
+        val actionListener = slot<SendRequestListener>()
+        mockkConstructor(ViewModelProvider::class)
+        val viewModel = mockk<ActionRequestViewModel>()
+        every { anyConstructed<ViewModelProvider>().get(ActionRequestViewModel::class.java) } returns viewModel
+        every { sendRequestActionHandler.handle(rootView, action, viewModel, capture(actionListener)) } just Runs
+
+        // When
+        actionExecutor.doAction(rootView, action)
+
+        // Then
+        verify(exactly = once()) { sendRequestActionHandler.handle(rootView, action, viewModel,
+            actionListener.captured) }
+    }
+
+    @Test
+    fun `should execute listen request action when do action`() {
+        // Given
+        val action = mockk<SendRequestAction>()
+        val actionListener = slot<SendRequestListener>()
+        mockkConstructor(ViewModelProvider::class)
+        val viewModel = mockk<ActionRequestViewModel>()
+        val actions = listOf(action)
+        every { anyConstructed<ViewModelProvider>().get(ActionRequestViewModel::class.java) } returns viewModel
+        every { sendRequestActionHandler.handle(rootView, action, viewModel, capture(actionListener)) } just Runs
+
+        // When
+        actionExecutor.doAction(rootView, action)
+        actionListener.captured.invoke(actions)
+
+
+        // Then
+        verify(exactly = 2) { sendRequestActionHandler.handle(rootView, action, viewModel, any()) }
     }
 }
