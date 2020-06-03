@@ -37,6 +37,7 @@ import br.com.zup.beagle.setup.DesignSystem
 import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.view.BeagleButtonView
 import br.com.zup.beagle.view.BeagleView
+import br.com.zup.beagle.view.RenderCompletedListener
 import br.com.zup.beagle.view.ScreenRequest
 import br.com.zup.beagle.view.StateChangedListener
 import br.com.zup.beagle.view.ViewFactory
@@ -56,7 +57,6 @@ import org.junit.Test
 import kotlin.test.assertFails
 
 private val URL = RandomData.httpUrl()
-private const val ERROR_MESSAGE = "Did you miss to call loadView()?"
 private val screenRequest = ScreenRequest(URL)
 
 class ViewExtensionsKtTest : BaseTest() {
@@ -69,7 +69,7 @@ class ViewExtensionsKtTest : BaseTest() {
     private lateinit var activity: AppCompatActivity
     @MockK
     private lateinit var viewFactory: ViewFactory
-    @MockK
+    @RelaxedMockK
     private lateinit var beagleView: BeagleView
     @MockK
     private lateinit var stateChangedListener: StateChangedListener
@@ -117,49 +117,50 @@ class ViewExtensionsKtTest : BaseTest() {
 
     @Test
     fun loadView_should_create_BeagleView_and_call_loadView_with_fragment() {
+        // When
         viewGroup.loadView(fragment, screenRequest)
 
-        assertEquals(beagleView, viewSlot.captured)
+        // Then
         verify { viewFactory.makeBeagleView(activity) }
         verify { beagleView.loadView(any<FragmentRootView>(), screenRequest) }
     }
 
     @Test
     fun loadView_should_create_BeagleView_and_call_loadView_with_activity() {
+        // When
         viewGroup.loadView(activity, screenRequest)
 
-        assertEquals(beagleView, viewSlot.captured)
+        // Then
         verify { viewFactory.makeBeagleView(activity) }
         verify { beagleView.loadView(any<ActivityRootView>(), screenRequest) }
     }
 
     @Test
-    fun setBeagleStateChangedListener_should_throws_exception_when_no_child_has_found() {
+    fun `loadView should addView when load complete`() {
         // Given
-        every { viewGroup.childCount } returns 0
+        val slot = slot<RenderCompletedListener>()
+        every { beagleView.renderCompletedListener = capture(slot) } just Runs
 
-        // When Then
-        assertFails(ERROR_MESSAGE) { viewGroup.setBeagleStateChangedListener(stateChangedListener) }
+        // When
+        viewGroup.loadView(fragment, screenRequest)
+        slot.captured.onLoadCompleted()
+
+        // Then
+        assertEquals(beagleView, viewSlot.captured)
+        verify (exactly = once()) { viewGroup.addView(beagleView) }
     }
 
     @Test
-    fun setBeagleStateChangedListener_should_throws_exception_when_no_BeagleView_has_found() {
+    fun `loadView should set stateChangedListener to beagleView`() {
         // Given
-        every { viewGroup.childCount } returns 1
-        every { viewGroup.getChildAt(any()) } returns mockk()
+        val slot = slot<StateChangedListener>()
+        every { beagleView.stateChangedListener = capture(slot) } just Runs
 
-        // When Then
-        assertFails(ERROR_MESSAGE) { viewGroup.setBeagleStateChangedListener(stateChangedListener) }
-    }
+        // When
+        viewGroup.loadView(fragment, screenRequest, stateChangedListener)
 
-    @Test
-    fun setBeagleStateChangedListener_should_set_stateChangedListener_to_BeagleView() {
-        // Given
-        every { viewGroup.childCount } returns 1
-        every { viewGroup.getChildAt(any()) } returns beagleView
-
-        // When Then
-        assertFails(ERROR_MESSAGE) { viewGroup.setBeagleStateChangedListener(stateChangedListener) }
+        // Then
+        assertEquals(slot.captured, stateChangedListener)
     }
 
     @Test

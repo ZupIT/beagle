@@ -36,11 +36,17 @@ interface StateChangedListener {
     fun onStateChanged(state: BeagleViewState)
 }
 
+interface RenderCompletedListener {
+    fun onLoadCompleted()
+}
+
 internal class BeagleView(
     context: Context
 ) : BeagleFlexView(context) {
 
     var stateChangedListener: StateChangedListener? = null
+
+    var renderCompletedListener: RenderCompletedListener? = null
 
     private lateinit var rootView: RootView
 
@@ -96,6 +102,7 @@ internal class BeagleView(
         } else {
             removeAllViewsInLayout()
             addServerDrivenComponent(component, rootView)
+            renderCompletedListener?.onLoadCompleted()
         }
     }
 }
