@@ -16,10 +16,7 @@
 
 package br.com.zup.beagle.sample.micronaut.service
 
-import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.sample.builder.ActionScreenBuilder
-import br.com.zup.beagle.widget.core.FlexBuilder
-import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Text
 import javax.inject.Singleton
@@ -30,10 +27,6 @@ class SampleActionService {
 
 
     fun getNavigateExample() = Screen(
-        child = Text("Hello").buildAndApplyFlex(
-            FlexBuilder()
-                .size(Size(width = 20.unitPercent()))
-                .margin()
-        )
+        child = Text("Hello")
     )
 }
