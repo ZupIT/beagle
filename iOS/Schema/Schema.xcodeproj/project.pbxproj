@@ -18,6 +18,8 @@
 		C08D4EB22487DAD800AAAC0A /* NetworkImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4EB12487DAD800AAAC0A /* NetworkImageTests.swift */; };
 		C08D4EB42487DCDB00AAAC0A /* NetworkImage.json in Resources */ = {isa = PBXBuildFile; fileRef = C08D4EB32487DCDB00AAAC0A /* NetworkImage.json */; };
 		C08D4EB72487DEC200AAAC0A /* NetworkImageWithContentMode.json in Resources */ = {isa = PBXBuildFile; fileRef = C08D4EB62487DEC200AAAC0A /* NetworkImageWithContentMode.json */; };
+		C08D4EBF24881F3D00AAAC0A /* SchemaLoggerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4EBE24881F3D00AAAC0A /* SchemaLoggerHelper.swift */; };
+		C08D4EC12488259D00AAAC0A /* Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4EC02488259D00AAAC0A /* Schema.swift */; };
 		C0FBBD212475803900B72A9B /* Schema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FBBD172475803900B72A9B /* Schema.framework */; };
 		C0FBBD3324759EDD00B72A9B /* SnapshotTesting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FBBD3224759EDD00B72A9B /* SnapshotTesting.framework */; };
 		C864D2A2247C240200E7A1F9 /* FormSubmit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D221247C240200E7A1F9 /* FormSubmit.swift */; };
@@ -36,7 +38,7 @@
 		C864D2BA247C240200E7A1F9 /* Equality.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D24C247C240200E7A1F9 /* Equality.generated.swift */; };
 		C864D2BB247C240200E7A1F9 /* AutoDecodable.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D24D247C240200E7A1F9 /* AutoDecodable.generated.swift */; };
 		C864D2BC247C240200E7A1F9 /* SourceryProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D24E247C240200E7A1F9 /* SourceryProtocols.swift */; };
-		C864D2C1247C240200E7A1F9 /* ComponentDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D255247C240200E7A1F9 /* ComponentDependencies.swift */; };
+		C864D2C1247C240200E7A1F9 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D255247C240200E7A1F9 /* Dependencies.swift */; };
 		C864D2C4247C240200E7A1F9 /* ComponentDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D25C247C240200E7A1F9 /* ComponentDecoder.swift */; };
 		C864D2C5247C240200E7A1F9 /* AnyDecodableContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D25D247C240200E7A1F9 /* AnyDecodableContainer.swift */; };
 		C864D2C6247C240200E7A1F9 /* NetworkImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D260247C240200E7A1F9 /* NetworkImage.swift */; };
@@ -135,6 +137,8 @@
 		C08D4EB32487DCDB00AAAC0A /* NetworkImage.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NetworkImage.json; sourceTree = "<group>"; };
 		C08D4EB52487DDCD00AAAC0A /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C08D4EB62487DEC200AAAC0A /* NetworkImageWithContentMode.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NetworkImageWithContentMode.json; sourceTree = "<group>"; };
+		C08D4EBE24881F3D00AAAC0A /* SchemaLoggerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemaLoggerHelper.swift; sourceTree = "<group>"; };
+		C08D4EC02488259D00AAAC0A /* Schema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schema.swift; sourceTree = "<group>"; };
 		C0FBBD172475803900B72A9B /* Schema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Schema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0FBBD202475803900B72A9B /* SchemaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SchemaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0FBBD3224759EDD00B72A9B /* SnapshotTesting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapshotTesting.framework; path = Carthage/Build/iOS/SnapshotTesting.framework; sourceTree = "<group>"; };
@@ -162,7 +166,7 @@
 		C864D24C247C240200E7A1F9 /* Equality.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equality.generated.swift; sourceTree = "<group>"; };
 		C864D24D247C240200E7A1F9 /* AutoDecodable.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoDecodable.generated.swift; sourceTree = "<group>"; };
 		C864D24E247C240200E7A1F9 /* SourceryProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceryProtocols.swift; sourceTree = "<group>"; };
-		C864D255247C240200E7A1F9 /* ComponentDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentDependencies.swift; sourceTree = "<group>"; };
+		C864D255247C240200E7A1F9 /* Dependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 		C864D258247C240200E7A1F9 /* ComponentDecoderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentDecoderTests.swift; sourceTree = "<group>"; };
 		C864D25C247C240200E7A1F9 /* ComponentDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentDecoder.swift; sourceTree = "<group>"; };
 		C864D25D247C240200E7A1F9 /* AnyDecodableContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyDecodableContainer.swift; sourceTree = "<group>"; };
@@ -338,6 +342,14 @@
 			path = JSON;
 			sourceTree = "<group>";
 		};
+		C08D4EBB24881AB500AAAC0A /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				C08D4EBE24881F3D00AAAC0A /* SchemaLoggerHelper.swift */,
+			);
+			path = Logger;
+			sourceTree = "<group>";
+		};
 		C0FBBD0D2475803900B72A9B = {
 			isa = PBXGroup;
 			children = (
@@ -370,10 +382,11 @@
 		C864D21B247C240200E7A1F9 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				C08D4EBB24881AB500AAAC0A /* Logger */,
 				C864D24A247C240200E7A1F9 /* CodeGeneration */,
 				C864D27F247C240200E7A1F9 /* Action */,
 				C864D256247C240200E7A1F9 /* Decoding */,
-				C864D254247C240200E7A1F9 /* Dependencies */,
+				C864D254247C240200E7A1F9 /* Schema */,
 				C864D21C247C240200E7A1F9 /* ServerDrivenComponent */,
 				C864D25E247C240200E7A1F9 /* Widgets */,
 			);
@@ -547,12 +560,13 @@
 			path = Generated;
 			sourceTree = "<group>";
 		};
-		C864D254247C240200E7A1F9 /* Dependencies */ = {
+		C864D254247C240200E7A1F9 /* Schema */ = {
 			isa = PBXGroup;
 			children = (
-				C864D255247C240200E7A1F9 /* ComponentDependencies.swift */,
+				C864D255247C240200E7A1F9 /* Dependencies.swift */,
+				C08D4EC02488259D00AAAC0A /* Schema.swift */,
 			);
-			path = Dependencies;
+			path = Schema;
 			sourceTree = "<group>";
 		};
 		C864D256247C240200E7A1F9 /* Decoding */ = {
@@ -1197,6 +1211,7 @@
 				C864D2A7247C240200E7A1F9 /* FormInputComponent.swift in Sources */,
 				C864D2E0247C240200E7A1F9 /* Flex.swift in Sources */,
 				C864D2DA247C240200E7A1F9 /* CustomAction.swift in Sources */,
+				C08D4EBF24881F3D00AAAC0A /* SchemaLoggerHelper.swift in Sources */,
 				C864D2CA247C240200E7A1F9 /* Image.swift in Sources */,
 				C864D2BB247C240200E7A1F9 /* AutoDecodable.generated.swift in Sources */,
 				C864D2C5247C240200E7A1F9 /* AnyDecodableContainer.swift in Sources */,
@@ -1215,9 +1230,10 @@
 				C864D2D6247C240200E7A1F9 /* Navigate.swift in Sources */,
 				C864D2B9247C240200E7A1F9 /* ServerDrivenComponent.swift in Sources */,
 				C864D2E6247C240200E7A1F9 /* Text.swift in Sources */,
+				C08D4EC12488259D00AAAC0A /* Schema.swift in Sources */,
 				C864D2B0247C240200E7A1F9 /* Touchable.swift in Sources */,
 				C864D2DB247C240200E7A1F9 /* Action.swift in Sources */,
-				C864D2C1247C240200E7A1F9 /* ComponentDependencies.swift in Sources */,
+				C864D2C1247C240200E7A1F9 /* Dependencies.swift in Sources */,
 				C864D2AB247C240200E7A1F9 /* Form.swift in Sources */,
 				C864D2DF247C240200E7A1F9 /* Size.swift in Sources */,
 				C864D2DC247C240200E7A1F9 /* Accessibility.swift in Sources */,

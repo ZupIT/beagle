@@ -20,7 +20,7 @@ import Schema
 public protocol BeagleDependenciesProtocol: DependencyActionExecutor,
     DependencyAnalyticsExecutor,
     DependencyUrlBuilder,
-    DependencyComponentDecoding,
+    DependencySchema,
     DependencyNetworkClient,
     DependencyDeepLinkScreenManaging,
     DependencyCustomActionHandler,
@@ -37,7 +37,7 @@ DependencyFormDataStoreHandler,
 }
 
 open class BeagleDependencies: BeagleDependenciesProtocol {
-    
+    public var schemaDependencies: SchemaDependencies
     public var urlBuilder: UrlBuilderProtocol
     public var networkClient: NetworkClient
     public var decoder: ComponentDecoding
@@ -75,7 +75,6 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public init() {
         let resolver = InnerDependenciesResolver()
         self.resolver = resolver
-
         self.urlBuilder = UrlBuilder()
         self.decoder = ComponentDecoder()
         self.preFetchHelper = BeaglePreFetchHelper(dependencies: resolver)
@@ -84,13 +83,13 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.theme = AppTheme(styles: [:])
         self.navigationControllerType = BeagleNavigationController.self
         self.logger = BeagleLogger()
-
+        self.schemaDependencies = SchemaDependencies(loggerHelper: logger)
+        
         self.networkClient = NetworkClientDefault(dependencies: resolver)
         self.navigation = BeagleNavigator(dependencies: resolver)
         self.actionExecutor = ActionExecuting(dependencies: resolver)
         self.repository = RepositoryDefault(dependencies: resolver)
         self.cacheManager = CacheManagerDefault(dependencies: resolver)
-        self.logger = BeagleLogger()
         self.formDataStoreHandler = FormDataStoreHandler()
         self.windowManager = WindowManagerDefault()
         self.opener = URLOpenerDefault(dependencies: resolver)
@@ -109,12 +108,13 @@ private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     DependencyDeepLinkScreenManaging,
     DependencyRepository,
     DependencyWindowManager,
-    DependencyURLOpener {
-
+DependencyURLOpener {
+    
     var container: () -> BeagleDependenciesProtocol = {
         fatalError("You should set this closure to get the dependencies container")
     }
-
+    
+    var schemaDependencies: SchemaDependencies { return container().schemaDependencies }
     var urlBuilder: UrlBuilderProtocol { return container().urlBuilder }
     var decoder: ComponentDecoding { return container().decoder }
     var networkClient: NetworkClient { return container().networkClient }

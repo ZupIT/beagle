@@ -16,12 +16,13 @@
 
 import Foundation
 import os.log
+import Schema
 
 public protocol DependencyLogger {
     var logger: BeagleLoggerType { get }
 }
 
-public protocol BeagleLoggerType {
+public protocol BeagleLoggerType: SchemaLoggerHelper {
     func log(_ log: LogType)
 }
 
@@ -44,5 +45,11 @@ public class BeagleLogger: BeagleLoggerType {
         case .error: return .error
         case .info: return .info
         }
+    }
+}
+
+extension BeagleLogger: SchemaLoggerHelper {
+    public func logDecodingError(type: String) {
+        Beagle.dependencies.logger.log(Log.decode(.decodingError(type: type)))
     }
 }

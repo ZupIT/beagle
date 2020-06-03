@@ -19,8 +19,8 @@ import Foundation
 /// Defines a container to hold any registered Decodable type
 public struct AnyDecodableContainer {
     public let content: Decodable
-    
 }
+
 // MARK: - Decodable
 //TODO: Resolve Logger
 extension AnyDecodableContainer: Decodable {
@@ -34,18 +34,18 @@ extension AnyDecodableContainer: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         if let type = try? container.decode(String.self, forKey: .componentType) {
-        if let decodable = ComponentTools.dependencies.decoder.componentType(forType: type.lowercased()) {
+        if let decodable = Schema.dependencies.decoder.componentType(forType: type.lowercased()) {
             content = try decodable.init(from: decoder)
             } else {
-                //Beagle.dependencies.logger.log(Log.decode(.decodingError(type: type)))
+               Schema.dependencies.loggerHelper?.logDecodingError(type: type)
                 content = UnknownComponent(type: type)
             }
         } else {
             let type = try container.decode(String.self, forKey: .actionType)
-            if let decodable = ComponentTools.dependencies.decoder.actionType(forType: type) {
+            if let decodable = Schema.dependencies.decoder.actionType(forType: type) {
                 content = try decodable.init(from: decoder)
             } else {
-                //Beagle.dependencies.logger.log(Log.decode(.decodingError(type: type)))
+                Schema.dependencies.loggerHelper?.logDecodingError(type: type)
                 content = UnknownAction(type: type)
             }
         }

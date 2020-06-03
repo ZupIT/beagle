@@ -53,7 +53,7 @@ public final class RepositoryDefault: Repository {
     // MARK: Dependencies
 
     public typealias Dependencies =
-        DependencyComponentDecoding
+        DependencySchema
         & DependencyNetworkClient
         & DependencyCacheManager
         & DependencyUrlBuilder

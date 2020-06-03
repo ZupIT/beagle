@@ -26,7 +26,7 @@ public protocol ComponentDecoding {
     func decodeAction(from data: Data) throws -> Action
 }
 
-public protocol DependencyComponentDecoding {
+protocol DependencyComponentDecoding {
     var decoder: ComponentDecoding { get }
 }
 

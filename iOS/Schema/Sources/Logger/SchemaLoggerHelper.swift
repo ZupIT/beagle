@@ -16,18 +16,10 @@
 
 import Foundation
 
-open class ComponentTools {
-    public static var dependencies: ComponentDependencies = .init(decoder: ComponentDecoder())
+public protocol SchemaLoggerHelper {
+    func logDecodingError(type: String)
 }
 
-typealias Dependencies = DependencyComponentDecoding
-
-open class ComponentDependencies: Dependencies {
-    
-    public var decoder: ComponentDecoding
-    
-    public init(decoder: ComponentDecoding) {
-        self.decoder = decoder
-    }
-    
+protocol DependencyLoggerHelper {
+    var loggerHelper: SchemaLoggerHelper? { get }
 }
