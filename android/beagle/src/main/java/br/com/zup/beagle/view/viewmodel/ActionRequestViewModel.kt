@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModel
 import br.com.zup.beagle.action.SendRequestAction
 import br.com.zup.beagle.view.mapper.toRequestData
 import br.com.zup.beagle.data.ActionRequester
+import br.com.zup.beagle.exception.BeagleApiException
 import br.com.zup.beagle.exception.BeagleException
 import br.com.zup.beagle.networking.ResponseData
 import br.com.zup.beagle.utils.CoroutineDispatchers
@@ -46,7 +47,7 @@ internal class ActionRequestViewModel(
     }
 
     sealed class FetchViewState {
-        data class Error(val throwable: Throwable) : FetchViewState()
+        data class Error(val exception: BeagleApiException) : FetchViewState()
         data class Success(val response: ResponseData) : FetchViewState()
     }
 
@@ -66,7 +67,7 @@ internal class ActionRequestViewModel(
                 value = try {
                     val response = requester.fetchData(sendRequestAction.toRequestData())
                     FetchViewState.Success(response)
-                } catch (exception: BeagleException) {
+                } catch (exception: BeagleApiException) {
                     FetchViewState.Error(exception)
                 }
             }

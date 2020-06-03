@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.networking
 
+import br.com.zup.beagle.exception.BeagleApiException
 import br.com.zup.beagle.utils.CoroutineDispatchers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -23,9 +24,10 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import java.io.IOException
 import java.net.HttpURLConnection
+import java.net.URI
 
 typealias OnSuccess = (responseData: ResponseData) -> Unit
-typealias OnError = (throwable: Throwable) -> Unit
+typealias OnError = (beagleApiException: BeagleApiException) -> Unit
 
 internal class HttpClientDefault : HttpClient, CoroutineScope {
 
@@ -43,7 +45,7 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
             try {
                 val responseData = doHttpRequest(request)
                 onSuccess(responseData)
-            } catch (ex: IOException) {
+            } catch (ex: BeagleApiException) {
                 onError(ex)
             }
         }
@@ -82,10 +84,25 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
         try {
             return createResponseData(urlConnection)
         } catch (e: Exception) {
-            throw IOException(e)
+            throw tryFormatException(request.uri, urlConnection)
         } finally {
             urlConnection.disconnect()
         }
+    }
+
+    private fun tryFormatException(uri: URI, urlConnection: HttpURLConnection): BeagleApiException {
+        var statusCode: Int? = null
+        var response: ByteArray? = null
+        var statusText: String? = null
+        try {
+            response = urlConnection.errorStream.readBytes()
+            statusCode = urlConnection.responseCode
+            statusText = urlConnection.responseMessage
+        } catch (ignored: Exception) {
+        }
+
+        return BeagleApiException(url = uri.toString(), statusCode = statusCode,
+            data = response, statusText = statusText)
     }
 
     private fun addRequestMethod(urlConnection: HttpURLConnection, method: HttpMethod) {
@@ -109,6 +126,7 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
 
         return ResponseData(
             statusCode = urlConnection.responseCode,
+            statusTex = urlConnection.responseMessage,
             headers = urlConnection.headerFields.map {
                 val headerValue = it.value.toString()
                     .replace("[", "")

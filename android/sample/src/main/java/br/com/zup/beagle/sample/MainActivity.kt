@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.sample
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -51,8 +50,6 @@ class MainActivity : AppCompatActivity() {
             title = "Beagle Sample"
             elevation = 4.0f.dp()
         }
-
-        Uri.Builder().appendPath("https://google.com.br").appendQueryParameter("foo", "saddasasd")
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

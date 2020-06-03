@@ -19,7 +19,8 @@ package br.com.zup.beagle.networking
 data class ResponseData(
     val statusCode: Int,
     val data: ByteArray,
-    val headers: Map<String, String> = mapOf()
+    val headers: Map<String, String> = mapOf(),
+    val statusTex: String? = null
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

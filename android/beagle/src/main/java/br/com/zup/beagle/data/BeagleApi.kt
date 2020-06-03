@@ -16,20 +16,14 @@
 
 package br.com.zup.beagle.data
 
+import br.com.zup.beagle.exception.BeagleApiException
 import br.com.zup.beagle.exception.BeagleException
 import br.com.zup.beagle.logger.BeagleMessageLogs
 import br.com.zup.beagle.networking.HttpClient
 import br.com.zup.beagle.networking.HttpClientFactory
-import br.com.zup.beagle.networking.HttpMethod
 import br.com.zup.beagle.networking.RequestData
 import br.com.zup.beagle.networking.ResponseData
-import br.com.zup.beagle.networking.urlbuilder.UrlBuilder
-import br.com.zup.beagle.networking.urlbuilder.UrlBuilderFactory
-import br.com.zup.beagle.setup.BeagleEnvironment
-import br.com.zup.beagle.view.ScreenMethod
-import br.com.zup.beagle.view.ScreenRequest
 import kotlinx.coroutines.suspendCancellableCoroutine
-import java.net.URI
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -37,7 +31,7 @@ internal class BeagleApi(
     private val httpClient: HttpClient = HttpClientFactory().make()
 ) {
 
-    @Throws(BeagleException::class)
+    @Throws(BeagleApiException::class)
     suspend fun fetchData(request: RequestData): ResponseData = suspendCancellableCoroutine { cont ->
         try {
             BeagleMessageLogs.logHttpRequestData(request)
@@ -48,18 +42,14 @@ internal class BeagleApi(
                     cont.resume(response)
                 }, onError = { error ->
                 BeagleMessageLogs.logUnknownHttpError(error)
-                cont.resumeWithException(
-                    BeagleException(error.message ?: genericErrorMessage(request.uri.toString()), error)
-                )
+                cont.resumeWithException(error)
             })
             cont.invokeOnCancellation {
                 call.cancel()
             }
-        } catch (ex: Exception) {
+        } catch (ex: BeagleApiException) {
             BeagleMessageLogs.logUnknownHttpError(ex)
-            cont.resumeWithException(BeagleException(ex.message ?: genericErrorMessage(request.uri.toString()), ex))
+            cont.resumeWithException(ex)
         }
     }
-
-    private fun genericErrorMessage(url: String) = "fetchData error for url $url"
 }

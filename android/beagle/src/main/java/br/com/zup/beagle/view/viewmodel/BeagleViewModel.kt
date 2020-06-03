@@ -21,6 +21,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.data.ComponentRequester
+import br.com.zup.beagle.exception.BeagleApiException
 import br.com.zup.beagle.exception.BeagleException
 import br.com.zup.beagle.logger.BeagleLogger
 import br.com.zup.beagle.utils.CoroutineDispatchers
@@ -114,7 +115,7 @@ internal class BeagleViewModel(
                             val component = componentRequester.fetchComponent(screenRequest)
                             value = ViewState.DoRender(screenRequest.url, component)
                         }
-                    } catch (exception: BeagleException) {
+                    } catch (exception: BeagleApiException) {
                         value = if (screen != null) {
                             ViewState.DoRender(screen.identifier, screen)
                         } else {

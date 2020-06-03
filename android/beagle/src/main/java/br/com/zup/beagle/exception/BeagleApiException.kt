@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.networking
+package br.com.zup.beagle.exception
 
-import br.com.zup.beagle.exception.BeagleApiException
-
-interface HttpClient {
-
-    fun execute(
-        request: RequestData,
-        onSuccess: (responseData: ResponseData) -> Unit,
-        onError: (beagleApiException: BeagleApiException) -> Unit
-    ): RequestCall
-}
+open class BeagleApiException
+constructor(
+    val url: String,
+    val statusCode: Int? = null,
+    val data: ByteArray? = null,
+    val statusText: String? = null
+) : BeagleException("""
+    fetch data error for url $url
+    status code: $statusCode
+    body: ${String(data ?: "".toByteArray())}
+    status text: $statusText
+     """)
