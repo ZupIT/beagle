@@ -17,10 +17,10 @@
 package br.com.zup.beagle.networking
 
 data class ResponseData(
-    val statusCode: Int,
+    val statusCode: Int?,
     val data: ByteArray,
     val headers: Map<String, String> = mapOf(),
-    val statusTex: String? = null
+    val statusText: String? = null
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -29,16 +29,18 @@ data class ResponseData(
         other as ResponseData
 
         if (statusCode != other.statusCode) return false
-        if (headers != other.headers) return false
         if (!data.contentEquals(other.data)) return false
+        if (headers != other.headers) return false
+        if (statusText != other.statusText) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result = statusCode
-        result = 31 * result + headers.hashCode()
+        var result = statusCode ?: 0
         result = 31 * result + data.contentHashCode()
+        result = 31 * result + headers.hashCode()
+        result = 31 * result + (statusText?.hashCode() ?: 0)
         return result
     }
 }

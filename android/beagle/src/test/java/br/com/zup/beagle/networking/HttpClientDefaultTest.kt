@@ -34,7 +34,6 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
 import java.net.HttpURLConnection
@@ -382,7 +381,7 @@ class HttpClientDefaultTest {
         })
 
         // Then
-        assertTrue { errorResult is IOException }
+        assertTrue { errorResult is BeagleApiException }
     }
 
     private fun makeSimpleRequestData() = RequestData(uri)

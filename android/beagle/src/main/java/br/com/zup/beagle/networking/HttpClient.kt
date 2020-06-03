@@ -16,13 +16,11 @@
 
 package br.com.zup.beagle.networking
 
-import br.com.zup.beagle.exception.BeagleApiException
-
 interface HttpClient {
 
     fun execute(
         request: RequestData,
         onSuccess: (responseData: ResponseData) -> Unit,
-        onError: (beagleApiException: BeagleApiException) -> Unit
+        onError: (responseData: ResponseData) -> Unit
     ): RequestCall
 }

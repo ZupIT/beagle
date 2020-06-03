@@ -16,15 +16,10 @@
 
 package br.com.zup.beagle.exception
 
-open class BeagleApiException
+import br.com.zup.beagle.networking.ResponseData
+
+internal class BeagleApiException
 constructor(
-    val url: String,
-    val statusCode: Int? = null,
-    val data: ByteArray? = null,
-    val statusText: String? = null
-) : BeagleException("""
-    fetch data error for url $url
-    status code: $statusCode
-    body: ${String(data ?: "".toByteArray())}
-    status text: $statusText
-     """)
+    val responseData: ResponseData,
+    override val message: String = responseData.toString()
+) : Exception(message)

@@ -18,44 +18,29 @@ package br.com.zup.beagle.view.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.action.SendRequestAction
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.data.ActionRequester
-import br.com.zup.beagle.data.ComponentRequester
-import br.com.zup.beagle.exception.BeagleException
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.networking.ResponseData
 import br.com.zup.beagle.testutil.CoroutineTestRule
-import br.com.zup.beagle.testutil.RandomData
-import br.com.zup.beagle.utils.CoroutineDispatchers
-import br.com.zup.beagle.utils.generateViewModelInstance
-import br.com.zup.beagle.view.ScreenRequest
-import br.com.zup.beagle.view.mapper.SendRequestActionMapper
 import br.com.zup.beagle.view.mapper.toRequestData
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
-import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.spyk
 import io.mockk.unmockkAll
-import io.mockk.unmockkStatic
 import io.mockk.verify
-import io.mockk.verifyOrder
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
 import org.junit.After
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertTrue
 
 
 @ExperimentalCoroutinesApi
@@ -110,15 +95,15 @@ class ActionRequestViewModelTest {
     fun `should emit fail when fetch data`() {
         // Given
         every { action.toRequestData() } returns mockk()
-        val exception = BeagleException("Error")
-        coEvery { actionRequester.fetchData(any()) } throws exception
+        val error: BeagleApiException = mockk()
+        coEvery { actionRequester.fetchData(any()) } throws error
 
         // When
         viewModel.fetch(action).observeForever(observer)
 
         // Then
         verify(exactly = once()) {
-            observer.onChanged(ActionRequestViewModel.FetchViewState.Error(exception))
+            observer.onChanged(ActionRequestViewModel.FetchViewState.Error(error))
         }
     }
 

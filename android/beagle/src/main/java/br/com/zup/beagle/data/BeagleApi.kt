@@ -33,23 +33,21 @@ internal class BeagleApi(
 
     @Throws(BeagleApiException::class)
     suspend fun fetchData(request: RequestData): ResponseData = suspendCancellableCoroutine { cont ->
-        try {
-            BeagleMessageLogs.logHttpRequestData(request)
-            val call = httpClient.execute(
-                request = request,
-                onSuccess = { response ->
-                    BeagleMessageLogs.logHttpResponseData(response)
-                    cont.resume(response)
-                }, onError = { error ->
-                BeagleMessageLogs.logUnknownHttpError(error)
-                cont.resumeWithException(error)
-            })
-            cont.invokeOnCancellation {
-                call.cancel()
-            }
-        } catch (ex: BeagleApiException) {
-            BeagleMessageLogs.logUnknownHttpError(ex)
-            cont.resumeWithException(ex)
+        BeagleMessageLogs.logHttpRequestData(request)
+        val call = httpClient.execute(
+            request = request,
+            onSuccess = { response ->
+                BeagleMessageLogs.logHttpResponseData(response)
+                cont.resume(response)
+            }, onError = { error ->
+            val exception = BeagleApiException(error, error.toString())
+            BeagleMessageLogs.logUnknownHttpError(exception)
+            cont.resumeWithException(
+                exception
+            )
+        })
+        cont.invokeOnCancellation {
+            call.cancel()
         }
     }
 }

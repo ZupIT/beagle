@@ -72,7 +72,7 @@ class SendRequestActionHandlerTest {
         val onSuccessAction: Action = mockk()
         val onErrorAction: Action = mockk()
         val onFinishAction: Action = mockk()
-        val error: Throwable = mockk()
+        val error: BeagleApiException = mockk()
         val requestAction = SendRequestAction(url = "", onSuccess = onSuccessAction,
             onError = onErrorAction, onFinish = onFinishAction)
         every { viewModel.fetch(requestAction) } returns liveData
