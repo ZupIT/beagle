@@ -50,7 +50,8 @@ internal class BeagleViewModel(
     private val urlObservableReference = AtomicReference(UrlObservable())
 
     fun fetchComponent(screenRequest: ScreenRequest, screen: ScreenComponent? = null): LiveData<ViewState> {
-        return FetchComponentLiveData(screenRequest, screen, componentRequester, urlObservableReference, coroutineContext)
+        return FetchComponentLiveData(screenRequest, screen, componentRequester,
+            urlObservableReference, coroutineContext)
     }
 
     fun fetchForCache(url: String) = launch {
