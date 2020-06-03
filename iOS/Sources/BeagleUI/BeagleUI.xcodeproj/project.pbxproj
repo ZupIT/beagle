@@ -83,6 +83,7 @@
 		93B9744F23A2833600B0D1CF /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B9743F23A2833600B0D1CF /* NetworkClient.swift */; };
 		93B9746E23A287A800B0D1CF /* NSErrorExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B9746123A287A800B0D1CF /* NSErrorExtensionTests.swift */; };
 		93D7C68D23A1268800154CFB /* YogaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D7C68C23A1268800154CFB /* YogaKit.framework */; };
+		980240D52472FC7E00A9FC81 /* UIView+BeagleElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980240D42472FC7E00A9FC81 /* UIView+BeagleElements.swift */; };
 		9800ACFF2455D09B0030109F /* UrlBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9800ACFE2455D09B0030109F /* UrlBuilderTests.swift */; };
 		981DB2EF23748BAB001CE5E0 /* UnitValueExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981DB2EE23748BAB001CE5E0 /* UnitValueExtension.swift */; };
 		983E8166245B3BE7008EDAE1 /* UrlBuilderTestSpec.json in Resources */ = {isa = PBXBuildFile; fileRef = 983E8165245B3BE6008EDAE1 /* UrlBuilderTestSpec.json */; };
@@ -96,6 +97,7 @@
 		988F81FB23E24ECA008562BE /* UIView+Subviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988F81FA23E24ECA008562BE /* UIView+Subviews.swift */; };
 		98A7F36A23A84AFF00E88C70 /* TabView.json in Resources */ = {isa = PBXBuildFile; fileRef = 98A7F36923A84AFF00E88C70 /* TabView.json */; };
 		98B7D95623DB2722002622AC /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B7D95523DB2722002622AC /* Observable.swift */; };
+		98D9FC1024575E7800A7AB79 /* networkImageComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = 98D9FC0F24575E7800A7AB79 /* networkImageComponent.json */; };
 		98E08D1A242289C100FBD21B /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E08D19242289C100FBD21B /* WebView.swift */; };
 		98E08D1C242289D200FBD21B /* WebViewUIComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E08D1B242289D200FBD21B /* WebViewUIComponent.swift */; };
 		98FC964C23EA518600A8CEC8 /* ObservableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FC964B23EA518600A8CEC8 /* ObservableTests.swift */; };
@@ -355,6 +357,7 @@
 		93B9743F23A2833600B0D1CF /* NetworkClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		93B9746123A287A800B0D1CF /* NSErrorExtensionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSErrorExtensionTests.swift; sourceTree = "<group>"; };
 		93D7C68C23A1268800154CFB /* YogaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = YogaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		980240D42472FC7E00A9FC81 /* UIView+BeagleElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+BeagleElements.swift"; sourceTree = "<group>"; };
 		9800ACFE2455D09B0030109F /* UrlBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlBuilderTests.swift; sourceTree = "<group>"; };
 		980262AD2345431B0025A9C3 /* ContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerTests.swift; sourceTree = "<group>"; };
 		981DB2EE23748BAB001CE5E0 /* UnitValueExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitValueExtension.swift; sourceTree = "<group>"; };
@@ -369,6 +372,7 @@
 		988F81FA23E24ECA008562BE /* UIView+Subviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Subviews.swift"; sourceTree = "<group>"; };
 		98A7F36923A84AFF00E88C70 /* TabView.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TabView.json; sourceTree = "<group>"; };
 		98B7D95523DB2722002622AC /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		98D9FC0F24575E7800A7AB79 /* networkImageComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = networkImageComponent.json; sourceTree = "<group>"; };
 		98E08D19242289C100FBD21B /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		98E08D1B242289D200FBD21B /* WebViewUIComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewUIComponent.swift; sourceTree = "<group>"; };
 		98FC964B23EA518600A8CEC8 /* ObservableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableTests.swift; sourceTree = "<group>"; };
@@ -884,6 +888,14 @@
 				983E8C982396DFC90018C6CA /* TabViewUIComponentTests.swift */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		98D9FC0E24575E5000A7AB79 /* Json */ = {
+			isa = PBXGroup;
+			children = (
+				98D9FC0F24575E7800A7AB79 /* networkImageComponent.json */,
+			);
+			path = Json;
 			sourceTree = "<group>";
 		};
 		98E08D18242289AB00FBD21B /* WebView */ = {
@@ -1462,6 +1474,7 @@
 		C86F892823B28FAE00287D5D /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				98D9FC0E24575E5000A7AB79 /* Json */,
 				93932F4B23E1CF1800F41905 /* NetworkImageTests.swift */,
 			);
 			path = Tests;
@@ -1616,6 +1629,7 @@
 				E531D6B32359FE19007EEBA7 /* UIView+AutoLayout.swift */,
 				E531D6B92359FEE1007EEBA7 /* UIView+Loading.swift */,
 				988F81FA23E24ECA008562BE /* UIView+Subviews.swift */,
+				980240D42472FC7E00A9FC81 /* UIView+BeagleElements.swift */,
 				981DB2EE23748BAB001CE5E0 /* UnitValueExtension.swift */,
 				7CFE3A742412E3B50087F664 /* FlexBuildersExtension.swift */,
 				C829CEAF23B15FF0001B7225 /* Tests */,
@@ -1828,6 +1842,7 @@
 				76191AA9241AC44C00A04C29 /* declarativeText1.json in Resources */,
 				7CDF84952416DD8D00234F40 /* test_UnitValueWithPercentageOperatorAndIntegerValue.1.txt in Resources */,
 				C8FD20B323959AED003E6F5B /* PageViewWith3PagesAndIndicator.json in Resources */,
+				98D9FC1024575E7800A7AB79 /* networkImageComponent.json in Resources */,
 				C05E1652243663C20088F9D2 /* screenAnalyticsComponent.json in Resources */,
 				C05E1658243668E30088F9D2 /* __Snapshots__ in Resources */,
 				93771AFE2417D68D009F7CF3 /* screenComponent.json in Resources */,
@@ -2011,6 +2026,7 @@
 				7C6F606124461F35007AC4AA /* ActionManager.swift in Sources */,
 				57A8098B243CF4C90034D180 /* CoreCache.xcdatamodeld in Sources */,
 				E522376F237C3C3B00E555BB /* Action.swift in Sources */,
+				980240D52472FC7E00A9FC81 /* UIView+BeagleElements.swift in Sources */,
 				E5CE41A32331D55000295277 /* ComponentDecoder.swift in Sources */,
 				93681805232A886C00E6E724 /* ScreenComponent.swift in Sources */,
 				C0B1AAB223F2EE9300F94ECA /* Accessibility.swift in Sources */,

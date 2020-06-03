@@ -310,6 +310,7 @@ class FormManagerDummy: FormManaging {
 }
 
 class LazyLoadManagerDummy: LazyLoadManaging {
+    func lazyLoadImage(path: String, placeholderView: UIView, imageView: UIImageView, flex: Flex) {}
     func lazyLoad(url: String, initialState: UIView) {}
 }
 
@@ -348,6 +349,7 @@ class BeagleContextDummy: BeagleContext {
     func register(form: Form, formView: UIView, submitView: UIView, validatorHandler validator: ValidatorProvider?) {}
     func register(formSubmitEnabledWidget: Widget?, formSubmitDisabledWidget: Widget?) {}
     func lazyLoad(url: String, initialState: UIView) {}
+    func lazyLoadImage(path: String, placeholderView: UIView, imageView: UIImageView, flex: Flex) {}
     func doAction(_ action: Action, sender: Any) {}
     func applyLayout() {}
     func register(events: [Event], inView view: UIView) { }

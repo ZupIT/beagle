@@ -44,7 +44,7 @@ public struct FormInput: ServerDrivenComponent, AutoInitiableAndDecodable {
 extension FormInput: Renderable {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let childView = child.toView(context: context, dependencies: dependencies)
-        childView.beagleFormElement = self
+        childView.beagleElement = self
         return childView
     }
 }

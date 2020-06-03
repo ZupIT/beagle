@@ -46,7 +46,7 @@ extension Image: Renderable {
         image.setImageFromAsset(named: name, bundle: dependencies.appBundle)
         
         image.beagle.setup(self)
-        
+        image.beagleElement = self
         return image
     }
 }

@@ -291,7 +291,7 @@ private class SubmitStub: UIView, Observer, WidgetStateObservable {
 
     init(_ formSubmit: FormSubmit) {
         super.init(frame: .zero)
-        self.beagleFormElement = formSubmit
+        self.beagleElement = formSubmit
     }
 
     required init?(coder: NSCoder) {

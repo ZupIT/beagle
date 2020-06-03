@@ -26,10 +26,16 @@ class FormManagerSpy: FormManaging {
 }
 
 class LazyLoadManagerSpy: LazyLoadManaging {
+    
     private(set) var didCallLazyLoad = false
+    private(set) var didCallLazyLoadImage = false
 
     func lazyLoad(url: String, initialState: UIView) {
         didCallLazyLoad = true
+    }
+    
+    func lazyLoadImage(path: String, placeholderView: UIView, imageView: UIImageView, flex: Flex) {
+        didCallLazyLoadImage = true
     }
 }
 

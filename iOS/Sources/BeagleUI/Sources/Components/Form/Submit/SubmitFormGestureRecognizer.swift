@@ -46,7 +46,7 @@ final class SubmitFormGestureRecognizer: UITapGestureRecognizer {
             pendingViews.append(formView)
         }
         while let view = pendingViews.popLast() {
-            if view.beagleFormElement is FormInput {
+            if view.beagleElement is FormInput {
                 inputViews.append(view)
             } else {
                 pendingViews.append(contentsOf: view.subviews)
@@ -57,14 +57,14 @@ final class SubmitFormGestureRecognizer: UITapGestureRecognizer {
     
     func updateSubmitView() {
         guard let control = formSubmitView as? UIControl else { return }
-        let formSubmitEnabled = (formSubmitView?.beagleFormElement as? FormSubmit)?.enabled ?? true
+        let formSubmitEnabled = (formSubmitView?.beagleElement as? FormSubmit)?.enabled ?? true
         control.isEnabled = formSubmitEnabled || formIsValid()
     }
     
     private func formIsValid() -> Bool {
         for inputView in formInputViews() {
             guard
-                let formInput = inputView.beagleFormElement as? FormInput,
+                let formInput = inputView.beagleElement as? FormInput,
                 let inputValue = inputView as? InputValue else {
                     return false
             }

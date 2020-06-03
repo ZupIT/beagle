@@ -174,6 +174,7 @@ extension NetworkImage {
     enum CodingKeys: String, CodingKey {
         case path
         case contentMode
+        case placeholder
     }
 
     public init(from decoder: Decoder) throws {
@@ -181,6 +182,7 @@ extension NetworkImage {
 
         path = try container.decode(String.self, forKey: .path)
         contentMode = try container.decodeIfPresent(ImageContentMode.self, forKey: .contentMode)
+        placeholder = try container.decodeIfPresent(Image.self, forKey: .placeholder)
         widgetProperties = try WidgetProperties(from: decoder)
     }
 }

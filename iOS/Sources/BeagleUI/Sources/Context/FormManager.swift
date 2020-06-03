@@ -68,7 +68,7 @@ class FormManager: FormManaging {
             action: #selector(handleSubmitFormGesture(_:))
         )
         if let control = submitView as? UIControl,
-           let formSubmit = submitView.beagleFormElement as? FormSubmit,
+           let formSubmit = submitView.beagleElement as? FormSubmit,
            let enabled = formSubmit.enabled {
             control.isEnabled = enabled
         }
@@ -169,7 +169,7 @@ class FormManager: FormManaging {
         result: inout [String: String]
     ) {
         guard
-            let formInput = view.beagleFormElement as? FormInput,
+            let formInput = view.beagleElement as? FormInput,
             let inputValue = view as? InputValue
         else { return }
         

@@ -18,6 +18,7 @@ import UIKit
 
 public protocol LazyLoadManaging {
     func lazyLoad(url: String, initialState: UIView)
+    func lazyLoadImage(path: String, placeholderView: UIView, imageView: UIImageView, flex: Flex)
 }
 
 protocol LazyLoadManagerDelegate: AnyObject {
@@ -65,6 +66,36 @@ class LazyLoadManager: LazyLoadManaging {
                 self.delegate?.handleContextError(.lazyLoad(error))
             }
         }
+    }
+    
+    // MARK: - Lazy load image
+    
+    public func lazyLoadImage(path: String, placeholderView: UIView, imageView: UIImageView, flex: Flex) {
+        dependencies.repository.fetchImage(url: path, additionalData: nil) {
+            [weak self] result in guard let self = self else { return }
+            switch result {
+            case .success(let data):
+                let image = UIImage(data: data)
+                imageView.image = image
+                self.update(from: placeholderView, to: imageView, flex: flex)
+            case .failure:
+                guard let placeholder = placeholderView.beagleElement as? Image else { return }
+                let image = UIImage(named: placeholder.name)
+                imageView.image = image
+                self.update(from: placeholderView, to: imageView, flex: flex)
+            }
+        }
+    }
+
+    private func update(from placeholderView: UIView, to imageView: UIImageView, flex: Flex) {
+        placeholderView.flex.markDirty()
+        guard let superview = placeholderView.superview else { return }
+        
+        imageView.flex.setup(flex)
+        superview.insertSubview(imageView, belowSubview: placeholderView)
+        placeholderView.removeFromSuperview()
+        
+        delegate?.applyLayout()
     }
 
     private func update(initialView: UIView, lazyLoaded: ServerDrivenComponent) {
