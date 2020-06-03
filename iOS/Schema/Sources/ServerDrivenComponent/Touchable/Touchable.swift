@@ -22,7 +22,6 @@ public struct Touchable: ServerDrivenComponent, ClickedOnComponent, AutoInitiabl
     public let clickAnalyticsEvent: AnalyticsClick?
     public let child: ServerDrivenComponent
 
-    //TODO:Component sweep through vars and, if one of them is RawServerDriventComponent, make the constructor internal
 // sourcery:inline:auto:Touchable.Init
     public init(
         action: Action,

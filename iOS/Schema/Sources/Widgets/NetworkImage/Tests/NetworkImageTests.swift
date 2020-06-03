@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,23 +14,20 @@
  * limitations under the License.
  */
 
-import Foundation
+import XCTest
+@testable import Schema
+import SnapshotTesting
 
-public struct NetworkImage: Widget, AutoInitiableAndDecodable {
-    
-    public let path: String
-    public let contentMode: ImageContentMode?
-    public var widgetProperties: WidgetProperties
+class NetworkImageTests: XCTestCase {
 
-// sourcery:inline:auto:NetworkImage.Init
-    public init(
-        path: String,
-        contentMode: ImageContentMode? = nil,
-        widgetProperties: WidgetProperties = WidgetProperties()
-    ) {
-        self.path = path
-        self.contentMode = contentMode
-        self.widgetProperties = widgetProperties
+    func test_whenDecodingJson_thenItShouldReturnANetworkImage() throws {
+        let component: NetworkImage = try componentFromJsonFile(fileName: "NetworkImage")
+        assertSnapshot(matching: component, as: .dump)
     }
-// sourcery:end
+    
+    func test_whenDecodingJson_thenItShouldReturnANetworkImageWithContentMode() throws {
+        let component: NetworkImage = try componentFromJsonFile(fileName: "NetworkImageWithContentMode")
+        assertSnapshot(matching: component, as: .dump)
+    }
+    
 }

@@ -43,7 +43,6 @@ public protocol RenderableDependencies: DependencyTheme,
     DependencyLogger {
 }
 
-
 extension UnknownComponent: ServerDrivenComponent {
 
     public func toView(renderer: BeagleRenderer) -> UIView {

@@ -15,6 +15,9 @@
 		C08D4DD0248194A800AAAC0A /* Spacer.json in Resources */ = {isa = PBXBuildFile; fileRef = C08D4DCF248194A800AAAC0A /* Spacer.json */; };
 		C08D4DD82481A1D500AAAC0A /* ScreenComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4DD72481A1D500AAAC0A /* ScreenComponentTests.swift */; };
 		C08D4DDF2481A40300AAAC0A /* screenComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = C08D4DDE2481A40300AAAC0A /* screenComponent.json */; };
+		C08D4EB22487DAD800AAAC0A /* NetworkImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4EB12487DAD800AAAC0A /* NetworkImageTests.swift */; };
+		C08D4EB42487DCDB00AAAC0A /* NetworkImage.json in Resources */ = {isa = PBXBuildFile; fileRef = C08D4EB32487DCDB00AAAC0A /* NetworkImage.json */; };
+		C08D4EB72487DEC200AAAC0A /* NetworkImageWithContentMode.json in Resources */ = {isa = PBXBuildFile; fileRef = C08D4EB62487DEC200AAAC0A /* NetworkImageWithContentMode.json */; };
 		C0FBBD212475803900B72A9B /* Schema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FBBD172475803900B72A9B /* Schema.framework */; };
 		C0FBBD3324759EDD00B72A9B /* SnapshotTesting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FBBD3224759EDD00B72A9B /* SnapshotTesting.framework */; };
 		C864D2A2247C240200E7A1F9 /* FormSubmit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D221247C240200E7A1F9 /* FormSubmit.swift */; };
@@ -128,6 +131,10 @@
 		C08D4DD72481A1D500AAAC0A /* ScreenComponentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenComponentTests.swift; sourceTree = "<group>"; };
 		C08D4DD92481A3C600AAAC0A /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C08D4DDE2481A40300AAAC0A /* screenComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = screenComponent.json; sourceTree = "<group>"; };
+		C08D4EB12487DAD800AAAC0A /* NetworkImageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkImageTests.swift; sourceTree = "<group>"; };
+		C08D4EB32487DCDB00AAAC0A /* NetworkImage.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NetworkImage.json; sourceTree = "<group>"; };
+		C08D4EB52487DDCD00AAAC0A /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
+		C08D4EB62487DEC200AAAC0A /* NetworkImageWithContentMode.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NetworkImageWithContentMode.json; sourceTree = "<group>"; };
 		C0FBBD172475803900B72A9B /* Schema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Schema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0FBBD202475803900B72A9B /* SchemaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SchemaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0FBBD3224759EDD00B72A9B /* SnapshotTesting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapshotTesting.framework; path = Carthage/Build/iOS/SnapshotTesting.framework; sourceTree = "<group>"; };
@@ -308,6 +315,25 @@
 			isa = PBXGroup;
 			children = (
 				C08D4DDE2481A40300AAAC0A /* screenComponent.json */,
+			);
+			path = JSON;
+			sourceTree = "<group>";
+		};
+		C08D4EAF2487DAB500AAAC0A /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				C08D4EB52487DDCD00AAAC0A /* __Snapshots__ */,
+				C08D4EB02487DAC000AAAC0A /* JSON */,
+				C08D4EB12487DAD800AAAC0A /* NetworkImageTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		C08D4EB02487DAC000AAAC0A /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				C08D4EB32487DCDB00AAAC0A /* NetworkImage.json */,
+				C08D4EB62487DEC200AAAC0A /* NetworkImageWithContentMode.json */,
 			);
 			path = JSON;
 			sourceTree = "<group>";
@@ -565,6 +591,7 @@
 		C864D25F247C240200E7A1F9 /* NetworkImage */ = {
 			isa = PBXGroup;
 			children = (
+				C08D4EAF2487DAB500AAAC0A /* Tests */,
 				C864D260247C240200E7A1F9 /* NetworkImage.swift */,
 			);
 			path = NetworkImage;
@@ -1075,6 +1102,7 @@
 				C08D4DD0248194A800AAAC0A /* Spacer.json in Resources */,
 				C8EAC4F9247C284A003089BE /* Container.json in Resources */,
 				C8BB30B32486FDC2002DD3C1 /* poptoview.json in Resources */,
+				C08D4EB72487DEC200AAAC0A /* NetworkImageWithContentMode.json in Resources */,
 				C8BB30B52486FDC2002DD3C1 /* pushstack.json in Resources */,
 				C8EBCC83247C308B002030CC /* lazyComponent.json in Resources */,
 				C8EBCC88247C30C9002030CC /* PageViewWith3PagesAndIndicator.json in Resources */,
@@ -1086,6 +1114,7 @@
 				C864D2F7247C257C00E7A1F9 /* WebView.json in Resources */,
 				C8BB30B02486FDC2002DD3C1 /* openexternalurl.json in Resources */,
 				C029189D247EE03200C3AA13 /* PageViewWithCustomIndicator.json in Resources */,
+				C08D4EB42487DCDB00AAAC0A /* NetworkImage.json in Resources */,
 				C8EAC500247C2920003089BE /* TextComponent.json in Resources */,
 				C8BB30B62486FDC2002DD3C1 /* pushview.json in Resources */,
 				C029189B247EE02200C3AA13 /* CustomPageIndicator.json in Resources */,
@@ -1218,6 +1247,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C08D4EB22487DAD800AAAC0A /* NetworkImageTests.swift in Sources */,
 				C8EBCC8B247C30E9002030CC /* ScrollViewTests.swift in Sources */,
 				C864D2FB247C25C000E7A1F9 /* FormInputTests.swift in Sources */,
 				C8EAC4F8247C2844003089BE /* ContainerTests.swift in Sources */,
