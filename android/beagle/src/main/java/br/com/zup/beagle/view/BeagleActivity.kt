@@ -21,9 +21,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.WindowManager
+import androidx.annotation.AnimRes
+import androidx.annotation.AnimatorRes
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.R
@@ -113,6 +116,13 @@ abstract class BeagleActivity : AppCompatActivity() {
 
     abstract fun onServerDrivenContainerStateChanged(state: ServerDrivenState)
 
+    open fun getScreenTransitionAnimation() = ScreenTransitionAnimation(
+        R.anim.slide_from_right,
+        R.anim.none_animation,
+        R.anim.none_animation,
+        R.anim.slide_to_right
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         BeagleEnvironment.beagleSdk.designSystem?.let {
             setTheme(it.theme())
@@ -163,15 +173,18 @@ abstract class BeagleActivity : AppCompatActivity() {
     }
 
     private fun showScreen(screenName: String?, component: ServerDrivenComponent) {
-        val transaction = supportFragmentManager
+        val transition = getScreenTransitionAnimation()
+
+        supportFragmentManager
             .beginTransaction()
             .setCustomAnimations(
-                R.anim.slide_from_right, R.anim.none_animation,
-                R.anim.none_animation, R.anim.slide_to_right
+                transition.enter,
+                transition.exit,
+                transition.popEnter,
+                transition.popExit
             )
             .replace(getServerDrivenContainerId(), BeagleFragment.newInstance(component))
-
-        transaction.addToBackStack(screenName)
-        transaction.commit()
+            .addToBackStack(screenName)
+            .commit()
     }
 }
