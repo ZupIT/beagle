@@ -72,7 +72,7 @@ class UndefinedViewRendererTest : BaseTest() {
 
     @Test
     fun build_should_create_a_TexView_with_a_undefinedWidget_text() {
-        val actual = undefinedViewRenderer.build(rootView)
+        val actual = undefinedViewRenderer.buildView(rootView)
 
         assertTrue(actual is TextView)
         assertEquals("undefined component", textSlot.captured)
@@ -80,14 +80,14 @@ class UndefinedViewRendererTest : BaseTest() {
 
     @Test
     fun build_should_create_a_TexView_with_a_textColor_RED() {
-        undefinedViewRenderer.build(rootView)
+        undefinedViewRenderer.buildView(rootView)
 
         assertEquals(Color.RED, textColorSlot.captured)
     }
 
     @Test
     fun build_should_create_a_TexView_with_a_backgroundColor_YELLOW() {
-        undefinedViewRenderer.build(rootView)
+        undefinedViewRenderer.buildView(rootView)
 
         assertEquals(Color.YELLOW, backgroundColorSlot.captured)
     }
@@ -99,7 +99,7 @@ class UndefinedViewRendererTest : BaseTest() {
         every { viewFactory.makeView(any()) } returns textView
 
         // When
-        undefinedViewRenderer.build(rootView)
+        undefinedViewRenderer.buildView(rootView)
 
         // Then
         verify(exactly = once()) { viewFactory.makeView(context) }

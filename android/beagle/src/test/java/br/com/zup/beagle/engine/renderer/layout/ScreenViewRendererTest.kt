@@ -122,7 +122,7 @@ class ScreenViewRendererTest : BaseTest() {
         every { context.supportActionBar } returns null
 
         // When
-        screenViewRenderer.build(rootView)
+        screenViewRenderer.buildView(rootView)
 
         // Then
         assertEquals(1.0, flex.captured.grow)
@@ -138,7 +138,7 @@ class ScreenViewRendererTest : BaseTest() {
         every { context.supportActionBar } returns null
 
         // When
-        screenViewRenderer.build(rootView)
+        screenViewRenderer.buildView(rootView)
 
         // Then
         verify(atLeast = once()) { beagleFlexView.addServerDrivenComponent(content, rootView)}
@@ -154,7 +154,7 @@ class ScreenViewRendererTest : BaseTest() {
         every { toolbar.visibility } returns expected
 
         // WHEN
-        screenViewRenderer.build(rootView)
+        screenViewRenderer.buildView(rootView)
 
         // THEN
         assertEquals(expected, toolbar.visibility)
@@ -167,7 +167,7 @@ class ScreenViewRendererTest : BaseTest() {
         every { screenComponent.screenAnalyticsEvent } returns screenAnalyticsEvent
 
         // When
-        val view = screenViewRenderer.build(rootView)
+        val view = screenViewRenderer.buildView(rootView)
 
         // Then
         assertTrue(view is BeagleFlexView)
@@ -177,7 +177,7 @@ class ScreenViewRendererTest : BaseTest() {
     @Test
     fun should_keep_window_attach_callbacks_null_when_screen_event_not_presented() {
         // When
-        val view = screenViewRenderer.build(rootView)
+        val view = screenViewRenderer.buildView(rootView)
 
         // Then
         assertTrue(view is BeagleFlexView)
@@ -191,7 +191,7 @@ class ScreenViewRendererTest : BaseTest() {
         val onAttachStateChangeListenerSlot = CapturingSlot<View.OnAttachStateChangeListener>()
 
         // When
-        val screenView = screenViewRenderer.build(rootView)
+        val screenView = screenViewRenderer.buildView(rootView)
         verify { screenView.addOnAttachStateChangeListener(capture(onAttachStateChangeListenerSlot)) }
         onAttachStateChangeListenerSlot.captured.onViewAttachedToWindow(view)
         onAttachStateChangeListenerSlot.captured.onViewDetachedFromWindow(view)
@@ -212,7 +212,7 @@ class ScreenViewRendererTest : BaseTest() {
         every { screenComponent.navigationBar } returns navigationBar
 
         //WHEN
-        screenViewRenderer.build(rootView)
+        screenViewRenderer.buildView(rootView)
 
         //THEN
         verifyOrder {

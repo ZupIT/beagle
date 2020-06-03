@@ -92,7 +92,7 @@ class ScrollViewRendererTest : BaseTest() {
         every { scrollView.isVerticalScrollBarEnabled = capture(scrollBarEnabled) } just Runs
 
         // When
-        val view = scrollViewRenderer.build(rootView)
+        val view = scrollViewRenderer.buildView(rootView)
 
         // Then
         verify(exactly = once()) { viewFactory.makeScrollView(context) }
@@ -113,7 +113,7 @@ class ScrollViewRendererTest : BaseTest() {
         } just Runs
 
         // When
-        scrollViewRenderer.build(rootView)
+        scrollViewRenderer.buildView(rootView)
 
         // Then
         verify(exactly = once()) { viewFactory.makeHorizontalScrollView(context) }

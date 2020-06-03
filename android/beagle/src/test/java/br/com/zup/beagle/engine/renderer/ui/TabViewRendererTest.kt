@@ -103,7 +103,7 @@ class TabViewRendererTest : BaseTest() {
     @Test
     fun build_should_return_view_with_tablayout_and_viewpager() {
         // When
-        tabViewRenderer.build(rootView)
+        tabViewRenderer.buildView(rootView)
 
         // Then
         verify(exactly = once()) { beagleFlexView.addView(tabLayout) }
@@ -113,7 +113,7 @@ class TabViewRendererTest : BaseTest() {
     @Test
     fun build_should_add_listeners_to_tablayout_and_viewpager() {
         // When
-        tabViewRenderer.build(rootView)
+        tabViewRenderer.buildView(rootView)
 
         // Then
         verify(exactly = once()) { tabLayout.addOnTabSelectedListener(any()) }
@@ -123,7 +123,7 @@ class TabViewRendererTest : BaseTest() {
     @Test
     fun build_should_add_tabs() {
         // When
-        tabViewRenderer.build(rootView)
+        tabViewRenderer.buildView(rootView)
 
         // Then
         verify { tabLayout.setTabTextColors(any(), any()) }
