@@ -1,42 +1,44 @@
 {
-  "_beagleType_" : "beagle:component:form",
+  "_beagleComponent_" : "beagle:form",
   "action": {
-    "_beagleType_" : "beagle:action:formremoteaction",
+    "_beagleAction_" : "beagle:formremoteaction",
     "path" : "/sample/form",
     "method" : "POST"
   },
+  "additionalData" : {
+      "age" : "21",
+      "id" : "11111"
+  },
+  "group" : "group",
+  "shouldStoreFields" : true,
   "child" : {
-    "_beagleType_" : "beagle:component:container",
+    "_beagleComponent_" : "beagle:container",
     "children" : [ {
-      "_beagleType_" : "beagle:component:forminput",
+      "_beagleComponent_" : "beagle:forminput",
       "name" : "optional-field",
       "child" : {
-        "_beagleType_" : "beagle:component:text",
+        "_beagleComponent_" : "beagle:text",
         "text" : "text"
       }
     }, {
-      "_beagleType_" : "beagle:component:forminputhidden",
-      "name" : "id",
-      "value" : "123"
-    }, {
-      "_beagleType_" : "beagle:component:forminput",
+      "_beagleComponent_" : "beagle:forminput",
       "name" : "another-required-field",
       "required" : true,
       "validator" : "text-is-not-blank",
       "child" : {
-        "_beagleType_" : "custom:component:unknown",
+        "_beagleComponent_" : "custom:unknown",
         "unknown" : "unknown"
       }
     }, {
-      "_beagleType_" : "beagle:component:container",
+      "_beagleComponent_" : "beagle:container",
       "children" : [ ],
       "flex" : {
         "grow" : 1.0
       }
     }, {
-      "_beagleType_" : "beagle:component:formsubmit",
+      "_beagleComponent_" : "beagle:formsubmit",
       "child" : {
-        "_beagleType_" : "beagle:component:button",
+        "_beagleComponent_" : "beagle:button",
         "text" : "Submit Form",
         "style" : "DesignSystem.Form.Submit",
         "flex" : {

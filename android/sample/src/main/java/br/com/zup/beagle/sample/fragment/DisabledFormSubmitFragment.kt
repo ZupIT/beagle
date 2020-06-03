@@ -29,7 +29,7 @@ import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
-import br.com.zup.beagle.widget.core.Alignment
+import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.form.Form
 import br.com.zup.beagle.widget.form.FormInput
@@ -82,7 +82,7 @@ class DisabledFormSubmitFragment : Fragment() {
         return FormSubmit(
             child = Button(text = "Flag").applyFlex(
                 flex = Flex(
-                    alignSelf = Alignment.CENTER,
+                    alignSelf = AlignSelf.CENTER,
                     size = Size(
                         width = UnitValue(95.0, UnitType.PERCENT)
                     ),
@@ -109,7 +109,7 @@ class DisabledFormSubmitFragment : Fragment() {
                     size = Size(
                         width = UnitValue(92.0, UnitType.PERCENT)
                     ),
-                    alignSelf = Alignment.CENTER
+                    alignSelf = AlignSelf.CENTER
                 )
             ),
             validator = charade.validator
@@ -123,7 +123,7 @@ class DisabledFormSubmitFragment : Fragment() {
             color = "#3380FF"
         ).applyFlex(
             Flex(
-                alignSelf = Alignment.CENTER,
+                alignSelf = AlignSelf.CENTER,
                 margin = EdgeValue(
                     top = UnitValue(5.0, UnitType.REAL)
                 )
@@ -137,7 +137,7 @@ class DisabledFormSubmitFragment : Fragment() {
             alignment = TextAlignment.CENTER
         ).applyFlex(
             Flex(
-                alignSelf = Alignment.CENTER,
+                alignSelf = AlignSelf.CENTER,
                 margin = EdgeValue(
                     top = UnitValue(45.0, UnitType.REAL),
                     start = UnitValue(10.0, UnitType.REAL),

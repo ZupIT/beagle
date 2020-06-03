@@ -38,13 +38,6 @@ public class NetworkClientDefault: NetworkClient {
         _ request: Request,
         completion: @escaping RequestCompletion
     ) -> RequestToken? {
-        switch request.type {
-        case .fetchComponent, .submitForm:
-            return doRequest(request, completion: completion)
-        case .fetchImage:
-            break
-        }
-
         return doRequest(request, completion: completion)
     }
 

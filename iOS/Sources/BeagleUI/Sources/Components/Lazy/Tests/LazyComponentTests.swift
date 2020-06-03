@@ -35,13 +35,14 @@ final class LazyComponentTests: XCTestCase {
     func test_toView_shouldReturnTheExpectedView() {
         // Given
         let lazyComponent = LazyComponent(path: "path", initialState: ComponentDummy())
-        let context = BeagleContextSpy()
+        let lazyLoadManagerSpy = LazyLoadManagerSpy()
+        let context = BeagleContextSpy(lazyLoadManager: lazyLoadManagerSpy)
         
         // When
         _ = lazyComponent.toView(context: context, dependencies: BeagleScreenDependencies())
         
         // Then
-        XCTAssertTrue(context.didCallLazyLoad)
+        XCTAssertTrue(lazyLoadManagerSpy.didCallLazyLoad)
     }
     
     func test_loadUnknowComponent_shouldRenderTheError() {

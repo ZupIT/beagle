@@ -1,5 +1,5 @@
 {
-  "_beagleType_": "beagle:component:Text",
+  "_beagleComponent_": "beagle:Text",
   "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   "style": "test.text.style",
   "alignment": "RIGHT",

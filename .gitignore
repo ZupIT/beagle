@@ -52,3 +52,5 @@ build/
 ### Fastane ###
 /fastlane/report.xml
 codecov_reporter.sh
+
+jacoco.exec

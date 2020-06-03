@@ -17,7 +17,7 @@
 package br.com.zup.beagle.utils
 
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.NavigationType
+import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.enums.BeaglePlatform
 import br.com.zup.beagle.serialization.jackson.BeagleSerializationUtil
@@ -96,12 +96,13 @@ internal class BeaglePlatformUtilTest {
                 ),
                 Button(
                     text = freeForAllText,
-                    action = Navigate(
-                        type = NavigationType.ADD_VIEW,
-                        screen = Screen(
-                            child = CustomButton(
-                                text = webText,
-                                beaglePlatform = BeaglePlatform.WEB
+                    action = Navigate.PushView(
+                        Route.Local(
+                            Screen(
+                                child = CustomButton(
+                                    text = webText,
+                                    beaglePlatform = BeaglePlatform.WEB
+                                )
                             )
                         )
                     )
