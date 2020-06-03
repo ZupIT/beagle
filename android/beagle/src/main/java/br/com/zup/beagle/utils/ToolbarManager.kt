@@ -18,11 +18,7 @@ package br.com.zup.beagle.utils
 
 import android.content.Context
 import android.os.Build
-import android.view.Gravity
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
@@ -73,8 +69,7 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
     ) {
         val designSystem = BeagleEnvironment.beagleSdk.designSystem
         val style = navigationBar.style ?: ""
-        if (designSystem != null) {
-            val toolbarStyle = designSystem.toolbarStyle(style)
+        designSystem?.toolbarStyle(style)?.let { toolbarStyle ->
             val typedArray = context.obtainStyledAttributes(
                 toolbarStyle,
                 R.styleable.BeagleToolbarStyle

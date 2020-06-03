@@ -21,10 +21,14 @@ import androidx.annotation.StyleRes
 import br.com.zup.beagle.R
 
 abstract class DesignSystem {
-    @DrawableRes open fun image(name: String): Int? = null
-    @StyleRes abstract fun theme(): Int
-    @StyleRes open fun textAppearance(name: String): Int? = null
-    @StyleRes open fun buttonStyle(name: String): Int? = null
-    @StyleRes abstract fun toolbarStyle(name: String): Int
-    @StyleRes abstract fun tabViewStyle(name: String): Int?
+    @DrawableRes
+    open fun image(name: String): Int? = null
+    @StyleRes
+    open fun textAppearance(name: String): Int? = null
+    @StyleRes
+    open fun buttonStyle(name: String): Int? = null
+    @StyleRes
+    open fun toolbarStyle(name: String): Int? = null
+    @StyleRes
+    open fun tabViewStyle(name: String): Int? = null
 }

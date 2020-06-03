@@ -22,15 +22,15 @@ import br.com.zup.beagle.setup.DesignSystem
 @BeagleComponent
 class AppDesignSystem : DesignSystem() {
 
-    override fun toolbarStyle(name: String): Int {
-        return when(name) {
+    override fun toolbarStyle(name: String): Int? {
+        return when (name) {
             "DesignSystem.Navigationbar.Style.Green" -> R.style.DesignSystem_Navigationbar_Style
             "DesignSystem.Toolbar.Center" -> R.style.DesignSystem_Toolbar_Center
             else -> R.style.DesignSystem_Toolbar
         }
     }
 
-    override fun tabViewStyle(name: String) = R.style.DesignSystem_TabView_Default
+    override fun tabViewStyle(name: String): Int? = R.style.DesignSystem_TabView_Default
 
     override fun image(name: String): Int? {
         return when (name) {
@@ -41,10 +41,6 @@ class AppDesignSystem : DesignSystem() {
             "beagle" -> R.drawable.beagle
             else -> android.R.drawable.ic_menu_help
         }
-    }
-
-    override fun theme(): Int {
-        return R.style.AppTheme_NoToolbar
     }
 
     override fun textAppearance(name: String): Int? {
