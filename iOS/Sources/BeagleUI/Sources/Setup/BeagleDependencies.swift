@@ -32,7 +32,7 @@ public protocol BeagleDependenciesProtocol: DependencyActionExecutor,
     DependencyWindowManager,
     DependencyURLOpener,
     DependencyCacheManager,
-DependencyFormDataStoreHandler,
+    DependencyFormDataStoreHandler,
     DependencyRenderer {
 }
 
@@ -40,7 +40,6 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var schemaDependencies: SchemaDependencies
     public var urlBuilder: UrlBuilderProtocol
     public var networkClient: NetworkClient
-    public var decoder: ComponentDecoding
     public var appBundle: Bundle
     public var theme: Theme
     public var validatorProvider: ValidatorProvider?
@@ -76,7 +75,6 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         let resolver = InnerDependenciesResolver()
         self.resolver = resolver
         self.urlBuilder = UrlBuilder()
-        self.decoder = ComponentDecoder()
         self.preFetchHelper = BeaglePreFetchHelper(dependencies: resolver)
         self.customActionHandler = nil
         self.appBundle = Bundle.main
@@ -116,7 +114,7 @@ DependencyURLOpener {
     
     var schemaDependencies: SchemaDependencies { return container().schemaDependencies }
     var urlBuilder: UrlBuilderProtocol { return container().urlBuilder }
-    var decoder: ComponentDecoding { return container().decoder }
+    //var decoder: ComponentDecoding { return container().decoder }
     var networkClient: NetworkClient { return container().networkClient }
     var navigationControllerType: BeagleNavigationController.Type { return container().navigationControllerType }
     var navigation: BeagleNavigation { return container().navigation }

@@ -20,15 +20,15 @@ public protocol DependencySchema {
     var schemaDependencies: SchemaDependencies { get }
 }
 
-extension DependencySchema {
-    public var loggerHelper: SchemaLoggerHelper? {
-        return schemaDependencies.loggerHelper
-    }
-    
-    public var decoder: ComponentDecoding {
-        return schemaDependencies.decoder
-    }
-}
+//extension DependencySchema {
+//    public var loggerHelper: SchemaLoggerHelper? {
+//        return schemaDependencies.loggerHelper
+//    }
+//
+//    public var decoder: ComponentDecoding {
+//        return schemaDependencies.decoder
+//    }
+//}
 
 typealias SchemaAttributes = DependencyComponentDecoding & DependencyLoggerHelper
 

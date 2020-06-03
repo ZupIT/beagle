@@ -40,7 +40,8 @@ final class BeagleSetupTests: XCTestCase {
         }
         dep.networkClient = NetworkClientDummy()
         dep.flex = { _ in return FlexViewConfiguratorDummy() }
-        dep.decoder = ComponentDecodingDummy()
+        //TODO: create a SchemaDependenciesDummy
+        dep.schemaDependencies.decoder = ComponentDecodingDummy()
         dep.cacheManager = nil
         dep.logger = BeagleLoggerDumb()
         dep.windowManager = WindowManagerDumb()

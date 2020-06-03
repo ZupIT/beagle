@@ -22,7 +22,7 @@ public struct AnyDecodableContainer {
 }
 
 // MARK: - Decodable
-//TODO: Resolve Logger
+
 extension AnyDecodableContainer: Decodable {
     
     enum CodingKeys: String, CodingKey {

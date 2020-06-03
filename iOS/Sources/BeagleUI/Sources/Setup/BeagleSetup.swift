@@ -29,7 +29,7 @@ public class Beagle {
         _ name: String,
         componentType: C.Type
     ) {
-        dependencies.decoder.register(componentType, for: name)
+        dependencies.schemaDependencies.decoder.register(componentType, for: name)
     }
 
     public static func screen(_ type: ScreenType) -> BeagleScreenViewController {

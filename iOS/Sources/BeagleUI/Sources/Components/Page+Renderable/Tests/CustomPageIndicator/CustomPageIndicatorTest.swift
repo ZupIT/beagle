@@ -30,14 +30,14 @@ class CustomPageIndicatorTest: XCTestCase {
     )
     
     private lazy var decoder: ComponentDecoding = {
-        Beagle.dependencies.decoder
+        Beagle.dependencies.schemaDependencies.decoder
     }()
     private lazy var dependencies = BeagleScreenDependencies()
     
     override func setUp() {
         super.setUp()
         Beagle.dependencies = BeagleDependencies()
-        Beagle.dependencies.decoder.register(
+        Beagle.dependencies.schemaDependencies.decoder.register(
             CustomPageIndicator.self,
             for: CustomPageIndicatorTest.typeName
         )

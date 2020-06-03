@@ -89,7 +89,7 @@ class BeagleScreenViewModel {
 
     func loadScreenFromText(_ text: String) -> Screen? {
         guard let data = text.data(using: .utf8) else { return nil }
-        let component = try? self.dependencies.decoder.decodeComponent(from: data)
+        let component = try? self.dependencies.schemaDependencies.decoder.decodeComponent(from: data)
 
         guard let screen = component as? ScreenComponent else {
             return nil
