@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.data.serializer.adapter
 
-//import br.com.zup.beagle.annotation.ContextDataValue
 import br.com.zup.beagle.annotation.ContextDataValue
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonReader
