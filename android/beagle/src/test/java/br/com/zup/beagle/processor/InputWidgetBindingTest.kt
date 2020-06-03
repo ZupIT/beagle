@@ -16,10 +16,13 @@
 
 package br.com.zup.beagle.processor
 
+import android.content.Context
 import android.view.View
 import br.com.zup.beagle.core.Bind
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BindingAdapter
+import br.com.zup.beagle.testutil.RandomData
+import br.com.zup.beagle.testutil.setPrivateField
 import br.com.zup.beagle.widget.form.InputWidget
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -43,23 +46,21 @@ class InputWidgetBindingTest {
     lateinit var view: View
 
     @RelaxedMockK
+    lateinit var context: Context
+
+    @RelaxedMockK
     lateinit var widget: CustomInputWidget
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        setInstanceField(widgetBinding, WIDGET_INSTANCE_PROPERTY, widget)
-        setInstanceField(widgetBinding, VIEW_PROPERTY, view)
+
+        widgetBinding.setPrivateField(WIDGET_INSTANCE_PROPERTY, widget)
+        widgetBinding.setPrivateField(VIEW_PROPERTY, view)
     }
 
     fun after() {
         unmockkAll()
-    }
-
-    private fun setInstanceField(instanceObject: Any, propertyName: String, destinationObject: Any) {
-        val widgetInstanceField = instanceObject::class.java.getDeclaredField(propertyName)
-        widgetInstanceField.isAccessible = true
-        widgetInstanceField.set(instanceObject, destinationObject)
     }
 
     @Test
@@ -78,7 +79,7 @@ class InputWidgetBindingTest {
     fun widget_should_call_on_bind_at_least_once() {
 
         //when
-        widgetBinding.bindModel()
+        widgetBinding.buildView(context)
 
         //then
         verify(atLeast = once()) { widget.onBind(any(), any()) }
@@ -88,33 +89,15 @@ class InputWidgetBindingTest {
     fun widget_should_call_observe_on_parameters() {
 
         //when
-        widgetBinding.bindModel()
+        widgetBinding.buildView(context)
 
         //then
         verify(atLeast = once()) { widgetBinding.text.observes(any()) }
     }
 
     @Test
-    fun widget_should_call_notify_widget_default_values() {
-
-        //given
-        val propertyValue = "DUMMY"
-
-        every { widget.text } returns propertyValue
-
-        val expected = CustomInputWidget(text = propertyValue)
-
-        //when
-        widgetBinding.bindModel()
-
-        //then
-        verify(exactly = once()) { widget.onBind(expected, view) }
-    }
-
-    @Test
     fun widget_should_call_on_get_value() {
-
-        //when
+        // Given When
         widgetBinding.getValue()
 
         //then
@@ -123,8 +106,8 @@ class InputWidgetBindingTest {
 
     @Test
     fun widget_should_call_on_error_message() {
-
-        val message = "DUMMY"
+        // Given
+        val message = RandomData.string()
 
         //when
         widgetBinding.onErrorMessage(message)

@@ -131,7 +131,7 @@ internal object ComponentJsonAdapterFactory {
     }
 
     private fun createNamespace(appNamespace: String, clazz: Class<*>): String {
-        val typeName = clazz.simpleName.toLowerCase(Locale.getDefault()).replace("binding", "")
+        val typeName = clazz.simpleName.toLowerCase(Locale.getDefault())
         return "$appNamespace:$typeName"
     }
 }
