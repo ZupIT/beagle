@@ -19,7 +19,7 @@ package br.com.zup.beagle.view
 import androidx.annotation.AnimRes
 import androidx.annotation.AnimatorRes
 
-data class ScreenTransitionAnimation(
+data class FragmentTransitionAnimation(
     @AnimatorRes
     @AnimRes
     val enter: Int,

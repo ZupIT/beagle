@@ -20,11 +20,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.FragmentTransaction
 import br.com.zup.beagle.annotation.BeagleComponent
 import br.com.zup.beagle.sample.R
 import br.com.zup.beagle.view.BeagleActivity
-import br.com.zup.beagle.view.ScreenTransitionAnimation
+import br.com.zup.beagle.view.FragmentTransitionAnimation
 import br.com.zup.beagle.view.ServerDrivenState
 import com.google.android.material.snackbar.Snackbar
 
@@ -53,7 +52,7 @@ class SampleServerDrivenActivity : BeagleActivity() {
         }
     }
 
-    override fun getScreenTransitionAnimation() = ScreenTransitionAnimation(
+    override fun getFragmentTransitionAnimation() = FragmentTransitionAnimation(
         br.com.zup.beagle.R.anim.slide_from_right,
         br.com.zup.beagle.R.anim.none_animation,
         br.com.zup.beagle.R.anim.none_animation,

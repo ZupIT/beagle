@@ -21,12 +21,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.WindowManager
-import androidx.annotation.AnimRes
-import androidx.annotation.AnimatorRes
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.R
@@ -116,7 +113,7 @@ abstract class BeagleActivity : AppCompatActivity() {
 
     abstract fun onServerDrivenContainerStateChanged(state: ServerDrivenState)
 
-    open fun getScreenTransitionAnimation() = ScreenTransitionAnimation(
+    open fun getFragmentTransitionAnimation() = FragmentTransitionAnimation(
         R.anim.slide_from_right,
         R.anim.none_animation,
         R.anim.none_animation,
@@ -173,7 +170,7 @@ abstract class BeagleActivity : AppCompatActivity() {
     }
 
     private fun showScreen(screenName: String?, component: ServerDrivenComponent) {
-        val transition = getScreenTransitionAnimation()
+        val transition = getFragmentTransitionAnimation()
 
         supportFragmentManager
             .beginTransaction()
