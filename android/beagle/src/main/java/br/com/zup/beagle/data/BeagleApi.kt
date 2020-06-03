@@ -17,7 +17,6 @@
 package br.com.zup.beagle.data
 
 import br.com.zup.beagle.exception.BeagleApiException
-import br.com.zup.beagle.exception.BeagleException
 import br.com.zup.beagle.logger.BeagleMessageLogs
 import br.com.zup.beagle.networking.HttpClient
 import br.com.zup.beagle.networking.HttpClientFactory
@@ -39,8 +38,8 @@ internal class BeagleApi(
             onSuccess = { response ->
                 BeagleMessageLogs.logHttpResponseData(response)
                 cont.resume(response)
-            }, onError = { error ->
-            val exception = BeagleApiException(error, error.toString())
+            }, onError = { response ->
+            val exception = BeagleApiException(response)
             BeagleMessageLogs.logUnknownHttpError(exception)
             cont.resumeWithException(
                 exception

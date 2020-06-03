@@ -22,4 +22,4 @@ internal class BeagleApiException
 constructor(
     val responseData: ResponseData,
     override val message: String = responseData.toString()
-) : Exception(message)
+) : BeagleException(message)
