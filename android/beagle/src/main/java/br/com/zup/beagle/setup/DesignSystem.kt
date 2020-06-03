@@ -18,9 +18,8 @@ package br.com.zup.beagle.setup
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StyleRes
-import br.com.zup.beagle.R
 
-abstract class DesignSystem {
+open class DesignSystem {
     @DrawableRes
     open fun image(name: String): Int? = null
     @StyleRes
