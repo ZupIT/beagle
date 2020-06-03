@@ -26,36 +26,31 @@ import br.com.zup.beagle.data.serializer.BeagleSerializer
 import br.com.zup.beagle.engine.renderer.ActivityRootView
 import br.com.zup.beagle.engine.renderer.FragmentRootView
 import br.com.zup.beagle.engine.renderer.RootView
-import br.com.zup.beagle.view.RenderCompletedListener
+import br.com.zup.beagle.view.OnStateChanged
 import br.com.zup.beagle.view.ScreenRequest
-import br.com.zup.beagle.view.StateChangedListener
 
 internal var beagleSerializerFactory = BeagleSerializer()
 
-fun ViewGroup.loadView(activity: AppCompatActivity,
-                       screenRequest: ScreenRequest,
-                       listener: StateChangedListener? = null
-) {
+fun ViewGroup.loadView(activity: AppCompatActivity, screenRequest: ScreenRequest, listener: OnStateChanged? = null) {
     loadView(this, ActivityRootView(activity), screenRequest, listener)
 }
 
-fun ViewGroup.loadView(fragment: Fragment, screenRequest: ScreenRequest, listener: StateChangedListener? = null) {
+fun ViewGroup.loadView(fragment: Fragment, screenRequest: ScreenRequest, listener: OnStateChanged? = null) {
     loadView(this, FragmentRootView(fragment), screenRequest, listener)
 }
 
-private fun loadView(viewGroup: ViewGroup,
-                     rootView: RootView,
-                     screenRequest: ScreenRequest,
-                     listener: StateChangedListener?
+private fun loadView(
+    viewGroup: ViewGroup,
+    rootView: RootView,
+    screenRequest: ScreenRequest,
+    listener: OnStateChanged?
 ) {
     val view = viewExtensionsViewFactory.makeBeagleView(viewGroup.context).apply {
         loadView(rootView, screenRequest)
         stateChangedListener = listener
     }
-    view.renderCompletedListener = object : RenderCompletedListener {
-        override fun onLoadCompleted() {
-            viewGroup.addView(view)
-        }
+    view.loadCompletedListener = {
+        viewGroup.addView(view)
     }
 }
 

@@ -17,8 +17,6 @@
 package br.com.zup.beagle.utils
 
 import android.app.Activity
-import android.content.res.TypedArray
-import android.graphics.drawable.Drawable
 import android.os.IBinder
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +26,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.BaseTest
-import br.com.zup.beagle.engine.mapper.ViewMapper
 import br.com.zup.beagle.engine.renderer.ActivityRootView
 import br.com.zup.beagle.engine.renderer.FragmentRootView
 import br.com.zup.beagle.extensions.once
@@ -37,24 +34,21 @@ import br.com.zup.beagle.setup.DesignSystem
 import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.view.BeagleButtonView
 import br.com.zup.beagle.view.BeagleView
-import br.com.zup.beagle.view.RenderCompletedListener
+import br.com.zup.beagle.view.OnLoadCompleted
+import br.com.zup.beagle.view.OnStateChanged
 import br.com.zup.beagle.view.ScreenRequest
-import br.com.zup.beagle.view.StateChangedListener
 import br.com.zup.beagle.view.ViewFactory
-import br.com.zup.beagle.widget.ui.Button
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
-import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import kotlin.test.assertFails
 
 private val URL = RandomData.httpUrl()
 private val screenRequest = ScreenRequest(URL)
@@ -72,8 +66,8 @@ class ViewExtensionsKtTest : BaseTest() {
     @RelaxedMockK
     private lateinit var beagleView: BeagleView
     @MockK
-    private lateinit var stateChangedListener: StateChangedListener
-    @MockK(relaxed = true)
+    private lateinit var onStateChanged: OnStateChanged
+    @RelaxedMockK
     private lateinit var inputMethodManager: InputMethodManager
     @MockK
     private lateinit var iBinder: IBinder
@@ -138,12 +132,12 @@ class ViewExtensionsKtTest : BaseTest() {
     @Test
     fun `loadView should addView when load complete`() {
         // Given
-        val slot = slot<RenderCompletedListener>()
-        every { beagleView.renderCompletedListener = capture(slot) } just Runs
+        val slot = slot<OnLoadCompleted>()
+        every { beagleView.loadCompletedListener = capture(slot) } just Runs
 
         // When
         viewGroup.loadView(fragment, screenRequest)
-        slot.captured.onLoadCompleted()
+        slot.captured.invoke()
 
         // Then
         assertEquals(beagleView, viewSlot.captured)
@@ -153,14 +147,14 @@ class ViewExtensionsKtTest : BaseTest() {
     @Test
     fun `loadView should set stateChangedListener to beagleView`() {
         // Given
-        val slot = slot<StateChangedListener>()
+        val slot = slot<OnStateChanged>()
         every { beagleView.stateChangedListener = capture(slot) } just Runs
 
         // When
-        viewGroup.loadView(fragment, screenRequest, stateChangedListener)
+        viewGroup.loadView(fragment, screenRequest, onStateChanged)
 
         // Then
-        assertEquals(slot.captured, stateChangedListener)
+        assertEquals(slot.captured, onStateChanged)
     }
 
     @Test
