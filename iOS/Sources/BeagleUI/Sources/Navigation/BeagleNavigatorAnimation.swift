@@ -37,49 +37,17 @@ public struct BeagleNavigatorAnimation {
 }
 
 public struct Transition {
-    var type: TransitionType?
-    var subtype: TransitionSubtype?
+    var type: CATransitionType?
+    var subtype: CATransitionSubtype?
     var duration: Double?
     
     public init(
-        type: TransitionType? = nil,
-        subtype: TransitionSubtype? = nil,
+        type: CATransitionType? = .moveIn,
+        subtype: CATransitionSubtype? = nil,
         duration: Double? = nil
     ) {
         self.type = type
         self.subtype = subtype
         self.duration = duration
-    }
-}
-
-public enum TransitionType {
-    case fadeIn
-    case moveIn
-    case push
-    case reveal
-    
-    func toCATransitionType() -> CATransitionType {
-        switch self {
-        case .fadeIn: return CATransitionType.fade
-        case .moveIn: return CATransitionType.moveIn
-        case .push: return CATransitionType.push
-        case .reveal: return CATransitionType.reveal
-        }
-    }
-}
-
-public enum TransitionSubtype {
-    case fromRight
-    case fromLeft
-    case fromTop
-    case fromBottom
-    
-    func toCATransitionSubtype() -> CATransitionSubtype {
-        switch self {
-        case .fromRight: return CATransitionSubtype.fromRight
-        case .fromLeft: return CATransitionSubtype.fromLeft
-        case .fromTop: return CATransitionSubtype.fromTop
-        case .fromBottom: return CATransitionSubtype.fromBottom
-        }
     }
 }

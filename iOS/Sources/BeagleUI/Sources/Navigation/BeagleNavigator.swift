@@ -86,7 +86,7 @@ class BeagleNavigator: BeagleNavigation {
             guard let deepLinkHandler = dependencies.deepLinkHandler else { return }
             let viewController = try deepLinkHandler.getNativeScreen(with: path, data: data)
             
-            if let transition = getPushTransition() {
+            if let transition = getTransition(transition: .push) {
                 source.navigationController?.view.layer.add(transition, forKey: nil)
             }
             
@@ -110,7 +110,7 @@ class BeagleNavigator: BeagleNavigation {
     }
     
     private func pushView(with type: Route, context: BeagleContext, animated: Bool) {
-        if let transition = getPushTransition() {
+        if let transition = getTransition(transition: .push) {
             context.screenController.navigationController?.view.layer.add(transition, forKey: nil)
         }
         context.screenController.navigationController?.pushViewController(viewControllerToPresent(type), animated: animated)
@@ -120,7 +120,7 @@ class BeagleNavigator: BeagleNavigation {
         if source.navigationController?.viewControllers.count == 1 {
             dependencies.logger.log(Log.navigation(.errorTryingToPopScreenOnNavigatorWithJustOneScreen))
         }
-        if let transition = getPopTransition() {
+        if let transition = getTransition(transition: .pop) {
             source.navigationController?.view.layer.add(transition, forKey: nil)
         }
         source.navigationController?.popViewController(animated: animated)
@@ -139,7 +139,7 @@ class BeagleNavigator: BeagleNavigation {
             dependencies.logger.log(Log.navigation(.cantPopToAlreadyCurrentScreen(identifier: identifier)))
             return
         }
-        if let transition = getPopTransition() {
+        if let transition = getTransition(transition: .pop) {
             source.navigationController?.view.layer.add(transition, forKey: nil)
         }
         source.navigationController?.popToViewController(target, animated: animated)
@@ -214,29 +214,30 @@ class BeagleNavigator: BeagleNavigation {
         ))
     }
 
-    private func getPushTransition() -> CATransition? {
-        if let animation = defaultAnimation,
-            let pushTransition = animation.pushTransition,
-            let transition = pushTransition.type {
-            let caTransition = CATransition()
-            caTransition.duration = pushTransition.duration ?? 0.5
-            caTransition.type = transition.toCATransitionType()
-            caTransition.subtype = pushTransition.subtype?.toCATransitionSubtype()
-            return caTransition
+    private func getTransition(transition: TransitionType) -> CATransition? {
+        if let animation = defaultAnimation {
+            switch transition {
+            case .push:
+                let caTransition = CATransition()
+                caTransition.duration = animation.pushTransition?.duration ?? 0.5
+                caTransition.type = animation.pushTransition?.type ?? .moveIn
+                caTransition.subtype = animation.pushTransition?.subtype
+                return caTransition
+            case .pop:
+                let caTransition = CATransition()
+                caTransition.duration = animation.popTransition?.duration ?? 0.5
+                caTransition.type = animation.popTransition?.type ?? .moveIn
+                caTransition.subtype = animation.popTransition?.subtype
+                return caTransition
+            }
         }
         return nil
     }
-    
-    private func getPopTransition() -> CATransition? {
-        if let animation = defaultAnimation,
-            let popTransition = animation.popTransition,
-            let transition = popTransition.type {
-            let caTransition = CATransition()
-            caTransition.duration = popTransition.duration ?? 0.5
-            caTransition.type = transition.toCATransitionType()
-            caTransition.subtype = popTransition.subtype?.toCATransitionSubtype()
-            return caTransition
-        }
-        return nil
+}
+
+private extension BeagleNavigator {
+    enum TransitionType {
+        case push
+        case pop
     }
 }

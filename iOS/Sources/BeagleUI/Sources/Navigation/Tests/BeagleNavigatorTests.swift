@@ -304,14 +304,14 @@ final class BeagleNavigatorTests: XCTestCase {
     }
     
     func test_whenHasPushTransitionAndPushViewAction_shouldApplyItProperly() {
-        let defaultAnimation = BeagleNavigatorAnimation(pushTransition: .init(type: .fadeIn, subtype: .fromBottom, duration: 1.0))
+        let defaultAnimation = BeagleNavigatorAnimation(pushTransition: .init(type: .fade, subtype: .fromBottom, duration: 1.0))
         let navigateDeclarative = Navigate.pushView(.declarative(Screen(child: Text("Declarative"))))
 
         test_defaultTransitionTypes(defaultAnimation, navigate: navigateDeclarative)
     }
     
     func test_whenHasPushTransitionAndOpenNativeAction_shouldApplyItProperly() {
-        let defaultAnimation = BeagleNavigatorAnimation(pushTransition: .init(type: .fadeIn, subtype: .fromBottom, duration: 1.0))
+        let defaultAnimation = BeagleNavigatorAnimation(pushTransition: .init(type: .fade, subtype: .fromBottom, duration: 1.0))
         let data = ["uma": "uma", "dois": "duas"]
         let path = "https://example.com/screen.json"
         let navigate = Navigate.openNativeRoute(path, data: data)
@@ -320,14 +320,14 @@ final class BeagleNavigatorTests: XCTestCase {
     }
     
     func test_whenHasPopTransition_shouldApplyItProperly() {
-        let defaultAnimation = BeagleNavigatorAnimation(popTransition: .init(type: .fadeIn, subtype: .fromRight, duration: 1.0))
+        let defaultAnimation = BeagleNavigatorAnimation(popTransition: .init(type: .fade, subtype: .fromRight, duration: 1.0))
         let navigate = Navigate.popView
         
         test_defaultTransitionTypes(defaultAnimation, navigate: navigate)
     }
     
     func test_whenHasPopTransitionAndPopToView_shouldApplyItProperly() {
-        let defaultAnimation = BeagleNavigatorAnimation(popTransition: .init(type: .fadeIn, subtype: .fromRight, duration: 1.0))
+        let defaultAnimation = BeagleNavigatorAnimation(popTransition: .init(type: .fade, subtype: .fromRight, duration: 1.0))
         let screenURL3 = "https://example.com/screen3.json"
         let navigate = Navigate.popToView(screenURL3)
         
