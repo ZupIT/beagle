@@ -21,7 +21,6 @@ import Schema
 final class RepositoryTests: XCTestCase {
 
     private struct Dependencies: RepositoryDefault.Dependencies {
-        var schemaDependencies: SchemaDependencies
         var logger: BeagleLoggerType
         var urlBuilder: UrlBuilderProtocol
         
@@ -39,7 +38,6 @@ final class RepositoryTests: XCTestCase {
             decoder: ComponentDecoding = ComponentDecodingDummy()
         ) {
             self.logger = logger
-            self.schemaDependencies = SchemaDependencies(loggerHelper: self.logger)
             self.urlBuilder = urlBuilder
             self.cacheManager = cacheManager
             self.baseURL = baseURL

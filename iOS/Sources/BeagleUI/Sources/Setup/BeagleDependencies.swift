@@ -20,7 +20,7 @@ import Schema
 public protocol BeagleDependenciesProtocol: DependencyActionExecutor,
     DependencyAnalyticsExecutor,
     DependencyUrlBuilder,
-    DependencySchema,
+    Schema.Dependencies,
     DependencyNetworkClient,
     DependencyDeepLinkScreenManaging,
     DependencyCustomActionHandler,
@@ -37,7 +37,7 @@ public protocol BeagleDependenciesProtocol: DependencyActionExecutor,
 }
 
 open class BeagleDependencies: BeagleDependenciesProtocol {
-    public var schemaDependencies: SchemaDependencies
+
     public var urlBuilder: UrlBuilderProtocol
     public var networkClient: NetworkClient
     public var appBundle: Bundle
@@ -57,6 +57,13 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var windowManager: WindowManager
     public var opener: URLOpener
 
+    // MARK: Schema
+
+    public var decoder: ComponentDecoding
+    public var schemaLogger: SchemaLogger? { return logger }
+
+    // MARK: Builders
+
     public var renderer: (BeagleContext, RenderableDependencies) -> BeagleRenderer = {
         return BeagleRenderer(context: $0, dependencies: $1)
     }
@@ -74,6 +81,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public init() {
         let resolver = InnerDependenciesResolver()
         self.resolver = resolver
+
         self.urlBuilder = UrlBuilder()
         self.preFetchHelper = BeaglePreFetchHelper(dependencies: resolver)
         self.customActionHandler = nil
@@ -81,20 +89,22 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.theme = AppTheme(styles: [:])
         self.navigationControllerType = BeagleNavigationController.self
         self.logger = BeagleLogger()
-        self.schemaDependencies = SchemaDependencies(loggerHelper: logger)
+        self.decoder = Schema.DefaultDependencies().decoder
+        self.formDataStoreHandler = FormDataStoreHandler()
+        self.windowManager = WindowManagerDefault()
         
         self.networkClient = NetworkClientDefault(dependencies: resolver)
         self.navigation = BeagleNavigator(dependencies: resolver)
         self.actionExecutor = ActionExecuting(dependencies: resolver)
         self.repository = RepositoryDefault(dependencies: resolver)
         self.cacheManager = CacheManagerDefault(dependencies: resolver)
-        self.formDataStoreHandler = FormDataStoreHandler()
-        self.windowManager = WindowManagerDefault()
         self.opener = URLOpenerDefault(dependencies: resolver)
 
         self.resolver.container = { [unowned self] in self }
     }
 }
+
+// MARK: Resolver
 
 /// This class helps solving the problem of using the same dependency container to resolve
 /// dependencies within dependencies.
@@ -106,15 +116,17 @@ private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     DependencyDeepLinkScreenManaging,
     DependencyRepository,
     DependencyWindowManager,
-DependencyURLOpener {
+    DependencyURLOpener,
+    Schema.DependencyLogger {
     
     var container: () -> BeagleDependenciesProtocol = {
         fatalError("You should set this closure to get the dependencies container")
     }
-    
-    var schemaDependencies: SchemaDependencies { return container().schemaDependencies }
+
+    var decoder: ComponentDecoding { return container().decoder }
+    var schemaLogger: SchemaLogger? { return container().logger }
+
     var urlBuilder: UrlBuilderProtocol { return container().urlBuilder }
-    //var decoder: ComponentDecoding { return container().decoder }
     var networkClient: NetworkClient { return container().networkClient }
     var navigationControllerType: BeagleNavigationController.Type { return container().navigationControllerType }
     var navigation: BeagleNavigation { return container().navigation }

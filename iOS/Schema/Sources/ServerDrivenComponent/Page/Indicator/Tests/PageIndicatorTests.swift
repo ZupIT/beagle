@@ -21,7 +21,6 @@ import SnapshotTesting
 
 class PageIndicatorTests: XCTestCase {
 
-    private lazy var dependencies = Schema.dependencies
     private static let typeName = "CustomPageIndicator"
     private let indicator = CustomPageIndicator(
         selectedColor: "selectedColor",
@@ -38,7 +37,7 @@ class PageIndicatorTests: XCTestCase {
     
     override func tearDown() {
         super.tearDown()
-        dependencies.decoder = ComponentDecoder()
+        Schema.dependencies = DefaultDependencies()
     }
     
     func test_indicator_decoder() throws {

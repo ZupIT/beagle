@@ -16,10 +16,28 @@
 
 import Foundation
 
-public protocol SchemaLoggerHelper {
-    func logDecodingError(type: String)
+public var dependencies: Dependencies = DefaultDependencies()
+
+public typealias Dependencies = DependencyDecoder & DependencyLogger
+
+public struct DefaultDependencies: Dependencies {
+    public var decoder: ComponentDecoding
+    public var schemaLogger: SchemaLogger?
+
+    public init() {
+        self.decoder = ComponentDecoder()
+        self.schemaLogger = nil
+    }
 }
 
-protocol DependencyLoggerHelper {
-    var loggerHelper: SchemaLoggerHelper? { get }
+public protocol DependencyDecoder {
+    var decoder: ComponentDecoding { get }
+}
+
+public protocol DependencyLogger {
+    var schemaLogger: SchemaLogger? { get }
+}
+
+public protocol SchemaLogger {
+    func logDecodingError(type: String)
 }

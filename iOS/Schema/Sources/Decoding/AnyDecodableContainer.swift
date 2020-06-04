@@ -37,7 +37,7 @@ extension AnyDecodableContainer: Decodable {
         if let decodable = Schema.dependencies.decoder.componentType(forType: type.lowercased()) {
             content = try decodable.init(from: decoder)
             } else {
-               Schema.dependencies.loggerHelper?.logDecodingError(type: type)
+                dependencies.schemaLogger?.logDecodingError(type: type)
                 content = UnknownComponent(type: type)
             }
         } else {
@@ -45,7 +45,7 @@ extension AnyDecodableContainer: Decodable {
             if let decodable = Schema.dependencies.decoder.actionType(forType: type) {
                 content = try decodable.init(from: decoder)
             } else {
-                Schema.dependencies.loggerHelper?.logDecodingError(type: type)
+                dependencies.schemaLogger?.logDecodingError(type: type)
                 content = UnknownAction(type: type)
             }
         }

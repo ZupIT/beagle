@@ -40,14 +40,30 @@ final class BeagleSetupTests: XCTestCase {
         }
         dep.networkClient = NetworkClientDummy()
         dep.flex = { _ in return FlexViewConfiguratorDummy() }
-        //TODO: create a SchemaDependenciesDummy
-        dep.schemaDependencies.decoder = ComponentDecodingDummy()
+        dep.decoder = ComponentDecodingDummy()
         dep.cacheManager = nil
         dep.logger = BeagleLoggerDumb()
         dep.windowManager = WindowManagerDumb()
         dep.opener = URLOpenerDumb()
 
         assertSnapshot(matching: dep, as: .dump)
+    }
+
+    func test_whenChangingGlobalDependency_itShouldUpdateAllLibs() {
+        // Given
+        let old = Beagle.dependencies
+        let new = BeagleDependencies()
+
+        // When
+        Beagle.dependencies = new
+
+        // Then
+        XCTAssert(Schema.dependencies as AnyObject === new)
+        XCTAssert(Schema.dependencies.decoder as AnyObject === new.decoder as AnyObject)
+        XCTAssert(Schema.dependencies.schemaLogger as AnyObject? === new.logger as AnyObject)
+
+        // Teardown
+        Beagle.dependencies = old
     }
 
     func test_ifChangingDependency_othersShouldUseNewInstance() {
@@ -124,7 +140,6 @@ final class DummyView: UIView {}
 struct ActionDummy: Action, Equatable {}
 
 struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
-    var schemaDependencies: SchemaDependencies
     var analytics: Analytics?
     var actionExecutor: ActionExecutor
     var flex: FlexViewConfiguratorProtocol
@@ -167,7 +182,6 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
         self.cacheManager = cacheManager
         self.decoder = decoder
         self.logger = logger
-        self.schemaDependencies = SchemaDependencies(loggerHelper: self.logger)
         self.analytics = analytics
         self.formDataStoreHandler = formDataStoreHandler
     }

@@ -53,7 +53,7 @@ public final class RepositoryDefault: Repository {
     // MARK: Dependencies
 
     public typealias Dependencies =
-        DependencySchema
+        Schema.DependencyDecoder
         & DependencyNetworkClient
         & DependencyCacheManager
         & DependencyUrlBuilder
@@ -175,7 +175,7 @@ public final class RepositoryDefault: Repository {
     //TODO: change loadFromTextError inside guard let to give a more proper error
     private func decodeComponent(from data: Data) -> Result<ServerDrivenComponent, Request.Error> {
         do {
-            guard let component = try dependencies.schemaDependencies.decoder.decodeComponent(from: data) as? ServerDrivenComponent else {
+            guard let component = try dependencies.decoder.decodeComponent(from: data) as? ServerDrivenComponent else {
                 return .failure(.loadFromTextError)
             }
             return .success(component)
@@ -186,7 +186,7 @@ public final class RepositoryDefault: Repository {
 
     private func handleForm(_ data: Data) -> Result<Action, Request.Error> {
         do {
-            let action: Action = try dependencies.schemaDependencies.decoder.decodeAction(from: data)
+            let action: Action = try dependencies.decoder.decodeAction(from: data)
             return .success(action)
         } catch {
             return .failure(.decoding(error))

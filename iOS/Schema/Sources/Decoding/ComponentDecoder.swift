@@ -26,10 +26,6 @@ public protocol ComponentDecoding {
     func decodeAction(from data: Data) throws -> Action
 }
 
-protocol DependencyComponentDecoding {
-    var decoder: ComponentDecoding { get }
-}
-
 public enum ComponentDecodingError: Error {
     case couldNotCastToType(String)
 }

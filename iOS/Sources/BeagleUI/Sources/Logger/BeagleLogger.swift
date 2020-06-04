@@ -22,7 +22,7 @@ public protocol DependencyLogger {
     var logger: BeagleLoggerType { get }
 }
 
-public protocol BeagleLoggerType: SchemaLoggerHelper {
+public protocol BeagleLoggerType: SchemaLogger {
     func log(_ log: LogType)
 }
 
@@ -48,8 +48,8 @@ public class BeagleLogger: BeagleLoggerType {
     }
 }
 
-extension BeagleLogger: SchemaLoggerHelper {
+extension BeagleLogger: SchemaLogger {
     public func logDecodingError(type: String) {
-        Beagle.dependencies.logger.log(Log.decode(.decodingError(type: type)))
+        log(Log.decode(.decodingError(type: type)))
     }
 }

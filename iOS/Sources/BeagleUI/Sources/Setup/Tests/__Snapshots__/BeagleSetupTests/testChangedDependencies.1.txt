@@ -7,6 +7,7 @@
   - cacheManager: Optional<CacheManagerProtocol>.none
   ▿ customActionHandler: Optional<CustomActionHandler>
     - some: CustomActionHandlerDummy
+  - decoder: ComponentDecodingDummy
   ▿ deepLinkHandler: Optional<DeepLinkScreenManaging>
     - some: DeepLinkHandlerDummy
   - flex: (Function)
@@ -31,10 +32,6 @@
     - serviceMaxCacheAge: "cache-control"
   ▿ resolver: InnerDependenciesResolver
     - container: (Function)
-  ▿ schemaDependencies: SchemaDependencies
-    - decoder: ComponentDecodingDummy
-    ▿ loggerHelper: Optional<SchemaLoggerHelper>
-      - some: BeagleLogger
   - theme: AppThemeDummy
   ▿ urlBuilder: UrlBuilder
     ▿ baseUrl: Optional<URL>
