@@ -42,8 +42,9 @@ class FlexMapper {
         alignItems = makeYogaAlignItems(flex.alignItems) ?: YogaAlign.STRETCH
         alignSelf = makeYogaAlignSelf(flex.alignSelf) ?: YogaAlign.AUTO
         alignContent = makeYogaAlignContent(flex.alignContent) ?: YogaAlign.FLEX_START
-        flexGrow = flex.grow?.toFloat() ?: 0.0f
-        flexShrink = flex.shrink?.toFloat() ?: 1.0f
+        flex.grow?.toFloat()?.let { flexGrow = it }
+        flex.flex?.toFloat()?.let { setFlex(it) }
+        flex.shrink?.toFloat()?.let { flexShrink = it }
         display = makeYogaDisplay(flex.display) ?: YogaDisplay.FLEX
         positionType = makeYogaPositionType(flex.positionType) ?: YogaPositionType.RELATIVE
         applyAttributes(flex, this)
