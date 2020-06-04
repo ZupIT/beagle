@@ -21,34 +21,37 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.data.serializer.BeagleSerializer
 import br.com.zup.beagle.engine.renderer.ActivityRootView
 import br.com.zup.beagle.engine.renderer.FragmentRootView
 import br.com.zup.beagle.engine.renderer.RootView
-import br.com.zup.beagle.utils.toView
-import br.com.zup.beagle.utils.viewExtensionsViewFactory
-import br.com.zup.beagle.view.BeagleView
+import br.com.zup.beagle.view.OnStateChanged
 import br.com.zup.beagle.view.ScreenRequest
-import br.com.zup.beagle.view.StateChangedListener
 
 internal var beagleSerializerFactory = BeagleSerializer()
 
-fun ViewGroup.loadView(activity: AppCompatActivity, screenRequest: ScreenRequest) {
-    loadView(this, ActivityRootView(activity), screenRequest)
+fun ViewGroup.loadView(activity: AppCompatActivity, screenRequest: ScreenRequest, listener: OnStateChanged? = null) {
+    loadView(this, ActivityRootView(activity), screenRequest, listener)
 }
 
-fun ViewGroup.loadView(fragment: Fragment, screenRequest: ScreenRequest) {
-    loadView(this, FragmentRootView(fragment), screenRequest)
+fun ViewGroup.loadView(fragment: Fragment, screenRequest: ScreenRequest, listener: OnStateChanged? = null) {
+    loadView(this, FragmentRootView(fragment), screenRequest, listener)
 }
 
-private fun loadView(viewGroup: ViewGroup, rootView: RootView, screenRequest: ScreenRequest) {
-    viewGroup.addView(
-        viewExtensionsViewFactory.makeBeagleView(viewGroup.context).apply {
-            this.loadView(rootView, screenRequest)
-        }
-    )
+private fun loadView(
+    viewGroup: ViewGroup,
+    rootView: RootView,
+    screenRequest: ScreenRequest,
+    listener: OnStateChanged?
+) {
+    val view = viewExtensionsViewFactory.makeBeagleView(viewGroup.context).apply {
+        loadView(rootView, screenRequest)
+        stateChangedListener = listener
+    }
+    view.loadCompletedListener = {
+        viewGroup.addView(view)
+    }
 }
 
 private fun <T> isAssignableFrom(
@@ -86,16 +89,4 @@ internal inline fun <reified T> ViewGroup.findChildViewForType(type: Class<T>): 
 fun ViewGroup.renderScreen(context: Context, screenJson: String) {
     removeAllViewsInLayout()
     addView(beagleSerializerFactory.deserializeComponent(screenJson).toView(context))
-}
-
-fun ViewGroup.setBeagleStateChangedListener(listener: StateChangedListener) {
-    check(size != 0) { "Did you miss to call loadView()?" }
-
-    val view = children.find { it is BeagleView } as? BeagleView
-
-    if (view != null) {
-        view.stateChangedListener = listener
-    } else {
-        throw IllegalStateException("Did you miss to call loadView()?")
-    }
 }
