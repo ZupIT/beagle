@@ -58,12 +58,12 @@ public enum TransitionType {
     case push
     case reveal
     
-    func toCATransitionType() -> String {
+    func toCATransitionType() -> CATransitionType {
         switch self {
-        case .fadeIn: return kCATransitionFade
-        case .moveIn: return kCATransitionMoveIn
-        case .push: return kCATransitionPush
-        case .reveal: return kCATransitionReveal
+        case .fadeIn: return CATransitionType.fade
+        case .moveIn: return CATransitionType.moveIn
+        case .push: return CATransitionType.push
+        case .reveal: return CATransitionType.reveal
         }
     }
 }
@@ -74,12 +74,12 @@ public enum TransitionSubtype {
     case fromTop
     case fromBottom
     
-    func toCATransitionSubtype() -> String {
+    func toCATransitionSubtype() -> CATransitionSubtype {
         switch self {
-        case .fromRight: return kCATransitionFromRight
-        case .fromLeft: return kCATransitionFromLeft
-        case .fromTop: return kCATransitionFromTop
-        case .fromBottom: return kCATransitionFromBottom
+        case .fromRight: return CATransitionSubtype.fromRight
+        case .fromLeft: return CATransitionSubtype.fromLeft
+        case .fromTop: return CATransitionSubtype.fromTop
+        case .fromBottom: return CATransitionSubtype.fromBottom
         }
     }
 }
