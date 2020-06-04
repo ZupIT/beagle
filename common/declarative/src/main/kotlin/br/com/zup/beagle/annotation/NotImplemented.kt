@@ -14,27 +14,9 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.action
+package br.com.zup.beagle.annotation
 
-import br.com.zup.beagle.annotation.NotImplemented
-
-@NotImplemented
-data class SendRequestAction(
-    val url: String,
-    val method: RequestActionMethod = RequestActionMethod.GET,
-    val headers: Map<String, String> = mapOf(),
-    val body: String? = null,
-    val onSuccess: Action? = null,
-    val onError: Action? = null,
-    val onFinish: Action? = null
-) : Action
-
-@SuppressWarnings("UNUSED_PARAMETER")
-enum class RequestActionMethod {
-    GET,
-    POST,
-    PUT,
-    DELETE,
-    HEAD,
-    PATCH
-}
+@RequiresOptIn(message = "This class not implemented yet. It may be changed in the future without notice.", level = RequiresOptIn.Level.WARNING)
+@Retention(AnnotationRetention.BINARY)
+@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
+internal annotation class NotImplemented

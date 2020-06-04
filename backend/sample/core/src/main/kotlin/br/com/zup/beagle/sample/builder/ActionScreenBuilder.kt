@@ -151,7 +151,6 @@ object ActionScreenBuilder : ScreenBuilder {
         )
     )
 
-
     private fun getSendRequestAction() = Container(
         children = listOf(
             Text("Send request action"),

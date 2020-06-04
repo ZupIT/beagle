@@ -20,6 +20,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import br.com.zup.beagle.action.SendRequestAction
 import br.com.zup.beagle.data.ActionRequester
+import br.com.zup.beagle.exception.BeagleApiException
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.networking.ResponseData
 import br.com.zup.beagle.testutil.CoroutineTestRule
@@ -94,8 +95,10 @@ class ActionRequestViewModelTest {
     @Test
     fun `should emit fail when fetch data`() {
         // Given
-        every { action.toRequestData() } returns mockk()
         val error: BeagleApiException = mockk()
+        val responseData: ResponseData = mockk()
+        every { action.toRequestData() } returns mockk()
+        every { error.responseData } returns  responseData
         coEvery { actionRequester.fetchData(any()) } throws error
 
         // When
@@ -103,7 +106,7 @@ class ActionRequestViewModelTest {
 
         // Then
         verify(exactly = once()) {
-            observer.onChanged(ActionRequestViewModel.FetchViewState.Error(error))
+            observer.onChanged(ActionRequestViewModel.FetchViewState.Error(responseData))
         }
     }
 

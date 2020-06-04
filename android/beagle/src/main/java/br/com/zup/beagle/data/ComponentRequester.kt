@@ -37,7 +37,8 @@ internal class ComponentRequester(
             beagleCache.json
         } else {
             val newScreenRequest = cacheManager.screenRequestWithCache(screenRequest, beagleCache)
-            val responseData = beagleApi.fetchData(newScreenRequest.toRequestData())
+            val requestData = newScreenRequest.toRequestData()
+            val responseData = beagleApi.fetchData(requestData)
             cacheManager.handleResponseData(url, beagleCache, responseData)
         }
         return serializer.deserializeComponent(responseBody)

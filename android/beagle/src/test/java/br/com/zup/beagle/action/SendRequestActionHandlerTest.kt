@@ -20,6 +20,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import br.com.zup.beagle.engine.renderer.RootView
+import br.com.zup.beagle.exception.BeagleApiException
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.networking.ResponseData
 import br.com.zup.beagle.view.viewmodel.ActionRequestViewModel
@@ -72,7 +73,7 @@ class SendRequestActionHandlerTest {
         val onSuccessAction: Action = mockk()
         val onErrorAction: Action = mockk()
         val onFinishAction: Action = mockk()
-        val error: BeagleApiException = mockk()
+        val responseData: ResponseData = mockk()
         val requestAction = SendRequestAction(url = "", onSuccess = onSuccessAction,
             onError = onErrorAction, onFinish = onFinishAction)
         every { viewModel.fetch(requestAction) } returns liveData
@@ -80,7 +81,7 @@ class SendRequestActionHandlerTest {
 
         // When
         SendRequestActionHandler().handle(rootView, requestAction, viewModel, listener)
-        val result = ActionRequestViewModel.FetchViewState.Error(error)
+        val result = ActionRequestViewModel.FetchViewState.Error(responseData)
         observerSlot.captured.onChanged(result)
 
         // Then

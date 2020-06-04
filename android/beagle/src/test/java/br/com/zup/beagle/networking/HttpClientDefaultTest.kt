@@ -28,9 +28,11 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
+import io.mockk.unmockkAll
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -55,8 +57,10 @@ class HttpClientDefaultTest {
 
     @MockK
     private lateinit var httpURLConnection: HttpURLConnection
+
     @MockK
     private lateinit var uri: URI
+
     @MockK
     private lateinit var url: URL
 
@@ -82,7 +86,13 @@ class HttpClientDefaultTest {
         every { httpURLConnection.headerFields } returns mapOf()
         every { httpURLConnection.responseCode } returns STATUS_CODE
         every { httpURLConnection.inputStream } returns inputStream
+        every { httpURLConnection.responseMessage } returns ""
         every { inputStream.readBytes() } returns BYTE_ARRAY_DATA
+    }
+
+    @After
+    fun tearDown() {
+        unmockkAll()
     }
 
     @Test
@@ -369,11 +379,16 @@ class HttpClientDefaultTest {
     @Test
     fun execute_should_be_executed_with_error() {
         // Given
+        val responseData = ResponseData(statusCode = 404,
+            data = BYTE_ARRAY_DATA, statusText = "error")
         val runtimeException = RuntimeException()
         every { httpURLConnection.inputStream } throws runtimeException
+        every { httpURLConnection.responseCode } returns responseData.statusCode!!
+        every { httpURLConnection.responseMessage } returns responseData.statusText
+        every { httpURLConnection.errorStream } returns inputStream
 
         // When
-        var errorResult: Throwable? = null
+        var errorResult: ResponseData? = null
         urlRequestDispatchingDefault.execute(makeSimpleRequestData(), onSuccess = {
             fail("Test failed, should execute with error")
         }, onError = {
@@ -381,7 +396,7 @@ class HttpClientDefaultTest {
         })
 
         // Then
-        assertTrue { errorResult is BeagleApiException }
+        assertEquals(responseData, errorResult)
     }
 
     private fun makeSimpleRequestData() = RequestData(uri)
