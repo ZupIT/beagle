@@ -16,6 +16,13 @@
 
 package br.com.zup.beagle.widget.pager
 
+/**
+ *  The PageView component is a specialized container to hold pages (views) that will be displayed horizontally.
+ *
+ * @param selectedColor this is a string value and it must be filled as HEX (Hexadecimal)
+ * @param unselectedColor this is a string value and it must be filled as HEX (Hexadecimal)
+ *
+ */
 data class PageIndicator(
     val selectedColor: String,
     val unselectedColor: String

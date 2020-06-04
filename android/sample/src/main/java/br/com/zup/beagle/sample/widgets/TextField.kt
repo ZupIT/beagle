@@ -43,6 +43,7 @@ data class TextField(
 
     private lateinit var textFieldView: EditText
 
+
     override fun buildView(context: Context) = EditText(context).apply {
         textFieldView = this
         bind(this@TextField)
@@ -63,6 +64,9 @@ data class TextField(
             textFieldView.hint = hint
             textFieldView.setTextColor(color)
             textFieldView.setHintTextColor(color)
+            textFieldView.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) onFocus() else onBlur()
+            }
 
             inputType?.let {
                 if (it == TextFieldInputType.NUMBER) {

@@ -17,6 +17,7 @@
 package br.com.zup.beagle.action
 
 import android.content.Context
+import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.view.BeagleActivity

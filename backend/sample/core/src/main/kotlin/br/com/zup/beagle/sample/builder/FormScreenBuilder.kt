@@ -42,6 +42,7 @@ import br.com.zup.beagle.widget.ui.Button
 object FormScreenBuilder : ScreenBuilder {
     private val flexHorizontalMargin = Flex(margin = EdgeValue(all = 10.unitReal()))
 
+    @Suppress("LongMethod")
     override fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Form",
@@ -61,10 +62,10 @@ object FormScreenBuilder : ScreenBuilder {
             scrollDirection = ScrollAxis.VERTICAL,
             children = listOf(
                 Form(
-                    action = FormRemoteAction(
+                    onSubmit = listOf(FormRemoteAction(
                         path = SUBMIT_FORM_ENDPOINT,
                         method = FormMethodType.POST
-                    ),
+                    )),
                     child = Container(
                         children = listOf(
                             customFormInput(
@@ -121,5 +122,8 @@ object FormScreenBuilder : ScreenBuilder {
             child = SampleTextField(
                 placeholder = placeholder
             ).applyFlex(flexHorizontalMargin)
+                .setOnFocus(listOf(
+                    ShowNativeDialog(title = "dasasd", message = "asdas", buttonText = "asdadsas")
+                ))
         )
 }

@@ -17,6 +17,7 @@
 package br.com.zup.beagle.action
 
 import android.content.Context
+import br.com.zup.beagle.widget.core.Action
 
 interface CustomActionHandler : ActionHandler<CustomAction> {
     fun handle(context: Context, action: CustomAction, listener: ActionListener)

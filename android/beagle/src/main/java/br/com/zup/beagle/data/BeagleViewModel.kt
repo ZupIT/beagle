@@ -18,7 +18,7 @@ package br.com.zup.beagle.data
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import br.com.zup.beagle.action.Action
+import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.exception.BeagleException
 import br.com.zup.beagle.logger.BeagleLogger
@@ -29,6 +29,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Observable
 import java.util.concurrent.atomic.AtomicReference
 
@@ -69,7 +70,9 @@ internal class BeagleViewModel(
             }
             setLoading(screenRequest.url, false)
         } else if (screen != null) {
-            state.value = ViewState.DoRender(screen.identifier, screen)
+            withContext(CoroutineDispatchers.Default) {
+                state.postValue(ViewState.DoRender(screen.identifier, screen))
+            }
         }
     }
 

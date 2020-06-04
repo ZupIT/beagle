@@ -25,8 +25,8 @@ dependencies {
     implementation GeneralLibraries.kotlinPoet
 
     implementation project(Modules.beagleAnnotation)
+    implementation project(Modules.beagleCommonProcessorUtils)
     implementation project(Modules.beagleBackendDeclarative)
-    implementation project(Modules.beagleCommonProcessor)
 
     implementation ProcessorLibraries.autoService
     implementation ProcessorLibraries.incap
@@ -40,3 +40,5 @@ dependencies {
     testImplementation TestLibraries.kotlinTest
     testImplementation TestLibraries.mockk
 }
+
+apply from: rootProject.file('maven-publish.gradle')
