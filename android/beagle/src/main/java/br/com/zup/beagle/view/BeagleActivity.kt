@@ -129,7 +129,7 @@ abstract class BeagleActivity : AppCompatActivity() {
 
         if (supportFragmentManager.fragments.size == 0) {
             screen?.let { screen ->
-                viewModel.fetchComponent(
+                fetch(
                     ScreenRequest(""),
                     beagleSerializer.deserializeComponent(screen) as ScreenComponent
                 )

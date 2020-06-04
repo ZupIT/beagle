@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.engine.renderer.layout
 
-import android.content.Context
 import android.view.View
 import br.com.zup.beagle.engine.renderer.LayoutViewRenderer
 import br.com.zup.beagle.engine.renderer.RootView

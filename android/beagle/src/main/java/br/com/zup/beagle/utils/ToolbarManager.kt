@@ -59,12 +59,14 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
         navigationBar: NavigationBar,
         rootView: RootView
     ) {
-        context.getToolbar().apply {
-            visibility = View.VISIBLE
-            menu.clear()
-            configToolbarStyle(context, this, navigationBar)
-            navigationBar.navigationBarItems?.let { items ->
-                configToolbarItems(rootView, this, items)
+        context.getToolbar().post {
+            context.getToolbar().apply {
+                visibility = View.VISIBLE
+                menu.clear()
+                configToolbarStyle(context, this, navigationBar)
+                navigationBar.navigationBarItems?.let { items ->
+                    configToolbarItems(rootView, this, items)
+                }
             }
         }
     }
