@@ -20,7 +20,7 @@
                     }
                 },
                 "appearance": {
-                    "backgroundColor": "ff00ff"
+                    "backgroundColor": "#ff00ff"
                 }
             },
             {
@@ -43,7 +43,7 @@
                             }
                         },
                         "appearance": {
-                            "backgroundColor": "ff0000"
+                            "backgroundColor": "#ff0000"
                         }
                     },
                     {
@@ -63,7 +63,7 @@
                             }
                         },
                         "appearance": {
-                            "backgroundColor": "00ff00"
+                            "backgroundColor": "#00ff00"
                         }
                     },
                     {
@@ -83,7 +83,7 @@
                             }
                         },
                         "appearance": {
-                            "backgroundColor": "ff0000"
+                            "backgroundColor": "#ff0000"
                         }
                     }
                 ],
@@ -100,7 +100,7 @@
                     }
                 },
                 "appearance": {
-                    "backgroundColor": "00ffff"
+                    "backgroundColor": "#0ff"
                 }
             }
         ]

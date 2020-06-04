@@ -65,16 +65,16 @@ class PageIndicatorUIComponent: UIView, PageIndicatorUIView {
     // MARK: - Init
     
     required init(selectedColor: String? = nil, unselectedColor: String? = nil) {
-        if let selected = selectedColor, !selected.isEmpty {
-            self.selectedColor = UIColor(hex: selected)
+        if let selected = selectedColor, let color = UIColor(hex: selected) {
+            self.selectedColor = color
         } else {
-            self.selectedColor = UIColor(hex: "#808080")
+            self.selectedColor = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
         }
         
-        if let unselected = unselectedColor, !unselected.isEmpty {
-            self.unselectedColor = UIColor(hex: unselected)
+        if let unselected = unselectedColor, let color = UIColor(hex: unselected) {
+            self.unselectedColor = color
         } else {
-            self.unselectedColor = UIColor(hex: "#d3d3d3")
+            self.unselectedColor = #colorLiteral(red: 0.8274509804, green: 0.8274509804, blue: 0.8274509804, alpha: 1)
         }
         
         super.init(frame: .zero)

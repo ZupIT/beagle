@@ -1,7 +1,7 @@
 {
   "_beagleComponent_": "beagle:container",
   "appearance": {
-    "backgroundColor": "#500000FF",
+    "backgroundColor": "#0000FF50",
     "cornerRadius": {
         "radius": 30.0
     }

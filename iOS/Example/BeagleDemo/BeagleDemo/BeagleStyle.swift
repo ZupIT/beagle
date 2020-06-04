@@ -30,11 +30,10 @@ struct Style {
         .NAVIGATION_BAR_GREEN_STYLE: Style.designSystemStyleNavigationBar,
         .NAVIGATION_BAR_DEFAULT_STYLE: Style.designSystemStyleNavigationBarDefault,
         .TAB_VIEW_STYLE: Style.tabView
-        ]
-    )
+    ])
     
     static func blackTextNormalStyle() -> (UITextView?) -> Void {
-        return BeagleStyle.text(font: .systemFont(ofSize: 16) ,color: .black)
+        return BeagleStyle.text(font: .systemFont(ofSize: 16), color: .black)
     }
     
     static func designSystemTextHelloWord() -> (UITextView?) -> Void {
@@ -63,7 +62,6 @@ struct Style {
         }
     }
     
-    
     static func designSystemStyleNavigationBar() -> (UINavigationBar?) -> Void {
         return {
             $0?.barTintColor = .green
@@ -82,12 +80,14 @@ struct Style {
         return {
             $0?.layer.cornerRadius = 4
             $0?.setTitleColor(.white, for: .normal)
-            $0?.backgroundColor = $0?.isEnabled ?? false ? UIColor(hex: .GREEN_COLOR) : UIColor(hex: .GRAY_COLOR)
+            $0?.backgroundColor = ($0?.isEnabled ?? false) ? #colorLiteral(red: 0.3411764706, green: 0.6235294118, blue: 0.168627451, alpha: 1) : #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
             $0?.alpha = $0?.isHighlighted ?? false ? 0.7 : 1
         }
     }
     
     static func tabView() -> (UIView?) -> Void {
-        return BeagleStyle.tabView(backgroundColor: .clear, indicatorColor: UIColor(hex: .ORANGE_COLOR), selectedTextColor: UIColor(hex: .ORANGE_COLOR), unselectedTextColor: UIColor(hex: .DARK_GRAY_COLOR), selectedIconColor: UIColor(hex: .ORANGE_COLOR), unselectedIconColor: UIColor(hex: .DARK_GRAY_COLOR))
+        let orange = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
+        let gray = #colorLiteral(red: 0.2274509804, green: 0.2078431373, blue: 0.2078431373, alpha: 1)
+        return BeagleStyle.tabView(backgroundColor: .clear, indicatorColor: orange, selectedTextColor: orange, unselectedTextColor: gray, selectedIconColor: orange, unselectedIconColor: gray)
     }
 }

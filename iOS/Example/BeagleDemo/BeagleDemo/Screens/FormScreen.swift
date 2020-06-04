@@ -28,7 +28,7 @@ struct FormScreen: DeeplinkScreen {
     
     init() {}
     
-    init(path: String, data: [String : String]?) {}
+    init(path: String, data: [String: String]?) {}
     
     func screenController() -> UIViewController {
         let flexHorizontalMargin = Flex().margin(EdgeValue().all(10))
@@ -63,14 +63,14 @@ struct FormScreen: DeeplinkScreen {
                         )
                     ),
                     Container(children: [], widgetProperties: .init(flex: Flex(grow: 1))),
-                    FormSubmit(
-                        child: Button(text: "Submit Form", style: .FORM_SUBMIT_STYLE, widgetProperties: .init(flex: flexHorizontalMargin)),
-                        enabled: false
+                                FormSubmit(
+                                    child: Button(text: "Submit Form", style: .FORM_SUBMIT_STYLE, widgetProperties: .init(flex: flexHorizontalMargin)),
+                                    enabled: false
+                                )
+                            ],
+                            widgetProperties: .init(flex: Flex().grow(1).padding(EdgeValue().all(10)))
+                        )
                     )
-                ],
-                widgetProperties: .init(appearance: Appearance(backgroundColor: .LIGHT_GREEN_COLOR), flex: Flex().grow(1).padding(EdgeValue().all(10)))
-            )
-        )
         let screen = Screen(
             navigationBar: NavigationBar(title: "Form"),
             child: form
