@@ -114,9 +114,6 @@ abstract class BeagleActivity : AppCompatActivity() {
     abstract fun onServerDrivenContainerStateChanged(state: ServerDrivenState)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        BeagleEnvironment.beagleSdk.designSystem?.let {
-            setTheme(it.theme())
-        }
 
         super.onCreate(savedInstanceState)
 

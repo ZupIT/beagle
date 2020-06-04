@@ -19,11 +19,15 @@ package br.com.zup.beagle.setup
 import androidx.annotation.DrawableRes
 import androidx.annotation.StyleRes
 
-interface DesignSystem {
-    @DrawableRes fun image(name: String): Int
-    @StyleRes fun theme(): Int
-    @StyleRes fun textAppearance(name: String): Int
-    @StyleRes fun buttonStyle(name: String): Int
-    @StyleRes fun toolbarStyle(name: String): Int
-    @StyleRes fun tabBarStyle(name: String): Int?
+open class DesignSystem {
+    @DrawableRes
+    open fun image(name: String): Int? = null
+    @StyleRes
+    open fun textAppearance(name: String): Int? = null
+    @StyleRes
+    open fun buttonStyle(name: String): Int? = null
+    @StyleRes
+    open fun toolbarStyle(name: String): Int? = null
+    @StyleRes
+    open fun tabViewStyle(name: String): Int? = null
 }
