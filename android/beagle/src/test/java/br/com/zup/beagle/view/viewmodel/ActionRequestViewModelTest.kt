@@ -33,16 +33,13 @@ import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
-import io.mockk.spyk
 import io.mockk.unmockkAll
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.cancel
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-
 
 @ExperimentalCoroutinesApi
 class ActionRequestViewModelTest {
@@ -108,18 +105,5 @@ class ActionRequestViewModelTest {
         verify(exactly = once()) {
             observer.onChanged(ActionRequestViewModel.FetchViewState.Error(responseData))
         }
-    }
-
-    @Test
-    fun `should clean when cancel`() {
-        // Given
-        val viewModelSpy = spyk(viewModel)
-        every { viewModelSpy.cancel() } just Runs
-
-        // When
-        viewModelSpy.onCleared()
-
-        // Then
-        verify(exactly = once()) { viewModelSpy.cancel() }
     }
 }

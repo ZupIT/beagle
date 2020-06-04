@@ -23,10 +23,8 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.data.ActionRequester
 import br.com.zup.beagle.data.ComponentRequester
 import br.com.zup.beagle.exception.BeagleException
-import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.testutil.CoroutineTestRule
 import br.com.zup.beagle.testutil.RandomData
-import br.com.zup.beagle.utils.CoroutineDispatchers
 import br.com.zup.beagle.view.ScreenRequest
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -35,13 +33,8 @@ import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import io.mockk.spyk
-import io.mockk.verify
 import io.mockk.verifyOrder
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.cancel
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -118,19 +111,5 @@ class BeagleViewModelTest {
             observer.onChanged(ViewState.Error(exception))
             observer.onChanged(ViewState.Loading(false))
         }
-    }
-
-
-    @Test
-    fun onCleared_should_call_cancel() {
-        // Given
-        val viewModelSpy = spyk(beagleUIViewModel)
-        every { viewModelSpy.cancel() } just Runs
-
-        // When
-        viewModelSpy.onCleared()
-
-        // Then
-        verify(exactly = once()) { viewModelSpy.cancel() }
     }
 }

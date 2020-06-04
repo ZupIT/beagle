@@ -28,6 +28,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
+import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -85,8 +86,10 @@ class HttpClientDefaultTest {
         every { httpURLConnection.disconnect() } just Runs
         every { httpURLConnection.headerFields } returns mapOf()
         every { httpURLConnection.responseCode } returns STATUS_CODE
+        every { httpURLConnection.getSafeResponseCode() } returns STATUS_CODE
         every { httpURLConnection.inputStream } returns inputStream
-        every { httpURLConnection.responseMessage } returns ""
+        every { httpURLConnection.getSafeResponseMessage() } returns ""
+        every { httpURLConnection.getSafeError() } returns BYTE_ARRAY_DATA
         every { inputStream.readBytes() } returns BYTE_ARRAY_DATA
     }
 
@@ -104,6 +107,7 @@ class HttpClientDefaultTest {
         every { httpURLConnection.headerFields } returns headers
 
         lateinit var resultData: ResponseData
+        val requestDataSlot = slot<OnSuccess>()
         urlRequestDispatchingDefault.execute(makeSimpleRequestData(), onSuccess = {
             resultData = it
         }, onError = {
