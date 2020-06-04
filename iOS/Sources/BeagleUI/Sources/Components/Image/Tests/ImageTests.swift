@@ -25,7 +25,7 @@ class ImageTests: XCTestCase {
     func test_toView_shouldReturnTheExpectedView() throws {
         //Given
         let expectedContentMode = UIImageView.ContentMode.scaleToFill
-        let component = Image("teste", contentMode: .fitXY)
+        let component = Image(name: "teste", contentMode: .fitXY)
         
         //When
         guard let imageView = component.toView(context: BeagleContextDummy(), dependencies: dependencies) as? UIImageView else {

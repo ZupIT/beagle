@@ -320,6 +320,10 @@ class ActionManagerDummy: ActionManaging {
 }
 
 class BeagleContextDummy: BeagleContext {
+    var bindingToConfig: [() -> Void] = []
+    
+    func configAllBindings() {}
+    
     var formManager: FormManaging
     
     var lazyLoadManager: LazyLoadManaging

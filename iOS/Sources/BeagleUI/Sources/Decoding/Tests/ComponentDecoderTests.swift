@@ -65,7 +65,11 @@ final class ComponentDecoderTests: XCTestCase {
         let text = try sut.decodeComponent(from: jsonData) as? Text
 
         // Then
-        XCTAssertEqual(text?.text, expectedText)
+        guard case let .value(string) = text?.text else {
+            XCTFail("Expected a `.value` property, but got \(String(describing: text?.text)).")
+            return
+        }
+        XCTAssertEqual(string, expectedText)
     }
 
     func test_whenAnUnknwonTypeIsDecoded_thenItShouldReturnNil() throws {

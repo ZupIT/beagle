@@ -22,6 +22,24 @@ public enum ValueExpression<T: Decodable> {
     case expression(Expression)
 }
 
+extension ValueExpression: ExpressibleByUnicodeScalarLiteral where T == String? {
+    public init(unicodeScalarLiteral value: String) {
+        self = .value(value)
+    }
+}
+
+extension ValueExpression: ExpressibleByExtendedGraphemeClusterLiteral where T == String? {
+    public init(extendedGraphemeClusterLiteral value: String) {
+        self = .value(value)
+    }
+}
+
+extension ValueExpression: ExpressibleByStringLiteral where T == String? {
+    public init(stringLiteral value: String) {
+        self = .value(value)
+    }
+}
+
 extension ValueExpression: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()

@@ -58,6 +58,9 @@ class BeagleScreenViewControllerDummy: BeagleScreenViewController {
 }
 
 class BeagleContextSpy: BeagleContext {
+    var bindingToConfig: [() -> Void]
+    
+    func configAllBindings() {}
     
     let actionManagerSpy: ActionManaging
     let formManagerSpy: FormManaging
@@ -76,6 +79,7 @@ class BeagleContextSpy: BeagleContext {
         self.actionManagerSpy = actionManager
         self.lazyLoadManagerSpy = lazyLoadManager
         self.formManagerSpy = formManager
+        self.bindingToConfig = []
     }
     
     private(set) var didCallRegisterEnabledWidget = false

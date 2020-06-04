@@ -36,8 +36,8 @@ struct ComposeText: ComposeComponent {
     
     func build() -> ServerDrivenComponent {
         return Container(children: [
-            Text(title),
-            Text(subtitle)
+            Text(.value(title)),
+            Text(.value(subtitle))
         ], widgetProperties: .init(flex: Flex()))
     }
 }

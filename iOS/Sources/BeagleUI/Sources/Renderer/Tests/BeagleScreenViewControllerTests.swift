@@ -222,7 +222,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         let error = Request.Error.networkError(NSError(domain: "test", code: 1, description: "Network Error"))
         let repository = RepositoryStub(componentResult: .failure(error))
         let fallback = Text(
-            "Fallback screen.\n\(error.localizedDescription)",
+            .value("Fallback screen.\n\(error.localizedDescription)"),
             widgetProperties: .init(appearance: .init(backgroundColor: "#FF0000"))
         ).toScreen()
         let dependencies = BeagleDependencies()
