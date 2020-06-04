@@ -169,7 +169,6 @@
 		C85E1CD123EB49C000C1E323 /* HttpRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E1CD023EB49C000C1E323 /* HttpRequestBuilder.swift */; };
 		C860572B241199310087268F /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C860572A241199310087268F /* NavigationBar.swift */; };
 		C8605F6A23B5423100FD4C4F /* LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8605F6923B5423100FD4C4F /* LayoutManager.swift */; };
-		C862314923CDFBF7003CFB0B /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = C862314823CDFBF7003CFB0B /* Result.swift */; };
 		C862606223B504850084A086 /* BeagleScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C862606123B504850084A086 /* BeagleScreenViewModel.swift */; };
 		C867CDE823EB50DB00EB5DD5 /* HttpRequestBuilderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E1CD323EB4FE500C1E323 /* HttpRequestBuilderTest.swift */; };
 		C869D117241148ED001C760C /* HttpAditionalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C869D116241148ED001C760C /* HttpAditionalData.swift */; };
@@ -445,7 +444,6 @@
 		C85EDE1423A2C1F2002F190F /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C860572A241199310087268F /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		C8605F6923B5423100FD4C4F /* LayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutManager.swift; sourceTree = "<group>"; };
-		C862314823CDFBF7003CFB0B /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		C862606123B504850084A086 /* BeagleScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleScreenViewModel.swift; sourceTree = "<group>"; };
 		C8646E1123EDB09B00A80905 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C8667CBA23ECA6B500CE8D0D /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
@@ -1653,7 +1651,6 @@
 			children = (
 				E5A6F4A82358A547008906F8 /* FatalErrorUtil.swift */,
 				931B6E31237610B300DE73FD /* FunctiontalUtils.swift */,
-				C862314823CDFBF7003CFB0B /* Result.swift */,
 				C829CEB823B1621E001B7225 /* Tests */,
 			);
 			path = Util;
@@ -1760,7 +1757,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1030;
-				LastUpgradeCheck = 1120;
+				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = "Zup IT";
 				TargetAttributes = {
 					932925CE2327E11000A61F01 = {
@@ -2002,7 +1999,6 @@
 				A0EF0AA42386B7A20019BE83 /* ActionExecutor.swift in Sources */,
 				7CFE3A732412E3430087F664 /* EdgeValue.swift in Sources */,
 				E5CB5DAB23550012009783A7 /* BeagleSetup.swift in Sources */,
-				C862314923CDFBF7003CFB0B /* Result.swift in Sources */,
 				9397F5D12357615F00054D42 /* YogaTranslator.swift in Sources */,
 				A0F45496237AF16800B146A1 /* BeagleContext.swift in Sources */,
 				C86F894623B28FAE00287D5D /* Image.swift in Sources */,
@@ -2183,7 +2179,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.1;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2242,7 +2238,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 4.1;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -2253,7 +2249,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2276,7 +2272,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2285,7 +2281,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2306,7 +2302,7 @@
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -2330,7 +2326,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.zup.BeagleFrameworkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.1;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2354,7 +2350,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.zup.BeagleFrameworkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.1;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
