@@ -28,6 +28,7 @@ internal class SendRequestActionHandler {
     fun handle(rootView: RootView, action: SendRequestAction, viewModel: ActionRequestViewModel =
         ViewModelProvider(rootView.getViewModelStoreOwner()).get(ActionRequestViewModel::class.java),
                listener: SendRequestListener) {
+
         viewModel.fetch(action)
             .observe(rootView.getLifecycleOwner(), Observer { state ->
                 val actions = mutableListOf<Action>()

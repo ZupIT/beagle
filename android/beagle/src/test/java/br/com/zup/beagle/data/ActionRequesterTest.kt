@@ -32,6 +32,8 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
+private val JSON_SUCCESS = makeCustomActionJson()
+
 @ExperimentalCoroutinesApi
 class ActionRequesterTest {
 
@@ -90,8 +92,4 @@ class ActionRequesterTest {
         coVerify(exactly = once()) { beagleApi.fetchData(requestData) }
     }
 
-
-    companion object {
-        private val JSON_SUCCESS = makeCustomActionJson()
-    }
 }

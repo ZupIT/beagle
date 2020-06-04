@@ -18,6 +18,7 @@ package br.com.zup.beagle.view.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import br.com.zup.beagle.action.SendRequestAction
 import br.com.zup.beagle.view.mapper.toRequestData
 import br.com.zup.beagle.data.ActionRequester
@@ -32,17 +33,10 @@ import kotlin.coroutines.CoroutineContext
 
 internal class ActionRequestViewModel(
     private val requester: ActionRequester = ActionRequester()
-) : ViewModel(), CoroutineScope {
-
-    private val job = Job()
-    override val coroutineContext = job + CoroutineDispatchers.Main
+) : ViewModel() {
 
     fun fetch(sendRequestAction: SendRequestAction): LiveData<FetchViewState> {
-        return FetchComponentLiveData(requester, sendRequestAction, coroutineContext)
-    }
-
-    public override fun onCleared() {
-        cancel()
+        return FetchComponentLiveData(requester, sendRequestAction, viewModelScope.coroutineContext)
     }
 
     sealed class FetchViewState {

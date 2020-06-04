@@ -29,6 +29,11 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.net.URI
 
+private val SEND_REQUEST_ACTION = SendRequestAction("", body = "body",
+    headers = mapOf("header" to "teste"))
+private val EXPECTED_RESULT = RequestData(uri = URI(""), body = "body",
+    headers = mapOf("header" to "teste"))
+
 class SendRequestActionMapperTest : BaseTest() {
 
     override fun setUp() {
@@ -85,11 +90,4 @@ class SendRequestActionMapperTest : BaseTest() {
         assertEquals(expectedResult, result)
     }
 
-
-    companion object {
-        private val SEND_REQUEST_ACTION = SendRequestAction("", body = "body",
-            headers = mapOf("header" to "teste"))
-        private val EXPECTED_RESULT = RequestData(uri = URI(""), body = "body",
-            headers = mapOf("header" to "teste"))
-    }
 }

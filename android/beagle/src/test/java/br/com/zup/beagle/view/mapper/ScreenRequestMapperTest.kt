@@ -23,17 +23,20 @@ import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.view.ScreenMethod
 import br.com.zup.beagle.view.ScreenRequest
-import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.mockkObject
-import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import java.net.URI
+
+private val PATH = RandomData.httpUrl()
+private val SCREEN_REQUEST = ScreenRequest(PATH, body = "body",
+    headers = mapOf("header" to "teste"))
+private val EXPECTED_RESULT = RequestData(uri = URI(""), body = "body",
+    headers = mapOf("header" to "teste"))
 
 class ScreenRequestMapperTest {
 
@@ -93,12 +96,4 @@ class ScreenRequestMapperTest {
         assertEquals(expectedResult, result)
     }
 
-
-    companion object {
-        private val PATH = RandomData.httpUrl()
-        private val SCREEN_REQUEST = ScreenRequest(PATH, body = "body",
-            headers = mapOf("header" to "teste"))
-        private val EXPECTED_RESULT = RequestData(uri = URI(""), body = "body",
-            headers = mapOf("header" to "teste"))
-    }
 }

@@ -18,6 +18,7 @@ package br.com.zup.beagle.view.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.data.ComponentRequester
 import br.com.zup.beagle.exception.BeagleException
@@ -41,19 +42,17 @@ sealed class ViewState {
 
 internal class BeagleViewModel(
     private val componentRequester: ComponentRequester = ComponentRequester()
-) : ViewModel(), CoroutineScope {
+) : ViewModel() {
 
-    private val job = Job()
-    override val coroutineContext = job + CoroutineDispatchers.Main
 
     private val urlObservableReference = AtomicReference(UrlObservable())
 
     fun fetchComponent(screenRequest: ScreenRequest, screen: ScreenComponent? = null): LiveData<ViewState> {
         return FetchComponentLiveData(screenRequest, screen, componentRequester,
-            urlObservableReference, coroutineContext)
+            urlObservableReference, viewModelScope.coroutineContext)
     }
 
-    fun fetchForCache(url: String) = launch {
+    fun fetchForCache(url: String) = viewModelScope.launch {
         try {
             urlObservableReference.get().setLoading(url, true)
             val component = componentRequester.fetchComponent(ScreenRequest(url))
@@ -63,10 +62,6 @@ internal class BeagleViewModel(
         }
 
         urlObservableReference.get().setLoading(url, false)
-    }
-
-    public override fun onCleared() {
-        cancel()
     }
 
     //TODO Refactor this to use coroutines flow
