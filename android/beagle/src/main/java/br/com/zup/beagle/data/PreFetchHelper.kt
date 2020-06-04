@@ -41,7 +41,7 @@ internal class PreFetchHelper {
 
     private fun preFetch(rootView: RootView, route: Route) {
         if (route is Route.Remote && route.shouldPrefetch) {
-            val viewModel = rootView.generateViewModelInstance()
+            val viewModel = rootView.generateViewModelInstance<BeagleViewModel>()
             viewModel.fetchForCache(route.route)
         }
     }

@@ -16,10 +16,12 @@
 
 package br.com.zup.beagle.processor
 
+import android.content.Context
 import android.view.View
 import br.com.zup.beagle.core.Bind
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BindingAdapter
+import br.com.zup.beagle.testutil.setPrivateField
 import br.com.zup.beagle.widget.core.WidgetView
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -41,6 +43,9 @@ class FieldOnlyWidgetBindingTest {
     lateinit var view: View
 
     @RelaxedMockK
+    lateinit var context: Context
+
+    @RelaxedMockK
     lateinit var fieldOnlyWidget: FieldOnlyWidget
 
     val expressionBoolean: Bind<Boolean> = mockk<Bind.Expression<Boolean>>(relaxed = true)
@@ -50,18 +55,13 @@ class FieldOnlyWidgetBindingTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        setInstanceField(widgetBinding, WIDGET_INSTANCE_PROPERTY, fieldOnlyWidget)
-        setInstanceField(widgetBinding, VIEW_PROPERTY, view)
+
+        widgetBinding.setPrivateField(WIDGET_INSTANCE_PROPERTY, fieldOnlyWidget)
+        widgetBinding.setPrivateField(VIEW_PROPERTY, view)
     }
 
     fun after() {
         unmockkAll()
-    }
-
-    private fun setInstanceField(instanceObject: Any, propertyName: String, destinationObject: Any) {
-        val widgetInstanceField = instanceObject::class.java.getDeclaredField(propertyName)
-        widgetInstanceField.isAccessible = true
-        widgetInstanceField.set(instanceObject, destinationObject)
     }
 
     @Test
@@ -78,9 +78,8 @@ class FieldOnlyWidgetBindingTest {
 
     @Test
     fun fieldOnlyWidgetBindingAdapter_should_call_on_bind_at_least_once() {
-
-        //when
-        widgetBinding.bindModel()
+        // Given When
+        widgetBinding.buildView(context)
 
         //then
         verify(atLeast = once()) { fieldOnlyWidget.onBind(any(), any()) }
@@ -88,34 +87,12 @@ class FieldOnlyWidgetBindingTest {
 
     @Test
     fun fieldOnlyWidgetBindingAdapter_should_call_observe_on_parameters() {
-
-        //when
-        widgetBinding.bindModel()
+        // Given When
+        widgetBinding.buildView(context)
 
         //then
         verify(atLeast = once()) { widgetBinding.a.observes(any()) }
         verify(atLeast = once()) { widgetBinding.b.observes(any()) }
         verify(atLeast = once()) { widgetBinding.c.observes(any()) }
-    }
-
-    @Test
-    fun fieldOnlyWidgetBindingAdapter_should_call_notify_widget_default_values() {
-
-        //given
-        val aPropertyValue = true
-        val bPropertyValue = 25L
-        val cPropertyValue = "DUMMY"
-
-        every { fieldOnlyWidget.a } returns aPropertyValue
-        every { fieldOnlyWidget.b } returns bPropertyValue
-        every { fieldOnlyWidget.c } returns cPropertyValue
-
-        val expected = FieldOnlyWidget(a = aPropertyValue, b = bPropertyValue, c = cPropertyValue)
-
-        //when
-        widgetBinding.bindModel()
-
-        //then
-        verify(exactly = once()) { fieldOnlyWidget.onBind(expected, view) }
     }
 }

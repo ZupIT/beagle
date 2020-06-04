@@ -125,7 +125,7 @@ class NetworkImageViewRendererTest : BaseTest() {
         every { imageView.scaleType = capture(scaleTypeSlot) } just Runs
 
         // When
-        val view = networkImageViewRenderer.build(rootView)
+        val view = networkImageViewRenderer.buildView(rootView)
 
         // Then
         assertTrue(view is ImageView)
@@ -134,7 +134,7 @@ class NetworkImageViewRendererTest : BaseTest() {
 
     @Test
     fun build_should_set_url_to_Glide() {
-        networkImageViewRenderer.build(rootView)
+        networkImageViewRenderer.buildView(rootView)
 
         verify(exactly = once()) { Glide.with(imageView) }
         verify(exactly = once()) { requestManager.load(DEFAULT_URL) }
@@ -147,7 +147,7 @@ class NetworkImageViewRendererTest : BaseTest() {
         every { networkImage.flex } returns null
 
         // When
-        val view = networkImageViewRenderer.build(rootView)
+        val view = networkImageViewRenderer.buildView(rootView)
 
         // Then
         assertTrue(view is BeagleFlexView)
@@ -172,7 +172,7 @@ class NetworkImageViewRendererTest : BaseTest() {
     }
 
     private fun callBuildAndRequest() {
-        networkImageViewRenderer.build(rootView)
+        networkImageViewRenderer.buildView(rootView)
         onRequestListenerSlot.captured.onResourceReady(bitmap, mockk())
     }
 }

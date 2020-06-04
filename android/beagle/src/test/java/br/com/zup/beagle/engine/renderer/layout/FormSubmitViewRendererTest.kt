@@ -65,7 +65,7 @@ class FormSubmitViewRendererTest : BaseTest() {
     @Test
     fun build_should_make_child() {
         // WHEN
-        val actual = formSubmitViewRenderer.build(rootView)
+        val actual = formSubmitViewRenderer.buildView(rootView)
 
         // THEN
         assertEquals(view, actual)
@@ -74,7 +74,7 @@ class FormSubmitViewRendererTest : BaseTest() {
     @Test
     fun build_should_set_widget_on_tag() {
         // WHEN
-        formSubmitViewRenderer.build(rootView)
+        formSubmitViewRenderer.buildView(rootView)
 
         // THEN
         verify(exactly = once()) { view.tag = formSubmit }

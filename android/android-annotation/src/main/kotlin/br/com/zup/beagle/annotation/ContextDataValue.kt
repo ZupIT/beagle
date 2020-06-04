@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.context
+package br.com.zup.beagle.annotation
 
-import br.com.zup.beagle.data.serializer.adapter.ContextDataValue
+import com.squareup.moshi.JsonQualifier
 
-internal data class ContextData(
-    val id: String,
-    @ContextDataValue val value: Any // Can be a Number, String, Boolean, JSONObject or JSONArray
-)
+@JsonQualifier
+@Target(AnnotationTarget.FIELD, AnnotationTarget.PROPERTY)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class ContextDataValue

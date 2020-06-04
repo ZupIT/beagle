@@ -101,7 +101,7 @@ class TouchableViewRendererTest : BaseTest() {
 
     @Test
     fun build_should_make_child_view() {
-        val actual = touchableViewRenderer.build(rootView)
+        val actual = touchableViewRenderer.buildView(rootView)
 
         assertEquals(view, actual)
     }
@@ -120,7 +120,7 @@ class TouchableViewRendererTest : BaseTest() {
     }
 
     private fun callBuildAndClick() {
-        touchableViewRenderer.build(rootView)
+        touchableViewRenderer.buildView(rootView)
         onClickListenerSlot.captured.onClick(view)
     }
 
@@ -139,7 +139,7 @@ class TouchableViewRendererTest : BaseTest() {
         val onClickListenerSlot = CapturingSlot<View.OnClickListener>()
 
         // When
-        val buttonView = touchableViewRenderer.build(rootView)
+        val buttonView = touchableViewRenderer.buildView(rootView)
         verify { buttonView.setOnClickListener(capture(onClickListenerSlot)) }
         onClickListenerSlot.captured.onClick(view)
 
@@ -154,7 +154,7 @@ class TouchableViewRendererTest : BaseTest() {
         val onClickListenerSlot = CapturingSlot<View.OnClickListener>()
 
         // When
-        val buttonView = touchableViewRenderer.build(rootView)
+        val buttonView = touchableViewRenderer.buildView(rootView)
         verify { buttonView.setOnClickListener(capture(onClickListenerSlot)) }
         onClickListenerSlot.captured.onClick(view)
 
