@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *//*
+ */
 
 
 package br.com.zup.beagle.engine.renderer.layout
@@ -217,8 +217,7 @@ class ScreenViewRendererTest : BaseTest() {
         //THEN
         verifyOrder {
             toolbarManager.configureNavigationBarForScreen(context, navigationBar)
-            toolbarManager.configureToolbar(context, navigationBar)
+            toolbarManager.configureToolbar(context, navigationBar, rootView)
         }
     }
 }
-*/

@@ -18,8 +18,26 @@ package br.com.zup.beagle.exception
 
 import br.com.zup.beagle.networking.ResponseData
 
-internal class BeagleApiException
-constructor(
+internal class BeagleApiException constructor(
     val responseData: ResponseData,
     override val message: String = responseData.toString()
-) : BeagleException(message)
+) : BeagleException(message) {
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as BeagleApiException
+
+        if (responseData != other.responseData) return false
+        if (message != other.message) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = responseData.hashCode()
+        result = 31 * result + message.hashCode()
+        return result
+    }
+}
