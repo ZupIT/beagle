@@ -42,9 +42,8 @@ internal class ImageViewRenderer(
         val contentMode = widget.contentMode ?: ImageContentMode.FIT_CENTER
         scaleType = viewMapper.toScaleType(contentMode)
         val designSystem = BeagleEnvironment.beagleSdk.designSystem
-        if (designSystem != null) {
-            val image = designSystem.image(widget.name)
-            this.setImageResource(image)
+        designSystem?.image(widget.name)?.let {
+            this.setImageResource(it)
         }
     }
 }

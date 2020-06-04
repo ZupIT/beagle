@@ -23,6 +23,7 @@ import androidx.appcompat.widget.Toolbar
 import br.com.zup.beagle.annotation.BeagleComponent
 import br.com.zup.beagle.sample.R
 import br.com.zup.beagle.view.BeagleActivity
+import br.com.zup.beagle.view.FragmentTransitionAnimation
 import br.com.zup.beagle.view.ServerDrivenState
 import com.google.android.material.snackbar.Snackbar
 
@@ -50,4 +51,11 @@ class SampleServerDrivenActivity : BeagleActivity() {
             Snackbar.make(findViewById(android.R.id.content), "Error", Snackbar.LENGTH_LONG).show()
         }
     }
+
+    override fun getFragmentTransitionAnimation() = FragmentTransitionAnimation(
+        br.com.zup.beagle.R.anim.slide_from_right,
+        br.com.zup.beagle.R.anim.none_animation,
+        br.com.zup.beagle.R.anim.none_animation,
+        br.com.zup.beagle.R.anim.slide_to_right
+    )
 }
