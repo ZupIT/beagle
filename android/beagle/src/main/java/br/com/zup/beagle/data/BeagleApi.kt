@@ -39,7 +39,8 @@ internal class BeagleApi(
                 BeagleMessageLogs.logHttpResponseData(response)
                 cont.resume(response)
             }, onError = { response ->
-            val exception = BeagleApiException(response)
+            val exception = BeagleApiException(response, genericErrorMessage(request.uri.toString()))
+
             BeagleMessageLogs.logUnknownHttpError(exception)
             cont.resumeWithException(
                 exception
@@ -49,4 +50,6 @@ internal class BeagleApi(
             call.cancel()
         }
     }
+
+    private fun genericErrorMessage(url: String) = "fetchData error for url $url"
 }
