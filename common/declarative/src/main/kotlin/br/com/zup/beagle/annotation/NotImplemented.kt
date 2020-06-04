@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.annotation
 
-@RequiresOptIn(message = "This class not implemented yet. It may be changed in the future without notice.",
+@RequiresOptIn(message = "This class is not implemented yet. It may be changed in the future without notice.",
     level = RequiresOptIn.Level.WARNING)
 @Retention(AnnotationRetention.BINARY)
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
