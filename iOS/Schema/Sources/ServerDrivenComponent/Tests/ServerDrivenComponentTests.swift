@@ -14,17 +14,22 @@
  * limitations under the License.
  */
 
-import Foundation
-import Schema
+import XCTest
+@testable import Schema
+// swiftlint:disable force_cast
 
-extension SafeArea {
-    
-    public static var all: SafeArea {
-        return SafeArea(top: true, leading: true, bottom: true, trailing: true)
+class ServerDrivenComponentTests: XCTestCase {
+
+    func testIfToScreenReturnsSelf() {
+        // given
+        let component = Unknown()
+        
+        // when
+        let toScreenComponent = component.toScreen()
+        
+        // then
+        XCTAssert(component == (toScreenComponent.child as! Unknown))
+        
     }
-    
-    public static var none: SafeArea {
-        return SafeArea(top: false, leading: false, bottom: false, trailing: false)
-    }
-    
+
 }

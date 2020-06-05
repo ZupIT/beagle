@@ -105,6 +105,6 @@ struct NewComponent: ServerDrivenComponent {
     
 }
 
-struct Unknown: ServerDrivenComponent {
+struct Unknown: ServerDrivenComponent, Equatable {
     
 }
