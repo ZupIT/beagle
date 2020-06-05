@@ -50,7 +50,7 @@ class BeagleBackendProcessor : AbstractProcessor() {
         if (element is TypeElement && element.kind.isClass) {
             try {
                 this.processingEnv.let {
-                    BeagleWidgetBindingHandler(it, it.kaptGeneratedDirectory, Bind::class)
+                    BeagleWidgetBindingHandler(it, Bind::class)
                 }.handle(element)
             } catch (e: Exception) {
                 this.processingEnv.messager.printMessage(Diagnostic.Kind.ERROR, e.localizedMessage, element)

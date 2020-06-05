@@ -21,6 +21,10 @@ group = GroupId.backendSample
 version = Releases.beagleVersionName
 sourceCompatibility = JavaVersion.VERSION_1_8
 
+sourceSets {
+    main.java.srcDirs += 'build/generated/source/kapt'
+}
+
 dependencies {
     implementation GeneralLibraries.kotlin
     implementation project(Modules.beagleAnnotation)
