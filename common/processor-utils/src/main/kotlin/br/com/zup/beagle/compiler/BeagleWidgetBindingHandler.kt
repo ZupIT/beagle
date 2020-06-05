@@ -44,27 +44,28 @@ class BeagleWidgetBindingHandler(
     private val typeUtils = processingEnvironment.typeUtils
 
     fun handle(element: TypeElement) =
-        getFileSpec(element)
+        FileSpec.get(this.elementUtils.getPackageAsString(element), this.createBindingClass(element).build())
             .writeTo(this.outputDirectory)
-
-    fun getFileSpec(element: TypeElement) =
-        getFileSpec(element, this.createBindingClass(element).build())
-
-    fun getFileSpec(element: TypeElement, typeSpec: TypeSpec) =
-        FileSpec.get(this.elementUtils.getPackageAsString(element), typeSpec)
 
     fun createBindingClass(element: TypeElement) =
         element.visibleGetters.map { this.createBindParameter(it) }.let { parameters ->
+            val bindName = bindClass.qualifiedName
             TypeSpec.classBuilder("${element.simpleName}$SUFFIX")
                 .superclass(this.typeUtils.getKotlinName(element.superclass))
                 .addSuperinterfaces(element.interfaces.map(TypeMirror::asTypeName))
                 .primaryConstructor(FunSpec.constructorFrom(parameters))
-                .addProperties(parameters.map { PropertySpec.from(it) })
+                .addProperties(
+                    parameters.map {
+                        PropertySpec.from(it, bindName != null && !it.type.toString().startsWith(bindName))
+                    }
+                )
         }
 
     private fun createBindParameter(element: ExecutableElement) =
         ParameterSpec.builder(
             element.fieldName,
-            bindClass.asTypeName().parameterizedBy(this.typeUtils.getKotlinName(element.returnType))
+            this.typeUtils.getKotlinName(element.returnType).let {
+                if (element.isOverride) it else bindClass.asTypeName().parameterizedBy(it)
+            }
         ).build()
 }
