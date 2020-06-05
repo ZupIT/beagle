@@ -20,14 +20,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.engine.renderer.RootView
+import br.com.zup.beagle.utils.generateViewModelInstance
 import br.com.zup.beagle.widget.core.Action
 
 internal typealias SendRequestListener = (actions: List<Action>) -> Unit
 
 internal class SendRequestActionHandler {
 
-    fun handle(rootView: RootView, action: SendRequestAction, viewModel: ActionRequestViewModel =
-        ViewModelProvider(rootView.getViewModelStoreOwner()).get(ActionRequestViewModel::class.java),
+    fun handle(rootView: RootView, action: SendRequestAction,
+               viewModel: ActionRequestViewModel = rootView.generateViewModelInstance(),
                listener: SendRequestListener) {
 
         viewModel.fetch(action)

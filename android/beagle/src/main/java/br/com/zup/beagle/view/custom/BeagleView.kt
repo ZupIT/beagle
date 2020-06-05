@@ -25,6 +25,7 @@ import br.com.zup.beagle.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.view.viewmodel.ViewState
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.interfaces.OnStateUpdatable
+import br.com.zup.beagle.utils.generateViewModelInstance
 import br.com.zup.beagle.utils.implementsGenericTypeOf
 import br.com.zup.beagle.view.ScreenRequest
 
@@ -48,10 +49,7 @@ internal class BeagleView(
 
     private lateinit var rootView: RootView
 
-    private val viewModel: BeagleViewModel by lazy {
-        ViewModelProvider(rootView.getViewModelStoreOwner())
-            .get(BeagleViewModel::class.java)
-    }
+    private val viewModel by lazy { rootView.generateViewModelInstance<BeagleViewModel>() }
 
     fun loadView(rootView: RootView, screenRequest: ScreenRequest) {
         loadView(rootView, screenRequest, null)
