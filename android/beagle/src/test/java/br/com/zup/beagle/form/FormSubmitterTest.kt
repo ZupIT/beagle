@@ -51,6 +51,12 @@ class FormSubmitterTest {
     private val requestDataSlot = slot<RequestData>()
     private val urlSlot = slot<String>()
 
+    @MockK
+    private lateinit var uriBuilder: Uri.Builder
+
+    @MockK
+    private lateinit var uri: Uri
+
     @InjectMockKs
     private lateinit var formSubmitter: FormSubmitter
 
@@ -61,7 +67,12 @@ class FormSubmitterTest {
         mockkObject(BeagleEnvironment)
         mockkStatic("android.net.Uri")
 
-        every { Uri.encode(any()) } answers {arg(0)}
+        every { Uri.parse(any()) } returns uri
+        every { uri.buildUpon() } returns uriBuilder
+        every {uriBuilder.appendQueryParameter(any(), any())} returns uriBuilder
+        every {uriBuilder.build()} returns uri
+        every { uri.toString() } returns ACTION
+
 
         every { BeagleEnvironment.beagleSdk.config.baseUrl } returns RandomData.httpUrl()
         every { httpClient.execute(capture(requestDataSlot), any(), any()) } returns mockk()
@@ -156,41 +167,27 @@ class FormSubmitterTest {
     @Test
     fun submitForm_should_set_querystring_as_url_on_requestData_when_method_is_GET() {
         // Given
-        val formsValue = mapOf(
-            RandomData.string(3) to RandomData.string(3),
-            RandomData.string(3) to RandomData.string(3)
-        )
+        val formsValue = mapOf<String, String>()
         val action = createAction(FormMethodType.GET)
 
         // When
         formSubmitter.submitForm(action, formsValue) {}
 
         // Then
-        val formElements = formsValue.entries
-        val element0 = formElements.elementAt(0)
-        val element1 = formElements.elementAt(1)
-        val expected = "$ACTION?${element0.key}=${element0.value}&${element1.key}=${element1.value}"
-        assertEquals(expected, urlSlot.captured)
+        assertEquals(ACTION, urlSlot.captured)
     }
 
     @Test
     fun submitForm_should_set_querystring_as_url_on_requestData_when_method_is_DELETE() {
         // Given
-        val formsValue = mapOf(
-            RandomData.string(3) to RandomData.string(3),
-            RandomData.string(3) to RandomData.string(3)
-        )
+        val formsValue = mapOf<String, String>()
         val action = createAction(FormMethodType.GET)
 
         // When
         formSubmitter.submitForm(action, formsValue) {}
 
         // Then
-        val formElements = formsValue.entries
-        val element0 = formElements.elementAt(0)
-        val element1 = formElements.elementAt(1)
-        val expected = "$ACTION?${element0.key}=${element0.value}&${element1.key}=${element1.value}"
-        assertEquals(expected, urlSlot.captured)
+        assertEquals(ACTION, urlSlot.captured)
     }
 
     @Test
