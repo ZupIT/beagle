@@ -71,11 +71,11 @@ internal class FormViewRenderer(
         }
 
         if (formInputs.size == 0) {
-            BeagleMessageLogs.logFormInputsNotFound(component.action.toString())
+            BeagleMessageLogs.logFormInputsNotFound(component.onSubmit.toString())
         }
 
         if (formSubmitView == null) {
-            BeagleMessageLogs.logFormSubmitNotFound(component.action.toString())
+            BeagleMessageLogs.logFormSubmitNotFound(component.onSubmit.toString())
         }
 
         return view
@@ -180,19 +180,21 @@ internal class FormViewRenderer(
         formsValue: MutableMap<String, String>,
         rootView: RootView
     ) {
-        when (val action = component.action) {
-            is FormRemoteAction -> formSubmitter.submitForm(action, formsValue) {
-                (rootView.getContext() as AppCompatActivity).runOnUiThread {
-                    handleFormResult(rootView, it)
+        component.onSubmit?.forEach { action ->
+            when (action) {
+                is FormRemoteAction -> formSubmitter.submitForm(action, formsValue) {
+                    (rootView.getContext() as AppCompatActivity).runOnUiThread {
+                        handleFormResult(rootView, it)
+                    }
                 }
+                is CustomAction -> actionExecutor.doAction(rootView, CustomAction(
+                    name = action.name,
+                    data = formsValue.plus(action.data)
+                ))
+                else -> actionExecutor.doAction(rootView, action)
             }
-            is CustomAction -> actionExecutor.doAction(rootView, CustomAction(
-                name = action.name,
-                data = formsValue.plus(action.data)
-            ))
-            else ->
-                actionExecutor.doAction(rootView, action)
         }
+
     }
 
     private fun handleFormResult(rootView: RootView, formResult: FormResult) {

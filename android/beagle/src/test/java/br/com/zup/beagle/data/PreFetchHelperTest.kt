@@ -16,20 +16,20 @@
 
 package br.com.zup.beagle.data
 
+import androidx.appcompat.app.AppCompatActivity
 import br.com.zup.beagle.BaseTest
 import br.com.zup.beagle.action.Navigate
+import br.com.zup.beagle.engine.renderer.ActivityRootView
 import br.com.zup.beagle.action.Route
-import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.testutil.RandomData
-import br.com.zup.beagle.utils.generateViewModelInstance
+import br.com.zup.beagle.utils.ViewModelProviderFactory
 import br.com.zup.beagle.view.viewmodel.BeagleViewModel
 import io.mockk.called
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import io.mockk.mockkStatic
-import io.mockk.unmockkStatic
+import io.mockk.mockkObject
 import io.mockk.verify
 import org.junit.Test
 
@@ -37,7 +37,7 @@ class PreFetchHelperTest : BaseTest() {
 
     private val helper = PreFetchHelper()
     @MockK
-    private lateinit var rootView: RootView
+    private lateinit var rootView: ActivityRootView
     private val route = Route.Remote(route = RandomData.string(), shouldPrefetch = true)
     private val cachedTypes =
         listOf(
@@ -53,14 +53,11 @@ class PreFetchHelperTest : BaseTest() {
     override fun setUp() {
         super.setUp()
 
-        mockkStatic("br.com.zup.beagle.utils.RootViewKt")
-        every { rootView.generateViewModelInstance() } returns beagleViewModel
-        coEvery { beagleViewModel.fetchForCache(any()) } returns mockk()
-    }
+        mockkObject(ViewModelProviderFactory)
 
-    override fun tearDown() {
-        super.tearDown()
-        unmockkStatic("br.com.zup.beagle.utils.RootViewKt")
+        every { rootView.activity } returns mockk()
+        every { ViewModelProviderFactory.of(any<AppCompatActivity>()).get(BeagleViewModel::class.java) } returns beagleViewModel
+        coEvery { beagleViewModel.fetchForCache(any()) } returns mockk()
     }
 
     @Test

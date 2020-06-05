@@ -28,7 +28,7 @@ import java.lang.reflect.Type
 
 class RouteAdapterFactory : JsonAdapter.Factory {
     override fun create(type: Type, annotations: MutableSet<out Annotation>, moshi: Moshi): JsonAdapter<Route>? {
-        return if (Types.getRawType(type).isAssignableFrom(Route::class.java)) {
+        return if (Types.getRawType(type) == Route::class.java) {
             RouteAdapter(moshi)
         } else {
             null
@@ -40,7 +40,6 @@ internal class RouteAdapter(private val moshi: Moshi) : JsonAdapter<Route>() {
     override fun fromJson(reader: JsonReader): Route? {
         val jsonValue = reader.readJsonValue()
 
-        @Suppress("UNCHECKED_CAST")
         val value = jsonValue as Map<String, Any>
         return if (value.containsKey("route")) {
             Route.Remote(value["route"] as String, value["shouldPrefetch"] as Boolean, convertScreen(value["fallback"]))

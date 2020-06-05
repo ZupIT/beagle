@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package br.com.zup.beagle.utils
 
 import android.content.res.Resources
@@ -28,12 +27,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
 import br.com.zup.beagle.BaseTest
 import br.com.zup.beagle.R
-import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.DesignSystem
 import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.view.BeagleActivity
+import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.ScreenComponent

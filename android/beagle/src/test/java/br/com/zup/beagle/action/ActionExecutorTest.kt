@@ -17,8 +17,8 @@
 package br.com.zup.beagle.action
 
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import br.com.zup.beagle.engine.renderer.RootView
+import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.view.BeagleActivity
@@ -46,6 +46,9 @@ class ActionExecutorTest {
 
     @MockK
     private lateinit var formValidationActionHandler: DefaultActionHandler<FormValidation>
+
+    @MockK
+    private lateinit var updateContextActionHandler: UpdateContextActionHandler
 
     @MockK
     private lateinit var sendRequestActionHandler: SendRequestActionHandler
@@ -136,6 +139,19 @@ class ActionExecutorTest {
     }
 
     @Test
+    fun doAction_should_handle_UpdateContextActionHandler_action() {
+        // Given
+        val action = mockk<UpdateContext>()
+        every { updateContextActionHandler.handle(any(), any()) } just Runs
+
+        // When
+        actionExecutor.doAction(rootView, action)
+
+        // Then
+        verify(exactly = once()) { updateContextActionHandler.handle(activity, action) }
+    }
+
+    @Test
     fun doAction_should_not_handle_CustomAction_action_when_handler_is_null() {
         // Given
         val actionExecutor = ActionExecutor(customActionHandler = null)
@@ -152,13 +168,12 @@ class ActionExecutorTest {
     @Test
     fun do_customAction_and_listen_onStart() {
         // Given
-        val executor = ActionExecutor(customActionHandler)
         val expectedStates = listOf<ServerDrivenState>(
             ServerDrivenState.Loading(true)
         )
 
         // When
-        executor.doAction(rootView, customAction)
+        actionExecutor.doAction(rootView, customAction)
         actionListener.captured.onStart()
 
         // Then
@@ -170,14 +185,13 @@ class ActionExecutorTest {
     @Test
     fun do_customAction_and_listen_onSuccess() {
         // Given
-        val executor = ActionExecutor(customActionHandler)
         val expectedState = listOf<ServerDrivenState>(
             ServerDrivenState.Loading(false)
         )
         val dumbAction = mockk<Action>()
 
         // When
-        executor.doAction(rootView, customAction)
+        actionExecutor.doAction(rootView, customAction)
         actionListener.captured.onSuccess(dumbAction)
 
         // Then
@@ -188,8 +202,7 @@ class ActionExecutorTest {
 
     @Test
     fun do_customAction_and_listen_onError() {
-        // Given
-        val executor = ActionExecutor(customActionHandler)
+        // Given )
         val error = mockk<Throwable>()
         val expectedState = listOf(
             ServerDrivenState.Loading(false),
@@ -197,7 +210,7 @@ class ActionExecutorTest {
         )
 
         // When
-        executor.doAction(rootView, customAction)
+        actionExecutor.doAction(rootView, customAction)
         actionListener.captured.onError(error)
 
         // Then

@@ -16,6 +16,9 @@
 
 package br.com.zup.beagle.widget.core
 
+import android.view.View
 import br.com.zup.beagle.widget.Widget
 
-abstract class WidgetView : Widget(), ViewConvertable
+abstract class WidgetView : Widget(), ViewConvertable {
+    abstract fun onBind(widget: Widget, view: View)
+}

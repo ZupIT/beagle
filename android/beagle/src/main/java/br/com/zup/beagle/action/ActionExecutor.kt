@@ -21,6 +21,7 @@ import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.view.BeagleActivity
 import br.com.zup.beagle.view.ServerDrivenState
+import br.com.zup.beagle.widget.core.Action
 
 internal class ActionExecutor(
     private val customActionHandler: CustomActionHandler? =
@@ -30,7 +31,8 @@ internal class ActionExecutor(
     private val showNativeDialogActionHandler: ShowNativeDialogActionHandler =
         ShowNativeDialogActionHandler(),
     private val formValidationActionHandler: DefaultActionHandler<FormValidation>? = null,
-    private val sendRequestActionHandler: SendRequestActionHandler = SendRequestActionHandler()
+    private val sendRequestActionHandler: SendRequestActionHandler = SendRequestActionHandler(),
+    private val updateContextActionHandler: UpdateContextActionHandler = UpdateContextActionHandler()
 ) {
 
     fun doAction(rootView: RootView, action: Action?) {
@@ -43,13 +45,10 @@ internal class ActionExecutor(
             is SendRequestAction -> {
                 sendRequestActionHandler.handle(rootView = rootView,
                     action = action) { actions ->
-                    actions.forEach {
-                        action ->
-                        doAction(rootView, action)
-                    }
+                    doAction(rootView, actions)
                 }
             }
-
+            is UpdateContext -> updateContextActionHandler.handle(context, action)
             is CustomAction -> customActionHandler?.handle(context, action, object : ActionListener {
 
                 override fun onSuccess(action: Action) {
@@ -66,6 +65,12 @@ internal class ActionExecutor(
                     changeActivityState(context, ServerDrivenState.Loading(true))
                 }
             })
+        }
+    }
+
+    fun doAction(rotView: RootView, actions: List<Action>?) {
+        actions?.forEach { action ->
+            doAction(rotView, action)
         }
     }
 

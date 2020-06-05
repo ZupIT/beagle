@@ -36,6 +36,7 @@ android {
 dependencies {
     implementation GeneralLibraries.kotlin
 
+    implementation project(Modules.beagleAndroidAnnotation)
     implementation project(Modules.beagleCoreDeclarative)
 }
 

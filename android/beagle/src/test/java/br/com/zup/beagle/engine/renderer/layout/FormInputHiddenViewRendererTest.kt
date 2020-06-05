@@ -61,7 +61,7 @@ class FormInputHiddenViewRendererTest : BaseTest() {
     @Test
     fun build_should_make_view_gone() {
         // WHEN
-        formInputViewRenderer.build(rootView)
+        formInputViewRenderer.buildView(rootView)
 
         // THEN
         verify(exactly = once()) { view.visibility = View.GONE }

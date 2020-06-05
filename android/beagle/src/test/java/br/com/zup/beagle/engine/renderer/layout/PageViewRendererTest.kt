@@ -88,7 +88,7 @@ class PageViewRendererTest : BaseTest() {
         every { pageView.pageIndicator } returns null
 
         // WHEN
-        pageViewRenderer.build(rootView)
+        pageViewRenderer.buildView(rootView)
 
         // THEN
         verify(exactly = once()) { viewFactory.makeViewPager(any()) }
@@ -103,7 +103,7 @@ class PageViewRendererTest : BaseTest() {
         every { pageIndicatorComponent.buildView(any()) } returns pageIndicatorView
 
         // WHEN
-        pageViewRenderer.build(rootView)
+        pageViewRenderer.buildView(rootView)
 
         // THEN
         verify(exactly = 3) { beagleFlexView.addView(any()) }

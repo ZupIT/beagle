@@ -16,21 +16,26 @@
 
 package br.com.zup.beagle.utils
 
-import androidx.lifecycle.ViewModelProvider
-import br.com.zup.beagle.view.viewmodel.BeagleViewModel
-import br.com.zup.beagle.engine.renderer.ActivityRootView
-import br.com.zup.beagle.engine.renderer.FragmentRootView
-import br.com.zup.beagle.engine.renderer.RootView
+import br.com.zup.beagle.core.Bind
 
-internal fun RootView.generateViewModelInstance(): BeagleViewModel {
-    return when (this) {
-        is ActivityRootView -> {
-            val activity = this.activity
-            ViewModelProvider(activity).get(BeagleViewModel::class.java)
+fun <T : Any> getValueNull(binding: Bind<T>, property: T?): T? {
+    return when (binding) {
+        is Bind.Expression<T> -> {
+            property
         }
-        else -> {
-            val fragment = (this as FragmentRootView).fragment
-            ViewModelProvider(fragment).get(BeagleViewModel::class.java)
+        is Bind.Value<T> -> {
+            binding.value
+        }
+    }
+}
+
+fun <T : Any> getValueNotNull(binding: Bind<T>, property: T): T {
+    return when (binding) {
+        is Bind.Expression<T> -> {
+            property
+        }
+        is Bind.Value<T> -> {
+            binding.value
         }
     }
 }

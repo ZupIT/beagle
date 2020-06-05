@@ -65,7 +65,7 @@ class SpacerViewRendererTest : BaseTest() {
         every { viewFactory.makeBeagleFlexView(context, capture(flexSlot)) } returns beagleFlexView
 
         // When
-        val actual = spacerViewRenderer.build(rootView)
+        val actual = spacerViewRenderer.buildView(rootView)
 
         // Then
         assertNotNull(actual)

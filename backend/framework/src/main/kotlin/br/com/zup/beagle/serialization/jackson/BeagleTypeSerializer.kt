@@ -16,78 +16,100 @@
 
 package br.com.zup.beagle.serialization.jackson
 
-import br.com.zup.beagle.action.Action
+import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.layout.Screen
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter
-import com.fasterxml.jackson.databind.ser.impl.BeanAsArraySerializer
 import com.fasterxml.jackson.databind.ser.impl.ObjectIdWriter
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase
-import kotlin.reflect.full.findAnnotation
+import java.util.Locale
 
 internal class BeagleTypeSerializer : BeanSerializerBase {
-    constructor(source: BeanSerializerBase?) : super(source)
+
+    private lateinit var classLoader: ClassLoader
+    private lateinit var actionClass: Class<*>
+    private lateinit var screenClass: Class<*>
+    private lateinit var serverDrivenComponentClass: Class<*>
+
+    constructor(source: BeanSerializerBase) : super(source) {
+        setup()
+    }
+
+    constructor(source: BeanSerializerBase, classLoader: ClassLoader) : super(source) {
+        setup(classLoader)
+    }
 
     constructor(
         source: BeagleTypeSerializer?,
         objectIdWriter: ObjectIdWriter?
-    ) : super(source, objectIdWriter)
+    ) : super(source, objectIdWriter) {
+        setup()
+    }
 
     constructor(
         source: BeagleTypeSerializer?,
         toIgnore: MutableSet<String>?
-    ) : super(source, toIgnore)
+    ) : super(source, toIgnore) {
+        setup()
+    }
 
     constructor(
         source: BeagleTypeSerializer?,
         objectIdWriter: ObjectIdWriter?,
         filterId: Any?
-    ) : super(source, objectIdWriter, filterId)
+    ) : super(source, objectIdWriter, filterId) {
+        setup()
+    }
 
     constructor(
         source: BeanSerializerBase?,
         properties: Array<BeanPropertyWriter>,
         filteredProperties: Array<BeanPropertyWriter>
-    ) : super(source, properties, filteredProperties)
+    ) : super(source, properties, filteredProperties) {
+        setup()
+    }
 
-    override fun withObjectIdWriter(objectIdWriter: ObjectIdWriter) =
-        BeagleTypeSerializer(this, objectIdWriter)
+    override fun withObjectIdWriter(objectIdWriter: ObjectIdWriter?) = BeagleTypeSerializer(this, objectIdWriter)
 
-    override fun withIgnorals(toIgnore: MutableSet<String>) =
-        BeagleTypeSerializer(this, toIgnore)
+    override fun withIgnorals(toIgnore: MutableSet<String>?) = BeagleTypeSerializer(this, toIgnore)
 
-    override fun asArraySerializer() =
-        BeanAsArraySerializer(this)
+    override fun asArraySerializer() = BeagleTypeSerializer(this, this.classLoader)
 
-    override fun withFilterId(filterId: Any?) =
-        BeagleTypeSerializer(this, this._objectIdWriter, filterId)
+    override fun withFilterId(filterId: Any?) = BeagleTypeSerializer(this, this.classLoader)
 
     override fun serialize(bean: Any, generator: JsonGenerator, provider: SerializerProvider) {
         generator.writeStartObject()
-        getBeagleTypeValue(bean)?.apply {
-            generator.writeStringField(getBeagleTypeFieldName(bean), this)
-        }
+        getBeagleType(bean)?.apply { generator.writeStringField(getBeagleTypeFieldName(bean), this) }
         super.serializeFields(bean, generator, provider)
         generator.writeEndObject()
     }
 
-    private fun getBeagleTypeValue(bean: Any): String? {
+    private fun getBeagleType(bean: Any): String? {
         val beanName = bean::class.simpleName?.decapitalize()
-
-        return when (bean) {
-            is Action -> "$BEAGLE_NAMESPACE:$beanName"
-            is Screen -> "$BEAGLE_NAMESPACE:$SCREEN_COMPONENT"
-            is ServerDrivenComponent ->
-                if (bean::class.findAnnotation<RegisterWidget>() != null) {
-                    "$CUSTOM_WIDGET_BEAGLE_NAMESPACE:$beanName"
-                } else {
-                    "$BEAGLE_NAMESPACE:$beanName"
-                }
-            else -> null
+        val beanClass = bean::class.java
+        return if (this.actionClass.isAssignableFrom(beanClass)) {
+            "$BEAGLE_NAMESPACE:$beanName"
+        } else if (this.screenClass.isAssignableFrom(beanClass)) {
+            "$BEAGLE_NAMESPACE:$SCREEN_COMPONENT"
+        } else if (this.serverDrivenComponentClass.isAssignableFrom(beanClass)) {
+            if (beanClass.annotations.any { it.annotationClass.qualifiedName == RegisterWidget::class.qualifiedName }) {
+                "$CUSTOM_WIDGET_BEAGLE_NAMESPACE:$beanName"
+            } else {
+                "$BEAGLE_NAMESPACE:$beanName"
+            }
+        } else {
+            null
         }
+    }
+
+    private fun setup(classLoader: ClassLoader = BeagleTypeSerializer::class.java.classLoader) {
+        this.classLoader = classLoader
+        this.actionClass = getClass(Action::class, this.classLoader)
+        this.screenClass = getClass(Screen::class, this.classLoader)
+        this.serverDrivenComponentClass = getClass(ServerDrivenComponent::class, this.classLoader)
     }
 
     private fun getBeagleTypeFieldName(bean: Any): String {

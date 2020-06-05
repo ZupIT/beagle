@@ -18,10 +18,22 @@ package br.com.zup.beagle.mockdata
 
 import android.content.Context
 import android.view.View
+import br.com.zup.beagle.core.Bind
+import br.com.zup.beagle.setup.BindingAdapter
+import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.WidgetView
+import io.mockk.mockk
 
-class CustomWidget : WidgetView() {
+class CustomWidget : WidgetView(), BindingAdapter {
     override fun buildView(context: Context): View {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return mockk()
+    }
+
+    override fun onBind(widget: Widget, view: View) {
+        return mockk()
+    }
+
+    override fun getBindAttributes(): List<Bind<*>> {
+        return mockk()
     }
 }

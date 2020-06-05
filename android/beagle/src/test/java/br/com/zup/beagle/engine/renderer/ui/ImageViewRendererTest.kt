@@ -77,7 +77,7 @@ class ImageViewRendererTest : BaseTest() {
         every { viewMapper.toScaleType(any()) } returns mockk()
 
         // When
-        val view = imageViewRenderer.build(rootView)
+        val view = imageViewRenderer.buildView(rootView)
 
         // Then
         assertTrue(view is ImageView)
@@ -93,7 +93,7 @@ class ImageViewRendererTest : BaseTest() {
         every { imageView.scaleType = capture(scaleTypeSlot) } just Runs
 
         // When
-        imageViewRenderer.build(rootView)
+        imageViewRenderer.buildView(rootView)
 
         // Then
         Assert.assertEquals(scaleType, scaleTypeSlot.captured)
@@ -110,7 +110,7 @@ class ImageViewRendererTest : BaseTest() {
         every { imageView.scaleType = capture(scaleTypeSlot) } just Runs
 
         // When
-        imageViewRenderer.build(rootView)
+        imageViewRenderer.buildView(rootView)
 
         // Then
         Assert.assertEquals(scaleType, scaleTypeSlot.captured)

@@ -18,7 +18,6 @@ package br.com.zup.beagle.view.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.data.ActionRequester
 import br.com.zup.beagle.data.ComponentRequester
@@ -26,6 +25,7 @@ import br.com.zup.beagle.exception.BeagleException
 import br.com.zup.beagle.testutil.CoroutineTestRule
 import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.view.ScreenRequest
+import br.com.zup.beagle.widget.core.Action
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -38,7 +38,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertTrue
 
 @ExperimentalCoroutinesApi
 class BeagleViewModelTest {

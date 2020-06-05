@@ -109,7 +109,7 @@ object ButtonScreenBuilder : ScreenBuilder {
         val button = Button(
             text = text,
             style = style,
-            action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT, true))
+            onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT, true)))
         )
 
         if (flex != null) {

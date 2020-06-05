@@ -70,7 +70,7 @@ object NavigationBarViewScreenBuilder : ScreenBuilder {
 
     private fun createMenu(text: String, path: String) = Button(
         text = text,
-        action = Navigate.PushView(Route.Remote(path)),
+        onPress = listOf(Navigate.PushView(Route.Remote(path))),
         style = BUTTON_STYLE_TITLE
     ).applyFlex(
         flex = Flex(

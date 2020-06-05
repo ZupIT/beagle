@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.data
 
-import br.com.zup.beagle.action.Action
+import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.data.serializer.BeagleSerializer
 import br.com.zup.beagle.exception.BeagleApiException
 import br.com.zup.beagle.exception.BeagleException

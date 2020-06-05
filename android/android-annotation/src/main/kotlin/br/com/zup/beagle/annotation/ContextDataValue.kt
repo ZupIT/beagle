@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.state
+package br.com.zup.beagle.annotation
 
-internal data class UrlExpression(
-    val originalExpression: String,
-    val expressionId: String,
-    val expressionProperty: String
-)
+import com.squareup.moshi.JsonQualifier
+
+@JsonQualifier
+@Target(AnnotationTarget.FIELD, AnnotationTarget.PROPERTY)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class ContextDataValue

@@ -188,7 +188,7 @@ class FormViewRendererTest : BaseTest() {
         every { viewRenderer.build(rootView) } returns viewNotViewGroup
 
         // When
-        val actual = formViewRenderer.build(rootView)
+        val actual = formViewRenderer.buildView(rootView)
 
         // Then
         assertEquals(viewNotViewGroup, actual)
@@ -205,7 +205,7 @@ class FormViewRendererTest : BaseTest() {
         every { viewGroup.getChildAt(any()) } returns childViewGroup
 
         // When
-        formViewRenderer.build(rootView)
+        formViewRenderer.buildView(rootView)
 
         // Then
         verify(exactly = 1) { childViewGroup.childCount }
@@ -221,7 +221,7 @@ class FormViewRendererTest : BaseTest() {
         every { viewGroup.getChildAt(any()) } returns childViewGroup
 
         // When
-        formViewRenderer.build(rootView)
+        formViewRenderer.buildView(rootView)
 
         // Then
         val views = formViewRenderer.getPrivateField<List<View>>(FORM_INPUT_VIEWS_FIELD_NAME)
@@ -238,7 +238,7 @@ class FormViewRendererTest : BaseTest() {
         every { viewGroup.getChildAt(any()) } returns childViewGroup
 
         // When
-        formViewRenderer.build(rootView)
+        formViewRenderer.buildView(rootView)
 
         // Then
         val views = formViewRenderer.getPrivateField<List<View>>(FORM_INPUT_HIDDEN_VIEWS_FIELD_NAME)
@@ -247,7 +247,7 @@ class FormViewRendererTest : BaseTest() {
 
     @Test
     fun build_should_group_formInput_views() {
-        formViewRenderer.build(rootView)
+        formViewRenderer.buildView(rootView)
 
         val formInputs =
             formViewRenderer.getPrivateField<List<FormInput>>(FORM_INPUT_VIEWS_FIELD_NAME)
@@ -258,7 +258,7 @@ class FormViewRendererTest : BaseTest() {
 
     @Test
     fun build_should_find_formSubmitView() {
-        formViewRenderer.build(rootView)
+        formViewRenderer.buildView(rootView)
 
         val actual = formViewRenderer.getPrivateField<View>(FORM_SUBMIT_VIEW_FIELD_NAME)
         assertEquals(formSubmitView, actual)
@@ -268,7 +268,7 @@ class FormViewRendererTest : BaseTest() {
 
     @Test
     fun build_should_call_configFormSubmit_on_fetchForms() {
-        formViewRenderer.build(rootView)
+        formViewRenderer.buildView(rootView)
 
         verify { formValidatorController.configFormSubmit() }
     }
@@ -286,7 +286,7 @@ class FormViewRendererTest : BaseTest() {
     @Test
     fun onClick_of_formSubmit_should_submit_remote_form() {
         // Given
-        every { form.action } returns remoteAction
+        every { form.onSubmit } returns listOf(remoteAction)
 
         // When
         executeFormSubmitOnClickListener()
@@ -299,7 +299,7 @@ class FormViewRendererTest : BaseTest() {
     @Test
     fun onClick_of_formSubmit_should_trigger_navigate_action() {
         // Given
-        every { form.action } returns navigateAction
+        every { form.onSubmit } returns listOf(navigateAction)
 
         // When
         executeFormSubmitOnClickListener()
@@ -308,6 +308,26 @@ class FormViewRendererTest : BaseTest() {
         verify(exactly = once()) { formSubmitView.hideKeyboard() }
         verify(exactly = once()) { actionExecutor.doAction(any(), navigateAction) }
     }
+
+    @Test
+    fun onClick_of_formSubmit_should_trigger_list_action() {
+        // Given
+        every { form.onSubmit } returns listOf(navigateAction, remoteAction)
+        val formResult = FormResult.Success(mockk())
+
+        // When
+        executeFormSubmitOnClickListener()
+        formSubmitCallbackSlot.captured(formResult)
+        runnableSlot.captured.run()
+
+        // Then
+        verify(exactly = once()) { formSubmitView.hideKeyboard() }
+        verifyOrder {
+            actionExecutor.doAction(rootView, navigateAction)
+            actionExecutor.doAction(rootView, formResult.action)
+        }
+    }
+
 
     @Test
     fun onClick_of_formSubmit_should_validate_formField_that_is_required_and_is_valid() {
@@ -338,7 +358,7 @@ class FormViewRendererTest : BaseTest() {
     @Test
     fun onClick_of_formSubmit_should_handleFormSubmit_and_call_actionExecutor() {
         // Given
-        every { form.action } returns remoteAction
+        every { form.onSubmit } returns listOf(remoteAction)
         val formResult = FormResult.Success(mockk())
 
         // When
@@ -353,7 +373,7 @@ class FormViewRendererTest : BaseTest() {
     @Test
     fun onClick_of_formSubmit_should_trigger_action_and_call_showError() {
         // Given
-        every { form.action } returns remoteAction
+        every { form.onSubmit } returns listOf(remoteAction)
         every { beagleActivity.onServerDrivenContainerStateChanged(any()) } just Runs
         val formResult = FormResult.Error(mockk())
 
@@ -369,7 +389,7 @@ class FormViewRendererTest : BaseTest() {
     }
 
     private fun executeFormSubmitOnClickListener() {
-        formViewRenderer.build(rootView)
+        formViewRenderer.buildView(rootView)
         onClickListenerSlot.captured.onClick(formSubmitView)
     }
 
@@ -415,7 +435,7 @@ class FormViewRendererTest : BaseTest() {
 
         every { form.shouldStoreFields } returns false
         every { form.group } returns FORM_GROUP_VALUE
-        every { form.action } returns remoteAction
+        every { form.onSubmit } returns listOf(remoteAction)
 
         every { formDataStoreHandler.getAllValues(FORM_GROUP_VALUE) } returns savedMap
 
@@ -431,7 +451,7 @@ class FormViewRendererTest : BaseTest() {
         // Given
         every { form.shouldStoreFields } returns false
         every { form.group } returns FORM_GROUP_VALUE
-        every { form.action } returns remoteAction
+        every { form.onSubmit } returns listOf(remoteAction)
 
         // When
         executeFormSubmitOnClickListener()

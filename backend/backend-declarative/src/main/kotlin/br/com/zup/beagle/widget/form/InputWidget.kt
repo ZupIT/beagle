@@ -19,7 +19,9 @@ package br.com.zup.beagle.widget.form
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.Appearance
 import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.FlexBuilder
 
 /**
  * <p>It could be an EditText view in Android, a Radio button in HTML,
@@ -27,6 +29,40 @@ import br.com.zup.beagle.widget.core.Flex
  *
  */
 abstract class InputWidget : Widget() {
+
+    var onChange: List<Action>? = null
+        private set
+    var onFocus: List<Action>? = null
+        private set
+    var onBlur: List<Action>? = null
+        private set
+
+    /**
+     * Update list of actions to on change to this widget.
+     * @return the current widget
+     */
+    fun setOnChange(actions: List<Action>): InputWidget {
+        this.onChange = actions
+        return this
+    }
+
+    /**
+     * Update list of actions to on focus to this widget.
+     * @return the current widget
+     */
+    fun setOnFocus(actions: List<Action>): InputWidget {
+        this.onFocus = actions
+        return this
+    }
+
+    /**
+     * Update list of actions to on focus to this widget.
+     * @return the current widget
+     */
+    fun setOnBlur(actions: List<Action>): InputWidget {
+        this.onBlur = actions
+        return this
+    }
 
     /**
      * Add an identifier to this widget.
@@ -53,6 +89,8 @@ abstract class InputWidget : Widget() {
     override fun applyFlex(flex: Flex): InputWidget {
         return super.applyFlex(flex) as InputWidget
     }
+
+    fun flex(block: FlexBuilder.() -> Unit) = applyFlex(FlexBuilder().apply(block).build())
 
     /**
      * Apply the accessibility .

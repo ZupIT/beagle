@@ -26,7 +26,6 @@ import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.data.PreFetchHelper
-import br.com.zup.beagle.engine.mapper.ViewMapper
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BeagleEnvironment
@@ -34,6 +33,7 @@ import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.utils.StyleManager
 import br.com.zup.beagle.view.custom.BeagleButtonView
 import br.com.zup.beagle.view.ViewFactory
+import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.widget.ui.Button
 import io.mockk.CapturingSlot
 import io.mockk.Runs
@@ -57,24 +57,31 @@ class ButtonViewRendererTest : BaseTest() {
 
     @MockK
     private lateinit var viewFactory: ViewFactory
+
     @MockK
     private lateinit var rootView: RootView
+
     @MockK
     private lateinit var context: Context
+
     @RelaxedMockK
     private lateinit var buttonView: BeagleButtonView
+
     @RelaxedMockK
     private lateinit var button: Button
+
     @RelaxedMockK
     private lateinit var analytics: Analytics
+
     @MockK
     private lateinit var actionExecutor: ActionExecutor
+
     @MockK
     private lateinit var view: View
+
     @RelaxedMockK
     private lateinit var styleManager: StyleManager
-    @MockK
-    private lateinit var viewMapper: ViewMapper
+
     @RelaxedMockK
     private lateinit var typedArray: TypedArray
 
@@ -94,8 +101,9 @@ class ButtonViewRendererTest : BaseTest() {
 
         every { button.style } returns DEFAULT_STYLE
         every { button.text } returns DEFAULT_TEXT
-        every { button.action } returns null
-        every { actionExecutor.doAction(any(), any()) } just Runs
+        every { button.onPress } returns null
+        every { button.onLongPress } returns null
+        every { actionExecutor.doAction(any(), any<List<Action>>()) } just Runs
         every { rootView.getContext() } returns context
         every { viewFactory.makeButton(context) } returns buttonView
         every { TextViewCompat.setTextAppearance(any(), any()) } just Runs
@@ -110,19 +118,20 @@ class ButtonViewRendererTest : BaseTest() {
     @Test
     fun build_should_call_prefetch_when_action_not_null() {
         // Given
-        every { button.action } returns Navigate.PopView()
+        val actions = listOf(Navigate.PopView())
+        every { button.onPress } returns actions
 
         // When
-        buttonViewRenderer.build(rootView)
+        buttonViewRenderer.buildView(rootView)
 
         // Then
-        verify(exactly = once()) { preFetchHelper.handlePreFetch(rootView, any()) }
+        verify(exactly = once()) { preFetchHelper.handlePreFetch(rootView, actions) }
     }
 
     @Test
     fun build_should_return_a_button_instance() {
         // When
-        val view = buttonViewRenderer.build(rootView)
+        val view = buttonViewRenderer.buildView(rootView)
 
         // Then
         assertTrue(view is BeagleButtonView)
@@ -136,7 +145,7 @@ class ButtonViewRendererTest : BaseTest() {
         every { styleManager.getButtonStyle(any()) } returns BUTTON_STYLE
 
         // When
-        buttonViewRenderer.build(rootView)
+        buttonViewRenderer.buildView(rootView)
 
         // Then
         verify(exactly = once()) { buttonView.setOnClickListener(any()) }
@@ -151,7 +160,7 @@ class ButtonViewRendererTest : BaseTest() {
         every { BeagleEnvironment.beagleSdk.designSystem } returns null
 
         // When
-        buttonViewRenderer.build(rootView)
+        buttonViewRenderer.buildView(rootView)
 
         // Then
         verify(exactly = 0) { TextViewCompat.setTextAppearance(buttonView, BUTTON_STYLE) }
@@ -172,7 +181,7 @@ class ButtonViewRendererTest : BaseTest() {
         val onClickListenerSlot = CapturingSlot<View.OnClickListener>()
 
         // When
-        val buttonView = buttonViewRenderer.build(rootView)
+        val buttonView = buttonViewRenderer.buildView(rootView)
         verify { buttonView.setOnClickListener(capture(onClickListenerSlot)) }
         onClickListenerSlot.captured.onClick(view)
 
@@ -187,7 +196,7 @@ class ButtonViewRendererTest : BaseTest() {
         val onClickListenerSlot = CapturingSlot<View.OnClickListener>()
 
         // When
-        val buttonView = buttonViewRenderer.build(rootView)
+        val buttonView = buttonViewRenderer.buildView(rootView)
         verify { buttonView.setOnClickListener(capture(onClickListenerSlot)) }
         onClickListenerSlot.captured.onClick(view)
 

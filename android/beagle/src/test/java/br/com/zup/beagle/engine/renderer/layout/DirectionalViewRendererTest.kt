@@ -93,7 +93,7 @@ class DirectionalViewRendererTest : BaseTest() {
         every { beagleFlexView.addServerDrivenComponent(any(), any()) } just Runs
 
         // When
-        directionalViewRenderer.build(rootView)
+        directionalViewRenderer.buildView(rootView)
 
         // Then
         assertEquals(FlexDirection.COLUMN, flexSlot.captured.flexDirection)

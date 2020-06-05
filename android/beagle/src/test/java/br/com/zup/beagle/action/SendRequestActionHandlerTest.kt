@@ -20,10 +20,10 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import br.com.zup.beagle.engine.renderer.RootView
-import br.com.zup.beagle.exception.BeagleApiException
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.networking.ResponseData
 import br.com.zup.beagle.view.viewmodel.ActionRequestViewModel
+import br.com.zup.beagle.widget.core.Action
 import io.mockk.Called
 import io.mockk.Runs
 import io.mockk.every

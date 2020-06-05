@@ -21,8 +21,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.Route
+import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.sample.widgets.TextField
 import br.com.zup.beagle.sample.widgets.TextFieldInputType
 import br.com.zup.beagle.utils.toView
@@ -75,7 +74,11 @@ class FormFragment : Fragment() {
                         name = "nome",
                         child = TextField(
                             hint = "nome"
-                        )
+                        ).setOnBlur(listOf(ShowNativeDialog(
+                            title = "onblur",
+                            message = "onblur",
+                            buttonText = "onblur"
+                        )))
                     ),
                     FormSubmit(
                         child = Button(
@@ -91,9 +94,10 @@ class FormFragment : Fragment() {
                     )
                 )
             ),
-            action = Navigate.PushStack(
-                route = Route.Local(screen2())
-            ),
+            onSubmit = listOf(FormRemoteAction(
+                method = FormMethodType.POST,
+                path = "endereco/endpoint"
+            )),
             shouldStoreFields = true,
             group = FORM_GROUP
         )
@@ -128,10 +132,10 @@ class FormFragment : Fragment() {
                         )
                     )
                 ),
-                action = FormRemoteAction(
+                onSubmit = listOf(FormRemoteAction(
                     method = FormMethodType.POST,
                     path = "endereco/endpoint"
-                ),
+                )),
                 group = FORM_GROUP
 
             )

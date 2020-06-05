@@ -60,7 +60,7 @@ class ComposeComponentViewRendererTest : BaseTest() {
     @Test
     fun build_should_create_view() {
         // WHEN
-        val actual = viewRenderer.build(rootView)
+        val actual = viewRenderer.buildView(rootView)
 
         // THEN
         assertEquals(beagleFlexView, actual)
@@ -69,7 +69,7 @@ class ComposeComponentViewRendererTest : BaseTest() {
     @Test
     fun build_should_makeBeagleFlexView() {
         // WHEN
-        viewRenderer.build(rootView)
+        viewRenderer.buildView(rootView)
 
         // THEN
         verify(exactly = once()) { viewFactory.makeBeagleFlexView(context) }
@@ -78,7 +78,7 @@ class ComposeComponentViewRendererTest : BaseTest() {
     @Test
     fun build_should_addServerDrivenComponent() {
         // WHEN
-        viewRenderer.build(rootView)
+        viewRenderer.buildView(rootView)
 
         // THEN
         verify(exactly = once()) { component.build() }

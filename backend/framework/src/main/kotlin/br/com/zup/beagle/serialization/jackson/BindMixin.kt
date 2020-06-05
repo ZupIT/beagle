@@ -14,8 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.action
-/**
- * Base of actions
- */
-interface Action
+package br.com.zup.beagle.serialization.jackson
+
+import br.com.zup.beagle.core.BindAttribute
+import com.fasterxml.jackson.annotation.JsonValue
+
+internal object BindMixin : BindAttribute<Any> {
+    @get:JsonValue
+    override val value: Any = this
+}

@@ -20,6 +20,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.engine.renderer.RootView
+import br.com.zup.beagle.widget.core.Action
 
 internal typealias SendRequestListener = (actions: List<Action>) -> Unit
 

@@ -16,13 +16,13 @@
 
 package br.com.zup.beagle.data.serializer
 
-import br.com.zup.beagle.action.Action
+import br.com.zup.beagle.exception.BeagleException
+import br.com.zup.beagle.logger.BeagleMessageLogs
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.exception.BeagleException
-import br.com.zup.beagle.logger.BeagleMessageLogs
 import br.com.zup.beagle.testutil.RandomData
+import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.widget.ui.Button
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi

@@ -17,13 +17,14 @@
 package br.com.zup.beagle.sample.widgets
 
 import android.content.Context
+import android.view.View
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
-import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.form.InputWidget
 
-@RegisterWidget
-class SampleTextField(private val placeholder: String) : InputWidget() {
+//@RegisterWidget
+data class SampleTextField(val placeholder: String = "") : InputWidget() {
 
     @Transient
     private lateinit var textFieldView: EditText
@@ -36,8 +37,17 @@ class SampleTextField(private val placeholder: String) : InputWidget() {
 
     override fun buildView(context: Context) = EditText(context).apply {
         textFieldView = this
-        textFieldView.hint = placeholder
+
         textFieldView.isSingleLine = true
         doOnTextChanged { _, _, _, _ -> notifyChanges() }
+        textFieldView.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) onFocus() else onBlur()
+        }
+    }
+
+    override fun onBind(widget: Widget, view: View) {
+        (widget as? SampleTextField)?.let {
+            textFieldView.hint = it.placeholder
+        }
     }
 }

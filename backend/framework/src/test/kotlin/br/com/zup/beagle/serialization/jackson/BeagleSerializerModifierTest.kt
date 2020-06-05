@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.serialization.jackson
 
-import br.com.zup.beagle.action.Action
+import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.Widget
@@ -82,38 +82,6 @@ internal class BeagleSerializerModifierTest {
             compareSerializers = Assertions::assertNotSame
         )
 
-    @Test
-    fun modifySerializer_for_ComposeComponent_should_return_BeagleBuilderSerializer() =
-        testModifySerializer(
-            clazz = ComposeComponent::class.java,
-            expectedSerializerClass = BeagleBuilderSerializer::class,
-            compareSerializers = Assertions::assertNotSame
-        )
-
-    @Test
-    fun modifySerializer_for_ComposeComponent_subtype_should_return_BeagleBuilderSerializer() =
-        testModifySerializer(
-            clazz = MyComposeComponent::class.java,
-            expectedSerializerClass = BeagleBuilderSerializer::class,
-            compareSerializers = Assertions::assertNotSame
-        )
-
-    @Test
-    fun modifySerializer_for_ScreenBuilder_should_return_BeagleBuilderSerializer() =
-        testModifySerializer(
-            clazz = ScreenBuilder::class.java,
-            expectedSerializerClass = BeagleBuilderSerializer::class,
-            compareSerializers = Assertions::assertNotSame
-        )
-
-    @Test
-    fun modifySerializer_for_ScreenBuilder_subtype_should_return_BeagleBuilderSerializer() =
-        testModifySerializer(
-            clazz = MyScreenBuilder::class.java,
-            expectedSerializerClass = BeagleBuilderSerializer::class,
-            compareSerializers = Assertions::assertNotSame
-        )
-
     private fun testModifySerializer(
         clazz: Class<*>,
         expectedSerializerClass: KClass<*>,
@@ -124,7 +92,8 @@ internal class BeagleSerializerModifierTest {
 
         every { description.beanClass } returns clazz
 
-        val result = BeagleSerializerModifier.modifySerializer(mockk(), description, serializer)
+        val result = BeagleSerializerModifier(BeagleSerializerModifier::class.java.classLoader)
+            .modifySerializer(mockk(), description, serializer)
 
         compareSerializers(serializer, result)
         assertTrue { expectedSerializerClass.isInstance(result) }
