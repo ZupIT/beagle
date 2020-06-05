@@ -17,9 +17,7 @@
 package br.com.zup.beagle.action
 
 import br.com.zup.beagle.widget.core.Action
-import br.com.zup.beagle.annotation.NotImplemented
 
-@NotImplemented
 data class SendRequestAction(
     val url: String,
     val method: RequestActionMethod = RequestActionMethod.GET,
