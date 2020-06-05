@@ -21,6 +21,8 @@
 		C08D4EC12488259D00AAAC0A /* Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4EC02488259D00AAAC0A /* Schema.swift */; };
 		C08D4EF3248A7C1D00AAAC0A /* WidgetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4EEA248A7C1600AAAC0A /* WidgetTests.swift */; };
 		C08D4EF4248A7C2E00AAAC0A /* widgetWithAllAttributes.json in Resources */ = {isa = PBXBuildFile; fileRef = C08D4EEC248A7C1600AAAC0A /* widgetWithAllAttributes.json */; };
+		C08D4EF8248A800E00AAAC0A /* FlexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4EF7248A800E00AAAC0A /* FlexTests.swift */; };
+		C08D4EFA248A839700AAAC0A /* FlexMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4EF9248A839700AAAC0A /* FlexMocks.swift */; };
 		C0FBBD212475803900B72A9B /* Schema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FBBD172475803900B72A9B /* Schema.framework */; };
 		C0FBBD3324759EDD00B72A9B /* SnapshotTesting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FBBD3224759EDD00B72A9B /* SnapshotTesting.framework */; };
 		C864D2A2247C240200E7A1F9 /* FormSubmit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D221247C240200E7A1F9 /* FormSubmit.swift */; };
@@ -141,6 +143,8 @@
 		C08D4EEA248A7C1600AAAC0A /* WidgetTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WidgetTests.swift; sourceTree = "<group>"; };
 		C08D4EEC248A7C1600AAAC0A /* widgetWithAllAttributes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = widgetWithAllAttributes.json; sourceTree = "<group>"; };
 		C08D4EF5248A7C5900AAAC0A /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
+		C08D4EF7248A800E00AAAC0A /* FlexTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexTests.swift; sourceTree = "<group>"; };
+		C08D4EF9248A839700AAAC0A /* FlexMocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexMocks.swift; sourceTree = "<group>"; };
 		C0FBBD172475803900B72A9B /* Schema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Schema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0FBBD202475803900B72A9B /* SchemaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SchemaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0FBBD3224759EDD00B72A9B /* SnapshotTesting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapshotTesting.framework; path = Carthage/Build/iOS/SnapshotTesting.framework; sourceTree = "<group>"; };
@@ -359,6 +363,15 @@
 				C08D4EEC248A7C1600AAAC0A /* widgetWithAllAttributes.json */,
 			);
 			path = JSON;
+			sourceTree = "<group>";
+		};
+		C08D4EF6248A7FF600AAAC0A /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				C08D4EF7248A800E00AAAC0A /* FlexTests.swift */,
+				C08D4EF9248A839700AAAC0A /* FlexMocks.swift */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		C0FBBD0D2475803900B72A9B = {
@@ -733,6 +746,7 @@
 		C864D28F247C240200E7A1F9 /* Flex */ = {
 			isa = PBXGroup;
 			children = (
+				C08D4EF6248A7FF600AAAC0A /* Tests */,
 				C864D290247C240200E7A1F9 /* UnitValue.swift */,
 				C864D291247C240200E7A1F9 /* EdgeValue.swift */,
 				C864D292247C240200E7A1F9 /* Size.swift */,
@@ -1277,6 +1291,7 @@
 				C02918A0247EE2BF00C3AA13 /* CustomPageIndicator.swift in Sources */,
 				C864D2F9247C259E00E7A1F9 /* FormTests.swift in Sources */,
 				C08D4DD82481A1D500AAAC0A /* ScreenComponentTests.swift in Sources */,
+				C08D4EFA248A839700AAAC0A /* FlexMocks.swift in Sources */,
 				C8EAC4FC247C288B003089BE /* ButtonTests.swift in Sources */,
 				C8EBCC87247C30C5002030CC /* PageViewTests.swift in Sources */,
 				C864D2FD247C25D300E7A1F9 /* TouchableTests.swift in Sources */,
@@ -1284,6 +1299,7 @@
 				C8EAC502247C29BC003089BE /* ComponentDecoderTests.swift in Sources */,
 				C8BB30A42486FD18002DD3C1 /* NavigateTests.swift in Sources */,
 				C8EBCC24247C2F8D002030CC /* SpacerTests.swift in Sources */,
+				C08D4EF8248A800E00AAAC0A /* FlexTests.swift in Sources */,
 				C864D2F0247C245C00E7A1F9 /* ComponentFromJsonFile.swift in Sources */,
 				C8EBCC81247C304D002030CC /* LazyComponentTests.swift in Sources */,
 				C08D4EF3248A7C1D00AAAC0A /* WidgetTests.swift in Sources */,

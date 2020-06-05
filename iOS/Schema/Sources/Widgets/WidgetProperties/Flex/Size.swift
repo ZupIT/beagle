@@ -15,9 +15,6 @@
  */
 
 // MARK: - Flex Size
-
-// MARK: Size Equatable
-
 public class Size: Decodable, AutoEquatable, AutoInitiable {
     // MARK: - Public Properties
     public var width: UnitValue?
