@@ -1,0 +1,97 @@
+▿ Screen
+  - appearance: Optional<Appearance>.none
+  ▿ child: ScrollView
+    - appearance: Optional<Appearance>.none
+    ▿ children: 3 elements
+      ▿ Container
+        ▿ children: 2 elements
+          ▿ NetworkImage
+            ▿ contentMode: Optional<ImageContentMode>
+              - some: ImageContentMode.center
+            - path: "path"
+            ▿ widgetProperties: WidgetProperties
+              - accessibility: Optional<Accessibility>.none
+              - appearance: Optional<Appearance>.none
+              - flex: Optional<Flex>.none
+              - id: Optional<String>.none
+          ▿ Text
+            ▿ alignment: Optional<Alignment>
+              - some: Alignment.center
+            ▿ style: Optional<String>
+              - some: "some style"
+            - text: "Description of Screen"
+            ▿ textColor: Optional<String>
+              - some: "#FFFFFFFF"
+            ▿ widgetProperties: WidgetProperties
+              - accessibility: Optional<Accessibility>.none
+              - appearance: Optional<Appearance>.none
+              - flex: Optional<Flex>.none
+              - id: Optional<String>.none
+        ▿ widgetProperties: WidgetProperties
+          - accessibility: Optional<Accessibility>.none
+          - appearance: Optional<Appearance>.none
+          - flex: Optional<Flex>.none
+          - id: Optional<String>.none
+      ▿ Button
+        ▿ action: Optional<Action>
+          ▿ some: CustomAction
+            ▿ data: 1 key/value pair
+              ▿ (2 elements)
+                - key: "dataKey"
+                - value: "dataValue"
+            - name: "Some Custom Action"
+        ▿ clickAnalyticsEvent: Optional<AnalyticsClick>
+          ▿ some: AnalyticsClick
+            - category: "some category"
+            ▿ label: Optional<String>
+              - some: "some label"
+            ▿ value: Optional<String>
+              - some: "some value"
+        ▿ style: Optional<String>
+          - some: "some style"
+        - text: "Button Title"
+        ▿ widgetProperties: WidgetProperties
+          - accessibility: Optional<Accessibility>.none
+          - appearance: Optional<Appearance>.none
+          - flex: Optional<Flex>.none
+          - id: Optional<String>.none
+      ▿ Spacer
+        - size: 10.0
+    ▿ scrollBarEnabled: Optional<Bool>
+      - some: false
+    ▿ scrollDirection: Optional<ScrollAxis>
+      - some: ScrollAxis.horizontal
+  - id: Optional<String>.none
+  ▿ navigationBar: Optional<NavigationBar>
+    ▿ some: NavigationBar
+      ▿ backButtonAccessibility: Optional<Accessibility>
+        ▿ some: Accessibility
+          ▿ accessibilityLabel: Optional<String>
+            - some: "Back button"
+          - accessible: true
+      ▿ navigationBarItems: Optional<Array<NavigationBarItem>>
+        ▿ some: 1 element
+          ▿ NavigationBarItem
+            - accessibility: Optional<Accessibility>.none
+            ▿ action: ShowNativeDialog
+              - buttonText: "Next"
+              - message: ""
+              - title: "You will be redirect to edit screen"
+            - id: Optional<String>.none
+            - image: Optional<String>.none
+            - text: "Edit"
+      ▿ showBackButton: Optional<Bool>
+        - some: true
+      - style: Optional<String>.none
+      - title: "Title of Screen"
+  ▿ safeArea: Optional<SafeArea>
+    ▿ some: SafeArea
+      ▿ bottom: Optional<Bool>
+        - some: true
+      ▿ leading: Optional<Bool>
+        - some: false
+      ▿ top: Optional<Bool>
+        - some: true
+      ▿ trailing: Optional<Bool>
+        - some: false
+  - screenAnalyticsEvent: Optional<AnalyticsScreen>.none

@@ -1,0 +1,53 @@
+▿ Screen
+  - appearance: Optional<Appearance>.none
+  ▿ child: TabView
+    - style: Optional<String>.none
+    ▿ tabItems: 2 elements
+      ▿ TabItem
+        ▿ content: Container
+          ▿ children: 1 element
+            ▿ Text
+              - alignment: Optional<Alignment>.none
+              - style: Optional<String>.none
+              - text: ""
+              - textColor: Optional<String>.none
+              ▿ widgetProperties: WidgetProperties
+                - accessibility: Optional<Accessibility>.none
+                - appearance: Optional<Appearance>.none
+                - flex: Optional<Flex>.none
+                - id: Optional<String>.none
+          ▿ widgetProperties: WidgetProperties
+            - accessibility: Optional<Accessibility>.none
+            - appearance: Optional<Appearance>.none
+            - flex: Optional<Flex>.none
+            - id: Optional<String>.none
+        ▿ icon: Optional<String>
+          - some: ""
+        ▿ title: Optional<String>
+          - some: ""
+      ▿ TabItem
+        ▿ content: Container
+          ▿ children: 1 element
+            ▿ Text
+              - alignment: Optional<Alignment>.none
+              - style: Optional<String>.none
+              - text: ""
+              - textColor: Optional<String>.none
+              ▿ widgetProperties: WidgetProperties
+                - accessibility: Optional<Accessibility>.none
+                - appearance: Optional<Appearance>.none
+                - flex: Optional<Flex>.none
+                - id: Optional<String>.none
+          ▿ widgetProperties: WidgetProperties
+            - accessibility: Optional<Accessibility>.none
+            - appearance: Optional<Appearance>.none
+            - flex: Optional<Flex>.none
+            - id: Optional<String>.none
+        - icon: Optional<String>.none
+        - title: Optional<String>.none
+  - id: Optional<String>.none
+  - navigationBar: Optional<NavigationBar>.none
+  - safeArea: Optional<SafeArea>.none
+  ▿ screenAnalyticsEvent: Optional<AnalyticsScreen>
+    ▿ some: AnalyticsScreen
+      - screenName: "Screen Name"

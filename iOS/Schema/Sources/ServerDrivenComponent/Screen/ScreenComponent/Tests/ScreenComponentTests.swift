@@ -24,5 +24,21 @@ class ScreenComponentTests: XCTestCase {
         let component: ScreenComponent = try componentFromJsonFile(fileName: "screenComponent")
         assertSnapshot(matching: component, as: .dump)
     }
-
+    
+    func testScreenComponentSample() {
+        // given
+        let screen = ScreenComponent(
+            screenAnalyticsEvent: AnalyticsScreen(screenName: "Screen Name"),
+            child: PageView(
+                pages: [
+                    WebView(url: "some url", flex: Flex.createMock())
+                ],
+                pageIndicator: nil
+            )
+        )
+        
+        // then
+        assertSnapshot(matching: screen, as: .dump)
+    }
+    
 }
