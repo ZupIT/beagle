@@ -45,3 +45,16 @@ extension Text: Widget {
         return textView
     }
 }
+
+extension Text.Alignment {
+    public func toUIKit() -> NSTextAlignment {
+        switch self {
+        case .left:
+            return .left
+        case .right:
+            return .right
+        case .center:
+            return .center
+        }
+    }
+}

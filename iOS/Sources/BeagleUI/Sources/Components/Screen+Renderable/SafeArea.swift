@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,26 +15,17 @@
  * limitations under the License.
  */
 
-public struct SafeArea: Equatable, Decodable, AutoInitiable {
+import Foundation
+import Schema
 
-    // MARK: - Public Properties
-
-    public let top: Bool?
-    public let leading: Bool?
-    public let bottom: Bool?
-    public let trailing: Bool?
+extension SafeArea {
     
-// sourcery:inline:auto:SafeArea.Init
-    public init(
-        top: Bool? = nil,
-        leading: Bool? = nil,
-        bottom: Bool? = nil,
-        trailing: Bool? = nil
-    ) {
-        self.top = top
-        self.leading = leading
-        self.bottom = bottom
-        self.trailing = trailing
+    public static var all: SafeArea {
+        return SafeArea(top: true, leading: true, bottom: true, trailing: true)
     }
-// sourcery:end
+    
+    public static var none: SafeArea {
+        return SafeArea(top: false, leading: false, bottom: false, trailing: false)
+    }
+    
 }

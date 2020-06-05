@@ -45,16 +45,5 @@ extension Text {
         case left = "LEFT"
         case right = "RIGHT"
         case center = "CENTER"
-        
-        public func toUIKit() -> NSTextAlignment {
-            switch self {
-            case .left:
-                return .left
-            case .right:
-                return .right
-            case .center:
-                return .center
-            }
-        }
     }
 }

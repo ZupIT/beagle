@@ -26,5 +26,40 @@ final class WidgetTests: XCTestCase {
         let component: Text = try componentFromJsonFile(fileName: "widgetWithAllAttributes")
         assertSnapshot(matching: component, as: .dump)
     }
+    
+    func testGetOfTextAttributes() throws {
+        // given
+        let text: Text = try componentFromJsonFile(fileName: "widgetWithAllAttributes")
+        
+        // then
+        XCTAssertNotNil(text.id)
+        XCTAssertNotNil(text.flex)
+        XCTAssertNotNil(text.accessibility)
+        XCTAssertNotNil(text.appearance)
+    }
+    
+    func testSetOfTextAttributes() throws {
+        // given
+        var text: Text = try componentFromJsonFile(fileName: "widgetWithAllAttributes")
+        let newAppeareance = Appearance(backgroundColor: nil, cornerRadius: .init(radius: -9999.0))
+        let newId = "newID"
+        let newFlex = Flex.createMock()
+        let newAccessiblity = Accessibility(accessibilityLabel: "new label", accessible: false)
+        
+        // when
+        text.appearance = newAppeareance
+        text.id = newId
+        text.flex = newFlex
+        text.accessibility = newAccessiblity
+        
+        // then
+        XCTAssert(
+            text.appearance == newAppeareance &&
+            text.id == newId &&
+            text.flex == newFlex &&
+            text.accessibility == newAccessiblity
+        )
+        
+    }
 
 }

@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,26 +15,26 @@
  * limitations under the License.
  */
 
-public struct SafeArea: Equatable, Decodable, AutoInitiable {
+import XCTest
+import Schema
+@testable import BeagleUI
+// swiftlint:disable force_unwrapping
 
-    // MARK: - Public Properties
+class SafeAreaTests: XCTestCase {
 
-    public let top: Bool?
-    public let leading: Bool?
-    public let bottom: Bool?
-    public let trailing: Bool?
-    
-// sourcery:inline:auto:SafeArea.Init
-    public init(
-        top: Bool? = nil,
-        leading: Bool? = nil,
-        bottom: Bool? = nil,
-        trailing: Bool? = nil
-    ) {
-        self.top = top
-        self.leading = leading
-        self.bottom = bottom
-        self.trailing = trailing
+    func testMethodNamedAll() {
+        // given
+        let all = SafeArea.all
+        
+        // then
+        XCTAssertTrue(all.top! && all.leading! && all.trailing! && all.bottom!)
     }
-// sourcery:end
+
+    func testMethodNamedNone() {
+        // given
+        let none = SafeArea.none
+        
+        // then
+        XCTAssertFalse(none.top! && none.leading! && none.trailing! && none.bottom!)
+    }
 }

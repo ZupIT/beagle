@@ -274,10 +274,10 @@
 		C0291895247EDF6500C3AA13 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				C029189F247EE2BF00C3AA13 /* CustomPageIndicator.swift */,
 				C0291897247EDF8500C3AA13 /* PageIndicatorTests.swift */,
 				C029189E247EE1A300C3AA13 /* __Snapshots__ */,
 				C0291896247EDF6D00C3AA13 /* JSON */,
-				C029189F247EE2BF00C3AA13 /* CustomPageIndicator.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
