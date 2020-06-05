@@ -26,21 +26,23 @@ import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.interfaces.OnStateUpdatable
 import br.com.zup.beagle.utils.implementsGenericTypeOf
 
+typealias OnStateChanged = (state: BeagleViewState) -> Unit
+
+typealias OnLoadCompleted = () -> Unit
+
 sealed class BeagleViewState {
     data class Error(val throwable: Throwable) : BeagleViewState()
     object LoadStarted : BeagleViewState()
     object LoadFinished : BeagleViewState()
 }
 
-interface StateChangedListener {
-    fun onStateChanged(state: BeagleViewState)
-}
-
 internal class BeagleView(
     context: Context
 ) : BeagleFlexView(context) {
 
-    var stateChangedListener: StateChangedListener? = null
+    var stateChangedListener: OnStateChanged? = null
+
+    var loadCompletedListener: OnLoadCompleted? = null
 
     private lateinit var rootView: RootView
 
@@ -78,11 +80,11 @@ internal class BeagleView(
         } else {
             BeagleViewState.LoadFinished
         }
-        stateChangedListener?.onStateChanged(state)
+        stateChangedListener?.invoke(state)
     }
 
     private fun handleError(throwable: Throwable) {
-        stateChangedListener?.onStateChanged(BeagleViewState.Error(throwable))
+        stateChangedListener?.invoke(BeagleViewState.Error(throwable))
     }
 
     private fun renderComponent(component: ServerDrivenComponent, view: View? = null) {
@@ -96,6 +98,7 @@ internal class BeagleView(
         } else {
             removeAllViewsInLayout()
             addServerDrivenComponent(component, rootView)
+            loadCompletedListener?.invoke()
         }
     }
 }

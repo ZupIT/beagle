@@ -76,7 +76,7 @@ class TabViewRendererTest : BaseTest() {
         }
         styleManagerFactory = styleManager
         every { BeagleEnvironment.beagleSdk.designSystem?.image(any()) } returns 10
-        every { BeagleEnvironment.beagleSdk.designSystem?.tabBarStyle(any()) } returns 0
+        every { BeagleEnvironment.beagleSdk.designSystem?.tabViewStyle(any()) } returns 0
 
         every { rootView.getContext() } returns context
 

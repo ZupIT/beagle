@@ -276,7 +276,7 @@ class StyleManagerTest {
         // GIVEN
         val tabStyle = null
         val tabStyleResource = 0
-        every { designSystem.tabBarStyle("") } returns tabStyleResource
+        every { designSystem.tabViewStyle("") } returns tabStyleResource
 
         // WHEN
         styleManager.getTabBarTypedArray(context, tabStyle)
