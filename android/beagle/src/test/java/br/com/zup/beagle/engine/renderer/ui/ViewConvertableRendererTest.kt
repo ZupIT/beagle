@@ -54,7 +54,7 @@ class ViewConvertableRendererTest : BaseTest() {
         every { widget.buildView(rootView.getContext()) } returns view
 
         // When
-        val actual = viewConvertableRenderer.build(rootView)
+        val actual = viewConvertableRenderer.buildView(rootView)
 
         // Then
         assertEquals(view, actual)

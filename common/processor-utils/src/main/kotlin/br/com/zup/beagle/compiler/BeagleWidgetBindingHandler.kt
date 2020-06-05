@@ -40,7 +40,7 @@ class BeagleWidgetBindingHandler(
 
     private val elementUtils = processingEnvironment.elementUtils
     private val typeUtils = processingEnvironment.typeUtils
-    private val outputDirectory = processingEnvironment.kaptGeneratedDirectory
+    private val outputDirectory = processingEnvironment.filer
 
     fun handle(element: TypeElement) =
         getFileSpec(element)

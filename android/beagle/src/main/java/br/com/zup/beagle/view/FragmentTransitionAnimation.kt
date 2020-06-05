@@ -14,12 +14,22 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.core
+package br.com.zup.beagle.view
 
-import android.view.View
-import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.Widget
+import androidx.annotation.AnimRes
+import androidx.annotation.AnimatorRes
 
-interface BindingWidget : ServerDrivenComponent  {
-    fun onBind(widget: Widget, view: View)
-}
+data class FragmentTransitionAnimation(
+    @AnimatorRes
+    @AnimRes
+    val enter: Int,
+    @AnimatorRes
+    @AnimRes
+    val exit: Int,
+    @AnimatorRes
+    @AnimRes
+    val popEnter: Int,
+    @AnimatorRes
+    @AnimRes
+    val popExit: Int
+)

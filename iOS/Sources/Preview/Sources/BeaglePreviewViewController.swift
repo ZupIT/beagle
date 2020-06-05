@@ -76,11 +76,11 @@ class BeaglePreviewViewController: UIViewController, HasDependencies, WSConnecti
             return
         }
 
-        viewController.willMove(toParentViewController: self)
+        viewController.willMove(toParent: self)
         viewController.view.frame = view.bounds
         view.addSubview(viewController.view)
-        addChildViewController(viewController)
-        viewController.didMove(toParentViewController: self)
+        addChild(viewController)
+        viewController.didMove(toParent: self)
     }
 
 }

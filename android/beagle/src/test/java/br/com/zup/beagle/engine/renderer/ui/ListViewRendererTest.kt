@@ -70,7 +70,7 @@ class ListViewRendererTest : BaseTest() {
 
     @Test
     fun build_should_return_a_BeagleFlexView_instance() {
-        val view = listViewRenderer.build(rootView)
+        val view = listViewRenderer.buildView(rootView)
 
         assertTrue(view is RecyclerView)
     }
@@ -81,7 +81,7 @@ class ListViewRendererTest : BaseTest() {
         every { widget.direction } returns ListDirection.VERTICAL
 
         // When
-        listViewRenderer.build(rootView)
+        listViewRenderer.buildView(rootView)
 
         // Then
         assertEquals(RecyclerView.VERTICAL, layoutManagerSlot.captured.orientation)
@@ -93,7 +93,7 @@ class ListViewRendererTest : BaseTest() {
         every { widget.direction } returns ListDirection.HORIZONTAL
 
         // When
-        listViewRenderer.build(rootView)
+        listViewRenderer.buildView(rootView)
 
         // Then
         assertEquals(RecyclerView.HORIZONTAL, layoutManagerSlot.captured.orientation)

@@ -14,10 +14,16 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.state
+package br.com.zup.beagle.mockdata
 
-internal data class UrlExpression(
-    val originalExpression: String,
-    val expressionId: String,
-    val expressionProperty: String
-)
+import br.com.zup.beagle.core.Bind
+import br.com.zup.beagle.core.ServerDrivenComponent
+
+data class InternalObject(val value1: String, val value2: Int)
+
+data class ComponentBinding(
+    val value1: Bind<Int>?,
+    val value2: Bind<String>,
+    val value3: Bind<Boolean>,
+    val value4: Bind<InternalObject>
+) : ServerDrivenComponent

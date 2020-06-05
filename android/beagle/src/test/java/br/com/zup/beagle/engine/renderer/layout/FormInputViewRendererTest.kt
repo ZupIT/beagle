@@ -89,7 +89,7 @@ class FormInputViewRendererTest : BaseTest() {
     @Test
     fun build_should_make_child() {
         // WHEN
-        val actual = formInputViewRenderer.build(rootView)
+        val actual = formInputViewRenderer.buildView(rootView)
 
         // THEN
         assertEquals(view, actual)
@@ -98,7 +98,7 @@ class FormInputViewRendererTest : BaseTest() {
     @Test
     fun build_should_set_widget_on_tag() {
         // WHEN
-        formInputViewRenderer.build(rootView)
+        formInputViewRenderer.buildView(rootView)
 
         // THEN
         verify(exactly = once()) { view.tag = formInput }
@@ -112,7 +112,7 @@ class FormInputViewRendererTest : BaseTest() {
         every { inputWidget.onFocus } returns listOf(navigateAction)
 
         // WHEN
-        formInputViewRenderer.build(rootView)
+        formInputViewRenderer.buildView(rootView)
         observerSlot.captured.update(mockk(), Pair(InputWidgetWatcherActionType.ON_FOCUS, ""))
 
         // THEN

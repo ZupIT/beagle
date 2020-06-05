@@ -18,6 +18,8 @@ package br.com.zup.beagle.context
 
 import androidx.collection.LruCache
 import br.com.zup.beagle.action.UpdateContext
+import br.com.zup.beagle.core.Bind
+import br.com.zup.beagle.core.ContextData
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.jsonpath.JsonPathFinder
 import br.com.zup.beagle.jsonpath.JsonPathReplacer
@@ -42,7 +44,6 @@ import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 import java.util.*
-import kotlin.test.assertFails
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -78,7 +79,7 @@ class ContextDataManagerTest {
 
         every { bindModel.type } returns Model::class.java
         every { bindModel.value } returns "@{$CONTEXT_ID}"
-        every { bindModel.notifyChanges(any()) } just Runs
+        every { bindModel.notifyChange(any()) } just Runs
 
         mockkObject(BeagleMessageLogs)
         every { BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(any()) } just Runs
@@ -246,7 +247,7 @@ class ContextDataManagerTest {
         contextDataManager.evaluateContextBindings()
 
         // Then
-        verify { bindModel.notifyChanges(value) }
+        verify { bindModel.notifyChange(value) }
     }
 
     @Test
@@ -263,7 +264,7 @@ class ContextDataManagerTest {
         contextDataManager.evaluateContextBindings()
 
         // Then
-        verify(exactly = once()) { bindModel.notifyChanges(value) }
+        verify(exactly = once()) { bindModel.notifyChange(value) }
     }
 
     @Test
@@ -276,7 +277,7 @@ class ContextDataManagerTest {
         contextDataManager.evaluateContextBindings()
 
         // Then
-        verify { bindModel.notifyChanges(bindModel) }
+        verify { bindModel.notifyChange(bindModel) }
     }
 
     @Test
@@ -289,7 +290,7 @@ class ContextDataManagerTest {
         contextDataManager.evaluateContextBindings()
 
         // Then
-        verify { bindModel.notifyChanges(bindModel) }
+        verify { bindModel.notifyChange(bindModel) }
     }
 
     @Test
@@ -304,7 +305,7 @@ class ContextDataManagerTest {
 
         // Then
         verify(exactly = once()) { BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(any()) }
-        verify(exactly = 0) { bindModel.notifyChanges(any()) }
+        verify(exactly = 0) { bindModel.notifyChange(any()) }
     }
 
     @Test
@@ -318,7 +319,7 @@ class ContextDataManagerTest {
 
         // Then
         verify { BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(any()) }
-        verify(exactly = 0) { bindModel.notifyChanges(any()) }
+        verify(exactly = 0) { bindModel.notifyChange(any()) }
     }
 
     @Test
@@ -332,6 +333,6 @@ class ContextDataManagerTest {
         // Then
         verify { BeagleMessageLogs.errorWhileTryingToAccessContext(any()) }
         verify { BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(any()) }
-        verify(exactly = 0) { bindModel.notifyChanges(any()) }
+        verify(exactly = 0) { bindModel.notifyChange(any()) }
     }
 }

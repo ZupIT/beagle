@@ -16,21 +16,28 @@
 
 package br.com.zup.beagle.utils
 
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import br.com.zup.beagle.data.BeagleViewModel
 import br.com.zup.beagle.engine.renderer.ActivityRootView
 import br.com.zup.beagle.engine.renderer.FragmentRootView
 import br.com.zup.beagle.engine.renderer.RootView
 
-internal fun RootView.generateViewModelInstance(): BeagleViewModel {
+internal inline fun <reified T : ViewModel> RootView.generateViewModelInstance(): T {
     return when (this) {
         is ActivityRootView -> {
             val activity = this.activity
-            ViewModelProvider(activity).get(BeagleViewModel::class.java)
+            ViewModelProviderFactory.of(activity).get(T::class.java)
         }
         else -> {
             val fragment = (this as FragmentRootView).fragment
-            ViewModelProvider(fragment).get(BeagleViewModel::class.java)
+            ViewModelProviderFactory.of(fragment).get(T::class.java)
         }
     }
+}
+
+internal object ViewModelProviderFactory {
+    fun of(fragment: Fragment) = ViewModelProvider(fragment)
+    fun of(activity: AppCompatActivity) = ViewModelProvider(activity)
 }

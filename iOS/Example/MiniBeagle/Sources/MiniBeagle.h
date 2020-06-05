@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.mockdata
+#import <Foundation/Foundation.h>
 
-import br.com.zup.beagle.core.Bind
-import br.com.zup.beagle.core.ServerDrivenComponent
+//! Project version number for MiniBeagle.
+FOUNDATION_EXPORT double MiniBeagleVersionNumber;
 
-data class InternalObject(val value1: String, val value2: Int)
+//! Project version string for MiniBeagle.
+FOUNDATION_EXPORT const unsigned char MiniBeagleVersionString[];
 
-data class BindComponent(
-    val value1: Bind<Int>?,
-    val value2: Bind<String>,
-    val value3: Bind<Boolean>,
-    val value4: Bind<InternalObject>
-) : ServerDrivenComponent
+// In this header, you should import all the public headers of your framework using statements like #import <MiniBeagle/PublicHeader.h>
+
+

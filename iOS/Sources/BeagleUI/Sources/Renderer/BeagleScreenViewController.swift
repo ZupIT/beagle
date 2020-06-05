@@ -175,17 +175,17 @@ public class BeagleScreenViewController: UIViewController {
     
     private func removeContentController() {
         guard let contentController = contentController else { return }
-        contentController.willMove(toParentViewController: nil)
+        contentController.willMove(toParent: nil)
         contentController.view.removeFromSuperview()
-        contentController.removeFromParentViewController()
+        contentController.removeFromParent()
     }
     
     private func addContentController() {
         guard let contentController = contentController else { return }
-        addChildViewController(contentController)
+        addChild(contentController)
         view.addSubview(contentController.view)
         contentController.view.anchorTo(superview: view)
-        contentController.didMove(toParentViewController: self)
+        contentController.didMove(toParent: self)
     }
 }
 

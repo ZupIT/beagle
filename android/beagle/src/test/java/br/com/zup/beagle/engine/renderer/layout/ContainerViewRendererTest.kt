@@ -71,7 +71,7 @@ class ContainerViewRendererTest : BaseTest() {
     @Test
     fun build_should_makeBeagleFlexView() {
         // WHEN
-        renderer.build(rootView)
+        renderer.buildView(rootView)
 
         // THEN
         verify(exactly = once()) { viewFactory.makeBeagleFlexView(context, flex) }
@@ -80,7 +80,7 @@ class ContainerViewRendererTest : BaseTest() {
     @Test
     fun build_should_addServerDrivenComponent() {
         // WHEN
-        renderer.build(rootView)
+        renderer.buildView(rootView)
 
         // THEN
         verify(exactly = once()) { beagleFlexView.addServerDrivenComponent(containerChildren[0], rootView) }

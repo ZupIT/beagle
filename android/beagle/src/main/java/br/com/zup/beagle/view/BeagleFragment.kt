@@ -60,7 +60,7 @@ internal class BeagleFragment : Fragment() {
         return context?.let {
             FrameLayout(it).apply {
                 applyBackgroundFromWindowBackgroundTheme(it)
-                addView(screen.toView(context))
+                addView(screen.toView(this@BeagleFragment))
             }
         }
     }

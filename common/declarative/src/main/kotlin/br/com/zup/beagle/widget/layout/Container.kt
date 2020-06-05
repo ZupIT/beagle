@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.widget.layout
 
+import br.com.zup.beagle.core.ContextData
+import br.com.zup.beagle.core.ContextComponent
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.Widget
@@ -27,5 +29,6 @@ import br.com.zup.beagle.widget.Widget
  *
  */
 data class Container(
-    val children: List<ServerDrivenComponent>
-) : Widget(), LayoutComponent
+    val children: List<ServerDrivenComponent>,
+    override val context: ContextData? = null
+) : Widget(), LayoutComponent, ContextComponent

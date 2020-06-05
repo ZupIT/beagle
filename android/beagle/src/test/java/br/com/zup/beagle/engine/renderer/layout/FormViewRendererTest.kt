@@ -187,7 +187,7 @@ class FormViewRendererTest : BaseTest() {
         every { viewRenderer.build(rootView) } returns viewNotViewGroup
 
         // When
-        val actual = formViewRenderer.build(rootView)
+        val actual = formViewRenderer.buildView(rootView)
 
         // Then
         assertEquals(viewNotViewGroup, actual)
@@ -204,7 +204,7 @@ class FormViewRendererTest : BaseTest() {
         every { viewGroup.getChildAt(any()) } returns childViewGroup
 
         // When
-        formViewRenderer.build(rootView)
+        formViewRenderer.buildView(rootView)
 
         // Then
         verify(exactly = 1) { childViewGroup.childCount }
@@ -220,7 +220,7 @@ class FormViewRendererTest : BaseTest() {
         every { viewGroup.getChildAt(any()) } returns childViewGroup
 
         // When
-        formViewRenderer.build(rootView)
+        formViewRenderer.buildView(rootView)
 
         // Then
         val views = formViewRenderer.getPrivateField<List<View>>(FORM_INPUT_VIEWS_FIELD_NAME)
@@ -237,7 +237,7 @@ class FormViewRendererTest : BaseTest() {
         every { viewGroup.getChildAt(any()) } returns childViewGroup
 
         // When
-        formViewRenderer.build(rootView)
+        formViewRenderer.buildView(rootView)
 
         // Then
         val views = formViewRenderer.getPrivateField<List<View>>(FORM_INPUT_HIDDEN_VIEWS_FIELD_NAME)
@@ -246,7 +246,7 @@ class FormViewRendererTest : BaseTest() {
 
     @Test
     fun build_should_group_formInput_views() {
-        formViewRenderer.build(rootView)
+        formViewRenderer.buildView(rootView)
 
         val formInputs =
             formViewRenderer.getPrivateField<List<FormInput>>(FORM_INPUT_VIEWS_FIELD_NAME)
@@ -257,7 +257,7 @@ class FormViewRendererTest : BaseTest() {
 
     @Test
     fun build_should_find_formSubmitView() {
-        formViewRenderer.build(rootView)
+        formViewRenderer.buildView(rootView)
 
         val actual = formViewRenderer.getPrivateField<View>(FORM_SUBMIT_VIEW_FIELD_NAME)
         assertEquals(formSubmitView, actual)
@@ -267,7 +267,7 @@ class FormViewRendererTest : BaseTest() {
 
     @Test
     fun build_should_call_configFormSubmit_on_fetchForms() {
-        formViewRenderer.build(rootView)
+        formViewRenderer.buildView(rootView)
 
         verify { formValidatorController.configFormSubmit() }
     }
@@ -388,7 +388,7 @@ class FormViewRendererTest : BaseTest() {
     }
 
     private fun executeFormSubmitOnClickListener() {
-        formViewRenderer.build(rootView)
+        formViewRenderer.buildView(rootView)
         onClickListenerSlot.captured.onClick(formSubmitView)
     }
 

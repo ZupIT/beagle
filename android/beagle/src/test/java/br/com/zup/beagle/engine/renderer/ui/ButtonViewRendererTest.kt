@@ -122,7 +122,7 @@ class ButtonViewRendererTest : BaseTest() {
         every { button.onPress } returns actions
 
         // When
-        buttonViewRenderer.build(rootView)
+        buttonViewRenderer.buildView(rootView)
 
         // Then
         verify(exactly = once()) { preFetchHelper.handlePreFetch(rootView, actions) }
@@ -131,7 +131,7 @@ class ButtonViewRendererTest : BaseTest() {
     @Test
     fun build_should_return_a_button_instance() {
         // When
-        val view = buttonViewRenderer.build(rootView)
+        val view = buttonViewRenderer.buildView(rootView)
 
         // Then
         assertTrue(view is BeagleButtonView)
@@ -145,7 +145,7 @@ class ButtonViewRendererTest : BaseTest() {
         every { styleManager.getButtonStyle(any()) } returns BUTTON_STYLE
 
         // When
-        buttonViewRenderer.build(rootView)
+        buttonViewRenderer.buildView(rootView)
 
         // Then
         verify(exactly = once()) { buttonView.setOnClickListener(any()) }
@@ -160,7 +160,7 @@ class ButtonViewRendererTest : BaseTest() {
         every { BeagleEnvironment.beagleSdk.designSystem } returns null
 
         // When
-        buttonViewRenderer.build(rootView)
+        buttonViewRenderer.buildView(rootView)
 
         // Then
         verify(exactly = 0) { TextViewCompat.setTextAppearance(buttonView, BUTTON_STYLE) }
@@ -181,7 +181,7 @@ class ButtonViewRendererTest : BaseTest() {
         val onClickListenerSlot = CapturingSlot<View.OnClickListener>()
 
         // When
-        val buttonView = buttonViewRenderer.build(rootView)
+        val buttonView = buttonViewRenderer.buildView(rootView)
         verify { buttonView.setOnClickListener(capture(onClickListenerSlot)) }
         onClickListenerSlot.captured.onClick(view)
 
@@ -196,7 +196,7 @@ class ButtonViewRendererTest : BaseTest() {
         val onClickListenerSlot = CapturingSlot<View.OnClickListener>()
 
         // When
-        val buttonView = buttonViewRenderer.build(rootView)
+        val buttonView = buttonViewRenderer.buildView(rootView)
         verify { buttonView.setOnClickListener(capture(onClickListenerSlot)) }
         onClickListenerSlot.captured.onClick(view)
 

@@ -78,7 +78,7 @@ class TextViewRendererTest : BaseTest() {
         every { textView.setTextWidget(any()) } just Runs
 
         // When
-        val view = textViewRenderer.build(rootView)
+        val view = textViewRenderer.buildView(rootView)
 
         // Then
         assertTrue(view is TextView)

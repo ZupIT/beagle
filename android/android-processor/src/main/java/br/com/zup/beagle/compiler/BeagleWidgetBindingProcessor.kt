@@ -125,6 +125,7 @@ class BeagleWidgetBindingProcessor(
             .addParameter(CONTEXT_PROPERTY, ClassName(ANDROID_CONTEXT.packageName, ANDROID_CONTEXT.className))
             .addStatement("""
                 |   this.$VIEW_PROPERTY = $WIDGET_INSTANCE_PROPERTY.buildView(context)
+                |   bindModel()
                 |return this.$VIEW_PROPERTY""".trimMargin())
             .returns(returnType)
             .build()

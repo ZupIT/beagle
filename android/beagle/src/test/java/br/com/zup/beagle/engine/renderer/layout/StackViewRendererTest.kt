@@ -73,7 +73,7 @@ class StackViewRendererTest : BaseTest() {
         every { stack.children } returns children
 
         // When
-        stackViewRenderer.build(rootView)
+        stackViewRenderer.buildView(rootView)
 
         // Then
         assertEquals(false, clipChildren.captured)

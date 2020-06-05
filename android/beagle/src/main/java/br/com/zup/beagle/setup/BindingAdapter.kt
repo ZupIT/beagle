@@ -20,5 +20,4 @@ import br.com.zup.beagle.core.Bind
 
 interface BindingAdapter {
     fun getBindAttributes(): List<Bind<*>>
-    fun bindModel()
 }
