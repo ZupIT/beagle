@@ -49,16 +49,11 @@ class BeagleWidgetBindingHandler(
 
     fun createBindingClass(element: TypeElement) =
         element.visibleGetters.map { this.createBindParameter(it) }.let { parameters ->
-            val bindName = bindClass.qualifiedName
             TypeSpec.classBuilder("${element.simpleName}$SUFFIX")
                 .superclass(this.typeUtils.getKotlinName(element.superclass))
                 .addSuperinterfaces(element.interfaces.map(TypeMirror::asTypeName))
                 .primaryConstructor(FunSpec.constructorFrom(parameters))
-                .addProperties(
-                    parameters.map {
-                        PropertySpec.from(it, bindName != null && !it.type.toString().startsWith(bindName))
-                    }
-                )
+                .addProperties(parameters.map { PropertySpec.from(it, it.tag(Boolean::class) == true) })
         }
 
     private fun createBindParameter(element: ExecutableElement) =
@@ -67,5 +62,5 @@ class BeagleWidgetBindingHandler(
             this.typeUtils.getKotlinName(element.returnType).let {
                 if (element.isOverride) it else bindClass.asTypeName().parameterizedBy(it)
             }
-        ).build()
+        ).tag(Boolean::class, element.isOverride).build()
 }
