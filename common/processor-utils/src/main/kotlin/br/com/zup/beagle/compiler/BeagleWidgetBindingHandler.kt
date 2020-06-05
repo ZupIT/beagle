@@ -24,7 +24,7 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
-import java.io.File
+import javax.annotation.processing.Filer
 import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.ExecutableElement
 import javax.lang.model.element.TypeElement
@@ -33,13 +33,13 @@ import kotlin.reflect.KClass
 
 class BeagleWidgetBindingHandler(
     processingEnvironment: ProcessingEnvironment,
-    private val outputDirectory: File = processingEnvironment.kaptGeneratedDirectory,
     private val bindClass: KClass<out BindAttribute<*>>
 ) {
     companion object {
         const val SUFFIX = "Binding"
     }
 
+    private val outputDirectory: Filer = processingEnvironment.filer
     private val elementUtils = processingEnvironment.elementUtils
     private val typeUtils = processingEnvironment.typeUtils
 
