@@ -17,7 +17,6 @@
 import UIKit
 import Schema
 
-//TODO: avoid casting to serverDrivenComponent
 extension FormInputHidden: ServerDrivenComponent {
     public func toView(renderer: BeagleRenderer) -> UIView {
         let view = HidenInputView(value: value)
