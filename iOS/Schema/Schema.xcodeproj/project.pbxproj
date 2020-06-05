@@ -26,7 +26,6 @@
 		C0FBBD212475803900B72A9B /* Schema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FBBD172475803900B72A9B /* Schema.framework */; };
 		C0FBBD3324759EDD00B72A9B /* SnapshotTesting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FBBD3224759EDD00B72A9B /* SnapshotTesting.framework */; };
 		C864D2A2247C240200E7A1F9 /* FormSubmit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D221247C240200E7A1F9 /* FormSubmit.swift */; };
-		C864D2A3247C240200E7A1F9 /* InputValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D223247C240200E7A1F9 /* InputValue.swift */; };
 		C864D2A4247C240200E7A1F9 /* FormInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D224247C240200E7A1F9 /* FormInput.swift */; };
 		C864D2A5247C240200E7A1F9 /* FormInputHidden.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D225247C240200E7A1F9 /* FormInputHidden.swift */; };
 		C864D2A7247C240200E7A1F9 /* FormInputComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D228247C240200E7A1F9 /* FormInputComponent.swift */; };
@@ -150,7 +149,6 @@
 		C0FBBD3224759EDD00B72A9B /* SnapshotTesting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapshotTesting.framework; path = Carthage/Build/iOS/SnapshotTesting.framework; sourceTree = "<group>"; };
 		C864D220247C240200E7A1F9 /* FormSubmitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSubmitTests.swift; sourceTree = "<group>"; };
 		C864D221247C240200E7A1F9 /* FormSubmit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSubmit.swift; sourceTree = "<group>"; };
-		C864D223247C240200E7A1F9 /* InputValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputValue.swift; sourceTree = "<group>"; };
 		C864D224247C240200E7A1F9 /* FormInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormInput.swift; sourceTree = "<group>"; };
 		C864D225247C240200E7A1F9 /* FormInputHidden.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormInputHidden.swift; sourceTree = "<group>"; };
 		C864D227247C240200E7A1F9 /* FormInputTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormInputTests.swift; sourceTree = "<group>"; };
@@ -465,11 +463,10 @@
 		C864D222247C240200E7A1F9 /* Input */ = {
 			isa = PBXGroup;
 			children = (
-				C864D223247C240200E7A1F9 /* InputValue.swift */,
+				C864D228247C240200E7A1F9 /* FormInputComponent.swift */,
 				C864D224247C240200E7A1F9 /* FormInput.swift */,
 				C864D225247C240200E7A1F9 /* FormInputHidden.swift */,
 				C864D226247C240200E7A1F9 /* Tests */,
-				C864D228247C240200E7A1F9 /* FormInputComponent.swift */,
 			);
 			path = Input;
 			sourceTree = "<group>";
@@ -729,6 +726,7 @@
 		C864D281247C240200E7A1F9 /* Navigate */ = {
 			isa = PBXGroup;
 			children = (
+				C864D285247C240200E7A1F9 /* ShowNativeDialog.swift */,
 				C864D283247C240200E7A1F9 /* Navigate.swift */,
 				C8BB30A22486FCE9002DD3C1 /* Tests */,
 			);
@@ -841,7 +839,6 @@
 				C864D28B247C240200E7A1F9 /* CustomAction.swift */,
 				C864D287247C240200E7A1F9 /* FormRemoteAction.swift */,
 				C864D289247C240200E7A1F9 /* FormValidation.swift */,
-				C864D285247C240200E7A1F9 /* ShowNativeDialog.swift */,
 				C864D281247C240200E7A1F9 /* Navigate */,
 			);
 			path = Types;
@@ -1224,7 +1221,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C864D2A3247C240200E7A1F9 /* InputValue.swift in Sources */,
 				C864D2A7247C240200E7A1F9 /* FormInputComponent.swift in Sources */,
 				C864D2E0247C240200E7A1F9 /* Flex.swift in Sources */,
 				C864D2DA247C240200E7A1F9 /* CustomAction.swift in Sources */,

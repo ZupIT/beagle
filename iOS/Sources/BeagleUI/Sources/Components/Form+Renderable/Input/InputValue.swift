@@ -16,7 +16,6 @@
 
 import Foundation
 
-//TODO: Don't know for sure if this should be in Schema
 public protocol InputValue {
     func getValue() -> Any
 }
