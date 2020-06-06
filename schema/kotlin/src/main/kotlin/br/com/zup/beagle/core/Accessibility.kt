@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.core
 
+import com.autodsl.annotation.AutoDsl
+
 /**
  * The accessibility will enable a textual information to explain the view content in case a screen reader is used.
  *
@@ -27,6 +29,8 @@ package br.com.zup.beagle.core
  *                      By enabling this, the VoiceOver will read this if a user selects this view,
  *                      them he will now where he is on the app.
  */
+
+@AutoDsl
 data class Accessibility(
     val accessible: Boolean = true,
     val accessibilityLabel: String? = null

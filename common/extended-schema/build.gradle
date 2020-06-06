@@ -15,10 +15,20 @@
  */
 
 apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
+
+sourceSets {
+    main {
+        java {
+            srcDir "${buildDir.absolutePath}/generated/source/kaptKotlin/"
+        }
+    }
+}
 
 dependencies {
     implementation GeneralLibraries.kotlin
     api project(Modules.beagleSchemaKotlin)
+
     testImplementation TestLibraries.kotlinTest
     testImplementation TestLibraries.mockk
     testImplementation TestLibraries.junit5Api

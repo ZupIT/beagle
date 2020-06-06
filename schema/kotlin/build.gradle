@@ -15,12 +15,24 @@
  */
 
 apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
+
+sourceSets {
+    main {
+        java {
+            srcDir "${buildDir.absolutePath}/generated/source/kaptKotlin/"
+        }
+    }
+}
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
     implementation GeneralLibraries.kotlin
+
+    implementation GeneralLibraries.autoDsl
+    kapt GeneralLibraries.autoDslProcessor
 }
 
 apply from: rootProject.file('maven-publish.gradle')

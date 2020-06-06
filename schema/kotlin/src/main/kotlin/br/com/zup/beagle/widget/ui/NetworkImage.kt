@@ -18,6 +18,7 @@ package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.ImageContentMode
+import com.autodsl.annotation.AutoDsl
 
 /**
  * Network widget will load images according to the path specified on its attribute.
@@ -27,6 +28,8 @@ import br.com.zup.beagle.widget.core.ImageContentMode
  *                  Beagle will turn the image into an object that can be displayed natively.
  * @param contentMode defines how the image fits the view it's in.
  */
+
+@AutoDsl
 data class NetworkImage(
     val path: String,
     val contentMode: ImageContentMode? = null /* = ImageContentMode.FIT_CENTER */

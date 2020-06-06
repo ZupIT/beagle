@@ -18,6 +18,7 @@ package br.com.zup.beagle.widget.lazy
 
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import com.autodsl.annotation.AutoDsl
 
 /**
  *  The LazyComponent is used when an asynchronous BFF request is made.
@@ -30,6 +31,8 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  *                          request made is being fulfilled.
  *
  */
+
+@AutoDsl
 data class LazyComponent(
     val path: String,
     val initialState: ServerDrivenComponent

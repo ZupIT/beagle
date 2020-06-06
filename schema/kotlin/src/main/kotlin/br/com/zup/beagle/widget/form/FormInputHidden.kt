@@ -17,6 +17,7 @@
 package br.com.zup.beagle.widget.form
 
 import br.com.zup.beagle.core.ServerDrivenComponent
+import com.autodsl.annotation.AutoDsl
 
 /**
  * represents the  <input type="hidden"> in a form.
@@ -27,6 +28,8 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * @param value contain the data you wish to transfer.
  *
  */
+
+@AutoDsl
 data class FormInputHidden(
     val name: String,
     val value: String

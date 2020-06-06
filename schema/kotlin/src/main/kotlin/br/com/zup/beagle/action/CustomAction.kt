@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.action
 
+import com.autodsl.annotation.AutoDsl
+
 /**
  * Define custom actions, such as an action that creates a customized Dialog.
  * In this way, Action is an interface that allows you to define actions that can be performed by Widgets.
@@ -31,6 +33,8 @@ package br.com.zup.beagle.action
  * ```
  *
  */
+
+@AutoDsl
 data class CustomAction(
     val name: String,
     val data: Map<String, String>

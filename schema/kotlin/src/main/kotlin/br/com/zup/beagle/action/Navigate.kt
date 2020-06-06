@@ -17,6 +17,7 @@
 package br.com.zup.beagle.action
 
 import br.com.zup.beagle.widget.layout.Screen
+import com.autodsl.annotation.AutoDsl
 
 /**
  * This defines navigation type,
@@ -30,6 +31,7 @@ sealed class Route {
      * @param shouldPrefetch tells Beagle if the navigation request should be previously loaded or not.
      * @param fallback screen that is rendered in case the request fails.
      */
+
     data class Remote(val route: String, val shouldPrefetch: Boolean = false, val fallback: Screen? = null) : Route()
 
     /**
@@ -42,6 +44,8 @@ sealed class Route {
 /**
  * Class handles transition actions between screens in the application. Its structure is the following:.
  */
+
+
 sealed class Navigate : Action {
 
     /**

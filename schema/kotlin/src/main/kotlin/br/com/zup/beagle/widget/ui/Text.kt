@@ -17,6 +17,7 @@
 package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.widget.Widget
+import com.autodsl.annotation.AutoDsl
 
 /**
  * A text widget will define a text view natively using the server driven information received through Beagle.
@@ -29,6 +30,8 @@ import br.com.zup.beagle.widget.Widget
  * @param alignment defines the text content alignment inside the text view.
  *
  */
+
+@AutoDsl
 data class Text(
     val text: String,
     val style: String? = null,

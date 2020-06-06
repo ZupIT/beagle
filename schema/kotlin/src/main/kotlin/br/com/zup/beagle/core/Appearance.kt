@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.core
 
+import com.autodsl.annotation.AutoDsl
+
 /**
  * The appearance class will enable a few visual options to be changed.
  *
@@ -25,6 +27,8 @@ package br.com.zup.beagle.core
  *                          For example, for a WHITE background type in "FFFFFF".
  * @param cornerRadius Using a Double parameters it sets the corner of your view to make it round.
  */
+
+@AutoDsl
 data class Appearance(val backgroundColor: String? = null,
                       val cornerRadius: CornerRadius? = null)
 
@@ -33,6 +37,8 @@ data class Appearance(val backgroundColor: String? = null,
  *
  * @param radius define size of radius
  */
+
+@AutoDsl
 data class CornerRadius(
     val radius: Double = 0.0
 )

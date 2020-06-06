@@ -18,6 +18,7 @@ package br.com.zup.beagle.widget.layout
 
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import com.autodsl.annotation.AutoDsl
 
 /**
  * component is used to fill up spaces that shouldn't be filled by any other widget or component
@@ -25,6 +26,8 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * @param size define size of view
  *
  */
+
+@AutoDsl
 data class Spacer(
     val size: Double
 ) : ServerDrivenComponent, LayoutComponent

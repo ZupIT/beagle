@@ -17,10 +17,12 @@
 package br.com.zup.beagle.ext
 
 import br.com.zup.beagle.core.Accessibility
+import br.com.zup.beagle.core.AccessibilityAutoDslBuilder
 import br.com.zup.beagle.core.Appearance
+import br.com.zup.beagle.core.AppearanceAutoDslBuilder
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.FlexBuilder
+import br.com.zup.beagle.widget.core.FlexAutoDslBuilder
 
 /**
  * Add an identifier to this widget.
@@ -40,11 +42,13 @@ fun <T : Widget> T.applyFlex(flex: Flex) = this.apply { this.flex = flex }
 /**
  * Apply the layout component.
  *
- * @see FlexBuilder
+ * @see FlexAutoDslBuilder
  *
  * @return the current widget
  */
-fun <T : Widget> T.buildAndApplyFlex(flexBuilder: FlexBuilder) = this.applyFlex(flexBuilder.build())
+fun <T : Widget> T.flex(block: FlexAutoDslBuilder.() -> Unit) =
+    this.applyFlex(FlexAutoDslBuilder().apply(block).build())
+
 
 /**
  * Apply the appearance.
@@ -55,6 +59,10 @@ fun <T : Widget> T.buildAndApplyFlex(flexBuilder: FlexBuilder) = this.applyFlex(
  */
 fun <T : Widget> T.applyAppearance(appearance: Appearance) = this.apply { this.appearance = appearance }
 
+fun <T : Widget> T.appearance(block: AppearanceAutoDslBuilder.() -> Unit) = this.apply {
+    this.appearance = AppearanceAutoDslBuilder().apply(block).build()
+}
+
 /**
  * Apply the accessibility .
  *
@@ -63,3 +71,7 @@ fun <T : Widget> T.applyAppearance(appearance: Appearance) = this.apply { this.a
  * @return the current widget
  */
 fun <T : Widget> T.applyAccessibility(accessibility: Accessibility) = this.apply { this.accessibility = accessibility }
+
+fun <T : Widget> T.accessibility(block: AccessibilityAutoDslBuilder.() -> Unit) = this.apply {
+    accessibility = AccessibilityAutoDslBuilder().apply(block).build()
+}

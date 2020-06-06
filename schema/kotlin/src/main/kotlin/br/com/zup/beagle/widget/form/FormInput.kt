@@ -18,6 +18,7 @@ package br.com.zup.beagle.widget.form
 
 import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import com.autodsl.annotation.AutoDsl
 
 /**
  *  this class works like a regular input type in HTML.
@@ -37,6 +38,8 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  *                  an UITextField in iOS or any other type of view that can receive and store input from users.
  *
  */
+
+@AutoDsl
 data class FormInput(
     val name: String,
     val required: Boolean? = null,

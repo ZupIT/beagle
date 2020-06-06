@@ -16,46 +16,47 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.action.showNativeDialog
 import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
 import br.com.zup.beagle.sample.constants.TITLE_SCREEN
-import br.com.zup.beagle.widget.core.ImageContentMode
-import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.NavigationBarItem
-import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.layout.ScrollAxis
-import br.com.zup.beagle.widget.layout.ScrollView
-import br.com.zup.beagle.widget.ui.Image
-import br.com.zup.beagle.widget.ui.Text
+import br.com.zup.beagle.widget.layout.navigationBarItem
+import br.com.zup.beagle.widget.layout.screen
+import br.com.zup.beagle.widget.layout.scrollView
+import br.com.zup.beagle.widget.ui.image
 
 object ImageScreenBuilder : ScreenBuilder {
-    override fun build() = Screen(
-        navigationBar = NavigationBar(
-            title = "Beagle Image",
-            showBackButton = true,
-            navigationBarItems = listOf(
-                NavigationBarItem(
-                    text = "",
-                    image = "informationImage",
-                    action = ShowNativeDialog(
-                        title = "Image",
+    override fun build() = screen {
+        navigationBar {
+            navigationBarItems {
+                +navigationBarItem {
+                    text = ""
+                    image = "informationImage"
+                    withAction(showNativeDialog {
+                        title = "Image"
                         message = "This widget will define a image view natively using the server driven " +
-                            "information received through Beagle.",
+                            "information received through Beagle."
                         buttonText = "OK"
-                    )
-                )
-            )
-        ),
-        child = ScrollView(
-            scrollDirection = ScrollAxis.VERTICAL,
-            children = listOf(createText("Image"), Image(LOGO_BEAGLE)) +
-                ImageContentMode.values().flatMap(this::createImageWithModeAndText)
+                    })
+                }
+            }
+        }
+        withChild(
+            scrollView {
+                scrollDirection = ScrollAxis.VERTICAL
+                children {
+                    +createText("Image")
+                    +image {
+                        name = LOGO_BEAGLE
+                    }
+                }
+            }
         )
-    )
+    }
 
-    private fun createText(text: String) = Text(text = text, style = TITLE_SCREEN)
-
-    private fun createImageWithModeAndText(mode: ImageContentMode) =
-        listOf(createText("Image with contentMode = $mode"), Image(LOGO_BEAGLE, mode))
+    private fun createText(text: String) = br.com.zup.beagle.widget.ui.text {
+        withText(text)
+        style = TITLE_SCREEN
+    }
 }

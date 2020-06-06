@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.action
 
+import com.autodsl.annotation.AutoDsl
+
 /**
  * Configures the error messages returned by a service external to the application.
  * For example, when checking the registration status of a CPF in the recipe,
@@ -24,6 +26,8 @@ package br.com.zup.beagle.action
  * @param errors list of errors.
  *
  */
+
+@AutoDsl
 data class FormValidation(
     val errors: List<FieldError>
 ) : Action
@@ -35,6 +39,7 @@ data class FormValidation(
  * @param message The error message displayed.
  *
  */
+@AutoDsl
 data class FieldError(
     val inputName: String,
     val message: String

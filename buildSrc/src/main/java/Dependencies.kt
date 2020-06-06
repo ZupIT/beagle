@@ -108,6 +108,8 @@ object Versions {
     const val micronaut = "1.3.3"
 
     const val incap = "0.2"
+
+    const val autoDsl = "0.0.9"
 }
 
 object GeneralNames {
@@ -148,6 +150,9 @@ object GeneralLibraries {
     const val jacksonKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.jacksonKotlin}"
 
     const val okHttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
+
+    const val autoDsl = "com.juanchosaravia.autodsl:annotation:${Versions.autoDsl}"
+    const val autoDslProcessor = "com.juanchosaravia.autodsl:processor:${Versions.autoDsl}"
 }
 
 object GoogleLibraries {

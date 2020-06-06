@@ -18,6 +18,7 @@ package br.com.zup.beagle.widget.layout
 
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import com.autodsl.annotation.AutoDsl
 
 /**
  * component is a specialized container that will display its children vertically.
@@ -26,6 +27,8 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * @param reversed will change the children display direction.
  *
  */
+
+@AutoDsl
 data class Vertical(
     val children: List<ServerDrivenComponent>,
     val reversed: Boolean? = null
