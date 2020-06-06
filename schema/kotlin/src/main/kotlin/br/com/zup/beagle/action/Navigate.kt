@@ -17,7 +17,6 @@
 package br.com.zup.beagle.action
 
 import br.com.zup.beagle.widget.layout.Screen
-import com.autodsl.annotation.AutoDsl
 
 /**
  * This defines navigation type,
@@ -44,7 +43,6 @@ sealed class Route {
 /**
  * Class handles transition actions between screens in the application. Its structure is the following:.
  */
-
 
 sealed class Navigate : Action {
 
