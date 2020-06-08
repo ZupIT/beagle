@@ -26,7 +26,7 @@ import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.ext.applyAppearance
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.utils.toView
+import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size

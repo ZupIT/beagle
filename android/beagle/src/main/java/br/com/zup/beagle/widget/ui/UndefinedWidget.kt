@@ -19,8 +19,8 @@ package br.com.zup.beagle.widget.ui
 import android.content.Context
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import br.com.zup.beagle.engine.renderer.ActivityRootView
-import br.com.zup.beagle.engine.renderer.ui.UndefinedViewRenderer
+import br.com.zup.beagle.android.engine.renderer.ActivityRootView
+import br.com.zup.beagle.android.engine.renderer.ui.UndefinedViewRenderer
 import br.com.zup.beagle.android.widget.form.InputWidget
 import br.com.zup.beagle.android.widget.pager.PageIndicatorComponent
 import br.com.zup.beagle.android.widget.pager.PageIndicatorOutput

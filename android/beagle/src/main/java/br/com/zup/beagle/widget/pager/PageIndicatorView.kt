@@ -20,8 +20,8 @@ import android.content.Context
 import android.graphics.Color
 import br.com.zup.beagle.android.widget.pager.PageIndicatorComponent
 import br.com.zup.beagle.android.widget.pager.PageIndicatorOutput
-import br.com.zup.beagle.view.BeaglePageIndicatorView
-import br.com.zup.beagle.view.ViewFactory
+import br.com.zup.beagle.android.view.BeaglePageIndicatorView
+import br.com.zup.beagle.android.view.ViewFactory
 
 class PageIndicatorView(
     selectedColor: String,
