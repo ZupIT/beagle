@@ -29,5 +29,6 @@ import br.com.zup.beagle.widget.core.ImageContentMode
  */
 data class NetworkImage(
     val path: String,
-    val contentMode: ImageContentMode? = null /* = ImageContentMode.FIT_CENTER */
+    val contentMode: ImageContentMode? = null /* = ImageContentMode.FIT_CENTER */,
+    val placeholder: Image? = null
 ) : Widget()
