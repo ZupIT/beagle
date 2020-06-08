@@ -46,7 +46,6 @@
               - alignItems: Optional<AlignItems>.none
               - alignSelf: Optional<AlignSelf>.none
               - basis: Optional<UnitValue>.none
-              - direction: Optional<Direction>.none
               - display: Optional<Display>.none
               - flex: Optional<Double>.none
               - flexDirection: Optional<FlexDirection>.none
@@ -77,7 +76,6 @@
                 - alignItems: Optional<AlignItems>.none
                 - alignSelf: Optional<AlignSelf>.none
                 - basis: Optional<UnitValue>.none
-                - direction: Optional<Direction>.none
                 - display: Optional<Display>.none
                 - flex: Optional<Double>.none
                 - flexDirection: Optional<FlexDirection>.none
@@ -91,11 +89,9 @@
                         - type: UnitType.real
                         - value: 10.0
                     - bottom: Optional<UnitValue>.none
-                    - end: Optional<UnitValue>.none
                     - horizontal: Optional<UnitValue>.none
                     - left: Optional<UnitValue>.none
                     - right: Optional<UnitValue>.none
-                    - start: Optional<UnitValue>.none
                     - top: Optional<UnitValue>.none
                     - vertical: Optional<UnitValue>.none
                 - padding: Optional<EdgeValue>.none
@@ -115,7 +111,6 @@
           - alignItems: Optional<AlignItems>.none
           - alignSelf: Optional<AlignSelf>.none
           - basis: Optional<UnitValue>.none
-          - direction: Optional<Direction>.none
           - display: Optional<Display>.none
           - flex: Optional<Double>.none
           - flexDirection: Optional<FlexDirection>.none
@@ -131,11 +126,9 @@
                   - type: UnitType.real
                   - value: 10.0
               - bottom: Optional<UnitValue>.none
-              - end: Optional<UnitValue>.none
               - horizontal: Optional<UnitValue>.none
               - left: Optional<UnitValue>.none
               - right: Optional<UnitValue>.none
-              - start: Optional<UnitValue>.none
               - top: Optional<UnitValue>.none
               - vertical: Optional<UnitValue>.none
           - position: Optional<EdgeValue>.none

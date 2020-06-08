@@ -41,7 +41,6 @@
             - alignItems: Optional<AlignItems>.none
             - alignSelf: Optional<AlignSelf>.none
             - basis: Optional<UnitValue>.none
-            - direction: Optional<Direction>.none
             - display: Optional<Display>.none
             - flex: Optional<Double>.none
             ▿ flexDirection: Optional<FlexDirection>
@@ -99,7 +98,6 @@
             - alignItems: Optional<AlignItems>.none
             - alignSelf: Optional<AlignSelf>.none
             - basis: Optional<UnitValue>.none
-            - direction: Optional<Direction>.none
             - display: Optional<Display>.none
             - flex: Optional<Double>.none
             ▿ flexDirection: Optional<FlexDirection>
@@ -157,7 +155,6 @@
             - alignItems: Optional<AlignItems>.none
             - alignSelf: Optional<AlignSelf>.none
             - basis: Optional<UnitValue>.none
-            - direction: Optional<Direction>.none
             - display: Optional<Display>.none
             - flex: Optional<Double>.none
             ▿ flexDirection: Optional<FlexDirection>

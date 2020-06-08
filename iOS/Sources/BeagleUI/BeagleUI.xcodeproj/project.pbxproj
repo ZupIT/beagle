@@ -595,6 +595,14 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
+		6ECD97112481A2AE00188EF1 /* Container */ = {
+			isa = PBXGroup;
+			children = (
+				E522377A237C3C5500E555BB /* Container.swift */,
+			);
+			path = Container;
+			sourceTree = "<group>";
+		};
 		76191AA6241ABD6000A04C29 /* Json */ = {
 			isa = PBXGroup;
 			children = (
@@ -750,6 +758,7 @@
 		936817FA232A881600E6E724 /* Layout */ = {
 			isa = PBXGroup;
 			children = (
+				6ECD97112481A2AE00188EF1 /* Container */,
 				C829CEA323B15B0C001B7225 /* Screen */,
 				C829CE9823B12D13001B7225 /* Flex */,
 				C829CEA523B15B71001B7225 /* Scroll */,
@@ -1029,7 +1038,6 @@
 				9397F5CE2357615F00054D42 /* FlexViewConfigurator.swift */,
 				7CFE3A702412E3040087F664 /* Size.swift */,
 				7CFE3A722412E3430087F664 /* EdgeValue.swift */,
-				E522377A237C3C5500E555BB /* Container.swift */,
 				E5223773237C3C4800E555BB /* UnitValue.swift */,
 				9397F5CF2357615F00054D42 /* YogaTranslator.swift */,
 				C829CEE423B192A3001B7225 /* Tests */,

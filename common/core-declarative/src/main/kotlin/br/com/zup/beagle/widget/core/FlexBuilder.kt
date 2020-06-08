@@ -32,7 +32,6 @@ class FlexBuilder {
     private var alignSelf: AlignSelf? = null
     private var alignItems: AlignItems? = null
     private var alignContent: AlignContent? = null
-    private var direction: Direction? = null
     private var justifyContent: JustifyContent? = null
     private var basis: UnitValue? = null
     private var size: Size? = null
@@ -50,7 +49,6 @@ class FlexBuilder {
         flexDirection = this.flexDirection,
         flex = this.flex,
         display = this.display,
-        direction = this.direction,
         basis = this.basis,
         alignSelf = this.alignSelf,
         alignItems = this.alignItems,
@@ -62,8 +60,6 @@ class FlexBuilder {
     fun alignItems(type: AlignItems) = this.apply { this.alignItems = type }
 
     fun alignSelf(type: AlignSelf) = this.apply { this.alignSelf = type }
-
-    fun direction(type: Direction) = this.apply { this.direction = type }
 
     fun display(type: FlexDisplay) = this.apply { this.display = type }
 
