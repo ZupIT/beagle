@@ -28,7 +28,6 @@ import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.setup.DesignSystem
-import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.utils.ComponentStylization
 import br.com.zup.beagle.view.BeagleFlexView
 import br.com.zup.beagle.view.BeagleImageView
@@ -41,17 +40,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.target.CustomTarget
-import io.mockk.Runs
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkStatic
-import io.mockk.slot
-import io.mockk.unmockkAll
-import io.mockk.verify
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -84,8 +76,6 @@ class NetworkImageViewRendererTest : BaseTest() {
     private lateinit var bitmap: Bitmap
     @MockK
     private lateinit var componentStylization: ComponentStylization<NetworkImage>
-    @MockK
-    private lateinit var placeholder : Image
     @RelaxedMockK
     private lateinit var designSystem: DesignSystem
 
