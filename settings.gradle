@@ -22,7 +22,7 @@ include Modules.beagleAndroid
 include Modules.beagleBackendFramework
 include Modules.beagleAndroidProcessor
 include Modules.beagleAndroidAnnotation
-include Modules.beagleAndroidDeclarative
+include Modules.beagleAndroidSchemaImpl
 include Modules.beagleAndroidPreview
 include Modules.beagleAnnotation
 include Modules.beagleBackendSpringStarter
