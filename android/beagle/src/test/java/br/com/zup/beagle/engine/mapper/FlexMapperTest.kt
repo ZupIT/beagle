@@ -82,6 +82,7 @@ class FlexMapperTest {
         every { yogaNode.alignItems = any() } just Runs
         every { yogaNode.alignSelf = any() } just Runs
         every { yogaNode.alignContent = any() } just Runs
+        every { yogaNode.flex = any() } just Runs
         every { yogaNode.flexGrow = any() } just Runs
         every { yogaNode.flexShrink = any() } just Runs
         every { yogaNode.display = any() } just Runs
@@ -211,6 +212,20 @@ class FlexMapperTest {
 
         // Then
         verify(exactly = once()) { yogaNode.alignContent = YogaAlign.FLEX_START }
+    }
+
+    @Test
+    fun makeYogaNode_should_set_flex_as_1(){
+        //Given
+        val flex = Flex(
+            flex = ONE_UNIT_VALUE
+        )
+
+        //When
+        val yogaNode = flexMapper.makeYogaNode(flex)
+
+        //Then
+        verify (exactly = once()) { yogaNode.flex = ONE_UNIT_VALUE.toFloat() }
     }
 
     @Test

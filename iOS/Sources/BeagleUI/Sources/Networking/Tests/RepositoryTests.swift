@@ -260,11 +260,11 @@ final class RepositoryStub: Repository {
 
 class NetworkClientStub: NetworkClient {
 
-    let result: NetworkClient.Result
+    let result: NetworkClient.NetworkResult
 
     private(set) var executedRequest: Request?
 
-    init(result: NetworkClient.Result) {
+    init(result: NetworkClient.NetworkResult) {
         self.result = result
     }
 
