@@ -14,20 +14,22 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.setup
+package br.com.zup.beagle.view
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StyleRes
+import androidx.annotation.AnimRes
+import androidx.annotation.AnimatorRes
 
-open class DesignSystem {
-    @DrawableRes
-    open fun image(name: String): Int? = null
-    @StyleRes
-    open fun textAppearance(name: String): Int? = null
-    @StyleRes
-    open fun buttonStyle(name: String): Int? = null
-    @StyleRes
-    open fun toolbarStyle(name: String): Int? = null
-    @StyleRes
-    open fun tabViewStyle(name: String): Int? = null
-}
+data class FragmentTransitionAnimation(
+    @AnimatorRes
+    @AnimRes
+    val enter: Int,
+    @AnimatorRes
+    @AnimRes
+    val exit: Int,
+    @AnimatorRes
+    @AnimRes
+    val popEnter: Int,
+    @AnimatorRes
+    @AnimRes
+    val popExit: Int
+)

@@ -49,9 +49,8 @@ private fun BeagleTextView.setAlignment(alignment: TextAlignment?) {
 
 private fun BeagleTextView.setStyle(style: String) {
     val designSystem = BeagleEnvironment.beagleSdk.designSystem
-    if (designSystem != null) {
-        val styleRes = designSystem.textAppearance(style)
-        TextViewCompat.setTextAppearance(this, styleRes)
+    designSystem?.textAppearance(style)?.let {
+        TextViewCompat.setTextAppearance(this, it)
     }
 }
 

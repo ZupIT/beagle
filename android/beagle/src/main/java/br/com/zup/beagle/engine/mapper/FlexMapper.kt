@@ -23,7 +23,6 @@ import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
 import com.facebook.yoga.YogaAlign
-import com.facebook.yoga.YogaDirection
 import com.facebook.yoga.YogaDisplay
 import com.facebook.yoga.YogaEdge
 import com.facebook.yoga.YogaFlexDirection
@@ -36,7 +35,6 @@ class FlexMapper {
 
     fun makeYogaNode(flex: Flex): YogaNode = YogaNode.create().apply {
         flexDirection = makeYogaFlexDirection(flex.flexDirection) ?: YogaFlexDirection.COLUMN
-        setDirection(makeYogaDirection(flex.direction) ?: YogaDirection.LTR)
         wrap = makeYogaWrap(flex.flexWrap) ?: YogaWrap.NO_WRAP
         justifyContent = makeYogaJustify(flex.justifyContent) ?: YogaJustify.FLEX_START
         alignItems = makeYogaAlignItems(flex.alignItems) ?: YogaAlign.STRETCH

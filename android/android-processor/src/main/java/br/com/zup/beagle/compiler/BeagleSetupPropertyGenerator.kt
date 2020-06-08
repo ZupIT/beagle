@@ -113,7 +113,7 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
         propertySpecifications: PropertySpecifications?
     ) {
         when {
-            typeElement.implementsInterface(DESIGN_SYSTEM.toString()) -> {
+            typeElement.extendsFromClass(DESIGN_SYSTEM.toString()) -> {
                 if (propertySpecifications?.designSystem == null) {
                     propertySpecifications?.designSystem = typeElement
                 } else {
