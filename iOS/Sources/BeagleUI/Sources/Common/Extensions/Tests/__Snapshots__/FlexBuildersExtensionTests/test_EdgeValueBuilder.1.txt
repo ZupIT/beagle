@@ -7,10 +7,6 @@
     ▿ some: UnitValue
       - type: UnitType.real
       - value: 11.0
-  ▿ end: Optional<UnitValue>
-    ▿ some: UnitValue
-      - type: UnitType.real
-      - value: 12.0
   ▿ horizontal: Optional<UnitValue>
     ▿ some: UnitValue
       - type: UnitType.real
@@ -23,10 +19,6 @@
     ▿ some: UnitValue
       - type: UnitType.real
       - value: 15.0
-  ▿ start: Optional<UnitValue>
-    ▿ some: UnitValue
-      - type: UnitType.real
-      - value: 16.0
   ▿ top: Optional<UnitValue>
     ▿ some: UnitValue
       - type: UnitType.real
