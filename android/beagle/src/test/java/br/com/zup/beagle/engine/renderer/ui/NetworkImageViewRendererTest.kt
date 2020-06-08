@@ -27,6 +27,7 @@ import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BeagleEnvironment
+import br.com.zup.beagle.setup.DesignSystem
 import br.com.zup.beagle.utils.ComponentStylization
 import br.com.zup.beagle.view.BeagleFlexView
 import br.com.zup.beagle.view.BeagleImageView
@@ -81,6 +82,8 @@ class NetworkImageViewRendererTest : BaseTest() {
     private lateinit var bitmap: Bitmap
     @MockK
     private lateinit var componentStylization: ComponentStylization<NetworkImage>
+    @RelaxedMockK
+    private lateinit var designSystem: DesignSystem
 
     private val scaleType = ImageView.ScaleType.FIT_CENTER
     private val flex = Flex(size = Size(width = 100.unitReal(), height = 100.unitReal()))
@@ -96,12 +99,13 @@ class NetworkImageViewRendererTest : BaseTest() {
         mockkStatic(Glide::class)
 
         every { Glide.with(any<View>()) } returns requestManager
+        every { requestManager.setDefaultRequestOptions(any()) } returns requestManager
         every { requestManager.asBitmap() } returns requestBuilder
         every { requestBuilder.load(any<String>()) } returns requestBuilder
         every { requestManager.load(any<String>()) } returns requestBuilderDrawable
         every { requestBuilderDrawable.into(any()) } returns mockk()
         every { requestBuilder.into(capture(onRequestListenerSlot)) } returns mockk()
-        every { BeagleEnvironment.beagleSdk.designSystem } returns mockk()
+        every { BeagleEnvironment.beagleSdk.designSystem } returns designSystem
         every { rootView.getContext() } returns context
         every { context.applicationContext } returns mockk()
         every { viewFactory.makeImageView(context) } returns imageView

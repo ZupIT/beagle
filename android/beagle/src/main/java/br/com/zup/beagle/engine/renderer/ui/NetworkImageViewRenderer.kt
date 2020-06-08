@@ -23,13 +23,16 @@ import android.widget.ImageView
 import br.com.zup.beagle.engine.mapper.ViewMapper
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.engine.renderer.UIViewRenderer
+import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.utils.ComponentStylization
 import br.com.zup.beagle.view.BeagleFlexView
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ImageContentMode
+import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.NetworkImage
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 
@@ -41,14 +44,15 @@ internal class NetworkImageViewRenderer(
 ) : UIViewRenderer<NetworkImage>() {
 
     override fun buildView(rootView: RootView): View {
+        val requestOptions = getGlideRequestOptions()
         return if (component.flex?.size != null) {
             makeImageView(rootView).apply {
-                Glide.with(this).load(component.path).into(this)
+                Glide.with(this).setDefaultRequestOptions(requestOptions).load(component.path).into(this)
             }
         } else {
             viewFactory.makeBeagleFlexView(rootView.getContext()).also {
                 it.addView(makeImageView(rootView).apply {
-                    loadImage(this, it)
+                    loadImage(this, it, requestOptions)
                 }, component.flex ?: Flex())
             }
         }
@@ -60,15 +64,34 @@ internal class NetworkImageViewRenderer(
             scaleType = viewMapper.toScaleType(contentMode)
         }
 
-    private fun loadImage(imageView: ImageView, beagleFlexView: BeagleFlexView) {
-        Glide.with(imageView).asBitmap().load(component.path).into(object : CustomTarget<Bitmap>() {
-            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                imageView.setImageBitmap(resource)
-                beagleFlexView.setViewHeight(imageView, resource.height)
-                componentStylization.apply(imageView, component)
-            }
+    private fun loadImage(imageView: ImageView, beagleFlexView: BeagleFlexView, requestOptions: RequestOptions) {
+        Glide.with(imageView).setDefaultRequestOptions(requestOptions).asBitmap().load(component.path)
+            .into(object : CustomTarget<Bitmap>() {
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    imageView.setImageBitmap(resource)
+                    beagleFlexView.setViewHeight(imageView, resource.height)
+                    componentStylization.apply(imageView, component)
+                }
 
-            override fun onLoadCleared(placeholder: Drawable?) {}
-        })
+                override fun onLoadCleared(placeholder: Drawable?) {}
+            })
+    }
+
+    private fun getGlideRequestOptions(): RequestOptions {
+        val requestOptions = RequestOptions()
+        val placeholder = getPlaceholder(component.placeholder)
+        if (placeholder != null) {
+            requestOptions.placeholder(placeholder)
+        }
+        return requestOptions
+    }
+
+    private fun getPlaceholder(image: Image?): Int? {
+        val designSystem = BeagleEnvironment.beagleSdk.designSystem
+        if (designSystem != null && image != null) {
+            val placeholder = designSystem.image(image.name)
+            return placeholder
+        }
+        return null
     }
 }
