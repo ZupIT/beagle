@@ -292,66 +292,6 @@ final class BeagleNavigatorTests: XCTestCase {
             dependencies: BeagleScreenDependencies()
         ))
     }
-    
-    func test_whenHasModalTransitionStyle_shouldApplyItProperly() {
-        let firstViewController = BeagleScreenViewController(component: Text("First"))
-        let navigation = BeagleNavigationController(rootViewController: firstViewController)
-        
-        let sut = BeagleNavigator(dependencies: BeagleDependencies())
-        sut.defaultAnimation = BeagleNavigatorAnimation(modalTransitionStyle: .coverVertical)
-        
-        XCTAssertEqual(navigation.modalTransitionStyle, .coverVertical)
-    }
-    
-    func test_whenHasPushTransitionAndPushViewAction_shouldApplyItProperly() {
-        let defaultAnimation = BeagleNavigatorAnimation(pushTransition: .init(type: .fade, subtype: .fromBottom, duration: 1.0))
-        let navigateDeclarative = Navigate.pushView(.declarative(Screen(child: Text("Declarative"))))
-
-        test_defaultTransitionTypes(defaultAnimation, navigate: navigateDeclarative)
-    }
-    
-    func test_whenHasPushTransitionAndOpenNativeAction_shouldApplyItProperly() {
-        let defaultAnimation = BeagleNavigatorAnimation(pushTransition: .init(type: .fade, subtype: .fromBottom, duration: 1.0))
-        let data = ["uma": "uma", "dois": "duas"]
-        let path = "https://example.com/screen.json"
-        let navigate = Navigate.openNativeRoute(path, data: data)
-        
-        test_defaultTransitionTypes(defaultAnimation, navigate: navigate)
-    }
-    
-    func test_whenHasPopTransition_shouldApplyItProperly() {
-        let defaultAnimation = BeagleNavigatorAnimation(popTransition: .init(type: .fade, subtype: .fromRight, duration: 1.0))
-        let navigate = Navigate.popView
-        
-        test_defaultTransitionTypes(defaultAnimation, navigate: navigate)
-    }
-    
-    func test_whenHasPopTransitionAndPopToView_shouldApplyItProperly() {
-        let defaultAnimation = BeagleNavigatorAnimation(popTransition: .init(type: .fade, subtype: .fromRight, duration: 1.0))
-        let screenURL3 = "https://example.com/screen3.json"
-        let navigate = Navigate.popToView(screenURL3)
-        
-        test_defaultTransitionTypes(defaultAnimation, navigate: navigate)
-    }
-    
-    private func test_defaultTransitionTypes(_ defaultAnimation: BeagleNavigatorAnimation, navigate: Navigate) {
-        let screenURL3 = "https://example.com/screen3.json"
-        let firstViewController = BeagleScreenViewController(component: Text("First"))
-        let secondViewController = BeagleScreenViewController(component: Text("Second"))
-        let thirdViewController = BeagleScreenViewController(component: Text("Third"))
-        let fourthViewController = beagleViewController(screen: .remote(.init(url: screenURL3)))
-        let navigation = BeagleNavigationController()
-        navigation.viewControllers = [firstViewController, secondViewController, thirdViewController, fourthViewController]
-                
-        let deepLinkSpy = DeepLinkHandlerSpy()
-        let dependencies = NavigatorDependencies(deepLinkHandler: deepLinkSpy)
-        
-        let sut = BeagleNavigator(dependencies: dependencies)
-        sut.defaultAnimation = defaultAnimation
-        sut.navigate(action: navigate, context: thirdViewController)
-
-        XCTAssertEqual(navigation.view.layer.animationKeys()?.count, 1)
-    }
 }
 
 class DeepLinkHandlerSpy: DeepLinkScreenManaging {

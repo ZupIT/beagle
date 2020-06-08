@@ -86,8 +86,8 @@ class BeagleNavigator: BeagleNavigation {
             guard let deepLinkHandler = dependencies.deepLinkHandler else { return }
             let viewController = try deepLinkHandler.getNativeScreen(with: path, data: data)
             
-            if let transition = getTransition(transition: .push) {
-                source.navigationController?.view.layer.add(transition, forKey: nil)
+            if let transition = defaultAnimation?.getTransition(.push) {
+                source.navigationController?.view.layer.add(transition, forKey: "openNativeTransition")
             }
             
             if resetApplication {
@@ -110,7 +110,7 @@ class BeagleNavigator: BeagleNavigation {
     }
     
     private func pushView(with type: Route, context: BeagleContext, animated: Bool) {
-        if let transition = getTransition(transition: .push) {
+        if let transition = defaultAnimation?.getTransition(.push) {
             context.screenController.navigationController?.view.layer.add(transition, forKey: nil)
         }
         context.screenController.navigationController?.pushViewController(viewControllerToPresent(type), animated: animated)
@@ -120,7 +120,7 @@ class BeagleNavigator: BeagleNavigation {
         if source.navigationController?.viewControllers.count == 1 {
             dependencies.logger.log(Log.navigation(.errorTryingToPopScreenOnNavigatorWithJustOneScreen))
         }
-        if let transition = getTransition(transition: .pop) {
+        if let transition = defaultAnimation?.getTransition(.pop) {
             source.navigationController?.view.layer.add(transition, forKey: nil)
         }
         source.navigationController?.popViewController(animated: animated)
@@ -139,7 +139,7 @@ class BeagleNavigator: BeagleNavigation {
             dependencies.logger.log(Log.navigation(.cantPopToAlreadyCurrentScreen(identifier: identifier)))
             return
         }
-        if let transition = getTransition(transition: .pop) {
+        if let transition = defaultAnimation?.getTransition(.pop) {
             source.navigationController?.view.layer.add(transition, forKey: nil)
         }
         source.navigationController?.popToViewController(target, animated: animated)
@@ -153,12 +153,17 @@ class BeagleNavigator: BeagleNavigation {
         case let .declarative(screen):
             navigationToPresent.viewControllers = [viewController(screen: screen)]
         }
+        
         if #available(iOS 13.0, *) {
             navigationToPresent.modalPresentationStyle = defaultAnimation?.modalPresentationStyle ?? .automatic
         } else {
             navigationToPresent.modalPresentationStyle = defaultAnimation?.modalPresentationStyle ?? .fullScreen
         }
-        navigationToPresent.modalTransitionStyle = defaultAnimation?.modalTransitionStyle ?? .coverVertical
+        
+        if let defaultAnimation = defaultAnimation {
+            navigationToPresent.modalTransitionStyle = defaultAnimation.modalTransitionStyle
+        }
+        
         context.screenController.present(navigationToPresent, animated: animated)
     }
     
@@ -212,32 +217,5 @@ class BeagleNavigator: BeagleNavigation {
                 fallback: fallback
             ))
         ))
-    }
-
-    private func getTransition(transition: TransitionType) -> CATransition? {
-        if let animation = defaultAnimation {
-            switch transition {
-            case .push:
-                let caTransition = CATransition()
-                caTransition.duration = animation.pushTransition?.duration ?? 0.5
-                caTransition.type = animation.pushTransition?.type ?? .moveIn
-                caTransition.subtype = animation.pushTransition?.subtype
-                return caTransition
-            case .pop:
-                let caTransition = CATransition()
-                caTransition.duration = animation.popTransition?.duration ?? 0.5
-                caTransition.type = animation.popTransition?.type ?? .moveIn
-                caTransition.subtype = animation.popTransition?.subtype
-                return caTransition
-            }
-        }
-        return nil
-    }
-}
-
-private extension BeagleNavigator {
-    enum TransitionType {
-        case push
-        case pop
     }
 }

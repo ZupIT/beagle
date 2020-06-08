@@ -21,33 +21,59 @@ public struct BeagleNavigatorAnimation {
     var pushTransition: Transition?
     var popTransition: Transition?
     var modalPresentationStyle: UIModalPresentationStyle?
-    var modalTransitionStyle: UIModalTransitionStyle?
+    var modalTransitionStyle: UIModalTransitionStyle
     
     public init(
         pushTransition: Transition? = nil,
         popTransition: Transition? = nil,
         modalPresentationStyle: UIModalPresentationStyle? = nil,
-        modalTransitionStyle: UIModalTransitionStyle? = nil
+        modalTransitionStyle: UIModalTransitionStyle = .coverVertical
     ) {
         self.pushTransition = pushTransition
         self.popTransition = popTransition
         self.modalPresentationStyle = modalPresentationStyle
         self.modalTransitionStyle = modalTransitionStyle
     }
+    
+    public struct Transition {
+        var type: CATransitionType
+        var subtype: CATransitionSubtype?
+        var duration: Double
+        
+        public init(
+            type: CATransitionType = .moveIn,
+            subtype: CATransitionSubtype? = nil,
+            duration: Double = 0.5
+        ) {
+            self.type = type
+            self.subtype = subtype
+            self.duration = duration
+        }
+    }
+
+    func getTransition(_ transition: TransitionType) -> CATransition? {
+        switch transition {
+        case .push:
+            guard let pushTransition = pushTransition else { return nil }
+            let caTransition = CATransition()
+            caTransition.duration = pushTransition.duration
+            caTransition.type = pushTransition.type
+            caTransition.subtype = pushTransition.subtype
+            return caTransition
+        case .pop:
+            guard let popTransition = popTransition else { return nil }
+            let caTransition = CATransition()
+            caTransition.duration = popTransition.duration
+            caTransition.type = popTransition.type
+            caTransition.subtype = popTransition.subtype
+            return caTransition
+        }
+    }
 }
 
-public struct Transition {
-    var type: CATransitionType?
-    var subtype: CATransitionSubtype?
-    var duration: Double?
-    
-    public init(
-        type: CATransitionType? = .moveIn,
-        subtype: CATransitionSubtype? = nil,
-        duration: Double? = nil
-    ) {
-        self.type = type
-        self.subtype = subtype
-        self.duration = duration
+extension BeagleNavigatorAnimation {
+    enum TransitionType {
+        case push
+        case pop
     }
 }
