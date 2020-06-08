@@ -28,6 +28,10 @@ public class BeagleScreenViewController: UIViewController {
         return viewModel.screen
     }
     
+    public lazy var formContextManager: FormManaging = FormManager(dependencies: dependencies, delegate: self)
+    public lazy var lazyLoadContextManager: LazyLoadManaging = LazyLoadManager(dependencies: dependencies, delegate: self)
+    public lazy var actionContextManager: ActionManaging = ActionManager(delegate: self)
+    
     var dependencies: ViewModel.Dependencies {
         return viewModel.dependencies
     }
@@ -64,7 +68,7 @@ public class BeagleScreenViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         extendedLayoutIncludesOpaqueBars = true
     }
-    
+
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -171,17 +175,17 @@ public class BeagleScreenViewController: UIViewController {
     
     private func removeContentController() {
         guard let contentController = contentController else { return }
-        contentController.willMove(toParentViewController: nil)
+        contentController.willMove(toParent: nil)
         contentController.view.removeFromSuperview()
-        contentController.removeFromParentViewController()
+        contentController.removeFromParent()
     }
     
     private func addContentController() {
         guard let contentController = contentController else { return }
-        addChildViewController(contentController)
+        addChild(contentController)
         view.addSubview(contentController.view)
         contentController.view.anchorTo(superview: view)
-        contentController.didMove(toParentViewController: self)
+        contentController.didMove(toParent: self)
     }
 }
 

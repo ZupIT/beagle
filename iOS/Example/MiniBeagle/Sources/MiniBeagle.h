@@ -14,7 +14,14 @@
  * limitations under the License.
  */
 
-///This Protocol defines a FormInput Server Driven Component
-public protocol FormInputComponent: ServerDrivenComponent {
-    var name: String { get }
-}
+#import <Foundation/Foundation.h>
+
+//! Project version number for MiniBeagle.
+FOUNDATION_EXPORT double MiniBeagleVersionNumber;
+
+//! Project version string for MiniBeagle.
+FOUNDATION_EXPORT const unsigned char MiniBeagleVersionString[];
+
+// In this header, you should import all the public headers of your framework using statements like #import <MiniBeagle/PublicHeader.h>
+
+

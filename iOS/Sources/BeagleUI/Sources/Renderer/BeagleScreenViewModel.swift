@@ -41,6 +41,7 @@ class BeagleScreenViewModel {
         & DependencyAnalyticsExecutor
         & RenderableDependencies
         & DependencyComponentDecoding
+        & DependencyFormDataStoreHandler
         & DependencyNavigationController
 
     // MARK: Observer

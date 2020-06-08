@@ -70,7 +70,9 @@ enum class FormMethodType {
  */
 data class Form(
     val action: Action,
-    val child: ServerDrivenComponent
+    val child: ServerDrivenComponent,
+    val group: String? = null,
+    val shouldStoreFields: Boolean = false
 ) : ServerDrivenComponent, LayoutComponent
 
 

@@ -52,20 +52,20 @@ final class LayoutManager {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleKeyboardChangeNotification(_:)),
-            name: NSNotification.Name.UIKeyboardWillChangeFrame,
+            name: UIResponder.keyboardWillChangeFrameNotification,
             object: nil
         )
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleKeyboardWillHideNotification(_:)),
-            name: NSNotification.Name.UIKeyboardWillHide,
+            name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
     }
     
     private func removeObservers() {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     private var contentInsets: UIEdgeInsets {
@@ -98,7 +98,7 @@ final class LayoutManager {
     // MARK: - Keyboard
     
     @objc private func handleKeyboardChangeNotification(_ notification: Notification) {
-        let keyboardFrame = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+        let keyboardFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
         configureKeyboard(frame: keyboardFrame, notification: notification)
     }
     
@@ -107,8 +107,8 @@ final class LayoutManager {
     }
     
     private func configureKeyboard(frame: CGRect?, notification: Notification) {
-        let curve = (notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber)?.uintValue
-        let duration = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue
+        let curve = (notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber)?.uintValue
+        let duration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue
         let options = UIView.AnimationOptions(rawValue: (curve ?? 0) << 16)
         keyboardFrame = frame ?? .zero
         
