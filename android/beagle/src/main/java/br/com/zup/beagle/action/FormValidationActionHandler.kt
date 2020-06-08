@@ -19,7 +19,7 @@ package br.com.zup.beagle.action
 import android.content.Context
 import br.com.zup.beagle.logger.BeagleLogger
 import br.com.zup.beagle.widget.form.FormInput
-import br.com.zup.beagle.widget.form.InputWidgetView
+import br.com.zup.beagle.android.widget.form.InputWidgetView
 
 internal class FormValidationActionHandler : DefaultActionHandler<FormValidation> {
 

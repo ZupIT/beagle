@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.core
+package br.com.zup.beagle.android.widget.interfaces
 
-import android.content.Context
-import android.view.View
-import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.android.widget.state.Observable
 
-interface ViewConvertable : ServerDrivenComponent {
-    fun buildView(context: Context): View
+interface StateChangeable {
+    fun getState(): Observable<WidgetState>
 }
+
+data class WidgetState(val value: Any)

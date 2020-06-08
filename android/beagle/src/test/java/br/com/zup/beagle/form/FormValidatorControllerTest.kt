@@ -21,7 +21,7 @@ import br.com.zup.beagle.engine.renderer.layout.FormInputValidator
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.FormSubmit
-import br.com.zup.beagle.widget.form.InputWidgetView
+import br.com.zup.beagle.android.widget.form.InputWidgetView
 import io.mockk.*
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK

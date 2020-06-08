@@ -14,8 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.pager
+package br.com.zup.beagle.android.widget.core
 
-interface PageIndicatorOutput {
-    fun swapToPage(newIndex: Int)
+import android.content.Context
+import android.view.View
+import br.com.zup.beagle.core.ServerDrivenComponent
+
+interface ViewConvertable : ServerDrivenComponent {
+    fun buildView(context: Context): View
 }

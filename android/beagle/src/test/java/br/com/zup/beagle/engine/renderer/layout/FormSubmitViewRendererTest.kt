@@ -24,7 +24,7 @@ import br.com.zup.beagle.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.form.FormSubmit
-import br.com.zup.beagle.widget.form.InputWidgetView
+import br.com.zup.beagle.android.widget.form.InputWidgetView
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs

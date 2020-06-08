@@ -31,7 +31,7 @@ import br.com.zup.beagle.engine.renderer.ui.UndefinedViewRenderer
 import br.com.zup.beagle.engine.renderer.ui.ViewConvertableRenderer
 import br.com.zup.beagle.engine.renderer.ui.WebViewRenderer
 import br.com.zup.beagle.widget.core.ComposeComponent
-import br.com.zup.beagle.widget.core.ViewConvertable
+import br.com.zup.beagle.android.widget.core.ViewConvertable
 import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.FormInputHidden
 import br.com.zup.beagle.widget.form.FormSubmit

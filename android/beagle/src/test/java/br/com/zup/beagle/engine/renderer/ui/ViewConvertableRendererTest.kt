@@ -20,7 +20,7 @@ import android.content.Context
 import android.view.View
 import br.com.zup.beagle.BaseTest
 import br.com.zup.beagle.engine.renderer.RootView
-import br.com.zup.beagle.widget.core.WidgetView
+import br.com.zup.beagle.android.widget.core.WidgetView
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK

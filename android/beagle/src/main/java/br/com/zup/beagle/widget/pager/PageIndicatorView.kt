@@ -18,13 +18,16 @@ package br.com.zup.beagle.widget.pager
 
 import android.content.Context
 import android.graphics.Color
+import br.com.zup.beagle.android.widget.pager.PageIndicatorComponentView
+import br.com.zup.beagle.android.widget.pager.PageIndicatorOutput
 import br.com.zup.beagle.view.BeaglePageIndicatorView
 import br.com.zup.beagle.view.ViewFactory
 
 class PageIndicatorView(
     selectedColor: String,
     unselectedColor: String
-) : PageIndicator(selectedColor, unselectedColor), PageIndicatorComponentView {
+) : PageIndicator(selectedColor, unselectedColor),
+    PageIndicatorComponentView {
 
     @Transient
     private var viewFactory: ViewFactory = ViewFactory()

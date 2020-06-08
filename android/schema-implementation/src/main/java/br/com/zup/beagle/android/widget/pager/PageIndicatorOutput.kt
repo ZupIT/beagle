@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.core
+package br.com.zup.beagle.android.widget.pager
 
-import br.com.zup.beagle.widget.Widget
-
-abstract class WidgetView : Widget(), ViewConvertable
+interface PageIndicatorOutput {
+    fun swapToPage(newIndex: Int)
+}

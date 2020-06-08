@@ -26,7 +26,7 @@ import br.com.zup.beagle.engine.mapper.FlexMapper
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.WidgetView
+import br.com.zup.beagle.android.widget.core.WidgetView
 
 @SuppressLint("ViewConstructor")
 internal open class BeagleFlexView(

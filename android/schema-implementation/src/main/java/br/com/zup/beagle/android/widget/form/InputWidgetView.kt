@@ -14,20 +14,24 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.form
+package br.com.zup.beagle.android.widget.form
 
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.Appearance
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.ViewConvertable
-import br.com.zup.beagle.widget.interfaces.StateChangeable
-import br.com.zup.beagle.widget.interfaces.WidgetState
-import br.com.zup.beagle.widget.state.Observable
+import br.com.zup.beagle.android.widget.core.ViewConvertable
+import br.com.zup.beagle.android.widget.interfaces.StateChangeable
+import br.com.zup.beagle.android.widget.interfaces.WidgetState
+import br.com.zup.beagle.android.widget.state.Observable
+import br.com.zup.beagle.widget.form.InputWidget
 
-abstract class InputWidgetView : InputWidget(), ViewConvertable, StateChangeable {
+abstract class InputWidgetView : InputWidget(),
+    ViewConvertable,
+    StateChangeable {
 
     @Transient
-    private val stateObservable = Observable<WidgetState>()
+    private val stateObservable =
+        Observable<WidgetState>()
 
     abstract fun getValue(): Any
 
@@ -36,6 +40,10 @@ abstract class InputWidgetView : InputWidget(), ViewConvertable, StateChangeable
     override fun getState(): Observable<WidgetState> = stateObservable
 
     fun notifyChanges() {
-        stateObservable.notifyObservers(WidgetState(getValue()))
+        stateObservable.notifyObservers(
+            WidgetState(
+                getValue()
+            )
+        )
     }
 }

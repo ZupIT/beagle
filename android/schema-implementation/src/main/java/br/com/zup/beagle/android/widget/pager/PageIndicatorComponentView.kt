@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.pager
+package br.com.zup.beagle.android.widget.pager
 
-import br.com.zup.beagle.widget.core.ViewConvertable
+import br.com.zup.beagle.android.widget.core.ViewConvertable
+import br.com.zup.beagle.widget.pager.PageIndicatorComponent
 
-interface PageIndicatorComponentView : PageIndicatorComponent, ViewConvertable {
+interface PageIndicatorComponentView : PageIndicatorComponent,
+    ViewConvertable {
     fun setCount(pages: Int)
     fun onItemUpdated(newIndex: Int)
     fun initPageView(pageIndicatorOutput: PageIndicatorOutput)

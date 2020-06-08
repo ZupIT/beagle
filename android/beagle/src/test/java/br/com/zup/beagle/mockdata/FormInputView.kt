@@ -18,7 +18,7 @@ package br.com.zup.beagle.mockdata
 
 import android.content.Context
 import android.view.View
-import br.com.zup.beagle.widget.form.InputWidgetView
+import br.com.zup.beagle.android.widget.form.InputWidgetView
 
 class CustomInputWidgetView : InputWidgetView() {
     override fun onErrorMessage(message: String) {

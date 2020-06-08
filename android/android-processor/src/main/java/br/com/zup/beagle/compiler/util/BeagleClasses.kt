@@ -53,7 +53,7 @@ val BEAGLE_SDK = BeagleClass(
     "BeagleSdk"
 )
 val WIDGET_VIEW = BeagleClass(
-    "br.com.zup.beagle.widget.core",
+    "br.com.zup.beagle.android.widget.core",
     "WidgetView"
 )
 val BEAGLE_ACTIVITY = BeagleClass(

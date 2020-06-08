@@ -42,7 +42,7 @@ import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.FormInputHidden
 import br.com.zup.beagle.widget.form.FormSubmit
 import br.com.zup.beagle.widget.form.FormRemoteAction
-import br.com.zup.beagle.widget.form.InputWidgetView
+import br.com.zup.beagle.android.widget.form.InputWidgetView
 
 @Suppress("LongParameterList")
 internal class FormViewRenderer(

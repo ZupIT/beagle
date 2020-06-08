@@ -21,9 +21,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import br.com.zup.beagle.engine.renderer.ActivityRootView
 import br.com.zup.beagle.engine.renderer.ui.UndefinedViewRenderer
-import br.com.zup.beagle.widget.form.InputWidgetView
-import br.com.zup.beagle.widget.pager.PageIndicatorOutput
-import br.com.zup.beagle.widget.pager.PageIndicatorComponentView
+import br.com.zup.beagle.android.widget.form.InputWidgetView
+import br.com.zup.beagle.android.widget.pager.PageIndicatorComponentView
+import br.com.zup.beagle.android.widget.pager.PageIndicatorOutput
 
 internal class UndefinedWidgetView : InputWidgetView(), PageIndicatorComponentView {
 

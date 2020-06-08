@@ -25,7 +25,7 @@ import br.com.zup.beagle.networking.HttpClient
 import br.com.zup.beagle.networking.urlbuilder.UrlBuilder
 import br.com.zup.beagle.store.StoreHandler
 import br.com.zup.beagle.view.BeagleActivity
-import br.com.zup.beagle.widget.core.WidgetView
+import br.com.zup.beagle.android.widget.core.WidgetView
 import com.facebook.soloader.SoLoader
 
 interface BeagleSdk {

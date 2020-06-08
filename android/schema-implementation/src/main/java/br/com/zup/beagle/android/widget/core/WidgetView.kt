@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.interfaces
+package br.com.zup.beagle.android.widget.core
 
-import br.com.zup.beagle.widget.state.Observable
+import br.com.zup.beagle.widget.Widget
 
-interface Observer<T> {
-    fun update(o: Observable<T>, arg: T)
-}
+abstract class WidgetView : Widget(),
+    ViewConvertable

@@ -21,10 +21,10 @@ import br.com.zup.beagle.engine.renderer.layout.FormInputValidator
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.FormSubmit
-import br.com.zup.beagle.widget.form.InputWidgetView
-import br.com.zup.beagle.widget.interfaces.Observer
-import br.com.zup.beagle.widget.interfaces.WidgetState
-import br.com.zup.beagle.widget.state.Observable
+import br.com.zup.beagle.android.widget.form.InputWidgetView
+import br.com.zup.beagle.android.widget.interfaces.Observer
+import br.com.zup.beagle.android.widget.interfaces.WidgetState
+import br.com.zup.beagle.android.widget.state.Observable
 
 class FormValidatorController(
     private val validatorHandler: ValidatorHandler? = BeagleEnvironment.beagleSdk.validatorHandler,

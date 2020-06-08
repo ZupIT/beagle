@@ -26,7 +26,7 @@ import br.com.zup.beagle.mockdata.CustomInputWidgetView
 import br.com.zup.beagle.mockdata.CustomWidget
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.testutil.RandomData
-import br.com.zup.beagle.widget.core.WidgetView
+import br.com.zup.beagle.android.widget.core.WidgetView
 import br.com.zup.beagle.widget.form.Form
 import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.FormMethodType

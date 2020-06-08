@@ -20,8 +20,8 @@ import br.com.zup.beagle.annotation.RegisterWidget
 import android.content.Context
 import android.view.View
 import br.com.zup.beagle.sample.components.CustomPageIndicatorView
-import br.com.zup.beagle.widget.pager.PageIndicatorOutput
-import br.com.zup.beagle.widget.pager.PageIndicatorComponentView
+import br.com.zup.beagle.android.widget.pager.PageIndicatorOutput
+import br.com.zup.beagle.android.widget.pager.PageIndicatorComponentView
 
 @RegisterWidget
 data class CustomPageIndicator(

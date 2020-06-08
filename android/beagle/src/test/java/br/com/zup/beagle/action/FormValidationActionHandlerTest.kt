@@ -22,7 +22,7 @@ import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.logger.BeagleLogger
 import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.widget.form.FormInput
-import br.com.zup.beagle.widget.form.InputWidgetView
+import br.com.zup.beagle.android.widget.form.InputWidgetView
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every

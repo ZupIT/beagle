@@ -23,6 +23,7 @@ import br.com.zup.beagle.BaseTest
 import br.com.zup.beagle.action.ActionExecutor
 import br.com.zup.beagle.action.FormValidationActionHandler
 import br.com.zup.beagle.action.Navigate
+import br.com.zup.beagle.android.widget.form.InputWidgetView
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.engine.renderer.ViewRenderer
 import br.com.zup.beagle.engine.renderer.ViewRendererFactory
