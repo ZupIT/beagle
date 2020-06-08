@@ -21,6 +21,7 @@ import br.com.zup.beagle.action.CustomAction
 import br.com.zup.beagle.action.FormValidation
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.android.mockdata.CustomInputWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.mockdata.CustomWidget
 import br.com.zup.beagle.android.setup.BeagleEnvironment
