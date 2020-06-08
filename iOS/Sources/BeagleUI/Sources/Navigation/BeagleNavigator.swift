@@ -87,7 +87,7 @@ class BeagleNavigator: BeagleNavigation {
             let viewController = try deepLinkHandler.getNativeScreen(with: path, data: data)
             
             if let transition = defaultAnimation?.getTransition(.push) {
-                source.navigationController?.view.layer.add(transition, forKey: "openNativeTransition")
+                source.navigationController?.view.layer.add(transition, forKey: nil)
             }
             
             if resetApplication {
