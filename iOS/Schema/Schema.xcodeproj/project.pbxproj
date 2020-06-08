@@ -13,18 +13,13 @@
 		C029189D247EE03200C3AA13 /* PageViewWithCustomIndicator.json in Resources */ = {isa = PBXBuildFile; fileRef = C029189C247EE03200C3AA13 /* PageViewWithCustomIndicator.json */; };
 		C02918A0247EE2BF00C3AA13 /* CustomPageIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C029189F247EE2BF00C3AA13 /* CustomPageIndicator.swift */; };
 		C08D4DD0248194A800AAAC0A /* Spacer.json in Resources */ = {isa = PBXBuildFile; fileRef = C08D4DCF248194A800AAAC0A /* Spacer.json */; };
-		C08D4DD82481A1D500AAAC0A /* ScreenComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4DD72481A1D500AAAC0A /* ScreenComponentTests.swift */; };
-		C08D4DDF2481A40300AAAC0A /* screenComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = C08D4DDE2481A40300AAAC0A /* screenComponent.json */; };
 		C08D4EB22487DAD800AAAC0A /* NetworkImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4EB12487DAD800AAAC0A /* NetworkImageTests.swift */; };
 		C08D4EB42487DCDB00AAAC0A /* NetworkImage.json in Resources */ = {isa = PBXBuildFile; fileRef = C08D4EB32487DCDB00AAAC0A /* NetworkImage.json */; };
 		C08D4EB72487DEC200AAAC0A /* NetworkImageWithContentMode.json in Resources */ = {isa = PBXBuildFile; fileRef = C08D4EB62487DEC200AAAC0A /* NetworkImageWithContentMode.json */; };
 		C08D4EC12488259D00AAAC0A /* Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4EC02488259D00AAAC0A /* Schema.swift */; };
 		C08D4EF3248A7C1D00AAAC0A /* WidgetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4EEA248A7C1600AAAC0A /* WidgetTests.swift */; };
 		C08D4EF4248A7C2E00AAAC0A /* widgetWithAllAttributes.json in Resources */ = {isa = PBXBuildFile; fileRef = C08D4EEC248A7C1600AAAC0A /* widgetWithAllAttributes.json */; };
-		C08D4EF8248A800E00AAAC0A /* FlexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4EF7248A800E00AAAC0A /* FlexTests.swift */; };
-		C08D4EFA248A839700AAAC0A /* FlexMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4EF9248A839700AAAC0A /* FlexMocks.swift */; };
 		C08D4F06248AD3D600AAAC0A /* ServerDrivenComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4F05248AD3D600AAAC0A /* ServerDrivenComponentTests.swift */; };
-		C08D4F09248AD83800AAAC0A /* ScreenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4F08248AD83800AAAC0A /* ScreenTests.swift */; };
 		C0FBBD212475803900B72A9B /* Schema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FBBD172475803900B72A9B /* Schema.framework */; };
 		C0FBBD3324759EDD00B72A9B /* SnapshotTesting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FBBD3224759EDD00B72A9B /* SnapshotTesting.framework */; };
 		C864D2A2247C240200E7A1F9 /* FormSubmit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D221247C240200E7A1F9 /* FormSubmit.swift */; };
@@ -133,9 +128,6 @@
 		C029189F247EE2BF00C3AA13 /* CustomPageIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPageIndicator.swift; sourceTree = "<group>"; };
 		C08D4DCF248194A800AAAC0A /* Spacer.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Spacer.json; sourceTree = "<group>"; };
 		C08D4DD12481959C00AAAC0A /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
-		C08D4DD72481A1D500AAAC0A /* ScreenComponentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenComponentTests.swift; sourceTree = "<group>"; };
-		C08D4DD92481A3C600AAAC0A /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
-		C08D4DDE2481A40300AAAC0A /* screenComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = screenComponent.json; sourceTree = "<group>"; };
 		C08D4EB12487DAD800AAAC0A /* NetworkImageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkImageTests.swift; sourceTree = "<group>"; };
 		C08D4EB32487DCDB00AAAC0A /* NetworkImage.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NetworkImage.json; sourceTree = "<group>"; };
 		C08D4EB52487DDCD00AAAC0A /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
@@ -144,11 +136,7 @@
 		C08D4EEA248A7C1600AAAC0A /* WidgetTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WidgetTests.swift; sourceTree = "<group>"; };
 		C08D4EEC248A7C1600AAAC0A /* widgetWithAllAttributes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = widgetWithAllAttributes.json; sourceTree = "<group>"; };
 		C08D4EF5248A7C5900AAAC0A /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
-		C08D4EF7248A800E00AAAC0A /* FlexTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexTests.swift; sourceTree = "<group>"; };
-		C08D4EF9248A839700AAAC0A /* FlexMocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexMocks.swift; sourceTree = "<group>"; };
 		C08D4F05248AD3D600AAAC0A /* ServerDrivenComponentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDrivenComponentTests.swift; sourceTree = "<group>"; };
-		C08D4F08248AD83800AAAC0A /* ScreenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenTests.swift; sourceTree = "<group>"; };
-		C08D4F0A248ADC9900AAAC0A /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C0FBBD172475803900B72A9B /* Schema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Schema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0FBBD202475803900B72A9B /* SchemaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SchemaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0FBBD3224759EDD00B72A9B /* SnapshotTesting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapshotTesting.framework; path = Carthage/Build/iOS/SnapshotTesting.framework; sourceTree = "<group>"; };
@@ -308,27 +296,8 @@
 			isa = PBXGroup;
 			children = (
 				C864D248247C240200E7A1F9 /* ScreenComponent.swift */,
-				C08D4DD62481A1C300AAAC0A /* Tests */,
 			);
 			path = ScreenComponent;
-			sourceTree = "<group>";
-		};
-		C08D4DD62481A1C300AAAC0A /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				C08D4DD72481A1D500AAAC0A /* ScreenComponentTests.swift */,
-				C08D4DDD2481A40300AAAC0A /* JSON */,
-				C08D4DD92481A3C600AAAC0A /* __Snapshots__ */,
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
-		C08D4DDD2481A40300AAAC0A /* JSON */ = {
-			isa = PBXGroup;
-			children = (
-				C08D4DDE2481A40300AAAC0A /* screenComponent.json */,
-			);
-			path = JSON;
 			sourceTree = "<group>";
 		};
 		C08D4EAF2487DAB500AAAC0A /* Tests */ = {
@@ -368,28 +337,10 @@
 			path = JSON;
 			sourceTree = "<group>";
 		};
-		C08D4EF6248A7FF600AAAC0A /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				C08D4EF7248A800E00AAAC0A /* FlexTests.swift */,
-				C08D4EF9248A839700AAAC0A /* FlexMocks.swift */,
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
 		C08D4F04248AD3BE00AAAC0A /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				C08D4F05248AD3D600AAAC0A /* ServerDrivenComponentTests.swift */,
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
-		C08D4F07248AD82300AAAC0A /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				C08D4F08248AD83800AAAC0A /* ScreenTests.swift */,
-				C08D4F0A248ADC9900AAAC0A /* __Snapshots__ */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -577,7 +528,6 @@
 		C864D243247C240200E7A1F9 /* Screen */ = {
 			isa = PBXGroup;
 			children = (
-				C08D4F07248AD82300AAAC0A /* Tests */,
 				C08D4DD52481A1A400AAAC0A /* ScreenComponent */,
 				C864D244247C240200E7A1F9 /* SafeArea.swift */,
 				C864D245247C240200E7A1F9 /* NavigationBar.swift */,
@@ -768,7 +718,6 @@
 		C864D28F247C240200E7A1F9 /* Flex */ = {
 			isa = PBXGroup;
 			children = (
-				C08D4EF6248A7FF600AAAC0A /* Tests */,
 				C864D290247C240200E7A1F9 /* UnitValue.swift */,
 				C864D291247C240200E7A1F9 /* EdgeValue.swift */,
 				C864D292247C240200E7A1F9 /* Size.swift */,
@@ -1162,7 +1111,6 @@
 				C864D2FE247C25D900E7A1F9 /* TouchableDecoderTest.json in Resources */,
 				C8EAC4FA247C2851003089BE /* ImageComponent.json in Resources */,
 				C8BB30B12486FDC2002DD3C1 /* opennativeroute.json in Resources */,
-				C08D4DDF2481A40300AAAC0A /* screenComponent.json in Resources */,
 				C864D2F7247C257C00E7A1F9 /* WebView.json in Resources */,
 				C8BB30B02486FDC2002DD3C1 /* openexternalurl.json in Resources */,
 				C029189D247EE03200C3AA13 /* PageViewWithCustomIndicator.json in Resources */,
@@ -1311,17 +1259,13 @@
 				C864D2FC247C25C800E7A1F9 /* FormSubmitTests.swift in Sources */,
 				C02918A0247EE2BF00C3AA13 /* CustomPageIndicator.swift in Sources */,
 				C864D2F9247C259E00E7A1F9 /* FormTests.swift in Sources */,
-				C08D4DD82481A1D500AAAC0A /* ScreenComponentTests.swift in Sources */,
-				C08D4EFA248A839700AAAC0A /* FlexMocks.swift in Sources */,
 				C8EAC4FC247C288B003089BE /* ButtonTests.swift in Sources */,
 				C8EBCC87247C30C5002030CC /* PageViewTests.swift in Sources */,
 				C864D2FD247C25D300E7A1F9 /* TouchableTests.swift in Sources */,
 				C864D2F6247C257500E7A1F9 /* WebViewTests.swift in Sources */,
-				C08D4F09248AD83800AAAC0A /* ScreenTests.swift in Sources */,
 				C8EAC502247C29BC003089BE /* ComponentDecoderTests.swift in Sources */,
 				C8BB30A42486FD18002DD3C1 /* NavigateTests.swift in Sources */,
 				C8EBCC24247C2F8D002030CC /* SpacerTests.swift in Sources */,
-				C08D4EF8248A800E00AAAC0A /* FlexTests.swift in Sources */,
 				C864D2F0247C245C00E7A1F9 /* ComponentFromJsonFile.swift in Sources */,
 				C8EBCC81247C304D002030CC /* LazyComponentTests.swift in Sources */,
 				C08D4EF3248A7C1D00AAAC0A /* WidgetTests.swift in Sources */,

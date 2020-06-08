@@ -17,7 +17,6 @@
 
 import XCTest
 import SnapshotTesting
-@testable import BeagleUI
 import Schema
 
 final class WidgetTests: XCTestCase {
@@ -43,7 +42,7 @@ final class WidgetTests: XCTestCase {
         var text: Text = try componentFromJsonFile(fileName: "widgetWithAllAttributes")
         let newAppeareance = Appearance(backgroundColor: nil, cornerRadius: .init(radius: -9999.0))
         let newId = "newID"
-        let newFlex = Flex.createMock()
+        let newFlex = Flex()
         let newAccessiblity = Accessibility(accessibilityLabel: "new label", accessible: false)
         
         // when

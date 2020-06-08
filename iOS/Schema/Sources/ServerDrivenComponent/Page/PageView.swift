@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-import UIKit
-
 public struct PageView: ServerDrivenComponent, AutoInitiable {
 
     public let pages: [ServerDrivenComponent]
