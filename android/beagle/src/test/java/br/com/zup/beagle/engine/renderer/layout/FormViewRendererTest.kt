@@ -23,7 +23,7 @@ import br.com.zup.beagle.BaseTest
 import br.com.zup.beagle.action.ActionExecutor
 import br.com.zup.beagle.action.FormValidationActionHandler
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.android.widget.form.InputWidgetView
+import br.com.zup.beagle.android.widget.form.InputWidget
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.engine.renderer.ViewRenderer
 import br.com.zup.beagle.engine.renderer.ViewRendererFactory
@@ -114,7 +114,7 @@ class FormViewRendererTest : BaseTest() {
     private lateinit var rootView: RootView
 
     @RelaxedMockK
-    private lateinit var inputWidget: InputWidgetView
+    private lateinit var inputWidget: InputWidget
 
     @MockK
     private lateinit var remoteAction: FormRemoteAction

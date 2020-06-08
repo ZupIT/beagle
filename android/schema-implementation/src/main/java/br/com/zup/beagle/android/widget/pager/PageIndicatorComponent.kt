@@ -19,7 +19,7 @@ package br.com.zup.beagle.android.widget.pager
 import br.com.zup.beagle.android.widget.core.ViewConvertable
 import br.com.zup.beagle.widget.pager.PageIndicatorComponent
 
-interface PageIndicatorComponentView : PageIndicatorComponent,
+interface PageIndicatorComponent : PageIndicatorComponent,
     ViewConvertable {
     fun setCount(pages: Int)
     fun onItemUpdated(newIndex: Int)

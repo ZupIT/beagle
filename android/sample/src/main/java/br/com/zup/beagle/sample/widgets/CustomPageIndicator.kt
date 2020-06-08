@@ -21,13 +21,13 @@ import android.content.Context
 import android.view.View
 import br.com.zup.beagle.sample.components.CustomPageIndicatorView
 import br.com.zup.beagle.android.widget.pager.PageIndicatorOutput
-import br.com.zup.beagle.android.widget.pager.PageIndicatorComponentView
+import br.com.zup.beagle.android.widget.pager.PageIndicatorComponent
 
 @RegisterWidget
 data class CustomPageIndicator(
     val showContinue: Boolean,
     val showSkip: Boolean
-) : PageIndicatorComponentView {
+) : PageIndicatorComponent {
 
     @Transient
     private lateinit var customPageIndicatorView: CustomPageIndicatorView

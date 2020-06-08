@@ -22,7 +22,7 @@ import br.com.zup.beagle.action.FormValidation
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.mockdata.CustomInputWidgetView
+import br.com.zup.beagle.mockdata.CustomInputWidget
 import br.com.zup.beagle.mockdata.CustomWidget
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.testutil.RandomData
@@ -47,7 +47,7 @@ import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.NetworkImage
 import br.com.zup.beagle.widget.ui.Text
-import br.com.zup.beagle.widget.ui.UndefinedWidgetView
+import br.com.zup.beagle.widget.ui.UndefinedWidget
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.mockkObject
@@ -62,7 +62,7 @@ import kotlin.test.assertTrue
 @Suppress("UNCHECKED_CAST")
 private val WIDGETS = listOf(
     CustomWidget::class.java as Class<WidgetView>,
-    CustomInputWidgetView::class.java as Class<WidgetView>
+    CustomInputWidget::class.java as Class<WidgetView>
 )
 
 class BeagleMoshiTest {
@@ -102,7 +102,7 @@ class BeagleMoshiTest {
     @Test
     fun make_should_return_moshi_to_serialize_a_ScreenWidget() {
         // Given
-        val component = ScreenComponent(child = UndefinedWidgetView())
+        val component = ScreenComponent(child = UndefinedWidget())
 
         // When
         val actual =
@@ -426,7 +426,7 @@ class BeagleMoshiTest {
     @Test
     fun make_should_return_moshi_to_serialize_a_LazyComponent() {
         // Given
-        val component = LazyComponent("", UndefinedWidgetView())
+        val component = LazyComponent("", UndefinedWidget())
 
         // When
         val actual =
@@ -588,7 +588,7 @@ class BeagleMoshiTest {
         // Given
         val component = FormInput(
             name = RandomData.string(),
-            child = UndefinedWidgetView()
+            child = UndefinedWidget()
         )
 
         // When
@@ -616,7 +616,7 @@ class BeagleMoshiTest {
     @Test
     fun make_should_return_moshi_to_serialize_a_FormSubmit() {
         // Given
-        val json = FormSubmit(UndefinedWidgetView())
+        val json = FormSubmit(UndefinedWidget())
 
         // When
         val actual =
@@ -648,7 +648,7 @@ class BeagleMoshiTest {
                 RandomData.string(),
                 FormMethodType.POST
             ),
-            child = UndefinedWidgetView()
+            child = UndefinedWidget()
         )
 
         // When
@@ -670,13 +670,13 @@ class BeagleMoshiTest {
 
         // Then
         assertNotNull(component)
-        assertTrue(component is UndefinedWidgetView)
+        assertTrue(component is UndefinedWidget)
     }
 
     @Test
     fun make_should_return_moshi_to_serialize_a_UndefinedComponent() {
         // Given
-        val component = UndefinedWidgetView()
+        val component = UndefinedWidget()
 
         // When
         val jsonComponent =

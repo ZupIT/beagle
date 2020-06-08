@@ -41,7 +41,7 @@ import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.NetworkImage
 import br.com.zup.beagle.widget.ui.TabView
 import br.com.zup.beagle.widget.ui.Text
-import br.com.zup.beagle.widget.ui.UndefinedWidgetView
+import br.com.zup.beagle.widget.ui.UndefinedWidget
 import br.com.zup.beagle.widget.ui.WebView
 
 internal class UIViewRendererFactory : AbstractViewRendererFactory {
@@ -61,7 +61,7 @@ internal class UIViewRendererFactory : AbstractViewRendererFactory {
                 is FormSubmit -> FormSubmitViewRenderer(component)
                 is TabView -> TabViewRenderer(component)
                 is WebView -> WebViewRenderer(component)
-                is ViewConvertable, !is UndefinedWidgetView -> ViewConvertableRenderer(component as ViewConvertable)
+                is ViewConvertable, !is UndefinedWidget -> ViewConvertableRenderer(component as ViewConvertable)
                 else -> UndefinedViewRenderer(component)
             }
         }

@@ -25,7 +25,7 @@ import br.com.zup.beagle.android.widget.interfaces.WidgetState
 import br.com.zup.beagle.android.widget.state.Observable
 import br.com.zup.beagle.widget.form.InputWidget
 
-abstract class InputWidgetView : InputWidget(),
+abstract class InputWidget : InputWidget(),
     ViewConvertable,
     StateChangeable {
 

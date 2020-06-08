@@ -24,7 +24,7 @@ import br.com.zup.beagle.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.form.FormSubmit
-import br.com.zup.beagle.android.widget.form.InputWidgetView
+import br.com.zup.beagle.android.widget.form.InputWidget
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -48,7 +48,7 @@ class FormSubmitViewRendererTest : BaseTest() {
     @MockK
     private lateinit var rootView: RootView
     @MockK
-    private lateinit var inputWidget: InputWidgetView
+    private lateinit var inputWidget: InputWidget
     @MockK
     private lateinit var context: Context
     @MockK

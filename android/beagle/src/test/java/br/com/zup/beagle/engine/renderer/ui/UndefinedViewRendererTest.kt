@@ -26,7 +26,7 @@ import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.setup.Environment
 import br.com.zup.beagle.view.BeagleTextView
 import br.com.zup.beagle.view.ViewFactory
-import br.com.zup.beagle.widget.ui.UndefinedWidgetView
+import br.com.zup.beagle.widget.ui.UndefinedWidget
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -50,7 +50,7 @@ class UndefinedViewRendererTest : BaseTest() {
     @RelaxedMockK
     private lateinit var textView: BeagleTextView
     @RelaxedMockK
-    private lateinit var undefinedWidget: UndefinedWidgetView
+    private lateinit var undefinedWidget: UndefinedWidget
 
     private val textSlot = slot<String>()
     private val textColorSlot = slot<Int>()

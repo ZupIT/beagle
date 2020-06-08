@@ -42,7 +42,7 @@ import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.FormInputHidden
 import br.com.zup.beagle.widget.form.FormSubmit
 import br.com.zup.beagle.widget.form.FormRemoteAction
-import br.com.zup.beagle.android.widget.form.InputWidgetView
+import br.com.zup.beagle.android.widget.form.InputWidget
 
 @Suppress("LongParameterList")
 internal class FormViewRenderer(
@@ -114,7 +114,7 @@ internal class FormViewRenderer(
         val formsValue = mutableMapOf<String, String>()
 
         formInputs.forEach { formInput ->
-            val inputWidget: InputWidgetView = formInput.child as InputWidgetView
+            val inputWidget: InputWidget = formInput.child as InputWidget
             if (formInput.required == true) {
                 validateFormInput(formInput, formsValue)
             } else {
@@ -163,7 +163,7 @@ internal class FormViewRenderer(
         val validator = formInput.validator ?: return
 
         validatorHandler?.getValidator(validator)?.let {
-            val inputWidget: InputWidgetView = formInput.child as InputWidgetView
+            val inputWidget: InputWidget = formInput.child as InputWidget
             val inputValue = inputWidget.getValue()
 
             if (it.isValid(inputValue, inputWidget)) {

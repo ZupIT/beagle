@@ -44,7 +44,7 @@ import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.NetworkImage
 import br.com.zup.beagle.widget.ui.TabView
 import br.com.zup.beagle.widget.ui.Text
-import br.com.zup.beagle.widget.ui.UndefinedWidgetView
+import br.com.zup.beagle.widget.ui.UndefinedWidget
 import java.util.*
 
 private const val BEAGLE_WIDGET_TYPE = "_beagleComponent_"
@@ -103,7 +103,7 @@ internal object ComponentJsonAdapterFactory {
             .withSubtype(FormInput::class.java, createNamespaceFor<FormInput>())
             .withSubtype(FormInputHidden::class.java, createNamespaceFor<FormInputHidden>())
             .withSubtype(FormSubmit::class.java, createNamespaceFor<FormSubmit>())
-            .withSubtype(UndefinedWidgetView::class.java, createNamespaceFor<UndefinedWidgetView>())
+            .withSubtype(UndefinedWidget::class.java, createNamespaceFor<UndefinedWidget>())
     }
 
     private fun registerCustomWidget(
@@ -124,7 +124,7 @@ internal object ComponentJsonAdapterFactory {
     private fun registerUndefinedWidget(
         factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
-        return factory.withDefaultValue(UndefinedWidgetView())
+        return factory.withDefaultValue(UndefinedWidget())
     }
 
     private inline fun <reified T : ServerDrivenComponent> createNamespaceFor(): String {
