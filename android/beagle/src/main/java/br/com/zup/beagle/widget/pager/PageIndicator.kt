@@ -18,7 +18,7 @@ package br.com.zup.beagle.widget.pager
 
 import android.content.Context
 import android.graphics.Color
-import br.com.zup.beagle.view.BeaglePageIndicatorView
+import br.com.zup.beagle.view.custom.BeaglePageIndicatorView
 import br.com.zup.beagle.view.ViewFactory
 
 data class PageIndicator(

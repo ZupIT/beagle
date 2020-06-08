@@ -172,6 +172,7 @@ class FormViewRendererTest : BaseTest() {
         every { beagleActivity.runOnUiThread(capture(runnableSlot)) } just Runs
         every { formSubmitter.submitForm(any(), capture(formParamsSlot), capture(formSubmitCallbackSlot)) } just Runs
         every { validatorHandler.getValidator(any()) } returns validator
+        every { rootView.getContext() } returns beagleActivity
     }
 
     override fun tearDown() {
@@ -322,8 +323,8 @@ class FormViewRendererTest : BaseTest() {
         // Then
         verify(exactly = once()) { formSubmitView.hideKeyboard() }
         verifyOrder {
-            actionExecutor.doAction(any(), navigateAction)
-            actionExecutor.doAction(beagleActivity, formResult.action)
+            actionExecutor.doAction(rootView, navigateAction)
+            actionExecutor.doAction(rootView, formResult.action)
         }
     }
 
@@ -366,7 +367,7 @@ class FormViewRendererTest : BaseTest() {
         runnableSlot.captured.run()
 
         // Then
-        verify(exactly = once()) { actionExecutor.doAction(beagleActivity, formResult.action) }
+        verify(exactly = once()) { actionExecutor.doAction(rootView, formResult.action) }
     }
 
     @Test

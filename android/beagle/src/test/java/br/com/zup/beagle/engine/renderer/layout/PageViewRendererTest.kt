@@ -24,9 +24,9 @@ import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.engine.renderer.ViewRenderer
 import br.com.zup.beagle.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.extensions.once
-import br.com.zup.beagle.view.BeagleFlexView
-import br.com.zup.beagle.view.BeaglePageIndicatorView
-import br.com.zup.beagle.view.BeaglePageView
+import br.com.zup.beagle.view.custom.BeagleFlexView
+import br.com.zup.beagle.view.custom.BeaglePageIndicatorView
+import br.com.zup.beagle.view.custom.BeaglePageView
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.layout.PageView
 import br.com.zup.beagle.widget.pager.PageIndicatorComponent

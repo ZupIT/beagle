@@ -26,7 +26,7 @@ import br.com.zup.beagle.engine.renderer.ViewRenderer
 import br.com.zup.beagle.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.testutil.RandomData
-import br.com.zup.beagle.view.BeagleView
+import br.com.zup.beagle.view.custom.BeagleView
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.lazy.LazyComponent
 import io.mockk.Runs

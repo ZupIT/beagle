@@ -14,17 +14,20 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.view
+package br.com.zup.beagle.view.custom
 
 import android.content.Context
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.data.BeagleViewModel
-import br.com.zup.beagle.data.ViewState
+import br.com.zup.beagle.view.viewmodel.BeagleViewModel
+import br.com.zup.beagle.view.viewmodel.ViewState
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.interfaces.OnStateUpdatable
+import br.com.zup.beagle.utils.generateViewModelInstance
 import br.com.zup.beagle.utils.implementsGenericTypeOf
+import br.com.zup.beagle.view.ScreenRequest
 
 typealias OnStateChanged = (state: BeagleViewState) -> Unit
 
@@ -46,7 +49,7 @@ internal class BeagleView(
 
     private lateinit var rootView: RootView
 
-    private val viewModel by lazy { BeagleViewModel() }
+    private val viewModel by lazy { rootView.generateViewModelInstance<BeagleViewModel>() }
 
     fun loadView(rootView: RootView, screenRequest: ScreenRequest) {
         loadView(rootView, screenRequest, null)
@@ -58,11 +61,10 @@ internal class BeagleView(
 
     private fun loadView(rootView: RootView, screenRequest: ScreenRequest, view: View?) {
         this.rootView = rootView
-        viewModel.state.observe(rootView.getLifecycleOwner(), Observer<ViewState> { state ->
+
+        viewModel.fetchComponent(screenRequest).observe(rootView.getLifecycleOwner(), Observer { state ->
             handleResponse(state, view)
         })
-
-        viewModel.fetchComponent(screenRequest)
     }
 
     private fun handleResponse(

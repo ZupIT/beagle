@@ -28,8 +28,8 @@ import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.utils.ComponentStylization
-import br.com.zup.beagle.view.BeagleFlexView
-import br.com.zup.beagle.view.BeagleImageView
+import br.com.zup.beagle.view.custom.BeagleFlexView
+import br.com.zup.beagle.view.custom.BeagleImageView
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size

@@ -16,14 +16,20 @@
 
 package br.com.zup.beagle.action
 
-import android.content.Context
+import androidx.lifecycle.ViewModelProvider
+import br.com.zup.beagle.engine.renderer.ActivityRootView
 import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BeagleEnvironment
+import br.com.zup.beagle.utils.ViewModelProviderFactory
+import br.com.zup.beagle.utils.generateViewModelInstance
 import br.com.zup.beagle.view.BeagleActivity
 import br.com.zup.beagle.view.ServerDrivenState
+import br.com.zup.beagle.view.viewmodel.ActionRequestViewModel
 import io.mockk.*
+import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -33,24 +39,35 @@ class ActionExecutorTest {
 
     @MockK
     private lateinit var customActionHandler: CustomActionHandler
+
     @MockK
     private lateinit var navigationActionHandler: NavigationActionHandler
+
     @MockK
     private lateinit var showNativeDialogActionHandler: ShowNativeDialogActionHandler
+
     @MockK
     private lateinit var formValidationActionHandler: DefaultActionHandler<FormValidation>
+
     @MockK
     private lateinit var updateContextActionHandler: UpdateContextActionHandler
+
     @MockK
-    private lateinit var context: Context
-    @MockK
-    private lateinit var customAction: CustomAction
+    private lateinit var sendRequestActionHandler: SendRequestActionHandler
+
+    @RelaxedMockK
+    private lateinit var rootView: ActivityRootView
+
     @MockK
     private lateinit var activity: BeagleActivity
+
+    @MockK
+    private lateinit var customAction: CustomAction
 
     private val actionListener = slot<ActionListener>()
     private val activityStates = mutableListOf<ServerDrivenState>()
 
+    @InjectMockKs
     private lateinit var actionExecutor: ActionExecutor
 
     @Before
@@ -59,17 +76,11 @@ class ActionExecutorTest {
 
         mockkObject(BeagleEnvironment)
 
+        every { rootView.getContext() } returns activity
+        every { rootView.activity } returns activity
         every { BeagleEnvironment.beagleSdk } returns mockk(relaxed = true)
         every { customActionHandler.handle(activity, customAction, capture(actionListener)) } just Runs
         every { activity.onServerDrivenContainerStateChanged(capture(activityStates)) } just Runs
-
-        actionExecutor = ActionExecutor(
-            customActionHandler,
-            navigationActionHandler,
-            showNativeDialogActionHandler,
-            formValidationActionHandler,
-            updateContextActionHandler
-        )
     }
 
     @After
@@ -84,10 +95,10 @@ class ActionExecutorTest {
         every { navigationActionHandler.handle(any(), any()) } just Runs
 
         // When
-        actionExecutor.doAction(context, action)
+        actionExecutor.doAction(rootView, action)
 
         // Then
-        verify(exactly = once()) { navigationActionHandler.handle(context, action) }
+        verify(exactly = once()) { navigationActionHandler.handle(activity, action) }
     }
 
     @Test
@@ -97,10 +108,10 @@ class ActionExecutorTest {
         every { showNativeDialogActionHandler.handle(any(), any()) } just Runs
 
         // When
-        actionExecutor.doAction(context, action)
+        actionExecutor.doAction(rootView, action)
 
         // Then
-        verify(exactly = once()) { showNativeDialogActionHandler.handle(context, action) }
+        verify(exactly = once()) { showNativeDialogActionHandler.handle(activity, action) }
     }
 
     @Test
@@ -110,10 +121,10 @@ class ActionExecutorTest {
         every { formValidationActionHandler.handle(any(), any()) } just Runs
 
         // When
-        actionExecutor.doAction(context, action)
+        actionExecutor.doAction(rootView, action)
 
         // Then
-        verify(exactly = once()) { formValidationActionHandler.handle(context, action) }
+        verify(exactly = once()) { formValidationActionHandler.handle(activity, action) }
     }
 
     @Test
@@ -124,10 +135,10 @@ class ActionExecutorTest {
         every { formValidationActionHandler.handle(any(), any()) } just Runs
 
         // When
-        actionExecutor.doAction(context, action)
+        actionExecutor.doAction(rootView, action)
 
         // Then
-        verify(exactly = 0) { formValidationActionHandler.handle(context, action) }
+        verify(exactly = 0) { formValidationActionHandler.handle(activity, action) }
     }
 
     @Test
@@ -137,10 +148,10 @@ class ActionExecutorTest {
         every { updateContextActionHandler.handle(any(), any()) } just Runs
 
         // When
-        actionExecutor.doAction(context, action)
+        actionExecutor.doAction(rootView, action)
 
         // Then
-        verify(exactly = once()) { updateContextActionHandler.handle(context, action) }
+        verify(exactly = once()) { updateContextActionHandler.handle(activity, action) }
     }
 
     @Test
@@ -151,10 +162,10 @@ class ActionExecutorTest {
         val action = mockk<CustomAction>()
 
         // When
-        actionExecutor.doAction(context, action)
+        actionExecutor.doAction(rootView, action)
 
         // Then
-        verify(exactly = 0) { customActionHandler.handle(context, action, listener) }
+        verify(exactly = 0) { customActionHandler.handle(activity, action, listener) }
     }
 
     @Test
@@ -165,7 +176,7 @@ class ActionExecutorTest {
         )
 
         // When
-        actionExecutor.doAction(activity, customAction)
+        actionExecutor.doAction(rootView, customAction)
         actionListener.captured.onStart()
 
         // Then
@@ -183,7 +194,7 @@ class ActionExecutorTest {
         val dumbAction = mockk<Action>()
 
         // When
-        actionExecutor.doAction(activity, customAction)
+        actionExecutor.doAction(rootView, customAction)
         actionListener.captured.onSuccess(dumbAction)
 
         // Then
@@ -202,12 +213,52 @@ class ActionExecutorTest {
         )
 
         // When
-        actionExecutor.doAction(activity, customAction)
+        actionExecutor.doAction(rootView, customAction)
         actionListener.captured.onError(error)
 
         // Then
         verify(exactly = once()) { customActionHandler.handle(activity, customAction, actionListener.captured) }
         verify(exactly = 2) { activity.onServerDrivenContainerStateChanged(any()) }
         assertEquals(expectedState, activityStates)
+    }
+
+
+    @Test
+    fun `should handle request action when do action`() {
+        // Given
+        val action = mockk<SendRequestAction>()
+        val actionListener = slot<SendRequestListener>()
+        val viewModel = mockk<ActionRequestViewModel>()
+        mockkConstructor(ViewModelProvider::class)
+        every { rootView.generateViewModelInstance<ActionRequestViewModel>() } returns viewModel
+        every { sendRequestActionHandler.handle(rootView, action, viewModel, capture(actionListener)) } just Runs
+
+        // When
+        actionExecutor.doAction(rootView, action)
+
+        // Then
+        verify(exactly = once()) {
+            sendRequestActionHandler.handle(rootView, action, viewModel, actionListener.captured)
+        }
+    }
+
+    @Test
+    fun `should execute listen request action when do action`() {
+        // Given
+        val action = mockk<SendRequestAction>()
+        val actionListener = slot<SendRequestListener>()
+        mockkConstructor(ViewModelProvider::class)
+        val viewModel = mockk<ActionRequestViewModel>(relaxed = true)
+        val actions = listOf(action)
+        every { rootView.generateViewModelInstance<ActionRequestViewModel>() } returns viewModel
+        every { sendRequestActionHandler.handle(rootView, action, viewModel, capture(actionListener)) } just Runs
+
+        // When
+        actionExecutor.doAction(rootView, action)
+        actionListener.captured.invoke(actions)
+
+
+        // Then
+        verify(exactly = 2) { sendRequestActionHandler.handle(rootView, action, viewModel, any()) }
     }
 }

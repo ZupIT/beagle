@@ -20,52 +20,76 @@ import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.data.serializer.BeagleSerializer
 import br.com.zup.beagle.data.serializer.makeCustomActionJson
 import br.com.zup.beagle.extensions.once
+import br.com.zup.beagle.networking.RequestData
 import br.com.zup.beagle.networking.ResponseData
-import br.com.zup.beagle.testutil.RandomData
-import br.com.zup.beagle.view.ScreenRequest
+import br.com.zup.beagle.setup.BeagleEnvironment
 import io.mockk.*
-import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.InjectMockKs
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-private val URL = RandomData.httpUrl()
 private val JSON_SUCCESS = makeCustomActionJson()
 
 @ExperimentalCoroutinesApi
 class ActionRequesterTest {
 
-    @MockK
-    private lateinit var beagleApi: BeagleApi
-    @MockK
-    private lateinit var serializer: BeagleSerializer
+    private val beagleApi: BeagleApi = mockk()
+    private val serializer: BeagleSerializer = mockk()
 
+    @InjectMockKs
     private lateinit var actionRequester: ActionRequester
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
 
-        actionRequester = ActionRequester(beagleApi, serializer)
+        mockkObject(BeagleEnvironment)
+        mockkStatic("br.com.zup.beagle.data.StringExtensionsKt")
+    }
+
+    @After
+    fun tearDown() {
+        unmockkAll()
     }
 
     @Test
-    fun fetchAction_should_deserialize_a_action_response() = runBlockingTest {
+    fun `should action response when fetch action`() = runBlockingTest {
         // Given
         val action = mockk<Action>()
         val responseData = mockk<ResponseData> {
             every { data } returns JSON_SUCCESS.toByteArray()
         }
-        coEvery { beagleApi.fetchData(ScreenRequest(URL)) } returns responseData
+        val requestData: RequestData = mockk()
+
+        every { any<String>().toRequestData() } returns requestData
+
+        coEvery { beagleApi.fetchData(requestData) } returns responseData
         every { serializer.deserializeAction(JSON_SUCCESS) } returns action
 
         // When
-        val actionResult = actionRequester.fetchAction(URL)
+        val actionResult = actionRequester.fetchAction("")
 
         // Then
         verify(exactly = once()) { serializer.deserializeAction(JSON_SUCCESS) }
         assertEquals(action, actionResult)
     }
+
+    @Test
+    fun `should response data when fetch data`() = runBlockingTest {
+        // Given
+        val requestData: RequestData = mockk()
+        val responseData: ResponseData = mockk()
+        coEvery { beagleApi.fetchData(requestData) } returns responseData
+
+        // When
+        actionRequester.fetchData(requestData)
+
+        // Then
+        coVerify(exactly = once()) { beagleApi.fetchData(requestData) }
+    }
+
 }

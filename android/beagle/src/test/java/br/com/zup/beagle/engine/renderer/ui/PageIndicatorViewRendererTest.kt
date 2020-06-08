@@ -21,7 +21,7 @@ import android.graphics.Color
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.testutil.setPrivateField
-import br.com.zup.beagle.view.BeaglePageIndicatorView
+import br.com.zup.beagle.view.custom.BeaglePageIndicatorView
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.pager.PageIndicator
 import io.mockk.MockKAnnotations

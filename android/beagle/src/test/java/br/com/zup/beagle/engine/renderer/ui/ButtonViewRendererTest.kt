@@ -31,7 +31,7 @@ import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.utils.StyleManager
-import br.com.zup.beagle.view.BeagleButtonView
+import br.com.zup.beagle.view.custom.BeagleButtonView
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.widget.ui.Button

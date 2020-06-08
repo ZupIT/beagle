@@ -21,11 +21,10 @@ import br.com.zup.beagle.BaseTest
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.engine.renderer.ViewRendererFactory
-import br.com.zup.beagle.view.BeagleFlexView
+import br.com.zup.beagle.view.custom.BeagleFlexView
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Stack
-import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -33,7 +32,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.slot
-import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -55,7 +53,7 @@ class StackViewRendererTest : BaseTest() {
     private lateinit var children: List<ServerDrivenComponent>
 
     @RelaxedMockK
-    private lateinit var beagleFlexView:BeagleFlexView
+    private lateinit var beagleFlexView: BeagleFlexView
 
     @InjectMockKs
     private lateinit var stackViewRenderer: StackViewRenderer

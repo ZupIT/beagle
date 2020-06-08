@@ -24,7 +24,7 @@ import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.testutil.RandomData
-import br.com.zup.beagle.view.BeagleImageView
+import br.com.zup.beagle.view.custom.BeagleImageView
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.core.ImageContentMode
 import br.com.zup.beagle.widget.ui.Image

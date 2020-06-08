@@ -18,6 +18,7 @@ package br.com.zup.beagle.form
 
 import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.data.serializer.BeagleSerializer
+import br.com.zup.beagle.exception.BeagleApiException
 import br.com.zup.beagle.exception.BeagleException
 import br.com.zup.beagle.networking.HttpClient
 import br.com.zup.beagle.networking.HttpClientFactory
@@ -56,7 +57,7 @@ internal class FormSubmitter(
                 result(FormResult.Error(ex))
             }
         }, {
-            result(FormResult.Error(it))
+            result(FormResult.Error(BeagleApiException(it)))
         })
     }
 

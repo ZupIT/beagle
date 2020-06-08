@@ -17,6 +17,7 @@
 package br.com.zup.beagle.action
 
 import android.content.Context
+import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.view.BeagleActivity
 import br.com.zup.beagle.view.ServerDrivenState
@@ -30,20 +31,29 @@ internal class ActionExecutor(
     private val showNativeDialogActionHandler: ShowNativeDialogActionHandler =
         ShowNativeDialogActionHandler(),
     private val formValidationActionHandler: DefaultActionHandler<FormValidation>? = null,
+    private val sendRequestActionHandler: SendRequestActionHandler = SendRequestActionHandler(),
     private val updateContextActionHandler: UpdateContextActionHandler = UpdateContextActionHandler()
 ) {
 
-    fun doAction(context: Context, action: Action) {
+    fun doAction(rootView: RootView, action: Action?) {
+        val context = rootView.getContext()
         when (action) {
             is Navigate -> navigationActionHandler.handle(context, action)
-            is ShowNativeDialog -> showNativeDialogActionHandler.handle(context, action)
+            is ShowNativeDialog ->
+                showNativeDialogActionHandler.handle(context, action)
             is FormValidation -> formValidationActionHandler?.handle(context, action)
+            is SendRequestAction -> {
+                sendRequestActionHandler.handle(rootView = rootView,
+                    action = action) { actions ->
+                    doAction(rootView, actions)
+                }
+            }
             is UpdateContext -> updateContextActionHandler.handle(context, action)
             is CustomAction -> customActionHandler?.handle(context, action, object : ActionListener {
 
                 override fun onSuccess(action: Action) {
                     changeActivityState(context, ServerDrivenState.Loading(false))
-                    doAction(context, action)
+                    doAction(rootView, action)
                 }
 
                 override fun onError(e: Throwable) {
@@ -58,9 +68,9 @@ internal class ActionExecutor(
         }
     }
 
-    fun doAction(context: Context, actions: List<Action>?) {
+    fun doAction(rotView: RootView, actions: List<Action>?) {
         actions?.forEach { action ->
-            doAction(context, action)
+            doAction(rotView, action)
         }
     }
 
@@ -68,3 +78,4 @@ internal class ActionExecutor(
         (context as? BeagleActivity)?.onServerDrivenContainerStateChanged(state)
     }
 }
+

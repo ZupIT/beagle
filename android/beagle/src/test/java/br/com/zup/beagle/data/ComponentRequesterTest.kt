@@ -14,20 +14,24 @@
  * limitations under the License.
  */
 
+
 package br.com.zup.beagle.data
 
+import br.com.zup.beagle.BaseTest
 import br.com.zup.beagle.cache.BeagleCache
 import br.com.zup.beagle.cache.CacheManager
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.data.serializer.BeagleSerializer
+import br.com.zup.beagle.networking.RequestData
 import br.com.zup.beagle.networking.ResponseData
 import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.view.ScreenRequest
+import br.com.zup.beagle.view.mapper.ScreenRequestMapper
+import br.com.zup.beagle.view.mapper.toRequestData
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -36,31 +40,38 @@ private val SCREEN_REQUEST = ScreenRequest(URL)
 private val RESPONSE_BODY = RandomData.string()
 
 @ExperimentalCoroutinesApi
-class ComponentRequesterTest {
+class ComponentRequesterTest: BaseTest() {
 
     @MockK
     private lateinit var beagleApi: BeagleApi
+
     @MockK
     private lateinit var serializer: BeagleSerializer
+
     @MockK
     private lateinit var cacheManager: CacheManager
 
-    private val beagleCache = mockk<BeagleCache>() {
+    private val beagleCache = mockk<BeagleCache> {
         every { isHot } returns true
         every { json } returns RESPONSE_BODY
     }
 
     private lateinit var componentRequester: ComponentRequester
 
-    @Before
-    fun setUp() {
-        MockKAnnotations.init(this)
+    override fun setUp() {
+        super.setUp()
 
         componentRequester = ComponentRequester(
             beagleApi,
             serializer,
             cacheManager
         )
+        mockkStatic("br.com.zup.beagle.view.mapper.ScreenRequestMapperKt")
+    }
+
+    override fun tearDown() {
+        super.tearDown()
+        unmockkAll()
     }
 
     @Test
@@ -84,11 +95,13 @@ class ComponentRequesterTest {
         // Given
         val component = mockk<ServerDrivenComponent>()
         val responseData = mockk<ResponseData>()
+        val requestData: RequestData = mockk()
         every { beagleCache.isHot } returns false
 
         every { cacheManager.restoreBeagleCacheForUrl(any()) } returns beagleCache
         every { cacheManager.screenRequestWithCache(any(), any()) } returns SCREEN_REQUEST
-        coEvery { beagleApi.fetchData(any()) } returns responseData
+        every { any<ScreenRequest>().toRequestData(any(), any()) } returns requestData
+        coEvery { beagleApi.fetchData(requestData) } returns responseData
         every { cacheManager.handleResponseData(any(), any(), any()) } returns RESPONSE_BODY
         every { serializer.deserializeComponent(any()) } returns component
 
@@ -99,7 +112,7 @@ class ComponentRequesterTest {
         coVerifySequence {
             cacheManager.restoreBeagleCacheForUrl(URL)
             cacheManager.screenRequestWithCache(SCREEN_REQUEST, beagleCache)
-            beagleApi.fetchData(SCREEN_REQUEST)
+            beagleApi.fetchData(requestData)
             cacheManager.handleResponseData(URL, beagleCache, responseData)
             serializer.deserializeComponent(RESPONSE_BODY)
         }

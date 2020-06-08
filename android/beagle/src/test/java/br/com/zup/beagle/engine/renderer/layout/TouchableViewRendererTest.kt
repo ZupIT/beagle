@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+
 package br.com.zup.beagle.engine.renderer.layout
 
 import android.content.Context
@@ -28,7 +29,7 @@ import br.com.zup.beagle.data.PreFetchHelper
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.engine.renderer.ViewRenderer
 import br.com.zup.beagle.engine.renderer.ViewRendererFactory
-import br.com.zup.beagle.view.BeagleFlexView
+import br.com.zup.beagle.view.custom.BeagleFlexView
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.widget.navigation.Touchable
@@ -110,7 +111,7 @@ class TouchableViewRendererTest : BaseTest() {
     fun build_should_call_onClickListener() {
         // Given
         val navigateSlot = slot<Navigate>()
-        every { actionExecutor.doAction(context, capture(navigateSlot)) } just Runs
+        every { actionExecutor.doAction(rootView, capture(navigateSlot)) } just Runs
 
         // When
         callBuildAndClick()

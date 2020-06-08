@@ -21,6 +21,6 @@ interface HttpClient {
     fun execute(
         request: RequestData,
         onSuccess: (responseData: ResponseData) -> Unit,
-        onError: (throwable: Throwable) -> Unit
+        onError: (responseData: ResponseData) -> Unit
     ): RequestCall
 }

@@ -17,14 +17,12 @@
 package br.com.zup.beagle.engine.renderer.ui
 
 import android.content.Context
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.engine.renderer.ViewRenderer
-import br.com.zup.beagle.engine.renderer.ViewRendererFactory
-import br.com.zup.beagle.view.BeagleFlexView
+import br.com.zup.beagle.view.custom.BeagleFlexView
 import br.com.zup.beagle.view.ViewFactory
 import io.mockk.Called
 import io.mockk.MockKAnnotations

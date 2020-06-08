@@ -16,16 +16,18 @@
 
 package br.com.zup.beagle.networking
 
+import br.com.zup.beagle.exception.BeagleApiException
+import br.com.zup.beagle.exception.BeagleException
 import br.com.zup.beagle.utils.CoroutineDispatchers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import java.io.IOException
 import java.net.HttpURLConnection
+import java.net.URI
 
 typealias OnSuccess = (responseData: ResponseData) -> Unit
-typealias OnError = (throwable: Throwable) -> Unit
+typealias OnError = (responseData: ResponseData) -> Unit
 
 internal class HttpClientDefault : HttpClient, CoroutineScope {
 
@@ -43,8 +45,8 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
             try {
                 val responseData = doHttpRequest(request)
                 onSuccess(responseData)
-            } catch (ex: IOException) {
-                onError(ex)
+            } catch (ex: BeagleApiException) {
+                onError(ex.responseData)
             }
         }
 
@@ -57,11 +59,12 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
 
     private fun getOrDeleteOrHeadHasData(request: RequestData): Boolean {
         return (request.method == HttpMethod.GET ||
-                request.method == HttpMethod.DELETE ||
-                request.method == HttpMethod.HEAD) &&
-                request.body != null
+            request.method == HttpMethod.DELETE ||
+            request.method == HttpMethod.HEAD) &&
+            request.body != null
     }
 
+    @Throws(BeagleApiException::class)
     private fun doHttpRequest(
         request: RequestData
     ): ResponseData {
@@ -70,6 +73,8 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
         request.headers.forEach {
             urlConnection.setRequestProperty(it.key, it.value)
         }
+
+        urlConnection.setRequestProperty("Content-Type", "application/json")
 
         addRequestMethod(urlConnection, request.method)
 
@@ -80,11 +85,22 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
         try {
             return createResponseData(urlConnection)
         } catch (e: Exception) {
-            throw IOException(e)
+            throw tryFormatException(urlConnection)
         } finally {
             urlConnection.disconnect()
         }
     }
+
+    private fun tryFormatException(urlConnection: HttpURLConnection): BeagleApiException {
+        val response = urlConnection.getSafeError() ?: byteArrayOf()
+        val statusCode = urlConnection.getSafeResponseCode()
+        val statusText = urlConnection.getSafeResponseMessage()
+        val responseData = ResponseData(statusCode = statusCode,
+            data = response, statusText = statusText)
+
+        return BeagleApiException(responseData)
+    }
+
 
     private fun addRequestMethod(urlConnection: HttpURLConnection, method: HttpMethod) {
         val methodValue = method.toString()
@@ -107,6 +123,7 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
 
         return ResponseData(
             statusCode = urlConnection.responseCode,
+            statusText = urlConnection.responseMessage,
             headers = urlConnection.headerFields.map {
                 val headerValue = it.value.toString()
                     .replace("[", "")

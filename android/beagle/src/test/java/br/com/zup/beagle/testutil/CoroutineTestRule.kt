@@ -18,10 +18,14 @@ package br.com.zup.beagle.testutil
 
 import br.com.zup.beagle.utils.CoroutineDispatchers
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.setMain
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
 
+@ExperimentalCoroutinesApi
 class CoroutineTestRule : TestRule {
 
     override fun apply(base: Statement, description: Description?) = object : Statement() {
@@ -30,6 +34,7 @@ class CoroutineTestRule : TestRule {
             CoroutineDispatchers.Main = Dispatchers.Unconfined
             CoroutineDispatchers.IO = Dispatchers.Unconfined
             CoroutineDispatchers.Default = Dispatchers.Unconfined
+            Dispatchers.setMain(TestCoroutineDispatcher())
 
             base.evaluate()
 

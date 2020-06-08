@@ -44,7 +44,7 @@ internal class FormInputViewRenderer(
             inputWidget.getAction().addObserver(object : Observer<Pair<InputWidgetWatcherActionType, Any>> {
                 override fun update(o: Observable<Pair<InputWidgetWatcherActionType, Any>>,
                                     arg: Pair<InputWidgetWatcherActionType, Any>) {
-                    actionExecutor.doAction(context, getActions(inputWidget, arg.first))
+                    actionExecutor.doAction(rootView, getActions(inputWidget, arg.first))
                 }
             })
         }

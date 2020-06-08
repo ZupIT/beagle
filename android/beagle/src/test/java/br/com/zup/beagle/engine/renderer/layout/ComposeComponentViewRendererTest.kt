@@ -21,16 +21,14 @@ import br.com.zup.beagle.BaseTest
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.extensions.once
-import br.com.zup.beagle.view.BeagleFlexView
+import br.com.zup.beagle.view.custom.BeagleFlexView
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.core.ComposeComponent
-import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.verify
-import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 

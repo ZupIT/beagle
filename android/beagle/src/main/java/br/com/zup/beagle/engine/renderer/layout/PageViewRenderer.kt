@@ -24,7 +24,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.engine.renderer.LayoutViewRenderer
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.engine.renderer.ViewRendererFactory
-import br.com.zup.beagle.view.BeaglePageView
+import br.com.zup.beagle.view.custom.BeaglePageView
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.layout.PageView
 import br.com.zup.beagle.widget.pager.PageIndicatorComponent

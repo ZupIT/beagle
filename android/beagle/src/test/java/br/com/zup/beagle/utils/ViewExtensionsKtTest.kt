@@ -32,12 +32,12 @@ import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.setup.DesignSystem
 import br.com.zup.beagle.testutil.RandomData
-import br.com.zup.beagle.view.BeagleButtonView
-import br.com.zup.beagle.view.BeagleView
-import br.com.zup.beagle.view.OnLoadCompleted
-import br.com.zup.beagle.view.OnStateChanged
+import br.com.zup.beagle.view.custom.BeagleButtonView
+import br.com.zup.beagle.view.custom.BeagleView
 import br.com.zup.beagle.view.ScreenRequest
 import br.com.zup.beagle.view.ViewFactory
+import br.com.zup.beagle.view.custom.OnLoadCompleted
+import br.com.zup.beagle.view.custom.OnStateChanged
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK

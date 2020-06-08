@@ -166,8 +166,8 @@ object AndroidxLibraries {
     const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
     const val coreKtx = "androidx.core:core-ktx:${Versions.appcompat}"
     const val recyclerView = "androidx.recyclerview:recyclerview:${Versions.recyclerView}"
-    const val viewModel = "androidx.lifecycle:lifecycle-viewmodel:${Versions.viewModel}"
-    const val viewModelExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.viewModel}"
+    const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.viewModel}"
+    const val viewModelExtensions = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.viewModel}"
 }
 
 object MoshiLibraries {

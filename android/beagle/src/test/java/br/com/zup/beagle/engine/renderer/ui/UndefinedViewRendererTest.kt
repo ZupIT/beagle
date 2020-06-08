@@ -24,7 +24,7 @@ import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.setup.Environment
-import br.com.zup.beagle.view.BeagleTextView
+import br.com.zup.beagle.view.custom.BeagleTextView
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.ui.UndefinedWidget
 import io.mockk.Runs

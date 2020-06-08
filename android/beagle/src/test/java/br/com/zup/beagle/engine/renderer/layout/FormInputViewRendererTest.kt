@@ -30,7 +30,6 @@ import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.InputWidget
 import br.com.zup.beagle.widget.form.InputWidgetWatcherActionType
 import br.com.zup.beagle.widget.interfaces.Observer
-import br.com.zup.beagle.widget.state.Observable
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -117,6 +116,6 @@ class FormInputViewRendererTest : BaseTest() {
 
         // THEN
         verify(exactly = once()) { view.tag = formInput }
-        verify(exactly = once()) { actionExecutor.doAction(context, listOf(navigateAction)) }
+        verify(exactly = once()) { actionExecutor.doAction(rootView, listOf(navigateAction)) }
     }
 }

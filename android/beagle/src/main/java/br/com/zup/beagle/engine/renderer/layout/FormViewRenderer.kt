@@ -67,7 +67,7 @@ internal class FormViewRenderer(
         val view = viewRendererFactory.make(component.child).build(rootView)
 
         if (view is ViewGroup) {
-            fetchFormViews(view)
+            fetchFormViews(view, rootView)
         }
 
         if (formInputs.size == 0) {
@@ -81,7 +81,7 @@ internal class FormViewRenderer(
         return view
     }
 
-    private fun fetchFormViews(viewGroup: ViewGroup) {
+    private fun fetchFormViews(viewGroup: ViewGroup, rootView: RootView) {
         viewGroup.children.forEach { childView ->
             if (childView.tag != null) {
                 val tag = childView.tag
@@ -92,25 +92,25 @@ internal class FormViewRenderer(
                     formInputHiddenList.add(tag)
                 } else if (childView.tag is FormSubmit && formSubmitView == null) {
                     formSubmitView = childView
-                    addClickToFormSubmit(childView)
+                    addClickToFormSubmit(childView, rootView)
                     formValidatorController.formSubmitView = childView
                 }
             } else if (childView is ViewGroup) {
-                fetchFormViews(childView)
+                fetchFormViews(childView, rootView)
             }
         }
 
         formValidatorController.configFormSubmit()
     }
 
-    private fun addClickToFormSubmit(formSubmitView: View) {
+    private fun addClickToFormSubmit(formSubmitView: View, rootView: RootView) {
         formSubmitView.setOnClickListener {
             formValidationActionHandler.formInputs = formInputs
-            handleFormSubmit(formSubmitView.context)
+            handleFormSubmit(rootView)
         }
     }
 
-    private fun handleFormSubmit(context: Context) {
+    private fun handleFormSubmit(rootView: RootView) {
         val formsValue = mutableMapOf<String, String>()
 
         formInputs.forEach { formInput ->
@@ -128,7 +128,7 @@ internal class FormViewRenderer(
         if (formsValue.size == (formInputs.size + formInputHiddenList.size)) {
             updateStoredData(formsValue)
             formSubmitView?.hideKeyboard()
-            submitForm(formsValue, context)
+            submitForm(formsValue, rootView)
         }
     }
 
@@ -178,34 +178,34 @@ internal class FormViewRenderer(
 
     private fun submitForm(
         formsValue: MutableMap<String, String>,
-        context: Context
+        rootView: RootView
     ) {
         component.onSubmit?.forEach { action ->
             when (action) {
                 is FormRemoteAction -> formSubmitter.submitForm(action, formsValue) {
-                    (context as AppCompatActivity).runOnUiThread {
-                        handleFormResult(context, it)
+                    (rootView.getContext() as AppCompatActivity).runOnUiThread {
+                        handleFormResult(rootView, it)
                     }
                 }
-                is CustomAction -> actionExecutor.doAction(context, CustomAction(
+                is CustomAction -> actionExecutor.doAction(rootView, CustomAction(
                     name = action.name,
                     data = formsValue.plus(action.data)
                 ))
-                else -> actionExecutor.doAction(context, action)
+                else -> actionExecutor.doAction(rootView, action)
             }
         }
 
     }
 
-    private fun handleFormResult(context: Context, formResult: FormResult) {
+    private fun handleFormResult(rootView: RootView, formResult: FormResult) {
         when (formResult) {
             is FormResult.Success -> {
                 component.group?.let {
                     formDataStoreHandler.clear(it)
                 }
-                actionExecutor.doAction(context, formResult.action)
+                actionExecutor.doAction(rootView, formResult.action)
             }
-            is FormResult.Error -> (context as? BeagleActivity)?.onServerDrivenContainerStateChanged(
+            is FormResult.Error -> (rootView.getContext() as? BeagleActivity)?.onServerDrivenContainerStateChanged(
                 ServerDrivenState.Error(formResult.throwable)
             )
         }

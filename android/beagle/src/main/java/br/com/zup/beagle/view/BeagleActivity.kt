@@ -24,16 +24,17 @@ import android.view.WindowManager
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.R
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.data.BeagleViewModel
-import br.com.zup.beagle.data.ViewState
 import br.com.zup.beagle.data.serializer.BeagleSerializer
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.utils.configureSupportActionBar
 import br.com.zup.beagle.utils.toComponent
+import br.com.zup.beagle.view.viewmodel.BeagleViewModel
+import br.com.zup.beagle.view.viewmodel.ViewState
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenComponent
 import kotlinx.android.parcel.Parcelize
@@ -125,14 +126,6 @@ abstract class BeagleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-
-        viewModel.state.observe(this, Observer {
-            when (it) {
-                is ViewState.Error -> onServerDrivenContainerStateChanged(ServerDrivenState.Error(it.throwable))
-                is ViewState.Loading -> onServerDrivenContainerStateChanged(ServerDrivenState.Loading(it.value))
-                is ViewState.DoRender -> showScreen(it.screenId, it.component)
-            }
-        })
     }
 
     override fun onResume() {
@@ -140,12 +133,12 @@ abstract class BeagleActivity : AppCompatActivity() {
 
         if (supportFragmentManager.fragments.size == 0) {
             screen?.let { screen ->
-                viewModel.fetchComponent(
+                fetch(
                     ScreenRequest(""),
                     beagleSerializer.deserializeComponent(screen) as ScreenComponent
                 )
             } ?: run {
-                screenRequest?.let { request -> viewModel.fetchComponent(request) }
+                screenRequest?.let { request -> fetch(request) }
             }
         }
 
@@ -163,7 +156,22 @@ abstract class BeagleActivity : AppCompatActivity() {
     }
 
     fun navigateTo(screenRequest: ScreenRequest, screen: Screen?) {
-        viewModel.fetchComponent(screenRequest, screen?.toComponent())
+        fetch(screenRequest, screen?.toComponent())
+    }
+
+    private fun fetch(screenRequest: ScreenRequest, screenComponent: ScreenComponent? = null) {
+        val liveData = viewModel.fetchComponent(screenRequest, screenComponent)
+        handleLiveData(liveData)
+    }
+
+    private fun handleLiveData(state: LiveData<ViewState>) {
+        state.observe(this, Observer {
+            when (it) {
+                is ViewState.Error -> onServerDrivenContainerStateChanged(ServerDrivenState.Error(it.throwable))
+                is ViewState.Loading -> onServerDrivenContainerStateChanged(ServerDrivenState.Loading(it.value))
+                is ViewState.DoRender -> showScreen(it.screenId, it.component)
+            }
+        })
     }
 
     private fun showScreen(screenName: String?, component: ServerDrivenComponent) {

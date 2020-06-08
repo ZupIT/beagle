@@ -26,8 +26,8 @@ import br.com.zup.beagle.data.serializer.BeagleSerializer
 import br.com.zup.beagle.engine.renderer.ActivityRootView
 import br.com.zup.beagle.engine.renderer.FragmentRootView
 import br.com.zup.beagle.engine.renderer.RootView
-import br.com.zup.beagle.view.OnStateChanged
 import br.com.zup.beagle.view.ScreenRequest
+import br.com.zup.beagle.view.custom.OnStateChanged
 
 internal var beagleSerializerFactory = BeagleSerializer()
 

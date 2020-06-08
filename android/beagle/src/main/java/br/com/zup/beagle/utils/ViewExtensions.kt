@@ -26,7 +26,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import br.com.zup.beagle.core.AppearanceComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.view.BeagleImageView
+import br.com.zup.beagle.view.custom.BeagleImageView
 import br.com.zup.beagle.view.ViewFactory
 
 internal var viewExtensionsViewFactory = ViewFactory()

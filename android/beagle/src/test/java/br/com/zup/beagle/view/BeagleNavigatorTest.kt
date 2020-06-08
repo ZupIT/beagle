@@ -29,6 +29,7 @@ import br.com.zup.beagle.logger.BeagleLogger
 import br.com.zup.beagle.navigation.DeepLinkHandler
 import br.com.zup.beagle.setup.BeagleEnvironment
 import br.com.zup.beagle.testutil.RandomData
+import br.com.zup.beagle.view.utils.BeagleNavigator
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Text
 import io.mockk.MockKAnnotations

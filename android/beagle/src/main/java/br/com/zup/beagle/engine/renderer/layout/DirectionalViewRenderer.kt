@@ -21,7 +21,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.engine.renderer.LayoutViewRenderer
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.engine.renderer.ViewRendererFactory
-import br.com.zup.beagle.view.BeagleFlexView
+import br.com.zup.beagle.view.custom.BeagleFlexView
 import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection

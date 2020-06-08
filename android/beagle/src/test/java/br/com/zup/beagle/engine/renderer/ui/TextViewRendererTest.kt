@@ -20,9 +20,9 @@ import android.content.Context
 import android.widget.TextView
 import br.com.zup.beagle.BaseTest
 import br.com.zup.beagle.engine.renderer.RootView
-import br.com.zup.beagle.view.BeagleTextView
+import br.com.zup.beagle.view.custom.BeagleTextView
 import br.com.zup.beagle.view.ViewFactory
-import br.com.zup.beagle.view.setTextWidget
+import br.com.zup.beagle.view.custom.setTextWidget
 import br.com.zup.beagle.widget.ui.Text
 import io.mockk.Runs
 import io.mockk.every
@@ -58,7 +58,7 @@ class TextViewRendererTest : BaseTest() {
     override fun setUp() {
         super.setUp()
 
-        mockkStatic("br.com.zup.beagle.view.BeagleTextViewKt")
+        mockkStatic("br.com.zup.beagle.view.custom.BeagleTextViewKt")
 
         every { textView.setTextWidget(any()) } just Runs
         every { text.style } returns DEFAULT_STYLE
