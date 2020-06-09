@@ -56,7 +56,6 @@ class ContextDataManagerTest {
     private lateinit var contextDataManager: ContextDataManager
 
     private lateinit var lruCache: LruCache<String, Any>
-    private lateinit var contextIds: Stack<String>
     private lateinit var contexts: MutableMap<String, ContextBinding>
 
     @MockK
@@ -98,7 +97,6 @@ class ContextDataManagerTest {
         )
 
         lruCache = contextDataManager.getPrivateField("lruCache")
-        contextIds = contextDataManager.getPrivateField("contextIds")
         contexts = contextDataManager.getPrivateField("contexts")
 
         contexts.clear()
@@ -120,30 +118,13 @@ class ContextDataManagerTest {
         val contextData = ContextData(CONTEXT_ID, true)
 
         // When
-        contextDataManager.pushContext(contextData)
+        contextDataManager.addContext(contextData)
 
         // Then
         val contextBinding = contexts[contextData.id]
-        val contextId = contextIds.peek()
         assertNotNull(contextBinding)
-        assertEquals(contextData.id, contextId)
         assertEquals(contextBinding?.context, contextData)
         assertEquals(0, contextBinding?.bindings?.size)
-    }
-
-    @Test
-    fun popContext_should_remove_current_context_id() {
-        // Given
-        val contextData1 = ContextData(RandomData.string(), true)
-        val contextData2 = ContextData(RandomData.string(), true)
-
-        // When
-        contextDataManager.pushContext(contextData1)
-        contextDataManager.pushContext(contextData2)
-        contextDataManager.popContext()
-
-        // Then
-        assertEquals(contextData1.id, contextIds.peek())
     }
 
     @Test
@@ -151,7 +132,7 @@ class ContextDataManagerTest {
         // Given
         val bind = Bind.Expression("@{$CONTEXT_ID.a}", type = Model::class.java)
         val contextData = ContextData(CONTEXT_ID, true)
-        contextDataManager.pushContext(contextData)
+        contextDataManager.addContext(contextData)
 
         // When
         contextDataManager.addBindingToContext(bind)
@@ -163,9 +144,9 @@ class ContextDataManagerTest {
     @Test
     fun addBindingToContext_should_add_binding_to_context_on_top_of_stack() {
         // Given
-        val bind = Bind.Expression("@{a}", type = Model::class.java)
+        val bind = Bind.Expression("@{$CONTEXT_ID.a}", type = Model::class.java)
         val contextData = ContextData(CONTEXT_ID, true)
-        contextDataManager.pushContext(contextData)
+        contextDataManager.addContext(contextData)
 
         // When
         contextDataManager.addBindingToContext(bind)
@@ -244,7 +225,7 @@ class ContextDataManagerTest {
         every { contextPathResolver.addContextToPath(any(), any()) } returns CONTEXT_ID
 
         // When
-        contextDataManager.evaluateContextBindings()
+        contextDataManager.evaluateAllContext()
 
         // Then
         verify { bindModel.notifyChange(value) }
@@ -261,7 +242,7 @@ class ContextDataManagerTest {
         every { contextPathResolver.addContextToPath(any(), any()) } returns path
 
         // When
-        contextDataManager.evaluateContextBindings()
+        contextDataManager.evaluateAllContext()
 
         // Then
         verify(exactly = once()) { bindModel.notifyChange(value) }
@@ -274,7 +255,7 @@ class ContextDataManagerTest {
         every { jsonPathFinder.find(any(), any()) } returns model
 
         // When
-        contextDataManager.evaluateContextBindings()
+        contextDataManager.evaluateAllContext()
 
         // Then
         verify { bindModel.notifyChange(bindModel) }
@@ -287,7 +268,7 @@ class ContextDataManagerTest {
         every { jsonPathFinder.find(any(), any()) } returns model
 
         // When
-        contextDataManager.evaluateContextBindings()
+        contextDataManager.evaluateAllContext()
 
         // Then
         verify { bindModel.notifyChange(bindModel) }
@@ -301,7 +282,7 @@ class ContextDataManagerTest {
         every { moshi.adapter<Any>(any<Class<*>>()).fromJson(any<String>()) } returns null
 
         // When
-        contextDataManager.evaluateContextBindings()
+        contextDataManager.evaluateAllContext()
 
         // Then
         verify(exactly = once()) { BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(any()) }
@@ -315,7 +296,7 @@ class ContextDataManagerTest {
         every { jsonPathFinder.find(any(), any()) } returns null
 
         // When
-        contextDataManager.evaluateContextBindings()
+        contextDataManager.evaluateAllContext()
 
         // Then
         verify { BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(any()) }
@@ -328,7 +309,7 @@ class ContextDataManagerTest {
         every { jsonPathFinder.find(any(), any()) } throws IllegalStateException()
 
         // When
-        contextDataManager.evaluateContextBindings()
+        contextDataManager.evaluateAllContext()
 
         // Then
         verify { BeagleMessageLogs.errorWhileTryingToAccessContext(any()) }

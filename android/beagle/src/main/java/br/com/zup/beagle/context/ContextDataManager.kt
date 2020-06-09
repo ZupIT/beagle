@@ -45,34 +45,26 @@ internal class ContextDataManager(
 ) {
 
     private val lruCache: LruCache<String, Any> = LruCache(20)
-    private val contextIds: Stack<String> = Stack<String>()
     private val contexts: MutableMap<String, ContextBinding> = mutableMapOf()
 
-    fun pushContext(contextData: ContextData) {
-        contextIds.add(contextData.id)
+    fun addContext(contextData: ContextData) {
         contexts[contextData.id] = ContextBinding(
             bindings = mutableListOf(),
             context = contextData
         )
     }
 
-    fun popContext() {
-        if (contextIds.isNotEmpty()) {
-            contextIds.pop()
-        }
+    fun removeContext(contextId: String) {
+        contexts.remove(contextId)
     }
 
     fun addBindingToContext(binding: Bind.Expression<*>) {
         val bindingValue = binding.valueInExpression()
         val path = bindingValue.split(".")[0]
 
-        val contextId = if (contextIds.contains(path)) {
-            path
-        } else {
-            contextIds.peek()
+        if (contexts.containsKey(path)) {
+            contexts[path]?.bindings?.add(binding)
         }
-
-        contexts[contextId]?.bindings?.add(binding)
     }
 
     fun updateContext(updateContext: UpdateContext): Boolean {
@@ -82,7 +74,13 @@ internal class ContextDataManager(
         } ?: false
     }
 
-    fun evaluateContextBindings() {
+    fun evaluateContext(contextId: String) {
+        contexts[contextId]?.let {
+            notifyBindingChanges(it)
+        }
+    }
+
+    fun evaluateAllContext() {
         contexts.forEach { entry ->
             notifyBindingChanges(entry.value)
         }

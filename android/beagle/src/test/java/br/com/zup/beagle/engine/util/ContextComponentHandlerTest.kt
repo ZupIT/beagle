@@ -33,16 +33,16 @@ import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
 
-class ContextViewRendererTest {
+class ContextComponentHandlerTest {
 
     private val rootView = mockk<ActivityRootView>()
     private val viewModel = mockk<ScreenContextViewModel>()
 
-    private lateinit var contextViewRenderer: ContextViewRenderer
+    private lateinit var contextComponentHandler: ContextComponentHandler
 
     @Before
     fun setUp() {
-        contextViewRenderer = ContextViewRenderer()
+        contextComponentHandler = ContextComponentHandler()
 
         mockkObject(ViewModelProviderFactory)
 
@@ -60,7 +60,7 @@ class ContextViewRendererTest {
         every { viewModel.contextDataManager.addBindingToContext(any()) } just Runs
 
         // When
-        contextViewRenderer.startContextBinding(rootView, component)
+        contextComponentHandler.handleContext(rootView, component)
 
         // Then
         verify(exactly = 1) { viewModel.contextDataManager.addBindingToContext(bindExpression) }
@@ -72,27 +72,12 @@ class ContextViewRendererTest {
         val component = mockk<Container>()
         val context = mockk<ContextData>()
         every { component.context } returns context
-        every { viewModel.contextDataManager.pushContext(any()) } just Runs
+        every { viewModel.contextDataManager.addContext(any()) } just Runs
 
         // When
-        contextViewRenderer.startContextBinding(rootView, component)
+        contextComponentHandler.handleContext(rootView, component)
 
         // Then
-        verify(exactly = 1) { viewModel.contextDataManager.pushContext(context) }
-    }
-
-    @Test
-    fun finishContextBinding_should_call_popContext_when_component_is_ContextComponent() {
-        // Given
-        val component = mockk<Container>()
-        val context = mockk<ContextData>()
-        every { component.context } returns context
-        every { viewModel.contextDataManager.popContext() } just Runs
-
-        // When
-        contextViewRenderer.finishContextBinding(rootView, component)
-
-        // Then
-        verify(exactly = 1) { viewModel.contextDataManager.popContext() }
+        verify(exactly = 1) { viewModel.contextDataManager.addContext(context) }
     }
 }

@@ -20,14 +20,17 @@ sealed class Bind<T> : BindAttribute<T> {
     abstract val type: Class<T>
 
     @Transient
-    private lateinit var onChange: (value: T) -> Unit
+    private var onChange: ((value: T) -> Unit)? = null
+    var lastValue: T? = null
 
     fun observes(onChange: (value: T) -> Unit) {
         this.onChange = onChange
     }
 
     fun notifyChange(value: Any) {
-        this.onChange(value as T)
+        val newValue = value as T
+        this.lastValue = newValue
+        this.onChange?.invoke(newValue)
     }
 
     class Expression<T>(
@@ -42,5 +45,9 @@ sealed class Bind<T> : BindAttribute<T> {
 
     data class Value<T: Any>(override val value: T) : Bind<T>() {
         override val type: Class<T> = value.javaClass
+
+        fun bind() {
+            lastValue = value
+        }
     }
 }
