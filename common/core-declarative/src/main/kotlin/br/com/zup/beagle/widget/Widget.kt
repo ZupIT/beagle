@@ -73,7 +73,7 @@ abstract class Widget : FlexComponent, StyleComponent, AccessibilityComponent,
     fun buildAndApplyFlex(flexBuilder: FlexBuilder) = this.applyFlex(flexBuilder.build())
 
     /**
-     * Apply the appearance.
+     * Apply the style.
      *
      * @see Style
      *
