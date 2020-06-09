@@ -9,5 +9,3 @@ function convert_package() {
 
 convert_package service
 convert_package controller
-
-git commit -am "$(git log -1 --pretty=%B) (synced to Micronaut)"
