@@ -18,6 +18,7 @@ package br.com.zup.beagle.compiler
 
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
@@ -42,6 +43,8 @@ import javax.lang.model.util.Types
 private val TypeName.kotlin get() = JAVA_TO_KOTLIN[this] ?: this
 
 val ProcessingEnvironment.kaptGeneratedDirectory get() = File(this.options[KAPT_KEY]!!)
+val Element.isMarkedNullable get() = this.getAnnotation(Nullable::class.java) != null
+val ExecutableElement.isOverride get() = this.getAnnotation(Override::class.java) != null
 
 val ExecutableElement.fieldName
     get() = this.simpleName.toString()
@@ -64,15 +67,15 @@ fun Types.isSubtype(type: TypeMirror, superTypeName: String): Boolean =
         else -> this.directSupertypes(type).any { this.isSubtype(it, superTypeName) }
     }
 
-val Element.isMarkedNullable get() = this.getAnnotation(Nullable::class.java) != null
-
 fun Elements.getPackageAsString(element: Element) = this.getPackageOf(element).toString()
-
-fun PropertySpec.Companion.from(parameter: ParameterSpec) =
-    this.builder(parameter.name, parameter.type).initializer(parameter.name).build()
 
 fun FunSpec.Companion.constructorFrom(parameters: List<ParameterSpec>) =
     this.constructorBuilder().addParameters(parameters).build()
+
+fun PropertySpec.Companion.from(parameter: ParameterSpec, needsOverride: Boolean) =
+    this.builder(parameter.name, parameter.type).initializer(parameter.name)
+        .let { if (needsOverride) it.addModifiers(KModifier.OVERRIDE) else it }
+        .build()
 
 fun Types.getKotlinName(type: TypeMirror): TypeName = when {
     type is DeclaredType && !type.typeArguments.isNullOrEmpty() ->
