@@ -41,7 +41,7 @@ fun makeFlexJson() = """
 
 fun makeScreenJson() = """
     {
-        "_beagleComponent_": "beagle:screenComponent",
+        "_beagleComponent_": "screenComponent",
         "navigationBar": {
             "title": "${RandomData.string()}",
             "showBackButton": true
@@ -52,7 +52,7 @@ fun makeScreenJson() = """
 
 fun makeContainerJson() = """
     {
-        "_beagleComponent_": "beagle:container",
+        "_beagleComponent_": "container",
         "flex": ${makeFlexJson()},
         "children": [${makeButtonJson()}, ${makeButtonJson()}]
     }
@@ -60,7 +60,7 @@ fun makeContainerJson() = """
 
 fun makeVerticalJson() = """
     {
-        "_beagleComponent_": "beagle:vertical",
+        "_beagleComponent_": "vertical",
         "reversed": false,
         "flex": ${makeFlexJson()},
         "children": [${makeButtonJson()}, ${makeButtonJson()}]
@@ -69,7 +69,7 @@ fun makeVerticalJson() = """
 
 fun makeHorizontalJson() = """
     {
-        "_beagleComponent_": "beagle:horizontal",
+        "_beagleComponent_": "horizontal",
         "reversed": false,
         "flex": ${makeFlexJson()},
         "children": [${makeButtonJson()}, ${makeButtonJson()}]
@@ -78,7 +78,7 @@ fun makeHorizontalJson() = """
 
 fun makeStackJson() = """
     {
-        "_beagleComponent_": "beagle:stack",
+        "_beagleComponent_": "stack",
         "flex": ${makeFlexJson()},
         "children": [${makeButtonJson()}, ${makeButtonJson()}]
     }
@@ -86,42 +86,42 @@ fun makeStackJson() = """
 
 fun makeSpacerJson() = """
     {
-        "_beagleComponent_": "beagle:spacer",
+        "_beagleComponent_": "spacer",
         "size": 30.0
     }
 """
 
 fun makeButtonJson() = """
     {
-        "_beagleComponent_": "beagle:button",
+        "_beagleComponent_": "button",
         "text": "Test"
     }
 """
 
 fun makeTextJson() = """
     {
-        "_beagleComponent_": "beagle:text",
+        "_beagleComponent_": "text",
         "text": "Test"
     }
 """
 
 fun makeImageJson() = """
     {
-        "_beagleComponent_": "beagle:image",
+        "_beagleComponent_": "image",
         "name": "test"
     }
 """
 
 fun makeNetworkImageJson() = """
     {
-        "_beagleComponent_": "beagle:networkImage",
+        "_beagleComponent_": "networkImage",
         "path": "http://test.com/test.png"
     }
 """
 
 fun makeListViewJson() = """
     {
-        "_beagleComponent_": "beagle:listView",
+        "_beagleComponent_": "listView",
         "rows": [${makeButtonJson()}],
         "remoteDataSource": "/dataSource",
         "loadingState": ${makeVerticalJson()}
@@ -130,13 +130,13 @@ fun makeListViewJson() = """
 
 fun makeCustomJson() = """
     {
-        "_beagleComponent_": "custom:customWidget"
+        "_beagleComponent_": "customWidget"
     }
 """
 
 fun makeLazyComponentJson() = """
     {
-        "_beagleComponent_": "beagle:lazyComponent",
+        "_beagleComponent_": "lazyComponent",
         "path": "${RandomData.httpUrl()}",
         "initialState": ${makeButtonJson()}
     }
@@ -144,10 +144,10 @@ fun makeLazyComponentJson() = """
 
 fun makeScrollViewJson() = """
     {
-    "_beagleComponent_": "beagle:scrollView",
+    "_beagleComponent_": "scrollView",
     "children": [
         {
-            "_beagleComponent_": "beagle:container",
+            "_beagleComponent_": "container",
             "flex": {
                 "flexDirection": "ROW"
             },
@@ -167,7 +167,7 @@ fun makeScrollViewJson() = """
 
 fun makePageViewJson() = """
     {
-        "_beagleComponent_": "beagle:pageView",
+        "_beagleComponent_": "pageView",
         "pages": [
             ${makeButtonJson()},
             ${makeButtonJson()},
@@ -178,7 +178,7 @@ fun makePageViewJson() = """
 
 fun makePageIndicatorJson() = """
     {
-        "_beagleComponent_": "beagle:pageIndicator",
+        "_beagleComponent_": "pageIndicator",
         "selectedColor": "#FFFFFF",
         "unselectedColor": "#888888"
     }
@@ -186,7 +186,7 @@ fun makePageIndicatorJson() = """
 
 fun makeNavigationActionJson() = """
     {
-        "_beagleAction_": "beagle:pushView",
+        "_beagleAction_": "pushView",
         "route": {
             "route": "${RandomData.httpUrl()}",
             "shouldPrefetch": true
@@ -196,7 +196,7 @@ fun makeNavigationActionJson() = """
 
 fun makeShowNativeDialogJson() = """
     {
-        "_beagleAction_": "beagle:showNativeDialog",
+        "_beagleAction_": "showNativeDialog",
         "title": "${RandomData.string()}",
         "message": "${RandomData.string()}",
         "buttonText": "Ok"
@@ -205,7 +205,7 @@ fun makeShowNativeDialogJson() = """
 
 fun makeCustomActionJson() = """
     {
-        "_beagleAction_": "beagle:customAction",
+        "_beagleAction_": "customAction",
         "name": "${RandomData.string()}",
         "data": {}
     }
@@ -213,7 +213,7 @@ fun makeCustomActionJson() = """
 
 fun makeFormValidationJson() = """
     {
-        "_beagleAction_": "beagle:formValidation",
+        "_beagleAction_": "formValidation",
         "errors": []
     }
 """
@@ -226,7 +226,7 @@ fun makeCustomInputWidgetJson() = """
 
 fun makeFormInputJson() = """
     {
-        "_beagleComponent_": "beagle:formInput",
+        "_beagleComponent_": "formInput",
         "name": "${RandomData.string()}",
         "child": ${makeCustomInputWidgetJson()}
     }
@@ -234,16 +234,16 @@ fun makeFormInputJson() = """
 
 fun makeFormSubmitJson() = """
     {
-        "_beagleComponent_": "beagle:formSubmit",
+        "_beagleComponent_": "formSubmit",
         "child": ${makeButtonJson()}
     }
 """
 
 fun makeFormJson() = """
     {
-        "_beagleComponent_": "beagle:form",
+        "_beagleComponent_": "form",
         "action": {
-            "_beagleAction_": "beagle:formRemoteAction",
+            "_beagleAction_": "formRemoteAction",
             "path": "${RandomData.string()}",
             "method": "POST"
         },
@@ -253,7 +253,7 @@ fun makeFormJson() = """
 
 fun makeUndefinedComponentJson() = """
     {
-        "_beagleComponent_": "custom:new"
+        "_beagleComponent_": "new"
     }
 """
 
@@ -261,7 +261,7 @@ fun makeInternalObject() = """{"value1": "hello", "value2": 123}"""
 
 fun makeBindComponent() = """
     {
-        "_beagleComponent_": "custom:componentbinding",
+        "_beagleComponent_": "componentBinding",
         "value1": null,
         "value2": "Hello",
         "value3": "@{hello}",

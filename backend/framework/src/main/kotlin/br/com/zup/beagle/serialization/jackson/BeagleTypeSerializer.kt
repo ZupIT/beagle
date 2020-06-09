@@ -16,16 +16,14 @@
 
 package br.com.zup.beagle.serialization.jackson
 
-import br.com.zup.beagle.widget.core.Action
-import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.widget.layout.Screen
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter
 import com.fasterxml.jackson.databind.ser.impl.ObjectIdWriter
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase
-import java.util.Locale
 
 internal class BeagleTypeSerializer : BeanSerializerBase {
 
@@ -90,18 +88,11 @@ internal class BeagleTypeSerializer : BeanSerializerBase {
     private fun getBeagleType(bean: Any): String? {
         val beanName = bean::class.simpleName?.decapitalize()
         val beanClass = bean::class.java
-        return if (this.actionClass.isAssignableFrom(beanClass)) {
-            "$BEAGLE_NAMESPACE:$beanName"
-        } else if (this.screenClass.isAssignableFrom(beanClass)) {
-            "$BEAGLE_NAMESPACE:$SCREEN_COMPONENT"
-        } else if (this.serverDrivenComponentClass.isAssignableFrom(beanClass)) {
-            if (beanClass.annotations.any { it.annotationClass.qualifiedName == RegisterWidget::class.qualifiedName }) {
-                "$CUSTOM_WIDGET_BEAGLE_NAMESPACE:$beanName"
-            } else {
-                "$BEAGLE_NAMESPACE:$beanName"
-            }
-        } else {
-            null
+        return when {
+            this.actionClass.isAssignableFrom(beanClass) -> beanName
+            this.screenClass.isAssignableFrom(beanClass) -> SCREEN_COMPONENT
+            this.serverDrivenComponentClass.isAssignableFrom(beanClass) -> beanName
+            else -> null
         }
     }
 

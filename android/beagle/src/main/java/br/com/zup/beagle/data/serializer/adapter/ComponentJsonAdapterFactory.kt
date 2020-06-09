@@ -47,7 +47,6 @@ import br.com.zup.beagle.widget.ui.UndefinedWidget
 import java.util.*
 
 private const val BEAGLE_WIDGET_TYPE = "_beagleComponent_"
-private const val BEAGLE_NAMESPACE = "beagle"
 
 internal object ComponentJsonAdapterFactory {
 
@@ -108,17 +107,16 @@ internal object ComponentJsonAdapterFactory {
     private fun registerCustomWidget(
         factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
-        val appName = "custom"
         val widgets = BeagleEnvironment.beagleSdk.registeredWidgets()
 
         var newFactory = factory
 
         widgets.forEach {
-            newFactory = newFactory.withSubtype(it, createNamespace(appName, it))
+            newFactory = newFactory.withSubtype(it, createNamespace(it))
         }
 
         return newFactory
-    }    
+    }
 
     private fun registerUndefinedWidget(
         factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>
@@ -127,11 +125,10 @@ internal object ComponentJsonAdapterFactory {
     }
 
     private inline fun <reified T : ServerDrivenComponent> createNamespaceFor(): String {
-        return createNamespace(BEAGLE_NAMESPACE, T::class.java)
+        return createNamespace(T::class.java)
     }
 
-    private fun createNamespace(appNamespace: String, clazz: Class<*>): String {
-        val typeName = clazz.simpleName.toLowerCase(Locale.getDefault())
-        return "$appNamespace:$typeName"
+    private fun createNamespace(clazz: Class<*>): String {
+        return clazz.simpleName.toLowerCase(Locale.getDefault())
     }
 }
