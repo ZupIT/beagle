@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.compiler
 
-import br.com.zup.beagle.core.BindAttribute
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterSpec
@@ -29,11 +29,10 @@ import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.ExecutableElement
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.TypeMirror
-import kotlin.reflect.KClass
 
 class BeagleWidgetBindingHandler(
     processingEnvironment: ProcessingEnvironment,
-    private val bindClass: KClass<out BindAttribute<*>>
+    private val bindClassName: ClassName
 ) {
     companion object {
         const val SUFFIX = "Binding"
@@ -60,7 +59,7 @@ class BeagleWidgetBindingHandler(
         ParameterSpec.builder(
             element.fieldName,
             this.typeUtils.getKotlinName(element.returnType).let {
-                if (element.isOverride) it else bindClass.asTypeName().parameterizedBy(it)
+                if (element.isOverride) it else bindClassName.parameterizedBy(it)
             }
         ).tag(Boolean::class, element.isOverride).build()
 }

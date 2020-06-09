@@ -27,7 +27,6 @@ import br.com.zup.beagle.compiler.util.INPUT_WIDGET
 import br.com.zup.beagle.compiler.util.WIDGET
 import br.com.zup.beagle.compiler.util.error
 import br.com.zup.beagle.compiler.util.warning
-import br.com.zup.beagle.core.BindAttribute
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
@@ -39,7 +38,6 @@ import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
-import kotlin.reflect.KClass
 
 @Suppress("UNCHECKED_CAST")
 class BeagleWidgetBindingProcessor(
@@ -64,9 +62,7 @@ class BeagleWidgetBindingProcessor(
     private fun handle(element: Element) {
         if (element is TypeElement && element.kind.isClass) {
             try {
-                val beagleWidgetBindingHandler = BeagleWidgetBindingHandler(processingEnv, bindClass = Class.forName(
-                    BIND.toString()
-                ).kotlin as KClass<out BindAttribute<*>>)
+                val beagleWidgetBindingHandler = BeagleWidgetBindingHandler(processingEnv, BIND.toClassName())
                 val typeSpecBuilder = beagleWidgetBindingHandler.createBindingClass(element)
 
                 typeSpecBuilder.addProperty(getAttributeWidgetInstance(element))
