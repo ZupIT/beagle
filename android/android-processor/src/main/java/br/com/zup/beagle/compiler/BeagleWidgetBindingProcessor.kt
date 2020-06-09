@@ -17,6 +17,7 @@
 package br.com.zup.beagle.compiler
 
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.compiler.BeagleBindingHandler.Companion.BINDING_SUFFIX
 import br.com.zup.beagle.compiler.util.ANDROID_CONTEXT
 import br.com.zup.beagle.compiler.util.ANDROID_VIEW
 import br.com.zup.beagle.compiler.util.BIND
@@ -87,7 +88,7 @@ class BeagleWidgetBindingProcessor(
                 val typeSpec = typeSpecBuilder.build()
                 val fileSpec = FileSpec.builder(
                     processingEnv.elementUtils.getPackageAsString(element),
-                    "${element.simpleName}${BeagleWidgetBindingHandler.SUFFIX}"
+                    "${element.simpleName}${BINDING_SUFFIX}"
                 ).addImport(GET_VALUE_NULL.packageName, GET_VALUE_NULL.className)
                     .addImport(GET_VALUE_NOT_NULL.packageName, GET_VALUE_NOT_NULL.className)
                     .addImport(ANDROID_VIEW.packageName, ANDROID_VIEW.className)

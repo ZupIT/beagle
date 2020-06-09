@@ -31,19 +31,25 @@ import kotlin.reflect.KClass
 
 open class BeagleBindingHandler(private val processingEnvironment: ProcessingEnvironment,
                                 private val bindClass: KClass<out BindAttribute<*>>) {
+    companion object {
+        const val BINDING_SUFFIX = "Binding"
+    }
+
     private val typeUtils = processingEnvironment.typeUtils
     fun createBindingClass(element: TypeElement) =
         element.visibleGetters.map { this.createBindParameter(it) }.let { parameters ->
-            TypeSpec.classBuilder("${element.simpleName}${BeagleWidgetBindingHandler.SUFFIX}")
+            TypeSpec.classBuilder("${element.simpleName}${BINDING_SUFFIX}")
                 .superclass(this.typeUtils.getKotlinName(element.superclass))
                 .addSuperinterfaces(element.interfaces.map(TypeMirror::asTypeName))
                 .primaryConstructor(FunSpec.constructorFrom(parameters))
-                .addProperties(parameters.map { PropertySpec.from(it) })
+                .addProperties(parameters.map { PropertySpec.from(it, it.tag(Boolean::class) == true) })
         }
 
     fun createBindParameter(element: ExecutableElement) =
         ParameterSpec.builder(
             element.fieldName,
-            bindClass.asTypeName().parameterizedBy(this.typeUtils.getKotlinName(element.returnType))
-        ).build()
+            this.typeUtils.getKotlinName(element.returnType).let {
+                if (element.isOverride) it else bindClass.asTypeName().parameterizedBy(it)
+            }
+        ).tag(Boolean::class, element.isOverride).build()
 }

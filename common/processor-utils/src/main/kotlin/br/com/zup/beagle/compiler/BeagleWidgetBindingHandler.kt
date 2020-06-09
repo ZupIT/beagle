@@ -25,15 +25,11 @@ import kotlin.reflect.KClass
 
 class BeagleWidgetBindingHandler(
     processingEnvironment: ProcessingEnvironment,
-    private val bindClass: KClass<out BindAttribute<*>>
+    bindClass: KClass<out BindAttribute<*>>
 ) : BeagleBindingHandler(processingEnvironment, bindClass) {
-    companion object {
-        const val SUFFIX = "Binding"
-    }
 
     private val outputDirectory: Filer = processingEnvironment.filer
     private val elementUtils = processingEnvironment.elementUtils
-    private val typeUtils = processingEnvironment.typeUtils
 
     fun handle(element: TypeElement) =
         FileSpec.get(this.elementUtils.getPackageAsString(element), this.createBindingClass(element).build())
