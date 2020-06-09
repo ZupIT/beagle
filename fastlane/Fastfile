@@ -140,6 +140,7 @@ platform :backend do
     gradle(tasks:
         [
             "backend:framework:test",
+            "backend:processor:test",
             "backend:starters:beagle-micronaut-starter:test",
             "backend:starters:beagle-spring-starter:test",
             "backend:sample:micronaut:assemble",

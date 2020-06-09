@@ -17,8 +17,16 @@
 package br.com.zup.beagle.test
 
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.Accessibility
+import br.com.zup.beagle.core.AccessibilityComponent
+import br.com.zup.beagle.core.Appearance
+import br.com.zup.beagle.core.AppearanceComponent
+import br.com.zup.beagle.core.FlexComponent
+import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.LayoutComponent
+import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.core.Flex
 
 @RegisterWidget
 object BlankWidget : Widget()
@@ -31,7 +39,6 @@ data class InterfaceWidget(val something: Any) : Widget(), LayoutComponent
 
 @RegisterWidget
 data class GenericsWidget(
-//    override val child: ServerDrivenComponent,
     val a: List<Int>,
     val b: Map<String, Any>,
     val c: Collection<List<Set<Double>>>
@@ -64,3 +71,14 @@ class MultiConstructorWidget(val value: String) : Widget() {
 
 @RegisterWidget
 data class VisibilityWidget(private val a: Boolean, internal val b: Byte, protected val c: Int, val d: Long): Widget()
+
+@RegisterWidget
+data class OverrideParentWidget(
+    val a: Boolean,
+    val b: Long,
+    val c: String,
+    override val accessibility: Accessibility?,
+    override val appearance: Appearance?,
+    override val flex: Flex?,
+    override val child: ServerDrivenComponent
+) : AccessibilityComponent, AppearanceComponent, FlexComponent, GhostComponent

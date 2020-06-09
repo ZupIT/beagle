@@ -18,7 +18,6 @@ package br.com.zup.beagle.compiler
 
 import br.com.zup.beagle.core.BindAttribute
 import com.squareup.kotlinpoet.FileSpec
-import com.squareup.kotlinpoet.TypeSpec
 import javax.annotation.processing.Filer
 import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.TypeElement
@@ -37,12 +36,6 @@ class BeagleWidgetBindingHandler(
     private val typeUtils = processingEnvironment.typeUtils
 
     fun handle(element: TypeElement) =
-        getFileSpec(element)
+        FileSpec.get(this.elementUtils.getPackageAsString(element), this.createBindingClass(element).build())
             .writeTo(this.outputDirectory)
-
-    fun getFileSpec(element: TypeElement) =
-        getFileSpec(element, this.createBindingClass(element).build())
-
-    fun getFileSpec(element: TypeElement, typeSpec: TypeSpec) =
-        FileSpec.get(this.elementUtils.getPackageAsString(element), typeSpec)
 }
