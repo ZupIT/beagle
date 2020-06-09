@@ -83,7 +83,7 @@ object ComponentScreenBuilder : ScreenBuilder {
     private fun createMenu(text: String, path: String) = Button(
         text = text,
         action = Navigate.PushView(Route.Remote(path)),
-        style = BUTTON_STYLE_TITLE
+        styleId = BUTTON_STYLE_TITLE
     ).applyFlex(
         flex = Flex(
             margin = EdgeValue(

@@ -22,7 +22,6 @@ import android.graphics.drawable.Drawable
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
@@ -42,9 +41,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
-import io.mockk.mockk
 import io.mockk.mockkStatic
-import io.mockk.slot
 import io.mockk.spyk
 import io.mockk.unmockkAll
 import io.mockk.verify
@@ -140,7 +137,7 @@ class ToolbarManagerTest : BaseTest() {
         every { navigationBar.title } returns title
         every { beagleSdk.designSystem } returns designSystemMock
         every { designSystemMock.toolbarStyle(style) } returns styleInt
-        every { navigationBar.style } returns style
+        every { navigationBar.styleId } returns style
         every { context.supportActionBar } returns actionBar
         every { context.getToolbar() } returns toolbar
         every { navigationBar.showBackButton } returns true
@@ -162,7 +159,7 @@ class ToolbarManagerTest : BaseTest() {
         // Given
         every { beagleSdk.designSystem } returns designSystemMock
         every { designSystemMock.toolbarStyle(style) } returns styleInt
-        every { navigationBar.style } returns style
+        every { navigationBar.styleId } returns style
         every { screenComponent.navigationBar } returns navigationBar
         every { context.supportActionBar } returns actionBar
         every { context.getToolbar() } returns toolbar

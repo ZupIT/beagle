@@ -43,7 +43,7 @@ class AppDesignSystem : DesignSystem() {
         }
     }
 
-    override fun textAppearance(name: String): Int? {
+    override fun textStyle(name: String): Int? {
         return when (name) {
             "DesignSystem.Text.H2" -> R.style.DesignSystem_Text_H2
             "DesignSystem.Text.H3" -> R.style.DesignSystem_Text_H3

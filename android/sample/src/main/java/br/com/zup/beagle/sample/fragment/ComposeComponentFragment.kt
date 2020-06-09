@@ -112,7 +112,7 @@ class ComposeFormName : ComposeComponent() {
     private fun buildFooter() = Container(
         children = listOf(
             (FormSubmit(
-                child = Button("cadastrar", style = "primaryButton")
+                child = Button("cadastrar", styleId = "primaryButton")
             ))
         )
     ).applyFlex(

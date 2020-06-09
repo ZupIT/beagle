@@ -23,12 +23,12 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * It works by displaying tabs corresponding to the different views that can be accessed.
  *
  * @param tabItems define yours view has in tab
- * @param style reference a native style in your local styles file to be applied on this view.
+ * @param styleId reference a native style in your local styles file to be applied on this view.
  *
  */
 data class TabView(
     val tabItems: List<TabItem>,
-    val style: String? = null
+    val styleId: String? = null
 ) : ServerDrivenComponent
 
 /**

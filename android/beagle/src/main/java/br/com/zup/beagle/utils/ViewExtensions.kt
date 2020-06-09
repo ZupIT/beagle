@@ -42,7 +42,7 @@ internal fun View.hideKeyboard() {
 
 internal fun View.applyAppearance(component: ServerDrivenComponent) {
     (component as? AppearanceComponent)?.let {
-        if (it.appearance?.backgroundColor != null) {
+        if (it.style?.backgroundColor != null) {
             this.background = GradientDrawable()
             applyBackgroundColor(it)
             applyCornerRadius(it)
@@ -66,13 +66,13 @@ internal fun View.applyAppearance(component: ServerDrivenComponent) {
 }
 
 internal fun View.applyBackgroundColor(appearanceWidget: AppearanceComponent) {
-    appearanceWidget.appearance?.backgroundColor?.let {
+    appearanceWidget.style?.backgroundColor?.let {
         (this.background as? GradientDrawable)?.setColor(it.toAndroidColor())
     }
 }
 
 internal fun View.applyCornerRadius(appearanceWidget: AppearanceComponent) {
-    appearanceWidget.appearance?.cornerRadius?.let { cornerRadius ->
+    appearanceWidget.style?.cornerRadius?.let { cornerRadius ->
         if (cornerRadius.radius > FLOAT_ZERO) {
             (this as? BeagleImageView)?.cornerRadius = cornerRadius.radius.toFloat()
             (this.background as? GradientDrawable)?.cornerRadius = cornerRadius.radius.toFloat()

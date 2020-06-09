@@ -18,7 +18,7 @@ package br.com.zup.beagle.widget
 
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.AccessibilityComponent
-import br.com.zup.beagle.core.Appearance
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.AppearanceComponent
 import br.com.zup.beagle.core.FlexComponent
 import br.com.zup.beagle.core.IdentifierComponent
@@ -36,7 +36,7 @@ abstract class Widget : FlexComponent, AppearanceComponent, AccessibilityCompone
         private set
     final override var flex: Flex? = null
         private set
-    final override var appearance: Appearance? = null
+    final override var style: Style? = null
         private set
     final override var accessibility: Accessibility? = null
         private set
@@ -75,12 +75,12 @@ abstract class Widget : FlexComponent, AppearanceComponent, AccessibilityCompone
     /**
      * Apply the appearance.
      *
-     * @see Appearance
+     * @see Style
      *
      * @return the current widget
      */
-    open fun applyAppearance(appearance: Appearance): Widget {
-        this.appearance = appearance
+    open fun applyStyle(style: Style): Widget {
+        this.style = style
         return this
     }
 

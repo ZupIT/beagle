@@ -46,7 +46,7 @@ class NavigationBarActivity : AppCompatActivity() {
             navigationBar = NavigationBar(
                 title = "Sample Title",
                 showBackButton = true,
-                style = "toolbar"
+                styleId = "toolbar"
             ),
             child = Container(
                 children = listOf(

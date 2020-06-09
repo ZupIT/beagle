@@ -33,7 +33,7 @@ object ClickActionScreenBuilder : ScreenBuilder {
         ),
         child = Text(
             text = "You clicked right",
-            style = SCREEN_ACTION_CLICK_ENDPOINT
+            styleId = SCREEN_ACTION_CLICK_ENDPOINT
         ).applyFlex(
             flex = Flex(
                 justifyContent = JustifyContent.CENTER,

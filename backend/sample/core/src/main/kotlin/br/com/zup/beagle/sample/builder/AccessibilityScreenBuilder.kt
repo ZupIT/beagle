@@ -103,7 +103,7 @@ object AccessibilityScreenBuilder : ScreenBuilder {
     ) =
         Button(
             text = textButton,
-            style = BUTTON_STYLE_ACCESSIBILITY
+            styleId = BUTTON_STYLE_ACCESSIBILITY
         ).applyFlex(
             flex = Flex(
                 size = Size(

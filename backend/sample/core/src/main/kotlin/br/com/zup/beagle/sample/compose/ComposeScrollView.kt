@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.sample.compose
 
-import br.com.zup.beagle.core.Appearance
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.LIGHT_GREY
 import br.com.zup.beagle.widget.core.ComposeComponent
@@ -31,7 +31,7 @@ object ComposeScrollView : ComposeComponent() {
         scrollBarEnabled = false,
         scrollDirection = ScrollAxis.HORIZONTAL,
         children = listOf(
-            createText().applyAppearance(Appearance(backgroundColor = LIGHT_GREY))
+            createText().applyStyle(Style(backgroundColor = LIGHT_GREY))
                 .applyFlex(
                     Flex(
                         margin = EdgeValue(

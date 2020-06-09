@@ -30,7 +30,7 @@ object SampleViewScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Sample Bar",
-            style = "Style.Default",
+            styleId = "Style.Default",
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "First",

@@ -21,7 +21,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import br.com.zup.beagle.core.Appearance
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.utils.toView
 import br.com.zup.beagle.widget.core.Flex
@@ -50,7 +50,7 @@ class LazyComponentFragment : Fragment() {
         children = listOf(
             NetworkImage(
                 path = "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271"
-            ).applyAppearance(Appearance(cornerRadius = CornerRadius(30.0))),
+            ).applyStyle(Style(cornerRadius = CornerRadius(30.0))),
             LazyComponent(
                 path = "http://www.mocky.io/v2/5e4e91c02f00001f2016a8f2",
                 initialState = Text("Loading LazyComponent...")

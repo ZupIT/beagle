@@ -21,7 +21,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import br.com.zup.beagle.core.Appearance
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.utils.toView
@@ -47,8 +47,8 @@ class ImageViewFragment : Fragment() {
                             margin = EdgeValue(top = 10.unitReal())
                             //size = Size(width = 100.unitReal(), height = 100.unitReal())
                         )
-                    ).applyAppearance(
-                        Appearance(
+                    ).applyStyle(
+                        Style(
                             cornerRadius = CornerRadius(30.0)
                         )
                     ),

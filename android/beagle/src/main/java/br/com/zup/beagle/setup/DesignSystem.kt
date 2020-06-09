@@ -23,7 +23,7 @@ open class DesignSystem {
     @DrawableRes
     open fun image(name: String): Int? = null
     @StyleRes
-    open fun textAppearance(name: String): Int? = null
+    open fun textStyle(name: String): Int? = null
     @StyleRes
     open fun buttonStyle(name: String): Int? = null
     @StyleRes

@@ -34,7 +34,7 @@ internal class BeagleTextView(context: Context) : AppCompatTextView(context), On
 
 internal fun BeagleTextView.setTextWidget(text: Text) {
     this.text = text.text
-    this.setStyle(text.style ?: "")
+    this.setStyle(text.styleId ?: "")
     this.setTextColor(text.textColor)
     this.setAlignment(text.alignment)
 }
@@ -47,9 +47,9 @@ private fun BeagleTextView.setAlignment(alignment: TextAlignment?) {
     }
 }
 
-private fun BeagleTextView.setStyle(style: String) {
+private fun BeagleTextView.setStyle(styleId: String) {
     val designSystem = BeagleEnvironment.beagleSdk.designSystem
-    designSystem?.textAppearance(style)?.let {
+    designSystem?.textStyle(styleId)?.let {
         TextViewCompat.setTextAppearance(this, it)
     }
 }

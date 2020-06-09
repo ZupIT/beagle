@@ -19,7 +19,7 @@ package br.com.zup.beagle.sample.builder
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.action.ShowNativeDialog
-import br.com.zup.beagle.core.Appearance
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE
@@ -67,7 +67,7 @@ object ButtonScreenBuilder : ScreenBuilder {
 
                 createButton(
                     text = "Button with style",
-                    style = BUTTON_STYLE,
+                    styleId = BUTTON_STYLE,
                     flex = Flex(
                         margin = EdgeValue(
                             top = 15.unitReal()
@@ -78,15 +78,15 @@ object ButtonScreenBuilder : ScreenBuilder {
                 buttonWithAppearanceAndStyle(text = "Button with Appearance"),
                 buttonWithAppearanceAndStyle(
                     text = "Button with Appearance and style",
-                    style = BUTTON_STYLE_APPEARANCE
+                    styleId = BUTTON_STYLE_APPEARANCE
                 )
             )
         )
     )
 
-    private fun buttonWithAppearanceAndStyle(text: String, style: String? = null) = createButton(
+    private fun buttonWithAppearanceAndStyle(text: String, styleId: String? = null) = createButton(
         text = text,
-        style = style,
+        styleId = styleId,
         flex = Flex(
             margin = EdgeValue(
                 left = 25.unitReal(),
@@ -94,8 +94,8 @@ object ButtonScreenBuilder : ScreenBuilder {
                 top = 15.unitReal()
             )
         )
-    ).applyAppearance(
-        Appearance(
+    ).applyStyle(
+        Style(
             backgroundColor = CYAN_BLUE,
             cornerRadius = CornerRadius(radius = 16.0)
         )
@@ -103,12 +103,12 @@ object ButtonScreenBuilder : ScreenBuilder {
 
     private fun createButton(
         text: String,
-        style: String? = null,
+        styleId: String? = null,
         flex: Flex? = null
     ): Widget {
         val button = Button(
             text = text,
-            style = style,
+            styleId = styleId,
             action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT, true))
         )
 

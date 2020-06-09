@@ -17,7 +17,7 @@
 package br.com.zup.beagle.widget.form
 
 import br.com.zup.beagle.core.Accessibility
-import br.com.zup.beagle.core.Appearance
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.WidgetView
 import br.com.zup.beagle.widget.interfaces.StateChangeable
@@ -43,8 +43,8 @@ abstract class InputWidget : WidgetView(), StateChangeable {
         return super.setId(id) as InputWidget
     }
 
-    override fun applyAppearance(appearance: Appearance): InputWidget {
-        return super.applyAppearance(appearance) as InputWidget
+    override fun applyStyle(style: Style): InputWidget {
+        return super.applyStyle(style) as InputWidget
     }
 
     override fun applyFlex(flex: Flex): InputWidget {

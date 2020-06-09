@@ -48,7 +48,6 @@ import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
 import io.mockk.verifyOrder
-import io.mockk.verifySequence
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -102,7 +101,7 @@ class ScreenViewRendererTest : BaseTest() {
         every { screenComponent.navigationBar } returns null
         every { screenComponent.child } returns component
         every { screenComponent.screenAnalyticsEvent } returns null
-        every { screenComponent.appearance } returns null
+        every { screenComponent.style } returns null
         every { viewRendererFactory.make(any()) } returns viewRenderer
         every { viewRenderer.build(any()) } returns view
         every { Color.parseColor(any()) } returns DEFAULT_COLOR

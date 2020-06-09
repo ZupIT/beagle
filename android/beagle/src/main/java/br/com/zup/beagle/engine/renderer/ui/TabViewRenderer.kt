@@ -89,7 +89,7 @@ internal class TabViewRenderer(
     }
 
     private fun TabLayout.setData() {
-        val typedArray = styleManagerFactory.getTabBarTypedArray(context, component.style)
+        val typedArray = styleManagerFactory.getTabBarTypedArray(context, component.styleId)
         typedArray?.let {
             setTabTextColors(
                 it.getColor(R.styleable.BeagleTabBarStyle_tabTextColor, Color.BLACK),

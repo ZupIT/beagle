@@ -19,7 +19,7 @@ package br.com.zup.beagle.utils
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import br.com.zup.beagle.core.Appearance
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.engine.renderer.ActivityRootView
@@ -48,7 +48,7 @@ internal fun Screen.toComponent() = ScreenComponent(
     navigationBar = this.navigationBar,
     child = this.child,
     screenAnalyticsEvent = screenAnalyticsEvent
-).applyAppearance(appearance ?: Appearance())
+).applyAppearance(style ?: Style())
 
 internal fun ServerDrivenComponent.toView(rootView: RootView) =
     if (this is LayoutComponent) {
