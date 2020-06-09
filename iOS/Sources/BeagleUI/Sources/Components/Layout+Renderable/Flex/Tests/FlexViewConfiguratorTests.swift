@@ -41,7 +41,6 @@ final class FlexViewConfiguratorTests: XCTestCase {
         sut.setup(nil)
 
         // Then
-        XCTAssertEqual(view.yoga.direction, .LTR)
         XCTAssertEqual(view.yoga.flexDirection, .column)
         XCTAssertEqual(view.yoga.flexWrap, .noWrap)
         XCTAssertEqual(view.yoga.justifyContent, .flexStart)
@@ -87,8 +86,6 @@ final class FlexViewConfiguratorTests: XCTestCase {
             top: value,
             right: value,
             bottom: value,
-            start: value,
-            end: value,
             horizontal: value,
             vertical: value,
             all: value
@@ -119,8 +116,6 @@ final class FlexViewConfiguratorTests: XCTestCase {
         XCTAssertEqual(view.yoga.marginTop, expectedYGValue)
         XCTAssertEqual(view.yoga.marginRight, expectedYGValue)
         XCTAssertEqual(view.yoga.marginBottom, expectedYGValue)
-        XCTAssertEqual(view.yoga.marginStart, expectedYGValue)
-        XCTAssertEqual(view.yoga.marginEnd, expectedYGValue)
         XCTAssertEqual(view.yoga.marginHorizontal, expectedYGValue)
         XCTAssertEqual(view.yoga.marginVertical, expectedYGValue)
         XCTAssertEqual(view.yoga.margin, expectedYGValue)
@@ -129,8 +124,6 @@ final class FlexViewConfiguratorTests: XCTestCase {
         XCTAssertEqual(view.yoga.paddingTop, expectedYGValue)
         XCTAssertEqual(view.yoga.paddingRight, expectedYGValue)
         XCTAssertEqual(view.yoga.paddingBottom, expectedYGValue)
-        XCTAssertEqual(view.yoga.paddingStart, expectedYGValue)
-        XCTAssertEqual(view.yoga.paddingEnd, expectedYGValue)
         XCTAssertEqual(view.yoga.paddingHorizontal, expectedYGValue)
         XCTAssertEqual(view.yoga.paddingVertical, expectedYGValue)
         XCTAssertEqual(view.yoga.padding, expectedYGValue)
@@ -139,8 +132,6 @@ final class FlexViewConfiguratorTests: XCTestCase {
         XCTAssertEqual(view.yoga.top, expectedYGValue)
         XCTAssertEqual(view.yoga.right, expectedYGValue)
         XCTAssertEqual(view.yoga.bottom, expectedYGValue)
-        XCTAssertEqual(view.yoga.start, expectedYGValue)
-        XCTAssertEqual(view.yoga.end, expectedYGValue)
     }
     
     func test_setupFlex_positionAll() {

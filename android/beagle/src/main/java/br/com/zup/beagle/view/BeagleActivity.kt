@@ -113,10 +113,14 @@ abstract class BeagleActivity : AppCompatActivity() {
 
     abstract fun onServerDrivenContainerStateChanged(state: ServerDrivenState)
 
+    open fun getFragmentTransitionAnimation() = FragmentTransitionAnimation(
+        R.anim.slide_from_right,
+        R.anim.none_animation,
+        R.anim.none_animation,
+        R.anim.slide_to_right
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        BeagleEnvironment.beagleSdk.designSystem?.let {
-            setTheme(it.theme())
-        }
 
         super.onCreate(savedInstanceState)
 
@@ -163,15 +167,18 @@ abstract class BeagleActivity : AppCompatActivity() {
     }
 
     private fun showScreen(screenName: String?, component: ServerDrivenComponent) {
-        val transaction = supportFragmentManager
+        val transition = getFragmentTransitionAnimation()
+
+        supportFragmentManager
             .beginTransaction()
             .setCustomAnimations(
-                R.anim.slide_from_right, R.anim.none_animation,
-                R.anim.none_animation, R.anim.slide_to_right
+                transition.enter,
+                transition.exit,
+                transition.popEnter,
+                transition.popExit
             )
             .replace(getServerDrivenContainerId(), BeagleFragment.newInstance(component))
-
-        transaction.addToBackStack(screenName)
-        transaction.commit()
+            .addToBackStack(screenName)
+            .commit()
     }
 }

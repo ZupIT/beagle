@@ -77,6 +77,7 @@
 		A0F45496237AF16800B146A1 /* BeagleContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F45495237AF16800B146A1 /* BeagleContext.swift */; };
 		A0F45498237B87E900B146A1 /* BeagleNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F45497237B87E800B146A1 /* BeagleNavigator.swift */; };
 		A0F4549A237C1B0F00B146A1 /* BeagleNavigatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F45499237C1B0F00B146A1 /* BeagleNavigatorTests.swift */; };
+		A0FBC1AE238F1C9A005C5E67 /* LazyComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0FBC1AD238F1C9A005C5E67 /* LazyComponentTests.swift */; };
 		C0291886247C5E4000C3AA13 /* CustomPageIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F8CF50239190F4004C6C19 /* CustomPageIndicator.swift */; };
 		C0291889247D5BFA00C3AA13 /* ComponentFromJsonFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0291888247D5BFA00C3AA13 /* ComponentFromJsonFile.swift */; };
 		C029188B247D609100C3AA13 /* Schema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C029188A247D609100C3AA13 /* Schema.framework */; };
@@ -540,6 +541,14 @@
 				57CBF5A9243F9EF300873997 /* CacheManagerDefaultTests.swift */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		6ECD97112481A2AE00188EF1 /* Container */ = {
+			isa = PBXGroup;
+			children = (
+				E522377A237C3C5500E555BB /* Container.swift */,
+			);
+			path = Container;
 			sourceTree = "<group>";
 		};
 		76191AA6241ABD6000A04C29 /* Json */ = {
@@ -1208,10 +1217,12 @@
 		C829CEBB23B165D8001B7225 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				934F8986247EA33D00B90D3C /* __Snapshots__ */,
+				934F8973247E9ABD00B90D3C /* Json */,
 				A0F45499237C1B0F00B146A1 /* BeagleNavigatorTests.swift */,
 				C08D4E3424857CBA00AAAC0A /* URLOpenerTests.swift */,
 				C08D4E3524857CBA00AAAC0A /* WindowManagerTests.swift */,
-				934F8986247EA33D00B90D3C /* __Snapshots__ */,
+				934F8971247E99FD00B90D3C /* NavigateTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1765,6 +1776,7 @@
 				E73107BC23A971B000188B3D /* BeaglePrefetchHelper.swift in Sources */,
 				C85688BC2433C4A800DD8B60 /* BeagleLogger.swift in Sources */,
 				E531D6B42359FE19007EEBA7 /* UIView+AutoLayout.swift in Sources */,
+				A06823502384328700CEE57A /* InputValue.swift in Sources */,
 				C08D4E3124857C7700AAAC0A /* DependencyWindowManager.swift in Sources */,
 				C08D4E442485803E00AAAC0A /* LazyComponent+Renderable.swift in Sources */,
 				A0D608D92448DF8700F7D851 /* ScreenController.swift in Sources */,

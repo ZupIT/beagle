@@ -19,7 +19,6 @@ import YogaKit
 import Schema
 
 protocol YogaTranslator {
-    func translate(_ direction: Flex.Direction) -> YGDirection
     func translate(_ flexDirection: Flex.FlexDirection) -> YGFlexDirection
     func translate(_ flexWrap: Flex.Wrap) -> YGWrap
     func translate(_ justifyContent: Flex.JustifyContent) -> YGJustify
@@ -119,17 +118,6 @@ final class YogaTranslating: YogaTranslator {
             return .column
         case .columnReverse:
             return .columnReverse
-        }
-    }
-    
-    func translate(_ direction: Flex.Direction) -> YGDirection {
-        switch direction {
-        case .inherit:
-            return .inherit
-        case .ltr:
-            return .LTR
-        case .rtl:
-            return .RTL
         }
     }
     

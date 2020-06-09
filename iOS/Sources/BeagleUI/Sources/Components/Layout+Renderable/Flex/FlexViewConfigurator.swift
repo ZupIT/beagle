@@ -94,7 +94,6 @@ final class FlexViewConfigurator: FlexViewConfiguratorProtocol {
     }
     
     private func applyYogaProperties(from flex: Flex, to layout: YGLayout) {
-        layout.direction = yogaTranslator.translate(flex.direction ?? .ltr)
         layout.flexDirection = yogaTranslator.translate(flex.flexDirection ?? .column)
         layout.flexWrap = yogaTranslator.translate(flex.flexWrap ?? .noWrap)
         layout.justifyContent = yogaTranslator.translate(flex.justifyContent ?? .flexStart)
@@ -169,12 +168,6 @@ final class FlexViewConfigurator: FlexViewConfiguratorProtocol {
         if let bottom = margin.bottom {
             layout.marginBottom = yogaTranslator.translate(bottom)
         }
-        if let start = margin.start {
-            layout.marginStart = yogaTranslator.translate(start)
-        }
-        if let end = margin.end {
-            layout.marginEnd = yogaTranslator.translate(end)
-        }
         if let horizontal = margin.horizontal {
             layout.marginHorizontal = yogaTranslator.translate(horizontal)
         }
@@ -201,12 +194,6 @@ final class FlexViewConfigurator: FlexViewConfiguratorProtocol {
         }
         if let bottom = padding.bottom {
             layout.paddingBottom = yogaTranslator.translate(bottom)
-        }
-        if let start = padding.start {
-            layout.paddingStart = yogaTranslator.translate(start)
-        }
-        if let end = padding.end {
-            layout.paddingEnd = yogaTranslator.translate(end)
         }
         if let horizontal = padding.horizontal {
             layout.paddingHorizontal = yogaTranslator.translate(horizontal)
@@ -237,12 +224,6 @@ final class FlexViewConfigurator: FlexViewConfiguratorProtocol {
         }
         if let bottom = position.bottom {
             layout.bottom = yogaTranslator.translate(bottom)
-        }
-        if let start = position.start {
-            layout.start = yogaTranslator.translate(start)
-        }
-        if let end = position.end {
-            layout.end = yogaTranslator.translate(end)
         }
         if let vertical = position.vertical {
             layout.top = yogaTranslator.translate(vertical)

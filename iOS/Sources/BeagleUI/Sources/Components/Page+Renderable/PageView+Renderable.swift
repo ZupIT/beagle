@@ -17,7 +17,6 @@
 import UIKit
 import Schema
 
-//TODO: avoid casting to ServerDrivenComponent
 extension PageView: ServerDrivenComponent {
 
     public func toView(renderer: BeagleRenderer) -> UIView {

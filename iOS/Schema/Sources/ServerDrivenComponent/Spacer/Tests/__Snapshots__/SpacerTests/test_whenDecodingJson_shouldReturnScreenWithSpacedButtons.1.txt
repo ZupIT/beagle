@@ -17,7 +17,6 @@
               - alignItems: Optional<AlignItems>.none
               - alignSelf: Optional<AlignSelf>.none
               - basis: Optional<UnitValue>.none
-              - direction: Optional<Direction>.none
               - display: Optional<Display>.none
               - flex: Optional<Double>.none
               - flexDirection: Optional<FlexDirection>.none
@@ -28,11 +27,9 @@
                 ▿ some: EdgeValue
                   - all: Optional<UnitValue>.none
                   - bottom: Optional<UnitValue>.none
-                  - end: Optional<UnitValue>.none
                   - horizontal: Optional<UnitValue>.none
                   - left: Optional<UnitValue>.none
                   - right: Optional<UnitValue>.none
-                  - start: Optional<UnitValue>.none
                   ▿ top: Optional<UnitValue>
                     ▿ some: UnitValue
                       - type: UnitType.real
@@ -72,7 +69,6 @@
               - alignItems: Optional<AlignItems>.none
               - alignSelf: Optional<AlignSelf>.none
               - basis: Optional<UnitValue>.none
-              - direction: Optional<Direction>.none
               - display: Optional<Display>.none
               - flex: Optional<Double>.none
               - flexDirection: Optional<FlexDirection>.none
@@ -83,11 +79,9 @@
                 ▿ some: EdgeValue
                   - all: Optional<UnitValue>.none
                   - bottom: Optional<UnitValue>.none
-                  - end: Optional<UnitValue>.none
                   - horizontal: Optional<UnitValue>.none
                   - left: Optional<UnitValue>.none
                   - right: Optional<UnitValue>.none
-                  - start: Optional<UnitValue>.none
                   ▿ top: Optional<UnitValue>
                     ▿ some: UnitValue
                       - type: UnitType.real
@@ -127,7 +121,6 @@
               - alignItems: Optional<AlignItems>.none
               - alignSelf: Optional<AlignSelf>.none
               - basis: Optional<UnitValue>.none
-              - direction: Optional<Direction>.none
               - display: Optional<Display>.none
               - flex: Optional<Double>.none
               - flexDirection: Optional<FlexDirection>.none
@@ -138,11 +131,9 @@
                 ▿ some: EdgeValue
                   - all: Optional<UnitValue>.none
                   - bottom: Optional<UnitValue>.none
-                  - end: Optional<UnitValue>.none
                   - horizontal: Optional<UnitValue>.none
                   - left: Optional<UnitValue>.none
                   - right: Optional<UnitValue>.none
-                  - start: Optional<UnitValue>.none
                   ▿ top: Optional<UnitValue>
                     ▿ some: UnitValue
                       - type: UnitType.real
@@ -182,7 +173,6 @@
               - alignItems: Optional<AlignItems>.none
               - alignSelf: Optional<AlignSelf>.none
               - basis: Optional<UnitValue>.none
-              - direction: Optional<Direction>.none
               - display: Optional<Display>.none
               - flex: Optional<Double>.none
               - flexDirection: Optional<FlexDirection>.none
@@ -193,11 +183,9 @@
                 ▿ some: EdgeValue
                   - all: Optional<UnitValue>.none
                   - bottom: Optional<UnitValue>.none
-                  - end: Optional<UnitValue>.none
                   - horizontal: Optional<UnitValue>.none
                   - left: Optional<UnitValue>.none
                   - right: Optional<UnitValue>.none
-                  - start: Optional<UnitValue>.none
                   ▿ top: Optional<UnitValue>
                     ▿ some: UnitValue
                       - type: UnitType.real

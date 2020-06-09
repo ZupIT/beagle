@@ -18,32 +18,15 @@ package br.com.zup.beagle.utils
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Path
-import android.graphics.RectF
 import android.graphics.drawable.GradientDrawable
 import android.util.TypedValue
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.children
-import androidx.core.view.size
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.core.AppearanceComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.data.BeagleViewModel
-import br.com.zup.beagle.data.serializer.BeagleSerializer
-import br.com.zup.beagle.engine.renderer.ActivityRootView
-import br.com.zup.beagle.engine.renderer.FragmentRootView
-import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.view.BeagleImageView
-import br.com.zup.beagle.view.BeagleView
-import br.com.zup.beagle.view.ScreenRequest
-import br.com.zup.beagle.view.StateChangedListener
 import br.com.zup.beagle.view.ViewFactory
 
 internal var viewExtensionsViewFactory = ViewFactory()
