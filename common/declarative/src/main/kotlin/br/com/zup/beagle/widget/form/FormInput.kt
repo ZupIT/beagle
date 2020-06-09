@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.widget.form
 
+import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
@@ -37,6 +38,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  *                  an UITextField in iOS or any other type of view that can receive and store input from users.
  *
  */
+@RegisterWidget
 data class FormInput(
     val name: String,
     val required: Boolean? = null,

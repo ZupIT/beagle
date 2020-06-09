@@ -15,15 +15,19 @@
  */
 
 apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
     implementation GeneralLibraries.kotlin
-
+    implementation project(Modules.beagleAnnotation)
     implementation project(Modules.beagleCoreDeclarative)
+
     compileOnly project(Modules.beagleBackendDeclarative)
+
+    kapt project(Modules.beagleBackendProcessor)
 
     testImplementation TestLibraries.junit
     testImplementation TestLibraries.kotlinTest

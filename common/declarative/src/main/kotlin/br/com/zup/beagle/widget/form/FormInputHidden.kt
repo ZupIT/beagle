@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.widget.form
 
+import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
@@ -27,6 +28,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * @param value contain the data you wish to transfer.
  *
  */
+@RegisterWidget
 data class FormInputHidden(
     val name: String,
     val value: String

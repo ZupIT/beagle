@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.widget.ui
 
+import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.ImageContentMode
 
@@ -25,6 +26,7 @@ import br.com.zup.beagle.widget.core.ImageContentMode
  * @param name reference an image natively in your local styles file to be applied on this image widget.
  * @param contentMode defines how the declared image will fit the view.
  */
+@RegisterWidget
 data class Image(
     val name: String,
     val contentMode: ImageContentMode? = null /* = ImageContentMode.FIT_CENTER */
