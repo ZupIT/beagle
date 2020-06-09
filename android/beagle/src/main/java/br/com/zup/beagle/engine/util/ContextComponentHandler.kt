@@ -24,9 +24,9 @@ import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.setup.BindingAdapter
 import br.com.zup.beagle.utils.generateViewModelInstance
 
-internal class ContextViewRenderer {
+internal class ContextComponentHandler {
 
-    fun startContextBinding(rootView: RootView, component: ServerDrivenComponent) {
+    fun handleContext(rootView: RootView, component: ServerDrivenComponent) {
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
 
         if (component is BindingAdapter) {
@@ -37,14 +37,8 @@ internal class ContextViewRenderer {
             }
         } else if (component is ContextComponent) {
             component.context?.let { context ->
-                viewModel.contextDataManager.pushContext(context)
+                viewModel.contextDataManager.addContext(context)
             }
-        }
-    }
-
-    fun finishContextBinding(rootView: RootView, component: ServerDrivenComponent) {
-        if (component is ContextComponent) {
-            rootView.generateViewModelInstance<ScreenContextViewModel>().contextDataManager.popContext()
         }
     }
 }

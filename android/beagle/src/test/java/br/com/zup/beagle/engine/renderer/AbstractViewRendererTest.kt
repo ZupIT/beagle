@@ -17,8 +17,7 @@
 package br.com.zup.beagle.engine.renderer
 
 import android.view.View
-import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.engine.util.ContextViewRenderer
+import br.com.zup.beagle.engine.util.ContextComponentHandler
 import br.com.zup.beagle.utils.ComponentStylization
 import br.com.zup.beagle.widget.Widget
 import io.mockk.mockk
@@ -26,13 +25,11 @@ import io.mockk.verifySequence
 import org.junit.Before
 import org.junit.Test
 
-import org.junit.Assert.*
-
 private class AbstractViewRenderer(
     override val component: Widget,
     componentStylization: ComponentStylization<Widget>,
-    contextViewRenderer: ContextViewRenderer
-) : ViewRenderer<Widget>(componentStylization, contextViewRenderer) {
+    contextComponentHandler: ContextComponentHandler
+) : ViewRenderer<Widget>(componentStylization, contextComponentHandler) {
     override fun buildView(rootView: RootView): View {
         return mockk()
     }
@@ -43,7 +40,7 @@ class AbstractViewRendererTest {
     private val component = mockk<Widget>(relaxed = true)
     private val rootView = mockk<RootView>(relaxed = true)
     private val componentStylization = mockk<ComponentStylization<Widget>>(relaxed = true)
-    private val contextViewRenderer = mockk<ContextViewRenderer>(relaxed = true)
+    private val contextViewRenderer = mockk<ContextComponentHandler>(relaxed = true)
 
     private lateinit var viewRenderer: AbstractViewRenderer
 
@@ -59,9 +56,8 @@ class AbstractViewRendererTest {
 
         // Then
         verifySequence {
-            contextViewRenderer.startContextBinding(rootView, component)
+            contextViewRenderer.handleContext(rootView, component)
             componentStylization.apply(any(), component)
-            contextViewRenderer.finishContextBinding(rootView, component)
         }
     }
 }
