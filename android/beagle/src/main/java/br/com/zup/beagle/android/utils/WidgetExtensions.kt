@@ -28,7 +28,7 @@ import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.layout.ScreenComponent
+import br.com.zup.beagle.android.widget.layout.ScreenComponent
 
 internal var viewRenderer = ViewRendererFactory()
 

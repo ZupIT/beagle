@@ -26,7 +26,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.utils.applyBackgroundFromWindowBackgroundTheme
 import br.com.zup.beagle.android.utils.toView
-import br.com.zup.beagle.widget.ui.UndefinedWidget
+import br.com.zup.beagle.android.widget.ui.UndefinedWidget
 
 private val beagleSerializer: BeagleSerializer = BeagleSerializer()
 private const val JSON_SCREEN_KEY = "JSON_SCREEN_KEY"

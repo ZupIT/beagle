@@ -24,7 +24,7 @@ import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.logger.BeagleLogger
 import br.com.zup.beagle.android.utils.CoroutineDispatchers
 import br.com.zup.beagle.android.view.ScreenRequest
-import br.com.zup.beagle.widget.layout.ScreenComponent
+import br.com.zup.beagle.android.widget.layout.ScreenComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel

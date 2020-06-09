@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.pager
+package br.com.zup.beagle.android.widget.pager
 
 import android.content.Context
 import android.graphics.Color
@@ -22,6 +22,7 @@ import br.com.zup.beagle.android.widget.pager.PageIndicatorComponent
 import br.com.zup.beagle.android.widget.pager.PageIndicatorOutput
 import br.com.zup.beagle.android.view.BeaglePageIndicatorView
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.widget.pager.PageIndicator
 
 class PageIndicatorView(
     selectedColor: String,

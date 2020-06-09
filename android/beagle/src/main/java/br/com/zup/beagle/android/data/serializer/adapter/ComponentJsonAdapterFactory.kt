@@ -28,7 +28,7 @@ import br.com.zup.beagle.widget.form.InputWidget
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Horizontal
 import br.com.zup.beagle.widget.layout.PageView
-import br.com.zup.beagle.widget.layout.ScreenComponent
+import br.com.zup.beagle.android.widget.layout.ScreenComponent
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.layout.Spacer
 import br.com.zup.beagle.widget.layout.Stack
@@ -37,14 +37,14 @@ import br.com.zup.beagle.widget.lazy.LazyComponent
 import br.com.zup.beagle.widget.navigation.Touchable
 import br.com.zup.beagle.widget.pager.PageIndicator
 import br.com.zup.beagle.widget.pager.PageIndicatorComponent
-import br.com.zup.beagle.widget.pager.PageIndicatorView
+import br.com.zup.beagle.android.widget.pager.PageIndicatorView
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.NetworkImage
 import br.com.zup.beagle.widget.ui.TabView
 import br.com.zup.beagle.widget.ui.Text
-import br.com.zup.beagle.widget.ui.UndefinedWidget
+import br.com.zup.beagle.android.widget.ui.UndefinedWidget
 import java.util.*
 
 private const val BEAGLE_WIDGET_TYPE = "_beagleComponent_"

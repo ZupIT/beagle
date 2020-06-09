@@ -23,7 +23,7 @@ import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.testutil.setPrivateField
 import br.com.zup.beagle.android.view.BeaglePageIndicatorView
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.widget.pager.PageIndicatorView
+import br.com.zup.beagle.android.widget.pager.PageIndicatorView
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK

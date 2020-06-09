@@ -41,7 +41,7 @@ import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.NetworkImage
 import br.com.zup.beagle.widget.ui.TabView
 import br.com.zup.beagle.widget.ui.Text
-import br.com.zup.beagle.widget.ui.UndefinedWidget
+import br.com.zup.beagle.android.widget.ui.UndefinedWidget
 import br.com.zup.beagle.widget.ui.WebView
 
 internal class UIViewRendererFactory : AbstractViewRendererFactory {

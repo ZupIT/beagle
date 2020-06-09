@@ -23,7 +23,7 @@ import br.com.zup.beagle.android.engine.renderer.UIViewRenderer
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.Environment
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.widget.ui.UndefinedWidget
+import br.com.zup.beagle.android.widget.ui.UndefinedWidget
 
 internal class UndefinedViewRenderer(
     override val component: UndefinedWidget,
