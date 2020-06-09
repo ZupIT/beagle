@@ -22,6 +22,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.interfaces.OnStateUpdatable
 import br.com.zup.beagle.setup.BeagleEnvironment
+import br.com.zup.beagle.utils.ColorUtils.hexColor
 import br.com.zup.beagle.utils.toAndroidColor
 import br.com.zup.beagle.widget.ui.Text
 import br.com.zup.beagle.widget.ui.TextAlignment
@@ -56,6 +57,6 @@ private fun BeagleTextView.setStyle(style: String) {
 
 private fun BeagleTextView.setTextColor(color: String?) {
     color?.let {
-        this.setTextColor(color.toAndroidColor())
+        this.setTextColor(it.toAndroidColor())
     }
 }

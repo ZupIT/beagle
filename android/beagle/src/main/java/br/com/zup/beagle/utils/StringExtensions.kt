@@ -16,9 +16,4 @@
 
 package br.com.zup.beagle.utils
 
-import android.graphics.Color
-
-internal fun String.toAndroidColor(): Int {
-    val hexColor = if (this.startsWith("#")) this else "#$this"
-    return Color.parseColor(hexColor)
-}
+internal fun String.toAndroidColor(): Int = ColorUtils.hexColor(this)
