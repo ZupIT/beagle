@@ -1,0 +1,12 @@
+name: Sync Spring BFF sample to Micronaut BFF sample
+
+on: push
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Sync to Micronaut
+              run: cd backend/sample/spring && ./sync-to-micronaut.sh
