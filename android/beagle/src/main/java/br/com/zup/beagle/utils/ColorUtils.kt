@@ -28,9 +28,9 @@ internal object ColorUtils {
     }
 
     private fun formatHexColorAlpha(color: String): String {
-        return "^#([0-9A-F])([0-9A-F])([0-9A-F])([0-9A-F])([0-9A-F])([0-9A-F])([0-9A-F])([0-9A-F])$"
+        return "^#([0-9A-F]{6})([0-9A-F]{2})$"
             .toRegex(RegexOption.IGNORE_CASE)
-            .replace(color, "#\$7\$8\$1\$2\$3\$4\$5\$6")
+            .replace(color, "#\$2\$1")
     }
 
     private fun formatHexColor(color: String): String {

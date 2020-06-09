@@ -41,6 +41,7 @@ import br.com.zup.beagle.view.ViewFactory
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockkStatic
 import io.mockk.slot
