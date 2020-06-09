@@ -19,7 +19,7 @@ package br.com.zup.beagle.widget
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.AccessibilityComponent
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.core.AppearanceComponent
+import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.core.FlexComponent
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.widget.core.Flex
@@ -29,7 +29,7 @@ import br.com.zup.beagle.widget.core.FlexBuilder
  * Base of all widgets
  *
  */
-abstract class Widget : FlexComponent, AppearanceComponent, AccessibilityComponent,
+abstract class Widget : FlexComponent, StyleComponent, AccessibilityComponent,
     IdentifierComponent {
 
     final override var id: String? = null

@@ -66,5 +66,4 @@ class AppDesignSystem : DesignSystem() {
             else -> android.R.style.Widget_Button
         }
     }
-
 }

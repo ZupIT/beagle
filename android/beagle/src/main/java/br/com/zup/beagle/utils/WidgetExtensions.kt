@@ -48,7 +48,7 @@ internal fun Screen.toComponent() = ScreenComponent(
     navigationBar = this.navigationBar,
     child = this.child,
     screenAnalyticsEvent = screenAnalyticsEvent
-).applyAppearance(style ?: Style())
+).applyStyle(style ?: Style())
 
 internal fun ServerDrivenComponent.toView(rootView: RootView) =
     if (this is LayoutComponent) {
