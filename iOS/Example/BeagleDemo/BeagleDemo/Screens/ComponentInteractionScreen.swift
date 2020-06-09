@@ -41,10 +41,17 @@ let declarativeScreen: Screen = {
         child: Container(
             children:
             [
-                Text(.expression(Expression(rawValue: "${myContext[0].b}")!)),
-                Button(text: "ok")
+                Text(.expression(Expression(rawValue: "${myContext.c.test2}")!)),
+                Button(
+                    text: "ok",
+                    action: SetContext(
+                        context: "myContext",
+                        path: "c.test2",
+                        value: "2"
+                    )
+                )
             ],
-            context: Context(id: "myContext", value: [["b": "valor b"]])
+            context: Context(id: "myContext", value: ["b": ["test": "1"]])
         )
     )
 }()
@@ -58,28 +65,38 @@ struct ComponentInteractionText: DeeplinkScreen {
         return BeagleScreenViewController(.declarativeText(
                 """
                 {
-                    "_beagleComponent_": "beagle:screencomponent",
-                    "navigationBar": {
-                        "title": "Component Interaction",
-                        "showBackButton": true
+                  "_beagleComponent_": "beagle:screencomponent",
+                  "navigationBar": {
+                    "title": "Component Interaction",
+                    "showBackButton": true
+                  },
+                  "child": {
+                    "_beagleComponent_": "beagle:container",
+                    "context": {
+                      "id": "myContext",
+                      "value": {
+                        "b": {
+                          "test": "1"
+                        }
+                      }
                     },
-                    "child": {
-                        "_beagleComponent_": "beagle:container",
-                        "context": {
-                            "id": "myContext",
-                            "value": [ { "b": "valor b" } ]
-                        },
-                        "children": [
-                            {
-                                "_beagleComponent_": "beagle:text",
-                                "text": "${myContext[0].b}"
-                            },
-                            {
-                                "_beagleComponent_": "beagle:button",
-                                "text": "ok"
-                            }
-                        ]
-                    }
+                    "children": [
+                      {
+                        "_beagleComponent_": "beagle:text",
+                        "text": "${myContext.c.test2}"
+                      },
+                      {
+                        "_beagleComponent_": "beagle:button",
+                        "text": "ok",
+                        "action": {
+                          "_beagleAction_": "beagle:setcontext",
+                          "context": "myContext",
+                          "path": "c.test2",
+                          "value": "2"
+                        }
+                      }
+                    ]
+                  }
                 }
         """
         ))

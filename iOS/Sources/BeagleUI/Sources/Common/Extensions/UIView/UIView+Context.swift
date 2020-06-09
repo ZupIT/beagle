@@ -38,6 +38,7 @@ extension UIView {
         }
     }
     
+    // TODO: remove this
     var observers: [ContextObserver]? {
         get {
             return (objc_getAssociatedObject(self, &UIView.observers) as? ObjectWrapper)?.object
@@ -47,18 +48,18 @@ extension UIView {
         }
     }
 
-    func getContext(for expression: Expression) -> Observable<Context>? {
+    func findContext(by id: String?) -> Observable<Context>? {
         guard let contextMap = self.contextMap else {
-            return superview?.getContext(for: expression)
+            return superview?.findContext(by: id)
         }
-        guard let contextId = expression.context(), let context = contextMap[contextId] else {
-            return superview?.getContext(for: expression)
+        guard let context = contextMap[id] else {
+            return superview?.findContext(by: id)
         }
         return context
     }
 
     func configBinding<T>(for expression: Expression, completion: @escaping (T) -> Void) {
-        guard let context = getContext(for: expression) else { return }
+        guard let context = findContext(by: expression.context()) else { return }
 
         let newExp = Expression(nodes: .init(expression.nodes.dropFirst()))
         let closure: (Context) -> Void = { context in
@@ -75,5 +76,14 @@ extension UIView {
         observers?.append(contextObserver)
         context.addObserver(contextObserver)
         closure(context.value)
+    }
+}
+
+private extension Dictionary where Key == String, Value == Observable<Context> {
+    subscript(context: String?) -> Observable<Context>? {
+        guard let id = context else {
+            return self.first?.value
+        }
+        return self[id]
     }
 }

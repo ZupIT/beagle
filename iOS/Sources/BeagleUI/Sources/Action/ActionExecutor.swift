@@ -45,6 +45,20 @@ final class ActionExecuting: ActionExecutor {
             showNativeDialog(nativeDialog, context: context)
         } else if let custom = action as? CustomAction {
             customAction(custom, context: context)
+        } else if let setContext = action as? SetContext {
+            handleSetContext(setContext, sender: sender, context: context)
+        }
+    }
+    
+    private func handleSetContext(_ action: SetContext, sender: Any, context: BeagleContext) {
+        guard let view = sender as? UIView else { return }
+        let context = view.findContext(by: action.context)
+        
+        if let path = action.path, var dict = context?.value.value as? [String: Any] {
+            dict.setValue(value: action.value, forKeyPath: path)
+            context?.value = Context(id: context?.value.id ?? "", value: dict)
+        } else {
+            context?.value = Context(id: context?.value.id ?? "", value: action.value)
         }
     }
     
@@ -78,6 +92,33 @@ final class ActionExecuting: ActionExecutor {
             case .success(let action):
                 context.screenController.viewModel.state = .success
                 self.doAction(action, sender: self, context: context)
+            }
+        }
+    }
+}
+
+private extension Dictionary {
+    // TODO: Log errors
+    mutating func setValue(value: Any, forKeyPath keyPath: String) {
+        var keys = keyPath.components(separatedBy: ".")
+        guard let first = keys.first as? Key else {
+            // "Unable to use string as key on type: \(Key.self)"
+            return
+        }
+        keys.remove(at: 0)
+        if keys.isEmpty, let settable = value as? Value {
+            self[first] = settable
+        } else {
+            let rejoined = keys.joined(separator: ".")
+            var subdict: [String: Any] = [:]
+            if let sub = self[first] as? [String: Any] {
+                subdict = sub
+            }
+            subdict.setValue(value: value, forKeyPath: rejoined)
+            if let settable = subdict as? Value {
+                self[first] = settable
+            } else {
+                // "Unable to set value: \(subdict) to dictionary of type: \(type(of: self))"
             }
         }
     }
