@@ -16,12 +16,7 @@
 
 package br.com.zup.beagle.serialization.jackson
 
-import br.com.zup.beagle.widget.core.EdgeValue
-import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fasterxml.jackson.annotation.JsonPropertyOrder
 
-object BeagleModule : SimpleModule() {
-    init {
-        this.setSerializerModifier(BeagleSerializerModifier)
-        this.setMixInAnnotation(EdgeValue::class.java, EdgeValueMixin::class.java)
-    }
-}
+@JsonPropertyOrder("all", "start", "end", "horizontal", "vertical", "left", "top", "right", "bottom")
+object EdgeValueMixin
