@@ -17,16 +17,14 @@
 package br.com.zup.beagle.engine.mapper
 
 import br.com.zup.beagle.widget.core.AlignContent
-import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.AlignItems
-import br.com.zup.beagle.widget.core.Direction
+import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.core.FlexDisplay
 import br.com.zup.beagle.widget.core.FlexPositionType
 import br.com.zup.beagle.widget.core.FlexWrap
 import br.com.zup.beagle.widget.core.JustifyContent
 import com.facebook.yoga.YogaAlign
-import com.facebook.yoga.YogaDirection
 import com.facebook.yoga.YogaDisplay
 import com.facebook.yoga.YogaFlexDirection
 import com.facebook.yoga.YogaJustify
@@ -83,13 +81,6 @@ internal fun makeYogaJustify(justifyContent: JustifyContent?): YogaJustify? =
         JustifyContent.SPACE_EVENLY -> YogaJustify.SPACE_EVENLY
         else -> null
     }
-
-internal fun makeYogaDirection(direction: Direction?): YogaDirection? = when (direction) {
-    Direction.INHERIT -> YogaDirection.INHERIT
-    Direction.LTR -> YogaDirection.LTR
-    Direction.RTL -> YogaDirection.RTL
-    else -> null
-}
 
 internal fun makeYogaFlexDirection(flexDirection: FlexDirection?): YogaFlexDirection? =
     when (flexDirection) {
