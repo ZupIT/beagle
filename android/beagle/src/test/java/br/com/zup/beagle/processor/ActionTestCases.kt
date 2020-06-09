@@ -22,9 +22,10 @@ import br.com.zup.beagle.annotation.RegisterAction
 
 @RegisterAction
 data class MyAction(
-    val value: String
+    val value: String,
+    val intValue: Int
 ) : Action {
     override fun handle(context: Context) {
-        TODO("Not yet implemented")
+
     }
 }

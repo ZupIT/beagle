@@ -64,9 +64,7 @@ class BeagleWidgetBindingProcessor(
     private fun handle(element: Element) {
         if (element is TypeElement && element.kind.isClass) {
             try {
-                val beagleWidgetBindingHandler = BeagleWidgetBindingHandler(processingEnv, bindClass = Class.forName(
-                    BIND.toString()
-                ).kotlin as KClass<out BindAttribute<*>>)
+                val beagleWidgetBindingHandler = BeagleWidgetBindingHandler(processingEnv, bindClass = BIND_CLASS)
                 val typeSpecBuilder = beagleWidgetBindingHandler.createBindingClass(element)
 
                 typeSpecBuilder.addProperty(getAttributeWidgetInstance(element))
@@ -163,6 +161,9 @@ class BeagleWidgetBindingProcessor(
     }
 
     companion object {
+        private val BIND_CLASS = Class.forName(
+            BIND.toString()
+        ).kotlin as KClass<out BindAttribute<*>>
         private const val BUILD_VIEW_METHOD = "buildView"
         private const val ON_BIND_METHOD = "onBind"
         private const val VIEW_PROPERTY = "view"

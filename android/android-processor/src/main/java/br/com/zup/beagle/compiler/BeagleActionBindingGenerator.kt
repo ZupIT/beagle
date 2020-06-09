@@ -17,17 +17,15 @@
 package br.com.zup.beagle.compiler
 
 import br.com.zup.beagle.compiler.util.ANDROID_CONTEXT
+import br.com.zup.beagle.compiler.util.BIND
 import br.com.zup.beagle.core.BindAttribute
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.ParameterSpec
-import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import javax.annotation.processing.ProcessingEnvironment
-import javax.lang.model.element.ExecutableElement
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.TypeMirror
 import kotlin.reflect.KClass
@@ -35,14 +33,15 @@ import kotlin.reflect.KClass
 private const val HANDLE_METHOD = "handle"
 private const val CONTEXT_PROPERTY = "context"
 
-class BeagleActionBindingGenerator(private val processingEnv: ProcessingEnvironment) {
+class BeagleActionBindingGenerator(private val processingEnv: ProcessingEnvironment) : BeagleBindingHandler(
+    processingEnv,
+    BIND_CLASS
+) {
     private val typeUtils = processingEnv.typeUtils
 
-    fun buildActionClassSpec(element: TypeElement, suffix: String,
-                             bindClass: KClass<out BindAttribute<*>>): TypeSpec.Builder {
+    fun buildActionClassSpec(element: TypeElement, suffix: String): TypeSpec.Builder {
         val typeSpecBuilder = element.visibleGetters.map {
-            this.createBindParameter(it,
-                bindClass)
+            createBindParameter(it)
         }.let { parameters ->
             TypeSpec.classBuilder("${element.simpleName}${suffix}")
                 .superclass(this.typeUtils.getKotlinName(element.superclass))
@@ -59,9 +58,8 @@ class BeagleActionBindingGenerator(private val processingEnv: ProcessingEnvironm
 
         val parameters = element.visibleGetters
         parameters.forEachIndexed { index, e ->
-            val isNullable = e.isMarkedNullable
-            val getValueMethodName = if (isNullable) GET_VALUE_NULL_METHOD else GET_VALUE_NOT_NULL_METHOD
-            attributeValues.append("\t${getValueMethodName}(${e.fieldName})")
+            val getValueMethodName = GET_VALUE_NOT_NULL_METHOD
+            attributeValues.append("${e.fieldName} = ${getValueMethodName}(${e.fieldName})")
             if (index < parameters.size - 1) {
                 attributeValues.append(",\n")
             }
@@ -76,10 +74,11 @@ class BeagleActionBindingGenerator(private val processingEnv: ProcessingEnvironm
             .build()
     }
 
-    private fun createBindParameter(element: ExecutableElement, bindClass: KClass<out BindAttribute<*>>) =
-        ParameterSpec.builder(
-            element.fieldName,
-            bindClass.asTypeName().parameterizedBy(this.typeUtils.getKotlinName(element.returnType))
-        ).build()
+    companion object {
+        private val BIND_CLASS = Class.forName(
+            BIND.toString()
+        ).kotlin as KClass<out BindAttribute<*>>
+    }
+
 
 }

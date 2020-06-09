@@ -18,23 +18,16 @@ package br.com.zup.beagle.compiler
 
 import br.com.zup.beagle.core.BindAttribute
 import com.squareup.kotlinpoet.FileSpec
-import com.squareup.kotlinpoet.FunSpec
-import com.squareup.kotlinpoet.ParameterSpec
-import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
-import com.squareup.kotlinpoet.asTypeName
 import javax.annotation.processing.Filer
 import javax.annotation.processing.ProcessingEnvironment
-import javax.lang.model.element.ExecutableElement
 import javax.lang.model.element.TypeElement
-import javax.lang.model.type.TypeMirror
 import kotlin.reflect.KClass
 
 class BeagleWidgetBindingHandler(
     processingEnvironment: ProcessingEnvironment,
     private val bindClass: KClass<out BindAttribute<*>>
-) {
+) : BeagleBindingHandler(processingEnvironment, bindClass) {
     companion object {
         const val SUFFIX = "Binding"
     }
@@ -52,19 +45,4 @@ class BeagleWidgetBindingHandler(
 
     fun getFileSpec(element: TypeElement, typeSpec: TypeSpec) =
         FileSpec.get(this.elementUtils.getPackageAsString(element), typeSpec)
-
-    fun createBindingClass(element: TypeElement) =
-        element.visibleGetters.map { this.createBindParameter(it) }.let { parameters ->
-            TypeSpec.classBuilder("${element.simpleName}$SUFFIX")
-                .superclass(this.typeUtils.getKotlinName(element.superclass))
-                .addSuperinterfaces(element.interfaces.map(TypeMirror::asTypeName))
-                .primaryConstructor(FunSpec.constructorFrom(parameters))
-                .addProperties(parameters.map { PropertySpec.from(it) })
-        }
-
-    private fun createBindParameter(element: ExecutableElement) =
-        ParameterSpec.builder(
-            element.fieldName,
-            bindClass.asTypeName().parameterizedBy(this.typeUtils.getKotlinName(element.returnType))
-        ).build()
 }

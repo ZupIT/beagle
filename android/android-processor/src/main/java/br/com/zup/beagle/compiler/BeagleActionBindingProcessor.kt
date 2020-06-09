@@ -63,8 +63,7 @@ class BeagleActionBindingProcessor(
                 val typeSpecBuilder =
                     beagleActionBindingGenerator.buildActionClassSpec(
                         element,
-                        BINDING_SUFFIX,
-                        BIND_CLASS)
+                        BINDING_SUFFIX)
 
                 typeSpecBuilder.addFunction(beagleActionBindingGenerator.getFunctionHandleSpec(element))
                 typeSpecBuilder.addFunction(

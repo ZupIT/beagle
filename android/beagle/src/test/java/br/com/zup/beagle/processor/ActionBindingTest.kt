@@ -17,18 +17,13 @@
 package br.com.zup.beagle.processor
 
 import android.content.Context
-import android.view.View
+import br.com.zup.beagle.android.Action
 import br.com.zup.beagle.core.Bind
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BindingAdapter
-import br.com.zup.beagle.testutil.RandomData
-import br.com.zup.beagle.testutil.setPrivateField
-import br.com.zup.beagle.widget.form.InputWidget
 import io.mockk.MockKAnnotations
-import io.mockk.every
-import io.mockk.impl.annotations.InjectMockKs
-import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
+import io.mockk.mockkConstructor
 import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.Before
@@ -37,82 +32,49 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class ActionBindingTest {
-//    @InjectMockKs
-//    lateinit var widgetBinding: CustomInputWidgetBinding
-//
-//    val text: Bind<String> = mockk<Bind.Expression<String>>(relaxed = true)
-//
-//    @RelaxedMockK
-//    lateinit var view: View
-//
-//    @RelaxedMockK
-//    lateinit var context: Context
-//
-//    @RelaxedMockK
-//    lateinit var widget: CustomInputWidget
-//
-//    @Before
-//    fun setUp() {
-//        MockKAnnotations.init(this)
-//
-//        widgetBinding.setPrivateField(WIDGET_INSTANCE_PROPERTY, widget)
-//        widgetBinding.setPrivateField(VIEW_PROPERTY, view)
-//    }
-//
-//    fun after() {
-//        unmockkAll()
-//    }
-//
-//    @Test
-//    fun widget_should_be_instance_of_BindingAdapter() {
-//        assertTrue(widgetBinding is BindingAdapter)
-//        assertTrue(widgetBinding is InputWidget)
-//    }
-//
-//    @Test
-//    fun widget_should_have_1_elements_in_list() {
-//        val expectedSize = 1
-//        assertEquals(expectedSize, widgetBinding.getBindAttributes().size)
-//    }
-//
-//    @Test
-//    fun widget_should_call_on_bind_at_least_once() {
-//
-//        //when
-//        widgetBinding.buildView(context)
-//
-//        //then
-//        verify(atLeast = once()) { widget.onBind(any(), any()) }
-//    }
-//
-//    @Test
-//    fun widget_should_call_observe_on_parameters() {
-//
-//        //when
-//        widgetBinding.buildView(context)
-//
-//        //then
-//        verify(atLeast = once()) { widgetBinding.text.observes(any()) }
-//    }
-//
-//    @Test
-//    fun widget_should_call_on_get_value() {
-//        // Given When
-//        widgetBinding.getValue()
-//
-//        //then
-//        verify(exactly = once()) { widget.getValue() }
-//    }
-//
-//    @Test
-//    fun widget_should_call_on_error_message() {
-//        // Given
-//        val message = RandomData.string()
-//
-//        //when
-//        widgetBinding.onErrorMessage(message)
-//
-//        //then
-//        verify(exactly = once()) { widget.onErrorMessage(message) }
-//    }
+    lateinit var widgetBinding: MyActionBinding
+
+    var stringValue: String = "DUMMY"
+
+    var intValue: Int = 10
+
+    val bindText: Bind<String> = Bind.Value(stringValue)
+    val bindInt: Bind<Int> = Bind.Value(intValue)
+    val context: Context = mockk(relaxed = true)
+
+
+    @Before
+    fun setUp() {
+        MockKAnnotations.init(this)
+        widgetBinding = MyActionBinding(value = bindText, intValue = bindInt)
+
+    }
+
+    fun after() {
+        unmockkAll()
+    }
+
+    @Test
+    fun widget_should_be_instance_of_BindingAdapter() {
+        assertTrue(widgetBinding is BindingAdapter)
+        assertTrue(widgetBinding is Action)
+    }
+
+    @Test
+    fun widget_should_have_2_elements_in_list() {
+        val expectedSize = 2
+        assertEquals(expectedSize, widgetBinding.getBindAttributes().size)
+    }
+
+    @Test
+    fun widget_should_call_on_bind_at_least_once() {
+        mockkConstructor(MyAction::class)
+        //when
+        val action = widgetBinding.handle(context)
+
+        //then
+        verify(exactly = once()) { anyConstructed<MyAction>().handle(any()) }
+
+    }
+
 }

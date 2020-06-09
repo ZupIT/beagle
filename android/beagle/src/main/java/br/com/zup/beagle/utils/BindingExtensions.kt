@@ -43,6 +43,3 @@ fun <T : Any> getValueNotNull(binding: Bind<T>, property: T): T {
 fun <T : Any> getValueNotNull(binding: Bind<T>): T {
     return binding.value as T
 }
-fun <T : Any> getValueNull(binding: Bind<T>): T? {
-    return binding.value as T
-}
