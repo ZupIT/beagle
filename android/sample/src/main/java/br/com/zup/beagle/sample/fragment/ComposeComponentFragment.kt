@@ -25,7 +25,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.widgets.TextField
 import br.com.zup.beagle.sample.widgets.TextFieldInputType
-import br.com.zup.beagle.utils.toView
+import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.widget.core.ComposeComponent
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
