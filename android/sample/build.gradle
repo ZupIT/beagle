@@ -58,6 +58,7 @@ dependencies {
 
     debugImplementation project(Modules.beagleAndroidPreview)
     implementation project(Modules.beagleAndroid)
+    implementation project(Modules.beagleExtendedSchema)
     kapt project(Modules.beagleAndroidProcessor)
 
     // Unit Testing

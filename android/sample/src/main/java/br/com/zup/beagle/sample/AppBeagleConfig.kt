@@ -16,11 +16,11 @@
 
 package br.com.zup.beagle.sample
 
-import br.com.zup.beagle.annotation.BeagleComponent
+import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.sample.constants.BASE_URL
-import br.com.zup.beagle.setup.BeagleConfig
-import br.com.zup.beagle.setup.Cache
-import br.com.zup.beagle.setup.Environment
+import br.com.zup.beagle.android.setup.BeagleConfig
+import br.com.zup.beagle.android.setup.Cache
+import br.com.zup.beagle.android.setup.Environment
 
 @BeagleComponent
 class AppBeagleConfig : BeagleConfig {

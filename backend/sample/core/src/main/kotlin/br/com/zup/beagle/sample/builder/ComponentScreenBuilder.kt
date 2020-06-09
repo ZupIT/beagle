@@ -18,6 +18,7 @@ package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.Route
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.ACCESSIBILITY_SCREEN_ENDPOINT
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_TITLE

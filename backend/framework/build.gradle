@@ -22,8 +22,7 @@ dependencies {
     implementation GeneralLibraries.jacksonKotlin
     implementation BackendLibraries.guava
     api project(Modules.beagleAnnotation)
-    api project(Modules.beagleDeclarative)
-    api project(Modules.beagleBackendDeclarative)
+    api project(Modules.beagleExtendedSchema)
     testImplementation TestLibraries.mockk
     testImplementation TestLibraries.kotlinTest
     testImplementation TestLibraries.junit5Api
