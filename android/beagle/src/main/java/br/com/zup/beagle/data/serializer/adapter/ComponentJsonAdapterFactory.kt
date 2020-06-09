@@ -37,12 +37,7 @@ import br.com.zup.beagle.widget.lazy.LazyComponent
 import br.com.zup.beagle.widget.navigation.Touchable
 import br.com.zup.beagle.widget.pager.PageIndicator
 import br.com.zup.beagle.widget.pager.PageIndicatorComponent
-import br.com.zup.beagle.widget.ui.Button
-import br.com.zup.beagle.widget.ui.Image
-import br.com.zup.beagle.widget.ui.ListView
-import br.com.zup.beagle.widget.ui.NetworkImage
-import br.com.zup.beagle.widget.ui.TabView
-import br.com.zup.beagle.widget.ui.Text
+import br.com.zup.beagle.widget.ui.*
 import br.com.zup.beagle.widget.ui.UndefinedWidget
 import java.util.*
 
@@ -103,6 +98,7 @@ internal object ComponentJsonAdapterFactory {
             .withSubtype(FormInputHidden::class.java, createNamespaceFor<FormInputHidden>())
             .withSubtype(FormSubmit::class.java, createNamespaceFor<FormSubmit>())
             .withSubtype(UndefinedWidget::class.java, createNamespaceFor<UndefinedWidget>())
+            .withSubtype(WebView::class.java, createNamespaceFor<WebView>())
     }
 
     private fun registerCustomWidget(
