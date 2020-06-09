@@ -18,14 +18,18 @@
 
 // MARK: Size Equatable
 
+/// Handles the size of the item
 public class Size: Decodable, AutoEquatable, AutoInitiable {
     // MARK: - Public Properties
+
     public var width: UnitValue?
     public var height: UnitValue?
     public var maxWidth: UnitValue?
     public var maxHeight: UnitValue?
     public var minWidth: UnitValue?
     public var minHeight: UnitValue?
+    
+    /// Set a height and width ratio.
     public var aspectRatio: Double?
 
 // sourcery:inline:auto:Size.Init
