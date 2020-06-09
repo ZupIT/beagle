@@ -25,7 +25,6 @@ import javax.inject.Singleton
 class SampleActionService {
     fun createAction() = ActionScreenBuilder
 
-
     fun getNavigateExample() = Screen(
         child = Text("Hello")
     )
