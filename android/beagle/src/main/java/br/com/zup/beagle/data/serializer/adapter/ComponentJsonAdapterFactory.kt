@@ -37,7 +37,13 @@ import br.com.zup.beagle.widget.lazy.LazyComponent
 import br.com.zup.beagle.widget.navigation.Touchable
 import br.com.zup.beagle.widget.pager.PageIndicator
 import br.com.zup.beagle.widget.pager.PageIndicatorComponent
-import br.com.zup.beagle.widget.ui.*
+import br.com.zup.beagle.widget.ui.Text
+import br.com.zup.beagle.widget.ui.Image
+import br.com.zup.beagle.widget.ui.NetworkImage
+import br.com.zup.beagle.widget.ui.Button
+import br.com.zup.beagle.widget.ui.ListView
+import br.com.zup.beagle.widget.ui.TabView
+import br.com.zup.beagle.widget.ui.WebView
 import br.com.zup.beagle.widget.ui.UndefinedWidget
 import java.util.*
 
