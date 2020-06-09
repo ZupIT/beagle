@@ -24,11 +24,10 @@ import br.com.zup.beagle.android.view.BeaglePageIndicatorView
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.widget.pager.PageIndicator
 
-class PageIndicatorView(
+class PageIndicator(
     selectedColor: String,
     unselectedColor: String
-) : PageIndicator(selectedColor, unselectedColor),
-    PageIndicatorComponent {
+) : PageIndicator(selectedColor, unselectedColor), PageIndicatorComponent {
 
     @Transient
     private var viewFactory: ViewFactory = ViewFactory()

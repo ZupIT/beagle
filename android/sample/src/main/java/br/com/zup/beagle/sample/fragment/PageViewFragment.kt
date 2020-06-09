@@ -26,7 +26,7 @@ import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.PageView
-import br.com.zup.beagle.android.widget.pager.PageIndicatorView
+import br.com.zup.beagle.android.widget.pager.PageIndicator
 import br.com.zup.beagle.widget.ui.Text
 import br.com.zup.beagle.widget.ui.TextAlignment
 
@@ -37,7 +37,7 @@ class PageViewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val declarative = PageView(
-            pageIndicator = PageIndicatorView(
+            pageIndicator = PageIndicator(
                 selectedColor = "#000000",
                 unselectedColor = "#888888"
             ),

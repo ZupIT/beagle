@@ -41,7 +41,7 @@ import br.com.zup.beagle.widget.layout.Spacer
 import br.com.zup.beagle.widget.layout.Stack
 import br.com.zup.beagle.widget.layout.Vertical
 import br.com.zup.beagle.widget.lazy.LazyComponent
-import br.com.zup.beagle.android.widget.pager.PageIndicatorView
+import br.com.zup.beagle.android.widget.pager.PageIndicator
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.ListView
@@ -501,13 +501,13 @@ class BeagleMoshiTest {
 
         // Then
         assertNotNull(actual)
-        assertTrue(actual is PageIndicatorView)
+        assertTrue(actual is PageIndicator)
     }
 
     @Test
     fun make_should_return_moshi_to_serialize_a_PageIndicator() {
         // Given
-        val component = PageIndicatorView(RandomData.string(), RandomData.string())
+        val component = PageIndicator(RandomData.string(), RandomData.string())
 
         // When
         val actual =
