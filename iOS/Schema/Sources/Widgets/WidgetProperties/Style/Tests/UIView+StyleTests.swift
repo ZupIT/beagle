@@ -16,7 +16,7 @@
  */
 
 import XCTest
-@testable import Schema
+@testable import BeagleSchema
 
 final class UIViewStyleTests: XCTestCase {
     

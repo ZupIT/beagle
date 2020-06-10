@@ -15,7 +15,7 @@
  */
 
 import Foundation
-import Schema
+import BeagleSchema
 
 public protocol Repository {
 
@@ -53,7 +53,7 @@ public final class RepositoryDefault: Repository {
     // MARK: Dependencies
 
     public typealias Dependencies =
-        Schema.DependencyDecoder
+        BeagleSchema.DependencyDecoder
         & DependencyNetworkClient
         & DependencyCacheManager
         & DependencyUrlBuilder

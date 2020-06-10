@@ -15,7 +15,7 @@
  */
 
 import XCTest
-import Schema
+import BeagleSchema
 @testable import BeagleUI
 // swiftlint:disable force_unwrapping
 

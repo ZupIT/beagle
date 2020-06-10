@@ -5,7 +5,7 @@
       location = "container:"
       name = "Schema">
       <FileRef
-         location = "group:Schema/Schema.xcodeproj">
+         location = "group:/Users/frederico/Documents/Projects/Beagle/beagle/iOS/Schema/BeagleSchema.xcodeproj">
       </FileRef>
    </Group>
    <Group

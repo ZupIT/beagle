@@ -17,7 +17,7 @@
 import XCTest
 import YogaKit
 @testable import BeagleUI
-import Schema
+import BeagleSchema
 
 final class YogaTranslatorTests: XCTestCase {
     

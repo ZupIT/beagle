@@ -20,7 +20,7 @@
 		C08D4EF3248A7C1D00AAAC0A /* WidgetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4EEA248A7C1600AAAC0A /* WidgetTests.swift */; };
 		C08D4EF4248A7C2E00AAAC0A /* widgetWithAllAttributes.json in Resources */ = {isa = PBXBuildFile; fileRef = C08D4EEC248A7C1600AAAC0A /* widgetWithAllAttributes.json */; };
 		C08D4F06248AD3D600AAAC0A /* ServerDrivenComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4F05248AD3D600AAAC0A /* ServerDrivenComponentTests.swift */; };
-		C0FBBD212475803900B72A9B /* Schema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FBBD172475803900B72A9B /* Schema.framework */; };
+		C0FBBD212475803900B72A9B /* BeagleSchema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FBBD172475803900B72A9B /* BeagleSchema.framework */; };
 		C0FBBD3324759EDD00B72A9B /* SnapshotTesting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FBBD3224759EDD00B72A9B /* SnapshotTesting.framework */; };
 		C864D2A2247C240200E7A1F9 /* FormSubmit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D221247C240200E7A1F9 /* FormSubmit.swift */; };
 		C864D2A4247C240200E7A1F9 /* FormInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D224247C240200E7A1F9 /* FormInput.swift */; };
@@ -139,8 +139,8 @@
 		C08D4EEC248A7C1600AAAC0A /* widgetWithAllAttributes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = widgetWithAllAttributes.json; sourceTree = "<group>"; };
 		C08D4EF5248A7C5900AAAC0A /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C08D4F05248AD3D600AAAC0A /* ServerDrivenComponentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDrivenComponentTests.swift; sourceTree = "<group>"; };
-		C0FBBD172475803900B72A9B /* Schema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Schema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C0FBBD202475803900B72A9B /* SchemaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SchemaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0FBBD172475803900B72A9B /* BeagleSchema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BeagleSchema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0FBBD202475803900B72A9B /* BeagleSchemaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeagleSchemaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0FBBD3224759EDD00B72A9B /* SnapshotTesting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapshotTesting.framework; path = Carthage/Build/iOS/SnapshotTesting.framework; sourceTree = "<group>"; };
 		C864D220247C240200E7A1F9 /* FormSubmitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSubmitTests.swift; sourceTree = "<group>"; };
 		C864D221247C240200E7A1F9 /* FormSubmit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSubmit.swift; sourceTree = "<group>"; };
@@ -260,7 +260,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0FBBD212475803900B72A9B /* Schema.framework in Frameworks */,
+				C0FBBD212475803900B72A9B /* BeagleSchema.framework in Frameworks */,
 				C0FBBD3324759EDD00B72A9B /* SnapshotTesting.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -363,8 +363,8 @@
 		C0FBBD182475803900B72A9B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C0FBBD172475803900B72A9B /* Schema.framework */,
-				C0FBBD202475803900B72A9B /* SchemaTests.xctest */,
+				C0FBBD172475803900B72A9B /* BeagleSchema.framework */,
+				C0FBBD202475803900B72A9B /* BeagleSchemaTests.xctest */,
 			);
 			name = Products;
 			path = ..;
@@ -1020,9 +1020,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		C0FBBD162475803900B72A9B /* Schema */ = {
+		C0FBBD162475803900B72A9B /* BeagleSchema */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C0FBBD2B2475803900B72A9B /* Build configuration list for PBXNativeTarget "Schema" */;
+			buildConfigurationList = C0FBBD2B2475803900B72A9B /* Build configuration list for PBXNativeTarget "BeagleSchema" */;
 			buildPhases = (
 				C0FBBD122475803900B72A9B /* Headers */,
 				C0FBBE1A2475CA4E00B72A9B /* Sourcery Run Script */,
@@ -1035,14 +1035,14 @@
 			);
 			dependencies = (
 			);
-			name = Schema;
+			name = BeagleSchema;
 			productName = Components;
-			productReference = C0FBBD172475803900B72A9B /* Schema.framework */;
+			productReference = C0FBBD172475803900B72A9B /* BeagleSchema.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		C0FBBD1F2475803900B72A9B /* SchemaTests */ = {
+		C0FBBD1F2475803900B72A9B /* BeagleSchemaTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C0FBBD2E2475803900B72A9B /* Build configuration list for PBXNativeTarget "SchemaTests" */;
+			buildConfigurationList = C0FBBD2E2475803900B72A9B /* Build configuration list for PBXNativeTarget "BeagleSchemaTests" */;
 			buildPhases = (
 				C0FBBD1C2475803900B72A9B /* Sources */,
 				C0FBBD1D2475803900B72A9B /* Frameworks */,
@@ -1054,9 +1054,9 @@
 			dependencies = (
 				C0FBBD232475803900B72A9B /* PBXTargetDependency */,
 			);
-			name = SchemaTests;
+			name = BeagleSchemaTests;
 			productName = ComponentsTests;
-			productReference = C0FBBD202475803900B72A9B /* SchemaTests.xctest */;
+			productReference = C0FBBD202475803900B72A9B /* BeagleSchemaTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -1078,7 +1078,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C0FBBD112475803900B72A9B /* Build configuration list for PBXProject "Schema" */;
+			buildConfigurationList = C0FBBD112475803900B72A9B /* Build configuration list for PBXProject "BeagleSchema" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -1091,8 +1091,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C0FBBD162475803900B72A9B /* Schema */,
-				C0FBBD1F2475803900B72A9B /* SchemaTests */,
+				C0FBBD162475803900B72A9B /* BeagleSchema */,
+				C0FBBD1F2475803900B72A9B /* BeagleSchemaTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1293,7 +1293,7 @@
 /* Begin PBXTargetDependency section */
 		C0FBBD232475803900B72A9B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C0FBBD162475803900B72A9B /* Schema */;
+			target = C0FBBD162475803900B72A9B /* BeagleSchema */;
 			targetProxy = C0FBBD222475803900B72A9B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1515,7 +1515,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C0FBBD112475803900B72A9B /* Build configuration list for PBXProject "Schema" */ = {
+		C0FBBD112475803900B72A9B /* Build configuration list for PBXProject "BeagleSchema" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C0FBBD292475803900B72A9B /* Debug */,
@@ -1524,7 +1524,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C0FBBD2B2475803900B72A9B /* Build configuration list for PBXNativeTarget "Schema" */ = {
+		C0FBBD2B2475803900B72A9B /* Build configuration list for PBXNativeTarget "BeagleSchema" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C0FBBD2C2475803900B72A9B /* Debug */,
@@ -1533,7 +1533,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C0FBBD2E2475803900B72A9B /* Build configuration list for PBXNativeTarget "SchemaTests" */ = {
+		C0FBBD2E2475803900B72A9B /* Build configuration list for PBXNativeTarget "BeagleSchemaTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C0FBBD2F2475803900B72A9B /* Debug */,

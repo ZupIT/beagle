@@ -15,7 +15,7 @@
  */
 
 import Foundation
-@testable import Schema
+@testable import BeagleSchema
 
 enum ComponentFromJsonError: Error {
     case wrongUrlPath

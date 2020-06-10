@@ -15,7 +15,7 @@
  */
 
 // MARK: - Flex Builders
-import Schema
+import BeagleSchema
 
 public extension Flex {
     @discardableResult

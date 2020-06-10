@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C0FBBD162475803900B72A9B"
-               BuildableName = "Schema.framework"
-               BlueprintName = "Schema"
-               ReferencedContainer = "container:Schema.xcodeproj">
+               BuildableName = "BeagleSchema.framework"
+               BlueprintName = "BeagleSchema"
+               ReferencedContainer = "container:BeagleSchema.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -40,13 +40,14 @@
       </CodeCoverageTargets>
       <Testables>
          <TestableReference
-            skipped = "NO">
+            skipped = "NO"
+            testExecutionOrdering = "random">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C0FBBD1F2475803900B72A9B"
-               BuildableName = "SchemaTests.xctest"
-               BlueprintName = "SchemaTests"
-               ReferencedContainer = "container:Schema.xcodeproj">
+               BuildableName = "BeagleSchemaTests.xctest"
+               BlueprintName = "BeagleSchemaTests"
+               ReferencedContainer = "container:BeagleSchema.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -72,9 +73,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C0FBBD162475803900B72A9B"
-            BuildableName = "Schema.framework"
-            BlueprintName = "Schema"
-            ReferencedContainer = "container:Schema.xcodeproj">
+            BuildableName = "BeagleSchema.framework"
+            BlueprintName = "BeagleSchema"
+            ReferencedContainer = "container:BeagleSchema.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

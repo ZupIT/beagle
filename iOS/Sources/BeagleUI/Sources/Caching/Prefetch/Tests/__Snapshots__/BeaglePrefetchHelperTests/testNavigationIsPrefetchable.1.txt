@@ -4,29 +4,29 @@
 
   openNativeRoute("path", data: Optional(["data": "value"]), shouldResetApplication: false)  -->  NULL 
 
-  resetApplication(Schema.Route.declarative(Schema.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: Schema.Container(children: [], widgetProperties: Schema.WidgetProperties(id: nil, style: nil, flex: nil, accessibility: nil)))))  -->  NULL 
+  resetApplication(BeagleSchema.Route.declarative(BeagleSchema.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: BeagleSchema.Container(children: [], widgetProperties: BeagleSchema.WidgetProperties(id: nil, style: nil, flex: nil, accessibility: nil)))))  -->  NULL 
 
-  resetApplication(Schema.Route.remote("path", shouldPrefetch: true, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: true, fallback: nil) 
+  resetApplication(BeagleSchema.Route.remote("path", shouldPrefetch: true, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: true, fallback: nil) 
 
-  resetApplication(Schema.Route.remote("path", shouldPrefetch: false, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: false, fallback: nil) 
+  resetApplication(BeagleSchema.Route.remote("path", shouldPrefetch: false, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: false, fallback: nil) 
 
-  resetStack(Schema.Route.declarative(Schema.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: Schema.Container(children: [], widgetProperties: Schema.WidgetProperties(id: nil, style: nil, flex: nil, accessibility: nil)))))  -->  NULL 
+  resetStack(BeagleSchema.Route.declarative(BeagleSchema.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: BeagleSchema.Container(children: [], widgetProperties: BeagleSchema.WidgetProperties(id: nil, style: nil, flex: nil, accessibility: nil)))))  -->  NULL 
 
-  resetStack(Schema.Route.remote("path", shouldPrefetch: true, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: true, fallback: nil) 
+  resetStack(BeagleSchema.Route.remote("path", shouldPrefetch: true, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: true, fallback: nil) 
 
-  resetStack(Schema.Route.remote("path", shouldPrefetch: false, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: false, fallback: nil) 
+  resetStack(BeagleSchema.Route.remote("path", shouldPrefetch: false, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: false, fallback: nil) 
 
-  pushStack(Schema.Route.declarative(Schema.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: Schema.Container(children: [], widgetProperties: Schema.WidgetProperties(id: nil, style: nil, flex: nil, accessibility: nil)))))  -->  NULL 
+  pushStack(BeagleSchema.Route.declarative(BeagleSchema.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: BeagleSchema.Container(children: [], widgetProperties: BeagleSchema.WidgetProperties(id: nil, style: nil, flex: nil, accessibility: nil)))))  -->  NULL 
 
-  pushStack(Schema.Route.remote("path", shouldPrefetch: true, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: true, fallback: nil) 
+  pushStack(BeagleSchema.Route.remote("path", shouldPrefetch: true, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: true, fallback: nil) 
 
-  pushStack(Schema.Route.remote("path", shouldPrefetch: false, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: false, fallback: nil) 
+  pushStack(BeagleSchema.Route.remote("path", shouldPrefetch: false, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: false, fallback: nil) 
 
-  pushView(Schema.Route.declarative(Schema.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: Schema.Container(children: [], widgetProperties: Schema.WidgetProperties(id: nil, style: nil, flex: nil, accessibility: nil)))))  -->  NULL 
+  pushView(BeagleSchema.Route.declarative(BeagleSchema.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: BeagleSchema.Container(children: [], widgetProperties: BeagleSchema.WidgetProperties(id: nil, style: nil, flex: nil, accessibility: nil)))))  -->  NULL 
 
-  pushView(Schema.Route.remote("path", shouldPrefetch: true, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: true, fallback: nil) 
+  pushView(BeagleSchema.Route.remote("path", shouldPrefetch: true, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: true, fallback: nil) 
 
-  pushView(Schema.Route.remote("path", shouldPrefetch: false, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: false, fallback: nil) 
+  pushView(BeagleSchema.Route.remote("path", shouldPrefetch: false, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: false, fallback: nil) 
 
   popStack  -->  NULL 
 

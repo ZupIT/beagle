@@ -16,7 +16,7 @@
 
 import UIKit
 import BeagleUI
-import Schema
+import BeagleSchema
 
 struct MainScreen: DeeplinkScreen {
     init() {}

@@ -17,7 +17,7 @@
 import XCTest
 import SnapshotTesting
 @testable import BeagleUI
-import Schema
+import BeagleSchema
 
 final class ScreenComponentTests: XCTestCase {
 

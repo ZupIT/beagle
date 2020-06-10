@@ -15,7 +15,7 @@
  */
 
 import Foundation
-import Schema
+import BeagleSchema
 
 public enum ScreenType {
     case remote(Remote)

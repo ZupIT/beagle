@@ -16,7 +16,7 @@
  */
 
 import UIKit
-import Schema
+import BeagleSchema
 
 extension NavigationBarItem {
     

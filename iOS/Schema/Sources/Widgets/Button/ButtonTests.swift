@@ -16,7 +16,7 @@
 
 import XCTest
 import SnapshotTesting
-@testable import Schema
+@testable import BeagleSchema
 
 final class ButtonTests: XCTestCase {
 

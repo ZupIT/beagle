@@ -16,7 +16,7 @@
 
 import UIKit
 import WebKit
-import Schema
+import BeagleSchema
 
 extension WebView: ServerDrivenComponent {
     public func toView(renderer: BeagleRenderer) -> UIView {

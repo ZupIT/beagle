@@ -16,7 +16,7 @@
 
 import Foundation
 import UIKit
-import Schema
+import BeagleSchema
 
 postfix operator %
 

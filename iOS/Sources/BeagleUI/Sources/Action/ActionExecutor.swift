@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import Schema
+import BeagleSchema
 
 public protocol ActionExecutor {
     func doAction(_ action: Action, sender: Any, context: BeagleContext)

@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import Schema
+import BeagleSchema
 
 extension Spacer: ServerDrivenComponent {
     

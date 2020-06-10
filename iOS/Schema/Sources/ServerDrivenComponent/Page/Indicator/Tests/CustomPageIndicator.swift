@@ -16,7 +16,7 @@
  */
 
 import Foundation
-@testable import Schema
+@testable import BeagleSchema
 
 // MARK: - CustomPageIndicator Component
 

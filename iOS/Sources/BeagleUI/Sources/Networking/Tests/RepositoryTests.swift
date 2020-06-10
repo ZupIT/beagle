@@ -16,7 +16,7 @@
 
 import XCTest
 @testable import BeagleUI
-import Schema
+import BeagleSchema
 
 final class RepositoryTests: XCTestCase {
 
@@ -156,14 +156,14 @@ final class RepositoryTests: XCTestCase {
 // MARK: - Testing Helpers
 
 final class ComponentDecodingStub: ComponentDecoding {
-    func register<T>(_ type: T.Type, for typeName: String) where T: Schema.ServerDrivenComponent {}
+    func register<T>(_ type: T.Type, for typeName: String) where T: BeagleSchema.ServerDrivenComponent {}
     func componentType(forType type: String) -> Decodable.Type? { return nil }
     func actionType(forType type: String) -> Decodable.Type? { return nil }
     
-    var componentToReturnOnDecode: Schema.ServerDrivenComponent?
+    var componentToReturnOnDecode: BeagleSchema.ServerDrivenComponent?
     var errorToThrowOnDecode: Error?
     
-    func decodeComponent(from data: Data) throws -> Schema.ServerDrivenComponent {
+    func decodeComponent(from data: Data) throws -> BeagleSchema.ServerDrivenComponent {
         if let error = errorToThrowOnDecode {
             throw error
         }

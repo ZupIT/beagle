@@ -17,7 +17,7 @@
 
 import XCTest
 import SnapshotTesting
-import Schema
+import BeagleSchema
 
 final class WidgetTests: XCTestCase {
 

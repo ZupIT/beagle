@@ -17,7 +17,7 @@
 import XCTest
 @testable import BeagleUI
 import SnapshotTesting
-import Schema
+import BeagleSchema
 
 final class BeagleSetupTests: XCTestCase {
     // swiftlint:disable discouraged_direct_init
@@ -58,9 +58,9 @@ final class BeagleSetupTests: XCTestCase {
         Beagle.dependencies = new
 
         // Then
-        XCTAssert(Schema.dependencies as AnyObject === new)
-        XCTAssert(Schema.dependencies.decoder as AnyObject === new.decoder as AnyObject)
-        XCTAssert(Schema.dependencies.schemaLogger as AnyObject? === new.logger as AnyObject)
+        XCTAssert(BeagleSchema.dependencies as AnyObject === new)
+        XCTAssert(BeagleSchema.dependencies.decoder as AnyObject === new.decoder as AnyObject)
+        XCTAssert(BeagleSchema.dependencies.schemaLogger as AnyObject? === new.logger as AnyObject)
 
         // Teardown
         Beagle.dependencies = old
@@ -99,10 +99,10 @@ final class FormDataStoreHandlerDummy: FormDataStoreHandling {
 }
 
 final class ComponentDecodingDummy: ComponentDecoding {
-    func register<T>(_ type: T.Type, for typeName: String) where T: Schema.ServerDrivenComponent {}
+    func register<T>(_ type: T.Type, for typeName: String) where T: BeagleSchema.ServerDrivenComponent {}
     func componentType(forType type: String) -> Decodable.Type? { return nil }
     func actionType(forType type: String) -> Decodable.Type? { return nil }
-    func decodeComponent(from data: Data) throws -> Schema.ServerDrivenComponent { return ComponentDummy() }
+    func decodeComponent(from data: Data) throws -> BeagleSchema.ServerDrivenComponent { return ComponentDummy() }
     func decodeAction(from data: Data) throws -> Action { return ActionDummy() }
 }
 

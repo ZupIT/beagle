@@ -16,7 +16,7 @@
 
 import Foundation
 import UIKit
-import Schema
+import BeagleSchema
 
 public protocol PageViewUIComponentDelegate: AnyObject {
     func changedCurrentPage(_ currentPage: Int)

@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import Schema
+import BeagleSchema
 
 public protocol FormManaging {
     func register(form: Form, formView: UIView, submitView: UIView, validatorHandler: ValidatorProvider?)

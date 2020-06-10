@@ -16,7 +16,7 @@
 
 @testable import BeagleUI
 import UIKit
-import Schema
+import BeagleSchema
 
 class FormManagerSpy: FormManaging {
     private(set) var didCallRegisterFormSubmit = false

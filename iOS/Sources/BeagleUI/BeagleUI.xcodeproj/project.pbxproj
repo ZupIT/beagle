@@ -78,7 +78,6 @@
 		A0F4549A237C1B0F00B146A1 /* BeagleNavigatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F45499237C1B0F00B146A1 /* BeagleNavigatorTests.swift */; };
 		C0291886247C5E4000C3AA13 /* CustomPageIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F8CF50239190F4004C6C19 /* CustomPageIndicator.swift */; };
 		C0291889247D5BFA00C3AA13 /* ComponentFromJsonFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0291888247D5BFA00C3AA13 /* ComponentFromJsonFile.swift */; };
-		C029188B247D609100C3AA13 /* Schema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C029188A247D609100C3AA13 /* Schema.framework */; };
 		C0479F57243272460040E30C /* AnalyticsGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0479F56243272460040E30C /* AnalyticsGestureRecognizer.swift */; };
 		C048EBDB242BD78500A24075 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C048EBDA242BD78500A24075 /* Analytics.swift */; };
 		C05E164D24365DBE0088F9D2 /* AnalyticsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05E164C24365DBE0088F9D2 /* AnalyticsTests.swift */; };
@@ -158,7 +157,6 @@
 		C862606223B504850084A086 /* BeagleScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C862606123B504850084A086 /* BeagleScreenViewModel.swift */; };
 		C867CDE823EB50DB00EB5DD5 /* HttpRequestBuilderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E1CD323EB4FE500C1E323 /* HttpRequestBuilderTest.swift */; };
 		C869D117241148ED001C760C /* HttpAditionalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C869D116241148ED001C760C /* HttpAditionalData.swift */; };
-		C86D0926247C331C002A5D6F /* Schema.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C86D0924247C331C002A5D6F /* Schema.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C86D0CC323B25AE3009CE0EB /* LoadingViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B052BD23706395008EB9BE /* LoadingViewTests.swift */; };
 		C86E7C1523954E2700D6FEDB /* PageViewInvalid.json in Resources */ = {isa = PBXBuildFile; fileRef = C86E7C1423954E2700D6FEDB /* PageViewInvalid.json */; };
 		C89E80A52397FFD500C2D0ED /* PageIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89E80A42397FFD500C2D0ED /* PageIndicator.swift */; };
@@ -167,6 +165,7 @@
 		C89FFA922412DC2300C1B53B /* ViewConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89FFA912412DC2300C1B53B /* ViewConfigurator.swift */; };
 		C89FFA942412EA4200C1B53B /* UrlBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89FFA932412EA4200C1B53B /* UrlBuilder.swift */; };
 		C8E42FD123C7C98000B1963F /* SnapshotTesting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8E42FCF23C7C89800B1963F /* SnapshotTesting.framework */; };
+		C8E79CBA2492E1D2006F3FE6 /* BeagleSchema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8E79CB92492E1D2006F3FE6 /* BeagleSchema.framework */; };
 		C8F953162395960200615CF0 /* PageViewUIComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F95314239595C500615CF0 /* PageViewUIComponentTests.swift */; };
 		E50B284523639299005E2E6D /* BeagleScreenViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50B284423639299005E2E6D /* BeagleScreenViewControllerTests.swift */; };
 		E516E61023705BED006620B1 /* BeagleViewBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E516E60F23705BED006620B1 /* BeagleViewBuilderTests.swift */; };
@@ -212,20 +211,6 @@
 			remoteInfo = BeagleUI;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		E5B052C72370AA83008EB9BE /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				C86D0926247C331C002A5D6F /* Schema.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		5740E23623F70A75004A0BF0 /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
@@ -411,6 +396,7 @@
 		C8CDAA6423AA6E5B00E95AA6 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C8CDAA6523AA969300E95AA6 /* ListViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewTests.swift; sourceTree = "<group>"; };
 		C8E42FCF23C7C89800B1963F /* SnapshotTesting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapshotTesting.framework; path = Carthage/Build/iOS/SnapshotTesting.framework; sourceTree = "<group>"; };
+		C8E79CB92492E1D2006F3FE6 /* BeagleSchema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeagleSchema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8F95314239595C500615CF0 /* PageViewUIComponentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewUIComponentTests.swift; sourceTree = "<group>"; };
 		E50B2840236350B9005E2E6D /* RepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryTests.swift; sourceTree = "<group>"; };
 		E50B284423639299005E2E6D /* BeagleScreenViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleScreenViewControllerTests.swift; sourceTree = "<group>"; };
@@ -458,8 +444,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				93D7C68D23A1268800154CFB /* YogaKit.framework in Frameworks */,
-				C029188B247D609100C3AA13 /* Schema.framework in Frameworks */,
 				57A8098E243CF5020034D180 /* CoreData.framework in Frameworks */,
+				C8E79CBA2492E1D2006F3FE6 /* BeagleSchema.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1424,6 +1410,7 @@
 		E53524A923310F5A00D1A0C9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C8E79CB92492E1D2006F3FE6 /* BeagleSchema.framework */,
 				C08D4EAD2487D94500AAAC0A /* Schema.framework */,
 				C029188D247D60CA00C3AA13 /* Schema.framework */,
 				C029188A247D609100C3AA13 /* Schema.framework */,
@@ -1511,7 +1498,6 @@
 				932925CC2327E11000A61F01 /* Frameworks */,
 				932925CD2327E11000A61F01 /* Resources */,
 				E5EB34B52330358000AC246B /* SwiftLint Run Script */,
-				E5B052C72370AA83008EB9BE /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

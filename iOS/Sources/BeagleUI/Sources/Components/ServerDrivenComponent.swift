@@ -15,11 +15,11 @@
  */
 
 import UIKit
-import Schema
+import BeagleSchema
 
-public protocol ServerDrivenComponent: Renderable, Schema.ServerDrivenComponent {}
+public protocol ServerDrivenComponent: Renderable, BeagleSchema.ServerDrivenComponent {}
 
-public protocol ComposeComponent: Renderable, Schema.ComposeComponent {}
+public protocol ComposeComponent: Renderable, BeagleSchema.ComposeComponent {}
 
 extension ComposeComponent {
     public func toView(renderer: BeagleRenderer) -> UIView {

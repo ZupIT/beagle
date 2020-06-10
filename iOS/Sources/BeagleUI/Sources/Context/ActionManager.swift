@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import Schema
+import BeagleSchema
 
 public protocol ActionManaging {
     func register(events: [Event], inView view: UIView)

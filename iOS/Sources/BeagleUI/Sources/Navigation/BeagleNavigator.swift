@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import Schema
+import BeagleSchema
 
 public protocol DependencyNavigationController {
     var navigationControllerType: BeagleNavigationController.Type { get }

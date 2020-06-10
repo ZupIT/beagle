@@ -15,7 +15,7 @@
  */
 
 import Foundation
-import Schema
+import BeagleSchema
 
 extension SafeArea {
     

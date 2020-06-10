@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import Schema
+import BeagleSchema
 
 public class BeagleScreenViewController: UIViewController {
     

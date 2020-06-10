@@ -15,7 +15,7 @@
  */
 
 import XCTest
-import Schema
+import BeagleSchema
 import BeagleUI
 
 final class ComposeComponentTests: XCTestCase { 
@@ -35,7 +35,7 @@ struct ComposeText: BeagleUI.ComposeComponent {
     var title: String = ""
     var subtitle: String = ""
     
-    func build() -> Schema.ServerDrivenComponent {
+    func build() -> BeagleSchema.ServerDrivenComponent {
         return Container(children: [
             Text(title),
             Text(subtitle)

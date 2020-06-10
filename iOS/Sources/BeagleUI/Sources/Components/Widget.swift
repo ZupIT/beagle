@@ -15,8 +15,8 @@
  */
 
 import UIKit
-import Schema
+import BeagleSchema
 
 // MARK: - Widget
 
-public protocol Widget: ServerDrivenComponent, Schema.Widget { }
+public protocol Widget: ServerDrivenComponent, BeagleSchema.Widget { }

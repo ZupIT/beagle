@@ -16,7 +16,7 @@
 
 import Foundation
 import os.log
-import Schema
+import BeagleSchema
 
 public protocol DependencyLogger {
     var logger: BeagleLoggerType { get }

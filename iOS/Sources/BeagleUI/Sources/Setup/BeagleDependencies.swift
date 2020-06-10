@@ -15,12 +15,12 @@
  */
 
 import UIKit
-import Schema
+import BeagleSchema
 
 public protocol BeagleDependenciesProtocol: DependencyActionExecutor,
     DependencyAnalyticsExecutor,
     DependencyUrlBuilder,
-    Schema.Dependencies,
+    BeagleSchema.Dependencies,
     DependencyNetworkClient,
     DependencyDeepLinkScreenManaging,
     DependencyCustomActionHandler,
@@ -57,7 +57,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var windowManager: WindowManager
     public var opener: URLOpener
 
-    // MARK: Schema
+    // MARK: BeagleSchema
 
     public var decoder: ComponentDecoding
     public var schemaLogger: SchemaLogger? { return logger }
@@ -89,7 +89,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.theme = AppTheme(styles: [:])
         self.navigationControllerType = BeagleNavigationController.self
         self.logger = BeagleLogger()
-        self.decoder = Schema.DefaultDependencies().decoder
+        self.decoder = BeagleSchema.DefaultDependencies().decoder
         self.formDataStoreHandler = FormDataStoreHandler()
         self.windowManager = WindowManagerDefault()
         
@@ -117,7 +117,7 @@ private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     DependencyRepository,
     DependencyWindowManager,
     DependencyURLOpener,
-    Schema.DependencyLogger {
+    BeagleSchema.DependencyLogger {
     
     var container: () -> BeagleDependenciesProtocol = {
         fatalError("You should set this closure to get the dependencies container")

@@ -15,7 +15,7 @@
  */
 
 import Foundation
-import Schema
+import BeagleSchema
 
 // MARK: - Dependecy Protocol
 public protocol DependencyAnalyticsExecutor {

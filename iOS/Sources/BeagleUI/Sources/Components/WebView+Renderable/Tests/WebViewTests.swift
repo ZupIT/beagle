@@ -18,7 +18,7 @@ import XCTest
 import SnapshotTesting
 import WebKit
 @testable import BeagleUI
-import Schema
+import BeagleSchema
 
 final class WebViewTests: XCTestCase {
     

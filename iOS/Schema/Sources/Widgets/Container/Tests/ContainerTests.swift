@@ -17,7 +17,7 @@
 
 import XCTest
 import SnapshotTesting
-@testable import Schema
+@testable import BeagleSchema
 
 class ContainerTests: XCTestCase {
 

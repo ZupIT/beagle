@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import Schema
+import BeagleSchema
 
 extension FormInputHidden: ServerDrivenComponent {
     public func toView(renderer: BeagleRenderer) -> UIView {

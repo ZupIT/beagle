@@ -17,7 +17,7 @@
 
 import Foundation
 @testable import BeagleUI
-import Schema
+import BeagleSchema
 
 final class BeaglePrefetchHelpingSpy: BeaglePrefetchHelping {
     

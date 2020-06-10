@@ -16,7 +16,7 @@
 
 import Foundation
 import YogaKit
-import Schema
+import BeagleSchema
 
 public protocol FlexViewConfiguratorProtocol: AnyObject {
     var view: UIView? { get set }

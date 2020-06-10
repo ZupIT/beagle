@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import Schema
+import BeagleSchema
 
 // MARK: - Model
 extension ListViewUIComponent {

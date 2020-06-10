@@ -17,7 +17,7 @@
 @testable import BeagleUI
 import XCTest
 import SnapshotTesting
-import Schema
+import BeagleSchema
 
 class ImageTests: XCTestCase {
 

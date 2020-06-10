@@ -19,7 +19,7 @@ import Foundation
 import XCTest
 @testable import BeagleUI
 import SnapshotTesting
-import Schema
+import BeagleSchema
 
 final class HttpRequestBuilderTest: XCTestCase {
 

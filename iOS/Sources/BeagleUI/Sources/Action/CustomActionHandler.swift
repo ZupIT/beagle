@@ -15,7 +15,7 @@
  */
 
 import Foundation
-import Schema
+import BeagleSchema
 
 /// Your application can define CustomActions, and Beagle will ask to the CustomActionHandler defined by your application
 /// to handle what the custom actions will do.

@@ -15,7 +15,7 @@
  */
 
 import XCTest
-@testable import Schema
+@testable import BeagleSchema
 // swiftlint:disable force_cast
 
 class ServerDrivenComponentTests: XCTestCase {

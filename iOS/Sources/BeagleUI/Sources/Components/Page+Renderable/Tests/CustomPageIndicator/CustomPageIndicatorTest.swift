@@ -18,7 +18,7 @@ import Foundation
 @testable import BeagleUI
 import XCTest
 import SnapshotTesting
-import Schema
+import BeagleSchema
 
 class CustomPageIndicatorTest: XCTestCase {
 

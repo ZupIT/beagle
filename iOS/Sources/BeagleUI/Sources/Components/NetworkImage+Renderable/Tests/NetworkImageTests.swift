@@ -16,7 +16,7 @@
 
 import XCTest
 @testable import BeagleUI
-import Schema
+import BeagleSchema
 
 final class NetworkImageTests: XCTestCase {
 

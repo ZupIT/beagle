@@ -16,7 +16,7 @@
 
 import UIKit
 @testable import BeagleUI
-import Schema
+import BeagleSchema
 
 // MARK: - CustomPageIndicator Component
 

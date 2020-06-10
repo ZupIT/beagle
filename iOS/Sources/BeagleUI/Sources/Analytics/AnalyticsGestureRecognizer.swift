@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import Schema
+import BeagleSchema
 
 final class EventsGestureRecognizer: UITapGestureRecognizer {
     let events: [Event]

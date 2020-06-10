@@ -18,7 +18,7 @@ import XCTest
 import YogaKit
 @testable import BeagleUI
 import SnapshotTesting
-import Schema
+import BeagleSchema
 
 final class FlexViewConfiguratorTests: XCTestCase {
     

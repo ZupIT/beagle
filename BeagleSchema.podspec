@@ -25,15 +25,13 @@ Pod::Spec.new do |spec|
 
 # ―――  Spec Metadata  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
-  spec.name = "BeagleUI"
+  spec.name = "BeagleSchema"
 
   spec.version = new_commit ? dev_version : last_release
 
-  spec.summary = "This is the Beagle framework for iOS"
+  spec.summary = "This pod is a part of Beagle framework, it will probably not work alone"
   spec.description = <<-DESC
-    We encourage you to use Beagle from Carthage, since it is the preferred
-    way of using it. But if you are willing to just test Beagle, you can use this 
-    pod instead.
+    This pod is a part of Beagle framework, it will probably not work alone
   DESC
   spec.homepage = "https://docs.usebeagle.io"
 
@@ -59,49 +57,21 @@ Pod::Spec.new do |spec|
     source[:tag] = last_release
   end
 
-  spec.source =  source
+  spec.source = source
 
 # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
-
-  spec.default_subspec = "BeagleUI"
-
-  # ――― Beagle UI ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   
-  spec.subspec 'BeagleUI' do |beagleUI|
-    path_source = 'iOS/Sources/BeagleUI/Sources'
-    path_generated = 'iOS/Sources/BeagleUI/CodeGeneration/'
+  path = 'iOS/Schema'
+  path_source = path + '/Sources'
 
-    beagleUI.source_files = [
-      path_source + '/**/*.swift',
-      path_generated + "Generated/*.generated.swift",
-      path_generated + "*.swift"
-    ]
+  spec.source_files = [
+    path_source + '/**/*.swift'
+  ]
 
-    beagleUI.resources = [
-      "iOS/**/*.xcdatamodeld",
-      path_generated + "Templates/*"
-    ]
-
-    beagleUI.exclude_files = [ 
-      path_source + "/**/Test/**/*.swift",
-      path_source + "/**/Tests/**/*.swift",
-      path_source + "/**/*Test*.swift"
-    ]
-
-    # make sure to declare YogaKit on your Podfile as:
-    # pod 'YogaKit', :git => 'git@github.com:lucasaraujo/yoga.git'
-    # We need this because we fixed an issue in the original repository and our PR was not merged yet.
-    beagleUI.frameworks = 'Foundation', 'CoreData'
-    beagleUI.dependency 'YogaKit'
-    beagleUI.dependency 'BeagleSchema', "~> #{spec.version}"
-  end
-
-  # ――― Beagle Preview ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
-
-  spec.subspec 'Preview' do |preview|
-    source = 'iOS/Sources/Preview/Sources'
-    preview.source_files = source + '/**/*.swift'
-    preview.dependency 'Starscream'
-  end
+  spec.exclude_files = [
+    path + "/**/Test/**/*.swift",
+    path + "/**/Tests/**/*.swift",
+    path + "/**/*Test*.swift"
+  ]
 
 end

@@ -15,7 +15,7 @@
  */
 
 import XCTest
-@testable import Schema
+@testable import BeagleSchema
 import SnapshotTesting
 
 public final class ComponentDecoderTests: XCTestCase {

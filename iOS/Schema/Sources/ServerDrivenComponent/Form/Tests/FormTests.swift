@@ -16,7 +16,7 @@
  */
 
 import XCTest
-@testable import Schema
+@testable import BeagleSchema
 import SnapshotTesting
 
 class FormTests: XCTestCase {

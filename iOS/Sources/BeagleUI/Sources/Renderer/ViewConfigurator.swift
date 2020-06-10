@@ -16,7 +16,7 @@
 
 import Foundation
 import UIKit
-import Schema
+import BeagleSchema
 
 public protocol ViewConfiguratorProtocol: AnyObject {
     var view: UIView? { get set }

@@ -15,7 +15,7 @@
  */
 
 import Foundation
-import Schema
+import BeagleSchema
 
 public protocol LogType {
     var category: String { get }
@@ -49,9 +49,9 @@ public enum Log {
     public enum Form {
         case validatorNotFound(named: String)
         case validationInputNotValid(inputName: String)
-        case submitNotFound(form: Schema.Form)
-        case inputsNotFound(form: Schema.Form)
-        case divergentInputViewAndValueCount(form: Schema.Form)
+        case submitNotFound(form: BeagleSchema.Form)
+        case inputsNotFound(form: BeagleSchema.Form)
+        case divergentInputViewAndValueCount(form: BeagleSchema.Form)
         case submittedValues(values: [String: String])
         case keyDuplication(data: [String: String])
         case unableToSaveData

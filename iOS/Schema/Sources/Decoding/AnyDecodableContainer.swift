@@ -34,7 +34,7 @@ extension AnyDecodableContainer: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         if let type = try? container.decode(String.self, forKey: .componentType) {
-        if let decodable = Schema.dependencies.decoder.componentType(forType: type.lowercased()) {
+        if let decodable = dependencies.decoder.componentType(forType: type.lowercased()) {
             content = try decodable.init(from: decoder)
             } else {
                 dependencies.schemaLogger?.logDecodingError(type: type)
@@ -42,7 +42,7 @@ extension AnyDecodableContainer: Decodable {
             }
         } else {
             let type = try container.decode(String.self, forKey: .actionType)
-            if let decodable = Schema.dependencies.decoder.actionType(forType: type) {
+            if let decodable = dependencies.decoder.actionType(forType: type) {
                 content = try decodable.init(from: decoder)
             } else {
                 dependencies.schemaLogger?.logDecodingError(type: type)

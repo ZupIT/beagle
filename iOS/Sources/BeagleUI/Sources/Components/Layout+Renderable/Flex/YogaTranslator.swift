@@ -16,7 +16,7 @@
 
 import Foundation
 import YogaKit
-import Schema
+import BeagleSchema
 
 protocol YogaTranslator {
     func translate(_ flexDirection: Flex.FlexDirection) -> YGFlexDirection
