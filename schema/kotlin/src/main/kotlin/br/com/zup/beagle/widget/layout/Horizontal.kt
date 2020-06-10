@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.widget.layout
 
-import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
@@ -32,4 +31,4 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 data class Horizontal(
     val children: List<ServerDrivenComponent>,
     val reversed: Boolean? = null
-) : ServerDrivenComponent, LayoutComponent
+) : ServerDrivenComponent
