@@ -14,32 +14,8 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.utils
+package br.com.zup.beagle.annotation
 
-import br.com.zup.beagle.core.Bind
-
-fun <T : Any> getValueNull(binding: Bind<T>, property: T?): T? {
-    return when (binding) {
-        is Bind.Expression<T> -> {
-            property
-        }
-        is Bind.Value<T> -> {
-            binding.value
-        }
-    }
-}
-
-fun <T : Any> getValueNotNull(binding: Bind<T>, property: T): T {
-    return when (binding) {
-        is Bind.Expression<T> -> {
-            property
-        }
-        is Bind.Value<T> -> {
-            binding.value
-        }
-    }
-}
-
-fun <T : Any> getValueNotNull(binding: Bind<T>): T {
-    return binding.value as T
-}
+@Target(AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class RegisterAction

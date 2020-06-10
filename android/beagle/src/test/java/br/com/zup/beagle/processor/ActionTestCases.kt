@@ -14,32 +14,18 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.utils
+package br.com.zup.beagle.processor
 
-import br.com.zup.beagle.core.Bind
+import br.com.zup.beagle.android.Action
+import br.com.zup.beagle.annotation.RegisterAction
+import br.com.zup.beagle.engine.renderer.RootView
 
-fun <T : Any> getValueNull(binding: Bind<T>, property: T?): T? {
-    return when (binding) {
-        is Bind.Expression<T> -> {
-            property
-        }
-        is Bind.Value<T> -> {
-            binding.value
-        }
+@RegisterAction
+data class MyAction(
+    val value: String,
+    val intValue: Int
+) : Action {
+    override fun handle(rootView: RootView) {
+
     }
-}
-
-fun <T : Any> getValueNotNull(binding: Bind<T>, property: T): T {
-    return when (binding) {
-        is Bind.Expression<T> -> {
-            property
-        }
-        is Bind.Value<T> -> {
-            binding.value
-        }
-    }
-}
-
-fun <T : Any> getValueNotNull(binding: Bind<T>): T {
-    return binding.value as T
 }

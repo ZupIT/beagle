@@ -17,6 +17,7 @@
 package br.com.zup.beagle.compiler
 
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.compiler.BeagleBindingHandler.Companion.BINDING_SUFFIX
 import br.com.zup.beagle.compiler.util.ANDROID_CONTEXT
 import br.com.zup.beagle.compiler.util.ANDROID_VIEW
 import br.com.zup.beagle.compiler.util.BIND
@@ -64,9 +65,7 @@ class BeagleWidgetBindingProcessor(
     private fun handle(element: Element) {
         if (element is TypeElement && element.kind.isClass) {
             try {
-                val beagleWidgetBindingHandler = BeagleWidgetBindingHandler(processingEnv, bindClass = Class.forName(
-                    BIND.toString()
-                ).kotlin as KClass<out BindAttribute<*>>)
+                val beagleWidgetBindingHandler = BeagleWidgetBindingHandler(processingEnv, bindClass = BIND_CLASS)
                 val typeSpecBuilder = beagleWidgetBindingHandler.createBindingClass(element)
 
                 typeSpecBuilder.addProperty(getAttributeWidgetInstance(element))
@@ -89,7 +88,7 @@ class BeagleWidgetBindingProcessor(
                 val typeSpec = typeSpecBuilder.build()
                 val fileSpec = FileSpec.builder(
                     processingEnv.elementUtils.getPackageAsString(element),
-                    "${element.simpleName}${BeagleWidgetBindingHandler.SUFFIX}"
+                    "${element.simpleName}${BINDING_SUFFIX}"
                 ).addImport(GET_VALUE_NULL.packageName, GET_VALUE_NULL.className)
                     .addImport(GET_VALUE_NOT_NULL.packageName, GET_VALUE_NOT_NULL.className)
                     .addImport(ANDROID_VIEW.packageName, ANDROID_VIEW.className)
@@ -163,6 +162,9 @@ class BeagleWidgetBindingProcessor(
     }
 
     companion object {
+        private val BIND_CLASS = Class.forName(
+            BIND.toString()
+        ).kotlin as KClass<out BindAttribute<*>>
         private const val BUILD_VIEW_METHOD = "buildView"
         private const val ON_BIND_METHOD = "onBind"
         private const val VIEW_PROPERTY = "view"

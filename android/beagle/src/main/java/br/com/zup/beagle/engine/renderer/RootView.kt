@@ -21,7 +21,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 
-internal interface RootView {
+interface RootView {
     fun getContext(): Context
     fun getLifecycleOwner(): LifecycleOwner
 }

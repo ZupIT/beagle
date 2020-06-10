@@ -113,3 +113,8 @@ val ANDROID_CONTEXT = BeagleClass(
     packageName = "android.content",
     className = "Context"
 )
+
+val ROOT_VIEW = BeagleClass(
+    packageName = "br.com.zup.beagle.engine.renderer",
+    className = "RootView"
+)

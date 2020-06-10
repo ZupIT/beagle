@@ -72,7 +72,7 @@ fun Elements.getPackageAsString(element: Element) = this.getPackageOf(element).t
 fun FunSpec.Companion.constructorFrom(parameters: List<ParameterSpec>) =
     this.constructorBuilder().addParameters(parameters).build()
 
-fun PropertySpec.Companion.from(parameter: ParameterSpec, needsOverride: Boolean) =
+fun PropertySpec.Companion.from(parameter: ParameterSpec, needsOverride: Boolean = false) =
     this.builder(parameter.name, parameter.type).initializer(parameter.name)
         .let { if (needsOverride) it.addModifiers(KModifier.OVERRIDE) else it }
         .build()

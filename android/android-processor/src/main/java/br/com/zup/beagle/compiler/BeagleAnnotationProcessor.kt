@@ -17,6 +17,7 @@
 package br.com.zup.beagle.compiler
 
 import br.com.zup.beagle.annotation.BeagleComponent
+import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.annotation.RegisterValidator
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.compiler.util.BEAGLE_CONFIG
@@ -42,12 +43,14 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
     private lateinit var validatorHandlerProcessor: ValidatorHandlerProcessor
     private lateinit var beagleSetupProcessor: BeagleSetupProcessor
     private lateinit var beagleWidgetBindingProcessor: BeagleWidgetBindingProcessor
+    private lateinit var beagleActionBindingProcessor: BeagleActionBindingProcessor
 
     override fun getSupportedAnnotationTypes(): Set<String> {
         return TreeSet(listOf(
             RegisterWidget::class.java.canonicalName,
             BeagleComponent::class.java.canonicalName,
-            RegisterValidator::class.java.canonicalName
+            RegisterValidator::class.java.canonicalName,
+            RegisterAction::class.java.canonicalName
         ))
     }
 
@@ -57,6 +60,7 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
         validatorHandlerProcessor = ValidatorHandlerProcessor(processingEnvironment)
         beagleSetupProcessor = BeagleSetupProcessor(processingEnvironment)
         beagleWidgetBindingProcessor = BeagleWidgetBindingProcessor(processingEnv)
+        beagleActionBindingProcessor = BeagleActionBindingProcessor(processingEnv)
     }
 
     override fun process(
@@ -87,6 +91,7 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
             validatorHandlerProcessor.process(basePackageName, roundEnvironment)
             beagleSetupProcessor.process(basePackageName, beagleConfigClassName, roundEnvironment)
             beagleWidgetBindingProcessor.process(roundEnvironment)
+            beagleActionBindingProcessor.process(roundEnvironment)
         }
 
         return false
