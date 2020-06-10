@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.engine.util
 
-import br.com.zup.beagle.action.ContextComponent
+import br.com.zup.beagle.widget.action.ContextComponent
 import br.com.zup.beagle.android.context.ScreenContextViewModel
 import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.setup.BindingAdapter

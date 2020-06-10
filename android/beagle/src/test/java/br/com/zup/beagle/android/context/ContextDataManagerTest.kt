@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.context
 
 import androidx.collection.LruCache
-import br.com.zup.beagle.action.UpdateContext
+import br.com.zup.beagle.widget.action.UpdateContext
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.jsonpath.JsonPathReplacer
@@ -34,6 +34,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
+import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
 import org.json.JSONArray
@@ -360,5 +361,26 @@ class ContextDataManagerTest {
         verify { BeagleMessageLogs.errorWhileTryingToAccessContext(any()) }
         verify { BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(any()) }
         verify(exactly = 0) { bindModel.notifyChange(any()) }
+    }
+
+    @Test
+    fun evaluateContextBindings_should_evaluate_text_string_text_expression() {
+        // Given
+        val valueSlot = slot<Any>()
+        val bind = mockk<Bind.Expression<String>> {
+            every { value } returns "This is an expression @{$CONTEXT_ID.exp1} and this @{$CONTEXT_ID.exp2}"
+            every { type } returns String::class.java
+        }
+        every { jsonPathFinder.find(any(), any()) } returns "hello"
+        every { bind.notifyChange(capture(valueSlot)) } just Runs
+        contexts[CONTEXT_ID]?.bindings?.add(bind)
+
+
+        // When
+        contextDataManager.evaluateContextBindings()
+
+        // Then
+        val expected = "This is an expression hello and this hello"
+        assertEquals(expected, valueSlot.captured.toString())
     }
 }

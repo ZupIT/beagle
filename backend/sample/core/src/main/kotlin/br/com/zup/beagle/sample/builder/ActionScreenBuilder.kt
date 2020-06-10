@@ -18,7 +18,7 @@ package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.Route
-import br.com.zup.beagle.action.SendRequestAction
+import br.com.zup.beagle.widget.action.SendRequestAction
 import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.constants.NAVIGATION_BAR_STYLE_DEFAULT

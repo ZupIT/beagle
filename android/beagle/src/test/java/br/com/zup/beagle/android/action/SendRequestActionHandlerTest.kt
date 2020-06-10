@@ -19,7 +19,7 @@ package br.com.zup.beagle.android.action
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import br.com.zup.beagle.action.SendRequestAction
+import br.com.zup.beagle.widget.action.SendRequestAction
 import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.networking.ResponseData
