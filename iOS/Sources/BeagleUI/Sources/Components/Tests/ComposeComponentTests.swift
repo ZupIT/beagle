@@ -20,7 +20,7 @@ import BeagleUI
 
 final class ComposeComponentTests: XCTestCase { 
 
-    private let imageSize = CGSize(width: 300, height: 200)
+    private let imageSize = ImageSize.custom(CGSize(width: 300, height: 200))
 
     func testComposeComponent() throws {
         let component = ComposeText(title: "TITLE", subtitle: "subtitle")

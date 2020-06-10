@@ -410,6 +410,7 @@
 		C869D116241148ED001C760C /* HttpAditionalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpAditionalData.swift; sourceTree = "<group>"; };
 		C86D0924247C331C002A5D6F /* Schema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Schema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C86E7C1423954E2700D6FEDB /* PageViewInvalid.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PageViewInvalid.json; sourceTree = "<group>"; };
+		C895D43E24905B98007868B8 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C896F8862433AF1300245968 /* BeagleLoggerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleLoggerTests.swift; sourceTree = "<group>"; };
 		C897404E2388692900A78AE0 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C8983D9A23984A4E0080D439 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
@@ -1252,6 +1253,7 @@
 		C829CEEC23B19464001B7225 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				C895D43E24905B98007868B8 /* __Snapshots__ */,
 				E5A77642237DC17D002F5515 /* FormSubmitTests.swift */,
 			);
 			path = Tests;

@@ -19,11 +19,16 @@ import SnapshotTesting
 import UIKit
 
 private let imageDiffPrecision: Float = 0.95
-private let imageSize = CGSize(width: 300, height: 649) // 80% of iPhone X size
+
+enum ImageSize {
+    case standard
+    case custom(CGSize)
+    case inferFromFrame
+}
 
 func assertSnapshotImage(
     _ value: UIView,
-    size: CGSize? = nil,
+    size: ImageSize = .standard,
     record: Bool = false,
     file: StaticString = #file,
     testName: String = #function,
@@ -33,7 +38,7 @@ func assertSnapshotImage(
 
     let strategy: Snapshotting<UIView, UIImage> = Snapshotting.image(
         precision: imageDiffPrecision,
-        size: size ?? imageSize
+        size: cgSize(size)
     )
 
     assertSnapshot(
@@ -48,7 +53,7 @@ func assertSnapshotImage(
 
 func assertSnapshotImage(
     _ value: UIViewController,
-    size: CGSize? = nil,
+    size: ImageSize = .standard,
     record: Bool = false,
     file: StaticString = #file,
     testName: String = #function,
@@ -58,7 +63,7 @@ func assertSnapshotImage(
 
     let strategy: Snapshotting<UIViewController, UIImage> = Snapshotting.image(
         precision: imageDiffPrecision,
-        size: size ?? imageSize
+        size: cgSize(size)
     )
 
     assertSnapshot(
@@ -69,4 +74,15 @@ func assertSnapshotImage(
         testName: testName,
         line: line
     )
+}
+
+private func cgSize(_ size: ImageSize) -> CGSize? {
+    switch size {
+    case .standard:
+        return CGSize(width: 300, height: 649) // 80% of iPhone X size
+    case .inferFromFrame:
+        return nil
+    case .custom(let size):
+        return size
+    }
 }

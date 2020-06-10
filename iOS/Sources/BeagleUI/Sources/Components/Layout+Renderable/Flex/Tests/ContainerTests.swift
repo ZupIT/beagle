@@ -80,6 +80,6 @@ final class ContainerTests: XCTestCase {
         )
 
         let screen = Beagle.screen(.declarative(container.toScreen()))
-        assertSnapshotImage(screen, size: ViewImageConfig.iPhoneXr.size!)
+        assertSnapshotImage(screen, size: .custom(ViewImageConfig.iPhoneXr.size!))
     }
 }

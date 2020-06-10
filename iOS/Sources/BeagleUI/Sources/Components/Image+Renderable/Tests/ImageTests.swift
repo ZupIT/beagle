@@ -51,6 +51,6 @@ class ImageTests: XCTestCase {
         let view = renderer.render(image)
 
         // Then
-        assertSnapshotImage(view, size: CGSize(width: 400, height: 400))
+        assertSnapshotImage(view, size: .custom(CGSize(width: 400, height: 400)))
     }
 }

@@ -47,7 +47,7 @@ final class ScreenComponentTests: XCTestCase {
         )
 
         let viewController = Beagle.screen(.declarative(component.toScreen()))
-        assertSnapshotImage(viewController, size: CGSize(width: 200, height: 150))
+        assertSnapshotImage(viewController, size: .custom(CGSize(width: 200, height: 150)))
     }
     
     func test_navigationBarButtonItemWithImage() {
@@ -67,7 +67,7 @@ final class ScreenComponentTests: XCTestCase {
         )
         
         let viewController = Beagle.screen(.declarative(component.toScreen()))
-        assertSnapshotImage(viewController, size: CGSize(width: 300, height: 200))
+        assertSnapshotImage(viewController, size: .custom(CGSize(width: 300, height: 200)))
     }
     
     func test_navigationBarButtonItemWithText() {
@@ -80,7 +80,7 @@ final class ScreenComponentTests: XCTestCase {
         )
         
         let viewController = Beagle.screen(.declarative(component.toScreen()))
-        assertSnapshotImage(viewController, size: CGSize(width: 300, height: 200))
+        assertSnapshotImage(viewController, size: .custom(CGSize(width: 300, height: 200)))
     }
     
     func test_action_shouldBeTriggered() {

@@ -30,5 +30,17 @@ final class FormSubmitTests: XCTestCase {
         // Then
         XCTAssertTrue(view.subviews.first?.beagleFormElement is FormSubmit)
     }
-    
+
+    func testRenderView() {
+        // Given
+        let formSubmit = FormSubmit(child: Button(text: "Button"))
+
+        // When
+        let view = renderer.render(formSubmit)
+        view.frame = CGRect(origin: .zero, size: CGSize(width: 100, height: 100))
+        view.flex.applyLayout()
+
+        // Then
+        assertSnapshotImage(view, size: .inferFromFrame)
+    }
 }

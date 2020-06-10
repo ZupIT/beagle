@@ -21,7 +21,7 @@ import Schema
 
 final class ListViewTests: XCTestCase {
 
-    private let imageSize = CGSize(width: 300, height: 300)
+    private let imageSize = ImageSize.custom(CGSize(width: 300, height: 300))
 
     // MARK: - 3 Rows
 

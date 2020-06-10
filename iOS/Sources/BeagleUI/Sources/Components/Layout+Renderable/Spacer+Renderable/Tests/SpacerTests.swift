@@ -30,7 +30,7 @@ final class SpacerTests: XCTestCase {
         view.backgroundColor = .blue
         
         // Then
-        assertSnapshotImage(view, size: CGSize(width: 100, height: 100))
+        assertSnapshotImage(view, size: .custom(CGSize(width: 100, height: 100)))
     }
     
     func test_screenWithSpacedButtons() throws {

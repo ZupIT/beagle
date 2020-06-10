@@ -49,7 +49,7 @@ final class LazyComponentTests: XCTestCase {
     
     func test_loadUnknowComponent_shouldRenderTheError() {
         let lazyComponent = LazyComponent(path: "unknow-widget", initialState: Text("Loading..."))
-        let size = CGSize(width: 300, height: 75)
+        let size = ImageSize.custom(CGSize(width: 300, height: 75))
         let repository = LazyRepositoryStub()
         let dependecies = BeagleDependencies()
         dependecies.repository = repository

@@ -26,7 +26,7 @@ final class TouchableTests: XCTestCase {
         let renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: BeagleDependencies())
         let view = renderer.render(touchable)
 
-        assertSnapshotImage(view, size: CGSize(width: 100, height: 80))
+        assertSnapshotImage(view, size: .custom(CGSize(width: 100, height: 80)))
     }
     
     func testIfAnalyticsClickAndActionShouldBeTriggered() {

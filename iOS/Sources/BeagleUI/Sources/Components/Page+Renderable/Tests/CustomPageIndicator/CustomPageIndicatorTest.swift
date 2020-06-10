@@ -49,7 +49,7 @@ class CustomPageIndicatorTest: XCTestCase {
 
     func test_indicator_render() {
         let view = renderer.render(indicator)
-        assertSnapshotImage(view, size: .init(width: 200, height: 30))
+        assertSnapshotImage(view, size: .custom(.init(width: 200, height: 30)))
     }
 
     func test_pageViewWithCustomIndicator_render() {

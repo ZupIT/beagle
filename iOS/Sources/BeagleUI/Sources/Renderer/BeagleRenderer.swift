@@ -58,6 +58,8 @@ open class BeagleRenderer {
     }
 
     private func setupView(_ view: UIView, of component: Schema.ServerDrivenComponent) {
+        view.flex.isEnabled = true
+
         // this switch could actually be inside the ViewConfigurator
         if let widget = component as? Widget {
             view.beagle.setup(widget)

@@ -23,8 +23,6 @@ extension NetworkImage: Widget {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.contentMode = (contentMode ?? .fitCenter).toUIKit()
-
-        imageView.beagle.setup(self)
         
         renderer.dependencies.repository.fetchImage(url: path, additionalData: nil) {
             [weak imageView, weak renderer] result in
@@ -37,7 +35,7 @@ extension NetworkImage: Widget {
                 renderer?.context.applyLayout()
             }
         }
-                
+
         return imageView
     }
 }

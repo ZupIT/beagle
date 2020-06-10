@@ -91,7 +91,7 @@ class TextTests: XCTestCase {
         )
 
         let view = renderer.render(text)
-        assertSnapshotImage(view, size: CGSize(width: 300, height: 150))
+        assertSnapshotImage(view, size: .custom(CGSize(width: 300, height: 150)))
     }
 
 }
