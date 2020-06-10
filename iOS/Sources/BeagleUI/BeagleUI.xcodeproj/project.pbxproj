@@ -989,10 +989,10 @@
 				A0EF0AA32386B7A20019BE83 /* ActionExecutor.swift */,
 				A0EF0AA923880D5A0019BE83 /* CustomAction.swift */,
 				A0EF0AAB238811AA0019BE83 /* CustomActionHandler.swift */,
+				93D8DC0E248980160070CB41 /* SetContext.swift */,
 				A0EF0AA72388030A0019BE83 /* ShowNativeDialog.swift */,
 				E5223779237C3C5500E555BB /* Touchable.swift */,
 				C829CEAA23B15F12001B7225 /* Tests */,
-				93D8DC0E248980160070CB41 /* SetContext.swift */,
 			);
 			path = Action;
 			sourceTree = "<group>";

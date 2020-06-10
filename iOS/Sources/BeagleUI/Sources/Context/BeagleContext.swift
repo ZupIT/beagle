@@ -122,4 +122,8 @@ extension BeagleScreenViewController: ActionManagerDelegate {
     public func doAction(_ action: Action, sender: Any) {
         dependencies.actionExecutor.doAction(action, sender: sender, context: self)
     }
+    
+    func execute(actions: [Action]?, with context: Context?, sender: Any, controller: BeagleContext) {
+        dependencies.actionExecutor.execute(actions: actions, with: context, sender: sender, controller: controller)
+    }
 }

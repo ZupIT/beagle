@@ -41,17 +41,25 @@ let declarativeScreen: Screen = {
         child: Container(
             children:
             [
-                Text(.expression(Expression(rawValue: "${myContext.c.test2}")!)),
+                TextInput(
+                    label: "value",
+                    onChange: [
+                        SetContext(
+                            context: "myContext",
+                            value: .expression(Expression(rawValue: "${onChange.value}")!)
+                        )
+                    ]
+                ),
+                Text(.expression(Expression(rawValue: "${myContext}")!)),
                 Button(
                     text: "ok",
                     action: SetContext(
                         context: "myContext",
-                        path: "c.test2",
-                        value: "2"
+                        value: .value(AnyDecodable("2"))
                     )
                 )
             ],
-            context: Context(id: "myContext", value: ["b": ["test": "1"]])
+            context: Context(id: "myContext", value: "")
         )
     )
 }()
@@ -74,16 +82,23 @@ struct ComponentInteractionText: DeeplinkScreen {
                     "_beagleComponent_": "beagle:container",
                     "context": {
                       "id": "myContext",
-                      "value": {
-                        "b": {
-                          "test": "1"
-                        }
-                      }
+                      "value": ""
                     },
                     "children": [
+                    {
+                      "_beagleComponent_": "custom:textinput",
+                      "label": "label",
+                        "onChange": [
+                        {
+                          "_beagleAction_": "beagle:setcontext",
+                          "context": "myContext",
+                          "value": "${onChange.value}"
+                        }
+                        ]
+                    },
                       {
                         "_beagleComponent_": "beagle:text",
-                        "text": "${myContext.c.test2}"
+                        "text": "${myContext}"
                       },
                       {
                         "_beagleComponent_": "beagle:button",
@@ -91,7 +106,6 @@ struct ComponentInteractionText: DeeplinkScreen {
                         "action": {
                           "_beagleAction_": "beagle:setcontext",
                           "context": "myContext",
-                          "path": "c.test2",
                           "value": "2"
                         }
                       }
@@ -103,3 +117,105 @@ struct ComponentInteractionText: DeeplinkScreen {
     }
 }
 
+protocol Inputtable {
+    var onChange: [Action]? { get }
+    var onFocus: [Action]? { get }
+    var onBlur: [Action]? { get }
+}
+
+struct TextInput: Widget, Inputtable, AutoInitiable {
+    var widgetProperties: WidgetProperties
+    var label: String?
+    
+    var onChange: [Action]?
+    var onFocus: [Action]?
+    var onBlur: [Action]?
+    
+    func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+        let view = TextInputView(widget: self, controller: context)
+        view.placeholder = label
+        view.beagle.setup(self)
+        return view
+    }
+
+// sourcery:inline:auto:TextInput.Init
+    internal init(
+        widgetProperties: WidgetProperties = WidgetProperties(),
+        label: String? = nil,
+        onChange: [Action]? = nil,
+        onFocus: [Action]? = nil,
+        onBlur: [Action]? = nil
+    ) {
+        self.widgetProperties = widgetProperties
+        self.label = label
+        self.onChange = onChange
+        self.onFocus = onFocus
+        self.onBlur = onBlur
+    }
+// sourcery:end
+}
+
+class TextInputView: UITextField, UITextFieldDelegate {
+    var widget: TextInput
+    weak var controller: BeagleContext?
+    
+    init(widget: TextInput, controller: BeagleContext) {
+        self.widget = widget
+        self.controller = controller
+        super.init(frame: .zero)
+        self.delegate = self
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        guard let controller = controller else { return }
+        let context = Context(id: "onFocus", value: ["value": textField.text])
+        controller.actionManager.execute(actions: widget.onFocus, with: context, sender: self, controller: controller)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let controller = controller else { return }
+        let context = Context(id: "onBlur", value: ["value": textField.text])
+        controller.actionManager.execute(actions: widget.onBlur, with: context, sender: self, controller: controller)
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
+    {
+        guard let controller = controller else { return true }
+        
+        var updatedText: String? = nil
+        if let text = textField.text,
+           let textRange = Range(range, in: text) {
+           updatedText = text.replacingCharacters(in: textRange,
+                                                       with: string)
+        }
+        
+        let context = Context(id: "onChange", value: ["value": updatedText])
+        controller.actionManager.execute(actions: widget.onChange, with: context, sender: self, controller: controller)
+        return true
+    }
+}
+
+// TODO: usar Sourcery
+extension TextInput {
+    enum CodingKeys: String, CodingKey {
+        case label
+        case onChange
+        case onFocus
+        case onBlur
+        case widgetProperties
+    }
+
+    internal init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        widgetProperties = try WidgetProperties(from: decoder)
+        label = try container.decodeIfPresent(String.self, forKey: .label)
+        onChange = try container.decode(forKey: .onChange)
+        onFocus = try container.decode(forKey: .onFocus)
+        onBlur = try container.decode(forKey: .onBlur)
+    }
+}

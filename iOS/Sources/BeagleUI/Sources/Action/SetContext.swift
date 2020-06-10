@@ -18,13 +18,13 @@
 public struct SetContext: Action, AutoInitiable {
     let context: String
     let path: String?
-    let value: Any
+    let value: ValueExpression<AnyDecodable>
 
 // sourcery:inline:auto:SetContext.Init
     public init(
         context: String,
         path: String? = nil,
-        value: Any
+        value: ValueExpression<AnyDecodable>
     ) {
         self.context = context
         self.path = path
@@ -45,6 +45,6 @@ extension SetContext: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         context = try container.decode(String.self, forKey: .context)
         path = try container.decodeIfPresent(String.self, forKey: .path)
-        value = try container.decode(AnyDecodable.self, forKey: .value).value
+        value = try container.decode(ValueExpression<AnyDecodable>.self, forKey: .value)
     }
 }

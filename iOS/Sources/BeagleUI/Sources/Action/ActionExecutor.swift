@@ -18,6 +18,7 @@ import UIKit
 
 public protocol ActionExecutor {
     func doAction(_ action: Action, sender: Any, context: BeagleContext)
+    func execute(actions: [Action]?, with context: Context?, sender: Any, controller: BeagleContext)
 }
 
 public protocol DependencyActionExecutor {
@@ -47,18 +48,38 @@ final class ActionExecuting: ActionExecutor {
             customAction(custom, context: context)
         } else if let setContext = action as? SetContext {
             handleSetContext(setContext, sender: sender, context: context)
+        } else if let setContext = action as? SetContext {
+            handleSetContext(setContext, sender: sender, context: context)
         }
     }
     
     private func handleSetContext(_ action: SetContext, sender: Any, context: BeagleContext) {
         guard let view = sender as? UIView else { return }
         let context = view.findContext(by: action.context)
+        var value: Any // TODO: reuse this
+        switch action.value {
+        case let .expression(expression):
+            value = view.evaluate(for: expression)
+        case let .value(container):
+            value = container.value
+        }
         
         if let path = action.path, var dict = context?.value.value as? [String: Any] {
-            dict.setValue(value: action.value, forKeyPath: path)
+            dict.setValue(value: value, forKeyPath: path)
             context?.value = Context(id: context?.value.id ?? "", value: dict)
         } else {
-            context?.value = Context(id: context?.value.id ?? "", value: action.value)
+            context?.value = Context(id: context?.value.id ?? "", value: value)
+        }
+    }
+    
+    // TODO: utilizar um execute default ou transformar esse comportamento em action
+    func execute(actions: [Action]?, with context: Context? = nil, sender: Any, controller: BeagleContext) {
+        guard let view = sender as? UIView, let actions = actions else { return }
+        if let context = context {
+            view.contextMap = [context.id: Observable<Context>(value: context)]
+        }
+        actions.forEach {
+            doAction($0, sender: sender, context: controller)
         }
     }
     

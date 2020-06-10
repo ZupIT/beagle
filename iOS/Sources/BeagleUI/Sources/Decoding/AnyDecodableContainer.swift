@@ -78,6 +78,23 @@ extension KeyedDecodingContainer {
             ($0.content as? ServerDrivenComponent) ?? UnknownComponent(type: String(describing: $0.content))
         }
     }
+    
+    public func decode(forKey key: KeyedDecodingContainer<K>.Key) throws -> [Action] {
+        let content = try decode([AnyDecodableContainer].self, forKey: key)
+        return content.map {
+            ($0.content as? Action) ?? UnknownAction(type: String(describing: $0.content))
+        }
+    }
+    
+    public func decode(forKey key: KeyedDecodingContainer<K>.Key) throws -> [Action]? {
+        let content = try decodeIfPresent([AnyDecodableContainer].self, forKey: key)
+        if let actions = content {
+            return actions.map {
+                ($0.content as? Action) ?? UnknownAction(type: String(describing: $0.content))
+            }
+        }
+        return nil
+    }
 }
 
 struct UnknownComponent: ServerDrivenComponent {

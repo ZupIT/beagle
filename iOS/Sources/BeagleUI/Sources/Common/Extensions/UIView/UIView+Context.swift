@@ -77,6 +77,14 @@ extension UIView {
         context.addObserver(contextObserver)
         closure(context.value)
     }
+    
+    func evaluate(for expression: Expression) -> Any {
+        guard let contextMap = self.contextMap, let context = contextMap[expression.context()] else {
+            return ()
+        }
+        let newExp = Expression(nodes: .init(expression.nodes.dropFirst()))
+        return newExp.evaluate(model: context.value.value) ?? ()
+    }
 }
 
 private extension Dictionary where Key == String, Value == Observable<Context> {
