@@ -2,8 +2,16 @@
   ▿ action: FormRemoteAction
     - method: Method.post
     - path: "/sample/form"
+  ▿ additionalData: Optional<Dictionary<String, String>>
+    ▿ some: 2 key/value pairs
+      ▿ (2 elements)
+        - key: "age"
+        - value: "21"
+      ▿ (2 elements)
+        - key: "id"
+        - value: "11111"
   ▿ child: Container
-    ▿ children: 5 elements
+    ▿ children: 4 elements
       ▿ FormInput
         ▿ child: Text
           - alignment: Optional<Alignment>.none
@@ -19,9 +27,6 @@
         - name: "optional-field"
         - required: Optional<Bool>.none
         - validator: Optional<String>.none
-      ▿ FormInputHidden
-        - name: "id"
-        - value: "123"
       ▿ FormInput
         ▿ child: UnknownComponent
           - type: "custom:unknown"
@@ -42,7 +47,6 @@
               - alignItems: Optional<AlignItems>.none
               - alignSelf: Optional<AlignSelf>.none
               - basis: Optional<UnitValue>.none
-              - direction: Optional<Direction>.none
               - display: Optional<Display>.none
               - flex: Optional<Double>.none
               - flexDirection: Optional<FlexDirection>.none
@@ -73,7 +77,6 @@
                 - alignItems: Optional<AlignItems>.none
                 - alignSelf: Optional<AlignSelf>.none
                 - basis: Optional<UnitValue>.none
-                - direction: Optional<Direction>.none
                 - display: Optional<Display>.none
                 - flex: Optional<Double>.none
                 - flexDirection: Optional<FlexDirection>.none
@@ -87,11 +90,9 @@
                         - type: UnitType.real
                         - value: 10.0
                     - bottom: Optional<UnitValue>.none
-                    - end: Optional<UnitValue>.none
                     - horizontal: Optional<UnitValue>.none
                     - left: Optional<UnitValue>.none
                     - right: Optional<UnitValue>.none
-                    - start: Optional<UnitValue>.none
                     - top: Optional<UnitValue>.none
                     - vertical: Optional<UnitValue>.none
                 - padding: Optional<EdgeValue>.none
@@ -115,7 +116,6 @@
           - alignItems: Optional<AlignItems>.none
           - alignSelf: Optional<AlignSelf>.none
           - basis: Optional<UnitValue>.none
-          - direction: Optional<Direction>.none
           - display: Optional<Display>.none
           - flex: Optional<Double>.none
           - flexDirection: Optional<FlexDirection>.none
@@ -131,11 +131,9 @@
                   - type: UnitType.real
                   - value: 10.0
               - bottom: Optional<UnitValue>.none
-              - end: Optional<UnitValue>.none
               - horizontal: Optional<UnitValue>.none
               - left: Optional<UnitValue>.none
               - right: Optional<UnitValue>.none
-              - start: Optional<UnitValue>.none
               - top: Optional<UnitValue>.none
               - vertical: Optional<UnitValue>.none
           - position: Optional<EdgeValue>.none
@@ -143,3 +141,6 @@
           - shrink: Optional<Double>.none
           - size: Optional<Size>.none
       - id: Optional<String>.none
+  ▿ group: Optional<String>
+    - some: "group"
+  - shouldStoreFields: true

@@ -71,9 +71,6 @@
         - key: "beagle:forminput"
         - value: FormInput
       ▿ (2 elements)
-        - key: "beagle:forminputhidden"
-        - value: FormInputHidden
-      ▿ (2 elements)
         - key: "beagle:formsubmit"
         - value: FormSubmit
       ▿ (2 elements)
@@ -120,6 +117,8 @@
       - userInfo: 0 key/value pairs
   - deepLinkHandler: Optional<DeepLinkScreenManaging>.none
   - flex: (Function)
+  ▿ formDataStoreHandler: FormDataStoreHandler
+    - dataStore: 0 key/value pairs
   - logger: BeagleLogger
   ▿ navigation: BeagleNavigator
     ▿ dependencies: InnerDependenciesResolver

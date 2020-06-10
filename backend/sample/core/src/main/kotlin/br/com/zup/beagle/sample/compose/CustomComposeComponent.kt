@@ -17,6 +17,7 @@
 package br.com.zup.beagle.sample.compose
 
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
 import br.com.zup.beagle.widget.Widget

@@ -23,7 +23,7 @@ import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.sample.utils.MaskApplier
-import br.com.zup.beagle.widget.form.InputWidget
+import br.com.zup.beagle.android.widget.form.InputWidget
 
 enum class TextFieldInputType {
     NUMBER,

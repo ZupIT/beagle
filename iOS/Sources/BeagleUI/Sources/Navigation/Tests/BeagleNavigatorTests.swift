@@ -305,15 +305,41 @@ class DeepLinkHandlerSpy: DeepLinkScreenManaging {
     }
 }
 
+class FormManagerDummy: FormManaging {
+    func register(form: Form, formView: UIView, submitView: UIView, validatorHandler: ValidatorProvider?) { }
+}
+
+class LazyLoadManagerDummy: LazyLoadManaging {
+    func lazyLoad(url: String, initialState: UIView) {}
+}
+
+class ActionManagerDummy: ActionManaging {
+    func register(events: [Event], inView view: UIView) {}
+    func doAction(_ action: Action, sender: Any) {}
+    func doAnalyticsAction(_ action: AnalyticsClick, sender: Any) {}
+}
+
 class BeagleContextDummy: BeagleContext {
+    var formManager: FormManaging
+    
+    var lazyLoadManager: LazyLoadManaging
+    
+    var actionManager: ActionManaging
+    
     let viewController: BeagleScreenViewController
     
     init() {
-        self.viewController = BeagleScreenViewController(component: ComponentDummy())
+        self.viewController = BeagleScreenViewControllerDummy(viewModel: .init(screenType: .declarative(ComponentDummy().toScreen())))
+        self.formManager = FormManagerDummy()
+        self.lazyLoadManager = LazyLoadManagerDummy()
+        self.actionManager = ActionManagerDummy()
     }
     
     init(viewController: BeagleScreenViewController) {
         self.viewController = viewController
+        self.formManager = FormManagerDummy()
+        self.lazyLoadManager = LazyLoadManagerDummy()
+        self.actionManager = ActionManagerDummy()
     }
     
     var screenController: BeagleScreenViewController { return viewController }

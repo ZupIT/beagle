@@ -154,14 +154,14 @@ final class BeagleScreenViewControllerTests: XCTestCase {
     
     func postKeyboardNotification() {
         let notification = Notification(
-            name: NSNotification.Name.UIKeyboardWillChangeFrame,
+            name: UIResponder.keyboardWillChangeFrameNotification,
             object: nil,
             userInfo: [
-                UIKeyboardAnimationDurationUserInfoKey: 0,
-                UIKeyboardIsLocalUserInfoKey: 1,
-                UIKeyboardAnimationCurveUserInfoKey: 7,
-                UIKeyboardFrameBeginUserInfoKey: CGRect(x: 0, y: 896, width: 414, height: 346),
-                UIKeyboardFrameEndUserInfoKey: CGRect(x: 0, y: 550, width: 414, height: 346)
+                UIResponder.keyboardAnimationDurationUserInfoKey: 0,
+                UIResponder.keyboardIsLocalUserInfoKey: 1,
+                UIResponder.keyboardAnimationCurveUserInfoKey: 7,
+                UIResponder.keyboardFrameBeginUserInfoKey: CGRect(x: 0, y: 896, width: 414, height: 346),
+                UIResponder.keyboardFrameEndUserInfoKey: CGRect(x: 0, y: 550, width: 414, height: 346)
             ]
         )
         NotificationCenter.default.post(notification)
