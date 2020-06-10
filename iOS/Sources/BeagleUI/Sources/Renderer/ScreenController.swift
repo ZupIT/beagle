@@ -24,6 +24,7 @@ final class ScreenController: UIViewController {
     
     let dependencies: BeagleScreenViewModel.Dependencies
     var layoutManager: LayoutManager?
+    private lazy var renderer = dependencies.renderer(context, dependencies)
     
     init(
         screen: Screen,
@@ -46,7 +47,6 @@ final class ScreenController: UIViewController {
     // MARK: - Lifecycle
     
     public override func loadView() {
-        let renderer = dependencies.renderer(context, dependencies)
         view = screen.toView(renderer: renderer)
     }
     
