@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.processor
 
-import android.content.Context
 import br.com.zup.beagle.android.Action
 import br.com.zup.beagle.core.Bind
+import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BindingAdapter
 import io.mockk.MockKAnnotations
@@ -40,7 +40,7 @@ class ActionBindingTest {
 
     val bindText: Bind<String> = Bind.Value(stringValue)
     val bindInt: Bind<Int> = Bind.Value(intValue)
-    val context: Context = mockk(relaxed = true)
+    val rootView: RootView = mockk(relaxed = true)
 
 
     @Before
@@ -70,7 +70,7 @@ class ActionBindingTest {
     fun widget_should_call_on_bind_at_least_once() {
         mockkConstructor(MyAction::class)
         //when
-        val action = widgetBinding.handle(context)
+        widgetBinding.handle(rootView)
 
         //then
         verify(exactly = once()) { anyConstructed<MyAction>().handle(any()) }

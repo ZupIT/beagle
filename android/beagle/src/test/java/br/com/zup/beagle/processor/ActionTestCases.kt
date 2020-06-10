@@ -16,16 +16,16 @@
 
 package br.com.zup.beagle.processor
 
-import android.content.Context
 import br.com.zup.beagle.android.Action
 import br.com.zup.beagle.annotation.RegisterAction
+import br.com.zup.beagle.engine.renderer.RootView
 
 @RegisterAction
 data class MyAction(
     val value: String,
     val intValue: Int
 ) : Action {
-    override fun handle(context: Context) {
+    override fun handle(rootView: RootView) {
 
     }
 }

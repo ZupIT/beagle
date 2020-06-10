@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.compiler
 
-import br.com.zup.beagle.compiler.util.ANDROID_CONTEXT
 import br.com.zup.beagle.compiler.util.BIND
+import br.com.zup.beagle.compiler.util.ROOT_VIEW
 import br.com.zup.beagle.core.BindAttribute
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
@@ -31,7 +31,7 @@ import javax.lang.model.type.TypeMirror
 import kotlin.reflect.KClass
 
 private const val HANDLE_METHOD = "handle"
-private const val CONTEXT_PROPERTY = "context"
+private const val ROOT_VIEW_PROPERTY = "rootView"
 
 class BeagleActionBindingGenerator(private val processingEnv: ProcessingEnvironment) : BeagleBindingHandler(
     processingEnv,
@@ -68,8 +68,8 @@ class BeagleActionBindingGenerator(private val processingEnv: ProcessingEnvironm
 
         return FunSpec.builder(HANDLE_METHOD)
             .addModifiers(KModifier.OVERRIDE)
-            .addParameter(CONTEXT_PROPERTY, ClassName(ANDROID_CONTEXT.packageName, ANDROID_CONTEXT.className))
-            .addStatement("${element.simpleName}(${attributeValues}).${HANDLE_METHOD}(${CONTEXT_PROPERTY})"
+            .addParameter(ROOT_VIEW_PROPERTY, ClassName(ROOT_VIEW.packageName, ROOT_VIEW.className))
+            .addStatement("${element.simpleName}(${attributeValues}).${HANDLE_METHOD}(${ROOT_VIEW_PROPERTY})"
                 .trimMargin())
             .build()
     }
