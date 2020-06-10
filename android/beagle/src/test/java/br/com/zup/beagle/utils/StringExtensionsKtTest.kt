@@ -17,6 +17,7 @@
 package br.com.zup.beagle.utils
 
 import android.graphics.Color
+import br.com.zup.beagle.android.utils.toAndroidColor
 import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.slot
