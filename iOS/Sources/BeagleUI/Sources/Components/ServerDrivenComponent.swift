@@ -37,7 +37,7 @@ public protocol RenderableDependencies: DependencyTheme,
     DependencyPreFetching,
     DependencyAppBundle,
     DependencyRepository,
-    DependencyLogger {
+    DependencyLoggerProxy {
 }
 
 extension ServerDrivenComponent {

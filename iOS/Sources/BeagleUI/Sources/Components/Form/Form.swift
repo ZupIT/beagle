@@ -60,7 +60,7 @@ extension Form: Renderable {
         
         registerFormSubmit(view: childView)
         if !hasFormSubmit {
-            dependencies.logger.log(Log.form(.submitNotFound(form: self)))
+            dependencies.logProxy.log(Log.form(.submitNotFound(form: self)))
         }
         return childView
     }    

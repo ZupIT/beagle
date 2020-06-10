@@ -29,7 +29,7 @@ public protocol URLOpener {
 public final class URLOpenerDefault: URLOpener {
 
     public typealias Dependencies =
-        DependencyLogger
+        DependencyLoggerProxy
 
     let dependencies: Dependencies
 
@@ -44,12 +44,12 @@ public final class URLOpenerDefault: URLOpener {
     public func tryToOpen(path: String) {
 
         guard let pathURL = URL(string: path) else {
-            dependencies.logger.log(Log.navigation(.invalidExternalUrl(path: path)))
+            dependencies.logProxy.log(Log.navigation(.invalidExternalUrl(path: path)))
             return
         }
 
         guard UIApplication.shared.canOpenURL(pathURL) else {
-            dependencies.logger.log(Log.navigation(.unableToOpenExternalUrl(path: path)))
+            dependencies.logProxy.log(Log.navigation(.unableToOpenExternalUrl(path: path)))
             return
         }
 
@@ -57,7 +57,7 @@ public final class URLOpenerDefault: URLOpener {
             guard let self = self else { return }
             let navigationEvent: Log.Navigator = success ?
                 .didNavigateToExternalUrl(path: path) : .unableToOpenExternalUrl(path: path)
-            self.dependencies.logger.log(Log.navigation(navigationEvent))
+            self.dependencies.logProxy.log(Log.navigation(navigationEvent))
         }
     }
 }

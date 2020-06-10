@@ -31,8 +31,9 @@ public protocol BeagleDependenciesProtocol: DependencyActionExecutor,
     DependencyCacheManager,
     DependencyWindowManager,
     DependencyFormDataStoreHandler,
-    DependencyURLOpener {
-    
+    DependencyURLOpener,
+    DependencyLogger,
+    DependencyLoggingCondition {
 }
 
 open class BeagleDependencies: BeagleDependenciesProtocol {
@@ -56,6 +57,8 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var logger: BeagleLoggerType
     public var windowManager: WindowManager
     public var opener: URLOpener
+    public var logProxy: LoggerProxying
+    public var shouldLogEvents: Bool
 
     public var flex: (UIView) -> FlexViewConfiguratorProtocol = {
         return FlexViewConfigurator(view: $0)
@@ -78,6 +81,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.appBundle = Bundle.main
         self.theme = AppTheme(styles: [:])
         self.navigationControllerType = BeagleNavigationController.self
+        self.shouldLogEvents = true
 
         self.networkClient = NetworkClientDefault(dependencies: resolver)
         self.navigation = BeagleNavigator(dependencies: resolver)
@@ -88,6 +92,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.formDataStoreHandler = FormDataStoreHandler()
         self.windowManager = WindowManagerDefault()
         self.opener = URLOpenerDefault(dependencies: resolver)
+        self.logProxy = BeagleLoggerProxy(dependencie: resolver)
 
         self.resolver.container = { [unowned self] in self }
     }
@@ -103,8 +108,10 @@ private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     DependencyDeepLinkScreenManaging,
     DependencyRepository,
     DependencyWindowManager,
-    DependencyURLOpener {
-
+    DependencyURLOpener,
+    DependencyLogger,
+    DependencyLoggingCondition {
+    
     var container: () -> BeagleDependenciesProtocol = {
         fatalError("You should set this closure to get the dependencies container")
     }
@@ -121,4 +128,6 @@ private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     var repository: Repository { return container().repository }
     var windowManager: WindowManager { return container().windowManager }
     var opener: URLOpener { return container().opener }
+    var shouldLogEvents: Bool { return container().shouldLogEvents }
+    var logProxy: LoggerProxying { return container().logProxy }
 }

@@ -30,7 +30,7 @@ public class BeagleLogger: BeagleLoggerType {
     public func log(_ log: LogType) {
         os_log("\nBeagleSDK: %@", log: osLog(for: log), type: toOsLog(log.level), log.message)
     }
-
+    
     // MARK: Private
 
     private static var subsystem = Bundle.main.bundleIdentifier ?? "BeagleSDK"

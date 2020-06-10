@@ -34,7 +34,7 @@ class FormManager: FormManaging {
         DependencyActionExecutor
         & DependencyRepository
         & DependencyFormDataStoreHandler
-        & DependencyLogger
+        & DependencyLoggerProxy
     
     var dependencies: Dependencies
         
@@ -84,7 +84,7 @@ class FormManager: FormManaging {
 
         let inputViews = sender.formInputViews()
         if inputViews.isEmpty {
-            dependencies.logger.log(Log.form(.inputsNotFound(form: sender.form)))
+            dependencies.logProxy.log(Log.form(.inputsNotFound(form: sender.form)))
         }
         var values = inputViews.reduce(into: [:]) {
             self.validate(
@@ -95,7 +95,7 @@ class FormManager: FormManaging {
             )
         }
         guard inputViews.count == values.count else {
-            dependencies.logger.log(Log.form(.divergentInputViewAndValueCount(form: sender.form)))
+            dependencies.logProxy.log(Log.form(.divergentInputViewAndValueCount(form: sender.form)))
             return
         }
         
@@ -110,7 +110,7 @@ class FormManager: FormManaging {
     private func merge(values: inout [String: String], with additionalData: [String: String]?) {
         if let additionalData = additionalData {
             values.merge(additionalData) { _, new in
-                dependencies.logger.log(Log.form(.keyDuplication(data: additionalData)))
+                dependencies.logProxy.log(Log.form(.keyDuplication(data: additionalData)))
                 return new
             }
         }
@@ -119,7 +119,7 @@ class FormManager: FormManaging {
     private func mergeWithStoredValues(values: inout [String: String], group: String?) {
         if let group = group, let storedValues = dependencies.formDataStoreHandler.read(group: group) {
             values.merge(storedValues) { current, _ in
-                dependencies.logger.log(Log.form(.keyDuplication(data: storedValues)))
+                dependencies.logProxy.log(Log.form(.keyDuplication(data: storedValues)))
                 return current
             }
         }
@@ -129,7 +129,7 @@ class FormManager: FormManaging {
         if let group = group {
             dependencies.formDataStoreHandler.save(data: values, group: group)
         } else {
-            dependencies.logger.log(Log.form(.unableToSaveData))
+            dependencies.logProxy.log(Log.form(.unableToSaveData))
         }
     }
 
@@ -159,7 +159,7 @@ class FormManager: FormManaging {
             self.delegate?.hideLoading()
             self.handleFormResult(result, sender: sender, group: group)
         }
-        dependencies.logger.log(Log.form(.submittedValues(values: inputs)))
+        dependencies.logProxy.log(Log.form(.submittedValues(values: inputs)))
     }
 
     private func validate(
@@ -192,7 +192,7 @@ class FormManager: FormManaging {
         if let errorListener = inputValue as? ValidationErrorListener {
             errorListener.onValidationError(message: formInput.errorMessage)
         }
-        dependencies.logger.log(Log.form(.validationInputNotValid(inputName: formInput.name)))
+        dependencies.logProxy.log(Log.form(.validationInputNotValid(inputName: formInput.name)))
     }
     
     private func getValidator(for formInput: FormInput, with handler: ValidatorProvider?) -> Validator? {
@@ -202,7 +202,7 @@ class FormManager: FormManaging {
             let validator = handler.getValidator(name: validatorName)
         else {
             if let validatorName = formInput.validator {
-                dependencies.logger.log(Log.form(.validatorNotFound(named: validatorName)))
+                dependencies.logProxy.log(Log.form(.validatorNotFound(named: validatorName)))
             }
             return nil
         }
