@@ -73,7 +73,7 @@ data class Flex(
     val size: Size? = null,
     val margin: EdgeValue? = null,
     val padding: EdgeValue? = null,
-    val position: EdgeValue? = null
+    val position: Position? = null
 )
 
 /**
@@ -132,6 +132,50 @@ data class Size(
  *               it’s closest sibling (item) or parent (container).
  */
 data class EdgeValue(
+    val left: UnitValue? = null,
+    val top: UnitValue? = null,
+    val right: UnitValue? = null,
+    val bottom: UnitValue? = null,
+    val start: UnitValue? = null,
+    val end: UnitValue? = null,
+    val horizontal: UnitValue? = null,
+    val vertical: UnitValue? = null,
+    val all: UnitValue? = null
+)
+
+/**
+ *
+ * specify the offset the edge of the item should have from it’s closest sibling (item) or parent (container)
+ *
+ * @param left
+ *              specify the offset the left edge of the item should have from
+ *              it’s closest sibling (item) or parent (container).
+ * @param top
+ *              specify the offset the top edge of the item should have from
+ *              it’s closest sibling (item) or parent (container).
+ * @param right
+ *              specify the offset the right edge of the item should have from
+ *              it’s closest sibling (item) or parent (container).
+ * @param bottom
+ *               specify the offset the bottom edge of the item should have from
+ *               it’s closest sibling (item) or parent (container).
+ * @param start
+ *               specify the offset the start edge of the item should have from
+ *               it’s closest sibling (item) or parent (container).
+ * @param end
+ *               specify the offset the end edge of the item should have from
+ *               it’s closest sibling (item) or parent (container).
+ * @param horizontal
+ *               specify the offset the horizontal edge of the item should have from
+ *               it’s closest sibling (item) or parent (container).
+ * @param vertical
+ *               specify the offset the vertical edge of the item should have from
+ *               it’s closest sibling (item) or parent (container).
+ * @param all
+ *               specify the offset the all edge of the item should have from
+ *               it’s closest sibling (item) or parent (container).
+ */
+data class Position(
     val left: UnitValue? = null,
     val top: UnitValue? = null,
     val right: UnitValue? = null,
