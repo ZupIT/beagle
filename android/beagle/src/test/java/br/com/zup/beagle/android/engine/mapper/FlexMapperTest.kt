@@ -28,6 +28,7 @@ import br.com.zup.beagle.widget.core.FlexDisplay
 import br.com.zup.beagle.widget.core.FlexPositionType
 import br.com.zup.beagle.widget.core.FlexWrap
 import br.com.zup.beagle.widget.core.JustifyContent
+import br.com.zup.beagle.widget.core.Position
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
@@ -663,7 +664,7 @@ class FlexMapperTest {
     fun makeYogaNode_should_set_position_as_TOP_and_1() {
         // Given
         val flex = Flex(
-            position = EdgeValue(top = UnitValue(ONE_UNIT_VALUE, UnitType.REAL))
+            position = Position(top = UnitValue(ONE_UNIT_VALUE, UnitType.REAL))
         )
 
         // When
@@ -677,7 +678,7 @@ class FlexMapperTest {
     fun makeYogaNode_should_set_positionPercent_as_TOP_and_1() {
         // Given
         val flex = Flex(
-            position = EdgeValue(top = UnitValue(ONE_UNIT_VALUE, UnitType.PERCENT))
+            position = Position(top = UnitValue(ONE_UNIT_VALUE, UnitType.PERCENT))
         )
 
         // When

@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.engine.mapper
 import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.Position
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
@@ -156,8 +157,8 @@ class FlexMapper {
         }
     }
 
-    private fun setPosition(position: EdgeValue?, yogaNode: YogaNode) {
-        applyEdgeValue(position) { yogaEdge, unitValue ->
+    private fun setPosition(position: Position?, yogaNode: YogaNode) {
+        applyPosition(position) { yogaEdge, unitValue ->
             if (unitValue.type == UnitType.REAL) {
                 yogaNode.setPosition(yogaEdge, unitValue.value.dp().toFloat())
             } else if (unitValue.type == UnitType.PERCENT) {
@@ -195,6 +196,39 @@ class FlexMapper {
             finish(YogaEdge.HORIZONTAL, it)
         }
         edgeValue?.all?.let {
+            finish(YogaEdge.ALL, it)
+        }
+    }
+
+    private fun applyPosition(
+        position: Position?,
+        finish: (yogaEdge: YogaEdge, unitValue: UnitValue) -> Unit
+    ) {
+        position?.top?.let {
+            finish(YogaEdge.TOP, it)
+        }
+        position?.left?.let {
+            finish(YogaEdge.LEFT, it)
+        }
+        position?.right?.let {
+            finish(YogaEdge.RIGHT, it)
+        }
+        position?.bottom?.let {
+            finish(YogaEdge.BOTTOM, it)
+        }
+        position?.start?.let {
+            finish(YogaEdge.START, it)
+        }
+        position?.end?.let {
+            finish(YogaEdge.END, it)
+        }
+        position?.vertical?.let {
+            finish(YogaEdge.VERTICAL, it)
+        }
+        position?.horizontal?.let {
+            finish(YogaEdge.HORIZONTAL, it)
+        }
+        position?.all?.let {
             finish(YogaEdge.ALL, it)
         }
     }
