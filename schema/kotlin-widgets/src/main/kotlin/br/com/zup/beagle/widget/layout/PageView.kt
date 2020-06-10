@@ -26,7 +26,7 @@ import br.com.zup.beagle.widget.pager.PageIndicatorComponent
  * @param pageIndicator defines in what page the PageView is currently on.
  *
  */
-data class PageView(
-    val pages: List<ServerDrivenComponent>,
-    val pageIndicator: PageIndicatorComponent? = null
+open class PageView(
+    open val pages: List<ServerDrivenComponent>,
+    open val pageIndicator: PageIndicatorComponent? = null
 ) : ServerDrivenComponent

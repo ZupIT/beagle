@@ -16,11 +16,11 @@
 
 package br.com.zup.beagle.android.widget.ui
 
-import android.content.Context
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.ui.UndefinedViewRenderer
+import br.com.zup.beagle.android.widget.core.RootView
 import br.com.zup.beagle.android.widget.form.InputWidget
 import br.com.zup.beagle.android.widget.pager.PageIndicatorComponent
 import br.com.zup.beagle.android.widget.pager.PageIndicatorOutput
@@ -37,7 +37,7 @@ internal class UndefinedWidget : InputWidget(), PageIndicatorComponent {
 
     override fun getValue(): Any = ""
 
-    override fun buildView(context: Context): View = UndefinedViewRenderer(this).build(
-        ActivityRootView(context as AppCompatActivity)
+    override fun buildView(rootView: RootView): View = UndefinedViewRenderer(this).build(
+        ActivityRootView(rootView.getContext() as AppCompatActivity)
     )
 }

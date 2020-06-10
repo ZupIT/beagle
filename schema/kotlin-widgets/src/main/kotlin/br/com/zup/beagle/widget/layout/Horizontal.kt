@@ -28,7 +28,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  *                   If you set this attribute to TRUE the display orientation will change from RIGHT to LEFT.
  *
  */
-data class Horizontal(
-    val children: List<ServerDrivenComponent>,
-    val reversed: Boolean? = null
+open class Horizontal(
+    open val children: List<ServerDrivenComponent>,
+    open val reversed: Boolean? = null
 ) : ServerDrivenComponent

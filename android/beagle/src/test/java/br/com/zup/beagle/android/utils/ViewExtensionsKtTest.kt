@@ -26,6 +26,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.components.utils.hideKeyboard
+import br.com.zup.beagle.android.components.utils.viewExtensionsViewFactory
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
 import br.com.zup.beagle.android.extensions.once

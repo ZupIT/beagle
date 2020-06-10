@@ -28,7 +28,7 @@ import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.widget.lazy.LazyComponent
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.ListDirection

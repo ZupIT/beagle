@@ -20,15 +20,16 @@ import android.content.Context
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import br.com.zup.beagle.android.components.layout.Screen
+import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
-import br.com.zup.beagle.android.engine.renderer.RootView
+import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.widget.core.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.layout.ScreenComponent
 
+internal var viewRenderer = ViewRendererFactory()
 internal var viewFactory = ViewFactory()
 
 fun ServerDrivenComponent.toView(context: Context) = this.toView(context as AppCompatActivity)
@@ -44,12 +45,19 @@ fun Screen.toView(fragment: Fragment) = this.toComponent().toView(fragment)
 
 internal fun Screen.toComponent() = ScreenComponent(
     identifier = this.identifier,
+    safeArea = this.safeArea,
     navigationBar = this.navigationBar,
     child = this.child,
-    screenAnalyticsEvent = screenAnalyticsEvent
-).applyStyle(style ?: Style())
+    style =this.style,
+    screenAnalyticsEvent = this.screenAnalyticsEvent
+)
 
-internal fun ServerDrivenComponent.toView(rootView: RootView): View =
-    viewFactory.makeBeagleFlexView(rootView.getContext()).apply {
-        addServerDrivenComponent(this@toView, rootView)
-    }
+internal fun ServerDrivenComponent.toView(rootView: RootView): View =  viewRenderer.make(this).build(rootView)
+internal fun br.com.zup.beagle.widget.layout.Screen.toAndroidScreen() = Screen(
+    identifier = this.identifier,
+    safeArea = this.safeArea,
+        navigationBar = this.navigationBar,
+    child = this.child,
+    style =this.style,
+    screenAnalyticsEvent = this.screenAnalyticsEvent
+)

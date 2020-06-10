@@ -30,7 +30,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  *                  If it is defined as "false" the button will start as "disabled"
  *
  */
-data class FormSubmit(
-    override val child: ServerDrivenComponent,
-    val enabled: Boolean = true
+open class FormSubmit(
+    open override val child: ServerDrivenComponent,
+    open val enabled: Boolean = true
 ) : ServerDrivenComponent, GhostComponent

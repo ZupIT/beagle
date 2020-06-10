@@ -25,7 +25,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * @param reversed will change the children display direction.
  *
  */
-data class Vertical(
-    val children: List<ServerDrivenComponent>,
-    val reversed: Boolean? = null
+open class Vertical(
+    open val children: List<ServerDrivenComponent>,
+    open val reversed: Boolean? = null
 ) : ServerDrivenComponent

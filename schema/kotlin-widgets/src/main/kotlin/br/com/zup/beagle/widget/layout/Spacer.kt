@@ -24,6 +24,6 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * @param size define size of view
  *
  */
-data class Spacer(
-    val size: Double
+open class Spacer(
+    open val size: Double
 ) : ServerDrivenComponent

@@ -27,7 +27,7 @@ import br.com.zup.beagle.widget.core.ImageContentMode
  *                  Beagle will turn the image into an object that can be displayed natively.
  * @param contentMode defines how the image fits the view it's in.
  */
-data class NetworkImage(
-    val path: String,
-    val contentMode: ImageContentMode? = null /* = ImageContentMode.FIT_CENTER */
+open class NetworkImage(
+    open val path: String,
+    open val contentMode: ImageContentMode? = null /* = ImageContentMode.FIT_CENTER */
 ) : Widget()

@@ -26,9 +26,9 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * @param styleId reference a native style in your local styles file to be applied on this view.
  *
  */
-data class TabView(
-    val tabItems: List<TabItem>,
-    val styleId: String? = null
+open class TabView(
+    open val tabItems: List<TabItem>,
+    open val styleId: String? = null
 ) : ServerDrivenComponent
 
 /**
@@ -43,8 +43,8 @@ data class TabView(
  *                  If it is left as null or not declared it won't display any icon.
  *
  */
-data class TabItem(
-    val title: String? = null,
-    val content: ServerDrivenComponent,
-    val icon: String? = null
+open class TabItem(
+    open val title: String? = null,
+    open val content: ServerDrivenComponent,
+    open val icon: String? = null
 )

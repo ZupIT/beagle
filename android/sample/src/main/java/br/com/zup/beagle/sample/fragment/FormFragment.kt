@@ -38,7 +38,7 @@ import br.com.zup.beagle.widget.form.FormSubmit
 import br.com.zup.beagle.widget.form.FormRemoteAction
 import br.com.zup.beagle.widget.form.FormMethodType
 import br.com.zup.beagle.widget.layout.Container
-import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.widget.ui.Button
 
 private const val FORM_GROUP = "FORM_GROUP"

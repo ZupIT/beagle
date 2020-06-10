@@ -20,11 +20,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
-
-internal interface RootView {
-    fun getContext(): Context
-    fun getLifecycleOwner(): LifecycleOwner
-}
+import br.com.zup.beagle.android.widget.core.RootView
 
 internal class FragmentRootView(
     val fragment: Fragment

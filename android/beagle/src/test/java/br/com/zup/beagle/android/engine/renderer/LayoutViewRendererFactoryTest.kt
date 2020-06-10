@@ -17,21 +17,11 @@
 package br.com.zup.beagle.android.engine.renderer
 
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.android.engine.renderer.layout.ContainerViewRenderer
 import br.com.zup.beagle.android.engine.renderer.layout.FormViewRenderer
-import br.com.zup.beagle.android.engine.renderer.layout.HorizontalViewRenderer
-import br.com.zup.beagle.android.engine.renderer.layout.LazyComponentViewRenderer
-import br.com.zup.beagle.android.engine.renderer.layout.ScreenViewRenderer
-import br.com.zup.beagle.android.engine.renderer.layout.ScrollViewRenderer
-import br.com.zup.beagle.android.engine.renderer.layout.SpacerViewRenderer
-import br.com.zup.beagle.android.engine.renderer.layout.StackViewRenderer
-import br.com.zup.beagle.android.engine.renderer.layout.TouchableViewRenderer
-import br.com.zup.beagle.android.engine.renderer.layout.VerticalViewRender
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.widget.form.Form
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Horizontal
-import br.com.zup.beagle.widget.layout.ScreenComponent
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.layout.Spacer
 import br.com.zup.beagle.widget.layout.Stack

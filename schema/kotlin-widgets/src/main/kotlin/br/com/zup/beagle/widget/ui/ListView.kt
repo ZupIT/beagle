@@ -17,7 +17,6 @@
 package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.ui.ListDirection.HORIZONTAL
 import br.com.zup.beagle.widget.ui.ListDirection.VERTICAL
 
@@ -50,9 +49,9 @@ enum class ListDirection {
  * @param direction define the list direction.
  *
  */
-data class ListView(
-    val rows: List<ServerDrivenComponent>,
-    val direction: ListDirection = VERTICAL
+open class ListView(
+    open val rows: List<ServerDrivenComponent>,
+    open val direction: ListDirection = VERTICAL
 ) : ServerDrivenComponent {
     companion object
 }

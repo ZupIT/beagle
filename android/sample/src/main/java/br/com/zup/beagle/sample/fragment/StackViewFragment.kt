@@ -28,6 +28,7 @@ import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.layout.Stack
+import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 
 class StackViewFragment : Fragment() {

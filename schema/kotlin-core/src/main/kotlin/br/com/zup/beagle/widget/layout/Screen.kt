@@ -20,9 +20,9 @@ import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.analytics.ScreenAnalytics
 import br.com.zup.beagle.analytics.ScreenEvent
 import br.com.zup.beagle.core.Accessibility
-import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.Style
 
 /**
  * The SafeArea will enable Safe areas to help you place your views within the visible portion of the overall interface.
@@ -111,11 +111,11 @@ data class NavigationBar(
  * @param screenAnalyticsEvent send event when screen appear/disappear
  *
  */
-data class Screen(
-    val identifier: String? = null,
-    val safeArea: SafeArea? = null,
-    val navigationBar: NavigationBar? = null,
-    val child: ServerDrivenComponent,
-    val style: Style? = null,
+open class Screen(
+    open val identifier: String? = null,
+    open val safeArea: SafeArea? = null,
+    open val navigationBar: NavigationBar? = null,
+    open val child: ServerDrivenComponent,
+    open val style: Style? = null,
     override val screenAnalyticsEvent: ScreenEvent? = null
 ) : ScreenAnalytics

@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.data.serializer.adapter
 
 import br.com.zup.beagle.action.Route
-import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.android.components.layout.Screen
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.JsonReader
@@ -59,11 +59,11 @@ internal class RouteAdapter(private val moshi: Moshi) : JsonAdapter<Route>() {
                 writer.name("shouldPrefetch")
                 moshi.adapter(Boolean::class.java).toJson(writer, value.shouldPrefetch)
                 writer.name("fallback")
-                moshi.adapter(Screen::class.java).toJson(writer, value.fallback)
+                moshi.adapter(br.com.zup.beagle.widget.layout.Screen::class.java).toJson(writer, value.fallback)
             }
             is Route.Local -> {
                 writer.name("screen")
-                moshi.adapter(Screen::class.java).toJson(writer, value.screen)
+                moshi.adapter(br.com.zup.beagle.widget.layout.Screen::class.java).toJson(writer, value.screen)
             }
         }
         writer.endObject()

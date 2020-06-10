@@ -24,6 +24,6 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * @param children define the components to be stacked on the Stack component view.
  *
  */
-data class Stack(
-    val children: List<ServerDrivenComponent>
+open class Stack(
+    open val children: List<ServerDrivenComponent>
 ) : ServerDrivenComponent

@@ -29,7 +29,7 @@ import br.com.zup.beagle.android.logger.BeagleLogger
 import br.com.zup.beagle.android.navigation.DeepLinkHandler
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.widget.ui.Text
 import io.mockk.MockKAnnotations
 import io.mockk.Runs

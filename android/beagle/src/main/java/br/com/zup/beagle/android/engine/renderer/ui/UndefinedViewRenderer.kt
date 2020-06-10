@@ -18,11 +18,11 @@ package br.com.zup.beagle.android.engine.renderer.ui
 
 import android.graphics.Color
 import android.view.View
-import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.engine.renderer.UIViewRenderer
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.Environment
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.widget.core.RootView
 import br.com.zup.beagle.android.widget.ui.UndefinedWidget
 
 internal class UndefinedViewRenderer(

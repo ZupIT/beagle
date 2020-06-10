@@ -20,7 +20,7 @@ import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.data.BeagleViewModel
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
-import br.com.zup.beagle.android.engine.renderer.RootView
+import br.com.zup.beagle.android.widget.core.RootView
 
 internal fun RootView.generateViewModelInstance(): BeagleViewModel {
     return when (this) {

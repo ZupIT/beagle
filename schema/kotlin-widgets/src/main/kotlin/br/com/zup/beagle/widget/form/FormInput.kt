@@ -37,10 +37,10 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  *                  an UITextField in iOS or any other type of view that can receive and store input from users.
  *
  */
-data class FormInput(
-    val name: String,
-    val required: Boolean? = null,
-    val validator: String? = null,
-    val errorMessage: String? = null,
-    override val child: InputWidget
+open class FormInput(
+    open val name: String,
+    open val required: Boolean? = null,
+    open val validator: String? = null,
+    open val errorMessage: String? = null,
+    open override val child: InputWidget
 ) : ServerDrivenComponent, GhostComponent

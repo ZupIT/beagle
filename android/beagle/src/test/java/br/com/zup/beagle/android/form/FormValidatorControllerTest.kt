@@ -17,6 +17,9 @@
 package br.com.zup.beagle.android.form
 
 import android.view.View
+import br.com.zup.beagle.android.components.form.core.FormValidatorController
+import br.com.zup.beagle.android.components.form.core.Validator
+import br.com.zup.beagle.android.components.form.core.ValidatorHandler
 import br.com.zup.beagle.android.engine.renderer.layout.FormInputValidator
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.widget.form.FormInput

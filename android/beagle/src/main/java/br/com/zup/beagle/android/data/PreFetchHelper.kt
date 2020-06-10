@@ -19,8 +19,8 @@ package br.com.zup.beagle.android.data
 import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.Route
-import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.utils.generateViewModelInstance
+import br.com.zup.beagle.android.widget.core.RootView
 
 internal class PreFetchHelper {
 

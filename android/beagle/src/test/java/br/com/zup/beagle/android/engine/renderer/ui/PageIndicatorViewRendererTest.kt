@@ -23,7 +23,6 @@ import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.testutil.setPrivateField
 import br.com.zup.beagle.android.view.BeaglePageIndicatorView
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.pager.PageIndicator
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -33,7 +32,7 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class PageIndicatorTest {
+class PageIndicatorViewTest {
 
     @MockK
     private lateinit var viewFactory: ViewFactory
@@ -42,13 +41,13 @@ class PageIndicatorTest {
     @MockK
     private lateinit var beaglePageIndicatorView: BeaglePageIndicatorView
 
-    private lateinit var pageIndicator: PageIndicator
+    private lateinit var pageIndicator: PageIndicatorView
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxUnitFun = true)
 
-        pageIndicator = PageIndicator(RandomData.string(), RandomData.string(), viewFactory).apply {
+        pageIndicator = PageIndicatorView(RandomData.string(), RandomData.string(), viewFactory).apply {
             setPrivateField("pageIndicator", beaglePageIndicatorView)
         }
 

@@ -57,10 +57,10 @@ dependencies {
     implementation GeneralLibraries.kotlinCoroutines
 
     implementation project(Modules.beagleExtendedSchema)
+    implementation project(Modules.beagleAndroidSchemaImpl)
 
-    api project(Modules.beagleAndroidSchemaImpl)
-    api project(Modules.beagleAnnotation)
-    api project(Modules.beagleAndroidAnnotation)
+    implementation project(Modules.beagleAnnotation)
+    implementation project(Modules.beagleAndroidAnnotation)
 
     implementation GlideLibraries.glide
     kapt GlideLibraries.glideCompiler

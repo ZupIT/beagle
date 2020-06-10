@@ -26,6 +26,7 @@ import br.com.zup.beagle.widget.Widget
  *              This attribute must be declared and it cannot be null.
  *
  */
-data class WebView(
-    val url: String
+
+open class WebView(
+    open val url: String
 ) : Widget()

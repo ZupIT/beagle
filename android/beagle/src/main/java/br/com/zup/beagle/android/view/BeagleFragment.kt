@@ -22,9 +22,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
+import br.com.zup.beagle.android.components.utils.applyBackgroundFromWindowBackgroundTheme
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
-import br.com.zup.beagle.android.utils.applyBackgroundFromWindowBackgroundTheme
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.android.widget.ui.UndefinedWidget
 

@@ -27,15 +27,16 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.R
+import br.com.zup.beagle.android.components.layout.Screen
+import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.data.BeagleViewModel
 import br.com.zup.beagle.android.data.ViewState
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.configureSupportActionBar
+import br.com.zup.beagle.android.utils.toAndroidScreen
 import br.com.zup.beagle.android.utils.toComponent
-import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.layout.ScreenComponent
 import kotlinx.android.parcel.Parcelize
 
 sealed class ServerDrivenState {
@@ -78,17 +79,18 @@ abstract class BeagleActivity : AppCompatActivity() {
         }
 
         fun newIntent(context: Context, screen: Screen): Intent {
-            return newIntent(context, null, screen)
+            return newIntent(context, null, screen, null)
         }
 
         fun newIntent(context: Context, screenRequest: ScreenRequest): Intent {
-            return newIntent(context, screenRequest, null)
+            return newIntent(context, screenRequest, null, null)
         }
 
         internal fun newIntent(
             context: Context,
             screenRequest: ScreenRequest? = null,
-            screen: Screen? = null
+            screen: Screen? = null,
+            internalScreen: br.com.zup.beagle.widget.layout.Screen?
         ): Intent {
             return newIntent(context).apply {
                 screenRequest?.let {
@@ -96,6 +98,11 @@ abstract class BeagleActivity : AppCompatActivity() {
                 }
                 screen?.let {
                     putExtra(FIRST_SCREEN_KEY, beagleSerializer.serializeComponent(screen.toComponent()))
+                }
+
+                internalScreen?.let {
+                    putExtra(FIRST_SCREEN_KEY, beagleSerializer.serializeComponent(internalScreen
+                        .toAndroidScreen().toComponent()))
                 }
             }
         }
@@ -160,6 +167,10 @@ abstract class BeagleActivity : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
+    }
+
+    fun navigateTo(screenRequest: ScreenRequest, screen: br.com.zup.beagle.widget.layout.Screen?) {
+        navigateTo(screenRequest, screen?.toAndroidScreen())
     }
 
     fun navigateTo(screenRequest: ScreenRequest, screen: Screen?) {

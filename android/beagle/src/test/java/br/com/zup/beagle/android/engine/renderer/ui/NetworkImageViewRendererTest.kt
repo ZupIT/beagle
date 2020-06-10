@@ -27,7 +27,7 @@ import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.utils.ComponentStylization
+import br.com.zup.beagle.android.components.utils.ComponentStylization
 import br.com.zup.beagle.android.view.BeagleFlexView
 import br.com.zup.beagle.android.view.BeagleImageView
 import br.com.zup.beagle.android.view.ViewFactory

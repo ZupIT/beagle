@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.form
 
+import br.com.zup.beagle.android.components.form.core.FormSubmitter
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.networking.HttpClient

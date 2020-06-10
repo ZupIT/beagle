@@ -23,8 +23,8 @@ import br.com.zup.beagle.core.FlexComponent
 import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.engine.mapper.FlexMapper
-import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
+import br.com.zup.beagle.android.widget.core.RootView
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.android.widget.core.WidgetView
 

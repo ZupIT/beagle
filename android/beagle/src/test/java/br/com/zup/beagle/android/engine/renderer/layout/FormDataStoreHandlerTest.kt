@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.engine.renderer.layout
 
 import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.components.form.core.FormDataStoreHandler
 import org.junit.Test
 import kotlin.test.assertEquals
 

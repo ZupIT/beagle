@@ -18,9 +18,9 @@ package br.com.zup.beagle.android.engine.renderer.layout
 
 import android.view.View
 import br.com.zup.beagle.android.engine.renderer.LayoutViewRenderer
-import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.widget.core.RootView
 import br.com.zup.beagle.widget.layout.ComposeComponent
 
 internal class ComposeComponentViewRenderer(
