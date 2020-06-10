@@ -23,8 +23,7 @@ import io.mockk.mockkStatic
 import io.mockk.slot
 import org.junit.Before
 import org.junit.Test
-
-import org.junit.Assert.*
+import kotlin.test.assertEquals
 
 class StringExtensionsKtTest {
 
