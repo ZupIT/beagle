@@ -21,6 +21,8 @@ import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.core.Appearance
 import br.com.zup.beagle.core.CornerRadius
+import br.com.zup.beagle.ext.applyAppearance
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_APPEARANCE
