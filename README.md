@@ -169,9 +169,9 @@ When deserializing, Beagle turns a `widget` into a `view` applying the styles im
 
 #### Learn how to:
 
-- [Create a Backend project](https://zup-products.gitbook.io/beagle/introducing/beagle-backend)
-- [Create an Android project](https://zup-products.gitbook.io/beagle/introducing/android)
-- [Create an iOS project](https://zup-products.gitbook.io/beagle/introducing/ios)
+- [Create a Backend project](https://docs.usebeagle.io/v/0.2/introducing/beagle-backend)
+- [Create an Android project](https://docs.usebeagle.io/v/0.2/introducing/android)
+- [Create an iOS project](https://docs.usebeagle.io/v/0.2/introducing/ios)
 
 ## Contributing guide
 
