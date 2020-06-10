@@ -18,48 +18,57 @@ package br.com.zup.beagle.context
 
 import br.com.zup.beagle.core.Bind
 import br.com.zup.beagle.core.ContextData
+import br.com.zup.beagle.data.serializer.BeagleMoshi
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.setup.BindingAdapter
 import br.com.zup.beagle.utils.generateViewModelInstance
+import br.com.zup.beagle.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.widget.core.Action
 import org.json.JSONObject
 
-private const val DEFAULT_VALUE_NAME = "value"
+private const val DEFAULT_KEY_NAME = "value"
 
-internal class ContextActionExecutor(
-    private val rootView: RootView
-) {
+internal class ContextActionExecutor {
 
     fun executeActions(
+        rootView: RootView,
         eventId: String,
         actions: List<Action>,
-        value: Any? = null,
-        valueName: String = DEFAULT_VALUE_NAME
+        value: Any? = null
     ) {
         actions.forEach {
-            executeAction(eventId, it, value, valueName)
+            executeAction(rootView, eventId, it, value)
         }
     }
 
     fun executeAction(
+        rootView: RootView,
         eventId: String,
         action: Action,
-        value: Any? = null,
-        valueName: String = DEFAULT_VALUE_NAME
+        value: Any? = null
     ) {
         if (value != null && action is BindingAdapter) {
             val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
             val contextData = ContextData(
                 id = eventId,
-                value = JSONObject().apply {
-                    put(valueName, value)
-                }
+                value = parseToJSONObject(value)
             )
             handleContext(viewModel.contextDataManager, contextData, action.getBindAttributes())
         }
 
         // TODO: execute action
 //        action.execute()
+    }
+
+    private fun parseToJSONObject(value: Any): JSONObject {
+        return if (value is String || value is Number || value is Boolean) {
+            JSONObject().apply {
+                put(DEFAULT_KEY_NAME, value)
+            }
+        } else {
+            val json = BeagleMoshi.moshi.adapter<Any>(value::class.java).toJson(value)
+            JSONObject(json)
+        }
     }
 
     private fun handleContext(

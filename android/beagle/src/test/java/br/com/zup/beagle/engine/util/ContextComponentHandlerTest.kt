@@ -17,7 +17,7 @@
 package br.com.zup.beagle.engine.util
 
 import androidx.appcompat.app.AppCompatActivity
-import br.com.zup.beagle.context.ScreenContextViewModel
+import br.com.zup.beagle.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.core.Bind
 import br.com.zup.beagle.core.ContextData
 import br.com.zup.beagle.engine.renderer.ActivityRootView

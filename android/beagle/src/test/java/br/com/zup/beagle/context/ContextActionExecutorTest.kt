@@ -23,6 +23,7 @@ import br.com.zup.beagle.engine.renderer.ActivityRootView
 import br.com.zup.beagle.setup.BindingAdapter
 import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.utils.ViewModelProviderFactory
+import br.com.zup.beagle.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.widget.core.Action
 import io.mockk.every
 import io.mockk.mockk
@@ -58,7 +59,7 @@ class ContextActionExecutorTest : BaseTest() {
         every { beagleSdk.registeredWidgets() } returns listOf()
         every { rootView.activity } returns mockk()
 
-        contextActionExecutor = ContextActionExecutor(rootView)
+        contextActionExecutor = ContextActionExecutor()
         screenContextViewModel = ScreenContextViewModel()
 
         every { ViewModelProviderFactory.of(any<AppCompatActivity>())[ScreenContextViewModel::class.java] } returns screenContextViewModel
@@ -71,7 +72,7 @@ class ContextActionExecutorTest : BaseTest() {
         val value = RandomData.string()
 
         // When
-        contextActionExecutor.executeActions(eventId, listOf(customAction), value)
+        contextActionExecutor.executeActions(rootView, eventId, listOf(customAction), value)
 
         // Then
         assertEquals(value, customAction.a.lastValue)

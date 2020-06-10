@@ -16,12 +16,15 @@
 
 package br.com.zup.beagle.action
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import br.com.zup.beagle.engine.renderer.RootView
+import br.com.zup.beagle.context.ContextActionExecutor
+import br.com.zup.beagle.engine.renderer.ActivityRootView
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.networking.ResponseData
+import br.com.zup.beagle.utils.ViewModelProviderFactory
 import br.com.zup.beagle.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.widget.core.Action
 import io.mockk.Called
@@ -29,8 +32,11 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.slot
 import io.mockk.verify
+import io.mockk.verifyOrder
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -40,12 +46,29 @@ class SendRequestActionHandlerTest {
     @get:Rule
     var executorRule = InstantTaskExecutorRule()
 
-    private val rootView: RootView = mockk(relaxed = true)
+    private val contextActionExecutor = mockk<ContextActionExecutor>()
+    private val rootView: ActivityRootView = mockk(relaxed = true)
     private val viewModel: ActionRequestViewModel = mockk()
-    private val listener: SendRequestListener = mockk(relaxed = true)
     private val liveData: MutableLiveData<ActionRequestViewModel.FetchViewState> = mockk()
     private val observerSlot = slot<Observer<ActionRequestViewModel.FetchViewState>>()
     private val responseData: ResponseData = mockk()
+
+    private lateinit var sendRequestActionHandler: SendRequestActionHandler
+
+    @Before
+    fun setUp() {
+        mockkObject(ViewModelProviderFactory)
+
+        every {
+            ViewModelProviderFactory
+                .of(any<AppCompatActivity>())
+                .get(ActionRequestViewModel::class.java)
+        } returns viewModel
+//        every { contextActionExecutor.executeAction(any(), any(), any()) } just Runs
+        every { contextActionExecutor.executeAction(any(), any(), any(), any()) } just Runs
+
+        sendRequestActionHandler = SendRequestActionHandler(contextActionExecutor)
+    }
 
     @Test
     fun `should execute with success action when handle action`() {
@@ -59,12 +82,15 @@ class SendRequestActionHandlerTest {
         every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
 
         // When
-        SendRequestActionHandler().handle(rootView, requestAction, viewModel, listener)
+        sendRequestActionHandler.handle(rootView, requestAction)
         val result = ActionRequestViewModel.FetchViewState.Success(responseData)
         observerSlot.captured.onChanged(result)
 
         // Then
-        verify(exactly = once()) { listener.invoke(listOf(onFinishAction, onSuccessAction)) }
+        verifyOrder {
+            contextActionExecutor.executeAction(rootView, "onFinish", onFinishAction)
+            contextActionExecutor.executeAction(rootView, "onSuccess", onSuccessAction, any())
+        }
     }
 
     @Test
@@ -80,12 +106,15 @@ class SendRequestActionHandlerTest {
         every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
 
         // When
-        SendRequestActionHandler().handle(rootView, requestAction, viewModel, listener)
+        sendRequestActionHandler.handle(rootView, requestAction)
         val result = ActionRequestViewModel.FetchViewState.Error(responseData)
         observerSlot.captured.onChanged(result)
 
         // Then
-        verify(exactly = once()) { listener.invoke(listOf(onFinishAction, onErrorAction)) }
+        verifyOrder {
+            contextActionExecutor.executeAction(rootView, "onFinish", onFinishAction, null)
+            contextActionExecutor.executeAction(rootView, "onError", onErrorAction, any())
+        }
     }
 
     @Test
@@ -99,12 +128,12 @@ class SendRequestActionHandlerTest {
         every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
 
         // When
-        SendRequestActionHandler().handle(rootView, requestAction, viewModel, listener)
+        sendRequestActionHandler.handle(rootView, requestAction)
         val result = ActionRequestViewModel.FetchViewState.Success(mockk())
         observerSlot.captured.onChanged(result)
 
         // Then
-        verify(exactly = once()) { listener.invoke(listOf(onFinishAction)) }
+        verify(exactly = once()) { contextActionExecutor.executeAction(rootView, "onFinish", any()) }
     }
 
     @Test
@@ -116,12 +145,12 @@ class SendRequestActionHandlerTest {
         every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
 
         // When
-        SendRequestActionHandler().handle(rootView, requestAction, viewModel, listener)
+        sendRequestActionHandler.handle(rootView, requestAction)
         val result = ActionRequestViewModel.FetchViewState.Success(mockk())
         observerSlot.captured.onChanged(result)
 
         // Then
-        verify { listener.invoke(any()) wasNot Called }
+        verify(exactly = 0) { contextActionExecutor.executeAction(any(), any(), any(), any()) }
     }
 
 
@@ -135,12 +164,12 @@ class SendRequestActionHandlerTest {
         every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
 
         // When
-        SendRequestActionHandler().handle(rootView, requestAction, viewModel, listener)
+        sendRequestActionHandler.handle(rootView, requestAction)
         val result = ActionRequestViewModel.FetchViewState.Success(mockk())
         observerSlot.captured.onChanged(result)
 
         // Then
-        verify { listener.invoke(any()) wasNot Called }
+        verify(exactly = once()) { contextActionExecutor.executeAction(rootView, "onFinish", onFinishAction) }
     }
 
     @Test
@@ -153,11 +182,11 @@ class SendRequestActionHandlerTest {
         every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
 
         // When
-        SendRequestActionHandler().handle(rootView, requestAction, viewModel, listener)
+        sendRequestActionHandler.handle(rootView, requestAction)
         val result = ActionRequestViewModel.FetchViewState.Error(mockk())
         observerSlot.captured.onChanged(result)
 
         // Then
-        verify { listener.invoke(any()) wasNot Called }
+        verify(exactly = once()) { contextActionExecutor.executeAction(rootView, "onFinish", onFinishAction) }
     }
 }

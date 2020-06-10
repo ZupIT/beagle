@@ -43,32 +43,28 @@ internal class ActionRequestViewModel(
         data class Error(val response: ResponseData) : FetchViewState()
         data class Success(val response: ResponseData) : FetchViewState()
     }
-
-    private class FetchComponentLiveData(private val requester: ActionRequester,
-                                         private val sendRequestAction: SendRequestAction,
-                                         override val coroutineContext: CoroutineContext) : LiveData<FetchViewState>(),
-        CoroutineScope {
-
-        override fun onActive() {
-            fetchData()
-
-            super.onActive()
-        }
-
-        private fun fetchData() {
-            launch {
-                value = try {
-                    val response = requester.fetchData(sendRequestAction.toRequestData())
-                    FetchViewState.Success(response)
-                } catch (exception: BeagleApiException) {
-                    FetchViewState.Error(exception.responseData)
-                }
-            }
-
-        }
-    }
-
 }
 
+private class FetchComponentLiveData(
+    private val requester: ActionRequester,
+    private val sendRequestAction: SendRequestAction,
+    override val coroutineContext: CoroutineContext
+) : LiveData<ActionRequestViewModel.FetchViewState>(), CoroutineScope {
 
+    override fun onActive() {
+        fetchData()
+    }
+
+    private fun fetchData() {
+        launch(coroutineContext) {
+            value = try {
+                val response = requester.fetchData(sendRequestAction.toRequestData())
+                ActionRequestViewModel.FetchViewState.Success(response)
+            } catch (exception: BeagleApiException) {
+                ActionRequestViewModel.FetchViewState.Error(exception.responseData)
+            }
+        }
+
+    }
+}
 

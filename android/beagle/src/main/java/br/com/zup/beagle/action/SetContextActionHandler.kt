@@ -14,10 +14,16 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.context
+package br.com.zup.beagle.action
 
-import androidx.lifecycle.ViewModel
+import br.com.zup.beagle.view.viewmodel.ScreenContextViewModel
+import br.com.zup.beagle.engine.renderer.RootView
+import br.com.zup.beagle.utils.generateViewModelInstance
 
-internal class ScreenContextViewModel : ViewModel() {
-    val contextDataManager = ContextDataManager()
+internal class SetContextActionHandler {
+
+    fun handle(rootView: RootView, action: SetContext) {
+        val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
+        viewModel.contextDataManager.updateContext(action)
+    }
 }

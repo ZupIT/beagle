@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.action
+package br.com.zup.beagle.view.viewmodel
 
-import android.content.Context
+import androidx.lifecycle.ViewModel
+import br.com.zup.beagle.context.ContextDataManager
 
-internal class UpdateContextActionHandler : DefaultActionHandler<UpdateContext> {
-
-    override fun handle(context: Context, action: UpdateContext) {
-        // call update context
-    }
+internal class ScreenContextViewModel : ViewModel() {
+    val contextDataManager = ContextDataManager()
 }

@@ -32,7 +32,7 @@ internal class ActionExecutor(
         ShowNativeDialogActionHandler(),
     private val formValidationActionHandler: DefaultActionHandler<FormValidation>? = null,
     private val sendRequestActionHandler: SendRequestActionHandler = SendRequestActionHandler(),
-    private val updateContextActionHandler: UpdateContextActionHandler = UpdateContextActionHandler()
+    private val setContextActionHandler: SetContextActionHandler = SetContextActionHandler()
 ) {
 
     fun doAction(rootView: RootView, action: Action?) {
@@ -43,12 +43,9 @@ internal class ActionExecutor(
                 showNativeDialogActionHandler.handle(context, action)
             is FormValidation -> formValidationActionHandler?.handle(context, action)
             is SendRequestAction -> {
-                sendRequestActionHandler.handle(rootView = rootView,
-                    action = action) { actions ->
-                    doAction(rootView, actions)
-                }
+                sendRequestActionHandler.handle(rootView, action)
             }
-            is UpdateContext -> updateContextActionHandler.handle(context, action)
+            is SetContext -> setContextActionHandler.handle(rootView, action)
             is CustomAction -> customActionHandler?.handle(context, action, object : ActionListener {
 
                 override fun onSuccess(action: Action) {

@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.engine.util
 
-import br.com.zup.beagle.context.ScreenContextViewModel
+import br.com.zup.beagle.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.core.Bind
 import br.com.zup.beagle.core.ContextComponent
 import br.com.zup.beagle.core.ServerDrivenComponent

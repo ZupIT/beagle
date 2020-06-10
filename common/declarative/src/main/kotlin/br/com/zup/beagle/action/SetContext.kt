@@ -18,7 +18,7 @@ package br.com.zup.beagle.action
 
 import br.com.zup.beagle.widget.core.Action
 
-data class UpdateContext(
+data class SetContext(
     val contextId: String,
     val value: Any,
     val path: String? = null

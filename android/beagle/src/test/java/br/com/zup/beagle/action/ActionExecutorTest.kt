@@ -21,7 +21,6 @@ import br.com.zup.beagle.engine.renderer.ActivityRootView
 import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.extensions.once
 import br.com.zup.beagle.setup.BeagleEnvironment
-import br.com.zup.beagle.utils.ViewModelProviderFactory
 import br.com.zup.beagle.utils.generateViewModelInstance
 import br.com.zup.beagle.view.BeagleActivity
 import br.com.zup.beagle.view.ServerDrivenState
@@ -50,7 +49,7 @@ class ActionExecutorTest {
     private lateinit var formValidationActionHandler: DefaultActionHandler<FormValidation>
 
     @MockK
-    private lateinit var updateContextActionHandler: UpdateContextActionHandler
+    private lateinit var setContextActionHandler: SetContextActionHandler
 
     @MockK
     private lateinit var sendRequestActionHandler: SendRequestActionHandler
@@ -144,14 +143,14 @@ class ActionExecutorTest {
     @Test
     fun doAction_should_handle_UpdateContextActionHandler_action() {
         // Given
-        val action = mockk<UpdateContext>()
-        every { updateContextActionHandler.handle(any(), any()) } just Runs
+        val action = mockk<SetContext>()
+        every { setContextActionHandler.handle(any(), any()) } just Runs
 
         // When
         actionExecutor.doAction(rootView, action)
 
         // Then
-        verify(exactly = once()) { updateContextActionHandler.handle(activity, action) }
+        verify(exactly = once()) { setContextActionHandler.handle(rootView, action) }
     }
 
     @Test
@@ -227,38 +226,17 @@ class ActionExecutorTest {
     fun `should handle request action when do action`() {
         // Given
         val action = mockk<SendRequestAction>()
-        val actionListener = slot<SendRequestListener>()
         val viewModel = mockk<ActionRequestViewModel>()
         mockkConstructor(ViewModelProvider::class)
         every { rootView.generateViewModelInstance<ActionRequestViewModel>() } returns viewModel
-        every { sendRequestActionHandler.handle(rootView, action, viewModel, capture(actionListener)) } just Runs
+        every { sendRequestActionHandler.handle(rootView, action) } just Runs
 
         // When
         actionExecutor.doAction(rootView, action)
 
         // Then
         verify(exactly = once()) {
-            sendRequestActionHandler.handle(rootView, action, viewModel, actionListener.captured)
+            sendRequestActionHandler.handle(rootView, action)
         }
-    }
-
-    @Test
-    fun `should execute listen request action when do action`() {
-        // Given
-        val action = mockk<SendRequestAction>()
-        val actionListener = slot<SendRequestListener>()
-        mockkConstructor(ViewModelProvider::class)
-        val viewModel = mockk<ActionRequestViewModel>(relaxed = true)
-        val actions = listOf(action)
-        every { rootView.generateViewModelInstance<ActionRequestViewModel>() } returns viewModel
-        every { sendRequestActionHandler.handle(rootView, action, viewModel, capture(actionListener)) } just Runs
-
-        // When
-        actionExecutor.doAction(rootView, action)
-        actionListener.captured.invoke(actions)
-
-
-        // Then
-        verify(exactly = 2) { sendRequestActionHandler.handle(rootView, action, viewModel, any()) }
     }
 }

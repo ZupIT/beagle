@@ -17,7 +17,7 @@
 package br.com.zup.beagle.context
 
 import androidx.collection.LruCache
-import br.com.zup.beagle.action.UpdateContext
+import br.com.zup.beagle.action.SetContext
 import br.com.zup.beagle.core.Bind
 import br.com.zup.beagle.core.ContextData
 import br.com.zup.beagle.extensions.once
@@ -162,7 +162,7 @@ class ContextDataManagerTest {
             put("a", true)
         }
         val contextData = ContextData(CONTEXT_ID, json)
-        val updateContext = UpdateContext(CONTEXT_ID, false, "a")
+        val updateContext = SetContext(CONTEXT_ID, false, "a")
         contexts[contextData.id] = ContextBinding(contextData, mutableListOf())
         every { jsonPathReplacer.replace(any(), any(), any()) } returns true
 
@@ -177,7 +177,7 @@ class ContextDataManagerTest {
     fun updateContext_should_log_error_when_jsonPathReplacer_throws_exception() {
         // Given
         val contextData = ContextData(CONTEXT_ID, true)
-        val updateContext = UpdateContext(CONTEXT_ID, false, "a")
+        val updateContext = SetContext(CONTEXT_ID, false, "a")
         contexts[contextData.id] = ContextBinding(contextData, mutableListOf())
         every { jsonPathReplacer.replace(any(), any(), any()) } throws IllegalStateException()
 
@@ -192,7 +192,7 @@ class ContextDataManagerTest {
     fun updateContext_should_set_value_on_context_root() {
         // Given
         val contextData = ContextData(CONTEXT_ID, true)
-        val updateContext = UpdateContext(CONTEXT_ID, false, null)
+        val updateContext = SetContext(CONTEXT_ID, false, null)
         contexts[contextData.id] = ContextBinding(contextData, mutableListOf())
 
         // When
@@ -207,7 +207,7 @@ class ContextDataManagerTest {
     @Test
     fun updateContext_should_return_false_when_contextId_does_not_exist() {
         // Given
-        val updateContext = UpdateContext(RandomData.string(), false, null)
+        val updateContext = SetContext(RandomData.string(), false, null)
 
         // When
         val result = contextDataManager.updateContext(updateContext)

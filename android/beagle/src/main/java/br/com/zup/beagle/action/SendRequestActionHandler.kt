@@ -17,39 +17,39 @@
 package br.com.zup.beagle.action
 
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import br.com.zup.beagle.context.ContextActionExecutor
 import br.com.zup.beagle.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.utils.generateViewModelInstance
-import br.com.zup.beagle.widget.core.Action
 
-internal typealias SendRequestListener = (actions: List<Action>) -> Unit
+internal class SendRequestActionHandler(
+    private val contextActionExecutor: ContextActionExecutor = ContextActionExecutor()
+) {
 
-internal class SendRequestActionHandler {
+    fun handle(rootView: RootView, action: SendRequestAction) {
+        val viewModel = rootView.generateViewModelInstance<ActionRequestViewModel>()
 
-    fun handle(rootView: RootView, action: SendRequestAction,
-               viewModel: ActionRequestViewModel = rootView.generateViewModelInstance(),
-               listener: SendRequestListener) {
+        viewModel.fetch(action).observe(rootView.getLifecycleOwner(), Observer { state ->
+            executeActions(rootView, action, state)
+        })
+    }
 
-        viewModel.fetch(action)
-            .observe(rootView.getLifecycleOwner(), Observer { state ->
-                val actions = mutableListOf<Action>()
-                action.onFinish?.let {
-                    actions.add(it)
-                }
-                when (state) {
-                    is ActionRequestViewModel.FetchViewState.Error -> action.onError?.let {
-                        actions.add(it)
-                    }
-                    is ActionRequestViewModel.FetchViewState.Success -> action.onSuccess?.let {
-                        actions.add(it)
-                    }
-                }
+    private fun executeActions(
+        rootView: RootView,
+        action: SendRequestAction,
+        state: ActionRequestViewModel.FetchViewState
+    ) {
+        action.onFinish?.let {
+            contextActionExecutor.executeAction(rootView, "onFinish", it)
+        }
 
-                if (actions.isNotEmpty()) {
-                    listener(actions)
-                }
-
-            })
+        when (state) {
+            is ActionRequestViewModel.FetchViewState.Error -> action.onError?.let {
+                contextActionExecutor.executeAction(rootView, "onError", it, state.response)
+            }
+            is ActionRequestViewModel.FetchViewState.Success -> action.onSuccess?.let {
+                contextActionExecutor.executeAction(rootView, "onSuccess", it, state.response)
+            }
+        }
     }
 }

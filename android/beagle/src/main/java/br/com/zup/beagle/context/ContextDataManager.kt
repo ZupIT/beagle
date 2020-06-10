@@ -17,7 +17,7 @@
 package br.com.zup.beagle.context
 
 import androidx.collection.LruCache
-import br.com.zup.beagle.action.UpdateContext
+import br.com.zup.beagle.action.SetContext
 import br.com.zup.beagle.core.Bind
 import br.com.zup.beagle.core.ContextData
 import br.com.zup.beagle.data.serializer.BeagleMoshi
@@ -28,7 +28,6 @@ import com.squareup.moshi.Moshi
 import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.IllegalStateException
-import java.util.Stack
 
 private val EXPRESSION_REGEX = "@\\{([^)]+)\\}".toRegex()
 
@@ -67,10 +66,10 @@ internal class ContextDataManager(
         }
     }
 
-    fun updateContext(updateContext: UpdateContext): Boolean {
-        return contexts[updateContext.contextId]?.let { contextBinding ->
-            val path = updateContext.path ?: contextBinding.context.id
-            return setValue(contextBinding, path, updateContext.value)
+    fun updateContext(setContext: SetContext): Boolean {
+        return contexts[setContext.contextId]?.let { contextBinding ->
+            val path = setContext.path ?: contextBinding.context.id
+            return setValue(contextBinding, path, setContext.value)
         } ?: false
     }
 
