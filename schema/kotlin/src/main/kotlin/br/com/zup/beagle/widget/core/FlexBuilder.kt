@@ -21,7 +21,7 @@ package br.com.zup.beagle.widget.core
 class FlexBuilder {
     private var padding: EdgeValue? = null
     private var margin: EdgeValue? = null
-    private var position: EdgeValue? = null
+    private var position: Position? = null
     private var positionType: FlexPositionType? = null
     private var flexDirection: FlexDirection? = null
     private var display: FlexDisplay? = null
@@ -81,7 +81,7 @@ class FlexBuilder {
 
     fun size(size: Size) = this.apply { this.size = size }
 
-    fun position(position: EdgeValue) = this.apply { this.position = position }
+    fun position(position: Position) = this.apply { this.position = position }
 
     fun padding(padding: EdgeValue) = this.apply { this.padding = padding }
 
@@ -118,7 +118,7 @@ class FlexBuilder {
         horizontal: UnitValue? = null,
         vertical: UnitValue? = null
     ) = this.position(
-        EdgeValue(
+        Position(
             all = all,
             top = top,
             right = right,
