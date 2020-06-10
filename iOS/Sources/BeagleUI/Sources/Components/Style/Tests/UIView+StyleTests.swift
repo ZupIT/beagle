@@ -17,7 +17,7 @@
 import XCTest
 @testable import BeagleUI
 
-final class UIViewAppearanceTests: XCTestCase {
+final class UIViewStyleTests: XCTestCase {
     
     func test_invalidHexColor() {
         let color = UIColor(hex: "")

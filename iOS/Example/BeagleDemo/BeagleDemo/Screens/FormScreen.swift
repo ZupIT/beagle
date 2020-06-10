@@ -64,11 +64,11 @@ struct FormScreen: DeeplinkScreen {
                     ),
                     Container(children: [], widgetProperties: .init(flex: Flex(grow: 1))),
                     FormSubmit(
-                        child: Button(text: "Submit Form", style: .FORM_SUBMIT_STYLE, widgetProperties: .init(flex: flexHorizontalMargin)),
+                        child: Button(text: "Submit Form", styleId: .FORM_SUBMIT_STYLE, widgetProperties: .init(flex: flexHorizontalMargin)),
                         enabled: false
                     )
                 ],
-                widgetProperties: .init(appearance: Appearance(backgroundColor: .LIGHT_GREEN_COLOR), flex: Flex().grow(1).padding(EdgeValue().all(10)))
+                widgetProperties: .init(style: Style(backgroundColor: .LIGHT_GREEN_COLOR), flex: Flex().grow(1).padding(EdgeValue().all(10)))
             )
         )
         let screen = Screen(

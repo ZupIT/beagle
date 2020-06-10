@@ -16,9 +16,6 @@
 
 package br.com.zup.beagle.android.widget.form
 
-import br.com.zup.beagle.core.Accessibility
-import br.com.zup.beagle.core.Appearance
-import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.android.widget.core.ViewConvertable
 import br.com.zup.beagle.android.widget.interfaces.StateChangeable
 import br.com.zup.beagle.android.widget.interfaces.WidgetState

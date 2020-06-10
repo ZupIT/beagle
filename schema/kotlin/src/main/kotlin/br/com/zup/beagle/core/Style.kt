@@ -17,7 +17,7 @@
 package br.com.zup.beagle.core
 
 /**
- * The appearance class will enable a few visual options to be changed.
+ * The style class will enable a few visual options to be changed.
  *
  * @param backgroundColor
  *                          Using a String parameter it sets the background color on this visual component.
@@ -25,8 +25,8 @@ package br.com.zup.beagle.core
  *                          For example, for a WHITE background type in "FFFFFF".
  * @param cornerRadius Using a Double parameters it sets the corner of your view to make it round.
  */
-data class Appearance(val backgroundColor: String? = null,
-                      val cornerRadius: CornerRadius? = null)
+data class Style(val backgroundColor: String? = null,
+                 val cornerRadius: CornerRadius? = null)
 
 /**
  * The corner radius change the appearance of view

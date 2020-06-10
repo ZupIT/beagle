@@ -20,7 +20,7 @@ import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.analytics.ScreenAnalytics
 import br.com.zup.beagle.analytics.ScreenEvent
 import br.com.zup.beagle.core.Accessibility
-import br.com.zup.beagle.core.Appearance
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
@@ -72,7 +72,7 @@ data class NavigationBarItem(
  *
  * @param title define the Title on the navigation bar
  * @param showBackButton enable a back button into your action bar/navigation bar
- * @param style could define a custom layout for your action bar/navigation  bar
+ * @param styleId could define a custom layout for your action bar/navigation  bar
  * @param navigationBarItems defines a List of navigation bar items.
  * @param backButtonAccessibility define accessibility details for the item
  *
@@ -80,7 +80,7 @@ data class NavigationBarItem(
 data class NavigationBar(
     val title: String,
     val showBackButton: Boolean = true,
-    val style: String? = null,
+    val styleId: String? = null,
     val navigationBarItems: List<NavigationBarItem>? = null,
     val backButtonAccessibility: Accessibility? = null
 )
@@ -93,7 +93,7 @@ data class NavigationBar(
  *
  * @see NavigationBar
  * @see ServerDrivenComponent
- * @see Appearance
+ * @see Style
  * @see ScreenEvent
  *
  * @param identifier
@@ -107,7 +107,7 @@ data class NavigationBar(
  * @param child
  *                  define the child elements on this screen.
  *                  It could be any visual component that extends the ServerDrivenComponent.1
- * @param appearance enable a few visual options to be changed.
+ * @param style enable a few visual options to be changed.
  * @param screenAnalyticsEvent send event when screen appear/disappear
  *
  */
@@ -116,6 +116,6 @@ data class Screen(
     val safeArea: SafeArea? = null,
     val navigationBar: NavigationBar? = null,
     val child: ServerDrivenComponent,
-    val appearance: Appearance? = null,
+    val style: Style? = null,
     override val screenAnalyticsEvent: ScreenEvent? = null
 ) : ScreenAnalytics

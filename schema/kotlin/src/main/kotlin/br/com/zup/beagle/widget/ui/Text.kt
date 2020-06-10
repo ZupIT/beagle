@@ -22,7 +22,7 @@ import br.com.zup.beagle.widget.Widget
  * A text widget will define a text view natively using the server driven information received through Beagle.
  *
  * @param text defines the text view content. This attribute must be declared and it cannot be null.
- * @param style
+ * @param styleId
  *              will reference a style in your local styles file to be applied on this text view.
  *              This attribute can be set as null.
  * @param textColor defines the text color natively.
@@ -31,7 +31,7 @@ import br.com.zup.beagle.widget.Widget
  */
 data class Text(
     val text: String,
-    val style: String? = null,
+    val styleId: String? = null,
     val textColor: String? = null,
     val alignment: TextAlignment? = null
 ) : Widget()

@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-public struct Appearance: Decodable, Equatable, AutoInitiable {
+public struct Style: Decodable, Equatable, AutoInitiable {
     
     // MARK: - Public Properties
     let backgroundColor: String?
     let cornerRadius: CornerRadius?
 
-// sourcery:inline:auto:Appearance.Init
+// sourcery:inline:auto:Style.Init
     public init(
         backgroundColor: String? = nil,
         cornerRadius: CornerRadius? = nil

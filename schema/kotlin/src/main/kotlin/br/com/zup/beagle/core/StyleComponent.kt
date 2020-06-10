@@ -18,8 +18,8 @@ package br.com.zup.beagle.core
 
 /**
  * Component that hold the appearance
- * @property appearance attribute will enable a few visual options to be changed.
+ * @property style attribute will enable a few visual options to be changed.
  */
-interface AppearanceComponent : ServerDrivenComponent {
-    val appearance: Appearance?
+interface StyleComponent : ServerDrivenComponent {
+    val style: Style?
 }

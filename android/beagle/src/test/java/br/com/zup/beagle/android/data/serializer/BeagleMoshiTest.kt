@@ -35,7 +35,6 @@ import br.com.zup.beagle.widget.form.FormSubmit
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Horizontal
 import br.com.zup.beagle.widget.layout.PageView
-import br.com.zup.beagle.android.widget.layout.ScreenComponent
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.layout.Spacer
 import br.com.zup.beagle.widget.layout.Stack
@@ -48,6 +47,7 @@ import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.NetworkImage
 import br.com.zup.beagle.widget.ui.Text
 import br.com.zup.beagle.android.widget.ui.UndefinedWidget
+import br.com.zup.beagle.widget.layout.ScreenComponent
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.mockkObject

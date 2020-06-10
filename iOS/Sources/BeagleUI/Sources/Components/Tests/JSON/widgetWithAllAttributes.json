@@ -1,7 +1,7 @@
 {
    "_beagleComponent_":"beagle:text",
    "text":"BeaglePreview",
-   "style": "test.text.style",
+   "styleId": "test.text.style",
    "alignment":"CENTER",
    "textColor": "579F2B",
    "flex":{
@@ -17,7 +17,7 @@
       }
    },
    "id":"some id",
-   "appearance":{
+   "style":{
       "backgroundColor":"#800000FF",
       "cornerRadius":{
          "radius":30.0

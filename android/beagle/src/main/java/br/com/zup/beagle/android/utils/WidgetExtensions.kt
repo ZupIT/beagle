@@ -24,10 +24,10 @@ import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
 import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.layout.ScreenComponent
-import br.com.zup.beagle.core.Appearance
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.layout.ScreenComponent
 
 internal var viewFactory = ViewFactory()
 
@@ -47,7 +47,7 @@ internal fun Screen.toComponent() = ScreenComponent(
     navigationBar = this.navigationBar,
     child = this.child,
     screenAnalyticsEvent = screenAnalyticsEvent
-).applyAppearance(appearance ?: Appearance())
+).applyStyle(style ?: Style())
 
 internal fun ServerDrivenComponent.toView(rootView: RootView): View =
     viewFactory.makeBeagleFlexView(rootView.getContext()).apply {
