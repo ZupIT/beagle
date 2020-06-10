@@ -17,7 +17,6 @@
 package br.com.zup.beagle.widget.form
 
 import br.com.zup.beagle.action.Action
-import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
@@ -73,7 +72,7 @@ data class Form(
     val child: ServerDrivenComponent,
     val group: String? = null,
     val shouldStoreFields: Boolean = false
-) : ServerDrivenComponent, LayoutComponent
+) : ServerDrivenComponent
 
 
 /**
