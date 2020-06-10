@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.sample.micronaut.service
 
+import br.com.zup.beagle.ext.buildAndApplyFlex
 import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.sample.builder.ActionScreenBuilder
 import br.com.zup.beagle.widget.core.FlexBuilder

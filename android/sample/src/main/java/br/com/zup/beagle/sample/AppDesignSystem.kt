@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.sample
 
-import br.com.zup.beagle.annotation.BeagleComponent
-import br.com.zup.beagle.setup.DesignSystem
+import br.com.zup.beagle.android.annotation.BeagleComponent
+import br.com.zup.beagle.android.setup.DesignSystem
 
 @BeagleComponent
 class AppDesignSystem : DesignSystem() {

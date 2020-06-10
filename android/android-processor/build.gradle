@@ -25,7 +25,7 @@ dependencies {
 
     implementation GeneralLibraries.kotlinPoet
 
-    implementation project(Modules.beagleCoreDeclarative)
+    implementation project(Modules.beagleSchemaKotlin)
     implementation project(Modules.beagleAnnotation)
     implementation project(Modules.beagleAndroidAnnotation)
 

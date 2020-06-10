@@ -17,12 +17,12 @@
 package br.com.zup.beagle.sample
 
 import android.content.Context
-import br.com.zup.beagle.action.ActionListener
+import br.com.zup.beagle.android.action.ActionListener
 import br.com.zup.beagle.action.CustomAction
-import br.com.zup.beagle.action.CustomActionHandler
+import br.com.zup.beagle.android.action.CustomActionHandler
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.Route
-import br.com.zup.beagle.annotation.BeagleComponent
+import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Text

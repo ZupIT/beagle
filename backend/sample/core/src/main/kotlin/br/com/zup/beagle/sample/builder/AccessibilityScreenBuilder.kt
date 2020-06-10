@@ -18,6 +18,8 @@ package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.core.Accessibility
+import br.com.zup.beagle.ext.applyAccessibility
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_ACCESSIBILITY
 import br.com.zup.beagle.widget.core.AlignItems
