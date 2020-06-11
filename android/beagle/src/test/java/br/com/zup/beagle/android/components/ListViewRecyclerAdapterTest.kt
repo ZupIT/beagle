@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.engine.renderer.ui
+package br.com.zup.beagle.android.components
 
 import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import br.com.zup.beagle.android.components.ListViewRecyclerAdapter
-import br.com.zup.beagle.android.components.ViewHolder
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.engine.renderer.ViewRenderer
 import br.com.zup.beagle.android.view.BeagleFlexView

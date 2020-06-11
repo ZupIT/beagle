@@ -16,24 +16,6 @@
 
 package br.com.zup.beagle.android.components.layout
 
-import android.view.View
-import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.ui.RootView
-import br.com.zup.beagle.android.widget.ui.WidgetView
-import br.com.zup.beagle.core.ServerDrivenComponent
+import org.junit.Assert.*
 
-abstract class
-ComposeComponent : WidgetView() {
-
-    @Transient
-    private val viewFactory = ViewFactory()
-
-    override fun buildView(rootView: RootView): View {
-        return viewFactory.makeBeagleFlexView(rootView.getContext()).apply {
-            addServerDrivenComponent(build(), rootView)
-        }
-    }
-
-
-    abstract fun build(): ServerDrivenComponent
-}
+class VerticalTest

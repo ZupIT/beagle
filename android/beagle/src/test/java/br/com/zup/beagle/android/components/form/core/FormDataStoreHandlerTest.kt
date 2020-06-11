@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.engine.renderer.layout
+package br.com.zup.beagle.android.components.form.core
 
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.form.core.FormDataStoreHandler
