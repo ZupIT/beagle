@@ -56,7 +56,7 @@ internal class TabViewRenderer(
             adapter = ContentAdapter(
                 rootView = rootView,
                 viewFactory = viewFactory,
-                tabList = component.tabItems
+                tabList = component.children
             )
         }
 
@@ -108,10 +108,10 @@ internal class TabViewRenderer(
     }
 
     private fun TabLayout.addTabs(context: Context) {
-        for (i in component.tabItems.indices) {
+        for (i in component.children.indices) {
             addTab(newTab().apply {
-                text = component.tabItems[i].title
-                component.tabItems[i].icon?.let {
+                text = component.children[i].title
+                component.children[i].icon?.let {
                     icon = getIconFromResources(context, it)
                 }
             })
@@ -167,7 +167,7 @@ internal class ContentAdapter(
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = viewFactory.makeBeagleFlexView(rootView.getContext()).also {
-            it.addServerDrivenComponent(tabList[position].content, rootView)
+            it.addServerDrivenComponent(tabList[position].child, rootView)
         }
         container.addView(view)
         return view

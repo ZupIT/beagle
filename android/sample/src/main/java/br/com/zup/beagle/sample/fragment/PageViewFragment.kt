@@ -41,7 +41,7 @@ class PageViewFragment : Fragment() {
                 selectedColor = "#000000",
                 unselectedColor = "#888888"
             ),
-            pages = listOf(
+            children = listOf(
                 Text("Page 1", alignment = TextAlignment.CENTER).applyFlex(
                     Flex(
                         alignSelf = AlignSelf.CENTER,

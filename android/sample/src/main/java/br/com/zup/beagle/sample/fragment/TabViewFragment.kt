@@ -46,7 +46,7 @@ class TabViewFragment : Fragment() {
     ): View? {
         val declarative = TabView(
             styleId = "DesignSystem.TabView.Custom",
-            tabItems = listOf(
+            children = listOf(
                 buildTabView(
                     title = "Title 1",
                     content = Container(children = listOf(
@@ -100,7 +100,7 @@ class TabViewFragment : Fragment() {
     private fun buildTabView(title: String, content: ServerDrivenComponent): TabItem {
         return TabItem(
             title = title,
-            content = content,
+            child = content,
             icon = "ic_launcher_foreground"
         )
     }

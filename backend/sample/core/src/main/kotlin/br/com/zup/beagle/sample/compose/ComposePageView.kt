@@ -33,7 +33,7 @@ object ComposePageView : ComposeComponent() {
             selectedColor = BLACK,
             unselectedColor = LIGHT_GREY
         ),
-        pages = (1..3).map(this::createText)
+        children = (1..3).map(this::createText)
     )
 
     private fun createText(i: Int) = Text("Page $i", alignment = TextAlignment.CENTER)
