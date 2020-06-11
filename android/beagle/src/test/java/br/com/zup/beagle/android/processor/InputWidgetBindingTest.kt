@@ -23,6 +23,10 @@ import br.com.zup.beagle.android.setup.BindingAdapter
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.testutil.setPrivateField
 import br.com.zup.beagle.android.widget.core.Bind
+import br.com.zup.beagle.processor.CustomInputWidget
+import br.com.zup.beagle.processor.CustomInputWidgetBinding
+import br.com.zup.beagle.processor.VIEW_PROPERTY
+import br.com.zup.beagle.processor.WIDGET_INSTANCE_PROPERTY
 import br.com.zup.beagle.widget.form.InputWidget
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.InjectMockKs

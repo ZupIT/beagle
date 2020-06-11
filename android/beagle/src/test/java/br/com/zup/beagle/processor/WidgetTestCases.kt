@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.processor
+package br.com.zup.beagle.processor
 
 import android.content.Context
 import android.view.View
