@@ -17,13 +17,14 @@
 package br.com.zup.beagle.android.form
 
 import android.view.View
+import br.com.zup.beagle.android.components.form.FormInput
+import br.com.zup.beagle.android.components.form.FormSubmit
+import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.components.form.core.FormInputValidator
 import br.com.zup.beagle.android.components.form.core.FormValidatorController
 import br.com.zup.beagle.android.components.form.core.Validator
 import br.com.zup.beagle.android.components.form.core.ValidatorHandler
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.widget.form.FormInput
-import br.com.zup.beagle.widget.form.FormSubmit
 import io.mockk.*
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK

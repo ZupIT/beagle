@@ -35,8 +35,8 @@ import br.com.zup.beagle.widget.layout.SafeArea
 internal data class ScreenComponent(
     val identifier: String? = null,
     private val safeArea: SafeArea? = null,
-    private val navigationBar: NavigationBar? = null,
-    private val child: ServerDrivenComponent,
+    val navigationBar: NavigationBar? = null,
+    val child: ServerDrivenComponent,
     private val screenAnalyticsEvent: ScreenEvent? = null,
     override var style: Style? = null
 ) : WidgetView() {

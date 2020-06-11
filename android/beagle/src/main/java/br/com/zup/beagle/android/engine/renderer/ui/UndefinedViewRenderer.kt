@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.engine.renderer.ui
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.View
 import br.com.zup.beagle.android.engine.renderer.UIViewRenderer
@@ -30,6 +31,7 @@ internal class UndefinedViewRenderer(
     private val viewFactory: ViewFactory = ViewFactory()
 ) : UIViewRenderer<UndefinedWidget>() {
 
+    @SuppressLint("SetTextI18n")
     override fun buildView(rootView: RootView): View {
         return if (BeagleEnvironment.beagleSdk.config.environment == Environment.DEBUG) {
             viewFactory.makeTextView(rootView.getContext()).apply {

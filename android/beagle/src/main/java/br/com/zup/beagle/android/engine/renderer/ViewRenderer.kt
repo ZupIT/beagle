@@ -19,7 +19,6 @@ package br.com.zup.beagle.android.engine.renderer
 import android.view.View
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.components.utils.ComponentStylization
-import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.ui.RootView
 
 internal abstract class ViewRenderer<T : ServerDrivenComponent>(
@@ -35,11 +34,6 @@ internal abstract class ViewRenderer<T : ServerDrivenComponent>(
 
     abstract fun buildView(rootView: RootView): View
 }
-
-internal abstract class LayoutViewRenderer<T : ServerDrivenComponent>(
-    protected val viewRendererFactory: ViewRendererFactory,
-    protected val viewFactory: ViewFactory
-) : ViewRenderer<T>()
 
 internal abstract class UIViewRenderer<T : ServerDrivenComponent> : ViewRenderer<T>()
 

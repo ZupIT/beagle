@@ -18,11 +18,11 @@ package br.com.zup.beagle.android.utils
 
 import android.view.View
 import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.utils.AccessibilitySetup
 import br.com.zup.beagle.android.components.utils.ComponentStylization
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.widget.ui.Text
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs

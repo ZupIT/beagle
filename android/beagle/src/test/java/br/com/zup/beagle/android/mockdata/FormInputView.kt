@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.mockdata
 
 import android.view.View
+import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.widget.ui.RootView
 
 class CustomInputWidget : InputWidget() {

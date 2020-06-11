@@ -24,13 +24,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import br.com.zup.beagle.action.Route
+import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleLogger
 import br.com.zup.beagle.android.navigation.DeepLinkHandler
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.ui.Text
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -55,8 +55,10 @@ class BeagleNavigatorTest {
 
     @MockK
     private lateinit var context: BeagleActivity
+
     @MockK
     private lateinit var fragmentTransaction: FragmentTransaction
+
     @MockK(relaxed = true)
     private lateinit var intent: Intent
 
@@ -75,7 +77,7 @@ class BeagleNavigatorTest {
         mockkObject(BeagleFragment.Companion)
         mockkObject(BeagleActivity.Companion)
 
-        every { BeagleActivity.newIntent(any(), any(), any(), any()) } returns intent
+        every { BeagleActivity.newIntent(any(), any(), any()) } returns intent
 
         val supportFragmentManager = mockk<FragmentManager>()
         every { context.supportFragmentManager } returns supportFragmentManager
