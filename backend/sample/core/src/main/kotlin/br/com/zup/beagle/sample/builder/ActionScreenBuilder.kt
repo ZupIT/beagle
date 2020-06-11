@@ -41,7 +41,7 @@ object ActionScreenBuilder : ScreenBuilder {
         navigationBar = NavigationBar(
             title = "Beagle Action",
             showBackButton = true,
-            style = NAVIGATION_BAR_STYLE_DEFAULT,
+            styleId = NAVIGATION_BAR_STYLE_DEFAULT,
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",

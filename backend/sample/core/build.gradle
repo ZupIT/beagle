@@ -27,8 +27,7 @@ sourceSets {
 
 dependencies {
     implementation GeneralLibraries.kotlin
-    implementation project(Modules.beagleAnnotation)
-    implementation project(Modules.beagleExtendedSchema)
+    api project(Modules.beagleBackendFramework)
     kapt project(Modules.beagleBackendProcessor)
 }
 

@@ -102,7 +102,7 @@ class ScreenViewRendererTest : BaseTest() {
         every { screenComponent.navigationBar } returns null
         every { screenComponent.child } returns component
         every { screenComponent.screenAnalyticsEvent } returns null
-        every { screenComponent.appearance } returns null
+        every { screenComponent.style } returns null
         every { viewRendererFactory.make(any()) } returns viewRenderer
         every { viewRenderer.build(any()) } returns view
         every { Color.parseColor(any()) } returns DEFAULT_COLOR

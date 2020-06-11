@@ -80,7 +80,7 @@ object NetworkImageScreenBuilder : ScreenBuilder {
 
     private fun buildText(text: String) = Text(
         text = text,
-        style = TEXT_NETWORK_IMAGE
+        styleId = TEXT_NETWORK_IMAGE
     ).applyFlex(
         flex = Flex(
             alignSelf = AlignSelf.CENTER,

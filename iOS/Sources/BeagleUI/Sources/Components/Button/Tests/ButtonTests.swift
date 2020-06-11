@@ -44,7 +44,7 @@ final class ButtonTests: XCTestCase {
         let dependencies = BeagleScreenDependencies(theme: theme)
         
         let style = "test.button.style"
-        let button = Button(text: "apply style", style: style)
+        let button = Button(text: "apply style", styleId: style)
         
         let view = button.toView(context: BeagleContextDummy(), dependencies: dependencies)
         

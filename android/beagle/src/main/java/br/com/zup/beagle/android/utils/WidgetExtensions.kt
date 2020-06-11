@@ -17,20 +17,19 @@
 package br.com.zup.beagle.android.utils
 
 import android.content.Context
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import br.com.zup.beagle.core.Appearance
-import br.com.zup.beagle.core.LayoutComponent
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
 import br.com.zup.beagle.android.engine.renderer.RootView
-import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
-import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.android.widget.layout.ScreenComponent
 
-internal var viewRenderer = ViewRendererFactory()
+internal var viewFactory = ViewFactory()
 
 fun ServerDrivenComponent.toView(context: Context) = this.toView(context as AppCompatActivity)
 
@@ -48,12 +47,9 @@ internal fun Screen.toComponent() = ScreenComponent(
     navigationBar = this.navigationBar,
     child = this.child,
     screenAnalyticsEvent = screenAnalyticsEvent
-).applyAppearance(appearance ?: Appearance())
+).applyStyle(style ?: Style())
 
-internal fun ServerDrivenComponent.toView(rootView: RootView) =
-    if (this is LayoutComponent) {
-        viewRenderer.make(this).build(rootView)
-    } else {
-        val container = Container(listOf(this))
-        viewRenderer.make(container).build(rootView)
+internal fun ServerDrivenComponent.toView(rootView: RootView): View =
+    viewFactory.makeBeagleFlexView(rootView.getContext()).apply {
+        addServerDrivenComponent(this@toView, rootView)
     }

@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.data.serializer.adapter
 
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.widget.layout.ScreenComponent
 import br.com.zup.beagle.android.widget.pager.PageIndicator
 import br.com.zup.beagle.android.widget.ui.UndefinedWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -31,6 +30,7 @@ import br.com.zup.beagle.widget.form.InputWidget
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Horizontal
 import br.com.zup.beagle.widget.layout.PageView
+import br.com.zup.beagle.android.widget.layout.ScreenComponent
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.layout.Spacer
 import br.com.zup.beagle.widget.layout.Stack
