@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.mockdata
 
-import android.content.Context
 import android.view.View
+import br.com.zup.beagle.android.widget.core.RootView
 import br.com.zup.beagle.android.widget.form.InputWidget
 
 class CustomInputWidget : InputWidget() {
@@ -29,7 +29,7 @@ class CustomInputWidget : InputWidget() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun buildView(context: Context): View {
+    override fun buildView(rootView: RootView): View {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

@@ -20,12 +20,11 @@ import android.content.Context
 import android.graphics.Color
 import android.widget.TextView
 import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.Environment
-import br.com.zup.beagle.android.view.BeagleTextView
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.widget.core.RootView
 import br.com.zup.beagle.android.widget.ui.UndefinedWidget
 import io.mockk.Runs
 import io.mockk.every
@@ -48,7 +47,7 @@ class UndefinedViewRendererTest : BaseTest() {
     @MockK
     private lateinit var rootView: RootView
     @RelaxedMockK
-    private lateinit var textView: BeagleTextView
+    private lateinit var textView: TextView
     @RelaxedMockK
     private lateinit var undefinedWidget: UndefinedWidget
 

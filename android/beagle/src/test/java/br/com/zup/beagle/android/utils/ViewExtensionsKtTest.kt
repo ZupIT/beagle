@@ -34,7 +34,6 @@ import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.android.view.BeagleButtonView
 import br.com.zup.beagle.android.view.BeagleView
 import br.com.zup.beagle.android.view.OnLoadCompleted
 import br.com.zup.beagle.android.view.OnStateChanged
@@ -75,8 +74,7 @@ class ViewExtensionsKtTest : BaseTest() {
     private lateinit var iBinder: IBinder
     @MockK
     private lateinit var designSystem: DesignSystem
-    @MockK
-    private lateinit var beagleButton: BeagleButtonView
+
     @MockK
     private lateinit var imageView: ImageView
 
@@ -97,13 +95,9 @@ class ViewExtensionsKtTest : BaseTest() {
         every { beagleView.windowToken } returns iBinder
         every { activity.getSystemService(Activity.INPUT_METHOD_SERVICE) } returns inputMethodManager
         every { BeagleEnvironment.beagleSdk.designSystem } returns designSystem
-        every { beagleButton.setBackgroundResource(any()) } just Runs
-        every { beagleButton.isAllCaps = any() } just Runs
         every { TextViewCompat.setTextAppearance(any(), any()) } just Runs
         every { imageView.scaleType = any() } just Runs
         every { imageView.setImageResource(any()) } just Runs
-        every { beagleButton.context } returns activity
-        every { beagleButton.background = any() } just Runs
     }
 
     override fun tearDown() {

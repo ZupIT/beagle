@@ -19,7 +19,7 @@ package br.com.zup.beagle.android.engine.renderer.ui
 import android.content.Context
 import android.view.View
 import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.engine.renderer.RootView
+import br.com.zup.beagle.android.widget.core.RootView
 import br.com.zup.beagle.android.widget.core.WidgetView
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -51,7 +51,7 @@ class ViewConvertableRendererTest : BaseTest() {
     @Test
     fun build_should_make_a_native_view() {
         // Given
-        every { widget.buildView(rootView.getContext()) } returns view
+        every { widget.buildView(rootView) } returns view
 
         // When
         val actual = viewConvertableRenderer.build(rootView)

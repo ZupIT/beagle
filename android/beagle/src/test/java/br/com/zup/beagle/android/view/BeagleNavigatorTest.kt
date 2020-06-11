@@ -75,7 +75,7 @@ class BeagleNavigatorTest {
         mockkObject(BeagleFragment.Companion)
         mockkObject(BeagleActivity.Companion)
 
-        every { BeagleActivity.newIntent(any(), any(), any()) } returns intent
+        every { BeagleActivity.newIntent(any(), any(), any(), any()) } returns intent
 
         val supportFragmentManager = mockk<FragmentManager>()
         every { context.supportFragmentManager } returns supportFragmentManager

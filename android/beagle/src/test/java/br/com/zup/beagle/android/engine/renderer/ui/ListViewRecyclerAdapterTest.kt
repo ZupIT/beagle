@@ -19,11 +19,13 @@ package br.com.zup.beagle.android.engine.renderer.ui
 import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import br.com.zup.beagle.android.components.ListViewRecyclerAdapter
+import br.com.zup.beagle.android.components.ViewHolder
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.engine.renderer.ViewRenderer
 import br.com.zup.beagle.android.view.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.widget.core.RootView
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -56,7 +58,7 @@ class ListViewRecyclerAdapterTest {
     fun setUp() {
         MockKAnnotations.init(this)
 
-        listViewRecyclerAdapter = ListViewRecyclerAdapter(rootView, ROWS, viewFactory, RecyclerView.VERTICAL)
+        listViewRecyclerAdapter = ListViewRecyclerAdapter(ROWS, viewFactory, RecyclerView.VERTICAL, rootView)
 
         every { viewFactory.makeBeagleFlexView(any()) } returns view
         every { rootView.getContext() } returns context
