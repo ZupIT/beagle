@@ -21,7 +21,7 @@ import br.com.zup.beagle.android.engine.renderer.LayoutViewRenderer
 import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.widget.core.ComposeComponent
+import br.com.zup.beagle.widget.layout.ComposeComponent
 
 internal class ComposeComponentViewRenderer(
     override val component: ComposeComponent,

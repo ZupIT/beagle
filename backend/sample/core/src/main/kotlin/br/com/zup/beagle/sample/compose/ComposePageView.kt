@@ -20,8 +20,8 @@ import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.constants.BLACK
 import br.com.zup.beagle.sample.constants.LIGHT_GREY
 import br.com.zup.beagle.widget.core.AlignSelf
-import br.com.zup.beagle.widget.core.ComposeComponent
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.layout.ComposeComponent
 import br.com.zup.beagle.widget.layout.PageView
 import br.com.zup.beagle.widget.pager.PageIndicator
 import br.com.zup.beagle.widget.ui.Text
