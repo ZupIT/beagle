@@ -23,12 +23,13 @@ import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.view.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
 
 internal abstract class DirectionalViewRenderer<T : ServerDrivenComponent>(
     private val children: List<ServerDrivenComponent>,
-    private val flex: Flex,
+    private val style: Style,
     viewRendererFactory: ViewRendererFactory,
     viewFactory: ViewFactory
 ) : LayoutViewRenderer<T>(viewRendererFactory, viewFactory) {
@@ -36,10 +37,12 @@ internal abstract class DirectionalViewRenderer<T : ServerDrivenComponent>(
     abstract fun getYogaFlexDirection(): FlexDirection
 
     override fun buildView(rootView: RootView): View {
-        val flexCopy = flex.copy(
-            flexDirection = getYogaFlexDirection()
+        val styleCopy = style.copy(
+            flex = style.flex?.copy(
+                flexDirection = getYogaFlexDirection()
+            )
         )
-        return viewFactory.makeBeagleFlexView(rootView.getContext(), flexCopy).apply {
+        return viewFactory.makeBeagleFlexView(rootView.getContext(), styleCopy).apply {
             addChildrenViews(children, this, rootView)
         }
     }

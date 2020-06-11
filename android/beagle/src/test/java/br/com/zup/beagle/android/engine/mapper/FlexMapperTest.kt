@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.engine.mapper
 
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.utils.dp
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.AlignSelf
@@ -121,7 +122,7 @@ class FlexMapperTest {
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(Style(flex = flex))
 
         // Then
         verify(exactly = once()) { yogaNode.flexDirection = YogaFlexDirection.COLUMN }
@@ -135,7 +136,7 @@ class FlexMapperTest {
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(Style(flex = flex))
 
         // Then
         verify(exactly = once()) { yogaNode.wrap = YogaWrap.WRAP }
@@ -149,7 +150,7 @@ class FlexMapperTest {
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(Style(flex = flex))
 
         // Then
         verify(exactly = once()) { yogaNode.justifyContent = YogaJustify.SPACE_BETWEEN }
@@ -163,7 +164,7 @@ class FlexMapperTest {
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(Style(flex = flex))
 
         // Then
         verify(exactly = once()) { yogaNode.alignItems = YogaAlign.FLEX_START }
@@ -177,7 +178,7 @@ class FlexMapperTest {
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(Style(flex = flex))
 
         // Then
         verify(exactly = once()) { yogaNode.alignSelf = YogaAlign.FLEX_START }
@@ -191,7 +192,7 @@ class FlexMapperTest {
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(Style(flex = flex))
 
         // Then
         verify(exactly = once()) { yogaNode.alignContent = YogaAlign.FLEX_START }
@@ -205,7 +206,7 @@ class FlexMapperTest {
         )
 
         //When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(Style(flex = flex))
 
         //Then
         verify (exactly = once()) { yogaNode.flex = ONE_UNIT_VALUE.toFloat() }
@@ -219,7 +220,7 @@ class FlexMapperTest {
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(Style(flex = flex))
 
         // Then
         verify(exactly = once()) { yogaNode.flexGrow = ONE_UNIT_VALUE.toFloat() }
@@ -233,7 +234,7 @@ class FlexMapperTest {
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(Style(flex = flex))
 
         // Then
         verify(exactly = once()) { yogaNode.flexShrink = ONE_UNIT_VALUE.toFloat() }
@@ -247,7 +248,7 @@ class FlexMapperTest {
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(Style(flex = flex))
 
         // Then
         verify(exactly = once()) { yogaNode.display = YogaDisplay.FLEX }
@@ -261,7 +262,7 @@ class FlexMapperTest {
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(Style(flex = flex))
 
         // Then
         verify(exactly = once()) { yogaNode.display = YogaDisplay.NONE }
@@ -270,12 +271,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_width_as_100_0() {
         // Given
-        val flex = Flex(
+        val style = Style(
             size = Size(width = UnitValue(HUNDRED_UNIT_VALUE, UnitType.REAL))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setWidth(HUNDRED_UNIT_VALUE.toFloat()) }
@@ -284,12 +285,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_widthPercent_as_100_0() {
         // Given
-        val flex = Flex(
+        val style = Style(
             size = Size(width = UnitValue(HUNDRED_UNIT_VALUE, UnitType.PERCENT))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setWidthPercent(HUNDRED_UNIT_VALUE.toFloat()) }
@@ -298,12 +299,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_height_as_100_0() {
         // Given
-        val flex = Flex(
+        val style = Style(
             size = Size(height = UnitValue(HUNDRED_UNIT_VALUE, UnitType.REAL))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setHeight(HUNDRED_UNIT_VALUE.toFloat()) }
@@ -312,12 +313,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_heightPercent_as_100_0() {
         // Given
-        val flex = Flex(
+        val style = Style(
             size = Size(height = UnitValue(HUNDRED_UNIT_VALUE, UnitType.PERCENT))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setHeightPercent(HUNDRED_UNIT_VALUE.toFloat()) }
@@ -326,12 +327,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_maxWidth_as_100_0() {
         // Given
-        val flex = Flex(
+        val style = Style(
             size = Size(maxWidth = UnitValue(HUNDRED_UNIT_VALUE, UnitType.REAL))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setMaxWidth(HUNDRED_UNIT_VALUE.toFloat()) }
@@ -340,12 +341,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_maxWidthPercent_as_100_0() {
         // Given
-        val flex = Flex(
+        val style = Style(
             size = Size(maxWidth = UnitValue(HUNDRED_UNIT_VALUE, UnitType.PERCENT))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setMaxWidthPercent(HUNDRED_UNIT_VALUE.toFloat()) }
@@ -354,12 +355,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_maxHeight_as_100_0() {
         // Given
-        val flex = Flex(
+        val style = Style(
             size = Size(maxHeight = UnitValue(HUNDRED_UNIT_VALUE, UnitType.REAL))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setMaxHeight(HUNDRED_UNIT_VALUE.toFloat()) }
@@ -368,12 +369,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_maxHeightPercent_as_100_0() {
         // Given
-        val flex = Flex(
+        val style = Style(
             size = Size(maxHeight = UnitValue(HUNDRED_UNIT_VALUE, UnitType.PERCENT))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setMaxHeightPercent(HUNDRED_UNIT_VALUE.toFloat()) }
@@ -382,12 +383,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_minWidth_as_100_0() {
         // Given
-        val flex = Flex(
+        val style = Style(
             size = Size(minWidth = UnitValue(HUNDRED_UNIT_VALUE, UnitType.REAL))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setMinWidth(HUNDRED_UNIT_VALUE.toFloat()) }
@@ -396,12 +397,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_minWidthPercent_as_100_0() {
         // Given
-        val flex = Flex(
+        val style = Style(
             size = Size(minWidth = UnitValue(HUNDRED_UNIT_VALUE, UnitType.PERCENT))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setMinWidthPercent(HUNDRED_UNIT_VALUE.toFloat()) }
@@ -410,12 +411,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_minHeight_as_100_0() {
         // Given
-        val flex = Flex(
+        val style = Style(
             size = Size(minHeight = UnitValue(HUNDRED_UNIT_VALUE, UnitType.REAL))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setMinHeight(HUNDRED_UNIT_VALUE.toFloat()) }
@@ -424,12 +425,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_minHeightPercent_as_100_0() {
         // Given
-        val flex = Flex(
+        val style = Style(
             size = Size(minHeight = UnitValue(HUNDRED_UNIT_VALUE, UnitType.PERCENT))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setMinHeightPercent(HUNDRED_UNIT_VALUE.toFloat()) }
@@ -443,7 +444,7 @@ class FlexMapperTest {
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(Style(flex = flex))
 
         // Then
         verify(exactly = once()) { yogaNode.setFlexBasis(ONE_UNIT_VALUE.toFloat()) }
@@ -457,7 +458,7 @@ class FlexMapperTest {
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(Style(flex = flex))
 
         // Then
         verify(exactly = once()) { yogaNode.setFlexBasisPercent(ONE_UNIT_VALUE.toFloat()) }
@@ -471,7 +472,7 @@ class FlexMapperTest {
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(Style(flex = flex))
 
         // Then
         verify(exactly = once()) { yogaNode.setFlexBasisAuto() }
@@ -480,12 +481,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_aspectRatio_as_1() {
         // Given
-        val flex = Flex(
+        val style = Style(
             size = Size(aspectRatio = ONE_UNIT_VALUE)
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.aspectRatio = ONE_UNIT_VALUE.toFloat() }
@@ -494,12 +495,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_margin_as_TOP_and_1() {
         // Given
-        val flex = Flex(
+        val style = Style(
             margin = EdgeValue(top = UnitValue(ONE_UNIT_VALUE, UnitType.REAL))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setMargin(YogaEdge.TOP, ONE_UNIT_VALUE.toFloat()) }
@@ -508,12 +509,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_margin_as_LEFT_and_1() {
         // Given
-        val flex = Flex(
+        val style = Style(
             margin = EdgeValue(left = UnitValue(ONE_UNIT_VALUE, UnitType.REAL))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setMargin(YogaEdge.LEFT, ONE_UNIT_VALUE.toFloat()) }
@@ -522,12 +523,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_margin_as_RIGHT_and_1() {
         // Given
-        val flex = Flex(
+        val style = Style(
             margin = EdgeValue(right = UnitValue(ONE_UNIT_VALUE, UnitType.REAL))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setMargin(YogaEdge.RIGHT, ONE_UNIT_VALUE.toFloat()) }
@@ -536,12 +537,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_margin_as_BOTTOM_and_1() {
         // Given
-        val flex = Flex(
+        val style = Style(
             margin = EdgeValue(bottom = UnitValue(ONE_UNIT_VALUE, UnitType.REAL))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setMargin(YogaEdge.BOTTOM, ONE_UNIT_VALUE.toFloat()) }
@@ -550,12 +551,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_margin_as_START_and_1() {
         // Given
-        val flex = Flex(
+        val style = Style(
             margin = EdgeValue(start = UnitValue(ONE_UNIT_VALUE, UnitType.REAL))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setMargin(YogaEdge.START, ONE_UNIT_VALUE.toFloat()) }
@@ -564,12 +565,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_margin_as_END_and_1() {
         // Given
-        val flex = Flex(
+        val style = Style(
             margin = EdgeValue(end = UnitValue(ONE_UNIT_VALUE, UnitType.REAL))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setMargin(YogaEdge.END, ONE_UNIT_VALUE.toFloat()) }
@@ -578,12 +579,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_margin_as_ALL_and_1() {
         // Given
-        val flex = Flex(
+        val style = Style(
             margin = EdgeValue(all = UnitValue(ONE_UNIT_VALUE, UnitType.REAL))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setMargin(YogaEdge.ALL, ONE_UNIT_VALUE.toFloat()) }
@@ -592,12 +593,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_margin_as_VERTICAL_and_1() {
         // Given
-        val flex = Flex(
+        val style = Style(
             margin = EdgeValue(vertical = UnitValue(ONE_UNIT_VALUE, UnitType.REAL))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setMargin(YogaEdge.VERTICAL, ONE_UNIT_VALUE.toFloat()) }
@@ -606,12 +607,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_margin_as_HORIZONTAL_and_1() {
         // Given
-        val flex = Flex(
+        val style = Style(
             margin = EdgeValue(horizontal = UnitValue(ONE_UNIT_VALUE, UnitType.REAL))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setMargin(YogaEdge.HORIZONTAL, ONE_UNIT_VALUE.toFloat()) }
@@ -620,12 +621,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_marginPercent_as_TOP_and_1() {
         // Given
-        val flex = Flex(
+        val style = Style(
             margin = EdgeValue(top = UnitValue(ONE_UNIT_VALUE, UnitType.PERCENT))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setMarginPercent(YogaEdge.TOP, ONE_UNIT_VALUE.toFloat()) }
@@ -634,12 +635,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_padding_as_TOP_and_1() {
         // Given
-        val flex = Flex(
+        val style = Style(
             padding = EdgeValue(top = UnitValue(ONE_UNIT_VALUE, UnitType.REAL))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setPadding(YogaEdge.TOP, ONE_UNIT_VALUE.toFloat()) }
@@ -648,12 +649,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_paddingPercent_as_TOP_and_1() {
         // Given
-        val flex = Flex(
+        val style = Style(
             padding = EdgeValue(top = UnitValue(ONE_UNIT_VALUE, UnitType.PERCENT))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setPaddingPercent(YogaEdge.TOP, ONE_UNIT_VALUE.toFloat()) }
@@ -662,12 +663,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_position_as_TOP_and_1() {
         // Given
-        val flex = Flex(
+        val style = Style(
             position = EdgeValue(top = UnitValue(ONE_UNIT_VALUE, UnitType.REAL))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setPosition(YogaEdge.TOP, ONE_UNIT_VALUE.toFloat()) }
@@ -676,12 +677,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_positionPercent_as_TOP_and_1() {
         // Given
-        val flex = Flex(
+        val style = Style(
             position = EdgeValue(top = UnitValue(ONE_UNIT_VALUE, UnitType.PERCENT))
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.setPositionPercent(YogaEdge.TOP, ONE_UNIT_VALUE.toFloat()) }
@@ -695,7 +696,7 @@ class FlexMapperTest {
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(Style(flex = flex))
 
         // Then
         verify(exactly = once()) { yogaNode.positionType = YogaPositionType.RELATIVE }
@@ -709,7 +710,7 @@ class FlexMapperTest {
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(flex)
+        val yogaNode = flexMapper.makeYogaNode(Style(flex = flex))
 
         // Then
         verify(exactly = once()) { yogaNode.positionType = YogaPositionType.ABSOLUTE }

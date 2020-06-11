@@ -24,6 +24,8 @@ import androidx.fragment.app.Fragment
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.android.utils.toView
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
@@ -50,8 +52,8 @@ class TabViewFragment : Fragment() {
                 buildTabView(
                     title = "Title 1",
                     content = Container(children = listOf(
-                        Text("Content").applyFlex(
-                            Flex(
+                        Text("Content").applyStyle(
+                            Style(
                                 margin = EdgeValue(
                                     top = UnitValue(
                                         10.0,

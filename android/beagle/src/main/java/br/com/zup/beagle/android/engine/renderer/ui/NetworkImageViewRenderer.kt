@@ -26,6 +26,7 @@ import br.com.zup.beagle.android.engine.renderer.UIViewRenderer
 import br.com.zup.beagle.android.utils.ComponentStylization
 import br.com.zup.beagle.android.view.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ImageContentMode
 import br.com.zup.beagle.widget.ui.NetworkImage
@@ -41,7 +42,7 @@ internal class NetworkImageViewRenderer(
 ) : UIViewRenderer<NetworkImage>() {
 
     override fun buildView(rootView: RootView): View {
-        return if (component.flex?.size != null) {
+        return if (component.style?.size != null) {
             makeImageView(rootView).apply {
                 Glide.with(this).load(component.path).into(this)
             }
@@ -49,7 +50,7 @@ internal class NetworkImageViewRenderer(
             viewFactory.makeBeagleFlexView(rootView.getContext()).also {
                 it.addView(makeImageView(rootView).apply {
                     loadImage(this, it)
-                }, component.flex ?: Flex())
+                }, component.style ?: Style())
             }
         }
     }

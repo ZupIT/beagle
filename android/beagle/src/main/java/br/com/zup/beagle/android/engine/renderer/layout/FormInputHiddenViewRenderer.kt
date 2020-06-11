@@ -21,6 +21,7 @@ import br.com.zup.beagle.android.engine.renderer.LayoutViewRenderer
 import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexPositionType
 import br.com.zup.beagle.widget.form.FormInputHidden
@@ -34,7 +35,7 @@ internal class FormInputHiddenViewRenderer(
     override fun buildView(rootView: RootView): View {
 
         return viewFactory.makeBeagleFlexView(rootView.getContext(),
-            flex = Flex(positionType = FlexPositionType.ABSOLUTE)).apply {
+            style = Style(flex = Flex(positionType = FlexPositionType.ABSOLUTE))).apply {
             tag = component
             visibility = View.GONE
         }

@@ -40,7 +40,7 @@ import br.com.zup.beagle.widget.ui.Text
 
 class ScrollViewFragment : Fragment() {
 
-    private val flex = Flex(shrink = 0.0, margin = EdgeValue(all = UnitValue(50.0, UnitType.REAL)))
+    private val style = Style(margin = EdgeValue(all = UnitValue(50.0, UnitType.REAL)), flex = Flex(shrink = 0.0))
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,18 +63,18 @@ class ScrollViewFragment : Fragment() {
         children = listOf(
             NetworkImage(
                 path = "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271"
-            ).applyFlex(Flex(shrink = 0.0, size = Size(width = 200.unitReal(), height = 200.unitReal())))
+            ).applyStyle(Style(flex = Flex(shrink = 0.0), size = Size(width = 200.unitReal(), height = 200.unitReal())))
                 .applyStyle(Style(cornerRadius = CornerRadius(30.0))),
-            Text("Text 1").applyFlex(flex),
-            Text("Text 2").applyFlex(flex),
-            Text("Text 3").applyFlex(flex),
-            Text("Text 4").applyFlex(flex),
-            Text("Text 5").applyFlex(flex),
-            Text("Text 6").applyFlex(flex),
-            Text("Text 7").applyFlex(flex),
-            Text("Text 8").applyFlex(flex),
-            Text("Text 9").applyFlex(flex),
-            Text("Text 10").applyFlex(flex)
+            Text("Text 1").applyStyle(style),
+            Text("Text 2").applyStyle(style),
+            Text("Text 3").applyStyle(style),
+            Text("Text 4").applyStyle(style),
+            Text("Text 5").applyStyle(style),
+            Text("Text 6").applyStyle(style),
+            Text("Text 7").applyStyle(style),
+            Text("Text 8").applyStyle(style),
+            Text("Text 9").applyStyle(style),
+            Text("Text 10").applyStyle(style)
         )
     )
 

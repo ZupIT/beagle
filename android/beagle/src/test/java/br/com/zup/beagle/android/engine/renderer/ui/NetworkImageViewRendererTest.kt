@@ -31,6 +31,7 @@ import br.com.zup.beagle.android.utils.ComponentStylization
 import br.com.zup.beagle.android.view.BeagleFlexView
 import br.com.zup.beagle.android.view.BeagleImageView
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.ui.NetworkImage
@@ -83,7 +84,7 @@ class NetworkImageViewRendererTest : BaseTest() {
     private lateinit var componentStylization: ComponentStylization<NetworkImage>
 
     private val scaleType = ImageView.ScaleType.FIT_CENTER
-    private val flex = Flex(size = Size(width = 100.unitReal(), height = 100.unitReal()))
+    private val style = Style(size = Size(width = 100.unitReal(), height = 100.unitReal()))
 
     @InjectMockKs
     private lateinit var networkImageViewRenderer: NetworkImageViewRenderer
@@ -109,7 +110,7 @@ class NetworkImageViewRendererTest : BaseTest() {
         every { viewMapper.toScaleType(any()) } returns scaleType
         every { imageView.scaleType = any() } just Runs
         every { networkImage.path } returns DEFAULT_URL
-        every { networkImage.flex } returns flex
+        every { networkImage.style } returns style
         every { componentStylization.apply(any(), any()) } just Runs
     }
 
@@ -144,7 +145,7 @@ class NetworkImageViewRendererTest : BaseTest() {
     @Test
     fun build_should_call_makeBeagleFlexView_when_component_has_not_flex() {
         // Given
-        every { networkImage.flex } returns null
+        every { networkImage.style } returns null
 
         // When
         val view = networkImageViewRenderer.build(rootView)
@@ -152,14 +153,14 @@ class NetworkImageViewRendererTest : BaseTest() {
         // Then
         assertTrue(view is BeagleFlexView)
         verify(exactly = once()) { viewFactory.makeBeagleFlexView(context) }
-        verify(exactly = once()) { beagleFlexView.addView(any(), any<Flex>()) }
+        verify(exactly = once()) { beagleFlexView.addView(any(), any<Style>()) }
     }
 
     @Test
     fun build_should_call_setImageBitmap_reloadNetworkImageView_when_component_has_not_flex() {
         // Given
         val height = 100
-        every { networkImage.flex } returns null
+        every { networkImage.style } returns null
         every { bitmap.height } returns height
 
         // When

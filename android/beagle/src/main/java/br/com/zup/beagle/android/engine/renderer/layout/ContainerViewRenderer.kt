@@ -22,6 +22,7 @@ import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.view.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
 
@@ -32,7 +33,7 @@ internal class ContainerViewRenderer(
 ) : LayoutViewRenderer<Container>(viewRendererFactory, viewFactory) {
 
     override fun buildView(rootView: RootView): View {
-        return viewFactory.makeBeagleFlexView(rootView.getContext(), component.flex ?: Flex())
+        return viewFactory.makeBeagleFlexView(rootView.getContext(), component.style ?: Style())
             .apply {
                 addChildren(this, rootView)
             }

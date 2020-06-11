@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.engine.renderer.layout
 
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.layout.Vertical
@@ -28,7 +29,7 @@ internal class VerticalViewRender(
     viewFactory: ViewFactory = ViewFactory()
 ) : DirectionalViewRenderer<Vertical>(
     component.children,
-    Flex(),
+    Style(),
     viewRendererFactory,
     viewFactory
 ) {

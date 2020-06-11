@@ -26,6 +26,7 @@ import br.com.zup.beagle.android.utils.ToolbarManager
 import br.com.zup.beagle.android.utils.configureSupportActionBar
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.ScreenComponent
@@ -40,7 +41,7 @@ internal class ScreenViewRenderer(
     override fun buildView(rootView: RootView): View {
         addNavigationBarIfNecessary(rootView.getContext(), component.navigationBar)
 
-        val container = viewFactory.makeBeagleFlexView(rootView.getContext(), Flex(grow = 1.0))
+        val container = viewFactory.makeBeagleFlexView(rootView.getContext(), Style(flex = Flex(grow = 1.0)))
 
         container.addServerDrivenComponent(component.child, rootView)
 

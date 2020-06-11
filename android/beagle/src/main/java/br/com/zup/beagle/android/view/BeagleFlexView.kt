@@ -19,30 +19,28 @@ package br.com.zup.beagle.android.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
-import br.com.zup.beagle.core.FlexComponent
-import br.com.zup.beagle.core.GhostComponent
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.engine.mapper.FlexMapper
 import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.android.widget.core.WidgetView
+import br.com.zup.beagle.core.*
 
 @SuppressLint("ViewConstructor")
 internal open class BeagleFlexView(
     context: Context,
-    flex: Flex,
+    style: Style,
     private val flexMapper: FlexMapper = FlexMapper(),
     private val viewRendererFactory: ViewRendererFactory = ViewRendererFactory()
-) : YogaLayout(context, flexMapper.makeYogaNode(flex)) {
+) : YogaLayout(context, flexMapper.makeYogaNode(style)) {
 
     constructor(
         context: Context,
         flexMapper: FlexMapper = FlexMapper()
-    ) : this(context, Flex(), flexMapper)
+    ) : this(context, Style(), flexMapper)
 
-    fun addView(child: View, flex: Flex) {
-        super.addView(child, flexMapper.makeYogaNode(flex))
+    fun addView(child: View, style: Style) {
+        super.addView(child, flexMapper.makeYogaNode(style))
     }
 
     fun addServerDrivenComponent(serverDrivenComponent: ServerDrivenComponent, rootView: RootView) {
@@ -51,11 +49,11 @@ internal open class BeagleFlexView(
         } else {
             serverDrivenComponent
         }
-        val flex = (component as? FlexComponent)?.flex ?: Flex()
+        val style = (component as? StyleComponent)?.style ?: Style()
         val view = viewRendererFactory.make(serverDrivenComponent).build(rootView)
         if (serverDrivenComponent is WidgetView) {
             view.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> invalidate(view) }
         }
-        super.addView(view, flexMapper.makeYogaNode(flex))
+        super.addView(view, flexMapper.makeYogaNode(style))
     }
 }

@@ -32,6 +32,7 @@ import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.ui.TabItem
 import br.com.zup.beagle.widget.ui.TabView
@@ -46,7 +47,7 @@ internal class TabViewRenderer(
 ) : UIViewRenderer<TabView>() {
 
     override fun buildView(rootView: RootView): View {
-        val containerFlex = Flex(grow = 1.0)
+        val containerFlex = Style(flex = Flex(grow = 1.0))
 
         val container = viewFactory.makeBeagleFlexView(rootView.getContext(), containerFlex)
 

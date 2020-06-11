@@ -32,6 +32,7 @@ import br.com.zup.beagle.android.utils.ToolbarManager
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.ScreenComponent
@@ -97,7 +98,7 @@ class ScreenViewRendererTest : BaseTest() {
         every { viewFactory.makeBeagleFlexView(any()) } returns beagleFlexView
         every { viewFactory.makeBeagleFlexView(any(), any()) } returns beagleFlexView
         every { beagleFlexView.addServerDrivenComponent(any(), any()) } just Runs
-        every { beagleFlexView.addView(any(), any<Flex>()) } just Runs
+        every { beagleFlexView.addView(any(), any<Style>()) } just Runs
         every { screenComponent.navigationBar } returns null
         every { screenComponent.child } returns component
         every { screenComponent.screenAnalyticsEvent } returns null
@@ -116,24 +117,24 @@ class ScreenViewRendererTest : BaseTest() {
     @Test
     fun build_should_create_a_screenWidget_with_grow_1_and_justifyContent_SPACE_BETWEEN() {
         // Given
-        val flex = slot<Flex>()
-        every { viewFactory.makeBeagleFlexView(any(), capture(flex)) } returns beagleFlexView
+        val style = slot<Style>()
+        every { viewFactory.makeBeagleFlexView(any(), capture(style)) } returns beagleFlexView
         every { context.supportActionBar } returns null
 
         // When
         screenViewRenderer.build(rootView)
 
         // Then
-        assertEquals(1.0, flex.captured.grow)
+        assertEquals(1.0, style.captured.flex?.grow)
     }
 
     @Test
     fun build_should_call_content_builder() {
         // Given
         val content = mockk<ServerDrivenComponent>()
-        val flex = slot<Flex>()
+        val style = slot<Style>()
         every { screenComponent.child } returns content
-        every { beagleFlexView.addView(view, capture(flex)) } just Runs
+        every { beagleFlexView.addView(view, capture(style)) } just Runs
         every { context.supportActionBar } returns null
 
         // When

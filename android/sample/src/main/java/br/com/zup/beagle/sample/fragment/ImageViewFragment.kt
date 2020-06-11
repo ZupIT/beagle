@@ -44,8 +44,8 @@ class ImageViewFragment : Fragment() {
                 children = listOf(
                     NetworkImage(
                         path = "https://cdn-images-1.medium.com/max/1200/1*kjiNJPB3Y-ZVmjxco_bORA.png"
-                    ).applyFlex(
-                        Flex(
+                    ).applyStyle(
+                        Style(
                             margin = EdgeValue(top = 10.unitReal())
                             //size = Size(width = 100.unitReal(), height = 100.unitReal())
                         )

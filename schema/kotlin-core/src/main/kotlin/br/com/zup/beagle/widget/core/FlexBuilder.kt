@@ -19,9 +19,6 @@
 package br.com.zup.beagle.widget.core
 
 class FlexBuilder {
-    private var padding: EdgeValue? = null
-    private var margin: EdgeValue? = null
-    private var position: EdgeValue? = null
     private var positionType: FlexPositionType? = null
     private var flexDirection: FlexDirection? = null
     private var display: FlexDisplay? = null
@@ -34,15 +31,10 @@ class FlexBuilder {
     private var alignContent: AlignContent? = null
     private var justifyContent: JustifyContent? = null
     private var basis: UnitValue? = null
-    private var size: Size? = null
 
     fun build() = Flex(
-        size = this.size,
-        position = this.position,
         positionType = this.positionType,
         shrink = this.shrink,
-        margin = this.margin,
-        padding = this.padding,
         justifyContent = this.justifyContent,
         grow = this.grow,
         flexWrap = this.flexWrap,
@@ -78,105 +70,5 @@ class FlexBuilder {
     fun positionType(type: FlexPositionType? = null) = this.apply { this.positionType = type }
 
     fun basis(value: UnitValue) = this.apply { this.basis = value }
-
-    fun size(size: Size) = this.apply { this.size = size }
-
-    fun position(position: EdgeValue) = this.apply { this.position = position }
-
-    fun padding(padding: EdgeValue) = this.apply { this.padding = padding }
-
-    fun margin(margin: EdgeValue) = this.apply { this.margin = margin }
-
-    fun size(
-        width: UnitValue? = null,
-        height: UnitValue? = null,
-        aspectRatio: Double? = null,
-        maxWidth: UnitValue? = null,
-        minWidth: UnitValue? = null,
-        maxHeight: UnitValue? = null,
-        minHeight: UnitValue? = null
-    ) = this.size(
-        Size(
-            width = width,
-            maxWidth = maxWidth,
-            minWidth = minWidth,
-            height = height,
-            maxHeight = maxHeight,
-            minHeight = minHeight,
-            aspectRatio = aspectRatio
-        )
-    )
-
-    fun position(
-        all: UnitValue? = null,
-        top: UnitValue? = null,
-        bottom: UnitValue? = null,
-        right: UnitValue? = null,
-        left: UnitValue? = null,
-        start: UnitValue? = null,
-        end: UnitValue? = null,
-        horizontal: UnitValue? = null,
-        vertical: UnitValue? = null
-    ) = this.position(
-        EdgeValue(
-            all = all,
-            top = top,
-            right = right,
-            bottom = bottom,
-            left = left,
-            start = start,
-            end = end,
-            horizontal = horizontal,
-            vertical = vertical
-        )
-    )
-
-    fun padding(
-        all: UnitValue? = null,
-        top: UnitValue? = null,
-        right: UnitValue? = null,
-        bottom: UnitValue? = null,
-        left: UnitValue? = null,
-        start: UnitValue? = null,
-        end: UnitValue? = null,
-        horizontal: UnitValue? = null,
-        vertical: UnitValue? = null
-    ) = this.padding(
-        EdgeValue(
-            all = all,
-            vertical = vertical,
-            horizontal = horizontal,
-            top = top,
-            right = right,
-            bottom = bottom,
-            left = left,
-            start = start,
-            end = end
-        )
-    )
-
-    fun margin(
-        all: UnitValue? = null,
-        top: UnitValue? = null,
-        bottom: UnitValue? = null,
-        right: UnitValue? = null,
-        left: UnitValue? = null,
-        start: UnitValue? = null,
-        end: UnitValue? = null,
-        horizontal: UnitValue? = null,
-        vertical: UnitValue? = null
-    ) = this.margin(
-        EdgeValue(
-            all = all,
-            vertical = vertical,
-            horizontal = horizontal,
-            top = top,
-            right = right,
-            bottom = bottom,
-            left = left,
-            start = start,
-            end = end
-        )
-    )
-
+    
 }

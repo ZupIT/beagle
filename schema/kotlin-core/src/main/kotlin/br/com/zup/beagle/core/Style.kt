@@ -16,6 +16,10 @@
 
 package br.com.zup.beagle.core
 
+import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.Size
+
 /**
  * The style class will enable a few visual options to be changed.
  *
@@ -24,9 +28,31 @@ package br.com.zup.beagle.core
  *                          It must be listed as an Hexadecimal color format without the "#".
  *                          For example, for a WHITE background type in "FFFFFF".
  * @param cornerRadius Using a Double parameters it sets the corner of your view to make it round.
+ * @param size add size to current view applying the flex.
+ * @param margin
+ *                  effects the spacing around the outside of a node.
+ *                  A node with margin will offset itself from the bounds of its parent
+ *                  but also offset the location of any siblings.
+ *                  The margin of a node contributes to the total size of its parent if the parent is auto sized.
+ * @param padding
+ *                  affects the size of the node it is applied to.
+ *                  Padding in Yoga acts as if box-sizing: border-box; was set.
+ *                  That is padding will not add to the total size of an element if it has an explicit size set.
+ *                  For auto sized nodes padding will increase the size of the
+ *                  node as well as offset the location of any children..
+ * @param position add padding to position.
+ * @param flex
+ * @see Flex
  */
-data class Style(val backgroundColor: String? = null,
-                 val cornerRadius: CornerRadius? = null)
+data class Style (
+    val backgroundColor: String? = null,
+    val cornerRadius: CornerRadius? = null,
+    val size: Size? = null,
+    val margin: EdgeValue? = null,
+    val padding: EdgeValue? = null,
+    val position: EdgeValue? = null,
+    val flex: Flex? = null
+)
 
 /**
  * The corner radius change the appearance of view

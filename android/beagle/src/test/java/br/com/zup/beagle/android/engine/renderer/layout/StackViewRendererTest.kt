@@ -23,7 +23,7 @@ import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.view.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.layout.Stack
 import io.mockk.Runs
 import io.mockk.every
@@ -59,7 +59,7 @@ class StackViewRendererTest : BaseTest() {
     private lateinit var stackViewRenderer: StackViewRenderer
 
     private val clipChildren = slot<Boolean>()
-    private val flex = slot<Flex>()
+    private val style = slot<Style>()
 
     @Test
     fun build() {
@@ -67,7 +67,7 @@ class StackViewRendererTest : BaseTest() {
         every { viewFactory.makeBeagleFlexView(any()) } returns beagleFlexView
         every { rootView.getContext() } returns context
         every { beagleFlexView.clipChildren = capture(clipChildren) } just Runs
-        every { beagleFlexView.addView(any(), capture(flex)) } just Runs
+        every { beagleFlexView.addView(any(), capture(style)) } just Runs
         every { stack.children } returns children
 
         // When

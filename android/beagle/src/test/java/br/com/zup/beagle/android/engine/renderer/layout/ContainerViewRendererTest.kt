@@ -24,6 +24,7 @@ import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.view.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.ui.Button
@@ -50,6 +51,8 @@ class ContainerViewRendererTest : BaseTest() {
     @MockK
     private lateinit var flex: Flex
     @MockK
+    private lateinit var style: Style
+    @MockK
     private lateinit var context: Context
     @MockK
     private lateinit var rootView: RootView
@@ -63,7 +66,8 @@ class ContainerViewRendererTest : BaseTest() {
 
         every { viewFactory.makeBeagleFlexView(any(), any()) } returns beagleFlexView
         every { rootView.getContext() } returns context
-        every { container.flex } returns flex
+        every { container.style } returns style
+        every { container.style?.flex } returns flex
         every { container.children } returns containerChildren
         every { beagleFlexView.addServerDrivenComponent(any(), any()) } just Runs
     }
