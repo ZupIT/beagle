@@ -42,24 +42,24 @@ let declarativeScreen: Screen = {
             children:
             [
                 TextInput(
-                    label: "value",
+                    label: "${myContext}",
                     onChange: [
                         SetContext(
                             context: "myContext",
-                            value: .expression(Expression(rawValue: "${onChange.value}")!)
+                            value: "${onChange.value}"
                         )
                     ]
                 ),
-                Text(.expression(Expression(rawValue: "${myContext}")!)),
+                Text("${myContext}"),
                 Button(
                     text: "ok",
                     action: SetContext(
                         context: "myContext",
-                        value: .value(AnyDecodable("2"))
+                        value: "d"
                     )
                 )
             ],
-            context: Context(id: "myContext", value: "")
+            context: Context(id: "myContext", value: "initial")
         )
     )
 }()
@@ -123,9 +123,9 @@ protocol Inputtable {
     var onBlur: [Action]? { get }
 }
 
-struct TextInput: Widget, Inputtable, AutoInitiable {
-    var widgetProperties: WidgetProperties
-    var label: String?
+struct TextInput: Widget, Inputtable {
+    var widgetProperties: WidgetProperties = WidgetProperties()
+    var label: Expression<String?>
     
     var onChange: [Action]?
     var onFocus: [Action]?
@@ -133,26 +133,10 @@ struct TextInput: Widget, Inputtable, AutoInitiable {
     
     func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let view = TextInputView(widget: self, controller: context)
-        view.placeholder = label
+        view.text = get(label, with: view, controller: context) { string in view.text = string }
         view.beagle.setup(self)
         return view
     }
-
-// sourcery:inline:auto:TextInput.Init
-    internal init(
-        widgetProperties: WidgetProperties = WidgetProperties(),
-        label: String? = nil,
-        onChange: [Action]? = nil,
-        onFocus: [Action]? = nil,
-        onBlur: [Action]? = nil
-    ) {
-        self.widgetProperties = widgetProperties
-        self.label = label
-        self.onChange = onChange
-        self.onFocus = onFocus
-        self.onBlur = onBlur
-    }
-// sourcery:end
 }
 
 class TextInputView: UITextField, UITextFieldDelegate {
@@ -171,35 +155,33 @@ class TextInputView: UITextField, UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        guard let controller = controller else { return }
         let context = Context(id: "onFocus", value: ["value": textField.text])
-        controller.actionManager.execute(actions: widget.onFocus, with: context, sender: self, controller: controller)
+        controller?.actionManager.execute(actions: widget.onFocus, with: context, sender: self, controller: controller)
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let controller = controller else { return }
         let context = Context(id: "onBlur", value: ["value": textField.text])
-        controller.actionManager.execute(actions: widget.onBlur, with: context, sender: self, controller: controller)
+        controller?.actionManager.execute(actions: widget.onBlur, with: context, sender: self, controller: controller)
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
     {
-        guard let controller = controller else { return true }
-        
         var updatedText: String? = nil
         if let text = textField.text,
            let textRange = Range(range, in: text) {
            updatedText = text.replacingCharacters(in: textRange,
                                                        with: string)
         }
+        textField.text = updatedText
         
         let context = Context(id: "onChange", value: ["value": updatedText])
-        controller.actionManager.execute(actions: widget.onChange, with: context, sender: self, controller: controller)
-        return true
+        controller?.actionManager.execute(actions: widget.onChange, with: context, sender: self, controller: controller)
+        
+        return false
     }
 }
 
-// TODO: usar Sourcery
+// MARK: Decode
 extension TextInput {
     enum CodingKeys: String, CodingKey {
         case label
@@ -213,7 +195,7 @@ extension TextInput {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         widgetProperties = try WidgetProperties(from: decoder)
-        label = try container.decodeIfPresent(String.self, forKey: .label)
+        label = try container.decode(Expression<String?>.self, forKey: .label)
         onChange = try container.decode(forKey: .onChange)
         onFocus = try container.decode(forKey: .onFocus)
         onBlur = try container.decode(forKey: .onBlur)

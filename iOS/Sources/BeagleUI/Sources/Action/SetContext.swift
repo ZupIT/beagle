@@ -15,22 +15,24 @@
  * limitations under the License.
  */
 
-public struct SetContext: Action, AutoInitiable {
+public struct SetContext: Action {
     let context: String
     let path: String?
-    let value: ValueExpression<AnyDecodable>
-
-// sourcery:inline:auto:SetContext.Init
+    let value: Expression<AnyDecodable>
+    
     public init(
         context: String,
         path: String? = nil,
-        value: ValueExpression<AnyDecodable>
+        value: Any
     ) {
         self.context = context
         self.path = path
-        self.value = value
+        if let string = value as? String, let expression = SingleExpression(rawValue: string) {
+            self.value = Expression.expression(expression)
+        } else {
+            self.value = Expression.value(AnyDecodable(value))
+        }
     }
-// sourcery:end
 }
 
 // TODO: Generate this with Sourcery
@@ -45,6 +47,6 @@ extension SetContext: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         context = try container.decode(String.self, forKey: .context)
         path = try container.decodeIfPresent(String.self, forKey: .path)
-        value = try container.decode(ValueExpression<AnyDecodable>.self, forKey: .value)
+        value = try container.decode(Expression<AnyDecodable>.self, forKey: .value)
     }
 }

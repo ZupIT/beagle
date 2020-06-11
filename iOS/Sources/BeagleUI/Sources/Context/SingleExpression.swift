@@ -17,33 +17,15 @@
 
 import Foundation
 
-public enum ValueExpression<T: Decodable> {
+public enum Expression<T: Decodable> {
     case value(T)
-    case expression(Expression)
+    case expression(SingleExpression)
 }
 
-extension ValueExpression: ExpressibleByUnicodeScalarLiteral where T == String? {
-    public init(unicodeScalarLiteral value: String) {
-        self = .value(value)
-    }
-}
-
-extension ValueExpression: ExpressibleByExtendedGraphemeClusterLiteral where T == String? {
-    public init(extendedGraphemeClusterLiteral value: String) {
-        self = .value(value)
-    }
-}
-
-extension ValueExpression: ExpressibleByStringLiteral where T == String? {
-    public init(stringLiteral value: String) {
-        self = .value(value)
-    }
-}
-
-extension ValueExpression: Decodable {
+extension Expression: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let expression = try? container.decode(Expression.self) {
+        if let expression = try? container.decode(SingleExpression.self) {
             self = .expression(expression)
         } else if let value = try? container.decode(T.self) {
             self = .value(value)
@@ -53,7 +35,7 @@ extension ValueExpression: Decodable {
     }
 }
 
-public struct Expression: Decodable {
+public struct SingleExpression: Decodable {
     let nodes: [Node]
 
     enum Node: Equatable {
@@ -63,7 +45,7 @@ public struct Expression: Decodable {
 
     func evaluate(model: Any) -> Any? {
         var nodes = self.nodes[...]
-        return Expression.evaluate(&nodes, model)
+        return SingleExpression.evaluate(&nodes, model)
     }
     
     private static func evaluate(_ expression: inout ArraySlice<Node>, _ model: Any) -> Any? {
@@ -101,23 +83,23 @@ public struct Expression: Decodable {
     }
 }
 
-extension Expression: RawRepresentable {
+extension SingleExpression: RawRepresentable {
     static let expression = #"^\$\{(\w+(?:\[\d+\])*(?:\.\w+(?:\[\d+\])*)*)\}$"#
     static let token = #"\w+"#
     static let property = #"[a-zA-Z_]\w*"#
     static let arrayItem = #"\d+"#
 
     public init?(rawValue: String) {
-        guard let expression = rawValue.match(pattern: Expression.expression) else {
+        guard let expression = rawValue.match(pattern: SingleExpression.expression) else {
             return nil
         }
 
-        let tokens = expression.matches(pattern: Expression.token)
+        let tokens = expression.matches(pattern: SingleExpression.token)
         self.nodes = tokens.compactMap {
-            if let property = $0.match(pattern: Expression.property) {
-                return Expression.Node.property(property)
-            } else if let index = $0.match(pattern: Expression.arrayItem) {
-                return Expression.Node.arrayItem(Int(index) ?? 0)
+            if let property = $0.match(pattern: SingleExpression.property) {
+                return SingleExpression.Node.property(property)
+            } else if let index = $0.match(pattern: SingleExpression.arrayItem) {
+                return SingleExpression.Node.arrayItem(Int(index) ?? 0)
             } else {
                 return nil
             }
@@ -137,5 +119,38 @@ extension Expression: RawRepresentable {
         }
         expression += "}"
         return expression
+    }
+}
+
+// TODO: revisar tratativa de erro (criar Expression do tipo unknown???)
+extension Expression: ExpressibleByStringLiteral {
+    public init(stringLiteral value: String) {
+        if let expression = SingleExpression(rawValue: value) {
+            self = .expression(expression)
+        } else if let value = value as? T {
+            self = .value(value)
+        } else {
+            preconditionFailure("Expected to set \(T.self) but found String instead")
+        }
+    }
+}
+
+extension Expression: ExpressibleByIntegerLiteral {
+    public init(integerLiteral value: Int) {
+        if let value = value as? T {
+            self = .value(value)
+        } else {
+            preconditionFailure("Expected to set \(T.self) but found Int instead")
+        }
+    }
+}
+
+extension Expression: ExpressibleByFloatLiteral {
+    public init(floatLiteral value: Float) {
+        if let value = value as? T {
+            self = .value(value)
+        } else {
+            preconditionFailure("Expected to set \(T.self) but found Float instead")
+        }
     }
 }

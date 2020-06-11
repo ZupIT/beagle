@@ -58,10 +58,10 @@ extension UIView {
         return context
     }
 
-    func configBinding<T>(for expression: Expression, completion: @escaping (T) -> Void) {
+    func configBinding<T>(for expression: SingleExpression, completion: @escaping (T) -> Void) {
         guard let context = findContext(by: expression.context()) else { return }
 
-        let newExp = Expression(nodes: .init(expression.nodes.dropFirst()))
+        let newExp = SingleExpression(nodes: .init(expression.nodes.dropFirst()))
         let closure: (Context) -> Void = { context in
             if let value = newExp.evaluate(model: context.value) as? T {
                 completion(value)
@@ -78,11 +78,11 @@ extension UIView {
         closure(context.value)
     }
     
-    func evaluate(for expression: Expression) -> Any {
+    func evaluate(for expression: SingleExpression) -> Any {
         guard let contextMap = self.contextMap, let context = contextMap[expression.context()] else {
             return ()
         }
-        let newExp = Expression(nodes: .init(expression.nodes.dropFirst()))
+        let newExp = SingleExpression(nodes: .init(expression.nodes.dropFirst()))
         return newExp.evaluate(model: context.value.value) ?? ()
     }
 }
@@ -93,5 +93,74 @@ private extension Dictionary where Key == String, Value == Observable<Context> {
             return self.first?.value
         }
         return self[id]
+    }
+}
+
+// TODO: revisar onde vai ficar
+public extension ServerDrivenComponent {
+    func get<T>(
+        _ expression: Expression<T>,
+        with view: UIView,
+        controller: BeagleContext,
+        updateFunction: @escaping (T) -> Void
+    ) -> T? {
+        
+        switch expression {
+        case let .expression(expression):
+            controller.bindingToConfig.append {
+                view.configBinding(for: expression, completion: updateFunction)
+            }
+            return nil
+        case let .value(value):
+            return value
+        }
+    }
+    
+    func get<T>(
+        _ expression: Expression<T?>,
+        with view: UIView,
+        controller: BeagleContext,
+        updateFunction: @escaping (T?) -> Void
+    ) -> T? {
+        
+        switch expression {
+        case let .expression(expression):
+            controller.bindingToConfig.append {
+                view.configBinding(for: expression, completion: updateFunction)
+            }
+            return nil
+        case let .value(value):
+            return value
+        }
+    }
+}
+
+public extension Action {
+    // TODO: remover depois de refatorar Any para um tipo que representa a estrutura dinamica
+    func getContainer(_ expression: Expression<AnyDecodable>, with view: UIView) -> Any {
+        switch expression {
+        case let .expression(expression):
+            return view.evaluate(for: expression)
+        case let .value(value):
+            return value.value
+        }
+    }
+    
+    func get<T>(_ expression: Expression<T>, with view: UIView) -> T? {
+        switch expression {
+        case let .expression(expression):
+            return view.evaluate(for: expression) as? T
+        case let .value(value):
+            return value
+        }
+    }
+    
+    func get<T>(_ expression: Expression<T?>, with view: UIView) -> T? {
+        switch expression {
+        case let .expression(expression):
+            return view.evaluate(for: expression) as? T
+        case let .value(value):
+            return value
+        }
     }
 }

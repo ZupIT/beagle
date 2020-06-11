@@ -21,7 +21,7 @@ public struct Context {
     let id: String
     let value: Any
     
-    public init(id: String, value: Any) {
+    public init(id: String, value: Any = ()) {
         self.id = id
         self.value = value
     }

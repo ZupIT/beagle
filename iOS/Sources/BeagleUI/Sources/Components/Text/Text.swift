@@ -19,14 +19,14 @@ import UIKit
 public struct Text: Widget, AutoDecodable {
     
     // MARK: - Public Properties
-    public var text: ValueExpression<String?>
+    public var text: Expression<String>
     public let style: String?
     public let alignment: Alignment?
     public let textColor: String?
     public var widgetProperties: WidgetProperties
 
     public init(
-        _ text: ValueExpression<String?>,
+        _ text: Expression<String>,
         style: String? = nil,
         alignment: Alignment? = nil,
         textColor: String? = nil,
@@ -44,15 +44,7 @@ extension Text: Renderable {
 
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let textView = UITextView()
-        switch text {
-//         TODO: make this reusable
-        case let .expression(expression):
-            context.bindingToConfig.append {
-                textView.configBinding(for: expression) { textView.text = $0 }
-            }
-        case let .value(value):
-            textView.text = value
-        }
+        textView.text = get(text, with: textView, controller: context) { textView.text = $0 }
         textView.isEditable = false
         textView.isSelectable = false
         textView.isScrollEnabled = false

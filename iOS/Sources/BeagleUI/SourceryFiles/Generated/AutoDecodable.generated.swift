@@ -262,7 +262,7 @@ extension Text {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        text = try container.decode(ValueExpression<String?>.self, forKey: .text)
+        text = try container.decode(Expression<String>.self, forKey: .text)
         style = try container.decodeIfPresent(String.self, forKey: .style)
         alignment = try container.decodeIfPresent(Alignment.self, forKey: .alignment)
         textColor = try container.decodeIfPresent(String.self, forKey: .textColor)

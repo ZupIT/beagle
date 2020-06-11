@@ -55,15 +55,8 @@ final class ActionExecuting: ActionExecutor {
     
     private func handleSetContext(_ action: SetContext, sender: Any, context: BeagleContext) {
         guard let view = sender as? UIView else { return }
+        let value = action.getContainer(action.value, with: view)
         let context = view.findContext(by: action.context)
-        var value: Any // TODO: reuse this
-        switch action.value {
-        case let .expression(expression):
-            value = view.evaluate(for: expression)
-        case let .value(container):
-            value = container.value
-        }
-        
         if let path = action.path, var dict = context?.value.value as? [String: Any] {
             dict.setValue(value: value, forKeyPath: path)
             context?.value = Context(id: context?.value.id ?? "", value: dict)

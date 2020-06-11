@@ -82,7 +82,7 @@ extension UITextView: OnStateUpdatable, InputValue {
             return false
         }
         // TODO: oq fazer quando é expression?
-        if case let ValueExpression.value(value) = w.text {
+        if case let Expression.value(value) = w.text {
             text = value
         }
         
