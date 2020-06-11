@@ -66,7 +66,7 @@ class BeagleTextViewExtensionsTest {
         every { beagleTextView.context } returns activity
         every { beagleTextView.text = capture(textValueSlot) } just Runs
         every { beagleTextView.gravity = capture(textAlignment) } just Runs
-        every { designSystem.textAppearance(any()) } returns STYLE_RES
+        every { designSystem.textStyle(any()) } returns STYLE_RES
         every { designSystem.buttonStyle(any()) } returns STYLE_RES
         every { designSystem.image(any()) } returns IMAGE_RES
         every { text.textColor } returns null
@@ -83,7 +83,7 @@ class BeagleTextViewExtensionsTest {
         val textValue = RandomData.string()
         val style = RandomData.string()
         every { text.text } returns textValue
-        every { text.style } returns style
+        every { text.styleId } returns style
         every { text.alignment } returns null
 
         // When
@@ -99,14 +99,14 @@ class BeagleTextViewExtensionsTest {
         // Given
         val textValue = RandomData.string()
         every { text.text } returns textValue
-        every { text.style } returns null
+        every { text.styleId } returns null
         every { text.alignment } returns null
 
         // When
         beagleTextView.setTextWidget(text)
 
         // Then
-        verify(exactly = 1) { designSystem.textAppearance("") }
+        verify(exactly = 1) { designSystem.textStyle("") }
     }
 
     @Test
@@ -114,7 +114,7 @@ class BeagleTextViewExtensionsTest {
         // Given
         val textValue = RandomData.string()
         every { text.text } returns textValue
-        every { text.style } returns null
+        every { text.styleId } returns null
         every { text.alignment } returns TextAlignment.CENTER
 
         // When
@@ -129,7 +129,7 @@ class BeagleTextViewExtensionsTest {
         // Given
         val textValue = RandomData.string()
         every { text.text } returns textValue
-        every { text.style } returns null
+        every { text.styleId } returns null
         every { text.alignment } returns TextAlignment.RIGHT
 
         // When
@@ -144,7 +144,7 @@ class BeagleTextViewExtensionsTest {
         // Given
         val textValue = RandomData.string()
         every { text.text } returns textValue
-        every { text.style } returns null
+        every { text.styleId } returns null
         every { text.alignment } returns TextAlignment.LEFT
 
         // When
@@ -159,7 +159,7 @@ class BeagleTextViewExtensionsTest {
         // Given
         val textValue = RandomData.string()
         every { text.text } returns textValue
-        every { text.style } returns RandomData.string()
+        every { text.styleId } returns RandomData.string()
         every { BeagleEnvironment.beagleSdk.designSystem } returns null
         every { text.alignment } returns null
 

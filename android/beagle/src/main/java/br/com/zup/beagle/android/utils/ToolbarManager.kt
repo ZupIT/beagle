@@ -76,7 +76,7 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
         navigationBar: NavigationBar
     ) {
         val designSystem = BeagleEnvironment.beagleSdk.designSystem
-        val style = navigationBar.style ?: ""
+        val style = navigationBar.styleId ?: ""
         designSystem?.toolbarStyle(style)?.let { toolbarStyle ->
             val typedArray = context.obtainStyledAttributes(
                 toolbarStyle,

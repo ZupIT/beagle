@@ -85,7 +85,7 @@ object ComponentScreenBuilder : ScreenBuilder {
         text = text,
         onPress = listOf(Navigate.PushView(Route.Remote(path))
         ),
-        style = BUTTON_STYLE_TITLE
+        styleId = BUTTON_STYLE_TITLE
     ).applyFlex(
         flex = Flex(
             margin = EdgeValue(

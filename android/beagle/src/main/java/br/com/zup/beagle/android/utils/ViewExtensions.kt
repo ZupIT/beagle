@@ -24,7 +24,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import br.com.zup.beagle.core.AppearanceComponent
+import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.view.custom.BeagleImageView
 import br.com.zup.beagle.android.view.ViewFactory
@@ -40,9 +40,9 @@ internal fun View.hideKeyboard() {
     imm.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
-internal fun View.applyAppearance(component: ServerDrivenComponent) {
-    (component as? AppearanceComponent)?.let {
-        if (it.appearance?.backgroundColor != null) {
+internal fun View.applyStyle(component: ServerDrivenComponent) {
+    (component as? StyleComponent)?.let {
+        if (it.style?.backgroundColor != null) {
             this.background = GradientDrawable()
             applyBackgroundColor(it)
             applyCornerRadius(it)
@@ -65,14 +65,14 @@ internal fun View.applyAppearance(component: ServerDrivenComponent) {
     }
 }
 
-internal fun View.applyBackgroundColor(appearanceWidget: AppearanceComponent) {
-    appearanceWidget.appearance?.backgroundColor?.let {
+internal fun View.applyBackgroundColor(styleWidget: StyleComponent) {
+    styleWidget.style?.backgroundColor?.let {
         (this.background as? GradientDrawable)?.setColor(it.toAndroidColor())
     }
 }
 
-internal fun View.applyCornerRadius(appearanceWidget: AppearanceComponent) {
-    appearanceWidget.appearance?.cornerRadius?.let { cornerRadius ->
+internal fun View.applyCornerRadius(styleWidget: StyleComponent) {
+    styleWidget.style?.cornerRadius?.let { cornerRadius ->
         if (cornerRadius.radius > FLOAT_ZERO) {
             (this as? BeagleImageView)?.cornerRadius = cornerRadius.radius.toFloat()
             (this.background as? GradientDrawable)?.cornerRadius = cornerRadius.radius.toFloat()

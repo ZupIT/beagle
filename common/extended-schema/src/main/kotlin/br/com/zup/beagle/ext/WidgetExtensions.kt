@@ -17,7 +17,7 @@
 package br.com.zup.beagle.ext
 
 import br.com.zup.beagle.core.Accessibility
-import br.com.zup.beagle.core.Appearance
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexBuilder
@@ -49,11 +49,11 @@ fun <T : Widget> T.buildAndApplyFlex(flexBuilder: FlexBuilder) = this.applyFlex(
 /**
  * Apply the appearance.
  *
- * @see Appearance
+ * @see Style
  *
  * @return the current widget
  */
-fun <T : Widget> T.applyAppearance(appearance: Appearance) = this.apply { this.appearance = appearance }
+fun <T : Widget> T.applyStyle(style: Style) = this.apply { this.style = style }
 
 /**
  * Apply the accessibility .

@@ -21,13 +21,13 @@ import androidx.annotation.StyleRes
 
 open class DesignSystem {
     @DrawableRes
-    open fun image(name: String): Int? = null
+    open fun image(id: String): Int? = null
     @StyleRes
-    open fun textAppearance(name: String): Int? = null
+    open fun textStyle(id: String): Int? = null
     @StyleRes
-    open fun buttonStyle(name: String): Int? = null
+    open fun buttonStyle(id: String): Int? = null
     @StyleRes
-    open fun toolbarStyle(name: String): Int? = null
+    open fun toolbarStyle(id: String): Int? = null
     @StyleRes
-    open fun tabViewStyle(name: String): Int? = null
+    open fun tabViewStyle(id: String): Int? = null
 }

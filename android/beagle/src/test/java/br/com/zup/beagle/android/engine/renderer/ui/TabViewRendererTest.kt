@@ -92,7 +92,7 @@ class TabViewRendererTest : BaseTest() {
         every { beagleFlexView.addView(any()) } just runs
 
         every { tabView.tabItems } returns listOf(tabItem)
-        every { tabView.style } returns ""
+        every { tabView.styleId } returns ""
     }
 
     override fun tearDown() {

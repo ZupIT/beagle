@@ -16,17 +16,17 @@
 
 package br.com.zup.beagle.android.utils
 
-import android.view.View
-import br.com.zup.beagle.core.Appearance
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.engine.renderer.RootView
-import br.com.zup.beagle.android.engine.renderer.ViewRenderer
-import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
+import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
+import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import org.junit.Before
 import org.junit.Test
@@ -37,24 +37,23 @@ class WidgetExtensionsKtTest {
     @MockK
     private lateinit var rootView: RootView
 
-    @MockK
-    private lateinit var viewRendererMock: ViewRendererFactory
+    @RelaxedMockK
+    private lateinit var viewFactoryMock: ViewFactory
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
 
-        viewRenderer = viewRendererMock
+        viewFactory = viewFactoryMock
     }
 
     @Test
     fun toView() {
         // Given
         val component = mockk<ServerDrivenComponent>()
-        val viewRenderer = mockk<ViewRenderer<*>>()
-        val view = mockk<View>()
-        every { viewRendererMock.make(any()) } returns viewRenderer
-        every { viewRenderer.build(rootView) } returns view
+        val view = mockk<BeagleFlexView>(relaxed = true)
+        every { viewFactory.makeBeagleFlexView(any()) } returns view
+        every { rootView.getContext() } returns mockk()
 
         // When
         val actual = component.toView(rootView)
@@ -64,15 +63,15 @@ class WidgetExtensionsKtTest {
     }
 
     @Test
-    fun toWidget_should_create_a_ScreenWidget() {
+    fun toComponent_should_create_a_ScreenWidget() {
         // Given
         val navigationBar = mockk<NavigationBar>()
         val child = mockk<ServerDrivenComponent>()
-        val appearance = mockk<Appearance>()
+        val style = mockk<Style>()
         val screen = Screen(
             navigationBar = navigationBar,
             child = child,
-            appearance = appearance
+            style = style
         )
 
         // When
@@ -81,6 +80,6 @@ class WidgetExtensionsKtTest {
         // Then
         assertEquals(navigationBar, actual.navigationBar)
         assertEquals(child, actual.child)
-        assertEquals(appearance, actual.appearance)
+        assertEquals(style, actual.style)
     }
 }

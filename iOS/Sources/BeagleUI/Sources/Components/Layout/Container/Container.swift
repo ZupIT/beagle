@@ -41,7 +41,7 @@ extension Container {
             children: children,
             widgetProperties: .init(
                 id: widgetProperties.id,
-                appearance: widgetProperties.appearance,
+                style: widgetProperties.style,
                 flex: flex,
                 accessibility: widgetProperties.accessibility
             ))

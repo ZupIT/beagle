@@ -156,7 +156,7 @@ class ToolbarManagerTest : BaseTest() {
         every { navigationBar.title } returns title
         every { beagleSdk.designSystem } returns designSystemMock
         every { designSystemMock.toolbarStyle(style) } returns styleInt
-        every { navigationBar.style } returns style
+        every { navigationBar.styleId } returns style
         every { context.supportActionBar } returns actionBar
         every { context.getToolbar() } returns toolbar
         every { navigationBar.showBackButton } returns true
@@ -179,7 +179,7 @@ class ToolbarManagerTest : BaseTest() {
         // Given
         every { beagleSdk.designSystem } returns designSystemMock
         every { designSystemMock.toolbarStyle(style) } returns styleInt
-        every { navigationBar.style } returns style
+        every { navigationBar.styleId } returns style
         every { screenComponent.navigationBar } returns navigationBar
         every { context.supportActionBar } returns actionBar
         every { context.getToolbar() } returns toolbar

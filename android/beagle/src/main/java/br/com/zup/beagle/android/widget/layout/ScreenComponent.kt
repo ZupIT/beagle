@@ -18,10 +18,9 @@ package br.com.zup.beagle.android.widget.layout
 
 import br.com.zup.beagle.analytics.ScreenAnalytics
 import br.com.zup.beagle.analytics.ScreenEvent
-import br.com.zup.beagle.core.Appearance
-import br.com.zup.beagle.core.AppearanceComponent
-import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.widget.layout.NavigationBar
 
 internal data class ScreenComponent(
@@ -29,13 +28,13 @@ internal data class ScreenComponent(
     val navigationBar: NavigationBar? = null,
     val child: ServerDrivenComponent,
     override val screenAnalyticsEvent: ScreenEvent? = null
-) : AppearanceComponent, LayoutComponent, ScreenAnalytics {
+) : StyleComponent, ScreenAnalytics {
 
-    override var appearance: Appearance? = null
+    override var style: Style? = null
         private set
 
-    fun applyAppearance(appearance: Appearance): ScreenComponent {
-        this.appearance = appearance
+    fun applyStyle(style: Style): ScreenComponent {
+        this.style = style
         return this
     }
 }
