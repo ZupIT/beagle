@@ -25,10 +25,10 @@ import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.layout.ScrollAxis
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.layout.Spacer
+import br.com.zup.beagle.widget.layout.extensions.dynamic
 import br.com.zup.beagle.widget.ui.ListDirection
 import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.Text
-import br.com.zup.beagle.widget.ui.dynamic
 
 object ListViewScreenBuilder : ScreenBuilder {
     override fun build() = Screen(

@@ -14,5 +14,24 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.ext
+package br.com.zup.beagle.widget.layout.extensions
 
+import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.ui.ListDirection
+import br.com.zup.beagle.widget.ui.ListView
+
+/**
+ * Represent a view in list
+ *
+ */
+
+typealias RowBuilder = (index: Int) -> Widget
+
+fun ListView.Companion.dynamic(
+    size: Int,
+    direction: ListDirection = ListDirection.VERTICAL,
+    rowBuilder: RowBuilder
+) = ListView(
+    rows = (0 until size).map(rowBuilder),
+    direction = direction
+)

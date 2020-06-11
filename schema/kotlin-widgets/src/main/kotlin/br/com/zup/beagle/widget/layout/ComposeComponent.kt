@@ -1,7 +1,3 @@
-package br.com.zup.beagle.widget.layout
-
-import br.com.zup.beagle.core.ServerDrivenComponent
-
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -17,6 +13,10 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package br.com.zup.beagle.widget.layout
+
+import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
  * TODO
