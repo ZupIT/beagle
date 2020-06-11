@@ -14,17 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+package br.com.zup.beagle.android.widget.ui
 
-import br.com.zup.beagle.core.ServerDrivenComponent
+import android.content.Context
+import androidx.lifecycle.LifecycleOwner
 
-/**
- * TODO
- */
-interface ComposeComponent : ServerDrivenComponent {
-
-    /**
-     * TODO
-     */
-    fun build(): ServerDrivenComponent
+interface RootView {
+    fun getContext(): Context
+    fun getLifecycleOwner(): LifecycleOwner
 }

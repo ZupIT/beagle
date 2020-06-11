@@ -14,9 +14,25 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.widget.core
+package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.widget.Widget
+/**
+ * The direction attribute will define the list direction.
+ *
+ * @property VERTICAL
+ * @property HORIZONTAL
+ *
+ */
+enum class ListDirection {
+    /**
+     * Items list are displayed in vertical direction like LINES.
+     *
+     */
+    VERTICAL,
 
-abstract class WidgetView : Widget(),
-    ViewConvertable
+    /**
+     * Items list are displayed in Horizontal direction like COLUMNS.
+     *
+     */
+    HORIZONTAL
+}

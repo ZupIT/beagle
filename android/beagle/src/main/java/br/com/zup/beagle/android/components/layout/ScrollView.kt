@@ -19,27 +19,18 @@ package br.com.zup.beagle.android.components.layout
 import android.view.View
 import android.view.ViewGroup
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.core.RootView
-import br.com.zup.beagle.android.widget.core.ViewConvertable
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
-import br.com.zup.beagle.widget.layout.ScrollAxis
-import br.com.zup.beagle.widget.layout.ScrollView
+import br.com.zup.beagle.widget.core.ScrollAxis
 
-/**
- * Component is a specialized container that will display its components in a Scroll
- *
- * @param children define a list of components to be displayed on this view.
- * @param scrollDirection define the scroll roll direction on screen.
- * @param scrollBarEnabled determine if the Scroll bar is displayed or not. It is displayed by default.
- *
- */
 data class ScrollView(
-    override val children: List<ServerDrivenComponent>,
-    override val scrollDirection: ScrollAxis? = null,
-    override val scrollBarEnabled: Boolean? = null
-) : ScrollView(children, scrollDirection, scrollBarEnabled), ViewConvertable {
+    private val children: List<ServerDrivenComponent>,
+    private val scrollDirection: ScrollAxis? = null,
+    private val scrollBarEnabled: Boolean? = null
+) : WidgetView() {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()

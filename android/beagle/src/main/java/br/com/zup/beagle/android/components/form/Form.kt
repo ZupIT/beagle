@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.action.CustomAction
+import br.com.zup.beagle.action.FormRemoteAction
 import br.com.zup.beagle.android.action.ActionExecutor
 import br.com.zup.beagle.android.action.FormValidationActionHandler
 import br.com.zup.beagle.android.components.utils.hideKeyboard
@@ -36,19 +37,16 @@ import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
-import br.com.zup.beagle.android.widget.core.RootView
-import br.com.zup.beagle.android.widget.core.ViewConvertable
-import br.com.zup.beagle.android.widget.form.InputWidget
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.form.Form
-import br.com.zup.beagle.widget.form.FormRemoteAction
 
 data class Form(
-    override val action: Action,
-    override val child: ServerDrivenComponent,
-    override val group: String? = null,
-    override val shouldStoreFields: Boolean = false
-) : Form(action, child, group, shouldStoreFields), ViewConvertable {
+    private val action: Action,
+    private val child: ServerDrivenComponent,
+    private val group: String? = null,
+    private val shouldStoreFields: Boolean = false
+) : WidgetView() {
 
     @Transient
     private val viewRendererFactory: ViewRendererFactory = ViewRendererFactory()

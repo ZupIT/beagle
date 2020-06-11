@@ -18,17 +18,16 @@ package br.com.zup.beagle.android.components
 
 import android.view.View
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.core.RootView
-import br.com.zup.beagle.android.widget.core.ViewConvertable
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
-import br.com.zup.beagle.widget.layout.Spacer
 
 data class Spacer(
-    override val size: Double
-) : Spacer(size), ViewConvertable {
+    private val size: Double
+) : WidgetView() {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()

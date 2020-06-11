@@ -20,22 +20,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.ui.UndefinedViewRenderer
-import br.com.zup.beagle.android.widget.core.RootView
-import br.com.zup.beagle.android.widget.form.InputWidget
-import br.com.zup.beagle.android.widget.pager.PageIndicatorComponent
-import br.com.zup.beagle.android.widget.pager.PageIndicatorOutput
 
-internal class UndefinedWidget : InputWidget(), PageIndicatorComponent {
-
-    override fun onErrorMessage(message: String) {}
-
-    override fun initPageView(pageIndicatorOutput: PageIndicatorOutput) {}
-
-    override fun onItemUpdated(newIndex: Int) {}
-
-    override fun setCount(pages: Int) {}
-
-    override fun getValue(): Any = ""
+internal class UndefinedWidget : WidgetView() {
 
     override fun buildView(rootView: RootView): View = UndefinedViewRenderer(this).build(
         ActivityRootView(rootView.getContext() as AppCompatActivity)

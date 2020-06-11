@@ -22,16 +22,15 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.toAndroidColor
-import br.com.zup.beagle.android.widget.core.RootView
-import br.com.zup.beagle.android.widget.core.ViewConvertable
-import br.com.zup.beagle.widget.ui.Text
-import br.com.zup.beagle.widget.ui.TextAlignment
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.WidgetView
+import br.com.zup.beagle.widget.core.TextAlignment
 
-data class Text(override val text: String,
-                override val styleId: String? = null,
-                override val textColor: String? = null,
-                override val alignment: TextAlignment? = null)
-    : br.com.zup.beagle.widget.ui.Text(text, styleId, textColor, alignment), ViewConvertable {
+data class Text(private val text: String,
+                val styleId: String? = null,
+                private val textColor: String? = null,
+                private val alignment: TextAlignment? = null)
+    : WidgetView() {
 
 
     override fun buildView(rootView: RootView): View {

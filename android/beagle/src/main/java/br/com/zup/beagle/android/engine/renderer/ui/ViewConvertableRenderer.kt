@@ -18,8 +18,8 @@ package br.com.zup.beagle.android.engine.renderer.ui
 
 import android.view.View
 import br.com.zup.beagle.android.engine.renderer.UIViewRenderer
-import br.com.zup.beagle.android.widget.core.RootView
-import br.com.zup.beagle.android.widget.core.ViewConvertable
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.ViewConvertable
 
 internal class ViewConvertableRenderer(override val component: ViewConvertable) : UIViewRenderer<ViewConvertable>() {
     override fun buildView(rootView: RootView): View {

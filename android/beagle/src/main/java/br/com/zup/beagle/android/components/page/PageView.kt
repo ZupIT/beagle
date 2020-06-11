@@ -23,16 +23,14 @@ import androidx.viewpager.widget.ViewPager
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.view.BeaglePageView
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.core.RootView
-import br.com.zup.beagle.android.widget.core.ViewConvertable
-import br.com.zup.beagle.android.widget.pager.PageIndicatorComponent
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.layout.PageView
 
 data class PageView(
-    override val pages: List<ServerDrivenComponent>,
-    override val pageIndicator: PageIndicatorComponent? = null
-) : PageView(pages, pageIndicator), ViewConvertable {
+    private val pages: List<ServerDrivenComponent>,
+    private val pageIndicator: PageIndicatorComponent? = null
+) : WidgetView() {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()

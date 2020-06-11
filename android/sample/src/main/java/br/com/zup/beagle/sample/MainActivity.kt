@@ -22,7 +22,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.components.Button
-import br.com.zup.beagle.android.components.layout.Screen
+import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.sample.activities.NavigationBarActivity
 import br.com.zup.beagle.sample.constants.SAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.fragment.ComposeComponentFragment
@@ -52,12 +52,12 @@ class MainActivity : AppCompatActivity() {
             title = "Beagle Sample"
             elevation = 4.0f.dp()
         }
-        startActivity(BeagleActivity.newIntent(
+/*        startActivity(BeagleActivity.newIntent(
             this,
            screen = Screen(
                child = Button(text = "asdasd")
            )
-        ))
+        ))*/
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

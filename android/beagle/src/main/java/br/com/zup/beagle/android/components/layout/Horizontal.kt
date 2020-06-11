@@ -19,17 +19,16 @@ package br.com.zup.beagle.android.components.layout
 import android.view.View
 import br.com.zup.beagle.android.view.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.core.RootView
-import br.com.zup.beagle.android.widget.core.ViewConvertable
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
-import br.com.zup.beagle.widget.layout.Horizontal
 
 data class Horizontal(
-    override val children: List<ServerDrivenComponent>,
-    override val reversed: Boolean? = null
-) : Horizontal(children, reversed), ViewConvertable {
+    private val children: List<ServerDrivenComponent>,
+    private val reversed: Boolean? = null
+) : WidgetView() {
 
     @Transient
     private val viewFactory = ViewFactory()

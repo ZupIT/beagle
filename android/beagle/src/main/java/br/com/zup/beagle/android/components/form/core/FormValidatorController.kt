@@ -17,13 +17,13 @@
 package br.com.zup.beagle.android.components.form.core
 
 import android.view.View
+import br.com.zup.beagle.android.components.form.FormInput
+import br.com.zup.beagle.android.components.form.FormSubmit
+import br.com.zup.beagle.android.components.form.InputWidget
+import br.com.zup.beagle.android.components.form.observer.Observable
+import br.com.zup.beagle.android.components.form.observer.Observer
+import br.com.zup.beagle.android.components.form.observer.WidgetState
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.widget.form.FormInput
-import br.com.zup.beagle.widget.form.FormSubmit
-import br.com.zup.beagle.android.widget.form.InputWidget
-import br.com.zup.beagle.android.widget.interfaces.Observer
-import br.com.zup.beagle.android.widget.interfaces.WidgetState
-import br.com.zup.beagle.android.widget.state.Observable
 
 class FormValidatorController(
     private val validatorHandler: ValidatorHandler? = BeagleEnvironment.beagleSdk.validatorHandler,
@@ -33,7 +33,7 @@ class FormValidatorController(
     var formSubmitView: View? = null
 
     private fun subscribeOnValidState(formInput: FormInput) {
-        val inputWidget: InputWidget = formInput.child as InputWidget
+        val inputWidget: InputWidget = formInput.child
         inputWidget.getState().addObserver(object : Observer<WidgetState> {
             override fun update(o: Observable<WidgetState>, arg: WidgetState) {
                 getValidator(formInput.validator)?.let {

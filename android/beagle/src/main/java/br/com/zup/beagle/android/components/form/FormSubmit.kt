@@ -18,16 +18,14 @@ package br.com.zup.beagle.android.components.form
 
 import android.view.View
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
-import br.com.zup.beagle.android.widget.core.RootView
-import br.com.zup.beagle.android.widget.core.ViewConvertable
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.form.FormSubmit
-
 
 data class FormSubmit(
-    override val child: ServerDrivenComponent,
-    override val enabled: Boolean = true
-) : FormSubmit(child, enabled), ViewConvertable {
+    private val child: ServerDrivenComponent,
+    val enabled: Boolean = true
+) : WidgetView() {
 
     @Transient
     private val viewRendererFactory: ViewRendererFactory = ViewRendererFactory()

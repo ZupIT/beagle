@@ -24,7 +24,6 @@ import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleLogger
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.android.widget.form.InputWidget
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every

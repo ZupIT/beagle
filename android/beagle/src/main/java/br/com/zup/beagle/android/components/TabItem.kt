@@ -18,15 +18,15 @@ package br.com.zup.beagle.android.components
 
 import android.view.View
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.core.RootView
-import br.com.zup.beagle.android.widget.core.ViewConvertable
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 data class TabItem(
-    override val title: String? = null,
-    override val content: ServerDrivenComponent,
-    override val icon: String? = null
-) : br.com.zup.beagle.widget.ui.TabItem(title, content, icon), ViewConvertable {
+    val title: String? = null,
+    val content: ServerDrivenComponent,
+    val icon: String? = null
+) : WidgetView() {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()

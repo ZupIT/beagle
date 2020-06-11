@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.widget.interfaces
+package br.com.zup.beagle.android.components.form.observer
 
-import br.com.zup.beagle.android.widget.state.Observable
-
-interface Observer<T> {
-    fun update(o: Observable<T>, arg: T)
+interface StateChangeable {
+    fun getState(): Observable<WidgetState>
 }
+
+data class WidgetState(val value: Any)

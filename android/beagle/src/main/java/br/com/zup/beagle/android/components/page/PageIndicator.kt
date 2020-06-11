@@ -19,15 +19,13 @@ package br.com.zup.beagle.android.components.page
 import android.graphics.Color
 import br.com.zup.beagle.android.view.BeaglePageIndicatorView
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.core.RootView
-import br.com.zup.beagle.android.widget.pager.PageIndicatorComponent
-import br.com.zup.beagle.android.widget.pager.PageIndicatorOutput
-import br.com.zup.beagle.widget.pager.PageIndicator
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 
 class PageIndicator(
-    selectedColor: String,
-    unselectedColor: String
-) : PageIndicator(selectedColor, unselectedColor), PageIndicatorComponent {
+    private val selectedColor: String,
+    private val unselectedColor: String
+) : WidgetView(), PageIndicatorComponent {
 
     @Transient
     private var viewFactory: ViewFactory = ViewFactory()

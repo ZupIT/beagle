@@ -23,16 +23,15 @@ import br.com.zup.beagle.android.action.ActionExecutor
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.widget.core.RootView
-import br.com.zup.beagle.android.widget.core.ViewConvertable
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.navigation.Touchable
 
 data class Touchable(
-    override val action: Action,
-    override val child: ServerDrivenComponent,
-    override val clickAnalyticsEvent: ClickEvent? = null
-) : Touchable(action, child, clickAnalyticsEvent), ViewConvertable {
+    private val action: Action,
+    private val child: ServerDrivenComponent,
+    private val clickAnalyticsEvent: ClickEvent? = null
+) : WidgetView() {
 
     @Transient
     private val actionExecutor: ActionExecutor = ActionExecutor()

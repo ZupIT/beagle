@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.widget.core
+package br.com.zup.beagle.widget.core
 
-import android.content.Context
-import androidx.lifecycle.LifecycleOwner
-
-interface RootView {
-    fun getContext(): Context
-    fun getLifecycleOwner(): LifecycleOwner
+enum class ScrollAxis {
+    VERTICAL,
+    HORIZONTAL
 }

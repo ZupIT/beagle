@@ -14,8 +14,32 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.widget.pager
+package br.com.zup.beagle.widget.core
 
-interface PageIndicatorOutput {
-    fun swapToPage(newIndex: Int)
+/**
+ * Defines the text content alignment inside the text view
+ *
+ * @property LEFT
+ * @property CENTER
+ * @property RIGHT
+ *
+ */
+enum class TextAlignment {
+    /**
+     * Text content is LEFT aligned inside the text view.
+     *
+     */
+    LEFT,
+
+    /**
+     * Text content is CENTER aligned inside the text view.
+     *
+     */
+    CENTER,
+
+    /**
+     * Text content is RIGHT aligned inside the text view.
+     *
+     */
+    RIGHT
 }

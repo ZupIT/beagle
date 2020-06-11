@@ -22,7 +22,7 @@ import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.view.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.core.RootView
+import br.com.zup.beagle.android.widget.ui.RootView
 import br.com.zup.beagle.widget.layout.ComposeComponent
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs

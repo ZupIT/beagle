@@ -16,15 +16,14 @@
 
 package br.com.zup.beagle.sample.widgets
 
-import android.content.Context
 import android.graphics.Color
 import android.text.InputType
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
-import br.com.zup.beagle.android.widget.core.RootView
+import br.com.zup.beagle.android.components.form.InputWidget
+import br.com.zup.beagle.android.widget.ui.RootView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.sample.utils.MaskApplier
-import br.com.zup.beagle.android.widget.form.InputWidget
 
 enum class TextFieldInputType {
     NUMBER,

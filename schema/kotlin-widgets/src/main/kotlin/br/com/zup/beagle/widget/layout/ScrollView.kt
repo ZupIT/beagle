@@ -17,6 +17,7 @@
 package br.com.zup.beagle.widget.layout
 
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.widget.core.ScrollAxis
 
 /**
  * Component is a specialized container that will display its components in a Scroll
@@ -31,8 +32,3 @@ open class ScrollView(
     open val scrollDirection: ScrollAxis? = null,
     open val scrollBarEnabled: Boolean? = null
 ) : ServerDrivenComponent
-
-enum class ScrollAxis {
-    VERTICAL,
-    HORIZONTAL
-}

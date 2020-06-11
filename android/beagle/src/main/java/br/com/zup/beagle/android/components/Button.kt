@@ -26,15 +26,14 @@ import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.android.action.ActionExecutor
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.widget.core.RootView
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 
-import br.com.zup.beagle.android.widget.core.ViewConvertable
-
-data class Button(override val text: String,
-                  override val styleId: String? = null,
-                  override val action: Action? = null,
-                  override val clickAnalyticsEvent: ClickEvent? = null)
-    : br.com.zup.beagle.widget.ui.Button(text, styleId, action, clickAnalyticsEvent), ViewConvertable {
+data class Button(private val text: String,
+                  val styleId: String? = null,
+                  private val action: Action? = null,
+                  private val clickAnalyticsEvent: ClickEvent? = null)
+    : WidgetView() {
 
     @Transient
     private val actionExecutor: ActionExecutor = ActionExecutor()

@@ -16,11 +16,10 @@
 
 package br.com.zup.beagle.sample.widgets
 
-import android.content.Context
 import android.graphics.Color
 import android.widget.TextView
-import br.com.zup.beagle.android.widget.core.RootView
-import br.com.zup.beagle.android.widget.core.WidgetView
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 
 data class MutableText(
     val firstText: String = "",

@@ -24,20 +24,20 @@ import br.com.zup.beagle.android.utils.ToolbarManager
 import br.com.zup.beagle.android.utils.configureSupportActionBar
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.core.RootView
-import br.com.zup.beagle.android.widget.core.WidgetView
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.SafeArea
 
-data class ScreenComponent(
-    var identifier: String? = null,
-    val safeArea: SafeArea? = null,
-    val navigationBar: NavigationBar? = null,
-    val child: ServerDrivenComponent,
-    val screenAnalyticsEvent: ScreenEvent? = null,
+internal data class ScreenComponent(
+    val identifier: String? = null,
+    private val safeArea: SafeArea? = null,
+    private val navigationBar: NavigationBar? = null,
+    private val child: ServerDrivenComponent,
+    private val screenAnalyticsEvent: ScreenEvent? = null,
     override var style: Style? = null
 ) : WidgetView() {
 

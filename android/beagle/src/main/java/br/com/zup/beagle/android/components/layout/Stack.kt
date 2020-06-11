@@ -20,23 +20,16 @@ import android.view.View
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.view.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.core.RootView
-import br.com.zup.beagle.android.widget.core.ViewConvertable
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.core.FlexComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexPositionType
-import br.com.zup.beagle.widget.layout.Stack
 
-/**
- * component will hold a stack of components. It display its children relative to the stack.
- *
- * @param children define the components to be stacked on the Stack component view.
- *
- */
 data class Stack(
-    override val children: List<ServerDrivenComponent>
-) : Stack(children), ViewConvertable {
+    private val children: List<ServerDrivenComponent>
+) : WidgetView() {
 
     @Transient
     private val viewRendererFactory: ViewRendererFactory = ViewRendererFactory()

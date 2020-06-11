@@ -30,7 +30,7 @@ import br.com.zup.beagle.widget.Widget
  */
 open class Button(
     open val text: String,
-    open  val styleId: String? = null,
-    open  val action: Action? = null,
+    open val styleId: String? = null,
+    open val action: Action? = null,
     override val clickAnalyticsEvent: ClickEvent? = null
 ) : Widget(), TouchableAnalytics

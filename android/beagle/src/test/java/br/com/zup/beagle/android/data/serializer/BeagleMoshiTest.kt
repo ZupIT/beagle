@@ -32,13 +32,13 @@ import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.form.Form
 import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.components.form.FormSubmit
-import br.com.zup.beagle.android.components.layout.ScreenComponent
+import br.com.zup.beagle.widget.layout.ScreenComponent
 import br.com.zup.beagle.android.components.page.PageIndicator
 import br.com.zup.beagle.android.mockdata.CustomInputWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.mockdata.CustomWidget
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.android.widget.core.WidgetView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.layout.Horizontal
 import br.com.zup.beagle.android.components.layout.ScrollView

@@ -17,6 +17,7 @@
 package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.core.TextAlignment
 
 /**
  * A text widget will define a text view natively using the server driven information received through Beagle.
@@ -36,30 +37,3 @@ open class Text(
     open val alignment: TextAlignment? = null
 ) : Widget()
 
-/**
- * Defines the text content alignment inside the text view
- *
- * @property LEFT
- * @property CENTER
- * @property RIGHT
- *
- */
-enum class TextAlignment {
-    /**
-     * Text content is LEFT aligned inside the text view.
-     *
-     */
-    LEFT,
-
-    /**
-     * Text content is CENTER aligned inside the text view.
-     *
-     */
-    CENTER,
-
-    /**
-     * Text content is RIGHT aligned inside the text view.
-     *
-     */
-    RIGHT
-}

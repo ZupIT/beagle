@@ -22,17 +22,17 @@ import android.view.View
 import android.widget.ImageView
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
 import br.com.zup.beagle.android.components.utils.ComponentStylization
-import br.com.zup.beagle.android.widget.core.RootView
-import br.com.zup.beagle.android.widget.core.ViewConvertable
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.widget.core.ImageContentMode
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 
 data class NetworkImage(
-    override val path: String,
-    override val contentMode: ImageContentMode? = null
-) : br.com.zup.beagle.widget.ui.NetworkImage(path, contentMode), ViewConvertable {
+    private val path: String,
+    private val contentMode: ImageContentMode? = null
+) : WidgetView() {
 
     @Transient
     private val componentStylization: ComponentStylization<NetworkImage> = ComponentStylization()

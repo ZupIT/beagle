@@ -16,17 +16,23 @@
 
 package br.com.zup.beagle.android.components.layout
 
-import br.com.zup.beagle.analytics.ScreenEvent
+import android.view.View
+import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.SafeArea
-import br.com.zup.beagle.widget.layout.Screen
 
-open class Screen(override val identifier: String? = null,
-                  override val safeArea: SafeArea? = null,
-                  override val navigationBar: NavigationBar? = null,
-                  override val child: ServerDrivenComponent,
-                  override val style: Style? = null,
-                  override val screenAnalyticsEvent: ScreenEvent? = null)
-    : Screen(identifier, safeArea, navigationBar, child, style, screenAnalyticsEvent)
+abstract class ComposeComponent : WidgetView() {
+
+    @Transient
+    private val viewFactory = ViewFactory()
+
+    override fun buildView(rootView: RootView): View {
+        return viewFactory.makeBeagleFlexView(rootView.getContext()).apply {
+            addServerDrivenComponent(build(), rootView)
+        }
+    }
+
+
+    abstract fun build(): ServerDrivenComponent
+}

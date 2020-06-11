@@ -100,8 +100,8 @@ internal object BeagleNavigator {
 
     private fun generateIntent(context: Context, route: Route): Intent {
         return when (route) {
-            is Route.Remote -> BeagleActivity.newIntent(context, ScreenRequest(route.route), null, route.fallback)
-            is Route.Local -> BeagleActivity.newIntent(context, ScreenRequest(""), null, route.screen)
+            is Route.Remote -> BeagleActivity.newIntent(context, ScreenRequest(route.route), route.fallback)
+            is Route.Local -> BeagleActivity.newIntent(context, ScreenRequest(""), route.screen)
         }
     }
 }

@@ -25,7 +25,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.engine.renderer.ViewRenderer
 import br.com.zup.beagle.android.view.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.core.RootView
+import br.com.zup.beagle.android.widget.ui.RootView
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.every

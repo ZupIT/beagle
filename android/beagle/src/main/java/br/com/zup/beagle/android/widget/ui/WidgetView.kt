@@ -14,12 +14,8 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.widget.interfaces
+package br.com.zup.beagle.android.widget.ui
 
-import br.com.zup.beagle.android.widget.state.Observable
+import br.com.zup.beagle.widget.Widget
 
-interface StateChangeable {
-    fun getState(): Observable<WidgetState>
-}
-
-data class WidgetState(val value: Any)
+abstract class WidgetView : Widget(), ViewConvertable

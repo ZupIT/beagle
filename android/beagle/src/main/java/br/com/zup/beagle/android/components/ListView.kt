@@ -21,17 +21,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.core.RootView
-import br.com.zup.beagle.android.widget.core.ViewConvertable
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.ui.ListDirection
-import br.com.zup.beagle.widget.ui.ListDirection.VERTICAL
-import br.com.zup.beagle.widget.ui.ListView
+import br.com.zup.beagle.widget.core.ListDirection
 
 data class ListView(
-    override val rows: List<ServerDrivenComponent>,
-    override val direction: ListDirection = VERTICAL
-) : ListView(rows, direction), ViewConvertable {
+    private val rows: List<ServerDrivenComponent>,
+    private val direction: ListDirection = ListDirection.VERTICAL
+) : WidgetView() {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
@@ -47,7 +45,7 @@ data class ListView(
         return recyclerView
     }
 
-    private fun toRecyclerViewOrientation() = if (direction == VERTICAL) {
+    private fun toRecyclerViewOrientation() = if (direction == ListDirection.VERTICAL) {
         RecyclerView.VERTICAL
     } else {
         RecyclerView.HORIZONTAL

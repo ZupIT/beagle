@@ -14,17 +14,8 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+package br.com.zup.beagle.android.components.form.observer
 
-import br.com.zup.beagle.core.ServerDrivenComponent
-
-/**
- * TODO
- */
-interface ComposeComponent : ServerDrivenComponent {
-
-    /**
-     * TODO
-     */
-    fun build(): ServerDrivenComponent
+interface Observer<T> {
+    fun update(o: Observable<T>, arg: T)
 }

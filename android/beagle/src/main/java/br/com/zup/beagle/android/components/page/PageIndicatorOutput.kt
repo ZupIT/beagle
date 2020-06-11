@@ -14,17 +14,8 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+package br.com.zup.beagle.android.components.page
 
-import br.com.zup.beagle.core.ServerDrivenComponent
-
-/**
- * TODO
- */
-interface ComposeComponent : ServerDrivenComponent {
-
-    /**
-     * TODO
-     */
-    fun build(): ServerDrivenComponent
+interface PageIndicatorOutput {
+    fun swapToPage(newIndex: Int)
 }

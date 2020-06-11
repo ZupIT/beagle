@@ -19,15 +19,14 @@ package br.com.zup.beagle.android.components.layout
 import android.view.View
 import br.com.zup.beagle.android.view.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.core.RootView
-import br.com.zup.beagle.android.widget.core.ViewConvertable
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.layout.Container
 
 data class Container(
-    override val children: List<ServerDrivenComponent>
-) : Container(children), ViewConvertable {
+    private val children: List<ServerDrivenComponent>
+) : WidgetView() {
 
     @Transient
     private val viewFactory = ViewFactory()
@@ -44,4 +43,5 @@ data class Container(
             beagleFlexView.addServerDrivenComponent(child, rootView)
         }
     }
+
 }

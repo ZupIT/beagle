@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.widget.state
+package br.com.zup.beagle.android.components.form.observer
 
-import br.com.zup.beagle.android.widget.interfaces.Observer
 import java.util.Vector
 
 class Observable<T> {

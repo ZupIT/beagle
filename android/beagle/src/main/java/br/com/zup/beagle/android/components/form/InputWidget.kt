@@ -14,17 +14,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.widget.form
+package br.com.zup.beagle.android.components.form
 
-import br.com.zup.beagle.android.widget.core.ViewConvertable
-import br.com.zup.beagle.android.widget.interfaces.StateChangeable
-import br.com.zup.beagle.android.widget.interfaces.WidgetState
-import br.com.zup.beagle.android.widget.state.Observable
-import br.com.zup.beagle.widget.form.InputWidget
-
-abstract class InputWidget : InputWidget(),
-    ViewConvertable,
-    StateChangeable {
+import br.com.zup.beagle.android.components.form.observer.Observable
+import br.com.zup.beagle.android.components.form.observer.StateChangeable
+import br.com.zup.beagle.android.components.form.observer.WidgetState
+import br.com.zup.beagle.android.widget.ui.WidgetView
+abstract class InputWidget : WidgetView(), StateChangeable {
 
     @Transient
     private val stateObservable =

@@ -20,7 +20,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
-import br.com.zup.beagle.android.widget.core.RootView
+import br.com.zup.beagle.android.widget.ui.RootView
 
 internal class FragmentRootView(
     val fragment: Fragment

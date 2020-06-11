@@ -17,7 +17,7 @@
 package br.com.zup.beagle.widget.layout.extensions
 
 import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.ui.ListDirection
+import br.com.zup.beagle.widget.core.ListDirection
 import br.com.zup.beagle.widget.ui.ListView
 
 /**

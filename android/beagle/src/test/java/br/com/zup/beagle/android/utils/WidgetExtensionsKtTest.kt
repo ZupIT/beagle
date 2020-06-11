@@ -21,8 +21,8 @@ import br.com.zup.beagle.android.view.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.android.components.layout.Screen
-import br.com.zup.beagle.android.widget.core.RootView
+import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.android.widget.ui.RootView
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK

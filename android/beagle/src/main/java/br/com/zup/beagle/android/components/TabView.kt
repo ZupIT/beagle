@@ -30,20 +30,18 @@ import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.core.RootView
-import br.com.zup.beagle.android.widget.core.ViewConvertable
-import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.ui.TabView
 import com.google.android.material.tabs.TabLayout
 
-private val TABBAR_HEIGHT = 48.dp()
+private val TAB_BAR_HEIGHT = 48.dp()
 internal var styleManagerFactory = StyleManager()
 
-open class TabView(
-    override val tabItems: List<TabItem>,
-    override val styleId: String? = null
-) : TabView(tabItems, styleId), ViewConvertable {
+data class TabView(
+    private val tabItems: List<TabItem>,
+    private val styleId: String? = null
+) : WidgetView() {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
@@ -82,7 +80,7 @@ open class TabView(
             layoutParams =
                 viewFactory.makeFrameLayoutParams(
                     FrameLayout.LayoutParams.MATCH_PARENT,
-                    TABBAR_HEIGHT
+                    TAB_BAR_HEIGHT
                 )
 
             tabMode = TabLayout.MODE_SCROLLABLE

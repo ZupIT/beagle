@@ -20,14 +20,13 @@ import android.view.View
 import android.widget.ImageView
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.widget.core.RootView
-import br.com.zup.beagle.android.widget.core.ViewConvertable
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.widget.core.ImageContentMode
-import br.com.zup.beagle.widget.ui.Image
 
-data class Image(override val name: String,
-                 override val contentMode: ImageContentMode? = null /* = ImageContentMode.FIT_CENTER */)
-    : br.com.zup.beagle.widget.ui.Image(name, contentMode), ViewConvertable {
+data class Image(private val name: String,
+                 private val contentMode: ImageContentMode? = null)
+    : WidgetView() {
 
     @Transient
     private val viewMapper: ViewMapper = ViewMapper()

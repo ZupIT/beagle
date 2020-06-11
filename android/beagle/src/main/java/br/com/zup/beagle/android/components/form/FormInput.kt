@@ -18,18 +18,16 @@ package br.com.zup.beagle.android.components.form
 
 import android.view.View
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
-import br.com.zup.beagle.android.widget.core.RootView
-import br.com.zup.beagle.android.widget.core.ViewConvertable
-import br.com.zup.beagle.android.widget.form.InputWidget
-import br.com.zup.beagle.widget.form.FormInput
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 
 data class FormInput(
-    override val name: String,
-    override val required: Boolean? = null,
-    override val validator: String? = null,
-    override val errorMessage: String? = null,
-    override val child: InputWidget
-) : FormInput(name, required, validator, errorMessage, child), ViewConvertable {
+    val name: String,
+    val required: Boolean? = null,
+    val validator: String? = null,
+    val errorMessage: String? = null,
+    val child: InputWidget
+) : WidgetView() {
 
     @Transient
     private val viewRendererFactory: ViewRendererFactory = ViewRendererFactory()

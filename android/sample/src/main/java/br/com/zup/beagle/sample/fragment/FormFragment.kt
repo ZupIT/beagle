@@ -21,8 +21,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import br.com.zup.beagle.action.FormMethodType
+import br.com.zup.beagle.action.FormRemoteAction
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.Route
+import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.widgets.TextField
 import br.com.zup.beagle.sample.widgets.TextFieldInputType
@@ -31,15 +34,12 @@ import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
-import br.com.zup.beagle.widget.form.Form
-import br.com.zup.beagle.widget.form.FormInput
-import br.com.zup.beagle.widget.form.FormInputHidden
-import br.com.zup.beagle.widget.form.FormSubmit
-import br.com.zup.beagle.widget.form.FormRemoteAction
-import br.com.zup.beagle.widget.form.FormMethodType
-import br.com.zup.beagle.widget.layout.Container
-import br.com.zup.beagle.android.components.layout.Screen
-import br.com.zup.beagle.widget.ui.Button
+import br.com.zup.beagle.android.components.form.Form
+import br.com.zup.beagle.android.components.form.FormInput
+import br.com.zup.beagle.android.components.form.FormInputHidden
+import br.com.zup.beagle.android.components.form.FormSubmit
+import br.com.zup.beagle.android.components.layout.Container
+import br.com.zup.beagle.widget.layout.Screen
 
 private const val FORM_GROUP = "FORM_GROUP"
 

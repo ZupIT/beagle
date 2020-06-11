@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.widget.core
+package br.com.zup.beagle.android.components.page
 
-import android.view.View
+import br.com.zup.beagle.android.widget.ui.ViewConvertable
 import br.com.zup.beagle.core.ServerDrivenComponent
 
-interface ViewConvertable : ServerDrivenComponent {
-    fun buildView(rootView: RootView): View
+interface PageIndicatorComponent : ServerDrivenComponent,
+    ViewConvertable {
+    fun setCount(pages: Int)
+    fun onItemUpdated(newIndex: Int)
+    fun initPageView(pageIndicatorOutput: PageIndicatorOutput)
 }

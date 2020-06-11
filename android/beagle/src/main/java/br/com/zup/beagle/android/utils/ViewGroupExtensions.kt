@@ -28,7 +28,7 @@ import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
 import br.com.zup.beagle.android.view.OnStateChanged
 import br.com.zup.beagle.android.view.ScreenRequest
-import br.com.zup.beagle.android.widget.core.RootView
+import br.com.zup.beagle.android.widget.ui.RootView
 
 internal var beagleSerializerFactory = BeagleSerializer()
 

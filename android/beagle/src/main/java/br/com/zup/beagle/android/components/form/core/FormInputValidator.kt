@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.components.form.core
 
-import br.com.zup.beagle.widget.form.FormInput
+import br.com.zup.beagle.android.components.form.FormInput
 
 data class FormInputValidator(
     val formInput: FormInput,

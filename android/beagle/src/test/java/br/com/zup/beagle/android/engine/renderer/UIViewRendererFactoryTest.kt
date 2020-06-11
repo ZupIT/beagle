@@ -18,7 +18,7 @@ package br.com.zup.beagle.android.engine.renderer
 
 import br.com.zup.beagle.android.engine.renderer.ui.ViewConvertableRenderer
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.widget.core.WidgetView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
