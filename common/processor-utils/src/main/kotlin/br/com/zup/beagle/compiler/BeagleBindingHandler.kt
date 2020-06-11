@@ -41,10 +41,6 @@ open class BeagleBindingHandler(private val processingEnvironment: ProcessingEnv
     companion object {
         const val BINDING_SUFFIX = "Binding"
         const val GET_BIND_ATTRIBUTES_METHOD = "getBindAttributes"
-        val BIND = BeagleClass(
-            packageName = "br.com.zup.beagle.core",
-            className = "Bind"
-        )
     }
 
     private val typeUtils = processingEnvironment.typeUtils

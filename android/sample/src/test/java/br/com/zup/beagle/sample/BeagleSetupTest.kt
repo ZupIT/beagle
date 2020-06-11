@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.sample
 
-import br.com.zup.beagle.setup.BeagleSdk
+import br.com.zup.beagle.android.setup.BeagleSdk
 import org.junit.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull

@@ -18,6 +18,9 @@ package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.core.Appearance
+import br.com.zup.beagle.ext.applyAppearance
+import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.setOnFocus
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_FORM
 import br.com.zup.beagle.sample.constants.LIGHT_GREEN

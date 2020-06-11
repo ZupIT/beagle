@@ -17,51 +17,51 @@
 package br.com.zup.beagle.compiler
 
 val CUSTOM_ACTION_HANDLER = BeagleClass(
-    "br.com.zup.beagle.action",
+    "br.com.zup.beagle.android.action",
     "CustomActionHandler"
 )
 val DEEP_LINK_HANDLER = BeagleClass(
-    "br.com.zup.beagle.navigation",
+    "br.com.zup.beagle.android.navigation",
     "DeepLinkHandler"
 )
 val HTTP_CLIENT_HANDLER = BeagleClass(
-    "br.com.zup.beagle.networking",
+    "br.com.zup.beagle.android.networking",
     "HttpClient"
 )
 val VALIDATOR_HANDLER = BeagleClass(
-    "br.com.zup.beagle.form",
+    "br.com.zup.beagle.android.form",
     "ValidatorHandler"
 )
 val VALIDATOR = BeagleClass(
-    "br.com.zup.beagle.form",
+    "br.com.zup.beagle.android.form",
     "Validator"
 )
 val DESIGN_SYSTEM = BeagleClass(
-    "br.com.zup.beagle.setup",
+    "br.com.zup.beagle.android.setup",
     "DesignSystem"
 )
 val STORE_HANDLER = BeagleClass(
-    "br.com.zup.beagle.store",
+    "br.com.zup.beagle.android.store",
     "StoreHandler"
 )
 val BEAGLE_CONFIG = BeagleClass(
-    "br.com.zup.beagle.setup",
+    "br.com.zup.beagle.android.setup",
     "BeagleConfig"
 )
 val BEAGLE_SDK = BeagleClass(
-    "br.com.zup.beagle.setup",
+    "br.com.zup.beagle.android.setup",
     "BeagleSdk"
 )
 val WIDGET_VIEW = BeagleClass(
-    "br.com.zup.beagle.widget.core",
+    "br.com.zup.beagle.android.widget.core",
     "WidgetView"
 )
 val BEAGLE_ACTIVITY = BeagleClass(
-    "br.com.zup.beagle.view",
+    "br.com.zup.beagle.android.view",
     "BeagleActivity"
 )
 val URL_BUILDER_HANDLER = BeagleClass(
-    "br.com.zup.beagle.networking.urlbuilder",
+    "br.com.zup.beagle.android.networking.urlbuilder",
     "UrlBuilder"
 )
 val ANALYTICS = BeagleClass(
@@ -70,7 +70,7 @@ val ANALYTICS = BeagleClass(
 )
 
 val BINDING_ADAPTER = BeagleClass(
-    "br.com.zup.beagle.setup",
+    "br.com.zup.beagle.android.setup",
     "BindingAdapter"
 )
 
@@ -80,17 +80,17 @@ val BINDING_WIDGET = BeagleClass(
 )
 
 val BIND = BeagleClass(
-    packageName = "br.com.zup.beagle.core",
+    packageName = "br.com.zup.beagle.android.widget.core",
     className = "Bind"
 )
 
 val GET_VALUE_NULL = BeagleClass(
-    packageName = "br.com.zup.beagle.utils",
+    packageName = "br.com.zup.beagle.android.utils",
     className = "getValueNull"
 )
 
 val GET_VALUE_NOT_NULL = BeagleClass(
-    packageName = "br.com.zup.beagle.utils",
+    packageName = "br.com.zup.beagle.android.utils",
     className = "getValueNotNull"
 )
 
@@ -115,6 +115,6 @@ val ANDROID_CONTEXT = BeagleClass(
 )
 
 val ROOT_VIEW = BeagleClass(
-    packageName = "br.com.zup.beagle.engine.renderer",
+    packageName = "br.com.zup.beagle.android.engine.renderer",
     className = "RootView"
 )

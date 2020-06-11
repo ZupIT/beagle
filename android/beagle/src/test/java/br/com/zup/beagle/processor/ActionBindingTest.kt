@@ -17,10 +17,10 @@
 package br.com.zup.beagle.processor
 
 import br.com.zup.beagle.android.Action
-import br.com.zup.beagle.core.Bind
-import br.com.zup.beagle.engine.renderer.RootView
-import br.com.zup.beagle.extensions.once
-import br.com.zup.beagle.setup.BindingAdapter
+import br.com.zup.beagle.android.engine.renderer.RootView
+import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.setup.BindingAdapter
+import br.com.zup.beagle.android.widget.core.Bind
 import io.mockk.MockKAnnotations
 import io.mockk.mockk
 import io.mockk.mockkConstructor

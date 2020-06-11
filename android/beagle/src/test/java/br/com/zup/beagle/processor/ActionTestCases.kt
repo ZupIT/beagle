@@ -17,8 +17,8 @@
 package br.com.zup.beagle.processor
 
 import br.com.zup.beagle.android.Action
+import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.annotation.RegisterAction
-import br.com.zup.beagle.engine.renderer.RootView
 
 @RegisterAction
 data class MyAction(

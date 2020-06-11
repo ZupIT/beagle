@@ -18,10 +18,10 @@ package br.com.zup.beagle.processor
 
 import android.content.Context
 import android.view.View
+import br.com.zup.beagle.android.widget.core.WidgetView
+import br.com.zup.beagle.android.widget.form.InputWidget
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.core.WidgetView
-import br.com.zup.beagle.widget.form.InputWidget
 import io.mockk.mockk
 
 internal const val WIDGET_INSTANCE_PROPERTY = "widgetInstance"

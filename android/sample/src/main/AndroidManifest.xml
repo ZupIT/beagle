@@ -53,7 +53,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:exported="true"
-            android:name="br.com.zup.beagle.preview.PreviewActivity"
+            android:name="br.com.zup.beagle.android.preview.PreviewActivity"
             android:theme="@style/AppTheme.NoToolbar"/>
     </application>
 
