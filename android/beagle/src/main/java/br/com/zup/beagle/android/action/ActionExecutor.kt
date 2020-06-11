@@ -21,6 +21,6 @@ import br.com.zup.beagle.android.engine.renderer.RootView
 
 internal class ActionExecutor {
     fun doAction(rootView: RootView, action: Action?) {
-        (action as br.com.zup.beagle.android.action.Action).handle(rootView)
+        (action as? br.com.zup.beagle.android.action.Action)?.handle(rootView)
     }
 }

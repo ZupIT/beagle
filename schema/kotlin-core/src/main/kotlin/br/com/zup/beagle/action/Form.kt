@@ -16,7 +16,42 @@
 
 package br.com.zup.beagle.action
 
-import br.com.zup.beagle.widget.form.FormMethodType
+/**
+ *  Defines the type of operation submitted by this form. It will map these values to Http methods.
+ *
+ * @property GET
+ * @property POST
+ * @property PUT
+ * @property DELETE
+ *
+ */
+enum class FormMethodType {
+    /**
+     * The GET method requests a representation of the specified resource.
+     * Requests using GET should only retrieve data.
+     *
+     */
+    GET,
+
+    /**
+     * The POST method is used to submit an entity to the specified resource,
+     * often causing a change in state or side effects on the server.
+     *
+     */
+    POST,
+
+    /**
+     * The PUT method replaces all current representations of the target resource with the request payload.
+     *
+     */
+    PUT,
+
+    /**
+     * The DELETE method deletes the specified resource.
+     *
+     */
+    DELETE
+}
 
 /**
  *  Define remote action, when you want to do some request when submit the form.

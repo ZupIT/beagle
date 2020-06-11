@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.engine.renderer.layout
 
-import android.content.Context
 import android.view.View
 import br.com.zup.beagle.android.engine.renderer.LayoutViewRenderer
 import br.com.zup.beagle.android.engine.renderer.RootView
@@ -60,7 +59,7 @@ internal class ScreenViewRenderer(
     }
 
     private fun addNavigationBarIfNecessary(rootView: RootView, navigationBar: NavigationBar?) {
-        (rootView.getContext() as BeagleActivity).let {
+        (rootView.getContext() as? BeagleActivity)?.let {
             if (navigationBar != null) {
                 configNavigationBar(rootView, navigationBar)
             } else {
@@ -78,7 +77,7 @@ internal class ScreenViewRenderer(
     }
 
     private fun configNavigationBar(rootView: RootView, navigationBar: NavigationBar) {
-        (rootView.getContext() as BeagleActivity).let {
+        (rootView.getContext() as? BeagleActivity)?.let {
             it.configureSupportActionBar()
             toolbarManager.configureNavigationBarForScreen(it, navigationBar)
             toolbarManager.configureToolbar(rootView, navigationBar)
