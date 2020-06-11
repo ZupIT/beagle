@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.core
+apply plugin: 'kotlin'
 
-import br.com.zup.beagle.core.ServerDrivenComponent
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
-/**
- * TODO
- */
-abstract class ComposeComponent : ServerDrivenComponent {
+dependencies {
+    implementation GeneralLibraries.kotlin
+    implementation project(Modules.beagleSchemaKotlinCore)
 
-    /**
-     * TODO
-     */
-    abstract fun build(): ServerDrivenComponent
 }
+
+apply from: rootProject.file('maven-publish.gradle')

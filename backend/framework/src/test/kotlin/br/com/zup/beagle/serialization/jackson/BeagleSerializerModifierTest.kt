@@ -20,7 +20,6 @@ import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.core.ComposeComponent
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import com.fasterxml.jackson.databind.BeanDescription

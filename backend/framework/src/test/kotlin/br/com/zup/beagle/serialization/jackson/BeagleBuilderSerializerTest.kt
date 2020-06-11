@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.serialization.jackson
 
-import br.com.zup.beagle.widget.core.ComposeComponent
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.ui.Text

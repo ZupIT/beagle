@@ -1,3 +1,7 @@
+package br.com.zup.beagle.widget.layout
+
+import br.com.zup.beagle.core.ServerDrivenComponent
+
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,16 +18,13 @@
  * limitations under the License.
  */
 
-apply plugin: 'kotlin'
+/**
+ * TODO
+ */
+abstract class ComposeComponent : ServerDrivenComponent {
 
-dependencies {
-    implementation GeneralLibraries.kotlin
-    api project(Modules.beagleSchemaKotlinCore)
-
-    testImplementation TestLibraries.kotlinTest
-    testImplementation TestLibraries.mockk
-    testImplementation TestLibraries.junit5Api
-    testRuntime TestLibraries.junit5Engine
+    /**
+     * TODO
+     */
+    abstract fun build(): ServerDrivenComponent
 }
-
-apply from: rootProject.file('maven-publish.gradle')

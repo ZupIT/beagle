@@ -17,6 +17,7 @@
 package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.ui.ListDirection.HORIZONTAL
 import br.com.zup.beagle.widget.ui.ListDirection.VERTICAL
 
@@ -55,3 +56,21 @@ data class ListView(
 ) : ServerDrivenComponent {
     companion object
 }
+
+
+
+/**
+ * Represent a view in list
+ *
+ */
+
+typealias RowBuilder = (index: Int) -> Widget
+
+fun ListView.Companion.dynamic(
+    size: Int,
+    direction: ListDirection = ListDirection.VERTICAL,
+    rowBuilder: RowBuilder
+) = ListView(
+    rows = (0 until size).map(rowBuilder),
+    direction = direction
+)
