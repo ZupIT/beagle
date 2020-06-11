@@ -45,6 +45,7 @@ import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.NetworkImage
+import br.com.zup.beagle.widget.ui.TabView
 import br.com.zup.beagle.widget.ui.Text
 import br.com.zup.beagle.android.widget.ui.UndefinedWidget
 import br.com.zup.beagle.widget.layout.ScreenComponent
@@ -373,6 +374,33 @@ class BeagleMoshiTest {
     fun make_should_return_moshi_to_serialize_a_ListView() {
         // Given
         val component = ListView(listOf())
+
+        // When
+        val actual =
+            beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).toJson(component)
+
+        // Then
+        assertNotNull(JSONObject(actual))
+    }
+
+    @Test
+    fun make_should_return_moshi_to_deserialize_a_TabView(){
+        // Given
+        val json = makeTabViewJson()
+
+        //When
+        val actual =
+            beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).fromJson(json)
+
+        // Then
+        assertNotNull(actual)
+        assertTrue(actual is TabView)
+    }
+
+    @Test
+    fun make_should_return_moshi_to_serialize_a_TabView(){
+        // Given
+        val component = TabView(children = listOf())
 
         // When
         val actual =
