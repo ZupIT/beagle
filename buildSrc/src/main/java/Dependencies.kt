@@ -42,6 +42,7 @@ object Modules {
     const val beagleBackendMicronautStarter = ":backend:starters:beagle-micronaut-starter"
     const val beagleSchemaKotlinCore = ":schema:kotlin-core"
     const val beagleSchemaKotlinWidgets = ":schema:kotlin-widgets"
+    const val beagleAndroidInternalProcessor = ":android:android-internal-processor"
     const val beagleExtendedSchema = ":common:extended-schema"
 }
 

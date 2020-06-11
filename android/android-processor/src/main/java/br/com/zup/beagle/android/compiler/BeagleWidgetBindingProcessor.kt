@@ -16,21 +16,21 @@
 
 package br.com.zup.beagle.android.compiler
 
-import br.com.zup.beagle.android.compiler.util.ANDROID_CONTEXT
-import br.com.zup.beagle.android.compiler.util.ANDROID_VIEW
-import br.com.zup.beagle.android.compiler.util.BIND
-import br.com.zup.beagle.android.compiler.util.BINDING_ADAPTER
-import br.com.zup.beagle.android.compiler.util.GET_VALUE_NOT_NULL
-import br.com.zup.beagle.android.compiler.util.GET_VALUE_NULL
-import br.com.zup.beagle.android.compiler.util.INPUT_WIDGET
-import br.com.zup.beagle.android.compiler.util.WIDGET
-import br.com.zup.beagle.android.compiler.util.error
-import br.com.zup.beagle.android.compiler.util.warning
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.compiler.ANDROID_CONTEXT
+import br.com.zup.beagle.compiler.ANDROID_VIEW
+import br.com.zup.beagle.compiler.BINDING_ADAPTER
 import br.com.zup.beagle.compiler.BeagleBindingHandler.Companion.BINDING_SUFFIX
 import br.com.zup.beagle.compiler.BeagleWidgetBindingHandler
+import br.com.zup.beagle.compiler.GET_VALUE_NOT_NULL
+import br.com.zup.beagle.compiler.GET_VALUE_NULL
+import br.com.zup.beagle.compiler.INPUT_WIDGET
+import br.com.zup.beagle.compiler.WIDGET
+import br.com.zup.beagle.compiler.WIDGET_INSTANCE_PROPERTY
+import br.com.zup.beagle.compiler.error
 import br.com.zup.beagle.compiler.getPackageAsString
 import br.com.zup.beagle.compiler.isSubtype
+import br.com.zup.beagle.compiler.warning
 import br.com.zup.beagle.core.BindAttribute
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
@@ -68,7 +68,7 @@ class BeagleWidgetBindingProcessor(
     private fun handle(element: Element) {
         if (element is TypeElement && element.kind.isClass) {
             try {
-                val beagleWidgetBindingHandler = BeagleWidgetBindingHandler(processingEnv, bindClass = BIND_CLASS)
+                val beagleWidgetBindingHandler = BeagleWidgetBindingHandler(processingEnv)
                 val typeSpecBuilder = beagleWidgetBindingHandler.createBindingClass(element)
 
                 typeSpecBuilder.addProperty(getAttributeWidgetInstance(element))
@@ -165,9 +165,6 @@ class BeagleWidgetBindingProcessor(
     }
 
     companion object {
-        private val BIND_CLASS = Class.forName(
-            BIND.toString()
-        ).kotlin as KClass<out BindAttribute<*>>
         private const val BUILD_VIEW_METHOD = "buildView"
         private const val ON_BIND_METHOD = "onBind"
         private const val VIEW_PROPERTY = "view"

@@ -16,16 +16,14 @@
 
 package br.com.zup.beagle.compiler
 
-import br.com.zup.beagle.core.BindAttribute
 import com.squareup.kotlinpoet.FileSpec
 import javax.annotation.processing.Filer
 import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.TypeElement
-import kotlin.reflect.KClass
 
 class BeagleWidgetBindingHandler(
     processingEnvironment: ProcessingEnvironment,
-    bindClass: KClass<out BindAttribute<*>>
+    bindClass: BeagleClass = BIND_ANDROID
 ) : BeagleBindingHandler(processingEnvironment, bindClass) {
 
     private val outputDirectory: Filer = processingEnvironment.filer

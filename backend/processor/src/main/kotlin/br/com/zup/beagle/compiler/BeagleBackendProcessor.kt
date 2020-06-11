@@ -17,7 +17,6 @@
 package br.com.zup.beagle.compiler
 
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.core.Bind
 import com.google.auto.service.AutoService
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessor
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessorType
@@ -50,7 +49,7 @@ class BeagleBackendProcessor : AbstractProcessor() {
         if (element is TypeElement && element.kind.isClass) {
             try {
                 this.processingEnv.let {
-                    BeagleWidgetBindingHandler(it, Bind::class)
+                    BeagleWidgetBindingHandler(processingEnvironment = it, bindClass = BIND_BACKEND)
                 }.handle(element)
             } catch (e: Exception) {
                 this.processingEnv.messager.printMessage(Diagnostic.Kind.ERROR, e.localizedMessage, element)

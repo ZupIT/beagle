@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.setup
+package br.com.zup.beagle.compiler
 
-import br.com.zup.beagle.android.widget.core.Bind
-
-interface BindingAdapter {
-    fun getBindAttributes(): List<Bind<*>>
+data class BeagleClass(
+    val packageName: String,
+    val className: String
+) {
+    override fun toString(): String {
+        return "$packageName.$className"
+    }
 }

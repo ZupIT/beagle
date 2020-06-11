@@ -17,16 +17,17 @@
 package br.com.zup.beagle.android.compiler
 
 import br.com.zup.beagle.android.annotation.BeagleComponent
-import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.android.annotation.RegisterValidator
-import br.com.zup.beagle.android.compiler.util.BEAGLE_CONFIG
-import br.com.zup.beagle.android.compiler.util.error
-import br.com.zup.beagle.android.compiler.util.implementsInterface
+import br.com.zup.beagle.compiler.BEAGLE_CONFIG
+import br.com.zup.beagle.compiler.implementsInterface
+import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.compiler.BeagleActionBindingProcessor
+import br.com.zup.beagle.compiler.error
 import com.google.auto.service.AutoService
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessor
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessorType
-import java.util.*
+import java.util.TreeSet
 import javax.annotation.processing.AbstractProcessor
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.Processor
