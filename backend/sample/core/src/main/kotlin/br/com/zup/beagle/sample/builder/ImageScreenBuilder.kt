@@ -55,7 +55,7 @@ object ImageScreenBuilder : ScreenBuilder {
         )
     )
 
-    private fun createText(text: String) = Text(text = text, style = TITLE_SCREEN)
+    private fun createText(text: String) = Text(text = text, styleId = TITLE_SCREEN)
 
     private fun createImageWithModeAndText(mode: ImageContentMode) =
         listOf(createText("Image with contentMode = $mode"), Image(Local.justMobile(LOGO_BEAGLE), mode))

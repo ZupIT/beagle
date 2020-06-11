@@ -24,7 +24,7 @@ class ComponentStylization<T : ServerDrivenComponent>(
     private val accessibilitySetup: AccessibilitySetup = AccessibilitySetup()
 ) {
     fun apply(view: View, component: T) {
-        view.applyAppearance(component)
+        view.applyStyle(component)
         (component as? IdentifierComponent)?.id?.let {
             view.id = it.toAndroidId()
         }

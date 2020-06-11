@@ -38,12 +38,13 @@ struct PageViewScreen: DeeplinkScreen {
 
 struct Page {
     var content: Container {
-        return Container(children: [
-            Text("Text with alignment atribute set to center", alignment: .center),
-            Text("Text with alignment atribute set to right", alignment: .right),
-            Text("Text with alignment atribute set to left", alignment: .left),
-            Image(.network(.NETWORK_IMAGE_BEAGLE))
-        ],
+        return Container(
+            children: [
+                Text("Text with alignment attribute set to center", alignment: .center),
+                Text("Text with alignment attribute set to right", alignment: .right),
+                Text("Text with alignment attribute set to left", alignment: .left),
+                Image(.network(.NETWORK_IMAGE_BEAGLE))
+            ],
             widgetProperties: .init(flex: Flex().justifyContent(.spaceBetween).grow(1))
         )
     }

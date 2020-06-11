@@ -90,7 +90,7 @@ object TouchableScreenBuilder : ScreenBuilder {
 
     private fun buildTitle(text: String) = Text(
         text = text,
-        style = SCREEN_TEXT_STYLE
+        styleId = SCREEN_TEXT_STYLE
     ).applyFlex(
         flex = Flex(
             alignSelf = AlignSelf.CENTER,

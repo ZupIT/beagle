@@ -92,7 +92,7 @@ class ButtonViewRendererTest : BaseTest() {
         every { BeagleEnvironment.application } returns mockk(relaxed = true)
         styleManagerFactory = styleManager
 
-        every { button.style } returns DEFAULT_STYLE
+        every { button.styleId } returns DEFAULT_STYLE
         every { button.text } returns DEFAULT_TEXT
         every { button.action } returns null
         every { actionExecutor.doAction(any(), any()) } just Runs
