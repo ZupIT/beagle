@@ -38,7 +38,7 @@ internal class ScreenViewRenderer(
 ) : LayoutViewRenderer<ScreenComponent>(viewRendererFactory, viewFactory) {
 
     override fun buildView(rootView: RootView): View {
-        addNavigationBarIfNecessary(rootView.getContext(), component.navigationBar)
+        addNavigationBarIfNecessary(rootView, component.navigationBar)
 
         val container = viewFactory.makeBeagleFlexView(rootView.getContext(), Flex(grow = 1.0))
 
@@ -59,12 +59,12 @@ internal class ScreenViewRenderer(
         return container
     }
 
-    private fun addNavigationBarIfNecessary(context: Context, navigationBar: NavigationBar?) {
-        if (context is BeagleActivity) {
+    private fun addNavigationBarIfNecessary(rootView: RootView, navigationBar: NavigationBar?) {
+        (rootView.getContext() as BeagleActivity).let {
             if (navigationBar != null) {
-                configNavigationBar(context, navigationBar)
+                configNavigationBar(rootView, navigationBar)
             } else {
-                hideNavigationBar(context)
+                hideNavigationBar(it)
             }
         }
     }
@@ -77,12 +77,11 @@ internal class ScreenViewRenderer(
         context.getToolbar().visibility = View.GONE
     }
 
-    private fun configNavigationBar(
-        context: BeagleActivity,
-        navigationBar: NavigationBar
-    ) {
-        context.configureSupportActionBar()
-        toolbarManager.configureNavigationBarForScreen(context, navigationBar)
-        toolbarManager.configureToolbar(context, navigationBar)
+    private fun configNavigationBar(rootView: RootView, navigationBar: NavigationBar) {
+        (rootView.getContext() as BeagleActivity).let {
+            it.configureSupportActionBar()
+            toolbarManager.configureNavigationBarForScreen(it, navigationBar)
+            toolbarManager.configureToolbar(rootView, navigationBar)
+        }
     }
 }

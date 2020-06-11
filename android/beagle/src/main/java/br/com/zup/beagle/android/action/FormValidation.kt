@@ -16,18 +16,21 @@
 
 package br.com.zup.beagle.android.action
 
-import android.content.Context
-import br.com.zup.beagle.action.FormValidation
+import br.com.zup.beagle.action.FieldError
+import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.logger.BeagleLogger
 import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.android.widget.form.InputWidget
 
-internal class FormValidationActionHandler : DefaultActionHandler<FormValidation> {
+internal class FormValidation(
+    val errors: List<FieldError>
+) : Action {
 
+    @Transient
     var formInputs: List<FormInput>? = null
 
-    override fun handle(context: Context, action: FormValidation) {
-        action.errors.forEach { error ->
+    override fun handle(rootView: RootView) {
+        errors.forEach { error ->
             val formInput = formInputs?.find {
                 it.name == error.inputName
             }

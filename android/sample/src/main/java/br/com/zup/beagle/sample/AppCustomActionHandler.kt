@@ -17,11 +17,11 @@
 package br.com.zup.beagle.sample
 
 import android.content.Context
+import br.com.zup.beagle.action.FormLocalAction
 import br.com.zup.beagle.android.action.ActionListener
-import br.com.zup.beagle.action.CustomAction
-import br.com.zup.beagle.android.action.CustomActionHandler
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.Route
+import br.com.zup.beagle.android.action.FormLocalActionHandler
 import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
@@ -29,9 +29,9 @@ import br.com.zup.beagle.widget.ui.Text
 import java.lang.Thread.sleep
 
 @BeagleComponent
-class AppCustomActionHandler : CustomActionHandler {
+class AppFormLocalActionHandler : FormLocalActionHandler {
 
-    override fun handle(context: Context, action: CustomAction, listener: ActionListener) {
+    override fun handle(context: Context, action: FormLocalAction, listener: ActionListener) {
         listener.onStart()
         when (action.name) {
             "formAsyncSubmit" -> Thread().run {

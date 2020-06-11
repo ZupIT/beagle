@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.android.compiler.util
 
-val CUSTOM_ACTION_HANDLER = BeagleClass(
+val FORM_LOCAL_ACTION_HANDLER = BeagleClass(
     "br.com.zup.beagle.android.action",
-    "CustomActionHandler"
+    "FormLocalActionHandler"
 )
 val DEEP_LINK_HANDLER = BeagleClass(
     "br.com.zup.beagle.android.navigation",

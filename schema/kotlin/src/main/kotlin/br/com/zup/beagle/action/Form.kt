@@ -16,6 +16,42 @@
 
 package br.com.zup.beagle.action
 
+import br.com.zup.beagle.widget.form.FormMethodType
+
+/**
+ *  Define remote action, when you want to do some request when submit the form.
+ *
+ * @param path defines the URL path to the back-end service which will receive this form inputs.
+ * @param method defines the type of operation submitted by this form. It will map these values to Http methods.
+ *
+ */
+data class FormRemoteAction(
+    val path: String,
+    val method: FormMethodType
+) : Action {
+    override fun toString() = "FormRemoteAction: $path / ${method.name}"
+}
+
+/**
+ * Defines form local actions, that is, that do not make http requests,
+ * such as an action that creates a customized Dialog.
+ *
+ * @param name define name of the action.
+ * @param data sending data for the action.
+ *
+ * # Example: #
+ * ```
+ *
+ *  val action = Action(name = "openPosterDetector", data = mapOf("key" to "value"))
+ *
+ * ```
+ *
+ */
+data class FormLocalAction(
+    val name: String,
+    val data: Map<String, String>
+) : Action
+
 /**
  * Configures the error messages returned by a service external to the application.
  * For example, when checking the registration status of a CPF in the recipe,

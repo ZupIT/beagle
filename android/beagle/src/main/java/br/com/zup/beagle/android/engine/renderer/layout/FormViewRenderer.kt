@@ -16,14 +16,14 @@
 
 package br.com.zup.beagle.android.engine.renderer.layout
 
-import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
+import br.com.zup.beagle.action.FormRemoteAction
 import br.com.zup.beagle.android.action.ActionExecutor
-import br.com.zup.beagle.action.CustomAction
-import br.com.zup.beagle.android.action.FormValidationActionHandler
+import br.com.zup.beagle.android.action.FormLocalAction
+import br.com.zup.beagle.android.action.FormValidation
 import br.com.zup.beagle.android.engine.renderer.LayoutViewRenderer
 import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
@@ -37,23 +37,19 @@ import br.com.zup.beagle.android.utils.hideKeyboard
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.widget.form.InputWidget
 import br.com.zup.beagle.widget.form.Form
 import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.FormInputHidden
 import br.com.zup.beagle.widget.form.FormSubmit
-import br.com.zup.beagle.widget.form.FormRemoteAction
-import br.com.zup.beagle.android.widget.form.InputWidget
 
 @Suppress("LongParameterList")
 internal class FormViewRenderer(
     override val component: Form,
     private val validatorHandler: ValidatorHandler? = BeagleEnvironment.beagleSdk.validatorHandler,
-    private val formValidationActionHandler: FormValidationActionHandler = FormValidationActionHandler(),
     private val formSubmitter: FormSubmitter = FormSubmitter(),
     private val formValidatorController: FormValidatorController = FormValidatorController(),
-    private val actionExecutor: ActionExecutor = ActionExecutor(
-        formValidationActionHandler = formValidationActionHandler
-    ),
+    private val actionExecutor: ActionExecutor = ActionExecutor(),
     private val formDataStoreHandler: FormDataStoreHandler = FormDataStoreHandler.shared,
     viewRendererFactory: ViewRendererFactory = ViewRendererFactory(),
     viewFactory: ViewFactory = ViewFactory()
@@ -67,7 +63,7 @@ internal class FormViewRenderer(
         val view = viewRendererFactory.make(component.child).build(rootView)
 
         if (view is ViewGroup) {
-            fetchFormViews(view)
+            fetchFormViews(rootView, view)
         }
 
         if (formInputs.size == 0) {
@@ -81,7 +77,7 @@ internal class FormViewRenderer(
         return view
     }
 
-    private fun fetchFormViews(viewGroup: ViewGroup) {
+    private fun fetchFormViews(rootView: RootView, viewGroup: ViewGroup) {
         viewGroup.children.forEach { childView ->
             if (childView.tag != null) {
                 val tag = childView.tag
@@ -92,25 +88,24 @@ internal class FormViewRenderer(
                     formInputHiddenList.add(tag)
                 } else if (childView.tag is FormSubmit && formSubmitView == null) {
                     formSubmitView = childView
-                    addClickToFormSubmit(childView)
+                    addClickToFormSubmit(rootView, childView)
                     formValidatorController.formSubmitView = childView
                 }
             } else if (childView is ViewGroup) {
-                fetchFormViews(childView)
+                fetchFormViews(rootView, childView)
             }
         }
 
         formValidatorController.configFormSubmit()
     }
 
-    private fun addClickToFormSubmit(formSubmitView: View) {
+    private fun addClickToFormSubmit(rootView: RootView, formSubmitView: View) {
         formSubmitView.setOnClickListener {
-            formValidationActionHandler.formInputs = formInputs
-            handleFormSubmit(formSubmitView.context)
+            handleFormSubmit(rootView)
         }
     }
 
-    private fun handleFormSubmit(context: Context) {
+    private fun handleFormSubmit(rootView: RootView) {
         val formsValue = mutableMapOf<String, String>()
 
         formInputs.forEach { formInput ->
@@ -128,7 +123,7 @@ internal class FormViewRenderer(
         if (formsValue.size == (formInputs.size + formInputHiddenList.size)) {
             updateStoredData(formsValue)
             formSubmitView?.hideKeyboard()
-            submitForm(formsValue, context)
+            submitForm(rootView, formsValue)
         }
     }
 
@@ -149,8 +144,8 @@ internal class FormViewRenderer(
         val group = component.group
         if (component.shouldStoreFields || group == null) return
         val storedValues = formDataStoreHandler.getAllValues(group)
-        for( (key, value) in storedValues) {
-            if(formsValue[key] == null) {
+        for ((key, value) in storedValues) {
+            if (formsValue[key] == null) {
                 formsValue[key] = value
             }
         }
@@ -176,34 +171,33 @@ internal class FormViewRenderer(
         }
     }
 
-    private fun submitForm(
-        formsValue: MutableMap<String, String>,
-        context: Context
-    ) {
+    private fun submitForm(rootView: RootView, formsValue: MutableMap<String, String>) {
         when (val action = component.action) {
             is FormRemoteAction -> formSubmitter.submitForm(action, formsValue) {
-                (context as AppCompatActivity).runOnUiThread {
-                    handleFormResult(context, it)
+                (rootView.getContext() as AppCompatActivity).runOnUiThread {
+                    handleFormResult(rootView, it)
                 }
             }
-            is CustomAction -> actionExecutor.doAction(context, CustomAction(
+            is FormLocalAction -> actionExecutor.doAction(rootView, FormLocalAction(
                 name = action.name,
                 data = formsValue.plus(action.data)
             ))
-            else ->
-                actionExecutor.doAction(context, action)
+            else -> actionExecutor.doAction(rootView, action)
         }
     }
 
-    private fun handleFormResult(context: Context, formResult: FormResult) {
+    private fun handleFormResult(rootView: RootView, formResult: FormResult) {
         when (formResult) {
             is FormResult.Success -> {
                 component.group?.let {
                     formDataStoreHandler.clear(it)
                 }
-                actionExecutor.doAction(context, formResult.action)
+                if (formResult.action is FormValidation) {
+                    formResult.action.formInputs = formInputs
+                }
+                actionExecutor.doAction(rootView, formResult.action)
             }
-            is FormResult.Error -> (context as? BeagleActivity)?.onServerDrivenContainerStateChanged(
+            is FormResult.Error -> (rootView.getContext() as? BeagleActivity)?.onServerDrivenContainerStateChanged(
                 ServerDrivenState.Error(formResult.throwable)
             )
         }

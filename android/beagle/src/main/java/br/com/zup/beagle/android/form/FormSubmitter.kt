@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.form
 
 import br.com.zup.beagle.action.Action
+import br.com.zup.beagle.action.FormRemoteAction
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.networking.HttpClient
@@ -27,7 +28,6 @@ import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilderFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.widget.form.FormMethodType
-import br.com.zup.beagle.widget.form.FormRemoteAction
 import java.net.URI
 
 internal sealed class FormResult {

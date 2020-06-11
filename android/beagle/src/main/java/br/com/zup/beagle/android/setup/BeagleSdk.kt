@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.setup
 
 import android.app.Application
-import br.com.zup.beagle.android.action.CustomActionHandler
+import br.com.zup.beagle.android.action.FormLocalActionHandler
 import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.android.form.ValidatorHandler
 import br.com.zup.beagle.android.navigation.DeepLinkHandler
@@ -30,7 +30,7 @@ import com.facebook.soloader.SoLoader
 
 interface BeagleSdk {
     val config: BeagleConfig
-    val customActionHandler: CustomActionHandler?
+    val formLocalActionHandler: FormLocalActionHandler?
     val deepLinkHandler: DeepLinkHandler?
     val validatorHandler: ValidatorHandler?
     val httpClient: HttpClient?

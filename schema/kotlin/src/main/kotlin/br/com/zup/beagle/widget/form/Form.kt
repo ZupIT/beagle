@@ -73,19 +73,3 @@ data class Form(
     val group: String? = null,
     val shouldStoreFields: Boolean = false
 ) : ServerDrivenComponent
-
-
-/**
- *  Define remote action, when you want to do some request when submit the form.
- *
- * @param path defines the URL path to the back-end service which will receive this form inputs.
- * @param method defines the type of operation submitted by this form. It will map these values to Http methods.
- *
- */
-data class FormRemoteAction(
-    val path: String,
-    val method: FormMethodType
-) : Action {
-    override fun toString() = "FormRemoteAction: $path / ${method.name}"
-}
-

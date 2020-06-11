@@ -16,52 +16,11 @@
 
 package br.com.zup.beagle.android.action
 
-import android.content.Context
 import br.com.zup.beagle.action.Action
-import br.com.zup.beagle.action.CustomAction
-import br.com.zup.beagle.action.FormValidation
-import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.ShowNativeDialog
-import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.view.BeagleActivity
-import br.com.zup.beagle.android.view.ServerDrivenState
+import br.com.zup.beagle.android.engine.renderer.RootView
 
-internal class ActionExecutor(
-    private val customActionHandler: CustomActionHandler? =
-        BeagleEnvironment.beagleSdk.customActionHandler,
-    private val navigationActionHandler: NavigationActionHandler =
-        NavigationActionHandler(),
-    private val showNativeDialogActionHandler: ShowNativeDialogActionHandler =
-        ShowNativeDialogActionHandler(),
-    private val formValidationActionHandler: DefaultActionHandler<FormValidation>? = null
-) {
-
-    fun doAction(context: Context, action: Action?) {
-        when (action) {
-            is Navigate -> navigationActionHandler.handle(context, action)
-            is ShowNativeDialog -> showNativeDialogActionHandler.handle(context, action)
-            is FormValidation -> formValidationActionHandler?.handle(context, action)
-            is CustomAction -> customActionHandler?.handle(context, action, object : ActionListener {
-
-                override fun onSuccess(action: Action) {
-                    changeActivityState(context, ServerDrivenState.Loading(false))
-                    doAction(context, action)
-                }
-
-                override fun onError(e: Throwable) {
-                    changeActivityState(context, ServerDrivenState.Loading(false))
-                    changeActivityState(context, ServerDrivenState.Error(e))
-                }
-
-                override fun onStart() {
-                    changeActivityState(context, ServerDrivenState.Loading(true))
-                }
-            })
-        }
-    }
-
-    private fun changeActivityState(context: Context, state: ServerDrivenState) {
-        (context as? BeagleActivity)?.onServerDrivenContainerStateChanged(state)
+internal class ActionExecutor {
+    fun doAction(rootView: RootView, action: Action?) {
+        (action as br.com.zup.beagle.android.action.Action).handle(rootView)
     }
 }
-

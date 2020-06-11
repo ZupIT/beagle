@@ -16,19 +16,23 @@
 
 package br.com.zup.beagle.android.action
 
-import android.content.Context
-import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.view.ViewFactory
 
-internal class ShowNativeDialogActionHandler(
-    private val viewFactory: ViewFactory = ViewFactory()
-) : DefaultActionHandler<ShowNativeDialog> {
+data class ShowNativeDialog(
+    val title: String,
+    val message: String,
+    val buttonText: String
+) : Action {
 
-    override fun handle(context: Context, action: ShowNativeDialog) {
-        viewFactory.makeAlertDialogBuilder(context)
-            .setTitle(action.title)
-            .setMessage(action.message)
-            .setPositiveButton(action.buttonText) { dialog, _ ->
+    @Transient
+    private var viewFactory: ViewFactory = ViewFactory()
+
+    override fun handle(rootView: RootView) {
+        viewFactory.makeAlertDialogBuilder(rootView.getContext())
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(buttonText) { dialog, _ ->
                 dialog.dismiss()
             }.show()
     }
