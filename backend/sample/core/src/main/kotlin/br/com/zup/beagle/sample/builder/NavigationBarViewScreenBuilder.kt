@@ -45,7 +45,7 @@ object NavigationBarViewScreenBuilder : ScreenBuilder {
                 accessibilityLabel = "Voltar"
             ),
             title = "Beagle NavigationBar",
-            style = NAVIGATION_BAR_STYLE_DEFAULT,
+            styleId = NAVIGATION_BAR_STYLE_DEFAULT,
             showBackButton = true,
             navigationBarItems = listOf(
                 NavigationBarItem(
@@ -73,7 +73,7 @@ object NavigationBarViewScreenBuilder : ScreenBuilder {
     private fun createMenu(text: String, path: String) = Button(
         text = text,
         action = Navigate.PushView(Route.Remote(path)),
-        style = BUTTON_STYLE_TITLE
+        styleId = BUTTON_STYLE_TITLE
     ).applyFlex(
         flex = Flex(
             margin = EdgeValue(

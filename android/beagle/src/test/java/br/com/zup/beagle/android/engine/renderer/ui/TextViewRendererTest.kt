@@ -61,7 +61,7 @@ class TextViewRendererTest : BaseTest() {
         mockkStatic("br.com.zup.beagle.android.view.BeagleTextViewKt")
 
         every { textView.setTextWidget(any()) } just Runs
-        every { text.style } returns DEFAULT_STYLE
+        every { text.styleId } returns DEFAULT_STYLE
         every { text.text } returns DEFAULT_TEXT
         every { rootView.getContext() } returns context
     }

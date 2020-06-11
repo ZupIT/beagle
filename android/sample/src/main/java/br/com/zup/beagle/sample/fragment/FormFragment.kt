@@ -80,7 +80,7 @@ class FormFragment : Fragment() {
                     ),
                     FormSubmit(
                         child = Button(
-                            style = "DesignSystem.Button.Text",
+                            styleId = "DesignSystem.Button.Text",
                             text = "submit"
                         ).applyFlex(Flex(margin = EdgeValue(top = UnitValue(30.0, UnitType.REAL))))
                     )
@@ -123,7 +123,7 @@ class FormFragment : Fragment() {
                         ),
                         FormSubmit(
                             child = Button(
-                                style = "DesignSystem.Button.Text",
+                                styleId = "DesignSystem.Button.Text",
                                 text = "submit"
                             ).applyFlex(Flex(margin = EdgeValue(top = UnitValue(30.0, UnitType.REAL))))
                         )

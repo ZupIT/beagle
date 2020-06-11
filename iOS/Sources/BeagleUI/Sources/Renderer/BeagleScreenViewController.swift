@@ -117,7 +117,7 @@ public class BeagleScreenViewController: UIViewController {
             $0.toBarButtonItem(context: self, dependencies: viewModel.dependencies)
         }
         
-        if let style = screen.navigationBar?.style,
+        if let style = screen.navigationBar?.styleId,
            let navigationBar = navigationController?.navigationBar {
             viewModel.dependencies.theme.applyStyle(for: navigationBar, withId: style)
         }
