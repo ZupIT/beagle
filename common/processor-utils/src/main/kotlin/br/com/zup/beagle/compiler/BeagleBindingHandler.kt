@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.compiler
 
-import br.com.zup.beagle.core.BindAttribute
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
@@ -31,13 +30,9 @@ import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.ExecutableElement
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.TypeMirror
-import kotlin.reflect.KClass
 
 open class BeagleBindingHandler(private val processingEnvironment: ProcessingEnvironment,
-                                private val bindClass: KClass<out BindAttribute<*>> =
-                                    Class.forName(
-                                        BIND.toString()
-                                    ).kotlin as KClass<out BindAttribute<*>>) {
+                                private val bindClass: BeagleClass = BIND_ANDROID) {
     companion object {
         const val BINDING_SUFFIX = "Binding"
         const val GET_BIND_ATTRIBUTES_METHOD = "getBindAttributes"
@@ -57,14 +52,15 @@ open class BeagleBindingHandler(private val processingEnvironment: ProcessingEnv
         ParameterSpec.builder(
             element.fieldName,
             this.typeUtils.getKotlinName(element.returnType).let {
-                if (element.isOverride) it else bindClass.asTypeName().parameterizedBy(it)
+                if (element.isOverride) it else ClassName(bindClass.packageName, bindClass.className)
+                    .parameterizedBy(it)
             }
         ).tag(Boolean::class, element.isOverride).build()
 
     fun getFunctionGetBindAttributes(element: TypeElement): FunSpec {
 
         val returnType = List::class.asClassName().parameterizedBy(
-            ClassName(BIND.packageName, BIND.className)
+            ClassName(bindClass.packageName, bindClass.className)
                 .parameterizedBy(STAR)
         )
         val attributeValues = StringBuilder()

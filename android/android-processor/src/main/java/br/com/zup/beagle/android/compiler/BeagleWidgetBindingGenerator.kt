@@ -92,5 +92,4 @@ class BeagleWidgetBindingGenerator(processingEnv: ProcessingEnvironment) :
             .build()
     }
 
-
 }
