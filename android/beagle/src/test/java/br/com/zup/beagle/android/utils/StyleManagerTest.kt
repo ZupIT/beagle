@@ -76,7 +76,7 @@ class StyleManagerTest {
 
         every { BeagleEnvironment.beagleSdk.designSystem } returns mockk()
         every { view.background } returns mockk()
-        every { designSystem.textAppearance(any()) } returns textAppearanceInt
+        every { designSystem.textStyle(any()) } returns textAppearanceInt
         every { context.obtainStyledAttributes(any<Int>(), any()) } returns mockk()
     }
 

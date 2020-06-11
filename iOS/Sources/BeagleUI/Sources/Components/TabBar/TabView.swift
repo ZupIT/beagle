@@ -37,15 +37,15 @@ public struct TabItem: AutoInitiableAndDecodable {
 
 public struct TabView: ServerDrivenComponent, AutoInitiable {
     public let tabItems: [TabItem]
-    public let style: String?
+    public let styleId: String?
 
 // sourcery:inline:auto:TabView.Init
     public init(
         tabItems: [TabItem],
-        style: String? = nil
+        styleId: String? = nil
     ) {
         self.tabItems = tabItems
-        self.style = style
+        self.styleId = styleId
     }
 // sourcery:end
 }
@@ -54,8 +54,8 @@ extension TabView: Renderable {
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let model = TabViewUIComponent.Model(tabIndex: 0, tabViewItems: tabItems)
         let tabView = TabViewUIComponent(model: model)
-        if let style = style {
-            dependencies.theme.applyStyle(for: tabView as UIView, withId: style)
+        if let styleId = styleId {
+            dependencies.theme.applyStyle(for: tabView as UIView, withId: styleId)
         }
         tabView.flex.setup(Flex(grow: 1))
         return tabView
