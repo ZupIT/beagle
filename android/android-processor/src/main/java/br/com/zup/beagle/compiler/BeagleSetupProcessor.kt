@@ -16,12 +16,7 @@
 
 package br.com.zup.beagle.compiler
 
-import br.com.zup.beagle.compiler.util.BEAGLE_CONFIG
-import br.com.zup.beagle.compiler.util.BEAGLE_SDK
-import br.com.zup.beagle.compiler.util.CUSTOM_ACTION_HANDLER
-import br.com.zup.beagle.compiler.util.DEEP_LINK_HANDLER
-import br.com.zup.beagle.compiler.util.HTTP_CLIENT_HANDLER
-import br.com.zup.beagle.compiler.util.error
+import br.com.zup.beagle.compiler.error
 import br.com.zup.beagle.widget.Widget
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec

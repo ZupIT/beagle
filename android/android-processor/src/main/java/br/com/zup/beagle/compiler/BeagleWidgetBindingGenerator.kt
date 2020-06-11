@@ -16,26 +16,12 @@
 
 package br.com.zup.beagle.compiler
 
-import br.com.zup.beagle.compiler.util.BIND
-import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import com.squareup.kotlinpoet.STAR
-import com.squareup.kotlinpoet.asClassName
 import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.TypeElement
-
-internal const val WIDGET_INSTANCE_PROPERTY = "widgetInstance"
-internal const val BIND_MODEL_METHOD = "bindModel"
-internal const val GET_VALUE_NULL_METHOD = "getValueNull"
-internal const val GET_VALUE_NOT_NULL_METHOD = "getValueNotNull"
-internal const val GET_BIND_ATTRIBUTES_METHOD = "getBindAttributes"
-internal const val RETRIEVE_VALUE_METHOD = "getValue"
-internal const val ON_ERROR_MESSAGE_METHOD = "onErrorMessage"
-internal const val MESSAGE_PARAMETER = "message"
-
-class BeagleWidgetBindingGenerator(private val processingEnv: ProcessingEnvironment) {
+class BeagleWidgetBindingGenerator(processingEnv: ProcessingEnvironment) :
+    BeagleBindingHandler(processingEnv){
 
     fun getFunctionBindModel(element: TypeElement): FunSpec {
         val attributeValues = StringBuilder()
@@ -94,32 +80,6 @@ class BeagleWidgetBindingGenerator(private val processingEnv: ProcessingEnvironm
             .build()
     }
 
-    fun getFunctionGetBindAttributes(element: TypeElement): FunSpec {
 
-        val returnType = List::class.asClassName().parameterizedBy(
-            ClassName(BIND.packageName, BIND.className)
-                .parameterizedBy(STAR)
-        )
-        val attributeValues = StringBuilder()
-
-        val parameters = element.visibleGetters
-        parameters.forEachIndexed { index, e ->
-            attributeValues.append("\t${e.fieldName}")
-            if (index < parameters.size - 1) {
-                attributeValues.append(",\n")
-            }
-        }
-
-        return FunSpec.builder(GET_BIND_ATTRIBUTES_METHOD)
-            .addModifiers(KModifier.OVERRIDE)
-            .addCode("""
-                        |val bindAttributes = listOf(
-                        |   $attributeValues
-                        |)
-                    |""".trimMargin())
-            .addStatement("return bindAttributes")
-            .returns(returnType)
-            .build()
-    }
 
 }

@@ -17,11 +17,15 @@
 package br.com.zup.beagle.compiler
 
 import br.com.zup.beagle.core.BindAttribute
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.STAR
 import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.asTypeName
 import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.ExecutableElement
@@ -30,9 +34,17 @@ import javax.lang.model.type.TypeMirror
 import kotlin.reflect.KClass
 
 open class BeagleBindingHandler(private val processingEnvironment: ProcessingEnvironment,
-                                private val bindClass: KClass<out BindAttribute<*>>) {
+                                private val bindClass: KClass<out BindAttribute<*>> =
+                                    Class.forName(
+                                        BIND.toString()
+                                    ).kotlin as KClass<out BindAttribute<*>>) {
     companion object {
         const val BINDING_SUFFIX = "Binding"
+        const val GET_BIND_ATTRIBUTES_METHOD = "getBindAttributes"
+        val BIND = BeagleClass(
+            packageName = "br.com.zup.beagle.core",
+            className = "Bind"
+        )
     }
 
     private val typeUtils = processingEnvironment.typeUtils
@@ -52,4 +64,32 @@ open class BeagleBindingHandler(private val processingEnvironment: ProcessingEnv
                 if (element.isOverride) it else bindClass.asTypeName().parameterizedBy(it)
             }
         ).tag(Boolean::class, element.isOverride).build()
+
+    fun getFunctionGetBindAttributes(element: TypeElement): FunSpec {
+
+        val returnType = List::class.asClassName().parameterizedBy(
+            ClassName(BIND.packageName, BIND.className)
+                .parameterizedBy(STAR)
+        )
+        val attributeValues = StringBuilder()
+
+        val parameters = element.visibleGetters
+        parameters.forEachIndexed { index, e ->
+            attributeValues.append("\t${e.fieldName}")
+            if (index < parameters.size - 1) {
+                attributeValues.append(",\n")
+            }
+        }
+
+        return FunSpec.builder(GET_BIND_ATTRIBUTES_METHOD)
+            .addModifiers(KModifier.OVERRIDE)
+            .addCode("""
+                        |val bindAttributes = listOf(
+                        |   $attributeValues
+                        |)
+                    |""".trimMargin())
+            .addStatement("return bindAttributes")
+            .returns(returnType)
+            .build()
+    }
 }

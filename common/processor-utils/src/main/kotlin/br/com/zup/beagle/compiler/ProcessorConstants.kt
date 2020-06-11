@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.compiler.util
+package br.com.zup.beagle.compiler
 
-data class BeagleClass(
-    val packageName: String,
-    val className: String
-) {
-    override fun toString(): String {
-        return "$packageName.$className"
-    }
-}
+const val WIDGET_INSTANCE_PROPERTY = "widgetInstance"
+const val BIND_MODEL_METHOD = "bindModel"
+const val GET_VALUE_NULL_METHOD = "getValueNull"
+const val GET_VALUE_NOT_NULL_METHOD = "getValueNotNull"
+const val RETRIEVE_VALUE_METHOD = "getValue"
+const val ON_ERROR_MESSAGE_METHOD = "onErrorMessage"
+const val MESSAGE_PARAMETER = "message"

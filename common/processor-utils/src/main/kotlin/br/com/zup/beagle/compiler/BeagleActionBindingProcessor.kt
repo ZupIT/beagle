@@ -17,12 +17,6 @@
 package br.com.zup.beagle.compiler
 
 import br.com.zup.beagle.annotation.RegisterAction
-import br.com.zup.beagle.compiler.util.BIND
-import br.com.zup.beagle.compiler.util.BINDING_ADAPTER
-import br.com.zup.beagle.compiler.util.GET_VALUE_NOT_NULL
-import br.com.zup.beagle.compiler.util.error
-import br.com.zup.beagle.compiler.util.warning
-import br.com.zup.beagle.core.BindAttribute
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import java.io.IOException
@@ -31,15 +25,10 @@ import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
-import kotlin.reflect.KClass
 
 @Suppress("UNCHECKED_CAST")
 class BeagleActionBindingProcessor(
     private val processingEnv: ProcessingEnvironment,
-    private val beagleWidgetBindingGenerator: BeagleWidgetBindingGenerator =
-        BeagleWidgetBindingGenerator(
-            processingEnv
-        ),
     private val beagleActionBindingGenerator: BeagleActionBindingGenerator = BeagleActionBindingGenerator(
         processingEnv
     )
@@ -51,7 +40,7 @@ class BeagleActionBindingProcessor(
         roundEnvironment: RoundEnvironment
     ) {
         val registerWidgetAnnotatedClasses = roundEnvironment
-            .getElementsAnnotatedWith(CLASS_ANNOTATION)
+            .getElementsAnnotatedWith(RegisterAction::class.java)
         registerWidgetAnnotatedClasses.forEach { element ->
             handle(element)
         }
@@ -67,7 +56,7 @@ class BeagleActionBindingProcessor(
 
                 typeSpecBuilder.addFunction(beagleActionBindingGenerator.getFunctionHandleSpec(element))
                 typeSpecBuilder.addFunction(
-                    beagleWidgetBindingGenerator.getFunctionGetBindAttributes(element)
+                    beagleActionBindingGenerator.getFunctionGetBindAttributes(element)
                 ).addSuperinterface(ClassName(
                     BINDING_ADAPTER.packageName,
                     BINDING_ADAPTER.className
@@ -76,7 +65,7 @@ class BeagleActionBindingProcessor(
                 val typeSpec = typeSpecBuilder.build()
                 val fileSpec = FileSpec.builder(
                     processingEnv.elementUtils.getPackageAsString(element),
-                    "${element.simpleName}${BINDING_SUFFIX}"
+                    "${element.simpleName}$BINDING_SUFFIX"
                 ).addType(typeSpec)
                     .addImport(GET_VALUE_NOT_NULL.packageName, GET_VALUE_NOT_NULL.className)
                     .build()
@@ -93,10 +82,5 @@ class BeagleActionBindingProcessor(
 
     companion object {
         private const val BINDING_SUFFIX = "Binding"
-
-        private val BIND_CLASS = Class.forName(
-            BIND.toString()
-        ).kotlin as KClass<out BindAttribute<*>>
-        private val CLASS_ANNOTATION = RegisterAction::class.java
     }
 }

@@ -32,3 +32,4 @@ include Modules.beagleBackendProcessor
 include Modules.beagleBackendDeclarative
 include Modules.beagleBackendSpringStarter
 include Modules.beagleBackendMicronautStarter
+include Modules.beagleAndroidInternalProcessor

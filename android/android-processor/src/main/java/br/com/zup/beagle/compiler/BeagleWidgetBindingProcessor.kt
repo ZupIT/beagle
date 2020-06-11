@@ -18,16 +18,8 @@ package br.com.zup.beagle.compiler
 
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.compiler.BeagleBindingHandler.Companion.BINDING_SUFFIX
-import br.com.zup.beagle.compiler.util.ANDROID_CONTEXT
-import br.com.zup.beagle.compiler.util.ANDROID_VIEW
-import br.com.zup.beagle.compiler.util.BIND
-import br.com.zup.beagle.compiler.util.BINDING_ADAPTER
-import br.com.zup.beagle.compiler.util.GET_VALUE_NOT_NULL
-import br.com.zup.beagle.compiler.util.GET_VALUE_NULL
-import br.com.zup.beagle.compiler.util.INPUT_WIDGET
-import br.com.zup.beagle.compiler.util.WIDGET
-import br.com.zup.beagle.compiler.util.error
-import br.com.zup.beagle.compiler.util.warning
+import br.com.zup.beagle.compiler.error
+import br.com.zup.beagle.compiler.warning
 import br.com.zup.beagle.core.BindAttribute
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec

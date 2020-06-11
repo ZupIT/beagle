@@ -17,10 +17,7 @@
 package br.com.zup.beagle.compiler
 
 import br.com.zup.beagle.annotation.RegisterValidator
-import br.com.zup.beagle.compiler.util.VALIDATOR
-import br.com.zup.beagle.compiler.util.VALIDATOR_HANDLER
-import br.com.zup.beagle.compiler.util.error
-import br.com.zup.beagle.compiler.util.implementsInterface
+import br.com.zup.beagle.compiler.error
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec

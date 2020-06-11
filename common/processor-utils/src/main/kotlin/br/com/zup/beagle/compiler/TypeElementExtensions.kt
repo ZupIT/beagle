@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.compiler.util
+package br.com.zup.beagle.compiler
 
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.DeclaredType

@@ -20,9 +20,6 @@ import br.com.zup.beagle.annotation.BeagleComponent
 import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.annotation.RegisterValidator
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.compiler.util.BEAGLE_CONFIG
-import br.com.zup.beagle.compiler.util.error
-import br.com.zup.beagle.compiler.util.implementsInterface
 import com.google.auto.service.AutoService
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessor
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessorType

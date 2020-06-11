@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.compiler.util
+package br.com.zup.beagle.compiler
 
 val CUSTOM_ACTION_HANDLER = BeagleClass(
     "br.com.zup.beagle.action",

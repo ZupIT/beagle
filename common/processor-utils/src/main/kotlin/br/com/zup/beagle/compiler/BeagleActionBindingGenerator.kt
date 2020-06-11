@@ -16,9 +16,6 @@
 
 package br.com.zup.beagle.compiler
 
-import br.com.zup.beagle.compiler.util.BIND
-import br.com.zup.beagle.compiler.util.ROOT_VIEW
-import br.com.zup.beagle.core.BindAttribute
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
@@ -28,15 +25,12 @@ import com.squareup.kotlinpoet.asTypeName
 import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.TypeMirror
-import kotlin.reflect.KClass
 
 private const val HANDLE_METHOD = "handle"
 private const val ROOT_VIEW_PROPERTY = "rootView"
 
-class BeagleActionBindingGenerator(private val processingEnv: ProcessingEnvironment) : BeagleBindingHandler(
-    processingEnv,
-    BIND_CLASS
-) {
+class BeagleActionBindingGenerator(processingEnv: ProcessingEnvironment) : BeagleBindingHandler(
+    processingEnv) {
     private val typeUtils = processingEnv.typeUtils
 
     fun buildActionClassSpec(element: TypeElement, suffix: String): TypeSpec.Builder {
@@ -69,16 +63,8 @@ class BeagleActionBindingGenerator(private val processingEnv: ProcessingEnvironm
         return FunSpec.builder(HANDLE_METHOD)
             .addModifiers(KModifier.OVERRIDE)
             .addParameter(ROOT_VIEW_PROPERTY, ClassName(ROOT_VIEW.packageName, ROOT_VIEW.className))
-            .addStatement("${element.simpleName}(${attributeValues}).${HANDLE_METHOD}(${ROOT_VIEW_PROPERTY})"
+            .addStatement("${element.simpleName}(${attributeValues}).$HANDLE_METHOD($ROOT_VIEW_PROPERTY)"
                 .trimMargin())
             .build()
     }
-
-    companion object {
-        private val BIND_CLASS = Class.forName(
-            BIND.toString()
-        ).kotlin as KClass<out BindAttribute<*>>
-    }
-
-
 }

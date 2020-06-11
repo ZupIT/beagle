@@ -14,16 +14,13 @@
  * limitations under the License.
  */
 
-apply plugin: 'kotlin'
+package br.com.zup.beagle.compiler
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
-dependencies {
-    implementation GeneralLibraries.kotlin
-    implementation GeneralLibraries.kotlinPoet
-    implementation project(Modules.beagleCoreDeclarative)
-    implementation project(Modules.beagleAnnotation)
+data class BeagleClass(
+    val packageName: String,
+    val className: String
+) {
+    override fun toString(): String {
+        return "$packageName.$className"
+    }
 }
-
-apply from: rootProject.file('maven-publish.gradle')

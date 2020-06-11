@@ -13,17 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
     implementation GeneralLibraries.kotlin
+
     implementation GeneralLibraries.kotlinPoet
+
+    implementation project(Modules.beagleCommonProcessorUtils)
     implementation project(Modules.beagleCoreDeclarative)
     implementation project(Modules.beagleAnnotation)
+    implementation project(Modules.beagleAndroidAnnotation)
+
+    implementation ProcessorLibraries.incap
+    kapt ProcessorLibraries.incapPrcessor
+
+    implementation ProcessorLibraries.autoService
+    kapt ProcessorLibraries.autoService
+
+    testImplementation TestLibraries.junit
+    testImplementation TestLibraries.kotlinTest
+    testImplementation TestLibraries.googleCompileTesting
+    testImplementation TestLibraries.mockk
 }
 
 apply from: rootProject.file('maven-publish.gradle')
