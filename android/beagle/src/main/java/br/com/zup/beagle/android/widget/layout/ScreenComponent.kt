@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+package br.com.zup.beagle.android.widget.layout
 
 import br.com.zup.beagle.analytics.ScreenAnalytics
 import br.com.zup.beagle.analytics.ScreenEvent
@@ -22,14 +22,12 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.enums.BeaglePlatform
 
 internal data class ScreenComponent(
     val identifier: String? = null,
     val navigationBar: NavigationBar? = null,
     val child: ServerDrivenComponent,
-    override val screenAnalyticsEvent: ScreenEvent? = null,
-    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
+    override val screenAnalyticsEvent: ScreenEvent? = null
 ) : StyleComponent, ScreenAnalytics {
 
     override var style: Style? = null

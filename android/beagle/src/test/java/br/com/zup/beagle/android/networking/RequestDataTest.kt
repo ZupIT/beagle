@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.networking
 
-import br.com.zup.beagle.enums.BeaglePlatform
 import br.com.zup.beagle.android.testutil.RandomData
 import org.junit.Before
 import org.junit.Test
@@ -41,7 +40,7 @@ class RequestDataTest {
     @Test
     fun requestData_should_have_just_beaglePlatform_header() {
         assertEquals(1, requestData.headers.size)
-        assertEquals(BeaglePlatform.ANDROID.name, requestData.headers[RequestData.BEAGLE_PLATFORM_HEADER])
+        assertEquals(RequestData.BEAGLE_PLATFORM_HEADER_VALUE, requestData.headers[RequestData.BEAGLE_PLATFORM_HEADER_KEY])
     }
 
     @Test

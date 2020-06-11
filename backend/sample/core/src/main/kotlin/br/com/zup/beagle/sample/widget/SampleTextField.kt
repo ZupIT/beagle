@@ -17,11 +17,7 @@
 package br.com.zup.beagle.sample.widget
 
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.enums.BeaglePlatform
 import br.com.zup.beagle.widget.form.InputWidget
 
 @RegisterWidget
-class SampleTextField(
-    val placeholder: String,
-    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
-) : InputWidget()
+class SampleTextField(val placeholder: String) : InputWidget()

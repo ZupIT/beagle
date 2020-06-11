@@ -17,7 +17,7 @@
 package br.com.zup.beagle.spring.configuration
 
 import br.com.zup.beagle.spring.interceptor.BeaglePlatformInterceptor
-import br.com.zup.beagle.utils.BeaglePlatformUtil
+import br.com.zup.beagle.platform.BeaglePlatformUtil
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.context.annotation.Configuration

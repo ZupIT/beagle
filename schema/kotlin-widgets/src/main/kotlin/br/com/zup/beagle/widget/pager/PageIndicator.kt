@@ -16,8 +16,6 @@
 
 package br.com.zup.beagle.widget.pager
 
-import br.com.zup.beagle.enums.BeaglePlatform
-
 /**
  *  The PageView component is a specialized container to hold pages (views) that will be displayed horizontally.
  *
@@ -25,9 +23,7 @@ import br.com.zup.beagle.enums.BeaglePlatform
  * @param unselectedColor this is a string value and it must be filled as HEX (Hexadecimal)
  *
  */
-
 open class PageIndicator(
     val selectedColor: String,
-    val unselectedColor: String,
-    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
+    val unselectedColor: String
 ) : PageIndicatorComponent

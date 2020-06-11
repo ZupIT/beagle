@@ -18,7 +18,6 @@ package br.com.zup.beagle.widget.form
 
 import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.enums.BeaglePlatform
 
 /**
  *  Defines the type of operation submitted by this form. It will map these values to Http methods.
@@ -72,8 +71,7 @@ data class Form(
     val action: Action,
     val child: ServerDrivenComponent,
     val group: String? = null,
-    val shouldStoreFields: Boolean = false,
-    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
+    val shouldStoreFields: Boolean = false
 ) : ServerDrivenComponent
 
 
@@ -87,7 +85,5 @@ data class Form(
 data class FormRemoteAction(
     val path: String,
     val method: FormMethodType
-) : Action {
-    override fun toString() = "FormRemoteAction: $path / ${method.name}"
-}
+) : Action
 

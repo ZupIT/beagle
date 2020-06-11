@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+package br.com.zup.beagle.platform
 
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.Widget
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonUnwrapped
 
-/**
- *  The container component is a general container that can hold other components inside.
- *
- * @param children define a list of components that are part of the container.
- *
- */
-data class Container(
-    val children: List<ServerDrivenComponent>
-) : Widget()
+data class BeaglePlatformWrapper<T : ServerDrivenComponent>(
+    @JsonUnwrapped
+    val component: T,
+    @JsonProperty(BeaglePlatformUtil.BEAGLE_PLATFORM_FIELD)
+    val platform: BeaglePlatform
+) : ServerDrivenComponent

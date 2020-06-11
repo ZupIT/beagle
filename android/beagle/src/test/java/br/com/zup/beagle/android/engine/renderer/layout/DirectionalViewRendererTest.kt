@@ -18,12 +18,11 @@ package br.com.zup.beagle.android.engine.renderer.layout
 
 import android.content.Context
 import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
-import br.com.zup.beagle.enums.BeaglePlatform
 import br.com.zup.beagle.android.view.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.ui.Button
@@ -39,8 +38,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 internal class DirectionalView(
-    val children: List<ServerDrivenComponent>,
-    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
+    val children: List<ServerDrivenComponent>
 ) : ServerDrivenComponent
 
 internal class DirectionalViewRendererImpl(
@@ -64,10 +62,13 @@ class DirectionalViewRendererTest : BaseTest() {
 
     @RelaxedMockK
     private lateinit var directionalView: DirectionalView
+
     @MockK
     private lateinit var flex: Flex
+
     @MockK
     private lateinit var viewRendererFactory: ViewRendererFactory
+
     @MockK
     private lateinit var viewFactory: ViewFactory
 

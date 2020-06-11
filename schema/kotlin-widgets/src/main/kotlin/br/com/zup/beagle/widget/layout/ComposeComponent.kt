@@ -17,19 +17,7 @@
 package br.com.zup.beagle.widget.layout
 
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.enums.BeaglePlatform
 
-/**
- * TODO
- */
 abstract class ComposeComponent : ServerDrivenComponent {
-
-    /**
-     * TODO
-     */
-
-    override val beaglePlatform: BeaglePlatform
-        get() = BeaglePlatform.ALL // This will be ignored
-
     abstract fun build(): ServerDrivenComponent
 }

@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.utils
+package br.com.zup.beagle.platform
 
-import br.com.zup.beagle.enums.BeaglePlatform
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.ObjectNode
@@ -25,7 +24,7 @@ import com.fasterxml.jackson.databind.node.TextNode
 object BeaglePlatformUtil {
 
     const val BEAGLE_PLATFORM_HEADER = "beagle-platform"
-    private const val BEAGLE_PLATFORM_FIELD = "beaglePlatform"
+    internal const val BEAGLE_PLATFORM_FIELD = "beaglePlatform"
 
     fun treatBeaglePlatform(currentPlatform: String?, jsonNode: JsonNode): JsonNode {
         if (jsonNode is ObjectNode) {
@@ -35,7 +34,9 @@ object BeaglePlatformUtil {
                     jsonNode
                 )
             }
-            removeBeaglePlatformField(jsonNode)
+            removeBeaglePlatformField(
+                jsonNode
+            )
         }
         return jsonNode
     }
@@ -51,7 +52,8 @@ object BeaglePlatformUtil {
                     currentPlatform = currentPlatform,
                     nodeEntry = it,
                     fieldsToRemove = fieldsToRemove
-                )) {
+                )
+            ) {
                 isToRemove = true
             }
         }
@@ -66,14 +68,18 @@ object BeaglePlatformUtil {
     ): Boolean {
         val currentNode = nodeEntry.value
         when {
-            checkIfCurrentPlatformIsNotAllowedToViewComponent(currentPlatform, nodeEntry) -> {
+            checkIfCurrentPlatformIsNotAllowedToViewComponent(
+                currentPlatform,
+                nodeEntry
+            ) -> {
                 return true
             }
             currentNode is ObjectNode -> {
                 if (removeObjectFromTreeWhenPlatformIsDifferToCurrentPlatform(
                         currentPlatform,
                         currentNode
-                    )) {
+                    )
+                ) {
                     fieldsToRemove.add(nodeEntry.key)
                 }
             }
@@ -94,7 +100,8 @@ object BeaglePlatformUtil {
                 if (removeObjectFromTreeWhenPlatformIsDifferToCurrentPlatform(
                         currentPlatform,
                         node
-                    )) {
+                    )
+                ) {
                     indexToRemoveList.add(index)
                 }
             }
@@ -111,9 +118,15 @@ object BeaglePlatformUtil {
         objectNode.fields().forEach {
             val currentNode = it.value
             if (currentNode is ObjectNode) {
-                removeBeaglePlatformField(currentNode)
+                removeBeaglePlatformField(
+                    currentNode
+                )
             } else if (currentNode is ArrayNode) {
-                currentNode.filterIsInstance<ObjectNode>().forEach { node -> removeBeaglePlatformField(node) }
+                currentNode.filterIsInstance<ObjectNode>().forEach { node ->
+                    removeBeaglePlatformField(
+                        node
+                    )
+                }
             }
         }
     }

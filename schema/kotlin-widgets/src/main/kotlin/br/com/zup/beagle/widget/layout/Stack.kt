@@ -17,7 +17,6 @@
 package br.com.zup.beagle.widget.layout
 
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.enums.BeaglePlatform
 
 /**
  * component will hold a stack of components. It display its children relative to the stack.
@@ -26,6 +25,5 @@ import br.com.zup.beagle.enums.BeaglePlatform
  *
  */
 data class Stack(
-    val children: List<ServerDrivenComponent>,
-    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
+    val children: List<ServerDrivenComponent>
 ) : ServerDrivenComponent

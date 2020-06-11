@@ -17,7 +17,6 @@
 package br.com.zup.beagle.widget.layout
 
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.enums.BeaglePlatform
 
 /**
  *  The horizontal component is a specialized container that will display its children horizontally.
@@ -31,6 +30,5 @@ import br.com.zup.beagle.enums.BeaglePlatform
  */
 data class Horizontal(
     val children: List<ServerDrivenComponent>,
-    val reversed: Boolean? = null,
-    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
+    val reversed: Boolean? = null
 ) : ServerDrivenComponent

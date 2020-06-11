@@ -18,7 +18,6 @@ package br.com.zup.beagle.serialization.jackson
 
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.enums.BeaglePlatform
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Text
@@ -89,8 +88,5 @@ internal class BeagleTypeSerializerTest {
     }
 
     @RegisterWidget
-    private object CustomWidget : Widget() {
-        override val beaglePlatform: BeaglePlatform
-            get() = BeaglePlatform.ALL
-    }
+    private object CustomWidget : Widget()
 }

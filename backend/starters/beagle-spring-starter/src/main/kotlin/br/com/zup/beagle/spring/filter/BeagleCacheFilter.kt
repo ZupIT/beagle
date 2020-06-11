@@ -18,7 +18,7 @@ package br.com.zup.beagle.spring.filter
 
 import br.com.zup.beagle.cache.BeagleCacheHandler
 import br.com.zup.beagle.cache.RestCacheHandler
-import br.com.zup.beagle.utils.BeaglePlatformUtil
+import br.com.zup.beagle.platform.BeaglePlatformUtil
 import org.springframework.web.util.ContentCachingResponseWrapper
 import javax.servlet.Filter
 import javax.servlet.FilterChain

@@ -17,7 +17,6 @@
 package br.com.zup.beagle.widget.lazy
 
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.enums.BeaglePlatform
 
 /**
  *  The LazyComponent is used when an asynchronous BFF request is made.
@@ -32,6 +31,5 @@ import br.com.zup.beagle.enums.BeaglePlatform
  */
 data class LazyComponent(
     val path: String,
-    val initialState: ServerDrivenComponent,
-    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
+    val initialState: ServerDrivenComponent
 ) : ServerDrivenComponent

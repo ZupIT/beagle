@@ -34,7 +34,7 @@ import br.com.zup.beagle.android.view.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.ScreenComponent
+import br.com.zup.beagle.android.widget.layout.ScreenComponent
 import io.mockk.CapturingSlot
 import io.mockk.Runs
 import io.mockk.every

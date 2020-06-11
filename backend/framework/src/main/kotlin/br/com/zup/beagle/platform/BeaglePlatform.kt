@@ -14,17 +14,23 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+package br.com.zup.beagle.platform
 
-import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.Widget
+enum class BeaglePlatform {
+    ALL,
+    MOBILE,
+    ANDROID,
+    IOS,
+    WEB;
 
-/**
- *  The container component is a general container that can hold other components inside.
- *
- * @param children define a list of components that are part of the container.
- *
- */
-data class Container(
-    val children: List<ServerDrivenComponent>
-) : Widget()
+    fun isMobilePlatform() = this == MOBILE || this == ANDROID || this == IOS
+
+    fun allowToSendComponentToPlatform(beaglePlatform: BeaglePlatform) =
+        when (this) {
+            ALL -> true
+            MOBILE -> beaglePlatform.isMobilePlatform()
+            ANDROID -> beaglePlatform == ANDROID
+            IOS -> beaglePlatform == IOS
+            WEB -> beaglePlatform == WEB
+        }
+}

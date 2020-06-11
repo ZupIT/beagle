@@ -16,8 +16,10 @@
 
 package br.com.zup.beagle.widget.ui
 
-import br.com.zup.beagle.enums.BeaglePlatform
 import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.ui.TextAlignment.CENTER
+import br.com.zup.beagle.widget.ui.TextAlignment.LEFT
+import br.com.zup.beagle.widget.ui.TextAlignment.RIGHT
 
 /**
  * A text widget will define a text view natively using the server driven information received through Beagle.
@@ -34,8 +36,7 @@ data class Text(
     val text: String,
     val styleId: String? = null,
     val textColor: String? = null,
-    val alignment: TextAlignment? = null,
-    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
+    val alignment: TextAlignment? = null
 ) : Widget()
 
 /**

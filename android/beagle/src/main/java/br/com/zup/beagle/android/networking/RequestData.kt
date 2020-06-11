@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.networking
 
-import br.com.zup.beagle.enums.BeaglePlatform
 import java.net.URI
 
 class RequestData(
@@ -26,10 +25,11 @@ class RequestData(
     val body: String? = null
 ) {
     companion object {
-        const val BEAGLE_PLATFORM_HEADER = "beagle-platform"
+        const val BEAGLE_PLATFORM_HEADER_KEY = "beagle-platform"
+        const val BEAGLE_PLATFORM_HEADER_VALUE = "ANDROID"
     }
 
-    val headers = headers.plus(BEAGLE_PLATFORM_HEADER to BeaglePlatform.ANDROID.name)
+    val headers = headers.plus(BEAGLE_PLATFORM_HEADER_KEY to BEAGLE_PLATFORM_HEADER_VALUE)
 }
 
 enum class HttpMethod {

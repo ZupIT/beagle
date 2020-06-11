@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.data
 
-import br.com.zup.beagle.enums.BeaglePlatform
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
@@ -113,7 +112,7 @@ class BeagleApiTest {
         assertEquals(screenRequest.body, requestData.body)
         assertEquals(2, requestData.headers.size)
         assertEquals("application/json", requestData.headers["Content-Type"])
-        assertEquals(BeaglePlatform.ANDROID.name, requestData.headers[RequestData.BEAGLE_PLATFORM_HEADER])
+        assertEquals(RequestData.BEAGLE_PLATFORM_HEADER_VALUE, requestData.headers[RequestData.BEAGLE_PLATFORM_HEADER_KEY])
     }
 
     @Test

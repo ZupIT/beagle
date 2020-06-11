@@ -17,7 +17,6 @@
 package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.enums.BeaglePlatform
 
 /**
  * TabView is a component responsible for the navigation between views.
@@ -29,8 +28,7 @@ import br.com.zup.beagle.enums.BeaglePlatform
  */
 data class TabView(
     val tabItems: List<TabItem>,
-    val styleId: String? = null,
-    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
+    val styleId: String? = null
 ) : ServerDrivenComponent
 
 /**

@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.spring.interceptor
 
-import br.com.zup.beagle.enums.BeaglePlatform
+import br.com.zup.beagle.platform.BeaglePlatform
+import br.com.zup.beagle.platform.BeaglePlatformUtil
 import br.com.zup.beagle.serialization.jackson.BeagleSerializationUtil
-import br.com.zup.beagle.utils.BeaglePlatformUtil
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

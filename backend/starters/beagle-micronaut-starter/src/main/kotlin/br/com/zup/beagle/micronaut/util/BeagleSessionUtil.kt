@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.micronaut.util
 
-import br.com.zup.beagle.enums.BeaglePlatform
-import br.com.zup.beagle.utils.BeaglePlatformUtil
+import br.com.zup.beagle.platform.BeaglePlatform
+import br.com.zup.beagle.platform.BeaglePlatformUtil
 import io.micronaut.http.context.ServerRequestContext
 
 object BeagleSessionUtil {

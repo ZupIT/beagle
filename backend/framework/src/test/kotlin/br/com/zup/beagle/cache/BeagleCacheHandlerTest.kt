@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.cache
 
-import br.com.zup.beagle.enums.BeaglePlatform
+import br.com.zup.beagle.platform.BeaglePlatform
 import br.com.zup.beagle.serialization.jackson.BeagleSerializationUtil
 import br.com.zup.beagle.widget.ui.Button
 import com.google.common.hash.Hashing

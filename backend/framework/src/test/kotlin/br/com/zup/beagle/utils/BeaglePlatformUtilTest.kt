@@ -19,7 +19,9 @@ package br.com.zup.beagle.utils
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.enums.BeaglePlatform
+import br.com.zup.beagle.platform.BeaglePlatform
+import br.com.zup.beagle.platform.BeaglePlatformUtil
+import br.com.zup.beagle.platform.forPlatform
 import br.com.zup.beagle.serialization.jackson.BeagleSerializationUtil
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
@@ -91,18 +93,16 @@ internal class BeaglePlatformUtilTest {
         val data = Container(
             listOf(
                 CustomButton(
-                    text = mobileText,
-                    beaglePlatform = BeaglePlatform.MOBILE
-                ),
+                    text = mobileText
+                ).forPlatform(BeaglePlatform.MOBILE),
                 Button(
                     text = freeForAllText,
                     action = Navigate.PushView(
                         Route.Local(
                             Screen(
                                 child = CustomButton(
-                                    text = webText,
-                                    beaglePlatform = BeaglePlatform.WEB
-                                )
+                                    text = webText
+                                ).forPlatform(BeaglePlatform.WEB)
                             )
                         )
                     )
@@ -113,5 +113,5 @@ internal class BeaglePlatformUtilTest {
         return objectMapper.readTree(objectMapper.writeValueAsString(data))
     }
 
-    class CustomButton(val text: String, override val beaglePlatform: BeaglePlatform) : ServerDrivenComponent
+    class CustomButton(val text: String) : ServerDrivenComponent
 }

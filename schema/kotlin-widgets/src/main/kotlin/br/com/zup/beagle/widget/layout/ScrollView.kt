@@ -17,7 +17,6 @@
 package br.com.zup.beagle.widget.layout
 
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.enums.BeaglePlatform
 
 /**
  * Component is a specialized container that will display its components in a Scroll
@@ -30,8 +29,7 @@ import br.com.zup.beagle.enums.BeaglePlatform
 data class ScrollView(
     val children: List<ServerDrivenComponent>,
     val scrollDirection: ScrollAxis? = null,
-    val scrollBarEnabled: Boolean? = null,
-    override val beaglePlatform: BeaglePlatform = BeaglePlatform.ALL
+    val scrollBarEnabled: Boolean? = null
 ) : ServerDrivenComponent
 
 enum class ScrollAxis {

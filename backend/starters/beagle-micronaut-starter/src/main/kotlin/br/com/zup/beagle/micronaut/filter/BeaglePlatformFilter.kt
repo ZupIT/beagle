@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.micronaut.filter
 
-import br.com.zup.beagle.utils.BeaglePlatformUtil
+import br.com.zup.beagle.platform.BeaglePlatformUtil
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.micronaut.context.annotation.Requirements
 import io.micronaut.context.annotation.Requires

@@ -27,7 +27,7 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.layout.ScreenComponent
+import br.com.zup.beagle.android.widget.layout.ScreenComponent
 
 internal var viewFactory = ViewFactory()
 

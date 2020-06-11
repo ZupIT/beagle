@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.spring.interceptor
 
-import br.com.zup.beagle.utils.BeaglePlatformUtil
+import br.com.zup.beagle.platform.BeaglePlatformUtil
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.web.servlet.HandlerInterceptor
 import org.springframework.web.servlet.ModelAndView

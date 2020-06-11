@@ -28,7 +28,7 @@ import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.ScreenComponent
+import br.com.zup.beagle.android.widget.layout.ScreenComponent
 
 internal class ScreenViewRenderer(
     override val component: ScreenComponent,

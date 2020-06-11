@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.spring.util
 
-import br.com.zup.beagle.enums.BeaglePlatform
-import br.com.zup.beagle.utils.BeaglePlatformUtil
+import br.com.zup.beagle.platform.BeaglePlatform
+import br.com.zup.beagle.platform.BeaglePlatformUtil
 import org.springframework.web.context.request.RequestAttributes
 import org.springframework.web.context.request.RequestContextHolder
 
