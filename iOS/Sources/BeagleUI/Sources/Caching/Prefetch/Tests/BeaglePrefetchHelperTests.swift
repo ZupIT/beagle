@@ -31,7 +31,7 @@ final class BeaglePrefetchHelperTests: XCTestCase {
     {
       "_beagleComponent_": "beagle:text",
       "text": "cache",
-      "appearance": {
+      "style": {
         "backgroundColor": "#4000FFFF"
       }
     }

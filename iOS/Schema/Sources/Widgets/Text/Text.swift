@@ -20,20 +20,20 @@ public struct Text: Widget, AutoDecodable {
     
     // MARK: - Public Properties
     public let text: String
-    public let style: String?
+    public let styleId: String?
     public let alignment: Alignment?
     public let textColor: String?
     public var widgetProperties: WidgetProperties
 
     public init(
         _ text: String,
-        style: String? = nil,
+        styleId: String? = nil,
         alignment: Alignment? = nil,
         textColor: String? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.text = text
-        self.style = style
+        self.styleId = styleId
         self.alignment = alignment
         self.textColor = textColor
         self.widgetProperties = widgetProperties

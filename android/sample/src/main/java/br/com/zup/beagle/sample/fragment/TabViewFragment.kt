@@ -22,7 +22,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.utils.toView
+import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
@@ -44,7 +45,7 @@ class TabViewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val declarative = TabView(
-            style = "DesignSystem.TabView.Custom",
+            styleId = "DesignSystem.TabView.Custom",
             tabItems = listOf(
                 buildTabView(
                     title = "Title 1",

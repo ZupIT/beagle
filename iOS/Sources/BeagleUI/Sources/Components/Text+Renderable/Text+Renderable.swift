@@ -34,9 +34,8 @@ extension Text: Widget {
         textView.textAlignment = alignment?.toUIKit() ?? .natural
         textView.text = text
 
-        // TODO: we could make this automatically inside renderer like we do with other porperties
-        if let style = style {
-            renderer.dependencies.theme.applyStyle(for: textView, withId: style)
+        if let styleId = styleId {
+            renderer.dependencies.theme.applyStyle(for: textView, withId: styleId)
         }
         if let color = textColor {
             textView.textColor = UIColor(hex: color)

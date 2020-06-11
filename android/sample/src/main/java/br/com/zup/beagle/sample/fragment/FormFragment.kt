@@ -23,9 +23,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.Route
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.widgets.TextField
 import br.com.zup.beagle.sample.widgets.TextFieldInputType
-import br.com.zup.beagle.utils.toView
+import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.UnitType
@@ -79,7 +80,7 @@ class FormFragment : Fragment() {
                     ),
                     FormSubmit(
                         child = Button(
-                            style = "DesignSystem.Button.Text",
+                            styleId = "DesignSystem.Button.Text",
                             text = "submit"
                         ).applyFlex(Flex(margin = EdgeValue(top = UnitValue(30.0, UnitType.REAL))))
                     )
@@ -122,7 +123,7 @@ class FormFragment : Fragment() {
                         ),
                         FormSubmit(
                             child = Button(
-                                style = "DesignSystem.Button.Text",
+                                styleId = "DesignSystem.Button.Text",
                                 text = "submit"
                             ).applyFlex(Flex(margin = EdgeValue(top = UnitValue(30.0, UnitType.REAL))))
                         )

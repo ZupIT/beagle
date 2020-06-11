@@ -33,7 +33,7 @@ extension ServerDrivenComponent {
 
         return Screen(
             id: screen?.identifier,
-            appearance: screen?.appearance,
+            style: screen?.style,
             safeArea: safeArea,
             navigationBar: screen?.navigationBar,
             screenAnalyticsEvent: screen?.screenAnalyticsEvent,

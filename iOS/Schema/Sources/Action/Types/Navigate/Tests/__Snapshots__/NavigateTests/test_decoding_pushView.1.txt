@@ -5,17 +5,16 @@
       - shouldPrefetch: true
       ▿ fallback: Optional<Screen>
         ▿ some: Screen
-          - appearance: Optional<Appearance>.none
           ▿ child: Text
             - alignment: Optional<Alignment>.none
-            - style: Optional<String>.none
+            - styleId: Optional<String>.none
             - text: "child"
             - textColor: Optional<String>.none
             ▿ widgetProperties: WidgetProperties
               - accessibility: Optional<Accessibility>.none
-              - appearance: Optional<Appearance>.none
               - flex: Optional<Flex>.none
               - id: Optional<String>.none
+              - style: Optional<Style>.none
           - id: Optional<String>.none
           - navigationBar: Optional<NavigationBar>.none
           ▿ safeArea: Optional<SafeArea>
@@ -29,3 +28,4 @@
               ▿ trailing: Optional<Bool>
                 - some: true
           - screenAnalyticsEvent: Optional<AnalyticsScreen>.none
+          - style: Optional<Style>.none

@@ -33,14 +33,14 @@ extension Button: Widget {
             renderer.dependencies.preFetchHelper.prefetchComponent(newPath: newPath)
         }
         
-        button.style = style
+        button.styleId = styleId
         
         return button
     }
     
     final class BeagleUIButton: UIButton {
         
-        var style: String? {
+        var styleId: String? {
             didSet { applyStyle() }
         }
 
@@ -99,8 +99,8 @@ extension Button: Widget {
         }
         
         private func applyStyle() {
-            guard let style = style else { return }
-            dependencies?.theme.applyStyle(for: self as UIButton, withId: style)
+            guard let styleId = styleId else { return }
+            dependencies?.theme.applyStyle(for: self as UIButton, withId: styleId)
         }
     }
 }

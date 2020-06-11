@@ -20,7 +20,7 @@ import Schema
 
 struct ListViewScreen: DeeplinkScreen {
     
-    init(path: String, data: [String : String]?) {
+    init(path: String, data: [String: String]?) {
     }
     
     func screenController() -> UIViewController {
@@ -63,7 +63,8 @@ struct ListViewScreen: DeeplinkScreen {
             Text("0018"),
             Text("0019"),
             Text("0020"),
-            Container(children: [Text("Text1"), Text("Text2")], widgetProperties: .init(flex: Flex()))],
-        direction: .horizontal)
+            Container(children: [Text("Text1"), Text("Text2")])
+        ],
+        direction: .horizontal
+    )
 }
-

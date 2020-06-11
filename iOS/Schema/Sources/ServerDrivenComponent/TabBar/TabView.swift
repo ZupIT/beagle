@@ -35,15 +35,15 @@ public struct TabItem: AutoInitiableAndDecodable {
 
 public struct TabView: ServerDrivenComponent, AutoInitiable {
     public let tabItems: [TabItem]
-    public let style: String?
+    public let styleId: String?
 
 // sourcery:inline:auto:TabView.Init
     public init(
         tabItems: [TabItem],
-        style: String? = nil
+        styleId: String? = nil
     ) {
         self.tabItems = tabItems
-        self.style = style
+        self.styleId = styleId
     }
 // sourcery:end
 }

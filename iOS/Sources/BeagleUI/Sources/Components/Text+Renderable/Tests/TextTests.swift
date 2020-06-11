@@ -81,12 +81,12 @@ class TextTests: XCTestCase {
     func test_renderTextComponent() throws {
         let text = Text(
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            style: "test.text.style",
+            styleId: "test.text.style",
             alignment: .right,
             textColor: "579F2B",
-            widgetProperties: .init(appearance: Appearance(
+            widgetProperties: .init(style: Style(
                 backgroundColor: "#FFFF00",
-                cornerRadius: .init(radius: 30)
+                cornerRadius: .init(radius: 30.0)
             ))
         )
 

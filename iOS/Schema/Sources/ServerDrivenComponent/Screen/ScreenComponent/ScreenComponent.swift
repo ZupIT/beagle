@@ -16,12 +16,12 @@
 
 import Foundation
 
-public struct ScreenComponent: AppearanceComponent, ServerDrivenComponent, AutoInitiableAndDecodable {
+public struct ScreenComponent: ServerDrivenComponent, StyleComponent, AutoInitiableAndDecodable {
 
     // MARK: - Public Properties
     
     public let identifier: String?
-    public let appearance: Appearance?
+    public let style: Style?
     public let safeArea: SafeArea?
     public let navigationBar: NavigationBar?
     public let screenAnalyticsEvent: AnalyticsScreen?
@@ -30,14 +30,14 @@ public struct ScreenComponent: AppearanceComponent, ServerDrivenComponent, AutoI
 // sourcery:inline:auto:ScreenComponent.Init
     public init(
         identifier: String? = nil,
-        appearance: Appearance? = nil,
+        style: Style? = nil,
         safeArea: SafeArea? = nil,
         navigationBar: NavigationBar? = nil,
         screenAnalyticsEvent: AnalyticsScreen? = nil,
         child: ServerDrivenComponent
     ) {
         self.identifier = identifier
-        self.appearance = appearance
+        self.style = style
         self.safeArea = safeArea
         self.navigationBar = navigationBar
         self.screenAnalyticsEvent = screenAnalyticsEvent

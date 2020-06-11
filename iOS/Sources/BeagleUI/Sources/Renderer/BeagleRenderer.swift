@@ -72,8 +72,8 @@ open class BeagleRenderer {
         if let c = component as? IdentifiableComponent {
             view.beagle.setup(id: c.id)
         }
-        if let c = component as? AppearanceComponent {
-            view.beagle.setup(appearance: c.appearance)
+        if let c = component as? StyleComponent {
+            view.beagle.setup(style: c.style)
         }
         if let c = component as? FlexComponent {
             view.flex.setup(c.flex)

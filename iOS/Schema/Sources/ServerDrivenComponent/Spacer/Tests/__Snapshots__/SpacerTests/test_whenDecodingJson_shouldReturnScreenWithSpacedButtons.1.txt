@@ -1,16 +1,14 @@
 ▿ ScreenComponent
-  - appearance: Optional<Appearance>.none
   ▿ child: Container
     ▿ children: 7 elements
       ▿ Button
         - action: Optional<Action>.none
         - clickAnalyticsEvent: Optional<AnalyticsClick>.none
-        ▿ style: Optional<String>
+        ▿ styleId: Optional<String>
           - some: "DesignSystem.Button.Style"
         - text: "NavigationBar"
         ▿ widgetProperties: WidgetProperties
           - accessibility: Optional<Accessibility>.none
-          - appearance: Optional<Appearance>.none
           ▿ flex: Optional<Flex>
             ▿ some: Flex
               - alignContent: Optional<AlignContent>.none
@@ -41,28 +39,28 @@
               - shrink: Optional<Double>.none
               - size: Optional<Size>.none
           - id: Optional<String>.none
+          - style: Optional<Style>.none
       ▿ Container
         ▿ children: 1 element
           ▿ Spacer
             - size: 5.0
         ▿ widgetProperties: WidgetProperties
           - accessibility: Optional<Accessibility>.none
-          ▿ appearance: Optional<Appearance>
-            ▿ some: Appearance
+          - flex: Optional<Flex>.none
+          - id: Optional<String>.none
+          ▿ style: Optional<Style>
+            ▿ some: Style
               ▿ backgroundColor: Optional<String>
                 - some: "500000FF"
               - cornerRadius: Optional<CornerRadius>.none
-          - flex: Optional<Flex>.none
-          - id: Optional<String>.none
       ▿ Button
         - action: Optional<Action>.none
         - clickAnalyticsEvent: Optional<AnalyticsClick>.none
-        ▿ style: Optional<String>
+        ▿ styleId: Optional<String>
           - some: "DesignSystem.Button.Style"
         - text: "NavigationBar with Style"
         ▿ widgetProperties: WidgetProperties
           - accessibility: Optional<Accessibility>.none
-          - appearance: Optional<Appearance>.none
           ▿ flex: Optional<Flex>
             ▿ some: Flex
               - alignContent: Optional<AlignContent>.none
@@ -93,28 +91,28 @@
               - shrink: Optional<Double>.none
               - size: Optional<Size>.none
           - id: Optional<String>.none
+          - style: Optional<Style>.none
       ▿ Container
         ▿ children: 1 element
           ▿ Spacer
             - size: 10.0
         ▿ widgetProperties: WidgetProperties
           - accessibility: Optional<Accessibility>.none
-          ▿ appearance: Optional<Appearance>
-            ▿ some: Appearance
+          - flex: Optional<Flex>.none
+          - id: Optional<String>.none
+          ▿ style: Optional<Style>
+            ▿ some: Style
               ▿ backgroundColor: Optional<String>
                 - some: "500000FF"
               - cornerRadius: Optional<CornerRadius>.none
-          - flex: Optional<Flex>.none
-          - id: Optional<String>.none
       ▿ Button
         - action: Optional<Action>.none
         - clickAnalyticsEvent: Optional<AnalyticsClick>.none
-        ▿ style: Optional<String>
+        ▿ styleId: Optional<String>
           - some: "DesignSystem.Button.Style"
         - text: "NavigationBar with Item(Text)"
         ▿ widgetProperties: WidgetProperties
           - accessibility: Optional<Accessibility>.none
-          - appearance: Optional<Appearance>.none
           ▿ flex: Optional<Flex>
             ▿ some: Flex
               - alignContent: Optional<AlignContent>.none
@@ -145,28 +143,28 @@
               - shrink: Optional<Double>.none
               - size: Optional<Size>.none
           - id: Optional<String>.none
+          - style: Optional<Style>.none
       ▿ Container
         ▿ children: 1 element
           ▿ Spacer
             - size: 15.0
         ▿ widgetProperties: WidgetProperties
           - accessibility: Optional<Accessibility>.none
-          ▿ appearance: Optional<Appearance>
-            ▿ some: Appearance
+          - flex: Optional<Flex>.none
+          - id: Optional<String>.none
+          ▿ style: Optional<Style>
+            ▿ some: Style
               ▿ backgroundColor: Optional<String>
                 - some: "500000FF"
               - cornerRadius: Optional<CornerRadius>.none
-          - flex: Optional<Flex>.none
-          - id: Optional<String>.none
       ▿ Button
         - action: Optional<Action>.none
         - clickAnalyticsEvent: Optional<AnalyticsClick>.none
-        ▿ style: Optional<String>
+        ▿ styleId: Optional<String>
           - some: "DesignSystem.Button.Style"
         - text: "NavigationBar with Item(Image)"
         ▿ widgetProperties: WidgetProperties
           - accessibility: Optional<Accessibility>.none
-          - appearance: Optional<Appearance>.none
           ▿ flex: Optional<Flex>
             ▿ some: Flex
               - alignContent: Optional<AlignContent>.none
@@ -197,12 +195,14 @@
               - shrink: Optional<Double>.none
               - size: Optional<Size>.none
           - id: Optional<String>.none
+          - style: Optional<Style>.none
     ▿ widgetProperties: WidgetProperties
       - accessibility: Optional<Accessibility>.none
-      - appearance: Optional<Appearance>.none
       - flex: Optional<Flex>.none
       - id: Optional<String>.none
+      - style: Optional<Style>.none
   - identifier: Optional<String>.none
   - navigationBar: Optional<NavigationBar>.none
   - safeArea: Optional<SafeArea>.none
   - screenAnalyticsEvent: Optional<AnalyticsScreen>.none
+  - style: Optional<Style>.none

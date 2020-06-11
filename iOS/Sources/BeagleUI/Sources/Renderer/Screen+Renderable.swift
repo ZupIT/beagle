@@ -21,7 +21,7 @@ extension Screen {
    public func toView(renderer: BeagleRenderer) -> UIView {
         return renderer.render(ScreenComponent(
             identifier: id,
-            appearance: appearance,
+            style: style,
             safeArea: safeArea,
             navigationBar: navigationBar,
             screenAnalyticsEvent: screenAnalyticsEvent,

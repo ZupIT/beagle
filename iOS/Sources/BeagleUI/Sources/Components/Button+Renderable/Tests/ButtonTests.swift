@@ -46,7 +46,7 @@ final class ButtonTests: XCTestCase {
         let renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: dependencies)
         
         let style = "test.button.style"
-        let button = Button(text: "apply style", style: style)
+        let button = Button(text: "apply style", styleId: style)
 
         // When
         let view = renderer.render(button)

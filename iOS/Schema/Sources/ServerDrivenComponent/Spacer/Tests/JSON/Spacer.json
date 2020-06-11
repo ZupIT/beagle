@@ -6,7 +6,7 @@
          {
             "_beagleComponent_":"beagle:button",
             "text":"NavigationBar",
-            "style":"DesignSystem.Button.Style",
+            "styleId":"DesignSystem.Button.Style",
             "flex":{
                "margin":{
                   "top":{
@@ -24,14 +24,14 @@
                   "size":5.0
                }
             ],
-            "appearance":{
+            "style":{
                "backgroundColor":"500000FF"
             }
          },
          {
             "_beagleComponent_":"beagle:button",
             "text":"NavigationBar with Style",
-            "style":"DesignSystem.Button.Style",
+            "styleId":"DesignSystem.Button.Style",
             "flex":{
                "margin":{
                   "top":{
@@ -49,14 +49,14 @@
                   "size":10.0
                }
             ],
-            "appearance":{
+            "style":{
                "backgroundColor":"500000FF"
             }
          },
          {
             "_beagleComponent_":"beagle:button",
             "text":"NavigationBar with Item(Text)",
-            "style":"DesignSystem.Button.Style",
+            "styleId":"DesignSystem.Button.Style",
             "flex":{
                "margin":{
                   "top":{
@@ -74,14 +74,14 @@
                   "size":15.0
                }
             ],
-            "appearance":{
+            "style":{
                "backgroundColor":"500000FF"
             }
          },
          {
             "_beagleComponent_":"beagle:button",
             "text":"NavigationBar with Item(Image)",
-            "style":"DesignSystem.Button.Style",
+            "styleId":"DesignSystem.Button.Style",
             "flex":{
                "margin":{
                   "top":{

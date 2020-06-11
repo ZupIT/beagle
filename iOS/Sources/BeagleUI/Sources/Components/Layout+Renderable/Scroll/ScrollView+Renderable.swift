@@ -31,6 +31,7 @@ extension ScrollView: ServerDrivenComponent {
         }
         
         scrollView.addSubview(contentView)
+        scrollView.beagle.setup(style: style)
         scrollView.flex.setup(Flex(flexDirection: flexDirection, grow: 1))
         scrollView.showsVerticalScrollIndicator = scrollBarEnabled
         scrollView.showsHorizontalScrollIndicator = scrollBarEnabled

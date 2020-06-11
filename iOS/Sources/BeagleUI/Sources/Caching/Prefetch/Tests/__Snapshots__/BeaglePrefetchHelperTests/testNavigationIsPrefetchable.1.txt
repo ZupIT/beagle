@@ -4,25 +4,25 @@
 
   openNativeRoute("path", data: Optional(["data": "value"]), shouldResetApplication: false)  -->  NULL 
 
-  resetApplication(Schema.Route.declarative(Schema.Screen(id: nil, appearance: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: Schema.Container(children: [], widgetProperties: Schema.WidgetProperties(id: nil, appearance: nil, flex: nil, accessibility: nil)))))  -->  NULL 
+  resetApplication(Schema.Route.declarative(Schema.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: Schema.Container(children: [], widgetProperties: Schema.WidgetProperties(id: nil, style: nil, flex: nil, accessibility: nil)))))  -->  NULL 
 
   resetApplication(Schema.Route.remote("path", shouldPrefetch: true, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: true, fallback: nil) 
 
   resetApplication(Schema.Route.remote("path", shouldPrefetch: false, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: false, fallback: nil) 
 
-  resetStack(Schema.Route.declarative(Schema.Screen(id: nil, appearance: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: Schema.Container(children: [], widgetProperties: Schema.WidgetProperties(id: nil, appearance: nil, flex: nil, accessibility: nil)))))  -->  NULL 
+  resetStack(Schema.Route.declarative(Schema.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: Schema.Container(children: [], widgetProperties: Schema.WidgetProperties(id: nil, style: nil, flex: nil, accessibility: nil)))))  -->  NULL 
 
   resetStack(Schema.Route.remote("path", shouldPrefetch: true, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: true, fallback: nil) 
 
   resetStack(Schema.Route.remote("path", shouldPrefetch: false, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: false, fallback: nil) 
 
-  pushStack(Schema.Route.declarative(Schema.Screen(id: nil, appearance: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: Schema.Container(children: [], widgetProperties: Schema.WidgetProperties(id: nil, appearance: nil, flex: nil, accessibility: nil)))))  -->  NULL 
+  pushStack(Schema.Route.declarative(Schema.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: Schema.Container(children: [], widgetProperties: Schema.WidgetProperties(id: nil, style: nil, flex: nil, accessibility: nil)))))  -->  NULL 
 
   pushStack(Schema.Route.remote("path", shouldPrefetch: true, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: true, fallback: nil) 
 
   pushStack(Schema.Route.remote("path", shouldPrefetch: false, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: false, fallback: nil) 
 
-  pushView(Schema.Route.declarative(Schema.Screen(id: nil, appearance: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: Schema.Container(children: [], widgetProperties: Schema.WidgetProperties(id: nil, appearance: nil, flex: nil, accessibility: nil)))))  -->  NULL 
+  pushView(Schema.Route.declarative(Schema.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: Schema.Container(children: [], widgetProperties: Schema.WidgetProperties(id: nil, style: nil, flex: nil, accessibility: nil)))))  -->  NULL 
 
   pushView(Schema.Route.remote("path", shouldPrefetch: true, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: true, fallback: nil) 
 

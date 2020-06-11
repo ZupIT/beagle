@@ -24,8 +24,8 @@ extension TabView: ServerDrivenComponent {
         let tabView = TabViewUIComponent(model: model)
 
         // TODO: use style in BeagleRenderer
-        if let style = style {
-            renderer.dependencies.theme.applyStyle(for: tabView as UIView, withId: style)
+        if let styleId = styleId {
+            renderer.dependencies.theme.applyStyle(for: tabView as UIView, withId: styleId)
         }
 
         tabView.flex.setup(Flex(grow: 1))

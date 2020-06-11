@@ -3,7 +3,6 @@
   - path: "https://www.guiaviagensbrasil.com/imagens/Imagem%20do%20mar%20calma%20e%20belo%20da%20Praia%20da%20Engenhoca-Itacar%C3%A9-Bahia-BA.jpg"
   ▿ widgetProperties: WidgetProperties
     - accessibility: Optional<Accessibility>.none
-    - appearance: Optional<Appearance>.none
     ▿ flex: Optional<Flex>
       ▿ some: Flex
         - alignContent: Optional<AlignContent>.none
@@ -38,3 +37,4 @@
                 - type: UnitType.real
                 - value: 150.0
     - id: Optional<String>.none
+    - style: Optional<Style>.none

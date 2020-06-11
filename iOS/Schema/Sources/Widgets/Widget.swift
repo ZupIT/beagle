@@ -23,9 +23,9 @@ public protocol Widget: ServerDrivenComponent, HasWidgetProperties {
 // MARK: - Widget Properties
 public extension Widget {
 
-    var appearance: Appearance? {
-        get { return widgetProperties.appearance }
-        set { widgetProperties.appearance = newValue }
+    var style: Style? {
+        get { return widgetProperties.style }
+        set { widgetProperties.style = newValue }
     }
 
     var flex: Flex? {
@@ -44,10 +44,10 @@ public extension Widget {
     }
 }
 
-public protocol HasWidgetProperties: AppearanceComponent, FlexComponent, AccessibilityComponent, IdentifiableComponent { }
+public protocol HasWidgetProperties: StyleComponent, FlexComponent, AccessibilityComponent, IdentifiableComponent { }
 
-public protocol AppearanceComponent {
-    var appearance: Appearance? { get }
+public protocol StyleComponent {
+    var style: Style? { get }
 }
 
 public protocol FlexComponent {
@@ -67,19 +67,19 @@ public protocol IdentifiableComponent {
 public struct WidgetProperties: HasWidgetProperties, AutoDecodable, Equatable, AutoInitiable {
 
     public var id: String?
-    public var appearance: Appearance?
+    public var style: Style?
     public var flex: Flex?
     public var accessibility: Accessibility?
 
 // sourcery:inline:auto:WidgetProperties.Init
     public init(
         id: String? = nil,
-        appearance: Appearance? = nil,
+        style: Style? = nil,
         flex: Flex? = nil,
         accessibility: Accessibility? = nil
     ) {
         self.id = id
-        self.appearance = appearance
+        self.style = style
         self.flex = flex
         self.accessibility = accessibility
     }

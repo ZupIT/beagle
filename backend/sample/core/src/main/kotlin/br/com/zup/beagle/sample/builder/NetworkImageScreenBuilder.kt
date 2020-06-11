@@ -17,6 +17,7 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
 import br.com.zup.beagle.sample.constants.TEXT_NETWORK_IMAGE
@@ -79,7 +80,7 @@ object NetworkImageScreenBuilder : ScreenBuilder {
 
     private fun buildText(text: String) = Text(
         text = text,
-        style = TEXT_NETWORK_IMAGE
+        styleId = TEXT_NETWORK_IMAGE
     ).applyFlex(
         flex = Flex(
             alignSelf = AlignSelf.CENTER,

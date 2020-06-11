@@ -26,7 +26,7 @@ final class CacheManagerDefaultTests: XCTestCase {
     {
       "_beagleType_": "beagle:component:text",
       "text": "cache",
-      "appearance": {
+      "style": {
         "backgroundColor": "#4000FFFF"
       }
     }
