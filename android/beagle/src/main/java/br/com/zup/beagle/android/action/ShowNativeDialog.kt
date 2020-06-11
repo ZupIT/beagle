@@ -19,7 +19,7 @@ package br.com.zup.beagle.android.action
 import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.view.ViewFactory
 
-data class ShowNativeDialog(
+internal data class ShowNativeDialog(
     val title: String,
     val message: String,
     val buttonText: String

@@ -26,7 +26,7 @@ import br.com.zup.beagle.android.engine.renderer.ui.ViewConvertableRenderer
 import br.com.zup.beagle.android.engine.renderer.ui.NetworkImageViewRenderer
 import br.com.zup.beagle.android.engine.renderer.ui.TextViewRenderer
 import br.com.zup.beagle.android.engine.renderer.ui.WebViewRenderer
-import br.com.zup.beagle.widget.core.ComposeComponent
+import br.com.zup.beagle.widget.layout.ComposeComponent
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.widget.core.WidgetView
 import br.com.zup.beagle.widget.form.FormInput

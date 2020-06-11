@@ -14,16 +14,24 @@
  * limitations under the License.
  */
 
-apply plugin: 'kotlin'
+package br.com.zup.beagle.widget.layout.extensions
 
-dependencies {
-    implementation GeneralLibraries.kotlin
-    api project(Modules.beagleSchemaKotlinCore)
+import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.ui.ListDirection
+import br.com.zup.beagle.widget.ui.ListView
 
-    testImplementation TestLibraries.kotlinTest
-    testImplementation TestLibraries.mockk
-    testImplementation TestLibraries.junit5Api
-    testRuntime TestLibraries.junit5Engine
-}
+/**
+ * Represent a view in list
+ *
+ */
 
-apply from: rootProject.file('maven-publish.gradle')
+typealias RowBuilder = (index: Int) -> Widget
+
+fun ListView.Companion.dynamic(
+    size: Int,
+    direction: ListDirection = ListDirection.VERTICAL,
+    rowBuilder: RowBuilder
+) = ListView(
+    rows = (0 until size).map(rowBuilder),
+    direction = direction
+)
