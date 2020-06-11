@@ -38,7 +38,7 @@ object Modules {
     const val beagleBackendSpringStarter = ":backend:starters:beagle-spring-starter"
     const val beagleBackendMicronautStarter = ":backend:starters:beagle-micronaut-starter"
     const val beagleSchemaKotlinCore = ":schema:kotlin-core"
-    const val beagleSchemaKotlinWidgets = ":schema:kotlin-widgets"
+    const val beagleSchemaBackendWidgets = ":backend:backend-widgets"
     const val beagleExtendedSchema = ":common:extended-schema"
 }
 

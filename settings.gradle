@@ -27,5 +27,5 @@ include Modules.beagleAnnotation
 include Modules.beagleBackendSpringStarter
 include Modules.beagleBackendMicronautStarter
 include Modules.beagleSchemaKotlinCore
-include Modules.beagleSchemaKotlinWidgets
+include Modules.beagleSchemaBackendWidgets
 include Modules.beagleExtendedSchema
