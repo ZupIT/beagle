@@ -26,6 +26,7 @@ import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.android.action.ActionExecutor
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.ui.RootView
 import br.com.zup.beagle.android.widget.ui.WidgetView
 
@@ -34,6 +35,10 @@ data class Button(private val text: String,
                   private val action: Action? = null,
                   private val clickAnalyticsEvent: ClickEvent? = null)
     : WidgetView() {
+
+    @Transient
+    private val viewFactory = ViewFactory()
+
 
     @Transient
     private val actionExecutor: ActionExecutor = ActionExecutor()
@@ -45,7 +50,7 @@ data class Button(private val text: String,
         action?.let {
             preFetchHelper.handlePreFetch(rootView, it)
         }
-        val button = AppCompatButton(rootView.getContext())
+        val button = viewFactory.makeButton(rootView.getContext())
 
         button.setOnClickListener {
             actionExecutor.doAction(rootView.getContext(), action)

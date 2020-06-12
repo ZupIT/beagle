@@ -26,6 +26,7 @@ import android.widget.HorizontalScrollView
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.widget.core.Flex
 
@@ -51,6 +52,8 @@ internal class ViewFactory {
         HorizontalScrollView(context).apply {
             isFillViewport = true
         }
+
+    fun makeButton(context: Context) = AppCompatButton(context)
 
     fun makeTextView(context: Context) = TextView(context)
 
