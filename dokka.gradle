@@ -20,6 +20,8 @@ apply plugin: 'org.jetbrains.dokka'
  * See https://github.com/Kotlin/dokka
  */
 dokka {
-    outputFormat = 'html'
+    outputFormat = 'javadoc'
     outputDirectory = "$buildDir/javadoc"
+
+    disableAutoconfiguration = false
 }

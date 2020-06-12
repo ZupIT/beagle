@@ -29,13 +29,13 @@ import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.R
 import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.android.action.ActionExecutor
+import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
-import br.com.zup.beagle.widget.layout.ScreenComponent
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -52,28 +52,40 @@ class ToolbarManagerTest : BaseTest() {
 
     @MockK
     private lateinit var screenComponent: ScreenComponent
+
     @MockK(relaxed = true)
     private lateinit var navigationBar: NavigationBar
+
     @RelaxedMockK
     private lateinit var context: BeagleActivity
+
     @MockK(relaxed = true)
     private lateinit var actionBar: ActionBar
+
     @RelaxedMockK
     private lateinit var toolbar: Toolbar
+
     @MockK
     private lateinit var action: Action
+
     @RelaxedMockK
     private lateinit var menu: Menu
+
     @MockK
     private lateinit var designSystemMock: DesignSystem
+
     @MockK
     private lateinit var navigationIcon: Drawable
+
     @MockK
     private lateinit var typedArray: TypedArray
+
     @MockK
     private lateinit var icon: Drawable
+
     @RelaxedMockK
     private lateinit var actionExecutor: ActionExecutor
+
     @RelaxedMockK
     private lateinit var resources: Resources
 

@@ -29,11 +29,11 @@ val HTTP_CLIENT_HANDLER = BeagleClass(
     "HttpClient"
 )
 val VALIDATOR_HANDLER = BeagleClass(
-    "br.com.zup.beagle.android.form",
+    "br.com.zup.beagle.android.components.form.core",
     "ValidatorHandler"
 )
 val VALIDATOR = BeagleClass(
-    "br.com.zup.beagle.android.form",
+    "br.com.zup.beagle.android.components.form.core",
     "Validator"
 )
 val DESIGN_SYSTEM = BeagleClass(
@@ -53,7 +53,7 @@ val BEAGLE_SDK = BeagleClass(
     "BeagleSdk"
 )
 val WIDGET_VIEW = BeagleClass(
-    "br.com.zup.beagle.android.widget.core",
+    "br.com.zup.beagle.android.widget.ui",
     "WidgetView"
 )
 val BEAGLE_ACTIVITY = BeagleClass(

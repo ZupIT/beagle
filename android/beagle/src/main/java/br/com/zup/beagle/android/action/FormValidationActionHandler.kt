@@ -18,9 +18,9 @@ package br.com.zup.beagle.android.action
 
 import android.content.Context
 import br.com.zup.beagle.action.FormValidation
+import br.com.zup.beagle.android.components.form.FormInput
+import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.logger.BeagleLogger
-import br.com.zup.beagle.widget.form.FormInput
-import br.com.zup.beagle.android.widget.form.InputWidget
 
 internal class FormValidationActionHandler : DefaultActionHandler<FormValidation> {
 
@@ -31,7 +31,7 @@ internal class FormValidationActionHandler : DefaultActionHandler<FormValidation
             val formInput = formInputs?.find {
                 it.name == error.inputName
             }
-            val childInputWidget : InputWidget? = formInput?.child as InputWidget?
+            val childInputWidget : InputWidget? = formInput?.child
 
             childInputWidget?.onErrorMessage(error.message) ?:
                 BeagleLogger.warning("Input name with name ${error.inputName} does " +

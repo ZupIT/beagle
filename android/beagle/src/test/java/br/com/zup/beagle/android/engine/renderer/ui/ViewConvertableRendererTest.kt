@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
+
 package br.com.zup.beagle.android.engine.renderer.ui
 
 import android.content.Context
 import android.view.View
 import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.engine.renderer.RootView
-import br.com.zup.beagle.android.widget.core.WidgetView
+import br.com.zup.beagle.android.engine.renderer.ViewConvertableRenderer
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
@@ -31,10 +33,13 @@ class ViewConvertableRendererTest : BaseTest() {
 
     @RelaxedMockK
     private lateinit var widget: WidgetView
+
     @MockK
     private lateinit var context: Context
+
     @RelaxedMockK
     private lateinit var view: View
+
     @MockK
     private lateinit var rootView: RootView
 
@@ -51,7 +56,7 @@ class ViewConvertableRendererTest : BaseTest() {
     @Test
     fun build_should_make_a_native_view() {
         // Given
-        every { widget.buildView(rootView.getContext()) } returns view
+        every { widget.buildView(rootView) } returns view
 
         // When
         val actual = viewConvertableRenderer.build(rootView)
@@ -60,3 +65,4 @@ class ViewConvertableRendererTest : BaseTest() {
         assertEquals(view, actual)
     }
 }
+

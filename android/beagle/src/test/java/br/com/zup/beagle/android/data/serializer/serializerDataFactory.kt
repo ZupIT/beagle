@@ -46,7 +46,7 @@ fun makeScreenJson() = """
             "title": "${RandomData.string()}",
             "showBackButton": true
         },
-        "child": ${makeVerticalJson()}
+        "child": ${makeContainerJson()}
     }
 """
 
@@ -58,31 +58,6 @@ fun makeContainerJson() = """
     }
 """
 
-fun makeVerticalJson() = """
-    {
-        "_beagleComponent_": "beagle:vertical",
-        "reversed": false,
-        "flex": ${makeFlexJson()},
-        "children": [${makeButtonJson()}, ${makeButtonJson()}]
-    }
-"""
-
-fun makeHorizontalJson() = """
-    {
-        "_beagleComponent_": "beagle:horizontal",
-        "reversed": false,
-        "flex": ${makeFlexJson()},
-        "children": [${makeButtonJson()}, ${makeButtonJson()}]
-    }
-"""
-
-fun makeStackJson() = """
-    {
-        "_beagleComponent_": "beagle:stack",
-        "flex": ${makeFlexJson()},
-        "children": [${makeButtonJson()}, ${makeButtonJson()}]
-    }
-"""
 
 fun makeSpacerJson() = """
     {
@@ -124,7 +99,7 @@ fun makeListViewJson() = """
         "_beagleComponent_": "beagle:listView",
         "rows": [${makeButtonJson()}],
         "remoteDataSource": "/dataSource",
-        "loadingState": ${makeVerticalJson()}
+        "loadingState": ${makeContainerJson()}
     }
 """
 
@@ -220,7 +195,7 @@ fun makeFormValidationJson() = """
 
 fun makeCustomInputWidgetJson() = """
     {
-        "_beagleComponent_": "sample:customInputWidget"
+        "_beagleComponent_": "custom:customInputWidget"
     }
 """
 

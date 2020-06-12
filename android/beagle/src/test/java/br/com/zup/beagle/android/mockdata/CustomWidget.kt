@@ -16,12 +16,12 @@
 
 package br.com.zup.beagle.android.mockdata
 
-import android.content.Context
 import android.view.View
-import br.com.zup.beagle.android.widget.core.WidgetView
+import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.WidgetView
 
 class CustomWidget : WidgetView() {
-    override fun buildView(context: Context): View {
+    override fun buildView(rootView: RootView): View {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
