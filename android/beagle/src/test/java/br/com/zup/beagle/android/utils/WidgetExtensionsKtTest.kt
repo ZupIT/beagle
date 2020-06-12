@@ -32,17 +32,14 @@ import io.mockk.mockk
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class WidgetExtensionsKtTest: BaseTest() {
+class WidgetExtensionsKtTest : BaseTest() {
 
-    @MockK
-    private lateinit var rootView: RootView
+    private val rootView: RootView = mockk()
 
-    @RelaxedMockK
-    private lateinit var viewFactoryMock: ViewFactory
+    private val viewFactoryMock: ViewFactory = mockk(relaxed = true)
 
     override fun setUp() {
         super.setUp()
-        MockKAnnotations.init(this)
 
         viewFactory = viewFactoryMock
     }
