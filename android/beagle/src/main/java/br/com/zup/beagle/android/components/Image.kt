@@ -20,6 +20,7 @@ import android.view.View
 import android.widget.ImageView
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
 import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.ui.RootView
 import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.widget.core.ImageContentMode
@@ -31,8 +32,11 @@ data class Image(private val name: String,
     @Transient
     private val viewMapper: ViewMapper = ViewMapper()
 
+    @Transient
+    private val viewFactory = ViewFactory()
+
     override fun buildView(rootView: RootView): View {
-        val imageView = ImageView(rootView.getContext())
+        val imageView = viewFactory.makeImageView(rootView.getContext())
         imageView.setData(this, viewMapper)
         return imageView
     }

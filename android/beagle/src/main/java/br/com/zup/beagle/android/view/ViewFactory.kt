@@ -23,6 +23,7 @@ import android.view.View
 import android.webkit.WebView
 import android.widget.FrameLayout
 import android.widget.HorizontalScrollView
+import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -66,4 +67,10 @@ internal class ViewFactory {
     fun makePageIndicator(context: Context) = BeaglePageIndicatorView(context)
 
     fun makeTabLayout(context: Context) = BeagleTabLayout(context)
+
+    fun makeWebView(context: Context) = WebView(context)
+
+    fun makeImageView(context: Context) = ImageView(context)
+
+    fun makeRecyclerView(context: Context) = RecyclerView(context)
 }

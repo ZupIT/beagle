@@ -22,8 +22,11 @@ import android.view.View
 import android.widget.ImageView
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
 import br.com.zup.beagle.android.components.utils.ComponentStylization
+import br.com.zup.beagle.android.view.BeagleFlexView
+import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.ui.RootView
 import br.com.zup.beagle.android.widget.ui.WidgetView
+import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ImageContentMode
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
@@ -38,30 +41,36 @@ data class NetworkImage(
     private val componentStylization: ComponentStylization<NetworkImage> = ComponentStylization()
 
     @Transient
+    private val viewFactory = ViewFactory()
+
+    @Transient
     private val viewMapper: ViewMapper = ViewMapper()
 
     override fun buildView(rootView: RootView): View {
-        val imageView = ImageView(rootView.getContext())
-
-        if (flex?.size != null) {
-            imageView.setData(this, viewMapper)
-            Glide.with(rootView.getContext()).load(path).into(imageView)
+        return if (flex?.size != null) {
+            makeImageView(rootView).apply {
+                Glide.with(this).load(path).into(this)
+            }
         } else {
-            loadImage(imageView)
+            viewFactory.makeBeagleFlexView(rootView.getContext()).also {
+                it.addView(makeImageView(rootView).apply {
+                    loadImage(this, it)
+                }, flex ?: Flex())
+            }
+        }
+    }
+
+    private fun makeImageView(rootView: RootView) =
+        viewFactory.makeImageView(rootView.getContext()).apply {
+            val contentMode = contentMode ?: ImageContentMode.FIT_CENTER
+            scaleType = viewMapper.toScaleType(contentMode)
         }
 
-        return imageView
-    }
-
-    private fun ImageView.setData(widget: NetworkImage, viewMapper: ViewMapper) {
-        val contentMode = widget.contentMode ?: ImageContentMode.FIT_CENTER
-        scaleType = viewMapper.toScaleType(contentMode)
-    }
-
-    private fun loadImage(imageView: ImageView) {
+    private fun loadImage(imageView: ImageView, beagleFlexView: BeagleFlexView) {
         Glide.with(imageView).asBitmap().load(path).into(object : CustomTarget<Bitmap>() {
             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                 imageView.setImageBitmap(resource)
+                beagleFlexView.setViewHeight(imageView, resource.height)
                 componentStylization.apply(imageView, this@NetworkImage)
             }
 

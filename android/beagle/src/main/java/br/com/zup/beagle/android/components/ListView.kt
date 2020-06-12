@@ -35,7 +35,7 @@ data class ListView(
     private val viewFactory: ViewFactory = ViewFactory()
 
     override fun buildView(rootView: RootView): View {
-        val recyclerView = RecyclerView(rootView.getContext())
+        val recyclerView = viewFactory.makeRecyclerView(rootView.getContext())
         recyclerView.apply {
             val orientation = toRecyclerViewOrientation()
             layoutManager = LinearLayoutManager(context, orientation, false)

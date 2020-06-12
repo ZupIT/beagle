@@ -26,13 +26,17 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebViewClient
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
+import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.ui.RootView
 import br.com.zup.beagle.android.widget.ui.WidgetView
 
 data class WebView(private val url: String) : WidgetView() {
 
+    @Transient
+    private val viewFactory = ViewFactory()
+
     override fun buildView(rootView: RootView): View {
-        val webView = android.webkit.WebView(rootView.getContext())
+        val webView = viewFactory.makeWebView(rootView.getContext())
         webView.apply {
             webViewClient = BeagleWebViewClient(context)
             loadUrl(url)
