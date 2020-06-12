@@ -211,6 +211,14 @@ fun makeCustomActionJson() = """
     }
 """
 
+fun makeCustomAndroidActionJson() = """
+    {
+        "_beagleAction_": "custom:customAndroidAction",
+        "value": "${RandomData.string()}",
+        "intValue": ${RandomData.int()}
+    }
+"""
+
 fun makeFormValidationJson() = """
     {
         "_beagleAction_": "formValidation",

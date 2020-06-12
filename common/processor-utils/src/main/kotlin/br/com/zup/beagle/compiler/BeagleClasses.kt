@@ -89,6 +89,10 @@ val BIND_BACKEND = BeagleClass(
     className = "Bind"
 )
 
+val ANDROID_ACTION = BeagleClass(
+    packageName = "br.com.zup.beagle.android",
+    className = "Action"
+)
 
 val GET_VALUE_NULL = BeagleClass(
     packageName = "br.com.zup.beagle.android.utils",
