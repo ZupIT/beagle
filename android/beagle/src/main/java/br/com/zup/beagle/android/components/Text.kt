@@ -28,11 +28,12 @@ import br.com.zup.beagle.android.widget.ui.RootView
 import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.widget.core.TextAlignment
 
-data class Text(val text: String,
-                val styleId: String? = null,
-                val textColor: String? = null,
-                val alignment: TextAlignment? = null)
-    : WidgetView() {
+data class Text(
+    val text: String,
+    val styleId: String? = null,
+    val textColor: String? = null,
+    val alignment: TextAlignment? = null
+) : WidgetView() {
 
     @Transient
     private val viewFactory = ViewFactory()

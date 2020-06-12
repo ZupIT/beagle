@@ -25,9 +25,10 @@ import br.com.zup.beagle.android.widget.ui.RootView
 import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.widget.core.ImageContentMode
 
-data class Image(private val name: String,
-                 private val contentMode: ImageContentMode? = null)
-    : WidgetView() {
+data class Image(
+    private val name: String,
+    private val contentMode: ImageContentMode? = null
+) : WidgetView() {
 
     @Transient
     private val viewMapper: ViewMapper = ViewMapper()

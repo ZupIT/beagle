@@ -22,8 +22,10 @@ import android.graphics.Canvas
 import androidx.appcompat.widget.AppCompatImageView
 
 @SuppressLint("ViewConstructor")
-internal class RoundedImageView(context: Context,
-                                private val cornerRadius: Double = 0.0) : AppCompatImageView(context) {
+internal class RoundedImageView(
+    context: Context,
+    private val cornerRadius: Double = 0.0
+) : AppCompatImageView(context) {
 
     override fun onDraw(canvas: Canvas?) {
         canvas?.applyRadius(cornerRadius.toFloat())

@@ -30,7 +30,9 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.ui.RootView
 import br.com.zup.beagle.android.widget.ui.WidgetView
 
-data class WebView(private val url: String) : WidgetView() {
+data class WebView(
+    private val url: String
+) : WidgetView() {
 
     @Transient
     private val viewFactory = ViewFactory()

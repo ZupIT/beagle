@@ -30,11 +30,12 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.ui.RootView
 import br.com.zup.beagle.android.widget.ui.WidgetView
 
-data class Button(private val text: String,
-                  val styleId: String? = null,
-                  private val action: Action? = null,
-                  private val clickAnalyticsEvent: ClickEvent? = null)
-    : WidgetView() {
+data class Button(
+    private val text: String,
+    val styleId: String? = null,
+    private val action: Action? = null,
+    private val clickAnalyticsEvent: ClickEvent? = null
+) : WidgetView() {
 
     @Transient
     private val viewFactory = ViewFactory()
