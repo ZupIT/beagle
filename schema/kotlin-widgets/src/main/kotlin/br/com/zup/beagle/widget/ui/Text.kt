@@ -17,6 +17,7 @@
 package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.annotation.internal.InternalWidget
 import br.com.zup.beagle.widget.Widget
 
 /**
@@ -30,7 +31,7 @@ import br.com.zup.beagle.widget.Widget
  * @param alignment defines the text content alignment inside the text view.
  *
  */
-@RegisterWidget
+@InternalWidget
 data class Text(
     val text: String,
     val styleId: String? = null,

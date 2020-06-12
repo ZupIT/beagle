@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.action
 
 import android.content.Context
-import br.com.zup.beagle.action.UpdateContext
+import br.com.zup.beagle.widget.action.UpdateContext
 
 internal class UpdateContextActionHandler : DefaultActionHandler<UpdateContext> {
 

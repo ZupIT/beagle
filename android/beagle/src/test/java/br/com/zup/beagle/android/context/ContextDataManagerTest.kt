@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.context
 
 import androidx.collection.LruCache
-import br.com.zup.beagle.action.UpdateContext
+import br.com.zup.beagle.widget.action.UpdateContext
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.jsonpath.JsonPathReplacer

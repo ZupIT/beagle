@@ -18,6 +18,7 @@ package br.com.zup.beagle.serialization.jackson
 
 import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.annotation.internal.InternalWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.layout.Screen
 import com.fasterxml.jackson.core.JsonGenerator
@@ -95,10 +96,10 @@ internal class BeagleTypeSerializer : BeanSerializerBase {
         } else if (this.screenClass.isAssignableFrom(beanClass)) {
             "$BEAGLE_NAMESPACE:$SCREEN_COMPONENT"
         } else if (this.serverDrivenComponentClass.isAssignableFrom(beanClass)) {
-            if (beanClass.annotations.any { it.annotationClass.qualifiedName == RegisterWidget::class.qualifiedName }) {
-                "$CUSTOM_WIDGET_BEAGLE_NAMESPACE:$beanName"
-            } else {
+            if (beanClass.annotations.any { it.annotationClass.qualifiedName == InternalWidget::class.qualifiedName }) {
                 "$BEAGLE_NAMESPACE:$beanName"
+            } else {
+                "$CUSTOM_WIDGET_BEAGLE_NAMESPACE:$beanName"
             }
         } else {
             null

@@ -20,6 +20,7 @@ import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.TouchableAnalytics
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.annotation.internal.InternalWidget
 import br.com.zup.beagle.widget.Widget
 
 /**
@@ -32,7 +33,7 @@ import br.com.zup.beagle.widget.Widget
  * @property clickAnalyticsEvent attribute to define click event name
  *
  */
-@RegisterWidget
+@InternalWidget
 data class Button(
     val text: String,
     val styleId: String? = null,

@@ -17,6 +17,7 @@
 package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.annotation.internal.InternalWidget
 import br.com.zup.beagle.widget.Widget
 
 /**
@@ -27,7 +28,7 @@ import br.com.zup.beagle.widget.Widget
  *              This attribute must be declared and it cannot be null.
  *
  */
-@RegisterWidget
+@InternalWidget
 data class WebView(
     val url: String
 ) : Widget()

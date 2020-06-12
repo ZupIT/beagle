@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.action
+package br.com.zup.beagle.widget.action
 
+import br.com.zup.beagle.annotation.internal.InternalAction
 import br.com.zup.beagle.widget.core.Action
 
+@InternalAction
 data class SendRequestAction(
     val url: String,
     val method: RequestActionMethod = RequestActionMethod.GET,

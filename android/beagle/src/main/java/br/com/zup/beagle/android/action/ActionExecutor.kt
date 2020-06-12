@@ -20,9 +20,9 @@ import android.content.Context
 import br.com.zup.beagle.action.CustomAction
 import br.com.zup.beagle.action.FormValidation
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.SendRequestAction
+import br.com.zup.beagle.widget.action.SendRequestAction
 import br.com.zup.beagle.action.ShowNativeDialog
-import br.com.zup.beagle.action.UpdateContext
+import br.com.zup.beagle.widget.action.UpdateContext
 import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.view.BeagleActivity

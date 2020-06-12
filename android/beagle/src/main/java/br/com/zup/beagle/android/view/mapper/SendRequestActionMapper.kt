@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.view.mapper
 
-import br.com.zup.beagle.action.RequestActionMethod
-import br.com.zup.beagle.action.SendRequestAction
+import br.com.zup.beagle.widget.action.RequestActionMethod
+import br.com.zup.beagle.widget.action.SendRequestAction
 import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
