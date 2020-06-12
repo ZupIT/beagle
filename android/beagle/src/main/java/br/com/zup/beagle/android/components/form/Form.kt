@@ -26,6 +26,7 @@ import br.com.zup.beagle.action.CustomAction
 import br.com.zup.beagle.action.FormRemoteAction
 import br.com.zup.beagle.android.action.ActionExecutor
 import br.com.zup.beagle.android.action.FormValidationActionHandler
+import br.com.zup.beagle.android.components.form.core.Constants.shared
 import br.com.zup.beagle.android.components.utils.hideKeyboard
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.components.form.core.FormDataStoreHandler
@@ -78,7 +79,7 @@ data class Form(
     )
 
     @Transient
-    private val formDataStoreHandler: FormDataStoreHandler = FormDataStoreHandler.shared
+    private val formDataStoreHandler: FormDataStoreHandler = shared
 
     override fun buildView(rootView: RootView): View {
         val view = viewRendererFactory.make(child).build(rootView)
@@ -131,7 +132,7 @@ data class Form(
         val formsValue = mutableMapOf<String, String>()
 
         formInputs.forEach { formInput ->
-            val inputWidget: InputWidget = formInput.child as InputWidget
+            val inputWidget: InputWidget = formInput.child
             if (formInput.required == true) {
                 validateFormInput(formInput, formsValue)
             } else {

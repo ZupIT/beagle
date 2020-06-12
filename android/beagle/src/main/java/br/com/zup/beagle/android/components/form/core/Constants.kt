@@ -16,25 +16,7 @@
 
 package br.com.zup.beagle.android.components.form.core
 
-class FormDataStoreHandler {
-    private val groups: HashMap<String, HashMap<String, String>> = HashMap()
-
-    fun put(group: String, key: String, value: String) {
-        var groupValues = groups[group]
-        if(groupValues == null) {
-            groupValues = HashMap()
-        }
-        groupValues[key] = value
-        groups[group] = groupValues
-    }
-
-    fun getAllValues(group: String): Map<String, String> {
-        return groups[group] ?: HashMap()
-    }
-
-    fun clear(group: String) {
-        groups[group] = HashMap()
-    }
-
+object Constants {
+    @JvmStatic
+    val shared = FormDataStoreHandler()
 }
-

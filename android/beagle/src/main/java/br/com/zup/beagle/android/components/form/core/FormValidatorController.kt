@@ -67,7 +67,7 @@ class FormValidatorController(
     }
 
     fun configFormInputList(formInput: FormInput) {
-        val inputWidget: InputWidget = formInput.child as InputWidget
+        val inputWidget: InputWidget = formInput.child
         var isValid = !(formInput.required ?: false)
         getValidator(formInput.validator)?.let {
             isValid = it.isValid(inputWidget.getValue(), formInput.child)

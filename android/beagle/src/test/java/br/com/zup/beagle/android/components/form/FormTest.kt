@@ -31,13 +31,13 @@ import br.com.zup.beagle.android.components.form.core.FormValidatorController
 import br.com.zup.beagle.android.components.form.core.Validator
 import br.com.zup.beagle.android.components.form.core.ValidatorHandler
 import br.com.zup.beagle.android.components.utils.hideKeyboard
+import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.testutil.getPrivateField
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
-import br.com.zup.beagle.android.widget.ui.WidgetView
 import io.mockk.*
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -52,21 +52,16 @@ private const val FORM_GROUP_VALUE = "GROUP"
 class FormTest : BaseComponentTest() {
 
     private val formInput: FormInput = mockk(relaxed = true)
-    private val formSubmit: FormSubmit = mockk()
-    private val validatorHandler: ValidatorHandler = mockk()
-    private val validator: Validator<Any, Any> = mockk()
-    private val formValidationActionHandler: FormValidationActionHandler = mockk()
-    private val formValidatorController: FormValidatorController = mockk(relaxed = true)
-    private val actionExecutor: ActionExecutor = mockk(relaxed = true)
-    private val formSubmitter: FormSubmitter = mockk()
-    private val formDataStoreHandler: FormDataStoreHandler = mockk()
+    private val formSubmit: FormSubmit = mockk(relaxed = true)
+
+    private val validator: Validator<Any, Any> = mockk(relaxed = true, relaxUnitFun = true)
     private val beagleActivity: BeagleActivity = mockk()
     private val inputMethodManager: InputMethodManager = mockk()
-    private val formInputView: View = mockk()
-    private val formSubmitView: View = mockk()
+    private val formInputView: View = mockk(relaxed = true, relaxUnitFun = true)
+    private val formSubmitView: View = mockk(relaxed = true, relaxUnitFun = true)
     private val viewGroup: ViewGroup = mockk(relaxed = true)
     private val inputWidget: InputWidget = mockk(relaxed = true)
-    private val remoteAction: FormRemoteAction = mockk()
+    private val remoteAction: FormRemoteAction = mockk(relaxed = true, relaxUnitFun = true)
     private val navigateAction: Navigate = mockk()
 
     private val onClickListenerSlot = slot<View.OnClickListener>()
@@ -74,23 +69,24 @@ class FormTest : BaseComponentTest() {
     private val runnableSlot = slot<Runnable>()
     private val formParamsSlot = slot<Map<String, String>>()
 
-    private val child: WidgetView = mockk()
-
     private lateinit var form: Form
 
     override fun setUp() {
         super.setUp()
 
-        form = Form(action = mockk(), child = child)
-
         mockkStatic("br.com.zup.beagle.android.components.utils.ViewExtensionsKt")
         mockkObject(BeagleMessageLogs)
+        mockkConstructor(ActionExecutor::class)
+        mockkConstructor(FormSubmitter::class)
+        mockkConstructor(FormValidatorController::class)
+        mockkConstructor(FormDataStoreHandler::class)
+        mockkConstructor(FormValidationActionHandler::class)
 
         every { BeagleMessageLogs.logFormInputsNotFound(any()) } just Runs
         every { BeagleMessageLogs.logFormSubmitNotFound(any()) } just Runs
-        every { formDataStoreHandler.getAllValues(any()) } returns HashMap()
-        every { formDataStoreHandler.put(any(), any(), any()) } just Runs
-        every { formDataStoreHandler.clear(any()) } just Runs
+        every { anyConstructed<FormDataStoreHandler>().getAllValues(any()) } returns HashMap()
+        every { anyConstructed<FormDataStoreHandler>().put(any(), any(), any()) } just Runs
+        every { anyConstructed<FormDataStoreHandler>().clear(any()) } just Runs
         every { formInput.required } returns false
         every { viewRender.build(rootView) } returns viewGroup
         every { formInput.name } returns INPUT_NAME
@@ -105,25 +101,34 @@ class FormTest : BaseComponentTest() {
         every { viewGroup.childCount } returns 2
         every { viewGroup.getChildAt(0) } returns formInputView
         every { viewGroup.getChildAt(1) } returns formSubmitView
-        every { formValidationActionHandler.formInputs = any() } just Runs
         every { beagleActivity.getSystemService(any()) } returns inputMethodManager
         every { beagleActivity.runOnUiThread(capture(runnableSlot)) } just Runs
-        every { formSubmitter.submitForm(any(), capture(formParamsSlot), capture(formSubmitCallbackSlot)) } just Runs
+        every {
+            anyConstructed<FormSubmitter>().submitForm(any(), capture(formParamsSlot),
+                capture(formSubmitCallbackSlot))
+        } just Runs
+        every { anyConstructed<ViewRendererFactory>().make(any()).build(any()) } returns viewGroup
+
+        val validatorHandler: ValidatorHandler = mockk(relaxed = true)
         every { validatorHandler.getValidator(any()) } returns validator
+        every { beagleSdk.validatorHandler } returns validatorHandler
+
+
+        form = Form(action = mockk(), child = mockk())
     }
 
     @Test
     fun build_should_not_try_to_iterate_over_children_if_is_not_a_ViewGroup() {
 
-/*        val viewNotViewGroup = mockk<View>()
+        val viewNotViewGroup = mockk<View>()
         // Given
-        every { viewRenderer.buildView(rootView) } returns viewNotViewGroup*/
+        every { anyConstructed<ViewRendererFactory>().make(any()).build(any()) } returns viewNotViewGroup
 
         // When
         val actual = form.buildView(rootView)
 
         // Then
-        assertEquals(view, actual)
+        assertEquals(viewNotViewGroup, actual)
         verify(exactly = 0) { viewGroup.childCount }
     }
 
@@ -148,7 +153,7 @@ class FormTest : BaseComponentTest() {
         // Given
         val childViewGroup = mockk<ViewGroup>()
         every { childViewGroup.childCount } returns 0
-        every { childViewGroup.tag } returns mockk<FormInput>()
+        every { childViewGroup.tag } returns mockk<FormInput>(relaxed = true)
         every { viewGroup.childCount } returns 1
         every { viewGroup.getChildAt(any()) } returns childViewGroup
 
@@ -185,7 +190,7 @@ class FormTest : BaseComponentTest() {
             form.getPrivateField<List<FormInput>>(FORM_INPUT_VIEWS_FIELD_NAME)
         assertEquals(1, formInputs.size)
         assertEquals(formInput, formInputs[0])
-        verify { formValidatorController.formSubmitView = formSubmitView }
+        verify { anyConstructed<FormValidatorController>().formSubmitView = formSubmitView }
     }
 
     @Test
@@ -195,14 +200,14 @@ class FormTest : BaseComponentTest() {
         val actual = form.getPrivateField<View>(FORM_SUBMIT_VIEW_FIELD_NAME)
         assertEquals(formSubmitView, actual)
         verify(exactly = once()) { formSubmitView.setOnClickListener(any()) }
-        verify { formValidatorController.configFormSubmit() }
+        verify { anyConstructed<FormValidatorController>().configFormSubmit() }
     }
 
     @Test
     fun build_should_call_configFormSubmit_on_fetchForms() {
         form.buildView(rootView)
 
-        verify { formValidatorController.configFormSubmit() }
+        verify { anyConstructed<FormValidatorController>().configFormSubmit() }
     }
 
     @Test
@@ -212,33 +217,33 @@ class FormTest : BaseComponentTest() {
 
         // Then
         val views = form.getPrivateField<List<FormInput>>(FORM_INPUT_VIEWS_FIELD_NAME)
-        verify(exactly = once()) { formValidationActionHandler.formInputs = views }
+        verify(exactly = once()) { anyConstructed<FormValidationActionHandler>().formInputs = views }
     }
 
     @Test
     fun onClick_of_formSubmit_should_submit_remote_form() {
         // Given
-        every { form.action } returns remoteAction
+        form = form.copy(action = remoteAction)
 
         // When
         executeFormSubmitOnClickListener()
 
         // Then
         verify(exactly = once()) { formSubmitView.hideKeyboard() }
-        verify(exactly = once()) { formSubmitter.submitForm(any(), any(), any()) }
+        verify(exactly = once()) { anyConstructed<FormSubmitter>().submitForm(any(), any(), any()) }
     }
 
     @Test
     fun onClick_of_formSubmit_should_trigger_navigate_action() {
         // Given
-        every { form.action } returns navigateAction
+        form = form.copy(action = navigateAction)
 
         // When
         executeFormSubmitOnClickListener()
 
         // Then
         verify(exactly = once()) { formSubmitView.hideKeyboard() }
-        verify(exactly = once()) { actionExecutor.doAction(any(), navigateAction) }
+        verify(exactly = once()) { anyConstructed<ActionExecutor>().doAction(any(), navigateAction) }
     }
 
     @Test
@@ -270,7 +275,7 @@ class FormTest : BaseComponentTest() {
     @Test
     fun onClick_of_formSubmit_should_handleFormSubmit_and_call_actionExecutor() {
         // Given
-        every { form.action } returns remoteAction
+        form = form.copy(action = remoteAction)
         val formResult = FormResult.Success(mockk())
 
         // When
@@ -279,13 +284,14 @@ class FormTest : BaseComponentTest() {
         runnableSlot.captured.run()
 
         // Then
-        verify(exactly = once()) { actionExecutor.doAction(beagleActivity, formResult.action) }
+        verify(exactly = once()) { anyConstructed<ActionExecutor>().doAction(beagleActivity, formResult.action) }
     }
 
     @Test
     fun onClick_of_formSubmit_should_trigger_action_and_call_showError() {
         // Given
-        every { form.action } returns remoteAction
+        form = form.copy(action = remoteAction)
+
         every { beagleActivity.onServerDrivenContainerStateChanged(any()) } just Runs
         val formResult = FormResult.Error(mockk())
 
@@ -308,15 +314,14 @@ class FormTest : BaseComponentTest() {
     @Test
     fun on_form_submit_should_save_data_locally_if_flag_enabled() {
         // Given
-        every { form.shouldStoreFields } returns true
-        every { form.group } returns FORM_GROUP_VALUE
+        form = form.copy(shouldStoreFields = true, group = FORM_GROUP_VALUE)
 
         // When
         executeFormSubmitOnClickListener()
 
         // Then
         verify {
-            formDataStoreHandler.put(
+            anyConstructed<FormDataStoreHandler>().put(
                 eq(FORM_GROUP_VALUE),
                 eq(INPUT_NAME),
                 eq(INPUT_VALUE))
@@ -326,14 +331,14 @@ class FormTest : BaseComponentTest() {
     @Test
     fun on_form_submit_should_not_save_data_locally_if_flag_disabled() {
         // Given
-        every { form.shouldStoreFields } returns false
+        form = form.copy(shouldStoreFields = false)
 
         // When
         executeFormSubmitOnClickListener()
 
         // Then
         verify(exactly = 0) {
-            formDataStoreHandler.put(any(), any(), any())
+            anyConstructed<FormDataStoreHandler>().put(any(), any(), any())
         }
     }
 
@@ -345,11 +350,9 @@ class FormTest : BaseComponentTest() {
         val savedMap = HashMap<String, String>()
         savedMap[savedKey] = savedValue
 
-        every { form.shouldStoreFields } returns false
-        every { form.group } returns FORM_GROUP_VALUE
-        every { form.action } returns remoteAction
+        form = form.copy(shouldStoreFields = false, group = FORM_GROUP_VALUE, action = remoteAction)
 
-        every { formDataStoreHandler.getAllValues(FORM_GROUP_VALUE) } returns savedMap
+        every { anyConstructed<FormDataStoreHandler>().getAllValues(FORM_GROUP_VALUE) } returns savedMap
 
         // When
         executeFormSubmitOnClickListener()
@@ -361,9 +364,7 @@ class FormTest : BaseComponentTest() {
     @Test
     fun when_form_submit_succeeds_should_clear_saved_data() {
         // Given
-        every { form.shouldStoreFields } returns false
-        every { form.group } returns FORM_GROUP_VALUE
-        every { form.action } returns remoteAction
+        form = form.copy(shouldStoreFields = false, group = FORM_GROUP_VALUE, action = remoteAction)
 
         // When
         executeFormSubmitOnClickListener()
@@ -372,7 +373,7 @@ class FormTest : BaseComponentTest() {
 
         // Then
         verify {
-            formDataStoreHandler.clear(eq(FORM_GROUP_VALUE))
+            anyConstructed<FormDataStoreHandler>().clear(eq(FORM_GROUP_VALUE))
         }
     }
 }

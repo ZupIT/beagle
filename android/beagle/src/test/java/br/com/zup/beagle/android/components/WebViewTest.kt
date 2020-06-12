@@ -60,7 +60,6 @@ class WebViewTest : BaseComponentTest() {
 
         assertEquals(MOCKED_URL, urlSlot.captured)
         assertNotNull(webView.webViewClient)
-
     }
 
     @Test

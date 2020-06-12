@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.components.form.core
 
-import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.action.FormMethodType
 import br.com.zup.beagle.action.FormRemoteAction
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
@@ -29,11 +28,6 @@ import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilderFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import java.net.URI
-
-internal sealed class FormResult {
-    class Success(val action: Action) : FormResult()
-    class Error(val throwable: Throwable) : FormResult()
-}
 
 internal class FormSubmitter(
     private val httpClient: HttpClient = HttpClientFactory().make(),

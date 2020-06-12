@@ -16,25 +16,9 @@
 
 package br.com.zup.beagle.android.components.form.core
 
-class FormDataStoreHandler {
-    private val groups: HashMap<String, HashMap<String, String>> = HashMap()
+import br.com.zup.beagle.action.Action
 
-    fun put(group: String, key: String, value: String) {
-        var groupValues = groups[group]
-        if(groupValues == null) {
-            groupValues = HashMap()
-        }
-        groupValues[key] = value
-        groups[group] = groupValues
-    }
-
-    fun getAllValues(group: String): Map<String, String> {
-        return groups[group] ?: HashMap()
-    }
-
-    fun clear(group: String) {
-        groups[group] = HashMap()
-    }
-
+internal sealed class FormResult {
+    class Success(val action: Action) : FormResult()
+    class Error(val throwable: Throwable) : FormResult()
 }
-
