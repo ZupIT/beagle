@@ -264,7 +264,7 @@ public final class <%= type.name %>Binded: BindedWidget, Widget {
     
     // Init
     <%_ var firstTime: Bool = true -%>
-    <%= type.accessLevel -%> init(<% for i in 0 ..< type.instanceVariables.count { -%> <%_ let variable = type.instanceVariables[i] -%>
+    <%= type.accessLevel -%> init(<% for variable in type.instanceVariables { -%>
         <%_= variableNameAndTypeWithIdentation(variable, firstTime, type) -%> <%_= variableValue(variable, type)-%>
         <%_ firstTime = false -%>
     <%_ } %>
