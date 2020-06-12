@@ -19,14 +19,14 @@ import UIKit
 public struct Text: Widget, AutoDecodable {
     
     // MARK: - Public Properties
-    public var text: ValueExpression<String?>
+    public var text: String
     public let style: String?
     public let alignment: Alignment?
     public let textColor: String?
     public var widgetProperties: WidgetProperties
 
     public init(
-        _ text: ValueExpression<String?>,
+        _ text: String,
         style: String? = nil,
         alignment: Alignment? = nil,
         textColor: String? = nil,
@@ -44,15 +44,6 @@ extension Text: Renderable {
 
     public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
         let textView = UITextView()
-        switch text {
-//         TODO: make this reusable
-        case let .expression(expression):
-            context.bindingToConfig.append {
-                textView.configBinding(for: expression) { textView.text = $0 }
-            }
-        case let .value(value):
-            textView.text = value
-        }
         textView.isEditable = false
         textView.isSelectable = false
         textView.isScrollEnabled = false
@@ -63,6 +54,7 @@ extension Text: Renderable {
         textView.backgroundColor = .clear
         
         textView.textAlignment = alignment?.toUIKit() ?? .natural
+        textView.text = text
         
         if let style = style {
             dependencies.theme.applyStyle(for: textView, withId: style)
@@ -77,21 +69,19 @@ extension Text: Renderable {
     }
 }
 
-extension Text {
-    public enum Alignment: String, Decodable {
-        case left = "LEFT"
-        case right = "RIGHT"
-        case center = "CENTER"
-        
-        func toUIKit() -> NSTextAlignment {
-            switch self {
-            case .left:
-                return .left
-            case .right:
-                return .right
-            case .center:
-                return .center
-            }
+public enum Alignment: String, Decodable {
+    case left = "LEFT"
+    case right = "RIGHT"
+    case center = "CENTER"
+    
+    func toUIKit() -> NSTextAlignment {
+        switch self {
+        case .left:
+            return .left
+        case .right:
+            return .right
+        case .center:
+            return .center
         }
     }
 }

@@ -1,0 +1,342 @@
+/*
+* Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+<%
+func variableNameAndType(_ variable: Variable, _ isFirstTime: Bool, _ classType: Type?) -> String {
+    let propertyType = variable.unwrappedTypeName == "WidgetProperties" ? "WidgetProperties" : "ValueExpression<\(variable.unwrappedTypeName)>"
+    let nameAndType = "\(variable.name): \(propertyType)\(variable.isOptional ? "?" : "")"
+    return nameAndType
+}
+
+func variableNameAndTypeWithIdentation(_ variable: Variable, _ isFirstTime: Bool, _ classType: Type?) -> String {
+    let identation = "\n        "
+    var first = isFirstTime ? identation : ",\(identation)"
+    
+    return first + variableNameAndType(variable, isFirstTime, classType)
+}
+
+func variableValue(_ variable: Variable, _ classType: Type?) -> String {
+    if let defaultValue = variable.defaultValue {
+        let string = variable.isOptional ? " = " : " = "
+        return "\(string) = \(defaultValue)"
+    } else if variable.isOptional {
+        return " = nil"
+    } else if variable.unwrappedTypeName == "WidgetProperties" {
+        return " = WidgetProperties()"
+    } else {
+        return ""
+    }
+}
+
+func capitalizedName(for variable: Variable) -> String {
+    return "\(String(variable.name.first!).capitalized)\(String(variable.name.dropFirst()))"
+}
+
+func codingKeysFor(_ type: Type) -> (generated: [String], all: [String]) {
+    var generatedKeys = [String]()
+    var allCodingKeys = [String]()
+    if (type is Struct || type is Class) {
+        if let codingKeysType = type.containedType["CodingKeys"] as? Enum {
+            allCodingKeys = codingKeysType.cases.map({ $0.name })
+            let definedKeys = Set(allCodingKeys)
+            let storedVariablesKeys = type.storedVariables.filter({ $0.defaultValue == nil }).map({ $0.name })
+            let computedVariablesKeys = type.computedVariables.filter({ customEncodingMethod(for: $0, of: type) != nil }).map({ $0.name })
+
+            if (storedVariablesKeys.count + computedVariablesKeys.count) > definedKeys.count {
+                for key in storedVariablesKeys where !definedKeys.contains(key) {
+                    generatedKeys.append(key)
+                    allCodingKeys.append(key)
+                }
+                for key in computedVariablesKeys where !definedKeys.contains(key) {
+                    generatedKeys.append(key)
+                    allCodingKeys.append(key)
+                }
+            }
+        } else {
+            for variable in type.storedVariables {
+                generatedKeys.append(variable.name)
+                allCodingKeys.append(variable.name)
+            }
+            for variable in type.computedVariables {
+                guard customEncodingMethod(for: variable, of: type) != nil else { continue }
+                generatedKeys.append(variable.name)
+                allCodingKeys.append(variable.name)
+            }
+        }
+    }
+    return (generated: generatedKeys, all: allCodingKeys)
+}
+
+func decodingContainerMethod(for type: Type) -> SourceryMethod? {
+    if let enumType = type as? Enum, !enumType.hasAssociatedValues {
+        return SourceryMethod(name: "singleValueContainer", throws: true)
+    }
+    return type.staticMethods.first { $0.selectorName == "decodingContainer(_:)" }
+}
+
+func customEncodingMethod(for variable: Variable, of type: Type) -> SourceryMethod? {
+    return type.instanceMethods.first { $0.selectorName == "encode\(capitalizedName(for: variable))(to:)" }
+}
+
+func containerDeclaration(generatedCodingKeys: [String]) -> String {
+    if generatedCodingKeys.contains("widgetProperties") && generatedCodingKeys.count == 1 {
+        return ""
+    } else {
+        return "let container = try decoder.container(keyedBy: CodingKeys.self)\n"
+    }
+}
+
+func defaultDecodingValue(for variable: Variable, of type: Type) -> Variable? {
+    return type.staticVariables.first { $0.name == "default\(capitalizedName(for: variable))" }
+}
+
+func customDecodingMethod(for variable: Variable, of type: Type) -> SourceryMethod? {
+    return type.staticMethods.first { $0.selectorName == "decode\(capitalizedName(for: variable))(from:)" }
+}
+
+func needsCustomBeagleDecoding(_ variable: Variable) -> Bool {
+    return variable.unwrappedTypeName == "Action" ||
+            variable.unwrappedTypeName == "ServerDrivenComponent" ||
+            variable.unwrappedTypeName == "[ServerDrivenComponent]"
+}
+
+func haveExpectedInit(type: Type) -> Bool {
+    var variables: [(name: String, type: TypeName)] = type.instanceVariables.map({ ($0.name, $0.typeName) })
+    variables.sort(by: { $0.name < $1.name })
+    
+    var haveInit = false
+    for method in type.methods {
+        if method.name.starts(with: "init(") {
+            var arguments: [(name: String, type: TypeName)] = method.parameters.map({ (($0.argumentLabel ?? "nil"), $0.typeName) })
+            arguments.sort(by: { $0.name < $1.name })
+            
+            if variables.count == arguments.count {
+                haveInit = true
+                for i in 0..<variables.count {
+                    if variables[i].name != arguments[i].name ||
+                        variables[i].type != arguments[i].type {
+                            haveInit = false
+                            break
+                    }
+                }
+            }
+        }
+        if haveInit {
+            break
+        }
+    }
+    return haveInit
+}
+%>
+import UIKit
+<% for type in types.all
+    where (type is Class || type is Struct)
+    && (type.implements["WidgetWithBind"] != nil) { %>
+// MARK: <%= type.name %> Binded
+
+public final class <%= type.name %>Binded: BindedWidget, Widget {
+
+    // Properties
+    <%_ let myType = type -%>
+    <%_ for variable in type.instanceVariables { -%>
+    public var <%= variableNameAndType(variable, false, type) %>
+    <%_ } -%>
+    
+    // Decodable
+    <%_ let codingKeys = codingKeysFor(type) -%>
+    enum CodingKeys: String, CodingKey {
+        <%_ for key in codingKeys.generated { -%>
+        <%_ if key != "widgetProperties" || codingKeys.generated.count <= 1 { -%>
+        case <%= key %>
+        <%_ } -%>
+        <%_ } -%>
+    }
+    
+    <%= type.accessLevel %> init(from decoder: Decoder) throws {
+        <%_ if let containerMethod = decodingContainerMethod(for: type) { -%>
+        let container = <% if containerMethod.throws { %>try <% } -%>
+        <%_ if containerMethod.callName == "singleValueContainer" { %>decoder<% } else { -%><%= type.name %><% } -%>
+        <%_ %>.<%= containerMethod.callName %>(<% if !containerMethod.parameters.isEmpty { %>decoder<% } %>)
+        <%_ } else { -%>
+        <%= containerDeclaration(generatedCodingKeys: codingKeys.generated) -%>
+        <%_ } -%>
+
+        <%_ if let enumType = type as? Enum { -%>
+        <%_ if enumType.hasAssociatedValues { -%>
+        <%_ if codingKeys.all.contains("enumCaseKey") { -%>
+        let enumCase = try container.decode(String.self, forKey: .enumCaseKey)
+        switch enumCase {
+        <%_ for enumCase in enumType.cases { -%>
+        case CodingKeys.<%= enumCase.name %>.rawValue:
+            <%_ if enumCase.associatedValues.isEmpty { -%>
+            self = .<%= enumCase.name %>
+            <%_ } else if enumCase.associatedValues.filter({ $0.localName == nil }).count == enumCase.associatedValues.count { -%>
+            // Enum cases with unnamed associated values can't be decoded
+            throw DecodingError.dataCorruptedError(forKey: .enumCaseKey, in: container, debugDescription: "Can't decode '\(enumCase)'")
+            <%_ } else if enumCase.associatedValues.filter({ $0.localName != nil }).count == enumCase.associatedValues.count { -%>
+            <%_ for associatedValue in enumCase.associatedValues { -%>
+            let <%= associatedValue.localName! %> = try container.decode(ValueExpression<<%= associatedValue.typeName %>>.self, forKey: .<%= associatedValue.localName! %>)
+            <%_ } -%>
+            self = .<%= enumCase.name %>(<% -%>
+                <%_ %><%= enumCase.associatedValues.map({ "\($0.localName!): \($0.localName!)" }).joined(separator: ", ") %>)
+            <%_ } else { -%>
+            // Enum cases with mixed named and unnamed associated values can't be decoded
+            throw DecodingError.dataCorruptedError(forKey: .enumCaseKey, in: container, debugDescription: "Can't decode '\(enumCase)'")
+            <%_ } -%>
+        <%_ } -%>
+        default:
+            throw DecodingError.dataCorruptedError(forKey: .enumCaseKey, in: container, debugDescription: "Unknown enum case '\(enumCase)'")
+        }
+        <%_ } else { -%>
+        <%_ for enumCase in enumType.cases { -%>
+        if container.allKeys.contains(.<%= enumCase.name %>), try container.decodeNil(forKey: .<%= enumCase.name %>) == false {
+            <%_ if enumCase.associatedValues.isEmpty { -%>
+            self = .<%= enumCase.name %>
+            return
+            <%_ } else if enumCase.associatedValues.filter({ $0.localName == nil }).count == enumCase.associatedValues.count { -%>
+            var associatedValues = try container.nestedUnkeyedContainer(forKey: .<%= enumCase.name %>)
+            <%_ for (index, associatedValue) in enumCase.associatedValues.enumerated() { -%>
+            let associatedValue<%= index %> = try associatedValues.decode(ValueExpression<<%= associatedValue.typeName %>>.self)
+            <%_ } -%>
+            self = .<%= enumCase.name %>(<% -%>
+            <%_ %><%= enumCase.associatedValues.indices.map({ "associatedValue\($0)" }).joined(separator: ", ") %>)
+            return
+            <%_ } else if enumCase.associatedValues.filter({ $0.localName != nil }).count == enumCase.associatedValues.count { -%>
+            let associatedValues = try container.nestedContainer(keyedBy: CodingKeys.self, forKey: .<%= enumCase.name %>)
+            <%_ for associatedValue in enumCase.associatedValues { -%>
+            let <%= associatedValue.localName! %> = try associatedValues.decode(ValueExpression<<%= associatedValue.typeName %>>.self, forKey: .<%= associatedValue.localName! %>)
+            <%_ } -%>
+            self = .<%= enumCase.name %>(<% -%>
+            <%_ %><%= enumCase.associatedValues.map({ "\($0.localName!): \($0.localName!)" }).joined(separator: ", ") %>)
+            return
+            <%_ } else { -%>
+            // Enum cases with mixed named and unnamed associated values can't be decoded
+            throw DecodingError.dataCorruptedError(forKey: .<%= enumCase.name %>, in: container, debugDescription: "Can't decode `.<%= enumCase.name %>`")
+            <%_ } -%>
+        }
+        <%_ } -%>
+        throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unknown enum case"))
+        <%_ } -%>
+        <%_ } else { -%>
+        let enumCase = try container.decode(String.self)
+        switch enumCase {
+        <%_ for enumCase in enumType.cases { -%>
+        case CodingKeys.<%= enumCase.name %>.rawValue: self = .<%= enumCase.name %>
+        <%_ } -%>
+        default: throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unknown enum case '\(enumCase)'"))
+        }
+        <%_ } -%>
+        <%_ } else { -%>
+        <%_ for key in codingKeys.all { -%>
+        <%_ guard let variable = type.instanceVariables.first(where: { $0.name == key && !$0.isComputed }) else { continue } -%>
+        <%_ let defaultValue = defaultDecodingValue(for: variable, of: type) -%>
+        <%_ let customMethod = customDecodingMethod(for: variable, of: type) -%>
+        <%_ let shouldTry = customMethod?.throws == true || customMethod == nil -%>
+        <%_ let shouldWrapTry = shouldTry && defaultValue != nil -%>
+        <%= variable.name %> = <% if shouldWrapTry { %>(try? <% } else if shouldTry { %>try <% } -%>
+        <%_ if let customMethod = customMethod { -%>
+        <%_ _%><%= type.name %>.<%= customMethod.callName _%>(from:<%_ if customMethod.parameters.first?.name == "decoder" { _%>decoder<%_ } else { _%>container<%_ } _%>)<%_ -%>
+        <%_ } else { -%>
+        <%_ if variable.name == "widgetProperties" { _%>WidgetProperties(from: decoder)<%_ } -%>
+        <%_ else { -%>
+        <%_ _%>container.decode<%_ if variable.isOptional { _%>IfPresent<% } _%>(<%_if !needsCustomBeagleDecoding(variable){_%> ValueExpression<<%= variable.unwrappedTypeName _%>>.self,<%_ } -%> forKey: .<%= variable.name _%>)<%_ -%>
+        <%_ } -%>
+        <%_ %><% if shouldWrapTry { %>)<% } -%>
+        <%_ if let defaultValue = defaultValue { %> ?? <%= type.name %>.<%= defaultValue.name -%><%_ } %>
+        <%_ } -%>
+        <%_ } -%>
+        <%_ } -%>
+        super.init()
+        widget = <%= type.name %>()
+    }
+    
+    // Init
+    <%_ var firstTime: Bool = true -%>
+    <%= type.accessLevel -%> init(<% for i in 0 ..< type.instanceVariables.count { -%> <%_ let variable = type.instanceVariables[i] -%>
+        <%_= variableNameAndTypeWithIdentation(variable, firstTime, type) -%> <%_= variableValue(variable, type)-%>
+        <%_ firstTime = false -%>
+    <%_ } %>
+    ) {
+        <%_ for variable in type.instanceVariables { -%>
+        self.<%= variable.name %> = <%= variable.name %>
+        <%_ } -%>
+        super.init()
+        self.widget = <%= type.name %>()
+    }
+    
+    // Bind
+    override func bind(context: BeagleContext) {
+    <% for i in 0 ..< type.instanceVariables.count { -%>
+    <% let property = type.instanceVariables[i] -%>
+    <%_ if property.unwrappedTypeName != "WidgetProperties" { -%>
+    
+        switch <%= property.name %> {
+        case let .expression(expression):
+            context.bindingToConfig.append {
+                self.configBinding(for: expression, completion: { [weak self] (<%=property.name%>: <%=property.unwrappedTypeName%>) in
+                    if let newWidget = self?.updateWidget(<%= property.name %>: <%= property.name %>),
+                        let view = self?.view {
+                        newWidget.updateView(view: view)
+                    }
+                })
+            }
+        case let .value(<%= property.name %>):
+            self.updateWidget(<%= property.name %>: <%= property.name %>)
+         
+         <%_ if property.isOptional { -%>
+        default:
+            break
+         <%_ } -%>
+        }
+<%_ } -%>
+<%_ } -%>
+}
+    
+    // MARK: Privates
+    @discardableResult
+    func updateWidget(
+    <%_ for variable in type.instanceVariables { -%>
+        <%_ var isLast = type.instanceVariables.last == variable -%>
+        <%= variable.name %>: <%="\(variable.unwrappedTypeName)? = nil\(isLast ? "" : ",")" %>
+    <%_ } -%>
+    ) -> <%= type.name %>? {
+        guard let typedWidget = self.widget as? <%= type.name %> else { return nil }
+        let newWidget = <%= type.name %>(
+        <%_ for variable in type.instanceVariables { -%>
+            <%_ var isLast = type.instanceVariables.last == variable -%>
+            <%= variable.name %>: <%= "\(variable.name) ?? typedWidget.\(variable.name)\(isLast ? "" : ",")" %>
+        <%_ } -%>
+        )
+        self.widget = newWidget
+        return newWidget
+    }
+}
+
+<%_ if !haveExpectedInit(type: type) { -%>
+// MARK: <%= type.name -%> expected init
+fileprivate extension <%= type.name -%> {
+    init(
+    <%_ for variable in type.instanceVariables { -%>
+        <%_ var isLast = type.instanceVariables.last == variable -%>
+        <%= variable.name %>: <%="\(variable.unwrappedTypeName)\(variable.isOptional ? "?" : "")\(isLast ? " = WidgetProperties()" : ",")" %>
+    <%_ } -%>
+    ) {
+    <%_ for variable in type.instanceVariables { -%>
+        self.<%= variable.name %> = <%= variable.name %>
+    <%_ } -%>
+    }
+}
+<%_ } -%>
+<%_ } -%>

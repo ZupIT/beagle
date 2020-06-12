@@ -34,7 +34,7 @@ public enum ComponentDecodingError: Error {
     case couldNotCastToType(String)
 }
 
-final class ComponentDecoder: ComponentDecoding {
+final class ComponentDecoder: ComponentDecoding, RegisterGenerated {
     
     // MARK: - Dependencies
     
@@ -99,6 +99,7 @@ final class ComponentDecoder: ComponentDecoding {
         registerFormModels()
         registerLayoutTypes()
         registerUITypes()
+        registerGeneratedes()
     }
     
     private func registerActions() {
@@ -154,4 +155,10 @@ final class ComponentDecoder: ComponentDecoding {
     private func registerAction<T: Decodable>(_ type: T.Type, key: String) {
         actionDecoders[key.lowercased()] = type
     }
+
+
+// sourcery:inline:auto:ComponentDecoder.registerGenerateds
+
+    private func registerGeneratedes() {    }
+// sourcery:end
 }

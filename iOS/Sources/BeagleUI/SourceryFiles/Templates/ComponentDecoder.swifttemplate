@@ -1,0 +1,12 @@
+<%_ for type in types.all
+    where (type.implements["RegisterGenerated"] != nil) {
+-%>
+    // sourcery:inline:auto:<%= type.name -%>.registerGenerateds
+    private func registerGeneratedes() { <%_ for generateds in types.all
+    where (type is Class || type is Struct)
+    && (generateds.implements["WidgetWithBind"] != nil) { %>
+        registerComponent(<%= generateds.name %>Binded.self, key: key(name: "<%= generateds.name %>Binded", namespace: .beagle))
+    <%_ } -%>
+    }
+    // sourcery:end
+<%_ } %>

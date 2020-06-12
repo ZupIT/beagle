@@ -37,15 +37,6 @@ extension UIView {
             objc_setAssociatedObject(self, &UIView.contextMapKey, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
-    
-    var observers: [ContextObserver]? {
-        get {
-            return (objc_getAssociatedObject(self, &UIView.observers) as? ObjectWrapper)?.object
-        }
-        set {
-            objc_setAssociatedObject(self, &UIView.observers, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
-    }
 
     func getContext(for expression: Expression) -> Observable<Context>? {
         guard let contextMap = self.contextMap else {
@@ -55,25 +46,5 @@ extension UIView {
             return superview?.getContext(for: expression)
         }
         return context
-    }
-
-    func configBinding<T>(for expression: Expression, completion: @escaping (T) -> Void) {
-        guard let context = getContext(for: expression) else { return }
-
-        let newExp = Expression(nodes: .init(expression.nodes.dropFirst()))
-        let closure: (Context) -> Void = { context in
-            if let value = newExp.evaluate(model: context.value) as? T {
-                completion(value)
-            }
-        }
-        
-        let contextObserver = ContextObserver(onContextChange: closure)
-        
-        if observers == nil {
-            observers = []
-        }
-        observers?.append(contextObserver)
-        context.addObserver(contextObserver)
-        closure(context.value)
     }
 }

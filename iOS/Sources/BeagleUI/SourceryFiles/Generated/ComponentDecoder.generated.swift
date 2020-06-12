@@ -1,3 +1,7 @@
+// Generated using Sourcery 0.18.0 — https://github.com/krzysztofzablocki/Sourcery
+// DO NOT EDIT
+
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,18 +19,3 @@
  */
 
 import Foundation
-
-// MARK: - Equatable
-public protocol AutoEquatable { }
-
-// MARK: - Decodable
-public protocol AutoDecodable: Decodable { }
-
-// MARK: - Init
-public protocol AutoInitiable { }
-
-// MARK: - Init and Decodable
-public protocol AutoInitiableAndDecodable: AutoDecodable, AutoInitiable { }
-
-// MARK: - RegisterGenerated
-protocol RegisterGenerated { }
