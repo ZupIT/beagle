@@ -151,6 +151,23 @@ extension DynamicObject: Encodable {
     }
 }
 
+extension DynamicObject {
+
+    mutating func set(_ value: Any, forPath path: String) {
+        do {
+            let path = try parsePath(path)
+            let object = try compilePath(value, path)
+            self = object
+        } catch {
+            print("error: \(error)")
+        }
+    }
+    
+    func merge(_ other: DynamicObject) -> DynamicObject {
+        return _mergeDynamicObjects(self, other)
+    }
+}
+
 extension DynamicObject: ExpressibleByNilLiteral {
     public init(nilLiteral: ()) {
         self = .empty
@@ -197,4 +214,44 @@ extension DynamicObject: ExpressibleByDictionaryLiteral {
         elements.forEach { dictionary[$0.0] = $0.1 }
         self = .dictionary(dictionary)
     }
+}
+
+fileprivate func _mergeDynamicObjects(_ d1: DynamicObject, _ d2: DynamicObject) -> DynamicObject {
+    
+    guard case .dictionary(let dict1) = d1, case .dictionary(let dict2) = d2 else {
+        return d2
+    }
+    
+    var dObject: [String: DynamicObject] = [:]
+    
+    let d1Keys = dict1.keys
+    let d2Keys = dict2.keys
+    
+    for k in d1Keys where !d2Keys.contains(k) {
+        dObject[k] = dict1[k]
+    }
+
+    for k in d2Keys where !d1Keys.contains(k) {
+        dObject[k] = dict2[k]
+    }
+
+    let commonKeys = d1Keys.filter({
+        d2Keys.contains($0)
+    })
+
+    for k in commonKeys {
+
+        guard let d1Obj = dict1[k], let d2Obj = dict2[k] else {
+            continue
+        }
+        
+        if case .dictionary = d1Obj, case .dictionary = d2Obj {
+            dObject[k] = _mergeDynamicObjects(d1Obj, d2Obj)
+            continue
+        }
+
+        dObject[k] = d2Obj
+    }
+    
+    return .dictionary(dObject)
 }

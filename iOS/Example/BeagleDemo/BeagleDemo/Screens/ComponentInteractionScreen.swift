@@ -67,11 +67,12 @@ let declarativeScreen: Screen = {
                     ]
                 ),
                 Text("${myContext.a.c}"),
+                Text("${myContext.b}"),
                 Button(
                     text: "ok",
                     action: SetContext(
                         context: "myContext",
-                        value: "d"
+                        value: ["b": "ok tapped!"]
                     )
                 )
             ],

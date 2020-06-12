@@ -27,6 +27,7 @@
 		57E7F976247DA28600FBD398 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E7F975247DA28600FBD398 /* String+Extension.swift */; };
 		76191AA9241AC44C00A04C29 /* declarativeText1.json in Resources */ = {isa = PBXBuildFile; fileRef = 76191AA7241ABD8800A04C29 /* declarativeText1.json */; };
 		7653859B24697718008DDB79 /* DependencyURLOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7653859A24697718008DDB79 /* DependencyURLOpener.swift */; };
+		765BDC9F2493DE0400C94087 /* PathParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765BDC9C2493DE0400C94087 /* PathParser.swift */; };
 		76BB91A5241AC6A800B9A239 /* declarativeText2.json in Resources */ = {isa = PBXBuildFile; fileRef = 76BB91A3241AC6A000B9A239 /* declarativeText2.json */; };
 		76BD6F5C2469997900CF082B /* WindowManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BD6F5B2469997900CF082B /* WindowManagerTests.swift */; };
 		76BD6F5E2469998500CF082B /* URLOpenerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BD6F5D2469998500CF082B /* URLOpenerTests.swift */; };
@@ -291,6 +292,7 @@
 		57E7F975247DA28600FBD398 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		76191AA7241ABD8800A04C29 /* declarativeText1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = declarativeText1.json; sourceTree = "<group>"; };
 		7653859A24697718008DDB79 /* DependencyURLOpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyURLOpener.swift; sourceTree = "<group>"; };
+		765BDC9C2493DE0400C94087 /* PathParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathParser.swift; sourceTree = "<group>"; };
 		76BB91A3241AC6A000B9A239 /* declarativeText2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = declarativeText2.json; sourceTree = "<group>"; };
 		76BD6F5B2469997900CF082B /* WindowManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManagerTests.swift; sourceTree = "<group>"; };
 		76BD6F5D2469998500CF082B /* URLOpenerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLOpenerTests.swift; sourceTree = "<group>"; };
@@ -1375,6 +1377,7 @@
 		C829CF0F23B1962A001B7225 /* Context */ = {
 			isa = PBXGroup;
 			children = (
+				765BDC9C2493DE0400C94087 /* PathParser.swift */,
 				7C6F606024461F35007AC4AA /* ActionManager.swift */,
 				A0F45495237AF16800B146A1 /* BeagleContext.swift */,
 				57E7F96C247D9E3400FBD398 /* Context.swift */,
@@ -1947,6 +1950,7 @@
 				98E08D1C242289D200FBD21B /* WebViewUIComponent.swift in Sources */,
 				C89FFA942412EA4200C1B53B /* UrlBuilder.swift in Sources */,
 				C86DB759243275D500B6FC65 /* FormRemoteAction.swift in Sources */,
+				765BDC9F2493DE0400C94087 /* PathParser.swift in Sources */,
 				A0EF0AA62386BD960019BE83 /* FormValidation.swift in Sources */,
 				988F81FB23E24ECA008562BE /* UIView+Subviews.swift in Sources */,
 				E531D6BA2359FEE1007EEBA7 /* UIView+Loading.swift in Sources */,
