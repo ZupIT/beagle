@@ -52,5 +52,4 @@ func variableOptionalAndValue(_ variable: Variable, _ classType: Type?) -> Strin
         <%_ } -%>
     }
 // sourcery:end
-
-<%_ } %>
+<%_ } -%>
