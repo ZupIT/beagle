@@ -16,6 +16,40 @@
 
 package br.com.zup.beagle.android.components
 
-import org.junit.Assert.*
+import br.com.zup.beagle.android.view.BeagleFlexView
+import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.widget.core.Flex
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.slot
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Test
 
-class SpacerTest
+class SpacerTest : BaseComponentTest() {
+
+    private lateinit var spacer: Spacer
+
+    override fun setUp() {
+        super.setUp()
+
+        spacer = Spacer(10.0)
+    }
+
+    @Test
+    fun build() {
+        // Given
+        val beagleFlexView = mockk<BeagleFlexView>()
+        val flexSlot = slot<Flex>()
+        every { anyConstructed<ViewFactory>().makeBeagleFlexView(rootView.getContext(),
+            capture(flexSlot)) } returns beagleFlexView
+
+        // When
+        val actual = spacer.buildView(rootView)
+
+        // Then
+        assertNotNull(actual)
+        assertEquals(10.0, flexSlot.captured.size?.width?.value)
+        assertEquals(10.0, flexSlot.captured.size?.height?.value)
+    }
+}

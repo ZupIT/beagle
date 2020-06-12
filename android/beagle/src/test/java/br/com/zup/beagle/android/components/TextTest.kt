@@ -16,6 +16,39 @@
 
 package br.com.zup.beagle.android.components
 
-import org.junit.Assert.*
+import android.widget.TextView
+import br.com.zup.beagle.android.view.ViewFactory
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
+import org.junit.Test
+import kotlin.test.assertTrue
 
-class TextTest
+private const val DEFAULT_TEXT = "Hello"
+private const val DEFAULT_STYLE = "DummyStyle"
+
+class TextTest : BaseComponentTest() {
+
+    private val textView: TextView = mockk(relaxed = true)
+
+    private lateinit var text: Text
+
+    override fun setUp() {
+        super.setUp()
+
+        every { anyConstructed<ViewFactory>().makeTextView(any()) } returns textView
+
+        text = Text(DEFAULT_TEXT, DEFAULT_STYLE)
+    }
+
+
+    @Test
+    fun build_should_return_a_TextView_instance_and_setTextWidget() {
+        // When
+        val view = text.buildView(rootView)
+
+        // Then
+        assertTrue(view is TextView)
+        verify(exactly = 1) { textView.text = DEFAULT_TEXT }
+    }
+}

@@ -18,10 +18,12 @@ package br.com.zup.beagle.android.components
 
 import android.view.Gravity
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.toAndroidColor
+import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.ui.RootView
 import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.widget.core.TextAlignment
@@ -32,22 +34,23 @@ data class Text(val text: String,
                 val alignment: TextAlignment? = null)
     : WidgetView() {
 
+    @Transient
+    private val viewFactory = ViewFactory()
 
     override fun buildView(rootView: RootView): View {
-        val textView = AppCompatTextView(rootView.getContext())
+        val textView = viewFactory.makeTextView(rootView.getContext())
         textView.setTextWidget(this)
         return textView
     }
 
-
-    private fun AppCompatTextView.setTextWidget(text: Text) {
+    private fun TextView.setTextWidget(text: Text) {
         this.text = text.text
         this.setStyle(text.styleId ?: "")
         this.setTextColor(text.textColor)
         this.setAlignment(text.alignment)
     }
 
-    private fun AppCompatTextView.setAlignment(alignment: TextAlignment?) {
+    private fun TextView.setAlignment(alignment: TextAlignment?) {
         when (alignment) {
             TextAlignment.CENTER -> this.gravity = Gravity.CENTER
             TextAlignment.RIGHT -> this.gravity = Gravity.END
@@ -55,14 +58,14 @@ data class Text(val text: String,
         }
     }
 
-    private fun AppCompatTextView.setStyle(styleId: String) {
+    private fun TextView.setStyle(styleId: String) {
         val designSystem = BeagleEnvironment.beagleSdk.designSystem
         designSystem?.textStyle(styleId)?.let {
             TextViewCompat.setTextAppearance(this, it)
         }
     }
 
-    private fun AppCompatTextView.setTextColor(color: String?) {
+    private fun TextView.setTextColor(color: String?) {
         color?.let {
             this.setTextColor(color.toAndroidColor())
         }

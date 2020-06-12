@@ -28,7 +28,7 @@ import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 data class Touchable(
-    private val action: Action,
+    val action: Action,
     private val child: ServerDrivenComponent,
     private val clickAnalyticsEvent: ClickEvent? = null
 ) : WidgetView() {

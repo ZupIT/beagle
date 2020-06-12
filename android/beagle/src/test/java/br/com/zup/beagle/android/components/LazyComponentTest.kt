@@ -16,6 +16,50 @@
 
 package br.com.zup.beagle.android.components
 
-import org.junit.Assert.*
+import android.view.View
+import androidx.core.view.get
+import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.view.BeagleView
+import br.com.zup.beagle.android.view.ViewFactory
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
+import org.junit.Test
+import kotlin.test.assertTrue
 
-class LazyComponentTest
+private val URL = RandomData.httpUrl()
+
+class LazyComponentTest : BaseComponentTest() {
+
+    private val initialStateView: View = mockk()
+    private val initialState: ServerDrivenComponent = mockk()
+    private val beagleView: BeagleView = mockk(relaxed = true)
+
+    private lateinit var lazyComponent: LazyComponent
+
+    override fun setUp() {
+        super.setUp()
+
+        every { anyConstructed<ViewFactory>().makeBeagleView(any()) } returns beagleView
+        every { beagleView[0] } returns initialStateView
+
+        lazyComponent = LazyComponent(URL, initialState)
+    }
+
+    @Test
+    fun build_should_call_make_a_BeagleView() {
+        val actual = lazyComponent.buildView(rootView)
+
+        assertTrue(actual is BeagleView)
+    }
+
+    @Test
+    fun build_should_add_initialState_and_trigger_updateView() {
+        lazyComponent.buildView(rootView)
+
+        verify(exactly = once()) { beagleView.addServerDrivenComponent(initialState, rootView) }
+        verify(exactly = once()) { beagleView.updateView(rootView, URL, initialStateView) }
+    }
+}

@@ -39,7 +39,6 @@ data class Button(private val text: String,
     @Transient
     private val viewFactory = ViewFactory()
 
-
     @Transient
     private val actionExecutor: ActionExecutor = ActionExecutor()
 

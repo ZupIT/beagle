@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.engine.renderer
 
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.android.engine.renderer.ui.UndefinedViewRenderer
 import br.com.zup.beagle.android.engine.renderer.ui.ViewConvertableRenderer
 import br.com.zup.beagle.android.widget.ui.ViewConvertable
 import br.com.zup.beagle.android.widget.ui.UndefinedWidget
@@ -27,7 +26,7 @@ internal class UIViewRendererFactory : AbstractViewRendererFactory {
     override fun make(component: ServerDrivenComponent): ViewRenderer<*> {
         return when (component) {
             is ViewConvertable, !is UndefinedWidget -> ViewConvertableRenderer(component as ViewConvertable)
-            else -> UndefinedViewRenderer(component)
+            else -> ViewConvertableRenderer(UndefinedWidget())
         }
     }
 }
