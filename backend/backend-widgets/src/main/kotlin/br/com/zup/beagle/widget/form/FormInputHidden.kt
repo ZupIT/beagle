@@ -27,7 +27,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * @param value contain the data you wish to transfer.
  *
  */
-open class FormInputHidden(
-    open val name: String,
-    open val value: String
+data class FormInputHidden(
+    val name: String,
+    val value: String
 ) : ServerDrivenComponent

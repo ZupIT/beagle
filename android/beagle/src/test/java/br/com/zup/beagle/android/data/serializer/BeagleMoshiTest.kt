@@ -41,13 +41,9 @@ import br.com.zup.beagle.android.mockdata.CustomWidget
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.android.components.layout.Container
-import br.com.zup.beagle.android.components.layout.Horizontal
 import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.components.layout.ScrollView
-import br.com.zup.beagle.android.components.layout.Stack
-import br.com.zup.beagle.android.components.layout.Vertical
 import br.com.zup.beagle.android.components.page.PageView
-import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.widget.ui.UndefinedWidget
 import io.mockk.every
 import org.json.JSONObject
@@ -117,87 +113,6 @@ class BeagleMoshiTest: BaseTest() {
     fun make_should_return_moshi_to_serialize_a_Container() {
         // Given
         val component = Container(listOf())
-
-        // When
-        val actual =
-            beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).toJson(component)
-
-        // Then
-        assertNotNull(JSONObject(actual))
-    }
-
-    @Test
-    fun make_should_return_moshi_to_deserialize_a_Vertical() {
-        // Given
-        val json = makeVerticalJson()
-
-        // When
-        val actual =
-            beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).fromJson(json)
-
-        // Then
-        assertNotNull(actual)
-        assertTrue(actual is Vertical)
-    }
-
-    @Test
-    fun make_should_return_moshi_to_serialize_a_Vertical() {
-        // Given
-        val component = Vertical(listOf())
-
-        // When
-        val actual =
-            beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).toJson(component)
-
-        // Then
-        assertNotNull(JSONObject(actual))
-    }
-
-    @Test
-    fun make_should_return_moshi_to_deserialize_a_Horizontal() {
-        // Given
-        val json = makeHorizontalJson()
-
-        // When
-        val actual =
-            beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).fromJson(json)
-
-        // Then
-        assertNotNull(actual)
-        assertTrue(actual is Horizontal)
-    }
-
-    @Test
-    fun make_should_return_moshi_to_serialize_a_Horizontal() {
-        // Given
-        val component = Horizontal(listOf())
-
-        // When
-        val actual =
-            beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).toJson(component)
-
-        // Then
-        assertNotNull(JSONObject(actual))
-    }
-
-    @Test
-    fun make_should_return_moshi_to_deserialize_a_Stack() {
-        // Given
-        val json = makeStackJson()
-
-        // When
-        val actual =
-            beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).fromJson(json)
-
-        // Then
-        assertNotNull(actual)
-        assertTrue(actual is Stack)
-    }
-
-    @Test
-    fun make_should_return_moshi_to_serialize_a_Stack() {
-        // Given
-        val component = Stack(listOf())
 
         // When
         val actual =

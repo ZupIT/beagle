@@ -111,11 +111,11 @@ data class NavigationBar(
  * @param screenAnalyticsEvent send event when screen appear/disappear
  *
  */
-open class Screen(
-    open val identifier: String? = null,
-    open val safeArea: SafeArea? = null,
-    open val navigationBar: NavigationBar? = null,
-    open val child: ServerDrivenComponent,
-    open val style: Style? = null,
+data class Screen(
+    val identifier: String? = null,
+    val safeArea: SafeArea? = null,
+    val navigationBar: NavigationBar? = null,
+    val child: ServerDrivenComponent,
+    val style: Style? = null,
     override val screenAnalyticsEvent: ScreenEvent? = null
 ) : ScreenAnalytics

@@ -27,9 +27,9 @@ import br.com.zup.beagle.widget.core.ListDirection
  * @param direction define the list direction.
  *
  */
-open class ListView(
-    open val rows: List<ServerDrivenComponent>,
-    open val direction: ListDirection = ListDirection.VERTICAL
+data class ListView(
+    val rows: List<ServerDrivenComponent>,
+    val direction: ListDirection = ListDirection.VERTICAL
 ) : ServerDrivenComponent {
     companion object
 }

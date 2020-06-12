@@ -23,7 +23,7 @@ package br.com.zup.beagle.widget.pager
  * @param unselectedColor this is a string value and it must be filled as HEX (Hexadecimal)
  *
  */
-open class PageIndicator(
+data class PageIndicator(
     val selectedColor: String,
     val unselectedColor: String
 ) : PageIndicatorComponent
