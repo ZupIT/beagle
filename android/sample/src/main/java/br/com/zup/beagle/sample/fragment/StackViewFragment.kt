@@ -23,12 +23,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
-import br.com.zup.beagle.android.components.layout.Stack
 
 class StackViewFragment : Fragment() {
 

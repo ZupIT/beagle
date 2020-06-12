@@ -30,11 +30,11 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * @see FormSubmit
  *
  */
-open class Form(
-    open val action: Action,
-    open val child: ServerDrivenComponent,
-    open val group: String? = null,
-    open val shouldStoreFields: Boolean = false
+data class Form(
+     val action: Action,
+     val child: ServerDrivenComponent,
+     val group: String? = null,
+     val shouldStoreFields: Boolean = false
 ) : ServerDrivenComponent
 
 

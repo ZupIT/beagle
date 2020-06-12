@@ -30,8 +30,8 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * @param clickAnalyticsEvent define the event will triggered when click
  *
  */
-open class Touchable(
-    open val action: Action,
-    open override val child: ServerDrivenComponent,
-    open override val clickAnalyticsEvent: ClickEvent? = null
+data class Touchable(
+    val action: Action,
+    override val child: ServerDrivenComponent,
+    override val clickAnalyticsEvent: ClickEvent? = null
 ) : ServerDrivenComponent, GhostComponent, TouchableAnalytics

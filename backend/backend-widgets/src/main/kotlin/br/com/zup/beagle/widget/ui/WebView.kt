@@ -27,6 +27,6 @@ import br.com.zup.beagle.widget.Widget
  *
  */
 
-open class WebView(
-    open val url: String
+data class WebView(
+    private val url: String
 ) : Widget()

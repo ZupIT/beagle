@@ -29,7 +29,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  *                          request made is being fulfilled.
  *
  */
-open class LazyComponent(
-    open val path: String,
-    open val initialState: ServerDrivenComponent
+data class LazyComponent(
+    val path: String,
+    val initialState: ServerDrivenComponent
 ) : ServerDrivenComponent

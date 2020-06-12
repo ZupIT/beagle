@@ -27,8 +27,8 @@ import br.com.zup.beagle.widget.core.ScrollAxis
  * @param scrollBarEnabled determine if the Scroll bar is displayed or not. It is displayed by default.
  *
  */
-open class ScrollView(
-    open val children: List<ServerDrivenComponent>,
-    open val scrollDirection: ScrollAxis? = null,
-    open val scrollBarEnabled: Boolean? = null
+data class ScrollView(
+    val children: List<ServerDrivenComponent>,
+    val scrollDirection: ScrollAxis? = null,
+    val scrollBarEnabled: Boolean? = null
 ) : ServerDrivenComponent
