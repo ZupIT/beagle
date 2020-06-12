@@ -18,5 +18,5 @@ package br.com.zup.beagle.android.components.form.core
 
 object Constants {
     @JvmStatic
-    val shared = FormDataStoreHandler()
+    var shared = FormDataStoreHandler()
 }

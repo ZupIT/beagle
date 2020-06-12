@@ -181,7 +181,7 @@ data class Form(
         val validator = formInput.validator ?: return
 
         validatorHandler?.getValidator(validator)?.let {
-            val inputWidget: InputWidget = formInput.child as InputWidget
+            val inputWidget: InputWidget = formInput.child
             val inputValue = inputWidget.getValue()
 
             if (it.isValid(inputValue, inputWidget)) {

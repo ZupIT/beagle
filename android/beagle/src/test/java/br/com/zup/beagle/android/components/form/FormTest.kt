@@ -24,6 +24,7 @@ import br.com.zup.beagle.android.action.ActionExecutor
 import br.com.zup.beagle.android.action.FormValidationActionHandler
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.android.components.BaseComponentTest
+import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.components.form.core.FormDataStoreHandler
 import br.com.zup.beagle.android.components.form.core.FormResult
 import br.com.zup.beagle.android.components.form.core.FormSubmitter
@@ -68,6 +69,7 @@ class FormTest : BaseComponentTest() {
     private val formSubmitCallbackSlot = slot<(formResult: FormResult) -> Unit>()
     private val runnableSlot = slot<Runnable>()
     private val formParamsSlot = slot<Map<String, String>>()
+    private val formDataStoreHandler: FormDataStoreHandler = mockk()
 
     private lateinit var form: Form
 
@@ -79,14 +81,14 @@ class FormTest : BaseComponentTest() {
         mockkConstructor(ActionExecutor::class)
         mockkConstructor(FormSubmitter::class)
         mockkConstructor(FormValidatorController::class)
-        mockkConstructor(FormDataStoreHandler::class)
         mockkConstructor(FormValidationActionHandler::class)
 
+        Constants.shared = formDataStoreHandler
         every { BeagleMessageLogs.logFormInputsNotFound(any()) } just Runs
         every { BeagleMessageLogs.logFormSubmitNotFound(any()) } just Runs
-        every { anyConstructed<FormDataStoreHandler>().getAllValues(any()) } returns HashMap()
-        every { anyConstructed<FormDataStoreHandler>().put(any(), any(), any()) } just Runs
-        every { anyConstructed<FormDataStoreHandler>().clear(any()) } just Runs
+        every { formDataStoreHandler.getAllValues(any()) } returns HashMap()
+        every { formDataStoreHandler.put(any(), any(), any()) } just Runs
+        every { formDataStoreHandler.clear(any()) } just Runs
         every { formInput.required } returns false
         every { viewRender.build(rootView) } returns viewGroup
         every { formInput.name } returns INPUT_NAME
@@ -109,9 +111,10 @@ class FormTest : BaseComponentTest() {
         } just Runs
         every { anyConstructed<ViewRendererFactory>().make(any()).build(any()) } returns viewGroup
 
-        val validatorHandler: ValidatorHandler = mockk(relaxed = true)
+        val validatorHandler: ValidatorHandler = mockk()
         every { validatorHandler.getValidator(any()) } returns validator
         every { beagleSdk.validatorHandler } returns validatorHandler
+        every { anyConstructed<FormValidatorController>().configFormInputList(any()) } just Runs
 
 
         form = Form(action = mockk(), child = mockk())
@@ -321,7 +324,7 @@ class FormTest : BaseComponentTest() {
 
         // Then
         verify {
-            anyConstructed<FormDataStoreHandler>().put(
+            formDataStoreHandler.put(
                 eq(FORM_GROUP_VALUE),
                 eq(INPUT_NAME),
                 eq(INPUT_VALUE))
@@ -338,7 +341,7 @@ class FormTest : BaseComponentTest() {
 
         // Then
         verify(exactly = 0) {
-            anyConstructed<FormDataStoreHandler>().put(any(), any(), any())
+            formDataStoreHandler.put(any(), any(), any())
         }
     }
 
@@ -352,7 +355,7 @@ class FormTest : BaseComponentTest() {
 
         form = form.copy(shouldStoreFields = false, group = FORM_GROUP_VALUE, action = remoteAction)
 
-        every { anyConstructed<FormDataStoreHandler>().getAllValues(FORM_GROUP_VALUE) } returns savedMap
+        every { formDataStoreHandler.getAllValues(FORM_GROUP_VALUE) } returns savedMap
 
         // When
         executeFormSubmitOnClickListener()
@@ -373,7 +376,7 @@ class FormTest : BaseComponentTest() {
 
         // Then
         verify {
-            anyConstructed<FormDataStoreHandler>().clear(eq(FORM_GROUP_VALUE))
+            formDataStoreHandler.clear(eq(FORM_GROUP_VALUE))
         }
     }
 }
