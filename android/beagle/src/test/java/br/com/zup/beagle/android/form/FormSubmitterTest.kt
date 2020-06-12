@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.android.form
 
+import br.com.zup.beagle.action.FormMethodType
+import br.com.zup.beagle.action.FormRemoteAction
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.networking.HttpClient
@@ -25,8 +27,6 @@ import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.widget.form.Form
-import br.com.zup.beagle.widget.form.FormMethodType
-import br.com.zup.beagle.widget.form.FormRemoteAction
 import io.mockk.*
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK

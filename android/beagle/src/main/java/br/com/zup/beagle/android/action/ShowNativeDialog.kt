@@ -26,7 +26,7 @@ internal data class ShowNativeDialog(
 ) : Action {
 
     @Transient
-    private var viewFactory: ViewFactory = ViewFactory()
+    var viewFactory: ViewFactory = ViewFactory()
 
     override fun execute(rootView: RootView) {
         viewFactory.makeAlertDialogBuilder(rootView.getContext())

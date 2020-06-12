@@ -19,7 +19,8 @@ package br.com.zup.beagle.android.action
 import android.content.Context
 import android.view.View
 import br.com.zup.beagle.action.FieldError
-import br.com.zup.beagle.action.FormValidation
+import br.com.zup.beagle.android.action.FormValidation
+import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleLogger
 import br.com.zup.beagle.android.testutil.RandomData
@@ -28,7 +29,9 @@ import br.com.zup.beagle.android.widget.form.InputWidget
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
+import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
@@ -38,33 +41,25 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class FormValidationActionHandlerTest {
+class FormValidationTest {
 
     @MockK
-    private lateinit var context: Context
-
-    private lateinit var formValidationActionHandler: FormValidationActionHandler
+    private lateinit var rootView: RootView
+    @RelaxedMockK
+    private lateinit var view: View
+    @RelaxedMockK
+    private lateinit var formInput: FormInput
+    @RelaxedMockK
+    private lateinit var inputWidget: InputWidget
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-
-        formValidationActionHandler = FormValidationActionHandler()
-
-        mockkObject(BeagleLogger)
-    }
-
-    @After
-    fun tearDown() {
-        unmockkObject(BeagleLogger)
     }
 
     @Test
-    fun handle_should_iterate_over_errors_and_call_ValidationErrorListener_of_view_with_name() {
+    fun `execute should iterate over errors and call onErrorMessage for errorFields`() {
         // Given
-        val view = mockk<View>(relaxed = true)
-        val formInput = mockk<FormInput>(relaxed = true)
-        val inputWidget = mockk<InputWidget>(relaxed = true)
         val inputName = RandomData.string()
         val validationMessage = RandomData.string()
         val formValidation = FormValidation(
@@ -75,31 +70,12 @@ class FormValidationActionHandlerTest {
         every { view.tag } returns formInput
         every { formInput.name } returns inputName
         every { formInput.child } returns inputWidget
-        formValidationActionHandler.formInputs = listOf(formInput)
+        formValidation.formInputs = listOf(formInput)
 
         // When
-        formValidationActionHandler.handle(context, formValidation)
+        formValidation.execute(rootView)
 
         // Then
         verify(exactly = once()) { inputWidget.onErrorMessage(validationMessage) }
-    }
-
-    @Test
-    fun handle_should_iterate_over_errors_and_log_validationListener_not_found() {
-        // Given
-        val inputName = RandomData.string()
-        val formValidation = FormValidation(
-            errors = listOf(
-                FieldError(inputName, RandomData.string())
-            )
-        )
-        every { BeagleLogger.warning(any()) } just Runs
-
-        // When
-        formValidationActionHandler.handle(context, formValidation)
-
-        // Then
-        val logMessage = "Input name with name $inputName does not implement ValidationErrorListener"
-        verify(exactly = once()) { BeagleLogger.warning(logMessage) }
     }
 }

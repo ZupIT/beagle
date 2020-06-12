@@ -36,9 +36,7 @@ internal class FormValidation(
             }
             val childInputWidget : InputWidget? = formInput?.child as InputWidget?
 
-            childInputWidget?.onErrorMessage(error.message) ?:
-                BeagleLogger.warning("Input name with name ${error.inputName} does " +
-                        "not implement ValidationErrorListener")
+            childInputWidget?.onErrorMessage(error.message)
         }
     }
 }

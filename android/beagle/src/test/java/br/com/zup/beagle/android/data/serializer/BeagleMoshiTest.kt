@@ -16,40 +16,41 @@
 
 package br.com.zup.beagle.android.data.serializer
 
+import br.com.zup.beagle.action.FormMethodType
+import br.com.zup.beagle.action.FormRemoteAction
+import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.action.Action
-import br.com.zup.beagle.action.CustomAction
-import br.com.zup.beagle.action.FormValidation
-import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.android.action.FormLocalAction
+import br.com.zup.beagle.android.action.FormValidation
+import br.com.zup.beagle.android.action.ShowNativeDialog
 import br.com.zup.beagle.android.mockdata.CustomInputWidget
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.mockdata.CustomWidget
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.widget.core.WidgetView
+import br.com.zup.beagle.android.widget.pager.PageIndicator
+import br.com.zup.beagle.android.widget.ui.UndefinedWidget
+import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.form.Form
 import br.com.zup.beagle.widget.form.FormInput
-import br.com.zup.beagle.widget.form.FormMethodType
-import br.com.zup.beagle.widget.form.FormRemoteAction
 import br.com.zup.beagle.widget.form.FormSubmit
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Horizontal
 import br.com.zup.beagle.widget.layout.PageView
+import br.com.zup.beagle.widget.layout.ScreenComponent
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.layout.Spacer
 import br.com.zup.beagle.widget.layout.Stack
 import br.com.zup.beagle.widget.layout.Vertical
 import br.com.zup.beagle.widget.lazy.LazyComponent
-import br.com.zup.beagle.android.widget.pager.PageIndicator
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.NetworkImage
 import br.com.zup.beagle.widget.ui.Text
-import br.com.zup.beagle.android.widget.ui.UndefinedWidget
-import br.com.zup.beagle.widget.layout.ScreenComponent
 import io.mockk.MockKAnnotations
 import io.mockk.every
+import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.unmockkObject
 import org.json.JSONObject
@@ -76,6 +77,8 @@ class BeagleMoshiTest {
         beagleMoshiFactory = BeagleMoshi
 
         mockkObject(BeagleEnvironment)
+
+        every { BeagleEnvironment.beagleSdk.formLocalActionHandler } returns mockk(relaxed = true)
 
         every { BeagleEnvironment.beagleSdk.registeredWidgets() } returns WIDGETS
     }
@@ -544,16 +547,17 @@ class BeagleMoshiTest {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_CustomAction() {
+    fun make_should_return_moshi_to_deserialize_a_FormLocalAction() {
         // Given
-        val json = makeCustomActionJson()
+        val json = makeFormLocalActionJson()
+
 
         // When
         val actual = beagleMoshiFactory.moshi.adapter(Action::class.java).fromJson(json)
 
         // Then
         assertNotNull(actual)
-        assertTrue(actual is CustomAction)
+        assertTrue(actual is FormLocalAction)
     }
 
     @Test
@@ -644,10 +648,7 @@ class BeagleMoshiTest {
     fun make_should_return_moshi_to_serialize_a_Form() {
         // Given
         val component = Form(
-            action = FormRemoteAction(
-                RandomData.string(),
-                FormMethodType.POST
-            ),
+            action = FormRemoteAction(RandomData.string(), FormMethodType.POST),
             child = UndefinedWidget()
         )
 

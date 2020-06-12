@@ -19,11 +19,10 @@ package br.com.zup.beagle.android.engine.renderer.layout
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import br.com.zup.beagle.action.FormRemoteAction
+import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.ActionExecutor
-import br.com.zup.beagle.android.action.FormValidationActionHandler
-import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.android.widget.form.InputWidget
 import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.engine.renderer.ViewRenderer
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
@@ -40,10 +39,22 @@ import br.com.zup.beagle.android.utils.hideKeyboard
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.widget.form.*
-import io.mockk.*
+import br.com.zup.beagle.android.widget.form.InputWidget
+import br.com.zup.beagle.widget.form.Form
+import br.com.zup.beagle.widget.form.FormInput
+import br.com.zup.beagle.widget.form.FormInputHidden
+import br.com.zup.beagle.widget.form.FormSubmit
+import io.mockk.Runs
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.mockkStatic
+import io.mockk.slot
+import io.mockk.unmockkAll
+import io.mockk.verify
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -59,7 +70,7 @@ class FormViewRendererTest : BaseTest() {
     @RelaxedMockK
     private lateinit var form: Form
 
-    @MockK(relaxed = true)
+    @RelaxedMockK
     private lateinit var formInput: FormInput
 
     @MockK
@@ -74,13 +85,10 @@ class FormViewRendererTest : BaseTest() {
     @MockK
     private lateinit var validator: Validator<Any, Any>
 
-    @MockK
-    private lateinit var formValidationActionHandler: FormValidationActionHandler
-
-    @MockK(relaxed = true)
+    @RelaxedMockK
     private lateinit var formValidatorController: FormValidatorController
 
-    @MockK(relaxed = true)
+    @RelaxedMockK
     private lateinit var actionExecutor: ActionExecutor
 
     @MockK
@@ -110,7 +118,7 @@ class FormViewRendererTest : BaseTest() {
     @RelaxedMockK
     private lateinit var viewGroup: ViewGroup
 
-    @MockK
+    @RelaxedMockK
     private lateinit var rootView: RootView
 
     @RelaxedMockK
@@ -135,7 +143,6 @@ class FormViewRendererTest : BaseTest() {
         formViewRenderer = FormViewRenderer(
             form,
             validatorHandler,
-            formValidationActionHandler,
             formSubmitter,
             formValidatorController,
             actionExecutor,
@@ -151,6 +158,7 @@ class FormViewRendererTest : BaseTest() {
         every { BeagleMessageLogs.logFormSubmitNotFound(any()) } just Runs
         every { viewRendererFactory.make(form) } returns viewRenderer
         every { viewRenderer.build(rootView) } returns viewGroup
+        every { rootView.getContext() } returns beagleActivity
         every { formDataStoreHandler.getAllValues(any()) } returns HashMap()
         every { formDataStoreHandler.put(any(), any(), any()) } just Runs
         every { formDataStoreHandler.clear(any()) } just Runs
@@ -168,7 +176,6 @@ class FormViewRendererTest : BaseTest() {
         every { viewGroup.childCount } returns 2
         every { viewGroup.getChildAt(0) } returns formInputView
         every { viewGroup.getChildAt(1) } returns formSubmitView
-        every { formValidationActionHandler.formInputs = any() } just Runs
         every { beagleActivity.getSystemService(any()) } returns inputMethodManager
         every { beagleActivity.runOnUiThread(capture(runnableSlot)) } just Runs
         every { formSubmitter.submitForm(any(), capture(formParamsSlot), capture(formSubmitCallbackSlot)) } just Runs
@@ -280,7 +287,7 @@ class FormViewRendererTest : BaseTest() {
 
         // Then
         val views = formViewRenderer.getPrivateField<List<FormInput>>(FORM_INPUT_VIEWS_FIELD_NAME)
-        verify(exactly = once()) { formValidationActionHandler.formInputs = views }
+        //verify(exactly = once()) { formValidationActionHandler.formInputs = views }
     }
 
     @Test
@@ -347,7 +354,7 @@ class FormViewRendererTest : BaseTest() {
         runnableSlot.captured.run()
 
         // Then
-        verify(exactly = once()) { actionExecutor.doAction(beagleActivity, formResult.action) }
+        verify(exactly = once()) { actionExecutor.doAction(rootView, formResult.action) }
     }
 
     @Test

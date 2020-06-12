@@ -19,7 +19,9 @@ package br.com.zup.beagle.android.action
 import android.content.Context
 import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
-import br.com.zup.beagle.action.ShowNativeDialog
+import androidx.appcompat.app.AppCompatActivity
+import br.com.zup.beagle.android.action.ShowNativeDialog
+import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.ViewFactory
@@ -27,6 +29,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.slot
@@ -35,10 +38,10 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class ShowNativeDialogActionHandlerTest {
+class ShowNativeDialogTest {
 
-    @MockK
-    private lateinit var context: Context
+    @RelaxedMockK
+    private lateinit var rootView: RootView
     @MockK
     private lateinit var viewFactory: ViewFactory
 
@@ -49,13 +52,9 @@ class ShowNativeDialogActionHandlerTest {
     private val buttonTextSlot = slot<String>()
     private val listenerSlot = slot<DialogInterface.OnClickListener>()
 
-    private lateinit var showNativeDialogActionHandler: ShowNativeDialogActionHandler
-
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-
-        showNativeDialogActionHandler = ShowNativeDialogActionHandler(viewFactory)
 
         every { viewFactory.makeAlertDialogBuilder(any()) } returns builder
         every { builder.setTitle(capture(titleSlot)) } returns builder
@@ -65,7 +64,7 @@ class ShowNativeDialogActionHandlerTest {
     }
 
     @Test
-    fun handle_should_create_a_AlertDialog() {
+    fun `execute should create a AlertDialog`() {
         // Given
         val action = ShowNativeDialog(
             title = RandomData.string(),
@@ -74,7 +73,8 @@ class ShowNativeDialogActionHandlerTest {
         )
 
         // When
-        showNativeDialogActionHandler.handle(context, action)
+        action.viewFactory = viewFactory
+        action.execute(rootView)
 
         // Then
         assertEquals(action.title, titleSlot.captured)
@@ -83,7 +83,7 @@ class ShowNativeDialogActionHandlerTest {
     }
 
     @Test
-    fun handle_should_dismiss_dialog_when_clickListener_is_call() {
+    fun `click should dismiss dialog`() {
         // Given
         val action = ShowNativeDialog(
             title = RandomData.string(),
@@ -93,7 +93,8 @@ class ShowNativeDialogActionHandlerTest {
         every { dialog.dismiss() } just Runs
 
         // When
-        showNativeDialogActionHandler.handle(context, action)
+        action.viewFactory = viewFactory
+        action.execute(rootView)
         listenerSlot.captured.onClick(dialog, 0)
 
         // Then
