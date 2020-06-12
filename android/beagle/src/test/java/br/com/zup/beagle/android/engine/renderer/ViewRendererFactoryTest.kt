@@ -27,7 +27,6 @@ import kotlin.test.assertTrue
 
 class ViewRendererFactoryTest {
 
-
     @MockK
     private lateinit var uiViewRendererFactory: UIViewRendererFactory
 
@@ -42,13 +41,17 @@ class ViewRendererFactoryTest {
 
         viewRendererFactory = ViewRendererFactory(uiViewRendererFactory)
 
+
         every { uiViewRendererFactory.make(any()) } returns mockk<UIViewRenderer<*>>()
     }
 
-/*    @Test
-    fun make_should_return_a_LayoutViewRenderer() {
+
+    @Test
+    fun make_should_return_a_UIViewRenderer() {
+        // When
         val actual = viewRendererFactory.make(component)
 
-        assertTrue(actual is LayoutViewRenderer)
-    }*/
+        // Then
+        assertTrue(actual is UIViewRenderer)
+    }
 }

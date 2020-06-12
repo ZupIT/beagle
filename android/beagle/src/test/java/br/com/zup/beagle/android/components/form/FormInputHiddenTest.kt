@@ -16,6 +16,29 @@
 
 package br.com.zup.beagle.android.components.form
 
-import org.junit.Assert.*
+import android.view.View
+import br.com.zup.beagle.android.components.BaseComponentTest
+import br.com.zup.beagle.android.extensions.once
+import io.mockk.verify
+import org.junit.Test
 
-class FormInputHiddenTest
+class FormInputHiddenTest : BaseComponentTest() {
+
+    private lateinit var formInputHidden: FormInputHidden
+
+    override fun setUp() {
+        super.setUp()
+
+        formInputHidden = FormInputHidden("", "")
+    }
+
+    @Test
+    fun `should make vie gone when build view`() {
+        // WHEN
+        formInputHidden.buildView(rootView)
+
+        // THEN
+        verify(exactly = once()) { beagleFlexView.visibility = View.GONE }
+        verify(exactly = once()) { beagleFlexView.tag = formInputHidden }
+    }
+}

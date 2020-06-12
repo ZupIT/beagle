@@ -12,25 +12,30 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *//*
 
-package br.com.zup.beagle.android.components.layout
+
+package br.com.zup.beagle.android.engine.renderer.layout
 
 import android.graphics.Color
 import android.view.View
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.Toolbar
+import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.analytics.ScreenEvent
-import br.com.zup.beagle.android.components.BaseComponentTest
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.engine.renderer.ViewRenderer
+import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.utils.ToolbarManager
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.BeagleFlexView
+import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.NavigationBar
+import br.com.zup.beagle.widget.layout.ScreenComponent
 import io.mockk.CapturingSlot
 import io.mockk.Runs
 import io.mockk.every
@@ -50,31 +55,39 @@ import kotlin.test.assertTrue
 
 private const val DEFAULT_COLOR = 0xFFFFFF
 
-class ScreenComponentTest : BaseComponentTest() {
+class ScreenViewRendererTest : BaseTest() {
 
     private val screenName = "screenName"
-    private var screenAnalyticsEvent = ScreenEvent(screenName = screenName)
-
-    @RelaxedMockK
-    private lateinit var context: BeagleActivity
+    private var screenAnalyticsEvent = ScreenEvent( screenName = screenName )
 
     @MockK
+    private lateinit var screenComponent: ScreenComponent
+    @MockK
+    private lateinit var viewRendererFactory: ViewRendererFactory
+    @MockK
+    private lateinit var viewFactory: ViewFactory
+    @MockK
+    private lateinit var rootView: RootView
+    @RelaxedMockK
+    private lateinit var context: BeagleActivity
+    @RelaxedMockK
+    private lateinit var beagleFlexView: BeagleFlexView
+    @MockK
     private lateinit var component: ServerDrivenComponent
-
     @RelaxedMockK
     private lateinit var analytics: Analytics
-
-
+    @MockK
+    private lateinit var viewRenderer: ViewRenderer<*>
+    @RelaxedMockK
+    private lateinit var view: View
     @MockK(relaxed = true)
     private lateinit var actionBar: ActionBar
-
     @RelaxedMockK
     private lateinit var toolbar: Toolbar
-
     @RelaxedMockK
     private lateinit var toolbarManager: ToolbarManager
-
-    private lateinit var screenComponent: ScreenComponent
+    @InjectMockKs
+    private lateinit var screenViewRenderer: ScreenViewRenderer
 
     override fun setUp() {
         super.setUp()
@@ -82,12 +95,18 @@ class ScreenComponentTest : BaseComponentTest() {
         mockkStatic(Color::class)
 
         every { beagleSdk.analytics } returns analytics
-
+        every { viewFactory.makeBeagleFlexView(any()) } returns beagleFlexView
+        every { viewFactory.makeBeagleFlexView(any(), any()) } returns beagleFlexView
+        every { beagleFlexView.addServerDrivenComponent(any(), any()) } just Runs
+        every { beagleFlexView.addView(any(), any<Flex>()) } just Runs
+        every { screenComponent.navigationBar } returns null
+        every { screenComponent.child } returns component
+        every { screenComponent.screenAnalyticsEvent } returns null
+        every { screenComponent.style } returns null
+        every { viewRendererFactory.make(any()) } returns viewRenderer
+        every { viewRenderer.build(any()) } returns view
         every { Color.parseColor(any()) } returns DEFAULT_COLOR
         every { rootView.getContext() } returns context
-
-        screenComponent = ScreenComponent(navigationBar = null, child = component,
-            screenAnalyticsEvent = null, style = null)
     }
 
     override fun tearDown() {
@@ -103,7 +122,7 @@ class ScreenComponentTest : BaseComponentTest() {
         every { context.supportActionBar } returns null
 
         // When
-        screenComponent.build(rootView)
+        screenViewRenderer.build(rootView)
 
         // Then
         assertEquals(1.0, flex.captured.grow)
@@ -119,10 +138,10 @@ class ScreenComponentTest : BaseComponentTest() {
         every { context.supportActionBar } returns null
 
         // When
-        screenComponent.build(rootView)
+        screenViewRenderer.build(rootView)
 
         // Then
-        verify(atLeast = once()) { beagleFlexView.addServerDrivenComponent(content, rootView) }
+        verify(atLeast = once()) { beagleFlexView.addServerDrivenComponent(content, rootView)}
     }
 
     @Test
@@ -135,7 +154,7 @@ class ScreenComponentTest : BaseComponentTest() {
         every { toolbar.visibility } returns expected
 
         // WHEN
-        screenComponent.build(rootView)
+        screenViewRenderer.build(rootView)
 
         // THEN
         assertEquals(expected, toolbar.visibility)
@@ -148,7 +167,7 @@ class ScreenComponentTest : BaseComponentTest() {
         every { screenComponent.screenAnalyticsEvent } returns screenAnalyticsEvent
 
         // When
-        val view = screenComponent.build(rootView)
+        val view = screenViewRenderer.build(rootView)
 
         // Then
         assertTrue(view is BeagleFlexView)
@@ -158,7 +177,7 @@ class ScreenComponentTest : BaseComponentTest() {
     @Test
     fun should_keep_window_attach_callbacks_null_when_screen_event_not_presented() {
         // When
-        val view = screenComponent.build(rootView)
+        val view = screenViewRenderer.build(rootView)
 
         // Then
         assertTrue(view is BeagleFlexView)
@@ -172,7 +191,7 @@ class ScreenComponentTest : BaseComponentTest() {
         val onAttachStateChangeListenerSlot = CapturingSlot<View.OnAttachStateChangeListener>()
 
         // When
-        val screenView = screenComponent.build(rootView)
+        val screenView = screenViewRenderer.build(rootView)
         verify { screenView.addOnAttachStateChangeListener(capture(onAttachStateChangeListenerSlot)) }
         onAttachStateChangeListenerSlot.captured.onViewAttachedToWindow(view)
         onAttachStateChangeListenerSlot.captured.onViewDetachedFromWindow(view)
@@ -193,7 +212,7 @@ class ScreenComponentTest : BaseComponentTest() {
         every { screenComponent.navigationBar } returns navigationBar
 
         //WHEN
-        screenComponent.build(rootView)
+        screenViewRenderer.build(rootView)
 
         //THEN
         verifyOrder {
@@ -202,3 +221,4 @@ class ScreenComponentTest : BaseComponentTest() {
         }
     }
 }
+*/

@@ -25,6 +25,7 @@ import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import android.view.View
 import br.com.zup.beagle.R
+import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Container
@@ -45,7 +46,7 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class StyleManagerTest {
+class StyleManagerTest: BaseTest() {
 
     @InjectMockKs
     private lateinit var styleManager: StyleManager
@@ -69,20 +70,13 @@ class StyleManagerTest {
 
     private var textAppearanceInt: Int = 0
 
-    @Before
-    fun setUp() {
-        MockKAnnotations.init(this)
-        mockkObject(BeagleEnvironment)
+    override fun setUp() {
+        super.setUp()
 
-        every { BeagleEnvironment.beagleSdk.designSystem } returns mockk()
+        every { beagleSdk.designSystem } returns mockk()
         every { view.background } returns mockk()
         every { designSystem.textStyle(any()) } returns textAppearanceInt
         every { context.obtainStyledAttributes(any<Int>(), any()) } returns mockk()
-    }
-
-    @After
-    fun tearDown() {
-        unmockkObject(BeagleEnvironment)
     }
 
     @Test

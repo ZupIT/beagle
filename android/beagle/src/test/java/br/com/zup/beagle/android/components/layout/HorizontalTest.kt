@@ -16,6 +16,45 @@
 
 package br.com.zup.beagle.android.components.layout
 
-import org.junit.Assert.*
+import br.com.zup.beagle.android.components.BaseComponentTest
+import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.FlexDirection
+import io.mockk.every
+import io.mockk.slot
+import org.junit.Assert.assertEquals
+import org.junit.Test
 
-class HorizontalTest
+class HorizontalTest : BaseComponentTest() {
+
+    private val flexSlot = slot<Flex>()
+
+    override fun setUp() {
+        super.setUp()
+        every { anyConstructed<ViewFactory>().makeBeagleFlexView(any(), capture(flexSlot)) } returns beagleFlexView
+    }
+
+    @Test
+    fun getYogaFlexDirection_should_return_ROW_REVERSE_when_reversed_is_true() {
+        // Given
+        val horizontal = Horizontal(listOf(), reversed = true)
+
+        // When
+        horizontal.buildView(rootView)
+
+        // Then
+        assertEquals(FlexDirection.ROW_REVERSE, flexSlot.captured.flexDirection)
+    }
+
+    @Test
+    fun getYogaFlexDirection_should_return_ROW_when_reversed_is_false() {
+        // Given
+        val horizontal = Horizontal(listOf(), reversed = false)
+
+        // When
+        horizontal.buildView(rootView)
+
+        // Then
+        assertEquals(FlexDirection.ROW, flexSlot.captured.flexDirection)
+    }
+}

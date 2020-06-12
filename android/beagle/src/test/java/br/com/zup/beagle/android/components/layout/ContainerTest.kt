@@ -16,6 +16,47 @@
 
 package br.com.zup.beagle.android.components.layout
 
-import org.junit.Assert.*
+import br.com.zup.beagle.android.components.BaseComponentTest
+import br.com.zup.beagle.android.components.Button
+import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.widget.core.Flex
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
+import org.junit.Test
 
-class ContainerTest
+class ContainerTest : BaseComponentTest() {
+
+    private val flex: Flex = mockk()
+
+    private val containerChildren = listOf<ServerDrivenComponent>(mockk<Container>())
+
+    private lateinit var container: Container
+
+    override fun setUp() {
+        super.setUp()
+
+        container = Container(containerChildren).applyFlex(flex)
+    }
+
+    @Test
+    fun build_should_makeBeagleFlexView() {
+        // WHEN
+        container.buildView(rootView)
+
+        // THEN
+        verify(exactly = once()) {  anyConstructed<ViewFactory>().makeBeagleFlexView(rootView.getContext(), flex) }
+    }
+
+    @Test
+    fun build_should_addServerDrivenComponent() {
+        // WHEN
+        container.buildView(rootView)
+
+        // THEN
+        verify(exactly = once()) { beagleFlexView.addServerDrivenComponent(containerChildren[0], rootView) }
+    }
+}

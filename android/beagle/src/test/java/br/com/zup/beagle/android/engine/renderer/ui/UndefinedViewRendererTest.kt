@@ -12,7 +12,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *//*
+
 
 package br.com.zup.beagle.android.engine.renderer.ui
 
@@ -20,11 +21,12 @@ import android.content.Context
 import android.graphics.Color
 import android.widget.TextView
 import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.Environment
+import br.com.zup.beagle.android.view.BeagleTextView
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.ui.RootView
 import br.com.zup.beagle.android.widget.ui.UndefinedWidget
 import io.mockk.Runs
 import io.mockk.every
@@ -47,7 +49,7 @@ class UndefinedViewRendererTest : BaseTest() {
     @MockK
     private lateinit var rootView: RootView
     @RelaxedMockK
-    private lateinit var textView: TextView
+    private lateinit var textView: BeagleTextView
     @RelaxedMockK
     private lateinit var undefinedWidget: UndefinedWidget
 
@@ -103,4 +105,4 @@ class UndefinedViewRendererTest : BaseTest() {
         // Then
         verify(exactly = once()) { viewFactory.makeView(context) }
     }
-}
+}*/

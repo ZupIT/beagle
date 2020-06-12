@@ -16,6 +16,53 @@
 
 package br.com.zup.beagle.android.components.layout
 
-import org.junit.Assert.*
+import br.com.zup.beagle.android.components.BaseComponentTest
+import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.widget.ui.WidgetView
+import br.com.zup.beagle.core.ServerDrivenComponent
+import io.mockk.mockk
+import io.mockk.verify
+import org.junit.Test
+import kotlin.test.assertEquals
 
-class ComposeComponentTest
+class ComposeComponentTest : BaseComponentTest() {
+
+    private val child: WidgetView = mockk()
+    private lateinit var composeComponent: ComposeComponent
+
+
+    override fun setUp() {
+        super.setUp()
+        composeComponent = object : ComposeComponent() {
+            override fun build(): ServerDrivenComponent = child
+        }
+    }
+
+    @Test
+    fun build_should_create_view() {
+        // WHEN
+        val actual = composeComponent.buildView(rootView)
+
+        // THEN
+        assertEquals(beagleFlexView, actual)
+    }
+
+    @Test
+    fun build_should_makeBeagleFlexView() {
+        // WHEN
+        composeComponent.buildView(rootView)
+
+        // THEN
+        verify(exactly = once()) { anyConstructed<ViewFactory>().makeBeagleFlexView(rootView.getContext()) }
+    }
+
+    @Test
+    fun build_should_addServerDrivenComponent() {
+        // WHEN
+        composeComponent.buildView(rootView)
+
+        // THEN
+        verify(exactly = once()) { beagleFlexView.addServerDrivenComponent(child, rootView) }
+    }
+}

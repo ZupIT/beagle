@@ -42,10 +42,10 @@ import br.com.zup.beagle.android.widget.ui.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 data class Form(
-    private val action: Action,
+    val action: Action,
     private val child: ServerDrivenComponent,
-    private val group: String? = null,
-    private val shouldStoreFields: Boolean = false
+    val group: String? = null,
+    val shouldStoreFields: Boolean = false
 ) : WidgetView() {
 
     @Transient

@@ -57,5 +57,4 @@ class UIViewRendererFactoryTest {
         // Then
         assertTrue(actual is ViewConvertableRenderer)
     }
-
 }

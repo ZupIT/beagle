@@ -16,6 +16,41 @@
 
 package br.com.zup.beagle.android.components.form
 
-import org.junit.Assert.*
+import br.com.zup.beagle.android.components.BaseComponentTest
+import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.widget.ui.WidgetView
+import io.mockk.mockk
+import io.mockk.verify
+import org.junit.Assert.assertEquals
+import org.junit.Test
 
-class FormSubmitTest
+class FormSubmitTest : BaseComponentTest() {
+
+    private val child: WidgetView = mockk()
+    private lateinit var formSubmit: FormSubmit
+
+    override fun setUp() {
+        super.setUp()
+
+        formSubmit = FormSubmit(child, true)
+    }
+
+    @Test
+    fun `should make child when build view`() {
+        // WHEN
+        val actual = formSubmit.buildView(rootView)
+
+        // THEN
+        verify(exactly = once()) { viewRender.build(rootView) }
+        assertEquals(view, actual)
+    }
+
+    @Test
+    fun `should set tag when build view`() {
+        // WHEN
+        formSubmit.buildView(rootView)
+
+        // THEN
+        verify(exactly = once()) { view.tag = formSubmit }
+    }
+}

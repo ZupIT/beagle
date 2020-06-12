@@ -27,7 +27,6 @@ import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.testutil.RandomData
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
-import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK

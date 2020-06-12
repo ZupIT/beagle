@@ -16,23 +16,23 @@
 
 package br.com.zup.beagle.android.utils
 
+import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.view.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.widget.ui.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.android.widget.ui.RootView
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
-import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class WidgetExtensionsKtTest {
+class WidgetExtensionsKtTest: BaseTest() {
 
     @MockK
     private lateinit var rootView: RootView
@@ -40,8 +40,8 @@ class WidgetExtensionsKtTest {
     @RelaxedMockK
     private lateinit var viewFactoryMock: ViewFactory
 
-    @Before
-    fun setUp() {
+    override fun setUp() {
+        super.setUp()
         MockKAnnotations.init(this)
 
         viewFactory = viewFactoryMock

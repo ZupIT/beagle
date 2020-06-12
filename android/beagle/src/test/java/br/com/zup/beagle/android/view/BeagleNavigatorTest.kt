@@ -55,10 +55,8 @@ class BeagleNavigatorTest {
 
     @MockK
     private lateinit var context: BeagleActivity
-
     @MockK
     private lateinit var fragmentTransaction: FragmentTransaction
-
     @MockK(relaxed = true)
     private lateinit var intent: Intent
 

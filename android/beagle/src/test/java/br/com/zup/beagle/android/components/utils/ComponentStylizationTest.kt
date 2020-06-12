@@ -16,6 +16,55 @@
 
 package br.com.zup.beagle.android.components.utils
 
-import org.junit.Assert.*
+import android.view.View
+import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.utils.StyleManager
+import br.com.zup.beagle.android.utils.toAndroidId
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.impl.annotations.InjectMockKs
+import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.just
+import io.mockk.slot
+import io.mockk.verify
+import org.junit.Test
+import kotlin.test.assertEquals
 
-class ComponentStylizationTest
+class ComponentStylizationTest : BaseTest() {
+
+    @RelaxedMockK
+    private lateinit var accessibilitySetup: AccessibilitySetup
+    @RelaxedMockK
+    private lateinit var view: View
+    @RelaxedMockK
+    private lateinit var widget: Text
+    @RelaxedMockK
+    private lateinit var styleManager: StyleManager
+
+    @InjectMockKs
+    private lateinit var componentStylization: ComponentStylization<Text>
+
+    override fun setUp() {
+        super.setUp()
+        styleManagerFactory = styleManager
+    }
+
+    @Test
+    fun afterBuildView_when_is_widget() {
+        // GIVEN
+        val widgetId = "123"
+        val slotId = slot<Int>()
+
+        every { widget.id } returns widgetId
+        every { view.id = capture(slotId) } just Runs
+
+        // WHEN
+        componentStylization.apply(view, widget)
+
+        // THEN
+        assertEquals(widgetId.toAndroidId(), slotId.captured)
+        verify (exactly = once()) { accessibilitySetup.applyAccessibility(view, widget) }
+    }
+}

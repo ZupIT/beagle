@@ -52,28 +52,40 @@ class ToolbarManagerTest : BaseTest() {
 
     @MockK
     private lateinit var screenComponent: ScreenComponent
+
     @MockK(relaxed = true)
     private lateinit var navigationBar: NavigationBar
+
     @RelaxedMockK
     private lateinit var context: BeagleActivity
+
     @MockK(relaxed = true)
     private lateinit var actionBar: ActionBar
+
     @RelaxedMockK
     private lateinit var toolbar: Toolbar
+
     @MockK
     private lateinit var action: Action
+
     @RelaxedMockK
     private lateinit var menu: Menu
+
     @MockK
     private lateinit var designSystemMock: DesignSystem
+
     @MockK
     private lateinit var navigationIcon: Drawable
+
     @MockK
     private lateinit var typedArray: TypedArray
+
     @MockK
     private lateinit var icon: Drawable
+
     @RelaxedMockK
     private lateinit var actionExecutor: ActionExecutor
+
     @RelaxedMockK
     private lateinit var resources: Resources
 
