@@ -23,7 +23,7 @@ import br.com.zup.beagle.android.view.BeagleNavigator
 internal sealed class Navigate : Action {
 
     data class OpenExternalURL(val url: String) : Navigate() {
-        override fun handle(rootView: RootView) {
+        override fun execute(rootView: RootView) {
             BeagleNavigator.openExternalURL(rootView.getContext(), url)
         }
     }
@@ -31,49 +31,49 @@ internal sealed class Navigate : Action {
     class OpenNativeRoute(val route: String,
                           val shouldResetApplication: Boolean = false,
                           val data: Map<String, String>? = null) : Navigate() {
-        override fun handle(rootView: RootView) {
+        override fun execute(rootView: RootView) {
             BeagleNavigator.openNativeRoute(rootView.getContext(), route, data, shouldResetApplication)
         }
     }
 
     data class PushStack(val route: Route) : Navigate() {
-        override fun handle(rootView: RootView) {
+        override fun execute(rootView: RootView) {
             BeagleNavigator.pushStack(rootView.getContext(), route)
         }
     }
 
     class PopStack : Navigate() {
-        override fun handle(rootView: RootView) {
+        override fun execute(rootView: RootView) {
             BeagleNavigator.popStack(rootView.getContext())
         }
     }
 
     data class PushView(val route: Route) : Navigate() {
-        override fun handle(rootView: RootView) {
+        override fun execute(rootView: RootView) {
             BeagleNavigator.pushView(rootView.getContext(), route)
         }
     }
 
     class PopView : Navigate() {
-        override fun handle(rootView: RootView) {
+        override fun execute(rootView: RootView) {
             BeagleNavigator.popView(rootView.getContext())
         }
     }
 
     data class PopToView(val route: String) : Navigate() {
-        override fun handle(rootView: RootView) {
+        override fun execute(rootView: RootView) {
             BeagleNavigator.popToView(rootView.getContext(), route)
         }
     }
 
     data class ResetApplication(val route: Route) : Navigate() {
-        override fun handle(rootView: RootView) {
+        override fun execute(rootView: RootView) {
             BeagleNavigator.resetApplication(rootView.getContext(), route)
         }
     }
 
     data class ResetStack(val route: Route) : Navigate() {
-        override fun handle(rootView: RootView) {
+        override fun execute(rootView: RootView) {
             BeagleNavigator.resetStack(rootView.getContext(), route)
         }
     }

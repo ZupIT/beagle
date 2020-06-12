@@ -29,7 +29,7 @@ internal class FormValidation(
     @Transient
     var formInputs: List<FormInput>? = null
 
-    override fun handle(rootView: RootView) {
+    override fun execute(rootView: RootView) {
         errors.forEach { error ->
             val formInput = formInputs?.find {
                 it.name == error.inputName

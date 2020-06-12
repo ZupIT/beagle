@@ -19,5 +19,5 @@ package br.com.zup.beagle.android.action
 import br.com.zup.beagle.android.engine.renderer.RootView
 
 interface Action : br.com.zup.beagle.action.Action {
-    fun handle(rootView: RootView)
+    fun execute(rootView: RootView)
 }
