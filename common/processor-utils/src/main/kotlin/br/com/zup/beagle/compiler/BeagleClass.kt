@@ -26,7 +26,7 @@ data class BeagleClass(
         return "$packageName.$className"
     }
 
-    fun toClassName(): ClassName {
+    fun asClassName(): ClassName {
         return ClassName(packageName, className)
     }
 }
