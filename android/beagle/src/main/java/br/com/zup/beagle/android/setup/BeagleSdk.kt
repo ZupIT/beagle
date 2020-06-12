@@ -17,8 +17,9 @@
 package br.com.zup.beagle.android.setup
 
 import android.app.Application
-import br.com.zup.beagle.android.action.CustomActionHandler
 import br.com.zup.beagle.analytics.Analytics
+import br.com.zup.beagle.android.Action
+import br.com.zup.beagle.android.action.CustomActionHandler
 import br.com.zup.beagle.android.form.ValidatorHandler
 import br.com.zup.beagle.android.navigation.DeepLinkHandler
 import br.com.zup.beagle.android.networking.HttpClient
@@ -41,6 +42,7 @@ interface BeagleSdk {
     val analytics: Analytics?
 
     fun registeredWidgets(): List<Class<WidgetView>>
+    fun registeredActions(): List<Class<Action>>
 
     fun init(application: Application) {
         BeagleEnvironment.beagleSdk = this

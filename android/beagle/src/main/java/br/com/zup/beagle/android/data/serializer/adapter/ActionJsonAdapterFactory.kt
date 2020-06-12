@@ -16,19 +16,20 @@
 
 package br.com.zup.beagle.android.data.serializer.adapter
 
-import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.action.CustomAction
 import br.com.zup.beagle.action.FormValidation
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.SendRequestAction
 import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
+import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.widget.form.FormRemoteAction
-import java.util.*
+import java.util.Locale
 
 private const val BEAGLE_WIDGET_TYPE = "_beagleAction_"
 private const val BEAGLE_NAMESPACE = "beagle"
 
+@Deprecated(message = "This class will be no longer needed. @see new AndroidActionJsonAdapterFactory")
 internal object ActionJsonAdapterFactory {
 
     fun make(): PolymorphicJsonAdapterFactory<Action> {
