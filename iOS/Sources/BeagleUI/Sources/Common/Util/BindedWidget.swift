@@ -41,7 +41,8 @@ public class BindedWidget {
     func bind(context: BeagleContext) { }
     
     func configBinding<T>(for expression: Expression, completion: @escaping (T) -> Void) {
-        guard let context = view?.getContext(for: expression) else { return }
+        guard let contextId = expression.context(),
+            let context = view?.findContext(by: contextId) else { return }
 
         let newExp = Expression(nodes: .init(expression.nodes.dropFirst()))
         let closure: (Context) -> Void = { context in

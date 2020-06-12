@@ -90,6 +90,7 @@
 		93B9744F23A2833600B0D1CF /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B9743F23A2833600B0D1CF /* NetworkClient.swift */; };
 		93B9746E23A287A800B0D1CF /* NSErrorExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B9746123A287A800B0D1CF /* NSErrorExtensionTests.swift */; };
 		93D7C68D23A1268800154CFB /* YogaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D7C68C23A1268800154CFB /* YogaKit.framework */; };
+		93D8DC0F248980160070CB41 /* SetContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D8DC0E248980160070CB41 /* SetContext.swift */; };
 		9800ACFF2455D09B0030109F /* UrlBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9800ACFE2455D09B0030109F /* UrlBuilderTests.swift */; };
 		981DB2EF23748BAB001CE5E0 /* UnitValueExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981DB2EE23748BAB001CE5E0 /* UnitValueExtension.swift */; };
 		983E8166245B3BE7008EDAE1 /* UrlBuilderTestSpec.json in Resources */ = {isa = PBXBuildFile; fileRef = 983E8165245B3BE6008EDAE1 /* UrlBuilderTestSpec.json */; };
@@ -369,6 +370,7 @@
 		93B9743F23A2833600B0D1CF /* NetworkClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		93B9746123A287A800B0D1CF /* NSErrorExtensionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSErrorExtensionTests.swift; sourceTree = "<group>"; };
 		93D7C68C23A1268800154CFB /* YogaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = YogaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		93D8DC0E248980160070CB41 /* SetContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetContext.swift; sourceTree = "<group>"; };
 		9800ACFE2455D09B0030109F /* UrlBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlBuilderTests.swift; sourceTree = "<group>"; };
 		980262AD2345431B0025A9C3 /* ContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerTests.swift; sourceTree = "<group>"; };
 		981DB2EE23748BAB001CE5E0 /* UnitValueExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitValueExtension.swift; sourceTree = "<group>"; };
@@ -995,6 +997,7 @@
 				A0EF0AA32386B7A20019BE83 /* ActionExecutor.swift */,
 				A0EF0AA923880D5A0019BE83 /* CustomAction.swift */,
 				A0EF0AAB238811AA0019BE83 /* CustomActionHandler.swift */,
+				93D8DC0E248980160070CB41 /* SetContext.swift */,
 				A0EF0AA72388030A0019BE83 /* ShowNativeDialog.swift */,
 				E5223779237C3C5500E555BB /* Touchable.swift */,
 				C829CEAA23B15F12001B7225 /* Tests */,
@@ -2057,6 +2060,7 @@
 				57E7F96D247D9E3400FBD398 /* Context.swift in Sources */,
 				576F6203248E972900273BA0 /* BindedWidget.swift in Sources */,
 				C85E1CCD23EB461200C1E323 /* Request.swift in Sources */,
+				93D8DC0F248980160070CB41 /* SetContext.swift in Sources */,
 				E531D6B12359FD18007EEBA7 /* LoadingView.swift in Sources */,
 				E5223774237C3C4800E555BB /* Flex.swift in Sources */,
 				7CFF7FA9243E1C9E0052CC86 /* FormDataStoreHandler.swift in Sources */,

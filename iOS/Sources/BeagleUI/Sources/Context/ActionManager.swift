@@ -19,11 +19,13 @@ import UIKit
 public protocol ActionManaging {
     func register(events: [Event], inView view: UIView)
     func doAction(_ action: Action, sender: Any)
+    func execute(actions: [Action]?, with context: Context?, sender: Any, controller: BeagleContext)
     func doAnalyticsAction(_ action: AnalyticsClick, sender: Any)
 }
 
 protocol ActionManagerDelegate: AnyObject {
     func doAction(_ action: Action, sender: Any)
+    func execute(actions: [Action]?, with context: Context?, sender: Any, controller: BeagleContext)
     func doAnalyticsAction(_ clickEvent: AnalyticsClick, sender: Any)
 }
 
@@ -72,5 +74,9 @@ class ActionManager: ActionManaging {
 
     public func doAction(_ action: Action, sender: Any) {
         delegate?.doAction(action, sender: sender)
+    }
+    
+    func execute(actions: [Action]?, with context: Context?, sender: Any, controller: BeagleContext) {
+        delegate?.execute(actions: actions, with: context, sender: sender, controller: controller)
     }
 }

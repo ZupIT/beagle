@@ -116,6 +116,7 @@ final class ComponentDecoder: ComponentDecoding, RegisterGenerated {
         registerAction(ShowNativeDialog.self, key: key(name: "ShowNativeDialog", namespace: .beagle))
         registerAction(CustomAction.self, key: key(name: "CustomAction", namespace: .beagle))
         registerAction(FormRemoteAction.self, key: key(name: "FormRemoteAction", namespace: .beagle))
+        registerAction(SetContext.self, key: key(name: "SetContext", namespace: .beagle))
     }
     
     private func registerCoreTypes() {
