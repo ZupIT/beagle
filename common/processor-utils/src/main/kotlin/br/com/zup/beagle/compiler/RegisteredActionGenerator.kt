@@ -27,7 +27,6 @@ import javax.annotation.processing.RoundEnvironment
 class RegisteredActionGenerator {
 
     fun generate(roundEnvironment: RoundEnvironment): FunSpec {
-        val classValues = StringBuilder()
         val registerAnnotatedClasses = roundEnvironment.getElementsAnnotatedWith(RegisterAction::class.java)
         val listReturnType = List::class.asClassName().parameterizedBy(
             Class::class.asClassName().parameterizedBy(
@@ -35,7 +34,7 @@ class RegisteredActionGenerator {
             )
         )
 
-        registerAnnotatedClasses.joinToString(",\n") { element ->
+        val classValues = registerAnnotatedClasses.joinToString(",\n") { element ->
             "\t${element}Binding::class.java as Class<Action>"
         }
 
