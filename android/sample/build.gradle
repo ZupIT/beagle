@@ -57,8 +57,6 @@ dependencies {
     implementation AndroidxLibraries.coreKtx
 
     debugImplementation project(Modules.beagleAndroidPreview)
-/*    implementation "br.com.zup.beagle:android:2.2.2"
-    kapt "br.com.zup.beagle:android-processor:2.2.2"*/
 
     implementation project(Modules.beagleAndroid)
     kapt project(Modules.beagleAndroidProcessor)
