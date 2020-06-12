@@ -19,35 +19,46 @@ package br.com.zup.beagle.view.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.zup.beagle.action.SendRequestAction
+import br.com.zup.beagle.action.SendRequest
 import br.com.zup.beagle.view.mapper.toRequestData
 import br.com.zup.beagle.data.ActionRequester
 import br.com.zup.beagle.exception.BeagleApiException
 import br.com.zup.beagle.networking.ResponseData
-import br.com.zup.beagle.utils.CoroutineDispatchers
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
+
+data class Response(
+    val statusCode: Int?,
+    val data: String,
+    val headers: Map<String, String> = mapOf(),
+    val statusText: String? = null
+)
+
+fun ResponseData.toResponse() = Response(
+    statusCode = this.statusCode,
+    data = String(this.data),
+    headers = this.headers,
+    statusText = this.statusText
+)
 
 internal class ActionRequestViewModel(
     private val requester: ActionRequester = ActionRequester()
 ) : ViewModel() {
 
-    fun fetch(sendRequestAction: SendRequestAction): LiveData<FetchViewState> {
-        return FetchComponentLiveData(requester, sendRequestAction, viewModelScope.coroutineContext)
+    fun fetch(sendRequest: SendRequest): LiveData<FetchViewState> {
+        return FetchComponentLiveData(requester, sendRequest, viewModelScope.coroutineContext)
     }
 
     sealed class FetchViewState {
-        data class Error(val response: ResponseData) : FetchViewState()
-        data class Success(val response: ResponseData) : FetchViewState()
+        data class Error(val response: Response) : FetchViewState()
+        data class Success(val response: Response) : FetchViewState()
     }
 }
 
 private class FetchComponentLiveData(
     private val requester: ActionRequester,
-    private val sendRequestAction: SendRequestAction,
+    private val sendRequest: SendRequest,
     override val coroutineContext: CoroutineContext
 ) : LiveData<ActionRequestViewModel.FetchViewState>(), CoroutineScope {
 
@@ -58,10 +69,10 @@ private class FetchComponentLiveData(
     private fun fetchData() {
         launch(coroutineContext) {
             value = try {
-                val response = requester.fetchData(sendRequestAction.toRequestData())
-                ActionRequestViewModel.FetchViewState.Success(response)
+                val response = requester.fetchData(sendRequest.toRequestData())
+                ActionRequestViewModel.FetchViewState.Success(response.toResponse())
             } catch (exception: BeagleApiException) {
-                ActionRequestViewModel.FetchViewState.Error(exception.responseData)
+                ActionRequestViewModel.FetchViewState.Error(exception.responseData.toResponse())
             }
         }
 

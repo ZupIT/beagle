@@ -20,8 +20,11 @@ import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.action.CustomAction
 import br.com.zup.beagle.action.FormValidation
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.SendRequestAction
+import br.com.zup.beagle.action.SendRequest
 import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.android.action.SendRequestBinding
+import br.com.zup.beagle.android.action.SetContext
+import br.com.zup.beagle.android.action.SetContextBinding
 import br.com.zup.beagle.data.serializer.PolymorphicJsonAdapterFactory
 import br.com.zup.beagle.widget.form.FormRemoteAction
 import java.util.*
@@ -33,6 +36,7 @@ internal object ActionJsonAdapterFactory {
 
     fun make(): PolymorphicJsonAdapterFactory<Action> {
         return PolymorphicJsonAdapterFactory.of(Action::class.java, BEAGLE_WIDGET_TYPE)
+            .withBaseSubType(br.com.zup.beagle.android.action.Action::class.java)
             .withSubtype(CustomAction::class.java, createNamespaceFor<CustomAction>())
             .withSubtype(FormValidation::class.java, createNamespaceFor<FormValidation>())
             .withSubtype(ShowNativeDialog::class.java, createNamespaceFor<ShowNativeDialog>())
@@ -46,7 +50,8 @@ internal object ActionJsonAdapterFactory {
             .withSubtype(Navigate.PopToView::class.java, createNamespaceFor<Navigate.PopToView>())
             .withSubtype(Navigate.ResetApplication::class.java, createNamespaceFor<Navigate.ResetApplication>())
             .withSubtype(Navigate.ResetStack::class.java, createNamespaceFor<Navigate.ResetStack>())
-            .withSubtype(SendRequestAction::class.java, createNamespaceFor<SendRequestAction>())
+            .withSubtype(SendRequestBinding::class.java, createNamespaceFor<SendRequest>())
+            .withSubtype(SetContextBinding::class.java, createNamespaceFor<SetContext>())
     }
 
     private inline fun <reified T : Action> createNamespaceFor(): String {

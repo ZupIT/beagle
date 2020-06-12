@@ -225,7 +225,7 @@ class ActionExecutorTest {
     @Test
     fun `should handle request action when do action`() {
         // Given
-        val action = mockk<SendRequestAction>()
+        val action = mockk<SendRequest>()
         val viewModel = mockk<ActionRequestViewModel>()
         mockkConstructor(ViewModelProvider::class)
         every { rootView.generateViewModelInstance<ActionRequestViewModel>() } returns viewModel

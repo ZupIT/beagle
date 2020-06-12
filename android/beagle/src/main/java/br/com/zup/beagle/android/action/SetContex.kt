@@ -14,31 +14,40 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.engine.util
+package br.com.zup.beagle.android.action
 
-import br.com.zup.beagle.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.core.Bind
-import br.com.zup.beagle.core.ContextComponent
-import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.engine.renderer.RootView
 import br.com.zup.beagle.setup.BindingAdapter
 import br.com.zup.beagle.utils.generateViewModelInstance
 
-internal class ContextComponentHandler {
+class SetContext(
+    contextId: String,
+    value: Any,
+    path: String? = null
+) : br.com.zup.beagle.action.SetContext(contextId, value, path), Action {
 
-    fun handleContext(rootView: RootView, component: ServerDrivenComponent) {
+    override fun execute(rootView: RootView) {
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
-
-        if (component is BindingAdapter) {
-            component.getBindAttributes().filterNotNull().forEach { bind ->
-                if (bind is Bind.Expression) {
-                    viewModel.contextDataManager.addBindingToContext(bind)
-                }
-            }
-        } else if (component is ContextComponent) {
-            component.context?.let { context ->
-                viewModel.contextDataManager.addContext(context)
-            }
-        }
+        viewModel.contextDataManager.updateContext(this)
     }
+}
+
+// Should be generated
+class SetContextBinding(
+    val contextId: Bind<String>,
+    val value: Bind<Any>,
+    val path: Bind<String>?
+): Action, BindingAdapter {
+
+    override fun execute(rootView: RootView) {
+        SetContext(contextId.get(), value.get(), path?.get()).execute(rootView)
+    }
+
+    override fun getBindAttributes(): List<Bind<*>?> = listOf(
+        contextId,
+        value,
+        path
+    )
 }

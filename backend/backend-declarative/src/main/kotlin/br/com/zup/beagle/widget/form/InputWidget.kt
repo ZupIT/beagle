@@ -30,40 +30,6 @@ import br.com.zup.beagle.widget.core.FlexBuilder
  */
 abstract class InputWidget : Widget() {
 
-    var onChange: List<Action>? = null
-        private set
-    var onFocus: List<Action>? = null
-        private set
-    var onBlur: List<Action>? = null
-        private set
-
-    /**
-     * Update list of actions to on change to this widget.
-     * @return the current widget
-     */
-    fun setOnChange(actions: List<Action>): InputWidget {
-        this.onChange = actions
-        return this
-    }
-
-    /**
-     * Update list of actions to on focus to this widget.
-     * @return the current widget
-     */
-    fun setOnFocus(actions: List<Action>): InputWidget {
-        this.onFocus = actions
-        return this
-    }
-
-    /**
-     * Update list of actions to on focus to this widget.
-     * @return the current widget
-     */
-    fun setOnBlur(actions: List<Action>): InputWidget {
-        this.onBlur = actions
-        return this
-    }
-
     /**
      * Add an identifier to this widget.
      * @return the current widget

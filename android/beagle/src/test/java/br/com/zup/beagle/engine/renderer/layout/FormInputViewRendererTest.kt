@@ -28,7 +28,6 @@ import br.com.zup.beagle.view.ViewFactory
 import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.InputWidget
-import br.com.zup.beagle.widget.form.InputWidgetWatcherActionType
 import br.com.zup.beagle.widget.interfaces.Observer
 import io.mockk.Runs
 import io.mockk.every
@@ -101,21 +100,5 @@ class FormInputViewRendererTest : BaseTest() {
 
         // THEN
         verify(exactly = once()) { view.tag = formInput }
-    }
-
-    @Test
-    fun action_observer_should_call_when_emit_event() {
-        // GIVEN
-        val observerSlot = slot<Observer<Pair<InputWidgetWatcherActionType, Any>>>()
-        every { inputWidget.getAction().addObserver(capture(observerSlot)) } just Runs
-        every { inputWidget.onFocus } returns listOf(navigateAction)
-
-        // WHEN
-        formInputViewRenderer.buildView(rootView)
-        observerSlot.captured.update(mockk(), Pair(InputWidgetWatcherActionType.ON_FOCUS, ""))
-
-        // THEN
-        verify(exactly = once()) { view.tag = formInput }
-        verify(exactly = once()) { actionExecutor.doAction(rootView, listOf(navigateAction)) }
     }
 }

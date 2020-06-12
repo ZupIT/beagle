@@ -26,7 +26,7 @@ internal class SendRequestActionHandler(
     private val contextActionExecutor: ContextActionExecutor = ContextActionExecutor()
 ) {
 
-    fun handle(rootView: RootView, action: SendRequestAction) {
+    fun handle(rootView: RootView, action: SendRequest) {
         val viewModel = rootView.generateViewModelInstance<ActionRequestViewModel>()
 
         viewModel.fetch(action).observe(rootView.getLifecycleOwner(), Observer { state ->
@@ -36,19 +36,19 @@ internal class SendRequestActionHandler(
 
     private fun executeActions(
         rootView: RootView,
-        action: SendRequestAction,
+        action: SendRequest,
         state: ActionRequestViewModel.FetchViewState
     ) {
         action.onFinish?.let {
-            contextActionExecutor.executeAction(rootView, "onFinish", it)
+            contextActionExecutor.executeAction(rootView, it, "onFinish")
         }
 
         when (state) {
             is ActionRequestViewModel.FetchViewState.Error -> action.onError?.let {
-                contextActionExecutor.executeAction(rootView, "onError", it, state.response)
+                contextActionExecutor.executeAction(rootView, it, "onError", state.response)
             }
             is ActionRequestViewModel.FetchViewState.Success -> action.onSuccess?.let {
-                contextActionExecutor.executeAction(rootView, "onSuccess", it, state.response)
+                contextActionExecutor.executeAction(rootView, it, "onSuccess", state.response)
             }
         }
     }

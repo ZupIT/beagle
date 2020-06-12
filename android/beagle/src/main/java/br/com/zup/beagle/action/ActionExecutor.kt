@@ -42,7 +42,7 @@ internal class ActionExecutor(
             is ShowNativeDialog ->
                 showNativeDialogActionHandler.handle(context, action)
             is FormValidation -> formValidationActionHandler?.handle(context, action)
-            is SendRequestAction -> {
+            is SendRequest -> {
                 sendRequestActionHandler.handle(rootView, action)
             }
             is SetContext -> setContextActionHandler.handle(rootView, action)

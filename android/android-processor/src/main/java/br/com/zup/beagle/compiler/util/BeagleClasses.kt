@@ -74,11 +74,6 @@ val BINDING_ADAPTER = BeagleClass(
     "BindingAdapter"
 )
 
-val BINDING_WIDGET = BeagleClass(
-    "br.com.zup.beagle.widget.core",
-    "BindingWidget"
-)
-
 val BIND = BeagleClass(
     packageName = "br.com.zup.beagle.core",
     className = "Bind"

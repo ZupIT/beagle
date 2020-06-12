@@ -69,7 +69,11 @@ internal class ContextDataManager(
     fun updateContext(setContext: SetContext): Boolean {
         return contexts[setContext.contextId]?.let { contextBinding ->
             val path = setContext.path ?: contextBinding.context.id
-            return setValue(contextBinding, path, setContext.value)
+            val setValue = setValue(contextBinding, path, setContext.value)
+            if (setValue) {
+                evaluateContext(setContext.contextId)
+            }
+            setValue
         } ?: false
     }
 

@@ -122,8 +122,5 @@ object FormScreenBuilder : ScreenBuilder {
             child = SampleTextField(
                 placeholder = placeholder
             ).applyFlex(flexHorizontalMargin)
-                .setOnFocus(listOf(
-                    ShowNativeDialog(title = "dasasd", message = "asdas", buttonText = "asdadsas")
-                ))
         )
 }

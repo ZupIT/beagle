@@ -18,7 +18,7 @@ package br.com.zup.beagle.view.mapper
 
 import br.com.zup.beagle.BaseTest
 import br.com.zup.beagle.action.RequestActionMethod
-import br.com.zup.beagle.action.SendRequestAction
+import br.com.zup.beagle.action.SendRequest
 import br.com.zup.beagle.data.formatUrl
 import br.com.zup.beagle.networking.HttpMethod
 import br.com.zup.beagle.networking.RequestData
@@ -29,12 +29,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.net.URI
 
-private val SEND_REQUEST_ACTION = SendRequestAction("", body = "body",
+private val SEND_REQUEST_ACTION = SendRequest("", body = "body",
     headers = mapOf("header" to "teste"))
 private val EXPECTED_RESULT = RequestData(uri = URI(""), body = "body",
     headers = mapOf("header" to "teste"))
 
-class SendRequestActionMapperTest : BaseTest() {
+class SendRequestMapperTest : BaseTest() {
 
     override fun setUp() {
         super.setUp()

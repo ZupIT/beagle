@@ -17,24 +17,24 @@
 package br.com.zup.beagle.view.mapper
 
 import br.com.zup.beagle.action.RequestActionMethod
-import br.com.zup.beagle.action.SendRequestAction
+import br.com.zup.beagle.action.SendRequest
 import br.com.zup.beagle.data.formatUrl
 import br.com.zup.beagle.networking.HttpMethod
 import br.com.zup.beagle.networking.RequestData
 import java.net.URI
 
-internal fun SendRequestAction.toRequestData(): RequestData = SendRequestActionMapper.toRequestData(this)
+internal fun SendRequest.toRequestData(): RequestData = SendRequestActionMapper.toRequestData(this)
 
 internal object SendRequestActionMapper {
-    fun toRequestData(sendRequestAction: SendRequestAction): RequestData {
-        val method = toHttpMethod(sendRequestAction.method)
+    fun toRequestData(sendRequest: SendRequest): RequestData {
+        val method = toHttpMethod(sendRequest.method)
 
-        val urlFormatted = sendRequestAction.url.formatUrl()
+        val urlFormatted = sendRequest.url.formatUrl()
         return RequestData(
             uri = URI(urlFormatted),
             method = method,
-            headers = sendRequestAction.headers,
-            body = sendRequestAction.body
+            headers = sendRequest.headers ?: mapOf(),
+            body = sendRequest.body
         )
     }
 

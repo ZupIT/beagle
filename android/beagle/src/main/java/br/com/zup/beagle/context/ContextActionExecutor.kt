@@ -32,32 +32,39 @@ internal class ContextActionExecutor {
 
     fun executeActions(
         rootView: RootView,
-        eventId: String,
         actions: List<Action>,
-        value: Any? = null
+        eventName: String,
+        eventValue: Any? = null
     ) {
         actions.forEach {
-            executeAction(rootView, eventId, it, value)
+            executeAction(rootView, it, eventName, eventValue)
         }
     }
 
     fun executeAction(
         rootView: RootView,
-        eventId: String,
         action: Action,
-        value: Any? = null
+        eventName: String,
+        eventValue: Any? = null
     ) {
-        if (value != null && action is BindingAdapter) {
-            val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
-            val contextData = ContextData(
-                id = eventId,
-                value = parseToJSONObject(value)
-            )
-            handleContext(viewModel.contextDataManager, contextData, action.getBindAttributes())
+        if (action is BindingAdapter) {
+            if (eventValue != null) {
+                val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
+                val contextData = ContextData(
+                    id = eventName,
+                    value = parseToJSONObject(eventValue)
+                )
+                handleContext(viewModel.contextDataManager, contextData, action.getBindAttributes())
+            }
+
+            action.getBindAttributes().filterNotNull().forEach { bind ->
+                if (bind is Bind.Value) {
+                    bind.bind()
+                }
+            }
         }
 
-        // TODO: execute action
-//        action.execute()
+        (action as br.com.zup.beagle.android.action.Action).execute(rootView)
     }
 
     private fun parseToJSONObject(value: Any): JSONObject {
@@ -74,14 +81,12 @@ internal class ContextActionExecutor {
     private fun handleContext(
         contextDataManager: ContextDataManager,
         contextData: ContextData,
-        bindAttributes: List<Bind<*>>
+        bindAttributes: List<Bind<*>?>
     ) {
         contextDataManager.addContext(contextData)
-        bindAttributes.forEach { bind ->
+        bindAttributes.filterNotNull().forEach { bind ->
             if (bind is Bind.Expression) {
                 contextDataManager.addBindingToContext(bind)
-            } else if (bind is Bind.Value) {
-                bind.bind()
             }
         }
         contextDataManager.evaluateContext(contextData.id)

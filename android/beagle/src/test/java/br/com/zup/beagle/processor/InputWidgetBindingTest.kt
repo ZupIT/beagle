@@ -25,7 +25,6 @@ import br.com.zup.beagle.testutil.RandomData
 import br.com.zup.beagle.testutil.setPrivateField
 import br.com.zup.beagle.widget.form.InputWidget
 import io.mockk.MockKAnnotations
-import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk

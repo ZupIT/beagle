@@ -95,10 +95,8 @@ class BeagleWidgetBindingGenerator(private val processingEnv: ProcessingEnvironm
     }
 
     fun getFunctionGetBindAttributes(element: TypeElement): FunSpec {
-
         val returnType = List::class.asClassName().parameterizedBy(
-            ClassName(BIND.packageName, BIND.className)
-                .parameterizedBy(STAR)
+            ClassName(BIND.packageName, BIND.className).parameterizedBy(STAR).copy(nullable = true)
         )
         val attributeValues = StringBuilder()
 
@@ -112,12 +110,10 @@ class BeagleWidgetBindingGenerator(private val processingEnv: ProcessingEnvironm
 
         return FunSpec.builder(GET_BIND_ATTRIBUTES_METHOD)
             .addModifiers(KModifier.OVERRIDE)
-            .addCode("""
-                        |val bindAttributes = listOf(
-                        |   $attributeValues
-                        |)
-                    |""".trimMargin())
-            .addStatement("return bindAttributes")
+            .addCode("""|return listOf(
+                |$attributeValues
+                |)
+            |""".trimMargin())
             .returns(returnType)
             .build()
     }

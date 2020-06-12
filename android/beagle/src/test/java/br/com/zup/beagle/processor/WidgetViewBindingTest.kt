@@ -24,7 +24,6 @@ import br.com.zup.beagle.setup.BindingAdapter
 import br.com.zup.beagle.testutil.setPrivateField
 import br.com.zup.beagle.widget.core.WidgetView
 import io.mockk.MockKAnnotations
-import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk

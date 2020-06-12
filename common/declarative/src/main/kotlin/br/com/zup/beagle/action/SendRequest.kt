@@ -14,19 +14,26 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.form
+package br.com.zup.beagle.action
 
-import br.com.zup.beagle.widget.state.Observable
+import br.com.zup.beagle.widget.core.Action
 
-interface InputWidgetWatcher {
-    fun onChange()
-    fun onFocus()
-    fun onBlur()
-    fun getAction(): Observable<Pair<InputWidgetWatcherActionType, Any>>
-}
+open class SendRequest(
+    val url: String,
+    val method: RequestActionMethod = RequestActionMethod.GET,
+    val headers: Map<String, String>? = null,
+    val body: String? = null,
+    val onSuccess: Action? = null,
+    val onError: Action? = null,
+    val onFinish: Action? = null
+) : Action
 
-enum class InputWidgetWatcherActionType {
-    ON_CHANGE,
-    ON_FOCUS,
-    ON_BLUR
+@SuppressWarnings("UNUSED_PARAMETER")
+enum class RequestActionMethod {
+    GET,
+    POST,
+    PUT,
+    DELETE,
+    HEAD,
+    PATCH
 }

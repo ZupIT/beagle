@@ -18,7 +18,11 @@ package br.com.zup.beagle.utils
 
 import br.com.zup.beagle.core.Bind
 
-fun <T : Any> getValueNull(binding: Bind<T>, property: T?): T? {
+fun <T : Any> getValueNull(binding: Bind<T>?, property: T?): T? {
+    if (binding == null) {
+        return null
+    }
+
     return when (binding) {
         is Bind.Expression<T> -> {
             property

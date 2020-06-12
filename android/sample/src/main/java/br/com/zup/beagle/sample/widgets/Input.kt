@@ -20,31 +20,29 @@ import android.content.Context
 import android.view.View
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
+import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.engine.renderer.RootView
+import br.com.zup.beagle.utils.handleEvent
 import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.form.InputWidget
+import br.com.zup.beagle.widget.core.WidgetView
+import br.com.zup.beagle.widget.interfaces.WidgetState
 
-//@RegisterWidget
-data class SampleTextField(val placeholder: String = "") : InputWidget() {
+/*data class InputState(
+    val hint: String = "",
+    val onTextChange: List<Action>? = null
+) : WidgetState
 
-    @Transient
-    private lateinit var textFieldView: EditText
+@RegisterWidget
+class Input : WidgetView<InputState, EditText>() {
 
-    override fun getValue() = textFieldView.text.toString()
+    override fun buildView(context: Context) = EditText(context)
 
-    override fun onErrorMessage(message: String) {
-        textFieldView.error = message
-    }
-
-    override fun buildView(context: Context) = EditText(context).apply {
-        textFieldView = this
-
-        textFieldView.isSingleLine = true
-        doOnTextChanged { _, _, _, _ -> notifyChanges() }
-    }
-
-    override fun onBind(widget: Widget, view: View) {
-        (widget as? SampleTextField)?.let {
-            textFieldView.hint = it.placeholder
+    override fun onBind(state: InputState, view: EditText) {
+        editText.doOnTextChanged { newText, _, _, _ ->
+            val actions = textField.onTextChange ?: emptyList()
+            this@Input.handleEvent(rootView, actions, "onTextChange", newText.toString())
         }
+        editText.hint = textField.hint
     }
-}
+}*/

@@ -74,11 +74,7 @@ class FormFragment : Fragment() {
                         name = "nome",
                         child = TextField(
                             hint = "nome"
-                        ).setOnBlur(listOf(ShowNativeDialog(
-                            title = "onblur",
-                            message = "onblur",
-                            buttonText = "onblur"
-                        )))
+                        )
                     ),
                     FormSubmit(
                         child = Button(

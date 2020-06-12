@@ -18,7 +18,7 @@ package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.Route
-import br.com.zup.beagle.action.SendRequestAction
+import br.com.zup.beagle.action.SendRequest
 import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.sample.constants.NAVIGATION_BAR_STYLE_DEFAULT
 import br.com.zup.beagle.sample.constants.PATH_SCREEN_DEEP_LINK_ENDPOINT
@@ -156,7 +156,7 @@ object ActionScreenBuilder : ScreenBuilder {
         children = listOf(
             Text("Send request action"),
             Button(
-                onPress = listOf(SendRequestAction(url = SCREEN_ACTION_CLICK_ENDPOINT, onSuccess = ShowNativeDialog(
+                onPress = listOf(SendRequest(url = SCREEN_ACTION_CLICK_ENDPOINT, onSuccess = ShowNativeDialog(
                     title = "Success",
                     message = "Action",
                     buttonText = "OK"

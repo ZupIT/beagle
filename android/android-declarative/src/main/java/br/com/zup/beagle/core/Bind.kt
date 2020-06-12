@@ -21,7 +21,7 @@ sealed class Bind<T> : BindAttribute<T> {
 
     @Transient
     private var onChange: ((value: T) -> Unit)? = null
-    var lastValue: T? = null
+    protected var lastValue: T? = null
 
     fun observes(onChange: (value: T) -> Unit) {
         this.onChange = onChange
@@ -32,6 +32,8 @@ sealed class Bind<T> : BindAttribute<T> {
         this.lastValue = newValue
         this.onChange?.invoke(newValue)
     }
+
+    fun get(): T = lastValue ?: throw IllegalStateException("Did you miss to call notifyChange or bind?")
 
     class Expression<T>(
         override val value: String,

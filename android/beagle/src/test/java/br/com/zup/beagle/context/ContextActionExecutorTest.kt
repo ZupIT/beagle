@@ -72,10 +72,10 @@ class ContextActionExecutorTest : BaseTest() {
         val value = RandomData.string()
 
         // When
-        contextActionExecutor.executeActions(rootView, eventId, listOf(customAction), value)
+        contextActionExecutor.executeActions(rootView, listOf(customAction), eventId, value)
 
         // Then
-        assertEquals(value, customAction.a.lastValue)
-        assertTrue { customAction.b.lastValue == true }
+        assertEquals(value, customAction.a.get())
+        assertTrue { customAction.b.get() }
     }
 }

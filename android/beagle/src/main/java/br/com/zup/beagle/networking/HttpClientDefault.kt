@@ -124,7 +124,7 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
         return ResponseData(
             statusCode = urlConnection.responseCode,
             statusText = urlConnection.responseMessage,
-            headers = urlConnection.headerFields.map {
+            headers = urlConnection.headerFields.filter { it.key != null }.map {
                 val headerValue = it.value.toString()
                     .replace("[", "")
                     .replace("]", "")
