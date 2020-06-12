@@ -38,7 +38,7 @@ abstract class BaseComponentTest : BaseTest() {
 
     internal val viewRender: ViewRenderer<ServerDrivenComponent> = mockk()
 
-    internal val beagleFlexView: BeagleFlexView = mockk(relaxed = true)
+    open internal val beagleFlexView: BeagleFlexView = mockk(relaxed = true)
 
     val rootView: RootView = mockk(relaxed = true)
 

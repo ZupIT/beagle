@@ -16,6 +16,47 @@
 
 package br.com.zup.beagle.android.components.layout
 
-import org.junit.Assert.*
 
-class StackTest
+import br.com.zup.beagle.android.components.BaseComponentTest
+import br.com.zup.beagle.android.components.Button
+import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.FlexPositionType
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.impl.annotations.InjectMockKs
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.slot
+import io.mockk.verify
+import org.junit.Test
+import kotlin.test.assertEquals
+
+class StackTest : BaseComponentTest() {
+
+    private val button = mockk<Button>()
+    private val children: List<ServerDrivenComponent> = mutableListOf(button)
+
+    private val clipChildren = slot<Boolean>()
+    private val flex = slot<Flex>()
+
+    private lateinit var stack: Stack
+
+    @Test
+    fun build() {
+        // Given
+        every { beagleFlexView.clipChildren = capture(clipChildren) } just Runs
+        every { beagleFlexView.addView(any(), capture(flex)) } just Runs
+        every { button.flex } returns null
+
+        stack = Stack(children)
+
+        // When
+        stack.buildView(rootView)
+
+        // Then
+        assertEquals(false, clipChildren.captured)
+        verify(exactly = once()) { beagleFlexView.addView(any(), Flex(positionType = FlexPositionType.ABSOLUTE)) }
+    }
+}

@@ -23,22 +23,23 @@ import androidx.appcompat.widget.Toolbar
 import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.analytics.ScreenEvent
 import br.com.zup.beagle.android.components.BaseComponentTest
+import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.android.engine.renderer.ViewRenderer
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.utils.ToolbarManager
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.BeagleFlexView
+import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.NavigationBar
 import io.mockk.CapturingSlot
 import io.mockk.Runs
 import io.mockk.every
-import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkConstructor
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.unmockkAll
@@ -63,16 +64,6 @@ class ScreenComponentTest : BaseComponentTest() {
 
     @RelaxedMockK
     private lateinit var analytics: Analytics
-
-
-    @MockK(relaxed = true)
-    private lateinit var actionBar: ActionBar
-
-    @RelaxedMockK
-    private lateinit var toolbar: Toolbar
-
-    @RelaxedMockK
-    private lateinit var toolbarManager: ToolbarManager
 
     private lateinit var screenComponent: ScreenComponent
 
@@ -99,11 +90,11 @@ class ScreenComponentTest : BaseComponentTest() {
     fun build_should_create_a_screenWidget_with_grow_1_and_justifyContent_SPACE_BETWEEN() {
         // Given
         val flex = slot<Flex>()
-        every { viewFactory.makeBeagleFlexView(any(), capture(flex)) } returns beagleFlexView
+        every { anyConstructed<ViewFactory>().makeBeagleFlexView(any(), capture(flex)) } returns beagleFlexView
         every { context.supportActionBar } returns null
 
         // When
-        screenComponent.build(rootView)
+        screenComponent.buildView(rootView)
 
         // Then
         assertEquals(1.0, flex.captured.grow)
@@ -112,22 +103,23 @@ class ScreenComponentTest : BaseComponentTest() {
     @Test
     fun build_should_call_content_builder() {
         // Given
-        val content = mockk<ServerDrivenComponent>()
         val flex = slot<Flex>()
-        every { screenComponent.child } returns content
         every { beagleFlexView.addView(view, capture(flex)) } just Runs
         every { context.supportActionBar } returns null
 
         // When
-        screenComponent.build(rootView)
+        screenComponent.buildView(rootView)
 
         // Then
-        verify(atLeast = once()) { beagleFlexView.addServerDrivenComponent(content, rootView) }
+        verify(atLeast = once()) { beagleFlexView.addServerDrivenComponent(component, rootView) }
     }
 
     @Test
     fun build_should_hideNavigationBar_when_navigationBar_is_null() {
         // GIVEN
+        val toolbar: Toolbar = mockk(relaxed = true)
+        val actionBar: ActionBar = mockk(relaxed = true)
+
         every { context.supportActionBar } returns actionBar
         every { context.getToolbar() } returns toolbar
         val expected = View.GONE
@@ -135,7 +127,7 @@ class ScreenComponentTest : BaseComponentTest() {
         every { toolbar.visibility } returns expected
 
         // WHEN
-        screenComponent.build(rootView)
+        screenComponent.buildView(rootView)
 
         // THEN
         assertEquals(expected, toolbar.visibility)
@@ -145,10 +137,10 @@ class ScreenComponentTest : BaseComponentTest() {
     @Test
     fun should_assign_window_attach_callbacks_when_screen_event_presented() {
         // GIVEN
-        every { screenComponent.screenAnalyticsEvent } returns screenAnalyticsEvent
+        screenComponent = ScreenComponent(child = component, screenAnalyticsEvent = screenAnalyticsEvent)
 
         // When
-        val view = screenComponent.build(rootView)
+        val view = screenComponent.buildView(rootView)
 
         // Then
         assertTrue(view is BeagleFlexView)
@@ -158,7 +150,7 @@ class ScreenComponentTest : BaseComponentTest() {
     @Test
     fun should_keep_window_attach_callbacks_null_when_screen_event_not_presented() {
         // When
-        val view = screenComponent.build(rootView)
+        val view = screenComponent.buildView(rootView)
 
         // Then
         assertTrue(view is BeagleFlexView)
@@ -168,11 +160,11 @@ class ScreenComponentTest : BaseComponentTest() {
     @Test
     fun should_call_analytics_when_window_attach_states_changes() {
         // GIVEN
-        every { screenComponent.screenAnalyticsEvent } returns screenAnalyticsEvent
+        screenComponent = ScreenComponent(child = component, screenAnalyticsEvent = screenAnalyticsEvent)
         val onAttachStateChangeListenerSlot = CapturingSlot<View.OnAttachStateChangeListener>()
 
         // When
-        val screenView = screenComponent.build(rootView)
+        val screenView = screenComponent.buildView(rootView)
         verify { screenView.addOnAttachStateChangeListener(capture(onAttachStateChangeListenerSlot)) }
         onAttachStateChangeListenerSlot.captured.onViewAttachedToWindow(view)
         onAttachStateChangeListenerSlot.captured.onViewDetachedFromWindow(view)
@@ -190,15 +182,17 @@ class ScreenComponentTest : BaseComponentTest() {
     fun buildView_should_call_configureToolbar_before_configureNavigationBarForScreen() {
         //GIVEN
         val navigationBar = NavigationBar("Stub")
-        every { screenComponent.navigationBar } returns navigationBar
+        mockkConstructor(ToolbarManager::class)
+        screenComponent = ScreenComponent(child = screenComponent, navigationBar = navigationBar)
+
 
         //WHEN
-        screenComponent.build(rootView)
+        screenComponent.buildView(rootView)
 
         //THEN
         verifyOrder {
-            toolbarManager.configureNavigationBarForScreen(context, navigationBar)
-            toolbarManager.configureToolbar(context, navigationBar)
+            anyConstructed<ToolbarManager>().configureNavigationBarForScreen(context, navigationBar)
+            anyConstructed<ToolbarManager>().configureToolbar(context, navigationBar)
         }
     }
 }
