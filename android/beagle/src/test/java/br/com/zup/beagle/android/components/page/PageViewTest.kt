@@ -16,6 +16,57 @@
 
 package br.com.zup.beagle.android.components.page
 
-import org.junit.Assert.*
 
-class PageViewTest
+import br.com.zup.beagle.android.components.BaseComponentTest
+import br.com.zup.beagle.android.components.Button
+import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.view.BeaglePageView
+import br.com.zup.beagle.android.view.ViewFactory
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.verify
+import org.junit.Test
+
+class PageViewTest : BaseComponentTest() {
+
+    private val beaglePageView: BeaglePageView = mockk(relaxed = true)
+    private val pageIndicatorComponent: PageIndicatorComponent = mockk(relaxed = true)
+    private val pages = listOf<ServerDrivenComponent>(mockk<Button>())
+
+    private lateinit var pageView: PageView
+
+    override fun setUp() {
+        super.setUp()
+
+        every { beagleFlexView.addView(any()) } just Runs
+        every { anyConstructed<ViewFactory>().makeViewPager(any()) } returns beaglePageView
+    }
+
+    @Test
+    fun build_when_page_indicator_is_null() {
+        // GIVEN
+        pageView = PageView(pages, null)
+
+        // WHEN
+        pageView.buildView(rootView)
+
+        // THEN
+        verify(exactly = once()) { anyConstructed<ViewFactory>().makeViewPager(any()) }
+        verify(atLeast = 2) { beagleFlexView.addView(any()) }
+        verify(atLeast = 2) { anyConstructed<ViewFactory>().makeBeagleFlexView(any()) }
+    }
+
+    @Test
+    fun build_when_page_indicator_is_not_null() {
+        // GIVEN
+        pageView = PageView(pages, pageIndicatorComponent)
+        // WHEN
+        pageView.buildView(rootView)
+
+        // THEN
+        verify(exactly = 3) { beagleFlexView.addView(any()) }
+    }
+}

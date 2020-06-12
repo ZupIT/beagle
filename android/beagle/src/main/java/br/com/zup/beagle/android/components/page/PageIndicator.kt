@@ -28,7 +28,7 @@ class PageIndicator(
 ) : WidgetView(), PageIndicatorComponent {
 
     @Transient
-    private var viewFactory: ViewFactory = ViewFactory()
+    private val viewFactory: ViewFactory = ViewFactory()
 
     @Transient
     private lateinit var pageIndicator: BeaglePageIndicatorView

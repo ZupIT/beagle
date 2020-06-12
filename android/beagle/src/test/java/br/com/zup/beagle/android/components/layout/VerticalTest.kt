@@ -16,6 +16,45 @@
 
 package br.com.zup.beagle.android.components.layout
 
-import org.junit.Assert.*
+import br.com.zup.beagle.android.components.BaseComponentTest
+import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.FlexDirection
+import io.mockk.every
+import io.mockk.slot
+import org.junit.Assert.assertEquals
+import org.junit.Test
 
-class VerticalTest
+class VerticalTest : BaseComponentTest() {
+
+    private val flexSlot = slot<Flex>()
+
+    override fun setUp() {
+        super.setUp()
+        every { anyConstructed<ViewFactory>().makeBeagleFlexView(any(), capture(flexSlot)) } returns beagleFlexView
+    }
+
+    @Test
+    fun getYogaFlexDirection_should_return_COLUMN_REVERSE_when_reversed_is_true() {
+        // Given
+        val vertical = Vertical(listOf(), reversed = true)
+
+        // When
+        vertical.buildView(rootView)
+
+        // Then
+        assertEquals(FlexDirection.COLUMN_REVERSE, flexSlot.captured.flexDirection)
+    }
+
+    @Test
+    fun getYogaFlexDirection_should_return_COLUMN_when_reversed_is_false() {
+        // Given
+        val vertical = Vertical(listOf(), reversed = false)
+
+        // When
+        vertical.buildView(rootView)
+
+        // Then
+        assertEquals(FlexDirection.COLUMN, flexSlot.captured.flexDirection)
+    }
+}

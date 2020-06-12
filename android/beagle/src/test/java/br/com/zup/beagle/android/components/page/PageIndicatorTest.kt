@@ -16,6 +16,68 @@
 
 package br.com.zup.beagle.android.components.page
 
-import org.junit.Assert.*
+import android.graphics.Color
+import br.com.zup.beagle.android.components.BaseComponentTest
+import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.view.BeaglePageIndicatorView
+import br.com.zup.beagle.android.view.ViewFactory
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.mockkStatic
+import io.mockk.verify
+import org.junit.Test
+import kotlin.test.assertEquals
 
-class PageIndicatorTest
+class PageIndicatorTest : BaseComponentTest() {
+
+
+    private val beaglePageIndicatorView: BeaglePageIndicatorView = mockk(relaxed = true, relaxUnitFun = true)
+
+    private lateinit var pageIndicator: PageIndicator
+
+    override fun setUp() {
+        super.setUp()
+
+        mockkStatic(Color::class)
+        every { Color.parseColor(any()) } returns 0
+        every { anyConstructed<ViewFactory>().makePageIndicator(any()) } returns beaglePageIndicatorView
+
+        pageIndicator = PageIndicator(RandomData.string(), RandomData.string())
+    }
+
+    @Test
+    fun toView_should_return_BeaglePageIndicatorView_and_set_colors() {
+        val view = pageIndicator.buildView(rootView)
+
+        assertEquals(beaglePageIndicatorView, view)
+        verify(exactly = once()) { beaglePageIndicatorView.setSelectedColor(0) }
+        verify(exactly = once()) { beaglePageIndicatorView.setUnselectedColor(0) }
+    }
+
+    @Test
+    fun setCount_should_call_BeaglePageIndicatorView_setCount() {
+        // Given
+        val count = RandomData.int()
+
+        // When
+        pageIndicator.buildView(rootView)
+        pageIndicator.setCount(count)
+
+        // Then
+        verify(exactly = once()) { beaglePageIndicatorView.setCount(count) }
+    }
+
+    @Test
+    fun onItemUpdated_should_call_BeaglePageIndicatorView_onItemUpdated() {
+        // Given
+        val count = RandomData.int()
+
+        // When
+        pageIndicator.buildView(rootView)
+        pageIndicator.onItemUpdated(count)
+
+        // Then
+        verify(exactly = once()) { beaglePageIndicatorView.setCurrentIndex(count) }
+    }
+}
