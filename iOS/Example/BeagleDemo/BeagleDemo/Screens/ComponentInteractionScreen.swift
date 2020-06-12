@@ -50,7 +50,7 @@ let declarativeScreen: Screen = {
                         )
                     ]
                 ),
-                Text(.expression(Expression(rawValue: "${myContext}")!)),
+//                Text(.expression(Expression(rawValue: "${myContext}")!)),
                 Button(
                     text: "ok",
                     action: SetContext(
