@@ -55,14 +55,17 @@ final class ActionExecuting: ActionExecutor {
     
     private func handleSetContext(_ action: SetContext, sender: Any, context: BeagleContext) {
         guard let view = sender as? UIView else { return }
-        let value = action.getContainer(action.value, with: view)
+        let newValue = action.value.get(with: view)
         let context = view.findContext(by: action.context)
-        if let path = action.path, var dict = context?.value.value as? [String: Any] {
-            dict.setValue(value: value, forKeyPath: path)
-            context?.value = Context(id: context?.value.id ?? "", value: dict)
-        } else {
-            context?.value = Context(id: context?.value.id ?? "", value: value)
-        }
+//        if let path = action.path, var dict = context?.value.value as? [String: Any] {
+//            dict.setValue(value: value, forKeyPath: path)
+//            context?.value = Context(id: context?.value.id ?? "", value: dict)
+//        } else {
+        
+        //TODO: fazer tratativa do path
+        
+            context?.value = Context(id: context?.value.id ?? "", value: newValue)
+//        }
     }
     
     // TODO: utilizar um execute default ou transformar esse comportamento em action

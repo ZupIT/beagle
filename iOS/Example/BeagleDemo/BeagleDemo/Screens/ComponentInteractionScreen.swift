@@ -35,6 +35,22 @@ let componentInteractionScreen: Screen = {
     )
 }()
 
+let contextValue: DynamicObject = [
+    "int": 2,
+    "double": 2.2,
+    "string": "string",
+    "expression": "${myContext}",
+    "array": [
+        "1", 2, 2.2, "${myContext}", nil
+    ],
+    "dictionary": [
+        "int": 2,
+        "double": 2.2,
+        "string": "string",
+        "expression": "${myContext}"
+    ]
+]
+
 let declarativeScreen: Screen = {
     return Screen(
         navigationBar: NavigationBar(title: "Component Interaction", showBackButton: true),
@@ -42,15 +58,15 @@ let declarativeScreen: Screen = {
             children:
             [
                 TextInput(
-                    label: "${myContext}",
+                    label: "asd",
                     onChange: [
                         SetContext(
                             context: "myContext",
-                            value: "${onChange.value}"
+                            value: ["a": ["c": "${onChange.value}"], "d": "${onChange.value}${onChange.value}"]
                         )
                     ]
                 ),
-                Text("${myContext}"),
+                Text("${myContext.a.c}"),
                 Button(
                     text: "ok",
                     action: SetContext(
@@ -59,7 +75,7 @@ let declarativeScreen: Screen = {
                     )
                 )
             ],
-            context: Context(id: "myContext", value: "initial")
+            context: Context(id: "myContext", value: ["a": ["b": "123123"]])
         )
     )
 }()
@@ -117,16 +133,10 @@ struct ComponentInteractionText: DeeplinkScreen {
     }
 }
 
-protocol Inputtable {
-    var onChange: [Action]? { get }
-    var onFocus: [Action]? { get }
-    var onBlur: [Action]? { get }
-}
-
-struct TextInput: Widget, Inputtable {
+struct TextInput: Widget {
     var widgetProperties: WidgetProperties = WidgetProperties()
-    var label: Expression<String?>
-    
+    var label: Expression<String>
+
     var onChange: [Action]?
     var onFocus: [Action]?
     var onBlur: [Action]?
@@ -155,12 +165,16 @@ class TextInputView: UITextField, UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        let context = Context(id: "onFocus", value: ["value": textField.text])
+//        let context = Context(id: "onFocus", value: ["value": textField.text])
+        
+        let context = Context(id: "onFocus", value: .dictionary(["value": .string(textField.text ?? "")]))
         controller?.actionManager.execute(actions: widget.onFocus, with: context, sender: self, controller: controller)
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        let context = Context(id: "onBlur", value: ["value": textField.text])
+//        let context = Context(id: "onBlur", value: ["value": textField.text])
+        
+        let context = Context(id: "onBlur", value: .dictionary(["value": .string(textField.text ?? "")]))
         controller?.actionManager.execute(actions: widget.onBlur, with: context, sender: self, controller: controller)
     }
     
@@ -173,8 +187,9 @@ class TextInputView: UITextField, UITextFieldDelegate {
                                                        with: string)
         }
         textField.text = updatedText
+//        let context = Context(id: "onChange", value: ["value": updatedText])
         
-        let context = Context(id: "onChange", value: ["value": updatedText])
+        let context = Context(id: "onChange", value: .dictionary(["value": .string(updatedText ?? "")]))
         controller?.actionManager.execute(actions: widget.onChange, with: context, sender: self, controller: controller)
         
         return false
@@ -195,7 +210,7 @@ extension TextInput {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         widgetProperties = try WidgetProperties(from: decoder)
-        label = try container.decode(Expression<String?>.self, forKey: .label)
+        label = try container.decode(Expression<String>.self, forKey: .label)
         onChange = try container.decode(forKey: .onChange)
         onFocus = try container.decode(forKey: .onFocus)
         onBlur = try container.decode(forKey: .onBlur)

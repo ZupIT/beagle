@@ -15,38 +15,22 @@
  * limitations under the License.
  */
 
-public struct SetContext: Action {
+public struct SetContext: Action, AutoInitiable {
     let context: String
     let path: String?
-    let value: Expression<AnyDecodable>
+    let value: DynamicObject
     
+// sourcery:inline:auto:SetContext.Init
     public init(
         context: String,
         path: String? = nil,
-        value: Any
+        value: DynamicObject
     ) {
         self.context = context
         self.path = path
-        if let string = value as? String, let expression = SingleExpression(rawValue: string) {
-            self.value = Expression.expression(expression)
-        } else {
-            self.value = Expression.value(AnyDecodable(value))
-        }
+        self.value = value
     }
+// sourcery:end
 }
 
-// TODO: Generate this with Sourcery
-extension SetContext: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case context
-        case path
-        case value
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        context = try container.decode(String.self, forKey: .context)
-        path = try container.decodeIfPresent(String.self, forKey: .path)
-        value = try container.decode(Expression<AnyDecodable>.self, forKey: .value)
-    }
-}
+extension SetContext: Decodable {}

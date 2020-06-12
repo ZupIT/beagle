@@ -43,12 +43,13 @@ public struct SingleExpression: Decodable {
         case arrayItem(Int)
     }
 
-    func evaluate(model: Any) -> Any? {
+    func evaluate(model: DynamicObject) -> Any? {
+        let model = model.asAny()
         var nodes = self.nodes[...]
         return SingleExpression.evaluate(&nodes, model)
     }
     
-    private static func evaluate(_ expression: inout ArraySlice<Node>, _ model: Any) -> Any? {
+    private static func evaluate(_ expression: inout ArraySlice<Node>, _ model: Any?) -> Any? {
         guard let first = expression.first else {
             return model
         }

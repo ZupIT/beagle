@@ -78,12 +78,12 @@ extension UIView {
         closure(context.value)
     }
     
-    func evaluate(for expression: SingleExpression) -> Any {
+    func evaluate(for expression: SingleExpression) -> Any? {
         guard let contextMap = self.contextMap, let context = contextMap[expression.context()] else {
-            return ()
+            return nil
         }
         let newExp = SingleExpression(nodes: .init(expression.nodes.dropFirst()))
-        return newExp.evaluate(model: context.value.value) ?? ()
+        return newExp.evaluate(model: context.value.value)
     }
 }
 
@@ -96,7 +96,7 @@ private extension Dictionary where Key == String, Value == Observable<Context> {
     }
 }
 
-// TODO: revisar onde vai ficar
+// TODO: revisar onde vai ficar (no Expression ????)
 public extension ServerDrivenComponent {
     func get<T>(
         _ expression: Expression<T>,
@@ -136,16 +136,6 @@ public extension ServerDrivenComponent {
 }
 
 public extension Action {
-    // TODO: remover depois de refatorar Any para um tipo que representa a estrutura dinamica
-    func getContainer(_ expression: Expression<AnyDecodable>, with view: UIView) -> Any {
-        switch expression {
-        case let .expression(expression):
-            return view.evaluate(for: expression)
-        case let .value(value):
-            return value.value
-        }
-    }
-    
     func get<T>(_ expression: Expression<T>, with view: UIView) -> T? {
         switch expression {
         case let .expression(expression):
