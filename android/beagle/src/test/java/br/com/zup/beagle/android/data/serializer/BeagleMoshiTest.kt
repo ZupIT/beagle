@@ -47,6 +47,7 @@ import br.com.zup.beagle.android.components.layout.ScrollView
 import br.com.zup.beagle.android.components.layout.Stack
 import br.com.zup.beagle.android.components.layout.Vertical
 import br.com.zup.beagle.android.components.page.PageView
+import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.widget.ui.UndefinedWidget
 import io.mockk.every
 import org.json.JSONObject

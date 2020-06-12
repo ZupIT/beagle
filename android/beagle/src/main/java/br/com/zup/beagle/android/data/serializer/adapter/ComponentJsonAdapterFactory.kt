@@ -93,8 +93,7 @@ internal object ComponentJsonAdapterFactory {
     private fun registerUIClass(
         factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
-        return factory.withSubtype(Text::class.java,
-            createNamespaceFor<Text>())
+        return factory.withSubtype(Text::class.java, createNamespaceFor<Text>())
             .withSubtype(Image::class.java, createNamespaceFor<Image>())
             .withSubtype(NetworkImage::class.java, createNamespaceFor<NetworkImage>())
             .withSubtype(Button::class.java, createNamespaceFor<Button>())

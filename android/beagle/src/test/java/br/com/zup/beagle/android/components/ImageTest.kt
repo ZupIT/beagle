@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.components
 
 import android.widget.ImageView
+import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
@@ -39,7 +40,7 @@ private val IMAGE_RES = RandomData.int()
 
 class ImageViewRendererTest : BaseComponentTest() {
 
-    private val imageView: ImageView = mockk(relaxed = true)
+    private val imageView: RoundedImageView = mockk(relaxed = true)
 
     private val scaleTypeSlot = slot<ImageView.ScaleType>()
 

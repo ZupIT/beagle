@@ -21,6 +21,7 @@ import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.widget.ui.RootView
 
 class CustomInputWidget : InputWidget() {
+
     override fun onErrorMessage(message: String) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

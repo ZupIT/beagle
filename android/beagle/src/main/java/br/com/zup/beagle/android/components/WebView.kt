@@ -37,10 +37,8 @@ data class WebView(private val url: String) : WidgetView() {
 
     override fun buildView(rootView: RootView): View {
         val webView = viewFactory.makeWebView(rootView.getContext())
-        webView.apply {
-            webViewClient = BeagleWebViewClient(context)
-            loadUrl(url)
-        }
+        webView.webViewClient = BeagleWebViewClient(webView.context)
+        webView.loadUrl(url)
         return webView
     }
 

@@ -21,6 +21,7 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import br.com.zup.beagle.android.components.utils.ComponentStylization
+import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
@@ -49,7 +50,7 @@ private const val DEFAULT_URL = "http://teste.com/test.png"
 
 class NetworkImageTest : BaseComponentTest() {
 
-    private val imageView: ImageView = mockk(relaxed = true, relaxUnitFun = true)
+    private val imageView: RoundedImageView = mockk(relaxed = true, relaxUnitFun = true)
     private val requestManager: RequestManager = mockk()
     private val requestBuilder: RequestBuilder<Bitmap> = mockk()
     private val requestBuilderDrawable: RequestBuilder<Drawable> = mockk()

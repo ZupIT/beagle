@@ -220,7 +220,7 @@ fun makeFormValidationJson() = """
 
 fun makeCustomInputWidgetJson() = """
     {
-        "_beagleComponent_": "sample:customInputWidget"
+        "_beagleComponent_": "custom:customInputWidget"
     }
 """
 
