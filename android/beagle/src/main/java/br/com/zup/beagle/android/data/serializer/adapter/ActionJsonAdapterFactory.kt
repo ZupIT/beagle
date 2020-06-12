@@ -24,9 +24,10 @@ import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
 import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.widget.form.FormRemoteAction
-import java.util.Locale
+import java.util.*
 
 private const val BEAGLE_WIDGET_TYPE = "_beagleAction_"
+private const val BEAGLE_NAMESPACE = "beagle"
 
 @Deprecated(message = "This class will be no longer needed. @see new AndroidActionJsonAdapterFactory")
 internal object ActionJsonAdapterFactory {
@@ -50,6 +51,6 @@ internal object ActionJsonAdapterFactory {
     }
 
     private inline fun <reified T : Action> createNamespaceFor(): String {
-        return T::class.java.simpleName.toLowerCase(Locale.getDefault())
+        return "$BEAGLE_NAMESPACE:${T::class.java.simpleName.toLowerCase(Locale.getDefault())}"
     }
 }
