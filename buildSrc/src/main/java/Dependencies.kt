@@ -35,6 +35,7 @@ object Modules {
     const val beagleAndroidSchemaImpl = ":android:schema-implementation"
     const val beagleAndroidPreview = ":android:android-preview"
     const val beagleAnnotation = ":common:annotation"
+    const val beagleInternalAnnotation = ":common:annotation-internal"
     const val beagleCommonProcessorUtils = ":common:processor-utils"
     const val beagleBackendProcessor = ":backend:processor"
     const val beagleBackendFramework = ":backend:framework"
