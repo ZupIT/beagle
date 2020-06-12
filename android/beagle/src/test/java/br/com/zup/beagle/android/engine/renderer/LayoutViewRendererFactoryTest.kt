@@ -16,11 +16,9 @@
 
 package br.com.zup.beagle.android.engine.renderer
 
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.engine.renderer.layout.ContainerViewRenderer
 import br.com.zup.beagle.android.engine.renderer.layout.FormViewRenderer
 import br.com.zup.beagle.android.engine.renderer.layout.HorizontalViewRenderer
-import br.com.zup.beagle.android.engine.renderer.layout.LazyComponentViewRenderer
 import br.com.zup.beagle.android.engine.renderer.layout.ScreenViewRenderer
 import br.com.zup.beagle.android.engine.renderer.layout.ScrollViewRenderer
 import br.com.zup.beagle.android.engine.renderer.layout.SpacerViewRenderer
@@ -28,15 +26,15 @@ import br.com.zup.beagle.android.engine.renderer.layout.StackViewRenderer
 import br.com.zup.beagle.android.engine.renderer.layout.TouchableViewRenderer
 import br.com.zup.beagle.android.engine.renderer.layout.VerticalViewRender
 import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.widget.layout.ScreenComponent
+import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.form.Form
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Horizontal
-import br.com.zup.beagle.android.widget.layout.ScreenComponent
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.layout.Spacer
 import br.com.zup.beagle.widget.layout.Stack
 import br.com.zup.beagle.widget.layout.Vertical
-import br.com.zup.beagle.widget.lazy.LazyComponent
 import br.com.zup.beagle.widget.navigation.Touchable
 import io.mockk.every
 import io.mockk.mockk
@@ -173,17 +171,6 @@ class LayoutViewRendererFactoryTest {
 
         // Then
         assertTrue(actual is ScrollViewRenderer)
-    }
-
-    @Test
-    fun make_should_return_a_LazyWidgetViewRenderer_when_widget_is_a_layout_LazyWidget() {
-        // Given
-        val component = mockk<LazyComponent>()
-
-        // When
-        val actual = viewRendererFactory.make(component)
-
-        assertTrue(actual is LazyComponentViewRenderer)
     }
 
     @Test

@@ -21,13 +21,15 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import br.com.zup.beagle.android.utils.dp
+import br.com.zup.beagle.android.view.BeagleActivity
+import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.sample.activities.NavigationBarActivity
 import br.com.zup.beagle.sample.constants.SAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.fragment.ComposeComponentFragment
 import br.com.zup.beagle.sample.fragment.DisabledFormSubmitFragment
 import br.com.zup.beagle.sample.fragment.FormFragment
 import br.com.zup.beagle.sample.fragment.ImageViewFragment
-import br.com.zup.beagle.sample.fragment.LazyComponentFragment
 import br.com.zup.beagle.sample.fragment.ListViewFragment
 import br.com.zup.beagle.sample.fragment.NavigationFragment
 import br.com.zup.beagle.sample.fragment.PageViewFragment
@@ -36,9 +38,6 @@ import br.com.zup.beagle.sample.fragment.StackViewFragment
 import br.com.zup.beagle.sample.fragment.TabViewFragment
 import br.com.zup.beagle.sample.fragment.TextFieldFragment
 import br.com.zup.beagle.sample.fragment.WebViewFragment
-import br.com.zup.beagle.android.utils.dp
-import br.com.zup.beagle.android.view.BeagleActivity
-import br.com.zup.beagle.android.view.ScreenRequest
 
 class MainActivity : AppCompatActivity() {
 
@@ -67,7 +66,6 @@ class MainActivity : AppCompatActivity() {
         when (itemSelected) {
             R.id.textField -> goToFragment(TextFieldFragment.newInstance())
             R.id.scroll -> goToFragment(ScrollViewFragment.newInstance())
-            R.id.lazycomponent -> goToFragment(LazyComponentFragment.newInstance())
             R.id.image -> goToFragment(ImageViewFragment.newInstance())
             R.id.pageView -> goToFragment(PageViewFragment.newInstance())
             // Navigation Bar requires an activity without toolbar

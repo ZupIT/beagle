@@ -37,7 +37,6 @@ import br.com.zup.beagle.sample.constants.SCREEN_COMPOSE_COMPONENT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_EXAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_FORM_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_IMAGE_ENDPOINT
-import br.com.zup.beagle.sample.constants.SCREEN_LAZY_COMPONENT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_LIST_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_NAVIGATION_BAR_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_NETWORK_IMAGE_ENDPOINT
@@ -55,7 +54,6 @@ import br.com.zup.beagle.sample.micronaut.service.SampleComponentsService
 import br.com.zup.beagle.sample.micronaut.service.SampleComposeComponentService
 import br.com.zup.beagle.sample.micronaut.service.SampleFormService
 import br.com.zup.beagle.sample.micronaut.service.SampleImageService
-import br.com.zup.beagle.sample.micronaut.service.SampleLazyComponentService
 import br.com.zup.beagle.sample.micronaut.service.SampleListViewService
 import br.com.zup.beagle.sample.micronaut.service.SampleNavigationBarService
 import br.com.zup.beagle.sample.micronaut.service.SampleNavigationTypeService
@@ -86,7 +84,6 @@ class ScreenController(
     private val samplePageViewService: SamplePageViewService,
     private val sampleActionService: SampleActionService,
     private val sampleFormService: SampleFormService,
-    private val sampleLazyComponentService: SampleLazyComponentService,
     private val sampleNavigationBarService: SampleNavigationBarService,
     private val sampleNavigationTypeService: SampleNavigationTypeService,
     private val sampleStackService: SampleStackService,
@@ -133,9 +130,6 @@ class ScreenController(
 
     @Get(SCREEN_FORM_ENDPOINT)
     fun getSampleFormView() = this.sampleFormService.createFormView()
-
-    @Get(SCREEN_LAZY_COMPONENT_ENDPOINT)
-    fun getSampleLazyComponentConroller() = this.sampleLazyComponentService.createLazyComponent()
 
     @Get(SCREEN_NAVIGATION_BAR_ENDPOINT)
     fun getSampleNavigationBarController() =

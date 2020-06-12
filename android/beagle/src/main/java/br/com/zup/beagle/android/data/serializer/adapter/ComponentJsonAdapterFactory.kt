@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.data.serializer.adapter
 
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.widget.layout.ScreenComponent
 import br.com.zup.beagle.android.widget.pager.PageIndicator
 import br.com.zup.beagle.android.widget.ui.UndefinedWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -30,12 +31,10 @@ import br.com.zup.beagle.widget.form.InputWidget
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Horizontal
 import br.com.zup.beagle.widget.layout.PageView
-import br.com.zup.beagle.android.widget.layout.ScreenComponent
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.layout.Spacer
 import br.com.zup.beagle.widget.layout.Stack
 import br.com.zup.beagle.widget.layout.Vertical
-import br.com.zup.beagle.widget.lazy.LazyComponent
 import br.com.zup.beagle.widget.navigation.Touchable
 import br.com.zup.beagle.widget.pager.PageIndicatorComponent
 import br.com.zup.beagle.widget.ui.Button
@@ -84,7 +83,6 @@ internal object ComponentJsonAdapterFactory {
             .withSubtype(Stack::class.java, createNamespaceFor<Stack>())
             .withSubtype(Spacer::class.java, createNamespaceFor<Spacer>())
             .withSubtype(ScrollView::class.java, createNamespaceFor<ScrollView>())
-            .withSubtype(LazyComponent::class.java, createNamespaceFor<LazyComponent>())
             .withSubtype(PageView::class.java, createNamespaceFor<PageView>())
             .withSubtype(Form::class.java, createNamespaceFor<Form>())
     }
@@ -120,7 +118,7 @@ internal object ComponentJsonAdapterFactory {
         }
 
         return newFactory
-    }    
+    }
 
     private fun registerUndefinedWidget(
         factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>

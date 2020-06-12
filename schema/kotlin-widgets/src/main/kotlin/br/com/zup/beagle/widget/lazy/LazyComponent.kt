@@ -29,6 +29,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  *                          request made is being fulfilled.
  *
  */
+@Deprecated(message = "Use binding and context.", level = DeprecationLevel.HIDDEN)
 data class LazyComponent(
     val path: String,
     val initialState: ServerDrivenComponent

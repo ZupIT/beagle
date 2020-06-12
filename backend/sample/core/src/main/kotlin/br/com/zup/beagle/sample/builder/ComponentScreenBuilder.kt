@@ -30,7 +30,6 @@ import br.com.zup.beagle.sample.constants.SCREEN_BUTTON_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_COMPOSE_COMPONENT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_FORM_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_IMAGE_ENDPOINT
-import br.com.zup.beagle.sample.constants.SCREEN_LAZY_COMPONENT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_LIST_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_NAVIGATION_BAR_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_NETWORK_IMAGE_ENDPOINT
@@ -69,7 +68,6 @@ object ComponentScreenBuilder : ScreenBuilder {
                 createMenu("Action", SCREEN_ACTION_ENDPOINT),
                 createMenu("ScreenBuilder", SCREEN_BUILDER_ENDPOINT),
                 createMenu("Form", SCREEN_FORM_ENDPOINT),
-                createMenu("LazyComponent", SCREEN_LAZY_COMPONENT_ENDPOINT),
                 createMenu("NavigationBar", SCREEN_NAVIGATION_BAR_ENDPOINT),
                 createMenu("NavigationType", NAVIGATION_TYPE_ENDPOINT),
                 createMenu("Stack View", SCREEN_STACK_ENDPOINT),

@@ -47,7 +47,6 @@ import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.layout.Spacer
 import br.com.zup.beagle.widget.layout.Stack
 import br.com.zup.beagle.widget.layout.Vertical
-import br.com.zup.beagle.widget.lazy.LazyComponent
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.ListView
@@ -416,33 +415,6 @@ class BeagleMoshiTest {
     fun make_should_return_moshi_to_serialize_a_CustomWidget() {
         // Given
         val component = CustomWidget()
-
-        // When
-        val actual =
-            beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).toJson(component)
-
-        // Then
-        assertNotNull(JSONObject(actual))
-    }
-
-    @Test
-    fun make_should_return_moshi_to_deserialize_a_LazyComponent() {
-        // Given
-        val json = makeLazyComponentJson()
-
-        // When
-        val actual =
-            beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).fromJson(json)
-
-        // Then
-        assertNotNull(actual)
-        assertTrue(actual is LazyComponent)
-    }
-
-    @Test
-    fun make_should_return_moshi_to_serialize_a_LazyComponent() {
-        // Given
-        val component = LazyComponent("", UndefinedWidget())
 
         // When
         val actual =

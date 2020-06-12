@@ -36,7 +36,6 @@ const val SCREEN_SCROLL_VIEW_ENDPOINT = "/scroll-view-screen"
 const val SCREEN_PAGE_VIEW_ENDPOINT = "/page-view-screen"
 const val SCREEN_ACTION_ENDPOINT = "/action"
 const val SCREEN_FORM_ENDPOINT = "/sample/form"
-const val SCREEN_LAZY_COMPONENT_ENDPOINT = "/lazy-component"
 const val SCREEN_NAVIGATION_BAR_ENDPOINT = "/navigation/bar"
 const val REPRESENTATION_NAVIGATION_BAR_ENDPOINT = "/navigationbar"
 const val REPRESENTATION_NAVIGATION_BAR_STYLE_ENDPOINT = "/navigationbar/style"
@@ -56,7 +55,5 @@ const val SCREEN_ACTION_CLICK_ENDPOINT = "/action-click"
 const val CUSTOM_WIDGET_ENDPOINT="/custom"
 
 const val PATH_SCREEN_DEEP_LINK_ENDPOINT = "screen-deep-link"
-
-const val PATH_LAZY_COMPONENT_ENDPOINT = "/text-lazy-component"
 
 const val PATH_SAMPLE_VIEW_ENDPOINT = "http://localhost:8080/sample"
