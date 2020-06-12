@@ -20,6 +20,7 @@ package br.com.zup.beagle.android.engine.renderer.ui
 import android.content.Context
 import android.view.View
 import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.engine.renderer.ViewConvertableRenderer
 import br.com.zup.beagle.android.widget.ui.RootView
 import br.com.zup.beagle.android.widget.ui.WidgetView
 import io.mockk.every
