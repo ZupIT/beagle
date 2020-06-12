@@ -35,11 +35,8 @@ class RegisteredActionGenerator {
             )
         )
 
-        registerAnnotatedClasses.forEachIndexed { index, element ->
-            classValues.append("\t${element}Binding::class.java as Class<Action>")
-            if (index < registerAnnotatedClasses.size - 1) {
-                classValues.append(",\n")
-            }
+        registerAnnotatedClasses.joinToString(",\n") { element ->
+            "\t${element}Binding::class.java as Class<Action>"
         }
 
         return FunSpec.builder("registeredActions")
