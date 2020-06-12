@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.engine.renderer.ui
+package br.com.zup.beagle.android.engine.renderer
 
 import android.view.View
-import br.com.zup.beagle.android.engine.renderer.UIViewRenderer
+import br.com.zup.beagle.android.engine.renderer.ViewRenderer
 import br.com.zup.beagle.android.widget.ui.RootView
 import br.com.zup.beagle.android.widget.ui.ViewConvertable
 
-internal class ViewConvertableRenderer(override val component: ViewConvertable) : UIViewRenderer<ViewConvertable>() {
+internal class ViewConvertableRenderer(override val component: ViewConvertable) : ViewRenderer<ViewConvertable>() {
     override fun buildView(rootView: RootView): View {
         return component.buildView(rootView)
     }

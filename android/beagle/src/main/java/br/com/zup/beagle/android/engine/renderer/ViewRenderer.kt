@@ -20,6 +20,7 @@ import android.view.View
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.components.utils.ComponentStylization
 import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.ui.ViewConvertable
 
 internal abstract class ViewRenderer<T : ServerDrivenComponent>(
     private val componentStylization: ComponentStylization<T> = ComponentStylization()
@@ -35,17 +36,9 @@ internal abstract class ViewRenderer<T : ServerDrivenComponent>(
     abstract fun buildView(rootView: RootView): View
 }
 
-internal abstract class UIViewRenderer<T : ServerDrivenComponent> : ViewRenderer<T>()
+internal class ViewRendererFactory {
 
-internal interface AbstractViewRendererFactory {
-    fun make(component: ServerDrivenComponent): ViewRenderer<*>
-}
-
-internal class ViewRendererFactory(
-    private val ui: UIViewRendererFactory = UIViewRendererFactory()
-) : AbstractViewRendererFactory {
-
-    override fun make(component: ServerDrivenComponent): ViewRenderer<*> {
-        return ui.make(component)
+    fun make(component: ServerDrivenComponent): ViewRenderer<*> {
+        return ViewConvertableRenderer(component as ViewConvertable)
     }
 }

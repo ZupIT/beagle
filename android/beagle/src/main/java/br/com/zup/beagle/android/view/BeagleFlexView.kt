@@ -53,9 +53,7 @@ internal open class BeagleFlexView(
         }
         val flex = (component as? FlexComponent)?.flex ?: Flex()
         val view = viewRendererFactory.make(serverDrivenComponent).build(rootView)
-        if (serverDrivenComponent is WidgetView) {
-            view.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> invalidate(view) }
-        }
+        view.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> invalidate(view) }
         super.addView(view, flexMapper.makeYogaNode(flex))
     }
 }
