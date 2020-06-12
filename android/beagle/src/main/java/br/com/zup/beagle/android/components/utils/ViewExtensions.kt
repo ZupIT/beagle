@@ -75,7 +75,6 @@ internal fun View.applyBackgroundColor(styleWidget: StyleComponent) {
 internal fun View.applyCornerRadius(styleWidget: StyleComponent) {
     styleWidget.style?.cornerRadius?.let { cornerRadius ->
         if (cornerRadius.radius > FLOAT_ZERO) {
-//            (this as? BeagleImageView)?.cornerRadius = cornerRadius.radius.toFloat()
             (this.background as? GradientDrawable)?.cornerRadius = cornerRadius.radius.toFloat()
         }
     }

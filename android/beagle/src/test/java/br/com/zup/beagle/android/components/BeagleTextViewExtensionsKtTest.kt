@@ -12,100 +12,81 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *//*
+ */
 
 
 package br.com.zup.beagle.android.components
 
 import android.graphics.Color
 import android.view.Gravity
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.widget.core.TextAlignment
 import io.mockk.*
-import io.mockk.impl.annotations.MockK
-import io.mockk.impl.annotations.RelaxedMockK
-import org.junit.After
-import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
 private val STYLE_RES = RandomData.int()
 private val IMAGE_RES = RandomData.int()
 
-class BeagleTextViewExtensionsTest {
+class BeagleTextViewExtensionsKtTest : BaseComponentTest() {
+
+    private val designSystem: DesignSystem = mockk()
+    private val activity: AppCompatActivity = mockk(relaxed = true)
+    private val textView: TextView = mockk(relaxed = true)
 
     private val textValueSlot = slot<String>()
     private val textAlignment = slot<Int>()
 
-    @RelaxedMockK
-    private lateinit var beagleTextView: AppCompatTextView
-
-    @MockK
-    private lateinit var designSystem: DesignSystem
-
-    @RelaxedMockK
-    private lateinit var activity: AppCompatActivity
-
-    @RelaxedMockK
     private lateinit var text: Text
 
-    @Before
-    fun setUp() {
-        MockKAnnotations.init(this)
+    override fun setUp() {
+        super.setUp()
 
-        mockkObject(BeagleEnvironment)
         mockkStatic(TextViewCompat::class)
         mockkStatic(Color::class)
 
         every { BeagleEnvironment.beagleSdk.designSystem } returns designSystem
         every { TextViewCompat.setTextAppearance(any(), any()) } just Runs
-        every { beagleTextView.context } returns activity
-        every { beagleTextView.text = capture(textValueSlot) } just Runs
-        every { beagleTextView.gravity = capture(textAlignment) } just Runs
+        every { textView.context } returns activity
+        every { textView.text = capture(textValueSlot) } just Runs
+        every { textView.gravity = capture(textAlignment) } just Runs
         every { designSystem.textStyle(any()) } returns STYLE_RES
         every { designSystem.buttonStyle(any()) } returns STYLE_RES
         every { designSystem.image(any()) } returns IMAGE_RES
-        every { text.textColor } returns null
+        every { anyConstructed<ViewFactory>().makeTextView(any()) } returns textView
     }
 
-    @After
-    fun tearDown() {
-        unmockkAll()
-    }
 
     @Test
     fun setTextWidget_with_text_should_call_TextViewCompat_setTextAppearance() {
         // Given
         val textValue = RandomData.string()
         val style = RandomData.string()
-        every { text.text } returns textValue
-        every { text.styleId } returns style
-        every { text.alignment } returns null
+        text = Text(text = textValue, styleId = style, alignment = null)
 
         // When
-        // beagleTextView.setTextWidget(text)
+        text.buildView(rootView)
 
         // Then
         assertEquals(textValue, textValueSlot.captured)
-        verify(exactly = 1) { TextViewCompat.setTextAppearance(beagleTextView, STYLE_RES) }
+        verify(exactly = 1) { TextViewCompat.setTextAppearance(textView, STYLE_RES) }
     }
 
     @Test
     fun setTextWidget_with_text_should_not_call_TextViewCompat_setTextAppearance_when_style_is_null() {
         // Given
         val textValue = RandomData.string()
-        every { text.text } returns textValue
-        every { text.styleId } returns null
-        every { text.alignment } returns null
+        text = Text(text = textValue, styleId = null, alignment = null)
 
         // When
-        // beagleTextView.setTextWidget(text)
+        text.buildView(rootView)
 
         // Then
         verify(exactly = 1) { designSystem.textStyle("") }
@@ -115,12 +96,10 @@ class BeagleTextViewExtensionsTest {
     fun setTextWidget_with_text_should_set_alignment_when_is_center() {
         // Given
         val textValue = RandomData.string()
-        every { text.text } returns textValue
-        every { text.styleId } returns null
-        every { text.alignment } returns TextAlignment.CENTER
+        text = Text(text = textValue, styleId = null, alignment = TextAlignment.CENTER)
 
         // When
-        // beagleTextView.setTextWidget(text)
+        text.buildView(rootView)
 
         // Then
         assertEquals(Gravity.CENTER, textAlignment.captured)
@@ -130,12 +109,10 @@ class BeagleTextViewExtensionsTest {
     fun setTextWidget_with_text_should_set_alignment_when_is_right() {
         // Given
         val textValue = RandomData.string()
-        every { text.text } returns textValue
-        every { text.styleId } returns null
-        every { text.alignment } returns TextAlignment.RIGHT
+        text = Text(text = textValue, styleId = null, alignment = TextAlignment.RIGHT)
 
         // When
-        // beagleTextView.setTextWidget(text)
+        text.buildView(rootView)
 
         // Then
         assertEquals(Gravity.END, textAlignment.captured)
@@ -145,12 +122,10 @@ class BeagleTextViewExtensionsTest {
     fun setTextWidget_with_text_should_set_alignment_when_is_left() {
         // Given
         val textValue = RandomData.string()
-        every { text.text } returns textValue
-        every { text.styleId } returns null
-        every { text.alignment } returns TextAlignment.LEFT
+        text = Text(text = textValue, styleId = null, alignment = TextAlignment.LEFT)
 
         // When
-        // beagleTextView.setTextWidget(text)
+        text.buildView(rootView)
 
         // Then
         assertEquals(Gravity.START, textAlignment.captured)
@@ -160,16 +135,17 @@ class BeagleTextViewExtensionsTest {
     fun setTextWidget_with_text_should_not_call_TextViewCompat_setTextAppearance_when_designSystem_is_null() {
         // Given
         val textValue = RandomData.string()
-        every { text.text } returns textValue
-        every { text.styleId } returns RandomData.string()
+        val styleId = RandomData.string()
+
         every { BeagleEnvironment.beagleSdk.designSystem } returns null
-        every { text.alignment } returns null
+
+        text = Text(text = textValue, styleId = styleId, alignment = null)
 
         // When
-        // beagleTextView.setTextWidget(text)
+        text.buildView(rootView)
 
         // Then
-        verify(exactly = 0) { TextViewCompat.setTextAppearance(beagleTextView, STYLE_RES) }
+        verify(exactly = 0) { TextViewCompat.setTextAppearance(textView, STYLE_RES) }
     }
 
     @Test
@@ -178,13 +154,14 @@ class BeagleTextViewExtensionsTest {
         val textColor = "#000000"
         val colorInt = 0x000000
         every { Color.parseColor(textColor) } returns colorInt
-        every { text.textColor } returns textColor
+
+        text = Text(text = "", textColor = textColor)
 
         // When
-        // beagleTextView.setTextWidget(text)
+        text.buildView(rootView)
 
         // Then
-        verify(exactly = once()) { beagleTextView.setTextColor(colorInt) }
+        verify(exactly = once()) { textView.setTextColor(colorInt) }
     }
 
     @Test
@@ -192,12 +169,12 @@ class BeagleTextViewExtensionsTest {
         // Given
         val textColor = null
         val colorInt = 0x000000
-        every { text.textColor } returns textColor
+        text = Text(text = "", textColor = textColor)
 
         // When
-        // beagleTextView.setTextWidget(text)
+        text.buildView(rootView)
 
         // Then
-        verify(exactly = 0) { beagleTextView.setTextColor(colorInt) }
+        verify(exactly = 0) { textView.setTextColor(colorInt) }
     }
-}*/
+}

@@ -14,8 +14,19 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.components
+package br.com.zup.beagle.android.components.utils
 
-import org.junit.Assert.*
+import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Canvas
+import androidx.appcompat.widget.AppCompatImageView
 
-class TabItemTest
+@SuppressLint("ViewConstructor")
+internal class RoundedImageView(context: Context,
+                                private val cornerRadius: Double = 0.0) : AppCompatImageView(context) {
+
+    override fun onDraw(canvas: Canvas?) {
+        canvas?.applyRadius(cornerRadius.toFloat())
+        super.onDraw(canvas)
+    }
+}

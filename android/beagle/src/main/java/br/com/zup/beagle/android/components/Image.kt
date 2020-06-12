@@ -36,7 +36,7 @@ data class Image(private val name: String,
     private val viewFactory = ViewFactory()
 
     override fun buildView(rootView: RootView): View {
-        val imageView = viewFactory.makeImageView(rootView.getContext())
+        val imageView = viewFactory.makeImageView(rootView.getContext(), style?.cornerRadius?.radius ?: 0.0)
         imageView.setData(this, viewMapper)
         return imageView
     }

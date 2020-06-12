@@ -29,6 +29,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.RecyclerView
+import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.widget.core.Flex
 
 internal class ViewFactory {
@@ -70,7 +71,7 @@ internal class ViewFactory {
 
     fun makeWebView(context: Context) = WebView(context)
 
-    fun makeImageView(context: Context) = ImageView(context)
+    fun makeImageView(context: Context, cornerRadius: Double = 0.0) = RoundedImageView(context, cornerRadius)
 
     fun makeRecyclerView(context: Context) = RecyclerView(context)
 }

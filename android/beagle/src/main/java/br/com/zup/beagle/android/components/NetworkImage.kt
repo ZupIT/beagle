@@ -61,7 +61,8 @@ data class NetworkImage(
     }
 
     private fun makeImageView(rootView: RootView) =
-        viewFactory.makeImageView(rootView.getContext()).apply {
+        viewFactory.makeImageView(rootView.getContext(),
+            style?.cornerRadius?.radius ?: 0.0).apply {
             val contentMode = contentMode ?: ImageContentMode.FIT_CENTER
             scaleType = viewMapper.toScaleType(contentMode)
         }
