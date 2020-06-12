@@ -22,7 +22,7 @@ import android.view.View
 import android.widget.TextView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.core.WidgetView
+import br.com.zup.beagle.android.widget.core.WidgetView
 
 @RegisterWidget
 data class MutableText(

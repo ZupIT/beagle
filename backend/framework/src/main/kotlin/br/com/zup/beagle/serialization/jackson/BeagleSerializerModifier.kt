@@ -18,6 +18,7 @@ package br.com.zup.beagle.serialization.jackson
 
 import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.widget.layout.ComposeComponent
 import br.com.zup.beagle.widget.layout.Screen
 import com.fasterxml.jackson.databind.BeanDescription
 import com.fasterxml.jackson.databind.JsonSerializer

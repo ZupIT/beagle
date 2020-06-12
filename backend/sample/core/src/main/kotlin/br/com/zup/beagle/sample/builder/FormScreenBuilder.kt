@@ -17,7 +17,10 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.action.ShowNativeDialog
-import br.com.zup.beagle.core.Appearance
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.widget.form.extensions.setOnFocus
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_FORM
 import br.com.zup.beagle.sample.constants.LIGHT_GREEN
@@ -92,7 +95,7 @@ object FormScreenBuilder : ScreenBuilder {
                                 enabled = false,
                                 child = Button(
                                     text = "Submit Form",
-                                    style = BUTTON_STYLE_FORM
+                                    styleId = BUTTON_STYLE_FORM
                                 ).applyFlex(flexHorizontalMargin)
                             )
                         )
@@ -103,7 +106,7 @@ object FormScreenBuilder : ScreenBuilder {
                                 padding = EdgeValue(all = 10.unitReal())
                             )
                         )
-                        .applyAppearance(Appearance(backgroundColor = LIGHT_GREEN))
+                        .applyStyle(Style(backgroundColor = LIGHT_GREEN))
                 )
             )
         )

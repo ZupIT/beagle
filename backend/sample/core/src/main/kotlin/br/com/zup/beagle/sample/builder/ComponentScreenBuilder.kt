@@ -18,6 +18,7 @@ package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.Route
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.ACCESSIBILITY_SCREEN_ENDPOINT
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_TITLE
@@ -84,7 +85,7 @@ object ComponentScreenBuilder : ScreenBuilder {
         text = text,
         onPress = listOf(Navigate.PushView(Route.Remote(path))
         ),
-        style = BUTTON_STYLE_TITLE
+        styleId = BUTTON_STYLE_TITLE
     ).applyFlex(
         flex = Flex(
             margin = EdgeValue(

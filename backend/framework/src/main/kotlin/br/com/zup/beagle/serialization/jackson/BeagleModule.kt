@@ -17,7 +17,7 @@
 package br.com.zup.beagle.serialization.jackson
 
 import br.com.zup.beagle.core.BindAttribute
-import br.com.zup.beagle.widget.core.ComposeComponent
+import br.com.zup.beagle.widget.layout.ComposeComponent
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import com.fasterxml.jackson.databind.module.SimpleModule
 

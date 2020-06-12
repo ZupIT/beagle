@@ -2,12 +2,12 @@
   - action: Navigate.popView
   ▿ child: Text
     - alignment: Optional<Alignment>.none
-    - style: Optional<String>.none
+    - styleId: Optional<String>.none
     - text: "touchable"
     - textColor: Optional<String>.none
     ▿ widgetProperties: WidgetProperties
       - accessibility: Optional<Accessibility>.none
-      - appearance: Optional<Appearance>.none
       - flex: Optional<Flex>.none
       - id: Optional<String>.none
+      - style: Optional<Style>.none
   - clickAnalyticsEvent: Optional<AnalyticsClick>.none

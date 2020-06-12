@@ -5,6 +5,7 @@ on:
      paths:
         - 'backend/**'
         - 'common/**'
+        - 'schema/kotlin/**'
 jobs:
     pr-verification:
         name: PR Check

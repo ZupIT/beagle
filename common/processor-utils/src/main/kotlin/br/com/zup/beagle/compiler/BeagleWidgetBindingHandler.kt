@@ -16,50 +16,20 @@
 
 package br.com.zup.beagle.compiler
 
-import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
-import com.squareup.kotlinpoet.FunSpec
-import com.squareup.kotlinpoet.ParameterSpec
-import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import com.squareup.kotlinpoet.PropertySpec
-import com.squareup.kotlinpoet.TypeSpec
-import com.squareup.kotlinpoet.asTypeName
 import javax.annotation.processing.Filer
 import javax.annotation.processing.ProcessingEnvironment
-import javax.lang.model.element.ExecutableElement
 import javax.lang.model.element.TypeElement
-import javax.lang.model.type.TypeMirror
 
 class BeagleWidgetBindingHandler(
     processingEnvironment: ProcessingEnvironment,
-    private val bindClassName: ClassName
-) {
-    companion object {
-        const val SUFFIX = "Binding"
-    }
+    bindClass: BeagleClass = BIND_ANDROID
+) : BeagleBindingHandler(processingEnvironment, bindClass) {
 
     private val outputDirectory: Filer = processingEnvironment.filer
     private val elementUtils = processingEnvironment.elementUtils
-    private val typeUtils = processingEnvironment.typeUtils
 
     fun handle(element: TypeElement) =
         FileSpec.get(this.elementUtils.getPackageAsString(element), this.createBindingClass(element).build())
             .writeTo(this.outputDirectory)
-
-    fun createBindingClass(element: TypeElement) =
-        element.visibleGetters.map { this.createBindParameter(it) }.let { parameters ->
-            TypeSpec.classBuilder("${element.simpleName}$SUFFIX")
-                .superclass(this.typeUtils.getKotlinName(element.superclass))
-                .addSuperinterfaces(element.interfaces.map(TypeMirror::asTypeName))
-                .primaryConstructor(FunSpec.constructorFrom(parameters))
-                .addProperties(parameters.map { PropertySpec.from(it, it.tag(Boolean::class) == true) })
-        }
-
-    private fun createBindParameter(element: ExecutableElement) =
-        ParameterSpec.builder(
-            element.fieldName,
-            this.typeUtils.getKotlinName(element.returnType).let {
-                if (element.isOverride) it else bindClassName.parameterizedBy(it)
-            }
-        ).tag(Boolean::class, element.isOverride).build()
 }

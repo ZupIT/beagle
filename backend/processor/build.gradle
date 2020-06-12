@@ -24,7 +24,7 @@ dependencies {
     implementation GeneralLibraries.kotlin
     implementation project(Modules.beagleAnnotation)
     implementation project(Modules.beagleCommonProcessorUtils)
-    implementation project(Modules.beagleBackendDeclarative)
+    implementation project(Modules.beagleSchemaKotlinCore)
     implementation ProcessorLibraries.autoService
     implementation ProcessorLibraries.incap
 

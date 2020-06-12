@@ -1,10 +1,10 @@
 {
   "_beagleComponent_": "beagle:Text",
   "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  "style": "test.text.style",
+  "styleId": "test.text.style",
   "alignment": "RIGHT",
   "textColor": "579F2B",
-  "appearance": {
+  "style": {
     "backgroundColor": "#FFFF00",
     "cornerRadius": {
         "radius": 30.0
