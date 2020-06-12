@@ -17,7 +17,7 @@
 
 import Foundation
 
-public struct WebView: FlexComponent, ServerDrivenComponent, AutoInitiableAndDecodable {
+public struct WebView: FlexComponent, RawComponent, AutoInitiableAndDecodable {
     public let url: String
     public let flex: Flex?
 

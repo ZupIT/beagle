@@ -17,15 +17,15 @@
 import Foundation
 import UIKit
 
-public protocol ServerDrivenComponent: Decodable {
+public protocol RawComponent: Decodable {
     
 }
 
-public protocol ComposeComponent: ServerDrivenComponent {
-    func build() -> ServerDrivenComponent
+public protocol ComposeComponent: RawComponent {
+    func build() -> RawComponent
 }
 
-extension ServerDrivenComponent {
+extension RawComponent {
     public func toScreen() -> Screen {
         let screen = self as? ScreenComponent
         let safeArea = screen?.safeArea

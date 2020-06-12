@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
- public struct LazyComponent: ServerDrivenComponent, AutoInitiableAndDecodable {
+ public struct LazyComponent: RawComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
     
     public let path: String
-    public let initialState: ServerDrivenComponent
+    public let initialState: RawComponent
 
 // sourcery:inline:auto:LazyComponent.Init
     public init(
         path: String,
-        initialState: ServerDrivenComponent
+        initialState: RawComponent
     ) {
         self.path = path
         self.initialState = initialState

@@ -49,3 +49,16 @@ extension DemoTextField {
         widgetProperties = try WidgetProperties(from: decoder)
     }
 }
+
+// MARK: OtherComponent Decodable
+extension OtherComponent {
+
+    enum CodingKeys: String, CodingKey {
+        case widgetProperties
+    }
+
+    internal init(from decoder: Decoder) throws {
+        
+        widgetProperties = try WidgetProperties(from: decoder)
+    }
+}

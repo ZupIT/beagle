@@ -16,15 +16,15 @@
 
 import UIKit
 
-public struct FormSubmit: ServerDrivenComponent, AutoInitiableAndDecodable {
+public struct FormSubmit: RawComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
-    public let child: ServerDrivenComponent
+    public let child: RawComponent
     public var enabled: Bool?
 
 // sourcery:inline:auto:FormSubmit.Init
     public init(
-        child: ServerDrivenComponent,
+        child: RawComponent,
         enabled: Bool? = nil
     ) {
         self.child = child

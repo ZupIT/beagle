@@ -19,4 +19,4 @@ import BeagleSchema
 
 // MARK: - Widget
 
-public protocol Widget: ServerDrivenComponent, BeagleSchema.Widget { }
+public protocol Widget: ServerDrivenComponent, RawWidget { }

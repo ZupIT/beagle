@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-public struct PageView: ServerDrivenComponent, AutoInitiable {
+public struct PageView: RawComponent, AutoInitiable {
 
-    public let pages: [ServerDrivenComponent]
+    public let pages: [RawComponent]
     public let pageIndicator: PageIndicatorComponent?
 
 // sourcery:inline:auto:PageView.Init
     public init(
-        pages: [ServerDrivenComponent],
+        pages: [RawComponent],
         pageIndicator: PageIndicatorComponent? = nil
     ) {
         self.pages = pages
@@ -44,4 +44,4 @@ extension PageView: Decodable {
     }
 }
 
-public protocol PageIndicatorComponent: ServerDrivenComponent {}
+public protocol PageIndicatorComponent: RawComponent {}

@@ -16,13 +16,13 @@
 
 import UIKit
 
-public struct FormInput: ServerDrivenComponent, AutoInitiableAndDecodable {
+public struct FormInput: RawComponent, AutoInitiableAndDecodable {
     
     public let name: String
     public let required: Bool?
     public let validator: String?
     public let errorMessage: String?
-    public let child: ServerDrivenComponent
+    public let child: RawComponent
 
 // sourcery:inline:auto:FormInput.Init
     public init(
@@ -30,7 +30,7 @@ public struct FormInput: ServerDrivenComponent, AutoInitiableAndDecodable {
         required: Bool? = nil,
         validator: String? = nil,
         errorMessage: String? = nil,
-        child: ServerDrivenComponent
+        child: RawComponent
     ) {
         self.name = name
         self.required = required

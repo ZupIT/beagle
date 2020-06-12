@@ -22,7 +22,7 @@ enum ComponentFromJsonError: Error {
     case couldNotMatchComponentType
 }
 
-func componentFromJsonFile<W: ServerDrivenComponent>(
+func componentFromJsonFile<W: RawComponent>(
     fileName: String,
     decoder: ComponentDecoding = ComponentDecoder()
 ) throws -> W {
@@ -84,7 +84,7 @@ func jsonFromFile(
 
 /// This method was only created due to some problems with Swift Type Inference.
 /// So when you pass the type as a parameter, swift can infer the correct type.
-func componentFromJsonFile<W: ServerDrivenComponent>(
+func componentFromJsonFile<W: RawComponent>(
     componentType: W.Type,
     fileName: String,
     decoder: ComponentDecoding = ComponentDecoder()

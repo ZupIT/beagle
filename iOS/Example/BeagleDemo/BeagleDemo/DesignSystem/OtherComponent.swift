@@ -14,22 +14,26 @@
  * limitations under the License.
  */
 
-import XCTest
-@testable import BeagleSchema
-// swiftlint:disable force_cast
+import Foundation
+import UIKit
+import BeagleUI
+import BeagleSchema
 
-class ServerDrivenComponentTests: XCTestCase {
+struct OtherComponent: Widget, AutoInitiableAndDecodable {
 
-    func testIfToScreenReturnsSelf() {
-        // given
-        let component = Unknown()
-        
-        // when
-        let toScreenComponent = component.toScreen()
-        
-        // then
-        XCTAssert(component == (toScreenComponent.child as! Unknown))
-        
+    var widgetProperties: WidgetProperties
+
+    func toView(renderer: BeagleRenderer) -> UIView {
+        let label = UILabel()
+        label.text = "Test text"
+        return label
     }
 
+// sourcery:inline:auto:OtherComponent.Init
+    internal init(
+        widgetProperties: WidgetProperties = WidgetProperties()
+    ) {
+        self.widgetProperties = widgetProperties
+    }
+// sourcery:end
 }

@@ -16,12 +16,13 @@
 
 import Foundation
 
-public protocol Widget: ServerDrivenComponent, HasWidgetProperties {
+public protocol RawWidget: RawComponent, HasWidgetProperties {
+
     var widgetProperties: WidgetProperties { get set }
 }
 
 // MARK: - Widget Properties
-public extension Widget {
+public extension RawWidget {
 
     var style: Style? {
         get { return widgetProperties.style }

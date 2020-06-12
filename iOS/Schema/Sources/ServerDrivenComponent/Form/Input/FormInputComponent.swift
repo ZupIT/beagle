@@ -15,6 +15,6 @@
  */
 
 ///This Protocol defines a FormInput Server Driven Component
-public protocol FormInputComponent: ServerDrivenComponent {
+public protocol FormInputComponent: RawComponent {
     var name: String { get }
 }

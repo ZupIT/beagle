@@ -34,7 +34,7 @@ open class BeagleRenderer {
     }
 
     /// main function of this class. Call it to transform a Component into a UIView
-    open func render(_ component: BeagleSchema.ServerDrivenComponent) -> UIView {
+    open func render(_ component: BeagleSchema.RawComponent) -> UIView {
         let view = makeView(component: component)
 
         setupView(view, of: component)
@@ -42,11 +42,11 @@ open class BeagleRenderer {
         return view
     }
 
-    open func render(_ children: [BeagleSchema.ServerDrivenComponent]) -> [UIView] {
+    open func render(_ children: [BeagleSchema.RawComponent]) -> [UIView] {
         return children.map { render($0) }
     }
 
-    private func makeView(component: BeagleSchema.ServerDrivenComponent) -> UIView {
+    private func makeView(component: BeagleSchema.RawComponent) -> UIView {
         guard let renderable = component as? Renderable else {
             assertionFailure("This should never happen since we ensure users only subscribe components that are Renderable")
             let type = String(describing: component.self)
@@ -57,7 +57,7 @@ open class BeagleRenderer {
         return renderable.toView(renderer: self)
     }
 
-    private func setupView(_ view: UIView, of component: BeagleSchema.ServerDrivenComponent) {
+    private func setupView(_ view: UIView, of component: BeagleSchema.RawComponent) {
         view.flex.isEnabled = true
 
         // this switch could actually be inside the ViewConfigurator

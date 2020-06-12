@@ -20,7 +20,7 @@ import Foundation
 
 // MARK: - CustomPageIndicator Component
 
-public struct CustomPageIndicator: PageIndicatorComponent, ServerDrivenComponent {
+public struct CustomPageIndicator: PageIndicatorComponent, RawComponent {
 
     // MARK: - Public Properties
 

@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-public struct ListView: ServerDrivenComponent, AutoInitiableAndDecodable {
+public struct ListView: RawComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
     
-    public let rows: [ServerDrivenComponent]
+    public let rows: [RawComponent]
     public var direction: Direction = .vertical
 
 // sourcery:inline:auto:ListView.Init
     public init(
-        rows: [ServerDrivenComponent],
+        rows: [RawComponent],
         direction: Direction = .vertical
     ) {
         self.rows = rows

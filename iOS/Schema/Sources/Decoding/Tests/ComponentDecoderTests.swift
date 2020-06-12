@@ -21,7 +21,7 @@ import SnapshotTesting
 public final class ComponentDecoderTests: XCTestCase {
     // swiftlint:disable force_unwrapping
     
-    private lazy var sut = Schema.dependencies.decoder
+    private lazy var sut = dependencies.decoder
 
     func testIfAllComponentsAreBeingRegistered() {
         let sut = ComponentDecoder()
@@ -100,11 +100,11 @@ public final class ComponentDecoderTests: XCTestCase {
 }
 
 // MARK: - Testing Helpers
-struct NewComponent: ServerDrivenComponent {
+struct NewComponent: RawComponent {
     var text: String
     
 }
 
-struct Unknown: ServerDrivenComponent, Equatable {
+struct Unknown: RawComponent, Equatable {
     
 }

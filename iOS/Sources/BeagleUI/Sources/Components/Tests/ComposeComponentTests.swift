@@ -35,7 +35,7 @@ struct ComposeText: BeagleUI.ComposeComponent {
     var title: String = ""
     var subtitle: String = ""
     
-    func build() -> BeagleSchema.ServerDrivenComponent {
+    func build() -> BeagleSchema.RawComponent {
         return Container(children: [
             Text(title),
             Text(subtitle)

@@ -16,12 +16,12 @@
 
 import UIKit
 
-public struct Form: ServerDrivenComponent, AutoInitiableAndDecodable {
+public struct Form: RawComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
 
     public let action: Action
-    public let child: ServerDrivenComponent
+    public let child: RawComponent
     public let group: String?
     public let additionalData: [String: String]?
     public var shouldStoreFields: Bool = false
@@ -29,7 +29,7 @@ public struct Form: ServerDrivenComponent, AutoInitiableAndDecodable {
 // sourcery:inline:auto:Form.Init
     public init(
         action: Action,
-        child: ServerDrivenComponent,
+        child: RawComponent,
         group: String? = nil,
         additionalData: [String: String]? = nil,
         shouldStoreFields: Bool = false

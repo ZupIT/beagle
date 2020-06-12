@@ -19,10 +19,10 @@ import Foundation
 public protocol ComponentDecoding {
     typealias Error = ComponentDecodingError
     
-    func register<T: ServerDrivenComponent>(_ type: T.Type, for typeName: String)
+    func register<T: RawComponent>(_ type: T.Type, for typeName: String)
     func componentType(forType type: String) -> Decodable.Type?
     func actionType(forType type: String) -> Decodable.Type?
-    func decodeComponent(from data: Data) throws -> ServerDrivenComponent
+    func decodeComponent(from data: Data) throws -> RawComponent
     func decodeAction(from data: Data) throws -> Action
 }
 
@@ -50,7 +50,7 @@ final public class ComponentDecoder: ComponentDecoding {
         registerDefaultTypes()
     }
     
-    public func register<T: ServerDrivenComponent>(_ type: T.Type, for typeName: String) {
+    public func register<T: RawComponent>(_ type: T.Type, for typeName: String) {
         registerComponent(type, key: key(name: typeName, namespace: .custom))
     }
     
@@ -62,7 +62,7 @@ final public class ComponentDecoder: ComponentDecoding {
         return actionDecoders[type.lowercased()]
     }
     
-    public func decodeComponent(from data: Data) throws -> ServerDrivenComponent {
+    public func decodeComponent(from data: Data) throws -> RawComponent {
         return try decode(from: data)
     }
     

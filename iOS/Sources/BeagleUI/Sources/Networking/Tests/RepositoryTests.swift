@@ -156,14 +156,14 @@ final class RepositoryTests: XCTestCase {
 // MARK: - Testing Helpers
 
 final class ComponentDecodingStub: ComponentDecoding {
-    func register<T>(_ type: T.Type, for typeName: String) where T: BeagleSchema.ServerDrivenComponent {}
+    func register<T>(_ type: T.Type, for typeName: String) where T: BeagleSchema.RawComponent {}
     func componentType(forType type: String) -> Decodable.Type? { return nil }
     func actionType(forType type: String) -> Decodable.Type? { return nil }
     
-    var componentToReturnOnDecode: BeagleSchema.ServerDrivenComponent?
+    var componentToReturnOnDecode: BeagleSchema.RawComponent?
     var errorToThrowOnDecode: Error?
     
-    func decodeComponent(from data: Data) throws -> BeagleSchema.ServerDrivenComponent {
+    func decodeComponent(from data: Data) throws -> BeagleSchema.RawComponent {
         if let error = errorToThrowOnDecode {
             throw error
         }

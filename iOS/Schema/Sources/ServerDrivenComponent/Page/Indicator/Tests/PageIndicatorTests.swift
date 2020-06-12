@@ -37,7 +37,7 @@ class PageIndicatorTests: XCTestCase {
     
     override func tearDown() {
         super.tearDown()
-        Schema.dependencies = DefaultDependencies()
+        dependencies = DefaultDependencies()
     }
     
     func test_indicator_decoder() throws {

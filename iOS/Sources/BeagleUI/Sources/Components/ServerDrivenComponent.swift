@@ -17,7 +17,7 @@
 import UIKit
 import BeagleSchema
 
-public protocol ServerDrivenComponent: Renderable, BeagleSchema.ServerDrivenComponent {}
+public protocol ServerDrivenComponent: Renderable, RawComponent {}
 
 public protocol ComposeComponent: Renderable, BeagleSchema.ComposeComponent {}
 

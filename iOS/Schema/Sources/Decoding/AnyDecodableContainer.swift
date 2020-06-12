@@ -63,25 +63,25 @@ extension KeyedDecodingContainer {
         return content?.content as? Action
     }
     
-    public func decode(forKey key: KeyedDecodingContainer<K>.Key) throws -> ServerDrivenComponent {
+    public func decode(forKey key: KeyedDecodingContainer<K>.Key) throws -> RawComponent {
         let content = try decode(AnyDecodableContainer.self, forKey: key)
-        return (content.content as? ServerDrivenComponent) ?? UnknownComponent(type: String(describing: content.content))
+        return (content.content as? RawComponent) ?? UnknownComponent(type: String(describing: content.content))
     }
     
-    public func decodeIfPresent(forKey key: KeyedDecodingContainer<K>.Key) throws -> ServerDrivenComponent? {
+    public func decodeIfPresent(forKey key: KeyedDecodingContainer<K>.Key) throws -> RawComponent? {
         let content = try decodeIfPresent(AnyDecodableContainer.self, forKey: key)
-        return content?.content as? ServerDrivenComponent
+        return content?.content as? RawComponent
     }
     
-    public func decode(forKey key: KeyedDecodingContainer<K>.Key) throws -> [ServerDrivenComponent] {
+    public func decode(forKey key: KeyedDecodingContainer<K>.Key) throws -> [RawComponent] {
         let content = try decode([AnyDecodableContainer].self, forKey: key)
         return content.map {
-            ($0.content as? ServerDrivenComponent) ?? UnknownComponent(type: String(describing: $0.content))
+            ($0.content as? RawComponent) ?? UnknownComponent(type: String(describing: $0.content))
         }
     }
 }
 
-public struct UnknownComponent: ServerDrivenComponent, AutoInitiable {
+public struct UnknownComponent: RawComponent, AutoInitiable {
     public var type: String
 
 // sourcery:inline:auto:UnknownComponent.Init

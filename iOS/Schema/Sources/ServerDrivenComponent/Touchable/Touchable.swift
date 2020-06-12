@@ -16,17 +16,17 @@
 
 import Foundation
 
-public struct Touchable: ServerDrivenComponent, ClickedOnComponent, AutoInitiableAndDecodable {
+public struct Touchable: RawComponent, ClickedOnComponent, AutoInitiableAndDecodable {
     // MARK: - Public Properties
     public let action: Action
     public let clickAnalyticsEvent: AnalyticsClick?
-    public let child: ServerDrivenComponent
+    public let child: RawComponent
 
 // sourcery:inline:auto:Touchable.Init
     public init(
         action: Action,
         clickAnalyticsEvent: AnalyticsClick? = nil,
-        child: ServerDrivenComponent
+        child: RawComponent
     ) {
         self.action = action
         self.clickAnalyticsEvent = clickAnalyticsEvent

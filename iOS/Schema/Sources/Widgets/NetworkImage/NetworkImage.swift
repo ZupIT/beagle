@@ -17,7 +17,7 @@
 
 import Foundation
 
-public struct NetworkImage: Widget, AutoInitiableAndDecodable {
+public struct NetworkImage: RawWidget, AutoInitiableAndDecodable {
     
     public let path: String
     public let contentMode: ImageContentMode?

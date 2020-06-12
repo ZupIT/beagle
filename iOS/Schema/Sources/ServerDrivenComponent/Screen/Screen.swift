@@ -25,7 +25,7 @@ public struct Screen: AutoInitiable {
     public let safeArea: SafeArea?
     public let navigationBar: NavigationBar?
     public let screenAnalyticsEvent: AnalyticsScreen?
-    public let child: ServerDrivenComponent
+    public let child: RawComponent
 
 // sourcery:inline:auto:Screen.Init
     public init(
@@ -34,7 +34,7 @@ public struct Screen: AutoInitiable {
         safeArea: SafeArea? = nil,
         navigationBar: NavigationBar? = nil,
         screenAnalyticsEvent: AnalyticsScreen? = nil,
-        child: ServerDrivenComponent
+        child: RawComponent
     ) {
         self.id = id
         self.style = style

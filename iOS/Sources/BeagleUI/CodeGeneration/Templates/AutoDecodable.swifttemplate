@@ -39,10 +39,11 @@ func customEncodingMethod(for variable: Variable, of type: Type) -> SourceryMeth
 }
 
 func needsCustomBeagleDecoding(_ variable: Variable) -> Bool {
-    return variable.unwrappedTypeName == "Action" ||
-            variable.unwrappedTypeName == "ServerDrivenComponent" ||
-            variable.unwrappedTypeName == "[ServerDrivenComponent]" || variable.unwrappedTypeName == "RawServerDrivenComponent" ||
-            variable.unwrappedTypeName == "[RawServerDrivenComponent]"
+    return variable.unwrappedTypeName == "Action"
+        || variable.unwrappedTypeName == "ServerDrivenComponent"
+        || variable.unwrappedTypeName == "[ServerDrivenComponent]"
+        || variable.unwrappedTypeName == "RawComponent"
+        || variable.unwrappedTypeName == "[RawComponent]"
 }
 
 func codingKeysFor(_ type: Type) -> (generated: [String], all: [String]) {

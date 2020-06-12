@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-public struct Spacer: ServerDrivenComponent {
+public struct Spacer: RawComponent {
     
     // MARK: - Public Properties
     

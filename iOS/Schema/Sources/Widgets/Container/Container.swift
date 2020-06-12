@@ -16,15 +16,15 @@
 
 import UIKit
 
-public struct Container: Widget, AutoInitiableAndDecodable {
+public struct Container: RawWidget, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
-    public let children: [ServerDrivenComponent]
+    public let children: [RawComponent]
     public var widgetProperties: WidgetProperties
     
 // sourcery:inline:auto:Container.Init
     public init(
-        children: [ServerDrivenComponent],
+        children: [RawComponent],
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.children = children

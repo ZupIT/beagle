@@ -131,4 +131,4 @@ final class NavigateTests: XCTestCase {
     
 }
 
-private struct DumbComponent: ServerDrivenComponent { }
+private struct DumbComponent: RawComponent { }

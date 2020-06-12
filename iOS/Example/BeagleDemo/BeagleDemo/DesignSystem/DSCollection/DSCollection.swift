@@ -18,18 +18,8 @@ import UIKit
 import BeagleUI
 import BeagleSchema
 
-struct DSCollectionDataSource : Decodable, AutoEquatable {
-    
-    struct Card : Decodable, Equatable {
-        let name: String
-        let age: Int
-    }
-    
-    let cards: [Card]
-}
-
 // Conforming to AutoEquatable is optional.
-struct DSCollection: BeagleUI.Widget, AutoInitiableAndDecodable, AutoEquatable {
+struct DSCollection: Widget, AutoInitiableAndDecodable, AutoEquatable {
 
     let dataSource: DSCollectionDataSource
     var widgetProperties: WidgetProperties
@@ -43,6 +33,16 @@ struct DSCollection: BeagleUI.Widget, AutoInitiableAndDecodable, AutoEquatable {
         self.widgetProperties = widgetProperties
     }
 // sourcery:end
+}
+
+struct DSCollectionDataSource : Decodable, AutoEquatable {
+    
+    struct Card : Decodable, Equatable {
+        let name: String
+        let age: Int
+    }
+    
+    let cards: [Card]
 }
 
 extension DSCollection: Renderable {
