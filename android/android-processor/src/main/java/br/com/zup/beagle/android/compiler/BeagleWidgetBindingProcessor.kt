@@ -20,8 +20,8 @@ import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.compiler.ANDROID_CONTEXT
 import br.com.zup.beagle.compiler.ANDROID_VIEW
 import br.com.zup.beagle.compiler.BINDING_ADAPTER
+import br.com.zup.beagle.compiler.BeagleBindingHandler
 import br.com.zup.beagle.compiler.BeagleBindingHandler.Companion.BINDING_SUFFIX
-import br.com.zup.beagle.compiler.BeagleWidgetBindingHandler
 import br.com.zup.beagle.compiler.GET_VALUE_NOT_NULL
 import br.com.zup.beagle.compiler.GET_VALUE_NULL
 import br.com.zup.beagle.compiler.INPUT_WIDGET
@@ -66,8 +66,8 @@ class BeagleWidgetBindingProcessor(
     private fun handle(element: Element) {
         if (element is TypeElement && element.kind.isClass) {
             try {
-                val beagleWidgetBindingHandler = BeagleWidgetBindingHandler(processingEnv)
-                val typeSpecBuilder = beagleWidgetBindingHandler.createBindingClass(element)
+                val beagleBindingHandler = BeagleBindingHandler(processingEnv)
+                val typeSpecBuilder = beagleBindingHandler.createBindingClass(element)
 
                 typeSpecBuilder.addProperty(getAttributeWidgetInstance(element))
                 typeSpecBuilder.addProperty(getAttributeView())

@@ -16,9 +16,12 @@
 
 package br.com.zup.beagle.compiler
 
+import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.annotation.internal.InternalAction
+import br.com.zup.beagle.annotation.internal.InternalWidget
 import com.google.auto.service.AutoService
-import com.squareup.kotlinpoet.asClassName
+import com.squareup.kotlinpoet.FileSpec
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessor
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessorType
 import javax.annotation.processing.AbstractProcessor
@@ -33,28 +36,42 @@ import javax.tools.Diagnostic
 @IncrementalAnnotationProcessor(IncrementalAnnotationProcessorType.ISOLATING)
 class BeagleBackendProcessor : AbstractProcessor() {
     companion object {
-        val ANNOTATION = RegisterWidget::class
-        val WARNING_MESSAGE = "This @${ANNOTATION.simpleName} is not a class"
+        const val WARNING_MESSAGE_TEMPLATE = "This @%s is not a class"
+        val ANNOTATIONS = arrayOf(
+            InternalAction::class,
+            InternalWidget::class,
+            RegisterAction::class,
+            RegisterWidget::class
+        )
     }
 
     override fun getSupportedSourceVersion() = SourceVersion.latestSupported()!!
 
-    override fun getSupportedAnnotationTypes() = mutableSetOf(ANNOTATION.qualifiedName)
+    override fun getSupportedAnnotationTypes() = ANNOTATIONS.map { it.qualifiedName }.toMutableSet()
 
     override fun process(annotations: MutableSet<out TypeElement>?, roundEnvironment: RoundEnvironment?): Boolean {
-        roundEnvironment?.getElementsAnnotatedWith(ANNOTATION.java)?.forEach(this::processElement)
+        ANNOTATIONS.forEach { annotation ->
+            roundEnvironment?.getElementsAnnotatedWith(annotation.java)?.forEach { element ->
+                this.processElement(element, WARNING_MESSAGE_TEMPLATE.format(annotation.simpleName))
+            }
+        }
         return false
     }
 
-    private fun processElement(element: Element) {
+    private fun processElement(element: Element, warning: String) {
         if (element is TypeElement && element.kind.isClass) {
             try {
-                BeagleWidgetBindingHandler(this.processingEnv, BIND_BACKEND).handle(element)
+                BeagleBindingHandler(this.processingEnv, BIND_BACKEND).also {
+                    FileSpec.get(
+                        this.processingEnv.elementUtils.getPackageAsString(element),
+                        it.createBindingClass(element).build()
+                    ).writeTo(this.processingEnv.filer)
+                }
             } catch (e: Exception) {
                 this.processingEnv.messager.printMessage(Diagnostic.Kind.ERROR, e.localizedMessage, element)
             }
         } else {
-            this.processingEnv.messager.printMessage(Diagnostic.Kind.WARNING, WARNING_MESSAGE, element)
+            this.processingEnv.messager.printMessage(Diagnostic.Kind.WARNING, warning, element)
         }
     }
 }
