@@ -31,14 +31,17 @@ import javax.lang.model.element.ExecutableElement
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.TypeMirror
 
-open class BeagleBindingHandler(private val processingEnvironment: ProcessingEnvironment,
-                                private val bindClass: BeagleClass = BIND_ANDROID) {
+open class BeagleBindingHandler(
+    processingEnvironment: ProcessingEnvironment,
+    private val bindClass: BeagleClass = BIND_ANDROID
+) {
     companion object {
         const val BINDING_SUFFIX = "Binding"
         const val GET_BIND_ATTRIBUTES_METHOD = "getBindAttributes"
     }
 
     private val typeUtils = processingEnvironment.typeUtils
+
     fun createBindingClass(element: TypeElement) =
         element.visibleGetters.map { this.createBindParameter(it) }.let { parameters ->
             TypeSpec.classBuilder("${element.simpleName}${BINDING_SUFFIX}")
@@ -51,10 +54,9 @@ open class BeagleBindingHandler(private val processingEnvironment: ProcessingEnv
     fun createBindParameter(element: ExecutableElement) =
         ParameterSpec.builder(
             element.fieldName,
-            this.typeUtils.getKotlinName(element.returnType).let {
-                if (element.isOverride) it else ClassName(bindClass.packageName, bindClass.className)
-                    .parameterizedBy(it)
-            }
+            this.typeUtils.getKotlinName(element.returnType)
+                .let { if (element.isOverride) it else bindClass.asClassName().parameterizedBy(it) }
+                .copy(element.isMarkedNullable)
         ).tag(Boolean::class, element.isOverride).build()
 
     fun getFunctionGetBindAttributes(element: TypeElement): FunSpec {

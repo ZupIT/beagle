@@ -34,7 +34,7 @@ object BlankWidget : Widget()
 data class ConstructorWidget(val something: Any) : Widget()
 
 @RegisterWidget
-data class InterfaceWidget(val something: Any) : Widget()
+data class InterfaceWidget(val something: Any) : ServerDrivenComponent
 
 @RegisterWidget
 data class GenericsWidget(
@@ -81,3 +81,6 @@ data class OverrideParentWidget(
     override val flex: Flex?,
     override val child: ServerDrivenComponent
 ) : AccessibilityComponent, FlexComponent, StyleComponent, GhostComponent
+
+@RegisterWidget
+data class NullableWidget(val thing: Any?)
