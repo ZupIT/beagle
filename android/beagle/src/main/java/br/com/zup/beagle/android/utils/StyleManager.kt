@@ -46,14 +46,14 @@ class StyleManager(
             is Text -> fetchDrawableColor(
                 getTypedArray(
                     context,
-                    designSystem?.textAppearance(component.style ?: ""),
+                    designSystem?.textStyle(component.styleId ?: ""),
                     R.styleable.BackgroundStyle
                 )
             )
             is Button -> fetchDrawableColor(
                 getTypedArray(
                     context,
-                    designSystem?.buttonStyle(component.style ?: ""),
+                    designSystem?.buttonStyle(component.styleId ?: ""),
                     R.styleable.BackgroundStyle
                 )
             )
@@ -66,12 +66,12 @@ class StyleManager(
         return typedValue
     }
 
-    fun getButtonStyle(style: String?): Int? {
-        return designSystem?.buttonStyle(style ?: "")
+    fun getButtonStyle(styleId: String?): Int? {
+        return designSystem?.buttonStyle(styleId ?: "")
     }
 
-    fun getButtonTypedArray(context: Context, style: String?): TypedArray? {
-        val buttonStyle = getButtonStyle(style)
+    fun getButtonTypedArray(context: Context, styleId: String?): TypedArray? {
+        val buttonStyle = getButtonStyle(styleId)
         return getTypedArray(
             context,
             buttonStyle,
@@ -79,8 +79,8 @@ class StyleManager(
         )
     }
 
-    fun getTabBarTypedArray(context: Context, style: String?): TypedArray? {
-        val tabStyle = designSystem?.tabViewStyle(style ?: "")
+    fun getTabBarTypedArray(context: Context, styleId: String?): TypedArray? {
+        val tabStyle = designSystem?.tabViewStyle(styleId ?: "")
         return getTypedArray(
             context,
             tabStyle,

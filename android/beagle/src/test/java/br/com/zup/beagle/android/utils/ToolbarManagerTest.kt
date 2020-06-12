@@ -35,7 +35,7 @@ import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
-import br.com.zup.beagle.android.widget.layout.ScreenComponent
+import br.com.zup.beagle.widget.layout.ScreenComponent
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -137,7 +137,7 @@ class ToolbarManagerTest : BaseTest() {
         every { navigationBar.title } returns title
         every { beagleSdk.designSystem } returns designSystemMock
         every { designSystemMock.toolbarStyle(style) } returns styleInt
-        every { navigationBar.style } returns style
+        every { navigationBar.styleId } returns style
         every { context.supportActionBar } returns actionBar
         every { context.getToolbar() } returns toolbar
         every { navigationBar.showBackButton } returns true
@@ -159,7 +159,7 @@ class ToolbarManagerTest : BaseTest() {
         // Given
         every { beagleSdk.designSystem } returns designSystemMock
         every { designSystemMock.toolbarStyle(style) } returns styleInt
-        every { navigationBar.style } returns style
+        every { navigationBar.styleId } returns style
         every { screenComponent.navigationBar } returns navigationBar
         every { context.supportActionBar } returns actionBar
         every { context.getToolbar() } returns toolbar

@@ -1,6 +1,6 @@
 {
   "_beagleComponent_": "beagle:ScrollView",
-  "appearance": {
+  "style": {
     "backgroundColor": "#60FF0000",
     "cornerRadius": {
         "radius": 30.0
