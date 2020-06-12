@@ -32,16 +32,16 @@ struct LazyComponentScreen: DeeplinkScreen {
             child: Form(
                 action: Navigate.pushView(.declarative(screen1)),
                 child: Container(children: [
-                    Text(.value("Form & LazyComponent")),
+                    Text("Form & LazyComponent"),
                     FormInput(
                         name: "field",
                         child: LazyComponent(
                             path: .TEXT_LAZY_COMPONENTS_ENDPOINT,
-                            initialState: Text(.value("Loading..."))
+                            initialState: Text("Loading...")
                         )
                     ),
                     FormSubmit(child:
-                        Text(.value("FormSubmit"))
+                        Text("FormSubmit")
                     )
                 ]).applyFlex(Flex().justifyContent(.spaceBetween)),
                 group: "firstForm",
@@ -56,16 +56,16 @@ struct LazyComponentScreen: DeeplinkScreen {
             child: Form(
                 action: FormRemoteAction(path: .TEXT_FORM_ENDPOINT, method: .get),
                 child: Container(children: [
-                    Text(.value("Form & LazyComponent")),
+                    Text("Form & LazyComponent"),
                     FormInput(
                         name: "field1",
                         child: LazyComponent(
                             path: .TEXT_LAZY_COMPONENTS_ENDPOINT,
-                            initialState: Text(.value("Loading..."))
+                            initialState: Text("Loading...")
                         )
                     ),
                     FormSubmit(child:
-                        Text(.value("FormSubmit"))
+                        Text("FormSubmit")
                     )
                 ]).applyFlex(Flex().justifyContent(.spaceBetween)),
                 group: "firstForm",
@@ -81,10 +81,7 @@ extension UITextView: OnStateUpdatable, InputValue {
         guard let w = component as? Text else {
             return false
         }
-        // TODO: oq fazer quando é expression?
-        if case let ValueExpression.value(value) = w.text {
-            text = value
-        }
+        text = w.text
         
         return true
     }
