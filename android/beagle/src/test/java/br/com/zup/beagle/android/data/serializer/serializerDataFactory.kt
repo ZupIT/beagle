@@ -178,9 +178,9 @@ fun makeShowNativeDialogJson() = """
     }
 """
 
-fun makeCustomActionJson() = """
+fun makeFormLocalActionJson() = """
     {
-        "_beagleAction_": "beagle:customAction",
+        "_beagleAction_": "beagle:formLocalAction",
         "name": "${RandomData.string()}",
         "data": {}
     }

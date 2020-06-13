@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.widget.ui
+package br.com.zup.beagle.android.widget
 
 import android.annotation.SuppressLint
 import android.graphics.Color

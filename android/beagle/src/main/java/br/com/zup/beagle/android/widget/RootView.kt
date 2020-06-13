@@ -14,28 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.action
+package br.com.zup.beagle.android.widget
 
-/**
- * Configures the error messages returned by a service external to the application.
- * For example, when checking the registration status of a CPF in the recipe,
- * we can return the API error message to the application using FormValidation.
- *
- * @param errors list of errors.
- *
- */
-data class FormValidation(
-    val errors: List<FieldError>
-) : Action
+import android.content.Context
+import androidx.lifecycle.LifecycleOwner
 
-/**
- * class to define error.
- *
- * @param inputName component name to which this error refers.
- * @param message The error message displayed.
- *
- */
-data class FieldError(
-    val inputName: String,
-    val message: String
-)
+interface RootView {
+    fun getContext(): Context
+    fun getLifecycleOwner(): LifecycleOwner
+}

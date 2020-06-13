@@ -23,7 +23,6 @@ import androidx.appcompat.widget.Toolbar
 import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.analytics.ScreenEvent
 import br.com.zup.beagle.android.components.BaseComponentTest
-import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.utils.ToolbarManager
@@ -185,14 +184,13 @@ class ScreenComponentTest : BaseComponentTest() {
         mockkConstructor(ToolbarManager::class)
         screenComponent = ScreenComponent(child = screenComponent, navigationBar = navigationBar)
 
-
         //WHEN
         screenComponent.buildView(rootView)
 
         //THEN
         verifyOrder {
             anyConstructed<ToolbarManager>().configureNavigationBarForScreen(context, navigationBar)
-            anyConstructed<ToolbarManager>().configureToolbar(context, navigationBar)
+            anyConstructed<ToolbarManager>().configureToolbar(rootView, navigationBar)
         }
     }
 }

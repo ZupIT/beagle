@@ -25,15 +25,16 @@ import android.view.View
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
-import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.R
 import br.com.zup.beagle.action.Action
+import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.ActionExecutor
 import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.BeagleActivity
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import io.mockk.Runs
@@ -55,6 +56,9 @@ class ToolbarManagerTest : BaseTest() {
 
     @MockK(relaxed = true)
     private lateinit var navigationBar: NavigationBar
+
+    @MockK
+    private lateinit var rootView: RootView
 
     @RelaxedMockK
     private lateinit var context: BeagleActivity
@@ -100,6 +104,7 @@ class ToolbarManagerTest : BaseTest() {
     override fun setUp() {
         super.setUp()
         mockkStatic(ResourcesCompat::class)
+        every { rootView.getContext() } returns context
         every { context.resources } returns resources
         every {
             context.obtainStyledAttributes(styleInt, R.styleable.BeagleToolbarStyle)
@@ -155,7 +160,7 @@ class ToolbarManagerTest : BaseTest() {
         every { navigationBar.showBackButton } returns true
 
         // When
-        toolbarManager.configureToolbar(context, navigationBar)
+        toolbarManager.configureToolbar(rootView, navigationBar)
 
         // Then
         verify(atLeast = once()) { toolbar.navigationIcon = navigationIcon }
@@ -178,7 +183,7 @@ class ToolbarManagerTest : BaseTest() {
         every { navigationBar.showBackButton } returns false
 
         // When
-        toolbarManager.configureToolbar(context, navigationBar)
+        toolbarManager.configureToolbar(rootView, navigationBar)
 
         // Then
         verify(atLeast = once()) { toolbar.navigationIcon = null }
@@ -199,7 +204,7 @@ class ToolbarManagerTest : BaseTest() {
         every { menu.add(any(), any(), any(), any<String>()) } returns menuItem
 
         // WHEN
-        toolbarManager.configureToolbar(context, navigationBar)
+        toolbarManager.configureToolbar(rootView, navigationBar)
 
         // THEN
         assertEquals(View.VISIBLE, toolbar.visibility)
@@ -225,7 +230,7 @@ class ToolbarManagerTest : BaseTest() {
         every { ResourcesCompat.getDrawable(any(), any(), any()) } returns icon
 
         // WHEN
-        toolbarManager.configureToolbar(context, navigationBar)
+        toolbarManager.configureToolbar(rootView, navigationBar)
 
         // THEN
         verify(exactly = once()) { menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS) }

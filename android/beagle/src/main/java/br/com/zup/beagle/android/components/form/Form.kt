@@ -16,16 +16,15 @@
 
 package br.com.zup.beagle.android.components.form
 
-import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import br.com.zup.beagle.action.Action
-import br.com.zup.beagle.action.CustomAction
 import br.com.zup.beagle.action.FormRemoteAction
 import br.com.zup.beagle.android.action.ActionExecutor
-import br.com.zup.beagle.android.action.FormValidationActionHandler
+import br.com.zup.beagle.android.action.FormLocalAction
+import br.com.zup.beagle.android.action.FormValidation
 import br.com.zup.beagle.android.components.form.core.Constants.shared
 import br.com.zup.beagle.android.components.utils.hideKeyboard
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
@@ -38,8 +37,8 @@ import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
-import br.com.zup.beagle.android.widget.ui.RootView
-import br.com.zup.beagle.android.widget.ui.WidgetView
+import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 data class Form(
@@ -64,8 +63,6 @@ data class Form(
     @Transient
     private val validatorHandler: ValidatorHandler? = BeagleEnvironment.beagleSdk.validatorHandler
 
-    @Transient
-    private val formValidationActionHandler: FormValidationActionHandler = FormValidationActionHandler()
 
     @Transient
     private val formSubmitter: FormSubmitter = FormSubmitter()
@@ -74,9 +71,7 @@ data class Form(
     private val formValidatorController: FormValidatorController = FormValidatorController()
 
     @Transient
-    private val actionExecutor: ActionExecutor = ActionExecutor(
-        formValidationActionHandler = formValidationActionHandler
-    )
+    private val actionExecutor: ActionExecutor = ActionExecutor()
 
     @Transient
     private val formDataStoreHandler: FormDataStoreHandler = shared
@@ -85,7 +80,7 @@ data class Form(
         val view = viewRendererFactory.make(child).build(rootView)
 
         if (view is ViewGroup) {
-            fetchFormViews(view)
+            fetchFormViews(rootView, view)
         }
 
         if (formInputs.size == 0) {
@@ -99,7 +94,7 @@ data class Form(
         return view
     }
 
-    private fun fetchFormViews(viewGroup: ViewGroup) {
+    private fun fetchFormViews(rootView: RootView, viewGroup: ViewGroup) {
         viewGroup.children.forEach { childView ->
             if (childView.tag != null) {
                 val tag = childView.tag
@@ -110,25 +105,24 @@ data class Form(
                     formInputHiddenList.add(tag)
                 } else if (childView.tag is FormSubmit && formSubmitView == null) {
                     formSubmitView = childView
-                    addClickToFormSubmit(childView)
+                    addClickToFormSubmit(rootView, childView)
                     formValidatorController.formSubmitView = childView
                 }
             } else if (childView is ViewGroup) {
-                fetchFormViews(childView)
+                fetchFormViews(rootView, childView)
             }
         }
 
         formValidatorController.configFormSubmit()
     }
 
-    private fun addClickToFormSubmit(formSubmitView: View) {
+    private fun addClickToFormSubmit(rootView: RootView, formSubmitView: View) {
         formSubmitView.setOnClickListener {
-            formValidationActionHandler.formInputs = formInputs
-            handleFormSubmit(formSubmitView.context)
+            handleFormSubmit(rootView)
         }
     }
 
-    private fun handleFormSubmit(context: Context) {
+    private fun handleFormSubmit(rootView: RootView) {
         val formsValue = mutableMapOf<String, String>()
 
         formInputs.forEach { formInput ->
@@ -146,7 +140,7 @@ data class Form(
         if (formsValue.size == (formInputs.size + formInputHiddenList.size)) {
             updateStoredData(formsValue)
             formSubmitView?.hideKeyboard()
-            submitForm(formsValue, context)
+            submitForm(rootView, formsValue)
         }
     }
 
@@ -194,34 +188,33 @@ data class Form(
         }
     }
 
-    private fun submitForm(
-        formsValue: MutableMap<String, String>,
-        context: Context
-    ) {
+    private fun submitForm(rootView: RootView, formsValue: MutableMap<String, String>) {
         when (val action = action) {
             is FormRemoteAction -> formSubmitter.submitForm(action, formsValue) {
-                (context as AppCompatActivity).runOnUiThread {
-                    handleFormResult(context, it)
+                (rootView.getContext() as AppCompatActivity).runOnUiThread {
+                    handleFormResult(rootView, it)
                 }
             }
-            is CustomAction -> actionExecutor.doAction(context, CustomAction(
+            is FormLocalAction -> actionExecutor.doAction(rootView, FormLocalAction(
                 name = action.name,
                 data = formsValue.plus(action.data)
             ))
-            else ->
-                actionExecutor.doAction(context, action)
+            else -> actionExecutor.doAction(rootView, action)
         }
     }
 
-    private fun handleFormResult(context: Context, formResult: FormResult) {
+    private fun handleFormResult(rootView: RootView, formResult: FormResult) {
         when (formResult) {
             is FormResult.Success -> {
                 group?.let {
                     formDataStoreHandler.clear(it)
                 }
-                actionExecutor.doAction(context, formResult.action)
+                if (formResult.action is FormValidation) {
+                    formResult.action.formInputs = formInputs
+                }
+                actionExecutor.doAction(rootView, formResult.action)
             }
-            is FormResult.Error -> (context as? BeagleActivity)?.onServerDrivenContainerStateChanged(
+            is FormResult.Error -> (rootView.getContext() as? BeagleActivity)?.onServerDrivenContainerStateChanged(
                 ServerDrivenState.Error(formResult.throwable)
             )
         }

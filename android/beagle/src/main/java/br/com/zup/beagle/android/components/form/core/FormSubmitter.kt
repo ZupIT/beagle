@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.components.form.core
 
+import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.action.FormMethodType
 import br.com.zup.beagle.action.FormRemoteAction
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer

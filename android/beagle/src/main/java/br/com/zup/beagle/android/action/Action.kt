@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.components.form.core
+package br.com.zup.beagle.android.action
 
-interface ValidationErrorListener {
-    fun onValidationError(message: String?)
+import br.com.zup.beagle.android.widget.RootView
+
+interface Action : br.com.zup.beagle.action.Action {
+    fun execute(rootView: RootView)
 }

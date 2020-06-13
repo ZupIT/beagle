@@ -21,7 +21,7 @@ import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.generateViewModelInstance
-import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.RootView
 import io.mockk.called
 import io.mockk.coEvery
 import io.mockk.every

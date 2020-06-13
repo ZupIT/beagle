@@ -24,7 +24,7 @@ import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.Environment
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.ui.UndefinedWidget
+import br.com.zup.beagle.android.widget.UndefinedWidget
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just

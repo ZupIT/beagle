@@ -19,8 +19,8 @@ package br.com.zup.beagle.android.engine.renderer
 import android.view.View
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.components.utils.ComponentStylization
-import br.com.zup.beagle.android.widget.ui.RootView
-import br.com.zup.beagle.android.widget.ui.ViewConvertable
+import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.ViewConvertable
 
 internal abstract class ViewRenderer<T : ServerDrivenComponent>(
     private val componentStylization: ComponentStylization<T> = ComponentStylization()

@@ -19,7 +19,7 @@ package br.com.zup.beagle.android.components.layout
 import br.com.zup.beagle.android.components.BaseComponentTest
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.ui.WidgetView
+import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.mockk
 import io.mockk.verify

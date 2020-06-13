@@ -17,8 +17,8 @@
 package br.com.zup.beagle.android.mockdata
 
 import android.view.View
-import br.com.zup.beagle.android.widget.ui.RootView
-import br.com.zup.beagle.android.widget.ui.WidgetView
+import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.WidgetView
 
 class CustomWidget : WidgetView() {
     override fun buildView(rootView: RootView): View {

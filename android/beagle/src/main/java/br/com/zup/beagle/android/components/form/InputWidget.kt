@@ -19,7 +19,7 @@ package br.com.zup.beagle.android.components.form
 import br.com.zup.beagle.android.components.form.observer.Observable
 import br.com.zup.beagle.android.components.form.observer.StateChangeable
 import br.com.zup.beagle.android.components.form.observer.WidgetState
-import br.com.zup.beagle.android.widget.ui.WidgetView
+import br.com.zup.beagle.android.widget.WidgetView
 abstract class InputWidget : WidgetView(), StateChangeable {
 
     @Transient

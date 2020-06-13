@@ -24,7 +24,7 @@ import br.com.zup.beagle.android.data.BeagleViewModel
 import br.com.zup.beagle.android.data.ViewState
 import br.com.zup.beagle.android.interfaces.OnStateUpdatable
 import br.com.zup.beagle.android.utils.implementsGenericTypeOf
-import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.RootView
 
 typealias OnStateChanged = (state: BeagleViewState) -> Unit
 

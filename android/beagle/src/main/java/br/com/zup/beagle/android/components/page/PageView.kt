@@ -23,8 +23,8 @@ import androidx.viewpager.widget.ViewPager
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.view.BeaglePageView
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.ui.RootView
-import br.com.zup.beagle.android.widget.ui.WidgetView
+import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 data class PageView(

@@ -66,7 +66,7 @@ class TouchableViewRenderer : BaseComponentTest() {
     fun build_should_call_onClickListener() {
         // Given
         val navigateSlot = slot<Navigate>()
-        every { anyConstructed<ActionExecutor>().doAction(any(), capture(navigateSlot)) } just Runs
+        every { anyConstructed<ActionExecutor>().doAction(rootView, capture(navigateSlot)) } just Runs
 
         // When
         callBuildAndClick()

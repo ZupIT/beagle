@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.components.layout
 
-import android.content.Context
 import android.view.View
 import br.com.zup.beagle.analytics.ScreenEvent
 import br.com.zup.beagle.android.setup.BeagleEnvironment
@@ -24,8 +23,8 @@ import br.com.zup.beagle.android.utils.ToolbarManager
 import br.com.zup.beagle.android.utils.configureSupportActionBar
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.ui.RootView
-import br.com.zup.beagle.android.widget.ui.WidgetView
+import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
@@ -48,7 +47,7 @@ internal data class ScreenComponent(
     private val toolbarManager: ToolbarManager = ToolbarManager()
 
     override fun buildView(rootView: RootView): View {
-        addNavigationBarIfNecessary(rootView.getContext(), navigationBar)
+        addNavigationBarIfNecessary(rootView, navigationBar)
 
         val container = viewFactory.makeBeagleFlexView(rootView.getContext(), Flex(grow = 1.0))
 
@@ -69,13 +68,12 @@ internal data class ScreenComponent(
         return container
     }
 
-
-    private fun addNavigationBarIfNecessary(context: Context, navigationBar: NavigationBar?) {
-        if (context is BeagleActivity) {
+    private fun addNavigationBarIfNecessary(rootView: RootView, navigationBar: NavigationBar?) {
+        (rootView.getContext() as? BeagleActivity)?.let {
             if (navigationBar != null) {
-                configNavigationBar(context, navigationBar)
+                configNavigationBar(rootView, navigationBar)
             } else {
-                hideNavigationBar(context)
+                hideNavigationBar(it)
             }
         }
     }
@@ -88,12 +86,11 @@ internal data class ScreenComponent(
         context.getToolbar().visibility = View.GONE
     }
 
-    private fun configNavigationBar(
-        context: BeagleActivity,
-        navigationBar: NavigationBar
-    ) {
-        context.configureSupportActionBar()
-        toolbarManager.configureNavigationBarForScreen(context, navigationBar)
-        toolbarManager.configureToolbar(context, navigationBar)
+    private fun configNavigationBar(rootView: RootView, navigationBar: NavigationBar) {
+        (rootView.getContext() as? BeagleActivity)?.let {
+            it.configureSupportActionBar()
+            toolbarManager.configureNavigationBarForScreen(it, navigationBar)
+            toolbarManager.configureToolbar(rootView, navigationBar)
+        }
     }
 }

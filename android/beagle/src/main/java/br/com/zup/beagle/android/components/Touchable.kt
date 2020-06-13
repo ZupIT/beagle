@@ -23,8 +23,8 @@ import br.com.zup.beagle.android.action.ActionExecutor
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.widget.ui.RootView
-import br.com.zup.beagle.android.widget.ui.WidgetView
+import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 data class Touchable(
@@ -47,7 +47,7 @@ data class Touchable(
 
         return viewRendererFactory.make(child).build(rootView).apply {
             setOnClickListener {
-                actionExecutor.doAction(context, action)
+                actionExecutor.doAction(rootView, action)
                 clickAnalyticsEvent?.let {
                     BeagleEnvironment.beagleSdk.analytics?.sendClickEvent(it)
                 }

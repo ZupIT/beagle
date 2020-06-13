@@ -16,26 +16,26 @@
 
 package br.com.zup.beagle.android.action
 
-import android.content.Context
-import br.com.zup.beagle.action.FormValidation
+import br.com.zup.beagle.action.FieldError
 import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.components.form.InputWidget
-import br.com.zup.beagle.android.logger.BeagleLogger
+import br.com.zup.beagle.android.widget.RootView
 
-internal class FormValidationActionHandler : DefaultActionHandler<FormValidation> {
+internal class FormValidation(
+    val errors: List<FieldError>
+) : Action {
 
+    @Transient
     var formInputs: List<FormInput>? = null
 
-    override fun handle(context: Context, action: FormValidation) {
-        action.errors.forEach { error ->
+    override fun execute(rootView: RootView) {
+        errors.forEach { error ->
             val formInput = formInputs?.find {
                 it.name == error.inputName
             }
             val childInputWidget : InputWidget? = formInput?.child
 
-            childInputWidget?.onErrorMessage(error.message) ?:
-                BeagleLogger.warning("Input name with name ${error.inputName} does " +
-                        "not implement ValidationErrorListener")
+            childInputWidget?.onErrorMessage(error.message)
         }
     }
 }

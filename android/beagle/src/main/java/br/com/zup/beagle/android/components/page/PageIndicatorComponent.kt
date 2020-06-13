@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.components.page
 
-import br.com.zup.beagle.android.widget.ui.ViewConvertable
+import br.com.zup.beagle.android.widget.ViewConvertable
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 interface PageIndicatorComponent : ServerDrivenComponent,

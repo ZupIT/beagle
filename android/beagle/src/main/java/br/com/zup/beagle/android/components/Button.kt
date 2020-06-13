@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.components
 
 import android.view.View
 import android.widget.Button
-import androidx.appcompat.widget.AppCompatButton
 import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.R
 import br.com.zup.beagle.action.Action
@@ -27,8 +26,8 @@ import br.com.zup.beagle.android.action.ActionExecutor
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.ui.RootView
-import br.com.zup.beagle.android.widget.ui.WidgetView
+import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.WidgetView
 
 data class Button(
     private val text: String,
@@ -53,7 +52,7 @@ data class Button(
         val button = viewFactory.makeButton(rootView.getContext())
 
         button.setOnClickListener {
-            actionExecutor.doAction(rootView.getContext(), action)
+            actionExecutor.doAction(rootView, action)
             clickAnalyticsEvent?.let {
                 BeagleEnvironment.beagleSdk.analytics?.sendClickEvent(it)
             }

@@ -20,9 +20,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import br.com.zup.beagle.action.FormRemoteAction
-import br.com.zup.beagle.android.action.ActionExecutor
-import br.com.zup.beagle.android.action.FormValidationActionHandler
 import br.com.zup.beagle.action.Navigate
+import br.com.zup.beagle.android.action.ActionExecutor
+import br.com.zup.beagle.android.action.FormValidation
 import br.com.zup.beagle.android.components.BaseComponentTest
 import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.components.form.core.FormDataStoreHandler
@@ -39,7 +39,15 @@ import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.testutil.getPrivateField
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkConstructor
+import io.mockk.mockkObject
+import io.mockk.mockkStatic
+import io.mockk.slot
+import io.mockk.verify
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -81,13 +89,14 @@ class FormTest : BaseComponentTest() {
         mockkConstructor(ActionExecutor::class)
         mockkConstructor(FormSubmitter::class)
         mockkConstructor(FormValidatorController::class)
-        mockkConstructor(FormValidationActionHandler::class)
+        mockkConstructor(FormValidation::class)
 
         Constants.shared = formDataStoreHandler
         every { BeagleMessageLogs.logFormInputsNotFound(any()) } just Runs
         every { BeagleMessageLogs.logFormSubmitNotFound(any()) } just Runs
         every { formDataStoreHandler.getAllValues(any()) } returns HashMap()
         every { formDataStoreHandler.put(any(), any(), any()) } just Runs
+        every { rootView.getContext() } returns beagleActivity
         every { formDataStoreHandler.clear(any()) } just Runs
         every { formInput.required } returns false
         every { viewRender.build(rootView) } returns viewGroup
@@ -215,12 +224,18 @@ class FormTest : BaseComponentTest() {
 
     @Test
     fun onClick_of_formSubmit_should_set_formInputViews_on_formValidationActionHandler() {
-        // Given When
+        // Given
+        form = form.copy(action = remoteAction)
+        val formResult = FormResult.Success(FormValidation(emptyList()))
+
+        // When
         executeFormSubmitOnClickListener()
+        formSubmitCallbackSlot.captured(formResult)
+        runnableSlot.captured.run()
 
         // Then
         val views = form.getPrivateField<List<FormInput>>(FORM_INPUT_VIEWS_FIELD_NAME)
-        verify(exactly = once()) { anyConstructed<FormValidationActionHandler>().formInputs = views }
+        verify(exactly = once()) { anyConstructed<FormValidation>().formInputs = views }
     }
 
     @Test
@@ -287,7 +302,7 @@ class FormTest : BaseComponentTest() {
         runnableSlot.captured.run()
 
         // Then
-        verify(exactly = once()) { anyConstructed<ActionExecutor>().doAction(beagleActivity, formResult.action) }
+        verify(exactly = once()) { anyConstructed<ActionExecutor>().doAction(rootView, formResult.action) }
     }
 
     @Test

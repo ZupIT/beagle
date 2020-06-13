@@ -19,13 +19,12 @@ package br.com.zup.beagle.android.components
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.toAndroidColor
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.ui.RootView
-import br.com.zup.beagle.android.widget.ui.WidgetView
+import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.widget.core.TextAlignment
 
 data class Text(

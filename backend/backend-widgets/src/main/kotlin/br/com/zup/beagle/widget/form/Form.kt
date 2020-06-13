@@ -36,5 +36,3 @@ data class Form(
      val group: String? = null,
      val shouldStoreFields: Boolean = false
 ) : ServerDrivenComponent
-
-

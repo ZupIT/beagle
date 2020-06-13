@@ -14,11 +14,17 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.widget.ui
+package br.com.zup.beagle.android.action
 
-import android.view.View
-import br.com.zup.beagle.core.ServerDrivenComponent
+import android.content.Context
+import br.com.zup.beagle.action.FormLocalAction
 
-interface ViewConvertable : ServerDrivenComponent {
-    fun buildView(rootView: RootView): View
+interface FormLocalActionHandler {
+    fun handle(context: Context, action: FormLocalAction, listener: ActionListener)
+}
+
+interface ActionListener {
+    fun onError(e: Throwable)
+    fun onSuccess(action: br.com.zup.beagle.action.Action)
+    fun onStart()
 }

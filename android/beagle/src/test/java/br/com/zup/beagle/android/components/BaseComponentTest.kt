@@ -20,10 +20,9 @@ import android.view.View
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.engine.renderer.ViewRenderer
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
-import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.view.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.Runs
 import io.mockk.every
@@ -31,8 +30,6 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkConstructor
 import io.mockk.unmockkAll
-import io.mockk.unmockkObject
-import org.junit.After
 
 abstract class BaseComponentTest : BaseTest() {
 

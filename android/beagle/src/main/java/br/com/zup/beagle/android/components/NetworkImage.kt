@@ -24,8 +24,8 @@ import br.com.zup.beagle.android.engine.mapper.ViewMapper
 import br.com.zup.beagle.android.components.utils.ComponentStylization
 import br.com.zup.beagle.android.view.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.ui.RootView
-import br.com.zup.beagle.android.widget.ui.WidgetView
+import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ImageContentMode
 import com.bumptech.glide.Glide

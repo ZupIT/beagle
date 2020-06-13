@@ -20,7 +20,7 @@ import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.android.utils.generateViewModelInstance
-import br.com.zup.beagle.android.widget.ui.RootView
+import br.com.zup.beagle.android.widget.RootView
 
 internal class PreFetchHelper {
 
