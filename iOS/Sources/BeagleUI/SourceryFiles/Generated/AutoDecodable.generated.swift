@@ -22,7 +22,7 @@ extension Button {
 
     enum CodingKeys: String, CodingKey {
         case text
-        case style
+        case styleId
         case action
         case clickAnalyticsEvent
     }
@@ -31,7 +31,7 @@ extension Button {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         text = try container.decode(String.self, forKey: .text)
-        style = try container.decodeIfPresent(String.self, forKey: .style)
+        styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
         action = try container.decodeIfPresent( forKey: .action)
         clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
         widgetProperties = try WidgetProperties(from: decoder)
@@ -190,7 +190,7 @@ extension ScreenComponent {
 
     enum CodingKeys: String, CodingKey {
         case identifier
-        case appearance
+        case style
         case safeArea
         case navigationBar
         case screenAnalyticsEvent
@@ -201,7 +201,7 @@ extension ScreenComponent {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         identifier = try container.decodeIfPresent(String.self, forKey: .identifier)
-        appearance = try container.decodeIfPresent(Appearance.self, forKey: .appearance)
+        style = try container.decodeIfPresent(Style.self, forKey: .style)
         safeArea = try container.decodeIfPresent(SafeArea.self, forKey: .safeArea)
         navigationBar = try container.decodeIfPresent(NavigationBar.self, forKey: .navigationBar)
         screenAnalyticsEvent = try container.decodeIfPresent(AnalyticsScreen.self, forKey: .screenAnalyticsEvent)
@@ -216,7 +216,7 @@ extension ScrollView {
         case children
         case scrollDirection
         case scrollBarEnabled
-        case appearance
+        case style
     }
 
     public init(from decoder: Decoder) throws {
@@ -225,7 +225,7 @@ extension ScrollView {
         children = try container.decode( forKey: .children)
         scrollDirection = try container.decodeIfPresent(ScrollAxis.self, forKey: .scrollDirection)
         scrollBarEnabled = try container.decodeIfPresent(Bool.self, forKey: .scrollBarEnabled)
-        appearance = try container.decodeIfPresent(Appearance.self, forKey: .appearance)
+        style = try container.decodeIfPresent(Style.self, forKey: .style)
     }
 }
 
@@ -252,7 +252,7 @@ extension Text {
 
     enum CodingKeys: String, CodingKey {
         case text
-        case style
+        case styleId
         case alignment
         case textColor
     }
@@ -261,7 +261,7 @@ extension Text {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         text = try container.decode(String.self, forKey: .text)
-        style = try container.decodeIfPresent(String.self, forKey: .style)
+        styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
         alignment = try container.decodeIfPresent(Alignment.self, forKey: .alignment)
         textColor = try container.decodeIfPresent(String.self, forKey: .textColor)
         widgetProperties = try WidgetProperties(from: decoder)
@@ -307,7 +307,7 @@ extension WidgetProperties {
 
     enum CodingKeys: String, CodingKey {
         case id
-        case appearance
+        case style
         case flex
         case accessibility
     }
@@ -316,7 +316,7 @@ extension WidgetProperties {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         id = try container.decodeIfPresent(String.self, forKey: .id)
-        appearance = try container.decodeIfPresent(Appearance.self, forKey: .appearance)
+        style = try container.decodeIfPresent(Style.self, forKey: .style)
         flex = try container.decodeIfPresent(Flex.self, forKey: .flex)
         accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
     }

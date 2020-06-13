@@ -20,9 +20,9 @@ import android.content.Context
 import android.graphics.Color
 import android.view.View
 import android.widget.TextView
+import br.com.zup.beagle.android.widget.core.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.core.WidgetView
 
 @RegisterWidget
 data class Text(
@@ -30,9 +30,6 @@ data class Text(
 ) : WidgetView() {
     override fun buildView(context: Context): TextView = TextView(context).apply {
         setTextColor(Color.BLACK)
-    }
-
-    override fun onBind(widget: Widget, view: View) {
-        (view as TextView).text = (widget as Text).text
+        this@apply.text = text
     }
 }

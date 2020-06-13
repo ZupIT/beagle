@@ -36,9 +36,9 @@ import br.com.zup.beagle.sample.fragment.StackViewFragment
 import br.com.zup.beagle.sample.fragment.TabViewFragment
 import br.com.zup.beagle.sample.fragment.TextFieldFragment
 import br.com.zup.beagle.sample.fragment.WebViewFragment
-import br.com.zup.beagle.utils.dp
-import br.com.zup.beagle.view.BeagleActivity
-import br.com.zup.beagle.view.ScreenRequest
+import br.com.zup.beagle.android.utils.dp
+import br.com.zup.beagle.android.view.BeagleActivity
+import br.com.zup.beagle.android.view.ScreenRequest
 
 class MainActivity : AppCompatActivity() {
 

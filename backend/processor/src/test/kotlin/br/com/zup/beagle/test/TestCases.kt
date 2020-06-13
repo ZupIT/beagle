@@ -19,12 +19,11 @@ package br.com.zup.beagle.test
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.AccessibilityComponent
-import br.com.zup.beagle.core.Appearance
-import br.com.zup.beagle.core.AppearanceComponent
 import br.com.zup.beagle.core.FlexComponent
 import br.com.zup.beagle.core.GhostComponent
-import br.com.zup.beagle.core.LayoutComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.core.StyleComponent
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.Flex
 
@@ -35,7 +34,7 @@ object BlankWidget : Widget()
 data class ConstructorWidget(val something: Any) : Widget()
 
 @RegisterWidget
-data class InterfaceWidget(val something: Any) : Widget(), LayoutComponent
+data class InterfaceWidget(val something: Any) : ServerDrivenComponent
 
 @RegisterWidget
 data class GenericsWidget(
@@ -78,7 +77,10 @@ data class OverrideParentWidget(
     val b: Long,
     val c: String,
     override val accessibility: Accessibility?,
-    override val appearance: Appearance?,
+    override val style: Style?,
     override val flex: Flex?,
     override val child: ServerDrivenComponent
-) : AccessibilityComponent, AppearanceComponent, FlexComponent, GhostComponent
+) : AccessibilityComponent, FlexComponent, StyleComponent, GhostComponent
+
+@RegisterWidget
+data class NullableWidget(val thing: Any?)

@@ -17,32 +17,24 @@
 package br.com.zup.beagle.sample.widgets
 
 import android.content.Context
-import android.view.View
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
-import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.widget.core.Bind
+import br.com.zup.beagle.android.widget.core.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.engine.renderer.RootView
-import br.com.zup.beagle.utils.handleEvent
-import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.core.WidgetView
-import br.com.zup.beagle.widget.interfaces.WidgetState
-
-/*data class InputState(
-    val hint: String = "",
-    val onTextChange: List<Action>? = null
-) : WidgetState
+import br.com.zup.beagle.widget.core.Action
 
 @RegisterWidget
-class Input : WidgetView<InputState, EditText>() {
+data class Input(
+    val hint: Bind<String>,
+    val onTextChange: List<Action>? = null
+) : WidgetView() {
 
-    override fun buildView(context: Context) = EditText(context)
-
-    override fun onBind(state: InputState, view: EditText) {
-        editText.doOnTextChanged { newText, _, _, _ ->
-            val actions = textField.onTextChange ?: emptyList()
-            this@Input.handleEvent(rootView, actions, "onTextChange", newText.toString())
+    override fun buildView(context: Context) = EditText(context).apply {
+        doOnTextChanged { newText, _, _, _ ->
+            val actions = onTextChange ?: emptyList()
+//            this@Input.handleEvent(rootView, actions, "onTextChange", newText.toString())
         }
-        editText.hint = textField.hint
+        this@apply.hint = hint
     }
-}*/
+}

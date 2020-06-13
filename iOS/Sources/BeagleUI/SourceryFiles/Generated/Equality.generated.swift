@@ -32,8 +32,6 @@ extension EdgeValue: Equatable {
         guard lhs.top == rhs.top else { return false }
         guard lhs.right == rhs.right else { return false }
         guard lhs.bottom == rhs.bottom else { return false }
-        guard lhs.start == rhs.start else { return false }
-        guard lhs.end == rhs.end else { return false }
         guard lhs.horizontal == rhs.horizontal else { return false }
         guard lhs.vertical == rhs.vertical else { return false }
         guard lhs.all == rhs.all else { return false }
@@ -44,7 +42,6 @@ extension EdgeValue: Equatable {
 
 extension Flex: Equatable {
      public static func == (lhs: Flex, rhs: Flex) -> Bool {
-        guard lhs.direction == rhs.direction else { return false }
         guard lhs.flexDirection == rhs.flexDirection else { return false }
         guard lhs.flexWrap == rhs.flexWrap else { return false }
         guard lhs.justifyContent == rhs.justifyContent else { return false }

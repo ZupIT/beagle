@@ -27,8 +27,7 @@ import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.WildcardTypeName
 import com.squareup.kotlinpoet.asTypeName
 import org.jetbrains.annotations.Nullable
-import java.io.File
-import javax.annotation.processing.ProcessingEnvironment
+import javax.lang.model.AnnotatedConstruct
 import javax.lang.model.element.Element
 import javax.lang.model.element.ElementKind
 import javax.lang.model.element.ExecutableElement
@@ -40,23 +39,22 @@ import javax.lang.model.type.WildcardType
 import javax.lang.model.util.Elements
 import javax.lang.model.util.Types
 
-private val TypeName.kotlin get() = JAVA_TO_KOTLIN[this] ?: this
+private val TypeName.kotlin: TypeName get() = JAVA_TO_KOTLIN[this] ?: this
 
-val ProcessingEnvironment.kaptGeneratedDirectory get() = File(this.options[KAPT_KEY]!!)
-val Element.isMarkedNullable get() = this.getAnnotation(Nullable::class.java) != null
-val ExecutableElement.isOverride get() = this.getAnnotation(Override::class.java) != null
+val AnnotatedConstruct.isMarkedNullable: Boolean get() = this.getAnnotation(Nullable::class.java) != null
+val ExecutableElement.isOverride: Boolean get() = this.getAnnotation(Override::class.java) != null
 
-val ExecutableElement.fieldName
+val ExecutableElement.fieldName: String
     get() = this.simpleName.toString()
         .removePrefix(GET)
         .takeWhile { it != INTERNAL_MARKER }
         .let { it.replaceFirst(it.first(), it.first().toLowerCase()) }
 
-val TypeElement.visibleGetters
+val TypeElement.visibleGetters: List<ExecutableElement>
     get() = this.enclosedElements.filter { it.kind.isField }.map { it.simpleName.toString() }.toSet().let { names ->
         this.enclosedElements
             .filter { it.kind == ElementKind.METHOD && GET in it.simpleName && Modifier.PUBLIC in it.modifiers }
-            .map { it as ExecutableElement }
+            .filterIsInstance<ExecutableElement>()
             .filter { it.fieldName in names }
     }
 
@@ -67,12 +65,12 @@ fun Types.isSubtype(type: TypeMirror, superTypeName: String): Boolean =
         else -> this.directSupertypes(type).any { this.isSubtype(it, superTypeName) }
     }
 
-fun Elements.getPackageAsString(element: Element) = this.getPackageOf(element).toString()
+fun Elements.getPackageAsString(element: Element): String = this.getPackageOf(element).toString()
 
 fun FunSpec.Companion.constructorFrom(parameters: List<ParameterSpec>) =
     this.constructorBuilder().addParameters(parameters).build()
 
-fun PropertySpec.Companion.from(parameter: ParameterSpec, needsOverride: Boolean) =
+fun PropertySpec.Companion.from(parameter: ParameterSpec, needsOverride: Boolean = false) =
     this.builder(parameter.name, parameter.type).initializer(parameter.name)
         .let { if (needsOverride) it.addModifiers(KModifier.OVERRIDE) else it }
         .build()

@@ -17,9 +17,9 @@
 package br.com.zup.beagle.test
 
 import br.com.zup.beagle.core.Accessibility
-import br.com.zup.beagle.core.Appearance
 import br.com.zup.beagle.core.Bind
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 import org.junit.jupiter.api.Test
 import java.util.UUID
@@ -32,8 +32,8 @@ internal class OverrideParentWidgetBindingTest {
         val B = Random.Default.nextLong()
         val C = UUID.randomUUID().toString()
         val ACCESSIBILITY = Accessibility()
-        val APPEARANCE = Appearance()
         val FLEX = Flex()
+        val STYLE = Style()
         val CHILD = object : ServerDrivenComponent {}
         const val EXPRESSION = "@{}"
     }
@@ -45,7 +45,7 @@ internal class OverrideParentWidgetBindingTest {
             Bind.Value(B),
             Bind.Value(C),
             ACCESSIBILITY,
-            APPEARANCE,
+            STYLE,
             FLEX,
             CHILD
         )
@@ -64,7 +64,7 @@ internal class OverrideParentWidgetBindingTest {
             Bind.Expression(EXPRESSION),
             Bind.Expression(EXPRESSION),
             ACCESSIBILITY,
-            APPEARANCE,
+            STYLE,
             FLEX,
             CHILD
         )
@@ -82,7 +82,7 @@ internal class OverrideParentWidgetBindingTest {
             Bind.Expression(EXPRESSION),
             Bind.Value(C),
             ACCESSIBILITY,
-            APPEARANCE,
+            STYLE,
             FLEX,
             CHILD
         )
@@ -94,7 +94,7 @@ internal class OverrideParentWidgetBindingTest {
     }
 
     private fun assertInvariant(actual: OverrideParentWidgetBinding) {
-        assertEquals(APPEARANCE, actual.appearance)
+        assertEquals(STYLE, actual.style)
         assertEquals(FLEX, actual.flex)
         assertEquals(CHILD, actual.child)
         assertEquals(OverrideParentWidget::class.supertypes, OverrideParentWidgetBinding::class.supertypes)

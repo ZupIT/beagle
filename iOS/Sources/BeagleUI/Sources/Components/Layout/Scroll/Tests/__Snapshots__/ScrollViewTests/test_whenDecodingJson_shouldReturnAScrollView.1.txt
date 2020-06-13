@@ -1,41 +1,41 @@
 ▿ ScrollView
-  ▿ appearance: Optional<Appearance>
-    ▿ some: Appearance
+  ▿ children: 3 elements
+    ▿ Text
+      - alignment: Optional<Alignment>.none
+      - styleId: Optional<String>.none
+      - text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tempus tempor diam vitae tempor. Phasellus orci justo, sollicitudin non enim euismod, posuere vehicula dolor.\n---"
+      - textColor: Optional<String>.none
+      ▿ widgetProperties: WidgetProperties
+        - accessibility: Optional<Accessibility>.none
+        - flex: Optional<Flex>.none
+        - id: Optional<String>.none
+        - style: Optional<Style>.none
+    ▿ Text
+      - alignment: Optional<Alignment>.none
+      - styleId: Optional<String>.none
+      - text: "Morbi quis mi eu tellus tincidunt aliquam vitae nec nisl. Vivamus turpis lacus, sodales mollis arcu vitae, commodo maximus velit. Integer et arcu nisi. Vivamus erat dui, elementum vel tincidunt vel, finibus nec arcu.\n---"
+      - textColor: Optional<String>.none
+      ▿ widgetProperties: WidgetProperties
+        - accessibility: Optional<Accessibility>.none
+        - flex: Optional<Flex>.none
+        - id: Optional<String>.none
+        - style: Optional<Style>.none
+    ▿ Text
+      - alignment: Optional<Alignment>.none
+      - styleId: Optional<String>.none
+      - text: "Aenean ultricies, turpis sit amet vulputate ultrices, felis sem pulvinar diam, at tincidunt enim felis vitae ante. Nulla hendrerit convallis arcu, at convallis nisl sodales nec.\n---"
+      - textColor: Optional<String>.none
+      ▿ widgetProperties: WidgetProperties
+        - accessibility: Optional<Accessibility>.none
+        - flex: Optional<Flex>.none
+        - id: Optional<String>.none
+        - style: Optional<Style>.none
+  - scrollBarEnabled: Optional<Bool>.none
+  - scrollDirection: Optional<ScrollAxis>.none
+  ▿ style: Optional<Style>
+    ▿ some: Style
       ▿ backgroundColor: Optional<String>
         - some: "#60FF0000"
       ▿ cornerRadius: Optional<CornerRadius>
         ▿ some: CornerRadius
           - radius: 30.0
-  ▿ children: 3 elements
-    ▿ Text
-      - alignment: Optional<Alignment>.none
-      - style: Optional<String>.none
-      - text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tempus tempor diam vitae tempor. Phasellus orci justo, sollicitudin non enim euismod, posuere vehicula dolor.\n---"
-      - textColor: Optional<String>.none
-      ▿ widgetProperties: WidgetProperties
-        - accessibility: Optional<Accessibility>.none
-        - appearance: Optional<Appearance>.none
-        - flex: Optional<Flex>.none
-        - id: Optional<String>.none
-    ▿ Text
-      - alignment: Optional<Alignment>.none
-      - style: Optional<String>.none
-      - text: "Morbi quis mi eu tellus tincidunt aliquam vitae nec nisl. Vivamus turpis lacus, sodales mollis arcu vitae, commodo maximus velit. Integer et arcu nisi. Vivamus erat dui, elementum vel tincidunt vel, finibus nec arcu.\n---"
-      - textColor: Optional<String>.none
-      ▿ widgetProperties: WidgetProperties
-        - accessibility: Optional<Accessibility>.none
-        - appearance: Optional<Appearance>.none
-        - flex: Optional<Flex>.none
-        - id: Optional<String>.none
-    ▿ Text
-      - alignment: Optional<Alignment>.none
-      - style: Optional<String>.none
-      - text: "Aenean ultricies, turpis sit amet vulputate ultrices, felis sem pulvinar diam, at tincidunt enim felis vitae ante. Nulla hendrerit convallis arcu, at convallis nisl sodales nec.\n---"
-      - textColor: Optional<String>.none
-      ▿ widgetProperties: WidgetProperties
-        - accessibility: Optional<Accessibility>.none
-        - appearance: Optional<Appearance>.none
-        - flex: Optional<Flex>.none
-        - id: Optional<String>.none
-  - scrollBarEnabled: Optional<Bool>.none
-  - scrollDirection: Optional<ScrollAxis>.none
