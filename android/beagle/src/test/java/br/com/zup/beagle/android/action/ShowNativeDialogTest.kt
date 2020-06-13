@@ -16,15 +16,12 @@
 
 package br.com.zup.beagle.android.action
 
-import android.content.Context
 import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import br.com.zup.beagle.android.action.ShowNativeDialog
-import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.widget.RootView
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every

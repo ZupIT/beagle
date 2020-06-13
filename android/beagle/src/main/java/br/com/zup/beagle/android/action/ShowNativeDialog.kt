@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.action
 
-import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.widget.RootView
 
 internal data class ShowNativeDialog(
     val title: String,

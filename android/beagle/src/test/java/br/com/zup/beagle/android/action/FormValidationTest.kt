@@ -16,28 +16,18 @@
 
 package br.com.zup.beagle.android.action
 
-import android.content.Context
 import android.view.View
 import br.com.zup.beagle.action.FieldError
-import br.com.zup.beagle.android.action.FormValidation
-import br.com.zup.beagle.android.engine.renderer.RootView
+import br.com.zup.beagle.android.components.form.FormInput
+import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.logger.BeagleLogger
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.widget.form.FormInput
-import br.com.zup.beagle.android.widget.form.InputWidget
+import br.com.zup.beagle.android.widget.RootView
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
 import io.mockk.every
-import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkObject
-import io.mockk.unmockkObject
 import io.mockk.verify
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 

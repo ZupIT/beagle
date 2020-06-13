@@ -17,8 +17,8 @@
 package br.com.zup.beagle.android.action
 
 import br.com.zup.beagle.action.Route
-import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.view.BeagleNavigator
+import br.com.zup.beagle.android.widget.RootView
 
 internal sealed class Navigate : Action {
 

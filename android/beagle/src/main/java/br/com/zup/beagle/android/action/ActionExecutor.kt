@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.action
 
 import br.com.zup.beagle.action.Action
-import br.com.zup.beagle.android.engine.renderer.RootView
+import br.com.zup.beagle.android.widget.RootView
 
 internal class ActionExecutor {
     fun doAction(rootView: RootView, action: Action?) {

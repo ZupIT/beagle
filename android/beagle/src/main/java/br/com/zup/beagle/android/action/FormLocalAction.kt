@@ -17,10 +17,10 @@
 package br.com.zup.beagle.android.action
 
 import br.com.zup.beagle.action.FormLocalAction
-import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
+import br.com.zup.beagle.android.widget.RootView
 
 internal data class FormLocalAction(
     val name: String,

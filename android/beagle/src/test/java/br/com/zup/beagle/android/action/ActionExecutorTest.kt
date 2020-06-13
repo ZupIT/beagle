@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.action
 
-import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.widget.RootView
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every

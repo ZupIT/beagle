@@ -29,10 +29,10 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.action.ActionExecutor
-import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.view.BeagleActivity
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 
@@ -53,10 +53,7 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
         }
     }
 
-    fun configureToolbar(
-        rootView: RootView,
-        navigationBar: NavigationBar
-    ) {
+    fun configureToolbar(rootView: RootView, navigationBar: NavigationBar) {
         (rootView.getContext() as BeagleActivity).getToolbar().apply {
             visibility = View.VISIBLE
             menu.clear()
@@ -189,5 +186,4 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
             }
         }
     }
-
 }
