@@ -21,10 +21,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import br.com.zup.beagle.action.Form
 import br.com.zup.beagle.action.FormMethodType
 import br.com.zup.beagle.action.FormRemoteAction
 import br.com.zup.beagle.android.components.Button
+import br.com.zup.beagle.android.components.form.Form
 import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.components.form.FormSubmit
 import br.com.zup.beagle.android.components.layout.ComposeComponent
