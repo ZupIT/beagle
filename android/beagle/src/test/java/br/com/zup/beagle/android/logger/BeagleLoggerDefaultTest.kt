@@ -21,6 +21,7 @@ import br.com.zup.beagle.android.setup.Environment
 import br.com.zup.beagle.android.testutil.RandomData
 import io.mockk.every
 import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.networking.HttpClientDefault
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
@@ -34,12 +35,16 @@ import org.junit.Test
 private const val BEAGLE_TAG = "BeagleSDK"
 private val LOG = RandomData.string()
 
-class BeagleLoggerTest {
+class BeagleLoggerDefaultTest {
+
+    private lateinit var beagleLoggerDispatchingDefault: BeagleLogger
 
     @Before
     fun setUp() {
         mockkObject(BeagleEnvironment)
         mockkStatic(Log::class)
+
+        beagleLoggerDispatchingDefault = BeagleLoggerDefault()
 
         every { Log.w(any(), any<String>()) }returns 0
         every { Log.i(any(), any()) } returns 0
@@ -60,7 +65,7 @@ class BeagleLoggerTest {
         every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.DEBUG
 
         // When
-        BeagleLogger.warning(LOG)
+        beagleLoggerDispatchingDefault.warning(LOG)
 
         // Then
         verify(exactly = once()) { Log.w(BEAGLE_TAG, LOG) }
@@ -72,7 +77,7 @@ class BeagleLoggerTest {
         every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.PRODUCTION
 
         // When
-        BeagleLogger.warning(LOG)
+        beagleLoggerDispatchingDefault.warning(LOG)
 
         // Then
         verify(exactly = 0) { Log.w(BEAGLE_TAG, LOG) }
@@ -84,7 +89,7 @@ class BeagleLoggerTest {
         every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.DEBUG
 
         // When
-        BeagleLogger.error(LOG)
+        beagleLoggerDispatchingDefault.error(LOG)
 
         // Then
         verify(exactly = once()) { Log.e(BEAGLE_TAG, LOG) }
@@ -96,7 +101,7 @@ class BeagleLoggerTest {
         every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.PRODUCTION
 
         // When
-        BeagleLogger.error(LOG)
+        beagleLoggerDispatchingDefault.error(LOG)
 
         // Then
         verify(exactly = 0) { Log.e(BEAGLE_TAG, LOG) }
@@ -108,7 +113,7 @@ class BeagleLoggerTest {
         every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.DEBUG
 
         // When
-        BeagleLogger.info(LOG)
+        beagleLoggerDispatchingDefault.info(LOG)
 
         // Then
         verify(exactly = once()) { Log.i(BEAGLE_TAG, LOG) }
@@ -120,7 +125,7 @@ class BeagleLoggerTest {
         every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.PRODUCTION
 
         // When
-        BeagleLogger.info(LOG)
+        beagleLoggerDispatchingDefault.info(LOG)
 
         // Then
         verify(exactly = 0) { Log.i(BEAGLE_TAG, LOG) }
@@ -132,7 +137,7 @@ class BeagleLoggerTest {
         every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.DEBUG
 
         // When
-        BeagleLogger.debug(LOG)
+        beagleLoggerDispatchingDefault.debug(LOG)
 
         // Then
         verify(exactly = once()) { Log.d(BEAGLE_TAG, LOG) }
@@ -144,7 +149,7 @@ class BeagleLoggerTest {
         every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.PRODUCTION
 
         // When
-        BeagleLogger.debug(LOG)
+        beagleLoggerDispatchingDefault.debug(LOG)
 
         // Then
         verify(exactly = 0) { Log.d(BEAGLE_TAG, LOG) }
@@ -156,7 +161,7 @@ class BeagleLoggerTest {
         every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.DEBUG
 
         // When
-        BeagleLogger.verbose(LOG)
+        beagleLoggerDispatchingDefault.verbose(LOG)
 
         // Then
         verify(exactly = once()) { Log.v(BEAGLE_TAG, LOG) }
@@ -168,7 +173,7 @@ class BeagleLoggerTest {
         every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.PRODUCTION
 
         // When
-        BeagleLogger.verbose(LOG)
+        beagleLoggerDispatchingDefault.verbose(LOG)
 
         // Then
         verify(exactly = 0) { Log.v(BEAGLE_TAG, LOG) }

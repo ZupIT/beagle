@@ -27,6 +27,7 @@ import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleLogger
+import br.com.zup.beagle.android.logger.BeagleLoggerFactory
 import br.com.zup.beagle.android.navigation.DeepLinkHandler
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
@@ -67,7 +68,6 @@ class BeagleNavigatorTest {
     fun setUp() {
         MockKAnnotations.init(this)
         mockkObject(BeagleEnvironment)
-        mockkObject(BeagleLogger)
         mockkStatic("android.net.Uri")
 
         every { BeagleEnvironment.beagleSdk.config.baseUrl } returns RandomData.httpUrl()
@@ -117,13 +117,13 @@ class BeagleNavigatorTest {
         val url = "invalid url"
         every { context.startActivity(any()) } throws Exception()
         every { Uri.parse(url) } returns webPage
-        every { BeagleLogger.error(any()) } just Runs
+        every { BeagleLoggerFactory().make().error(any()) } just Runs
 
         // When
         BeagleNavigator.openExternalURL(context, url)
 
         // Then
-        verify(exactly = once()) { BeagleLogger.error(any()) }
+        verify(exactly = once()) { BeagleLoggerFactory().make().error(any()) }
     }
 
     @Test
