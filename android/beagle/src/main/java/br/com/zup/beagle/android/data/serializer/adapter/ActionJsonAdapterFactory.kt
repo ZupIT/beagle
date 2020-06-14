@@ -16,14 +16,14 @@
 
 package br.com.zup.beagle.android.data.serializer.adapter
 
-import br.com.zup.beagle.action.CustomAction
-import br.com.zup.beagle.action.FormValidation
-import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.SendRequestAction
-import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.FormLocalAction
+import br.com.zup.beagle.android.action.FormRemoteAction
+import br.com.zup.beagle.android.action.FormValidation
+import br.com.zup.beagle.android.action.Navigate
+import br.com.zup.beagle.android.action.SendRequestAction
+import br.com.zup.beagle.android.action.ShowNativeDialog
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
-import br.com.zup.beagle.widget.core.Action
-import br.com.zup.beagle.widget.form.FormRemoteAction
 import java.util.Locale
 
 private const val BEAGLE_WIDGET_TYPE = "_beagleAction_"
@@ -34,10 +34,10 @@ internal object ActionJsonAdapterFactory {
 
     fun make(): PolymorphicJsonAdapterFactory<Action> {
         return PolymorphicJsonAdapterFactory.of(Action::class.java, BEAGLE_WIDGET_TYPE)
-            .withSubtype(CustomAction::class.java, createNamespaceFor<CustomAction>())
+            .withSubtype(FormRemoteAction::class.java, createNamespaceFor<FormRemoteAction>())
+            .withSubtype(FormLocalAction::class.java, createNamespaceFor<FormLocalAction>())
             .withSubtype(FormValidation::class.java, createNamespaceFor<FormValidation>())
             .withSubtype(ShowNativeDialog::class.java, createNamespaceFor<ShowNativeDialog>())
-            .withSubtype(FormRemoteAction::class.java, createNamespaceFor<FormRemoteAction>())
             .withSubtype(Navigate.OpenExternalURL::class.java, createNamespaceFor<Navigate.OpenExternalURL>())
             .withSubtype(Navigate.OpenNativeRoute::class.java, createNamespaceFor<Navigate.OpenNativeRoute>())
             .withSubtype(Navigate.PushStack::class.java, createNamespaceFor<Navigate.PushStack>())

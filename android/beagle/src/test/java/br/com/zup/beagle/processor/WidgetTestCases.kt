@@ -16,10 +16,10 @@
 
 package br.com.zup.beagle.processor
 
-import android.content.Context
 import android.view.View
-import br.com.zup.beagle.android.widget.core.WidgetView
-import br.com.zup.beagle.android.widget.form.InputWidget
+import br.com.zup.beagle.android.components.form.InputWidget
+import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.Widget
 import io.mockk.mockk
@@ -32,7 +32,7 @@ data class FieldOnlyWidget(val a: Boolean = true,
                            val b: Long = 123L,
                            val c: String = "Hello") : WidgetView() {
 
-    override fun buildView(context: Context): View {
+    override fun buildView(rootView: RootView): View {
         return mockk()
     }
 
@@ -51,7 +51,7 @@ data class CustomInputWidget(val text: String = "") : InputWidget() {
         return mockk()
     }
 
-    override fun buildView(context: Context): View {
+    override fun buildView(rootView: RootView): View {
         return mockk()
     }
 

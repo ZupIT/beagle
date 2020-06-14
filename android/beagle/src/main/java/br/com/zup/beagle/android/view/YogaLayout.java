@@ -38,6 +38,8 @@ import com.facebook.yoga.YogaNode;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.com.zup.beagle.android.view.custom.BeagleFlexView;
+
 @SuppressLint("ViewConstructor")
 public class YogaLayout extends ViewGroup {
 
@@ -183,7 +185,7 @@ public class YogaLayout extends ViewGroup {
      * @param view the view to mark as dirty
      */
     public void invalidate(View view) {
-        if (mYogaNodes.containsKey(view)) {
+        if (mYogaNodes.containsKey(view) && !(view instanceof BeagleFlexView)) {
             mYogaNodes.get(view).dirty();
             return;
         }

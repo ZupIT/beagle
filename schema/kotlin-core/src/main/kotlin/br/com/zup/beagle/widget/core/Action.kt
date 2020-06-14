@@ -17,5 +17,6 @@
 package br.com.zup.beagle.widget.core
 /**
  * Base of actions
+ * Action is an interface that allows you to define actions that can be performed by Widgets.
  */
 interface Action

@@ -19,13 +19,14 @@ package br.com.zup.beagle.android.view.custom
 import android.content.Context
 import android.view.View
 import androidx.lifecycle.Observer
-import br.com.zup.beagle.android.engine.renderer.RootView
+import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.interfaces.OnStateUpdatable
+import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.utils.implementsGenericTypeOf
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
-import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.android.widget.RootView
 
 typealias OnStateChanged = (state: BeagleViewState) -> Unit
 
@@ -47,7 +48,7 @@ internal class BeagleView(
 
     private lateinit var rootView: RootView
 
-    private val viewModel by lazy { BeagleViewModel() }
+    private val viewModel by lazy { rootView.generateViewModelInstance<BeagleViewModel>() }
 
     fun loadView(rootView: RootView, screenRequest: ScreenRequest) {
         loadView(rootView, screenRequest, null)

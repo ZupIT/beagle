@@ -16,13 +16,15 @@
 
 package br.com.zup.beagle.android.mockdata
 
-import android.content.Context
 import android.view.View
+import br.com.zup.beagle.android.components.form.InputWidget
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.android.widget.form.InputWidget
 import io.mockk.mockk
 
 class CustomInputWidget : InputWidget() {
+
     override fun onErrorMessage(message: String) {
         return mockk()
     }
@@ -31,7 +33,7 @@ class CustomInputWidget : InputWidget() {
         return mockk()
     }
 
-    override fun buildView(context: Context): View {
+    override fun buildView(rootView: RootView): View {
         return mockk()
     }
 

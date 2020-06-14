@@ -19,9 +19,9 @@ package br.com.zup.beagle.android.action
 import android.content.Context
 import br.com.zup.beagle.action.UpdateContext
 
-internal class UpdateContextActionHandler : DefaultActionHandler<UpdateContext> {
+internal class UpdateContextActionHandler {
 
-    override fun handle(context: Context, action: UpdateContext) {
+    fun handle(context: Context, action: UpdateContext) {
         // call update context
     }
 }

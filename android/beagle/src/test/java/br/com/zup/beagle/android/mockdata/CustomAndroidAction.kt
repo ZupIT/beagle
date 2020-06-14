@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.mockdata
 
-import br.com.zup.beagle.android.Action
 import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.annotation.RegisterAction
 

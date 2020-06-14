@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.data.serializer.adapter
 
-import br.com.zup.beagle.android.Action
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import java.util.Locale

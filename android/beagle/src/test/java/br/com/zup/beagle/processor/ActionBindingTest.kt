@@ -16,8 +16,6 @@
 
 package br.com.zup.beagle.processor
 
-import br.com.zup.beagle.android.Action
-import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BindingAdapter
 import br.com.zup.beagle.android.widget.core.Bind

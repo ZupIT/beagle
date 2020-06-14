@@ -16,12 +16,12 @@
 
 package br.com.zup.beagle.sample.widgets
 
-import android.content.Context
 import android.view.View
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
+import br.com.zup.beagle.android.components.form.InputWidget
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.android.widget.form.InputWidget
 
 //@RegisterWidget
 data class SampleTextField(val placeholder: String = "") : InputWidget() {
@@ -35,7 +35,7 @@ data class SampleTextField(val placeholder: String = "") : InputWidget() {
         textFieldView.error = message
     }
 
-    override fun buildView(context: Context) = EditText(context).apply {
+    override fun buildView(rootView: RootView) = EditText(rootView.getContext()).apply {
         textFieldView = this
 
         textFieldView.isSingleLine = true

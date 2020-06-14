@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.action.FormMethodType
+import br.com.zup.beagle.action.FormRemoteAction
 import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
@@ -28,17 +30,15 @@ import br.com.zup.beagle.sample.constants.SUBMIT_FORM_ENDPOINT
 import br.com.zup.beagle.sample.widget.SampleTextField
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.form.Form
 import br.com.zup.beagle.widget.form.FormInput
-import br.com.zup.beagle.widget.form.FormMethodType
-import br.com.zup.beagle.widget.form.FormRemoteAction
 import br.com.zup.beagle.widget.form.FormSubmit
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.layout.ScrollAxis
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Button
 

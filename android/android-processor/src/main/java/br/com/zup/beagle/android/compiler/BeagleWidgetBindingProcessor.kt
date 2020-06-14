@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.compiler
 
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.compiler.ANDROID_CONTEXT
 import br.com.zup.beagle.compiler.ANDROID_VIEW
 import br.com.zup.beagle.compiler.BINDING_ADAPTER
 import br.com.zup.beagle.compiler.BeagleBindingHandler.Companion.BINDING_SUFFIX
@@ -25,13 +24,13 @@ import br.com.zup.beagle.compiler.BeagleWidgetBindingHandler
 import br.com.zup.beagle.compiler.GET_VALUE_NOT_NULL
 import br.com.zup.beagle.compiler.GET_VALUE_NULL
 import br.com.zup.beagle.compiler.INPUT_WIDGET
+import br.com.zup.beagle.compiler.ROOT_VIEW
 import br.com.zup.beagle.compiler.WIDGET
 import br.com.zup.beagle.compiler.WIDGET_INSTANCE_PROPERTY
 import br.com.zup.beagle.compiler.error
 import br.com.zup.beagle.compiler.getPackageAsString
 import br.com.zup.beagle.compiler.isSubtype
 import br.com.zup.beagle.compiler.warning
-import br.com.zup.beagle.core.BindAttribute
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
@@ -43,7 +42,6 @@ import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
-import kotlin.reflect.KClass
 
 @Suppress("UNCHECKED_CAST")
 class BeagleWidgetBindingProcessor(
@@ -124,9 +122,9 @@ class BeagleWidgetBindingProcessor(
 
         return FunSpec.builder(BUILD_VIEW_METHOD)
             .addModifiers(KModifier.OVERRIDE)
-            .addParameter(CONTEXT_PROPERTY, ClassName(ANDROID_CONTEXT.packageName, ANDROID_CONTEXT.className))
+            .addParameter(CONTEXT_PROPERTY, ClassName(ROOT_VIEW.packageName, ROOT_VIEW.className))
             .addStatement("""
-                |   this.$VIEW_PROPERTY = $WIDGET_INSTANCE_PROPERTY.buildView(context)
+                |   this.$VIEW_PROPERTY = $WIDGET_INSTANCE_PROPERTY.buildView(rootView)
                 |   bindModel()
                 |return this.$VIEW_PROPERTY""".trimMargin())
             .returns(returnType)
@@ -169,6 +167,6 @@ class BeagleWidgetBindingProcessor(
         private const val ON_BIND_METHOD = "onBind"
         private const val VIEW_PROPERTY = "view"
         private const val WIDGET_PROPERTY = "widget"
-        private const val CONTEXT_PROPERTY = "context"
+        private const val CONTEXT_PROPERTY = "rootView"
     }
 }

@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.compiler
 
-val CUSTOM_ACTION_HANDLER = BeagleClass(
+val FORM_LOCAL_ACTION_HANDLER = BeagleClass(
     "br.com.zup.beagle.android.action",
-    "CustomActionHandler"
+    "FormLocalActionHandler"
 )
 val DEEP_LINK_HANDLER = BeagleClass(
     "br.com.zup.beagle.android.navigation",
@@ -29,11 +29,11 @@ val HTTP_CLIENT_HANDLER = BeagleClass(
     "HttpClient"
 )
 val VALIDATOR_HANDLER = BeagleClass(
-    "br.com.zup.beagle.android.form",
+    "br.com.zup.beagle.android.components.form.core",
     "ValidatorHandler"
 )
 val VALIDATOR = BeagleClass(
-    "br.com.zup.beagle.android.form",
+    "br.com.zup.beagle.android.components.form.core",
     "Validator"
 )
 val DESIGN_SYSTEM = BeagleClass(
@@ -53,7 +53,7 @@ val BEAGLE_SDK = BeagleClass(
     "BeagleSdk"
 )
 val WIDGET_VIEW = BeagleClass(
-    "br.com.zup.beagle.android.widget.core",
+    "br.com.zup.beagle.android.widget",
     "WidgetView"
 )
 val BEAGLE_ACTIVITY = BeagleClass(
@@ -90,7 +90,7 @@ val BIND_BACKEND = BeagleClass(
 )
 
 val ANDROID_ACTION = BeagleClass(
-    packageName = "br.com.zup.beagle.android",
+    packageName = "br.com.zup.beagle.android.action",
     className = "Action"
 )
 
@@ -119,12 +119,7 @@ val ANDROID_VIEW = BeagleClass(
     className = "View"
 )
 
-val ANDROID_CONTEXT = BeagleClass(
-    packageName = "android.content",
-    className = "Context"
-)
-
 val ROOT_VIEW = BeagleClass(
-    packageName = "br.com.zup.beagle.android.engine.renderer",
+    packageName = "br.com.zup.beagle.android.widget",
     className = "RootView"
 )

@@ -32,7 +32,6 @@ import br.com.zup.beagle.sample.fragment.ListViewFragment
 import br.com.zup.beagle.sample.fragment.NavigationFragment
 import br.com.zup.beagle.sample.fragment.PageViewFragment
 import br.com.zup.beagle.sample.fragment.ScrollViewFragment
-import br.com.zup.beagle.sample.fragment.StackViewFragment
 import br.com.zup.beagle.sample.fragment.TabViewFragment
 import br.com.zup.beagle.sample.fragment.TextFieldFragment
 import br.com.zup.beagle.sample.fragment.WebViewFragment
@@ -50,6 +49,7 @@ class MainActivity : AppCompatActivity() {
             title = "Beagle Sample"
             elevation = 4.0f.dp()
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -80,7 +80,6 @@ class MainActivity : AppCompatActivity() {
                 )
             )
             R.id.form -> goToFragment(FormFragment.newInstance())
-            R.id.stack -> goToFragment(StackViewFragment.newInstance())
             R.id.tabBar -> goToFragment(TabViewFragment.newInstance())
             R.id.disabledFormSubmit -> goToFragment(DisabledFormSubmitFragment.newInstance())
             R.id.accessibility -> startActivity(BeagleActivity.newIntent(

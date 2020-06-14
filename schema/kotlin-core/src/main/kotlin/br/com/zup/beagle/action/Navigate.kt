@@ -19,6 +19,7 @@ package br.com.zup.beagle.action
 import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.widget.layout.Screen
 
+
 /**
  * This defines navigation type,
  * it can be a navigation to a remote route in which Beagle will deserialize the content
