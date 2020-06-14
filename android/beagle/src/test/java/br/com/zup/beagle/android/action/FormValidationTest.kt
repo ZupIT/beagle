@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import br.com.zup.beagle.action.FieldError
+import br.com.zup.beagle.widget.action.FieldError
 import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.extensions.once
@@ -54,7 +54,7 @@ class FormValidationTest {
         val validationMessage = RandomData.string()
         val formValidation = FormValidation(
             errors = listOf(
-                FieldError(inputName, validationMessage)
+                br.com.zup.beagle.widget.action.FieldError(inputName, validationMessage)
             )
         )
         every { view.tag } returns formInput

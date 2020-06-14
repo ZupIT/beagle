@@ -29,12 +29,12 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.action.ActionExecutor
+import br.com.zup.beagle.android.components.layout.NavigationBar
+import br.com.zup.beagle.android.components.layout.NavigationBarItem
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.NavigationBarItem
 
 internal class ToolbarManager(private val actionExecutor: ActionExecutor = ActionExecutor()) {
 
@@ -141,8 +141,7 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
         for (i in items.indices) {
             toolbar.menu.add(Menu.NONE, items[i].id?.toAndroidId() ?: i, Menu.NONE, items[i].text).apply {
                 setOnMenuItemClickListener {
-                    //TODO NEED TO BE TALK ABOUT IT
-//                    actionExecutor.doAction(rootView, items[i].action)
+                    actionExecutor.doAction(rootView, items[i].action)
                     return@setOnMenuItemClickListener true
                 }
 

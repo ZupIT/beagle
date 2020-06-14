@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.action
-
-import br.com.zup.beagle.widget.core.Action
+package br.com.zup.beagle.widget.action
 
 /**
  *  Defines the type of operation submitted by this form. It will map these values to Http methods.

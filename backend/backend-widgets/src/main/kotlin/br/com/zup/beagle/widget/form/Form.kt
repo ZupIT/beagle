@@ -17,7 +17,7 @@
 package br.com.zup.beagle.widget.form
 
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.core.Action
+import br.com.zup.beagle.widget.action.Action
 
 /**
  *  Component represents a way to compose user inputs and submit  those values to your backend.

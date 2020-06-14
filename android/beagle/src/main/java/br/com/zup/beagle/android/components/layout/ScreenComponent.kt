@@ -29,8 +29,6 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.SafeArea
 
 internal data class ScreenComponent(
     val identifier: String? = null,

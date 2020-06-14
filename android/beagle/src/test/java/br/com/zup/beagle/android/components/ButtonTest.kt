@@ -21,7 +21,7 @@ import android.content.res.TypedArray
 import android.view.View
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.widget.TextViewCompat
-import br.com.zup.beagle.action.Navigate
+import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.android.action.ActionExecutor
@@ -86,7 +86,7 @@ class ButtonTest : BaseComponentTest() {
     @Test
     fun build_should_call_prefetch_when_action_not_null() {
         // Given
-        val action = Navigate.PopView()
+        val action = br.com.zup.beagle.widget.action.Navigate.PopView()
         buttonComponent = buttonComponent.copy(action = action)
 
         // When

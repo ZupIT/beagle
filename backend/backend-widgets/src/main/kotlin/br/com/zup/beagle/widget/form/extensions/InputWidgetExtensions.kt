@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.form
+package br.com.zup.beagle.widget.form.extensions
 
-import br.com.zup.beagle.widget.core.Action
+import br.com.zup.beagle.widget.action.Action
+import br.com.zup.beagle.widget.form.InputWidget
 
 /**
  * Update list of actions to on change to this widget.

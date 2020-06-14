@@ -23,7 +23,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import br.com.zup.beagle.action.Route
+import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleLogger
@@ -48,7 +48,7 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-private val route = Route.Remote(RandomData.httpUrl())
+private val route = br.com.zup.beagle.widget.action.Route.Remote(RandomData.httpUrl())
 private val url = RandomData.httpUrl()
 
 class BeagleNavigatorTest {
@@ -185,7 +185,7 @@ class BeagleNavigatorTest {
     fun pushView_should_start_BeagleActivity() {
         // Given
         val context = mockk<Activity>()
-        val route = Route.Local(Screen(child = Text("stub")))
+        val route = br.com.zup.beagle.widget.action.Route.Local(Screen(child = Text("stub")))
         every { context.startActivity(any()) } just Runs
 
         // When

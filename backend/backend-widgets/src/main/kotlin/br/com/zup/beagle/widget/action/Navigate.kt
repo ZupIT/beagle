@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.action
+package br.com.zup.beagle.widget.action
 
-import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.widget.layout.Screen
 
 

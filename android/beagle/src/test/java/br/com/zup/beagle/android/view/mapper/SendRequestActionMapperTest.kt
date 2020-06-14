@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.view.mapper
 
-import br.com.zup.beagle.action.RequestActionMethod
-import br.com.zup.beagle.action.SendRequestAction
+import br.com.zup.beagle.widget.action.RequestActionMethod
+import br.com.zup.beagle.widget.action.SendRequestAction
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.networking.HttpMethod
@@ -29,7 +29,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.net.URI
 
-private val SEND_REQUEST_ACTION = SendRequestAction("", body = "body",
+private val SEND_REQUEST_ACTION = br.com.zup.beagle.widget.action.SendRequestAction("", body = "body",
     headers = mapOf("header" to "teste"))
 private val EXPECTED_RESULT = RequestData(uri = URI(""), body = "body",
     headers = mapOf("header" to "teste"))
@@ -69,12 +69,12 @@ class SendRequestActionMapperTest : BaseTest() {
     @Test
     fun `should return request data with correct method when mapper`() {
         val sendRequestActions = listOf(
-            SEND_REQUEST_ACTION.copy(method = RequestActionMethod.GET),
-            SEND_REQUEST_ACTION.copy(method = RequestActionMethod.POST),
-            SEND_REQUEST_ACTION.copy(method = RequestActionMethod.PUT),
-            SEND_REQUEST_ACTION.copy(method = RequestActionMethod.DELETE),
-            SEND_REQUEST_ACTION.copy(method = RequestActionMethod.HEAD),
-            SEND_REQUEST_ACTION.copy(method = RequestActionMethod.PATCH)
+            SEND_REQUEST_ACTION.copy(method = br.com.zup.beagle.widget.action.RequestActionMethod.GET),
+            SEND_REQUEST_ACTION.copy(method = br.com.zup.beagle.widget.action.RequestActionMethod.POST),
+            SEND_REQUEST_ACTION.copy(method = br.com.zup.beagle.widget.action.RequestActionMethod.PUT),
+            SEND_REQUEST_ACTION.copy(method = br.com.zup.beagle.widget.action.RequestActionMethod.DELETE),
+            SEND_REQUEST_ACTION.copy(method = br.com.zup.beagle.widget.action.RequestActionMethod.HEAD),
+            SEND_REQUEST_ACTION.copy(method = br.com.zup.beagle.widget.action.RequestActionMethod.PATCH)
         )
 
         // When

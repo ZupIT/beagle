@@ -14,9 +14,24 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.core
-/**
- * Base of actions
- * Action is an interface that allows you to define actions that can be performed by Widgets.
- */
-interface Action
+package br.com.zup.beagle.widget.action
+
+data class SendRequestAction(
+    val url: String,
+    val method: RequestActionMethod = RequestActionMethod.GET,
+    val headers: Map<String, String> = mapOf(),
+    val body: String? = null,
+    val onSuccess: Action? = null,
+    val onError: Action? = null,
+    val onFinish: Action? = null
+) : Action
+
+@SuppressWarnings("UNUSED_PARAMETER")
+enum class RequestActionMethod {
+    GET,
+    POST,
+    PUT,
+    DELETE,
+    HEAD,
+    PATCH
+}

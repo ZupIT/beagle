@@ -19,8 +19,8 @@ package br.com.zup.beagle.android.components.form
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import br.com.zup.beagle.action.FormRemoteAction
-import br.com.zup.beagle.action.Navigate
+import br.com.zup.beagle.widget.action.FormRemoteAction
+import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.android.action.ActionExecutor
 import br.com.zup.beagle.android.action.FormValidation
 import br.com.zup.beagle.android.components.BaseComponentTest
@@ -70,8 +70,8 @@ class FormTest : BaseComponentTest() {
     private val formSubmitView: View = mockk(relaxed = true, relaxUnitFun = true)
     private val viewGroup: ViewGroup = mockk(relaxed = true)
     private val inputWidget: InputWidget = mockk(relaxed = true)
-    private val remoteAction: FormRemoteAction = mockk(relaxed = true, relaxUnitFun = true)
-    private val navigateAction: Navigate = mockk()
+    private val remoteAction: br.com.zup.beagle.widget.action.FormRemoteAction = mockk(relaxed = true, relaxUnitFun = true)
+    private val navigateAction: br.com.zup.beagle.widget.action.Navigate = mockk()
 
     private val onClickListenerSlot = slot<View.OnClickListener>()
     private val formSubmitCallbackSlot = slot<(formResult: FormResult) -> Unit>()

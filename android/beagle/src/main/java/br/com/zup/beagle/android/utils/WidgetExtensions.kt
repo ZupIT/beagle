@@ -20,6 +20,7 @@ import android.content.Context
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
@@ -27,7 +28,6 @@ import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.layout.Screen
 
 internal var viewRenderer = ViewRendererFactory()
 internal var viewFactory = ViewFactory()

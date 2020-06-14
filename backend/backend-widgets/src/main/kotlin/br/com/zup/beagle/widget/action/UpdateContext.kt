@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.action
+package br.com.zup.beagle.widget.action
 
-import android.content.Context
-
-internal class UpdateContextActionHandler {
-
-    fun handle(context: Context, action: UpdateContext) {
-        // call update context
-    }
-}
+data class UpdateContext(
+    val contextId: String,
+    val value: Any,
+    val path: String? = null
+) : Action

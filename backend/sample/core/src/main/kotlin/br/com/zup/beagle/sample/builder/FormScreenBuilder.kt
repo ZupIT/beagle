@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.action.FormMethodType
-import br.com.zup.beagle.action.FormRemoteAction
-import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.widget.action.FormMethodType
+import br.com.zup.beagle.widget.action.FormRemoteAction
+import br.com.zup.beagle.widget.action.ShowNativeDialog
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle

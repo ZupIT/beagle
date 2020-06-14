@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.android.data.serializer
 
-import br.com.zup.beagle.action.Action
-import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.Route
+import br.com.zup.beagle.widget.action.Action
+import br.com.zup.beagle.widget.action.Navigate
+import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -48,7 +48,7 @@ class BeagleSerializerTest: BaseTest() {
     private lateinit var jsonAdapter: JsonAdapter<ServerDrivenComponent>
 
     @MockK
-    private lateinit var actionJsonAdapter: JsonAdapter<Action>
+    private lateinit var actionJsonAdapter: JsonAdapter<br.com.zup.beagle.widget.action.Action>
 
     private lateinit var beagleSerializer: BeagleSerializer
 
@@ -62,7 +62,7 @@ class BeagleSerializerTest: BaseTest() {
         every { BeagleMessageLogs.logDeserializationError(any(), any()) } just Runs
         every { BeagleMoshi.moshi } returns moshi
         every { moshi.adapter(ServerDrivenComponent::class.java) } returns jsonAdapter
-        every { moshi.adapter(Action::class.java) } returns actionJsonAdapter
+        every { moshi.adapter(br.com.zup.beagle.widget.action.Action::class.java) } returns actionJsonAdapter
     }
 
     override fun tearDown() {
@@ -156,7 +156,7 @@ class BeagleSerializerTest: BaseTest() {
     fun deserializeAction_should_return_a_Action_when_pass_a_valid_json_representation() {
         // Given
         val json = "{}"
-        val navigate = Navigate.PushView(Route.Remote(""))
+        val navigate = br.com.zup.beagle.widget.action.Navigate.PushView(br.com.zup.beagle.widget.action.Route.Remote(""))
         every { actionJsonAdapter.fromJson(json) } returns navigate
 
         // When

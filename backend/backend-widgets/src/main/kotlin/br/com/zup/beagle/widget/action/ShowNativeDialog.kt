@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.action
+package br.com.zup.beagle.widget.action
 
-import br.com.zup.beagle.widget.core.Action
+/**
+ * will show dialogues natively, such as an error alert indicating alternative flows, business system errors and others.
+ *
+ * @param title defines the title on the Dialog.
+ * @param message defines the Dialog message.
+ * @param buttonText define text of button in dialog.
+ *
+ */
 
-data class UpdateContext(
-    val contextId: String,
-    val value: Any,
-    val path: String? = null
+data class ShowNativeDialog(
+    val title: String,
+    val message: String,
+    val buttonText: String
 ) : Action

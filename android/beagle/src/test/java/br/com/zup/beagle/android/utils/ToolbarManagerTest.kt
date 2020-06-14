@@ -26,7 +26,7 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
 import br.com.zup.beagle.R
-import br.com.zup.beagle.action.Action
+import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.ActionExecutor
 import br.com.zup.beagle.android.components.layout.ScreenComponent
@@ -70,7 +70,7 @@ class ToolbarManagerTest : BaseTest() {
     private lateinit var toolbar: Toolbar
 
     @MockK
-    private lateinit var action: Action
+    private lateinit var action: br.com.zup.beagle.widget.action.Action
 
     @RelaxedMockK
     private lateinit var menu: Menu

@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.context
 
 import androidx.collection.LruCache
-import br.com.zup.beagle.action.UpdateContext
+import br.com.zup.beagle.widget.action.UpdateContext
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.jsonpath.JsonPathReplacer
@@ -189,7 +189,7 @@ class ContextDataManagerTest {
             put("a", true)
         }
         val contextData = ContextData(CONTEXT_ID, json)
-        val updateContext = UpdateContext(CONTEXT_ID, false, "a")
+        val updateContext = br.com.zup.beagle.widget.action.UpdateContext(CONTEXT_ID, false, "a")
         contexts[contextData.id] =
             ContextBinding(
                 contextData,
@@ -208,7 +208,7 @@ class ContextDataManagerTest {
     fun updateContext_should_log_error_when_jsonPathReplacer_throws_exception() {
         // Given
         val contextData = ContextData(CONTEXT_ID, true)
-        val updateContext = UpdateContext(CONTEXT_ID, false, "a")
+        val updateContext = br.com.zup.beagle.widget.action.UpdateContext(CONTEXT_ID, false, "a")
         contexts[contextData.id] =
             ContextBinding(
                 contextData,
@@ -227,7 +227,7 @@ class ContextDataManagerTest {
     fun updateContext_should_set_value_on_context_root() {
         // Given
         val contextData = ContextData(CONTEXT_ID, true)
-        val updateContext = UpdateContext(CONTEXT_ID, false, null)
+        val updateContext = br.com.zup.beagle.widget.action.UpdateContext(CONTEXT_ID, false, null)
         contexts[contextData.id] =
             ContextBinding(
                 contextData,
@@ -246,7 +246,7 @@ class ContextDataManagerTest {
     @Test
     fun updateContext_should_return_false_when_contextId_does_not_exist() {
         // Given
-        val updateContext = UpdateContext(RandomData.string(), false, null)
+        val updateContext = br.com.zup.beagle.widget.action.UpdateContext(RandomData.string(), false, null)
 
         // When
         val result = contextDataManager.updateContext(updateContext)

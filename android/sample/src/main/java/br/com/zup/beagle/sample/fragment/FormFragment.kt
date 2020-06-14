@@ -39,7 +39,7 @@ import br.com.zup.beagle.android.components.form.FormInputHidden
 import br.com.zup.beagle.android.components.form.FormSubmit
 import br.com.zup.beagle.android.components.form.setOnBlur
 import br.com.zup.beagle.android.components.layout.Container
-import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.android.components.layout.Screen
 
 private const val FORM_GROUP = "FORM_GROUP"
 

@@ -14,12 +14,17 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.ext
+package br.com.zup.beagle.android.action
 
-import br.com.zup.beagle.widget.layout.NavigationBarItem
+import br.com.zup.beagle.android.widget.RootView
 
-/**
- * Add an identifier to this widget.
- * @return the current navigation bar item
- */
-fun NavigationBarItem.setId(id: String) = this.apply { this.id = id }
+data class UpdateContext(
+    val contextId: String,
+    val value: Any,
+    val path: String? = null
+) : Action {
+
+    override fun execute(rootView: RootView) {
+        TODO("Not yet implemented")
+    }
+}

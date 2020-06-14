@@ -14,21 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.action
+package br.com.zup.beagle.widget.layout.extensions
 
-import br.com.zup.beagle.widget.core.Action
+import br.com.zup.beagle.widget.layout.NavigationBarItem
 
 /**
- * will show dialogues natively, such as an error alert indicating alternative flows, business system errors and others.
- *
- * @param title defines the title on the Dialog.
- * @param message defines the Dialog message.
- * @param buttonText define text of button in dialog.
- *
+ * Add an identifier to this widget.
+ * @return the current navigation bar item
  */
-
-data class ShowNativeDialog(
-    val title: String,
-    val message: String,
-    val buttonText: String
-) : Action
+fun NavigationBarItem.setId(id: String) = this.apply { this.id = id }

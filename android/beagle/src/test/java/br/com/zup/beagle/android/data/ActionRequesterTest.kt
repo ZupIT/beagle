@@ -22,7 +22,7 @@ import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.widget.core.Action
+import br.com.zup.beagle.widget.action.Action
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -67,7 +67,7 @@ class ActionRequesterTest {
     @Test
     fun `should action response when fetch action`() = runBlockingTest {
         // Given
-        val action = mockk<Action>()
+        val action = mockk<br.com.zup.beagle.widget.action.Action>()
         val responseData = mockk<ResponseData> {
             every { data } returns JSON_SUCCESS.toByteArray()
         }

@@ -18,7 +18,7 @@ package br.com.zup.beagle.android.view.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import br.com.zup.beagle.action.SendRequestAction
+import br.com.zup.beagle.widget.action.SendRequestAction
 import br.com.zup.beagle.android.data.ActionRequester
 import br.com.zup.beagle.android.exception.BeagleApiException
 import br.com.zup.beagle.android.extensions.once
@@ -54,7 +54,7 @@ class ActionRequestViewModelTest {
 
     private val observer: Observer<ActionRequestViewModel.FetchViewState> = mockk()
 
-    private val action: SendRequestAction = mockk()
+    private val action: br.com.zup.beagle.widget.action.SendRequestAction = mockk()
 
     @InjectMockKs
     private lateinit var viewModel: ActionRequestViewModel

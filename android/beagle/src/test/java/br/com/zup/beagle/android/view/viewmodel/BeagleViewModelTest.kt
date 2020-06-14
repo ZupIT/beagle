@@ -25,7 +25,7 @@ import br.com.zup.beagle.android.testutil.CoroutineTestRule
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.core.Action
+import br.com.zup.beagle.widget.action.Action
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -52,7 +52,7 @@ class BeagleViewModelTest {
     private lateinit var component: ServerDrivenComponent
 
     @MockK
-    private lateinit var action: Action
+    private lateinit var action: br.com.zup.beagle.widget.action.Action
 
     @MockK
     private lateinit var componentRequester: ComponentRequester

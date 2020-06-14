@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.android.data.serializer
 
-import br.com.zup.beagle.action.Action
-import br.com.zup.beagle.action.FormMethodType
-import br.com.zup.beagle.action.FormRemoteAction
+import br.com.zup.beagle.widget.action.Action
+import br.com.zup.beagle.widget.action.FormMethodType
+import br.com.zup.beagle.widget.action.FormRemoteAction
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.FormLocalAction
 import br.com.zup.beagle.android.action.FormValidation
@@ -438,7 +438,7 @@ class BeagleMoshiTest: BaseTest() {
         val json = makeNavigationActionJson()
 
         // When
-        val actual = beagleMoshiFactory.moshi.adapter(Action::class.java).fromJson(json)
+        val actual = beagleMoshiFactory.moshi.adapter(br.com.zup.beagle.widget.action.Action::class.java).fromJson(json)
 
         // Then
         assertNotNull(actual)
@@ -451,7 +451,7 @@ class BeagleMoshiTest: BaseTest() {
         val json = makeShowNativeDialogJson()
 
         // When
-        val actual = beagleMoshiFactory.moshi.adapter(Action::class.java).fromJson(json)
+        val actual = beagleMoshiFactory.moshi.adapter(br.com.zup.beagle.widget.action.Action::class.java).fromJson(json)
 
         // Then
         assertNotNull(actual)
@@ -465,7 +465,7 @@ class BeagleMoshiTest: BaseTest() {
 
 
         // When
-        val actual = beagleMoshiFactory.moshi.adapter(Action::class.java).fromJson(json)
+        val actual = beagleMoshiFactory.moshi.adapter(br.com.zup.beagle.widget.action.Action::class.java).fromJson(json)
 
         // Then
         assertNotNull(actual)
@@ -492,7 +492,7 @@ class BeagleMoshiTest: BaseTest() {
         val json = makeFormValidationJson()
 
         // When
-        val actual = beagleMoshiFactory.moshi.adapter(Action::class.java).fromJson(json)
+        val actual = beagleMoshiFactory.moshi.adapter(br.com.zup.beagle.widget.action.Action::class.java).fromJson(json)
 
         // Then
         assertNotNull(actual)
@@ -574,9 +574,9 @@ class BeagleMoshiTest: BaseTest() {
     fun make_should_return_moshi_to_serialize_a_Form() {
         // Given
         val component = Form(
-            onSubmit = listOf(FormRemoteAction(
+            onSubmit = listOf(br.com.zup.beagle.widget.action.FormRemoteAction(
                 RandomData.string(),
-                FormMethodType.POST
+                br.com.zup.beagle.widget.action.FormMethodType.POST
             )
             ), child = UndefinedWidget()
         )

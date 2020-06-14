@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.widget.layout
 
-import br.com.zup.beagle.widget.core.Action
+import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.analytics.ScreenAnalytics
 import br.com.zup.beagle.analytics.ScreenEvent
 import br.com.zup.beagle.core.Accessibility
