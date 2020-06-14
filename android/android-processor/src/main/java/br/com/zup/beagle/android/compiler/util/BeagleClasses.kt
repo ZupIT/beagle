@@ -68,4 +68,8 @@ val ANALYTICS = BeagleClass(
     "br.com.zup.beagle.analytics",
     "Analytics"
 )
+val BEAGLE_LOGGER = BeagleClass(
+    "br.com.zup.beagle.android.logger",
+    "BeagleLogger"
+)
 
