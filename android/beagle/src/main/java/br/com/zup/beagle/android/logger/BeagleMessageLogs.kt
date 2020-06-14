@@ -24,8 +24,10 @@ import br.com.zup.beagle.android.networking.ResponseData
 
 internal object BeagleMessageLogs {
 
+    private val logger: BeagleLogger = BeagleLoggerFactory().make()
+
     fun logHttpRequestData(requestData: RequestData) {
-        BeagleLogger.info("""
+        logger.info("""
             *** HTTP REQUEST ***
             Uri=${requestData.uri}
             Method=${requestData.method}
@@ -35,7 +37,7 @@ internal object BeagleMessageLogs {
     }
 
     fun logHttpResponseData(responseData: ResponseData) {
-        BeagleLogger.info("""
+        logger.info("""
             *** HTTP RESPONSE ***
             StatusCode=${responseData.statusCode}
             Body=${String(responseData.data)}
@@ -44,40 +46,40 @@ internal object BeagleMessageLogs {
     }
 
     fun logUnknownHttpError(throwable: Throwable) {
-        BeagleLogger.error("Exception thrown while trying to call http client.", throwable)
+        logger.error("Exception thrown while trying to call http client.", throwable)
     }
 
     fun logDeserializationError(json: String, ex: Exception) {
         val message = "Exception thrown while trying to deserialize the following json: $json"
-        BeagleLogger.error(message, ex)
+        logger.error(message, ex)
     }
 
     fun logViewFactoryNotFound(component: ServerDrivenComponent) {
         val message = """
             Did you miss to create a WidgetViewFactory for Widget ${component::class.java.simpleName}
         """.trimIndent()
-        BeagleLogger.warning(message)
+        logger.warning(message)
     }
 
     fun logActionBarAlreadyPresentOnView(ex: Exception) {
-        BeagleLogger.error("SupportActionBar is already present", ex)
+        logger.error("SupportActionBar is already present", ex)
     }
 
     fun logFormValidatorNotFound(validator: String) {
-        BeagleLogger.warning("Validation with name '$validator' were not found!")
+        logger.warning("Validation with name '$validator' were not found!")
     }
 
     fun logFormInputsNotFound(formActionName: String) {
-        BeagleLogger.warning("Are you missing to declare your FormInput for " +
+        logger.warning("Are you missing to declare your FormInput for " +
                 "form action '$formActionName'?")
     }
 
     fun logFormSubmitNotFound(formActionName: String) {
-        BeagleLogger.warning("Are you missing to declare your FormSubmit component for " +
+        logger.warning("Are you missing to declare your FormSubmit component for " +
                 "form action '$formActionName'?")
     }
 
     fun logDataNotInsertedOnDatabase(key: String, value: String) {
-        BeagleLogger.warning("Error when trying to insert key=$key with value=$value on Beagle default database.")
+        logger.warning("Error when trying to insert key=$key with value=$value on Beagle default database.")
     }
 }

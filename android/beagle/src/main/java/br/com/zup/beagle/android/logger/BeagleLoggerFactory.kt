@@ -16,13 +16,10 @@
 
 package br.com.zup.beagle.android.logger
 
-interface BeagleLogger {
+import br.com.zup.beagle.android.setup.BeagleEnvironment
 
-    fun warning(message: String)
-    fun error(message: String)
-    fun error(message: String, throwable: Throwable)
-    fun info(message: String)
-    fun debug(message: String)
-    fun verbose(message: String)
-
+internal class BeagleLoggerFactory {
+    fun make(): BeagleLogger {
+        return BeagleEnvironment.beagleSdk.logger ?: BeagleLoggerDefault()
+    }
 }

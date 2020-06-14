@@ -23,6 +23,7 @@ import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.logger.BeagleLogger
+import br.com.zup.beagle.android.logger.BeagleLoggerFactory
 import br.com.zup.beagle.android.utils.CoroutineDispatchers
 import br.com.zup.beagle.android.view.ScreenRequest
 import kotlinx.coroutines.CoroutineScope
@@ -87,7 +88,7 @@ internal class BeagleViewModel(
             val component = componentRequester.fetchComponent(ScreenRequest(url))
             urlObservableReference.get().notifyLoaded(url, component)
         } catch (exception: BeagleException) {
-            BeagleLogger.warning(exception.message)
+            BeagleLoggerFactory().make().warning(exception.message)
         }
 
         urlObservableReference.get().setLoading(url, false)

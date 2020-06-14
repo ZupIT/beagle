@@ -20,6 +20,7 @@ import android.app.Application
 import br.com.zup.beagle.android.action.FormLocalActionHandler
 import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.android.components.form.core.ValidatorHandler
+import br.com.zup.beagle.android.logger.BeagleLogger
 import br.com.zup.beagle.android.navigation.DeepLinkHandler
 import br.com.zup.beagle.android.networking.HttpClient
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
@@ -39,6 +40,7 @@ interface BeagleSdk {
     val serverDrivenActivity: Class<BeagleActivity>
     val urlBuilder: UrlBuilder?
     val analytics: Analytics?
+    val logger: BeagleLogger?
 
     fun registeredWidgets(): List<Class<WidgetView>>
 
