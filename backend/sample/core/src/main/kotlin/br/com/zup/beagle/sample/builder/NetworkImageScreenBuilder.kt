@@ -31,7 +31,7 @@ import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.layout.ScrollAxis
+import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.NetworkImage
 import br.com.zup.beagle.widget.ui.Text
@@ -80,7 +80,7 @@ object NetworkImageScreenBuilder : ScreenBuilder {
 
     private fun buildText(text: String) = Text(
         text = text,
-        style = TEXT_NETWORK_IMAGE
+        styleId = TEXT_NETWORK_IMAGE
     ).applyFlex(
         flex = Flex(
             alignSelf = AlignSelf.CENTER,

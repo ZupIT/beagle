@@ -48,7 +48,7 @@ extension ServerDrivenComponent {
 
         return Screen(
             identifier: screen?.identifier,
-            appearance: screen?.appearance,
+            style: screen?.style,
             safeArea: safeArea,
             navigationBar: screen?.navigationBar,
             screenAnalyticsEvent: screen?.screenAnalyticsEvent,

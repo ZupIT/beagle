@@ -36,16 +36,15 @@ import br.com.zup.beagle.sample.constants.SCREEN_NAVIGATION_BAR_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_NETWORK_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_PAGE_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SCROLL_VIEW_ENDPOINT
-import br.com.zup.beagle.sample.constants.SCREEN_STACK_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TAB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TOUCHABLE_ENDPOINT
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.layout.ScrollAxis
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Button
 
@@ -72,7 +71,6 @@ object ComponentScreenBuilder : ScreenBuilder {
                 createMenu("LazyComponent", SCREEN_LAZY_COMPONENT_ENDPOINT),
                 createMenu("NavigationBar", SCREEN_NAVIGATION_BAR_ENDPOINT),
                 createMenu("NavigationType", NAVIGATION_TYPE_ENDPOINT),
-                createMenu("Stack View", SCREEN_STACK_ENDPOINT),
                 createMenu("Accessibility Screen", ACCESSIBILITY_SCREEN_ENDPOINT),
                 createMenu("Compose Component", SCREEN_COMPOSE_COMPONENT_ENDPOINT),
                 createMenu("Touchable", SCREEN_TOUCHABLE_ENDPOINT),
@@ -84,7 +82,7 @@ object ComponentScreenBuilder : ScreenBuilder {
     private fun createMenu(text: String, path: String) = Button(
         text = text,
         action = Navigate.PushView(Route.Remote(path)),
-        style = BUTTON_STYLE_TITLE
+        styleId = BUTTON_STYLE_TITLE
     ).applyFlex(
         flex = Flex(
             margin = EdgeValue(

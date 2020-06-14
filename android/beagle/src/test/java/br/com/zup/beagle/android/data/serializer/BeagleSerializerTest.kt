@@ -19,29 +19,27 @@ package br.com.zup.beagle.android.data.serializer
 import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.Route
+import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.widget.ui.Button
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
-import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockkObject
 import io.mockk.unmockkObject
-import org.junit.After
-import org.junit.Before
 import org.junit.Test
 import java.io.IOException
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 import kotlin.test.assertTrue
 
-class BeagleSerializerTest {
+class BeagleSerializerTest: BaseTest() {
 
     @MockK
     private lateinit var moshi: Moshi
@@ -52,10 +50,8 @@ class BeagleSerializerTest {
 
     private lateinit var beagleSerializer: BeagleSerializer
 
-    @Before
-    fun setUp() {
-        MockKAnnotations.init(this)
-
+    override fun setUp() {
+        super.setUp()
         beagleSerializer = BeagleSerializer(BeagleMoshi)
 
         mockkObject(BeagleMessageLogs)
@@ -67,8 +63,8 @@ class BeagleSerializerTest {
         every { moshi.adapter(Action::class.java) } returns actionJsonAdapter
     }
 
-    @After
-    fun tearDown() {
+    override fun tearDown() {
+        super.tearDown()
         unmockkObject(BeagleMessageLogs)
         unmockkObject(BeagleMoshi)
     }

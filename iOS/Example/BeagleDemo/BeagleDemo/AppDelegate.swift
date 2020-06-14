@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         validator[FormScreen.textValidatorName] = FormScreen.textValidator
         
         let dependencies = BeagleDependencies()
-        dependencies.theme = Style.theme
+        dependencies.theme = AppTheme.theme
         dependencies.urlBuilder = UrlBuilder(baseUrl: URL(string: .BASE_URL))
         dependencies.deepLinkHandler = deepLinkHandler
         dependencies.validatorProvider = validator
