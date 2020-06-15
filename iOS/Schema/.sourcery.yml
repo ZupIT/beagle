@@ -1,0 +1,9 @@
+sources:
+  - Sources
+  - ../Sources/BeagleUI/CodeGeneration/SourceryProtocols.swift
+templates:
+  - ../Sources/BeagleUI/CodeGeneration/Templates
+output:
+  Sources/CodeGeneration/Generated
+args:
+  shouldNotImportBeagleUI: 1

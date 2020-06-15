@@ -20,17 +20,6 @@ import SnapshotTesting
 
 final class BeagleContextTests: XCTestCase {
     
-    func test_screenController_shouldBeBeagleScreenViewController() {
-        // Given
-        let component = SimpleComponent()
-        let sut: BeagleContext = BeagleScreenViewController(viewModel: .init(
-            screenType: .declarative(component.content.toScreen()),
-            dependencies: BeagleScreenDependencies()
-        ))
-        
-        // Then
-        XCTAssertTrue(sut.screenController is BeagleScreenViewController)
-    }
 }
 
 // MARK: - Testing Helpers
