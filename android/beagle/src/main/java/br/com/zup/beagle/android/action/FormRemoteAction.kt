@@ -16,7 +16,8 @@
 
 package br.com.zup.beagle.android.action
 
-
+import br.com.zup.beagle.android.components.form.core.FormResult
+import br.com.zup.beagle.android.components.form.core.FormSubmitter
 import br.com.zup.beagle.android.widget.RootView
 
 enum class FormMethodType {
@@ -26,12 +27,28 @@ enum class FormMethodType {
     DELETE
 }
 
+
+internal typealias ResultListener = (result: FormResult) -> Unit
+
 data class FormRemoteAction(
     val path: String,
     val method: FormMethodType
 ) : Action {
 
+    @Transient
+    internal lateinit var formsValue: Map<String, String>
+
+    @Transient
+    internal lateinit var resultListener: ResultListener
+
+    @Transient
+    private val formSubmitter: FormSubmitter = FormSubmitter()
+
     override fun execute(rootView: RootView) {
-        TODO("Not yet implemented")
+        formSubmitter.submitForm(this, formsValue) {
+            resultListener(it)
+        }
     }
+
+
 }

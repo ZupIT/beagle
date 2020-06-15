@@ -25,12 +25,12 @@ import br.com.zup.beagle.android.action.ActionExecutor
 import br.com.zup.beagle.android.action.FormLocalAction
 import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.action.FormValidation
+import br.com.zup.beagle.android.action.ResultListener
 import br.com.zup.beagle.android.components.form.core.Constants.shared
 import br.com.zup.beagle.android.components.utils.hideKeyboard
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.components.form.core.FormDataStoreHandler
 import br.com.zup.beagle.android.components.form.core.FormResult
-import br.com.zup.beagle.android.components.form.core.FormSubmitter
 import br.com.zup.beagle.android.components.form.core.FormValidatorController
 import br.com.zup.beagle.android.components.form.core.ValidatorHandler
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
@@ -63,9 +63,6 @@ data class Form(
 
     @Transient
     private val validatorHandler: ValidatorHandler? = BeagleEnvironment.beagleSdk.validatorHandler
-
-    @Transient
-    private val formSubmitter: FormSubmitter = FormSubmitter()
 
     @Transient
     private val formValidatorController: FormValidatorController = FormValidatorController()
@@ -192,18 +189,25 @@ data class Form(
 
     private fun submitForm(rootView: RootView, formsValue: MutableMap<String, String>) {
         onSubmit?.forEach { action ->
-            when (action) {
-                is FormRemoteAction -> formSubmitter.submitForm(action, formsValue) {
-                    (rootView.getContext() as AppCompatActivity).runOnUiThread {
-                        handleFormResult(rootView, it)
+            var newAction: Action = action
+            when (newAction) {
+                is FormRemoteAction -> {
+                    newAction.formsValue = formsValue
+                    newAction.resultListener = object : ResultListener {
+                        override fun invoke(result: FormResult) {
+                            (rootView.getContext() as AppCompatActivity).runOnUiThread {
+                                handleFormResult(rootView, result)
+                            }
+                        }
                     }
                 }
-                is FormLocalAction -> actionExecutor.doAction(rootView, FormLocalAction(
-                    name = action.name,
-                    data = formsValue.plus(action.data)
-                ))
-                else -> actionExecutor.doAction(rootView, action)
+                is FormLocalAction -> newAction = FormLocalAction(
+                    name = newAction.name,
+                    data = formsValue.plus(newAction.data)
+                )
             }
+
+            actionExecutor.doAction(rootView, newAction)
         }
 
 

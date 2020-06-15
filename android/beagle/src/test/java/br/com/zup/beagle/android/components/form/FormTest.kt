@@ -24,6 +24,7 @@ import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.ActionExecutor
 import br.com.zup.beagle.android.action.FormValidation
+import br.com.zup.beagle.android.action.ResultListener
 import br.com.zup.beagle.android.components.BaseComponentTest
 import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.components.form.core.FormDataStoreHandler
@@ -74,12 +75,10 @@ class FormTest : BaseComponentTest() {
     private val inputWidget: InputWidget = mockk(relaxed = true)
     private val remoteAction: FormRemoteAction = mockk(relaxed = true, relaxUnitFun = true)
     private val navigateAction: Navigate = mockk()
-
     private val onClickListenerSlot = slot<View.OnClickListener>()
-    private val formSubmitCallbackSlot = slot<(formResult: FormResult) -> Unit>()
     private val runnableSlot = slot<Runnable>()
-    private val formParamsSlot = slot<Map<String, String>>()
     private val formDataStoreHandler: FormDataStoreHandler = mockk()
+    private val resultListenerSlot = slot<ResultListener>()
 
     private lateinit var form: Form
 
@@ -89,7 +88,6 @@ class FormTest : BaseComponentTest() {
         mockkStatic("br.com.zup.beagle.android.components.utils.ViewExtensionsKt")
         mockkObject(BeagleMessageLogs)
         mockkConstructor(ActionExecutor::class)
-        mockkConstructor(FormSubmitter::class)
         mockkConstructor(FormValidatorController::class)
         mockkConstructor(FormValidation::class)
 
@@ -116,10 +114,6 @@ class FormTest : BaseComponentTest() {
         every { viewGroup.getChildAt(1) } returns formSubmitView
         every { beagleActivity.getSystemService(any()) } returns inputMethodManager
         every { beagleActivity.runOnUiThread(capture(runnableSlot)) } just Runs
-        every {
-            anyConstructed<FormSubmitter>().submitForm(any(), capture(formParamsSlot),
-                capture(formSubmitCallbackSlot))
-        } just Runs
         every { anyConstructed<ViewRendererFactory>().make(any()).build(any()) } returns viewGroup
 
         val validatorHandler: ValidatorHandler = mockk()
@@ -128,6 +122,7 @@ class FormTest : BaseComponentTest() {
         every { anyConstructed<FormValidatorController>().configFormInputList(any()) } just Runs
         every { anyConstructed<ActionExecutor>().doAction(any(), any<List<Action>>()) } just Runs
         every { anyConstructed<ActionExecutor>().doAction(any(), any<Action>()) } just Runs
+        every { remoteAction.resultListener = capture(resultListenerSlot) } just Runs
 
 
         form = Form(onSubmit = listOf(mockk()), child = mockk())
@@ -234,7 +229,7 @@ class FormTest : BaseComponentTest() {
 
         // When
         executeFormSubmitOnClickListener()
-        formSubmitCallbackSlot.captured(formResult)
+        resultListenerSlot.captured(formResult)
         runnableSlot.captured.run()
 
         // Then
@@ -252,7 +247,7 @@ class FormTest : BaseComponentTest() {
 
         // Then
         verify(exactly = once()) { formSubmitView.hideKeyboard() }
-        verify(exactly = once()) { anyConstructed<FormSubmitter>().submitForm(any(), any(), any()) }
+        verify(exactly = once()) { anyConstructed<ActionExecutor>().doAction(any(), remoteAction) }
     }
 
     @Test
@@ -276,7 +271,7 @@ class FormTest : BaseComponentTest() {
 
         // When
         executeFormSubmitOnClickListener()
-        formSubmitCallbackSlot.captured(formResult)
+        resultListenerSlot.captured(formResult)
         runnableSlot.captured.run()
 
         // Then
@@ -322,11 +317,11 @@ class FormTest : BaseComponentTest() {
 
         // When
         executeFormSubmitOnClickListener()
-        formSubmitCallbackSlot.captured(formResult)
+        resultListenerSlot.captured(formResult)
         runnableSlot.captured.run()
 
         // Then
-        verify(exactly = once()) { anyConstructed<ActionExecutor>().doAction(rootView, formResult.action) }
+        verify { anyConstructed<ActionExecutor>().doAction(rootView, formResult.action) }
     }
 
     @Test
@@ -339,7 +334,7 @@ class FormTest : BaseComponentTest() {
 
         // When
         executeFormSubmitOnClickListener()
-        formSubmitCallbackSlot.captured(formResult)
+        resultListenerSlot.captured(formResult)
         runnableSlot.captured.run()
 
         // Then
@@ -391,6 +386,8 @@ class FormTest : BaseComponentTest() {
         val savedValue = "savedValue"
         val savedMap = HashMap<String, String>()
         savedMap[savedKey] = savedValue
+        val formsValuesSlot = slot<Map<String, String>>()
+        every { remoteAction.formsValue = capture(formsValuesSlot) } just Runs
 
         form = form.copy(shouldStoreFields = false, group = FORM_GROUP_VALUE, onSubmit = listOf(remoteAction))
 
@@ -400,7 +397,8 @@ class FormTest : BaseComponentTest() {
         executeFormSubmitOnClickListener()
 
         // Then
-        assertEquals(formParamsSlot.captured[savedKey], savedValue)
+
+        assertEquals(formsValuesSlot.captured[savedKey], savedValue)
     }
 
     @Test
@@ -410,7 +408,7 @@ class FormTest : BaseComponentTest() {
 
         // When
         executeFormSubmitOnClickListener()
-        formSubmitCallbackSlot.captured(FormResult.Success(remoteAction))
+        resultListenerSlot.captured(FormResult.Success(remoteAction))
         runnableSlot.captured.run()
 
         // Then
