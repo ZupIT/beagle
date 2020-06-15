@@ -16,13 +16,13 @@
 
 package br.com.zup.beagle.platform
 
+import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.annotation.JsonUnwrapped
 
 data class BeaglePlatformWrapper<T : ServerDrivenComponent>(
-    @JsonUnwrapped
-    val component: T,
+    @JsonProperty(BeaglePlatformUtil.BEAGLE_CHILD_FIELD)
+    override val child: T,
     @JsonProperty(BeaglePlatformUtil.BEAGLE_PLATFORM_FIELD)
     val platform: BeaglePlatform
-) : ServerDrivenComponent
+) : ServerDrivenComponent, GhostComponent

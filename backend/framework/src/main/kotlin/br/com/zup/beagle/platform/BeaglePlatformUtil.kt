@@ -25,6 +25,7 @@ object BeaglePlatformUtil {
 
     const val BEAGLE_PLATFORM_HEADER = "beagle-platform"
     internal const val BEAGLE_PLATFORM_FIELD = "beaglePlatform"
+    internal const val BEAGLE_CHILD_FIELD = "child"
 
     fun treatBeaglePlatform(currentPlatform: String?, jsonNode: JsonNode): JsonNode {
         if (jsonNode is ObjectNode) {
@@ -113,7 +114,10 @@ object BeaglePlatformUtil {
 
     private fun removeBeaglePlatformField(objectNode: ObjectNode) {
         if (objectNode.has(BEAGLE_PLATFORM_FIELD)) {
-            objectNode.remove(BEAGLE_PLATFORM_FIELD)
+            objectNode.get(BEAGLE_CHILD_FIELD).let {
+                objectNode.removeAll()
+                objectNode.setAll<ObjectNode>(it as ObjectNode)
+            }
         }
         objectNode.fields().forEach {
             val currentNode = it.value
