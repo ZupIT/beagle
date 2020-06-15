@@ -18,14 +18,18 @@ import Foundation
 import os.log
 
 public protocol DependencyLogger {
-    var logger: BeagleLoggerType { get }
+    var logger: BeagleLoggerType? { get }
+}
+
+public protocol DependencyLoggingCondition {
+    var logEnable: Bool { get }
 }
 
 public protocol BeagleLoggerType {
     func log(_ log: LogType)
 }
 
-public class BeagleLogger: BeagleLoggerType {
+public class BeagleLoggerDefault: BeagleLoggerType {
 
     public func log(_ log: LogType) {
         os_log("\nBeagleSDK: %@", log: osLog(for: log), type: toOsLog(log.level), log.message)
@@ -36,7 +40,7 @@ public class BeagleLogger: BeagleLoggerType {
     private static var subsystem = Bundle.main.bundleIdentifier ?? "BeagleSDK"
 
     private func osLog(for type: LogType) -> OSLog {
-        return OSLog(subsystem: BeagleLogger.subsystem, category: type.category)
+        return OSLog(subsystem: BeagleLoggerDefault.subsystem, category: type.category)
     }
 
     private func toOsLog(_ level: LogLevel) -> OSLogType {

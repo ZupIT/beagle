@@ -18,7 +18,7 @@ import Foundation
 
 public class NetworkClientDefault: NetworkClient {
 
-    public typealias Dependencies = DependencyLoggerProxy
+    public typealias Dependencies = DependencyLogger
 
     public var session = URLSession.shared
     let dependencies: Dependencies
@@ -56,11 +56,11 @@ public class NetworkClientDefault: NetworkClient {
 
         let task = session.dataTask(with: urlRequest) { [weak self] data, response, error in
             guard let self = self else { return }
-            self.dependencies.logProxy.log(Log.network(.httpResponse(response: .init(data: data, reponse: response))))
+            self.dependencies.logger?.log(Log.network(.httpResponse(response: .init(data: data, reponse: response))))
             completion(self.handleResponse(data: data, response: response, error: error))
         }
         
-        dependencies.logProxy.log(Log.network(.httpRequest(request: .init(url: urlRequest))))
+        dependencies.logger?.log(Log.network(.httpRequest(request: .init(url: urlRequest))))
         task.resume()
         return task
     }

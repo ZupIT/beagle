@@ -33,7 +33,7 @@ class BeagleNavigator: BeagleNavigation {
     typealias Dependencies = DependencyNavigationController
         & DependencyDeepLinkScreenManaging
         & DependencyUrlBuilder
-        & DependencyLoggerProxy
+        & DependencyLogger
         & DependencyWindowManager
         & DependencyURLOpener
     
@@ -46,7 +46,7 @@ class BeagleNavigator: BeagleNavigation {
     // MARK: - Navigate
     
     func navigate(action: Navigate, context: BeagleContext, animated: Bool = false) {
-        dependencies.logProxy.log(Log.navigation(.didReceiveAction(action)))
+        dependencies.logger?.log(Log.navigation(.didReceiveAction(action)))
         let source = context.screenController
         switch action {
         case let .openExternalURL(url):
@@ -88,7 +88,7 @@ class BeagleNavigator: BeagleNavigation {
                 source.navigationController?.pushViewController(viewController, animated: animated)
             }
         } catch {
-            dependencies.logProxy.log(Log.navigation(.didNotFindDeepLinkScreen(path: path)))
+            dependencies.logger?.log(Log.navigation(.didNotFindDeepLinkScreen(path: path)))
             return
         }
     }
@@ -107,7 +107,7 @@ class BeagleNavigator: BeagleNavigation {
     
     private func popView(source: UIViewController, animated: Bool) {
         if source.navigationController?.viewControllers.count == 1 {
-            dependencies.logProxy.log(Log.navigation(.errorTryingToPopScreenOnNavigatorWithJustOneScreen))
+            dependencies.logger?.log(Log.navigation(.errorTryingToPopScreenOnNavigatorWithJustOneScreen))
         }
         source.navigationController?.popViewController(animated: animated)
     }
@@ -122,7 +122,7 @@ class BeagleNavigator: BeagleNavigation {
         }
 
         guard let target = last else {
-            dependencies.logProxy.log(Log.navigation(.cantPopToAlreadyCurrentScreen(identifier: identifier)))
+            dependencies.logger?.log(Log.navigation(.cantPopToAlreadyCurrentScreen(identifier: identifier)))
             return
         }
 

@@ -16,32 +16,21 @@
  */
 
 import Foundation
+import XCTest
+@testable import BeagleUI
 
-public protocol DependencyLoggingCondition {
-    var shouldLogEvents: Bool { get }
-}
-
-public protocol DependencyLoggerProxy {
-    var logProxy: LoggerProxying { get }
-}
-
-public protocol LoggerProxying {
-    func log(_ log: LogType)
-}
-
-class BeagleLoggerProxy: LoggerProxying {
+class BeagleLoggerFactoryTests: XCTestCase {
     
-    typealias Dependencies = DependencyLogger & DependencyLoggingCondition
-    
-    private let dependencie: Dependencies
-    
-    init(dependencie: Dependencies) {
-        self.dependencie = dependencie
+    func testBuild_WhenLogEnableIsFalse_ShouldReturnNil() {
+        let logger = BeagleLoggerFactory.build(logEnable: false)
+        
+        XCTAssert(logger == nil)
     }
     
-    func log(_ log: LogType) {
-        if dependencie.shouldLogEvents {
-            dependencie.logger.log(log)
-        }
+    func testBuild_WhenLogEnableIsFalse_ShouldReturnBeagleLogger() {
+        let logger = BeagleLoggerFactory.build(logEnable: true)
+        
+        XCTAssert(logger != nil)
     }
+    
 }

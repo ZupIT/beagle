@@ -356,7 +356,7 @@ class BeagleContextDummy: BeagleContext {
 struct NavigatorDependencies: BeagleNavigator.Dependencies {
     var deepLinkHandler: DeepLinkScreenManaging?
     var urlBuilder: UrlBuilderProtocol = UrlBuilder()
-    var logger: BeagleLoggerType = BeagleLoggerDumb()
+    var logger: BeagleLoggerType? = BeagleLoggerDumb()
     var windowManager: WindowManager = WindowManagerDumb()
     var opener: URLOpener = URLOpenerDumb()
     var navigationControllerType = BeagleNavigationController.self
