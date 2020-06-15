@@ -133,7 +133,7 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
     var appBundle: Bundle
     var cacheManager: CacheManagerProtocol?
     var decoder: ComponentDecoding
-    var logger: BeagleLoggerType
+    var logger: BeagleLoggerType?
     var formDataStoreHandler: FormDataStoreHandling
     var navigationControllerType = BeagleNavigationController.self
 
