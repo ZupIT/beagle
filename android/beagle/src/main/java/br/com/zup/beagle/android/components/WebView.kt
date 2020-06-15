@@ -31,7 +31,7 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 
 data class WebView(
-    private val url: String
+    val url: String
 ) : WidgetView() {
 
     @Transient

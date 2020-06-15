@@ -29,8 +29,8 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 
 data class Touchable(
     val action: Action,
-    private val child: ServerDrivenComponent,
-    private val clickAnalyticsEvent: ClickEvent? = null
+    val child: ServerDrivenComponent,
+    val clickAnalyticsEvent: ClickEvent? = null
 ) : WidgetView() {
 
     @Transient

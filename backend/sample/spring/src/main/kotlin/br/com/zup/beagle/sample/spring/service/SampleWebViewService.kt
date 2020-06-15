@@ -14,19 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.ui
+package br.com.zup.beagle.sample.spring.service
 
-import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.sample.builder.WebViewScreenBuilder
+import org.springframework.stereotype.Service
 
-/**
- * A WebView widget will define a WebView natively using the server driven information received through Beagle.
- *
- * @param url
- *              define the initial page that the WebView will load when presented .
- *              This attribute must be declared and it cannot be null.
- *
- */
-
-data class WebView(
-     val url: String
-) : Widget()
+@Service
+class SampleWebViewService {
+    fun createWebView() = WebViewScreenBuilder
+}
