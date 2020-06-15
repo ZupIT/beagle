@@ -16,23 +16,16 @@
 
 package br.com.zup.beagle.android.logger
 
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.mockdata.makeRequestData
 import br.com.zup.beagle.android.mockdata.makeResponseData
+import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkObject
-import io.mockk.slot
-import io.mockk.unmockkObject
-import io.mockk.verify
+import br.com.zup.beagle.core.ServerDrivenComponent
+import io.mockk.*
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-
-import org.junit.Assert.*
 
 class BeagleMessageLogsTest {
 
@@ -40,14 +33,23 @@ class BeagleMessageLogsTest {
 
     @Before
     fun setUp() {
-        every { BeagleLoggerFactory().make().info(capture(beagleLoggerInfoSlot)) } just Runs
-        every { BeagleLoggerFactory().make().warning(any()) } just Runs
-        every { BeagleLoggerFactory().make().error(any()) } just Runs
-        every { BeagleLoggerFactory().make().error(any(), any()) } just Runs
+        mockkObject(BeagleEnvironment)
+
+        every { BeagleEnvironment.beagleSdk.logger } returns null
+        every { BeagleEnvironment.beagleSdk.config.logEnable } returns true
+
+        mockkObject(BeagleLoggerProxy)
+
+        every { BeagleLoggerProxy.info(capture(beagleLoggerInfoSlot)) } just Runs
+        every {  BeagleLoggerProxy.warning(any()) } just Runs
+        every {  BeagleLoggerProxy.error(any()) } just Runs
+        every {  BeagleLoggerProxy.error(any(), any()) } just Runs
     }
 
     @After
     fun tearDown() {
+        unmockkObject(BeagleEnvironment)
+        unmockkObject(BeagleLoggerProxy)
     }
 
     @Test
@@ -94,7 +96,7 @@ class BeagleMessageLogsTest {
         BeagleMessageLogs.logUnknownHttpError(throwable)
 
         // Then
-        verify(exactly = 1) { BeagleLoggerFactory().make().error("Exception thrown while trying to call http client.", throwable) }
+        verify(exactly = 1) {  BeagleLoggerProxy.error("Exception thrown while trying to call http client.", throwable) }
     }
 
     @Test
@@ -107,7 +109,7 @@ class BeagleMessageLogsTest {
         BeagleMessageLogs.logDeserializationError(json, exception)
 
         // Then
-        verify(exactly = 1) { BeagleLoggerFactory().make().error(
+        verify(exactly = 1) {  BeagleLoggerProxy.error(
             "Exception thrown while trying to deserialize the following json: $json", exception) }
     }
 
@@ -123,7 +125,7 @@ class BeagleMessageLogsTest {
         val message = """
             Did you miss to create a WidgetViewFactory for Widget ${widget::class.java.simpleName}
         """.trimIndent()
-        verify(exactly = 1) { BeagleLoggerFactory().make().warning(message) }
+        verify(exactly = 1) {  BeagleLoggerProxy.warning(message) }
     }
 
     @Test
@@ -135,7 +137,7 @@ class BeagleMessageLogsTest {
         BeagleMessageLogs.logActionBarAlreadyPresentOnView(exception)
 
         // Then
-        verify(exactly = 1) { BeagleLoggerFactory().make().error("SupportActionBar is already present", exception) }
+        verify(exactly = 1) {  BeagleLoggerProxy.error("SupportActionBar is already present", exception) }
     }
 
     @Test
@@ -147,7 +149,7 @@ class BeagleMessageLogsTest {
         BeagleMessageLogs.logFormValidatorNotFound(validator)
 
         // Then
-        verify(exactly = 1) { BeagleLoggerFactory().make().warning("Validation with name '$validator' were not found!") }
+        verify(exactly = 1) {  BeagleLoggerProxy.warning("Validation with name '$validator' were not found!") }
     }
 
     @Test
@@ -159,7 +161,7 @@ class BeagleMessageLogsTest {
         BeagleMessageLogs.logFormInputsNotFound(formActionName)
 
         // Then
-        verify(exactly = 1) { BeagleLoggerFactory().make().warning("Are you missing to declare your FormInput for " +
+        verify(exactly = 1) {  BeagleLoggerProxy.warning("Are you missing to declare your FormInput for " +
                 "form action '$formActionName'?") }
     }
 
@@ -172,7 +174,7 @@ class BeagleMessageLogsTest {
         BeagleMessageLogs.logFormSubmitNotFound(formActionName)
 
         // Then
-        verify(exactly = 1) { BeagleLoggerFactory().make().warning("Are you missing to declare your FormSubmit component for " +
+        verify(exactly = 1) {  BeagleLoggerProxy.warning("Are you missing to declare your FormSubmit component for " +
                 "form action '$formActionName'?") }
     }
 
@@ -186,7 +188,7 @@ class BeagleMessageLogsTest {
         BeagleMessageLogs.logDataNotInsertedOnDatabase(key, value)
 
         // Then
-        verify(exactly = 1) { BeagleLoggerFactory().make().warning("Error when trying to insert key=$key " +
+        verify(exactly = 1) {  BeagleLoggerProxy.warning("Error when trying to insert key=$key " +
             "with value=$value on Beagle default database.") }
 
     }

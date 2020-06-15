@@ -17,15 +17,10 @@
 package br.com.zup.beagle.android.logger
 
 import android.util.Log
-import br.com.zup.beagle.android.setup.Environment
+import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
 import io.mockk.every
-import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.networking.HttpClientDefault
-import br.com.zup.beagle.android.setup.BeagleEnvironment
-import io.mockk.mockkObject
 import io.mockk.mockkStatic
-import io.mockk.unmockkObject
 import io.mockk.unmockkStatic
 import io.mockk.verify
 import org.junit.After
@@ -41,7 +36,6 @@ class BeagleLoggerDefaultTest {
 
     @Before
     fun setUp() {
-        mockkObject(BeagleEnvironment)
         mockkStatic(Log::class)
 
         beagleLoggerDispatchingDefault = BeagleLoggerDefault()
@@ -55,15 +49,11 @@ class BeagleLoggerDefaultTest {
 
     @After
     fun tearDown() {
-        unmockkObject(BeagleEnvironment)
         unmockkStatic(Log::class)
     }
 
     @Test
-    fun warning_should_call_Log_w_if_is_debug() {
-        // Given
-        every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.DEBUG
-
+    fun warning_should_call_Log_w() {
         // When
         beagleLoggerDispatchingDefault.warning(LOG)
 
@@ -72,46 +62,16 @@ class BeagleLoggerDefaultTest {
     }
 
     @Test
-    fun warning_should_not_call_Log_w_if_is_not_debug() {
-        // Given
-        every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.PRODUCTION
-
-        // When
-        beagleLoggerDispatchingDefault.warning(LOG)
-
-        // Then
-        verify(exactly = 0) { Log.w(BEAGLE_TAG, LOG) }
-    }
-
-    @Test
-    fun error_should_call_Log_w_if_is_debug() {
-        // Given
-        every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.DEBUG
-
+    fun error_should_call_Log_w() {
         // When
         beagleLoggerDispatchingDefault.error(LOG)
 
         // Then
         verify(exactly = once()) { Log.e(BEAGLE_TAG, LOG) }
     }
-
+    
     @Test
-    fun error_should_not_call_Log_w_if_is_not_debug() {
-        // Given
-        every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.PRODUCTION
-
-        // When
-        beagleLoggerDispatchingDefault.error(LOG)
-
-        // Then
-        verify(exactly = 0) { Log.e(BEAGLE_TAG, LOG) }
-    }
-
-    @Test
-    fun info_should_call_Log_w_if_is_debug() {
-        // Given
-        every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.DEBUG
-
+    fun info_should_call_Log_w() {
         // When
         beagleLoggerDispatchingDefault.info(LOG)
 
@@ -120,22 +80,7 @@ class BeagleLoggerDefaultTest {
     }
 
     @Test
-    fun info_should_not_call_Log_w_if_is_not_debug() {
-        // Given
-        every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.PRODUCTION
-
-        // When
-        beagleLoggerDispatchingDefault.info(LOG)
-
-        // Then
-        verify(exactly = 0) { Log.i(BEAGLE_TAG, LOG) }
-    }
-
-    @Test
-    fun debug_should_call_Log_w_if_is_debug() {
-        // Given
-        every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.DEBUG
-
+    fun debug_should_call_Log_w() {
         // When
         beagleLoggerDispatchingDefault.debug(LOG)
 
@@ -144,22 +89,7 @@ class BeagleLoggerDefaultTest {
     }
 
     @Test
-    fun debug_should_not_call_Log_w_if_is_not_debug() {
-        // Given
-        every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.PRODUCTION
-
-        // When
-        beagleLoggerDispatchingDefault.debug(LOG)
-
-        // Then
-        verify(exactly = 0) { Log.d(BEAGLE_TAG, LOG) }
-    }
-
-    @Test
-    fun verbose_should_call_Log_w_if_is_debug() {
-        // Given
-        every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.DEBUG
-
+    fun verbose_should_call_Log_w() {
         // When
         beagleLoggerDispatchingDefault.verbose(LOG)
 
@@ -167,15 +97,4 @@ class BeagleLoggerDefaultTest {
         verify(exactly = once()) { Log.v(BEAGLE_TAG, LOG) }
     }
 
-    @Test
-    fun verbose_should_not_call_Log_w_if_is_not_debug() {
-        // Given
-        every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.PRODUCTION
-
-        // When
-        beagleLoggerDispatchingDefault.verbose(LOG)
-
-        // Then
-        verify(exactly = 0) { Log.v(BEAGLE_TAG, LOG) }
-    }
 }
