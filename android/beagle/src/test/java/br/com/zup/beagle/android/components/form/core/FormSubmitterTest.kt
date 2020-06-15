@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.components.form.core
 
+import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.FormMethodType
 import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.components.form.Form
@@ -38,7 +39,7 @@ import org.junit.Test
 private val FORMS_VALUE = mapOf<String, String>()
 private val ACTION = RandomData.string()
 
-class FormSubmitterTest {
+class FormSubmitterTest : BaseTest() {
 
     @MockK
     private lateinit var httpClient: HttpClient
@@ -55,21 +56,14 @@ class FormSubmitterTest {
     @InjectMockKs
     private lateinit var formSubmitter: FormSubmitter
 
-    @Before
-    fun setUp() {
-        MockKAnnotations.init(this)
+    override fun setUp() {
+        super.setUp()
 
-        mockkObject(BeagleEnvironment)
-
-        every { BeagleEnvironment.beagleSdk.config.baseUrl } returns RandomData.httpUrl()
+        every { beagleSdk.config.baseUrl } returns RandomData.httpUrl()
         every { httpClient.execute(capture(requestDataSlot), any(), any()) } returns mockk()
         every { urlBuilder.format(any(), capture(urlSlot)) } returns ACTION
     }
 
-    @After
-    fun tearDown() {
-        unmockkObject(BeagleEnvironment)
-    }
 
     @Test
     fun submitForm_should_create_requestData_correctly() {
