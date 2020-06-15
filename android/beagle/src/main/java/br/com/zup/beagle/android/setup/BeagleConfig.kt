@@ -31,4 +31,5 @@ interface BeagleConfig {
     val environment: Environment
     val baseUrl: String
     val cache: Cache
+    val logEnable: Boolean
 }

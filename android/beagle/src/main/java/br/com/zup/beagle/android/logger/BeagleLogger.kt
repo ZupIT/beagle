@@ -17,12 +17,10 @@
 package br.com.zup.beagle.android.logger
 
 interface BeagleLogger {
-
     fun warning(message: String)
     fun error(message: String)
     fun error(message: String, throwable: Throwable)
     fun info(message: String)
     fun debug(message: String)
     fun verbose(message: String)
-
 }

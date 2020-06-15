@@ -26,6 +26,7 @@ import androidx.fragment.app.FragmentActivity
 import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.android.logger.BeagleLogger
 import br.com.zup.beagle.android.logger.BeagleLoggerFactory
+import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import java.lang.Exception
 
@@ -37,7 +38,7 @@ internal object BeagleNavigator {
             val intent = Intent(Intent.ACTION_VIEW, webPage)
             context.startActivity(intent)
         } catch (e: Exception) {
-            BeagleLoggerFactory().make().error(e.toString())
+            BeagleLoggerProxy.error(e.toString())
         }
     }
 
