@@ -20,7 +20,10 @@ import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.constants.PATH_URL_WEB_VIEW_ENDPOINT
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.layout.*
+import br.com.zup.beagle.widget.layout.NavigationBar
+import br.com.zup.beagle.widget.layout.NavigationBarItem
+import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.ui.WebView
 
 object WebViewScreenBuilder: ScreenBuilder {

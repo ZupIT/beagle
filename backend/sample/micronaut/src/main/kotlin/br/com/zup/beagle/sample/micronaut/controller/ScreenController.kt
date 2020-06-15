@@ -47,7 +47,6 @@ import br.com.zup.beagle.sample.constants.SCREEN_TAB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TOUCHABLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_WEB_VIEW_ENDPOINT
-import br.com.zup.beagle.sample.micronaut.service.*
 import br.com.zup.beagle.sample.micronaut.service.AccessibilityService
 import br.com.zup.beagle.sample.micronaut.service.SampleActionClickService
 import br.com.zup.beagle.sample.micronaut.service.SampleActionService
@@ -68,6 +67,7 @@ import br.com.zup.beagle.sample.micronaut.service.SampleTabViewService
 import br.com.zup.beagle.sample.micronaut.service.SampleTextService
 import br.com.zup.beagle.sample.micronaut.service.SampleTouchableService
 import br.com.zup.beagle.sample.micronaut.service.SampleViewService
+import br.com.zup.beagle.sample.micronaut.service.WebViewService
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 
