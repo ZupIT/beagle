@@ -1,5 +1,4 @@
 ▿ BeagleDependencies
-  - $__lazy_storage_$_logger: Optional<Optional<BeagleLoggerType>>.none
   ▿ actionExecutor: ActionExecuting
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
@@ -124,6 +123,8 @@
   ▿ formDataStoreHandler: FormDataStoreHandler
     - dataStore: 0 key/value pairs
   - logEnable: true
+  ▿ logger: BeagleLoggerProxy
+    - logger: BeagleLoggerDefault
   ▿ navigation: BeagleNavigator
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)

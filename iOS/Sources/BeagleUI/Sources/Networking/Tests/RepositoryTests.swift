@@ -21,7 +21,7 @@ final class RepositoryTests: XCTestCase {
 
     private struct Dependencies: RepositoryDefault.Dependencies {
         
-        var logger: BeagleLoggerType?
+        var logger: BeagleLoggerType
         var urlBuilder: UrlBuilderProtocol
         
         var cacheManager: CacheManagerProtocol?

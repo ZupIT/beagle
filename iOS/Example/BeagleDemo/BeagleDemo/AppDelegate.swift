@@ -43,8 +43,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         dependencies.deepLinkHandler = deepLinkHandler
         dependencies.validatorProvider = validator
         dependencies.analytics = AnalyticsMock()
-        dependencies.logEnable = false
-        dependencies.logger = MyCustomLogger()
 
         Beagle.dependencies = dependencies
         
@@ -59,11 +57,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func registerCustomComponents() {
         Beagle.registerCustomComponent("DSCollection", componentType: DSCollection.self)
         Beagle.registerCustomComponent("SampleTextField", componentType: DemoTextField.self)
-    }
-}
-
-class MyCustomLogger: BeagleLoggerType { 
-    func log(_ log: LogType) {
-        print(log.message)
     }
 }

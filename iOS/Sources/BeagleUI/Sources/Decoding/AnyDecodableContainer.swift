@@ -36,7 +36,7 @@ extension AnyDecodableContainer: Decodable {
             if let decodable = Beagle.dependencies.decoder.componentType(forType: type) {
                 content = try decodable.init(from: decoder)
             } else {
-                Beagle.dependencies.logger?.log(Log.decode(.decodingError(type: type)))
+                Beagle.dependencies.logger.log(Log.decode(.decodingError(type: type)))
                 content = UnknownComponent(type: type)
             }
         } else {
@@ -44,7 +44,7 @@ extension AnyDecodableContainer: Decodable {
             if let decodable = Beagle.dependencies.decoder.actionType(forType: type) {
                 content = try decodable.init(from: decoder)
             } else {
-                Beagle.dependencies.logger?.log(Log.decode(.decodingError(type: type)))
+                Beagle.dependencies.logger.log(Log.decode(.decodingError(type: type)))
                 content = UnknownAction(type: type)
             }
         }

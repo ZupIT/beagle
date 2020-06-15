@@ -31,8 +31,6 @@
 		7C42EE00243FBDA100DEEEA7 /* FormManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C42EDFF243FBDA100DEEEA7 /* FormManager.swift */; };
 		7C6F605F2444FB47007AC4AA /* LazyLoadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6F605E2444FB47007AC4AA /* LazyLoadManager.swift */; };
 		7C6F606124461F35007AC4AA /* ActionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6F606024461F35007AC4AA /* ActionManager.swift */; };
-		7C92FEB82497B9C30042ED93 /* BeagleLoggerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C92FEB72497B9C30042ED93 /* BeagleLoggerFactory.swift */; };
-		7C92FEBB2497F93E0042ED93 /* BeagleLoggerFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C92FEB92497F9380042ED93 /* BeagleLoggerFactoryTests.swift */; };
 		7C9999512448A0E800D77F07 /* ActionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C99994F2448A0B600D77F07 /* ActionManagerTests.swift */; };
 		7C9999532448A2E800D77F07 /* LazyLoadManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9999522448A2E800D77F07 /* LazyLoadManagerTests.swift */; };
 		7C9999552448A38000D77F07 /* FormManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9999542448A38000D77F07 /* FormManagerTests.swift */; };
@@ -284,8 +282,6 @@
 		7C42EDFF243FBDA100DEEEA7 /* FormManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormManager.swift; sourceTree = "<group>"; };
 		7C6F605E2444FB47007AC4AA /* LazyLoadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyLoadManager.swift; sourceTree = "<group>"; };
 		7C6F606024461F35007AC4AA /* ActionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionManager.swift; sourceTree = "<group>"; };
-		7C92FEB72497B9C30042ED93 /* BeagleLoggerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleLoggerFactory.swift; sourceTree = "<group>"; };
-		7C92FEB92497F9380042ED93 /* BeagleLoggerFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleLoggerFactoryTests.swift; sourceTree = "<group>"; };
 		7C99994F2448A0B600D77F07 /* ActionManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionManagerTests.swift; sourceTree = "<group>"; };
 		7C9999522448A2E800D77F07 /* LazyLoadManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyLoadManagerTests.swift; sourceTree = "<group>"; };
 		7C9999542448A38000D77F07 /* FormManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormManagerTests.swift; sourceTree = "<group>"; };
@@ -617,7 +613,6 @@
 				C85688C02433F85A00DD8B60 /* Tests */,
 				7C03910724250772003E6FCD /* BeagleMessageLogs.swift */,
 				7C03910924250FC6003E6FCD /* BeagleLoggerDefault.swift */,
-				7C92FEB72497B9C30042ED93 /* BeagleLoggerFactory.swift */,
 			);
 			path = Logger;
 			sourceTree = "<group>";
@@ -1328,7 +1323,6 @@
 			children = (
 				C85688C12433F87400DD8B60 /* __Snapshots__ */,
 				C896F8862433AF1300245968 /* BeagleLoggerTests.swift */,
-				7C92FEB92497F9380042ED93 /* BeagleLoggerFactoryTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1917,7 +1911,6 @@
 				981DB2EF23748BAB001CE5E0 /* UnitValueExtension.swift in Sources */,
 				E531D6C1235A3230007EEBA7 /* NSErrorExtension.swift in Sources */,
 				A04B19FA23ECA3F7007B4279 /* Screen.swift in Sources */,
-				7C92FEB82497B9C30042ED93 /* BeagleLoggerFactory.swift in Sources */,
 				983E8C8E2396C81C0018C6CA /* TabBarCollectionViewCell.swift in Sources */,
 				7CFE3A752412E3B50087F664 /* FlexBuildersExtension.swift in Sources */,
 				C048EBD9242B9BE100A24075 /* AnalyticsModels.swift in Sources */,
@@ -1994,7 +1987,6 @@
 				7C9999532448A2E800D77F07 /* LazyLoadManagerTests.swift in Sources */,
 				7C9999552448A38000D77F07 /* FormManagerTests.swift in Sources */,
 				7C2BD0F92448A02700E4E68B /* BeagleContextTestingHelpers.swift in Sources */,
-				7C92FEBB2497F93E0042ED93 /* BeagleLoggerFactoryTests.swift in Sources */,
 				98FD27EC242959B300331DD3 /* WebViewTests.swift in Sources */,
 				A0EF0ABB238877530019BE83 /* ActionExecutorTests.swift in Sources */,
 				57CBF5AA243F9EF300873997 /* CacheManagerDefaultTests.swift in Sources */,

@@ -57,9 +57,11 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var opener: URLOpener
     public var logEnable: Bool
     
-    public lazy var logger: BeagleLoggerType? = {
-        BeagleLoggerFactory.build(logEnable: logEnable)
-    }()
+    public var logger: BeagleLoggerType {
+        didSet {
+            logger = BeagleLoggerProxy(logger: logger)
+        }
+    }
     
     public var flex: (UIView) -> FlexViewConfiguratorProtocol = {
         return FlexViewConfigurator(view: $0)
@@ -83,6 +85,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.theme = AppTheme(styles: [:])
         self.navigationControllerType = BeagleNavigationController.self
         self.logEnable = true
+        self.logger = BeagleLoggerProxy(logger: BeagleLoggerDefault())
 
         self.networkClient = NetworkClientDefault(dependencies: resolver)
         self.navigation = BeagleNavigator(dependencies: resolver)
@@ -121,7 +124,7 @@ private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     var navigation: BeagleNavigation { return container().navigation }
     var deepLinkHandler: DeepLinkScreenManaging? { return container().deepLinkHandler }
     var customActionHandler: CustomActionHandler? { return container().customActionHandler }
-    var logger: BeagleLoggerType? { return container().logger }
+    var logger: BeagleLoggerType { return container().logger }
     var cacheManager: CacheManagerProtocol? { return container().cacheManager }
     var repository: Repository { return container().repository }
     var windowManager: WindowManager { return container().windowManager }

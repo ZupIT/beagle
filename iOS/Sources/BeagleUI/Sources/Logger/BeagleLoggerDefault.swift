@@ -18,7 +18,7 @@ import Foundation
 import os.log
 
 public protocol DependencyLogger {
-    var logger: BeagleLoggerType? { get }
+    var logger: BeagleLoggerType { get }
 }
 
 public protocol DependencyLoggingCondition {
@@ -27,6 +27,21 @@ public protocol DependencyLoggingCondition {
 
 public protocol BeagleLoggerType {
     func log(_ log: LogType)
+}
+
+internal class BeagleLoggerProxy: BeagleLoggerType {
+    
+    private let logger: BeagleLoggerType
+    
+    init(logger: BeagleLoggerType) {
+        self.logger = logger
+    }
+    
+    func log(_ log: LogType) {
+        if Beagle.dependencies.logEnable {
+            logger.log(log)
+        }
+    }
 }
 
 public class BeagleLoggerDefault: BeagleLoggerType {
