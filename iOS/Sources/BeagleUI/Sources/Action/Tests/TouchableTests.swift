@@ -17,30 +17,30 @@
 import XCTest
 @testable import BeagleUI
 import SnapshotTesting
+import BeagleSchema
 
 final class TouchableTests: XCTestCase {
-    
-    func testInitFromDecoder() throws {
-        let component: Touchable = try componentFromJsonFile(fileName: "TouchableDecoderTest")
-        assertSnapshot(matching: component, as: .dump)
-    }
 
     func testTouchableView() throws {
         let touchable = Touchable(action: Navigate.popView, child: Text("Touchable"))
-        let view = touchable.toView(context: BeagleContextDummy(), dependencies: BeagleDependencies())
+        let renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: BeagleDependencies())
+        let view = renderer.render(touchable)
 
-        assertSnapshotImage(view, size: CGSize(width: 100, height: 80))
+        assertSnapshotImage(view, size: .custom(CGSize(width: 100, height: 80)))
     }
     
     func testIfAnalyticsClickAndActionShouldBeTriggered() {
         // Given
         let component = SimpleComponent()
+        let context = BeagleContextSpy()
         let analyticsExecutorSpy = AnalyticsExecutorSpy()
         let actionExecutorSpy = ActionExecutorSpy()
         let dependencies = BeagleScreenDependencies(
             actionExecutor: actionExecutorSpy,
             analytics: analyticsExecutorSpy
         )
+
+        let renderer = BeagleRenderer(context: context, dependencies: dependencies)
         
         let controller = BeagleScreenViewController(viewModel: .init(
             screenType: .declarative(component.content.toScreen()),
@@ -56,7 +56,7 @@ final class TouchableTests: XCTestCase {
         let actionDummy = ActionDummy()
         let analyticsAction = AnalyticsClick(category: "some category")
         let touchable = Touchable(action: actionDummy, clickAnalyticsEvent: analyticsAction, child: Text("mocked text"))
-        let view = touchable.toView(context: sut, dependencies: dependencies)
+        let view = renderer.render(touchable)
         
         sut.actionManager.register(events: [.action(actionDummy), .analytics(analyticsAction)], inView: view)
         

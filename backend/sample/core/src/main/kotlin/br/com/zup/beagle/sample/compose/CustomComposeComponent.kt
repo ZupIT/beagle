@@ -22,14 +22,14 @@ import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.AlignItems
-import br.com.zup.beagle.widget.core.ComposeComponent
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.layout.ComposeComponent
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.Text
 
-class CustomComposeComponent : ComposeComponent() {
+class CustomComposeComponent : ComposeComponent {
     override fun build(): ServerDrivenComponent {
         return Container(
             children = listOf(

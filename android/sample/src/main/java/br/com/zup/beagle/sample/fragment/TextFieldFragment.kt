@@ -25,7 +25,6 @@ import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.sample.widgets.TextField
 import br.com.zup.beagle.widget.layout.Screen
 
-
 class TextFieldFragment : Fragment() {
 
     override fun onCreateView(
@@ -38,6 +37,7 @@ class TextFieldFragment : Fragment() {
                 color = "FFB6C1"
             )
         )
+
         return declarative.toView(this)
     }
 

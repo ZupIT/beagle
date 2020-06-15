@@ -22,10 +22,10 @@ include Modules.beagleAndroid
 include Modules.beagleBackendFramework
 include Modules.beagleAndroidProcessor
 include Modules.beagleAndroidAnnotation
-include Modules.beagleAndroidSchemaImpl
 include Modules.beagleAndroidPreview
 include Modules.beagleAnnotation
 include Modules.beagleBackendSpringStarter
 include Modules.beagleBackendMicronautStarter
-include Modules.beagleSchemaKotlin
+include Modules.beagleSchemaKotlinCore
+include Modules.beagleSchemaBackendWidgets
 include Modules.beagleExtendedSchema

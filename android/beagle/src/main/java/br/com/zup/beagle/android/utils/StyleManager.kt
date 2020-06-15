@@ -24,11 +24,11 @@ import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import android.view.View
 import br.com.zup.beagle.R
+import br.com.zup.beagle.android.components.Button
+import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
-import br.com.zup.beagle.widget.ui.Button
-import br.com.zup.beagle.widget.ui.Text
 
 class StyleManager(
     private val designSystem: DesignSystem? = BeagleEnvironment.beagleSdk.designSystem,
@@ -46,14 +46,14 @@ class StyleManager(
             is Text -> fetchDrawableColor(
                 getTypedArray(
                     context,
-                    designSystem?.textAppearance(component.style ?: ""),
+                    designSystem?.textStyle(component.styleId ?: ""),
                     R.styleable.BackgroundStyle
                 )
             )
             is Button -> fetchDrawableColor(
                 getTypedArray(
                     context,
-                    designSystem?.buttonStyle(component.style ?: ""),
+                    designSystem?.buttonStyle(component.styleId ?: ""),
                     R.styleable.BackgroundStyle
                 )
             )
@@ -66,12 +66,12 @@ class StyleManager(
         return typedValue
     }
 
-    fun getButtonStyle(style: String?): Int? {
-        return designSystem?.buttonStyle(style ?: "")
+    fun getButtonStyle(styleId: String?): Int? {
+        return designSystem?.buttonStyle(styleId ?: "")
     }
 
-    fun getButtonTypedArray(context: Context, style: String?): TypedArray? {
-        val buttonStyle = getButtonStyle(style)
+    fun getButtonTypedArray(context: Context, styleId: String?): TypedArray? {
+        val buttonStyle = getButtonStyle(styleId)
         return getTypedArray(
             context,
             buttonStyle,
@@ -79,8 +79,8 @@ class StyleManager(
         )
     }
 
-    fun getTabBarTypedArray(context: Context, style: String?): TypedArray? {
-        val tabStyle = designSystem?.tabViewStyle(style ?: "")
+    fun getTabBarTypedArray(context: Context, styleId: String?): TypedArray? {
+        val tabStyle = designSystem?.tabViewStyle(styleId ?: "")
         return getTypedArray(
             context,
             tabStyle,
