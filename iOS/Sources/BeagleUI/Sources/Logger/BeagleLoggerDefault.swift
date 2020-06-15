@@ -15,6 +15,7 @@
  */
 
 import Foundation
+import BeagleSchema
 import os.log
 
 public protocol DependencyLogger {
@@ -25,29 +26,18 @@ public protocol DependencyLoggingCondition {
     var logEnable: Bool { get }
 }
 
-public protocol BeagleLoggerType {
+public protocol BeagleLoggerType: SchemaLogger {
     func log(_ log: LogType)
-}
-
-internal class BeagleLoggerProxy: BeagleLoggerType {
-    
-    private let logger: BeagleLoggerType
-    
-    init(logger: BeagleLoggerType) {
-        self.logger = logger
-    }
-    
-    func log(_ log: LogType) {
-        if Beagle.dependencies.logEnable {
-            logger.log(log)
-        }
-    }
 }
 
 public class BeagleLoggerDefault: BeagleLoggerType {
 
     public func log(_ log: LogType) {
         os_log("\nBeagleSDK: %@", log: osLog(for: log), type: toOsLog(log.level), log.message)
+    }
+    
+    public func logDecodingError(type: String) {
+        log(Log.decode(.decodingError(type: type)))
     }
     
     // MARK: Private
@@ -57,7 +47,7 @@ public class BeagleLoggerDefault: BeagleLoggerType {
     private func osLog(for type: LogType) -> OSLog {
         return OSLog(subsystem: BeagleLoggerDefault.subsystem, category: type.category)
     }
-
+    
     private func toOsLog(_ level: LogLevel) -> OSLogType {
         switch level {
         case .error: return .error

@@ -67,7 +67,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     // MARK: BeagleSchema
 
     public var decoder: ComponentDecoding
-    public var schemaLogger: SchemaLogger? { return nil }
+    public var schemaLogger: SchemaLogger? { return logger }
 
     // MARK: Builders
 
@@ -133,8 +133,7 @@ private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     }
 
     var decoder: ComponentDecoding { return container().decoder }
-    var schemaLogger: SchemaLogger? { return container().schemaLogger }
-
+    var schemaLogger: SchemaLogger? { return container().logger }
     var urlBuilder: UrlBuilderProtocol { return container().urlBuilder }
     var networkClient: NetworkClient { return container().networkClient }
     var navigationControllerType: BeagleNavigationController.Type { return container().navigationControllerType }
