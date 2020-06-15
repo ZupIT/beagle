@@ -27,15 +27,15 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.R
-import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.data.BeagleViewModel
 import br.com.zup.beagle.android.data.ViewState
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.configureSupportActionBar
 import br.com.zup.beagle.android.utils.toComponent
+import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.android.widget.layout.ScreenComponent
 import kotlinx.android.parcel.Parcelize
 
 sealed class ServerDrivenState {
@@ -85,7 +85,7 @@ abstract class BeagleActivity : AppCompatActivity() {
             return newIntent(context, screenRequest, null)
         }
 
-        internal fun newIntent(
+        fun newIntent(
             context: Context,
             screenRequest: ScreenRequest? = null,
             screen: Screen? = null

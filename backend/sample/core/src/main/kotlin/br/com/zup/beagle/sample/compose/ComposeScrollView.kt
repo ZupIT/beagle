@@ -24,11 +24,11 @@ import br.com.zup.beagle.sample.constants.LIGHT_GREY
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.ComposeComponent
-import br.com.zup.beagle.widget.layout.ScrollAxis
+import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Text
 
-object ComposeScrollView : ComposeComponent() {
+object ComposeScrollView : ComposeComponent {
     override fun build() = ScrollView(
         scrollBarEnabled = false,
         scrollDirection = ScrollAxis.HORIZONTAL,
