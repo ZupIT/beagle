@@ -19,6 +19,7 @@ package br.com.zup.beagle.sample.builder
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
 import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
@@ -34,7 +35,7 @@ import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.layout.ScrollAxis
+import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.navigation.Touchable
 import br.com.zup.beagle.widget.ui.Image
@@ -88,7 +89,7 @@ object TouchableScreenBuilder : ScreenBuilder {
 
     private fun buildTitle(text: String) = Text(
         text = text,
-        style = SCREEN_TEXT_STYLE
+        styleId = SCREEN_TEXT_STYLE
     ).applyFlex(
         flex = Flex(
             alignSelf = AlignSelf.CENTER,

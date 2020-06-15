@@ -15,6 +15,7 @@
  */
 
 import UIKit
+import BeagleSchema
 
 public protocol ActionExecutor {
     func doAction(_ action: Action, sender: Any, context: BeagleContext)
@@ -46,8 +47,6 @@ final class ActionExecuting: ActionExecutor {
             showNativeDialog(nativeDialog, context: context)
         } else if let custom = action as? CustomAction {
             customAction(custom, context: context)
-        } else if let setContext = action as? SetContext {
-            handleSetContext(setContext, sender: sender, context: context)
         } else if let setContext = action as? SetContext {
             handleSetContext(setContext, sender: sender, context: context)
         }

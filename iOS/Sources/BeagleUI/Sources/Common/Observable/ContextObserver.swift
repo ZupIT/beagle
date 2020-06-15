@@ -16,6 +16,7 @@
  */
 
 import Foundation
+import BeagleSchema
 
 class ContextObserver: Observer {
     let contextChange: (Context) -> Void

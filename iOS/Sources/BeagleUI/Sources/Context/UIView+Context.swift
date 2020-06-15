@@ -16,6 +16,7 @@
  */
 
 import UIKit
+import BeagleSchema
 
 extension UIView {
     static var contextMapKey = "contextMapKey"
@@ -152,5 +153,72 @@ public extension Action {
         case let .value(value):
             return value
         }
+    }
+}
+
+// TODO: Organizar
+extension DynamicObject {
+// TODO: usar mutating?
+    func get(with view: UIView) -> DynamicObject {
+        switch self {
+        case .empty:
+            return .empty
+        case let .bool(bool):
+            return .bool(bool)
+        case let .int(int):
+            return .int(int)
+        case let .double(double):
+            return .double(double)
+        case let .string(string):
+            return .string(string)
+        case let .array(array):
+            return .array(array.map { $0.get(with: view) })
+        case let .dictionary(dictionary):
+            return .dictionary(dictionary.mapValues { $0.get(with: view) })
+        case let .expression(expression):
+            return DynamicObject(from: view.evaluate(for: expression))
+        }
+    }
+}
+
+extension SingleExpression {
+
+    func evaluate(model: DynamicObject) -> Any? {
+        let model = model.asAny()
+        var nodes = self.nodes[...]
+        return SingleExpression.evaluate(&nodes, model)
+    }
+    
+    private static func evaluate(_ expression: inout ArraySlice<Node>, _ model: Any?) -> Any? {
+        guard let first = expression.first else {
+            return model
+        }
+        switch first {
+        case let .property(key):
+            guard let dictionary = model as? [String: Any], let value = dictionary[key] else {
+                return nil
+            }
+            expression.removeFirst()
+            return evaluate(&expression, value)
+
+        case let .arrayItem(index):
+            guard let array = model as? [Any], let value = array[safe: index] else {
+                return nil
+            }
+            expression.removeFirst()
+            return evaluate(&expression, value)
+        }
+    }
+
+    func context() -> String? {
+        if let node = nodes.first {
+            switch node {
+            case let .property(context):
+                return context
+            default:
+                return nil
+            }
+        }
+        return  nil
     }
 }

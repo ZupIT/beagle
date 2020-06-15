@@ -15,6 +15,7 @@
  */
 
 import UIKit
+import BeagleSchema
 
 class BeagleScreenViewModel {
         
@@ -40,9 +41,10 @@ class BeagleScreenViewModel {
         & DependencyRepository
         & DependencyAnalyticsExecutor
         & RenderableDependencies
-        & DependencyComponentDecoding
+        & BeagleSchema.DependencyDecoder
         & DependencyFormDataStoreHandler
         & DependencyNavigationController
+        & DependencyRenderer
 
     // MARK: Observer
 

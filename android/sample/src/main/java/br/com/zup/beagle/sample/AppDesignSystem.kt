@@ -16,24 +16,24 @@
 
 package br.com.zup.beagle.sample
 
-import br.com.zup.beagle.annotation.BeagleComponent
-import br.com.zup.beagle.setup.DesignSystem
+import br.com.zup.beagle.android.annotation.BeagleComponent
+import br.com.zup.beagle.android.setup.DesignSystem
 
 @BeagleComponent
-class AppDesignSystem : DesignSystem {
+class AppDesignSystem : DesignSystem() {
 
-    override fun toolbarStyle(name: String): Int {
-        return when(name) {
+    override fun toolbarStyle(id: String): Int? {
+        return when (id) {
             "DesignSystem.Navigationbar.Style.Green" -> R.style.DesignSystem_Navigationbar_Style
             "DesignSystem.Toolbar.Center" -> R.style.DesignSystem_Toolbar_Center
             else -> R.style.DesignSystem_Toolbar
         }
     }
 
-    override fun tabBarStyle(name: String) = R.style.DesignSystem_TabView_Default
+    override fun tabViewStyle(id: String): Int? = R.style.DesignSystem_TabView_Default
 
-    override fun image(name: String): Int {
-        return when (name) {
+    override fun image(id: String): Int? {
+        return when (id) {
             "imageBeagle" -> R.drawable.beagle_image
             "informationImage" -> android.R.drawable.ic_menu_help
             "delete" -> android.R.drawable.ic_delete
@@ -43,12 +43,8 @@ class AppDesignSystem : DesignSystem {
         }
     }
 
-    override fun theme(): Int {
-        return R.style.AppTheme_NoToolbar
-    }
-
-    override fun textAppearance(name: String): Int {
-        return when (name) {
+    override fun textStyle(id: String): Int? {
+        return when (id) {
             "DesignSystem.Text.H2" -> R.style.DesignSystem_Text_H2
             "DesignSystem.Text.H3" -> R.style.DesignSystem_Text_H3
             "DesignSystem.Text.Action.Click" -> R.style.DesignSystem_Text_Action_Click
@@ -57,8 +53,8 @@ class AppDesignSystem : DesignSystem {
         }
     }
 
-    override fun buttonStyle(name: String): Int {
-        return when (name) {
+    override fun buttonStyle(id: String): Int? {
+        return when (id) {
             "DesignSystem.Button.White" -> R.style.DesignSystem_Button_White
             "DesignSystem.Button.Text" -> R.style.DesignSystem_Button_Text
             "DesignSystem.Button.Style" -> R.style.DesignSystem_Button_Style
@@ -70,5 +66,4 @@ class AppDesignSystem : DesignSystem {
             else -> android.R.style.Widget_Button
         }
     }
-
 }

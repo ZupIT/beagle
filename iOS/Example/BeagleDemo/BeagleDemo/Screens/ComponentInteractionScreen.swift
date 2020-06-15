@@ -17,6 +17,7 @@
 
 import Foundation
 import BeagleUI
+import BeagleSchema
 import UIKit
 
 let componentInteractionScreen: Screen = {
@@ -66,7 +67,7 @@ let declarativeScreen: Screen = {
                         )
                     ]
                 ),
-                Text("${myContext.a.c}"),
+                Text("${myContext.a.b}"),
                 Text("${myContext.b}"),
                 Button(
                     text: "ok",
@@ -97,7 +98,7 @@ struct ComponentInteractionText: DeeplinkScreen {
                   },
                   "child": {
                     "_beagleComponent_": "beagle:container",
-                    "context": {
+                    "_context_": {
                       "id": "myContext",
                       "value": ""
                     },
@@ -142,9 +143,9 @@ struct TextInput: Widget {
     var onFocus: [Action]?
     var onBlur: [Action]?
     
-    func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        let view = TextInputView(widget: self, controller: context)
-        view.text = get(label, with: view, controller: context) { string in view.text = string }
+    func toView(renderer: BeagleRenderer) -> UIView {
+        let view = TextInputView(widget: self, controller: renderer.context)
+        view.text = get(label, with: view, controller: renderer.context) { string in view.text = string }
         view.beagle.setup(self)
         return view
     }
@@ -166,6 +167,7 @@ class TextInputView: UITextField, UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        // TODO: arrumar execute
 //        let context = Context(id: "onFocus", value: ["value": textField.text])
         
         let context = Context(id: "onFocus", value: .dictionary(["value": .string(textField.text ?? "")]))

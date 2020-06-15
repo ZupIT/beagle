@@ -16,10 +16,11 @@
 
 import UIKit
 import BeagleUI
+import BeagleSchema
 
 struct ListViewScreen: DeeplinkScreen {
     
-    init(path: String, data: [String : String]?) {
+    init(path: String, data: [String: String]?) {
     }
     
     func screenController() -> UIViewController {
@@ -35,34 +36,35 @@ struct ListViewScreen: DeeplinkScreen {
     
     var listView = ListView(
         rows: [
-            Touchable(action: Navigate.pushView(.remote(.NAVIGATE_ENDPOINT)), child: Text(.value("0000"))),
-            Text(.value("0001"), widgetProperties: .init(flex: Flex().size(Size().width(100).height(100)))),
-            Text(.value("0002")),
-            Text(.value("0003")),
-            Text(.value("0004")),
+            Touchable(action: Navigate.pushView(.remote(.NAVIGATE_ENDPOINT)), child: Text("0000")),
+            Text("0001", widgetProperties: .init(flex: Flex().size(Size().width(100).height(100)))),
+            Text("0002"),
+            Text("0003"),
+            Text("0004"),
             LazyComponent(
                 path: .TEXT_LAZY_COMPONENTS_ENDPOINT,
-                initialState: Text(.value("Loading LazyComponent..."))
+                initialState: Text("Loading LazyComponent...")
             ),
-            Text(.value("0005")),
-            Text(.value("0006")),
-            Text(.value("0007")),
-            Text(.value("0008")),
-            Text(.value("0009")),
-            Text(.value("0010")),
-            Text(.value("0011")),
-            Text(.value("0012")),
-            Text(.value("0013")),
+            Text("0005"),
+            Text("0006"),
+            Text("0007"),
+            Text("0008"),
+            Text("0009"),
+            Text("0010"),
+            Text("0011"),
+            Text("0012"),
+            Text("0013"),
             Image(name: "beagle"),
-            Text(.value("0014")),
-            Text(.value("0015")),
-            Text(.value("0016")),
+            Text("0014"),
+            Text("0015"),
+            Text("0016"),
             NetworkImage(path: .NETWORK_IMAGE_BEAGLE),
-            Text(.value("0017")),
-            Text(.value("0018")),
-            Text(.value("0019")),
-            Text(.value("0020")),
-            Container(children: [Text(.value("Text1")), Text(.value("Text2"))], widgetProperties: .init(flex: Flex()))],
-        direction: .horizontal)
+            Text("0017"),
+            Text("0018"),
+            Text("0019"),
+            Text("0020"),
+            Container(children: [Text("Text1"), Text("Text2")])
+        ],
+        direction: .horizontal
+    )
 }
-
