@@ -16,12 +16,11 @@
 
 package br.com.zup.beagle.android.context
 
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
-import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.utils.generateViewModelInstance
-import br.com.zup.beagle.core.ContextData
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
-import br.com.zup.beagle.widget.core.Action
+import br.com.zup.beagle.android.widget.RootView
 import org.json.JSONObject
 
 private const val DEFAULT_KEY_NAME = "value"
@@ -53,8 +52,7 @@ internal class ContextActionExecutor {
             )
             viewModel.contextDataManager.handleContext(rootView, contextData, action)
         } else {
-            // TODO: call execute
-//            action.execute(rootView)
+            action.execute(rootView)
         }
     }
 
@@ -75,8 +73,7 @@ internal class ContextActionExecutor {
         action: Action
     ) {
         addContext(contextData)
-        // TODO: call execute
-//        action.execute(rootView)
+        action.execute(rootView)
         removeContext(contextData.id)
     }
 }

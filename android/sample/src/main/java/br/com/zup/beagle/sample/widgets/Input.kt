@@ -19,10 +19,12 @@ package br.com.zup.beagle.sample.widgets
 import android.content.Context
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
+import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.utils.handleEvent
+import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.android.widget.core.Bind
-import br.com.zup.beagle.android.widget.core.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.widget.core.Action
 
 @RegisterWidget
 data class Input(
@@ -30,10 +32,10 @@ data class Input(
     val onTextChange: List<Action>? = null
 ) : WidgetView() {
 
-    override fun buildView(context: Context) = EditText(context).apply {
+    override fun buildView(rootView: RootView) = EditText(rootView.getContext()).apply {
         doOnTextChanged { newText, _, _, _ ->
             val actions = onTextChange ?: emptyList()
-//            this@Input.handleEvent(rootView, actions, "onTextChange", newText.toString())
+            this@Input.handleEvent(rootView, actions, "onTextChange", newText.toString())
         }
         this@apply.hint = hint
     }

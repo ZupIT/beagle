@@ -19,10 +19,9 @@ package br.com.zup.beagle.android.view.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.zup.beagle.widget.action.SendRequest
+import br.com.zup.beagle.android.action.SendRequest
 import br.com.zup.beagle.android.data.ActionRequester
 import br.com.zup.beagle.android.exception.BeagleApiException
-import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.view.mapper.toRequestData
 import br.com.zup.beagle.android.view.mapper.toResponse
 import kotlinx.coroutines.CoroutineScope

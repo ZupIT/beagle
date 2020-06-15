@@ -17,9 +17,9 @@
 package br.com.zup.beagle.android.data
 
 import androidx.appcompat.app.AppCompatActivity
-import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.action.Navigate
+import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.ViewModelProviderFactory

@@ -14,60 +14,47 @@
  * limitations under the License.
  */
 
+
 package br.com.zup.beagle.android.engine.renderer.ui
 
-import android.content.Context
 import android.graphics.Color
 import android.widget.TextView
-import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.engine.renderer.RootView
+import br.com.zup.beagle.android.components.BaseComponentTest
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.Environment
-import br.com.zup.beagle.android.view.custom.BeagleTextView
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.ui.UndefinedWidget
+import br.com.zup.beagle.android.widget.UndefinedWidget
 import io.mockk.Runs
 import io.mockk.every
-import io.mockk.impl.annotations.InjectMockKs
-import io.mockk.impl.annotations.MockK
-import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-class UndefinedViewRendererTest : BaseTest() {
+class UndefinedViewRendererTest : BaseComponentTest() {
 
-    @MockK
-    private lateinit var viewFactory: ViewFactory
-    @MockK
-    private lateinit var context: Context
-    @MockK
-    private lateinit var rootView: RootView
-    @RelaxedMockK
-    private lateinit var textView: BeagleTextView
-    @RelaxedMockK
-    private lateinit var undefinedWidget: UndefinedWidget
+    private val textView: TextView = mockk()
 
     private val textSlot = slot<String>()
     private val textColorSlot = slot<Int>()
     private val backgroundColorSlot = slot<Int>()
 
-    @InjectMockKs
-    private lateinit var undefinedViewRenderer: UndefinedViewRenderer
+    private lateinit var undefinedViewRenderer: UndefinedWidget
 
     override fun setUp() {
         super.setUp()
 
         every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.DEBUG
-        every { viewFactory.makeTextView(context) } returns textView
+        every { anyConstructed<ViewFactory>().makeTextView(rootView.getContext()) } returns textView
         every { textView.text = capture(textSlot) } just Runs
         every { textView.setTextColor(capture(textColorSlot)) } just Runs
         every { textView.setBackgroundColor(capture(backgroundColorSlot)) } just Runs
-        every { rootView.getContext() } returns context
+
+        undefinedViewRenderer = UndefinedWidget()
     }
 
     @Test
@@ -96,12 +83,12 @@ class UndefinedViewRendererTest : BaseTest() {
     fun build_should_create_View_when_Environment_is_PRODUCTION() {
         // Given
         every { BeagleEnvironment.beagleSdk.config.environment } returns Environment.PRODUCTION
-        every { viewFactory.makeView(any()) } returns textView
+        every { anyConstructed<ViewFactory>().makeView(any()) } returns textView
 
         // When
         undefinedViewRenderer.buildView(rootView)
 
         // Then
-        verify(exactly = once()) { viewFactory.makeView(context) }
+        verify(exactly = once()) { anyConstructed<ViewFactory>().makeView(rootView.getContext()) }
     }
 }

@@ -26,7 +26,7 @@ import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.core.Bind
 import br.com.zup.beagle.android.widget.core.Bind.Companion.expressionOf
 import br.com.zup.beagle.android.widget.core.Bind.Companion.valueOf
-import br.com.zup.beagle.core.ContextData
+import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.widget.layout.Container
 import io.mockk.Runs
@@ -37,7 +37,6 @@ import io.mockk.mockkObject
 import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verifySequence
-import org.junit.After
 import org.junit.Test
 
 import kotlin.test.assertEquals
@@ -58,7 +57,7 @@ class ContextActionExecutorTest : BaseTest() {
     )
     private lateinit var contextActionExecutor: ContextActionExecutor
 
-    private val contextDataSlot = slot<ContextData>()
+    private val contextDataSlot = slot<br.com.zup.beagle.widget.context.ContextData>()
 
     override fun setUp() {
         super.setUp()

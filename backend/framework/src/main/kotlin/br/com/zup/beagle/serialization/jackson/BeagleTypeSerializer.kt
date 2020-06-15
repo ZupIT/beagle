@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.serialization.jackson
 
-import br.com.zup.beagle.widget.core.Action
+import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.layout.Screen
@@ -25,7 +25,6 @@ import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter
 import com.fasterxml.jackson.databind.ser.impl.ObjectIdWriter
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase
-import java.util.Locale
 
 internal class BeagleTypeSerializer : BeanSerializerBase {
 

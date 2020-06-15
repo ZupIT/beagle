@@ -16,11 +16,11 @@
 
 package br.com.zup.beagle.sample.widgets
 
-import android.content.Context
 import android.graphics.Color
 import android.view.View
 import android.widget.TextView
-import br.com.zup.beagle.android.widget.core.WidgetView
+import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.Widget
 
@@ -28,7 +28,7 @@ import br.com.zup.beagle.widget.Widget
 data class Text(
     val text: String = ""
 ) : WidgetView() {
-    override fun buildView(context: Context): TextView = TextView(context).apply {
+    override fun buildView(rootView: RootView): TextView = TextView(rootView.getContext()).apply {
         setTextColor(Color.BLACK)
         this@apply.text = text
     }

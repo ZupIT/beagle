@@ -25,7 +25,6 @@ import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.testutil.CoroutineTestRule
 import br.com.zup.beagle.android.view.mapper.toRequestData
-import br.com.zup.beagle.android.view.mapper.toResponse
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery

@@ -17,10 +17,11 @@
 package br.com.zup.beagle.android.engine.renderer
 
 import android.view.View
-import br.com.zup.beagle.android.utils.ComponentStylization
-import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.components.utils.ComponentStylization
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.context.ContextComponentHandler
+import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.ViewConvertable
 
 internal abstract class ViewRenderer<T : ServerDrivenComponent>(
     private val componentStylization: ComponentStylization<T> = ComponentStylization(),
@@ -42,27 +43,9 @@ internal abstract class ViewRenderer<T : ServerDrivenComponent>(
     abstract fun buildView(rootView: RootView): View
 }
 
-internal abstract class LayoutViewRenderer<T : ServerDrivenComponent>(
-    protected val viewRendererFactory: ViewRendererFactory,
-    protected val viewFactory: ViewFactory
-) : ViewRenderer<T>()
+internal class ViewRendererFactory {
 
-internal abstract class UIViewRenderer<T : ServerDrivenComponent> : ViewRenderer<T>()
-
-internal interface AbstractViewRendererFactory {
-    fun make(component: ServerDrivenComponent): ViewRenderer<*>
-}
-
-internal class ViewRendererFactory(
-    private val layout: LayoutViewRendererFactory = LayoutViewRendererFactory(),
-    private val ui: UIViewRendererFactory = UIViewRendererFactory()
-) : AbstractViewRendererFactory {
-
-    override fun make(component: ServerDrivenComponent): ViewRenderer<*> {
-        return try {
-            layout.make(component)
-        } catch (exception: IllegalArgumentException) {
-            ui.make(component)
-        }
+    fun make(component: ServerDrivenComponent): ViewRenderer<*> {
+        return ViewConvertableRenderer(component as ViewConvertable)
     }
 }

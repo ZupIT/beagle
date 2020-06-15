@@ -23,7 +23,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
-import br.com.zup.beagle.action.Route
+import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.logger.BeagleLogger
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.view.BeagleActivity

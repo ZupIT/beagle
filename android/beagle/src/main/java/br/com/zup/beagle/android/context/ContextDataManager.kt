@@ -17,13 +17,12 @@
 package br.com.zup.beagle.android.context
 
 import androidx.collection.LruCache
+import br.com.zup.beagle.android.action.SetContext
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.jsonpath.JsonPathReplacer
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.widget.core.Bind
-import br.com.zup.beagle.core.ContextData
-import br.com.zup.beagle.widget.action.SetContext
 import com.squareup.moshi.Moshi
 import org.json.JSONArray
 import org.json.JSONObject

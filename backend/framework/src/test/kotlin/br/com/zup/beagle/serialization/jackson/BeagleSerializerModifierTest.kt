@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.serialization.jackson
 
-import br.com.zup.beagle.widget.core.Action
-import br.com.zup.beagle.action.Navigate
+import br.com.zup.beagle.widget.action.Action
+import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.layout.ComposeComponent
@@ -99,7 +99,7 @@ internal class BeagleSerializerModifierTest {
         assertTrue { expectedSerializerClass.isInstance(result) }
     }
 
-    abstract class MyComposeComponent : ComposeComponent()
+    abstract class MyComposeComponent : ComposeComponent
 
     abstract class MyScreenBuilder : ScreenBuilder
 }

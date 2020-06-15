@@ -19,7 +19,7 @@ package br.com.zup.beagle.serialization.jackson
 import br.com.zup.beagle.widget.layout.ComposeComponent
 import com.fasterxml.jackson.annotation.JsonValue
 
-internal object ComposeComponentMixin : ComposeComponent() {
+internal object ComposeComponentMixin : ComposeComponent {
     @JsonValue
     override fun build() = this
 }

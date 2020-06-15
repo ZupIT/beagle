@@ -20,9 +20,9 @@ import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.compiler.ANALYTICS
 import br.com.zup.beagle.compiler.BEAGLE_ACTIVITY
 import br.com.zup.beagle.compiler.BeagleClass
-import br.com.zup.beagle.compiler.CUSTOM_ACTION_HANDLER
 import br.com.zup.beagle.compiler.DEEP_LINK_HANDLER
 import br.com.zup.beagle.compiler.DESIGN_SYSTEM
+import br.com.zup.beagle.compiler.FORM_LOCAL_ACTION_HANDLER
 import br.com.zup.beagle.compiler.HTTP_CLIENT_HANDLER
 import br.com.zup.beagle.compiler.STORE_HANDLER
 import br.com.zup.beagle.compiler.URL_BUILDER_HANDLER
@@ -70,11 +70,11 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
         propertySpecifications: PropertySpecifications?
     ) {
         when {
-            typeElement.implementsInterface(CUSTOM_ACTION_HANDLER.toString()) -> {
-                if (propertySpecifications?.customActionHandler == null) {
-                    propertySpecifications?.customActionHandler = typeElement
+            typeElement.implementsInterface(FORM_LOCAL_ACTION_HANDLER.toString()) -> {
+                if (propertySpecifications?.formLocalActionHandler == null) {
+                    propertySpecifications?.formLocalActionHandler = typeElement
                 } else {
-                    logImplementationErrorMessage(typeElement, "CustomActionHandler")
+                    logImplementationErrorMessage(typeElement, "FormLocalActionHandler")
                 }
             }
             typeElement.implementsInterface(DEEP_LINK_HANDLER.toString()) -> {
@@ -148,9 +148,9 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
     ): List<PropertySpec> {
         return listOf(
             implementProperty(
-                propertySpecifications?.customActionHandler.toString(),
-                "customActionHandler",
-                CUSTOM_ACTION_HANDLER
+                propertySpecifications?.formLocalActionHandler.toString(),
+                "formLocalActionHandler",
+                FORM_LOCAL_ACTION_HANDLER
             ),
             implementProperty(
                 propertySpecifications?.deepLinkHandler.toString(),
@@ -231,7 +231,7 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
 
 internal data class PropertySpecifications(
     var deepLinkHandler: TypeElement? = null,
-    var customActionHandler: TypeElement? = null,
+    var formLocalActionHandler: TypeElement? = null,
     var httpClient: TypeElement? = null,
     var designSystem: TypeElement? = null,
     var beagleActivity: TypeElement? = null,

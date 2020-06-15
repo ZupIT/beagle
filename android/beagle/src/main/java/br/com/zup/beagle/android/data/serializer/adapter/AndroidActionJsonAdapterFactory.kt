@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.android.data.serializer.adapter
 
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.widget.core.Action
 import java.util.Locale
 
 private const val BEAGLE_WIDGET_TYPE = "_beagleAction_"
@@ -28,7 +28,9 @@ internal object AndroidActionJsonAdapterFactory {
 
     fun make(): PolymorphicJsonAdapterFactory<Action> {
         var factory = PolymorphicJsonAdapterFactory.of(Action::class.java, BEAGLE_WIDGET_TYPE)
-        return registerUserActions(factory)
+        factory = ActionJsonAdapterFactory.make(factory)
+        factory = registerUserActions(factory)
+        return factory
     }
 
     private fun registerUserActions(factory: PolymorphicJsonAdapterFactory<Action>):

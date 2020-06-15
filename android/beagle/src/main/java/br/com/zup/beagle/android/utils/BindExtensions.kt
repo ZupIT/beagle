@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.android.utils
 
-import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.core.Bind
 
 fun <T> Bind<T>.get(rootView: RootView, observes: ((value: T) -> Unit)? = null): T? {

@@ -16,10 +16,9 @@
 
 package br.com.zup.beagle.android.context
 
-import br.com.zup.beagle.widget.action.ContextComponent
-import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 internal class ContextComponentHandler {
