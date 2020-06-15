@@ -41,7 +41,7 @@ data class FieldOnlyWidget(val a: Boolean = true,
     }
 }
 
-@RegisterWidget
+//@RegisterWidget
 data class CustomInputWidget(val text: String = "") : InputWidget() {
     override fun onErrorMessage(message: String) {
         return mockk()
