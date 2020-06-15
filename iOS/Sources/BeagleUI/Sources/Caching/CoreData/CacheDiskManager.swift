@@ -35,7 +35,7 @@ public class DefaultCacheDiskManager: CacheDiskManagerProtocol {
     // swiftlint:disable force_cast
 
     public typealias Dependencies =
-        DependencyLoggerProxy
+        DependencyLogger
     
     let dependencies: Dependencies
 
@@ -61,7 +61,7 @@ public class DefaultCacheDiskManager: CacheDiskManagerProtocol {
 
         self.persistentContainer.loadPersistentStores() { _, error in
             if let error = error?.localizedDescription {
-                self.dependencies.logProxy.log(Log.cache(.loadPersistentStores(description: error)))
+                self.dependencies.logger?.log(Log.cache(.loadPersistentStores(description: error)))
                 assertionFailure("ERROR: Beagle's DiskManager (CoreData) is not working")
             }
         }
@@ -84,7 +84,7 @@ public class DefaultCacheDiskManager: CacheDiskManagerProtocol {
             let results = try context.fetch(request)
             return (results.first?.intValue) ?? 0
         } catch {
-            dependencies.logProxy.log(Log.cache(.clear(description: error.localizedDescription)))
+            dependencies.logger?.log(Log.cache(.clear(description: error.localizedDescription)))
             return 0
         }
     }
@@ -104,7 +104,7 @@ public class DefaultCacheDiskManager: CacheDiskManagerProtocol {
             let result = try context.fetch(request)
             result.first.map { context.delete($0) }
         } catch {
-            dependencies.logProxy.log(Log.cache(.removeData(description: error.localizedDescription)))
+            dependencies.logger?.log(Log.cache(.removeData(description: error.localizedDescription)))
             return
         }
     }
@@ -115,7 +115,7 @@ public class DefaultCacheDiskManager: CacheDiskManagerProtocol {
         do {
             try context.save()
         } catch {
-            dependencies.logProxy.log(Log.cache(.saveContext(description: error.localizedDescription)))
+            dependencies.logger?.log(Log.cache(.saveContext(description: error.localizedDescription)))
         }
     }
     
@@ -126,7 +126,7 @@ public class DefaultCacheDiskManager: CacheDiskManagerProtocol {
         do {
             try context.execute(deleteRequest)
         } catch {
-            dependencies.logProxy.log(Log.cache(.clear(description: error.localizedDescription)))
+            dependencies.logger?.log(Log.cache(.clear(description: error.localizedDescription)))
         }
     }
     
@@ -147,7 +147,7 @@ public class DefaultCacheDiskManager: CacheDiskManagerProtocol {
             let result = try context.fetch(request)
             return result.first
         } catch {
-            dependencies.logProxy.log(Log.cache(.fetchData(description: error.localizedDescription)))
+            dependencies.logger?.log(Log.cache(.fetchData(description: error.localizedDescription)))
             return nil
         }
     }

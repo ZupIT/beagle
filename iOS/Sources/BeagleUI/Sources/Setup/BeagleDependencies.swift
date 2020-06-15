@@ -32,7 +32,6 @@ public protocol BeagleDependenciesProtocol: DependencyActionExecutor,
     DependencyWindowManager,
     DependencyFormDataStoreHandler,
     DependencyURLOpener,
-    DependencyLogger,
     DependencyLoggingCondition {
 }
 
@@ -54,12 +53,14 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var preFetchHelper: BeaglePrefetchHelping
     public var cacheManager: CacheManagerProtocol?
     public var formDataStoreHandler: FormDataStoreHandling
-    public var logger: BeagleLoggerType
     public var windowManager: WindowManager
     public var opener: URLOpener
-    public var logProxy: LoggerProxying
-    public var shouldLogEvents: Bool
-
+    public var logEnable: Bool
+    
+    public lazy var logger: BeagleLoggerType? = {
+        BeagleLoggerFactory.build(logEnable: logEnable)
+    }()
+    
     public var flex: (UIView) -> FlexViewConfiguratorProtocol = {
         return FlexViewConfigurator(view: $0)
     }
@@ -81,18 +82,16 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.appBundle = Bundle.main
         self.theme = AppTheme(styles: [:])
         self.navigationControllerType = BeagleNavigationController.self
-        self.shouldLogEvents = true
+        self.logEnable = true
 
         self.networkClient = NetworkClientDefault(dependencies: resolver)
         self.navigation = BeagleNavigator(dependencies: resolver)
         self.actionExecutor = ActionExecuting(dependencies: resolver)
         self.repository = RepositoryDefault(dependencies: resolver)
         self.cacheManager = CacheManagerDefault(dependencies: resolver)
-        self.logger = BeagleLogger()
         self.formDataStoreHandler = FormDataStoreHandler()
         self.windowManager = WindowManagerDefault()
         self.opener = URLOpenerDefault(dependencies: resolver)
-        self.logProxy = BeagleLoggerProxy(dependencie: resolver)
 
         self.resolver.container = { [unowned self] in self }
     }
@@ -109,7 +108,6 @@ private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     DependencyRepository,
     DependencyWindowManager,
     DependencyURLOpener,
-    DependencyLogger,
     DependencyLoggingCondition {
     
     var container: () -> BeagleDependenciesProtocol = {
@@ -123,11 +121,10 @@ private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     var navigation: BeagleNavigation { return container().navigation }
     var deepLinkHandler: DeepLinkScreenManaging? { return container().deepLinkHandler }
     var customActionHandler: CustomActionHandler? { return container().customActionHandler }
-    var logger: BeagleLoggerType { return container().logger }
+    var logger: BeagleLoggerType? { return container().logger }
     var cacheManager: CacheManagerProtocol? { return container().cacheManager }
     var repository: Repository { return container().repository }
     var windowManager: WindowManager { return container().windowManager }
     var opener: URLOpener { return container().opener }
-    var shouldLogEvents: Bool { return container().shouldLogEvents }
-    var logProxy: LoggerProxying { return container().logProxy }
+    var logEnable: Bool { return container().logEnable }
 }

@@ -56,7 +56,7 @@ public final class RepositoryDefault: Repository {
         & DependencyNetworkClient
         & DependencyCacheManager
         & DependencyUrlBuilder
-        & DependencyLoggerProxy
+        & DependencyLogger
 
     let dependencies: Dependencies
 
@@ -229,7 +229,7 @@ public final class RepositoryDefault: Repository {
     
     private func handleUrlBuilderRequest(url: String, type: Request.RequestType, additionalData: RemoteScreenAdditionalData?) -> Request? {
         guard let builderUrl = dependencies.urlBuilder.build(path: url) else {
-            dependencies.logProxy.log(Log.network(.couldNotBuildUrl(url: url)))
+            dependencies.logger?.log(Log.network(.couldNotBuildUrl(url: url)))
             return nil
         }
         

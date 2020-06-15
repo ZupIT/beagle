@@ -17,31 +17,8 @@
 
 import Foundation
 
-public protocol DependencyLoggingCondition {
-    var shouldLogEvents: Bool { get }
-}
-
-public protocol DependencyLoggerProxy {
-    var logProxy: LoggerProxying { get }
-}
-
-public protocol LoggerProxying {
-    func log(_ log: LogType)
-}
-
-class BeagleLoggerProxy: LoggerProxying {
-    
-    typealias Dependencies = DependencyLogger & DependencyLoggingCondition
-    
-    private let dependencie: Dependencies
-    
-    init(dependencie: Dependencies) {
-        self.dependencie = dependencie
-    }
-    
-    func log(_ log: LogType) {
-        if dependencie.shouldLogEvents {
-            dependencie.logger.log(log)
-        }
+class BeagleLoggerFactory {
+    static func build(logEnable: Bool) -> BeagleLoggerType? {
+        return logEnable ? BeagleLoggerDefault() : nil
     }
 }

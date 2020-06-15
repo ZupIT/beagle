@@ -126,7 +126,7 @@ final class CacheManagerDefaultTests: XCTestCase {
         let memoryCapacity = 1
         let diskCapacity = 2
         struct CacheManagerDependenciesLocal: CacheManagerDefault.Dependencies {
-            var logger: BeagleLoggerType = BeagleLogger()
+            var logger: BeagleLoggerType = BeagleLoggerDefault()
             var cacheDiskManager: CacheDiskManagerProtocol = DefaultCacheDiskManager(dependencies: CacheDiskManagerDependencies())
             var decoder: ComponentDecoding = ComponentDecoder()
         }
@@ -153,7 +153,7 @@ final class CacheManagerDefaultTests: XCTestCase {
         let memoryCapacity = 0
         let diskCapacity = 2
         struct CacheManagerDependenciesLocal: CacheManagerDefault.Dependencies {
-            var logger: BeagleLoggerType = BeagleLogger()
+            var logger: BeagleLoggerType = BeagleLoggerDefault()
             var cacheDiskManager: CacheDiskManagerProtocol = DefaultCacheDiskManager(dependencies: CacheDiskManagerDependencies())
             var decoder: ComponentDecoding = ComponentDecoder()
         }
@@ -202,7 +202,7 @@ final class CacheManagerDefaultTests: XCTestCase {
 }
 
 struct CacheManagerDependencies: CacheManagerDefault.Dependencies {
-    var logger: BeagleLoggerType = BeagleLogger()
+    var logger: BeagleLoggerType = BeagleLoggerDefault()
 }
 
 struct CacheDiskManagerDummy: CacheDiskManagerProtocol {

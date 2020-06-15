@@ -21,7 +21,7 @@ import CoreData
 public class CacheManagerDefault: CacheManagerProtocol {
     
     public typealias Dependencies =
-        DependencyLoggerProxy
+        DependencyLogger
 
     let dependencies: Dependencies
 
