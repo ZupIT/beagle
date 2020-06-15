@@ -17,8 +17,10 @@
 package br.com.zup.beagle.android.components.layout
 
 import android.view.View
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
@@ -29,13 +31,18 @@ import br.com.zup.beagle.widget.core.Flex
 
 data class Container(
     private val children: List<ServerDrivenComponent>,
-    override val context: ContextData? = null
+    override val context: ContextData? = null,
+    private val onInit: List<Action>? = null
 ) : WidgetView(), ContextComponent {
 
     @Transient
     private val viewFactory = ViewFactory()
 
     override fun buildView(rootView: RootView): View {
+        onInit?.let {
+            this@Container.handleEvent(rootView, it, "onInit")
+        }
+
         return viewFactory.makeBeagleFlexView(rootView.getContext(), flex ?: Flex())
             .apply {
                 addChildren(this, rootView)

@@ -21,7 +21,6 @@ import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.utils.ViewModelProviderFactory
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
-import br.com.zup.beagle.widget.context.ContextData
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -53,7 +52,7 @@ class ContextComponentHandlerTest {
     fun handleContext_should_call_addContext_when_component_is_ContextComponent() {
         // Given
         val component = mockk<Container>()
-        val context = mockk<br.com.zup.beagle.widget.context.ContextData>()
+        val context = mockk<ContextData>()
         every { component.context } returns context
         every { viewModel.contextDataManager.addContext(any()) } just Runs
 

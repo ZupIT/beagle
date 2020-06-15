@@ -32,8 +32,6 @@ class FormInputTest : BaseComponentTest() {
     override fun setUp() {
         super.setUp()
 
-
-
         formInput = FormInput("", child = inputWidget)
     }
 

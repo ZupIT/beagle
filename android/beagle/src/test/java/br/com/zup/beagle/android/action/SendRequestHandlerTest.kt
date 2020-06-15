@@ -20,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import br.com.zup.beagle.widget.action.SendRequest
 import br.com.zup.beagle.android.context.ContextActionExecutor
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.extensions.once
@@ -28,7 +27,6 @@ import br.com.zup.beagle.android.utils.ViewModelProviderFactory
 import br.com.zup.beagle.android.utils.contextActionExecutor
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.view.viewmodel.Response
-import br.com.zup.beagle.widget.core.Action
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -54,8 +52,6 @@ class SendRequestHandlerTest {
     private val observerSlot = slot<Observer<ActionRequestViewModel.FetchViewState>>()
     private val responseData: Response = mockk()
 
-    private lateinit var sendRequestActionHandler: SendRequestActionHandler
-
     @Before
     fun setUp() {
         mockkObject(ViewModelProviderFactory)
@@ -67,9 +63,8 @@ class SendRequestHandlerTest {
                 .of(any<AppCompatActivity>())
                 .get(ActionRequestViewModel::class.java)
         } returns viewModel
-        every { contextActionExecutorMock.executeAction(any(), any(), any(), any()) } just Runs
 
-        sendRequestActionHandler = SendRequestActionHandler()
+        every { contextActionExecutorMock.executeAction(any(), any(), any(), any()) } just Runs
     }
 
     @Test
@@ -84,7 +79,7 @@ class SendRequestHandlerTest {
         every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
 
         // When
-        sendRequestActionHandler.handle(rootView, requestAction)
+        requestAction.execute(rootView)
         val result = ActionRequestViewModel.FetchViewState.Success(responseData)
         observerSlot.captured.onChanged(result)
 
@@ -107,7 +102,7 @@ class SendRequestHandlerTest {
         every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
 
         // When
-        sendRequestActionHandler.handle(rootView, requestAction)
+        requestAction.execute(rootView)
         val result = ActionRequestViewModel.FetchViewState.Error(responseData)
         observerSlot.captured.onChanged(result)
 
@@ -129,7 +124,7 @@ class SendRequestHandlerTest {
         every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
 
         // When
-        sendRequestActionHandler.handle(rootView, requestAction)
+        requestAction.execute(rootView)
         val result = ActionRequestViewModel.FetchViewState.Success(mockk())
         observerSlot.captured.onChanged(result)
 
@@ -146,7 +141,7 @@ class SendRequestHandlerTest {
         every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
 
         // When
-        sendRequestActionHandler.handle(rootView, requestAction)
+        requestAction.execute(rootView)
         val result = ActionRequestViewModel.FetchViewState.Success(mockk())
         observerSlot.captured.onChanged(result)
 
@@ -165,7 +160,7 @@ class SendRequestHandlerTest {
         every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
 
         // When
-        sendRequestActionHandler.handle(rootView, requestAction)
+        requestAction.execute(rootView)
         val result = ActionRequestViewModel.FetchViewState.Success(mockk())
         observerSlot.captured.onChanged(result)
 
@@ -183,7 +178,7 @@ class SendRequestHandlerTest {
         every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
 
         // When
-        sendRequestActionHandler.handle(rootView, requestAction)
+        requestAction.execute(rootView)
         val result = ActionRequestViewModel.FetchViewState.Error(mockk())
         observerSlot.captured.onChanged(result)
 

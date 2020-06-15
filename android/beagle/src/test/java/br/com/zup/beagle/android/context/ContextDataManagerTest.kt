@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.context
 
 import androidx.collection.LruCache
+import br.com.zup.beagle.android.action.SetContext
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.jsonpath.JsonPathReplacer
@@ -24,8 +25,6 @@ import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.testutil.getPrivateField
 import br.com.zup.beagle.android.widget.core.Bind
-import br.com.zup.beagle.widget.context.ContextData
-import br.com.zup.beagle.widget.context.SetContext
 import com.squareup.moshi.Moshi
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -101,7 +100,7 @@ class ContextDataManagerTest {
         contexts.clear()
         lruCache.evictAll()
 
-        val contextData = br.com.zup.beagle.widget.context.ContextData(CONTEXT_ID, model)
+        val contextData = ContextData(CONTEXT_ID, model)
         contexts[CONTEXT_ID] = ContextBinding(contextData, mutableListOf(bindModel))
     }
 
@@ -113,7 +112,7 @@ class ContextDataManagerTest {
     @Test
     fun addContext_should_add_new_context() {
         // Given
-        val contextData = br.com.zup.beagle.widget.context.ContextData(CONTEXT_ID, true)
+        val contextData = ContextData(CONTEXT_ID, true)
 
         // When
         contextDataManager.addContext(contextData)
@@ -129,7 +128,7 @@ class ContextDataManagerTest {
     fun addBindingToContext_should_add_binding_to_context_on_stack() {
         // Given
         val bind = Bind.Expression("@{$CONTEXT_ID.a}", type = Model::class.java)
-        val contextData = br.com.zup.beagle.widget.context.ContextData(CONTEXT_ID, true)
+        val contextData = ContextData(CONTEXT_ID, true)
         contextDataManager.addContext(contextData)
 
         // When
@@ -143,7 +142,7 @@ class ContextDataManagerTest {
     fun addBindingToContext_should_add_binding_to_context_on_top_of_stack() {
         // Given
         val bind = Bind.Expression("@{$CONTEXT_ID.a}", type = Model::class.java)
-        val contextData = br.com.zup.beagle.widget.context.ContextData(CONTEXT_ID, true)
+        val contextData = ContextData(CONTEXT_ID, true)
         contextDataManager.addContext(contextData)
 
         // When
@@ -159,8 +158,8 @@ class ContextDataManagerTest {
         val json = JSONObject().apply {
             put("a", true)
         }
-        val contextData = br.com.zup.beagle.widget.context.ContextData(CONTEXT_ID, json)
-        val updateContext = br.com.zup.beagle.widget.context.SetContext(CONTEXT_ID, false, "a")
+        val contextData = ContextData(CONTEXT_ID, json)
+        val updateContext = SetContext(CONTEXT_ID, false, "a")
         contexts[contextData.id] = ContextBinding(contextData, mutableListOf())
         every { jsonPathReplacer.replace(any(), any(), any()) } returns true
 
@@ -174,8 +173,8 @@ class ContextDataManagerTest {
     @Test
     fun updateContext_should_log_error_when_jsonPathReplacer_throws_exception() {
         // Given
-        val contextData = br.com.zup.beagle.widget.context.ContextData(CONTEXT_ID, true)
-        val updateContext = br.com.zup.beagle.widget.context.SetContext(CONTEXT_ID, false, "a")
+        val contextData = ContextData(CONTEXT_ID, true)
+        val updateContext = SetContext(CONTEXT_ID, false, "a")
         contexts[contextData.id] = ContextBinding(contextData, mutableListOf())
         every { jsonPathReplacer.replace(any(), any(), any()) } throws IllegalStateException()
 
@@ -189,8 +188,8 @@ class ContextDataManagerTest {
     @Test
     fun updateContext_should_set_value_on_context_root() {
         // Given
-        val contextData = br.com.zup.beagle.widget.context.ContextData(CONTEXT_ID, true)
-        val updateContext = br.com.zup.beagle.widget.context.SetContext(CONTEXT_ID, false, null)
+        val contextData = ContextData(CONTEXT_ID, true)
+        val updateContext = SetContext(CONTEXT_ID, false, null)
         contexts[contextData.id] = ContextBinding(contextData, mutableListOf())
 
         // When
@@ -205,7 +204,7 @@ class ContextDataManagerTest {
     @Test
     fun updateContext_should_return_false_when_contextId_does_not_exist() {
         // Given
-        val updateContext = br.com.zup.beagle.widget.context.SetContext(RandomData.string(), false, null)
+        val updateContext = SetContext(RandomData.string(), false, null)
 
         // When
         val result = contextDataManager.updateContext(updateContext)
@@ -218,7 +217,7 @@ class ContextDataManagerTest {
     fun evaluateContextBindings_should_get_value_from_context_value() {
         // Given
         val value = true
-        val contextData = br.com.zup.beagle.widget.context.ContextData(CONTEXT_ID, value)
+        val contextData = ContextData(CONTEXT_ID, value)
         contexts[CONTEXT_ID] = ContextBinding(
             contextData,
             mutableListOf(bindModel)
@@ -236,7 +235,7 @@ class ContextDataManagerTest {
         // Given
         val value = true
         val path = "a"
-        val contextData = br.com.zup.beagle.widget.context.ContextData(CONTEXT_ID, value)
+        val contextData = ContextData(CONTEXT_ID, value)
         contexts[CONTEXT_ID] = ContextBinding(contextData, mutableListOf(bindModel))
         lruCache.put(path, value)
 
@@ -250,7 +249,7 @@ class ContextDataManagerTest {
     @Test
     fun evaluateContextBindings_should_get_value_from_context_and_deserialize_JSONOBject() {
         // Given
-        val contextData = br.com.zup.beagle.widget.context.ContextData("$CONTEXT_ID.a", RandomData.string())
+        val contextData = ContextData("$CONTEXT_ID.a", RandomData.string())
         contexts[CONTEXT_ID] = ContextBinding(contextData, mutableListOf(bindModel))
         val model = mockk<JSONObject>()
         every { jsonPathFinder.find(any(), any()) } returns model
@@ -265,7 +264,7 @@ class ContextDataManagerTest {
     @Test
     fun evaluateContextBindings_should_get_value_from_context_and_deserialize_JSONArray() {
         // Given
-        val contextData = br.com.zup.beagle.widget.context.ContextData("$CONTEXT_ID.a", RandomData.string())
+        val contextData = ContextData("$CONTEXT_ID.a", RandomData.string())
         contexts[CONTEXT_ID] = ContextBinding(contextData, mutableListOf(bindModel))
         val model = mockk<JSONArray>()
         every { jsonPathFinder.find(any(), any()) } returns model
@@ -280,7 +279,7 @@ class ContextDataManagerTest {
     @Test
     fun evaluateContextBindings_should_throw_exception_when_moshi_returns_null() {
         // Given
-        val contextData = br.com.zup.beagle.widget.context.ContextData("$CONTEXT_ID.a", RandomData.string())
+        val contextData = ContextData("$CONTEXT_ID.a", RandomData.string())
         contexts[CONTEXT_ID] = ContextBinding(contextData, mutableListOf(bindModel))
         val model = mockk<JSONArray>()
         every { jsonPathFinder.find(any(), any()) } returns model
@@ -297,7 +296,7 @@ class ContextDataManagerTest {
     @Test
     fun evaluateContextBindings_should_throw_exception_when_jsonPathFinder_returns_null() {
         // Given
-        val contextData = br.com.zup.beagle.widget.context.ContextData("$CONTEXT_ID.a", RandomData.string())
+        val contextData = ContextData("$CONTEXT_ID.a", RandomData.string())
         contexts[CONTEXT_ID] = ContextBinding(contextData, mutableListOf(bindModel))
         every { moshi.adapter<Any>(any<Class<*>>()).fromJson(any<String>()) } returns null
         every { jsonPathFinder.find(any(), any()) } returns null
@@ -313,7 +312,7 @@ class ContextDataManagerTest {
     @Test
     fun evaluateContextBindings_should_throw_exception_when_trying_to_call_jsonPathFinder() {
         // Given
-        val contextData = br.com.zup.beagle.widget.context.ContextData("$CONTEXT_ID.a", RandomData.string())
+        val contextData = ContextData("$CONTEXT_ID.a", RandomData.string())
         contexts[CONTEXT_ID] = ContextBinding(contextData, mutableListOf(bindModel))
         every { jsonPathFinder.find(any(), any()) } throws IllegalStateException()
 

@@ -18,17 +18,17 @@ package br.com.zup.beagle.android.context
 
 import androidx.appcompat.app.AppCompatActivity
 import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.ViewModelProviderFactory
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.core.Bind
 import br.com.zup.beagle.android.widget.core.Bind.Companion.expressionOf
 import br.com.zup.beagle.android.widget.core.Bind.Companion.valueOf
-import br.com.zup.beagle.widget.context.ContextData
-import br.com.zup.beagle.widget.core.Action
-import br.com.zup.beagle.widget.layout.Container
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -44,7 +44,9 @@ import kotlin.test.assertEquals
 data class CustomAction(
     val a: Bind<String>,
     val b: Bind<Boolean>
-) : Action
+) : Action {
+    override fun execute(rootView: RootView) {}
+}
 
 class ContextActionExecutorTest : BaseTest() {
 
@@ -57,7 +59,7 @@ class ContextActionExecutorTest : BaseTest() {
     )
     private lateinit var contextActionExecutor: ContextActionExecutor
 
-    private val contextDataSlot = slot<br.com.zup.beagle.widget.context.ContextData>()
+    private val contextDataSlot = slot<ContextData>()
 
     override fun setUp() {
         super.setUp()

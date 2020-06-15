@@ -33,12 +33,9 @@ data class FormInput(
     @Transient
     private val viewRendererFactory: ViewRendererFactory = ViewRendererFactory()
 
-    @Transient
-    private val actionExecutor: ActionExecutor = ActionExecutor()
-
     override fun buildView(rootView: RootView): View {
         return viewRendererFactory.make(child).build(rootView).apply {
-            tag = this
+            tag = this@FormInput
         }
     }
 }
