@@ -35,7 +35,7 @@ fun <T : Widget> T.setId(id: String) = this.apply { this.id = id }
  *
  * @return the current widget
  */
-fun <T : Widget> T.applyFlex(flex: Flex) = this.apply { this.style = Style(flex = flex) }
+fun <T : Widget> T.applyFlex(flex: Flex) = this.apply { style?.let { style?.copy(flex = flex) } ?: Style(flex = flex) }
 
 /**
  * Apply the layout component.
