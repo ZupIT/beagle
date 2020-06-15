@@ -15,14 +15,9 @@
  */
 
 // MARK: - Flex Builders
+import BeagleSchema
 
 public extension Flex {
-    @discardableResult
-    func direction(_ direction: Direction) -> Flex {
-        self.direction = direction
-        return self
-    }
-    
     @discardableResult
     func flexDirection(_ flexDirection: FlexDirection) -> Flex {
         self.flexDirection = flexDirection
@@ -190,18 +185,6 @@ public extension EdgeValue {
     @discardableResult
     func bottom(_ value: UnitValue) -> EdgeValue {
         self.bottom = value
-        return self
-    }
-    
-    @discardableResult
-    func start(_ value: UnitValue) -> EdgeValue {
-        self.start = value
-        return self
-    }
-    
-    @discardableResult
-    func end(_ value: UnitValue) -> EdgeValue {
-        self.end = value
         return self
     }
     

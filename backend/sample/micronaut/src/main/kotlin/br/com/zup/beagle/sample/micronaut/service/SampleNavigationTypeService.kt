@@ -19,8 +19,10 @@ package br.com.zup.beagle.sample.micronaut.service
 import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.action.ShowNativeDialog
-import br.com.zup.beagle.core.Appearance
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.CornerRadius
+import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_APPEARANCE
 import br.com.zup.beagle.sample.constants.CYAN_BLUE
@@ -151,10 +153,10 @@ class SampleNavigationTypeService {
     private fun createButton(text: String, navigate: Navigate, backgroundColor: String) =
         Button(
             text = text,
-            style = BUTTON_STYLE_APPEARANCE,
+            styleId = BUTTON_STYLE_APPEARANCE,
             action = navigate
-        ).applyAppearance(
-            Appearance(
+        ).applyStyle(
+            Style(
                 backgroundColor = backgroundColor,
                 cornerRadius = CornerRadius(radius = 10.0)
             )

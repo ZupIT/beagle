@@ -35,7 +35,7 @@ Pod::Spec.new do |spec|
     way of using it. But if you are willing to just test Beagle, you can use this 
     pod instead.
   DESC
-  spec.homepage = "https://zup-products.gitbook.io/beagle/"
+  spec.homepage = "https://docs.usebeagle.io"
 
 # ―――  Spec License  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
@@ -48,7 +48,7 @@ Pod::Spec.new do |spec|
 # ――― Platform Specifics ――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
   spec.platform = :ios, "10.0"
-  spec.swift_version = "4.1"
+  spec.swift_version = "5.0"
 
 # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
@@ -68,24 +68,24 @@ Pod::Spec.new do |spec|
   # ――― Beagle UI ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   
   spec.subspec 'BeagleUI' do |beagleUI|
-    source = 'iOS/Sources/BeagleUI/Sources'
-    sourcery = 'iOS/Sources/BeagleUI/SourceryFiles/'
+    path_source = 'iOS/Sources/BeagleUI/Sources'
+    path_generated = 'iOS/Sources/BeagleUI/CodeGeneration/'
 
     beagleUI.source_files = [
-      source + '/**/*.swift',
-      sourcery + "Generated/*.generated.swift",
-      sourcery + "*.swift"
+      path_source + '/**/*.swift',
+      path_generated + "Generated/*.generated.swift",
+      path_generated + "*.swift"
     ]
 
     beagleUI.resources = [
       "iOS/**/*.xcdatamodeld",
-      sourcery + "Templates/*"
+      path_generated + "Templates/*"
     ]
 
     beagleUI.exclude_files = [ 
-      source + "/**/Test/**/*.swift",
-      source + "/**/Tests/**/*.swift",
-      source + "/**/*Test*.swift"
+      path_source + "/**/Test/**/*.swift",
+      path_source + "/**/Tests/**/*.swift",
+      path_source + "/**/*Test*.swift"
     ]
 
     # make sure to declare YogaKit on your Podfile as:
@@ -93,6 +93,7 @@ Pod::Spec.new do |spec|
     # We need this because we fixed an issue in the original repository and our PR was not merged yet.
     beagleUI.frameworks = 'Foundation', 'CoreData'
     beagleUI.dependency 'YogaKit'
+    beagleUI.dependency 'BeagleSchema', "~> #{spec.version}"
   end
 
   # ――― Beagle Preview ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #

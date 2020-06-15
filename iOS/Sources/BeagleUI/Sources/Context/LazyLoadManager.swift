@@ -15,6 +15,7 @@
  */
 
 import UIKit
+import BeagleSchema
 
 public protocol LazyLoadManaging {
     func lazyLoad(url: String, initialState: UIView)

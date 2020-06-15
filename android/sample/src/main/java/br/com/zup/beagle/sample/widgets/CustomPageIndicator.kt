@@ -17,11 +17,11 @@
 package br.com.zup.beagle.sample.widgets
 
 import br.com.zup.beagle.annotation.RegisterWidget
-import android.content.Context
 import android.view.View
+import br.com.zup.beagle.android.components.page.PageIndicatorComponent
+import br.com.zup.beagle.android.components.page.PageIndicatorOutput
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.sample.components.CustomPageIndicatorView
-import br.com.zup.beagle.widget.pager.PageIndicatorOutput
-import br.com.zup.beagle.widget.pager.PageIndicatorComponent
 
 @RegisterWidget
 data class CustomPageIndicator(
@@ -46,7 +46,7 @@ data class CustomPageIndicator(
         customPageIndicatorView.setCount(pages)
     }
 
-    override fun buildView(context: Context) = CustomPageIndicatorView(context).apply {
+    override fun buildView(rootView: RootView) = CustomPageIndicatorView(rootView.getContext()).apply {
         customPageIndicatorView = this
         setIndexChangedListener { index ->
             output.swapToPage(index)

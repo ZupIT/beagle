@@ -17,6 +17,7 @@
 import XCTest
 @testable import BeagleUI
 import SnapshotTesting
+import BeagleSchema
 
 final class FormManagerTests: XCTestCase {
     
@@ -29,9 +30,11 @@ final class FormManagerTests: XCTestCase {
         return form
     }()
     
+    private lazy var renderer = BeagleRenderer(context: screen, dependencies: dependencies)
+    
     private lazy var formManager = screen.formManager as? FormManager
     
-    private lazy var formView = form.toView(context: screen, dependencies: dependencies)
+    private lazy var formView = form.toView(renderer: renderer)
 
     private lazy var screen = BeagleScreenViewController(viewModel: .init(
         screenType: .declarative(SimpleComponent().content.toScreen()),
@@ -107,7 +110,7 @@ final class FormManagerTests: XCTestCase {
             FormInput(name: "name", required: true, validator: validator1, child: InputComponent(value: "John Doe")),
             FormInput(name: "password", required: true, validator: validator2, child: InputComponent(value: "password")),
             FormSubmit(child: Button(text: "Add"))
-        ])).toView(context: screen, dependencies: dependencies)
+        ])).toView(renderer: renderer)
 
         let gesture = submitGesture(in: view)
 
@@ -171,7 +174,7 @@ final class FormManagerTests: XCTestCase {
         group: group,
         additionalData: ["id": "111111"],
         shouldStoreFields: true
-    ).toView(context: screen, dependencies: dependencies)
+    ).toView(renderer: renderer)
     
     private func setValidator3() {
         validator[validator3] = { _ in
@@ -256,10 +259,10 @@ private class DataStoreHandlerStub: FormDataStoreHandling {
     }
 }
 
-private struct InputComponent: ServerDrivenComponent {
+private struct InputComponent: BeagleUI.ServerDrivenComponent {
     let value: String
-
-    func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+    
+    func toView(renderer: BeagleRenderer) -> UIView {
         return InputStub(value: value)
     }
 }

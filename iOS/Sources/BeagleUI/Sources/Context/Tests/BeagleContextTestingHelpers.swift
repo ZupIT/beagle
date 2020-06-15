@@ -16,6 +16,7 @@
 
 @testable import BeagleUI
 import UIKit
+import BeagleSchema
 
 class FormManagerSpy: FormManaging {
     private(set) var didCallRegisterFormSubmit = false
@@ -87,7 +88,7 @@ class BeagleContextSpy: BeagleContext {
     private(set) var didCallRegisterEnabledWidget = false
     private(set) var didCallApplyLayout = true
 
-    func register(formSubmitEnabledWidget: Widget?, formSubmitDisabledWidget: Widget?) {
+    func register(formSubmitEnabledWidget: BeagleUI.Widget?, formSubmitDisabledWidget: BeagleUI.Widget?) {
         didCallRegisterEnabledWidget = true
     }
 

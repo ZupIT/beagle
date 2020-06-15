@@ -1,0 +1,33 @@
+▿ ListView
+  - direction: Direction.vertical
+  ▿ rows: 3 elements
+    ▿ Text
+      - alignment: Optional<Alignment>.none
+      - styleId: Optional<String>.none
+      - text: "text1"
+      - textColor: Optional<String>.none
+      ▿ widgetProperties: WidgetProperties
+        - accessibility: Optional<Accessibility>.none
+        - flex: Optional<Flex>.none
+        - id: Optional<String>.none
+        - style: Optional<Style>.none
+    ▿ Text
+      - alignment: Optional<Alignment>.none
+      - styleId: Optional<String>.none
+      - text: "text2"
+      - textColor: Optional<String>.none
+      ▿ widgetProperties: WidgetProperties
+        - accessibility: Optional<Accessibility>.none
+        - flex: Optional<Flex>.none
+        - id: Optional<String>.none
+        - style: Optional<Style>.none
+    ▿ Text
+      - alignment: Optional<Alignment>.none
+      - styleId: Optional<String>.none
+      - text: "text3"
+      - textColor: Optional<String>.none
+      ▿ widgetProperties: WidgetProperties
+        - accessibility: Optional<Accessibility>.none
+        - flex: Optional<Flex>.none
+        - id: Optional<String>.none
+        - style: Optional<Style>.none

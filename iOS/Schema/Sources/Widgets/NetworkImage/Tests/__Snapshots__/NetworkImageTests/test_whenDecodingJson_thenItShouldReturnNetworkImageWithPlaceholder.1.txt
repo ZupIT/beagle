@@ -1,0 +1,17 @@
+▿ NetworkImage
+  - contentMode: Optional<ImageContentMode>.none
+  - path: "https://www.guiaviagensbrasil.com/imagens/Imagem%20do%20mar%20calma%20e%20belo%20da%20Praia%20da%20Engenhoca-Itacar%C3%A9-Bahia-BA.jpg"
+  ▿ placeholder: Optional<Image>
+    ▿ some: Image
+      - contentMode: Optional<ImageContentMode>.none
+      - name: "test_image_square-x"
+      ▿ widgetProperties: WidgetProperties
+        - accessibility: Optional<Accessibility>.none
+        - flex: Optional<Flex>.none
+        - id: Optional<String>.none
+        - style: Optional<Style>.none
+  ▿ widgetProperties: WidgetProperties
+    - accessibility: Optional<Accessibility>.none
+    - flex: Optional<Flex>.none
+    - id: Optional<String>.none
+    - style: Optional<Style>.none
