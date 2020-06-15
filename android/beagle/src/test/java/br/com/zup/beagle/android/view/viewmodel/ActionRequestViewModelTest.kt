@@ -25,6 +25,7 @@ import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.testutil.CoroutineTestRule
 import br.com.zup.beagle.android.view.mapper.toRequestData
+import br.com.zup.beagle.android.view.mapper.toResponse
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -59,10 +60,10 @@ class ActionRequestViewModelTest {
     @InjectMockKs
     private lateinit var viewModel: ActionRequestViewModel
 
-
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
+
         mockkStatic("br.com.zup.beagle.android.view.mapper.SendRequestActionMapperKt")
 
         every { observer.onChanged(any()) } just Runs
@@ -77,7 +78,9 @@ class ActionRequestViewModelTest {
     fun `should emit success when fetch data`() {
         // Given
         val response: ResponseData = mockk(relaxed = true)
+        val responseMapped: Response = mockk()
         every { action.toRequestData() } returns mockk()
+        every { response.toResponse() } returns responseMapped
         coEvery { actionRequester.fetchData(any()) } returns response
 
         // When
@@ -85,7 +88,7 @@ class ActionRequestViewModelTest {
 
         // Then
         verify(exactly = once()) {
-            observer.onChanged(ActionRequestViewModel.FetchViewState.Success(any()))
+            observer.onChanged(ActionRequestViewModel.FetchViewState.Success(responseMapped))
         }
     }
 
@@ -94,7 +97,9 @@ class ActionRequestViewModelTest {
         // Given
         val error: BeagleApiException = mockk()
         val responseData: ResponseData = mockk(relaxed = true)
+        val responseMapped: Response = mockk()
         every { action.toRequestData() } returns mockk()
+        every { responseData.toResponse() } returns responseMapped
         every { error.responseData } returns  responseData
         coEvery { actionRequester.fetchData(any()) } throws error
 
@@ -103,7 +108,7 @@ class ActionRequestViewModelTest {
 
         // Then
         verify(exactly = once()) {
-            observer.onChanged(ActionRequestViewModel.FetchViewState.Error(any()))
+            observer.onChanged(ActionRequestViewModel.FetchViewState.Error(responseMapped))
         }
     }
 }

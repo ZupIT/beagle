@@ -27,12 +27,7 @@ import java.net.URI
 
 internal fun SendRequest.toRequestData(): RequestData = SendRequestActionMapper.toRequestData(this)
 
-fun ResponseData.toResponse() = Response(
-    statusCode = this.statusCode,
-    data = String(this.data),
-    headers = this.headers,
-    statusText = this.statusText
-)
+fun ResponseData.toResponse() = SendRequestActionMapper.toResponse(this)
 
 internal object SendRequestActionMapper {
     fun toRequestData(sendRequest: SendRequest): RequestData {
@@ -54,4 +49,11 @@ internal object SendRequestActionMapper {
         RequestActionMethod.HEAD -> HttpMethod.HEAD
         RequestActionMethod.PATCH -> HttpMethod.PATCH
     }
+
+    fun toResponse(responseData: ResponseData): Response = Response(
+        statusCode = responseData.statusCode,
+        data = String(responseData.data),
+        headers = responseData.headers,
+        statusText = responseData.statusText
+    )
 }
