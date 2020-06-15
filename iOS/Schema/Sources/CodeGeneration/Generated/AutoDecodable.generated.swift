@@ -201,6 +201,23 @@ extension NetworkImage {
     }
 }
 
+// MARK: PageView Decodable
+extension PageView {
+
+    enum CodingKeys: String, CodingKey {
+        case pages
+        case pageIndicator
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        pages = try container.decode( forKey: .pages)
+        let pi: RawComponent? = try container.decodeIfPresent( forKey: .pageIndicator) 
+        pageIndicator = (pi as? AnyDecodableContainer)?.content as? PageIndicatorComponent
+    }
+}
+
 // MARK: ScreenComponent Decodable
 extension ScreenComponent {
 

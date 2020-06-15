@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-public struct PageView: RawComponent, AutoInitiable {
+public struct PageView: RawComponent, AutoInitiableAndDecodable {
 
     public let pages: [RawComponent]
     public let pageIndicator: PageIndicatorComponent?
@@ -30,18 +30,19 @@ public struct PageView: RawComponent, AutoInitiable {
 // sourcery:end
 }
 
-extension PageView: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case pages
-        case pageIndicator
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.pages = try container.decode(forKey: .pages)
-        let pageIndicator = try container.decodeIfPresent(AnyDecodableContainer.self, forKey: .pageIndicator)
-        self.pageIndicator = (pageIndicator?.content as? PageIndicatorComponent)
-    }
-}
+//extension PageView: Decodable {
+//    enum CodingKeys: String, CodingKey {
+//        case pages
+//        case pageIndicator
+//    }
+//
+//    public init(from decoder: Decoder) throws {
+//        let container = try decoder.container(keyedBy: CodingKeys.self)
+//        self.pages = try container.decode(forKey: .pages)
+//
+//        let pi: RawComponent? = try container.decodeIfPresent(forKey: .pageIndicator)
+//        self.pageIndicator = (pi as? AnyDecodableContainer)?.content as? PageIndicatorComponent
+//    }
+//}
 
 public protocol PageIndicatorComponent: RawComponent {}
