@@ -28,6 +28,7 @@
 		C0B1AAB423F326A100F94ECA /* BeagleUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9313EB9223A2B388003BC24C /* BeagleUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C0B1AAB623F326BB00F94ECA /* YogaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0B1AAB523F326BB00F94ECA /* YogaKit.framework */; };
 		C0B1AAB723F326BB00F94ECA /* YogaKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C0B1AAB523F326BB00F94ECA /* YogaKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C80AF1342493F0950097D200 /* OtherComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80AF1332493F0950097D200 /* OtherComponent.swift */; };
 		C8A2F6F32464C1F9002198B1 /* Equality.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A2F6F12464C1F9002198B1 /* Equality.generated.swift */; };
 		C8A2F6F42464C1F9002198B1 /* AutoDecodable.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A2F6F22464C1F9002198B1 /* AutoDecodable.generated.swift */; };
 		E75619892408365B0025E0A9 /* DSCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E75619882408365B0025E0A9 /* DSCollection.swift */; };
@@ -73,6 +74,7 @@
 		A0642DD02396EC670028AFF3 /* PageViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewScreen.swift; sourceTree = "<group>"; };
 		C0479F58243282F00040E30C /* AnalyticsMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsMock.swift; sourceTree = "<group>"; };
 		C0B1AAB523F326BB00F94ECA /* YogaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = YogaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C80AF1332493F0950097D200 /* OtherComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherComponent.swift; sourceTree = "<group>"; };
 		C8A2F6F12464C1F9002198B1 /* Equality.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equality.generated.swift; sourceTree = "<group>"; };
 		C8A2F6F22464C1F9002198B1 /* AutoDecodable.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoDecodable.generated.swift; sourceTree = "<group>"; };
 		E75619882408365B0025E0A9 /* DSCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSCollection.swift; sourceTree = "<group>"; };
@@ -122,7 +124,7 @@
 		932925B02327E0E400A61F01 /* BeagleDemo */ = {
 			isa = PBXGroup;
 			children = (
-				C0D0F47E245B48BB00FB57C1 /* SourceryFiles */,
+				C0D0F47E245B48BB00FB57C1 /* CodeGeneration */,
 				6E2C784B241984F800448728 /* Constants */,
 				E75619862408363E0025E0A9 /* DesignSystem */,
 				A0642DC9239689E60028AFF3 /* Screens */,
@@ -164,12 +166,12 @@
 			path = Screens;
 			sourceTree = "<group>";
 		};
-		C0D0F47E245B48BB00FB57C1 /* SourceryFiles */ = {
+		C0D0F47E245B48BB00FB57C1 /* CodeGeneration */ = {
 			isa = PBXGroup;
 			children = (
 				C8A2F6F02464C1F9002198B1 /* Generated */,
 			);
-			path = SourceryFiles;
+			path = CodeGeneration;
 			sourceTree = "<group>";
 		};
 		C8A2F6F02464C1F9002198B1 /* Generated */ = {
@@ -185,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				E75619872408364A0025E0A9 /* DSCollection */,
+				C80AF1332493F0950097D200 /* OtherComponent.swift */,
 			);
 			path = DesignSystem;
 			sourceTree = "<group>";
@@ -284,7 +287,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n../../Sources/BeagleUI/SourceryFiles/sourceryScript.sh\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n../../Sources/BeagleUI/CodeGeneration/sourceryScript.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -294,6 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A0642DCB23968A020028AFF3 /* MainScreen.swift in Sources */,
+				C80AF1342493F0950097D200 /* OtherComponent.swift in Sources */,
 				C8A2F6F42464C1F9002198B1 /* AutoDecodable.generated.swift in Sources */,
 				93EAFA4C24083C7B00B73522 /* ListViewScreen.swift in Sources */,
 				932925B22327E0E400A61F01 /* AppDelegate.swift in Sources */,

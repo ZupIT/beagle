@@ -20,9 +20,9 @@ import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.analytics.ScreenAnalytics
 import br.com.zup.beagle.analytics.ScreenEvent
 import br.com.zup.beagle.core.Accessibility
-import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.Style
 
 /**
  * The SafeArea will enable Safe areas to help you place your views within the visible portion of the overall interface.

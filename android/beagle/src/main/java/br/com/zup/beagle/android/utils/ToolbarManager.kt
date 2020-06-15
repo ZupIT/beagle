@@ -32,6 +32,7 @@ import br.com.zup.beagle.android.action.ActionExecutor
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.view.BeagleActivity
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 
@@ -52,16 +53,13 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
         }
     }
 
-    fun configureToolbar(
-        context: BeagleActivity,
-        navigationBar: NavigationBar
-    ) {
-        context.getToolbar().apply {
+    fun configureToolbar(rootView: RootView, navigationBar: NavigationBar) {
+        (rootView.getContext() as BeagleActivity).getToolbar().apply {
             visibility = View.VISIBLE
             menu.clear()
-            configToolbarStyle(context, this, navigationBar)
+            configToolbarStyle(rootView.getContext(), this, navigationBar)
             navigationBar.navigationBarItems?.let { items ->
-                configToolbarItems(context, this, items)
+                configToolbarItems(rootView, this, items)
             }
         }
     }
@@ -135,7 +133,7 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
     }
 
     private fun configToolbarItems(
-        context: Context,
+        rootView: RootView,
         toolbar: Toolbar,
         items: List<NavigationBarItem>
     ) {
@@ -143,7 +141,7 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
         for (i in items.indices) {
             toolbar.menu.add(Menu.NONE, items[i].id?.toAndroidId() ?: i, Menu.NONE, items[i].text).apply {
                 setOnMenuItemClickListener {
-                    actionExecutor.doAction(context, items[i].action)
+                    actionExecutor.doAction(rootView, items[i].action)
                     return@setOnMenuItemClickListener true
                 }
 
@@ -152,7 +150,7 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
                 if (items[i].image == null) {
                     setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
                 } else {
-                    configMenuItem(designSystem, items, i, context)
+                    configMenuItem(designSystem, items, i, rootView.getContext())
                 }
             }
         }
@@ -188,5 +186,4 @@ internal class ToolbarManager(private val actionExecutor: ActionExecutor = Actio
             }
         }
     }
-
 }

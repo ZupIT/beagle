@@ -16,44 +16,24 @@
 
 package br.com.zup.beagle.android.action
 
-import android.content.Context
-import br.com.zup.beagle.action.Action
-import br.com.zup.beagle.action.CustomAction
-import br.com.zup.beagle.action.FormValidation
-import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.view.BeagleActivity
-import br.com.zup.beagle.android.view.ServerDrivenState
-import io.mockk.*
+import br.com.zup.beagle.android.widget.RootView
+import io.mockk.MockKAnnotations
+import io.mockk.Runs
+import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
-import org.junit.After
+import io.mockk.just
+import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class ActionExecutorTest {
 
     @MockK
-    private lateinit var customActionHandler: CustomActionHandler
+    private lateinit var rootView: RootView
     @MockK
-    private lateinit var navigationActionHandler: NavigationActionHandler
-    @MockK
-    private lateinit var showNativeDialogActionHandler: ShowNativeDialogActionHandler
-    @MockK
-    private lateinit var formValidationActionHandler: DefaultActionHandler<FormValidation>
-    @MockK
-    private lateinit var context: Context
-    @MockK
-    private lateinit var customAction: CustomAction
-    @MockK
-    private lateinit var activity: BeagleActivity
-
-    private val actionListener = slot<ActionListener>()
-    private val activityStates = mutableListOf<ServerDrivenState>()
+    private lateinit var action: Action
 
     @InjectMockKs
     private lateinit var actionExecutor: ActionExecutor
@@ -61,140 +41,17 @@ class ActionExecutorTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-
-        mockkObject(BeagleEnvironment)
-
-        every { BeagleEnvironment.beagleSdk } returns mockk(relaxed = true)
-        every { customActionHandler.handle(activity, customAction, capture(actionListener)) } just Runs
-        every { activity.onServerDrivenContainerStateChanged(capture(activityStates)) } just Runs
-    }
-
-    @After
-    fun tearDown() {
-        unmockkObject(BeagleEnvironment)
     }
 
     @Test
-    fun doAction_should_handle_Navigate_action() {
+    fun `doAction with action should call execute`() {
         // Given
-        val action = mockk<Navigate>()
-        every { navigationActionHandler.handle(any(), any()) } just Runs
+        every { action.execute(rootView) } just Runs
 
         // When
-        actionExecutor.doAction(context, action)
+        actionExecutor.doAction(rootView, action)
 
         // Then
-        verify(exactly = once()) { navigationActionHandler.handle(context, action) }
-    }
-
-    @Test
-    fun doAction_should_handle_ShowNativeDialog_action() {
-        // Given
-        val action = mockk<ShowNativeDialog>()
-        every { showNativeDialogActionHandler.handle(any(), any()) } just Runs
-
-        // When
-        actionExecutor.doAction(context, action)
-
-        // Then
-        verify(exactly = once()) { showNativeDialogActionHandler.handle(context, action) }
-    }
-
-    @Test
-    fun doAction_should_handle_FormValidation_action() {
-        // Given
-        val action = mockk<FormValidation>()
-        every { formValidationActionHandler.handle(any(), any()) } just Runs
-
-        // When
-        actionExecutor.doAction(context, action)
-
-        // Then
-        verify(exactly = once()) { formValidationActionHandler.handle(context, action) }
-    }
-
-    @Test
-    fun doAction_should_not_handle_FormValidation_action_when_handler_is_null() {
-        // Given
-        val actionExecutor = ActionExecutor()
-        val action = mockk<FormValidation>()
-        every { formValidationActionHandler.handle(any(), any()) } just Runs
-
-        // When
-        actionExecutor.doAction(context, action)
-
-        // Then
-        verify(exactly = 0) { formValidationActionHandler.handle(context, action) }
-    }
-
-    @Test
-    fun doAction_should_not_handle_CustomAction_action_when_handler_is_null() {
-        // Given
-        val actionExecutor = ActionExecutor(customActionHandler = null)
-        val listener = mockk<ActionListener>()
-        val action = mockk<CustomAction>()
-
-        // When
-        actionExecutor.doAction(context, action)
-
-        // Then
-        verify(exactly = 0) { customActionHandler.handle(context, action, listener) }
-    }
-
-    @Test
-    fun do_customAction_and_listen_onStart() {
-        // Given
-        val executor = ActionExecutor(customActionHandler)
-        val expectedStates = listOf<ServerDrivenState>(
-            ServerDrivenState.Loading(true)
-        )
-
-        // When
-        executor.doAction(activity, customAction)
-        actionListener.captured.onStart()
-
-        // Then
-        verify(exactly = once()) { customActionHandler.handle(activity, customAction, actionListener.captured) }
-        verify(exactly = once()) { activity.onServerDrivenContainerStateChanged(any()) }
-        assertEquals(expectedStates, activityStates)
-    }
-
-    @Test
-    fun do_customAction_and_listen_onSuccess() {
-        // Given
-        val executor = ActionExecutor(customActionHandler)
-        val expectedState = listOf<ServerDrivenState>(
-            ServerDrivenState.Loading(false)
-        )
-        val dumbAction = mockk<Action>()
-
-        // When
-        executor.doAction(activity, customAction)
-        actionListener.captured.onSuccess(dumbAction)
-
-        // Then
-        verify(exactly = once()) { customActionHandler.handle(activity, customAction, actionListener.captured) }
-        verify(exactly = once()) { activity.onServerDrivenContainerStateChanged(any()) }
-        assertEquals(expectedState, activityStates)
-    }
-
-    @Test
-    fun do_customAction_and_listen_onError() {
-        // Given
-        val executor = ActionExecutor(customActionHandler)
-        val error = mockk<Throwable>()
-        val expectedState = listOf(
-            ServerDrivenState.Loading(false),
-            ServerDrivenState.Error(error)
-        )
-
-        // When
-        executor.doAction(activity, customAction)
-        actionListener.captured.onError(error)
-
-        // Then
-        verify(exactly = once()) { customActionHandler.handle(activity, customAction, actionListener.captured) }
-        verify(exactly = 2) { activity.onServerDrivenContainerStateChanged(any()) }
-        assertEquals(expectedState, activityStates)
+        verify(exactly = once()) { action.execute(rootView) }
     }
 }

@@ -15,11 +15,12 @@
  */
 
 import XCTest
+import BeagleSchema
 import BeagleUI
 
 final class ComposeComponentTests: XCTestCase { 
 
-    private let imageSize = CGSize(width: 300, height: 200)
+    private let imageSize = ImageSize.custom(CGSize(width: 300, height: 200))
 
     func testComposeComponent() throws {
         let component = ComposeText(title: "TITLE", subtitle: "subtitle")
@@ -30,11 +31,11 @@ final class ComposeComponentTests: XCTestCase {
     }
 }
 
-struct ComposeText: ComposeComponent {
+struct ComposeText: BeagleUI.ComposeComponent {
     var title: String = ""
     var subtitle: String = ""
     
-    func build() -> ServerDrivenComponent {
+    func build() -> BeagleSchema.RawComponent {
         return Container(children: [
             Text(title),
             Text(subtitle)

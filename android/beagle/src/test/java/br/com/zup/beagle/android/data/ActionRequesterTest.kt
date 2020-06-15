@@ -18,7 +18,7 @@ package br.com.zup.beagle.android.data
 
 import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
-import br.com.zup.beagle.android.data.serializer.makeCustomActionJson
+import br.com.zup.beagle.android.data.serializer.makeFormLocalActionJson
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.testutil.RandomData
@@ -32,7 +32,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 private val URL = RandomData.httpUrl()
-private val JSON_SUCCESS = makeCustomActionJson()
+private val JSON_SUCCESS = makeFormLocalActionJson()
 
 @ExperimentalCoroutinesApi
 class ActionRequesterTest {
