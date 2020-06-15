@@ -127,7 +127,7 @@ func containerDeclaration(generatedCodingKeys: [String]) -> String {
 
 func returnVariableName(_ variable: Variable) -> String {
     if variable.name == "pageIndicator" && variable.type?.name == "PageIndicatorComponent" {
-        return "let pi: RawComponent?"
+        return "let rawComponent: RawComponent?"
     }
     return variable.name
 }
@@ -248,7 +248,7 @@ extension <%= type.name %> {
         <%_ else { -%>
         <%_ _%>container.decode<%_ if variable.isOptional { _%>IfPresent<% } _%>(<%_if !needsCustomBeagleDecoding(variable){_%> <%= variable.unwrappedTypeName _%>.self,<%_ } -%> forKey: .<%= variable.name _%>)<%_ -%>
         <%_ if variable.name == "pageIndicator" && variable.type?.name == "PageIndicatorComponent" { -%> 
-        <%= variable.name %> = (pi as? AnyDecodableContainer)?.content as? PageIndicatorComponent <%_ } -%>
+        <%= variable.name %> = rawComponent as? PageIndicatorComponent <%_ } -%>
         <%_ } -%>
         <%_ %><% if shouldWrapTry { %>)<% } -%>
         <%_ if let defaultValue = defaultValue { %> ?? <%= type.name %>.<%= defaultValue.name -%><%_ } %>
