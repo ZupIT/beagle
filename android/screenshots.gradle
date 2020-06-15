@@ -33,7 +33,6 @@ ext {
 }
 
 shot {
-    appId = 'br.com.zup.beagle.sample'
     runInstrumentation = Boolean.valueOf(getArgument("runInstrumentation", "true"))
 }
 

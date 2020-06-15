@@ -57,7 +57,7 @@ object Versions {
     const val gradle = "3.6.3"
     const val kotlin = "1.3.72"
     const val jacoco = "0.1.4"
-    const val karumi = "3.1.0"
+    const val karumi = "4.3.0"
     const val dcendents = "2.1"
     const val dokka = "0.10.1"
 
