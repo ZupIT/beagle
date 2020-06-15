@@ -53,7 +53,7 @@ internal class BeagleBuilderSerializerTest {
     @Test
     fun serialize_ComposeComponent_should_write_the_component_from_build() =
         testSerialize(
-            object : ComposeComponent() {
+            object : ComposeComponent {
                 override fun build() = Text("Test")
             },
             Text("Test")

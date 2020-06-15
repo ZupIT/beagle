@@ -21,25 +21,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import br.com.zup.beagle.action.FormMethodType
+import br.com.zup.beagle.action.FormRemoteAction
+import br.com.zup.beagle.android.components.Button
+import br.com.zup.beagle.android.components.form.Form
+import br.com.zup.beagle.android.components.form.FormInput
+import br.com.zup.beagle.android.components.form.FormSubmit
+import br.com.zup.beagle.android.components.layout.ComposeComponent
+import br.com.zup.beagle.android.components.layout.Container
+import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.widgets.TextField
 import br.com.zup.beagle.sample.widgets.TextFieldInputType
-import br.com.zup.beagle.android.utils.toView
-import br.com.zup.beagle.widget.layout.ComposeComponent
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
-import br.com.zup.beagle.widget.form.Form
-import br.com.zup.beagle.widget.form.FormInput
-import br.com.zup.beagle.widget.form.FormSubmit
-import br.com.zup.beagle.widget.form.FormRemoteAction
-import br.com.zup.beagle.widget.form.FormMethodType
-import br.com.zup.beagle.widget.layout.Container
-import br.com.zup.beagle.widget.ui.Button
 
 class ComposeComponentFragment : Fragment() {
 
@@ -88,7 +88,7 @@ class ComposeFormName : ComposeComponent() {
                 child = TextField(
                     description = "digite seu nome",
                     hint = "nome",
-//                color = "#FFFFFF",
+                    color = "#FFFFFF",
                     inputType = TextFieldInputType.TEXT
                 )
             )
@@ -111,11 +111,7 @@ class ComposeFormName : ComposeComponent() {
     )
 
     private fun buildFooter() = Container(
-        children = listOf(
-            (FormSubmit(
-                child = Button("cadastrar", styleId = "primaryButton")
-            ))
-        )
+        children = listOf((FormSubmit(child = Button("cadastrar", styleId = "primaryButton"))))
     ).applyFlex(
         flex = Flex(
             size = Size(

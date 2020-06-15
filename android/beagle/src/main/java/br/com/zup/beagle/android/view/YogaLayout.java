@@ -183,7 +183,7 @@ public class YogaLayout extends ViewGroup {
      * @param view the view to mark as dirty
      */
     public void invalidate(View view) {
-        if (mYogaNodes.containsKey(view)) {
+        if (mYogaNodes.containsKey(view) && !(view instanceof BeagleFlexView)) {
             mYogaNodes.get(view).dirty();
             return;
         }

@@ -15,21 +15,24 @@
  */
 
 import UIKit
+import BeagleSchema
 
-public protocol ServerDrivenComponent: Renderable, Decodable {}
+public protocol ServerDrivenComponent: Renderable, RawComponent {}
 
-public protocol ComposeComponent: ServerDrivenComponent {
-    func build() -> ServerDrivenComponent
-}
+public protocol ComposeComponent: Renderable, BeagleSchema.ComposeComponent {}
 
 extension ComposeComponent {
-    public func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
-        return build().toView(context: context, dependencies: dependencies)
+    public func toView(renderer: BeagleRenderer) -> UIView {
+        return renderer.render(build())
     }
 }
 
 public protocol Renderable {
-    func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView
+
+    /// here is where your component should turn into a UIView. If your component has child components,
+    /// let *renderer* do the job to render those children into UIViews; don't call this method directly
+    /// in your children.
+    func toView(renderer: BeagleRenderer) -> UIView
 }
 
 public protocol RenderableDependencies: DependencyTheme,
@@ -40,19 +43,25 @@ public protocol RenderableDependencies: DependencyTheme,
     DependencyLogger {
 }
 
-extension ServerDrivenComponent {
-    public func toScreen() -> Screen {
-        let screen = self as? ScreenComponent
-        let safeArea = screen?.safeArea
-            ?? SafeArea(top: true, leading: true, bottom: true, trailing: true)
+extension UnknownComponent: ServerDrivenComponent {
 
-        return Screen(
-            identifier: screen?.identifier,
-            style: screen?.style,
-            safeArea: safeArea,
-            navigationBar: screen?.navigationBar,
-            screenAnalyticsEvent: screen?.screenAnalyticsEvent,
-            child: screen?.child ?? self
-        )
+    public func toView(renderer: BeagleRenderer) -> UIView {
+        return makeView()
+    }
+
+    func makeView() -> UIView {
+        #if DEBUG
+        let label = UILabel(frame: .zero)
+        label.numberOfLines = 2
+        label.text = "Unknown Component of type:\n \(String(describing: type))"
+        label.textColor = .red
+        label.backgroundColor = .yellow
+        return label
+
+        #else
+        let view = UIView()
+        return view
+
+        #endif
     }
 }

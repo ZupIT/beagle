@@ -22,6 +22,7 @@ import br.com.zup.beagle.sample.constants.BLACK
 import br.com.zup.beagle.sample.constants.LIGHT_GREY
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.TextAlignment
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.PageView
@@ -29,7 +30,6 @@ import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.pager.PageIndicator
 import br.com.zup.beagle.widget.ui.Text
-import br.com.zup.beagle.widget.ui.TextAlignment
 
 object PageViewScreenBuilder : ScreenBuilder {
     override fun build() = Screen(

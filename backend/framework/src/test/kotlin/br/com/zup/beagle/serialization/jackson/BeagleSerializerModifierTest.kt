@@ -130,7 +130,7 @@ internal class BeagleSerializerModifierTest {
         assertTrue { expectedSerializerClass.isInstance(result) }
     }
 
-    abstract class MyComposeComponent : ComposeComponent()
+    abstract class MyComposeComponent : ComposeComponent
 
     abstract class MyScreenBuilder : ScreenBuilder
 }

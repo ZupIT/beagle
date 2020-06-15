@@ -15,10 +15,13 @@
  */
 
 import Foundation
+import BeagleSchema
 
 public class Beagle {
 
-    public static var dependencies: BeagleDependenciesProtocol = BeagleDependencies()
+    public static var dependencies: BeagleDependenciesProtocol = BeagleDependencies() {
+        didSet { BeagleSchema.dependencies = dependencies }
+    }
 
     private init() {}
 

@@ -17,8 +17,10 @@
 import XCTest
 @testable import BeagleUI
 import SnapshotTesting
+import BeagleSchema
 
 final class ActionManagerTests: XCTestCase {
+    
     func test_registerAction_shouldAddGestureRecognizer() {
         // Given
         let sut = ActionManager()
