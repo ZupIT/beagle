@@ -17,44 +17,38 @@
 package br.com.zup.beagle.android.data.serializer
 
 import br.com.zup.beagle.action.Action
-import br.com.zup.beagle.action.CustomAction
-import br.com.zup.beagle.action.FormValidation
-import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.action.FormMethodType
+import br.com.zup.beagle.action.FormRemoteAction
+import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.action.FormLocalAction
+import br.com.zup.beagle.android.action.FormValidation
+import br.com.zup.beagle.android.action.Navigate
+import br.com.zup.beagle.android.action.ShowNativeDialog
+import br.com.zup.beagle.android.components.Button
+import br.com.zup.beagle.android.components.Image
+import br.com.zup.beagle.android.components.LazyComponent
+import br.com.zup.beagle.android.components.ListView
+import br.com.zup.beagle.android.components.NetworkImage
+import br.com.zup.beagle.android.components.Spacer
+import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.components.form.Form
+import br.com.zup.beagle.android.components.form.FormInput
+import br.com.zup.beagle.android.components.form.FormSubmit
+import br.com.zup.beagle.android.components.layout.Container
+import br.com.zup.beagle.android.components.layout.ScreenComponent
+import br.com.zup.beagle.android.components.layout.ScrollView
+import br.com.zup.beagle.android.components.page.PageIndicator
+import br.com.zup.beagle.android.components.page.PageView
 import br.com.zup.beagle.android.mockdata.CustomInputWidget
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.mockdata.CustomWidget
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.android.widget.core.WidgetView
-import br.com.zup.beagle.widget.form.Form
-import br.com.zup.beagle.widget.form.FormInput
-import br.com.zup.beagle.widget.form.FormMethodType
-import br.com.zup.beagle.widget.form.FormRemoteAction
-import br.com.zup.beagle.widget.form.FormSubmit
-import br.com.zup.beagle.widget.layout.Container
-import br.com.zup.beagle.widget.layout.Horizontal
-import br.com.zup.beagle.widget.layout.PageView
-import br.com.zup.beagle.widget.layout.ScrollView
-import br.com.zup.beagle.widget.layout.Spacer
-import br.com.zup.beagle.widget.layout.Stack
-import br.com.zup.beagle.widget.layout.Vertical
-import br.com.zup.beagle.widget.lazy.LazyComponent
-import br.com.zup.beagle.android.widget.pager.PageIndicator
-import br.com.zup.beagle.widget.ui.Button
-import br.com.zup.beagle.widget.ui.Image
-import br.com.zup.beagle.widget.ui.ListView
-import br.com.zup.beagle.widget.ui.NetworkImage
-import br.com.zup.beagle.widget.ui.Text
-import br.com.zup.beagle.android.widget.ui.UndefinedWidget
-import br.com.zup.beagle.widget.layout.ScreenComponent
-import io.mockk.MockKAnnotations
+import br.com.zup.beagle.android.widget.UndefinedWidget
+import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.every
-import io.mockk.mockkObject
-import io.mockk.unmockkObject
+import io.mockk.mockk
 import org.json.JSONObject
-import org.junit.After
-import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
@@ -65,24 +59,16 @@ private val WIDGETS = listOf(
     CustomInputWidget::class.java as Class<WidgetView>
 )
 
-class BeagleMoshiTest {
+class BeagleMoshiTest: BaseTest() {
 
     private lateinit var beagleMoshiFactory: BeagleMoshi
 
-    @Before
-    fun setUp() {
-        MockKAnnotations.init(this)
-
+    override fun setUp() {
+        super.setUp()
         beagleMoshiFactory = BeagleMoshi
 
-        mockkObject(BeagleEnvironment)
-
-        every { BeagleEnvironment.beagleSdk.registeredWidgets() } returns WIDGETS
-    }
-
-    @After
-    fun tearDown() {
-        unmockkObject(BeagleEnvironment)
+        every { beagleSdk.formLocalActionHandler } returns mockk(relaxed = true)
+        every { beagleSdk.registeredWidgets() } returns WIDGETS
     }
 
     @Test
@@ -130,87 +116,6 @@ class BeagleMoshiTest {
     fun make_should_return_moshi_to_serialize_a_Container() {
         // Given
         val component = Container(listOf())
-
-        // When
-        val actual =
-            beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).toJson(component)
-
-        // Then
-        assertNotNull(JSONObject(actual))
-    }
-
-    @Test
-    fun make_should_return_moshi_to_deserialize_a_Vertical() {
-        // Given
-        val json = makeVerticalJson()
-
-        // When
-        val actual =
-            beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).fromJson(json)
-
-        // Then
-        assertNotNull(actual)
-        assertTrue(actual is Vertical)
-    }
-
-    @Test
-    fun make_should_return_moshi_to_serialize_a_Vertical() {
-        // Given
-        val component = Vertical(listOf())
-
-        // When
-        val actual =
-            beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).toJson(component)
-
-        // Then
-        assertNotNull(JSONObject(actual))
-    }
-
-    @Test
-    fun make_should_return_moshi_to_deserialize_a_Horizontal() {
-        // Given
-        val json = makeHorizontalJson()
-
-        // When
-        val actual =
-            beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).fromJson(json)
-
-        // Then
-        assertNotNull(actual)
-        assertTrue(actual is Horizontal)
-    }
-
-    @Test
-    fun make_should_return_moshi_to_serialize_a_Horizontal() {
-        // Given
-        val component = Horizontal(listOf())
-
-        // When
-        val actual =
-            beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).toJson(component)
-
-        // Then
-        assertNotNull(JSONObject(actual))
-    }
-
-    @Test
-    fun make_should_return_moshi_to_deserialize_a_Stack() {
-        // Given
-        val json = makeStackJson()
-
-        // When
-        val actual =
-            beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).fromJson(json)
-
-        // Then
-        assertNotNull(actual)
-        assertTrue(actual is Stack)
-    }
-
-    @Test
-    fun make_should_return_moshi_to_serialize_a_Stack() {
-        // Given
-        val component = Stack(listOf())
 
         // When
         val actual =
@@ -544,16 +449,17 @@ class BeagleMoshiTest {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_CustomAction() {
+    fun make_should_return_moshi_to_deserialize_a_FormLocalAction() {
         // Given
-        val json = makeCustomActionJson()
+        val json = makeFormLocalActionJson()
+
 
         // When
         val actual = beagleMoshiFactory.moshi.adapter(Action::class.java).fromJson(json)
 
         // Then
         assertNotNull(actual)
-        assertTrue(actual is CustomAction)
+        assertTrue(actual is FormLocalAction)
     }
 
     @Test
@@ -588,7 +494,7 @@ class BeagleMoshiTest {
         // Given
         val component = FormInput(
             name = RandomData.string(),
-            child = UndefinedWidget()
+            child = CustomInputWidget()
         )
 
         // When
@@ -644,10 +550,7 @@ class BeagleMoshiTest {
     fun make_should_return_moshi_to_serialize_a_Form() {
         // Given
         val component = Form(
-            action = FormRemoteAction(
-                RandomData.string(),
-                FormMethodType.POST
-            ),
+            action = FormRemoteAction(RandomData.string(), FormMethodType.POST),
             child = UndefinedWidget()
         )
 

@@ -25,6 +25,8 @@ import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.ScreenEvent
+import br.com.zup.beagle.android.components.Button
+import br.com.zup.beagle.android.components.Touchable
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.android.utils.toView
@@ -38,10 +40,8 @@ import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
-import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.navigation.Touchable
-import br.com.zup.beagle.widget.ui.Button
 
 class NavigationFragment : Fragment() {
     override fun onCreateView(

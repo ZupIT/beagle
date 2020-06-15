@@ -24,10 +24,13 @@ import android.webkit.WebView
 import android.widget.FrameLayout
 import android.widget.HorizontalScrollView
 import android.widget.ScrollView
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.android.components.utils.RoundedImageView
+
 
 internal class ViewFactory {
 
@@ -52,13 +55,9 @@ internal class ViewFactory {
             isFillViewport = true
         }
 
-    fun makeButton(context: Context) = BeagleButtonView(context)
+    fun makeButton(context: Context) = AppCompatButton(context)
 
-    fun makeTextView(context: Context) = BeagleTextView(context)
-
-    fun makeImageView(context: Context) = BeagleImageView(context)
-
-    fun makeRecyclerView(context: Context) = RecyclerView(context)
+    fun makeTextView(context: Context) = TextView(context)
 
     fun makeAlertDialogBuilder(context: Context) = AlertDialog.Builder(context)
 
@@ -71,4 +70,8 @@ internal class ViewFactory {
     fun makeTabLayout(context: Context) = BeagleTabLayout(context)
 
     fun makeWebView(context: Context) = WebView(context)
+
+    fun makeImageView(context: Context, cornerRadius: Double = 0.0) = RoundedImageView(context, cornerRadius)
+
+    fun makeRecyclerView(context: Context) = RecyclerView(context)
 }
