@@ -17,8 +17,9 @@
 package br.com.zup.beagle.android.engine.renderer
 
 import android.view.View
+import br.com.zup.beagle.android.components.utils.ComponentStylization
 import br.com.zup.beagle.android.engine.util.ContextViewRenderer
-import br.com.zup.beagle.android.utils.ComponentStylization
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.widget.Widget
 import io.mockk.mockk
 import io.mockk.verifySequence

@@ -16,13 +16,13 @@
 
 package br.com.zup.beagle.android.data
 
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
-import br.com.zup.beagle.android.data.serializer.makeCustomActionJson
+import br.com.zup.beagle.android.data.serializer.makeCustomAndroidActionJson
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.widget.action.Action
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -40,7 +40,7 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-private val JSON_SUCCESS = makeCustomActionJson()
+private val JSON_SUCCESS = makeCustomAndroidActionJson()
 
 @ExperimentalCoroutinesApi
 class ActionRequesterTest {
@@ -67,7 +67,7 @@ class ActionRequesterTest {
     @Test
     fun `should action response when fetch action`() = runBlockingTest {
         // Given
-        val action = mockk<br.com.zup.beagle.widget.action.Action>()
+        val action = mockk<Action>()
         val responseData = mockk<ResponseData> {
             every { data } returns JSON_SUCCESS.toByteArray()
         }

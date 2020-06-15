@@ -32,7 +32,6 @@ internal object BeagleMoshi {
             .add(BindAdapterFactory())
             .add(ComponentJsonAdapterFactory.make())
             .add(RouteAdapterFactory())
-            .add(ActionJsonAdapterFactory.make())
             .add(AndroidActionJsonAdapterFactory.make())
             .add(KotlinJsonAdapterFactory())
             .add(ContextDataAdapterFactory())

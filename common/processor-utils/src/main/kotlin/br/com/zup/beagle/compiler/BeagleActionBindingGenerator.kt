@@ -26,7 +26,7 @@ import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.TypeMirror
 
-private const val HANDLE_METHOD = "handle"
+private const val HANDLE_METHOD = "execute"
 private const val ROOT_VIEW_PROPERTY = "rootView"
 
 class BeagleActionBindingGenerator(processingEnv: ProcessingEnvironment) : BeagleBindingHandler(

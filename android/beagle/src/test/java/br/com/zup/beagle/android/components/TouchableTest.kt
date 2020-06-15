@@ -18,9 +18,9 @@ package br.com.zup.beagle.android.components
 
 import android.view.View
 import br.com.zup.beagle.android.action.ActionExecutor
-import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.analytics.ClickEvent
+import br.com.zup.beagle.android.action.Navigate
 import io.mockk.CapturingSlot
 import io.mockk.Runs
 import io.mockk.every
@@ -40,7 +40,7 @@ class TouchableViewRenderer : BaseComponentTest() {
 
     private val onClickListenerSlot = slot<View.OnClickListener>()
 
-    private val touchableAction = br.com.zup.beagle.widget.action.Navigate.PopView()
+    private val touchableAction = Navigate.PopView()
 
     private lateinit var touchable: Touchable
 
@@ -65,7 +65,7 @@ class TouchableViewRenderer : BaseComponentTest() {
     @Test
     fun build_should_call_onClickListener() {
         // Given
-        val navigateSlot = slot<br.com.zup.beagle.widget.action.Navigate>()
+        val navigateSlot = slot<Navigate>()
         every { anyConstructed<ActionExecutor>().doAction(rootView, capture(navigateSlot)) } just Runs
 
         // When

@@ -16,8 +16,10 @@
 
 package br.com.zup.beagle.processor
 
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BindingAdapter
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.core.Bind
 import io.mockk.MockKAnnotations
 import io.mockk.mockk
@@ -68,10 +70,10 @@ class ActionBindingTest {
     fun widget_should_call_on_bind_at_least_once() {
         mockkConstructor(MyAction::class)
         //when
-        widgetBinding.handle(rootView)
+        widgetBinding.execute(rootView)
 
         //then
-        verify(exactly = once()) { anyConstructed<MyAction>().handle(any()) }
+        verify(exactly = once()) { anyConstructed<MyAction>().execute(any()) }
 
     }
 

@@ -45,7 +45,7 @@ open class BeagleBindingHandler(
     fun createBindingClass(element: TypeElement) =
         element.visibleGetters.map { this.createBindParameter(it) }.let { parameters ->
             TypeSpec.classBuilder("${element.simpleName}${BINDING_SUFFIX}")
-                .superclass(this.typeUtils.getKotlinName(element.superclass))
+                .superclass(WIDGET_VIEW.asClassName())
                 .addSuperinterfaces(element.interfaces.map(TypeMirror::asTypeName))
                 .primaryConstructor(FunSpec.constructorFrom(parameters))
                 .addProperties(parameters.map { PropertySpec.from(it, it.tag(Boolean::class) == true) })

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+
 package br.com.zup.beagle.android.processor
 
 import android.content.Context
@@ -21,8 +22,9 @@ import android.view.View
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BindingAdapter
 import br.com.zup.beagle.android.testutil.setPrivateField
+import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.android.widget.core.Bind
-import br.com.zup.beagle.android.widget.core.WidgetView
 import br.com.zup.beagle.processor.FieldOnlyWidget
 import br.com.zup.beagle.processor.FieldOnlyWidgetBinding
 import br.com.zup.beagle.processor.VIEW_PROPERTY
@@ -46,7 +48,7 @@ class FieldOnlyWidgetBindingTest {
     lateinit var view: View
 
     @RelaxedMockK
-    lateinit var context: Context
+    lateinit var rootView: RootView
 
     @RelaxedMockK
     lateinit var fieldOnlyWidget: FieldOnlyWidget
@@ -82,7 +84,7 @@ class FieldOnlyWidgetBindingTest {
     @Test
     fun fieldOnlyWidgetBindingAdapter_should_call_on_bind_at_least_once() {
         // Given When
-        widgetBinding.buildView(context)
+        widgetBinding.buildView(rootView)
 
         //then
         verify(atLeast = once()) { fieldOnlyWidget.onBind(any(), any()) }
@@ -91,7 +93,7 @@ class FieldOnlyWidgetBindingTest {
     @Test
     fun fieldOnlyWidgetBindingAdapter_should_call_observe_on_parameters() {
         // Given When
-        widgetBinding.buildView(context)
+        widgetBinding.buildView(rootView)
 
         //then
         verify(atLeast = once()) { widgetBinding.a.observes(any()) }

@@ -19,8 +19,9 @@ package br.com.zup.beagle.android.components.form
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import br.com.zup.beagle.widget.action.FormRemoteAction
-import br.com.zup.beagle.widget.action.Navigate
+import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.FormRemoteAction
+import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.ActionExecutor
 import br.com.zup.beagle.android.action.FormValidation
 import br.com.zup.beagle.android.components.BaseComponentTest
@@ -48,6 +49,7 @@ import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
+import io.mockk.verifyOrder
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -70,8 +72,8 @@ class FormTest : BaseComponentTest() {
     private val formSubmitView: View = mockk(relaxed = true, relaxUnitFun = true)
     private val viewGroup: ViewGroup = mockk(relaxed = true)
     private val inputWidget: InputWidget = mockk(relaxed = true)
-    private val remoteAction: br.com.zup.beagle.widget.action.FormRemoteAction = mockk(relaxed = true, relaxUnitFun = true)
-    private val navigateAction: br.com.zup.beagle.widget.action.Navigate = mockk()
+    private val remoteAction: FormRemoteAction = mockk(relaxed = true, relaxUnitFun = true)
+    private val navigateAction: Navigate = mockk()
 
     private val onClickListenerSlot = slot<View.OnClickListener>()
     private val formSubmitCallbackSlot = slot<(formResult: FormResult) -> Unit>()
@@ -124,9 +126,11 @@ class FormTest : BaseComponentTest() {
         every { validatorHandler.getValidator(any()) } returns validator
         every { beagleSdk.validatorHandler } returns validatorHandler
         every { anyConstructed<FormValidatorController>().configFormInputList(any()) } just Runs
+        every { anyConstructed<ActionExecutor>().doAction(any(), any<List<Action>>()) } just Runs
+        every { anyConstructed<ActionExecutor>().doAction(any(), any<Action>()) } just Runs
 
 
-        form = Form(action = mockk(), child = mockk())
+        form = Form(onSubmit = listOf(mockk()), child = mockk())
     }
 
     @Test
@@ -225,7 +229,7 @@ class FormTest : BaseComponentTest() {
     @Test
     fun onClick_of_formSubmit_should_set_formInputViews_on_formValidationActionHandler() {
         // Given
-        form = form.copy(action = remoteAction)
+        form = form.copy(onSubmit = listOf(remoteAction))
         val formResult = FormResult.Success(FormValidation(emptyList()))
 
         // When
@@ -241,7 +245,7 @@ class FormTest : BaseComponentTest() {
     @Test
     fun onClick_of_formSubmit_should_submit_remote_form() {
         // Given
-        form = form.copy(action = remoteAction)
+        form = form.copy(onSubmit = listOf(remoteAction))
 
         // When
         executeFormSubmitOnClickListener()
@@ -254,7 +258,7 @@ class FormTest : BaseComponentTest() {
     @Test
     fun onClick_of_formSubmit_should_trigger_navigate_action() {
         // Given
-        form = form.copy(action = navigateAction)
+        form = form.copy(onSubmit = listOf(navigateAction))
 
         // When
         executeFormSubmitOnClickListener()
@@ -267,7 +271,7 @@ class FormTest : BaseComponentTest() {
     @Test
     fun onClick_of_formSubmit_should_trigger_list_action() {
         // Given
-        every { form.onSubmit } returns listOf(navigateAction, remoteAction)
+        form = form.copy(onSubmit = listOf(navigateAction, remoteAction))
         val formResult = FormResult.Success(mockk())
 
         // When
@@ -278,8 +282,8 @@ class FormTest : BaseComponentTest() {
         // Then
         verify(exactly = once()) { formSubmitView.hideKeyboard() }
         verifyOrder {
-            actionExecutor.doAction(rootView, navigateAction)
-            actionExecutor.doAction(rootView, formResult.action)
+            anyConstructed<ActionExecutor>().doAction(rootView, navigateAction)
+            anyConstructed<ActionExecutor>().doAction(rootView, formResult.action)
         }
     }
 
@@ -313,7 +317,7 @@ class FormTest : BaseComponentTest() {
     @Test
     fun onClick_of_formSubmit_should_handleFormSubmit_and_call_actionExecutor() {
         // Given
-        form = form.copy(action = remoteAction)
+        form = form.copy(onSubmit = listOf(remoteAction))
         val formResult = FormResult.Success(mockk())
 
         // When
@@ -328,7 +332,7 @@ class FormTest : BaseComponentTest() {
     @Test
     fun onClick_of_formSubmit_should_trigger_action_and_call_showError() {
         // Given
-        form = form.copy(action = remoteAction)
+        form = form.copy(onSubmit = listOf(remoteAction))
 
         every { beagleActivity.onServerDrivenContainerStateChanged(any()) } just Runs
         val formResult = FormResult.Error(mockk())
@@ -388,7 +392,7 @@ class FormTest : BaseComponentTest() {
         val savedMap = HashMap<String, String>()
         savedMap[savedKey] = savedValue
 
-        form = form.copy(shouldStoreFields = false, group = FORM_GROUP_VALUE, action = remoteAction)
+        form = form.copy(shouldStoreFields = false, group = FORM_GROUP_VALUE, onSubmit = listOf(remoteAction))
 
         every { formDataStoreHandler.getAllValues(FORM_GROUP_VALUE) } returns savedMap
 
@@ -402,7 +406,7 @@ class FormTest : BaseComponentTest() {
     @Test
     fun when_form_submit_succeeds_should_clear_saved_data() {
         // Given
-        form = form.copy(shouldStoreFields = false, group = FORM_GROUP_VALUE, action = remoteAction)
+        form = form.copy(shouldStoreFields = false, group = FORM_GROUP_VALUE, onSubmit = listOf(remoteAction))
 
         // When
         executeFormSubmitOnClickListener()

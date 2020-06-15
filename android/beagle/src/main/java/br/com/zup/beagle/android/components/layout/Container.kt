@@ -21,13 +21,16 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.core.ContextComponent
+import br.com.zup.beagle.core.ContextData
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.Flex
 
 data class Container(
-    private val children: List<ServerDrivenComponent>
-) : WidgetView() {
+    private val children: List<ServerDrivenComponent>,
+    override val context: ContextData? = null
+) : WidgetView(), ContextComponent {
 
     @Transient
     private val viewFactory = ViewFactory()

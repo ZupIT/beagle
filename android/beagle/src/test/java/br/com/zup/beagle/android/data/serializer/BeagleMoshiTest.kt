@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.android.data.serializer
 
-import br.com.zup.beagle.widget.action.Action
-import br.com.zup.beagle.widget.action.FormMethodType
-import br.com.zup.beagle.widget.action.FormRemoteAction
+import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.FormMethodType
+import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.FormLocalAction
 import br.com.zup.beagle.android.action.FormValidation
@@ -39,16 +39,20 @@ import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.components.layout.ScrollView
 import br.com.zup.beagle.android.components.page.PageIndicator
 import br.com.zup.beagle.android.components.page.PageView
+import br.com.zup.beagle.android.mockdata.ComponentBinding
 import br.com.zup.beagle.android.mockdata.CustomAndroidAction
 import br.com.zup.beagle.android.mockdata.CustomInputWidget
 import br.com.zup.beagle.android.mockdata.CustomWidget
-import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.mockdata.InternalObject
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.widget.UndefinedWidget
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.android.widget.core.Bind
+import br.com.zup.beagle.android.widget.core.ContextData
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.every
 import io.mockk.mockk
+import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -65,7 +69,7 @@ private val WIDGETS = listOf(
 
 @Suppress("UNCHECKED_CAST")
 private val ACTIONS = listOf(
-    CustomAndroidAction::class.java as Class<AndroidAction>
+    CustomAndroidAction::class.java as Class<Action>
 )
 
 class BeagleMoshiTest: BaseTest() {
@@ -78,7 +82,7 @@ class BeagleMoshiTest: BaseTest() {
 
         every { beagleSdk.formLocalActionHandler } returns mockk(relaxed = true)
         every { beagleSdk.registeredWidgets() } returns WIDGETS
-        every { BeagleEnvironment.beagleSdk.registeredActions() } returns ACTIONS
+        every { beagleSdk.registeredActions() } returns ACTIONS
     }
 
     @Test
@@ -438,7 +442,7 @@ class BeagleMoshiTest: BaseTest() {
         val json = makeNavigationActionJson()
 
         // When
-        val actual = beagleMoshiFactory.moshi.adapter(br.com.zup.beagle.widget.action.Action::class.java).fromJson(json)
+        val actual = beagleMoshiFactory.moshi.adapter(Action::class.java).fromJson(json)
 
         // Then
         assertNotNull(actual)
@@ -451,7 +455,7 @@ class BeagleMoshiTest: BaseTest() {
         val json = makeShowNativeDialogJson()
 
         // When
-        val actual = beagleMoshiFactory.moshi.adapter(br.com.zup.beagle.widget.action.Action::class.java).fromJson(json)
+        val actual = beagleMoshiFactory.moshi.adapter(Action::class.java).fromJson(json)
 
         // Then
         assertNotNull(actual)
@@ -465,7 +469,7 @@ class BeagleMoshiTest: BaseTest() {
 
 
         // When
-        val actual = beagleMoshiFactory.moshi.adapter(br.com.zup.beagle.widget.action.Action::class.java).fromJson(json)
+        val actual = beagleMoshiFactory.moshi.adapter(Action::class.java).fromJson(json)
 
         // Then
         assertNotNull(actual)
@@ -479,7 +483,7 @@ class BeagleMoshiTest: BaseTest() {
         val json = makeCustomAndroidActionJson()
 
         // When
-        val actual = beagleMoshiFactory.moshi.adapter(AndroidAction::class.java).fromJson(json)
+        val actual = beagleMoshiFactory.moshi.adapter(Action::class.java).fromJson(json)
 
         // Then
         assertNotNull(actual)
@@ -492,7 +496,7 @@ class BeagleMoshiTest: BaseTest() {
         val json = makeFormValidationJson()
 
         // When
-        val actual = beagleMoshiFactory.moshi.adapter(br.com.zup.beagle.widget.action.Action::class.java).fromJson(json)
+        val actual = beagleMoshiFactory.moshi.adapter(Action::class.java).fromJson(json)
 
         // Then
         assertNotNull(actual)
@@ -574,9 +578,9 @@ class BeagleMoshiTest: BaseTest() {
     fun make_should_return_moshi_to_serialize_a_Form() {
         // Given
         val component = Form(
-            onSubmit = listOf(br.com.zup.beagle.widget.action.FormRemoteAction(
+            onSubmit = listOf(FormRemoteAction(
                 RandomData.string(),
-                br.com.zup.beagle.widget.action.FormMethodType.POST
+                FormMethodType.POST
             )
             ), child = UndefinedWidget()
         )

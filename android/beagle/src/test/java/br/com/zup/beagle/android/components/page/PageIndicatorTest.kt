@@ -20,8 +20,8 @@ import android.graphics.Color
 import br.com.zup.beagle.android.components.BaseComponentTest
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.android.view.BeaglePageIndicatorView
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.view.custom.BeaglePageIndicatorView
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic

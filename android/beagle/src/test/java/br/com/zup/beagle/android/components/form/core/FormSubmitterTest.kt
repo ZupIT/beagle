@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.components.form.core
 
-import br.com.zup.beagle.widget.action.FormMethodType
-import br.com.zup.beagle.widget.action.FormRemoteAction
+import br.com.zup.beagle.android.action.FormMethodType
+import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.components.form.Form
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.extensions.once
@@ -74,7 +74,7 @@ class FormSubmitterTest {
     @Test
     fun submitForm_should_create_requestData_correctly() {
         // Given
-        val action = createAction(br.com.zup.beagle.widget.action.FormMethodType.POST)
+        val action = createAction(FormMethodType.POST)
         val inputName = RandomData.string()
         val inputValue = RandomData.string()
         val formsValue = mapOf(inputName to inputValue)
@@ -94,7 +94,7 @@ class FormSubmitterTest {
     @Test
     fun submitForm_should_create_requestData_with_PUT_httpMethod() {
         // Given
-        val action = createAction(br.com.zup.beagle.widget.action.FormMethodType.PUT)
+        val action = createAction(FormMethodType.PUT)
 
         // When
         formSubmitter.submitForm(action, FORMS_VALUE) {}
@@ -106,7 +106,7 @@ class FormSubmitterTest {
     @Test
     fun submitForm_should_create_requestData_with_DELETE_httpMethod() {
         // Given
-        val action = createAction(br.com.zup.beagle.widget.action.FormMethodType.DELETE)
+        val action = createAction(FormMethodType.DELETE)
 
         // When
         formSubmitter.submitForm(action, FORMS_VALUE) {}
@@ -118,7 +118,7 @@ class FormSubmitterTest {
     @Test
     fun submitForm_should_create_requestData_with_GET_httpMethod() {
         // Given
-        val action = createAction(br.com.zup.beagle.widget.action.FormMethodType.GET)
+        val action = createAction(FormMethodType.GET)
 
         // When
         formSubmitter.submitForm(action, FORMS_VALUE) {}
@@ -130,7 +130,7 @@ class FormSubmitterTest {
     @Test
     fun submitForm_should_create_requestData_with_POST_httpMethod() {
         // Given
-        val action = createAction(br.com.zup.beagle.widget.action.FormMethodType.POST)
+        val action = createAction(FormMethodType.POST)
 
         // When
         formSubmitter.submitForm(action, FORMS_VALUE) {}
@@ -142,7 +142,7 @@ class FormSubmitterTest {
     @Test
     fun submitForm_should_set_form_action_as_url_on_requestData() {
         // Given
-        val action = createAction(br.com.zup.beagle.widget.action.FormMethodType.POST)
+        val action = createAction(FormMethodType.POST)
 
         // When
         formSubmitter.submitForm(action, FORMS_VALUE) {}
@@ -158,7 +158,7 @@ class FormSubmitterTest {
             RandomData.string(3) to RandomData.string(3),
             RandomData.string(3) to RandomData.string(3)
         )
-        val action = createAction(br.com.zup.beagle.widget.action.FormMethodType.GET)
+        val action = createAction(FormMethodType.GET)
 
         // When
         formSubmitter.submitForm(action, formsValue) {}
@@ -178,7 +178,7 @@ class FormSubmitterTest {
             RandomData.string(3) to RandomData.string(3),
             RandomData.string(3) to RandomData.string(3)
         )
-        val action = createAction(br.com.zup.beagle.widget.action.FormMethodType.GET)
+        val action = createAction(FormMethodType.GET)
 
         // When
         formSubmitter.submitForm(action, formsValue) {}
@@ -198,7 +198,7 @@ class FormSubmitterTest {
             RandomData.string(3) to RandomData.string(3),
             RandomData.string(3) to RandomData.string(3)
         )
-        val action = createAction(br.com.zup.beagle.widget.action.FormMethodType.POST)
+        val action = createAction(FormMethodType.POST)
 
         // When
         formSubmitter.submitForm(action, formsValue) {}
@@ -219,7 +219,7 @@ class FormSubmitterTest {
             RandomData.string(3) to RandomData.string(3),
             RandomData.string(3) to RandomData.string(3)
         )
-        val action = createAction(br.com.zup.beagle.widget.action.FormMethodType.POST)
+        val action = createAction(FormMethodType.POST)
 
         // When
         formSubmitter.submitForm(action, formsValue) {}
@@ -233,7 +233,7 @@ class FormSubmitterTest {
         assertEquals(expected, requestDataSlot.captured.body)
     }
 
-    private fun createAction(method: br.com.zup.beagle.widget.action.FormMethodType) = br.com.zup.beagle.widget.action.FormRemoteAction(
+    private fun createAction(method: FormMethodType) = FormRemoteAction(
         path = ACTION,
         method = method
     )

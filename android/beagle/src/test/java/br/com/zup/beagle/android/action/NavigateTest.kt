@@ -16,12 +16,11 @@
 
 package br.com.zup.beagle.android.action
 
-import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.navigation.DeepLinkHandler
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.android.view.BeagleNavigator
+import br.com.zup.beagle.android.view.custom.BeagleNavigator
 import br.com.zup.beagle.android.widget.RootView
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -103,7 +102,7 @@ class NavigateTest {
     @Test
     fun handle_should_call_resetApplication() {
         // Given
-        val route = br.com.zup.beagle.widget.action.Route.Remote(RandomData.httpUrl())
+        val route = Route.Remote(RandomData.httpUrl())
         val navigate = Navigate.ResetApplication(route)
         every { BeagleNavigator.resetApplication(any(), any()) } just Runs
 
@@ -117,7 +116,7 @@ class NavigateTest {
     @Test
     fun handle_should_call_resetStack() {
         // Given
-        val route = br.com.zup.beagle.widget.action.Route.Remote(RandomData.httpUrl())
+        val route = Route.Remote(RandomData.httpUrl())
         val navigate = Navigate.ResetStack(route)
         every { BeagleNavigator.resetStack(any(), any()) } just Runs
 
@@ -131,7 +130,7 @@ class NavigateTest {
     @Test
     fun handle_should_call_pushView() {
         // Given
-        val route = br.com.zup.beagle.widget.action.Route.Remote(RandomData.httpUrl())
+        val route = Route.Remote(RandomData.httpUrl())
         val navigate = Navigate.PushView(route)
         every { BeagleNavigator.pushView(any(), any()) } just Runs
 
@@ -185,7 +184,7 @@ class NavigateTest {
     @Test
     fun handle_should_call_pushStack() {
         // Given
-        val route = br.com.zup.beagle.widget.action.Route.Remote(RandomData.httpUrl())
+        val route = Route.Remote(RandomData.httpUrl())
         val navigate = Navigate.PushStack(route)
         every { BeagleNavigator.pushStack(any(), any()) } just Runs
 

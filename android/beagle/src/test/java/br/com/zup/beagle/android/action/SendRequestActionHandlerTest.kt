@@ -19,12 +19,10 @@ package br.com.zup.beagle.android.action
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import br.com.zup.beagle.widget.action.SendRequestAction
-import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
-import br.com.zup.beagle.widget.action.Action
+import br.com.zup.beagle.android.widget.RootView
 import io.mockk.Called
 import io.mockk.Runs
 import io.mockk.every
@@ -50,10 +48,10 @@ class SendRequestActionHandlerTest {
     @Test
     fun `should execute with success action when handle action`() {
         // Given
-        val onSuccessAction: br.com.zup.beagle.widget.action.Action = mockk()
-        val onErrorAction: br.com.zup.beagle.widget.action.Action = mockk()
-        val onFinishAction: br.com.zup.beagle.widget.action.Action = mockk()
-        val requestAction = br.com.zup.beagle.widget.action.SendRequestAction(
+        val onSuccessAction: Action = mockk()
+        val onErrorAction: Action = mockk()
+        val onFinishAction: Action = mockk()
+        val requestAction = SendRequestAction(
             url = "", onSuccess = onSuccessAction,
             onError = onErrorAction, onFinish = onFinishAction
         )
@@ -73,11 +71,11 @@ class SendRequestActionHandlerTest {
     @Test
     fun `should execute with fail action when handle action`() {
         // Given
-        val onSuccessAction: br.com.zup.beagle.widget.action.Action = mockk()
-        val onErrorAction: br.com.zup.beagle.widget.action.Action = mockk()
-        val onFinishAction: br.com.zup.beagle.widget.action.Action = mockk()
+        val onSuccessAction: Action = mockk()
+        val onErrorAction: Action = mockk()
+        val onFinishAction: Action = mockk()
         val responseData: ResponseData = mockk()
-        val requestAction = br.com.zup.beagle.widget.action.SendRequestAction(
+        val requestAction = SendRequestAction(
             url = "", onSuccess = onSuccessAction,
             onError = onErrorAction, onFinish = onFinishAction
         )
@@ -97,9 +95,9 @@ class SendRequestActionHandlerTest {
     @Test
     fun `should not send action success when handle action`() {
         // Given
-        val onErrorAction: br.com.zup.beagle.widget.action.Action = mockk()
-        val onFinishAction: br.com.zup.beagle.widget.action.Action = mockk()
-        val requestAction = br.com.zup.beagle.widget.action.SendRequestAction(
+        val onErrorAction: Action = mockk()
+        val onFinishAction: Action = mockk()
+        val requestAction = SendRequestAction(
             url = "", onSuccess = null,
             onError = onErrorAction, onFinish = onFinishAction
         )
@@ -119,7 +117,7 @@ class SendRequestActionHandlerTest {
     @Test
     fun `should not send any action when handle action`() {
         // Given
-        val requestAction = br.com.zup.beagle.widget.action.SendRequestAction(
+        val requestAction = SendRequestAction(
             url = "", onSuccess = null,
             onError = null, onFinish = null
         )
@@ -140,8 +138,8 @@ class SendRequestActionHandlerTest {
     @Test
     fun `should send only action finish when handle action with success`() {
         // Given
-        val onFinishAction: br.com.zup.beagle.widget.action.Action = mockk()
-        val requestAction = br.com.zup.beagle.widget.action.SendRequestAction(
+        val onFinishAction: Action = mockk()
+        val requestAction = SendRequestAction(
             url = "", onSuccess = null,
             onError = null, onFinish = onFinishAction
         )
@@ -161,8 +159,8 @@ class SendRequestActionHandlerTest {
     @Test
     fun `should send only action finish when handle action with error`() {
         // Given
-        val onFinishAction: br.com.zup.beagle.widget.action.Action = mockk()
-        val requestAction = br.com.zup.beagle.widget.action.SendRequestAction(
+        val onFinishAction: Action = mockk()
+        val requestAction = SendRequestAction(
             url = "", onSuccess = null,
             onError = null, onFinish = onFinishAction
         )

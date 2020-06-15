@@ -24,6 +24,7 @@ import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.ActionExecutor
 import br.com.zup.beagle.android.action.FormLocalAction
 import br.com.zup.beagle.android.action.FormRemoteAction
+import br.com.zup.beagle.android.action.FormValidation
 import br.com.zup.beagle.android.components.form.core.Constants.shared
 import br.com.zup.beagle.android.components.utils.hideKeyboard
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
@@ -213,6 +214,9 @@ data class Form(
             is FormResult.Success -> {
                 group?.let {
                     formDataStoreHandler.clear(it)
+                }
+                if (formResult.action is FormValidation) {
+                    formResult.action.formInputs = formInputs
                 }
                 actionExecutor.doAction(rootView, formResult.action)
             }

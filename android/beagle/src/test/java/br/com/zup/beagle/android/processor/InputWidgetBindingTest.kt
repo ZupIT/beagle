@@ -14,20 +14,23 @@
  * limitations under the License.
  */
 
+
 package br.com.zup.beagle.android.processor
 
 import android.content.Context
 import android.view.View
+import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BindingAdapter
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.testutil.setPrivateField
+import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.android.widget.core.Bind
 import br.com.zup.beagle.processor.CustomInputWidget
 import br.com.zup.beagle.processor.CustomInputWidgetBinding
 import br.com.zup.beagle.processor.VIEW_PROPERTY
 import br.com.zup.beagle.processor.WIDGET_INSTANCE_PROPERTY
-import br.com.zup.beagle.widget.form.InputWidget
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.RelaxedMockK
@@ -49,7 +52,7 @@ class InputWidgetBindingTest {
     lateinit var view: View
 
     @RelaxedMockK
-    lateinit var context: Context
+    lateinit var rootView: RootView
 
     @RelaxedMockK
     lateinit var widget: CustomInputWidget
@@ -69,7 +72,7 @@ class InputWidgetBindingTest {
     @Test
     fun widget_should_be_instance_of_BindingAdapter() {
         assertTrue(widgetBinding is BindingAdapter)
-        assertTrue(widgetBinding is InputWidget)
+        assertTrue(widgetBinding is WidgetView)
     }
 
     @Test
@@ -82,7 +85,7 @@ class InputWidgetBindingTest {
     fun widget_should_call_on_bind_at_least_once() {
 
         //when
-        widgetBinding.buildView(context)
+        widgetBinding.buildView(rootView)
 
         //then
         verify(atLeast = once()) { widget.onBind(any(), any()) }
@@ -92,7 +95,7 @@ class InputWidgetBindingTest {
     fun widget_should_call_observe_on_parameters() {
 
         //when
-        widgetBinding.buildView(context)
+        widgetBinding.buildView(rootView)
 
         //then
         verify(atLeast = once()) { widgetBinding.text.observes(any()) }
@@ -101,7 +104,7 @@ class InputWidgetBindingTest {
     @Test
     fun widget_should_call_on_get_value() {
         // Given When
-        widgetBinding.getValue()
+        widgetBinding.widgetInstance.getValue()
 
         //then
         verify(exactly = once()) { widget.getValue() }
@@ -113,7 +116,7 @@ class InputWidgetBindingTest {
         val message = RandomData.string()
 
         //when
-        widgetBinding.onErrorMessage(message)
+        widgetBinding.widgetInstance.onErrorMessage(message)
 
         //then
         verify(exactly = once()) { widget.onErrorMessage(message) }

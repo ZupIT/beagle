@@ -17,13 +17,13 @@
 package br.com.zup.beagle.android.engine.util
 
 import androidx.appcompat.app.AppCompatActivity
+import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.context.ScreenContextViewModel
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.mockdata.CustomWidget
 import br.com.zup.beagle.android.utils.ViewModelProviderFactory
 import br.com.zup.beagle.android.widget.core.Bind
 import br.com.zup.beagle.core.ContextData
-import br.com.zup.beagle.widget.layout.Container
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -32,6 +32,7 @@ import io.mockk.mockkObject
 import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
+
 
 class ContextViewRendererTest {
 
@@ -86,7 +87,6 @@ class ContextViewRendererTest {
         // Given
         val component = mockk<Container>()
         val context = mockk<ContextData>()
-        every { component.context } returns context
         every { viewModel.contextDataManager.popContext() } just Runs
 
         // When

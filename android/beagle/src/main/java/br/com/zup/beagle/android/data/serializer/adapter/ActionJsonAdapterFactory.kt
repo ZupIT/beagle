@@ -32,9 +32,8 @@ private const val BEAGLE_NAMESPACE = "beagle"
 @Deprecated(message = "This class will be no longer needed. @see new AndroidActionJsonAdapterFactory")
 internal object ActionJsonAdapterFactory {
 
-    fun make(): PolymorphicJsonAdapterFactory<Action> {
-        return PolymorphicJsonAdapterFactory.of(Action::class.java, BEAGLE_WIDGET_TYPE)
-            .withSubtype(FormRemoteAction::class.java, createNamespaceFor<FormRemoteAction>())
+    fun make(factory: PolymorphicJsonAdapterFactory<Action>): PolymorphicJsonAdapterFactory<Action> {
+        return factory.withSubtype(FormRemoteAction::class.java, createNamespaceFor<FormRemoteAction>())
             .withSubtype(FormLocalAction::class.java, createNamespaceFor<FormLocalAction>())
             .withSubtype(FormValidation::class.java, createNamespaceFor<FormValidation>())
             .withSubtype(ShowNativeDialog::class.java, createNamespaceFor<ShowNativeDialog>())

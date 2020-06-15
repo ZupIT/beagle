@@ -17,15 +17,13 @@
 package br.com.zup.beagle.android.data
 
 import androidx.appcompat.app.AppCompatActivity
-import br.com.zup.beagle.widget.action.Navigate
-import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.action.Navigate
+import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.ViewModelProviderFactory
 import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
-import br.com.zup.beagle.android.utils.generateViewModelInstance
-import br.com.zup.beagle.android.widget.RootView
 import io.mockk.called
 import io.mockk.coEvery
 import io.mockk.every
@@ -41,13 +39,13 @@ class PreFetchHelperTest : BaseTest() {
 
     @MockK
     private lateinit var rootView: ActivityRootView
-    private val route = br.com.zup.beagle.widget.action.Route.Remote(route = RandomData.string(), shouldPrefetch = true)
+    private val route = Route.Remote(route = RandomData.string(), shouldPrefetch = true)
     private val cachedTypes =
         listOf(
-            br.com.zup.beagle.widget.action.Navigate.PushStack(route),
-            br.com.zup.beagle.widget.action.Navigate.PushView(route),
-            br.com.zup.beagle.widget.action.Navigate.ResetApplication(route),
-            br.com.zup.beagle.widget.action.Navigate.ResetStack(route)
+            Navigate.PushStack(route),
+            Navigate.PushView(route),
+            Navigate.ResetApplication(route),
+            Navigate.ResetStack(route)
         )
 
     @MockK

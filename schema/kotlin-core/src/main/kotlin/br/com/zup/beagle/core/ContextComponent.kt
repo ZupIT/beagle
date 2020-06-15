@@ -16,8 +16,6 @@
 
 package br.com.zup.beagle.core
 
-import br.com.zup.beagle.core.ContextData
-
 interface ContextComponent {
     val context: ContextData?
 }

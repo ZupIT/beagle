@@ -24,9 +24,6 @@ import br.com.zup.beagle.android.widget.core.Bind
 import br.com.zup.beagle.widget.Widget
 import io.mockk.mockk
 
-class CustomWidget : WidgetView() {
-    override fun buildView(rootView: RootView): View {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 class CustomWidget : WidgetView(), BindingAdapter {
     override fun buildView(rootView: RootView): View {
         return mockk()

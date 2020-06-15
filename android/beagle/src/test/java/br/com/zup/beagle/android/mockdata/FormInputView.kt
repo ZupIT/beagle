@@ -20,7 +20,6 @@ import android.view.View
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.android.widget.form.InputWidget
 import io.mockk.mockk
 
 class CustomInputWidget : InputWidget() {

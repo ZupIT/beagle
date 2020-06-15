@@ -25,12 +25,14 @@ import org.junit.Test
 
 class FormInputTest : BaseComponentTest() {
 
-    private val inputWidget: InputWidget = mockk()
+    private val inputWidget: InputWidget = mockk(relaxed = true)
 
     private lateinit var formInput: FormInput
 
     override fun setUp() {
         super.setUp()
+
+
 
         formInput = FormInput("", child = inputWidget)
     }
