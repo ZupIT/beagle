@@ -16,6 +16,7 @@
 
 import UIKit
 import BeagleUI
+import BeagleSchema
 
 struct FormScreen: DeeplinkScreen {
     static var textValidatorName: String { return "text-is-not-blank" }
@@ -81,7 +82,7 @@ struct FormScreen: DeeplinkScreen {
 }
 
 extension DemoTextField: Renderable {
-    func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+    func toView(renderer: BeagleRenderer) -> UIView {
         let textField = View()
         textField.borderStyle = .roundedRect
         textField.placeholder = placeholder
@@ -92,7 +93,7 @@ extension DemoTextField: Renderable {
     }
 }
 
-struct DemoTextField: Widget, AutoInitiableAndDecodable {
+struct DemoTextField: BeagleUI.Widget, AutoInitiableAndDecodable {
     
     var placeholder: String
     var widgetProperties: WidgetProperties

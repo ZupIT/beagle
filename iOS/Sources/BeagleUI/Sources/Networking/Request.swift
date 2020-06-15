@@ -15,6 +15,7 @@
  */
 
 import Foundation
+import BeagleSchema
 
 public struct Request {
     public let url: URL

@@ -16,6 +16,7 @@
 
 import XCTest
 @testable import BeagleUI
+import BeagleSchema
 
 final class BeagleNavigatorTests: XCTestCase {
 
@@ -228,10 +229,10 @@ final class BeagleNavigatorTests: XCTestCase {
     func test_popToView_byIdentifier() {
         // Given
         let sut = BeagleNavigator(dependencies: NavigatorDependencies())
-        let vc1 = beagleViewController(screen: .declarative(Screen(identifier: "1", child: Text("Screen 1"))))
-        let vc2 = beagleViewController(screen: .declarative(Screen(identifier: "2", child: Text("Screen 2"))))
+        let vc1 = beagleViewController(screen: .declarative(Screen(id: "1", child: Text("Screen 1"))))
+        let vc2 = beagleViewController(screen: .declarative(Screen(id: "2", child: Text("Screen 2"))))
         let vc3 = UIViewController()
-        let vc4 = beagleViewController(screen: .declarative(Screen(identifier: "4", child: Text("Screen 4"))))
+        let vc4 = beagleViewController(screen: .declarative(Screen(id: "4", child: Text("Screen 4"))))
         let action = Navigate.popToView("2")
         
         let context = BeagleContextDummy(viewController: vc4)
@@ -319,7 +320,7 @@ class ActionManagerDummy: ActionManaging {
     func doAnalyticsAction(_ action: AnalyticsClick, sender: Any) {}
 }
 
-class BeagleContextDummy: BeagleContext {
+class BeagleContextDummy: BeagleUI.BeagleContext {
     var formManager: FormManaging
     
     var lazyLoadManager: LazyLoadManaging
@@ -346,12 +347,14 @@ class BeagleContextDummy: BeagleContext {
     
     func doAnalyticsAction(_ action: AnalyticsClick, sender: Any) {}
     func register(form: Form, formView: UIView, submitView: UIView, validatorHandler validator: ValidatorProvider?) {}
-    func register(formSubmitEnabledWidget: Widget?, formSubmitDisabledWidget: Widget?) {}
+    func register(formSubmitEnabledWidget: BeagleUI.Widget?, formSubmitDisabledWidget: BeagleUI.Widget?) {}
     func lazyLoad(url: String, initialState: UIView) {}
     func doAction(_ action: Action, sender: Any) {}
     func applyLayout() {}
     func register(events: [Event], inView view: UIView) { }
 }
+
+let renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: BeagleScreenDependencies())
 
 struct NavigatorDependencies: BeagleNavigator.Dependencies {
     var deepLinkHandler: DeepLinkScreenManaging?
