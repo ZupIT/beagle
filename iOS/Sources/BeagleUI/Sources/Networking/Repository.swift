@@ -15,6 +15,7 @@
  */
 
 import Foundation
+import BeagleSchema
 
 public protocol Repository {
 
@@ -52,7 +53,7 @@ public final class RepositoryDefault: Repository {
     // MARK: Dependencies
 
     public typealias Dependencies =
-        DependencyComponentDecoding
+        BeagleSchema.DependencyDecoder
         & DependencyNetworkClient
         & DependencyCacheManager
         & DependencyUrlBuilder
@@ -171,9 +172,12 @@ public final class RepositoryDefault: Repository {
         return decoded
     }
 
+    //TODO: change loadFromTextError inside guard let to give a more proper error
     private func decodeComponent(from data: Data) -> Result<ServerDrivenComponent, Request.Error> {
         do {
-            let component = try dependencies.decoder.decodeComponent(from: data)
+            guard let component = try dependencies.decoder.decodeComponent(from: data) as? ServerDrivenComponent else {
+                return .failure(.loadFromTextError)
+            }
             return .success(component)
         } catch {
             return .failure(.decoding(error))
