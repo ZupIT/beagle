@@ -250,6 +250,8 @@ class ContextDataManagerTest {
     @Test
     fun evaluateContextBindings_should_get_value_from_context_and_deserialize_JSONOBject() {
         // Given
+        val contextData = ContextData("$CONTEXT_ID.a", RandomData.string())
+        contexts[CONTEXT_ID] = ContextBinding(contextData, mutableListOf(bindModel))
         val model = mockk<JSONObject>()
         every { jsonPathFinder.find(any(), any()) } returns model
 
@@ -263,6 +265,8 @@ class ContextDataManagerTest {
     @Test
     fun evaluateContextBindings_should_get_value_from_context_and_deserialize_JSONArray() {
         // Given
+        val contextData = ContextData("$CONTEXT_ID.a", RandomData.string())
+        contexts[CONTEXT_ID] = ContextBinding(contextData, mutableListOf(bindModel))
         val model = mockk<JSONArray>()
         every { jsonPathFinder.find(any(), any()) } returns model
 
@@ -276,6 +280,8 @@ class ContextDataManagerTest {
     @Test
     fun evaluateContextBindings_should_throw_exception_when_moshi_returns_null() {
         // Given
+        val contextData = ContextData("$CONTEXT_ID.a", RandomData.string())
+        contexts[CONTEXT_ID] = ContextBinding(contextData, mutableListOf(bindModel))
         val model = mockk<JSONArray>()
         every { jsonPathFinder.find(any(), any()) } returns model
         every { moshi.adapter<Any>(any<Class<*>>()).fromJson(any<String>()) } returns null
@@ -291,6 +297,8 @@ class ContextDataManagerTest {
     @Test
     fun evaluateContextBindings_should_throw_exception_when_jsonPathFinder_returns_null() {
         // Given
+        val contextData = ContextData("$CONTEXT_ID.a", RandomData.string())
+        contexts[CONTEXT_ID] = ContextBinding(contextData, mutableListOf(bindModel))
         every { moshi.adapter<Any>(any<Class<*>>()).fromJson(any<String>()) } returns null
         every { jsonPathFinder.find(any(), any()) } returns null
 
@@ -305,6 +313,8 @@ class ContextDataManagerTest {
     @Test
     fun evaluateContextBindings_should_throw_exception_when_trying_to_call_jsonPathFinder() {
         // Given
+        val contextData = ContextData("$CONTEXT_ID.a", RandomData.string())
+        contexts[CONTEXT_ID] = ContextBinding(contextData, mutableListOf(bindModel))
         every { jsonPathFinder.find(any(), any()) } throws IllegalStateException()
 
         // When
