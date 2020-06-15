@@ -133,13 +133,7 @@ internal object ComponentJsonAdapterFactory {
     }
 
     private fun createNamespace(appNamespace: String, clazz: Class<*>): String {
-        var typeName = clazz.simpleName.toLowerCase(Locale.getDefault())
-        val bindingName = "binding"
-        val bindingIndex = typeName.lastIndexOf(bindingName)
-        if (bindingIndex > -1) {
-            val finalIndex = (bindingName.length + bindingIndex)
-            typeName = typeName.replaceRange(bindingIndex until finalIndex, "")
-        }
+        val typeName = clazz.simpleName.toLowerCase(Locale.getDefault())
         return "$appNamespace:$typeName"
     }
 }

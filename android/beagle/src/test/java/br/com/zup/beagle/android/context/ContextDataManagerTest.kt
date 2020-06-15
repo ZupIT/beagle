@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.context
 
 import androidx.collection.LruCache
-import br.com.zup.beagle.action.UpdateContext
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.jsonpath.JsonPathReplacer
@@ -26,6 +25,7 @@ import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.testutil.getPrivateField
 import br.com.zup.beagle.android.widget.core.Bind
 import br.com.zup.beagle.core.ContextData
+import br.com.zup.beagle.widget.action.SetContext
 import com.squareup.moshi.Moshi
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -85,7 +85,6 @@ class ContextDataManagerTest {
         every { BeagleMessageLogs.errorWhileTryingToChangeContext(any()) } just Runs
         every { BeagleMessageLogs.errorWhileTryingToAccessContext(any()) } just Runs
         every { contextPathResolver.getKeysFromPath(any(), any()) } returns LinkedList()
-        every { contextPathResolver.addContextToPath(any(), any()) } returns "@{$CONTEXT_ID}"
         every { jsonPathFinder.find(any(), any()) } returns mockk()
         every { moshi.adapter<Any>(any<Class<*>>()).fromJson(any<String>()) } returns bindModel
 
@@ -99,7 +98,6 @@ class ContextDataManagerTest {
         lruCache = contextDataManager.getPrivateField("lruCache")
         contexts = contextDataManager.getPrivateField("contexts")
 
-        contexts.clear()
         contexts.clear()
         lruCache.evictAll()
 
@@ -225,7 +223,6 @@ class ContextDataManagerTest {
             contextData,
             mutableListOf(bindModel)
         )
-        every { contextPathResolver.addContextToPath(any(), any()) } returns CONTEXT_ID
 
         // When
         contextDataManager.evaluateAllContext()
@@ -242,7 +239,6 @@ class ContextDataManagerTest {
         val contextData = ContextData(CONTEXT_ID, value)
         contexts[CONTEXT_ID] = ContextBinding(contextData, mutableListOf(bindModel))
         lruCache.put(path, value)
-        every { contextPathResolver.addContextToPath(any(), any()) } returns path
 
         // When
         contextDataManager.evaluateAllContext()
@@ -302,7 +298,7 @@ class ContextDataManagerTest {
         contextDataManager.evaluateAllContext()
 
         // Then
-        verify { BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(any()) }
+        verify(exactly = once()) { BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(any()) }
         verify(exactly = 0) { bindModel.notifyChange(any()) }
     }
 

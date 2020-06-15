@@ -17,8 +17,7 @@
 package br.com.zup.beagle.android.action
 
 import androidx.lifecycle.Observer
-import br.com.zup.beagle.action.SendRequest
-import br.com.zup.beagle.android.context.ContextActionExecutor
+import br.com.zup.beagle.widget.action.SendRequest
 import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.utils.handleEvent

@@ -21,22 +21,16 @@ import android.view.View
 import br.com.zup.beagle.android.widget.core.WidgetView
 import br.com.zup.beagle.android.widget.form.InputWidget
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.widget.Widget
 import io.mockk.mockk
 
-internal const val WIDGET_INSTANCE_PROPERTY = "widgetInstance"
-internal const val VIEW_PROPERTY = "view"
-
 @RegisterWidget
-data class FieldOnlyWidget(val a: Boolean = true,
-                           val b: Long = 123L,
-                           val c: String = "Hello") : WidgetView() {
+data class FieldOnlyWidget(
+    val a: Boolean = true,
+    val b: Long = 123L,
+    val c: String = "Hello"
+) : WidgetView() {
 
     override fun buildView(context: Context): View {
-        return mockk()
-    }
-
-    override fun onBind(widget: Widget, view: View) {
         return mockk()
     }
 }
@@ -52,10 +46,6 @@ data class CustomInputWidget(val text: String = "") : InputWidget() {
     }
 
     override fun buildView(context: Context): View {
-        return mockk()
-    }
-
-    override fun onBind(widget: Widget, view: View) {
         return mockk()
     }
 }

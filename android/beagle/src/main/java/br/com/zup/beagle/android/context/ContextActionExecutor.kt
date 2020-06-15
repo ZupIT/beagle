@@ -18,11 +18,9 @@ package br.com.zup.beagle.android.context
 
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.engine.renderer.RootView
-import br.com.zup.beagle.android.setup.BindingAdapter
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.core.ContextData
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
-import br.com.zup.beagle.android.widget.core.Bind
 import br.com.zup.beagle.widget.core.Action
 import org.json.JSONObject
 
@@ -47,24 +45,17 @@ internal class ContextActionExecutor {
         eventName: String,
         eventValue: Any? = null
     ) {
-        if (action is BindingAdapter) {
-            if (eventValue != null) {
-                val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
-                val contextData = ContextData(
-                    id = eventName,
-                    value = parseToJSONObject(eventValue)
-                )
-                handleContext(viewModel.contextDataManager, contextData, action.getBindAttributes())
-            }
-
-            action.getBindAttributes().filterNotNull().forEach { bind ->
-                if (bind is Bind.Value) {
-                    bind.bind()
-                }
-            }
+        if (eventValue != null) {
+            val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
+            val contextData = ContextData(
+                id = eventName,
+                value = parseToJSONObject(eventValue)
+            )
+            viewModel.contextDataManager.handleContext(rootView, contextData, action)
+        } else {
+            // TODO: call execute
+//            action.execute(rootView)
         }
-
-//        (action as br.com.zup.beagle.android.action.Action).execute(rootView)
     }
 
     private fun parseToJSONObject(value: Any): JSONObject {
@@ -78,18 +69,14 @@ internal class ContextActionExecutor {
         }
     }
 
-    private fun handleContext(
-        contextDataManager: ContextDataManager,
+    private fun ContextDataManager.handleContext(
+        rootView: RootView,
         contextData: ContextData,
-        bindAttributes: List<Bind<*>?>
+        action: Action
     ) {
-        contextDataManager.addContext(contextData)
-        bindAttributes.filterNotNull().forEach { bind ->
-            if (bind is Bind.Expression) {
-                contextDataManager.addBindingToContext(bind)
-            }
-        }
-        contextDataManager.evaluateContext(contextData.id)
-        contextDataManager.removeContext(contextData.id)
+        addContext(contextData)
+        // TODO: call execute
+//        action.execute(rootView)
+        removeContext(contextData.id)
     }
 }

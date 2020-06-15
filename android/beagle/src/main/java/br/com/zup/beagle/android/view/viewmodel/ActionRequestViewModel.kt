@@ -19,11 +19,12 @@ package br.com.zup.beagle.android.view.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.zup.beagle.action.SendRequest
+import br.com.zup.beagle.widget.action.SendRequest
 import br.com.zup.beagle.android.data.ActionRequester
 import br.com.zup.beagle.android.exception.BeagleApiException
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.view.mapper.toRequestData
+import br.com.zup.beagle.android.view.mapper.toResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
@@ -33,13 +34,6 @@ data class Response(
     val data: String,
     val headers: Map<String, String> = mapOf(),
     val statusText: String? = null
-)
-
-fun ResponseData.toResponse() = Response(
-    statusCode = this.statusCode,
-    data = String(this.data),
-    headers = this.headers,
-    statusText = this.statusText
 )
 
 internal class ActionRequestViewModel(
@@ -67,7 +61,7 @@ private class FetchComponentLiveData(
     }
 
     private fun fetchData() {
-        launch(coroutineContext) {
+        launch {
             value = try {
                 val response = requester.fetchData(sendRequest.toRequestData())
                 ActionRequestViewModel.FetchViewState.Success(response.toResponse())

@@ -76,7 +76,7 @@ private val WIDGETS = listOf(
 
 @Suppress("UNCHECKED_CAST")
 private val ACTIONS = listOf(
-    CustomAndroidAction::class.java as Class<AndroidAction>
+    CustomAndroidAction::class.java as Class<Action>
 )
 
 class BeagleMoshiTest {
@@ -578,7 +578,7 @@ class BeagleMoshiTest {
         val json = makeCustomAndroidActionJson()
 
         // When
-        val actual = beagleMoshiFactory.moshi.adapter(AndroidAction::class.java).fromJson(json)
+        val actual = beagleMoshiFactory.moshi.adapter(Action::class.java).fromJson(json)
 
         // Then
         assertNotNull(actual)

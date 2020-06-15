@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.widget.layout
 
-import br.com.zup.beagle.action.ContextComponent
+import br.com.zup.beagle.widget.action.ContextComponent
 import br.com.zup.beagle.core.ContextData
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.Widget

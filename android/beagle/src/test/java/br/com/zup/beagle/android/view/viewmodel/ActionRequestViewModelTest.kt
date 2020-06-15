@@ -18,13 +18,14 @@ package br.com.zup.beagle.android.view.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import br.com.zup.beagle.action.SendRequestAction
+import br.com.zup.beagle.widget.action.SendRequest
 import br.com.zup.beagle.android.data.ActionRequester
 import br.com.zup.beagle.android.exception.BeagleApiException
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.testutil.CoroutineTestRule
 import br.com.zup.beagle.android.view.mapper.toRequestData
+import br.com.zup.beagle.android.view.mapper.toResponse
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -76,7 +77,7 @@ class ActionRequestViewModelTest {
     @Test
     fun `should emit success when fetch data`() {
         // Given
-        val response: ResponseData = mockk()
+        val response: ResponseData = mockk(relaxed = true)
         every { action.toRequestData() } returns mockk()
         coEvery { actionRequester.fetchData(any()) } returns response
 
@@ -93,7 +94,7 @@ class ActionRequestViewModelTest {
     fun `should emit fail when fetch data`() {
         // Given
         val error: BeagleApiException = mockk()
-        val responseData: ResponseData = mockk()
+        val responseData: ResponseData = mockk(relaxed = true)
         every { action.toRequestData() } returns mockk()
         every { error.responseData } returns  responseData
         coEvery { actionRequester.fetchData(any()) } throws error

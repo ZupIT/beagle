@@ -16,28 +16,19 @@
 
 package br.com.zup.beagle.android.context
 
-import br.com.zup.beagle.action.ContextComponent
+import br.com.zup.beagle.widget.action.ContextComponent
 import br.com.zup.beagle.android.engine.renderer.RootView
-import br.com.zup.beagle.android.setup.BindingAdapter
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
-import br.com.zup.beagle.android.widget.core.Bind
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 internal class ContextComponentHandler {
 
     fun handleContext(rootView: RootView, component: ServerDrivenComponent) {
-        val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
-
-        if (component is BindingAdapter) {
-            component.getBindAttributes().filterNotNull().forEach { bind ->
-                if (bind is Bind.Expression) {
-                    viewModel.contextDataManager.addBindingToContext(bind)
-                }
-            }
-        } else if (component is ContextComponent) {
+        if (component is ContextComponent) {
             component.context?.let { context ->
-                viewModel.contextDataManager.addContext(context)
+                rootView.generateViewModelInstance<ScreenContextViewModel>()
+                    .contextDataManager.addContext(context)
             }
         }
     }

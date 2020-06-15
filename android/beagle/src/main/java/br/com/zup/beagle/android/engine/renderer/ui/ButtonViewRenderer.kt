@@ -24,7 +24,6 @@ import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.engine.renderer.UIViewRenderer
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.custom.BeagleButtonView
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.widget.ui.Button
@@ -32,6 +31,7 @@ import br.com.zup.beagle.widget.ui.Button
 internal class ButtonViewRenderer(
     override val component: Button,
     private val viewFactory: ViewFactory = ViewFactory(),
+    private val actionExecutor: ActionExecutor = ActionExecutor(),
     private val preFetchHelper: PreFetchHelper = PreFetchHelper()
 ) : UIViewRenderer<Button>() {
 
@@ -42,13 +42,13 @@ internal class ButtonViewRenderer(
 
         return viewFactory.makeButton(rootView.getContext()).apply {
             setOnClickListener {
-                component.handleEvent(rootView, component.onPress ?: emptyList(), "onPress")
+                actionExecutor.doAction(rootView, component.onPress)
                 component.clickAnalyticsEvent?.let {
                     BeagleEnvironment.beagleSdk.analytics?.sendClickEvent(it)
                 }
             }
             setOnLongClickListener {
-                component.handleEvent(rootView, component.onLongPress ?: emptyList(), "onLongPress")
+                actionExecutor.doAction(rootView, component.onLongPress)
                 component.clickAnalyticsEvent?.let {
                     BeagleEnvironment.beagleSdk.analytics?.sendClickEvent(it)
                 }

@@ -17,16 +17,16 @@
 package br.com.zup.beagle.android.context
 
 import androidx.appcompat.app.AppCompatActivity
-import br.com.zup.beagle.android.context.ContextComponentHandler
-import br.com.zup.beagle.view.viewmodel.ScreenContextViewModel
-import br.com.zup.beagle.core.Bind
+import br.com.zup.beagle.android.engine.renderer.ActivityRootView
+import br.com.zup.beagle.android.mockdata.CustomWidget
+import br.com.zup.beagle.android.utils.ViewModelProviderFactory
+import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
+import br.com.zup.beagle.android.widget.core.Bind
 import br.com.zup.beagle.core.ContextData
-import br.com.zup.beagle.engine.renderer.ActivityRootView
-import br.com.zup.beagle.mockdata.CustomWidget
-import br.com.zup.beagle.utils.ViewModelProviderFactory
 import br.com.zup.beagle.widget.layout.Container
 import io.mockk.Runs
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
@@ -52,22 +52,7 @@ class ContextComponentHandlerTest {
     }
 
     @Test
-    fun startContextBinding_should_call_addBindingToContext_when_component_is_BindingAdapter() {
-        // Given
-        val component = mockk<CustomWidget>()
-        val bindExpression = mockk<Bind.Expression<Any>>()
-        every { component.getBindAttributes() } returns listOf(bindExpression)
-        every { viewModel.contextDataManager.addBindingToContext(any()) } just Runs
-
-        // When
-        contextComponentHandler.handleContext(rootView, component)
-
-        // Then
-        verify(exactly = 1) { viewModel.contextDataManager.addBindingToContext(bindExpression) }
-    }
-
-    @Test
-    fun startContextBinding_should_call_pushContext_when_component_is_ContextComponent() {
+    fun handleContext_should_call_addContext_when_component_is_ContextComponent() {
         // Given
         val component = mockk<Container>()
         val context = mockk<ContextData>()

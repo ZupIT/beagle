@@ -20,14 +20,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import br.com.zup.beagle.action.SendRequest
+import br.com.zup.beagle.widget.action.SendRequest
 import br.com.zup.beagle.android.context.ContextActionExecutor
-import br.com.zup.beagle.engine.renderer.ActivityRootView
-import br.com.zup.beagle.extensions.once
-import br.com.zup.beagle.networking.ResponseData
-import br.com.zup.beagle.utils.ViewModelProviderFactory
-import br.com.zup.beagle.view.viewmodel.ActionRequestViewModel
-import br.com.zup.beagle.view.viewmodel.Response
+import br.com.zup.beagle.android.engine.renderer.ActivityRootView
+import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.utils.ViewModelProviderFactory
+import br.com.zup.beagle.android.utils.contextActionExecutor
+import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
+import br.com.zup.beagle.android.view.viewmodel.Response
 import br.com.zup.beagle.widget.core.Action
 import io.mockk.Runs
 import io.mockk.every
@@ -47,7 +47,7 @@ class SendRequestHandlerTest {
     @get:Rule
     var executorRule = InstantTaskExecutorRule()
 
-    private val contextActionExecutor = mockk<ContextActionExecutor>()
+    private val contextActionExecutorMock = mockk<ContextActionExecutor>()
     private val rootView: ActivityRootView = mockk(relaxed = true)
     private val viewModel: ActionRequestViewModel = mockk()
     private val liveData: MutableLiveData<ActionRequestViewModel.FetchViewState> = mockk()
@@ -60,15 +60,16 @@ class SendRequestHandlerTest {
     fun setUp() {
         mockkObject(ViewModelProviderFactory)
 
+        contextActionExecutor = contextActionExecutorMock
+
         every {
             ViewModelProviderFactory
                 .of(any<AppCompatActivity>())
                 .get(ActionRequestViewModel::class.java)
         } returns viewModel
-//        every { contextActionExecutor.executeAction(any(), any(), any()) } just Runs
-        every { contextActionExecutor.executeAction(any(), any(), any(), any()) } just Runs
+        every { contextActionExecutorMock.executeAction(any(), any(), any(), any()) } just Runs
 
-        sendRequestActionHandler = SendRequestActionHandler(contextActionExecutor)
+        sendRequestActionHandler = SendRequestActionHandler()
     }
 
     @Test
@@ -133,7 +134,7 @@ class SendRequestHandlerTest {
         observerSlot.captured.onChanged(result)
 
         // Then
-        verify(exactly = once()) { contextActionExecutor.executeAction(rootView, any(), "onFinish") }
+        verify(exactly = once()) { contextActionExecutorMock.executeAction(rootView, any(), "onFinish") }
     }
 
     @Test

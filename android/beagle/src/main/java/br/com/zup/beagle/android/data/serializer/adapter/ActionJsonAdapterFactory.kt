@@ -19,7 +19,7 @@ package br.com.zup.beagle.android.data.serializer.adapter
 import br.com.zup.beagle.action.CustomAction
 import br.com.zup.beagle.action.FormValidation
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.SendRequest
+import br.com.zup.beagle.widget.action.SendRequest
 import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
 import br.com.zup.beagle.widget.action.SetContext

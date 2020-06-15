@@ -28,16 +28,12 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.widget.core.Action
 import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.android.widget.form.InputWidget
-import br.com.zup.beagle.android.widget.form.InputWidgetWatcherActionType
-import br.com.zup.beagle.android.widget.interfaces.Observer
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
-import io.mockk.mockk
-import io.mockk.slot
 import io.mockk.verify
 import org.junit.Assert.assertEquals
 import org.junit.Test

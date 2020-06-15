@@ -25,7 +25,6 @@ import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
 import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.layout.Screen
@@ -88,12 +87,7 @@ internal fun Screen.toComponent() = ScreenComponent(
     screenAnalyticsEvent = screenAnalyticsEvent
 ).applyStyle(style ?: Style())
 
-internal fun ServerDrivenComponent.toView(rootView: RootView): View {
-    val view = viewFactory.makeBeagleFlexView(rootView.getContext()).apply {
+internal fun ServerDrivenComponent.toView(rootView: RootView): View =
+    viewFactory.makeBeagleFlexView(rootView.getContext()).apply {
         addServerDrivenComponent(this@toView, rootView)
     }
-
-    rootView.generateViewModelInstance<ScreenContextViewModel>().contextDataManager.evaluateAllContext()
-
-    return view
-}

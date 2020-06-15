@@ -16,14 +16,23 @@
 
 package br.com.zup.beagle.android.view.mapper
 
-import br.com.zup.beagle.action.RequestActionMethod
-import br.com.zup.beagle.action.SendRequest
+import br.com.zup.beagle.widget.action.RequestActionMethod
+import br.com.zup.beagle.widget.action.SendRequest
 import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
+import br.com.zup.beagle.android.networking.ResponseData
+import br.com.zup.beagle.android.view.viewmodel.Response
 import java.net.URI
 
 internal fun SendRequest.toRequestData(): RequestData = SendRequestActionMapper.toRequestData(this)
+
+fun ResponseData.toResponse() = Response(
+    statusCode = this.statusCode,
+    data = String(this.data),
+    headers = this.headers,
+    statusText = this.statusText
+)
 
 internal object SendRequestActionMapper {
     fun toRequestData(sendRequest: SendRequest): RequestData {

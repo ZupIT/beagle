@@ -23,7 +23,7 @@ sealed class Bind<T> : BindAttribute<T> {
 
     @Transient
     private var onChange: ((value: T) -> Unit)? = null
-    protected var lastValue: T? = null
+
 
     fun observes(onChange: (value: T) -> Unit) {
         this.onChange = onChange
@@ -31,27 +31,20 @@ sealed class Bind<T> : BindAttribute<T> {
 
     fun notifyChange(value: Any) {
         val newValue = value as T
-        this.lastValue = newValue
         this.onChange?.invoke(newValue)
     }
 
-    fun get(): T = lastValue ?: throw IllegalStateException("Did you miss to call notifyChange or bind?")
+    companion object {
+        inline fun <reified T> expressionOf(expression: String) = Expression(expression, T::class.java)
+        inline fun <reified T : Any> valueOf(value: T) = Value(value)
+    }
 
     class Expression<T>(
         override val value: String,
         override val type: Class<T>
-    ): Bind<T>() {
-
-        companion object {
-            inline fun <reified T> of(expression: String) = Expression(expression, T::class.java)
-        }
-    }
+    ): Bind<T>()
 
     data class Value<T: Any>(override val value: T) : Bind<T>() {
         override val type: Class<T> = value.javaClass
-
-        fun bind() {
-            lastValue = value
-        }
     }
 }

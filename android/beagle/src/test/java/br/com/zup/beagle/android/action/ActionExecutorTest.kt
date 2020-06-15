@@ -20,9 +20,8 @@ import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.action.CustomAction
 import br.com.zup.beagle.action.FormValidation
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.SendRequestAction
+import br.com.zup.beagle.widget.action.SendRequest
 import br.com.zup.beagle.action.ShowNativeDialog
-import br.com.zup.beagle.action.UpdateContext
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
@@ -30,6 +29,7 @@ import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
+import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.core.Action
 import io.mockk.MockKAnnotations
 import io.mockk.Runs

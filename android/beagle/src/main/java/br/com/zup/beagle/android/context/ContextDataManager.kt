@@ -27,7 +27,6 @@ import br.com.zup.beagle.widget.action.SetContext
 import com.squareup.moshi.Moshi
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.Stack
 import java.lang.IllegalStateException
 
 private val EXPRESSION_REGEX = "@\\{([^)]+)\\}".toRegex()
@@ -59,11 +58,9 @@ internal class ContextDataManager(
     }
 
     fun addBindingToContext(binding: Bind.Expression<*>) {
-        val bindingValue = binding.valueInExpression()
-        val path = bindingValue.split(".")[0]
-
-        if (contexts.containsKey(path)) {
-            contexts[path]?.bindings?.add(binding)
+        val contextId = binding.getContextId()
+        if (contexts.containsKey(contextId)) {
+            contexts[contextId]?.bindings?.add(binding)
         }
     }
 
@@ -78,15 +75,39 @@ internal class ContextDataManager(
         } ?: false
     }
 
-    fun evaluateContext(contextId: String) {
-        contexts[contextId]?.let {
-            notifyBindingChanges(it)
-        }
-    }
-
     fun evaluateAllContext() {
         contexts.forEach { entry ->
             notifyBindingChanges(entry.value)
+        }
+    }
+
+    fun evaluateBinding(bind: Bind.Expression<*>): Any? {
+        val contextId = bind.getContextId()
+
+        return contexts[contextId]?.let {
+            return evaluateBinding(it.context, bind)
+        }
+    }
+
+    private fun evaluateBinding(contextData: ContextData, bind: Bind.Expression<*>): Any? {
+        val value = getValue(contextData, bind.valueInExpression())
+
+        return try {
+            if (value is JSONArray || value is JSONObject) {
+                moshi.adapter<Any>(bind.type).fromJson(value.toString()) ?:
+                throw IllegalStateException("JSON deserialization returned null")
+            } else {
+                value ?: throw IllegalStateException("Expression evaluation returned null")
+            }
+        } catch (ex: Exception) {
+            BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(ex)
+            null
+        }
+    }
+
+    private fun evaluateContext(contextId: String) {
+        contexts[contextId]?.let {
+            notifyBindingChanges(it)
         }
     }
 
@@ -138,23 +159,15 @@ internal class ContextDataManager(
         val bindings = contextBinding.bindings
 
         bindings.forEach { bind ->
-            val expression = bind.valueInExpression()
-            val path = contextPathResolver.addContextToPath(contextData.id, expression)
-            val value = getValue(contextData, path)
-
-            try {
-                val realValue: Any = if (value is JSONArray || value is JSONObject) {
-                    moshi.adapter<Any>(bind.type).fromJson(value.toString()) ?:
-                        throw IllegalStateException("JSON deserialization returned null")
-                } else {
-                    value ?: throw IllegalStateException("Expression evaluation returned null")
-                }
-                bind.notifyChange(realValue)
-            } catch (ex: Exception) {
-                BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(ex)
+            val value = evaluateBinding(contextData, bind)
+            if (value != null) {
+                bind.notifyChange(value)
             }
         }
     }
+
+    private fun Bind.Expression<*>.getContextId(): String =
+        valueInExpression().split(".")[0]
 
     private fun Bind.Expression<*>.valueInExpression(): String =
         EXPRESSION_REGEX.find(this.value)?.groups?.get(1)?.value ?: ""
