@@ -139,6 +139,7 @@
   ▿ preFetchHelper: BeaglePreFetchHelper
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
+  - renderer: (Function)
   ▿ repository: RepositoryDefault
     - cacheHashHeader: "beagle-hash"
     ▿ dependencies: InnerDependenciesResolver

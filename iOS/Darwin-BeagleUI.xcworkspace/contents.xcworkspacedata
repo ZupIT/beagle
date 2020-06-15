@@ -3,6 +3,13 @@
    version = "1.0">
    <Group
       location = "container:"
+      name = "Schema">
+      <FileRef
+         location = "group:Schema/BeagleSchema.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
       name = "Preview">
       <FileRef
          location = "group:Sources/Preview/BeaglePreview.xcodeproj">

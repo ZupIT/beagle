@@ -17,6 +17,7 @@
 import XCTest
 @testable import BeagleUI
 import SnapshotTesting
+import BeagleSchema
 
 final class BeagleSetupTests: XCTestCase {
     // swiftlint:disable discouraged_direct_init
@@ -46,6 +47,23 @@ final class BeagleSetupTests: XCTestCase {
         dep.opener = URLOpenerDumb()
 
         assertSnapshot(matching: dep, as: .dump)
+    }
+
+    func test_whenChangingGlobalDependency_itShouldUpdateAllLibs() {
+        // Given
+        let old = Beagle.dependencies
+        let new = BeagleDependencies()
+
+        // When
+        Beagle.dependencies = new
+
+        // Then
+        XCTAssert(BeagleSchema.dependencies as AnyObject === new)
+        XCTAssert(BeagleSchema.dependencies.decoder as AnyObject === new.decoder as AnyObject)
+        XCTAssert(BeagleSchema.dependencies.schemaLogger as AnyObject? === new.logger as AnyObject)
+
+        // Teardown
+        Beagle.dependencies = old
     }
 
     func test_ifChangingDependency_othersShouldUseNewInstance() {
@@ -81,10 +99,10 @@ final class FormDataStoreHandlerDummy: FormDataStoreHandling {
 }
 
 final class ComponentDecodingDummy: ComponentDecoding {
-    func register<T>(_ type: T.Type, for typeName: String) where T: ServerDrivenComponent {}
+    func register<T>(_ type: T.Type, for typeName: String) where T: BeagleSchema.RawComponent {}
     func componentType(forType type: String) -> Decodable.Type? { return nil }
     func actionType(forType type: String) -> Decodable.Type? { return nil }
-    func decodeComponent(from data: Data) throws -> ServerDrivenComponent { return ComponentDummy() }
+    func decodeComponent(from data: Data) throws -> BeagleSchema.RawComponent { return ComponentDummy() }
     func decodeAction(from data: Data) throws -> Action { return ActionDummy() }
 }
 
@@ -104,7 +122,7 @@ final class PreFetchHelperDummy: BeaglePrefetchHelping {
     func prefetchComponent(newPath: Route.NewPath) { }
 }
 
-struct ComponentDummy: ServerDrivenComponent, Equatable, CustomStringConvertible {
+struct ComponentDummy: BeagleUI.ServerDrivenComponent, Equatable, CustomStringConvertible {
     
     private let uuid = UUID()
     
@@ -112,7 +130,7 @@ struct ComponentDummy: ServerDrivenComponent, Equatable, CustomStringConvertible
         return "ComponentDummy()"
     }
     
-    func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+    func toView(renderer: BeagleRenderer) -> UIView {
         return DummyView()
     }
 }
@@ -122,7 +140,6 @@ final class DummyView: UIView {}
 struct ActionDummy: Action, Equatable {}
 
 struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
-    
     var analytics: Analytics?
     var actionExecutor: ActionExecutor
     var flex: FlexViewConfiguratorProtocol
@@ -136,6 +153,10 @@ struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
     var logger: BeagleLoggerType
     var formDataStoreHandler: FormDataStoreHandling
     var navigationControllerType = BeagleNavigationController.self
+
+    var renderer: (BeagleContext, RenderableDependencies) -> BeagleRenderer = {
+        return BeagleRenderer(context: $0, dependencies: $1)
+    }
 
     init(
         actionExecutor: ActionExecutor = ActionExecutorDummy(),
