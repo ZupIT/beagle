@@ -83,12 +83,6 @@
         tools:ignore="HardcodedText" />
 
     <item
-        android:id="@+id/stack"
-        android:icon="@mipmap/ic_launcher"
-        android:title="Stack"
-        tools:ignore="HardcodedText" />
-
-    <item
         android:id="@+id/accessibility"
         android:icon="@mipmap/ic_launcher"
         android:title="Accessibility Screen"

@@ -21,13 +21,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.widgets.TextField
-import br.com.zup.beagle.utils.toView
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.JustifyContent
-import br.com.zup.beagle.widget.layout.Container
-import br.com.zup.beagle.widget.layout.NavigationBar
+import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.android.utils.toView
+import br.com.zup.beagle.widget.layout.NavigationBar
 
 class NavigationBarActivity : AppCompatActivity() {
     companion object {
@@ -46,7 +47,7 @@ class NavigationBarActivity : AppCompatActivity() {
             navigationBar = NavigationBar(
                 title = "Sample Title",
                 showBackButton = true,
-                style = "toolbar"
+                styleId = "toolbar"
             ),
             child = Container(
                 children = listOf(

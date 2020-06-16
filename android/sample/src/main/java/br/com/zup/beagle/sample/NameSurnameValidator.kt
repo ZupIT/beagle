@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.sample
 
-import br.com.zup.beagle.annotation.RegisterValidator
-import br.com.zup.beagle.form.Validator
+import br.com.zup.beagle.android.annotation.RegisterValidator
+import br.com.zup.beagle.android.components.form.core.Validator
 import br.com.zup.beagle.sample.widgets.TextField
 
 @RegisterValidator("nameSurname")

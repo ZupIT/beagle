@@ -21,12 +21,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitPercent
-import br.com.zup.beagle.utils.toView
+import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.ui.WebView
+import br.com.zup.beagle.android.components.WebView
 
 
 class WebViewFragment : Fragment() {
