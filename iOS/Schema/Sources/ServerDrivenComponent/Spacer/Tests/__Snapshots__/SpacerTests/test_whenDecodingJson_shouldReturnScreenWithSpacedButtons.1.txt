@@ -2,7 +2,7 @@
   ▿ child: Container
     ▿ children: 7 elements
       ▿ Button
-        - action: Optional<Action>.none
+        - action: Optional<RawAction>.none
         - clickAnalyticsEvent: Optional<AnalyticsClick>.none
         ▿ styleId: Optional<String>
           - some: "DesignSystem.Button.Style"
@@ -54,7 +54,7 @@
                 - some: "500000FF"
               - cornerRadius: Optional<CornerRadius>.none
       ▿ Button
-        - action: Optional<Action>.none
+        - action: Optional<RawAction>.none
         - clickAnalyticsEvent: Optional<AnalyticsClick>.none
         ▿ styleId: Optional<String>
           - some: "DesignSystem.Button.Style"
@@ -106,7 +106,7 @@
                 - some: "500000FF"
               - cornerRadius: Optional<CornerRadius>.none
       ▿ Button
-        - action: Optional<Action>.none
+        - action: Optional<RawAction>.none
         - clickAnalyticsEvent: Optional<AnalyticsClick>.none
         ▿ styleId: Optional<String>
           - some: "DesignSystem.Button.Style"
@@ -158,7 +158,7 @@
                 - some: "500000FF"
               - cornerRadius: Optional<CornerRadius>.none
       ▿ Button
-        - action: Optional<Action>.none
+        - action: Optional<RawAction>.none
         - clickAnalyticsEvent: Optional<AnalyticsClick>.none
         ▿ styleId: Optional<String>
           - some: "DesignSystem.Button.Style"

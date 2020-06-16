@@ -1,5 +1,5 @@
 ▿ Button
-  ▿ action: Optional<Action>
+  ▿ action: Optional<RawAction>
     - some: Navigate.popStack
   - clickAnalyticsEvent: Optional<AnalyticsClick>.none
   - styleId: Optional<String>.none

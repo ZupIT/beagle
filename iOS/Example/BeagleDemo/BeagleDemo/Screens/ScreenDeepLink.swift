@@ -19,7 +19,7 @@ import UIKit
 
 class ScreenDeepLink: UIViewController, DeeplinkScreen {
     
-    required init(path: String, data: [String : String]?) {
+    required init(path: String, data: [String: String]?) {
            super.init(nibName: nil, bundle: nil)
        }
 

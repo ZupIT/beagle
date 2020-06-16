@@ -34,7 +34,7 @@ final class BeagleSetupTests: XCTestCase {
         dep.deepLinkHandler = DeepLinkHandlerDummy()
         dep.theme = AppThemeDummy()
         dep.validatorProvider = ValidatorProviding()
-        dep.customActionHandler = CustomActionHandlerDummy()
+        dep.customActionHandler = CustomActionHandlerSpy()
         if let url = URL(string: "www.test.com") {
             dep.urlBuilder.baseUrl = url
         }
@@ -69,18 +69,16 @@ final class BeagleSetupTests: XCTestCase {
     func test_ifChangingDependency_othersShouldUseNewInstance() {
         let dependencies = BeagleDependencies()
 
-        let actionSpy = CustomActionHandlerSpy()
-        dependencies.customActionHandler = actionSpy
+        let themeSpy = ThemeSpy()
+        dependencies.theme = themeSpy
 
-        let dummyAction = CustomAction(name: "", data: [:])
+        let view = UIView()
+        let styleId = "custom-style"
 
-        dependencies.actionExecutor.doAction(
-            dummyAction,
-            sender: self,
-            context: BeagleContextDummy()
-        )
+        dependencies.theme.applyStyle(for: view, withId: styleId)
 
-        XCTAssert(actionSpy.actionsHandledCount == 1)
+        XCTAssertEqual(themeSpy.styledView, view)
+        XCTAssertEqual(themeSpy.styleApplied, styleId)
     }
 }
 
@@ -103,7 +101,7 @@ final class ComponentDecodingDummy: ComponentDecoding {
     func componentType(forType type: String) -> Decodable.Type? { return nil }
     func actionType(forType type: String) -> Decodable.Type? { return nil }
     func decodeComponent(from data: Data) throws -> BeagleSchema.RawComponent { return ComponentDummy() }
-    func decodeAction(from data: Data) throws -> Action { return ActionDummy() }
+    func decodeAction(from data: Data) throws -> RawAction { return ActionDummy() }
 }
 
 final class CacheManagerDummy: CacheManagerProtocol {
@@ -122,68 +120,60 @@ final class PreFetchHelperDummy: BeaglePrefetchHelping {
     func prefetchComponent(newPath: Route.NewPath) { }
 }
 
-struct ComponentDummy: BeagleUI.ServerDrivenComponent, Equatable, CustomStringConvertible {
+struct ComponentDummy: BeagleUI.ServerDrivenComponent, CustomStringConvertible {
     
-    private let uuid = UUID()
+    private let resultView: UIView?
     
     var description: String {
         return "ComponentDummy()"
     }
     
+    init(resultView: UIView? = nil) {
+        self.resultView = resultView
+    }
+    
+    init(from decoder: Decoder) throws {
+        self.resultView = nil
+    }
+    
     func toView(renderer: BeagleRenderer) -> UIView {
-        return DummyView()
+        return resultView ?? UIView()
     }
 }
 
-final class DummyView: UIView {}
+struct ActionDummy: Action, Equatable {
+    func execute(controller: BeagleController, sender: Any) {}
+}
 
-struct ActionDummy: Action, Equatable {}
-
-struct BeagleScreenDependencies: BeagleScreenViewModel.Dependencies {
+struct BeagleScreenDependencies: BeagleDependenciesProtocol {
     var analytics: Analytics?
-    var actionExecutor: ActionExecutor
-    var flex: FlexViewConfiguratorProtocol
-    var repository: Repository
-    var theme: Theme
+    var repository: Repository = RepositoryStub()
+    var theme: Theme = AppThemeDummy()
     var validatorProvider: ValidatorProvider?
-    var preFetchHelper: BeaglePrefetchHelping
-    var appBundle: Bundle
+    var preFetchHelper: BeaglePrefetchHelping = PreFetchHelperDummy()
+    var appBundle: Bundle = Bundle(for: ImageTests.self)
     var cacheManager: CacheManagerProtocol?
-    var decoder: ComponentDecoding
-    var logger: BeagleLoggerType
-    var formDataStoreHandler: FormDataStoreHandling
+    var decoder: ComponentDecoding = ComponentDecodingDummy()
+    var logger: BeagleLoggerType = BeagleLoggerDumb()
+    var formDataStoreHandler: FormDataStoreHandling = FormDataStoreHandlerDummy()
     var navigationControllerType = BeagleNavigationController.self
+    var schemaLogger: SchemaLogger?
+    var urlBuilder: UrlBuilderProtocol = UrlBuilder()
+    var networkClient: NetworkClient = NetworkClientDummy()
+    var deepLinkHandler: DeepLinkScreenManaging?
+    var customActionHandler: CustomActionHandler?
+    var navigation: BeagleNavigation = BeagleNavigationDummy()
+    var windowManager: WindowManager = WindowManagerDumb()
+    var opener: URLOpener = URLOpenerDumb()
 
-    var renderer: (BeagleContext, RenderableDependencies) -> BeagleRenderer = {
-        return BeagleRenderer(context: $0, dependencies: $1)
+    var renderer: (BeagleController) -> BeagleRenderer = {
+        return BeagleRenderer(controller: $0)
     }
-
-    init(
-        actionExecutor: ActionExecutor = ActionExecutorDummy(),
-        flex: FlexViewConfiguratorProtocol = FlexViewConfiguratorDummy(),
-        repository: Repository = RepositoryStub(),
-        theme: Theme = AppThemeDummy(),
-        validatorProvider: ValidatorProvider = ValidatorProviding(),
-        preFetchHelper: BeaglePrefetchHelping = PreFetchHelperDummy(),
-        appBundle: Bundle = Bundle(for: ImageTests.self),
-        cacheManager: CacheManagerProtocol = CacheManagerDummy(),
-        decoder: ComponentDecoding = ComponentDecodingDummy(),
-        logger: BeagleLoggerType = BeagleLoggerDumb(),
-        analytics: Analytics = AnalyticsExecutorSpy(),
-        formDataStoreHandler: FormDataStoreHandling = FormDataStoreHandlerDummy()
-    ) {
-        self.actionExecutor = actionExecutor
-        self.flex = flex
-        self.repository = repository
-        self.theme = theme
-        self.validatorProvider = validatorProvider
-        self.preFetchHelper = preFetchHelper
-        self.appBundle = appBundle
-        self.cacheManager = cacheManager
-        self.decoder = decoder
-        self.logger = logger
-        self.analytics = analytics
-        self.formDataStoreHandler = formDataStoreHandler
+    var viewConfigurator: (UIView) -> ViewConfiguratorProtocol = {
+        return ViewConfigurator(view: $0)
+    }
+    var flex: (UIView) -> FlexViewConfiguratorProtocol = { _ in
+        return FlexViewConfiguratorDummy()
     }
 }
 
@@ -195,6 +185,10 @@ class NetworkClientDummy: NetworkClient {
 
 final class AppThemeDummy: Theme {
     func applyStyle<T>(for view: T, withId id: String) where T: UIView {
+    }
+}
 
+class BeagleNavigationDummy: BeagleNavigation {
+    func navigate(action: Navigate, controller: BeagleController, animated: Bool) {
     }
 }

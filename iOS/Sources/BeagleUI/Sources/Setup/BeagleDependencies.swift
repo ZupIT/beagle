@@ -17,10 +17,9 @@
 import UIKit
 import BeagleSchema
 
-public protocol BeagleDependenciesProtocol: DependencyActionExecutor,
+public protocol BeagleDependenciesProtocol: BeagleSchema.Dependencies,
     DependencyAnalyticsExecutor,
     DependencyUrlBuilder,
-    BeagleSchema.Dependencies,
     DependencyNetworkClient,
     DependencyDeepLinkScreenManaging,
     DependencyCustomActionHandler,
@@ -28,7 +27,12 @@ public protocol BeagleDependenciesProtocol: DependencyActionExecutor,
     DependencyNavigation,
     DependencyViewConfigurator,
     DependencyFlexConfigurator,
-    RenderableDependencies,
+    DependencyTheme,
+    DependencyValidatorProvider,
+    DependencyPreFetching,
+    DependencyAppBundle,
+    DependencyRepository,
+    DependencyLogger,
     DependencyWindowManager,
     DependencyURLOpener,
     DependencyCacheManager,
@@ -45,7 +49,6 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var validatorProvider: ValidatorProvider?
     public var deepLinkHandler: DeepLinkScreenManaging?
     public var customActionHandler: CustomActionHandler?
-    public var actionExecutor: ActionExecutor
     public var repository: Repository
     public var analytics: Analytics?
     public var navigationControllerType: BeagleNavigationController.Type
@@ -64,8 +67,8 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
 
     // MARK: Builders
 
-    public var renderer: (BeagleContext, RenderableDependencies) -> BeagleRenderer = {
-        return BeagleRenderer(context: $0, dependencies: $1)
+    public var renderer: (BeagleController) -> BeagleRenderer = {
+        return BeagleRenderer(controller: $0)
     }
 
     public var flex: (UIView) -> FlexViewConfiguratorProtocol = {
@@ -92,10 +95,9 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.decoder = BeagleSchema.DefaultDependencies().decoder
         self.formDataStoreHandler = FormDataStoreHandler()
         self.windowManager = WindowManagerDefault()
+        self.navigation = BeagleNavigator()
         
         self.networkClient = NetworkClientDefault(dependencies: resolver)
-        self.navigation = BeagleNavigator(dependencies: resolver)
-        self.actionExecutor = ActionExecuting(dependencies: resolver)
         self.repository = RepositoryDefault(dependencies: resolver)
         self.cacheManager = CacheManagerDefault(dependencies: resolver)
         self.opener = URLOpenerDefault(dependencies: resolver)
@@ -111,7 +113,6 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
 /// The problem happened because we needed to pass `self` as dependency before `init` has concluded.
 /// - Example: see where `resolver` is being used in the `BeagleDependencies` `init`.
 private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
-    ActionExecuting.Dependencies,
     DependencyNavigationController,
     DependencyDeepLinkScreenManaging,
     DependencyRepository,

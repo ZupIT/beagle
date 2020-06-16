@@ -21,53 +21,22 @@ import BeagleSchema
 
 final class FormTests: XCTestCase {
     
-    private lazy var formView = renderer.render(form)
-    
-    private lazy var renderer = BeagleRenderer(context: screen, dependencies: dependencies)
-    
-    private lazy var screen = BeagleScreenViewController(viewModel: .init(
-        screenType: .declarative(SimpleComponent().content.toScreen()),
-        dependencies: dependencies
-        ))
-    
-    private lazy var dependencies = BeagleScreenDependencies(
-        actionExecutor: actionExecutorSpy,
-        repository: repositoryStub,
-        validatorProvider: validator
-    )
-    
-    private lazy var repositoryStub = RepositoryStub()
-    private lazy var actionExecutorSpy = ActionExecutorSpy()
-    private lazy var validator = ValidatorProviding()
-    
-    private lazy var form: Form = {
-        let action = FormRemoteAction(path: "submit", method: .post)
-        let form = Form(action: action, child: Container(children: [
-            FormInput(name: "name", child: InputComponent(value: "John Doe")),
-            FormSubmit(child: Button(text: "Add"), enabled: true)
-        ]))
-        return form
-        }()
-    
-    func test_buildView_shouldRegisterFormSubmit() throws {
+    func test_buildView_shouldRegisterFormSubmit() {
         // Given
-        let formManager = FormManagerSpy()
-        let context = BeagleContextSpy(formManager: formManager)
-        let renderer = BeagleRenderer(context: context, dependencies: dependencies)
-    
+        let submitView = UILabel()
+        let sut = Form(
+            action: ActionDummy(),
+            child: FormSubmit(child: ComponentDummy(resultView: submitView))
+        )
+        let controller = BeagleControllerStub()
+        
         // When
-        _ = renderer.render(form)
+        _ = sut.toView(renderer: BeagleRenderer(controller: controller))
         
         // Then
-        XCTAssertTrue(formManager.didCallRegisterFormSubmit)
-    }
-    
-    private func findSubmitView(in view: UIView) -> FormSubmit.FormSubmitView? {
-        if let submit = view as? FormSubmit.FormSubmitView {
-            return submit
-        } else {
-            return view.subviews.first { findSubmitView(in: $0) != nil } as? FormSubmit.FormSubmitView
-        }
+        XCTAssertEqual(submitView.gestureRecognizers?.count, 1)
+        XCTAssert(submitView.gestureRecognizers?[0] is SubmitFormGestureRecognizer)
+        XCTAssert(submitView.isUserInteractionEnabled)
     }
 }
 
