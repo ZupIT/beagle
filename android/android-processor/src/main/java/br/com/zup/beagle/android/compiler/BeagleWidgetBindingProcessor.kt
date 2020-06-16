@@ -72,7 +72,7 @@ class BeagleWidgetBindingProcessor(
                 typeSpecBuilder.addProperty(getAttributeWidgetInstance(element))
                 typeSpecBuilder.addProperty(getAttributeView())
                 typeSpecBuilder.addFunction(getFunctionBuildView())
-//                typeSpecBuilder.addFunction(getFunctionOnBind())
+                typeSpecBuilder.addFunction(getFunctionOnBind())
                     .addFunction(
                         beagleWidgetBindingGenerator.getFunctionBindModel(element)
                     )
