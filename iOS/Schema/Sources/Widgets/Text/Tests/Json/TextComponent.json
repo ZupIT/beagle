@@ -3,7 +3,7 @@
   "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   "styleId": "test.text.style",
   "alignment": "RIGHT",
-  "textColor": "579F2B",
+  "textColor": "#579F2B",
   "style": {
     "backgroundColor": "#FFFF00",
     "cornerRadius": {
