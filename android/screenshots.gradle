@@ -16,57 +16,7 @@
 
 apply plugin: 'shot'
 
-ext {
-    localProp = new Properties()
-    fileName = 'local.properties'
-    if (project.rootProject.file(fileName).exists()) {
-        localProp.load(new FileInputStream(rootProject.file(fileName)))
-    }
-    screenShotsRecordedBaseDir =
-            System.env.VDTESTING_DOWNLOADED_FILES_DIR != null ?
-                    "${System.env.VDTESTING_DOWNLOADED_FILES_DIR}" :
-                    getArgument("screenShotsRecordedBaseDir", "${project.buildDir}/reports/shot/record/images/recorded")
-    screenShotsVerificationBaseDir =
-            System.env.SCREENSHOTS_VERIFICATION_BASE_DIR != null ?
-                    System.env.SCREENSHOTS_VERIFICATION_BASE_DIR :
-                    getArgument("screenShotsVerificationBaseDir", "${projectDir}/screenshots/screenshots-default")
-}
-
 shot {
-    runInstrumentation = Boolean.valueOf(getArgument("runInstrumentation", "true"))
+    runInstrumentation = true
 }
-
-project.afterEvaluate {
-
-    task copyVerificationFiles() {
-        doFirst {
-            println("screenShotsRecordedBaseDir=${screenShotsRecordedBaseDir}")
-            println("screenShotsVerificationBaseDir=${screenShotsVerificationBaseDir}")
-        }
-
-        fileTree(dir: "${screenShotsRecordedBaseDir}")
-                .filter { f ->
-                    f.name.contains("_screenshots-default_")
-                }.each { foundFile ->
-            def nameWithoutPrefix = foundFile.name.split("_screenshots-default_")[1]
-
-            copy {
-                from "${foundFile.path}"
-                into "${screenShotsVerificationBaseDir}"
-                rename { String fileName ->
-                    fileName.replace(foundFile.name, nameWithoutPrefix)
-                }
-            }
-        }
-    }
-
-    project.tasks.connectedDebugAndroidTest.finalizedBy project.tasks.executeScreenshotTests
-}
-
-private def getArgument(prop, defaultValue) {
-    def r = project.hasProperty(prop) ? project.getProperties().get(prop) : defaultValue
-    println("${prop}=${r}")
-    return r
-}
-
 
