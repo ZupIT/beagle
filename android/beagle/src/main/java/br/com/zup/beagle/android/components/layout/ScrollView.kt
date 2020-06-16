@@ -27,9 +27,9 @@ import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.core.ScrollAxis
 
 data class ScrollView(
-    private val children: List<ServerDrivenComponent>,
-    private val scrollDirection: ScrollAxis? = null,
-    private val scrollBarEnabled: Boolean? = null
+    val children: List<ServerDrivenComponent>,
+    val scrollDirection: ScrollAxis? = null,
+    val scrollBarEnabled: Boolean? = null
 ) : WidgetView() {
 
     @Transient
