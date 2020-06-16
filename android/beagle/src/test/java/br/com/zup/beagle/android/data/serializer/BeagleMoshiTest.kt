@@ -29,7 +29,6 @@ import br.com.zup.beagle.android.components.Image
 import br.com.zup.beagle.android.components.LazyComponent
 import br.com.zup.beagle.android.components.ListView
 import br.com.zup.beagle.android.components.NetworkImage
-import br.com.zup.beagle.android.components.Spacer
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.form.Form
 import br.com.zup.beagle.android.components.form.FormInput
@@ -41,7 +40,6 @@ import br.com.zup.beagle.android.components.page.PageIndicator
 import br.com.zup.beagle.android.components.page.PageView
 import br.com.zup.beagle.android.mockdata.CustomInputWidget
 import br.com.zup.beagle.android.mockdata.CustomWidget
-import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.widget.UndefinedWidget
 import br.com.zup.beagle.android.widget.WidgetView
@@ -116,33 +114,6 @@ class BeagleMoshiTest: BaseTest() {
     fun make_should_return_moshi_to_serialize_a_Container() {
         // Given
         val component = Container(listOf())
-
-        // When
-        val actual =
-            beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).toJson(component)
-
-        // Then
-        assertNotNull(JSONObject(actual))
-    }
-
-    @Test
-    fun make_should_return_moshi_to_deserialize_a_Spacer() {
-        // Given
-        val json = makeSpacerJson()
-
-        // When
-        val actual =
-            beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).fromJson(json)
-
-        // Then
-        assertNotNull(actual)
-        assertTrue(actual is Spacer)
-    }
-
-    @Test
-    fun make_should_return_moshi_to_serialize_a_Spacer() {
-        // Given
-        val component = Spacer(10.0)
 
         // When
         val actual =
