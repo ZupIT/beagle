@@ -46,6 +46,7 @@ import br.com.zup.beagle.sample.constants.SCREEN_SCROLL_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TAB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TOUCHABLE_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_WEB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.micronaut.service.AccessibilityService
 import br.com.zup.beagle.sample.micronaut.service.SampleActionClickService
 import br.com.zup.beagle.sample.micronaut.service.SampleActionService
@@ -66,6 +67,7 @@ import br.com.zup.beagle.sample.micronaut.service.SampleTabViewService
 import br.com.zup.beagle.sample.micronaut.service.SampleTextService
 import br.com.zup.beagle.sample.micronaut.service.SampleTouchableService
 import br.com.zup.beagle.sample.micronaut.service.SampleViewService
+import br.com.zup.beagle.sample.micronaut.service.WebViewService
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 
@@ -90,7 +92,8 @@ class ScreenController(
     private val sampleComposeComponentService: SampleComposeComponentService,
     private val sampleNetworkImageService: SampleNetworkImageService,
     private val sampleTouchableService: SampleTouchableService,
-    private val sampleActionClickService: SampleActionClickService
+    private val sampleActionClickService: SampleActionClickService,
+    private val sampleWebViewService: WebViewService
 ) {
     @Get(ACCESSIBILITY_SCREEN_ENDPOINT)
     fun getAccessibilityView() = this.accessibilityService.createAccessibilityView()
@@ -176,4 +179,7 @@ class ScreenController(
 
     @Get(SCREEN_EXAMPLE_ENDPOINT)
     fun getNavigationExample() = this.sampleActionService.getNavigateExample()
+
+    @Get(SCREEN_WEB_VIEW_ENDPOINT)
+    fun getsampleWebViewService() = this.sampleWebViewService.createWebView()
 }
