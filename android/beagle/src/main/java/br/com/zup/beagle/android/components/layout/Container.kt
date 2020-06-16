@@ -25,7 +25,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.Flex
 
 data class Container(
-    private val children: List<ServerDrivenComponent>
+    val children: List<ServerDrivenComponent>
 ) : WidgetView() {
 
     @Transient
