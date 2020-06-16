@@ -15,7 +15,9 @@
     - dataStore: 0 key/value pairs
   - logEnable: true
   ▿ logger: BeagleLoggerProxy
-    - logger: BeagleLoggerDumb
+    ▿ dependencies: InnerDependenciesResolver
+      - container: (Function)
+    - logger: BeagleLoggerDefault
   ▿ navigation: BeagleNavigator
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
