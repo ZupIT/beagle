@@ -56,9 +56,7 @@ internal class ContextDataManager(
 
     fun addBindingToContext(binding: Bind.Expression<*>) {
         val contextId = binding.getContextId()
-        if (contexts.containsKey(contextId)) {
-            contexts[contextId]?.bindings?.add(binding)
-        }
+        contexts[contextId]?.bindings?.add(binding)
     }
 
     fun updateContext(setContextInternal: SetContextInternal): Boolean {
