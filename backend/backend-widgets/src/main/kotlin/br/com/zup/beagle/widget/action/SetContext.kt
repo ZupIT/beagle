@@ -16,8 +16,17 @@
 
 package br.com.zup.beagle.widget.action
 
+import br.com.zup.beagle.widget.context.Bind
+
 data class SetContext(
     val contextId: String,
-    val value: Any,
+    val value: Bind<Any>,
     val path: String? = null
-) : Action
+) : Action {
+
+    constructor(
+        contextId: String,
+        value: Any,
+        path: String? = null
+    ) : this(contextId, Bind.Value(value), path)
+}

@@ -27,7 +27,7 @@ import br.com.zup.beagle.android.utils.ViewModelProviderFactory
 import br.com.zup.beagle.android.utils.contextActionExecutor
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.view.viewmodel.Response
-import br.com.zup.beagle.android.widget.Bind.Companion.valueOf
+import br.com.zup.beagle.android.context.Bind.Companion.valueOf
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just

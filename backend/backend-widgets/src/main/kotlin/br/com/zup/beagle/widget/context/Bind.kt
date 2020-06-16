@@ -14,11 +14,17 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.core
+package br.com.zup.beagle.widget.context
 
+import br.com.zup.beagle.core.BindAttribute
 import java.io.Serializable
 
 sealed class Bind<T> : BindAttribute<T>, Serializable {
     data class Expression<T>(override val value: String): Bind<T>()
     data class Value<T: Any>(override val value: T): Bind<T>()
+
+    companion object {
+        inline fun <reified T> expressionOf(expression: String) = Expression<T>(expression)
+        inline fun <reified T : Any> valueOf(value: T) = Value(value)
+    }
 }

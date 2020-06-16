@@ -20,7 +20,7 @@ import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.utils.get
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.Bind
+import br.com.zup.beagle.android.context.Bind
 
 internal data class SetContextInternal(
     val contextId: String,
@@ -33,6 +33,12 @@ data class SetContext(
     val value: Bind<Any>,
     val path: String? = null
 ) : Action {
+
+    constructor(
+        contextId: String,
+        value: Any,
+        path: String? = null
+    ) : this(contextId, Bind.Value(value), path)
 
     override fun execute(rootView: RootView) {
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()

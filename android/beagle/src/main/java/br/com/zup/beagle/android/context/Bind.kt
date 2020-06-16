@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.widget
+package br.com.zup.beagle.android.context
 
 import br.com.zup.beagle.core.BindAttribute
 

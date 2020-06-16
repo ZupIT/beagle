@@ -22,7 +22,7 @@ import br.com.zup.beagle.android.utils.get
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.Bind
+import br.com.zup.beagle.android.context.Bind
 
 @SuppressWarnings("UNUSED_PARAMETER")
 enum class RequestActionMethod {
@@ -36,13 +36,31 @@ enum class RequestActionMethod {
 
 data class SendRequest(
     val url: Bind<String>,
-    val method: RequestActionMethod = RequestActionMethod.GET,
-    val headers: Map<String, String> = mapOf(),
-    val data: Bind<Any>? = null,
+    val method: Bind<RequestActionMethod> = Bind.Value(RequestActionMethod.GET),
+    val headers: Bind<Map<String, String>>?,
+    val data: Bind<String>? = null,
     val onSuccess: Action? = null,
     val onError: Action? = null,
     val onFinish: Action? = null
 ) : Action {
+
+    constructor(
+        url: String,
+        method: RequestActionMethod = RequestActionMethod.GET,
+        headers: Map<String, String>?,
+        data: String? = null,
+        onSuccess: Action? = null,
+        onError: Action? = null,
+        onFinish: Action? = null
+    ) : this(
+        Bind.Value(url),
+        Bind.Value(method),
+        if (headers != null) Bind.Value(headers) else headers,
+        if (data != null) Bind.Value(data) else data,
+        onSuccess,
+        onError,
+        onFinish
+    )
 
     override fun execute(rootView: RootView) {
         val viewModel = rootView.generateViewModelInstance<ActionRequestViewModel>()
@@ -73,8 +91,8 @@ data class SendRequest(
 
     private fun toSendRequestInternal(rootView: RootView) = SendRequestInternal(
         url = this.url.get(rootView) ?: "",
-        method = this.method,
-        headers = this.headers,
+        method = this.method.get(rootView) ?: RequestActionMethod.GET,
+        headers = this.headers?.get(rootView),
         data = this.data?.get(rootView),
         onSuccess = this.onSuccess,
         onError = this.onError,
@@ -85,7 +103,7 @@ data class SendRequest(
 internal data class SendRequestInternal(
     val url: String,
     val method: RequestActionMethod = RequestActionMethod.GET,
-    val headers: Map<String, String> = mapOf(),
+    val headers: Map<String, String>?,
     val data: Any? = null,
     val onSuccess: Action? = null,
     val onError: Action? = null,

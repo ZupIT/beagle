@@ -21,7 +21,6 @@ import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.jsonpath.JsonPathReplacer
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
-import br.com.zup.beagle.android.widget.Bind
 import com.squareup.moshi.Moshi
 import org.json.JSONArray
 import org.json.JSONObject

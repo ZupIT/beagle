@@ -16,15 +16,35 @@
 
 package br.com.zup.beagle.widget.action
 
+import br.com.zup.beagle.widget.context.Bind
+
 data class SendRequest(
-    val url: String,
-    val method: RequestActionMethod = RequestActionMethod.GET,
-    val headers: Map<String, String> = mapOf(),
-    val body: String? = null,
+    val url: Bind<String>,
+    val method: Bind<RequestActionMethod> = Bind.Value(RequestActionMethod.GET),
+    val headers: Bind<Map<String, String>>?,
+    val data: String? = null,
     val onSuccess: Action? = null,
     val onError: Action? = null,
     val onFinish: Action? = null
-) : Action
+) : Action {
+    constructor(
+        url: String,
+        method: RequestActionMethod = RequestActionMethod.GET,
+        headers: Map<String, String>?,
+        dataValue: String? = null,
+        onSuccess: Action? = null,
+        onError: Action? = null,
+        onFinish: Action? = null
+    ) : this(
+        Bind.Value(url),
+        Bind.Value(method),
+        if (headers != null) Bind.Value(headers) else headers,
+        dataValue,
+        onSuccess,
+        onError,
+        onFinish
+    )
+}
 
 @SuppressWarnings("UNUSED_PARAMETER")
 enum class RequestActionMethod {

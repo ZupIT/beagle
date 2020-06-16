@@ -16,8 +16,6 @@
 
 package br.com.zup.beagle.android.context
 
-import androidx.collection.LruCache
-import br.com.zup.beagle.android.action.SetContext
 import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
@@ -25,7 +23,6 @@ import br.com.zup.beagle.android.jsonpath.JsonPathReplacer
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.testutil.getPrivateField
-import br.com.zup.beagle.android.widget.Bind
 import com.squareup.moshi.Moshi
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
