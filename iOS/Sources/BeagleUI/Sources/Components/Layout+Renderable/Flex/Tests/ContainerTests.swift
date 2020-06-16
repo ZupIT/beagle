@@ -54,7 +54,8 @@ final class ContainerTests: XCTestCase {
     
     func test_toView_shouldReturnTheExpectedView() throws {
         //Given
-        let renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: BeagleScreenDependencies())
+        let controller = BeagleControllerStub()
+        let renderer = BeagleRenderer(controller: controller)
         let numberOfChilds = 3
         let containerChilds = Array(repeating: ComponentDummy(), count: numberOfChilds)
         let container = Container(children: containerChilds)

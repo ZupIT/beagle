@@ -25,11 +25,12 @@ final class BeagleNavigatorTests: XCTestCase {
         // Given
         let opener = URLOpenerDumb()
         let action = Navigate.openExternalURL("https://localhost:8080")
-        let context = BeagleScreenViewController(component: ComponentDummy())
-        let sut = BeagleNavigator(dependencies: NavigatorDependencies(opener: opener))
+        let dependencies = BeagleScreenDependencies(opener: opener)
+        let controller = BeagleControllerStub(dependencies: dependencies)
+        let sut = BeagleNavigator()
 
         // When
-        sut.navigate(action: action, context: context)
+        sut.navigate(action: action, controller: controller)
 
         // Then
         XCTAssert(opener.hasInvokedTryToOpen == true)
@@ -37,13 +38,13 @@ final class BeagleNavigatorTests: XCTestCase {
     
     func test_openDeepLink_shouldNotPushANativeScreenToNavigationWhenDeepLinkHandlerItsNotSet() {
         // Given
-        let sut = BeagleNavigator(dependencies: NavigatorDependencies())
+        let sut = BeagleNavigator()
         let action = Navigate.openNativeRoute("https://example.com/screen.json")
-        let context = BeagleScreenViewController(component: ComponentDummy())
-        let navigation = BeagleNavigationController(rootViewController: context)
+        let controller = BeagleControllerStub()
+        let navigation = BeagleNavigationController(rootViewController: controller)
         
         // When
-        sut.navigate(action: action, context: context)
+        sut.navigate(action: action, controller: controller)
         
         //Then
         XCTAssert(navigation.viewControllers.count == 1)
@@ -54,14 +55,14 @@ final class BeagleNavigatorTests: XCTestCase {
         // Given
         let windowMock = WindowMock()
         let windowManager = WindowManagerDumb(window: windowMock)
-        let dependencies = NavigatorDependencies(windowManager: windowManager)
-        let sut = BeagleNavigator(dependencies: dependencies)
-        let context = BeagleScreenViewController(component: ComponentDummy())
+        let dependencies = BeagleScreenDependencies(windowManager: windowManager)
+        let sut = BeagleNavigator()
+        let controller = BeagleControllerStub(dependencies: dependencies)
 
         let resetRemote = Navigate.resetApplication(.remote("https://example.com/screen.json"))
 
         // When
-        sut.navigate(action: resetRemote, context: context)
+        sut.navigate(action: resetRemote, controller: controller)
 
         // Then
         XCTAssert(windowMock.hasInvokedReplaceRootViewController == true)
@@ -72,14 +73,14 @@ final class BeagleNavigatorTests: XCTestCase {
         // Given
         let windowMock = WindowMock()
         let windowManager = WindowManagerDumb(window: windowMock)
-        let dependencies = NavigatorDependencies(windowManager: windowManager)
-        let sut = BeagleNavigator(dependencies: dependencies)
-        let context = BeagleScreenViewController(component: ComponentDummy())
+        let dependencies = BeagleScreenDependencies(windowManager: windowManager)
+        let sut = BeagleNavigator()
+        let controller = BeagleControllerStub(dependencies: dependencies)
 
         let resetDeclarative = Navigate.resetApplication(.declarative(Screen(child: Text("Declarative"))))
 
         // When
-        sut.navigate(action: resetDeclarative, context: context)
+        sut.navigate(action: resetDeclarative, controller: controller)
 
         // Then
         XCTAssert(windowMock.hasInvokedReplaceRootViewController == true)
@@ -94,16 +95,16 @@ final class BeagleNavigatorTests: XCTestCase {
     }
     
     private func swapViewTest(_ navigate: Navigate) {
-        let sut = BeagleNavigator(dependencies: NavigatorDependencies())
-        let firstViewController = BeagleScreenViewController(component: Text("First"))
-        let secondViewController = BeagleScreenViewController(component: Text("Second"))
+        let sut = BeagleNavigator()
+        let firstViewController = UIViewController()
+        let secondViewController = BeagleControllerStub()
         let navigation = BeagleNavigationController()
         navigation.viewControllers = [firstViewController, secondViewController]
         
-        sut.navigate(action: navigate, context: secondViewController)
+        sut.navigate(action: navigate, controller: secondViewController)
         
         XCTAssertEqual(1, navigation.viewControllers.count)
-        XCTAssert(navigation.viewControllers.last is BeagleScreenViewController)
+        XCTAssert(navigation.viewControllers.last is BeagleController)
     }
 
     func test_addView_shouldPushScreenInNavigation() {
@@ -115,26 +116,24 @@ final class BeagleNavigatorTests: XCTestCase {
     }
     
     private func addViewTest(_ navigate: Navigate) {
-        let sut = BeagleNavigator(dependencies: NavigatorDependencies())
-        let firstViewController = BeagleScreenViewController(component: Text("First"))
+        let sut = BeagleNavigator()
+        let firstViewController = BeagleControllerStub()
         let navigation = BeagleNavigationController(rootViewController: firstViewController)
         
-        sut.navigate(action: navigate, context: firstViewController)
+        sut.navigate(action: navigate, controller: firstViewController)
         
         XCTAssertEqual(2, navigation.viewControllers.count)
-        XCTAssert(navigation.viewControllers.last is BeagleScreenViewController)
+        XCTAssert(navigation.viewControllers.last is BeagleController)
     }
 
     func test_popStack_shouldDismissNavigation() {
         // Given
-        let sut = BeagleNavigator(dependencies: NavigatorDependencies())
+        let sut = BeagleNavigator()
         let action = Navigate.popStack
-        let navigationSpy = UINavigationControllerSpy(
-            viewModel: .init(screenType: .declarative(ComponentDummy().toScreen()))
-        )
+        let navigationSpy = BeagleControllerNavigationSpy()
 
         // When
-        sut.navigate(action: action, context: navigationSpy)
+        sut.navigate(action: action, controller: navigationSpy)
 
         // Then
         XCTAssert(navigationSpy.dismissViewControllerCalled)
@@ -142,42 +141,40 @@ final class BeagleNavigatorTests: XCTestCase {
 
     func test_popView_shouldPopNavigationScreen() {
         // Given
-        let sut = BeagleNavigator(dependencies: NavigatorDependencies())
+        let sut = BeagleNavigator()
         let action = Navigate.popView
-        let firstViewController = BeagleScreenViewController(component: Text("First"))
-        let secondViewController = BeagleScreenViewController(component: Text("Second"))
-        let thirdViewController = BeagleScreenViewController(component: Text("Third"))
+        let firstViewController = BeagleControllerStub()
+        let secondViewController = UIViewController()
+        let thirdViewController = BeagleControllerStub()
         let navigation = BeagleNavigationController()
         navigation.viewControllers = [firstViewController, secondViewController, thirdViewController]
 
         // When
-        sut.navigate(action: action, context: thirdViewController)
+        sut.navigate(action: action, controller: thirdViewController)
 
         // Then
         XCTAssert(navigation.viewControllers.count == 2)
     }
 
     func test_popToView_shouldNotNavigateWhenScreenIsNotFound() {
+        
         // Given
-        let screenURL1 = "https://example.com/screen1.json"
-        let screenURL2 = "https://example.com/screen2.json"
-        let screenURL3 = "https://example.com/screen3.json"
-        let sut = BeagleNavigator(dependencies: NavigatorDependencies())
-        let component = SimpleComponent()
-        let action = Navigate.popToView(screenURL1)
-        let vc1 = beagleViewController(screen: .declarative(component.content.toScreen()))
-        let vc2 = beagleViewController(screen: .remote(.init(url: screenURL2)))
-        let vc3 = beagleViewController(screen: .remote(.init(url: screenURL3)))
+        let sut = BeagleNavigator()
+        let action = Navigate.popToView("screenURL1")
+        let dependencies = BeagleScreenDependencies(urlBuilder: UrlBuilder())
+        let vc1 = BeagleControllerStub(dependencies: dependencies)
+        let vc2 = BeagleControllerStub(dependencies: dependencies)
+        let vc3 = BeagleControllerStub(dependencies: dependencies)
         let vc4 = UIViewController()
         let navigation = BeagleNavigationController()
         navigation.viewControllers = [vc1, vc2, vc3, vc4]
 
         // When
-        sut.navigate(action: action, context: vc3)
+        sut.navigate(action: action, controller: vc2)
 
         // Then
-        XCTAssert(navigation.viewControllers.count == 4)
-        XCTAssert(navigation.viewControllers.last == vc4)
+        XCTAssertEqual(navigation.viewControllers.count, 4)
+        XCTAssertEqual(navigation.viewControllers.last, vc4)
     }
 
     func test_popToView_shouldRemoveFromStackScreensAfterTargetScreen() {
@@ -185,62 +182,66 @@ final class BeagleNavigatorTests: XCTestCase {
         let screenURL1 = "https://example.com/screen1.json"
         let screenURL2 = "https://example.com/screen2.json"
         let screenURL3 = "https://example.com/screen3.json"
-        let sut = BeagleNavigator(dependencies: NavigatorDependencies())
+        let sut = BeagleNavigator()
         let action = Navigate.popToView(screenURL2)
-        let vc1 = beagleViewController(screen: .remote(.init(url: screenURL1)))
-        let vc2 = beagleViewController(screen: .remote(.init(url: screenURL2)))
-        let vc3 = beagleViewController(screen: .remote(.init(url: screenURL3)))
+        let dependencies = BeagleScreenDependencies(urlBuilder: UrlBuilder())
+        let vc1 = BeagleControllerStub(.remote(.init(url: screenURL1)), dependencies: dependencies)
+        let vc2 = BeagleControllerStub(.remote(.init(url: screenURL2)), dependencies: dependencies)
+        let vc3 = BeagleControllerStub(.remote(.init(url: screenURL3)), dependencies: dependencies)
         let vc4 = UIViewController()
         let navigation = BeagleNavigationController()
         navigation.viewControllers = [vc1, vc2, vc3, vc4]
 
         // When
-        sut.navigate(action: action, context: vc3)
+        sut.navigate(action: action, controller: vc3)
 
         // Then
-        XCTAssert(navigation.viewControllers.count == 2)
-        XCTAssert(navigation.viewControllers.last == vc2)
+        XCTAssertEqual(navigation.viewControllers.count, 2)
+        XCTAssertEqual(navigation.viewControllers.last, vc2)
     }
     
     func test_popToView_absoluteURL() {
         let dependecies = BeagleDependencies()
         dependecies.urlBuilder.baseUrl = URL(string: "https://server.com/path/")
-        let sut = BeagleNavigator(dependencies: dependecies)
-        let screen = beagleViewController(screen: .remote(.init(url: "/screen")))
+        let sut = BeagleNavigator()
+        
+        let target = BeagleControllerStub(.remote(.init(url: "/screen")), dependencies: dependecies)
+        let declarative = BeagleControllerStub(.declarative(Screen(child: ComponentDummy())), dependencies: dependecies)
+        let remote = BeagleControllerStub(.remote(.init(url: "remote")), dependencies: dependecies)
+        let current = BeagleControllerStub(.declarativeText("{}"), dependencies: dependecies)
 
-        let navigation = BeagleNavigationController()
-        let stack = [screen, BeagleScreenViewController(component: ComponentDummy()), BeagleScreenViewController(component: ComponentDummy())]
+        let navigation = UINavigationController()
+        let stack = [target, declarative, remote, current]
         navigation.viewControllers = stack
         
         sut.navigate(
             action: Navigate.popToView("https://server.com/path/screen"),
-            context: screen
+            controller: current
         )
-        XCTAssert(navigation.viewControllers.last == screen)
+        XCTAssertEqual(navigation.viewControllers.last, target)
         
         navigation.viewControllers = stack
         sut.navigate(
             action: Navigate.popToView("/screen"),
-            context: BeagleContextDummy(viewController: stack[2])
+            controller: current
         )
-        XCTAssert(navigation.viewControllers.last == screen)
+        XCTAssertEqual(navigation.viewControllers.last, target)
     }
     
     func test_popToView_byIdentifier() {
         // Given
-        let sut = BeagleNavigator(dependencies: NavigatorDependencies())
-        let vc1 = beagleViewController(screen: .declarative(Screen(id: "1", child: Text("Screen 1"))))
-        let vc2 = beagleViewController(screen: .declarative(Screen(id: "2", child: Text("Screen 2"))))
+        let sut = BeagleNavigator()
+        let vc1 = BeagleControllerStub(.declarative(Screen(id: "1", child: Text("Screen 1"))))
+        let vc2 = BeagleControllerStub(.declarative(Screen(id: "2", child: Text("Screen 2"))))
         let vc3 = UIViewController()
-        let vc4 = beagleViewController(screen: .declarative(Screen(id: "4", child: Text("Screen 4"))))
+        let vc4 = BeagleControllerStub(.declarative(Screen(id: "4", child: Text("Screen 4"))))
         let action = Navigate.popToView("2")
         
-        let context = BeagleContextDummy(viewController: vc4)
         let navigation = UINavigationController()
         navigation.viewControllers = [vc1, vc2, vc3, vc4]
         
         // When
-        sut.navigate(action: action, context: context)
+        sut.navigate(action: action, controller: vc4)
         
         // Then
         XCTAssert(navigation.viewControllers.count == 2)
@@ -256,30 +257,28 @@ final class BeagleNavigatorTests: XCTestCase {
     }
     
     private func pushStackTest(_ navigate: Navigate) {
-        let sut = BeagleNavigator(dependencies: NavigatorDependencies())
-        let navigationSpy = UINavigationControllerSpy(
-            viewModel: .init(screenType: .declarative(ComponentDummy().toScreen()))
-        )
+        let sut = BeagleNavigator()
+        let navigationSpy = BeagleControllerNavigationSpy()
         
-        sut.navigate(action: navigate, context: navigationSpy)
+        sut.navigate(action: navigate, controller: navigationSpy)
         
-        XCTAssert(navigationSpy.presentViewControllerCalled)
+        XCTAssertNotNil(navigationSpy.viewControllerToPresent)
     }
     
     func test_openDeepLink_shouldPushANativeScreenWithData() {
         // Given
         let deepLinkSpy = DeepLinkHandlerSpy()
-        let dependencies = NavigatorDependencies(deepLinkHandler: deepLinkSpy)
-        let sut = BeagleNavigator(dependencies: dependencies)
+        let sut = BeagleNavigator()
         
         let data = ["uma": "uma", "dois": "duas"]
         let path = "https://example.com/screen.json"
         let action = Navigate.openNativeRoute(path, data: data)
-        let firstViewController = BeagleScreenViewController(component: Text("First"))
+        let firstViewController = BeagleControllerStub()
+        firstViewController.dependencies = BeagleScreenDependencies(deepLinkHandler: deepLinkSpy)
         let navigation = BeagleNavigationController(rootViewController: firstViewController)
         
         // When
-        sut.navigate(action: action, context: firstViewController)
+        sut.navigate(action: action, controller: firstViewController)
         
         //Then
         XCTAssertEqual(2, navigation.viewControllers.count)
@@ -287,12 +286,6 @@ final class BeagleNavigatorTests: XCTestCase {
         XCTAssertEqual(path, deepLinkSpy.calledPath)
     }
 
-    private func beagleViewController(screen: ScreenType) -> BeagleScreenViewController {
-        return BeagleScreenViewController(viewModel: .init(
-            screenType: screen,
-            dependencies: BeagleScreenDependencies()
-        ))
-    }
 }
 
 class DeepLinkHandlerSpy: DeepLinkScreenManaging {
@@ -306,75 +299,17 @@ class DeepLinkHandlerSpy: DeepLinkScreenManaging {
     }
 }
 
-class FormManagerDummy: FormManaging {
-    func register(form: Form, formView: UIView, submitView: UIView, validatorHandler: ValidatorProvider?) { }
-}
-
-class LazyLoadManagerDummy: LazyLoadManaging {
-    func lazyLoad(url: String, initialState: UIView) {}
-}
-
-class ActionManagerDummy: ActionManaging {
-    func register(events: [Event], inView view: UIView) {}
-    func doAction(_ action: Action, sender: Any) {}
-    func doAnalyticsAction(_ action: AnalyticsClick, sender: Any) {}
-}
-
-class BeagleContextDummy: BeagleUI.BeagleContext {
-    var formManager: FormManaging
+class BeagleControllerNavigationSpy: BeagleControllerStub {
+    private(set) var viewControllerToPresent: UIViewController?
+    private(set) var dismissViewControllerCalled = false
     
-    var lazyLoadManager: LazyLoadManaging
-    
-    var actionManager: ActionManaging
-    
-    let viewController: BeagleScreenViewController
-    
-    init() {
-        self.viewController = BeagleScreenViewControllerDummy(viewModel: .init(screenType: .declarative(ComponentDummy().toScreen())))
-        self.formManager = FormManagerDummy()
-        self.lazyLoadManager = LazyLoadManagerDummy()
-        self.actionManager = ActionManagerDummy()
+    override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
+        self.viewControllerToPresent = viewControllerToPresent
+        super.present(viewControllerToPresent, animated: flag, completion: completion)
     }
     
-    init(viewController: BeagleScreenViewController) {
-        self.viewController = viewController
-        self.formManager = FormManagerDummy()
-        self.lazyLoadManager = LazyLoadManagerDummy()
-        self.actionManager = ActionManagerDummy()
-    }
-    
-    var screenController: BeagleScreenViewController { return viewController }
-    
-    func doAnalyticsAction(_ action: AnalyticsClick, sender: Any) {}
-    func register(form: Form, formView: UIView, submitView: UIView, validatorHandler validator: ValidatorProvider?) {}
-    func register(formSubmitEnabledWidget: BeagleUI.Widget?, formSubmitDisabledWidget: BeagleUI.Widget?) {}
-    func lazyLoad(url: String, initialState: UIView) {}
-    func doAction(_ action: Action, sender: Any) {}
-    func applyLayout() {}
-    func register(events: [Event], inView view: UIView) { }
-}
-
-let renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: BeagleScreenDependencies())
-
-struct NavigatorDependencies: BeagleNavigator.Dependencies {
-    var deepLinkHandler: DeepLinkScreenManaging?
-    var urlBuilder: UrlBuilderProtocol = UrlBuilder()
-    var logger: BeagleLoggerType = BeagleLoggerDumb()
-    var windowManager: WindowManager = WindowManagerDumb()
-    var opener: URLOpener = URLOpenerDumb()
-    var navigationControllerType = BeagleNavigationController.self
-
-    init(
-        deepLinkHandler: DeepLinkScreenManaging? = nil,
-        urlBuilder: UrlBuilderProtocol = UrlBuilder(),
-        logger: BeagleLoggerType = BeagleLoggerDumb(),
-        windowManager: WindowManager = WindowManagerDumb(),
-        opener: URLOpener = URLOpenerDumb()
-    ) {
-        self.deepLinkHandler = deepLinkHandler
-        self.urlBuilder = urlBuilder
-        self.logger = logger
-        self.windowManager = windowManager
-        self.opener = opener
+    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+        dismissViewControllerCalled = true
+        super.dismiss(animated: flag, completion: completion)
     }
 }

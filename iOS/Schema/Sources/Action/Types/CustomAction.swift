@@ -17,7 +17,7 @@
 import Foundation
 
 /// A custom action to be implemented by the application
-public struct CustomAction: Action, AutoInitiable {
+public struct CustomAction: RawAction, AutoInitiable {
     
     public let name: String
     public let data: [String: String]

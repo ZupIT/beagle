@@ -24,6 +24,8 @@ final class UnknownComponentTests: XCTestCase {
     func test_toView_shouldReturnTheExpectedView() {
         // Given
         let component = UnknownComponent(type: String(describing: ComponentDummy()))
+        let controller = BeagleControllerStub()
+        let renderer = BeagleRenderer(controller: controller)
         
         // When
         let view = renderer.render(component)

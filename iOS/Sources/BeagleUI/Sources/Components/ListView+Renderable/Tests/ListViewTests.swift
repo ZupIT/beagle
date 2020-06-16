@@ -146,7 +146,8 @@ final class ListViewTests: XCTestCase {
     // MARK: - Helper
 
     private func makeListUiView(_ listComponent: ListView) -> UIView {
-        let renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: BeagleDependencies())
+        let controller = BeagleControllerStub()
+        let renderer = BeagleRenderer(controller: controller)
         return renderer.render(listComponent)
     }
 
