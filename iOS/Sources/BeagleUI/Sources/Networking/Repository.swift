@@ -15,6 +15,7 @@
  */
 
 import Foundation
+import BeagleSchema
 
 public protocol Repository {
 
@@ -30,7 +31,7 @@ public protocol Repository {
         url: String,
         additionalData: RemoteScreenAdditionalData?,
         data: Request.FormData,
-        completion: @escaping (Result<Action, Request.Error>) -> Void
+        completion: @escaping (Result<RawAction, Request.Error>) -> Void
     ) -> RequestToken?
 
     @discardableResult
@@ -52,7 +53,7 @@ public final class RepositoryDefault: Repository {
     // MARK: Dependencies
 
     public typealias Dependencies =
-        DependencyComponentDecoding
+        BeagleSchema.DependencyDecoder
         & DependencyNetworkClient
         & DependencyCacheManager
         & DependencyUrlBuilder
@@ -108,7 +109,7 @@ public final class RepositoryDefault: Repository {
         url: String,
         additionalData: RemoteScreenAdditionalData?,
         data: Request.FormData,
-        completion: @escaping (Result<Action, Request.Error>) -> Void
+        completion: @escaping (Result<RawAction, Request.Error>) -> Void
     ) -> RequestToken? {
         
         guard let request = handleUrlBuilderRequest(url: url, type: .submitForm(data), additionalData: additionalData)
@@ -171,18 +172,21 @@ public final class RepositoryDefault: Repository {
         return decoded
     }
 
+    //TODO: change loadFromTextError inside guard let to give a more proper error
     private func decodeComponent(from data: Data) -> Result<ServerDrivenComponent, Request.Error> {
         do {
-            let component = try dependencies.decoder.decodeComponent(from: data)
+            guard let component = try dependencies.decoder.decodeComponent(from: data) as? ServerDrivenComponent else {
+                return .failure(.loadFromTextError)
+            }
             return .success(component)
         } catch {
             return .failure(.decoding(error))
         }
     }
 
-    private func handleForm(_ data: Data) -> Result<Action, Request.Error> {
+    private func handleForm(_ data: Data) -> Result<RawAction, Request.Error> {
         do {
-            let action: Action = try dependencies.decoder.decodeAction(from: data)
+            let action = try dependencies.decoder.decodeAction(from: data)
             return .success(action)
         } catch {
             return .failure(.decoding(error))

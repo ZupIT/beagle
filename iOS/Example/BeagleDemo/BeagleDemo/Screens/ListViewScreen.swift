@@ -16,6 +16,7 @@
 
 import UIKit
 import BeagleUI
+import BeagleSchema
 
 struct ListViewScreen: DeeplinkScreen {
     

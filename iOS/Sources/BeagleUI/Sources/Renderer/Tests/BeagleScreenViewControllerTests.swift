@@ -17,6 +17,7 @@
 import XCTest
 @testable import BeagleUI
 import SnapshotTesting
+import BeagleSchema
 
 final class BeagleScreenViewControllerTests: XCTestCase {
     
@@ -63,7 +64,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
             
             override func serverDrivenStateDidChange(
                 to state: ServerDrivenState,
-                at screenController: BeagleScreenViewController
+                at screenController: BeagleController
             ) {
                 if case .error(let error) = state, case .remoteScreen(let remoteError) = error {
                     remoteScreenError = remoteError
@@ -86,7 +87,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
     
     func test_handleSafeArea() {
         let sut = safeAreaController(content: Text(""))
-        assertSnapshotImage(sut, size: CGSize(width: 200, height: 200))
+        assertSnapshotImage(sut, size: .custom(CGSize(width: 200, height: 200)))
     }
     
     func test_handleKeyboard() {
@@ -115,10 +116,10 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         ])
         
         postKeyboardNotification()
-        assertSnapshotImage(sut, size: CGSize(width: 414, height: 896))
+        assertSnapshotImage(sut, size: .custom(CGSize(width: 414, height: 896)))
     }
     
-    private func safeAreaController(content: ServerDrivenComponent) -> UIViewController {
+    private func safeAreaController(content: BeagleUI.ServerDrivenComponent) -> UIViewController {
         let screen = Screen(
             style: Style(backgroundColor: "#0000FF"),
             navigationBar: NavigationBar(title: "Test Safe Area"),
@@ -127,7 +128,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
                 widgetProperties: .init(style: Style(backgroundColor: "#00FF00"), flex: Flex(grow: 1, margin: .init(all: .init(value: 10, type: .real))))
             )
         )
-        let screenController = BeagleScreenViewController(screen: screen)
+        let screenController = BeagleScreenViewController(.declarative(screen))
         screenController.additionalSafeAreaInsets = UIEdgeInsets(top: 10, left: 20, bottom: 30, right: 40)
         let navigation = BeagleNavigationController(rootViewController: screenController)
         navigation.navigationBar.barTintColor = .white
@@ -184,7 +185,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
             dependencies: dependencies
         ))
 
-        assertSnapshotImage(sut, size: CGSize(width: 50, height: 25))
+        assertSnapshotImage(sut, size: .custom(CGSize(width: 50, height: 25)))
     }
     
    func test_loadPreFetchedScreen() {
@@ -215,7 +216,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
             dependencies: dependencies
         ))
         
-        assertSnapshotImage(screen, size: CGSize(width: 100, height: 75))
+        assertSnapshotImage(screen, size: .custom(CGSize(width: 100, height: 75)))
     }
     
     func test_whenLoadScreenFails_itShouldRenderFallbackScreen() {
@@ -232,7 +233,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
             screenType: .remote(.init(url: "url", fallback: fallback)),
             dependencies: dependencies
         ))
-        assertSnapshotImage(screen, size: CGSize(width: 300, height: 100))
+        assertSnapshotImage(screen, size: .custom(CGSize(width: 300, height: 100)))
     }
 
     func test_whenLoadScreenWithDeclarativeText_isShouldRenderCorrectly() throws {
@@ -240,7 +241,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         let json = try jsonFromFile(fileName: "declarativeText1")
         let screen = BeagleScreenViewController(viewModel: .init(screenType: .declarativeText(json)))
 
-        assertSnapshotImage(screen, size: CGSize(width: 256, height: 512))
+        assertSnapshotImage(screen, size: .custom(CGSize(width: 256, height: 512)))
     }
 
     func test_whenReloadScreenWithDeclarativeText_isShouldRenderCorrectly() throws {
@@ -249,10 +250,10 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         let json2 = try jsonFromFile(fileName: "declarativeText2")
 
         let screen = BeagleScreenViewController(.declarativeText(json1))
-        assertSnapshotImage(screen, size: CGSize(width: 256, height: 512))
+        assertSnapshotImage(screen, size: .custom(CGSize(width: 256, height: 512)))
 
         screen.reloadScreen(with: .declarativeText(json2))
-        assertSnapshotImage(screen, size: CGSize(width: 256, height: 512))
+        assertSnapshotImage(screen, size: .custom(CGSize(width: 256, height: 512)))
     }
 }
 
@@ -262,4 +263,33 @@ struct SimpleComponent {
     var content = Container(children:
         [Text("Mock")]
     )
+}
+
+class BeagleControllerStub: BeagleController {
+    
+    var dependencies: BeagleDependenciesProtocol
+    var serverDrivenState: ServerDrivenState = .loading(false)
+    var screenType: ScreenType
+    var screen: Screen?
+
+    init(
+        _ screenType: ScreenType = .remote(.init(url: "")),
+        dependencies: BeagleDependenciesProtocol = BeagleScreenDependencies()
+    ) {
+        self.screenType = screenType
+        self.dependencies = dependencies
+        if case .declarative(let screen) = screenType {
+            self.screen = screen
+        }
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func execute(action: RawAction, sender: Any) {
+        (action as? Action)?.execute(controller: self, sender: sender)
+    }
+    
 }

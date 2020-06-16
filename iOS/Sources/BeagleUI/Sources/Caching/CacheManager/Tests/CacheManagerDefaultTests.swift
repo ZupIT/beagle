@@ -16,6 +16,7 @@
 
 import XCTest
 @testable import BeagleUI
+import BeagleSchema
 
 final class CacheManagerDefaultTests: XCTestCase {
     

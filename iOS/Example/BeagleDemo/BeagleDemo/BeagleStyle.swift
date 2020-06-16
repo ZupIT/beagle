@@ -16,6 +16,7 @@
 
 import UIKit
 import BeagleUI
+import BeagleSchema
 
 struct AppTheme {
     
@@ -30,11 +31,10 @@ struct AppTheme {
         .NAVIGATION_BAR_GREEN_STYLE: Self.designSystemStyleNavigationBar,
         .NAVIGATION_BAR_DEFAULT_STYLE: Self.designSystemStyleNavigationBarDefault,
         .TAB_VIEW_STYLE: Self.tabView
-        ]
-    )
+    ])
     
     static func blackTextNormalStyle() -> (UITextView?) -> Void {
-        return BeagleStyle.text(font: .systemFont(ofSize: 16) ,color: .black)
+        return BeagleStyle.text(font: .systemFont(ofSize: 16), color: .black)
     }
     
     static func designSystemTextHelloWord() -> (UITextView?) -> Void {
@@ -63,7 +63,6 @@ struct AppTheme {
         }
     }
     
-    
     static func designSystemStyleNavigationBar() -> (UINavigationBar?) -> Void {
         return {
             $0?.barTintColor = .green
@@ -82,12 +81,12 @@ struct AppTheme {
         return {
             $0?.layer.cornerRadius = 4
             $0?.setTitleColor(.white, for: .normal)
-            $0?.backgroundColor = $0?.isEnabled ?? false ? UIColor(hex: .GREEN_COLOR) : UIColor(hex: .GRAY_COLOR)
+            $0?.backgroundColor = ($0?.isEnabled ?? false) ? .demoGreen : .demoGray
             $0?.alpha = $0?.isHighlighted ?? false ? 0.7 : 1
         }
     }
     
     static func tabView() -> (UIView?) -> Void {
-        return BeagleStyle.tabView(backgroundColor: .clear, indicatorColor: UIColor(hex: .ORANGE_COLOR), selectedTextColor: UIColor(hex: .ORANGE_COLOR), unselectedTextColor: UIColor(hex: .DARK_GRAY_COLOR), selectedIconColor: UIColor(hex: .ORANGE_COLOR), unselectedIconColor: UIColor(hex: .DARK_GRAY_COLOR))
+        return BeagleStyle.tabView(backgroundColor: .clear, indicatorColor: .demoGray, selectedTextColor: .demoGray, unselectedTextColor: .demoDarkGray, selectedIconColor: .demoGray, unselectedIconColor: .demoDarkGray)
     }
 }

@@ -24,6 +24,7 @@ package br.com.zup.beagle.action
  * @param buttonText define text of button in dialog.
  *
  */
+
 data class ShowNativeDialog(
     val title: String,
     val message: String,

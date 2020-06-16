@@ -18,6 +18,7 @@ import Foundation
 import XCTest
 @testable import BeagleUI
 import SnapshotTesting
+import BeagleSchema
 
 class BeagleLoggerTests: XCTestCase {
     // swiftlint:disable force_unwrapping
@@ -64,6 +65,10 @@ class BeagleLoggerTests: XCTestCase {
 }
 
 class BeagleLoggerDumb: BeagleLoggerType {
+    func logDecodingError(type: String) {
+        
+    }
+    
     func log(_ log: LogType) {
         return
     }

@@ -17,6 +17,8 @@
 import XCTest
 import SnapshotTesting
 @testable import BeagleUI
+import BeagleSchema
+
 // swiftlint:disable implicitly_unwrapped_optional
 class AnalyticsTests: XCTestCase {
 
@@ -48,14 +50,6 @@ class AnalyticsTests: XCTestCase {
         XCTAssert(justClick.category == category, "attributes are not being created correctly")
         
         XCTAssert(screen.screenName == nameOfScreen, "attributes are not being created correctly")
-    }
-    
-    func testBuildOfAnalyticsGestureRecognizer() {
-        //given //when
-        let gestureRecognizer = AnalyticsGestureRecognizer(event: justClick, target: nil, selector: nil)
-        
-        //then
-        XCTAssert(gestureRecognizer.click == justClick, "click object should be the same")
     }
     
     func testTrackEventOnClick() {

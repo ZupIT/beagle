@@ -23,10 +23,9 @@ import br.com.zup.beagle.core.FlexComponent
 import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.engine.mapper.FlexMapper
-import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.android.widget.core.WidgetView
 
 @SuppressLint("ViewConstructor")
 internal open class BeagleFlexView(
@@ -53,9 +52,7 @@ internal open class BeagleFlexView(
         }
         val flex = (component as? FlexComponent)?.flex ?: Flex()
         val view = viewRendererFactory.make(serverDrivenComponent).build(rootView)
-        if (serverDrivenComponent is WidgetView) {
-            view.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> invalidate(view) }
-        }
+        view.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> invalidate(view) }
         super.addView(view, flexMapper.makeYogaNode(flex))
     }
 }

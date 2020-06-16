@@ -1,7 +1,4 @@
 ▿ BeagleDependencies
-  ▿ actionExecutor: ActionExecuting
-    ▿ dependencies: InnerDependenciesResolver
-      - container: (Function)
   - analytics: Optional<Analytics>.none
   - appBundle: NSBundle <(null)> (not yet loaded)
   ▿ cacheManager: Optional<CacheManagerProtocol>
@@ -120,9 +117,7 @@
   ▿ formDataStoreHandler: FormDataStoreHandler
     - dataStore: 0 key/value pairs
   - logger: BeagleLogger
-  ▿ navigation: BeagleNavigator
-    ▿ dependencies: InnerDependenciesResolver
-      - container: (Function)
+  - navigation: BeagleNavigator
   - navigationControllerType: BeagleNavigationController
   ▿ networkClient: NetworkClientDefault
     ▿ dependencies: InnerDependenciesResolver
@@ -136,6 +131,7 @@
   ▿ preFetchHelper: BeaglePreFetchHelper
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
+  - renderer: (Function)
   ▿ repository: RepositoryDefault
     - cacheHashHeader: "beagle-hash"
     ▿ dependencies: InnerDependenciesResolver

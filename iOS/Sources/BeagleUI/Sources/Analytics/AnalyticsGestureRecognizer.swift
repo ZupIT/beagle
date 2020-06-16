@@ -15,22 +15,33 @@
  */
 
 import UIKit
+import BeagleSchema
 
 final class EventsGestureRecognizer: UITapGestureRecognizer {
     let events: [Event]
+    weak var controller: BeagleController?
     
-    init(events: [Event], target: Any?, selector: Selector?) {
+    init(events: [Event], controller: BeagleController) {
         self.events = events
-        super.init(target: target, action: selector)
+        self.controller = controller
+        super.init(target: nil, action: nil)
+        addTarget(self, action: #selector(triggerEvents))
+    }
+    
+    @objc func triggerEvents() {
+        events.forEach { event in
+            switch event {
+            case .action(let action):
+                controller?.execute(action: action, sender: view as Any)
+                
+            case .analytics(let analyticsClick):
+                controller?.dependencies.analytics?.trackEventOnClick(analyticsClick)
+            }
+        }
     }
 }
 
-final class AnalyticsGestureRecognizer: UITapGestureRecognizer {
-    
-    let click: AnalyticsClick
-    
-    init(event: AnalyticsClick, target: Any?, selector: Selector?) {
-        self.click = event
-        super.init(target: target, action: selector)
-    }
+public enum Event {
+    case action(RawAction)
+    case analytics(AnalyticsClick)
 }

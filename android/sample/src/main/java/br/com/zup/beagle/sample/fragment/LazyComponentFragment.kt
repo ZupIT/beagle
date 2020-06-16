@@ -21,20 +21,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import br.com.zup.beagle.android.components.LazyComponent
+import br.com.zup.beagle.android.components.NetworkImage
+import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.layout.Container
-import br.com.zup.beagle.widget.layout.NavigationBar
+import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.layout.ScrollView
-import br.com.zup.beagle.widget.lazy.LazyComponent
-import br.com.zup.beagle.widget.ui.Image
-import br.com.zup.beagle.widget.ui.ImagePath.Remote
-import br.com.zup.beagle.widget.ui.Text
+import br.com.zup.beagle.android.components.layout.ScrollView
+import br.com.zup.beagle.widget.layout.NavigationBar
 
 class LazyComponentFragment : Fragment() {
 
@@ -51,8 +50,8 @@ class LazyComponentFragment : Fragment() {
 
     private fun buildScrollView() = ScrollView(
         children = listOf(
-            Image(
-                Remote("https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271")
+            NetworkImage(
+                path = "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271"
             ).applyStyle(Style(cornerRadius = CornerRadius(30.0))),
             LazyComponent(
                 path = "http://www.mocky.io/v2/5e4e91c02f00001f2016a8f2",

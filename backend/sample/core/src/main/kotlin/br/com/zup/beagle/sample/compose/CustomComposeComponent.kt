@@ -30,7 +30,7 @@ import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.Text
 
-class CustomComposeComponent : ComposeComponent() {
+class CustomComposeComponent : ComposeComponent {
     override fun build(): ServerDrivenComponent {
         return Container(
             children = listOf(

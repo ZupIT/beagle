@@ -37,8 +37,8 @@ class BeagleSetupTest {
     }
 
     @Test
-    fun customActionHandler_should_have_a_valid_instance() {
-        assertNotNull(beagleSetup.customActionHandler)
+    fun formLocalActionHandler_should_have_a_valid_instance() {
+        assertNotNull(beagleSetup.formLocalActionHandler)
     }
 
     @Test

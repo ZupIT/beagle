@@ -16,6 +16,7 @@
 
 import UIKit
 import BeagleUI
+import BeagleSchema
 
 struct FormScreen: DeeplinkScreen {
     static var textValidatorName: String { return "text-is-not-blank" }
@@ -28,7 +29,7 @@ struct FormScreen: DeeplinkScreen {
     
     init() {}
     
-    init(path: String, data: [String : String]?) {}
+    init(path: String, data: [String: String]?) {}
     
     func screenController() -> UIViewController {
         let flexHorizontalMargin = Flex().margin(EdgeValue().all(10))
@@ -68,7 +69,7 @@ struct FormScreen: DeeplinkScreen {
                         enabled: false
                     )
                 ],
-                widgetProperties: .init(style: Style(backgroundColor: .LIGHT_GREEN_COLOR), flex: Flex().grow(1).padding(EdgeValue().all(10)))
+                widgetProperties: .init(flex: Flex().grow(1).padding(EdgeValue().all(10)))
             )
         )
         let screen = Screen(
@@ -81,7 +82,7 @@ struct FormScreen: DeeplinkScreen {
 }
 
 extension DemoTextField: Renderable {
-    func toView(context: BeagleContext, dependencies: RenderableDependencies) -> UIView {
+    func toView(renderer: BeagleRenderer) -> UIView {
         let textField = View()
         textField.borderStyle = .roundedRect
         textField.placeholder = placeholder
@@ -92,7 +93,7 @@ extension DemoTextField: Renderable {
     }
 }
 
-struct DemoTextField: Widget, AutoInitiableAndDecodable {
+struct DemoTextField: BeagleUI.Widget, AutoInitiableAndDecodable {
     
     var placeholder: String
     var widgetProperties: WidgetProperties
