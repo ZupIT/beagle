@@ -32,12 +32,11 @@ data class Spacer(
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
 
-    override fun buildView(rootView: RootView): View {
-        return viewFactory.makeBeagleFlexView(rootView.getContext(), Style(
-            size = Size(
-                width = UnitValue(size, UnitType.REAL),
-                height = UnitValue(size, UnitType.REAL)
-            )
-        ))
-    }
+    override fun buildView(rootView: RootView): View =
+        viewFactory.makeBeagleFlexView(rootView.getContext(), Style(
+        size = Size(
+            width = UnitValue(size, UnitType.REAL),
+            height = UnitValue(size, UnitType.REAL)
+        )
+    ))
 }
