@@ -22,14 +22,13 @@ extension UIImageView {
         self.image = UIImage(named: named, in: bundle, compatibleWith: nil)
     }
     
-    func setRemoteImage(from url: String, context: BeagleContext, dependencies: RenderableDependencies) {
-        dependencies.repository.fetchImage(url: url, additionalData: nil) { [weak self, weak context] result in
+    func setRemoteImage(from url: String, dependencies: BeagleDependenciesProtocol) {
+        dependencies.repository.fetchImage(url: url, additionalData: nil) { [weak self] result in
             guard let self = self, case .success(let data) = result else { return }
             let image = UIImage(data: data)
             DispatchQueue.main.async {
                 self.image = image
                 self.flex.markDirty()
-                context?.applyLayout()
             }
         }
     }

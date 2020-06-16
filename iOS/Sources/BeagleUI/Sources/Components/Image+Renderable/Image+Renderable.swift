@@ -26,17 +26,11 @@ extension Image: Widget {
 
         switch path {
         case .local(let name):
-            image.setImageFromAsset(named: name, bundle: renderer.dependencies.appBundle)
+            image.setImageFromAsset(named: name, bundle: renderer.controller.dependencies.appBundle)
         case .network(let url):
-            image.setRemoteImage(from: url, context: renderer.context, renderer.dependencies: dependencies)
+            image.setRemoteImage(from: url, dependencies: renderer.controller.dependencies)
         }
 
         return image
-    }
-}
-
-private extension UIImageView {
-    func setImageFromAsset(named: String, bundle: Bundle) {
-        self.image = UIImage(named: named, in: bundle, compatibleWith: nil)
     }
 }

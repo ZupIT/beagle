@@ -16,7 +16,7 @@
 
 import Foundation
 
-public struct Image: RawWidget, AutoInitiableAndDecodable {
+public struct Image: RawWidget, AutoDecodable {
 
     // MARK: - Public Properties
     public let path: PathType
