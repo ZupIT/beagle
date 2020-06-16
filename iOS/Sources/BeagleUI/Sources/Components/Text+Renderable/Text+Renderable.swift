@@ -35,7 +35,7 @@ extension Text: Widget {
         textView.text = text
 
         if let styleId = styleId {
-            renderer.dependencies.theme.applyStyle(for: textView, withId: styleId)
+            renderer.controller.dependencies.theme.applyStyle(for: textView, withId: styleId)
         }
         if let color = textColor {
             textView.textColor = UIColor(hex: color)

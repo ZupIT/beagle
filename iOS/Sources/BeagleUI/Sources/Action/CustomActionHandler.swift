@@ -22,7 +22,7 @@ import BeagleSchema
 public protocol CustomActionHandler {
 
     /// here you should see which custom action you are receiving, and execute its logic.
-    func handle(context: BeagleContext, action: CustomAction, listener: @escaping Listener)
+    func handle(action: CustomAction, controller: BeagleController, listener: @escaping Listener)
 
     /// use it to inform Beagle about the on going execution
     typealias Listener = (CustomActionState) -> Void
@@ -34,7 +34,7 @@ public protocol DependencyCustomActionHandler {
 
 public final class CustomActionHandling: CustomActionHandler {
     
-    public typealias Handler = (BeagleContext, CustomAction, @escaping Listener) -> Void
+    public typealias Handler = (BeagleController, CustomAction, @escaping Listener) -> Void
     
     private var handlers: [String: Handler]
     
@@ -42,8 +42,8 @@ public final class CustomActionHandling: CustomActionHandler {
         self.handlers = handlers
     }
     
-    public func handle(context: BeagleContext, action: CustomAction, listener: @escaping Listener) {
-        self[action.name]?(context, action, listener)
+    public func handle(action: CustomAction, controller: BeagleController, listener: @escaping Listener) {
+        self[action.name]?(controller, action, listener)
     }
     
     public subscript(name: String) -> Handler? {

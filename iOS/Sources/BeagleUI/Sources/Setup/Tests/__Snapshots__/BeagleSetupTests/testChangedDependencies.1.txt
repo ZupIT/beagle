@@ -1,12 +1,10 @@
 ▿ BeagleDependencies
-  ▿ actionExecutor: ActionExecuting
-    ▿ dependencies: InnerDependenciesResolver
-      - container: (Function)
   - analytics: Optional<Analytics>.none
   - appBundle: NSBundle <(null)> (not yet loaded)
   - cacheManager: Optional<CacheManagerProtocol>.none
   ▿ customActionHandler: Optional<CustomActionHandler>
-    - some: CustomActionHandlerDummy
+    ▿ some: CustomActionHandlerSpy
+      - actionsHandledCount: 0
   - decoder: ComponentDecodingDummy
   ▿ deepLinkHandler: Optional<DeepLinkScreenManaging>
     - some: DeepLinkHandlerDummy
@@ -18,9 +16,7 @@
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
     - logger: BeagleLoggerDefault
-  ▿ navigation: BeagleNavigator
-    ▿ dependencies: InnerDependenciesResolver
-      - container: (Function)
+  - navigation: BeagleNavigator
   - navigationControllerType: BeagleNavigationController
   - networkClient: NetworkClientDummy
   ▿ opener: URLOpenerDumb

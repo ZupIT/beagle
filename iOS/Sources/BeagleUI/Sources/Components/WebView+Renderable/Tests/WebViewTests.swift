@@ -24,7 +24,8 @@ final class WebViewTests: XCTestCase {
     
     func test_renderWebViewComponent() throws {
         let webView = WebView(url: "https://maps.google.com/")
-        let renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: BeagleDependencies())
+        let controller = BeagleControllerStub()
+        let renderer = BeagleRenderer(controller: controller)
         let view = renderer.render(webView)
         XCTAssert(view is WebViewUIComponent)
     }

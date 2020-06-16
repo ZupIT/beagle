@@ -30,26 +30,21 @@ final class FormManagerTests: XCTestCase {
         return form
     }()
     
-    private lazy var renderer = BeagleRenderer(context: screen, dependencies: dependencies)
+    private lazy var controller: BeagleController = {
+        let controller = BeagleControllerStub()
+        controller.dependencies = dependencies
+        return controller
+    }()
     
-    private lazy var formManager = screen.formManager as? FormManager
-    
-    private lazy var formView = form.toView(renderer: renderer)
-
-    private lazy var screen = BeagleScreenViewController(viewModel: .init(
-        screenType: .declarative(SimpleComponent().content.toScreen()),
-        dependencies: dependencies
-    ))
+    private lazy var formView = form.toView(renderer: BeagleRenderer(controller: controller))
 
     private lazy var dependencies = BeagleScreenDependencies(
-        actionExecutor: actionExecutorSpy,
         repository: repositoryStub,
         validatorProvider: validator,
         formDataStoreHandler: dataStoreStub
     )
 
-    private lazy var repositoryStub = RepositoryStub()
-    private lazy var actionExecutorSpy = ActionExecutorSpy()
+    private lazy var repositoryStub = LazyRepositoryStub()
     private lazy var validator = ValidatorProviding()
     private lazy var dataStoreStub = DataStoreHandlerStub()
 
@@ -76,26 +71,11 @@ final class FormManagerTests: XCTestCase {
         dataStoreStub.resetStub()
         super.tearDown()
     }
-    
-    func test_registerForm_shouldAddGestureRecognizer() throws {
-        // Given
-        let form = Form(action: ActionDummy(), child: ComponentDummy())
-        let formView = UIView()
-        let submitView = UILabel()
-
-        // When
-        screen.formManager.register(form: form, formView: formView, submitView: submitView, validatorHandler: nil)
-
-        // Then
-        XCTAssertEqual(1, submitView.gestureRecognizers?.count)
-        XCTAssertTrue(submitView.isUserInteractionEnabled)
-    }
-
-    let validator1 = "valid"
-    let validator2 = "invalid"
 
     func test_formSubmit_shouldValidateInputs() throws {
         // Given
+        let validator1 = "valid"
+        let validator2 = "invalid"
         var validationCount = 0
         validator[validator1] = { _ in
             validationCount += 1
@@ -110,12 +90,12 @@ final class FormManagerTests: XCTestCase {
             FormInput(name: "name", required: true, validator: validator1, child: InputComponent(value: "John Doe")),
             FormInput(name: "password", required: true, validator: validator2, child: InputComponent(value: "password")),
             FormSubmit(child: Button(text: "Add"))
-        ])).toView(renderer: renderer)
+        ])).toView(renderer: BeagleRenderer(controller: controller))
 
         let gesture = submitGesture(in: view)
 
         // When
-        formManager?.handleSubmitFormGesture(gesture)
+        FormManager(sender: gesture)?.submitForm()
 
         // Then
         XCTAssert(validationCount == 2)
@@ -123,14 +103,27 @@ final class FormManagerTests: XCTestCase {
 
     func test_formSubmit_shouldExecuteResponseAction() throws {
         // Given
-        repositoryStub.formResult = .success(CustomAction(name: "custom", data: [:]))
         let gesture = submitGesture(in: formView)
+        let action = ActionSpy()
+        var isLoading = false
 
         // When
-        formManager?.handleSubmitFormGesture(gesture)
-
+        FormManager(sender: gesture)?.submitForm()
+        if case .loading(let loading) = controller.serverDrivenState {
+            isLoading = loading
+        }
         // Then
-        XCTAssert(actionExecutorSpy.didCallDoAction)
+        XCTAssertTrue(isLoading)
+        
+        // When
+        repositoryStub.formCompletion?(.success(action))
+        if case .loading(let loading) = controller.serverDrivenState {
+            isLoading = loading
+        }
+        // Then
+        XCTAssertEqual(action.executionCount, 1)
+        XCTAssertTrue(action.lastSender as AnyObject === gesture)
+        XCTAssertFalse(isLoading)
     }
 
     func test_formSubmit_shouldPassRightDataToBeSubmitted() throws {
@@ -138,12 +131,11 @@ final class FormManagerTests: XCTestCase {
         let gesture = submitGesture(in: formView)
 
         // When
-        formManager?.handleSubmitFormGesture(gesture)
+        FormManager(sender: gesture)?.submitForm()
 
         // Then
         let submittedData = repositoryStub.formData
 
-        XCTAssert(repositoryStub.didCallDispatch)
         assertSnapshot(matching: submittedData, as: .dump)
     }
 
@@ -152,10 +144,19 @@ final class FormManagerTests: XCTestCase {
         let gesture = submitGesture(in: formView)
 
         // When
-        formManager?.handleSubmitFormGesture(gesture)
+        FormManager(sender: gesture)?.submitForm()
+        repositoryStub.formCompletion?(.failure(.urlBuilderError))
 
         // Then
-        XCTAssertFalse(actionExecutorSpy.didCallDoAction)
+        var error: Request.Error?
+        if case .error(let serverDrivenError) = controller.serverDrivenState {
+            if case .submitForm(let requestError) = serverDrivenError {
+                if case .urlBuilderError = requestError {
+                    error = requestError
+                }
+            }
+        }
+        XCTAssertNotNil(error)
     }
     
     // MARK: - Form Storage Logic Tests
@@ -174,7 +175,7 @@ final class FormManagerTests: XCTestCase {
         group: group,
         additionalData: ["id": "111111"],
         shouldStoreFields: true
-    ).toView(renderer: renderer)
+    ).toView(renderer: BeagleRenderer(controller: controller))
     
     private func setValidator3() {
         validator[validator3] = { _ in
@@ -191,12 +192,11 @@ final class FormManagerTests: XCTestCase {
         let gesture = submitGesture(in: formViewWithStorage)
 
         // When
-        formManager?.handleSubmitFormGesture(gesture)
+        FormManager(sender: gesture)?.submitForm()
         
         // Then
         XCTAssert(dataStoreStub.didCallRead == true)
-        XCTAssert(repositoryStub.didCallDispatch)
-        assertSnapshot(matching: repositoryStub.formData.values, as: .dump)
+        assertSnapshot(matching: repositoryStub.formData?.values, as: .dump)
     }
     
     func test_formManagerShouldNotifyFormDataStoreAboutSubmission() {
@@ -204,11 +204,11 @@ final class FormManagerTests: XCTestCase {
         let formData = FormData()
         formData.data = ["age": "12", "name": "yan dias"]
         dataStoreStub.dataStore[group] = formData
-        repositoryStub.formResult = .success(CustomAction(name: "custom", data: [:]))
         let gesture = submitGesture(in: formViewWithStorage)
 
         // When
-        formManager?.handleSubmitFormGesture(gesture)
+        FormManager(sender: gesture)?.submitForm()
+        repositoryStub.formCompletion?(.success(CustomAction(name: "custom", data: [:])))
         
         // Then
         XCTAssert(dataStoreStub.didCallformManagerDidSubmitForm)
@@ -219,7 +219,7 @@ final class FormManagerTests: XCTestCase {
         let gesture = submitGesture(in: formViewWithStorage)
 
         // When
-        formManager?.handleSubmitFormGesture(gesture)
+        FormManager(sender: gesture)?.submitForm()
 
         // Then
         XCTAssert(dataStoreStub.didCallSave)
@@ -228,7 +228,6 @@ final class FormManagerTests: XCTestCase {
 }
 
 // MARK: - Stubs
-
 private class DataStoreHandlerStub: FormDataStoreHandling {
 
     private(set) var didCallRead: Bool = false

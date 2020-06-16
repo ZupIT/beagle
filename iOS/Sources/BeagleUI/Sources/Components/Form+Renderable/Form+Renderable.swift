@@ -26,12 +26,7 @@ extension Form: ServerDrivenComponent {
         func registerFormSubmit(view: UIView) {
             if view.beagleFormElement is FormSubmit {
                 hasFormSubmit = true
-                renderer.context.formManager.register(
-                    form: self,
-                    formView: childView,
-                    submitView: view,
-                    validatorHandler: renderer.dependencies.validatorProvider
-                )
+                register(formView: childView, submitView: view, controller: renderer.controller)
             }
             for subview in view.subviews {
                 registerFormSubmit(view: subview)
@@ -40,9 +35,27 @@ extension Form: ServerDrivenComponent {
         
         registerFormSubmit(view: childView)
         if !hasFormSubmit {
-            renderer.dependencies.logger.log(Log.form(.submitNotFound(form: self)))
+            renderer.controller.dependencies.logger.log(Log.form(.submitNotFound(form: self)))
         }
         return childView
+    }
+    
+    private func register(formView: UIView, submitView: UIView, controller: BeagleController) {
+        let gestureRecognizer = SubmitFormGestureRecognizer(
+            form: self,
+            formView: formView,
+            formSubmitView: submitView,
+            controller: controller
+        )
+        if let control = submitView as? UIControl,
+            let formSubmit = submitView.beagleFormElement as? FormSubmit,
+            let enabled = formSubmit.enabled {
+            control.isEnabled = enabled
+        }
+        
+        submitView.addGestureRecognizer(gestureRecognizer)
+        submitView.isUserInteractionEnabled = true
+        gestureRecognizer.updateSubmitView()
     }
 }
 

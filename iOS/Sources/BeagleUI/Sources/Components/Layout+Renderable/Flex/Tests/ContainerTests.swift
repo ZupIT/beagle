@@ -54,7 +54,8 @@ final class ContainerTests: XCTestCase {
     
     func test_toView_shouldReturnTheExpectedView() throws {
         //Given
-        let renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: BeagleScreenDependencies())
+        let controller = BeagleControllerStub()
+        let renderer = BeagleRenderer(controller: controller)
         let numberOfChilds = 3
         let containerChilds = Array(repeating: ComponentDummy(), count: numberOfChilds)
         let container = Container(children: containerChilds)
@@ -74,7 +75,7 @@ final class ContainerTests: XCTestCase {
                 Text("Sed vel nisl tortor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec fringilla velit vulputate ultricies auctor. Sed et enim lacinia risus hendrerit efficitur vitae vel tellus.")
             ],
             widgetProperties: .init(
-                style: .init(backgroundColor: "#500000FF", cornerRadius: .init(radius: 30.0)),
+                style: .init(backgroundColor: "#0000FF50", cornerRadius: .init(radius: 30.0)),
                 flex: Flex().grow(1).justifyContent(.spaceEvenly).margin(EdgeValue().horizontal(20))
             )
         )

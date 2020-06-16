@@ -26,7 +26,7 @@ import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
 
 data class Spacer(
-    private val size: Double
+    val size: Double
 ) : WidgetView() {
 
     @Transient

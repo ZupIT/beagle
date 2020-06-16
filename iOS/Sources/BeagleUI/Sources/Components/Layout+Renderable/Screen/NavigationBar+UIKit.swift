@@ -21,28 +21,30 @@ import BeagleSchema
 extension NavigationBarItem {
     
     public func toBarButtonItem(
-        context: BeagleContext,
-        dependencies: RenderableDependencies
+        controller: BeagleController
     ) -> UIBarButtonItem {
-        let barButtonItem = NavigationBarButtonItem(barItem: self, context: context, dependencies: dependencies)
+        let barButtonItem = NavigationBarButtonItem(barItem: self, controller: controller)
         return barButtonItem
     }
     
     final private class NavigationBarButtonItem: UIBarButtonItem {
         
         private let barItem: NavigationBarItem
-        private weak var context: BeagleContext?
+        private weak var controller: BeagleController?
         
         init(
             barItem: NavigationBarItem,
-            context: BeagleContext,
-            dependencies: RenderableDependencies
+            controller: BeagleController
         ) {
             self.barItem = barItem
-            self.context = context
+            self.controller = controller
             super.init()
             if let imageName = barItem.image {
-                image = UIImage(named: imageName, in: dependencies.appBundle, compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
+                image = UIImage(
+                    named: imageName,
+                    in: controller.dependencies.appBundle,
+                    compatibleWith: nil
+                )?.withRenderingMode(.alwaysOriginal)
                 accessibilityHint = barItem.text
             } else {
                 title = barItem.text
@@ -58,7 +60,7 @@ extension NavigationBarItem {
         }
         
         @objc private func triggerAction() {
-            context?.actionManager.doAction(barItem.action, sender: self)
+            controller?.execute(action: barItem.action, sender: self)
         }
     }
 }
