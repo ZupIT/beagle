@@ -18,7 +18,9 @@ package br.com.zup.beagle.android.action
 
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.annotation.RegisterAction
 
+@RegisterAction
 data class ShowNativeDialog(
     val title: String,
     val message: String,

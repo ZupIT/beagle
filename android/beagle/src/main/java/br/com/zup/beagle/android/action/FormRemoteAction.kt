@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.action
 import br.com.zup.beagle.android.components.form.core.FormResult
 import br.com.zup.beagle.android.components.form.core.FormSubmitter
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.annotation.RegisterAction
 
 enum class FormMethodType {
     GET,
@@ -29,7 +30,7 @@ enum class FormMethodType {
 
 
 internal typealias ResultListener = (result: FormResult) -> Unit
-
+@RegisterAction
 data class FormRemoteAction(
     val path: String,
     val method: FormMethodType
