@@ -47,6 +47,7 @@ import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.layout.ScrollView
+import br.com.zup.beagle.widget.ui.Button
 
 object ComponentScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
@@ -80,7 +81,7 @@ object ComponentScreenBuilder : ScreenBuilder {
         )
     )
 
-    private fun createMenu(text: String, path: String) = br.com.zup.beagle.widget.ui.Button(
+    private fun createMenu(text: String, path: String) = Button(
         text = text,
         action = Navigate.PushView(Route.Remote(path)),
         styleId = BUTTON_STYLE_TITLE
