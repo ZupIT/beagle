@@ -63,8 +63,11 @@ class ScrollViewFragment : Fragment() {
         children = listOf(
             NetworkImage(
                 path = "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271"
-            ).applyStyle(Style(flex = Flex(shrink = 0.0), size = Size(width = 200.unitReal(), height = 200.unitReal())))
-                .applyStyle(Style(cornerRadius = CornerRadius(30.0))),
+            ).applyStyle(Style(
+                cornerRadius = CornerRadius(30.0),
+                flex = Flex(shrink = 0.0),
+                size = Size(width = 200.unitReal(), height = 200.unitReal()))
+            ),
             Text("Text 1").applyStyle(style),
             Text("Text 2").applyStyle(style),
             Text("Text 3").applyStyle(style),
