@@ -35,9 +35,9 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 
 data class NetworkImage(
-    private val path: String,
-    private val contentMode: ImageContentMode? = null,
-    private val placeholder: Image? = null
+    val path: String,
+    val contentMode: ImageContentMode? = null,
+    val placeholder: Image? = null
 ) : WidgetView() {
 
     @Transient
