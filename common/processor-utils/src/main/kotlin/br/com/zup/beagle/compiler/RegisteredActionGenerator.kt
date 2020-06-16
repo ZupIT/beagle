@@ -35,7 +35,7 @@ class RegisteredActionGenerator {
         )
 
         val classValues = registerAnnotatedClasses.joinToString(",\n") { element ->
-            "\t${element}Binding::class.java as Class<Action>"
+            "\t${element}::class.java as Class<Action>"
         }
 
         return FunSpec.builder("registeredActions")

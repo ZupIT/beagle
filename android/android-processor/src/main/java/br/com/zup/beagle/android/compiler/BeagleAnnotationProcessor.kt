@@ -92,7 +92,6 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
             validatorHandlerProcessor.process(basePackageName, roundEnvironment)
             beagleSetupProcessor.process(basePackageName, beagleConfigClassName, roundEnvironment)
             beagleWidgetBindingProcessor.process(roundEnvironment)
-            beagleActionBindingProcessor.process(roundEnvironment)
         }
 
         return false

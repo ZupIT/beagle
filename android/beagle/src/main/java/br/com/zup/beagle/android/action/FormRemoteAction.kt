@@ -29,7 +29,6 @@ enum class FormMethodType {
 
 
 internal typealias ResultListener = (result: FormResult) -> Unit
-
 data class FormRemoteAction(
     val path: String,
     val method: FormMethodType

@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.processor
+package br.com.zup.beagle.sample.components
 
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.annotation.RegisterAction
+import br.com.zup.beagle.core.Bind
 
 @RegisterAction
-data class MyAction(
-    val value: String,
-    val intValue: Int
+data class MyCustomAction(
+    val value: Bind<String>,
+    val intValue: Bind<Int>
 ) : Action {
 
     override fun execute(rootView: RootView) {

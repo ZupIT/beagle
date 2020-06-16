@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.data.serializer
 
-import br.com.zup.beagle.android.data.serializer.adapter.ActionJsonAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.AndroidActionJsonAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.BindAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.ContextDataAdapterFactory
