@@ -18,9 +18,11 @@ package br.com.zup.beagle.android.action
 
 import androidx.lifecycle.Observer
 import br.com.zup.beagle.android.utils.generateViewModelInstance
+import br.com.zup.beagle.android.utils.get
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.Bind
 
 @SuppressWarnings("UNUSED_PARAMETER")
 enum class RequestActionMethod {
@@ -33,10 +35,10 @@ enum class RequestActionMethod {
 }
 
 data class SendRequest(
-    val url: String,
+    val url: Bind<String>,
     val method: RequestActionMethod = RequestActionMethod.GET,
     val headers: Map<String, String> = mapOf(),
-    val body: String? = null,
+    val data: Bind<Any>? = null,
     val onSuccess: Action? = null,
     val onError: Action? = null,
     val onFinish: Action? = null
@@ -45,7 +47,7 @@ data class SendRequest(
     override fun execute(rootView: RootView) {
         val viewModel = rootView.generateViewModelInstance<ActionRequestViewModel>()
 
-        viewModel.fetch(this).observe(rootView.getLifecycleOwner(), Observer { state ->
+        viewModel.fetch(toSendRequestInternal(rootView)).observe(rootView.getLifecycleOwner(), Observer { state ->
             executeActions(rootView, this, state)
         })
     }
@@ -68,4 +70,24 @@ data class SendRequest(
             }
         }
     }
+
+    private fun toSendRequestInternal(rootView: RootView) = SendRequestInternal(
+        url = this.url.get(rootView) ?: "",
+        method = this.method,
+        headers = this.headers,
+        data = this.data?.get(rootView),
+        onSuccess = this.onSuccess,
+        onError = this.onError,
+        onFinish = this.onFinish
+    )
 }
+
+internal data class SendRequestInternal(
+    val url: String,
+    val method: RequestActionMethod = RequestActionMethod.GET,
+    val headers: Map<String, String> = mapOf(),
+    val data: Any? = null,
+    val onSuccess: Action? = null,
+    val onError: Action? = null,
+    val onFinish: Action? = null
+)

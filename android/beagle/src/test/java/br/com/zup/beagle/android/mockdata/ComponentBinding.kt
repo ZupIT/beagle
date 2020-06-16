@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.mockdata
 
-import br.com.zup.beagle.android.widget.core.Bind
+import br.com.zup.beagle.android.widget.Bind
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 data class InternalObject(val value1: String, val value2: Int)

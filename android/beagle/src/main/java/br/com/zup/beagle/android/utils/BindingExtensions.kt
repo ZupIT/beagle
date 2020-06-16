@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.utils
 
-import br.com.zup.beagle.android.widget.core.Bind
+import br.com.zup.beagle.android.widget.Bind
 
 fun <T : Any> getValueNull(binding: Bind<T>?, property: T?): T? {
     if (binding == null) {

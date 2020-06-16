@@ -17,17 +17,31 @@
 package br.com.zup.beagle.android.action
 
 import br.com.zup.beagle.android.utils.generateViewModelInstance
+import br.com.zup.beagle.android.utils.get
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.Bind
+
+internal data class SetContextInternal(
+    val contextId: String,
+    val value: Any,
+    val path: String? = null
+)
 
 data class SetContext(
     val contextId: String,
-    val value: Any,
+    val value: Bind<Any>,
     val path: String? = null
 ) : Action {
 
     override fun execute(rootView: RootView) {
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
-        viewModel.contextDataManager.updateContext(this)
+        viewModel.contextDataManager.updateContext(toInternalSetContext(rootView))
     }
+
+    private fun toInternalSetContext(rootView: RootView) = SetContextInternal(
+        contextId = this.contextId,
+        value = this.value.get(rootView) ?: "",
+        path = this.path
+    )
 }

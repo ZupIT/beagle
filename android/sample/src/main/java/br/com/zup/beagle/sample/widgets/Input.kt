@@ -16,14 +16,14 @@
 
 package br.com.zup.beagle.sample.widgets
 
-import android.content.Context
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.utils.get
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
-import br.com.zup.beagle.android.widget.core.Bind
+import br.com.zup.beagle.android.widget.Bind
 import br.com.zup.beagle.annotation.RegisterWidget
 
 @RegisterWidget
@@ -37,6 +37,8 @@ data class Input(
             val actions = onTextChange ?: emptyList()
             this@Input.handleEvent(rootView, actions, "onTextChange", newText.toString())
         }
-        this@apply.hint = hint
+        this@Input.hint.get(rootView) {
+            this@apply.hint = it
+        }
     }
 }

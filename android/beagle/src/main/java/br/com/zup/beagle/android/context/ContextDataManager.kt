@@ -16,13 +16,12 @@
 
 package br.com.zup.beagle.android.context
 
-import androidx.collection.LruCache
-import br.com.zup.beagle.android.action.SetContext
+import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.jsonpath.JsonPathReplacer
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
-import br.com.zup.beagle.android.widget.core.Bind
+import br.com.zup.beagle.android.widget.Bind
 import com.squareup.moshi.Moshi
 import org.json.JSONArray
 import org.json.JSONObject
@@ -42,7 +41,6 @@ internal class ContextDataManager(
     private val moshi: Moshi = BeagleMoshi.moshi
 ) {
 
-    private val lruCache: LruCache<String, Any> = LruCache(20)
     private val contexts: MutableMap<String, ContextBinding> = mutableMapOf()
 
     fun addContext(contextData: ContextData) {
@@ -63,12 +61,12 @@ internal class ContextDataManager(
         }
     }
 
-    fun updateContext(setContext: SetContext): Boolean {
-        return contexts[setContext.contextId]?.let { contextBinding ->
-            val path = setContext.path ?: contextBinding.context.id
-            val setValue = setValue(contextBinding, path, setContext.value)
+    fun updateContext(setContextInternal: SetContextInternal): Boolean {
+        return contexts[setContextInternal.contextId]?.let { contextBinding ->
+            val path = setContextInternal.path ?: contextBinding.context.id
+            val setValue = setValue(contextBinding, path, setContextInternal.value)
             if (setValue) {
-                evaluateContext(setContext.contextId)
+                evaluateContext(setContextInternal.contextId)
             }
             setValue
         } ?: false
@@ -112,10 +110,6 @@ internal class ContextDataManager(
 
     private fun getValue(contextData: ContextData, path: String): Any? {
         return if (path != contextData.id) {
-            val value = lruCache[path]
-            if (value != null) {
-                return value
-            }
             findAndCacheValue(contextData, path)
         } else {
             contextData.value
@@ -126,9 +120,6 @@ internal class ContextDataManager(
         return try {
             val keys = contextPathResolver.getKeysFromPath(contextData.id, path)
             val foundValue = jsonPathFinder.find(keys, contextData.value)
-            if (foundValue != null) {
-                lruCache.put(path, foundValue)
-            }
             foundValue
         } catch (ex: Exception) {
             BeagleMessageLogs.errorWhileTryingToAccessContext(ex)

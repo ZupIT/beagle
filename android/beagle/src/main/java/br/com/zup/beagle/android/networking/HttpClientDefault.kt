@@ -37,7 +37,10 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
         onSuccess: OnSuccess,
         onError: OnError
     ): RequestCall {
-        require(!getOrDeleteOrHeadHasData(request)) { "${request.method} does not support request body" }
+        if (getOrDeleteOrHeadHasData(request)) {
+            onError(ResponseData(-1, data = byteArrayOf()))
+            return createRequestCall()
+        }
 
         launch {
             try {
@@ -48,11 +51,7 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
             }
         }
 
-        return object : RequestCall {
-            override fun cancel() {
-                this@HttpClientDefault.cancel()
-            }
-        }
+        return createRequestCall()
     }
 
     private fun getOrDeleteOrHeadHasData(request: RequestData): Boolean {
@@ -130,5 +129,11 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
             }.toMap(),
             data = byteArray
         )
+    }
+
+    private fun createRequestCall() = object : RequestCall {
+        override fun cancel() {
+            this@HttpClientDefault.cancel()
+        }
     }
 }

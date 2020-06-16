@@ -27,6 +27,7 @@ import br.com.zup.beagle.android.utils.ViewModelProviderFactory
 import br.com.zup.beagle.android.utils.contextActionExecutor
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.view.viewmodel.Response
+import br.com.zup.beagle.android.widget.Bind.Companion.valueOf
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -73,9 +74,9 @@ class SendRequestHandlerTest {
         val onSuccessAction: Action = mockk()
         val onErrorAction: Action = mockk()
         val onFinishAction: Action = mockk()
-        val requestAction = SendRequest(url = "", onSuccess = onSuccessAction,
+        val requestAction = SendRequest(url = valueOf(""), onSuccess = onSuccessAction,
             onError = onErrorAction, onFinish = onFinishAction)
-        every { viewModel.fetch(requestAction) } returns liveData
+        every { viewModel.fetch(any()) } returns liveData
         every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
 
         // When
@@ -96,9 +97,9 @@ class SendRequestHandlerTest {
         val onSuccessAction: Action = mockk()
         val onErrorAction: Action = mockk()
         val onFinishAction: Action = mockk()
-        val requestAction = SendRequest(url = "", onSuccess = onSuccessAction,
+        val requestAction = SendRequest(url = valueOf(""), onSuccess = onSuccessAction,
             onError = onErrorAction, onFinish = onFinishAction)
-        every { viewModel.fetch(requestAction) } returns liveData
+        every { viewModel.fetch(any()) } returns liveData
         every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
 
         // When
@@ -118,9 +119,9 @@ class SendRequestHandlerTest {
         // Given
         val onErrorAction: Action = mockk()
         val onFinishAction: Action = mockk()
-        val requestAction = SendRequest(url = "", onSuccess = null,
+        val requestAction = SendRequest(url = valueOf(""), onSuccess = null,
             onError = onErrorAction, onFinish = onFinishAction)
-        every { viewModel.fetch(requestAction) } returns liveData
+        every { viewModel.fetch(any()) } returns liveData
         every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
 
         // When
@@ -135,9 +136,9 @@ class SendRequestHandlerTest {
     @Test
     fun `should not send any action when handle action`() {
         // Given
-        val requestAction = SendRequest(url = "", onSuccess = null,
+        val requestAction = SendRequest(url = valueOf(""), onSuccess = null,
             onError = null, onFinish = null)
-        every { viewModel.fetch(requestAction) } returns liveData
+        every { viewModel.fetch(any()) } returns liveData
         every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
 
         // When
@@ -154,9 +155,9 @@ class SendRequestHandlerTest {
     fun `should send only action finish when handle action with success`() {
         // Given
         val onFinishAction: Action = mockk()
-        val requestAction = SendRequest(url = "", onSuccess = null,
+        val requestAction = SendRequest(url = valueOf(""), onSuccess = null,
             onError = null, onFinish = onFinishAction)
-        every { viewModel.fetch(requestAction) } returns liveData
+        every { viewModel.fetch(any()) } returns liveData
         every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
 
         // When
@@ -172,9 +173,9 @@ class SendRequestHandlerTest {
     fun `should send only action finish when handle action with error`() {
         // Given
         val onFinishAction: Action = mockk()
-        val requestAction = SendRequest(url = "", onSuccess = null,
+        val requestAction = SendRequest(url = valueOf(""), onSuccess = null,
             onError = null, onFinish = onFinishAction)
-        every { viewModel.fetch(requestAction) } returns liveData
+        every { viewModel.fetch(any()) } returns liveData
         every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
 
         // When

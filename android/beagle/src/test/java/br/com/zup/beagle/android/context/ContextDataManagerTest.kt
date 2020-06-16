@@ -18,13 +18,14 @@ package br.com.zup.beagle.android.context
 
 import androidx.collection.LruCache
 import br.com.zup.beagle.android.action.SetContext
+import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.jsonpath.JsonPathReplacer
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.testutil.getPrivateField
-import br.com.zup.beagle.android.widget.core.Bind
+import br.com.zup.beagle.android.widget.Bind
 import com.squareup.moshi.Moshi
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -54,7 +55,6 @@ class ContextDataManagerTest {
 
     private lateinit var contextDataManager: ContextDataManager
 
-    private lateinit var lruCache: LruCache<String, Any>
     private lateinit var contexts: MutableMap<String, ContextBinding>
 
     @MockK
@@ -94,11 +94,9 @@ class ContextDataManagerTest {
             moshi
         )
 
-        lruCache = contextDataManager.getPrivateField("lruCache")
         contexts = contextDataManager.getPrivateField("contexts")
 
         contexts.clear()
-        lruCache.evictAll()
 
         val contextData = ContextData(CONTEXT_ID, model)
         contexts[CONTEXT_ID] = ContextBinding(contextData, mutableListOf(bindModel))
@@ -159,7 +157,7 @@ class ContextDataManagerTest {
             put("a", true)
         }
         val contextData = ContextData(CONTEXT_ID, json)
-        val updateContext = SetContext(CONTEXT_ID, false, "a")
+        val updateContext = SetContextInternal(CONTEXT_ID, false, "a")
         contexts[contextData.id] = ContextBinding(contextData, mutableListOf())
         every { jsonPathReplacer.replace(any(), any(), any()) } returns true
 
@@ -174,7 +172,7 @@ class ContextDataManagerTest {
     fun updateContext_should_log_error_when_jsonPathReplacer_throws_exception() {
         // Given
         val contextData = ContextData(CONTEXT_ID, true)
-        val updateContext = SetContext(CONTEXT_ID, false, "a")
+        val updateContext = SetContextInternal(CONTEXT_ID, false, "a")
         contexts[contextData.id] = ContextBinding(contextData, mutableListOf())
         every { jsonPathReplacer.replace(any(), any(), any()) } throws IllegalStateException()
 
@@ -189,7 +187,7 @@ class ContextDataManagerTest {
     fun updateContext_should_set_value_on_context_root() {
         // Given
         val contextData = ContextData(CONTEXT_ID, true)
-        val updateContext = SetContext(CONTEXT_ID, false, null)
+        val updateContext = SetContextInternal(CONTEXT_ID, false, null)
         contexts[contextData.id] = ContextBinding(contextData, mutableListOf())
 
         // When
@@ -204,7 +202,7 @@ class ContextDataManagerTest {
     @Test
     fun updateContext_should_return_false_when_contextId_does_not_exist() {
         // Given
-        val updateContext = SetContext(RandomData.string(), false, null)
+        val updateContext = SetContextInternal(RandomData.string(), false, null)
 
         // When
         val result = contextDataManager.updateContext(updateContext)
@@ -228,22 +226,6 @@ class ContextDataManagerTest {
 
         // Then
         verify { bindModel.notifyChange(value) }
-    }
-
-    @Test
-    fun evaluateContextBindings_should_get_value_from_lru_cache() {
-        // Given
-        val value = true
-        val path = "a"
-        val contextData = ContextData(CONTEXT_ID, value)
-        contexts[CONTEXT_ID] = ContextBinding(contextData, mutableListOf(bindModel))
-        lruCache.put(path, value)
-
-        // When
-        contextDataManager.evaluateAllContext()
-
-        // Then
-        verify(exactly = once()) { bindModel.notifyChange(value) }
     }
 
     @Test

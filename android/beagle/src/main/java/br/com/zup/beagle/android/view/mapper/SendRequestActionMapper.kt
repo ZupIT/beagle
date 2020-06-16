@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.view.mapper
 
 import br.com.zup.beagle.android.action.RequestActionMethod
 import br.com.zup.beagle.android.action.SendRequest
+import br.com.zup.beagle.android.action.SendRequestInternal
 import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
@@ -25,7 +26,7 @@ import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.view.viewmodel.Response
 import java.net.URI
 
-internal fun SendRequest.toRequestData(): RequestData = SendRequestActionMapper.toRequestData(this)
+internal fun SendRequestInternal.toRequestData(): RequestData = SendRequestActionMapper.toRequestData(this)
 
 fun ResponseData.toResponse() = Response(
     statusCode = this.statusCode,
@@ -35,14 +36,14 @@ fun ResponseData.toResponse() = Response(
 )
 
 internal object SendRequestActionMapper {
-    fun toRequestData(sendRequest: SendRequest): RequestData {
+    fun toRequestData(sendRequest: SendRequestInternal): RequestData {
         val method = toHttpMethod(sendRequest.method)
         val urlFormatted = sendRequest.url.formatUrl()
         return RequestData(
             uri = URI(urlFormatted),
             method = method,
             headers = sendRequest.headers,
-            body = sendRequest.body
+            body = sendRequest.data?.toString()
         )
     }
 

@@ -19,7 +19,7 @@ package br.com.zup.beagle.android.view.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.zup.beagle.android.action.SendRequest
+import br.com.zup.beagle.android.action.SendRequestInternal
 import br.com.zup.beagle.android.data.ActionRequester
 import br.com.zup.beagle.android.exception.BeagleApiException
 import br.com.zup.beagle.android.view.mapper.toRequestData
@@ -39,7 +39,7 @@ internal class ActionRequestViewModel(
     private val requester: ActionRequester = ActionRequester()
 ) : ViewModel() {
 
-    fun fetch(sendRequest: SendRequest): LiveData<FetchViewState> {
+    fun fetch(sendRequest: SendRequestInternal): LiveData<FetchViewState> {
         return FetchComponentLiveData(requester, sendRequest, viewModelScope.coroutineContext)
     }
 
@@ -51,7 +51,7 @@ internal class ActionRequestViewModel(
 
 private class FetchComponentLiveData(
     private val requester: ActionRequester,
-    private val sendRequest: SendRequest,
+    private val sendRequest: SendRequestInternal,
     override val coroutineContext: CoroutineContext
 ) : LiveData<ActionRequestViewModel.FetchViewState>(), CoroutineScope {
 

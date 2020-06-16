@@ -26,9 +26,9 @@ import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.ViewModelProviderFactory
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.core.Bind
-import br.com.zup.beagle.android.widget.core.Bind.Companion.expressionOf
-import br.com.zup.beagle.android.widget.core.Bind.Companion.valueOf
+import br.com.zup.beagle.android.widget.Bind
+import br.com.zup.beagle.android.widget.Bind.Companion.expressionOf
+import br.com.zup.beagle.android.widget.Bind.Companion.valueOf
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
