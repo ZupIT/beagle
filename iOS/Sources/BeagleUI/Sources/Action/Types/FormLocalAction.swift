@@ -16,9 +16,9 @@
 
 import BeagleSchema
 
-extension CustomAction: Action {
+extension FormLocalAction: Action {
     public func execute(controller: BeagleController, sender: Any) {
-        controller.dependencies.customActionHandler?.handle(action: self, controller: controller) {
+        controller.dependencies.localFormHandler?.handle(action: self, controller: controller) {
             [weak controller] result in guard let controller = controller else { return }
             switch result {
             case .start:

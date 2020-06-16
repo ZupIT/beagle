@@ -2,15 +2,15 @@
   - analytics: Optional<Analytics>.none
   - appBundle: NSBundle <(null)> (not yet loaded)
   - cacheManager: Optional<CacheManagerProtocol>.none
-  ▿ customActionHandler: Optional<CustomActionHandler>
-    ▿ some: CustomActionHandlerSpy
-      - actionsHandledCount: 0
   - decoder: ComponentDecodingDummy
   ▿ deepLinkHandler: Optional<DeepLinkScreenManaging>
     - some: DeepLinkHandlerDummy
   - flex: (Function)
   ▿ formDataStoreHandler: FormDataStoreHandler
     - dataStore: 0 key/value pairs
+  ▿ localFormHandler: Optional<LocalFormHandler>
+    ▿ some: LocalFormHandlerSpy
+      - actionsHandledCount: 0
   - logger: BeagleLoggerDumb
   - navigation: BeagleNavigator
   - navigationControllerType: BeagleNavigationController

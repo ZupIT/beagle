@@ -90,8 +90,8 @@ class FormManager {
         case let action as FormRemoteAction:
             submitForm(action, inputs: inputs, sender: sender, group: group)
 
-        case let action as CustomAction:
-            let newAction = CustomAction(name: action.name, data: inputs.merging(action.data) { a, _ in return a })
+        case let action as FormLocalAction:
+            let newAction = FormLocalAction(name: action.name, data: inputs.merging(action.data) { a, _ in return a })
             controller.execute(action: newAction, sender: sender)
         default:
             controller.execute(action: action, sender: sender)

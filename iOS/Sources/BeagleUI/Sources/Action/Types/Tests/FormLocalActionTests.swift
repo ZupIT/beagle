@@ -19,32 +19,32 @@ import SnapshotTesting
 import BeagleSchema
 @testable import BeagleUI
 
-final class CustomActionTests: XCTestCase {
+final class FormLocalActionTests: XCTestCase {
 
-    func test_whenExecuteCustomAction_shouldUseActionHandler() {
+    func test_whenExecuteFormLocalAction_shouldUseLocalFormHandler() {
         // Given
-        let sut = CustomAction(name: "custom-action", data: [:])
-        let actionSpy = CustomActionHandlerSpy()
+        let sut = FormLocalAction(name: "custom-action", data: [:])
+        let actionSpy = LocalFormHandlerSpy()
         let controller = BeagleControllerStub()
-        controller.dependencies = BeagleScreenDependencies(customActionHandler: actionSpy)
-
+        controller.dependencies = BeagleScreenDependencies(localFormHandler: actionSpy)
+        
         // When
         sut.execute(controller: controller, sender: self)
-
+        
         // Then
         XCTAssertEqual(actionSpy.actionsHandledCount, 1)
     }
-
-    func test_whenExecuteCustomAction_shouldListenToStateChanges() {
+    
+    func test_whenExecuteFormLocalAction_shouldListenToStateChanges() {
         // Given
         let name = "name"
-        let error = NSError(domain: "tests", code: 1, description: "CusomAction")
-        let customAction = CustomAction(name: name, data: [:])
+        let error = NSError(domain: "tests", code: 1, description: "FormLocalAction")
+        let formLocalAction = FormLocalAction(name: name, data: [:])
         let successAction = ActionSpy()
-
+        
         var statesTracker: [ServerDrivenState] = []
         let controller = BeagleControllerStub()
-        let actionHander = CustomActionHandling(handlers: [
+        let actionHander = LocalFormHandling(handlers: [
             name: { _, _, listener in
                 listener(.start)
                 statesTracker.append(controller.serverDrivenState)
@@ -55,11 +55,11 @@ final class CustomActionTests: XCTestCase {
             }
         ])
         controller.dependencies = BeagleScreenDependencies(
-            customActionHandler: actionHander
+            localFormHandler: actionHander
         )
 
         // When
-        customAction.execute(controller: controller, sender: self)
+        formLocalAction.execute(controller: controller, sender: self)
 
         // Then
         assertSnapshot(matching: statesTracker, as: .dump)
@@ -67,10 +67,11 @@ final class CustomActionTests: XCTestCase {
 }
 
 // MARK: - Test helpers
-class CustomActionHandlerSpy: CustomActionHandler {
+
+class LocalFormHandlerSpy: LocalFormHandler {
     private(set) var actionsHandledCount = 0
 
-    func handle(action: CustomAction, controller: BeagleController, listener: @escaping Listener) {
+    func handle(action: FormLocalAction, controller: BeagleController, listener: @escaping Listener) {
         actionsHandledCount += 1
     }
 }

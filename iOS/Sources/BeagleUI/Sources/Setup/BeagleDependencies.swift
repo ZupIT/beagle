@@ -22,7 +22,7 @@ public protocol BeagleDependenciesProtocol: BeagleSchema.Dependencies,
     DependencyUrlBuilder,
     DependencyNetworkClient,
     DependencyDeepLinkScreenManaging,
-    DependencyCustomActionHandler,
+    DependencyLocalFormHandler,
     DependencyNavigationController,
     DependencyNavigation,
     DependencyViewConfigurator,
@@ -48,7 +48,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var theme: Theme
     public var validatorProvider: ValidatorProvider?
     public var deepLinkHandler: DeepLinkScreenManaging?
-    public var customActionHandler: CustomActionHandler?
+    public var localFormHandler: LocalFormHandler?
     public var repository: Repository
     public var analytics: Analytics?
     public var navigationControllerType: BeagleNavigationController.Type
@@ -87,7 +87,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
 
         self.urlBuilder = UrlBuilder()
         self.preFetchHelper = BeaglePreFetchHelper(dependencies: resolver)
-        self.customActionHandler = nil
+        self.localFormHandler = nil
         self.appBundle = Bundle.main
         self.theme = AppTheme(styles: [:])
         self.navigationControllerType = BeagleNavigationController.self
@@ -132,7 +132,7 @@ private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     var navigationControllerType: BeagleNavigationController.Type { return container().navigationControllerType }
     var navigation: BeagleNavigation { return container().navigation }
     var deepLinkHandler: DeepLinkScreenManaging? { return container().deepLinkHandler }
-    var customActionHandler: CustomActionHandler? { return container().customActionHandler }
+    var localFormHandler: LocalFormHandler? { return container().localFormHandler }
     var logger: BeagleLoggerType { return container().logger }
     var cacheManager: CacheManagerProtocol? { return container().cacheManager }
     var repository: Repository { return container().repository }
