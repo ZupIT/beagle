@@ -31,7 +31,7 @@ final class CustomActionHandlerTests: XCTestCase {
         }
         
         // When
-        sut.handle(context: BeagleContextDummy(), action: action) { _ in }
+        sut.handle(action: action, controller: BeagleControllerStub()) { _ in }
         
         // Then
         XCTAssertTrue(didHandleActioin)

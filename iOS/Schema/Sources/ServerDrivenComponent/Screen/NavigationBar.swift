@@ -47,7 +47,7 @@ public struct NavigationBarItem: AutoInitiableAndDecodable, AccessibilityCompone
     public let id: String?
     public let image: String?
     public let text: String
-    public let action: Action
+    public let action: RawAction
     public let accessibility: Accessibility?
 
 // sourcery:inline:auto:NavigationBarItem.Init
@@ -55,7 +55,7 @@ public struct NavigationBarItem: AutoInitiableAndDecodable, AccessibilityCompone
         id: String? = nil,
         image: String? = nil,
         text: String,
-        action: Action,
+        action: RawAction,
         accessibility: Accessibility? = nil
     ) {
         self.id = id

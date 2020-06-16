@@ -50,6 +50,8 @@ final class ScrollViewTests: XCTestCase {
         let container = ScrollView(children: [
             ComponentDummy()
         ])
+        let controller = BeagleControllerStub()
+        let renderer = BeagleRenderer(controller: controller)
 
         // When
         let resultingView = renderer.render(container)

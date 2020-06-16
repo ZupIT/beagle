@@ -23,6 +23,8 @@ final class FormInputTests: XCTestCase {
     func test_buildView_shouldReturnTheExpectedView() {
         // Given
         let formInput = FormInput(name: "username", child: ComponentDummy())
+        let controller = BeagleControllerStub()
+        let renderer = BeagleRenderer(controller: controller)
         
         // When
         let formInputView = renderer.render(formInput)

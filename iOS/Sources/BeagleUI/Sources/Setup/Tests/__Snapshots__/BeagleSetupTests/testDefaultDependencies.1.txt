@@ -1,7 +1,4 @@
 ▿ BeagleDependencies
-  ▿ actionExecutor: ActionExecuting
-    ▿ dependencies: InnerDependenciesResolver
-      - container: (Function)
   - analytics: Optional<Analytics>.none
   - appBundle: NSBundle <(null)> (not yet loaded)
   ▿ cacheManager: Optional<CacheManagerProtocol>
@@ -125,8 +122,6 @@
   - logger: BeagleLogger
   ▿ navigation: BeagleNavigator
     - defaultAnimation: Optional<BeagleNavigatorAnimation>.none
-    ▿ dependencies: InnerDependenciesResolver
-      - container: (Function)
   - navigationControllerType: BeagleNavigationController
   ▿ networkClient: NetworkClientDefault
     ▿ dependencies: InnerDependenciesResolver

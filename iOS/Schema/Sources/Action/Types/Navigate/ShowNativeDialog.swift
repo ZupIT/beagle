@@ -17,7 +17,7 @@
 import Foundation
 
 /// Action to represent a native alert
-public struct ShowNativeDialog: Action, AutoInitiable {
+public struct ShowNativeDialog: RawAction, AutoInitiable {
     
     public let title: String
     public let message: String

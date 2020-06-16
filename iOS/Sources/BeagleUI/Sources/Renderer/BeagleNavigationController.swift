@@ -35,26 +35,14 @@ open class BeagleNavigationController: UINavigationController {
     
     open func serverDrivenStateDidChange(
         to state: ServerDrivenState,
-        at screenController: BeagleScreenViewController
+        at screenController: BeagleController
     ) {
         switch state {
         case .loading(let loading):
             loading ? view.showLoading(.whiteLarge) : view.hideLoading()
         case .error:
-            break
+            view.hideLoading()
         }
     }
     
-}
-
-extension BeagleNavigationController {
-
-    func startLoading(_ screenController: BeagleScreenViewController) {
-        serverDrivenStateDidChange(to: .loading(true), at: screenController)
-    }
-
-    func stopLoading(_ screenController: BeagleScreenViewController) {
-        serverDrivenStateDidChange(to: .loading(false), at: screenController)
-    }
-
 }
