@@ -16,7 +16,12 @@
 
 package br.com.zup.beagle.android.compiler
 
-import br.com.zup.beagle.android.compiler.util.*
+import br.com.zup.beagle.android.compiler.util.BEAGLE_CONFIG
+import br.com.zup.beagle.android.compiler.util.BEAGLE_SDK
+import br.com.zup.beagle.android.compiler.util.FORM_LOCAL_ACTION_HANDLER
+import br.com.zup.beagle.android.compiler.util.DEEP_LINK_HANDLER
+import br.com.zup.beagle.android.compiler.util.HTTP_CLIENT_HANDLER
+import br.com.zup.beagle.android.compiler.util.BEAGLE_LOGGER
 import br.com.zup.beagle.android.compiler.util.error
 import br.com.zup.beagle.widget.Widget
 import com.squareup.kotlinpoet.ClassName

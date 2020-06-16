@@ -17,8 +17,20 @@
 package br.com.zup.beagle.android.compiler
 
 import br.com.zup.beagle.android.annotation.BeagleComponent
-import br.com.zup.beagle.android.compiler.util.*
+import br.com.zup.beagle.android.compiler.util.FORM_LOCAL_ACTION_HANDLER
+import br.com.zup.beagle.android.compiler.util.DEEP_LINK_HANDLER
+import br.com.zup.beagle.android.compiler.util.HTTP_CLIENT_HANDLER
+import br.com.zup.beagle.android.compiler.util.STORE_HANDLER
+import br.com.zup.beagle.android.compiler.util.URL_BUILDER_HANDLER
+import br.com.zup.beagle.android.compiler.util.BEAGLE_LOGGER
+import br.com.zup.beagle.android.compiler.util.extendsFromClass
+import br.com.zup.beagle.android.compiler.util.BEAGLE_ACTIVITY
+import br.com.zup.beagle.android.compiler.util.DESIGN_SYSTEM
+import br.com.zup.beagle.android.compiler.util.ANALYTICS
+import br.com.zup.beagle.android.compiler.util.VALIDATOR_HANDLER
+import br.com.zup.beagle.android.compiler.util.BeagleClass
 import br.com.zup.beagle.android.compiler.util.error
+import br.com.zup.beagle.android.compiler.util.implementsInterface
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
