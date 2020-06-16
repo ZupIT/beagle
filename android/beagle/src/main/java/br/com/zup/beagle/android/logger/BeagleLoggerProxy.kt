@@ -38,14 +38,6 @@ internal object BeagleLoggerProxy : BeagleLogger {
         logger.info(message)
     }
 
-    override fun debug(message: String) = runIfEnable{
-        logger.debug(message)
-    }
-
-    override fun verbose(message: String) = runIfEnable{
-        logger.verbose(message)
-    }
-
     private fun runIfEnable(runBlock: () -> Unit) {
         if (BeagleEnvironment.beagleSdk.config.logEnable) {
             runBlock()

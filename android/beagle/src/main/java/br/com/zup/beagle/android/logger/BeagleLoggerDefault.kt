@@ -38,11 +38,4 @@ internal class BeagleLoggerDefault : BeagleLogger {
         Log.i(BEAGLE_TAG, message)
     }
 
-    override fun debug(message: String) {
-        Log.d(BEAGLE_TAG, message)
-    }
-
-    override fun verbose(message: String) {
-        Log.v(BEAGLE_TAG, message)
-    }
 }

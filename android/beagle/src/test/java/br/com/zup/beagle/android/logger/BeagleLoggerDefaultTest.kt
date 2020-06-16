@@ -79,22 +79,4 @@ class BeagleLoggerDefaultTest {
         verify(exactly = once()) { Log.i(BEAGLE_TAG, LOG) }
     }
 
-    @Test
-    fun debug_should_call_Log_w() {
-        // When
-        beagleLoggerDispatchingDefault.debug(LOG)
-
-        // Then
-        verify(exactly = once()) { Log.d(BEAGLE_TAG, LOG) }
-    }
-
-    @Test
-    fun verbose_should_call_Log_w() {
-        // When
-        beagleLoggerDispatchingDefault.verbose(LOG)
-
-        // Then
-        verify(exactly = once()) { Log.v(BEAGLE_TAG, LOG) }
-    }
-
 }

@@ -21,6 +21,4 @@ interface BeagleLogger {
     fun error(message: String)
     fun error(message: String, throwable: Throwable)
     fun info(message: String)
-    fun debug(message: String)
-    fun verbose(message: String)
 }
