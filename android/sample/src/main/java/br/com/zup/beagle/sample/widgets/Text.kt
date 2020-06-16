@@ -28,10 +28,10 @@ import br.com.zup.beagle.annotation.RegisterWidget
 data class Text(
     val text: Bind<String>
 ) : WidgetView() {
-    override fun buildView(rootView: RootView): TextView = TextView(rootView.getContext()).apply {
-        setTextColor(Color.BLACK)
-        this@apply.text = this@Text.text.get(rootView) {
-            this@apply.text = it
+    override fun buildView(rootView: RootView): TextView = TextView(rootView.getContext()).also {
+        it.setTextColor(Color.BLACK)
+        it.text = this@Text.text.get(rootView) { newText ->
+            it.text = newText
         }
     }
 }
