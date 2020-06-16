@@ -253,7 +253,7 @@ extension <%= type.name %> {
         <%_ if let customMethod = customMethod { -%>
         <%_ _%><%= type.name %>.<%= customMethod.callName _%>(from:<%_ if customMethod.parameters.first?.name == "decoder" { _%>decoder<%_ } else { _%>container<%_ } _%>)<%_ -%>
         <%_ } else { -%>
-        <%_ if variable.name == "widgetProperties" && variable.type?.name == "WidgetProperties" { _%>WidgetProperties(from: decoder)<%_ } -%>
+        <%_ if variable.name == "widgetProperties" && variable.typeName.name == "WidgetProperties" { _%>WidgetProperties(from: decoder)<%_ } -%>
         <%_ else { -%>
         <%_ _%>container.decode<%_ if variable.isOptional { _%>IfPresent<% } _%>(<%_if !needsCustomBeagleDecoding(variable){_%> <%= variable.unwrappedTypeName _%>.self,<%_ } -%> forKey: .<%= variable.name _%>)<%_ -%>
         <%_ if let type = variable.type, type.implements[raw] != nil, type.name != raw { -%> 
