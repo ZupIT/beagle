@@ -22,13 +22,10 @@ import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
+import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.ViewModelProviderFactory
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
-import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.Bind
-import br.com.zup.beagle.android.widget.Bind.Companion.expressionOf
-import br.com.zup.beagle.android.widget.Bind.Companion.valueOf
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -36,27 +33,18 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.slot
 import io.mockk.unmockkAll
+import io.mockk.verify
 import io.mockk.verifySequence
 import org.junit.Test
 
 import kotlin.test.assertEquals
-
-data class CustomAction(
-    val a: Bind<String>,
-    val b: Bind<Boolean>
-) : Action {
-    override fun execute(rootView: RootView) {}
-}
 
 class ContextActionExecutorTest : BaseTest() {
 
     private val rootView = mockk<ActivityRootView>()
     private val contextDataManager = mockk<ContextDataManager>(relaxed = true)
 
-    private val customAction = CustomAction(
-        a = expressionOf("@{onChange.value}"),
-        b = valueOf(true)
-    )
+    private val action = mockk<Action>()
     private lateinit var contextActionExecutor: ContextActionExecutor
 
     private val contextDataSlot = slot<ContextData>()
@@ -69,6 +57,7 @@ class ContextActionExecutorTest : BaseTest() {
 
         contextActionExecutor = ContextActionExecutor()
 
+        every { action.execute(any()) } just Runs
         every { beagleSdk.registeredWidgets() } returns listOf()
         every { rootView.activity } returns mockk()
 
@@ -90,12 +79,12 @@ class ContextActionExecutorTest : BaseTest() {
         val value = RandomData.string()
 
         // When
-        contextActionExecutor.executeActions(rootView, listOf(customAction), eventId, value)
+        contextActionExecutor.executeActions(rootView, listOf(action), eventId, value)
 
         // Then
         verifySequence {
             contextDataManager.addContext(any())
-            // TODO: handle action
+            action.execute(rootView)
             contextDataManager.removeContext(any())
         }
     }
@@ -107,7 +96,7 @@ class ContextActionExecutorTest : BaseTest() {
         val value = RandomData.string()
 
         // When
-        contextActionExecutor.executeActions(rootView, listOf(customAction), eventId, value)
+        contextActionExecutor.executeActions(rootView, listOf(action), eventId, value)
 
         // Then
         assertEquals(eventId, contextDataSlot.captured.id)
@@ -123,7 +112,7 @@ class ContextActionExecutorTest : BaseTest() {
         every { BeagleMoshi.moshi.adapter<Container>(any<Class<*>>()).toJson(value) } returns jsonMock
 
         // When
-        contextActionExecutor.executeActions(rootView, listOf(customAction), eventId, value)
+        contextActionExecutor.executeActions(rootView, listOf(action), eventId, value)
 
         // Then
         assertEquals(eventId, contextDataSlot.captured.id)
@@ -137,10 +126,9 @@ class ContextActionExecutorTest : BaseTest() {
         val value = null
 
         // When
-        contextActionExecutor.executeActions(rootView, listOf(customAction), eventId, value)
+        contextActionExecutor.executeActions(rootView, listOf(action), eventId, value)
 
         // Then
-        // TODO: uncomment
-//        verify(exactly = once()) { action.execute() }
+        verify(exactly = once()) { action.execute(rootView) }
     }
 }
