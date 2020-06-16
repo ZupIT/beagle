@@ -12,12 +12,11 @@
       - defaultMaxCacheAge: "maxValidAge"
       ▿ dependencies: InnerDependenciesResolver
         - container: (Function)
-  - customActionHandler: Optional<CustomActionHandler>.none
   ▿ decoder: ComponentDecoder
     ▿ actionDecoders: 13 key/value pairs
       ▿ (2 elements)
-        - key: "beagle:customaction"
-        - value: CustomAction
+        - key: "beagle:formlocalaction"
+        - value: FormLocalAction
       ▿ (2 elements)
         - key: "beagle:formremoteaction"
         - value: FormRemoteAction
@@ -119,6 +118,7 @@
   - flex: (Function)
   ▿ formDataStoreHandler: FormDataStoreHandler
     - dataStore: 0 key/value pairs
+  - localFormHandler: Optional<LocalFormHandler>.none
   - logger: BeagleLogger
   - navigation: BeagleNavigator
   - navigationControllerType: BeagleNavigationController

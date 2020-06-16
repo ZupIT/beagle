@@ -14,26 +14,21 @@
  * limitations under the License.
  */
 
-import XCTest
-@testable import BeagleUI
-import BeagleSchema
+import Foundation
 
-final class CustomActionHandlerTests: XCTestCase {
+/// An action to handle form submit locally
+public struct FormLocalAction: RawAction, AutoInitiable {
     
-    func test_whenHandleCustomAction_shouldCallHandler() {
-        // Given
-        let actionName = "action-name"
-        let action = CustomAction(name: actionName, data: [:])
-        let sut = CustomActionHandling()
-        var didHandleActioin = false
-        sut[actionName] = { _, _, _ in
-            didHandleActioin = true
-        }
-        
-        // When
-        sut.handle(action: action, controller: BeagleControllerStub()) { _ in }
-        
-        // Then
-        XCTAssertTrue(didHandleActioin)
+    public let name: String
+    public let data: [String: String]
+
+// sourcery:inline:auto:FormLocalAction.Init
+    public init(
+        name: String,
+        data: [String: String]
+    ) {
+        self.name = name
+        self.data = data
     }
+// sourcery:end
 }

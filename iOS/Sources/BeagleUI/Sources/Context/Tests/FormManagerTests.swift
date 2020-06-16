@@ -208,7 +208,7 @@ final class FormManagerTests: XCTestCase {
 
         // When
         FormManager(sender: gesture)?.submitForm()
-        repositoryStub.formCompletion?(.success(CustomAction(name: "custom", data: [:])))
+        repositoryStub.formCompletion?(.success(FormLocalAction(name: "custom", data: [:])))
         
         // Then
         XCTAssert(dataStoreStub.didCallformManagerDidSubmitForm)
