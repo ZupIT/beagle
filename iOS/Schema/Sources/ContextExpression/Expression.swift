@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,19 +14,20 @@
  * limitations under the License.
  */
 
-import XCTest
-@testable import BeagleSchema
-import SnapshotTesting
+public enum Expression<T: Decodable> {
+    case value(T)
+    case expression(SingleExpression)
+}
 
-class FormInputTests: XCTestCase {
-
-    func test_initWithChild_shouldReturnValidFormInput() {
-        // Given / When
-        let sut = FormInput(name: "name", child:
-            Text(.value("Text"))
-        )
-        // Then
-        XCTAssert(sut.child is Text)
+extension Expression: Decodable {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let expression = try? container.decode(SingleExpression.self) {
+            self = .expression(expression)
+        } else if let value = try? container.decode(T.self) {
+            self = .value(value)
+        } else {
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Expression cannot be decoded")
+        }
     }
-
 }

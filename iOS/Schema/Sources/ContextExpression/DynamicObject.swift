@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,18 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import UIKit
-
-public struct Context: Decodable {
-    public let id: String
-    public let value: DynamicObject
-    
-    public init(id: String, value: DynamicObject) {
-        self.id = id
-        self.value = value
-    }
-}
 
 public enum DynamicObject {
     case empty
@@ -80,7 +67,10 @@ extension DynamicObject {
     }
 }
 
+// MARK: Codable
+
 extension DynamicObject: Decodable {
+    
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if container.decodeNil() {
@@ -106,6 +96,7 @@ extension DynamicObject: Decodable {
 }
 
 extension DynamicObject: Encodable {
+    
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
 
@@ -130,9 +121,10 @@ extension DynamicObject: Encodable {
     }
 }
 
+// TODO: Mover para BeagleUI
 extension DynamicObject {
 
-    mutating func set(_ value: Any, forPath path: String) {
+    public mutating func set(_ value: Any, forPath path: String) {
         do {
             let path = try parsePath(path)
             let object = try compilePath(value, path)
@@ -144,54 +136,6 @@ extension DynamicObject {
     
     public func merge(_ other: DynamicObject) -> DynamicObject {
         return _mergeDynamicObjects(self, other)
-    }
-}
-
-extension DynamicObject: ExpressibleByNilLiteral {
-    public init(nilLiteral: ()) {
-        self = .empty
-    }
-}
-
-extension DynamicObject: ExpressibleByBooleanLiteral {
-    public init(booleanLiteral value: Bool) {
-        self = .bool(value)
-    }
-}
-
-extension DynamicObject: ExpressibleByIntegerLiteral {
-    public init(integerLiteral value: Int) {
-        self = .int(value)
-    }
-}
-
-extension DynamicObject: ExpressibleByFloatLiteral {
-    public init(floatLiteral value: Double) {
-        self = .double(value)
-    }
-}
-
-extension DynamicObject: ExpressibleByStringLiteral {
-    public init(stringLiteral value: String) {
-        if let expression = SingleExpression(rawValue: value) {
-            self = .expression(expression)
-        } else {
-            self = .string(value)
-        }
-    }
-}
-
-extension DynamicObject: ExpressibleByArrayLiteral {
-    public init(arrayLiteral elements: DynamicObject...) {
-        self = .array(elements)
-    }
-}
-
-extension DynamicObject: ExpressibleByDictionaryLiteral {
-    public init(dictionaryLiteral elements: (String, DynamicObject)...) {
-        var dictionary: [String: DynamicObject] = [:]
-        elements.forEach { dictionary[$0.0] = $0.1 }
-        self = .dictionary(dictionary)
     }
 }
 

@@ -61,6 +61,7 @@ final class ActionExecuting: ActionExecutor {
         let newValue = action.value.get(with: view)
         let context = view.findContext(by: action.context)
     
+        // TODO: arrumar caso set for path
         if let dynamicObject = context?.value.value {
             context?.value = Context(id: context?.value.id ?? "", value: dynamicObject.merge(newValue))
         } else {
@@ -109,33 +110,6 @@ final class ActionExecuting: ActionExecutor {
             case .success(let action):
                 context.screenController.viewModel.state = .success
                 self.doAction(action, sender: self, context: context)
-            }
-        }
-    }
-}
-
-private extension Dictionary {
-    // TODO: Log errors
-    mutating func setValue(value: Any, forKeyPath keyPath: String) {
-        var keys = keyPath.components(separatedBy: ".")
-        guard let first = keys.first as? Key else {
-            // "Unable to use string as key on type: \(Key.self)"
-            return
-        }
-        keys.remove(at: 0)
-        if keys.isEmpty, let settable = value as? Value {
-            self[first] = settable
-        } else {
-            let rejoined = keys.joined(separator: ".")
-            var subdict: [String: Any] = [:]
-            if let sub = self[first] as? [String: Any] {
-                subdict = sub
-            }
-            subdict.setValue(value: value, forKeyPath: rejoined)
-            if let settable = subdict as? Value {
-                self[first] = settable
-            } else {
-                // "Unable to set value: \(subdict) to dictionary of type: \(type(of: self))"
             }
         }
     }

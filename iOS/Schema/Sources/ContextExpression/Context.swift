@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,14 +14,17 @@
  * limitations under the License.
  */
 
-import Foundation
-
-extension NSRegularExpression {
-    convenience init(_ pattern: String) {
-        do {
-            try self.init(pattern: pattern)
-        } catch {
-            preconditionFailure("Illegal regular expression: \(pattern).")
-        }
+public struct Context: Decodable, AutoInitiable {
+    public let id: String
+    public let value: DynamicObject
+    
+// sourcery:inline:auto:Context.Init
+    public init(
+        id: String,
+        value: DynamicObject
+    ) {
+        self.id = id
+        self.value = value
     }
+// sourcery:end
 }

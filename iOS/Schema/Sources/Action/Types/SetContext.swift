@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -32,5 +31,3 @@ public struct SetContext: Action, AutoInitiable {
     }
 // sourcery:end
 }
-
-extension SetContext: Decodable {}

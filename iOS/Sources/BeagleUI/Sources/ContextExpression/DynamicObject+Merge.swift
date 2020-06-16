@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,19 +14,4 @@
  * limitations under the License.
  */
 
-import XCTest
-@testable import BeagleSchema
-import SnapshotTesting
-
-class FormInputTests: XCTestCase {
-
-    func test_initWithChild_shouldReturnValidFormInput() {
-        // Given / When
-        let sut = FormInput(name: "name", child:
-            Text(.value("Text"))
-        )
-        // Then
-        XCTAssert(sut.child is Text)
-    }
-
-}
+import BeagleSchema

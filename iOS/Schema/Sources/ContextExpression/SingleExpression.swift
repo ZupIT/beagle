@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,26 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import Foundation
-
-public enum Expression<T: Decodable> {
-    case value(T)
-    case expression(SingleExpression)
-}
-
-extension Expression: Decodable {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        if let expression = try? container.decode(SingleExpression.self) {
-            self = .expression(expression)
-        } else if let value = try? container.decode(T.self) {
-            self = .value(value)
-        } else {
-            throw DecodingError.dataCorruptedError(in: container, debugDescription: "ValueExpression cannot be decoded")
-        }
-    }
-}
 
 public struct SingleExpression: Decodable {
     public let nodes: [Node]
@@ -84,38 +63,5 @@ extension SingleExpression: RawRepresentable {
         }
         expression += "}"
         return expression
-    }
-}
-
-// TODO: revisar tratativa de erro (criar Expression do tipo unknown???)
-extension Expression: ExpressibleByStringLiteral {
-    public init(stringLiteral value: String) {
-        if let expression = SingleExpression(rawValue: value) {
-            self = .expression(expression)
-        } else if let value = value as? T {
-            self = .value(value)
-        } else {
-            preconditionFailure("Expected to set \(T.self) but found String instead")
-        }
-    }
-}
-
-extension Expression: ExpressibleByIntegerLiteral {
-    public init(integerLiteral value: Int) {
-        if let value = value as? T {
-            self = .value(value)
-        } else {
-            preconditionFailure("Expected to set \(T.self) but found Int instead")
-        }
-    }
-}
-
-extension Expression: ExpressibleByFloatLiteral {
-    public init(floatLiteral value: Float) {
-        if let value = value as? T {
-            self = .value(value)
-        } else {
-            preconditionFailure("Expected to set \(T.self) but found Float instead")
-        }
     }
 }
