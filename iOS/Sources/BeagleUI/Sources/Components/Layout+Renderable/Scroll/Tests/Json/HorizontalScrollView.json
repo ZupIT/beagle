@@ -1,0 +1,23 @@
+{
+  "_beagleComponent_": "beagle:scrollview",
+  "scrollDirection": "HORIZONTAL",
+  "scrollBarEnabled": true,
+  "style": {
+    "backgroundColor": "#00FFAA"
+  },
+  "children": [
+    {
+      "_beagleComponent_": "beagle:text",
+      "text": "Scroll View Horizontal."
+    },
+    
+    {
+      "_beagleComponent_": "beagle:text",
+      "text": "Some text."
+    },
+    {
+      "_beagleComponent_": "beagle:text",
+      "text": "Aenean ultricies. Turpis sit amet vulputate ultrices. Felis sem pulvinar diam, at tincidunt enim felis vitae ante."
+    }
+  ]
+}

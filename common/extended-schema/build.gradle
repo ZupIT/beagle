@@ -18,7 +18,8 @@ apply plugin: 'kotlin'
 
 dependencies {
     implementation GeneralLibraries.kotlin
-    api project(Modules.beagleSchemaKotlin)
+    implementation project(Modules.beagleSchemaKotlinCore)
+
     testImplementation TestLibraries.kotlinTest
     testImplementation TestLibraries.mockk
     testImplementation TestLibraries.junit5Api

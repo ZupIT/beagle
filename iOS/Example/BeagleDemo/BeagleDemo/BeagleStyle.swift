@@ -16,20 +16,21 @@
 
 import UIKit
 import BeagleUI
+import BeagleSchema
 
-struct Style {
+struct AppTheme {
     
-    static let theme = AppTheme(styles: [
-        .BUTTON_BLACK_TEXT_STYLE: Style.blackTextNormalStyle,
-        .TEXT_HELLO_WORD_STYLE: Style.designSystemTextHelloWord,
-        .TEXT_IMAGE_STYLE: Style.designSystemTextImage,
-        .TEXT_ACTION_CLICK_STYLE: Style.designSystemTextActionClick,
-        .TEXT_STYLISH_STYLE: Style.designSystemStylishButton,
-        .BUTTON_WITH_APPEARANCE_STYLE: Style.designSystemStylishButtonAndAppearance,
-        .FORM_SUBMIT_STYLE: Style.formButton,
-        .NAVIGATION_BAR_GREEN_STYLE: Style.designSystemStyleNavigationBar,
-        .NAVIGATION_BAR_DEFAULT_STYLE: Style.designSystemStyleNavigationBarDefault,
-        .TAB_VIEW_STYLE: Style.tabView
+    static let theme = BeagleUI.AppTheme(styles: [
+        .BUTTON_BLACK_TEXT_STYLE: Self.blackTextNormalStyle,
+        .TEXT_HELLO_WORD_STYLE: Self.designSystemTextHelloWord,
+        .TEXT_IMAGE_STYLE: Self.designSystemTextImage,
+        .TEXT_ACTION_CLICK_STYLE: Self.designSystemTextActionClick,
+        .TEXT_STYLISH_STYLE: Self.designSystemStylishButton,
+        .BUTTON_WITH_APPEARANCE_STYLE: Self.designSystemStylishButtonAndAppearance,
+        .FORM_SUBMIT_STYLE: Self.formButton,
+        .NAVIGATION_BAR_GREEN_STYLE: Self.designSystemStyleNavigationBar,
+        .NAVIGATION_BAR_DEFAULT_STYLE: Self.designSystemStyleNavigationBarDefault,
+        .TAB_VIEW_STYLE: Self.tabView
     ])
     
     static func blackTextNormalStyle() -> (UITextView?) -> Void {
@@ -80,14 +81,12 @@ struct Style {
         return {
             $0?.layer.cornerRadius = 4
             $0?.setTitleColor(.white, for: .normal)
-            $0?.backgroundColor = ($0?.isEnabled ?? false) ? #colorLiteral(red: 0.3411764706, green: 0.6235294118, blue: 0.168627451, alpha: 1) : #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
+            $0?.backgroundColor = ($0?.isEnabled ?? false) ? .demoGreen : .demoGray
             $0?.alpha = $0?.isHighlighted ?? false ? 0.7 : 1
         }
     }
     
     static func tabView() -> (UIView?) -> Void {
-        let orange = #colorLiteral(red: 0.5019607843, green: 0.5019607843, blue: 0.5019607843, alpha: 1)
-        let gray = #colorLiteral(red: 0.2274509804, green: 0.2078431373, blue: 0.2078431373, alpha: 1)
-        return BeagleStyle.tabView(backgroundColor: .clear, indicatorColor: orange, selectedTextColor: orange, unselectedTextColor: gray, selectedIconColor: orange, unselectedIconColor: gray)
+        return BeagleStyle.tabView(backgroundColor: .clear, indicatorColor: .demoGray, selectedTextColor: .demoGray, unselectedTextColor: .demoDarkGray, selectedIconColor: .demoGray, unselectedIconColor: .demoDarkGray)
     }
 }

@@ -43,7 +43,6 @@ import br.com.zup.beagle.sample.constants.SCREEN_NAVIGATION_BAR_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_NETWORK_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_PAGE_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SCROLL_VIEW_ENDPOINT
-import br.com.zup.beagle.sample.constants.SCREEN_STACK_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TAB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TOUCHABLE_ENDPOINT
@@ -63,7 +62,6 @@ import br.com.zup.beagle.sample.micronaut.service.SampleNetworkImageService
 import br.com.zup.beagle.sample.micronaut.service.SamplePageViewService
 import br.com.zup.beagle.sample.micronaut.service.SampleScreenBuilderService
 import br.com.zup.beagle.sample.micronaut.service.SampleScrollViewService
-import br.com.zup.beagle.sample.micronaut.service.SampleStackService
 import br.com.zup.beagle.sample.micronaut.service.SampleTabViewService
 import br.com.zup.beagle.sample.micronaut.service.SampleTextService
 import br.com.zup.beagle.sample.micronaut.service.SampleTouchableService
@@ -89,7 +87,6 @@ class ScreenController(
     private val sampleLazyComponentService: SampleLazyComponentService,
     private val sampleNavigationBarService: SampleNavigationBarService,
     private val sampleNavigationTypeService: SampleNavigationTypeService,
-    private val sampleStackService: SampleStackService,
     private val sampleComposeComponentService: SampleComposeComponentService,
     private val sampleNetworkImageService: SampleNetworkImageService,
     private val sampleTouchableService: SampleTouchableService,
@@ -164,9 +161,6 @@ class ScreenController(
 
     @Get(REPRESENTATION_NAVIGATION_TYPE_STEP3_ENDPOINT)
     fun getNavigationStep3() = this.sampleNavigationTypeService.step3()
-
-    @Get(SCREEN_STACK_ENDPOINT)
-    fun getSampleStackView() = this.sampleStackService.createStackView()
 
     @Get(SCREEN_COMPOSE_COMPONENT_ENDPOINT)
     fun getComposeComponent() = this.sampleComposeComponentService.createComposeComponentView()

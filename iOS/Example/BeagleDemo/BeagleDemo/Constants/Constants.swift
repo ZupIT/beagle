@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import Foundation
+import UIKit
 
 extension String {
     // MARK: - BeagleConfig
@@ -51,4 +51,16 @@ extension String {
     static let TEXT_ACTION_CLICK_STYLE = "DesignSystem.Text.Action.Click"
     static let TEXT_IMAGE_STYLE = "DesignSystem.Text.Image"
     static let TEXT_HELLO_WORD_STYLE = "DesignSystem.Text.helloWord"
+}
+
+extension UIColor {
+    class var demoGreen: UIColor {
+        return UIColor(red: 0.34, green: 0.62, blue: 0.16, alpha: 1)
+    }
+    class var demoGray: UIColor {
+        return UIColor(white: 0.5, alpha: 1)
+    }
+    class var demoDarkGray: UIColor {
+        return UIColor(white: 0.2, alpha: 1)
+    }
 }

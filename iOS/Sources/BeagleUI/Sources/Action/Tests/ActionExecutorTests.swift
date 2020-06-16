@@ -16,6 +16,7 @@
 
 import XCTest
 @testable import BeagleUI
+import BeagleSchema
 
 final class ActionExecutorTests: XCTestCase {
 
@@ -142,14 +143,14 @@ final class ActionExecutorTests: XCTestCase {
 // MARK: - Test helpers
 
 class CustomActionHandlerDummy: CustomActionHandler {
-    func handle(context: BeagleContext, action: CustomAction, listener: Listener) {
+    func handle(context: BeagleUI.BeagleContext, action: CustomAction, listener: Listener) {
     }
 }
 
 class BeagleNavigationSpy: BeagleNavigation {
     private(set) var didCallNavigate = false
 
-    func navigate(action: Navigate, context: BeagleContext, animated: Bool) {
+    func navigate(action: Navigate, context: BeagleUI.BeagleContext, animated: Bool) {
         didCallNavigate = true
     }
 }
@@ -157,7 +158,7 @@ class BeagleNavigationSpy: BeagleNavigation {
 class CustomActionHandlerSpy: CustomActionHandler {
     private(set) var actionsHandledCount = 0
 
-    func handle(context: BeagleContext, action: CustomAction, listener: Listener) {
+    func handle(context: BeagleUI.BeagleContext, action: CustomAction, listener: Listener) {
         actionsHandledCount += 1
     }
 }

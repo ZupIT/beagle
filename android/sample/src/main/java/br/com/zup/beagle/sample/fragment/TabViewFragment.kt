@@ -30,13 +30,13 @@ import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
-import br.com.zup.beagle.widget.layout.Container
-import br.com.zup.beagle.widget.ui.Button
-import br.com.zup.beagle.widget.ui.Image
-import br.com.zup.beagle.widget.ui.TabItem
-import br.com.zup.beagle.widget.ui.TabView
-import br.com.zup.beagle.widget.ui.Text
-import br.com.zup.beagle.widget.ui.TextAlignment
+import br.com.zup.beagle.android.components.layout.Container
+import br.com.zup.beagle.android.components.Button
+import br.com.zup.beagle.android.components.Image
+import br.com.zup.beagle.android.components.TabItem
+import br.com.zup.beagle.android.components.TabView
+import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.widget.core.TextAlignment
 
 class TabViewFragment : Fragment() {
     override fun onCreateView(
@@ -45,7 +45,7 @@ class TabViewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val declarative = TabView(
-            style = "DesignSystem.TabView.Custom",
+            styleId = "DesignSystem.TabView.Custom",
             tabItems = listOf(
                 buildTabView(
                     title = "Title 1",

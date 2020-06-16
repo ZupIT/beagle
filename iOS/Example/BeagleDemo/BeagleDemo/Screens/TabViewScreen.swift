@@ -16,9 +16,10 @@
 
 import UIKit
 import BeagleUI
+import BeagleSchema
 
 struct TabViewScreen: DeeplinkScreen {
-    init(path: String, data: [String : String]?) {
+    init(path: String, data: [String: String]?) {
     }
 
     func screenController() -> UIViewController {
@@ -54,6 +55,6 @@ struct TabViewScreen: DeeplinkScreen {
                 Text("Text2 Tab 4")
             ]).applyFlex(Flex().alignItems(.center))
         )
-        return Screen(navigationBar: NavigationBar(title: "TabView"), child: TabView(tabItems: [tab1, tab2, tab3, tab4], style: .TAB_VIEW_STYLE))
+        return Screen(navigationBar: NavigationBar(title: "TabView"), child: TabView(tabItems: [tab1, tab2, tab3, tab4], styleId: .TAB_VIEW_STYLE))
     }
 }

@@ -21,7 +21,7 @@
                 }
             }
         },
-        "appearance": {
+        "style": {
             "backgroundColor": "#00ff00"
         }
     }

@@ -27,7 +27,7 @@ import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.ui.WebView
+import br.com.zup.beagle.android.components.WebView
 
 
 class WebViewFragment : Fragment() {

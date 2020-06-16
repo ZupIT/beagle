@@ -15,6 +15,7 @@
  */
 
 import UIKit
+import BeagleSchema
 
 public protocol DependencyNavigationController {
     var navigationControllerType: BeagleNavigationController.Type { get }
@@ -158,9 +159,9 @@ class BeagleNavigator: BeagleNavigation {
         case .remote(let remote):
             return absoluteURL(for: remote.url) == absoluteURL(for: identifier)
         case .declarative(let screen):
-            return screen.identifier == identifier
+            return screen.id == identifier
         case .declarativeText:
-            return screenController?.screen?.identifier == identifier
+            return screenController?.screen?.id == identifier
         }
     }
     

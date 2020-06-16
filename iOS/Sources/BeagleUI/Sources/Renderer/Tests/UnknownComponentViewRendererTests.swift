@@ -17,6 +17,7 @@
 import XCTest
 @testable import BeagleUI
 import SnapshotTesting
+import BeagleSchema
 
 final class UnknownComponentTests: XCTestCase {
     
@@ -25,7 +26,7 @@ final class UnknownComponentTests: XCTestCase {
         let component = UnknownComponent(type: String(describing: ComponentDummy()))
         
         // When
-        let view = component.toView(context: BeagleContextDummy(), dependencies: BeagleScreenDependencies())
+        let view = renderer.render(component)
         
         // Then
         XCTAssertTrue(view is UILabel)
