@@ -39,55 +39,6 @@ fun ServerDrivenComponent.toView(activity: AppCompatActivity) = this.toView(Acti
 
 fun ServerDrivenComponent.toView(fragment: Fragment) = this.toView(FragmentRootView(fragment))
 
-fun ServerDrivenComponent.handleEvent(
-    rootView: RootView,
-    actions: List<Action>,
-    eventName: String,
-    eventValue: Any? = null
-) {
-    contextActionExecutor.executeActions(rootView, actions, eventName, eventValue)
-}
-
-fun ServerDrivenComponent.handleEvent(
-    rootView: RootView,
-    action: Action,
-    eventName: String,
-    eventValue: Any? = null
-) {
-    contextActionExecutor.executeAction(rootView, action, eventName, eventValue)
-}
-
-fun Action.handleEvent(
-    rootView: RootView,
-    actions: List<Action>,
-    eventName: String,
-    eventValue: Any? = null
-) {
-    contextActionExecutor.executeActions(rootView, actions, eventName, eventValue)
-}
-
-fun Action.handleEvent(
-    rootView: RootView,
-    action: Action,
-    eventName: String,
-    eventValue: Any? = null
-) {
-    contextActionExecutor.executeAction(rootView, action, eventName, eventValue)
-}
-
-fun Screen.toView(activity: AppCompatActivity) = this.toComponent().toView(activity)
-
-fun Screen.toView(fragment: Fragment) = this.toComponent().toView(fragment)
-
-internal fun Screen.toComponent() = ScreenComponent(
-    identifier = this.identifier,
-    safeArea = this.safeArea,
-    navigationBar = this.navigationBar,
-    child = this.child,
-    style = this.style,
-    screenAnalyticsEvent = this.screenAnalyticsEvent
-)
-
 internal fun ServerDrivenComponent.toView(rootView: RootView): View =
     viewFactory.makeBeagleFlexView(rootView.getContext()).apply {
         addServerDrivenComponent(this@toView, rootView)
