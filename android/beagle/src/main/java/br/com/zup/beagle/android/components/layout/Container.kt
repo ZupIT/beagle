@@ -25,7 +25,7 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 data class Container(
-    private val children: List<ServerDrivenComponent>
+    val children: List<ServerDrivenComponent>
 ) : WidgetView() {
 
     @Transient
