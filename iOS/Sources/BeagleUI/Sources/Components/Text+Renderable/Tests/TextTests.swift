@@ -34,7 +34,8 @@ class TextTests: XCTestCase {
         theme: theme
     )
 
-    private lazy var renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: dependencies)
+    private lazy var controller = BeagleControllerStub(dependencies: dependencies)
+    private lazy var renderer = BeagleRenderer(controller: controller)
     
     func testEqualTextContent() throws {
         // Given

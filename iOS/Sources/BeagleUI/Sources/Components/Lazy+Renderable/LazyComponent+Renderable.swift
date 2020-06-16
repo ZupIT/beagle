@@ -20,8 +20,54 @@ import BeagleSchema
 extension LazyComponent: ServerDrivenComponent {
 
     public func toView(renderer: BeagleRenderer) -> UIView {
-        let initialView = renderer.render(initialState)
-        renderer.context.lazyLoadManager.lazyLoad(url: path, initialState: initialView)
-        return initialView
+        let view = renderer.render(initialState)
+        lazyLoad(initialState: view, renderer: renderer)
+        return view
+    }
+    
+    private func lazyLoad(initialState view: UIView, renderer: BeagleRenderer) {
+        renderer.controller.dependencies.repository.fetchComponent(url: path, additionalData: nil) {
+            [weak view, weak renderer] result in
+            guard let view = view, let renderer = renderer else { return }
+            switch result {
+            case .success(let component):
+                view.update(lazyLoaded: component, renderer: renderer)
+            case .failure(let error):
+                renderer.controller.serverDrivenState = .error(.lazyLoad(error))
+            }
+        }
+    }
+}
+
+extension UIView {
+    fileprivate func update(
+        lazyLoaded: ServerDrivenComponent,
+        renderer: BeagleRenderer
+    ) {
+        let finalView: UIView
+        if let updatable = self as? OnStateUpdatable,
+            updatable.onUpdateState(component: lazyLoaded) {
+            finalView = self
+        } else {
+            finalView = replace(with: lazyLoaded, renderer: renderer)
+        }
+        renderer.controller.dependencies.flex(finalView).markDirty()
+    }
+    
+    private func replace(
+        with component: ServerDrivenComponent,
+        renderer: BeagleRenderer
+    ) -> UIView {
+        guard let superview = superview else { return self }
+        
+        let newView = renderer.render(component)
+        newView.frame = frame
+        superview.insertSubview(newView, belowSubview: self)
+        removeFromSuperview()
+        
+        if renderer.controller.dependencies.flex(self).isEnabled {
+            renderer.controller.dependencies.flex(newView).isEnabled = true
+        }
+        return newView
     }
 }

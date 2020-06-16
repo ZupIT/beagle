@@ -59,6 +59,8 @@ final class TabViewTests: XCTestCase {
                  .applyFlex(Flex(justifyContent: .flexEnd))
              )
         ])
+        let controller = BeagleControllerStub()
+        let renderer = BeagleRenderer(controller: controller)
         
         // When
         let resultingView = renderer.render(component)

@@ -19,10 +19,10 @@ import BeagleUI
 import BeagleSchema
 
 struct WebViewScreen: DeeplinkScreen {
-    init(path: String, data: [String : String]?) {}
+    init(path: String, data: [String: String]?) {}
     
     func screenController() -> UIViewController {
-        return BeagleScreenViewController(screen: screen)
+        return BeagleScreenViewController(.declarative(screen))
     }
     
     var screen: Screen {
