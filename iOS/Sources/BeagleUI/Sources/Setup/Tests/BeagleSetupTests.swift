@@ -42,7 +42,6 @@ final class BeagleSetupTests: XCTestCase {
         dep.flex = { _ in return FlexViewConfiguratorDummy() }
         dep.decoder = ComponentDecodingDummy()
         dep.cacheManager = nil
-        dep.logger = BeagleLoggerDumb()
         dep.windowManager = WindowManagerDumb()
         dep.opener = URLOpenerDumb()
 

@@ -21,41 +21,41 @@ import XCTest
 
 class BeagleLoggerProxyTests: XCTestCase {
 
-    let dependencies = Beagle.dependencies
-    
+    let dependencies = BeagleDependencies()
+
     func testLog_WhenLogEnableIsFalse() {
-        
+
         //Given
-        let dependencies = BeagleDependencies()
         let spy = BeagleLoggerSpy()
-        let sut = BeagleLoggerProxy(logger: spy)
-        
+        let sut = BeagleLoggerProxy(logger: spy, dependencies: dependencies)
+
         //When
         dependencies.logEnable = false
         Beagle.dependencies = dependencies
         sut.log(Log.navigation(.errorTryingToPopScreenOnNavigatorWithJustOneScreen))
         sut.logDecodingError(type: "TestType")
-        
+
         //Then
         XCTAssert(spy.didCalledLog == false)
         XCTAssert(spy.didCalledlogDecodingError == false)
     }
-    
+
     func testLog_WhenLogEnableIsTrue() {
-        
+
         //Given
         let spy = BeagleLoggerSpy()
-        let sut = BeagleLoggerProxy(logger: spy)
-        
+        let sut = BeagleLoggerProxy(logger: spy, dependencies: dependencies)
+
         //When
+        dependencies.logEnable = true
         sut.log(Log.navigation(.errorTryingToPopScreenOnNavigatorWithJustOneScreen))
         sut.logDecodingError(type: "TestType")
-        
+
         //Then
         XCTAssert(spy.didCalledLog)
         XCTAssert(spy.didCalledlogDecodingError)
     }
-    
+
     override func tearDown() {
         Beagle.dependencies = dependencies
         super.tearDown()
@@ -66,11 +66,11 @@ class BeagleLoggerProxyTests: XCTestCase {
 private class BeagleLoggerSpy: BeagleLoggerType {
     private(set) var didCalledLog = false
     private(set) var didCalledlogDecodingError = false
-    
+
     func logDecodingError(type: String) {
         didCalledlogDecodingError = true
     }
-    
+
     func log(_ log: LogType) {
         didCalledLog = true
     }

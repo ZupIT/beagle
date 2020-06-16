@@ -60,7 +60,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     
     public var logger: BeagleLoggerType {
         didSet {
-            logger = BeagleLoggerProxy(logger: logger)
+            logger = BeagleLoggerProxy(logger: logger, dependencies: self)
         }
     }
     
@@ -96,7 +96,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.theme = AppTheme(styles: [:])
         self.navigationControllerType = BeagleNavigationController.self
         self.logEnable = true
-        self.logger = BeagleLoggerProxy(logger: BeagleLoggerDefault())
+        self.logger = BeagleLoggerProxy(logger: BeagleLoggerDefault(), dependencies: resolver)
 
         self.decoder = BeagleSchema.DefaultDependencies().decoder
         self.formDataStoreHandler = FormDataStoreHandler()
