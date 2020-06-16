@@ -72,15 +72,19 @@ data class NetworkImage(
         }
 
     private fun loadImage(imageView: ImageView, beagleFlexView: BeagleFlexView, requestOptions: RequestOptions) {
-        Glide.with(imageView).setDefaultRequestOptions(requestOptions).asBitmap().load(path).into(object : CustomTarget<Bitmap>() {
-            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                imageView.setImageBitmap(resource)
-                beagleFlexView.setViewHeight(imageView, resource.height)
-                componentStylization.apply(imageView, this@NetworkImage)
-            }
+        Glide.with(imageView)
+            .setDefaultRequestOptions(requestOptions)
+            .asBitmap()
+            .load(path)
+            .into(object : CustomTarget<Bitmap>() {
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    imageView.setImageBitmap(resource)
+                    beagleFlexView.setViewHeight(imageView, resource.height)
+                    componentStylization.apply(imageView, this@NetworkImage)
+                }
 
-            override fun onLoadCleared(placeholder: Drawable?) {}
-        })
+                override fun onLoadCleared(placeholder: Drawable?) {}
+            })
     }
 
     private fun getGlideRequestOptions(): RequestOptions {
