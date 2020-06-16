@@ -16,7 +16,11 @@
 
 package br.com.zup.beagle.widget
 
-import br.com.zup.beagle.core.*
+import br.com.zup.beagle.core.Accessibility
+import br.com.zup.beagle.core.AccessibilityComponent
+import br.com.zup.beagle.core.IdentifierComponent
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.core.StyleComponent
 
 /**
  * Base of all widgets
