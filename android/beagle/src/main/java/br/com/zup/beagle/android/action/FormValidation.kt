@@ -20,9 +20,7 @@ package br.com.zup.beagle.android.action
 import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.annotation.RegisterAction
 
-@RegisterAction
 class FormValidation(
     val errors: List<FieldError>
 ) : Action {
