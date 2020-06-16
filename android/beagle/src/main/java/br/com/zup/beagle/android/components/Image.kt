@@ -26,8 +26,8 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.widget.core.ImageContentMode
 
 data class Image(
-    private val name: String,
-    private val contentMode: ImageContentMode? = null
+    val name: String,
+    val contentMode: ImageContentMode? = null
 ) : WidgetView() {
 
     @Transient
