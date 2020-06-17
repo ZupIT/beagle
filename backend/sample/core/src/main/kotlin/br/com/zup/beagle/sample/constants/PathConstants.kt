@@ -51,6 +51,7 @@ const val SCREEN_NETWORK_IMAGE_ENDPOINT = "/network-image"
 const val SCREEN_TOUCHABLE_ENDPOINT = "/touchable"
 const val SCREEN_EXAMPLE_ENDPOINT ="/navigate-example"
 const val SCREEN_ACTION_CLICK_ENDPOINT = "/action-click"
+const val SCREEN_TEST_ENDPOINT = "/test"
 
 const val CUSTOM_WIDGET_ENDPOINT="/custom"
 

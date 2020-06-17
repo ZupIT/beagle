@@ -37,6 +37,7 @@ import br.com.zup.beagle.sample.constants.SCREEN_NETWORK_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_PAGE_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SCROLL_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TAB_VIEW_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_TEST_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TOUCHABLE_ENDPOINT
 import br.com.zup.beagle.widget.core.EdgeValue
@@ -74,7 +75,8 @@ object ComponentScreenBuilder : ScreenBuilder {
                 createMenu("Accessibility Screen", ACCESSIBILITY_SCREEN_ENDPOINT),
                 createMenu("Compose Component", SCREEN_COMPOSE_COMPONENT_ENDPOINT),
                 createMenu("Touchable", SCREEN_TOUCHABLE_ENDPOINT),
-                createMenu("Analytics", SCREEN_ANALYTICS_ENDPOINT)
+                createMenu("Analytics", SCREEN_ANALYTICS_ENDPOINT),
+                createMenu("Test", SCREEN_TEST_ENDPOINT)
             )
         )
     )
