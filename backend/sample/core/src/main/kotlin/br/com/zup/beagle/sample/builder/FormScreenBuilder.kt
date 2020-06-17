@@ -16,11 +16,12 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.widget.action.FormMethodType
+import br.com.zup.beagle.widget.action.FormRemoteAction
+import br.com.zup.beagle.widget.action.ShowNativeDialog
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.widget.form.extensions.setOnFocus
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_FORM
 import br.com.zup.beagle.sample.constants.LIGHT_GREEN
@@ -28,17 +29,15 @@ import br.com.zup.beagle.sample.constants.SUBMIT_FORM_ENDPOINT
 import br.com.zup.beagle.sample.widget.SampleTextField
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.form.Form
 import br.com.zup.beagle.widget.form.FormInput
-import br.com.zup.beagle.widget.form.FormMethodType
-import br.com.zup.beagle.widget.form.FormRemoteAction
 import br.com.zup.beagle.widget.form.FormSubmit
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.layout.ScrollAxis
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Button
 
@@ -125,8 +124,5 @@ object FormScreenBuilder : ScreenBuilder {
             child = SampleTextField(
                 placeholder = placeholder
             ).applyFlex(flexHorizontalMargin)
-                .setOnFocus(listOf(
-                    ShowNativeDialog(title = "dasasd", message = "asdas", buttonText = "asdadsas")
-                ))
         )
 }

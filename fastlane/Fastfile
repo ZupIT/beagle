@@ -140,12 +140,10 @@ platform :backend do
     gradle(tasks:
         [
             "backend:framework:test",
-            "backend:processor:test",
             "backend:starters:beagle-micronaut-starter:test",
             "backend:starters:beagle-spring-starter:test",
             "backend:sample:micronaut:assemble",
-            "backend:sample:spring:assemble",
-            "backend:processor:test"
+            "backend:sample:spring:assemble"
         ]
     )
     commit_hash = last_git_commit[:commit_hash]

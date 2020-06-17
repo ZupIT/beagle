@@ -67,11 +67,6 @@ internal object BeagleMessageLogs {
         BeagleLogger.warning("Validation with name '$validator' were not found!")
     }
 
-    fun logInvalidFormInputState(inputName: String) {
-        BeagleLogger.warning("FormInput with name $inputName is not valid" +
-                " and does not implement a ValidationErrorListener")
-    }
-
     fun logFormInputsNotFound(formActionName: String) {
         BeagleLogger.warning("Are you missing to declare your FormInput for " +
                 "form action '$formActionName'?")
@@ -98,6 +93,11 @@ internal object BeagleMessageLogs {
 
     fun errorWhileTryingToNotifyContextChanges(ex: Throwable) {
         val errorMessage = "Error while trying to notify context changes."
+        BeagleLogger.error(errorMessage, ex)
+    }
+
+    fun errorWhileTryingToEvaluateBinding(ex: Throwable) {
+        val errorMessage = "Error while trying to evaluate binding."
         BeagleLogger.error(errorMessage, ex)
     }
 }

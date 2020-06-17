@@ -37,7 +37,7 @@ class BeagleSetupRegisteredWidgetGenerator {
         )
 
         registerWidgetAnnotatedClasses.forEachIndexed { index, element ->
-            classValues.append("\t${element}Binding::class.java as Class<WidgetView>")
+            classValues.append("\t${element}::class.java as Class<WidgetView>")
             if (index < registerWidgetAnnotatedClasses.size - 1) {
                 classValues.append(",\n")
             }

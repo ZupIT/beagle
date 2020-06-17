@@ -37,12 +37,4 @@ class ContextPathResolver {
 
         return newPath
     }
-
-    fun addContextToPath(contextId: String, path: String): String {
-        return if (path.contains(contextId)) {
-            path
-        } else {
-            "$contextId.$path"
-        }
-    }
 }

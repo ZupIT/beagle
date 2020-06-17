@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.data.serializer.adapter
 
-import br.com.zup.beagle.android.widget.core.Bind
+import br.com.zup.beagle.android.context.Bind
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
@@ -50,7 +50,7 @@ private class BindAdapter(
 
     override fun fromJson(reader: JsonReader): Bind<Any>? {
         val expression = reader.peekJson().readJsonValue()
-        if (expression != null && expression is String && expression.matches(Regex("^\\@\\{([^)]+)\\}\$"))) {
+        if (expression != null && expression is String && expression.contains(Regex("@\\{([^)]+)\\}"))) {
             reader.skipValue()
             return Bind.Expression(expression, type as Class<Any>)
         }

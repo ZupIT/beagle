@@ -21,25 +21,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.android.action.FormMethodType
+import br.com.zup.beagle.android.action.FormRemoteAction
+import br.com.zup.beagle.android.action.ShowNativeDialog
+import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.widgets.TextField
 import br.com.zup.beagle.sample.widgets.TextFieldInputType
 import br.com.zup.beagle.android.utils.toView
-import br.com.zup.beagle.widget.form.extensions.setOnBlur
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
-import br.com.zup.beagle.widget.form.Form
-import br.com.zup.beagle.widget.form.FormInput
-import br.com.zup.beagle.widget.form.FormInputHidden
-import br.com.zup.beagle.widget.form.FormSubmit
-import br.com.zup.beagle.widget.form.FormRemoteAction
-import br.com.zup.beagle.widget.form.FormMethodType
-import br.com.zup.beagle.widget.layout.Container
-import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.ui.Button
+import br.com.zup.beagle.android.components.form.Form
+import br.com.zup.beagle.android.components.form.FormInput
+import br.com.zup.beagle.android.components.form.FormInputHidden
+import br.com.zup.beagle.android.components.form.FormSubmit
+import br.com.zup.beagle.android.components.layout.Container
+import br.com.zup.beagle.android.components.layout.Screen
 
 private const val FORM_GROUP = "FORM_GROUP"
 
@@ -76,11 +75,7 @@ class FormFragment : Fragment() {
                         name = "nome",
                         child = TextField(
                             hint = "nome"
-                        ).setOnBlur(listOf(ShowNativeDialog(
-                            title = "onblur",
-                            message = "onblur",
-                            buttonText = "onblur"
-                        )))
+                        )
                     ),
                     FormSubmit(
                         child = Button(

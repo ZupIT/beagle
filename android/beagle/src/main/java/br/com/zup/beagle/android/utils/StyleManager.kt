@@ -24,11 +24,11 @@ import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import android.view.View
 import br.com.zup.beagle.R
+import br.com.zup.beagle.android.components.Button
+import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
-import br.com.zup.beagle.widget.ui.Button
-import br.com.zup.beagle.widget.ui.Text
 
 class StyleManager(
     private val designSystem: DesignSystem? = BeagleEnvironment.beagleSdk.designSystem,

@@ -19,8 +19,8 @@ package br.com.zup.beagle.android.compiler
 import br.com.zup.beagle.compiler.ANDROID_ACTION
 import br.com.zup.beagle.compiler.BEAGLE_CONFIG
 import br.com.zup.beagle.compiler.BEAGLE_SDK
-import br.com.zup.beagle.compiler.CUSTOM_ACTION_HANDLER
 import br.com.zup.beagle.compiler.DEEP_LINK_HANDLER
+import br.com.zup.beagle.compiler.FORM_LOCAL_ACTION_HANDLER
 import br.com.zup.beagle.compiler.HTTP_CLIENT_HANDLER
 import br.com.zup.beagle.compiler.RegisteredActionGenerator
 import br.com.zup.beagle.compiler.error
@@ -67,7 +67,7 @@ class BeagleSetupProcessor(
             beagleSetupClassName
         ).addImport(BEAGLE_CONFIG.packageName, BEAGLE_CONFIG.className)
             .addImport(BEAGLE_SDK.packageName, BEAGLE_SDK.className)
-            .addImport(CUSTOM_ACTION_HANDLER.packageName, CUSTOM_ACTION_HANDLER.className)
+            .addImport(FORM_LOCAL_ACTION_HANDLER.packageName, FORM_LOCAL_ACTION_HANDLER.className)
             .addImport(DEEP_LINK_HANDLER.packageName, DEEP_LINK_HANDLER.className)
             .addImport(HTTP_CLIENT_HANDLER.packageName, HTTP_CLIENT_HANDLER.className)
             .addImport(basePackageName, beagleConfigClassName)

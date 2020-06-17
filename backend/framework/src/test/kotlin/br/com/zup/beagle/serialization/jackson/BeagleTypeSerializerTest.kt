@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.serialization.jackson
 
-import br.com.zup.beagle.action.Navigate
+import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.layout.Screen

@@ -18,13 +18,15 @@ package br.com.zup.beagle.android.view.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import br.com.zup.beagle.widget.action.SendRequestAction
+import br.com.zup.beagle.android.action.SendRequest
+import br.com.zup.beagle.android.action.SendRequestInternal
 import br.com.zup.beagle.android.data.ActionRequester
 import br.com.zup.beagle.android.exception.BeagleApiException
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.testutil.CoroutineTestRule
 import br.com.zup.beagle.android.view.mapper.toRequestData
+import br.com.zup.beagle.android.view.mapper.toResponse
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -54,15 +56,15 @@ class ActionRequestViewModelTest {
 
     private val observer: Observer<ActionRequestViewModel.FetchViewState> = mockk()
 
-    private val action: SendRequestAction = mockk()
+    private val action: SendRequestInternal = mockk()
 
     @InjectMockKs
     private lateinit var viewModel: ActionRequestViewModel
 
-
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
+
         mockkStatic("br.com.zup.beagle.android.view.mapper.SendRequestActionMapperKt")
 
         every { observer.onChanged(any()) } just Runs
@@ -76,8 +78,10 @@ class ActionRequestViewModelTest {
     @Test
     fun `should emit success when fetch data`() {
         // Given
-        val response: ResponseData = mockk()
+        val response: ResponseData = mockk(relaxed = true)
+        val responseMapped: Response = mockk()
         every { action.toRequestData() } returns mockk()
+        every { response.toResponse() } returns responseMapped
         coEvery { actionRequester.fetchData(any()) } returns response
 
         // When
@@ -85,7 +89,7 @@ class ActionRequestViewModelTest {
 
         // Then
         verify(exactly = once()) {
-            observer.onChanged(ActionRequestViewModel.FetchViewState.Success(response))
+            observer.onChanged(ActionRequestViewModel.FetchViewState.Success(responseMapped))
         }
     }
 
@@ -93,8 +97,10 @@ class ActionRequestViewModelTest {
     fun `should emit fail when fetch data`() {
         // Given
         val error: BeagleApiException = mockk()
-        val responseData: ResponseData = mockk()
+        val responseData: ResponseData = mockk(relaxed = true)
+        val responseMapped: Response = mockk()
         every { action.toRequestData() } returns mockk()
+        every { responseData.toResponse() } returns responseMapped
         every { error.responseData } returns  responseData
         coEvery { actionRequester.fetchData(any()) } throws error
 
@@ -103,7 +109,7 @@ class ActionRequestViewModelTest {
 
         // Then
         verify(exactly = once()) {
-            observer.onChanged(ActionRequestViewModel.FetchViewState.Error(responseData))
+            observer.onChanged(ActionRequestViewModel.FetchViewState.Error(responseMapped))
         }
     }
 }

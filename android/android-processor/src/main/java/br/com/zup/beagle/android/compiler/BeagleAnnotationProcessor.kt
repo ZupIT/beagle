@@ -22,7 +22,6 @@ import br.com.zup.beagle.compiler.BEAGLE_CONFIG
 import br.com.zup.beagle.compiler.implementsInterface
 import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.compiler.BeagleActionBindingProcessor
 import br.com.zup.beagle.compiler.error
 import com.google.auto.service.AutoService
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessor
@@ -43,8 +42,6 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
 
     private lateinit var validatorHandlerProcessor: ValidatorHandlerProcessor
     private lateinit var beagleSetupProcessor: BeagleSetupProcessor
-    private lateinit var beagleWidgetBindingProcessor: BeagleWidgetBindingProcessor
-    private lateinit var beagleActionBindingProcessor: BeagleActionBindingProcessor
 
     override fun getSupportedAnnotationTypes(): Set<String> {
         return TreeSet(listOf(
@@ -60,8 +57,6 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
 
         validatorHandlerProcessor = ValidatorHandlerProcessor(processingEnvironment)
         beagleSetupProcessor = BeagleSetupProcessor(processingEnvironment)
-        beagleWidgetBindingProcessor = BeagleWidgetBindingProcessor(processingEnv)
-        beagleActionBindingProcessor = BeagleActionBindingProcessor(processingEnv)
     }
 
     override fun process(
@@ -91,8 +86,6 @@ class BeagleAnnotationProcessor : AbstractProcessor() {
             val basePackageName = fullClassName.replace(".$beagleConfigClassName", "")
             validatorHandlerProcessor.process(basePackageName, roundEnvironment)
             beagleSetupProcessor.process(basePackageName, beagleConfigClassName, roundEnvironment)
-            beagleWidgetBindingProcessor.process(roundEnvironment)
-            beagleActionBindingProcessor.process(roundEnvironment)
         }
 
         return false

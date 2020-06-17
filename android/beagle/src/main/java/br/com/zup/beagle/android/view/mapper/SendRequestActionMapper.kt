@@ -16,25 +16,29 @@
 
 package br.com.zup.beagle.android.view.mapper
 
-import br.com.zup.beagle.widget.action.RequestActionMethod
-import br.com.zup.beagle.widget.action.SendRequestAction
+import br.com.zup.beagle.android.action.RequestActionMethod
+import br.com.zup.beagle.android.action.SendRequest
+import br.com.zup.beagle.android.action.SendRequestInternal
 import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
+import br.com.zup.beagle.android.networking.ResponseData
+import br.com.zup.beagle.android.view.viewmodel.Response
 import java.net.URI
 
-internal fun SendRequestAction.toRequestData(): RequestData = SendRequestActionMapper.toRequestData(this)
+internal fun SendRequestInternal.toRequestData(): RequestData = SendRequestActionMapper.toRequestData(this)
+
+fun ResponseData.toResponse() = SendRequestActionMapper.toResponse(this)
 
 internal object SendRequestActionMapper {
-    fun toRequestData(sendRequestAction: SendRequestAction): RequestData {
-        val method = toHttpMethod(sendRequestAction.method)
-
-        val urlFormatted = sendRequestAction.url.formatUrl()
+    fun toRequestData(sendRequest: SendRequestInternal): RequestData {
+        val method = toHttpMethod(sendRequest.method)
+        val urlFormatted = sendRequest.url.formatUrl()
         return RequestData(
             uri = URI(urlFormatted),
             method = method,
-            headers = sendRequestAction.headers,
-            body = sendRequestAction.body
+            headers = sendRequest.headers ?: mapOf(),
+            body = sendRequest.data?.toString()
         )
     }
 
@@ -46,4 +50,11 @@ internal object SendRequestActionMapper {
         RequestActionMethod.HEAD -> HttpMethod.HEAD
         RequestActionMethod.PATCH -> HttpMethod.PATCH
     }
+
+    fun toResponse(responseData: ResponseData): Response = Response(
+        statusCode = responseData.statusCode,
+        data = String(responseData.data),
+        headers = responseData.headers,
+        statusText = responseData.statusText
+    )
 }

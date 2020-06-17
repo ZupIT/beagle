@@ -20,34 +20,24 @@ import android.content.Context
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.components.layout.Screen
+import br.com.zup.beagle.android.components.layout.ScreenComponent
+import br.com.zup.beagle.android.context.ContextActionExecutor
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
-import br.com.zup.beagle.android.engine.renderer.RootView
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.android.widget.layout.ScreenComponent
 
 internal var viewFactory = ViewFactory()
+internal var contextActionExecutor = ContextActionExecutor()
 
 fun ServerDrivenComponent.toView(context: Context) = this.toView(context as AppCompatActivity)
 
-fun ServerDrivenComponent.toView(activity: AppCompatActivity) =
-    this.toView(ActivityRootView(activity))
+fun ServerDrivenComponent.toView(activity: AppCompatActivity) = this.toView(ActivityRootView(activity))
 
 fun ServerDrivenComponent.toView(fragment: Fragment) = this.toView(FragmentRootView(fragment))
-
-fun Screen.toView(activity: AppCompatActivity) = this.toComponent().toView(activity)
-
-fun Screen.toView(fragment: Fragment) = this.toComponent().toView(fragment)
-
-internal fun Screen.toComponent() = ScreenComponent(
-    identifier = this.identifier,
-    navigationBar = this.navigationBar,
-    child = this.child,
-    screenAnalyticsEvent = screenAnalyticsEvent
-).applyStyle(style ?: Style())
 
 internal fun ServerDrivenComponent.toView(rootView: RootView): View =
     viewFactory.makeBeagleFlexView(rootView.getContext()).apply {

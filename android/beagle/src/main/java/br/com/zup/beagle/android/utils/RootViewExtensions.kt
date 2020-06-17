@@ -22,7 +22,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
-import br.com.zup.beagle.android.engine.renderer.RootView
+import br.com.zup.beagle.android.widget.RootView
 
 internal inline fun <reified T : ViewModel> RootView.generateViewModelInstance(): T {
     return when (this) {

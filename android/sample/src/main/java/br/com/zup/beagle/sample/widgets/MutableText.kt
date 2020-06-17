@@ -16,35 +16,28 @@
 
 package br.com.zup.beagle.sample.widgets
 
-import android.content.Context
 import android.graphics.Color
-import android.view.View
 import android.widget.TextView
+import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.android.widget.core.WidgetView
 
 @RegisterWidget
 data class MutableText(
     val firstText: String = "",
     val secondText: String = "",
     val color: String = "#000000"
-) : WidgetView() {
+): WidgetView() {
 
-    override fun buildView(context: Context) = TextView(context)
-
-    override fun onBind(widget: Widget, view: View) {
-        (widget as? MutableText)?.let { widget ->
-            val widgetView: TextView = view as TextView
-            val color = Color.parseColor(widget.color)
-            widgetView.text = widget.firstText
-            widgetView.setTextColor(color)
-            widgetView.setOnClickListener {
-                widgetView.text = if (widgetView.text == widget.firstText)
-                    widget.secondText
-                else
-                    widget.firstText
-            }
+    override fun buildView(rootView: RootView) = TextView(rootView.getContext()).apply {
+        val color = Color.parseColor(color)
+        text = firstText
+        setTextColor(color)
+        setOnClickListener {
+            text = if (text == firstText)
+                secondText
+            else
+                firstText
         }
     }
 }

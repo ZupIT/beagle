@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.data.serializer.adapter
 
-import br.com.zup.beagle.action.Route
-import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.android.action.Route
+import br.com.zup.beagle.android.components.layout.Screen
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.JsonReader
