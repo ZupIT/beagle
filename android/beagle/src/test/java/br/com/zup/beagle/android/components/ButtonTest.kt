@@ -40,6 +40,7 @@ import io.mockk.mockkConstructor
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
+import io.mockk.unmockkAll
 import org.junit.Test
 import kotlin.test.assertTrue
 
