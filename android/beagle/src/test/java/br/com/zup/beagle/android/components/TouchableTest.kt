@@ -100,7 +100,7 @@ class TouchableViewRenderer : BaseComponentTest() {
         onClickListenerSlot.captured.onClick(view)
 
         // Then
-        verify { analytics.sendClickEvent(eq(clickAnalyticsEvent)) }
+        verify { analytics.trackEventOnClick(eq(clickAnalyticsEvent)) }
     }
 
     @Test
@@ -114,6 +114,6 @@ class TouchableViewRenderer : BaseComponentTest() {
         onClickListenerSlot.captured.onClick(view)
 
         // Then
-        verify(exactly = 0) { analytics.sendClickEvent(any()) }
+        verify(exactly = 0) { analytics.trackEventOnClick(any()) }
     }
 }

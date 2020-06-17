@@ -54,7 +54,7 @@ data class Button(
         button.setOnClickListener {
             actionExecutor.doAction(rootView, action)
             clickAnalyticsEvent?.let {
-                BeagleEnvironment.beagleSdk.analytics?.sendClickEvent(it)
+                BeagleEnvironment.beagleSdk.analytics?.trackEventOnClick(it)
             }
         }
         button.setData(text, styleId)

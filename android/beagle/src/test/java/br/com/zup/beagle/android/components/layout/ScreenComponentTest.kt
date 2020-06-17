@@ -170,10 +170,10 @@ class ScreenComponentTest : BaseComponentTest() {
 
         // Then
         val capturedEvent = CapturingSlot<ScreenEvent>()
-        verify { analytics.sendViewWillAppearEvent(capture(capturedEvent)) }
+        verify { analytics.trackEventOnScreenAppeared(capture(capturedEvent)) }
         assertEquals(screenName, capturedEvent.captured.screenName)
 
-        verify { analytics.sendViewWillDisappearEvent(capture(capturedEvent)) }
+        verify { analytics.trackEventOnScreenDisappeared(capture(capturedEvent)) }
         assertEquals(screenName, capturedEvent.captured.screenName)
     }
 

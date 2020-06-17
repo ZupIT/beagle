@@ -49,7 +49,7 @@ data class Touchable(
             setOnClickListener {
                 actionExecutor.doAction(rootView, action)
                 clickAnalyticsEvent?.let {
-                    BeagleEnvironment.beagleSdk.analytics?.sendClickEvent(it)
+                    BeagleEnvironment.beagleSdk.analytics?.trackEventOnClick(it)
                 }
             }
         }

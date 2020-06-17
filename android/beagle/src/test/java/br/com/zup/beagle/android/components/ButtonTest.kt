@@ -40,6 +40,7 @@ import io.mockk.mockkConstructor
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
+import io.mockk.unmockkAll
 import org.junit.Test
 import kotlin.test.assertTrue
 
@@ -94,6 +95,11 @@ class ButtonTest : BaseComponentTest() {
 
         // Then
         verify(exactly = once()) { anyConstructed<PreFetchHelper>().handlePreFetch(rootView, action) }
+    }
+
+    override fun tearDown() {
+        super.tearDown()
+        unmockkAll()
     }
 
     @Test
@@ -154,7 +160,7 @@ class ButtonTest : BaseComponentTest() {
         onClickListenerSlot.captured.onClick(view)
 
         // Then
-        verify { analytics.sendClickEvent(eq(clickAnalyticsEvent)) }
+        verify { analytics.trackEventOnClick(eq(clickAnalyticsEvent)) }
     }
 
     @Test
@@ -168,6 +174,6 @@ class ButtonTest : BaseComponentTest() {
         onClickListenerSlot.captured.onClick(view)
 
         // Then
-        verify(exactly = 0) { analytics.sendClickEvent(any()) }
+        verify(exactly = 0) { analytics.trackEventOnClick(any()) }
     }
 }
