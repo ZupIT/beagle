@@ -169,12 +169,40 @@ fun makeNavigationActionJson() = """
     }
 """
 
-fun makeShowNativeDialogJson() = """
+fun makeAlertActionJson() = """
     {
-        "_beagleAction_": "beagle:showNativeDialog",
+        "_beagleAction_": "beagle:alert",
         "title": "${RandomData.string()}",
         "message": "${RandomData.string()}",
-        "buttonText": "Ok"
+        "labelOk": "Ok",
+        "onPressOk": {
+             "_beagleAction_": "beagle:alert",
+             "title": "${RandomData.string()}",
+             "message": "${RandomData.string()}",
+             "labelOk": "Ok"
+        }
+    }
+"""
+
+fun makeConfirmActionJson() = """
+    {
+        "_beagleAction_": "beagle:confirm",
+        "title": "${RandomData.string()}",
+        "message": "${RandomData.string()}",
+        "labelOk": "Ok",
+        "onPressOk": {
+             "_beagleAction_": "beagle:alert",
+             "title": "${RandomData.string()}",
+             "message": "${RandomData.string()}",
+             "labelOk": "Ok"
+        },
+        "labelCancel": "Cancel",
+        "onPressCancel": {
+             "_beagleAction_": "beagle:alert",
+             "title": "${RandomData.string()}",
+             "message": "${RandomData.string()}",
+             "labelOk": "Ok"
+        }
     }
 """
 
