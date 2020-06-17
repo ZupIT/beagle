@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,25 +16,25 @@
  */
 
 import XCTest
-@testable import BeagleUI
 import BeagleSchema
+@testable import BeagleUI
 
-final class CustomActionHandlerTests: XCTestCase {
-    
-    func test_whenHandleCustomAction_shouldCallHandler() {
+final class ShowNativeDialogTests: XCTestCase {
+
+    func test_whenShowNativeDialog_shouldPresentAlertController() {
         // Given
-        let actionName = "action-name"
-        let action = CustomAction(name: actionName, data: [:])
-        let sut = CustomActionHandling()
-        var didHandleActioin = false
-        sut[actionName] = { _, _, _ in
-            didHandleActioin = true
-        }
-        
+        let action = ShowNativeDialog(
+            title: "Title",
+            message: "Message",
+            buttonText: "Button"
+        )
+
+        let controller = BeagleControllerNavigationSpy()
+
         // When
-        sut.handle(context: BeagleContextDummy(), action: action) { _ in }
-        
+        action.execute(controller: controller, sender: self)
+
         // Then
-        XCTAssertTrue(didHandleActioin)
+        XCTAssertTrue(controller.viewControllerToPresent is UIAlertController)
     }
 }

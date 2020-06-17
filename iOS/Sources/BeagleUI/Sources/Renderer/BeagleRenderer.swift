@@ -19,18 +19,16 @@ import UIKit
 import BeagleSchema
 
 public protocol DependencyRenderer {
-    var renderer: (BeagleContext, RenderableDependencies) -> BeagleRenderer { get set }
+    var renderer: (BeagleController) -> BeagleRenderer { get set }
 }
 
 /// Use this class whenever you want to transform a Component into a UIView
 open class BeagleRenderer {
 
-    public let context: BeagleContext
-    public let dependencies: RenderableDependencies
+    public unowned var controller: BeagleController
 
-    internal init(context: BeagleContext, dependencies: RenderableDependencies) {
-        self.context = context
-        self.dependencies = dependencies
+    internal init(controller: BeagleController) {
+        self.controller = controller
     }
 
     /// main function of this class. Call it to transform a Component into a UIView
@@ -50,7 +48,7 @@ open class BeagleRenderer {
         guard let renderable = component as? Renderable else {
             assertionFailure("This should never happen since we ensure users only subscribe components that are Renderable")
             let type = String(describing: component.self)
-            dependencies.logger.log(Log.decode(.decodingError(type: type)))
+            controller.dependencies.logger.log(Log.decode(.decodingError(type: type)))
             return UnknownComponent(type: type).makeView()
         }
 

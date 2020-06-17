@@ -35,7 +35,7 @@
   ▿ style: Optional<Style>
     ▿ some: Style
       ▿ backgroundColor: Optional<String>
-        - some: "#60FF0000"
+        - some: "#FF000060"
       ▿ cornerRadius: Optional<CornerRadius>
         ▿ some: CornerRadius
           - radius: 30.0

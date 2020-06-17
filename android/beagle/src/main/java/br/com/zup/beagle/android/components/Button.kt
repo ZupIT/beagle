@@ -30,10 +30,10 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 
 data class Button(
-    private val text: String,
+    val text: String,
     val styleId: String? = null,
-    private val action: Action? = null,
-    private val clickAnalyticsEvent: ClickEvent? = null
+    val action: Action? = null,
+    val clickAnalyticsEvent: ClickEvent? = null
 ) : WidgetView() {
 
     @Transient

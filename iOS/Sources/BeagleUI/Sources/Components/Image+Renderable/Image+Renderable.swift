@@ -23,7 +23,7 @@ extension Image: Widget {
         let image = UIImageView(frame: .zero)
         image.clipsToBounds = true
         image.contentMode = (contentMode ?? .fitCenter).toUIKit()
-        image.setImageFromAsset(named: name, bundle: renderer.dependencies.appBundle)
+        image.setImageFromAsset(named: name, bundle: renderer.controller.dependencies.appBundle)
         return image
     }
 }

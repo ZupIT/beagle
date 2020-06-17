@@ -24,6 +24,8 @@ final class SpacerTests: XCTestCase {
     func test_toView_shouldReturnTheExpectedView() {
         // Given
         let spacer = Spacer(1.0)
+        let controller = BeagleControllerStub()
+        let renderer = BeagleRenderer(controller: controller)
         
         // When
         let view = renderer.render(spacer)

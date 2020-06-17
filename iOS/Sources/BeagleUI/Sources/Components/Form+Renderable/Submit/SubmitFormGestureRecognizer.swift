@@ -22,15 +22,20 @@ final class SubmitFormGestureRecognizer: UITapGestureRecognizer {
     let form: Form
     weak var formView: UIView?
     weak var formSubmitView: UIView?
-    let validator: ValidatorProvider?
+    weak var controller: BeagleController?
     
-    init(form: Form, formView: UIView, formSubmitView: UIView, validator: ValidatorProvider?, target: Any? = nil, action: Selector? = nil) {
+    init(form: Form, formView: UIView, formSubmitView: UIView, controller: BeagleController) {
         self.form = form
         self.formView = formView
         self.formSubmitView = formSubmitView
-        self.validator = validator
-        super.init(target: target, action: action)
+        self.controller = controller
+        super.init(target: nil, action: nil)
         self.setupFormObservables()
+        addTarget(self, action: #selector(submitForm))
+    }
+    
+    @objc private func submitForm() {
+        FormManager(sender: self)?.submitForm()
     }
     
     private func setupFormObservables() {
@@ -72,7 +77,7 @@ final class SubmitFormGestureRecognizer: UITapGestureRecognizer {
             if formInput.required ?? false {
                 guard
                     let validatorName = formInput.validator,
-                    let validatorProvider = validator,
+                    let validatorProvider = controller?.dependencies.validatorProvider,
                     let validator = validatorProvider.getValidator(name: validatorName),
                     validator.isValid(input: inputValue.getValue()) else {
                         return false

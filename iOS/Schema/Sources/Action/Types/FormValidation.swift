@@ -32,7 +32,7 @@ public struct FieldError: Decodable, AutoInitiable {
 }
 
 /// Action to represent a form validation error
-public struct FormValidation: Action {
+public struct FormValidation: RawAction {
     
     public let errors: [FieldError]
     

@@ -23,8 +23,8 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 
 class PageIndicator(
-    private val selectedColor: String,
-    private val unselectedColor: String
+    val selectedColor: String,
+    val unselectedColor: String
 ) : WidgetView(), PageIndicatorComponent {
 
     @Transient
