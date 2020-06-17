@@ -26,11 +26,10 @@ import br.com.zup.beagle.android.components.BaseComponentTest
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.utils.ToolbarManager
 import br.com.zup.beagle.android.view.BeagleActivity
-import br.com.zup.beagle.android.view.BeagleFlexView
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.layout.NavigationBar
 import io.mockk.CapturingSlot
 import io.mockk.Runs
 import io.mockk.every
@@ -170,10 +169,10 @@ class ScreenComponentTest : BaseComponentTest() {
 
         // Then
         val capturedEvent = CapturingSlot<ScreenEvent>()
-        verify { analytics.sendViewWillAppearEvent(capture(capturedEvent)) }
+        verify { analytics.trackEventOnScreenAppeared(capture(capturedEvent)) }
         assertEquals(screenName, capturedEvent.captured.screenName)
 
-        verify { analytics.sendViewWillDisappearEvent(capture(capturedEvent)) }
+        verify { analytics.trackEventOnScreenDisappeared(capture(capturedEvent)) }
         assertEquals(screenName, capturedEvent.captured.screenName)
     }
 

@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.components.form.core
 
-import br.com.zup.beagle.action.Action
+import br.com.zup.beagle.android.action.Action
 
 internal sealed class FormResult {
     class Success(val action: Action) : FormResult()

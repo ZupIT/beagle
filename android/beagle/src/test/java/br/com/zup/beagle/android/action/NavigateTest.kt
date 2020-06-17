@@ -16,12 +16,11 @@
 
 package br.com.zup.beagle.android.action
 
-import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.navigation.DeepLinkHandler
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.android.view.BeagleNavigator
+import br.com.zup.beagle.android.view.custom.BeagleNavigator
 import br.com.zup.beagle.android.widget.RootView
 import io.mockk.MockKAnnotations
 import io.mockk.Runs

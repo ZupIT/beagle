@@ -16,13 +16,13 @@
 
 package br.com.zup.beagle.utils
 
-import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.platform.BeaglePlatform
 import br.com.zup.beagle.platform.BeaglePlatformUtil
 import br.com.zup.beagle.platform.forPlatform
 import br.com.zup.beagle.serialization.jackson.BeagleSerializationUtil
+import br.com.zup.beagle.widget.action.Navigate
+import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Button
@@ -97,12 +97,14 @@ internal class BeaglePlatformUtilTest {
                 ).forPlatform(BeaglePlatform.MOBILE),
                 Button(
                     text = freeForAllText,
-                    action = Navigate.PushView(
-                        Route.Local(
-                            Screen(
-                                child = CustomButton(
-                                    text = webText
-                                ).forPlatform(BeaglePlatform.WEB)
+                    onPress = listOf(
+                        Navigate.PushView(
+                            Route.Local(
+                                Screen(
+                                    child = CustomButton(
+                                        text = webText
+                                    ).forPlatform(BeaglePlatform.WEB)
+                                )
                             )
                         )
                     )

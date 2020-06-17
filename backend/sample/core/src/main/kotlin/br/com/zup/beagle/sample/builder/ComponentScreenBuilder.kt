@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.Route
+import br.com.zup.beagle.widget.action.Navigate
+import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.ACCESSIBILITY_SCREEN_ENDPOINT
@@ -87,7 +87,8 @@ object ComponentScreenBuilder : ScreenBuilder {
 
     private fun createMenu(text: String, path: String) = Button(
         text = text,
-        action = Navigate.PushView(Route.Remote(path)),
+        onPress = listOf(Navigate.PushView(Route.Remote(path))
+        ),
         styleId = BUTTON_STYLE_TITLE
     ).applyFlex(
         flex = Flex(

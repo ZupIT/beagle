@@ -18,10 +18,10 @@ package br.com.zup.beagle.android.networking
 
 import java.net.URI
 
-class RequestData(
+data class RequestData(
     val uri: URI,
     val method: HttpMethod = HttpMethod.GET,
-    headers: Map<String, String> = mapOf(),
+    private val originalHeaders: Map<String, String> = mapOf(),
     val body: String? = null
 ) {
     companion object {
@@ -29,7 +29,7 @@ class RequestData(
         const val BEAGLE_PLATFORM_HEADER_VALUE = "ANDROID"
     }
 
-    val headers = headers.plus(BEAGLE_PLATFORM_HEADER_KEY to BEAGLE_PLATFORM_HEADER_VALUE)
+    val headers get() = this.originalHeaders + (BEAGLE_PLATFORM_HEADER_KEY to BEAGLE_PLATFORM_HEADER_VALUE)
 }
 
 enum class HttpMethod {

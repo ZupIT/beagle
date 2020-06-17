@@ -17,10 +17,10 @@
 package br.com.zup.beagle.android.components.form.core
 
 import android.net.Uri
-import br.com.zup.beagle.action.Action
-import br.com.zup.beagle.action.FormMethodType
-import br.com.zup.beagle.action.FormRemoteAction
+import br.com.zup.beagle.android.action.FormMethodType
+import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
+import br.com.zup.beagle.android.exception.BeagleApiException
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.networking.HttpClient
 import br.com.zup.beagle.android.networking.HttpClientFactory
@@ -52,7 +52,7 @@ internal class FormSubmitter(
                 result(FormResult.Error(ex))
             }
         }, {
-            result(FormResult.Error(it))
+            result(FormResult.Error(BeagleApiException(it)))
         })
     }
 

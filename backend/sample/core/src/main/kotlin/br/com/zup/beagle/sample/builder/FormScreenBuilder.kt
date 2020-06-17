@@ -16,9 +16,6 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.action.FormMethodType
-import br.com.zup.beagle.action.FormRemoteAction
-import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
@@ -27,6 +24,9 @@ import br.com.zup.beagle.sample.constants.BUTTON_STYLE_FORM
 import br.com.zup.beagle.sample.constants.LIGHT_GREEN
 import br.com.zup.beagle.sample.constants.SUBMIT_FORM_ENDPOINT
 import br.com.zup.beagle.sample.widget.SampleTextField
+import br.com.zup.beagle.widget.action.FormMethodType
+import br.com.zup.beagle.widget.action.FormRemoteAction
+import br.com.zup.beagle.widget.action.ShowNativeDialog
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ScrollAxis
@@ -64,10 +64,10 @@ object FormScreenBuilder : ScreenBuilder {
             scrollDirection = ScrollAxis.VERTICAL,
             children = listOf(
                 Form(
-                    action = FormRemoteAction(
+                    onSubmit = listOf(FormRemoteAction(
                         path = SUBMIT_FORM_ENDPOINT,
                         method = FormMethodType.POST
-                    ),
+                    )),
                     child = Container(
                         children = listOf(
                             customFormInput(
