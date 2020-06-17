@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.widget
 
-import br.com.zup.beagle.android.widget.core.Bindable
 import br.com.zup.beagle.widget.Widget
 
-abstract class WidgetView : Widget(), ViewConvertable, Bindable
+abstract class WidgetView : Widget(), ViewConvertable

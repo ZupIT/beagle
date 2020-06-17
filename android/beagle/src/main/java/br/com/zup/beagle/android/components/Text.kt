@@ -44,9 +44,6 @@ data class Text(
         return textView
     }
 
-    override fun onBind(widget: Widget, view: View) {}
-
-
     private fun TextView.setTextWidget(text: Text) {
         this.text = text.text
         this.setStyle(text.styleId ?: "")

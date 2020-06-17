@@ -22,7 +22,6 @@ import br.com.zup.beagle.widget.action.ShowNativeDialog
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.widget.form.extensions.setOnFocus
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_FORM
 import br.com.zup.beagle.sample.constants.LIGHT_GREEN
@@ -125,8 +124,5 @@ object FormScreenBuilder : ScreenBuilder {
             child = SampleTextField(
                 placeholder = placeholder
             ).applyFlex(flexHorizontalMargin)
-                .setOnFocus(listOf(
-                    ShowNativeDialog(title = "dasasd", message = "asdas", buttonText = "asdadsas")
-                ))
         )
 }

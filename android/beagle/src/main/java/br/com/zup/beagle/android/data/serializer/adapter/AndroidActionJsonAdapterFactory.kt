@@ -27,8 +27,7 @@ private const val NAMESPACE = "custom"
 internal object AndroidActionJsonAdapterFactory {
 
     fun make(): PolymorphicJsonAdapterFactory<Action> {
-        var factory = PolymorphicJsonAdapterFactory
-            .of(Action::class.java, BEAGLE_WIDGET_TYPE)
+        var factory = PolymorphicJsonAdapterFactory.of(Action::class.java, BEAGLE_WIDGET_TYPE)
         factory = ActionJsonAdapterFactory.make(factory)
         factory = registerUserActions(factory)
         return factory

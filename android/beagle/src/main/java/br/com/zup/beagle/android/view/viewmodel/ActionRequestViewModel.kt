@@ -19,53 +19,55 @@ package br.com.zup.beagle.android.view.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.zup.beagle.android.action.SendRequestAction
+import br.com.zup.beagle.android.action.SendRequestInternal
 import br.com.zup.beagle.android.data.ActionRequester
 import br.com.zup.beagle.android.exception.BeagleApiException
-import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.view.mapper.toRequestData
+import br.com.zup.beagle.android.view.mapper.toResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
+
+data class Response(
+    val statusCode: Int?,
+    val data: String,
+    val headers: Map<String, String> = mapOf(),
+    val statusText: String? = null
+)
 
 internal class ActionRequestViewModel(
     private val requester: ActionRequester = ActionRequester()
 ) : ViewModel() {
 
-    fun fetch(sendRequestAction: SendRequestAction): LiveData<FetchViewState> {
-        return FetchComponentLiveData(requester, sendRequestAction, viewModelScope.coroutineContext)
+    fun fetch(sendRequest: SendRequestInternal): LiveData<FetchViewState> {
+        return FetchComponentLiveData(requester, sendRequest, viewModelScope.coroutineContext)
     }
 
     sealed class FetchViewState {
-        data class Error(val response: ResponseData) : FetchViewState()
-        data class Success(val response: ResponseData) : FetchViewState()
+        data class Error(val response: Response) : FetchViewState()
+        data class Success(val response: Response) : FetchViewState()
     }
-
-    private class FetchComponentLiveData(private val requester: ActionRequester,
-                                         private val sendRequestAction: SendRequestAction,
-                                         override val coroutineContext: CoroutineContext) : LiveData<FetchViewState>(),
-        CoroutineScope {
-
-        override fun onActive() {
-            fetchData()
-
-            super.onActive()
-        }
-
-        private fun fetchData() {
-            launch {
-                value = try {
-                    val response = requester.fetchData(sendRequestAction.toRequestData())
-                    FetchViewState.Success(response)
-                } catch (exception: BeagleApiException) {
-                    FetchViewState.Error(exception.responseData)
-                }
-            }
-
-        }
-    }
-
 }
 
+private class FetchComponentLiveData(
+    private val requester: ActionRequester,
+    private val sendRequest: SendRequestInternal,
+    override val coroutineContext: CoroutineContext
+) : LiveData<ActionRequestViewModel.FetchViewState>(), CoroutineScope {
 
+    override fun onActive() {
+        fetchData()
+    }
 
+    private fun fetchData() {
+        launch {
+            value = try {
+                val response = requester.fetchData(sendRequest.toRequestData())
+                ActionRequestViewModel.FetchViewState.Success(response.toResponse())
+            } catch (exception: BeagleApiException) {
+                ActionRequestViewModel.FetchViewState.Error(exception.responseData.toResponse())
+            }
+        }
+
+    }
+}

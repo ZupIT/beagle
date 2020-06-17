@@ -63,9 +63,6 @@ data class TextField(
             textFieldView.hint = hint
             textFieldView.setTextColor(color)
             textFieldView.setHintTextColor(color)
-            textFieldView.setOnFocusChangeListener { _, hasFocus ->
-                if (hasFocus) onFocus() else onBlur()
-            }
 
             inputType?.let {
                 if (it == TextFieldInputType.NUMBER) {
@@ -81,11 +78,6 @@ data class TextField(
                 MaskApplier(textFieldView, it)
             }
         }
-    }
-
-
-    override fun onBind(widget: Widget, view: View) {
-        bind(widget as TextField)
     }
 
     private fun getColorWithHashTag(value: String): String = if (value.startsWith("#")) value else "#$value"

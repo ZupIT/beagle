@@ -41,8 +41,6 @@ class PageIndicator(
         setUnselectedColor(Color.parseColor(unselectedColor))
     }
 
-    override fun onBind(widget: Widget, view: View) {}
-
     override fun setCount(pages: Int) {
         pageIndicator.setCount(pages)
     }

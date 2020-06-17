@@ -16,18 +16,15 @@
 
 package br.com.zup.beagle.android.context
 
-import androidx.collection.LruCache
-import br.com.zup.beagle.android.action.UpdateContext
+import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.jsonpath.JsonPathReplacer
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
-import br.com.zup.beagle.android.widget.core.Bind
-import br.com.zup.beagle.core.ContextData
 import com.squareup.moshi.Moshi
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.*
+import java.lang.IllegalStateException
 
 private val EXPRESSION_REGEX = "@\\{([^)]+)\\}".toRegex()
 
@@ -43,56 +40,73 @@ internal class ContextDataManager(
     private val moshi: Moshi = BeagleMoshi.moshi
 ) {
 
-    private val lruCache: LruCache<String, Any> = LruCache(20)
-    private val contextIds: Stack<String> = Stack<String>()
     private val contexts: MutableMap<String, ContextBinding> = mutableMapOf()
 
-    fun pushContext(contextData: ContextData) {
-        contextIds.add(contextData.id)
+    fun addContext(contextData: ContextData) {
         contexts[contextData.id] = ContextBinding(
             bindings = mutableListOf(),
             context = contextData
         )
     }
 
-    fun popContext() {
-        if (contextIds.isNotEmpty()) {
-            contextIds.pop()
-        }
+    fun removeContext(contextId: String) {
+        contexts.remove(contextId)
     }
 
     fun addBindingToContext(binding: Bind.Expression<*>) {
-        val bindingValue = binding.valueInExpression()
-        val path = bindingValue.split(".")[0]
-
-        val contextId = if (contextIds.contains(path)) {
-            path
-        } else {
-            contextIds.peek()
-        }
-
+        val contextId = binding.getContextId()
         contexts[contextId]?.bindings?.add(binding)
     }
 
-    fun updateContext(updateContext: UpdateContext): Boolean {
-        return contexts[updateContext.contextId]?.let { contextBinding ->
-            val path = updateContext.path ?: contextBinding.context.id
-            return setValue(contextBinding, path, updateContext.value)
+    fun updateContext(setContextInternal: SetContextInternal): Boolean {
+        return contexts[setContextInternal.contextId]?.let { contextBinding ->
+            val path = setContextInternal.path ?: contextBinding.context.id
+            val setValue = setValue(contextBinding, path, setContextInternal.value)
+            if (setValue) {
+                evaluateContext(setContextInternal.contextId)
+            }
+            setValue
         } ?: false
     }
 
-    fun evaluateContextBindings() {
+    fun evaluateAllContext() {
         contexts.forEach { entry ->
             notifyBindingChanges(entry.value)
         }
     }
 
+    fun evaluateBinding(bind: Bind.Expression<*>): Any? {
+        val contextId = bind.getContextId()
+
+        return contexts[contextId]?.let {
+            return evaluateBinding(it.context, bind)
+        }
+    }
+
+    private fun evaluateBinding(contextData: ContextData, bind: Bind.Expression<*>): Any? {
+        val value = getValue(contextData, bind.valueInExpression())
+
+        return try {
+            if (value is JSONArray || value is JSONObject) {
+                moshi.adapter<Any>(bind.type).fromJson(value.toString()) ?:
+                throw IllegalStateException("JSON deserialization returned null")
+            } else {
+                value ?: throw IllegalStateException("Expression evaluation returned null")
+            }
+        } catch (ex: Exception) {
+            BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(ex)
+            null
+        }
+    }
+
+    private fun evaluateContext(contextId: String) {
+        contexts[contextId]?.let {
+            notifyBindingChanges(it)
+        }
+    }
+
     private fun getValue(contextData: ContextData, path: String): Any? {
         return if (path != contextData.id) {
-            val value = lruCache[path]
-            if (value != null) {
-                return value
-            }
             findAndCacheValue(contextData, path)
         } else {
             contextData.value
@@ -103,9 +117,6 @@ internal class ContextDataManager(
         return try {
             val keys = contextPathResolver.getKeysFromPath(contextData.id, path)
             val foundValue = jsonPathFinder.find(keys, contextData.value)
-            if (foundValue != null) {
-                lruCache.put(path, foundValue)
-            }
             foundValue
         } catch (ex: Exception) {
             BeagleMessageLogs.errorWhileTryingToAccessContext(ex)
@@ -135,23 +146,15 @@ internal class ContextDataManager(
         val bindings = contextBinding.bindings
 
         bindings.forEach { bind ->
-            val expression = bind.valueInExpression()
-            val path = contextPathResolver.addContextToPath(contextData.id, expression)
-            val value = getValue(contextData, path)
-
-            try {
-                val realValue: Any = if (value is JSONArray || value is JSONObject) {
-                    moshi.adapter<Any>(bind.type).fromJson(value.toString())
-                        ?: throw IllegalStateException("JSON deserialization returned null")
-                } else {
-                    value ?: throw IllegalStateException("Expression evaluation returned null")
-                }
-                bind.notifyChange(realValue)
-            } catch (ex: Exception) {
-                BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(ex)
+            val value = evaluateBinding(contextData, bind)
+            if (value != null) {
+                bind.notifyChange(value)
             }
         }
     }
+
+    private fun Bind.Expression<*>.getContextId(): String =
+        valueInExpression().split(".")[0]
 
     private fun Bind.Expression<*>.valueInExpression(): String =
         EXPRESSION_REGEX.find(this.value)?.groups?.get(1)?.value ?: ""

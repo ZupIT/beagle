@@ -43,6 +43,4 @@ data class Spacer(
 
         return viewFactory.makeBeagleFlexView(rootView.getContext(), flex)
     }
-
-    override fun onBind(widget: Widget, view: View) {}
 }

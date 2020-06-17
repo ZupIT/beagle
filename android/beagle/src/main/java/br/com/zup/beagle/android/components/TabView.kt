@@ -76,8 +76,6 @@ data class TabView(
         return container
     }
 
-    override fun onBind(widget: Widget, view: View) {}
-
     private fun makeTabLayout(context: Context): TabLayout {
         return viewFactory.makeTabLayout(context).apply {
             layoutParams =

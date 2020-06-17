@@ -17,25 +17,22 @@
 package br.com.zup.beagle.android.engine.renderer
 
 import android.view.View
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.components.utils.ComponentStylization
-import br.com.zup.beagle.android.engine.util.ContextViewRenderer
+import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.android.context.ContextComponentHandler
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.ViewConvertable
 
 internal abstract class ViewRenderer<T : ServerDrivenComponent>(
     private val componentStylization: ComponentStylization<T> = ComponentStylization(),
-    private val contextViewRenderer: ContextViewRenderer = ContextViewRenderer()
+    private val contextComponentHandler: ContextComponentHandler = ContextComponentHandler()
 ) {
     abstract val component: T
 
     fun build(rootView: RootView): View {
-        contextViewRenderer.startContextBinding(rootView, component)
-
+        contextComponentHandler.handleContext(rootView, component)
         val builtView = buildView(rootView)
         componentStylization.apply(builtView, component)
-
-        contextViewRenderer.finishContextBinding(rootView, component)
         return builtView
     }
 

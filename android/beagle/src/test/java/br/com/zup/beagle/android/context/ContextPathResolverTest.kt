@@ -71,40 +71,4 @@ class ContextPathResolverTest {
         assertEquals("b", keys.poll())
         assertEquals(0, keys.size)
     }
-
-    @Test
-    fun addContextToPath_should_not_add_context_when_path_is_the_own_context() {
-        // Given
-        val path = CONTEXT_ID
-
-        // When
-        val newPath = contextPathResolver.addContextToPath(CONTEXT_ID, path)
-
-        // Then
-        assertEquals(path, newPath)
-    }
-
-    @Test
-    fun addContextToPath_should_not_add_context_when_context_already_exist_in_path() {
-        // Given
-        val path = "$CONTEXT_ID.a"
-
-        // When
-        val newPath = contextPathResolver.addContextToPath(CONTEXT_ID, path)
-
-        // Then
-        assertEquals(path, newPath)
-    }
-
-    @Test
-    fun addContextToPath_should_add_context_to_path() {
-        // Given
-        val path = "a"
-
-        // When
-        val newPath = contextPathResolver.addContextToPath(CONTEXT_ID, path)
-
-        // Then
-        assertEquals("$CONTEXT_ID.a", newPath)
-    }
 }

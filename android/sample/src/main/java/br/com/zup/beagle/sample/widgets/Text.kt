@@ -17,22 +17,21 @@
 package br.com.zup.beagle.sample.widgets
 
 import android.graphics.Color
-import android.view.View
 import android.widget.TextView
+import br.com.zup.beagle.android.utils.get
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.widget.Widget
 
 @RegisterWidget
 data class Text(
-    val text: String = ""
+    val text: Bind<String>
 ) : WidgetView() {
-    override fun buildView(rootView: RootView): TextView = TextView(rootView.getContext()).apply {
-        setTextColor(Color.BLACK)
-    }
-
-    override fun onBind(widget: Widget, view: View) {
-        (view as TextView).text = (widget as Text).text
+    override fun buildView(rootView: RootView): TextView = TextView(rootView.getContext()).also {
+        it.setTextColor(Color.BLACK)
+        it.text = this@Text.text.get(rootView) { newText ->
+            it.text = newText
+        }
     }
 }

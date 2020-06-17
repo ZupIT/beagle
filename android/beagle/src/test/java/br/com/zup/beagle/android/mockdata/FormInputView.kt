@@ -35,8 +35,4 @@ class CustomInputWidget : InputWidget() {
     override fun buildView(rootView: RootView): View {
         return mockk()
     }
-
-    override fun onBind(widget: Widget, view: View) {
-        return mockk()
-    }
 }

@@ -24,8 +24,4 @@ import br.com.zup.beagle.widget.action.Action
  * an UITextField in iOS or any other type of view that can receive and store input from users. </p>
  *
  */
-abstract class InputWidget : Widget() {
-    var onChange: List<Action>? = null
-    var onFocus: List<Action>? = null
-    var onBlur: List<Action>? = null
-}
+abstract class InputWidget : Widget()

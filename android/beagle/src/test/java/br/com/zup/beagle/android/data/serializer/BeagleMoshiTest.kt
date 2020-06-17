@@ -39,6 +39,7 @@ import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.components.layout.ScrollView
 import br.com.zup.beagle.android.components.page.PageIndicator
 import br.com.zup.beagle.android.components.page.PageView
+import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.mockdata.ComponentBinding
 import br.com.zup.beagle.android.mockdata.CustomAndroidAction
 import br.com.zup.beagle.android.mockdata.CustomInputWidget
@@ -47,8 +48,7 @@ import br.com.zup.beagle.android.mockdata.InternalObject
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.widget.UndefinedWidget
 import br.com.zup.beagle.android.widget.WidgetView
-import br.com.zup.beagle.android.widget.core.Bind
-import br.com.zup.beagle.android.widget.core.ContextData
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.every
 import io.mockk.mockk

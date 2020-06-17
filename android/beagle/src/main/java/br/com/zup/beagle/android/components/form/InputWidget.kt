@@ -16,24 +16,21 @@
 
 package br.com.zup.beagle.android.components.form
 
-import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.form.observer.Observable
 import br.com.zup.beagle.android.components.form.observer.StateChangeable
 import br.com.zup.beagle.android.components.form.observer.WidgetState
-import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.android.widget.ViewConvertable
+import br.com.zup.beagle.widget.Widget
 
-abstract class InputWidget : WidgetView(), StateChangeable, InputWidgetWatcher {
-
-    var onChange: List<Action>? = null
-    var onFocus: List<Action>? = null
-    var onBlur: List<Action>? = null
-
-    @Transient
-    private val stateObservable =
-        Observable<WidgetState>()
+/**
+ * <p>It could be an EditText view in Android, a Radio button in HTML,
+ * an UITextField in iOS or any other type of view that can receive and store input from users. </p>
+ *
+ */
+abstract class InputWidget : Widget(), ViewConvertable, StateChangeable {
 
     @Transient
-    private var actionObservable = Observable<Pair<InputWidgetWatcherActionType, Any>>()
+    private val stateObservable = Observable<WidgetState>()
 
     abstract fun getValue(): Any
 
@@ -41,38 +38,11 @@ abstract class InputWidget : WidgetView(), StateChangeable, InputWidgetWatcher {
 
     override fun getState(): Observable<WidgetState> = stateObservable
 
-    override fun getAction(): Observable<Pair<InputWidgetWatcherActionType, Any>> = actionObservable
-
-    /**
-     * call this action when the field lost focus.
-     */
-    override fun onBlur() {
-        actionObservable.notifyObservers(getActionTypeWithValue(InputWidgetWatcherActionType.ON_BLUR))
-    }
-
-    /**
-     * call this action when the field change value.
-     */
-    override fun onChange() {
-        actionObservable.notifyObservers(getActionTypeWithValue(InputWidgetWatcherActionType.ON_CHANGE))
-    }
-
-    /**
-     * call this action when the field focused.
-     */
-    override fun onFocus() {
-        actionObservable.notifyObservers(getActionTypeWithValue(InputWidgetWatcherActionType.ON_FOCUS))
-    }
-
     /**
      * Notify the view the value updated
      *
      */
     fun notifyChanges() {
-        onChange()
         stateObservable.notifyObservers(WidgetState(getValue()))
     }
-
-    private fun getActionTypeWithValue(type: InputWidgetWatcherActionType):
-        Pair<InputWidgetWatcherActionType, Any> = type to getValue()
 }

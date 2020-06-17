@@ -37,6 +37,4 @@ data class TabItem(
             it.addServerDrivenComponent(content, rootView)
         }
     }
-
-    override fun onBind(widget: Widget, view: View) {}
 }

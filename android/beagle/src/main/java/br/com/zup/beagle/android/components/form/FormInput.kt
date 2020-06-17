@@ -17,14 +17,10 @@
 package br.com.zup.beagle.android.components.form
 
 import android.view.View
-import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.ActionExecutor
-import br.com.zup.beagle.android.components.form.observer.Observable
-import br.com.zup.beagle.android.components.form.observer.Observer
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
-import br.com.zup.beagle.widget.Widget
 
 data class FormInput(
     val name: String,
@@ -37,30 +33,9 @@ data class FormInput(
     @Transient
     private val viewRendererFactory: ViewRendererFactory = ViewRendererFactory()
 
-    @Transient
-    private val actionExecutor: ActionExecutor = ActionExecutor()
-
     override fun buildView(rootView: RootView): View {
         return viewRendererFactory.make(child).build(rootView).apply {
             tag = this@FormInput
-            val inputWidget: InputWidget = child
-            inputWidget.getAction().addObserver(object : Observer<Pair<InputWidgetWatcherActionType, Any>> {
-                override fun update(o: Observable<Pair<InputWidgetWatcherActionType, Any>>,
-                                    arg: Pair<InputWidgetWatcherActionType, Any>) {
-                    actionExecutor.doAction(rootView, getActions(inputWidget, arg.first))
-                }
-            })
         }
     }
-
-    private fun getActions(inputWidget: InputWidget, type: InputWidgetWatcherActionType): List<Action>? {
-        return when (type) {
-            InputWidgetWatcherActionType.ON_CHANGE -> inputWidget.onChange
-            InputWidgetWatcherActionType.ON_FOCUS -> inputWidget.onFocus
-            InputWidgetWatcherActionType.ON_BLUR -> inputWidget.onBlur
-        }
-    }
-
-
-    override fun onBind(widget: Widget, view: View) {}
 }

@@ -95,4 +95,9 @@ internal object BeagleMessageLogs {
         val errorMessage = "Error while trying to notify context changes."
         BeagleLogger.error(errorMessage, ex)
     }
+
+    fun errorWhileTryingToEvaluateBinding(ex: Throwable) {
+        val errorMessage = "Error while trying to evaluate binding."
+        BeagleLogger.error(errorMessage, ex)
+    }
 }

@@ -34,8 +34,5 @@ abstract class ComposeComponent : WidgetView() {
         }
     }
 
-    override fun onBind(widget: Widget, view: View) {}
-
-
     abstract fun build(): ServerDrivenComponent
 }

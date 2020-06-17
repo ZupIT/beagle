@@ -36,6 +36,4 @@ data class FormSubmit(
             tag = this@FormSubmit
         }
     }
-
-    override fun onBind(widget: Widget, view: View) {}
 }

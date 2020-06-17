@@ -62,8 +62,6 @@ data class PageView(
         return container
     }
 
-    override fun onBind(widget: Widget, view: View) {}
-
     private fun setupPageIndicator(
         pages: Int,
         viewPager: BeaglePageView,

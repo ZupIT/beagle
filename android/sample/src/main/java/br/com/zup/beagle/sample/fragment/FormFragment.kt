@@ -37,7 +37,6 @@ import br.com.zup.beagle.android.components.form.Form
 import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.components.form.FormInputHidden
 import br.com.zup.beagle.android.components.form.FormSubmit
-import br.com.zup.beagle.android.components.form.setOnBlur
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.layout.Screen
 
@@ -76,11 +75,7 @@ class FormFragment : Fragment() {
                         name = "nome",
                         child = TextField(
                             hint = "nome"
-                        ).setOnBlur(listOf(ShowNativeDialog(
-                            title = "onblur",
-                            message = "onblur",
-                            buttonText = "onblur"
-                        )))
+                        )
                     ),
                     FormSubmit(
                         child = Button(

@@ -46,8 +46,6 @@ data class ListView(
         return recyclerView
     }
 
-    override fun onBind(widget: Widget, view: View) {}
-
     private fun toRecyclerViewOrientation() = if (direction == ListDirection.VERTICAL) {
         RecyclerView.VERTICAL
     } else {

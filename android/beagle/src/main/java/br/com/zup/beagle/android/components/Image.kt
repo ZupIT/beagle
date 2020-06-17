@@ -43,8 +43,6 @@ data class Image(
         return imageView
     }
 
-    override fun onBind(widget: Widget, view: View) {}
-
     private fun ImageView.setData(widget: Image, viewMapper: ViewMapper) {
         val contentMode = widget.contentMode ?: ImageContentMode.FIT_CENTER
         scaleType = viewMapper.toScaleType(contentMode)

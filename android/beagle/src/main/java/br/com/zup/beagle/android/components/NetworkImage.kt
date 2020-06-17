@@ -61,8 +61,6 @@ data class NetworkImage(
         }
     }
 
-    override fun onBind(widget: Widget, view: View) {}
-
     private fun makeImageView(rootView: RootView) =
         viewFactory.makeImageView(rootView.getContext(),
             style?.cornerRadius?.radius ?: 0.0).apply {

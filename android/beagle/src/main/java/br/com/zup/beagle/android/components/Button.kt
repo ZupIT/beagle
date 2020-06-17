@@ -25,6 +25,7 @@ import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.ActionExecutor
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
@@ -42,9 +43,6 @@ data class Button(
     private val viewFactory = ViewFactory()
 
     @Transient
-    private val actionExecutor: ActionExecutor = ActionExecutor()
-
-    @Transient
     private val preFetchHelper: PreFetchHelper = PreFetchHelper()
 
     override fun buildView(rootView: RootView): View {
@@ -54,13 +52,17 @@ data class Button(
         val button = viewFactory.makeButton(rootView.getContext())
 
         button.setOnClickListener {
-            actionExecutor.doAction(rootView, onPress)
+            onPress?.let {
+                this@Button.handleEvent(rootView, it, "onPress")
+            }
             clickAnalyticsEvent?.let {
                 BeagleEnvironment.beagleSdk.analytics?.sendClickEvent(it)
             }
         }
         button.setOnLongClickListener {
-            actionExecutor.doAction(rootView, onLongPress)
+            onLongPress?.let {
+                this@Button.handleEvent(rootView, it, "onLongPress")
+            }
             clickAnalyticsEvent?.let {
                 BeagleEnvironment.beagleSdk.analytics?.sendClickEvent(it)
             }
@@ -70,8 +72,6 @@ data class Button(
         button.setData(text, styleId)
         return button
     }
-
-    override fun onBind(widget: Widget, view: View) {}
 
     private fun Button.setData(text: String, styleId: String?) {
         val typedArray = styleManagerFactory.getButtonTypedArray(context, styleId)

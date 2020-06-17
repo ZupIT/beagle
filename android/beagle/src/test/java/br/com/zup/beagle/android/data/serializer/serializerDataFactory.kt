@@ -188,7 +188,7 @@ fun makeFormLocalActionJson() = """
 
 fun makeCustomAndroidActionJson() = """
     {
-        "_beagleAction_": "custom:customAndroidAction",
+        "_beagleAction_": "custom:customandroidaction",
         "value": "${RandomData.string()}",
         "intValue": ${RandomData.int()}
     }

@@ -55,6 +55,4 @@ data class Touchable(
             }
         }
     }
-
-    override fun onBind(widget: Widget, view: View) {}
 }

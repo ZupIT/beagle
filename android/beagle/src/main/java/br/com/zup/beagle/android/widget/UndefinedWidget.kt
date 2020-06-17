@@ -41,6 +41,4 @@ internal class UndefinedWidget : WidgetView() {
         }
     }
 
-    override fun onBind(widget: Widget, view: View) {}
-
 }

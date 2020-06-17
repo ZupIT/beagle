@@ -67,8 +67,6 @@ internal data class ScreenComponent(
         return container
     }
 
-    override fun onBind(widget: Widget, view: View) {}
-
     private fun addNavigationBarIfNecessary(rootView: RootView, navigationBar: NavigationBar?) {
         (rootView.getContext() as? BeagleActivity)?.let {
             if (navigationBar != null) {

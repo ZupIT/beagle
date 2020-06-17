@@ -91,8 +91,6 @@ data class Form(
         return view
     }
 
-    override fun onBind(widget: Widget, view: View) {}
-
     private fun fetchFormViews(rootView: RootView, viewGroup: ViewGroup) {
         viewGroup.children.forEach { childView ->
             if (childView.tag != null) {

@@ -64,8 +64,6 @@ data class ScrollView(
         }
     }
 
-    override fun onBind(widget: Widget, view: View) {}
-
     private fun addChildrenViews(
         scrollView: ViewGroup,
         children: List<ServerDrivenComponent>,

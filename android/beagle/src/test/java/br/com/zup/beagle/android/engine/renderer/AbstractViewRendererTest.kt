@@ -18,7 +18,7 @@ package br.com.zup.beagle.android.engine.renderer
 
 import android.view.View
 import br.com.zup.beagle.android.components.utils.ComponentStylization
-import br.com.zup.beagle.android.engine.util.ContextViewRenderer
+import br.com.zup.beagle.android.context.ContextComponentHandler
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.widget.Widget
 import io.mockk.mockk
@@ -29,8 +29,8 @@ import org.junit.Test
 private class AbstractViewRenderer(
     override val component: Widget,
     componentStylization: ComponentStylization<Widget>,
-    contextViewRenderer: ContextViewRenderer
-) : ViewRenderer<Widget>(componentStylization, contextViewRenderer) {
+    contextComponentHandler: ContextComponentHandler
+) : ViewRenderer<Widget>(componentStylization, contextComponentHandler) {
     override fun buildView(rootView: RootView): View {
         return mockk()
     }
@@ -41,18 +41,17 @@ class AbstractViewRendererTest {
     private val component = mockk<Widget>(relaxed = true)
     private val rootView = mockk<RootView>(relaxed = true)
     private val componentStylization = mockk<ComponentStylization<Widget>>(relaxed = true)
-    private val contextViewRenderer = mockk<ContextViewRenderer>(relaxed = true)
+    private val contextViewRenderer = mockk<ContextComponentHandler>(relaxed = true)
 
     private lateinit var viewRenderer: AbstractViewRenderer
 
     @Before
     fun setUp() {
-        viewRenderer =
-            AbstractViewRenderer(
-                component,
-                componentStylization,
-                contextViewRenderer
-            )
+        viewRenderer = AbstractViewRenderer(
+            component,
+            componentStylization,
+            contextViewRenderer
+        )
     }
 
     @Test
@@ -62,9 +61,8 @@ class AbstractViewRendererTest {
 
         // Then
         verifySequence {
-            contextViewRenderer.startContextBinding(rootView, component)
+            contextViewRenderer.handleContext(rootView, component)
             componentStylization.apply(any(), component)
-            contextViewRenderer.finishContextBinding(rootView, component)
         }
     }
 }

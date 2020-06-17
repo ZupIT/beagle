@@ -40,14 +40,5 @@ data class SampleTextField(val placeholder: String = "") : InputWidget() {
 
         textFieldView.isSingleLine = true
         doOnTextChanged { _, _, _, _ -> notifyChanges() }
-        textFieldView.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) onFocus() else onBlur()
-        }
-    }
-
-    override fun onBind(widget: Widget, view: View) {
-        (widget as? SampleTextField)?.let {
-            textFieldView.hint = it.placeholder
-        }
     }
 }

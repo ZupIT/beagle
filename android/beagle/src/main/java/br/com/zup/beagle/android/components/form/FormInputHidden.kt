@@ -39,6 +39,4 @@ data class FormInputHidden(
             visibility = View.GONE
         }
     }
-
-    override fun onBind(widget: Widget, view: View) {}
 }

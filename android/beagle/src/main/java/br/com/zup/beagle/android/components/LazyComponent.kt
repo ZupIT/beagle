@@ -38,6 +38,4 @@ data class LazyComponent(
             updateView(rootView, path, this[0])
         }
     }
-
-    override fun onBind(widget: Widget, view: View) {}
 }

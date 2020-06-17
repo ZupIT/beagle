@@ -25,7 +25,6 @@ include Modules.beagleAndroidAnnotation
 include Modules.beagleAndroidPreview
 include Modules.beagleAnnotation
 include Modules.beagleCommonProcessorUtils
-include Modules.beagleBackendProcessor
 include Modules.beagleBackendSpringStarter
 include Modules.beagleBackendMicronautStarter
 include Modules.beagleSchemaKotlinCore

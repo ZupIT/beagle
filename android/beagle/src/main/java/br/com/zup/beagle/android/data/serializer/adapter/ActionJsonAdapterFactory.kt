@@ -21,7 +21,8 @@ import br.com.zup.beagle.android.action.FormLocalAction
 import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.action.FormValidation
 import br.com.zup.beagle.android.action.Navigate
-import br.com.zup.beagle.android.action.SendRequestAction
+import br.com.zup.beagle.android.action.SendRequest
+import br.com.zup.beagle.android.action.SetContext
 import br.com.zup.beagle.android.action.ShowNativeDialog
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
 import java.util.Locale
@@ -46,7 +47,8 @@ internal object ActionJsonAdapterFactory {
             .withSubtype(Navigate.PopToView::class.java, createNamespaceFor<Navigate.PopToView>())
             .withSubtype(Navigate.ResetApplication::class.java, createNamespaceFor<Navigate.ResetApplication>())
             .withSubtype(Navigate.ResetStack::class.java, createNamespaceFor<Navigate.ResetStack>())
-            .withSubtype(SendRequestAction::class.java, createNamespaceFor<SendRequestAction>())
+            .withSubtype(SendRequest::class.java, createNamespaceFor<SendRequest>())
+            .withSubtype(SetContext::class.java, createNamespaceFor<SetContext>())
     }
 
     private inline fun <reified T : Action> createNamespaceFor(): String {
