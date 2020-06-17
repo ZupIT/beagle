@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.sample.spring.service
 
-import br.com.zup.beagle.micronaut.util.BeagleSessionUtil
+import br.com.zup.beagle.spring.util.BeagleSessionUtil
 import br.com.zup.beagle.sample.builder.CustomPlatformBuilder
 import br.com.zup.beagle.sample.builder.PlatformBuilder
 import org.springframework.stereotype.Service

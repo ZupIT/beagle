@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.sample.micronaut.service
 
+import br.com.zup.beagle.micronaut.util.BeagleSessionUtil
 import br.com.zup.beagle.sample.builder.CustomPlatformBuilder
 import br.com.zup.beagle.sample.builder.PlatformBuilder
-import br.com.zup.beagle.spring.util.BeagleSessionUtil
 import javax.inject.Singleton
 
 @Singleton
