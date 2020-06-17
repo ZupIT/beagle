@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.utils
+package br.com.zup.beagle.android.utils
 
 import br.com.zup.beagle.android.utils.getExpressions
 import org.junit.Test

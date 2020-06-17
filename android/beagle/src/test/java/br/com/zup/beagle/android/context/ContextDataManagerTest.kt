@@ -306,7 +306,7 @@ class ContextDataManagerTest {
     }
 
     @Test
-    fun evaluateContextBindings_should_evaluate_text_string_text_expression() {
+    fun evaluateAllContext_should_evaluate_text_string_text_expression() {
         // Given
         val valueSlot = slot<Any>()
         val bind = mockk<Bind.Expression<String>> {
@@ -314,15 +314,14 @@ class ContextDataManagerTest {
             every { type } returns String::class.java
         }
         every { jsonPathFinder.find(any(), any()) } returns "hello"
-        every { bind.notifyChange(capture(valueSlot)) } just Runs
         contexts[CONTEXT_ID]?.bindings?.add(bind)
 
 
         // When
-        contextDataManager.evaluateContextBindings()
+        val value = contextDataManager.evaluateBinding(bind)
 
         // Then
         val expected = "This is an expression hello and this hello"
-        assertEquals(expected, valueSlot.captured.toString())
+        assertEquals(expected, value)
     }
 }

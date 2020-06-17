@@ -83,48 +83,13 @@ internal class ContextDataManager(
         val contextId = bind.getContextId()
 
         return contexts[contextId]?.let {
-            return evaluateBinding(it.context, bind)
-        }
-    }
-
-    private fun evaluateBinding(contextData: ContextData, bind: Bind.Expression<*>): Any? {
-        val value = getValue(contextData, bind.valueInExpression())
-
-        return try {
-            if (value is JSONArray || value is JSONObject) {
-                moshi.adapter<Any>(bind.type).fromJson(value.toString()) ?:
-                throw IllegalStateException("JSON deserialization returned null")
-            } else {
-                value ?: throw IllegalStateException("Expression evaluation returned null")
-            }
-        } catch (ex: Exception) {
-            BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(ex)
-            null
+            return evaluateBindExpression(it.context, bind)
         }
     }
 
     private fun evaluateContext(contextId: String) {
         contexts[contextId]?.let {
             notifyBindingChanges(it)
-        }
-    }
-
-    private fun getValue(contextData: ContextData, path: String): Any? {
-        return if (path != contextData.id) {
-            findAndCacheValue(contextData, path)
-        } else {
-            contextData.value
-        }
-    }
-
-    private fun findAndCacheValue(contextData: ContextData, path: String): Any? {
-        return try {
-            val keys = contextPathResolver.getKeysFromPath(contextData.id, path)
-            val foundValue = jsonPathFinder.find(keys, contextData.value)
-            foundValue
-        } catch (ex: Exception) {
-            BeagleMessageLogs.errorWhileTryingToAccessContext(ex)
-            null
         }
     }
 
@@ -150,22 +115,26 @@ internal class ContextDataManager(
         val bindings = contextBinding.bindings
 
         bindings.forEach { bind ->
-            val expressions = bind.value.getExpressions()
+            val value = evaluateBindExpression(contextData, bind)
 
-            val evaluatedValue = if (bind.type == String::class.java) {
-                var text = bind.value
-                expressions.forEach {
-                    val value = evaluateExpression(contextData, bind.type, it)
-                    text = text.replace("@\\{$it\\}".toRegex(), value.toString())
-                }
-                text
-            } else {
-                evaluateExpression(contextData, bind.type, expressions[0])
+            if (value != null) {
+                bind.notifyChange(value)
             }
+        }
+    }
 
-            if (evaluatedValue != null) {
-                bind.notifyChange(evaluatedValue)
+    private fun evaluateBindExpression(contextData: ContextData, bind: Bind.Expression<*>): Any? {
+        val expressions = bind.value.getExpressions()
+
+        return if (bind.type == String::class.java) {
+            var text = bind.value
+            expressions.forEach {
+                val value = evaluateExpression(contextData, bind.type, it)
+                text = text.replace("@\\{$it\\}".toRegex(), value.toString())
             }
+            text
+        } else {
+            evaluateExpression(contextData, bind.type, expressions[0])
         }
     }
 
@@ -181,6 +150,25 @@ internal class ContextDataManager(
             }
         } catch (ex: Exception) {
             BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(ex)
+            null
+        }
+    }
+
+    private fun getValue(contextData: ContextData, path: String): Any? {
+        return if (path != contextData.id) {
+            findAndCacheValue(contextData, path)
+        } else {
+            contextData.value
+        }
+    }
+
+    private fun findAndCacheValue(contextData: ContextData, path: String): Any? {
+        return try {
+            val keys = contextPathResolver.getKeysFromPath(contextData.id, path)
+            val foundValue = jsonPathFinder.find(keys, contextData.value)
+            foundValue
+        } catch (ex: Exception) {
+            BeagleMessageLogs.errorWhileTryingToAccessContext(ex)
             null
         }
     }
