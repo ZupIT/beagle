@@ -22,7 +22,6 @@ import br.com.zup.beagle.compiler.BEAGLE_CONFIG
 import br.com.zup.beagle.compiler.implementsInterface
 import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.compiler.BeagleActionBindingProcessor
 import br.com.zup.beagle.compiler.error
 import com.google.auto.service.AutoService
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessor

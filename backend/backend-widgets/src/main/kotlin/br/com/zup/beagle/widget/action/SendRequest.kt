@@ -21,7 +21,7 @@ import br.com.zup.beagle.widget.context.Bind
 data class SendRequest(
     val url: Bind<String>,
     val method: Bind<RequestActionMethod> = Bind.Value(RequestActionMethod.GET),
-    val headers: Bind<Map<String, String>>?,
+    val headers: Bind<Map<String, String>>? = null,
     val data: String? = null,
     val onSuccess: Action? = null,
     val onError: Action? = null,
@@ -30,7 +30,7 @@ data class SendRequest(
     constructor(
         url: String,
         method: RequestActionMethod = RequestActionMethod.GET,
-        headers: Map<String, String>?,
+        headers: Map<String, String>? = null,
         dataValue: String? = null,
         onSuccess: Action? = null,
         onError: Action? = null,

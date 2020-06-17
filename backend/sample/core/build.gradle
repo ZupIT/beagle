@@ -28,7 +28,6 @@ sourceSets {
 dependencies {
     implementation GeneralLibraries.kotlin
     api project(Modules.beagleBackendFramework)
-    kapt project(Modules.beagleBackendProcessor)
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {

@@ -74,7 +74,7 @@ class SendRequestHandlerTest {
         val onSuccessAction: Action = mockk()
         val onErrorAction: Action = mockk()
         val onFinishAction: Action = mockk()
-        val requestAction = SendRequest(url = valueOf(""), onSuccess = onSuccessAction,
+        val requestAction = SendRequest(url = "", onSuccess = onSuccessAction,
             onError = onErrorAction, onFinish = onFinishAction)
         every { viewModel.fetch(any()) } returns liveData
         every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs

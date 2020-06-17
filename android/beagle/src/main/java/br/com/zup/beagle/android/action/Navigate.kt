@@ -21,13 +21,11 @@ import br.com.zup.beagle.android.view.custom.BeagleNavigator
 import br.com.zup.beagle.android.widget.RootView
 
 sealed class Navigate : Action {
-
     data class OpenExternalURL(val url: String) : Navigate() {
         override fun execute(rootView: RootView) {
             BeagleNavigator.openExternalURL(rootView.getContext(), url)
         }
     }
-
     class OpenNativeRoute(val route: String,
                           val shouldResetApplication: Boolean = false,
                           val data: Map<String, String>? = null) : Navigate() {
@@ -41,37 +39,31 @@ sealed class Navigate : Action {
             BeagleNavigator.pushStack(rootView.getContext(), route)
         }
     }
-
     class PopStack : Navigate() {
         override fun execute(rootView: RootView) {
             BeagleNavigator.popStack(rootView.getContext())
         }
     }
-
     data class PushView(val route: Route) : Navigate() {
         override fun execute(rootView: RootView) {
             BeagleNavigator.pushView(rootView.getContext(), route)
         }
     }
-
     class PopView : Navigate() {
         override fun execute(rootView: RootView) {
             BeagleNavigator.popView(rootView.getContext())
         }
     }
-
     data class PopToView(val route: String) : Navigate() {
         override fun execute(rootView: RootView) {
             BeagleNavigator.popToView(rootView.getContext(), route)
         }
     }
-
     data class ResetApplication(val route: Route) : Navigate() {
         override fun execute(rootView: RootView) {
             BeagleNavigator.resetApplication(rootView.getContext(), route)
         }
     }
-
     data class ResetStack(val route: Route) : Navigate() {
         override fun execute(rootView: RootView) {
             BeagleNavigator.resetStack(rootView.getContext(), route)

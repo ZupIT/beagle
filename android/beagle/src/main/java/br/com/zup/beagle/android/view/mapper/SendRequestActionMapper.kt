@@ -37,7 +37,7 @@ internal object SendRequestActionMapper {
         return RequestData(
             uri = URI(urlFormatted),
             method = method,
-            headers = sendRequest.headers,
+            headers = sendRequest.headers ?: mapOf(),
             body = sendRequest.data?.toString()
         )
     }
