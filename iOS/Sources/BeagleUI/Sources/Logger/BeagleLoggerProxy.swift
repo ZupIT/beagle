@@ -28,13 +28,13 @@ internal class BeagleLoggerProxy: BeagleLoggerType {
     }
     
     func log(_ log: LogType) {
-        if dependencies.logEnable {
+        if dependencies.isLoggingEnabled {
             logger.log(log)
         }
     }
     
     func logDecodingError(type: String) {
-        if dependencies.logEnable {
+        if dependencies.isLoggingEnabled {
             logger.logDecodingError(type: type)
         }
     }

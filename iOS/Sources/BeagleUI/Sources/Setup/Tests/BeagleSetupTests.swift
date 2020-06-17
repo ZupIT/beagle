@@ -146,7 +146,7 @@ struct ActionDummy: Action, Equatable {
 }
 
 struct BeagleScreenDependencies: BeagleDependenciesProtocol {
-    var logEnable: Bool = true
+    var isLoggingEnabled: Bool = true
     var analytics: Analytics?
     var repository: Repository = RepositoryStub()
     var theme: Theme = AppThemeDummy()

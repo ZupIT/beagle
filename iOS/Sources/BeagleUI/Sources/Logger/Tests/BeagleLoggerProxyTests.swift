@@ -30,7 +30,7 @@ class BeagleLoggerProxyTests: XCTestCase {
         let sut = BeagleLoggerProxy(logger: spy, dependencies: dependencies)
 
         //When
-        dependencies.logEnable = false
+        dependencies.isLoggingEnabled = false
         Beagle.dependencies = dependencies
         sut.log(Log.navigation(.errorTryingToPopScreenOnNavigatorWithJustOneScreen))
         sut.logDecodingError(type: "TestType")
@@ -47,7 +47,7 @@ class BeagleLoggerProxyTests: XCTestCase {
         let sut = BeagleLoggerProxy(logger: spy, dependencies: dependencies)
 
         //When
-        dependencies.logEnable = true
+        dependencies.isLoggingEnabled = true
         sut.log(Log.navigation(.errorTryingToPopScreenOnNavigatorWithJustOneScreen))
         sut.logDecodingError(type: "TestType")
 

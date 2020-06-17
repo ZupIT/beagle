@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         dependencies.deepLinkHandler = deepLinkHandler
         dependencies.validatorProvider = validator
         dependencies.analytics = AnalyticsMock()
-        dependencies.logEnable = true
+        dependencies.isLoggingEnabled = true
         
         Beagle.dependencies = dependencies
         

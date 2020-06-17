@@ -23,7 +23,7 @@ public protocol DependencyLogger {
 }
 
 public protocol DependencyLoggingCondition {
-    var logEnable: Bool { get }
+    var isLoggingEnabled: Bool { get }
 }
 
 public protocol BeagleLoggerType: SchemaLogger {
