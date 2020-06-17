@@ -21,15 +21,15 @@ import BeagleSchema
 final class TabViewUIComponentTests: XCTestCase {
     
     // MARK: - Variables
-    private lazy var component = TabView(tabItems: [
-        TabItem(icon: "beagle", title: "Tab 1", content:
+    private lazy var component = TabView(children: [
+        TabItem(icon: "beagle", title: "Tab 1", child:
             Container(children: [
                 Text("Blaaslkdjfaskldjfalskdjfasldjfasldfj"),
                 Text("Blaaslkdjfaskldjfalskdjfasldjfasldfj")
             ])
             .applyFlex(Flex(alignContent: .center))
         ),
-        TabItem(icon: "beagle", title: "Tab 2", content:
+        TabItem(icon: "beagle", title: "Tab 2", child:
             Container(children: [
                 Text("Text1 Tab 2"),
                 Text("Text2 Tab 2")
