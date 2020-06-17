@@ -25,5 +25,5 @@ import javax.inject.Singleton
 @Requires(classes = [BeagleModule::class])
 class BeagleJacksonConfiguration {
     @Singleton
-    fun beagleModule() = BeagleModule
+    fun beagleModule() = BeagleModule()
 }

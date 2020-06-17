@@ -23,7 +23,8 @@ import br.com.zup.beagle.android.components.page.PageIndicatorOutput
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.sample.components.CustomPageIndicatorView
 
-@RegisterWidget
+//@RegisterWidget
+//FIXME Pageindicator should not be widget or should not exist anymore
 data class CustomPageIndicator(
     val showContinue: Boolean,
     val showSkip: Boolean

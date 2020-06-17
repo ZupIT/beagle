@@ -16,10 +16,12 @@
 
 package br.com.zup.beagle.android.data
 
-import br.com.zup.beagle.action.Action
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
+import br.com.zup.beagle.android.exception.BeagleApiException
 import br.com.zup.beagle.android.exception.BeagleException
-import br.com.zup.beagle.android.view.ScreenRequest
+import br.com.zup.beagle.android.networking.RequestData
+import br.com.zup.beagle.android.networking.ResponseData
 
 internal class ActionRequester(
     private val beagleApi: BeagleApi = BeagleApi(),
@@ -28,8 +30,13 @@ internal class ActionRequester(
 
     @Throws(BeagleException::class)
     suspend fun fetchAction(url: String): Action {
-        val jsonResponse = String(beagleApi.fetchData(ScreenRequest(url)).data)
+        val jsonResponse = String(beagleApi.fetchData(url.toRequestData()).data)
         return deserializeAction(jsonResponse)
+    }
+
+    @Throws(BeagleApiException::class)
+    suspend fun fetchData(requestData: RequestData): ResponseData {
+        return beagleApi.fetchData(requestData)
     }
 
     private fun deserializeAction(response: String): Action {

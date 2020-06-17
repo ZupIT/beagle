@@ -20,12 +20,15 @@ import android.graphics.Color
 import android.widget.TextView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.annotation.RegisterWidget
 
+@RegisterWidget
 data class MutableText(
     val firstText: String = "",
     val secondText: String = "",
     val color: String = "#000000"
 ): WidgetView() {
+
     override fun buildView(rootView: RootView) = TextView(rootView.getContext()).apply {
         val color = Color.parseColor(color)
         text = firstText

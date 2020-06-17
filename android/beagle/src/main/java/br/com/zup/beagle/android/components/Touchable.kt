@@ -17,9 +17,8 @@
 package br.com.zup.beagle.android.components
 
 import android.view.View
-import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.analytics.ClickEvent
-import br.com.zup.beagle.android.action.ActionExecutor
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
@@ -34,9 +33,6 @@ data class Touchable(
 ) : WidgetView() {
 
     @Transient
-    private val actionExecutor: ActionExecutor = ActionExecutor()
-
-    @Transient
     private val preFetchHelper: PreFetchHelper = PreFetchHelper()
 
     @Transient
@@ -47,7 +43,7 @@ data class Touchable(
 
         return viewRendererFactory.make(child).build(rootView).apply {
             setOnClickListener {
-                actionExecutor.doAction(rootView, action)
+                action.execute(rootView)
                 clickAnalyticsEvent?.let {
                     BeagleEnvironment.beagleSdk.analytics?.trackEventOnClick(it)
                 }

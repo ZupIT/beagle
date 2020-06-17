@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.sample.micronaut.service
 
-import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.widget.action.ShowNativeDialog
 import br.com.zup.beagle.sample.builder.FormScreenBuilder
 import javax.inject.Singleton
 
