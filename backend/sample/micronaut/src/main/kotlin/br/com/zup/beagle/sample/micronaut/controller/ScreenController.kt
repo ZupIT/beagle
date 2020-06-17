@@ -69,9 +69,9 @@ import br.com.zup.beagle.sample.micronaut.service.SampleTabViewService
 import br.com.zup.beagle.sample.micronaut.service.SampleTextService
 import br.com.zup.beagle.sample.micronaut.service.SampleTouchableService
 import br.com.zup.beagle.sample.micronaut.service.SampleViewService
-import br.com.zup.beagle.sample.micronaut.service.WebViewService
-import io.micronaut.http.annotation.Controller
+import br.com.zup.beagle.sample.micronaut.service.SampleWebViewService
 import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Controller
 
 @Controller
 class ScreenController(
@@ -96,7 +96,7 @@ class ScreenController(
     private val sampleTouchableService: SampleTouchableService,
     private val sampleActionClickService: SampleActionClickService,
     private val sampleAnalyticsService: SampleAnalyticsService,
-    private val sampleWebViewService: WebViewService
+    private val sampleWebViewService: SampleWebViewService
 ) {
     @Get(ACCESSIBILITY_SCREEN_ENDPOINT)
     fun getAccessibilityView() = this.accessibilityService.createAccessibilityView()
@@ -189,4 +189,5 @@ class ScreenController(
 
     @Get(SCREEN_WEB_VIEW_ENDPOINT)
     fun getsampleWebViewService() = this.sampleWebViewService.createWebView()
+
 }
