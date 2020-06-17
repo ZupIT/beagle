@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7685B041249A852A007EDED0 /* SendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7685B040249A852A007EDED0 /* SendRequest.swift */; };
 		935278E8249952DE00AB9D1F /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935278E7249952DE00AB9D1F /* Expression.swift */; };
 		935278EA249954F500AB9D1F /* DynamicObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935278E9249954F500AB9D1F /* DynamicObject.swift */; };
 		935278ED249956DC00AB9D1F /* SingleExpressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935278EC249956DC00AB9D1F /* SingleExpressionTests.swift */; };
@@ -130,6 +131,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7685B040249A852A007EDED0 /* SendRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendRequest.swift; sourceTree = "<group>"; };
 		935278E7249952DE00AB9D1F /* Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
 		935278E9249954F500AB9D1F /* DynamicObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicObject.swift; sourceTree = "<group>"; };
 		935278EC249956DC00AB9D1F /* SingleExpressionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleExpressionTests.swift; sourceTree = "<group>"; };
@@ -851,6 +853,7 @@
 		C8BB30B924870422002DD3C1 /* Types */ = {
 			isa = PBXGroup;
 			children = (
+				7685B040249A852A007EDED0 /* SendRequest.swift */,
 				938B13B62497E33100AA8E3B /* SetContext.swift */,
 				C864D28B247C240200E7A1F9 /* FormLocalAction.swift */,
 				C864D287247C240200E7A1F9 /* FormRemoteAction.swift */,
@@ -1240,6 +1243,7 @@
 				C864D2A7247C240200E7A1F9 /* FormInputComponent.swift in Sources */,
 				C864D2E0247C240200E7A1F9 /* Flex.swift in Sources */,
 				C864D2DA247C240200E7A1F9 /* FormLocalAction.swift in Sources */,
+				7685B041249A852A007EDED0 /* SendRequest.swift in Sources */,
 				C864D2CA247C240200E7A1F9 /* Image.swift in Sources */,
 				C864D2BB247C240200E7A1F9 /* AutoDecodable.generated.swift in Sources */,
 				C89E0C4A2492AFEB00005FCF /* Style.swift in Sources */,

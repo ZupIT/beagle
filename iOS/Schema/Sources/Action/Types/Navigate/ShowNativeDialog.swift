@@ -20,13 +20,13 @@ import Foundation
 public struct ShowNativeDialog: RawAction, AutoInitiable {
     
     public let title: String
-    public let message: String
+    public let message: Expression<String>
     public let buttonText: String
 
 // sourcery:inline:auto:ShowNativeDialog.Init
     public init(
         title: String,
-        message: String,
+        message: Expression<String>,
         buttonText: String
     ) {
         self.title = title

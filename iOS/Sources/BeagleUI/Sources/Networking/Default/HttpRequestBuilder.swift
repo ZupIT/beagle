@@ -27,6 +27,11 @@ public class HttpRequestBuilder {
         requestType: Request.RequestType,
         additionalData: HttpAdditionalData?
     ) -> Result {
+        
+        if case .rawRequest(let requestData) = requestType {
+            return Result(url, requestData)
+        }
+        
         var newUrl = url
         var body = additionalData?.httpData?.body
 
@@ -47,6 +52,22 @@ public class HttpRequestBuilder {
         var method: String
         var headers: [String: String]
         var body: Data?
+        
+        init(url: URL, method: String, headers: [String: String], body: Data?) {
+            self.url = url
+            self.method = method
+            self.headers = headers
+            self.body = body
+        }
+        
+        init(_ url: URL, _ requestData: Request.RequestData) {
+            let method = requestData.method ?? "GET"
+            var body: Data?
+            if method != "GET" {
+                body = try? JSONSerialization.data(withJSONObject: requestData.body ?? [:], options: [.fragmentsAllowed])
+            }
+            self.init(url: url, method: method, headers: requestData.headers ?? [:], body: body)
+        }
 
         func toUrlRequest() -> URLRequest {
             var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 100)
@@ -75,6 +96,9 @@ public class HttpRequestBuilder {
 
         case (.submitForm(let form), _):
             return form.method.rawValue
+            
+        case (.rawRequest(let requestData), _):
+            return requestData.method ?? "GET"
 
         case (_, nil):
             return "GET"

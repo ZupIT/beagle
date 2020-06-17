@@ -117,6 +117,7 @@ final public class ComponentDecoder: ComponentDecoding {
         registerAction(FormLocalAction.self, key: key(name: "FormLocalAction", namespace: .beagle))
         registerAction(FormRemoteAction.self, key: key(name: "FormRemoteAction", namespace: .beagle))
         registerAction(SetContext.self, key: key(name: "SetContext", namespace: .beagle))
+        registerAction(SendRequest.self, key: key(name: "SendRequest", namespace: .beagle))
     }
     
     private func registerCoreTypes() {

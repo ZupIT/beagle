@@ -31,7 +31,7 @@ extension UIView {
         }
     }
 
-    private var contextMap: [String: Observable<Context>]? {
+    public var contextMap: [String: Observable<Context>]? {
         get {
             return (objc_getAssociatedObject(self, &UIView.contextMapKey) as? ObjectWrapper)?.object
         }
