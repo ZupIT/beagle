@@ -19,8 +19,8 @@ package br.com.zup.beagle.sample.micronaut.controller
 import br.com.zup.beagle.sample.constants.CUSTOM_PLATFORM_SAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.PLATFORM_SAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.micronaut.service.PlatformService
-import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Controller
 
 @Controller
 class PlatformController(private val platformService: PlatformService) {
