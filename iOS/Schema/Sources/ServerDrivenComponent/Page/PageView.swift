@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-public struct PageView: RawComponent, AutoInitiable {
+public struct PageView: RawComponent, AutoInitiable, HasContext {
 
     public let pages: [RawComponent]
     public let pageIndicator: PageIndicatorComponent?
+    public let _context_: Context?
 
 // sourcery:inline:auto:PageView.Init
     public init(
         pages: [RawComponent],
-        pageIndicator: PageIndicatorComponent? = nil
+        pageIndicator: PageIndicatorComponent? = nil,
+        _context_: Context? = nil
     ) {
         self.pages = pages
         self.pageIndicator = pageIndicator
+        self._context_ = _context_
     }
 // sourcery:end
 }
@@ -34,6 +37,7 @@ extension PageView: Decodable {
     enum CodingKeys: String, CodingKey {
         case pages
         case pageIndicator
+        case _context_
     }
 
     public init(from decoder: Decoder) throws {
@@ -41,6 +45,7 @@ extension PageView: Decodable {
         self.pages = try container.decode(forKey: .pages)
         let pageIndicator = try container.decodeIfPresent(AnyDecodableContainer.self, forKey: .pageIndicator)
         self.pageIndicator = (pageIndicator?.content as? PageIndicatorComponent)
+        self._context_ = try container.decodeIfPresent(Context.self, forKey: ._context_)
     }
 }
 
