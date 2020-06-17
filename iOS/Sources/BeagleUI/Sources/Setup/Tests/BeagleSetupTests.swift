@@ -34,7 +34,7 @@ final class BeagleSetupTests: XCTestCase {
         dep.deepLinkHandler = DeepLinkHandlerDummy()
         dep.theme = AppThemeDummy()
         dep.validatorProvider = ValidatorProviding()
-        dep.customActionHandler = CustomActionHandlerSpy()
+        dep.localFormHandler = LocalFormHandlerSpy()
         if let url = URL(string: "www.test.com") {
             dep.urlBuilder.baseUrl = url
         }
@@ -97,6 +97,7 @@ final class FormDataStoreHandlerDummy: FormDataStoreHandling {
 
 final class ComponentDecodingDummy: ComponentDecoding {
     func register<T>(_ type: T.Type, for typeName: String) where T: BeagleSchema.RawComponent {}
+    func register<A>(_ type: A.Type, for typeName: String) where A: BeagleSchema.RawAction {}
     func componentType(forType type: String) -> Decodable.Type? { return nil }
     func actionType(forType type: String) -> Decodable.Type? { return nil }
     func decodeComponent(from data: Data) throws -> BeagleSchema.RawComponent { return ComponentDummy() }
@@ -161,7 +162,7 @@ struct BeagleScreenDependencies: BeagleDependenciesProtocol {
     var urlBuilder: UrlBuilderProtocol = UrlBuilder()
     var networkClient: NetworkClient = NetworkClientDummy()
     var deepLinkHandler: DeepLinkScreenManaging?
-    var customActionHandler: CustomActionHandler?
+    var localFormHandler: LocalFormHandler?
     var navigation: BeagleNavigation = BeagleNavigationDummy()
     var windowManager: WindowManager = WindowManagerDumb()
     var opener: URLOpener = URLOpenerDumb()
