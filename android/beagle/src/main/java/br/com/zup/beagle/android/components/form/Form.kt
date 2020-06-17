@@ -34,6 +34,7 @@ import br.com.zup.beagle.android.components.form.core.FormValidatorController
 import br.com.zup.beagle.android.components.form.core.ValidatorHandler
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.widget.RootView
@@ -201,7 +202,7 @@ data class Form(
                 )
             }
 
-            newAction.execute(rootView)
+            handleEvent(rootView, newAction, "onSubmit")
         }
 
 
