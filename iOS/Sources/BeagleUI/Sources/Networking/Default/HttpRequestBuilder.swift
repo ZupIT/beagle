@@ -113,7 +113,10 @@ public class HttpRequestBuilder {
     ) {
         guard var components = URLComponents(url: url, resolvingAgainstBaseURL: true) else { return }
 
-        components.queryItems = parameters.map { URLQueryItem(name: $0.key, value: $0.value) }
+        components.queryItems = parameters
+            .filter { !$0.value.isEmpty }
+            .map { URLQueryItem(name: $0.key, value: $0.value) }
+
         if let newUrl = components.url {
             url = newUrl
         }
