@@ -48,7 +48,7 @@ class BeagleInternalAnnotationProcessor : AbstractProcessor() {
         roundEnvironment: RoundEnvironment
     ): Boolean {
         if (annotations.isEmpty()) return false
-        //TODO implement the processor
+        //Implement the processor for internal beagle classes
         return false
     }
 }
