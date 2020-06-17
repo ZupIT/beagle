@@ -77,7 +77,7 @@ open class BeagleRenderer {
             view.flex.setup(c.flex)
         }
         if let c = component as? HasContext, let context = c._context_ {
-            view.contextMap = [context.id: Observable(value: context)]
+            view.setContext(context)
         }
     }
 }

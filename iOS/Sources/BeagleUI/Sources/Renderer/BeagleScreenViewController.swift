@@ -28,7 +28,7 @@ public protocol BeagleControllerProtocol: NSObjectProtocol {
     func addBinding(_ update: @escaping () -> Void)
     
     func execute(action: RawAction, sender: Any)
-    func execute(actions: [RawAction]?, with context: Context, sender: Any)
+    func execute(actions: [RawAction]?, with context: Context?, sender: Any)
 }
 
 public class BeagleScreenViewController: BeagleController {
@@ -102,10 +102,11 @@ public class BeagleScreenViewController: BeagleController {
         (action as? Action)?.execute(controller: self, sender: sender)
     }
     
-    public func execute(actions: [RawAction]?, with context: Context, sender: Any) {
+    public func execute(actions: [RawAction]?, with context: Context? = nil, sender: Any) {
         guard let view = sender as? UIView, let actions = actions else { return }
-        view.contextMap = [context.id: Observable<Context>(value: context)]
-        
+        if let context = context {
+            view.setContext(context)
+        }
         actions.forEach {
             execute(action: $0, sender: sender)
         }

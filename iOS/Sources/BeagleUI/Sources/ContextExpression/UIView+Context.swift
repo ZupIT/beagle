@@ -20,6 +20,7 @@ import BeagleSchema
 
 extension UIView {
     static var contextMapKey = "contextMapKey"
+    
     static var observers = "contextObservers"
 
     private class ObjectWrapper<T> {
@@ -30,8 +31,7 @@ extension UIView {
         }
     }
 
-    // TODO: criar utilitario de set
-    var contextMap: [String: Observable<Context>]? {
+    private var contextMap: [String: Observable<Context>]? {
         get {
             return (objc_getAssociatedObject(self, &UIView.contextMapKey) as? ObjectWrapper)?.object
         }
@@ -51,7 +51,7 @@ extension UIView {
     }
 
     func configBinding<T>(for expression: SingleExpression, completion: @escaping (T) -> Void) {
-        guard let context = findContext(by: expression.context()) else { return }
+        guard let context = getContext(with: expression.context()) else { return }
 
         let newExp = SingleExpression(nodes: .init(expression.nodes.dropFirst()))
         let closure: (Context) -> Void = { context in
@@ -71,19 +71,30 @@ extension UIView {
     }
     
     func evaluate(for expression: SingleExpression) -> Any? {
-        guard let context = findContext(by: expression.context()) else { return nil }
+        guard let context = getContext(with: expression.context()) else { return nil }
         let newExp = SingleExpression(nodes: .init(expression.nodes.dropFirst()))
         return newExp.evaluate(model: context.value.value)
     }
     
-    func findContext(by id: String?) -> Observable<Context>? {
+    // MARK: Get/Set
+    
+    func getContext(with id: String?) -> Observable<Context>? {
         guard let contextMap = self.contextMap else {
-            return superview?.findContext(by: id)
+            // TODO: Create cache mechanism
+            return superview?.getContext(with: id)
         }
         guard let context = contextMap[id] else {
-            return superview?.findContext(by: id)
+            return superview?.getContext(with: id)
         }
         return context
+    }
+    
+    func setContext(_ context: Context) {
+        if var contextMap = contextMap {
+            contextMap[context.id] = Observable(value: context)
+        } else {
+            contextMap = [context.id: Observable(value: context)]
+        }
     }
     
 }

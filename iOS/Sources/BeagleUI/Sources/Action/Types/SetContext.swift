@@ -23,7 +23,7 @@ extension SetContext: Action {
         guard let view = sender as? UIView else { return }
         
         let newValue = value.get(with: view)
-        let context = view.findContext(by: self.context)
+        let context = view.getContext(with: self.context)
 
         // TODO: arrumar caso set for path
         if let dynamicObject = context?.value.value {
