@@ -8,10 +8,10 @@
   - flex: (Function)
   ▿ formDataStoreHandler: FormDataStoreHandler
     - dataStore: 0 key/value pairs
+  - isLoggingEnabled: true
   ▿ localFormHandler: Optional<LocalFormHandler>
     ▿ some: LocalFormHandlerSpy
       - actionsHandledCount: 0
-  - logEnable: true
   ▿ logger: BeagleLoggerProxy
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
