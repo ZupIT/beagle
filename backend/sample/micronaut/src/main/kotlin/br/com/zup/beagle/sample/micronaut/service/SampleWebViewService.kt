@@ -20,6 +20,6 @@ import br.com.zup.beagle.sample.builder.WebViewScreenBuilder
 import javax.inject.Singleton
 
 @Singleton
-class WebViewService {
+class SampleWebViewService {
     fun createWebView() = WebViewScreenBuilder
 }
