@@ -1,8 +1,7 @@
 ▿ TabView
-  - styleId: Optional<String>.none
-  ▿ tabItems: 1 element
+  ▿ children: 1 element
     ▿ TabItem
-      ▿ content: Container
+      ▿ child: Container
         ▿ children: 3 elements
           ▿ Text
             - alignment: Optional<Alignment>.none
@@ -63,3 +62,4 @@
         - some: "beagle"
       ▿ title: Optional<String>
         - some: "tab 1"
+  - styleId: Optional<String>.none

@@ -1,6 +1,5 @@
 ▿ ListView
-  - direction: Direction.vertical
-  ▿ rows: 3 elements
+  ▿ children: 3 elements
     ▿ Text
       - alignment: Optional<Alignment>.none
       - styleId: Optional<String>.none
@@ -31,3 +30,4 @@
         - flex: Optional<Flex>.none
         - id: Optional<String>.none
         - style: Optional<Style>.none
+  - direction: Direction.vertical

@@ -38,7 +38,7 @@ final class TabViewUIComponentTests: XCTestCase {
         )
     ])
     
-    private lazy var model = TabViewUIComponent.Model(tabIndex: 0, tabViewItems: component.tabItems)
+    private lazy var model = TabViewUIComponent.Model(tabIndex: 0, tabViewItems: component.children)
 
     private lazy var sut = TabViewUIComponent(model: model)
 

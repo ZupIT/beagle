@@ -37,8 +37,8 @@ final class TabViewTests: XCTestCase {
             tabItem(index: 1, flex: Flex(alignContent: .center))
         ])
         // Then
-        XCTAssert(component.tabItems.count > 0)
-        XCTAssert(component.tabItems[safe: 0]?.content is Container)
+        XCTAssert(component.children.count > 0)
+        XCTAssert(component.tabItems[safe: 0]?.child is Container)
     }
     
     func test_toView_shouldReturnTheExpectedView() {
@@ -72,7 +72,7 @@ final class TabViewTests: XCTestCase {
         let model = Mirror(reflecting: tabViewUIComponent).firstChild(of: TabViewUIComponent.Model.self)
         
         // Then
-        XCTAssert(component.tabItems == model?.tabViewItems)
+        XCTAssert(component.children == model?.tabViewItems)
     }
 
     private func tabItem(index: Int, flex: Flex) -> TabItem {
