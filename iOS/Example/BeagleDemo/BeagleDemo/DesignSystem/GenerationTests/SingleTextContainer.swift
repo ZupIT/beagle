@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,19 +16,23 @@
  */
 
 import Foundation
+import BeagleUI
 import BeagleSchema
+import UIKit
 
-public struct TextContainer: RawComponent, AutoInitiableAndDecodable {
+public struct SingleTextContainer: ServerDrivenComponent, AutoInitiableAndDecodable {
 
-    public let chidren: [TextComponents]
+    public let child: TextComponents
+    
+    public func toView(renderer: BeagleRenderer) -> UIView {
+        return UIView()
+    }
 
-// sourcery:inline:auto:TextContainer.Init
+// sourcery:inline:auto:SingleTextContainer.Init
     public init(
-        chidren: [TextComponents]
+        child: TextComponents
     ) {
-        self.chidren = chidren
+        self.child = child
     }
 // sourcery:end
 }
-
-public protocol TextComponents: RawComponent {}

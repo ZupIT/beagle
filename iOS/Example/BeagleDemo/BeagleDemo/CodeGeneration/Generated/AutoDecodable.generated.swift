@@ -20,6 +20,22 @@
 import BeagleSchema
 import BeagleUI
 
+// MARK: CustomActionableContainer Decodable
+extension CustomActionableContainer {
+
+    enum CodingKeys: String, CodingKey {
+        case child
+        case action
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        child = try container.decode( forKey: .child)
+        action = try container.decode( forKey: .action)
+    }
+}
+
 // MARK: DSCollection Decodable
 extension DSCollection {
 
@@ -63,6 +79,36 @@ extension OtherComponent {
     }
 }
 
+// MARK: SingleCustomActionableContainer Decodable
+extension SingleCustomActionableContainer {
+
+    enum CodingKeys: String, CodingKey {
+        case child
+        case action
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        child = try container.decode( forKey: .child)
+        action = try container.decode( forKey: .action)
+    }
+}
+
+// MARK: SingleTextContainer Decodable
+extension SingleTextContainer {
+
+    enum CodingKeys: String, CodingKey {
+        case child
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        child = try container.decode(TextComponents.self, forKey: .child)
+    }
+}
+
 // MARK: TextContainer Decodable
 extension TextContainer {
 
@@ -74,5 +120,21 @@ extension TextContainer {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         chidren = try container.decode([TextComponents].self, forKey: .chidren)
+    }
+}
+
+// MARK: TextContainerWithAction Decodable
+extension TextContainerWithAction {
+
+    enum CodingKeys: String, CodingKey {
+        case chidren
+        case action
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        chidren = try container.decode([TextComponents].self, forKey: .chidren)
+        action = try container.decode( forKey: .action)
     }
 }
