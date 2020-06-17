@@ -25,24 +25,16 @@ public struct TextContainerWithAction: ServerDrivenComponent, AutoInitiableAndDe
         return UIView()
     }
 
-    public let chidren: [TextComponents]
+    public let chidrenOfTextContainer: [TextComponents]
     public let action: Action
-    
 
 // sourcery:inline:auto:TextContainerWithAction.Init
-
     public init(
-
-        chidren: [TextComponents],
-
+        chidrenOfTextContainer: [TextComponents],
         action: Action
-
     ) {
-
-        self.chidren = chidren
-
+        self.chidrenOfTextContainer = chidrenOfTextContainer
         self.action = action
-
     }
 // sourcery:end
 }

@@ -20,30 +20,24 @@ import BeagleUI
 import BeagleSchema
 import UIKit
 
+public protocol SpecificActionFromContainer: Action { }
+
 public struct CustomActionableContainer: ServerDrivenComponent, AutoInitiableAndDecodable {
 
     public let child: [ServerDrivenComponent]
-    public let action: Action
+    public let verySpecificAction: SpecificActionFromContainer
     
     public func toView(renderer: BeagleRenderer) -> UIView {
         return UIView()
     }
 
-
 // sourcery:inline:auto:CustomActionableContainer.Init
-
     public init(
-
         child: [ServerDrivenComponent],
-
-        action: Action
-
+        verySpecificAction: SpecificActionFromContainer
     ) {
-
         self.child = child
-
-        self.action = action
-
+        self.verySpecificAction = verySpecificAction
     }
 // sourcery:end
 }

@@ -25,14 +25,14 @@ extension CustomActionableContainer {
 
     enum CodingKeys: String, CodingKey {
         case child
-        case action
+        case verySpecificAction
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         child = try container.decode( forKey: .child)
-        action = try container.decode( forKey: .action)
+        verySpecificAction = try container.decode( forKey: .verySpecificAction)
     }
 }
 
@@ -106,7 +106,7 @@ extension SingleTextContainer {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        child = try container.decode(TextComponents.self, forKey: .child)
+        child = try container.decode( forKey: .child)
         rawChild = try container.decode( forKey: .rawChild)
     }
 }
@@ -129,14 +129,14 @@ extension TextContainer {
 extension TextContainerWithAction {
 
     enum CodingKeys: String, CodingKey {
-        case chidren
+        case chidrenOfTextContainer
         case action
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        chidren = try container.decode([TextComponents].self, forKey: .chidren)
+        chidrenOfTextContainer = try container.decode([TextComponents].self, forKey: .chidrenOfTextContainer)
         action = try container.decode( forKey: .action)
     }
 }

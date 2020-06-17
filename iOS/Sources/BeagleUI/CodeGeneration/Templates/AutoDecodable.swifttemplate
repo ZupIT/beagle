@@ -43,17 +43,21 @@ func customEncodingMethod(for variable: Variable, of type: Type) -> SourceryMeth
 }
 
 func needsCustomBeagleDecoding(_ variable: Variable) -> Bool {
-    var isCoreType = beagleProtocolTypes.contains(variable.unwrappedTypeName)
 
-    var implementsCoreType = false
-    for type in beagleProtocolTypes {
-        if variable.type?.implements[type] != nil {
-            implementsCoreType = true
-            break
-        }
-    }
-
-    return isCoreType || implementsCoreType
+    let isCoreBeagleProtocolType = beagleProtocolTypes.contains(variable.unwrappedTypeName)
+	guard let type = variable.type else { return isCoreBeagleProtocolType }
+	var implementsCoreBeagleProtocolType = false
+   
+	for inheritedType in type.inheritedTypes {
+		for beagleProtocolType in beagleProtocolTypes {
+			if inheritedType == beagleProtocolType {
+				implementsCoreBeagleProtocolType = true
+				break
+			}
+		}
+	}
+	
+    return isCoreBeagleProtocolType || implementsCoreBeagleProtocolType
 }
 
 func returnVariableName(_ variable: Variable) -> String {
