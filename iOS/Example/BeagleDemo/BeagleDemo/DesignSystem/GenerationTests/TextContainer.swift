@@ -17,7 +17,7 @@
 import Foundation
 import BeagleUI
 import BeagleSchema
-
+import UIKit
 
 public protocol TextComponents: ServerDrivenComponent {}
 

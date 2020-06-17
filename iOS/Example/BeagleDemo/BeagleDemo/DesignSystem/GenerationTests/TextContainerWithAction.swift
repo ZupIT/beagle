@@ -30,12 +30,19 @@ public struct TextContainerWithAction: ServerDrivenComponent, AutoInitiableAndDe
     
 
 // sourcery:inline:auto:TextContainerWithAction.Init
+
     public init(
+
         chidren: [TextComponents],
+
         action: Action
+
     ) {
+
         self.chidren = chidren
+
         self.action = action
+
     }
 // sourcery:end
 }

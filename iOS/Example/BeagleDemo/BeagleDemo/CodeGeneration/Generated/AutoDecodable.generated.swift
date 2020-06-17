@@ -100,12 +100,14 @@ extension SingleTextContainer {
 
     enum CodingKeys: String, CodingKey {
         case child
+        case rawChild
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         child = try container.decode(TextComponents.self, forKey: .child)
+        rawChild = try container.decode( forKey: .rawChild)
     }
 }
 

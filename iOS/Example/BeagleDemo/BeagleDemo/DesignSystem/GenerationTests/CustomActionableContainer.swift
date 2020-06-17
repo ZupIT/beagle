@@ -31,12 +31,19 @@ public struct CustomActionableContainer: ServerDrivenComponent, AutoInitiableAnd
 
 
 // sourcery:inline:auto:CustomActionableContainer.Init
+
     public init(
+
         child: [ServerDrivenComponent],
+
         action: Action
+
     ) {
+
         self.child = child
+
         self.action = action
+
     }
 // sourcery:end
 }
