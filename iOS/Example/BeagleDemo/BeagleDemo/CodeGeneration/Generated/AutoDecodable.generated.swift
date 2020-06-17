@@ -30,7 +30,7 @@ extension DSCollection {
     internal init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        dataSource = try container.decode(DSCollectionDataSource.self, forKey: .dataSource)
+        dataSource = try container.decode(DSCollectionDataSource.self,  forKey: .dataSource)
         widgetProperties = try WidgetProperties(from: decoder)
     }
 }
@@ -45,7 +45,7 @@ extension DemoTextField {
     internal init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        placeholder = try container.decode(String.self, forKey: .placeholder)
+        placeholder = try container.decode(String.self,  forKey: .placeholder)
         widgetProperties = try WidgetProperties(from: decoder)
     }
 }
