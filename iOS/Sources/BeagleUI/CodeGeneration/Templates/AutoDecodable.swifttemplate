@@ -17,6 +17,7 @@
 
 let rawComponent = "RawComponent"
 var beagleProtocolTypes = ["Action", "ServerDrivenComponent", "[ServerDrivenComponent]", rawComponent, "[\(rawComponent)]"]
+var identation: String { "    " }
 
 func capitalizedName(for variable: Variable) -> String {
     return "\(String(variable.name.first!).capitalized)\(String(variable.name.dropFirst()))"
@@ -140,11 +141,7 @@ func containerDeclaration(generatedCodingKeys: [String]) -> String {
     }
 }
 
-func identation() -> String {
-    return "    "
-}
-
-func makeWidgetProperties(_ variable: Variable) -> String {
+func makeDecoding(_ variable: Variable) -> String {
     guard variable.name != "widgetProperties" || variable.typeName.name != "WidgetProperties" else {
         return "WidgetProperties(from: decoder)"
     }
@@ -152,11 +149,11 @@ func makeWidgetProperties(_ variable: Variable) -> String {
     var line = "container.decode"
         + (variable.isOptional ? "IfPresent" : "")
 
-    let type = !needsCustomBeagleDecoding(variable) ? "\(variable.unwrappedTypeName).self, " : ""
+    let type = !needsCustomBeagleDecoding(variable) ? "\(variable.unwrappedTypeName).self," : ""
     line += "(\(type) forKey: .\(variable.name))"
 
     if let type = variable.type, type.implements[rawComponent] != nil, type.name != rawComponent {
-        line += "\n" + identation() + identation()
+        line += "\n" + identation + identation
             + variable.name + " = rawComponent as? \(type.name)"
     }
 
@@ -275,7 +272,7 @@ extension <%= type.name %> {
         <%_ if let customMethod = customMethod { -%>
         <%_ _%><%= type.name %>.<%= customMethod.callName _%>(from:<%_ if customMethod.parameters.first?.name == "decoder" { _%>decoder<%_ } else { _%>container<%_ } _%>)<%_ -%>
         <%_ } else { -%>
-        <%_= makeWidgetProperties(variable) -%>
+        <%_= makeDecoding(variable) -%>
         <%_ %><% if shouldWrapTry { %>)<% } -%>
         <%_ if let defaultValue = defaultValue { %> ?? <%= type.name %>.<%= defaultValue.name -%><%_ } %>
         <%_ } -%>

@@ -30,10 +30,10 @@ extension Button {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        text = try container.decode(String.self,  forKey: .text)
-        styleId = try container.decodeIfPresent(String.self,  forKey: .styleId)
+        text = try container.decode(String.self, forKey: .text)
+        styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
         action = try container.decodeIfPresent( forKey: .action)
-        clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self,  forKey: .clickAnalyticsEvent)
+        clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
         widgetProperties = try WidgetProperties(from: decoder)
     }
 }
@@ -69,9 +69,9 @@ extension Form {
 
         action = try container.decode( forKey: .action)
         child = try container.decode( forKey: .child)
-        group = try container.decodeIfPresent(String.self,  forKey: .group)
-        additionalData = try container.decodeIfPresent([String: String].self,  forKey: .additionalData)
-        shouldStoreFields = try container.decode(Bool.self,  forKey: .shouldStoreFields)
+        group = try container.decodeIfPresent(String.self, forKey: .group)
+        additionalData = try container.decodeIfPresent([String: String].self, forKey: .additionalData)
+        shouldStoreFields = try container.decode(Bool.self, forKey: .shouldStoreFields)
     }
 }
 
@@ -89,10 +89,10 @@ extension FormInput {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        name = try container.decode(String.self,  forKey: .name)
-        required = try container.decodeIfPresent(Bool.self,  forKey: .required)
-        validator = try container.decodeIfPresent(String.self,  forKey: .validator)
-        errorMessage = try container.decodeIfPresent(String.self,  forKey: .errorMessage)
+        name = try container.decode(String.self, forKey: .name)
+        required = try container.decodeIfPresent(Bool.self, forKey: .required)
+        validator = try container.decodeIfPresent(String.self, forKey: .validator)
+        errorMessage = try container.decodeIfPresent(String.self, forKey: .errorMessage)
         child = try container.decode( forKey: .child)
     }
 }
@@ -109,7 +109,7 @@ extension FormSubmit {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         child = try container.decode( forKey: .child)
-        enabled = try container.decodeIfPresent(Bool.self,  forKey: .enabled)
+        enabled = try container.decodeIfPresent(Bool.self, forKey: .enabled)
     }
 }
 
@@ -124,8 +124,8 @@ extension Image {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        name = try container.decode(String.self,  forKey: .name)
-        contentMode = try container.decodeIfPresent(ImageContentMode.self,  forKey: .contentMode)
+        name = try container.decode(String.self, forKey: .name)
+        contentMode = try container.decodeIfPresent(ImageContentMode.self, forKey: .contentMode)
         widgetProperties = try WidgetProperties(from: decoder)
     }
 }
@@ -141,7 +141,7 @@ extension LazyComponent {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        path = try container.decode(String.self,  forKey: .path)
+        path = try container.decode(String.self, forKey: .path)
         initialState = try container.decode( forKey: .initialState)
     }
 }
@@ -158,7 +158,7 @@ extension ListView {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         rows = try container.decode( forKey: .rows)
-        direction = try container.decode(Direction.self,  forKey: .direction)
+        direction = try container.decode(Direction.self, forKey: .direction)
     }
 }
 
@@ -176,11 +176,11 @@ extension NavigationBarItem {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        id = try container.decodeIfPresent(String.self,  forKey: .id)
-        image = try container.decodeIfPresent(String.self,  forKey: .image)
-        text = try container.decode(String.self,  forKey: .text)
+        id = try container.decodeIfPresent(String.self, forKey: .id)
+        image = try container.decodeIfPresent(String.self, forKey: .image)
+        text = try container.decode(String.self, forKey: .text)
         action = try container.decode( forKey: .action)
-        accessibility = try container.decodeIfPresent(Accessibility.self,  forKey: .accessibility)
+        accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
     }
 }
 
@@ -195,8 +195,8 @@ extension NetworkImage {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        path = try container.decode(String.self,  forKey: .path)
-        contentMode = try container.decodeIfPresent(ImageContentMode.self,  forKey: .contentMode)
+        path = try container.decode(String.self, forKey: .path)
+        contentMode = try container.decodeIfPresent(ImageContentMode.self, forKey: .contentMode)
         widgetProperties = try WidgetProperties(from: decoder)
     }
 }
@@ -233,11 +233,11 @@ extension ScreenComponent {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        identifier = try container.decodeIfPresent(String.self,  forKey: .identifier)
-        style = try container.decodeIfPresent(Style.self,  forKey: .style)
-        safeArea = try container.decodeIfPresent(SafeArea.self,  forKey: .safeArea)
-        navigationBar = try container.decodeIfPresent(NavigationBar.self,  forKey: .navigationBar)
-        screenAnalyticsEvent = try container.decodeIfPresent(AnalyticsScreen.self,  forKey: .screenAnalyticsEvent)
+        identifier = try container.decodeIfPresent(String.self, forKey: .identifier)
+        style = try container.decodeIfPresent(Style.self, forKey: .style)
+        safeArea = try container.decodeIfPresent(SafeArea.self, forKey: .safeArea)
+        navigationBar = try container.decodeIfPresent(NavigationBar.self, forKey: .navigationBar)
+        screenAnalyticsEvent = try container.decodeIfPresent(AnalyticsScreen.self, forKey: .screenAnalyticsEvent)
         child = try container.decode( forKey: .child)
     }
 }
@@ -256,9 +256,9 @@ extension ScrollView {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         children = try container.decode( forKey: .children)
-        scrollDirection = try container.decodeIfPresent(ScrollAxis.self,  forKey: .scrollDirection)
-        scrollBarEnabled = try container.decodeIfPresent(Bool.self,  forKey: .scrollBarEnabled)
-        style = try container.decodeIfPresent(Style.self,  forKey: .style)
+        scrollDirection = try container.decodeIfPresent(ScrollAxis.self, forKey: .scrollDirection)
+        scrollBarEnabled = try container.decodeIfPresent(Bool.self, forKey: .scrollBarEnabled)
+        style = try container.decodeIfPresent(Style.self, forKey: .style)
     }
 }
 
@@ -274,8 +274,8 @@ extension TabItem {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        icon = try container.decodeIfPresent(String.self,  forKey: .icon)
-        title = try container.decodeIfPresent(String.self,  forKey: .title)
+        icon = try container.decodeIfPresent(String.self, forKey: .icon)
+        title = try container.decodeIfPresent(String.self, forKey: .title)
         content = try container.decode( forKey: .content)
     }
 }
@@ -293,10 +293,10 @@ extension Text {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        text = try container.decode(String.self,  forKey: .text)
-        styleId = try container.decodeIfPresent(String.self,  forKey: .styleId)
-        alignment = try container.decodeIfPresent(Alignment.self,  forKey: .alignment)
-        textColor = try container.decodeIfPresent(String.self,  forKey: .textColor)
+        text = try container.decode(String.self, forKey: .text)
+        styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
+        alignment = try container.decodeIfPresent(Alignment.self, forKey: .alignment)
+        textColor = try container.decodeIfPresent(String.self, forKey: .textColor)
         widgetProperties = try WidgetProperties(from: decoder)
     }
 }
@@ -314,7 +314,7 @@ extension Touchable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         action = try container.decode( forKey: .action)
-        clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self,  forKey: .clickAnalyticsEvent)
+        clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
         child = try container.decode( forKey: .child)
     }
 }
@@ -330,8 +330,8 @@ extension WebView {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        url = try container.decode(String.self,  forKey: .url)
-        flex = try container.decodeIfPresent(Flex.self,  forKey: .flex)
+        url = try container.decode(String.self, forKey: .url)
+        flex = try container.decodeIfPresent(Flex.self, forKey: .flex)
     }
 }
 
@@ -348,9 +348,9 @@ extension WidgetProperties {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        id = try container.decodeIfPresent(String.self,  forKey: .id)
-        style = try container.decodeIfPresent(Style.self,  forKey: .style)
-        flex = try container.decodeIfPresent(Flex.self,  forKey: .flex)
-        accessibility = try container.decodeIfPresent(Accessibility.self,  forKey: .accessibility)
+        id = try container.decodeIfPresent(String.self, forKey: .id)
+        style = try container.decodeIfPresent(Style.self, forKey: .style)
+        flex = try container.decodeIfPresent(Flex.self, forKey: .flex)
+        accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
     }
 }
