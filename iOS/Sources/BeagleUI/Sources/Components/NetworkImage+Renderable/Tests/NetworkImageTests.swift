@@ -20,12 +20,11 @@ import BeagleSchema
 
 final class NetworkImageTests: XCTestCase {
 
-    private let dependencies = BeagleScreenDependencies()
-    
     func test_withInvalidURL_itShouldNotSetImage() throws {
         // Given
         let component = NetworkImage(path: "www.com")
-        let renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: BeagleScreenDependencies())
+        let controller = BeagleControllerStub()
+        let renderer = BeagleRenderer(controller: controller)
         
         // When
         guard let imageView = renderer.render(component) as? UIImageView else {

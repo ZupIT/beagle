@@ -53,14 +53,14 @@ extension AnyDecodableContainer: Decodable {
 }
 
 extension KeyedDecodingContainer {
-    public func decode(forKey key: KeyedDecodingContainer<K>.Key) throws -> Action {
+    public func decode(forKey key: KeyedDecodingContainer<K>.Key) throws -> RawAction {
         let content = try decode(AnyDecodableContainer.self, forKey: key)
-        return (content.content as? Action) ?? UnknownAction(type: String(describing: content.content))
+        return (content.content as? RawAction) ?? UnknownAction(type: String(describing: content.content))
     }
     
-    public func decodeIfPresent(forKey key: KeyedDecodingContainer<K>.Key) throws -> Action? {
+    public func decodeIfPresent(forKey key: KeyedDecodingContainer<K>.Key) throws -> RawAction? {
         let content = try decodeIfPresent(AnyDecodableContainer.self, forKey: key)
-        return content?.content as? Action
+        return content?.content as? RawAction
     }
     
     public func decode(forKey key: KeyedDecodingContainer<K>.Key) throws -> RawComponent {

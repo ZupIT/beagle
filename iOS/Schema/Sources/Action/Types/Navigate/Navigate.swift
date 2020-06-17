@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-public enum Navigate: Action {
+public enum Navigate: RawAction {
     
     case openExternalURL(String)
     case openNativeRoute(String, data: [String: String]? = nil, shouldResetApplication: Bool = false)

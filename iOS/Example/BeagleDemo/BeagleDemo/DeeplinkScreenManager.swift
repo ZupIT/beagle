@@ -37,7 +37,7 @@ final class DeeplinkScreenManager: DeepLinkScreenManaging {
         }
     }
     
-    func getNativeScreen(with path: String, data: [String : String]?) throws -> UIViewController {
+    func getNativeScreen(with path: String, data: [String: String]?) throws -> UIViewController {
         guard let screenType = self[path] else {
             throw NSError(domain: "DeeplinkScreenManager", code: 1, userInfo: nil)
         }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import Foundation
+import UIKit
 
 extension String {
     // MARK: - BeagleConfig
@@ -40,13 +40,6 @@ extension String {
     // MARK: - URL
     static let WEB_VIEW_URL = "https://maps.google.com/"
     
-    // MARK: - Color
-    static let LIGHT_GREEN_COLOR = "#B8E297"
-    static let GREEN_COLOR = "#579F2B"
-    static let GRAY_COLOR = "#808080"
-    static let ORANGE_COLOR = "#FF8818"
-    static let DARK_GRAY_COLOR = "#3A3535"
-    
     // MARK: - Style
     static let TAB_VIEW_STYLE = "DesignSystem.TabView.Style"
     static let FORM_SUBMIT_STYLE = "DesignSystem.Form.Submit"
@@ -58,4 +51,16 @@ extension String {
     static let TEXT_ACTION_CLICK_STYLE = "DesignSystem.Text.Action.Click"
     static let TEXT_IMAGE_STYLE = "DesignSystem.Text.Image"
     static let TEXT_HELLO_WORD_STYLE = "DesignSystem.Text.helloWord"
+}
+
+extension UIColor {
+    class var demoGreen: UIColor {
+        return UIColor(red: 0.34, green: 0.62, blue: 0.16, alpha: 1)
+    }
+    class var demoGray: UIColor {
+        return UIColor(white: 0.5, alpha: 1)
+    }
+    class var demoDarkGray: UIColor {
+        return UIColor(white: 0.2, alpha: 1)
+    }
 }

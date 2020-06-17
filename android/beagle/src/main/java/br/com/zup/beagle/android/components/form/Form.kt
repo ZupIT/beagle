@@ -43,7 +43,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 
 data class Form(
     val action: Action,
-    private val child: ServerDrivenComponent,
+    val child: ServerDrivenComponent,
     val group: String? = null,
     val shouldStoreFields: Boolean = false
 ) : WidgetView() {

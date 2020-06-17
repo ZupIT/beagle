@@ -48,6 +48,8 @@ class CustomPageIndicatorTest: XCTestCase {
     }
 
     func test_indicator_render() {
+        let controller = BeagleControllerStub()
+        let renderer = BeagleRenderer(controller: controller)
         let view = renderer.render(indicator)
         assertSnapshotImage(view, size: .custom(.init(width: 200, height: 30)))
     }

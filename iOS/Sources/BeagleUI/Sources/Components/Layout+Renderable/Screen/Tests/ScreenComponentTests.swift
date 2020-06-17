@@ -85,24 +85,23 @@ final class ScreenComponentTests: XCTestCase {
     
     func test_action_shouldBeTriggered() {
         // Given
-        let action = ActionDummy()
+        let action = ActionSpy()
         let barItem = NavigationBarItem(text: "shuttle", action: action)
-        let actionManager = ActionManagerSpy()
-        let context = BeagleContextSpy(actionManager: actionManager)
+        let controller = BeagleControllerStub()
         
         // When
-        let resultingView = barItem.toBarButtonItem(context: context, dependencies: BeagleScreenDependencies())
+        let resultingView = barItem.toBarButtonItem(controller: controller)
         _ = resultingView.target?.perform(resultingView.action)
         
         // Then
-        XCTAssertTrue(actionManager.didCallDoAction)
-        XCTAssertEqual(actionManager.actionCalled as? ActionDummy, action)
+        XCTAssertEqual(action.executionCount, 1)
     }
     
     func test_shouldPrefetchNavigateAction() {
         let prefetch = BeaglePrefetchHelpingSpy()
-        let dependencies = BeagleScreenDependencies(preFetchHelper: prefetch)
-        let renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: dependencies)
+        let controller = BeagleControllerStub()
+        let renderer = BeagleRenderer(controller: controller)
+        controller.dependencies = BeagleScreenDependencies(preFetchHelper: prefetch)
         
         let navigatePath = "button-item-prefetch"
         let navigate = Navigate.pushView(.remote(navigatePath, shouldPrefetch: true))
@@ -129,11 +128,13 @@ final class ScreenComponentTests: XCTestCase {
             analytics: analyticsExecutorSpy
         )
         
-        let context = BeagleContextDummy()
+        let beagleController = BeagleScreenViewController(viewModel: .init(
+            screenType: .declarative(Screen(child: component)),
+            dependencies: dependencies
+        ))
         let controller = ScreenController(
             screen: component.toScreen(),
-            context: context,
-            dependencies: dependencies
+            beagleController: beagleController
         )
         
         // When
@@ -151,20 +152,5 @@ final class ScreenComponentTests: XCTestCase {
         // Then
         XCTAssertTrue(analyticsExecutorSpy.didTrackEventOnScreenAppeared)
         XCTAssertTrue(analyticsExecutorSpy.didTrackEventOnScreenDisappeared)
-    }
-}
-
-// MARK: - Testing Helpers
-
-final class ActionExecutorDummy: ActionExecutor {
-    func doAction(_ action: Action, sender: Any, context: BeagleUI.BeagleContext) {
-    }
-}
-
-final class ActionExecutorSpy: ActionExecutor {
-    private(set) var didCallDoAction = false
-    
-    func doAction(_ action: Action, sender: Any, context: BeagleUI.BeagleContext) {
-        didCallDoAction = true
     }
 }

@@ -35,14 +35,6 @@ public protocol Renderable {
     func toView(renderer: BeagleRenderer) -> UIView
 }
 
-public protocol RenderableDependencies: DependencyTheme,
-    DependencyValidatorProvider,
-    DependencyPreFetching,
-    DependencyAppBundle,
-    DependencyRepository,
-    DependencyLogger {
-}
-
 extension UnknownComponent: ServerDrivenComponent {
 
     public func toView(renderer: BeagleRenderer) -> UIView {

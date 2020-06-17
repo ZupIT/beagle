@@ -24,15 +24,14 @@ extension NetworkImage: Widget {
         imageView.clipsToBounds = true
         imageView.contentMode = (contentMode ?? .fitCenter).toUIKit()
         
-        renderer.dependencies.repository.fetchImage(url: path, additionalData: nil) {
-            [weak imageView, weak renderer] result in
+        renderer.controller.dependencies.repository.fetchImage(url: path, additionalData: nil) {
+            [weak imageView] result in
             guard let imageView = imageView else { return }
             guard case .success(let data) = result else { return }
             let image = UIImage(data: data)
             DispatchQueue.main.async {
                 imageView.image = image
                 imageView.flex.markDirty()
-                renderer?.context.applyLayout()
             }
         }
 
