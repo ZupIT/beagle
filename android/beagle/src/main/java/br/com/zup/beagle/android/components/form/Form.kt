@@ -217,7 +217,7 @@ data class Form(
                 if (formResult.action is FormValidation) {
                     formResult.action.formInputs = formInputs
                 }
-                formResult.action.execute(rootView)
+                handleEvent(rootView, formResult.action, "")
             }
             is FormResult.Error -> (rootView.getContext() as? BeagleActivity)?.onServerDrivenContainerStateChanged(
                 ServerDrivenState.Error(formResult.throwable)
