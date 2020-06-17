@@ -16,10 +16,11 @@
 
 import UIKit
 import BeagleUI
+import BeagleSchema
 
 struct MainScreen: DeeplinkScreen {
     init() {}
-    init(path: String, data: [String : String]?) {}
+    init(path: String, data: [String: String]?) {}
     
     func screenController() -> UIViewController {
         let screen = Screen(
@@ -27,7 +28,7 @@ struct MainScreen: DeeplinkScreen {
             child: buildChild()
         )
 
-        return BeagleScreenViewController(screen: screen)
+        return BeagleScreenViewController(.declarative(screen))
     }
     
     private func buildChild() -> ScrollView {

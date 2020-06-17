@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.sample
 
-import br.com.zup.beagle.setup.BeagleSdk
+import br.com.zup.beagle.android.setup.BeagleSdk
 import org.junit.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -37,8 +37,8 @@ class BeagleSetupTest {
     }
 
     @Test
-    fun customActionHandler_should_have_a_valid_instance() {
-        assertNotNull(beagleSetup.customActionHandler)
+    fun formLocalActionHandler_should_have_a_valid_instance() {
+        assertNotNull(beagleSetup.formLocalActionHandler)
     }
 
     @Test

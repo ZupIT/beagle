@@ -15,6 +15,7 @@
  */
 
 import Foundation
+import BeagleSchema
 
 // MARK: - Dependecy Protocol
 public protocol DependencyAnalyticsExecutor {
@@ -26,13 +27,4 @@ public protocol Analytics {
     func trackEventOnScreenAppeared(_ event: AnalyticsScreen)
     func trackEventOnScreenDisappeared(_ event: AnalyticsScreen)
     func trackEventOnClick(_ event: AnalyticsClick)
-}
-
-// MARK: - Events
-public protocol ClickedOnComponent {
-    var clickAnalyticsEvent: AnalyticsClick? { get }
-}
-
-public protocol ScreenEvent {
-    var screenAnalyticsEvent: AnalyticsScreen? { get }
 }

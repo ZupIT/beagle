@@ -16,6 +16,7 @@
 
 import Foundation
 import BeagleUI
+import BeagleSchema
 
 class AnalyticsMock: Analytics {
     func trackEventOnScreenAppeared(_ event: AnalyticsScreen) {

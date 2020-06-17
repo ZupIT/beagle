@@ -1,0 +1,15 @@
+▿ Image
+  ▿ contentMode: Optional<ImageContentMode>
+    - some: ImageContentMode.center
+  - name: "test_image_square-x"
+  ▿ widgetProperties: WidgetProperties
+    - accessibility: Optional<Accessibility>.none
+    - flex: Optional<Flex>.none
+    - id: Optional<String>.none
+    ▿ style: Optional<Style>
+      ▿ some: Style
+        ▿ backgroundColor: Optional<String>
+          - some: "#0000FF80"
+        ▿ cornerRadius: Optional<CornerRadius>
+          ▿ some: CornerRadius
+            - radius: 30.0

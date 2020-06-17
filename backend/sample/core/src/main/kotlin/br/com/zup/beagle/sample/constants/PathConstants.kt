@@ -46,12 +46,12 @@ const val NAVIGATION_TYPE_ENDPOINT = "/navigationbar/step1"
 const val REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT = "/navigationbar/step2"
 const val REPRESENTATION_PRESENT_ENDPOINT = "/present/view"
 const val REPRESENTATION_NAVIGATION_TYPE_STEP3_ENDPOINT = "/navigationbar/step3"
-const val SCREEN_STACK_ENDPOINT ="/stack-view"
 const val SCREEN_COMPOSE_COMPONENT_ENDPOINT = "/compose-component"
 const val SCREEN_NETWORK_IMAGE_ENDPOINT = "/network-image"
 const val SCREEN_TOUCHABLE_ENDPOINT = "/touchable"
 const val SCREEN_EXAMPLE_ENDPOINT ="/navigate-example"
 const val SCREEN_ACTION_CLICK_ENDPOINT = "/action-click"
+const val SCREEN_WEB_VIEW_ENDPOINT = "/web-view"
 
 const val CUSTOM_WIDGET_ENDPOINT="/custom"
 
@@ -60,3 +60,4 @@ const val PATH_SCREEN_DEEP_LINK_ENDPOINT = "screen-deep-link"
 const val PATH_LAZY_COMPONENT_ENDPOINT = "/text-lazy-component"
 
 const val PATH_SAMPLE_VIEW_ENDPOINT = "http://localhost:8080/sample"
+const val PATH_URL_WEB_VIEW_ENDPOINT = "https://zup.com.br"

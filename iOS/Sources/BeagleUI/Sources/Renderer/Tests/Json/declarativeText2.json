@@ -21,8 +21,8 @@
                 }
             }
         },
-        "appearance": {
-            "backgroundColor": "00ff00"
+        "style": {
+            "backgroundColor": "#00ff00"
         }
     }
 }

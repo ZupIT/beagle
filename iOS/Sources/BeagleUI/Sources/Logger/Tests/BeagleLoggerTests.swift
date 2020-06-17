@@ -18,6 +18,7 @@ import Foundation
 import XCTest
 @testable import BeagleUI
 import SnapshotTesting
+import BeagleSchema
 
 class BeagleLoggerTests: XCTestCase {
     // swiftlint:disable force_unwrapping
@@ -38,6 +39,7 @@ class BeagleLoggerTests: XCTestCase {
             Log.form(.submittedValues(values: ["key1": "value1"])),
             Log.form(.validationInputNotValid(inputName: "inputName")),
             Log.form(.validatorNotFound(named: "validatorName")),
+            Log.form(.keyDuplication(data: ["key": "value"])),
 
             Log.navigation(.cantPopToAlreadyCurrentScreen(identifier: "identifier")),
             Log.navigation(.didReceiveAction(Navigate.pushView(.remote(path)))),
@@ -63,6 +65,10 @@ class BeagleLoggerTests: XCTestCase {
 }
 
 class BeagleLoggerDumb: BeagleLoggerType {
+    func logDecodingError(type: String) {
+        
+    }
+    
     func log(_ log: LogType) {
         return
     }

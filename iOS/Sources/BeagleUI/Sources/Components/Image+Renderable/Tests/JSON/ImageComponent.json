@@ -1,0 +1,11 @@
+{
+  "_beagleComponent_": "beagle:Image",
+  "name": "test_image_square-x",
+  "contentMode": "CENTER",
+  "style": {
+    "backgroundColor": "#0000FF80",
+    "cornerRadius": {
+        "radius": 30.0
+    }
+  }
+}
