@@ -1,11 +1,10 @@
 {
-   "_beagleType_":"beagle:component:Button",
+   "_beagleComponent_":"beagle:Button",
    "text":"button",
    "action":{
-      "_beagleType_":"beagle:action:navigate",
-      "type":"FINISH_VIEW"
+      "_beagleAction_":"beagle:popStack"
    },
-   "appearance":{
+   "style":{
       "backgroundColor":"#800000FF",
       "cornerRadius":{
          "radius":30.0

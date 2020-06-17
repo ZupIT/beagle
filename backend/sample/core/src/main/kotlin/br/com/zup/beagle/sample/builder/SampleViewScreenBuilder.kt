@@ -17,7 +17,7 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.NavigationType
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.constants.PATH_SAMPLE_VIEW_ENDPOINT
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.JustifyContent
@@ -31,22 +31,17 @@ object SampleViewScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Sample Bar",
-            style = "Style.Default",
+            styleId = "Style.Default",
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "First",
                     image = "delete",
-                    action = Navigate(
-                        type = NavigationType.POP_VIEW,
-                        path = PATH_SAMPLE_VIEW_ENDPOINT
-                    )
+                    action = Navigate.PopToView(PATH_SAMPLE_VIEW_ENDPOINT)
                 ),
                 NavigationBarItem(
                     text = "Second",
                     image = "question",
-                    action = Navigate(
-                        type = NavigationType.POP_VIEW
-                    )
+                    action = Navigate.PopView()
                 )
             )
         ),

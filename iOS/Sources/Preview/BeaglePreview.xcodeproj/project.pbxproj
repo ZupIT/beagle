@@ -7,23 +7,46 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		761557A62480249800E1EEEE /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 761557A52480249800E1EEEE /* Starscream.framework */; };
+		761557A72480249800E1EEEE /* Starscream.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 761557A52480249800E1EEEE /* Starscream.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		761557AC2480250700E1EEEE /* BeagleUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 761557AB2480250700E1EEEE /* BeagleUI.framework */; };
+		761557AD2480250700E1EEEE /* BeagleUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 761557AB2480250700E1EEEE /* BeagleUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7623CF8324254C9600688C4B /* BeaglePreview.h in Headers */ = {isa = PBXBuildFile; fileRef = 7623CF8124254C9600688C4B /* BeaglePreview.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7623CF8D24254D3900688C4B /* BeaglePreviewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7623CF8A24254D3900688C4B /* BeaglePreviewConfig.swift */; };
 		7623CF8E24254D3900688C4B /* BeaglePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7623CF8B24254D3900688C4B /* BeaglePreviewViewController.swift */; };
 		7623CF8F24254D3900688C4B /* BeaglePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7623CF8C24254D3900688C4B /* BeaglePreview.swift */; };
-		7623CF922425529A00688C4B /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7623CF912425529A00688C4B /* Starscream.framework */; };
-		7623CF94242552D700688C4B /* BeagleUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7623CF93242552D700688C4B /* BeagleUI.framework */; };
+		7659EC5C247C3EFE00F5BE17 /* SSConnectionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7659EC5A247C3EFD00F5BE17 /* SSConnectionHandler.swift */; };
+		7659EC5D247C3EFE00F5BE17 /* WSConnectionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7659EC5B247C3EFD00F5BE17 /* WSConnectionHandler.swift */; };
+		7659EC61247C482400F5BE17 /* BeaglePreviewDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7659EC60247C482400F5BE17 /* BeaglePreviewDependencies.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		761557A42480230F00E1EEEE /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				761557AD2480250700E1EEEE /* BeagleUI.framework in Embed Frameworks */,
+				761557A72480249800E1EEEE /* Starscream.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		761557A52480249800E1EEEE /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = Carthage/Build/iOS/Starscream.framework; sourceTree = "<group>"; };
+		761557AB2480250700E1EEEE /* BeagleUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeagleUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7623CF7E24254C9600688C4B /* BeaglePreview.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BeaglePreview.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7623CF8124254C9600688C4B /* BeaglePreview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BeaglePreview.h; sourceTree = "<group>"; };
 		7623CF8224254C9600688C4B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7623CF8A24254D3900688C4B /* BeaglePreviewConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaglePreviewConfig.swift; sourceTree = "<group>"; };
 		7623CF8B24254D3900688C4B /* BeaglePreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaglePreviewViewController.swift; sourceTree = "<group>"; };
 		7623CF8C24254D3900688C4B /* BeaglePreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaglePreview.swift; sourceTree = "<group>"; };
-		7623CF912425529A00688C4B /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = Carthage/Build/iOS/Starscream.framework; sourceTree = "<group>"; };
-		7623CF93242552D700688C4B /* BeagleUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeagleUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7659EC5A247C3EFD00F5BE17 /* SSConnectionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSConnectionHandler.swift; sourceTree = "<group>"; };
+		7659EC5B247C3EFD00F5BE17 /* WSConnectionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSConnectionHandler.swift; sourceTree = "<group>"; };
+		7659EC60247C482400F5BE17 /* BeaglePreviewDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaglePreviewDependencies.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,8 +54,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7623CF94242552D700688C4B /* BeagleUI.framework in Frameworks */,
-				7623CF922425529A00688C4B /* Starscream.framework in Frameworks */,
+				761557AC2480250700E1EEEE /* BeagleUI.framework in Frameworks */,
+				761557A62480249800E1EEEE /* Starscream.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,9 +92,12 @@
 		7623CF8924254D3900688C4B /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				7659EC60247C482400F5BE17 /* BeaglePreviewDependencies.swift */,
+				7659EC5A247C3EFD00F5BE17 /* SSConnectionHandler.swift */,
+				7659EC5B247C3EFD00F5BE17 /* WSConnectionHandler.swift */,
+				7623CF8C24254D3900688C4B /* BeaglePreview.swift */,
 				7623CF8A24254D3900688C4B /* BeaglePreviewConfig.swift */,
 				7623CF8B24254D3900688C4B /* BeaglePreviewViewController.swift */,
-				7623CF8C24254D3900688C4B /* BeaglePreview.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -79,8 +105,8 @@
 		7623CF902425529A00688C4B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7623CF93242552D700688C4B /* BeagleUI.framework */,
-				7623CF912425529A00688C4B /* Starscream.framework */,
+				761557AB2480250700E1EEEE /* BeagleUI.framework */,
+				761557A52480249800E1EEEE /* Starscream.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -107,6 +133,7 @@
 				7623CF7A24254C9600688C4B /* Sources */,
 				7623CF7B24254C9600688C4B /* Frameworks */,
 				7623CF7C24254C9600688C4B /* Resources */,
+				761557A42480230F00E1EEEE /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -137,6 +164,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 7623CF7424254C9600688C4B;
 			productRefGroup = 7623CF7F24254C9600688C4B /* Products */;
@@ -165,6 +193,9 @@
 			files = (
 				7623CF8F24254D3900688C4B /* BeaglePreview.swift in Sources */,
 				7623CF8D24254D3900688C4B /* BeaglePreviewConfig.swift in Sources */,
+				7659EC5C247C3EFE00F5BE17 /* SSConnectionHandler.swift in Sources */,
+				7659EC61247C482400F5BE17 /* BeaglePreviewDependencies.swift in Sources */,
+				7659EC5D247C3EFE00F5BE17 /* WSConnectionHandler.swift in Sources */,
 				7623CF8E24254D3900688C4B /* BeaglePreviewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -231,7 +262,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -289,7 +320,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -311,6 +342,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -319,7 +351,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.zup.BeaglePreview;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -339,6 +371,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -347,7 +380,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.zup.BeaglePreview;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

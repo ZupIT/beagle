@@ -16,21 +16,29 @@
 
 import XCTest
 @testable import BeagleUI
+import BeagleSchema
 
 final class RepositoryTests: XCTestCase {
 
     private struct Dependencies: RepositoryDefault.Dependencies {
+        var logger: BeagleLoggerType
+        var urlBuilder: UrlBuilderProtocol
+        
         var cacheManager: CacheManagerProtocol?
         var baseURL: URL?
         var networkClient: NetworkClient
         var decoder: ComponentDecoding
 
         init(
+            logger: BeagleLoggerType = BeagleLoggerDumb(),
+            urlBuilder: UrlBuilderProtocol = UrlBuilder(),
             cacheManager: CacheManagerProtocol = CacheManagerDummy(),
             baseURL: URL? = nil,
             networkClient: NetworkClient = NetworkClientDummy(),
             decoder: ComponentDecoding = ComponentDecodingDummy()
         ) {
+            self.logger = logger
+            self.urlBuilder = urlBuilder
             self.cacheManager = cacheManager
             self.baseURL = baseURL
             self.networkClient = networkClient
@@ -69,8 +77,8 @@ final class RepositoryTests: XCTestCase {
 
         // Then
         guard
-            case .networkError? = fetchError,
-            case .networkError? = formError
+            case .urlBuilderError = fetchError,
+            case .urlBuilderError = formError
         else {
             XCTFail("Expected an error")
             return
@@ -81,7 +89,7 @@ final class RepositoryTests: XCTestCase {
         // Given
         guard let jsonData = """
         {
-            "_beagleType_": "beagle:component:text",
+            "_beagleComponent_": "beagle:text",
             "text": "some text"
         }
         """.data(using: .utf8) else {
@@ -97,7 +105,7 @@ final class RepositoryTests: XCTestCase {
         let url = "www.something.com"
 
         // When
-        var componentReturned: ServerDrivenComponent?
+        var componentReturned: BeagleUI.ServerDrivenComponent?
         let expec = expectation(description: "fetchComponentExpectation")
         sut.fetchComponent(url: url, additionalData: nil) { result in
             if case .success(let component) = result {
@@ -148,21 +156,22 @@ final class RepositoryTests: XCTestCase {
 // MARK: - Testing Helpers
 
 final class ComponentDecodingStub: ComponentDecoding {
+    func register<T>(_ type: T.Type, for typeName: String) where T: BeagleSchema.RawComponent {}
+    func register<A>(_ type: A.Type, for typeName: String) where A: BeagleSchema.RawAction {}
+    func componentType(forType type: String) -> Decodable.Type? { return nil }
+    func actionType(forType type: String) -> Decodable.Type? { return nil }
     
-    func register<T>(_ type: T.Type, for typeName: String) where T: ServerDrivenComponent {}
-    func decodableType(forType type: String) -> Decodable.Type? { return nil }
-
-    var componentToReturnOnDecode: ServerDrivenComponent?
+    var componentToReturnOnDecode: BeagleSchema.RawComponent?
     var errorToThrowOnDecode: Error?
     
-    func decodeComponent(from data: Data) throws -> ServerDrivenComponent {
+    func decodeComponent(from data: Data) throws -> BeagleSchema.RawComponent {
         if let error = errorToThrowOnDecode {
             throw error
         }
         return ComponentDummy()
     }
 
-    func decodeAction(from data: Data) throws -> Action {
+    func decodeAction(from data: Data) throws -> RawAction {
         if let error = errorToThrowOnDecode {
             throw error
         }
@@ -172,8 +181,8 @@ final class ComponentDecodingStub: ComponentDecoding {
 
 final class RepositoryStub: Repository {
 
-    var componentResult: Result<ServerDrivenComponent, Request.Error>?
-    var formResult: Result<Action, Request.Error>?
+    var componentResult: Result<BeagleUI.ServerDrivenComponent, Request.Error>?
+    var formResult: Result<RawAction, Request.Error>?
     var imageResult: Result<Data, Request.Error>?
 
     private(set) var didCallDispatch = false
@@ -189,8 +198,8 @@ final class RepositoryStub: Repository {
     }
 
     init(
-        componentResult: Result<ServerDrivenComponent, Request.Error>? = nil,
-        formResult: Result<Action, Request.Error>? = nil,
+        componentResult: Result<BeagleUI.ServerDrivenComponent, Request.Error>? = nil,
+        formResult: Result<RawAction, Request.Error>? = nil,
         imageResult: Result<Data, Request.Error>? = nil
     ) {
         self.componentResult = componentResult
@@ -198,7 +207,7 @@ final class RepositoryStub: Repository {
         self.imageResult = imageResult
     }
 
-    func fetchComponent(url: String, additionalData: RemoteScreenAdditionalData?, completion: @escaping (Result<ServerDrivenComponent, Request.Error>) -> Void) -> RequestToken? {
+    func fetchComponent(url: String, additionalData: RemoteScreenAdditionalData?, completion: @escaping (Result<BeagleUI.ServerDrivenComponent, Request.Error>) -> Void) -> RequestToken? {
         didCallDispatch = true
         if let result = componentResult {
             completion(result)
@@ -206,7 +215,7 @@ final class RepositoryStub: Repository {
         return token
     }
 
-    func submitForm(url: String, additionalData: RemoteScreenAdditionalData?, data: Request.FormData, completion: @escaping (Result<Action, Request.Error>) -> Void) -> RequestToken? {
+    func submitForm(url: String, additionalData: RemoteScreenAdditionalData?, data: Request.FormData, completion: @escaping (Result<RawAction, Request.Error>) -> Void) -> RequestToken? {
         didCallDispatch = true
         formData = data
         if let result = formResult {
@@ -226,11 +235,11 @@ final class RepositoryStub: Repository {
 
 class NetworkClientStub: NetworkClient {
 
-    let result: NetworkClient.Result
+    let result: NetworkClient.NetworkResult
 
     private(set) var executedRequest: Request?
 
-    init(result: NetworkClient.Result) {
+    init(result: NetworkClient.NetworkResult) {
         self.result = result
     }
 

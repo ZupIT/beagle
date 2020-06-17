@@ -1,24 +1,36 @@
-  Navigate.openDeepLink(DeepLinkNavigation(path: "path", data: nil, component: nil))  -->  NULL 
+  openExternalURL("http://localhost")  -->  NULL 
 
-  Navigate.openDeepLink(DeepLinkNavigation(path: "path", data: Optional(["data": "value"]), component: nil))  -->  NULL 
+  openNativeRoute("path", data: nil, shouldResetApplication: false)  -->  NULL 
 
-  Navigate.openDeepLink(DeepLinkNavigation(path: "path", data: nil, component: Optional(BeagleUI.Container(children: [], widgetProperties: BeagleUI.WidgetProperties(id: nil, appearance: nil, flex: nil, accessibility: nil)))))  -->  NULL 
+  openNativeRoute("path", data: Optional(["data": "value"]), shouldResetApplication: false)  -->  NULL 
 
-  Navigate.addView(NewPath(path: "path", shouldPrefetch: true, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: true, fallback: nil) 
+  resetApplication(BeagleSchema.Route.declarative(BeagleSchema.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: BeagleSchema.Container(children: [], widgetProperties: BeagleSchema.WidgetProperties(id: nil, style: nil, flex: nil, accessibility: nil)))))  -->  NULL 
 
-  Navigate.addView(NewPath(path: "path", shouldPrefetch: false, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: false, fallback: nil) 
+  resetApplication(BeagleSchema.Route.remote("path", shouldPrefetch: true, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: true, fallback: nil) 
 
-  Navigate.presentView(NewPath(path: "path", shouldPrefetch: true, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: true, fallback: nil) 
+  resetApplication(BeagleSchema.Route.remote("path", shouldPrefetch: false, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: false, fallback: nil) 
 
-  Navigate.presentView(NewPath(path: "path", shouldPrefetch: false, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: false, fallback: nil) 
+  resetStack(BeagleSchema.Route.declarative(BeagleSchema.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: BeagleSchema.Container(children: [], widgetProperties: BeagleSchema.WidgetProperties(id: nil, style: nil, flex: nil, accessibility: nil)))))  -->  NULL 
 
-  Navigate.swapView(NewPath(path: "path", shouldPrefetch: true, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: true, fallback: nil) 
+  resetStack(BeagleSchema.Route.remote("path", shouldPrefetch: true, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: true, fallback: nil) 
 
-  Navigate.swapView(NewPath(path: "path", shouldPrefetch: false, fallback: nil))  -->  NewPath(path: "path", shouldPrefetch: false, fallback: nil) 
+  resetStack(BeagleSchema.Route.remote("path", shouldPrefetch: false, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: false, fallback: nil) 
 
-  Navigate.popView  -->  NULL 
+  pushStack(BeagleSchema.Route.declarative(BeagleSchema.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: BeagleSchema.Container(children: [], widgetProperties: BeagleSchema.WidgetProperties(id: nil, style: nil, flex: nil, accessibility: nil)))))  -->  NULL 
 
-  Navigate.popToView(path)  -->  NULL 
+  pushStack(BeagleSchema.Route.remote("path", shouldPrefetch: true, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: true, fallback: nil) 
 
-  Navigate.finishView  -->  NULL 
+  pushStack(BeagleSchema.Route.remote("path", shouldPrefetch: false, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: false, fallback: nil) 
+
+  pushView(BeagleSchema.Route.declarative(BeagleSchema.Screen(id: nil, style: nil, safeArea: nil, navigationBar: nil, screenAnalyticsEvent: nil, child: BeagleSchema.Container(children: [], widgetProperties: BeagleSchema.WidgetProperties(id: nil, style: nil, flex: nil, accessibility: nil)))))  -->  NULL 
+
+  pushView(BeagleSchema.Route.remote("path", shouldPrefetch: true, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: true, fallback: nil) 
+
+  pushView(BeagleSchema.Route.remote("path", shouldPrefetch: false, fallback: nil))  -->  NewPath(route: "path", shouldPrefetch: false, fallback: nil) 
+
+  popStack  -->  NULL 
+
+  popView  -->  NULL 
+
+  popToView("path")  -->  NULL 
 

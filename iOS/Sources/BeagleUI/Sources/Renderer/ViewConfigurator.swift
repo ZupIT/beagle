@@ -16,12 +16,13 @@
 
 import Foundation
 import UIKit
+import BeagleSchema
 
 public protocol ViewConfiguratorProtocol: AnyObject {
     var view: UIView? { get set }
 
     func setup(_ widget: Widget)
-    func setup(appearance: Appearance?)
+    func setup(style: Style?)
     func setup(id: String?)
     func setup(accessibility: Accessibility?)
 }
@@ -46,17 +47,17 @@ class ViewConfigurator: ViewConfiguratorProtocol {
     }
 
     func setup(_ widget: Widget) {
-        setup(appearance: widget.appearance)
+        setup(style: widget.style)
         setup(id: widget.id)
         setup(accessibility: widget.accessibility)
         view?.flex.setup(widget.flex)
     }
 
-    func setup(appearance: Appearance?) {
-        if let hex = appearance?.backgroundColor {
-            view?.backgroundColor = .init(hex: hex)
+    func setup(style: Style?) {
+        if let hex = style?.backgroundColor {
+            view?.backgroundColor = UIColor(hex: hex)
         }
-        if let cornerRadius = appearance?.cornerRadius {
+        if let cornerRadius = style?.cornerRadius {
             view?.layer.masksToBounds = true
             view?.layer.cornerRadius = CGFloat(cornerRadius.radius)
         }

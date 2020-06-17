@@ -1,5 +1,5 @@
 codecov:
-  require_ci_to_pass: yes
+  require_ci_to_pass: true
 
 coverage:
   precision: 2
@@ -44,8 +44,14 @@ flags:
   android:
     paths:
       - android/
+      - common/
+      - schema/kotlin/
+    carryforward: true
+  backend:
+    paths:
       - backend/
       - common/
+      - schema/kotlin/
     carryforward: true
 ignore:
  - "iOS/Sources/BeagleUI/**/Tests/"

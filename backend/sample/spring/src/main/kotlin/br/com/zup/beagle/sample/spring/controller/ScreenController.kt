@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("TooManyFunctions", "LongParameterList")
+
 package br.com.zup.beagle.sample.spring.controller
 
 import br.com.zup.beagle.sample.constants.ACCESSIBILITY_SCREEN_ENDPOINT
@@ -42,10 +44,10 @@ import br.com.zup.beagle.sample.constants.SCREEN_NAVIGATION_BAR_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_NETWORK_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_PAGE_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SCROLL_VIEW_ENDPOINT
-import br.com.zup.beagle.sample.constants.SCREEN_STACK_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TAB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TOUCHABLE_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_WEB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.spring.service.AccessibilityService
 import br.com.zup.beagle.sample.spring.service.SampleActionClickService
 import br.com.zup.beagle.sample.spring.service.SampleActionService
@@ -63,11 +65,11 @@ import br.com.zup.beagle.sample.spring.service.SampleNetworkImageService
 import br.com.zup.beagle.sample.spring.service.SamplePageViewService
 import br.com.zup.beagle.sample.spring.service.SampleScreenBuilderService
 import br.com.zup.beagle.sample.spring.service.SampleScrollViewService
-import br.com.zup.beagle.sample.spring.service.SampleStackService
 import br.com.zup.beagle.sample.spring.service.SampleTabViewService
 import br.com.zup.beagle.sample.spring.service.SampleTextService
 import br.com.zup.beagle.sample.spring.service.SampleTouchableService
 import br.com.zup.beagle.sample.spring.service.SampleViewService
+import br.com.zup.beagle.sample.spring.service.SampleWebViewService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -89,12 +91,12 @@ class ScreenController(
     private val sampleLazyComponentService: SampleLazyComponentService,
     private val sampleNavigationBarService: SampleNavigationBarService,
     private val sampleNavigationTypeService: SampleNavigationTypeService,
-    private val sampleStackService: SampleStackService,
     private val sampleComposeComponentService: SampleComposeComponentService,
     private val sampleNetworkImageService: SampleNetworkImageService,
     private val sampleTouchableService: SampleTouchableService,
     private val sampleActionClickService: SampleActionClickService,
-    private val sampleAnalyticsService: SampleAnalyticsService
+    private val sampleAnalyticsService: SampleAnalyticsService,
+    private val sampleWebViewService: SampleWebViewService
 ) {
     @GetMapping(ACCESSIBILITY_SCREEN_ENDPOINT)
     fun getAccessibilityView() = this.accessibilityService.createAccessibilityView()
@@ -111,7 +113,7 @@ class ScreenController(
     @GetMapping(SCREEN_BUTTON_ENDPOINT)
     fun getSampleButtonView() = this.sampleButtonService.createButtonView()
 
-    @GetMapping(SCREEN_TEXT_ENDPOINT )
+    @GetMapping(SCREEN_TEXT_ENDPOINT)
     fun getSampleTextView() = this.sampleTextService.createTextView()
 
     @GetMapping(SCREEN_IMAGE_ENDPOINT)
@@ -132,10 +134,10 @@ class ScreenController(
     @GetMapping(SCREEN_ACTION_ENDPOINT)
     fun getShowDialogAction() = this.sampleActionService.createAction()
 
-    @GetMapping( SCREEN_FORM_ENDPOINT)
+    @GetMapping(SCREEN_FORM_ENDPOINT)
     fun getSampleFormView() = this.sampleFormService.createFormView()
 
-    @GetMapping(SCREEN_LAZY_COMPONENT_ENDPOINT )
+    @GetMapping(SCREEN_LAZY_COMPONENT_ENDPOINT)
     fun getSampleLazyComponentController() = this.sampleLazyComponentService.createLazyComponent()
 
     @GetMapping(SCREEN_NAVIGATION_BAR_ENDPOINT)
@@ -167,9 +169,6 @@ class ScreenController(
     @GetMapping(REPRESENTATION_NAVIGATION_TYPE_STEP3_ENDPOINT)
     fun getNavigationStep3() = this.sampleNavigationTypeService.step3()
 
-    @GetMapping(SCREEN_STACK_ENDPOINT )
-    fun getSampleStackView() = this.sampleStackService.createStackView()
-
     @GetMapping(SCREEN_COMPOSE_COMPONENT_ENDPOINT)
     fun getComposeComponent() = this.sampleComposeComponentService.createComposeComponentView()
 
@@ -183,10 +182,12 @@ class ScreenController(
     fun getSampleActionClickController() = this.sampleActionClickService.createActionClick()
 
     @GetMapping(SCREEN_EXAMPLE_ENDPOINT)
-    fun getNavigationExample()= this.sampleActionService.getNavigateExample()
+    fun getNavigationExample() = this.sampleActionService.getNavigateExample()
 
     @GetMapping(SCREEN_ANALYTICS_ENDPOINT)
-    fun getAnalyticsExample()= this.sampleAnalyticsService.getAnalyticsExample()
+    fun getAnalyticsExample() = this.sampleAnalyticsService.getAnalyticsExample()
 
+    @GetMapping(SCREEN_WEB_VIEW_ENDPOINT)
+    fun getsampleWebViewService() = this.sampleWebViewService.createWebView()
 
 }

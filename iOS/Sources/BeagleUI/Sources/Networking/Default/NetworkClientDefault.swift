@@ -18,33 +18,26 @@ import Foundation
 
 public class NetworkClientDefault: NetworkClient {
 
-    public typealias Dependencies = DependencyUrlBuilder & DependencyLogger
+    public typealias Dependencies = DependencyLogger
 
     public var session = URLSession.shared
     let dependencies: Dependencies
 
     public var httpRequestBuilder = HttpRequestBuilder()
-
+    
     public init(dependencies: Dependencies) {
         self.dependencies = dependencies
     }
 
     enum ClientError: Swift.Error {
         case invalidHttpResponse
-        case invalidUrl
+        case invalidHttpRequest
     }
 
     public func executeRequest(
         _ request: Request,
         completion: @escaping RequestCompletion
     ) -> RequestToken? {
-        switch request.type {
-        case .fetchComponent, .submitForm:
-            return doRequest(request, completion: completion)
-        case .fetchImage:
-            break
-        }
-
         return doRequest(request, completion: completion)
     }
 
@@ -53,18 +46,12 @@ public class NetworkClientDefault: NetworkClient {
         _ request: Request,
         completion: @escaping RequestCompletion
     ) -> RequestToken? {
-        guard let url = dependencies.urlBuilder.build(path: request.url) else {
-            dependencies.logger.log(Log.network(.couldNotBuildUrl(url: request.url)))
-            completion(.failure(.init(error: ClientError.invalidUrl)))
-            return nil
-        }
-
+        
         let build = httpRequestBuilder.build(
-            url: url,
+            url: request.url,
             requestType: request.type,
             additionalData: request.additionalData as? HttpAdditionalData
         )
-                
         let urlRequest = build.toUrlRequest()
 
         let task = session.dataTask(with: urlRequest) { [weak self] data, response, error in
@@ -72,8 +59,8 @@ public class NetworkClientDefault: NetworkClient {
             self.dependencies.logger.log(Log.network(.httpResponse(response: .init(data: data, reponse: response))))
             completion(self.handleResponse(data: data, response: response, error: error))
         }
+        
         dependencies.logger.log(Log.network(.httpRequest(request: .init(url: urlRequest))))
-
         task.resume()
         return task
     }
@@ -82,7 +69,7 @@ public class NetworkClientDefault: NetworkClient {
         data: Data?,
         response: URLResponse?,
         error: Swift.Error?
-    ) -> NetworkClient.Result {
+    ) -> NetworkClient.NetworkResult {
         if let error = error {
             return .failure(.init(error: error))
         }

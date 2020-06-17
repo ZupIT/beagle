@@ -32,15 +32,14 @@ object Modules {
     const val beagleAndroid = ":android:beagle"
     const val beagleAndroidProcessor = ":android:android-processor"
     const val beagleAndroidAnnotation = ":android:android-annotation"
-    const val beagleAndroidDeclarative = ":android:android-declarative"
     const val beagleAndroidPreview = ":android:android-preview"
-    const val beagleCoreDeclarative = ":common:core-declarative"
-    const val beagleDeclarative = ":common:declarative"
     const val beagleAnnotation = ":common:annotation"
-    const val beagleBackendDeclarative = ":backend:backend-declarative"
     const val beagleBackendFramework = ":backend:framework"
     const val beagleBackendSpringStarter = ":backend:starters:beagle-spring-starter"
     const val beagleBackendMicronautStarter = ":backend:starters:beagle-micronaut-starter"
+    const val beagleSchemaKotlinCore = ":schema:kotlin-core"
+    const val beagleSchemaBackendWidgets = ":backend:backend-widgets"
+    const val beagleExtendedSchema = ":common:extended-schema"
 }
 
 object Releases {
@@ -135,6 +134,7 @@ object AndroidProcessorLibraries {
 
 object GeneralLibraries {
     const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
+    const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
     const val kotlinCoroutines =
         "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}"
 

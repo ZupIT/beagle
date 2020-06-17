@@ -17,6 +17,7 @@
 import XCTest
 @testable import BeagleUI
 import SnapshotTesting
+import BeagleSchema
 
 final class BeagleScreenViewControllerTests: XCTestCase {
     
@@ -30,12 +31,11 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         
         // Then
 
-        // TODO: uncomment this when using Xcode > 10.3 (which will support iOS 13)
-        // if #available(iOS 13.0, *) {
-        //    XCTAssertEqual(sut.view.backgroundColor, .systemBackground)
-        // } else {
+         if #available(iOS 13.0, *) {
+            XCTAssertEqual(sut.view.backgroundColor, .systemBackground)
+         } else {
             XCTAssertEqual(sut.view.backgroundColor, .white)
-        // }
+         }
     }
     
     func test_onViewWillAppear_navigationBarShouldBeHidden() {
@@ -64,7 +64,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
             
             override func serverDrivenStateDidChange(
                 to state: ServerDrivenState,
-                at screenController: BeagleScreenViewController
+                at screenController: BeagleController
             ) {
                 if case .error(let error) = state, case .remoteScreen(let remoteError) = error {
                     remoteScreenError = remoteError
@@ -87,7 +87,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
     
     func test_handleSafeArea() {
         let sut = safeAreaController(content: Text(""))
-        assertSnapshotImage(sut, size: CGSize(width: 200, height: 200))
+        assertSnapshotImage(sut, size: .custom(CGSize(width: 200, height: 200)))
     }
     
     func test_handleKeyboard() {
@@ -96,7 +96,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
                 "My Content",
                 alignment: .center,
                 widgetProperties: .init(
-                appearance: .init(backgroundColor: "#00FFFF"),
+                style: .init(backgroundColor: "#00FFFF"),
                 flex: Flex(grow: 1))
             )
         )
@@ -116,19 +116,19 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         ])
         
         postKeyboardNotification()
-        assertSnapshotImage(sut, size: CGSize(width: 414, height: 896))
+        assertSnapshotImage(sut, size: .custom(CGSize(width: 414, height: 896)))
     }
     
-    private func safeAreaController(content: ServerDrivenComponent) -> UIViewController {
+    private func safeAreaController(content: BeagleUI.ServerDrivenComponent) -> UIViewController {
         let screen = Screen(
-            appearance: Appearance(backgroundColor: "#0000FF"),
+            style: Style(backgroundColor: "#0000FF"),
             navigationBar: NavigationBar(title: "Test Safe Area"),
             child: Container(
                 children: [content],
-                widgetProperties: .init(appearance: Appearance(backgroundColor: "#00FF00"), flex: Flex(grow: 1, margin: .init(all: .init(value: 10, type: .real))))
+                widgetProperties: .init(style: Style(backgroundColor: "#00FF00"), flex: Flex(grow: 1, margin: .init(all: .init(value: 10, type: .real))))
             )
         )
-        let screenController = BeagleScreenViewController(screen: screen)
+        let screenController = BeagleScreenViewController(.declarative(screen))
         screenController.additionalSafeAreaInsets = UIEdgeInsets(top: 10, left: 20, bottom: 30, right: 40)
         let navigation = BeagleNavigationController(rootViewController: screenController)
         navigation.navigationBar.barTintColor = .white
@@ -155,14 +155,14 @@ final class BeagleScreenViewControllerTests: XCTestCase {
     
     func postKeyboardNotification() {
         let notification = Notification(
-            name: NSNotification.Name.UIKeyboardWillChangeFrame,
+            name: UIResponder.keyboardWillChangeFrameNotification,
             object: nil,
             userInfo: [
-                UIKeyboardAnimationDurationUserInfoKey: 0,
-                UIKeyboardIsLocalUserInfoKey: 1,
-                UIKeyboardAnimationCurveUserInfoKey: 7,
-                UIKeyboardFrameBeginUserInfoKey: CGRect(x: 0, y: 896, width: 414, height: 346),
-                UIKeyboardFrameEndUserInfoKey: CGRect(x: 0, y: 550, width: 414, height: 346)
+                UIResponder.keyboardAnimationDurationUserInfoKey: 0,
+                UIResponder.keyboardIsLocalUserInfoKey: 1,
+                UIResponder.keyboardAnimationCurveUserInfoKey: 7,
+                UIResponder.keyboardFrameBeginUserInfoKey: CGRect(x: 0, y: 896, width: 414, height: 346),
+                UIResponder.keyboardFrameEndUserInfoKey: CGRect(x: 0, y: 550, width: 414, height: 346)
             ]
         )
         NotificationCenter.default.post(notification)
@@ -185,7 +185,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
             dependencies: dependencies
         ))
 
-        assertSnapshotImage(sut, size: CGSize(width: 50, height: 25))
+        assertSnapshotImage(sut, size: .custom(CGSize(width: 50, height: 25)))
     }
     
    func test_loadPreFetchedScreen() {
@@ -196,7 +196,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         {
           "_beagleType_": "beagle:component:text",
           "text": "",
-          "appearance": {
+          "style": {
             "backgroundColor": "#4000FFFF"
           }
         }
@@ -206,7 +206,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         }
         let cacheReference = CacheReference(identifier: url, data: jsonData, hash: "123")
         cacheManager.addToCache(cacheReference)
-        let repository = RepositoryStub(componentResult: .success(Text("Remote Component", widgetProperties: .init(appearance: .init(backgroundColor: "#00FFFF")))))
+        let repository = RepositoryStub(componentResult: .success(Text("Remote Component", widgetProperties: .init(style: .init(backgroundColor: "#00FFFF")))))
         let dependencies = BeagleDependencies()
         dependencies.cacheManager = cacheManager
         dependencies.repository = repository
@@ -216,7 +216,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
             dependencies: dependencies
         ))
         
-        assertSnapshotImage(screen, size: CGSize(width: 100, height: 75))
+        assertSnapshotImage(screen, size: .custom(CGSize(width: 100, height: 75)))
     }
     
     func test_whenLoadScreenFails_itShouldRenderFallbackScreen() {
@@ -224,7 +224,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         let repository = RepositoryStub(componentResult: .failure(error))
         let fallback = Text(
             "Fallback screen.\n\(error.localizedDescription)",
-            widgetProperties: .init(appearance: .init(backgroundColor: "#FF0000"))
+            widgetProperties: .init(style: .init(backgroundColor: "#FF0000"))
         ).toScreen()
         let dependencies = BeagleDependencies()
         dependencies.repository = repository
@@ -233,7 +233,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
             screenType: .remote(.init(url: "url", fallback: fallback)),
             dependencies: dependencies
         ))
-        assertSnapshotImage(screen, size: CGSize(width: 300, height: 100))
+        assertSnapshotImage(screen, size: .custom(CGSize(width: 300, height: 100)))
     }
 
     func test_whenLoadScreenWithDeclarativeText_isShouldRenderCorrectly() throws {
@@ -241,18 +241,19 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         let json = try jsonFromFile(fileName: "declarativeText1")
         let screen = BeagleScreenViewController(viewModel: .init(screenType: .declarativeText(json)))
 
-        assertSnapshotImage(screen, size: CGSize(width: 256, height: 512))
+        assertSnapshotImage(screen, size: .custom(CGSize(width: 256, height: 512)))
     }
 
     func test_whenReloadScreenWithDeclarativeText_isShouldRenderCorrectly() throws {
 
-        let json = try jsonFromFile(fileName: "declarativeText2")
+        let json1 = try jsonFromFile(fileName: "declarativeText1")
+        let json2 = try jsonFromFile(fileName: "declarativeText2")
 
-        let screen = BeagleScreenViewController(component: Container(children: []))
-        
-        screen.reloadScreen(with: .declarativeText(json))
+        let screen = BeagleScreenViewController(.declarativeText(json1))
+        assertSnapshotImage(screen, size: .custom(CGSize(width: 256, height: 512)))
 
-        assertSnapshotImage(screen, size: CGSize(width: 256, height: 512))
+        screen.reloadScreen(with: .declarativeText(json2))
+        assertSnapshotImage(screen, size: .custom(CGSize(width: 256, height: 512)))
     }
 }
 
@@ -262,4 +263,33 @@ struct SimpleComponent {
     var content = Container(children:
         [Text("Mock")]
     )
+}
+
+class BeagleControllerStub: BeagleController {
+    
+    var dependencies: BeagleDependenciesProtocol
+    var serverDrivenState: ServerDrivenState = .loading(false)
+    var screenType: ScreenType
+    var screen: Screen?
+
+    init(
+        _ screenType: ScreenType = .remote(.init(url: "")),
+        dependencies: BeagleDependenciesProtocol = BeagleScreenDependencies()
+    ) {
+        self.screenType = screenType
+        self.dependencies = dependencies
+        if case .declarative(let screen) = screenType {
+            self.screen = screen
+        }
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func execute(action: RawAction, sender: Any) {
+        (action as? Action)?.execute(controller: self, sender: sender)
+    }
+    
 }

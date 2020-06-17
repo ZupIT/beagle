@@ -1,0 +1,7 @@
+▿ Optional<FormData>
+  ▿ some: FormData
+    - method: Method.post
+    ▿ values: 1 key/value pair
+      ▿ (2 elements)
+        - key: "name"
+        - value: "John Doe"

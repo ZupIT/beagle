@@ -1,0 +1,30 @@
+{
+   "_beagleComponent_":"beagle:text",
+   "text":"BeaglePreview",
+   "styleId": "test.text.style",
+   "alignment":"CENTER",
+   "textColor": "579F2B",
+   "flex":{
+      "size":{
+         "width":{
+            "value":100,
+            "type":"PERCENT"
+         },
+         "height":{
+            "value":44,
+            "type":"REAL"
+         }
+      }
+   },
+   "id":"some id",
+   "style":{
+      "backgroundColor":"#800000FF",
+      "cornerRadius":{
+         "radius":30.0
+      }
+   },
+   "accessibility":{
+      "accessible":true,
+      "accessibilityLabel":"This is a text as title"
+   }
+}

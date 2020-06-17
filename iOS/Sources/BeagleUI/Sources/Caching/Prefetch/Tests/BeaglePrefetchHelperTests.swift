@@ -17,7 +17,7 @@
 import XCTest
 @testable import BeagleUI
 import SnapshotTesting
-// swiftlint:disable force_unwrapping
+import BeagleSchema
 
 final class BeaglePrefetchHelperTests: XCTestCase {
 
@@ -29,13 +29,13 @@ final class BeaglePrefetchHelperTests: XCTestCase {
     private let decoder = ComponentDecoder()
     private let jsonData = """
     {
-      "_beagleType_": "beagle:component:text",
+      "_beagleComponent_": "beagle:text",
       "text": "cache",
-      "appearance": {
+      "style": {
         "backgroundColor": "#4000FFFF"
       }
     }
-    """.data(using: .utf8)!
+    """.data(using: .utf8) ?? Data()
     
     func testPrefetchAndDequeue() {
         guard let remoteComponent = decodeComponent(from: jsonData) else {
@@ -47,7 +47,7 @@ final class BeaglePrefetchHelperTests: XCTestCase {
         let sut = BeaglePreFetchHelper(dependencies: dependencies)
         let url = "url-test"
 
-        sut.prefetchComponent(newPath: .init(path: url, shouldPrefetch: true))
+        sut.prefetchComponent(newPath: .init(route: url, shouldPrefetch: true))
         let reference = CacheReference(identifier: url, data: jsonData, hash: "123")
         cacheManager.addToCache(reference)
         
@@ -68,9 +68,9 @@ final class BeaglePrefetchHelperTests: XCTestCase {
         let reference = CacheReference(identifier: url, data: jsonData, hash: "123")
         cacheManager.addToCache(reference)
 
-        sut.prefetchComponent(newPath: .init(path: url, shouldPrefetch: true))
+        sut.prefetchComponent(newPath: .init(route: url, shouldPrefetch: true))
         let result1 = dependencies.cacheManager?.getReference(identifiedBy: url)
-        sut.prefetchComponent(newPath: .init(path: url, shouldPrefetch: true))
+        sut.prefetchComponent(newPath: .init(route: url, shouldPrefetch: true))
         let result2 = dependencies.cacheManager?.getReference(identifiedBy: url)
         
         XCTAssert(result1?.data == jsonData, "Retrived wrong component.")
@@ -80,25 +80,32 @@ final class BeaglePrefetchHelperTests: XCTestCase {
     func testNavigationIsPrefetchable() {
         let path = "path"
         let data = ["data": "value"]
-        let screen = Container(children: [])
+        let container = Container(children: [])
 
         let actions: [Navigate] = [
-            .openDeepLink(.init(path: path, data: nil)),
-            .openDeepLink(.init(path: path, data: data)),
-            .openDeepLink(.init(path: path, component: screen)),
+            Navigate.openExternalURL("http://localhost"),
+            Navigate.openNativeRoute(path, data: nil),
+            Navigate.openNativeRoute(path, data: data),
 
-            .addView(.init(path: path, shouldPrefetch: true)),
-            .addView(.init(path: path, shouldPrefetch: false)),
-            
-            .presentView(.init(path: path, shouldPrefetch: true)),
-            .presentView(.init(path: path, shouldPrefetch: false)),
-            
-            .swapView(.init(path: path, shouldPrefetch: true)),
-            .swapView(.init(path: path, shouldPrefetch: false)),
-            
-            .popView,
-            .popToView(path),
-            .finishView
+            Navigate.resetApplication(.declarative(Screen(child: container))),
+            Navigate.resetApplication(.remote(path, shouldPrefetch: true)),
+            Navigate.resetApplication(.remote(path, shouldPrefetch: false)),
+
+            Navigate.resetStack(.declarative(Screen(child: container))),
+            Navigate.resetStack(.remote(path, shouldPrefetch: true)),
+            Navigate.resetStack(.remote(path, shouldPrefetch: false)),
+
+            Navigate.pushStack(.declarative(Screen(child: container))),
+            Navigate.pushStack(.remote(path, shouldPrefetch: true)),
+            Navigate.pushStack(.remote(path, shouldPrefetch: false)),
+
+            Navigate.pushView(.declarative(Screen(child: container))),
+            Navigate.pushView(.remote(path, shouldPrefetch: true)),
+            Navigate.pushView(.remote(path, shouldPrefetch: false)),
+
+            Navigate.popStack,
+            Navigate.popView,
+            Navigate.popToView(path)
         ]
 
         let bools = actions.map { $0.newPath }
@@ -109,10 +116,10 @@ final class BeaglePrefetchHelperTests: XCTestCase {
         assertSnapshot(matching: result, as: .description)
     }
     
-    private func decodeComponent(from data: Data) -> ServerDrivenComponent? {
+    private func decodeComponent(from data: Data) -> BeagleUI.ServerDrivenComponent? {
         do {
             let component = try decoder.decodeComponent(from: data)
-            return component
+            return component as? BeagleUI.ServerDrivenComponent
         } catch {
             return nil
         }

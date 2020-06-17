@@ -1,6 +1,6 @@
 ▿ Button
-  ▿ action: Optional<Action>
-    - some: Navigate.finishView
+  ▿ action: Optional<RawAction>
+    - some: Navigate.popStack
   ▿ clickAnalyticsEvent: Optional<AnalyticsClick>
     ▿ some: AnalyticsClick
       - category: "mocked category"
@@ -8,16 +8,16 @@
         - some: "mocked label"
       ▿ value: Optional<String>
         - some: "mocked value"
-  - style: Optional<String>.none
+  - styleId: Optional<String>.none
   - text: "button"
   ▿ widgetProperties: WidgetProperties
     - accessibility: Optional<Accessibility>.none
-    ▿ appearance: Optional<Appearance>
-      ▿ some: Appearance
+    - flex: Optional<Flex>.none
+    - id: Optional<String>.none
+    ▿ style: Optional<Style>
+      ▿ some: Style
         ▿ backgroundColor: Optional<String>
           - some: "#800000FF"
         ▿ cornerRadius: Optional<CornerRadius>
           ▿ some: CornerRadius
             - radius: 30.0
-    - flex: Optional<Flex>.none
-    - id: Optional<String>.none

@@ -1,0 +1,8 @@
+{
+  "_beagleComponent_" : "beagle:lazyComponent",
+  "path": "/path",
+  "initialState" : {
+    "_beagleComponent_" : "beagle:text",
+    "text" : "text1"
+  }
+}

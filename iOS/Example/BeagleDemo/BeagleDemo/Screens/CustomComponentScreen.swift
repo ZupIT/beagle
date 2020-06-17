@@ -16,9 +16,10 @@
 
 import UIKit
 import BeagleUI
+import BeagleSchema
 
 struct CustomComponentScreen: DeeplinkScreen {
-    init(path: String, data: [String : String]?) {
+    init(path: String, data: [String: String]?) {
     }
     
     func screenController() -> UIViewController {

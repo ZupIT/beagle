@@ -16,17 +16,18 @@
 
 package br.com.zup.beagle.sample.compose
 
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.constants.BLACK
 import br.com.zup.beagle.sample.constants.LIGHT_GREY
-import br.com.zup.beagle.widget.core.Alignment
-import br.com.zup.beagle.widget.core.ComposeComponent
+import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.TextAlignment
+import br.com.zup.beagle.widget.layout.ComposeComponent
 import br.com.zup.beagle.widget.layout.PageView
 import br.com.zup.beagle.widget.pager.PageIndicator
 import br.com.zup.beagle.widget.ui.Text
-import br.com.zup.beagle.widget.ui.TextAlignment
 
-object ComposePageView : ComposeComponent() {
+object ComposePageView : ComposeComponent {
     override fun build() = PageView(
         pageIndicator = PageIndicator(
             selectedColor = BLACK,
@@ -38,7 +39,7 @@ object ComposePageView : ComposeComponent() {
     private fun createText(i: Int) = Text("Page $i", alignment = TextAlignment.CENTER)
         .applyFlex(
             Flex(
-                alignSelf = Alignment.CENTER,
+                alignSelf = AlignSelf.CENTER,
                 grow = 1.0
             )
         )

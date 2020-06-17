@@ -19,7 +19,7 @@ package br.com.zup.beagle.sample
 import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.ScreenEvent
-import br.com.zup.beagle.annotation.BeagleComponent
+import br.com.zup.beagle.android.annotation.BeagleComponent
 
 @BeagleComponent
 class AppAnalytics: Analytics {

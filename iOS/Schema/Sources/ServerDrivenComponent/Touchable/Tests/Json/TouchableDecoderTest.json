@@ -1,0 +1,10 @@
+{
+  "_beagleComponent_": "beagle:touchable",
+  "action": {
+      "_beagleAction_": "beagle:popView"
+  },
+  "child": {
+      "_beagleComponent_": "beagle:text",
+      "text": "touchable"
+  }
+}

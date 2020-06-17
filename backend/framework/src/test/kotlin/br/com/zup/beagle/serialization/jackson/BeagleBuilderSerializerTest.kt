@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.serialization.jackson
 
-import br.com.zup.beagle.widget.core.ComposeComponent
+import br.com.zup.beagle.widget.layout.ComposeComponent
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.ui.Text
@@ -53,7 +53,7 @@ internal class BeagleBuilderSerializerTest {
     @Test
     fun serialize_ComposeComponent_should_write_the_component_from_build() =
         testSerialize(
-            object : ComposeComponent() {
+            object : ComposeComponent {
                 override fun build() = Text("Test")
             },
             Text("Test")

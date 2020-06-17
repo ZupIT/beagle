@@ -15,10 +15,13 @@
  */
 
 import UIKit
+import BeagleSchema
 
 class BeagleScreenViewModel {
         
-    var screenType: ScreenType
+    var screenType: ScreenType {
+        didSet { screen = nil }
+    }
     var screen: Screen?
     var state: State {
         didSet { stateObserver?.didChangeState(state) }
@@ -31,15 +34,7 @@ class BeagleScreenViewModel {
         case failure(ServerDrivenState.Error)
     }
 
-    var dependencies: Dependencies
-
-    public typealias Dependencies =
-        DependencyActionExecutor
-        & DependencyRepository
-        & DependencyAnalyticsExecutor
-        & RenderableDependencies
-        & DependencyComponentDecoding
-        & DependencyNavigationController
+    var dependencies: BeagleDependenciesProtocol
 
     // MARK: Observer
 
@@ -51,7 +46,7 @@ class BeagleScreenViewModel {
 
     public init(
         screenType: ScreenType,
-        dependencies: Dependencies = Beagle.dependencies
+        dependencies: BeagleDependenciesProtocol = Beagle.dependencies
     ) {
         self.screenType = screenType
         self.dependencies = dependencies

@@ -1,0 +1,79 @@
+
+{
+    "_beagleComponent_": "beagle:pageView",
+
+    "pages": [
+        {
+            "_beagleComponent_": "beagle:container",
+            "flex": {
+                "flexDirection": "COLUMN",
+                "flexWrap": "NO_WRAP",
+                "justifyContent": "SPACE_AROUND"
+            },
+            "children": [
+                {
+                    "_beagleComponent_": "beagle:text",
+                    "text": "1 This is a text"
+                },
+                {
+                    "_beagleComponent_": "beagle:text",
+                    "text": "This is a text"
+                },
+                {
+                    "_beagleComponent_": "beagle:text",
+                    "text": "This is a text"
+                }
+            ]
+        },
+        {
+            "_beagleComponent_": "beagle:container",
+            "flex": {
+                "flexDirection": "COLUMN",
+                "flexWrap": "NO_WRAP",
+                "justifyContent": "SPACE_AROUND"
+            },
+            "children": [
+                {
+                    "_beagleComponent_": "beagle:text",
+                    "text": "2 This is a text"
+                },
+                {
+                    "_beagleComponent_": "beagle:text",
+                    "text": "This is a text"
+                },
+                {
+                    "_beagleComponent_": "beagle:text",
+                    "text": "This is a text"
+                }
+            ]
+        },
+        {
+            "_beagleComponent_": "beagle:container",
+            "flex": {
+                "flexDirection": "COLUMN",
+                "flexWrap": "NO_WRAP",
+                "justifyContent": "SPACE_AROUND"
+            },
+            "children": [
+                {
+                    "_beagleComponent_": "beagle:text",
+                    "text": "3 This is a text"
+                },
+                {
+                    "_beagleComponent_": "beagle:text",
+                    "text": "This is a text"
+                },
+                {
+                    "_beagleComponent_": "beagle:text",
+                    "text": "This is a text"
+                }
+            ]
+        }
+    ],
+
+    "pageIndicator": {
+        "_beagleComponent_": "custom:CustomPageIndicator",
+        "selectedColor": "selectedColor",
+        "defaultColor": "defaultColor"
+    }
+}

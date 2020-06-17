@@ -18,12 +18,7 @@ allprojects {
         google()
         jcenter()
         maven {
-            credentials {
-                // user@password with read only access
-                username "beagle"
-                password "Xq7wAh3xDkGN"
-            }
-            url 'https://repo-iti.zup.com.br/repository/beagle-jars-all/'
+            url 'https://dl.bintray.com/zupit/repo'
         }
     }
 }
@@ -64,8 +59,8 @@ import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
 import br.com.zup.beagle.annotation.BeagleComponent
-import br.com.zup.beagle.view.BeagleActivity
-import br.com.zup.beagle.view.ServerDrivenState
+import br.com.zup.beagle.android.view.BeagleActivity
+import br.com.zup.beagle.android.view.ServerDrivenState
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_app_beagle.*
 

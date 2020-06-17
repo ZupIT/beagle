@@ -1,10 +1,10 @@
 {
-    "_beagleType_": "beagle:component:screencomponent",
+    "_beagleComponent_": "beagle:screencomponent",
     "child": {
-        "_beagleType_": "beagle:component:container",
+        "_beagleComponent_": "beagle:container",
         "children": [
             {
-                "_beagleType_": "beagle:component:text",
+                "_beagleComponent_": "beagle:text",
                 "text": "BeaglePreview",
                 "alignment": "CENTER",
                 "flex": {
@@ -19,15 +19,15 @@
                         }
                     }
                 },
-                "appearance": {
-                    "backgroundColor": "ff00ff"
+                "style": {
+                    "backgroundColor": "#ff00ff"
                 }
             },
             {
-                "_beagleType_": "beagle:component:container",
+                "_beagleComponent_": "beagle:container",
                 "children": [
                     {
-                        "_beagleType_": "beagle:component:text",
+                        "_beagleComponent_": "beagle:text",
                         "text": "element 1",
                         "alignment": "CENTER",
                         "flex": {
@@ -42,12 +42,12 @@
                                 }
                             }
                         },
-                        "appearance": {
-                            "backgroundColor": "ff0000"
+                        "style": {
+                            "backgroundColor": "#ff0000"
                         }
                     },
                     {
-                        "_beagleType_": "beagle:component:text",
+                        "_beagleComponent_": "beagle:text",
                         "text": "element 2",
                         "alignment": "CENTER",
                         "flex": {
@@ -62,12 +62,12 @@
                                 }
                             }
                         },
-                        "appearance": {
-                            "backgroundColor": "00ff00"
+                        "style": {
+                            "backgroundColor": "#00ff00"
                         }
                     },
                     {
-                        "_beagleType_": "beagle:component:text",
+                        "_beagleComponent_": "beagle:text",
                         "text": "element 3",
                         "alignment": "CENTER",
                         "flex": {
@@ -82,8 +82,8 @@
                                 }
                             }
                         },
-                        "appearance": {
-                            "backgroundColor": "ff0000"
+                        "style": {
+                            "backgroundColor": "#ff0000"
                         }
                     }
                 ],
@@ -99,8 +99,8 @@
                         }
                     }
                 },
-                "appearance": {
-                    "backgroundColor": "00ffff"
+                "style": {
+                    "backgroundColor": "#0ff"
                 }
             }
         ]

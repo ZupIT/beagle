@@ -15,6 +15,7 @@
  */
 
 import Foundation
+import BeagleSchema
 
 public protocol Repository {
 
@@ -30,7 +31,7 @@ public protocol Repository {
         url: String,
         additionalData: RemoteScreenAdditionalData?,
         data: Request.FormData,
-        completion: @escaping (Result<Action, Request.Error>) -> Void
+        completion: @escaping (Result<RawAction, Request.Error>) -> Void
     ) -> RequestToken?
 
     @discardableResult
@@ -52,9 +53,11 @@ public final class RepositoryDefault: Repository {
     // MARK: Dependencies
 
     public typealias Dependencies =
-        DependencyComponentDecoding
+        BeagleSchema.DependencyDecoder
         & DependencyNetworkClient
         & DependencyCacheManager
+        & DependencyUrlBuilder
+        & DependencyLogger
 
     let dependencies: Dependencies
 
@@ -84,8 +87,12 @@ public final class RepositoryDefault: Repository {
 
         var newData = additionalData
         appendCacheHeaders(cache, to: &newData)
-        
-        let request = Request(url: url, type: .fetchComponent, additionalData: newData)
+    
+        guard let request = handleUrlBuilderRequest(url: url, type: .fetchComponent, additionalData: newData) else {
+            completion(.failure(.urlBuilderError))
+            return nil
+        }
+
         return dependencies.networkClient.executeRequest(request) { [weak self] result in
             guard let self = self else { return }
 
@@ -102,9 +109,15 @@ public final class RepositoryDefault: Repository {
         url: String,
         additionalData: RemoteScreenAdditionalData?,
         data: Request.FormData,
-        completion: @escaping (Result<Action, Request.Error>) -> Void
+        completion: @escaping (Result<RawAction, Request.Error>) -> Void
     ) -> RequestToken? {
-        let request = Request(url: url, type: .submitForm(data), additionalData: additionalData)
+        
+        guard let request = handleUrlBuilderRequest(url: url, type: .submitForm(data), additionalData: additionalData)
+            else {
+            completion(.failure(.urlBuilderError))
+            return nil
+        }
+
         return dependencies.networkClient.executeRequest(request) { [weak self] result in
             guard let self = self else { return }
 
@@ -122,7 +135,12 @@ public final class RepositoryDefault: Repository {
         additionalData: RemoteScreenAdditionalData?,
         completion: @escaping (Result<Data, Request.Error>) -> Void
     ) -> RequestToken? {
-        let request = Request(url: url, type: .fetchImage, additionalData: additionalData)
+        
+        guard let request = handleUrlBuilderRequest(url: url, type: .fetchImage, additionalData: additionalData) else {
+            completion(.failure(.urlBuilderError))
+            return nil
+        }
+        
         return dependencies.networkClient.executeRequest(request) { result in
             let mapped = result
                 .flatMapError { .failure(Request.Error.networkError($0)) }
@@ -154,18 +172,21 @@ public final class RepositoryDefault: Repository {
         return decoded
     }
 
+    //TODO: change loadFromTextError inside guard let to give a more proper error
     private func decodeComponent(from data: Data) -> Result<ServerDrivenComponent, Request.Error> {
         do {
-            let component = try dependencies.decoder.decodeComponent(from: data)
+            guard let component = try dependencies.decoder.decodeComponent(from: data) as? ServerDrivenComponent else {
+                return .failure(.loadFromTextError)
+            }
             return .success(component)
         } catch {
             return .failure(.decoding(error))
         }
     }
 
-    private func handleForm(_ data: Data) -> Result<Action, Request.Error> {
+    private func handleForm(_ data: Data) -> Result<RawAction, Request.Error> {
         do {
-            let action: Action = try dependencies.decoder.decodeAction(from: data)
+            let action = try dependencies.decoder.decodeAction(from: data)
             return .success(action)
         } catch {
             return .failure(.decoding(error))
@@ -208,5 +229,14 @@ public final class RepositoryDefault: Repository {
         if let cache = cache, dependencies.cacheManager?.isValid(reference: cache) != true {
             data?.headers[cacheHashHeader] = cache.hash
         }
+    }
+    
+    private func handleUrlBuilderRequest(url: String, type: Request.RequestType, additionalData: RemoteScreenAdditionalData?) -> Request? {
+        guard let builderUrl = dependencies.urlBuilder.build(path: url) else {
+            dependencies.logger.log(Log.network(.couldNotBuildUrl(url: url)))
+            return nil
+        }
+        
+        return Request(url: builderUrl, type: type, additionalData: additionalData)
     }
 }

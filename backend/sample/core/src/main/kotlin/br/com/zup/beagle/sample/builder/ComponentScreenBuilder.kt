@@ -17,7 +17,8 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.NavigationType
+import br.com.zup.beagle.action.Route
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.ACCESSIBILITY_SCREEN_ENDPOINT
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_TITLE
@@ -35,16 +36,16 @@ import br.com.zup.beagle.sample.constants.SCREEN_NAVIGATION_BAR_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_NETWORK_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_PAGE_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SCROLL_VIEW_ENDPOINT
-import br.com.zup.beagle.sample.constants.SCREEN_STACK_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TAB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TOUCHABLE_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_WEB_VIEW_ENDPOINT
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.layout.ScrollAxis
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Button
 
@@ -71,22 +72,19 @@ object ComponentScreenBuilder : ScreenBuilder {
                 createMenu("LazyComponent", SCREEN_LAZY_COMPONENT_ENDPOINT),
                 createMenu("NavigationBar", SCREEN_NAVIGATION_BAR_ENDPOINT),
                 createMenu("NavigationType", NAVIGATION_TYPE_ENDPOINT),
-                createMenu("Stack View", SCREEN_STACK_ENDPOINT),
                 createMenu("Accessibility Screen", ACCESSIBILITY_SCREEN_ENDPOINT),
                 createMenu("Compose Component", SCREEN_COMPOSE_COMPONENT_ENDPOINT),
                 createMenu("Touchable", SCREEN_TOUCHABLE_ENDPOINT),
-                createMenu("Analytics", SCREEN_ANALYTICS_ENDPOINT)
+                createMenu("Analytics", SCREEN_ANALYTICS_ENDPOINT),
+                createMenu("Web View", SCREEN_WEB_VIEW_ENDPOINT)
             )
         )
     )
 
     private fun createMenu(text: String, path: String) = Button(
         text = text,
-        action = Navigate(
-            type = NavigationType.ADD_VIEW,
-            path = path
-        ),
-        style = BUTTON_STYLE_TITLE
+        action = Navigate.PushView(Route.Remote(path)),
+        styleId = BUTTON_STYLE_TITLE
     ).applyFlex(
         flex = Flex(
             margin = EdgeValue(

@@ -1,25 +1,26 @@
 ▿ BeagleDependencies
-  ▿ actionExecutor: ActionExecuting
-    ▿ dependencies: InnerDependenciesResolver
-      - container: (Function)
   - analytics: Optional<Analytics>.none
   - appBundle: NSBundle <(null)> (not yet loaded)
   - cacheManager: Optional<CacheManagerProtocol>.none
-  ▿ customActionHandler: Optional<CustomActionHandler>
-    - some: CustomActionHandlerDummy
   - decoder: ComponentDecodingDummy
   ▿ deepLinkHandler: Optional<DeepLinkScreenManaging>
     - some: DeepLinkHandlerDummy
   - flex: (Function)
+  ▿ formDataStoreHandler: FormDataStoreHandler
+    - dataStore: 0 key/value pairs
+  ▿ localFormHandler: Optional<LocalFormHandler>
+    ▿ some: LocalFormHandlerSpy
+      - actionsHandledCount: 0
   - logger: BeagleLoggerDumb
-  ▿ navigation: BeagleNavigator
-    ▿ dependencies: InnerDependenciesResolver
-      - container: (Function)
+  - navigation: BeagleNavigator
   - navigationControllerType: BeagleNavigationController
   - networkClient: NetworkClientDummy
+  ▿ opener: URLOpenerDumb
+    - hasInvokedTryToOpen: false
   ▿ preFetchHelper: BeaglePreFetchHelper
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
+  - renderer: (Function)
   ▿ repository: RepositoryDefault
     - cacheHashHeader: "beagle-hash"
     ▿ dependencies: InnerDependenciesResolver
@@ -35,3 +36,7 @@
     ▿ some: ValidatorProviding
       - handlers: 0 key/value pairs
   - viewConfigurator: (Function)
+  ▿ windowManager: WindowManagerDumb
+    ▿ window: Optional<WindowProtocol>
+      ▿ some: WindowMock
+        - hasInvokedReplaceRootViewController: false

@@ -17,8 +17,9 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.constants.PATH_LAZY_COMPONENT_ENDPOINT
-import br.com.zup.beagle.widget.core.Alignment
+import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.layout.NavigationBar
@@ -50,7 +51,7 @@ object LazyComponentScreenBuilder : ScreenBuilder {
             initialState = Text("Loading...").applyFlex(
                 flex = Flex(
                     justifyContent = JustifyContent.CENTER,
-                    alignSelf = Alignment.CENTER
+                    alignSelf = AlignSelf.CENTER
                 )
             )
         )

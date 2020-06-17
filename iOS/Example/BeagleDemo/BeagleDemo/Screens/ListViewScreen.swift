@@ -16,10 +16,11 @@
 
 import UIKit
 import BeagleUI
+import BeagleSchema
 
 struct ListViewScreen: DeeplinkScreen {
     
-    init(path: String, data: [String : String]?) {
+    init(path: String, data: [String: String]?) {
     }
     
     func screenController() -> UIViewController {
@@ -35,7 +36,7 @@ struct ListViewScreen: DeeplinkScreen {
     
     var listView = ListView(
         rows: [
-            Touchable(action: Navigate.addView(.init(path: .NAVIGATE_ENDPOINT)), child: Text("0000")),
+            Touchable(action: Navigate.pushView(.remote(.NAVIGATE_ENDPOINT)), child: Text("0000")),
             Text("0001", widgetProperties: .init(flex: Flex().size(Size().width(100).height(100)))),
             Text("0002"),
             Text("0003"),
@@ -62,7 +63,8 @@ struct ListViewScreen: DeeplinkScreen {
             Text("0018"),
             Text("0019"),
             Text("0020"),
-            Container(children: [Text("Text1"), Text("Text2")], widgetProperties: .init(flex: Flex()))],
-        direction: .horizontal)
+            Container(children: [Text("Text1"), Text("Text2")])
+        ],
+        direction: .horizontal
+    )
 }
-

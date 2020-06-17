@@ -17,9 +17,11 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.NavigationType
+import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.core.Accessibility
+import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.setId
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_TITLE
 import br.com.zup.beagle.sample.constants.NAVIGATION_BAR_STYLE_DEFAULT
@@ -43,7 +45,7 @@ object NavigationBarViewScreenBuilder : ScreenBuilder {
                 accessibilityLabel = "Voltar"
             ),
             title = "Beagle NavigationBar",
-            style = NAVIGATION_BAR_STYLE_DEFAULT,
+            styleId = NAVIGATION_BAR_STYLE_DEFAULT,
             showBackButton = true,
             navigationBarItems = listOf(
                 NavigationBarItem(
@@ -70,11 +72,8 @@ object NavigationBarViewScreenBuilder : ScreenBuilder {
 
     private fun createMenu(text: String, path: String) = Button(
         text = text,
-        action = Navigate(
-            type = NavigationType.ADD_VIEW,
-            path = path
-        ),
-        style = BUTTON_STYLE_TITLE
+        action = Navigate.PushView(Route.Remote(path)),
+        styleId = BUTTON_STYLE_TITLE
     ).applyFlex(
         flex = Flex(
             margin = EdgeValue(

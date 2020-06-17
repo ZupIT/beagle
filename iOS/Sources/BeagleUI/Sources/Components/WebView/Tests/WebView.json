@@ -1,7 +1,0 @@
-{
-    "_beagleType_": "beagle:component:webView",
-    "url": "https://maps.google.com/",
-    "flex": {
-        "grow": 1
-    }
-}

@@ -18,9 +18,11 @@ package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.core.Accessibility
+import br.com.zup.beagle.ext.applyAccessibility
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_ACCESSIBILITY
-import br.com.zup.beagle.widget.core.Alignment
+import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
@@ -88,7 +90,7 @@ object AccessibilityScreenBuilder : ScreenBuilder {
             )
         ).applyFlex(
             flex = Flex(
-                alignItems = Alignment.CENTER,
+                alignItems = AlignItems.CENTER,
                 margin = EdgeValue(
                     top = 8.unitReal(),
                     bottom = 8.unitReal()
@@ -103,13 +105,13 @@ object AccessibilityScreenBuilder : ScreenBuilder {
     ) =
         Button(
             text = textButton,
-            style = BUTTON_STYLE_ACCESSIBILITY
+            styleId = BUTTON_STYLE_ACCESSIBILITY
         ).applyFlex(
             flex = Flex(
                 size = Size(
                     height = 40.unitReal()
                 ),
-                alignItems = Alignment.CENTER,
+                alignItems = AlignItems.CENTER,
                 margin = EdgeValue(
                     top = 8.unitReal(),
                     bottom = 8.unitReal()

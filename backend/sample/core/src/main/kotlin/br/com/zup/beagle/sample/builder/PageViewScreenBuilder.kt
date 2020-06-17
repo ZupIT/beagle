@@ -17,10 +17,12 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.constants.BLACK
 import br.com.zup.beagle.sample.constants.LIGHT_GREY
-import br.com.zup.beagle.widget.core.Alignment
+import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.TextAlignment
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.PageView
@@ -28,7 +30,6 @@ import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.pager.PageIndicator
 import br.com.zup.beagle.widget.ui.Text
-import br.com.zup.beagle.widget.ui.TextAlignment
 
 object PageViewScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
@@ -56,7 +57,7 @@ object PageViewScreenBuilder : ScreenBuilder {
             pages = (1..3).map {
                 Text("Page $it", alignment = TextAlignment.CENTER).applyFlex(
                     Flex(
-                        alignSelf = Alignment.CENTER,
+                        alignSelf = AlignSelf.CENTER,
                         grow = 1.0
                     )
                 )

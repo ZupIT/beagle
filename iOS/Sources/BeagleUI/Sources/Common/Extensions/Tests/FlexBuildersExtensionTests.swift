@@ -17,6 +17,7 @@
 import XCTest
 import SnapshotTesting
 @testable import BeagleUI
+import BeagleSchema
 
 class FlexBuildersExtensionTests: XCTestCase {
     
@@ -37,11 +38,9 @@ class FlexBuildersExtensionTests: XCTestCase {
         let sut = EdgeValue()
             .all(10)
             .bottom(11)
-            .end(12)
             .horizontal(13)
             .left(14)
             .right(15)
-            .start(16)
             .top(17)
             .vertical(18)
         
@@ -54,7 +53,6 @@ class FlexBuildersExtensionTests: XCTestCase {
             .alignItems(.center)
             .alignSelf(.center)
             .basis(10)
-            .direction(.ltr)
             .flexDirection(.column)
             .flexWrap(.noWrap)
             .justifyContent(.spaceBetween)

@@ -16,8 +16,9 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.constants.TEXT_FONT_MAX
-import br.com.zup.beagle.widget.core.Alignment
+import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
@@ -34,17 +35,17 @@ class NavigationBarScreenBuilder(
     override fun build() = Screen(
         navigationBar = NavigationBar(
             title = this.titleNavigation,
-            style = this.styleNavigation,
+            styleId = this.styleNavigation,
             showBackButton = true,
             navigationBarItems = this.navigationBarItems
         ),
         child = this.createBeagleText(this.text)
     )
 
-    private fun createBeagleText(text: String) = Text(text = text, style = TEXT_FONT_MAX)
+    private fun createBeagleText(text: String) = Text(text = text, styleId = TEXT_FONT_MAX)
         .applyFlex(
             flex = Flex(
-                alignItems = Alignment.CENTER
+                alignItems = AlignItems.CENTER
             )
         )
 }

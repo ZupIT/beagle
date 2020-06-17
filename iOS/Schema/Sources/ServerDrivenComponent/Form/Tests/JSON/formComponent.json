@@ -1,0 +1,68 @@
+{
+  "_beagleComponent_" : "beagle:form",
+  "action": {
+    "_beagleAction_" : "beagle:formremoteaction",
+    "path" : "/sample/form",
+    "method" : "POST"
+  },
+  "additionalData" : {
+      "age" : "21",
+      "id" : "11111"
+  },
+  "group" : "group",
+  "shouldStoreFields" : true,
+  "child" : {
+    "_beagleComponent_" : "beagle:container",
+    "children" : [ {
+      "_beagleComponent_" : "beagle:forminput",
+      "name" : "optional-field",
+      "child" : {
+        "_beagleComponent_" : "beagle:text",
+        "text" : "text"
+      }
+    }, {
+      "_beagleComponent_" : "beagle:forminput",
+      "name" : "another-required-field",
+      "required" : true,
+      "validator" : "text-is-not-blank",
+      "child" : {
+        "_beagleComponent_" : "custom:unknown",
+        "unknown" : "unknown"
+      }
+    }, {
+      "_beagleComponent_" : "beagle:container",
+      "children" : [ ],
+      "flex" : {
+        "grow" : 1.0
+      }
+    }, {
+      "_beagleComponent_" : "beagle:formsubmit",
+      "child" : {
+        "_beagleComponent_" : "beagle:button",
+        "text" : "Submit Form",
+        "styleId" : "DesignSystem.Form.Submit",
+        "flex" : {
+          "margin" : {
+            "all" : {
+              "value" : 10.0,
+              "type" : "REAL"
+            }
+          }
+        }
+      },
+      "enabled" : false
+    } ],
+    "flex" : {
+      "grow" : 1.0,
+      "padding" : {
+        "all" : {
+          "value" : 10.0,
+          "type" : "REAL"
+        }
+      }
+    },
+    "style" : {
+      "backgroundColor" : "#B8E297"
+    }
+  }
+}

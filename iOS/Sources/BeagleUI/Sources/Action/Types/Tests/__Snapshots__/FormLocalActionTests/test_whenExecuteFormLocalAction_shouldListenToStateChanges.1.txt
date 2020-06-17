@@ -1,0 +1,8 @@
+▿ 3 elements
+  ▿ ServerDrivenState
+    - loading: true
+  ▿ ServerDrivenState
+    ▿ error: Error
+      - action: Error Domain=tests Code=1 "FormLocalAction" UserInfo={NSLocalizedDescription=FormLocalAction}
+  ▿ ServerDrivenState
+    - loading: false

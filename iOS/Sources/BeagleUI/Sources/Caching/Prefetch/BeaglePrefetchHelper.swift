@@ -15,13 +15,14 @@
  */
 
 import Foundation
+import BeagleSchema
 
 public protocol DependencyPreFetching {
     var preFetchHelper: BeaglePrefetchHelping { get }
 }
 
 public protocol BeaglePrefetchHelping {
-    func prefetchComponent(newPath: Navigate.NewPath)
+    func prefetchComponent(newPath: Route.NewPath)
 }
 
 public class BeaglePreFetchHelper: BeaglePrefetchHelping {
@@ -33,8 +34,9 @@ public class BeaglePreFetchHelper: BeaglePrefetchHelping {
         self.dependencies = dependencies
     }
     
-    public func prefetchComponent(newPath: Navigate.NewPath) {
+    public func prefetchComponent(newPath: Route.NewPath) {
         guard newPath.shouldPrefetch else { return }
-        dependencies.repository.fetchComponent(url: newPath.path, additionalData: nil, completion: { _ in })
+        dependencies.repository.fetchComponent(url: newPath.route, additionalData: nil) { _ in
+        }
     }
 }

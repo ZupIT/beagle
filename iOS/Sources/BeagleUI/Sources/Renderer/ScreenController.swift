@@ -15,23 +15,21 @@
  */
 
 import UIKit
+import BeagleSchema
 
 final class ScreenController: UIViewController {
     
     private let screen: Screen
-    private unowned let context: BeagleContext
+    private unowned let beagleController: BeagleScreenViewController
     
-    let dependencies: BeagleScreenViewModel.Dependencies
     var layoutManager: LayoutManager?
     
     init(
         screen: Screen,
-        context: BeagleContext,
-        dependencies: BeagleScreenViewModel.Dependencies
+        beagleController: BeagleScreenViewController
     ) {
         self.screen = screen
-        self.context = context
-        self.dependencies = dependencies
+        self.beagleController = beagleController
         super.init(nibName: nil, bundle: nil)
         extendedLayoutIncludesOpaqueBars = true
         layoutManager = LayoutManager(viewController: self, safeArea: screen.safeArea)
@@ -45,7 +43,7 @@ final class ScreenController: UIViewController {
     // MARK: - Lifecycle
     
     public override func loadView() {
-        view = screen.toView(context: context, dependencies: dependencies)
+        view = screen.toView(renderer: beagleController.renderer)
     }
     
     public override func viewDidLayoutSubviews() {
@@ -56,14 +54,14 @@ final class ScreenController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let event = screen.screenAnalyticsEvent {
-            dependencies.analytics?.trackEventOnScreenAppeared(event)
+            beagleController.dependencies.analytics?.trackEventOnScreenAppeared(event)
         }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         if let event = screen.screenAnalyticsEvent {
-            dependencies.analytics?.trackEventOnScreenDisappeared(event)
+            beagleController.dependencies.analytics?.trackEventOnScreenDisappeared(event)
         }
     }
     

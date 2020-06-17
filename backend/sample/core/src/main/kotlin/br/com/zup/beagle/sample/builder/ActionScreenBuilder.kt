@@ -17,12 +17,13 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.NavigationType
+import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.constants.NAVIGATION_BAR_STYLE_DEFAULT
 import br.com.zup.beagle.sample.constants.PATH_SCREEN_DEEP_LINK_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
-import br.com.zup.beagle.widget.core.Alignment
+import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
@@ -38,7 +39,7 @@ object ActionScreenBuilder : ScreenBuilder {
         navigationBar = NavigationBar(
             title = "Beagle Action",
             showBackButton = true,
-            style = NAVIGATION_BAR_STYLE_DEFAULT,
+            styleId = NAVIGATION_BAR_STYLE_DEFAULT,
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
@@ -73,8 +74,8 @@ object ActionScreenBuilder : ScreenBuilder {
                     buttonText = "OK"
                 ),
                 child = Text("Click me!").applyFlex(
-                    flex = Flex(
-                        alignSelf = Alignment.CENTER
+                    Flex(
+                        alignSelf = AlignSelf.CENTER
                     )
                 )
             )
@@ -85,10 +86,7 @@ object ActionScreenBuilder : ScreenBuilder {
         children = listOf(
             Text("Navigate with path"),
             Button(
-                action = Navigate(
-                    path = SCREEN_ACTION_CLICK_ENDPOINT,
-                    type = NavigationType.ADD_VIEW
-                ),
+                action = Navigate.PushView(Route.Remote(route = SCREEN_ACTION_CLICK_ENDPOINT)),
                 text = "Click me!"
             )
         )
@@ -98,15 +96,13 @@ object ActionScreenBuilder : ScreenBuilder {
         children = listOf(
             Text("Navigate with screen"),
             Button(
-                action = Navigate(
-                    screen = Screen(
-                        navigationBar = NavigationBar(
-                            "Navigate with screen",
-                            showBackButton = true
-                        ),
-                        child = Text("Hello Screen from Navigate")
+                action = Navigate.PushView(Route.Local(Screen(
+                    navigationBar = NavigationBar(
+                        "Navigate with screen",
+                        showBackButton = true
                     ),
-                    type = NavigationType.ADD_VIEW
+                    child = Text("Hello Screen from Navigate")
+                ))
                 ),
                 text = "Click me!"
             )
@@ -117,16 +113,13 @@ object ActionScreenBuilder : ScreenBuilder {
         children = listOf(
             Text("Navigate with path and screen"),
             Button(
-                action = Navigate(
-                    path = "",
-                    screen = Screen(
-                        navigationBar = NavigationBar(
-                            "Navigate with path and screen",
-                            showBackButton = true
-                        ),
-                        child = Text("Hello Screen from Navigate")
+                action = Navigate.PushView(Route.Local(Screen(
+                    navigationBar = NavigationBar(
+                        "Navigate with path and screen",
+                        showBackButton = true
                     ),
-                    type = NavigationType.ADD_VIEW
+                    child = Text("Hello Screen from Navigate")
+                ))
                 ),
                 text = "Click me!"
             )
@@ -137,11 +130,7 @@ object ActionScreenBuilder : ScreenBuilder {
         children = listOf(
             Text("Navigate with prefetch"),
             Button(
-                action = Navigate(
-                    path = SCREEN_ACTION_CLICK_ENDPOINT,
-                    shouldPrefetch = true,
-                    type = NavigationType.ADD_VIEW
-                ),
+                action = Navigate.PushView(Route.Remote(shouldPrefetch = true, route = SCREEN_ACTION_CLICK_ENDPOINT)),
                 text = "Click me!"
             )
         )
@@ -151,10 +140,9 @@ object ActionScreenBuilder : ScreenBuilder {
         children = listOf(
             Text("Navigate with DeepLink"),
             Button(
-                action = Navigate(
-                    path = PATH_SCREEN_DEEP_LINK_ENDPOINT,
-                    data = mapOf("data" to "for", "native" to "view"),
-                    type = NavigationType.OPEN_DEEP_LINK
+                action = Navigate.OpenNativeRoute(
+                    route = PATH_SCREEN_DEEP_LINK_ENDPOINT,
+                    data = mapOf("data" to "for", "native" to "view")
                 ),
                 text = "Click me!"
             )

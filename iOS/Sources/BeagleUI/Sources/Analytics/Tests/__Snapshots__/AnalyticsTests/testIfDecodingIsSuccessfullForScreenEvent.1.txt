@@ -1,23 +1,20 @@
 ▿ ScreenComponent
-  - appearance: Optional<Appearance>.none
   ▿ child: Container
     ▿ children: 1 element
       ▿ Text
         ▿ alignment: Optional<Alignment>
           - some: Alignment.center
-        - style: Optional<String>.none
+        - styleId: Optional<String>.none
         - text: "BeaglePreview"
         - textColor: Optional<String>.none
         ▿ widgetProperties: WidgetProperties
           - accessibility: Optional<Accessibility>.none
-          - appearance: Optional<Appearance>.none
           ▿ flex: Optional<Flex>
             ▿ some: Flex
-              - alignContent: Optional<Alignment>.none
-              - alignItems: Optional<Alignment>.none
-              - alignSelf: Optional<Alignment>.none
+              - alignContent: Optional<AlignContent>.none
+              - alignItems: Optional<AlignItems>.none
+              - alignSelf: Optional<AlignSelf>.none
               - basis: Optional<UnitValue>.none
-              - direction: Optional<Direction>.none
               - display: Optional<Display>.none
               - flex: Optional<Double>.none
               - flexDirection: Optional<FlexDirection>.none
@@ -45,14 +42,16 @@
                       - type: UnitType.percent
                       - value: 100.0
           - id: Optional<String>.none
+          - style: Optional<Style>.none
     ▿ widgetProperties: WidgetProperties
       - accessibility: Optional<Accessibility>.none
-      - appearance: Optional<Appearance>.none
       - flex: Optional<Flex>.none
       - id: Optional<String>.none
+      - style: Optional<Style>.none
   - identifier: Optional<String>.none
   - navigationBar: Optional<NavigationBar>.none
   - safeArea: Optional<SafeArea>.none
   ▿ screenAnalyticsEvent: Optional<AnalyticsScreen>
     ▿ some: AnalyticsScreen
       - screenName: "name from BFF"
+  - style: Optional<Style>.none

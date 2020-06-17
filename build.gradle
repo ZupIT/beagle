@@ -18,6 +18,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        mavenLocal()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:${Versions.gradle}"
@@ -30,7 +31,7 @@ buildscript {
 }
 
 plugins {
-    id "io.gitlab.arturbosch.detekt" version "1.0.1"
+    id "io.gitlab.arturbosch.detekt" version "1.9.1"
     id "com.github.ben-manes.versions" version "0.28.0"
 }
 

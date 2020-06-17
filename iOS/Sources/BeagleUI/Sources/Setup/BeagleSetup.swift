@@ -15,10 +15,13 @@
  */
 
 import Foundation
+import BeagleSchema
 
 public class Beagle {
 
-    public static var dependencies: BeagleDependenciesProtocol = BeagleDependencies()
+    public static var dependencies: BeagleDependenciesProtocol = BeagleDependencies() {
+        didSet { BeagleSchema.dependencies = dependencies }
+    }
 
     private init() {}
 
@@ -30,6 +33,14 @@ public class Beagle {
         componentType: C.Type
     ) {
         dependencies.decoder.register(componentType, for: name)
+    }
+    
+    /// Register a custom action
+    public static func registerCustomAction<A: Action>(
+        _ name: String,
+        actionType: A.Type
+    ) {
+        dependencies.decoder.register(actionType, for: name)
     }
 
     public static func screen(_ type: ScreenType) -> BeagleScreenViewController {
