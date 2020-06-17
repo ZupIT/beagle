@@ -25,6 +25,7 @@ import br.com.zup.beagle.action.FormMethodType
 import br.com.zup.beagle.action.FormRemoteAction
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.components.TextInput
 import br.com.zup.beagle.android.components.form.Form
 import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.components.form.FormSubmit
@@ -34,13 +35,14 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.widgets.MutableText
 import br.com.zup.beagle.sample.widgets.TextField
+import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.UnitType
-import br.com.zup.beagle.widget.core.UnitValue
-import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.TextAlignment
+import br.com.zup.beagle.widget.core.TextInputType
+import br.com.zup.beagle.widget.core.UnitType
+import br.com.zup.beagle.widget.core.UnitValue
 
 class DisabledFormSubmitFragment : Fragment() {
 
@@ -69,7 +71,8 @@ class DisabledFormSubmitFragment : Fragment() {
                     makeCharadeText(charade),
                     makeCharadeAnswer(),
                     makeCharadeAnswerInput(charade),
-                    makeCharadeFormSubmit()
+                    makeCharadeFormSubmit(),
+                    makeTextInputTest()
                 )
             ),
             action = FormRemoteAction(
@@ -78,6 +81,16 @@ class DisabledFormSubmitFragment : Fragment() {
             )
         )
     }
+
+    private fun makeTextInputTest(): TextInput =
+        TextInput(
+            placeholder = "Hint Test",
+            disabled = false,
+            readOnly = true,
+            type = TextInputType.TEXT,
+            hidden = false,
+            styleId = "TextInput"
+        )
 
     private fun makeCharadeFormSubmit(): ServerDrivenComponent {
         return FormSubmit(

@@ -14,22 +14,21 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.setup
+package br.com.zup.beagle.widget.ui
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StyleRes
+import br.com.zup.beagle.action.Action
+import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.core.TextInputType
 
-open class DesignSystem {
-    @DrawableRes
-    open fun image(id: String): Int? = null
-    @StyleRes
-    open fun textStyle(id: String): Int? = null
-    @StyleRes
-    open fun inputTextStyle(id: String): Int? = null
-    @StyleRes
-    open fun buttonStyle(id: String): Int? = null
-    @StyleRes
-    open fun toolbarStyle(id: String): Int? = null
-    @StyleRes
-    open fun tabViewStyle(id: String): Int? = null
-}
+data class TextInput(
+    val value: String,
+    val placeholder: String,
+    val disabled: Boolean,
+    val readOnly: Boolean, // on android and iOS this attribute have the same effect as disabled
+    val type: TextInputType,
+    val hidden: Boolean,
+    val styleId: String,
+    val onChange: List<Action>? = null,
+    val onBlur: List<Action>? = null,
+    val onFocus: List<Action>? = null
+) : Widget()
