@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.widget.action.ShowNativeDialog
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.core.ListDirection
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
@@ -39,11 +39,11 @@ object ListViewScreenBuilder : ScreenBuilder {
                 NavigationBarItem(
                     text = "",
                     image = "informationImage",
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "ListView",
                         message = "Is a Layout component that will define a list of views natively. " +
                             "These views could be any Server Driven Component.",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 )
             )

@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.widget.action.ShowNativeDialog
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.ext.unitReal
@@ -41,11 +41,11 @@ object ScrollViewScreenBuilder : ScreenBuilder {
                 NavigationBarItem(
                     text = "",
                     image = "informationImage",
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "ScrollView",
                         message = "This component is a specialized container that will display its " +
                             "components in a Scroll like view.",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 )
             )
