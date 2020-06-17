@@ -19,8 +19,8 @@ package br.com.zup.beagle.sample.spring.controller
 import br.com.zup.beagle.sample.constants.CUSTOM_PLATFORM_SAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.PLATFORM_SAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.spring.service.PlatformService
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.GetMapping
 
 @RestController
 class PlatformController(private val platformService: PlatformService) {
