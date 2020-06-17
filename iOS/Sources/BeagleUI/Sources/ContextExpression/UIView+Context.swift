@@ -40,7 +40,7 @@ extension UIView {
         }
     }
     
-    // TODO: remove this!
+    // TODO: fix weak reference
     private var observers: [ContextObserver]? {
         get {
             return (objc_getAssociatedObject(self, &UIView.observers) as? ObjectWrapper)?.object
@@ -80,7 +80,7 @@ extension UIView {
     
     func getContext(with id: String?) -> Observable<Context>? {
         guard let contextMap = self.contextMap else {
-            // TODO: Create cache mechanism
+            // TODO: create cache mechanism
             return superview?.getContext(with: id)
         }
         guard let context = contextMap[id] else {
@@ -90,8 +90,8 @@ extension UIView {
     }
     
     func setContext(_ context: Context) {
-        if var contextMap = contextMap {
-            contextMap[context.id] = Observable(value: context)
+        if let contextMap = contextMap {
+            contextMap[context.id]?.value = context
         } else {
             contextMap = [context.id: Observable(value: context)]
         }

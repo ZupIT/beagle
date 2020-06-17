@@ -72,7 +72,7 @@ struct MainScreen: DeeplinkScreen {
                 ),
                 Button(
                     text: "Send Request",
-                    action: Navigate.pushView(.declarative(sendRequestScreen))
+                    action: Navigate.pushView(.declarative(sendRequestDeclarativeScreen))
                 ),
                 Button(
                     text: "Sample BFF",

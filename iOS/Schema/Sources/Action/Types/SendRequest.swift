@@ -81,4 +81,3 @@ extension SendRequest: Decodable {
         self.onFinish = try container.decode(forKey: .onFinish)
     }
 }
-

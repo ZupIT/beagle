@@ -13,7 +13,7 @@
       ▿ dependencies: InnerDependenciesResolver
         - container: (Function)
   ▿ decoder: ComponentDecoder
-    ▿ actionDecoders: 14 key/value pairs
+    ▿ actionDecoders: 15 key/value pairs
       ▿ (2 elements)
         - key: "beagle:formlocalaction"
         - value: FormLocalAction
@@ -50,6 +50,9 @@
       ▿ (2 elements)
         - key: "beagle:resetstack"
         - value: Navigate
+      ▿ (2 elements)
+        - key: "beagle:sendrequest"
+        - value: SendRequest
       ▿ (2 elements)
         - key: "beagle:setcontext"
         - value: SetContext

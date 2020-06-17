@@ -21,13 +21,13 @@ import UIKit
 extension SendRequest: Action {
     public func execute(controller: BeagleController, sender: Any) {
         
-        guard let url = URL(string: url) else {
+        guard let url = URL(string: url), let view = sender as? UIView else {
             return
         }
         let requestData = Request.RequestData(
             method: method?.rawValue,
             headers: headers,
-            body: data?.asAny()
+            body: data?.get(with: view).asAny()
         )
         let request = Request(url: url, type: .rawRequest(requestData), additionalData: nil)
         Beagle.dependencies.networkClient.executeRequest(request, completion: { result in

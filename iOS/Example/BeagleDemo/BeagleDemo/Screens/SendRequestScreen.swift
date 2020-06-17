@@ -20,38 +20,18 @@ import BeagleUI
 import BeagleSchema
 import UIKit
 
-let sendRequestScreen: Screen = {
-    return Screen(
-        navigationBar: NavigationBar(title: "Send Request", showBackButton: true),
-        child: Container(children: [
-            Button(
-                text: "Declarative",
-                action: Navigate.pushView(.declarative(sendRequestDeclarativeScreen))
-            ),
-            Button(
-                text: "Text (JSON)",
-                action: Navigate.openNativeRoute("sendRequestText")
-            )
-        ])
-    )
-}()
-
 let sendRequestDeclarativeScreen: Screen = {
     return Screen(
         navigationBar: NavigationBar(title: "Send Request", showBackButton: true),
         child: Container(
             children:
             [
-                Text("${myContext.a.b}"),
                 Button(
-                    text: "ok",
+                    text: "do request",
                     action: SendRequest(
                         url: "https://httpbin.org/post",
                         method: .post,
-                        data: [
-                            "id": 10,
-                            "sample": "data"
-                        ],
+                        data: ["@{myContext}"],
                         headers: [
                             "Content-Type": "application/json",
                             "sample-header-1": "HeaderContent1",
@@ -60,7 +40,7 @@ let sendRequestDeclarativeScreen: Screen = {
                         onSuccess: [
                             ShowNativeDialog(
                                 title: "Success!",
-                                message: "${onSuccess.data.json.data}",
+                                message: "@{onSuccess.data.json}",
                                 buttonText: "ok"
                             )
                         ],
@@ -77,7 +57,7 @@ let sendRequestDeclarativeScreen: Screen = {
                     )
                 )
             ],
-            context: Context(id: "myContext", value: [:])
+            context: Context(id: "myContext", value: "initial value")
         )
     )
 }()

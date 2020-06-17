@@ -21,19 +21,19 @@ import SnapshotTesting
 final class SingleExpressionTests: XCTestCase {
     
     let validExpressions = [
-        "${client.name}",
-        "${client.name.first}",
-        "${client.phones[0]}",
-        "${client.matrix[1][1]}",
-        "${client.matrix[3][3]}"
+        "@{client.name}",
+        "@{client.name.first}",
+        "@{client.phones[0]}",
+        "@{client.matrix[1][1]}",
+        "@{client.matrix[3][3]}"
     ]
     
     let invalidExpressions = [
-        "${}",
-        "${client.}",
-        "${...}",
-        "${client[}",
-        "${client[a]}"
+        "@{}",
+        "@{client.}",
+        "@{...}",
+        "@{client[}",
+        "@{client[a]}"
     ]
     
     func test_rawRepresentable() {
