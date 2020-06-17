@@ -123,7 +123,7 @@ lane :run_danger do |options|
    danger(
      danger_id: danger_id,
      dangerfile: "danger/#{danger_file_path}/Dangerfile",
-     github_api_token: ENV["GITHUB_TOKEN"],
+     github_api_token: ENV["DANGER_GITHUB_API_TOKEN"],
      verbose: true
     )
 end
