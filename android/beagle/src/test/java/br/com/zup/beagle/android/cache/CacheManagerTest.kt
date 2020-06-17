@@ -83,8 +83,8 @@ class CacheManagerTest {
 
         cacheManager = CacheManager(
             storeHandler,
-            timerCacheStore,
-            beagleEnvironment
+            beagleEnvironment,
+            timerCacheStore
         )
 
         every { timerCache.json } returns BEAGLE_JSON_VALUE
@@ -107,6 +107,22 @@ class CacheManagerTest {
     @After
     fun tearDown() {
         unmockkAll()
+    }
+
+    @Test
+    fun cache_should_not_initialize_cache_store_when_cache_is_disabled_and_memoryMaximumCapacity_is_zero() {
+        // Given
+        every { beagleEnvironment.beagleSdk.config.cache.enabled } returns false
+        every { beagleEnvironment.beagleSdk.config.cache.memoryMaximumCapacity } returns 0
+
+        // When
+        CacheManager(
+            storeHandler,
+            beagleEnvironment
+        )
+
+        // Then
+        verify(exactly = 0) { LruCacheStore.instance }
     }
 
     @Test

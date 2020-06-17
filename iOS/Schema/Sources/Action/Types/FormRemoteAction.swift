@@ -16,7 +16,7 @@
 
 import Foundation
 
-public struct FormRemoteAction: Action, AutoInitiable {
+public struct FormRemoteAction: RawAction, AutoInitiable {
     public let path: String
     public let method: Method
 

@@ -39,8 +39,8 @@ private val TAB_BAR_HEIGHT = 48.dp()
 internal var styleManagerFactory = StyleManager()
 
 data class TabView(
-    private val children: List<TabItem>,
-    private val styleId: String? = null
+    val children: List<TabItem>,
+    val styleId: String? = null
 ) : WidgetView() {
 
     @Transient

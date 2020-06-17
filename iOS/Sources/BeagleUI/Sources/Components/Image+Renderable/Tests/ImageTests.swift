@@ -25,6 +25,8 @@ class ImageTests: XCTestCase {
         //Given
         let expectedContentMode = UIImageView.ContentMode.scaleToFill
         let component = Image(name: "teste", contentMode: .fitXY)
+        let controller = BeagleControllerStub()
+        let renderer = BeagleRenderer(controller: controller)
         
         //When
         guard let imageView = renderer.render(component) as? UIImageView else {
@@ -40,11 +42,8 @@ class ImageTests: XCTestCase {
         // Given
         let dependencies = BeagleDependencies()
         dependencies.appBundle = Bundle(for: ImageTests.self)
-        Beagle.dependencies = dependencies
-        addTeardownBlock {
-            Beagle.dependencies = BeagleDependencies()
-        }
-        let renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: dependencies)
+        let controller = BeagleControllerStub(dependencies: dependencies)
+        let renderer = BeagleRenderer(controller: controller)
 
         // When
         let image: Image = try componentFromJsonFile(fileName: "ImageComponent")

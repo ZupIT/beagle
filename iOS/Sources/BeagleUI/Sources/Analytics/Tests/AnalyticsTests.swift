@@ -52,14 +52,6 @@ class AnalyticsTests: XCTestCase {
         XCTAssert(screen.screenName == nameOfScreen, "attributes are not being created correctly")
     }
     
-    func testBuildOfAnalyticsGestureRecognizer() {
-        //given //when
-        let gestureRecognizer = AnalyticsGestureRecognizer(event: justClick, target: nil, selector: nil)
-        
-        //then
-        XCTAssert(gestureRecognizer.click == justClick, "click object should be the same")
-    }
-    
     func testTrackEventOnClick() {
         //given
         let analyticsExecutor = AnalyticsExecutorSpy()

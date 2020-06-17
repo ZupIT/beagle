@@ -28,8 +28,8 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 data class PageView(
-    private val children: List<ServerDrivenComponent>,
-    private val pageIndicator: PageIndicatorComponent? = null
+    val children: List<ServerDrivenComponent>,
+    val pageIndicator: PageIndicatorComponent? = null
 ) : WidgetView() {
 
     @Transient

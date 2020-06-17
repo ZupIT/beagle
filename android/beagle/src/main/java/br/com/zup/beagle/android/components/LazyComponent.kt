@@ -24,8 +24,8 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 data class LazyComponent(
-    private val path: String,
-    private val initialState: ServerDrivenComponent
+    val path: String,
+    val initialState: ServerDrivenComponent
 ) : WidgetView() {
 
     @Transient

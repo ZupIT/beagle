@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.components.form.core
 
+import android.net.Uri
 import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.action.FormMethodType
 import br.com.zup.beagle.action.FormRemoteAction
@@ -81,24 +82,14 @@ internal class FormSubmitter(
         }
     }
 
-    private fun createUrl(form: FormRemoteAction, formsValue: Map<String, String>): String {
-        return if (form.method == FormMethodType.GET || form.method == FormMethodType.DELETE) {
-            var query = if (formsValue.isNotEmpty()) {
-                "?"
-            } else {
-                ""
-            }
+    private fun createUrl(form: FormRemoteAction, formsValue: Map<String, String>)
+        = if (form.method == FormMethodType.GET || form.method == FormMethodType.DELETE)
+            formsValue.filterValues {
+                isFormsValueValid(it)
+            }.toList().fold(Uri.parse(form.path).buildUpon()) { path, param ->
+                path.appendQueryParameter(param.first, param.second)
+            }.build().toString()
+        else form.path
 
-            for ((index, value) in formsValue.iterator().withIndex()) {
-                query += "${value.key}=${value.value}"
-                if (index < formsValue.size - 1) {
-                    query += "&"
-                }
-            }
-
-            "${form.path}$query"
-        } else {
-            form.path
-        }
-    }
+    private fun isFormsValueValid(value: String?) = !value.isNullOrEmpty()
 }
