@@ -22,7 +22,7 @@ import UIKit
 
 public struct SingleTextContainer: ServerDrivenComponent, AutoInitiableAndDecodable {
 
-    public let child: TextComponents
+    public let singleTextContainerChild: TextComponents
     public let rawChild: RawComponent
     
     public func toView(renderer: BeagleRenderer) -> UIView {
@@ -31,10 +31,10 @@ public struct SingleTextContainer: ServerDrivenComponent, AutoInitiableAndDecoda
 
 // sourcery:inline:auto:SingleTextContainer.Init
     public init(
-        child: TextComponents,
+        singleTextContainerChild: TextComponents,
         rawChild: RawComponent
     ) {
-        self.child = child
+        self.singleTextContainerChild = singleTextContainerChild
         self.rawChild = rawChild
     }
 // sourcery:end

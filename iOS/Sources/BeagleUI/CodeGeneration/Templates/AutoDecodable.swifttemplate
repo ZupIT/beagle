@@ -15,8 +15,35 @@
 */
 <%
 
+extension Variable {
+	
+	static var beagleProtocolTypes = ["Action", "ServerDrivenComponent", "[ServerDrivenComponent]", rawComponent, "[\(rawComponent)]"]
+
+	func implementsCoreBeagleProtocolType() -> Bool {
+		if let elementType = typeName.array?.elementType?.name {
+    		return hasTypeIn([elementType]) 
+    	} else if let variableType = self.type {
+    		return hasTypeIn(type?.inheritedTypes)
+    	} else {
+    		return Variable.beagleProtocolTypes.contains(unwrappedTypeName)
+    	}
+
+	}
+
+	func hasTypeIn(_ array: [String]?) -> Bool {
+		guard let array = array else { return false }
+		for arrayElement in array {
+			for beagleProtocolType in Variable.beagleProtocolTypes {
+				if arrayElement == beagleProtocolType {
+					return true
+				}
+			}
+		}
+		return false
+	}
+}
+
 let rawComponent = "RawComponent"
-var beagleProtocolTypes = ["Action", "ServerDrivenComponent", "[ServerDrivenComponent]", rawComponent, "[\(rawComponent)]"]
 var identation: String { "    " }
 
 func capitalizedName(for variable: Variable) -> String {
@@ -44,12 +71,12 @@ func customEncodingMethod(for variable: Variable, of type: Type) -> SourceryMeth
 
 func needsCustomBeagleDecoding(_ variable: Variable) -> Bool {
 
-    let isCoreBeagleProtocolType = beagleProtocolTypes.contains(variable.unwrappedTypeName)
+    let isCoreBeagleProtocolType = Variable.beagleProtocolTypes.contains(variable.unwrappedTypeName)
 	guard let type = variable.type else { return isCoreBeagleProtocolType }
 	var implementsCoreBeagleProtocolType = false
    
 	for inheritedType in type.inheritedTypes {
-		for beagleProtocolType in beagleProtocolTypes {
+		for beagleProtocolType in Variable.beagleProtocolTypes {
 			if inheritedType == beagleProtocolType {
 				implementsCoreBeagleProtocolType = true
 				break
