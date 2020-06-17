@@ -46,7 +46,7 @@
 		C864D2D7247C240200E7A1F9 /* ShowNativeDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D285247C240200E7A1F9 /* ShowNativeDialog.swift */; };
 		C864D2D8247C240200E7A1F9 /* FormRemoteAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D287247C240200E7A1F9 /* FormRemoteAction.swift */; };
 		C864D2D9247C240200E7A1F9 /* FormValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D289247C240200E7A1F9 /* FormValidation.swift */; };
-		C864D2DA247C240200E7A1F9 /* CustomAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D28B247C240200E7A1F9 /* CustomAction.swift */; };
+		C864D2DA247C240200E7A1F9 /* FormLocalAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D28B247C240200E7A1F9 /* FormLocalAction.swift */; };
 		C864D2DB247C240200E7A1F9 /* RawAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D28C247C240200E7A1F9 /* RawAction.swift */; };
 		C864D2DC247C240200E7A1F9 /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D28E247C240200E7A1F9 /* Accessibility.swift */; };
 		C864D2DD247C240200E7A1F9 /* UnitValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D290247C240200E7A1F9 /* UnitValue.swift */; };
@@ -174,7 +174,7 @@
 		C864D285247C240200E7A1F9 /* ShowNativeDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowNativeDialog.swift; sourceTree = "<group>"; };
 		C864D287247C240200E7A1F9 /* FormRemoteAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormRemoteAction.swift; sourceTree = "<group>"; };
 		C864D289247C240200E7A1F9 /* FormValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormValidation.swift; sourceTree = "<group>"; };
-		C864D28B247C240200E7A1F9 /* CustomAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAction.swift; sourceTree = "<group>"; };
+		C864D28B247C240200E7A1F9 /* FormLocalAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormLocalAction.swift; sourceTree = "<group>"; };
 		C864D28C247C240200E7A1F9 /* RawAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawAction.swift; sourceTree = "<group>"; };
 		C864D28E247C240200E7A1F9 /* Accessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accessibility.swift; sourceTree = "<group>"; };
 		C864D290247C240200E7A1F9 /* UnitValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitValue.swift; sourceTree = "<group>"; };
@@ -782,7 +782,7 @@
 		C8BB30B924870422002DD3C1 /* Types */ = {
 			isa = PBXGroup;
 			children = (
-				C864D28B247C240200E7A1F9 /* CustomAction.swift */,
+				C864D28B247C240200E7A1F9 /* FormLocalAction.swift */,
 				C864D287247C240200E7A1F9 /* FormRemoteAction.swift */,
 				C864D289247C240200E7A1F9 /* FormValidation.swift */,
 				C864D281247C240200E7A1F9 /* Navigate */,
@@ -1148,7 +1148,7 @@
 			files = (
 				C864D2A7247C240200E7A1F9 /* FormInputComponent.swift in Sources */,
 				C864D2E0247C240200E7A1F9 /* Flex.swift in Sources */,
-				C864D2DA247C240200E7A1F9 /* CustomAction.swift in Sources */,
+				C864D2DA247C240200E7A1F9 /* FormLocalAction.swift in Sources */,
 				C864D2CA247C240200E7A1F9 /* Image.swift in Sources */,
 				C864D2BB247C240200E7A1F9 /* AutoDecodable.generated.swift in Sources */,
 				C89E0C4A2492AFEB00005FCF /* Style.swift in Sources */,

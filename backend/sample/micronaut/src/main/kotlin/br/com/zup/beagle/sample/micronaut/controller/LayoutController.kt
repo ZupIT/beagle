@@ -20,11 +20,14 @@ import br.com.zup.beagle.sample.constants.PAGE_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCROLL_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.micronaut.service.PageViewService
 import br.com.zup.beagle.sample.micronaut.service.ScrollViewService
-import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Controller
 
 @Controller
-class LayoutController(private val pageViewService: PageViewService, private val scrollViewService: ScrollViewService) {
+class LayoutController(
+    private val pageViewService: PageViewService,
+    private val scrollViewService: ScrollViewService
+) {
     @Get(PAGE_VIEW_ENDPOINT)
     fun getPageView() = this.pageViewService.createPageView()
 

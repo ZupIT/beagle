@@ -30,6 +30,7 @@ import br.com.zup.beagle.sample.constants.REPRESENTATION_PRESENT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SAMPLE_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_ANALYTICS_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_BUILDER_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_BUTTON_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_COMPONENTS_ENDPOINT
@@ -50,6 +51,7 @@ import br.com.zup.beagle.sample.constants.SCREEN_WEB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.micronaut.service.AccessibilityService
 import br.com.zup.beagle.sample.micronaut.service.SampleActionClickService
 import br.com.zup.beagle.sample.micronaut.service.SampleActionService
+import br.com.zup.beagle.sample.micronaut.service.SampleAnalyticsService
 import br.com.zup.beagle.sample.micronaut.service.SampleButtonService
 import br.com.zup.beagle.sample.micronaut.service.SampleComponentsService
 import br.com.zup.beagle.sample.micronaut.service.SampleComposeComponentService
@@ -67,9 +69,9 @@ import br.com.zup.beagle.sample.micronaut.service.SampleTabViewService
 import br.com.zup.beagle.sample.micronaut.service.SampleTextService
 import br.com.zup.beagle.sample.micronaut.service.SampleTouchableService
 import br.com.zup.beagle.sample.micronaut.service.SampleViewService
-import br.com.zup.beagle.sample.micronaut.service.WebViewService
-import io.micronaut.http.annotation.Controller
+import br.com.zup.beagle.sample.micronaut.service.SampleWebViewService
 import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Controller
 
 @Controller
 class ScreenController(
@@ -93,7 +95,8 @@ class ScreenController(
     private val sampleNetworkImageService: SampleNetworkImageService,
     private val sampleTouchableService: SampleTouchableService,
     private val sampleActionClickService: SampleActionClickService,
-    private val sampleWebViewService: WebViewService
+    private val sampleAnalyticsService: SampleAnalyticsService,
+    private val sampleWebViewService: SampleWebViewService
 ) {
     @Get(ACCESSIBILITY_SCREEN_ENDPOINT)
     fun getAccessibilityView() = this.accessibilityService.createAccessibilityView()
@@ -135,7 +138,7 @@ class ScreenController(
     fun getSampleFormView() = this.sampleFormService.createFormView()
 
     @Get(SCREEN_LAZY_COMPONENT_ENDPOINT)
-    fun getSampleLazyComponentConroller() = this.sampleLazyComponentService.createLazyComponent()
+    fun getSampleLazyComponentController() = this.sampleLazyComponentService.createLazyComponent()
 
     @Get(SCREEN_NAVIGATION_BAR_ENDPOINT)
     fun getSampleNavigationBarController() =
@@ -154,7 +157,8 @@ class ScreenController(
     fun getNavigationBarImage() = this.sampleNavigationBarService.navigationBarWithImageAsItem()
 
     @Get(NAVIGATION_TYPE_ENDPOINT)
-    fun getSampleNavigationTypeController() = this.sampleNavigationTypeService.createNavigationTypeView()
+    fun getSampleNavigationTypeController() =
+        this.sampleNavigationTypeService.createNavigationTypeView()
 
     @Get(REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT)
     fun getNavigationStep2() = this.sampleNavigationTypeService.step2()
@@ -180,6 +184,10 @@ class ScreenController(
     @Get(SCREEN_EXAMPLE_ENDPOINT)
     fun getNavigationExample() = this.sampleActionService.getNavigateExample()
 
+    @Get(SCREEN_ANALYTICS_ENDPOINT)
+    fun getAnalyticsExample() = this.sampleAnalyticsService.getAnalyticsExample()
+
     @Get(SCREEN_WEB_VIEW_ENDPOINT)
     fun getsampleWebViewService() = this.sampleWebViewService.createWebView()
+
 }

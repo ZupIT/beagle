@@ -3,6 +3,6 @@
     - loading: true
   ▿ ServerDrivenState
     ▿ error: Error
-      - action: Error Domain=tests Code=1 "CusomAction" UserInfo={NSLocalizedDescription=CusomAction}
+      - action: Error Domain=tests Code=1 "FormLocalAction" UserInfo={NSLocalizedDescription=FormLocalAction}
   ▿ ServerDrivenState
     - loading: false

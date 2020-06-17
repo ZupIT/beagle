@@ -14,17 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.micronaut.controller
+package br.com.zup.beagle.sample.micronaut.service
 
-import br.com.zup.beagle.sample.constants.PATH_LAZY_COMPONENT_ENDPOINT
-import br.com.zup.beagle.sample.micronaut.service.SampleLazyComponentService
-import io.micronaut.http.annotation.Get
-import io.micronaut.http.annotation.Controller
+import br.com.zup.beagle.sample.builder.AnalyticsScreenBuilder
+import javax.inject.Singleton
 
-@Controller
-class WidgetController (
-    private val sampleLazyComponentService: SampleLazyComponentService
-){
-    @Get(PATH_LAZY_COMPONENT_ENDPOINT)
-    fun getLazyComponent() = sampleLazyComponentService.createTextLazyComponent()
+@Singleton
+class SampleAnalyticsService {
+    fun getAnalyticsExample() = AnalyticsScreenBuilder
 }
