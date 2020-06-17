@@ -18,6 +18,8 @@
 		93EAFA4C24083C7B00B73522 /* ListViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EAFA4B24083C7B00B73522 /* ListViewScreen.swift */; };
 		98A7F36C23A926C600E88C70 /* TabViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A7F36B23A926C600E88C70 /* TabViewScreen.swift */; };
 		98E08D2324228DD200FBD21B /* WebViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E08D2224228DD200FBD21B /* WebViewScreen.swift */; };
+		A024CF1924994201009BB92D /* BeagleSchema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A024CF1824994201009BB92D /* BeagleSchema.framework */; };
+		A024CF1A24994201009BB92D /* BeagleSchema.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A024CF1824994201009BB92D /* BeagleSchema.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A038C8FD2407073D001164B1 /* FormScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A038C8FC2407073D001164B1 /* FormScreen.swift */; };
 		A0642DC82395A1840028AFF3 /* DeeplinkScreenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0642DC72395A1840028AFF3 /* DeeplinkScreenManager.swift */; };
 		A0642DCB23968A020028AFF3 /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0642DCA23968A020028AFF3 /* MainScreen.swift */; };
@@ -46,6 +48,7 @@
 			files = (
 				C0B1AAB423F326A100F94ECA /* BeagleUI.framework in Embed Frameworks */,
 				C0B1AAB723F326BB00F94ECA /* YogaKit.framework in Embed Frameworks */,
+				A024CF1A24994201009BB92D /* BeagleSchema.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -67,6 +70,7 @@
 		93EAFA4B24083C7B00B73522 /* ListViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewScreen.swift; sourceTree = "<group>"; };
 		98A7F36B23A926C600E88C70 /* TabViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewScreen.swift; sourceTree = "<group>"; };
 		98E08D2224228DD200FBD21B /* WebViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewScreen.swift; sourceTree = "<group>"; };
+		A024CF1824994201009BB92D /* BeagleSchema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeagleSchema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A038C8FC2407073D001164B1 /* FormScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormScreen.swift; sourceTree = "<group>"; };
 		A0642DC72395A1840028AFF3 /* DeeplinkScreenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeeplinkScreenManager.swift; sourceTree = "<group>"; };
 		A0642DCA23968A020028AFF3 /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
@@ -90,6 +94,7 @@
 			files = (
 				C0B1AAB323F326A100F94ECA /* BeagleUI.framework in Frameworks */,
 				C0B1AAB623F326BB00F94ECA /* YogaKit.framework in Frameworks */,
+				A024CF1924994201009BB92D /* BeagleSchema.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,6 +148,7 @@
 		93365E3F23624AD40017CB89 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A024CF1824994201009BB92D /* BeagleSchema.framework */,
 				C0B1AAB523F326BB00F94ECA /* YogaKit.framework */,
 				9313EB9223A2B388003BC24C /* BeagleUI.framework */,
 			);
