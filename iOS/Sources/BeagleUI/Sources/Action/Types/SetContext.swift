@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,21 +15,21 @@
  * limitations under the License.
  */
 
-import Foundation
+import BeagleSchema
+import UIKit
 
-/// A custom action to be implemented by the application
-public struct CustomAction: Action, AutoInitiable {
-    
-    public let name: String
-    public let data: [String: String]
+extension SetContext: Action {
+    public func execute(controller: BeagleController, sender: Any) {
+        guard let view = sender as? UIView else { return }
+        
+        let newValue = value.get(with: view)
+        let context = view.findContext(by: self.context)
 
-// sourcery:inline:auto:CustomAction.Init
-    public init(
-        name: String,
-        data: [String: String]
-    ) {
-        self.name = name
-        self.data = data
+        // TODO: arrumar caso set for path
+        if let dynamicObject = context?.value.value {
+            context?.value = Context(id: context?.value.id ?? "", value: dynamicObject.merge(newValue))
+        } else {
+            context?.value = Context(id: context?.value.id ?? "", value: newValue)
+        }
     }
-// sourcery:end
 }

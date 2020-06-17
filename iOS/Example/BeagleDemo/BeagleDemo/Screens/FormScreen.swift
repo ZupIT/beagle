@@ -29,7 +29,7 @@ struct FormScreen: DeeplinkScreen {
     
     init() {}
     
-    init(path: String, data: [String : String]?) {}
+    init(path: String, data: [String: String]?) {}
     
     func screenController() -> UIViewController {
         let flexHorizontalMargin = Flex().margin(EdgeValue().all(10))
@@ -69,7 +69,7 @@ struct FormScreen: DeeplinkScreen {
                         enabled: false
                     )
                 ],
-                widgetProperties: .init(style: Style(backgroundColor: .LIGHT_GREEN_COLOR), flex: Flex().grow(1).padding(EdgeValue().all(10)))
+                widgetProperties: .init(flex: Flex().grow(1).padding(EdgeValue().all(10)))
             )
         )
         let screen = Screen(

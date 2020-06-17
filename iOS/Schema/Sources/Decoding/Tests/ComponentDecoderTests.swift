@@ -101,6 +101,26 @@ public final class ComponentDecoderTests: XCTestCase {
             XCTFail("decoding failed"); return
         }
     }
+    
+    func testRegisterAndDecodeCustomAction() throws {
+        let data = """
+        {
+            "_beagleAction_":"custom:testcustomaction",
+            "value": 42
+        }
+        """.data(using: .utf8)!
+
+        sut.register(TestAction.self, for: "TestCustomAction")
+        let action = try sut.decodeAction(from: data)
+        let testAction = action as? TestAction
+
+        XCTAssertNotNil(testAction)
+        XCTAssertEqual(testAction?.value, 42)
+    }
+
+    private class TestAction: RawAction {
+        let value: Int
+    }
 }
 
 // MARK: - Testing Helpers

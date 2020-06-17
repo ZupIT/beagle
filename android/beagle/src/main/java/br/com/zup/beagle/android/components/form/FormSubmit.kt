@@ -23,7 +23,7 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 data class FormSubmit(
-    private val child: ServerDrivenComponent,
+    val child: ServerDrivenComponent,
     val enabled: Boolean = true
 ) : WidgetView() {
 

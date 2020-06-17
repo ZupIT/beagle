@@ -18,20 +18,20 @@ import XCTest
 @testable import BeagleUI
 import BeagleSchema
 
-final class CustomActionHandlerTests: XCTestCase {
+final class LocalFormHandlerTests: XCTestCase {
     
-    func test_whenHandleCustomAction_shouldCallHandler() {
+    func test_whenHandleFormLocalAction_shouldCallHandler() {
         // Given
         let actionName = "action-name"
-        let action = CustomAction(name: actionName, data: [:])
-        let sut = CustomActionHandling()
+        let action = FormLocalAction(name: actionName, data: [:])
+        let sut = LocalFormHandling()
         var didHandleActioin = false
         sut[actionName] = { _, _, _ in
             didHandleActioin = true
         }
         
         // When
-        sut.handle(context: BeagleContextDummy(), action: action) { _ in }
+        sut.handle(action: action, controller: BeagleControllerStub()) { _ in }
         
         // Then
         XCTAssertTrue(didHandleActioin)

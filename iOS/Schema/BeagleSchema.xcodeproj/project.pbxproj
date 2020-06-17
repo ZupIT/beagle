@@ -57,8 +57,8 @@
 		C864D2D7247C240200E7A1F9 /* ShowNativeDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D285247C240200E7A1F9 /* ShowNativeDialog.swift */; };
 		C864D2D8247C240200E7A1F9 /* FormRemoteAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D287247C240200E7A1F9 /* FormRemoteAction.swift */; };
 		C864D2D9247C240200E7A1F9 /* FormValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D289247C240200E7A1F9 /* FormValidation.swift */; };
-		C864D2DA247C240200E7A1F9 /* CustomAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D28B247C240200E7A1F9 /* CustomAction.swift */; };
-		C864D2DB247C240200E7A1F9 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D28C247C240200E7A1F9 /* Action.swift */; };
+		C864D2DA247C240200E7A1F9 /* FormLocalAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D28B247C240200E7A1F9 /* FormLocalAction.swift */; };
+		C864D2DB247C240200E7A1F9 /* RawAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D28C247C240200E7A1F9 /* RawAction.swift */; };
 		C864D2DC247C240200E7A1F9 /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D28E247C240200E7A1F9 /* Accessibility.swift */; };
 		C864D2DD247C240200E7A1F9 /* UnitValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D290247C240200E7A1F9 /* UnitValue.swift */; };
 		C864D2DE247C240200E7A1F9 /* EdgeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D291247C240200E7A1F9 /* EdgeValue.swift */; };
@@ -77,8 +77,6 @@
 		C864D2FD247C25D300E7A1F9 /* TouchableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D23D247C240200E7A1F9 /* TouchableTests.swift */; };
 		C864D2FE247C25D900E7A1F9 /* TouchableDecoderTest.json in Resources */ = {isa = PBXBuildFile; fileRef = C864D23F247C240200E7A1F9 /* TouchableDecoderTest.json */; };
 		C89E0C4A2492AFEB00005FCF /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89E0C492492AFEB00005FCF /* Style.swift */; };
-		C89E0C4C2492B31D00005FCF /* UIView+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89E0C4B2492B31D00005FCF /* UIView+Style.swift */; };
-		C89E0C502492B32700005FCF /* UIView+StyleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89E0C4E2492B32700005FCF /* UIView+StyleTests.swift */; };
 		C8BB30A42486FD18002DD3C1 /* NavigateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BB30A32486FD17002DD3C1 /* NavigateTests.swift */; };
 		C8BB30B02486FDC2002DD3C1 /* openexternalurl.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BB30A62486FDB1002DD3C1 /* openexternalurl.json */; };
 		C8BB30B12486FDC2002DD3C1 /* opennativeroute.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BB30A72486FDB1002DD3C1 /* opennativeroute.json */; };
@@ -201,8 +199,8 @@
 		C864D285247C240200E7A1F9 /* ShowNativeDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowNativeDialog.swift; sourceTree = "<group>"; };
 		C864D287247C240200E7A1F9 /* FormRemoteAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormRemoteAction.swift; sourceTree = "<group>"; };
 		C864D289247C240200E7A1F9 /* FormValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormValidation.swift; sourceTree = "<group>"; };
-		C864D28B247C240200E7A1F9 /* CustomAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAction.swift; sourceTree = "<group>"; };
-		C864D28C247C240200E7A1F9 /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
+		C864D28B247C240200E7A1F9 /* FormLocalAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormLocalAction.swift; sourceTree = "<group>"; };
+		C864D28C247C240200E7A1F9 /* RawAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawAction.swift; sourceTree = "<group>"; };
 		C864D28E247C240200E7A1F9 /* Accessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accessibility.swift; sourceTree = "<group>"; };
 		C864D290247C240200E7A1F9 /* UnitValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitValue.swift; sourceTree = "<group>"; };
 		C864D291247C240200E7A1F9 /* EdgeValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EdgeValue.swift; sourceTree = "<group>"; };
@@ -220,8 +218,6 @@
 		C864D2FA247C25B300E7A1F9 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C864D2FF247C25E900E7A1F9 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C89E0C492492AFEB00005FCF /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
-		C89E0C4B2492B31D00005FCF /* UIView+Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Style.swift"; sourceTree = "<group>"; };
-		C89E0C4E2492B32700005FCF /* UIView+StyleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+StyleTests.swift"; sourceTree = "<group>"; };
 		C8BB30A32486FD17002DD3C1 /* NavigateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigateTests.swift; sourceTree = "<group>"; };
 		C8BB30A52486FDA2002DD3C1 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C8BB30A62486FDB1002DD3C1 /* openexternalurl.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = openexternalurl.json; sourceTree = "<group>"; };
@@ -729,7 +725,7 @@
 		C864D27F247C240200E7A1F9 /* Action */ = {
 			isa = PBXGroup;
 			children = (
-				C864D28C247C240200E7A1F9 /* Action.swift */,
+				C864D28C247C240200E7A1F9 /* RawAction.swift */,
 				C8BB30B924870422002DD3C1 /* Types */,
 			);
 			path = Action;
@@ -822,18 +818,8 @@
 			isa = PBXGroup;
 			children = (
 				C89E0C492492AFEB00005FCF /* Style.swift */,
-				C89E0C4B2492B31D00005FCF /* UIView+Style.swift */,
-				C89E0C4D2492B32700005FCF /* Tests */,
 			);
 			path = Style;
-			sourceTree = "<group>";
-		};
-		C89E0C4D2492B32700005FCF /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				C89E0C4E2492B32700005FCF /* UIView+StyleTests.swift */,
-			);
-			path = Tests;
 			sourceTree = "<group>";
 		};
 		C8BB30A22486FCE9002DD3C1 /* Tests */ = {
@@ -866,7 +852,7 @@
 			isa = PBXGroup;
 			children = (
 				938B13B62497E33100AA8E3B /* SetContext.swift */,
-				C864D28B247C240200E7A1F9 /* CustomAction.swift */,
+				C864D28B247C240200E7A1F9 /* FormLocalAction.swift */,
 				C864D287247C240200E7A1F9 /* FormRemoteAction.swift */,
 				C864D289247C240200E7A1F9 /* FormValidation.swift */,
 				C864D281247C240200E7A1F9 /* Navigate */,
@@ -1253,7 +1239,7 @@
 			files = (
 				C864D2A7247C240200E7A1F9 /* FormInputComponent.swift in Sources */,
 				C864D2E0247C240200E7A1F9 /* Flex.swift in Sources */,
-				C864D2DA247C240200E7A1F9 /* CustomAction.swift in Sources */,
+				C864D2DA247C240200E7A1F9 /* FormLocalAction.swift in Sources */,
 				C864D2CA247C240200E7A1F9 /* Image.swift in Sources */,
 				C864D2BB247C240200E7A1F9 /* AutoDecodable.generated.swift in Sources */,
 				C89E0C4A2492AFEB00005FCF /* Style.swift in Sources */,
@@ -1281,7 +1267,7 @@
 				938B13C02497E6A700AA8E3B /* PathParser.swift in Sources */,
 				C864D2B0247C240200E7A1F9 /* Touchable.swift in Sources */,
 				935278E8249952DE00AB9D1F /* Expression.swift in Sources */,
-				C864D2DB247C240200E7A1F9 /* Action.swift in Sources */,
+				C864D2DB247C240200E7A1F9 /* RawAction.swift in Sources */,
 				C864D2AB247C240200E7A1F9 /* Form.swift in Sources */,
 				C864D2DF247C240200E7A1F9 /* Size.swift in Sources */,
 				C864D2DC247C240200E7A1F9 /* Accessibility.swift in Sources */,
@@ -1289,7 +1275,6 @@
 				C864D2A5247C240200E7A1F9 /* FormInputHidden.swift in Sources */,
 				C864D2DD247C240200E7A1F9 /* UnitValue.swift in Sources */,
 				C8EBCC73247C3033002030CC /* ScrollView.swift in Sources */,
-				C89E0C4C2492B31D00005FCF /* UIView+Style.swift in Sources */,
 				C864D2B8247C240200E7A1F9 /* ScreenComponent.swift in Sources */,
 				C864D2E2247C240200E7A1F9 /* Events.swift in Sources */,
 				938B13C62497EC6200AA8E3B /* Collection+Safe.swift in Sources */,
@@ -1315,7 +1300,6 @@
 			files = (
 				C08D4EB22487DAD800AAAC0A /* NetworkImageTests.swift in Sources */,
 				C8EBCC8B247C30E9002030CC /* ScrollViewTests.swift in Sources */,
-				C89E0C502492B32700005FCF /* UIView+StyleTests.swift in Sources */,
 				935278ED249956DC00AB9D1F /* SingleExpressionTests.swift in Sources */,
 				C864D2FB247C25C000E7A1F9 /* FormInputTests.swift in Sources */,
 				C8EAC4F8247C2844003089BE /* ContainerTests.swift in Sources */,

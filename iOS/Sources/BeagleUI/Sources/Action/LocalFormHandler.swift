@@ -17,24 +17,24 @@
 import Foundation
 import BeagleSchema
 
-/// Your application can define CustomActions, and Beagle will ask to the CustomActionHandler defined by your application
-/// to handle what the custom actions will do.
-public protocol CustomActionHandler {
+/// Your application can handle the form submit by its own using a `FormLocalAction`.
+/// The `LocalFormHandler` defined by your application will be used to achieve it.
+public protocol LocalFormHandler {
 
     /// here you should see which custom action you are receiving, and execute its logic.
-    func handle(context: BeagleContext, action: CustomAction, listener: @escaping Listener)
+    func handle(action: FormLocalAction, controller: BeagleController, listener: @escaping Listener)
 
     /// use it to inform Beagle about the on going execution
-    typealias Listener = (CustomActionState) -> Void
+    typealias Listener = (FormActionState) -> Void
 }
 
-public protocol DependencyCustomActionHandler {
-    var customActionHandler: CustomActionHandler? { get }
+public protocol DependencyLocalFormHandler {
+    var localFormHandler: LocalFormHandler? { get }
 }
 
-public final class CustomActionHandling: CustomActionHandler {
+public final class LocalFormHandling: LocalFormHandler {
     
-    public typealias Handler = (BeagleContext, CustomAction, @escaping Listener) -> Void
+    public typealias Handler = (BeagleController, FormLocalAction, @escaping Listener) -> Void
     
     private var handlers: [String: Handler]
     
@@ -42,8 +42,8 @@ public final class CustomActionHandling: CustomActionHandler {
         self.handlers = handlers
     }
     
-    public func handle(context: BeagleContext, action: CustomAction, listener: @escaping Listener) {
-        self[action.name]?(context, action, listener)
+    public func handle(action: FormLocalAction, controller: BeagleController, listener: @escaping Listener) {
+        self[action.name]?(controller, action, listener)
     }
     
     public subscript(name: String) -> Handler? {
@@ -56,7 +56,7 @@ public final class CustomActionHandling: CustomActionHandler {
     }
 }
 
-public enum CustomActionState {
+public enum FormActionState {
     case start
     case error(Error)
     case success(action: Action)

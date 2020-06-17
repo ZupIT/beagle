@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-public struct SetContext: Action, AutoInitiable {
+public struct SetContext: RawAction, AutoInitiable {
     public let context: String
     public let path: String?
     public let value: DynamicObject

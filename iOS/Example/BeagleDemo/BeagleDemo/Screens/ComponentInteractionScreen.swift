@@ -139,13 +139,13 @@ struct TextInput: Widget {
     var widgetProperties: WidgetProperties = WidgetProperties()
     var label: Expression<String>
 
-    var onChange: [Action]?
-    var onFocus: [Action]?
-    var onBlur: [Action]?
+    var onChange: [RawAction]?
+    var onFocus: [RawAction]?
+    var onBlur: [RawAction]?
     
     func toView(renderer: BeagleRenderer) -> UIView {
-        let view = TextInputView(widget: self, controller: renderer.context)
-        view.text = label.get(with: view, controller: renderer.context) { string in view.text = string }
+        let view = TextInputView(widget: self, controller: renderer.controller)
+        view.text = label.get(with: view, controller: renderer.controller) { string in view.text = string }
         view.beagle.setup(self)
         return view
     }
@@ -153,9 +153,9 @@ struct TextInput: Widget {
 
 class TextInputView: UITextField, UITextFieldDelegate {
     var widget: TextInput
-    weak var controller: BeagleContext?
+    weak var controller: BeagleController?
     
-    init(widget: TextInput, controller: BeagleContext) {
+    init(widget: TextInput, controller: BeagleController) {
         self.widget = widget
         self.controller = controller
         super.init(frame: .zero)
@@ -171,14 +171,14 @@ class TextInputView: UITextField, UITextFieldDelegate {
 //        let context = Context(id: "onFocus", value: ["value": textField.text])
         
         let context = Context(id: "onFocus", value: .dictionary(["value": .string(textField.text ?? "")]))
-        controller?.actionManager.execute(actions: widget.onFocus, with: context, sender: self, controller: controller)
+        controller?.execute(actions: widget.onFocus, with: context, sender: self)
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
 //        let context = Context(id: "onBlur", value: ["value": textField.text])
         
         let context = Context(id: "onBlur", value: .dictionary(["value": .string(textField.text ?? "")]))
-        controller?.actionManager.execute(actions: widget.onBlur, with: context, sender: self, controller: controller)
+        controller?.execute(actions: widget.onBlur, with: context, sender: self)
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
@@ -193,7 +193,7 @@ class TextInputView: UITextField, UITextFieldDelegate {
 //        let context = Context(id: "onChange", value: ["value": updatedText])
         
         let context = Context(id: "onChange", value: .dictionary(["value": .string(updatedText ?? "")]))
-        controller?.actionManager.execute(actions: widget.onChange, with: context, sender: self, controller: controller)
+        controller?.execute(actions: widget.onChange, with: context, sender: self)
         
         return false
     }

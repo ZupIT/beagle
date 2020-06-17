@@ -21,13 +21,13 @@ public extension Expression {
     
     func get(
         with view: UIView,
-        controller: BeagleContext,
+        controller: BeagleController,
         updateFunction: @escaping (T) -> Void
     ) -> T? {
         
         switch self {
         case let .expression(expression):
-            controller.bindingToConfig.append {
+            controller.addBinding {
                 view.configBinding(for: expression, completion: updateFunction)
             }
             return nil
@@ -38,13 +38,13 @@ public extension Expression {
     
     func get(
         with view: UIView,
-        controller: BeagleContext,
+        controller: BeagleController,
         updateFunction: @escaping (T?) -> Void
     ) -> T? {
         
         switch self {
         case let .expression(expression):
-            controller.bindingToConfig.append {
+            controller.addBinding {
                 view.configBinding(for: expression, completion: updateFunction)
             }
             return nil

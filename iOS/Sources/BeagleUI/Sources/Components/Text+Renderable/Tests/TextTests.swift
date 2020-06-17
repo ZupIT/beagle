@@ -34,7 +34,8 @@ class TextTests: XCTestCase {
         theme: theme
     )
 
-    private lazy var renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: dependencies)
+    private lazy var controller = BeagleControllerStub(dependencies: dependencies)
+    private lazy var renderer = BeagleRenderer(controller: controller)
     
     func testEqualTextContent() throws {
         // Given
@@ -87,7 +88,7 @@ class TextTests: XCTestCase {
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             styleId: "test.text.style",
             alignment: .right,
-            textColor: "579F2B",
+            textColor: "#579F2B",
             widgetProperties: .init(style: Style(
                 backgroundColor: "#FFFF00",
                 cornerRadius: .init(radius: 30.0)
