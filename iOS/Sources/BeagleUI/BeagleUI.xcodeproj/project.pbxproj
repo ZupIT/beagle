@@ -55,8 +55,8 @@
 		98B7D95623DB2722002622AC /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B7D95523DB2722002622AC /* Observable.swift */; };
 		98FC964C23EA518600A8CEC8 /* ObservableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FC964B23EA518600A8CEC8 /* ObservableTests.swift */; };
 		A024CF0F24991E42009BB92D /* UIView+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = A024CF0E24991E41009BB92D /* UIView+Style.swift */; };
-		A040DBBC2497E259000F3213 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = A040DBBB2497E259000F3213 /* Action.swift */; };
 		A024CF1124991E4F009BB92D /* UIView+StyleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A024CF1024991E4F009BB92D /* UIView+StyleTests.swift */; };
+		A040DBBC2497E259000F3213 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = A040DBBB2497E259000F3213 /* Action.swift */; };
 		A04B19FA23ECA3F7007B4279 /* Screen+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04B19F923ECA3F7007B4279 /* Screen+Renderable.swift */; };
 		A05C74D02497F2BF009DBB66 /* CustomAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05C74CF2497F2BF009DBB66 /* CustomAction.swift */; };
 		A05C74D22497F430009DBB66 /* FormValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05C74D12497F430009DBB66 /* FormValidation.swift */; };
@@ -95,9 +95,6 @@
 		C08D4E1F24857B4E00AAAC0A /* NavigationBar+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4DF824857AC300AAAC0A /* NavigationBar+UIKit.swift */; };
 		C08D4E2024857B5100AAAC0A /* ScreenComponent+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4E0024857AC300AAAC0A /* ScreenComponent+Renderable.swift */; };
 		C08D4E2124857B5A00AAAC0A /* ScreenComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4DFA24857AC300AAAC0A /* ScreenComponentTests.swift */; };
-		C08D4E2424857B8500AAAC0A /* Spacer.json in Resources */ = {isa = PBXBuildFile; fileRef = C08D4E0624857AC300AAAC0A /* Spacer.json */; };
-		C08D4E2524857B8A00AAAC0A /* SpacerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4E0724857AC300AAAC0A /* SpacerTests.swift */; };
-		C08D4E2624857B8E00AAAC0A /* Spacer+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4E0224857AC300AAAC0A /* Spacer+Renderable.swift */; };
 		C08D4E2824857BB400AAAC0A /* FlexViewConfiguratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4E0E24857AC300AAAC0A /* FlexViewConfiguratorTests.swift */; };
 		C08D4E2924857BB400AAAC0A /* YogaTranslatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4E0F24857AC300AAAC0A /* YogaTranslatorTests.swift */; };
 		C08D4E2A24857BB400AAAC0A /* ContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4E1224857AC300AAAC0A /* ContainerTests.swift */; };
@@ -274,8 +271,8 @@
 		98B7D95523DB2722002622AC /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		98FC964B23EA518600A8CEC8 /* ObservableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableTests.swift; sourceTree = "<group>"; };
 		A024CF0E24991E41009BB92D /* UIView+Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Style.swift"; sourceTree = "<group>"; };
-		A040DBBB2497E259000F3213 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		A024CF1024991E4F009BB92D /* UIView+StyleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+StyleTests.swift"; sourceTree = "<group>"; };
+		A040DBBB2497E259000F3213 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		A04B19F923ECA3F7007B4279 /* Screen+Renderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Screen+Renderable.swift"; sourceTree = "<group>"; };
 		A05C74CF2497F2BF009DBB66 /* CustomAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAction.swift; sourceTree = "<group>"; };
 		A05C74D12497F430009DBB66 /* FormValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormValidation.swift; sourceTree = "<group>"; };
@@ -315,9 +312,6 @@
 		C08D4DF824857AC300AAAC0A /* NavigationBar+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationBar+UIKit.swift"; sourceTree = "<group>"; };
 		C08D4DFA24857AC300AAAC0A /* ScreenComponentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenComponentTests.swift; sourceTree = "<group>"; };
 		C08D4E0024857AC300AAAC0A /* ScreenComponent+Renderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScreenComponent+Renderable.swift"; sourceTree = "<group>"; };
-		C08D4E0224857AC300AAAC0A /* Spacer+Renderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Spacer+Renderable.swift"; sourceTree = "<group>"; };
-		C08D4E0624857AC300AAAC0A /* Spacer.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Spacer.json; sourceTree = "<group>"; };
-		C08D4E0724857AC300AAAC0A /* SpacerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacerTests.swift; sourceTree = "<group>"; };
 		C08D4E0E24857AC300AAAC0A /* FlexViewConfiguratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexViewConfiguratorTests.swift; sourceTree = "<group>"; };
 		C08D4E0F24857AC300AAAC0A /* YogaTranslatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YogaTranslatorTests.swift; sourceTree = "<group>"; };
 		C08D4E1224857AC300AAAC0A /* ContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerTests.swift; sourceTree = "<group>"; };
@@ -325,7 +319,6 @@
 		C08D4E1824857AC300AAAC0A /* YogaTranslator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YogaTranslator.swift; sourceTree = "<group>"; };
 		C08D4E1A24857AF800AAAC0A /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C08D4E2224857B6800AAAC0A /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
-		C08D4E2324857B8100AAAC0A /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C08D4E2724857BA900AAAC0A /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C08D4E2E24857C7600AAAC0A /* DependencyWindowManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependencyWindowManager.swift; sourceTree = "<group>"; };
 		C08D4E2F24857C7600AAAC0A /* DependencyURLOpener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependencyURLOpener.swift; sourceTree = "<group>"; };
@@ -785,7 +778,6 @@
 				C08D4DEA24857AC300AAAC0A /* Scroll */,
 				C08D4DF524857AC300AAAC0A /* Container */,
 				C08D4DF724857AC300AAAC0A /* Screen */,
-				C08D4E0124857AC300AAAC0A /* Spacer+Renderable */,
 				C08D4E0C24857AC300AAAC0A /* Flex */,
 			);
 			path = "Layout+Renderable";
@@ -844,33 +836,6 @@
 				C08D4DFA24857AC300AAAC0A /* ScreenComponentTests.swift */,
 			);
 			path = Tests;
-			sourceTree = "<group>";
-		};
-		C08D4E0124857AC300AAAC0A /* Spacer+Renderable */ = {
-			isa = PBXGroup;
-			children = (
-				C08D4E0224857AC300AAAC0A /* Spacer+Renderable.swift */,
-				C08D4E0324857AC300AAAC0A /* Tests */,
-			);
-			path = "Spacer+Renderable";
-			sourceTree = "<group>";
-		};
-		C08D4E0324857AC300AAAC0A /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				C08D4E2324857B8100AAAC0A /* __Snapshots__ */,
-				C08D4E0524857AC300AAAC0A /* JSON */,
-				C08D4E0724857AC300AAAC0A /* SpacerTests.swift */,
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
-		C08D4E0524857AC300AAAC0A /* JSON */ = {
-			isa = PBXGroup;
-			children = (
-				C08D4E0624857AC300AAAC0A /* Spacer.json */,
-			);
-			path = JSON;
 			sourceTree = "<group>";
 		};
 		C08D4E0C24857AC300AAAC0A /* Flex */ = {
@@ -1613,7 +1578,6 @@
 				7CDF84952416DD8D00234F40 /* test_UnitValueWithPercentageOperatorAndIntegerValue.1.txt in Resources */,
 				C08D4E1C24857B2A00AAAC0A /* HorizontalScrollView.json in Resources */,
 				C05E1652243663C20088F9D2 /* screenAnalyticsComponent.json in Resources */,
-				C08D4E2424857B8500AAAC0A /* Spacer.json in Resources */,
 				C05E1658243668E30088F9D2 /* __Snapshots__ in Resources */,
 				7CDF84942416DD8D00234F40 /* test_UnitValueExpressibleByFloatLiteral.1.txt in Resources */,
 				7CDF84912416DD8D00234F40 /* test_EdgeValueBuilder.1.txt in Resources */,
@@ -1703,7 +1667,6 @@
 				E531D6BA2359FEE1007EEBA7 /* UIView+Loading.swift in Sources */,
 				C8311A6924099A8700E95C15 /* WidgetStateObservable.swift in Sources */,
 				C08D4EAC2486BC1400AAAC0A /* ScreenView.swift in Sources */,
-				C08D4E2624857B8E00AAAC0A /* Spacer+Renderable.swift in Sources */,
 				57A8097F243CF44A0034D180 /* CacheReference.swift in Sources */,
 				C08D4E3324857C7700AAAC0A /* UIWindow+Extension.swift in Sources */,
 				C869D117241148ED001C760C /* HttpAditionalData.swift in Sources */,
@@ -1811,7 +1774,6 @@
 				C0E569152476F026003D413F /* BeaglePrefetchHelpingSpy.swift in Sources */,
 				983E8C992396DFC90018C6CA /* TabViewUIComponentTests.swift in Sources */,
 				A024CF1124991E4F009BB92D /* UIView+StyleTests.swift in Sources */,
-				7C9999532448A2E800D77F07 /* LazyLoadManagerTests.swift in Sources */,
 				7C9999552448A38000D77F07 /* FormManagerTests.swift in Sources */,
 				C08D4E2124857B5A00AAAC0A /* ScreenComponentTests.swift in Sources */,
 				57CBF5AA243F9EF300873997 /* CacheManagerDefaultTests.swift in Sources */,
@@ -1827,7 +1789,6 @@
 				C08D4E2A24857BB400AAAC0A /* ContainerTests.swift in Sources */,
 				9800ACFF2455D09B0030109F /* UrlBuilderTests.swift in Sources */,
 				C08D4F01248AC72100AAAC0A /* SafeAreaTests.swift in Sources */,
-				C08D4E2524857B8A00AAAC0A /* SpacerTests.swift in Sources */,
 				E5CB5D812354C08E009783A7 /* UnknownComponentViewRendererTests.swift in Sources */,
 				C08D4E2824857BB400AAAC0A /* FlexViewConfiguratorTests.swift in Sources */,
 				983E8C912396DF430018C6CA /* TabViewTests.swift in Sources */,
