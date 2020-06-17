@@ -28,6 +28,7 @@ import br.com.zup.beagle.core.ContextData
 import com.squareup.moshi.Moshi
 import org.json.JSONArray
 import org.json.JSONObject
+import java.lang.IllegalStateException
 import java.lang.reflect.Type
 import java.util.Stack
 
