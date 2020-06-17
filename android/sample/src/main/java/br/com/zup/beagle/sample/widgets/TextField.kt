@@ -40,6 +40,7 @@ data class TextField(
     val inputType: TextFieldInputType? = null
 ) : InputWidget() {
 
+    @Transient
     private lateinit var textFieldView: EditText
 
     override fun buildView(rootView: RootView) = EditText(rootView.getContext()).apply {
