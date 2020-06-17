@@ -67,7 +67,7 @@ data class Text(
 
     private fun TextView.setTextColor(color: String?) {
         color?.let {
-            this.setTextColor(it.toAndroidColor())
+            this.setTextColor(color.toAndroidColor())
         }
     }
 }

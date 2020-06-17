@@ -16,6 +16,4 @@
 
 package br.com.zup.beagle.android.utils
 
-import br.com.zup.beagle.utils.ColorUtils
-
 internal fun String.toAndroidColor(): Int = ColorUtils.hexColor(this)

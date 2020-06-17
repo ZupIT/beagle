@@ -19,9 +19,10 @@ package br.com.zup.beagle.android.mockdata
 import android.view.View
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import io.mockk.mockk
 
 class CustomWidget : WidgetView() {
     override fun buildView(rootView: RootView): View {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return mockk()
     }
 }
