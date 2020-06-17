@@ -23,7 +23,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.action.FormMethodType
 import br.com.zup.beagle.android.action.FormRemoteAction
-import br.com.zup.beagle.android.action.ShowNativeDialog
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.widgets.TextField
