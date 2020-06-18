@@ -19,7 +19,7 @@
 package br.com.zup.beagle.android.utils
 
 import br.com.zup.beagle.android.view.BeagleActivity
-import br.com.zup.beagle.android.view.BeagleNavigator
+import br.com.zup.beagle.android.view.custom.BeagleNavigator
 
 fun String.toAndroidId(): Int {
     return this.hashCode()

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-// TODO: Utilizar nova estrutura de parser
+// TODO: redo after multiple expression parser
 import Foundation
 
 enum PathLexingError: Error, Equatable {

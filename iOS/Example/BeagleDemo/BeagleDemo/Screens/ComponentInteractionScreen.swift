@@ -36,22 +36,6 @@ let componentInteractionScreen: Screen = {
     )
 }()
 
-let contextValue: DynamicObject = [
-    "int": 2,
-    "double": 2.2,
-    "string": "string",
-    "expression": "${myContext}",
-    "array": [
-        "1", 2, 2.2, "${myContext}", nil
-    ],
-    "dictionary": [
-        "int": 2,
-        "double": 2.2,
-        "string": "string",
-        "expression": "${myContext}"
-    ]
-]
-
 let declarativeScreen: Screen = {
     return Screen(
         navigationBar: NavigationBar(title: "Component Interaction", showBackButton: true),
@@ -59,32 +43,31 @@ let declarativeScreen: Screen = {
             children:
             [
                 TextInput(
-                    label: "asd",
+                    label: "",
                     onChange: [
                         SetContext(
                             context: "myContext",
-                            value: ["a": ["c": "${onChange.value}"], "d": "${onChange.value}${onChange.value}"]
+                            value: "@{onChange.value}"
                         )
                     ]
                 ),
-                Text("${myContext.a.b}"),
-                Text("${myContext.b}"),
+                Text("@{myContext}"),
                 Button(
                     text: "ok",
                     action: SetContext(
                         context: "myContext",
-                        value: ["b": "ok tapped!"]
+                        value: "button value"
                     )
                 )
             ],
-            context: Context(id: "myContext", value: ["a": ["b": "123123"]])
+            context: Context(id: "myContext", value: "")
         )
     )
 }()
 
 struct ComponentInteractionText: DeeplinkScreen {
 
-    init(path: String, data: [String : String]?) {
+    init(path: String, data: [String: String]?) {
     }
 
     func screenController() -> UIViewController {
@@ -167,30 +150,22 @@ class TextInputView: UITextField, UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        // TODO: arrumar execute
-//        let context = Context(id: "onFocus", value: ["value": textField.text])
-        
         let context = Context(id: "onFocus", value: .dictionary(["value": .string(textField.text ?? "")]))
         controller?.execute(actions: widget.onFocus, with: context, sender: self)
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-//        let context = Context(id: "onBlur", value: ["value": textField.text])
-        
         let context = Context(id: "onBlur", value: .dictionary(["value": .string(textField.text ?? "")]))
         controller?.execute(actions: widget.onBlur, with: context, sender: self)
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
-    {
-        var updatedText: String? = nil
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        var updatedText: String?
         if let text = textField.text,
            let textRange = Range(range, in: text) {
-           updatedText = text.replacingCharacters(in: textRange,
-                                                       with: string)
+           updatedText = text.replacingCharacters(in: textRange, with: string)
         }
         textField.text = updatedText
-//        let context = Context(id: "onChange", value: ["value": updatedText])
         
         let context = Context(id: "onChange", value: .dictionary(["value": .string(updatedText ?? "")]))
         controller?.execute(actions: widget.onChange, with: context, sender: self)

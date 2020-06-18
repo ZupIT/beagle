@@ -28,11 +28,11 @@ final class ShowNativeDialogTests: XCTestCase {
             message: "Message",
             buttonText: "Button"
         )
-
+        let view = UIView()
         let controller = BeagleControllerNavigationSpy()
 
         // When
-        action.execute(controller: controller, sender: self)
+        action.execute(controller: controller, sender: view)
 
         // Then
         XCTAssertTrue(controller.viewControllerToPresent is UIAlertController)

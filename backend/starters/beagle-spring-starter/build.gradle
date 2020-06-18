@@ -38,4 +38,12 @@ test {
     useJUnitPlatform()
 }
 
+compileKotlin {
+    kotlinOptions.jvmTarget = Versions.java
+}
+
+compileTestKotlin {
+    kotlinOptions.jvmTarget = Versions.java
+}
+
 apply from: rootProject.file('maven-publish.gradle')

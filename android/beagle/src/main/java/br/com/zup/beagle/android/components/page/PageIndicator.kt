@@ -17,8 +17,8 @@
 package br.com.zup.beagle.android.components.page
 
 import android.graphics.Color
-import br.com.zup.beagle.android.view.BeaglePageIndicatorView
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.view.custom.BeaglePageIndicatorView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 
@@ -29,7 +29,6 @@ class PageIndicator(
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
-
     @Transient
     private lateinit var pageIndicator: BeaglePageIndicatorView
 

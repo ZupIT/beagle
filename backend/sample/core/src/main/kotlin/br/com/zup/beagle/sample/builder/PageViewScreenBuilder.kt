@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.widget.action.ShowNativeDialog
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.constants.BLACK
 import br.com.zup.beagle.sample.constants.LIGHT_GREY
@@ -54,7 +54,7 @@ object PageViewScreenBuilder : ScreenBuilder {
                 selectedColor = BLACK,
                 unselectedColor = LIGHT_GREY
             ),
-            pages = (1..3).map {
+            children = (1..3).map {
                 Text("Page $it", alignment = TextAlignment.CENTER).applyFlex(
                     Flex(
                         alignSelf = AlignSelf.CENTER,

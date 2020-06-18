@@ -21,6 +21,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.view.ScreenRequest
+import br.com.zup.beagle.android.view.mapper.toRequestData
 
 internal class ComponentRequester(
     private val beagleApi: BeagleApi = BeagleApi(),
@@ -36,7 +37,8 @@ internal class ComponentRequester(
             beagleCache.json
         } else {
             val newScreenRequest = cacheManager.screenRequestWithCache(screenRequest, beagleCache)
-            val responseData = beagleApi.fetchData(newScreenRequest)
+            val requestData = newScreenRequest.toRequestData()
+            val responseData = beagleApi.fetchData(requestData)
             cacheManager.handleResponseData(url, beagleCache, responseData)
         }
         return serializer.deserializeComponent(responseBody)

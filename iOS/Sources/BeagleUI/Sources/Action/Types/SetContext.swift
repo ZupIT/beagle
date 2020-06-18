@@ -25,7 +25,7 @@ extension SetContext: Action {
         let newValue = value.get(with: view)
         let context = view.getContext(with: self.context)
 
-        // TODO: arrumar caso set for path
+        // TODO: fix merge path
         if let dynamicObject = context?.value.value {
             context?.value = Context(id: context?.value.id ?? "", value: dynamicObject.merge(newValue))
         } else {

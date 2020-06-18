@@ -28,7 +28,7 @@ public struct SingleExpression: Decodable {
 }
 
 extension SingleExpression: RawRepresentable {
-    static let expression = #"^\$\{(\w+(?:\[\d+\])*(?:\.\w+(?:\[\d+\])*)*)\}$"#
+    static let expression = #"^\@\{(\w+(?:\[\d+\])*(?:\.\w+(?:\[\d+\])*)*)\}$"#
     static let token = #"\w+"#
     static let property = #"[a-zA-Z_]\w*"#
     static let arrayItem = #"\d+"#
@@ -51,7 +51,7 @@ extension SingleExpression: RawRepresentable {
     }
 
     public var rawValue: String {
-        var expression = "${"
+        var expression = "@{"
         for node in self.nodes {
             switch node {
             case .property(let string):

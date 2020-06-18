@@ -21,8 +21,8 @@ import androidx.core.view.get
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.android.view.BeagleView
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.view.custom.BeagleView
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
