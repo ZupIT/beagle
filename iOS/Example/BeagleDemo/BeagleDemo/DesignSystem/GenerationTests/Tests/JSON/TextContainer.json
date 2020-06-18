@@ -7,5 +7,16 @@
     ],
     "headerOfTextContainer": {
         "_beagleComponent_": "custom:TextComponentHeaderDefault"
-    }
+    },
+    "actions": [
+        {
+            "_beagleAction_": "custom:ActionDummyDefault"
+        },
+        {
+            "_beagleAction_": "custom:ActionDummyDefault"
+        },
+        {
+            "_beagleAction_": "custom:ActionDummyDefault"
+        },
+    ]
 }

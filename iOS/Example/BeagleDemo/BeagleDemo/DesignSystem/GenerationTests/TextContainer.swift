@@ -23,6 +23,7 @@ public struct TextContainer: ServerDrivenComponent, AutoInitiableAndDecodable {
 
     public let childrenOfTextContainer: [TextComponents]
     public let headerOfTextContainer: TextComponentHeader
+    public let actions: [ActionDummy]
     
     public func toView(renderer: BeagleRenderer) -> UIView {
         return UIView()
@@ -31,10 +32,12 @@ public struct TextContainer: ServerDrivenComponent, AutoInitiableAndDecodable {
 // sourcery:inline:auto:TextContainer.Init
     public init(
         childrenOfTextContainer: [TextComponents],
-        headerOfTextContainer: TextComponentHeader
+        headerOfTextContainer: TextComponentHeader,
+        actions: [ActionDummy]
     ) {
         self.childrenOfTextContainer = childrenOfTextContainer
         self.headerOfTextContainer = headerOfTextContainer
+        self.actions = actions
     }
 // sourcery:end
 }

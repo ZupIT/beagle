@@ -25,6 +25,7 @@ public struct SingleTextContainer: ServerDrivenComponent, AutoInitiableAndDecoda
     public let firstTextContainer: TextComponents
     public let secondTextContainer: TextComponents?
     public let child: ServerDrivenComponent
+    public let actions: [ActionDummy]?
     
     public func toView(renderer: BeagleRenderer) -> UIView {
         return UIView()
@@ -34,11 +35,13 @@ public struct SingleTextContainer: ServerDrivenComponent, AutoInitiableAndDecoda
     public init(
         firstTextContainer: TextComponents,
         secondTextContainer: TextComponents? = nil,
-        child: ServerDrivenComponent
+        child: ServerDrivenComponent,
+        actions: [ActionDummy]? = nil
     ) {
         self.firstTextContainer = firstTextContainer
         self.secondTextContainer = secondTextContainer
         self.child = child
+        self.actions = actions
     }
 // sourcery:end
 }

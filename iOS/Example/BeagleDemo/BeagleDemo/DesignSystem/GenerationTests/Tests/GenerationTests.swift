@@ -32,8 +32,18 @@ class GenerationTests: XCTestCase {
     func testDecodingOfTextContainer() {
         let component: TextContainer? = try? componentFromJsonFile(fileName: "TextContainer", decoder: Beagle.dependencies.decoder)
         
-        XCTAssertNotNil(component?.childrenOfTextContainer)
+        XCTAssertNotNil(component?.childrenOfTextContainer.count == 1)
         XCTAssertNotNil(component?.headerOfTextContainer)
+        XCTAssertNotNil(component?.actions.count == 3)
+    }
+    
+    func testDecodingOfSingleTextContainerWithoutActions() {
+        let component: SingleTextContainer? = try? componentFromJsonFile(fileName: "SingleTextContainerWithoutActions", decoder: Beagle.dependencies.decoder)
+        
+        XCTAssertNotNil(component?.firstTextContainer)
+        XCTAssertNotNil(component?.secondTextContainer)
+        XCTAssertNotNil(component?.child)
+        XCTAssertNil(component?.actions)
     }
     
     func testDecodingOfSingleTextContainer() {
@@ -42,18 +52,21 @@ class GenerationTests: XCTestCase {
         XCTAssertNotNil(component?.firstTextContainer)
         XCTAssertNotNil(component?.secondTextContainer)
         XCTAssertNotNil(component?.child)
+        XCTAssertNotNil(component?.actions?.count == 1)
     }
     
     func testDecodingOfSingleCustomActionableContainer() {
         let component: SingleCustomActionableContainer? = try? componentFromJsonFile(fileName: "SingleCustomActionableContainer", decoder: Beagle.dependencies.decoder)
         
-        XCTAssertNotNil(component)
+        XCTAssertNotNil(component?.action)
+        XCTAssertNotNil(component?.child)
     }
     
     func testDecodingOfCustomActionableContainer() {
         let component: CustomActionableContainer? = try? componentFromJsonFile(fileName: "CustomActionableContainer", decoder: Beagle.dependencies.decoder)
         
-        XCTAssertNotNil(component)
+        XCTAssertNotNil(component?.child.count == 2)
+        XCTAssertNotNil(component?.verySpecificAction)
     }
     
     func testDecodingOfTextContainerWithAction() {
@@ -61,6 +74,15 @@ class GenerationTests: XCTestCase {
         
         XCTAssertNotNil(component?.childrenOfTextContainer)
         XCTAssertNotNil(component?.action)
+        XCTAssertNotNil(component?.secondAction)
+    }
+    
+    func testDecodingOfTextContainerMissingAction() {
+        let component: TextContainerWithAction? = try? componentFromJsonFile(fileName: "TextContainerMissingSecondAction", decoder: Beagle.dependencies.decoder)
+        
+        XCTAssertNotNil(component?.childrenOfTextContainer)
+        XCTAssertNotNil(component?.action)
+        XCTAssertNil(component?.secondAction)
     }
     
     private func registerDummyComponents() {
@@ -72,6 +94,6 @@ class GenerationTests: XCTestCase {
         
         Beagle.registerCustomComponent("TextComponentHeaderDefault", componentType: TextComponentHeaderDefault.self)
         Beagle.registerCustomComponent("TextComponentsDefault", componentType: TextComponentsDefault.self)
-        Beagle.registerCustomAction("SpecificActionFromContainerDefault", actionType: SpecificActionFromContainerDefault.self)
+        Beagle.registerCustomAction("ActionDummyDefault", actionType: ActionDummyDefault.self)
     }
 }

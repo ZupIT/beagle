@@ -23,7 +23,7 @@ import UIKit
 public struct CustomActionableContainer: ServerDrivenComponent, AutoInitiableAndDecodable {
 
     public let child: [ServerDrivenComponent]
-    public let verySpecificAction: SpecificActionFromContainer
+    public let verySpecificAction: ActionDummy
     
     public func toView(renderer: BeagleRenderer) -> UIView {
         return UIView()
@@ -32,7 +32,7 @@ public struct CustomActionableContainer: ServerDrivenComponent, AutoInitiableAnd
 // sourcery:inline:auto:CustomActionableContainer.Init
     public init(
         child: [ServerDrivenComponent],
-        verySpecificAction: SpecificActionFromContainer
+        verySpecificAction: ActionDummy
     ) {
         self.child = child
         self.verySpecificAction = verySpecificAction

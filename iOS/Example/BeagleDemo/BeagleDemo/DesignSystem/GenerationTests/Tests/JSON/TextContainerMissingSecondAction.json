@@ -5,8 +5,5 @@
     },
     "action": {
         "_beagleAction_": "beagle:popView"
-    },
-    "secondAction": {
-        "_beagleAction_": "custom:ActionDummyDefault"
     }
 }

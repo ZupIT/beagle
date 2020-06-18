@@ -163,7 +163,8 @@ func containerDeclaration(generatedCodingKeys: [String]) -> String {
 
 func returnVariableName(_ variable: Variable) -> String {
     if let beagleProtocol = variable.inheritsFromAnyCoreBeagleProtocolType(), variable.unwrappedTypeName != beagleProtocol {
-        return "let \(variable.rawUppercasedVariableName): \(beagleProtocol)?"
+        var optionalFlag = variable.isOptional ? "?" : ""
+        return "let \(variable.rawUppercasedVariableName): \(beagleProtocol)" + optionalFlag
     }
     return variable.name
 }

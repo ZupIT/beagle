@@ -8,10 +8,5 @@
     },
     "child": {
         "_beagleComponent_": "custom:TextComponentsDefault"
-    },
-    "actions": [
-        {
-            "_beagleAction_": "custom:ActionDummyDefault"
-        }
-    ]
+    }
 }

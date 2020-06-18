@@ -23,7 +23,8 @@ import BeagleSchema
 public struct TextContainerWithAction: ServerDrivenComponent, AutoInitiableAndDecodable {
     public let childrenOfTextContainer: TextComponents?
     public let action: Action
-
+    public let secondAction: ActionDummy?
+    
     public func toView(renderer: BeagleRenderer) -> UIView {
         return UIView()
     }
@@ -31,10 +32,12 @@ public struct TextContainerWithAction: ServerDrivenComponent, AutoInitiableAndDe
 // sourcery:inline:auto:TextContainerWithAction.Init
     public init(
         childrenOfTextContainer: TextComponents? = nil,
-        action: Action
+        action: Action,
+        secondAction: ActionDummy? = nil
     ) {
         self.childrenOfTextContainer = childrenOfTextContainer
         self.action = action
+        self.secondAction = secondAction
     }
 // sourcery:end
 }

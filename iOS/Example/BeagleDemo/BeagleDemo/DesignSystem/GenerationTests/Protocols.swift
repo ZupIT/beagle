@@ -21,7 +21,7 @@ import BeagleUI
 // MARK: - Protocols
 public protocol TextComponents: ServerDrivenComponent { }
 public protocol TextComponentHeader: ServerDrivenComponent { }
-public protocol SpecificActionFromContainer: Action { }
+public protocol ActionDummy: Action { }
 
 
 // MARK: - Dummy Impl
@@ -37,7 +37,7 @@ struct TextComponentsDefault: TextComponents {
     }
 }
 
-struct SpecificActionFromContainerDefault: SpecificActionFromContainer {
+struct ActionDummyDefault: ActionDummy {
     func execute(controller: BeagleController, sender: Any) {
         
     }

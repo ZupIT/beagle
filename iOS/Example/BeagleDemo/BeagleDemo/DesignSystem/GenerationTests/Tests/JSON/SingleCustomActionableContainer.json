@@ -4,6 +4,6 @@
         "_beagleComponent_": "custom:TextComponentsDefault"
     },
     "action": {
-        "_beagleAction_": "custom:SpecificActionFromContainerDefault"
+        "_beagleAction_": "custom:ActionDummyDefault"
     }
 }
