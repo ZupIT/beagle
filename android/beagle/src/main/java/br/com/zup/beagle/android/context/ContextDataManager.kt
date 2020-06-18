@@ -164,8 +164,7 @@ internal class ContextDataManager(
     private fun findAndCacheValue(contextData: ContextData, path: String): Any? {
         return try {
             val keys = contextPathResolver.getKeysFromPath(contextData.id, path)
-            val foundValue = jsonPathFinder.find(keys, contextData.value)
-            foundValue
+            jsonPathFinder.find(keys, contextData.value)
         } catch (ex: Exception) {
             BeagleMessageLogs.errorWhileTryingToAccessContext(ex)
             null
