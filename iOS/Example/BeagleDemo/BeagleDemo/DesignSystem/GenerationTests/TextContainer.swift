@@ -23,7 +23,7 @@ public protocol TextComponents: ServerDrivenComponent {}
 
 public struct TextContainer: ServerDrivenComponent, AutoInitiableAndDecodable {
 
-    public let chidren: [TextComponents]
+    public let chidrenOfTextContainer: [TextComponents]
     
     public func toView(renderer: BeagleRenderer) -> UIView {
         return UIView()
@@ -31,9 +31,9 @@ public struct TextContainer: ServerDrivenComponent, AutoInitiableAndDecodable {
 
 // sourcery:inline:auto:TextContainer.Init
     public init(
-        chidren: [TextComponents]
+        chidrenOfTextContainer: [TextComponents]
     ) {
-        self.chidren = chidren
+        self.chidrenOfTextContainer = chidrenOfTextContainer
     }
 // sourcery:end
 }

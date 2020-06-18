@@ -22,6 +22,8 @@ extension Variable {
 	func inheritsFromAnyCoreBeagleProtocolType() -> String? {
 		if let variableType = self.type {
     		return hasTypeIn(type?.inheritedTypes)
+    	} else if let typeInArray = typeName.array?.elementType?.inheritedTypes {
+    		return hasTypeIn(typeInArray)
     	} else if Variable.beagleProtocolTypes.contains(unwrappedTypeName) {
     		return unwrappedTypeName
     	} else {
@@ -170,9 +172,9 @@ func makeDecoding(_ variable: Variable) -> String {
     let type = !needsCustomBeagleDecoding(variable) ? "\(variable.unwrappedTypeName).self," : ""
     line += "(\(type) forKey: .\(variable.name))"
 
-    if let type = variable.type, type.implements[rawComponent] != nil, type.name != rawComponent {
+    if let beagleProtocol = variable.inheritsFromAnyCoreBeagleProtocolType(), variable.unwrappedTypeName != beagleProtocol {
         line += "\n" + identation + identation
-            + variable.name + " = rawComponent as? \(type.name)"
+            + variable.name + " = rawComponent as? \(variable.unwrappedTypeName)"
     }
 
     return line

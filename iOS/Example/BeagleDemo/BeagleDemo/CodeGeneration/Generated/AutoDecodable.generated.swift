@@ -33,6 +33,7 @@ extension CustomActionableContainer {
 
         child = try container.decode( forKey: .child)
         let rawComponent: Action? = try container.decode( forKey: .verySpecificAction)
+        verySpecificAction = rawComponent as? SpecificActionFromContainer
     }
 }
 
@@ -107,6 +108,7 @@ extension SingleTextContainer {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         let rawComponent: ServerDrivenComponent? = try container.decode( forKey: .singleTextContainerChild)
+        singleTextContainerChild = rawComponent as? TextComponents
         rawChild = try container.decode( forKey: .rawChild)
     }
 }
@@ -115,13 +117,14 @@ extension SingleTextContainer {
 extension TextContainer {
 
     enum CodingKeys: String, CodingKey {
-        case chidren
+        case chidrenOfTextContainer
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        chidren = try container.decode([TextComponents].self, forKey: .chidren)
+        let rawComponent: ServerDrivenComponent? = try container.decode( forKey: .chidrenOfTextContainer)
+        chidrenOfTextContainer = rawComponent as? [TextComponents]
     }
 }
 
@@ -137,6 +140,7 @@ extension TextContainerWithAction {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         let rawComponent: ServerDrivenComponent? = try container.decodeIfPresent( forKey: .chidrenOfTextContainer)
+        chidrenOfTextContainer = rawComponent as? TextComponents
         action = try container.decode( forKey: .action)
     }
 }
