@@ -16,19 +16,19 @@
 
 import UIKit
 
-public struct Container: RawWidget, AutoInitiableAndDecodable {
-    
+public struct Container: RawWidget, HasContext, AutoDecodable {
     // MARK: - Public Properties
     public let children: [RawComponent]
     public var widgetProperties: WidgetProperties
+    public let _context_: Context?
     
-// sourcery:inline:auto:Container.Init
     public init(
         children: [RawComponent],
-        widgetProperties: WidgetProperties = WidgetProperties()
+        widgetProperties: WidgetProperties = WidgetProperties(),
+        context: Context? = nil
     ) {
         self.children = children
         self.widgetProperties = widgetProperties
+        self._context_ = context
     }
-// sourcery:end
 }

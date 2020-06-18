@@ -28,9 +28,13 @@ public protocol NetworkClient {
 
 public struct NetworkError: Error {
     public let error: Error
+    public let data: Data?
+    public let response: URLResponse?
 
-    public init(error: Error) {
+    public init(error: Error, data: Data? = nil, response: URLResponse? = nil) {
         self.error = error
+        self.data = data
+        self.response = response
     }
 }
 

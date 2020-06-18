@@ -2,7 +2,8 @@
   ▿ initialState: Text
     - alignment: Optional<Alignment>.none
     - styleId: Optional<String>.none
-    - text: "text1"
+    ▿ text: Expression<String>
+      - value: "text1"
     - textColor: Optional<String>.none
     ▿ widgetProperties: WidgetProperties
       - accessibility: Optional<Accessibility>.none

@@ -44,6 +44,7 @@ final class ScreenController: UIViewController {
     
     public override func loadView() {
         view = screen.toView(renderer: beagleController.renderer)
+        beagleController.configBindings()
     }
     
     public override func viewDidLayoutSubviews() {
