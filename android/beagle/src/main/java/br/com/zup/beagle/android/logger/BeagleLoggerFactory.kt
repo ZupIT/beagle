@@ -14,21 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.processor
+package br.com.zup.beagle.android.logger
 
-import br.com.zup.beagle.android.annotation.BeagleComponent
-import br.com.zup.beagle.android.setup.BeagleConfig
-import br.com.zup.beagle.android.setup.Cache
-import br.com.zup.beagle.android.setup.Environment
+import br.com.zup.beagle.android.setup.BeagleEnvironment
 
-@BeagleComponent
-class AppBeagleConfig : BeagleConfig {
-    override val environment: Environment get() = Environment.DEBUG
-    override val baseUrl: String get() = "http://sample.com"
-    override val isLoggingEnabled: Boolean = false
-    override val cache: Cache = Cache(
-        enabled = true,
-        maxAge = 300,
-        memoryMaximumCapacity = 15
-    )
+internal class BeagleLoggerFactory {
+    fun make(): BeagleLogger {
+        return BeagleEnvironment.beagleSdk.logger ?: BeagleLoggerDefault()
+    }
 }

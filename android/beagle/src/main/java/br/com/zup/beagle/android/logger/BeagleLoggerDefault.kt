@@ -14,21 +14,28 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.processor
+package br.com.zup.beagle.android.logger
 
-import br.com.zup.beagle.android.annotation.BeagleComponent
-import br.com.zup.beagle.android.setup.BeagleConfig
-import br.com.zup.beagle.android.setup.Cache
-import br.com.zup.beagle.android.setup.Environment
+import android.util.Log
 
-@BeagleComponent
-class AppBeagleConfig : BeagleConfig {
-    override val environment: Environment get() = Environment.DEBUG
-    override val baseUrl: String get() = "http://sample.com"
-    override val isLoggingEnabled: Boolean = false
-    override val cache: Cache = Cache(
-        enabled = true,
-        maxAge = 300,
-        memoryMaximumCapacity = 15
-    )
+private const val BEAGLE_TAG = "BeagleSDK"
+
+internal class BeagleLoggerDefault : BeagleLogger {
+
+    override fun warning(message: String) {
+        Log.w(BEAGLE_TAG, message)
+    }
+
+    override fun error(message: String) {
+        Log.e(BEAGLE_TAG, message)
+    }
+
+    override fun error(message: String, throwable: Throwable) {
+        Log.e(BEAGLE_TAG, message, throwable)
+    }
+
+    override fun info(message: String) {
+        Log.i(BEAGLE_TAG, message)
+    }
+
 }
