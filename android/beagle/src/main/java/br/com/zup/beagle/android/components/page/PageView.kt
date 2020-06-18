@@ -28,7 +28,7 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 data class PageView(
-    val pages: List<ServerDrivenComponent>,
+    val children: List<ServerDrivenComponent>,
     val pageIndicator: PageIndicatorComponent? = null
 ) : WidgetView() {
 
@@ -42,7 +42,7 @@ data class PageView(
         val container = viewFactory.makeBeagleFlexView(rootView.getContext())
 
         val viewPager = viewFactory.makeViewPager(rootView.getContext()).apply {
-            adapter = PageViewAdapter(rootView, pages, viewFactory)
+            adapter = PageViewAdapter(rootView, children, viewFactory)
         }
 
         // this container is needed because this view fill the parent completely
@@ -54,7 +54,7 @@ data class PageView(
 
         pageIndicator?.let {
             val pageIndicatorView = viewRendererFactory.make(it).build(rootView)
-            setupPageIndicator(pages.size, viewPager, pageIndicator)
+            setupPageIndicator(children.size, viewPager, pageIndicator)
             container.addView(pageIndicatorView)
         }
 
@@ -87,13 +87,13 @@ data class PageView(
 
 internal class PageViewAdapter(
     private val rootView: RootView,
-    private val pages: List<ServerDrivenComponent>,
+    private val children: List<ServerDrivenComponent>,
     private val viewFactory: ViewFactory
 ) : PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = viewFactory.makeBeagleFlexView(rootView.getContext()).also {
-            it.addServerDrivenComponent(pages[position], rootView)
+            it.addServerDrivenComponent(children[position], rootView)
         }
         container.addView(view)
         return view
@@ -101,7 +101,7 @@ internal class PageViewAdapter(
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean = view === `object`
 
-    override fun getCount(): Int = pages.size
+    override fun getCount(): Int = children.size
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
         container.removeView(`object` as View)

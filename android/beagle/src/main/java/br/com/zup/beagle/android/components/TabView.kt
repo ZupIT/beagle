@@ -39,7 +39,7 @@ private val TAB_BAR_HEIGHT = 48.dp()
 internal var styleManagerFactory = StyleManager()
 
 data class TabView(
-    val tabItems: List<TabItem>,
+    val children: List<TabItem>,
     val styleId: String? = null
 ) : WidgetView() {
 
@@ -56,7 +56,7 @@ data class TabView(
         val viewPager = viewFactory.makeViewPager(rootView.getContext()).apply {
             adapter = ContentAdapter(
                 viewFactory = viewFactory,
-                tabList = tabItems,
+                children = children,
                 rootView = rootView
             )
         }
@@ -110,10 +110,10 @@ data class TabView(
     }
 
     private fun TabLayout.addTabs(context: Context) {
-        for (i in tabItems.indices) {
+        for (i in children.indices) {
             addTab(newTab().apply {
-                text = tabItems[i].title
-                tabItems[i].icon?.let {
+                text = children[i].title
+                children[i].icon?.let {
                     icon = getIconFromResources(context, it)
                 }
             })
@@ -158,18 +158,18 @@ data class TabView(
 }
 
 internal class ContentAdapter(
-    private val tabList: List<TabItem>,
+    private val children: List<TabItem>,
     private val viewFactory: ViewFactory,
     private val rootView: RootView
 ) : PagerAdapter() {
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean = view === `object`
 
-    override fun getCount(): Int = tabList.size
+    override fun getCount(): Int = children.size
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = viewFactory.makeBeagleFlexView(container.context).also {
-            it.addServerDrivenComponent(tabList[position].content, rootView)
+            it.addServerDrivenComponent(children[position].child, rootView)
         }
         container.addView(view)
         return view
