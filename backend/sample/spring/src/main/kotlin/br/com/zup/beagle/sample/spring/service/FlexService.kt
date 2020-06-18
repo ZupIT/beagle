@@ -16,10 +16,10 @@
 
 package br.com.zup.beagle.sample.spring.service
 
-import br.com.zup.beagle.sample.builder.TestScreenBuilder
+import br.com.zup.beagle.sample.builder.FlexScreenBuilder
 import org.springframework.stereotype.Service
 
 @Service
-class TestService {
-    fun getTest() = TestScreenBuilder
+class FlexService {
+    fun getFlex() = FlexScreenBuilder
 }

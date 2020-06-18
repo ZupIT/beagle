@@ -16,13 +16,11 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.core.FlexPositionType
@@ -31,28 +29,16 @@ import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.TextAlignment
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.ui.Text
 
 
-object TestScreenBuilder: ScreenBuilder {
+object FlexScreenBuilder: ScreenBuilder {
     override fun build() = Screen(
         navigationBar = NavigationBar(
-            title = "Beagle Test",
-            showBackButton = true,
-            navigationBarItems = listOf(
-                NavigationBarItem(
-                    text = "",
-                    image = "informationImage",
-                    action = ShowNativeDialog(
-                        title = "Touchable",
-                        message = "Applies click action on widgets that have no action.",
-                        buttonText = "OK"
-                    )
-                )
-            )
+            title = "Beagle Flex",
+            showBackButton = true
         ),
         child = Container(
             children = listOf(

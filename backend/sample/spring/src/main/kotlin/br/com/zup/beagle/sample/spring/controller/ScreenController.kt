@@ -45,7 +45,7 @@ import br.com.zup.beagle.sample.constants.SCREEN_NETWORK_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_PAGE_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SCROLL_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TAB_VIEW_ENDPOINT
-import br.com.zup.beagle.sample.constants.SCREEN_TEST_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_FLEX_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TOUCHABLE_ENDPOINT
 import br.com.zup.beagle.sample.spring.service.AccessibilityService
@@ -69,7 +69,7 @@ import br.com.zup.beagle.sample.spring.service.SampleTabViewService
 import br.com.zup.beagle.sample.spring.service.SampleTextService
 import br.com.zup.beagle.sample.spring.service.SampleTouchableService
 import br.com.zup.beagle.sample.spring.service.SampleViewService
-import br.com.zup.beagle.sample.spring.service.TestService
+import br.com.zup.beagle.sample.spring.service.FlexService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -96,7 +96,7 @@ class ScreenController(
     private val sampleTouchableService: SampleTouchableService,
     private val sampleActionClickService: SampleActionClickService,
     private val sampleAnalyticsService: SampleAnalyticsService,
-    private val testService: TestService
+    private val flexService: FlexService
 ) {
     @GetMapping(ACCESSIBILITY_SCREEN_ENDPOINT)
     fun getAccessibilityView() = this.accessibilityService.createAccessibilityView()
@@ -187,7 +187,7 @@ class ScreenController(
     @GetMapping(SCREEN_ANALYTICS_ENDPOINT)
     fun getAnalyticsExample() = this.sampleAnalyticsService.getAnalyticsExample()
 
-    @GetMapping(SCREEN_TEST_ENDPOINT)
-    fun getTest() = this.testService.getTest()
+    @GetMapping(SCREEN_FLEX_ENDPOINT)
+    fun getFlex() = this.flexService.getFlex()
 
 }
