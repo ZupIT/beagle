@@ -35,7 +35,7 @@ extension CustomActionableContainer {
         let rawVerySpecificAction: Action? = try container.decode(forKey: .verySpecificAction)
         if let aux = rawVerySpecificAction as? SpecificActionFromContainer { 
              verySpecificAction = aux
-        } else { 
+        } else {
             throw ComponentDecodingError.couldNotCastToType("SpecificActionFromContainer")
         }
     }
@@ -115,13 +115,13 @@ extension SingleTextContainer {
         let rawFirstTextContainer: ServerDrivenComponent? = try container.decode(forKey: .firstTextContainer)
         if let aux = rawFirstTextContainer as? TextComponents { 
              firstTextContainer = aux
-        } else { 
+        } else {
             throw ComponentDecodingError.couldNotCastToType("TextComponents")
         }
         let rawSecondTextContainer: ServerDrivenComponent? = try container.decode(forKey: .secondTextContainer)
         if let aux = rawSecondTextContainer as? TextComponents { 
              secondTextContainer = aux
-        } else { 
+        } else {
             throw ComponentDecodingError.couldNotCastToType("TextComponents")
         }
         rawChild = try container.decode(forKey: .rawChild)
@@ -139,16 +139,16 @@ extension TextContainer {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        let rawChildrenOfTextContainer: ServerDrivenComponent? = try container.decode(forKey: .childrenOfTextContainer)
-        if let aux = rawChildrenOfTextContainer as? TextComponents { 
+        let rawChildrenOfTextContainer: [ServerDrivenComponent]? = try container.decode(forKey: .childrenOfTextContainer)
+        if let aux = rawChildrenOfTextContainer as? [TextComponents] { 
              childrenOfTextContainer = aux
-        } else { 
-            throw ComponentDecodingError.couldNotCastToType("TextComponents")
+        } else {
+            throw ComponentDecodingError.couldNotCastToType("[TextComponents]")
         }
         let rawHeaderOfTextContainer: ServerDrivenComponent? = try container.decode(forKey: .headerOfTextContainer)
         if let aux = rawHeaderOfTextContainer as? TextComponentHeader { 
              headerOfTextContainer = aux
-        } else { 
+        } else {
             throw ComponentDecodingError.couldNotCastToType("TextComponentHeader")
         }
     }

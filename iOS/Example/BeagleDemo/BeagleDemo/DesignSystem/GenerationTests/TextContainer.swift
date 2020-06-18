@@ -21,7 +21,7 @@ import UIKit
 
 public struct TextContainer: ServerDrivenComponent, AutoInitiableAndDecodable {
 
-    public let childrenOfTextContainer: TextComponents
+    public let childrenOfTextContainer: [TextComponents]
     public let headerOfTextContainer: TextComponentHeader
     
     public func toView(renderer: BeagleRenderer) -> UIView {
@@ -30,7 +30,7 @@ public struct TextContainer: ServerDrivenComponent, AutoInitiableAndDecodable {
 
 // sourcery:inline:auto:TextContainer.Init
     public init(
-        childrenOfTextContainer: TextComponents,
+        childrenOfTextContainer: [TextComponents],
         headerOfTextContainer: TextComponentHeader
     ) {
         self.childrenOfTextContainer = childrenOfTextContainer

@@ -27,13 +27,15 @@ extension Variable {
 		if let variableType = self.type {
     		return hasTypeIn(type?.inheritedTypes)
     	} else if let typeInArray = typeName.array?.elementType?.inheritedTypes {
-    		return hasTypeIn(typeInArray)
+    		if let foundType = hasTypeIn(typeInArray) {
+    			return "[" + foundType + "]"
+    		}
+    		return nil 
     	} else if Variable.beagleProtocolTypes.contains(unwrappedTypeName) {
     		return unwrappedTypeName
     	} else {
     		return nil
     	}
-
 	}
 
 	func hasTypeIn(_ array: [String]?) -> String? {
@@ -79,13 +81,6 @@ func needsCustomBeagleDecoding(_ variable: Variable) -> Bool {
     let isCoreBeagleProtocolType = Variable.beagleProtocolTypes.contains(variable.unwrappedTypeName)
         || variable.unwrappedTypeName == "RawAction"
     return isCoreBeagleProtocolType || variable.inheritsFromAnyCoreBeagleProtocolType() != nil
-}
-
-func returnVariableName(_ variable: Variable) -> String {
-    if let beagleProtocol = variable.inheritsFromAnyCoreBeagleProtocolType(), variable.unwrappedTypeName != beagleProtocol {
-        return "let \(variable.rawUppercasedVariableName): \(beagleProtocol)?"
-    }
-    return variable.name
 }
 
 func codingKeysFor(_ type: Type) -> (generated: [String], all: [String]) {
@@ -166,6 +161,13 @@ func containerDeclaration(generatedCodingKeys: [String]) -> String {
     }
 }
 
+func returnVariableName(_ variable: Variable) -> String {
+    if let beagleProtocol = variable.inheritsFromAnyCoreBeagleProtocolType(), variable.unwrappedTypeName != beagleProtocol {
+        return "let \(variable.rawUppercasedVariableName): \(beagleProtocol)?"
+    }
+    return variable.name
+}
+
 func makeDecoding(_ variable: Variable) -> String {
     guard variable.name != "widgetProperties" || variable.typeName.name != "WidgetProperties" else {
         return "WidgetProperties(from: decoder)"
@@ -194,7 +196,7 @@ func handleCustomProtocolWrappedCases(_ variable: Variable) -> String {
 		var line = ""
 		line += "\n" + identation + identation + "if let " + aux + " = \(variable.rawUppercasedVariableName) as? \(variable.unwrappedTypeName) { \n "
 		line += identation + identation + identation + variable.name + " = "  + aux + "\n"
-		line += identation + identation + "} else { \n"
+		line += identation + identation + "} else {\n"
 		line += identation + identation + identation + "throw ComponentDecodingError.couldNotCastToType(\"" + variable.unwrappedTypeName + "\")\n" 
 		line += identation + identation + "}"
 
