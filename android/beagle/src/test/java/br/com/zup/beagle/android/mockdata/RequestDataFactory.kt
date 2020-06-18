@@ -32,6 +32,6 @@ fun makeResponseData() = ResponseData(
 fun makeRequestData() = RequestData(
     uri = URI(RandomData.string()),
     method =  HttpMethod.GET,
-    originalHeaders = mapOf("Authorization" to RandomData.string()),
+    headers = mapOf("Authorization" to RandomData.string()),
     body = makeButtonJson()
 )

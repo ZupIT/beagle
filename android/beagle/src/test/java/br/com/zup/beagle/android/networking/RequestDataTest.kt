@@ -39,8 +39,7 @@ class RequestDataTest {
 
     @Test
     fun requestData_should_have_just_beaglePlatform_header() {
-        assertEquals(1, requestData.headers.size)
-        assertEquals(RequestData.BEAGLE_PLATFORM_HEADER_VALUE, requestData.headers[RequestData.BEAGLE_PLATFORM_HEADER_KEY])
+        assertEquals(0, requestData.headers.size)
     }
 
     @Test

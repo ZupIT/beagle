@@ -43,8 +43,6 @@ import java.net.HttpURLConnection
 import java.net.URI
 import java.net.URL
 import kotlin.test.assertEquals
-import kotlin.test.assertFails
-import kotlin.test.assertTrue
 import kotlin.test.fail
 
 private val BYTE_ARRAY_DATA = byteArrayOf()
@@ -136,7 +134,7 @@ class HttpClientDefaultTest {
         )
         val requestData = RequestData(
             uri = uri,
-            originalHeaders = headers
+            headers = headers
         )
 
         // When

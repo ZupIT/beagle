@@ -41,7 +41,7 @@ internal object ScreenRequestMapper {
         return RequestData(
             uri = URI(newUrl),
             method = method,
-            originalHeaders = screenRequest.headers,
+            headers = screenRequest.headers,
             body = screenRequest.body
         )
     }
