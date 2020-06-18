@@ -19,9 +19,7 @@
 package br.com.zup.beagle.widget.core
 
 class FlexBuilder {
-    private var positionType: FlexPositionType? = null
     private var flexDirection: FlexDirection? = null
-    private var display: FlexDisplay? = null
     private var flexWrap: FlexWrap? = null
     private var shrink: Double? = null
     private var grow: Double? = null
@@ -33,14 +31,12 @@ class FlexBuilder {
     private var basis: UnitValue? = null
 
     fun build() = Flex(
-        positionType = this.positionType,
         shrink = this.shrink,
         justifyContent = this.justifyContent,
         grow = this.grow,
         flexWrap = this.flexWrap,
         flexDirection = this.flexDirection,
         flex = this.flex,
-        display = this.display,
         basis = this.basis,
         alignSelf = this.alignSelf,
         alignItems = this.alignItems,
@@ -53,8 +49,6 @@ class FlexBuilder {
 
     fun alignSelf(type: AlignSelf) = this.apply { this.alignSelf = type }
 
-    fun display(type: FlexDisplay) = this.apply { this.display = type }
-
     fun flex(value: Double) = this.apply { this.flex = value }
 
     fun flexDirection(type: FlexDirection) = this.apply { this.flexDirection = type }
@@ -66,8 +60,6 @@ class FlexBuilder {
     fun justifyContent(type: JustifyContent) = this.apply { this.justifyContent = type }
 
     fun shrink(value: Double) = this.apply { this.shrink = value }
-
-    fun positionType(type: FlexPositionType? = null) = this.apply { this.positionType = type }
 
     fun basis(value: UnitValue) = this.apply { this.basis = value }
     

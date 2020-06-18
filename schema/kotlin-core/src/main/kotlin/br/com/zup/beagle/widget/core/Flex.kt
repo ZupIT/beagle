@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.widget.core
 
+
 /**
  *
  * The flex is a Layout component that will handle your visual component positioning at the screen.
@@ -41,7 +42,6 @@ package br.com.zup.beagle.widget.core
  * @param shrink
  *              describes how to shrink children along the main axis in the case that
  *              the total size of the children overflow the size of the container on the main axis.
- * @param display enables a flex context for all its direct children.
  *
  */
 data class Flex(
@@ -51,12 +51,10 @@ data class Flex(
     val alignItems: AlignItems? = null, /* = Alignment.STRETCH */
     val alignSelf: AlignSelf? = null, /* = Alignment.AUTO */
     val alignContent: AlignContent? = null, /* = Alignment.FLEX_START */
-    val positionType: FlexPositionType? = null, /* = FlexPositionType.RELATIVE */
     val basis: UnitValue? = null, /* = UnitValue(0.0, UnitType.AUTO) */
     val flex: Double? = null, /* = 0.0 */
     val grow: Double? = null, /* = 0.0 */
-    val shrink: Double? = null, /* = 1.0 */
-    val display: FlexDisplay? = null /* = FlexDisplay.FLEX */
+    val shrink: Double? = null /* = 1.0 */
 )
 
 /**
@@ -377,44 +375,3 @@ enum class AlignItems {
     STRETCH
 }
 
-/**
- * This defines a flex container;
- * inline or block depending on the given value. It enables a flex context for all its direct children.
- *
- * @property FLEX
- * @property NONE
- */
-enum class FlexDisplay {
-    /**
-     * Apply the flex properties.
-     */
-    FLEX,
-
-    /**
-     * No flex properties will be applied to the element.
-     */
-    NONE
-}
-
-/**
- * The position type of an element defines how it is positioned within its parent.
- *
- * @property ABSOLUTE
- * @property RELATIVE
- */
-enum class FlexPositionType {
-
-    /**
-     * This means an element is positioned according to the normal flow of the layout,
-     * and then offset relative to that position based on the values of top, right, bottom, and left.
-     * The offset does not affect the position of any sibling or parent elements.
-     */
-    ABSOLUTE,
-
-    /**
-     * When positioned absolutely an element doesn't take part in the normal layout flow.
-     * It is instead laid out independent of its siblings.
-     * The position is determined based on the top, right, bottom, and left values.
-     */
-    RELATIVE
-}

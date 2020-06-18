@@ -18,6 +18,8 @@ package br.com.zup.beagle.android.engine.mapper
 
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.utils.dp
+import br.com.zup.beagle.core.Display
+import br.com.zup.beagle.core.PositionType
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.AlignItems
@@ -25,8 +27,6 @@ import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
-import br.com.zup.beagle.widget.core.FlexDisplay
-import br.com.zup.beagle.widget.core.FlexPositionType
 import br.com.zup.beagle.widget.core.FlexWrap
 import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.core.Size
@@ -243,12 +243,12 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_display_as_FLEX() {
         // Given
-        val flex = Flex(
-            display = FlexDisplay.FLEX
+        val style = Style(
+            display = Display.FLEX
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(Style(flex = flex))
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
         verify(exactly = once()) { yogaNode.display = YogaDisplay.FLEX }
@@ -257,15 +257,15 @@ class FlexMapperTest {
     @Test
     fun makeYogaNode_should_set_display_as_NONE() {
         // Given
-        val flex = Flex(
-            display = FlexDisplay.NONE
+        val style = Style(
+            display = Display.NONE
         )
 
         // When
-        val yogaNode = flexMapper.makeYogaNode(Style(flex = flex))
+        val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
-        verify(exactly = once()) { yogaNode.display = YogaDisplay.NONE }
+            verify(exactly = once()) { yogaNode.display = YogaDisplay.NONE }
     }
 
     @Test
@@ -686,33 +686,5 @@ class FlexMapperTest {
 
         // Then
         verify(exactly = once()) { yogaNode.setPositionPercent(YogaEdge.TOP, ONE_UNIT_VALUE.toFloat()) }
-    }
-
-    @Test
-    fun makeYogaNode_should_set_positionType_as_RELATIVE() {
-        // Given
-        val flex = Flex(
-            positionType = FlexPositionType.RELATIVE
-        )
-
-        // When
-        val yogaNode = flexMapper.makeYogaNode(Style(flex = flex))
-
-        // Then
-        verify(exactly = once()) { yogaNode.positionType = YogaPositionType.RELATIVE }
-    }
-
-    @Test
-    fun makeYogaNode_should_set_positionType_as_ABSOLUTE() {
-        // Given
-        val flex = Flex(
-            positionType = FlexPositionType.ABSOLUTE
-        )
-
-        // When
-        val yogaNode = flexMapper.makeYogaNode(Style(flex = flex))
-
-        // Then
-        verify(exactly = once()) { yogaNode.positionType = YogaPositionType.ABSOLUTE }
     }
 }

@@ -44,8 +44,8 @@ class FlexMapper {
         style.flex?.grow?.toFloat()?.let { flexGrow = it }
         style.flex?.flex?.toFloat()?.let { setFlex(it) }
         style.flex?.shrink?.toFloat()?.let { flexShrink = it }
-        display = makeYogaDisplay(style.flex?.display) ?: YogaDisplay.FLEX
-        positionType = makeYogaPositionType(style.flex?.positionType) ?: YogaPositionType.RELATIVE
+        display = makeYogaDisplay(style.display) ?: YogaDisplay.FLEX
+        positionType = makeYogaPositionType(style.positionType) ?: YogaPositionType.RELATIVE
         applyAttributes(style, this)
     }
 
