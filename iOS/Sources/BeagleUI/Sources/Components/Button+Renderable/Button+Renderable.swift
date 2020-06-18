@@ -26,13 +26,17 @@ extension Button: Widget {
             clickAnalyticsEvent: clickAnalyticsEvent,
             controller: renderer.controller
         )
-        button.setTitle(text, for: .normal)
+        if let buttonTitle = text.get(with: button, controller: renderer.controller, updateFunction: { title in button.setTitle(title, for: .normal) }) {
+            button.setTitle(buttonTitle, for: .normal)
+        }
         
         if let newPath = (action as? Navigate)?.newPath {
             renderer.controller.dependencies.preFetchHelper.prefetchComponent(newPath: newPath)
         }
         
-        button.styleId = styleId
+        if let styleId = styleId?.get(with: button, controller: renderer.controller, updateFunction: { styleId in button.styleId = styleId }) {
+            button.styleId = styleId
+        }
         
         return button
     }

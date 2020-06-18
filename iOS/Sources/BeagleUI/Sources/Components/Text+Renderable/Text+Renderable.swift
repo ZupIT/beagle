@@ -31,13 +31,24 @@ extension Text: Widget {
         textView.font = .systemFont(ofSize: 16)
         textView.backgroundColor = .clear
         
-        textView.textAlignment = alignment?.toUIKit() ?? .natural
+        if let textAlignment = alignment?.get(with: textView, controller: renderer.controller, updateFunction: { aligment in
+            textView.textAlignment = aligment.toUIKit()
+        }) {
+            textView.textAlignment = textAlignment.toUIKit()
+        } else {
+            textView.textAlignment = .natural
+        }
+        
         textView.text = text.get(with: textView, controller: renderer.controller) { string in textView.text = string }
 
-        if let styleId = styleId {
+        if let styleId = styleId?.get(with: textView, controller: renderer.controller, updateFunction: { styleId in
+            renderer.controller.dependencies.theme.applyStyle(for: textView, withId: styleId)
+        }) {
             renderer.controller.dependencies.theme.applyStyle(for: textView, withId: styleId)
         }
-        if let color = textColor {
+        if let color = textColor?.get(with: textView, controller: renderer.controller, updateFunction: { color in
+            textView.textColor = UIColor(hex: color)
+        }) {
             textView.textColor = UIColor(hex: color)
         }
         

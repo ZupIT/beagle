@@ -20,6 +20,12 @@ import BeagleSchema
 
 extension WebView: ServerDrivenComponent {
     public func toView(renderer: BeagleRenderer) -> UIView {
-        return WebViewUIComponent(model: WebViewUIComponent.Model(url: url))
+        var view = WebViewUIComponent(model: WebViewUIComponent.Model(url: ""))
+        if let urlString = url.get(with: view, controller: renderer.controller, updateFunction: { urlString in
+            view = WebViewUIComponent(model: WebViewUIComponent.Model(url: urlString))
+        }) {
+            view = WebViewUIComponent(model: WebViewUIComponent.Model(url: urlString))
+        }
+        return view
     }
 }
