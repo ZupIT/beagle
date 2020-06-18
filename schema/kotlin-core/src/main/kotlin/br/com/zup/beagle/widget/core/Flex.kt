@@ -35,7 +35,6 @@ package br.com.zup.beagle.widget.core
  *                      Align self has the same options and effect as align items
  *                      but instead of affecting the children within a container.
  * @param alignContent Align content defines the distribution of lines along the cross-axis..
- * @param positionType The position type of an element defines how it is positioned within its parent.
  * @param basis is an axis-independent way of providing the default size of an item along the main axis.
  * @param flex TODO.
  * @param grow describes how any space within a container should be distributed among its children along the main axis.

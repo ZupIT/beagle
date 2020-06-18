@@ -43,6 +43,7 @@ import br.com.zup.beagle.widget.core.Size
  * @param position add padding to position.
  * @param flex
  * @see Flex
+ * @param positionType The position type of an element defines how it is positioned within its parent.
  * @param display enables a flex context for all its direct children.
  */
 data class Style (
@@ -53,7 +54,7 @@ data class Style (
     val padding: EdgeValue? = null,
     val position: EdgeValue? = null,
     val flex: Flex? = null,
-    val positionType: PositionType? = null, /* = FlexPositionType.RELATIVE */
+    val positionType: PositionType? = null,
     val display: Display? = null
 )
 
