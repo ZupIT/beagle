@@ -23,7 +23,7 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.annotation.RegisterWidget
 
 @RegisterWidget
-class SampleTextField(private val placeholder: String) : InputWidget() {
+data class SampleTextField(val placeholder: String = "") : InputWidget() {
 
     @Transient
     private lateinit var textFieldView: EditText
@@ -36,7 +36,7 @@ class SampleTextField(private val placeholder: String) : InputWidget() {
 
     override fun buildView(rootView: RootView) = EditText(rootView.getContext()).apply {
         textFieldView = this
-        textFieldView.hint = placeholder
+
         textFieldView.isSingleLine = true
         doOnTextChanged { _, _, _, _ -> notifyChanges() }
     }

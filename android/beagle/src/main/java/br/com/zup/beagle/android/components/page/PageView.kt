@@ -21,15 +21,15 @@ import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
-import br.com.zup.beagle.android.view.BeaglePageView
+import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 data class PageView(
-    private val pages: List<ServerDrivenComponent>,
-    private val pageIndicator: PageIndicatorComponent? = null
+    val pages: List<ServerDrivenComponent>,
+    val pageIndicator: PageIndicatorComponent? = null
 ) : WidgetView() {
 
     @Transient

@@ -34,17 +34,7 @@ class BeagleScreenViewModel {
         case failure(ServerDrivenState.Error)
     }
 
-    var dependencies: Dependencies
-
-    public typealias Dependencies =
-        DependencyActionExecutor
-        & DependencyRepository
-        & DependencyAnalyticsExecutor
-        & RenderableDependencies
-        & BeagleSchema.DependencyDecoder
-        & DependencyFormDataStoreHandler
-        & DependencyNavigationController
-        & DependencyRenderer
+    var dependencies: BeagleDependenciesProtocol
 
     // MARK: Observer
 
@@ -56,7 +46,7 @@ class BeagleScreenViewModel {
 
     public init(
         screenType: ScreenType,
-        dependencies: Dependencies = Beagle.dependencies
+        dependencies: BeagleDependenciesProtocol = Beagle.dependencies
     ) {
         self.screenType = screenType
         self.dependencies = dependencies
@@ -91,11 +81,12 @@ class BeagleScreenViewModel {
         guard let data = text.data(using: .utf8) else { return nil }
         let component = try? self.dependencies.decoder.decodeComponent(from: data)
 
+        // TODO: verify if we can handle any component
         guard let screen = component as? ScreenComponent else {
             return nil
         }
 
-        return Screen(child: screen)
+        return screen.toScreen()
     }
 
     func loadRemoteScreen(_ remote: ScreenType.Remote) {

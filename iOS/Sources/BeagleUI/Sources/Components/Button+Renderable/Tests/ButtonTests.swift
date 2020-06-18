@@ -28,6 +28,8 @@ final class ButtonTests: XCTestCase {
         //Given
         let buttonTitle = "title"
         let component = Button(text: buttonTitle)
+        let controller = BeagleControllerStub()
+        let renderer = BeagleRenderer(controller: controller)
 
         //When
         guard let button = renderer.render(component) as? UIButton else {
@@ -42,8 +44,9 @@ final class ButtonTests: XCTestCase {
     func test_toView_shouldApplyButtonStyle() {
         // Given
         let theme = ThemeSpy()
-        let dependencies = BeagleScreenDependencies(theme: theme)
-        let renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: dependencies)
+        let controller = BeagleControllerStub()
+        let renderer = BeagleRenderer(controller: controller)
+        controller.dependencies = BeagleScreenDependencies(theme: theme)
         
         let style = "test.button.style"
         let button = Button(text: "apply style", styleId: style)
@@ -59,8 +62,9 @@ final class ButtonTests: XCTestCase {
     func test_toView_shouldPrefetchNavigateAction() {
         // Given
         let prefetch = BeaglePrefetchHelpingSpy()
-        let dependencies = BeagleScreenDependencies(preFetchHelper: prefetch)
-        let renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: dependencies)
+        let controller = BeagleControllerStub()
+        let renderer = BeagleRenderer(controller: controller)
+        controller.dependencies = BeagleScreenDependencies(preFetchHelper: prefetch)
         
         let navigatePath = "path-to-prefetch"
         let navigate = Navigate.pushStack(.remote(navigatePath))
@@ -75,45 +79,44 @@ final class ButtonTests: XCTestCase {
     
     func test_action_shouldBeTriggered() {
         // Given
-        let action = ActionDummy()
+        let action = ActionSpy()
         let button = Button(text: "Trigger Action", action: action)
-        let actionManager = ActionManagerSpy()
-        let context = BeagleContextSpy(actionManager: actionManager)
-        let renderer = BeagleRenderer(context: context, dependencies: dependencies)
+        let controller = BeagleControllerStub()
+        let renderer = BeagleRenderer(controller: controller)
 
         // When
         let view = renderer.render(button)
         (view as? Button.BeagleUIButton)?.triggerTouchUpInsideActions()
 
         // Then
-        XCTAssertEqual(actionManager.actionCalled as? ActionDummy, action)
+        XCTAssertEqual(action.executionCount, 1)
+        XCTAssert(action.lastSender as AnyObject === view)
     }
     
     func test_analytics_click_shouldBeTriggered() {
         // Given
-        var dependencies = BeagleScreenDependencies()
-        dependencies.analytics = AnalyticsExecutorSpy()
+        let analytics = AnalyticsExecutorSpy()
         let button = Button(text: "Trigger analytics click", clickAnalyticsEvent: .init(category: "some category"))
-        let actionManager = ActionManagerSpy()
-        let context = BeagleContextSpy(actionManager: actionManager)
-        let renderer = BeagleRenderer(context: context, dependencies: dependencies)
+        let controller = BeagleControllerStub()
+        let renderer = BeagleRenderer(controller: controller)
+        controller.dependencies = BeagleScreenDependencies(analytics: analytics)
 
         // When
         let view = renderer.render(button)
         (view as? Button.BeagleUIButton)?.triggerTouchUpInsideActions()
         
         // Then
-        XCTAssertTrue(actionManager.analyticsEventCalled)
+        XCTAssertTrue(analytics.didTrackEventOnClick)
     }
     
     func test_analytics_click_and_action_shouldBeTriggered() {
         // Given
-        var dependencies = BeagleScreenDependencies()
-        let action = ActionDummy()
-        dependencies.analytics = AnalyticsExecutorSpy()
-        let actionManager = ActionManagerSpy()
-        let context = BeagleContextSpy(actionManager: actionManager)
-        let renderer = BeagleRenderer(context: context, dependencies: dependencies)
+        let action = ActionSpy()
+        let analytics = AnalyticsExecutorSpy()
+        let controller = BeagleControllerStub()
+        let renderer = BeagleRenderer(controller: controller)
+        controller.dependencies = BeagleScreenDependencies(analytics: analytics)
+        
         let button = Button(text: "Trigger analytics click", action: action, clickAnalyticsEvent: .init(category: "some category"))
 
         // When
@@ -121,8 +124,8 @@ final class ButtonTests: XCTestCase {
         (view as? Button.BeagleUIButton)?.triggerTouchUpInsideActions()
         
         // Then
-        XCTAssertEqual(actionManager.actionCalled as? ActionDummy, action)
-        XCTAssertTrue(actionManager.analyticsEventCalled)
-
+        XCTAssertTrue(analytics.didTrackEventOnClick)
+        XCTAssertEqual(action.executionCount, 1)
+        XCTAssert(action.lastSender as AnyObject === view)
     }
 }

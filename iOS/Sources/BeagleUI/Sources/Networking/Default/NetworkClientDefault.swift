@@ -75,14 +75,18 @@ public class NetworkClientDefault: NetworkClient {
         }
 
         guard
-            let response = response as? HTTPURLResponse,
-            (200...299).contains(response.statusCode),
-            let data = data
+            let httpResponse = response as? HTTPURLResponse,
+            (200...299).contains(httpResponse.statusCode),
+            let responseData = data
         else {
-            return .failure(NetworkError(error: ClientError.invalidHttpResponse))
+            return .failure(NetworkError(
+                error: ClientError.invalidHttpResponse,
+                data: data,
+                response: response
+            ))
         }
 
-        return .success(.init(data: data, response: response))
+        return .success(.init(data: responseData, response: httpResponse))
     }
 }
 

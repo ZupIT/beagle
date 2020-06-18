@@ -1,8 +1,9 @@
 ▿ ScreenComponent
   ▿ child: Container
+    - _context_: Optional<Context>.none
     ▿ children: 7 elements
       ▿ Button
-        - action: Optional<Action>.none
+        - action: Optional<RawAction>.none
         - clickAnalyticsEvent: Optional<AnalyticsClick>.none
         ▿ styleId: Optional<String>
           - some: "DesignSystem.Button.Style"
@@ -41,6 +42,7 @@
           - id: Optional<String>.none
           - style: Optional<Style>.none
       ▿ Container
+        - _context_: Optional<Context>.none
         ▿ children: 1 element
           ▿ Spacer
             - size: 5.0
@@ -54,7 +56,7 @@
                 - some: "500000FF"
               - cornerRadius: Optional<CornerRadius>.none
       ▿ Button
-        - action: Optional<Action>.none
+        - action: Optional<RawAction>.none
         - clickAnalyticsEvent: Optional<AnalyticsClick>.none
         ▿ styleId: Optional<String>
           - some: "DesignSystem.Button.Style"
@@ -93,6 +95,7 @@
           - id: Optional<String>.none
           - style: Optional<Style>.none
       ▿ Container
+        - _context_: Optional<Context>.none
         ▿ children: 1 element
           ▿ Spacer
             - size: 10.0
@@ -106,7 +109,7 @@
                 - some: "500000FF"
               - cornerRadius: Optional<CornerRadius>.none
       ▿ Button
-        - action: Optional<Action>.none
+        - action: Optional<RawAction>.none
         - clickAnalyticsEvent: Optional<AnalyticsClick>.none
         ▿ styleId: Optional<String>
           - some: "DesignSystem.Button.Style"
@@ -145,6 +148,7 @@
           - id: Optional<String>.none
           - style: Optional<Style>.none
       ▿ Container
+        - _context_: Optional<Context>.none
         ▿ children: 1 element
           ▿ Spacer
             - size: 15.0
@@ -158,7 +162,7 @@
                 - some: "500000FF"
               - cornerRadius: Optional<CornerRadius>.none
       ▿ Button
-        - action: Optional<Action>.none
+        - action: Optional<RawAction>.none
         - clickAnalyticsEvent: Optional<AnalyticsClick>.none
         ▿ styleId: Optional<String>
           - some: "DesignSystem.Button.Style"

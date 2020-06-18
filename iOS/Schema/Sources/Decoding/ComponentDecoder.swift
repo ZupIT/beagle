@@ -20,10 +20,11 @@ public protocol ComponentDecoding {
     typealias Error = ComponentDecodingError
     
     func register<T: RawComponent>(_ type: T.Type, for typeName: String)
+    func register<A: RawAction>(_ type: A.Type, for typeName: String)
     func componentType(forType type: String) -> Decodable.Type?
     func actionType(forType type: String) -> Decodable.Type?
     func decodeComponent(from data: Data) throws -> RawComponent
-    func decodeAction(from data: Data) throws -> Action
+    func decodeAction(from data: Data) throws -> RawAction
 }
 
 public enum ComponentDecodingError: Error {
@@ -54,6 +55,10 @@ final public class ComponentDecoder: ComponentDecoding {
         registerComponent(type, key: key(name: typeName, namespace: .custom))
     }
     
+    public func register<A: RawAction>(_ type: A.Type, for typeName: String) {
+        registerAction(type, key: key(name: typeName, namespace: .custom))
+    }
+    
     public func componentType(forType type: String) -> Decodable.Type? {
         return componentDecoders[type.lowercased()]
     }
@@ -66,7 +71,7 @@ final public class ComponentDecoder: ComponentDecoding {
         return try decode(from: data)
     }
     
-    public func decodeAction(from data: Data) throws -> Action {
+    public func decodeAction(from data: Data) throws -> RawAction {
         return try decode(from: data)
     }
     
@@ -109,8 +114,10 @@ final public class ComponentDecoder: ComponentDecoding {
         registerAction(Navigate.self, key: key(name: "PopToView", namespace: .beagle))
         registerAction(FormValidation.self, key: key(name: "FormValidation", namespace: .beagle))
         registerAction(ShowNativeDialog.self, key: key(name: "ShowNativeDialog", namespace: .beagle))
-        registerAction(CustomAction.self, key: key(name: "CustomAction", namespace: .beagle))
+        registerAction(FormLocalAction.self, key: key(name: "FormLocalAction", namespace: .beagle))
         registerAction(FormRemoteAction.self, key: key(name: "FormRemoteAction", namespace: .beagle))
+        registerAction(SetContext.self, key: key(name: "SetContext", namespace: .beagle))
+        registerAction(SendRequest.self, key: key(name: "SendRequest", namespace: .beagle))
     }
     
     private func registerCoreTypes() {

@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.compiler
 
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.android.compiler.util.WIDGET_VIEW
+import br.com.zup.beagle.compiler.WIDGET_VIEW
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
@@ -37,7 +37,7 @@ class BeagleSetupRegisteredWidgetGenerator {
         )
 
         registerWidgetAnnotatedClasses.forEachIndexed { index, element ->
-            classValues.append("\t$element::class.java as Class<WidgetView>")
+            classValues.append("\t${element}::class.java as Class<WidgetView>")
             if (index < registerWidgetAnnotatedClasses.size - 1) {
                 classValues.append(",\n")
             }

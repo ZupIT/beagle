@@ -18,11 +18,11 @@ package br.com.zup.beagle.sample.micronaut.controller
 
 import br.com.zup.beagle.sample.constants.CUSTOM_WIDGET_ENDPOINT
 import br.com.zup.beagle.sample.micronaut.service.CustomNativeService
-import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Controller
 
 @Controller
 class CustomComponentController(private val customNativeService: CustomNativeService) {
     @Get(CUSTOM_WIDGET_ENDPOINT)
-    fun getCustomNativeWidget() = this.customNativeService.createCustomNativeWidget()
+    fun getCustomNativeWidget() = customNativeService.createCustomNativeWidget()
 }

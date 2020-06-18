@@ -16,13 +16,20 @@
 
 package br.com.zup.beagle.android.data
 
-import br.com.zup.beagle.action.Action
-import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.Route
+import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.Navigate
+import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.utils.generateViewModelInstance
+import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.android.widget.RootView
 
 internal class PreFetchHelper {
+
+    fun handlePreFetch(rootView: RootView, actions: List<Action>) {
+        actions.forEach { action ->
+            handlePreFetch(rootView, action)
+        }
+    }
 
     fun handlePreFetch(rootView: RootView, action: Action) {
         when (action) {
@@ -35,7 +42,7 @@ internal class PreFetchHelper {
 
     private fun preFetch(rootView: RootView, route: Route) {
         if (route is Route.Remote && route.shouldPrefetch) {
-            val viewModel = rootView.generateViewModelInstance()
+            val viewModel = rootView.generateViewModelInstance<BeagleViewModel>()
             viewModel.fetchForCache(route.route)
         }
     }

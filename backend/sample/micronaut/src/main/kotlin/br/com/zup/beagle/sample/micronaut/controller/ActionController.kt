@@ -18,11 +18,13 @@ package br.com.zup.beagle.sample.micronaut.controller
 
 import br.com.zup.beagle.sample.constants.SUBMIT_FORM_ENDPOINT
 import br.com.zup.beagle.sample.micronaut.service.SampleFormService
-import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Post
+import io.micronaut.http.annotation.Controller
 
 @Controller
-class ActionController(private val sampleFormService: SampleFormService) {
+class ActionController(
+    private val sampleFormService: SampleFormService
+) {
     @Post(SUBMIT_FORM_ENDPOINT)
-    fun postSubmitForm(body: Map<String, String>) = this.sampleFormService.submitForm(body)
+    fun postSubmitForm(body: Map<String, String>)= this.sampleFormService.submitForm(body)
 }

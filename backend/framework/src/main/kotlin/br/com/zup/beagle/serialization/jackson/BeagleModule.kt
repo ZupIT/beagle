@@ -16,14 +16,38 @@
 
 package br.com.zup.beagle.serialization.jackson
 
+import br.com.zup.beagle.core.BindAttribute
+import br.com.zup.beagle.widget.layout.ComposeComponent
+import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Position
 import com.fasterxml.jackson.databind.module.SimpleModule
 
-object BeagleModule : SimpleModule() {
+class BeagleModule(
+    private val classLoader: ClassLoader = BeagleModule::class.java.classLoader
+) : SimpleModule() {
+
     init {
-        this.setSerializerModifier(BeagleSerializerModifier)
-        this.setMixInAnnotation(EdgeValue::class.java, EdgeValueMixin::class.java)
-        this.setMixInAnnotation(Position::class.java, PositionMixin::class.java)
+        this.setSerializerModifier(BeagleSerializerModifier(this.classLoader))
+        this.setMixInAnnotation(
+            getClass(ComposeComponent::class, this.classLoader),
+            ComposeComponentMixin::class.java
+        )
+        this.setMixInAnnotation(
+            getClass(ScreenBuilder::class, this.classLoader),
+            ScreenBuilderMixin::class.java
+        )
+        this.setMixInAnnotation(
+            getClass(BindAttribute::class, this.classLoader),
+            BindMixin::class.java
+        )
+        this.setMixInAnnotation(
+            getClass(EdgeValue::class, this.classLoader),
+            EdgeValueMixin::class.java
+        )
+        this.setMixInAnnotation(
+            getClass(Position::class, this.classLoader),
+            PositionMixin::class.java
+        )
     }
 }

@@ -27,8 +27,8 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.ListDirection
 
 data class ListView(
-    private val rows: List<ServerDrivenComponent>,
-    private val direction: ListDirection = ListDirection.VERTICAL
+    val rows: List<ServerDrivenComponent>,
+    val direction: ListDirection = ListDirection.VERTICAL
 ) : WidgetView() {
 
     @Transient

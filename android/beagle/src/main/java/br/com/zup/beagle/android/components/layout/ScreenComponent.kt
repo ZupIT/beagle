@@ -28,15 +28,13 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.SafeArea
 
 internal data class ScreenComponent(
     val identifier: String? = null,
-    private val safeArea: SafeArea? = null,
+    val safeArea: SafeArea? = null,
     val navigationBar: NavigationBar? = null,
     val child: ServerDrivenComponent,
-    private val screenAnalyticsEvent: ScreenEvent? = null,
+    val screenAnalyticsEvent: ScreenEvent? = null,
     override var style: Style? = null
 ) : WidgetView() {
 
@@ -56,11 +54,11 @@ internal data class ScreenComponent(
         screenAnalyticsEvent?.let {
             container.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
                 override fun onViewAttachedToWindow(v: View?) {
-                    BeagleEnvironment.beagleSdk.analytics?.sendViewWillAppearEvent(it)
+                    BeagleEnvironment.beagleSdk.analytics?.trackEventOnScreenAppeared(it)
                 }
 
                 override fun onViewDetachedFromWindow(v: View?) {
-                    BeagleEnvironment.beagleSdk.analytics?.sendViewWillDisappearEvent(it)
+                    BeagleEnvironment.beagleSdk.analytics?.trackEventOnScreenDisappeared(it)
                 }
             })
         }

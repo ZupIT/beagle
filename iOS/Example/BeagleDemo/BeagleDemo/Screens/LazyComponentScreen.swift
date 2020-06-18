@@ -20,7 +20,7 @@ import BeagleSchema
 
 struct LazyComponentScreen: DeeplinkScreen {
     
-    init(path: String, data: [String : String]?) {
+    init(path: String, data: [String: String]?) {
     }
     
     func screenController() -> UIViewController {
@@ -82,7 +82,9 @@ extension UITextView: OnStateUpdatable, InputValue {
         guard let w = component as? Text else {
             return false
         }
-        text = w.text
+        if case let Expression.value(value) = w.text {
+            text = value
+        }
         return true
     }
     

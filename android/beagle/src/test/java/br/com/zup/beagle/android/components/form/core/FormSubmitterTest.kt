@@ -16,8 +16,10 @@
 
 package br.com.zup.beagle.android.components.form.core
 
-import br.com.zup.beagle.action.FormMethodType
-import br.com.zup.beagle.action.FormRemoteAction
+import android.net.Uri
+import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.action.FormMethodType
+import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.components.form.Form
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.extensions.once
@@ -25,20 +27,17 @@ import br.com.zup.beagle.android.networking.HttpClient
 import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
-import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
 import io.mockk.*
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
-import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Test
 
 private val FORMS_VALUE = mapOf<String, String>()
 private val ACTION = RandomData.string()
 
-class FormSubmitterTest {
+class FormSubmitterTest : BaseTest() {
 
     @MockK
     private lateinit var httpClient: HttpClient
@@ -52,24 +51,30 @@ class FormSubmitterTest {
     private val requestDataSlot = slot<RequestData>()
     private val urlSlot = slot<String>()
 
+    @MockK
+    private lateinit var uriBuilder: Uri.Builder
+
+    @MockK
+    private lateinit var uri: Uri
+
     @InjectMockKs
     private lateinit var formSubmitter: FormSubmitter
 
-    @Before
-    fun setUp() {
-        MockKAnnotations.init(this)
+    override fun setUp() {
+        super.setUp()
+        mockkStatic("android.net.Uri")
 
-        mockkObject(BeagleEnvironment)
+        every { Uri.parse(any()) } returns uri
+        every { uri.buildUpon() } returns uriBuilder
+        every {uriBuilder.appendQueryParameter(any(), any())} returns uriBuilder
+        every {uriBuilder.build()} returns uri
+        every { uri.toString() } returns ACTION
 
-        every { BeagleEnvironment.beagleSdk.config.baseUrl } returns RandomData.httpUrl()
+        every { beagleSdk.config.baseUrl } returns RandomData.httpUrl()
         every { httpClient.execute(capture(requestDataSlot), any(), any()) } returns mockk()
         every { urlBuilder.format(any(), capture(urlSlot)) } returns ACTION
     }
 
-    @After
-    fun tearDown() {
-        unmockkObject(BeagleEnvironment)
-    }
 
     @Test
     fun submitForm_should_create_requestData_correctly() {
@@ -154,41 +159,27 @@ class FormSubmitterTest {
     @Test
     fun submitForm_should_set_querystring_as_url_on_requestData_when_method_is_GET() {
         // Given
-        val formsValue = mapOf(
-            RandomData.string(3) to RandomData.string(3),
-            RandomData.string(3) to RandomData.string(3)
-        )
+        val formsValue = mapOf<String, String>()
         val action = createAction(FormMethodType.GET)
 
         // When
         formSubmitter.submitForm(action, formsValue) {}
 
         // Then
-        val formElements = formsValue.entries
-        val element0 = formElements.elementAt(0)
-        val element1 = formElements.elementAt(1)
-        val expected = "$ACTION?${element0.key}=${element0.value}&${element1.key}=${element1.value}"
-        assertEquals(expected, urlSlot.captured)
+        assertEquals(ACTION, urlSlot.captured)
     }
 
     @Test
     fun submitForm_should_set_querystring_as_url_on_requestData_when_method_is_DELETE() {
         // Given
-        val formsValue = mapOf(
-            RandomData.string(3) to RandomData.string(3),
-            RandomData.string(3) to RandomData.string(3)
-        )
+        val formsValue = mapOf<String, String>()
         val action = createAction(FormMethodType.GET)
 
         // When
         formSubmitter.submitForm(action, formsValue) {}
 
         // Then
-        val formElements = formsValue.entries
-        val element0 = formElements.elementAt(0)
-        val element1 = formElements.elementAt(1)
-        val expected = "$ACTION?${element0.key}=${element0.value}&${element1.key}=${element1.value}"
-        assertEquals(expected, urlSlot.captured)
+        assertEquals(ACTION, urlSlot.captured)
     }
 
     @Test
@@ -236,10 +227,5 @@ class FormSubmitterTest {
     private fun createAction(method: FormMethodType) = FormRemoteAction(
         path = ACTION,
         method = method
-    )
-
-    private fun createForm(action: FormRemoteAction) = Form(
-        action = action,
-        child = mockk()
     )
 }
