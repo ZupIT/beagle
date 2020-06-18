@@ -453,7 +453,7 @@
 		E5CB5D852354C830009783A7 /* MirrorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MirrorExtension.swift; sourceTree = "<group>"; };
 		E5CB5DAA23550012009783A7 /* BeagleSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleSetup.swift; sourceTree = "<group>"; };
 		E5CB5DC523565440009783A7 /* BeagleSetupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleSetupTests.swift; sourceTree = "<group>"; };
-		E5CE41E72332B9B600295277 /* BeagleFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeagleFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5CE41E72332B9B600295277 /* BeagleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeagleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5CE41EB2332B9B600295277 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E73107BB23A971B000188B3D /* BeaglePrefetchHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaglePrefetchHelper.swift; sourceTree = "<group>"; };
 		E7523AF7239E8F2100F93385 /* BeagleDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleDependencies.swift; sourceTree = "<group>"; };
@@ -622,7 +622,7 @@
 				C0D6753224572D84009F0E94 /* CodeGeneration */,
 				939CE4C4232996FD00EEEDFC /* Sources */,
 				932925D12327E11000A61F01 /* Resources */,
-				E5CE41E82332B9B600295277 /* BeagleFrameworkTests */,
+				E5CE41E82332B9B600295277 /* BeagleTests */,
 				932925D02327E11000A61F01 /* Products */,
 				E53524A923310F5A00D1A0C9 /* Frameworks */,
 			);
@@ -632,7 +632,7 @@
 			isa = PBXGroup;
 			children = (
 				932925CF2327E11000A61F01 /* Beagle.framework */,
-				E5CE41E72332B9B600295277 /* BeagleFrameworkTests.xctest */,
+				E5CE41E72332B9B600295277 /* BeagleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1522,14 +1522,14 @@
 			path = Setup;
 			sourceTree = "<group>";
 		};
-		E5CE41E82332B9B600295277 /* BeagleFrameworkTests */ = {
+		E5CE41E82332B9B600295277 /* BeagleTests */ = {
 			isa = PBXGroup;
 			children = (
 				C0291887247D5BEE00C3AA13 /* Helpers */,
 				C0E569132476F003003D413F /* Spies */,
 				E5CE41EB2332B9B600295277 /* Info.plist */,
 			);
-			path = BeagleFrameworkTests;
+			path = BeagleTests;
 			sourceTree = "<group>";
 		};
 		E7F8CF4F239190C5004C6C19 /* CustomPageIndicator */ = {
@@ -1576,9 +1576,9 @@
 			productReference = 932925CF2327E11000A61F01 /* Beagle.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		E5CE41E62332B9B600295277 /* BeagleFrameworkTests */ = {
+		E5CE41E62332B9B600295277 /* BeagleTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E5CE41EF2332B9B600295277 /* Build configuration list for PBXNativeTarget "BeagleFrameworkTests" */;
+			buildConfigurationList = E5CE41EF2332B9B600295277 /* Build configuration list for PBXNativeTarget "BeagleTests" */;
 			buildPhases = (
 				E5CE41E32332B9B600295277 /* Sources */,
 				E5CE41E42332B9B600295277 /* Frameworks */,
@@ -1590,11 +1590,11 @@
 			dependencies = (
 				E5CE41EE2332B9B600295277 /* PBXTargetDependency */,
 			);
-			name = BeagleFrameworkTests;
+			name = BeagleTests;
 			packageProductDependencies = (
 			);
 			productName = BeagleFrameworkTests;
-			productReference = E5CE41E72332B9B600295277 /* BeagleFrameworkTests.xctest */;
+			productReference = E5CE41E72332B9B600295277 /* BeagleTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -1632,7 +1632,7 @@
 			projectRoot = "";
 			targets = (
 				932925CE2327E11000A61F01 /* Beagle */,
-				E5CE41E62332B9B600295277 /* BeagleFrameworkTests */,
+				E5CE41E62332B9B600295277 /* BeagleTests */,
 			);
 		};
 /* End PBXProject section */
@@ -2136,14 +2136,14 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = BeagleFrameworkTests/Info.plist;
+				INFOPLIST_FILE = BeagleTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = br.com.zup.BeagleFrameworkTests;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.zup.BeagleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2160,14 +2160,14 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = BeagleFrameworkTests/Info.plist;
+				INFOPLIST_FILE = BeagleTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = br.com.zup.BeagleFrameworkTests;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.zup.BeagleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2195,7 +2195,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E5CE41EF2332B9B600295277 /* Build configuration list for PBXNativeTarget "BeagleFrameworkTests" */ = {
+		E5CE41EF2332B9B600295277 /* Build configuration list for PBXNativeTarget "BeagleTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E5CE41F02332B9B600295277 /* Debug */,
