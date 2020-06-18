@@ -32,7 +32,7 @@ extension Text: Widget {
         textView.backgroundColor = .clear
         
         textView.textAlignment = alignment?.toUIKit() ?? .natural
-        textView.text = text
+        textView.text = text.get(with: textView, controller: renderer.controller) { string in textView.text = string }
 
         if let styleId = styleId {
             renderer.controller.dependencies.theme.applyStyle(for: textView, withId: styleId)

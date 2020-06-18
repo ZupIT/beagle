@@ -30,7 +30,11 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.components.utils.RoundedImageView
-
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
+import br.com.zup.beagle.android.view.custom.BeaglePageIndicatorView
+import br.com.zup.beagle.android.view.custom.BeaglePageView
+import br.com.zup.beagle.android.view.custom.BeagleTabLayout
+import br.com.zup.beagle.android.view.custom.BeagleView
 
 internal class ViewFactory {
 

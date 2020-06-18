@@ -28,9 +28,8 @@ import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
-import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.android.components.WebView
-
+import br.com.zup.beagle.android.components.layout.Screen
 
 class WebViewFragment : Fragment() {
 

@@ -25,11 +25,10 @@ import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.view.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.widget.core.Size
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder

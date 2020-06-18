@@ -47,6 +47,10 @@ public extension RawWidget {
 
 public protocol HasWidgetProperties: StyleComponent, FlexComponent, AccessibilityComponent, IdentifiableComponent { }
 
+public protocol HasContext {
+    var _context_: Context? { get }
+}
+
 public protocol StyleComponent {
     var style: Style? { get }
 }

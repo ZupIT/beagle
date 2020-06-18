@@ -28,7 +28,7 @@ class AppAnalytics: Analytics {
         const val TAG = "AppAnalytics"
     }
 
-    override fun sendClickEvent(event: ClickEvent) {
+    override fun trackEventOnClick(event: ClickEvent) {
         println("$TAG: CLICK_EVENT " +
             "category: ${event.category}, " +
             "label: ${event.label ?: ""}, " +
@@ -36,11 +36,11 @@ class AppAnalytics: Analytics {
 
     }
 
-    override fun sendViewWillAppearEvent(event: ScreenEvent) {
+    override fun trackEventOnScreenAppeared(event: ScreenEvent) {
         println("$TAG: VIEW_WILL_APPEAR screenName: ${event.screenName}")
     }
 
-    override fun sendViewWillDisappearEvent(event: ScreenEvent) {
+    override fun trackEventOnScreenDisappeared(event: ScreenEvent) {
         println("$TAG: VIEW_WILL_DISAPPEAR screenName: ${event.screenName}")
     }
 

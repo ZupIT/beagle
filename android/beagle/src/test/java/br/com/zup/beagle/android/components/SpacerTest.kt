@@ -16,10 +16,9 @@
 
 package br.com.zup.beagle.android.components
 
-import br.com.zup.beagle.android.view.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot

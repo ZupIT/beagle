@@ -4,7 +4,8 @@
     ▿ Text
       - alignment: Optional<Alignment>.none
       - styleId: Optional<String>.none
-      - text: "text1"
+      ▿ text: Expression<String>
+        - value: "text1"
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
@@ -14,7 +15,8 @@
     ▿ Text
       - alignment: Optional<Alignment>.none
       - styleId: Optional<String>.none
-      - text: "text2"
+      ▿ text: Expression<String>
+        - value: "text2"
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
@@ -24,7 +26,8 @@
     ▿ Text
       - alignment: Optional<Alignment>.none
       - styleId: Optional<String>.none
-      - text: "text3"
+      ▿ text: Expression<String>
+        - value: "text3"
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none

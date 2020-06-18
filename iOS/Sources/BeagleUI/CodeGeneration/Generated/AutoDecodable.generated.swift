@@ -16,3 +16,24 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+
+// MARK: Text Decodable
+extension Text {
+
+    enum CodingKeys: String, CodingKey {
+        case text
+        case style
+        case alignment
+        case textColor
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        text = try container.decode(Expression<String>.self, forKey: .text)
+        style = try container.decodeIfPresent(String.self, forKey: .style)
+        alignment = try container.decodeIfPresent(Alignment.self, forKey: .alignment)
+        textColor = try container.decodeIfPresent(String.self, forKey: .textColor)
+        widgetProperties = try WidgetProperties(from: decoder)
+    }
+}

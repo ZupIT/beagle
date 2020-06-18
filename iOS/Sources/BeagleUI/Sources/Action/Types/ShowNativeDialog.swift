@@ -20,7 +20,8 @@ import BeagleSchema
 
 extension ShowNativeDialog: Action {
     public func execute(controller: BeagleController, sender: Any) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        guard let view = sender as? UIView else { return }
+        let alert = UIAlertController(title: title, message: message.get(with: view), preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: buttonText, style: .default))
         controller.present(alert, animated: true)
     }

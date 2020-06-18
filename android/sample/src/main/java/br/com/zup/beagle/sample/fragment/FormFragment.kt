@@ -21,10 +21,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import br.com.zup.beagle.action.FormMethodType
-import br.com.zup.beagle.action.FormRemoteAction
-import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.Route
+import br.com.zup.beagle.android.action.FormMethodType
+import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.widgets.TextField
@@ -41,7 +39,7 @@ import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.components.form.FormInputHidden
 import br.com.zup.beagle.android.components.form.FormSubmit
 import br.com.zup.beagle.android.components.layout.Container
-import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.android.components.layout.Screen
 
 private const val FORM_GROUP = "FORM_GROUP"
 
@@ -94,9 +92,10 @@ class FormFragment : Fragment() {
                     )
                 )
             ),
-            action = Navigate.PushStack(
-                route = Route.Local(screen2())
-            ),
+            onSubmit = listOf(FormRemoteAction(
+                method = FormMethodType.POST,
+                path = "endereco/endpoint"
+            )),
             shouldStoreFields = true,
             group = FORM_GROUP
         )
@@ -131,10 +130,10 @@ class FormFragment : Fragment() {
                         )
                     )
                 ),
-                action = FormRemoteAction(
+                onSubmit = listOf(FormRemoteAction(
                     method = FormMethodType.POST,
                     path = "endereco/endpoint"
-                ),
+                )),
                 group = FORM_GROUP
 
             )
