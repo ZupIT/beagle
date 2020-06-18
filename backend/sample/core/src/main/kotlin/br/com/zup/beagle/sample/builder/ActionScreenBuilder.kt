@@ -24,6 +24,7 @@ import br.com.zup.beagle.sample.constants.NAVIGATION_BAR_STYLE_DEFAULT
 import br.com.zup.beagle.sample.constants.PATH_SCREEN_DEEP_LINK_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.widget.action.SendRequest
+import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
@@ -90,7 +91,7 @@ object ActionScreenBuilder : ScreenBuilder {
             Text("Navigate with path"),
             Button(
                 onPress = listOf(Navigate.PushView(Route.Remote(route = SCREEN_ACTION_CLICK_ENDPOINT))),
-                text = "Click me!"
+                text = Bind.valueOf("Click me!")
             )
         )
     )
@@ -107,7 +108,7 @@ object ActionScreenBuilder : ScreenBuilder {
                     child = Text("Hello Screen from Navigate")
                 ))
                 )),
-                text = "Click me!"
+                text = Bind.valueOf("Click me!")
             )
         )
     )
@@ -124,7 +125,7 @@ object ActionScreenBuilder : ScreenBuilder {
                     child = Text("Hello Screen from Navigate")
                 ))
                 )),
-                text = "Click me!"
+                text = Bind.valueOf("Click me!")
             )
         )
     )
@@ -135,7 +136,7 @@ object ActionScreenBuilder : ScreenBuilder {
             Button(
                 onPress = listOf(Navigate.PushView(Route.Remote(shouldPrefetch = true,
                     route = SCREEN_ACTION_CLICK_ENDPOINT))),
-                text = "Click me!"
+                text = Bind.valueOf("Click me!")
             )
         )
     )
@@ -148,7 +149,7 @@ object ActionScreenBuilder : ScreenBuilder {
                     route = PATH_SCREEN_DEEP_LINK_ENDPOINT,
                     data = mapOf("data" to "for", "native" to "view")
                 )),
-                text = "Click me!"
+                text = Bind.valueOf("Click me!")
             )
         )
     )
@@ -173,7 +174,7 @@ object ActionScreenBuilder : ScreenBuilder {
                         buttonText = "OK"
                     )
                 )),
-                text = "Click me!"
+                text = Bind.valueOf("Click me!")
             )
         )
     )

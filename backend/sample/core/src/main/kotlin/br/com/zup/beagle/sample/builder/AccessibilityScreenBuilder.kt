@@ -22,6 +22,7 @@ import br.com.zup.beagle.ext.applyAccessibility
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_ACCESSIBILITY
+import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
@@ -104,8 +105,8 @@ object AccessibilityScreenBuilder : ScreenBuilder {
         accessible: Boolean
     ) =
         Button(
-            text = textButton,
-            styleId = BUTTON_STYLE_ACCESSIBILITY
+            text = Bind.valueOf(textButton),
+            styleId = Bind.valueOf(BUTTON_STYLE_ACCESSIBILITY)
         ).applyFlex(
             flex = Flex(
                 size = Size(

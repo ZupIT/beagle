@@ -35,6 +35,7 @@ import br.com.zup.beagle.sample.constants.RED_ORANGE
 import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT
 import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_TYPE_STEP3_ENDPOINT
 import br.com.zup.beagle.sample.constants.REPRESENTATION_PRESENT_ENDPOINT
+import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
@@ -152,8 +153,8 @@ class SampleNavigationTypeService {
 
     private fun createButton(text: String, navigate: Navigate, backgroundColor: String) =
         Button(
-            text = text,
-            styleId = BUTTON_STYLE_APPEARANCE,
+            text = Bind.valueOf(text),
+            styleId = Bind.valueOf(BUTTON_STYLE_APPEARANCE),
             onPress = listOf(navigate)
         ).applyStyle(
             Style(

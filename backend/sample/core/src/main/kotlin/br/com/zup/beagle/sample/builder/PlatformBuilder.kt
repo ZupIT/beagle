@@ -18,6 +18,7 @@ package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.platform.BeaglePlatform
 import br.com.zup.beagle.platform.forPlatform
+import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
@@ -27,11 +28,11 @@ object PlatformBuilder : ScreenBuilder {
     override fun build() = Screen(
         child = Container(
             listOf(
-                Button(text = "mobile only text").forPlatform(BeaglePlatform.MOBILE),
-                Button(text = "web only text").forPlatform(BeaglePlatform.WEB),
-                Button(text = "ios only text").forPlatform(BeaglePlatform.IOS),
-                Button(text = "android only text").forPlatform(BeaglePlatform.ANDROID),
-                Button(text = "text free for all")
+                Button(text = Bind.valueOf("mobile only text")).forPlatform(BeaglePlatform.MOBILE),
+                Button(text = Bind.valueOf("web only text")).forPlatform(BeaglePlatform.WEB),
+                Button(text = Bind.valueOf("ios only text")).forPlatform(BeaglePlatform.IOS),
+                Button(text = Bind.valueOf("android only text")).forPlatform(BeaglePlatform.ANDROID),
+                Button(text = Bind.valueOf("text free for all"))
             )
         )
     )

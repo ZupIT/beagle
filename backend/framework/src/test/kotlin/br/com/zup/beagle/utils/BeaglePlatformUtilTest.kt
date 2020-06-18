@@ -23,6 +23,7 @@ import br.com.zup.beagle.platform.forPlatform
 import br.com.zup.beagle.serialization.jackson.BeagleSerializationUtil
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
+import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Button
@@ -96,7 +97,7 @@ internal class BeaglePlatformUtilTest {
                     text = mobileText
                 ).forPlatform(BeaglePlatform.MOBILE),
                 Button(
-                    text = freeForAllText,
+                    text = Bind.valueOf(freeForAllText),
                     onPress = listOf(
                         Navigate.PushView(
                             Route.Local(

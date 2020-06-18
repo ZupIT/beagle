@@ -28,6 +28,7 @@ import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_BAR_ENDPOINT
 import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_BAR_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_BAR_STYLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_BAR_TEXT_ENDPOINT
+import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
@@ -71,9 +72,9 @@ object NavigationBarViewScreenBuilder : ScreenBuilder {
     )
 
     private fun createMenu(text: String, path: String) = Button(
-        text = text,
+        text = Bind.valueOf(text),
         onPress = listOf(Navigate.PushView(Route.Remote(path))),
-        styleId = BUTTON_STYLE_TITLE
+        styleId = Bind.valueOf(BUTTON_STYLE_TITLE)
     ).applyFlex(
         flex = Flex(
             margin = EdgeValue(

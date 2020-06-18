@@ -21,6 +21,7 @@ import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.ScreenEvent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
@@ -68,7 +69,7 @@ object AnalyticsScreenBuilder : ScreenBuilder {
 
     private fun createButton(): Widget {
         val button = Button(
-            text = "Button with Click Analytics Event",
+            text = Bind.valueOf("Button with Click Analytics Event"),
             onPress = listOf(ShowNativeDialog(
                 title = "title",
                 message = "message",

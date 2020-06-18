@@ -42,6 +42,7 @@ import br.com.zup.beagle.sample.constants.SCREEN_TAB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TOUCHABLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_WEB_VIEW_ENDPOINT
+import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ScrollAxis
@@ -86,10 +87,10 @@ object ComponentScreenBuilder : ScreenBuilder {
     )
 
     private fun createMenu(text: String, path: String) = Button(
-        text = text,
+        text = Bind.valueOf(text),
         onPress = listOf(Navigate.PushView(Route.Remote(path))
         ),
-        styleId = BUTTON_STYLE_TITLE
+        styleId = Bind.valueOf(BUTTON_STYLE_TITLE)
     ).applyFlex(
         flex = Flex(
             margin = EdgeValue(

@@ -27,6 +27,7 @@ import br.com.zup.beagle.sample.widget.SampleTextField
 import br.com.zup.beagle.widget.action.FormMethodType
 import br.com.zup.beagle.widget.action.FormRemoteAction
 import br.com.zup.beagle.widget.action.ShowNativeDialog
+import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ScrollAxis
@@ -93,8 +94,8 @@ object FormScreenBuilder : ScreenBuilder {
                             FormSubmit(
                                 enabled = false,
                                 child = Button(
-                                    text = "Submit Form",
-                                    styleId = BUTTON_STYLE_FORM
+                                    text = Bind.valueOf("Submit Form"),
+                                    styleId = Bind.valueOf(BUTTON_STYLE_FORM)
                                 ).applyFlex(flexHorizontalMargin)
                             )
                         )

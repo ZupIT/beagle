@@ -18,6 +18,7 @@ package br.com.zup.beagle.cache
 
 import br.com.zup.beagle.platform.BeaglePlatform
 import br.com.zup.beagle.serialization.jackson.BeagleSerializationUtil
+import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.ui.Button
 import com.google.common.hash.Hashing
 import io.mockk.every
@@ -38,7 +39,8 @@ internal class BeagleCacheHandlerTest {
         private const val HOME_ENDPOINT = "/home"
         private const val IMAGE_ENDPOINT = "/image"
 
-        private val BUTTON_JSON = BeagleSerializationUtil.beagleObjectMapper().writeValueAsString(Button("test"))
+        private val BUTTON_JSON = BeagleSerializationUtil.beagleObjectMapper().writeValueAsString(Button(
+            Bind.valueOf("test")))
         private val BUTTON_JSON_HASH = Hashing.sha512().hashString(BUTTON_JSON, Charset.defaultCharset()).toString()
     }
 

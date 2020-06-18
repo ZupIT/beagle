@@ -29,6 +29,7 @@ import br.com.zup.beagle.sample.constants.BUTTON_STYLE_APPEARANCE
 import br.com.zup.beagle.sample.constants.CYAN_BLUE
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
@@ -109,8 +110,8 @@ object ButtonScreenBuilder : ScreenBuilder {
         flex: Flex? = null
     ): Widget {
         val button = Button(
-            text = text,
-            styleId = styleId,
+            text = Bind.valueOf(text),
+            styleId = styleId?.let { Bind.valueOf(it) },
             onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT, true)))
         )
 
