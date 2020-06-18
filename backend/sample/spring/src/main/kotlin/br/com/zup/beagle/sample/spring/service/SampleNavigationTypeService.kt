@@ -18,7 +18,7 @@ package br.com.zup.beagle.sample.spring.service
 
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
-import br.com.zup.beagle.widget.action.ShowNativeDialog
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.ext.applyFlex
@@ -67,10 +67,10 @@ class SampleNavigationTypeService {
                 NavigationBarItem(
                     text = "",
                     image = "informationImage",
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "Navigation Type",
                         message = "Decide the type of navigation.",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 )
             )

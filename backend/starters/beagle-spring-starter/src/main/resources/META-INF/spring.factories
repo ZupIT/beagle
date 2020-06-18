@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=br.com.zup.beagle.spring.configuration.BeagleJacksonAutoConfiguration,br.com.zup.beagle.spring.configuration.BeagleCacheAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=br.com.zup.beagle.spring.configuration.BeagleJacksonAutoConfiguration,br.com.zup.beagle.spring.configuration.BeagleCacheAutoConfiguration,br.com.zup.beagle.spring.configuration.BeaglePlatformAutoConfiguration

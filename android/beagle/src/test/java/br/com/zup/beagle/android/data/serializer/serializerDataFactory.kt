@@ -58,14 +58,6 @@ fun makeContainerJson() = """
     }
 """
 
-
-fun makeSpacerJson() = """
-    {
-        "_beagleComponent_": "beagle:spacer",
-        "size": 30.0
-    }
-"""
-
 fun makeButtonJson() = """
     {
         "_beagleComponent_": "beagle:button",
@@ -97,11 +89,25 @@ fun makeNetworkImageJson() = """
 fun makeListViewJson() = """
     {
         "_beagleComponent_": "beagle:listView",
-        "rows": [${makeButtonJson()}],
+        "children": [${makeButtonJson()}],
         "remoteDataSource": "/dataSource",
         "loadingState": ${makeContainerJson()}
     }
 """
+
+fun makeTabViewJson() = """
+    {
+    "_beagleComponent_": "beagle:tabView",
+    "children":[${makeTabItemJson()},${makeTabItemJson()},${makeTabItemJson()}]
+    }
+    """
+
+fun makeTabItemJson() = """
+    {
+    "title": "Tab 1",
+    "child": ${makeButtonJson()}
+    }
+    """
 
 fun makeCustomJson() = """
     {
@@ -143,7 +149,7 @@ fun makeScrollViewJson() = """
 fun makePageViewJson() = """
     {
         "_beagleComponent_": "beagle:pageView",
-        "pages": [
+        "children": [
             ${makeButtonJson()},
             ${makeButtonJson()},
             ${makeButtonJson()}
@@ -169,12 +175,40 @@ fun makeNavigationActionJson() = """
     }
 """
 
-fun makeShowNativeDialogJson() = """
+fun makeAlertActionJson() = """
     {
-        "_beagleAction_": "beagle:showNativeDialog",
+        "_beagleAction_": "beagle:alert",
         "title": "${RandomData.string()}",
         "message": "${RandomData.string()}",
-        "buttonText": "Ok"
+        "labelOk": "Ok",
+        "onPressOk": {
+             "_beagleAction_": "beagle:alert",
+             "title": "${RandomData.string()}",
+             "message": "${RandomData.string()}",
+             "labelOk": "Ok"
+        }
+    }
+"""
+
+fun makeConfirmActionJson() = """
+    {
+        "_beagleAction_": "beagle:confirm",
+        "title": "${RandomData.string()}",
+        "message": "${RandomData.string()}",
+        "labelOk": "Ok",
+        "onPressOk": {
+             "_beagleAction_": "beagle:alert",
+             "title": "${RandomData.string()}",
+             "message": "${RandomData.string()}",
+             "labelOk": "Ok"
+        },
+        "labelCancel": "Cancel",
+        "onPressCancel": {
+             "_beagleAction_": "beagle:alert",
+             "title": "${RandomData.string()}",
+             "message": "${RandomData.string()}",
+             "labelOk": "Ok"
+        }
     }
 """
 
@@ -246,7 +280,7 @@ fun makeBindComponent() = """
     {
         "_beagleComponent_": "custom:componentbinding",
         "value1": null,
-        "value2": "Hello",
+        "value2": "Hello @{context.name}",
         "value3": "@{hello}",
         "value4": ${makeInternalObject()}
     }

@@ -20,7 +20,7 @@ import BeagleSchema
 extension PageView: ServerDrivenComponent {
 
     public func toView(renderer: BeagleRenderer) -> UIView {
-        let pagesControllers = pages.map {
+        let pagesControllers = children.map {
             BeagleScreenViewController(
                 viewModel: .init(screenType: .declarative($0.toScreen()))
             )

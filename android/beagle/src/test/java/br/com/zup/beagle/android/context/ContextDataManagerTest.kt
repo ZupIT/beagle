@@ -31,6 +31,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
+import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
 import org.json.JSONArray
@@ -302,5 +303,25 @@ class ContextDataManagerTest {
         verify { BeagleMessageLogs.errorWhileTryingToAccessContext(any()) }
         verify { BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(any()) }
         verify(exactly = 0) { bindModel.notifyChange(any()) }
+    }
+
+    @Test
+    fun evaluateAllContext_should_evaluate_text_string_text_expression() {
+        // Given
+        val valueSlot = slot<Any>()
+        val bind = mockk<Bind.Expression<String>> {
+            every { value } returns "This is an expression @{$CONTEXT_ID.exp1} and this @{$CONTEXT_ID.exp2}"
+            every { type } returns String::class.java
+        }
+        every { jsonPathFinder.find(any(), any()) } returns "hello"
+        contexts[CONTEXT_ID]?.bindings?.add(bind)
+
+
+        // When
+        val value = contextDataManager.evaluateBinding(bind)
+
+        // Then
+        val expected = "This is an expression hello and this hello"
+        assertEquals(expected, value)
     }
 }

@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.networking
 
 import br.com.zup.beagle.android.testutil.RandomData
 import org.junit.Before
-
 import org.junit.Test
 import java.net.URI
 import kotlin.test.assertEquals

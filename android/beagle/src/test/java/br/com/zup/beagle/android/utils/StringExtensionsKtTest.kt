@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.utils
 
 import android.graphics.Color
-import br.com.zup.beagle.android.utils.toAndroidColor
 import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.slot
@@ -129,5 +128,59 @@ class StringExtensionsKtTest {
 
         // Then
         assertEquals("#60a218dc", colorSlot.captured)
+    }
+
+    @Test
+    fun getExpressions_should_return_one_expression_present_on_string() {
+        // Given
+        val text = "@{exp1}"
+
+        // When
+        val expressions = text.getExpressions()
+
+        // Then
+        assertEquals(1, expressions.size)
+        assertEquals("exp1", expressions[0])
+    }
+
+    @Test
+    fun getExpressions_should_return_one_expression_present_on_text_string() {
+        // Given
+        val text = "I have this @{exp1}"
+
+        // When
+        val expressions = text.getExpressions()
+
+        // Then
+        assertEquals(1, expressions.size)
+        assertEquals("exp1", expressions[0])
+    }
+
+    @Test
+    fun getExpressions_should_return_two_expressions_present_on_text_string() {
+        // Given
+        val text = "I have this @{exp1} and this one @{exp2}"
+
+        // When
+        val expressions = text.getExpressions()
+
+        // Then
+        assertEquals(2, expressions.size)
+        assertEquals("exp1", expressions[0])
+        assertEquals("exp2", expressions[1])
+    }
+
+    @Test
+    fun getExpressions_should_return_two_expressions_present_on_beginning_of_text_string() {
+        // Given
+        val text = "@{exp1} and this one @{exp2}"
+
+        // When
+        val expressions = text.getExpressions()
+
+        // Then
+        assertEquals(2, expressions.size)
+        assertEquals("exp1", expressions[0])
+        assertEquals("exp2", expressions[1])
     }
 }

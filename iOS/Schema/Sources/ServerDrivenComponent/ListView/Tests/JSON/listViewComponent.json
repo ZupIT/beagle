@@ -1,7 +1,7 @@
 {
   "_beagleComponent_" : "beagle:listView",
   "direction": "VERTICAL",
-  "rows" : [{
+  "children" : [{
     "_beagleComponent_" : "beagle:text",
     "text" : "text1"
   },
