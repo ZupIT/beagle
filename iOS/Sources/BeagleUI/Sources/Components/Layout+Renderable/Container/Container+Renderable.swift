@@ -17,6 +17,7 @@
 import UIKit
 import BeagleSchema
 
+// MARK: - Configuration
 extension Container {
     
     public func applyFlex(_ flex: Flex) -> Container {
@@ -32,7 +33,7 @@ extension Container {
     }
 }
 
-extension Container: Widget {
+extension Container: ServerDrivenComponent {
 
     public func toView(renderer: BeagleRenderer) -> UIView {
         let containerView = UIView()

@@ -16,30 +16,23 @@
 
 package br.com.zup.beagle.serialization.jackson
 
-import br.com.zup.beagle.widget.layout.ComposeComponent
-import br.com.zup.beagle.widget.layout.ScreenBuilder
 import com.fasterxml.jackson.databind.BeanDescription
 import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.SerializationConfig
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase
 
-internal object BeagleSerializerModifier : BeanSerializerModifier() {
-    private val beagleBuilders = listOf(ComposeComponent::class.java, ScreenBuilder::class.java)
-
+internal class BeagleSerializerModifier(
+    private val classLoader: ClassLoader
+) : BeanSerializerModifier() {
     override fun modifySerializer(
         config: SerializationConfig,
         description: BeanDescription,
         serializer: JsonSerializer<*>
     ) =
-        when {
-            serializer is BeanSerializerBase && this.isBeagleBuilder(description) -> BeagleBuilderSerializer(serializer)
-            serializer is BeanSerializerBase && this.isBeagleBase(description) -> BeagleTypeSerializer(serializer)
-            else -> serializer
+        if (serializer is BeanSerializerBase && getBeagleType(description.beanClass, this.classLoader) != null) {
+            BeagleTypeSerializer(serializer, this.classLoader)
+        } else {
+            serializer
         }
-
-    private fun isBeagleBase(description: BeanDescription) = getBeagleType(description.beanClass) != null
-
-    private fun isBeagleBuilder(description: BeanDescription) =
-        this.beagleBuilders.any { it.isAssignableFrom(description.beanClass) }
 }

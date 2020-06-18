@@ -24,7 +24,7 @@ class FormSubmitTests: XCTestCase {
     func test_initWithChild_shouldReturnValidFormSubmit() {
         // Given / When
         let sut = FormSubmit(child:
-            Text("Text")
+            Text(.value("Text"))
         )
         // Then
         XCTAssert(sut.child is Text)

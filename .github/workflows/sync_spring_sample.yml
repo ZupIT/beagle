@@ -1,0 +1,20 @@
+name: Sync Micronaut BFF sample to Spring BFF sample
+
+on:
+    push:
+        paths:
+            - 'backend/sample/micronaut/**'
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            -   uses: actions/checkout@v2
+            -   name: Sync to Spring
+                run: cd backend/sample/micronaut && ./sync-to-spring.sh
+            -   uses: EndBug/add-and-commit@v4
+                with:
+                    message: 'Synced Micronaut BFF sample to Spring BFF sample.'
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

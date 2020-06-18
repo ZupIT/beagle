@@ -2,11 +2,13 @@
   - pageIndicator: Optional<PageIndicatorComponent>.none
   ▿ pages: 3 elements
     ▿ Container
+      - _context_: Optional<Context>.none
       ▿ children: 3 elements
         ▿ Text
           - alignment: Optional<Alignment>.none
           - styleId: Optional<String>.none
-          - text: "1 This is a text"
+          ▿ text: Expression<String>
+            - value: "1 This is a text"
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
@@ -16,7 +18,8 @@
         ▿ Text
           - alignment: Optional<Alignment>.none
           - styleId: Optional<String>.none
-          - text: "This is a text"
+          ▿ text: Expression<String>
+            - value: "This is a text"
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
@@ -26,7 +29,8 @@
         ▿ Text
           - alignment: Optional<Alignment>.none
           - styleId: Optional<String>.none
-          - text: "This is a text"
+          ▿ text: Expression<String>
+            - value: "This is a text"
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
@@ -59,11 +63,13 @@
         - id: Optional<String>.none
         - style: Optional<Style>.none
     ▿ Container
+      - _context_: Optional<Context>.none
       ▿ children: 3 elements
         ▿ Text
           - alignment: Optional<Alignment>.none
           - styleId: Optional<String>.none
-          - text: "2 This is a text"
+          ▿ text: Expression<String>
+            - value: "2 This is a text"
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
@@ -73,7 +79,8 @@
         ▿ Text
           - alignment: Optional<Alignment>.none
           - styleId: Optional<String>.none
-          - text: "This is a text"
+          ▿ text: Expression<String>
+            - value: "This is a text"
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
@@ -83,7 +90,8 @@
         ▿ Text
           - alignment: Optional<Alignment>.none
           - styleId: Optional<String>.none
-          - text: "This is a text"
+          ▿ text: Expression<String>
+            - value: "This is a text"
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
@@ -116,11 +124,13 @@
         - id: Optional<String>.none
         - style: Optional<Style>.none
     ▿ Container
+      - _context_: Optional<Context>.none
       ▿ children: 3 elements
         ▿ Text
           - alignment: Optional<Alignment>.none
           - styleId: Optional<String>.none
-          - text: "3 This is a text"
+          ▿ text: Expression<String>
+            - value: "3 This is a text"
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
@@ -130,7 +140,8 @@
         ▿ Text
           - alignment: Optional<Alignment>.none
           - styleId: Optional<String>.none
-          - text: "This is a text"
+          ▿ text: Expression<String>
+            - value: "This is a text"
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
@@ -140,7 +151,8 @@
         ▿ Text
           - alignment: Optional<Alignment>.none
           - styleId: Optional<String>.none
-          - text: "This is a text"
+          ▿ text: Expression<String>
+            - value: "This is a text"
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none

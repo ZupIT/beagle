@@ -65,7 +65,11 @@ public final class ComponentDecoderTests: XCTestCase {
         let text = try sut.decodeComponent(from: jsonData) as? Text
 
         // Then
-        XCTAssertEqual(text?.text, expectedText)
+        guard case let .value(string) = text?.text else {
+            XCTFail("Expected a `.value` property, but got \(String(describing: text?.text)).")
+            return
+        }
+        XCTAssertEqual(string, expectedText)
     }
 
     func test_whenAnUnknwonTypeIsDecoded_thenItShouldReturnNil() throws {
@@ -96,6 +100,26 @@ public final class ComponentDecoderTests: XCTestCase {
         guard case Navigate.popStack = action else {
             XCTFail("decoding failed"); return
         }
+    }
+    
+    func testRegisterAndDecodeCustomAction() throws {
+        let data = """
+        {
+            "_beagleAction_":"custom:testcustomaction",
+            "value": 42
+        }
+        """.data(using: .utf8)!
+
+        sut.register(TestAction.self, for: "TestCustomAction")
+        let action = try sut.decodeAction(from: data)
+        let testAction = action as? TestAction
+
+        XCTAssertNotNil(testAction)
+        XCTAssertEqual(testAction?.value, 42)
+    }
+
+    private class TestAction: RawAction {
+        let value: Int
     }
 }
 

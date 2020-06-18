@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.action
 
 import android.content.Context
-import br.com.zup.beagle.action.FormLocalAction
 
 interface FormLocalActionHandler {
     fun handle(context: Context, action: FormLocalAction, listener: ActionListener)
@@ -25,6 +24,6 @@ interface FormLocalActionHandler {
 
 interface ActionListener {
     fun onError(e: Throwable)
-    fun onSuccess(action: br.com.zup.beagle.action.Action)
+    fun onSuccess(action: Action)
     fun onStart()
 }

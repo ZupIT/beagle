@@ -38,6 +38,8 @@ import com.facebook.yoga.YogaNode;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.com.zup.beagle.android.view.custom.BeagleFlexView;
+
 @SuppressLint("ViewConstructor")
 public class YogaLayout extends ViewGroup {
 

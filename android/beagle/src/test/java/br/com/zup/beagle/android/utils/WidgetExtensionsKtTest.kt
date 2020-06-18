@@ -17,13 +17,13 @@
 package br.com.zup.beagle.android.utils
 
 import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.components.layout.NavigationBar
+import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.android.view.BeagleFlexView
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.Screen
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Test

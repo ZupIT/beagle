@@ -19,51 +19,68 @@ package br.com.zup.beagle.serialization.jackson
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter
-import com.fasterxml.jackson.databind.ser.impl.BeanAsArraySerializer
 import com.fasterxml.jackson.databind.ser.impl.ObjectIdWriter
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase
 
 internal class BeagleTypeSerializer : BeanSerializerBase {
-    constructor(source: BeanSerializerBase?) : super(source)
+
+    private lateinit var classLoader: ClassLoader
+
+    constructor(source: BeanSerializerBase) : super(source) {
+        setup()
+    }
+
+    constructor(source: BeanSerializerBase, classLoader: ClassLoader) : super(source) {
+        setup(classLoader)
+    }
 
     constructor(
         source: BeagleTypeSerializer?,
         objectIdWriter: ObjectIdWriter?
-    ) : super(source, objectIdWriter)
+    ) : super(source, objectIdWriter) {
+        setup()
+    }
 
     constructor(
         source: BeagleTypeSerializer?,
         toIgnore: MutableSet<String>?
-    ) : super(source, toIgnore)
+    ) : super(source, toIgnore) {
+        setup()
+    }
 
     constructor(
         source: BeagleTypeSerializer?,
         objectIdWriter: ObjectIdWriter?,
         filterId: Any?
-    ) : super(source, objectIdWriter, filterId)
+    ) : super(source, objectIdWriter, filterId) {
+        setup()
+    }
 
     constructor(
         source: BeanSerializerBase?,
         properties: Array<BeanPropertyWriter>,
         filteredProperties: Array<BeanPropertyWriter>
-    ) : super(source, properties, filteredProperties)
+    ) : super(source, properties, filteredProperties) {
+        setup()
+    }
 
-    override fun withObjectIdWriter(objectIdWriter: ObjectIdWriter) =
-        BeagleTypeSerializer(this, objectIdWriter)
+    override fun withObjectIdWriter(objectIdWriter: ObjectIdWriter?) = BeagleTypeSerializer(this, objectIdWriter)
 
-    override fun withIgnorals(toIgnore: MutableSet<String>) =
-        BeagleTypeSerializer(this, toIgnore)
+    override fun withIgnorals(toIgnore: MutableSet<String>?) = BeagleTypeSerializer(this, toIgnore)
 
-    override fun asArraySerializer() =
-        BeanAsArraySerializer(this)
+    override fun asArraySerializer() = BeagleTypeSerializer(this, this.classLoader)
 
-    override fun withFilterId(filterId: Any?) =
-        BeagleTypeSerializer(this, this._objectIdWriter, filterId)
+    override fun withFilterId(filterId: Any?) = BeagleTypeSerializer(this, this.classLoader)
 
     override fun serialize(bean: Any, generator: JsonGenerator, provider: SerializerProvider) {
         generator.writeStartObject()
-        getBeagleType(bean::class.java)?.also { (key, value) -> generator.writeStringField(key, value) }
+        getBeagleType(bean::class.java, this.classLoader)
+            ?.also { (key, value) -> generator.writeStringField(key, value) }
         super.serializeFields(bean, generator, provider)
         generator.writeEndObject()
+    }
+
+    private fun setup(classLoader: ClassLoader = BeagleTypeSerializer::class.java.classLoader) {
+        this.classLoader = classLoader
     }
 }

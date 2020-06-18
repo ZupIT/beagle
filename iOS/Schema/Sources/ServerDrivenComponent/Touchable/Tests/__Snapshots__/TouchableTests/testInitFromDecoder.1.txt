@@ -3,7 +3,8 @@
   ▿ child: Text
     - alignment: Optional<Alignment>.none
     - styleId: Optional<String>.none
-    - text: "touchable"
+    ▿ text: Expression<String>
+      - value: "touchable"
     - textColor: Optional<String>.none
     ▿ widgetProperties: WidgetProperties
       - accessibility: Optional<Accessibility>.none

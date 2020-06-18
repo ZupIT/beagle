@@ -19,12 +19,18 @@ package br.com.zup.beagle.android.components.form
 import br.com.zup.beagle.android.components.form.observer.Observable
 import br.com.zup.beagle.android.components.form.observer.StateChangeable
 import br.com.zup.beagle.android.components.form.observer.WidgetState
-import br.com.zup.beagle.android.widget.WidgetView
-abstract class InputWidget : WidgetView(), StateChangeable {
+import br.com.zup.beagle.android.widget.ViewConvertable
+import br.com.zup.beagle.widget.Widget
+
+/**
+ * <p>It could be an EditText view in Android, a Radio button in HTML,
+ * an UITextField in iOS or any other type of view that can receive and store input from users. </p>
+ *
+ */
+abstract class InputWidget : Widget(), ViewConvertable, StateChangeable {
 
     @Transient
-    private val stateObservable =
-        Observable<WidgetState>()
+    private val stateObservable = Observable<WidgetState>()
 
     abstract fun getValue(): Any
 
@@ -32,11 +38,11 @@ abstract class InputWidget : WidgetView(), StateChangeable {
 
     override fun getState(): Observable<WidgetState> = stateObservable
 
+    /**
+     * Notify the view the value updated
+     *
+     */
     fun notifyChanges() {
-        stateObservable.notifyObservers(
-            WidgetState(
-                getValue()
-            )
-        )
+        stateObservable.notifyObservers(WidgetState(getValue()))
     }
 }

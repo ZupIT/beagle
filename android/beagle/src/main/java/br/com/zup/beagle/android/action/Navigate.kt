@@ -16,11 +16,11 @@
 
 package br.com.zup.beagle.android.action
 
-import br.com.zup.beagle.action.Route
-import br.com.zup.beagle.android.view.BeagleNavigator
+import br.com.zup.beagle.android.components.layout.Screen
+import br.com.zup.beagle.android.view.custom.BeagleNavigator
 import br.com.zup.beagle.android.widget.RootView
 
-internal sealed class Navigate : Action {
+sealed class Navigate : Action{
 
     data class OpenExternalURL(val url: String) : Navigate() {
         override fun execute(rootView: RootView) {
@@ -77,4 +77,20 @@ internal sealed class Navigate : Action {
             BeagleNavigator.resetStack(rootView.getContext(), route)
         }
     }
+}
+
+sealed class Route {
+    /**
+     * Class that takes care of navigation to remote content.
+     * @param route attribute that contains the navigation endpoint.
+     * @param shouldPrefetch tells Beagle if the navigation request should be previously loaded or not.
+     * @param fallback screen that is rendered in case the request fails.
+     */
+    data class Remote(val route: String, val shouldPrefetch: Boolean = false, val fallback: Screen? = null) : Route()
+
+    /**
+     * Class indicating navigation to a local screen.
+     * @param screen screen to be rendered.
+     */
+    data class Local(val screen: Screen) : Route()
 }

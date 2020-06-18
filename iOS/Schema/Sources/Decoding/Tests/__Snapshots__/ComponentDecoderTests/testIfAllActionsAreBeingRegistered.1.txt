@@ -1,7 +1,7 @@
-▿ 13 key/value pairs
+▿ 15 key/value pairs
   ▿ (2 elements)
-    - key: "beagle:customaction"
-    - value: CustomAction
+    - key: "beagle:formlocalaction"
+    - value: FormLocalAction
   ▿ (2 elements)
     - key: "beagle:formremoteaction"
     - value: FormRemoteAction
@@ -35,6 +35,12 @@
   ▿ (2 elements)
     - key: "beagle:resetstack"
     - value: Navigate
+  ▿ (2 elements)
+    - key: "beagle:sendrequest"
+    - value: SendRequest
+  ▿ (2 elements)
+    - key: "beagle:setcontext"
+    - value: SetContext
   ▿ (2 elements)
     - key: "beagle:shownativedialog"
     - value: ShowNativeDialog

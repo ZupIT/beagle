@@ -21,10 +21,10 @@ import android.content.res.TypedArray
 import android.view.View
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.widget.TextViewCompat
-import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.analytics.ClickEvent
-import br.com.zup.beagle.android.action.ActionExecutor
+import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
@@ -40,6 +40,7 @@ import io.mockk.mockkConstructor
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
+import io.mockk.unmockkAll
 import org.junit.Test
 import kotlin.test.assertTrue
 
@@ -63,7 +64,6 @@ class ButtonTest : BaseComponentTest() {
         super.setUp()
 
         mockkStatic(TextViewCompat::class)
-        mockkConstructor(ActionExecutor::class)
         mockkConstructor(PreFetchHelper::class)
 
         every { beagleSdk.analytics } returns analytics
@@ -72,7 +72,7 @@ class ButtonTest : BaseComponentTest() {
         every { button.context } returns context
 
         every { anyConstructed<ViewFactory>().makeButton(any()) } returns button
-        every { anyConstructed<PreFetchHelper>().handlePreFetch(any(), any()) } just Runs
+        every { anyConstructed<PreFetchHelper>().handlePreFetch(any(), any<List<Action>>()) } just Runs
 
         every { BeagleEnvironment.application } returns mockk(relaxed = true)
         styleManagerFactory = styleManager
@@ -87,13 +87,18 @@ class ButtonTest : BaseComponentTest() {
     fun build_should_call_prefetch_when_action_not_null() {
         // Given
         val action = Navigate.PopView()
-        buttonComponent = buttonComponent.copy(action = action)
+        buttonComponent = buttonComponent.copy(onPress = listOf(action))
 
         // When
         buttonComponent.buildView(rootView)
 
         // Then
-        verify(exactly = once()) { anyConstructed<PreFetchHelper>().handlePreFetch(rootView, action) }
+        verify(exactly = once()) { anyConstructed<PreFetchHelper>().handlePreFetch(rootView, listOf(action)) }
+    }
+
+    override fun tearDown() {
+        super.tearDown()
+        unmockkAll()
     }
 
     @Test
@@ -154,7 +159,7 @@ class ButtonTest : BaseComponentTest() {
         onClickListenerSlot.captured.onClick(view)
 
         // Then
-        verify { analytics.sendClickEvent(eq(clickAnalyticsEvent)) }
+        verify { analytics.trackEventOnClick(eq(clickAnalyticsEvent)) }
     }
 
     @Test
@@ -168,6 +173,6 @@ class ButtonTest : BaseComponentTest() {
         onClickListenerSlot.captured.onClick(view)
 
         // Then
-        verify(exactly = 0) { analytics.sendClickEvent(any()) }
+        verify(exactly = 0) { analytics.trackEventOnClick(any()) }
     }
 }

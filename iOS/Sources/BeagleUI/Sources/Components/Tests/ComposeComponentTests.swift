@@ -37,8 +37,8 @@ struct ComposeText: BeagleUI.ComposeComponent {
     
     func build() -> BeagleSchema.RawComponent {
         return Container(children: [
-            Text(title),
-            Text(subtitle)
+            Text(.value(title)),
+            Text(.value(subtitle))
         ], widgetProperties: .init(flex: Flex()))
     }
 }
