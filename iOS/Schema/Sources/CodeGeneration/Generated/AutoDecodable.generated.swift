@@ -17,6 +17,26 @@
 * limitations under the License.
 */
 
+// MARK: Alert Decodable
+extension Alert {
+
+    enum CodingKeys: String, CodingKey {
+        case title
+        case message
+        case onPressOk
+        case labelOk
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        title = try container.decodeIfPresent(String.self, forKey: .title)
+        message = try container.decode(String.self, forKey: .message)
+        onPressOk = try container.decodeIfPresent( forKey: .onPressOk)
+        labelOk = try container.decodeIfPresent(String.self, forKey: .labelOk)
+    }
+}
+
 // MARK: Button Decodable
 extension Button {
 
@@ -35,6 +55,30 @@ extension Button {
         action = try container.decodeIfPresent( forKey: .action)
         clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
         widgetProperties = try WidgetProperties(from: decoder)
+    }
+}
+
+// MARK: Confirm Decodable
+extension Confirm {
+
+    enum CodingKeys: String, CodingKey {
+        case title
+        case message
+        case onPressOk
+        case onPressCancel
+        case labelOk
+        case labelCancel
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        title = try container.decodeIfPresent(String.self, forKey: .title)
+        message = try container.decode(String.self, forKey: .message)
+        onPressOk = try container.decodeIfPresent( forKey: .onPressOk)
+        onPressCancel = try container.decodeIfPresent( forKey: .onPressCancel)
+        labelOk = try container.decodeIfPresent(String.self, forKey: .labelOk)
+        labelCancel = try container.decodeIfPresent(String.self, forKey: .labelCancel)
     }
 }
 

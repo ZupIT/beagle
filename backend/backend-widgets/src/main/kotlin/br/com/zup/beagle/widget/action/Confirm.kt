@@ -21,12 +21,18 @@ package br.com.zup.beagle.widget.action
  *
  * @param title defines the title on the Dialog.
  * @param message defines the Dialog message.
- * @param buttonText define text of button in dialog.
+ * @param labelOk define text of button positive in dialog.
+ * @param labelCancel define text of button negative in dialog.
+ * @param onPressOk define action of button positive in dialog.
+ * @param onPressCancel define action of button negative in dialog.
  *
  */
 
-data class ShowNativeDialog(
-    val title: String,
+data class Confirm(
+    val title: String?,
     val message: String,
-    val buttonText: String
+    val onPressOk: Action? = null,
+    val onPressCancel: Action? = null,
+    val labelOk: String? = null,
+    val labelCancel: String? = null
 ) : Action
