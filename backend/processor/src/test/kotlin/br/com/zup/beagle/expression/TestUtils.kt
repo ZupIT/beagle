@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.expression
 
-import br.com.zup.beagle.core.Bind
+import br.com.zup.beagle.widget.context.Bind
 import kotlin.reflect.KClass
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
