@@ -152,14 +152,14 @@ extension LazyComponent {
 extension ListView {
 
     enum CodingKeys: String, CodingKey {
-        case rows
+        case children
         case direction
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        rows = try container.decode( forKey: .rows)
+        children = try container.decode( forKey: .children)
         direction = try container.decode(Direction.self, forKey: .direction)
     }
 }
@@ -253,7 +253,7 @@ extension TabItem {
     enum CodingKeys: String, CodingKey {
         case icon
         case title
-        case content
+        case child
     }
 
     public init(from decoder: Decoder) throws {
@@ -261,7 +261,7 @@ extension TabItem {
 
         icon = try container.decodeIfPresent(String.self, forKey: .icon)
         title = try container.decodeIfPresent(String.self, forKey: .title)
-        content = try container.decode( forKey: .content)
+        child = try container.decode( forKey: .child)
     }
 }
 

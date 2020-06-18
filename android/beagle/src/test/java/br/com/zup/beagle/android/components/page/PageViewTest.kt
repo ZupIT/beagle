@@ -34,7 +34,7 @@ class PageViewTest : BaseComponentTest() {
 
     private val beaglePageView: BeaglePageView = mockk(relaxed = true)
     private val pageIndicatorComponent: PageIndicatorComponent = mockk(relaxed = true)
-    private val pages = listOf<ServerDrivenComponent>(mockk<Button>())
+    private val children = listOf<ServerDrivenComponent>(mockk<Button>())
 
     private lateinit var pageView: PageView
 
@@ -48,7 +48,7 @@ class PageViewTest : BaseComponentTest() {
     @Test
     fun build_when_page_indicator_is_null() {
         // GIVEN
-        pageView = PageView(pages, null)
+        pageView = PageView(children, null)
 
         // WHEN
         pageView.buildView(rootView)
@@ -62,7 +62,7 @@ class PageViewTest : BaseComponentTest() {
     @Test
     fun build_when_page_indicator_is_not_null() {
         // GIVEN
-        pageView = PageView(pages, pageIndicatorComponent)
+        pageView = PageView(children, pageIndicatorComponent)
         // WHEN
         pageView.buildView(rootView)
 

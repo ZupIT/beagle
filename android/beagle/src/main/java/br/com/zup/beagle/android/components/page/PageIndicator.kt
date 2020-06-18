@@ -29,7 +29,6 @@ class PageIndicator(
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
-
     @Transient
     private lateinit var pageIndicator: BeaglePageIndicatorView
 

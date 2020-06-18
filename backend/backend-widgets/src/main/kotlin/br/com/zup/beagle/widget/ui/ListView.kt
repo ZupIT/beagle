@@ -23,12 +23,12 @@ import br.com.zup.beagle.widget.core.ListDirection
  * ListView is a Layout component that will define a list of views natively.
  * These views could be any Server Driven Component.
  *
- * @param rows define the items on the list view.
+ * @param children define the items on the list view.
  * @param direction define the list direction.
  *
  */
 data class ListView(
-    val rows: List<ServerDrivenComponent>,
+    val children: List<ServerDrivenComponent>,
     val direction: ListDirection = ListDirection.VERTICAL
 ) : ServerDrivenComponent {
     companion object

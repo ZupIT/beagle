@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,16 +15,27 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+import Foundation
 
-import br.com.zup.beagle.core.ServerDrivenComponent
-
-/**
- * component is used to fill up spaces that shouldn't be filled by any other widget or component
- *
- * @param size define size of view
- *
- */
-data class Spacer(
-    val size: Double
-) : ServerDrivenComponent
+internal class BeagleLoggerProxy: BeagleLoggerType {
+    
+    private let logger: BeagleLoggerType
+    private let dependencies: DependencyLoggingCondition
+    
+    init(logger: BeagleLoggerType, dependencies: DependencyLoggingCondition) {
+        self.logger = logger
+        self.dependencies = dependencies
+    }
+    
+    func log(_ log: LogType) {
+        if dependencies.isLoggingEnabled {
+            logger.log(log)
+        }
+    }
+    
+    func logDecodingError(type: String) {
+        if dependencies.isLoggingEnabled {
+            logger.logDecodingError(type: type)
+        }
+    }
+}

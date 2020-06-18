@@ -81,7 +81,10 @@ public class HttpRequestBuilder {
     }
 
     private func makeHeaders(additionalData: HttpAdditionalData?) -> [String: String] {
-        var headers = ["Content-Type": "application/json"]
+        var headers = [
+            "Content-Type": "application/json",
+            "beagle-platform": "IOS"
+        ]
         additionalData?.headers.forEach {
             headers.updateValue($0.value, forKey: $0.key)
         }
