@@ -14,9 +14,17 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.core
+package br.com.zup.beagle.sample.spring.service
 
-/**
- * Base of components
- */
-interface ServerDrivenComponent
+import br.com.zup.beagle.spring.util.BeagleSessionUtil
+import br.com.zup.beagle.sample.builder.CustomPlatformBuilder
+import br.com.zup.beagle.sample.builder.PlatformBuilder
+import org.springframework.stereotype.Service
+
+@Service
+class PlatformService {
+
+    fun renderComponentUsingPlatform() = CustomPlatformBuilder(BeagleSessionUtil.getBeaglePlatformFromSession())
+
+    fun renderComponent() = PlatformBuilder
+}

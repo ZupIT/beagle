@@ -125,6 +125,45 @@ class BeagleApiTest {
         verify(exactly = once()) { BeagleMessageLogs.logUnknownHttpError(expectedException) }
     }
 
+    @Test
+    fun `fetch should add fixed headers`() = runBlockingTest {
+        // Given
+        mockListenersAndExecuteHttpClient()
+
+        // When
+        beagleApi.fetchData(REQUEST_DATA)
+
+        // Then
+        checkFixedHeaders(requestDataSlot[0])
+    }
+
+    @Test
+    fun `fetch should add fixed headers to existing ones with different keys`() = runBlockingTest {
+        // Given
+        val headers = mapOf("a" to RandomData.string())
+        mockListenersAndExecuteHttpClient()
+
+        // When
+        beagleApi.fetchData(REQUEST_DATA.copy(headers = headers))
+
+        // Then
+        checkFixedHeaders(requestDataSlot[0])
+        assertEquals(headers["a"], requestDataSlot[0].headers["a"])
+    }
+
+    @Test
+    fun `fetch should replace existing headers with same keys as fixed ones`() = runBlockingTest {
+        // Given
+        val headers = mapOf(BeagleApi.CONTENT_TYPE to RandomData.string())
+        mockListenersAndExecuteHttpClient()
+
+        // When
+        beagleApi.fetchData(REQUEST_DATA.copy(headers = headers))
+
+        // Then
+        checkFixedHeaders(requestDataSlot[0])
+    }
+
     private fun mockListenersAndExecuteHttpClient(executionLambda: (() -> Unit)? = null) {
         every {
             httpClient.execute(
@@ -140,5 +179,10 @@ class BeagleApiTest {
             }
             requestCall
         }
+    }
+
+    private fun checkFixedHeaders(requestData: RequestData) {
+        assertEquals(BeagleApi.APP_JSON, requestData.headers[BeagleApi.CONTENT_TYPE])
+        assertEquals(BeagleApi.BEAGLE_PLATFORM_HEADER_VALUE, requestData.headers[BeagleApi.BEAGLE_PLATFORM_HEADER_KEY])
     }
 }

@@ -14,9 +14,23 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.core
+package br.com.zup.beagle.platform
 
-/**
- * Base of components
- */
-interface ServerDrivenComponent
+enum class BeaglePlatform {
+    ALL,
+    MOBILE,
+    ANDROID,
+    IOS,
+    WEB;
+
+    fun isMobilePlatform() = this == MOBILE || this == ANDROID || this == IOS
+
+    fun allowToSendComponentToPlatform(beaglePlatform: BeaglePlatform) =
+        when (this) {
+            ALL -> true
+            MOBILE -> beaglePlatform.isMobilePlatform()
+            ANDROID -> beaglePlatform == ANDROID
+            IOS -> beaglePlatform == IOS
+            WEB -> beaglePlatform == WEB
+        }
+}

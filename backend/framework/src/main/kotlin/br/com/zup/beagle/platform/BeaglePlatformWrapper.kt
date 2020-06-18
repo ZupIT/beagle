@@ -14,9 +14,15 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.core
+package br.com.zup.beagle.platform
 
-/**
- * Base of components
- */
-interface ServerDrivenComponent
+import br.com.zup.beagle.core.GhostComponent
+import br.com.zup.beagle.core.ServerDrivenComponent
+import com.fasterxml.jackson.annotation.JsonProperty
+
+data class BeaglePlatformWrapper<T : ServerDrivenComponent>(
+    @JsonProperty(BeaglePlatformUtil.BEAGLE_CHILD_FIELD)
+    override val child: T,
+    @JsonProperty(BeaglePlatformUtil.BEAGLE_PLATFORM_FIELD)
+    val platform: BeaglePlatform
+) : ServerDrivenComponent, GhostComponent

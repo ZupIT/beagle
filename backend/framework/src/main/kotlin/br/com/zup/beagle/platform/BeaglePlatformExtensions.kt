@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.core
+package br.com.zup.beagle.platform
 
-/**
- * Base of components
- */
-interface ServerDrivenComponent
+import br.com.zup.beagle.core.ServerDrivenComponent
+
+fun <T: ServerDrivenComponent> T.forPlatform(platform: BeaglePlatform) = BeaglePlatformWrapper(this, platform)
