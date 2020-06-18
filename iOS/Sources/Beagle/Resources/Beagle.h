@@ -16,10 +16,10 @@
 
 #import <Foundation/Foundation.h>
 
-//! Project version number for BeagleUI.
-FOUNDATION_EXPORT double BeagleUIVersionNumber;
+//! Project version number for Beagle.
+FOUNDATION_EXPORT double BeagleVersionNumber;
 
-//! Project version string for BeagleUI.
-FOUNDATION_EXPORT const unsigned char BeagleUIVersionString[];
+//! Project version string for Beagle.
+FOUNDATION_EXPORT const unsigned char BeagleVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <BeagleUI/PublicHeader.h>
