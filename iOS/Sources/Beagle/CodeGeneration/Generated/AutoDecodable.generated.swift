@@ -17,6 +17,9 @@
 * limitations under the License.
 */
 
+import BeagleSchema
+import Beagle
+
 // MARK: Text Decodable
 extension Text {
 

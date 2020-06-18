@@ -111,7 +111,7 @@ func codingKeysFor(_ type: Type) -> (generated: [String], all: [String]) {
 func importBeagleString(_ arguments: Dictionary<String,AnyObject>? ) -> String {
     guard let arguments = arguments else { return "" }
     for arg in arguments {
-        if arg.key == "shouldNotImportBeagleUI", let value = arg.value as? Bool, value {
+        if arg.key == "shouldNotImportBeagle", let value = arg.value as? Bool, value {
             return ""
         }
     }

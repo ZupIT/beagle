@@ -26,14 +26,14 @@
       location = "container:"
       name = "Core">
       <FileRef
-         location = "group:/Users/frederico/Documents/Projects/Beagle/beagle/iOS/Sources/BeagleUI/Beagle.xcodeproj">
+         location = "group:Sources/Beagle/Beagle.xcodeproj">
       </FileRef>
    </Group>
    <Group
       location = "container:"
       name = "Playgrounds">
       <FileRef
-         location = "group:Sources/BeagleUI/BeagleUIPlayground.playground">
+         location = "group:Sources/Beagle/BeaglePlayground.playground">
       </FileRef>
       <FileRef
          location = "group:Libraries/YogaKit/YogaKit.playground">
