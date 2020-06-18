@@ -22,6 +22,7 @@ import org.junit.Test
 import java.net.URI
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class RequestDataTest {
 
@@ -38,8 +39,8 @@ class RequestDataTest {
     }
 
     @Test
-    fun requestData_should_have_just_beaglePlatform_header() {
-        assertEquals(0, requestData.headers.size)
+    fun requestData_should_have_empty_headers() {
+        assertTrue(requestData.headers.isEmpty())
     }
 
     @Test
