@@ -16,8 +16,28 @@
 
 package br.com.zup.beagle.compiler
 
+import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.ParameterSpec
+import com.squareup.kotlinpoet.ParameterizedTypeName
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.TypeName
 import javax.lang.model.element.TypeElement
 import javax.lang.model.type.DeclaredType
+
+internal val TypeName.kotlin: TypeName get() = JAVA_TO_KOTLIN[this] ?: this
+
+fun ClassName.specialize(vararg names: TypeName): ParameterizedTypeName = this.parameterizedBy(names.map { it.kotlin })
+
+fun FunSpec.Companion.constructorFrom(parameters: List<ParameterSpec>): FunSpec =
+    this.constructorBuilder().addParameters(parameters).build()
+
+fun PropertySpec.Companion.from(parameter: ParameterSpec, needsOverride: Boolean = false): PropertySpec =
+    this.builder(parameter.name, parameter.type).initializer(parameter.name)
+        .let { if (needsOverride) it.addModifiers(KModifier.OVERRIDE) else it }
+        .build()
 
 fun TypeElement.implementsInterface(interfaceName: String): Boolean {
     for (interfaceTypeMirror in this.interfaces) {

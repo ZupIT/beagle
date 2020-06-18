@@ -43,8 +43,6 @@ import javax.lang.model.util.Elements
 import javax.lang.model.util.Types
 import kotlin.reflect.KClass
 
-private val TypeName.kotlin: TypeName get() = JAVA_TO_KOTLIN[this] ?: this
-
 val ProcessingEnvironment.kaptGeneratedDirectory: File get() = File(this.options[KAPT_KEY]!!)
 val AnnotatedConstruct.isMarkedNullable: Boolean get() = this.getAnnotation(Nullable::class.java) != null
 val ExecutableElement.isOverride: Boolean get() = this.getAnnotation(Override::class.java) != null
@@ -67,24 +65,14 @@ fun Types.isIterable(type: TypeMirror): Boolean = this.isSubtype(type, Iterable:
 
 fun Elements.getPackageAsString(element: Element): String = this.getPackageOf(element).toString()
 
-fun ClassName.specialize(vararg names: TypeName): ParameterizedTypeName = this.parameterizedBy(names.map { it.kotlin })
-
 fun Elements.getVisibleGetters(element: TypeElement): List<ExecutableElement> =
     this.getAllMembers(element).filterVisibleGetters { GETTER matches it.simpleName }
 
 fun Types.isSubtype(type: TypeMirror, superType: KClass<*>): Boolean =
     this.isSubtype(type, superType.java.asTypeName().toString())
 
-fun FunSpec.Companion.constructorFrom(parameters: List<ParameterSpec>): FunSpec =
-    this.constructorBuilder().addParameters(parameters).build()
-
 tailrec fun Types.getFinalElementType(type: TypeMirror): TypeMirror =
     if (this.isIterable(type)) this.getFinalElementType(type.elementType) else type
-
-fun PropertySpec.Companion.from(parameter: ParameterSpec, needsOverride: Boolean = false): PropertySpec =
-    this.builder(parameter.name, parameter.type).initializer(parameter.name)
-        .let { if (needsOverride) it.addModifiers(KModifier.OVERRIDE) else it }
-        .build()
 
 fun Types.isSubtype(type: TypeMirror, superTypeName: String): Boolean =
     when (this.erasure(type).asTypeName().toString()) {
