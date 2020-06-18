@@ -20,8 +20,6 @@ import BeagleUI
 import BeagleSchema
 import UIKit
 
-public protocol SpecificActionFromContainer: Action { }
-
 public struct CustomActionableContainer: ServerDrivenComponent, AutoInitiableAndDecodable {
 
     public let child: [ServerDrivenComponent]

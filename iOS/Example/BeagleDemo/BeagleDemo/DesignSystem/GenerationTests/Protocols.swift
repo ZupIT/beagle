@@ -15,26 +15,30 @@
  */
 
 import Foundation
-import BeagleUI
-import BeagleSchema
 import UIKit
+import BeagleUI
 
-public struct TextContainer: ServerDrivenComponent, AutoInitiableAndDecodable {
+// MARK: - Protocols
+public protocol TextComponents: ServerDrivenComponent { }
+public protocol TextComponentHeader: ServerDrivenComponent { }
+public protocol SpecificActionFromContainer: Action { }
 
-    public let childrenOfTextContainer: TextComponents
-    public let headerOfTextContainer: TextComponentHeader
-    
-    public func toView(renderer: BeagleRenderer) -> UIView {
+
+// MARK: - Dummy Impl
+struct TextComponentHeaderDefault: TextComponentHeader {
+    func toView(renderer: BeagleRenderer) -> UIView {
         return UIView()
     }
+}
 
-// sourcery:inline:auto:TextContainer.Init
-    public init(
-        childrenOfTextContainer: TextComponents,
-        headerOfTextContainer: TextComponentHeader
-    ) {
-        self.childrenOfTextContainer = childrenOfTextContainer
-        self.headerOfTextContainer = headerOfTextContainer
+struct TextComponentsDefault: TextComponents {
+    func toView(renderer: BeagleRenderer) -> UIView {
+        return UIView()
     }
-// sourcery:end
+}
+
+struct SpecificActionFromContainerDefault: SpecificActionFromContainer {
+    func execute(controller: BeagleController, sender: Any) {
+        
+    }
 }

@@ -31,8 +31,8 @@ extension CustomActionableContainer {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        child = try container.decode( forKey: .child)
-        let rawVerySpecificAction: Action? = try container.decode( forKey: .verySpecificAction)
+        child = try container.decode(forKey: .child)
+        let rawVerySpecificAction: Action? = try container.decode(forKey: .verySpecificAction)
         if let aux = rawVerySpecificAction as? SpecificActionFromContainer { 
              verySpecificAction = aux
         } else { 
@@ -95,8 +95,8 @@ extension SingleCustomActionableContainer {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        child = try container.decode( forKey: .child)
-        action = try container.decode( forKey: .action)
+        child = try container.decode(forKey: .child)
+        action = try container.decode(forKey: .action)
     }
 }
 
@@ -112,19 +112,19 @@ extension SingleTextContainer {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        let rawFirstTextContainer: ServerDrivenComponent? = try container.decode( forKey: .firstTextContainer)
+        let rawFirstTextContainer: ServerDrivenComponent? = try container.decode(forKey: .firstTextContainer)
         if let aux = rawFirstTextContainer as? TextComponents { 
              firstTextContainer = aux
         } else { 
             throw ComponentDecodingError.couldNotCastToType("TextComponents")
         }
-        let rawSecondTextContainer: ServerDrivenComponent? = try container.decode( forKey: .secondTextContainer)
+        let rawSecondTextContainer: ServerDrivenComponent? = try container.decode(forKey: .secondTextContainer)
         if let aux = rawSecondTextContainer as? TextComponents { 
              secondTextContainer = aux
         } else { 
             throw ComponentDecodingError.couldNotCastToType("TextComponents")
         }
-        rawChild = try container.decode( forKey: .rawChild)
+        rawChild = try container.decode(forKey: .rawChild)
     }
 }
 
@@ -139,13 +139,13 @@ extension TextContainer {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        let rawChildrenOfTextContainer: ServerDrivenComponent? = try container.decode( forKey: .childrenOfTextContainer)
-        if let aux = rawChildrenOfTextContainer as? [TextComponents] { 
+        let rawChildrenOfTextContainer: ServerDrivenComponent? = try container.decode(forKey: .childrenOfTextContainer)
+        if let aux = rawChildrenOfTextContainer as? TextComponents { 
              childrenOfTextContainer = aux
         } else { 
-            throw ComponentDecodingError.couldNotCastToType("[TextComponents]")
+            throw ComponentDecodingError.couldNotCastToType("TextComponents")
         }
-        let rawHeaderOfTextContainer: ServerDrivenComponent? = try container.decode( forKey: .headerOfTextContainer)
+        let rawHeaderOfTextContainer: ServerDrivenComponent? = try container.decode(forKey: .headerOfTextContainer)
         if let aux = rawHeaderOfTextContainer as? TextComponentHeader { 
              headerOfTextContainer = aux
         } else { 
@@ -165,8 +165,8 @@ extension TextContainerWithAction {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        let rawChidrenOfTextContainer: ServerDrivenComponent? = try container.decodeIfPresent( forKey: .chidrenOfTextContainer)
+        let rawChidrenOfTextContainer: ServerDrivenComponent? = try container.decodeIfPresent(forKey: .chidrenOfTextContainer)
         chidrenOfTextContainer = rawChidrenOfTextContainer as? TextComponents
-        action = try container.decode( forKey: .action)
+        action = try container.decode(forKey: .action)
     }
 }

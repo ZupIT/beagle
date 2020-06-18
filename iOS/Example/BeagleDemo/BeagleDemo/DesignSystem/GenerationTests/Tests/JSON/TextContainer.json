@@ -1,0 +1,9 @@
+{
+    "_beagleComponent_": "custom:TextContainer",
+    "childrenOfTextContainer": {
+        "_beagleComponent_": "custom:TextComponentsDefault"
+    },
+    "headerOfTextContainer": {
+        "_beagleComponent_": "custom:TextComponentHeaderDefault"
+    }
+}
