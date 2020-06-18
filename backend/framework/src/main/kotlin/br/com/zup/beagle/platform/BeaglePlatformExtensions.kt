@@ -14,16 +14,8 @@
  * limitations under the License.
  */
 
-public struct Spacer: RawComponent {
-    
-    // MARK: - Public Properties
-    
-    public let size: Double
-    
-    // MARK: - Initialization
-    
-    public init(_ size: Double) {
-        self.size = size
-    }
-    
-}
+package br.com.zup.beagle.platform
+
+import br.com.zup.beagle.core.ServerDrivenComponent
+
+fun <T: ServerDrivenComponent> T.forPlatform(platform: BeaglePlatform) = BeaglePlatformWrapper(this, platform)

@@ -14,13 +14,23 @@
  * limitations under the License.
  */
 
-import XCTest
-@testable import BeagleSchema
-import SnapshotTesting
+package br.com.zup.beagle.platform
 
-final class SpacerTests: XCTestCase {
-    func test_whenDecodingJson_shouldReturnScreenWithSpacedButtons() throws {
-        let component: ScreenComponent = try componentFromJsonFile(fileName: "Spacer")
-        assertSnapshot(matching: component, as: .dump)
-    }
+enum class BeaglePlatform {
+    ALL,
+    MOBILE,
+    ANDROID,
+    IOS,
+    WEB;
+
+    fun isMobilePlatform() = this == MOBILE || this == ANDROID || this == IOS
+
+    fun allowToSendComponentToPlatform(beaglePlatform: BeaglePlatform) =
+        when (this) {
+            ALL -> true
+            MOBILE -> beaglePlatform.isMobilePlatform()
+            ANDROID -> beaglePlatform == ANDROID
+            IOS -> beaglePlatform == IOS
+            WEB -> beaglePlatform == WEB
+        }
 }

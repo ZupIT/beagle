@@ -23,12 +23,12 @@ import androidx.appcompat.widget.Toolbar
 import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.analytics.ScreenEvent
 import br.com.zup.beagle.android.components.BaseComponentTest
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.utils.ToolbarManager
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.Flex
 import io.mockk.CapturingSlot
 import io.mockk.Runs

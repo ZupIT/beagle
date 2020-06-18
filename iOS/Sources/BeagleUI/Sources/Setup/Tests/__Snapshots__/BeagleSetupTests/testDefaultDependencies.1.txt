@@ -59,7 +59,7 @@
       ▿ (2 elements)
         - key: "beagle:shownativedialog"
         - value: ShowNativeDialog
-    ▿ componentDecoders: 18 key/value pairs
+    ▿ componentDecoders: 17 key/value pairs
       ▿ (2 elements)
         - key: "beagle:button"
         - value: Button
@@ -99,9 +99,6 @@
       ▿ (2 elements)
         - key: "beagle:scrollview"
         - value: ScrollView
-      ▿ (2 elements)
-        - key: "beagle:spacer"
-        - value: Spacer
       ▿ (2 elements)
         - key: "beagle:tabview"
         - value: TabView

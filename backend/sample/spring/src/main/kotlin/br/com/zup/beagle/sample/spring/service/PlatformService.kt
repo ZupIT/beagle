@@ -14,22 +14,17 @@
  * limitations under the License.
  */
 
-import UIKit
-import BeagleSchema
+package br.com.zup.beagle.sample.spring.service
 
-extension Spacer: ServerDrivenComponent {
-    
-    public func toView(renderer: BeagleRenderer) -> UIView {
-        let view = UIView()
-        view.isUserInteractionEnabled = false
-        view.isAccessibilityElement = false
-        view.backgroundColor = .clear
+import br.com.zup.beagle.spring.util.BeagleSessionUtil
+import br.com.zup.beagle.sample.builder.CustomPlatformBuilder
+import br.com.zup.beagle.sample.builder.PlatformBuilder
+import org.springframework.stereotype.Service
 
-        let flex = Flex(size: Size(
-            width: UnitValue(value: size, type: .real),
-            height: UnitValue(value: size, type: .real)
-        ))
-        view.flex.setup(flex)
-        return view
-    }
+@Service
+class PlatformService {
+
+    fun renderComponentUsingPlatform() = CustomPlatformBuilder(BeagleSessionUtil.getBeaglePlatformFromSession())
+
+    fun renderComponent() = PlatformBuilder
 }
