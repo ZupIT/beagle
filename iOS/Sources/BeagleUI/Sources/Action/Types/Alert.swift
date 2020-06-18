@@ -22,9 +22,12 @@ extension Alert: Action {
     public func execute(controller: BeagleController, sender: Any) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         if let onPressOk = onPressOk {
-            controller.execute(action: onPressOk, sender: self)
+            let alertAction = UIAlertAction(title: labelOk, style: .default) { _ in
+                controller.execute(action: onPressOk, sender: self)
+            }
+            alert.addAction(alertAction)
         }
-        alert.addAction(UIAlertAction(title: labelOk, style: .default))
         controller.present(alert, animated: true)
     }
+    
 }
