@@ -32,7 +32,7 @@ extension CustomActionableContainer {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         child = try container.decode( forKey: .child)
-        verySpecificAction = try container.decode( forKey: .verySpecificAction)
+        let rawComponent: Action? = try container.decode( forKey: .verySpecificAction)
     }
 }
 
@@ -106,7 +106,7 @@ extension SingleTextContainer {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        singleTextContainerChild = try container.decode( forKey: .singleTextContainerChild)
+        let rawComponent: ServerDrivenComponent? = try container.decode( forKey: .singleTextContainerChild)
         rawChild = try container.decode( forKey: .rawChild)
     }
 }
@@ -136,7 +136,7 @@ extension TextContainerWithAction {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        chidrenOfTextContainer = try container.decodeIfPresent( forKey: .chidrenOfTextContainer)
+        let rawComponent: ServerDrivenComponent? = try container.decodeIfPresent( forKey: .chidrenOfTextContainer)
         action = try container.decode( forKey: .action)
     }
 }
