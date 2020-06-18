@@ -18,12 +18,12 @@
 import Foundation
 
 public struct WebView: FlexComponent, RawComponent, AutoInitiableAndDecodable {
-    public let url: String
+    public let url: Expression<String>
     public let flex: Flex?
 
 // sourcery:inline:auto:WebView.Init
     public init(
-        url: String,
+        url: Expression<String>,
         flex: Flex? = nil
     ) {
         self.url = url

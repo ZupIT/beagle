@@ -30,8 +30,8 @@ extension Button {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        text = try container.decode(String.self, forKey: .text)
-        styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
+        text = try container.decode(Expression<String>.self, forKey: .text)
+        styleId = try container.decodeIfPresent(Expression<String>.self, forKey: .styleId)
         action = try container.decodeIfPresent( forKey: .action)
         clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
         widgetProperties = try WidgetProperties(from: decoder)
@@ -281,9 +281,9 @@ extension Text {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         text = try container.decode(Expression<String>.self, forKey: .text)
-        styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
-        alignment = try container.decodeIfPresent(Alignment.self, forKey: .alignment)
-        textColor = try container.decodeIfPresent(String.self, forKey: .textColor)
+        styleId = try container.decodeIfPresent(Expression<String>.self, forKey: .styleId)
+        alignment = try container.decodeIfPresent(Expression<Alignment>.self, forKey: .alignment)
+        textColor = try container.decodeIfPresent(Expression<String>.self, forKey: .textColor)
         widgetProperties = try WidgetProperties(from: decoder)
     }
 }
@@ -317,7 +317,7 @@ extension WebView {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        url = try container.decode(String.self, forKey: .url)
+        url = try container.decode(Expression<String>.self, forKey: .url)
         flex = try container.decodeIfPresent(Flex.self, forKey: .flex)
     }
 }

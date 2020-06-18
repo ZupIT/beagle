@@ -20,16 +20,16 @@ public struct Text: RawWidget, AutoDecodable {
     
     // MARK: - Public Properties
     public let text: Expression<String>
-    public let styleId: String?
-    public let alignment: Alignment?
-    public let textColor: String?
+    public let styleId: Expression<String>?
+    public let alignment: Expression<Alignment>?
+    public let textColor: Expression<String>?
     public var widgetProperties: WidgetProperties
 
     public init(
         _ text: Expression<String>,
-        styleId: String? = nil,
-        alignment: Alignment? = nil,
-        textColor: String? = nil,
+        styleId: Expression<String>? = nil,
+        alignment: Expression<Alignment>? = nil,
+        textColor: Expression<String>? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.text = text
