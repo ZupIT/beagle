@@ -53,7 +53,7 @@ class BeagleLoggerProxyTest {
     @Test
     fun warning_should_call_Log_w_if_is_enable() {
         // Given
-        every { BeagleEnvironment.beagleSdk.config.logEnable } returns true
+        every { BeagleEnvironment.beagleSdk.config.isLoggingEnabled } returns true
 
         // When
         BeagleLoggerProxy.warning(LOG)
@@ -65,7 +65,7 @@ class BeagleLoggerProxyTest {
     @Test
     fun warning_should_not_call_Log_w_if_is_not_enable() {
         // Given
-        every { BeagleEnvironment.beagleSdk.config.logEnable } returns false
+        every { BeagleEnvironment.beagleSdk.config.isLoggingEnabled } returns false
 
         // When
         BeagleLoggerProxy.warning(LOG)
@@ -77,7 +77,7 @@ class BeagleLoggerProxyTest {
     @Test
     fun error_should_call_Log_w_if_is_enable() {
         // Given
-        every { BeagleEnvironment.beagleSdk.config.logEnable } returns true
+        every { BeagleEnvironment.beagleSdk.config.isLoggingEnabled } returns true
 
         // When
         BeagleLoggerProxy.error(LOG)
@@ -89,7 +89,7 @@ class BeagleLoggerProxyTest {
     @Test
     fun error_should_not_call_Log_w_if_is_not_enable() {
         // Given
-        every { BeagleEnvironment.beagleSdk.config.logEnable } returns false
+        every { BeagleEnvironment.beagleSdk.config.isLoggingEnabled } returns false
 
         // When
         BeagleLoggerProxy.error(LOG)
@@ -101,7 +101,7 @@ class BeagleLoggerProxyTest {
     @Test
     fun info_should_call_Log_w_if_is_enable() {
         // Given
-        every { BeagleEnvironment.beagleSdk.config.logEnable } returns true
+        every { BeagleEnvironment.beagleSdk.config.isLoggingEnabled } returns true
 
         // When
         BeagleLoggerProxy.info(LOG)
@@ -113,7 +113,7 @@ class BeagleLoggerProxyTest {
     @Test
     fun info_should_not_call_Log_w_if_is_not_enable() {
         // Given
-        every { BeagleEnvironment.beagleSdk.config.logEnable } returns false
+        every { BeagleEnvironment.beagleSdk.config.isLoggingEnabled } returns false
 
         // When
         BeagleLoggerProxy.info(LOG)

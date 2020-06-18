@@ -75,7 +75,7 @@ class BeagleNavigatorTest {
 
         every { BeagleEnvironment.beagleSdk.config.baseUrl } returns RandomData.httpUrl()
         every { BeagleEnvironment.beagleSdk.logger } returns null
-        every { BeagleEnvironment.beagleSdk.config.logEnable } returns true
+        every { BeagleEnvironment.beagleSdk.config.isLoggingEnabled } returns true
 
         mockkObject(BeagleFragment.Companion)
         mockkObject(BeagleActivity.Companion)

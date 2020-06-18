@@ -39,7 +39,7 @@ internal object BeagleLoggerProxy : BeagleLogger {
     }
 
     private fun runIfEnable(runBlock: () -> Unit) {
-        if (BeagleEnvironment.beagleSdk.config.logEnable) {
+        if (BeagleEnvironment.beagleSdk.config.isLoggingEnabled) {
             runBlock()
         }
     }
