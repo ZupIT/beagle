@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+package br.com.zup.beagle.android.logger
 
-import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.android.setup.BeagleEnvironment
 
-/**
- * component is used to fill up spaces that shouldn't be filled by any other widget or component
- *
- * @param size define size of view
- *
- */
-data class Spacer(
-    val size: Double
-) : ServerDrivenComponent
+internal class BeagleLoggerFactory {
+    fun make(): BeagleLogger {
+        return BeagleEnvironment.beagleSdk.logger ?: BeagleLoggerDefault()
+    }
+}

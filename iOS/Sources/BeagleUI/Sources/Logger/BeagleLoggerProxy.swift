@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,21 +15,27 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.processor
+import Foundation
 
-import br.com.zup.beagle.android.annotation.BeagleComponent
-import br.com.zup.beagle.android.setup.BeagleConfig
-import br.com.zup.beagle.android.setup.Cache
-import br.com.zup.beagle.android.setup.Environment
-
-@BeagleComponent
-class AppBeagleConfig : BeagleConfig {
-    override val environment: Environment get() = Environment.DEBUG
-    override val baseUrl: String get() = "http://sample.com"
-    override val isLoggingEnabled: Boolean = false
-    override val cache: Cache = Cache(
-        enabled = true,
-        maxAge = 300,
-        memoryMaximumCapacity = 15
-    )
+internal class BeagleLoggerProxy: BeagleLoggerType {
+    
+    private let logger: BeagleLoggerType
+    private let dependencies: DependencyLoggingCondition
+    
+    init(logger: BeagleLoggerType, dependencies: DependencyLoggingCondition) {
+        self.logger = logger
+        self.dependencies = dependencies
+    }
+    
+    func log(_ log: LogType) {
+        if dependencies.isLoggingEnabled {
+            logger.log(log)
+        }
+    }
+    
+    func logDecodingError(type: String) {
+        if dependencies.isLoggingEnabled {
+            logger.logDecodingError(type: type)
+        }
+    }
 }
