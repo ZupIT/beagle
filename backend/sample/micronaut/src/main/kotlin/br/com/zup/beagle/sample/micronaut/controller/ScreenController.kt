@@ -45,6 +45,7 @@ import br.com.zup.beagle.sample.constants.SCREEN_NETWORK_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_PAGE_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SCROLL_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TAB_VIEW_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_FLEX_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TOUCHABLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_WEB_VIEW_ENDPOINT
@@ -70,6 +71,7 @@ import br.com.zup.beagle.sample.micronaut.service.SampleTextService
 import br.com.zup.beagle.sample.micronaut.service.SampleTouchableService
 import br.com.zup.beagle.sample.micronaut.service.SampleViewService
 import br.com.zup.beagle.sample.micronaut.service.SampleWebViewService
+import br.com.zup.beagle.sample.micronaut.service.FlexService
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Controller
 
@@ -96,7 +98,8 @@ class ScreenController(
     private val sampleTouchableService: SampleTouchableService,
     private val sampleActionClickService: SampleActionClickService,
     private val sampleAnalyticsService: SampleAnalyticsService,
-    private val sampleWebViewService: SampleWebViewService
+    private val sampleWebViewService: SampleWebViewService,
+    private val flexService: FlexService
 ) {
     @Get(ACCESSIBILITY_SCREEN_ENDPOINT)
     fun getAccessibilityView() = this.accessibilityService.createAccessibilityView()
@@ -189,5 +192,8 @@ class ScreenController(
 
     @Get(SCREEN_WEB_VIEW_ENDPOINT)
     fun getsampleWebViewService() = this.sampleWebViewService.createWebView()
+
+    @Get(SCREEN_FLEX_ENDPOINT)
+    fun getFlex() = this.flexService.getFlex()
 
 }
