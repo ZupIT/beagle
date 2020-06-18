@@ -20,7 +20,7 @@ import BeagleSchema
 
 struct MainScreen: DeeplinkScreen {
     init() {}
-    init(path: String, data: [String : String]?) {}
+    init(path: String, data: [String: String]?) {}
     
     func screenController() -> UIViewController {
         let screen = Screen(
@@ -28,7 +28,7 @@ struct MainScreen: DeeplinkScreen {
             child: buildChild()
         )
 
-        return BeagleScreenViewController(screen: screen)
+        return BeagleScreenViewController(.declarative(screen))
     }
     
     private func buildChild() -> ScrollView {
@@ -65,6 +65,14 @@ struct MainScreen: DeeplinkScreen {
                 Button(
                     text: "Web View",
                     action: Navigate.openNativeRoute(.WEB_VIEW_ENDPOINT)
+                ),
+                Button(
+                    text: "Component Interaction",
+                    action: Navigate.pushView(.declarative(componentInteractionScreen))
+                ),
+                Button(
+                    text: "Send Request",
+                    action: Navigate.pushView(.declarative(sendRequestDeclarativeScreen))
                 ),
                 Button(
                     text: "Sample BFF",

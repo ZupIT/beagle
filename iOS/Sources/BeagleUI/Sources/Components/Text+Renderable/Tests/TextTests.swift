@@ -34,7 +34,8 @@ class TextTests: XCTestCase {
         theme: theme
     )
 
-    private lazy var renderer = BeagleRenderer(context: BeagleContextDummy(), dependencies: dependencies)
+    private lazy var controller = BeagleControllerStub(dependencies: dependencies)
+    private lazy var renderer = BeagleRenderer(controller: controller)
     
     func testEqualTextContent() throws {
         // Given
@@ -47,7 +48,11 @@ class TextTests: XCTestCase {
         }
         
         // Then
-        XCTAssertEqual(component.text, label.text)
+        guard case let .value(text) = component.text else {
+            XCTFail("Expected a `.value` property, but got \(String(describing: component.text)).")
+            return
+        }
+        XCTAssertEqual(text, label.text)
     }
     
     func testTextWithRightAlignment() throws {
@@ -83,7 +88,7 @@ class TextTests: XCTestCase {
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             styleId: "test.text.style",
             alignment: .right,
-            textColor: "579F2B",
+            textColor: "#579F2B",
             widgetProperties: .init(style: Style(
                 backgroundColor: "#FFFF00",
                 cornerRadius: .init(radius: 30.0)

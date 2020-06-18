@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.exception
 
-class BeagleException
+open class BeagleException
 constructor(
     override val message: String,
     override val cause: Throwable? = null

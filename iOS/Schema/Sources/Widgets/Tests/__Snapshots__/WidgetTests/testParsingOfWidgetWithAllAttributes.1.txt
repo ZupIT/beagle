@@ -3,7 +3,8 @@
     - some: Alignment.center
   ▿ styleId: Optional<String>
     - some: "test.text.style"
-  - text: "BeaglePreview"
+  ▿ text: Expression<String>
+    - value: "BeaglePreview"
   ▿ textColor: Optional<String>
     - some: "579F2B"
   ▿ widgetProperties: WidgetProperties

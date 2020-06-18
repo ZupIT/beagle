@@ -21,23 +21,23 @@ extension ScreenComponent: ServerDrivenComponent {
 
     public func toView(renderer: BeagleRenderer) -> UIView {
 
-        prefetch(dependencies: renderer.dependencies)
+        prefetch(helper: renderer.controller.dependencies.preFetchHelper)
         
         return buildChildView(renderer: renderer)
     }
 
     // MARK: - Private Functions
     
-    private func prefetch(dependencies: RenderableDependencies) {
+    private func prefetch(helper: BeaglePrefetchHelping) {
         navigationBar?.navigationBarItems?
             .compactMap { $0.action as? Navigate }
             .compactMap { $0.newPath }
-            .forEach { dependencies.preFetchHelper.prefetchComponent(newPath: $0) }
+            .forEach { helper.prefetchComponent(newPath: $0) }
     }
 
     private func buildChildView(renderer: BeagleRenderer) -> UIView {
         let view = renderer.render(child)
-        let holder = UIView()
+        let holder = ScreenView()
         holder.addSubview(view)
         holder.flex.setup(Flex(grow: 1))
 

@@ -36,9 +36,17 @@ extension Touchable: ServerDrivenComponent {
             events.append(.analytics(clickAnalyticsEvent))
         }
         
-        renderer.context.actionManager.register(events: events, inView: childView)
-        prefetchComponent(helper: renderer.dependencies.preFetchHelper)
+        register(events: events, inView: childView, controller: renderer.controller)
+        prefetchComponent(helper: renderer.controller.dependencies.preFetchHelper)
         return childView
+    }
+    
+    private func register(events: [Event], inView view: UIView, controller: BeagleController) {
+        let eventsGestureRecognizer = EventsGestureRecognizer(
+            events: events,
+            controller: controller
+        )
+        view.addGestureRecognizer(eventsGestureRecognizer)
     }
     
     private func prefetchComponent(helper: BeaglePrefetchHelping) {

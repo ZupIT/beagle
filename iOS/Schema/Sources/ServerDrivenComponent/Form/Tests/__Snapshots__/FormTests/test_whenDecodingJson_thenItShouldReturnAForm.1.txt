@@ -11,12 +11,14 @@
         - key: "id"
         - value: "11111"
   ▿ child: Container
+    - _context_: Optional<Context>.none
     ▿ children: 4 elements
       ▿ FormInput
         ▿ child: Text
           - alignment: Optional<Alignment>.none
           - styleId: Optional<String>.none
-          - text: "text"
+          ▿ text: Expression<String>
+            - value: "text"
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
@@ -37,6 +39,7 @@
         ▿ validator: Optional<String>
           - some: "text-is-not-blank"
       ▿ Container
+        - _context_: Optional<Context>.none
         - children: 0 elements
         ▿ widgetProperties: WidgetProperties
           - accessibility: Optional<Accessibility>.none
@@ -63,7 +66,7 @@
           - style: Optional<Style>.none
       ▿ FormSubmit
         ▿ child: Button
-          - action: Optional<Action>.none
+          - action: Optional<RawAction>.none
           - clickAnalyticsEvent: Optional<AnalyticsClick>.none
           ▿ styleId: Optional<String>
             - some: "DesignSystem.Form.Submit"

@@ -186,6 +186,14 @@ fun makeFormLocalActionJson() = """
     }
 """
 
+fun makeCustomAndroidActionJson() = """
+    {
+        "_beagleAction_": "custom:customandroidaction",
+        "value": "${RandomData.string()}",
+        "intValue": ${RandomData.int()}
+    }
+"""
+
 fun makeFormValidationJson() = """
     {
         "_beagleAction_": "beagle:formValidation",
@@ -229,5 +237,46 @@ fun makeFormJson() = """
 fun makeUndefinedComponentJson() = """
     {
         "_beagleComponent_": "custom:new"
+    }
+"""
+
+fun makeInternalObject() = """{"value1": "hello", "value2": 123}"""
+
+fun makeBindComponent() = """
+    {
+        "_beagleComponent_": "custom:componentbinding",
+        "value1": null,
+        "value2": "Hello @{context.name}",
+        "value3": "@{hello}",
+        "value4": ${makeInternalObject()}
+    }
+"""
+
+fun makeContextWithJsonObject() = """
+    {
+        "id": "contextId",
+        "value": {
+            "a": true,
+            "b": "a"
+        }
+    }
+"""
+
+fun makeContextWithJsonArray() = """
+    {
+        "id": "contextId",
+        "value": [
+            {
+                "a": true,
+                "b": "a"
+            }
+        ]
+    }
+"""
+
+fun makeContextWithPrimitive() = """
+    {
+        "id": "contextId",
+        "value": true
     }
 """

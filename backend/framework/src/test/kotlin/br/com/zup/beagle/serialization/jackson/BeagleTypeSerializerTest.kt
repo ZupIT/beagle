@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.serialization.jackson
 
-import br.com.zup.beagle.action.Navigate
+import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.layout.Screen
@@ -27,28 +27,15 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.Test
-import kotlin.test.assertNotSame
-import kotlin.test.assertTrue
 
 internal class BeagleTypeSerializerTest {
     @Test
-    fun withObjectIdWriter_should_return_new_BeagleTypeSerializer() {
-        val serializer = BeagleTypeSerializer(mockk())
-
-        val result = serializer.withObjectIdWriter(mockk())
-
-        assertNotSame(serializer, result)
-        assertTrue(block = result::usesObjectId)
-    }
+    fun withObjectIdWriter_should_return_new_BeagleTypeSerializer() =
+        withObjectIdWriterShouldReturnNewSerializer(::BeagleTypeSerializer)
 
     @Test
-    fun withFilterId_should_return_new_BeagleTypeSerializer() {
-        val serializer = BeagleTypeSerializer(mockk())
-
-        val result = serializer.withFilterId("Test")
-
-        assertNotSame(serializer, result)
-    }
+    fun withFilterId_should_return_new_BeagleTypeSerializer() =
+        withFilterIdShouldReturnNewSerializer(::BeagleTypeSerializer)
 
     @Test
     fun serialize_non_beagle_type_should_have_beagleType_field_null() = testSerialize("Text") {

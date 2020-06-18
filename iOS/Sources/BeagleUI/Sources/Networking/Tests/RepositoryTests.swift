@@ -157,6 +157,7 @@ final class RepositoryTests: XCTestCase {
 
 final class ComponentDecodingStub: ComponentDecoding {
     func register<T>(_ type: T.Type, for typeName: String) where T: BeagleSchema.RawComponent {}
+    func register<A>(_ type: A.Type, for typeName: String) where A: BeagleSchema.RawAction {}
     func componentType(forType type: String) -> Decodable.Type? { return nil }
     func actionType(forType type: String) -> Decodable.Type? { return nil }
     
@@ -170,7 +171,7 @@ final class ComponentDecodingStub: ComponentDecoding {
         return ComponentDummy()
     }
 
-    func decodeAction(from data: Data) throws -> Action {
+    func decodeAction(from data: Data) throws -> RawAction {
         if let error = errorToThrowOnDecode {
             throw error
         }
@@ -181,7 +182,7 @@ final class ComponentDecodingStub: ComponentDecoding {
 final class RepositoryStub: Repository {
 
     var componentResult: Result<BeagleUI.ServerDrivenComponent, Request.Error>?
-    var formResult: Result<Action, Request.Error>?
+    var formResult: Result<RawAction, Request.Error>?
     var imageResult: Result<Data, Request.Error>?
 
     private(set) var didCallDispatch = false
@@ -198,7 +199,7 @@ final class RepositoryStub: Repository {
 
     init(
         componentResult: Result<BeagleUI.ServerDrivenComponent, Request.Error>? = nil,
-        formResult: Result<Action, Request.Error>? = nil,
+        formResult: Result<RawAction, Request.Error>? = nil,
         imageResult: Result<Data, Request.Error>? = nil
     ) {
         self.componentResult = componentResult
@@ -214,7 +215,7 @@ final class RepositoryStub: Repository {
         return token
     }
 
-    func submitForm(url: String, additionalData: RemoteScreenAdditionalData?, data: Request.FormData, completion: @escaping (Result<Action, Request.Error>) -> Void) -> RequestToken? {
+    func submitForm(url: String, additionalData: RemoteScreenAdditionalData?, data: Request.FormData, completion: @escaping (Result<RawAction, Request.Error>) -> Void) -> RequestToken? {
         didCallDispatch = true
         formData = data
         if let result = formResult {

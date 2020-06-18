@@ -20,6 +20,9 @@ import BeagleSchema
 
 final class FormSubmitTests: XCTestCase {
     
+    lazy var controller = BeagleControllerStub()
+    lazy var renderer = BeagleRenderer(controller: controller)
+    
     func test_toView_shouldReturnTheExpectedView() {
         // Given
         let formSubmit = FormSubmit(child: ComponentDummy())

@@ -17,7 +17,7 @@
 
 extension Variable {
 	
-	static var beagleProtocolTypes = ["Action", "ServerDrivenComponent", "[ServerDrivenComponent]", rawComponent, "[\(rawComponent)]"]
+	static var beagleProtocolTypes = ["Action", "ServerDrivenComponent", "[ServerDrivenComponent]", rawComponent, "[\(rawComponent)]", "RawAction", "[RawAction]"]
 
 	func inheritsFromAnyCoreBeagleProtocolType() -> String? {
 		if let variableType = self.type {
@@ -73,6 +73,7 @@ func customEncodingMethod(for variable: Variable, of type: Type) -> SourceryMeth
 
 func needsCustomBeagleDecoding(_ variable: Variable) -> Bool {
     let isCoreBeagleProtocolType = Variable.beagleProtocolTypes.contains(variable.unwrappedTypeName)
+        || variable.unwrappedTypeName == "RawAction"
     return isCoreBeagleProtocolType || variable.inheritsFromAnyCoreBeagleProtocolType() != nil
 }
 
@@ -173,11 +174,29 @@ func makeDecoding(_ variable: Variable) -> String {
     line += "(\(type) forKey: .\(variable.name))"
 
     if let beagleProtocol = variable.inheritsFromAnyCoreBeagleProtocolType(), variable.unwrappedTypeName != beagleProtocol {
-        line += "\n" + identation + identation
-            + variable.name + " = rawComponent as? \(variable.unwrappedTypeName)"
+        line += handleCustomProtocolWrappedCases(variable)
     }
 
     return line
+}
+
+func handleCustomProtocolWrappedCases(_ variable: Variable) -> String {
+	var aux = "aux"
+
+	if variable.isOptional {
+		return "\n" + identation + identation
+            + variable.name + " = rawComponent as? \(variable.unwrappedTypeName)"
+	} else {
+		var line = ""
+		line += "\n" + identation + identation + "if let " + aux + " = rawComponent as? \(variable.unwrappedTypeName) { \n "
+		line += identation + identation + identation + variable.name + " = "  + aux + "\n"
+		line += identation + identation + "} else { \n"
+		line += identation + identation + identation + "throw ComponentDecodingError.couldNotCastToType(\"" + variable.unwrappedTypeName + "\")\n" 
+		line += identation + identation + "}"
+
+		return line
+	}
+	
 }
 
 -%>
