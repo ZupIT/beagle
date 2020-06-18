@@ -19,14 +19,14 @@ import UIKit
 public struct Text: RawWidget, AutoDecodable {
     
     // MARK: - Public Properties
-    public let text: String
+    public let text: Expression<String>
     public let styleId: String?
     public let alignment: Alignment?
     public let textColor: String?
     public var widgetProperties: WidgetProperties
 
     public init(
-        _ text: String,
+        _ text: Expression<String>,
         styleId: String? = nil,
         alignment: Alignment? = nil,
         textColor: String? = nil,

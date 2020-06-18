@@ -3,7 +3,8 @@
     - some: Alignment.right
   ▿ styleId: Optional<String>
     - some: "test.text.style"
-  - text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+  ▿ text: Expression<String>
+    - value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
   ▿ textColor: Optional<String>
     - some: "#579F2B"
   ▿ widgetProperties: WidgetProperties

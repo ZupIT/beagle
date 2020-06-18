@@ -17,12 +17,12 @@
 package br.com.zup.beagle.android.components
 
 import android.view.View
-import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.analytics.ClickEvent
-import br.com.zup.beagle.android.action.ActionExecutor
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -32,9 +32,6 @@ data class Touchable(
     val child: ServerDrivenComponent,
     val clickAnalyticsEvent: ClickEvent? = null
 ) : WidgetView() {
-
-    @Transient
-    private val actionExecutor: ActionExecutor = ActionExecutor()
 
     @Transient
     private val preFetchHelper: PreFetchHelper = PreFetchHelper()
@@ -47,9 +44,9 @@ data class Touchable(
 
         return viewRendererFactory.make(child).build(rootView).apply {
             setOnClickListener {
-                actionExecutor.doAction(rootView, action)
+                handleEvent(rootView, action, "")
                 clickAnalyticsEvent?.let {
-                    BeagleEnvironment.beagleSdk.analytics?.sendClickEvent(it)
+                    BeagleEnvironment.beagleSdk.analytics?.trackEventOnClick(it)
                 }
             }
         }

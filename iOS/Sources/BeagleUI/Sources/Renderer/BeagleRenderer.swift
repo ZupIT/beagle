@@ -76,5 +76,8 @@ open class BeagleRenderer {
         if let c = component as? FlexComponent {
             view.flex.setup(c.flex)
         }
+        if let c = component as? HasContext, let context = c._context_ {
+            view.setContext(context)
+        }
     }
 }

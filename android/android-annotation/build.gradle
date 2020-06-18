@@ -21,6 +21,8 @@ targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
     implementation GeneralLibraries.kotlin
+
+    implementation MoshiLibraries.moshi
 }
 
 apply from: rootProject.file('maven-publish.gradle')

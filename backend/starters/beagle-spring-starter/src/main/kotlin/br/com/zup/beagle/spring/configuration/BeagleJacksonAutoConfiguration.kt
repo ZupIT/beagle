@@ -25,5 +25,5 @@ import org.springframework.context.annotation.Configuration
 @ConditionalOnClass(BeagleModule::class)
 open class BeagleJacksonAutoConfiguration {
     @Bean
-    open fun beagleModule() = BeagleModule
+    open fun beagleModule() = BeagleModule()
 }

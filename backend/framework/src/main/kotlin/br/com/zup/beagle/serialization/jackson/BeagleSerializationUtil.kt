@@ -20,5 +20,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 
 object BeagleSerializationUtil {
 
-    fun beagleObjectMapper() = jacksonObjectMapper().apply { this.registerModule(BeagleModule) }
+    fun beagleObjectMapper(classLoader: ClassLoader = BeagleSerializationUtil::class.java.classLoader)
+        = jacksonObjectMapper().apply { this.registerModule(BeagleModule(classLoader)) }
+
 }

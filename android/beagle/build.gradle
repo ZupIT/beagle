@@ -74,12 +74,15 @@ dependencies {
     implementation MoshiLibraries.kotlin
     implementation MoshiLibraries.adapters
 
+    kaptTest project(Modules.beagleAndroidProcessor)
+
     // Unit Testing
     testImplementation TestLibraries.junit
     testImplementation TestLibraries.kotlinTest
     testImplementation TestLibraries.kotlinCoroutinesTest
     testImplementation TestLibraries.mockk
     testImplementation TestLibraries.archCoreTesting
+    testImplementation GeneralLibraries.jsonObject
 
     // Integration Testing
     androidTestImplementation TestLibraries.testRunner

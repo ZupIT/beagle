@@ -14,30 +14,40 @@
  * limitations under the License.
  */
 
+
 package br.com.zup.beagle.android.data
 
-import br.com.zup.beagle.android.exception.BeagleException
+import br.com.zup.beagle.android.exception.BeagleApiException
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
-import br.com.zup.beagle.android.networking.*
+import br.com.zup.beagle.android.networking.HttpClient
+import br.com.zup.beagle.android.networking.RequestCall
+import br.com.zup.beagle.android.networking.RequestData
+import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.android.view.ScreenMethod
-import br.com.zup.beagle.android.view.ScreenRequest
-import io.mockk.*
+import io.mockk.MockKAnnotations
+import io.mockk.Runs
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.slot
+import io.mockk.unmockkAll
+import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import java.net.URI
 import kotlin.test.assertEquals
-
 import kotlin.test.assertFails
 
 private val PATH = RandomData.httpUrl()
-private val SCREEN_REQUEST = ScreenRequest(PATH)
+private val REQUEST_DATA = RequestData(URI(PATH))
 private val BASE_URL = RandomData.string()
 private val FINAL_URL = RandomData.string()
 
@@ -46,16 +56,20 @@ class BeagleApiTest {
 
     private val requestDataSlot = mutableListOf<RequestData>()
     private val onSuccessSlot = slot<(responseData: ResponseData) -> Unit>()
-    private val onErrorSlot = slot<(throwable: Throwable) -> Unit>()
+    private val onErrorSlot = slot<(responseData: ResponseData) -> Unit>()
 
     @MockK
     private lateinit var httpClient: HttpClient
+
     @MockK
     private lateinit var urlBuilder: UrlBuilder
+
     @MockK
     private lateinit var beagleEnvironment: BeagleEnvironment
+
     @MockK
     private lateinit var requestCall: RequestCall
+
     @MockK
     private lateinit var responseData: ResponseData
 
@@ -67,7 +81,7 @@ class BeagleApiTest {
 
         mockkObject(BeagleMessageLogs)
 
-        beagleApi = BeagleApi(httpClient, urlBuilder, beagleEnvironment)
+        beagleApi = BeagleApi(httpClient)
 
         mockListenersAndExecuteHttpClient()
 
@@ -86,7 +100,7 @@ class BeagleApiTest {
     @Test
     fun fetchComponent_should_call_logHttpResponseData_and_return() = runBlockingTest {
         // Given, When
-        val data = beagleApi.fetchData(SCREEN_REQUEST)
+        val data = beagleApi.fetchData(REQUEST_DATA)
 
         // Then
         verify(exactly = once()) { BeagleMessageLogs.logHttpResponseData(responseData) }
@@ -94,82 +108,21 @@ class BeagleApiTest {
     }
 
     @Test
-    fun fetchComponent_should_create_requestData() = runBlockingTest {
-        // Given
-        val screenRequest = ScreenRequest(
-            url = PATH,
-            method = ScreenMethod.POST,
-            body = RandomData.string()
-        )
-
-        // When
-        beagleApi.fetchData(screenRequest)
-
-        // Then
-        val requestData = requestDataSlot[0]
-        assertEquals(FINAL_URL, requestData.uri.toString())
-        assertEquals(HttpMethod.POST, requestData.method)
-        assertEquals(screenRequest.body, requestData.body)
-        assertEquals(1, requestData.headers.size)
-        assertEquals("application/json", requestData.headers["Content-Type"])
-    }
-
-    @Test
-    fun fetchComponent_should_create_requestData_for_each_HttpMethod() = runBlockingTest {
-        // Given
-        val screenRequest = listOf(
-            SCREEN_REQUEST.copy(method = ScreenMethod.GET),
-            SCREEN_REQUEST.copy(method = ScreenMethod.POST),
-            SCREEN_REQUEST.copy(method = ScreenMethod.PUT),
-            SCREEN_REQUEST.copy(method = ScreenMethod.DELETE),
-            SCREEN_REQUEST.copy(method = ScreenMethod.HEAD),
-            SCREEN_REQUEST.copy(method = ScreenMethod.PATCH)
-        )
-
-        // When
-        screenRequest.forEach {
-            beagleApi.fetchData(it)
-        }
-
-        // Then
-        assertEquals(HttpMethod.GET, requestDataSlot[0].method)
-        assertEquals(HttpMethod.POST, requestDataSlot[1].method)
-        assertEquals(HttpMethod.PUT, requestDataSlot[2].method)
-        assertEquals(HttpMethod.DELETE, requestDataSlot[3].method)
-        assertEquals(HttpMethod.HEAD, requestDataSlot[4].method)
-        assertEquals(HttpMethod.PATCH, requestDataSlot[5].method)
-    }
-
-    @Test
     fun fetch_should_return_a_exception_when_some_http_call_fails() = runBlockingTest {
         // Given
-        val message = RandomData.string()
-        val expectedException = BeagleException(message)
-        mockListenersAndExecuteHttpClient { onErrorSlot.captured(expectedException) }
+        val responseData: ResponseData = mockk()
+        val message = "fetchData error for url ${REQUEST_DATA.uri}"
+        val expectedException = BeagleApiException(responseData, message)
+        mockListenersAndExecuteHttpClient { onErrorSlot.captured(responseData) }
 
         // When
         val exceptionThrown = assertFails(message) {
-            beagleApi.fetchData(SCREEN_REQUEST)
+            beagleApi.fetchData(REQUEST_DATA)
         }
 
         // Then
         assertEquals(expectedException.message, exceptionThrown.message)
         verify(exactly = once()) { BeagleMessageLogs.logUnknownHttpError(expectedException) }
-    }
-
-    @Test
-    fun fetch_should_return_a_exception_when_http_throws_a_exception() = runBlockingTest {
-        // Given
-        val exception = RuntimeException()
-        every { httpClient.execute(any(), any(), any()) } throws exception
-
-        // When
-        val exceptionResponse = assertFails {
-            beagleApi.fetchData(SCREEN_REQUEST)
-        }
-
-        // Then
-        kotlin.test.assertTrue(exceptionResponse is BeagleException)
     }
 
     private fun mockListenersAndExecuteHttpClient(executionLambda: (() -> Unit)? = null) {

@@ -34,11 +34,11 @@ import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.loadView
-import br.com.zup.beagle.android.view.BeagleView
-import br.com.zup.beagle.android.view.OnLoadCompleted
-import br.com.zup.beagle.android.view.OnStateChanged
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.view.custom.BeagleView
+import br.com.zup.beagle.android.view.custom.OnLoadCompleted
+import br.com.zup.beagle.android.view.custom.OnStateChanged
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
