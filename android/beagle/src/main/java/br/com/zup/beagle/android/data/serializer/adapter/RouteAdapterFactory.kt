@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.data.serializer.adapter
 
-import br.com.zup.beagle.action.Route
-import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.android.action.Route
+import br.com.zup.beagle.android.components.layout.Screen
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.JsonReader
@@ -28,7 +28,7 @@ import java.lang.reflect.Type
 
 class RouteAdapterFactory : JsonAdapter.Factory {
     override fun create(type: Type, annotations: MutableSet<out Annotation>, moshi: Moshi): JsonAdapter<Route>? {
-        return if (Types.getRawType(type).isAssignableFrom(Route::class.java)) {
+        return if (Types.getRawType(type) == Route::class.java) {
             RouteAdapter(moshi)
         } else {
             null
@@ -40,7 +40,6 @@ internal class RouteAdapter(private val moshi: Moshi) : JsonAdapter<Route>() {
     override fun fromJson(reader: JsonReader): Route? {
         val jsonValue = reader.readJsonValue()
 
-        @Suppress("UNCHECKED_CAST")
         val value = jsonValue as Map<String, Any>
         return if (value.containsKey("route")) {
             Route.Remote(value["route"] as String, value["shouldPrefetch"] as Boolean, convertScreen(value["fallback"]))

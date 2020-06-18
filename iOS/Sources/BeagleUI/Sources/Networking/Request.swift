@@ -36,6 +36,7 @@ public struct Request {
         case fetchComponent
         case submitForm(FormData)
         case fetchImage
+        case rawRequest(RequestData)
     }
 
     public struct FormData {
@@ -48,6 +49,22 @@ public struct Request {
         ) {
             self.method = method
             self.values = values
+        }
+    }
+    
+    public struct RequestData {
+        public let method: String?
+        public let headers: [String: String]?
+        public let body: Any?
+        
+        public init(
+            method: String? = "GET",
+            headers: [String: String]? = [:],
+            body: Any? = nil
+        ) {
+            self.method = method
+            self.headers = headers
+            self.body = body
         }
     }
 

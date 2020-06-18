@@ -39,5 +39,4 @@ internal class UndefinedWidget : WidgetView() {
             viewFactory.makeView(rootView.getContext())
         }
     }
-
 }

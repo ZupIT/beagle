@@ -25,7 +25,7 @@ import br.com.zup.beagle.android.components.NetworkImage
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.android.components.layout.Container
-import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.android.components.layout.Screen
 
 class ImageViewFragment : Fragment() {
     override fun onCreateView(

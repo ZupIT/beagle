@@ -8,7 +8,8 @@
           ▿ child: Text
             - alignment: Optional<Alignment>.none
             - styleId: Optional<String>.none
-            - text: "child"
+            ▿ text: Expression<String>
+              - value: "child"
             - textColor: Optional<String>.none
             ▿ widgetProperties: WidgetProperties
               - accessibility: Optional<Accessibility>.none

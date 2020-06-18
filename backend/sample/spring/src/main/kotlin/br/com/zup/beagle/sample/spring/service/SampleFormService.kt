@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.sample.spring.service
 
-import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.widget.action.ShowNativeDialog
 import br.com.zup.beagle.sample.builder.FormScreenBuilder
 import org.springframework.stereotype.Service
 

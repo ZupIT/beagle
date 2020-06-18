@@ -17,10 +17,10 @@
 package br.com.zup.beagle.android.components
 
 import android.view.View
-import br.com.zup.beagle.android.action.ActionExecutor
-import br.com.zup.beagle.action.Navigate
 import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.analytics.ClickEvent
+import br.com.zup.beagle.android.action.Navigate
+import br.com.zup.beagle.android.extensions.once
 import io.mockk.CapturingSlot
 import io.mockk.Runs
 import io.mockk.every
@@ -47,7 +47,6 @@ class TouchableViewRenderer : BaseComponentTest() {
     override fun setUp() {
         super.setUp()
 
-        mockkConstructor(ActionExecutor::class)
         every { beagleSdk.analytics } returns analytics
         every { view.context } returns mockk()
         every { view.setOnClickListener(capture(onClickListenerSlot)) } just Runs
@@ -64,15 +63,11 @@ class TouchableViewRenderer : BaseComponentTest() {
 
     @Test
     fun build_should_call_onClickListener() {
-        // Given
-        val navigateSlot = slot<Navigate>()
-        every { anyConstructed<ActionExecutor>().doAction(rootView, capture(navigateSlot)) } just Runs
-
-        // When
+        // Given When
         callBuildAndClick()
 
         // Then
-        assertEquals(touchable.action, navigateSlot.captured)
+        verify(exactly = once()) { touchable.action.execute(rootView) }
     }
 
     private fun callBuildAndClick() {
@@ -100,7 +95,7 @@ class TouchableViewRenderer : BaseComponentTest() {
         onClickListenerSlot.captured.onClick(view)
 
         // Then
-        verify { analytics.sendClickEvent(eq(clickAnalyticsEvent)) }
+        verify { analytics.trackEventOnClick(eq(clickAnalyticsEvent)) }
     }
 
     @Test
@@ -114,6 +109,6 @@ class TouchableViewRenderer : BaseComponentTest() {
         onClickListenerSlot.captured.onClick(view)
 
         // Then
-        verify(exactly = 0) { analytics.sendClickEvent(any()) }
+        verify(exactly = 0) { analytics.trackEventOnClick(any()) }
     }
 }

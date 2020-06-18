@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.widget.action.ShowNativeDialog
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
