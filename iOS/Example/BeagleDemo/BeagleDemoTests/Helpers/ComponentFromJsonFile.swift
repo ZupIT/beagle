@@ -39,6 +39,7 @@ func componentFromJsonFile<W: RawComponent>(
     let component = try decoder.decodeComponent(from: json)
 
     guard let typed = component as? W else {
+        print(W.self)
         throw ComponentFromJsonError.couldNotMatchComponentType
     }
 

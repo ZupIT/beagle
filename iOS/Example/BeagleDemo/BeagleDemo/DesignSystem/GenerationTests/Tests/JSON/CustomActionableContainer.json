@@ -6,6 +6,6 @@
         }
     ],
     "verySpecificAction": {
-        "_beagleAction_": "custom:SpecificActionFromContainer"
+        "_beagleAction_": "custom:SpecificActionFromContainerDefault"
     }
 }

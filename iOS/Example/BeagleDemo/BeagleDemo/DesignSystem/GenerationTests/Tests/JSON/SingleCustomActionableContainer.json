@@ -1,5 +1,5 @@
 {
-    "_beagleComponent_": "custom:SingleCustomActionableContainer",
+    "_beagleComponent_": "custom:CustomActionableContainer",
     "child": {
         "_beagleComponent_": "custom:TextComponentsDefault"
     },

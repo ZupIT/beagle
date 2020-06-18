@@ -65,10 +65,10 @@ class GenerationTests: XCTestCase {
     
     private func registerDummyComponents() {
         Beagle.registerCustomComponent("TextContainer", componentType: TextContainer.self)
-        Beagle.registerCustomComponent("SingleTextContainer", componentType: TextComponentsDefault.self)
-        Beagle.registerCustomComponent("CustomActionableContainer", componentType: TextComponentsDefault.self)
-        Beagle.registerCustomComponent("TextContainerWithAction", componentType: TextComponentsDefault.self)
-        Beagle.registerCustomComponent("SingleCustomActionableContainer", componentType: TextComponentsDefault.self)
+        Beagle.registerCustomComponent("SingleTextContainer", componentType: SingleTextContainer.self)
+        Beagle.registerCustomComponent("CustomActionableContainer", componentType: CustomActionableContainer.self)
+        Beagle.registerCustomComponent("TextContainerWithAction", componentType: TextContainerWithAction.self)
+        Beagle.registerCustomComponent("SingleCustomActionableContainer", componentType: SingleCustomActionableContainer.self)
         
         Beagle.registerCustomComponent("TextComponentHeaderDefault", componentType: TextComponentHeaderDefault.self)
         Beagle.registerCustomComponent("TextComponentsDefault", componentType: TextComponentsDefault.self)
