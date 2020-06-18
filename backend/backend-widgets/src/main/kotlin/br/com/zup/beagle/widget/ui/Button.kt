@@ -37,12 +37,15 @@ data class Button(
     val onPress: List<Action>? = null,
     override val clickAnalyticsEvent: ClickEvent? = null
 ) : Widget(), TouchableAnalytics {
-    constructor(text: String,
-                styleId: String? = null,
-                onPress: List<Action>? = null,
-                clickAnalyticsEvent: ClickEvent? = null) :
-        this(Bind.valueOf(text),
-            Bind.valueOfNullable(styleId),
-            onPress,
-            clickAnalyticsEvent)
+    constructor(
+        text: String,
+        styleId: String? = null,
+        onPress: List<Action>? = null,
+        clickAnalyticsEvent: ClickEvent? = null
+    ) : this(
+        Bind.valueOf(text),
+        Bind.valueOfNullable(styleId),
+        onPress,
+        clickAnalyticsEvent
+    )
 }
