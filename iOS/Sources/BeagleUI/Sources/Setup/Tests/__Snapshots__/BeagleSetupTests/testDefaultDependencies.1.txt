@@ -126,7 +126,8 @@
     - dataStore: 0 key/value pairs
   - localFormHandler: Optional<LocalFormHandler>.none
   - logger: BeagleLogger
-  - navigation: BeagleNavigator
+  ▿ navigation: BeagleNavigator
+    - defaultAnimation: Optional<BeagleNavigatorAnimation>.none
   - navigationControllerType: BeagleNavigationController
   ▿ networkClient: NetworkClientDefault
     ▿ dependencies: InnerDependenciesResolver
