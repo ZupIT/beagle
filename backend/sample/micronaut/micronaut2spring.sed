@@ -1,4 +1,5 @@
 s/br.com.zup.beagle.sample.micronaut/br.com.zup.beagle.sample.spring/;
+s/br.com.zup.beagle.micronaut/br.com.zup.beagle.spring/g;
 
 s/javax.inject.Singleton/org.springframework.stereotype.Service/;
 s/io.micronaut.http.annotation.Controller/org.springframework.web.bind.annotation.RestController/;

@@ -32,6 +32,6 @@ fun ListView.Companion.dynamic(
     direction: ListDirection = ListDirection.VERTICAL,
     rowBuilder: RowBuilder
 ) = ListView(
-    rows = (0 until size).map(rowBuilder),
+    children = (0 until size).map(rowBuilder),
     direction = direction
 )

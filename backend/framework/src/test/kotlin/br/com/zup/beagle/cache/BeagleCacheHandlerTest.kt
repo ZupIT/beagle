@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.cache
 
+import br.com.zup.beagle.platform.BeaglePlatform
 import br.com.zup.beagle.serialization.jackson.BeagleSerializationUtil
 import br.com.zup.beagle.widget.ui.Button
 import com.google.common.hash.Hashing
@@ -57,18 +58,27 @@ internal class BeagleCacheHandlerTest {
 
     @Test
     fun cacheHandler_should_return_same_hash_for_button_object_when_call_generateAndAddHash() {
-        assertEquals(
-            BeagleCacheHandler().generateAndAddHash(HOME_ENDPOINT, BUTTON_JSON),
-            BUTTON_JSON_HASH
-        )
+        assertEquals(BeagleCacheHandler().generateAndAddHash(
+            endpoint = HOME_ENDPOINT,
+            currentPlatform = BeaglePlatform.ALL.name,
+            json = BUTTON_JSON
+        ), BUTTON_JSON_HASH)
     }
 
     @Test
     fun cacheHandler_should_return_true_for_verifyIfHashIsUpToDate() {
         val cacheHandler = BeagleCacheHandler()
-        cacheHandler.generateAndAddHash(HOME_ENDPOINT, BUTTON_JSON)
+        cacheHandler.generateAndAddHash(
+            endpoint = HOME_ENDPOINT,
+            currentPlatform = BeaglePlatform.WEB.name,
+            json = BUTTON_JSON
+        )
         assertTrue {
-            cacheHandler.isHashUpToDate(HOME_ENDPOINT, BUTTON_JSON_HASH)
+            cacheHandler.isHashUpToDate(
+                endpoint = HOME_ENDPOINT,
+                currentPlatform = BeaglePlatform.WEB.name,
+                hash = BUTTON_JSON_HASH
+            )
         }
     }
 
@@ -76,12 +86,24 @@ internal class BeagleCacheHandlerTest {
     fun cacheHandler_should_return_false_for_verifyIfHashIsUpToDate() {
         val cacheHandler = BeagleCacheHandler()
         val cacheHandler2 = BeagleCacheHandler()
-        cacheHandler.generateAndAddHash(HOME_ENDPOINT, BUTTON_JSON)
+        cacheHandler.generateAndAddHash(
+            endpoint = HOME_ENDPOINT,
+            currentPlatform = BeaglePlatform.ANDROID.name,
+            json = BUTTON_JSON
+        )
         assertFalse {
-            cacheHandler.isHashUpToDate(HOME_ENDPOINT, "hash")
+            cacheHandler.isHashUpToDate(
+                endpoint = HOME_ENDPOINT,
+                currentPlatform = BeaglePlatform.ANDROID.name,
+                hash = "hash"
+            )
         }
         assertFalse {
-            cacheHandler2.isHashUpToDate(HOME_ENDPOINT, BUTTON_JSON_HASH)
+            cacheHandler2.isHashUpToDate(
+                endpoint = HOME_ENDPOINT,
+                currentPlatform = BeaglePlatform.ANDROID.name,
+                hash = BUTTON_JSON_HASH
+            )
         }
     }
 
@@ -133,13 +155,23 @@ internal class BeagleCacheHandlerTest {
         every { restCache.addStatus(any(), any()) } returns Response.STATUS
         every { restCache.getBody(any()) } returns response
 
-        cacheHandler.handleCache(endpoint, hash, Response.START, restCache)
+        cacheHandler.handleCache(
+            endpoint = endpoint,
+            receivedHash = hash,
+            currentPlatform = BeaglePlatform.IOS.name,
+            initialResponse = Response.START,
+            restHandler = restCache
+        )
 
         verify(restCache)
     }
 
     private fun preparePreviousCache(handler: BeagleCacheHandler) {
-        handler.generateAndAddHash(HOME_ENDPOINT, BUTTON_JSON)
+        handler.generateAndAddHash(
+            endpoint = HOME_ENDPOINT,
+            currentPlatform = BeaglePlatform.IOS.name,
+            json = BUTTON_JSON
+        )
     }
 
     private fun verifySentResponse(handler: RestCacheHandler<Response>) {

@@ -27,7 +27,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.ListDirection
 
 data class ListView(
-    val rows: List<ServerDrivenComponent>,
+    val children: List<ServerDrivenComponent>,
     val direction: ListDirection = ListDirection.VERTICAL
 ) : WidgetView() {
 
@@ -39,7 +39,7 @@ data class ListView(
         recyclerView.apply {
             val orientation = toRecyclerViewOrientation()
             layoutManager = LinearLayoutManager(context, orientation, false)
-            adapter = ListViewRecyclerAdapter(rows, viewFactory, orientation, rootView)
+            adapter = ListViewRecyclerAdapter(children, viewFactory, orientation, rootView)
         }
 
         return recyclerView
@@ -54,7 +54,7 @@ data class ListView(
 
 
 internal class ListViewRecyclerAdapter(
-    private val rows: List<ServerDrivenComponent>,
+    private val children: List<ServerDrivenComponent>,
     private val viewFactory: ViewFactory,
     private val orientation: Int,
     private val rootView: RootView
@@ -69,7 +69,7 @@ internal class ListViewRecyclerAdapter(
                 ViewGroup.LayoutParams.WRAP_CONTENT
             val layoutParams = ViewGroup.LayoutParams(width, ViewGroup.LayoutParams.WRAP_CONTENT)
             it.layoutParams = layoutParams
-            it.addServerDrivenComponent(rows[position], rootView)
+            it.addServerDrivenComponent(children[position], rootView)
         }
         return ViewHolder(view)
     }
@@ -78,7 +78,7 @@ internal class ListViewRecyclerAdapter(
 
     }
 
-    override fun getItemCount(): Int = rows.size
+    override fun getItemCount(): Int = children.size
 }
 
 internal class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

@@ -22,12 +22,12 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * TabView is a component responsible for the navigation between views.
  * It works by displaying tabs corresponding to the different views that can be accessed.
  *
- * @param tabItems define yours view has in tab
+ * @param children define yours view has in tab
  * @param styleId reference a native style in your local styles file to be applied on this view.
  *
  */
 data class TabView(
-    val tabItems: List<TabItem>,
+    val children: List<TabItem>,
     val styleId: String? = null
 ) : ServerDrivenComponent
 
@@ -35,7 +35,7 @@ data class TabView(
  * Define the view has in the tab view
  *
  * @param title displays the text on the TabView component. If it is null or not declared it won't display any text.
- * @param content
+ * @param child
  *                  inflate a view on the TabView according to the Tab item clicked.
  *                  It could receive any view (Server Driven).
  * @param icon
@@ -45,6 +45,6 @@ data class TabView(
  */
 data class TabItem(
     val title: String? = null,
-    val content: ServerDrivenComponent,
+    val child: ServerDrivenComponent,
     val icon: String? = null
 )

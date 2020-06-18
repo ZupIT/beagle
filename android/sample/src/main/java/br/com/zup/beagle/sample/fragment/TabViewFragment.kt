@@ -48,10 +48,10 @@ class TabViewFragment : Fragment() {
     ): View? {
         val declarative = TabView(
             styleId = "DesignSystem.TabView.Custom",
-            tabItems = listOf(
+            children = listOf(
                 buildTabView(
                     title = "Title 1",
-                    content = Container(children = listOf(
+                    child = Container(children = listOf(
                         Text("Content").applyStyle(
                             Style(
                                 margin = EdgeValue(
@@ -64,10 +64,10 @@ class TabViewFragment : Fragment() {
                         ),
                         Image("imageBeagle")
                     ))),
-                buildTabView(title = "Title 2", content = Button("button")),
+                buildTabView(title = "Title 2", child = Button("button")),
                 buildTabView(
                     title = "Title 3",
-                    content = Container(
+                    child = Container(
                         children = listOf(
                             Text("text tab 3", alignment = TextAlignment.CENTER)
                         )
@@ -75,7 +75,7 @@ class TabViewFragment : Fragment() {
                 ),
                 buildTabView(
                     title = "Title 4",
-                    content =
+                    child =
                     Text("text").applyFlex(
                         Flex(
                             justifyContent = JustifyContent.CENTER,
@@ -85,7 +85,7 @@ class TabViewFragment : Fragment() {
                 ),
                 buildTabView(
                     title = "Title 5",
-                    content =
+                    child =
                     Text("text").applyFlex(
                         Flex(
                             justifyContent = JustifyContent.FLEX_START,
@@ -99,10 +99,10 @@ class TabViewFragment : Fragment() {
         return context?.let { declarative.toView(this) }
     }
 
-    private fun buildTabView(title: String, content: ServerDrivenComponent): TabItem {
+    private fun buildTabView(title: String, child: ServerDrivenComponent): TabItem {
         return TabItem(
             title = title,
-            content = content,
+            child = child,
             icon = "ic_launcher_foreground"
         )
     }

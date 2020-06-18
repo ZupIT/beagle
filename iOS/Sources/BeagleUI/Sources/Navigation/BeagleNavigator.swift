@@ -22,6 +22,8 @@ public protocol DependencyNavigationController {
 }
 
 public protocol BeagleNavigation {
+    var defaultAnimation: BeagleNavigatorAnimation? { get set }
+    
     func navigate(action: Navigate, controller: BeagleController, animated: Bool)
 }
 
@@ -30,6 +32,8 @@ public protocol DependencyNavigation {
 }
 
 class BeagleNavigator: BeagleNavigation {
+    
+    var defaultAnimation: BeagleNavigatorAnimation?
     
     // MARK: - Navigate
     
@@ -69,6 +73,10 @@ class BeagleNavigator: BeagleNavigation {
             guard let deepLinkHandler = controller.dependencies.deepLinkHandler else { return }
             let viewController = try deepLinkHandler.getNativeScreen(with: path, data: data)
             
+            if let transition = defaultAnimation?.getTransition(.push) {
+                controller.navigationController?.view.layer.add(transition, forKey: nil)
+            }
+            
             if resetApplication {
                 controller.dependencies.windowManager.window?.replace(rootViewController: viewController, animated: animated, completion: nil)
             } else {
@@ -89,12 +97,18 @@ class BeagleNavigator: BeagleNavigation {
     }
     
     private func pushView(with type: Route, controller: BeagleController, animated: Bool) {
+        if let transition = defaultAnimation?.getTransition(.push) {
+            controller.navigationController?.view.layer.add(transition, forKey: nil)
+        }
         controller.navigationController?.pushViewController(viewControllerToPresent(type), animated: animated)
     }
     
     private func popView(controller: BeagleController, animated: Bool) {
         if controller.navigationController?.viewControllers.count == 1 {
             controller.dependencies.logger.log(Log.navigation(.errorTryingToPopScreenOnNavigatorWithJustOneScreen))
+        }
+        if let transition = defaultAnimation?.getTransition(.pop) {
+            controller.navigationController?.view.layer.add(transition, forKey: nil)
         }
         controller.navigationController?.popViewController(animated: animated)
     }
@@ -112,7 +126,9 @@ class BeagleNavigator: BeagleNavigation {
             controller.dependencies.logger.log(Log.navigation(.cantPopToAlreadyCurrentScreen(identifier: identifier)))
             return
         }
-        
+        if let transition = defaultAnimation?.getTransition(.pop) {
+            controller.navigationController?.view.layer.add(transition, forKey: nil)
+        }
         controller.navigationController?.popToViewController(target, animated: animated)
     }
     
@@ -124,6 +140,17 @@ class BeagleNavigator: BeagleNavigation {
         case let .declarative(screen):
             navigationToPresent.viewControllers = [viewController(screen: screen)]
         }
+        
+        if #available(iOS 13.0, *) {
+            navigationToPresent.modalPresentationStyle = defaultAnimation?.modalPresentationStyle ?? .automatic
+        } else {
+            navigationToPresent.modalPresentationStyle = defaultAnimation?.modalPresentationStyle ?? .fullScreen
+        }
+        
+        if let defaultAnimation = defaultAnimation {
+            navigationToPresent.modalTransitionStyle = defaultAnimation.modalTransitionStyle
+        }
+        
         controller.present(navigationToPresent, animated: animated)
     }
     
