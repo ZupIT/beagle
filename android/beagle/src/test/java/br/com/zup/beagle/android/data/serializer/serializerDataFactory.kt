@@ -89,11 +89,25 @@ fun makeNetworkImageJson() = """
 fun makeListViewJson() = """
     {
         "_beagleComponent_": "beagle:listView",
-        "rows": [${makeButtonJson()}],
+        "children": [${makeButtonJson()}],
         "remoteDataSource": "/dataSource",
         "loadingState": ${makeContainerJson()}
     }
 """
+
+fun makeTabViewJson() = """
+    {
+    "_beagleComponent_": "beagle:tabView",
+    "children":[${makeTabItemJson()},${makeTabItemJson()},${makeTabItemJson()}]
+    }
+    """
+
+fun makeTabItemJson() = """
+    {
+    "title": "Tab 1",
+    "child": ${makeButtonJson()}
+    }
+    """
 
 fun makeCustomJson() = """
     {
@@ -135,7 +149,7 @@ fun makeScrollViewJson() = """
 fun makePageViewJson() = """
     {
         "_beagleComponent_": "beagle:pageView",
-        "pages": [
+        "children": [
             ${makeButtonJson()},
             ${makeButtonJson()},
             ${makeButtonJson()}

@@ -24,7 +24,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 
 data class TabItem(
     val title: String? = null,
-    val content: ServerDrivenComponent,
+    val child: ServerDrivenComponent,
     val icon: String? = null
 ) : WidgetView() {
 
@@ -33,7 +33,7 @@ data class TabItem(
 
     override fun buildView(rootView: RootView): View {
         return viewFactory.makeBeagleFlexView(rootView.getContext()).also {
-            it.addServerDrivenComponent(content, rootView)
+            it.addServerDrivenComponent(child, rootView)
         }
     }
 }

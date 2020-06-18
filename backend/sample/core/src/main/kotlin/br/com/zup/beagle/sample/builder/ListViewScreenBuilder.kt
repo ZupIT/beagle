@@ -68,7 +68,7 @@ object ListViewScreenBuilder : ScreenBuilder {
                 .applyFlex(Flex(
                     margin = EdgeValue(bottom = 10.unitReal())
                 )),
-            ListView(rows = (1..10).map(this::createText), direction = listDirection)
+            ListView(children = (1..10).map(this::createText), direction = listDirection)
         )
     ).applyFlex(Flex(
         margin = EdgeValue(bottom = 20.unitReal())
