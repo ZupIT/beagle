@@ -21,10 +21,12 @@ import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.jsonpath.JsonPathReplacer
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import br.com.zup.beagle.android.utils.getExpressions
 import com.squareup.moshi.Moshi
 import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.IllegalStateException
+import java.lang.reflect.Type
 
 private val EXPRESSION_REGEX = "@\\{([^)]+)\\}".toRegex()
 
@@ -54,8 +56,10 @@ internal class ContextDataManager(
     }
 
     fun addBindingToContext(binding: Bind.Expression<*>) {
-        val contextId = binding.getContextId()
-        contexts[contextId]?.bindings?.add(binding)
+        binding.value.getExpressions().forEach { bindingValue ->
+            val contextId = bindingValue.split(".")[0]
+            contexts[contextId]?.bindings?.add(binding)
+        }
     }
 
     fun updateContext(setContextInternal: SetContextInternal): Boolean {
@@ -79,48 +83,13 @@ internal class ContextDataManager(
         val contextId = bind.getContextId()
 
         return contexts[contextId]?.let {
-            return evaluateBinding(it.context, bind)
-        }
-    }
-
-    private fun evaluateBinding(contextData: ContextData, bind: Bind.Expression<*>): Any? {
-        val value = getValue(contextData, bind.valueInExpression())
-
-        return try {
-            if (value is JSONArray || value is JSONObject) {
-                moshi.adapter<Any>(bind.type).fromJson(value.toString()) ?:
-                throw IllegalStateException("JSON deserialization returned null")
-            } else {
-                value ?: throw IllegalStateException("Expression evaluation returned null")
-            }
-        } catch (ex: Exception) {
-            BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(ex)
-            null
+            return evaluateBindExpression(it.context, bind)
         }
     }
 
     private fun evaluateContext(contextId: String) {
         contexts[contextId]?.let {
             notifyBindingChanges(it)
-        }
-    }
-
-    private fun getValue(contextData: ContextData, path: String): Any? {
-        return if (path != contextData.id) {
-            findAndCacheValue(contextData, path)
-        } else {
-            contextData.value
-        }
-    }
-
-    private fun findAndCacheValue(contextData: ContextData, path: String): Any? {
-        return try {
-            val keys = contextPathResolver.getKeysFromPath(contextData.id, path)
-            val foundValue = jsonPathFinder.find(keys, contextData.value)
-            foundValue
-        } catch (ex: Exception) {
-            BeagleMessageLogs.errorWhileTryingToAccessContext(ex)
-            null
         }
     }
 
@@ -146,10 +115,61 @@ internal class ContextDataManager(
         val bindings = contextBinding.bindings
 
         bindings.forEach { bind ->
-            val value = evaluateBinding(contextData, bind)
+            val value = evaluateBindExpression(contextData, bind)
+
             if (value != null) {
                 bind.notifyChange(value)
             }
+        }
+    }
+
+    private fun evaluateBindExpression(contextData: ContextData, bind: Bind.Expression<*>): Any? {
+        val expressions = bind.value.getExpressions()
+
+        return if (bind.type == String::class.java) {
+            var text = bind.value
+            expressions.forEach {
+                val value = evaluateExpression(contextData, bind.type, it)
+                text = text.replace("@\\{$it\\}".toRegex(), value.toString())
+            }
+            text
+        } else {
+            evaluateExpression(contextData, bind.type, expressions[0])
+        }
+    }
+
+    private fun evaluateExpression(contextData: ContextData, type: Type, expression: String): Any? {
+        val value = getValue(contextData, expression)
+
+        return try {
+            if (value is JSONArray || value is JSONObject) {
+                moshi.adapter<Any>(type).fromJson(value.toString()) ?:
+                throw IllegalStateException("JSON deserialization returned null")
+            } else {
+                value ?: throw IllegalStateException("Expression evaluation returned null")
+            }
+        } catch (ex: Exception) {
+            BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(ex)
+            null
+        }
+    }
+
+    private fun getValue(contextData: ContextData, path: String): Any? {
+        return if (path != contextData.id) {
+            findAndCacheValue(contextData, path)
+        } else {
+            contextData.value
+        }
+    }
+
+    private fun findAndCacheValue(contextData: ContextData, path: String): Any? {
+        return try {
+            val keys = contextPathResolver.getKeysFromPath(contextData.id, path)
+            val foundValue = jsonPathFinder.find(keys, contextData.value)
+            foundValue
+        } catch (ex: Exception) {
+            BeagleMessageLogs.errorWhileTryingToAccessContext(ex)
+            null
         }
     }
 
