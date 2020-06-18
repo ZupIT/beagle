@@ -31,9 +31,9 @@ import javax.lang.model.element.TypeElement
 import javax.lang.model.type.TypeMirror
 
 internal class BeagleExpressionHandler(processingEnvironment: ProcessingEnvironment) {
+    private val outputDirectory = processingEnvironment.kaptGeneratedDirectory
     private val elementUtils = processingEnvironment.elementUtils
     private val typeUtils = processingEnvironment.typeUtils
-    private val outputDirectory = processingEnvironment.kaptGeneratedDirectory
     private val visited = mutableSetOf<TypeMirror>()
 
     fun handle(element: TypeElement) = this.handle(element, ROOT_SUFFIX)
