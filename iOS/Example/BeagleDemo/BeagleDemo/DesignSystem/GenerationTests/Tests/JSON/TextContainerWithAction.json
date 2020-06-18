@@ -1,0 +1,11 @@
+{
+    "_beagleComponent_": "custom:TextContainer",
+    "childrenOfTextContainer": [
+        {
+            "_beagleComponent_": "custom:TextComponentsDefault"
+        }
+    ],
+    "action": {
+        "_beagleAction_": "custom:SpecificActionFromContainerDefault"
+    }
+}

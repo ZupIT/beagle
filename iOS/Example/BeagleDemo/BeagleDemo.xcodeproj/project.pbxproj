@@ -37,6 +37,10 @@
 		C09F411E249BE470002605EE /* TextContainer.json in Resources */ = {isa = PBXBuildFile; fileRef = C09F411C249BE46C002605EE /* TextContainer.json */; };
 		C09F4121249BE758002605EE /* ComponentFromJsonFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09F4120249BE758002605EE /* ComponentFromJsonFile.swift */; };
 		C09F4125249BF652002605EE /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09F4122249BF64B002605EE /* Protocols.swift */; };
+		C09F412A249C0683002605EE /* CustomActionableContainer.json in Resources */ = {isa = PBXBuildFile; fileRef = C09F4126249C0683002605EE /* CustomActionableContainer.json */; };
+		C09F412B249C0683002605EE /* SingleCustomActionableContainer.json in Resources */ = {isa = PBXBuildFile; fileRef = C09F4127249C0683002605EE /* SingleCustomActionableContainer.json */; };
+		C09F412C249C0683002605EE /* SingleTextContainer.json in Resources */ = {isa = PBXBuildFile; fileRef = C09F4128249C0683002605EE /* SingleTextContainer.json */; };
+		C09F412D249C0683002605EE /* TextContainerWithAction.json in Resources */ = {isa = PBXBuildFile; fileRef = C09F4129249C0683002605EE /* TextContainerWithAction.json */; };
 		C0B1AAB323F326A100F94ECA /* BeagleUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9313EB9223A2B388003BC24C /* BeagleUI.framework */; };
 		C0B1AAB423F326A100F94ECA /* BeagleUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9313EB9223A2B388003BC24C /* BeagleUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C0B1AAB623F326BB00F94ECA /* YogaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0B1AAB523F326BB00F94ECA /* YogaKit.framework */; };
@@ -111,6 +115,10 @@
 		C09F411C249BE46C002605EE /* TextContainer.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TextContainer.json; sourceTree = "<group>"; };
 		C09F4120249BE758002605EE /* ComponentFromJsonFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentFromJsonFile.swift; sourceTree = "<group>"; };
 		C09F4122249BF64B002605EE /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		C09F4126249C0683002605EE /* CustomActionableContainer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CustomActionableContainer.json; sourceTree = "<group>"; };
+		C09F4127249C0683002605EE /* SingleCustomActionableContainer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SingleCustomActionableContainer.json; sourceTree = "<group>"; };
+		C09F4128249C0683002605EE /* SingleTextContainer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SingleTextContainer.json; sourceTree = "<group>"; };
+		C09F4129249C0683002605EE /* TextContainerWithAction.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TextContainerWithAction.json; sourceTree = "<group>"; };
 		C0B1AAB523F326BB00F94ECA /* YogaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = YogaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C80AF1332493F0950097D200 /* OtherComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherComponent.swift; sourceTree = "<group>"; };
 		C8A2F6F12464C1F9002198B1 /* Equality.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equality.generated.swift; sourceTree = "<group>"; };
@@ -252,6 +260,10 @@
 		C09F411B249BE456002605EE /* JSON */ = {
 			isa = PBXGroup;
 			children = (
+				C09F4126249C0683002605EE /* CustomActionableContainer.json */,
+				C09F4127249C0683002605EE /* SingleCustomActionableContainer.json */,
+				C09F4128249C0683002605EE /* SingleTextContainer.json */,
+				C09F4129249C0683002605EE /* TextContainerWithAction.json */,
 				C09F411C249BE46C002605EE /* TextContainer.json */,
 			);
 			path = JSON;
@@ -395,6 +407,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C09F412A249C0683002605EE /* CustomActionableContainer.json in Resources */,
+				C09F412B249C0683002605EE /* SingleCustomActionableContainer.json in Resources */,
+				C09F412D249C0683002605EE /* TextContainerWithAction.json in Resources */,
+				C09F412C249C0683002605EE /* SingleTextContainer.json in Resources */,
 				C09F411E249BE470002605EE /* TextContainer.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -21,19 +21,19 @@ import UIKit
 import BeagleSchema
 
 public struct TextContainerWithAction: ServerDrivenComponent, AutoInitiableAndDecodable {
-    public let chidrenOfTextContainer: TextComponents?
+    public let childrenOfTextContainer: TextComponents?
     public let action: Action
 
     public func toView(renderer: BeagleRenderer) -> UIView {
         return UIView()
     }
-    
+
 // sourcery:inline:auto:TextContainerWithAction.Init
     public init(
-        chidrenOfTextContainer: TextComponents? = nil,
+        childrenOfTextContainer: TextComponents? = nil,
         action: Action
     ) {
-        self.chidrenOfTextContainer = chidrenOfTextContainer
+        self.childrenOfTextContainer = childrenOfTextContainer
         self.action = action
     }
 // sourcery:end
