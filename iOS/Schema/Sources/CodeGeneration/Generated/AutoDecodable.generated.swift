@@ -215,8 +215,8 @@ extension PageView {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         pages = try container.decode( forKey: .pages)
-        let rawComponent: RawComponent? = try container.decodeIfPresent( forKey: .pageIndicator)
-        pageIndicator = rawComponent as? PageIndicatorComponent
+        let rawPageIndicator: RawComponent? = try container.decodeIfPresent( forKey: .pageIndicator)
+        pageIndicator = rawPageIndicator as? PageIndicatorComponent
     }
 }
 

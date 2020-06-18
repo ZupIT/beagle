@@ -19,11 +19,13 @@ import BeagleUI
 import BeagleSchema
 import UIKit
 
-public protocol TextComponents: ServerDrivenComponent {}
+public protocol TextComponents: ServerDrivenComponent { }
+public protocol TextComponentHeader: ServerDrivenComponent { }
 
 public struct TextContainer: ServerDrivenComponent, AutoInitiableAndDecodable {
 
-    public let chidrenOfTextContainer: [TextComponents]
+    public let childrenOfTextContainer: [TextComponents]
+    public let headerOfTextContainer: TextComponentHeader
     
     public func toView(renderer: BeagleRenderer) -> UIView {
         return UIView()
@@ -31,9 +33,11 @@ public struct TextContainer: ServerDrivenComponent, AutoInitiableAndDecodable {
 
 // sourcery:inline:auto:TextContainer.Init
     public init(
-        chidrenOfTextContainer: [TextComponents]
+        childrenOfTextContainer: [TextComponents],
+        headerOfTextContainer: TextComponentHeader
     ) {
-        self.chidrenOfTextContainer = chidrenOfTextContainer
+        self.childrenOfTextContainer = childrenOfTextContainer
+        self.headerOfTextContainer = headerOfTextContainer
     }
 // sourcery:end
 }

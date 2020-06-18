@@ -18,6 +18,10 @@
 extension Variable {
 	
 	static var beagleProtocolTypes = ["Action", "ServerDrivenComponent", "[ServerDrivenComponent]", rawComponent, "[\(rawComponent)]", "RawAction", "[RawAction]"]
+	
+	var rawUppercasedVariableName: String {
+		"raw" + name.prefix(1).uppercased() + name.dropFirst()
+	}
 
 	func inheritsFromAnyCoreBeagleProtocolType() -> String? {
 		if let variableType = self.type {
@@ -79,7 +83,7 @@ func needsCustomBeagleDecoding(_ variable: Variable) -> Bool {
 
 func returnVariableName(_ variable: Variable) -> String {
     if let beagleProtocol = variable.inheritsFromAnyCoreBeagleProtocolType(), variable.unwrappedTypeName != beagleProtocol {
-        return "let rawComponent: \(beagleProtocol)?"
+        return "let \(variable.rawUppercasedVariableName): \(beagleProtocol)?"
     }
     return variable.name
 }
@@ -185,10 +189,10 @@ func handleCustomProtocolWrappedCases(_ variable: Variable) -> String {
 
 	if variable.isOptional {
 		return "\n" + identation + identation
-            + variable.name + " = rawComponent as? \(variable.unwrappedTypeName)"
+            + variable.name + " = \(variable.rawUppercasedVariableName) as? \(variable.unwrappedTypeName)"
 	} else {
 		var line = ""
-		line += "\n" + identation + identation + "if let " + aux + " = rawComponent as? \(variable.unwrappedTypeName) { \n "
+		line += "\n" + identation + identation + "if let " + aux + " = \(variable.rawUppercasedVariableName) as? \(variable.unwrappedTypeName) { \n "
 		line += identation + identation + identation + variable.name + " = "  + aux + "\n"
 		line += identation + identation + "} else { \n"
 		line += identation + identation + identation + "throw ComponentDecodingError.couldNotCastToType(\"" + variable.unwrappedTypeName + "\")\n" 

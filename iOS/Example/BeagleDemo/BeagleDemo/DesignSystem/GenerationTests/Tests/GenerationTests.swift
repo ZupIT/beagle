@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,26 +14,15 @@
  * limitations under the License.
  */
 
-import Foundation
-import BeagleUI
-import UIKit
-import BeagleSchema
-
-public struct TextContainerWithAction: ServerDrivenComponent, AutoInitiableAndDecodable {
-    public let chidrenOfTextContainer: TextComponents?
-    public let action: Action
-
-    public func toView(renderer: BeagleRenderer) -> UIView {
-        return UIView()
-    }
-    
-// sourcery:inline:auto:TextContainerWithAction.Init
-    public init(
-        chidrenOfTextContainer: TextComponents? = nil,
-        action: Action
-    ) {
-        self.chidrenOfTextContainer = chidrenOfTextContainer
-        self.action = action
-    }
-// sourcery:end
-}
+//import XCTest
+//
+//class GenerationTests: XCTestCase {
+//
+//    override func setUp() {
+//        // Put setup code here. This method is called before the invocation of each test method in the class.
+//    }
+//    
+//    func testDecodingOfTextContainer() {
+//
+//    }
+//}

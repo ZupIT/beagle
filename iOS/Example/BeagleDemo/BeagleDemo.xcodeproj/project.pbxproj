@@ -91,6 +91,7 @@
 		C09F40FF249AAB0F002605EE /* TextContainerWithAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextContainerWithAction.swift; sourceTree = "<group>"; };
 		C09F4101249AAC87002605EE /* SingleCustomActionableContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleCustomActionableContainer.swift; sourceTree = "<group>"; };
 		C09F4103249AACAB002605EE /* SingleTextContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTextContainer.swift; sourceTree = "<group>"; };
+		C09F4108249BD6FD002605EE /* GenerationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationTests.swift; sourceTree = "<group>"; };
 		C0B1AAB523F326BB00F94ECA /* YogaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = YogaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C80AF1332493F0950097D200 /* OtherComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherComponent.swift; sourceTree = "<group>"; };
 		C8A2F6F12464C1F9002198B1 /* Equality.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equality.generated.swift; sourceTree = "<group>"; };
@@ -191,6 +192,7 @@
 		C09F40FC249AAAC2002605EE /* GenerationTests */ = {
 			isa = PBXGroup;
 			children = (
+				C09F4107249BD6E3002605EE /* Tests */,
 				C09F40F6249A8FFE002605EE /* TextContainer.swift */,
 				C09F4103249AACAB002605EE /* SingleTextContainer.swift */,
 				C09F40FD249AAAEE002605EE /* CustomActionableContainer.swift */,
@@ -198,6 +200,14 @@
 				C09F4101249AAC87002605EE /* SingleCustomActionableContainer.swift */,
 			);
 			path = GenerationTests;
+			sourceTree = "<group>";
+		};
+		C09F4107249BD6E3002605EE /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				C09F4108249BD6FD002605EE /* GenerationTests.swift */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		C0D0F47E245B48BB00FB57C1 /* CodeGeneration */ = {
