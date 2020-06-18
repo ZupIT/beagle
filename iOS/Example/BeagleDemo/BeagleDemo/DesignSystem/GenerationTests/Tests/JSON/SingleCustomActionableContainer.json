@@ -1,9 +1,9 @@
 {
-    "_beagleComponent_": "custom:CustomActionableContainer",
+    "_beagleComponent_": "custom:SingleCustomActionableContainer",
     "child": {
         "_beagleComponent_": "custom:TextComponentsDefault"
     },
     "action": {
-        "_beagleAction_" : "beagle:formremoteaction",
+        "_beagleAction_": "custom:SpecificActionFromContainerDefault"
     }
 }
