@@ -32,7 +32,7 @@ struct FormScreen: DeeplinkScreen {
     init(path: String, data: [String: String]?) {}
     
     func screenController() -> UIViewController {
-        let flexHorizontalMargin = Flex().margin(EdgeValue().all(10))
+        let flexHorizontalMargin = Style(margin: (EdgeValue().all(10)))
         let form = Form(
             action: FormRemoteAction(path: .TEXT_FORM_ENDPOINT, method: .post),
             child: Container(
@@ -41,7 +41,7 @@ struct FormScreen: DeeplinkScreen {
                         name: "optional-field",
                         child: DemoTextField(
                             placeholder: "Optional field",
-                            widgetProperties: .init(flex: flexHorizontalMargin)
+                            widgetProperties: .init(style: flexHorizontalMargin)
                         )
                     ),
                     FormInput(
@@ -50,7 +50,7 @@ struct FormScreen: DeeplinkScreen {
                         validator: FormScreen.textValidatorName,
                         child: DemoTextField(
                             placeholder: "Required field",
-                            widgetProperties: .init(flex: flexHorizontalMargin)
+                            widgetProperties: .init(style: flexHorizontalMargin)
                         )
                     ),
                     FormInput(
@@ -59,17 +59,21 @@ struct FormScreen: DeeplinkScreen {
                         validator: FormScreen.textValidatorName,
                         child: DemoTextField(
                             placeholder: "Another required field",
-                            widgetProperties: .init(flex: flexHorizontalMargin)
+                            widgetProperties: .init(style: flexHorizontalMargin)
                             
                         )
                     ),
-                    Container(children: [], widgetProperties: .init(flex: Flex(grow: 1))),
+                    Container(children: []).applyFlex(Flex(grow: 1)),
                     FormSubmit(
-                        child: Button(text: "Submit Form", styleId: .FORM_SUBMIT_STYLE, widgetProperties: .init(flex: flexHorizontalMargin)),
+                        child: Button(text: "Submit Form", styleId: .FORM_SUBMIT_STYLE, widgetProperties: .init(style: flexHorizontalMargin)),
                         enabled: false
                     )
                 ],
-                widgetProperties: .init(flex: Flex().grow(1).padding(EdgeValue().all(10)))
+                widgetProperties: .init(style: Style(
+                        padding: EdgeValue().all(10),
+                        flex: Flex().grow(1)
+                    )
+                )
             )
         )
         let screen = Screen(

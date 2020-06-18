@@ -13,7 +13,6 @@
             - textColor: Optional<String>.none
             ▿ widgetProperties: WidgetProperties
               - accessibility: Optional<Accessibility>.none
-              - flex: Optional<Flex>.none
               - id: Optional<String>.none
               - style: Optional<Style>.none
           - id: Optional<String>.none

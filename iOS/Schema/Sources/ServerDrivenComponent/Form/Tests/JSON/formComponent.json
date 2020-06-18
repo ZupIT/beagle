@@ -32,8 +32,10 @@
     }, {
       "_beagleComponent_" : "beagle:container",
       "children" : [ ],
-      "flex" : {
-        "grow" : 1.0
+      "style": {
+        "flex" : {
+          "grow" : 1.0
+        }
       }
     }, {
       "_beagleComponent_" : "beagle:formsubmit",
@@ -41,7 +43,7 @@
         "_beagleComponent_" : "beagle:button",
         "text" : "Submit Form",
         "styleId" : "DesignSystem.Form.Submit",
-        "flex" : {
+        "style": {
           "margin" : {
             "all" : {
               "value" : 10.0,
@@ -52,17 +54,17 @@
       },
       "enabled" : false
     } ],
-    "flex" : {
-      "grow" : 1.0,
+    "style": {
+      "backgroundColor" : "#B8E297",
       "padding" : {
         "all" : {
           "value" : 10.0,
           "type" : "REAL"
         }
+      },
+      "flex" : {
+        "grow" : 1.0,
       }
-    },
-    "style" : {
-      "backgroundColor" : "#B8E297"
     }
   }
 }

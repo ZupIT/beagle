@@ -39,7 +39,7 @@ extension ScreenComponent: ServerDrivenComponent {
         let view = renderer.render(child)
         let holder = ScreenView()
         holder.addSubview(view)
-        holder.flex.setup(Flex(grow: 1))
+        holder.style.setup(Style(flex: Flex(grow: 1)))
 
         return holder
     }

@@ -22,7 +22,6 @@
           - textColor: Optional<String>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
-            - flex: Optional<Flex>.none
             - id: Optional<String>.none
             - style: Optional<Style>.none
         - errorMessage: Optional<String>.none
@@ -43,27 +42,30 @@
         - children: 0 elements
         ▿ widgetProperties: WidgetProperties
           - accessibility: Optional<Accessibility>.none
-          ▿ flex: Optional<Flex>
-            ▿ some: Flex
-              - alignContent: Optional<AlignContent>.none
-              - alignItems: Optional<AlignItems>.none
-              - alignSelf: Optional<AlignSelf>.none
-              - basis: Optional<UnitValue>.none
+          - id: Optional<String>.none
+          ▿ style: Optional<Style>
+            ▿ some: Style
+              - backgroundColor: Optional<String>.none
+              - cornerRadius: Optional<CornerRadius>.none
               - display: Optional<Display>.none
-              - flex: Optional<Double>.none
-              - flexDirection: Optional<FlexDirection>.none
-              - flexWrap: Optional<Wrap>.none
-              ▿ grow: Optional<Double>
-                - some: 1.0
-              - justifyContent: Optional<JustifyContent>.none
+              ▿ flex: Optional<Flex>
+                ▿ some: Flex
+                  - alignContent: Optional<AlignContent>.none
+                  - alignItems: Optional<AlignItems>.none
+                  - alignSelf: Optional<AlignSelf>.none
+                  - basis: Optional<UnitValue>.none
+                  - flex: Optional<Double>.none
+                  - flexDirection: Optional<FlexDirection>.none
+                  - flexWrap: Optional<Wrap>.none
+                  ▿ grow: Optional<Double>
+                    - some: 1.0
+                  - justifyContent: Optional<JustifyContent>.none
+                  - shrink: Optional<Double>.none
               - margin: Optional<EdgeValue>.none
               - padding: Optional<EdgeValue>.none
               - position: Optional<EdgeValue>.none
               - positionType: Optional<PositionType>.none
-              - shrink: Optional<Double>.none
               - size: Optional<Size>.none
-          - id: Optional<String>.none
-          - style: Optional<Style>.none
       ▿ FormSubmit
         ▿ child: Button
           - action: Optional<RawAction>.none
@@ -73,18 +75,13 @@
           - text: "Submit Form"
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
-            ▿ flex: Optional<Flex>
-              ▿ some: Flex
-                - alignContent: Optional<AlignContent>.none
-                - alignItems: Optional<AlignItems>.none
-                - alignSelf: Optional<AlignSelf>.none
-                - basis: Optional<UnitValue>.none
+            - id: Optional<String>.none
+            ▿ style: Optional<Style>
+              ▿ some: Style
+                - backgroundColor: Optional<String>.none
+                - cornerRadius: Optional<CornerRadius>.none
                 - display: Optional<Display>.none
-                - flex: Optional<Double>.none
-                - flexDirection: Optional<FlexDirection>.none
-                - flexWrap: Optional<Wrap>.none
-                - grow: Optional<Double>.none
-                - justifyContent: Optional<JustifyContent>.none
+                - flex: Optional<Flex>.none
                 ▿ margin: Optional<EdgeValue>
                   ▿ some: EdgeValue
                     ▿ all: Optional<UnitValue>
@@ -100,27 +97,31 @@
                 - padding: Optional<EdgeValue>.none
                 - position: Optional<EdgeValue>.none
                 - positionType: Optional<PositionType>.none
-                - shrink: Optional<Double>.none
                 - size: Optional<Size>.none
-            - id: Optional<String>.none
-            - style: Optional<Style>.none
         ▿ enabled: Optional<Bool>
           - some: false
     ▿ widgetProperties: WidgetProperties
       - accessibility: Optional<Accessibility>.none
-      ▿ flex: Optional<Flex>
-        ▿ some: Flex
-          - alignContent: Optional<AlignContent>.none
-          - alignItems: Optional<AlignItems>.none
-          - alignSelf: Optional<AlignSelf>.none
-          - basis: Optional<UnitValue>.none
+      - id: Optional<String>.none
+      ▿ style: Optional<Style>
+        ▿ some: Style
+          ▿ backgroundColor: Optional<String>
+            - some: "#B8E297"
+          - cornerRadius: Optional<CornerRadius>.none
           - display: Optional<Display>.none
-          - flex: Optional<Double>.none
-          - flexDirection: Optional<FlexDirection>.none
-          - flexWrap: Optional<Wrap>.none
-          ▿ grow: Optional<Double>
-            - some: 1.0
-          - justifyContent: Optional<JustifyContent>.none
+          ▿ flex: Optional<Flex>
+            ▿ some: Flex
+              - alignContent: Optional<AlignContent>.none
+              - alignItems: Optional<AlignItems>.none
+              - alignSelf: Optional<AlignSelf>.none
+              - basis: Optional<UnitValue>.none
+              - flex: Optional<Double>.none
+              - flexDirection: Optional<FlexDirection>.none
+              - flexWrap: Optional<Wrap>.none
+              ▿ grow: Optional<Double>
+                - some: 1.0
+              - justifyContent: Optional<JustifyContent>.none
+              - shrink: Optional<Double>.none
           - margin: Optional<EdgeValue>.none
           ▿ padding: Optional<EdgeValue>
             ▿ some: EdgeValue
@@ -136,14 +137,7 @@
               - vertical: Optional<UnitValue>.none
           - position: Optional<EdgeValue>.none
           - positionType: Optional<PositionType>.none
-          - shrink: Optional<Double>.none
           - size: Optional<Size>.none
-      - id: Optional<String>.none
-      ▿ style: Optional<Style>
-        ▿ some: Style
-          ▿ backgroundColor: Optional<String>
-            - some: "#B8E297"
-          - cornerRadius: Optional<CornerRadius>.none
   ▿ group: Optional<String>
     - some: "group"
   - shouldStoreFields: true

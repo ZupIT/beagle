@@ -12,7 +12,6 @@
   - text: "button"
   ▿ widgetProperties: WidgetProperties
     - accessibility: Optional<Accessibility>.none
-    - flex: Optional<Flex>.none
     - id: Optional<String>.none
     ▿ style: Optional<Style>
       ▿ some: Style
@@ -21,3 +20,10 @@
         ▿ cornerRadius: Optional<CornerRadius>
           ▿ some: CornerRadius
             - radius: 30.0
+        - display: Optional<Display>.none
+        - flex: Optional<Flex>.none
+        - margin: Optional<EdgeValue>.none
+        - padding: Optional<EdgeValue>.none
+        - position: Optional<EdgeValue>.none
+        - positionType: Optional<PositionType>.none
+        - size: Optional<Size>.none

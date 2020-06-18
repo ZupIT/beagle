@@ -51,7 +51,7 @@ extension UIView {
         } else {
             finalView = replace(with: lazyLoaded, renderer: renderer)
         }
-        renderer.controller.dependencies.flex(finalView).markDirty()
+        renderer.controller.dependencies.style(finalView).markDirty()
     }
     
     private func replace(
@@ -65,8 +65,8 @@ extension UIView {
         superview.insertSubview(newView, belowSubview: self)
         removeFromSuperview()
         
-        if renderer.controller.dependencies.flex(self).isEnabled {
-            renderer.controller.dependencies.flex(newView).isEnabled = true
+        if renderer.controller.dependencies.style(self).isFlexEnabled {
+            renderer.controller.dependencies.style(newView).isFlexEnabled = true
         }
         return newView
     }
