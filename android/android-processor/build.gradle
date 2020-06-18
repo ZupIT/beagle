@@ -25,15 +25,16 @@ dependencies {
 
     implementation GeneralLibraries.kotlinPoet
 
+    implementation project(Modules.beagleCommonProcessorUtils)
     implementation project(Modules.beagleSchemaKotlinCore)
     implementation project(Modules.beagleAnnotation)
     implementation project(Modules.beagleAndroidAnnotation)
 
-    implementation AndroidProcessorLibraries.incap
-    kapt AndroidProcessorLibraries.incapPrcessor
+    implementation ProcessorLibraries.incap
+    kapt ProcessorLibraries.incapPrcessor
 
-    implementation GoogleLibraries.autoService
-    kapt GoogleLibraries.autoService
+    implementation ProcessorLibraries.autoService
+    kapt ProcessorLibraries.autoService
 
     testImplementation TestLibraries.junit
     testImplementation TestLibraries.kotlinTest

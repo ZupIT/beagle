@@ -116,6 +116,8 @@ final public class ComponentDecoder: ComponentDecoding {
         registerAction(ShowNativeDialog.self, key: key(name: "ShowNativeDialog", namespace: .beagle))
         registerAction(FormLocalAction.self, key: key(name: "FormLocalAction", namespace: .beagle))
         registerAction(FormRemoteAction.self, key: key(name: "FormRemoteAction", namespace: .beagle))
+        registerAction(SetContext.self, key: key(name: "SetContext", namespace: .beagle))
+        registerAction(SendRequest.self, key: key(name: "SendRequest", namespace: .beagle))
     }
     
     private func registerCoreTypes() {
@@ -131,7 +133,6 @@ final public class ComponentDecoder: ComponentDecoding {
     
     private func registerLayoutTypes() {
         registerComponent(ScreenComponent.self, key: key(name: "ScreenComponent", namespace: .beagle))
-        registerComponent(Spacer.self, key: key(name: "Spacer", namespace: .beagle))
         registerComponent(ScrollView.self, key: key(name: "ScrollView", namespace: .beagle))
     }
     

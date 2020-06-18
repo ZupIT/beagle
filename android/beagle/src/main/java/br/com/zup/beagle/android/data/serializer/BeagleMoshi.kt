@@ -16,8 +16,9 @@
 
 package br.com.zup.beagle.android.data.serializer
 
-import br.com.zup.beagle.android.data.serializer.adapter.ActionJsonAdapterFactory
-import br.com.zup.beagle.android.data.serializer.adapter.AndroidFrameworkIgnoreAdapterFactory
+import br.com.zup.beagle.android.data.serializer.adapter.AndroidActionJsonAdapterFactory
+import br.com.zup.beagle.android.data.serializer.adapter.BindAdapterFactory
+import br.com.zup.beagle.android.data.serializer.adapter.ContextDataAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.ComponentJsonAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.RouteAdapterFactory
 import com.squareup.moshi.Moshi
@@ -27,11 +28,12 @@ internal object BeagleMoshi {
 
     val moshi: Moshi by lazy {
         Moshi.Builder()
-            .add(AndroidFrameworkIgnoreAdapterFactory())
+            .add(BindAdapterFactory())
             .add(ComponentJsonAdapterFactory.make())
             .add(RouteAdapterFactory())
-            .add(ActionJsonAdapterFactory.make())
+            .add(AndroidActionJsonAdapterFactory.make())
             .add(KotlinJsonAdapterFactory())
+            .add(ContextDataAdapterFactory())
             .build()
     }
 }

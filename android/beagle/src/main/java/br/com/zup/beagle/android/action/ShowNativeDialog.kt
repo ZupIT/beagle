@@ -19,14 +19,14 @@ package br.com.zup.beagle.android.action
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 
-internal data class ShowNativeDialog(
+data class ShowNativeDialog(
     val title: String,
     val message: String,
     val buttonText: String
 ) : Action {
 
     @Transient
-    var viewFactory: ViewFactory = ViewFactory()
+    internal var viewFactory: ViewFactory = ViewFactory()
 
     override fun execute(rootView: RootView) {
         viewFactory.makeAlertDialogBuilder(rootView.getContext())

@@ -12,7 +12,8 @@
     ▿ some: LocalFormHandlerSpy
       - actionsHandledCount: 0
   - logger: BeagleLoggerDumb
-  - navigation: BeagleNavigator
+  ▿ navigation: BeagleNavigator
+    - defaultAnimation: Optional<BeagleNavigatorAnimation>.none
   - navigationControllerType: BeagleNavigationController
   - networkClient: NetworkClientDummy
   ▿ opener: URLOpenerDumb

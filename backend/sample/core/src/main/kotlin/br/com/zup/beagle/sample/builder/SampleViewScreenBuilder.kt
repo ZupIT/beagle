@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.action.Navigate
+import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.constants.PATH_SAMPLE_VIEW_ENDPOINT
 import br.com.zup.beagle.widget.core.Flex

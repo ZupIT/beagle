@@ -17,8 +17,9 @@
 package br.com.zup.beagle.android.components.form.core
 
 import android.net.Uri
-import br.com.zup.beagle.action.FormMethodType
-import br.com.zup.beagle.action.FormRemoteAction
+import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.action.FormMethodType
+import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.components.form.Form
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.extensions.once
@@ -26,20 +27,17 @@ import br.com.zup.beagle.android.networking.HttpClient
 import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
-import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
 import io.mockk.*
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
-import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Test
 
 private val FORMS_VALUE = mapOf<String, String>()
 private val ACTION = RandomData.string()
 
-class FormSubmitterTest {
+class FormSubmitterTest : BaseTest() {
 
     @MockK
     private lateinit var httpClient: HttpClient
@@ -62,11 +60,8 @@ class FormSubmitterTest {
     @InjectMockKs
     private lateinit var formSubmitter: FormSubmitter
 
-    @Before
-    fun setUp() {
-        MockKAnnotations.init(this)
-
-        mockkObject(BeagleEnvironment)
+    override fun setUp() {
+        super.setUp()
         mockkStatic("android.net.Uri")
 
         every { Uri.parse(any()) } returns uri
@@ -75,16 +70,11 @@ class FormSubmitterTest {
         every {uriBuilder.build()} returns uri
         every { uri.toString() } returns ACTION
 
-
-        every { BeagleEnvironment.beagleSdk.config.baseUrl } returns RandomData.httpUrl()
+        every { beagleSdk.config.baseUrl } returns RandomData.httpUrl()
         every { httpClient.execute(capture(requestDataSlot), any(), any()) } returns mockk()
         every { urlBuilder.format(any(), capture(urlSlot)) } returns ACTION
     }
 
-    @After
-    fun tearDown() {
-        unmockkObject(BeagleEnvironment)
-    }
 
     @Test
     fun submitForm_should_create_requestData_correctly() {
@@ -237,10 +227,5 @@ class FormSubmitterTest {
     private fun createAction(method: FormMethodType) = FormRemoteAction(
         path = ACTION,
         method = method
-    )
-
-    private fun createForm(action: FormRemoteAction) = Form(
-        action = action,
-        child = mockk()
     )
 }

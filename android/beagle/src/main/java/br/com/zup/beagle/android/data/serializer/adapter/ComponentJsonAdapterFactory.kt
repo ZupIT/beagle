@@ -21,7 +21,6 @@ import br.com.zup.beagle.android.components.Image
 import br.com.zup.beagle.android.components.LazyComponent
 import br.com.zup.beagle.android.components.ListView
 import br.com.zup.beagle.android.components.NetworkImage
-import br.com.zup.beagle.android.components.Spacer
 import br.com.zup.beagle.android.components.TabItem
 import br.com.zup.beagle.android.components.TabView
 import br.com.zup.beagle.android.components.Text
@@ -77,7 +76,6 @@ internal object ComponentJsonAdapterFactory {
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
         return factory.withSubtype(ScreenComponent::class.java, createNamespaceFor<ScreenComponent>())
             .withSubtype(Container::class.java, createNamespaceFor<Container>())
-            .withSubtype(Spacer::class.java, createNamespaceFor<Spacer>())
             .withSubtype(ScrollView::class.java, createNamespaceFor<ScrollView>())
             .withSubtype(LazyComponent::class.java, createNamespaceFor<LazyComponent>())
             .withSubtype(PageView::class.java, createNamespaceFor<PageView>())
@@ -129,6 +127,7 @@ internal object ComponentJsonAdapterFactory {
     }
 
     private fun createNamespace(appNamespace: String, clazz: Class<*>): String {
-        return "$appNamespace:${clazz.simpleName.toLowerCase(Locale.getDefault())}"
+        val typeName = clazz.simpleName.toLowerCase(Locale.getDefault())
+        return "$appNamespace:$typeName"
     }
 }

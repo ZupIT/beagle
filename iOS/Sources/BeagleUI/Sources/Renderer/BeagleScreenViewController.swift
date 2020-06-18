@@ -25,7 +25,10 @@ public protocol BeagleControllerProtocol: NSObjectProtocol {
     var screenType: ScreenType { get }
     var screen: Screen? { get }
     
+    func addBinding(_ update: @escaping () -> Void)
+    
     func execute(action: RawAction, sender: Any)
+    func execute(actions: [RawAction]?, with context: Context?, sender: Any)
 }
 
 public class BeagleScreenViewController: BeagleController {
@@ -42,6 +45,8 @@ public class BeagleScreenViewController: BeagleController {
     }
     
     lazy var renderer = dependencies.renderer(self)
+    
+    private var bindings: [() -> Void] = []
     
     // MARK: - Initialization
     
@@ -81,9 +86,30 @@ public class BeagleScreenViewController: BeagleController {
     public var screen: Screen? {
         return viewModel.screen
     }
+        
+    public func addBinding(_ update: @escaping () -> Void) {
+        bindings.append(update)
+    }
+    
+    func configBindings() {
+        bindings.forEach {
+            $0()
+        }
+        bindings = []
+    }
     
     public func execute(action: RawAction, sender: Any) {
         (action as? Action)?.execute(controller: self, sender: sender)
+    }
+    
+    public func execute(actions: [RawAction]?, with context: Context? = nil, sender: Any) {
+        guard let view = sender as? UIView, let actions = actions else { return }
+        if let context = context {
+            view.setContext(context)
+        }
+        actions.forEach {
+            execute(action: $0, sender: sender)
+        }
     }
             
     // MARK: - Lifecycle

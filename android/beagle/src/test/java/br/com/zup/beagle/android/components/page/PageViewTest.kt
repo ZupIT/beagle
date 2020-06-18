@@ -21,8 +21,8 @@ import br.com.zup.beagle.android.components.BaseComponentTest
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.view.BeaglePageView
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.view.custom.BeaglePageView
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just

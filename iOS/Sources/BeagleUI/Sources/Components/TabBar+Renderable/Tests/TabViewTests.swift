@@ -78,8 +78,8 @@ final class TabViewTests: XCTestCase {
     private func tabItem(index: Int, flex: Flex) -> TabItem {
         return TabItem(title: "Tab \(index)", content:
             Container(children: [
-                Text("Text Tab \(index)"),
-                Text("Text 2 Tab \(index)")
+                Text(.value("Text Tab \(index)")),
+                Text(.value("Text 2 Tab \(index)"))
             ])
             .applyFlex(flex)
         )

@@ -16,6 +16,12 @@
 
 package br.com.zup.beagle.android.utils
 
-import br.com.zup.beagle.utils.ColorUtils
-
 internal fun String.toAndroidColor(): Int = ColorUtils.hexColor(this)
+
+internal fun String.getExpressions(): List<String> {
+    val expressionPattern = "@{"
+    val patterns = this.substringAfter(expressionPattern).split(expressionPattern)
+    return patterns.map { pattern ->
+        pattern.substring(0, pattern.indexOfFirst { it == '}' })
+    }
+}

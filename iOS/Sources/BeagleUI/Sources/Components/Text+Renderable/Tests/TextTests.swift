@@ -48,7 +48,11 @@ class TextTests: XCTestCase {
         }
         
         // Then
-        XCTAssertEqual(component.text, label.text)
+        guard case let .value(text) = component.text else {
+            XCTFail("Expected a `.value` property, but got \(String(describing: component.text)).")
+            return
+        }
+        XCTAssertEqual(text, label.text)
     }
     
     func testTextWithRightAlignment() throws {

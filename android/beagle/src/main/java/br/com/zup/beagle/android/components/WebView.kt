@@ -44,7 +44,6 @@ data class WebView(
         return webView
     }
 
-
     class BeagleWebViewClient(val context: Context) : WebViewClient() {
 
         override fun onPageFinished(view: android.webkit.WebView?, url: String?) {
