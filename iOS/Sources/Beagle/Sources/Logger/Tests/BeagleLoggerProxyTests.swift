@@ -17,7 +17,7 @@
 
 import Foundation
 import XCTest
-@testable import BeagleUI
+@testable import Beagle
 
 class BeagleLoggerProxyTests: XCTestCase {
 

@@ -3,16 +3,16 @@
    version = "1.0">
    <Group
       location = "container:"
-      name = "Schema">
+      name = "Core">
       <FileRef
-         location = "group:Schema/BeagleSchema.xcodeproj">
+         location = "group:Sources/Beagle/Beagle.xcodeproj">
       </FileRef>
    </Group>
    <Group
       location = "container:"
-      name = "Preview">
+      name = "Schema">
       <FileRef
-         location = "group:Sources/Preview/BeaglePreview.xcodeproj">
+         location = "group:Schema/BeagleSchema.xcodeproj">
       </FileRef>
    </Group>
    <Group
@@ -24,9 +24,12 @@
    </Group>
    <Group
       location = "container:"
-      name = "Core">
+      name = "Example">
       <FileRef
-         location = "group:Sources/Beagle/Beagle.xcodeproj">
+         location = "group:Example/BeaglePreviewDemo/BeaglePreviewDemo.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Example/BeagleDemo/BeagleDemo.xcodeproj">
       </FileRef>
    </Group>
    <Group
@@ -41,12 +44,9 @@
    </Group>
    <Group
       location = "container:"
-      name = "Example">
+      name = "Preview">
       <FileRef
-         location = "group:Example/BeaglePreviewDemo/BeaglePreviewDemo.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:Example/BeagleDemo/BeagleDemo.xcodeproj">
+         location = "group:Sources/Preview/BeaglePreview.xcodeproj">
       </FileRef>
    </Group>
 </Workspace>
