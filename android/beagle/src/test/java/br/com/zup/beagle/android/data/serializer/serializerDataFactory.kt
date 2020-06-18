@@ -246,7 +246,7 @@ fun makeBindComponent() = """
     {
         "_beagleComponent_": "custom:componentbinding",
         "value1": null,
-        "value2": "Hello",
+        "value2": "Hello @{context.name}",
         "value3": "@{hello}",
         "value4": ${makeInternalObject()}
     }

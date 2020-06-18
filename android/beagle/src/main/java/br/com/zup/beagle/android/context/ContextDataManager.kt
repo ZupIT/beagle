@@ -21,14 +21,13 @@ import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.jsonpath.JsonPathReplacer
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import br.com.zup.beagle.android.utils.BeagleConstants
 import br.com.zup.beagle.android.utils.getExpressions
 import com.squareup.moshi.Moshi
 import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.IllegalStateException
 import java.lang.reflect.Type
-
-private val EXPRESSION_REGEX = "@\\{([^)]+)\\}".toRegex()
 
 internal data class ContextBinding(
     val context: ContextData,
@@ -177,5 +176,5 @@ internal class ContextDataManager(
         valueInExpression().split(".")[0]
 
     private fun Bind.Expression<*>.valueInExpression(): String =
-        EXPRESSION_REGEX.find(this.value)?.groups?.get(1)?.value ?: ""
+        BeagleConstants.EXPRESSION_REGEX.find(this.value)?.groups?.get(1)?.value ?: ""
 }
