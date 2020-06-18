@@ -16,12 +16,6 @@
 
 package br.com.zup.beagle.android.utils
 
-internal fun String.toAndroidColor(): Int = ColorUtils.hexColor(this)
-
-internal fun String.getExpressions(): List<String> {
-    val expressionPattern = "@{"
-    val patterns = this.substringAfter(expressionPattern).split(expressionPattern)
-    return patterns.map { pattern ->
-        pattern.substring(0, pattern.indexOfFirst { it == '}' })
-    }
+object BeagleConstants {
+    val EXPRESSION_REGEX = "@\\{([^)]+)\\}".toRegex()
 }

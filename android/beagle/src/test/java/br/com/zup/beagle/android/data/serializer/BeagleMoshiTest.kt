@@ -633,9 +633,11 @@ class BeagleMoshiTest: BaseTest() {
         // Then
         val bindComponent = component as ComponentBinding
         assertNull(bindComponent.value1)
-        assertEquals("Hello", bindComponent.value2.value)
+        assertEquals("Hello @{context.name}", bindComponent.value2.value)
+        assertTrue(bindComponent.value2 is Bind.Expression<String>)
         assertEquals(String::class.java, bindComponent.value2.type)
         assertEquals("@{hello}", bindComponent.value3.value)
+        assertTrue(bindComponent.value3 is Bind.Expression<Boolean>)
         assertEquals(Boolean::class.javaObjectType, bindComponent.value3.type)
         assertNotNull(bindComponent.value4.value)
         assertEquals(InternalObject::class.java, bindComponent.value4.type)
