@@ -24,7 +24,8 @@ sealed class Bind<T> : BindAttribute<T>, Serializable {
     data class Value<T: Any>(override val value: T): Bind<T>()
 
     companion object {
-        inline fun <reified T> expressionOf(expression: String) = Expression<T>(expression)
-        inline fun <reified T : Any> valueOf(value: T) = Value(value)
+        fun <T> expressionOf(expression: String) = Expression<T>(expression)
+        fun <T : Any> valueOf(value: T) = Value(value)
+        fun <T : Any> valueOfNullable(value: T?) = value?.let { Value(it) }
     }
 }

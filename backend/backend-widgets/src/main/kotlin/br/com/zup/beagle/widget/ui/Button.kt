@@ -16,10 +16,11 @@
 
 package br.com.zup.beagle.widget.ui
 
-import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.TouchableAnalytics
 import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.action.Action
+import br.com.zup.beagle.widget.context.Bind
 
 /**
  * Define a button natively using the server driven information received through Beagle
@@ -31,8 +32,17 @@ import br.com.zup.beagle.widget.Widget
  *
  */
 data class Button(
-    val text: String,
-    val styleId: String? = null,
+    val text: Bind<String>,
+    val styleId: Bind<String>? = null,
     val onPress: List<Action>? = null,
     override val clickAnalyticsEvent: ClickEvent? = null
-) : Widget(), TouchableAnalytics
+) : Widget(), TouchableAnalytics {
+    constructor(text: String,
+                styleId: String? = null,
+                onPress: List<Action>? = null,
+                clickAnalyticsEvent: ClickEvent? = null) :
+        this(Bind.valueOf(text),
+            Bind.valueOfNullable(styleId),
+            onPress,
+            clickAnalyticsEvent)
+}
