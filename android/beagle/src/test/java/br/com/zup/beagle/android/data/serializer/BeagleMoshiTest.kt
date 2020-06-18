@@ -29,7 +29,7 @@ import br.com.zup.beagle.android.components.Image
 import br.com.zup.beagle.android.components.LazyComponent
 import br.com.zup.beagle.android.components.ListView
 import br.com.zup.beagle.android.components.NetworkImage
-import br.com.zup.beagle.android.components.Spacer
+import br.com.zup.beagle.android.components.TabView
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.form.Form
 import br.com.zup.beagle.android.components.form.FormInput
@@ -130,33 +130,6 @@ class BeagleMoshiTest : BaseTest() {
     fun make_should_return_moshi_to_serialize_a_Container() {
         // Given
         val component = Container(listOf())
-
-        // When
-        val actual =
-            beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).toJson(component)
-
-        // Then
-        assertNotNull(JSONObject(actual))
-    }
-
-    @Test
-    fun make_should_return_moshi_to_deserialize_a_Spacer() {
-        // Given
-        val json = makeSpacerJson()
-
-        // When
-        val actual =
-            beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).fromJson(json)
-
-        // Then
-        assertNotNull(actual)
-        assertTrue(actual is Spacer)
-    }
-
-    @Test
-    fun make_should_return_moshi_to_serialize_a_Spacer() {
-        // Given
-        val component = Spacer(10.0)
 
         // When
         val actual =
@@ -292,6 +265,33 @@ class BeagleMoshiTest : BaseTest() {
     fun make_should_return_moshi_to_serialize_a_ListView() {
         // Given
         val component = ListView(listOf())
+
+        // When
+        val actual =
+            beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).toJson(component)
+
+        // Then
+        assertNotNull(JSONObject(actual))
+    }
+
+    @Test
+    fun make_should_return_moshi_to_deserialize_a_TabView(){
+        // Given
+        val json = makeTabViewJson()
+
+        //When
+        val actual =
+            beagleMoshiFactory.moshi.adapter(ServerDrivenComponent::class.java).fromJson(json)
+
+        // Then
+        assertNotNull(actual)
+        assertTrue(actual is TabView)
+    }
+
+    @Test
+    fun make_should_return_moshi_to_serialize_a_TabView(){
+        // Given
+        val component = TabView(children = listOf())
 
         // When
         val actual =
@@ -633,9 +633,11 @@ class BeagleMoshiTest : BaseTest() {
         // Then
         val bindComponent = component as ComponentBinding
         assertNull(bindComponent.value1)
-        assertEquals("Hello", bindComponent.value2.value)
+        assertEquals("Hello @{context.name}", bindComponent.value2.value)
+        assertTrue(bindComponent.value2 is Bind.Expression<String>)
         assertEquals(String::class.java, bindComponent.value2.type)
         assertEquals("@{hello}", bindComponent.value3.value)
+        assertTrue(bindComponent.value3 is Bind.Expression<Boolean>)
         assertEquals(Boolean::class.javaObjectType, bindComponent.value3.type)
         assertNotNull(bindComponent.value4.value)
         assertEquals(InternalObject::class.java, bindComponent.value4.type)

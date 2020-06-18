@@ -15,41 +15,43 @@
  */
 
 import Foundation
-import os.log
 import BeagleSchema
+import os.log
 
 public protocol DependencyLogger {
     var logger: BeagleLoggerType { get }
+}
+
+public protocol DependencyLoggingCondition {
+    var isLoggingEnabled: Bool { get }
 }
 
 public protocol BeagleLoggerType: SchemaLogger {
     func log(_ log: LogType)
 }
 
-public class BeagleLogger: BeagleLoggerType {
+public class BeagleLoggerDefault: BeagleLoggerType {
 
     public func log(_ log: LogType) {
         os_log("\nBeagleSDK: %@", log: osLog(for: log), type: toOsLog(log.level), log.message)
     }
-
+    
+    public func logDecodingError(type: String) {
+        log(Log.decode(.decodingError(type: type)))
+    }
+    
     // MARK: Private
 
     private static var subsystem = Bundle.main.bundleIdentifier ?? "BeagleSDK"
 
     private func osLog(for type: LogType) -> OSLog {
-        return OSLog(subsystem: BeagleLogger.subsystem, category: type.category)
+        return OSLog(subsystem: BeagleLoggerDefault.subsystem, category: type.category)
     }
-
+    
     private func toOsLog(_ level: LogLevel) -> OSLogType {
         switch level {
         case .error: return .error
         case .info: return .info
         }
-    }
-}
-
-extension BeagleLogger: SchemaLogger {
-    public func logDecodingError(type: String) {
-        log(Log.decode(.decodingError(type: type)))
     }
 }

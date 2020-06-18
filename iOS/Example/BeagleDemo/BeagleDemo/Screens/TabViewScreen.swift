@@ -27,7 +27,7 @@ struct TabViewScreen: DeeplinkScreen {
     }
     
     var screen: Screen {
-        let tab1 = TabItem(icon: "beagle", content:
+        let tab1 = TabItem(icon: "beagle", child:
             Container(children: [
                 Text("Blaaslkdjfaskldjfalskdjfasldjfasldfj"),
                 Image(.network(.NETWORK_IMAGE_BEAGLE)),
@@ -35,26 +35,26 @@ struct TabViewScreen: DeeplinkScreen {
             ]).applyFlex(Flex().alignContent(.center))
         )
 
-        let tab2 = TabItem(title: "Tab 2 com titulo", content:
+        let tab2 = TabItem(title: "Tab 2 com titulo", child:
             Container(children: [
                 Text("Text1 Tab 2"),
                 Text("Text2 Tab 2")
             ]).applyFlex(Flex().justifyContent(.center).alignItems(.center))
         )
 
-        let tab3 = TabItem(title: "Tab 3", content:
+        let tab3 = TabItem(title: "Tab 3", child:
             Container(children: [
                 Text("Text1 Tab 3"),
                 Text("Text2 Tab 3")
             ]).applyFlex(Flex().justifyContent(.flexStart))
         )
 
-        let tab4 = TabItem(icon: "beagle", title: "Tab 4", content:
+        let tab4 = TabItem(icon: "beagle", title: "Tab 4", child:
             Container(children: [
                 Text("Text1 Tab 4"),
                 Text("Text2 Tab 4")
             ]).applyFlex(Flex().alignItems(.center))
         )
-        return Screen(navigationBar: NavigationBar(title: "TabView"), child: TabView(tabItems: [tab1, tab2, tab3, tab4], styleId: .TAB_VIEW_STYLE))
+        return Screen(navigationBar: NavigationBar(title: "TabView"), child: TabView(children: [tab1, tab2, tab3, tab4], styleId: .TAB_VIEW_STYLE))
     }
 }

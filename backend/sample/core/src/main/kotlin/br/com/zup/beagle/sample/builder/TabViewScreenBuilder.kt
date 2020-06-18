@@ -35,7 +35,7 @@ import br.com.zup.beagle.widget.ui.Text
 object TabViewScreenBuilder : ScreenBuilder {
     private val tab1 = TabItem(
         title = "Tab 1",
-        content = Container(
+        child = Container(
             children = listOf(
                 Text("Text1 Tab 2"),
                 Image(Remote(BEACH_NETWORK_IMAGE)),
@@ -46,7 +46,7 @@ object TabViewScreenBuilder : ScreenBuilder {
 
     private val tab2 = TabItem(
         title = "Tab 2",
-        content = Container(
+        child = Container(
             children = listOf(
                 Text("Text1 Tab 2"),
                 Text("Text2 Tab 2")
@@ -56,7 +56,7 @@ object TabViewScreenBuilder : ScreenBuilder {
 
     private val tab3 = TabItem(
         title = "Tab 3",
-        content = Container(
+        child = Container(
             children = listOf(
                 Text("Text1 Tab 3"),
                 Text("Text2 Tab 3")
@@ -67,7 +67,7 @@ object TabViewScreenBuilder : ScreenBuilder {
     private val tab4 = TabItem(
         title = "Tab 4",
         icon = "beagle",
-        content = Container(
+        child = Container(
             children = listOf(
                 Text("Text1 Tab 4"),
                 Text("Text2 Tab 4")
@@ -93,7 +93,7 @@ object TabViewScreenBuilder : ScreenBuilder {
             )
         ),
         child = TabView(
-            tabItems = listOf(tab1, tab2, tab3, tab4)
+            children = listOf(tab1, tab2, tab3, tab4)
         )
     )
 }

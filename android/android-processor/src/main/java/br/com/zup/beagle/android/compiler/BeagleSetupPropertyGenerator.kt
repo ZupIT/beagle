@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.compiler
 import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.compiler.ANALYTICS
 import br.com.zup.beagle.compiler.BEAGLE_ACTIVITY
+import br.com.zup.beagle.compiler.BEAGLE_LOGGER
 import br.com.zup.beagle.compiler.BeagleClass
 import br.com.zup.beagle.compiler.DEEP_LINK_HANDLER
 import br.com.zup.beagle.compiler.DESIGN_SYSTEM
@@ -105,6 +106,13 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
                     logImplementationErrorMessage(typeElement, "UrlBuilder")
                 }
             }
+            typeElement.implementsInterface(BEAGLE_LOGGER.toString()) -> {
+                if (propertySpecifications?.logger == null) {
+                    propertySpecifications?.logger = typeElement
+                } else {
+                    logImplementationErrorMessage(typeElement, "BeagleLogger")
+                }
+            }
         }
     }
 
@@ -187,6 +195,11 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
                 "analytics",
                 ANALYTICS
             ),
+            implementProperty(
+                propertySpecifications?.logger.toString(),
+                "logger",
+                BEAGLE_LOGGER
+            ),
             implementServerDrivenActivityProperty(propertySpecifications?.beagleActivity)
         )
     }
@@ -237,5 +250,6 @@ internal data class PropertySpecifications(
     var beagleActivity: TypeElement? = null,
     var urlBuilder: TypeElement? = null,
     var storeHandler: TypeElement? = null,
-    var analytics: TypeElement? = null
+    var analytics: TypeElement? = null,
+    var logger: TypeElement? = null
 )
