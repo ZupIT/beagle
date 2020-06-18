@@ -71,6 +71,14 @@ platform :ios do
   )
   end
 
+  desc "Updates versions on Podspec"
+  lane :release do
+    version_bump_podspec(path: "BeagleUI.podspec", version_number: last_git_tag)
+    version_bump_podspec(path: "BeagleSchema.podspec", version_number: last_git_tag)
+    pod_push(path: "BeagleUI.podspec")  
+    pod_push(path: "BeagleSchema.podspec")  
+  end
+
 end
 
 desc "Publish new release based on last two tags"
@@ -78,7 +86,8 @@ lane :deploy do
   git_pull
   ENV["VERSION_DEPLOY"] = last_git_tag
   sh "fastlane common remote_publish"
-
+  sh "fastlane ios release"
+  
   sh "bash ./delete_release.sh"
   set_github_release(
     repository_name: "ZupIT/beagle",
