@@ -18,7 +18,7 @@ Pod::Spec.new do |spec|
 
 # ―――  Spec Metadata  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
-  spec.name = "BeagleUI"
+  spec.name = "Beagle"
 
   spec.version = "0.2.8"
 
@@ -50,26 +50,26 @@ Pod::Spec.new do |spec|
 
 # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
-  spec.default_subspec = "BeagleUI"
+  spec.default_subspec = "Beagle"
 
   # ――― Beagle UI ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   
-  spec.subspec 'BeagleUI' do |beagleUI|
-    path_source = 'iOS/Sources/BeagleUI/Sources'
-    path_generated = 'iOS/Sources/BeagleUI/CodeGeneration/'
+  spec.subspec 'Beagle' do |beagle|
+    path_source = 'iOS/Sources/Beagle/Sources'
+    path_generated = 'iOS/Sources/Beagle/CodeGeneration/'
 
-    beagleUI.source_files = [
+    beagle.source_files = [
       path_source + '/**/*.swift',
       path_generated + "Generated/*.generated.swift",
       path_generated + "*.swift"
     ]
 
-    beagleUI.resources = [
+    beagle.resources = [
       "iOS/**/*.xcdatamodeld",
       path_generated + "Templates/*"
     ]
 
-    beagleUI.exclude_files = [ 
+    beagle.exclude_files = [ 
       path_source + "/**/Test/**/*.swift",
       path_source + "/**/Tests/**/*.swift",
       path_source + "/**/*Test*.swift"
@@ -78,9 +78,9 @@ Pod::Spec.new do |spec|
     # make sure to declare YogaKit on your Podfile as:
     # pod 'YogaKit', :git => 'git@github.com:lucasaraujo/yoga.git'
     # We need this because we fixed an issue in the original repository and our PR was not merged yet.
-    beagleUI.frameworks = 'Foundation', 'CoreData'
-    beagleUI.dependency 'YogaKit'
-    beagleUI.dependency 'BeagleSchema', "~> #{spec.version}"
+    beagle.frameworks = 'Foundation', 'CoreData'
+    beagle.dependency 'YogaKit'
+    beagle.dependency 'BeagleSchema', "~> #{spec.version}"
   end
 
   # ――― Beagle Preview ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
