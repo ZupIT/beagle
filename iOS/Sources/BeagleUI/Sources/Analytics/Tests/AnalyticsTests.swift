@@ -16,7 +16,7 @@
 
 import XCTest
 import SnapshotTesting
-@testable import BeagleUI
+@testable import Beagle
 import BeagleSchema
 
 // swiftlint:disable implicitly_unwrapped_optional

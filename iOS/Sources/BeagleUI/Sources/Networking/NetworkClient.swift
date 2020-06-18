@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import Foundation
+
 public protocol NetworkClient {
     typealias Error = NetworkError
     typealias NetworkResult = Result<NetworkResponse, NetworkError>

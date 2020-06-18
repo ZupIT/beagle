@@ -15,7 +15,7 @@
  */
 
 import XCTest
-@testable import BeagleUI
+@testable import Beagle
 import SnapshotTesting
 import BeagleSchema
 
@@ -121,7 +121,7 @@ final class PreFetchHelperDummy: BeaglePrefetchHelping {
     func prefetchComponent(newPath: Route.NewPath) { }
 }
 
-struct ComponentDummy: BeagleUI.ServerDrivenComponent, CustomStringConvertible {
+struct ComponentDummy: ServerDrivenComponent, CustomStringConvertible {
     
     private let resultView: UIView?
     

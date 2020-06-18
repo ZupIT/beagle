@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@testable import BeagleUI
+@testable import Beagle
 import Foundation
 import BeagleSchema
 
@@ -23,7 +23,7 @@ enum ComponentFromJsonError: Error {
     case couldNotMatchComponentType
 }
 
-func componentFromJsonFile<W: BeagleUI.ServerDrivenComponent>(
+func componentFromJsonFile<W: ServerDrivenComponent>(
     fileName: String,
     decoder: ComponentDecoding = ComponentDecoder()
 ) throws -> W {
@@ -86,7 +86,7 @@ func jsonFromFile(
 
 /// This method was only created due to some problems with Swift Type Inference.
 /// So when you pass the type as a parameter, swift can infer the correct type.
-func componentFromJsonFile<W: BeagleUI.ServerDrivenComponent>(
+func componentFromJsonFile<W: ServerDrivenComponent>(
     componentType: W.Type,
     fileName: String,
     decoder: ComponentDecoding = ComponentDecoder()

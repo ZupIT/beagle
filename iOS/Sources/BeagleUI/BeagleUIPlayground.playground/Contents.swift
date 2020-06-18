@@ -1,7 +1,7 @@
 import UIKit
 import PlaygroundSupport
 
-import BeagleUI
+import Beagle
 
 //struct SomeScreen: Screen {
 //

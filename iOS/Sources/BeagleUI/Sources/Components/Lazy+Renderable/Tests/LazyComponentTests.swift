@@ -16,7 +16,7 @@
 
 import XCTest
 import SnapshotTesting
-@testable import BeagleUI
+@testable import Beagle
 import BeagleSchema
 
 final class LazyComponentTests: XCTestCase {
@@ -103,13 +103,13 @@ final class LazyComponentTests: XCTestCase {
 
 class LazyRepositoryStub: Repository {
 
-    var componentCompletion: ((Result<BeagleUI.ServerDrivenComponent, Request.Error>) -> Void)?
+    var componentCompletion: ((Result<ServerDrivenComponent, Request.Error>) -> Void)?
     var formCompletion: ((Result<RawAction, Request.Error>) -> Void)?
     var imageCompletion: ((Result<Data, Request.Error>) -> Void)?
     
     private(set) var formData: Request.FormData?
 
-    func fetchComponent(url: String, additionalData: RemoteScreenAdditionalData?, completion: @escaping (Result<BeagleUI.ServerDrivenComponent, Request.Error>) -> Void) -> RequestToken? {
+    func fetchComponent(url: String, additionalData: RemoteScreenAdditionalData?, completion: @escaping (Result<ServerDrivenComponent, Request.Error>) -> Void) -> RequestToken? {
         componentCompletion = completion
         return nil
     }

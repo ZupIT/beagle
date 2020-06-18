@@ -17,7 +17,7 @@
 
 import XCTest
 import SnapshotTesting
-@testable import BeagleUI
+@testable import Beagle
 
 class UrlBuilderTests: XCTestCase {
     // swiftlint:disable force_unwrapping

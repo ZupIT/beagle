@@ -16,7 +16,7 @@
 
 import XCTest
 import BeagleSchema
-@testable import BeagleUI
+@testable import Beagle
 // swiftlint:disable force_unwrapping
 
 class SafeAreaTests: XCTestCase {

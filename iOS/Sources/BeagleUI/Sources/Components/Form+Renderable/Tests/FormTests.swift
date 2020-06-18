@@ -16,7 +16,7 @@
 
 import XCTest
 import SnapshotTesting
-@testable import BeagleUI
+@testable import Beagle
 import BeagleSchema
 
 final class FormTests: XCTestCase {
@@ -42,7 +42,7 @@ final class FormTests: XCTestCase {
 
 // MARK: - Stubs
 
-    private struct InputComponent: BeagleUI.ServerDrivenComponent {
+    private struct InputComponent: ServerDrivenComponent {
         let value: String
         
         func toView(renderer: BeagleRenderer) -> UIView {
@@ -61,7 +61,7 @@ final class FormTests: XCTestCase {
         }
         
         required init?(coder: NSCoder) {
-            BeagleUI.fatalError("init(coder:) has not been implemented")
+            fatalError("init(coder:) has not been implemented")
         }
         
         func getValue() -> Any {

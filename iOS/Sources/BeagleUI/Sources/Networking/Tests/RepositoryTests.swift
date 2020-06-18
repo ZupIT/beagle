@@ -15,7 +15,7 @@
  */
 
 import XCTest
-@testable import BeagleUI
+@testable import Beagle
 import BeagleSchema
 
 final class RepositoryTests: XCTestCase {
@@ -105,7 +105,7 @@ final class RepositoryTests: XCTestCase {
         let url = "www.something.com"
 
         // When
-        var componentReturned: BeagleUI.ServerDrivenComponent?
+        var componentReturned: ServerDrivenComponent?
         let expec = expectation(description: "fetchComponentExpectation")
         sut.fetchComponent(url: url, additionalData: nil) { result in
             if case .success(let component) = result {
@@ -181,7 +181,7 @@ final class ComponentDecodingStub: ComponentDecoding {
 
 final class RepositoryStub: Repository {
 
-    var componentResult: Result<BeagleUI.ServerDrivenComponent, Request.Error>?
+    var componentResult: Result<ServerDrivenComponent, Request.Error>?
     var formResult: Result<RawAction, Request.Error>?
     var imageResult: Result<Data, Request.Error>?
 
@@ -198,7 +198,7 @@ final class RepositoryStub: Repository {
     }
 
     init(
-        componentResult: Result<BeagleUI.ServerDrivenComponent, Request.Error>? = nil,
+        componentResult: Result<ServerDrivenComponent, Request.Error>? = nil,
         formResult: Result<RawAction, Request.Error>? = nil,
         imageResult: Result<Data, Request.Error>? = nil
     ) {
@@ -207,7 +207,7 @@ final class RepositoryStub: Repository {
         self.imageResult = imageResult
     }
 
-    func fetchComponent(url: String, additionalData: RemoteScreenAdditionalData?, completion: @escaping (Result<BeagleUI.ServerDrivenComponent, Request.Error>) -> Void) -> RequestToken? {
+    func fetchComponent(url: String, additionalData: RemoteScreenAdditionalData?, completion: @escaping (Result<ServerDrivenComponent, Request.Error>) -> Void) -> RequestToken? {
         didCallDispatch = true
         if let result = componentResult {
             completion(result)

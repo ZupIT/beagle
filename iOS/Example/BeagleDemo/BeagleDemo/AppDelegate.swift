@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import BeagleUI
+import Beagle
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

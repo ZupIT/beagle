@@ -15,7 +15,7 @@
  */
 
 import XCTest
-@testable import BeagleUI
+@testable import Beagle
 import SnapshotTesting
 
 final class ObservableTests: XCTestCase {

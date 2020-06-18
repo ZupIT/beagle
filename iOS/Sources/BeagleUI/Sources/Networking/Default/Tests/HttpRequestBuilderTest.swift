@@ -17,7 +17,7 @@
 import Foundation
 
 import XCTest
-@testable import BeagleUI
+@testable import Beagle
 import SnapshotTesting
 import BeagleSchema
 

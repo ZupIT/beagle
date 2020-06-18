@@ -17,33 +17,28 @@
 import Foundation
 import BeagleSchema
 
-public class Beagle {
+public var dependencies: BeagleDependenciesProtocol = BeagleDependencies() {
+    didSet { BeagleSchema.dependencies = dependencies }
+}
 
-    public static var dependencies: BeagleDependenciesProtocol = BeagleDependencies() {
-        didSet { BeagleSchema.dependencies = dependencies }
-    }
+// MARK: - Public Functions
 
-    private init() {}
+/// Register a custom component
+public func registerCustomComponent<C: ServerDrivenComponent>(
+    _ name: String,
+    componentType: C.Type
+) {
+    dependencies.decoder.register(componentType, for: name)
+}
 
-    // MARK: - Public Functions
-    
-    /// Register a custom component
-    public static func registerCustomComponent<C: ServerDrivenComponent>(
-        _ name: String,
-        componentType: C.Type
-    ) {
-        dependencies.decoder.register(componentType, for: name)
-    }
-    
-    /// Register a custom action
-    public static func registerCustomAction<A: Action>(
-        _ name: String,
-        actionType: A.Type
-    ) {
-        dependencies.decoder.register(actionType, for: name)
-    }
+/// Register a custom action
+public func registerCustomAction<A: Action>(
+    _ name: String,
+    actionType: A.Type
+) {
+    dependencies.decoder.register(actionType, for: name)
+}
 
-    public static func screen(_ type: ScreenType) -> BeagleScreenViewController {
-        return BeagleScreenViewController(type)
-    }
+public func screen(_ type: ScreenType) -> BeagleScreenViewController {
+    return BeagleScreenViewController(type)
 }

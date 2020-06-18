@@ -16,7 +16,7 @@
  */
 
 import UIKit
-@testable import BeagleUI
+@testable import Beagle
 
 final class ThemeSpy: Theme {
     

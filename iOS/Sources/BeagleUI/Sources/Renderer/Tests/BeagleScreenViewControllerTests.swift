@@ -15,7 +15,7 @@
  */
 
 import XCTest
-@testable import BeagleUI
+@testable import Beagle
 import SnapshotTesting
 import BeagleSchema
 
@@ -119,7 +119,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         assertSnapshotImage(sut, size: .custom(CGSize(width: 414, height: 896)))
     }
     
-    private func safeAreaController(content: BeagleUI.ServerDrivenComponent) -> UIViewController {
+    private func safeAreaController(content: ServerDrivenComponent) -> UIViewController {
         let screen = Screen(
             style: Style(backgroundColor: "#0000FF"),
             navigationBar: NavigationBar(title: "Test Safe Area"),

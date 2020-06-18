@@ -15,7 +15,7 @@
  */
 
 import BeagleSchema
-@testable import BeagleUI
+@testable import Beagle
 import XCTest
 import SnapshotTesting
 

@@ -15,7 +15,7 @@
  */
 
 import XCTest
-@testable import BeagleUI
+@testable import Beagle
 import SnapshotTesting
 import BeagleSchema
 
@@ -258,7 +258,7 @@ private class DataStoreHandlerStub: FormDataStoreHandling {
     }
 }
 
-private struct InputComponent: BeagleUI.ServerDrivenComponent {
+private struct InputComponent: ServerDrivenComponent {
     let value: String
     
     func toView(renderer: BeagleRenderer) -> UIView {
@@ -277,7 +277,7 @@ private class InputStub: UIView, InputValue, ValidationErrorListener, WidgetStat
     }
 
     required init?(coder: NSCoder) {
-        BeagleUI.fatalError("init(coder:) has not been implemented")
+        fatalError("init(coder:) has not been implemented")
     }
 
     func getValue() -> Any {
@@ -297,7 +297,7 @@ private class SubmitStub: UIView, Observer, WidgetStateObservable {
     }
 
     required init?(coder: NSCoder) {
-        BeagleUI.fatalError("init(coder:) has not been implemented")
+        fatalError("init(coder:) has not been implemented")
     }
 
     func didChangeValue(_ value: Any?) {

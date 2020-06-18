@@ -15,9 +15,23 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "932925CE2327E11000A61F01"
-               BuildableName = "BeagleUI.framework"
-               BlueprintName = "BeagleUI"
-               ReferencedContainer = "container:BeagleUI.xcodeproj">
+               BuildableName = "Beagle.framework"
+               BlueprintName = "Beagle"
+               ReferencedContainer = "container:Beagle.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E5CE41E62332B9B600295277"
+               BuildableName = "BeagleFrameworkTests.xctest"
+               BlueprintName = "BeagleFrameworkTests"
+               ReferencedContainer = "container:Beagle.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -49,14 +63,13 @@
       </CodeCoverageTargets>
       <Testables>
          <TestableReference
-            skipped = "NO"
-            testExecutionOrdering = "random">
+            skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E5CE41E62332B9B600295277"
                BuildableName = "BeagleFrameworkTests.xctest"
                BlueprintName = "BeagleFrameworkTests"
-               ReferencedContainer = "container:BeagleUI.xcodeproj">
+               ReferencedContainer = "container:Beagle.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -71,15 +84,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "932925CE2327E11000A61F01"
-            BuildableName = "BeagleUI.framework"
-            BlueprintName = "BeagleUI"
-            ReferencedContainer = "container:BeagleUI.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -87,15 +91,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "932925CE2327E11000A61F01"
-            BuildableName = "BeagleUI.framework"
-            BlueprintName = "BeagleUI"
-            ReferencedContainer = "container:BeagleUI.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

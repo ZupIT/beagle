@@ -16,7 +16,7 @@
 
 import XCTest
 import BeagleSchema
-import BeagleUI
+import Beagle
 
 final class ComposeComponentTests: XCTestCase { 
 
@@ -31,7 +31,7 @@ final class ComposeComponentTests: XCTestCase {
     }
 }
 
-struct ComposeText: BeagleUI.ComposeComponent {
+struct ComposeText: Beagle.ComposeComponent {
     var title: String = ""
     var subtitle: String = ""
     

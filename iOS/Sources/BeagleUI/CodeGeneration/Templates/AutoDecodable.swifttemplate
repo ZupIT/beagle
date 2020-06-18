@@ -115,7 +115,7 @@ func importBeagleUIString(_ arguments: Dictionary<String,AnyObject>? ) -> String
             return ""
         }
     }
-    return "\nimport BeagleSchema\nimport BeagleUI\n"
+    return "\nimport BeagleSchema\nimport Beagle\n"
 }
 
 func containerDeclaration(generatedCodingKeys: [String]) -> String {

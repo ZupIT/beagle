@@ -26,7 +26,7 @@
       location = "container:"
       name = "Core">
       <FileRef
-         location = "group:Sources/BeagleUI/BeagleUI.xcodeproj">
+         location = "group:/Users/frederico/Documents/Projects/Beagle/beagle/iOS/Sources/BeagleUI/Beagle.xcodeproj">
       </FileRef>
    </Group>
    <Group

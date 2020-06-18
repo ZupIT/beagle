@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import BeagleUI
+import Beagle
 import BeagleSchema
 
 struct LazyComponentScreen: DeeplinkScreen {
@@ -78,7 +78,7 @@ struct LazyComponentScreen: DeeplinkScreen {
 }
 
 extension UITextView: OnStateUpdatable, InputValue {
-    public func onUpdateState(component: BeagleUI.ServerDrivenComponent) -> Bool {
+    public func onUpdateState(component: ServerDrivenComponent) -> Bool {
         guard let w = component as? Text else {
             return false
         }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@testable import BeagleUI
+@testable import Beagle
 import XCTest
 
 final class NSErrorExtensionTests: XCTestCase {

@@ -72,7 +72,7 @@ extension UIView {
         }
     }
     
-    var beagleFormElement: BeagleUI.ServerDrivenComponent? {
+    var beagleFormElement: ServerDrivenComponent? {
         get {
             return (objc_getAssociatedObject(self, &AssociatedKeys.FormElement) as? ObjectWrapper)?.object
         }

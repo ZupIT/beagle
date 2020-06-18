@@ -207,7 +207,7 @@
 		E5CB5D862354C830009783A7 /* MirrorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5CB5D852354C830009783A7 /* MirrorExtension.swift */; };
 		E5CB5DAB23550012009783A7 /* BeagleSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5CB5DAA23550012009783A7 /* BeagleSetup.swift */; };
 		E5CB5DC623565440009783A7 /* BeagleSetupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5CB5DC523565440009783A7 /* BeagleSetupTests.swift */; };
-		E5CE41EC2332B9B600295277 /* BeagleUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932925CF2327E11000A61F01 /* BeagleUI.framework */; };
+		E5CE41EC2332B9B600295277 /* Beagle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 932925CF2327E11000A61F01 /* Beagle.framework */; };
 		E73107BC23A971B000188B3D /* BeaglePrefetchHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73107BB23A971B000188B3D /* BeaglePrefetchHelper.swift */; };
 		E7523AF8239E8F2100F93385 /* BeagleDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7523AF7239E8F2100F93385 /* BeagleDependencies.swift */; };
 		E7716B9D2375E9FF006E26F2 /* BeagleDeepLinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7716B9C2375E9FF006E26F2 /* BeagleDeepLinkHandler.swift */; };
@@ -262,7 +262,7 @@
 		931B6E2F2375BA7400DE73FD /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		931B6E31237610B300DE73FD /* FunctiontalUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctiontalUtils.swift; sourceTree = "<group>"; };
 		9327116423F1C9D100778B56 /* Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Widget.swift; sourceTree = "<group>"; };
-		932925CF2327E11000A61F01 /* BeagleUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BeagleUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		932925CF2327E11000A61F01 /* Beagle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Beagle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		932925D22327E11000A61F01 /* BeagleUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BeagleUI.h; sourceTree = "<group>"; };
 		932925D32327E11000A61F01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9337F82C249A466B00B0A260 /* SetContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetContext.swift; sourceTree = "<group>"; };
@@ -477,7 +477,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E5CE41EC2332B9B600295277 /* BeagleUI.framework in Frameworks */,
+				E5CE41EC2332B9B600295277 /* Beagle.framework in Frameworks */,
 				C8E42FD123C7C98000B1963F /* SnapshotTesting.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -631,7 +631,7 @@
 		932925D02327E11000A61F01 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				932925CF2327E11000A61F01 /* BeagleUI.framework */,
+				932925CF2327E11000A61F01 /* Beagle.framework */,
 				E5CE41E72332B9B600295277 /* BeagleFrameworkTests.xctest */,
 			);
 			name = Products;
@@ -1235,7 +1235,7 @@
 				A0F45499237C1B0F00B146A1 /* BeagleNavigatorTests.swift */,
 				C08D4E3424857CBA00AAAC0A /* URLOpenerTests.swift */,
 				C08D4E3524857CBA00AAAC0A /* WindowManagerTests.swift */,
-                98E717A9248EAF7500968F2A /* BeagleNavigatorAnimationTests.swift */,
+				98E717A9248EAF7500968F2A /* BeagleNavigatorAnimationTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1556,9 +1556,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		932925CE2327E11000A61F01 /* BeagleUI */ = {
+		932925CE2327E11000A61F01 /* Beagle */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 932925E32327E11000A61F01 /* Build configuration list for PBXNativeTarget "BeagleUI" */;
+			buildConfigurationList = 932925E32327E11000A61F01 /* Build configuration list for PBXNativeTarget "Beagle" */;
 			buildPhases = (
 				932925CA2327E11000A61F01 /* Headers */,
 				C0F0168B245B0FB00041A30C /* Sourcery Run Script */,
@@ -1571,9 +1571,9 @@
 			);
 			dependencies = (
 			);
-			name = BeagleUI;
+			name = Beagle;
 			productName = BeagleUI;
-			productReference = 932925CF2327E11000A61F01 /* BeagleUI.framework */;
+			productReference = 932925CF2327E11000A61F01 /* Beagle.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		E5CE41E62332B9B600295277 /* BeagleFrameworkTests */ = {
@@ -1616,7 +1616,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 932925C92327E11000A61F01 /* Build configuration list for PBXProject "BeagleUI" */;
+			buildConfigurationList = 932925C92327E11000A61F01 /* Build configuration list for PBXProject "Beagle" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -1631,7 +1631,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				932925CE2327E11000A61F01 /* BeagleUI */,
+				932925CE2327E11000A61F01 /* Beagle */,
 				E5CE41E62332B9B600295277 /* BeagleFrameworkTests */,
 			);
 		};
@@ -1932,7 +1932,7 @@
 /* Begin PBXTargetDependency section */
 		E5CE41EE2332B9B600295277 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 932925CE2327E11000A61F01 /* BeagleUI */;
+			target = 932925CE2327E11000A61F01 /* Beagle */;
 			targetProxy = E5CE41ED2332B9B600295277 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -2084,7 +2084,7 @@
 					"@loader_path/Frameworks",
 				);
 				OTHER_SWIFT_FLAGS = "-DDEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = br.com.zup.BeagleUI;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.zup.Beagle;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -2115,7 +2115,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = br.com.zup.BeagleUI;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.zup.Beagle;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -2177,7 +2177,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		932925C92327E11000A61F01 /* Build configuration list for PBXProject "BeagleUI" */ = {
+		932925C92327E11000A61F01 /* Build configuration list for PBXProject "Beagle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				932925E12327E11000A61F01 /* Debug */,
@@ -2186,7 +2186,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		932925E32327E11000A61F01 /* Build configuration list for PBXNativeTarget "BeagleUI" */ = {
+		932925E32327E11000A61F01 /* Build configuration list for PBXNativeTarget "Beagle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				932925E42327E11000A61F01 /* Debug */,

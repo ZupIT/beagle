@@ -15,12 +15,12 @@
  */
 
 import UIKit
-@testable import BeagleUI
+@testable import Beagle
 import BeagleSchema
 
 // MARK: - CustomPageIndicator Component
 
-public struct CustomPageIndicator: PageIndicatorComponent, BeagleUI.ServerDrivenComponent {
+public struct CustomPageIndicator: PageIndicatorComponent, ServerDrivenComponent {
 
     // MARK: - Public Properties
 
@@ -95,7 +95,7 @@ class CustomPageIndicatorUIComponent: UIView, PageIndicatorUIView {
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        BeagleUI.fatalError("init(coder:) has not been implemented")
+        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: Private functions

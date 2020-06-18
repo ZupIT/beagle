@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import BeagleUI
+import Beagle
 import BeagleSchema
 
 struct WebViewScreen: DeeplinkScreen {
@@ -32,7 +32,7 @@ struct WebViewScreen: DeeplinkScreen {
         )
     }
     
-    var webView: BeagleUI.ServerDrivenComponent {
+    var webView: ServerDrivenComponent {
         return WebView(url: .WEB_VIEW_URL, flex: Flex().grow(1))
     }
 }

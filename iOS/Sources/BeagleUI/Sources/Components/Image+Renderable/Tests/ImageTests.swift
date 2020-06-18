@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@testable import BeagleUI
+@testable import Beagle
 import XCTest
 import SnapshotTesting
 import BeagleSchema

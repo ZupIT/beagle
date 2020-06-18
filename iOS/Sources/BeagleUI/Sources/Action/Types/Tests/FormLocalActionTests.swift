@@ -17,7 +17,7 @@
 import XCTest
 import SnapshotTesting
 import BeagleSchema
-@testable import BeagleUI
+@testable import Beagle
 
 final class FormLocalActionTests: XCTestCase {
 

@@ -18,7 +18,7 @@
 
 import XCTest
 import SnapshotTesting
-@testable import BeagleUI
+@testable import Beagle
 import BeagleSchema
 
 final class ContainerTests: XCTestCase {
@@ -33,7 +33,7 @@ final class ContainerTests: XCTestCase {
         let mirror = Mirror(reflecting: sut)
         // When
         let flex = mirror.firstChild(of: WidgetProperties.self)?.flex
-        let component = mirror.firstChild(of: [BeagleUI.ServerDrivenComponent].self)
+        let component = mirror.firstChild(of: [ServerDrivenComponent].self)
         // Then
         XCTAssertTrue(sut.children.count == 2)
         XCTAssertNotNil(flex)

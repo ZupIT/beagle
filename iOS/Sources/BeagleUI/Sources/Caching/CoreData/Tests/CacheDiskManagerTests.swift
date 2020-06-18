@@ -15,7 +15,7 @@
 */
 
 import XCTest
-@testable import BeagleUI
+@testable import Beagle
 
 class CacheDiskManagerTests: XCTestCase {
     // swiftlint:disable force_unwrapping
