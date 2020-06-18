@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service
 class SampleActionService {
     fun createAction() = ActionScreenBuilder
 
-
     fun getNavigateExample() = Screen(
         child = Text("Hello")
     )

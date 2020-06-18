@@ -3,11 +3,13 @@
   ▿ tabItems: 1 element
     ▿ TabItem
       ▿ content: Container
+        - _context_: Optional<Context>.none
         ▿ children: 3 elements
           ▿ Text
             - alignment: Optional<Alignment>.none
             - styleId: Optional<String>.none
-            - text: "1 This is a text"
+            ▿ text: Expression<String>
+              - value: "1 This is a text"
             - textColor: Optional<String>.none
             ▿ widgetProperties: WidgetProperties
               - accessibility: Optional<Accessibility>.none
@@ -17,7 +19,8 @@
           ▿ Text
             - alignment: Optional<Alignment>.none
             - styleId: Optional<String>.none
-            - text: "This is a text"
+            ▿ text: Expression<String>
+              - value: "This is a text"
             - textColor: Optional<String>.none
             ▿ widgetProperties: WidgetProperties
               - accessibility: Optional<Accessibility>.none
@@ -27,7 +30,8 @@
           ▿ Text
             - alignment: Optional<Alignment>.none
             - styleId: Optional<String>.none
-            - text: "This is a text"
+            ▿ text: Expression<String>
+              - value: "This is a text"
             - textColor: Optional<String>.none
             ▿ widgetProperties: WidgetProperties
               - accessibility: Optional<Accessibility>.none

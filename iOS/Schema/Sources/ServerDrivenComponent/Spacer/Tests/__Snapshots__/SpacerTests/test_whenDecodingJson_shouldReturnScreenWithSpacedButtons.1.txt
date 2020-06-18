@@ -1,5 +1,6 @@
 ▿ ScreenComponent
   ▿ child: Container
+    - _context_: Optional<Context>.none
     ▿ children: 7 elements
       ▿ Button
         - action: Optional<RawAction>.none
@@ -41,6 +42,7 @@
           - id: Optional<String>.none
           - style: Optional<Style>.none
       ▿ Container
+        - _context_: Optional<Context>.none
         ▿ children: 1 element
           ▿ Spacer
             - size: 5.0
@@ -93,6 +95,7 @@
           - id: Optional<String>.none
           - style: Optional<Style>.none
       ▿ Container
+        - _context_: Optional<Context>.none
         ▿ children: 1 element
           ▿ Spacer
             - size: 10.0
@@ -145,6 +148,7 @@
           - id: Optional<String>.none
           - style: Optional<Style>.none
       ▿ Container
+        - _context_: Optional<Context>.none
         ▿ children: 1 element
           ▿ Spacer
             - size: 15.0

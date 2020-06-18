@@ -80,4 +80,24 @@ internal object BeagleMessageLogs {
     fun logDataNotInsertedOnDatabase(key: String, value: String) {
         BeagleLoggerProxy.warning("Error when trying to insert key=$key with value=$value on Beagle default database.")
     }
+
+    fun errorWhileTryingToAccessContext(ex: Throwable) {
+        val errorMessage = "Error while evaluating expression bindings."
+        BeagleLoggerProxy.error(errorMessage, ex)
+    }
+
+    fun errorWhileTryingToChangeContext(ex: Throwable) {
+        val errorMessage = "Error while trying to change context."
+        BeagleLoggerProxy.error(errorMessage, ex)
+    }
+
+    fun errorWhileTryingToNotifyContextChanges(ex: Throwable) {
+        val errorMessage = "Error while trying to notify context changes."
+        BeagleLoggerProxy.error(errorMessage, ex)
+    }
+
+    fun errorWhileTryingToEvaluateBinding(ex: Throwable) {
+        val errorMessage = "Error while trying to evaluate binding."
+        BeagleLoggerProxy.error(errorMessage, ex)
+    }
 }

@@ -3,7 +3,8 @@
     ▿ Text
       - alignment: Optional<Alignment>.none
       - styleId: Optional<String>.none
-      - text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tempus tempor diam vitae tempor. Phasellus orci justo, sollicitudin non enim euismod, posuere vehicula dolor.\n---"
+      ▿ text: Expression<String>
+        - value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tempus tempor diam vitae tempor. Phasellus orci justo, sollicitudin non enim euismod, posuere vehicula dolor.\n---"
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
@@ -13,7 +14,8 @@
     ▿ Text
       - alignment: Optional<Alignment>.none
       - styleId: Optional<String>.none
-      - text: "Morbi quis mi eu tellus tincidunt aliquam vitae nec nisl. Vivamus turpis lacus, sodales mollis arcu vitae, commodo maximus velit. Integer et arcu nisi. Vivamus erat dui, elementum vel tincidunt vel, finibus nec arcu.\n---"
+      ▿ text: Expression<String>
+        - value: "Morbi quis mi eu tellus tincidunt aliquam vitae nec nisl. Vivamus turpis lacus, sodales mollis arcu vitae, commodo maximus velit. Integer et arcu nisi. Vivamus erat dui, elementum vel tincidunt vel, finibus nec arcu.\n---"
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
@@ -23,7 +25,8 @@
     ▿ Text
       - alignment: Optional<Alignment>.none
       - styleId: Optional<String>.none
-      - text: "Aenean ultricies, turpis sit amet vulputate ultrices, felis sem pulvinar diam, at tincidunt enim felis vitae ante. Nulla hendrerit convallis arcu, at convallis nisl sodales nec.\n---"
+      ▿ text: Expression<String>
+        - value: "Aenean ultricies, turpis sit amet vulputate ultrices, felis sem pulvinar diam, at tincidunt enim felis vitae ante. Nulla hendrerit convallis arcu, at convallis nisl sodales nec.\n---"
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none

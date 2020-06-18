@@ -1,11 +1,13 @@
 ▿ ScreenComponent
   ▿ child: Container
+    - _context_: Optional<Context>.none
     ▿ children: 1 element
       ▿ Text
         ▿ alignment: Optional<Alignment>
           - some: Alignment.center
         - styleId: Optional<String>.none
-        - text: "BeaglePreview"
+        ▿ text: Expression<String>
+          - value: "BeaglePreview"
         - textColor: Optional<String>.none
         ▿ widgetProperties: WidgetProperties
           - accessibility: Optional<Accessibility>.none

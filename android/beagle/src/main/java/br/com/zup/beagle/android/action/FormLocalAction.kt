@@ -16,13 +16,12 @@
 
 package br.com.zup.beagle.android.action
 
-import br.com.zup.beagle.action.FormLocalAction
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.widget.RootView
 
-internal data class FormLocalAction(
+data class FormLocalAction(
     val name: String,
     val data: Map<String, String>
 ) : Action {
@@ -31,11 +30,11 @@ internal data class FormLocalAction(
     var formLocalActionHandler: FormLocalActionHandler? = BeagleEnvironment.beagleSdk.formLocalActionHandler
 
     override fun execute(rootView: RootView) {
-        formLocalActionHandler?.handle(rootView.getContext(), FormLocalAction(name, data), object : ActionListener {
+        formLocalActionHandler?.handle(rootView.getContext(), this, object : ActionListener {
 
-            override fun onSuccess(action: br.com.zup.beagle.action.Action) {
+            override fun onSuccess(action: Action) {
                 changeActivityState(rootView, ServerDrivenState.Loading(false))
-                (action as Action).execute(rootView)
+                action.execute(rootView)
             }
 
             override fun onError(e: Throwable) {

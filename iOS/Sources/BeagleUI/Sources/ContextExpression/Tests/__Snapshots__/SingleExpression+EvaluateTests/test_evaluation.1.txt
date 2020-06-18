@@ -1,0 +1,29 @@
+▿ 8 elements
+  ▿ Optional<Any>
+    ▿ some: Optional<Any>
+      ▿ some: 2 key/value pairs
+        ▿ (2 elements)
+          - key: "first"
+          ▿ value: Optional<Any>
+            - some: "John"
+        ▿ (2 elements)
+          - key: "last"
+          ▿ value: Optional<Any>
+            - some: "Doe"
+  ▿ Optional<Any>
+    ▿ some: Optional<Any>
+      - some: "John"
+  - Optional<Any>.none
+  ▿ Optional<Any>
+    ▿ some: Optional<Any>
+      - some: "111-1111-1111"
+  ▿ Optional<Any>
+    ▿ some: Optional<Any>
+      - some: 1
+  ▿ Optional<Any>
+    ▿ some: Optional<Any>
+      - some: 5.5
+  ▿ Optional<Any>
+    ▿ some: Optional<Any>
+      - some: true
+  - Optional<Any>.none

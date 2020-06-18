@@ -19,18 +19,19 @@ package br.com.zup.beagle.android.mockdata
 import android.view.View
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.widget.RootView
+import io.mockk.mockk
 
 class CustomInputWidget : InputWidget() {
 
     override fun onErrorMessage(message: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return mockk()
     }
 
     override fun getValue(): Any {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return mockk()
     }
 
     override fun buildView(rootView: RootView): View {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return mockk()
     }
 }

@@ -192,4 +192,54 @@ class BeagleMessageLogsTest {
             "with value=$value on Beagle default database.") }
 
     }
+
+    @Test
+    fun errorWhileTryingToAccessContext_should_call_BeagleLogger_error() {
+        // Given
+        val exception = mockk<Exception>()
+
+        // When
+        BeagleMessageLogs.errorWhileTryingToAccessContext(exception)
+
+        // Then
+        verify(exactly = 1) {  BeagleLoggerProxy.error("Error while evaluating expression bindings.", exception) }
+    }
+
+    @Test
+    fun errorWhileTryingToChangeContext_should_call_BeagleLogger_error() {
+        // Given
+        val exception = mockk<Exception>()
+
+        // When
+        BeagleMessageLogs.errorWhileTryingToChangeContext(exception)
+
+        // Then
+        verify(exactly = 1) {  BeagleLoggerProxy.error("Error while trying to change context.", exception) }
+    }
+
+    @Test
+    fun errorWhileTryingToNotifyContextChanges_should_call_BeagleLogger_error() {
+        // Given
+        val exception = mockk<Exception>()
+
+        // When
+        BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(exception)
+
+        // Then
+        verify(exactly = 1) {  BeagleLoggerProxy.error("Error while trying to notify context changes.", exception) }
+    }
+
+    @Test
+    fun errorWhileTryingToEvaluateBinding_should_call_BeagleLogger_error() {
+        // Given
+        val exception = mockk<Exception>()
+
+        // When
+        BeagleMessageLogs.errorWhileTryingToEvaluateBinding(exception)
+
+        // Then
+        verify(exactly = 1) {  BeagleLoggerProxy.error("Error while trying to evaluate binding.", exception) }
+    }
+
+
 }

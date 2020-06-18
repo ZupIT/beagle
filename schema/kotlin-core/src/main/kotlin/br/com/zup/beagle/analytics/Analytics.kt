@@ -23,15 +23,15 @@ interface Analytics {
     /**
      * sends the click event had in the view
      */
-    fun sendClickEvent(event: ClickEvent)
+    fun trackEventOnClick(event: ClickEvent)
 
     /**
      * sends the event when view appear
      */
-    fun sendViewWillAppearEvent(event: ScreenEvent)
+    fun trackEventOnScreenAppeared(event: ScreenEvent)
 
     /**
      * sends the event when view disappear
      */
-    fun sendViewWillDisappearEvent(event: ScreenEvent)
+    fun trackEventOnScreenDisappeared(event: ScreenEvent)
 }
