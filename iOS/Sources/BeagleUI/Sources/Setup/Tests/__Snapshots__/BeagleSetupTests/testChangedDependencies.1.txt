@@ -16,7 +16,8 @@
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
     - logger: BeagleLoggerDefault
-  - navigation: BeagleNavigator
+  ▿ navigation: BeagleNavigator
+    - defaultAnimation: Optional<BeagleNavigatorAnimation>.none
   - navigationControllerType: BeagleNavigationController
   - networkClient: NetworkClientDummy
   ▿ opener: URLOpenerDumb

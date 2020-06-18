@@ -190,6 +190,8 @@ final class AppThemeDummy: Theme {
 }
 
 class BeagleNavigationDummy: BeagleNavigation {
+    var defaultAnimation: BeagleNavigatorAnimation?
+    
     func navigate(action: Navigate, controller: BeagleController, animated: Bool) {
     }
 }
