@@ -26,6 +26,6 @@ sealed class Bind<T> : BindAttribute<T>, Serializable {
     companion object {
         fun <T> expressionOf(expression: String) = Expression<T>(expression)
         fun <T : Any> valueOf(value: T) = Value(value)
-        fun <T : Any> valueOfNullable(value: T?) = value?.let { Value(it) }
+        fun <T : Any> valueOfNullable(value: T?) = value?.let { valueOf(it) }
     }
 }
