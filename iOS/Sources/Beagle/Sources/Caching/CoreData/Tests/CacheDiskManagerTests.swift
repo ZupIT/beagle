@@ -189,5 +189,5 @@ class CacheDiskManagerTests: XCTestCase {
 }
 
 struct CacheDiskManagerDependencies: DefaultCacheDiskManager.Dependencies {
-    var logger: BeagleLoggerType = BeagleLogger()
+    var logger: BeagleLoggerType = BeagleLoggerDefault()
 }

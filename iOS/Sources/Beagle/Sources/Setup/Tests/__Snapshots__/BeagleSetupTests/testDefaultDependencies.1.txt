@@ -59,7 +59,7 @@
       ▿ (2 elements)
         - key: "beagle:shownativedialog"
         - value: ShowNativeDialog
-    ▿ componentDecoders: 18 key/value pairs
+    ▿ componentDecoders: 17 key/value pairs
       ▿ (2 elements)
         - key: "beagle:button"
         - value: Button
@@ -100,9 +100,6 @@
         - key: "beagle:scrollview"
         - value: ScrollView
       ▿ (2 elements)
-        - key: "beagle:spacer"
-        - value: Spacer
-      ▿ (2 elements)
         - key: "beagle:tabview"
         - value: TabView
       ▿ (2 elements)
@@ -124,8 +121,12 @@
   - flex: (Function)
   ▿ formDataStoreHandler: FormDataStoreHandler
     - dataStore: 0 key/value pairs
+  - isLoggingEnabled: true
   - localFormHandler: Optional<LocalFormHandler>.none
-  - logger: BeagleLogger
+  ▿ logger: BeagleLoggerProxy
+    ▿ dependencies: InnerDependenciesResolver
+      - container: (Function)
+    - logger: BeagleLoggerDefault
   ▿ navigation: BeagleNavigator
     - defaultAnimation: Optional<BeagleNavigatorAnimation>.none
   - navigationControllerType: BeagleNavigationController

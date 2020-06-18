@@ -58,14 +58,6 @@ fun makeContainerJson() = """
     }
 """
 
-
-fun makeSpacerJson() = """
-    {
-        "_beagleComponent_": "beagle:spacer",
-        "size": 30.0
-    }
-"""
-
 fun makeButtonJson() = """
     {
         "_beagleComponent_": "beagle:button",

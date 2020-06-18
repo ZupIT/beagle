@@ -71,8 +71,6 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
             urlConnection.setRequestProperty(it.key, it.value)
         }
 
-        urlConnection.setRequestProperty("Content-Type", "application/json")
-
         addRequestMethod(urlConnection, request.method)
 
         if (request.body != null) {

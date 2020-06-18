@@ -14,22 +14,12 @@
  * limitations under the License.
  */
 
-import UIKit
-import BeagleSchema
+package br.com.zup.beagle.android.logger
 
-extension Spacer: ServerDrivenComponent {
-    
-    public func toView(renderer: BeagleRenderer) -> UIView {
-        let view = UIView()
-        view.isUserInteractionEnabled = false
-        view.isAccessibilityElement = false
-        view.backgroundColor = .clear
+import br.com.zup.beagle.android.setup.BeagleEnvironment
 
-        let flex = Flex(size: Size(
-            width: UnitValue(value: size, type: .real),
-            height: UnitValue(value: size, type: .real)
-        ))
-        view.flex.setup(flex)
-        return view
+internal class BeagleLoggerFactory {
+    fun make(): BeagleLogger {
+        return BeagleEnvironment.beagleSdk.logger ?: BeagleLoggerDefault()
     }
 }

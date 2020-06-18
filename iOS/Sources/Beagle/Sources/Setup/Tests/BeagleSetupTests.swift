@@ -42,7 +42,6 @@ final class BeagleSetupTests: XCTestCase {
         dep.flex = { _ in return FlexViewConfiguratorDummy() }
         dep.decoder = ComponentDecodingDummy()
         dep.cacheManager = nil
-        dep.logger = BeagleLoggerDumb()
         dep.windowManager = WindowManagerDumb()
         dep.opener = URLOpenerDumb()
 
@@ -147,6 +146,7 @@ struct ActionDummy: Action, Equatable {
 }
 
 struct BeagleScreenDependencies: BeagleDependenciesProtocol {
+    var isLoggingEnabled: Bool = true
     var analytics: Analytics?
     var repository: Repository = RepositoryStub()
     var theme: Theme = AppThemeDummy()
