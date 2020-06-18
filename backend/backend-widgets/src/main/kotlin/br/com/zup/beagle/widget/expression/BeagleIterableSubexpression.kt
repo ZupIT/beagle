@@ -14,29 +14,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.compiler
+package br.com.zup.beagle.expression
 
-import com.squareup.kotlinpoet.asTypeName
+import br.com.zup.beagle.expression.ExpressionHelper.Companion.access
 
-const val KAPT_KEY = "kapt.kotlin.generated"
-const val GET = "get"
-const val INTERNAL_MARKER = '$'
-
-val GETTER = Regex("$GET(?!Class).*")
-
-val JAVA_TO_KOTLIN = arrayOf(
-    Any::class,
-    Boolean::class,
-    Byte::class,
-    Char::class,
-    Int::class,
-    Long::class,
-    Float::class,
-    Double::class,
-    String::class,
-    Iterable::class,
-    Collection::class,
-    List::class,
-    Set::class,
-    Map::class
-).associate { it.javaObjectType.asTypeName() to it.asTypeName() }
+class BeagleIterableSubexpression<T, out N>(
+    private val expression: ExpressionHelper<out Iterable<T>>,
+    private val createNext: (ExpressionHelper<T>) -> N
+) {
+    operator fun get(index: Int) = this.createNext(this.expression.access(index))
+}

@@ -16,27 +16,12 @@
 
 package br.com.zup.beagle.compiler
 
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.asTypeName
+import javax.lang.model.type.TypeMirror
+import javax.lang.model.util.Types
 
-const val KAPT_KEY = "kapt.kotlin.generated"
-const val GET = "get"
-const val INTERNAL_MARKER = '$'
+internal val TypeMirror.suffixedClassName get() = ClassName.bestGuess("$this$INTERNAL_SUFFIX")
 
-val GETTER = Regex("$GET(?!Class).*")
-
-val JAVA_TO_KOTLIN = arrayOf(
-    Any::class,
-    Boolean::class,
-    Byte::class,
-    Char::class,
-    Int::class,
-    Long::class,
-    Float::class,
-    Double::class,
-    String::class,
-    Iterable::class,
-    Collection::class,
-    List::class,
-    Set::class,
-    Map::class
-).associate { it.javaObjectType.asTypeName() to it.asTypeName() }
+internal fun Types.isLeaf(type: TypeMirror) =
+    type.kind.isPrimitive || type.asTypeName() in LEAF_TYPES || this.isSubtype(type, Enum::class)

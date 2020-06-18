@@ -14,20 +14,16 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.context
+package br.com.zup.beagle.expression
 
-import br.com.zup.beagle.core.BindAttribute
-import br.com.zup.beagle.expression.ExpressionHelper
-import java.io.Serializable
+import org.junit.jupiter.api.Test
 
-sealed class Bind<T> : BindAttribute<T>, Serializable {
-    data class Expression<T>(override val value: String): Bind<T>() {
-        constructor(expression: ExpressionHelper<T>) : this(expression.representation)
-    }
-    data class Value<T: Any>(override val value: T): Bind<T>()
-
-    companion object {
-        inline fun <reified T> expressionOf(expression: String) = Expression<T>(expression)
-        inline fun <reified T : Any> valueOf(value: T) = Value(value)
+internal class MultiOriginContextTest {
+    @Test
+    fun test_generated_expressions() {
+        checkExpression(MultiOriginContext_.first.b, "@{first.b}", Double::class)
+        checkExpression(MultiOriginContext_.second.c, "@{second.c}", Long::class)
+        checkExpression(MultiOriginContext_.first.target.a, "@{first.target.a}", Int::class)
+        checkExpression(MultiOriginContext_.second.target.a, "@{second.target.a}", Int::class)
     }
 }

@@ -20,6 +20,7 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterSpec
+import com.squareup.kotlinpoet.ParameterizedTypeName
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.STAR
@@ -27,6 +28,8 @@ import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.WildcardTypeName
 import com.squareup.kotlinpoet.asTypeName
 import org.jetbrains.annotations.Nullable
+import java.io.File
+import javax.annotation.processing.ProcessingEnvironment
 import javax.lang.model.AnnotatedConstruct
 import javax.lang.model.element.Element
 import javax.lang.model.element.ElementKind
@@ -38,11 +41,14 @@ import javax.lang.model.type.TypeMirror
 import javax.lang.model.type.WildcardType
 import javax.lang.model.util.Elements
 import javax.lang.model.util.Types
+import kotlin.reflect.KClass
 
 private val TypeName.kotlin: TypeName get() = JAVA_TO_KOTLIN[this] ?: this
 
+val ProcessingEnvironment.kaptGeneratedDirectory: File get() = File(this.options[KAPT_KEY]!!)
 val AnnotatedConstruct.isMarkedNullable: Boolean get() = this.getAnnotation(Nullable::class.java) != null
 val ExecutableElement.isOverride: Boolean get() = this.getAnnotation(Override::class.java) != null
+val TypeMirror.elementType: TypeMirror get() = if (this is DeclaredType) this.typeArguments[0] else this
 
 val ExecutableElement.fieldName: String
     get() = this.simpleName.toString()
@@ -52,11 +58,33 @@ val ExecutableElement.fieldName: String
 
 val TypeElement.visibleGetters: List<ExecutableElement>
     get() = this.enclosedElements.filter { it.kind.isField }.map { it.simpleName.toString() }.toSet().let { names ->
-        this.enclosedElements
-            .filter { it.kind == ElementKind.METHOD && GET in it.simpleName && Modifier.PUBLIC in it.modifiers }
-            .filterIsInstance<ExecutableElement>()
-            .filter { it.fieldName in names }
+        this.enclosedElements.filterVisibleGetters { GET in it.simpleName }.filter { it.fieldName in names }
     }
+
+fun Element.getNameWith(suffix: String): String = "${this.simpleName}$suffix"
+
+fun Types.isIterable(type: TypeMirror): Boolean = this.isSubtype(type, Iterable::class)
+
+fun Elements.getPackageAsString(element: Element): String = this.getPackageOf(element).toString()
+
+fun ClassName.specialize(vararg names: TypeName): ParameterizedTypeName = this.parameterizedBy(names.map { it.kotlin })
+
+fun Elements.getVisibleGetters(element: TypeElement): List<ExecutableElement> =
+    this.getAllMembers(element).filterVisibleGetters { GETTER matches it.simpleName }
+
+fun Types.isSubtype(type: TypeMirror, superType: KClass<*>): Boolean =
+    this.isSubtype(type, superType.java.asTypeName().toString())
+
+fun FunSpec.Companion.constructorFrom(parameters: List<ParameterSpec>): FunSpec =
+    this.constructorBuilder().addParameters(parameters).build()
+
+tailrec fun Types.getFinalElementType(type: TypeMirror): TypeMirror =
+    if (this.isIterable(type)) this.getFinalElementType(type.elementType) else type
+
+fun PropertySpec.Companion.from(parameter: ParameterSpec, needsOverride: Boolean = false): PropertySpec =
+    this.builder(parameter.name, parameter.type).initializer(parameter.name)
+        .let { if (needsOverride) it.addModifiers(KModifier.OVERRIDE) else it }
+        .build()
 
 fun Types.isSubtype(type: TypeMirror, superTypeName: String): Boolean =
     when (this.erasure(type).asTypeName().toString()) {
@@ -64,16 +92,6 @@ fun Types.isSubtype(type: TypeMirror, superTypeName: String): Boolean =
         superTypeName -> true
         else -> this.directSupertypes(type).any { this.isSubtype(it, superTypeName) }
     }
-
-fun Elements.getPackageAsString(element: Element): String = this.getPackageOf(element).toString()
-
-fun FunSpec.Companion.constructorFrom(parameters: List<ParameterSpec>) =
-    this.constructorBuilder().addParameters(parameters).build()
-
-fun PropertySpec.Companion.from(parameter: ParameterSpec, needsOverride: Boolean = false) =
-    this.builder(parameter.name, parameter.type).initializer(parameter.name)
-        .let { if (needsOverride) it.addModifiers(KModifier.OVERRIDE) else it }
-        .build()
 
 fun Types.getKotlinName(type: TypeMirror): TypeName = when {
     type is DeclaredType && !type.typeArguments.isNullOrEmpty() ->
@@ -86,3 +104,7 @@ fun Types.getKotlinName(type: TypeMirror): TypeName = when {
     }
     else -> type.asTypeName().kotlin
 }
+
+private fun List<Element>.filterVisibleGetters(isGetterByName: (Element) -> Boolean): List<ExecutableElement> =
+    this.filter { it.kind == ElementKind.METHOD && isGetterByName(it) && Modifier.PUBLIC in it.modifiers }
+        .filterIsInstance<ExecutableElement>()

@@ -14,20 +14,14 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.context
+package br.com.zup.beagle.expression
 
-import br.com.zup.beagle.core.BindAttribute
-import br.com.zup.beagle.expression.ExpressionHelper
-import java.io.Serializable
+import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
-sealed class Bind<T> : BindAttribute<T>, Serializable {
-    data class Expression<T>(override val value: String): Bind<T>() {
-        constructor(expression: ExpressionHelper<T>) : this(expression.representation)
-    }
-    data class Value<T: Any>(override val value: T): Bind<T>()
-
-    companion object {
-        inline fun <reified T> expressionOf(expression: String) = Expression<T>(expression)
-        inline fun <reified T : Any> valueOf(value: T) = Value(value)
+internal class BasicContextTest {
+    @Test
+    fun test_generated_expressions() {
+        checkExpression(BasicContext_.name, "@{name}", String::class)
     }
 }

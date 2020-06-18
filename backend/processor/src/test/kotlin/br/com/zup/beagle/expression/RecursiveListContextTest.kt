@@ -14,20 +14,22 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.context
+package br.com.zup.beagle.expression
 
-import br.com.zup.beagle.core.BindAttribute
-import br.com.zup.beagle.expression.ExpressionHelper
-import java.io.Serializable
+import org.junit.jupiter.api.Test
+import kotlin.random.Random
 
-sealed class Bind<T> : BindAttribute<T>, Serializable {
-    data class Expression<T>(override val value: String): Bind<T>() {
-        constructor(expression: ExpressionHelper<T>) : this(expression.representation)
-    }
-    data class Value<T: Any>(override val value: T): Bind<T>()
-
-    companion object {
-        inline fun <reified T> expressionOf(expression: String) = Expression<T>(expression)
-        inline fun <reified T : Any> valueOf(value: T) = Value(value)
+class RecursiveListContextTest {
+    @Test
+    fun test_generated_expressions() {
+        Random.nextInt().also {
+            checkExpression(RecursiveListContext_.done, "@{done}", Boolean::class)
+            checkExpression(RecursiveListContext_.contexts[it].done, "@{contexts[$it].done}", Boolean::class)
+            checkExpression(
+                RecursiveListContext_.contexts[it].contexts[it].done,
+                "@{contexts[$it].contexts[$it].done}",
+                Boolean::class
+            )
+        }
     }
 }
