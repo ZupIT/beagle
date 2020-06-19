@@ -31,9 +31,5 @@ import br.com.zup.beagle.widget.context.Bind
 data class WebView(
     val url: Bind<String>
 ) : Widget() {
-    constructor(
-        url: String
-    ) : this(
-        Bind.valueOf(url)
-    )
+    constructor(url: String) : this(Bind.valueOf(url))
 }
