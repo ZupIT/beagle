@@ -23,7 +23,6 @@ public protocol TextComponents: ServerDrivenComponent { }
 public protocol TextComponentHeader: ServerDrivenComponent { }
 public protocol ActionDummy: Action { }
 
-
 // MARK: - Dummy Impl
 struct TextComponentHeaderDefault: TextComponentHeader {
     func toView(renderer: BeagleRenderer) -> UIView {
