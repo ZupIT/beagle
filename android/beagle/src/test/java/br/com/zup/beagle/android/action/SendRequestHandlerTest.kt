@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.context.ContextActionExecutor
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.extensions.once
@@ -65,7 +66,7 @@ class SendRequestHandlerTest {
                 .get(ActionRequestViewModel::class.java)
         } returns viewModel
 
-        every { contextActionExecutorMock.executeAction(any(), any(), any(), any()) } just Runs
+        every { contextActionExecutorMock.executeActions(any(), any(), any(), any(), any()) } just Runs
     }
 
     @Test
@@ -86,8 +87,8 @@ class SendRequestHandlerTest {
 
         // Then
         verifyOrder {
-            contextActionExecutor.executeAction(rootView, onFinishAction, "onFinish")
-            contextActionExecutor.executeAction(rootView, onSuccessAction, "onSuccess", any())
+            contextActionExecutorMock.executeActions(rootView, requestAction, listOf(onFinishAction), "onFinish")
+            contextActionExecutorMock.executeActions(rootView, requestAction, listOf(onSuccessAction), "onSuccess", any())
         }
     }
 
@@ -109,8 +110,8 @@ class SendRequestHandlerTest {
 
         // Then
         verifyOrder {
-            contextActionExecutor.executeAction(rootView, onFinishAction, "onFinish", null)
-            contextActionExecutor.executeAction(rootView, onErrorAction, "onError", any())
+            contextActionExecutorMock.executeActions(rootView, requestAction, listOf(onFinishAction), "onFinish", null)
+            contextActionExecutorMock.executeActions(rootView, requestAction, listOf(onErrorAction), "onError", any())
         }
     }
 
@@ -130,7 +131,7 @@ class SendRequestHandlerTest {
         observerSlot.captured.onChanged(result)
 
         // Then
-        verify(exactly = once()) { contextActionExecutorMock.executeAction(rootView, any(), "onFinish") }
+        verify(exactly = once()) { contextActionExecutorMock.executeActions(rootView, requestAction, any(), "onFinish") }
     }
 
     @Test
@@ -147,7 +148,7 @@ class SendRequestHandlerTest {
         observerSlot.captured.onChanged(result)
 
         // Then
-        verify(exactly = 0) { contextActionExecutor.executeAction(any(), any(), any(), any()) }
+        verify(exactly = 0) { contextActionExecutorMock.executeActions(any(), any(), any(), any()) }
     }
 
 
@@ -166,7 +167,7 @@ class SendRequestHandlerTest {
         observerSlot.captured.onChanged(result)
 
         // Then
-        verify(exactly = once()) { contextActionExecutor.executeAction(rootView, onFinishAction, "onFinish") }
+        verify(exactly = once()) { contextActionExecutorMock.executeActions(rootView, requestAction, listOf(onFinishAction), "onFinish") }
     }
 
     @Test
@@ -184,6 +185,6 @@ class SendRequestHandlerTest {
         observerSlot.captured.onChanged(result)
 
         // Then
-        verify(exactly = once()) { contextActionExecutor.executeAction(rootView, onFinishAction, "onFinish") }
+        verify(exactly = once()) { contextActionExecutorMock.executeActions(rootView, requestAction, listOf(onFinishAction), "onFinish") }
     }
 }

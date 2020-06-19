@@ -20,6 +20,7 @@ import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.jsonpath.JsonPathReplacer
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.BeagleConstants
+import br.com.zup.beagle.android.utils.getContextId
 import br.com.zup.beagle.android.utils.getExpressions
 
 internal data class ContextBinding(
@@ -47,8 +48,8 @@ internal class ContextDataManager(
     }
 
     fun addBindingToContext(binding: Bind.Expression<*>) {
-        binding.value.getExpressions().forEach { bindingValue ->
-            val contextId = bindingValue.split(".")[0]
+        binding.value.getExpressions().forEach { expression ->
+            val contextId = expression.getContextId()
             contexts[contextId]?.bindings?.add(binding)
         }
     }
@@ -71,11 +72,16 @@ internal class ContextDataManager(
     }
 
     fun evaluateBinding(bind: Bind.Expression<*>): Any? {
-        val contextId = bind.getContextId()
+        val expressions = bind.value.getExpressions()
 
-        return contexts[contextId]?.let {
-            return contextDataEvaluation.evaluateBindExpression(it.context, bind)
+        expressions.forEach { expression ->
+            val contextId = expression.getContextId()
+            return contexts[contextId]?.let {
+                return contextDataEvaluation.evaluateBindExpression(it.context, bind)
+            }
         }
+
+        return null
     }
 
     private fun evaluateContext(contextId: String) {
@@ -113,10 +119,4 @@ internal class ContextDataManager(
             }
         }
     }
-
-    private fun Bind.Expression<*>.getContextId(): String =
-        valueInExpression().split(".")[0]
-
-    private fun Bind.Expression<*>.valueInExpression(): String =
-        BeagleConstants.EXPRESSION_REGEX.find(this.value)?.groups?.get(1)?.value ?: ""
 }

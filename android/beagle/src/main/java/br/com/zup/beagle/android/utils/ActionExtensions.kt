@@ -17,8 +17,11 @@
 package br.com.zup.beagle.android.utils
 
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.context.ContextActionExecutor
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
+
+internal var contextActionExecutor = ContextActionExecutor()
 
 fun Action.handleEvent(
     rootView: RootView,

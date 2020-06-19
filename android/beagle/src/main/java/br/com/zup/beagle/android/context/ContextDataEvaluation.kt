@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.context
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import br.com.zup.beagle.android.utils.getContextId
 import br.com.zup.beagle.android.utils.getExpressions
 import com.squareup.moshi.Moshi
 import org.json.JSONArray
@@ -36,10 +37,18 @@ internal class ContextDataEvaluation(
         val expressions = bind.value.getExpressions()
 
         return if (bind.type == String::class.java) {
+            expressions.forEach { expression ->
+                if (expression.getContextId() == contextData.id) {
+                    val value = evaluateExpression(contextData, bind.type, expression)
+                    if (value != null) {
+                        bind.evaluatedExpressions[expression] = value
+                    }
+                }
+            }
             var text = bind.value
-            expressions.forEach {
-                val value = evaluateExpression(contextData, bind.type, it)
-                text = text.replace("@\\{$it\\}".toRegex(), value.toString())
+            bind.evaluatedExpressions.forEach {
+                val expressionKey = it.key
+                text = text.replace("@\\{$expressionKey\\}".toRegex(), it.value.toString())
             }
             text
         } else {

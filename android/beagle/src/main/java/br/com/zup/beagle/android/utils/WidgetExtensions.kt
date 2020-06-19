@@ -24,11 +24,11 @@ import br.com.zup.beagle.android.context.ContextActionExecutor
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 internal var viewFactory = ViewFactory()
-internal var contextActionExecutor = ContextActionExecutor()
 
 fun ServerDrivenComponent.toView(context: Context) = this.toView(context as AppCompatActivity)
 
@@ -36,7 +36,9 @@ fun ServerDrivenComponent.toView(activity: AppCompatActivity) = this.toView(Acti
 
 fun ServerDrivenComponent.toView(fragment: Fragment) = this.toView(FragmentRootView(fragment))
 
-internal fun ServerDrivenComponent.toView(rootView: RootView): View =
-    viewFactory.makeBeagleFlexView(rootView.getContext()).apply {
+internal fun ServerDrivenComponent.toView(rootView: RootView): View {
+    return viewFactory.makeBeagleFlexView(rootView.getContext()).apply {
         addServerDrivenComponent(this@toView, rootView)
+        rootView.generateViewModelInstance<ScreenContextViewModel>().contextDataManager.evaluateAllContext()
     }
+}
