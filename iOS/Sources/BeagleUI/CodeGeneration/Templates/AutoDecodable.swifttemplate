@@ -15,6 +15,45 @@
 */
 <%
 
+extension Variable {
+	
+	static var beagleProtocolTypes = ["Action", "ServerDrivenComponent", "[ServerDrivenComponent]", rawComponent, "[\(rawComponent)]", "RawAction", "[RawAction]"]
+	
+	var rawUppercasedVariableName: String {
+		"raw" + name.prefix(1).uppercased() + name.dropFirst()
+	}
+
+	func inheritsFromAnyCoreBeagleProtocolType() -> String? {
+		if let variableType = self.type {
+    		return hasTypeIn(type?.inheritedTypes)
+    	} else if let typeInArray = typeName.array?.elementType?.inheritedTypes {
+    		if let foundType = hasTypeIn(typeInArray) {
+    			return "[" + foundType + "]"
+    		}
+    		return nil 
+    	} else if Variable.beagleProtocolTypes.contains(unwrappedTypeName) {
+    		return unwrappedTypeName
+    	} else {
+    		return nil
+    	}
+	}
+
+	func hasTypeIn(_ array: [String]?) -> String? {
+		guard let array = array else { return nil }
+		for arrayElement in array {
+			for beagleProtocolType in Variable.beagleProtocolTypes {
+				if arrayElement == beagleProtocolType {
+					return beagleProtocolType
+				}
+			}
+		}
+		return nil
+	}
+}
+
+let rawComponent = "RawComponent"
+var identation: String { "    " }
+
 func capitalizedName(for variable: Variable) -> String {
     return "\(String(variable.name.first!).capitalized)\(String(variable.name.dropFirst()))"
 }
@@ -39,13 +78,9 @@ func customEncodingMethod(for variable: Variable, of type: Type) -> SourceryMeth
 }
 
 func needsCustomBeagleDecoding(_ variable: Variable) -> Bool {
-    return variable.unwrappedTypeName == "Action"
-        || variable.unwrappedTypeName == "ServerDrivenComponent"
-        || variable.unwrappedTypeName == "[ServerDrivenComponent]"
-        || variable.unwrappedTypeName == "RawComponent"
-        || variable.unwrappedTypeName == "[RawComponent]"
+    let isCoreBeagleProtocolType = Variable.beagleProtocolTypes.contains(variable.unwrappedTypeName)
         || variable.unwrappedTypeName == "RawAction"
-        || variable.unwrappedTypeName == "[RawAction]"
+    return isCoreBeagleProtocolType || variable.inheritsFromAnyCoreBeagleProtocolType() != nil
 }
 
 func codingKeysFor(_ type: Type) -> (generated: [String], all: [String]) {
@@ -124,6 +159,51 @@ func containerDeclaration(generatedCodingKeys: [String]) -> String {
     } else {
         return "let container = try decoder.container(keyedBy: CodingKeys.self)\n"
     }
+}
+
+func returnVariableName(_ variable: Variable) -> String {
+    if let beagleProtocol = variable.inheritsFromAnyCoreBeagleProtocolType(), variable.unwrappedTypeName != beagleProtocol {
+        var optionalFlag = variable.isOptional ? "?" : ""
+        return "let \(variable.rawUppercasedVariableName): \(beagleProtocol)" + optionalFlag
+    }
+    return variable.name
+}
+
+func makeDecoding(_ variable: Variable) -> String {
+    guard variable.name != "widgetProperties" || variable.typeName.name != "WidgetProperties" else {
+        return "WidgetProperties(from: decoder)"
+    }
+
+    var line = "container.decode"
+        + (variable.isOptional ? "IfPresent" : "")
+
+    let type = !needsCustomBeagleDecoding(variable) ? "\(variable.unwrappedTypeName).self, " : ""
+    line += "(\(type)forKey: .\(variable.name))"
+
+    if let beagleProtocol = variable.inheritsFromAnyCoreBeagleProtocolType(), variable.unwrappedTypeName != beagleProtocol {
+        line += handleCustomProtocolWrappedCases(variable)
+    }
+
+    return line
+}
+
+func handleCustomProtocolWrappedCases(_ variable: Variable) -> String {
+	var aux = "aux"
+
+	if variable.isOptional {
+		return "\n" + identation + identation
+            + variable.name + " = \(variable.rawUppercasedVariableName) as? \(variable.unwrappedTypeName)"
+	} else {
+		var line = ""
+		line += "\n" + identation + identation + "if let " + aux + " = \(variable.rawUppercasedVariableName) as? \(variable.unwrappedTypeName) { \n "
+		line += identation + identation + identation + variable.name + " = "  + aux + "\n"
+		line += identation + identation + "} else {\n"
+		line += identation + identation + identation + "throw ComponentDecodingError.couldNotCastToType(\"" + variable.unwrappedTypeName + "\")\n" 
+		line += identation + identation + "}"
+
+		return line
+	}
+	
 }
 
 -%>
@@ -234,14 +314,11 @@ extension <%= type.name %> {
         <%_ let customMethod = customDecodingMethod(for: variable, of: type) -%>
         <%_ let shouldTry = customMethod?.throws == true || customMethod == nil -%>
         <%_ let shouldWrapTry = shouldTry && defaultValue != nil -%>
-        <%= variable.name %> = <% if shouldWrapTry { %>(try? <% } else if shouldTry { %>try <% } -%>
+        <%= returnVariableName(variable) %> = <% if shouldWrapTry { %>(try? <% } else if shouldTry { %>try <% } -%>
         <%_ if let customMethod = customMethod { -%>
         <%_ _%><%= type.name %>.<%= customMethod.callName _%>(from:<%_ if customMethod.parameters.first?.name == "decoder" { _%>decoder<%_ } else { _%>container<%_ } _%>)<%_ -%>
         <%_ } else { -%>
-        <%_ if variable.name == "widgetProperties" { _%>WidgetProperties(from: decoder)<%_ } -%>
-        <%_ else { -%>
-        <%_ _%>container.decode<%_ if variable.isOptional { _%>IfPresent<% } _%>(<%_if !needsCustomBeagleDecoding(variable){_%> <%= variable.unwrappedTypeName _%>.self,<%_ } -%> forKey: .<%= variable.name _%>)<%_ -%>
-        <%_ } -%>
+        <%_= makeDecoding(variable) -%>
         <%_ %><% if shouldWrapTry { %>)<% } -%>
         <%_ if let defaultValue = defaultValue { %> ?? <%= type.name %>.<%= defaultValue.name -%><%_ } %>
         <%_ } -%>

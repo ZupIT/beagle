@@ -14,14 +14,30 @@
  * limitations under the License.
  */
 
-import BeagleSchema
+import Foundation
+import UIKit
+import BeagleUI
 
-public protocol Action: RawAction {
-    func execute(controller: BeagleController, sender: Any)
+// MARK: - Protocols
+public protocol TextComponents: ServerDrivenComponent { }
+public protocol TextComponentHeader: ServerDrivenComponent { }
+public protocol ActionDummy: Action { }
+
+// MARK: - Dummy Impl
+struct TextComponentHeaderDefault: TextComponentHeader {
+    func toView(renderer: BeagleRenderer) -> UIView {
+        return UIView()
+    }
 }
 
-extension UnknownAction: Action {
-    public func execute(controller: BeagleController, sender: Any) {
-        controller.dependencies.logger.log(Log.decode(.decodingError(type: "error trying to execute unknown action")))
+struct TextComponentsDefault: TextComponents {
+    func toView(renderer: BeagleRenderer) -> UIView {
+        return UIView()
+    }
+}
+
+struct ActionDummyDefault: ActionDummy {
+    func execute(controller: BeagleController, sender: Any) {
+        
     }
 }

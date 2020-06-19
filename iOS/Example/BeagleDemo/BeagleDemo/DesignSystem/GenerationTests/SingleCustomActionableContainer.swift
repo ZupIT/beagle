@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,22 +15,27 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.ui
+import Foundation
+import UIKit
+import BeagleSchema
+import BeagleUI
 
-import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.context.Bind
+public struct SingleCustomActionableContainer: ServerDrivenComponent, AutoInitiableAndDecodable {
 
-/**
- * A WebView widget will define a WebView natively using the server driven information received through Beagle.
- *
- * @param url
- *              define the initial page that the WebView will load when presented .
- *              This attribute must be declared and it cannot be null.
- *
- */
+    public let child: ServerDrivenComponent
+    public let action: Action
 
-data class WebView(
-    val url: Bind<String>
-) : Widget() {
-    constructor(url: String) : this(Bind.valueOf(url))
+    public func toView(renderer: BeagleRenderer) -> UIView {
+        return UIView()
+    }
+
+// sourcery:inline:auto:SingleCustomActionableContainer.Init
+    public init(
+        child: ServerDrivenComponent,
+        action: Action
+    ) {
+        self.child = child
+        self.action = action
+    }
+// sourcery:end
 }

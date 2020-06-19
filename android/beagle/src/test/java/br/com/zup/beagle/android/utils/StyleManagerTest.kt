@@ -29,42 +29,46 @@ import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Container
-import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.android.components.utils.applyViewBackgroundAndCorner
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
-import io.mockk.MockKAnnotations
+import br.com.zup.beagle.core.StyleComponent
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
-import io.mockk.mockkObject
-import io.mockk.unmockkObject
+import io.mockk.mockkStatic
+import io.mockk.unmockkStatic
 import io.mockk.verify
-import org.junit.After
-import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class StyleManagerTest: BaseTest() {
+class StyleManagerTest : BaseTest() {
 
     @InjectMockKs
     private lateinit var styleManager: StyleManager
 
     @RelaxedMockK
     private lateinit var view: View
+
     @RelaxedMockK
     private lateinit var typedArray: TypedArray
+
     @RelaxedMockK
     private lateinit var context: Context
+
     @RelaxedMockK
-    private lateinit var serverDrivenComponent: ServerDrivenComponent
+    private lateinit var serverDrivenComponent: StyleComponent
+
     @RelaxedMockK
     private lateinit var designSystem: DesignSystem
+
     @RelaxedMockK
     private lateinit var colorDrawable: ColorDrawable
+
     @RelaxedMockK
     private lateinit var drawable: Drawable
+
     @RelaxedMockK
     private lateinit var typedValue: TypedValue
 
@@ -72,11 +76,16 @@ class StyleManagerTest: BaseTest() {
 
     override fun setUp() {
         super.setUp()
-
+        mockkStatic("br.com.zup.beagle.android.components.utils.ViewExtensionsKt")
         every { beagleSdk.designSystem } returns mockk()
         every { view.background } returns mockk()
         every { designSystem.textStyle(any()) } returns textAppearanceInt
         every { context.obtainStyledAttributes(any<Int>(), any()) } returns mockk()
+    }
+
+    override fun tearDown() {
+        super.tearDown()
+        unmockkStatic("br.com.zup.beagle.android.components.utils.ViewExtensionsKt")
     }
 
     @Test
@@ -86,14 +95,14 @@ class StyleManagerTest: BaseTest() {
         every { view.background } returns null
 
         //When
-        val actual = styleManager.getBackgroundColor(
+        styleManager.applyStyleComponent(
             context,
             serverDrivenComponent,
             view
         )
 
         //Then
-        assertEquals(expected, actual)
+        verify(exactly = once()) { view.applyViewBackgroundAndCorner(expected, serverDrivenComponent) }
     }
 
     @Test
@@ -105,14 +114,14 @@ class StyleManagerTest: BaseTest() {
         every { colorDrawable.color } returns Color.WHITE
 
         //When
-        val actual = styleManager.getBackgroundColor(
+        styleManager.applyStyleComponent(
             context,
             serverDrivenComponent,
             view
         )
 
-        //
-        assertEquals(Color.WHITE, actual)
+        //Then
+        verify(exactly = once()) { view.applyViewBackgroundAndCorner(Color.WHITE, serverDrivenComponent) }
     }
 
     @Test
@@ -123,14 +132,14 @@ class StyleManagerTest: BaseTest() {
         every { typedArray.getDrawable(R.styleable.BackgroundStyle_background) } returns drawable
 
         //When
-        val actual = styleManager.getBackgroundColor(
+        styleManager.applyStyleComponent(
             context,
             serverDrivenComponent,
             view
         )
 
         //Then
-        assertEquals(null, actual)
+        verify(exactly = once()) { view.applyViewBackgroundAndCorner(null, serverDrivenComponent) }
     }
 
     @Test
@@ -142,14 +151,14 @@ class StyleManagerTest: BaseTest() {
         every { colorDrawable.color } returns Color.WHITE
 
         //When
-        val actual = styleManager.getBackgroundColor(
+        styleManager.applyStyleComponent(
             context,
             serverDrivenComponent,
             view
         )
 
         //Then
-        assertEquals(Color.WHITE, actual)
+        verify(exactly = once()) { view.applyViewBackgroundAndCorner(Color.WHITE, serverDrivenComponent) }
     }
 
     @Test
@@ -160,14 +169,14 @@ class StyleManagerTest: BaseTest() {
         every { typedArray.getDrawable(R.styleable.BackgroundStyle_background) } returns drawable
 
         //When
-        val actual = styleManager.getBackgroundColor(
+        styleManager.applyStyleComponent(
             context,
             serverDrivenComponent,
             view
         )
 
         //Then
-        assertEquals(null, actual)
+        verify(exactly = once()) { view.applyViewBackgroundAndCorner(null, serverDrivenComponent) }
     }
 
     @Test
@@ -178,14 +187,14 @@ class StyleManagerTest: BaseTest() {
         every { view.background } returns colorDrawable
 
         //When
-        val actual = styleManager.getBackgroundColor(
+        styleManager.applyStyleComponent(
             context,
             serverDrivenComponent,
             view
         )
 
         //Then
-        assertEquals(Color.BLACK, actual)
+        verify(exactly = once()) { view.applyViewBackgroundAndCorner(Color.BLACK, serverDrivenComponent) }
     }
 
     @Test
@@ -195,14 +204,14 @@ class StyleManagerTest: BaseTest() {
         every { view.background } returns drawable
 
         //When
-        val actual = styleManager.getBackgroundColor(
+        styleManager.applyStyleComponent(
             context,
             serverDrivenComponent,
             view
         )
 
         //Then
-        assertEquals(null, actual)
+        verify(exactly = once()) { view.applyViewBackgroundAndCorner(null, serverDrivenComponent) }
     }
 
     @Test
