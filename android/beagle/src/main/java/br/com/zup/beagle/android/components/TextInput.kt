@@ -20,8 +20,10 @@ import android.text.InputType
 import android.view.View
 import android.widget.EditText
 import androidx.core.widget.TextViewCompat
+import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.R
-import br.com.zup.beagle.action.Action
+import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
@@ -40,17 +42,52 @@ data class TextInput(
     val hidden: Boolean? = null,
     val styleId: String? = null,
     val onChange: List<Action>? = null,
-    val onBlur: List<Action>? = null,
-    val onFocus: List<Action>? = null
+    val onFocus: List<Action>? = null,
+    val onBlur: List<Action>? = null
 ) : WidgetView() {
 
     @Transient
     private val viewFactory = ViewFactory()
 
-    override fun buildView(rootView: RootView): View {
-        val editText = viewFactory.makeInputText(rootView.getContext())
-        editText.setData(this)
-        return editText
+    override fun buildView(rootView: RootView): View = viewFactory.makeInputText(rootView.getContext()).apply {
+        setData(this@TextInput)
+        onChange?.let { setUpOnTextChange(rootView, it) }
+        if (onFocus != null || onBlur != null) setUpOnFocusChange(rootView)
+    }
+
+    private fun EditText.setUpOnTextChange(rootView: RootView, onChange: List<Action>) {
+        doOnTextChanged { newText, _, _, _ ->
+            this@TextInput.handleEvent(
+                rootView,
+                onChange,
+                "onChange",
+                newText.toString()
+            )
+        }
+    }
+
+    private fun EditText.setUpOnFocusChange(rootView: RootView) {
+        this.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                onFocus?.let {
+                    this@TextInput.handleEvent(
+                        rootView,
+                        onFocus,
+                        "onFocus",
+                        this.text.toString()
+                    )
+                }
+            } else {
+                onBlur?.let {
+                    this@TextInput.handleEvent(
+                        rootView,
+                        onBlur,
+                        "onBlur",
+                        this.text.toString()
+                    )
+                }
+            }
+        }
     }
 
     private fun EditText.setData(textInput: TextInput) {
@@ -58,31 +95,30 @@ data class TextInput(
         textInput.value?.let { this.setText(it) }
         textInput.readOnly?.let { this.isEnabled = !it }
         textInput.disabled?.let { this.isEnabled = !it }
-        textInput.type?.let { this.setInputType(it) }
         textInput.hidden?.let { this.visibility = if (it) View.INVISIBLE else View.VISIBLE }
         textInput.styleId?.let { this.setStyle(it) }
-    }
-}
-
-private fun EditText.setInputType(textInputType: TextInputType) {
-    this.inputType = when (textInputType) {
-        DATE -> InputType.TYPE_CLASS_DATETIME
-        EMAIL -> InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
-        PASSWORD -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-        NUMBER -> InputType.TYPE_CLASS_NUMBER
-        else -> InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
-    }
-}
-
-
-private fun EditText.setStyle(styleId: String) {
-    val typedArray = styleManagerFactory.getInputTextTypedArray(context, styleId)
-    typedArray?.let { typedItems ->
-        typedItems.getDrawable(R.styleable.BeagleInputTextStyle_background)?.let { background = it }
-        typedItems.recycle()
+        textInput.type?.let { this.setInputType(it) }
     }
 
-    styleManagerFactory.getInputTextStyle(styleId)?.let {
-        TextViewCompat.setTextAppearance(this, it)
+    private fun EditText.setInputType(textInputType: TextInputType) {
+        this.inputType = when (textInputType) {
+            DATE -> InputType.TYPE_CLASS_DATETIME
+            EMAIL -> InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+            PASSWORD -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            NUMBER -> InputType.TYPE_CLASS_NUMBER
+            else -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+        }
+    }
+
+    private fun EditText.setStyle(styleId: String) {
+        val typedArray = styleManagerFactory.getInputTextTypedArray(context, styleId)
+        typedArray?.let { typedItems ->
+            typedItems.getDrawable(R.styleable.BeagleInputTextStyle_background)?.let { background = it }
+            typedItems.recycle()
+        }
+
+        styleManagerFactory.getInputTextStyle(styleId)?.let {
+            TextViewCompat.setTextAppearance(this, it)
+        }
     }
 }

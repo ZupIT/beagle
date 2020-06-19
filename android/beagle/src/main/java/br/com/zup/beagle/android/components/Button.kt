@@ -32,7 +32,7 @@ import br.com.zup.beagle.android.widget.WidgetView
 data class Button(
     val text: String,
     val styleId: String? = null,
-    val onPress: List<Action>? = null,
+val onPress: List<Action>? = null,
     val clickAnalyticsEvent: ClickEvent? = null
 ) : WidgetView() {
 

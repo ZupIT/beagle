@@ -21,6 +21,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import br.com.zup.beagle.android.action.Alert
 import br.com.zup.beagle.android.action.FormMethodType
 import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.components.Button
@@ -33,6 +34,7 @@ import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.sample.widgets.MutableText
 import br.com.zup.beagle.sample.widgets.TextField
 import br.com.zup.beagle.widget.core.AlignSelf
@@ -71,8 +73,7 @@ class DisabledFormSubmitFragment : Fragment() {
                     makeCharadeText(charade),
                     makeCharadeAnswer(),
                     makeCharadeAnswerInput(charade),
-                    makeCharadeFormSubmit(),
-                    makeTextInputTest()
+                    makeCharadeFormSubmit()
                 )
             ),
             onSubmit = listOf(FormRemoteAction(
@@ -81,16 +82,6 @@ class DisabledFormSubmitFragment : Fragment() {
             ))
         )
     }
-
-    private fun makeTextInputTest(): TextInput =
-        TextInput(
-            placeholder = "Hint Test",
-            disabled = false,
-            readOnly = true,
-            type = TextInputType.TEXT,
-            hidden = false,
-            styleId = "TextInput"
-        )
 
     private fun makeCharadeFormSubmit(): ServerDrivenComponent {
         return FormSubmit(

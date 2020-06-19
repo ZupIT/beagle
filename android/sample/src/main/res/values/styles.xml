@@ -92,8 +92,8 @@
     </style>
 
     <style name="TextInput">
-        <item name="android:textColor">@color/colorWhite</item>
-        <item name="android:textSize">28sp</item>
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textColorHint">@color/colorGreen</item>
     </style>
 
