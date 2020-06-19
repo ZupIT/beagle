@@ -120,7 +120,11 @@ data class TextInput(
         textInput.value?.let { bind -> bind.get(rootView) { this.setText(it) } }
         textInput.readOnly?.let { bind -> bind.get(rootView) { this.isEnabled = !it } }
         textInput.disabled?.let { bind -> bind.get(rootView) { this.isEnabled = !it } }
-        textInput.hidden?.let { bind -> bind.get(rootView) { this.visibility = if (it) View.INVISIBLE else View.VISIBLE } }
+        textInput.hidden?.let { bind ->
+            bind.get(rootView) {
+                this.visibility = if (it) View.INVISIBLE else View.VISIBLE
+            }
+        }
         textInput.styleId?.let { bind -> bind.get(rootView) { this.setStyle(it) } }
         textInput.type?.let { bind -> bind.get(rootView) { this.setInputType(it) } }
     }
