@@ -46,8 +46,8 @@ class StyleManager(
             view.applyViewBackgroundAndCorner(Color.TRANSPARENT, component)
         } else when (component) {
             is Text -> {
-                if (component.styleId == null || component.styleId is Bind.Value<String>) {
-                    applyStyleId(context, (component.styleId?.value ?: ""), view, component)
+                if (component.styleId == null || component.styleId is Bind.Value) {
+                    applyStyleId(context, (component.styleId?.value ?: "") as String, view, component)
                 } else component.styleId.observes {
                     applyStyleId(context, it, view, component)
                 }
