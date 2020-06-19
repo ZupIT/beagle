@@ -30,7 +30,12 @@ import br.com.zup.beagle.widget.context.Bind
 data class TabView(
     val children: List<TabItem>,
     val styleId: Bind<String>? = null
-) : ServerDrivenComponent
+) : ServerDrivenComponent {
+    constructor(
+        children: List<TabItem>,
+        styleId: String
+    ) : this(children, Bind.valueOf(styleId))
+}
 
 /**
  * Define the view has in the tab view
