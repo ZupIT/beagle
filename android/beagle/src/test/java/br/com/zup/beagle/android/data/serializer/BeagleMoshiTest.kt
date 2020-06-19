@@ -293,7 +293,7 @@ class BeagleMoshiTest : BaseTest() {
     @Test
     fun make_should_return_moshi_to_serialize_a_TabView() {
         // Given
-        val component = TabView(children = listOf<TabItem>())
+        val component = TabView(children = listOf())
 
         // When
         val actual =
