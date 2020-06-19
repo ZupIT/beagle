@@ -36,6 +36,7 @@ import br.com.zup.beagle.android.components.Image
 import br.com.zup.beagle.android.components.TabItem
 import br.com.zup.beagle.android.components.TabView
 import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.widget.core.TextAlignment
 
 class TabViewFragment : Fragment() {
@@ -45,7 +46,7 @@ class TabViewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val declarative = TabView(
-            styleId = "DesignSystem.TabView.Custom",
+            styleId = Bind.valueOf("DesignSystem.TabView.Custom"),
             children = listOf(
                 buildTabView(
                     title = "Title 1",

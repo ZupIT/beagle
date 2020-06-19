@@ -94,23 +94,25 @@ data class TabView(
     }
 
     private fun TabLayout.setData(rootView: RootView) {
+        var bindString: String? = null
         styleId?.get(rootView) { bind ->
-            val typedArray = styleManagerFactory.getTabBarTypedArray(context, bind)
-            typedArray?.let {
-                setTabTextColors(
-                    it.getColor(R.styleable.BeagleTabBarStyle_tabTextColor, Color.BLACK),
-                    it.getColor(R.styleable.BeagleTabBarStyle_tabSelectedTextColor, Color.GRAY)
+            bindString = bind
+        }
+        val typedArray = styleManagerFactory.getTabBarTypedArray(context, bindString)
+        typedArray?.let {
+            setTabTextColors(
+                it.getColor(R.styleable.BeagleTabBarStyle_tabTextColor, Color.BLACK),
+                it.getColor(R.styleable.BeagleTabBarStyle_tabSelectedTextColor, Color.GRAY)
+            )
+            setSelectedTabIndicatorColor(
+                it.getColor(
+                    R.styleable.BeagleTabBarStyle_tabIndicatorColor,
+                    styleManagerFactory.getTypedValueByResId(R.attr.colorAccent, context).data
                 )
-                setSelectedTabIndicatorColor(
-                    it.getColor(
-                        R.styleable.BeagleTabBarStyle_tabIndicatorColor,
-                        styleManagerFactory.getTypedValueByResId(R.attr.colorAccent, context).data
-                    )
-                )
-                background = it.getDrawable(R.styleable.BeagleTabBarStyle_tabBackground)
-                tabIconTint = it.getColorStateList(R.styleable.BeagleTabBarStyle_tabIconTint)
-                it.recycle()
-            }
+            )
+            background = it.getDrawable(R.styleable.BeagleTabBarStyle_tabBackground)
+            tabIconTint = it.getColorStateList(R.styleable.BeagleTabBarStyle_tabIconTint)
+            it.recycle()
         }
     }
 
