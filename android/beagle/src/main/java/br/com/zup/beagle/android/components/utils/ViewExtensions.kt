@@ -26,8 +26,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.utils.toAndroidColor
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.StyleComponent
 
 internal var viewExtensionsViewFactory = ViewFactory()
@@ -48,21 +48,23 @@ internal fun View.applyStyle(component: ServerDrivenComponent) {
             applyBackgroundColor(it)
             applyCornerRadius(it)
         } else {
-            val backgroundColor: Int? = styleManagerFactory.getBackgroundColor(
+            styleManagerFactory.applyStyleComponent(
                 context = context,
-                component = component,
+                component = it,
                 view = this
             )
-
-            if (backgroundColor != null) {
-                this.background = GradientDrawable(
-                    GradientDrawable.Orientation.TOP_BOTTOM,
-                    intArrayOf(backgroundColor, backgroundColor)
-                )
-
-                applyCornerRadius(it)
-            }
         }
+    }
+}
+
+internal fun View.applyViewBackgroundAndCorner(backgroundColor: Int?, component: StyleComponent) {
+    if (backgroundColor != null) {
+        this.background = GradientDrawable(
+            GradientDrawable.Orientation.TOP_BOTTOM,
+            intArrayOf(backgroundColor, backgroundColor)
+        )
+
+        this.applyCornerRadius(component)
     }
 }
 
