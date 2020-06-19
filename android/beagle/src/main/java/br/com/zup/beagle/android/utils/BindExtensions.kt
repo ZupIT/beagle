@@ -24,8 +24,8 @@ import br.com.zup.beagle.android.widget.RootView
 fun <T> Bind<T>.get(rootView: RootView, observes: ((value: T) -> Unit)? = null): T? {
     val value = try {
         when (this) {
-            is Bind.Expression -> evaluateExpression(rootView)
-            else -> value as T?
+            is Bind.Expression -> this.evaluateExpression(rootView)
+            else -> this.value as T?
         }
     } catch (ex: Exception) {
         BeagleMessageLogs.errorWhileTryingToEvaluateBinding(ex)
