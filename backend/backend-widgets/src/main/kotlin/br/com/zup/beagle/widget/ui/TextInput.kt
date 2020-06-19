@@ -16,19 +16,44 @@
 
 package br.com.zup.beagle.widget.ui
 
-import br.com.zup.beagle.action.Action
 import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.action.Action
+import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.core.TextInputType
 
 data class TextInput(
-    val value: String,
-    val placeholder: String,
-    val disabled: Boolean,
-    val readOnly: Boolean, // on android and iOS this attribute have the same effect as disabled
-    val type: TextInputType,
-    val hidden: Boolean,
-    val styleId: String,
+    val value: Bind<String>? = null,
+    val placeholder: Bind<String>? = null,
+    val disabled: Bind<Boolean>? = null,
+    val readOnly: Bind<Boolean>? = null,
+    val type: Bind<TextInputType>? = null,
+    val hidden: Bind<Boolean>? = null,
+    val styleId: Bind<String>? = null,
     val onChange: List<Action>? = null,
-    val onBlur: List<Action>? = null,
-    val onFocus: List<Action>? = null
-) : Widget()
+    val onFocus: List<Action>? = null,
+    val onBlur: List<Action>? = null
+) : Widget() {
+    constructor(
+        value: String? = null,
+        placeholder: String? = null,
+        disabled: Boolean? = null,
+        readOnly: Boolean? = null,
+        type: TextInputType? = null,
+        hidden: Boolean? = null,
+        styleId: String? = null,
+        onChange: List<Action>? = null,
+        onFocus: List<Action>? = null,
+        onBlur: List<Action>? = null
+    ) : this(
+        Bind.valueOfNullable(value),
+        Bind.valueOfNullable(placeholder),
+        Bind.valueOfNullable(disabled),
+        Bind.valueOfNullable(readOnly),
+        Bind.valueOfNullable(type),
+        Bind.valueOfNullable(hidden),
+        Bind.valueOfNullable(styleId),
+        onChange,
+        onFocus,
+        onBlur
+    )
+}

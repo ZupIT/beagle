@@ -20,7 +20,9 @@ import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import androidx.core.widget.TextViewCompat
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.utils.get
 import br.com.zup.beagle.android.utils.toAndroidColor
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
@@ -28,26 +30,50 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.widget.core.TextAlignment
 
 data class Text(
-    val text: String,
-    val styleId: String? = null,
-    val textColor: String? = null,
-    val alignment: TextAlignment? = null
+    val text: Bind<String>,
+    val styleId: Bind<String>? = null,
+    val textColor: Bind<String>? = null,
+    val alignment: Bind<TextAlignment>? = null
 ) : WidgetView() {
+    constructor(
+        text: String,
+        styleId: String? = null,
+        textColor: String? = null,
+        alignment: TextAlignment? = null
+    ) : this(
+        Bind.valueOf(text),
+        Bind.valueOfNullable(styleId),
+        Bind.valueOfNullable(textColor),
+        Bind.valueOfNullable(alignment)
+    )
 
     @Transient
     private val viewFactory = ViewFactory()
 
     override fun buildView(rootView: RootView): View {
         val textView = viewFactory.makeTextView(rootView.getContext())
-        textView.setTextWidget(this)
+        textView.setTextWidget(this, rootView)
         return textView
     }
 
-    private fun TextView.setTextWidget(text: Text) {
-        this.text = text.text
-        this.setStyle(text.styleId ?: "")
-        this.setTextColor(text.textColor)
-        this.setAlignment(text.alignment)
+    private fun TextView.setTextWidget(text: Text, rootView: RootView) {
+        text.text.get(rootView) {
+            this.text = it
+        }
+
+        text.styleId?.get(rootView) {
+            this.setStyle(it)
+        } ?: run {
+            this.setStyle("")
+        }
+
+        text.textColor?.get(rootView) {
+            this.setTextColor(it)
+        }
+
+        text.alignment?.get(rootView) {
+            this.setAlignment(it)
+        }
     }
 
     private fun TextView.setAlignment(alignment: TextAlignment?) {

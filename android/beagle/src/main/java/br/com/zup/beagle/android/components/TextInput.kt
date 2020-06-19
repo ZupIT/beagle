@@ -23,6 +23,8 @@ import androidx.core.widget.TextViewCompat
 import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.utils.get
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
@@ -34,23 +36,46 @@ import br.com.zup.beagle.widget.core.TextInputType.NUMBER
 import br.com.zup.beagle.widget.core.TextInputType.PASSWORD
 
 data class TextInput(
-    val value: String? = null,
-    val placeholder: String? = null,
-    val disabled: Boolean? = null,
-    val readOnly: Boolean? = null,
-    val type: TextInputType? = null,
-    val hidden: Boolean? = null,
-    val styleId: String? = null,
+    val value: Bind<String>? = null,
+    val placeholder: Bind<String>? = null,
+    val disabled: Bind<Boolean>? = null,
+    val readOnly: Bind<Boolean>? = null,
+    val type: Bind<TextInputType>? = null,
+    val hidden: Bind<Boolean>? = null,
+    val styleId: Bind<String>? = null,
     val onChange: List<Action>? = null,
     val onFocus: List<Action>? = null,
     val onBlur: List<Action>? = null
 ) : WidgetView() {
+    constructor(
+        value: String? = null,
+        placeholder: String? = null,
+        disabled: Boolean? = null,
+        readOnly: Boolean? = null,
+        type: TextInputType? = null,
+        hidden: Boolean? = null,
+        styleId: String? = null,
+        onChange: List<Action>? = null,
+        onFocus: List<Action>? = null,
+        onBlur: List<Action>? = null
+    ) : this(
+        Bind.valueOfNullable(value),
+        Bind.valueOfNullable(placeholder),
+        Bind.valueOfNullable(disabled),
+        Bind.valueOfNullable(readOnly),
+        Bind.valueOfNullable(type),
+        Bind.valueOfNullable(hidden),
+        Bind.valueOfNullable(styleId),
+        onChange,
+        onFocus,
+        onBlur
+    )
 
     @Transient
     private val viewFactory = ViewFactory()
 
     override fun buildView(rootView: RootView): View = viewFactory.makeInputText(rootView.getContext()).apply {
-        setData(this@TextInput)
+        setData(this@TextInput, rootView)
         onChange?.let { setUpOnTextChange(rootView, it) }
         if (onFocus != null || onBlur != null) setUpOnFocusChange(rootView)
     }
@@ -90,14 +115,14 @@ data class TextInput(
         }
     }
 
-    private fun EditText.setData(textInput: TextInput) {
-        textInput.placeholder?.let { this.hint = it }
-        textInput.value?.let { this.setText(it) }
-        textInput.readOnly?.let { this.isEnabled = !it }
-        textInput.disabled?.let { this.isEnabled = !it }
-        textInput.hidden?.let { this.visibility = if (it) View.INVISIBLE else View.VISIBLE }
-        textInput.styleId?.let { this.setStyle(it) }
-        textInput.type?.let { this.setInputType(it) }
+    private fun EditText.setData(textInput: TextInput, rootView: RootView) {
+        textInput.placeholder?.let { bind -> bind.get(rootView) { this.hint = it } }
+        textInput.value?.let { bind -> bind.get(rootView) { this.setText(it) } }
+        textInput.readOnly?.let { bind -> bind.get(rootView) { this.isEnabled = !it } }
+        textInput.disabled?.let { bind -> bind.get(rootView) { this.isEnabled = !it } }
+        textInput.hidden?.let { bind -> bind.get(rootView) { this.visibility = if (it) View.INVISIBLE else View.VISIBLE } }
+        textInput.styleId?.let { bind -> bind.get(rootView) { this.setStyle(it) } }
+        textInput.type?.let { bind -> bind.get(rootView) { this.setInputType(it) } }
     }
 
     private fun EditText.setInputType(textInputType: TextInputType) {
