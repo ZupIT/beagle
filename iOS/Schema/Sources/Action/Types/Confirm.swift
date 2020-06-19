@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -16,22 +17,31 @@
 
 import Foundation
 
-/// Action to represent a native alert
-public struct ShowNativeDialog: RawAction, AutoInitiable {
+/// Action that represents confirm
+public struct Confirm: RawAction, AutoInitiableAndDecodable {
     
-    public let title: String
-    public let message: Expression<String>
-    public let buttonText: String
+    public let title: String?
+    public let message: String
+    public let onPressOk: RawAction?
+    public let onPressCancel: RawAction?
+    public let labelOk: String?
+    public let labelCancel: String?
 
-// sourcery:inline:auto:ShowNativeDialog.Init
+// sourcery:inline:auto:Confirm.Init
     public init(
-        title: String,
-        message: Expression<String>,
-        buttonText: String
+        title: String? = nil,
+        message: String,
+        onPressOk: RawAction? = nil,
+        onPressCancel: RawAction? = nil,
+        labelOk: String? = nil,
+        labelCancel: String? = nil
     ) {
         self.title = title
         self.message = message
-        self.buttonText = buttonText
+        self.onPressOk = onPressOk
+        self.onPressCancel = onPressCancel
+        self.labelOk = labelOk
+        self.labelCancel = labelCancel
     }
 // sourcery:end
 }

@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,19 +15,19 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.layout
+import UIKit
+import BeagleSchema
 
-import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.pager.PageIndicatorComponent
-
-/**
- *  The PageView component is a specialized container to hold pages (views) that will be displayed horizontally.
- *
- * @param children define a List of components (views) that are contained on this PageView. Consider the
- * @param pageIndicator defines in what page the PageView is currently on.
- *
- */
-data class PageView(
-    val children: List<ServerDrivenComponent>,
-    val pageIndicator: PageIndicatorComponent? = null
-) : ServerDrivenComponent
+extension Alert: Action {
+    public func execute(controller: BeagleController, sender: Any) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        if let onPressOk = onPressOk {
+            let alertAction = UIAlertAction(title: labelOk, style: .default) { _ in
+                controller.execute(action: onPressOk, sender: self)
+            }
+            alert.addAction(alertAction)
+        }
+        controller.present(alert, animated: true)
+    }
+    
+}

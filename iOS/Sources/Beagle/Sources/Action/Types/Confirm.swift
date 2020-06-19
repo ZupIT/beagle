@@ -18,11 +18,21 @@
 import UIKit
 import BeagleSchema
 
-extension ShowNativeDialog: Action {
+extension Confirm: Action {
     public func execute(controller: BeagleController, sender: Any) {
-        guard let view = sender as? UIView else { return }
-        let alert = UIAlertController(title: title, message: message.get(with: view), preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: buttonText, style: .default))
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        if let onPressOk = onPressOk {
+            let alertAction = UIAlertAction(title: labelOk, style: .default) { _ in
+                controller.execute(action: onPressOk, sender: self)
+            }
+            alert.addAction(alertAction)
+        }
+        if let onPressOk = onPressCancel {
+            let alertAction = UIAlertAction(title: labelCancel, style: .default) { _ in
+                controller.execute(action: onPressOk, sender: self)
+            }
+            alert.addAction(alertAction)
+        }
         controller.present(alert, animated: true)
     }
 }

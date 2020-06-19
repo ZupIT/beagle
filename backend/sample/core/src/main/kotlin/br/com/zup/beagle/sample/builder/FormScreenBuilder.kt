@@ -16,6 +16,9 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.widget.action.FormMethodType
+import br.com.zup.beagle.widget.action.FormRemoteAction
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
@@ -24,9 +27,6 @@ import br.com.zup.beagle.sample.constants.BUTTON_STYLE_FORM
 import br.com.zup.beagle.sample.constants.LIGHT_GREEN
 import br.com.zup.beagle.sample.constants.SUBMIT_FORM_ENDPOINT
 import br.com.zup.beagle.sample.widget.SampleTextField
-import br.com.zup.beagle.widget.action.FormMethodType
-import br.com.zup.beagle.widget.action.FormRemoteAction
-import br.com.zup.beagle.widget.action.ShowNativeDialog
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ScrollAxis
@@ -52,10 +52,10 @@ object FormScreenBuilder : ScreenBuilder {
                 NavigationBarItem(
                     text = "",
                     image = "informationImage",
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "Form",
                         message = "A formSubmit component will define a submit handler in a form.",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 )
             )

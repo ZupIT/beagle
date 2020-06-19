@@ -38,17 +38,21 @@ let sendRequestDeclarativeScreen: Screen = {
                             "Sample-Header-2": "HeaderContent2"
                         ],
                         onSuccess: [
-                            ShowNativeDialog(
+                            Alert(
                                 title: "Success!",
-                                message: "@{onSuccess.data.json}",
-                                buttonText: "ok"
+                                message: "Sucess sending Request",
+                                onPressOk: OkAction(),
+                                labelOk: "OK"
                             )
                         ],
                         onError: [
-                            ShowNativeDialog(
+                            Confirm(
                                 title: "Error!",
                                 message: "error sending request",
-                                buttonText: "ok"
+                                onPressOk: OkAction(),
+                                onPressCancel: CancelAction(),
+                                labelOk: "OK",
+                                labelCancel: "Cancel"
                             )
                         ],
                         onFinish: [
@@ -67,3 +71,16 @@ struct CustomConsoleLogAction: Action {
         print("SendRequestScreen.CustomConsoleAction")
     }
 }
+
+struct OkAction: Action {
+    func execute(controller: BeagleController, sender: Any) {
+        print("onPressOk from Alert clicked")
+    }
+}
+
+struct CancelAction: Action {
+    func execute(controller: BeagleController, sender: Any) {
+        print("onPressCancel from Confirm clicked")
+    }
+}
+

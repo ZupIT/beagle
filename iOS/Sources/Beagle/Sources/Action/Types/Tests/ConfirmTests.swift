@@ -17,22 +17,28 @@
 
 import XCTest
 import BeagleSchema
-@testable import Beagle
+@testable import BeagleUI
 
-final class ShowNativeDialogTests: XCTestCase {
+final class ConfirmTests: XCTestCase {
 
-    func test_whenShowNativeDialog_shouldPresentAlertController() {
+    func test_whenConfirmDialog_shouldPresentAlertController() {
         // Given
-        let action = ShowNativeDialog(
+        let onPressOkAction = ActionSpy()
+        let onPressCancelAction = ActionSpy()
+        
+        let confirmAction = Confirm(
             title: "Title",
             message: "Message",
-            buttonText: "Button"
+            onPressOk: onPressOkAction,
+            onPressCancel: onPressCancelAction,
+            labelOk: "Ok",
+            labelCancel: "Cancel"
         )
         let view = UIView()
         let controller = BeagleControllerNavigationSpy()
 
         // When
-        action.execute(controller: controller, sender: view)
+        confirmAction.execute(controller: controller, sender: view)
 
         // Then
         XCTAssertTrue(controller.viewControllerToPresent is UIAlertController)

@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,26 +15,28 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.action
+import XCTest
+import BeagleSchema
+@testable import Beagle
 
-import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.RootView
+final class AlertTests: XCTestCase {
 
-data class ShowNativeDialog(
-    val title: String,
-    val message: String,
-    val buttonText: String
-) : Action {
+    func test_whenAlertDialog_shouldPresentAlertController() {
+        // Given
+        let onPressOkAction = ActionSpy()
+        let alert = Alert(
+            title: "Title",
+            message: "Message",
+            onPressOk: onPressOkAction,
+            labelOk: "Ok"
+        )
+        let view = UIView()
+        let controller = BeagleControllerNavigationSpy()
 
-    @Transient
-    internal var viewFactory: ViewFactory = ViewFactory()
+        // When
+        alert.execute(controller: controller, sender: view)
 
-    override fun execute(rootView: RootView) {
-        viewFactory.makeAlertDialogBuilder(rootView.getContext())
-            .setTitle(title)
-            .setMessage(message)
-            .setPositiveButton(buttonText) { dialog, _ ->
-                dialog.dismiss()
-            }.show()
+        // Then
+        XCTAssertTrue(controller.viewControllerToPresent is UIAlertController)
     }
 }

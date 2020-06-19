@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,36 +15,27 @@
  * limitations under the License.
  */
 
-public struct TabItem: AutoInitiableAndDecodable {
+import Foundation
 
-    public let icon: String?
+/// Action to represent a alert
+public struct Alert: RawAction, AutoInitiableAndDecodable {
+    
     public let title: String?
-    public let child: RawComponent
+    public let message: String
+    public let onPressOk: RawAction?
+    public let labelOk: String?
 
-// sourcery:inline:auto:TabItem.Init
+// sourcery:inline:auto:Alert.Init
     public init(
-        icon: String? = nil,
         title: String? = nil,
-        child: RawComponent
+        message: String,
+        onPressOk: RawAction? = nil,
+        labelOk: String? = nil
     ) {
-        self.icon = icon
         self.title = title
-        self.child = child
-    }
-// sourcery:end
-}
-
-public struct TabView: RawComponent, AutoInitiable {
-    public let children: [TabItem]
-    public let styleId: String?
-
-// sourcery:inline:auto:TabView.Init
-    public init(
-        children: [TabItem],
-        styleId: String? = nil
-    ) {
-        self.children = children
-        self.styleId = styleId
+        self.message = message
+        self.onPressOk = onPressOk
+        self.labelOk = labelOk
     }
 // sourcery:end
 }

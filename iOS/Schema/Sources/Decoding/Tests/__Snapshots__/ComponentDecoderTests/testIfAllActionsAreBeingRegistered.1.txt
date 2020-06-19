@@ -1,4 +1,10 @@
-▿ 15 key/value pairs
+▿ 16 key/value pairs
+  ▿ (2 elements)
+    - key: "beagle:alert"
+    - value: Alert
+  ▿ (2 elements)
+    - key: "beagle:confirm"
+    - value: Confirm
   ▿ (2 elements)
     - key: "beagle:formlocalaction"
     - value: FormLocalAction
@@ -41,6 +47,3 @@
   ▿ (2 elements)
     - key: "beagle:setcontext"
     - value: SetContext
-  ▿ (2 elements)
-    - key: "beagle:shownativedialog"
-    - value: ShowNativeDialog

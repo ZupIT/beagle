@@ -16,15 +16,15 @@
 
 public struct PageView: RawComponent, AutoInitiable {
 
-    public let pages: [RawComponent]
+    public let children: [RawComponent]
     public let pageIndicator: PageIndicatorComponent?
 
 // sourcery:inline:auto:PageView.Init
     public init(
-        pages: [RawComponent],
+        children: [RawComponent],
         pageIndicator: PageIndicatorComponent? = nil
     ) {
-        self.pages = pages
+        self.children = children
         self.pageIndicator = pageIndicator
     }
 // sourcery:end
@@ -32,13 +32,13 @@ public struct PageView: RawComponent, AutoInitiable {
 
 extension PageView: Decodable {
     enum CodingKeys: String, CodingKey {
-        case pages
+        case children
         case pageIndicator
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.pages = try container.decode(forKey: .pages)
+        self.children = try container.decode(forKey: .children)
         let pageIndicator = try container.decodeIfPresent(AnyDecodableContainer.self, forKey: .pageIndicator)
         self.pageIndicator = (pageIndicator?.content as? PageIndicatorComponent)
     }
