@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.action
 
 import br.com.zup.beagle.android.utils.generateViewModelInstance
-import br.com.zup.beagle.android.utils.get
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.context.Bind
@@ -47,7 +46,7 @@ data class SetContext(
 
     private fun toInternalSetContext(rootView: RootView) = SetContextInternal(
         contextId = this.contextId,
-        value = this.value.get(rootView) ?: "",
+        value = evaluateBinding(rootView, this.value) ?: "",
         path = this.path
     )
 }

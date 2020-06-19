@@ -17,8 +17,48 @@
 package br.com.zup.beagle.android.view.viewmodel
 
 import androidx.lifecycle.ViewModel
+import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.ContextDataEvaluation
 import br.com.zup.beagle.android.context.ContextDataManager
 
-internal class ScreenContextViewModel : ViewModel() {
-    val contextDataManager = ContextDataManager()
+private data class ImplicitContext(
+    val context: ContextData,
+    val caller: List<Action>
+)
+
+internal class ScreenContextViewModel(
+    val contextDataManager: ContextDataManager = ContextDataManager(),
+    private val contextDataEvaluation: ContextDataEvaluation = ContextDataEvaluation()
+) : ViewModel() {
+
+    private val implicitContextData = mutableMapOf<Any, ImplicitContext>()
+
+    // Sender is who created the implicit context
+    fun addImplicitContext(contextData: ContextData, sender: Any, actions: List<Action>) {
+        implicitContextData[sender] = ImplicitContext(
+            context = contextData,
+            caller = actions
+        )
+    }
+
+    // BindCaller is who owns the Bind Attribute
+    fun evaluateImplicitContextBinding(bindCaller: Any, bind: Bind.Expression<*>): Any? {
+        var value: Any? = null
+
+        implicitContextData.forEach { entry ->
+            entry.value.caller.forEach {
+                if (bindCaller == it) {
+                    value = contextDataEvaluation.evaluateBindExpression(entry.value.context, bind)
+                }
+            }
+        }
+
+        return value
+    }
+
+    // Sender é quem trigou pra executar a action e tem o contexto implícito
+    // Deve-se guardar o `Sender` sendo a chave junto com uma lista de actions que serão executadas e também o contexto implícito
+    // Toda vez que uma action dar um get em um `Bind`, deve-se passar a própria instância da action pra poder saber quem é o sender e o contexto que trigou essa action
 }

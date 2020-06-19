@@ -25,11 +25,11 @@ sealed class Bind<T> : BindAttribute<T> {
     private var onChange: ((value: T) -> Unit)? = null
 
 
-    fun observes(onChange: (value: T) -> Unit) {
+    internal fun observes(onChange: (value: T) -> Unit) {
         this.onChange = onChange
     }
 
-    fun notifyChange(value: Any) {
+    internal fun notifyChange(value: Any) {
         val newValue = value as T
         this.onChange?.invoke(newValue)
     }

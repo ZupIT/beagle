@@ -21,19 +21,42 @@ import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.context.Bind
 
-fun <T> Bind<T>.get(rootView: RootView, observes: ((value: T) -> Unit)? = null): T? {
+typealias Observer<T> = (value: T) -> Unit
+
+internal fun <T> Bind<T>.get(
+    rootView: RootView,
+    observes: Observer<T>? = null
+): T? {
+    return evaluateBind(rootView, this, null, observes)
+}
+
+internal fun <T> Bind<T>.getWithCaller(
+    rootView: RootView,
+    caller: Any,
+    observes: Observer<T>? = null
+): T? {
+    return evaluateBind(rootView, this, caller, observes)
+}
+
+private fun <T> evaluateBind(
+    rootView: RootView,
+    bind: Bind<T>,
+    caller: Any? = null,
+    observes: Observer<T>?
+): T? {
     val value = try {
-        when (this) {
-            is Bind.Expression -> evaluateExpression(rootView, this)
-            else -> this.value as T
+        when (bind) {
+            is Bind.Expression -> evaluateExpression(rootView, bind, caller)
+            else -> bind.value as? T?
         }
     } catch (ex: Exception) {
         BeagleMessageLogs.errorWhileTryingToEvaluateBinding(ex)
         null
     }
 
-    if (observes != null) {
-        this.observes(observes)
+    if (value != null && observes != null) {
+        bind.observes(observes)
+        observes(value)
     }
 
     return value
@@ -41,10 +64,14 @@ fun <T> Bind<T>.get(rootView: RootView, observes: ((value: T) -> Unit)? = null):
 
 private fun <T> evaluateExpression(
     rootView: RootView,
-    bind: Bind.Expression<T>
+    bind: Bind.Expression<T>,
+    caller: Any? = null
 ): T? {
-    return rootView.generateViewModelInstance<ScreenContextViewModel>().contextDataManager.let {
-        it.addBindingToContext(bind)
-        it.evaluateBinding(bind) as T
+    val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
+    return if (caller != null) {
+        viewModel.evaluateImplicitContextBinding(caller, bind) as? T?
+    } else {
+        viewModel.contextDataManager.addBindingToContext(bind)
+        viewModel.contextDataManager.evaluateBinding(bind) as? T?
     }
 }

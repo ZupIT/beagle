@@ -18,7 +18,6 @@ package br.com.zup.beagle.sample.widgets
 
 import android.graphics.Color
 import android.widget.TextView
-import br.com.zup.beagle.android.utils.get
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.android.context.Bind
@@ -30,7 +29,7 @@ data class Text(
 ) : WidgetView() {
     override fun buildView(rootView: RootView): TextView = TextView(rootView.getContext()).also {
         it.setTextColor(Color.BLACK)
-        it.text = this@Text.text.get(rootView) { newText ->
+        it.text = evaluateBinding(rootView, this@Text.text) { newText ->
             it.text = newText
         }
     }

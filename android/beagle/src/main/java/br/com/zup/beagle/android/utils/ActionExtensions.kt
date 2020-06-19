@@ -26,7 +26,7 @@ fun Action.handleEvent(
     eventName: String,
     eventValue: Any? = null
 ) {
-    contextActionExecutor.executeActions(rootView, actions, eventName, eventValue)
+    contextActionExecutor.executeActions(rootView, this, actions, eventName, eventValue)
 }
 
 fun Action.handleEvent(
@@ -35,7 +35,7 @@ fun Action.handleEvent(
     eventName: String,
     eventValue: Any? = null
 ) {
-    contextActionExecutor.executeAction(rootView, action, eventName, eventValue)
+    contextActionExecutor.executeActions(rootView, this, listOf(action), eventName, eventValue)
 }
 
 fun ServerDrivenComponent.handleEvent(
@@ -44,7 +44,7 @@ fun ServerDrivenComponent.handleEvent(
     eventName: String,
     eventValue: Any? = null
 ) {
-    contextActionExecutor.executeActions(rootView, actions, eventName, eventValue)
+    contextActionExecutor.executeActions(rootView, this, actions, eventName, eventValue)
 }
 
 fun ServerDrivenComponent.handleEvent(
@@ -53,5 +53,5 @@ fun ServerDrivenComponent.handleEvent(
     eventName: String,
     eventValue: Any? = null
 ) {
-    contextActionExecutor.executeAction(rootView, action, eventName, eventValue)
+    contextActionExecutor.executeActions(rootView, this, listOf(action), eventName, eventValue)
 }

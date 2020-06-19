@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.action
 
 import androidx.lifecycle.Observer
 import br.com.zup.beagle.android.utils.generateViewModelInstance
-import br.com.zup.beagle.android.utils.get
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.widget.RootView
@@ -55,8 +54,8 @@ data class SendRequest(
     ) : this(
         Bind.Value(url),
         Bind.Value(method),
-        if (headers != null) Bind.Value(headers) else headers,
-        if (data != null) Bind.Value(data) else data,
+        headers?.let { Bind.Value(it) },
+        data?.let { Bind.Value(it) },
         onSuccess,
         onError,
         onFinish
@@ -90,10 +89,10 @@ data class SendRequest(
     }
 
     private fun toSendRequestInternal(rootView: RootView) = SendRequestInternal(
-        url = this.url.get(rootView) ?: "",
-        method = this.method.get(rootView) ?: RequestActionMethod.GET,
-        headers = this.headers?.get(rootView),
-        data = this.data?.get(rootView),
+        url = evaluateBinding(rootView, this.url) ?: "",
+        method = evaluateBinding(rootView, this.method) ?: RequestActionMethod.GET,
+        headers = this.headers?.let { evaluateBinding(rootView, it) },
+        data = this.data?.let { evaluateBinding(rootView, it) },
         onSuccess = this.onSuccess,
         onError = this.onError,
         onFinish = this.onFinish
