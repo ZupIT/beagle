@@ -33,6 +33,5 @@ abstract class ComposeComponent : WidgetView() {
         }
     }
 
-
     abstract fun build(): ServerDrivenComponent
 }

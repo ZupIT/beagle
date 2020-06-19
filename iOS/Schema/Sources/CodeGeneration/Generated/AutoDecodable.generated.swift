@@ -17,6 +17,26 @@
 * limitations under the License.
 */
 
+// MARK: Alert Decodable
+extension Alert {
+
+    enum CodingKeys: String, CodingKey {
+        case title
+        case message
+        case onPressOk
+        case labelOk
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        title = try container.decodeIfPresent(String.self, forKey: .title)
+        message = try container.decode(String.self, forKey: .message)
+        onPressOk = try container.decodeIfPresent( forKey: .onPressOk)
+        labelOk = try container.decodeIfPresent(String.self, forKey: .labelOk)
+    }
+}
+
 // MARK: Button Decodable
 extension Button {
 
@@ -38,11 +58,36 @@ extension Button {
     }
 }
 
+// MARK: Confirm Decodable
+extension Confirm {
+
+    enum CodingKeys: String, CodingKey {
+        case title
+        case message
+        case onPressOk
+        case onPressCancel
+        case labelOk
+        case labelCancel
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        title = try container.decodeIfPresent(String.self, forKey: .title)
+        message = try container.decode(String.self, forKey: .message)
+        onPressOk = try container.decodeIfPresent( forKey: .onPressOk)
+        onPressCancel = try container.decodeIfPresent( forKey: .onPressCancel)
+        labelOk = try container.decodeIfPresent(String.self, forKey: .labelOk)
+        labelCancel = try container.decodeIfPresent(String.self, forKey: .labelCancel)
+    }
+}
+
 // MARK: Container Decodable
 extension Container {
 
     enum CodingKeys: String, CodingKey {
         case children
+        case _context_
     }
 
     public init(from decoder: Decoder) throws {
@@ -50,6 +95,7 @@ extension Container {
 
         children = try container.decode( forKey: .children)
         widgetProperties = try WidgetProperties(from: decoder)
+        _context_ = try container.decodeIfPresent(Context.self, forKey: ._context_)
     }
 }
 
@@ -150,14 +196,14 @@ extension LazyComponent {
 extension ListView {
 
     enum CodingKeys: String, CodingKey {
-        case rows
+        case children
         case direction
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        rows = try container.decode( forKey: .rows)
+        children = try container.decode( forKey: .children)
         direction = try container.decode(Direction.self, forKey: .direction)
     }
 }
@@ -251,7 +297,7 @@ extension TabItem {
     enum CodingKeys: String, CodingKey {
         case icon
         case title
-        case content
+        case child
     }
 
     public init(from decoder: Decoder) throws {
@@ -259,7 +305,7 @@ extension TabItem {
 
         icon = try container.decodeIfPresent(String.self, forKey: .icon)
         title = try container.decodeIfPresent(String.self, forKey: .title)
-        content = try container.decode( forKey: .content)
+        child = try container.decode( forKey: .child)
     }
 }
 
@@ -276,7 +322,7 @@ extension Text {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        text = try container.decode(String.self, forKey: .text)
+        text = try container.decode(Expression<String>.self, forKey: .text)
         styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
         alignment = try container.decodeIfPresent(Alignment.self, forKey: .alignment)
         textColor = try container.decodeIfPresent(String.self, forKey: .textColor)

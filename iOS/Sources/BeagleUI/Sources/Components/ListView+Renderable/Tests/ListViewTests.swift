@@ -33,7 +33,7 @@ final class ListViewTests: XCTestCase {
 
     func testDirectionHorizontal() throws {
         let component = ListView(
-            rows: just3Rows,
+            children: just3Rows,
             direction: .horizontal
         )
 
@@ -44,7 +44,7 @@ final class ListViewTests: XCTestCase {
 
     func testDirectionVertical() throws {
         let component = ListView(
-            rows: just3Rows,
+            children: just3Rows,
             direction: .vertical
         )
 
@@ -61,7 +61,7 @@ final class ListViewTests: XCTestCase {
 
     func testDirectionHorizontalWithManyRows() {
         let component = ListView(
-            rows: manyRows,
+            children: manyRows,
             direction: .horizontal
         )
 
@@ -72,7 +72,7 @@ final class ListViewTests: XCTestCase {
 
     func testDirectionVerticalWithManyRows() {
         let component = ListView(
-            rows: manyRows,
+            children: manyRows,
             direction: .vertical
         )
 
@@ -92,7 +92,7 @@ final class ListViewTests: XCTestCase {
 
     func testDirectionHorizontalWithManyLargeRows() {
         let component = ListView(
-            rows: manyLargeRows,
+            children: manyLargeRows,
             direction: .horizontal
         )
 
@@ -103,7 +103,7 @@ final class ListViewTests: XCTestCase {
 
     func testDirectionVerticalWithManyLargeRows() {
         let component = ListView(
-            rows: manyLargeRows,
+            children: manyLargeRows,
             direction: .vertical
         )
 
@@ -123,7 +123,7 @@ final class ListViewTests: XCTestCase {
 
     func testDirectionHorizontalWithRowsWithDifferentSizes() {
         let component = ListView(
-            rows: rowsWithDifferentSizes,
+            children: rowsWithDifferentSizes,
             direction: .horizontal
         )
 
@@ -134,7 +134,7 @@ final class ListViewTests: XCTestCase {
 
     func testDirectionVerticalWithRowsWithDifferentSizes() {
         let component = ListView(
-            rows: rowsWithDifferentSizes,
+            children: rowsWithDifferentSizes,
             direction: .vertical
         )
 
@@ -157,7 +157,7 @@ final class ListViewTests: XCTestCase {
         let background = 255 - text
         let backgroundColor = "#\(String(repeating: String(format: "%02X", background), count: 3))"
         return Text(
-            string,
+            .value(string),
             textColor: textColor,
             widgetProperties: .init(style: Style(backgroundColor: backgroundColor))
         )

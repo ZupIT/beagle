@@ -21,8 +21,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import br.com.zup.beagle.action.FormMethodType
-import br.com.zup.beagle.action.FormRemoteAction
+import br.com.zup.beagle.android.action.FormMethodType
+import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.TextInput
@@ -75,10 +75,10 @@ class DisabledFormSubmitFragment : Fragment() {
                     makeTextInputTest()
                 )
             ),
-            action = FormRemoteAction(
+            onSubmit = listOf(FormRemoteAction(
                 method = FormMethodType.POST,
                 path = "endereco/endpoint"
-            )
+            ))
         )
     }
 

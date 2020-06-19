@@ -1,4 +1,10 @@
-▿ 13 key/value pairs
+▿ 16 key/value pairs
+  ▿ (2 elements)
+    - key: "beagle:alert"
+    - value: Alert
+  ▿ (2 elements)
+    - key: "beagle:confirm"
+    - value: Confirm
   ▿ (2 elements)
     - key: "beagle:formlocalaction"
     - value: FormLocalAction
@@ -36,5 +42,8 @@
     - key: "beagle:resetstack"
     - value: Navigate
   ▿ (2 elements)
-    - key: "beagle:shownativedialog"
-    - value: ShowNativeDialog
+    - key: "beagle:sendrequest"
+    - value: SendRequest
+  ▿ (2 elements)
+    - key: "beagle:setcontext"
+    - value: SetContext

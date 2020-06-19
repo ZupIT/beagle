@@ -37,7 +37,8 @@ public protocol BeagleDependenciesProtocol: BeagleSchema.Dependencies,
     DependencyURLOpener,
     DependencyCacheManager,
     DependencyFormDataStoreHandler,
-    DependencyRenderer {
+    DependencyRenderer,
+    DependencyLoggingCondition {
 }
 
 open class BeagleDependencies: BeagleDependenciesProtocol {
@@ -56,10 +57,16 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var preFetchHelper: BeaglePrefetchHelping
     public var cacheManager: CacheManagerProtocol?
     public var formDataStoreHandler: FormDataStoreHandling
-    public var logger: BeagleLoggerType
     public var windowManager: WindowManager
     public var opener: URLOpener
-
+    public var isLoggingEnabled: Bool
+    
+    public var logger: BeagleLoggerType {
+        didSet {
+            logger = BeagleLoggerProxy(logger: logger, dependencies: self)
+        }
+    }
+    
     // MARK: BeagleSchema
 
     public var decoder: ComponentDecoding
@@ -91,7 +98,9 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.appBundle = Bundle.main
         self.theme = AppTheme(styles: [:])
         self.navigationControllerType = BeagleNavigationController.self
-        self.logger = BeagleLogger()
+        self.isLoggingEnabled = true
+        self.logger = BeagleLoggerProxy(logger: BeagleLoggerDefault(), dependencies: resolver)
+
         self.decoder = BeagleSchema.DefaultDependencies().decoder
         self.formDataStoreHandler = FormDataStoreHandler()
         self.windowManager = WindowManagerDefault()
@@ -118,15 +127,15 @@ private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     DependencyRepository,
     DependencyWindowManager,
     DependencyURLOpener,
+    DependencyLoggingCondition,
     BeagleSchema.DependencyLogger {
-    
+        
     var container: () -> BeagleDependenciesProtocol = {
         fatalError("You should set this closure to get the dependencies container")
     }
 
     var decoder: ComponentDecoding { return container().decoder }
     var schemaLogger: SchemaLogger? { return container().logger }
-
     var urlBuilder: UrlBuilderProtocol { return container().urlBuilder }
     var networkClient: NetworkClient { return container().networkClient }
     var navigationControllerType: BeagleNavigationController.Type { return container().navigationControllerType }
@@ -138,4 +147,5 @@ private class InnerDependenciesResolver: RepositoryDefault.Dependencies,
     var repository: Repository { return container().repository }
     var windowManager: WindowManager { return container().windowManager }
     var opener: URLOpener { return container().opener }
+    var isLoggingEnabled: Bool { return container().isLoggingEnabled }
 }

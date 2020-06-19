@@ -16,12 +16,15 @@
 
 package br.com.zup.beagle.android.compiler
 
-import br.com.zup.beagle.android.compiler.util.BEAGLE_CONFIG
-import br.com.zup.beagle.android.compiler.util.BEAGLE_SDK
-import br.com.zup.beagle.android.compiler.util.DEEP_LINK_HANDLER
-import br.com.zup.beagle.android.compiler.util.FORM_LOCAL_ACTION_HANDLER
-import br.com.zup.beagle.android.compiler.util.HTTP_CLIENT_HANDLER
-import br.com.zup.beagle.android.compiler.util.error
+import br.com.zup.beagle.compiler.ANDROID_ACTION
+import br.com.zup.beagle.compiler.BEAGLE_CONFIG
+import br.com.zup.beagle.compiler.BEAGLE_LOGGER
+import br.com.zup.beagle.compiler.BEAGLE_SDK
+import br.com.zup.beagle.compiler.DEEP_LINK_HANDLER
+import br.com.zup.beagle.compiler.FORM_LOCAL_ACTION_HANDLER
+import br.com.zup.beagle.compiler.HTTP_CLIENT_HANDLER
+import br.com.zup.beagle.compiler.RegisteredActionGenerator
+import br.com.zup.beagle.compiler.error
 import br.com.zup.beagle.widget.Widget
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
@@ -36,6 +39,7 @@ class BeagleSetupProcessor(
     private val processingEnv: ProcessingEnvironment,
     private val beagleSetupRegisteredWidgetGenerator: BeagleSetupRegisteredWidgetGenerator =
         BeagleSetupRegisteredWidgetGenerator(),
+    private val registeredActionGenerator: RegisteredActionGenerator = RegisteredActionGenerator(),
     private val beagleSetupPropertyGenerator: BeagleSetupPropertyGenerator =
         BeagleSetupPropertyGenerator(processingEnv)
 ) {
@@ -51,6 +55,7 @@ class BeagleSetupProcessor(
             .addModifiers(KModifier.PUBLIC, KModifier.FINAL)
             .addSuperinterface(ClassName(BEAGLE_SDK.packageName, BEAGLE_SDK.className))
             .addFunction(beagleSetupRegisteredWidgetGenerator.generate(roundEnvironment))
+            .addFunction(registeredActionGenerator.generate(roundEnvironment))
             .addProperties(beagleSetupPropertyGenerator.generate(
                 basePackageName,
                 roundEnvironment
@@ -66,8 +71,10 @@ class BeagleSetupProcessor(
             .addImport(FORM_LOCAL_ACTION_HANDLER.packageName, FORM_LOCAL_ACTION_HANDLER.className)
             .addImport(DEEP_LINK_HANDLER.packageName, DEEP_LINK_HANDLER.className)
             .addImport(HTTP_CLIENT_HANDLER.packageName, HTTP_CLIENT_HANDLER.className)
+            .addImport(BEAGLE_LOGGER.packageName, BEAGLE_LOGGER.className)
             .addImport(basePackageName, beagleConfigClassName)
             .addImport(Widget::class, "")
+            .addImport(ClassName(ANDROID_ACTION.packageName, ANDROID_ACTION.className), "")
             .addType(typeSpec)
             .build()
 

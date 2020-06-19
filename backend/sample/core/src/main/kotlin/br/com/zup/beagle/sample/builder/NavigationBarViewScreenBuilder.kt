@@ -16,12 +16,11 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.Route
-import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.widget.action.Navigate
+import br.com.zup.beagle.widget.action.Route
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.ext.setId
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_TITLE
 import br.com.zup.beagle.sample.constants.NAVIGATION_BAR_STYLE_DEFAULT
@@ -36,6 +35,7 @@ import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
+import br.com.zup.beagle.widget.layout.extensions.setId
 import br.com.zup.beagle.widget.ui.Button
 
 object NavigationBarViewScreenBuilder : ScreenBuilder {
@@ -52,10 +52,10 @@ object NavigationBarViewScreenBuilder : ScreenBuilder {
                     text = "Ajuda",
                     accessibility = Accessibility(accessibilityLabel = "Content Description"),
                     image = "informationImage",
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "NavigationBar",
                         message = "This component that allows to place titles and button action.",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 ).setId("nbiInformation")
             )
@@ -72,7 +72,7 @@ object NavigationBarViewScreenBuilder : ScreenBuilder {
 
     private fun createMenu(text: String, path: String) = Button(
         text = text,
-        action = Navigate.PushView(Route.Remote(path)),
+        onPress = listOf(Navigate.PushView(Route.Remote(path))),
         styleId = BUTTON_STYLE_TITLE
     ).applyFlex(
         flex = Flex(

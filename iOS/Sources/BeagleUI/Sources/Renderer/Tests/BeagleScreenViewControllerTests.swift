@@ -288,8 +288,12 @@ class BeagleControllerStub: BeagleController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func addBinding(_ update: @escaping () -> Void) {}
+    
     func execute(action: RawAction, sender: Any) {
         (action as? Action)?.execute(controller: self, sender: sender)
     }
+    
+    func execute(actions: [RawAction]?, with context: Context?, sender: Any) {}
     
 }

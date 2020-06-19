@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.action
 
-import br.com.zup.beagle.action.FieldError
 import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.widget.RootView
@@ -39,3 +38,8 @@ internal class FormValidation(
         }
     }
 }
+
+data class FieldError(
+    val inputName: String,
+    val message: String
+)

@@ -20,6 +20,7 @@ import br.com.zup.beagle.cache.BeagleCacheHandler
 import br.com.zup.beagle.cache.RestCacheHandler
 import br.com.zup.beagle.constants.BEAGLE_CACHE_ENABLED
 import br.com.zup.beagle.constants.BEAGLE_CACHE_INCLUDES
+import br.com.zup.beagle.platform.BeaglePlatformUtil
 import io.micronaut.context.annotation.Requirements
 import io.micronaut.context.annotation.Requires
 import io.micronaut.http.HttpRequest
@@ -41,6 +42,7 @@ class BeagleCacheFilter(private val cacheHandler: BeagleCacheHandler) : HttpServ
         this.cacheHandler.handleCache(
             endpoint = request?.path ?: "",
             receivedHash = request?.headers?.get(BeagleCacheHandler.CACHE_HEADER),
+            currentPlatform = request?.headers?.get(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER),
             initialResponse = Publisher {
                 it.onNext(HttpResponseFactory.INSTANCE.ok<Unit>())
                 it.onComplete()

@@ -18,15 +18,15 @@ public struct ListView: RawComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
     
-    public let rows: [RawComponent]
+    public let children: [RawComponent]
     public var direction: Direction = .vertical
 
 // sourcery:inline:auto:ListView.Init
     public init(
-        rows: [RawComponent],
+        children: [RawComponent],
         direction: Direction = .vertical
     ) {
-        self.rows = rows
+        self.children = children
         self.direction = direction
     }
 // sourcery:end

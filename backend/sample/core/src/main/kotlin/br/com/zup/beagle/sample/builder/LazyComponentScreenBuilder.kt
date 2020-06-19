@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.constants.PATH_LAZY_COMPONENT_ENDPOINT
 import br.com.zup.beagle.widget.core.AlignSelf
@@ -38,10 +38,10 @@ object LazyComponentScreenBuilder : ScreenBuilder {
                 NavigationBarItem(
                     text = "",
                     image = "informationImage",
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "Lazy Component",
                         message = "A widget that implements loading.",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 )
             )

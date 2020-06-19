@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.action.ShowNativeDialog
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.constants.PATH_URL_WEB_VIEW_ENDPOINT
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
@@ -35,11 +35,11 @@ object WebViewScreenBuilder: ScreenBuilder {
                 NavigationBarItem(
                     text = "",
                     image = "informationImage",
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "Web View",
                         message = "The Web View component is responsible for defining a web view natively " +
                             "using server driven information",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 )
             )

@@ -1,33 +1,36 @@
 ▿ ListView
+  ▿ children: 3 elements
+    ▿ Text
+      - alignment: Optional<Alignment>.none
+      - styleId: Optional<String>.none
+      ▿ text: Expression<String>
+        - value: "text1"
+      - textColor: Optional<String>.none
+      ▿ widgetProperties: WidgetProperties
+        - accessibility: Optional<Accessibility>.none
+        - flex: Optional<Flex>.none
+        - id: Optional<String>.none
+        - style: Optional<Style>.none
+    ▿ Text
+      - alignment: Optional<Alignment>.none
+      - styleId: Optional<String>.none
+      ▿ text: Expression<String>
+        - value: "text2"
+      - textColor: Optional<String>.none
+      ▿ widgetProperties: WidgetProperties
+        - accessibility: Optional<Accessibility>.none
+        - flex: Optional<Flex>.none
+        - id: Optional<String>.none
+        - style: Optional<Style>.none
+    ▿ Text
+      - alignment: Optional<Alignment>.none
+      - styleId: Optional<String>.none
+      ▿ text: Expression<String>
+        - value: "text3"
+      - textColor: Optional<String>.none
+      ▿ widgetProperties: WidgetProperties
+        - accessibility: Optional<Accessibility>.none
+        - flex: Optional<Flex>.none
+        - id: Optional<String>.none
+        - style: Optional<Style>.none
   - direction: Direction.vertical
-  ▿ rows: 3 elements
-    ▿ Text
-      - alignment: Optional<Alignment>.none
-      - styleId: Optional<String>.none
-      - text: "text1"
-      - textColor: Optional<String>.none
-      ▿ widgetProperties: WidgetProperties
-        - accessibility: Optional<Accessibility>.none
-        - flex: Optional<Flex>.none
-        - id: Optional<String>.none
-        - style: Optional<Style>.none
-    ▿ Text
-      - alignment: Optional<Alignment>.none
-      - styleId: Optional<String>.none
-      - text: "text2"
-      - textColor: Optional<String>.none
-      ▿ widgetProperties: WidgetProperties
-        - accessibility: Optional<Accessibility>.none
-        - flex: Optional<Flex>.none
-        - id: Optional<String>.none
-        - style: Optional<Style>.none
-    ▿ Text
-      - alignment: Optional<Alignment>.none
-      - styleId: Optional<String>.none
-      - text: "text3"
-      - textColor: Optional<String>.none
-      ▿ widgetProperties: WidgetProperties
-        - accessibility: Optional<Accessibility>.none
-        - flex: Optional<Flex>.none
-        - id: Optional<String>.none
-        - style: Optional<Style>.none
