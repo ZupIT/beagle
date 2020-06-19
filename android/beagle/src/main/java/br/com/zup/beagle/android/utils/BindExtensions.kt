@@ -20,11 +20,13 @@ import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.context.Bind
+import org.json.JSONArray
+import org.json.JSONObject
 
 fun <T> Bind<T>.get(rootView: RootView, observes: ((value: T) -> Unit)? = null): T? {
     val value = try {
         when (this) {
-            is Bind.Expression -> evaluateExpression(rootView, this)
+            is Bind.Expression -> this.evaluateExpression(rootView)
             else -> this.value as T
         }
     } catch (ex: Exception) {
@@ -32,19 +34,17 @@ fun <T> Bind<T>.get(rootView: RootView, observes: ((value: T) -> Unit)? = null):
         null
     }
 
-    if (observes != null) {
+    if (value != null && observes != null) {
         this.observes(observes)
+        observes(value)
     }
 
     return value
 }
 
-private fun <T> evaluateExpression(
-    rootView: RootView,
-    bind: Bind.Expression<T>
-): T? {
+fun <T> Bind.Expression<T>.evaluateExpression(rootView: RootView): T {
     return rootView.generateViewModelInstance<ScreenContextViewModel>().contextDataManager.let {
-        it.addBindingToContext(bind)
-        it.evaluateBinding(bind) as T
+        it.addBindingToContext(this)
+        it.evaluateBinding(this) as T
     }
 }
