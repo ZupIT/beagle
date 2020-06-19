@@ -20,6 +20,27 @@
 import BeagleSchema
 import Beagle
 
+// MARK: CustomActionableContainer Decodable
+extension CustomActionableContainer {
+
+    enum CodingKeys: String, CodingKey {
+        case child
+        case verySpecificAction
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        child = try container.decode(forKey: .child)
+        let rawVerySpecificAction: Action = try container.decode(forKey: .verySpecificAction)
+        if let aux = rawVerySpecificAction as? ActionDummy { 
+             verySpecificAction = aux
+        } else {
+            throw ComponentDecodingError.couldNotCastToType("ActionDummy")
+        }
+    }
+}
+
 // MARK: DSCollection Decodable
 extension DSCollection {
 
@@ -60,5 +81,101 @@ extension OtherComponent {
     internal init(from decoder: Decoder) throws {
         
         widgetProperties = try WidgetProperties(from: decoder)
+    }
+}
+
+// MARK: SingleCustomActionableContainer Decodable
+extension SingleCustomActionableContainer {
+
+    enum CodingKeys: String, CodingKey {
+        case child
+        case action
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        child = try container.decode(forKey: .child)
+        action = try container.decode(forKey: .action)
+    }
+}
+
+// MARK: SingleTextContainer Decodable
+extension SingleTextContainer {
+
+    enum CodingKeys: String, CodingKey {
+        case firstTextContainer
+        case secondTextContainer
+        case child
+        case actions
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        let rawFirstTextContainer: ServerDrivenComponent = try container.decode(forKey: .firstTextContainer)
+        if let aux = rawFirstTextContainer as? TextComponents { 
+             firstTextContainer = aux
+        } else {
+            throw ComponentDecodingError.couldNotCastToType("TextComponents")
+        }
+        let rawSecondTextContainer: ServerDrivenComponent? = try container.decodeIfPresent(forKey: .secondTextContainer)
+        secondTextContainer = rawSecondTextContainer as? TextComponents
+        child = try container.decode(forKey: .child)
+        let rawActions: [Action]? = try container.decodeIfPresent(forKey: .actions)
+        actions = rawActions as? [ActionDummy]
+    }
+}
+
+// MARK: TextContainer Decodable
+extension TextContainer {
+
+    enum CodingKeys: String, CodingKey {
+        case childrenOfTextContainer
+        case headerOfTextContainer
+        case actions
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        let rawChildrenOfTextContainer: [ServerDrivenComponent] = try container.decode(forKey: .childrenOfTextContainer)
+        if let aux = rawChildrenOfTextContainer as? [TextComponents] { 
+             childrenOfTextContainer = aux
+        } else {
+            throw ComponentDecodingError.couldNotCastToType("[TextComponents]")
+        }
+        let rawHeaderOfTextContainer: ServerDrivenComponent = try container.decode(forKey: .headerOfTextContainer)
+        if let aux = rawHeaderOfTextContainer as? TextComponentHeader { 
+             headerOfTextContainer = aux
+        } else {
+            throw ComponentDecodingError.couldNotCastToType("TextComponentHeader")
+        }
+        let rawActions: [Action] = try container.decode(forKey: .actions)
+        if let aux = rawActions as? [ActionDummy] { 
+             actions = aux
+        } else {
+            throw ComponentDecodingError.couldNotCastToType("[ActionDummy]")
+        }
+    }
+}
+
+// MARK: TextContainerWithAction Decodable
+extension TextContainerWithAction {
+
+    enum CodingKeys: String, CodingKey {
+        case childrenOfTextContainer
+        case action
+        case secondAction
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        let rawChildrenOfTextContainer: ServerDrivenComponent? = try container.decodeIfPresent(forKey: .childrenOfTextContainer)
+        childrenOfTextContainer = rawChildrenOfTextContainer as? TextComponents
+        action = try container.decode(forKey: .action)
+        let rawSecondAction: Action? = try container.decodeIfPresent(forKey: .secondAction)
+        secondAction = rawSecondAction as? ActionDummy
     }
 }
