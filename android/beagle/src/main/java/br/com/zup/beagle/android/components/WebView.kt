@@ -35,7 +35,6 @@ import br.com.zup.beagle.android.widget.WidgetView
 data class WebView(
     val url: Bind<String>
 ) : WidgetView() {
-
     constructor(
         url: String
     ) : this(
