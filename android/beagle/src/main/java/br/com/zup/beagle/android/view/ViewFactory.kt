@@ -21,7 +21,11 @@ package br.com.zup.beagle.android.view
 import android.content.Context
 import android.view.View
 import android.webkit.WebView
-import android.widget.*
+import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.HorizontalScrollView
+import android.widget.ScrollView
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.RecyclerView
