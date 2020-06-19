@@ -26,9 +26,9 @@ import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.ShowNativeDialog
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Image
+import br.com.zup.beagle.android.components.PathType
 import br.com.zup.beagle.android.components.LazyComponent
 import br.com.zup.beagle.android.components.ListView
-import br.com.zup.beagle.android.components.NetworkImage
 import br.com.zup.beagle.android.components.TabView
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.form.Form
@@ -167,7 +167,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_Image() {
+    fun make_should_return_moshi_to_deserialize_a_Image_Local() {
         // Given
         val json = makeImageJson()
 
@@ -183,7 +183,7 @@ class BeagleMoshiTest : BaseTest() {
     @Test
     fun make_should_return_moshi_to_serialize_a_Image() {
         // Given
-        val component = Image(RandomData.string())
+        val component = Image(PathType.Local(RandomData.string()))
 
         // When
         val actual =
@@ -204,13 +204,13 @@ class BeagleMoshiTest : BaseTest() {
 
         // Then
         assertNotNull(actual)
-        assertTrue(actual is NetworkImage)
+        assertTrue(actual is Image)
     }
 
     @Test
     fun make_should_return_moshi_to_serialize_a_NetworkImage() {
         // Given
-        val component = NetworkImage(RandomData.string())
+        val component = Image(PathType.Remote(RandomData.string()))
 
         // When
         val actual =

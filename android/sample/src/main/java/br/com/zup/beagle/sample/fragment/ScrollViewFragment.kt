@@ -21,12 +21,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import br.com.zup.beagle.android.components.Image
+import br.com.zup.beagle.android.components.PathType
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.android.utils.toView
-import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
@@ -34,9 +35,9 @@ import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.layout.ScrollView
-import br.com.zup.beagle.android.components.NetworkImage
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Screen
+import br.com.zup.beagle.ext.applyStyle
 
 class ScrollViewFragment : Fragment() {
 
@@ -61,8 +62,8 @@ class ScrollViewFragment : Fragment() {
 
     private fun buildScrollView() = ScrollView(
         children = listOf(
-            NetworkImage(
-                path = "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271"
+            Image(
+                path = PathType.Remote("https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271")
             ).applyFlex(Flex(shrink = 0.0, size = Size(width = 200.unitReal(), height = 200.unitReal())))
                 .applyStyle(Style(cornerRadius = CornerRadius(30.0))),
             Text("Text 1").applyFlex(flex),

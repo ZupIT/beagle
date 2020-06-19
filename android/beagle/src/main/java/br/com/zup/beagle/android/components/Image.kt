@@ -16,19 +16,24 @@
 
 package br.com.zup.beagle.android.components
 
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
+import br.com.zup.beagle.android.components.utils.ComponentStylization
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ImageContentMode
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 
-data class Image(
-    val name: String,
-    val contentMode: ImageContentMode? = null
-) : WidgetView() {
+data class Image(val path: PathType, val mode: ImageContentMode? = null) : WidgetView(){
 
     @Transient
     private val viewMapper: ViewMapper = ViewMapper()
@@ -36,18 +41,61 @@ data class Image(
     @Transient
     private val viewFactory = ViewFactory()
 
-    override fun buildView(rootView: RootView): View {
-        val imageView = viewFactory.makeImageView(rootView.getContext(), style?.cornerRadius?.radius ?: 0.0)
-        imageView.setData(this, viewMapper)
-        return imageView
-    }
+    @Transient
+    private val componentStylization: ComponentStylization<Image> = ComponentStylization()
+
+    override fun buildView(rootView: RootView): View =
+        when(path is PathType.Local){
+            true -> {
+                val imageView = viewFactory.makeImageView(rootView.getContext(), style?.cornerRadius?.radius ?: 0.0)
+                imageView.setData(this, viewMapper)
+                imageView
+            }
+            false ->{
+                if (flex?.size != null) {
+                    makeImageView(rootView).apply {
+                        Glide.with(this).load(path.image).into(this)
+                    }
+                } else {
+                    viewFactory.makeBeagleFlexView(rootView.getContext()).also {
+                        it.addView(makeImageView(rootView).apply {
+                            this.loadImage(it)
+                        }, flex ?: Flex())
+                    }
+                }
+            }
+        }
 
     private fun ImageView.setData(widget: Image, viewMapper: ViewMapper) {
-        val contentMode = widget.contentMode ?: ImageContentMode.FIT_CENTER
+        val contentMode = widget.mode ?: ImageContentMode.FIT_CENTER
         scaleType = viewMapper.toScaleType(contentMode)
         val designSystem = BeagleEnvironment.beagleSdk.designSystem
-        designSystem?.image(widget.name)?.let {
+        designSystem?.image(widget.path.image)?.let {
             this.setImageResource(it)
         }
     }
+
+    private fun ImageView.loadImage(beagleFlexView: BeagleFlexView) {
+        Glide.with(this).asBitmap().load(path.image).into(object : CustomTarget<Bitmap>() {
+            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                this@loadImage.setImageBitmap(resource)
+                beagleFlexView.setViewHeight(this@loadImage, resource.height)
+                componentStylization.apply(this@loadImage, this@Image)
+            }
+
+            override fun onLoadCleared(placeholder: Drawable?) {}
+        })
+    }
+
+    private fun makeImageView(rootView: RootView) =
+        viewFactory.makeImageView(rootView.getContext(),
+            style?.cornerRadius?.radius ?: 0.0).apply {
+            scaleType = viewMapper.toScaleType(mode ?: ImageContentMode.FIT_CENTER)
+        }
+
+}
+
+sealed class PathType(@Transient val image: String) {
+    data class Local(val mobileId: String) : PathType(mobileId)
+    data class Remote(val url: String) : PathType(url)
 }
