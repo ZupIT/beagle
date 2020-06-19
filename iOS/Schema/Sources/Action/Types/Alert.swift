@@ -21,14 +21,14 @@ import Foundation
 public struct Alert: RawAction, AutoInitiableAndDecodable {
     
     public let title: String?
-    public let message: String
+    public let message: Expression<String>
     public let onPressOk: RawAction?
     public let labelOk: String?
 
 // sourcery:inline:auto:Alert.Init
     public init(
         title: String? = nil,
-        message: String,
+        message: Expression<String>,
         onPressOk: RawAction? = nil,
         labelOk: String? = nil
     ) {

@@ -20,19 +20,33 @@ import BeagleSchema
 
 extension Confirm: Action {
     public func execute(controller: BeagleController, sender: Any) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+        alertController.title = title
+        
+        alertController.message = message.get(with: alertController.view, controller: controller) { messageExpression in
+            alertController.message = messageExpression
+        }
+        
         if let onPressOk = onPressOk {
-            let alertAction = UIAlertAction(title: labelOk, style: .default) { _ in
+            let onPressOkAction = UIAlertAction(title: labelOk ?? "Ok", style: .default) { _ in
                 controller.execute(action: onPressOk, sender: self)
             }
-            alert.addAction(alertAction)
+            alertController.addAction(onPressOkAction)
+        } else {
+            let labelOkAction = UIAlertAction(title: labelOk ?? "Ok", style: .default)
+            alertController.addAction(labelOkAction)
         }
-        if let onPressOk = onPressCancel {
-            let alertAction = UIAlertAction(title: labelCancel, style: .default) { _ in
-                controller.execute(action: onPressOk, sender: self)
+        
+        if let onPressCancel = onPressCancel {
+            let onPressCancelAction = UIAlertAction(title: labelCancel ?? "Cancel", style: .default) { _ in
+                controller.execute(action: onPressCancel, sender: self)
             }
-            alert.addAction(alertAction)
+            alertController.addAction(onPressCancelAction)
+        } else {
+            let labelCancelAction = UIAlertAction(title: labelCancel ?? "Cancel", style: .default)
+            alertController.addAction(labelCancelAction)
         }
-        controller.present(alert, animated: true)
+
+        controller.present(alertController, animated: true)
     }
 }
