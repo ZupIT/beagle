@@ -75,8 +75,8 @@ platform :ios do
   lane :release do
     version_bump_podspec(path: "Beagle.podspec", version_number: last_git_tag)
     version_bump_podspec(path: "BeagleSchema.podspec", version_number: last_git_tag)
-    pod_push(path: "Beagle.podspec")  
-    pod_push(path: "BeagleSchema.podspec")  
+    pod_push(path: "Beagle.podspec")
+    pod_push(path: "BeagleSchema.podspec")
   end
 
 end
