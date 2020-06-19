@@ -30,12 +30,13 @@ data class Confirm(
     val labelOk: String? = null,
     val labelCancel: String? = null
 ) : Action {
-    constructor(title: String?,
-                message: String,
-                onPressOk: Action? = null,
-                onPressCancel: Action? = null,
-                labelOk: String? = null,
-                labelCancel: String? = null) : this(
+    constructor(
+        title: String?,
+        message: String,
+        onPressOk: Action? = null,
+        onPressCancel: Action? = null,
+        labelOk: String? = null,
+        labelCancel: String? = null) : this(
         title = Bind.valueOfNullable(title),
         message = Bind.valueOf(message),
         onPressOk = onPressOk,
