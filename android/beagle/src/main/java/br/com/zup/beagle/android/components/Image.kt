@@ -54,7 +54,7 @@ data class Image(val path: PathType, val mode: ImageContentMode? = null) : Widge
             false ->{
                 if (flex?.size != null) {
                     makeImageView(rootView).apply {
-                        Glide.with(this).load(path.image).into(this)
+                        Glide.with(this).load((path as PathType.Remote).url).into(this)
                     }
                 } else {
                     viewFactory.makeBeagleFlexView(rootView.getContext()).also {
@@ -70,13 +70,13 @@ data class Image(val path: PathType, val mode: ImageContentMode? = null) : Widge
         val contentMode = widget.mode ?: ImageContentMode.FIT_CENTER
         scaleType = viewMapper.toScaleType(contentMode)
         val designSystem = BeagleEnvironment.beagleSdk.designSystem
-        designSystem?.image(widget.path.image)?.let {
+        designSystem?.image((widget.path as PathType.Local).mobileId)?.let {
             this.setImageResource(it)
         }
     }
 
     private fun ImageView.loadImage(beagleFlexView: BeagleFlexView) {
-        Glide.with(this).asBitmap().load(path.image).into(object : CustomTarget<Bitmap>() {
+        Glide.with(this).asBitmap().load((path as PathType.Remote).url).into(object : CustomTarget<Bitmap>() {
             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                 this@loadImage.setImageBitmap(resource)
                 beagleFlexView.setViewHeight(this@loadImage, resource.height)
@@ -95,7 +95,7 @@ data class Image(val path: PathType, val mode: ImageContentMode? = null) : Widge
 
 }
 
-sealed class PathType(@Transient val image: String) {
-    data class Local(val mobileId: String) : PathType(mobileId)
-    data class Remote(val url: String) : PathType(url)
+sealed class PathType() {
+    data class Local(val mobileId: String) : PathType()
+    data class Remote(val url: String) : PathType()
 }

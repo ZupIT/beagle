@@ -181,7 +181,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_serialize_a_Image() {
+    fun make_should_return_moshi_to_serialize_a_Image_Local() {
         // Given
         val component = Image(PathType.Local(RandomData.string()))
 
