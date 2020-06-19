@@ -28,7 +28,7 @@ let sendRequestDeclarativeScreen: Screen = {
             [
                 Button(
                     text: "do request",
-                    action: SendRequest(
+                    onPress: [SendRequest(
                         url: "https://httpbin.org/post",
                         method: .post,
                         data: ["@{myContext}"],
@@ -58,7 +58,7 @@ let sendRequestDeclarativeScreen: Screen = {
                         onFinish: [
                             CustomConsoleLogAction()
                         ]
-                    )
+                    )]
                 )
             ],
             context: Context(id: "myContext", value: "initial value")

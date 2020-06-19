@@ -66,8 +66,8 @@
           - style: Optional<Style>.none
       ▿ FormSubmit
         ▿ child: Button
-          - action: Optional<RawAction>.none
           - clickAnalyticsEvent: Optional<AnalyticsClick>.none
+          - onPress: Optional<Array<RawAction>>.none
           ▿ styleId: Optional<String>
             - some: "DesignSystem.Form.Submit"
           - text: "Submit Form"

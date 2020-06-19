@@ -43,7 +43,7 @@ extension Button {
     enum CodingKeys: String, CodingKey {
         case text
         case styleId
-        case action
+        case onPress
         case clickAnalyticsEvent
     }
 
@@ -52,7 +52,7 @@ extension Button {
 
         text = try container.decode(String.self, forKey: .text)
         styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
-        action = try container.decodeIfPresent(forKey: .action)
+        onPress = try container.decodeIfPresent(forKey: .onPress)
         clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
         widgetProperties = try WidgetProperties(from: decoder)
     }
