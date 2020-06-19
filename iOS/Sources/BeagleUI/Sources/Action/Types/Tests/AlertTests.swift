@@ -15,14 +15,28 @@
  * limitations under the License.
  */
 
-import UIKit
+import XCTest
 import BeagleSchema
+@testable import BeagleUI
 
-extension ShowNativeDialog: Action {
-    public func execute(controller: BeagleController, sender: Any) {
-        guard let view = sender as? UIView else { return }
-        let alert = UIAlertController(title: title, message: message.get(with: view), preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: buttonText, style: .default))
-        controller.present(alert, animated: true)
+final class AlertTests: XCTestCase {
+
+    func test_whenAlertDialog_shouldPresentAlertController() {
+        // Given
+        let onPressOkAction = ActionSpy()
+        let alert = Alert(
+            title: "Title",
+            message: "Message",
+            onPressOk: onPressOkAction,
+            labelOk: "Ok"
+        )
+        let view = UIView()
+        let controller = BeagleControllerNavigationSpy()
+
+        // When
+        alert.execute(controller: controller, sender: view)
+
+        // Then
+        XCTAssertTrue(controller.viewControllerToPresent is UIAlertController)
     }
 }

@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,26 +15,27 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.action
+import Foundation
+import UIKit
+import BeagleSchema
+import BeagleUI
 
-import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.RootView
+public struct SingleCustomActionableContainer: ServerDrivenComponent, AutoInitiableAndDecodable {
 
-data class ShowNativeDialog(
-    val title: String,
-    val message: String,
-    val buttonText: String
-) : Action {
+    public let child: ServerDrivenComponent
+    public let action: Action
 
-    @Transient
-    internal var viewFactory: ViewFactory = ViewFactory()
-
-    override fun execute(rootView: RootView) {
-        viewFactory.makeAlertDialogBuilder(rootView.getContext())
-            .setTitle(title)
-            .setMessage(message)
-            .setPositiveButton(buttonText) { dialog, _ ->
-                dialog.dismiss()
-            }.show()
+    public func toView(renderer: BeagleRenderer) -> UIView {
+        return UIView()
     }
+
+// sourcery:inline:auto:SingleCustomActionableContainer.Init
+    public init(
+        child: ServerDrivenComponent,
+        action: Action
+    ) {
+        self.child = child
+        self.action = action
+    }
+// sourcery:end
 }

@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,26 +14,30 @@
  * limitations under the License.
  */
 
-import XCTest
-import BeagleSchema
-@testable import BeagleUI
+import Foundation
+import UIKit
+import BeagleUI
 
-final class ShowNativeDialogTests: XCTestCase {
+// MARK: - Protocols
+public protocol TextComponents: ServerDrivenComponent { }
+public protocol TextComponentHeader: ServerDrivenComponent { }
+public protocol ActionDummy: Action { }
 
-    func test_whenShowNativeDialog_shouldPresentAlertController() {
-        // Given
-        let action = ShowNativeDialog(
-            title: "Title",
-            message: "Message",
-            buttonText: "Button"
-        )
-        let view = UIView()
-        let controller = BeagleControllerNavigationSpy()
+// MARK: - Dummy Impl
+struct TextComponentHeaderDefault: TextComponentHeader {
+    func toView(renderer: BeagleRenderer) -> UIView {
+        return UIView()
+    }
+}
 
-        // When
-        action.execute(controller: controller, sender: view)
+struct TextComponentsDefault: TextComponents {
+    func toView(renderer: BeagleRenderer) -> UIView {
+        return UIView()
+    }
+}
 
-        // Then
-        XCTAssertTrue(controller.viewControllerToPresent is UIAlertController)
+struct ActionDummyDefault: ActionDummy {
+    func execute(controller: BeagleController, sender: Any) {
+        
     }
 }
