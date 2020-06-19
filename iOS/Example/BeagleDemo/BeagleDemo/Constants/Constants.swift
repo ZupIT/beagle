@@ -36,6 +36,7 @@ extension String {
     static let TEXT_FORM_ENDPOINT = "https://t001-2751a.firebaseapp.com/action/shownativedialog.json"
     static let TEXT_LAZY_COMPONENTS_ENDPOINT = "http://www.mocky.io/v2/5e4e91c02f00001f2016a8f2"
     static let WEB_VIEW_ENDPOINT = "webViewComponent"
+    static let SIMPLE_FORM_ENDPOINT = "simpleFormComponent"
     
     // MARK: - URL
     static let WEB_VIEW_URL = "https://maps.google.com/"

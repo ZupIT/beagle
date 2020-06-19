@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E8E1CBB249BC5190053AD58 /* SimpleForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8E1CBA249BC5190053AD58 /* SimpleForm.swift */; };
+		6E8E1CBD249C068D0053AD58 /* SubmitForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8E1CBC249C068D0053AD58 /* SubmitForm.swift */; };
 		7685B041249A852A007EDED0 /* SendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7685B040249A852A007EDED0 /* SendRequest.swift */; };
 		935278E8249952DE00AB9D1F /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935278E7249952DE00AB9D1F /* Expression.swift */; };
 		935278EA249954F500AB9D1F /* DynamicObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935278E9249954F500AB9D1F /* DynamicObject.swift */; };
@@ -129,6 +131,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6E8E1CBA249BC5190053AD58 /* SimpleForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleForm.swift; sourceTree = "<group>"; };
+		6E8E1CBC249C068D0053AD58 /* SubmitForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitForm.swift; sourceTree = "<group>"; };
 		7685B040249A852A007EDED0 /* SendRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendRequest.swift; sourceTree = "<group>"; };
 		935278E7249952DE00AB9D1F /* Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
 		935278E9249954F500AB9D1F /* DynamicObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicObject.swift; sourceTree = "<group>"; };
@@ -279,6 +283,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6E8E1CB5249BA3B50053AD58 /* SimpleForm */ = {
+			isa = PBXGroup;
+			children = (
+				6E8E1CBA249BC5190053AD58 /* SimpleForm.swift */,
+			);
+			path = SimpleForm;
+			sourceTree = "<group>";
+		};
 		935278E62499529C00AB9D1F /* ContextExpression */ = {
 			isa = PBXGroup;
 			children = (
@@ -607,6 +619,7 @@
 			isa = PBXGroup;
 			children = (
 				C864D2A0247C240200E7A1F9 /* RawWidget.swift */,
+				6E8E1CB5249BA3B50053AD58 /* SimpleForm */,
 				C864D274247C240200E7A1F9 /* Button */,
 				C864D26B247C240200E7A1F9 /* Container */,
 				C864D261247C240200E7A1F9 /* Image */,
@@ -846,6 +859,7 @@
 				C864D281247C240200E7A1F9 /* Navigate */,
 				98E18D11249BE249009D6A54 /* Alert.swift */,
 				98E18D13249BE255009D6A54 /* Confirm.swift */,
+				6E8E1CBC249C068D0053AD58 /* SubmitForm.swift */,
 			);
 			path = Types;
 			sourceTree = "<group>";
@@ -1216,6 +1230,7 @@
 				C89E0C4A2492AFEB00005FCF /* Style.swift in Sources */,
 				C864D2C5247C240200E7A1F9 /* AnyDecodableContainer.swift in Sources */,
 				C864D2C6247C240200E7A1F9 /* NetworkImage.swift in Sources */,
+				6E8E1CBB249BC5190053AD58 /* SimpleForm.swift in Sources */,
 				C864D2E1247C240200E7A1F9 /* AnalyticsModels.swift in Sources */,
 				938B13BF2497E6A700AA8E3B /* SingleExpression.swift in Sources */,
 				C864D2B5247C240200E7A1F9 /* NavigationBar.swift in Sources */,
@@ -1246,6 +1261,7 @@
 				C864D2DD247C240200E7A1F9 /* UnitValue.swift in Sources */,
 				C8EBCC73247C3033002030CC /* ScrollView.swift in Sources */,
 				C864D2B8247C240200E7A1F9 /* ScreenComponent.swift in Sources */,
+				6E8E1CBD249C068D0053AD58 /* SubmitForm.swift in Sources */,
 				C864D2E2247C240200E7A1F9 /* Events.swift in Sources */,
 				938B13C62497EC6200AA8E3B /* Collection+Safe.swift in Sources */,
 				98E18D14249BE255009D6A54 /* Confirm.swift in Sources */,

@@ -75,6 +75,10 @@ struct MainScreen: DeeplinkScreen {
                     action: Navigate.pushView(.declarative(sendRequestDeclarativeScreen))
                 ),
                 Button(
+                    text: "Simple Form",
+                    action: Navigate.openNativeRoute(.SIMPLE_FORM_ENDPOINT)
+                ),
+                Button(
                     text: "Sample BFF",
                     action: Navigate.pushView(.remote(.COMPONENTS_ENDPOINT))
                 )

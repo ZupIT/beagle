@@ -291,6 +291,25 @@ extension ScrollView {
     }
 }
 
+// MARK: SimpleForm Decodable
+extension SimpleForm {
+
+    enum CodingKeys: String, CodingKey {
+        case _context_
+        case onSubmit
+        case children
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        _context_ = try container.decodeIfPresent(Context.self, forKey: ._context_)
+        onSubmit = try container.decodeIfPresent( forKey: .onSubmit)
+        children = try container.decode( forKey: .children)
+        widgetProperties = try WidgetProperties(from: decoder)
+    }
+}
+
 // MARK: TabItem Decodable
 extension TabItem {
 
