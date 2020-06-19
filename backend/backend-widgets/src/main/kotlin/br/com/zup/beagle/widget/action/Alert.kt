@@ -34,10 +34,12 @@ data class Alert(
     val onPressOk: Action? = null,
     val labelOk: String? = null
 ) : Action {
-    constructor(title: String?,
-                message: String,
-                onPressOk: Action? = null,
-                labelOk: String? = null) : this(
+    constructor(
+        title: String?,
+        message: String,
+        onPressOk: Action? = null,
+        labelOk: String? = null
+    ) : this(
         title = Bind.valueOfNullable(title),
         message = Bind.valueOf(message),
         onPressOk = onPressOk,
