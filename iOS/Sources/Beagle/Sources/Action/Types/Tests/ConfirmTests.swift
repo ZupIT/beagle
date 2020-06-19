@@ -17,7 +17,7 @@
 
 import XCTest
 import BeagleSchema
-@testable import BeagleUI
+@testable import Beagle
 
 final class ConfirmTests: XCTestCase {
 
