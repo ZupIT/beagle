@@ -46,7 +46,7 @@ class TabViewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val declarative = TabView(
-            styleId = Bind.valueOf("DesignSystem.TabView.Custom"),
+            styleId = "DesignSystem.TabView.Custom",
             children = listOf(
                 buildTabView(
                     title = "Title 1",
