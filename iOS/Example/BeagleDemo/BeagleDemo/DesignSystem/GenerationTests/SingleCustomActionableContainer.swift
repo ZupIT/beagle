@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,14 +15,27 @@
  * limitations under the License.
  */
 
+import Foundation
+import UIKit
 import BeagleSchema
+import BeagleUI
 
-public protocol Action: RawAction {
-    func execute(controller: BeagleController, sender: Any)
-}
+public struct SingleCustomActionableContainer: ServerDrivenComponent, AutoInitiableAndDecodable {
 
-extension UnknownAction: Action {
-    public func execute(controller: BeagleController, sender: Any) {
-        controller.dependencies.logger.log(Log.decode(.decodingError(type: "error trying to execute unknown action")))
+    public let child: ServerDrivenComponent
+    public let action: Action
+
+    public func toView(renderer: BeagleRenderer) -> UIView {
+        return UIView()
     }
+
+// sourcery:inline:auto:SingleCustomActionableContainer.Init
+    public init(
+        child: ServerDrivenComponent,
+        action: Action
+    ) {
+        self.child = child
+        self.action = action
+    }
+// sourcery:end
 }
