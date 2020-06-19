@@ -63,9 +63,7 @@ enum class FormMethodType {
 data class FormRemoteAction(
     val path: String,
     val method: FormMethodType
-) : Action {
-    override fun toString() = "FormRemoteAction: $path / ${method.name}"
-}
+) : Action
 
 /**
  * Defines form local actions, that is, that do not make http requests,

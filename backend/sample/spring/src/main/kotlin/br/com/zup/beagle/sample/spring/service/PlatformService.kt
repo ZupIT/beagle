@@ -14,13 +14,17 @@
  * limitations under the License.
  */
 
-import XCTest
-@testable import BeagleSchema
-import SnapshotTesting
+package br.com.zup.beagle.sample.spring.service
 
-final class SpacerTests: XCTestCase {
-    func test_whenDecodingJson_shouldReturnScreenWithSpacedButtons() throws {
-        let component: ScreenComponent = try componentFromJsonFile(fileName: "Spacer")
-        assertSnapshot(matching: component, as: .dump)
-    }
+import br.com.zup.beagle.spring.util.BeagleSessionUtil
+import br.com.zup.beagle.sample.builder.CustomPlatformBuilder
+import br.com.zup.beagle.sample.builder.PlatformBuilder
+import org.springframework.stereotype.Service
+
+@Service
+class PlatformService {
+
+    fun renderComponentUsingPlatform() = CustomPlatformBuilder(BeagleSessionUtil.getBeaglePlatformFromSession())
+
+    fun renderComponent() = PlatformBuilder
 }

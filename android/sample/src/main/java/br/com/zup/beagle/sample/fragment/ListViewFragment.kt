@@ -53,7 +53,7 @@ class ListViewFragment : Fragment() {
 
     private fun buildListView() = ListView(
         direction = ListDirection.HORIZONTAL,
-        rows = listOf(
+        children = listOf(
             Text("0000"),
             Text("0001").applyFlex(flex),
             Text("0002"),

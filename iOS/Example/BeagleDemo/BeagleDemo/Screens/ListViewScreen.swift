@@ -35,7 +35,7 @@ struct ListViewScreen: DeeplinkScreen {
     }
     
     var listView = ListView(
-        rows: [
+        children: [
             Touchable(action: Navigate.pushView(.remote(.NAVIGATE_ENDPOINT)), child: Text("0000")),
             Text("0001", widgetProperties: .init(flex: Flex().size(Size().width(100).height(100)))),
             Text("0002"),

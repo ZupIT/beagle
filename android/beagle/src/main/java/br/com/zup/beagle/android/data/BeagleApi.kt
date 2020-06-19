@@ -29,17 +29,25 @@ import kotlin.coroutines.resumeWithException
 internal class BeagleApi(
     private val httpClient: HttpClient = HttpClientFactory().make()
 ) {
+    companion object {
+        const val BEAGLE_PLATFORM_HEADER_KEY = "beagle-platform"
+        const val BEAGLE_PLATFORM_HEADER_VALUE = "ANDROID"
+        const val CONTENT_TYPE = "Content-Type"
+        const val APP_JSON = "application/json"
+        val FIXED_HEADERS = mapOf(CONTENT_TYPE to APP_JSON, BEAGLE_PLATFORM_HEADER_KEY to BEAGLE_PLATFORM_HEADER_VALUE)
+    }
 
     @Throws(BeagleApiException::class)
     suspend fun fetchData(request: RequestData): ResponseData = suspendCancellableCoroutine { cont ->
-        BeagleMessageLogs.logHttpRequestData(request)
+        val transformedRequest = request.let { it.copy(headers = it.headers + FIXED_HEADERS) }
+        BeagleMessageLogs.logHttpRequestData(transformedRequest)
         val call = httpClient.execute(
-            request = request,
+            request = transformedRequest,
             onSuccess = { response ->
                 BeagleMessageLogs.logHttpResponseData(response)
                 cont.resume(response)
             }, onError = { response ->
-            val exception = BeagleApiException(response, genericErrorMessage(request.uri.toString()))
+            val exception = BeagleApiException(response, genericErrorMessage(transformedRequest.uri.toString()))
 
             BeagleMessageLogs.logUnknownHttpError(exception)
             cont.resumeWithException(

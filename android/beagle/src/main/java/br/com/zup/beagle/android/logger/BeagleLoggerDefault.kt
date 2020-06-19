@@ -14,16 +14,28 @@
  * limitations under the License.
  */
 
-public struct Spacer: RawComponent {
-    
-    // MARK: - Public Properties
-    
-    public let size: Double
-    
-    // MARK: - Initialization
-    
-    public init(_ size: Double) {
-        self.size = size
+package br.com.zup.beagle.android.logger
+
+import android.util.Log
+
+private const val BEAGLE_TAG = "BeagleSDK"
+
+internal class BeagleLoggerDefault : BeagleLogger {
+
+    override fun warning(message: String) {
+        Log.w(BEAGLE_TAG, message)
     }
-    
+
+    override fun error(message: String) {
+        Log.e(BEAGLE_TAG, message)
+    }
+
+    override fun error(message: String, throwable: Throwable) {
+        Log.e(BEAGLE_TAG, message, throwable)
+    }
+
+    override fun info(message: String) {
+        Log.i(BEAGLE_TAG, message)
+    }
+
 }
