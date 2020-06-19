@@ -103,7 +103,7 @@ extension Container {
 extension Form {
 
     enum CodingKeys: String, CodingKey {
-        case action
+        case onSubmit
         case child
         case group
         case additionalData
@@ -113,7 +113,7 @@ extension Form {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        action = try container.decode(forKey: .action)
+        onSubmit = try container.decodeIfPresent(forKey: .onSubmit)
         child = try container.decode(forKey: .child)
         group = try container.decodeIfPresent(String.self, forKey: .group)
         additionalData = try container.decodeIfPresent([String: String].self, forKey: .additionalData)

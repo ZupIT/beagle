@@ -1,7 +1,4 @@
 ▿ Form
-  ▿ action: FormRemoteAction
-    - method: Method.post
-    - path: "/sample/form"
   ▿ additionalData: Optional<Dictionary<String, String>>
     ▿ some: 2 key/value pairs
       ▿ (2 elements)
@@ -146,4 +143,9 @@
           - cornerRadius: Optional<CornerRadius>.none
   ▿ group: Optional<String>
     - some: "group"
+  ▿ onSubmit: Optional<Array<RawAction>>
+    ▿ some: 1 element
+      ▿ FormRemoteAction
+        - method: Method.post
+        - path: "/sample/form"
   - shouldStoreFields: true
