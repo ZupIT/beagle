@@ -3,6 +3,7 @@ package br.com.zup.beagle.android.components.layout
 import br.com.zup.beagle.analytics.ScreenAnalytics
 import br.com.zup.beagle.analytics.ScreenEvent
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.components.PathType
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -17,7 +18,7 @@ data class SafeArea(
 
 data class NavigationBarItem(
     val text: String,
-    val image: String? = null,
+    val image: PathType.Local? = null,
     val action: Action,
     val accessibility: Accessibility? = null
 ) : IdentifierComponent {
