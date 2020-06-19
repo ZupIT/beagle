@@ -17,7 +17,7 @@
 package br.com.zup.beagle.compiler
 
 import br.com.zup.beagle.widget.context.Bind
-import br.com.zup.beagle.widget.expression.BeagleIterableSubexpression
+import br.com.zup.beagle.widget.expression.BeagleIterableSubExpression
 import br.com.zup.beagle.widget.expression.ExpressionHelper
 import com.squareup.kotlinpoet.asTypeName
 
@@ -30,7 +30,7 @@ internal const val ITERABLE_PARAM = "it"
 
 internal val EXPRESSION = ExpressionHelper::class.asTypeName()
 internal val START = ExpressionHelper.Start::class.asTypeName()
-internal val LIST_SUBEXPRESSION = BeagleIterableSubexpression::class.asTypeName()
+internal val LIST_SUBEXPRESSION = BeagleIterableSubExpression::class.asTypeName()
 internal val BIND = Bind::class.asTypeName()
 internal val BIND_EXPRESSION = Bind.Expression::class.asTypeName()
 
