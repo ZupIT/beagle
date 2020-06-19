@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,19 +15,27 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.micronaut.service
+import Foundation
 
-import br.com.zup.beagle.widget.action.Alert
-import br.com.zup.beagle.sample.builder.FormScreenBuilder
-import javax.inject.Singleton
+/// Action to represent a alert
+public struct Alert: RawAction, AutoInitiableAndDecodable {
+    
+    public let title: String?
+    public let message: String
+    public let onPressOk: RawAction?
+    public let labelOk: String?
 
-@Singleton
-class SampleFormService {
-    fun createFormView() = FormScreenBuilder
-
-    fun submitForm(body: Map<String, String>) = Alert(
-        title = "Success!",
-        message = body.entries.joinToString(separator = "\n") { "${it.key}: ${it.value}" },
-        labelOk = "OK"
-    )
+// sourcery:inline:auto:Alert.Init
+    public init(
+        title: String? = nil,
+        message: String,
+        onPressOk: RawAction? = nil,
+        labelOk: String? = nil
+    ) {
+        self.title = title
+        self.message = message
+        self.onPressOk = onPressOk
+        self.labelOk = labelOk
+    }
+// sourcery:end
 }

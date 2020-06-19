@@ -14,26 +14,21 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.action
+package br.com.zup.beagle.widget.action
 
-import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.RootView
 
-data class ShowNativeDialog(
-    val title: String,
+/**
+ * will show dialogues natively, such as an error alert indicating alternative flows, business system errors and others.
+ *
+ * @param title defines the title on the Dialog.
+ * @param message defines the Dialog message.
+ * @param labelOk define text of button positive in dialog.
+ * @param onPressOk define action of button positive in dialog.
+ *
+ */
+data class Alert(
+    val title: String?,
     val message: String,
-    val buttonText: String
-) : Action {
-
-    @Transient
-    internal var viewFactory: ViewFactory = ViewFactory()
-
-    override fun execute(rootView: RootView) {
-        viewFactory.makeAlertDialogBuilder(rootView.getContext())
-            .setTitle(title)
-            .setMessage(message)
-            .setPositiveButton(buttonText) { dialog, _ ->
-                dialog.dismiss()
-            }.show()
-    }
-}
+    val onPressOk: Action? = null,
+    val labelOk: String? = null
+) : Action

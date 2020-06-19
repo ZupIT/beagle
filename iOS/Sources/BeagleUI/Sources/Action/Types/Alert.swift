@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,19 +15,19 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.micronaut.service
+import UIKit
+import BeagleSchema
 
-import br.com.zup.beagle.widget.action.Alert
-import br.com.zup.beagle.sample.builder.FormScreenBuilder
-import javax.inject.Singleton
-
-@Singleton
-class SampleFormService {
-    fun createFormView() = FormScreenBuilder
-
-    fun submitForm(body: Map<String, String>) = Alert(
-        title = "Success!",
-        message = body.entries.joinToString(separator = "\n") { "${it.key}: ${it.value}" },
-        labelOk = "OK"
-    )
+extension Alert: Action {
+    public func execute(controller: BeagleController, sender: Any) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        if let onPressOk = onPressOk {
+            let alertAction = UIAlertAction(title: labelOk, style: .default) { _ in
+                controller.execute(action: onPressOk, sender: self)
+            }
+            alert.addAction(alertAction)
+        }
+        controller.present(alert, animated: true)
+    }
+    
 }

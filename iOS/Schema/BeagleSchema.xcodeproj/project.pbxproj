@@ -18,6 +18,8 @@
 		938B13C02497E6A700AA8E3B /* PathParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938B13BE2497E6A700AA8E3B /* PathParser.swift */; };
 		938B13C42497EB5E00AA8E3B /* String+RegularExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938B13C32497EB5E00AA8E3B /* String+RegularExpression.swift */; };
 		938B13C62497EC6200AA8E3B /* Collection+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938B13C52497EC6200AA8E3B /* Collection+Safe.swift */; };
+		98E18D12249BE249009D6A54 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E18D11249BE249009D6A54 /* Alert.swift */; };
+		98E18D14249BE255009D6A54 /* Confirm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E18D13249BE255009D6A54 /* Confirm.swift */; };
 		C0291898247EDF8500C3AA13 /* PageIndicatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0291897247EDF8500C3AA13 /* PageIndicatorTests.swift */; };
 		C029189A247EE02200C3AA13 /* CustomPageIndicator.json in Resources */ = {isa = PBXBuildFile; fileRef = C0291899247EE02200C3AA13 /* CustomPageIndicator.json */; };
 		C029189B247EE02200C3AA13 /* CustomPageIndicator.json in Resources */ = {isa = PBXBuildFile; fileRef = C0291899247EE02200C3AA13 /* CustomPageIndicator.json */; };
@@ -54,7 +56,6 @@
 		C864D2CF247C240200E7A1F9 /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D273247C240200E7A1F9 /* Container.swift */; };
 		C864D2D2247C240200E7A1F9 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D278247C240200E7A1F9 /* Button.swift */; };
 		C864D2D6247C240200E7A1F9 /* Navigate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D283247C240200E7A1F9 /* Navigate.swift */; };
-		C864D2D7247C240200E7A1F9 /* ShowNativeDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D285247C240200E7A1F9 /* ShowNativeDialog.swift */; };
 		C864D2D8247C240200E7A1F9 /* FormRemoteAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D287247C240200E7A1F9 /* FormRemoteAction.swift */; };
 		C864D2D9247C240200E7A1F9 /* FormValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D289247C240200E7A1F9 /* FormValidation.swift */; };
 		C864D2DA247C240200E7A1F9 /* FormLocalAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D28B247C240200E7A1F9 /* FormLocalAction.swift */; };
@@ -139,6 +140,8 @@
 		938B13BE2497E6A700AA8E3B /* PathParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathParser.swift; sourceTree = "<group>"; };
 		938B13C32497EB5E00AA8E3B /* String+RegularExpression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+RegularExpression.swift"; sourceTree = "<group>"; };
 		938B13C52497EC6200AA8E3B /* Collection+Safe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Safe.swift"; sourceTree = "<group>"; };
+		98E18D11249BE249009D6A54 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		98E18D13249BE255009D6A54 /* Confirm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Confirm.swift; sourceTree = "<group>"; };
 		C0291897247EDF8500C3AA13 /* PageIndicatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicatorTests.swift; sourceTree = "<group>"; };
 		C0291899247EE02200C3AA13 /* CustomPageIndicator.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CustomPageIndicator.json; sourceTree = "<group>"; };
 		C029189C247EE03200C3AA13 /* PageViewWithCustomIndicator.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PageViewWithCustomIndicator.json; sourceTree = "<group>"; };
@@ -193,7 +196,6 @@
 		C864D277247C240200E7A1F9 /* buttonComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = buttonComponent.json; sourceTree = "<group>"; };
 		C864D278247C240200E7A1F9 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		C864D283247C240200E7A1F9 /* Navigate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Navigate.swift; sourceTree = "<group>"; };
-		C864D285247C240200E7A1F9 /* ShowNativeDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowNativeDialog.swift; sourceTree = "<group>"; };
 		C864D287247C240200E7A1F9 /* FormRemoteAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormRemoteAction.swift; sourceTree = "<group>"; };
 		C864D289247C240200E7A1F9 /* FormValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormValidation.swift; sourceTree = "<group>"; };
 		C864D28B247C240200E7A1F9 /* FormLocalAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormLocalAction.swift; sourceTree = "<group>"; };
@@ -720,7 +722,6 @@
 		C864D281247C240200E7A1F9 /* Navigate */ = {
 			isa = PBXGroup;
 			children = (
-				C864D285247C240200E7A1F9 /* ShowNativeDialog.swift */,
 				C864D283247C240200E7A1F9 /* Navigate.swift */,
 				C8BB30A22486FCE9002DD3C1 /* Tests */,
 			);
@@ -843,6 +844,8 @@
 				C864D287247C240200E7A1F9 /* FormRemoteAction.swift */,
 				C864D289247C240200E7A1F9 /* FormValidation.swift */,
 				C864D281247C240200E7A1F9 /* Navigate */,
+				98E18D11249BE249009D6A54 /* Alert.swift */,
+				98E18D13249BE255009D6A54 /* Confirm.swift */,
 			);
 			path = Types;
 			sourceTree = "<group>";
@@ -1226,7 +1229,6 @@
 				938B13BB2497E59B00AA8E3B /* Context.swift in Sources */,
 				C864D2B6247C240200E7A1F9 /* Screen.swift in Sources */,
 				C864D2E7247C240200E7A1F9 /* RawWidget.swift in Sources */,
-				C864D2D7247C240200E7A1F9 /* ShowNativeDialog.swift in Sources */,
 				938B13C42497EB5E00AA8E3B /* String+RegularExpression.swift in Sources */,
 				C864D2D6247C240200E7A1F9 /* Navigate.swift in Sources */,
 				C864D2B9247C240200E7A1F9 /* RawComponent.swift in Sources */,
@@ -1246,6 +1248,7 @@
 				C864D2B8247C240200E7A1F9 /* ScreenComponent.swift in Sources */,
 				C864D2E2247C240200E7A1F9 /* Events.swift in Sources */,
 				938B13C62497EC6200AA8E3B /* Collection+Safe.swift in Sources */,
+				98E18D14249BE255009D6A54 /* Confirm.swift in Sources */,
 				C864D2BA247C240200E7A1F9 /* Equality.generated.swift in Sources */,
 				C864D2A4247C240200E7A1F9 /* FormInput.swift in Sources */,
 				C8EBCC60247C3027002030CC /* PageIndicator.swift in Sources */,
@@ -1254,6 +1257,7 @@
 				C864D2A2247C240200E7A1F9 /* FormSubmit.swift in Sources */,
 				C8EBCC66247C3027002030CC /* PageView.swift in Sources */,
 				C864D2C4247C240200E7A1F9 /* ComponentDecoder.swift in Sources */,
+				98E18D12249BE249009D6A54 /* Alert.swift in Sources */,
 				C864D2AF247C240200E7A1F9 /* WebView.swift in Sources */,
 				C8EBCC80247C3041002030CC /* TabView.swift in Sources */,
 				935278EA249954F500AB9D1F /* DynamicObject.swift in Sources */,
