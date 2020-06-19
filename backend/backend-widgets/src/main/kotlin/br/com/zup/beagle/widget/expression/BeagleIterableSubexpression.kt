@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.expression
+package br.com.zup.beagle.widget.expression
 
-import br.com.zup.beagle.expression.ExpressionHelper.Companion.access
+import br.com.zup.beagle.widget.expression.ExpressionHelper.Companion.access
 
 class BeagleIterableSubexpression<T, out N>(
     private val expression: ExpressionHelper<out Iterable<T>>,

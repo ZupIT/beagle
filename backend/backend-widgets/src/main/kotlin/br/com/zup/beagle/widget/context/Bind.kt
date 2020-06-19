@@ -17,7 +17,7 @@
 package br.com.zup.beagle.widget.context
 
 import br.com.zup.beagle.core.BindAttribute
-import br.com.zup.beagle.expression.ExpressionHelper
+import br.com.zup.beagle.widget.expression.ExpressionHelper
 import java.io.Serializable
 
 sealed class Bind<T> : BindAttribute<T>, Serializable {
