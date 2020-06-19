@@ -44,7 +44,10 @@ data class TabView(
     val children: List<TabItem>,
     val styleId: Bind<String>? = null
 ) : WidgetView() {
-
+    constructor(
+        children: List<TabItem>,
+        styleId: String
+    ) : this(children, Bind.valueOf(styleId))
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
 
