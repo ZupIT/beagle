@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.widget.action
 
+import br.com.zup.beagle.widget.context.Bind
+
 
 /**
  * will show dialogues natively, such as an error alert indicating alternative flows, business system errors and others.
@@ -27,8 +29,18 @@ package br.com.zup.beagle.widget.action
  *
  */
 data class Alert(
-    val title: String?,
-    val message: String,
+    val title: Bind<String>?,
+    val message: Bind<String>,
     val onPressOk: Action? = null,
     val labelOk: String? = null
-) : Action
+) : Action {
+    constructor(title: String?,
+                message: String,
+                onPressOk: Action? = null,
+                labelOk: String? = null) : this(
+        title = Bind.valueOfNullable(title),
+        message = Bind.valueOf(message),
+        onPressOk = onPressOk,
+        labelOk = labelOk
+    )
+}
