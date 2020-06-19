@@ -17,6 +17,26 @@
 * limitations under the License.
 */
 
+// MARK: Alert Decodable
+extension Alert {
+
+    enum CodingKeys: String, CodingKey {
+        case title
+        case message
+        case onPressOk
+        case labelOk
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        title = try container.decodeIfPresent(String.self, forKey: .title)
+        message = try container.decode(String.self, forKey: .message)
+        onPressOk = try container.decodeIfPresent(forKey: .onPressOk)
+        labelOk = try container.decodeIfPresent(String.self, forKey: .labelOk)
+    }
+}
+
 // MARK: Button Decodable
 extension Button {
 
@@ -35,6 +55,30 @@ extension Button {
         action = try container.decodeIfPresent(forKey: .action)
         clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
         widgetProperties = try WidgetProperties(from: decoder)
+    }
+}
+
+// MARK: Confirm Decodable
+extension Confirm {
+
+    enum CodingKeys: String, CodingKey {
+        case title
+        case message
+        case onPressOk
+        case onPressCancel
+        case labelOk
+        case labelCancel
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        title = try container.decodeIfPresent(String.self, forKey: .title)
+        message = try container.decode(String.self, forKey: .message)
+        onPressOk = try container.decodeIfPresent(forKey: .onPressOk)
+        onPressCancel = try container.decodeIfPresent(forKey: .onPressCancel)
+        labelOk = try container.decodeIfPresent(String.self, forKey: .labelOk)
+        labelCancel = try container.decodeIfPresent(String.self, forKey: .labelCancel)
     }
 }
 
@@ -152,14 +196,14 @@ extension LazyComponent {
 extension ListView {
 
     enum CodingKeys: String, CodingKey {
-        case rows
+        case children
         case direction
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        rows = try container.decode(forKey: .rows)
+        children = try container.decode(forKey: .children)
         direction = try container.decode(Direction.self, forKey: .direction)
     }
 }
@@ -207,14 +251,14 @@ extension NetworkImage {
 extension PageView {
 
     enum CodingKeys: String, CodingKey {
-        case pages
+        case children
         case pageIndicator
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        pages = try container.decode(forKey: .pages)
+        children = try container.decode(forKey: .children)
         let rawPageIndicator: RawComponent? = try container.decodeIfPresent(forKey: .pageIndicator)
         pageIndicator = rawPageIndicator as? PageIndicatorComponent
     }
@@ -270,7 +314,7 @@ extension TabItem {
     enum CodingKeys: String, CodingKey {
         case icon
         case title
-        case content
+        case child
     }
 
     public init(from decoder: Decoder) throws {
@@ -278,7 +322,7 @@ extension TabItem {
 
         icon = try container.decodeIfPresent(String.self, forKey: .icon)
         title = try container.decodeIfPresent(String.self, forKey: .title)
-        content = try container.decode(forKey: .content)
+        child = try container.decode(forKey: .child)
     }
 }
 

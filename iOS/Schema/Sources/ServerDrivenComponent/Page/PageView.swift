@@ -16,15 +16,15 @@
 
 public struct PageView: RawComponent, AutoInitiableAndDecodable {
 
-    public let pages: [RawComponent]
+    public let children: [RawComponent]
     public let pageIndicator: PageIndicatorComponent?
 
 // sourcery:inline:auto:PageView.Init
     public init(
-        pages: [RawComponent],
+        children: [RawComponent],
         pageIndicator: PageIndicatorComponent? = nil
     ) {
-        self.pages = pages
+        self.children = children
         self.pageIndicator = pageIndicator
     }
 // sourcery:end

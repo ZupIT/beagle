@@ -41,9 +41,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let dependencies = BeagleDependencies()
         dependencies.theme = AppTheme.theme
         dependencies.urlBuilder = UrlBuilder(baseUrl: URL(string: .BASE_URL))
+        dependencies.navigation.defaultAnimation = .init(pushTransition: .init(type: .fade, subtype: .fromRight, duration: 0.1), modalPresentationStyle: .formSheet)
         dependencies.deepLinkHandler = deepLinkHandler
         dependencies.validatorProvider = validator
         dependencies.analytics = AnalyticsMock()
+        dependencies.isLoggingEnabled = true
+        
         Beagle.dependencies = dependencies
         
         registerCustomComponents()

@@ -7,10 +7,13 @@
       - url: scheme://baseUrl/
     ▿ result: Result
       - body: Optional<Data>.none
-      ▿ headers: 1 key/value pair
+      ▿ headers: 2 key/value pairs
         ▿ (2 elements)
           - key: "Content-Type"
           - value: "application/json"
+        ▿ (2 elements)
+          - key: "beagle-platform"
+          - value: "IOS"
       - method: "GET"
       - url: scheme://baseUrl/
   ▿ 
@@ -31,10 +34,13 @@
     ▿ result: Result
       ▿ body: Optional<Data>
         - some: 0 bytes
-      ▿ headers: 2 key/value pairs
+      ▿ headers: 3 key/value pairs
         ▿ (2 elements)
           - key: "Content-Type"
           - value: "application/json"
+        ▿ (2 elements)
+          - key: "beagle-platform"
+          - value: "IOS"
         ▿ (2 elements)
           - key: "header"
           - value: "header"
@@ -48,10 +54,13 @@
       - url: scheme://baseUrl/
     ▿ result: Result
       - body: Optional<Data>.none
-      ▿ headers: 1 key/value pair
+      ▿ headers: 2 key/value pairs
         ▿ (2 elements)
           - key: "Content-Type"
           - value: "application/json"
+        ▿ (2 elements)
+          - key: "beagle-platform"
+          - value: "IOS"
       - method: "GET"
       - url: scheme://baseUrl/
   ▿ 
@@ -72,10 +81,13 @@
     ▿ result: Result
       ▿ body: Optional<Data>
         - some: 0 bytes
-      ▿ headers: 2 key/value pairs
+      ▿ headers: 3 key/value pairs
         ▿ (2 elements)
           - key: "Content-Type"
           - value: "application/json"
+        ▿ (2 elements)
+          - key: "beagle-platform"
+          - value: "IOS"
         ▿ (2 elements)
           - key: "header"
           - value: "header"
@@ -95,10 +107,13 @@
       - url: scheme://baseUrl/
     ▿ result: Result
       - body: Optional<Data>.none
-      ▿ headers: 1 key/value pair
+      ▿ headers: 2 key/value pairs
         ▿ (2 elements)
           - key: "Content-Type"
           - value: "application/json"
+        ▿ (2 elements)
+          - key: "beagle-platform"
+          - value: "IOS"
       - method: "GET"
       - url: scheme://baseUrl/?key=value
   ▿ 
@@ -125,10 +140,13 @@
     ▿ result: Result
       ▿ body: Optional<Data>
         - some: 0 bytes
-      ▿ headers: 2 key/value pairs
+      ▿ headers: 3 key/value pairs
         ▿ (2 elements)
           - key: "Content-Type"
           - value: "application/json"
+        ▿ (2 elements)
+          - key: "beagle-platform"
+          - value: "IOS"
         ▿ (2 elements)
           - key: "header"
           - value: "header"
@@ -145,10 +163,13 @@
       - url: scheme://baseUrl/
     ▿ result: Result
       - body: Optional<Data>.none
-      ▿ headers: 1 key/value pair
+      ▿ headers: 2 key/value pairs
         ▿ (2 elements)
           - key: "Content-Type"
           - value: "application/json"
+        ▿ (2 elements)
+          - key: "beagle-platform"
+          - value: "IOS"
       - method: "GET"
       - url: scheme://baseUrl/?
   ▿ 
@@ -172,10 +193,13 @@
     ▿ result: Result
       ▿ body: Optional<Data>
         - some: 0 bytes
-      ▿ headers: 2 key/value pairs
+      ▿ headers: 3 key/value pairs
         ▿ (2 elements)
           - key: "Content-Type"
           - value: "application/json"
+        ▿ (2 elements)
+          - key: "beagle-platform"
+          - value: "IOS"
         ▿ (2 elements)
           - key: "header"
           - value: "header"
@@ -196,10 +220,13 @@
     ▿ result: Result
       ▿ body: Optional<Data>
         - some: 15 bytes
-      ▿ headers: 1 key/value pair
+      ▿ headers: 2 key/value pairs
         ▿ (2 elements)
           - key: "Content-Type"
           - value: "application/json"
+        ▿ (2 elements)
+          - key: "beagle-platform"
+          - value: "IOS"
       - method: "POST"
       - url: scheme://baseUrl/
   ▿ 
@@ -226,10 +253,13 @@
     ▿ result: Result
       ▿ body: Optional<Data>
         - some: 15 bytes
-      ▿ headers: 2 key/value pairs
+      ▿ headers: 3 key/value pairs
         ▿ (2 elements)
           - key: "Content-Type"
           - value: "application/json"
+        ▿ (2 elements)
+          - key: "beagle-platform"
+          - value: "IOS"
         ▿ (2 elements)
           - key: "header"
           - value: "header"
@@ -247,10 +277,13 @@
     ▿ result: Result
       ▿ body: Optional<Data>
         - some: 2 bytes
-      ▿ headers: 1 key/value pair
+      ▿ headers: 2 key/value pairs
         ▿ (2 elements)
           - key: "Content-Type"
           - value: "application/json"
+        ▿ (2 elements)
+          - key: "beagle-platform"
+          - value: "IOS"
       - method: "POST"
       - url: scheme://baseUrl/
   ▿ 
@@ -274,10 +307,13 @@
     ▿ result: Result
       ▿ body: Optional<Data>
         - some: 2 bytes
-      ▿ headers: 2 key/value pairs
+      ▿ headers: 3 key/value pairs
         ▿ (2 elements)
           - key: "Content-Type"
           - value: "application/json"
+        ▿ (2 elements)
+          - key: "beagle-platform"
+          - value: "IOS"
         ▿ (2 elements)
           - key: "header"
           - value: "header"
@@ -298,10 +334,13 @@
     ▿ result: Result
       ▿ body: Optional<Data>
         - some: 15 bytes
-      ▿ headers: 1 key/value pair
+      ▿ headers: 2 key/value pairs
         ▿ (2 elements)
           - key: "Content-Type"
           - value: "application/json"
+        ▿ (2 elements)
+          - key: "beagle-platform"
+          - value: "IOS"
       - method: "PUT"
       - url: scheme://baseUrl/
   ▿ 
@@ -328,10 +367,13 @@
     ▿ result: Result
       ▿ body: Optional<Data>
         - some: 15 bytes
-      ▿ headers: 2 key/value pairs
+      ▿ headers: 3 key/value pairs
         ▿ (2 elements)
           - key: "Content-Type"
           - value: "application/json"
+        ▿ (2 elements)
+          - key: "beagle-platform"
+          - value: "IOS"
         ▿ (2 elements)
           - key: "header"
           - value: "header"
@@ -349,10 +391,13 @@
     ▿ result: Result
       ▿ body: Optional<Data>
         - some: 2 bytes
-      ▿ headers: 1 key/value pair
+      ▿ headers: 2 key/value pairs
         ▿ (2 elements)
           - key: "Content-Type"
           - value: "application/json"
+        ▿ (2 elements)
+          - key: "beagle-platform"
+          - value: "IOS"
       - method: "PUT"
       - url: scheme://baseUrl/
   ▿ 
@@ -376,10 +421,13 @@
     ▿ result: Result
       ▿ body: Optional<Data>
         - some: 2 bytes
-      ▿ headers: 2 key/value pairs
+      ▿ headers: 3 key/value pairs
         ▿ (2 elements)
           - key: "Content-Type"
           - value: "application/json"
+        ▿ (2 elements)
+          - key: "beagle-platform"
+          - value: "IOS"
         ▿ (2 elements)
           - key: "header"
           - value: "header"
@@ -399,10 +447,13 @@
       - url: scheme://baseUrl/
     ▿ result: Result
       - body: Optional<Data>.none
-      ▿ headers: 1 key/value pair
+      ▿ headers: 2 key/value pairs
         ▿ (2 elements)
           - key: "Content-Type"
           - value: "application/json"
+        ▿ (2 elements)
+          - key: "beagle-platform"
+          - value: "IOS"
       - method: "DELETE"
       - url: scheme://baseUrl/?key=value
   ▿ 
@@ -429,10 +480,13 @@
     ▿ result: Result
       ▿ body: Optional<Data>
         - some: 0 bytes
-      ▿ headers: 2 key/value pairs
+      ▿ headers: 3 key/value pairs
         ▿ (2 elements)
           - key: "Content-Type"
           - value: "application/json"
+        ▿ (2 elements)
+          - key: "beagle-platform"
+          - value: "IOS"
         ▿ (2 elements)
           - key: "header"
           - value: "header"
@@ -449,10 +503,13 @@
       - url: scheme://baseUrl/
     ▿ result: Result
       - body: Optional<Data>.none
-      ▿ headers: 1 key/value pair
+      ▿ headers: 2 key/value pairs
         ▿ (2 elements)
           - key: "Content-Type"
           - value: "application/json"
+        ▿ (2 elements)
+          - key: "beagle-platform"
+          - value: "IOS"
       - method: "DELETE"
       - url: scheme://baseUrl/?
   ▿ 
@@ -476,10 +533,13 @@
     ▿ result: Result
       ▿ body: Optional<Data>
         - some: 0 bytes
-      ▿ headers: 2 key/value pairs
+      ▿ headers: 3 key/value pairs
         ▿ (2 elements)
           - key: "Content-Type"
           - value: "application/json"
+        ▿ (2 elements)
+          - key: "beagle-platform"
+          - value: "IOS"
         ▿ (2 elements)
           - key: "header"
           - value: "header"

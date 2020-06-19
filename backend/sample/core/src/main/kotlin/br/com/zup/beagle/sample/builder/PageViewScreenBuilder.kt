@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.widget.action.ShowNativeDialog
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.constants.BLACK
 import br.com.zup.beagle.sample.constants.LIGHT_GREY
@@ -40,11 +40,11 @@ object PageViewScreenBuilder : ScreenBuilder {
                 NavigationBarItem(
                     text = "",
                     image = "informationImage",
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "PageView",
                         message = "This component is a specialized container " +
                             "to hold pages (views) that may be swiped.",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 )
             )
@@ -54,7 +54,7 @@ object PageViewScreenBuilder : ScreenBuilder {
                 selectedColor = BLACK,
                 unselectedColor = LIGHT_GREY
             ),
-            pages = (1..3).map {
+            children = (1..3).map {
                 Text("Page $it", alignment = TextAlignment.CENTER).applyFlex(
                     Flex(
                         alignSelf = AlignSelf.CENTER,

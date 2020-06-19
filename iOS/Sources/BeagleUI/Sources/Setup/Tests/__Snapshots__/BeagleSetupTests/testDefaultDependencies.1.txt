@@ -13,7 +13,13 @@
       ▿ dependencies: InnerDependenciesResolver
         - container: (Function)
   ▿ decoder: ComponentDecoder
-    ▿ actionDecoders: 15 key/value pairs
+    ▿ actionDecoders: 16 key/value pairs
+      ▿ (2 elements)
+        - key: "beagle:alert"
+        - value: Alert
+      ▿ (2 elements)
+        - key: "beagle:confirm"
+        - value: Confirm
       ▿ (2 elements)
         - key: "beagle:formlocalaction"
         - value: FormLocalAction
@@ -56,10 +62,7 @@
       ▿ (2 elements)
         - key: "beagle:setcontext"
         - value: SetContext
-      ▿ (2 elements)
-        - key: "beagle:shownativedialog"
-        - value: ShowNativeDialog
-    ▿ componentDecoders: 18 key/value pairs
+    ▿ componentDecoders: 17 key/value pairs
       ▿ (2 elements)
         - key: "beagle:button"
         - value: Button
@@ -100,9 +103,6 @@
         - key: "beagle:scrollview"
         - value: ScrollView
       ▿ (2 elements)
-        - key: "beagle:spacer"
-        - value: Spacer
-      ▿ (2 elements)
         - key: "beagle:tabview"
         - value: TabView
       ▿ (2 elements)
@@ -124,9 +124,14 @@
   - flex: (Function)
   ▿ formDataStoreHandler: FormDataStoreHandler
     - dataStore: 0 key/value pairs
+  - isLoggingEnabled: true
   - localFormHandler: Optional<LocalFormHandler>.none
-  - logger: BeagleLogger
-  - navigation: BeagleNavigator
+  ▿ logger: BeagleLoggerProxy
+    ▿ dependencies: InnerDependenciesResolver
+      - container: (Function)
+    - logger: BeagleLoggerDefault
+  ▿ navigation: BeagleNavigator
+    - defaultAnimation: Optional<BeagleNavigatorAnimation>.none
   - navigationControllerType: BeagleNavigationController
   ▿ networkClient: NetworkClientDefault
     ▿ dependencies: InnerDependenciesResolver

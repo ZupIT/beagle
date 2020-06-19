@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.widget.action.ShowNativeDialog
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.ScreenEvent
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -52,10 +52,10 @@ object AnalyticsScreenBuilder : ScreenBuilder {
             text = "Touchable with Click Analytics Event"
         )
         return Touchable(
-            action = ShowNativeDialog(
+            action = Alert(
                 title = "title",
                 message = "message",
-                buttonText = "Close"
+               labelOk = "Close"
             ),
             child = text,
             clickAnalyticsEvent = ClickEvent(
@@ -69,10 +69,10 @@ object AnalyticsScreenBuilder : ScreenBuilder {
     private fun createButton(): Widget {
         val button = Button(
             text = "Button with Click Analytics Event",
-            onPress = listOf(ShowNativeDialog(
+            onPress = listOf(Alert(
                 title = "title",
                 message = "message",
-                buttonText = "Close"
+               labelOk = "Close"
             )),
             clickAnalyticsEvent = ClickEvent(
                 category = "button",
