@@ -59,11 +59,6 @@ open class BeagleRenderer {
         view.flex.isEnabled = true
 
         // this switch could actually be inside the ViewConfigurator
-        if let widget = component as? Widget {
-            view.beagle.setup(widget)
-            return
-        }
-
         if let c = component as? AccessibilityComponent {
             view.beagle.setup(accessibility: c.accessibility)
         }
@@ -76,7 +71,7 @@ open class BeagleRenderer {
         if let c = component as? FlexComponent {
             view.flex.setup(c.flex)
         }
-        if let c = component as? HasContext, let context = c._context_ {
+        if let context = (component as? HasContext)?._context_ {
             view.setContext(context)
         }
     }

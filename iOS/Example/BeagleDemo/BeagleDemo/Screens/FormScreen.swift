@@ -86,9 +86,6 @@ extension DemoTextField: Renderable {
         let textField = View()
         textField.borderStyle = .roundedRect
         textField.placeholder = placeholder
-
-        textField.beagle.setup(self)
-
         return textField
     }
 }
