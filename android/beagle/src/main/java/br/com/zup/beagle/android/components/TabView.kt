@@ -26,6 +26,8 @@ import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import br.com.zup.beagle.R
+import br.com.zup.beagle.android.context.ContextComponent
+import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.utils.dp
@@ -39,9 +41,10 @@ private val TAB_BAR_HEIGHT = 48.dp()
 internal var styleManagerFactory = StyleManager()
 
 data class TabView(
-    val children: List<TabItem>,
-    val styleId: String? = null
-) : WidgetView() {
+    val tabItems: List<TabItem>,
+    val styleId: String? = null,
+    override val context: ContextData? = null
+) : WidgetView(), ContextComponent {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()

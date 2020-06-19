@@ -18,6 +18,8 @@ package br.com.zup.beagle.android.components.layout
 
 import android.view.View
 import android.view.ViewGroup
+import br.com.zup.beagle.android.context.ContextComponent
+import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
@@ -29,8 +31,9 @@ import br.com.zup.beagle.widget.core.ScrollAxis
 data class ScrollView(
     val children: List<ServerDrivenComponent>,
     val scrollDirection: ScrollAxis? = null,
-    val scrollBarEnabled: Boolean? = null
-) : WidgetView() {
+    val scrollBarEnabled: Boolean? = null,
+    override val context: ContextData? = null
+) : WidgetView(), ContextComponent {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
