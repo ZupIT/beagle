@@ -26,9 +26,11 @@ import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import br.com.zup.beagle.R
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.utils.dp
+import br.com.zup.beagle.android.utils.get
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
@@ -40,7 +42,7 @@ internal var styleManagerFactory = StyleManager()
 
 data class TabView(
     val children: List<TabItem>,
-    val styleId: String? = null
+    val styleId: Bind<String>? = null
 ) : WidgetView() {
 
     @Transient
@@ -51,7 +53,7 @@ data class TabView(
 
         val container = viewFactory.makeBeagleFlexView(rootView.getContext(), containerFlex)
 
-        val tabLayout = makeTabLayout(rootView.getContext())
+        val tabLayout = makeTabLayout(rootView)
 
         val viewPager = viewFactory.makeViewPager(rootView.getContext()).apply {
             adapter = ContentAdapter(
@@ -75,7 +77,8 @@ data class TabView(
         return container
     }
 
-    private fun makeTabLayout(context: Context): TabLayout {
+    private fun makeTabLayout(rootView: RootView): TabLayout {
+        val context = rootView.getContext()
         return viewFactory.makeTabLayout(context).apply {
             layoutParams =
                 viewFactory.makeFrameLayoutParams(
@@ -85,27 +88,29 @@ data class TabView(
 
             tabMode = TabLayout.MODE_SCROLLABLE
             tabGravity = TabLayout.GRAVITY_FILL
-            setData()
+            setData(rootView)
             addTabs(context)
         }
     }
 
-    private fun TabLayout.setData() {
-        val typedArray = styleManagerFactory.getTabBarTypedArray(context, styleId)
-        typedArray?.let {
-            setTabTextColors(
-                it.getColor(R.styleable.BeagleTabBarStyle_tabTextColor, Color.BLACK),
-                it.getColor(R.styleable.BeagleTabBarStyle_tabSelectedTextColor, Color.GRAY)
-            )
-            setSelectedTabIndicatorColor(
-                it.getColor(
-                    R.styleable.BeagleTabBarStyle_tabIndicatorColor,
-                    styleManagerFactory.getTypedValueByResId(R.attr.colorAccent, context).data
+    private fun TabLayout.setData(rootView: RootView) {
+        styleId?.get(rootView) { bind ->
+            val typedArray = styleManagerFactory.getTabBarTypedArray(context, bind)
+            typedArray?.let {
+                setTabTextColors(
+                    it.getColor(R.styleable.BeagleTabBarStyle_tabTextColor, Color.BLACK),
+                    it.getColor(R.styleable.BeagleTabBarStyle_tabSelectedTextColor, Color.GRAY)
                 )
-            )
-            background = it.getDrawable(R.styleable.BeagleTabBarStyle_tabBackground)
-            tabIconTint = it.getColorStateList(R.styleable.BeagleTabBarStyle_tabIconTint)
-            it.recycle()
+                setSelectedTabIndicatorColor(
+                    it.getColor(
+                        R.styleable.BeagleTabBarStyle_tabIndicatorColor,
+                        styleManagerFactory.getTypedValueByResId(R.attr.colorAccent, context).data
+                    )
+                )
+                background = it.getDrawable(R.styleable.BeagleTabBarStyle_tabBackground)
+                tabIconTint = it.getColorStateList(R.styleable.BeagleTabBarStyle_tabIconTint)
+                it.recycle()
+            }
         }
     }
 

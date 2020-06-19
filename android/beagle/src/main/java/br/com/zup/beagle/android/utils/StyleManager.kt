@@ -25,6 +25,7 @@ import android.util.TypedValue
 import android.view.View
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.components.Button
+import br.com.zup.beagle.android.components.TabView
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.utils.applyViewBackgroundAndCorner
 import br.com.zup.beagle.android.context.Bind
@@ -49,6 +50,13 @@ class StyleManager(
                 applyStyleId(context, component.styleId ?: "", view, component)
             }
             is Button -> {
+                if (component.styleId == null || component.styleId is Bind.Value) {
+                    applyStyleId(context, (component.styleId?.value ?: "") as String, view, component)
+                } else component.styleId.observes {
+                    applyStyleId(context, it, view, component)
+                }
+            }
+            is TabView ->{
                 if (component.styleId == null || component.styleId is Bind.Value) {
                     applyStyleId(context, (component.styleId?.value ?: "") as String, view, component)
                 } else component.styleId.observes {
