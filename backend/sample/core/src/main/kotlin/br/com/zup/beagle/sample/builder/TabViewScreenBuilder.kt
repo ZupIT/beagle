@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.widget.action.ShowNativeDialog
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
+import br.com.zup.beagle.widget.action.ShowNativeDialog
 import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
@@ -27,6 +27,7 @@ import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.ui.Image
+import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.ImagePath.Remote
 import br.com.zup.beagle.widget.ui.TabItem
 import br.com.zup.beagle.widget.ui.TabView
@@ -66,7 +67,7 @@ object TabViewScreenBuilder : ScreenBuilder {
 
     private val tab4 = TabItem(
         title = "Tab 4",
-        icon = "beagle",
+        icon = Local.justMobile("beagle"),
         content = Container(
             children = listOf(
                 Text("Text1 Tab 4"),
@@ -82,7 +83,7 @@ object TabViewScreenBuilder : ScreenBuilder {
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
-                    image = "informationImage",
+                    image = Local.justMobile("informationImage"),
                     action = ShowNativeDialog(
                         title = "TabView",
                         message = " Is a component that will make the navigation between views. It may happen by " +

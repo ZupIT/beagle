@@ -40,6 +40,7 @@ import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Button
+import br.com.zup.beagle.widget.ui.ImagePath.Local
 
 object FormScreenBuilder : ScreenBuilder {
     private val flexHorizontalMargin = Flex(margin = EdgeValue(all = 10.unitReal()))
@@ -51,7 +52,7 @@ object FormScreenBuilder : ScreenBuilder {
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
-                    image = "informationImage",
+                    image = Local.justMobile("informationImage"),
                     action = ShowNativeDialog(
                         title = "Form",
                         message = "A formSubmit component will define a submit handler in a form.",
