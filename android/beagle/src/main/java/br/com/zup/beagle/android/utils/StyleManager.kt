@@ -89,12 +89,25 @@ class StyleManager(
         return designSystem?.buttonStyle(styleId ?: "")
     }
 
+    fun getInputTextStyle(styleId: String?): Int? {
+        return designSystem?.inputTextStyle(styleId ?: "")
+    }
+
     fun getButtonTypedArray(context: Context, styleId: String?): TypedArray? {
         val buttonStyle = getButtonStyle(styleId)
         return getTypedArray(
             context,
             buttonStyle,
             R.styleable.BeagleButtonStyle
+        )
+    }
+
+    fun getInputTextTypedArray(context: Context, styleId: String?): TypedArray? {
+        val inputTextStyle = getInputTextStyle(styleId)
+        return getTypedArray(
+            context,
+            inputTextStyle,
+            R.styleable.BeagleInputTextStyle
         )
     }
 

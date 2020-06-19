@@ -14,22 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.setup
+package br.com.zup.beagle.widget.core
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StyleRes
-
-open class DesignSystem {
-    @DrawableRes
-    open fun image(id: String): Int? = null
-    @StyleRes
-    open fun textStyle(id: String): Int? = null
-    @StyleRes
-    open fun inputTextStyle(id: String): Int? = null
-    @StyleRes
-    open fun buttonStyle(id: String): Int? = null
-    @StyleRes
-    open fun toolbarStyle(id: String): Int? = null
-    @StyleRes
-    open fun tabViewStyle(id: String): Int? = null
+enum class TextInputType {
+    DATE, // This attribute on iOS will have the same effect as NUMBER
+    EMAIL,
+    PASSWORD, // TEXT_PASSWORD
+    NUMBER,
+    TEXT
 }
