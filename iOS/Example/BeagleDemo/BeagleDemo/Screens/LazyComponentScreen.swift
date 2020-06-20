@@ -31,7 +31,7 @@ struct LazyComponentScreen: DeeplinkScreen {
         return Screen(
             navigationBar: NavigationBar(title: "Form & LazyComponent"),
             child: Form(
-                action: Navigate.pushView(.declarative(screen1)),
+                onSubmit: [ Navigate.pushView(.declarative(screen1))],
                 child: Container(children: [
                     Text("Form & LazyComponent"),
                     FormInput(
@@ -55,7 +55,7 @@ struct LazyComponentScreen: DeeplinkScreen {
         return Screen(
             navigationBar: NavigationBar(title: "Form & LazyComponent"),
             child: Form(
-                action: FormRemoteAction(path: .TEXT_FORM_ENDPOINT, method: .get),
+                onSubmit: [FormRemoteAction(path: .TEXT_FORM_ENDPOINT, method: .get)],
                 child: Container(children: [
                     Text("Form & LazyComponent"),
                     FormInput(

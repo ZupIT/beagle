@@ -50,8 +50,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Beagle.dependencies = dependencies
         
         registerCustomComponents()
-        
-        let rootViewController = MainScreen().screenController()
+//        MainScreen().screenController()
+        let rootViewController = Beagle.screen(.remote(.init(url: "/components")))
         window?.rootViewController = rootViewController
         
         return true

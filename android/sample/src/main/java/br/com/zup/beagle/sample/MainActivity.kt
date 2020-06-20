@@ -49,6 +49,12 @@ class MainActivity : AppCompatActivity() {
             title = "Beagle Sample"
             elevation = 4.0f.dp()
         }
+        startActivity(BeagleActivity.newIntent(
+            this,
+            ScreenRequest(SAMPLE_ENDPOINT)
+        ))
+
+        finish()
 
     }
 
