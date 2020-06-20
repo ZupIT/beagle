@@ -28,9 +28,11 @@ import androidx.viewpager.widget.ViewPager
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.utils.dp
+import br.com.zup.beagle.android.utils.get
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
@@ -41,10 +43,16 @@ private val TAB_BAR_HEIGHT = 48.dp()
 internal var styleManagerFactory = StyleManager()
 
 data class TabView(
-    val tabItems: List<TabItem>,
+    val children: List<TabItem>,
     val styleId: String? = null,
     override val context: ContextData? = null
 ) : WidgetView(), ContextComponent {
+
+    constructor(
+        children: List<TabItem>,
+        styleId: String,
+        context: ContextData? = null
+    ) : this(children, Bind.valueOf(styleId), context)
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
@@ -54,7 +62,7 @@ data class TabView(
 
         val container = viewFactory.makeBeagleFlexView(rootView.getContext(), containerFlex)
 
-        val tabLayout = makeTabLayout(rootView.getContext())
+        val tabLayout = makeTabLayout(rootView)
 
         val viewPager = viewFactory.makeViewPager(rootView.getContext()).apply {
             adapter = ContentAdapter(
@@ -78,7 +86,8 @@ data class TabView(
         return container
     }
 
-    private fun makeTabLayout(context: Context): TabLayout {
+    private fun makeTabLayout(rootView: RootView): TabLayout {
+        val context = rootView.getContext()
         return viewFactory.makeTabLayout(context).apply {
             layoutParams =
                 viewFactory.makeFrameLayoutParams(
@@ -88,13 +97,17 @@ data class TabView(
 
             tabMode = TabLayout.MODE_SCROLLABLE
             tabGravity = TabLayout.GRAVITY_FILL
-            setData()
+            setData(rootView)
             addTabs(context)
         }
     }
 
-    private fun TabLayout.setData() {
-        val typedArray = styleManagerFactory.getTabBarTypedArray(context, styleId)
+    private fun TabLayout.setData(rootView: RootView) {
+        var bindString: String? = null
+        styleId?.get(rootView) { bind ->
+            bindString = bind
+        }
+        val typedArray = styleManagerFactory.getTabBarTypedArray(context, bindString)
         typedArray?.let {
             setTabTextColors(
                 it.getColor(R.styleable.BeagleTabBarStyle_tabTextColor, Color.BLACK),

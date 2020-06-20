@@ -1,10 +1,10 @@
 {
   "_beagleComponent_" : "beagle:form",
-  "action": {
+  "onSubmit": [{
     "_beagleAction_" : "beagle:formremoteaction",
     "path" : "/sample/form",
     "method" : "POST"
-  },
+  }],
   "additionalData" : {
       "age" : "21",
       "id" : "11111"

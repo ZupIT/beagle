@@ -74,8 +74,8 @@ object TextScreenBuilder : ScreenBuilder {
                 flex = Flex(
                     margin = EdgeValue(
                         top = 16.unitReal(),
-                        start = 16.unitReal(),
-                        end = 16.unitReal()
+                        left = 16.unitReal(),
+                        right = 16.unitReal()
                     )
                 )
             ).applyStyle(

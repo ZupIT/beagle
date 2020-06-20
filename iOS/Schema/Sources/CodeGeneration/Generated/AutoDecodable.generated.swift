@@ -43,7 +43,7 @@ extension Button {
     enum CodingKeys: String, CodingKey {
         case text
         case styleId
-        case action
+        case onPress
         case clickAnalyticsEvent
     }
 
@@ -52,7 +52,7 @@ extension Button {
 
         text = try container.decode(Expression<String>.self, forKey: .text)
         styleId = try container.decodeIfPresent(Expression<String>.self, forKey: .styleId)
-        action = try container.decodeIfPresent(forKey: .action)
+        onPress = try container.decodeIfPresent(forKey: .onPress)
         clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
         widgetProperties = try WidgetProperties(from: decoder)
     }
@@ -103,7 +103,7 @@ extension Container {
 extension Form {
 
     enum CodingKeys: String, CodingKey {
-        case action
+        case onSubmit
         case child
         case group
         case additionalData
@@ -113,7 +113,7 @@ extension Form {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        action = try container.decode(forKey: .action)
+        onSubmit = try container.decodeIfPresent(forKey: .onSubmit)
         child = try container.decode(forKey: .child)
         group = try container.decodeIfPresent(String.self, forKey: .group)
         additionalData = try container.decodeIfPresent([String: String].self, forKey: .additionalData)

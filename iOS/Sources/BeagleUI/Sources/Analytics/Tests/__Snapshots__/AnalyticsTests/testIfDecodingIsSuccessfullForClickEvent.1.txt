@@ -1,6 +1,4 @@
 ▿ Button
-  ▿ action: Optional<RawAction>
-    - some: Navigate.popStack
   ▿ clickAnalyticsEvent: Optional<AnalyticsClick>
     ▿ some: AnalyticsClick
       - category: "mocked category"
@@ -8,6 +6,9 @@
         - some: "mocked label"
       ▿ value: Optional<String>
         - some: "mocked value"
+  ▿ onPress: Optional<Array<RawAction>>
+    ▿ some: 1 element
+      - Navigate.popStack
   - styleId: Optional<Expression<String>>.none
   ▿ text: Expression<String>
     - value: "button"

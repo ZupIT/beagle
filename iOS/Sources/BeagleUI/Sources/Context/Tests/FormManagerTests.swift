@@ -23,7 +23,7 @@ final class FormManagerTests: XCTestCase {
     
     private lazy var form: Form = {
         let action = FormRemoteAction(path: "submit", method: .post)
-        let form = Form(action: action, child: Container(children: [
+        let form = Form(onSubmit: [action], child: Container(children: [
             FormInput(name: "name", child: InputComponent(value: "John Doe")),
             FormSubmit(child: Button(text: "Add"), enabled: true)
         ]))
@@ -86,7 +86,7 @@ final class FormManagerTests: XCTestCase {
             return false
         }
 
-        let view = Form(action: ActionDummy(), child: Container(children: [
+        let view = Form(child: Container(children: [
             FormInput(name: "name", required: true, validator: validator1, child: InputComponent(value: "John Doe")),
             FormInput(name: "password", required: true, validator: validator2, child: InputComponent(value: "password")),
             FormSubmit(child: Button(text: "Add"))
@@ -166,7 +166,7 @@ final class FormManagerTests: XCTestCase {
     private let group = "group"
     
     private lazy var formViewWithStorage = Form(
-        action: FormRemoteAction(path: "submit", method: .post),
+        onSubmit: [FormRemoteAction(path: "submit", method: .post)],
         child: Container(children: [
             FormInput(name: "name", required: true, validator: validator3, child: InputComponent(value: "John Doe")),
             FormInput(name: "password", required: true, validator: validator3, child: InputComponent(value: "password")),
