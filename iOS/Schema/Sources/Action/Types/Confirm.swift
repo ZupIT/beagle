@@ -20,8 +20,8 @@ import Foundation
 /// Action that represents confirm
 public struct Confirm: RawAction, AutoInitiableAndDecodable {
     
-    public let title: String?
-    public let message: String
+    public let title: Expression<String>?
+    public let message: Expression<String>
     public let onPressOk: RawAction?
     public let onPressCancel: RawAction?
     public let labelOk: String?
@@ -29,8 +29,8 @@ public struct Confirm: RawAction, AutoInitiableAndDecodable {
 
 // sourcery:inline:auto:Confirm.Init
     public init(
-        title: String? = nil,
-        message: String,
+        title: Expression<String>? = nil,
+        message: Expression<String>,
         onPressOk: RawAction? = nil,
         onPressCancel: RawAction? = nil,
         labelOk: String? = nil,

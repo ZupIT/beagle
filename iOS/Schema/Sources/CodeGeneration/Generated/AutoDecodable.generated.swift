@@ -30,8 +30,8 @@ extension Alert {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        title = try container.decodeIfPresent(String.self, forKey: .title)
-        message = try container.decode(String.self, forKey: .message)
+        title = try container.decodeIfPresent(Expression<String>.self, forKey: .title)
+        message = try container.decode(Expression<String>.self, forKey: .message)
         onPressOk = try container.decodeIfPresent(forKey: .onPressOk)
         labelOk = try container.decodeIfPresent(String.self, forKey: .labelOk)
     }
@@ -73,8 +73,8 @@ extension Confirm {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        title = try container.decodeIfPresent(String.self, forKey: .title)
-        message = try container.decode(String.self, forKey: .message)
+        title = try container.decodeIfPresent(Expression<String>.self, forKey: .title)
+        message = try container.decode(Expression<String>.self, forKey: .message)
         onPressOk = try container.decodeIfPresent(forKey: .onPressOk)
         onPressCancel = try container.decodeIfPresent(forKey: .onPressCancel)
         labelOk = try container.decodeIfPresent(String.self, forKey: .labelOk)
