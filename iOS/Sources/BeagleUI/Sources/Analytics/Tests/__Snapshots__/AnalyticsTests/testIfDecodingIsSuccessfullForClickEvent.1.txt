@@ -8,8 +8,9 @@
         - some: "mocked label"
       ▿ value: Optional<String>
         - some: "mocked value"
-  - styleId: Optional<String>.none
-  - text: "button"
+  - styleId: Optional<Expression<String>>.none
+  ▿ text: Expression<String>
+    - value: "button"
   ▿ widgetProperties: WidgetProperties
     - accessibility: Optional<Accessibility>.none
     - flex: Optional<Flex>.none
