@@ -63,7 +63,9 @@ class ScrollViewFragment : Fragment() {
     private fun buildScrollView() = ScrollView(
         children = listOf(
             Image(
-                path = PathType.Remote("https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271")
+                PathType.Remote(
+                    "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271"
+                )
             ).applyFlex(Flex(shrink = 0.0, size = Size(width = 200.unitReal(), height = 200.unitReal())))
                 .applyStyle(Style(cornerRadius = CornerRadius(30.0))),
             Text("Text 1").applyFlex(flex),

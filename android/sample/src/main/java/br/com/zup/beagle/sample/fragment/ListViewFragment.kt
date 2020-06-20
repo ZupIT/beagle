@@ -77,7 +77,9 @@ class ListViewFragment : Fragment() {
             Text("0015"),
             Text("0016"),
             Image(
-                path = PathType.Remote("https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271")
+                PathType.Remote(
+                    "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271"
+                )
             ),
             Text("0017"),
             Text("0018"),

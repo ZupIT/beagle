@@ -52,7 +52,9 @@ class LazyComponentFragment : Fragment() {
     private fun buildScrollView() = ScrollView(
         children = listOf(
             Image(
-                path = PathType.Remote("https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271")
+                PathType.Remote(
+                    "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271"
+                )
             ).applyStyle(Style(cornerRadius = CornerRadius(30.0))),
             LazyComponent(
                 path = "http://www.mocky.io/v2/5e4e91c02f00001f2016a8f2",
