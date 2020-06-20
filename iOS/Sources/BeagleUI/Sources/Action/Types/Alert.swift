@@ -20,12 +20,8 @@ import BeagleSchema
 
 extension Alert: Action {
     public func execute(controller: BeagleController, sender: Any) {
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-        alertController.title = title
-        
-        alertController.message = message.get(with: alertController.view, controller: controller) { messageExpression in
-            alertController.message = messageExpression
-        }
+        guard let view = sender as? UIView else { return }
+        let alertController = UIAlertController(title: title?.get(with: view), message: message.get(with: view), preferredStyle: .alert)
         
         if let onPressOk = onPressOk {
             let alertAction = UIAlertAction(title: labelOk ?? "Ok", style: .default) { _ in

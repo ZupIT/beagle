@@ -82,4 +82,3 @@ struct CancelAction: Action {
         print("onPressCancel from Confirm clicked")
     }
 }
-
