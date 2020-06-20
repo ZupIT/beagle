@@ -23,26 +23,22 @@ extension Confirm: Action {
         guard let view = sender as? UIView else { return }
         let alertController = UIAlertController(title: title?.get(with: view), message: message.get(with: view), preferredStyle: .alert)
                
-        if let onPressOk = onPressOk {
-            let onPressOkAction = UIAlertAction(title: labelOk ?? "Ok", style: .default) { _ in
+        let onPressOkAction = UIAlertAction(title: labelOk ?? "Ok", style: .default) {
+            [weak controller] _ in guard let controller = controller else { return }
+            if let onPressOk = self.onPressOk {
                 controller.execute(action: onPressOk, sender: self)
             }
-            alertController.addAction(onPressOkAction)
-        } else {
-            let labelOkAction = UIAlertAction(title: labelOk ?? "Ok", style: .default)
-            alertController.addAction(labelOkAction)
         }
         
-        if let onPressCancel = onPressCancel {
-            let onPressCancelAction = UIAlertAction(title: labelCancel ?? "Cancel", style: .default) { _ in
+        let onPressCancelAction = UIAlertAction(title: labelOk ?? "Cancel", style: .default) {
+            [weak controller] _ in guard let controller = controller else { return }
+            if let onPressCancel = self.onPressCancel {
                 controller.execute(action: onPressCancel, sender: self)
             }
-            alertController.addAction(onPressCancelAction)
-        } else {
-            let labelCancelAction = UIAlertAction(title: labelCancel ?? "Cancel", style: .default)
-            alertController.addAction(labelCancelAction)
         }
-
+        
+        alertController.addAction(onPressOkAction)
+        alertController.addAction(onPressCancelAction)
         controller.present(alertController, animated: true)
     }
 }

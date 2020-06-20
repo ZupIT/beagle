@@ -23,16 +23,12 @@ extension Alert: Action {
         guard let view = sender as? UIView else { return }
         let alertController = UIAlertController(title: title?.get(with: view), message: message.get(with: view), preferredStyle: .alert)
         
-        if let onPressOk = onPressOk {
-            let alertAction = UIAlertAction(title: labelOk ?? "Ok", style: .default) { _ in
+        let onPressOkAction = UIAlertAction(title: labelOk ?? "Ok", style: .default) { _ in
+            if let onPressOk = self.onPressOk {
                 controller.execute(action: onPressOk, sender: self)
             }
-            alertController.addAction(alertAction)
-        } else {
-            let alertAction = UIAlertAction(title: labelOk ?? "Ok", style: .default)
-            alertController.addAction(alertAction)
         }
-        
+        alertController.addAction(onPressOkAction)
         controller.present(alertController, animated: true)
     }
     
