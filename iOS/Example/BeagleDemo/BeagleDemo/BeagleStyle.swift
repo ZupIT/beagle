@@ -58,10 +58,9 @@ struct AppTheme {
     }
     
     static func designSystemScreenButton() -> (UIButton?) -> Void {
-        return BeagleStyle.button(withTitleColor: .black)
+        return BeagleStyle.button(withTitleColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
             <> {
-                var cinza: UIColor { return UIColor.gray}
-                $0?.backgroundColor = cinza
+                $0?.backgroundColor = #colorLiteral(red: 0.1098039216, green: 0.1098039216, blue: 0.1098039216, alpha: 1)
                 $0?.titleLabel |> BeagleStyle.label(withFont: .systemFont(ofSize: 18))
         }
     }
