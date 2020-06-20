@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.Route
-import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.widget.action.Navigate
+import br.com.zup.beagle.widget.action.Route
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.ext.applyFlex
@@ -47,11 +47,11 @@ object ButtonScreenBuilder : ScreenBuilder {
                 NavigationBarItem(
                     text = "",
                     image = "informationImage",
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "Button",
                         message = "This is a widget that will define a button natively using the server " +
                             "driven information received through Beagle.",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 )
             )
@@ -111,7 +111,7 @@ object ButtonScreenBuilder : ScreenBuilder {
         val button = Button(
             text = text,
             styleId = styleId,
-            action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT, true))
+            onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT, true)))
         )
 
         if (flex != null) {

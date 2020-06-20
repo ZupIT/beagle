@@ -61,51 +61,36 @@ public extension Expression {
             return value
         }
     }
-    
-    // TODO: revisar API action
-    
-//    func get(with view: UIView) -> T? {
-//        switch self {
-//        case let .expression(expression):
-//            return view.evaluate(for: expression) as? T
-//        case let .value(value):
-//            return value
-//        }
-//    }
 }
 
 // MARK: ExpressibleByLiteral
-// TODO: revisar tratativa de erro (criar Expression do tipo unknown???)
-extension Expression: ExpressibleByStringLiteral {
+extension Expression: ExpressibleByStringLiteral where T == String {
     public init(stringLiteral value: String) {
         if let expression = SingleExpression(rawValue: value) {
             self = .expression(expression)
-        } else if let value = value as? T {
-            self = .value(value)
         } else {
-            preconditionFailure("Expected to set \(T.self) but found String instead")
+            self = .value(value)
         }
     }
 }
 
-extension Expression: ExpressibleByStringInterpolation {}
+extension Expression: ExpressibleByExtendedGraphemeClusterLiteral where T == String {
+    public typealias ExtendedGraphemeClusterLiteralType = String
+}
+extension Expression: ExpressibleByUnicodeScalarLiteral where T == String {
+    public typealias UnicodeScalarLiteralType = String
+}
 
-extension Expression: ExpressibleByIntegerLiteral {
+extension Expression: ExpressibleByStringInterpolation where T == String {}
+
+extension Expression: ExpressibleByIntegerLiteral where T == Int {
     public init(integerLiteral value: Int) {
-        if let value = value as? T {
-            self = .value(value)
-        } else {
-            preconditionFailure("Expected to set \(T.self) but found Int instead")
-        }
+        self = .value(value)
     }
 }
 
-extension Expression: ExpressibleByFloatLiteral {
+extension Expression: ExpressibleByFloatLiteral where T == Float {
     public init(floatLiteral value: Float) {
-        if let value = value as? T {
-            self = .value(value)
-        } else {
-            preconditionFailure("Expected to set \(T.self) but found Float instead")
-        }
+        self = .value(value)
     }
 }

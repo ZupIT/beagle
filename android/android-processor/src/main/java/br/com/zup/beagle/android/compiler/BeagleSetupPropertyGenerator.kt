@@ -17,19 +17,20 @@
 package br.com.zup.beagle.android.compiler
 
 import br.com.zup.beagle.android.annotation.BeagleComponent
-import br.com.zup.beagle.android.compiler.util.ANALYTICS
-import br.com.zup.beagle.android.compiler.util.BEAGLE_ACTIVITY
-import br.com.zup.beagle.android.compiler.util.BeagleClass
-import br.com.zup.beagle.android.compiler.util.DEEP_LINK_HANDLER
-import br.com.zup.beagle.android.compiler.util.DESIGN_SYSTEM
-import br.com.zup.beagle.android.compiler.util.FORM_LOCAL_ACTION_HANDLER
-import br.com.zup.beagle.android.compiler.util.HTTP_CLIENT_HANDLER
-import br.com.zup.beagle.android.compiler.util.STORE_HANDLER
-import br.com.zup.beagle.android.compiler.util.URL_BUILDER_HANDLER
-import br.com.zup.beagle.android.compiler.util.VALIDATOR_HANDLER
-import br.com.zup.beagle.android.compiler.util.error
-import br.com.zup.beagle.android.compiler.util.extendsFromClass
-import br.com.zup.beagle.android.compiler.util.implementsInterface
+import br.com.zup.beagle.compiler.ANALYTICS
+import br.com.zup.beagle.compiler.BEAGLE_ACTIVITY
+import br.com.zup.beagle.compiler.BEAGLE_LOGGER
+import br.com.zup.beagle.compiler.BeagleClass
+import br.com.zup.beagle.compiler.DEEP_LINK_HANDLER
+import br.com.zup.beagle.compiler.DESIGN_SYSTEM
+import br.com.zup.beagle.compiler.FORM_LOCAL_ACTION_HANDLER
+import br.com.zup.beagle.compiler.HTTP_CLIENT_HANDLER
+import br.com.zup.beagle.compiler.STORE_HANDLER
+import br.com.zup.beagle.compiler.URL_BUILDER_HANDLER
+import br.com.zup.beagle.compiler.VALIDATOR_HANDLER
+import br.com.zup.beagle.compiler.error
+import br.com.zup.beagle.compiler.extendsFromClass
+import br.com.zup.beagle.compiler.implementsInterface
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
@@ -103,6 +104,13 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
                     propertySpecifications?.urlBuilder = typeElement
                 } else {
                     logImplementationErrorMessage(typeElement, "UrlBuilder")
+                }
+            }
+            typeElement.implementsInterface(BEAGLE_LOGGER.toString()) -> {
+                if (propertySpecifications?.logger == null) {
+                    propertySpecifications?.logger = typeElement
+                } else {
+                    logImplementationErrorMessage(typeElement, "BeagleLogger")
                 }
             }
         }
@@ -187,6 +195,11 @@ class BeagleSetupPropertyGenerator(private val processingEnv: ProcessingEnvironm
                 "analytics",
                 ANALYTICS
             ),
+            implementProperty(
+                propertySpecifications?.logger.toString(),
+                "logger",
+                BEAGLE_LOGGER
+            ),
             implementServerDrivenActivityProperty(propertySpecifications?.beagleActivity)
         )
     }
@@ -237,5 +250,6 @@ internal data class PropertySpecifications(
     var beagleActivity: TypeElement? = null,
     var urlBuilder: TypeElement? = null,
     var storeHandler: TypeElement? = null,
-    var analytics: TypeElement? = null
+    var analytics: TypeElement? = null,
+    var logger: TypeElement? = null
 )

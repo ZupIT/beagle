@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.sample.spring.service
 
-import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.sample.builder.FormScreenBuilder
 import org.springframework.stereotype.Service
 
@@ -24,9 +24,9 @@ import org.springframework.stereotype.Service
 class SampleFormService {
     fun createFormView() = FormScreenBuilder
 
-    fun submitForm(body: Map<String, String>) = ShowNativeDialog(
+    fun submitForm(body: Map<String, String>) = Alert(
         title = "Success!",
         message = body.entries.joinToString(separator = "\n") { "${it.key}: ${it.value}" },
-        buttonText = "Ok"
+        labelOk = "OK"
     )
 }

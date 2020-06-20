@@ -94,7 +94,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         let sut = safeAreaController(
             content: Text(
                 "My Content",
-                alignment: .center,
+                alignment: Expression.value(.center),
                 widgetProperties: .init(
                 style: .init(backgroundColor: "#00FFFF"),
                 flex: Flex(grow: 1))
@@ -288,8 +288,14 @@ class BeagleControllerStub: BeagleController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func addBinding(_ update: @escaping () -> Void) {}
+    
     func execute(action: RawAction, sender: Any) {
         (action as? Action)?.execute(controller: self, sender: sender)
+    }
+    
+    func execute(actions: [RawAction]?, with context: Context?, sender: Any) {
+        actions?.forEach { execute(action: $0, sender: sender) }
     }
     
 }

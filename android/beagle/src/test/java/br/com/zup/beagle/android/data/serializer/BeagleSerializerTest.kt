@@ -16,10 +16,10 @@
 
 package br.com.zup.beagle.android.data.serializer
 
-import br.com.zup.beagle.action.Action
-import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.Route
 import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.Navigate
+import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.exception.BeagleException
@@ -43,8 +43,10 @@ class BeagleSerializerTest: BaseTest() {
 
     @MockK
     private lateinit var moshi: Moshi
+
     @MockK
     private lateinit var jsonAdapter: JsonAdapter<ServerDrivenComponent>
+
     @MockK
     private lateinit var actionJsonAdapter: JsonAdapter<Action>
 
@@ -90,7 +92,7 @@ class BeagleSerializerTest: BaseTest() {
         every { jsonAdapter.toJson(button) } returns null
 
         // When
-        val actual = assertFails{ beagleSerializer.serializeComponent(button) }
+        val actual = assertFails { beagleSerializer.serializeComponent(button) }
 
         // Then
         assertTrue(actual is BeagleException)
@@ -131,7 +133,7 @@ class BeagleSerializerTest: BaseTest() {
         every { jsonAdapter.fromJson(json) } returns null
 
         // When
-        val actual = assertFails{ beagleSerializer.deserializeComponent(json) }
+        val actual = assertFails { beagleSerializer.deserializeComponent(json) }
 
         // Then
         assertTrue(actual is BeagleException)
@@ -171,7 +173,7 @@ class BeagleSerializerTest: BaseTest() {
         every { actionJsonAdapter.fromJson(json) } returns null
 
         // When
-        val actual = assertFails{ beagleSerializer.deserializeAction(json) }
+        val actual = assertFails { beagleSerializer.deserializeAction(json) }
 
         // Then
         assertTrue(actual is BeagleException)

@@ -16,10 +16,28 @@
 
 package br.com.zup.beagle.serialization.jackson
 
+import br.com.zup.beagle.core.BindAttribute
+import br.com.zup.beagle.widget.layout.ComposeComponent
+import br.com.zup.beagle.widget.layout.ScreenBuilder
 import com.fasterxml.jackson.databind.module.SimpleModule
 
-object BeagleModule : SimpleModule() {
+class BeagleModule(
+    private val classLoader: ClassLoader = BeagleModule::class.java.classLoader
+) : SimpleModule() {
+
     init {
-        this.setSerializerModifier(BeagleSerializerModifier)
+        this.setSerializerModifier(BeagleSerializerModifier(this.classLoader))
+        this.setMixInAnnotation(
+            getClass(ComposeComponent::class, this.classLoader),
+            ComposeComponentMixin::class.java
+        )
+        this.setMixInAnnotation(
+            getClass(ScreenBuilder::class, this.classLoader),
+            ScreenBuilderMixin::class.java
+        )
+        this.setMixInAnnotation(
+            getClass(BindAttribute::class, this.classLoader),
+            BindMixin::class.java
+        )
     }
 }

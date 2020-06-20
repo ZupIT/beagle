@@ -18,11 +18,13 @@ package br.com.zup.beagle.sample.micronaut.controller
 
 import br.com.zup.beagle.sample.constants.PATH_LAZY_COMPONENT_ENDPOINT
 import br.com.zup.beagle.sample.micronaut.service.SampleLazyComponentService
-import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Controller
 
 @Controller
-class WidgetController(private val sampleLazyComponentService: SampleLazyComponentService) {
+class WidgetController (
+    private val sampleLazyComponentService: SampleLazyComponentService
+){
     @Get(PATH_LAZY_COMPONENT_ENDPOINT)
-    fun getLazyComponent() = this.sampleLazyComponentService.createTextLazyComponent()
+    fun getLazyComponent() = sampleLazyComponentService.createTextLazyComponent()
 }

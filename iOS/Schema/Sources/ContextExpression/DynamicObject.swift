@@ -121,7 +121,7 @@ extension DynamicObject: Encodable {
     }
 }
 
-// TODO: Mover para BeagleUI
+// TODO: move to BeagleUI
 extension DynamicObject {
 
     public mutating func set(_ value: Any, forPath path: String) {

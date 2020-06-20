@@ -31,9 +31,9 @@ import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.android.components.layout.Container
-import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.android.components.layout.NavigationBar
+import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.components.layout.ScrollView
-import br.com.zup.beagle.widget.layout.NavigationBar
 
 class LazyComponentFragment : Fragment() {
 

@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-import BeagleUI
+import BeagleSchema
+@testable import BeagleUI
 import XCTest
 import SnapshotTesting
 
 final class SingleExpressionTests: XCTestCase {
     
-    let model = [
+    let model: DynamicObject = [
         "client": [
             "name": [
                 "first": "John",

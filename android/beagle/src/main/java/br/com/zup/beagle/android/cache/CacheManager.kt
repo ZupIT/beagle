@@ -36,8 +36,9 @@ internal data class BeagleCache(
 
 internal class CacheManager(
     private val storeHandler: StoreHandler = StoreHandlerFactory().make(),
-    private val timerCacheStore: LruCacheStore = LruCacheStore.instance,
-    private val beagleEnvironment: BeagleEnvironment = BeagleEnvironment
+    private val beagleEnvironment: BeagleEnvironment = BeagleEnvironment,
+    private val timerCacheStore: LruCacheStore? =
+        if (beagleEnvironment.beagleSdk.config.cache.enabled) LruCacheStore.instance else null
 ) {
 
     fun restoreBeagleCacheForUrl(url: String): BeagleCache? {
@@ -46,7 +47,7 @@ internal class CacheManager(
         }
 
         val beagleHashKey = url.toBeagleHashKey()
-        val timerCache = timerCacheStore.restore(beagleHashKey)
+        val timerCache = timerCacheStore?.restore(beagleHashKey)
         return if (timerCache != null) {
             checkMemoryCacheAndReturn(timerCache)
         } else {
@@ -131,7 +132,7 @@ internal class CacheManager(
     ) {
         val cacheKey = url.toBeagleHashKey()
         val maxTime = getMaxAgeFromCacheControl(cacheControl)
-        timerCacheStore.save(cacheKey, TimerCache(
+        timerCacheStore?.save(cacheKey, TimerCache(
             maxTime = maxTime,
             cachedTime = nanoTimeInSeconds(),
             hash = beagleHash,

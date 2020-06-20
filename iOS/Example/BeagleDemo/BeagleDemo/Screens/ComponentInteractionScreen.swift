@@ -26,31 +26,15 @@ let componentInteractionScreen: Screen = {
         child: Container(children: [
             Button(
                 text: "Declarative",
-                action: Navigate.pushView(.declarative(declarativeScreen))
+                onPress: [Navigate.pushView(.declarative(declarativeScreen))]
             ),
             Button(
                 text: "Text (JSON)",
-                action: Navigate.openNativeRoute("componentInteractionText")
+                onPress: [Navigate.openNativeRoute("componentInteractionText")]
             )
         ])
     )
 }()
-
-let contextValue: DynamicObject = [
-    "int": 2,
-    "double": 2.2,
-    "string": "string",
-    "expression": "${myContext}",
-    "array": [
-        "1", 2, 2.2, "${myContext}", nil
-    ],
-    "dictionary": [
-        "int": 2,
-        "double": 2.2,
-        "string": "string",
-        "expression": "${myContext}"
-    ]
-]
 
 let declarativeScreen: Screen = {
     return Screen(
@@ -59,32 +43,31 @@ let declarativeScreen: Screen = {
             children:
             [
                 TextInput(
-                    label: "asd",
+                    label: "",
                     onChange: [
                         SetContext(
                             context: "myContext",
-                            value: ["a": ["c": "${onChange.value}"], "d": "${onChange.value}${onChange.value}"]
+                            value: "@{onChange.value}"
                         )
                     ]
                 ),
-                Text("${myContext.a.b}"),
-                Text("${myContext.b}"),
+                Text("@{myContext}"),
                 Button(
                     text: "ok",
-                    action: SetContext(
+                    onPress: [SetContext(
                         context: "myContext",
-                        value: ["b": "ok tapped!"]
-                    )
+                        value: "button value"
+                    )]
                 )
             ],
-            context: Context(id: "myContext", value: ["a": ["b": "123123"]])
+            context: Context(id: "myContext", value: "")
         )
     )
 }()
 
 struct ComponentInteractionText: DeeplinkScreen {
 
-    init(path: String, data: [String : String]?) {
+    init(path: String, data: [String: String]?) {
     }
 
     func screenController() -> UIViewController {
@@ -121,11 +104,11 @@ struct ComponentInteractionText: DeeplinkScreen {
                       {
                         "_beagleComponent_": "beagle:button",
                         "text": "ok",
-                        "action": {
+                        "onPress": [{
                           "_beagleAction_": "beagle:setcontext",
                           "context": "myContext",
                           "value": "2"
-                        }
+                        }]
                       }
                     ]
                   }
@@ -167,30 +150,22 @@ class TextInputView: UITextField, UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        // TODO: arrumar execute
-//        let context = Context(id: "onFocus", value: ["value": textField.text])
-        
         let context = Context(id: "onFocus", value: .dictionary(["value": .string(textField.text ?? "")]))
         controller?.execute(actions: widget.onFocus, with: context, sender: self)
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-//        let context = Context(id: "onBlur", value: ["value": textField.text])
-        
         let context = Context(id: "onBlur", value: .dictionary(["value": .string(textField.text ?? "")]))
         controller?.execute(actions: widget.onBlur, with: context, sender: self)
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
-    {
-        var updatedText: String? = nil
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        var updatedText: String?
         if let text = textField.text,
            let textRange = Range(range, in: text) {
-           updatedText = text.replacingCharacters(in: textRange,
-                                                       with: string)
+           updatedText = text.replacingCharacters(in: textRange, with: string)
         }
         textField.text = updatedText
-//        let context = Context(id: "onChange", value: ["value": updatedText])
         
         let context = Context(id: "onChange", value: .dictionary(["value": .string(updatedText ?? "")]))
         controller?.execute(actions: widget.onChange, with: context, sender: self)
@@ -214,8 +189,8 @@ extension TextInput {
 
         widgetProperties = try WidgetProperties(from: decoder)
         label = try container.decode(Expression<String>.self, forKey: .label)
-        onChange = try container.decode(forKey: .onChange)
-        onFocus = try container.decode(forKey: .onFocus)
-        onBlur = try container.decode(forKey: .onBlur)
+        onChange = try container.decodeIfPresent(forKey: .onChange)
+        onFocus = try container.decodeIfPresent(forKey: .onFocus)
+        onBlur = try container.decodeIfPresent(forKey: .onBlur)
     }
 }

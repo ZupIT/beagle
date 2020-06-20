@@ -23,14 +23,17 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import br.com.zup.beagle.action.Route
+import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleLogger
+import br.com.zup.beagle.android.logger.BeagleLoggerFactory
+import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.navigation.DeepLinkHandler
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.android.view.custom.BeagleNavigator
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -45,7 +48,6 @@ import io.mockk.verify
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import java.lang.Exception
 import kotlin.test.assertEquals
 
 private val route = Route.Remote(RandomData.httpUrl())
@@ -55,8 +57,10 @@ class BeagleNavigatorTest {
 
     @MockK
     private lateinit var context: BeagleActivity
+
     @MockK
     private lateinit var fragmentTransaction: FragmentTransaction
+
     @MockK(relaxed = true)
     private lateinit var intent: Intent
 
@@ -67,13 +71,15 @@ class BeagleNavigatorTest {
     fun setUp() {
         MockKAnnotations.init(this)
         mockkObject(BeagleEnvironment)
-        mockkObject(BeagleLogger)
         mockkStatic("android.net.Uri")
 
         every { BeagleEnvironment.beagleSdk.config.baseUrl } returns RandomData.httpUrl()
+        every { BeagleEnvironment.beagleSdk.logger } returns null
+        every { BeagleEnvironment.beagleSdk.config.isLoggingEnabled } returns true
 
         mockkObject(BeagleFragment.Companion)
         mockkObject(BeagleActivity.Companion)
+        mockkObject(BeagleLoggerProxy)
 
         every { BeagleActivity.newIntent(any(), any(), any()) } returns intent
 
@@ -117,13 +123,13 @@ class BeagleNavigatorTest {
         val url = "invalid url"
         every { context.startActivity(any()) } throws Exception()
         every { Uri.parse(url) } returns webPage
-        every { BeagleLogger.error(any()) } just Runs
+        every { BeagleLoggerProxy.error(any()) } just Runs
 
         // When
         BeagleNavigator.openExternalURL(context, url)
 
         // Then
-        verify(exactly = once()) { BeagleLogger.error(any()) }
+        verify(exactly = once()) { BeagleLoggerProxy.error(any()) }
     }
 
     @Test

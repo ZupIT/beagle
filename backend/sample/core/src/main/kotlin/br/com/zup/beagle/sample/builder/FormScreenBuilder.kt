@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.action.FormMethodType
-import br.com.zup.beagle.action.FormRemoteAction
-import br.com.zup.beagle.action.ShowNativeDialog
+import br.com.zup.beagle.widget.action.FormMethodType
+import br.com.zup.beagle.widget.action.FormRemoteAction
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
@@ -52,10 +52,10 @@ object FormScreenBuilder : ScreenBuilder {
                 NavigationBarItem(
                     text = "",
                     image = "informationImage",
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "Form",
                         message = "A formSubmit component will define a submit handler in a form.",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 )
             )
@@ -64,10 +64,10 @@ object FormScreenBuilder : ScreenBuilder {
             scrollDirection = ScrollAxis.VERTICAL,
             children = listOf(
                 Form(
-                    action = FormRemoteAction(
+                    onSubmit = listOf(FormRemoteAction(
                         path = SUBMIT_FORM_ENDPOINT,
                         method = FormMethodType.POST
-                    ),
+                    )),
                     child = Container(
                         children = listOf(
                             customFormInput(

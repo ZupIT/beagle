@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.sample.micronaut.service
 
-import br.com.zup.beagle.action.Navigate
-import br.com.zup.beagle.action.Route
+import br.com.zup.beagle.widget.action.Navigate
+import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.sample.builder.NavigationBarScreenBuilder
 import br.com.zup.beagle.sample.builder.NavigationBarViewScreenBuilder
 import br.com.zup.beagle.sample.constants.LOGO_BEAGLE

@@ -20,9 +20,9 @@ import android.widget.FrameLayout
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.StyleManager
-import br.com.zup.beagle.android.view.BeaglePageView
-import br.com.zup.beagle.android.view.BeagleTabLayout
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.view.custom.BeaglePageView
+import br.com.zup.beagle.android.view.custom.BeagleTabLayout
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
@@ -32,7 +32,6 @@ import io.mockk.verify
 import org.junit.Test
 
 class TabViewTest : BaseComponentTest() {
-
 
     private val tabLayout: BeagleTabLayout = mockk(relaxed = true)
     private val viewPager: BeaglePageView = mockk()
@@ -64,7 +63,7 @@ class TabViewTest : BaseComponentTest() {
         every { beagleFlexView.addView(any()) } just runs
 
 
-        tabView = TabView(listOf(tabItem), "")
+        tabView = TabView(listOf(tabItem))
     }
 
     override fun tearDown() {

@@ -21,8 +21,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import br.com.zup.beagle.action.FormMethodType
-import br.com.zup.beagle.action.FormRemoteAction
+import br.com.zup.beagle.android.action.FormMethodType
+import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.form.Form
@@ -72,10 +72,10 @@ class DisabledFormSubmitFragment : Fragment() {
                     makeCharadeFormSubmit()
                 )
             ),
-            action = FormRemoteAction(
+            onSubmit = listOf(FormRemoteAction(
                 method = FormMethodType.POST,
                 path = "endereco/endpoint"
-            )
+            ))
         )
     }
 
@@ -141,8 +141,8 @@ class DisabledFormSubmitFragment : Fragment() {
                 alignSelf = AlignSelf.CENTER,
                 margin = EdgeValue(
                     top = UnitValue(45.0, UnitType.REAL),
-                    start = UnitValue(10.0, UnitType.REAL),
-                    end = UnitValue(10.0, UnitType.REAL)
+                    left = UnitValue(10.0, UnitType.REAL),
+                    right = UnitValue(10.0, UnitType.REAL)
                 )
             )
         )

@@ -19,3 +19,9 @@ import BeagleSchema
 public protocol Action: RawAction {
     func execute(controller: BeagleController, sender: Any)
 }
+
+extension UnknownAction: Action {
+    public func execute(controller: BeagleController, sender: Any) {
+        controller.dependencies.logger.log(Log.decode(.decodingError(type: "error trying to execute unknown action")))
+    }
+}
