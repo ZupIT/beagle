@@ -27,7 +27,7 @@ final class ButtonTests: XCTestCase {
     func test_toView_shouldSetRightButtonTitle() {
         //Given
         let buttonTitle = "title"
-        let component = Button(text: buttonTitle)
+        let component = Button(text: Expression.value(buttonTitle))
         let controller = BeagleControllerStub()
         let renderer = BeagleRenderer(controller: controller)
 
@@ -49,7 +49,7 @@ final class ButtonTests: XCTestCase {
         controller.dependencies = BeagleScreenDependencies(theme: theme)
         
         let style = "test.button.style"
-        let button = Button(text: "apply style", styleId: style)
+        let button = Button(text: "apply style", styleId: Expression.value(style))
 
         // When
         let view = renderer.render(button)

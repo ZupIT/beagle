@@ -94,7 +94,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         let sut = safeAreaController(
             content: Text(
                 "My Content",
-                alignment: .center,
+                alignment: Expression.value(.center),
                 widgetProperties: .init(
                 style: .init(backgroundColor: "#00FFFF"),
                 flex: Flex(grow: 1))
