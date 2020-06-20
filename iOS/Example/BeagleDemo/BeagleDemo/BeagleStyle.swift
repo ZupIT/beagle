@@ -30,7 +30,8 @@ struct AppTheme {
         .FORM_SUBMIT_STYLE: Self.formButton,
         .NAVIGATION_BAR_GREEN_STYLE: Self.designSystemStyleNavigationBar,
         .NAVIGATION_BAR_DEFAULT_STYLE: Self.designSystemStyleNavigationBarDefault,
-        .TAB_VIEW_STYLE: Self.tabView
+        .TAB_VIEW_STYLE: Self.tabView,
+        .DESIGN_SYSTEM_STYLE_BUTTON_SCREEN_BUTTON: designSystemScreenButton
     ])
     
     static func blackTextNormalStyle() -> (UITextView?) -> Void {
@@ -53,6 +54,15 @@ struct AppTheme {
         return BeagleStyle.button(withTitleColor: .black)
             <> {
                 $0?.titleLabel |> BeagleStyle.label(withFont: .systemFont(ofSize: 16, weight: .semibold))
+        }
+    }
+    
+    static func designSystemScreenButton() -> (UIButton?) -> Void {
+        return BeagleStyle.button(withTitleColor: .black)
+            <> {
+                var cinza: UIColor { return UIColor.gray}
+                $0?.backgroundColor = cinza
+                $0?.titleLabel |> BeagleStyle.label(withFont: .systemFont(ofSize: 18))
         }
     }
     
