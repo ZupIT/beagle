@@ -30,7 +30,12 @@ class AppDesignSystem : DesignSystem() {
         }
     }
 
-    override fun tabViewStyle(id: String): Int? = R.style.DesignSystem_TabView_Default
+    override fun tabViewStyle(id: String): Int?{
+       return when(id){
+            "DesignSystem.TabView.Test" -> R.style.DesignSystem_TabView_Test
+            else-> R.style.DesignSystem_TabView_Default
+        }
+    }
 
     override fun image(id: String): Int? {
         return when (id) {

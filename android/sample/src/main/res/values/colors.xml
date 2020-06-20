@@ -25,4 +25,6 @@
     <color name="colorKaie">#1b2534</color>
     <color name="colorGreen">#008000</color>
     <color name="colorGrey11">#1C1C1C</color>
+    <color name="LightSteelBlue">#B0C4DE</color>
+    <color name="SteelBlue">#4682B4</color>
 </resources>

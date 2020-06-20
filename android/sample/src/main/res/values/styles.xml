@@ -49,6 +49,14 @@
         <item name="tabIconTint">@color/selector_icon_color</item>
     </style>
 
+    <style name="DesignSystem.TabView.Test" parent="Widget.Design.TabLayout">
+        <item name="tabSelectedTextColor">@color/SteelBlue</item>
+        <item name="tabTextColor">@color/colorGrey11</item>
+        <item name="tabBackground">@color/LightSteelBlue</item>
+        <item name="tabIndicatorColor">@color/colorWhite</item>
+        <item name="tabIconTint">@color/selector_icon_color</item>
+    </style>
+
     <style name="DesignSystem.Navigationbar.Style" parent="Widget.AppCompat.Toolbar">
         <item name="titleTextAppearance">@style/DesignSystem.Toolbar.TextAppearance</item>
         <item name="backgroundColor">@color/colorGreen</item>

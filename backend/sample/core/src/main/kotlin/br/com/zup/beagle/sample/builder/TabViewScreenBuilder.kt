@@ -167,7 +167,8 @@ object TabViewScreenBuilder : ScreenBuilder {
             )
         ),
         child = TabView(
-            children = listOf(tab1, tab2, tab3, tab4)
+            children = listOf(tab1, tab2, tab3, tab4),
+            styleId = "DesignSystem.TabView.Test"
         )
     )
 }
