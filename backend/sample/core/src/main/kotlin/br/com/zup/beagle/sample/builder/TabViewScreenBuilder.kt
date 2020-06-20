@@ -133,7 +133,8 @@ object TabViewScreenBuilder : ScreenBuilder {
         child = Container(
             children = listOf(
                 TabView(
-                    children = listOf(tab1, tab2)
+                    children = listOf(tab1, tab2),
+                    styleId = "DesignSystem.TabView.Test"
                 )
             )
         ).applyFlex(Flex(alignContent = AlignContent.CENTER, margin = EdgeValue(top = 20.unitReal(),right = 20.unitReal(),left = 20.unitReal())))
