@@ -23,9 +23,9 @@ import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_STYLE
 import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
-import br.com.zup.beagle.widget.action.ShowNativeDialog
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
@@ -52,10 +52,10 @@ object TouchableScreenBuilder : ScreenBuilder {
                 NavigationBarItem(
                     text = "",
                     image = Local.justMobile("informationImage"),
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "Touchable",
                         message = "Applies click action on widgets that have no action.",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 )
             )

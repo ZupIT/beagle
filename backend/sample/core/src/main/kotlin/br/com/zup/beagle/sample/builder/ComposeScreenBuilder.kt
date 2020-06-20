@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.sample.compose.CustomComposeComponent
-import br.com.zup.beagle.widget.action.ShowNativeDialog
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
@@ -33,10 +33,10 @@ object ComposeScreenBuilder : ScreenBuilder {
                 NavigationBarItem(
                     text = "",
                     image = Local.justMobile("informationImage"),
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "Compose Component",
                         message = "Creates components to call in different places.",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 )
             )

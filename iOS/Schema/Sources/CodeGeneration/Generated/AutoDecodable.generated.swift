@@ -17,6 +17,26 @@
 * limitations under the License.
 */
 
+// MARK: Alert Decodable
+extension Alert {
+
+    enum CodingKeys: String, CodingKey {
+        case title
+        case message
+        case onPressOk
+        case labelOk
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        title = try container.decodeIfPresent(String.self, forKey: .title)
+        message = try container.decode(String.self, forKey: .message)
+        onPressOk = try container.decodeIfPresent(forKey: .onPressOk)
+        labelOk = try container.decodeIfPresent(String.self, forKey: .labelOk)
+    }
+}
+
 // MARK: Button Decodable
 extension Button {
 
@@ -32,9 +52,33 @@ extension Button {
 
         text = try container.decode(String.self, forKey: .text)
         styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
-        action = try container.decodeIfPresent( forKey: .action)
+        action = try container.decodeIfPresent(forKey: .action)
         clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
         widgetProperties = try WidgetProperties(from: decoder)
+    }
+}
+
+// MARK: Confirm Decodable
+extension Confirm {
+
+    enum CodingKeys: String, CodingKey {
+        case title
+        case message
+        case onPressOk
+        case onPressCancel
+        case labelOk
+        case labelCancel
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        title = try container.decodeIfPresent(String.self, forKey: .title)
+        message = try container.decode(String.self, forKey: .message)
+        onPressOk = try container.decodeIfPresent(forKey: .onPressOk)
+        onPressCancel = try container.decodeIfPresent(forKey: .onPressCancel)
+        labelOk = try container.decodeIfPresent(String.self, forKey: .labelOk)
+        labelCancel = try container.decodeIfPresent(String.self, forKey: .labelCancel)
     }
 }
 
@@ -49,7 +93,7 @@ extension Container {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        children = try container.decode( forKey: .children)
+        children = try container.decode(forKey: .children)
         widgetProperties = try WidgetProperties(from: decoder)
         _context_ = try container.decodeIfPresent(Context.self, forKey: ._context_)
     }
@@ -69,8 +113,8 @@ extension Form {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        action = try container.decode( forKey: .action)
-        child = try container.decode( forKey: .child)
+        action = try container.decode(forKey: .action)
+        child = try container.decode(forKey: .child)
         group = try container.decodeIfPresent(String.self, forKey: .group)
         additionalData = try container.decodeIfPresent([String: String].self, forKey: .additionalData)
         shouldStoreFields = try container.decode(Bool.self, forKey: .shouldStoreFields)
@@ -95,7 +139,7 @@ extension FormInput {
         required = try container.decodeIfPresent(Bool.self, forKey: .required)
         validator = try container.decodeIfPresent(String.self, forKey: .validator)
         errorMessage = try container.decodeIfPresent(String.self, forKey: .errorMessage)
-        child = try container.decode( forKey: .child)
+        child = try container.decode(forKey: .child)
     }
 }
 
@@ -110,7 +154,7 @@ extension FormSubmit {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        child = try container.decode( forKey: .child)
+        child = try container.decode(forKey: .child)
         enabled = try container.decodeIfPresent(Bool.self, forKey: .enabled)
     }
 }
@@ -144,7 +188,7 @@ extension LazyComponent {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         path = try container.decode(String.self, forKey: .path)
-        initialState = try container.decode( forKey: .initialState)
+        initialState = try container.decode(forKey: .initialState)
     }
 }
 
@@ -159,7 +203,7 @@ extension ListView {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        children = try container.decode( forKey: .children)
+        children = try container.decode(forKey: .children)
         direction = try container.decode(Direction.self, forKey: .direction)
     }
 }
@@ -181,7 +225,7 @@ extension NavigationBarItem {
         id = try container.decodeIfPresent(String.self, forKey: .id)
         image = try container.decodeIfPresent(String.self, forKey: .image)
         text = try container.decode(String.self, forKey: .text)
-        action = try container.decode( forKey: .action)
+        action = try container.decode(forKey: .action)
         accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
     }
 }
@@ -206,7 +250,7 @@ extension ScreenComponent {
         safeArea = try container.decodeIfPresent(SafeArea.self, forKey: .safeArea)
         navigationBar = try container.decodeIfPresent(NavigationBar.self, forKey: .navigationBar)
         screenAnalyticsEvent = try container.decodeIfPresent(AnalyticsScreen.self, forKey: .screenAnalyticsEvent)
-        child = try container.decode( forKey: .child)
+        child = try container.decode(forKey: .child)
     }
 }
 
@@ -223,7 +267,7 @@ extension ScrollView {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        children = try container.decode( forKey: .children)
+        children = try container.decode(forKey: .children)
         scrollDirection = try container.decodeIfPresent(ScrollAxis.self, forKey: .scrollDirection)
         scrollBarEnabled = try container.decodeIfPresent(Bool.self, forKey: .scrollBarEnabled)
         style = try container.decodeIfPresent(Style.self, forKey: .style)
@@ -244,7 +288,7 @@ extension TabItem {
 
         icon = try container.decodeIfPresent(String.self, forKey: .icon)
         title = try container.decodeIfPresent(String.self, forKey: .title)
-        child = try container.decode( forKey: .child)
+        child = try container.decode(forKey: .child)
     }
 }
 
@@ -281,9 +325,9 @@ extension Touchable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        action = try container.decode( forKey: .action)
+        action = try container.decode(forKey: .action)
         clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
-        child = try container.decode( forKey: .child)
+        child = try container.decode(forKey: .child)
     }
 }
 

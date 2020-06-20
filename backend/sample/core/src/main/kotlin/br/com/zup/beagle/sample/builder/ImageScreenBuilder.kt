@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
 import br.com.zup.beagle.sample.constants.TITLE_SCREEN
-import br.com.zup.beagle.widget.action.ShowNativeDialog
 import br.com.zup.beagle.widget.core.ImageContentMode
 import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.layout.NavigationBar
@@ -39,11 +39,11 @@ object ImageScreenBuilder : ScreenBuilder {
                 NavigationBarItem(
                     text = "",
                     image = Local.justMobile("informationImage"),
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "Image",
                         message = "This widget will define a image view natively using the server driven " +
                             "information received through Beagle.",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 )
             )

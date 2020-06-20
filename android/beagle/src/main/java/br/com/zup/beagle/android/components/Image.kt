@@ -95,7 +95,7 @@ data class Image(val path: PathType, val mode: ImageContentMode? = null) : Widge
 
 }
 
-sealed class PathType() {
+sealed class PathType {
     data class Local(val mobileId: String) : PathType()
     data class Remote(val url: String) : PathType()
 }

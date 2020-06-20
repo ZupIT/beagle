@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
-import br.com.zup.beagle.widget.action.ShowNativeDialog
 import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
@@ -84,11 +84,11 @@ object TabViewScreenBuilder : ScreenBuilder {
                 NavigationBarItem(
                     text = "",
                     image = Local.justMobile("informationImage"),
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "TabView",
                         message = " Is a component that will make the navigation between views. It may happen by " +
                             "sliding through screens or by clicking at the tabs shown. ",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 )
             )

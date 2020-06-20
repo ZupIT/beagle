@@ -16,14 +16,15 @@
 
 package br.com.zup.beagle.android.data.serializer
 
+import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.Alert
+import br.com.zup.beagle.android.action.Confirm
+import br.com.zup.beagle.android.action.FormLocalAction
 import br.com.zup.beagle.android.action.FormMethodType
 import br.com.zup.beagle.android.action.FormRemoteAction
-import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.action.FormLocalAction
 import br.com.zup.beagle.android.action.FormValidation
 import br.com.zup.beagle.android.action.Navigate
-import br.com.zup.beagle.android.action.ShowNativeDialog
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Image
 import br.com.zup.beagle.android.components.PathType
@@ -39,16 +40,16 @@ import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.components.layout.ScrollView
 import br.com.zup.beagle.android.components.page.PageIndicator
 import br.com.zup.beagle.android.components.page.PageView
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.mockdata.ComponentBinding
 import br.com.zup.beagle.android.mockdata.CustomAndroidAction
 import br.com.zup.beagle.android.mockdata.CustomInputWidget
 import br.com.zup.beagle.android.mockdata.CustomWidget
+import br.com.zup.beagle.android.mockdata.InternalObject
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.widget.UndefinedWidget
 import br.com.zup.beagle.android.widget.WidgetView
-import br.com.zup.beagle.android.context.Bind
-import br.com.zup.beagle.android.mockdata.ComponentBinding
-import br.com.zup.beagle.android.mockdata.InternalObject
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.every
 import io.mockk.mockk
@@ -275,7 +276,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_TabView(){
+    fun make_should_return_moshi_to_deserialize_a_TabView() {
         // Given
         val json = makeTabViewJson()
 
@@ -289,7 +290,7 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_serialize_a_TabView(){
+    fun make_should_return_moshi_to_serialize_a_TabView() {
         // Given
         val component = TabView(children = listOf())
 
@@ -450,16 +451,29 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
-    fun make_should_return_moshi_to_deserialize_a_ShowNativeDialog() {
+    fun make_should_return_moshi_to_deserialize_a_AlertAction() {
         // Given
-        val json = makeShowNativeDialogJson()
+        val json = makeAlertActionJson()
 
         // When
         val actual = beagleMoshiFactory.moshi.adapter(Action::class.java).fromJson(json)
 
         // Then
         assertNotNull(actual)
-        assertTrue(actual is ShowNativeDialog)
+        assertTrue(actual is Alert)
+    }
+
+    @Test
+    fun make_should_return_moshi_to_deserialize_a_ConfirmAction() {
+        // Given
+        val json = makeConfirmActionJson()
+
+        // When
+        val actual = beagleMoshiFactory.moshi.adapter(Action::class.java).fromJson(json)
+
+        // Then
+        assertNotNull(actual)
+        assertTrue(actual is Confirm)
     }
 
     @Test

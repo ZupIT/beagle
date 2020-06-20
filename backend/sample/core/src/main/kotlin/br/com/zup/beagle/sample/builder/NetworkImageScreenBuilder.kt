@@ -16,11 +16,11 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
 import br.com.zup.beagle.sample.constants.TEXT_NETWORK_IMAGE
-import br.com.zup.beagle.widget.action.ShowNativeDialog
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
@@ -47,10 +47,10 @@ object NetworkImageScreenBuilder : ScreenBuilder {
                 NavigationBarItem(
                     text = "",
                     image = Local.justMobile("informationImage"),
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "NetworkImage",
                         message = "It is a widget that implements an image with a URL.",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 )
             )

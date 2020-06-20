@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitReal
@@ -27,7 +28,6 @@ import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_BAR_STYLE_EN
 import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_BAR_TEXT_ENDPOINT
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
-import br.com.zup.beagle.widget.action.ShowNativeDialog
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
@@ -53,10 +53,10 @@ object NavigationBarViewScreenBuilder : ScreenBuilder {
                     text = "Ajuda",
                     accessibility = Accessibility(accessibilityLabel = "Content Description"),
                     image = Local.justMobile("informationImage"),
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "NavigationBar",
                         message = "This component that allows to place titles and button action.",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 ).setId("nbiInformation")
             )

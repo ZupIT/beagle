@@ -18,7 +18,7 @@ package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.constants.PATH_URL_WEB_VIEW_ENDPOINT
-import br.com.zup.beagle.widget.action.ShowNativeDialog
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
@@ -36,17 +36,17 @@ object WebViewScreenBuilder : ScreenBuilder {
                 NavigationBarItem(
                     text = "",
                     image = Local.justMobile("informationImage"),
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "Web View",
                         message = "The Web View component is responsible for defining a web view natively " +
                             "using server driven information",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 )
             )
         ),
         child = WebView(url = PATH_URL_WEB_VIEW_ENDPOINT).applyFlex(
-            flex = Flex(grow = 1.0)
-        )
+                    flex = Flex(grow = 1.0)
+            )
     )
 }

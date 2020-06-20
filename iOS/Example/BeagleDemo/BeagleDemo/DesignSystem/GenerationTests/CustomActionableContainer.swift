@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,19 +15,27 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.action
+import Foundation
+import BeagleUI
+import BeagleSchema
+import UIKit
 
-/**
- * will show dialogues natively, such as an error alert indicating alternative flows, business system errors and others.
- *
- * @param title defines the title on the Dialog.
- * @param message defines the Dialog message.
- * @param buttonText define text of button in dialog.
- *
- */
+public struct CustomActionableContainer: ServerDrivenComponent, AutoInitiableAndDecodable {
 
-data class ShowNativeDialog(
-    val title: String,
-    val message: String,
-    val buttonText: String
-) : Action
+    public let child: [ServerDrivenComponent]
+    public let verySpecificAction: ActionDummy
+    
+    public func toView(renderer: BeagleRenderer) -> UIView {
+        return UIView()
+    }
+
+// sourcery:inline:auto:CustomActionableContainer.Init
+    public init(
+        child: [ServerDrivenComponent],
+        verySpecificAction: ActionDummy
+    ) {
+        self.child = child
+        self.verySpecificAction = verySpecificAction
+    }
+// sourcery:end
+}

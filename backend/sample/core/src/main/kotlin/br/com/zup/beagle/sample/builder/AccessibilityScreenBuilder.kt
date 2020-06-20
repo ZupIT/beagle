@@ -16,12 +16,12 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.ext.applyAccessibility
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_ACCESSIBILITY
-import br.com.zup.beagle.widget.action.ShowNativeDialog
 import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
@@ -44,10 +44,10 @@ object AccessibilityScreenBuilder : ScreenBuilder {
                 NavigationBarItem(
                     text = "",
                     image = Local.justMobile("informationImage"),
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "Accessibility Screen",
                         message = "This method applies accessibility in a widget",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 )
             )

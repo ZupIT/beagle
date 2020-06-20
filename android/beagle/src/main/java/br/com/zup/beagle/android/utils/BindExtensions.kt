@@ -16,24 +16,25 @@
 
 package br.com.zup.beagle.android.utils
 
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.context.Bind
 
 fun <T> Bind<T>.get(rootView: RootView, observes: ((value: T) -> Unit)? = null): T? {
     val value = try {
         when (this) {
             is Bind.Expression -> evaluateExpression(rootView, this)
-            else -> this.value as T
+            else -> this.value as? T?
         }
     } catch (ex: Exception) {
         BeagleMessageLogs.errorWhileTryingToEvaluateBinding(ex)
         null
     }
 
-    if (observes != null) {
+    if (value != null && observes != null) {
         this.observes(observes)
+        observes(value)
     }
 
     return value

@@ -20,6 +20,7 @@ import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import io.mockk.MockKAnnotations
@@ -35,10 +36,11 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class ShowNativeDialogTest {
+class AlertTest {
 
     @RelaxedMockK
     private lateinit var rootView: RootView
+
     @MockK
     private lateinit var viewFactory: ViewFactory
 
@@ -58,15 +60,16 @@ class ShowNativeDialogTest {
         every { builder.setMessage(capture(messageSlot)) } returns builder
         every { builder.setPositiveButton(capture(buttonTextSlot), capture(listenerSlot)) } returns builder
         every { builder.show() } returns mockk()
+        every { dialog.dismiss() } just Runs
     }
 
     @Test
-    fun `execute should create a AlertDialog`() {
+    fun `execute should create a AlertAction`() {
         // Given
-        val action = ShowNativeDialog(
+        val action = Alert(
             title = RandomData.string(),
             message = RandomData.string(),
-            buttonText = RandomData.string()
+            labelOk = RandomData.string()
         )
 
         // When
@@ -74,18 +77,38 @@ class ShowNativeDialogTest {
         action.execute(rootView)
 
         // Then
-        assertEquals(action.title, titleSlot.captured)
-        assertEquals(action.message, messageSlot.captured)
-        assertEquals(action.buttonText, buttonTextSlot.captured)
+        assertEquals(action.title?.value, titleSlot.captured)
+        assertEquals(action.message.value, messageSlot.captured)
+        assertEquals(action.labelOk, buttonTextSlot.captured)
+    }
+
+    @Test
+    fun `execute should create a AlertAction with text default`() {
+        // Given
+        val action = Alert(
+            title = RandomData.string(),
+            message = RandomData.string()
+        )
+        val randomLabel = RandomData.string()
+        every { rootView.getContext().getString(android.R.string.ok) } returns randomLabel
+
+        // When
+        action.viewFactory = viewFactory
+        action.execute(rootView)
+
+        // Then
+        assertEquals(action.title?.value, titleSlot.captured)
+        assertEquals(action.message.value, messageSlot.captured)
+        assertEquals(randomLabel, buttonTextSlot.captured)
     }
 
     @Test
     fun `click should dismiss dialog`() {
         // Given
-        val action = ShowNativeDialog(
+        val action = Alert(
             title = RandomData.string(),
             message = RandomData.string(),
-            buttonText = RandomData.string()
+            labelOk = RandomData.string()
         )
         every { dialog.dismiss() } just Runs
 
@@ -97,4 +120,26 @@ class ShowNativeDialogTest {
         // Then
         verify(exactly = once()) { dialog.dismiss() }
     }
+
+    @Test
+    fun `should handle onPressOk when click in button`() {
+        // Given
+        val onPressOk: Action = mockk(relaxed = true)
+        val action = Alert(
+            title = RandomData.string(),
+            message = RandomData.string(),
+            labelOk = RandomData.string(),
+            onPressOk = onPressOk
+        )
+        every { dialog.dismiss() } just Runs
+
+        // When
+        action.viewFactory = viewFactory
+        action.execute(rootView)
+        listenerSlot.captured.onClick(dialog, 0)
+
+        // Then
+        verify(exactly = once()) { action.handleEvent(rootView, onPressOk, "onPressOk") }
+    }
+
 }

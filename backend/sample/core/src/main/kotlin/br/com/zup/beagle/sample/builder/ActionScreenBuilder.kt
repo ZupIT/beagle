@@ -17,13 +17,14 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.sample.constants.NAVIGATION_BAR_STYLE_DEFAULT
 import br.com.zup.beagle.sample.constants.PATH_SCREEN_DEEP_LINK_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
+import br.com.zup.beagle.widget.action.Confirm
 import br.com.zup.beagle.widget.action.SendRequest
-import br.com.zup.beagle.widget.action.ShowNativeDialog
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
@@ -47,35 +48,36 @@ object ActionScreenBuilder : ScreenBuilder {
                 NavigationBarItem(
                     text = "",
                     image = Local.justMobile("informationImage"),
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "Action",
                         message = "This class handles transition actions between screens in the application. ",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 )
             )
         ),
         child = ScrollView(
             children = listOf(
-                getShowNativeDialogAction(),
+                getAlertAction(),
                 getNavigateWithPath(),
                 getNavigateWithScreen(),
                 getNavigateWithPathScreen(),
                 getNavigateWithPrefetch(),
                 getNavigateWithDeepLink(),
-                getSendRequestAction()
+                getSendRequestAction(),
+                getConfirmAction()
             )
         )
     )
 
-    private fun getShowNativeDialogAction() = Container(
+    private fun getAlertAction() = Container(
         children = listOf(
             Text("Action dialog"),
             Touchable(
-                action = ShowNativeDialog(
+                action = Alert(
                     title = "Some",
                     message = "Action",
-                    buttonText = "OK"
+                    labelOk = "OK"
                 ),
                 child = Text("Click me!").applyFlex(
                     Flex(
@@ -158,20 +160,45 @@ object ActionScreenBuilder : ScreenBuilder {
         children = listOf(
             Text("Send request action"),
             Button(
-                onPress = listOf(SendRequest(url = SCREEN_ACTION_CLICK_ENDPOINT, onSuccess = ShowNativeDialog(
+                onPress = listOf(SendRequest(url = SCREEN_ACTION_CLICK_ENDPOINT, onSuccess = Alert(
                     title = "Success",
                     message = "Action",
-                    buttonText = "OK"
+                    labelOk = "OK"
                 ),
-                    onError = ShowNativeDialog(
+                    onError = Alert(
                         title = "Error",
                         message = "Action",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     ),
-                    onFinish = ShowNativeDialog(
+                    onFinish = Alert(
                         title = "Finish",
                         message = "Action",
-                        buttonText = "OK"
+                        labelOk = "OK"
+                    )
+                )),
+                text = "Click me!"
+            )
+        )
+    )
+
+    private fun getConfirmAction() = Container(
+        children = listOf(
+            Text("Confirm action"),
+            Button(
+                onPress = listOf(Confirm(
+                    title = "Test confirm action",
+                    message = "Action",
+                    labelOk = "OK",
+                    labelCancel = "Cancel",
+                    onPressCancel = Alert(
+                        title = "Finish",
+                        message = "Action",
+                        labelOk = "OK"
+                    ),
+                    onPressOk = Alert(
+                        title = "Finish",
+                        message = "Action",
+                        labelOk = "OK"
                     )
                 )),
                 text = "Click me!"

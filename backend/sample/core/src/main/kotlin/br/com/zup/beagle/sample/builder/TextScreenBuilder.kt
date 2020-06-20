@@ -16,13 +16,13 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_STYLE
 import br.com.zup.beagle.sample.constants.STEEL_BLUE
-import br.com.zup.beagle.widget.action.ShowNativeDialog
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
@@ -42,11 +42,11 @@ object TextScreenBuilder : ScreenBuilder {
                 NavigationBarItem(
                     text = "",
                     image = Local.justMobile("informationImage"),
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "Text",
                         message = "This widget will define a text view natively using the server driven " +
                             "information received through Beagle.",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 )
             )
@@ -75,8 +75,8 @@ object TextScreenBuilder : ScreenBuilder {
                 flex = Flex(
                     margin = EdgeValue(
                         top = 16.unitReal(),
-                        start = 16.unitReal(),
-                        end = 16.unitReal()
+                        left = 16.unitReal(),
+                        right = 16.unitReal()
                     )
                 )
             ).applyStyle(

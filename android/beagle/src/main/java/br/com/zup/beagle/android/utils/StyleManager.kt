@@ -25,40 +25,72 @@ import android.util.TypedValue
 import android.view.View
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.components.Button
+import br.com.zup.beagle.android.components.TabView
 import br.com.zup.beagle.android.components.Text
-import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.android.components.utils.applyViewBackgroundAndCorner
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
+import br.com.zup.beagle.core.StyleComponent
 
 class StyleManager(
     private val designSystem: DesignSystem? = BeagleEnvironment.beagleSdk.designSystem,
     private val typedValue: TypedValue = TypedValue()
 ) {
 
-    fun getBackgroundColor(
+    fun applyStyleComponent(
         context: Context,
-        component: ServerDrivenComponent,
+        component: StyleComponent,
         view: View
-    ): Int? {
-        return if (view.background == null) {
-            Color.TRANSPARENT
+    ) {
+        if (view.background == null) {
+            view.applyViewBackgroundAndCorner(Color.TRANSPARENT, component)
         } else when (component) {
-            is Text -> fetchDrawableColor(
-                getTypedArray(
-                    context,
-                    designSystem?.textStyle(component.styleId ?: ""),
-                    R.styleable.BackgroundStyle
-                )
-            )
-            is Button -> fetchDrawableColor(
-                getTypedArray(
-                    context,
-                    designSystem?.buttonStyle(component.styleId ?: ""),
-                    R.styleable.BackgroundStyle
-                )
-            )
-            else -> fetchDrawableColor(background = view.background)
+            is Text -> {
+                if (component.styleId == null || component.styleId is Bind.Value) {
+                    applyStyleId(context, (component.styleId?.value ?: "") as String, view, component)
+                } else component.styleId.observes {
+                    applyStyleId(context, it, view, component)
+                }
+            }
+            is Button -> {
+                applyStyleOrObserve(component, context, view, component.styleId)
+            }
+            is TabView -> {
+                applyStyleOrObserve(component, context, view, component.styleId)
+            }
+            else -> {
+                val colorInt = fetchDrawableColor(background = view.background)
+                view.applyViewBackgroundAndCorner(colorInt, component)
+            }
         }
+    }
+
+    private fun applyStyleOrObserve(
+        component: StyleComponent,
+        context: Context,
+        view: View,
+        styleId: Bind<String>? = null
+    ) {
+        if (styleId == null || styleId is Bind.Value) {
+            applyStyleId(context, (styleId?.value ?: "") as String, view, component)
+        } else styleId.observes {
+            applyStyleId(context, it, view, component)
+        }
+    }
+
+    private fun applyStyleId(
+        context: Context,
+        buttonStyle: String,
+        view: View,
+        component: StyleComponent
+    ) {
+        val colorInt = fetchDrawableColor(getTypedArray(
+            context,
+            designSystem?.buttonStyle(buttonStyle),
+            R.styleable.BackgroundStyle)
+        )
+        view.applyViewBackgroundAndCorner(colorInt, component)
     }
 
     fun getTypedValueByResId(resId: Int, context: Context): TypedValue {

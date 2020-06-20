@@ -113,11 +113,12 @@ final public class ComponentDecoder: ComponentDecoding {
         registerAction(Navigate.self, key: key(name: "PopView", namespace: .beagle))
         registerAction(Navigate.self, key: key(name: "PopToView", namespace: .beagle))
         registerAction(FormValidation.self, key: key(name: "FormValidation", namespace: .beagle))
-        registerAction(ShowNativeDialog.self, key: key(name: "ShowNativeDialog", namespace: .beagle))
         registerAction(FormLocalAction.self, key: key(name: "FormLocalAction", namespace: .beagle))
         registerAction(FormRemoteAction.self, key: key(name: "FormRemoteAction", namespace: .beagle))
         registerAction(SetContext.self, key: key(name: "SetContext", namespace: .beagle))
         registerAction(SendRequest.self, key: key(name: "SendRequest", namespace: .beagle))
+        registerAction(Alert.self, key: key(name: "Alert", namespace: .beagle))
+        registerAction(Confirm.self, key: key(name: "Confirm", namespace: .beagle))
     }
     
     private func registerCoreTypes() {

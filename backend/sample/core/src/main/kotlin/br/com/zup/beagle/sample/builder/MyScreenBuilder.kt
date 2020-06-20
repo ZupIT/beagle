@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.widget.action.ShowNativeDialog
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
@@ -33,10 +33,10 @@ class MyScreenBuilder(private val title: String) : ScreenBuilder {
                 NavigationBarItem(
                     text = "",
                     image = Local.justMobile("informationImage"),
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "Screen",
                         message = "This component description and attribute details",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 )
             )

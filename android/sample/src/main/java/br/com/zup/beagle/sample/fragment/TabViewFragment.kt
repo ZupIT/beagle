@@ -37,6 +37,7 @@ import br.com.zup.beagle.android.components.PathType
 import br.com.zup.beagle.android.components.TabItem
 import br.com.zup.beagle.android.components.TabView
 import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.widget.core.TextAlignment
 
 class TabViewFragment : Fragment() {
@@ -102,7 +103,7 @@ class TabViewFragment : Fragment() {
         return TabItem(
             title = title,
             child = child,
-            icon = "ic_launcher_foreground"
+            icon = PathType.Local("ic_launcher_foreground")
         )
     }
 
