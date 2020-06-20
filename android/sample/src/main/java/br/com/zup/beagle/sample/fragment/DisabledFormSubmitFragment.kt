@@ -141,8 +141,8 @@ class DisabledFormSubmitFragment : Fragment() {
                 alignSelf = AlignSelf.CENTER,
                 margin = EdgeValue(
                     top = UnitValue(45.0, UnitType.REAL),
-                    start = UnitValue(10.0, UnitType.REAL),
-                    end = UnitValue(10.0, UnitType.REAL)
+                    left = UnitValue(10.0, UnitType.REAL),
+                    right = UnitValue(10.0, UnitType.REAL)
                 )
             )
         )
