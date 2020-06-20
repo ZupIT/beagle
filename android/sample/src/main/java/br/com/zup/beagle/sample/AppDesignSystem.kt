@@ -63,6 +63,7 @@ class AppDesignSystem : DesignSystem() {
             "DesignSystem.Button.Orange" -> R.style.DesignSystem_Button_Default
             "DesignSystem.Stylish.ButtonAndAppearance" -> R.style.DesignSystem_Stylish_ButtonAndAppearance
             "DesignSystem.Form.Submit" -> R.style.DesignSystem_Form_Submit
+            "DesignSystem.Button.ScreenButton" -> R.style.DesignSystem_Button_ScreenButton
             else -> android.R.style.Widget_Button
         }
     }

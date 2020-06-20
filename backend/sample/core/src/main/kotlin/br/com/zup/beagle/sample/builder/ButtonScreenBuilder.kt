@@ -69,7 +69,7 @@ object ButtonScreenBuilder : ScreenBuilder {
 
                 createButton(
                     text = "Button with style",
-                    styleId = BUTTON_STYLE,
+                    styleId = "DesignSystem.Button.ScreenButton",
                     flex = Flex(
                         margin = EdgeValue(
                             top = 15.unitReal()

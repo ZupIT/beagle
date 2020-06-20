@@ -78,6 +78,11 @@
         <item name="background">@color/colorBlack</item>
     </style>
 
+    <style name="DesignSystem.Button.ScreenButton" parent="DesignSystem.Button.Default">
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="background">@color/colorGrey11</item>
+    </style>
+
     <style name="DesignSystem.Button.Text" parent="Widget.AppCompat.Button">
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:textStyle">bold</item>

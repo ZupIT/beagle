@@ -158,16 +158,16 @@ class ScreenController(
 
     @GetMapping(NAVIGATION_TYPE_ENDPOINT)
     fun getSampleNavigationTypeController() =
-        this.sampleNavigationTypeService.createNavigationTypeView()
+        this.sampleNavigationTypeService.getScreenNavigateType()
 
     @GetMapping(REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT)
-    fun getNavigationStep2() = this.sampleNavigationTypeService.step2()
+    fun getNavigationStep2() = this.sampleNavigationTypeService.getScreenSte2()
 
     @GetMapping(REPRESENTATION_PRESENT_ENDPOINT)
-    fun getNavigationPresentView() = this.sampleNavigationTypeService.presentView()
+    fun getNavigationPresentView() = this.sampleNavigationTypeService.getScreenPresentView()
 
     @GetMapping(REPRESENTATION_NAVIGATION_TYPE_STEP3_ENDPOINT)
-    fun getNavigationStep3() = this.sampleNavigationTypeService.step3()
+    fun getNavigationStep3() = this.sampleNavigationTypeService.getScreenStep3()
 
     @GetMapping(SCREEN_COMPOSE_COMPONENT_ENDPOINT)
     fun getComposeComponent() = this.sampleComposeComponentService.createComposeComponentView()
