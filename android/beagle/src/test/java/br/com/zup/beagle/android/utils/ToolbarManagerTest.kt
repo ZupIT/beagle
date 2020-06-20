@@ -230,7 +230,7 @@ class ToolbarManagerTest : BaseTest() {
         toolbarManager.configureToolbar(rootView, navigationBar)
 
         // THEN
-        verify(exactly = once()) { menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS) }
+        verify(exactly = once()) { menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM) }
         verify(exactly = once()) { menuItem.icon = icon }
     }
 }
