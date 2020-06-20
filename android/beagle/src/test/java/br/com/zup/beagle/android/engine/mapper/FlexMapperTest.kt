@@ -19,7 +19,6 @@ package br.com.zup.beagle.android.engine.mapper
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.core.Display
-import br.com.zup.beagle.core.PositionType
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.AlignItems
@@ -38,7 +37,6 @@ import com.facebook.yoga.YogaEdge
 import com.facebook.yoga.YogaFlexDirection
 import com.facebook.yoga.YogaJustify
 import com.facebook.yoga.YogaNode
-import com.facebook.yoga.YogaPositionType
 import com.facebook.yoga.YogaWrap
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
