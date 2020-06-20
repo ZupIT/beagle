@@ -29,6 +29,7 @@ import br.com.zup.beagle.sample.constants.BUTTON_STYLE_APPEARANCE
 import br.com.zup.beagle.sample.constants.CYAN_BLUE
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
@@ -63,7 +64,8 @@ object ButtonScreenBuilder : ScreenBuilder {
                     flex = Flex(
                         margin = EdgeValue(
                             top = 15.unitReal()
-                        )
+                        ),
+                        alignSelf = AlignSelf.FLEX_START
                     )
                 ),
 
@@ -73,14 +75,28 @@ object ButtonScreenBuilder : ScreenBuilder {
                     flex = Flex(
                         margin = EdgeValue(
                             top = 15.unitReal()
-                        )
+                        ),
+                        alignSelf = AlignSelf.FLEX_END
                     )
                 ),
 
-                buttonWithAppearanceAndStyle(text = "Button with Appearance"),
+                buttonWithAppearanceAndStyle(text = "Button with Appearance").applyFlex(
+                    Flex(
+                        margin = EdgeValue(
+                        top = 15.unitReal()
+                    ),
+                        alignSelf = AlignSelf.CENTER)
+                ),
                 buttonWithAppearanceAndStyle(
                     text = "Button with Appearance and style",
                     styleId = BUTTON_STYLE_APPEARANCE
+                ).applyFlex(
+                    Flex(
+                        margin = EdgeValue(
+                            top = 15.unitReal()
+                        ),
+                        alignSelf = AlignSelf.STRETCH
+                    )
                 )
             )
         )

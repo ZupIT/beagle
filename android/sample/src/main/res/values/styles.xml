@@ -78,8 +78,9 @@
         <item name="background">@color/colorBlack</item>
     </style>
 
-    <style name="DesignSystem.Button.ScreenButton" parent="DesignSystem.Button.Default">
-        <item name="android:textColor">@color/colorBlack</item>
+    <style name="DesignSystem.Button.ScreenButton" parent="">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">18sp</item>
         <item name="background">@color/colorGrey11</item>
     </style>
 
