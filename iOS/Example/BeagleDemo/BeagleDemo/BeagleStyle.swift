@@ -31,7 +31,9 @@ struct AppTheme {
         .NAVIGATION_BAR_GREEN_STYLE: Self.designSystemStyleNavigationBar,
         .NAVIGATION_BAR_DEFAULT_STYLE: Self.designSystemStyleNavigationBarDefault,
         .TAB_VIEW_STYLE: Self.tabView,
-        .DESIGN_SYSTEM_STYLE_BUTTON_SCREEN_BUTTON: designSystemScreenButton
+        .DESIGN_SYSTEM_STYLE_BUTTON_SCREEN_BUTTON: designSystemScreenButton,
+        .STYLE_TAB_VIEW_BFF: tabViewBff,
+        
     ])
     
     static func blackTextNormalStyle() -> (UITextView?) -> Void {
@@ -98,4 +100,14 @@ struct AppTheme {
     static func tabView() -> (UIView?) -> Void {
         return BeagleStyle.tabView(backgroundColor: .clear, indicatorColor: .demoGray, selectedTextColor: .demoGray, unselectedTextColor: .demoDarkGray, selectedIconColor: .demoGray, unselectedIconColor: .demoDarkGray)
     }
+    
+    static func tabViewBff() -> (UIView?) -> Void {
+           return BeagleStyle.tabView(
+            backgroundColor: #colorLiteral(red: 0.6901960784, green: 0.768627451, blue: 0.8705882353, alpha: 1),
+            indicatorColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0),
+            selectedTextColor: #colorLiteral(red: 0.2745098039, green: 0.5098039216, blue: 0.7058823529, alpha: 1),
+            unselectedTextColor: #colorLiteral(red: 0.1098039216, green: 0.1098039216, blue: 0.1098039216, alpha: 1),
+            selectedIconColor: #colorLiteral(red: 0.2745098039, green: 0.5098039216, blue: 0.7058823529, alpha: 1),
+            unselectedIconColor: #colorLiteral(red: 0.1098039216, green: 0.1098039216, blue: 0.1098039216, alpha: 1))
+       }
 }

@@ -52,6 +52,7 @@ extension String {
     static let TEXT_IMAGE_STYLE = "DesignSystem.Text.Image"
     static let TEXT_HELLO_WORD_STYLE = "DesignSystem.Text.helloWord"
     static let DESIGN_SYSTEM_STYLE_BUTTON_SCREEN_BUTTON = "DesignSystem.Button.ScreenButton"
+    static let STYLE_TAB_VIEW_BFF = "DesignSystem.TabView.Test"
 }
 
 extension UIColor {
