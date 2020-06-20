@@ -20,7 +20,6 @@ import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyAccessibility
-import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_ACCESSIBILITY
