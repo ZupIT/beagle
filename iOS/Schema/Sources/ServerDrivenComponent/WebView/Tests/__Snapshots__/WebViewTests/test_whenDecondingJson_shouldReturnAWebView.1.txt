@@ -18,4 +18,5 @@
       - positionType: Optional<PositionType>.none
       - shrink: Optional<Double>.none
       - size: Optional<Size>.none
-  - url: "https://maps.google.com/"
+  ▿ url: Expression<String>
+    - value: "https://maps.google.com/"

@@ -3,8 +3,9 @@
   ▿ onPress: Optional<Array<RawAction>>
     ▿ some: 1 element
       - Navigate.popStack
-  - styleId: Optional<String>.none
-  - text: "button"
+  - styleId: Optional<Expression<String>>.none
+  ▿ text: Expression<String>
+    - value: "button"
   ▿ widgetProperties: WidgetProperties
     - accessibility: Optional<Accessibility>.none
     - flex: Optional<Flex>.none
