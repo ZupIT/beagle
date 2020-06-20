@@ -17,19 +17,19 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.*
 import br.com.zup.beagle.sample.widget.SampleTextField
-import br.com.zup.beagle.widget.action.FormMethodType
-import br.com.zup.beagle.widget.action.FormRemoteAction
+import br.com.zup.beagle.widget.action.*
 import br.com.zup.beagle.widget.core.*
 import br.com.zup.beagle.widget.form.Form
 import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.FormSubmit
 import br.com.zup.beagle.widget.layout.*
+import br.com.zup.beagle.widget.layout.extensions.dynamic
+import br.com.zup.beagle.widget.lazy.LazyComponent
 import br.com.zup.beagle.widget.pager.PageIndicator
 import br.com.zup.beagle.widget.ui.*
 
@@ -53,8 +53,8 @@ object PageViewScreenBuilder : ScreenBuilder {
         ),
         child = PageView(
             pageIndicator = PageIndicator(
-                selectedColor = "#000000",
-                unselectedColor = "#888888"
+                selectedColor = BLACK,
+                unselectedColor = LIGHT_GREY
             ),
             children = listOf(
                 ScrollView(
@@ -102,9 +102,62 @@ object PageViewScreenBuilder : ScreenBuilder {
                         )
                     )
                 ).applyFlex(Flex(grow = 1.0))
+                ,
+                ScrollView(
+                    scrollDirection = ScrollAxis.VERTICAL,
+                    children = listOf(
+                        ListView(
+                            direction = ListDirection.VERTICAL,
+                            children = listOf(
+                                Text("0000"),
+                                Text("0001").applyFlex(flex),
+                                Text("0002"),
+                                Text("0003"),
+                                Text("0004"),
+                                LazyComponent(
+                                    path = "http://www.mocky.io/v2/5e4e91c02f00001f2016a8f2",
+                                    initialState = Text("Loading LazyComponent...")
+                                ),
+                                Text("0005"),
+                                Text("0006"),
+                                Text("0007"),
+                                Text("0008"),
+                                Text("0009"),
+                                Text("0010"),
+                                Text("0011"),
+                                Text("0012"),
+                                Text("0013"),
+                                Image(name = "beagle"),
+                                Text("0014"),
+                                Text("0015"),
+                                Text("0016"),
+                                NetworkImage(
+                                    path = "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271"
+                                ),
+                                Text("0017"),
+                                Text("0018"),
+                                Text("0019"),
+                                Text("0020"),
+                                Container(children = listOf(Text("Text1"), Text("Text2")))
+                            )
+                        ),
+                        Button(
+                            text = "PageView Button",
+                            onPress = listOf(
+                                Alert(
+                                    title = "Olá Tudo Bem",
+                                    message = "Parabéns não quebrou",
+                                    labelOk = "ok"
+                                )
+                            )
+                        )
+                    )
+                )
             )
         )
     )
+
+    private val flex = Flex(size = Size(width = 100.unitReal(), height = 100.unitReal()))
 
     private val tab1 = TabItem(
         title = "Tab 1",

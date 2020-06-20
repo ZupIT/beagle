@@ -40,25 +40,25 @@ import br.com.zup.beagle.widget.ui.*
 
 object TabViewScreenBuilder : ScreenBuilder {
     private val tab1 = TabItem(
-        title = "Tab 1",
-        child = ScrollView(
-            scrollDirection = ScrollAxis.VERTICAL,
-            children = listOf(
-                Text("Text1 Tab 2"),
-                NetworkImage(BEACH_NETWORK_IMAGE),
-                Text("Text2 Tab 2"),
-                NetworkImage(BEACH_NETWORK_IMAGE),
-                Text("Text3 Tab 3"),
-                NetworkImage(BEACH_NETWORK_IMAGE),
-                Text("Text1 Tab 2"),
-                NetworkImage(BEACH_NETWORK_IMAGE),
-                Text("Text2 Tab 2"),
-                NetworkImage(BEACH_NETWORK_IMAGE),
-                Text("Text3 Tab 3"),
-                NetworkImage(BEACH_NETWORK_IMAGE)
+            title = "Tab 1",
+            child = ScrollView(
+                scrollDirection = ScrollAxis.VERTICAL,
+                children = listOf(
+                    Text("Text1 Tab 2"),
+                    NetworkImage(BEACH_NETWORK_IMAGE),
+                    Text("Text2 Tab 2"),
+                    NetworkImage(BEACH_NETWORK_IMAGE),
+                    Text("Text3 Tab 3"),
+                    NetworkImage(BEACH_NETWORK_IMAGE),
+                    Text("Text1 Tab 2"),
+                    NetworkImage(BEACH_NETWORK_IMAGE),
+                    Text("Text2 Tab 2"),
+                    NetworkImage(BEACH_NETWORK_IMAGE),
+                    Text("Text3 Tab 3"),
+                    NetworkImage(BEACH_NETWORK_IMAGE)
+                )
             )
         )
-    )
 
     private val flexHorizontalMargin = Flex(margin = EdgeValue(all = 10.unitReal()))
 
