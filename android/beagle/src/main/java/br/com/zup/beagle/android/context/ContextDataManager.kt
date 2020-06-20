@@ -28,6 +28,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.IllegalStateException
 import java.lang.reflect.Type
+import java.util.LinkedList
 
 internal data class ContextBinding(
     val context: ContextData,
@@ -101,13 +102,61 @@ internal class ContextDataManager(
         } else {
             return try {
                 val keys = contextPathResolver.getKeysFromPath(context.id, path)
-                jsonPathReplacer.replace(keys, value, context.value)
+                val newValue = createNewValue(context.value, keys)
+                val replace = jsonPathReplacer.replace(keys, value, newValue!!)
+                val newContext = context.copy(value = newValue!!)
+                contexts[context.id] = contextBinding.copy(context = newContext)
+                return true
             } catch (ex: Exception) {
                 BeagleMessageLogs.errorWhileTryingToChangeContext(ex)
                 false
             }
         }
     }
+
+    private fun createNewValue(value: Any, keys: LinkedList<String>): Any? {
+        var newValue: Any? = value
+        val nextKeys = keys.clone() as LinkedList<String>
+        var key = nextKeys.poll()
+        while (key != null) {
+            val getIndex = nextKeys.indexOf(key)
+            val nextKey = nextKeys.getOrNull(getIndex + 1)
+
+            if (key.startsWith("[")) {
+                if (newValue !is JSONArray) {
+                    newValue = JSONArray(arrayListOf<Any>())
+                }
+                newValue = createJsonArray(newValue, key, nextKey)
+            } else if (newValue is JSONObject) {
+                var objectCreated: Any = JSONObject()
+                if (nextKey?.startsWith("[") == true) {
+                    objectCreated = createJsonArray(JSONArray(arrayListOf<Any>()), nextKey, null)
+                }
+
+                newValue.put(key, objectCreated)
+                newValue = objectCreated
+            }
+            key = nextKeys.poll()
+        }
+
+
+        return value
+    }
+
+    private fun createJsonArray(jsonArray: JSONArray, key: String, nextKey: String?): Any {
+        val position = key.replace("[^0-9]".toRegex(), "").toInt()
+        val opt = jsonArray.opt(position)
+        if (opt == JSONObject.NULL || opt == null) {
+            val json = JSONObject()
+            jsonArray.put(position, if (nextKey != null) json else JSONObject.NULL)
+            if (nextKey != null){
+                json.put(nextKey, null)
+                return json
+            }
+        }
+        return jsonArray
+    }
+
 
     private fun notifyBindingChanges(contextBinding: ContextBinding) {
         val contextData = contextBinding.context
@@ -142,8 +191,8 @@ internal class ContextDataManager(
 
         return try {
             if (value is JSONArray || value is JSONObject) {
-                moshi.adapter<Any>(type).fromJson(value.toString()) ?:
-                throw IllegalStateException("JSON deserialization returned null")
+                moshi.adapter<Any>(type).fromJson(value.toString())
+                    ?: throw IllegalStateException("JSON deserialization returned null")
             } else {
                 value ?: throw IllegalStateException("Expression evaluation returned null")
             }

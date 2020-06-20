@@ -29,6 +29,9 @@ import br.com.zup.beagle.sample.constants.BUTTON_STYLE_APPEARANCE
 import br.com.zup.beagle.sample.constants.CYAN_BLUE
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.action.SetContext
+import br.com.zup.beagle.widget.context.Bind.Companion.expressionOf
+import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
@@ -37,54 +40,57 @@ import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.ui.Button
+import br.com.zup.beagle.widget.ui.Text
 
 object ButtonScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
-        navigationBar = NavigationBar(
-            title = "Beagle Button",
-            showBackButton = true,
-            navigationBarItems = listOf(
-                NavigationBarItem(
-                    text = "",
-                    image = "informationImage",
-                    action = Alert(
-                        title = "Button",
-                        message = "This is a widget that will define a button natively using the server " +
-                            "driven information received through Beagle.",
-                        labelOk = "OK"
-                    )
-                )
-            )
-        ),
         child = Container(
+            context = ContextData(
+                id = "context",
+                value = Person(name = "asdasads")
+            ),
             children = listOf(
-                createButton(
-                    text = "Button",
-                    flex = Flex(
-                        margin = EdgeValue(
-                            top = 15.unitReal()
+                Text(text = expressionOf("@{context.name.d[0].e}")),
+                Button(
+                    text = "Ok",
+                    onPress = listOf(
+                        SetContext(
+                            contextId = "context",
+                            path = "context.name.d[0].e",
+                            value = "blabla"
                         )
                     )
                 ),
 
-                createButton(
-                    text = "Button with style",
-                    styleId = BUTTON_STYLE,
-                    flex = Flex(
-                        margin = EdgeValue(
-                            top = 15.unitReal()
+                Text(text = expressionOf("@{context.name[2].d[0].e[0]}")),
+                Button(
+                    text = "Ok",
+                    onPress = listOf(
+                        SetContext(
+                            contextId = "context",
+                            path = "context.name[2].d[0].e[0]",
+                            value = "teste"
                         )
                     )
                 ),
 
-                buttonWithAppearanceAndStyle(text = "Button with Appearance"),
-                buttonWithAppearanceAndStyle(
-                    text = "Button with Appearance and style",
-                    styleId = BUTTON_STYLE_APPEARANCE
+                Text(text = expressionOf("@{context.name[2].d[0].e[0].name}")),
+                Button(
+                    text = "Ok",
+                    onPress = listOf(
+                        SetContext(
+                            contextId = "context",
+                            path = "context.name[2].d[0].e[0]",
+                            value = Person(name = "uzias")
+                        )
+                    )
                 )
             )
         )
     )
+
+    data class Person(val name: String, val teste: String = "")
+
 
     private fun buttonWithAppearanceAndStyle(text: String, styleId: String? = null) = createButton(
         text = text,
