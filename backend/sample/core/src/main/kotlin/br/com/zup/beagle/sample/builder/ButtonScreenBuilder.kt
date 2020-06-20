@@ -64,8 +64,7 @@ object ButtonScreenBuilder : ScreenBuilder {
                     flex = Flex(
                         margin = EdgeValue(
                             top = 15.unitReal()
-                        ),
-                        alignSelf = AlignSelf.FLEX_START
+                        )
                     )
                 ),
 
@@ -75,8 +74,7 @@ object ButtonScreenBuilder : ScreenBuilder {
                     flex = Flex(
                         margin = EdgeValue(
                             top = 15.unitReal()
-                        ),
-                        alignSelf = AlignSelf.FLEX_END
+                        )
                     )
                 ),
 
@@ -84,8 +82,7 @@ object ButtonScreenBuilder : ScreenBuilder {
                     Flex(
                         margin = EdgeValue(
                         top = 15.unitReal()
-                    ),
-                        alignSelf = AlignSelf.CENTER)
+                    ))
                 ),
                 buttonWithAppearanceAndStyle(
                     text = "Button with Appearance and style",
@@ -94,9 +91,7 @@ object ButtonScreenBuilder : ScreenBuilder {
                     Flex(
                         margin = EdgeValue(
                             top = 15.unitReal()
-                        ),
-                        alignSelf = AlignSelf.STRETCH
-                    )
+                        ))
                 )
             )
         )

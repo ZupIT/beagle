@@ -25,6 +25,8 @@ import br.com.zup.beagle.sample.constants.SCREEN_TEXT_STYLE
 import br.com.zup.beagle.sample.constants.STEEL_BLUE
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.TextAlignment
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
@@ -59,7 +61,10 @@ object TextScreenBuilder : ScreenBuilder {
                     text = "hello world with style and Appearance",
                     styleId = SCREEN_TEXT_STYLE,
                     appearanceColor = STEEL_BLUE
-                )
+                ),
+                beagleText(text = "hello world without style",alignment = TextAlignment.LEFT, appearanceColor = STEEL_BLUE),
+                beagleText(text = "hello world without style",alignment = TextAlignment.CENTER, appearanceColor = STEEL_BLUE),
+                beagleText(text = "hello world without style",alignment = TextAlignment.RIGHT, appearanceColor = STEEL_BLUE)
             )
         )
     )
@@ -67,16 +72,18 @@ object TextScreenBuilder : ScreenBuilder {
     private fun beagleText(
         text: String,
         styleId: String? = null,
-        appearanceColor: String? = null
+        appearanceColor: String? = null,
+        alignment: TextAlignment? = null
     ) =
-        Text(text = text, styleId = styleId)
+        Text(text = text, styleId = styleId, alignment = alignment)
             .applyFlex(
                 flex = Flex(
                     margin = EdgeValue(
                         top = 16.unitReal(),
                         left = 16.unitReal(),
                         right = 16.unitReal()
-                    )
+                    ),
+                    size = Size(height = 50.unitReal())
                 )
             ).applyStyle(
                 style = Style(
