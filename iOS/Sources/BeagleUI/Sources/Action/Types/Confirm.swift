@@ -30,7 +30,7 @@ extension Confirm: Action {
             }
         }
         
-        let onPressCancelAction = UIAlertAction(title: labelOk ?? "Cancel", style: .default) {
+        let onPressCancelAction = UIAlertAction(title: labelCancel ?? "Cancel", style: .default) {
             [weak controller] _ in guard let controller = controller else { return }
             if let onPressCancel = self.onPressCancel {
                 controller.execute(action: onPressCancel, sender: self)
