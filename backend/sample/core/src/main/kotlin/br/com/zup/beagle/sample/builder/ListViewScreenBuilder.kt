@@ -58,30 +58,34 @@ object ListViewScreenBuilder : ScreenBuilder {
                 getStaticListView(ListDirection.HORIZONTAL).applyFlex(Flex(alignItems = AlignItems.CENTER)),
                 getDynamicListView(ListDirection.VERTICAL).applyFlex(Flex(alignItems = AlignItems.FLEX_END)),
                 getDynamicListView(ListDirection.HORIZONTAL).applyFlex(Flex(alignItems = AlignItems.FLEX_START)),
-                    ListView(
-                        direction = ListDirection.VERTICAL,
-                        children = listOf(
-                            Text("Text1 Tab 2"),
-                            Image(name = "imageBeagle"),
-                            Text("Text2 Tab 2"),
-                            Image(name = "imageBeagle"),
-                            Text("Text3 Tab 3"),
-                            Image(name = "imageBeagle"),
-                            Text("Text1 Tab 2"),
-                            Image(name = "imageBeagle"),
-                            Text("Text2 Tab 2"),
-                            Image(name = "imageBeagle"),
-                            Text("Text3 Tab 3"),
-                            Image(name = "imageBeagle")
+                Container(
+                    children = listOf(
+                        ListView(
+                            direction = ListDirection.VERTICAL,
+                            children = listOf(
+                                Text("Text1 Tab 2"),
+                                Image(name = "imageBeagle").applyFlex(Flex(alignSelf = AlignSelf.AUTO)),
+                                Text("Text2 Tab 2"),
+                                Image(name = "imageBeagle").applyFlex(Flex(alignSelf = AlignSelf.FLEX_START)),
+                                Text("Text3 Tab 3"),
+                                Image(name = "imageBeagle").applyFlex(Flex(alignSelf = AlignSelf.FLEX_END)),
+                                Text("Text1 Tab 2"),
+                                Image(name = "imageBeagle"),
+                                Text("Text2 Tab 2"),
+                                Image(name = "imageBeagle"),
+                                Text("Text3 Tab 3"),
+                                Image(name = "imageBeagle")
+                            )
                         )
                     )
+                ).applyFlex(Flex(alignItems = AlignItems.STRETCH))
+
             )
         )
     )
 
     private fun getStaticListView(listDirection: ListDirection) = Container(
         children = listOf(
-            Image(name = "imageBeagle"),
             Text("Static $listDirection ListView")
                 .applyFlex(Flex(
                     margin = EdgeValue(bottom = 10.unitReal())
@@ -94,7 +98,6 @@ object ListViewScreenBuilder : ScreenBuilder {
 
     private fun getDynamicListView(listDirection: ListDirection) = Container(
         children = listOf(
-            Image(name = "imageBeagle"),
             Text("Dynamic $listDirection ListView")
                 .applyFlex(Flex(
                     margin = EdgeValue(bottom = 10.unitReal())
@@ -103,5 +106,5 @@ object ListViewScreenBuilder : ScreenBuilder {
         )
     )
 
-    private fun createText(index: Int) = Image(name = "imageBeagle")
+    private fun createText(index: Int) = Text(text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.")
 }
