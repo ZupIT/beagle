@@ -18,6 +18,7 @@ package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitPercent
+import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.PATH_URL_WEB_VIEW_ENDPOINT
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.core.Flex
@@ -47,7 +48,7 @@ object WebViewScreenBuilder: ScreenBuilder {
             )
         ),
         child = WebView(url = PATH_URL_WEB_VIEW_ENDPOINT).applyFlex(
-                    flex = Flex(grow = 1.0)
-            )
+                    flex = Flex(size = Size(width = 375.unitReal(),height = 600.unitReal()))
+        )
     )
 }

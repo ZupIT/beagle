@@ -111,7 +111,7 @@ object PageViewScreenBuilder : ScreenBuilder {
                                 Container(
                                     children = listOf(
                                         WebView(url = PATH_URL_WEB_VIEW_ENDPOINT).applyFlex(
-                                            flex = Flex(grow = 1.0)
+                                            flex = Flex(size = Size(width = 375.unitReal(),height = 600.unitReal()))
                                         )
                                     )
                                 )
@@ -173,7 +173,7 @@ object PageViewScreenBuilder : ScreenBuilder {
                 Container(
                     children = listOf(
                         WebView(url = PATH_URL_WEB_VIEW_ENDPOINT).applyFlex(
-                            flex = Flex(grow = 1.0)
+                            flex = Flex(size = Size(width = 375.unitReal(),height = 600.unitReal()))
                         )
                     )
                 )
