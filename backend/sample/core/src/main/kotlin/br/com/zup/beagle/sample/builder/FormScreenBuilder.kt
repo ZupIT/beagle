@@ -22,6 +22,7 @@ import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_FORM
 import br.com.zup.beagle.sample.constants.LIGHT_GREEN
@@ -30,6 +31,7 @@ import br.com.zup.beagle.sample.widget.SampleTextField
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ScrollAxis
+import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.form.Form
 import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.FormSubmit
@@ -64,10 +66,10 @@ object FormScreenBuilder : ScreenBuilder {
             scrollDirection = ScrollAxis.VERTICAL,
             children = listOf(
                 Form(
-                    onSubmit = listOf(FormRemoteAction(
-                        path = SUBMIT_FORM_ENDPOINT,
-                        method = FormMethodType.POST
-                    )),
+//                    onSubmit = listOf(FormRemoteAction(
+//                        path = SUBMIT_FORM_ENDPOINT,
+//                        method = FormMethodType.POST
+//                    )),
                     child = Container(
                         children = listOf(
                             customFormInput(
@@ -98,14 +100,14 @@ object FormScreenBuilder : ScreenBuilder {
                                 ).applyFlex(flexHorizontalMargin)
                             )
                         )
-                    )
-                        .applyFlex(
+                    ).applyFlex(
                             Flex(
-                                grow = 1.0,
-                                padding = EdgeValue(all = 10.unitReal())
+//                                grow = 1.0,
+                                padding = EdgeValue(all = 10.unitReal()),
+                                size = Size(width = 100.unitPercent(),height = 100.unitPercent())
+
                             )
-                        )
-                        .applyStyle(Style(backgroundColor = LIGHT_GREEN))
+                        ).applyStyle(Style(backgroundColor = LIGHT_GREEN))
                 )
             )
         )
