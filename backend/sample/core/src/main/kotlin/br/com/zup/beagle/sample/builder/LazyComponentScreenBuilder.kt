@@ -48,7 +48,7 @@ object LazyComponentScreenBuilder : ScreenBuilder {
             scrollDirection = ScrollAxis.VERTICAL,
             children = listOf(
                 LazyComponent(
-                    path = "https://run.mocky.io/v3/c5def28e-0c3c-4028-a7a7-4ba7166316d9",
+                    path = "https://run.mocky.io/v3/d49febe5-8577-45f4-be3d-86269288166f",
                     initialState = Text("Loading...").applyFlex(
                         flex = Flex(
                             justifyContent = JustifyContent.CENTER,
@@ -57,7 +57,34 @@ object LazyComponentScreenBuilder : ScreenBuilder {
                     )
                 ),
                 LazyComponent(
-                    path = "https://run.mocky.io/v3/c5def28e-0c3c-4028-a7a7-4ba7166316d9",
+                    path = "https://run.mocky.io/v3/b3027829-8800-4ad0-85e9-137d83804b28",
+                    initialState = Text("Loading...").applyFlex(
+                        flex = Flex(
+                            justifyContent = JustifyContent.CENTER,
+                            alignSelf = AlignSelf.CENTER
+                        )
+                    )
+                ),
+                LazyComponent(
+                    path = "https://run.mocky.io/v3/f6753846-ecbb-45a6-af76-bc771bb35b5b",
+                    initialState = Text("Loading...").applyFlex(
+                        flex = Flex(
+                            justifyContent = JustifyContent.CENTER,
+                            alignSelf = AlignSelf.CENTER
+                        )
+                    )
+                ),
+                LazyComponent(
+                    path = "https://run.mocky.io/v3/557c4a76-8c48-4e6d-ae72-735c66a718a9",
+                    initialState = Text("Loading...").applyFlex(
+                        flex = Flex(
+                            justifyContent = JustifyContent.CENTER,
+                            alignSelf = AlignSelf.CENTER
+                        )
+                    )
+                ),
+                LazyComponent(
+                    path = "https://run.mocky.io/v3/8a232bf1-eb34-45d2-84b8-a2a0f7e68072",
                     initialState = Text("Loading...").applyFlex(
                         flex = Flex(
                             justifyContent = JustifyContent.CENTER,
