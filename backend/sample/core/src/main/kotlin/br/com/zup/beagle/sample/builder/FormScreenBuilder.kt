@@ -80,14 +80,15 @@ object FormScreenBuilder : ScreenBuilder {
                                 name = "required-field",
                                 required = true,
                                 validator = "text-is-not-blank",
-                                placeholder = "Required field"
+                                placeholder = "Required field",
+                                message = "Required Field"
                             ),
                             customFormInput(
                                 name = "another-required-field",
                                 required = true,
                                 validator = "text-is-not-blank",
-                                placeholder = "Another required field"
-
+                                placeholder = "Another required field",
+                                message = "Required Field Required FieldRequired FieldRequired FieldRequired FieldRequired FieldRequired Field"
                             ),
                             Container(
                                 children = emptyList()
@@ -117,7 +118,8 @@ object FormScreenBuilder : ScreenBuilder {
         name: String,
         required: Boolean? = null,
         validator: String? = null,
-        placeholder: String
+        placeholder: String,
+        message: String? = null
     ) =
         FormInput(
             name = name,
@@ -125,6 +127,7 @@ object FormScreenBuilder : ScreenBuilder {
             validator = validator,
             child = SampleTextField(
                 placeholder = placeholder
-            ).applyFlex(flexHorizontalMargin)
+            ).applyFlex(flexHorizontalMargin),
+            errorMessage = message
         )
 }
