@@ -22,6 +22,9 @@ import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
+import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
+import br.com.zup.beagle.widget.action.Navigate
+import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.core.*
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
@@ -30,6 +33,7 @@ import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.layout.extensions.dynamic
+import br.com.zup.beagle.widget.navigation.Touchable
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.NetworkImage
@@ -74,18 +78,30 @@ object ListViewScreenBuilder : ScreenBuilder {
                         ListView(
                             direction = ListDirection.VERTICAL,
                             children = listOf(
-                                Text("Text1 Tab 2"),
+                                Text("Text1"),
                                 NetworkImage(path = BEACH_NETWORK_IMAGE).applyFlex(Flex(alignSelf = AlignSelf.FLEX_START)),
-                                Text("Text2 Tab 2"),
-                                Image(name = "imageBeagle").applyFlex(Flex(alignSelf = AlignSelf.CENTER)),
-                                Text("Text3 Tab 3"),
+                                Text("Text2"),
+                                Touchable(
+                                    child = Image(name ="imageBeagle"),
+                                    action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))
+                                ),
+                                Text("Text3"),
                                 Image(name = "imageBeagle").applyFlex(Flex(alignSelf = AlignSelf.FLEX_END)),
-                                Text("Text1 Tab 2"),
+                                Text("Text4"),
                                 Image(name = "imageBeagle"),
-                                Text("Text2 Tab 2"),
+                                Text("Text5"),
                                 Image(name = "imageBeagle"),
-                                Text("Text3 Tab 3"),
-                                Image(name = "imageBeagle")
+                                Text("Text6"),
+                                Image(name = "imageBeagle"),
+                                Text("final list view um"),
+                                    ListView(
+                                    direction = ListDirection.VERTICAL,
+                                children = listOf(
+                                    Text("segundo "),
+                                    Text("segundo"),
+                                    Text("segundo")
+                                )
+                            )
                             )
                         )
                     )
