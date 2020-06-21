@@ -64,7 +64,7 @@ object ListViewScreenBuilder : ScreenBuilder {
                             direction = ListDirection.VERTICAL,
                             children = listOf(
                                 Text("Text1 Tab 2"),
-                                Image(name = "imageBeagle").applyFlex(Flex(alignSelf = AlignSelf.FLEX_START)),
+                                NetworkImage(path = BEACH_NETWORK_IMAGE).applyFlex(Flex(alignSelf = AlignSelf.FLEX_START)),
                                 Text("Text2 Tab 2"),
                                 Image(name = "imageBeagle").applyFlex(Flex(alignSelf = AlignSelf.CENTER)),
                                 Text("Text3 Tab 3"),
