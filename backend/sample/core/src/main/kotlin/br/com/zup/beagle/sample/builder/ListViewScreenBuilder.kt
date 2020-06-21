@@ -16,8 +16,10 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
 import br.com.zup.beagle.widget.core.*
@@ -54,10 +56,17 @@ object ListViewScreenBuilder : ScreenBuilder {
         child = ScrollView(
             scrollDirection = ScrollAxis.VERTICAL,
             children = listOf(
+                NetworkImage(path = BEACH_NETWORK_IMAGE).applyFlex(Flex(alignSelf = AlignSelf.FLEX_START)),
                 getStaticListView(ListDirection.VERTICAL).applyFlex(Flex(alignItems = AlignItems.CENTER)),
                 getStaticListView(ListDirection.HORIZONTAL).applyFlex(Flex(alignItems = AlignItems.CENTER)),
+                Container(
+                    children = listOf(
                 getDynamicListView(ListDirection.VERTICAL).applyFlex(Flex(alignItems = AlignItems.FLEX_END)),
-                getDynamicListView(ListDirection.HORIZONTAL).applyFlex(Flex(alignItems = AlignItems.FLEX_START)),
+                getDynamicListView(ListDirection.HORIZONTAL).applyFlex(Flex(alignItems = AlignItems.FLEX_START))
+                        )
+                ).applyFlex(flex = Flex(size = Size(width = 300.unitReal(),height = 300.unitReal()))).applyStyle(
+                    style = Style(backgroundColor = "#4682B4")
+                ),
                 Container(
                     children = listOf(
                         ListView(
