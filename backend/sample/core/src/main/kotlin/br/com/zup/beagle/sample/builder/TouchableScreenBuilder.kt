@@ -63,7 +63,19 @@ object TouchableScreenBuilder : ScreenBuilder {
             scrollDirection = ScrollAxis.VERTICAL,
             children = listOf(
                 touchableCustom(title = "Text with Touchable", item = Text("Click here!")),
-                touchableCustom(title = "Image with Touchable", item = Image(LOGO_BEAGLE)),
+                touchableCustom(title = "Image with Touchable", item = Image(LOGO_BEAGLE).applyFlex(
+                    flex = Flex(
+                        alignSelf = AlignSelf.CENTER,
+                        margin = EdgeValue(
+                            top = 8.unitReal(),
+                            bottom = 8.unitReal()
+                        ),
+                        size = Size(
+                            width = 150.unitReal(),
+                            height = 130.unitReal()
+                        )
+                    )
+                )),
                 networkImageTouchable()
             )
         )
