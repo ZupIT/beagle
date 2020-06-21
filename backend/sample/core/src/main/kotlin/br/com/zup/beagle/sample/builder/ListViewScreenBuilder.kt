@@ -64,7 +64,9 @@ object ListViewScreenBuilder : ScreenBuilder {
                 getDynamicListView(ListDirection.VERTICAL).applyFlex(Flex(alignItems = AlignItems.FLEX_END)),
                 getDynamicListView(ListDirection.HORIZONTAL).applyFlex(Flex(alignItems = AlignItems.FLEX_START))
                         )
-                ).applyFlex(flex = Flex(size = Size(width = 300.unitReal(),height = 300.unitReal()))).applyStyle(
+                ).applyFlex(flex = Flex(
+                    alignSelf = AlignSelf.CENTER,
+                    size = Size(width = 300.unitReal(),height = 300.unitReal()))).applyStyle(
                     style = Style(backgroundColor = "#4682B4")
                 ),
                 Container(
@@ -97,7 +99,7 @@ object ListViewScreenBuilder : ScreenBuilder {
         children = listOf(
             Text("Static $listDirection ListView")
                 .applyFlex(Flex(
-                    margin = EdgeValue(bottom = 10.unitReal())
+                    margin = EdgeValue(bottom = 10.unitReal(),top = 10.unitReal())
                 )),
             ListView(children = (1..5).map(this::createText), direction = listDirection)
         )
@@ -109,7 +111,7 @@ object ListViewScreenBuilder : ScreenBuilder {
         children = listOf(
             Text("Dynamic $listDirection ListView")
                 .applyFlex(Flex(
-                    margin = EdgeValue(bottom = 10.unitReal())
+                    margin = EdgeValue(bottom = 10.unitReal(),top = 10.unitReal())
                 )),
             ListView.dynamic(size = 5, direction = listDirection, rowBuilder = this::createText)
         )
