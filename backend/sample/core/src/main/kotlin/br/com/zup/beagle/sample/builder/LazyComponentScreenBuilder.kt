@@ -22,10 +22,8 @@ import br.com.zup.beagle.sample.constants.PATH_LAZY_COMPONENT_ENDPOINT
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.JustifyContent
-import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.NavigationBarItem
-import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.layout.ScreenBuilder
+import br.com.zup.beagle.widget.core.ScrollAxis
+import br.com.zup.beagle.widget.layout.*
 import br.com.zup.beagle.widget.lazy.LazyComponent
 import br.com.zup.beagle.widget.ui.Text
 
@@ -46,12 +44,26 @@ object LazyComponentScreenBuilder : ScreenBuilder {
                 )
             )
         ),
-        child = LazyComponent(
-            path = PATH_LAZY_COMPONENT_ENDPOINT,
-            initialState = Text("Loading...").applyFlex(
-                flex = Flex(
-                    justifyContent = JustifyContent.CENTER,
-                    alignSelf = AlignSelf.CENTER
+        child =ScrollView(
+            scrollDirection = ScrollAxis.VERTICAL,
+            children = listOf(
+                LazyComponent(
+                    path = "https://run.mocky.io/v3/c5def28e-0c3c-4028-a7a7-4ba7166316d9",
+                    initialState = Text("Loading...").applyFlex(
+                        flex = Flex(
+                            justifyContent = JustifyContent.CENTER,
+                            alignSelf = AlignSelf.CENTER
+                        )
+                    )
+                ),
+                LazyComponent(
+                    path = "https://run.mocky.io/v3/c5def28e-0c3c-4028-a7a7-4ba7166316d9",
+                    initialState = Text("Loading...").applyFlex(
+                        flex = Flex(
+                            justifyContent = JustifyContent.CENTER,
+                            alignSelf = AlignSelf.CENTER
+                        )
+                    )
                 )
             )
         )
