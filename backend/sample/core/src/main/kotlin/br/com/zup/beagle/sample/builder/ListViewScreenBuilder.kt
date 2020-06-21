@@ -28,6 +28,7 @@ import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.layout.extensions.dynamic
+import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.NetworkImage
 import br.com.zup.beagle.widget.ui.Text
@@ -61,17 +62,17 @@ object ListViewScreenBuilder : ScreenBuilder {
                         direction = ListDirection.VERTICAL,
                         children = listOf(
                             Text("Text1 Tab 2"),
-                            NetworkImage(BEACH_NETWORK_IMAGE),
+                            Image(name = "imageBeagle"),
                             Text("Text2 Tab 2"),
-                            NetworkImage(BEACH_NETWORK_IMAGE),
+                            Image(name = "imageBeagle"),
                             Text("Text3 Tab 3"),
-                            NetworkImage(BEACH_NETWORK_IMAGE),
+                            Image(name = "imageBeagle"),
                             Text("Text1 Tab 2"),
-                            NetworkImage(BEACH_NETWORK_IMAGE),
+                            Image(name = "imageBeagle"),
                             Text("Text2 Tab 2"),
-                            NetworkImage(BEACH_NETWORK_IMAGE),
+                            Image(name = "imageBeagle"),
                             Text("Text3 Tab 3"),
-                            NetworkImage(BEACH_NETWORK_IMAGE)
+                            Image(name = "imageBeagle")
                         )
                     )
             )
@@ -80,12 +81,12 @@ object ListViewScreenBuilder : ScreenBuilder {
 
     private fun getStaticListView(listDirection: ListDirection) = Container(
         children = listOf(
-            NetworkImage(BEACH_NETWORK_IMAGE),
+            Image(name = "imageBeagle"),
             Text("Static $listDirection ListView")
                 .applyFlex(Flex(
                     margin = EdgeValue(bottom = 10.unitReal())
                 )),
-            ListView(children = (1..10).map(this::createText), direction = listDirection)
+            ListView(children = (1..5).map(this::createText), direction = listDirection)
         )
     ).applyFlex(Flex(
         margin = EdgeValue(bottom = 20.unitReal())
@@ -93,14 +94,14 @@ object ListViewScreenBuilder : ScreenBuilder {
 
     private fun getDynamicListView(listDirection: ListDirection) = Container(
         children = listOf(
-            NetworkImage(BEACH_NETWORK_IMAGE),
+            Image(name = "imageBeagle"),
             Text("Dynamic $listDirection ListView")
                 .applyFlex(Flex(
                     margin = EdgeValue(bottom = 10.unitReal())
                 )),
-            ListView.dynamic(size = 20, direction = listDirection, rowBuilder = this::createText)
+            ListView.dynamic(size = 5, direction = listDirection, rowBuilder = this::createText)
         )
     )
 
-    private fun createText(index: Int) = Text("Hello $index")
+    private fun createText(index: Int) = Image(name = "imageBeagle")
 }
