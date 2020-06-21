@@ -104,7 +104,7 @@ object FormScreenBuilder : ScreenBuilder {
                             Flex(
 //                                grow = 1.0,
                                 padding = EdgeValue(all = 10.unitReal()),
-                                size = Size(width = 100.unitPercent(),height = 100.unitPercent())
+                                size = Size(width = 50.unitPercent(),height = 50.unitPercent())
 
                             )
                         ).applyStyle(Style(backgroundColor = LIGHT_GREEN))
