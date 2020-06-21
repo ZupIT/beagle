@@ -64,9 +64,9 @@ object ListViewScreenBuilder : ScreenBuilder {
                             direction = ListDirection.VERTICAL,
                             children = listOf(
                                 Text("Text1 Tab 2"),
-                                Image(name = "imageBeagle").applyFlex(Flex(alignSelf = AlignSelf.AUTO)),
-                                Text("Text2 Tab 2"),
                                 Image(name = "imageBeagle").applyFlex(Flex(alignSelf = AlignSelf.FLEX_START)),
+                                Text("Text2 Tab 2"),
+                                Image(name = "imageBeagle").applyFlex(Flex(alignSelf = AlignSelf.CENTER)),
                                 Text("Text3 Tab 3"),
                                 Image(name = "imageBeagle").applyFlex(Flex(alignSelf = AlignSelf.FLEX_END)),
                                 Text("Text1 Tab 2"),
@@ -78,7 +78,7 @@ object ListViewScreenBuilder : ScreenBuilder {
                             )
                         )
                     )
-                ).applyFlex(Flex(alignItems = AlignItems.STRETCH))
+                )
 
             )
         )
