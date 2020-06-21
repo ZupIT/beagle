@@ -78,9 +78,9 @@ object ListViewScreenBuilder : ScreenBuilder {
                         ListView(
                             direction = ListDirection.VERTICAL,
                             children = listOf(
-                                Text("Text1"),
+                                Text("Text1 with networkImage"),
                                 NetworkImage(path = BEACH_NETWORK_IMAGE).applyFlex(Flex(alignSelf = AlignSelf.FLEX_START)),
-                                Text("Text2"),
+                                Text("Text2 with touchable"),
                                 Touchable(
                                     child = Image(name ="imageBeagle"),
                                     action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))
@@ -99,7 +99,10 @@ object ListViewScreenBuilder : ScreenBuilder {
                                 children = listOf(
                                     Text("segundo "),
                                     Text("segundo"),
-                                    Text("segundo")
+                                    Touchable(
+                                        child = Text("segundo"),
+                                    action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))
+                                )
                                 )
                             )
                             )
