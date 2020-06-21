@@ -17,9 +17,11 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.sample.constants.PATH_URL_WEB_VIEW_ENDPOINT
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen

@@ -66,10 +66,10 @@ object FormScreenBuilder : ScreenBuilder {
             scrollDirection = ScrollAxis.VERTICAL,
             children = listOf(
                 Form(
-//                    onSubmit = listOf(FormRemoteAction(
-//                        path = SUBMIT_FORM_ENDPOINT,
-//                        method = FormMethodType.POST
-//                    )),
+                    onSubmit = listOf(FormRemoteAction(
+                        path = SUBMIT_FORM_ENDPOINT,
+                        method = FormMethodType.POST
+                    )),
                     child = Container(
                         children = listOf(
                             customFormInput(
@@ -103,10 +103,9 @@ object FormScreenBuilder : ScreenBuilder {
                         )
                     ).applyFlex(
                             Flex(
-//                                grow = 1.0,
-                                padding = EdgeValue(all = 10.unitReal()),
-                                size = Size(width = 50.unitPercent(),height = 50.unitPercent())
-
+                                grow = 1.0,
+                                padding = EdgeValue(all = 10.unitReal())
+//                                size = Size(width = 50.unitPercent(),height = 50.unitPercent())
                             )
                         ).applyStyle(Style(backgroundColor = LIGHT_GREEN))
                 )

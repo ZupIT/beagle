@@ -91,14 +91,31 @@ object PageViewScreenBuilder : ScreenBuilder {
                                 selectedColor = BLACK,
                                 unselectedColor = LIGHT_GREY
                             ),
-                            children = (1..3).map {
-                                Text("Page $it", alignment = TextAlignment.CENTER).applyFlex(
-                                    Flex(
-                                        alignSelf = AlignSelf.CENTER,
-                                        grow = 1.0
+                            children = listOf(
+                                Container(
+                                    children = listOf(
+                                        TabView(
+                                            children = listOf(tab1, tab2),
+                                            styleId = "DesignSystem.TabView.Test"
+                                        )
+                                    )
+                                ),
+                                Container(
+                                    children = listOf(
+                                        TabView(
+                                            children = listOf(tab1, tab2),
+                                            styleId = "DesignSystem.TabView.Test"
+                                        )
+                                    )
+                                ),
+                                Container(
+                                    children = listOf(
+                                        WebView(url = PATH_URL_WEB_VIEW_ENDPOINT).applyFlex(
+                                            flex = Flex(grow = 1.0)
+                                        )
                                     )
                                 )
-                            }
+                            )
                         )
                     )
                 ).applyFlex(Flex(grow = 1.0))
@@ -150,6 +167,13 @@ object PageViewScreenBuilder : ScreenBuilder {
                                     labelOk = "ok"
                                 )
                             )
+                        )
+                    )
+                ),
+                Container(
+                    children = listOf(
+                        WebView(url = PATH_URL_WEB_VIEW_ENDPOINT).applyFlex(
+                            flex = Flex(grow = 1.0)
                         )
                     )
                 )
