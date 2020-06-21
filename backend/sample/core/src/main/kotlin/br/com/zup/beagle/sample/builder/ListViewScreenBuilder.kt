@@ -99,7 +99,7 @@ object ListViewScreenBuilder : ScreenBuilder {
         children = listOf(
             Text("Static $listDirection ListView")
                 .applyFlex(Flex(
-                    margin = EdgeValue(bottom = 10.unitReal(),top = 10.unitReal())
+                    margin = EdgeValue(bottom = 10.unitReal(),top = 30.unitReal())
                 )),
             ListView(children = (1..5).map(this::createText), direction = listDirection)
         )
@@ -111,7 +111,7 @@ object ListViewScreenBuilder : ScreenBuilder {
         children = listOf(
             Text("Dynamic $listDirection ListView")
                 .applyFlex(Flex(
-                    margin = EdgeValue(bottom = 10.unitReal(),top = 10.unitReal())
+                    margin = EdgeValue(bottom = 10.unitReal(),top = 30.unitReal())
                 )),
             ListView.dynamic(size = 5, direction = listDirection, rowBuilder = this::createText)
         )
