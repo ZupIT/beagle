@@ -10,16 +10,16 @@
         "value": "2"
       }
   ],
-  "flex":{
-     "size":{
-        "width":{
-            "value":300.0,
-            "type":"REAL"
-        },
-        "height":{
-            "value":80.0,
-            "type":"REAL"
-        }
-     }
+  "style": {
+      "size": {
+         "width": {
+             "value":300.0,
+             "type": "REAL"
+         },
+         "height": {
+             "value": 80.0,
+             "type": "REAL"
+         }
+      }
   }
 }

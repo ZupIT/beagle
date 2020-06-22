@@ -54,15 +54,17 @@ let declarativeScreen: Screen = {
                             value: "@{onChange.value}"
                         )
                     ],
-                    widgetProperties: WidgetProperties(flex: Flex().size(Size().width(100%).height(80)))
+                    widgetProperties: WidgetProperties(style: .init(size: Size().width(100%).height(80)))
                 ),
                 Text("@{myContext}"),
                 Button(
                     text: "ok",
-                    onPress: [SetContext(
-                        context: "myContext",
-                        value: "button value"
-                    )]
+                    onPress: [
+                        SetContext(
+                            context: "myContext",
+                            value: "button value"
+                        )
+                    ]
                 )
             ],
             context: Context(id: "myContext", value: "")
@@ -100,7 +102,7 @@ struct ComponentInteractionText: DeeplinkScreen {
                           "context": "myContext",
                           "value": "${onChange.value}"
                         }
-                      ],
+                      ]
                     },
                       {
                         "_beagleComponent_": "beagle:text",

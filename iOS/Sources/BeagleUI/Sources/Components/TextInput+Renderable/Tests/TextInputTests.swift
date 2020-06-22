@@ -66,7 +66,7 @@ class TextInputTests: XCTestCase {
             onChange: [ActionDummy()],
             onBlur: [ActionDummy()],
             onFocus: [ActionDummy()],
-            widgetProperties: WidgetProperties(flex: Flex().size(Size().width(300).height(80))))
+            widgetProperties: WidgetProperties(style: .init(size: Size().width(300).height(80))))
         
         let view = renderer.render(textInput)
         
@@ -85,7 +85,7 @@ class TextInputTests: XCTestCase {
             onChange: [ActionDummy()],
             onBlur: [ActionDummy()],
             onFocus: [ActionDummy()],
-            widgetProperties: WidgetProperties(flex: Flex().size(Size().width(300).height(80))))
+            widgetProperties: WidgetProperties(style: .init(size: Size().width(300).height(80))))
         
         guard let textField = renderer.render(textInput) as? UITextField else {
             XCTFail("Unable to type cast to UITextField.")
