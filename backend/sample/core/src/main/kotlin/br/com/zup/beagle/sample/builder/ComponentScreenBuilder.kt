@@ -37,6 +37,7 @@ import br.com.zup.beagle.sample.constants.SCREEN_LIST_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_NAVIGATION_BAR_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_NETWORK_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_PAGE_VIEW_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_SAFE_AREA
 import br.com.zup.beagle.sample.constants.SCREEN_SCROLL_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TAB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
@@ -80,7 +81,8 @@ object ComponentScreenBuilder : ScreenBuilder {
                 createMenu("Analytics", SCREEN_ANALYTICS_ENDPOINT),
                 createMenu("Web View", SCREEN_WEB_VIEW_ENDPOINT),
                 createMenu("Platform", PLATFORM_SAMPLE_ENDPOINT),
-                createMenu("Custom Platform", CUSTOM_PLATFORM_SAMPLE_ENDPOINT)
+                createMenu("Custom Platform", CUSTOM_PLATFORM_SAMPLE_ENDPOINT),
+                createMenu("Safe Area", SCREEN_SAFE_AREA)
             )
         )
     )

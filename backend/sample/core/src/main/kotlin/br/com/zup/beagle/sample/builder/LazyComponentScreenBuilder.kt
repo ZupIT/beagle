@@ -91,6 +91,15 @@ object LazyComponentScreenBuilder : ScreenBuilder {
                             alignSelf = AlignSelf.CENTER
                         )
                     )
+                ),
+                LazyComponent(
+                    path = "https://run.mocky.io/v3/c3642218-3de9-4c70-b0a9-dcfbe1e94ca0",
+                    initialState = Text("Loading...").applyFlex(
+                        flex = Flex(
+                            justifyContent = JustifyContent.CENTER,
+                            alignSelf = AlignSelf.CENTER
+                        )
+                    )
                 )
             )
         )

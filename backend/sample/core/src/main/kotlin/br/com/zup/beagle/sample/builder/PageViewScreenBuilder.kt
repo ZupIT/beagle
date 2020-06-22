@@ -28,7 +28,6 @@ import br.com.zup.beagle.widget.form.Form
 import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.FormSubmit
 import br.com.zup.beagle.widget.layout.*
-import br.com.zup.beagle.widget.layout.extensions.dynamic
 import br.com.zup.beagle.widget.lazy.LazyComponent
 import br.com.zup.beagle.widget.pager.PageIndicator
 import br.com.zup.beagle.widget.ui.*

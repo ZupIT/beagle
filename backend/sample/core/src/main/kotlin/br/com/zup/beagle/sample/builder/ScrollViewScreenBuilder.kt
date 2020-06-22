@@ -21,6 +21,7 @@ import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.TEXT_FONT_MAX
+import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.layout.Container
