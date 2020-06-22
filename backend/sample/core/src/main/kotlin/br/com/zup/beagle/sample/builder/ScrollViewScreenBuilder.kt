@@ -94,7 +94,8 @@ object ScrollViewScreenBuilder : ScreenBuilder {
                     createText("Hello 5")
 
                 ),
-                scrollDirection = ScrollAxis.HORIZONTAL
+                scrollDirection = ScrollAxis.HORIZONTAL,
+                scrollBarEnabled = true
             )
         )
     )
