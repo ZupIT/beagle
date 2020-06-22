@@ -43,12 +43,14 @@ import br.com.zup.beagle.sample.constants.SCREEN_LIST_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_NAVIGATION_BAR_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_NETWORK_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_PAGE_VIEW_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_SAFE_AREA
 import br.com.zup.beagle.sample.constants.SCREEN_SCROLL_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TAB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TOUCHABLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_WEB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.spring.service.AccessibilityService
+import br.com.zup.beagle.sample.spring.service.SafeAreaService
 import br.com.zup.beagle.sample.spring.service.SampleActionClickService
 import br.com.zup.beagle.sample.spring.service.SampleActionService
 import br.com.zup.beagle.sample.spring.service.SampleAnalyticsService
@@ -96,7 +98,8 @@ class ScreenController(
     private val sampleTouchableService: SampleTouchableService,
     private val sampleActionClickService: SampleActionClickService,
     private val sampleAnalyticsService: SampleAnalyticsService,
-    private val sampleWebViewService: SampleWebViewService
+    private val sampleWebViewService: SampleWebViewService,
+    private val sampleSafeArea: SafeAreaService
 ) {
     @GetMapping(ACCESSIBILITY_SCREEN_ENDPOINT)
     fun getAccessibilityView() = this.accessibilityService.createAccessibilityView()
@@ -189,5 +192,8 @@ class ScreenController(
 
     @GetMapping(SCREEN_WEB_VIEW_ENDPOINT)
     fun getsampleWebViewService() = this.sampleWebViewService.createWebView()
+
+    @GetMapping(SCREEN_SAFE_AREA)
+    fun getSampleSafeArea() = this.sampleSafeArea.createSafeArea()
 
 }
