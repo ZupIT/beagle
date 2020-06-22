@@ -47,7 +47,7 @@ internal data class ScreenComponent(
     override fun buildView(rootView: RootView): View {
         addNavigationBarIfNecessary(rootView, navigationBar)
 
-        val container = viewFactory.makeBeagleFlexView(rootView.getContext(), Flex(grow = 1.0))
+        val container = viewFactory.makeBeagleFlexView(rootView.getContext(), Style(flex = Flex(grow = 1.0)))
 
         container.addServerDrivenComponent(child, rootView)
 

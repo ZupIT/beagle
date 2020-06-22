@@ -21,7 +21,7 @@ extension FormInputHidden: ServerDrivenComponent {
     public func toView(renderer: BeagleRenderer) -> UIView {
         let view = HidenInputView(value: value)
         view.beagleFormElement = self
-        view.flex.setup(Flex(positionType: .absolute))
+        view.style.setup(Style(positionType: .absolute))
         return view
     }
 }

@@ -21,14 +21,15 @@ import BeagleSchema
 extension Container {
     
     public func applyFlex(_ flex: Flex) -> Container {
+        let style = (widgetProperties.style ?? Style()).flex(flex)
         return Container(
             children: children,
             widgetProperties: .init(
                 id: widgetProperties.id,
-                style: widgetProperties.style,
-                flex: flex,
+                style: style,
                 accessibility: widgetProperties.accessibility
-            )
+            ),
+            context: _context_
         )
     }
 }

@@ -57,7 +57,7 @@ internal class ContextDataManager(
 
     fun addBindingToContext(binding: Bind.Expression<*>) {
         binding.value.getExpressions().forEach { bindingValue ->
-            val contextId = bindingValue.split(".")[0]
+            val contextId = bindingValue.split(".", "[")[0]
             contexts[contextId]?.bindings?.add(binding)
         }
     }
@@ -174,7 +174,7 @@ internal class ContextDataManager(
             var text = bind.value
             expressions.forEach {
                 val value = evaluateExpression(contextData, bind.type, it)
-                text = text.replace("@\\{$it\\}".toRegex(), value.toString())
+                text = text.replace("@{$it}", value.toString())
             }
             text
         } else {
@@ -216,8 +216,7 @@ internal class ContextDataManager(
         }
     }
 
-    private fun Bind.Expression<*>.getContextId(): String =
-        valueInExpression().split(".")[0]
+    private fun Bind.Expression<*>.getContextId(): String = valueInExpression().split(".", "[")[0]
 
     private fun Bind.Expression<*>.valueInExpression(): String =
         BeagleConstants.EXPRESSION_REGEX.find(this.value)?.groups?.get(1)?.value ?: ""
