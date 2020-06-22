@@ -64,7 +64,8 @@ object ActionScreenBuilder : ScreenBuilder {
                 getNavigateWithPrefetch(),
                 getNavigateWithDeepLink(),
                 getSendRequestAction(),
-                getConfirmAction()
+                getConfirmAction(),
+                getOpenExternalURLAction()
             )
         )
     )
@@ -89,7 +90,7 @@ object ActionScreenBuilder : ScreenBuilder {
 
     private fun getNavigateWithPath() = Container(
         children = listOf(
-            Text("Navigate with path"),
+            Text("Navigate with PushView Route Remote"),
             Button(
                 onPress = listOf(Navigate.PushView(Route.Remote(route = SCREEN_ACTION_CLICK_ENDPOINT))),
                 text = "Click me!"
@@ -99,7 +100,7 @@ object ActionScreenBuilder : ScreenBuilder {
 
     private fun getNavigateWithScreen() = Container(
         children = listOf(
-            Text("Navigate with screen"),
+            Text("Navigate with PushView Route Local"),
             Button(
                 onPress = listOf(Navigate.PushView(Route.Local(Screen(
                     navigationBar = NavigationBar(
@@ -116,16 +117,18 @@ object ActionScreenBuilder : ScreenBuilder {
 
     private fun getNavigateWithPathScreen() = Container(
         children = listOf(
-            Text("Navigate with path and screen"),
+            Text("Navigate with PushView Route Remote with fallback"),
             Button(
-                onPress = listOf(Navigate.PushView(Route.Local(Screen(
-                    navigationBar = NavigationBar(
-                        "Navigate with path and screen",
-                        showBackButton = true
-                    ),
-                    child = Text("Hello Screen from Navigate")
+                onPress = listOf(Navigate.PushView(Route.Remote(route = "",
+                    fallback = Screen(
+                        navigationBar = NavigationBar(
+                            "Navigate with screen",
+                            showBackButton = true
+                        ),
+                        child = Text("Hello Screen from Navigate")
+                    )
                 ))
-                )),
+                ),
                 text = "Click me!"
             )
         )
@@ -133,7 +136,7 @@ object ActionScreenBuilder : ScreenBuilder {
 
     private fun getNavigateWithPrefetch() = Container(
         children = listOf(
-            Text("Navigate with prefetch"),
+            Text("Navigate with PushView Route Remote with ShouldPrefetch"),
             Button(
                 onPress = listOf(Navigate.PushView(Route.Remote(shouldPrefetch = true,
                     route = SCREEN_ACTION_CLICK_ENDPOINT))),
@@ -200,6 +203,16 @@ object ActionScreenBuilder : ScreenBuilder {
                         labelOk = "OK"
                     )
                 )),
+                text = "Click me!"
+            )
+        )
+    )
+
+    private fun getOpenExternalURLAction() = Container(
+        children = listOf(
+            Text("Open External URL Action"),
+            Button(
+                onPress = listOf(Navigate.OpenExternalURL("https://www.zup.com.br/")),
                 text = "Click me!"
             )
         )
