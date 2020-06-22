@@ -65,6 +65,7 @@ import br.com.zup.beagle.sample.micronaut.service.SampleNavigationBarService
 import br.com.zup.beagle.sample.micronaut.service.SampleNavigationTypeService
 import br.com.zup.beagle.sample.micronaut.service.SampleNetworkImageService
 import br.com.zup.beagle.sample.micronaut.service.SamplePageViewService
+import br.com.zup.beagle.sample.micronaut.service.SampleSafeAreaService
 import br.com.zup.beagle.sample.micronaut.service.SampleScreenBuilderService
 import br.com.zup.beagle.sample.micronaut.service.SampleScrollViewService
 import br.com.zup.beagle.sample.micronaut.service.SampleTabViewService
@@ -99,7 +100,7 @@ class ScreenController(
     private val sampleActionClickService: SampleActionClickService,
     private val sampleAnalyticsService: SampleAnalyticsService,
     private val sampleWebViewService: SampleWebViewService,
-    private val sampleSafeArea: SafeAreaService
+    private val sampleSafeArea: SampleSafeAreaService
 ) {
     @Get(ACCESSIBILITY_SCREEN_ENDPOINT)
     fun getAccessibilityView() = this.accessibilityService.createAccessibilityView()
