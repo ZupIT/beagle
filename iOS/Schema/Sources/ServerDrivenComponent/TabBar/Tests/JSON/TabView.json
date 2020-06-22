@@ -8,10 +8,12 @@
             "child":
                 {
                     "_beagleComponent_": "beagle:container",
-                    "flex": {
-                        "flexDirection": "COLUMN",
-                        "flexWrap": "NO_WRAP",
-                        "justifyContent": "SPACE_AROUND"
+                    "style": {
+                        "flex": {
+                            "flexDirection": "COLUMN",
+                            "flexWrap": "NO_WRAP",
+                            "justifyContent": "SPACE_AROUND"
+                        }
                     },
                     "children": [
                         {

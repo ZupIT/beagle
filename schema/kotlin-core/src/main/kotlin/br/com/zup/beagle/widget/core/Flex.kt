@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.widget.core
 
+
 /**
  *
  * The flex is a Layout component that will handle your visual component positioning at the screen.
@@ -34,27 +35,12 @@ package br.com.zup.beagle.widget.core
  *                      Align self has the same options and effect as align items
  *                      but instead of affecting the children within a container.
  * @param alignContent Align content defines the distribution of lines along the cross-axis..
- * @param positionType The position type of an element defines how it is positioned within its parent.
  * @param basis is an axis-independent way of providing the default size of an item along the main axis.
  * @param flex TODO.
  * @param grow describes how any space within a container should be distributed among its children along the main axis.
  * @param shrink
  *              describes how to shrink children along the main axis in the case that
  *              the total size of the children overflow the size of the container on the main axis.
- * @param display enables a flex context for all its direct children.
- * @param size add size to current view applying the flex.
- * @param margin
- *                  effects the spacing around the outside of a node.
- *                  A node with margin will offset itself from the bounds of its parent
- *                  but also offset the location of any siblings.
- *                  The margin of a node contributes to the total size of its parent if the parent is auto sized.
- * @param padding
- *                  affects the size of the node it is applied to.
- *                  Padding in Yoga acts as if box-sizing: border-box; was set.
- *                  That is padding will not add to the total size of an element if it has an explicit size set.
- *                  For auto sized nodes padding will increase the size of the
- *                  node as well as offset the location of any children..
- * @param position add padding to position.
  *
  */
 data class Flex(
@@ -64,16 +50,10 @@ data class Flex(
     val alignItems: AlignItems? = null, /* = Alignment.STRETCH */
     val alignSelf: AlignSelf? = null, /* = Alignment.AUTO */
     val alignContent: AlignContent? = null, /* = Alignment.FLEX_START */
-    val positionType: FlexPositionType? = null, /* = FlexPositionType.RELATIVE */
     val basis: UnitValue? = null, /* = UnitValue(0.0, UnitType.AUTO) */
     val flex: Double? = null, /* = 0.0 */
     val grow: Double? = null, /* = 0.0 */
-    val shrink: Double? = null, /* = 1.0 */
-    val display: FlexDisplay? = null, /* = FlexDisplay.FLEX */
-    val size: Size? = null,
-    val margin: EdgeValue? = null,
-    val padding: EdgeValue? = null,
-    val position: EdgeValue? = null
+    val shrink: Double? = null /* = 1.0 */
 )
 
 /**
@@ -386,44 +366,3 @@ enum class AlignItems {
     STRETCH
 }
 
-/**
- * This defines a flex container;
- * inline or block depending on the given value. It enables a flex context for all its direct children.
- *
- * @property FLEX
- * @property NONE
- */
-enum class FlexDisplay {
-    /**
-     * Apply the flex properties.
-     */
-    FLEX,
-
-    /**
-     * No flex properties will be applied to the element.
-     */
-    NONE
-}
-
-/**
- * The position type of an element defines how it is positioned within its parent.
- *
- * @property ABSOLUTE
- * @property RELATIVE
- */
-enum class FlexPositionType {
-
-    /**
-     * This means an element is positioned according to the normal flow of the layout,
-     * and then offset relative to that position based on the values of top, right, bottom, and left.
-     * The offset does not affect the position of any sibling or parent elements.
-     */
-    ABSOLUTE,
-
-    /**
-     * When positioned absolutely an element doesn't take part in the normal layout flow.
-     * It is instead laid out independent of its siblings.
-     * The position is determined based on the top, right, bottom, and left values.
-     */
-    RELATIVE
-}

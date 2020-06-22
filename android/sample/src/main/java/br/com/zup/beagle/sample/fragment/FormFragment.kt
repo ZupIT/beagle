@@ -28,6 +28,8 @@ import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.widgets.TextField
 import br.com.zup.beagle.sample.widgets.TextFieldInputType
 import br.com.zup.beagle.android.utils.toView
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.UnitType
@@ -80,11 +82,11 @@ class FormFragment : Fragment() {
                         child = Button(
                             styleId = "DesignSystem.Button.Text",
                             text = "submit"
-                        ).applyFlex(Flex(margin = EdgeValue(top = UnitValue(30.0, UnitType.REAL))))
+                        ).applyStyle(Style(margin = EdgeValue(top = UnitValue(30.0, UnitType.REAL))))
                     )
                 )
-            ).applyFlex(
-                Flex(
+            ).applyStyle(
+                Style(
                     padding = EdgeValue(
                         all = UnitValue(30.0, UnitType.REAL)
                     )
@@ -124,7 +126,7 @@ class FormFragment : Fragment() {
                             child = Button(
                                 styleId = "DesignSystem.Button.Text",
                                 text = "submit"
-                            ).applyFlex(Flex(margin = EdgeValue(top = UnitValue(30.0, UnitType.REAL))))
+                            ).applyStyle(Style(margin = EdgeValue(top = UnitValue(30.0, UnitType.REAL))))
                         )
                     )
                 ),

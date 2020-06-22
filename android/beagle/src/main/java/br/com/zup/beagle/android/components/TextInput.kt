@@ -23,12 +23,12 @@ import androidx.core.widget.TextViewCompat
 import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.utils.get
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.widget.core.TextInputType
 import br.com.zup.beagle.widget.core.TextInputType.DATE
 import br.com.zup.beagle.widget.core.TextInputType.EMAIL
@@ -46,7 +46,8 @@ data class TextInput(
     val onChange: List<Action>? = null,
     val onFocus: List<Action>? = null,
     val onBlur: List<Action>? = null
-) : WidgetView() {
+) : InputWidget() {
+
     constructor(
         value: String? = null,
         placeholder: String? = null,
@@ -74,20 +75,33 @@ data class TextInput(
     @Transient
     private val viewFactory = ViewFactory()
 
+    @Transient
+    private lateinit var textInputView: EditText
+
     override fun buildView(rootView: RootView): View = viewFactory.makeInputText(rootView.getContext()).apply {
         setData(this@TextInput, rootView)
-        onChange?.let { setUpOnTextChange(rootView, it) }
+        setUpOnTextChange(rootView)
         if (onFocus != null || onBlur != null) setUpOnFocusChange(rootView)
+        textInputView = this
     }
 
-    private fun EditText.setUpOnTextChange(rootView: RootView, onChange: List<Action>) {
+    override fun getValue(): Any = textInputView.text.toString()
+
+    override fun onErrorMessage(message: String) {
+        textInputView.error = message
+    }
+
+    private fun EditText.setUpOnTextChange(rootView: RootView) {
         doOnTextChanged { newText, _, _, _ ->
-            this@TextInput.handleEvent(
-                rootView,
-                onChange,
-                "onChange",
-                newText.toString()
-            )
+            notifyChanges()
+            onChange?.let {
+                this@TextInput.handleEvent(
+                    rootView,
+                    onChange,
+                    "onChange",
+                    newText.toString()
+                )
+            }
         }
     }
 

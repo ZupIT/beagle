@@ -20,6 +20,7 @@ import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.core.TextInputType
+import br.com.zup.beagle.widget.form.InputWidget
 
 data class TextInput(
     val value: Bind<String>? = null,
@@ -32,7 +33,7 @@ data class TextInput(
     val onChange: List<Action>? = null,
     val onFocus: List<Action>? = null,
     val onBlur: List<Action>? = null
-) : Widget() {
+) : InputWidget() {
     constructor(
         value: String? = null,
         placeholder: String? = null,

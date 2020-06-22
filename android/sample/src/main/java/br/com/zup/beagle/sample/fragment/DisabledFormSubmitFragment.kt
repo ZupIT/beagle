@@ -25,15 +25,17 @@ import br.com.zup.beagle.android.action.FormMethodType
 import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.components.TextInput
 import br.com.zup.beagle.android.components.form.Form
 import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.components.form.FormSubmit
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.widgets.MutableText
 import br.com.zup.beagle.sample.widgets.TextField
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.UnitType
@@ -81,9 +83,11 @@ class DisabledFormSubmitFragment : Fragment() {
 
     private fun makeCharadeFormSubmit(): ServerDrivenComponent {
         return FormSubmit(
-            child = Button(text = "Flag", styleId = "DesignSystem.Button.Orange").applyFlex(
-                flex = Flex(
-                    alignSelf = AlignSelf.CENTER,
+            child = Button(text = "Flag", styleId = "DesignSystem.Button.Orange").applyStyle(
+                style = Style(
+                    flex = Flex(
+                        alignSelf = AlignSelf.CENTER
+                    ),
                     size = Size(
                         width = UnitValue(95.0, UnitType.PERCENT)
                     ),
@@ -99,18 +103,20 @@ class DisabledFormSubmitFragment : Fragment() {
     private fun makeCharadeAnswerInput(charade: CharadeInput): ServerDrivenComponent {
         return FormInput(
             name = charade.name,
-            child = TextField(
-                hint = "answer",
-                description = "mary"
-            ).applyFlex(
-                Flex(
+            child = TextInput(
+                placeholder = "answer",
+                value = "mary"
+            ).applyStyle(
+                Style(
                     margin = EdgeValue(
                         top = UnitValue(10.0, UnitType.REAL)
                     ),
                     size = Size(
                         width = UnitValue(92.0, UnitType.PERCENT)
                     ),
-                    alignSelf = AlignSelf.CENTER
+                    flex = Flex(
+                        alignSelf = AlignSelf.CENTER
+                    )
                 )
             ),
             validator = charade.validator
@@ -122,9 +128,11 @@ class DisabledFormSubmitFragment : Fragment() {
             firstText = "show answer",
             secondText = "Mary",
             color = "#3380FF"
-        ).applyFlex(
-            Flex(
-                alignSelf = AlignSelf.CENTER,
+        ).applyStyle(
+            Style(
+                flex = Flex(
+                    alignSelf = AlignSelf.CENTER
+                ),
                 margin = EdgeValue(
                     top = UnitValue(5.0, UnitType.REAL)
                 )
@@ -136,9 +144,10 @@ class DisabledFormSubmitFragment : Fragment() {
         return Text(
             text = charade.charade,
             alignment = TextAlignment.CENTER
-        ).applyFlex(
-            Flex(
-                alignSelf = AlignSelf.CENTER,
+        ).applyStyle(
+            Style(flex = Flex(
+                alignSelf = AlignSelf.CENTER
+            ),
                 margin = EdgeValue(
                     top = UnitValue(45.0, UnitType.REAL),
                     left = UnitValue(10.0, UnitType.REAL),

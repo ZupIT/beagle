@@ -1,11 +1,5 @@
 {
   "_beagleComponent_": "beagle:ScrollView",
-  "style": {
-    "backgroundColor": "#FF000060",
-    "cornerRadius": {
-        "radius": 30.0
-    }
-  },
   "children": [
     {
       "_beagleComponent_": "beagle:Text",

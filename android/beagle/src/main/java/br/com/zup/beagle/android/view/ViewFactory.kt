@@ -29,13 +29,13 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.RecyclerView
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.custom.BeaglePageIndicatorView
 import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.view.custom.BeagleTabLayout
 import br.com.zup.beagle.android.view.custom.BeagleView
-import br.com.zup.beagle.widget.core.Flex
 
 internal class ViewFactory {
 
@@ -47,8 +47,8 @@ internal class ViewFactory {
     fun makeBeagleFlexView(context: Context) =
         BeagleFlexView(context = context)
 
-    fun makeBeagleFlexView(context: Context, flex: Flex) =
-        BeagleFlexView(context = context, flex = flex)
+    fun makeBeagleFlexView(context: Context, style: Style) =
+        BeagleFlexView(context = context, style = style)
 
     fun makeScrollView(context: Context) =
         ScrollView(context).apply {

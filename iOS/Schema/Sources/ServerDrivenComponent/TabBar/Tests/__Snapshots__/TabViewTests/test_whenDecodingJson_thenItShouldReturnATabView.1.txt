@@ -12,7 +12,6 @@
             - textColor: Optional<String>.none
             ▿ widgetProperties: WidgetProperties
               - accessibility: Optional<Accessibility>.none
-              - flex: Optional<Flex>.none
               - id: Optional<String>.none
               - style: Optional<Style>.none
           ▿ Text
@@ -23,7 +22,6 @@
             - textColor: Optional<String>.none
             ▿ widgetProperties: WidgetProperties
               - accessibility: Optional<Accessibility>.none
-              - flex: Optional<Flex>.none
               - id: Optional<String>.none
               - style: Optional<Style>.none
           ▿ Text
@@ -34,34 +32,36 @@
             - textColor: Optional<String>.none
             ▿ widgetProperties: WidgetProperties
               - accessibility: Optional<Accessibility>.none
-              - flex: Optional<Flex>.none
               - id: Optional<String>.none
               - style: Optional<Style>.none
         ▿ widgetProperties: WidgetProperties
           - accessibility: Optional<Accessibility>.none
-          ▿ flex: Optional<Flex>
-            ▿ some: Flex
-              - alignContent: Optional<AlignContent>.none
-              - alignItems: Optional<AlignItems>.none
-              - alignSelf: Optional<AlignSelf>.none
-              - basis: Optional<UnitValue>.none
+          - id: Optional<String>.none
+          ▿ style: Optional<Style>
+            ▿ some: Style
+              - backgroundColor: Optional<String>.none
+              - cornerRadius: Optional<CornerRadius>.none
               - display: Optional<Display>.none
-              - flex: Optional<Double>.none
-              ▿ flexDirection: Optional<FlexDirection>
-                - some: FlexDirection.column
-              ▿ flexWrap: Optional<Wrap>
-                - some: Wrap.noWrap
-              - grow: Optional<Double>.none
-              ▿ justifyContent: Optional<JustifyContent>
-                - some: JustifyContent.spaceAround
+              ▿ flex: Optional<Flex>
+                ▿ some: Flex
+                  - alignContent: Optional<AlignContent>.none
+                  - alignItems: Optional<AlignItems>.none
+                  - alignSelf: Optional<AlignSelf>.none
+                  - basis: Optional<UnitValue>.none
+                  - flex: Optional<Double>.none
+                  ▿ flexDirection: Optional<FlexDirection>
+                    - some: FlexDirection.column
+                  ▿ flexWrap: Optional<Wrap>
+                    - some: Wrap.noWrap
+                  - grow: Optional<Double>.none
+                  ▿ justifyContent: Optional<JustifyContent>
+                    - some: JustifyContent.spaceAround
+                  - shrink: Optional<Double>.none
               - margin: Optional<EdgeValue>.none
               - padding: Optional<EdgeValue>.none
               - position: Optional<EdgeValue>.none
               - positionType: Optional<PositionType>.none
-              - shrink: Optional<Double>.none
               - size: Optional<Size>.none
-          - id: Optional<String>.none
-          - style: Optional<Style>.none
       ▿ icon: Optional<String>
         - some: "beagle"
       ▿ title: Optional<String>
