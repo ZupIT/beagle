@@ -19,7 +19,7 @@ import SnapshotTesting
 @testable import BeagleUI
 import BeagleSchema
 
-class FlexBuildersExtensionTests: XCTestCase {
+class StyleBuildersExtensionTests: XCTestCase {
     
     func test_SizeBuilder() {
         let sut = Size()
@@ -56,6 +56,24 @@ class FlexBuildersExtensionTests: XCTestCase {
             .flexDirection(.column)
             .flexWrap(.noWrap)
             .justifyContent(.spaceBetween)
+            .flex(2)
+            .grow(3)
+            .shrink(0)
+        
+        assertSnapshot(matching: sut, as: .dump)
+    }
+    
+    func test_StyleBuilder() {
+        let sut = Style()
+            .flex(Flex())
+            .display(.flex)
+            .positionType(.absolute)
+            .size(Size())
+            .margin(EdgeValue())
+            .padding(EdgeValue())
+            .position(EdgeValue())
+            .backgroundColor("#FFFFFF")
+            .cornerRadius(CornerRadius(radius: 5))
         
         assertSnapshot(matching: sut, as: .dump)
     }

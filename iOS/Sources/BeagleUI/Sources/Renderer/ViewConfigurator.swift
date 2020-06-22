@@ -50,7 +50,7 @@ class ViewConfigurator: ViewConfiguratorProtocol {
         setup(style: widget.style)
         setup(id: widget.id)
         setup(accessibility: widget.accessibility)
-        view?.flex.setup(widget.flex)
+        view?.style.setup(widget.style)
     }
 
     func setup(style: Style?) {

@@ -34,11 +34,11 @@ extension ListView: ServerDrivenComponent {
 
     public func toView(renderer: BeagleRenderer) -> UIView {
         let componentViews: [(view: UIView, size: CGSize)] = children.compactMap {
-            let container = Container(children: [$0], widgetProperties: .init(flex: Flex(positionType: .absolute)))
+            let container = Container(children: [$0], widgetProperties: .init(style: .init(positionType: .absolute)))
             let containerView = renderer.render(container)
             let view = UIView()
             view.addSubview(containerView)
-            view.flex.applyLayout()
+            view.style.applyLayout()
             if let view = containerView.subviews.first {
                 view.removeFromSuperview()
                 return (view: view, size: view.bounds.size)

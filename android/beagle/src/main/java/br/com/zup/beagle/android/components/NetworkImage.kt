@@ -23,10 +23,10 @@ import android.widget.ImageView
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
 import br.com.zup.beagle.android.components.utils.ComponentStylization
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
-import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ImageContentMode
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
@@ -47,7 +47,7 @@ data class NetworkImage(
     private val viewMapper: ViewMapper = ViewMapper()
 
     override fun buildView(rootView: RootView): View {
-        return if (flex?.size != null) {
+        return if (style?.size != null) {
             makeImageView(rootView).apply {
                 Glide.with(this).load(path).into(this)
             }
@@ -55,7 +55,7 @@ data class NetworkImage(
             viewFactory.makeBeagleFlexView(rootView.getContext()).also {
                 it.addView(makeImageView(rootView).apply {
                     loadImage(this, it)
-                }, flex ?: Flex())
+                }, style ?: Style())
             }
         }
     }

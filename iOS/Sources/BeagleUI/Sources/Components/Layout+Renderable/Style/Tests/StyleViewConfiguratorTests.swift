@@ -20,11 +20,11 @@ import YogaKit
 import SnapshotTesting
 import BeagleSchema
 
-final class FlexViewConfiguratorTests: XCTestCase {
+final class StyleViewConfiguratorTests: XCTestCase {
     
     func test_init_shouldReturnInstanceWithYogaTranslatorDependencySetProperly() {
         // Given
-        let sut = FlexViewConfigurator(view: UIView())
+        let sut = StyleViewConfigurator(view: UIView())
         let mirror = Mirror(reflecting: sut)
         // When
         let yogaTranslator = mirror.firstChild(of: YogaTranslating.self)
@@ -35,7 +35,7 @@ final class FlexViewConfiguratorTests: XCTestCase {
     func test_setupFlex_shouldApplyDefaultYogaPropertiesProperly() {
         // Given
         let view = UIView()
-        let sut = FlexViewConfigurator(view: view)
+        let sut = StyleViewConfigurator(view: view)
 
         // When
         sut.setup(nil)
@@ -54,12 +54,13 @@ final class FlexViewConfiguratorTests: XCTestCase {
     func test_setupFlex_shouldApplyValueProperties() {
         // Given
         let view = UIView()
-        let sut = FlexViewConfigurator(view: view)
+        let sut = StyleViewConfigurator(view: view)
         
         let flex = Flex(basis: UnitValue(value: 50, type: .real), flex: 1, grow: 0, shrink: 1)
+        let style = Style(flex: flex)
         
         //When
-        sut.setup(flex)
+        sut.setup(style)
         
         //Then
         XCTAssertEqual(view.yoga.flexBasis.value, 50)
@@ -90,7 +91,7 @@ final class FlexViewConfiguratorTests: XCTestCase {
             vertical: value,
             all: value
         )
-        let flex = Flex(
+        let style = Style(
             size: size,
             margin: edgeValue,
             padding: edgeValue,
@@ -98,10 +99,10 @@ final class FlexViewConfiguratorTests: XCTestCase {
         )
         let expectedYGValue = YGValue(value: 1, unit: .point)
         let view = UIView()
-        let sut = FlexViewConfigurator(view: view)
+        let sut = StyleViewConfigurator(view: view)
 
         // When
-        sut.setup(flex)
+        sut.setup(style)
 
         // Then
         XCTAssertEqual(view.yoga.width, expectedYGValue)
@@ -137,11 +138,11 @@ final class FlexViewConfiguratorTests: XCTestCase {
     func test_setupFlex_positionAll() {
         // Given
         let view = UIView()
-        let sut = FlexViewConfigurator(view: view)
-        let flex = Flex(position: .init(.init(all: .init(value: 50, type: .real))))
+        let sut = StyleViewConfigurator(view: view)
+        let style = Style(position: .init(.init(all: .init(value: 50, type: .real))))
         
         //When
-        sut.setup(flex)
+        sut.setup(style)
         
         //Then
         XCTAssertEqual(view.yoga.left, 50)
@@ -153,11 +154,11 @@ final class FlexViewConfiguratorTests: XCTestCase {
     func test_setupFlex_positionVertical() {
         // Given
         let view = UIView()
-        let sut = FlexViewConfigurator(view: view)
-        let flex = Flex(position: .init(.init(vertical: .init(value: 50, type: .real))))
+        let sut = StyleViewConfigurator(view: view)
+        let style = Style(position: .init(.init(vertical: .init(value: 50, type: .real))))
         
         //When
-        sut.setup(flex)
+        sut.setup(style)
         
         //Then
         XCTAssertEqual(view.yoga.top, 50)
@@ -167,11 +168,11 @@ final class FlexViewConfiguratorTests: XCTestCase {
     func test_setupFlex_positionHorizontal() {
         // Given
         let view = UIView()
-        let sut = FlexViewConfigurator(view: view)
-        let flex = Flex(position: .init(.init(horizontal: .init(value: 50, type: .real))))
+        let sut = StyleViewConfigurator(view: view)
+        let style = Style(position: .init(.init(horizontal: .init(value: 50, type: .real))))
         
         //When
-        sut.setup(flex)
+        sut.setup(style)
         
         //Then
         XCTAssertEqual(view.yoga.left, 50)
@@ -182,7 +183,7 @@ final class FlexViewConfiguratorTests: XCTestCase {
         // Given
         let expectedOrigin = CGPoint(x: 1, y: 1)
         let view = UIView(frame: .init(x: expectedOrigin.x, y: expectedOrigin.y, width: 1, height: 1))
-        let sut = FlexViewConfigurator(view: view)
+        let sut = StyleViewConfigurator(view: view)
         
         // When
         sut.applyLayout()
@@ -195,34 +196,34 @@ final class FlexViewConfiguratorTests: XCTestCase {
     func test_enableYoga_shouldEnableIt() {
         // Given
         let view = UIView()
-        let sut = FlexViewConfigurator(view: view)
+        let sut = StyleViewConfigurator(view: view)
         
         // When
-        sut.isEnabled = true
+        sut.isFlexEnabled = true
         
         // Then
-        XCTAssert(sut.isEnabled == true)
+        XCTAssert(sut.isFlexEnabled == true)
     }
 
     func test_disableYoga_shouldDisableIt() {
         // Given
         let view = UIView()
-        let sut = FlexViewConfigurator(view: view)
+        let sut = StyleViewConfigurator(view: view)
 
         // When
-        sut.isEnabled = false
+        sut.isFlexEnabled = false
 
         // Then
-        XCTAssert(sut.isEnabled == false)
+        XCTAssert(sut.isFlexEnabled == false)
     }
     
 }
 
-final class FlexViewConfiguratorDummy: FlexViewConfiguratorProtocol {
+final class StyleViewConfiguratorDummy: StyleViewConfiguratorProtocol {
     var view: UIView? = UIView()
-    var isEnabled = false
+    var isFlexEnabled = false
 
-    func setup(_ flex: Flex?) {}
+    func setup(_ style: Style?) {}
     func applyLayout() {}
     func markDirty() {}
 }

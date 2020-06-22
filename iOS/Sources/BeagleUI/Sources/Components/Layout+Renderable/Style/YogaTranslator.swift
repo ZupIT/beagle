@@ -25,9 +25,9 @@ protocol YogaTranslator {
     func translate(_ alignItems: Flex.AlignItems) -> YGAlign
     func translate(_ alignSelf: Flex.AlignSelf) -> YGAlign
     func translate(_ alignContent: Flex.AlignContent) -> YGAlign
-    func translate(_ positionType: Flex.PositionType) -> YGPositionType
+    func translate(_ positionType: Style.PositionType) -> YGPositionType
     func translate(_ unitValue: UnitValue) -> YGValue
-    func translate(_ display: Flex.Display) -> YGDisplay
+    func translate(_ display: Style.Display) -> YGDisplay
 }
 
 final class YogaTranslating: YogaTranslator {
@@ -121,7 +121,7 @@ final class YogaTranslating: YogaTranslator {
         }
     }
     
-    func translate(_ display: Flex.Display) -> YGDisplay {
+    func translate(_ display: Style.Display) -> YGDisplay {
         switch display {
         case .flex:
             return .flex
@@ -142,7 +142,7 @@ final class YogaTranslating: YogaTranslator {
         }
     }
     
-    func translate(_ positionType: Flex.PositionType) -> YGPositionType {
+    func translate(_ positionType: Style.PositionType) -> YGPositionType {
         switch positionType {
         case .absolute:
             return .absolute

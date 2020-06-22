@@ -21,7 +21,9 @@ import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.widget.core.Flex
 import io.mockk.every
 import io.mockk.mockk
@@ -30,7 +32,7 @@ import org.junit.Test
 
 class ContainerTest : BaseComponentTest() {
 
-    private val flex: Flex = mockk()
+    private val style: Style = mockk()
 
     private val containerChildren = listOf<ServerDrivenComponent>(mockk<Container>())
 
@@ -39,7 +41,7 @@ class ContainerTest : BaseComponentTest() {
     override fun setUp() {
         super.setUp()
 
-        container = Container(containerChildren).applyFlex(flex)
+        container = Container(containerChildren).applyStyle(style)
     }
 
     @Test
@@ -48,7 +50,7 @@ class ContainerTest : BaseComponentTest() {
         container.buildView(rootView)
 
         // THEN
-        verify(exactly = once()) {  anyConstructed<ViewFactory>().makeBeagleFlexView(rootView.getContext(), flex) }
+        verify(exactly = once()) {  anyConstructed<ViewFactory>().makeBeagleFlexView(rootView.getContext(), style) }
     }
 
     @Test

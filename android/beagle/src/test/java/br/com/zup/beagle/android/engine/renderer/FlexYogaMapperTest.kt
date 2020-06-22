@@ -24,13 +24,13 @@ import br.com.zup.beagle.android.engine.mapper.makeYogaFlexDirection
 import br.com.zup.beagle.android.engine.mapper.makeYogaJustify
 import br.com.zup.beagle.android.engine.mapper.makeYogaPositionType
 import br.com.zup.beagle.android.engine.mapper.makeYogaWrap
+import br.com.zup.beagle.core.Display
+import br.com.zup.beagle.core.PositionType
 import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.FlexWrap
 import br.com.zup.beagle.widget.core.FlexDirection
-import br.com.zup.beagle.widget.core.FlexDisplay
-import br.com.zup.beagle.widget.core.FlexPositionType
 import br.com.zup.beagle.widget.core.JustifyContent
 import com.facebook.yoga.YogaAlign
 import com.facebook.yoga.YogaDisplay
@@ -483,7 +483,7 @@ class FlexYogaMapperTest {
     @Test
     fun makeYogaDisplay_should_return_FlexDisplay_as_FLEX_when_FlexDisplay_is_FLEX() {
         // Given
-        val display = FlexDisplay.FLEX
+        val display = Display.FLEX
 
         // When
         val actual = makeYogaDisplay(display)
@@ -495,7 +495,7 @@ class FlexYogaMapperTest {
     @Test
     fun makeYogaDisplay_should_return_FlexDisplay_as_NONE_when_FlexDisplay_is_NONE() {
         // Given
-        val display = FlexDisplay.NONE
+        val display = Display.NONE
 
         // When
         val actual = makeYogaDisplay(display)
@@ -507,10 +507,10 @@ class FlexYogaMapperTest {
     @Test
     fun makeYogaDisplay_should_return_null_when_FlexDisplay_is_null() {
         // Given
-        val flexDisplay: FlexDisplay? = null
+        val display: Display? = null
 
         // When
-        val actual = makeYogaDisplay(flexDisplay)
+        val actual = makeYogaDisplay(display)
 
         // Then
         assertNull(actual)
@@ -519,10 +519,10 @@ class FlexYogaMapperTest {
     @Test
     fun makeYogaPositionType_should_return_RELATIVE_when_FlexPositionType_is_RELATIVE() {
         // Given
-        val flexPositionType = FlexPositionType.RELATIVE
+        val positionType = PositionType.RELATIVE
 
         // When
-        val actual = makeYogaPositionType(flexPositionType)
+        val actual = makeYogaPositionType(positionType)
 
         // Then
         assertEquals(YogaPositionType.RELATIVE, actual)
@@ -531,10 +531,10 @@ class FlexYogaMapperTest {
     @Test
     fun makeYogaPositionType_should_return_ABSOLUTE_when_FlexPositionType_is_ABSOLUTE() {
         // Given
-        val flexPositionType = FlexPositionType.ABSOLUTE
+        val positionType = PositionType.ABSOLUTE
 
         // When
-        val actual = makeYogaPositionType(flexPositionType)
+        val actual = makeYogaPositionType(positionType)
 
         // Then
         assertEquals(YogaPositionType.ABSOLUTE, actual)
