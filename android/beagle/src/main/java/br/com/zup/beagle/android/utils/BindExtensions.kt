@@ -24,8 +24,8 @@ import br.com.zup.beagle.android.widget.RootView
 fun <T> Bind<T>.get(rootView: RootView, observes: ((value: T) -> Unit)? = null): T? {
     val value = try {
         when (this) {
-            is Bind.Expression -> evaluateExpression(rootView, this)
-            else -> this.value as? T?
+            is Bind.Expression -> this.evaluateExpression(rootView)
+            else -> this.value as T?
         }
     } catch (ex: Exception) {
         BeagleMessageLogs.errorWhileTryingToEvaluateBinding(ex)
@@ -40,12 +40,9 @@ fun <T> Bind<T>.get(rootView: RootView, observes: ((value: T) -> Unit)? = null):
     return value
 }
 
-private fun <T> evaluateExpression(
-    rootView: RootView,
-    bind: Bind.Expression<T>
-): T? {
+fun <T> Bind.Expression<T>.evaluateExpression(rootView: RootView): T {
     return rootView.generateViewModelInstance<ScreenContextViewModel>().contextDataManager.let {
-        it.addBindingToContext(bind)
-        it.evaluateBinding(bind) as T
+        it.addBindingToContext(this)
+        it.evaluateBinding(this) as T
     }
 }

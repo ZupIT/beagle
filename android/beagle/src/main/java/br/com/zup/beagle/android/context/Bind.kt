@@ -24,7 +24,6 @@ sealed class Bind<T> : BindAttribute<T> {
     @Transient
     private var onChange: ((value: T) -> Unit)? = null
 
-
     fun observes(onChange: (value: T) -> Unit) {
         this.onChange = onChange
     }
