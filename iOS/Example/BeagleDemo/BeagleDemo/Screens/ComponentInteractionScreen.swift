@@ -100,7 +100,7 @@ struct ComponentInteractionText: DeeplinkScreen {
                           "context": "myContext",
                           "value": "${onChange.value}"
                         }
-                      ], 
+                      ],
                     },
                       {
                         "_beagleComponent_": "beagle:text",
