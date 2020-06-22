@@ -46,6 +46,7 @@ import io.mockk.mockk
 import io.mockk.mockkConstructor
 import io.mockk.mockkStatic
 import io.mockk.slot
+import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.Assert
 import org.junit.Test
@@ -84,15 +85,18 @@ class ImageViewRendererTest : BaseComponentTest() {
         every { requestBuilder.into(capture(onRequestListenerSlot)) } returns mockk()
         every { BeagleEnvironment.beagleSdk.designSystem } returns mockk()
         every { BeagleEnvironment.beagleSdk.designSystem?.image(any()) } returns IMAGE_RES
-        every { anyConstructed<ComponentStylization<Image>>().apply(any(), any()) } just Runs
 
-        imageLocal = Image(PathType.Local(""))
+        imageLocal = Image(PathType.Local("imageName"))
         imageRemote = Image(PathType.Remote(DEFAULT_URL)).applyFlex(flex)
+    }
+
+    override fun tearDown() {
+        super.setUp()
+        unmockkAll()
     }
 
     @Test
     fun build_should_return_a_image_view_instance_and_set_data_when_path_is_local() {
-
         // When
         val view = imageLocal.buildView(rootView)
 
@@ -116,7 +120,7 @@ class ImageViewRendererTest : BaseComponentTest() {
     fun build_with_image_should_set_fit_center_when_content_mode_is_null_and_design_system_is_not_null() {
         // Given
         every { imageView.scaleType = capture(scaleTypeSlot) } just Runs
-        imageLocal = imageLocal.copy(PathType.Local("imageName"), ImageContentMode.FIT_CENTER)
+        imageLocal = imageLocal.copy(mode = ImageContentMode.FIT_CENTER)
 
         // When
         imageLocal.buildView(rootView)
@@ -131,7 +135,7 @@ class ImageViewRendererTest : BaseComponentTest() {
         // Given
         every { BeagleEnvironment.beagleSdk.designSystem } returns null
         every { imageView.scaleType = capture(scaleTypeSlot) } just Runs
-        imageLocal = imageLocal.copy(PathType.Local("imageName"), ImageContentMode.FIT_CENTER)
+        imageLocal = imageLocal.copy(mode = ImageContentMode.FIT_CENTER)
 
         // When
         imageLocal.buildView(rootView)
@@ -193,10 +197,7 @@ class ImageViewRendererTest : BaseComponentTest() {
         // Then
         verify(exactly = once()) { imageView.setImageBitmap(bitmap) }
         verify(exactly = once()) { beagleFlexView.setViewHeight(imageView, height) }
-        verify(exactly = once()) {
-            anyConstructed<ComponentStylization<Image>>()
-                .apply(imageView, imageRemote)
-        }
+
     }
 
     private fun callBuildAndRequest() {
