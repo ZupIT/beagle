@@ -17,6 +17,7 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.sample.beaglecustomaction.BeagleAlertAction
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.action.Alert
@@ -65,7 +66,8 @@ object ActionScreenBuilder : ScreenBuilder {
                 getNavigateWithDeepLink(),
                 getSendRequestAction(),
                 getConfirmAction(),
-                getOpenExternalURLAction()
+                getOpenExternalURLAction(),
+                getCustomAction()
             )
         )
     )
@@ -162,20 +164,28 @@ object ActionScreenBuilder : ScreenBuilder {
         children = listOf(
             Text("Send request action"),
             Button(
-                onPress = listOf(SendRequest(url = SCREEN_ACTION_CLICK_ENDPOINT, onSuccess = Alert(
-                    title = "Success",
-                    message = "Action",
-                    labelOk = "OK"
-                ),
-                    onError = Alert(
-                        title = "Error",
-                        message = "Action",
-                        labelOk = "OK"
+                onPress = listOf(SendRequest(
+                    url = SCREEN_ACTION_CLICK_ENDPOINT,
+                    onSuccess = listOf(
+                        Alert(
+                            title = "Success",
+                            message = "Action",
+                            labelOk = "OK"
+                        )
                     ),
-                    onFinish = Alert(
-                        title = "Finish",
-                        message = "Action",
-                        labelOk = "OK"
+                    onError = listOf(
+                        Alert(
+                            title = "Error",
+                            message = "Action",
+                            labelOk = "OK"
+                        )
+                    ),
+                    onFinish = listOf(
+                        Alert(
+                            title = "Finish",
+                            message = "Action",
+                            labelOk = "OK"
+                        )
                     )
                 )),
                 text = "Click me!"
@@ -214,6 +224,20 @@ object ActionScreenBuilder : ScreenBuilder {
             Button(
                 onPress = listOf(Navigate.OpenExternalURL("https://www.zup.com.br/")),
                 text = "Click me!"
+            )
+        )
+    )
+
+    private fun getCustomAction() = Container(
+        children = listOf(
+            Button(
+                text = "Ola Beagle",
+                onPress = listOf(
+                    BeagleAlertAction(
+                        title = "Ola Beagle",
+                        message = "Funcionou!"
+                    )
+                )
             )
         )
     )

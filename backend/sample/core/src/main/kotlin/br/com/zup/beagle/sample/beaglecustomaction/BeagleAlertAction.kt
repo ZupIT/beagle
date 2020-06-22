@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.constants
+package br.com.zup.beagle.sample.beaglecustomaction
 
-const val BASE_URL = "http://10.0.2.2:8080/"
-const val SAMPLE_ENDPOINT = "/components"
+import br.com.zup.beagle.annotation.RegisterAction
+import br.com.zup.beagle.widget.action.Action
+
+@RegisterAction
+class BeagleAlertAction(val title: String,
+                        val message: String): Action {
+}
