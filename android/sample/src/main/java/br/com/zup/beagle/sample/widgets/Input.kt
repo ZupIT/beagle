@@ -23,6 +23,7 @@ import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.annotation.RegisterWidget
 
 @RegisterWidget
@@ -36,7 +37,7 @@ data class Input(
             val actions = onTextChange ?: emptyList()
             this@Input.handleEvent(rootView, actions, "onTextChange", newText.toString())
         }
-        this@apply.hint = evaluateBinding(rootView, this@Input.hint) {
+        observeBindChanges(rootView, this@Input.hint) {
             this@apply.hint = it
         }
     }

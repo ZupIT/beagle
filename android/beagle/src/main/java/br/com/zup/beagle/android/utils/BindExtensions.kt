@@ -23,6 +23,7 @@ import br.com.zup.beagle.android.context.Bind
 
 typealias Observer<T> = (value: T) -> Unit
 
+// This method should be used if its inside a ServerDrivenComponent
 internal fun <T> Bind<T>.get(
     rootView: RootView,
     observes: Observer<T>? = null
@@ -30,12 +31,12 @@ internal fun <T> Bind<T>.get(
     return evaluateBind(rootView, this, null, observes)
 }
 
+// This method should be used if its inside a Action
 internal fun <T> Bind<T>.getWithCaller(
     rootView: RootView,
-    caller: Any,
-    observes: Observer<T>? = null
+    caller: Any
 ): T? {
-    return evaluateBind(rootView, this, caller, observes)
+    return evaluateBind(rootView, this, caller, null)
 }
 
 private fun <T> evaluateBind(

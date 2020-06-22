@@ -22,6 +22,7 @@ import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.utils.evaluateExpression
 
 @SuppressWarnings("UNUSED_PARAMETER")
 enum class RequestActionMethod {
@@ -89,10 +90,10 @@ data class SendRequest(
     }
 
     private fun toSendRequestInternal(rootView: RootView) = SendRequestInternal(
-        url = evaluateBinding(rootView, this.url) ?: "",
-        method = evaluateBinding(rootView, this.method) ?: RequestActionMethod.GET,
-        headers = this.headers?.let { evaluateBinding(rootView, it) },
-        data = this.data?.let { evaluateBinding(rootView, it) },
+        url = evaluateExpression(rootView, this.url) ?: "",
+        method = evaluateExpression(rootView, this.method) ?: RequestActionMethod.GET,
+        headers = this.headers?.let { evaluateExpression(rootView, it) },
+        data = this.data?.let { evaluateExpression(rootView, it) },
         onSuccess = this.onSuccess,
         onError = this.onError,
         onFinish = this.onFinish

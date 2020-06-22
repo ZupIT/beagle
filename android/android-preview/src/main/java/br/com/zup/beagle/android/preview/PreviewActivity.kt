@@ -76,7 +76,7 @@ class PreviewActivity : BeagleActivity() {
                 Log.d(TAG, "onMessage: $text")
                 runOnUiThread {
                     if (!text.startsWith("Welcome")) {
-                        flPreview.renderScreen(context = this@PreviewActivity, screenJson = text)
+                        flPreview.renderScreen(activity = this@PreviewActivity, screenJson = text)
                     } else {
                         Toast.makeText(this@PreviewActivity, text, Toast.LENGTH_SHORT).show()
                     }

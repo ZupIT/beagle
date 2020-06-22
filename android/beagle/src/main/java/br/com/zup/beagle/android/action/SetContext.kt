@@ -20,6 +20,7 @@ import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.utils.evaluateExpression
 
 internal data class SetContextInternal(
     val contextId: String,
@@ -46,7 +47,7 @@ data class SetContext(
 
     private fun toInternalSetContext(rootView: RootView) = SetContextInternal(
         contextId = this.contextId,
-        value = evaluateBinding(rootView, this.value) ?: "",
+        value = evaluateExpression(rootView, this.value) ?: "",
         path = this.path
     )
 }
