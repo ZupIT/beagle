@@ -336,7 +336,7 @@ final class YogaTranslatorTests: XCTestCase {
     func test_translateWhenFlexDisplay_shouldReturnFlexYGDisplay() {
         // Given
         let expectedYogaDisplay: YGDisplay = .flex
-        let display: Flex.Display = .flex
+        let display: Style.Display = .flex
         // When
         let displayTranslated = yogaTranslator.translate(display)
         // Then
@@ -346,7 +346,7 @@ final class YogaTranslatorTests: XCTestCase {
     func test_translateWhenNoneDisplay_shouldReturnNoneYGDisplay() {
         // Given
         let expectedYogaDisplay: YGDisplay = .none
-        let display: Flex.Display = .none
+        let display: Style.Display = .none
         // When
         let displayTranslated = yogaTranslator.translate(display)
         // Then
@@ -386,7 +386,7 @@ final class YogaTranslatorTests: XCTestCase {
     func test_translateAbsolutePositionType_shouldReturnAbsoluteYGPositionType() {
         // Given
         let expectedYGPositionType: YGPositionType = .absolute
-        let positionType: Flex.PositionType = .absolute
+        let positionType: Style.PositionType = .absolute
         // When
         let translated = yogaTranslator.translate(positionType)
         // Then
@@ -396,7 +396,7 @@ final class YogaTranslatorTests: XCTestCase {
     func test_translateRelativePositionType_shouldReturnRelativeYGPositionType() {
         // Given
         let expectedYGPositionType: YGPositionType = .relative
-        let positionType: Flex.PositionType = .relative
+        let positionType: Style.PositionType = .relative
         // When
         let translated = yogaTranslator.translate(positionType)
         // Then

@@ -26,11 +26,11 @@ let componentInteractionScreen: Screen = {
         child: Container(children: [
             Button(
                 text: "Declarative",
-                action: Navigate.pushView(.declarative(declarativeScreen))
+                onPress: [Navigate.pushView(.declarative(declarativeScreen))]
             ),
             Button(
                 text: "Text (JSON)",
-                action: Navigate.openNativeRoute("componentInteractionText")
+                onPress: [Navigate.openNativeRoute("componentInteractionText")]
             )
         ])
     )
@@ -54,10 +54,10 @@ let declarativeScreen: Screen = {
                 Text("@{myContext}"),
                 Button(
                     text: "ok",
-                    action: SetContext(
+                    onPress: [SetContext(
                         context: "myContext",
                         value: "button value"
-                    )
+                    )]
                 )
             ],
             context: Context(id: "myContext", value: "")
@@ -104,11 +104,11 @@ struct ComponentInteractionText: DeeplinkScreen {
                       {
                         "_beagleComponent_": "beagle:button",
                         "text": "ok",
-                        "action": {
+                        "onPress": [{
                           "_beagleAction_": "beagle:setcontext",
                           "context": "myContext",
                           "value": "2"
-                        }
+                        }]
                       }
                     ]
                   }

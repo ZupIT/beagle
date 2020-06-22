@@ -77,8 +77,8 @@ class AlertTest {
         action.execute(rootView)
 
         // Then
-        assertEquals(action.title, titleSlot.captured)
-        assertEquals(action.message, messageSlot.captured)
+        assertEquals(action.title?.value, titleSlot.captured)
+        assertEquals(action.message.value, messageSlot.captured)
         assertEquals(action.labelOk, buttonTextSlot.captured)
     }
 
@@ -97,8 +97,8 @@ class AlertTest {
         action.execute(rootView)
 
         // Then
-        assertEquals(action.title, titleSlot.captured)
-        assertEquals(action.message, messageSlot.captured)
+        assertEquals(action.title?.value, titleSlot.captured)
+        assertEquals(action.message.value, messageSlot.captured)
         assertEquals(randomLabel, buttonTextSlot.captured)
     }
 

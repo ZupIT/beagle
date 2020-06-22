@@ -20,7 +20,7 @@ public struct Form: RawComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
 
-    public let action: RawAction
+    public let onSubmit: [RawAction]?
     public let child: RawComponent
     public let group: String?
     public let additionalData: [String: String]?
@@ -28,13 +28,13 @@ public struct Form: RawComponent, AutoInitiableAndDecodable {
     
 // sourcery:inline:auto:Form.Init
     public init(
-        action: RawAction,
+        onSubmit: [RawAction]? = nil,
         child: RawComponent,
         group: String? = nil,
         additionalData: [String: String]? = nil,
         shouldStoreFields: Bool = false
     ) {
-        self.action = action
+        self.onSubmit = onSubmit
         self.child = child
         self.group = group
         self.additionalData = additionalData

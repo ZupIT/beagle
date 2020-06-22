@@ -26,9 +26,9 @@ import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
-import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
@@ -57,7 +57,7 @@ class NetworkImageTest : BaseComponentTest() {
     private val bitmap: Bitmap = mockk()
 
     private val scaleType = ImageView.ScaleType.FIT_CENTER
-    private val flex = Flex(size = Size(width = 100.unitReal(), height = 100.unitReal()))
+    private val style = Style(size = Size(width = 100.unitReal(), height = 100.unitReal()))
 
     private val onRequestListenerSlot = slot<CustomTarget<Bitmap>>()
 
@@ -77,10 +77,9 @@ class NetworkImageTest : BaseComponentTest() {
         every { requestBuilderDrawable.into(any()) } returns mockk()
         every { requestBuilder.into(capture(onRequestListenerSlot)) } returns mockk()
         every { BeagleEnvironment.beagleSdk.designSystem } returns mockk()
-
         every { anyConstructed<ComponentStylization<NetworkImage>>().apply(any(), any()) } just Runs
 
-        networkImage = NetworkImage(DEFAULT_URL).applyFlex(flex)
+        networkImage = NetworkImage(DEFAULT_URL).applyStyle(style)
     }
 
     @Test
@@ -109,7 +108,7 @@ class NetworkImageTest : BaseComponentTest() {
     @Test
     fun build_should_call_makeBeagleFlexView_when_component_has_not_flex() {
         // Given
-        networkImage.flex = null
+        networkImage.style = null
 
         // When
         val view = networkImage.buildView(rootView)
@@ -117,7 +116,7 @@ class NetworkImageTest : BaseComponentTest() {
         // Then
         assertTrue(view is BeagleFlexView)
         verify(exactly = once()) { anyConstructed<ViewFactory>().makeBeagleFlexView(any()) }
-        verify(exactly = once()) { beagleFlexView.addView(any(), any<Flex>()) }
+        verify(exactly = once()) { beagleFlexView.addView(any(), any<Style>()) }
     }
 
     @Test
@@ -125,7 +124,7 @@ class NetworkImageTest : BaseComponentTest() {
         // Given
         val height = 100
         every { bitmap.height } returns height
-        networkImage.flex = null
+        networkImage.style = null
 
         // When
         callBuildAndRequest()

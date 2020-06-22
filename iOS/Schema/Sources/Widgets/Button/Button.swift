@@ -21,7 +21,7 @@ public struct Button: RawWidget, ClickedOnComponent, AutoInitiableAndDecodable {
     // MARK: - Public Properties
     public let text: String
     public let styleId: String?
-    public let action: RawAction?
+    public let onPress: [RawAction]?
     public var clickAnalyticsEvent: AnalyticsClick?
     public var widgetProperties: WidgetProperties
 
@@ -29,13 +29,13 @@ public struct Button: RawWidget, ClickedOnComponent, AutoInitiableAndDecodable {
     public init(
         text: String,
         styleId: String? = nil,
-        action: RawAction? = nil,
+        onPress: [RawAction]? = nil,
         clickAnalyticsEvent: AnalyticsClick? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.text = text
         self.styleId = styleId
-        self.action = action
+        self.onPress = onPress
         self.clickAnalyticsEvent = clickAnalyticsEvent
         self.widgetProperties = widgetProperties
     }

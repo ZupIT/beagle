@@ -158,10 +158,7 @@ class SampleNavigationTypeService {
         ).applyStyle(
             Style(
                 backgroundColor = backgroundColor,
-                cornerRadius = CornerRadius(radius = 10.0)
-            )
-        ).applyFlex(
-            flex = Flex(
+                cornerRadius = CornerRadius(radius = 10.0),
                 margin = EdgeValue(
                     left = 30.unitReal(),
                     right = 30.unitReal(),

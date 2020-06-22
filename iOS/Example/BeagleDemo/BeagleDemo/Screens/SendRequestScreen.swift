@@ -28,7 +28,7 @@ let sendRequestDeclarativeScreen: Screen = {
             [
                 Button(
                     text: "do request",
-                    action: SendRequest(
+                    onPress: [SendRequest(
                         url: "https://httpbin.org/post",
                         method: .post,
                         data: ["@{myContext}"],
@@ -41,8 +41,7 @@ let sendRequestDeclarativeScreen: Screen = {
                             Alert(
                                 title: "Success!",
                                 message: "Sucess sending Request",
-                                onPressOk: OkAction(),
-                                labelOk: "OK"
+                                labelOk: "Dismiss"
                             )
                         ],
                         onError: [
@@ -58,7 +57,7 @@ let sendRequestDeclarativeScreen: Screen = {
                         onFinish: [
                             CustomConsoleLogAction()
                         ]
-                    )
+                    )]
                 )
             ],
             context: Context(id: "myContext", value: "initial value")
@@ -83,4 +82,3 @@ struct CancelAction: Action {
         print("onPressCancel from Confirm clicked")
     }
 }
-

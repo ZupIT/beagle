@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,17 +15,27 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.core
+import Foundation
+import UIKit
+import BeagleSchema
+import BeagleUI
 
-import br.com.zup.beagle.widget.core.Flex
+public struct SingleCustomActionableContainer: ServerDrivenComponent, AutoInitiableAndDecodable {
 
-/**
- * Component that hold the flex
- * @property flex
- *                  is a Layout component that will handle your visual component positioning at the screen.
- *                  Internally Beagle uses a Layout engine called Yoga Layout to position elements on screen.
- *                  In fact it will use the HTML Flexbox  properties applied on the visual components and its children.
- */
-interface FlexComponent : ServerDrivenComponent {
-    val flex: Flex?
+    public let child: ServerDrivenComponent
+    public let action: Action
+
+    public func toView(renderer: BeagleRenderer) -> UIView {
+        return UIView()
+    }
+
+// sourcery:inline:auto:SingleCustomActionableContainer.Init
+    public init(
+        child: ServerDrivenComponent,
+        action: Action
+    ) {
+        self.child = child
+        self.action = action
+    }
+// sourcery:end
 }

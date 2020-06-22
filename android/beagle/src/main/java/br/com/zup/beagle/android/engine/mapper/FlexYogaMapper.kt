@@ -16,12 +16,12 @@
 
 package br.com.zup.beagle.android.engine.mapper
 
+import br.com.zup.beagle.core.Display
+import br.com.zup.beagle.core.PositionType
 import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.FlexDirection
-import br.com.zup.beagle.widget.core.FlexDisplay
-import br.com.zup.beagle.widget.core.FlexPositionType
 import br.com.zup.beagle.widget.core.FlexWrap
 import br.com.zup.beagle.widget.core.JustifyContent
 import com.facebook.yoga.YogaAlign
@@ -91,15 +91,16 @@ internal fun makeYogaFlexDirection(flexDirection: FlexDirection?): YogaFlexDirec
         else -> null
     }
 
-internal fun makeYogaDisplay(display: FlexDisplay?): YogaDisplay? = when (display) {
-    FlexDisplay.FLEX -> YogaDisplay.FLEX
-    FlexDisplay.NONE -> YogaDisplay.NONE
-    else -> null
-}
+internal fun makeYogaDisplay(display: Display?): YogaDisplay? =
+    when (display) {
+        Display.FLEX -> YogaDisplay.FLEX
+        Display.NONE -> YogaDisplay.NONE
+        else -> null
+    }
 
-internal fun makeYogaPositionType(positionType: FlexPositionType?): YogaPositionType? =
+internal fun makeYogaPositionType(positionType: PositionType?): YogaPositionType? =
     when (positionType) {
-        FlexPositionType.RELATIVE -> YogaPositionType.RELATIVE
-        FlexPositionType.ABSOLUTE -> YogaPositionType.ABSOLUTE
+        PositionType.RELATIVE -> YogaPositionType.RELATIVE
+        PositionType.ABSOLUTE -> YogaPositionType.ABSOLUTE
         else -> null
     }

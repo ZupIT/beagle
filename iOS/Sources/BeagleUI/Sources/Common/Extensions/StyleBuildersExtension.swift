@@ -14,6 +14,63 @@
  * limitations under the License.
  */
 
+// MARK: - Style Builders
+public extension Style {
+    @discardableResult
+    func backgroundColor(_ backgroundColor: String) -> Style {
+        self.backgroundColor = backgroundColor
+        return self
+    }
+
+    @discardableResult
+    func cornerRadius(_ cornerRadius: CornerRadius) -> Style {
+        self.cornerRadius = cornerRadius
+        return self
+    }
+    
+    @discardableResult
+    func size(_ size: Size) -> Style {
+        self.size = size
+        return self
+    }
+
+    @discardableResult
+    func margin(_ margin: EdgeValue) -> Style {
+        self.margin = margin
+        return self
+    }
+
+    @discardableResult
+    func padding(_ padding: EdgeValue) -> Style {
+        self.padding = padding
+        return self
+    }
+
+    @discardableResult
+    func position(_ position: EdgeValue) -> Style {
+        self.position = position
+        return self
+    }
+    
+    @discardableResult
+    func positionType(_ positionType: PositionType) -> Style {
+        self.positionType = positionType
+        return self
+    }
+    
+    @discardableResult
+    func display(_ display: Style.Display) -> Style {
+        self.display = display
+        return self
+    }
+
+    @discardableResult
+    func flex(_ flex: Flex) -> Style {
+        self.flex = flex
+        return self
+    }
+}
+
 // MARK: - Flex Builders
 import BeagleSchema
 
@@ -55,12 +112,6 @@ public extension Flex {
     }
     
     @discardableResult
-    func positionType(_ positionType: PositionType) -> Flex {
-        self.positionType = positionType
-        return self
-    }
-    
-    @discardableResult
     func basis(_ basis: UnitValue) -> Flex {
         self.basis = basis
         return self
@@ -81,36 +132,6 @@ public extension Flex {
     @discardableResult
     func shrink(_ shrink: Double) -> Flex {
         self.shrink = shrink
-        return self
-    }
-    
-    @discardableResult
-    func display(_ display: Display) -> Flex {
-        self.display = display
-        return self
-    }
-    
-    @discardableResult
-    func size(_ size: Size) -> Flex {
-        self.size = size
-        return self
-    }
-    
-    @discardableResult
-    func margin(_ margin: EdgeValue) -> Flex {
-        self.margin = margin
-        return self
-    }
-    
-    @discardableResult
-    func padding(_ padding: EdgeValue) -> Flex {
-        self.padding = padding
-        return self
-    }
-    
-    @discardableResult
-    func position(_ position: EdgeValue) -> Flex {
-        self.position = position
         return self
     }
     
