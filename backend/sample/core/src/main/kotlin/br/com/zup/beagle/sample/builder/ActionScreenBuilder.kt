@@ -159,20 +159,28 @@ object ActionScreenBuilder : ScreenBuilder {
         children = listOf(
             Text("Send request action"),
             Button(
-                onPress = listOf(SendRequest(url = SCREEN_ACTION_CLICK_ENDPOINT, onSuccess = Alert(
-                    title = "Success",
-                    message = "Action",
-                    labelOk = "OK"
-                ),
-                    onError = Alert(
-                        title = "Error",
-                        message = "Action",
-                        labelOk = "OK"
+                onPress = listOf(SendRequest(
+                    url = SCREEN_ACTION_CLICK_ENDPOINT,
+                    onSuccess = listOf(
+                        Alert(
+                            title = "Success",
+                            message = "Action",
+                            labelOk = "OK"
+                        )
                     ),
-                    onFinish = Alert(
-                        title = "Finish",
-                        message = "Action",
-                        labelOk = "OK"
+                    onError = listOf(
+                        Alert(
+                            title = "Error",
+                            message = "Action",
+                            labelOk = "OK"
+                        )
+                    ),
+                    onFinish = listOf(
+                        Alert(
+                            title = "Finish",
+                            message = "Action",
+                            labelOk = "OK"
+                        )
                     )
                 )),
                 text = "Click me!"
