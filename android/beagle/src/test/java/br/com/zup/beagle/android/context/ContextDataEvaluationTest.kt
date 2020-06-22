@@ -16,17 +16,34 @@
 
 package br.com.zup.beagle.android.context
 
+import br.com.zup.beagle.android.context.Bind.Companion.expressionOf
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import br.com.zup.beagle.android.mockdata.ComponentModel
 import br.com.zup.beagle.android.testutil.RandomData
 import com.squareup.moshi.Moshi
+import io.mockk.Runs
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.unmockkAll
 import io.mockk.verify
 import org.json.JSONArray
 import org.json.JSONObject
+import org.junit.After
+import org.junit.Assert
 import org.junit.Before
+import org.junit.Test
+import java.util.*
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
+
+private val CONTEXT_ID = RandomData.string()
+private val CONTEXT_DATA = ContextData(CONTEXT_ID, RandomData.string())
+private val BIND = expressionOf<ComponentModel>("@{$CONTEXT_ID.a}")
 
 internal class ContextDataEvaluationTest {
 
@@ -43,86 +60,126 @@ internal class ContextDataEvaluationTest {
             contextPathResolver,
             moshi
         )
+
+        mockkObject(BeagleMessageLogs)
+
+        every { contextPathResolver.getKeysFromPath(CONTEXT_DATA.id, any()) } returns LinkedList()
+        every { BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(any()) } just Runs
+        every { BeagleMessageLogs.errorWhileTryingToAccessContext(any()) } just Runs
     }
 
+    @After
+    fun tearDown() {
+        unmockkAll()
+    }
 
+    @Test
+    fun evaluateContextBindings_should_get_value_from_root_of_context() {
+        // Given
+        val bind = expressionOf<Int>("@{${CONTEXT_DATA.id}}")
 
-    /*@org.junit.Test
+        // When
+        val actualValue = contextDataEvaluation.evaluateBindExpression(CONTEXT_DATA, bind)
+
+        // Then
+        assertEquals(CONTEXT_DATA.value, actualValue)
+    }
+
+    @Test
     fun evaluateContextBindings_should_get_value_from_context_and_deserialize_JSONOBject() {
         // Given
-        val contextData = ContextData("$CONTEXT_ID.a", RandomData.string())
-        contexts[CONTEXT_ID] = ContextBinding(contextData, mutableListOf(bindModel))
-        val model = mockk<JSONObject>()
-        every { jsonPathFinder.find(any(), any()) } returns model
+        val jsonObject = mockk<JSONObject>()
+        every { jsonPathFinder.find(any(), any()) } returns jsonObject
+        every { moshi.adapter<Any>(ComponentModel::class.java).fromJson(any<String>()) } returns mockk<ComponentModel>()
 
         // When
-        contextDataManager.evaluateAllContext()
+        val value = contextDataEvaluation.evaluateBindExpression(CONTEXT_DATA, BIND)
 
         // Then
-        verify { bindModel.notifyChange(bindModel) }
+        assertTrue { value is ComponentModel }
     }
 
-    @org.junit.Test
+    @Test
     fun evaluateContextBindings_should_get_value_from_context_and_deserialize_JSONArray() {
         // Given
-        val contextData = ContextData("$CONTEXT_ID.a", RandomData.string())
-        contexts[CONTEXT_ID] = ContextBinding(contextData, mutableListOf(bindModel))
-        val model = mockk<JSONArray>()
-        every { jsonPathFinder.find(any(), any()) } returns model
+        val jsonArray = mockk<JSONArray>()
+        every { jsonPathFinder.find(any(), any()) } returns jsonArray
+        every { moshi.adapter<Any>(ComponentModel::class.java).fromJson(any<String>()) } returns mockk<ComponentModel>()
 
         // When
-        contextDataManager.evaluateAllContext()
+        val value = contextDataEvaluation.evaluateBindExpression(CONTEXT_DATA, BIND)
 
         // Then
-        verify { bindModel.notifyChange(bindModel) }
+        assertTrue { value is ComponentModel }
     }
 
     @org.junit.Test
     fun evaluateContextBindings_should_throw_exception_when_moshi_returns_null() {
         // Given
-        val contextData = ContextData("$CONTEXT_ID.a", RandomData.string())
-        contexts[CONTEXT_ID] = ContextBinding(contextData, mutableListOf(bindModel))
         val model = mockk<JSONArray>()
         every { jsonPathFinder.find(any(), any()) } returns model
         every { moshi.adapter<Any>(any<Class<*>>()).fromJson(any<String>()) } returns null
 
         // When
-        contextDataManager.evaluateAllContext()
+        val value = contextDataEvaluation.evaluateBindExpression(CONTEXT_DATA, BIND)
 
         // Then
+        assertNull(value)
         verify(exactly = once()) { BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(any()) }
-        verify(exactly = 0) { bindModel.notifyChange(any()) }
     }
 
-    @org.junit.Test
+    @Test
     fun evaluateContextBindings_should_throw_exception_when_jsonPathFinder_returns_null() {
         // Given
-        val contextData = ContextData("$CONTEXT_ID.a", RandomData.string())
-        contexts[CONTEXT_ID] = ContextBinding(contextData, mutableListOf(bindModel))
-        every { moshi.adapter<Any>(any<Class<*>>()).fromJson(any<String>()) } returns null
         every { jsonPathFinder.find(any(), any()) } returns null
 
         // When
-        contextDataManager.evaluateAllContext()
+        val value = contextDataEvaluation.evaluateBindExpression(CONTEXT_DATA, BIND)
 
         // Then
+        assertNull(value)
         verify(exactly = once()) { BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(any()) }
-        verify(exactly = 0) { bindModel.notifyChange(any()) }
     }
 
-    @org.junit.Test
+    @Test
     fun evaluateContextBindings_should_throw_exception_when_trying_to_call_jsonPathFinder() {
         // Given
-        val contextData = ContextData("$CONTEXT_ID.a", RandomData.string())
-        contexts[CONTEXT_ID] = ContextBinding(contextData, mutableListOf(bindModel))
         every { jsonPathFinder.find(any(), any()) } throws IllegalStateException()
 
         // When
-        contextDataManager.evaluateAllContext()
+        val value = contextDataEvaluation.evaluateBindExpression(CONTEXT_DATA, BIND)
 
         // Then
+        assertNull(value)
         verify { BeagleMessageLogs.errorWhileTryingToAccessContext(any()) }
         verify { BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(any()) }
-        verify(exactly = 0) { bindModel.notifyChange(any()) }
-    }*/
+    }
+
+    @Test
+    fun evaluateAllContext_should_evaluate_text_string_text_expression() {
+        // Given
+        val bind = expressionOf<String>("This is an expression @{$CONTEXT_ID.exp1} and this @{$CONTEXT_ID.exp2}")
+        every { jsonPathFinder.find(any(), any()) } returns "hello"
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(CONTEXT_DATA, bind)
+
+        // Then
+        val expected = "This is an expression hello and this hello"
+        assertEquals(expected, value)
+    }
+
+    @Test
+    fun evaluateAllContext_should_not_evaluate_multiple_expressions_that_is_not_text() {
+        // Given
+        val bind = expressionOf<Int>("This is an expression @{$CONTEXT_ID.exp1} and this @{$CONTEXT_ID.exp2}")
+        every { BeagleMessageLogs.multipleExpressionsInValueThatIsNotString() } just Runs
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(CONTEXT_DATA, bind)
+
+        // Then
+        assertNull(value)
+        verify(exactly = once()) { BeagleMessageLogs.multipleExpressionsInValueThatIsNotString() }
+    }
 }

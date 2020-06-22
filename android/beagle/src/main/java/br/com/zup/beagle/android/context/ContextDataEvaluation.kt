@@ -33,27 +33,55 @@ internal class ContextDataEvaluation(
     private val moshi: Moshi = BeagleMoshi.moshi
 ) {
 
-    fun evaluateBindExpression(contextData: ContextData, bind: Bind.Expression<*>): Any? {
+    fun evaluateBindExpression(
+        contextData: ContextData,
+        bind: Bind.Expression<*>
+    ): Any? {
+        return evaluateBindExpression(listOf(contextData), bind)
+    }
+
+    fun evaluateBindExpression(
+        contextsData: List<ContextData>,
+        bind: Bind.Expression<*>
+    ): Any? {
         val expressions = bind.value.getExpressions()
 
-        return if (bind.type == String::class.java) {
-            expressions.forEach { expression ->
-                if (expression.getContextId() == contextData.id) {
-                    val value = evaluateExpression(contextData, bind.type, expression)
-                    if (value != null) {
-                        bind.evaluatedExpressions[expression] = value
+        return when {
+            bind.type == String::class.java -> {
+                contextsData.forEach { contextData ->
+                    expressions.filter { it.getContextId() == contextData.id }.forEach { expression ->
+                        evaluateExpressionsForContext(contextData, expression, bind)
                     }
                 }
+
+                evaluateMultipleExpressions(bind)
             }
-            var text = bind.value
-            bind.evaluatedExpressions.forEach {
-                val expressionKey = it.key
-                text = text.replace("@\\{$expressionKey\\}".toRegex(), it.value.toString())
+            expressions.size == 1 -> evaluateExpression(contextsData[0], bind.type, expressions[0])
+            else -> {
+                BeagleMessageLogs.multipleExpressionsInValueThatIsNotString()
+                null
             }
-            text
-        } else {
-            evaluateExpression(contextData, bind.type, expressions[0])
         }
+    }
+
+    private fun evaluateExpressionsForContext(
+        contextData: ContextData,
+        expression: String,
+        bind: Bind.Expression<*>
+    ) {
+        val value = evaluateExpression(contextData, bind.type, expression)
+        if (value != null) {
+            bind.evaluatedExpressions[expression] = value
+        }
+    }
+
+    private fun evaluateMultipleExpressions(bind: Bind.Expression<*>): Any? {
+        var text = bind.value
+        bind.evaluatedExpressions.forEach {
+            val expressionKey = it.key
+            text = text.replace("@\\{$expressionKey\\}".toRegex(), it.value.toString())
+        }
+        return text
     }
 
     private fun evaluateExpression(contextData: ContextData, type: Type, expression: String): Any? {
@@ -62,7 +90,7 @@ internal class ContextDataEvaluation(
         return try {
             if (value is JSONArray || value is JSONObject) {
                 moshi.adapter<Any>(type).fromJson(value.toString()) ?:
-                throw IllegalStateException("JSON deserialization returned null")
+                    throw IllegalStateException("JSON deserialization returned null")
             } else {
                 value ?: throw IllegalStateException("Expression evaluation returned null")
             }
@@ -74,13 +102,13 @@ internal class ContextDataEvaluation(
 
     private fun getValue(contextData: ContextData, path: String): Any? {
         return if (path != contextData.id) {
-            findAndCacheValue(contextData, path)
+            findValue(contextData, path)
         } else {
             contextData.value
         }
     }
 
-    private fun findAndCacheValue(contextData: ContextData, path: String): Any? {
+    private fun findValue(contextData: ContextData, path: String): Any? {
         return try {
             val keys = contextPathResolver.getKeysFromPath(contextData.id, path)
             jsonPathFinder.find(keys, contextData.value)
@@ -89,5 +117,4 @@ internal class ContextDataEvaluation(
             null
         }
     }
-
 }

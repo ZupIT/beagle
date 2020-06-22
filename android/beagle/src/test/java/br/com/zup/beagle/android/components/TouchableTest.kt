@@ -19,8 +19,12 @@ package br.com.zup.beagle.android.components
 import android.view.View
 import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.analytics.ClickEvent
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.Navigate
+import br.com.zup.beagle.android.context.ContextActionExecutor
 import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.utils.contextActionExecutor
+import br.com.zup.beagle.android.utils.handleEvent
 import io.mockk.CapturingSlot
 import io.mockk.Runs
 import io.mockk.every
@@ -28,6 +32,7 @@ import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkConstructor
+import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
 import org.junit.Test
@@ -47,11 +52,15 @@ class TouchableViewRenderer : BaseComponentTest() {
     override fun setUp() {
         super.setUp()
 
+        mockkStatic("br.com.zup.beagle.android.utils.ActionExtensionsKt")
+
+        touchable = Touchable(touchableAction, mockk(relaxed = true))
+
         every { beagleSdk.analytics } returns analytics
         every { view.context } returns mockk()
         every { view.setOnClickListener(capture(onClickListenerSlot)) } just Runs
 
-        touchable = Touchable(touchableAction, mockk(relaxed = true))
+        every { touchable.handleEvent(any(), any<Action>(), any()) } just Runs
     }
 
     @Test
@@ -67,7 +76,9 @@ class TouchableViewRenderer : BaseComponentTest() {
         callBuildAndClick()
 
         // Then
-        verify(exactly = once()) { touchable.action.execute(rootView) }
+        verify(exactly = once()) {
+            touchable.handleEvent(rootView, touchable.action, "")
+        }
     }
 
     private fun callBuildAndClick() {

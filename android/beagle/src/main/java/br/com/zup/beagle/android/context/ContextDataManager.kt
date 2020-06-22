@@ -43,8 +43,9 @@ internal class ContextDataManager(
         )
     }
 
-    fun removeContext(contextId: String) {
-        contexts.remove(contextId)
+    fun getContextsFromBind(binding: Bind.Expression<*>): List<ContextData> {
+        val contextIds = binding.value.getExpressions().map { it.getContextId() }
+        return contexts.filterKeys { contextIds.contains(it) }.map { it.value.context }
     }
 
     fun addBindingToContext(binding: Bind.Expression<*>) {

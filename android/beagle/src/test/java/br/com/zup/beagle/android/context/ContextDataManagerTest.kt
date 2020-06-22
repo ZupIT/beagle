@@ -17,10 +17,10 @@
 package br.com.zup.beagle.android.context
 
 import br.com.zup.beagle.android.action.SetContextInternal
-import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.jsonpath.JsonPathReplacer
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import br.com.zup.beagle.android.mockdata.ComponentModel
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.testutil.getPrivateField
 import com.squareup.moshi.Moshi
@@ -31,10 +31,8 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
-import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
-import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -46,8 +44,6 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 private val CONTEXT_ID = RandomData.string()
-
-data class Model(val a: String, val b: Boolean)
 
 class ContextDataManagerTest {
 
@@ -67,15 +63,15 @@ class ContextDataManagerTest {
     private lateinit var moshi: Moshi
 
     @MockK
-    private lateinit var bindModel: Bind.Expression<Model>
+    private lateinit var bindModel: Bind.Expression<ComponentModel>
     @MockK
-    private lateinit var model: Model
+    private lateinit var model: ComponentModel
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
 
-        every { bindModel.type } returns Model::class.java
+        every { bindModel.type } returns ComponentModel::class.java
         every { bindModel.value } returns "@{$CONTEXT_ID}"
         every { bindModel.notifyChange(any()) } just Runs
 
@@ -124,7 +120,7 @@ class ContextDataManagerTest {
     @Test
     fun addBindingToContext_should_add_binding_to_context_on_stack() {
         // Given
-        val bind = Bind.Expression("@{$CONTEXT_ID.a}", type = Model::class.java)
+        val bind = Bind.Expression("@{$CONTEXT_ID.a}", type = ComponentModel::class.java)
         val contextData = ContextData(CONTEXT_ID, true)
         contextDataManager.addContext(contextData)
 
@@ -138,7 +134,7 @@ class ContextDataManagerTest {
     @Test
     fun addBindingToContext_should_add_binding_to_context_on_top_of_stack() {
         // Given
-        val bind = Bind.Expression("@{$CONTEXT_ID.a}", type = Model::class.java)
+        val bind = Bind.Expression("@{$CONTEXT_ID.a}", type = ComponentModel::class.java)
         val contextData = ContextData(CONTEXT_ID, true)
         contextDataManager.addContext(contextData)
 
@@ -226,26 +222,5 @@ class ContextDataManagerTest {
 
         // Then
         verify { bindModel.notifyChange(model) }
-    }
-
-    @Test
-    fun evaluateAllContext_should_evaluate_text_string_text_expression() {
-        // Given
-        val evaluatedValue = RandomData.string()
-        val bind = mockk<Bind.Expression<String>> {
-            every { value } returns "This is an expression @{$CONTEXT_ID.exp1} and this @{$CONTEXT_ID.exp2}"
-            every { type } returns String::class.java
-        }
-        every { jsonPathFinder.find(any(), any()) } returns "hello"
-        contexts[CONTEXT_ID]?.bindings?.add(bind)
-        every { contextDataEvaluation.evaluateBindExpression(any(), any()) } returns evaluatedValue
-
-
-        // When
-        val value = contextDataManager.evaluateBinding(bind)
-
-        // Then
-        val expected = "This is an expression hello and this hello"
-        assertEquals(expected, value)
     }
 }

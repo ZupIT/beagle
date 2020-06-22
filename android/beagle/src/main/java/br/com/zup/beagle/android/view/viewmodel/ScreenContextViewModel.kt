@@ -50,15 +50,12 @@ internal class ScreenContextViewModel(
         implicitContextData.forEach { entry ->
             entry.value.caller.forEach {
                 if (bindCaller == it) {
-                    value = contextDataEvaluation.evaluateBindExpression(entry.value.context, bind)
+                    val contexts = contextDataManager.getContextsFromBind(bind) + entry.value.context
+                    value = contextDataEvaluation.evaluateBindExpression(contexts, bind)
                 }
             }
         }
 
         return value
     }
-
-    // Sender é quem trigou pra executar a action e tem o contexto implícito
-    // Deve-se guardar o `Sender` sendo a chave junto com uma lista de actions que serão executadas e também o contexto implícito
-    // Toda vez que uma action dar um get em um `Bind`, deve-se passar a própria instância da action pra poder saber quem é o sender e o contexto que trigou essa action
 }
