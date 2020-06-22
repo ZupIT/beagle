@@ -45,16 +45,16 @@ data class Image(val path: PathType, val mode: ImageContentMode? = null) : Widge
     private val componentStylization: ComponentStylization<Image> = ComponentStylization()
 
     override fun buildView(rootView: RootView): View =
-        when(path is PathType.Local){
-            true -> {
+        when (path) {
+            is PathType.Local -> {
                 val imageView = viewFactory.makeImageView(rootView.getContext(), style?.cornerRadius?.radius ?: 0.0)
                 imageView.setData(this, viewMapper)
                 imageView
             }
-            false ->{
+            is PathType.Remote -> {
                 if (flex?.size != null) {
                     makeImageView(rootView).apply {
-                        Glide.with(this).load((path as PathType.Remote).url).into(this)
+                        Glide.with(this).load(path.url).into(this)
                     }
                 } else {
                     viewFactory.makeBeagleFlexView(rootView.getContext()).also {
@@ -65,7 +65,6 @@ data class Image(val path: PathType, val mode: ImageContentMode? = null) : Widge
                 }
             }
         }
-
     private fun ImageView.setData(widget: Image, viewMapper: ViewMapper) {
         val contentMode = widget.mode ?: ImageContentMode.FIT_CENTER
         scaleType = viewMapper.toScaleType(contentMode)
