@@ -16,6 +16,9 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.widget.action.FormMethodType
+import br.com.zup.beagle.widget.action.FormRemoteAction
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
@@ -24,9 +27,6 @@ import br.com.zup.beagle.sample.constants.BUTTON_STYLE_FORM
 import br.com.zup.beagle.sample.constants.LIGHT_GREEN
 import br.com.zup.beagle.sample.constants.SUBMIT_FORM_ENDPOINT
 import br.com.zup.beagle.sample.widget.SampleTextField
-import br.com.zup.beagle.widget.action.FormMethodType
-import br.com.zup.beagle.widget.action.FormRemoteAction
-import br.com.zup.beagle.widget.action.ShowNativeDialog
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ScrollAxis
@@ -42,7 +42,7 @@ import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Button
 
 object FormScreenBuilder : ScreenBuilder {
-    private val flexHorizontalMargin = Flex(margin = EdgeValue(all = 10.unitReal()))
+    private val styleHorizontalMargin = Style(margin = EdgeValue(all = 10.unitReal()))
 
     @Suppress("LongMethod")
     override fun build() = Screen(
@@ -52,10 +52,10 @@ object FormScreenBuilder : ScreenBuilder {
                 NavigationBarItem(
                     text = "",
                     image = "informationImage",
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "Form",
                         message = "A formSubmit component will define a submit handler in a form.",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 )
             )
@@ -95,13 +95,13 @@ object FormScreenBuilder : ScreenBuilder {
                                 child = Button(
                                     text = "Submit Form",
                                     styleId = BUTTON_STYLE_FORM
-                                ).applyFlex(flexHorizontalMargin)
+                                ).applyStyle(styleHorizontalMargin)
                             )
                         )
                     )
-                        .applyFlex(
-                            Flex(
-                                grow = 1.0,
+                        .applyStyle(
+                            Style(
+                                flex = Flex(grow = 1.0),
                                 padding = EdgeValue(all = 10.unitReal())
                             )
                         )
@@ -123,6 +123,6 @@ object FormScreenBuilder : ScreenBuilder {
             validator = validator,
             child = SampleTextField(
                 placeholder = placeholder
-            ).applyFlex(flexHorizontalMargin)
+            ).applyStyle(styleHorizontalMargin)
         )
 }

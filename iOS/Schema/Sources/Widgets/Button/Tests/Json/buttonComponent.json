@@ -1,9 +1,9 @@
 {
   "_beagleComponent_": "beagle:Button",
   "text": "button",
-  "action": {
+  "onPress": [{
     "_beagleAction_": "beagle:popStack"
-  },
+  }],
   "style": {
     "backgroundColor": "#800000FF",
     "cornerRadius": {

@@ -23,7 +23,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.android.utils.toView
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
@@ -36,6 +37,8 @@ import br.com.zup.beagle.android.components.Image
 import br.com.zup.beagle.android.components.TabItem
 import br.com.zup.beagle.android.components.TabView
 import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.utils.toView
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.widget.core.TextAlignment
 
 class TabViewFragment : Fragment() {
@@ -46,12 +49,12 @@ class TabViewFragment : Fragment() {
     ): View? {
         val declarative = TabView(
             styleId = "DesignSystem.TabView.Custom",
-            tabItems = listOf(
+            children = listOf(
                 buildTabView(
                     title = "Title 1",
-                    content = Container(children = listOf(
-                        Text("Content").applyFlex(
-                            Flex(
+                    child = Container(children = listOf(
+                        Text("Content").applyStyle(
+                            Style(
                                 margin = EdgeValue(
                                     top = UnitValue(
                                         10.0,
@@ -62,10 +65,10 @@ class TabViewFragment : Fragment() {
                         ),
                         Image("imageBeagle")
                     ))),
-                buildTabView(title = "Title 2", content = Button("button")),
+                buildTabView(title = "Title 2", child = Button("button")),
                 buildTabView(
                     title = "Title 3",
-                    content = Container(
+                    child = Container(
                         children = listOf(
                             Text("text tab 3", alignment = TextAlignment.CENTER)
                         )
@@ -73,7 +76,7 @@ class TabViewFragment : Fragment() {
                 ),
                 buildTabView(
                     title = "Title 4",
-                    content =
+                    child =
                     Text("text").applyFlex(
                         Flex(
                             justifyContent = JustifyContent.CENTER,
@@ -83,7 +86,7 @@ class TabViewFragment : Fragment() {
                 ),
                 buildTabView(
                     title = "Title 5",
-                    content =
+                    child =
                     Text("text").applyFlex(
                         Flex(
                             justifyContent = JustifyContent.FLEX_START,
@@ -97,10 +100,10 @@ class TabViewFragment : Fragment() {
         return context?.let { declarative.toView(this) }
     }
 
-    private fun buildTabView(title: String, content: ServerDrivenComponent): TabItem {
+    private fun buildTabView(title: String, child: ServerDrivenComponent): TabItem {
         return TabItem(
             title = title,
-            content = content,
+            child = child,
             icon = "ic_launcher_foreground"
         )
     }

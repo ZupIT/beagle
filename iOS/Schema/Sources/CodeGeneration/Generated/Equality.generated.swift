@@ -48,16 +48,10 @@ extension Flex: Equatable {
         guard lhs.alignItems == rhs.alignItems else { return false }
         guard lhs.alignSelf == rhs.alignSelf else { return false }
         guard lhs.alignContent == rhs.alignContent else { return false }
-        guard lhs.positionType == rhs.positionType else { return false }
         guard lhs.basis == rhs.basis else { return false }
         guard lhs.flex == rhs.flex else { return false }
         guard lhs.grow == rhs.grow else { return false }
         guard lhs.shrink == rhs.shrink else { return false }
-        guard lhs.display == rhs.display else { return false }
-        guard lhs.size == rhs.size else { return false }
-        guard lhs.margin == rhs.margin else { return false }
-        guard lhs.padding == rhs.padding else { return false }
-        guard lhs.position == rhs.position else { return false }
         return true
     }
 }
@@ -72,6 +66,22 @@ extension Size: Equatable {
         guard lhs.minWidth == rhs.minWidth else { return false }
         guard lhs.minHeight == rhs.minHeight else { return false }
         guard lhs.aspectRatio == rhs.aspectRatio else { return false }
+        return true
+    }
+}
+// MARK: Style Equatable
+
+extension Style: Equatable {
+     public static func == (lhs: Style, rhs: Style) -> Bool {
+        guard lhs.backgroundColor == rhs.backgroundColor else { return false }
+        guard lhs.cornerRadius == rhs.cornerRadius else { return false }
+        guard lhs.size == rhs.size else { return false }
+        guard lhs.margin == rhs.margin else { return false }
+        guard lhs.padding == rhs.padding else { return false }
+        guard lhs.position == rhs.position else { return false }
+        guard lhs.positionType == rhs.positionType else { return false }
+        guard lhs.display == rhs.display else { return false }
+        guard lhs.flex == rhs.flex else { return false }
         return true
     }
 }

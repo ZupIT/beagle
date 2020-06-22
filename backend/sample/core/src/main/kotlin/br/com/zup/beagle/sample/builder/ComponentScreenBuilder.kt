@@ -16,13 +16,17 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.ACCESSIBILITY_SCREEN_ENDPOINT
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_TITLE
+import br.com.zup.beagle.sample.constants.CUSTOM_PLATFORM_SAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.NAVIGATION_TYPE_ENDPOINT
+import br.com.zup.beagle.sample.constants.PLATFORM_SAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ANALYTICS_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_BUILDER_ENDPOINT
@@ -76,7 +80,9 @@ object ComponentScreenBuilder : ScreenBuilder {
                 createMenu("Compose Component", SCREEN_COMPOSE_COMPONENT_ENDPOINT),
                 createMenu("Touchable", SCREEN_TOUCHABLE_ENDPOINT),
                 createMenu("Analytics", SCREEN_ANALYTICS_ENDPOINT),
-                createMenu("Web View", SCREEN_WEB_VIEW_ENDPOINT)
+                createMenu("Web View", SCREEN_WEB_VIEW_ENDPOINT),
+                createMenu("Platform", PLATFORM_SAMPLE_ENDPOINT),
+                createMenu("Custom Platform", CUSTOM_PLATFORM_SAMPLE_ENDPOINT)
             )
         )
     )
@@ -86,8 +92,7 @@ object ComponentScreenBuilder : ScreenBuilder {
         onPress = listOf(Navigate.PushView(Route.Remote(path))
         ),
         styleId = BUTTON_STYLE_TITLE
-    ).applyFlex(
-        flex = Flex(
+    ).applyStyle(Style(
             margin = EdgeValue(
                 top = 8.unitReal()
             )

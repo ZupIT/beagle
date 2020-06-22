@@ -16,14 +16,45 @@
 
 package br.com.zup.beagle.android.utils
 
+import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.Bind.Companion.expressionOf
+import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import br.com.zup.beagle.android.widget.RootView
+import org.json.JSONArray
+import org.json.JSONObject
+
 internal fun String.toAndroidColor(): Int = ColorUtils.hexColor(this)
 
-internal fun String.getContextId() = this.split(".")[0]
+internal fun String.getContextId() = this.split(".", "[")[0]
 
 internal fun String.getExpressions(): List<String> {
     val expressionPattern = "@{"
-    val patterns = this.substringAfter(expressionPattern).split(expressionPattern)
-    return patterns.map { pattern ->
-        pattern.substring(0, pattern.indexOfFirst { it == '}' })
+    val patterns = this.substringAfter(expressionPattern, "").split(expressionPattern)
+    return if (patterns[0].isNotEmpty()) {
+        patterns.map { pattern ->
+            pattern.substring(0, pattern.indexOfFirst { it == '}' })
+        }
+    } else {
+        emptyList()
+    }
+}
+
+internal fun String.evaluateExpressions(rootView: RootView): Any? {
+    return try {
+        var value: String = this
+        getExpressions().forEach {
+            value = value.replace(
+                "@{$it}",
+                expressionOf<String>("@{${it}}").get(rootView) ?: ""
+            )
+        }
+        when {
+            value.startsWith("{") -> JSONObject(value)
+            value.startsWith("[") -> JSONArray(value)
+            else -> value
+        }
+    } catch (ex: Exception) {
+        BeagleMessageLogs.errorWhileTryingToEvaluateBinding(ex)
+        null
     }
 }

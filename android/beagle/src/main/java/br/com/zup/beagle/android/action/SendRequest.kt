@@ -17,12 +17,14 @@
 package br.com.zup.beagle.android.action
 
 import androidx.lifecycle.Observer
+import br.com.zup.beagle.android.annotation.ContextDataValue
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.utils.evaluateExpression
+import br.com.zup.beagle.android.utils.evaluateExpressions
 
 @SuppressWarnings("UNUSED_PARAMETER")
 enum class RequestActionMethod {
@@ -38,7 +40,8 @@ data class SendRequest(
     val url: Bind<String>,
     val method: Bind<RequestActionMethod> = Bind.Value(RequestActionMethod.GET),
     val headers: Bind<Map<String, String>>? = null,
-    val data: Bind<String>? = null,
+    @property:ContextDataValue
+    val data: Any? = null,
     val onSuccess: Action? = null,
     val onError: Action? = null,
     val onFinish: Action? = null
@@ -48,7 +51,7 @@ data class SendRequest(
         url: String,
         method: RequestActionMethod = RequestActionMethod.GET,
         headers: Map<String, String>? = null,
-        data: String? = null,
+        data: Any? = null,
         onSuccess: Action? = null,
         onError: Action? = null,
         onFinish: Action? = null
@@ -56,7 +59,7 @@ data class SendRequest(
         Bind.Value(url),
         Bind.Value(method),
         headers?.let { Bind.Value(it) },
-        data?.let { Bind.Value(it) },
+        data,
         onSuccess,
         onError,
         onFinish
@@ -93,7 +96,7 @@ data class SendRequest(
         url = evaluateExpression(rootView, this.url) ?: "",
         method = evaluateExpression(rootView, this.method) ?: RequestActionMethod.GET,
         headers = this.headers?.let { evaluateExpression(rootView, it) },
-        data = this.data?.let { evaluateExpression(rootView, it) },
+        data = this.data?.toString()?.evaluateExpressions(rootView),
         onSuccess = this.onSuccess,
         onError = this.onError,
         onFinish = this.onFinish

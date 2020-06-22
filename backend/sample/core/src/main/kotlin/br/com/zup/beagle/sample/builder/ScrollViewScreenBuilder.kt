@@ -16,8 +16,10 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.widget.action.ShowNativeDialog
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.TEXT_FONT_MAX
@@ -41,11 +43,11 @@ object ScrollViewScreenBuilder : ScreenBuilder {
                 NavigationBarItem(
                     text = "",
                     image = "informationImage",
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "ScrollView",
                         message = "This component is a specialized container that will display its " +
                             "components in a Scroll like view.",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 )
             )
@@ -73,8 +75,7 @@ object ScrollViewScreenBuilder : ScreenBuilder {
                 scrollDirection = ScrollAxis.VERTICAL
             )
         )
-    ).applyFlex(
-        flex = Flex(
+    ).applyStyle(Style(
             size = Size(
                 height = 130.unitReal(),
                 width = 100.unitPercent()

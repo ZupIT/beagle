@@ -16,10 +16,11 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.widget.action.ShowNativeDialog
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.core.Accessibility
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyAccessibility
-import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_ACCESSIBILITY
 import br.com.zup.beagle.widget.core.AlignItems
@@ -43,10 +44,10 @@ object AccessibilityScreenBuilder : ScreenBuilder {
                 NavigationBarItem(
                     text = "",
                     image = "informationImage",
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "Accessibility Screen",
                         message = "This method applies accessibility in a widget",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 )
             )
@@ -88,14 +89,11 @@ object AccessibilityScreenBuilder : ScreenBuilder {
                 accessible = accessible,
                 accessibilityLabel = accessibilityLabel
             )
-        ).applyFlex(
-            flex = Flex(
-                alignItems = AlignItems.CENTER,
+        ).applyStyle(Style(
                 margin = EdgeValue(
                     top = 8.unitReal(),
-                    bottom = 8.unitReal()
-                )
-            )
+                    bottom = 8.unitReal()),
+                flex = Flex( alignItems = AlignItems.CENTER))
         )
 
     private fun buttonAccessibility(
@@ -106,17 +104,17 @@ object AccessibilityScreenBuilder : ScreenBuilder {
         Button(
             text = textButton,
             styleId = BUTTON_STYLE_ACCESSIBILITY
-        ).applyFlex(
+        ).applyStyle(Style(
+            margin = EdgeValue(
+                top = 8.unitReal(),
+                bottom = 8.unitReal()
+            ),
+            size = Size(
+                height = 40.unitReal()
+            ),            
             flex = Flex(
-                size = Size(
-                    height = 40.unitReal()
-                ),
-                alignItems = AlignItems.CENTER,
-                margin = EdgeValue(
-                    top = 8.unitReal(),
-                    bottom = 8.unitReal()
-                )
-            )
+                alignItems = AlignItems.CENTER)
+        )
         ).applyAccessibility(
             accessibility = Accessibility(
                 accessible = accessible,

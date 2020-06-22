@@ -39,10 +39,9 @@ final class BeagleSetupTests: XCTestCase {
             dep.urlBuilder.baseUrl = url
         }
         dep.networkClient = NetworkClientDummy()
-        dep.flex = { _ in return FlexViewConfiguratorDummy() }
+        dep.style = { _ in return StyleViewConfiguratorDummy() }
         dep.decoder = ComponentDecodingDummy()
         dep.cacheManager = nil
-        dep.logger = BeagleLoggerDumb()
         dep.windowManager = WindowManagerDumb()
         dep.opener = URLOpenerDumb()
 
@@ -147,6 +146,7 @@ struct ActionDummy: Action, Equatable {
 }
 
 struct BeagleScreenDependencies: BeagleDependenciesProtocol {
+    var isLoggingEnabled: Bool = true
     var analytics: Analytics?
     var repository: Repository = RepositoryStub()
     var theme: Theme = AppThemeDummy()
@@ -173,8 +173,8 @@ struct BeagleScreenDependencies: BeagleDependenciesProtocol {
     var viewConfigurator: (UIView) -> ViewConfiguratorProtocol = {
         return ViewConfigurator(view: $0)
     }
-    var flex: (UIView) -> FlexViewConfiguratorProtocol = { _ in
-        return FlexViewConfiguratorDummy()
+    var style: (UIView) -> StyleViewConfiguratorProtocol = { _ in
+        return StyleViewConfiguratorDummy()
     }
 }
 
@@ -190,6 +190,8 @@ final class AppThemeDummy: Theme {
 }
 
 class BeagleNavigationDummy: BeagleNavigation {
+    var defaultAnimation: BeagleNavigatorAnimation?
+    
     func navigate(action: Navigate, controller: BeagleController, animated: Bool) {
     }
 }

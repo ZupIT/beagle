@@ -1,17 +1,19 @@
 {
     "_beagleComponent_": "beagle:tabView",
-    "tabItems": [
+    "children": [
         {
             "_beagleComponent_": "beagle:tabItem",
             "icon": "beagle",
             "title": "tab 1",
-            "content":
+            "child":
                 {
                     "_beagleComponent_": "beagle:container",
-                    "flex": {
-                        "flexDirection": "COLUMN",
-                        "flexWrap": "NO_WRAP",
-                        "justifyContent": "SPACE_AROUND"
+                    "style": {
+                        "flex": {
+                            "flexDirection": "COLUMN",
+                            "flexWrap": "NO_WRAP",
+                            "justifyContent": "SPACE_AROUND"
+                        }
                     },
                     "children": [
                         {

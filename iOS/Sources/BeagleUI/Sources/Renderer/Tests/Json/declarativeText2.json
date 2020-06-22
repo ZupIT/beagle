@@ -9,7 +9,8 @@
                 "alignment": "CENTER"
             }
         ],
-        "flex": {
+        "style": {
+            "backgroundColor": "#00ff00",
             "size": {
                 "width": {
                     "value": 100,
@@ -20,9 +21,6 @@
                     "type": "REAL"
                 }
             }
-        },
-        "style": {
-            "backgroundColor": "#00ff00"
         }
     }
 }

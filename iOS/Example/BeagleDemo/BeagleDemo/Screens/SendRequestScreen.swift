@@ -28,7 +28,7 @@ let sendRequestDeclarativeScreen: Screen = {
             [
                 Button(
                     text: "do request",
-                    action: SendRequest(
+                    onPress: [SendRequest(
                         url: "https://httpbin.org/post",
                         method: .post,
                         data: ["@{myContext}"],
@@ -38,23 +38,26 @@ let sendRequestDeclarativeScreen: Screen = {
                             "Sample-Header-2": "HeaderContent2"
                         ],
                         onSuccess: [
-                            ShowNativeDialog(
+                            Alert(
                                 title: "Success!",
-                                message: "@{onSuccess.data.json}",
-                                buttonText: "ok"
+                                message: "Sucess sending Request",
+                                labelOk: "Dismiss"
                             )
                         ],
                         onError: [
-                            ShowNativeDialog(
+                            Confirm(
                                 title: "Error!",
                                 message: "error sending request",
-                                buttonText: "ok"
+                                onPressOk: OkAction(),
+                                onPressCancel: CancelAction(),
+                                labelOk: "OK",
+                                labelCancel: "Cancel"
                             )
                         ],
                         onFinish: [
                             CustomConsoleLogAction()
                         ]
-                    )
+                    )]
                 )
             ],
             context: Context(id: "myContext", value: "initial value")
@@ -65,5 +68,17 @@ let sendRequestDeclarativeScreen: Screen = {
 struct CustomConsoleLogAction: Action {
     func execute(controller: BeagleController, sender: Any) {
         print("SendRequestScreen.CustomConsoleAction")
+    }
+}
+
+struct OkAction: Action {
+    func execute(controller: BeagleController, sender: Any) {
+        print("onPressOk from Alert clicked")
+    }
+}
+
+struct CancelAction: Action {
+    func execute(controller: BeagleController, sender: Any) {
+        print("onPressCancel from Confirm clicked")
     }
 }

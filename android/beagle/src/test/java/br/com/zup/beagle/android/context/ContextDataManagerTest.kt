@@ -120,8 +120,8 @@ class ContextDataManagerTest {
     @Test
     fun addBindingToContext_should_add_binding_to_context_on_stack() {
         // Given
-        val bind = Bind.Expression("@{$CONTEXT_ID.a}", type = ComponentModel::class.java)
-        val contextData = ContextData(CONTEXT_ID, true)
+        val bind = Bind.Expression("@{$CONTEXT_ID[0]}", type = Boolean::class.java)
+        val contextData = ContextData(CONTEXT_ID, listOf(true))
         contextDataManager.addContext(contextData)
 
         // When

@@ -20,7 +20,7 @@ import BeagleSchema
 extension PageView: ServerDrivenComponent {
 
     public func toView(renderer: BeagleRenderer) -> UIView {
-        let pagesControllers = pages.map {
+        let pagesControllers = children.map {
             BeagleScreenViewController(
                 viewModel: .init(screenType: .declarative($0.toScreen()))
             )
@@ -36,7 +36,7 @@ extension PageView: ServerDrivenComponent {
             indicatorView: indicatorView
         )
         
-        view.flex.setup(Flex(grow: 1.0))
+        view.style.setup(Style(flex: Flex(grow: 1.0)))
         return view
     }
 }

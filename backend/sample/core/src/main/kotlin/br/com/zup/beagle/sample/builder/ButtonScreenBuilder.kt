@@ -18,10 +18,9 @@ package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
-import br.com.zup.beagle.widget.action.ShowNativeDialog
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.CornerRadius
-import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE
@@ -47,11 +46,11 @@ object ButtonScreenBuilder : ScreenBuilder {
                 NavigationBarItem(
                     text = "",
                     image = "informationImage",
-                    action = ShowNativeDialog(
+                    action = Alert(
                         title = "Button",
                         message = "This is a widget that will define a button natively using the server " +
                             "driven information received through Beagle.",
-                        buttonText = "OK"
+                        labelOk = "OK"
                     )
                 )
             )
@@ -60,7 +59,7 @@ object ButtonScreenBuilder : ScreenBuilder {
             children = listOf(
                 createButton(
                     text = "Button",
-                    flex = Flex(
+                    style = Style(
                         margin = EdgeValue(
                             top = 15.unitReal()
                         )
@@ -70,7 +69,7 @@ object ButtonScreenBuilder : ScreenBuilder {
                 createButton(
                     text = "Button with style",
                     styleId = BUTTON_STYLE,
-                    flex = Flex(
+                    style = Style(
                         margin = EdgeValue(
                             top = 15.unitReal()
                         )
@@ -89,7 +88,7 @@ object ButtonScreenBuilder : ScreenBuilder {
     private fun buttonWithAppearanceAndStyle(text: String, styleId: String? = null) = createButton(
         text = text,
         styleId = styleId,
-        flex = Flex(
+        style = Style(
             margin = EdgeValue(
                 left = 25.unitReal(),
                 right = 25.unitReal(),
@@ -106,7 +105,7 @@ object ButtonScreenBuilder : ScreenBuilder {
     private fun createButton(
         text: String,
         styleId: String? = null,
-        flex: Flex? = null
+        style: Style? = null
     ): Widget {
         val button = Button(
             text = text,
@@ -114,8 +113,8 @@ object ButtonScreenBuilder : ScreenBuilder {
             onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT, true)))
         )
 
-        if (flex != null) {
-            button.applyFlex(flex)
+        if (style != null) {
+            button.applyStyle(style)
         }
 
         return button

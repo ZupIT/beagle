@@ -14,34 +14,20 @@
  * limitations under the License.
  */
 
-public struct PageView: RawComponent, AutoInitiable {
+public struct PageView: RawComponent, AutoInitiableAndDecodable {
 
-    public let pages: [RawComponent]
+    public let children: [RawComponent]
     public let pageIndicator: PageIndicatorComponent?
 
 // sourcery:inline:auto:PageView.Init
     public init(
-        pages: [RawComponent],
+        children: [RawComponent],
         pageIndicator: PageIndicatorComponent? = nil
     ) {
-        self.pages = pages
+        self.children = children
         self.pageIndicator = pageIndicator
     }
 // sourcery:end
-}
-
-extension PageView: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case pages
-        case pageIndicator
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.pages = try container.decode(forKey: .pages)
-        let pageIndicator = try container.decodeIfPresent(AnyDecodableContainer.self, forKey: .pageIndicator)
-        self.pageIndicator = (pageIndicator?.content as? PageIndicatorComponent)
-    }
 }
 
 public protocol PageIndicatorComponent: RawComponent {}

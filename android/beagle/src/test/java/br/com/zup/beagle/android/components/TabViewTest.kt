@@ -63,7 +63,7 @@ class TabViewTest : BaseComponentTest() {
         every { beagleFlexView.addView(any()) } just runs
 
 
-        tabView = TabView(listOf(tabItem), "")
+        tabView = TabView(listOf(tabItem))
     }
 
     override fun tearDown() {
