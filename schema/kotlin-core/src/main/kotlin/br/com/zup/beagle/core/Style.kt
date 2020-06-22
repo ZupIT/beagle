@@ -16,6 +16,10 @@
 
 package br.com.zup.beagle.core
 
+import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.Size
+
 /**
  * The style class will enable a few visual options to be changed.
  *
@@ -24,9 +28,35 @@ package br.com.zup.beagle.core
  *                          It must be listed as an Hexadecimal color format without the "#".
  *                          For example, for a WHITE background type in "FFFFFF".
  * @param cornerRadius Using a Double parameters it sets the corner of your view to make it round.
+ * @param size add size to current view applying the flex.
+ * @param margin
+ *                  effects the spacing around the outside of a node.
+ *                  A node with margin will offset itself from the bounds of its parent
+ *                  but also offset the location of any siblings.
+ *                  The margin of a node contributes to the total size of its parent if the parent is auto sized.
+ * @param padding
+ *                  affects the size of the node it is applied to.
+ *                  Padding in Yoga acts as if box-sizing: border-box; was set.
+ *                  That is padding will not add to the total size of an element if it has an explicit size set.
+ *                  For auto sized nodes padding will increase the size of the
+ *                  node as well as offset the location of any children..
+ * @param position add padding to position.
+ * @param flex
+ * @see Flex
+ * @param positionType The position type of an element defines how it is positioned within its parent.
+ * @param display enables a flex context for all its direct children.
  */
-data class Style(val backgroundColor: String? = null,
-                 val cornerRadius: CornerRadius? = null)
+data class Style (
+    val backgroundColor: String? = null,
+    val cornerRadius: CornerRadius? = null,
+    val size: Size? = null,
+    val margin: EdgeValue? = null,
+    val padding: EdgeValue? = null,
+    val position: EdgeValue? = null,
+    val flex: Flex? = null,
+    val positionType: PositionType? = null,
+    val display: Display? = null
+)
 
 /**
  * The corner radius change the appearance of view
@@ -36,3 +66,45 @@ data class Style(val backgroundColor: String? = null,
 data class CornerRadius(
     val radius: Double = 0.0
 )
+
+/**
+ * This defines a flex container;
+ * inline or block depending on the given value. It enables a flex context for all its direct children.
+ *
+ * @property FLEX
+ * @property NONE
+ */
+enum class Display {
+    /**
+     * Apply the flex properties.
+     */
+    FLEX,
+
+    /**
+     * No flex properties will be applied to the element.
+     */
+    NONE
+}
+
+/**
+ * The position type of an element defines how it is positioned within its parent.
+ *
+ * @property ABSOLUTE
+ * @property RELATIVE
+ */
+enum class PositionType {
+
+    /**
+     * This means an element is positioned according to the normal flow of the layout,
+     * and then offset relative to that position based on the values of top, right, bottom, and left.
+     * The offset does not affect the position of any sibling or parent elements.
+     */
+    ABSOLUTE,
+
+    /**
+     * When positioned absolutely an element doesn't take part in the normal layout flow.
+     * It is instead laid out independent of its siblings.
+     * The position is determined based on the top, right, bottom, and left values.
+     */
+    RELATIVE
+}

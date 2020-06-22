@@ -33,14 +33,11 @@ object ComposeScrollView : ComposeComponent {
         scrollBarEnabled = false,
         scrollDirection = ScrollAxis.HORIZONTAL,
         children = listOf(
-            createText().applyStyle(Style(backgroundColor = LIGHT_GREY))
-                .applyFlex(
-                    Flex(
-                        margin = EdgeValue(
-                            left = 30.unitReal()
-                        )
-                    )
-                )
+            createText().applyStyle(Style(backgroundColor = LIGHT_GREY,
+                margin = EdgeValue(
+                    left = 30.unitReal()
+                ))
+            )
         ) + List(20) { createText() }
     )
 

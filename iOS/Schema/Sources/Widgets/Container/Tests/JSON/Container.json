@@ -4,6 +4,16 @@
     "backgroundColor": "#0000FF50",
     "cornerRadius": {
         "radius": 30.0
+    },
+    "margin": {
+      "horizontal": {
+        "value": 20,
+        "type": "REAL"
+      }
+    },
+    "flex": {
+      "grow": 1,
+      "justifyContent": "SPACE_EVENLY"
     }
   },
   "children": [
@@ -19,15 +29,5 @@
       "_beagleComponent_": "beagle:Text",
       "text": "Sed vel nisl tortor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec fringilla velit vulputate ultricies auctor. Sed et enim lacinia risus hendrerit efficitur vitae vel tellus."
     }
-  ],
-  "flex": {
-    "grow": 1,
-    "justifyContent": "SPACE_EVENLY",
-    "margin": {
-      "horizontal": {
-        "value": 20,
-        "type": "REAL"
-      }
-    }
-  }
+  ]
 }

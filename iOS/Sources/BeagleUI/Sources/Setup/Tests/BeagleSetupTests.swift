@@ -39,7 +39,7 @@ final class BeagleSetupTests: XCTestCase {
             dep.urlBuilder.baseUrl = url
         }
         dep.networkClient = NetworkClientDummy()
-        dep.flex = { _ in return FlexViewConfiguratorDummy() }
+        dep.style = { _ in return StyleViewConfiguratorDummy() }
         dep.decoder = ComponentDecodingDummy()
         dep.cacheManager = nil
         dep.windowManager = WindowManagerDumb()
@@ -173,8 +173,8 @@ struct BeagleScreenDependencies: BeagleDependenciesProtocol {
     var viewConfigurator: (UIView) -> ViewConfiguratorProtocol = {
         return ViewConfigurator(view: $0)
     }
-    var flex: (UIView) -> FlexViewConfiguratorProtocol = { _ in
-        return FlexViewConfiguratorDummy()
+    var style: (UIView) -> StyleViewConfiguratorProtocol = { _ in
+        return StyleViewConfiguratorDummy()
     }
 }
 

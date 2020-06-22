@@ -9,7 +9,6 @@
       - textColor: Optional<Expression<String>>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
-        - flex: Optional<Flex>.none
         - id: Optional<String>.none
         - style: Optional<Style>.none
     ▿ Text
@@ -20,7 +19,6 @@
       - textColor: Optional<Expression<String>>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
-        - flex: Optional<Flex>.none
         - id: Optional<String>.none
         - style: Optional<Style>.none
     ▿ Text
@@ -31,15 +29,7 @@
       - textColor: Optional<Expression<String>>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
-        - flex: Optional<Flex>.none
         - id: Optional<String>.none
         - style: Optional<Style>.none
   - scrollBarEnabled: Optional<Bool>.none
   - scrollDirection: Optional<ScrollAxis>.none
-  ▿ style: Optional<Style>
-    ▿ some: Style
-      ▿ backgroundColor: Optional<String>
-        - some: "#FF000060"
-      ▿ cornerRadius: Optional<CornerRadius>
-        ▿ some: CornerRadius
-          - radius: 30.0

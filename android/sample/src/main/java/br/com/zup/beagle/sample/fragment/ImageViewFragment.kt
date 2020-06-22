@@ -36,8 +36,7 @@ class ImageViewFragment : Fragment() {
             child = Container(
                 children = listOf(
                     NetworkImage(
-                        path = "https://cdn-images-1.medium.com/max/1200/1*kjiNJPB3Y-ZVmjxco_bORA.png"
-                    ),
+                        path = "https://cdn-images-1.medium.com/max/1200/1*kjiNJPB3Y-ZVmjxco_bORA.png"),
                     Text(text = "Opa!!!")
                 )
             )

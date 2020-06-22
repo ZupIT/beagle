@@ -38,7 +38,12 @@ struct CustomComponentScreen: DeeplinkScreen {
                             DSCollectionDataSource.Card(name: "Borracha", age: 40),
                             DSCollectionDataSource.Card(name: "Gotto", age: 42),
                             DSCollectionDataSource.Card(name: "Tulio", age: 38)
-                        ]), widgetProperties: .init(flex: Flex().size(Size().width(100%).height(300)))
+                        ]),
+                        widgetProperties: .init(
+                            style: Style(
+                                size: Size().width(100%).height(300)
+                            )
+                        )
                     )
                 ]
             )

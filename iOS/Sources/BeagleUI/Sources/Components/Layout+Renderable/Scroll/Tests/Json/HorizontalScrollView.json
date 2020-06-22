@@ -2,9 +2,6 @@
   "_beagleComponent_": "beagle:scrollview",
   "scrollDirection": "HORIZONTAL",
   "scrollBarEnabled": true,
-  "style": {
-    "backgroundColor": "#00FFAA"
-  },
   "children": [
     {
       "_beagleComponent_": "beagle:text",
