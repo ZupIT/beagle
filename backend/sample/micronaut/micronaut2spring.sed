@@ -7,6 +7,7 @@ s/io.micronaut.http.annotation.Post/org.springframework.web.bind.annotation.Post
 s/io.micronaut.http.annotation.Get/org.springframework.web.bind.annotation.GetMapping/;
 s/io.micronaut.http.annotation.Put/org.springframework.web.bind.annotation.PutMapping/;
 s/io.micronaut.http.annotation.Delete/org.springframework.web.bind.annotation.DeleteMapping/;
+s/io.micronaut.http.annotation.PathVariable/org.springframework.web.bind.annotation.PathVariable/;
 
 s/@Singleton/@Service/g;
 s/@Controller/@RestController/g;
