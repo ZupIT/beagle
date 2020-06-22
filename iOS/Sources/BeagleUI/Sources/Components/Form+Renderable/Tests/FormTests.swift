@@ -25,7 +25,6 @@ final class FormTests: XCTestCase {
         // Given
         let submitView = UILabel()
         let sut = Form(
-            action: ActionDummy(),
             child: FormSubmit(child: ComponentDummy(resultView: submitView))
         )
         let controller = BeagleControllerStub()

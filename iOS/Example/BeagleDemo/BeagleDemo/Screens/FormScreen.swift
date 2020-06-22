@@ -34,7 +34,7 @@ struct FormScreen: DeeplinkScreen {
     func screenController() -> UIViewController {
         let flexHorizontalMargin = Flex().margin(EdgeValue().all(10))
         let form = Form(
-            action: FormRemoteAction(path: .TEXT_FORM_ENDPOINT, method: .post),
+            onSubmit: [FormRemoteAction(path: .TEXT_FORM_ENDPOINT, method: .post)],
             child: Container(
                 children: [
                     FormInput(

@@ -25,6 +25,7 @@ import android.util.TypedValue
 import android.view.View
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.components.Button
+import br.com.zup.beagle.android.components.TabView
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.utils.applyViewBackgroundAndCorner
 import br.com.zup.beagle.android.context.Bind
@@ -53,16 +54,28 @@ class StyleManager(
                 }
             }
             is Button -> {
-                if (component.styleId == null || component.styleId is Bind.Value) {
-                    applyStyleId(context, (component.styleId?.value ?: "") as String, view, component)
-                } else component.styleId.observes {
-                    applyStyleId(context, it, view, component)
-                }
+                applyStyleOrObserve(component, context, view, component.styleId)
+            }
+            is TabView -> {
+                applyStyleOrObserve(component, context, view, component.styleId)
             }
             else -> {
                 val colorInt = fetchDrawableColor(background = view.background)
                 view.applyViewBackgroundAndCorner(colorInt, component)
             }
+        }
+    }
+
+    private fun applyStyleOrObserve(
+        component: StyleComponent,
+        context: Context,
+        view: View,
+        styleId: Bind<String>? = null
+    ) {
+        if (styleId == null || styleId is Bind.Value) {
+            applyStyleId(context, (styleId?.value ?: "") as String, view, component)
+        } else styleId.observes {
+            applyStyleId(context, it, view, component)
         }
     }
 

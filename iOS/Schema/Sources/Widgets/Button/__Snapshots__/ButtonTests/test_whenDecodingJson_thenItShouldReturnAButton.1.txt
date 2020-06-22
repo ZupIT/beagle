@@ -1,7 +1,8 @@
 ▿ Button
-  ▿ action: Optional<RawAction>
-    - some: Navigate.popStack
   - clickAnalyticsEvent: Optional<AnalyticsClick>.none
+  ▿ onPress: Optional<Array<RawAction>>
+    ▿ some: 1 element
+      - Navigate.popStack
   - styleId: Optional<String>.none
   - text: "button"
   ▿ widgetProperties: WidgetProperties

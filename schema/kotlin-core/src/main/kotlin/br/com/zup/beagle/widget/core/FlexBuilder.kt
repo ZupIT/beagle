@@ -124,8 +124,6 @@ class FlexBuilder {
             right = right,
             bottom = bottom,
             left = left,
-            start = start,
-            end = end,
             horizontal = horizontal,
             vertical = vertical
         )
@@ -149,9 +147,7 @@ class FlexBuilder {
             top = top,
             right = right,
             bottom = bottom,
-            left = left,
-            start = start,
-            end = end
+            left = left
         )
     )
 
@@ -173,9 +169,7 @@ class FlexBuilder {
             top = top,
             right = right,
             bottom = bottom,
-            left = left,
-            start = start,
-            end = end
+            left = left
         )
     )
 
