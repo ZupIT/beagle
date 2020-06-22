@@ -103,6 +103,7 @@ class HttpClientDefaultTest {
         val headerValue = RandomData.string()
         val headers = mapOf(headerName to listOf(headerValue))
         every { httpURLConnection.headerFields } returns headers
+        every { inputStream.available() } returns 1
 
         lateinit var resultData: ResponseData
         val requestDataSlot = slot<OnSuccess>()
