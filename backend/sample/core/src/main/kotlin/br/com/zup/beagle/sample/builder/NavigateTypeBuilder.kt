@@ -131,7 +131,12 @@ object NavigateTypeBuilder : ScreenBuilder{
                     navigate = Navigate.PopToView(NAVIGATION_TYPE_ENDPOINT),
                     backgroundColor = RED
                 ),
-                buttonAddViewStep1
+                buttonAddViewStep1,
+                createButton(
+                    text = "ResetStack",
+                    navigate = Navigate.ResetStack(Route.Remote(SCREEN_COMPONENTS_ENDPOINT)),
+                    backgroundColor = "#800080"
+                )
             )
         )
     )
