@@ -102,11 +102,8 @@ internal class ContextDataManager(
         } else {
             return try {
                 val keys = contextPathResolver.getKeysFromPath(context.id, path)
-                val newValue = createNewValue(context.value, keys)
-                val replace = jsonPathReplacer.replace(keys, value, newValue!!)
-                val newContext = context.copy(value = newValue!!)
-                contexts[context.id] = contextBinding.copy(context = newContext)
-                return true
+                createNewValue(context.value, keys)
+                jsonPathReplacer.replace(keys, value, context.value)
             } catch (ex: Exception) {
                 BeagleMessageLogs.errorWhileTryingToChangeContext(ex)
                 false
@@ -119,8 +116,7 @@ internal class ContextDataManager(
         val nextKeys = keys.clone() as LinkedList<String>
         var key = nextKeys.poll()
         while (key != null) {
-            val getIndex = nextKeys.indexOf(key)
-            val nextKey = nextKeys.getOrNull(getIndex + 1)
+            val nextKey = nextKeys.poll()
 
             if (key.startsWith("[")) {
                 if (newValue !is JSONArray) {
@@ -130,15 +126,15 @@ internal class ContextDataManager(
             } else if (newValue is JSONObject) {
                 var objectCreated: Any = JSONObject()
                 if (nextKey?.startsWith("[") == true) {
-                    objectCreated = createJsonArray(JSONArray(arrayListOf<Any>()), nextKey, null)
+                    val jsonArray = newValue.optJSONArray(key) ?: JSONArray(arrayListOf<Any>())
+                    objectCreated = createJsonArray(jsonArray, nextKey, null)
                 }
 
                 newValue.put(key, objectCreated)
                 newValue = objectCreated
             }
-            key = nextKeys.poll()
+            key = nextKey
         }
-
 
         return value
     }
@@ -149,7 +145,7 @@ internal class ContextDataManager(
         if (opt == JSONObject.NULL || opt == null) {
             val json = JSONObject()
             jsonArray.put(position, if (nextKey != null) json else JSONObject.NULL)
-            if (nextKey != null){
+            if (nextKey != null) {
                 json.put(nextKey, null)
                 return json
             }

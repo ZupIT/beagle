@@ -74,13 +74,13 @@ object ButtonScreenBuilder : ScreenBuilder {
                     )
                 ),
 
-                Text(text = expressionOf("@{context.name[2].d[0].e[0].name}")),
+                Text(text = expressionOf("@{context.person.person.name}")),
                 Button(
                     text = "Ok",
                     onPress = listOf(
                         SetContext(
                             contextId = "context",
-                            path = "context.name[2].d[0].e[0]",
+                            path = "context.person.person",
                             value = Person(name = "uzias")
                         )
                     )
@@ -89,7 +89,7 @@ object ButtonScreenBuilder : ScreenBuilder {
         )
     )
 
-    data class Person(val name: String, val teste: String = "")
+    data class Person(val name: String, val teste: String = "", val person: Person? = null)
 
 
     private fun buttonWithAppearanceAndStyle(text: String, styleId: String? = null) = createButton(

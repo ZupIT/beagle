@@ -118,7 +118,6 @@ class FormTest : BaseComponentTest() {
         every { anyConstructed<FormValidatorController>().configFormInputList(any()) } just Runs
         every { remoteAction.resultListener = capture(resultListenerSlot) } just Runs
 
-
         form = Form(onSubmit = listOf(mockk(relaxed = true)), child = mockk())
     }
 
