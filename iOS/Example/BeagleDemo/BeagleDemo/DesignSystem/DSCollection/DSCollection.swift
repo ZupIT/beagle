@@ -48,7 +48,7 @@ struct DSCollectionDataSource : Decodable, AutoEquatable {
 extension DSCollection: Renderable {
     func toView(renderer: BeagleRenderer) -> UIView {
         let view = DSCollectionUIComponent(dataSource: dataSource)
-        view.flex.setup(flex)
+        view.style.setup(style)
         return view
     }
 }

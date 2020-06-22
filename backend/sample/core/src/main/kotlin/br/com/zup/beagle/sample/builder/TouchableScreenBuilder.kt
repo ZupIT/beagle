@@ -16,7 +16,12 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.widget.action.Navigate
+import br.com.zup.beagle.widget.action.Route
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
 import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
@@ -75,14 +80,14 @@ object TouchableScreenBuilder : ScreenBuilder {
             buildTitle(title),
             Touchable(
                 action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT)),
-                child = item.applyFlex(
+                child = item.applyStyle(Style(
                     flex = Flex(
-                        alignSelf = AlignSelf.CENTER,
-                        margin = EdgeValue(
-                            top = 8.unitReal(),
-                            bottom = 8.unitReal()
-                        )
-                    )
+                        alignSelf = AlignSelf.CENTER
+                    ),
+                    margin = EdgeValue(
+                        top = 8.unitReal(),
+                        bottom = 8.unitReal()
+                    ))
                 )
             )
         )
@@ -91,13 +96,12 @@ object TouchableScreenBuilder : ScreenBuilder {
     private fun buildTitle(text: String) = Text(
         text = text,
         styleId = SCREEN_TEXT_STYLE
-    ).applyFlex(
+    ).applyStyle(Style(
         flex = Flex(
-            alignSelf = AlignSelf.CENTER,
-            margin = EdgeValue(
-                top = 8.unitReal()
-            )
-        )
+            alignSelf = AlignSelf.CENTER),
+        margin = EdgeValue(
+            top = 8.unitReal()
+        ))
     )
 
     private fun networkImageTouchable() = Container(
@@ -106,14 +110,15 @@ object TouchableScreenBuilder : ScreenBuilder {
             Touchable(
                 child = Image(
                     Remote(BEACH_NETWORK_IMAGE)
-                ).applyFlex(
+                ).applyStyle(Style(
+                    size = Size(
+                        width = 150.unitReal(),
+                        height = 130.unitReal()
+                    ),
                     flex = Flex(
-                        size = Size(
-                            width = 150.unitReal(),
-                            height = 130.unitReal()
-                        ),
                         alignSelf = AlignSelf.CENTER
                     )
+                )
                 ),
                 action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))
             )

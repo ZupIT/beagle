@@ -118,7 +118,6 @@
       - nonConformingFloatDecodingStrategy: NonConformingFloatDecodingStrategy.throw
       - userInfo: 0 key/value pairs
   - deepLinkHandler: Optional<DeepLinkScreenManaging>.none
-  - flex: (Function)
   ▿ formDataStoreHandler: FormDataStoreHandler
     - dataStore: 0 key/value pairs
   - isLoggingEnabled: true
@@ -150,6 +149,7 @@
     - serviceMaxCacheAge: "cache-control"
   ▿ resolver: InnerDependenciesResolver
     - container: (Function)
+  - style: (Function)
   ▿ theme: AppTheme
     - styles: 0 key/value pairs
   ▿ urlBuilder: UrlBuilder

@@ -18,22 +18,18 @@ package br.com.zup.beagle.widget
 
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.AccessibilityComponent
-import br.com.zup.beagle.core.FlexComponent
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.StyleComponent
-import br.com.zup.beagle.widget.core.Flex
 
 /**
  * Base of all widgets
  *
  */
-abstract class Widget : FlexComponent, StyleComponent, AccessibilityComponent,
+abstract class Widget : StyleComponent, AccessibilityComponent,
     IdentifierComponent {
 
     override var id: String? = null
-    override var flex: Flex? = null
     override var style: Style? = null
     override var accessibility: Accessibility? = null
-
 }

@@ -31,20 +31,17 @@ final class WidgetTests: XCTestCase {
         var text: Text = try componentFromJsonFile(fileName: "widgetWithAllAttributes")
         let newStyle = Style(backgroundColor: nil, cornerRadius: .init(radius: -9999.0))
         let newId = "newID"
-        let newFlex = Flex()
         let newAccessiblity = Accessibility(accessibilityLabel: "new label", accessible: false)
         
         // when
         text.style = newStyle
         text.id = newId
-        text.flex = newFlex
         text.accessibility = newAccessiblity
         
         // then
         XCTAssert(
             text.style == newStyle &&
             text.id == newId &&
-            text.flex == newFlex &&
             text.accessibility == newAccessiblity
         )
     }

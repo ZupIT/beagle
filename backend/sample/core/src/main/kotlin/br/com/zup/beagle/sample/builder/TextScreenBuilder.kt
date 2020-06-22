@@ -71,8 +71,7 @@ object TextScreenBuilder : ScreenBuilder {
         appearanceColor: String? = null
     ) =
         Text(text = text, styleId = styleId)
-            .applyFlex(
-                flex = Flex(
+            .applyStyle(Style(
                     margin = EdgeValue(
                         top = 16.unitReal(),
                         left = 16.unitReal(),

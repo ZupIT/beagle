@@ -43,7 +43,7 @@ import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.ImagePath.Local
 
 object FormScreenBuilder : ScreenBuilder {
-    private val flexHorizontalMargin = Flex(margin = EdgeValue(all = 10.unitReal()))
+    private val styleHorizontalMargin = Style(margin = EdgeValue(all = 10.unitReal()))
 
     @Suppress("LongMethod")
     override fun build() = Screen(
@@ -96,13 +96,13 @@ object FormScreenBuilder : ScreenBuilder {
                                 child = Button(
                                     text = "Submit Form",
                                     styleId = BUTTON_STYLE_FORM
-                                ).applyFlex(flexHorizontalMargin)
+                                ).applyStyle(styleHorizontalMargin)
                             )
                         )
                     )
-                        .applyFlex(
-                            Flex(
-                                grow = 1.0,
+                        .applyStyle(
+                            Style(
+                                flex = Flex(grow = 1.0),
                                 padding = EdgeValue(all = 10.unitReal())
                             )
                         )
@@ -124,6 +124,6 @@ object FormScreenBuilder : ScreenBuilder {
             validator = validator,
             child = SampleTextField(
                 placeholder = placeholder
-            ).applyFlex(flexHorizontalMargin)
+            ).applyStyle(styleHorizontalMargin)
         )
 }

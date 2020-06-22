@@ -28,15 +28,15 @@ final class ContainerTests: XCTestCase {
         let sut = Container(children: [
             Text("Some texts."),
             Text("More texts.")
-        ], widgetProperties: .init(flex: Flex()))
+        ], widgetProperties: .init(style: Style(flex: Flex())))
         
         let mirror = Mirror(reflecting: sut)
         // When
-        let flex = mirror.firstChild(of: WidgetProperties.self)?.flex
+        let style = mirror.firstChild(of: WidgetProperties.self)?.style
         let component = mirror.firstChild(of: [BeagleUI.ServerDrivenComponent].self)
         // Then
         XCTAssertTrue(sut.children.count == 2)
-        XCTAssertNotNil(flex)
+        XCTAssertNotNil(style)
         XCTAssertNotNil(component)
         
     }
@@ -49,7 +49,7 @@ final class ContainerTests: XCTestCase {
         // When
         let container = component.applyFlex(Flex(justifyContent: .center))
         // Then
-        XCTAssertNotNil(container.flex)
+        XCTAssertNotNil(container.style?.flex)
     }
     
     func test_toView_shouldReturnTheExpectedView() throws {
@@ -75,8 +75,12 @@ final class ContainerTests: XCTestCase {
                 Text("Sed vel nisl tortor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec fringilla velit vulputate ultricies auctor. Sed et enim lacinia risus hendrerit efficitur vitae vel tellus.")
             ],
             widgetProperties: .init(
-                style: .init(backgroundColor: "#0000FF50", cornerRadius: .init(radius: 30.0)),
-                flex: Flex().grow(1).justifyContent(.spaceEvenly).margin(EdgeValue().horizontal(20))
+                style: .init(
+                    backgroundColor: "#0000FF50",
+                    cornerRadius: .init(radius: 30.0),
+                    margin: EdgeValue().horizontal(20),
+                    flex: Flex().grow(1).justifyContent(.spaceEvenly)
+                )
             )
         )
 

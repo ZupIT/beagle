@@ -39,6 +39,6 @@ struct ComposeText: BeagleUI.ComposeComponent {
         return Container(children: [
             Text(.value(title)),
             Text(.value(subtitle))
-        ], widgetProperties: .init(flex: Flex()))
+        ], widgetProperties: .init(style: Style(flex: Flex())))
     }
 }

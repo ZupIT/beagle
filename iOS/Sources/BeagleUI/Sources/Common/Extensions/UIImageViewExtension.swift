@@ -21,14 +21,14 @@ extension UIImageView {
     func setImageFromAsset(named: String, bundle: Bundle) {
         self.image = UIImage(named: named, in: bundle, compatibleWith: nil)
     }
-    
+
     func setRemoteImage(from url: String, dependencies: BeagleDependenciesProtocol) {
         dependencies.repository.fetchImage(url: url, additionalData: nil) { [weak self] result in
             guard let self = self, case .success(let data) = result else { return }
             let image = UIImage(data: data)
             DispatchQueue.main.async {
                 self.image = image
-                self.flex.markDirty()
+                self.style.markDirty()
             }
         }
     }

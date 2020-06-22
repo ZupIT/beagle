@@ -29,6 +29,8 @@ import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.android.utils.toView
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.android.components.layout.Container
@@ -38,7 +40,7 @@ import br.com.zup.beagle.widget.core.ListDirection
 
 class ListViewFragment : Fragment() {
 
-    private val flex = Flex(size = Size(width = 100.unitReal(), height = 100.unitReal()))
+    private val style = Style(size = Size(width = 100.unitReal(), height = 100.unitReal()))
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,7 +57,7 @@ class ListViewFragment : Fragment() {
         direction = ListDirection.HORIZONTAL,
         children = listOf(
             Text("0000"),
-            Text("0001").applyFlex(flex),
+            Text("0001").applyStyle(style),
             Text("0002"),
             Text("0003"),
             Text("0004"),

@@ -56,7 +56,9 @@ class FormManager {
         if sender.form.shouldStoreFields {
             saveFormData(values: values, group: sender.form.group)
         }
-        submitAction(sender.form.action, inputs: values, sender: sender, group: sender.form.group)
+        sender.form.onSubmit?.forEach { action in
+            submitAction(action, inputs: values, sender: sender, group: sender.form.group)
+        }
     }
     
     private func merge(values: inout [String: String], with additionalData: [String: String]?) {

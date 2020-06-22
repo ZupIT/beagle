@@ -16,8 +16,10 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
 import br.com.zup.beagle.sample.constants.TEXT_NETWORK_IMAGE
@@ -65,14 +67,14 @@ object NetworkImageScreenBuilder : ScreenBuilder {
     private fun buildImage(title: String, mode: ImageContentMode? = null) = Container(
         children = listOf(
             buildText(title),
-            Image(Remote(BEACH_NETWORK_IMAGE), mode).applyFlex(
+            Image(Remote(BEACH_NETWORK_IMAGE), mode).applyStyle(Style(
                 flex = Flex(
-                    size = Size(
-                        width = 150.unitReal(),
-                        height = 130.unitReal()
-                    ),
                     alignSelf = AlignSelf.CENTER
-                )
+                ),
+                size = Size(
+                    width = 150.unitReal(),
+                    height = 130.unitReal()
+                ))
             )
         )
     )
@@ -80,12 +82,12 @@ object NetworkImageScreenBuilder : ScreenBuilder {
     private fun buildText(text: String) = Text(
         text = text,
         styleId = TEXT_NETWORK_IMAGE
-    ).applyFlex(
+    ).applyStyle(Style(
         flex = Flex(
-            alignSelf = AlignSelf.CENTER,
-            margin = EdgeValue(
-                top = 8.unitReal()
-            )
-        )
+            alignSelf = AlignSelf.CENTER
+        ),
+        margin = EdgeValue(
+            top = 8.unitReal()
+        ))
     )
 }

@@ -73,11 +73,11 @@ extension SendRequest: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.url = try container.decode(String.self, forKey: .url)
-        self.method = try container.decode(SendRequest.HTTPMethod.self, forKey: .method)
-        self.data = try container.decode(DynamicObject.self, forKey: .data)
-        self.headers = try container.decode([String: String].self, forKey: .headers)
-        self.onSuccess = try container.decode(forKey: .onSuccess)
-        self.onError = try container.decode(forKey: .onError)
-        self.onFinish = try container.decode(forKey: .onFinish)
+        self.method = try container.decodeIfPresent(SendRequest.HTTPMethod.self, forKey: .method)
+        self.data = try container.decodeIfPresent(DynamicObject.self, forKey: .data)
+        self.headers = try container.decodeIfPresent([String: String].self, forKey: .headers)
+        self.onSuccess = try container.decodeIfPresent(forKey: .onSuccess)
+        self.onError = try container.decodeIfPresent(forKey: .onError)
+        self.onFinish = try container.decodeIfPresent(forKey: .onFinish)
     }
 }

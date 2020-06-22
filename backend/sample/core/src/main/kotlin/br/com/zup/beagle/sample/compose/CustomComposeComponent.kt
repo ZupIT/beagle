@@ -17,7 +17,9 @@
 package br.com.zup.beagle.sample.compose
 
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
 import br.com.zup.beagle.widget.Widget
@@ -47,14 +49,15 @@ class CustomComposeComponent : ComposeComponent {
     private fun buildTextBeagle(): Widget {
         return Text(
             "Beagle framework"
-        ).applyFlex(
+        ).applyStyle(Style(
             flex = Flex(
-                alignItems = AlignItems.CENTER,
-                margin = EdgeValue(
-                    top = 16.unitReal(),
-                    bottom = 16.unitReal()
+                alignItems = AlignItems.CENTER
                 )
-            )
+            ,
+            margin = EdgeValue(
+                top = 16.unitReal(),
+                bottom = 16.unitReal()
+            ))
         )
     }
 

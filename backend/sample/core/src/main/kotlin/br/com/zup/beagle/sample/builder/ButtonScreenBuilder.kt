@@ -61,7 +61,7 @@ object ButtonScreenBuilder : ScreenBuilder {
             children = listOf(
                 createButton(
                     text = "Button",
-                    flex = Flex(
+                    style = Style(
                         margin = EdgeValue(
                             top = 15.unitReal()
                         )
@@ -71,7 +71,7 @@ object ButtonScreenBuilder : ScreenBuilder {
                 createButton(
                     text = "Button with style",
                     styleId = BUTTON_STYLE,
-                    flex = Flex(
+                    style = Style(
                         margin = EdgeValue(
                             top = 15.unitReal()
                         )
@@ -90,7 +90,7 @@ object ButtonScreenBuilder : ScreenBuilder {
     private fun buttonWithAppearanceAndStyle(text: String, styleId: String? = null) = createButton(
         text = text,
         styleId = styleId,
-        flex = Flex(
+        style = Style(
             margin = EdgeValue(
                 left = 25.unitReal(),
                 right = 25.unitReal(),
@@ -107,7 +107,7 @@ object ButtonScreenBuilder : ScreenBuilder {
     private fun createButton(
         text: String,
         styleId: String? = null,
-        flex: Flex? = null
+        style: Style? = null
     ): Widget {
         val button = Button(
             text = text,
@@ -115,8 +115,8 @@ object ButtonScreenBuilder : ScreenBuilder {
             onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT, true)))
         )
 
-        if (flex != null) {
-            button.applyFlex(flex)
+        if (style != null) {
+            button.applyStyle(style)
         }
 
         return button

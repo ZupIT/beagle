@@ -16,8 +16,10 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
@@ -66,19 +68,19 @@ object ListViewScreenBuilder : ScreenBuilder {
     private fun getStaticListView(listDirection: ListDirection) = Container(
         children = listOf(
             Text("Static $listDirection ListView")
-                .applyFlex(Flex(
+                .applyStyle(Style(
                     margin = EdgeValue(bottom = 10.unitReal())
                 )),
             ListView(children = (1..10).map(this::createText), direction = listDirection)
         )
-    ).applyFlex(Flex(
+    ).applyStyle(Style(
         margin = EdgeValue(bottom = 20.unitReal())
     ))
 
     private fun getDynamicListView(listDirection: ListDirection) = Container(
         children = listOf(
             Text("Dynamic $listDirection ListView")
-                .applyFlex(Flex(
+                .applyStyle(Style(
                     margin = EdgeValue(bottom = 10.unitReal())
                 )),
             ListView.dynamic(size = 20, direction = listDirection, rowBuilder = this::createText)

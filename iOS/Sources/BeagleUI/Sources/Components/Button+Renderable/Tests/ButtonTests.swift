@@ -68,7 +68,7 @@ final class ButtonTests: XCTestCase {
         
         let navigatePath = "path-to-prefetch"
         let navigate = Navigate.pushStack(.remote(navigatePath))
-        let button = Button(text: "prefetch", action: navigate)
+        let button = Button(text: "prefetch", onPress: [navigate])
 
         // When
         _ = renderer.render(button)
@@ -80,7 +80,7 @@ final class ButtonTests: XCTestCase {
     func test_action_shouldBeTriggered() {
         // Given
         let action = ActionSpy()
-        let button = Button(text: "Trigger Action", action: action)
+        let button = Button(text: "Trigger Action", onPress: [action])
         let controller = BeagleControllerStub()
         let renderer = BeagleRenderer(controller: controller)
 
@@ -117,7 +117,7 @@ final class ButtonTests: XCTestCase {
         let renderer = BeagleRenderer(controller: controller)
         controller.dependencies = BeagleScreenDependencies(analytics: analytics)
         
-        let button = Button(text: "Trigger analytics click", action: action, clickAnalyticsEvent: .init(category: "some category"))
+        let button = Button(text: "Trigger analytics click", onPress: [action], clickAnalyticsEvent: .init(category: "some category"))
 
         // When
         let view = renderer.render(button)

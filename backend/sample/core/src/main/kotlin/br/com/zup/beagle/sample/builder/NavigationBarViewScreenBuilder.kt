@@ -18,7 +18,9 @@ package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.core.Accessibility
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_TITLE
 import br.com.zup.beagle.sample.constants.NAVIGATION_BAR_STYLE_DEFAULT
@@ -75,8 +77,7 @@ object NavigationBarViewScreenBuilder : ScreenBuilder {
         text = text,
         onPress = listOf(Navigate.PushView(Route.Remote(path))),
         styleId = BUTTON_STYLE_TITLE
-    ).applyFlex(
-        flex = Flex(
+    ).applyStyle(Style(
             margin = EdgeValue(
                 top = 8.unitReal()
             )
