@@ -20,12 +20,12 @@ import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
 import br.com.zup.beagle.sample.constants.TITLE_SCREEN
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.core.ImageContentMode
-import br.com.zup.beagle.widget.core.ScrollAxis
+import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
+import br.com.zup.beagle.widget.layout.SafeArea
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.Text
 
@@ -47,10 +47,16 @@ object SafeAreaBuilder : ScreenBuilder {
                 )
             )
         ),
-        child = ScrollView(
-            scrollDirection = ScrollAxis.VERTICAL,
-            children = listOf(createText("Image"), Image(LOGO_BEAGLE)) +
-                ImageContentMode.values().flatMap(this::createImageWithModeAndText)
+        child = Text("Luis")
+//        Container(
+//            children = Text("Luis")
+//        )
+        ,
+        safeArea = SafeArea(
+            top =  true,
+            bottom = false,
+            leading = false,
+            trailing = false
         )
     )
 
