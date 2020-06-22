@@ -21,7 +21,6 @@ import BeagleSchema
 public protocol ViewConfiguratorProtocol: AnyObject {
     var view: UIView? { get set }
 
-    func setup(_ widget: Widget)
     func setup(style: Style?)
     func setup(id: String?)
     func setup(accessibility: Accessibility?)
@@ -44,13 +43,6 @@ class ViewConfigurator: ViewConfiguratorProtocol {
 
     init(view: UIView) {
         self.view = view
-    }
-
-    func setup(_ widget: Widget) {
-        setup(style: widget.style)
-        setup(id: widget.id)
-        setup(accessibility: widget.accessibility)
-        view?.style.setup(widget.style)
     }
 
     func setup(style: Style?) {
