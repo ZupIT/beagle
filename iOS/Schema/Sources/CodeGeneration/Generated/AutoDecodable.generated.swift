@@ -230,6 +230,23 @@ extension NavigationBarItem {
     }
 }
 
+// MARK: PageView Decodable
+extension PageView {
+
+    enum CodingKeys: String, CodingKey {
+        case children
+        case pageIndicator
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        children = try container.decode(forKey: .children)
+        let rawPageIndicator: RawComponent? = try container.decodeIfPresent(forKey: .pageIndicator)
+        pageIndicator = rawPageIndicator as? PageIndicatorComponent
+    }
+}
+
 // MARK: ScreenComponent Decodable
 extension ScreenComponent {
 

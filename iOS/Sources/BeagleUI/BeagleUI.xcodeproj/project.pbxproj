@@ -20,7 +20,6 @@
 		57A8098E243CF5020034D180 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57A8098D243CF5020034D180 /* CoreData.framework */; };
 		57A809D5243E5F0C0034D180 /* CacheDiskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A809D4243E5F0C0034D180 /* CacheDiskManager.swift */; };
 		57CBF5AA243F9EF300873997 /* CacheManagerDefaultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CBF5A9243F9EF300873997 /* CacheManagerDefaultTests.swift */; };
-		57D6F0F82499769600A422E3 /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D6F0F72499769600A422E3 /* UIImageViewExtension.swift */; };
 		57D6F1002499865300A422E3 /* ImageComponent2.json in Resources */ = {isa = PBXBuildFile; fileRef = 57D6F0F9249983C800A422E3 /* ImageComponent2.json */; };
 		57D6F1012499865600A422E3 /* ImageComponent1.json in Resources */ = {isa = PBXBuildFile; fileRef = 57D6F0FA249983C800A422E3 /* ImageComponent1.json */; };
 		57E7F970247D9EDC00FBD398 /* UIView+Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E7F96F247D9EDC00FBD398 /* UIView+Context.swift */; };
@@ -241,7 +240,6 @@
 		57A8098D243CF5020034D180 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		57A809D4243E5F0C0034D180 /* CacheDiskManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheDiskManager.swift; sourceTree = "<group>"; };
 		57CBF5A9243F9EF300873997 /* CacheManagerDefaultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManagerDefaultTests.swift; sourceTree = "<group>"; };
-		57D6F0F72499769600A422E3 /* UIImageViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		57D6F0F9249983C800A422E3 /* ImageComponent2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ImageComponent2.json; sourceTree = "<group>"; };
 		57D6F0FA249983C800A422E3 /* ImageComponent1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ImageComponent1.json; sourceTree = "<group>"; };
 		57D6F0FD249985D600A422E3 /* ImageComponent.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ImageComponent.json; sourceTree = "<group>"; };
@@ -907,14 +905,6 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
-		C08D4E0524857AC300AAAC0A /* JSON */ = {
-			isa = PBXGroup;
-			children = (
-				C08D4E0624857AC300AAAC0A /* Spacer.json */,
-			);
-			path = JSON;
-			sourceTree = "<group>";
-		};
 		C08D4E0C24857AC300AAAC0A /* Style */ = {
 			isa = PBXGroup;
 			children = (
@@ -1434,7 +1424,6 @@
 			isa = PBXGroup;
 			children = (
 				57E7F96E247D9EBD00FBD398 /* UIView */,
-				57D6F0F72499769600A422E3 /* UIImageViewExtension.swift */,
 				C09F4105249AB146002605EE /* KeyedDecodingContainerExtension.swift */,
 				E531D6BF235A30DB007EEBA7 /* NSErrorExtension.swift */,
 				E52236C323745CBB00E555BB /* NSObjectExtension.swift */,
@@ -1813,7 +1802,6 @@
 				98E18D16249BE714009D6A54 /* Alert.swift in Sources */,
 				C0CE9488248038100029B35F /* SourceryProtocols.swift in Sources */,
 				C85E1CCD23EB461200C1E323 /* Request.swift in Sources */,
-				57D6F0F82499769600A422E3 /* UIImageViewExtension.swift in Sources */,
 				7CA2E83B2498228100B24782 /* BeagleLoggerProxy.swift in Sources */,
 				E531D6B12359FD18007EEBA7 /* LoadingView.swift in Sources */,
 				9848A53023AAF1C2002474AD /* ContainerIndicatorView.swift in Sources */,
@@ -1848,7 +1836,6 @@
 				C0E569152476F026003D413F /* BeaglePrefetchHelpingSpy.swift in Sources */,
 				983E8C992396DFC90018C6CA /* TabViewUIComponentTests.swift in Sources */,
 				A024CF1124991E4F009BB92D /* UIView+StyleTests.swift in Sources */,
-				7C9999552448A38000D77F07 /* FormManagerTests.swift in Sources */,
 				C08D4E2124857B5A00AAAC0A /* ScreenComponentTests.swift in Sources */,
 				57CBF5AA243F9EF300873997 /* CacheManagerDefaultTests.swift in Sources */,
 				C0291886247C5E4000C3AA13 /* CustomPageIndicator.swift in Sources */,

@@ -26,11 +26,26 @@ extension Image: Widget {
 
         switch path {
         case .local(let name):
-            image.setImageFromAsset(named: name, bundle: renderer.controller.dependencies.appBundle)
+            setImageFromAsset(named: name, bundle: renderer.controller.dependencies.appBundle, view: image)
         case .network(let url):
-            image.setRemoteImage(from: url, dependencies: renderer.controller.dependencies)
+            setRemoteImage(from: url, dependencies: renderer.controller.dependencies, view: image)
         }
 
         return image
+    }
+
+    private func setImageFromAsset(named: String, bundle: Bundle, view: UIImageView) {
+        view.image = UIImage(named: named, in: bundle, compatibleWith: nil)
+    }
+
+    private func setRemoteImage(from url: String, dependencies: BeagleDependenciesProtocol, view: UIImageView) {
+        dependencies.repository.fetchImage(url: url, additionalData: nil) { [weak view] result in
+            guard let view = view, case .success(let data) = result else { return }
+            let image = UIImage(data: data)
+            DispatchQueue.main.async {
+                view.image = image
+                view.style.markDirty()
+            }
+        }
     }
 }

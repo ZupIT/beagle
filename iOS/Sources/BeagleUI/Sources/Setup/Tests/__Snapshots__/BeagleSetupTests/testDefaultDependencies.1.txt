@@ -62,7 +62,7 @@
       ▿ (2 elements)
         - key: "beagle:setcontext"
         - value: SetContext
-    ▿ componentDecoders: 17 key/value pairs
+    ▿ componentDecoders: 16 key/value pairs
       ▿ (2 elements)
         - key: "beagle:button"
         - value: Button
