@@ -1,4 +1,4 @@
-▿ 17 key/value pairs
+▿ 16 key/value pairs
   ▿ (2 elements)
     - key: "beagle:button"
     - value: Button
