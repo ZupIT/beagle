@@ -50,6 +50,7 @@ import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TOUCHABLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_WEB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.spring.service.AccessibilityService
+import br.com.zup.beagle.sample.spring.service.SafeAreaService
 import br.com.zup.beagle.sample.spring.service.SampleActionClickService
 import br.com.zup.beagle.sample.spring.service.SampleActionService
 import br.com.zup.beagle.sample.spring.service.SampleAnalyticsService
