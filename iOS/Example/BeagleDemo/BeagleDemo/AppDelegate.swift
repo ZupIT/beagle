@@ -50,6 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Beagle.dependencies = dependencies
         
         registerCustomComponents()
+        registerCustomAction()
 //        MainScreen().screenController()
         let rootViewController = Beagle.screen(.remote(.init(url: "/components")))
         window?.rootViewController = rootViewController
@@ -57,10 +58,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    private func registerCustomAction() {
+        Beagle.registerCustomAction("BeagleAlertAction", actionType: BeagleAlertAction.self)
+        Beagle.registerCustomAction("CustomConsoleLogAction", actionType: CustomConsoleLogAction.self)
+    }
+    
     private func registerCustomComponents() {
         Beagle.registerCustomComponent("DSCollection", componentType: DSCollection.self)
         Beagle.registerCustomComponent("SampleTextField", componentType: DemoTextField.self)
         Beagle.registerCustomComponent("TextInput", componentType: TextInput.self)
-        Beagle.registerCustomAction("CustomConsoleLogAction", actionType: CustomConsoleLogAction.self)
     }
 }
