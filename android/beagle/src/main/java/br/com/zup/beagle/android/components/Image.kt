@@ -20,21 +20,29 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
-import br.com.zup.beagle.android.components.utils.ComponentStylization
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
 import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.utils.get
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ImageContentMode
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 
-data class Image(val path: PathType, val mode: ImageContentMode? = null) : WidgetView(){
+data class Image(
+    val path: Bind<PathType>,
+    val mode: ImageContentMode? = null) : WidgetView(){
+    constructor(
+        path: PathType,
+        mode: ImageContentMode? = null) : this(
+        Bind.valueOf(path),
+        mode
+    )
 
     @Transient
     private val viewMapper: ViewMapper = ViewMapper()
@@ -42,56 +50,50 @@ data class Image(val path: PathType, val mode: ImageContentMode? = null) : Widge
     @Transient
     private val viewFactory = ViewFactory()
 
-    @Transient
-    private val componentStylization: ComponentStylization<Image> = ComponentStylization()
-
-    override fun buildView(rootView: RootView): View =
-        when (path) {
-            is PathType.Local -> {
-                val imageView = viewFactory.makeImageView(rootView.getContext(), style?.cornerRadius?.radius ?: 0.0)
-                imageView.setData(this, viewMapper)
-                imageView
-            }
-            is PathType.Remote -> {
-                if (style?.size != null) {
-                    makeImageView(rootView).apply {
-                        Glide.with(this).load(path.url).into(this)
+    override fun buildView(rootView: RootView): View {
+        var imageView:View = getImageView(rootView)
+        path.get(rootView){ pathyType->
+            when (pathyType) {
+                is PathType.Local -> {
+                    imageView = getImageView(rootView).apply {
+                        BeagleEnvironment.beagleSdk.designSystem?.image(pathyType.mobileId)?.let {
+                            this.setImageResource(it)
+                        }
                     }
-                } else {
-                    viewFactory.makeBeagleFlexView(rootView.getContext()).also {
-                        it.addView(makeImageView(rootView).apply {
-                            this.loadImage(it)
-                        }, style ?: Style())
+                }
+                is PathType.Remote -> {
+                    imageView = if (style?.size != null) {
+                        getImageView(rootView).apply {
+                            Glide.with(this).load(pathyType.url).into(this)
+                        }
+                    } else {
+                        viewFactory.makeBeagleFlexView(rootView.getContext()).also {
+                            it.addView(getImageView(rootView).apply {
+                                this.loadImage(pathyType, it)
+                            }, style ?: Style())
+                        }
                     }
                 }
             }
         }
-    private fun ImageView.setData(widget: Image, viewMapper: ViewMapper) {
-        val contentMode = widget.mode ?: ImageContentMode.FIT_CENTER
-        scaleType = viewMapper.toScaleType(contentMode)
-        val designSystem = BeagleEnvironment.beagleSdk.designSystem
-        designSystem?.image((widget.path as PathType.Local).mobileId)?.let {
-            this.setImageResource(it)
-        }
+        return imageView
     }
 
-    private fun ImageView.loadImage(beagleFlexView: BeagleFlexView) {
-        Glide.with(this).asBitmap().load((path as PathType.Remote).url).into(object : CustomTarget<Bitmap>() {
+    private fun getImageView(rootView: RootView) = viewFactory.makeImageView(rootView.getContext(),
+        style?.cornerRadius?.radius ?: 0.0).apply {
+        scaleType = viewMapper.toScaleType(mode ?: ImageContentMode.FIT_CENTER)
+    }
+
+    private fun ImageView.loadImage(path: PathType.Remote, beagleFlexView: BeagleFlexView) {
+        Glide.with(this).asBitmap().load(path.url).into(object : CustomTarget<Bitmap>() {
             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                 this@loadImage.setImageBitmap(resource)
                 beagleFlexView.setViewHeight(this@loadImage, resource.height)
-                componentStylization.apply(this@loadImage, this@Image)
             }
 
             override fun onLoadCleared(placeholder: Drawable?) {}
         })
     }
-
-    private fun makeImageView(rootView: RootView) =
-        viewFactory.makeImageView(rootView.getContext(),
-            style?.cornerRadius?.radius ?: 0.0).apply {
-            scaleType = viewMapper.toScaleType(mode ?: ImageContentMode.FIT_CENTER)
-        }
 
 }
 
