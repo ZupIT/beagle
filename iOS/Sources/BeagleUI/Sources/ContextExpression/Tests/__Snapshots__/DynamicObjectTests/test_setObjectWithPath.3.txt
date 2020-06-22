@@ -1,0 +1,16 @@
+▿ DynamicObject
+  ▿ dictionary: 3 key/value pairs
+    ▿ (2 elements)
+      - key: "a"
+      ▿ value: DynamicObject
+        - string: "update"
+    ▿ (2 elements)
+      - key: "b"
+      ▿ value: DynamicObject
+        - string: "update"
+    ▿ (2 elements)
+      - key: "c"
+      ▿ value: DynamicObject
+        ▿ array: 1 element
+          ▿ DynamicObject
+            - string: "update"

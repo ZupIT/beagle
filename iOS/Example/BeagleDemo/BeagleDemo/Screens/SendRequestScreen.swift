@@ -31,7 +31,7 @@ let sendRequestDeclarativeScreen: Screen = {
                     onPress: [SendRequest(
                         url: "https://httpbin.org/post",
                         method: .post,
-                        data: ["@{myContext}"],
+                        data: "@{myContext}",
                         headers: [
                             "Content-Type": "application/json",
                             "sample-header-1": "HeaderContent1",
@@ -40,8 +40,8 @@ let sendRequestDeclarativeScreen: Screen = {
                         onSuccess: [
                             Alert(
                                 title: "Success!",
-                                message: "Sucess sending Request",
-                                labelOk: "Dismiss"
+                                message: "request data: @{onSuccess.data.json}",
+                                labelOk: "ok"
                             )
                         ],
                         onError: [

@@ -16,13 +16,13 @@
 
 public struct SetContext: RawAction, AutoInitiable {
     public let context: String
-    public let path: String?
+    public let path: Path?
     public let value: DynamicObject
     
 // sourcery:inline:auto:SetContext.Init
     public init(
         context: String,
-        path: String? = nil,
+        path: Path? = nil,
         value: DynamicObject
     ) {
         self.context = context

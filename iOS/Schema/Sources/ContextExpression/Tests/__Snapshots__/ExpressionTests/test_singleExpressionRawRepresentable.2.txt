@@ -1,0 +1,15 @@
+▿ 10 elements
+  ▿ Optional<String>
+    - some: "@{client}"
+  ▿ Optional<String>
+    - some: "@{client2name}"
+  ▿ Optional<String>
+    - some: "@{2clientphones[0]}"
+  ▿ Optional<String>
+    - some: "@{client_[2].matrix[1][1]}"
+  - Optional<String>.none
+  - Optional<String>.none
+  - Optional<String>.none
+  - Optional<String>.none
+  - Optional<String>.none
+  - Optional<String>.none

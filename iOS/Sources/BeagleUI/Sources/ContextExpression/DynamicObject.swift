@@ -71,7 +71,9 @@ extension DynamicObject: ExpressibleByFloatLiteral {
 extension DynamicObject: ExpressibleByStringLiteral {
     public init(stringLiteral value: String) {
         if let expression = SingleExpression(rawValue: value) {
-            self = .expression(expression)
+            self = .expression(.single(expression))
+        } else if let expression = MultipleExpression(rawValue: value) {
+            self = .expression(.multiple(expression))
         } else {
             self = .string(value)
         }
@@ -92,4 +94,108 @@ extension DynamicObject: ExpressibleByDictionaryLiteral {
         elements.forEach { dictionary[$0.0] = $0.1 }
         self = .dictionary(dictionary)
     }
+}
+
+// MARK: Set value with Path
+
+extension DynamicObject {
+
+    mutating func set(_ value: DynamicObject, forPath path: Path) {
+        let object = _compilePath(value, path)
+        self = self.merge(object)
+    }
+    
+    func merge(_ other: DynamicObject) -> DynamicObject {
+        return _mergeDynamicObjects(self, other)
+    }
+}
+
+private func _compilePath(_ value: DynamicObject, _ path: Path) -> DynamicObject {
+    
+    guard let pathElement = path.nodes.first else {
+        return value
+    }
+    
+    let remainingPath = Path(nodes: Array(path.nodes[1..<path.nodes.count]))
+    
+    if remainingPath.nodes.isEmpty {
+        
+        if case .key(let name) = pathElement {
+            return .dictionary([name: value])
+        }
+        
+        if case .index(let idx) = pathElement {
+            
+            let size = idx + 1
+            var array: [DynamicObject] = Array(
+                repeating: .empty,
+                count: size
+            )
+            
+            array[idx] = value
+            
+            return .array(array)
+        }
+    }
+    
+    var object: DynamicObject = .empty
+    
+    if case .key(let name) = pathElement {
+        object = .dictionary([name: _compilePath(value, remainingPath)])
+    }
+    
+    if case .index(let idx) = pathElement {
+        
+        let size = idx + 1
+        var array: [DynamicObject] = Array(
+            repeating: .empty,
+            count: size
+        )
+        
+        array[idx] = _compilePath(value, remainingPath)
+        
+        object = .array(array)
+    }
+    
+    return object
+}
+
+private func _mergeDynamicObjects(_ d1: DynamicObject, _ d2: DynamicObject) -> DynamicObject {
+    
+    guard case .dictionary(let dict1) = d1, case .dictionary(let dict2) = d2 else {
+        return d2
+    }
+    
+    var dObject: [String: DynamicObject] = [:]
+    
+    let d1Keys = dict1.keys
+    let d2Keys = dict2.keys
+    
+    for k in d1Keys where !d2Keys.contains(k) {
+        dObject[k] = dict1[k]
+    }
+
+    for k in d2Keys where !d1Keys.contains(k) {
+        dObject[k] = dict2[k]
+    }
+
+    let commonKeys = d1Keys.filter {
+        d2Keys.contains($0)
+    }
+
+    for k in commonKeys {
+
+        guard let d1Obj = dict1[k], let d2Obj = dict2[k] else {
+            continue
+        }
+        
+        if case .dictionary = d1Obj, case .dictionary = d2Obj {
+            dObject[k] = _mergeDynamicObjects(d1Obj, d2Obj)
+            continue
+        }
+
+        dObject[k] = d2Obj
+    }
+    
+    return .dictionary(dObject)
 }
