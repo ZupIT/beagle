@@ -21,26 +21,22 @@ import org.json.JSONObject
 import java.util.*
 
 internal class JsonPathReplacer(
-    private val jsonPathFinder: JsonPathFinder = JsonPathFinder()
+    private val jsonCreateTree: JsonCreateTree = JsonCreateTree()
 ) {
 
-    fun replace(keys: LinkedList<String>, newValue: Any, root: Any): Boolean {
+    fun replace(keys: LinkedList<String>, newValue: Any, root: Any): Pair<Boolean, Any> {
         return when {
-            keys.isEmpty() -> false
-            keys.size == 1 -> replaceValue(keys.poll(), newValue, root)
+            keys.isEmpty() -> false to root
             else -> {
                 val lastKey = keys.pollLast()
-                val foundValue = jsonPathFinder.find(keys, root)
-                return replaceValue(lastKey, newValue, foundValue)
+                val rootAndValue = jsonCreateTree.walkingTreeAndFindKey(root, keys)
+                val isReplaced = replaceValue(lastKey, newValue, rootAndValue.second)
+                return isReplaced to rootAndValue.first
             }
         }
     }
 
     private fun replaceValue(key: String, value: Any, foundValue: Any?): Boolean {
-        if (key.endsWith("]") && foundValue !is JSONArray) {
-            throw JsonPathUtils.createArrayExpectedException()
-        }
-
         return when (foundValue) {
             is JSONObject -> {
                 foundValue.put(key, value)

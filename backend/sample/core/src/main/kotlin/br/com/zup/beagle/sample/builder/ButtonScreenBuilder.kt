@@ -46,10 +46,14 @@ object ButtonScreenBuilder : ScreenBuilder {
         child = Container(
             context = ContextData(
                 id = "context",
-                value = Person(name = "asdasads")
+                value = Person(name = "asdasads",
+                    person = Person(teste = "aaaa",
+                        name = "dd"),
+                    teste = "teste initial")
             ),
             children = listOf(
-                Text(text = expressionOf("@{context.name.d[0].e}")),
+                Text(text = expressionOf("@{context.person.teste}")),
+                Text(text = expressionOf("@{context.teste}")),
                 Button(
                     text = "Ok",
                     onPress = listOf(
@@ -73,13 +77,13 @@ object ButtonScreenBuilder : ScreenBuilder {
                     )
                 ),
 
-                Text(text = expressionOf("@{context.person.person.name}")),
+                Text(text = expressionOf("@{context.d[2].e[0].name.name}")),
                 Button(
                     text = "Ok",
                     onPress = listOf(
                         SetContext(
                             contextId = "context",
-                            path = "context.person.person",
+                            path = "context.d[2].e[0].name",
                             value = Person(name = "uzias")
                         )
                     )

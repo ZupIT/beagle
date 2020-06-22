@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.context
 
 import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
+import br.com.zup.beagle.android.jsonpath.JsonCreateTree
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.jsonpath.JsonPathReplacer
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
@@ -28,7 +29,6 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.IllegalStateException
 import java.lang.reflect.Type
-import java.util.LinkedList
 
 internal data class ContextBinding(
     val context: ContextData,
@@ -102,55 +102,18 @@ internal class ContextDataManager(
         } else {
             return try {
                 val keys = contextPathResolver.getKeysFromPath(context.id, path)
-                createNewValue(context.value, keys)
-                jsonPathReplacer.replace(keys, value, context.value)
+                val result = jsonPathReplacer.replace(keys, value, context.value)
+                if (result.second.javaClass != context.value.javaClass) {
+                    val newContext = context.copy(value = value)
+                    contexts[context.id] = contextBinding.copy(context = newContext)
+                    return true
+                }
+                result.first
             } catch (ex: Exception) {
                 BeagleMessageLogs.errorWhileTryingToChangeContext(ex)
                 false
             }
         }
-    }
-
-    private fun createNewValue(value: Any, keys: LinkedList<String>): Any? {
-        var newValue: Any? = value
-        val nextKeys = keys.clone() as LinkedList<String>
-        var key = nextKeys.poll()
-        while (key != null) {
-            val nextKey = nextKeys.poll()
-
-            if (key.startsWith("[")) {
-                if (newValue !is JSONArray) {
-                    newValue = JSONArray(arrayListOf<Any>())
-                }
-                newValue = createJsonArray(newValue, key, nextKey)
-            } else if (newValue is JSONObject) {
-                var objectCreated: Any = JSONObject()
-                if (nextKey?.startsWith("[") == true) {
-                    val jsonArray = newValue.optJSONArray(key) ?: JSONArray(arrayListOf<Any>())
-                    objectCreated = createJsonArray(jsonArray, nextKey, null)
-                }
-
-                newValue.put(key, objectCreated)
-                newValue = objectCreated
-            }
-            key = nextKey
-        }
-
-        return value
-    }
-
-    private fun createJsonArray(jsonArray: JSONArray, key: String, nextKey: String?): Any {
-        val position = key.replace("[^0-9]".toRegex(), "").toInt()
-        val opt = jsonArray.opt(position)
-        if (opt == JSONObject.NULL || opt == null) {
-            val json = JSONObject()
-            jsonArray.put(position, if (nextKey != null) json else JSONObject.NULL)
-            if (nextKey != null) {
-                json.put(nextKey, null)
-                return json
-            }
-        }
-        return jsonArray
     }
 
 
