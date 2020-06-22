@@ -20,8 +20,9 @@ import BeagleSchema
 
 extension Confirm: Action {
     public func execute(controller: BeagleController, sender: Any) {
-        guard let view = sender as? UIView else { return }
-        let alertController = UIAlertController(title: title?.get(with: view), message: message.get(with: view), preferredStyle: .alert)
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+        alertController.title = title?.get(with: alertController.view)
+        alertController.message = message.get(with: alertController.view)
                
         let onPressOkAction = UIAlertAction(title: labelOk ?? "Ok", style: .default) {
             [weak controller] _ in guard let controller = controller else { return }
