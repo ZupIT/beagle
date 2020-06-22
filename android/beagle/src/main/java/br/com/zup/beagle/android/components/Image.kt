@@ -27,6 +27,7 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ImageContentMode
 import com.bumptech.glide.Glide
@@ -52,7 +53,7 @@ data class Image(val path: PathType, val mode: ImageContentMode? = null) : Widge
                 imageView
             }
             is PathType.Remote -> {
-                if (flex?.size != null) {
+                if (style?.size != null) {
                     makeImageView(rootView).apply {
                         Glide.with(this).load(path.url).into(this)
                     }
@@ -60,7 +61,7 @@ data class Image(val path: PathType, val mode: ImageContentMode? = null) : Widge
                     viewFactory.makeBeagleFlexView(rootView.getContext()).also {
                         it.addView(makeImageView(rootView).apply {
                             this.loadImage(it)
-                        }, flex ?: Flex())
+                        }, style ?: Style())
                     }
                 }
             }

@@ -27,7 +27,9 @@ import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ImageContentMode
@@ -62,7 +64,7 @@ class ImageViewRendererTest : BaseComponentTest() {
     private val requestBuilder: RequestBuilder<Bitmap> = mockk()
     private val requestBuilderDrawable: RequestBuilder<Drawable> = mockk()
     private val bitmap: Bitmap = mockk()
-    private val flex = Flex(size = Size(width = 100.unitReal(), height = 100.unitReal()))
+    private val style = Style(size = Size(width = 100.unitReal(), height = 100.unitReal()))
     private val onRequestListenerSlot = slot<CustomTarget<Bitmap>>()
 
     private lateinit var imageLocal: Image
@@ -87,7 +89,7 @@ class ImageViewRendererTest : BaseComponentTest() {
         every { anyConstructed<ComponentStylization<Image>>().apply(any(), any()) } just Runs
 
         imageLocal = Image(PathType.Local(""))
-        imageRemote = Image(PathType.Remote(DEFAULT_URL)).applyFlex(flex)
+        imageRemote = Image(PathType.Remote(DEFAULT_URL)).applyStyle(style)
     }
 
     @Test
@@ -169,7 +171,7 @@ class ImageViewRendererTest : BaseComponentTest() {
     @Test
     fun build_should_call_makeBeagleFlexView_when_component_has_not_flex() {
         // Given
-        imageRemote.flex = null
+        imageRemote.style = null
 
         // When
         val view = imageRemote.buildView(rootView)
@@ -177,7 +179,7 @@ class ImageViewRendererTest : BaseComponentTest() {
         // Then
         Assert.assertTrue(view is BeagleFlexView)
         verify(exactly = once()) { anyConstructed<ViewFactory>().makeBeagleFlexView(any()) }
-        verify(exactly = once()) { beagleFlexView.addView(any(), any<Flex>()) }
+        verify(exactly = once()) { beagleFlexView.addView(any(), any<Style>()) }
     }
 
     @Test
@@ -185,7 +187,7 @@ class ImageViewRendererTest : BaseComponentTest() {
         // Given
         val height = 100
         every { bitmap.height } returns height
-        imageRemote.flex = null
+        imageRemote.style = null
 
         // When
         callBuildAndRequest()
