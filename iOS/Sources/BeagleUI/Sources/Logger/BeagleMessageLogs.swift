@@ -35,6 +35,7 @@ public enum Log {
     case form(_ form: Form)
     case navigation(_ navigator: Navigator)
     case cache(_ cache: Cache)
+    case expression(_ expression: Expression)
 
     public enum Decoding {
         case decodingError(type: String)
@@ -105,6 +106,10 @@ public enum Log {
             return string
         }
     }
+
+    public enum Expression {
+        case invalidSyntax
+    }
 }
 
 extension Log: LogType {
@@ -116,6 +121,7 @@ extension Log: LogType {
         case .navigation: return "Navigation"
         case .network: return "Network"
         case .cache: return "Cache"
+        case .expression: return "Expression"
         }
     }
 
@@ -159,6 +165,9 @@ extension Log: LogType {
             return "Cold not load remove register from cache: \(description)"
         case .cache(.clear(let description)):
             return "Cold clear registers from cache: \(description)"
+
+        case .expression(.invalidSyntax):
+            return "Using Expressions without proper syntax"
         }
     }
 
@@ -190,6 +199,9 @@ extension Log: LogType {
         
         case .cache:
             return .error
+
+        case .expression(.invalidSyntax):
+            return .info
         }
     }
 }

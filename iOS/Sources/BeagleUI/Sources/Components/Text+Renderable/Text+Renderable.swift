@@ -30,26 +30,21 @@ extension Text: Widget {
         textView.textContainer.lineBreakMode = .byTruncatingTail
         textView.font = .systemFont(ofSize: 16)
         textView.backgroundColor = .clear
-        
-        if let textAlignment = alignment?.get(with: textView, controller: renderer.controller, updateFunction: { aligment in
-            textView.textAlignment = aligment.toUIKit()
-        }) {
-            textView.textAlignment = textAlignment.toUIKit()
-        } else {
-            textView.textAlignment = .natural
+
+        renderer.observe(text, andUpdate: \.text, in: textView)
+
+        renderer.observe(alignment, andUpdate: \.textAlignment, in: textView) { alignment in
+            alignment?.toUIKit() ?? .natural
         }
-        
-        textView.text = text.get(with: textView, controller: renderer.controller) { string in textView.text = string }
+
+        renderer.observe(textColor, andUpdate: \.textColor, in: textView) {
+            $0.flatMap { UIColor(hex: $0) }
+        }
 
         if let styleId = styleId?.get(with: textView, controller: renderer.controller, updateFunction: { styleId in
             renderer.controller.dependencies.theme.applyStyle(for: textView, withId: styleId)
         }) {
             renderer.controller.dependencies.theme.applyStyle(for: textView, withId: styleId)
-        }
-        if let color = textColor?.get(with: textView, controller: renderer.controller, updateFunction: { color in
-            textView.textColor = UIColor(hex: color)
-        }) {
-            textView.textColor = UIColor(hex: color)
         }
         
         return textView

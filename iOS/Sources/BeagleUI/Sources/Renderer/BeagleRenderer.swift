@@ -80,4 +80,38 @@ open class BeagleRenderer {
             view.setContext(context)
         }
     }
+
+    func observe<E, V: UIView>(
+        _ expression: Expression<E>?,
+        andUpdate keyPath: ReferenceWritableKeyPath<V, E>,
+        in view: V
+    ) {
+        observe(expression, in: view) {
+            guard let value = $0 else { return }
+            DispatchQueue.main.async { view[keyPath: keyPath] = value }
+        }
+    }
+
+    func observe<E, V: UIView, P>(
+        _ expression: Expression<E>?,
+        andUpdate keyPath: ReferenceWritableKeyPath<V, P>,
+        in view: V,
+        transformation: @escaping (E?) -> P
+    ) {
+        observe(expression, in: view) { value in
+            DispatchQueue.main.async { view[keyPath: keyPath] = transformation(value) }
+        }
+    }
+
+    func observe<E>(
+        _ expression: Expression<E>?,
+        in view: UIView,
+        updateFunction: @escaping (E?) -> Void
+    ) {
+        if let exp = expression {
+            exp.observe(view: view, controller: controller, updateFunction: updateFunction)
+        } else {
+            updateFunction(nil)
+        }
+    }
 }

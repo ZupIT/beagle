@@ -39,26 +39,29 @@ let componentInteractionScreen: Screen = {
 let declarativeScreen: Screen = {
     return Screen(
         navigationBar: NavigationBar(title: "Component Interaction", showBackButton: true),
-        child: Container(
-            children:
-            [
-                TextInput(
-                    label: "",
-                    onChange: [
-                        SetContext(
-                            context: "myContext",
-                            value: "@{onChange.value}"
-                        )
-                    ]
-                ),
-                Text("@{myContext}"),
-                Button(
-                    text: "ok",
-                    onPress: [SetContext(
+        child: Container(children:[
+            TextInput(
+                label: "",
+                onChange: [
+                    SetContext(
                         context: "myContext",
-                        value: "button value"
-                    )]
-                )
+                        path: "text",
+                        value: "@{onChange.value}"
+                    )
+                ]
+            ),
+            Text("@{myContext.text}", alignment: "@{myContext.alignment}", textColor: "@{myContext.textColor}"),
+            Button(
+                text: "ok",
+                onPress: [SetContext(
+                    context: "myContext",
+                    value: [
+                        "text": "button value",
+                        "alignment": "RIGHT",
+                        "textColor": "#FF2020"
+                    ]
+                )]
+            )
             ],
             context: Context(id: "myContext", value: "")
         )
