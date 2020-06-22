@@ -32,7 +32,7 @@ final class FormValidationTests: XCTestCase {
         let validationSpy = ValidationErrorListenerSpy()
         validationSpy.beagleFormElement = formInput
         let sender = SubmitFormGestureRecognizer(
-            form: Form(action: ActionDummy(), child: ComponentDummy()),
+            form: Form(child: ComponentDummy()),
             formView: validationSpy,
             formSubmitView: validationSpy,
             controller: controller

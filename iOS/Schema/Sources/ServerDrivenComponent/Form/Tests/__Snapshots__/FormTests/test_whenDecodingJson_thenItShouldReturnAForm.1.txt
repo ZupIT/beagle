@@ -1,7 +1,4 @@
 ▿ Form
-  ▿ action: FormRemoteAction
-    - method: Method.post
-    - path: "/sample/form"
   ▿ additionalData: Optional<Dictionary<String, String>>
     ▿ some: 2 key/value pairs
       ▿ (2 elements)
@@ -68,8 +65,8 @@
               - size: Optional<Size>.none
       ▿ FormSubmit
         ▿ child: Button
-          - action: Optional<RawAction>.none
           - clickAnalyticsEvent: Optional<AnalyticsClick>.none
+          - onPress: Optional<Array<RawAction>>.none
           ▿ styleId: Optional<String>
             - some: "DesignSystem.Form.Submit"
           - text: "Submit Form"
@@ -140,4 +137,9 @@
           - size: Optional<Size>.none
   ▿ group: Optional<String>
     - some: "group"
+  ▿ onSubmit: Optional<Array<RawAction>>
+    ▿ some: 1 element
+      ▿ FormRemoteAction
+        - method: Method.post
+        - path: "/sample/form"
   - shouldStoreFields: true

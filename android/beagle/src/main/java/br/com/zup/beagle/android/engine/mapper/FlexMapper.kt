@@ -183,12 +183,6 @@ class FlexMapper {
         edgeValue?.bottom?.let {
             finish(YogaEdge.BOTTOM, it)
         }
-        edgeValue?.start?.let {
-            finish(YogaEdge.START, it)
-        }
-        edgeValue?.end?.let {
-            finish(YogaEdge.END, it)
-        }
         edgeValue?.vertical?.let {
             finish(YogaEdge.VERTICAL, it)
         }

@@ -95,12 +95,6 @@ data class Size(
  * @param bottom
  *               specify the offset the bottom edge of the item should have from
  *               it’s closest sibling (item) or parent (container).
- * @param start
- *               specify the offset the start edge of the item should have from
- *               it’s closest sibling (item) or parent (container).
- * @param end
- *               specify the offset the end edge of the item should have from
- *               it’s closest sibling (item) or parent (container).
  * @param horizontal
  *               specify the offset the horizontal edge of the item should have from
  *               it’s closest sibling (item) or parent (container).
@@ -116,8 +110,6 @@ data class EdgeValue(
     val top: UnitValue? = null,
     val right: UnitValue? = null,
     val bottom: UnitValue? = null,
-    val start: UnitValue? = null,
-    val end: UnitValue? = null,
     val horizontal: UnitValue? = null,
     val vertical: UnitValue? = null,
     val all: UnitValue? = null

@@ -550,28 +550,28 @@ class FlexMapperTest {
     fun makeYogaNode_should_set_margin_as_START_and_1() {
         // Given
         val style = Style(
-            margin = EdgeValue(start = UnitValue(ONE_UNIT_VALUE, UnitType.REAL))
+            margin = EdgeValue(left = UnitValue(ONE_UNIT_VALUE, UnitType.REAL))
         )
 
         // When
         val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
-        verify(exactly = once()) { yogaNode.setMargin(YogaEdge.START, ONE_UNIT_VALUE.toFloat()) }
+        verify(exactly = once()) { yogaNode.setMargin(YogaEdge.LEFT, ONE_UNIT_VALUE.toFloat()) }
     }
 
     @Test
     fun makeYogaNode_should_set_margin_as_END_and_1() {
         // Given
         val style = Style(
-            margin = EdgeValue(end = UnitValue(ONE_UNIT_VALUE, UnitType.REAL))
+            margin = EdgeValue(right = UnitValue(ONE_UNIT_VALUE, UnitType.REAL))
         )
 
         // When
         val yogaNode = flexMapper.makeYogaNode(style)
 
         // Then
-        verify(exactly = once()) { yogaNode.setMargin(YogaEdge.END, ONE_UNIT_VALUE.toFloat()) }
+        verify(exactly = once()) { yogaNode.setMargin(YogaEdge.RIGHT, ONE_UNIT_VALUE.toFloat()) }
     }
 
     @Test

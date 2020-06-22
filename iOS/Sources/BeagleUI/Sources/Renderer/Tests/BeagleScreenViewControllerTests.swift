@@ -301,6 +301,8 @@ class BeagleControllerStub: BeagleController {
         (action as? Action)?.execute(controller: self, sender: sender)
     }
     
-    func execute(actions: [RawAction]?, with context: Context?, sender: Any) {}
+    func execute(actions: [RawAction]?, with context: Context?, sender: Any) {
+        actions?.forEach { execute(action: $0, sender: sender) }
+    }
     
 }
