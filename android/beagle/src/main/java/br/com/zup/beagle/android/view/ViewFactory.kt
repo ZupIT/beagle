@@ -21,6 +21,7 @@ package br.com.zup.beagle.android.view
 import android.content.Context
 import android.view.View
 import android.webkit.WebView
+import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.HorizontalScrollView
 import android.widget.ScrollView
@@ -63,6 +64,8 @@ internal class ViewFactory {
 
     fun makeTextView(context: Context) = TextView(context)
 
+    fun makeInputText(context: Context) = EditText(context)
+
     fun makeAlertDialogBuilder(context: Context) = AlertDialog.Builder(context)
 
     fun makeFrameLayoutParams(width: Int, height: Int) = FrameLayout.LayoutParams(width, height)
@@ -73,7 +76,8 @@ internal class ViewFactory {
 
     fun makeTabLayout(context: Context) = BeagleTabLayout(context)
 
-    fun makeWebView(context: Context) = WebView(context)
+    //we use the context.applicationContext to prevent a crash on android 21
+    fun makeWebView(context: Context) = WebView(context.applicationContext)
 
     fun makeImageView(context: Context, cornerRadius: Double = 0.0) = RoundedImageView(context, cornerRadius)
 

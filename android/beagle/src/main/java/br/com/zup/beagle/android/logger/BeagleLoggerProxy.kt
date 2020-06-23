@@ -31,7 +31,7 @@ internal object BeagleLoggerProxy : BeagleLogger {
     }
 
     override fun error(message: String, throwable: Throwable) = runIfEnable{
-        logger.error(message)
+        logger.error(message, throwable)
     }
 
     override fun info(message: String) = runIfEnable{

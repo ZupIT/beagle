@@ -165,14 +165,14 @@ extension FormSubmit {
 extension Image {
 
     enum CodingKeys: String, CodingKey {
-        case name
+        case path
         case contentMode
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        name = try container.decode(String.self, forKey: .name)
+        path = try container.decode(PathType.self, forKey: .path)
         contentMode = try container.decodeIfPresent(ImageContentMode.self, forKey: .contentMode)
         widgetProperties = try WidgetProperties(from: decoder)
     }
@@ -229,23 +229,6 @@ extension NavigationBarItem {
         text = try container.decode(String.self, forKey: .text)
         action = try container.decode(forKey: .action)
         accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
-    }
-}
-
-// MARK: NetworkImage Decodable
-extension NetworkImage {
-
-    enum CodingKeys: String, CodingKey {
-        case path
-        case contentMode
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        path = try container.decode(String.self, forKey: .path)
-        contentMode = try container.decodeIfPresent(ImageContentMode.self, forKey: .contentMode)
-        widgetProperties = try WidgetProperties(from: decoder)
     }
 }
 
@@ -343,6 +326,39 @@ extension Text {
         styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
         alignment = try container.decodeIfPresent(Alignment.self, forKey: .alignment)
         textColor = try container.decodeIfPresent(String.self, forKey: .textColor)
+        widgetProperties = try WidgetProperties(from: decoder)
+    }
+}
+
+// MARK: TextInput Decodable
+extension TextInput {
+
+    enum CodingKeys: String, CodingKey {
+        case value
+        case placeholder
+        case disabled
+        case readOnly
+        case type
+        case hidden
+        case styleId
+        case onChange
+        case onBlur
+        case onFocus
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        value = try container.decodeIfPresent(Expression<String>.self, forKey: .value)
+        placeholder = try container.decodeIfPresent(Expression<String>.self, forKey: .placeholder)
+        disabled = try container.decodeIfPresent(Expression<Bool>.self, forKey: .disabled)
+        readOnly = try container.decodeIfPresent(Expression<Bool>.self, forKey: .readOnly)
+        type = try container.decodeIfPresent(Expression<TextInputType>.self, forKey: .type)
+        hidden = try container.decodeIfPresent(Expression<Bool>.self, forKey: .hidden)
+        styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
+        onChange = try container.decodeIfPresent(forKey: .onChange)
+        onBlur = try container.decodeIfPresent(forKey: .onBlur)
+        onFocus = try container.decodeIfPresent(forKey: .onFocus)
         widgetProperties = try WidgetProperties(from: decoder)
     }
 }

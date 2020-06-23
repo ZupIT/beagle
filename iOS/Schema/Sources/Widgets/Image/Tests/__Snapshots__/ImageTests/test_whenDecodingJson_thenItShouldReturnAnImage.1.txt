@@ -1,7 +1,8 @@
 ▿ Image
   ▿ contentMode: Optional<ImageContentMode>
     - some: ImageContentMode.center
-  - name: "test_image_square-x"
+  ▿ path: PathType
+    - local: "test_image_square-x"
   ▿ widgetProperties: WidgetProperties
     - accessibility: Optional<Accessibility>.none
     - id: Optional<String>.none

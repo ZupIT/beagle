@@ -41,10 +41,10 @@ struct Page {
     var content: Container {
         return Container(
             children: [
-                Text("Text with alignment atribute set to center", alignment: .center),
-                Text("Text with alignment atribute set to right", alignment: .right),
-                Text("Text with alignment atribute set to left", alignment: .left),
-                NetworkImage(path: .NETWORK_IMAGE_BEAGLE)
+                Text("Text with alignment attribute set to center", alignment: .center),
+                Text("Text with alignment attribute set to right", alignment: .right),
+                Text("Text with alignment attribute set to left", alignment: .left),
+                Image(.network(.NETWORK_IMAGE_BEAGLE))
             ]
         ).applyFlex(Flex().justifyContent(.spaceBetween).grow(1))
     }

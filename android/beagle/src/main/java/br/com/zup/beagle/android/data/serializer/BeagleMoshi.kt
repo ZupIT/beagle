@@ -20,6 +20,7 @@ import br.com.zup.beagle.android.data.serializer.adapter.AndroidActionJsonAdapte
 import br.com.zup.beagle.android.data.serializer.adapter.BindAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.ContextDataAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.ComponentJsonAdapterFactory
+import br.com.zup.beagle.android.data.serializer.adapter.ImagePathTypeJsonAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.RouteAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -29,6 +30,7 @@ internal object BeagleMoshi {
     val moshi: Moshi by lazy {
         Moshi.Builder()
             .add(BindAdapterFactory())
+            .add(ImagePathTypeJsonAdapterFactory.make())
             .add(ComponentJsonAdapterFactory.make())
             .add(RouteAdapterFactory())
             .add(AndroidActionJsonAdapterFactory.make())
