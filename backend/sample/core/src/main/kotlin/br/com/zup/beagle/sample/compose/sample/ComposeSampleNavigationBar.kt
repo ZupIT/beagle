@@ -16,9 +16,7 @@
 
 package br.com.zup.beagle.sample.compose.sample
 
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_TITLE
@@ -29,7 +27,6 @@ import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_BAR_TEXT_END
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.ComposeComponent
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.ui.Button
