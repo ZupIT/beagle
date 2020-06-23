@@ -45,7 +45,7 @@ internal var styleManagerFactory = StyleManager()
 
 data class TabView(
     val children: List<TabItem>,
-    val styleId: String? = null,
+    val styleId: Bind<String>? = null,
     override val context: ContextData? = null
 ) : WidgetView(), ContextComponent {
 
