@@ -25,7 +25,7 @@ import br.com.zup.beagle.android.context.Bind
 typealias Observer<T> = (value: T) -> Unit
 
 // This method should be used if its inside a ServerDrivenComponent
-internal fun <T> Bind<T>.evaluate(
+internal fun <T> Bind<T>.observe(
     rootView: RootView,
     observes: Observer<T>? = null
 ): T? {
@@ -71,9 +71,8 @@ private fun <T> evaluateExpression(
 ): T? {
     val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
     return if (caller != null) {
-        viewModel.evaluateImplicitContextBinding(caller, bind) as? T?
+        viewModel.evaluateExpressionForImplicitContext(caller, bind) as? T?
     } else {
-        viewModel.contextDataManager.addBindingToContext(bind)
-        viewModel.contextDataManager.evaluateBinding(bind) as? T?
+        viewModel.evaluateBinding(bind) as? T?
     }
 }

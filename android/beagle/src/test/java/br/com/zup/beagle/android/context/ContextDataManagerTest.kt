@@ -218,7 +218,7 @@ class ContextDataManagerTest {
         every { contextDataEvaluation.evaluateBindExpression(contextData, bindModel) } returns model
 
         // When
-        contextDataManager.evaluateAllContext()
+        contextDataManager.evaluateContexts()
 
         // Then
         verify { bindModel.notifyChange(model) }

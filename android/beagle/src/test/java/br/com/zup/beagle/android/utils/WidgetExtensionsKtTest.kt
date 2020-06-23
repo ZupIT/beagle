@@ -22,13 +22,11 @@ import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.context.ContextDataManager
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
-import br.com.zup.beagle.android.engine.renderer.FragmentRootView
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
-import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.every
 import io.mockk.mockk
@@ -40,7 +38,7 @@ import kotlin.test.assertEquals
 class WidgetExtensionsKtTest : BaseTest() {
 
     private val rootView = mockk<ActivityRootView>()
-    private val contextDataManager = mockk<ContextDataManager>(relaxed = true)
+    private val viewModel = mockk<ScreenContextViewModel>(relaxed = true)
 
     private val viewFactoryMock: ViewFactory = mockk(relaxed = true)
 
@@ -52,8 +50,8 @@ class WidgetExtensionsKtTest : BaseTest() {
         every { rootView.activity } returns mockk()
 
         every {
-            ViewModelProviderFactory.of(any<AppCompatActivity>())[ScreenContextViewModel::class.java].contextDataManager
-        } returns contextDataManager
+            ViewModelProviderFactory.of(any<AppCompatActivity>())[ScreenContextViewModel::class.java]
+        } returns viewModel
 
         viewFactory = viewFactoryMock
     }
@@ -71,7 +69,7 @@ class WidgetExtensionsKtTest : BaseTest() {
 
         // Then
         assertEquals(view, actual)
-        verify(exactly = once()) { contextDataManager.evaluateAllContext() }
+        verify(exactly = once()) { viewModel.evaluateContexts() }
     }
 
     @Test

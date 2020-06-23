@@ -65,7 +65,7 @@ internal class ContextDataManager(
         } ?: false
     }
 
-    fun evaluateAllContext() {
+    fun evaluateContexts() {
         contexts.forEach { entry ->
             notifyBindingChanges(entry.value)
         }

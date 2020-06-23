@@ -41,9 +41,9 @@ data class SendRequest(
     val headers: Bind<Map<String, String>>? = null,
     @property:ContextDataValue
     val data: Any? = null,
-    val onSuccess: Action? = null,
-    val onError: Action? = null,
-    val onFinish: Action? = null
+    val onSuccess: List<Action>? = null,
+    val onError: List<Action>? = null,
+    val onFinish: List<Action>? = null
 ) : Action {
 
     constructor(
@@ -51,9 +51,9 @@ data class SendRequest(
         method: RequestActionMethod = RequestActionMethod.GET,
         headers: Map<String, String>? = null,
         data: Any? = null,
-        onSuccess: Action? = null,
-        onError: Action? = null,
-        onFinish: Action? = null
+        onSuccess: List<Action>? = null,
+        onError: List<Action>? = null,
+        onFinish: List<Action>? = null
     ) : this(
         Bind.Value(url),
         Bind.Value(method),
@@ -68,25 +68,24 @@ data class SendRequest(
         val viewModel = rootView.generateViewModelInstance<ActionRequestViewModel>()
 
         viewModel.fetch(toSendRequestInternal(rootView)).observe(rootView.getLifecycleOwner(), Observer { state ->
-            executeActions(rootView, this, state)
+            executeActions(rootView, state)
         })
     }
 
     private fun executeActions(
         rootView: RootView,
-        action: SendRequest,
         state: ActionRequestViewModel.FetchViewState
     ) {
-        action.onFinish?.let {
-            action.handleEvent(rootView, it, "onFinish")
+        onFinish?.let {
+            handleEvent(rootView, it, "onFinish")
         }
 
         when (state) {
-            is ActionRequestViewModel.FetchViewState.Error -> action.onError?.let {
-                action.handleEvent(rootView, it, "onError", state.response)
+            is ActionRequestViewModel.FetchViewState.Error -> onError?.let {
+                handleEvent(rootView, it, "onError", state.response)
             }
-            is ActionRequestViewModel.FetchViewState.Success -> action.onSuccess?.let {
-                action.handleEvent(rootView, it, "onSuccess", state.response)
+            is ActionRequestViewModel.FetchViewState.Success -> onSuccess?.let {
+                handleEvent(rootView, it, "onSuccess", state.response)
             }
         }
     }
@@ -107,7 +106,7 @@ internal data class SendRequestInternal(
     val method: RequestActionMethod = RequestActionMethod.GET,
     val headers: Map<String, String>?,
     val data: Any? = null,
-    val onSuccess: Action? = null,
-    val onError: Action? = null,
-    val onFinish: Action? = null
+    val onSuccess: List<Action>? = null,
+    val onError: List<Action>? = null,
+    val onFinish: List<Action>? = null
 )

@@ -32,34 +32,23 @@ import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.unmockkAll
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class StringExtensionsKtTest : BaseTest() {
+class StringExtensionsKtTest{
 
     private val colorSlot = slot<String>()
 
-    private val rootView = mockk<ActivityRootView>(relaxed = true)
-    private val viewModel = mockk<ScreenContextViewModel>()
-    private val viewModelProvider = mockk<ViewModelProvider>()
-    private val contextDataManager = mockk<ContextDataManager>()
-
-    override fun setUp() {
-        super.setUp()
-
+    @Before
+    fun setUp() {
         mockkStatic(Color::class)
-        mockkObject(ViewModelProviderFactory)
         every { Color.parseColor(capture(colorSlot)) } returns 0
-        every { BeagleEnvironment.beagleSdk.config } returns mockk(relaxed = true)
-        every { BeagleEnvironment.beagleSdk.logger } returns mockk()
-        every { ViewModelProviderFactory.of(any<AppCompatActivity>()) } returns viewModelProvider
-        every { viewModelProvider.get(ScreenContextViewModel::class.java) } returns viewModel
-        every { viewModel.contextDataManager } returns contextDataManager
-        every { contextDataManager.addBindingToContext(any()) } just Runs
     }
 
-    override fun tearDown() {
-        super.tearDown()
+    @After
+    fun tearDown() {
         unmockkAll()
     }
 

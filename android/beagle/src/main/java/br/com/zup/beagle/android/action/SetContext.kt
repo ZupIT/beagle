@@ -37,7 +37,7 @@ data class SetContext(
 
     override fun execute(rootView: RootView) {
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
-        viewModel.contextDataManager.updateContext(toInternalSetContext(rootView))
+        viewModel.updateContext(toInternalSetContext(rootView))
     }
 
     private fun toInternalSetContext(rootView: RootView) = SetContextInternal(

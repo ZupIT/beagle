@@ -26,8 +26,7 @@ internal class ContextComponentHandler {
     fun handleContext(rootView: RootView, component: ServerDrivenComponent) {
         if (component is ContextComponent) {
             component.context?.let { context ->
-                rootView.generateViewModelInstance<ScreenContextViewModel>()
-                    .contextDataManager.addContext(context)
+                rootView.generateViewModelInstance<ScreenContextViewModel>().addContext(context)
             }
         }
     }

@@ -76,7 +76,7 @@ fun <T> ServerDrivenComponent.observeBindChanges(
     bind: Bind<T>,
     observes: Observer<T>? = null
 ) {
-    bind.evaluate(rootView, observes)
+    bind.observe(rootView, observes)
 }
 
 /**
@@ -94,6 +94,6 @@ fun ServerDrivenComponent.toView(fragment: Fragment) = this.toView(FragmentRootV
 internal fun ServerDrivenComponent.toView(rootView: RootView): View {
     return viewFactory.makeBeagleFlexView(rootView.getContext()).apply {
         addServerDrivenComponent(this@toView, rootView)
-        rootView.generateViewModelInstance<ScreenContextViewModel>().contextDataManager.evaluateAllContext()
+        rootView.generateViewModelInstance<ScreenContextViewModel>().evaluateContexts()
     }
 }

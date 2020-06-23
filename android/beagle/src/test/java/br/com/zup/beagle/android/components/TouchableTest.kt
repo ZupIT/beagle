@@ -52,7 +52,7 @@ class TouchableViewRenderer : BaseComponentTest() {
     override fun setUp() {
         super.setUp()
 
-        mockkStatic("br.com.zup.beagle.android.utils.ActionExtensionsKt")
+        mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
 
         touchable = Touchable(touchableAction, mockk(relaxed = true))
 

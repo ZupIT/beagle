@@ -48,8 +48,10 @@ import io.mockk.mockkConstructor
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
+import io.mockk.unmockkAll
 import io.mockk.verify
 import io.mockk.verifyOrder
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -85,7 +87,7 @@ class FormTest : BaseComponentTest() {
         super.setUp()
 
         mockkStatic("br.com.zup.beagle.android.components.utils.ViewExtensionsKt")
-        mockkStatic("br.com.zup.beagle.android.utils.ActionExtensionsKt")
+        mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
         mockkObject(BeagleMessageLogs)
         mockkConstructor(FormValidatorController::class)
         mockkConstructor(FormValidation::class)
@@ -124,6 +126,11 @@ class FormTest : BaseComponentTest() {
         form = Form(onSubmit = listOf(mockk(relaxed = true)), child = mockk())
 
         every { form.handleEvent(any(), any<Action>(), any()) } just Runs
+    }
+
+    @After
+    override fun tearDown() {
+        unmockkAll()
     }
 
     @Test
