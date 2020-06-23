@@ -48,7 +48,7 @@ internal class BeagleTypeSerializerTest {
 
     @Test
     fun serialize_custom_ServerDrivenComponent_should_have_component_beagleType_field_with_custom_prefix() =
-        testComponentSerialize(CustomWidget, "$CUSTOM_WIDGET_BEAGLE_NAMESPACE:customWidget")
+        testComponentSerialize(CustomWidget, "$CUSTOM_BEAGLE_NAMESPACE:customWidget")
 
     @Test
     fun serialize_Action_should_have_action_beagleType_field() = testSerialize(Navigate.PopStack()) {
