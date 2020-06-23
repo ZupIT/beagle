@@ -157,7 +157,7 @@ class ContextDataManagerTest {
         val contextData = ContextData(CONTEXT_ID, json)
         val updateContext = SetContextInternal(CONTEXT_ID, false, "a")
         contexts[contextData.id] = ContextBinding(contextData, mutableListOf())
-        every { jsonPathReplacer.replace(any(), any(), any()) } returns true
+//        every { jsonPathReplacer.replace(any(), any(), any()) } returns true
 
         // When
         val result = contextDataManager.updateContext(updateContext)

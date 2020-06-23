@@ -26,7 +26,7 @@ class JsonCreateTreeTest {
     @Test
     fun `should create sequence of array when not existing`() {
         val result = JsonCreateTree().walkingTreeAndFindKey(JSONArray(),
-            JsonPathUtils.splitKeys("[0].[1].[0].[2].[3]")).first
+            JsonPathUtils.splitKeys("[0].[1].[0].[2].[3]"), JSONObject.NULL)
 
         assertEquals(COMPLEX_JSON_ARRAY_WITH_NO_VALUES.toString(), result.toString())
     }
@@ -34,7 +34,7 @@ class JsonCreateTreeTest {
     @Test
     fun `should create sequence of array when an existing a sequence`() {
         val result = JsonCreateTree().walkingTreeAndFindKey(COMPLEX_JSON_ARRAY_WITH_VALUES,
-            JsonPathUtils.splitKeys("[0].[1].[0].[2].[3]")).first
+            JsonPathUtils.splitKeys("[0].[1].[0].[2].[3]"), JSONObject.NULL)
 
         assertEquals(COMPLEX_JSON_ARRAY_WITH_VALUES_RESULT.toString(), result.toString())
     }
@@ -42,25 +42,24 @@ class JsonCreateTreeTest {
     @Test
     fun `should create sequence of object when not existing sequence`() {
         val result = JsonCreateTree().walkingTreeAndFindKey(JSONObject(),
-            JsonPathUtils.splitKeys("address.city.name.city")).first
+            JsonPathUtils.splitKeys("address.city.name.city"), JSONObject.NULL)
+
         assertEquals(COMPLEX_JSON_OBJECT_WITH_NO_VALUES.toString(), result.toString())
     }
 
     @Test
     fun `should create sequence of object when existing a sequence`() {
         val result = JsonCreateTree().walkingTreeAndFindKey(COMPLEX_JSON_OBJECT_WITH_VALUES,
-            JsonPathUtils.splitKeys("address.city.name")).first
+            JsonPathUtils.splitKeys("address.city.name"), JSONObject.NULL)
 
         assertEquals(COMPLEX_JSON_OBJECT_WITH_VALUES_RESULT.toString(), result.toString())
-
     }
 
     @Test
     fun `should create sequence of object when current tree is array`() {
         val result = JsonCreateTree().walkingTreeAndFindKey(JSONArray(),
-            JsonPathUtils.splitKeys("address.city.name.city")).first
+            JsonPathUtils.splitKeys("address.city.name.city"), JSONObject.NULL)
 
         assertEquals(COMPLEX_JSON_OBJECT_WITH_NO_VALUES.toString(), result.toString())
-
     }
 }

@@ -16,8 +16,6 @@
 
 package br.com.zup.beagle.android.jsonpath
 
-import org.json.JSONArray
-import org.json.JSONObject
 import java.util.*
 
 internal class JsonPathReplacer(
@@ -28,26 +26,9 @@ internal class JsonPathReplacer(
         return when {
             keys.isEmpty() -> false to root
             else -> {
-                val lastKey = keys.pollLast()
-                val rootAndValue = jsonCreateTree.walkingTreeAndFindKey(root, keys)
-                val isReplaced = replaceValue(lastKey, newValue, rootAndValue.second)
-                return isReplaced to rootAndValue.first
+                val newRoot = jsonCreateTree.walkingTreeAndFindKey(root, keys, newValue)
+                return true to newRoot
             }
-        }
-    }
-
-    private fun replaceValue(key: String, value: Any, foundValue: Any?): Boolean {
-        return when (foundValue) {
-            is JSONObject -> {
-                foundValue.put(key, value)
-                true
-            }
-            is JSONArray -> {
-                val arrayIndex = JsonPathUtils.getIndexOnArrayBrackets(key)
-                foundValue.put(arrayIndex, value)
-                true
-            }
-            else -> false
         }
     }
 }

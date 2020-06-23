@@ -77,13 +77,13 @@ object ButtonScreenBuilder : ScreenBuilder {
                     )
                 ),
 
-                Text(text = expressionOf("@{context.d[2].e[0].name.name}")),
+                Text(text = expressionOf("@{context.[0].[0].name}")),
                 Button(
                     text = "Ok",
                     onPress = listOf(
                         SetContext(
                             contextId = "context",
-                            path = "context.d[2].e[0].name",
+                            path = "context.[0].[0]",
                             value = Person(name = "uzias")
                         )
                     )

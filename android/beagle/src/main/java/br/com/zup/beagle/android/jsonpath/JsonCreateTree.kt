@@ -22,10 +22,12 @@ import java.util.LinkedList
 
 class JsonCreateTree {
 
-    fun walkingTreeAndFindKey(root: Any, keys: LinkedList<String>): Pair<Any, Any> {
+    fun walkingTreeAndFindKey(root: Any, keys: LinkedList<String>, newValue: Any?): Any {
         var newJson = root
 
-        var key = keys.poll()
+        @Suppress("UNCHECKED_CAST")
+        val copyOfKeys = keys.clone() as LinkedList<String>
+        var key = copyOfKeys.poll()
 
         val keyIsArray = key.isArray()
         if (newJson is JSONObject && keyIsArray) {
@@ -36,30 +38,34 @@ class JsonCreateTree {
 
         var currentTree: Any = newJson
         while (key != null) {
-            val nextKey = keys.poll()
+            val nextKey = copyOfKeys.poll()
 
             if (key.isArray()) {
                 if (currentTree !is JSONArray) {
                     currentTree = JSONArray()
                 }
                 currentTree = createJsonArrayToNextKey(currentTree, key, nextKey)
+                if (nextKey == null) {
+                    (currentTree as JSONArray).put(JsonPathUtils.getIndexOnArrayBrackets(key), newValue)
+                }
+
             } else if (currentTree is JSONObject) {
                 var json: Any = currentTree.optJSONObject(key) ?: JSONObject()
                 if (nextKey.isArray()) {
                     val jsonArray = currentTree.optJSONArray(key) ?: JSONArray()
                     json = createJsonArrayToNextKey(jsonArray, nextKey!!, null)
                 }
-                currentTree.put(key, if (nextKey == null) JSONObject.NULL else json)
+                currentTree.put(key, if (nextKey == null) newValue else json)
                 currentTree = json
             }
 
             key = nextKey
         }
-        return Pair(newJson, currentTree)
+        return newJson
     }
 
     private fun createJsonArrayToNextKey(jsonArray: JSONArray, key: String, nextKey: String?): Any {
-        val position = key.replace("[^0-9]".toRegex(), "").toInt()
+        val position = JsonPathUtils.getIndexOnArrayBrackets(key)
         var opt = jsonArray.opt(position)
         if (opt == JSONObject.NULL || opt == null) {
             val json: Any = if (nextKey.isArray()) JSONArray() else JSONObject()
