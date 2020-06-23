@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.sample.widgets
 
+import android.graphics.Color
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.android.action.Action
@@ -26,19 +27,26 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.annotation.RegisterWidget
 
+data class Person(
+    val name: String,
+    val age: Int
+)
+
 @RegisterWidget
 data class Input(
-    val hint: Bind<String>,
+    val hint: Bind<Person>,
     val onTextChange: List<Action>? = null
 ) : WidgetView() {
 
     override fun buildView(rootView: RootView) = EditText(rootView.getContext()).apply {
+        setTextColor(Color.BLACK)
+        setHintTextColor(Color.BLACK)
         doOnTextChanged { newText, _, _, _ ->
             val actions = onTextChange ?: emptyList()
             this@Input.handleEvent(rootView, actions, "onTextChange", newText.toString())
         }
         this@Input.hint.get(rootView) {
-            this@apply.hint = it
+            this@apply.hint = "name: ${it.name}, age: ${it.age}"
         }
     }
 }

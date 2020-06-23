@@ -22,13 +22,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.components.Image
+import br.com.zup.beagle.android.components.PathType
 import br.com.zup.beagle.android.components.LazyComponent
 import br.com.zup.beagle.android.components.ListView
-import br.com.zup.beagle.android.components.NetworkImage
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.android.utils.toView
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.android.components.layout.Container
@@ -38,7 +40,7 @@ import br.com.zup.beagle.widget.core.ListDirection
 
 class ListViewFragment : Fragment() {
 
-    private val flex = Flex(size = Size(width = 100.unitReal(), height = 100.unitReal()))
+    private val style = Style(size = Size(width = 100.unitReal(), height = 100.unitReal()))
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,7 +57,7 @@ class ListViewFragment : Fragment() {
         direction = ListDirection.HORIZONTAL,
         children = listOf(
             Text("0000"),
-            Text("0001").applyFlex(flex),
+            Text("0001").applyStyle(style),
             Text("0002"),
             Text("0003"),
             Text("0004"),
@@ -72,12 +74,14 @@ class ListViewFragment : Fragment() {
             Text("0011"),
             Text("0012"),
             Text("0013"),
-            Image(name = "beagle"),
+            Image(PathType.Local("beagle")),
             Text("0014"),
             Text("0015"),
             Text("0016"),
-            NetworkImage(
-                path = "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271"
+            Image(
+                PathType.Remote(
+                    "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271"
+                )
             ),
             Text("0017"),
             Text("0018"),

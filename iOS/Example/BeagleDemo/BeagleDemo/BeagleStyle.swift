@@ -30,7 +30,8 @@ struct AppTheme {
         .FORM_SUBMIT_STYLE: Self.formButton,
         .NAVIGATION_BAR_GREEN_STYLE: Self.designSystemStyleNavigationBar,
         .NAVIGATION_BAR_DEFAULT_STYLE: Self.designSystemStyleNavigationBarDefault,
-        .TAB_VIEW_STYLE: Self.tabView
+        .TAB_VIEW_STYLE: Self.tabView,
+        .TEXT_INPUT_STYLE: Self.designSystemTextInput
     ])
     
     static func blackTextNormalStyle() -> (UITextView?) -> Void {
@@ -47,6 +48,13 @@ struct AppTheme {
     
     static func designSystemTextActionClick() -> (UITextView?) -> Void {
         return BeagleStyle.text(font: .boldSystemFont(ofSize: 40), color: .black)
+    }
+    
+    static func designSystemTextInput() -> (UITextField?) -> Void {
+        return {
+            $0?.textColor = .black
+            $0?.font = .boldSystemFont(ofSize: 30)
+        }
     }
     
     static func designSystemStylishButton() -> (UIButton?) -> Void {

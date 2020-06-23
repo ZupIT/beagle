@@ -16,8 +16,10 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
 import br.com.zup.beagle.sample.constants.TEXT_NETWORK_IMAGE
@@ -25,15 +27,17 @@ import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ImageContentMode
+import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.layout.ScrollView
-import br.com.zup.beagle.widget.ui.NetworkImage
+import br.com.zup.beagle.widget.ui.Image
+import br.com.zup.beagle.widget.ui.ImagePath.Local
+import br.com.zup.beagle.widget.ui.ImagePath.Remote
 import br.com.zup.beagle.widget.ui.Text
 
 object NetworkImageScreenBuilder : ScreenBuilder {
@@ -44,7 +48,7 @@ object NetworkImageScreenBuilder : ScreenBuilder {
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
-                    image = "informationImage",
+                    image = Local.justMobile("informationImage"),
                     action = Alert(
                         title = "NetworkImage",
                         message = "It is a widget that implements an image with a URL.",
@@ -63,17 +67,14 @@ object NetworkImageScreenBuilder : ScreenBuilder {
     private fun buildImage(title: String, mode: ImageContentMode? = null) = Container(
         children = listOf(
             buildText(title),
-            NetworkImage(
-                path = BEACH_NETWORK_IMAGE,
-                contentMode = mode
-            ).applyFlex(
+            Image(Remote(BEACH_NETWORK_IMAGE), mode).applyStyle(Style(
                 flex = Flex(
-                    size = Size(
-                        width = 150.unitReal(),
-                        height = 130.unitReal()
-                    ),
                     alignSelf = AlignSelf.CENTER
-                )
+                ),
+                size = Size(
+                    width = 150.unitReal(),
+                    height = 130.unitReal()
+                ))
             )
         )
     )
@@ -81,12 +82,12 @@ object NetworkImageScreenBuilder : ScreenBuilder {
     private fun buildText(text: String) = Text(
         text = text,
         styleId = TEXT_NETWORK_IMAGE
-    ).applyFlex(
+    ).applyStyle(Style(
         flex = Flex(
-            alignSelf = AlignSelf.CENTER,
-            margin = EdgeValue(
-                top = 8.unitReal()
-            )
-        )
+            alignSelf = AlignSelf.CENTER
+        ),
+        margin = EdgeValue(
+            top = 8.unitReal()
+        ))
     )
 }

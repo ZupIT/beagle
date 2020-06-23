@@ -16,20 +16,23 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ListDirection
+import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.layout.extensions.dynamic
+import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.Text
 
@@ -41,7 +44,7 @@ object ListViewScreenBuilder : ScreenBuilder {
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
-                    image = "informationImage",
+                    image = Local.justMobile("informationImage"),
                     action = Alert(
                         title = "ListView",
                         message = "Is a Layout component that will define a list of views natively. " +
@@ -65,19 +68,19 @@ object ListViewScreenBuilder : ScreenBuilder {
     private fun getStaticListView(listDirection: ListDirection) = Container(
         children = listOf(
             Text("Static $listDirection ListView")
-                .applyFlex(Flex(
+                .applyStyle(Style(
                     margin = EdgeValue(bottom = 10.unitReal())
                 )),
             ListView(children = (1..10).map(this::createText), direction = listDirection)
         )
-    ).applyFlex(Flex(
+    ).applyStyle(Style(
         margin = EdgeValue(bottom = 20.unitReal())
     ))
 
     private fun getDynamicListView(listDirection: ListDirection) = Container(
         children = listOf(
             Text("Dynamic $listDirection ListView")
-                .applyFlex(Flex(
+                .applyStyle(Style(
                     margin = EdgeValue(bottom = 10.unitReal())
                 )),
             ListView.dynamic(size = 20, direction = listDirection, rowBuilder = this::createText)

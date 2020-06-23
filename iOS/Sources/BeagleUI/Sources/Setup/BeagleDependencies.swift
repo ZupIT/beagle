@@ -26,7 +26,7 @@ public protocol BeagleDependenciesProtocol: BeagleSchema.Dependencies,
     DependencyNavigationController,
     DependencyNavigation,
     DependencyViewConfigurator,
-    DependencyFlexConfigurator,
+    DependencyStyleViewConfigurator,
     DependencyTheme,
     DependencyValidatorProvider,
     DependencyPreFetching,
@@ -78,8 +78,8 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         return BeagleRenderer(controller: $0)
     }
 
-    public var flex: (UIView) -> FlexViewConfiguratorProtocol = {
-        return FlexViewConfigurator(view: $0)
+    public var style: (UIView) -> StyleViewConfiguratorProtocol = {
+        return StyleViewConfigurator(view: $0)
     }
 
     public var viewConfigurator: (UIView) -> ViewConfiguratorProtocol = {

@@ -42,9 +42,9 @@ final class LayoutManager {
     
     public func applyLayout() {
         guard let view = viewController.viewIfLoaded else { return }
-        let flex = Flex(padding: contentPadding)
-        view.flex.setup(flex)
-        view.flex.applyLayout()
+        let style = Style(padding: contentPadding)
+        view.style.setup(style)
+        view.style.applyLayout()
     }
     
     // MARK: - Private

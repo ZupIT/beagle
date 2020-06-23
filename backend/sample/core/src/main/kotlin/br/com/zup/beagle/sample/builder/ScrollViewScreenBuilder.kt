@@ -16,20 +16,23 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.TEXT_FONT_MAX
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.layout.ScrollView
+import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.Text
 
 object ScrollViewScreenBuilder : ScreenBuilder {
@@ -40,7 +43,7 @@ object ScrollViewScreenBuilder : ScreenBuilder {
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
-                    image = "informationImage",
+                    image = Local.justMobile("informationImage"),
                     action = Alert(
                         title = "ScrollView",
                         message = "This component is a specialized container that will display its " +
@@ -73,8 +76,7 @@ object ScrollViewScreenBuilder : ScreenBuilder {
                 scrollDirection = ScrollAxis.VERTICAL
             )
         )
-    ).applyFlex(
-        flex = Flex(
+    ).applyStyle(Style(
             size = Size(
                 height = 130.unitReal(),
                 width = 100.unitPercent()

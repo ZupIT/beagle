@@ -23,7 +23,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.android.utils.toView
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
@@ -33,9 +34,11 @@ import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Image
+import br.com.zup.beagle.android.components.PathType
 import br.com.zup.beagle.android.components.TabItem
 import br.com.zup.beagle.android.components.TabView
 import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.widget.core.TextAlignment
 
@@ -51,8 +54,8 @@ class TabViewFragment : Fragment() {
                 buildTabView(
                     title = "Title 1",
                     child = Container(children = listOf(
-                        Text("Content").applyFlex(
-                            Flex(
+                        Text("Content").applyStyle(
+                            Style(
                                 margin = EdgeValue(
                                     top = UnitValue(
                                         10.0,
@@ -61,7 +64,7 @@ class TabViewFragment : Fragment() {
                                 )
                             )
                         ),
-                        Image("imageBeagle")
+                        Image(PathType.Local("imageBeagle"))
                     ))),
                 buildTabView(title = "Title 2", child = Button("button")),
                 buildTabView(
@@ -102,7 +105,7 @@ class TabViewFragment : Fragment() {
         return TabItem(
             title = title,
             child = child,
-            icon = "ic_launcher_foreground"
+            icon = PathType.Local("ic_launcher_foreground")
         )
     }
 

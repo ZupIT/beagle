@@ -30,6 +30,7 @@ import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
+import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.Text
 
 object TextScreenBuilder : ScreenBuilder {
@@ -40,7 +41,7 @@ object TextScreenBuilder : ScreenBuilder {
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
-                    image = "informationImage",
+                    image = Local.justMobile("informationImage"),
                     action = Alert(
                         title = "Text",
                         message = "This widget will define a text view natively using the server driven " +
@@ -70,8 +71,7 @@ object TextScreenBuilder : ScreenBuilder {
         appearanceColor: String? = null
     ) =
         Text(text = text, styleId = styleId)
-            .applyFlex(
-                flex = Flex(
+            .applyStyle(Style(
                     margin = EdgeValue(
                         top = 16.unitReal(),
                         left = 16.unitReal(),

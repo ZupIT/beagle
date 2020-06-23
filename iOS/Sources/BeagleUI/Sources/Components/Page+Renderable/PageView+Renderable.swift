@@ -36,7 +36,7 @@ extension PageView: ServerDrivenComponent {
             indicatorView: indicatorView
         )
         
-        view.flex.setup(Flex(grow: 1.0))
+        view.style.setup(Style(flex: Flex(grow: 1.0)))
         return view
     }
 }

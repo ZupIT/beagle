@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -17,23 +16,44 @@
 
 import Foundation
 
-public struct Image: RawWidget, AutoInitiableAndDecodable {
-    
+public struct Image: RawWidget, AutoDecodable {
+
     // MARK: - Public Properties
-    
-    public let name: String
+    public let path: PathType
     public let contentMode: ImageContentMode?
     public var widgetProperties: WidgetProperties
     
-// sourcery:inline:auto:Image.Init
     public init(
-        name: String,
+        _ path: PathType,
         contentMode: ImageContentMode? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
-        self.name = name
+        self.path = path
         self.contentMode = contentMode
         self.widgetProperties = widgetProperties
     }
-// sourcery:end
+    
+    public enum PathType: Decodable {
+        case network(String)
+        case local(String)
+        
+        enum CodingKeys: String, CodingKey {
+            case type = "_beagleImagePath_"
+            case url
+            case mobileId
+        }
+        
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            
+            let type = try container.decode(String.self, forKey: .type)
+            if type == "local" {
+                let mobileId = try container.decode(String.self, forKey: .mobileId)
+                self = .local(mobileId)
+            } else {
+                let url = try container.decode(String.self, forKey: .url)
+                self = .network(url)
+            }
+        }
+    }
 }

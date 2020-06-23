@@ -20,7 +20,6 @@ import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.FlexBuilder
 
 /**
  * Add an identifier to this widget.
@@ -35,16 +34,8 @@ fun <T : Widget> T.setId(id: String) = this.apply { this.id = id }
  *
  * @return the current widget
  */
-fun <T : Widget> T.applyFlex(flex: Flex) = this.apply { this.flex = flex }
-
-/**
- * Apply the layout component.
- *
- * @see FlexBuilder
- *
- * @return the current widget
- */
-fun <T : Widget> T.buildAndApplyFlex(flexBuilder: FlexBuilder) = this.applyFlex(flexBuilder.build())
+fun <T : Widget> T.applyFlex(flex: Flex) = this.apply {
+    this.style = (this.style ?: Style()).copy(flex = flex) }
 
 /**
  * Apply the appearance.

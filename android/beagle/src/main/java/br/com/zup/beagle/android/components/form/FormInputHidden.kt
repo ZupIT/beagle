@@ -18,10 +18,10 @@ package br.com.zup.beagle.android.components.form
 
 import android.view.View
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.FlexPositionType
+import br.com.zup.beagle.core.PositionType
 
 data class FormInputHidden(
     val name: String,
@@ -33,7 +33,7 @@ data class FormInputHidden(
 
     override fun buildView(rootView: RootView): View {
         return viewFactory.makeBeagleFlexView(rootView.getContext(),
-            flex = Flex(positionType = FlexPositionType.ABSOLUTE)).apply {
+            style = Style(positionType = PositionType.ABSOLUTE)).apply {
             tag = this@FormInputHidden
             visibility = View.GONE
         }

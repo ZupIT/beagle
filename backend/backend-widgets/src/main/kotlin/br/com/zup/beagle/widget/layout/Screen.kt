@@ -16,13 +16,14 @@
 
 package br.com.zup.beagle.widget.layout
 
-import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.analytics.ScreenAnalytics
 import br.com.zup.beagle.analytics.ScreenEvent
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.widget.action.Action
+import br.com.zup.beagle.widget.ui.ImagePath
 
 /**
  * The SafeArea will enable Safe areas to help you place your views within the visible portion of the overall interface.
@@ -57,7 +58,7 @@ data class SafeArea(
 
 data class NavigationBarItem(
     val text: String,
-    val image: String? = null,
+    val image: ImagePath.Local? = null,
     val action: Action,
     val accessibility: Accessibility? = null
 ) : IdentifierComponent {
