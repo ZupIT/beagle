@@ -72,9 +72,13 @@ internal class BeagleTypeSerializer : BeanSerializerBase {
         setup()
     }
 
-    override fun withObjectIdWriter(objectIdWriter: ObjectIdWriter?) = BeagleTypeSerializer(this, objectIdWriter)
+    override fun withObjectIdWriter(objectIdWriter: ObjectIdWriter?) = BeagleTypeSerializer(
+        this,
+        objectIdWriter)
 
-    override fun withIgnorals(toIgnore: MutableSet<String>?) = BeagleTypeSerializer(this, toIgnore)
+    override fun withIgnorals(toIgnore: MutableSet<String>?) = BeagleTypeSerializer(
+        this,
+        toIgnore)
 
     override fun asArraySerializer() = BeagleTypeSerializer(this, this.classLoader)
 
@@ -110,7 +114,10 @@ internal class BeagleTypeSerializer : BeanSerializerBase {
         }
     }
 
-    private fun getPrefixByAnnotation(beanClass: Class<out Any>, annotationQualifiedName: String?, beanName: String?): String {
+    private fun getPrefixByAnnotation(
+        beanClass: Class<out Any>,
+        annotationQualifiedName: String?,
+        beanName: String?): String {
         return if (beanClass.annotations.any { it.annotationClass.qualifiedName == annotationQualifiedName }) {
             "$CUSTOM_BEAGLE_NAMESPACE:$beanName"
         } else {
