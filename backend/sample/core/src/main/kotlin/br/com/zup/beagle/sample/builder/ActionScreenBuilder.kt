@@ -73,11 +73,7 @@ object ActionScreenBuilder : ScreenBuilder {
         children = listOf(
             Text("Action dialog"),
             Touchable(
-                action = Alert(
-                    title = "Some",
-                    message = "Action",
-                    labelOk = "OK"
-                ),
+                createAlert("Some"),
                 child = Text("Click me!").applyFlex(
                     Flex(
                         alignSelf = AlignSelf.CENTER
@@ -162,25 +158,13 @@ object ActionScreenBuilder : ScreenBuilder {
                 onPress = listOf(SendRequest(
                     url = SCREEN_ACTION_CLICK_ENDPOINT,
                     onSuccess = listOf(
-                        Alert(
-                            title = "Success",
-                            message = "Action",
-                            labelOk = "OK"
-                        )
+                        createAlert("Success")
                     ),
                     onError = listOf(
-                        Alert(
-                            title = "Error",
-                            message = "Action",
-                            labelOk = "OK"
-                        )
+                        createAlert("Error")
                     ),
                     onFinish = listOf(
-                        Alert(
-                            title = "Finish",
-                            message = "Action",
-                            labelOk = "OK"
-                        )
+                        createAlert("Finish")
                     )
                 )),
                 text = "Click me!"
@@ -197,19 +181,19 @@ object ActionScreenBuilder : ScreenBuilder {
                     message = "Action",
                     labelOk = "OK",
                     labelCancel = "Cancel",
-                    onPressCancel = Alert(
-                        title = "Finish",
-                        message = "Action",
-                        labelOk = "OK"
-                    ),
-                    onPressOk = Alert(
-                        title = "Finish",
-                        message = "Action",
-                        labelOk = "OK"
-                    )
+                    onPressCancel = createAlert("Cancel"),
+                    onPressOk = createAlert("Finish")
                 )),
                 text = "Click me!"
             )
         )
     )
+
+    private fun createAlert(title: String): Alert{
+        return Alert(
+            title = title,
+            message = "Action",
+            labelOk = "OK"
+        )
+    }
 }
