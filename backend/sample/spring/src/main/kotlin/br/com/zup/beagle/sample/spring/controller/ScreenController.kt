@@ -50,6 +50,7 @@ import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TOUCHABLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_WEB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.QAFLAG
+import br.com.zup.beagle.sample.constants.SCREEN_FLEX_ENDPOINT
 import br.com.zup.beagle.sample.spring.service.AccessibilityService
 import br.com.zup.beagle.sample.spring.service.SampleActionClickService
 import br.com.zup.beagle.sample.spring.service.SampleActionService
@@ -73,6 +74,7 @@ import br.com.zup.beagle.sample.spring.service.SampleTextService
 import br.com.zup.beagle.sample.spring.service.SampleTouchableService
 import br.com.zup.beagle.sample.spring.service.SampleViewService
 import br.com.zup.beagle.sample.spring.service.SampleWebViewService
+import br.com.zup.beagle.sample.spring.service.ScreenFlexService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.PathVariable
@@ -101,7 +103,8 @@ class ScreenController(
     private val sampleActionClickService: SampleActionClickService,
     private val sampleAnalyticsService: SampleAnalyticsService,
     private val sampleWebViewService: SampleWebViewService,
-    private val sampleSafeArea: SampleSafeAreaService
+    private val sampleSafeArea: SampleSafeAreaService,
+    private val sampleFlex: ScreenFlexService
 ) {
     @GetMapping(ACCESSIBILITY_SCREEN_ENDPOINT)
     fun getAccessibilityView(@PathVariable(QAFLAG) qaFlag: Boolean) = this.accessibilityService.createAccessibilityView(qaFlag)
@@ -198,4 +201,6 @@ class ScreenController(
     @GetMapping(SCREEN_SAFE_AREA)
     fun getSampleSafeArea(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleSafeArea.createSafeArea(qaFlag)
 
+    @GetMapping(SCREEN_FLEX_ENDPOINT)
+    fun getSampleFlex(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleFlex.createSampleFlex(qaFlag)
 }
