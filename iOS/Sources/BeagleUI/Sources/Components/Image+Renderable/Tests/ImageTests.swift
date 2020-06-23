@@ -21,7 +21,13 @@ import BeagleSchema
 
 class ImageTests: XCTestCase {
 
-    let dependencies = BeagleDependencies()
+    var dependencies: BeagleDependencies {
+        get {
+            let dependency = BeagleDependencies()
+            dependency.appBundle = Bundle(for: ImageTests.self)
+            return dependency
+        }
+    }
     lazy var controller = BeagleControllerStub(dependencies: dependencies)
     lazy var renderer = BeagleRenderer(controller: controller)
     
