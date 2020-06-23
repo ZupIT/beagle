@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.utils
 
-import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind.Companion.expressionOf
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.widget.RootView
@@ -36,25 +36,5 @@ internal fun String.getExpressions(): List<String> {
         }
     } else {
         emptyList()
-    }
-}
-
-internal fun String.evaluateExpressions(rootView: RootView): Any? {
-    return try {
-        var value: String = this
-        getExpressions().forEach {
-            value = value.replace(
-                "@{$it}",
-                expressionOf<String>("@{${it}}").get(rootView) ?: ""
-            )
-        }
-        when {
-            value.startsWith("{") -> JSONObject(value)
-            value.startsWith("[") -> JSONArray(value)
-            else -> value
-        }
-    } catch (ex: Exception) {
-        BeagleMessageLogs.errorWhileTryingToEvaluateBinding(ex)
-        null
     }
 }

@@ -17,8 +17,8 @@
 package br.com.zup.beagle.android.action
 
 import br.com.zup.beagle.android.annotation.ContextDataValue
+import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.generateViewModelInstance
-import br.com.zup.beagle.android.utils.evaluateExpressions
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 
@@ -42,7 +42,7 @@ data class SetContext(
 
     private fun toInternalSetContext(rootView: RootView) = SetContextInternal(
         contextId = this.contextId,
-        value = this.value.toString().evaluateExpressions(rootView) ?: "",
+        value = evaluateExpression(rootView, this.value.toString()) ?: "",
         path = this.path
     )
 }

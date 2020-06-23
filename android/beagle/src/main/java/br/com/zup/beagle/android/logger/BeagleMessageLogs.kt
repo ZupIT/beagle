@@ -103,6 +103,6 @@ internal object BeagleMessageLogs {
 
     fun multipleExpressionsInValueThatIsNotString() {
         val errorMessage = "You are trying to use multiple expressions in a type that is not string!"
-        BeagleLogger.warning(errorMessage)
+        BeagleLoggerProxy.warning(errorMessage)
     }
 }

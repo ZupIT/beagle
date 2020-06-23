@@ -18,9 +18,12 @@ package br.com.zup.beagle.android.utils
 
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.Bind.Companion.expressionOf
 import br.com.zup.beagle.android.context.ContextActionExecutor
+import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.core.ServerDrivenComponent
+import org.json.JSONArray
+import org.json.JSONObject
 
 internal var contextActionExecutor = ContextActionExecutor()
 
@@ -67,5 +70,22 @@ fun <T> Action.evaluateExpression(
     rootView: RootView,
     bind: Bind<T>
 ): T? {
-    return bind.getWithCaller(rootView, this)
+    return bind.evaluateForAction(rootView, this)
+}
+
+internal fun Action.evaluateExpression(
+    rootView: RootView,
+    expressionData: String
+): Any? {
+    return try {
+        val value = expressionOf<String>(expressionData).evaluateForAction(rootView, this) ?: ""
+        when {
+            value.startsWith("{") -> JSONObject(value)
+            value.startsWith("[") -> JSONArray(value)
+            else -> value
+        }
+    } catch (ex: Exception) {
+        BeagleMessageLogs.errorWhileTryingToEvaluateBinding(ex)
+        null
+    }
 }

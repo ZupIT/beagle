@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.utils
 
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
@@ -24,7 +25,7 @@ import br.com.zup.beagle.android.context.Bind
 typealias Observer<T> = (value: T) -> Unit
 
 // This method should be used if its inside a ServerDrivenComponent
-internal fun <T> Bind<T>.get(
+internal fun <T> Bind<T>.evaluate(
     rootView: RootView,
     observes: Observer<T>? = null
 ): T? {
@@ -32,9 +33,9 @@ internal fun <T> Bind<T>.get(
 }
 
 // This method should be used if its inside a Action
-internal fun <T> Bind<T>.getWithCaller(
+internal fun <T> Bind<T>.evaluateForAction(
     rootView: RootView,
-    caller: Any
+    caller: Action
 ): T? {
     return evaluateBind(rootView, this, caller, null)
 }
@@ -42,7 +43,7 @@ internal fun <T> Bind<T>.getWithCaller(
 private fun <T> evaluateBind(
     rootView: RootView,
     bind: Bind<T>,
-    caller: Any? = null,
+    caller: Action? = null,
     observes: Observer<T>?
 ): T? {
     val value = try {
@@ -66,7 +67,7 @@ private fun <T> evaluateBind(
 private fun <T> evaluateExpression(
     rootView: RootView,
     bind: Bind.Expression<T>,
-    caller: Any? = null
+    caller: Action? = null
 ): T? {
     val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
     return if (caller != null) {

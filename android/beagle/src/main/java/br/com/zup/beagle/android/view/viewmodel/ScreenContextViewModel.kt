@@ -44,7 +44,7 @@ internal class ScreenContextViewModel(
     }
 
     // BindCaller is who owns the Bind Attribute
-    fun evaluateImplicitContextBinding(bindCaller: Any, bind: Bind.Expression<*>): Any? {
+    fun evaluateImplicitContextBinding(bindCaller: Action, bind: Bind.Expression<*>): Any? {
         var value: Any? = null
 
         implicitContextData.forEach { entry ->

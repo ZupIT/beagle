@@ -79,7 +79,7 @@ internal class ContextDataEvaluation(
         var text = bind.value
         bind.evaluatedExpressions.forEach {
             val expressionKey = it.key
-            text = text.replace("@\\{$expressionKey\\}".toRegex(), it.value.toString())
+            text = text.replace("@{$expressionKey}", it.value.toString())
         }
         return text
     }

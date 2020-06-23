@@ -212,19 +212,4 @@ class StringExtensionsKtTest : BaseTest() {
         assertEquals("exp1", expressions[0])
         assertEquals("exp2", expressions[1])
     }
-
-    @Test
-    fun `getValueWithEvaluatedExpressions should return a object with evaluated expressions`() {
-        // Given
-        val evaluatedExpression = "Matthew"
-        every { contextDataManager.evaluateBinding(any()) } returns evaluatedExpression
-        val customObjectWithExpression = """{"name":"@{exp1}","age":24}"""
-        val customObjectEvaluated = """{"name":"Matthew","age":24}"""
-
-        // When
-        val result = customObjectWithExpression.evaluateExpressions(rootView)
-
-        // Then
-        assertEquals(customObjectEvaluated, result.toString())
-    }
 }
