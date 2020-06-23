@@ -345,6 +345,39 @@ extension Text {
     }
 }
 
+// MARK: TextInput Decodable
+extension TextInput {
+
+    enum CodingKeys: String, CodingKey {
+        case value
+        case placeholder
+        case disabled
+        case readOnly
+        case type
+        case hidden
+        case styleId
+        case onChange
+        case onBlur
+        case onFocus
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        value = try container.decodeIfPresent(Expression<String>.self, forKey: .value)
+        placeholder = try container.decodeIfPresent(Expression<String>.self, forKey: .placeholder)
+        disabled = try container.decodeIfPresent(Expression<Bool>.self, forKey: .disabled)
+        readOnly = try container.decodeIfPresent(Expression<Bool>.self, forKey: .readOnly)
+        type = try container.decodeIfPresent(Expression<TextInputType>.self, forKey: .type)
+        hidden = try container.decodeIfPresent(Expression<Bool>.self, forKey: .hidden)
+        styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
+        onChange = try container.decodeIfPresent(forKey: .onChange)
+        onBlur = try container.decodeIfPresent(forKey: .onBlur)
+        onFocus = try container.decodeIfPresent(forKey: .onFocus)
+        widgetProperties = try WidgetProperties(from: decoder)
+    }
+}
+
 // MARK: Touchable Decodable
 extension Touchable {
 
