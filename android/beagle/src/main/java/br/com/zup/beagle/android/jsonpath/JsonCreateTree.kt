@@ -44,8 +44,11 @@ class JsonCreateTree {
                 if (currentTree !is JSONArray) {
                     currentTree = JSONArray()
                 }
+                currentTree = createTreeToNextKey(currentTree, key, nextKey)
+                if (nextKey == null) {
+                    (currentTree as JSONArray).put(JsonPathUtils.getIndexOnArrayBrackets(key), newValue)
+                }
 
-                currentTree = createTreeToNextKey(currentTree, key, nextKey, newValue)
             } else if (currentTree is JSONObject) {
 
                 val json: Any = if (nextKey.isArray()) {
@@ -62,7 +65,7 @@ class JsonCreateTree {
         return newJson
     }
 
-    private fun createTreeToNextKey(jsonArray: JSONArray, key: String, nextKey: String?, newValue: Any?): Any {
+    private fun createTreeToNextKey(jsonArray: JSONArray, key: String, nextKey: String?): Any {
         val position = JsonPathUtils.getIndexOnArrayBrackets(key)
         var opt: Any? = jsonArray.optJSONObject(position) ?: jsonArray.optJSONArray(position)
         if (opt == JSONObject.NULL || opt == null) {
@@ -77,9 +80,7 @@ class JsonCreateTree {
             opt = jsonArray
         } else if (nextKey == null) {
             opt = jsonArray
-            opt.put(position, newValue)
         }
-
         return opt
     }
 
