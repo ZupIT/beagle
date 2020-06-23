@@ -51,9 +51,9 @@ data class TabView(
 
     constructor(
         children: List<TabItem>,
-        styleId: String,
+        styleId: String? = null,
         context: ContextData? = null
-    ) : this(children, Bind.valueOf(styleId), context)
+    ) : this(children, Bind.valueOfNullable(styleId), context)
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
