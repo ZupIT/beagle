@@ -36,7 +36,7 @@ extension Button: Widget {
             .compactMap { ($0 as? Navigate)?.newPath }
             .forEach { preFetchHelper.prefetchComponent(newPath: $0) }
         
-        if let styleId = styleId?.get(with: button, controller: renderer.controller, updateFunction: { styleId in button.styleId = styleId }) {
+        styleId?.observe(view: button, controller: renderer.controller) { styleId in
             button.styleId = styleId
         }
         

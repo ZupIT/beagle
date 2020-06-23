@@ -41,9 +41,7 @@ extension Text: Widget {
             $0.flatMap { UIColor(hex: $0) }
         }
 
-        if let styleId = styleId?.get(with: textView, controller: renderer.controller, updateFunction: { styleId in
-            renderer.controller.dependencies.theme.applyStyle(for: textView, withId: styleId)
-        }) {
+        styleId?.observe(view: textView, controller: renderer.controller) { styleId in
             renderer.controller.dependencies.theme.applyStyle(for: textView, withId: styleId)
         }
         

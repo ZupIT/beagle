@@ -19,40 +19,6 @@ import UIKit
 
 public extension Expression {
     
-    func get(
-        with view: UIView,
-        controller: BeagleController,
-        updateFunction: @escaping (T) -> Void
-    ) -> T? {
-        
-        switch self {
-        case let .expression(expression):
-            controller.addBinding {
-                view.configBinding(for: expression, completion: updateFunction)
-            }
-            return nil
-        case let .value(value):
-            return value
-        }
-    }
-    
-    func get(
-        with view: UIView,
-        controller: BeagleController,
-        updateFunction: @escaping (T?) -> Void
-    ) -> T? {
-        
-        switch self {
-        case let .expression(expression):
-            controller.addBinding {
-                view.configBinding(for: expression, completion: updateFunction)
-            }
-            return nil
-        case let .value(value):
-            return value
-        }
-    }
-
     func observe(
         view: UIView,
         controller: BeagleController,
