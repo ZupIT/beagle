@@ -264,8 +264,6 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         assertSnapshotImage(screen, size: .custom(CGSize(width: 256, height: 512)))
     }
 
-    private let renderer = BeagleRenderer(controller: BeagleScreenViewController(Text("")))
-
     private var label = UILabel()
 
     private let valueString = "string"
@@ -279,57 +277,74 @@ final class BeagleScreenViewControllerTests: XCTestCase {
     private lazy var expIntOp: Expression<Int>? = .value(valueInt)
     private let expIntOpNil: Expression<Int>? = nil
 
-//    func testText() {
-//        let label = UILabel()
-//        let renderer = BeagleRenderer(controller: BeagleScreenViewController(Text("")))
-//        
-//        renderer.observe(self.exp, andUpdate: \.text, in: label)
-//        XCTAssert(label.text == self.valueString)
-//
-//        renderer.observe(self.exp, andUpdate: \.text, in: label) { $0.uppercased() }
-//        XCTAssert(label.text == self.valueString.uppercased())
-//
-//        renderer.observe(self.expOp, andUpdate: \.text, in: label)
-//        XCTAssert(label.text == self.valueString)
-//
-//        renderer.observe(self.expOp, andUpdate: \.text, in: label) { $0?.uppercased() }
-//        XCTAssert(label.text == self.valueString.uppercased())
-//
-//        renderer.observe(self.expOpNil, andUpdate: \.text, in: label)
-//        XCTAssert(label.text == nil)
-//
-//        renderer.observe(self.expOpNil, andUpdate: \.text, in: label) { $0 ?? "default" }
-//        XCTAssert(label.text == "default")
-//    }
-//
-//    func testTag() {
-//        renderer.observe(expInt, andUpdate: \.tag, in: label)
-//        XCTAssert(label.tag == valueInt)
-//
-//        renderer.observe(expInt, andUpdate: \.tag, in: label) { $0 * 3 }
-//        XCTAssert(label.tag == valueInt * 3)
-//
-//        renderer.observe(expIntOp, andUpdate: \.tag, in: label) { $0 ?? 3 }
-//        XCTAssert(label.tag == 3)
-//
-//        renderer.observe(expIntOpNil, andUpdate: \.tag, in: label)
-//        XCTAssert(label.tag == 0) // defaultValue
-//
-//        renderer.observe(expIntOpNil, andUpdate: \.tag, in: label) { $0 ?? 3 }
-//        XCTAssert(label.tag == 3)
-//    }
-//
-//    func testManyProperties() {
-//        renderer.observe(exp, andUpdateManyIn: label) {
-//            self.label.text = $0
-//            self.label.isEnabled = $0.isEmpty
-//        }
-//
-//        renderer.observe(expOp, andUpdateManyIn: label) {
-//            self.label.text = $0
-//            self.label.isEnabled = $0?.isEmpty ?? false
-//        }
-//    }
+    private lazy var renderer = BeagleRenderer(controller: controller)
+    private lazy var controller = BeagleScreenViewController(Text(""))
+
+    func testText() {
+        renderer.observe(self.exp, andUpdate: \.text, in: label)
+        XCTAssert(label.text == self.valueString)
+
+        renderer.observe(self.exp, andUpdate: \.text, in: label) { $0.uppercased() }
+        XCTAssert(label.text == self.valueString.uppercased())
+
+        renderer.observe(self.expOp, andUpdate: \.text, in: label)
+        XCTAssert(label.text == self.valueString)
+
+        renderer.observe(self.expOp, andUpdate: \.text, in: label) { $0?.uppercased() }
+        XCTAssert(label.text == self.valueString.uppercased())
+
+        let previous = label.text
+        renderer.observe(self.expOpNil, andUpdate: \.text, in: label)
+        XCTAssert(label.text == previous)
+
+        renderer.observe(self.expOpNil, andUpdate: \.text, in: label) { $0 ?? "default" }
+        XCTAssert(label.text == "default")
+    }
+
+    func testTag() {
+        renderer.observe(expInt, andUpdate: \.tag, in: label)
+        XCTAssert(label.tag == valueInt)
+
+        renderer.observe(expInt, andUpdate: \.tag, in: label) { $0 * 3 }
+        XCTAssert(label.tag == valueInt * 3)
+
+        renderer.observe(expIntOp, andUpdate: \.tag, in: label) { $0 ?? Int.random(in: 0...10) }
+        XCTAssert(label.tag == valueInt)
+
+        let previous = label.tag
+        renderer.observe(expIntOpNil, andUpdate: \.tag, in: label)
+        XCTAssert(label.tag == previous) // defaultValue
+
+        renderer.observe(expIntOpNil, andUpdate: \.tag, in: label) { $0 ?? 3 }
+        XCTAssert(label.tag == 3)
+    }
+
+    func testManyProperties() {
+        let isEnabled : (_ s: String?) -> Bool = { $0?.isEmpty ?? false }
+
+        renderer.observe(exp, andUpdateManyIn: label) {
+            self.label.text = "asdf"
+            self.label.isEnabled = isEnabled($0)
+        }
+        XCTAssert(label.text == "asdf")
+        XCTAssert(label.isEnabled == isEnabled(valueString))
+
+        renderer.observe(expOp, andUpdateManyIn: label) {
+            self.label.text = "qoiwu"
+            self.label.isEnabled = isEnabled($0?.uppercased())
+        }
+        XCTAssert(label.text == "qoiwu")
+        XCTAssert(label.isEnabled == isEnabled(valueString))
+
+        let previousText = label.text
+        let previousIsEnabled = label.isEnabled
+        renderer.observe(expOpNil, andUpdateManyIn: label) {
+            self.label.text = "qoiwu"
+            self.label.isEnabled = isEnabled($0)
+        }
+        XCTAssert(label.text == previousText)
+        XCTAssert(label.isEnabled == previousIsEnabled)
+    }
 }
 
 // MARK: - Testing Helpers
