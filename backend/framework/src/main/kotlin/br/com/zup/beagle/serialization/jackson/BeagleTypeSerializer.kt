@@ -117,7 +117,8 @@ internal class BeagleTypeSerializer : BeanSerializerBase {
     private fun getPrefixByAnnotation(
         beanClass: Class<out Any>,
         annotationQualifiedName: String?,
-        beanName: String?): String {
+        beanName: String?
+    ): String {
         return if (beanClass.annotations.any { it.annotationClass.qualifiedName == annotationQualifiedName }) {
             "$CUSTOM_BEAGLE_NAMESPACE:$beanName"
         } else {
