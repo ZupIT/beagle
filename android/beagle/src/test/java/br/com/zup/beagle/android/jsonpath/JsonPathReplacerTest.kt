@@ -115,15 +115,6 @@ class JsonPathReplacerTest {
     }
 
     @Test
-    fun setValue_should_throw_exception_when_trying_to_access_object_position_with_array() {
-        val keys = JsonPathUtils.splitKeys("b.c[0]")
-
-        assertFails {
-            jsonPathReplacer.replace(keys, JSONObject(), jsonObject)
-        }
-    }
-
-    @Test
     fun setValue_should_throw_exception_when_trying_to_pass_invalid_array_position() {
         val keys = JsonPathUtils.splitKeys("b.h[aa]")
 

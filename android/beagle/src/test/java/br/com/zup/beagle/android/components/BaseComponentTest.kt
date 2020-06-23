@@ -57,7 +57,7 @@ abstract class BaseComponentTest : BaseTest() {
     }
 
     override fun tearDown() {
-        super.setUp()
+        super.tearDown()
         unmockkAll()
     }
 }

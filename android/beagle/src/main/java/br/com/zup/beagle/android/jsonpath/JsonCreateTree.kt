@@ -67,7 +67,7 @@ class JsonCreateTree {
 
     private fun createTreeToNextKey(jsonArray: JSONArray, key: String, nextKey: String?): Any {
         val position = JsonPathUtils.getIndexOnArrayBrackets(key)
-        var opt: Any? = jsonArray.optJSONObject(position)
+        var opt: Any? = jsonArray.optJSONObject(position) ?: jsonArray.optJSONArray(position)
         if (opt == JSONObject.NULL || opt == null) {
             val json: Any = if (nextKey.isArray()) JSONArray() else JSONObject()
             jsonArray.put(position, if (nextKey != null) json else JSONObject.NULL)
