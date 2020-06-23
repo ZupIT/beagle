@@ -16,11 +16,8 @@
 
 package br.com.zup.beagle.android.utils
 
-import android.content.Context
-import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.components.utils.viewExtensionsViewFactory
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
@@ -32,10 +29,22 @@ import br.com.zup.beagle.android.widget.RootView
 
 internal var beagleSerializerFactory = BeagleSerializer()
 
+/**
+ * Load a ServerDrivenComponent into this ViewGroup
+ * @property activity that is parent of this view
+ * @property screenRequest to create your request data to fetch the component
+ * @property listener is called when the loading is started and finished
+ */
 fun ViewGroup.loadView(activity: AppCompatActivity, screenRequest: ScreenRequest, listener: OnStateChanged? = null) {
     loadView(this, ActivityRootView(activity), screenRequest, listener)
 }
 
+/**
+ * Load a ServerDrivenComponent into this ViewGroup
+ * @property fragment that is parent of this view
+ * @property screenRequest to create your request data to fetch the component
+ * @property listener is called when the loading is started and finished
+ */
 fun ViewGroup.loadView(fragment: Fragment, screenRequest: ScreenRequest, listener: OnStateChanged? = null) {
     loadView(this, FragmentRootView(fragment), screenRequest, listener)
 }
@@ -55,39 +64,24 @@ private fun loadView(
     }
 }
 
-private fun <T> isAssignableFrom(
-    viewGroup: View,
-    type: Class<T>
-) = viewGroup.tag != null && type.isAssignableFrom(viewGroup.tag.javaClass)
-
-private fun <T> findChildViewForType(
-    viewGroup: ViewGroup,
-    elementList: MutableList<View>,
-    type: Class<T>
-) {
-
-    if (isAssignableFrom(viewGroup, type))
-        elementList.add(viewGroup)
-
-    viewGroup.children.forEach { childView ->
-        when {
-            childView is ViewGroup -> findChildViewForType(childView, elementList, type)
-            isAssignableFrom(childView, type) -> {
-                elementList.add(childView)
-            }
-        }
-    }
-}
-
-internal inline fun <reified T> ViewGroup.findChildViewForType(type: Class<T>): MutableList<View> {
-    val elementList = mutableListOf<View>()
-
-    findChildViewForType(this, elementList, type)
-
-    return elementList
-}
-
-fun ViewGroup.renderScreen(context: Context, screenJson: String) {
+/**
+ * Render a ServerDrivenComponent into this ViewGroup
+ * @property activity that is parent of this view.
+ * Make sure to use this method if you are inside a Activity because of the lifecycle
+ * @property screenJson that represents your component
+ */
+fun ViewGroup.renderScreen(activity: AppCompatActivity, screenJson: String) {
     removeAllViewsInLayout()
-    addView(beagleSerializerFactory.deserializeComponent(screenJson).toView(context))
+    addView(beagleSerializerFactory.deserializeComponent(screenJson).toView(activity))
+}
+
+/**
+ * Render a ServerDrivenComponent into this ViewGroup
+ * @property fragment <p>that is parent of this view.
+ * Make sure to use this method if you are inside a Fragment because of the lifecycle</p>
+ * @property screenJson that represents your component
+ */
+fun ViewGroup.renderScreen(fragment: Fragment, screenJson: String) {
+    removeAllViewsInLayout()
+    addView(beagleSerializerFactory.deserializeComponent(screenJson).toView(fragment))
 }

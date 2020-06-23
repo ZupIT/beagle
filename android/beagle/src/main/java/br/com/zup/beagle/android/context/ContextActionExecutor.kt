@@ -27,33 +27,35 @@ private const val DEFAULT_KEY_NAME = "value"
 
 internal class ContextActionExecutor {
 
-    fun execute(
+    fun executeActions(
         rootView: RootView,
+        sender: Any,
         actions: List<Action>,
         eventName: String,
         eventValue: Any? = null
     ) {
+        if (eventValue != null) {
+            createImplicitContextForActions(rootView, sender, eventName, eventValue, actions)
+        }
+
         actions.forEach {
-            execute(rootView, it, eventName, eventValue)
+            it.execute(rootView)
         }
     }
 
-    fun execute(
+    private fun createImplicitContextForActions(
         rootView: RootView,
-        action: Action,
+        sender: Any,
         eventName: String,
-        eventValue: Any? = null
+        eventValue: Any,
+        actions: List<Action>
     ) {
-        if (eventValue != null) {
-            val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
-            val contextData = ContextData(
-                id = eventName,
-                value = parseToJSONObject(eventValue)
-            )
-            viewModel.contextDataManager.handleContext(rootView, contextData, action)
-        } else {
-            action.execute(rootView)
-        }
+        val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
+        val contextData = ContextData(
+            id = eventName,
+            value = parseToJSONObject(eventValue)
+        )
+        viewModel.addImplicitContext(contextData, sender, actions)
     }
 
     private fun parseToJSONObject(value: Any): JSONObject {
@@ -65,15 +67,5 @@ internal class ContextActionExecutor {
             val json = BeagleMoshi.moshi.adapter<Any>(value::class.java).toJson(value)
             JSONObject(json)
         }
-    }
-
-    private fun ContextDataManager.handleContext(
-        rootView: RootView,
-        contextData: ContextData,
-        action: Action
-    ) {
-        addContext(contextData)
-        action.execute(rootView)
-        removeContext(contextData.id)
     }
 }
