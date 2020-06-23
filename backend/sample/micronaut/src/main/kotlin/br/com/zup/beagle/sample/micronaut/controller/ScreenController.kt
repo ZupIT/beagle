@@ -50,6 +50,7 @@ import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TOUCHABLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_WEB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.QAFLAG
+import br.com.zup.beagle.sample.constants.SCREEN_FLEX_ENDPOINT
 import br.com.zup.beagle.sample.micronaut.service.AccessibilityService
 import br.com.zup.beagle.sample.micronaut.service.SampleActionClickService
 import br.com.zup.beagle.sample.micronaut.service.SampleActionService
@@ -73,6 +74,7 @@ import br.com.zup.beagle.sample.micronaut.service.SampleTextService
 import br.com.zup.beagle.sample.micronaut.service.SampleTouchableService
 import br.com.zup.beagle.sample.micronaut.service.SampleViewService
 import br.com.zup.beagle.sample.micronaut.service.SampleWebViewService
+import br.com.zup.beagle.sample.micronaut.service.ScreenFlexService
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.PathVariable
@@ -101,7 +103,8 @@ class ScreenController(
     private val sampleActionClickService: SampleActionClickService,
     private val sampleAnalyticsService: SampleAnalyticsService,
     private val sampleWebViewService: SampleWebViewService,
-    private val sampleSafeArea: SampleSafeAreaService
+    private val sampleSafeArea: SampleSafeAreaService,
+    private val sampleFlex: ScreenFlexService
 ) {
     @Get(ACCESSIBILITY_SCREEN_ENDPOINT)
     fun getAccessibilityView(@PathVariable(QAFLAG) qaFlag: Boolean) = this.accessibilityService.createAccessibilityView(qaFlag)
@@ -198,4 +201,6 @@ class ScreenController(
     @Get(SCREEN_SAFE_AREA)
     fun getSampleSafeArea(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleSafeArea.createSafeArea(qaFlag)
 
+    @Get(SCREEN_FLEX_ENDPOINT)
+    fun getSampleFlex(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleFlex.createSampleFlex(qaFlag)
 }

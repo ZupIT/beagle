@@ -54,6 +54,7 @@ const val SCREEN_EXAMPLE_ENDPOINT = "/navigate-example"
 const val SCREEN_ACTION_CLICK_ENDPOINT = "/action-click"
 const val SCREEN_WEB_VIEW_ENDPOINT = "/web-view/$QAFLAG_PLACEHOLDER"
 const val SCREEN_SAFE_AREA = "/safe-area/$QAFLAG_PLACEHOLDER"
+const val SCREEN_FLEX_ENDPOINT = "/flex/$QAFLAG_PLACEHOLDER"
 
 const val CUSTOM_WIDGET_ENDPOINT = "/custom"
 

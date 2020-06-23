@@ -46,6 +46,7 @@ import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TOUCHABLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_WEB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.QAFLAG_PLACEHOLDER
+import br.com.zup.beagle.sample.constants.SCREEN_FLEX_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TAB_VIEW_ENDPOINT
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
@@ -102,7 +103,8 @@ class ComponentScreenBuilder(val aqFlag: Boolean): ScreenBuilder {
                 createMenu("Web View", SCREEN_WEB_VIEW_ENDPOINT),
                 createMenu("Platform", PLATFORM_SAMPLE_ENDPOINT),
                 createMenu("Custom Platform", CUSTOM_PLATFORM_SAMPLE_ENDPOINT),
-                createMenu("Safe Area", SCREEN_SAFE_AREA)
+                createMenu("Safe Area", SCREEN_SAFE_AREA),
+                createMenu("Flex",SCREEN_FLEX_ENDPOINT)
             )
         )
     )
