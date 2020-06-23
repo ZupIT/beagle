@@ -23,46 +23,60 @@ import java.util.LinkedList
 internal class JsonCreateTree {
 
     fun walkingTreeAndFindKey(root: Any, keys: LinkedList<String>, newValue: Any?): Any {
-        var newJson = root
-
         @Suppress("UNCHECKED_CAST")
         val copyOfKeys = keys.clone() as LinkedList<String>
         var key = copyOfKeys.poll()
 
-        val keyIsArray = key.isArray()
-        if (newJson is JSONObject && keyIsArray) {
-            newJson = JSONArray()
-        } else if (newJson is JSONArray && !keyIsArray) {
-            newJson = JSONObject()
-        }
+        val newJson = createInitialTree(root, key)
 
         var currentTree: Any = newJson
         while (key != null) {
             val nextKey = copyOfKeys.poll()
 
             if (key.isArray()) {
-                if (currentTree !is JSONArray) {
-                    currentTree = JSONArray()
-                }
-                currentTree = createTreeToNextKey(currentTree, key, nextKey)
-                if (nextKey == null) {
-                    (currentTree as JSONArray).put(JsonPathUtils.getIndexOnArrayBrackets(key), newValue)
-                }
-
+                currentTree = handleArray(currentTree, key, nextKey, newValue)
             } else if (currentTree is JSONObject) {
-
-                val json: Any = if (nextKey.isArray()) {
-                    currentTree.optJSONArray(key) ?: JSONArray()
-                } else {
-                    currentTree.optJSONObject(key) ?: JSONObject()
-                }
-                currentTree.put(key, if (nextKey == null) newValue else json)
-                currentTree = json
+                currentTree = handleJsonObject(currentTree, key, nextKey, newValue)
             }
 
             key = nextKey
         }
         return newJson
+    }
+
+    private fun createInitialTree(root: Any, key: String?): Any {
+        val keyIsArray = key.isArray()
+        return when {
+            root is JSONObject && keyIsArray -> {
+                JSONArray()
+            }
+            root is JSONArray && !keyIsArray -> {
+                JSONObject()
+            }
+            else -> root
+        }
+    }
+
+    private fun handleArray(currentTree: Any, key: String, nextKey: String?, newValue: Any?): Any {
+        var tree = currentTree
+        if (tree !is JSONArray) {
+            tree = JSONArray()
+        }
+        tree = createTreeToNextKey(tree, key, nextKey)
+        if (nextKey == null) {
+            (tree as JSONArray).put(JsonPathUtils.getIndexOnArrayBrackets(key), newValue)
+        }
+        return tree
+    }
+
+    private fun handleJsonObject(currentTree: JSONObject, key: String, nextKey: String?, newValue: Any?): Any {
+        val json: Any = if (nextKey.isArray()) {
+            currentTree.optJSONArray(key) ?: JSONArray()
+        } else {
+            currentTree.optJSONObject(key) ?: JSONObject()
+        }
+        currentTree.put(key, if (nextKey == null) newValue else json)
+        return json
     }
 
     private fun createTreeToNextKey(jsonArray: JSONArray, key: String, nextKey: String?): Any {
