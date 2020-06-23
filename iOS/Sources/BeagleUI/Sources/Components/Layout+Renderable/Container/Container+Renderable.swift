@@ -44,6 +44,10 @@ extension Container: ServerDrivenComponent {
             containerView.addSubview(view)
         }
         
+        DispatchQueue.global(qos: .default).async {
+            renderer.controller.execute(actions: self.onInit, with: nil, sender: containerView)
+        }
+        
         return containerView
     }
 }

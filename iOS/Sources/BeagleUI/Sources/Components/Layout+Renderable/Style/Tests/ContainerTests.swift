@@ -87,4 +87,44 @@ final class ContainerTests: XCTestCase {
         let screen = Beagle.screen(.declarative(container.toScreen()))
         assertSnapshotImage(screen, size: .custom(ViewImageConfig.iPhoneXr.size!))
     }
+    
+    func test_testActionExecuting() {
+        //Given
+        
+        let expectation = self.expectation(description: "ActionExetuting")
+        let controllerSpy = BeagleControllerSpy()
+        controllerSpy.expectation = expectation
+        
+        let renderer = BeagleRenderer(controller: controllerSpy)
+        let sut = Container(children: [Text("Lorem ipsum")], onInit: [ActionDummy()])
+        
+        //When
+
+        _ = sut.toView(renderer: renderer)
+        
+        //Then
+        
+        waitForExpectations(timeout: 5, handler: nil)
+        XCTAssert(controllerSpy.didCalledExecute)
+    }
+}
+
+class BeagleControllerSpy: BeagleController {
+    
+    var dependencies: BeagleDependenciesProtocol = Beagle.dependencies
+    var serverDrivenState: ServerDrivenState = .loading(false)
+    var screenType: ScreenType = .declarativeText("")
+    var screen: Screen?
+    
+    var expectation: XCTestExpectation?
+    
+    func addBinding(_ update: @escaping () -> Void) { }
+    func execute(action: RawAction, sender: Any) { }
+    
+    private(set) var didCalledExecute = false
+    
+    func execute(actions: [RawAction]?, with context: Context?, sender: Any) {
+        didCalledExecute = true
+        expectation?.fulfill()
+    }
 }
