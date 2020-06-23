@@ -54,11 +54,14 @@ object ComposeListViewQuality: ComposeComponent {
                     getDynamicListView(ListDirection.VERTICAL).applyFlex(Flex(alignItems = AlignItems.FLEX_END)),
                     getDynamicListView(ListDirection.HORIZONTAL).applyFlex(Flex(alignItems = AlignItems.FLEX_START))
                 )
-            ).applyFlex(flex = Flex(
-                alignSelf = AlignSelf.CENTER,
-                size = Size(width = 300.unitReal(),height = 300.unitReal()))).applyStyle(
-                style = Style(backgroundColor = "#4682B4")
+            ).applyStyle(
+                style = Style(
+                    backgroundColor = "#4682B4",
+                    size = Size(width = 300.unitReal(),height = 300.unitReal()),
+                    flex = Flex(alignSelf = AlignSelf.CENTER)
+                )
             ),
+
             Container(
                 children = listOf(
                     ListView(
@@ -102,24 +105,26 @@ object ComposeListViewQuality: ComposeComponent {
     private fun getStaticListView(listDirection: ListDirection) = Container(
         children = listOf(
             Text("Static $listDirection ListView")
-                .applyFlex(Flex(
+                .applyStyle(Style(
                     margin = EdgeValue(bottom = 10.unitReal(),top = 30.unitReal())
                 )),
             ListView(children = (1..5).map(this::createText), direction = listDirection)
         )
-    ).applyFlex(Flex(
+    ).applyStyle(Style(
         margin = EdgeValue(bottom = 20.unitReal())
     ))
 
     private fun getDynamicListView(listDirection: ListDirection) = Container(
         children = listOf(
             Text("Dynamic $listDirection ListView")
-                .applyFlex(Flex(
+                .applyStyle(Style(
                     margin = EdgeValue(bottom = 10.unitReal(),top = 30.unitReal())
                 )),
             ListView.dynamic(size = 5, direction = listDirection, rowBuilder = this::createText)
         )
     )
 
-    private fun createText(index: Int) = Text(text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.")
+    private fun createText(index: Int) = Text(text = "Lorem Ipsum is simply dummy text of the printing and " +
+        "typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
+        "when an unknown printer took a galley of type and scrambled it to make a type specimen book.")
 }

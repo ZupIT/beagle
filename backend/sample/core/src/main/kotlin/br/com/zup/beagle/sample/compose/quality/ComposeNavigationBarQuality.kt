@@ -17,7 +17,9 @@
 package br.com.zup.beagle.sample.compose.quality
 
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_TITLE
 import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_BAR_ENDPOINT
@@ -46,8 +48,8 @@ object ComposeNavigationBarQuality: ComposeComponent {
         text = text,
         onPress = listOf(Navigate.PushView(Route.Remote(path))),
         styleId = BUTTON_STYLE_TITLE
-    ).applyFlex(
-        flex = Flex(
+    ).applyStyle(
+        Style(
             margin = EdgeValue(
                 top = 8.unitReal()
             )

@@ -31,7 +31,7 @@ import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.Text
 
 object ComposeSampleListView: ComposeComponent {
-    override fun build(): ServerDrivenComponent = ScrollView(
+    override fun build() = ScrollView(
         scrollDirection = ScrollAxis.VERTICAL,
         children = listOf(
             getStaticListView(ListDirection.VERTICAL),
@@ -43,23 +43,22 @@ object ComposeSampleListView: ComposeComponent {
 
     private fun getStaticListView(listDirection: ListDirection) = Container(
         children = listOf(
-            Text("Static $listDirection ListView").applyStyle(Style(
+            Text("Static $listDirection ListView")
+                .applyStyle(Style(
                     margin = EdgeValue(bottom = 10.unitReal())
-                ))
-            ,
+                )),
             ListView(children = (1..10).map(this::createText), direction = listDirection)
         )
     ).applyStyle(Style(
         margin = EdgeValue(bottom = 20.unitReal())
-    )
-    )
+    ))
 
     private fun getDynamicListView(listDirection: ListDirection) = Container(
         children = listOf(
-            Text("Dynamic $listDirection ListView").applyStyle(Style(
+            Text("Dynamic $listDirection ListView")
+                .applyStyle(Style(
                     margin = EdgeValue(bottom = 10.unitReal())
-                ))
-            ,
+                )),
             ListView.dynamic(size = 20, direction = listDirection, rowBuilder = this::createText)
         )
     )

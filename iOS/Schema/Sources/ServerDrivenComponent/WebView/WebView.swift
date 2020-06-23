@@ -17,17 +17,17 @@
 
 import Foundation
 
-public struct WebView: FlexComponent, RawComponent, AutoInitiableAndDecodable {
+public struct WebView: RawWidget, AutoInitiableAndDecodable {
     public let url: String
-    public let flex: Flex?
+    public var widgetProperties: WidgetProperties
 
 // sourcery:inline:auto:WebView.Init
     public init(
         url: String,
-        flex: Flex? = nil
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.url = url
-        self.flex = flex
+        self.widgetProperties = widgetProperties
     }
 // sourcery:end
 }

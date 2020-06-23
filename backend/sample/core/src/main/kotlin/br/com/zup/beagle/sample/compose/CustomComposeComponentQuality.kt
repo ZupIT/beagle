@@ -17,7 +17,8 @@
 package br.com.zup.beagle.sample.compose
 
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
 import br.com.zup.beagle.widget.Widget
@@ -29,16 +30,18 @@ import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.Text
 
-class CustomComposeComponentQuality: ComposeComponent {
+class CustomComposeComponentQuality : ComposeComponent {
     override fun build(): ServerDrivenComponent {
         return Container(
             children = listOf(
                 buildTextBeagle(),
                 buildImageBeagle()
             )
-        ).applyFlex(
-            flex = Flex(
-                alignItems = AlignItems.CENTER
+        ).applyStyle(
+            style = Style(
+                flex = Flex(
+                    alignItems = AlignItems.CENTER
+                )
             )
         )
     }
@@ -46,12 +49,14 @@ class CustomComposeComponentQuality: ComposeComponent {
     private fun buildTextBeagle(): Widget {
         return Text(
             "Beagle framework"
-        ).applyFlex(
-            flex = Flex(
-                alignItems = AlignItems.CENTER,
+        ).applyStyle(
+            style = Style(
                 margin = EdgeValue(
                     top = 16.unitReal(),
                     bottom = 16.unitReal()
+                ),
+                flex = Flex(
+                    alignItems = AlignItems.CENTER
                 )
             )
         )

@@ -5,7 +5,6 @@
   - decoder: ComponentDecodingDummy
   ▿ deepLinkHandler: Optional<DeepLinkScreenManaging>
     - some: DeepLinkHandlerDummy
-  - flex: (Function)
   ▿ formDataStoreHandler: FormDataStoreHandler
     - dataStore: 0 key/value pairs
   - isLoggingEnabled: true
@@ -33,6 +32,7 @@
     - serviceMaxCacheAge: "cache-control"
   ▿ resolver: InnerDependenciesResolver
     - container: (Function)
+  - style: (Function)
   - theme: AppThemeDummy
   ▿ urlBuilder: UrlBuilder
     ▿ baseUrl: Optional<URL>

@@ -37,49 +37,44 @@ import br.com.zup.beagle.widget.ui.Button
 
 
 object ComposeSampleButton: ComposeComponent {
-    override fun build(): ServerDrivenComponent {
-        return Container(
-            children = listOf(
-                createButton(
-                    text = "Button",
-                    flex = Flex(
-                        margin = EdgeValue(
-                            top = 15.unitReal()
-                        )
+    override fun build() = Container(
+        children = listOf(
+            createButton(
+                text = "Button",
+                style = Style(
+                    margin = EdgeValue(
+                        top = 15.unitReal()
                     )
-                ),
-
-                createButton(
-                    text = "Button with style",
-                    styleId = BUTTON_STYLE,
-                    flex = Flex(
-                        margin = EdgeValue(
-                            top = 15.unitReal()
-                        )
-                    )
-                ),
-
-                buttonWithAppearanceAndStyle(text = "Button with Appearance"),
-                buttonWithAppearanceAndStyle(
-                    text = "Button with Appearance and style",
-                    styleId = BUTTON_STYLE_APPEARANCE
                 )
+            ),
+
+            createButton(
+                text = "Button with style",
+                styleId = BUTTON_STYLE,
+                style = Style(
+                    margin = EdgeValue(
+                        top = 15.unitReal()
+                    )
+                )
+            ),
+
+            buttonWithAppearanceAndStyle(text = "Button with Appearance"),
+            buttonWithAppearanceAndStyle(
+                text = "Button with Appearance and style",
+                styleId = BUTTON_STYLE_APPEARANCE
             )
         )
-    }
+    )
 
     private fun buttonWithAppearanceAndStyle(text: String, styleId: String? = null) = createButton(
         text = text,
         styleId = styleId,
-        flex = Flex(
+        style = Style(
             margin = EdgeValue(
                 left = 25.unitReal(),
                 right = 25.unitReal(),
                 top = 15.unitReal()
-            )
-        )
-    ).applyStyle(
-        Style(
+            ),
             backgroundColor = CYAN_BLUE,
             cornerRadius = CornerRadius(radius = 16.0)
         )
@@ -88,7 +83,7 @@ object ComposeSampleButton: ComposeComponent {
     private fun createButton(
         text: String,
         styleId: String? = null,
-        flex: Flex? = null
+        style: Style? = null
     ): Widget {
         val button = Button(
             text = text,
@@ -96,8 +91,8 @@ object ComposeSampleButton: ComposeComponent {
             onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT, true)))
         )
 
-        if (flex != null) {
-            button.applyFlex(flex)
+        if (style != null) {
+            button.applyStyle(style)
         }
 
         return button

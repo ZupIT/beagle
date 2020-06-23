@@ -17,7 +17,9 @@
 package br.com.zup.beagle.sample.compose.quality
 
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.TEXT_FONT_MAX
@@ -51,8 +53,8 @@ object ComposeScrollViewQuality: ComposeComponent {
                 scrollDirection = ScrollAxis.VERTICAL
             )
         )
-    ).applyFlex(
-        flex = Flex(
+    ).applyStyle(
+        style = Style(
             size = Size(
                 height = 130.unitReal(),
                 width = 100.unitPercent()

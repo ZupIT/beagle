@@ -17,7 +17,9 @@
 package br.com.zup.beagle.sample.compose.quality
 
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
 import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
@@ -44,9 +46,8 @@ object ComposeTouchableQuality: ComposeComponent {
         scrollDirection = ScrollAxis.VERTICAL,
         children = listOf(
             touchableCustom(title = "Text with Touchable", item = Text("Click here!")),
-            touchableCustom(title = "Image with Touchable", item = Image(LOGO_BEAGLE).applyFlex(
-                flex = Flex(
-                    alignSelf = AlignSelf.CENTER,
+            touchableCustom(title = "Image with Touchable", item = Image(LOGO_BEAGLE).applyStyle(
+                style = Style(
                     margin = EdgeValue(
                         top = 8.unitReal(),
                         bottom = 8.unitReal()
@@ -54,7 +55,8 @@ object ComposeTouchableQuality: ComposeComponent {
                     size = Size(
                         width = 150.unitReal(),
                         height = 130.unitReal()
-                    )
+                    ),
+                    flex = Flex( alignSelf = AlignSelf.CENTER)
                 )
             )),
             networkImageTouchable()
@@ -65,9 +67,8 @@ object ComposeTouchableQuality: ComposeComponent {
             buildTitle(title),
             Touchable(
                 action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT)),
-                child = item.applyFlex(
-                    flex = Flex(
-                        alignSelf = AlignSelf.FLEX_END,
+                child = item.applyStyle(
+                    style = Style(
                         margin = EdgeValue(
                             top = 8.unitReal(),
                             bottom = 8.unitReal()
@@ -75,7 +76,8 @@ object ComposeTouchableQuality: ComposeComponent {
                         size = Size(
                             width = 150.unitReal(),
                             height = 130.unitReal()
-                        )
+                        ),
+                        flex = Flex( alignSelf = AlignSelf.FLEX_END)
                     )
                 )
             )
@@ -85,8 +87,8 @@ object ComposeTouchableQuality: ComposeComponent {
     private fun buildTitle(text: String) = Text(
         text = text,
         styleId = SCREEN_TEXT_STYLE
-    ).applyFlex(
-        flex = Flex(
+    ).applyStyle(
+        style = Style(
             margin = EdgeValue(
                 top = 8.unitReal()
             )
@@ -99,13 +101,13 @@ object ComposeTouchableQuality: ComposeComponent {
             Touchable(
                 child = NetworkImage(
                     path = BEACH_NETWORK_IMAGE
-                ).applyFlex(
-                    flex = Flex(
+                ).applyStyle(
+                    style = Style(
                         size = Size(
                             width = 150.unitReal(),
                             height = 130.unitReal()
                         ),
-                        alignSelf = AlignSelf.CENTER
+                        flex = Flex(alignSelf = AlignSelf.CENTER)
                     )
                 ),
                 action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))

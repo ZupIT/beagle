@@ -38,7 +38,7 @@ object ComposeButtonQuality: ComposeComponent {
         children = listOf(
             createButton(
                 text = "Button",
-                flex = Flex(
+                style = Style(
                     margin = EdgeValue(
                         top = 15.unitReal()
                     )
@@ -48,24 +48,25 @@ object ComposeButtonQuality: ComposeComponent {
             createButton(
                 text = "Button with style",
                 styleId = "DesignSystem.Button.ScreenButton",
-                flex = Flex(
+                style = Style(
                     margin = EdgeValue(
                         top = 15.unitReal()
                     )
                 )
             ),
 
-            buttonWithAppearanceAndStyle(text = "Button with Appearance").applyFlex(
-                Flex(
+            buttonWithAppearanceAndStyle(text = "Button with Appearance").applyStyle(
+                style = Style(
                     margin = EdgeValue(
                         top = 15.unitReal()
-                    ))
+                    )
+                )
             ),
             buttonWithAppearanceAndStyle(
                 text = "Button with Appearance and style",
                 styleId = BUTTON_STYLE_APPEARANCE
-            ).applyFlex(
-                Flex(
+            ).applyStyle(
+                Style(
                     margin = EdgeValue(
                         top = 15.unitReal()
                     ))
@@ -76,7 +77,7 @@ object ComposeButtonQuality: ComposeComponent {
     private fun buttonWithAppearanceAndStyle(text: String, styleId: String? = null) = createButton(
         text = text,
         styleId = styleId,
-        flex = Flex(
+        style = Style(
             margin = EdgeValue(
                 left = 25.unitReal(),
                 right = 25.unitReal(),
@@ -93,7 +94,7 @@ object ComposeButtonQuality: ComposeComponent {
     private fun createButton(
         text: String,
         styleId: String? = null,
-        flex: Flex? = null
+        style: Style? = null
     ): Widget {
         val button = Button(
             text = text,
@@ -101,8 +102,8 @@ object ComposeButtonQuality: ComposeComponent {
             onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT, true)))
         )
 
-        if (flex != null) {
-            button.applyFlex(flex)
+        if (style != null) {
+            button.applyStyle(style)
         }
 
         return button

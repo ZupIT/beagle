@@ -22,24 +22,24 @@ data class SendRequest(
     val url: Bind<String>,
     val method: Bind<RequestActionMethod> = Bind.Value(RequestActionMethod.GET),
     val headers: Bind<Map<String, String>>? = null,
-    val data: String? = null,
-    val onSuccess: Action? = null,
-    val onError: Action? = null,
-    val onFinish: Action? = null
+    val data: Any? = null,
+    val onSuccess: List<Action>? = null,
+    val onError: List<Action>? = null,
+    val onFinish: List<Action>? = null
 ) : Action {
     constructor(
         url: String,
         method: RequestActionMethod = RequestActionMethod.GET,
         headers: Map<String, String>? = null,
-        dataValue: String? = null,
-        onSuccess: Action? = null,
-        onError: Action? = null,
-        onFinish: Action? = null
+        data: Any? = null,
+        onSuccess: List<Action>? = null,
+        onError: List<Action>? = null,
+        onFinish: List<Action>? = null
     ) : this(
         Bind.Value(url),
         Bind.Value(method),
         if (headers != null) Bind.Value(headers) else headers,
-        dataValue,
+        data,
         onSuccess,
         onError,
         onFinish

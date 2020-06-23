@@ -17,7 +17,9 @@
 package br.com.zup.beagle.sample.compose.sample
 
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_TITLE
 import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_BAR_ENDPOINT
@@ -33,24 +35,23 @@ import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.ui.Button
 
 object ComposeSampleNavigationBar: ComposeComponent {
-    override fun build(): ServerDrivenComponent = Container(
-         children = listOf(
-             createMenu("NavigationBar", REPRESENTATION_NAVIGATION_BAR_ENDPOINT),
-             createMenu("NavigationBar with Style", REPRESENTATION_NAVIGATION_BAR_STYLE_ENDPOINT),
-             createMenu("NavigationBar with Item(Text)", REPRESENTATION_NAVIGATION_BAR_TEXT_ENDPOINT),
-             createMenu("NavigationBar with Item(Image)", REPRESENTATION_NAVIGATION_BAR_IMAGE_ENDPOINT)
-         )
-     )
+    override fun build() = Container(
+        children = listOf(
+            createMenu("NavigationBar", REPRESENTATION_NAVIGATION_BAR_ENDPOINT),
+            createMenu("NavigationBar with Style", REPRESENTATION_NAVIGATION_BAR_STYLE_ENDPOINT),
+            createMenu("NavigationBar with Item(Text)", REPRESENTATION_NAVIGATION_BAR_TEXT_ENDPOINT),
+            createMenu("NavigationBar with Item(Image)", REPRESENTATION_NAVIGATION_BAR_IMAGE_ENDPOINT)
+        )
+    )
 
     private fun createMenu(text: String, path: String) = Button(
         text = text,
         onPress = listOf(Navigate.PushView(Route.Remote(path))),
         styleId = BUTTON_STYLE_TITLE
-    ).applyFlex(
-        flex = Flex(
-            margin = EdgeValue(
-                top = 8.unitReal()
-            )
+    ).applyStyle(Style(
+        margin = EdgeValue(
+            top = 8.unitReal()
         )
+    )
     )
 }

@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.sample.compose.quality
 
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
@@ -118,8 +117,8 @@ object ComposePageViewQuality: ComposeComponent {
                              ),
                              Container(
                                  children = listOf(
-                                     WebView(url = PATH_URL_WEB_VIEW_ENDPOINT).applyFlex(
-                                         flex = Flex(size = Size(width = 375.unitReal(),height = 600.unitReal()))
+                                     WebView(url = PATH_URL_WEB_VIEW_ENDPOINT).applyStyle(
+                                         style = Style(size = Size(width = 375.unitReal(),height = 600.unitReal()))
                                      )
                                  )
                              )
@@ -135,7 +134,7 @@ object ComposePageViewQuality: ComposeComponent {
                          direction = ListDirection.VERTICAL,
                          children = listOf(
                              Text("0000"),
-                             Text("0001").applyFlex(flex),
+                             Text("0001").applyStyle(style),
                              Text("0002"),
                              Text("0003"),
                              Text("0004"),
@@ -180,15 +179,15 @@ object ComposePageViewQuality: ComposeComponent {
              ),
              Container(
                  children = listOf(
-                     WebView(url = PATH_URL_WEB_VIEW_ENDPOINT).applyFlex(
-                         flex = Flex(size = Size(width = 375.unitReal(),height = 600.unitReal()))
+                     WebView(url = PATH_URL_WEB_VIEW_ENDPOINT).applyStyle(
+                         style = Style(size = Size(width = 375.unitReal(),height = 600.unitReal()))
                      )
                  )
              )
          )
      )
 
-    private val flex = Flex(size = Size(width = 100.unitReal(), height = 100.unitReal()))
+    private val style = Style(size = Size(width = 100.unitReal(), height = 100.unitReal()))
 
     private val tab1 = TabItem(
         title = "Tab 1",
@@ -211,7 +210,7 @@ object ComposePageViewQuality: ComposeComponent {
         )
     )
 
-    private val flexHorizontalMargin = Flex(margin = EdgeValue(all = 10.unitReal()))
+    private val horizontalMargin = Style(margin = EdgeValue(all = 10.unitReal()))
 
     private val tab2 = TabItem(
         title = "Tab 2",
@@ -249,14 +248,14 @@ object ComposePageViewQuality: ComposeComponent {
                                 child = Button(
                                     text = "Submit Form",
                                     styleId = BUTTON_STYLE_FORM
-                                ).applyFlex(flexHorizontalMargin)
+                                ).applyStyle(horizontalMargin)
                             )
                         )
-                    ).applyFlex(
-                        Flex(
-                            grow = 1.0,
-                            padding = EdgeValue(all = 10.unitReal())
-                        )
+                    ).applyStyle(
+                        style = Style(
+                        padding = EdgeValue(all = 10.unitReal()),
+                        flex = Flex(grow = 1.0)
+                    )
                     ).applyStyle(Style(backgroundColor = LIGHT_GREEN))
                 )
             )
@@ -275,6 +274,6 @@ object ComposePageViewQuality: ComposeComponent {
             validator = validator,
             child = SampleTextField(
                 placeholder = placeholder
-            ).applyFlex(flexHorizontalMargin)
+            ).applyStyle(horizontalMargin)
         )
 }

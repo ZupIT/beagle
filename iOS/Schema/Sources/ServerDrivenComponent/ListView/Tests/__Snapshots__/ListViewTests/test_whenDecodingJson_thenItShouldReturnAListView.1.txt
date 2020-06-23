@@ -8,7 +8,6 @@
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
-        - flex: Optional<Flex>.none
         - id: Optional<String>.none
         - style: Optional<Style>.none
     ▿ Text
@@ -19,7 +18,6 @@
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
-        - flex: Optional<Flex>.none
         - id: Optional<String>.none
         - style: Optional<Style>.none
     ▿ Text
@@ -30,7 +28,6 @@
       - textColor: Optional<String>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
-        - flex: Optional<Flex>.none
         - id: Optional<String>.none
         - style: Optional<Style>.none
   - direction: Direction.vertical

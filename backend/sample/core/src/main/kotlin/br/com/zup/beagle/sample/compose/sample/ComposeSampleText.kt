@@ -47,22 +47,16 @@ object ComposeSampleText: ComposeComponent {
     private fun beagleText(
         text: String,
         styleId: String? = null,
-        appearanceColor: String? = null,
-        alignment: TextAlignment? = null
+        appearanceColor: String? = null
     ) =
-        Text(text = text, styleId = styleId, alignment = alignment)
-            .applyFlex(
-                flex = Flex(
-                    margin = EdgeValue(
-                        top = 16.unitReal(),
-                        left = 16.unitReal(),
-                        right = 16.unitReal()
-                    ),
-                    size = Size(height = 50.unitReal())
-                )
-            ).applyStyle(
-                style = Style(
-                    backgroundColor = appearanceColor
-                )
+        Text(text = text, styleId = styleId)
+            .applyStyle(Style(
+                margin = EdgeValue(
+                    top = 16.unitReal(),
+                    left = 16.unitReal(),
+                    right = 16.unitReal()
+                ),
+                backgroundColor = appearanceColor
             )
+        )
 }

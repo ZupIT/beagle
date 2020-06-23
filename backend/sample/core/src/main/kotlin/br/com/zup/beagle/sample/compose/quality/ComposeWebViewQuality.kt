@@ -16,7 +16,9 @@
 
 package br.com.zup.beagle.sample.compose.quality
 
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.PATH_URL_WEB_VIEW_ENDPOINT
 import br.com.zup.beagle.widget.core.Flex
@@ -25,7 +27,7 @@ import br.com.zup.beagle.widget.layout.ComposeComponent
 import br.com.zup.beagle.widget.ui.WebView
 
 object ComposeWebViewQuality: ComposeComponent {
-    override fun build() = WebView(url = PATH_URL_WEB_VIEW_ENDPOINT).applyFlex(
-        flex = Flex(size = Size(width = 375.unitReal(), height = 600.unitReal()))
+    override fun build() = WebView(url = PATH_URL_WEB_VIEW_ENDPOINT).applyStyle(
+        style = Style(size = Size(width = 375.unitReal(), height = 600.unitReal()))
     )
 }

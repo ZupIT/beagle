@@ -43,11 +43,12 @@ import br.com.zup.beagle.widget.ui.TabItem
 import br.com.zup.beagle.widget.ui.TabView
 import br.com.zup.beagle.widget.ui.Text
 
-object ComposeTabViewQuality: ComposeComponent {
+object ComposeTabViewQuality : ComposeComponent {
     override fun build() = TabView(
         children = listOf(tab1, tab2, tab3, tab4),
         styleId = "DesignSystem.TabView.Test"
     )
+
     private val tab1 = TabItem(
         title = "Tab 1",
         child = ScrollView(
@@ -69,7 +70,7 @@ object ComposeTabViewQuality: ComposeComponent {
         )
     )
 
-    private val flexHorizontalMargin = Flex(margin = EdgeValue(all = 10.unitReal()))
+    private val horizontalMargin = Style(margin = EdgeValue(all = 10.unitReal()))
 
     private val tab2 = TabItem(
         title = "Tab 2",
@@ -107,17 +108,15 @@ object ComposeTabViewQuality: ComposeComponent {
                                 child = Button(
                                     text = "Submit Form",
                                     styleId = BUTTON_STYLE_FORM
-                                ).applyFlex(flexHorizontalMargin)
+                                ).applyStyle(horizontalMargin)
                             )
                         )
+                    ).applyStyle(Style(
+                        backgroundColor = LIGHT_GREEN,
+                        padding = EdgeValue(all = 10.unitReal()),
+                        flex = Flex(grow = 1.0)
                     )
-                        .applyFlex(
-                            Flex(
-                                grow = 1.0,
-                                padding = EdgeValue(all = 10.unitReal())
-                            )
-                        )
-                        .applyStyle(Style(backgroundColor = LIGHT_GREEN))
+                    )
                 )
             )
         ).applyFlex(Flex(alignContent = AlignContent.CENTER))
@@ -135,7 +134,7 @@ object ComposeTabViewQuality: ComposeComponent {
             validator = validator,
             child = SampleTextField(
                 placeholder = placeholder
-            ).applyFlex(flexHorizontalMargin)
+            ).applyStyle(horizontalMargin)
         )
 
     private val tab3 = TabItem(
@@ -146,7 +145,11 @@ object ComposeTabViewQuality: ComposeComponent {
                     styleId = "DesignSystem.TabView.Test"
                 )
             )
-        ).applyFlex(Flex(alignContent = AlignContent.CENTER, margin = EdgeValue(top = 20.unitReal(),right = 20.unitReal(),left = 20.unitReal())))
+        ).applyStyle(Style(
+            margin = EdgeValue(top = 20.unitReal(), right = 20.unitReal(), left = 20.unitReal()),
+            flex = Flex(alignContent = AlignContent.CENTER)
+        )
+        )
     )
 
     private val tab4 = TabItem(

@@ -79,7 +79,7 @@ class ContextActionExecutorTest : BaseTest() {
         val value = RandomData.string()
 
         // When
-        contextActionExecutor.executeActions(rootView, listOf(action), eventId, value)
+        contextActionExecutor.execute(rootView, listOf(action), eventId, value)
 
         // Then
         verifySequence {
@@ -96,7 +96,7 @@ class ContextActionExecutorTest : BaseTest() {
         val value = RandomData.string()
 
         // When
-        contextActionExecutor.executeActions(rootView, listOf(action), eventId, value)
+        contextActionExecutor.execute(rootView, listOf(action), eventId, value)
 
         // Then
         assertEquals(eventId, contextDataSlot.captured.id)
@@ -112,7 +112,7 @@ class ContextActionExecutorTest : BaseTest() {
         every { BeagleMoshi.moshi.adapter<Container>(any<Class<*>>()).toJson(value) } returns jsonMock
 
         // When
-        contextActionExecutor.executeActions(rootView, listOf(action), eventId, value)
+        contextActionExecutor.execute(rootView, listOf(action), eventId, value)
 
         // Then
         assertEquals(eventId, contextDataSlot.captured.id)
@@ -126,7 +126,7 @@ class ContextActionExecutorTest : BaseTest() {
         val value = null
 
         // When
-        contextActionExecutor.executeActions(rootView, listOf(action), eventId, value)
+        contextActionExecutor.execute(rootView, listOf(action), eventId, value)
 
         // Then
         verify(exactly = once()) { action.execute(rootView) }

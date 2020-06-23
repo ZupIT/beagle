@@ -93,8 +93,7 @@ object ComposeSampleTouchable: ComposeComponent {
                         alignSelf = AlignSelf.CENTER
                     )
                 )
-                )
-                ,
+                ),
                 action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))
             )
         )

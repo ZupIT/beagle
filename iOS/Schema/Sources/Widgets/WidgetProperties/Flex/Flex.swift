@@ -35,9 +35,6 @@ public class Flex: Decodable, AutoEquatable, AutoInitiable {
     /// Align content defines the distribution of lines along the cross-axis.
     public var alignContent: AlignContent?
     
-    /// The position type of an element defines how it is positioned within its parent.
-    public var positionType: PositionType?
-    
     /// Is an axis-independent way of providing the default size of an item along the main axis.
     public var basis: UnitValue?
     
@@ -49,22 +46,7 @@ public class Flex: Decodable, AutoEquatable, AutoInitiable {
     
     /// Describes how to shrink children along the main axis in the case that the total size of the children overflow the size of the container on the main axis.
     public var shrink: Double?
-    
-    /// Set the display type of the component, allowing o be flexible or locked.
-    public var display: Display?
-    
-    /// Defina toda parte de tamanho.
-    public var size: Size?
-    
-    /// Allows you to apply a space to the child element.
-    public var margin: EdgeValue?
-    
-    /// Allows you to apply a space to the parent element. So when a child is created it starts with padding-defined spacing.
-    public var padding: EdgeValue?
-    
-    /// Sets the placement of the component in its parent.
-    public var position: EdgeValue?
-    
+            
 // sourcery:inline:auto:Flex.Init
     public init(
         flexDirection: FlexDirection? = nil,
@@ -73,16 +55,10 @@ public class Flex: Decodable, AutoEquatable, AutoInitiable {
         alignItems: AlignItems? = nil,
         alignSelf: AlignSelf? = nil,
         alignContent: AlignContent? = nil,
-        positionType: PositionType? = nil,
         basis: UnitValue? = nil,
         flex: Double? = nil,
         grow: Double? = nil,
-        shrink: Double? = nil,
-        display: Display? = nil,
-        size: Size? = nil,
-        margin: EdgeValue? = nil,
-        padding: EdgeValue? = nil,
-        position: EdgeValue? = nil
+        shrink: Double? = nil
     ) {
         self.flexDirection = flexDirection
         self.flexWrap = flexWrap
@@ -90,16 +66,10 @@ public class Flex: Decodable, AutoEquatable, AutoInitiable {
         self.alignItems = alignItems
         self.alignSelf = alignSelf
         self.alignContent = alignContent
-        self.positionType = positionType
         self.basis = basis
         self.flex = flex
         self.grow = grow
         self.shrink = shrink
-        self.display = display
-        self.size = size
-        self.margin = margin
-        self.padding = padding
-        self.position = position
     }
 // sourcery:end
 }
@@ -167,21 +137,5 @@ extension Flex {
         case spaceBetween = "SPACE_BETWEEN"
         case spaceAround = "SPACE_AROUND"
         case stretch = "STRETCH"
-    }
-}
-
-// MARK: - Flex Display
-extension Flex {
-    public enum Display: String, Decodable {
-        case flex = "FLEX"
-        case none = "NONE"
-    }
-}
-
-// MARK: - Position
-extension Flex {
-    public enum PositionType: String, Decodable {
-        case relative = "RELATIVE"
-        case absolute = "ABSOLUTE"
     }
 }

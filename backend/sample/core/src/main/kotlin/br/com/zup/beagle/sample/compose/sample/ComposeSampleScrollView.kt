@@ -17,7 +17,9 @@
 package br.com.zup.beagle.sample.compose.sample
 
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.compose.quality.ComposeScrollViewQuality
@@ -39,6 +41,7 @@ object ComposeSampleScrollView: ComposeComponent {
         )
     )
 
+
     private fun getVerticalScrollView() = Container(
         children = listOf(
             Text("Vertical ScrollView"),
@@ -53,13 +56,12 @@ object ComposeSampleScrollView: ComposeComponent {
                 scrollDirection = ScrollAxis.VERTICAL
             )
         )
-    ).applyFlex(
-        flex = Flex(
-            size = Size(
-                height = 130.unitReal(),
-                width = 100.unitPercent()
-            )
+    ).applyStyle(Style(
+        size = Size(
+            height = 130.unitReal(),
+            width = 100.unitPercent()
         )
+    )
     )
 
     private fun getHorizontalScrollView() = Container(
@@ -74,8 +76,7 @@ object ComposeSampleScrollView: ComposeComponent {
                     createText("Hello 5")
 
                 ),
-                scrollDirection = ScrollAxis.HORIZONTAL,
-                scrollBarEnabled = true
+                scrollDirection = ScrollAxis.HORIZONTAL
             )
         )
     )

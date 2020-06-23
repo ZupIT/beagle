@@ -41,8 +41,7 @@ let sendRequestDeclarativeScreen: Screen = {
                             Alert(
                                 title: "Success!",
                                 message: "Sucess sending Request",
-                                onPressOk: OkAction(),
-                                labelOk: "OK"
+                                labelOk: "Dismiss"
                             )
                         ],
                         onError: [
@@ -83,4 +82,3 @@ struct CancelAction: Action {
         print("onPressCancel from Confirm clicked")
     }
 }
-

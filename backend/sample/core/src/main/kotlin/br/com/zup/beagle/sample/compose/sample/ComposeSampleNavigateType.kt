@@ -16,7 +16,11 @@
 
 package br.com.zup.beagle.sample.compose.sample
 
+import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_APPEARANCE
 import br.com.zup.beagle.sample.constants.CYAN_BLUE
 import br.com.zup.beagle.sample.constants.CYAN_GREEN
@@ -30,6 +34,7 @@ import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_TYPE_STEP3_E
 import br.com.zup.beagle.sample.constants.REPRESENTATION_PRESENT_ENDPOINT
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
+import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.layout.ComposeComponent
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
@@ -37,7 +42,7 @@ import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Button
 
 object ComposeSampleNavigateType: ComposeComponent {
-    override fun build(): ServerDrivenComponent = Container(
+    override fun build() = Container(
         children = listOf(
             buttonPopView,
             createButton(
@@ -118,12 +123,7 @@ object ComposeSampleNavigateType: ComposeComponent {
                     navigate = Navigate.PopToView(NAVIGATION_TYPE_ENDPOINT),
                     backgroundColor = RED
                 ),
-                buttonAddViewStep1,
-                createButton(
-                    text = "ResetStack",
-                    navigate = Navigate.ResetStack(Route.Remote(NAVIGATION_TYPE_ENDPOINT)),
-                    backgroundColor = "#800080"
-                )
+                buttonAddViewStep1
             )
         )
     )

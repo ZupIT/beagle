@@ -9,18 +9,15 @@
     ▿ some: UnitValue
       - type: UnitType.real
       - value: 10.0
-  - display: Optional<Display>.none
-  - flex: Optional<Double>.none
+  ▿ flex: Optional<Double>
+    - some: 2.0
   ▿ flexDirection: Optional<FlexDirection>
     - some: FlexDirection.column
   ▿ flexWrap: Optional<Wrap>
     - some: Wrap.noWrap
-  - grow: Optional<Double>.none
+  ▿ grow: Optional<Double>
+    - some: 3.0
   ▿ justifyContent: Optional<JustifyContent>
     - some: JustifyContent.spaceBetween
-  - margin: Optional<EdgeValue>.none
-  - padding: Optional<EdgeValue>.none
-  - position: Optional<EdgeValue>.none
-  - positionType: Optional<PositionType>.none
-  - shrink: Optional<Double>.none
-  - size: Optional<Size>.none
+  ▿ shrink: Optional<Double>
+    - some: 0.0

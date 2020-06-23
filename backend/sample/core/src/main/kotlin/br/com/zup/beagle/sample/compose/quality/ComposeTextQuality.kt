@@ -42,15 +42,29 @@ object ComposeTextQuality: ComposeComponent {
                 styleId = SCREEN_TEXT_STYLE,
                 appearanceColor = STEEL_BLUE
             ),
-            beagleText(text = "hello world without style",alignment = TextAlignment.LEFT, appearanceColor = STEEL_BLUE).applyFlex(
-                Flex(alignSelf = AlignSelf.FLEX_END, margin = EdgeValue(
+            beagleText(
+                text = "hello world without style",
+                alignment = TextAlignment.LEFT,
+                appearanceColor = STEEL_BLUE).applyStyle(
+                Style(
+                    margin = EdgeValue(
                     top = 16.unitReal(),
                     left = 16.unitReal(),
                     right = 16.unitReal()
-                ))
+                    ),
+                    flex = Flex(alignSelf = AlignSelf.FLEX_END)
+                )
             ),
-            beagleText(text = "hello world without style",alignment = TextAlignment.CENTER, appearanceColor = STEEL_BLUE),
-            beagleText(text = "hello world without style",alignment = TextAlignment.RIGHT, appearanceColor = STEEL_BLUE)
+            beagleText(
+                text = "hello world without style",
+                alignment = TextAlignment.CENTER,
+                appearanceColor = STEEL_BLUE
+            ),
+            beagleText(
+                text = "hello world without style",
+                alignment = TextAlignment.RIGHT,
+                appearanceColor = STEEL_BLUE
+            )
         )
     )
 
@@ -61,17 +75,14 @@ object ComposeTextQuality: ComposeComponent {
         alignment: TextAlignment? = null
     ) =
         Text(text = text, styleId = styleId, alignment = alignment)
-            .applyFlex(
-                flex = Flex(
+            .applyStyle(
+                style = Style(
                     margin = EdgeValue(
                         top = 16.unitReal(),
                         left = 16.unitReal(),
                         right = 16.unitReal()
                     ),
-                    size = Size(height = 50.unitReal())
-                )
-            ).applyStyle(
-                style = Style(
+                    size = Size(height = 50.unitReal()),
                     backgroundColor = appearanceColor
                 )
             )

@@ -16,9 +16,11 @@
 
 package br.com.zup.beagle.serialization.jackson
 
+import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Text
 import com.fasterxml.jackson.core.JsonGenerator
@@ -48,7 +50,11 @@ internal class BeagleTypeSerializerTest {
 
     @Test
     fun serialize_custom_ServerDrivenComponent_should_have_component_beagleType_field_with_custom_prefix() =
-        testComponentSerialize(CustomWidget, "$CUSTOM_WIDGET_BEAGLE_NAMESPACE:customWidget")
+        testComponentSerialize(CustomWidget, "$CUSTOM_BEAGLE_NAMESPACE:customWidget")
+
+    @Test
+    fun serialize_custom_Action_shold_have_component_beagleType_field_with_custom_prefix()=
+        testActionSerialize(CustomAction, "$CUSTOM_BEAGLE_NAMESPACE:customAction")
 
     @Test
     fun serialize_Action_should_have_action_beagleType_field() = testSerialize(Navigate.PopStack()) {
@@ -74,6 +80,13 @@ internal class BeagleTypeSerializerTest {
         verify(exactly = 1) { it.writeStringField(COMPONENT_TYPE, beagleType) }
     }
 
+    private fun testActionSerialize(bean: Any, beagleType: String) = testSerialize(bean){
+        verify (exactly = 1){ it.writeStringField(ACTION_TYPE, beagleType) }
+    }
+
     @RegisterWidget
     private object CustomWidget : Widget()
+
+    @RegisterAction
+    private object CustomAction : Action
 }

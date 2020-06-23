@@ -17,8 +17,10 @@
 package br.com.zup.beagle.sample.compose.quality
 
 import br.com.zup.beagle.core.Accessibility
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyAccessibility
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_ACCESSIBILITY
 import br.com.zup.beagle.widget.core.AlignItems
@@ -30,7 +32,7 @@ import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 
-object ComposeAccessibilityScreenQuality: ComposeComponent {
+object ComposeAccessibilityScreenQuality : ComposeComponent {
     override fun build() = Container(
         children = listOf(
             textAccessibility(
@@ -67,12 +69,14 @@ object ComposeAccessibilityScreenQuality: ComposeComponent {
                 accessible = accessible,
                 accessibilityLabel = accessibilityLabel
             )
-        ).applyFlex(
-            flex = Flex(
-                alignItems = AlignItems.CENTER,
+        ).applyStyle(
+            style = Style(
                 margin = EdgeValue(
                     top = 8.unitReal(),
                     bottom = 8.unitReal()
+                ),
+                flex = Flex(
+                    alignItems = AlignItems.CENTER
                 )
             )
         )
@@ -85,15 +89,17 @@ object ComposeAccessibilityScreenQuality: ComposeComponent {
         Button(
             text = textButton,
             styleId = BUTTON_STYLE_ACCESSIBILITY
-        ).applyFlex(
-            flex = Flex(
+        ).applyStyle(
+            style = Style(
                 size = Size(
                     height = 40.unitReal()
                 ),
-                alignItems = AlignItems.CENTER,
                 margin = EdgeValue(
                     top = 8.unitReal(),
                     bottom = 8.unitReal()
+                ),
+                flex = Flex(
+                    alignItems = AlignItems.CENTER
                 )
             )
         ).applyAccessibility(

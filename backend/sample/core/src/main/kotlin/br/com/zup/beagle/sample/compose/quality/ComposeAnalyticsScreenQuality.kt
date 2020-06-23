@@ -26,13 +26,14 @@ import br.com.zup.beagle.widget.navigation.Touchable
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 
-object ComposeAnalyticsScreenQuality: ComposeComponent {
+object ComposeAnalyticsScreenQuality : ComposeComponent {
     override fun build() = Container(
         children = listOf(
             createButton(),
             createTouchable()
         )
     )
+
     private fun createTouchable(): ServerDrivenComponent {
         val text = Text(
             text = "Touchable with Click Analytics Event"
@@ -53,19 +54,20 @@ object ComposeAnalyticsScreenQuality: ComposeComponent {
     }
 
     private fun createButton(): Widget {
-        val button = Button(
+        return Button(
             text = "Button with Click Analytics Event",
-            onPress = listOf(Alert(
-                title = "title",
-                message = "message",
-                labelOk = "Close"
-            )),
+            onPress = listOf(
+                Alert(
+                    title = "title",
+                    message = "message",
+                    labelOk = "Close"
+                )
+            ),
             clickAnalyticsEvent = ClickEvent(
                 category = "button",
                 label = "label-button",
                 value = "value-button"
             )
         )
-        return button
     }
 }

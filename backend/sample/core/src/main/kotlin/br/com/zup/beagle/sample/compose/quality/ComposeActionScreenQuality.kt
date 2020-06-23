@@ -36,7 +36,7 @@ import br.com.zup.beagle.widget.navigation.Touchable
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 
-object ComposeActionScreenQuality: ComposeComponent {
+object ComposeActionScreenQuality : ComposeComponent {
     override fun build() = ScrollView(
         children = listOf(
             getAlertAction(),
@@ -144,20 +144,27 @@ object ComposeActionScreenQuality: ComposeComponent {
         children = listOf(
             Text("Send request action"),
             Button(
-                onPress = listOf(SendRequest(url = SCREEN_ACTION_CLICK_ENDPOINT, onSuccess = Alert(
-                    title = "Success",
-                    message = "Action",
-                    labelOk = "OK"
-                ),
-                    onError = Alert(
-                        title = "Error",
-                        message = "Action",
-                        labelOk = "OK"
+                onPress = listOf(SendRequest(url = SCREEN_ACTION_CLICK_ENDPOINT,
+                    onSuccess = listOf(
+                        Alert(
+                            title = "Success",
+                            message = "Action",
+                            labelOk = "OK"
+                        )
                     ),
-                    onFinish = Alert(
-                        title = "Finish",
-                        message = "Action",
-                        labelOk = "OK"
+                    onError = listOf(
+                        Alert(
+                            title = "Error",
+                            message = "Action",
+                            labelOk = "OK"
+                        )
+                    ),
+                    onFinish = listOf(
+                        Alert(
+                            title = "Finish",
+                            message = "Action",
+                            labelOk = "OK"
+                        )
                     )
                 )),
                 text = "Click me!"

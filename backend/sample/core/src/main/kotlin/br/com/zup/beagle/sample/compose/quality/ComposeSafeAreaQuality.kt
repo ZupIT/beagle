@@ -29,12 +29,16 @@ import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.Text
 
-object ComposeSafeAreaQuality: ComposeComponent {
+object ComposeSafeAreaQuality : ComposeComponent {
     override fun build(): ServerDrivenComponent = Container(
         listOf(
             Text("Luis")
         )
-    ).applyStyle(style = Style(backgroundColor = "#A2DE96")).applyFlex(flex = Flex(grow = 1.0))
+    ).applyStyle(style = Style(
+        backgroundColor = "#A2DE96",
+        flex = Flex(grow = 1.0)
+        )
+    )
 
     private fun createText(text: String) = Text(text = text, styleId = TITLE_SCREEN)
 

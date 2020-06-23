@@ -18,7 +18,7 @@ import UIKit
 
 extension String {
     // MARK: - BeagleConfig
-    static let BASE_URL = "http://192.168.1.12:8080/"
+    static let BASE_URL = "http://localhost:8080/"
     
     // MARK: - Image
     static let NETWORK_IMAGE_BEAGLE = "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271"

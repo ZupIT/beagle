@@ -74,21 +74,22 @@ object ComposeFormQuality: ComposeComponent {
                             child = Button(
                                 text = "Submit Form",
                                 styleId = BUTTON_STYLE_FORM
-                            ).applyFlex(flexHorizontalMargin)
+                            ).applyStyle(flexHorizontalMargin)
                         )
                     )
-                ).applyFlex(
-                    Flex(
-                        grow = 1.0,
-                        padding = EdgeValue(all = 10.unitReal())
-//                                size = Size(width = 50.unitPercent(),height = 50.unitPercent())
+                ).applyStyle(
+                    Style(
+                    padding = EdgeValue(all = 10.unitReal()),
+                    flex = Flex(
+                        grow = 1.0
                     )
+                )
                 ).applyStyle(Style(backgroundColor = LIGHT_GREEN))
             )
         )
     )
 
-    private val flexHorizontalMargin = Flex(margin = EdgeValue(all = 10.unitReal()))
+    private val flexHorizontalMargin = Style(margin = EdgeValue(all = 10.unitReal()))
 
     private fun customFormInput(
         name: String,
@@ -103,7 +104,7 @@ object ComposeFormQuality: ComposeComponent {
             validator = validator,
             child = SampleTextField(
                 placeholder = placeholder
-            ).applyFlex(flexHorizontalMargin),
+            ).applyStyle(flexHorizontalMargin),
             errorMessage = message
         )
 }

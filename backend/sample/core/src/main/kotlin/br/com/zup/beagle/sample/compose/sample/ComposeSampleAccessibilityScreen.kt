@@ -18,8 +18,10 @@ package br.com.zup.beagle.sample.compose.sample
 
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyAccessibility
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.compose.quality.ComposeAccessibilityScreenQuality
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_ACCESSIBILITY
@@ -34,28 +36,28 @@ import br.com.zup.beagle.widget.ui.Text
 
 object ComposeSampleAccessibilityScreen: ComposeComponent {
     override fun build(): ServerDrivenComponent = Container(
-         children = listOf(
-             textAccessibility(
-                 text = "Accessibility Testing",
-                 accessibilityLabel = "first text",
-                 accessible = true
-             ),
-             textAccessibility(
-                 text = "Accessibility disabled test",
-                 accessibilityLabel = "second text",
-                 accessible = false
-             ),
-             buttonAccessibility(
-                 textButton = "First Text button",
-                 accessibilityLabel = "This is a button as title",
-                 accessible = true
-             ),
-             buttonAccessibility(
-                 textButton = "Second Text button",
-                 accessible = true
-             )
-         )
-     )
+        children = listOf(
+            textAccessibility(
+                text = "Accessibility Testing",
+                accessibilityLabel = "first text",
+                accessible = true
+            ),
+            textAccessibility(
+                text = "Accessibility disabled test",
+                accessibilityLabel = "second text",
+                accessible = false
+            ),
+            buttonAccessibility(
+                textButton = "First Text button",
+                accessibilityLabel = "This is a button as title",
+                accessible = true
+            ),
+            buttonAccessibility(
+                textButton = "Second Text button",
+                accessible = true
+            )
+        )
+    )
 
     private fun textAccessibility(
         text: String,
@@ -69,14 +71,11 @@ object ComposeSampleAccessibilityScreen: ComposeComponent {
                 accessible = accessible,
                 accessibilityLabel = accessibilityLabel
             )
-        ).applyFlex(
-            flex = Flex(
-                alignItems = AlignItems.CENTER,
-                margin = EdgeValue(
-                    top = 8.unitReal(),
-                    bottom = 8.unitReal()
-                )
-            )
+        ).applyStyle(Style(
+            margin = EdgeValue(
+                top = 8.unitReal(),
+                bottom = 8.unitReal()),
+            flex = Flex( alignItems = AlignItems.CENTER))
         )
 
     private fun buttonAccessibility(
@@ -87,17 +86,17 @@ object ComposeSampleAccessibilityScreen: ComposeComponent {
         Button(
             text = textButton,
             styleId = BUTTON_STYLE_ACCESSIBILITY
-        ).applyFlex(
+        ).applyStyle(Style(
+            margin = EdgeValue(
+                top = 8.unitReal(),
+                bottom = 8.unitReal()
+            ),
+            size = Size(
+                height = 40.unitReal()
+            ),
             flex = Flex(
-                size = Size(
-                    height = 40.unitReal()
-                ),
-                alignItems = AlignItems.CENTER,
-                margin = EdgeValue(
-                    top = 8.unitReal(),
-                    bottom = 8.unitReal()
-                )
-            )
+                alignItems = AlignItems.CENTER)
+        )
         ).applyAccessibility(
             accessibility = Accessibility(
                 accessible = accessible,

@@ -55,11 +55,7 @@ object ComposeSampleActionScreen: ComposeComponent {
         children = listOf(
             Text("Action dialog"),
             Touchable(
-                action = Alert(
-                    title = "Some",
-                    message = "Action",
-                    labelOk = "OK"
-                ),
+                createAlert("Some"),
                 child = Text("Click me!").applyFlex(
                     Flex(
                         alignSelf = AlignSelf.CENTER
@@ -71,7 +67,7 @@ object ComposeSampleActionScreen: ComposeComponent {
 
     private fun getNavigateWithPath() = Container(
         children = listOf(
-            Text("Navigate with PushView Route Remote"),
+            Text("Navigate with path"),
             Button(
                 onPress = listOf(Navigate.PushView(Route.Remote(route = SCREEN_ACTION_CLICK_ENDPOINT))),
                 text = "Click me!"
@@ -81,7 +77,7 @@ object ComposeSampleActionScreen: ComposeComponent {
 
     private fun getNavigateWithScreen() = Container(
         children = listOf(
-            Text("Navigate with PushView Route Local"),
+            Text("Navigate with screen"),
             Button(
                 onPress = listOf(Navigate.PushView(Route.Local(Screen(
                     navigationBar = NavigationBar(
@@ -98,18 +94,16 @@ object ComposeSampleActionScreen: ComposeComponent {
 
     private fun getNavigateWithPathScreen() = Container(
         children = listOf(
-            Text("Navigate with PushView Route Remote with fallback"),
+            Text("Navigate with path and screen"),
             Button(
-                onPress = listOf(Navigate.PushView(Route.Remote(route = "",
-                    fallback = Screen(
-                        navigationBar = NavigationBar(
-                            "Navigate with screen",
-                            showBackButton = true
-                        ),
-                        child = Text("Hello Screen from Navigate")
-                    )
+                onPress = listOf(Navigate.PushView(Route.Local(Screen(
+                    navigationBar = NavigationBar(
+                        "Navigate with path and screen",
+                        showBackButton = true
+                    ),
+                    child = Text("Hello Screen from Navigate")
                 ))
-                ),
+                )),
                 text = "Click me!"
             )
         )
@@ -117,7 +111,7 @@ object ComposeSampleActionScreen: ComposeComponent {
 
     private fun getNavigateWithPrefetch() = Container(
         children = listOf(
-            Text("Navigate with PushView Route Remote with ShouldPrefetch"),
+            Text("Navigate with prefetch"),
             Button(
                 onPress = listOf(Navigate.PushView(Route.Remote(shouldPrefetch = true,
                     route = SCREEN_ACTION_CLICK_ENDPOINT))),
@@ -143,20 +137,16 @@ object ComposeSampleActionScreen: ComposeComponent {
         children = listOf(
             Text("Send request action"),
             Button(
-                onPress = listOf(SendRequest(url = SCREEN_ACTION_CLICK_ENDPOINT, onSuccess = Alert(
-                    title = "Success",
-                    message = "Action",
-                    labelOk = "OK"
-                ),
-                    onError = Alert(
-                        title = "Error",
-                        message = "Action",
-                        labelOk = "OK"
+                onPress = listOf(SendRequest(
+                    url = SCREEN_ACTION_CLICK_ENDPOINT,
+                    onSuccess = listOf(
+                        createAlert("Success")
                     ),
-                    onFinish = Alert(
-                        title = "Finish",
-                        message = "Action",
-                        labelOk = "OK"
+                    onError = listOf(
+                        createAlert("Error")
+                    ),
+                    onFinish = listOf(
+                        createAlert("Finish")
                     )
                 )),
                 text = "Click me!"
@@ -173,16 +163,8 @@ object ComposeSampleActionScreen: ComposeComponent {
                     message = "Action",
                     labelOk = "OK",
                     labelCancel = "Cancel",
-                    onPressCancel = Alert(
-                        title = "Finish",
-                        message = "Action",
-                        labelOk = "OK"
-                    ),
-                    onPressOk = Alert(
-                        title = "Finish",
-                        message = "Action",
-                        labelOk = "OK"
-                    )
+                    onPressCancel = createAlert("Cancel"),
+                    onPressOk = createAlert("Finish")
                 )),
                 text = "Click me!"
             )
@@ -198,4 +180,14 @@ object ComposeSampleActionScreen: ComposeComponent {
             )
         )
     )
+
+
+    private fun createAlert(title: String): Alert{
+        return Alert(
+            title = title,
+            message = "Action",
+            labelOk = "OK"
+        )
+    }
+
 }

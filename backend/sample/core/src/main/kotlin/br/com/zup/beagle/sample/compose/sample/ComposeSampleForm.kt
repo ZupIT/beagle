@@ -39,6 +39,9 @@ import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Button
 
 object ComposeSampleForm: ComposeComponent {
+
+    private val styleHorizontalMargin = Style(margin = EdgeValue(all = 10.unitReal()))
+
     override fun build() = ScrollView(
         scrollDirection = ScrollAxis.VERTICAL,
         children = listOf(
@@ -74,8 +77,7 @@ object ComposeSampleForm: ComposeComponent {
                             child = Button(
                                 text = "Submit Form",
                                 styleId = BUTTON_STYLE_FORM
-                            )
-                                .applyStyle(styleHorizontalMargin)
+                            ).applyStyle(styleHorizontalMargin)
                         )
                     )
                 )
@@ -89,8 +91,6 @@ object ComposeSampleForm: ComposeComponent {
             )
         )
     )
-
-    private val styleHorizontalMargin = Style(margin = EdgeValue(all = 10.unitReal()))
 
     private fun customFormInput(
         name: String,

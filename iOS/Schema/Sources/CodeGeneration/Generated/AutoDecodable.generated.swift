@@ -30,8 +30,8 @@ extension Alert {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        title = try container.decodeIfPresent(String.self, forKey: .title)
-        message = try container.decode(String.self, forKey: .message)
+        title = try container.decodeIfPresent(Expression<String>.self, forKey: .title)
+        message = try container.decode(Expression<String>.self, forKey: .message)
         onPressOk = try container.decodeIfPresent(forKey: .onPressOk)
         labelOk = try container.decodeIfPresent(String.self, forKey: .labelOk)
     }
@@ -73,8 +73,8 @@ extension Confirm {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        title = try container.decodeIfPresent(String.self, forKey: .title)
-        message = try container.decode(String.self, forKey: .message)
+        title = try container.decodeIfPresent(Expression<String>.self, forKey: .title)
+        message = try container.decode(Expression<String>.self, forKey: .message)
         onPressOk = try container.decodeIfPresent(forKey: .onPressOk)
         onPressCancel = try container.decodeIfPresent(forKey: .onPressCancel)
         labelOk = try container.decodeIfPresent(String.self, forKey: .labelOk)
@@ -295,7 +295,6 @@ extension ScrollView {
         case children
         case scrollDirection
         case scrollBarEnabled
-        case style
     }
 
     public init(from decoder: Decoder) throws {
@@ -304,7 +303,6 @@ extension ScrollView {
         children = try container.decode(forKey: .children)
         scrollDirection = try container.decodeIfPresent(ScrollAxis.self, forKey: .scrollDirection)
         scrollBarEnabled = try container.decodeIfPresent(Bool.self, forKey: .scrollBarEnabled)
-        style = try container.decodeIfPresent(Style.self, forKey: .style)
     }
 }
 
@@ -370,14 +368,13 @@ extension WebView {
 
     enum CodingKeys: String, CodingKey {
         case url
-        case flex
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         url = try container.decode(String.self, forKey: .url)
-        flex = try container.decodeIfPresent(Flex.self, forKey: .flex)
+        widgetProperties = try WidgetProperties(from: decoder)
     }
 }
 
@@ -387,7 +384,6 @@ extension WidgetProperties {
     enum CodingKeys: String, CodingKey {
         case id
         case style
-        case flex
         case accessibility
     }
 
@@ -396,7 +392,6 @@ extension WidgetProperties {
 
         id = try container.decodeIfPresent(String.self, forKey: .id)
         style = try container.decodeIfPresent(Style.self, forKey: .style)
-        flex = try container.decodeIfPresent(Flex.self, forKey: .flex)
         accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
     }
 }
