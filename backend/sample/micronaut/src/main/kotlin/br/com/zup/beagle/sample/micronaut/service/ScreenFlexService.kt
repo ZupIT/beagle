@@ -16,9 +16,10 @@
 
 package br.com.zup.beagle.sample.micronaut.service
 
-import br.com.zup.beagle.sample.builder.SampleViewScreenBuilder
 import br.com.zup.beagle.sample.builder.ScreenFlexBuilder
+import javax.inject.Singleton
 
+@Singleton
 class ScreenFlexService {
     fun createSampleFlex(qaFlag: Boolean) = ScreenFlexBuilder(qaFlag)
 }

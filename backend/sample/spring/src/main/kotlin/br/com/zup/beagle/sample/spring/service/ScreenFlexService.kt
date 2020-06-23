@@ -16,9 +16,10 @@
 
 package br.com.zup.beagle.sample.spring.service
 
-import br.com.zup.beagle.sample.builder.SampleViewScreenBuilder
 import br.com.zup.beagle.sample.builder.ScreenFlexBuilder
+import org.springframework.stereotype.Service
 
+@Service
 class ScreenFlexService {
     fun createSampleFlex(qaFlag: Boolean) = ScreenFlexBuilder(qaFlag)
 }
