@@ -43,7 +43,12 @@ extension SingleExpression: RawRepresentable {
     }
 
     public var rawValue: String {
-        return "@{\(context)\(path.rawValue)}"
+        var result = "@{\(context)"
+        if !path.nodes.isEmpty {
+            result += ".\(path.rawValue)"
+        }
+        result += "}"
+        return result
     }
 }
 

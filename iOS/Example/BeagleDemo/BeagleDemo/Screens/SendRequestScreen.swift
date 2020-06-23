@@ -41,7 +41,8 @@ let sendRequestDeclarativeScreen: Screen = {
                             Alert(
                                 title: "Success!",
                                 message: "request data: @{onSuccess.data.json}",
-                                labelOk: "ok"
+                                onPressOk: Alert(message: "request data: @{onSuccess.data.json}"),
+                                labelOk: "Cancel"
                             )
                         ],
                         onError: [
@@ -50,8 +51,8 @@ let sendRequestDeclarativeScreen: Screen = {
                                 message: "error sending request",
                                 onPressOk: OkAction(),
                                 onPressCancel: CancelAction(),
-                                labelOk: "OK",
-                                labelCancel: "Cancel"
+                                labelOk: "Cancel",
+                                labelCancel: "Ok"
                             )
                         ],
                         onFinish: [

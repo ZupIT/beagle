@@ -123,11 +123,8 @@ extension UIView {
     // MARK: Get/Set Context
     
     func getContext(with id: String?) -> Observable<Context>? {
-        guard let contextMap = self.contextMap else {
+        guard let contextMap = self.contextMap, let context = contextMap[id] else {
             // TODO: create cache mechanism
-            return superview?.getContext(with: id)
-        }
-        guard let context = contextMap[id] else {
             return superview?.getContext(with: id)
         }
         return context
