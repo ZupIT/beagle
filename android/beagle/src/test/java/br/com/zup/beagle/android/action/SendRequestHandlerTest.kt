@@ -66,7 +66,8 @@ class SendRequestHandlerTest {
                 .get(ActionRequestViewModel::class.java)
         } returns viewModel
 
-        every { contextActionExecutorMock.executeAction(any(), any(), any(), any()) } just Runs
+        every { contextActionExecutorMock.execute(any(), any<Action>(), any(), any()) } just Runs
+        every { contextActionExecutorMock.execute(any(), any<List<Action>>(), any(), any()) } just Runs
     }
 
     @After
@@ -77,9 +78,9 @@ class SendRequestHandlerTest {
     @Test
     fun `should execute with success action when handle action`() {
         // Given
-        val onSuccessAction: Action = mockk()
-        val onErrorAction: Action = mockk()
-        val onFinishAction: Action = mockk()
+        val onSuccessAction: List<Action> = mockk()
+        val onErrorAction: List<Action> = mockk()
+        val onFinishAction: List<Action> = mockk()
         val requestAction = SendRequest(url = "", onSuccess = onSuccessAction,
             onError = onErrorAction, onFinish = onFinishAction)
         every { viewModel.fetch(any()) } returns liveData
@@ -92,17 +93,17 @@ class SendRequestHandlerTest {
 
         // Then
         verifyOrder {
-            contextActionExecutor.executeAction(rootView, onFinishAction, "onFinish")
-            contextActionExecutor.executeAction(rootView, onSuccessAction, "onSuccess", any())
+            contextActionExecutor.execute(rootView, onFinishAction, "onFinish")
+            contextActionExecutor.execute(rootView, onSuccessAction, "onSuccess", any())
         }
     }
 
     @Test
     fun `should execute with fail action when handle action`() {
         // Given
-        val onSuccessAction: Action = mockk()
-        val onErrorAction: Action = mockk()
-        val onFinishAction: Action = mockk()
+        val onSuccessAction: List<Action> = mockk()
+        val onErrorAction: List<Action> = mockk()
+        val onFinishAction: List<Action> = mockk()
         val requestAction = SendRequest(url = valueOf(""), onSuccess = onSuccessAction,
             onError = onErrorAction, onFinish = onFinishAction)
         every { viewModel.fetch(any()) } returns liveData
@@ -115,16 +116,16 @@ class SendRequestHandlerTest {
 
         // Then
         verifyOrder {
-            contextActionExecutor.executeAction(rootView, onFinishAction, "onFinish", null)
-            contextActionExecutor.executeAction(rootView, onErrorAction, "onError", any())
+            contextActionExecutor.execute(rootView, onFinishAction, "onFinish", null)
+            contextActionExecutor.execute(rootView, onErrorAction, "onError", any())
         }
     }
 
     @Test
     fun `should not send action success when handle action`() {
         // Given
-        val onErrorAction: Action = mockk()
-        val onFinishAction: Action = mockk()
+        val onErrorAction: List<Action>? = mockk()
+        val onFinishAction: List<Action>? = mockk()
         val requestAction = SendRequest(url = valueOf(""), onSuccess = null,
             onError = onErrorAction, onFinish = onFinishAction)
         every { viewModel.fetch(any()) } returns liveData
@@ -136,7 +137,7 @@ class SendRequestHandlerTest {
         observerSlot.captured.onChanged(result)
 
         // Then
-        verify(exactly = once()) { contextActionExecutor.executeAction(rootView, any(), "onFinish") }
+        verify(exactly = once()) { contextActionExecutor.execute(rootView, any<List<Action>>(), "onFinish") }
     }
 
     @Test
@@ -153,14 +154,14 @@ class SendRequestHandlerTest {
         observerSlot.captured.onChanged(result)
 
         // Then
-        verify(exactly = 0) { contextActionExecutor.executeAction(any(), any(), any(), any()) }
+        verify(exactly = 0) { contextActionExecutor.execute(any(), any<List<Action>>(), any(), any()) }
     }
 
 
     @Test
     fun `should send only action finish when handle action with success`() {
         // Given
-        val onFinishAction: Action = mockk()
+        val onFinishAction: List<Action> = mockk()
         val requestAction = SendRequest(url = valueOf(""), onSuccess = null,
             onError = null, onFinish = onFinishAction)
         every { viewModel.fetch(any()) } returns liveData
@@ -172,13 +173,13 @@ class SendRequestHandlerTest {
         observerSlot.captured.onChanged(result)
 
         // Then
-        verify(exactly = once()) { contextActionExecutor.executeAction(rootView, onFinishAction, "onFinish") }
+        verify(exactly = once()) { contextActionExecutor.execute(rootView, onFinishAction, "onFinish") }
     }
 
     @Test
     fun `should send only action finish when handle action with error`() {
         // Given
-        val onFinishAction: Action = mockk()
+        val onFinishAction: List<Action> = mockk()
         val requestAction = SendRequest(url = valueOf(""), onSuccess = null,
             onError = null, onFinish = onFinishAction)
         every { viewModel.fetch(any()) } returns liveData
@@ -190,6 +191,6 @@ class SendRequestHandlerTest {
         observerSlot.captured.onChanged(result)
 
         // Then
-        verify(exactly = once()) { contextActionExecutor.executeAction(rootView, onFinishAction, "onFinish") }
+        verify(exactly = once()) { contextActionExecutor.execute(rootView, onFinishAction, "onFinish") }
     }
 }
