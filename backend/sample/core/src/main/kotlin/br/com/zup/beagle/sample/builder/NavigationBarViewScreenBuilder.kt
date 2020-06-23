@@ -16,8 +16,6 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.widget.action.Navigate
-import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.Style
@@ -30,6 +28,8 @@ import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_BAR_ENDPOINT
 import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_BAR_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_BAR_STYLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_BAR_TEXT_ENDPOINT
+import br.com.zup.beagle.widget.action.Navigate
+import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
@@ -39,6 +39,7 @@ import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.layout.extensions.setId
 import br.com.zup.beagle.widget.ui.Button
+import br.com.zup.beagle.widget.ui.ImagePath.Local
 
 object NavigationBarViewScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
@@ -53,7 +54,7 @@ object NavigationBarViewScreenBuilder : ScreenBuilder {
                 NavigationBarItem(
                     text = "Ajuda",
                     accessibility = Accessibility(accessibilityLabel = "Content Description"),
-                    image = "informationImage",
+                    image = Local.justMobile("informationImage"),
                     action = Alert(
                         title = "NavigationBar",
                         message = "This component that allows to place titles and button action.",

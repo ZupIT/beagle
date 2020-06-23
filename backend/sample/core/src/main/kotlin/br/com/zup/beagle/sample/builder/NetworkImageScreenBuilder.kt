@@ -27,15 +27,17 @@ import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ImageContentMode
+import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.layout.ScrollView
-import br.com.zup.beagle.widget.ui.NetworkImage
+import br.com.zup.beagle.widget.ui.Image
+import br.com.zup.beagle.widget.ui.ImagePath.Local
+import br.com.zup.beagle.widget.ui.ImagePath.Remote
 import br.com.zup.beagle.widget.ui.Text
 
 object NetworkImageScreenBuilder : ScreenBuilder {
@@ -46,7 +48,7 @@ object NetworkImageScreenBuilder : ScreenBuilder {
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
-                    image = "informationImage",
+                    image = Local.justMobile("informationImage"),
                     action = Alert(
                         title = "NetworkImage",
                         message = "It is a widget that implements an image with a URL.",
@@ -65,10 +67,7 @@ object NetworkImageScreenBuilder : ScreenBuilder {
     private fun buildImage(title: String, mode: ImageContentMode? = null) = Container(
         children = listOf(
             buildText(title),
-            NetworkImage(
-                path = BEACH_NETWORK_IMAGE,
-                contentMode = mode
-            ).applyStyle(Style(
+            Image(Remote(BEACH_NETWORK_IMAGE), mode).applyStyle(Style(
                 flex = Flex(
                     alignSelf = AlignSelf.CENTER
                 ),

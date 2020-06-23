@@ -67,7 +67,7 @@ object AnalyticsScreenBuilder : ScreenBuilder {
     }
 
     private fun createButton(): Widget {
-        val button = Button(
+        return Button(
             text = "Button with Click Analytics Event",
             onPress = listOf(Alert(
                 title = "title",
@@ -80,7 +80,6 @@ object AnalyticsScreenBuilder : ScreenBuilder {
                 value = "value-button"
             )
         )
-        return button
     }
 
 }

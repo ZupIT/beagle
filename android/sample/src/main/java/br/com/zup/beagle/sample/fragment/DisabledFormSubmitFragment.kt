@@ -25,6 +25,7 @@ import br.com.zup.beagle.android.action.FormMethodType
 import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.components.TextInput
 import br.com.zup.beagle.android.components.form.Form
 import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.components.form.FormSubmit
@@ -102,9 +103,9 @@ class DisabledFormSubmitFragment : Fragment() {
     private fun makeCharadeAnswerInput(charade: CharadeInput): ServerDrivenComponent {
         return FormInput(
             name = charade.name,
-            child = TextField(
-                hint = "answer",
-                description = "mary"
+            child = TextInput(
+                placeholder = "answer",
+                value = "mary"
             ).applyStyle(
                 Style(
                     margin = EdgeValue(
