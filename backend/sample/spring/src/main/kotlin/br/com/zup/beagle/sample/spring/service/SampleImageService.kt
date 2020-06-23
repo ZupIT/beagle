@@ -21,5 +21,5 @@ import org.springframework.stereotype.Service
 
 @Service
 class SampleImageService {
-    fun createImageView() = ImageScreenBuilder
+    fun createImageView(qaFlag: Boolean) = ImageScreenBuilder(qaFlag)
 }

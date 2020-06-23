@@ -21,5 +21,5 @@ import org.springframework.stereotype.Service
 
 @Service
 class SafeAreaService {
-    fun createSafeArea() = SafeAreaBuilder
+    fun createSafeArea(qaFlag: Boolean) = SafeAreaBuilder(qaFlag)
 }

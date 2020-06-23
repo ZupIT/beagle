@@ -21,5 +21,5 @@ import org.springframework.stereotype.Service
 
 @Service
 class SampleComponentsService {
-    fun getCreateSampleComponentsView() = ComponentScreenBuilder
+    fun getCreateSampleComponentsView(qaFlag: Boolean) = ComponentScreenBuilder(qaFlag)
 }

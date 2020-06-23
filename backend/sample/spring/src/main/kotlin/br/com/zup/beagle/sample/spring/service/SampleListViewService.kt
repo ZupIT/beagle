@@ -21,5 +21,5 @@ import org.springframework.stereotype.Service
 
 @Service
 class SampleListViewService {
-    fun createListView() = ListViewScreenBuilder
+    fun createListView(qaFlag: Boolean) = ListViewScreenBuilder(qaFlag)
 }

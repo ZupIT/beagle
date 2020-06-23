@@ -17,16 +17,17 @@
 package br.com.zup.beagle.sample.spring.service
 
 import br.com.zup.beagle.sample.builder.NavigateTypeBuilder
+import br.com.zup.beagle.sample.compose.sample.ComposeSampleNavigateType
 import org.springframework.stereotype.Service
 
 @Service
 class SampleNavigationTypeService {
 
-    fun getScreenNavigateType() = NavigateTypeBuilder
+    fun getScreenNavigateType(qaFlag: Boolean) = NavigateTypeBuilder(qaFlag)
 
-    fun getScreenSte2() = NavigateTypeBuilder.step2()
+    fun getScreenSte2() = ComposeSampleNavigateType.step2()
 
-    fun getScreenPresentView() = NavigateTypeBuilder.presentView()
+    fun getScreenPresentView() = ComposeSampleNavigateType.presentView()
 
-    fun getScreenStep3() =  NavigateTypeBuilder.step3()
+    fun getScreenStep3() =  ComposeSampleNavigateType.step3()
 }

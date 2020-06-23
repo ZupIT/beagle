@@ -21,5 +21,5 @@ import org.springframework.stereotype.Service
 
 @Service
 class AccessibilityService {
-    fun createAccessibilityView() = AccessibilityScreenBuilder
+    fun createAccessibilityView(qaFlag: Boolean) = AccessibilityScreenBuilder(qaFlag)
 }
