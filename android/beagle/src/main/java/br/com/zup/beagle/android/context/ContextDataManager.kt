@@ -100,7 +100,7 @@ internal class ContextDataManager(
             contexts[context.id] = contextBinding.copy(context = newContext)
             true
         } else {
-            return try {
+            try {
                 val keys = contextPathResolver.getKeysFromPath(context.id, path)
                 val result = jsonPathReplacer.replace(keys, value, context.value)
                 if (result.second.javaClass != context.value.javaClass) {
