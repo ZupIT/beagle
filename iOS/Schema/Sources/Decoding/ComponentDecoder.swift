@@ -140,7 +140,6 @@ final public class ComponentDecoder: ComponentDecoding {
     private func registerUITypes() {
         registerComponent(Button.self, key: key(name: "Button", namespace: .beagle))
         registerComponent(Image.self, key: key(name: "Image", namespace: .beagle))
-        registerComponent(NetworkImage.self, key: key(name: "NetworkImage", namespace: .beagle))
         registerComponent(ListView.self, key: key(name: "ListView", namespace: .beagle))
         registerComponent(Text.self, key: key(name: "Text", namespace: .beagle))
         registerComponent(PageView.self, key: key(name: "PageView", namespace: .beagle))
