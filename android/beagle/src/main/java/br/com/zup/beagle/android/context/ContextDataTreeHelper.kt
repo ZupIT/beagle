@@ -21,10 +21,12 @@ import java.util.LinkedList
 
 internal class ContextDataTreeHelper {
 
-    fun updateContextDataWithTree(contextBinding: ContextBinding,
-                                  jsonCreateTree: JsonCreateTree,
-                                  keys: LinkedList<String>,
-                                  contexts: MutableMap<String, ContextBinding>): ContextData {
+    fun updateContextDataWithTree(
+        contextBinding: ContextBinding,
+        jsonCreateTree: JsonCreateTree,
+        keys: LinkedList<String>,
+        contexts: MutableMap<String, ContextBinding>
+    ): ContextData {
         var context = contextBinding.context
         val initialTree = jsonCreateTree.createInitialTree(context.value, keys.first)
         if (initialTree != context.value) {
@@ -33,9 +35,11 @@ internal class ContextDataTreeHelper {
         return context
     }
 
-    fun setNewTreeInContextData(contexts: MutableMap<String, ContextBinding>,
-                                contextBinding: ContextBinding,
-                                value: Any): ContextData {
+    fun setNewTreeInContextData(
+        contexts: MutableMap<String, ContextBinding>,
+        contextBinding: ContextBinding,
+        value: Any
+    ): ContextData {
         val context = contextBinding.context
         val newContext = context.copy(value = value)
         contexts[context.id] = contextBinding.copy(context = newContext)
