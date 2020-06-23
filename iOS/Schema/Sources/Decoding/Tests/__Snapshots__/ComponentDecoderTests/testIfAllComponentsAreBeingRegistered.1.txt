@@ -1,4 +1,4 @@
-▿ 16 key/value pairs
+▿ 18 key/value pairs
   ▿ (2 elements)
     - key: "beagle:button"
     - value: Button
@@ -24,6 +24,9 @@
     - key: "beagle:listview"
     - value: ListView
   ▿ (2 elements)
+    - key: "beagle:networkimage"
+    - value: NetworkImage
+  ▿ (2 elements)
     - key: "beagle:pageindicator"
     - value: PageIndicator
   ▿ (2 elements)
@@ -41,6 +44,9 @@
   ▿ (2 elements)
     - key: "beagle:text"
     - value: Text
+  ▿ (2 elements)
+    - key: "beagle:textinput"
+    - value: TextInput
   ▿ (2 elements)
     - key: "beagle:touchable"
     - value: Touchable

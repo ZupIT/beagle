@@ -138,9 +138,9 @@ final public class ComponentDecoder: ComponentDecoding {
     }
     
     private func registerUITypes() {
-
         registerComponent(Button.self, key: key(name: "Button", namespace: .beagle))
         registerComponent(Image.self, key: key(name: "Image", namespace: .beagle))
+        registerComponent(NetworkImage.self, key: key(name: "NetworkImage", namespace: .beagle))
         registerComponent(ListView.self, key: key(name: "ListView", namespace: .beagle))
         registerComponent(Text.self, key: key(name: "Text", namespace: .beagle))
         registerComponent(PageView.self, key: key(name: "PageView", namespace: .beagle))
@@ -148,7 +148,7 @@ final public class ComponentDecoder: ComponentDecoding {
         registerComponent(PageIndicator.self, key: key(name: "PageIndicator", namespace: .beagle))
         registerComponent(LazyComponent.self, key: key(name: "LazyComponent", namespace: .beagle))
         registerComponent(WebView.self, key: key(name: "WebView", namespace: .beagle))
-
+        registerComponent(TextInput.self, key: key(name: "TextInput", namespace: .beagle))
     }
     
     private func registerComponent<T: Decodable>(_ type: T.Type, key: String) {

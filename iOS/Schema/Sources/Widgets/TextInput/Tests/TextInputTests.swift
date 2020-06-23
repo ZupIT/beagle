@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,22 +15,14 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.setup
+import XCTest
+import SnapshotTesting
+@testable import BeagleSchema
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StyleRes
-
-open class DesignSystem {
-    @DrawableRes
-    open fun image(id: String): Int? = null
-    @StyleRes
-    open fun textStyle(id: String): Int? = null
-    @StyleRes
-    open fun inputTextStyle(id: String): Int? = null
-    @StyleRes
-    open fun buttonStyle(id: String): Int? = null
-    @StyleRes
-    open fun toolbarStyle(id: String): Int? = null
-    @StyleRes
-    open fun tabViewStyle(id: String): Int? = null
+final class TextInputTests: XCTestCase {
+    
+    func test_whenDecodingJson_shouldReturnAText() throws {
+        let component: TextInput = try componentFromJsonFile(fileName: "TextInputComponent")
+        assertSnapshot(matching: component, as: .dump)
+    }
 }

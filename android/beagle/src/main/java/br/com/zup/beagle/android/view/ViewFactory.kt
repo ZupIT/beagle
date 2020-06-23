@@ -21,6 +21,7 @@ package br.com.zup.beagle.android.view
 import android.content.Context
 import android.view.View
 import android.webkit.WebView
+import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.HorizontalScrollView
 import android.widget.ScrollView
@@ -62,6 +63,8 @@ internal class ViewFactory {
     fun makeButton(context: Context) = AppCompatButton(context)
 
     fun makeTextView(context: Context) = TextView(context)
+
+    fun makeInputText(context: Context) = EditText(context)
 
     fun makeAlertDialogBuilder(context: Context) = AlertDialog.Builder(context)
 
