@@ -47,6 +47,7 @@ extension Touchable: ServerDrivenComponent {
             controller: controller
         )
         view.addGestureRecognizer(eventsGestureRecognizer)
+        view.isUserInteractionEnabled = true
     }
     
     private func prefetchComponent(helper: BeaglePrefetchHelping) {
