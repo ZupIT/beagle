@@ -36,6 +36,7 @@ import io.mockk.mockkObject
 import io.mockk.slot
 import io.mockk.verify
 import io.mockk.verifyOrder
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -66,6 +67,11 @@ class SendRequestHandlerTest {
         } returns viewModel
 
         every { contextActionExecutorMock.executeAction(any(), any(), any(), any()) } just Runs
+    }
+
+    @After
+    fun tearDown() {
+        contextActionExecutor = ContextActionExecutor()
     }
 
     @Test
@@ -130,7 +136,7 @@ class SendRequestHandlerTest {
         observerSlot.captured.onChanged(result)
 
         // Then
-        verify(exactly = once()) { contextActionExecutorMock.executeAction(rootView, any(), "onFinish") }
+        verify(exactly = once()) { contextActionExecutor.executeAction(rootView, any(), "onFinish") }
     }
 
     @Test
