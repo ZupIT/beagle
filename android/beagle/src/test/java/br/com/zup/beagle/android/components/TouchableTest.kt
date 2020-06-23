@@ -23,6 +23,7 @@ import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.utils.handleEvent
 import io.mockk.CapturingSlot
 import io.mockk.Runs
 import io.mockk.every
@@ -30,6 +31,7 @@ import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkConstructor
+import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
 import org.junit.Test
@@ -49,6 +51,7 @@ class TouchableViewRenderer : BaseComponentTest() {
     override fun setUp() {
         super.setUp()
 
+        mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
         mockkConstructor(PreFetchHelper::class)
 
         every { beagleSdk.analytics } returns analytics
@@ -74,7 +77,9 @@ class TouchableViewRenderer : BaseComponentTest() {
         callBuildAndClick()
 
         // Then
-        verify(exactly = once()) { actions.first().execute(rootView) }
+        verify(exactly = once()) {
+            touchable.handleEvent(rootView, actions, "onPress")
+        }
     }
 
     private fun callBuildAndClick() {

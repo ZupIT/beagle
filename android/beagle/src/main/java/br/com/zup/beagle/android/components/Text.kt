@@ -22,7 +22,7 @@ import android.widget.TextView
 import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.utils.get
+import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.utils.toAndroidColor
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
@@ -57,22 +57,28 @@ data class Text(
     }
 
     private fun TextView.setTextWidget(text: Text, rootView: RootView) {
-        text.text.get(rootView) {
+        observeBindChanges(rootView, text.text) {
             this.text = it
         }
 
-        text.styleId?.get(rootView) {
-            this.setStyle(it)
+        text.styleId?.let {
+            observeBindChanges(rootView, it) { value ->
+                this.setStyle(value)
+            }
         } ?: run {
             this.setStyle("")
         }
 
-        text.textColor?.get(rootView) {
-            this.setTextColor(it)
+        text.textColor?.let {
+            observeBindChanges(rootView, it) { value ->
+                this.setTextColor(value)
+            }
         }
 
-        text.alignment?.get(rootView) {
-            this.setAlignment(it)
+        text.alignment?.let {
+            observeBindChanges(rootView, it) { value ->
+                this.setAlignment(value)
+            }
         }
     }
 

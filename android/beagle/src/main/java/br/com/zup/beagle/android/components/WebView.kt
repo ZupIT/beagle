@@ -25,7 +25,7 @@ import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebViewClient
 import br.com.zup.beagle.android.context.Bind
-import br.com.zup.beagle.android.utils.get
+import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.view.ViewFactory
@@ -43,7 +43,7 @@ data class WebView(
     override fun buildView(rootView: RootView): View {
         val webView = viewFactory.makeWebView(rootView.getContext())
         webView.webViewClient = BeagleWebViewClient(webView.context)
-        url.get(rootView = rootView) {
+        observeBindChanges(rootView, url) {
             webView.loadUrl(it)
         }
         return webView

@@ -30,7 +30,7 @@ import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.utils.dp
-import br.com.zup.beagle.android.utils.get
+import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.widget.RootView
@@ -99,8 +99,10 @@ data class TabView(
 
     private fun TabLayout.setData(rootView: RootView) {
         var bindString: String? = null
-        styleId?.get(rootView) { bind ->
-            bindString = bind
+        styleId?.let {
+            observeBindChanges(rootView, it) { value ->
+                bindString = value
+            }
         }
         val typedArray = styleManagerFactory.getTabBarTypedArray(context, bindString)
         typedArray?.let {
