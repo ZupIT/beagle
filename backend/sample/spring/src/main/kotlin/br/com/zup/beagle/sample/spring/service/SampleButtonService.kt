@@ -21,5 +21,5 @@ import org.springframework.stereotype.Service
 
 @Service
 class SampleButtonService {
-    fun createButtonView() = ButtonScreenBuilder
+    fun createButtonView(x:Boolean) = ButtonScreenBuilder(x)
 }

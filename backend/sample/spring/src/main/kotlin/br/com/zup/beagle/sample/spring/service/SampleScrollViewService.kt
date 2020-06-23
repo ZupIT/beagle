@@ -21,5 +21,5 @@ import org.springframework.stereotype.Service
 
 @Service
 class SampleScrollViewService {
-    fun createScrollView() = ScrollViewScreenBuilder
+    fun createScrollView(qaFlag: Boolean) = ScrollViewScreenBuilder(qaFlag)
 }

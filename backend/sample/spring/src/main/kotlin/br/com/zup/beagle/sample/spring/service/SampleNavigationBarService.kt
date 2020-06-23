@@ -28,7 +28,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class SampleNavigationBarService {
-    fun createNavigationBarView() = NavigationBarViewScreenBuilder
+    fun createNavigationBarView(qaFlag: Boolean) = NavigationBarViewScreenBuilder(qaFlag)
 
     fun navigationBar() = NavigationBarScreenBuilder(
         titleNavigation = "NavigationBar",

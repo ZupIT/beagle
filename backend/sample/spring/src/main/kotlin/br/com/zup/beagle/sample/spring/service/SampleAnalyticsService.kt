@@ -21,5 +21,5 @@ import org.springframework.stereotype.Service
 
 @Service
 class SampleAnalyticsService {
-    fun getAnalyticsExample() = AnalyticsScreenBuilder
+    fun getAnalyticsExample(qaFlag: Boolean) = AnalyticsScreenBuilder(qaFlag)
 }

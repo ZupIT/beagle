@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class SampleLazyComponentService {
-    fun createLazyComponent() = LazyComponentScreenBuilder
+    fun createLazyComponent(validation: Boolean) = LazyComponentScreenBuilder(validation)
 
     fun createTextLazyComponent() = Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do " +
         "eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud" +

@@ -21,5 +21,5 @@ import org.springframework.stereotype.Service
 
 @Service
 class SampleScreenBuilderService {
-    fun createScreenBuilder() = MyScreenBuilder("Hello World!")
+    fun createScreenBuilder(qaFlag: Boolean) = MyScreenBuilder("Hello World!", qaFlag)
 }

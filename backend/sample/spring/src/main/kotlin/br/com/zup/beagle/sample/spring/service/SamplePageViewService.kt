@@ -21,6 +21,6 @@ import org.springframework.stereotype.Service
 
 @Service
 class SamplePageViewService {
-    fun createPageView() = PageViewScreenBuilder
+    fun createPageView(qaFlag: Boolean) = PageViewScreenBuilder(qaFlag)
 }
 

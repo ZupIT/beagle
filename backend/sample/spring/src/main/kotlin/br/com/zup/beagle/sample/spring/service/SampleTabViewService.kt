@@ -21,5 +21,5 @@ import org.springframework.stereotype.Service
 
 @Service
 class SampleTabViewService {
-    fun createTabView() = TabViewScreenBuilder
+    fun createTabView(qaFlag: Boolean) = TabViewScreenBuilder(qaFlag)
 }

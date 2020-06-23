@@ -21,5 +21,5 @@ import org.springframework.stereotype.Service
 
 @Service
 class SampleTextService {
-    fun createTextView() = TextScreenBuilder
+    fun createTextView(qaFlag: Boolean) = TextScreenBuilder(qaFlag)
 }

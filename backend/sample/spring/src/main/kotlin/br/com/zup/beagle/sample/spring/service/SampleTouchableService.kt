@@ -21,5 +21,5 @@ import org.springframework.stereotype.Service
 
 @Service
 class SampleTouchableService {
-    fun createTouchableView() = TouchableScreenBuilder
+    fun createTouchableView(qaFlag: Boolean) = TouchableScreenBuilder(qaFlag)
 }

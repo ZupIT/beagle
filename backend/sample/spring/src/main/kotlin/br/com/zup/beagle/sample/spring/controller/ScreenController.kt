@@ -49,8 +49,8 @@ import br.com.zup.beagle.sample.constants.SCREEN_TAB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TOUCHABLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_WEB_VIEW_ENDPOINT
+import br.com.zup.beagle.sample.constants.QAFLAG
 import br.com.zup.beagle.sample.spring.service.AccessibilityService
-import br.com.zup.beagle.sample.spring.service.SafeAreaService
 import br.com.zup.beagle.sample.spring.service.SampleActionClickService
 import br.com.zup.beagle.sample.spring.service.SampleActionService
 import br.com.zup.beagle.sample.spring.service.SampleAnalyticsService
@@ -75,6 +75,7 @@ import br.com.zup.beagle.sample.spring.service.SampleViewService
 import br.com.zup.beagle.sample.spring.service.SampleWebViewService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.PathVariable
 
 @RestController
 class ScreenController(
@@ -103,50 +104,50 @@ class ScreenController(
     private val sampleSafeArea: SampleSafeAreaService
 ) {
     @GetMapping(ACCESSIBILITY_SCREEN_ENDPOINT)
-    fun getAccessibilityView() = this.accessibilityService.createAccessibilityView()
+    fun getAccessibilityView(@PathVariable(QAFLAG) qaFlag: Boolean) = this.accessibilityService.createAccessibilityView(qaFlag)
 
     @GetMapping(SAMPLE_VIEW_ENDPOINT)
     fun getSampleView() = this.sampleViewService.createSampleView()
 
     @GetMapping(SCREEN_BUILDER_ENDPOINT)
-    fun getScreenBuilder() = this.sampleScreenBuilderService.createScreenBuilder()
+    fun getScreenBuilder(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleScreenBuilderService.createScreenBuilder(qaFlag)
 
     @GetMapping(SCREEN_COMPONENTS_ENDPOINT)
-    fun getSampleComponents() = this.sampleComponentsService.getCreateSampleComponentsView()
+    fun getSampleComponents(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleComponentsService.getCreateSampleComponentsView(qaFlag)
 
     @GetMapping(SCREEN_BUTTON_ENDPOINT)
-    fun getSampleButtonView() = this.sampleButtonService.createButtonView()
+    fun getSampleButtonView(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleButtonService.createButtonView(qaFlag)
 
     @GetMapping(SCREEN_TEXT_ENDPOINT)
-    fun getSampleTextView() = this.sampleTextService.createTextView()
+    fun getSampleTextView(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleTextService.createTextView(qaFlag)
 
     @GetMapping(SCREEN_IMAGE_ENDPOINT)
-    fun getSampleImageView() = this.sampleImageService.createImageView()
+    fun getSampleImageView(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleImageService.createImageView(qaFlag)
 
     @GetMapping(SCREEN_TAB_VIEW_ENDPOINT)
-    fun getSampleTabViewView() = this.sampleTabViewService.createTabView()
+    fun getSampleTabViewView(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleTabViewService.createTabView(qaFlag)
 
     @GetMapping(SCREEN_LIST_VIEW_ENDPOINT)
-    fun getSampleListView() = sampleListViewService.createListView()
+    fun getSampleListView(@PathVariable(QAFLAG) qaFlag: Boolean) = sampleListViewService.createListView(qaFlag)
 
     @GetMapping(SCREEN_SCROLL_VIEW_ENDPOINT)
-    fun getScrollView() = sampleScrollViewService.createScrollView()
+    fun getScrollView(@PathVariable(QAFLAG) qaFlag: Boolean) = sampleScrollViewService.createScrollView(qaFlag)
 
     @GetMapping(SCREEN_PAGE_VIEW_ENDPOINT)
-    fun getPageView() = this.samplePageViewService.createPageView()
+    fun getPageView(@PathVariable(QAFLAG) qaFlag: Boolean) = this.samplePageViewService.createPageView(qaFlag)
 
     @GetMapping(SCREEN_ACTION_ENDPOINT)
-    fun getShowDialogAction() = this.sampleActionService.createAction()
+    fun getShowDialogAction(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleActionService.createAction(qaFlag)
 
     @GetMapping(SCREEN_FORM_ENDPOINT)
-    fun getSampleFormView() = this.sampleFormService.createFormView()
+    fun getSampleFormView(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleFormService.createFormView(qaFlag)
 
     @GetMapping(SCREEN_LAZY_COMPONENT_ENDPOINT)
-    fun getSampleLazyComponentController() = this.sampleLazyComponentService.createLazyComponent()
+    fun getSampleLazyComponentController(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleLazyComponentService.createLazyComponent(qaFlag)
 
     @GetMapping(SCREEN_NAVIGATION_BAR_ENDPOINT)
-    fun getSampleNavigationBarController() =
-        this.sampleNavigationBarService.createNavigationBarView()
+    fun getSampleNavigationBarController(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.sampleNavigationBarService.createNavigationBarView(qaFlag)
 
     @GetMapping(REPRESENTATION_NAVIGATION_BAR_ENDPOINT)
     fun getSampleNavigationBar() = this.sampleNavigationBarService.navigationBar()
@@ -161,8 +162,8 @@ class ScreenController(
     fun getNavigationBarImage() = this.sampleNavigationBarService.navigationBarWithImageAsItem()
 
     @GetMapping(NAVIGATION_TYPE_ENDPOINT)
-    fun getSampleNavigationTypeController() =
-        this.sampleNavigationTypeService.getScreenNavigateType()
+    fun getSampleNavigationTypeController(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.sampleNavigationTypeService.getScreenNavigateType(qaFlag)
 
     @GetMapping(REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT)
     fun getNavigationStep2() = this.sampleNavigationTypeService.getScreenSte2()
@@ -174,27 +175,27 @@ class ScreenController(
     fun getNavigationStep3() = this.sampleNavigationTypeService.getScreenStep3()
 
     @GetMapping(SCREEN_COMPOSE_COMPONENT_ENDPOINT)
-    fun getComposeComponent() = this.sampleComposeComponentService.createComposeComponentView()
+    fun getComposeComponent(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleComposeComponentService.createComposeComponentView(qaFlag)
 
     @GetMapping(SCREEN_NETWORK_IMAGE_ENDPOINT)
     fun getSampleNetworkImageView() = this.sampleNetworkImageService.createNetworkImage()
 
     @GetMapping(SCREEN_TOUCHABLE_ENDPOINT)
-    fun getTouchableView() = this.sampleTouchableService.createTouchableView()
+    fun getTouchableView(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleTouchableService.createTouchableView(qaFlag)
 
     @GetMapping(SCREEN_ACTION_CLICK_ENDPOINT)
-    fun getSampleActionClickController() = this.sampleActionClickService.createActionClick()
+    fun getSampleActionClickController(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleActionClickService.createActionClick(qaFlag)
 
     @GetMapping(SCREEN_EXAMPLE_ENDPOINT)
     fun getNavigationExample() = this.sampleActionService.getNavigateExample()
 
     @GetMapping(SCREEN_ANALYTICS_ENDPOINT)
-    fun getAnalyticsExample() = this.sampleAnalyticsService.getAnalyticsExample()
+    fun getAnalyticsExample(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleAnalyticsService.getAnalyticsExample(qaFlag)
 
     @GetMapping(SCREEN_WEB_VIEW_ENDPOINT)
-    fun getsampleWebViewService() = this.sampleWebViewService.createWebView()
+    fun getSampleWebViewService(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleWebViewService.createWebView(qaFlag)
 
     @GetMapping(SCREEN_SAFE_AREA)
-    fun getSampleSafeArea() = this.sampleSafeArea.createSafeArea()
+    fun getSampleSafeArea(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleSafeArea.createSafeArea(qaFlag)
 
 }

@@ -21,5 +21,6 @@ import org.springframework.stereotype.Service
 
 @Service
 class SampleWebViewService {
-    fun createWebView() = WebViewScreenBuilder
+    fun createWebView(qaFlag: Boolean) = WebViewScreenBuilder(qaFlag)
+
 }
