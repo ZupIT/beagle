@@ -18,8 +18,8 @@ package br.com.zup.beagle.android.context
 
 import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.jsonpath.JsonCreateTree
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
-import br.com.zup.beagle.android.jsonpath.JsonPathReplacer
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.testutil.getPrivateField
@@ -28,6 +28,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
@@ -58,11 +59,12 @@ class ContextDataManagerTest {
     @MockK
     private lateinit var jsonPathFinder: JsonPathFinder
 
-    @MockK
-    private lateinit var jsonPathReplacer: JsonPathReplacer
+    @RelaxedMockK
+    private lateinit var jsonCreateTree: JsonCreateTree
 
     @MockK
     private lateinit var contextPathResolver: ContextPathResolver
+
 
     @MockK
     private lateinit var moshi: Moshi
@@ -85,13 +87,14 @@ class ContextDataManagerTest {
         every { BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(any()) } just Runs
         every { BeagleMessageLogs.errorWhileTryingToChangeContext(any()) } just Runs
         every { BeagleMessageLogs.errorWhileTryingToAccessContext(any()) } just Runs
-        every { contextPathResolver.getKeysFromPath(any(), any()) } returns LinkedList()
+        every { contextPathResolver.getKeysFromPath(any(), any()) } returns LinkedList(listOf(""))
         every { jsonPathFinder.find(any(), any()) } returns mockk()
         every { moshi.adapter<Any>(any<Class<*>>()).fromJson(any<String>()) } returns bindModel
 
         contextDataManager = ContextDataManager(
             jsonPathFinder,
-            jsonPathReplacer,
+            jsonCreateTree,
+            ContextDataTreeHelper(),
             contextPathResolver,
             moshi
         )
@@ -161,7 +164,6 @@ class ContextDataManagerTest {
         val contextData = ContextData(CONTEXT_ID, json)
         val updateContext = SetContextInternal(CONTEXT_ID, false, "a")
         contexts[contextData.id] = ContextBinding(contextData, mutableListOf())
-        every { jsonPathReplacer.replace(any(), any(), any()) } returns Pair(true, json)
 
         // When
         val result = contextDataManager.updateContext(updateContext)
@@ -169,27 +171,6 @@ class ContextDataManagerTest {
         // Then
         assertTrue { result }
     }
-    
-    @Test
-    fun updateContext_should_set_value_on_context_root_when_change_tree() {
-        // Given
-        val json = JSONObject().apply {
-            put("a", true)
-        }
-        val contextData = ContextData(CONTEXT_ID, json)
-        val updateContext = SetContextInternal(CONTEXT_ID, "test", "a[1].b")
-        contexts[contextData.id] = ContextBinding(contextData, mutableListOf())
-        every { jsonPathReplacer.replace(any(), any(), any()) } returns Pair(true, "test")
-
-        // When
-        val result = contextDataManager.updateContext(updateContext)
-
-        // Then
-        assertTrue { result }
-        assertEquals(updateContext.contextId, contexts[contextData.id]?.context?.id)
-        assertEquals(updateContext.value, contexts[contextData.id]?.context?.value)
-    }
-
 
     @Test
     fun updateContext_should_log_error_when_jsonPathReplacer_throws_exception() {
@@ -197,7 +178,7 @@ class ContextDataManagerTest {
         val contextData = ContextData(CONTEXT_ID, true)
         val updateContext = SetContextInternal(CONTEXT_ID, false, "a")
         contexts[contextData.id] = ContextBinding(contextData, mutableListOf())
-        every { jsonPathReplacer.replace(any(), any(), any()) } throws IllegalStateException()
+        every { jsonCreateTree.walkingTreeAndFindKey(any(), any(), any()) } throws IllegalStateException()
 
         // When
         val result = contextDataManager.updateContext(updateContext)

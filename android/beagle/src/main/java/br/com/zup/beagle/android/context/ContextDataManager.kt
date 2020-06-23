@@ -20,7 +20,6 @@ import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.jsonpath.JsonCreateTree
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
-import br.com.zup.beagle.android.jsonpath.JsonPathReplacer
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.BeagleConstants
 import br.com.zup.beagle.android.utils.getExpressions
@@ -37,7 +36,8 @@ internal data class ContextBinding(
 
 internal class ContextDataManager(
     private val jsonPathFinder: JsonPathFinder = JsonPathFinder(),
-    private val jsonPathReplacer: JsonPathReplacer = JsonPathReplacer(),
+    private val jsonCreateTree: JsonCreateTree = JsonCreateTree(),
+    private val contextDataTreeHelper: ContextDataTreeHelper = ContextDataTreeHelper(),
     private val contextPathResolver: ContextPathResolver = ContextPathResolver(),
     private val moshi: Moshi = BeagleMoshi.moshi
 ) {
@@ -94,26 +94,30 @@ internal class ContextDataManager(
     }
 
     private fun setValue(contextBinding: ContextBinding, path: String, value: Any): Boolean {
-        val context = contextBinding.context
+        var context = contextBinding.context
         return if (path == context.id) {
-            val newContext = context.copy(value = value)
-            contexts[context.id] = contextBinding.copy(context = newContext)
+            contextDataTreeHelper.setNewTreeInContextData(contexts, contextBinding, value)
             true
         } else {
             try {
                 val keys = contextPathResolver.getKeysFromPath(context.id, path)
-                val result = jsonPathReplacer.replace(keys, value, context.value)
-                if (result.second.javaClass != context.value.javaClass) {
-                    return setValue(contextBinding, path = context.id, value = result.second)
+                if (keys.isEmpty()) {
+                    return false
                 }
-                result.first
+                context = contextDataTreeHelper.updateContextDataWithTree(
+                    contextBinding,
+                    jsonCreateTree,
+                    keys,
+                    contexts
+                )
+                jsonCreateTree.walkingTreeAndFindKey(context.value, keys, value)
+                true
             } catch (ex: Exception) {
                 BeagleMessageLogs.errorWhileTryingToChangeContext(ex)
                 false
             }
         }
     }
-
 
     private fun notifyBindingChanges(contextBinding: ContextBinding) {
         val contextData = contextBinding.context
