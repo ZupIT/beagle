@@ -18,8 +18,11 @@ package br.com.zup.beagle.sample.compose.quality
 
 
 import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.TextAlignment
 import br.com.zup.beagle.widget.layout.ComposeComponent
@@ -33,6 +36,8 @@ object ComposeFlexQuality: ComposeComponent {
             createText(backgroundColor = "#dd7631", text = "texto 2"),
             createText(backgroundColor = "#649d66", text = "texto 3")
         )
+    ).applyFlex(
+        flex = Flex(FlexDirection.ROW)
     )
 
     fun createText(text: String, backgroundColor: String): Container = Container(
@@ -45,7 +50,7 @@ object ComposeFlexQuality: ComposeComponent {
     ).applyStyle(
         style = Style(
             backgroundColor = backgroundColor,
-            size = Size(width = 50.unitReal(), height =  50.unitReal())
+            size = Size(width = 100.unitReal(), height =  100.unitReal())
         )
     )
 }
