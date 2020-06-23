@@ -27,18 +27,18 @@ private const val DEFAULT_KEY_NAME = "value"
 
 internal class ContextActionExecutor {
 
-    fun executeActions(
+    fun execute(
         rootView: RootView,
         actions: List<Action>,
         eventName: String,
         eventValue: Any? = null
     ) {
         actions.forEach {
-            executeAction(rootView, it, eventName, eventValue)
+            execute(rootView, it, eventName, eventValue)
         }
     }
 
-    fun executeAction(
+    fun execute(
         rootView: RootView,
         action: Action,
         eventName: String,

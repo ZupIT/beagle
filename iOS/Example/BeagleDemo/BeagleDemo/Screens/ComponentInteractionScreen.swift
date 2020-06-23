@@ -129,7 +129,6 @@ struct TextInput: Widget {
     func toView(renderer: BeagleRenderer) -> UIView {
         let view = TextInputView(widget: self, controller: renderer.controller)
         view.text = label.get(with: view, controller: renderer.controller) { string in view.text = string }
-        view.beagle.setup(self)
         return view
     }
 }
