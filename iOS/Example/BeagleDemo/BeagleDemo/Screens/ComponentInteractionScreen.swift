@@ -46,7 +46,11 @@ let declarativeScreen: Screen = {
                     SetContext(
                         context: "myContext",
                         path: "text",
-                        value: "@{onChange.value}"
+                        value: [
+                            "text": "@{onChange.value}",
+                            "alignment": "RIGHT",
+                            "textColor": "#FF2020"
+                        ]
                     )
                 ]
             ),
@@ -58,7 +62,7 @@ let declarativeScreen: Screen = {
                     value: [
                         "text": "button value",
                         "alignment": "RIGHT",
-                        "textColor": "#FF2020"
+                        "textColor": "#2020FF"
                     ]
                 )]
             )
@@ -131,7 +135,7 @@ struct TextInput: Widget {
     
     func toView(renderer: BeagleRenderer) -> UIView {
         let view = TextInputView(widget: self, controller: renderer.controller)
-        view.text = label.get(with: view, controller: renderer.controller) { string in view.text = string }
+        renderer.observe(label, andUpdate: \.text, in: view)
         return view
     }
 }

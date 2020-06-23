@@ -17,7 +17,6 @@
 import UIKit
 import WebKit
 
-//TODO: implement snapshot testing. We should test this as image
 // test loading, idle and loaded state if possible.
 final class WebViewUIComponent: UIView {
     
@@ -42,16 +41,29 @@ final class WebViewUIComponent: UIView {
         let url: String
     }
     
-    private var model: Model?
+    public var model: Model? {
+        didSet { updateView() }
+    }
     
     init(model: Model) {
         self.model = model
+
         super.init(frame: .zero)
+
         setupViews()
+        updateView()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    private func updateView() {
+        guard let model = model, let url = URL(string: model.url) else { return }
+
+        let request = URLRequest(url: url)
+        loadingView.startAnimating()
+        webView.load(request)
     }
     
     private func setupViews() {
@@ -61,18 +73,11 @@ final class WebViewUIComponent: UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
         
-        guard let model = model else { return }
-        if let url = URL(string: model.url) {
-            let request = URLRequest(url: url)
-            webView.load(request)
-        }
-        
         loadingView.hidesWhenStopped = true
         webView.navigationDelegate = self
-        webView.isHidden = loadingView.isHidden ? true : false
-        webView.isLoading ? loadingView.startAnimating() : loadingView.stopAnimating()
     }
 }
+
 extension WebViewUIComponent: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation) {
         loadingView.stopAnimating()

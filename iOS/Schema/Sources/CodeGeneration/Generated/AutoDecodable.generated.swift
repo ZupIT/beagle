@@ -375,7 +375,7 @@ extension WebView {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        url = try container.decode(String.self, forKey: .url)
+        url = try container.decode(Expression<String>.self, forKey: .url)
         widgetProperties = try WidgetProperties(from: decoder)
     }
 }

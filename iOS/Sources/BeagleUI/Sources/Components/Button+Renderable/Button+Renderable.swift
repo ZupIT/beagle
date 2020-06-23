@@ -26,8 +26,9 @@ extension Button: Widget {
             clickAnalyticsEvent: clickAnalyticsEvent,
             controller: renderer.controller
         )
-        if let buttonTitle = text.get(with: button, controller: renderer.controller, updateFunction: { title in button.setTitle(title, for: .normal) }) {
-            button.setTitle(buttonTitle, for: .normal)
+
+        renderer.observe(text, andUpdateManyIn: button) {
+            button.setTitle($0 as String, for: .normal)
         }
         
         let preFetchHelper = renderer.controller.dependencies.preFetchHelper

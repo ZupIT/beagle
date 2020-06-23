@@ -73,33 +73,77 @@ open class BeagleRenderer {
             view.setContext(context)
         }
     }
+}
 
-    func observe<E, V: UIView>(
-        _ expression: Expression<E>?,
-        andUpdate keyPath: ReferenceWritableKeyPath<V, E>,
-        in view: V
+// MARK: - Observe Expressions
+
+public extension BeagleRenderer {
+
+    typealias Mapper<From, To> = (From) -> To
+
+    // MARK: Property of same Expression's Value
+
+    func observe<Value, View: UIView>(
+        _ expression: Expression<Value>?,
+        andUpdate keyPath: ReferenceWritableKeyPath<View, Value>,
+        in view: View,
+        map: Mapper<Value?, Value>? = nil
     ) {
-        observe(expression, in: view) {
-            guard let value = $0 else { return }
-            DispatchQueue.main.async { view[keyPath: keyPath] = value }
+        if let expression = expression {
+            expression.observe(view: view, controller: controller) { value in
+                view[keyPath: keyPath] = map?(value) ?? value
+            }
+        } else if let map = map {
+            view[keyPath: keyPath] = map(nil)
         }
     }
 
-    func observe<E, V: UIView, P>(
-        _ expression: Expression<E>?,
-        andUpdate keyPath: ReferenceWritableKeyPath<V, P>,
-        in view: V,
-        transformation: @escaping (E?) -> P
+    func observe<Value, View: UIView>(
+        _ expression: Expression<Value>?,
+        andUpdate keyPath: ReferenceWritableKeyPath<View, Value?>,
+        in view: View,
+        map: Mapper<Value?, Value?>? = nil
     ) {
-        observe(expression, in: view) { value in
-            DispatchQueue.main.async { view[keyPath: keyPath] = transformation(value) }
+        if let expression = expression {
+            expression.observe(view: view, controller: controller) { value in
+                view[keyPath: keyPath] = map?(value) ?? value
+            }
+        } else if let map = map {
+            view[keyPath: keyPath] = map(nil)
         }
     }
 
-    func observe<E>(
-        _ expression: Expression<E>?,
-        in view: UIView,
-        updateFunction: @escaping (E?) -> Void
+    // MARK: Property with different type than expression
+
+    func observe<Value, View: UIView, Property>(
+        _ expression: Expression<Value>,
+        andUpdate keyPath: ReferenceWritableKeyPath<View, Property>,
+        in view: View,
+        map: @escaping Mapper<Value, Property>
+    ) {
+        expression.observe(view: view, controller: controller) {
+            view[keyPath: keyPath] = map($0)
+        }
+    }
+
+    func observe<Value, View: UIView, Property>(
+        _ expression: Expression<Value>?,
+        andUpdate keyPath: ReferenceWritableKeyPath<View, Property>,
+        in view: View,
+        map: @escaping Mapper<Value?, Property>
+    ) {
+        observe(expression, andUpdateManyIn: view) {
+            view[keyPath: keyPath] = map($0)
+        }
+    }
+
+    // MARK: Update various properties (not just 1) in view
+
+    /// will call `updateFunction` even when `expression` is nil
+    func observe<Value>(
+        _ expression: Expression<Value>?,
+        andUpdateManyIn view: UIView,
+        updateFunction: @escaping (Value?) -> Void
     ) {
         if let exp = expression {
             exp.observe(view: view, controller: controller, updateFunction: updateFunction)
@@ -107,4 +151,14 @@ open class BeagleRenderer {
             updateFunction(nil)
         }
     }
+
+    func observe<Value>(
+        _ expression: Expression<Value>,
+        andUpdateManyIn view: UIView,
+        updateFunction: @escaping (Value) -> Void
+    ) {
+        expression.observe(view: view, controller: controller, updateFunction: updateFunction)
+    }
+
+    // TODO: should we make `observeMany` to simplify this to users?
 }
