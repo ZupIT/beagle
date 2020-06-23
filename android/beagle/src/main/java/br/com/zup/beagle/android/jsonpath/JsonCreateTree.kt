@@ -20,7 +20,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.util.LinkedList
 
-class JsonCreateTree {
+internal class JsonCreateTree {
 
     fun walkingTreeAndFindKey(root: Any, keys: LinkedList<String>, newValue: Any?): Any {
         var newJson = root
