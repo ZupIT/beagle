@@ -44,16 +44,17 @@ class JsonCreateTree {
                 if (currentTree !is JSONArray) {
                     currentTree = JSONArray()
                 }
-                currentTree = createJsonArrayToNextKey(currentTree, key, nextKey)
+                currentTree = createTreeToNextKey(currentTree, key, nextKey)
                 if (nextKey == null) {
                     (currentTree as JSONArray).put(JsonPathUtils.getIndexOnArrayBrackets(key), newValue)
                 }
 
             } else if (currentTree is JSONObject) {
-                var json: Any = currentTree.optJSONObject(key) ?: JSONObject()
-                if (nextKey.isArray()) {
-                    val jsonArray = currentTree.optJSONArray(key) ?: JSONArray()
-                    json = createJsonArrayToNextKey(jsonArray, nextKey!!, null)
+
+                val json: Any = if (nextKey.isArray()) {
+                    currentTree.optJSONArray(key) ?: JSONArray()
+                } else {
+                    currentTree.optJSONObject(key) ?: JSONObject()
                 }
                 currentTree.put(key, if (nextKey == null) newValue else json)
                 currentTree = json
@@ -64,9 +65,9 @@ class JsonCreateTree {
         return newJson
     }
 
-    private fun createJsonArrayToNextKey(jsonArray: JSONArray, key: String, nextKey: String?): Any {
+    private fun createTreeToNextKey(jsonArray: JSONArray, key: String, nextKey: String?): Any {
         val position = JsonPathUtils.getIndexOnArrayBrackets(key)
-        var opt = jsonArray.opt(position)
+        var opt: Any? = jsonArray.optJSONObject(position)
         if (opt == JSONObject.NULL || opt == null) {
             val json: Any = if (nextKey.isArray()) JSONArray() else JSONObject()
             jsonArray.put(position, if (nextKey != null) json else JSONObject.NULL)
@@ -76,7 +77,8 @@ class JsonCreateTree {
                 }
                 return json
             }
-
+            opt = jsonArray
+        } else if (nextKey == null) {
             opt = jsonArray
         }
         return opt

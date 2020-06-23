@@ -169,3 +169,30 @@ val COMPLEX_JSON_OBJECT_WITH_NO_VALUES =
                 }
             """
     )
+
+val COMPLEX_JSON_OBJECT_WITH_ARRAY =
+    JSONObject(
+        """
+                {
+                  "name": {
+                    "d": [
+                      {
+                        "e": [
+                          null,
+                          null,
+                          null,
+                          null,
+                          null,
+                          "teste"
+                        ]
+                      }
+                    ]
+                  },
+                  "teste": "teste initial",
+                  "person": {
+                    "name": "dd",
+                    "teste": "aaaa"
+                  }
+                }
+            """
+    )

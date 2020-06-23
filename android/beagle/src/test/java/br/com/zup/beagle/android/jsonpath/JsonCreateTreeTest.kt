@@ -20,6 +20,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFails
 
 class JsonCreateTreeTest {
 
@@ -61,5 +62,13 @@ class JsonCreateTreeTest {
             JsonPathUtils.splitKeys("address.city.name.city"), JSONObject.NULL)
 
         assertEquals(COMPLEX_JSON_OBJECT_WITH_NO_VALUES.toString(), result.toString())
+    }
+
+    @Test
+    fun `should not change sequence of object when passing the path existing`() {
+        val result = JsonCreateTree().walkingTreeAndFindKey(COMPLEX_JSON_OBJECT_WITH_ARRAY,
+            JsonPathUtils.splitKeys("context.name[2].d[0].e[5]"), "teste")
+
+        assertEquals(COMPLEX_JSON_OBJECT_WITH_ARRAY.toString(), result.toString())
     }
 }

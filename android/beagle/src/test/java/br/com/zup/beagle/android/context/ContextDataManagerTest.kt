@@ -57,15 +57,19 @@ class ContextDataManagerTest {
 
     @MockK
     private lateinit var jsonPathFinder: JsonPathFinder
+
     @MockK
     private lateinit var jsonPathReplacer: JsonPathReplacer
+
     @MockK
     private lateinit var contextPathResolver: ContextPathResolver
+
     @MockK
     private lateinit var moshi: Moshi
 
     @MockK
     private lateinit var bindModel: Bind.Expression<Model>
+
     @MockK
     private lateinit var model: Model
 
@@ -157,7 +161,7 @@ class ContextDataManagerTest {
         val contextData = ContextData(CONTEXT_ID, json)
         val updateContext = SetContextInternal(CONTEXT_ID, false, "a")
         contexts[contextData.id] = ContextBinding(contextData, mutableListOf())
-//        every { jsonPathReplacer.replace(any(), any(), any()) } returns true
+        every { jsonPathReplacer.replace(any(), any(), any()) } returns Pair(true, json)
 
         // When
         val result = contextDataManager.updateContext(updateContext)
@@ -165,6 +169,27 @@ class ContextDataManagerTest {
         // Then
         assertTrue { result }
     }
+    
+    @Test
+    fun updateContext_should_set_value_on_context_root_when_change_tree() {
+        // Given
+        val json = JSONObject().apply {
+            put("a", true)
+        }
+        val contextData = ContextData(CONTEXT_ID, json)
+        val updateContext = SetContextInternal(CONTEXT_ID, "test", "a[1].b")
+        contexts[contextData.id] = ContextBinding(contextData, mutableListOf())
+        every { jsonPathReplacer.replace(any(), any(), any()) } returns Pair(true, "test")
+
+        // When
+        val result = contextDataManager.updateContext(updateContext)
+
+        // Then
+        assertTrue { result }
+        assertEquals(updateContext.contextId, contexts[contextData.id]?.context?.id)
+        assertEquals(updateContext.value, contexts[contextData.id]?.context?.value)
+    }
+
 
     @Test
     fun updateContext_should_log_error_when_jsonPathReplacer_throws_exception() {
