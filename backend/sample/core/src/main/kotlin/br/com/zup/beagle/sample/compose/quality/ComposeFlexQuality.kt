@@ -36,8 +36,11 @@ object ComposeFlexQuality: ComposeComponent {
             createText(backgroundColor = "#dd7631", text = "texto 2"),
             createText(backgroundColor = "#649d66", text = "texto 3")
         )
-    ).applyFlex(
-        flex = Flex(FlexDirection.ROW)
+    ).applyStyle(
+        Style(
+            backgroundColor = "#000000",
+            flex = Flex(grow = 0.0)
+        )
     )
 
     fun createText(text: String, backgroundColor: String): Container = Container(
