@@ -24,9 +24,10 @@ import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
+import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.WebView
 
-object WebViewScreenBuilder: ScreenBuilder {
+object WebViewScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Beagle Web View",
@@ -34,7 +35,7 @@ object WebViewScreenBuilder: ScreenBuilder {
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
-                    image = "informationImage",
+                    image = Local.justMobile("informationImage"),
                     action = Alert(
                         title = "Web View",
                         message = "The Web View component is responsible for defining a web view natively " +

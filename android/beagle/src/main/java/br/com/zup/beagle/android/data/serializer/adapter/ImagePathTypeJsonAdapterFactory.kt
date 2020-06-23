@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-import XCTest
-@testable import BeagleSchema
-import SnapshotTesting
+package br.com.zup.beagle.android.data.serializer.adapter
 
-class NetworkImageTests: XCTestCase {
+import br.com.zup.beagle.android.components.PathType
+import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
 
-    func test_whenDecodingJson_thenItShouldReturnANetworkImage() throws {
-        let component: NetworkImage = try componentFromJsonFile(fileName: "NetworkImage")
-        assertSnapshot(matching: component, as: .dump)
-    }
-    
-    func test_whenDecodingJson_thenItShouldReturnANetworkImageWithContentMode() throws {
-        let component: NetworkImage = try componentFromJsonFile(fileName: "NetworkImageWithContentMode")
-        assertSnapshot(matching: component, as: .dump)
-    }
-    
+private const val BEAGLE_IMAGE_TYPE = "_beagleImagePath_"
+
+internal object ImagePathTypeJsonAdapterFactory {
+    fun make(): PolymorphicJsonAdapterFactory<PathType> =
+        PolymorphicJsonAdapterFactory.of(PathType::class.java, BEAGLE_IMAGE_TYPE)
+            .withSubtype(PathType.Local::class.java, "local")
+            .withSubtype(PathType.Remote::class.java, "remote")
+
 }

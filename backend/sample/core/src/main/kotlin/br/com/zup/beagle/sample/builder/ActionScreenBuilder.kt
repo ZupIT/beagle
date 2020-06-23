@@ -17,12 +17,12 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.widget.action.Navigate
-import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.sample.constants.NAVIGATION_BAR_STYLE_DEFAULT
 import br.com.zup.beagle.sample.constants.PATH_SCREEN_DEEP_LINK_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
+import br.com.zup.beagle.widget.action.Navigate
+import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.action.Confirm
 import br.com.zup.beagle.widget.action.SendRequest
 import br.com.zup.beagle.widget.core.AlignSelf
@@ -35,6 +35,7 @@ import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.navigation.Touchable
 import br.com.zup.beagle.widget.ui.Button
+import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.Text
 
 object ActionScreenBuilder : ScreenBuilder {
@@ -46,7 +47,7 @@ object ActionScreenBuilder : ScreenBuilder {
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
-                    image = "informationImage",
+                    image = Local.justMobile("informationImage"),
                     action = Alert(
                         title = "Action",
                         message = "This class handles transition actions between screens in the application. ",

@@ -74,15 +74,21 @@ fun makeTextJson() = """
 
 fun makeImageJson() = """
     {
-        "_beagleComponent_": "beagle:image",
-        "name": "test"
+         "_beagleComponent_" : "beagle:image",
+          "path" : {
+            "_beagleImagePath_" : "local",
+            "mobileId" : "imageBeagle"
+          }
     }
 """
 
 fun makeNetworkImageJson() = """
     {
-        "_beagleComponent_": "beagle:networkImage",
-        "path": "http://test.com/test.png"
+        "_beagleComponent_" : "beagle:image",
+          "path" : {
+            "_beagleImagePath_" : "remote",
+             "url": "http://test.com/test.png"
+          }
     }
 """
 
