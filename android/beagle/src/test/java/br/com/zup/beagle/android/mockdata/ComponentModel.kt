@@ -14,20 +14,6 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.context
+package br.com.zup.beagle.android.mockdata
 
-import br.com.zup.beagle.android.utils.generateViewModelInstance
-import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
-import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.core.ServerDrivenComponent
-
-internal class ContextComponentHandler {
-
-    fun handleContext(rootView: RootView, component: ServerDrivenComponent) {
-        if (component is ContextComponent) {
-            component.context?.let { context ->
-                rootView.generateViewModelInstance<ScreenContextViewModel>().addContext(context)
-            }
-        }
-    }
-}
+data class ComponentModel(val a: String, val b: Boolean)

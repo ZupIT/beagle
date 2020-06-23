@@ -114,8 +114,6 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
     }
 
     private fun createResponseData(urlConnection: HttpURLConnection): ResponseData {
-        val byteArray = urlConnection.inputStream.readBytes()
-
         return ResponseData(
             statusCode = urlConnection.responseCode,
             statusText = urlConnection.responseMessage,
@@ -125,7 +123,7 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
                     .replace("]", "")
                 it.key to headerValue
             }.toMap(),
-            data = byteArray
+            data = urlConnection.inputStream.let { if (it.available() > 0) it.readBytes() else byteArrayOf() }
         )
     }
 

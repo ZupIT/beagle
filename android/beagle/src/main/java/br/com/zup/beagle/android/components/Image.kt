@@ -23,7 +23,7 @@ import android.widget.ImageView
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.utils.get
+import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
@@ -52,7 +52,7 @@ data class Image(
 
     override fun buildView(rootView: RootView): View {
         var imageView:View = getImageView(rootView)
-        path.get(rootView){ pathyType->
+        observeBindChanges(rootView, path){ pathyType->
             when (pathyType) {
                 is PathType.Local -> {
                     imageView = getImageView(rootView).apply {

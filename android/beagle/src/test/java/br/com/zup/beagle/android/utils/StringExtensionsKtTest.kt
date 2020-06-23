@@ -23,9 +23,7 @@ import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.context.ContextDataManager
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.setup.BeagleSdk
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
-import br.com.zup.beagle.android.widget.RootView
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -34,36 +32,23 @@ import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.unmockkAll
-import org.json.JSONObject
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class StringExtensionsKtTest : BaseTest() {
+class StringExtensionsKtTest{
 
     private val colorSlot = slot<String>()
 
-    private val rootView = mockk<ActivityRootView>(relaxed = true)
-    private val viewModel = mockk<ScreenContextViewModel>()
-    private val viewModelProvider = mockk<ViewModelProvider>()
-    private val contextDataManager = mockk<ContextDataManager>()
-
-    override fun setUp() {
-        super.setUp()
-
+    @Before
+    fun setUp() {
         mockkStatic(Color::class)
-        mockkObject(ViewModelProviderFactory)
         every { Color.parseColor(capture(colorSlot)) } returns 0
-        every { BeagleEnvironment.beagleSdk.config } returns mockk(relaxed = true)
-        every { BeagleEnvironment.beagleSdk.logger } returns mockk()
-        every { ViewModelProviderFactory.of(any<AppCompatActivity>()) } returns viewModelProvider
-        every { viewModelProvider.get(ScreenContextViewModel::class.java) } returns viewModel
-        every { viewModel.contextDataManager } returns contextDataManager
-        every { contextDataManager.addBindingToContext(any()) } just Runs
     }
 
-    override fun tearDown() {
-        super.tearDown()
+    @After
+    fun tearDown() {
         unmockkAll()
     }
 
@@ -215,20 +200,5 @@ class StringExtensionsKtTest : BaseTest() {
         assertEquals(2, expressions.size)
         assertEquals("exp1", expressions[0])
         assertEquals("exp2", expressions[1])
-    }
-
-    @Test
-    fun `getValueWithEvaluatedExpressions should return a object with evaluated expressions`() {
-        // Given
-        val evaluatedExpression = "Matthew"
-        every { contextDataManager.evaluateBinding(any()) } returns evaluatedExpression
-        val customObjectWithExpression = """{"name":"@{exp1}","age":24}"""
-        val customObjectEvaluated = """{"name":"Matthew","age":24}"""
-
-        // When
-        val result = customObjectWithExpression.getValueWithEvaluatedExpressions(rootView)
-
-        // Then
-        assertEquals(customObjectEvaluated, result.toString())
     }
 }
