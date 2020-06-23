@@ -60,7 +60,7 @@ import br.com.zup.beagle.widget.ui.Button
 class ComponentScreenBuilder(val aqFlag: Boolean): ScreenBuilder {
     override fun build() = Screen(
         navigationBar = NavigationBar(
-            title = "Choose a ${if (aqFlag) "Adavance" else "Basic"} Component",
+            title = "Choose a ${if (aqFlag) "Test" else "Sample"} Component",
             showBackButton = true,
                 navigationBarItems = listOf(
                     if(aqFlag.not())

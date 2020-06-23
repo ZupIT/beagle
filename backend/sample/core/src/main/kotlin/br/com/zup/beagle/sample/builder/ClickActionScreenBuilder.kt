@@ -26,7 +26,7 @@ import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.ui.Text
 
-class ClickActionScreenBuilder(val qaFlag: Boolean) : ScreenBuilder {
+object ClickActionScreenBuilder: ScreenBuilder {
     override fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Action Click",

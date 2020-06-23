@@ -21,5 +21,5 @@ import javax.inject.Singleton
 
 @Singleton
 class SampleActionClickService {
-    fun createActionClick(qaFlag: Boolean) = ClickActionScreenBuilder(qaFlag)
+    fun createActionClick() = ClickActionScreenBuilder
 }

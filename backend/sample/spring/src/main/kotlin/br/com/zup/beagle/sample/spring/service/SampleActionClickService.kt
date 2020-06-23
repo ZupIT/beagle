@@ -21,5 +21,5 @@ import org.springframework.stereotype.Service
 
 @Service
 class SampleActionClickService {
-    fun createActionClick(qaFlag: Boolean) = ClickActionScreenBuilder(qaFlag)
+    fun createActionClick() = ClickActionScreenBuilder
 }

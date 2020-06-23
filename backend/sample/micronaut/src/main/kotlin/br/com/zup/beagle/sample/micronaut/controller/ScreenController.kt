@@ -184,7 +184,7 @@ class ScreenController(
     fun getTouchableView(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleTouchableService.createTouchableView(qaFlag)
 
     @Get(SCREEN_ACTION_CLICK_ENDPOINT)
-    fun getSampleActionClickController(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleActionClickService.createActionClick(qaFlag)
+    fun getSampleActionClickController() = this.sampleActionClickService.createActionClick()
 
     @Get(SCREEN_EXAMPLE_ENDPOINT)
     fun getNavigationExample() = this.sampleActionService.getNavigateExample()

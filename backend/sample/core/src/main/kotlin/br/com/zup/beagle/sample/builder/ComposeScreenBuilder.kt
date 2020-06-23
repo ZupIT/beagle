@@ -41,6 +41,6 @@ class ComposeScreenBuilder(val qaFlag: Boolean) : ScreenBuilder {
                 )
             )
         ),
-        child = if (qaFlag) CustomComposeComponent() else CustomComposeComponentQuality()
+        child = if (qaFlag) CustomComposeComponentQuality() else CustomComposeComponent()
     )
 }
