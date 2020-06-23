@@ -54,12 +54,12 @@ internal class BeagleTypeSerializerTest {
         testTypeSerialize(CustomWidget, COMPONENT_TYPE, "$CUSTOM_BEAGLE_NAMESPACE:customWidget")
 
     @Test
-    fun serialize_custom_Action_shold_have_component_beagleType_field_with_custom_prefix()=
-        testActionSerialize(CustomAction, "$CUSTOM_BEAGLE_NAMESPACE:customAction")
+    fun serialize_Action_should_have_beagleAction_field_with_beagle_prefix() =
+        testTypeSerialize(Navigate.PopStack(), ACTION_TYPE, "$BEAGLE_NAMESPACE:popStack")
 
     @Test
-    fun serialize_Action_should_have_beagleAction_field() =
-        testTypeSerialize(Navigate.PopStack(), ACTION_TYPE, "$BEAGLE_NAMESPACE:popStack")
+    fun serialize_custom_Action_should_have_component_beagleAction_field_with_custom_prefix()=
+        testTypeSerialize(CustomAction, ACTION_TYPE, "$CUSTOM_BEAGLE_NAMESPACE:customAction")
 
     @Test
     fun serialize_Screen_should_have_screen_beagleComponent_field() =
@@ -82,10 +82,6 @@ internal class BeagleTypeSerializerTest {
 
     private fun testTypeSerialize(bean: Any, typeKey: String, typeValue: String) = testSerialize(bean) {
         verify(exactly = 1) { it.writeStringField(typeKey, typeValue) }
-    }
-
-    private fun testActionSerialize(bean: Any, beagleType: String) = testSerialize(bean){
-        verify (exactly = 1){ it.writeStringField(ACTION_TYPE, beagleType) }
     }
 
     @RegisterWidget
