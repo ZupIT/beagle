@@ -162,6 +162,25 @@ private func _compilePath(_ value: DynamicObject, _ path: Path) -> DynamicObject
 
 private func _mergeDynamicObjects(_ d1: DynamicObject, _ d2: DynamicObject) -> DynamicObject {
     
+    if case .array(let array1) = d1, case .array(let array2) = d2 {
+        
+        func _select(_ e1: DynamicObject?, _ e2: DynamicObject?) -> DynamicObject? {
+            if e2 == nil { return e1 }
+            if case .empty = e2 { return e1 }
+            return e2
+        }
+        
+        let size = max(array1.count, array2.count)
+        var array = [DynamicObject](repeating: .empty, count: size)
+        for i in 0..<size {
+            if let element = _select(array1[safe: i], array2[safe: i]) {
+                array[i] = element
+            }
+        }
+        
+        return .array(array)
+    }
+    
     guard case .dictionary(let dict1) = d1, case .dictionary(let dict2) = d2 else {
         return d2
     }
@@ -190,6 +209,11 @@ private func _mergeDynamicObjects(_ d1: DynamicObject, _ d2: DynamicObject) -> D
         }
         
         if case .dictionary = d1Obj, case .dictionary = d2Obj {
+            dObject[k] = _mergeDynamicObjects(d1Obj, d2Obj)
+            continue
+        }
+        
+        if case .array = d1Obj, case .array = d2Obj {
             dObject[k] = _mergeDynamicObjects(d1Obj, d2Obj)
             continue
         }

@@ -12,8 +12,10 @@
       - key: "c"
       ▿ value: DynamicObject
         ▿ array: 5 elements
-          - DynamicObject.empty
-          - DynamicObject.empty
+          ▿ DynamicObject
+            - string: "update"
+          ▿ DynamicObject
+            - string: "2"
           - DynamicObject.empty
           - DynamicObject.empty
           ▿ DynamicObject

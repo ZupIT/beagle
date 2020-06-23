@@ -11,6 +11,8 @@
     ▿ (2 elements)
       - key: "c"
       ▿ value: DynamicObject
-        ▿ array: 1 element
+        ▿ array: 2 elements
           ▿ DynamicObject
             - string: "update"
+          ▿ DynamicObject
+            - string: "2"
