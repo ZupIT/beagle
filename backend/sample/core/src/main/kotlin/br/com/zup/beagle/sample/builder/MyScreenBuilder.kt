@@ -23,7 +23,7 @@ import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.ui.Text
 
-class MyScreenBuilder(private val title: String) : ScreenBuilder {
+class MyScreenBuilder(private val title: String, val qaflag: Boolean) : ScreenBuilder {
     override fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Beagle Screen",
@@ -40,6 +40,6 @@ class MyScreenBuilder(private val title: String) : ScreenBuilder {
                 )
             )
         ),
-        child = Text(this.title)
+        child = if (qaflag) Text("QA") else Text(this.title)
     )
 }

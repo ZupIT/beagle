@@ -21,5 +21,5 @@ import javax.inject.Singleton
 
 @Singleton
 class SampleScrollViewService {
-    fun createScrollView() = ScrollViewScreenBuilder
+    fun createScrollView(qaFlag: Boolean) = ScrollViewScreenBuilder(qaFlag)
 }

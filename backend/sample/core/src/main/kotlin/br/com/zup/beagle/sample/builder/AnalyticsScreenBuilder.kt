@@ -16,71 +16,23 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.widget.action.Alert
-import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.ScreenEvent
-import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.sample.compose.quality.ComposeAnalyticsScreenQuality
+import br.com.zup.beagle.sample.compose.sample.ComposeSampleAnalyticsScreen
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.navigation.Touchable
-import br.com.zup.beagle.widget.ui.Button
-import br.com.zup.beagle.widget.ui.Text
 
-object AnalyticsScreenBuilder : ScreenBuilder {
+class AnalyticsScreenBuilder(val qaFlag: Boolean) : ScreenBuilder {
 
     override fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Analytics Widgets",
             showBackButton = true
         ),
-        child = Container(
-            children = listOf(
-                createButton(),
-                createTouchable()
-            )
-        ),
+        child = if (qaFlag) ComposeAnalyticsScreenQuality else ComposeSampleAnalyticsScreen,
         screenAnalyticsEvent = ScreenEvent(
             screenName = "AnalyticsScreen"
         )
     )
-
-    private fun createTouchable(): ServerDrivenComponent {
-        val text = Text(
-            text = "Touchable with Click Analytics Event"
-        )
-        return Touchable(
-            action = Alert(
-                title = "title",
-                message = "message",
-               labelOk = "Close"
-            ),
-            child = text,
-            clickAnalyticsEvent = ClickEvent(
-                category = "touchable",
-                label = "label-touchable",
-                value = "value-touchable"
-            )
-        )
-    }
-
-    private fun createButton(): Widget {
-        val button = Button(
-            text = "Button with Click Analytics Event",
-            onPress = listOf(Alert(
-                title = "title",
-                message = "message",
-               labelOk = "Close"
-            )),
-            clickAnalyticsEvent = ClickEvent(
-                category = "button",
-                label = "label-button",
-                value = "value-button"
-            )
-        )
-        return button
-    }
-
 }

@@ -21,5 +21,5 @@ import javax.inject.Singleton
 
 @Singleton
 class SampleAnalyticsService {
-    fun getAnalyticsExample() = AnalyticsScreenBuilder
+    fun getAnalyticsExample(qaFlag: Boolean) = AnalyticsScreenBuilder(qaFlag)
 }

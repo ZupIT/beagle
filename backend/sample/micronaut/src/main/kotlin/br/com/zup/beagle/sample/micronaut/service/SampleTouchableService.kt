@@ -21,5 +21,5 @@ import javax.inject.Singleton
 
 @Singleton
 class SampleTouchableService {
-    fun createTouchableView() = TouchableScreenBuilder
+    fun createTouchableView(qaFlag: Boolean) = TouchableScreenBuilder(qaFlag)
 }

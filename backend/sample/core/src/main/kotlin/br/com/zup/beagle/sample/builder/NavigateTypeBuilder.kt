@@ -16,21 +16,15 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.core.CornerRadius
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.sample.constants.*
+import br.com.zup.beagle.sample.compose.quality.ComposeNavigateTypeQuality
+import br.com.zup.beagle.sample.compose.sample.ComposeSampleNavigateType
 import br.com.zup.beagle.widget.action.Alert
-import br.com.zup.beagle.widget.action.Navigate
-import br.com.zup.beagle.widget.action.Route
-import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.layout.*
-import br.com.zup.beagle.widget.ui.Button
+import br.com.zup.beagle.widget.layout.NavigationBar
+import br.com.zup.beagle.widget.layout.NavigationBarItem
+import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.layout.ScreenBuilder
 
-object NavigateTypeBuilder : ScreenBuilder{
+class NavigateTypeBuilder(val qaFlag: Boolean) : ScreenBuilder{
     override fun build(): Screen {
         return Screen(
             navigationBar = NavigationBar(
@@ -48,116 +42,8 @@ object NavigateTypeBuilder : ScreenBuilder{
                     )
                 )
             ),
-            child = Container(
-                children = listOf(
-                    buttonPopView,
-                    createButton(
-                        text = "PushView (Step 2)",
-                        navigate = Navigate.PushView(Route.Remote(REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT)),
-                        backgroundColor = LIGHT_RED
-                    )
-                )
-            )
+            child = if (qaFlag) ComposeNavigateTypeQuality else ComposeSampleNavigateType
         )
     }
 
-    private val buttonPopView = createButton(
-        text = "PopView",
-        navigate = Navigate.PopView(),
-        backgroundColor = CYAN_BLUE
-    )
-
-    private val buttonAddViewStep1 = createButton(
-        text = "PushView (Step 1)",
-        navigate = Navigate.PushView(Route.Remote(NAVIGATION_TYPE_ENDPOINT)),
-        backgroundColor = LIGHT_RED
-    )
-
-    fun step2() = Screen(
-        navigationBar = NavigationBar(
-            title = "Step 2",
-            showBackButton = true
-        ),
-        child = Container(
-            children = listOf(
-                buttonPopView,
-                createButton(
-                    text = "PushView (Step 3)",
-                    navigate = Navigate.PushView(Route.Remote(REPRESENTATION_NAVIGATION_TYPE_STEP3_ENDPOINT)),
-                    backgroundColor = LIGHT_RED
-                ),
-                createButton(
-                    text = "PushStack",
-                    navigate = Navigate.PushStack(Route.Remote(REPRESENTATION_PRESENT_ENDPOINT)),
-                    backgroundColor = LIGHT_ORANGE
-                )
-            )
-        )
-    )
-
-    fun presentView() = Screen(
-        navigationBar = NavigationBar(
-            title = "Present",
-            showBackButton = true
-        ),
-        child = Container(
-            children = listOf(
-                buttonPopView,
-                buttonAddViewStep1,
-                createButton(
-                    text = "PopStack",
-                    navigate = Navigate.PopStack(),
-                    backgroundColor = CYAN_GREEN
-                )
-            )
-        )
-    )
-
-    fun step3() = Screen(
-        navigationBar = NavigationBar(
-            title = "Step 3",
-            showBackButton = true
-        ),
-        child = Container(
-            children = listOf(
-                buttonPopView,
-                createButton(
-                    text = "ResetApplication (Step 1)",
-                    navigate = Navigate.ResetApplication(Route.Remote(NAVIGATION_TYPE_ENDPOINT)),
-                    backgroundColor = RED_ORANGE
-                ),
-                createButton(
-                    text = "PopToView (Step 1)",
-                    navigate = Navigate.PopToView(NAVIGATION_TYPE_ENDPOINT),
-                    backgroundColor = RED
-                ),
-                buttonAddViewStep1,
-                createButton(
-                    text = "ResetStack",
-                    navigate = Navigate.ResetStack(Route.Remote(NAVIGATION_TYPE_ENDPOINT)),
-                    backgroundColor = "#800080"
-                )
-            )
-        )
-    )
-
-    private fun createButton(text: String, navigate: Navigate, backgroundColor: String) =
-        Button(
-            text = text,
-            styleId = BUTTON_STYLE_APPEARANCE,
-            onPress = listOf(navigate)
-        ).applyStyle(
-            Style(
-                backgroundColor = backgroundColor,
-                cornerRadius = CornerRadius(radius = 10.0)
-            )
-        ).applyFlex(
-            flex = Flex(
-                margin = EdgeValue(
-                    left = 30.unitReal(),
-                    right = 30.unitReal(),
-                    top = 15.unitReal()
-                )
-            )
-        )
 }

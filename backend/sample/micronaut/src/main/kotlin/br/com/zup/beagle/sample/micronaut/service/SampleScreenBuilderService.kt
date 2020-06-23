@@ -21,5 +21,5 @@ import javax.inject.Singleton
 
 @Singleton
 class SampleScreenBuilderService {
-    fun createScreenBuilder() = MyScreenBuilder("Hello World!")
+    fun createScreenBuilder(qaFlag: Boolean) = MyScreenBuilder("Hello World!", qaFlag)
 }

@@ -21,5 +21,5 @@ import javax.inject.Singleton
 
 @Singleton
 class AccessibilityService {
-    fun createAccessibilityView() = AccessibilityScreenBuilder
+    fun createAccessibilityView(qaFlag: Boolean) = AccessibilityScreenBuilder(qaFlag)
 }

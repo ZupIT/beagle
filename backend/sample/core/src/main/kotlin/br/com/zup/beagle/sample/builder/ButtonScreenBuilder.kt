@@ -16,28 +16,15 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.widget.action.Navigate
-import br.com.zup.beagle.widget.action.Route
+import br.com.zup.beagle.sample.compose.quality.ComposeButtonQuality
+import br.com.zup.beagle.sample.compose.sample.ComposeSampleButton
 import br.com.zup.beagle.widget.action.Alert
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.core.CornerRadius
-import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.sample.constants.BUTTON_STYLE_APPEARANCE
-import br.com.zup.beagle.sample.constants.CYAN_BLUE
-import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
-import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.ui.Button
 
-object ButtonScreenBuilder : ScreenBuilder {
+class ButtonScreenBuilder(val qaFlag :Boolean) : ScreenBuilder {
     override fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Beagle Button",
@@ -55,78 +42,8 @@ object ButtonScreenBuilder : ScreenBuilder {
                 )
             )
         ),
-        child = Container(
-            children = listOf(
-                createButton(
-                    text = "Button",
-                    flex = Flex(
-                        margin = EdgeValue(
-                            top = 15.unitReal()
-                        )
-                    )
-                ),
-
-                createButton(
-                    text = "Button with style",
-                    styleId = "DesignSystem.Button.ScreenButton",
-                    flex = Flex(
-                        margin = EdgeValue(
-                            top = 15.unitReal()
-                        )
-                    )
-                ),
-
-                buttonWithAppearanceAndStyle(text = "Button with Appearance").applyFlex(
-                    Flex(
-                        margin = EdgeValue(
-                        top = 15.unitReal()
-                    ))
-                ),
-                buttonWithAppearanceAndStyle(
-                    text = "Button with Appearance and style",
-                    styleId = BUTTON_STYLE_APPEARANCE
-                ).applyFlex(
-                    Flex(
-                        margin = EdgeValue(
-                            top = 15.unitReal()
-                        ))
-                )
-            )
-        )
+        child = if (qaFlag) ComposeButtonQuality else ComposeSampleButton
     )
 
-    private fun buttonWithAppearanceAndStyle(text: String, styleId: String? = null) = createButton(
-        text = text,
-        styleId = styleId,
-        flex = Flex(
-            margin = EdgeValue(
-                left = 25.unitReal(),
-                right = 25.unitReal(),
-                top = 15.unitReal()
-            )
-        )
-    ).applyStyle(
-        Style(
-            backgroundColor = CYAN_BLUE,
-            cornerRadius = CornerRadius(radius = 16.0)
-        )
-    )
 
-    private fun createButton(
-        text: String,
-        styleId: String? = null,
-        flex: Flex? = null
-    ): Widget {
-        val button = Button(
-            text = text,
-            styleId = styleId,
-            onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT, true)))
-        )
-
-        if (flex != null) {
-            button.applyFlex(flex)
-        }
-
-        return button
-    }
 }

@@ -21,5 +21,5 @@ import javax.inject.Singleton
 
 @Singleton
 class SampleComponentsService {
-    fun getCreateSampleComponentsView() = ComponentScreenBuilder
+    fun getCreateSampleComponentsView(qaFlag: Boolean) = ComponentScreenBuilder(qaFlag)
 }

@@ -21,6 +21,6 @@ import javax.inject.Singleton
 
 @Singleton
 class SamplePageViewService {
-    fun createPageView() = PageViewScreenBuilder
+    fun createPageView(qaFlag: Boolean) = PageViewScreenBuilder(qaFlag)
 }
 

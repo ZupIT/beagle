@@ -28,7 +28,7 @@ import javax.inject.Singleton
 
 @Singleton
 class SampleNavigationBarService {
-    fun createNavigationBarView() = NavigationBarViewScreenBuilder
+    fun createNavigationBarView(qaFlag: Boolean) = NavigationBarViewScreenBuilder(qaFlag)
 
     fun navigationBar() = NavigationBarScreenBuilder(
         titleNavigation = "NavigationBar",

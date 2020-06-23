@@ -21,5 +21,5 @@ import javax.inject.Singleton
 
 @Singleton
 class SampleTabViewService {
-    fun createTabView() = TabViewScreenBuilder
+    fun createTabView(qaFlag: Boolean) = TabViewScreenBuilder(qaFlag)
 }

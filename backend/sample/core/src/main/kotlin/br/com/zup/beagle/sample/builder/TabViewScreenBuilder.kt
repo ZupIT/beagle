@@ -16,139 +16,15 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.sample.compose.quality.ComposeTabViewQuality
+import br.com.zup.beagle.sample.compose.sample.ComposeSampleTabView
 import br.com.zup.beagle.widget.action.Alert
-import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
-import br.com.zup.beagle.sample.constants.BUTTON_STYLE_FORM
-import br.com.zup.beagle.sample.constants.LIGHT_GREEN
-import br.com.zup.beagle.sample.constants.SUBMIT_FORM_ENDPOINT
-import br.com.zup.beagle.sample.widget.SampleTextField
-import br.com.zup.beagle.widget.action.FormMethodType
-import br.com.zup.beagle.widget.action.FormRemoteAction
-import br.com.zup.beagle.widget.core.AlignContent
-import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.ScrollAxis
-import br.com.zup.beagle.widget.form.Form
-import br.com.zup.beagle.widget.form.FormInput
-import br.com.zup.beagle.widget.form.FormSubmit
-import br.com.zup.beagle.widget.layout.*
-import br.com.zup.beagle.widget.ui.*
+import br.com.zup.beagle.widget.layout.NavigationBar
+import br.com.zup.beagle.widget.layout.NavigationBarItem
+import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.layout.ScreenBuilder
 
-object TabViewScreenBuilder : ScreenBuilder {
-    private val tab1 = TabItem(
-            title = "Tab 1",
-            child = ScrollView(
-                scrollDirection = ScrollAxis.VERTICAL,
-                children = listOf(
-                    Text("Text1 Tab 2"),
-                    NetworkImage(BEACH_NETWORK_IMAGE),
-                    Text("Text2 Tab 2"),
-                    NetworkImage(BEACH_NETWORK_IMAGE),
-                    Text("Text3 Tab 3"),
-                    NetworkImage(BEACH_NETWORK_IMAGE),
-                    Text("Text1 Tab 2"),
-                    NetworkImage(BEACH_NETWORK_IMAGE),
-                    Text("Text2 Tab 2"),
-                    NetworkImage(BEACH_NETWORK_IMAGE),
-                    Text("Text3 Tab 3"),
-                    NetworkImage(BEACH_NETWORK_IMAGE)
-                )
-            )
-        )
-
-    private val flexHorizontalMargin = Flex(margin = EdgeValue(all = 10.unitReal()))
-
-    private val tab2 = TabItem(
-        title = "Tab 2",
-        child = Container(
-            children = listOf(
-                Form(
-                    onSubmit = listOf(FormRemoteAction(
-                        path = SUBMIT_FORM_ENDPOINT,
-                        method = FormMethodType.POST
-                    )),
-                    child = Container(
-                        children = listOf(
-                            customFormInput(
-                                name = "optional-field",
-                                placeholder = "Optional field"
-                            ),
-                            customFormInput(
-                                name = "required-field",
-                                required = true,
-                                validator = "text-is-not-blank",
-                                placeholder = "Required field"
-                            ),
-                            customFormInput(
-                                name = "another-required-field",
-                                required = true,
-                                validator = "text-is-not-blank",
-                                placeholder = "Another required field"
-
-                            ),
-                            Container(
-                                children = emptyList()
-                            ).applyFlex(Flex(grow = 1.0)),
-                            FormSubmit(
-                                enabled = false,
-                                child = Button(
-                                    text = "Submit Form",
-                                    styleId = BUTTON_STYLE_FORM
-                                ).applyFlex(flexHorizontalMargin)
-                            )
-                        )
-                    )
-                        .applyFlex(
-                            Flex(
-                                grow = 1.0,
-                                padding = EdgeValue(all = 10.unitReal())
-                            )
-                        )
-                        .applyStyle(Style(backgroundColor = LIGHT_GREEN))
-                )
-            )
-        ).applyFlex(Flex(alignContent = AlignContent.CENTER))
-    )
-
-    private fun customFormInput(
-        name: String,
-        required: Boolean? = null,
-        validator: String? = null,
-        placeholder: String
-    ) =
-        FormInput(
-            name = name,
-            required = required,
-            validator = validator,
-            child = SampleTextField(
-                placeholder = placeholder
-            ).applyFlex(flexHorizontalMargin)
-        )
-
-    private val tab3 = TabItem(
-        child = Container(
-            children = listOf(
-                TabView(
-                    children = listOf(tab1, tab2),
-                    styleId = "DesignSystem.TabView.Test"
-                )
-            )
-        ).applyFlex(Flex(alignContent = AlignContent.CENTER, margin = EdgeValue(top = 20.unitReal(),right = 20.unitReal(),left = 20.unitReal())))
-    )
-
-    private val tab4 = TabItem(
-        icon = "beagle",
-        child = Container(
-            children = listOf(
-                Text("Text1 Tab 4"),
-                Text("Text2 Tab 4")
-            )
-        ).applyFlex(Flex(alignContent = AlignContent.CENTER))
-    )
+class TabViewScreenBuilder(val qaFlag: Boolean) : ScreenBuilder {
 
     override fun build() = Screen(
         navigationBar = NavigationBar(
@@ -167,9 +43,6 @@ object TabViewScreenBuilder : ScreenBuilder {
                 )
             )
         ),
-        child = TabView(
-            children = listOf(tab1, tab2, tab3, tab4),
-            styleId = "DesignSystem.TabView.Test"
-        )
+        child = if (qaFlag) ComposeTabViewQuality else ComposeSampleTabView
     )
 }

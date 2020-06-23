@@ -21,5 +21,5 @@ import javax.inject.Singleton
 
 @Singleton
 class SampleTextService {
-    fun createTextView() = TextScreenBuilder
+    fun createTextView(qaFlag: Boolean) = TextScreenBuilder(qaFlag)
 }

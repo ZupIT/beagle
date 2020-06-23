@@ -21,5 +21,6 @@ import javax.inject.Singleton
 
 @Singleton
 class SampleWebViewService {
-    fun createWebView() = WebViewScreenBuilder
+    fun createWebView(qaFlag: Boolean) = WebViewScreenBuilder(qaFlag)
+
 }

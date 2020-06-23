@@ -22,5 +22,5 @@ import javax.inject.Singleton
 
 @Singleton
 class SampleSafeAreaService {
-    fun createSafeArea() = SafeAreaBuilder
+    fun createSafeArea(qaFlag: Boolean) = SafeAreaBuilder(qaFlag)
 }

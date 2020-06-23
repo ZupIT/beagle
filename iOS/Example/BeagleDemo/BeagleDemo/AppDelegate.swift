@@ -52,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         registerCustomComponents()
         registerCustomAction()
 //        MainScreen().screenController()
-        let rootViewController = Beagle.screen(.remote(.init(url: "/components")))
+        let rootViewController = Beagle.screen(.remote(.init(url: "/components/false")))
         window?.rootViewController = rootViewController
         
         return true

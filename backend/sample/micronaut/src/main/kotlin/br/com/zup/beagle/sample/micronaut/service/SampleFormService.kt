@@ -22,7 +22,7 @@ import javax.inject.Singleton
 
 @Singleton
 class SampleFormService {
-    fun createFormView() = FormScreenBuilder
+    fun createFormView(qaFlag: Boolean) = FormScreenBuilder(qaFlag)
 
     fun submitForm(body: Map<String, String>) = Alert(
         title = "Success!",

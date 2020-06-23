@@ -21,5 +21,5 @@ import javax.inject.Singleton
 
 @Singleton
 class SampleListViewService {
-    fun createListView() = ListViewScreenBuilder
+    fun createListView(qaFlag: Boolean) = ListViewScreenBuilder(qaFlag)
 }

@@ -16,20 +16,15 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.ext.unitPercent
-import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.sample.constants.PATH_URL_WEB_VIEW_ENDPOINT
+import br.com.zup.beagle.sample.compose.quality.ComposeWebViewQuality
+import br.com.zup.beagle.sample.compose.sample.ComposeSampleWebView
 import br.com.zup.beagle.widget.action.Alert
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.ui.WebView
 
-object WebViewScreenBuilder: ScreenBuilder {
+class WebViewScreenBuilder(val qaFlag: Boolean): ScreenBuilder {
     override fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Beagle Web View",
@@ -47,8 +42,6 @@ object WebViewScreenBuilder: ScreenBuilder {
                 )
             )
         ),
-        child = WebView(url = PATH_URL_WEB_VIEW_ENDPOINT).applyFlex(
-                    flex = Flex(size = Size(width = 375.unitReal(),height = 600.unitReal()))
-        )
+        child = if (qaFlag) ComposeWebViewQuality else ComposeSampleWebView
     )
 }

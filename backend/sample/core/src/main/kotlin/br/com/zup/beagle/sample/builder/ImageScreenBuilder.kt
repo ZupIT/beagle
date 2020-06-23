@@ -16,20 +16,15 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.sample.compose.quality.ComposeImageViewQuality
+import br.com.zup.beagle.sample.compose.sample.ComposeSampleImageView
 import br.com.zup.beagle.widget.action.Alert
-import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
-import br.com.zup.beagle.sample.constants.TITLE_SCREEN
-import br.com.zup.beagle.widget.core.ImageContentMode
-import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.layout.ScrollView
-import br.com.zup.beagle.widget.ui.Image
-import br.com.zup.beagle.widget.ui.Text
 
-object ImageScreenBuilder : ScreenBuilder {
+class ImageScreenBuilder(val qaFlag: Boolean) : ScreenBuilder {
     override fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Beagle Image",
@@ -47,15 +42,6 @@ object ImageScreenBuilder : ScreenBuilder {
                 )
             )
         ),
-        child = ScrollView(
-            scrollDirection = ScrollAxis.VERTICAL,
-            children = listOf(createText("Image"), Image(LOGO_BEAGLE)) +
-                ImageContentMode.values().flatMap(this::createImageWithModeAndText)
-        )
+        child = if (qaFlag) ComposeImageViewQuality else ComposeSampleImageView
     )
-
-    private fun createText(text: String) = Text(text = text, styleId = TITLE_SCREEN)
-
-    private fun createImageWithModeAndText(mode: ImageContentMode) =
-        listOf(createText("Image with contentMode = $mode"), Image(LOGO_BEAGLE, mode))
 }

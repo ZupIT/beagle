@@ -16,29 +16,18 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.widget.action.Navigate
-import br.com.zup.beagle.widget.action.Route
-import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.core.Accessibility
-import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.sample.constants.BUTTON_STYLE_TITLE
+import br.com.zup.beagle.sample.compose.quality.ComposeNavigationBarQuality
+import br.com.zup.beagle.sample.compose.sample.ComposeSampleNavigationBar
 import br.com.zup.beagle.sample.constants.NAVIGATION_BAR_STYLE_DEFAULT
-import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_BAR_ENDPOINT
-import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_BAR_IMAGE_ENDPOINT
-import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_BAR_STYLE_ENDPOINT
-import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_BAR_TEXT_ENDPOINT
-import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.layout.extensions.setId
-import br.com.zup.beagle.widget.ui.Button
 
-object NavigationBarViewScreenBuilder : ScreenBuilder {
+class NavigationBarViewScreenBuilder(val qaFlag: Boolean) : ScreenBuilder {
     override fun build() = Screen(
         navigationBar = NavigationBar(
             backButtonAccessibility = Accessibility(
@@ -60,25 +49,6 @@ object NavigationBarViewScreenBuilder : ScreenBuilder {
                 ).setId("nbiInformation")
             )
         ),
-        child = Container(
-            children = listOf(
-                createMenu("NavigationBar", REPRESENTATION_NAVIGATION_BAR_ENDPOINT),
-                createMenu("NavigationBar with Style", REPRESENTATION_NAVIGATION_BAR_STYLE_ENDPOINT),
-                createMenu("NavigationBar with Item(Text)", REPRESENTATION_NAVIGATION_BAR_TEXT_ENDPOINT),
-                createMenu("NavigationBar with Item(Image)", REPRESENTATION_NAVIGATION_BAR_IMAGE_ENDPOINT)
-            )
-        )
-    )
-
-    private fun createMenu(text: String, path: String) = Button(
-        text = text,
-        onPress = listOf(Navigate.PushView(Route.Remote(path))),
-        styleId = BUTTON_STYLE_TITLE
-    ).applyFlex(
-        flex = Flex(
-            margin = EdgeValue(
-                top = 8.unitReal()
-            )
-        )
+        child = if (qaFlag) ComposeNavigationBarQuality else ComposeSampleNavigationBar
     )
 }

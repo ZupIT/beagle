@@ -21,5 +21,5 @@ import javax.inject.Singleton
 
 @Singleton
 class SampleImageService {
-    fun createImageView() = ImageScreenBuilder
+    fun createImageView(qaFlag: Boolean) = ImageScreenBuilder(qaFlag)
 }

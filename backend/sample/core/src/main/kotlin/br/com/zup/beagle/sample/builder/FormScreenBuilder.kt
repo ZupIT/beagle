@@ -16,35 +16,15 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.widget.action.FormMethodType
-import br.com.zup.beagle.widget.action.FormRemoteAction
+import br.com.zup.beagle.sample.compose.quality.ComposeFormQuality
+import br.com.zup.beagle.sample.compose.sample.ComposeSampleForm
 import br.com.zup.beagle.widget.action.Alert
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitPercent
-import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.sample.constants.BUTTON_STYLE_FORM
-import br.com.zup.beagle.sample.constants.LIGHT_GREEN
-import br.com.zup.beagle.sample.constants.SUBMIT_FORM_ENDPOINT
-import br.com.zup.beagle.sample.widget.SampleTextField
-import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.ScrollAxis
-import br.com.zup.beagle.widget.core.Size
-import br.com.zup.beagle.widget.form.Form
-import br.com.zup.beagle.widget.form.FormInput
-import br.com.zup.beagle.widget.form.FormSubmit
-import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.layout.ScrollView
-import br.com.zup.beagle.widget.ui.Button
 
-object FormScreenBuilder : ScreenBuilder {
-    private val flexHorizontalMargin = Flex(margin = EdgeValue(all = 10.unitReal()))
+class FormScreenBuilder(val qaFlag: Boolean) : ScreenBuilder {
 
     @Suppress("LongMethod")
     override fun build() = Screen(
@@ -62,71 +42,7 @@ object FormScreenBuilder : ScreenBuilder {
                 )
             )
         ),
-        child = ScrollView(
-            scrollDirection = ScrollAxis.VERTICAL,
-            children = listOf(
-                Form(
-                    onSubmit = listOf(FormRemoteAction(
-                        path = SUBMIT_FORM_ENDPOINT,
-                        method = FormMethodType.POST
-                    )),
-                    child = Container(
-                        children = listOf(
-                            customFormInput(
-                                name = "optional-field",
-                                placeholder = "Optional field"
-                            ),
-                            customFormInput(
-                                name = "required-field",
-                                required = true,
-                                validator = "text-is-not-blank",
-                                placeholder = "Required field",
-                                message = "Required Field"
-                            ),
-                            customFormInput(
-                                name = "another-required-field",
-                                required = true,
-                                validator = "text-is-not-blank",
-                                placeholder = "Another required field",
-                                message = "Required Field Required FieldRequired FieldRequired FieldRequired FieldRequired FieldRequired Field"
-                            ),
-                            Container(
-                                children = emptyList()
-                            ).applyFlex(Flex(grow = 1.0)),
-                            FormSubmit(
-                                enabled = false,
-                                child = Button(
-                                    text = "Submit Form",
-                                    styleId = BUTTON_STYLE_FORM
-                                ).applyFlex(flexHorizontalMargin)
-                            )
-                        )
-                    ).applyFlex(
-                            Flex(
-                                grow = 1.0,
-                                padding = EdgeValue(all = 10.unitReal())
-//                                size = Size(width = 50.unitPercent(),height = 50.unitPercent())
-                            )
-                        ).applyStyle(Style(backgroundColor = LIGHT_GREEN))
-                )
-            )
-        )
+        child = if (qaFlag) ComposeFormQuality else ComposeSampleForm
     )
 
-    private fun customFormInput(
-        name: String,
-        required: Boolean? = null,
-        validator: String? = null,
-        placeholder: String,
-        message: String? = null
-    ) =
-        FormInput(
-            name = name,
-            required = required,
-            validator = validator,
-            child = SampleTextField(
-                placeholder = placeholder
-            ).applyFlex(flexHorizontalMargin),
-            errorMessage = message
-        )
 }

@@ -29,6 +29,7 @@ import br.com.zup.beagle.sample.constants.SCREEN_ACTION_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ANALYTICS_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_BUILDER_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_BUTTON_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_COMPONENTS_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_COMPOSE_COMPONENT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_FORM_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_IMAGE_ENDPOINT
@@ -39,24 +40,42 @@ import br.com.zup.beagle.sample.constants.SCREEN_NETWORK_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_PAGE_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SAFE_AREA
 import br.com.zup.beagle.sample.constants.SCREEN_SCROLL_VIEW_ENDPOINT
-import br.com.zup.beagle.sample.constants.SCREEN_TAB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TOUCHABLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_WEB_VIEW_ENDPOINT
+import br.com.zup.beagle.sample.constants.QAFLAG_PLACEHOLDER
+import br.com.zup.beagle.sample.constants.SCREEN_TAB_VIEW_ENDPOINT
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.layout.NavigationBar
+import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Button
 
-object ComponentScreenBuilder : ScreenBuilder {
+class ComponentScreenBuilder(val aqFlag: Boolean): ScreenBuilder {
     override fun build() = Screen(
         navigationBar = NavigationBar(
-            title = "Choose a Component",
-            showBackButton = true
+            title = "Choose a ${if (aqFlag) "Adavance" else "Basic"} Component",
+            showBackButton = true,
+                navigationBarItems = listOf(
+                    if(aqFlag.not())
+                        NavigationBarItem(
+                            text = "QA",
+                            action = Navigate.PushView(
+                                Route.Remote(
+                                    SCREEN_COMPONENTS_ENDPOINT.replace(QAFLAG_PLACEHOLDER, aqFlag.not().toString())
+                                )
+                            )
+                        )
+                    else NavigationBarItem(
+                        text = "",
+                        action = Navigate.OpenNativeRoute("")
+                    )
+                )
+
         ),
         child = ScrollView(
             scrollDirection = ScrollAxis.VERTICAL,
@@ -87,9 +106,9 @@ object ComponentScreenBuilder : ScreenBuilder {
         )
     )
 
-    private fun createMenu(text: String, path: String) = Button(
+    private fun createMenu(text: String, path: String, qaFlag: Boolean = false) = Button(
         text = text,
-        onPress = listOf(Navigate.PushView(Route.Remote(path))
+        onPress = listOf(Navigate.PushView(Route.Remote(path.replace(QAFLAG_PLACEHOLDER,aqFlag.toString())))
         ),
         styleId = BUTTON_STYLE_TITLE
     ).applyFlex(

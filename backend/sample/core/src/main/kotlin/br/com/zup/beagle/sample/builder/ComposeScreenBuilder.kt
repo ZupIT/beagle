@@ -18,12 +18,13 @@ package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.sample.compose.CustomComposeComponent
+import br.com.zup.beagle.sample.compose.CustomComposeComponentQuality
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 
-object ComposeScreenBuilder : ScreenBuilder {
+class ComposeScreenBuilder(val qaFlag: Boolean) : ScreenBuilder {
     override fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Beagle Compose Component",
@@ -40,6 +41,6 @@ object ComposeScreenBuilder : ScreenBuilder {
                 )
             )
         ),
-        child = CustomComposeComponent()
+        child = if (qaFlag) CustomComposeComponent() else CustomComposeComponentQuality()
     )
 }

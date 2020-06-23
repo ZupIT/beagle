@@ -16,26 +16,15 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.sample.compose.quality.ComposeTextQuality
+import br.com.zup.beagle.sample.compose.sample.ComposeSampleText
 import br.com.zup.beagle.widget.action.Alert
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.sample.constants.SCREEN_TEXT_STYLE
-import br.com.zup.beagle.sample.constants.STEEL_BLUE
-import br.com.zup.beagle.widget.core.AlignSelf
-import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.Size
-import br.com.zup.beagle.widget.core.TextAlignment
-import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.ui.Text
 
-object TextScreenBuilder : ScreenBuilder {
+class TextScreenBuilder(val qaFlag: Boolean) : ScreenBuilder {
     override fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Beagle Text",
@@ -53,48 +42,7 @@ object TextScreenBuilder : ScreenBuilder {
                 )
             )
         ),
-        child = Container(
-            children = listOf(
-                beagleText(text = "hello world without style"),
-                beagleText(text = "hello world with style", styleId = SCREEN_TEXT_STYLE),
-                beagleText(text = "hello world with Appearance", appearanceColor = STEEL_BLUE),
-                beagleText(
-                    text = "hello world with style and Appearance",
-                    styleId = SCREEN_TEXT_STYLE,
-                    appearanceColor = STEEL_BLUE
-                ),
-                beagleText(text = "hello world without style",alignment = TextAlignment.LEFT, appearanceColor = STEEL_BLUE).applyFlex(
-                    Flex(alignSelf = AlignSelf.FLEX_END, margin = EdgeValue(
-                        top = 16.unitReal(),
-                        left = 16.unitReal(),
-                        right = 16.unitReal()
-                    ))
-                ),
-                beagleText(text = "hello world without style",alignment = TextAlignment.CENTER, appearanceColor = STEEL_BLUE),
-                beagleText(text = "hello world without style",alignment = TextAlignment.RIGHT, appearanceColor = STEEL_BLUE)
-            )
-        )
+        child = if (qaFlag) ComposeTextQuality else ComposeSampleText
     )
 
-    private fun beagleText(
-        text: String,
-        styleId: String? = null,
-        appearanceColor: String? = null,
-        alignment: TextAlignment? = null
-    ) =
-        Text(text = text, styleId = styleId, alignment = alignment)
-            .applyFlex(
-                flex = Flex(
-                    margin = EdgeValue(
-                        top = 16.unitReal(),
-                        left = 16.unitReal(),
-                        right = 16.unitReal()
-                    ),
-                    size = Size(height = 50.unitReal())
-                )
-            ).applyStyle(
-                style = Style(
-                    backgroundColor = appearanceColor
-                )
-            )
 }

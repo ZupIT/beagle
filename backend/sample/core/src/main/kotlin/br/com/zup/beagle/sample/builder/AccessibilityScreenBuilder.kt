@@ -16,25 +16,15 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.sample.compose.quality.ComposeAccessibilityScreenQuality
+import br.com.zup.beagle.sample.compose.sample.ComposeSampleAccessibilityScreen
 import br.com.zup.beagle.widget.action.Alert
-import br.com.zup.beagle.core.Accessibility
-import br.com.zup.beagle.ext.applyAccessibility
-import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.sample.constants.BUTTON_STYLE_ACCESSIBILITY
-import br.com.zup.beagle.widget.core.AlignItems
-import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.Size
-import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.ui.Button
-import br.com.zup.beagle.widget.ui.Text
 
-object AccessibilityScreenBuilder : ScreenBuilder {
+class AccessibilityScreenBuilder(val qaFlag: Boolean) : ScreenBuilder {
     override fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Beagle Accessibility Screen",
@@ -51,76 +41,6 @@ object AccessibilityScreenBuilder : ScreenBuilder {
                 )
             )
         ),
-        child = Container(
-            children = listOf(
-                textAccessibility(
-                    text = "Accessibility Testing",
-                    accessibilityLabel = "first text",
-                    accessible = true
-                ),
-                textAccessibility(
-                    text = "Accessibility disabled test",
-                    accessibilityLabel = "second text",
-                    accessible = false
-                ),
-                buttonAccessibility(
-                    textButton = "First Text button",
-                    accessibilityLabel = "This is a button as title",
-                    accessible = true
-                ),
-                buttonAccessibility(
-                    textButton = "Second Text button",
-                    accessible = true
-                )
-            )
-        )
+        child = if (qaFlag) ComposeAccessibilityScreenQuality else ComposeSampleAccessibilityScreen
     )
-
-    private fun textAccessibility(
-        text: String,
-        accessibilityLabel: String,
-        accessible: Boolean
-    ) =
-        Text(
-            text = text
-        ).applyAccessibility(
-            accessibility = Accessibility(
-                accessible = accessible,
-                accessibilityLabel = accessibilityLabel
-            )
-        ).applyFlex(
-            flex = Flex(
-                alignItems = AlignItems.CENTER,
-                margin = EdgeValue(
-                    top = 8.unitReal(),
-                    bottom = 8.unitReal()
-                )
-            )
-        )
-
-    private fun buttonAccessibility(
-        textButton: String,
-        accessibilityLabel: String? = null,
-        accessible: Boolean
-    ) =
-        Button(
-            text = textButton,
-            styleId = BUTTON_STYLE_ACCESSIBILITY
-        ).applyFlex(
-            flex = Flex(
-                size = Size(
-                    height = 40.unitReal()
-                ),
-                alignItems = AlignItems.CENTER,
-                margin = EdgeValue(
-                    top = 8.unitReal(),
-                    bottom = 8.unitReal()
-                )
-            )
-        ).applyAccessibility(
-            accessibility = Accessibility(
-                accessible = accessible,
-                accessibilityLabel = accessibilityLabel
-            )
-        )
 }

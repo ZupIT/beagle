@@ -16,23 +16,18 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.platform.BeaglePlatform
-import br.com.zup.beagle.platform.forPlatform
-import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.sample.compose.quality.ComposePlatformQuality
+import br.com.zup.beagle.sample.compose.sample.ComposeSamplePlatform
+import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.ui.Button
 
-object PlatformBuilder : ScreenBuilder {
+class PlatformBuilder(val qaFlag: Boolean) : ScreenBuilder {
     override fun build() = Screen(
-        child = Container(
-            listOf(
-                Button(text = "mobile only text").forPlatform(BeaglePlatform.MOBILE),
-                Button(text = "web only text").forPlatform(BeaglePlatform.WEB),
-                Button(text = "ios only text").forPlatform(BeaglePlatform.IOS),
-                Button(text = "android only text").forPlatform(BeaglePlatform.ANDROID),
-                Button(text = "text free for all")
-            )
-        )
+        navigationBar = NavigationBar(
+            title = "Beagle Platform",
+            showBackButton = true
+        ),
+        child = if (qaFlag) ComposePlatformQuality else ComposeSamplePlatform
     )
 }

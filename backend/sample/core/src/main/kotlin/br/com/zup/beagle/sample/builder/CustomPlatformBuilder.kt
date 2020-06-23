@@ -16,38 +16,19 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.platform.BeaglePlatform
+import br.com.zup.beagle.sample.compose.quality.ComposeCustomPlatformQuality
+import br.com.zup.beagle.sample.compose.sample.ComposeSampleCustomPlatform
+import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.layout.ScrollView
-import br.com.zup.beagle.widget.ui.Text
 
-class CustomPlatformBuilder(private val beaglePlatform: BeaglePlatform) : ScreenBuilder {
+class CustomPlatformBuilder(private val beaglePlatform: BeaglePlatform, val qaFlag: Boolean) : ScreenBuilder {
     override fun build() = Screen(
-        child = createComponentUsingBeaglePlatform()
+        navigationBar = NavigationBar(
+            "Beagle Platform",
+            showBackButton = true
+        ),
+        child = if (qaFlag) ComposeCustomPlatformQuality(beaglePlatform) else ComposeSampleCustomPlatform(beaglePlatform)
     )
-
-    private fun createComponentUsingBeaglePlatform(): ServerDrivenComponent {
-        return when {
-            this.beaglePlatform.isMobilePlatform() -> {
-                ScrollView(
-                    children = listOf(
-                        Text("Mobile platform")
-                    )
-                )
-            }
-            this.beaglePlatform == BeaglePlatform.WEB -> {
-                Text("Web platform")
-            }
-            else -> {
-                ScrollView(
-                    children = listOf(
-                        Text("Mobile platform"),
-                        Text("Web platform")
-                    )
-                )
-            }
-        }
-    }
 }

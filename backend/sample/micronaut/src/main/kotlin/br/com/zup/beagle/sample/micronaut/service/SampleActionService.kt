@@ -23,7 +23,7 @@ import javax.inject.Singleton
 
 @Singleton
 class SampleActionService {
-    fun createAction() = ActionScreenBuilder
+    fun createAction(qaFlag: Boolean) = ActionScreenBuilder(qaFlag)
 
     fun getNavigateExample() = Screen(
         child = Text("Hello")

@@ -16,20 +16,16 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
-import br.com.zup.beagle.sample.constants.TITLE_SCREEN
+import br.com.zup.beagle.sample.compose.quality.ComposeSafeAreaQuality
+import br.com.zup.beagle.sample.compose.sample.ComposeSampleSafeArea
 import br.com.zup.beagle.widget.action.Alert
-import br.com.zup.beagle.widget.core.ImageContentMode
-import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.SafeArea
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.ui.Image
-import br.com.zup.beagle.widget.ui.Text
 
-object SafeAreaBuilder : ScreenBuilder {
+class SafeAreaBuilder(val qaFlag: Boolean) : ScreenBuilder {
     override fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Beagle Image",
@@ -47,23 +43,14 @@ object SafeAreaBuilder : ScreenBuilder {
                 )
             )
         ),
-        child = Text("Luis")
-//        Container(
-//            children = Text("Luis")
-//        )
+        child = if (qaFlag) ComposeSafeAreaQuality else ComposeSampleSafeArea
         ,
         safeArea = SafeArea(
-            top =  true,
+            top =  false,
             bottom = false,
             leading = false,
             trailing = false
         )
     )
-
-    private fun createText(text: String) = Text(text = text, styleId = TITLE_SCREEN)
-
-    private fun createImageWithModeAndText(mode: ImageContentMode) =
-        listOf(createText("Image with contentMode = $mode"), Image(LOGO_BEAGLE, mode))
-
 }
 
