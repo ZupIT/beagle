@@ -23,6 +23,7 @@ import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
+import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.TextAlignment
 import br.com.zup.beagle.widget.layout.ComposeComponent
@@ -36,10 +37,10 @@ object ComposeFlexQuality: ComposeComponent {
             createText(backgroundColor = "#dd7631", text = "texto 2"),
             createText(backgroundColor = "#649d66", text = "texto 3")
         )
-    ).applyStyle(
-        Style(
-            backgroundColor = "#000000",
-            flex = Flex(grow = 0.0)
+    ).applyFlex(
+        flex = Flex(
+            grow = 1.0,
+            justifyContent = JustifyContent.FLEX_START
         )
     )
 
