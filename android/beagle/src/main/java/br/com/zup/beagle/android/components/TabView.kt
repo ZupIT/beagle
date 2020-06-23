@@ -125,7 +125,7 @@ data class TabView(
             addTab(newTab().apply {
                 text = children[i].title
                 children[i].icon?.let {
-                    icon = getIconFromResources(context, it)
+                    icon = getIconFromResources(context, it.mobileId)
                 }
             })
         }

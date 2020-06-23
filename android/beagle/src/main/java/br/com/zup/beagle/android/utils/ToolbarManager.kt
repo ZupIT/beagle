@@ -176,7 +176,7 @@ internal class ToolbarManager {
         design?.let { designSystem ->
             items[i].image?.let { image ->
                 setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-                icon = designSystem.image(image)?.let {
+                icon = designSystem.image(image.mobileId)?.let {
                     ResourcesCompat.getDrawable(
                         context.resources,
                         it,

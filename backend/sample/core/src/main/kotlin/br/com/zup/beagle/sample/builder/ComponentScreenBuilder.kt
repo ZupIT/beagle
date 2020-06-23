@@ -64,8 +64,8 @@ object ComponentScreenBuilder : ScreenBuilder {
             children = listOf(
                 createMenu("Button", SCREEN_BUTTON_ENDPOINT),
                 createMenu("Text", SCREEN_TEXT_ENDPOINT),
-                createMenu("Image", SCREEN_IMAGE_ENDPOINT),
-                createMenu("NetworkImage", SCREEN_NETWORK_IMAGE_ENDPOINT),
+                createMenu("Image Local", SCREEN_IMAGE_ENDPOINT),
+                createMenu("Image Remote", SCREEN_NETWORK_IMAGE_ENDPOINT),
                 createMenu("TabView", SCREEN_TAB_VIEW_ENDPOINT),
                 createMenu("ListView", SCREEN_LIST_VIEW_ENDPOINT),
                 createMenu("ScrollView", SCREEN_SCROLL_VIEW_ENDPOINT),

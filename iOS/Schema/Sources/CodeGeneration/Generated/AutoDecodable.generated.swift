@@ -163,14 +163,14 @@ extension FormSubmit {
 extension Image {
 
     enum CodingKeys: String, CodingKey {
-        case name
+        case path
         case contentMode
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        name = try container.decode(String.self, forKey: .name)
+        path = try container.decode(PathType.self, forKey: .path)
         contentMode = try container.decodeIfPresent(ImageContentMode.self, forKey: .contentMode)
         widgetProperties = try WidgetProperties(from: decoder)
     }
@@ -227,23 +227,6 @@ extension NavigationBarItem {
         text = try container.decode(String.self, forKey: .text)
         action = try container.decode(forKey: .action)
         accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
-    }
-}
-
-// MARK: NetworkImage Decodable
-extension NetworkImage {
-
-    enum CodingKeys: String, CodingKey {
-        case path
-        case contentMode
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        path = try container.decode(String.self, forKey: .path)
-        contentMode = try container.decodeIfPresent(ImageContentMode.self, forKey: .contentMode)
-        widgetProperties = try WidgetProperties(from: decoder)
     }
 }
 

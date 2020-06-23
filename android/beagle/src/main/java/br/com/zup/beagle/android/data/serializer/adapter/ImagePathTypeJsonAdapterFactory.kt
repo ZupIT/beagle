@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,23 +14,17 @@
  * limitations under the License.
  */
 
-import Foundation
+package br.com.zup.beagle.android.data.serializer.adapter
 
-public struct NetworkImage: RawWidget, AutoInitiableAndDecodable {
-    
-    public let path: String
-    public let contentMode: ImageContentMode?
-    public var widgetProperties: WidgetProperties
+import br.com.zup.beagle.android.components.PathType
+import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
 
-// sourcery:inline:auto:NetworkImage.Init
-    public init(
-        path: String,
-        contentMode: ImageContentMode? = nil,
-        widgetProperties: WidgetProperties = WidgetProperties()
-    ) {
-        self.path = path
-        self.contentMode = contentMode
-        self.widgetProperties = widgetProperties
-    }
-// sourcery:end
+private const val BEAGLE_IMAGE_TYPE = "_beagleImagePath_"
+
+internal object ImagePathTypeJsonAdapterFactory {
+    fun make(): PolymorphicJsonAdapterFactory<PathType> =
+        PolymorphicJsonAdapterFactory.of(PathType::class.java, BEAGLE_IMAGE_TYPE)
+            .withSubtype(PathType.Local::class.java, "local")
+            .withSubtype(PathType.Remote::class.java, "remote")
+
 }
