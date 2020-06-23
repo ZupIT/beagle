@@ -19,7 +19,9 @@ package br.com.zup.beagle.android.components
 import android.view.View
 import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.analytics.ClickEvent
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.Navigate
+import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.extensions.once
 import io.mockk.CapturingSlot
 import io.mockk.Runs
@@ -40,24 +42,29 @@ class TouchableViewRenderer : BaseComponentTest() {
 
     private val onClickListenerSlot = slot<View.OnClickListener>()
 
-    private val touchableAction = Navigate.PopView()
+    private val actions = listOf(Navigate.PopView())
 
     private lateinit var touchable: Touchable
 
     override fun setUp() {
         super.setUp()
 
+        mockkConstructor(PreFetchHelper::class)
+
         every { beagleSdk.analytics } returns analytics
         every { view.context } returns mockk()
         every { view.setOnClickListener(capture(onClickListenerSlot)) } just Runs
+        every { anyConstructed<PreFetchHelper>().handlePreFetch(any(), any<List<Action>>()) } just Runs
 
-        touchable = Touchable(touchableAction, mockk(relaxed = true))
+        touchable = Touchable(actions, mockk(relaxed = true))
     }
 
     @Test
     fun build_should_make_child_view() {
         val actual = touchable.buildView(rootView)
 
+        // Then
+        verify(exactly = once()) { anyConstructed<PreFetchHelper>().handlePreFetch(rootView, actions) }
         assertEquals(view, actual)
     }
 
@@ -67,7 +74,7 @@ class TouchableViewRenderer : BaseComponentTest() {
         callBuildAndClick()
 
         // Then
-        verify(exactly = once()) { touchable.action.execute(rootView) }
+        verify(exactly = once()) { actions.first().execute(rootView) }
     }
 
     private fun callBuildAndClick() {
