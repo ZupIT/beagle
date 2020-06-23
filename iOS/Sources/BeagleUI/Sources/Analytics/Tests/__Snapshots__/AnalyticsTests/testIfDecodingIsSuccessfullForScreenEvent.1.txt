@@ -37,6 +37,7 @@
                     ▿ some: UnitValue
                       - type: UnitType.percent
                       - value: 100.0
+    - onInit: Optional<Array<RawAction>>.none
     ▿ widgetProperties: WidgetProperties
       - accessibility: Optional<Accessibility>.none
       - id: Optional<String>.none
