@@ -128,11 +128,6 @@ class FormTest : BaseComponentTest() {
         every { form.handleEvent(any(), any<Action>(), any()) } just Runs
     }
 
-    @After
-    override fun tearDown() {
-        unmockkAll()
-    }
-
     @Test
     fun build_should_not_try_to_iterate_over_children_if_is_not_a_ViewGroup() {
 
