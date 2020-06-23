@@ -17,8 +17,6 @@
 package br.com.zup.beagle.android.context
 
 import br.com.zup.beagle.android.jsonpath.JsonPathUtils
-import org.json.JSONArray
-import org.json.JSONObject
 import java.util.LinkedList
 
 class ContextPathResolver {
