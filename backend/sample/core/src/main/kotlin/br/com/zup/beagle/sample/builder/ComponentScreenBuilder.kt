@@ -59,11 +59,11 @@ import br.com.zup.beagle.widget.ui.Button
 
 class ComponentScreenBuilder(val aqFlag: Boolean): ScreenBuilder {
     override fun build() = Screen(
-        navigationBar = NavigationBar(
+        navigationBar =  if(aqFlag.not())
+        NavigationBar(
             title = "Choose a ${if (aqFlag) "Test" else "Sample"} Component",
             showBackButton = true,
                 navigationBarItems = listOf(
-                    if(aqFlag.not())
                         NavigationBarItem(
                             text = "QA",
                             action = Navigate.PushView(
@@ -72,13 +72,12 @@ class ComponentScreenBuilder(val aqFlag: Boolean): ScreenBuilder {
                                 )
                             )
                         )
-                    else NavigationBarItem(
-                        text = "",
-                        action = Navigate.OpenNativeRoute("")
-                    )
                 )
-
-        ),
+        ) else NavigationBar(
+            title = "Choose a ${if (aqFlag) "Test" else "Sample"} Component",
+            showBackButton = true
+        )
+        ,
         child = ScrollView(
             scrollDirection = ScrollAxis.VERTICAL,
             children = listOf(

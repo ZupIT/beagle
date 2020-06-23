@@ -28,7 +28,7 @@ struct BeagleAlertAction: Action {
         let alert = UIAlertController(title: "Beagle Custom Action", message: "O custom action deu certo!", preferredStyle: .alert)
 
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-//        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))
 
         controller.present(alert, animated: true)
     }
