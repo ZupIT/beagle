@@ -72,16 +72,8 @@ internal class ContextDataManager(
     }
 
     fun evaluateBinding(bind: Bind.Expression<*>): Any? {
-        val expressions = bind.value.getExpressions()
-
-        expressions.forEach { expression ->
-            val contextId = expression.getContextId()
-            return contexts[contextId]?.let {
-                return contextDataEvaluation.evaluateBindExpression(it.context, bind)
-            }
-        }
-
-        return null
+        val contexts = getContextsFromBind(bind)
+        return contextDataEvaluation.evaluateBindExpression(contexts, bind)
     }
 
     private fun evaluateContext(contextId: String) {

@@ -27,14 +27,9 @@ import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.annotation.RegisterWidget
 
-data class Person(
-    val name: String,
-    val age: Int
-)
-
 @RegisterWidget
 data class Input(
-    val hint: Bind<Person>,
+    val hint: Bind<String>,
     val onTextChange: List<Action>? = null
 ) : WidgetView() {
 
@@ -46,7 +41,7 @@ data class Input(
             this@Input.handleEvent(rootView, actions, "onTextChange", newText.toString())
         }
         observeBindChanges(rootView, this@Input.hint) {
-            this@apply.hint = "name: ${it.name}, age: ${it.age}"
+            this@apply.hint = it
         }
     }
 }

@@ -45,9 +45,8 @@ internal class ScreenContextViewModel(
         contextDataManager.updateContext(setContextInternal)
     }
 
-    fun evaluateBinding(bind: Bind.Expression<*>): Any? {
+    fun addBindingToContext(bind: Bind.Expression<*>) {
         contextDataManager.addBindingToContext(bind)
-        return contextDataManager.evaluateBinding(bind)
     }
 
     fun evaluateContexts() {
@@ -56,6 +55,7 @@ internal class ScreenContextViewModel(
 
     // Sender is who created the implicit context
     fun addImplicitContext(contextData: ContextData, sender: Any, actions: List<Action>) {
+        implicitContextData.removeAll { it.sender == sender }
         implicitContextData += ImplicitContext(
             sender = sender,
             context = contextData,
@@ -79,9 +79,9 @@ internal class ScreenContextViewModel(
     }
 
     private fun evaluateBind(implicitContext: ContextData?, bind: Bind.Expression<*>): Any? {
-        val contexts = contextDataManager.getContextsFromBind(bind)
+        val contexts = contextDataManager.getContextsFromBind(bind).toMutableList()
         if (implicitContext != null) {
-            contexts + implicitContext
+            contexts += implicitContext
         }
         return contextDataEvaluation.evaluateBindExpression(contexts, bind)
     }

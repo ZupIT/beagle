@@ -56,9 +56,12 @@ private fun <T> evaluateBind(
         null
     }
 
-    if (value != null && observes != null) {
+    if (observes != null) {
         bind.observes(observes)
-        observes(value)
+    }
+
+    if (value != null) {
+        bind.notifyChange(value)
     }
 
     return value
@@ -73,6 +76,7 @@ private fun <T> evaluateExpression(
     return if (caller != null) {
         viewModel.evaluateExpressionForImplicitContext(caller, bind) as? T?
     } else {
-        viewModel.evaluateBinding(bind) as? T?
+        viewModel.addBindingToContext(bind)
+        null
     }
 }

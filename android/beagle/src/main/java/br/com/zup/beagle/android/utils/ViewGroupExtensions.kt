@@ -66,7 +66,8 @@ private fun loadView(
 
 /**
  * Render a ServerDrivenComponent into this ViewGroup
- * @property activity that is parent of this view. Make sure to use this method if you are inside a Activity because of the lifecycle
+ * @property activity that is parent of this view.
+ * Make sure to use this method if you are inside a Activity because of the lifecycle
  * @property screenJson that represents your component
  */
 fun ViewGroup.renderScreen(activity: AppCompatActivity, screenJson: String) {
@@ -76,7 +77,8 @@ fun ViewGroup.renderScreen(activity: AppCompatActivity, screenJson: String) {
 
 /**
  * Render a ServerDrivenComponent into this ViewGroup
- * @property fragment that is parent of this view. Make sure to use this method if you are inside a Fragment because of the lifecycle
+ * @property fragment <p>that is parent of this view.
+ * Make sure to use this method if you are inside a Fragment because of the lifecycle</p>
  * @property screenJson that represents your component
  */
 fun ViewGroup.renderScreen(fragment: Fragment, screenJson: String) {

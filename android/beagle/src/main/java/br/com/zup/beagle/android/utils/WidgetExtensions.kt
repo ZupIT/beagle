@@ -81,13 +81,15 @@ fun <T> ServerDrivenComponent.observeBindChanges(
 
 /**
  * Transform your Component to a view.
- * @property activity is the reference for your activity. Make sure to use this method if you are inside a Activity because of the lifecycle
+ * @property activity <p>is the reference for your activity.
+ * Make sure to use this method if you are inside a Activity because of the lifecycle</p>
  */
 fun ServerDrivenComponent.toView(activity: AppCompatActivity) = this.toView(ActivityRootView(activity))
 
 /**
  * Transform your Component to a view.
- * @property fragment is the reference for your fragment. Make sure to use this method if you are inside a Fragment because of the lifecycle
+ * @property fragment <p>is the reference for your fragment.
+ * Make sure to use this method if you are inside a Fragment because of the lifecycle</p>
  */
 fun ServerDrivenComponent.toView(fragment: Fragment) = this.toView(FragmentRootView(fragment))
 
