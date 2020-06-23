@@ -76,7 +76,8 @@ internal class ViewFactory {
 
     fun makeTabLayout(context: Context) = BeagleTabLayout(context)
 
-    fun makeWebView(context: Context) = WebView(context)
+    //we use the context.applicationContext to prevent a crash on android 21
+    fun makeWebView(context: Context) = WebView(context.applicationContext)
 
     fun makeImageView(context: Context, cornerRadius: Double = 0.0) = RoundedImageView(context, cornerRadius)
 
