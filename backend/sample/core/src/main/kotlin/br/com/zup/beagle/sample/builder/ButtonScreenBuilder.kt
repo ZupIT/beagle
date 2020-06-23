@@ -16,11 +16,10 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.widget.action.Navigate
-import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.action.Alert
-import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.CornerRadius
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE
@@ -28,6 +27,8 @@ import br.com.zup.beagle.sample.constants.BUTTON_STYLE_APPEARANCE
 import br.com.zup.beagle.sample.constants.CYAN_BLUE
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.action.Navigate
+import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
@@ -35,6 +36,7 @@ import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.ui.Button
+import br.com.zup.beagle.widget.ui.ImagePath.Local
 
 object ButtonScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
@@ -44,7 +46,7 @@ object ButtonScreenBuilder : ScreenBuilder {
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
-                    image = "informationImage",
+                    image = Local.justMobile("informationImage"),
                     action = Alert(
                         title = "Button",
                         message = "This is a widget that will define a button natively using the server " +

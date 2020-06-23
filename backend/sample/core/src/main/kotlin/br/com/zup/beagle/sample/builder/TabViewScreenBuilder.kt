@@ -26,7 +26,9 @@ import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.ui.NetworkImage
+import br.com.zup.beagle.widget.ui.Image
+import br.com.zup.beagle.widget.ui.ImagePath.Local
+import br.com.zup.beagle.widget.ui.ImagePath.Remote
 import br.com.zup.beagle.widget.ui.TabItem
 import br.com.zup.beagle.widget.ui.TabView
 import br.com.zup.beagle.widget.ui.Text
@@ -37,7 +39,7 @@ object TabViewScreenBuilder : ScreenBuilder {
         child = Container(
             children = listOf(
                 Text("Text1 Tab 2"),
-                NetworkImage(BEACH_NETWORK_IMAGE),
+                Image(Remote(BEACH_NETWORK_IMAGE)),
                 Text("Text2 Tab 2")
             )
         ).applyFlex(Flex(alignContent = AlignContent.CENTER))
@@ -65,7 +67,7 @@ object TabViewScreenBuilder : ScreenBuilder {
 
     private val tab4 = TabItem(
         title = "Tab 4",
-        icon = "beagle",
+        icon = Local.justMobile("beagle"),
         child = Container(
             children = listOf(
                 Text("Text1 Tab 4"),
@@ -81,7 +83,7 @@ object TabViewScreenBuilder : ScreenBuilder {
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
-                    image = "informationImage",
+                    image = Local.justMobile("informationImage"),
                     action = Alert(
                         title = "TabView",
                         message = " Is a component that will make the navigation between views. It may happen by " +

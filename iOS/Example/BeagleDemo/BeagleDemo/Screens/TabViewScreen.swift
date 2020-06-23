@@ -30,7 +30,7 @@ struct TabViewScreen: DeeplinkScreen {
         let tab1 = TabItem(icon: "beagle", child:
             Container(children: [
                 Text("Blaaslkdjfaskldjfalskdjfasldjfasldfj"),
-                NetworkImage(path: .NETWORK_IMAGE_BEAGLE),
+                Image(.network(.NETWORK_IMAGE_BEAGLE)),
                 Text("Blaaslkdjfaskldjfalskdjfasldjfasldfj")
             ]).applyFlex(Flex().alignContent(.center))
         )

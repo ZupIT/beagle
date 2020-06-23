@@ -25,6 +25,8 @@ open class DesignSystem {
     @StyleRes
     open fun textStyle(id: String): Int? = null
     @StyleRes
+    open fun inputTextStyle(id: String): Int? = null
+    @StyleRes
     open fun buttonStyle(id: String): Int? = null
     @StyleRes
     open fun toolbarStyle(id: String): Int? = null

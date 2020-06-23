@@ -26,7 +26,9 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
+import io.mockk.unmockkAll
 import io.mockk.verify
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
@@ -48,18 +50,23 @@ class ContextComponentHandlerTest {
             .get(ScreenContextViewModel::class.java) } returns viewModel
     }
 
+    @After
+    fun tearDown() {
+        unmockkAll()
+    }
+
     @Test
     fun handleContext_should_call_addContext_when_component_is_ContextComponent() {
         // Given
         val component = mockk<Container>()
         val context = mockk<ContextData>()
         every { component.context } returns context
-        every { viewModel.contextDataManager.addContext(any()) } just Runs
+        every { viewModel.addContext(any()) } just Runs
 
         // When
         contextComponentHandler.handleContext(rootView, component)
 
         // Then
-        verify(exactly = 1) { viewModel.contextDataManager.addContext(context) }
+        verify(exactly = 1) { viewModel.addContext(context) }
     }
 }

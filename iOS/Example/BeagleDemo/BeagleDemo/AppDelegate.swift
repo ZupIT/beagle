@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         deepLinkHandler[.DEEPLINK_ENDPOINT] = ScreenDeepLink.self
         deepLinkHandler[.LIST_VIEW_ENDPOINT] = ListViewScreen.self
         deepLinkHandler[.WEB_VIEW_ENDPOINT] = WebViewScreen.self
-        deepLinkHandler["componentInteractionText"] = ComponentInteractionText.self
+        deepLinkHandler[.COMPONENT_INTERACTION_ENDPOINT] = ComponentInteractionText.self
 
         let validator = ValidatorProviding()
         validator[FormScreen.textValidatorName] = FormScreen.textValidator
@@ -60,7 +60,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func registerCustomComponents() {
         Beagle.registerCustomComponent("DSCollection", componentType: DSCollection.self)
         Beagle.registerCustomComponent("SampleTextField", componentType: DemoTextField.self)
-        Beagle.registerCustomComponent("TextInput", componentType: TextInput.self)
         Beagle.registerCustomAction("CustomConsoleLogAction", actionType: CustomConsoleLogAction.self)
     }
 }

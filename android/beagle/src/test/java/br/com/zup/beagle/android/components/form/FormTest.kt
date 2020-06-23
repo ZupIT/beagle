@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.components.form
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.FormValidation
@@ -36,6 +37,7 @@ import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.testutil.getPrivateField
+import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 import io.mockk.Runs
@@ -46,8 +48,10 @@ import io.mockk.mockkConstructor
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
+import io.mockk.unmockkAll
 import io.mockk.verify
 import io.mockk.verifyOrder
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -83,6 +87,7 @@ class FormTest : BaseComponentTest() {
         super.setUp()
 
         mockkStatic("br.com.zup.beagle.android.components.utils.ViewExtensionsKt")
+        mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
         mockkObject(BeagleMessageLogs)
         mockkConstructor(FormValidatorController::class)
         mockkConstructor(FormValidation::class)
@@ -119,6 +124,8 @@ class FormTest : BaseComponentTest() {
         every { remoteAction.resultListener = capture(resultListenerSlot) } just Runs
 
         form = Form(onSubmit = listOf(mockk(relaxed = true)), child = mockk())
+
+        every { form.handleEvent(any(), any<Action>(), any()) } just Runs
     }
 
     @Test
@@ -240,7 +247,7 @@ class FormTest : BaseComponentTest() {
 
         // Then
         verify(exactly = once()) { formSubmitView.hideKeyboard() }
-        verify(exactly = once()) { remoteAction.execute(rootView) }
+        verify(exactly = once()) { form.handleEvent(rootView, remoteAction, "onSubmit") }
     }
 
     @Test
@@ -253,7 +260,7 @@ class FormTest : BaseComponentTest() {
 
         // Then
         verify(exactly = once()) { formSubmitView.hideKeyboard() }
-        verify(exactly = once()) { navigateAction.execute(rootView) }
+        verify(exactly = once()) { form.handleEvent(rootView, navigateAction, "onSubmit") }
     }
 
     @Test
@@ -275,7 +282,6 @@ class FormTest : BaseComponentTest() {
         }
     }
 
-
     @Test
     fun onClick_of_formSubmit_should_validate_formField_that_is_required_and_is_valid() {
         // Given
@@ -286,7 +292,7 @@ class FormTest : BaseComponentTest() {
         executeFormSubmitOnClickListener()
 
         // Then
-        verify(exactly = once()) { validator.isValid(INPUT_VALUE, any()) }
+        verify(exactly = once()) { validator.isValid(any(), any()) }
     }
 
     @Test
@@ -314,7 +320,7 @@ class FormTest : BaseComponentTest() {
         runnableSlot.captured.run()
 
         // Then
-        verify { formResult.action.execute(rootView) }
+        verify { form.handleEvent(rootView, remoteAction, "onSubmit") }
     }
 
     @Test
