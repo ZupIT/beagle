@@ -25,10 +25,10 @@ import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.ui.ImagePath.Local
 
-class ImageScreenBuilder(val qaFlag: Boolean) : ScreenBuilder {
+class ImageLocalScreenBuilder(val qaFlag: Boolean) : ScreenBuilder {
     override fun build() = Screen(
         navigationBar = NavigationBar(
-            title = "Beagle Image",
+            title = "Beagle Image Local",
             showBackButton = true,
             navigationBarItems = listOf(
                 NavigationBarItem(

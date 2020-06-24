@@ -16,10 +16,10 @@
 
 package br.com.zup.beagle.sample.spring.service
 
-import br.com.zup.beagle.sample.builder.ImageScreenBuilder
+import br.com.zup.beagle.sample.builder.ImageLocalScreenBuilder
 import org.springframework.stereotype.Service
 
 @Service
 class SampleImageService {
-    fun createImageView(qaFlag: Boolean) = ImageScreenBuilder(qaFlag)
+    fun createImageView(qaFlag: Boolean) = ImageLocalScreenBuilder(qaFlag)
 }

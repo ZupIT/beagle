@@ -16,10 +16,10 @@
 
 package br.com.zup.beagle.sample.spring.service
 
-import br.com.zup.beagle.sample.builder.NetworkImageScreenBuilder
+import br.com.zup.beagle.sample.builder.ImageRemoteScreenBuilder
 import org.springframework.stereotype.Service
 
 @Service
 class SampleNetworkImageService {
-    fun createNetworkImage() = NetworkImageScreenBuilder
+    fun createNetworkImage() = ImageRemoteScreenBuilder
 }

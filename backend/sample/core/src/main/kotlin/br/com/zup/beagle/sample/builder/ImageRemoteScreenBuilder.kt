@@ -40,10 +40,10 @@ import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.ImagePath.Remote
 import br.com.zup.beagle.widget.ui.Text
 
-object NetworkImageScreenBuilder : ScreenBuilder {
+object ImageRemoteScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
         navigationBar = NavigationBar(
-            title = "Beagle NetworkImage",
+            title = "Beagle Image Remote",
             showBackButton = true,
             navigationBarItems = listOf(
                 NavigationBarItem(

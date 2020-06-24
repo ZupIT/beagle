@@ -16,10 +16,10 @@
 
 package br.com.zup.beagle.sample.micronaut.service
 
-import br.com.zup.beagle.sample.builder.ImageScreenBuilder
+import br.com.zup.beagle.sample.builder.ImageLocalScreenBuilder
 import javax.inject.Singleton
 
 @Singleton
 class SampleImageService {
-    fun createImageView(qaFlag: Boolean) = ImageScreenBuilder(qaFlag)
+    fun createImageView(qaFlag: Boolean) = ImageLocalScreenBuilder(qaFlag)
 }
