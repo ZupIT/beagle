@@ -36,12 +36,12 @@ object ComposeFlexQuality : ComposeComponent {
             ),
             createText(backgroundColor = "#dd7631", text = "2").applyStyle(
                 Style(size = Size(width = 150.unitReal(),height = 150.unitReal()),
-                    backgroundColor = "#142850")
+                    backgroundColor = "#dd7631")
             ),
             createText(backgroundColor = "#649d66", text = "3").applyStyle(
                 Style(size = Size(width = 150.unitReal(),height = 150.unitReal()),
                     flex = Flex(shrink = 3.0),
-                backgroundColor = "#142850")
+                backgroundColor = "#649d66")
             )
         )
     ).applyStyle(
