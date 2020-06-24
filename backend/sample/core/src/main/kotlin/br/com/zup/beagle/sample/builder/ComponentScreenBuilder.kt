@@ -32,6 +32,7 @@ import br.com.zup.beagle.sample.constants.SCREEN_ANALYTICS_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_BUILDER_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_BUTTON_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_COMPOSE_COMPONENT_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_CONTEXT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_FORM_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_LAZY_COMPONENT_ENDPOINT
@@ -82,7 +83,8 @@ object ComponentScreenBuilder : ScreenBuilder {
                 createMenu("Analytics", SCREEN_ANALYTICS_ENDPOINT),
                 createMenu("Web View", SCREEN_WEB_VIEW_ENDPOINT),
                 createMenu("Platform", PLATFORM_SAMPLE_ENDPOINT),
-                createMenu("Custom Platform", CUSTOM_PLATFORM_SAMPLE_ENDPOINT)
+                createMenu("Custom Platform", CUSTOM_PLATFORM_SAMPLE_ENDPOINT),
+                createMenu("Context", SCREEN_CONTEXT_ENDPOINT)
             )
         )
     )
