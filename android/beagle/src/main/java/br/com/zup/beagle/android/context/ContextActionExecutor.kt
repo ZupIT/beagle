@@ -21,6 +21,7 @@ import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
+import org.json.JSONArray
 import org.json.JSONObject
 
 private const val DEFAULT_KEY_NAME = "value"
@@ -58,14 +59,14 @@ internal class ContextActionExecutor {
         viewModel.addImplicitContext(contextData, sender, actions)
     }
 
-    private fun parseToJSONObject(value: Any): JSONObject {
+    private fun parseToJSONObject(value: Any): Any {
         return if (value is String || value is Number || value is Boolean) {
             JSONObject().apply {
                 put(DEFAULT_KEY_NAME, value)
             }
         } else {
-            val json = BeagleMoshi.moshi.adapter<Any>(value::class.java).toJson(value)
-            JSONObject(json)
+            if (value is Collection<*>) JSONArray(value) else
+                JSONObject(BeagleMoshi.moshi.adapter<Any>(value::class.java).toJson(value))
         }
     }
 }

@@ -35,9 +35,13 @@ import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
 import io.mockk.verifySequence
+import org.json.JSONArray
+import org.json.JSONObject
 import org.junit.Test
 
 import kotlin.test.assertEquals
+
+data class PersonTest(val name: String)
 
 class ContextActionExecutorTest : BaseTest() {
 
@@ -103,6 +107,42 @@ class ContextActionExecutorTest : BaseTest() {
         assertEquals(eventId, contextDataSlot.captured.id)
         assertEquals("{\"value\":\"$value\"}", contextDataSlot.captured.value.toString())
     }
+
+    @Test
+    fun executeActions_should_object_value_to_JSONObject() {
+        // Given
+        val eventId = "onChange"
+        val value = PersonTest(name = "teste")
+
+        // When
+        contextActionExecutor.executeActions(rootView, sender, listOf(action), eventId, value)
+
+        // Then
+        assertEquals(eventId, contextDataSlot.captured.id)
+        val expected = JSONObject()
+            .put("name", "teste")
+            .toString()
+        assertEquals(expected, contextDataSlot.captured.value.toString())
+    }
+
+    @Test
+    fun executeActions_should_list_of_object_value_to_JSONArray() {
+        // Given
+        val eventId = "onChange"
+        val value = arrayListOf(PersonTest(name = "teste"))
+
+        // When
+        contextActionExecutor.executeActions(rootView, sender, listOf(action), eventId, value)
+
+        // Then
+        assertEquals(eventId, contextDataSlot.captured.id)
+        val expected = JSONArray()
+            .put(
+                JSONObject().put("name", "teste")
+            ).toString()
+        assertEquals(expected, contextDataSlot.captured.value.toString())
+    }
+
 
     @Test
     fun executeActions_should_parse_object_value_to_JSONObject() {
