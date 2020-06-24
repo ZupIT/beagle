@@ -5,7 +5,7 @@
   ▿ onChange: Optional<Array<RawAction>>
     ▿ some: 1 element
       ▿ SetContext
-        - context: "myContext"
+        - contextId: "myContext"
         - path: Optional<Path>.none
         ▿ value: DynamicObject
           - string: "2"
