@@ -25,8 +25,8 @@ import br.com.zup.beagle.R
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.context.Bind
-import br.com.zup.beagle.android.utils.get
 import br.com.zup.beagle.android.utils.handleEvent
+import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.widget.core.TextInputType
@@ -130,17 +130,17 @@ data class TextInput(
     }
 
     private fun EditText.setData(textInput: TextInput, rootView: RootView) {
-        textInput.placeholder?.let { bind -> bind.get(rootView) { this.hint = it } }
-        textInput.value?.let { bind -> bind.get(rootView) { this.setText(it) } }
-        textInput.readOnly?.let { bind -> bind.get(rootView) { this.isEnabled = !it } }
-        textInput.disabled?.let { bind -> bind.get(rootView) { this.isEnabled = !it } }
+        textInput.placeholder?.let { bind -> observeBindChanges(rootView, bind) { this.hint = it } }
+        textInput.value?.let { bind -> observeBindChanges(rootView, bind) { this.setText(it) } }
+        textInput.readOnly?.let { bind -> observeBindChanges(rootView, bind) { this.isEnabled = !it } }
+        textInput.disabled?.let { bind -> observeBindChanges(rootView, bind) { this.isEnabled = !it } }
         textInput.hidden?.let { bind ->
-            bind.get(rootView) {
+            observeBindChanges(rootView, bind) {
                 this.visibility = if (it) View.INVISIBLE else View.VISIBLE
             }
         }
-        textInput.styleId?.let { bind -> bind.get(rootView) { this.setStyle(it) } }
-        textInput.type?.let { bind -> bind.get(rootView) { this.setInputType(it) } }
+        textInput.styleId?.let { bind -> observeBindChanges(rootView, bind) { this.setStyle(it) } }
+        textInput.type?.let { bind -> observeBindChanges(rootView, bind) { this.setInputType(it) } }
     }
 
     private fun EditText.setInputType(textInputType: TextInputType) {

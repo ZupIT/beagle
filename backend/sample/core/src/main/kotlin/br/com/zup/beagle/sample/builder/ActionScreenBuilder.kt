@@ -74,7 +74,7 @@ object ActionScreenBuilder : ScreenBuilder {
         children = listOf(
             Text("Action dialog"),
             Touchable(
-                createAlert("Some"),
+                onPress = listOf(createAlert("Some")),
                 child = Text("Click me!").applyFlex(
                     Flex(
                         alignSelf = AlignSelf.CENTER

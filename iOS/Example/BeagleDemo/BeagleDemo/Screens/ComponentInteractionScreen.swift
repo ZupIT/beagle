@@ -77,8 +77,7 @@ let declarativeScreen: Screen = {
                     context: Context(id: "context1", value: "")
                 )
         ], context: Context(id: "context2", value: nil))
-    )
-}()
+    )}()
 
 struct ComponentInteractionText: DeeplinkScreen {
     

@@ -33,17 +33,20 @@ public struct TabItem: AutoInitiableAndDecodable {
 // sourcery:end
 }
 
-public struct TabView: RawComponent, AutoInitiable {
+public struct TabView: RawComponent, AutoInitiable, HasContext {
     public let children: [TabItem]
     public let styleId: String?
+    public let _context_: Context?
 
 // sourcery:inline:auto:TabView.Init
     public init(
         children: [TabItem],
-        styleId: String? = nil
+        styleId: String? = nil,
+        _context_: Context? = nil
     ) {
         self.children = children
         self.styleId = styleId
+        self._context_ = _context_
     }
 // sourcery:end
 }

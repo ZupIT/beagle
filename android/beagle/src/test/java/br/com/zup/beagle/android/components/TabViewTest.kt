@@ -31,6 +31,8 @@ import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.Test
 
+private const val DEFAULT_STYLE = "DummyStyle"
+
 class TabViewTest : BaseComponentTest() {
 
     private val tabLayout: BeagleTabLayout = mockk(relaxed = true)
@@ -63,12 +65,7 @@ class TabViewTest : BaseComponentTest() {
         every { beagleFlexView.addView(any()) } just runs
 
 
-        tabView = TabView(listOf(tabItem))
-    }
-
-    override fun tearDown() {
-        super.tearDown()
-        unmockkAll()
+        tabView = TabView(listOf(tabItem), DEFAULT_STYLE)
     }
 
     @Test

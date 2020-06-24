@@ -1,8 +1,8 @@
 {
   "_beagleComponent_": "beagle:touchable",
-  "action": {
+  "onPress": [{
       "_beagleAction_": "beagle:popView"
-  },
+  }],
   "child": {
       "_beagleComponent_": "beagle:text",
       "text": "touchable"

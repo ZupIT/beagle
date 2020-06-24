@@ -30,7 +30,7 @@ extension SendRequest: Action {
             body: data?.get(with: view).asAny()
         )
         let request = Request(url: url, type: .rawRequest(requestData), additionalData: nil)
-        Beagle.dependencies.networkClient.executeRequest(request, completion: { result in
+        controller.dependencies.networkClient.executeRequest(request, completion: { result in
             
             switch result {
             case .success(let response):
@@ -39,7 +39,7 @@ extension SendRequest: Action {
                 let statusCode = response.statusCode()
                 let value: DynamicObject = ["data": data, "status": .int(statusCode), "statusText": "success"]
                 let contextObject = Context(id: "onSuccess", value: value)
-                
+
                 DispatchQueue.main.async {
                     controller.execute(actions: self.onSuccess, with: contextObject, sender: sender)
                     controller.execute(actions: self.onFinish, with: nil, sender: sender)

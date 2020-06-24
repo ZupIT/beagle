@@ -19,11 +19,11 @@ import BeagleSchema
 
 extension Touchable {
     public init(
-        action: Action,
+        onPress: [Action],
         clickAnalyticsEvent: AnalyticsClick? = nil,
         renderableChild: ServerDrivenComponent
     ) {
-        self = Touchable(action: action, clickAnalyticsEvent: clickAnalyticsEvent, child: renderableChild)
+        self = Touchable(onPress: onPress, clickAnalyticsEvent: clickAnalyticsEvent, child: renderableChild)
     }
 }
 
@@ -31,7 +31,9 @@ extension Touchable: ServerDrivenComponent {
     
     public func toView(renderer: BeagleRenderer) -> UIView {
         let childView = renderer.render(child)
-        var events: [Event] = [.action(action)]
+        var events: [Event] = onPress.map { action in
+            .action(action)
+        }
         if let clickAnalyticsEvent = clickAnalyticsEvent {
             events.append(.analytics(clickAnalyticsEvent))
         }
@@ -47,10 +49,13 @@ extension Touchable: ServerDrivenComponent {
             controller: controller
         )
         view.addGestureRecognizer(eventsGestureRecognizer)
+        view.isUserInteractionEnabled = true
     }
     
     private func prefetchComponent(helper: BeaglePrefetchHelping) {
-        guard let newPath = (action as? Navigate)?.newPath else { return }
-        helper.prefetchComponent(newPath: newPath)
+        onPress.forEach { action in
+            guard let newPath = (action as? Navigate)?.newPath else { return }
+            helper.prefetchComponent(newPath: newPath)
+        }
     }
 }

@@ -26,14 +26,19 @@ extension Button: Widget {
             clickAnalyticsEvent: clickAnalyticsEvent,
             controller: renderer.controller
         )
-        button.setTitle(text, for: .normal)
+
+        renderer.observe(text, andUpdateManyIn: button) {
+            button.setTitle($0 as String, for: .normal)
+        }
         
         let preFetchHelper = renderer.controller.dependencies.preFetchHelper
         onPress?
             .compactMap { ($0 as? Navigate)?.newPath }
             .forEach { preFetchHelper.prefetchComponent(newPath: $0) }
         
-        button.styleId = styleId
+        styleId?.observe(view: button, controller: renderer.controller) { styleId in
+            button.styleId = styleId
+        }
         
         return button
     }
