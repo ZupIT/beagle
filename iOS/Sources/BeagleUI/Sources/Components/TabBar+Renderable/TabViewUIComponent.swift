@@ -167,12 +167,10 @@ extension TabViewUIComponent: UICollectionViewDataSource, UICollectionViewDelega
         
         if indexPath.row == 0 {
             collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
-            containerWidthConstraint?.constant = cell.frame.width
             cell.isSelected = true
         } else {
             cell.isSelected = false
         }
-        
         cell.setupTab(with: item)
         return cell
     }
@@ -180,9 +178,13 @@ extension TabViewUIComponent: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let item = model.tabViewItems[indexPath.row]
         guard let title = item.title else {
-            return CGSize(width: frame.width / CGFloat(model.tabViewItems.count), height: 55)
+            let size = CGSize(width: frame.width / CGFloat(model.tabViewItems.count), height: 55)
+            if indexPath.row == 0 {
+                containerWidthConstraint?.constant = size.width
+            }
+            return size
         }
-        
+                
         let newTitle = NSAttributedString(string: title, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 30)])
         let stringWidth = newTitle.boundingRect(with: CGSize(width: 300, height: 20), options: [.usesFontLeading, .usesLineFragmentOrigin], context: nil).size.width
         
@@ -191,8 +193,12 @@ extension TabViewUIComponent: UICollectionViewDataSource, UICollectionViewDelega
         }
         
         let width = allStringsWidth.reduce(0, +)
+        let cellSize = width * 3 < frame.width ? CGSize(width: frame.width / CGFloat(model.tabViewItems.count), height: 55) : CGSize(width: stringWidth, height: 55)
         
-        return width * 3 < frame.width ? CGSize(width: frame.width / CGFloat(model.tabViewItems.count), height: 55) : CGSize(width: stringWidth, height: 55)
+        if indexPath.row == 0 {
+            containerWidthConstraint?.constant = cellSize.width
+        }
+        return cellSize
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
