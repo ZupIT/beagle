@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import BeagleUI
+import Beagle
 import BeagleSchema
 
 struct FormScreen: DeeplinkScreen {
@@ -91,7 +91,7 @@ extension DemoTextField: Renderable {
     }
 }
 
-struct DemoTextField: BeagleUI.Widget, AutoInitiableAndDecodable {
+struct DemoTextField: Widget, AutoInitiableAndDecodable {
     
     var placeholder: String
     var widgetProperties: WidgetProperties

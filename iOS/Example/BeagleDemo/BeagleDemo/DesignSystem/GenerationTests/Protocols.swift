@@ -16,7 +16,7 @@
 
 import Foundation
 import UIKit
-import BeagleUI
+import Beagle
 
 // MARK: - Protocols
 public protocol TextComponents: ServerDrivenComponent { }
