@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.sample.compose.sample
 
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
@@ -50,6 +49,9 @@ object ComposeSampleForm: ComposeComponent {
                     path = SUBMIT_FORM_ENDPOINT,
                     method = FormMethodType.POST
                 )),
+                additionalData = mapOf(
+                    "additionalParamKey1" to "additionalParamValue1"
+                ),
                 child = Container(
                     children = listOf(
                         customFormInput(

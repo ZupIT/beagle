@@ -19,7 +19,6 @@ package br.com.zup.beagle.sample.builder
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
-import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.ACCESSIBILITY_SCREEN_ENDPOINT
@@ -49,7 +48,6 @@ import br.com.zup.beagle.sample.constants.QAFLAG_PLACEHOLDER
 import br.com.zup.beagle.sample.constants.SCREEN_FLEX_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TAB_VIEW_ENDPOINT
 import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem

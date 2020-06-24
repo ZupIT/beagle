@@ -108,17 +108,19 @@ final class StyleViewConfigurator: StyleViewConfiguratorProtocol {
         layout.alignItems = yogaTranslator.translate(flex.alignItems ?? .stretch)
         layout.alignSelf = yogaTranslator.translate(flex.alignSelf ?? .auto)
         layout.alignContent = yogaTranslator.translate(flex.alignContent ?? .flexStart)
-        if let basis = flex.basis {
-            layout.flexBasis = yogaTranslator.translate(basis)
-        }
-        if let flex = flex.flex {
-            layout.flex = CGFloat(flex)
-        }
-        if let grow = flex.grow {
-            layout.flexGrow = CGFloat(grow)
-        }
-        if let shrink = flex.shrink {
-            layout.flexShrink = CGFloat(shrink)
+        layout.flexBasis = yogaTranslator.translate(flex.basis ?? .auto)
+        if let flexValue = flex.flex {
+            layout.flex = CGFloat(flexValue)
+            if let grow = flex.grow {
+                layout.flexGrow = CGFloat(grow)
+            }
+            if let shrink = flex.shrink {
+                layout.flexShrink = CGFloat(shrink)
+            }
+        } else {
+            layout.flex = .nan
+            layout.flexGrow = CGFloat(flex.grow ?? 0)
+            layout.flexShrink = CGFloat(flex.shrink ?? 1)
         }
     }
     

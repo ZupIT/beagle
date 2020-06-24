@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -18,33 +19,30 @@ import BeagleSchema
 import XCTest
 import SnapshotTesting
 
-final class SingleExpressionTests: XCTestCase {
+final class PathTests: XCTestCase {
     
-    let validExpressions = [
-        "@{client.name}",
-        "@{client.name.first}",
-        "@{client.phones[0]}",
-        "@{client.matrix[1][1]}",
-        "@{client.matrix[3][3]}"
+    let paths = [
+        "client",
+        "client2.name",
+        "2client.phones[0]",
+        "client_[2].matrix[1][1]",
+        "[2]",
+        "[2][2]",
+        "",
+        "client.[2]",
+        "client[2].[2]",
+        "client[a]"
     ]
     
-    let invalidExpressions = [
-        "@{}",
-        "@{client.}",
-        "@{...}",
-        "@{client[}",
-        "@{client[a]}"
-    ]
-    
-    func test_rawRepresentable() {
+    func test_RawRepresentable() {
         // Given
-        let sut = validExpressions + invalidExpressions
+        let sut = paths
         // When
-        let result1 = sut.map { SingleExpression(rawValue: $0) }
+        let result1 = sut.map { Path(rawValue: $0) }
         let result2 = result1.map { $0?.rawValue }
         // Then
         assertSnapshot(matching: result1, as: .dump)
         assertSnapshot(matching: result2, as: .dump)
     }
-
+    
 }
