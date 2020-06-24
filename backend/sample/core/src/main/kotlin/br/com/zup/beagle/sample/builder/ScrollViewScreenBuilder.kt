@@ -23,6 +23,7 @@ import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
+import br.com.zup.beagle.widget.ui.ImagePath
 
 class ScrollViewScreenBuilder(val qaFlag: Boolean) : ScreenBuilder {
     override fun build() = Screen(
@@ -32,7 +33,7 @@ class ScrollViewScreenBuilder(val qaFlag: Boolean) : ScreenBuilder {
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
-                    image = "informationImage",
+                    image = ImagePath.Local.justMobile("informationImage"),
                     action = Alert(
                         title = "ScrollView",
                         message = "This component is a specialized container that will display its " +

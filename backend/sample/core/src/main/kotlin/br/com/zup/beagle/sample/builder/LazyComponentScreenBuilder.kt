@@ -17,9 +17,13 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.widget.action.Alert
+import br.com.zup.beagle.widget.layout.NavigationBar
+import br.com.zup.beagle.widget.layout.NavigationBarItem
+import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.layout.ScreenBuilder
+import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.sample.compose.quality.ComposeLazyComponentQuality
 import br.com.zup.beagle.sample.compose.sample.ComposeSampleLazyComponent
-import br.com.zup.beagle.widget.layout.*
 
 class LazyComponentScreenBuilder(val qaFlag: Boolean) : ScreenBuilder {
     override fun build() = Screen(
@@ -29,7 +33,7 @@ class LazyComponentScreenBuilder(val qaFlag: Boolean) : ScreenBuilder {
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
-                    image = "informationImage",
+                    image = Local.justMobile("informationImage"),
                     action = Alert(
                         title = "Lazy Component",
                         message = "A widget that implements loading.",

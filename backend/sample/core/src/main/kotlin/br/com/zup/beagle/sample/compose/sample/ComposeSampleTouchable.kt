@@ -36,7 +36,7 @@ import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.navigation.Touchable
 import br.com.zup.beagle.widget.ui.Image
-import br.com.zup.beagle.widget.ui.NetworkImage
+import br.com.zup.beagle.widget.ui.ImagePath
 import br.com.zup.beagle.widget.ui.Text
 
 object ComposeSampleTouchable: ComposeComponent {
@@ -44,7 +44,7 @@ object ComposeSampleTouchable: ComposeComponent {
         scrollDirection = ScrollAxis.VERTICAL,
         children = listOf(
             touchableCustom(title = "Text with Touchable", item = Text("Click here!")),
-            touchableCustom(title = "Image with Touchable", item = Image(LOGO_BEAGLE)),
+            touchableCustom(title = "Image with Touchable", item = Image(ImagePath.Local.justMobile(LOGO_BEAGLE))),
             networkImageTouchable()
         )
     )
@@ -82,9 +82,7 @@ object ComposeSampleTouchable: ComposeComponent {
         children = listOf(
             buildTitle("NetworkImage with Touchable"),
             Touchable(
-                child = NetworkImage(
-                    path = BEACH_NETWORK_IMAGE
-                ).applyStyle(Style(
+                child = Image(ImagePath.Remote(BEACH_NETWORK_IMAGE)).applyStyle(Style(
                     size = Size(
                         width = 150.unitReal(),
                         height = 130.unitReal()

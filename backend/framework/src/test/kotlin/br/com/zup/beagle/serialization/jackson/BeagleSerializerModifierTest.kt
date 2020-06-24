@@ -23,6 +23,7 @@ import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.layout.ComposeComponent
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
+import br.com.zup.beagle.widget.ui.ImagePath
 import com.fasterxml.jackson.databind.BeanDescription
 import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase
@@ -78,6 +79,22 @@ internal class BeagleSerializerModifierTest {
     fun modifySerializer_for_ServerDrivenComponent_subtype_should_return_BeagleTypeSerializer() =
         testModifySerializer(
             clazz = Widget::class.java,
+            expectedSerializerClass = BeagleTypeSerializer::class,
+            compareSerializers = Assertions::assertNotSame
+        )
+
+    @Test
+    fun modifySerializer_for_ImagePath_should_return_BeagleTypeSerializer() =
+        testModifySerializer(
+            clazz = ImagePath::class.java,
+            expectedSerializerClass = BeagleTypeSerializer::class,
+            compareSerializers = Assertions::assertNotSame
+        )
+
+    @Test
+    fun modifySerializer_for_ImagePath_subtype_should_return_BeagleTypeSerializer() =
+        testModifySerializer(
+            clazz = ImagePath.Local::class.java,
             expectedSerializerClass = BeagleTypeSerializer::class,
             compareSerializers = Assertions::assertNotSame
         )

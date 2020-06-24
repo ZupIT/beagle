@@ -19,12 +19,11 @@ package br.com.zup.beagle.android.action
 import androidx.lifecycle.Observer
 import br.com.zup.beagle.android.annotation.ContextDataValue
 import br.com.zup.beagle.android.utils.generateViewModelInstance
-import br.com.zup.beagle.android.utils.get
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.context.Bind
-import br.com.zup.beagle.android.utils.getValueWithEvaluatedExpressions
+import br.com.zup.beagle.android.utils.evaluateExpression
 
 @SuppressWarnings("UNUSED_PARAMETER")
 enum class RequestActionMethod {
@@ -43,7 +42,7 @@ data class SendRequest(
     @property:ContextDataValue
     val data: Any? = null,
     val onSuccess: List<Action>? = null,
-    val onError:List<Action>? = null,
+    val onError: List<Action>? = null,
     val onFinish: List<Action>? = null
 ) : Action {
 
@@ -58,7 +57,7 @@ data class SendRequest(
     ) : this(
         Bind.Value(url),
         Bind.Value(method),
-        if (headers != null) Bind.Value(headers) else headers,
+        headers?.let { Bind.Value(it) },
         data,
         onSuccess,
         onError,
@@ -69,34 +68,33 @@ data class SendRequest(
         val viewModel = rootView.generateViewModelInstance<ActionRequestViewModel>()
 
         viewModel.fetch(toSendRequestInternal(rootView)).observe(rootView.getLifecycleOwner(), Observer { state ->
-            executeActions(rootView, this, state)
+            executeActions(rootView, state)
         })
     }
 
     private fun executeActions(
         rootView: RootView,
-        action: SendRequest,
         state: ActionRequestViewModel.FetchViewState
     ) {
-        action.onFinish?.let {
-            action.handleEvent(rootView, it, "onFinish")
+        onFinish?.let {
+            handleEvent(rootView, it, "onFinish")
         }
 
         when (state) {
-            is ActionRequestViewModel.FetchViewState.Error -> action.onError?.let {
-                action.handleEvent(rootView, it, "onError", state.response)
+            is ActionRequestViewModel.FetchViewState.Error -> onError?.let {
+                handleEvent(rootView, it, "onError", state.response)
             }
-            is ActionRequestViewModel.FetchViewState.Success -> action.onSuccess?.let {
-                action.handleEvent(rootView, it, "onSuccess", state.response)
+            is ActionRequestViewModel.FetchViewState.Success -> onSuccess?.let {
+                handleEvent(rootView, it, "onSuccess", state.response)
             }
         }
     }
 
     private fun toSendRequestInternal(rootView: RootView) = SendRequestInternal(
-        url = this.url.get(rootView) ?: "",
-        method = this.method.get(rootView) ?: RequestActionMethod.GET,
-        headers = this.headers?.get(rootView),
-        data = this.data?.toString()?.getValueWithEvaluatedExpressions(rootView),
+        url = evaluateExpression(rootView, this.url) ?: "",
+        method = evaluateExpression(rootView, this.method) ?: RequestActionMethod.GET,
+        headers = this.headers?.let { evaluateExpression(rootView, it) },
+        data = evaluateExpression(rootView, this.data?.toString() ?: ""),
         onSuccess = this.onSuccess,
         onError = this.onError,
         onFinish = this.onFinish

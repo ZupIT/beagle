@@ -17,8 +17,72 @@
 package br.com.zup.beagle.android.view.viewmodel
 
 import androidx.lifecycle.ViewModel
+import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.SetContextInternal
+import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.ContextDataEvaluation
 import br.com.zup.beagle.android.context.ContextDataManager
 
-internal class ScreenContextViewModel : ViewModel() {
-    val contextDataManager = ContextDataManager()
+private data class ImplicitContext(
+    val sender: Any,
+    val context: ContextData,
+    val caller: List<Action>
+)
+
+internal class ScreenContextViewModel(
+    private val contextDataManager: ContextDataManager = ContextDataManager(),
+    private val contextDataEvaluation: ContextDataEvaluation = ContextDataEvaluation()
+) : ViewModel() {
+
+    private val implicitContextData = mutableListOf<ImplicitContext>()
+
+    fun addContext(contextData: ContextData) {
+        contextDataManager.addContext(contextData)
+    }
+
+    fun updateContext(setContextInternal: SetContextInternal) {
+        contextDataManager.updateContext(setContextInternal)
+    }
+
+    fun addBindingToContext(bind: Bind.Expression<*>) {
+        contextDataManager.addBindingToContext(bind)
+    }
+
+    fun evaluateContexts() {
+        contextDataManager.evaluateContexts()
+    }
+
+    // Sender is who created the implicit context
+    fun addImplicitContext(contextData: ContextData, sender: Any, actions: List<Action>) {
+        implicitContextData.removeAll { it.sender == sender }
+        implicitContextData += ImplicitContext(
+            sender = sender,
+            context = contextData,
+            caller = actions
+        )
+    }
+
+    // BindCaller is who owns the Bind Attribute
+    fun evaluateExpressionForImplicitContext(bindCaller: Action, bind: Bind.Expression<*>): Any? {
+        var value: ContextData? = null
+
+        implicitContextData.forEach { implicitContext ->
+            implicitContext.caller.forEach {
+                if (bindCaller == it) {
+                    value = implicitContext.context
+                }
+            }
+        }
+
+        return evaluateBind(value, bind)
+    }
+
+    private fun evaluateBind(implicitContext: ContextData?, bind: Bind.Expression<*>): Any? {
+        val contexts = contextDataManager.getContextsFromBind(bind).toMutableList()
+        if (implicitContext != null) {
+            contexts += implicitContext
+        }
+        return contextDataEvaluation.evaluateBindExpression(contexts, bind)
+    }
 }

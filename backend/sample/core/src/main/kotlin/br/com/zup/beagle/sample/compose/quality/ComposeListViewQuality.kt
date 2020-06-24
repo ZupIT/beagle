@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.sample.compose.quality
 
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
@@ -38,15 +37,15 @@ import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.layout.extensions.dynamic
 import br.com.zup.beagle.widget.navigation.Touchable
 import br.com.zup.beagle.widget.ui.Image
+import br.com.zup.beagle.widget.ui.ImagePath
 import br.com.zup.beagle.widget.ui.ListView
-import br.com.zup.beagle.widget.ui.NetworkImage
 import br.com.zup.beagle.widget.ui.Text
 
 object ComposeListViewQuality: ComposeComponent {
     override fun build() = ScrollView(
         scrollDirection = ScrollAxis.VERTICAL,
         children = listOf(
-            NetworkImage(path = BEACH_NETWORK_IMAGE).applyFlex(Flex(alignSelf = AlignSelf.FLEX_START)),
+            Image(ImagePath.Remote(BEACH_NETWORK_IMAGE)).applyFlex(Flex(alignSelf = AlignSelf.FLEX_START)),
             getStaticListView(ListDirection.VERTICAL).applyFlex(Flex(alignItems = AlignItems.CENTER)),
             getStaticListView(ListDirection.HORIZONTAL).applyFlex(Flex(alignItems = AlignItems.CENTER)),
             Container(
@@ -68,20 +67,20 @@ object ComposeListViewQuality: ComposeComponent {
                         direction = ListDirection.VERTICAL,
                         children = listOf(
                             Text("Text1 with networkImage"),
-                            NetworkImage(path = BEACH_NETWORK_IMAGE).applyFlex(Flex(alignSelf = AlignSelf.FLEX_START)),
+                            Image(ImagePath.Remote(BEACH_NETWORK_IMAGE)).applyFlex(Flex(alignSelf = AlignSelf.FLEX_START)),
                             Text("Text2 with touchable"),
                             Touchable(
-                                child = Image(name ="imageBeagle"),
+                                child = createdImage(),
                                 action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))
                             ),
                             Text("Text3"),
-                            Image(name = "imageBeagle").applyFlex(Flex(alignSelf = AlignSelf.FLEX_END)),
+                            createdImage().applyFlex(Flex(alignSelf = AlignSelf.FLEX_END)),
                             Text("Text4"),
-                            Image(name = "imageBeagle"),
+                            createdImage(),
                             Text("Text5"),
-                            Image(name = "imageBeagle"),
+                            createdImage(),
                             Text("Text6"),
-                            Image(name = "imageBeagle"),
+                            createdImage(),
                             Text("final list view um"),
                             ListView(
                                 direction = ListDirection.VERTICAL,
@@ -123,6 +122,8 @@ object ComposeListViewQuality: ComposeComponent {
             ListView.dynamic(size = 5, direction = listDirection, rowBuilder = this::createText)
         )
     )
+
+    private fun createdImage() = Image(ImagePath.Local.justMobile("imageBeagle"))
 
     private fun createText(index: Int) = Text(text = "Lorem Ipsum is simply dummy text of the printing and " +
         "typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +

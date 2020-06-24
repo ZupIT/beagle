@@ -55,9 +55,4 @@ abstract class BaseComponentTest : BaseTest() {
         every { viewRender.build(any()) } returns view
         every { view.tag = any() } just Runs
     }
-
-    override fun tearDown() {
-        super.setUp()
-        unmockkAll()
-    }
 }

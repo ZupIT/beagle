@@ -23,6 +23,7 @@ import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
+import br.com.zup.beagle.widget.ui.ImagePath.Local
 
 class TextScreenBuilder(val qaFlag: Boolean) : ScreenBuilder {
     override fun build() = Screen(
@@ -32,7 +33,7 @@ class TextScreenBuilder(val qaFlag: Boolean) : ScreenBuilder {
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
-                    image = "informationImage",
+                    image = Local.justMobile("informationImage"),
                     action = Alert(
                         title = "Text",
                         message = "This widget will define a text view natively using the server driven " +

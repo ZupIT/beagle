@@ -22,7 +22,8 @@ import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.ComposeComponent
 import br.com.zup.beagle.widget.layout.Container
-import br.com.zup.beagle.widget.ui.NetworkImage
+import br.com.zup.beagle.widget.ui.Image
+import br.com.zup.beagle.widget.ui.ImagePath
 import br.com.zup.beagle.widget.ui.TabItem
 import br.com.zup.beagle.widget.ui.TabView
 import br.com.zup.beagle.widget.ui.Text
@@ -37,7 +38,7 @@ object ComposeSampleTabView: ComposeComponent {
         child = Container(
             children = listOf(
                 Text("Text1 Tab 2"),
-                NetworkImage(BEACH_NETWORK_IMAGE),
+                Image(ImagePath.Remote(BEACH_NETWORK_IMAGE)),
                 Text("Text2 Tab 2")
             )
         ).applyFlex(Flex(alignContent = AlignContent.CENTER))
@@ -65,7 +66,7 @@ object ComposeSampleTabView: ComposeComponent {
 
     private val tab4 = TabItem(
         title = "Tab 4",
-        icon = "beagle",
+        icon = ImagePath.Local.justMobile("beagle"),
         child = Container(
             children = listOf(
                 Text("Text1 Tab 4"),

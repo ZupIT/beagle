@@ -38,7 +38,8 @@ import br.com.zup.beagle.widget.layout.ComposeComponent
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Button
-import br.com.zup.beagle.widget.ui.NetworkImage
+import br.com.zup.beagle.widget.ui.Image
+import br.com.zup.beagle.widget.ui.ImagePath
 import br.com.zup.beagle.widget.ui.TabItem
 import br.com.zup.beagle.widget.ui.TabView
 import br.com.zup.beagle.widget.ui.Text
@@ -55,17 +56,17 @@ object ComposeTabViewQuality : ComposeComponent {
             scrollDirection = ScrollAxis.VERTICAL,
             children = listOf(
                 Text("Text1 Tab 2"),
-                NetworkImage(BEACH_NETWORK_IMAGE),
+                createdImageRemote(),
                 Text("Text2 Tab 2"),
-                NetworkImage(BEACH_NETWORK_IMAGE),
+                createdImageRemote(),
                 Text("Text3 Tab 3"),
-                NetworkImage(BEACH_NETWORK_IMAGE),
+                createdImageRemote(),
                 Text("Text1 Tab 2"),
-                NetworkImage(BEACH_NETWORK_IMAGE),
+                createdImageRemote(),
                 Text("Text2 Tab 2"),
-                NetworkImage(BEACH_NETWORK_IMAGE),
+                createdImageRemote(),
                 Text("Text3 Tab 3"),
-                NetworkImage(BEACH_NETWORK_IMAGE)
+                createdImageRemote()
             )
         )
     )
@@ -153,7 +154,7 @@ object ComposeTabViewQuality : ComposeComponent {
     )
 
     private val tab4 = TabItem(
-        icon = "beagle",
+        icon = ImagePath.Local.justMobile("beagle"),
         child = Container(
             children = listOf(
                 Text("Text1 Tab 4"),
@@ -161,5 +162,7 @@ object ComposeTabViewQuality : ComposeComponent {
             )
         ).applyFlex(Flex(alignContent = AlignContent.CENTER))
     )
+
+    private fun createdImageRemote() = Image(ImagePath.Remote(BEACH_NETWORK_IMAGE))
 
 }

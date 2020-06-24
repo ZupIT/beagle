@@ -16,16 +16,17 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.sample.compose.quality.ComposeNavigationBarQuality
 import br.com.zup.beagle.sample.compose.sample.ComposeSampleNavigationBar
 import br.com.zup.beagle.sample.constants.NAVIGATION_BAR_STYLE_DEFAULT
-import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.layout.extensions.setId
+import br.com.zup.beagle.widget.ui.ImagePath.Local
 
 class NavigationBarViewScreenBuilder(val qaFlag: Boolean) : ScreenBuilder {
     override fun build() = Screen(
@@ -40,7 +41,7 @@ class NavigationBarViewScreenBuilder(val qaFlag: Boolean) : ScreenBuilder {
                 NavigationBarItem(
                     text = "Ajuda",
                     accessibility = Accessibility(accessibilityLabel = "Content Description"),
-                    image = "informationImage",
+                    image = Local.justMobile("informationImage"),
                     action = Alert(
                         title = "NavigationBar",
                         message = "This component that allows to place titles and button action.",

@@ -30,10 +30,11 @@ struct AppTheme {
         .FORM_SUBMIT_STYLE: Self.formButton,
         .NAVIGATION_BAR_GREEN_STYLE: Self.designSystemStyleNavigationBar,
         .NAVIGATION_BAR_DEFAULT_STYLE: Self.designSystemStyleNavigationBarDefault,
+        .TEXT_INPUT_STYLE: Self.designSystemTextInput
         .TAB_VIEW_STYLE: Self.tabView,
         .DESIGN_SYSTEM_STYLE_BUTTON_SCREEN_BUTTON: designSystemScreenButton,
         .STYLE_TAB_VIEW_BFF: tabViewBff,
-        
+
     ])
     
     static func blackTextNormalStyle() -> (UITextView?) -> Void {
@@ -52,6 +53,13 @@ struct AppTheme {
         return BeagleStyle.text(font: .boldSystemFont(ofSize: 40), color: .black)
     }
     
+    static func designSystemTextInput() -> (UITextField?) -> Void {
+        return {
+            $0?.textColor = .black
+            $0?.font = .boldSystemFont(ofSize: 30)
+        }
+    }
+
     static func designSystemStylishButton() -> (UIButton?) -> Void {
         return BeagleStyle.button(withTitleColor: .black)
             <> {
@@ -66,7 +74,7 @@ struct AppTheme {
                 $0?.titleLabel |> BeagleStyle.label(withFont: .systemFont(ofSize: 18))
         }
     }
-    
+
     static func designSystemStylishButtonAndAppearance() -> (UIButton?) -> Void {
         return BeagleStyle.button(withTitleColor: .white)
             <> {
@@ -100,7 +108,7 @@ struct AppTheme {
     static func tabView() -> (UIView?) -> Void {
         return BeagleStyle.tabView(backgroundColor: .clear, indicatorColor: .demoGray, selectedTextColor: .demoGray, unselectedTextColor: .demoDarkGray, selectedIconColor: .demoGray, unselectedIconColor: .demoDarkGray)
     }
-    
+
     static func tabViewBff() -> (UIView?) -> Void {
            return BeagleStyle.tabView(
             backgroundColor: #colorLiteral(red: 0.6901960784, green: 0.768627451, blue: 0.8705882353, alpha: 1),

@@ -52,5 +52,5 @@ data class TabView(
 data class TabItem(
     val title: String? = null,
     val child: ServerDrivenComponent,
-    val icon: String? = null
+    val icon: ImagePath.Local? = null
 )

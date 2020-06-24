@@ -15,23 +15,14 @@
  * limitations under the License.
  */
 
-import Foundation
+import XCTest
+import SnapshotTesting
+@testable import BeagleSchema
 
-public struct NetworkImage: RawWidget, AutoInitiableAndDecodable {
+final class TextInputTests: XCTestCase {
     
-    public let path: String
-    public let contentMode: ImageContentMode?
-    public var widgetProperties: WidgetProperties
-
-// sourcery:inline:auto:NetworkImage.Init
-    public init(
-        path: String,
-        contentMode: ImageContentMode? = nil,
-        widgetProperties: WidgetProperties = WidgetProperties()
-    ) {
-        self.path = path
-        self.contentMode = contentMode
-        self.widgetProperties = widgetProperties
+    func test_whenDecodingJson_shouldReturnAText() throws {
+        let component: TextInput = try componentFromJsonFile(fileName: "TextInputComponent")
+        assertSnapshot(matching: component, as: .dump)
     }
-// sourcery:end
 }

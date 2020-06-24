@@ -14,20 +14,12 @@
  * limitations under the License.
  */
 
-import XCTest
-@testable import BeagleSchema
-import SnapshotTesting
+package br.com.zup.beagle.widget.core
 
-class NetworkImageTests: XCTestCase {
-
-    func test_whenDecodingJson_thenItShouldReturnANetworkImage() throws {
-        let component: NetworkImage = try componentFromJsonFile(fileName: "NetworkImage")
-        assertSnapshot(matching: component, as: .dump)
-    }
-    
-    func test_whenDecodingJson_thenItShouldReturnANetworkImageWithContentMode() throws {
-        let component: NetworkImage = try componentFromJsonFile(fileName: "NetworkImageWithContentMode")
-        assertSnapshot(matching: component, as: .dump)
-    }
-    
+enum class TextInputType {
+    DATE, // This attribute on iOS will have the same effect as NUMBER
+    EMAIL,
+    PASSWORD, // TEXT_PASSWORD
+    NUMBER,
+    TEXT
 }

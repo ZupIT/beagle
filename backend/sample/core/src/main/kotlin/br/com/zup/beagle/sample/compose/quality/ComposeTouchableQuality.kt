@@ -16,9 +16,7 @@
 
 package br.com.zup.beagle.sample.compose.quality
 
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
@@ -38,15 +36,21 @@ import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.navigation.Touchable
 import br.com.zup.beagle.widget.ui.Image
-import br.com.zup.beagle.widget.ui.NetworkImage
+import br.com.zup.beagle.widget.ui.ImagePath
 import br.com.zup.beagle.widget.ui.Text
 
 object ComposeTouchableQuality: ComposeComponent {
     override fun build() = ScrollView(
         scrollDirection = ScrollAxis.VERTICAL,
         children = listOf(
-            touchableCustom(title = "Text with Touchable", item = Text("Click here!")),
-            touchableCustom(title = "Image with Touchable", item = Image(LOGO_BEAGLE).applyStyle(
+            touchableCustom(
+                title = "Text with Touchable",
+                item = Text("Click here!")
+            ),
+            touchableCustom(
+                title = "Image with Touchable",
+                item = Image(ImagePath.Local.justMobile(LOGO_BEAGLE)
+                ).applyStyle(
                 style = Style(
                     margin = EdgeValue(
                         top = 8.unitReal(),
@@ -99,9 +103,7 @@ object ComposeTouchableQuality: ComposeComponent {
         children = listOf(
             buildTitle("NetworkImage with Touchable"),
             Touchable(
-                child = NetworkImage(
-                    path = BEACH_NETWORK_IMAGE
-                ).applyStyle(
+                child = Image(ImagePath.Remote(BEACH_NETWORK_IMAGE)).applyStyle(
                     style = Style(
                         size = Size(
                             width = 150.unitReal(),

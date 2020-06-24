@@ -23,6 +23,7 @@ import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
+import br.com.zup.beagle.widget.ui.ImagePath.Local
 
 class FormScreenBuilder(val qaFlag: Boolean) : ScreenBuilder {
 
@@ -33,7 +34,7 @@ class FormScreenBuilder(val qaFlag: Boolean) : ScreenBuilder {
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
-                    image = "informationImage",
+                    image = Local.justMobile("informationImage"),
                     action = Alert(
                         title = "Form",
                         message = "A formSubmit component will define a submit handler in a form.",

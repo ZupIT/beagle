@@ -20,7 +20,6 @@ import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Image
 import br.com.zup.beagle.android.components.LazyComponent
 import br.com.zup.beagle.android.components.ListView
-import br.com.zup.beagle.android.components.NetworkImage
 import br.com.zup.beagle.android.components.TabItem
 import br.com.zup.beagle.android.components.TabView
 import br.com.zup.beagle.android.components.Text
@@ -87,7 +86,6 @@ internal object ComponentJsonAdapterFactory {
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
         return factory.withSubtype(Text::class.java, createNamespaceFor<Text>())
             .withSubtype(Image::class.java, createNamespaceFor<Image>())
-            .withSubtype(NetworkImage::class.java, createNamespaceFor<NetworkImage>())
             .withSubtype(Button::class.java, createNamespaceFor<Button>())
             .withSubtype(ListView::class.java, createNamespaceFor<ListView>())
             .withSubtype(TabView::class.java, createNamespaceFor<TabView>())

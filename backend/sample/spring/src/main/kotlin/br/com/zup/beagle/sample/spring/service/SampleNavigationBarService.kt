@@ -16,14 +16,15 @@
 
 package br.com.zup.beagle.sample.spring.service
 
-import br.com.zup.beagle.widget.action.Navigate
-import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.sample.builder.NavigationBarScreenBuilder
 import br.com.zup.beagle.sample.builder.NavigationBarViewScreenBuilder
 import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
 import br.com.zup.beagle.sample.constants.NAVIGATION_BAR_STYLE
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
+import br.com.zup.beagle.widget.action.Navigate
+import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.layout.NavigationBarItem
+import br.com.zup.beagle.widget.ui.ImagePath.Local
 import org.springframework.stereotype.Service
 
 @Service
@@ -58,7 +59,7 @@ class SampleNavigationBarService {
         navigationBarItems = listOf(
             NavigationBarItem(
                 text = "",
-                image = LOGO_BEAGLE,
+                image = Local.justMobile(LOGO_BEAGLE),
                 action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))
             )
         )

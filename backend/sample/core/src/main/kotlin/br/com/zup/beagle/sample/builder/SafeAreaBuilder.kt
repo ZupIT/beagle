@@ -24,6 +24,8 @@ import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.SafeArea
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
+import br.com.zup.beagle.widget.ui.Image
+import br.com.zup.beagle.widget.ui.ImagePath
 
 class SafeAreaBuilder(val qaFlag: Boolean) : ScreenBuilder {
     override fun build() = Screen(
@@ -33,7 +35,7 @@ class SafeAreaBuilder(val qaFlag: Boolean) : ScreenBuilder {
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
-                    image = "informationImage",
+                    image = ImagePath.Local.justMobile("informationImage"),
                     action = Alert(
                         title = "Image",
                         message = "This widget will define a image view natively using the server driven " +
