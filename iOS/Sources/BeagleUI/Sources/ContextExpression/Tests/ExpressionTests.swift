@@ -19,7 +19,7 @@ import BeagleSchema
 import XCTest
 import SnapshotTesting
 
-final class SingleExpressionTests: XCTestCase {
+final class ExpressionTests: XCTestCase {
     
     let model: DynamicObject = [
         "client": [
@@ -39,17 +39,17 @@ final class SingleExpressionTests: XCTestCase {
         ]
     ]
 
-    func test_evaluation() {
+    func test_singleExpressionEvaluation() {
         // Given
-        let sut = [
-            SingleExpression(nodes: [.property("client"), .property("name")]),
-            SingleExpression(nodes: [.property("client"), .property("name"), .property("first")]),
-            SingleExpression(nodes: [.property("client"), .property("unknown")]),
-            SingleExpression(nodes: [.property("client"), .property("phones"), .arrayItem(0)]),
-            SingleExpression(nodes: [.property("client"), .property("matrix"), .arrayItem(0), .arrayItem(0)]),
-            SingleExpression(nodes: [.property("client"), .property("matrix"), .arrayItem(1), .arrayItem(1)]),
-            SingleExpression(nodes: [.property("client"), .property("matrix"), .arrayItem(2), .arrayItem(2)]),
-            SingleExpression(nodes: [.property("client"), .property("matrix"), .arrayItem(3), .arrayItem(3)])
+        let sut: [SingleExpression] = [
+            SingleExpression(context: "context", path: Path(nodes: [.key("client"), .key("name")])),
+            SingleExpression(context: "context", path: Path(nodes: [.key("client"), .key("name"), .key("first")])),
+            SingleExpression(context: "context", path: Path(nodes: [.key("client"), .key("unknown")])),
+            SingleExpression(context: "context", path: Path(nodes: [.key("client"), .key("phones"), .index(0)])),
+            SingleExpression(context: "context", path: Path(nodes: [.key("client"), .key("matrix"), .index(0), .index(0)])),
+            SingleExpression(context: "context", path: Path(nodes: [.key("client"), .key("matrix"), .index(1), .index(1)])),
+            SingleExpression(context: "context", path: Path(nodes: [.key("client"), .key("matrix"), .index(2), .index(2)])),
+            SingleExpression(context: "context", path: Path(nodes: [.key("client"), .key("matrix"), .index(3), .index(3)]))
         ]
         let context = model
 

@@ -22,14 +22,14 @@ extension SetContext: Action {
     public func execute(controller: BeagleController, sender: Any) {
         guard let view = sender as? UIView else { return }
         
-        let newValue = value.get(with: view)
-        let context = view.getContext(with: self.context)
+        let valueEvaluated = value.get(with: view)
+        let contextObserver = view.getContext(with: contextId)
 
-        // TODO: fix merge path
-        if let dynamicObject = context?.value.value {
-            context?.value = Context(id: context?.value.id ?? "", value: dynamicObject.merge(newValue))
+        if var contextValue = contextObserver?.value.value, let path = path {
+            contextValue.set(valueEvaluated, forPath: path)
+            contextObserver?.value = Context(id: contextId, value: contextValue)
         } else {
-            context?.value = Context(id: context?.value.id ?? "", value: newValue)
+            contextObserver?.value = Context(id: contextId, value: valueEvaluated)
         }
     }
 }

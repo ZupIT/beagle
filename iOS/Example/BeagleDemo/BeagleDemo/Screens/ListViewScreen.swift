@@ -58,7 +58,7 @@ struct ListViewScreen: DeeplinkScreen {
             Text("0014"),
             Text("0015"),
             Text("0016"),
-            Image(.network(.NETWORK_IMAGE_BEAGLE)),
+            Image(.remote(.init(url: .NETWORK_IMAGE_BEAGLE))),
             Text("0017"),
             Text("0018"),
             Text("0019"),

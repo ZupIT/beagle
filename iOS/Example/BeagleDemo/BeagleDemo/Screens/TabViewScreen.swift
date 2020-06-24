@@ -30,7 +30,7 @@ struct TabViewScreen: DeeplinkScreen {
         let tab1 = TabItem(icon: "beagle", child:
             Container(children: [
                 Text("Blaaslkdjfaskldjfalskdjfasldjfasldfj"),
-                Image(.network(.NETWORK_IMAGE_BEAGLE)),
+                Image(.remote(.init(url: .NETWORK_IMAGE_BEAGLE))),
                 Text("Blaaslkdjfaskldjfalskdjfasldjfasldfj")
             ]).applyFlex(Flex().alignContent(.center))
         )
@@ -55,6 +55,28 @@ struct TabViewScreen: DeeplinkScreen {
                 Text("Text2 Tab 4")
             ]).applyFlex(Flex().alignItems(.center))
         )
-        return Screen(navigationBar: NavigationBar(title: "TabView"), child: TabView(children: [tab1, tab2, tab3, tab4], styleId: .TAB_VIEW_STYLE))
+        
+        let tab5 = TabItem(icon: "beagle", title: "Tab with Tab view", child:
+            Container(children: [
+                TabView(children: [
+                    TabItem(title: "Sub tab 1", child:
+                        Container(children: [
+                            Text("Subtext 1 Tab 1"),
+                            Text("Subtext 2 Tab 1")
+                        ]).applyFlex(Flex().alignItems(.center).grow(1))
+                    ),
+                    TabItem(title: "Sub tab 2", child:
+                        Container(children: [
+                            Text("Subtext 1 Tab 2"),
+                            Text("Subtext 2 Tab 2")
+                        ]).applyFlex(Flex().alignItems(.center).grow(1))
+                    )
+                    ]
+                )
+            ], widgetProperties: WidgetProperties(style: .init(size: Size().width(400), flex: Flex().alignSelf(.center).alignItems(.center).grow(1))))
+        )
+        
+        return Screen(navigationBar: NavigationBar(title: "TabView"), child: TabView(children: [tab1, tab2, tab3, tab4, tab5], styleId: .TAB_VIEW_STYLE))
+        
     }
 }

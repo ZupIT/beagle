@@ -39,9 +39,9 @@ extension NavigationBarItem {
             self.barItem = barItem
             self.controller = controller
             super.init()
-            if let imageName = barItem.image {
+            if let localImage = barItem.image {
                 image = UIImage(
-                    named: imageName,
+                    named: localImage.mobileId,
                     in: controller.dependencies.appBundle,
                     compatibleWith: nil
                 )?.withRenderingMode(.alwaysOriginal)
