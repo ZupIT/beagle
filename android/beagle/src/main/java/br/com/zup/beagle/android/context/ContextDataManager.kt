@@ -24,7 +24,7 @@ import br.com.zup.beagle.android.utils.getExpressions
 
 internal data class ContextBinding(
     val context: ContextData,
-    val bindings: MutableList<Bind.Expression<*>>
+    val bindings: MutableSet<Bind.Expression<*>>
 )
 
 internal class ContextDataManager(
@@ -38,7 +38,7 @@ internal class ContextDataManager(
 
     fun addContext(contextData: ContextData) {
         contexts[contextData.id] = ContextBinding(
-            bindings = mutableListOf(),
+            bindings = mutableSetOf(),
             context = contextData
         )
     }
