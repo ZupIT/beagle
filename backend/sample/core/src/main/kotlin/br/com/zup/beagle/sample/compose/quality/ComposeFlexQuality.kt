@@ -33,14 +33,13 @@ import br.com.zup.beagle.widget.ui.Text
 object ComposeFlexQuality: ComposeComponent {
     override fun build() = Container(
         children = listOf(
-            createText(backgroundColor = "#142850", text = "texto 1"),
-            createText(backgroundColor = "#dd7631", text = "texto 2"),
-            createText(backgroundColor = "#649d66", text = "texto 3")
+            createText(backgroundColor = "#142850", text = "texto 1").applyFlex(Flex(flex = 1.0)),
+            createText(backgroundColor = "#dd7631", text = "texto 2").applyFlex(Flex(flex = 2.0)),
+            createText(backgroundColor = "#649d66", text = "texto 3").applyFlex(Flex(flex = 3.0))
         )
     ).applyFlex(
         flex = Flex(
-            grow = 1.0,
-            justifyContent = JustifyContent.FLEX_START
+            grow = 1.0
         )
     )
 
