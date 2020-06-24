@@ -158,7 +158,7 @@ final class ListViewTests: XCTestCase {
         let backgroundColor = "#\(String(repeating: String(format: "%02X", background), count: 3))"
         return Text(
             .value(string),
-            textColor: Expression.value(textColor),
+            textColor: .value(textColor),
             widgetProperties: .init(style: Style(backgroundColor: backgroundColor))
         )
     }

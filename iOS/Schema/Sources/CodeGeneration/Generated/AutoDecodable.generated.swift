@@ -280,6 +280,7 @@ extension ScrollView {
         case children
         case scrollDirection
         case scrollBarEnabled
+        case _context_
     }
 
     public init(from decoder: Decoder) throws {
@@ -288,6 +289,7 @@ extension ScrollView {
         children = try container.decode(forKey: .children)
         scrollDirection = try container.decodeIfPresent(ScrollAxis.self, forKey: .scrollDirection)
         scrollBarEnabled = try container.decodeIfPresent(Bool.self, forKey: .scrollBarEnabled)
+        _context_ = try container.decodeIfPresent(Context.self, forKey: ._context_)
     }
 }
 
