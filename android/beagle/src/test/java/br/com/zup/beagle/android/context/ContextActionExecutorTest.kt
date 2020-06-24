@@ -43,6 +43,8 @@ import kotlin.test.assertEquals
 
 data class PersonTest(val name: String)
 
+private const val NAME = "name"
+
 class ContextActionExecutorTest : BaseTest() {
 
     private val rootView = mockk<ActivityRootView>()
@@ -112,7 +114,7 @@ class ContextActionExecutorTest : BaseTest() {
     fun executeActions_should_object_value_to_JSONObject() {
         // Given
         val eventId = "onChange"
-        val value = PersonTest(name = "teste")
+        val value = PersonTest(name = NAME)
 
         // When
         contextActionExecutor.executeActions(rootView, sender, listOf(action), eventId, value)
@@ -120,7 +122,7 @@ class ContextActionExecutorTest : BaseTest() {
         // Then
         assertEquals(eventId, contextDataSlot.captured.id)
         val expected = JSONObject()
-            .put("name", "teste")
+            .put(NAME, NAME)
             .toString()
         assertEquals(expected, contextDataSlot.captured.value.toString())
     }
@@ -129,7 +131,7 @@ class ContextActionExecutorTest : BaseTest() {
     fun executeActions_should_list_of_object_value_to_JSONArray() {
         // Given
         val eventId = "onChange"
-        val value = arrayListOf(PersonTest(name = "teste"))
+        val value = arrayListOf(PersonTest(name = NAME))
 
         // When
         contextActionExecutor.executeActions(rootView, sender, listOf(action), eventId, value)
@@ -138,7 +140,7 @@ class ContextActionExecutorTest : BaseTest() {
         assertEquals(eventId, contextDataSlot.captured.id)
         val expected = JSONArray()
             .put(
-                JSONObject().put("name", "teste")
+                JSONObject().put(NAME, NAME)
             ).toString()
         assertEquals(expected, contextDataSlot.captured.value.toString())
     }

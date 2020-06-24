@@ -29,9 +29,6 @@ import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
-import br.com.zup.beagle.widget.action.SendRequest
-import br.com.zup.beagle.widget.action.SetContext
-import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
@@ -40,9 +37,6 @@ import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.ImagePath.Local
-import br.com.zup.beagle.widget.ui.Text
-
-data class Address(val street: String)
 
 object ButtonScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
@@ -63,26 +57,7 @@ object ButtonScreenBuilder : ScreenBuilder {
             )
         ),
         child = Container(
-            context = ContextData(
-                id = "context",
-                value = Address(street ="teste")
-            ),
             children = listOf(
-                Text("@{context.street}"),
-                Button(
-                    text = "click",
-                    onPress = listOf(
-                        SendRequest(
-                            "https://demo0215390.mockable.io/teste",
-                            onSuccess = listOf(
-                                SetContext(
-                                    contextId = "context",
-                                    value = Address(street = "@{onSuccess.data.test[0]}")
-                                )
-                            )
-                        )
-                    )
-                ),
                 createButton(
                     text = "Button",
                     style = Style(
@@ -145,5 +120,4 @@ object ButtonScreenBuilder : ScreenBuilder {
 
         return button
     }
-
 }
