@@ -21,8 +21,6 @@ import BeagleSchema
 extension UIView {
     static var contextMapKey = "contextMapKey"
     
-    static var observers = "contextObservers"
-
     private class ObjectWrapper<T> {
         let object: T?
         
@@ -41,6 +39,7 @@ extension UIView {
     }
     
     // TODO: fix weak reference
+    static var observers = "contextObservers"
     private var observers: [ContextObserver]? {
         get {
             return (objc_getAssociatedObject(self, &UIView.observers) as? ObjectWrapper)?.object
@@ -49,41 +48,83 @@ extension UIView {
             objc_setAssociatedObject(self, &UIView.observers, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
+    
+    // MARK: Context Expression
+    
+    func configBinding<T>(for expression: ContextExpression, completion: @escaping (T) -> Void) {
+        switch expression {
+        case let .single(expression):
+            configBinding(for: expression, completion: completion)
+        case let .multiple(expression):
+            configBinding(for: expression, completion: completion)
+        }
+    }
+    
+    func evaluate(for expression: ContextExpression) -> Any? {
+        switch expression {
+        case let .single(expression):
+            return evaluate(for: expression)
+        case let .multiple(expression):
+            return evaluate(for: expression)
+        }
+    }
 
-    func configBinding<T>(for expression: SingleExpression, completion: @escaping (T) -> Void) {
-        guard let context = getContext(with: expression.context()) else { return }
-
-        let newExp = SingleExpression(nodes: .init(expression.nodes.dropFirst()))
+    // MARK: Single Expression
+    
+    private func configBinding<T>(for expression: SingleExpression, completion: @escaping (T) -> Void) {
+        guard let context = getContext(with: expression.context) else { return }
         let closure: (Context) -> Void = { context in
-            if let value = newExp.evaluate(model: context.value) as? T {
+            if let value = expression.evaluate(model: context.value) as? T {
                 completion(value)
             }
         }
-        
-        let contextObserver = ContextObserver(onContextChange: closure)
-        
-        if observers == nil {
-            observers = []
-        }
-        observers?.append(contextObserver)
-        context.addObserver(contextObserver)
+        configBinding(with: context, completion: closure)
         closure(context.value)
     }
     
-    func evaluate(for expression: SingleExpression) -> Any? {
-        guard let context = getContext(with: expression.context()) else { return nil }
-        let newExp = SingleExpression(nodes: .init(expression.nodes.dropFirst()))
-        return newExp.evaluate(model: context.value.value)
+    private func evaluate(for expression: SingleExpression) -> Any? {
+        guard let context = getContext(with: expression.context) else { return nil }
+        return expression.evaluate(model: context.value.value)
     }
     
-    // MARK: Get/Set
+    // MARK: Multiple Expression
+    
+    private func configBinding<T>(for expression: MultipleExpression, completion: @escaping (T) -> Void) {
+        expression.nodes.forEach {
+            if case let .expression(single) = $0 {
+                guard let context = getContext(with: single.context) else { return }
+                configBinding(with: context) { _ in
+                    if let value = self.evaluate(for: expression, contextId: single.context) as? T {
+                        completion(value)
+                    }
+                }
+            }
+        }
+        if let value = self.evaluate(for: expression) as? T {
+            completion(value)
+        }
+    }
+    
+    private func evaluate(for expression: MultipleExpression, contextId: String? = nil) -> Any? {
+        var result: String = ""
+        
+        expression.nodes.forEach {
+            switch $0 {
+            case let .expression(expression):
+                // TODO: create cache mechanism
+                result += (evaluate(for: expression) as? String) ?? expression.rawValue
+            case let .string(string):
+                result += string
+            }
+        }
+        return result
+    }
+    
+    // MARK: Get/Set Context
     
     func getContext(with id: String?) -> Observable<Context>? {
-        guard let contextMap = self.contextMap else {
+        guard let contextMap = self.contextMap, let context = contextMap[id] else {
             // TODO: create cache mechanism
-            return superview?.getContext(with: id)
-        }
-        guard let context = contextMap[id] else {
             return superview?.getContext(with: id)
         }
         return context
@@ -97,6 +138,17 @@ extension UIView {
         }
     }
     
+    // MARK: Private
+    
+    private func configBinding(with context: Observable<Context>, completion: @escaping (Context) -> Void) {
+        let contextObserver = ContextObserver(onContextChange: completion)
+        if observers == nil {
+            observers = []
+        }
+        observers?.append(contextObserver)
+        context.addObserver(contextObserver)
+    }
+    
 }
 
 private extension Dictionary where Key == String, Value == Observable<Context> {
@@ -104,6 +156,7 @@ private extension Dictionary where Key == String, Value == Observable<Context> {
         guard let id = context else {
             return self.first?.value
         }
+        
         return self[id]
     }
 }

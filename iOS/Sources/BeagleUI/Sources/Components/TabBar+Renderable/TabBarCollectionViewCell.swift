@@ -122,11 +122,11 @@ final class TabBarCollectionViewCell: UICollectionViewCell {
     private func contentVerification(tabItem: TabItem) -> ContentEnabler {
         switch (tabItem.icon, tabItem.title) {
         case let (icon?, title?):
-            return .both(icon: icon, title: title)
+            return .both(icon: icon.mobileId, title: title)
         case let (_, title?):
             return .title(title)
         case let (icon?, _):
-            return .icon(icon)
+            return .icon(icon.mobileId)
         default:
             return .none
         }

@@ -16,13 +16,13 @@
 
 public struct TabItem: AutoInitiableAndDecodable {
 
-    public let icon: String?
+    public let icon: Image.Local?
     public let title: String?
     public let child: RawComponent
 
 // sourcery:inline:auto:TabItem.Init
     public init(
-        icon: String? = nil,
+        icon: Image.Local? = nil,
         title: String? = nil,
         child: RawComponent
     ) {
