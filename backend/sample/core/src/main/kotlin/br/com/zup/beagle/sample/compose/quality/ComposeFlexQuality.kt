@@ -21,6 +21,7 @@ import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
@@ -34,19 +35,21 @@ import br.com.zup.beagle.widget.ui.Text
 object ComposeFlexQuality : ComposeComponent {
     override fun build() = Container(
         children = listOf(
-            createText(backgroundColor = "#142850", text = "1"),
+            createText(backgroundColor = "#142850", text = "1").applyStyle(
+                Style(
+                    size = Size(width = 50.unitReal(),height = 50.unitReal()),
+                    position = EdgeValue(all = 50.unitReal())
+                )
+            ),
             createText(backgroundColor = "#dd7631", text = "2"),
-            createText(backgroundColor = "#649d66", text = "3"),
-            createText(backgroundColor = "#142850", text = "4"),
-            createText(backgroundColor = "#dd7631", text = "5"),
-            createText(backgroundColor = "#649d66", text = "6")
+            createText(backgroundColor = "#649d66", text = "3")
         )
-    ).applyStyle(
-        Style(
-            backgroundColor = "#0000000",
-            flex = Flex(flexDirection = FlexDirection.ROW),
-            padding = EdgeValue(all = 20.unitReal()
-            )
+    ).applyFlex(
+        Flex(
+            grow = 1.0,
+            flexDirection = FlexDirection.ROW,
+            justifyContent = JustifyContent.CENTER,
+            alignItems = AlignItems.CENTER
         )
     )
 
