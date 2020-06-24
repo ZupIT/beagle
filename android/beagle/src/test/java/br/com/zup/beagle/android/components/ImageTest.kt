@@ -107,7 +107,6 @@ class ImageViewRendererTest : BaseComponentTest() {
         imageRemote = Image(PathType.Remote(""))
         every { requestManager.setDefaultRequestOptions(any()) } returns requestManager
 
-
         // When
         val view = imageRemote.buildView(rootView)
 
