@@ -32,7 +32,7 @@ object ComposeFlexQuality : ComposeComponent {
             createText(backgroundColor = "#dd7631", text = "2").applyFlex(Flex(flex = 2.0)),
             createText(backgroundColor = "#649d66", text = "3").applyFlex(Flex(flex = 3.0))
         )
-    )
+    ).applyFlex(Flex(grow = 1.0))
 
     fun createText(text: String, backgroundColor: String): Container = Container(
         listOf(
