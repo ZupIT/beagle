@@ -33,13 +33,22 @@ object ComposeFlexQuality : ComposeComponent {
     override fun build() = Container(
         children = listOf(
             createText(backgroundColor = "#142850", text = "1").applyStyle(
-                Style(size = Size(width = 130.unitReal(),height = 130.unitReal()))
+                Style(
+                    size = Size(width = 130.unitReal(),height = 130.unitReal()),
+                    backgroundColor = "#142850"
+                )
             ),
             createText(backgroundColor = "#dd7631", text = "2").applyStyle(
-                Style(size = Size(width = 100.unitReal(),height = 100.unitReal()))
+                Style(
+                    size = Size(width = 100.unitReal(),height = 100.unitReal()),
+                    backgroundColor = "#dd7631"
+                )
             ),
             createText(backgroundColor = "#649d66", text = "3").applyStyle(
-                Style(size = Size(width = 70.unitReal(),height = 70.unitReal()))
+                Style(
+                    size = Size(width = 70.unitReal(),height = 70.unitReal()),
+                    backgroundColor = "#649d66"
+                )
             )
         )
     ).applyFlex(
