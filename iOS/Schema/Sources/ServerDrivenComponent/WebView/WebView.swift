@@ -18,12 +18,12 @@
 import Foundation
 
 public struct WebView: RawWidget, AutoInitiableAndDecodable {
-    public let url: String
+    public let url: Expression<String>
     public var widgetProperties: WidgetProperties
 
 // sourcery:inline:auto:WebView.Init
     public init(
-        url: String,
+        url: Expression<String>,
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.url = url
