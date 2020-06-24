@@ -25,7 +25,7 @@ final class TabBarCollectionViewCellTests: XCTestCase {
         let sut = TabBarCollectionViewCell(frame: .zero)
         
         // When
-        sut.setupTab(with: TabItem(icon: "icon", title: "Tab", child:
+        sut.setupTab(with: TabItem(icon: .init(mobileId: "icon"), title: "Tab", child:
             Text("Text")
         ))
         
@@ -41,7 +41,7 @@ final class TabBarCollectionViewCellTests: XCTestCase {
         let sut = TabBarCollectionViewCell(frame: .zero)
         
         // When
-        sut.setupTab(with: TabItem(icon: "icon", child:
+        sut.setupTab(with: TabItem(icon: .init(mobileId: "icon"), child:
             Text("Text")
         ))
         

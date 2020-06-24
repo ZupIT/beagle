@@ -25,10 +25,10 @@ extension Image: Widget {
         image.contentMode = (contentMode ?? .fitCenter).toUIKit()
 
         switch path {
-        case .local(let name):
-            setImageFromAsset(named: name, bundle: renderer.controller.dependencies.appBundle, view: image)
-        case .network(let url):
-            setRemoteImage(from: url, dependencies: renderer.controller.dependencies, view: image)
+        case .local(let local):
+            setImageFromAsset(named: local.mobileId, bundle: renderer.controller.dependencies.appBundle, view: image)
+        case .remote(let remote):
+            setRemoteImage(from: remote.url, dependencies: renderer.controller.dependencies, view: image)
         }
 
         return image

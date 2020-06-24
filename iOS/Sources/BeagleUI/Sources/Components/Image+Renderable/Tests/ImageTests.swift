@@ -49,27 +49,25 @@ class ImageTests: XCTestCase {
     }
     
     func test_renderImage() throws {
-
         let image: Image = try componentFromJsonFile(fileName: "ImageComponent")
         let view = renderer.render(image)
         assertSnapshotImage(view, size: ImageSize.custom(CGSize(width: 400, height: 400)))
     }
     
     func test_localImageDeserialize() throws {
-
         let image: Image = try componentFromJsonFile(fileName: "ImageComponent1")
-        if case Image.PathType.local(let name) = image.path {
-            XCTAssertEqual(name, "test_image_square-x")
+        if case .local(let local) = image.path {
+            XCTAssertEqual(local.mobileId, "test_image_square-x")
         } else {
             XCTFail("Failed to decode correct image name.")
         }
     }
     
     func test_remoteImageDeserialize() throws {
-
+        let bla = "www.com"
         let image: Image = try componentFromJsonFile(fileName: "ImageComponent2")
-        if case Image.PathType.network(let url) = image.path {
-            XCTAssertEqual(url, "www.com")
+        if case .remote(let remote) = image.path {
+            XCTAssertEqual(remote.url, bla)
         } else {
             XCTFail("Failed to decode correct image url.")
         }
@@ -77,7 +75,7 @@ class ImageTests: XCTestCase {
     
     func test_withInvalidURL_itShouldNotSetImage() throws {
         // Given
-        let component = Image(.network("www.com"))
+        let component = Image(.remote(.init(url: "www.com")))
         // When
         guard let imageView = renderer.render(component) as? UIImageView else {
             XCTFail("Build view not returning UIImageView")
