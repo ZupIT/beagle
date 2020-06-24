@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.engine.mapper
 
 import br.com.zup.beagle.android.utils.dp
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
@@ -33,33 +34,35 @@ import com.facebook.yoga.YogaWrap
 
 class FlexMapper {
 
-    fun makeYogaNode(flex: Flex): YogaNode = YogaNode.create().apply {
-        flexDirection = makeYogaFlexDirection(flex.flexDirection) ?: YogaFlexDirection.COLUMN
-        wrap = makeYogaWrap(flex.flexWrap) ?: YogaWrap.NO_WRAP
-        justifyContent = makeYogaJustify(flex.justifyContent) ?: YogaJustify.FLEX_START
-        alignItems = makeYogaAlignItems(flex.alignItems) ?: YogaAlign.STRETCH
-        alignSelf = makeYogaAlignSelf(flex.alignSelf) ?: YogaAlign.AUTO
-        alignContent = makeYogaAlignContent(flex.alignContent) ?: YogaAlign.FLEX_START
-        flex.grow?.toFloat()?.let { flexGrow = it }
-        flex.flex?.toFloat()?.let { setFlex(it) }
-        flex.shrink?.toFloat()?.let { flexShrink = it }
-        display = makeYogaDisplay(flex.display) ?: YogaDisplay.FLEX
-        positionType = makeYogaPositionType(flex.positionType) ?: YogaPositionType.RELATIVE
-        applyAttributes(flex, this)
+    fun makeYogaNode(style: Style): YogaNode = YogaNode.create().apply {
+        flexDirection = makeYogaFlexDirection(style.flex?.flexDirection) ?: YogaFlexDirection.COLUMN
+        wrap = makeYogaWrap(style.flex?.flexWrap) ?: YogaWrap.NO_WRAP
+        justifyContent = makeYogaJustify(style.flex?.justifyContent) ?: YogaJustify.FLEX_START
+        alignItems = makeYogaAlignItems(style.flex?.alignItems) ?: YogaAlign.STRETCH
+        alignSelf = makeYogaAlignSelf(style.flex?.alignSelf) ?: YogaAlign.AUTO
+        alignContent = makeYogaAlignContent(style.flex?.alignContent) ?: YogaAlign.FLEX_START
+        if(style.flex?.flex == null) {
+            flexGrow = style.flex?.grow?.toFloat() ?: 0.0f
+            flexShrink = style.flex?.shrink?.toFloat() ?: 1.0f
+        }
+        style.flex?.flex?.toFloat()?.let { flex = it }
+        display = makeYogaDisplay(style.display) ?: YogaDisplay.FLEX
+        positionType = makeYogaPositionType(style.positionType) ?: YogaPositionType.RELATIVE
+        applyAttributes(style, this)
     }
 
-    private fun applyAttributes(flex: Flex, yogaNode: YogaNode) {
-        setWidth(flex.size, yogaNode)
-        setHeight(flex.size, yogaNode)
-        setMaxWidth(flex.size, yogaNode)
-        setMaxHeight(flex.size, yogaNode)
-        setMinWidth(flex.size, yogaNode)
-        setMinHeight(flex.size, yogaNode)
-        setBasis(flex.basis, yogaNode)
-        setAspectRatio(flex.size?.aspectRatio, yogaNode)
-        setMargin(flex.margin, yogaNode)
-        setPadding(flex.padding, yogaNode)
-        setPosition(flex.position, yogaNode)
+    private fun applyAttributes(style: Style, yogaNode: YogaNode) {
+        setWidth(style.size, yogaNode)
+        setHeight(style.size, yogaNode)
+        setMaxWidth(style.size, yogaNode)
+        setMaxHeight(style.size, yogaNode)
+        setMinWidth(style.size, yogaNode)
+        setMinHeight(style.size, yogaNode)
+        setBasis(style.flex?.basis, yogaNode)
+        setAspectRatio(style.size?.aspectRatio, yogaNode)
+        setMargin(style.margin, yogaNode)
+        setPadding(style.padding, yogaNode)
+        setPosition(style.position, yogaNode)
     }
 
     private fun setWidth(size: Size?, yogaNode: YogaNode) {
@@ -181,12 +184,6 @@ class FlexMapper {
         }
         edgeValue?.bottom?.let {
             finish(YogaEdge.BOTTOM, it)
-        }
-        edgeValue?.start?.let {
-            finish(YogaEdge.START, it)
-        }
-        edgeValue?.end?.let {
-            finish(YogaEdge.END, it)
         }
         edgeValue?.vertical?.let {
             finish(YogaEdge.VERTICAL, it)

@@ -16,11 +16,11 @@
 
 package br.com.zup.beagle.android.action
 
+import br.com.zup.beagle.android.annotation.ContextDataValue
+import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.generateViewModelInstance
-import br.com.zup.beagle.android.utils.get
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.context.Bind
 
 internal data class SetContextInternal(
     val contextId: String,
@@ -30,24 +30,19 @@ internal data class SetContextInternal(
 
 data class SetContext(
     val contextId: String,
-    val value: Bind<Any>,
+    @property:ContextDataValue
+    val value: Any,
     val path: String? = null
 ) : Action {
 
-    constructor(
-        contextId: String,
-        value: Any,
-        path: String? = null
-    ) : this(contextId, Bind.Value(value), path)
-
     override fun execute(rootView: RootView) {
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
-        viewModel.contextDataManager.updateContext(toInternalSetContext(rootView))
+        viewModel.updateContext(toInternalSetContext(rootView))
     }
 
     private fun toInternalSetContext(rootView: RootView) = SetContextInternal(
         contextId = this.contextId,
-        value = this.value.get(rootView) ?: "",
+        value = evaluateExpression(rootView, this.value.toString()) ?: "",
         path = this.path
     )
 }

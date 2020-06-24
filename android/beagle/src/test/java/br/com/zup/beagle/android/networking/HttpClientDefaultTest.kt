@@ -37,12 +37,14 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.io.EOFException
 import java.io.InputStream
 import java.io.OutputStream
 import java.net.HttpURLConnection
 import java.net.URI
 import java.net.URL
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 import kotlin.test.fail
 
 private val BYTE_ARRAY_DATA = byteArrayOf()
@@ -395,6 +397,28 @@ class HttpClientDefaultTest {
 
         // Then
         assertEquals(responseData, errorResult)
+    }
+
+    @Test
+    fun execute_should_read_empty_response() = runBlockingTest {
+        // Given
+        val headerName = RandomData.string()
+        val headerValue = RandomData.string()
+        val headers = mapOf(headerName to listOf(headerValue))
+        every { httpURLConnection.headerFields } returns headers
+        every { inputStream.readBytes() } throws EOFException()
+
+        lateinit var resultData: ResponseData
+        urlRequestDispatchingDefault.execute(makeSimpleRequestData(), onSuccess = {
+            resultData = it
+        }, onError = {
+            fail("Test failed, should execute successfully")
+        })
+
+        assertEquals(STATUS_CODE, resultData.statusCode)
+        assertTrue(resultData.data.isEmpty())
+        assertEquals(headerName, resultData.headers.keys.elementAt(0))
+        assertEquals(headerValue, resultData.headers[headerName])
     }
 
     private fun makeSimpleRequestData() = RequestData(uri)

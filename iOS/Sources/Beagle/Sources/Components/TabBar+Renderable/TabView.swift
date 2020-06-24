@@ -28,7 +28,7 @@ extension TabView: ServerDrivenComponent {
             renderer.controller.dependencies.theme.applyStyle(for: tabView as UIView, withId: styleId)
         }
 
-        tabView.flex.setup(Flex(grow: 1))
+        tabView.style.setup(Style(size: Size().width(100%), flex: Flex().grow(1)))
         return tabView
     }
 }

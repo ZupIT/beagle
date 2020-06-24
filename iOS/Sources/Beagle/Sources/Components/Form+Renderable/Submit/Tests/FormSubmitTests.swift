@@ -41,7 +41,7 @@ final class FormSubmitTests: XCTestCase {
         // When
         let view = renderer.render(formSubmit)
         view.frame = CGRect(origin: .zero, size: CGSize(width: 100, height: 100))
-        view.flex.applyLayout()
+        view.style.applyLayout()
 
         // Then
         assertSnapshotImage(view, size: .inferFromFrame)

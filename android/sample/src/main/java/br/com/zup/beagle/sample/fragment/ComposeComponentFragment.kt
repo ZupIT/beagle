@@ -34,6 +34,8 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.widgets.TextField
 import br.com.zup.beagle.sample.widgets.TextFieldInputType
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.JustifyContent
@@ -93,8 +95,8 @@ class ComposeFormName : ComposeComponent() {
                 )
             )
         )
-    ).applyFlex(
-        flex = Flex(
+    ).applyStyle(
+        style = Style(
             size = Size(
                 width = UnitValue(
                     value = 100.0,
@@ -111,9 +113,13 @@ class ComposeFormName : ComposeComponent() {
     )
 
     private fun buildFooter() = Container(
-        children = listOf((FormSubmit(child = Button("cadastrar", styleId = "primaryButton"))))
-    ).applyFlex(
-        flex = Flex(
+        children = listOf(
+            (FormSubmit(
+                child = Button("cadastrar", styleId = "primaryButton")
+            ))
+        )
+    ).applyStyle(
+        style = Style(
             size = Size(
                 width = UnitValue(
                     value = 100.0,

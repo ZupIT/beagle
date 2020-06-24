@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.components.form
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.FormValidation
@@ -36,6 +37,7 @@ import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.testutil.getPrivateField
+import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 import io.mockk.Runs
@@ -46,17 +48,20 @@ import io.mockk.mockkConstructor
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
+import io.mockk.unmockkAll
 import io.mockk.verify
 import io.mockk.verifyOrder
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 private const val FORM_INPUT_VIEWS_FIELD_NAME = "formInputs"
-private const val FORM_INPUT_HIDDEN_VIEWS_FIELD_NAME = "formInputHiddenList"
 private const val FORM_SUBMIT_VIEW_FIELD_NAME = "formSubmitView"
 private val INPUT_VALUE = RandomData.string()
 private const val INPUT_NAME = "INPUT_NAME"
 private const val FORM_GROUP_VALUE = "GROUP"
+private const val ADDIONAL_DATA_KEY = "dataKey"
+private const val ADDIONAL_DATA_VALUE = "dataValue"
 
 class FormTest : BaseComponentTest() {
 
@@ -83,6 +88,7 @@ class FormTest : BaseComponentTest() {
         super.setUp()
 
         mockkStatic("br.com.zup.beagle.android.components.utils.ViewExtensionsKt")
+        mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
         mockkObject(BeagleMessageLogs)
         mockkConstructor(FormValidatorController::class)
         mockkConstructor(FormValidation::class)
@@ -118,8 +124,9 @@ class FormTest : BaseComponentTest() {
         every { anyConstructed<FormValidatorController>().configFormInputList(any()) } just Runs
         every { remoteAction.resultListener = capture(resultListenerSlot) } just Runs
 
-
         form = Form(onSubmit = listOf(mockk(relaxed = true)), child = mockk())
+
+        every { form.handleEvent(any(), any<Action>(), any()) } just Runs
     }
 
     @Test
@@ -167,23 +174,6 @@ class FormTest : BaseComponentTest() {
 
         // Then
         val views = form.getPrivateField<List<View>>(FORM_INPUT_VIEWS_FIELD_NAME)
-        assertEquals(1, views.size)
-    }
-
-    @Test
-    fun build_should_try_to_iterate_over_all_viewGroups_that_is_the_formInputHidden() {
-        // Given
-        val childViewGroup = mockk<ViewGroup>()
-        every { childViewGroup.childCount } returns 0
-        every { childViewGroup.tag } returns mockk<FormInputHidden>()
-        every { viewGroup.childCount } returns 1
-        every { viewGroup.getChildAt(any()) } returns childViewGroup
-
-        // When
-        form.buildView(rootView)
-
-        // Then
-        val views = form.getPrivateField<List<View>>(FORM_INPUT_HIDDEN_VIEWS_FIELD_NAME)
         assertEquals(1, views.size)
     }
 
@@ -241,7 +231,7 @@ class FormTest : BaseComponentTest() {
 
         // Then
         verify(exactly = once()) { formSubmitView.hideKeyboard() }
-        verify(exactly = once()) { remoteAction.execute(rootView) }
+        verify(exactly = once()) { form.handleEvent(rootView, remoteAction, "onSubmit") }
     }
 
     @Test
@@ -254,7 +244,7 @@ class FormTest : BaseComponentTest() {
 
         // Then
         verify(exactly = once()) { formSubmitView.hideKeyboard() }
-        verify(exactly = once()) { navigateAction.execute(rootView) }
+        verify(exactly = once()) { form.handleEvent(rootView, navigateAction, "onSubmit") }
     }
 
     @Test
@@ -276,7 +266,6 @@ class FormTest : BaseComponentTest() {
         }
     }
 
-
     @Test
     fun onClick_of_formSubmit_should_validate_formField_that_is_required_and_is_valid() {
         // Given
@@ -287,7 +276,7 @@ class FormTest : BaseComponentTest() {
         executeFormSubmitOnClickListener()
 
         // Then
-        verify(exactly = once()) { validator.isValid(INPUT_VALUE, any()) }
+        verify(exactly = once()) { validator.isValid(any(), any()) }
     }
 
     @Test
@@ -315,7 +304,7 @@ class FormTest : BaseComponentTest() {
         runnableSlot.captured.run()
 
         // Then
-        verify { formResult.action.execute(rootView) }
+        verify { form.handleEvent(rootView, remoteAction, "onSubmit") }
     }
 
     @Test
@@ -340,6 +329,12 @@ class FormTest : BaseComponentTest() {
     private fun executeFormSubmitOnClickListener() {
         form.buildView(rootView)
         onClickListenerSlot.captured.onClick(formSubmitView)
+    }
+
+    private fun createSimpleAdditionalData(): Map<String, String> {
+        val additionalData = HashMap<String, String>()
+        additionalData[ADDIONAL_DATA_KEY] = ADDIONAL_DATA_VALUE
+        return additionalData
     }
 
     @Test
@@ -392,7 +387,7 @@ class FormTest : BaseComponentTest() {
 
         // Then
 
-        assertEquals(formsValuesSlot.captured[savedKey], savedValue)
+        assertEquals(savedValue, formsValuesSlot.captured[savedKey])
     }
 
     @Test
@@ -409,5 +404,39 @@ class FormTest : BaseComponentTest() {
         verify {
             formDataStoreHandler.clear(eq(FORM_GROUP_VALUE))
         }
+    }
+
+    @Test
+    fun on_form_submit_should_save_additional_data_if_shouldStoreFields_flag_enabled() {
+        // Given
+        form = form.copy(shouldStoreFields = true, group = FORM_GROUP_VALUE,
+            additionalData = createSimpleAdditionalData())
+
+        // When
+        executeFormSubmitOnClickListener()
+
+        // Then
+        verify {
+            formDataStoreHandler.put(
+                eq(FORM_GROUP_VALUE),
+                eq(ADDIONAL_DATA_KEY),
+                eq(ADDIONAL_DATA_VALUE))
+        }
+    }
+
+    @Test
+    fun on_form_submit_should_send_additional_data_if_shouldStoreFields_flag_disabled() {
+        // Given
+        val formsValuesSlot = slot<Map<String, String>>()
+        every { remoteAction.formsValue = capture(formsValuesSlot) } just Runs
+
+        form = form.copy(shouldStoreFields = false, group = FORM_GROUP_VALUE,
+            onSubmit = listOf(remoteAction), additionalData = createSimpleAdditionalData())
+
+        // When
+        executeFormSubmitOnClickListener()
+
+        // Then
+        assertEquals(ADDIONAL_DATA_VALUE, formsValuesSlot.captured[ADDIONAL_DATA_KEY])
     }
 }

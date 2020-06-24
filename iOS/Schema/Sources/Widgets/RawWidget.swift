@@ -29,11 +29,6 @@ public extension RawWidget {
         set { widgetProperties.style = newValue }
     }
 
-    var flex: Flex? {
-        get { return widgetProperties.flex }
-        set { widgetProperties.flex = newValue }
-    }
-
     var accessibility: Accessibility? {
         get { return widgetProperties.accessibility }
         set { widgetProperties.accessibility = newValue }
@@ -45,7 +40,7 @@ public extension RawWidget {
     }
 }
 
-public protocol HasWidgetProperties: StyleComponent, FlexComponent, AccessibilityComponent, IdentifiableComponent { }
+public protocol HasWidgetProperties: StyleComponent, AccessibilityComponent, IdentifiableComponent { }
 
 public protocol HasContext {
     var _context_: Context? { get }
@@ -53,10 +48,6 @@ public protocol HasContext {
 
 public protocol StyleComponent {
     var style: Style? { get }
-}
-
-public protocol FlexComponent {
-    var flex: Flex? { get }
 }
 
 public protocol AccessibilityComponent {
@@ -73,19 +64,16 @@ public struct WidgetProperties: HasWidgetProperties, AutoDecodable, Equatable, A
 
     public var id: String?
     public var style: Style?
-    public var flex: Flex?
     public var accessibility: Accessibility?
 
 // sourcery:inline:auto:WidgetProperties.Init
     public init(
         id: String? = nil,
         style: Style? = nil,
-        flex: Flex? = nil,
         accessibility: Accessibility? = nil
     ) {
         self.id = id
         self.style = style
-        self.flex = flex
         self.accessibility = accessibility
     }
 // sourcery:end

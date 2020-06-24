@@ -39,4 +39,8 @@
         <attr name="tabIndicatorColor" format="color" />
         <attr name="tabIconTint" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="BeagleInputTextStyle">
+        <attr name="background" />
+    </declare-styleable>
 </resources>

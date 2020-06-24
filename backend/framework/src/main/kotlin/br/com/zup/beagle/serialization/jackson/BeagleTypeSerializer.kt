@@ -16,10 +16,6 @@
 
 package br.com.zup.beagle.serialization.jackson
 
-import br.com.zup.beagle.widget.action.Action
-import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.layout.Screen
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter
@@ -29,9 +25,6 @@ import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase
 internal class BeagleTypeSerializer : BeanSerializerBase {
 
     private lateinit var classLoader: ClassLoader
-    private lateinit var actionClass: Class<*>
-    private lateinit var screenClass: Class<*>
-    private lateinit var serverDrivenComponentClass: Class<*>
 
     constructor(source: BeanSerializerBase) : super(source) {
         setup()
@@ -81,41 +74,13 @@ internal class BeagleTypeSerializer : BeanSerializerBase {
 
     override fun serialize(bean: Any, generator: JsonGenerator, provider: SerializerProvider) {
         generator.writeStartObject()
-        getBeagleType(bean)?.apply { generator.writeStringField(getBeagleTypeFieldName(bean), this) }
+        getBeagleType(bean::class.java, this.classLoader)
+            ?.also { (key, value) -> generator.writeStringField(key, value) }
         super.serializeFields(bean, generator, provider)
         generator.writeEndObject()
     }
 
-    private fun getBeagleType(bean: Any): String? {
-        val beanName = bean::class.simpleName?.decapitalize()
-        val beanClass = bean::class.java
-        return if (this.actionClass.isAssignableFrom(beanClass)) {
-            "$BEAGLE_NAMESPACE:$beanName"
-        } else if (this.screenClass.isAssignableFrom(beanClass)) {
-            "$BEAGLE_NAMESPACE:$SCREEN_COMPONENT"
-        } else if (this.serverDrivenComponentClass.isAssignableFrom(beanClass)) {
-            if (beanClass.annotations.any { it.annotationClass.qualifiedName == RegisterWidget::class.qualifiedName }) {
-                "$CUSTOM_WIDGET_BEAGLE_NAMESPACE:$beanName"
-            } else {
-                "$BEAGLE_NAMESPACE:$beanName"
-            }
-        } else {
-            null
-        }
-    }
-
     private fun setup(classLoader: ClassLoader = BeagleTypeSerializer::class.java.classLoader) {
         this.classLoader = classLoader
-        this.actionClass = getClass(Action::class, this.classLoader)
-        this.screenClass = getClass(Screen::class, this.classLoader)
-        this.serverDrivenComponentClass = getClass(ServerDrivenComponent::class, this.classLoader)
-    }
-
-    private fun getBeagleTypeFieldName(bean: Any): String {
-        return if (bean is Action) {
-            ACTION_TYPE
-        } else {
-            COMPONENT_TYPE
-        }
     }
 }

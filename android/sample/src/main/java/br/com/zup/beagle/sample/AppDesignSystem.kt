@@ -53,6 +53,13 @@ class AppDesignSystem : DesignSystem() {
         }
     }
 
+    override fun inputTextStyle(id: String): Int? {
+        return when(id) {
+            "TextInput" -> R.style.TextInput
+            else -> null
+        }
+    }
+
     override fun buttonStyle(id: String): Int? {
         return when (id) {
             "DesignSystem.Button.White" -> R.style.DesignSystem_Button_White

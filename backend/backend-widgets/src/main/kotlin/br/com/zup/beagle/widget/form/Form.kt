@@ -34,5 +34,6 @@ data class Form(
     val child: ServerDrivenComponent,
     val onSubmit: List<Action>? = null,
     val group: String? = null,
+    val additionalData: Map<String, String>? = null,
     val shouldStoreFields: Boolean = false
 ) : ServerDrivenComponent

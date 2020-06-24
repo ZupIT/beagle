@@ -17,7 +17,9 @@
 package br.com.zup.beagle.sample.compose
 
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
 import br.com.zup.beagle.widget.Widget
@@ -26,6 +28,7 @@ import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.ComposeComponent
 import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.Text
 
@@ -46,20 +49,17 @@ class CustomComposeComponent : ComposeComponent {
     private fun buildTextBeagle(): Widget {
         return Text(
             "Beagle framework"
-        ).applyFlex(
+        ).applyStyle(Style(
             flex = Flex(
-                alignItems = AlignItems.CENTER,
-                margin = EdgeValue(
-                    top = 16.unitReal(),
-                    bottom = 16.unitReal()
+                alignItems = AlignItems.CENTER
                 )
-            )
+            ,
+            margin = EdgeValue(
+                top = 16.unitReal(),
+                bottom = 16.unitReal()
+            ))
         )
     }
 
-    private fun buildImageBeagle(): Widget {
-        return Image(
-            LOGO_BEAGLE
-        )
-    }
+    private fun buildImageBeagle() = Image(Local.justMobile(LOGO_BEAGLE))
 }

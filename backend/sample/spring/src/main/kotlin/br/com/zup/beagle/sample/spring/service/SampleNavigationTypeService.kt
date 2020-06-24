@@ -42,6 +42,7 @@ import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.Button
+import br.com.zup.beagle.widget.ui.ImagePath.Local
 import org.springframework.stereotype.Service
 
 @Service
@@ -66,7 +67,7 @@ class SampleNavigationTypeService {
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
-                    image = "informationImage",
+                    image = Local.justMobile("informationImage"),
                     action = Alert(
                         title = "Navigation Type",
                         message = "Decide the type of navigation.",
@@ -158,10 +159,7 @@ class SampleNavigationTypeService {
         ).applyStyle(
             Style(
                 backgroundColor = backgroundColor,
-                cornerRadius = CornerRadius(radius = 10.0)
-            )
-        ).applyFlex(
-            flex = Flex(
+                cornerRadius = CornerRadius(radius = 10.0),
                 margin = EdgeValue(
                     left = 30.unitReal(),
                     right = 30.unitReal(),

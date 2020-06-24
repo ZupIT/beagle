@@ -16,30 +16,32 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.widget.action.Navigate
-import br.com.zup.beagle.widget.action.Route
-import br.com.zup.beagle.widget.action.Alert
-import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
 import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_STYLE
 import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.action.Alert
+import br.com.zup.beagle.widget.action.Navigate
+import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.navigation.Touchable
 import br.com.zup.beagle.widget.ui.Image
-import br.com.zup.beagle.widget.ui.NetworkImage
+import br.com.zup.beagle.widget.ui.ImagePath.Local
+import br.com.zup.beagle.widget.ui.ImagePath.Remote
 import br.com.zup.beagle.widget.ui.Text
 
 object TouchableScreenBuilder : ScreenBuilder {
@@ -50,7 +52,7 @@ object TouchableScreenBuilder : ScreenBuilder {
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
-                    image = "informationImage",
+                    image = Local.justMobile("informationImage"),
                     action = Alert(
                         title = "Touchable",
                         message = "Applies click action on widgets that have no action.",
@@ -63,7 +65,7 @@ object TouchableScreenBuilder : ScreenBuilder {
             scrollDirection = ScrollAxis.VERTICAL,
             children = listOf(
                 touchableCustom(title = "Text with Touchable", item = Text("Click here!")),
-                touchableCustom(title = "Image with Touchable", item = Image(LOGO_BEAGLE)),
+                touchableCustom(title = "Image with Touchable", item = Image(Local.justMobile(LOGO_BEAGLE))),
                 networkImageTouchable()
             )
         )
@@ -73,15 +75,15 @@ object TouchableScreenBuilder : ScreenBuilder {
         children = listOf(
             buildTitle(title),
             Touchable(
-                action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT)),
-                child = item.applyFlex(
+                listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))),
+                child = item.applyStyle(Style(
                     flex = Flex(
-                        alignSelf = AlignSelf.CENTER,
-                        margin = EdgeValue(
-                            top = 8.unitReal(),
-                            bottom = 8.unitReal()
-                        )
-                    )
+                        alignSelf = AlignSelf.CENTER
+                    ),
+                    margin = EdgeValue(
+                        top = 8.unitReal(),
+                        bottom = 8.unitReal()
+                    ))
                 )
             )
         )
@@ -90,31 +92,31 @@ object TouchableScreenBuilder : ScreenBuilder {
     private fun buildTitle(text: String) = Text(
         text = text,
         styleId = SCREEN_TEXT_STYLE
-    ).applyFlex(
+    ).applyStyle(Style(
         flex = Flex(
-            alignSelf = AlignSelf.CENTER,
-            margin = EdgeValue(
-                top = 8.unitReal()
-            )
-        )
+            alignSelf = AlignSelf.CENTER),
+        margin = EdgeValue(
+            top = 8.unitReal()
+        ))
     )
 
     private fun networkImageTouchable() = Container(
         children = listOf(
             buildTitle("NetworkImage with Touchable"),
             Touchable(
-                child = NetworkImage(
-                    path = BEACH_NETWORK_IMAGE
-                ).applyFlex(
+                child = Image(
+                    Remote(BEACH_NETWORK_IMAGE)
+                ).applyStyle(Style(
+                    size = Size(
+                        width = 150.unitReal(),
+                        height = 130.unitReal()
+                    ),
                     flex = Flex(
-                        size = Size(
-                            width = 150.unitReal(),
-                            height = 130.unitReal()
-                        ),
                         alignSelf = AlignSelf.CENTER
                     )
+                )
                 ),
-                action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))
+                onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT)))
             )
         )
     )

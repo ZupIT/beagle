@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.constants.PATH_SAMPLE_VIEW_ENDPOINT
+import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.layout.NavigationBar
@@ -26,6 +26,7 @@ import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.ui.Button
+import br.com.zup.beagle.widget.ui.ImagePath.Local
 
 object SampleViewScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
@@ -35,12 +36,12 @@ object SampleViewScreenBuilder : ScreenBuilder {
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "First",
-                    image = "delete",
+                    image = Local.justMobile("delete"),
                     action = Navigate.PopToView(PATH_SAMPLE_VIEW_ENDPOINT)
                 ),
                 NavigationBarItem(
                     text = "Second",
-                    image = "question",
+                    image = Local.justMobile("question"),
                     action = Navigate.PopView()
                 )
             )

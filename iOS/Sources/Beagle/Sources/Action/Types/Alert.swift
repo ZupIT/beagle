@@ -20,14 +20,17 @@ import BeagleSchema
 
 extension Alert: Action {
     public func execute(controller: BeagleController, sender: Any) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        if let onPressOk = onPressOk {
-            let alertAction = UIAlertAction(title: labelOk, style: .default) { _ in
-                controller.execute(action: onPressOk, sender: self)
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+        alertController.title = title?.get(with: sender as? UIView)
+        alertController.message = message.get(with: sender as? UIView)
+
+        let onPressOkAction = UIAlertAction(title: labelOk ?? "Ok", style: .default) {
+            [weak controller] _ in guard let controller = controller else { return }
+            if let onPressOk = self.onPressOk {
+                controller.execute(action: onPressOk, sender: sender)
             }
-            alert.addAction(alertAction)
         }
-        controller.present(alert, animated: true)
+        alertController.addAction(onPressOkAction)
+        controller.present(alertController, animated: true)
     }
-    
 }

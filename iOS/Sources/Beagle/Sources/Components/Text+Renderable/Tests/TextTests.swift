@@ -71,7 +71,7 @@ class TextTests: XCTestCase {
     
     func testTextWithLeftAlignment() throws {
         // Given
-        let component = Text("Test", alignment: .left)
+        let component = Text("Test", alignment: Expression.value(.left))
         
         // When
         guard let label = renderer.render(component) as? UITextView else {
@@ -87,7 +87,7 @@ class TextTests: XCTestCase {
         let text = Text(
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             styleId: "test.text.style",
-            alignment: .right,
+            alignment: Expression.value(.right),
             textColor: "#579F2B",
             widgetProperties: .init(style: Style(
                 backgroundColor: "#FFFF00",

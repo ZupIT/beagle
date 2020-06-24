@@ -27,6 +27,7 @@ import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Image
+import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.Text
 
 object ImageScreenBuilder : ScreenBuilder {
@@ -37,7 +38,7 @@ object ImageScreenBuilder : ScreenBuilder {
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
-                    image = "informationImage",
+                    image = Local.justMobile("informationImage"),
                     action = Alert(
                         title = "Image",
                         message = "This widget will define a image view natively using the server driven " +
@@ -49,7 +50,7 @@ object ImageScreenBuilder : ScreenBuilder {
         ),
         child = ScrollView(
             scrollDirection = ScrollAxis.VERTICAL,
-            children = listOf(createText("Image"), Image(LOGO_BEAGLE)) +
+            children = listOf(createText("Image"), Image(Local.justMobile(LOGO_BEAGLE))) +
                 ImageContentMode.values().flatMap(this::createImageWithModeAndText)
         )
     )
@@ -57,5 +58,5 @@ object ImageScreenBuilder : ScreenBuilder {
     private fun createText(text: String) = Text(text = text, styleId = TITLE_SCREEN)
 
     private fun createImageWithModeAndText(mode: ImageContentMode) =
-        listOf(createText("Image with contentMode = $mode"), Image(LOGO_BEAGLE, mode))
+        listOf(createText("Image with contentMode = $mode"), Image(Local.justMobile(LOGO_BEAGLE), mode))
 }

@@ -25,7 +25,7 @@ class BeagleLoggerTests: XCTestCase {
 
     func testLogs() {
         // Given
-        let form = Form(action: ActionDummy(), child: ComponentDummy())
+        let form = Form(child: ComponentDummy())
         let path = "path"
 
         let logs: [Log] = [

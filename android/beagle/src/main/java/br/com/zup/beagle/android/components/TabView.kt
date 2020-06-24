@@ -26,10 +26,15 @@ import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import br.com.zup.beagle.R
+import br.com.zup.beagle.android.context.ContextComponent
+import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.utils.dp
+import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.widget.core.Flex
@@ -40,18 +45,24 @@ internal var styleManagerFactory = StyleManager()
 
 data class TabView(
     val children: List<TabItem>,
-    val styleId: String? = null
-) : WidgetView() {
+    val styleId: Bind<String>? = null,
+    override val context: ContextData? = null
+) : WidgetView(), ContextComponent {
+    constructor(
+        children: List<TabItem>,
+        styleId: String,
+        context: ContextData? = null
+    ) : this(children, Bind.valueOf(styleId), context)
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
 
     override fun buildView(rootView: RootView): View {
-        val containerFlex = Flex(grow = 1.0)
+        val containerFlex = Style(flex = Flex(grow = 1.0))
 
         val container = viewFactory.makeBeagleFlexView(rootView.getContext(), containerFlex)
 
-        val tabLayout = makeTabLayout(rootView.getContext())
+        val tabLayout = makeTabLayout(rootView)
 
         val viewPager = viewFactory.makeViewPager(rootView.getContext()).apply {
             adapter = ContentAdapter(
@@ -75,7 +86,8 @@ data class TabView(
         return container
     }
 
-    private fun makeTabLayout(context: Context): TabLayout {
+    private fun makeTabLayout(rootView: RootView): TabLayout {
+        val context = rootView.getContext()
         return viewFactory.makeTabLayout(context).apply {
             layoutParams =
                 viewFactory.makeFrameLayoutParams(
@@ -85,13 +97,19 @@ data class TabView(
 
             tabMode = TabLayout.MODE_SCROLLABLE
             tabGravity = TabLayout.GRAVITY_FILL
-            setData()
+            setData(rootView)
             addTabs(context)
         }
     }
 
-    private fun TabLayout.setData() {
-        val typedArray = styleManagerFactory.getTabBarTypedArray(context, styleId)
+    private fun TabLayout.setData(rootView: RootView) {
+        var bindString: String? = null
+        styleId?.let {
+            observeBindChanges(rootView, it) { value ->
+                bindString = value
+            }
+        }
+        val typedArray = styleManagerFactory.getTabBarTypedArray(context, bindString)
         typedArray?.let {
             setTabTextColors(
                 it.getColor(R.styleable.BeagleTabBarStyle_tabTextColor, Color.BLACK),
@@ -114,7 +132,7 @@ data class TabView(
             addTab(newTab().apply {
                 text = children[i].title
                 children[i].icon?.let {
-                    icon = getIconFromResources(context, it)
+                    icon = getIconFromResources(context, it.mobileId)
                 }
             })
         }
