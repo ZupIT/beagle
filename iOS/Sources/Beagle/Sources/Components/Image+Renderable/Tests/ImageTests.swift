@@ -22,6 +22,7 @@ import BeagleSchema
 class ImageTests: XCTestCase {
 
     var dependencies: BeagleDependencies {
+        // swiftlint:disable implicit_getter
         get {
             let dependency = BeagleDependencies()
             dependency.appBundle = Bundle(for: ImageTests.self)
@@ -84,5 +85,19 @@ class ImageTests: XCTestCase {
         
         // Then
         XCTAssertNil(imageView.image, "Expected image to be nil.")
+    }
+    
+    func test_whenRemoteHasPlaceholder_shouldReturnItAsInitialView() {
+        // Given
+        let component = Image(.remote(.init(url: "www.com", placeholder: "imageBeagle")))
+ 
+        // When
+        guard let placeholderView = renderer.render(component) as? UIImageView else {
+            XCTFail("Renderer not returning Image.")
+            return
+        }
+        
+        // Then
+        XCTAssertNotNil(placeholderView, "Expected placeholder to not be nil.")
     }
 }
