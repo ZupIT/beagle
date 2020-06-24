@@ -16,7 +16,7 @@
  */
 
 import XCTest
-@testable import BeagleUI
+@testable import Beagle
 import BeagleSchema
 
 class TextInputTests: XCTestCase {

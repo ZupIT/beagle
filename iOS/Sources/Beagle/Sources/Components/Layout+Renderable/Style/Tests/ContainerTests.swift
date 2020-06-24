@@ -31,19 +31,15 @@ final class ContainerTests: XCTestCase {
         ], widgetProperties: .init(style: Style(flex: Flex())))
         
         let mirror = Mirror(reflecting: sut)
+        
         // When
-<<<<<<< HEAD:iOS/Sources/Beagle/Sources/Components/Layout+Renderable/Flex/Tests/ContainerTests.swift
-        let flex = mirror.firstChild(of: WidgetProperties.self)?.flex
-        let component = mirror.firstChild(of: [ServerDrivenComponent].self)
-=======
         let style = mirror.firstChild(of: WidgetProperties.self)?.style
-        let component = mirror.firstChild(of: [BeagleUI.ServerDrivenComponent].self)
->>>>>>> origin/master:iOS/Sources/Beagle/Sources/Components/Layout+Renderable/Style/Tests/ContainerTests.swift
+        let component = mirror.firstChild(of: [ServerDrivenComponent].self)
+
         // Then
         XCTAssertTrue(sut.children.count == 2)
         XCTAssertNotNil(style)
         XCTAssertNotNil(component)
-        
     }
     
     func test_applyFlex_shouldReturnContainer() {

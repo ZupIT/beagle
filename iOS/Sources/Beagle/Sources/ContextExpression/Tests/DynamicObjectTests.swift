@@ -15,13 +15,8 @@
  * limitations under the License.
  */
 
-<<<<<<< HEAD:iOS/Sources/Beagle/Sources/Components/NetworkImage+Renderable/Tests/NetworkImageTests.swift
-import XCTest
-@testable import Beagle
-=======
->>>>>>> origin/master:iOS/Sources/Beagle/Sources/ContextExpression/Tests/DynamicObjectTests.swift
 import BeagleSchema
-@testable import BeagleUI
+@testable import Beagle
 import XCTest
 import SnapshotTesting
 
