@@ -74,6 +74,9 @@ class ScrollViewTest : BaseComponentTest() {
         val view = scrollViewComponent.buildView(rootView)
 
         // Then
+        verify {
+            anyConstructed<ViewFactory>().makeBeagleFlexView(rootView.getContext(), style.first())
+        }
         verify(exactly = once()) { anyConstructed<ViewFactory>().makeScrollView(context) }
         verify(exactly = once()) { scrollView.addView(beagleFlexView) }
         assertEquals(true, scrollBarEnabled.captured)
@@ -95,6 +98,9 @@ class ScrollViewTest : BaseComponentTest() {
         scrollViewComponent.buildView(rootView)
 
         // Then
+        verify {
+            anyConstructed<ViewFactory>().makeBeagleFlexView(rootView.getContext(), style.first())
+        }
         verify(exactly = once()) { anyConstructed<ViewFactory>().makeHorizontalScrollView(context) }
         verify(exactly = once()) { beagleFlexView.addServerDrivenComponent(components[0], rootView) }
         assertEquals(false, scrollBarEnabled.captured)
