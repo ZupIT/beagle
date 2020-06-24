@@ -39,10 +39,12 @@ object ComposeAnalyticsScreenQuality : ComposeComponent {
             text = "Touchable with Click Analytics Event"
         )
         return Touchable(
-            action = Alert(
-                title = "title",
-                message = "message",
-                labelOk = "Close"
+            onPress = listOf(
+                Alert(
+                    title = "title",
+                    message = "message",
+                    labelOk = "Close"
+                )
             ),
             child = text,
             clickAnalyticsEvent = ClickEvent(

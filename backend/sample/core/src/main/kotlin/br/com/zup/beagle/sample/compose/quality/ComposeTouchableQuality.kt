@@ -70,7 +70,7 @@ object ComposeTouchableQuality: ComposeComponent {
         children = listOf(
             buildTitle(title),
             Touchable(
-                action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT)),
+                onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))),
                 child = item.applyStyle(
                     style = Style(
                         margin = EdgeValue(
@@ -112,7 +112,7 @@ object ComposeTouchableQuality: ComposeComponent {
                         flex = Flex(alignSelf = AlignSelf.CENTER)
                     )
                 ),
-                action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))
+                onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT)))
             )
         )
     )

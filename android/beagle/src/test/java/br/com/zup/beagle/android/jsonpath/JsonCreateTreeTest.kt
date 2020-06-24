@@ -22,7 +22,6 @@ import org.json.JSONObject
 import org.junit.Test
 
 import org.junit.Assert.*
-import kotlin.test.assertFails
 
 private const val LONG = Long.MAX_VALUE
 private const val INT = Int.MAX_VALUE
@@ -50,10 +49,63 @@ private val JSON = """
     }
 """
 
-class JsonPathReplacerTest {
+class JsonCreateTreeTest {
 
-    private val jsonPathReplacer = JsonPathReplacer()
     private val jsonObject = JSONObject(JSON)
+
+    @Test
+    fun `should create sequence of array when not existing`() {
+        val root = JSONArray()
+        JsonCreateTree().walkingTreeAndFindKey(root,
+            JsonPathUtils.splitKeys("[0].[1].[0].[2].[3]"), JSONObject.NULL)
+
+        assertEquals(COMPLEX_JSON_ARRAY_WITH_NO_VALUES.toString(), root.toString())
+    }
+
+    @Test
+    fun `should create sequence of array when an existing a sequence`() {
+        val root = COMPLEX_JSON_ARRAY_WITH_VALUES
+        JsonCreateTree().walkingTreeAndFindKey(root,
+            JsonPathUtils.splitKeys("[0].[1].[0].[2].[3]"), JSONObject.NULL)
+
+        assertEquals(COMPLEX_JSON_ARRAY_WITH_VALUES_RESULT.toString(), root.toString())
+    }
+
+    @Test
+    fun `should create sequence of object when not existing sequence`() {
+        val root = JSONObject()
+        JsonCreateTree().walkingTreeAndFindKey(root,
+            JsonPathUtils.splitKeys("address.city.name.city"), JSONObject.NULL)
+
+        assertEquals(COMPLEX_JSON_OBJECT_WITH_NO_VALUES.toString(), root.toString())
+    }
+
+    @Test
+    fun `should create sequence of object when existing a sequence`() {
+        val root = COMPLEX_JSON_OBJECT_WITH_VALUES
+        JsonCreateTree().walkingTreeAndFindKey(root,
+            JsonPathUtils.splitKeys("address.city.name"), JSONObject.NULL)
+
+        assertEquals(COMPLEX_JSON_OBJECT_WITH_VALUES_RESULT.toString(), root.toString())
+    }
+
+    @Test
+    fun `should create sequence of object when current tree is array`() {
+        val root = JSONObject()
+        JsonCreateTree().walkingTreeAndFindKey(root,
+            JsonPathUtils.splitKeys("address.city.name.city"), JSONObject.NULL)
+
+        assertEquals(COMPLEX_JSON_OBJECT_WITH_NO_VALUES.toString(), root.toString())
+    }
+
+    @Test
+    fun `should not change sequence of object when passing the path existing`() {
+        val root = COMPLEX_JSON_OBJECT_WITH_ARRAY
+        JsonCreateTree().walkingTreeAndFindKey(root,
+            JsonPathUtils.splitKeys("context.name[2].d[0].e[5]"), "teste")
+
+        assertEquals(COMPLEX_JSON_OBJECT_WITH_ARRAY.toString(), root.toString())
+    }
 
     @Test
     fun setValue_should_add_new_key_when_does_not_exist() {
@@ -62,10 +114,9 @@ class JsonPathReplacerTest {
         val newValue = RandomData.string()
 
         // When
-        val result = jsonPathReplacer.replace(keys, newValue, jsonObject)
+        JsonCreateTree().walkingTreeAndFindKey(jsonObject, keys, newValue)
 
         // Then
-        assertTrue(result)
         assertEquals(newValue, jsonObject.get("z"))
     }
 
@@ -76,10 +127,9 @@ class JsonPathReplacerTest {
         val newValue = RandomData.string()
 
         // When
-        val result = jsonPathReplacer.replace(keys, newValue, jsonObject)
+        JsonCreateTree().walkingTreeAndFindKey(jsonObject, keys, newValue)
 
         // Then
-        assertTrue(result)
         assertEquals(newValue, jsonObject.get("a"))
     }
 
@@ -90,10 +140,9 @@ class JsonPathReplacerTest {
         val newValue = false
 
         // When
-        val result = jsonPathReplacer.replace(keys, newValue, jsonObject)
+        JsonCreateTree().walkingTreeAndFindKey(jsonObject, keys, newValue)
 
         // Then
-        assertTrue(result)
         assertEquals(newValue, jsonObject.getJSONObject("b").getJSONObject("c").getBoolean("d"))
     }
 
@@ -107,30 +156,12 @@ class JsonPathReplacerTest {
         }
 
         // When
-        val result = jsonPathReplacer.replace(keys, newValue, jsonObject)
+        JsonCreateTree().walkingTreeAndFindKey(jsonObject, keys, newValue)
 
         // Then
-        assertTrue(result)
         assertEquals(newValue, jsonObject.getJSONObject("b").getJSONObject("c").getJSONObject("g"))
     }
 
-    @Test
-    fun setValue_should_throw_exception_when_trying_to_access_object_position_with_array() {
-        val keys = JsonPathUtils.splitKeys("b.c[0]")
-
-        assertFails {
-            jsonPathReplacer.replace(keys, JSONObject(), jsonObject)
-        }
-    }
-
-    @Test
-    fun setValue_should_throw_exception_when_trying_to_pass_invalid_array_position() {
-        val keys = JsonPathUtils.splitKeys("b.h[]")
-
-        assertFails {
-            jsonPathReplacer.replace(keys, JSONObject(), jsonObject)
-        }
-    }
 
     @Test
     fun setValue_should_throw_exception_when_trying_to_access_invalid_array_position() {
@@ -141,10 +172,9 @@ class JsonPathReplacerTest {
         }
 
         // When
-        val result = jsonPathReplacer.replace(keys, newJsonObject, jsonObject)
+        JsonCreateTree().walkingTreeAndFindKey(jsonObject, keys, newJsonObject)
 
         // Then
-        assertTrue(result)
         assertEquals(newJsonObject, jsonObject.getJSONObject("b").getJSONArray("h").getJSONObject(3))
     }
 
@@ -155,10 +185,9 @@ class JsonPathReplacerTest {
         val newValue = RandomData.double()
 
         // When
-        val result = jsonPathReplacer.replace(keys, newValue, jsonObject)
+        val result = JsonCreateTree().walkingTreeAndFindKey(jsonObject, keys, newValue)
 
         // Then
-        assertTrue(result)
         val actualValue = jsonObject.getJSONObject("b")
             .getJSONArray("h")
             .getJSONObject(0)
@@ -173,10 +202,9 @@ class JsonPathReplacerTest {
         val newValue = RandomData.double()
 
         // When
-        val result = jsonPathReplacer.replace(keys, newValue, jsonObject)
+        JsonCreateTree().walkingTreeAndFindKey(jsonObject, keys, newValue)
 
         // Then
-        assertTrue(result)
         val actualValue = jsonObject.getJSONObject("b")
             .getJSONArray("h")
             .getJSONObject(1)
@@ -193,10 +221,9 @@ class JsonPathReplacerTest {
         }
 
         // When
-        val result = jsonPathReplacer.replace(keys, newJsonObject, jsonObject)
+        val result = JsonCreateTree().walkingTreeAndFindKey(jsonObject, keys, newJsonObject)
 
         // Then
-        assertTrue(result)
         val actualValue = jsonObject.getJSONObject("b").getJSONArray("h").getJSONObject(0)
         assertEquals(newJsonObject, actualValue)
     }
@@ -211,10 +238,9 @@ class JsonPathReplacerTest {
         }
 
         // When
-        val result = jsonPathReplacer.replace(keys, newValue, jsonArray)
+        JsonCreateTree().walkingTreeAndFindKey(jsonArray, keys, newValue)
 
         // Then
-        assertTrue(result)
         assertEquals(newValue, jsonArray.getString(1))
     }
 
@@ -235,10 +261,9 @@ class JsonPathReplacerTest {
         val jsonArray = JSONArray(json)
 
         // When
-        val result = jsonPathReplacer.replace(keys, newValue, jsonArray)
+        JsonCreateTree().walkingTreeAndFindKey(jsonArray, keys, newValue)
 
         // Then
-        assertTrue(result)
         assertEquals(newValue, jsonArray.getJSONArray(0).getJSONObject(0).getString("a"))
     }
 }

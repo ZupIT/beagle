@@ -71,7 +71,7 @@ object ComposeListViewQuality: ComposeComponent {
                             Text("Text2 with touchable"),
                             Touchable(
                                 child = createdImage(),
-                                action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))
+                                onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT)))
                             ),
                             Text("Text3"),
                             createdImage().applyFlex(Flex(alignSelf = AlignSelf.FLEX_END)),
@@ -89,7 +89,7 @@ object ComposeListViewQuality: ComposeComponent {
                                     Text("segundo"),
                                     Touchable(
                                         child = Text("segundo"),
-                                        action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))
+                                        onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT)))
                                     )
                                 )
                             )

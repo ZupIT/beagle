@@ -22,6 +22,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import java.io.EOFException
 import java.net.HttpURLConnection
 
 typealias OnSuccess = (responseData: ResponseData) -> Unit
@@ -123,7 +124,11 @@ internal class HttpClientDefault : HttpClient, CoroutineScope {
                     .replace("]", "")
                 it.key to headerValue
             }.toMap(),
-            data = urlConnection.inputStream.let { if (it.available() > 0) it.readBytes() else byteArrayOf() }
+            data = try {
+                urlConnection.inputStream.readBytes()
+            } catch (e: EOFException) {
+                byteArrayOf()
+            }
         )
     }
 

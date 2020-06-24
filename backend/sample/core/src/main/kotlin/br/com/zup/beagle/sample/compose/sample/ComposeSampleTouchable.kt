@@ -53,7 +53,7 @@ object ComposeSampleTouchable: ComposeComponent {
         children = listOf(
             buildTitle(title),
             Touchable(
-                action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT)),
+                onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))),
                 child = item.applyStyle(Style(
                     flex = Flex(
                         alignSelf = AlignSelf.CENTER
@@ -92,7 +92,7 @@ object ComposeSampleTouchable: ComposeComponent {
                     )
                 )
                 ),
-                action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))
+                onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT)))
             )
         )
     )
