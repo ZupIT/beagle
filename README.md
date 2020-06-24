@@ -4,11 +4,16 @@
   </a>
 </h1>
 
-
 <p align="center">
-![Release](https://github.com/ZupIT/beagle/workflows/Beagle%20Release/badge.svg)
-[![codecov](https://codecov.io/gh/ZupIT/beagle/branch/master/graph/badge.svg?token=rViMmc9MYJ)](https://codecov.io/gh/ZupIT/beagle)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/ZupIT/beagle/blob/master/LICENSE.txt)
+  <a href="https://github.com/ZupIT/beagle/blob/master/LICENSE">
+    <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Beagle is released under the Apache 2.0 license." />
+  </a>
+  <a href="https://github.com/ZupIT/beagle/actions?query=workflow%3A%22Beagle+Release%22">
+    <img src="https://github.com/ZupIT/beagle/workflows/Beagle%20Release/badge.svg" alt="Current GIthub Actionbuild status." />
+  </a>
+  <a href="https://github.com/ZupIT/beagle/blob/master/CONTRIBUTING">
+    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs welcome!" />
+  </a>
 </p>
 
 <h3 align="center">
