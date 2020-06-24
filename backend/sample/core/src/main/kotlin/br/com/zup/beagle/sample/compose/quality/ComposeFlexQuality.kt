@@ -57,8 +57,8 @@ object ComposeFlexQuality: ComposeComponent {
         )
     ).applyStyle(
         style = Style(
-            backgroundColor = backgroundColor,
-            size = Size(width = 50.unitReal(), height =  50.unitReal())
+            backgroundColor = backgroundColor
+//            size = Size(width = 50.unitReal(), height =  50.unitReal())
         )
     )
 }
