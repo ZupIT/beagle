@@ -36,8 +36,6 @@ internal object SendRequestActionMapper {
     fun toRequestData(sendRequest: SendRequestInternal): RequestData {
         val method = toHttpMethod(sendRequest.method)
         val urlFormatted = sendRequest.url.formatUrl()
-
-
         return RequestData(
             uri = URI(urlFormatted),
             method = method,
