@@ -62,40 +62,40 @@ object ComposeListViewQuality: ComposeComponent {
             ),
 
             Container(
-                children = listOf(
-                    ListView(
-                        direction = ListDirection.VERTICAL,
-                        children = listOf(
-                            Text("Text1 with networkImage"),
-                            Image(ImagePath.Remote(BEACH_NETWORK_IMAGE)).applyFlex(Flex(alignSelf = AlignSelf.FLEX_START)),
-                            Text("Text2 with touchable"),
-                            Touchable(
-                                child = createdImage(),
-                                onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT)))
-                            ),
-                            Text("Text3"),
-                            createdImage().applyFlex(Flex(alignSelf = AlignSelf.FLEX_END)),
-                            Text("Text4"),
-                            createdImage(),
-                            Text("Text5"),
-                            createdImage(),
-                            Text("Text6"),
-                            createdImage(),
-                            Text("final list view um"),
-                            ListView(
-                                direction = ListDirection.VERTICAL,
-                                children = listOf(
-                                    Text("segundo "),
-                                    Text("segundo"),
-                                    Touchable(
-                                        child = Text("segundo"),
-                                        onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT)))
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
+               children = listOf(
+                  ListView(
+                     direction = ListDirection.VERTICAL,
+                     children = listOf(
+                         Text("Text1 with networkImage"),
+                         Image(ImagePath.Remote(BEACH_NETWORK_IMAGE)).applyFlex(Flex(alignSelf = AlignSelf.FLEX_START)),
+                         Text("Text2 with touchable"),
+                         Touchable(
+                             child = createdImage(),
+                             onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT)))
+                         ),
+                         Text("Text3"),
+                         createdImage().applyFlex(Flex(alignSelf = AlignSelf.FLEX_END)),
+                         Text("Text4"),
+                         createdImage(),
+                         Text("Text5"),
+                         createdImage(),
+                         Text("Text6"),
+                         createdImage(),
+                         Text("final list view um"),
+                         ListView(
+                             direction = ListDirection.VERTICAL,
+                             children = listOf(
+                                 Text("segundo "),
+                                 Text("segundo"),
+                                 Touchable(
+                                     child = Text("segundo"),
+                                     onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT)))
+                                 )
+                             )
+                         )
+                     )
+                  )
+               )
             )
 
         )

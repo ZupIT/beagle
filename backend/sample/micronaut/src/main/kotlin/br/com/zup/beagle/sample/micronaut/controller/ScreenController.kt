@@ -107,46 +107,60 @@ class ScreenController(
     private val sampleFlex: ScreenFlexService
 ) {
     @Get(ACCESSIBILITY_SCREEN_ENDPOINT)
-    fun getAccessibilityView(@PathVariable(QAFLAG) qaFlag: Boolean) = this.accessibilityService.createAccessibilityView(qaFlag)
+    fun getAccessibilityView(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.accessibilityService.createAccessibilityView(qaFlag)
 
     @Get(SAMPLE_VIEW_ENDPOINT)
-    fun getSampleView() = this.sampleViewService.createSampleView()
+    fun getSampleView() =
+        this.sampleViewService.createSampleView()
 
     @Get(SCREEN_BUILDER_ENDPOINT)
-    fun getScreenBuilder(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleScreenBuilderService.createScreenBuilder(qaFlag)
+    fun getScreenBuilder(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.sampleScreenBuilderService.createScreenBuilder(qaFlag)
 
     @Get(SCREEN_COMPONENTS_ENDPOINT)
-    fun getSampleComponents(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleComponentsService.getCreateSampleComponentsView(qaFlag)
+    fun getSampleComponents(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.sampleComponentsService.getCreateSampleComponentsView(qaFlag)
 
     @Get(SCREEN_BUTTON_ENDPOINT)
-    fun getSampleButtonView(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleButtonService.createButtonView(qaFlag)
+    fun getSampleButtonView(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.sampleButtonService.createButtonView(qaFlag)
 
     @Get(SCREEN_TEXT_ENDPOINT)
-    fun getSampleTextView(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleTextService.createTextView(qaFlag)
+    fun getSampleTextView(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.sampleTextService.createTextView(qaFlag)
 
     @Get(SCREEN_IMAGE_ENDPOINT)
-    fun getSampleImageView(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleImageService.createImageView(qaFlag)
+    fun getSampleImageView(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.sampleImageService.createImageView(qaFlag)
 
     @Get(SCREEN_TAB_VIEW_ENDPOINT)
-    fun getSampleTabViewView(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleTabViewService.createTabView(qaFlag)
+    fun getSampleTabViewView(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.sampleTabViewService.createTabView(qaFlag)
 
     @Get(SCREEN_LIST_VIEW_ENDPOINT)
-    fun getSampleListView(@PathVariable(QAFLAG) qaFlag: Boolean) = sampleListViewService.createListView(qaFlag)
+    fun getSampleListView(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.sampleListViewService.createListView(qaFlag)
 
     @Get(SCREEN_SCROLL_VIEW_ENDPOINT)
-    fun getScrollView(@PathVariable(QAFLAG) qaFlag: Boolean) = sampleScrollViewService.createScrollView(qaFlag)
+    fun getScrollView(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.sampleScrollViewService.createScrollView(qaFlag)
 
     @Get(SCREEN_PAGE_VIEW_ENDPOINT)
-    fun getPageView(@PathVariable(QAFLAG) qaFlag: Boolean) = this.samplePageViewService.createPageView(qaFlag)
+    fun getPageView(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.samplePageViewService.createPageView(qaFlag)
 
     @Get(SCREEN_ACTION_ENDPOINT)
-    fun getShowDialogAction(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleActionService.createAction(qaFlag)
+    fun getShowDialogAction(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.sampleActionService.createAction(qaFlag)
 
     @Get(SCREEN_FORM_ENDPOINT)
-    fun getSampleFormView(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleFormService.createFormView(qaFlag)
+    fun getSampleFormView(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.sampleFormService.createFormView(qaFlag)
 
     @Get(SCREEN_LAZY_COMPONENT_ENDPOINT)
-    fun getSampleLazyComponentController(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleLazyComponentService.createLazyComponent(qaFlag)
+    fun getSampleLazyComponentController(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.sampleLazyComponentService.createLazyComponent(qaFlag)
 
     @Get(SCREEN_NAVIGATION_BAR_ENDPOINT)
     fun getSampleNavigationBarController(@PathVariable(QAFLAG) qaFlag: Boolean) =
@@ -178,13 +192,15 @@ class ScreenController(
     fun getNavigationStep3() = this.sampleNavigationTypeService.getScreenStep3()
 
     @Get(SCREEN_COMPOSE_COMPONENT_ENDPOINT)
-    fun getComposeComponent(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleComposeComponentService.createComposeComponentView(qaFlag)
+    fun getComposeComponent(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.sampleComposeComponentService.createComposeComponentView(qaFlag)
 
     @Get(SCREEN_NETWORK_IMAGE_ENDPOINT)
     fun getSampleNetworkImageView() = this.sampleNetworkImageService.createNetworkImage()
 
     @Get(SCREEN_TOUCHABLE_ENDPOINT)
-    fun getTouchableView(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleTouchableService.createTouchableView(qaFlag)
+    fun getTouchableView(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.sampleTouchableService.createTouchableView(qaFlag)
 
     @Get(SCREEN_ACTION_CLICK_ENDPOINT)
     fun getSampleActionClickController() = this.sampleActionClickService.createActionClick()
@@ -193,13 +209,16 @@ class ScreenController(
     fun getNavigationExample() = this.sampleActionService.getNavigateExample()
 
     @Get(SCREEN_ANALYTICS_ENDPOINT)
-    fun getAnalyticsExample(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleAnalyticsService.getAnalyticsExample(qaFlag)
+    fun getAnalyticsExample(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.sampleAnalyticsService.getAnalyticsExample(qaFlag)
 
     @Get(SCREEN_WEB_VIEW_ENDPOINT)
-    fun getSampleWebViewService(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleWebViewService.createWebView(qaFlag)
+    fun getSampleWebViewService(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.sampleWebViewService.createWebView(qaFlag)
 
     @Get(SCREEN_SAFE_AREA)
-    fun getSampleSafeArea(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleSafeArea.createSafeArea(qaFlag)
+    fun getSampleSafeArea(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.sampleSafeArea.createSafeArea(qaFlag)
 
     @Get(SCREEN_FLEX_ENDPOINT)
     fun getSampleFlex(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleFlex.createSampleFlex(qaFlag)

@@ -28,8 +28,10 @@ import org.springframework.web.bind.annotation.PathVariable
 class PlatformController(private val platformService: PlatformService) {
 
     @GetMapping(CUSTOM_PLATFORM_SAMPLE_ENDPOINT)
-    fun renderComponentUsingPlatform(@PathVariable(QAFLAG) qaFlag: Boolean) = this.platformService.renderComponentUsingPlatform(qaFlag)
+    fun renderComponentUsingPlatform(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.platformService.renderComponentUsingPlatform(qaFlag)
 
     @GetMapping(PLATFORM_SAMPLE_ENDPOINT)
-    fun renderComponent(@PathVariable(QAFLAG) qaFlag: Boolean) = this.platformService.renderComponent(qaFlag)
+    fun renderComponent(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.platformService.renderComponent(qaFlag)
 }

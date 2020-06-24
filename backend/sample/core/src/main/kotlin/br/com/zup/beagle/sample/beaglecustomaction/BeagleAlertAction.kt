@@ -21,5 +21,4 @@ import br.com.zup.beagle.widget.action.Action
 
 @RegisterAction
 class BeagleAlertAction(val title: String,
-                        val message: String): Action {
-}
+                        val message: String): Action

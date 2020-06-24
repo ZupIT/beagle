@@ -64,126 +64,145 @@ object ComposePageViewQuality: ComposeComponent {
              unselectedColor = LIGHT_GREY
          ),
          children = listOf(
-             ScrollView(
-                 scrollDirection = ScrollAxis.VERTICAL,
-                 children = listOf(
-                     Container(
-                         children = listOf(
-                             Text("What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.  Why do we use it? It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).", alignment = TextAlignment.CENTER).applyFlex(
-                                 Flex(
-                                     alignSelf = AlignSelf.CENTER
-                                 )
-                             ),
-                             createdImageRemote(),
-                             createdImageRemote(),
-                             createdImageRemote()
-                         )
-                     ).applyFlex(Flex(grow = 1.0))
-                 )
-             )
-             ,
-             Container(
-                 children = listOf(
-                     TabView(
-                         children = listOf(tab1, tab2),
-                         styleId = "DesignSystem.TabView.Test"
-                     )
-                 )
-             ).applyFlex(Flex(grow = 1.0))
-             ,
-             Container(
-                 children = listOf(
-                     PageView(
-                         pageIndicator = PageIndicator(
-                             selectedColor = BLACK,
-                             unselectedColor = LIGHT_GREY
-                         ),
-                         children = listOf(
-                             Container(
-                                 children = listOf(
-                                     TabView(
-                                         children = listOf(tab1, tab2),
-                                         styleId = "DesignSystem.TabView.Test"
-                                     )
-                                 )
-                             ),
-                             Container(
-                                 children = listOf(
-                                     TabView(
-                                         children = listOf(tab1, tab2),
-                                         styleId = "DesignSystem.TabView.Test"
-                                     )
-                                 )
-                             ),
-                             Container(
-                                 children = listOf(
-                                     WebView(url = PATH_URL_WEB_VIEW_ENDPOINT).applyStyle(
-                                         style = Style(size = Size(width = 375.unitReal(),height = 600.unitReal()))
-                                     )
-                                 )
-                             )
-                         )
-                     )
-                 )
-             ).applyFlex(Flex(grow = 1.0))
-             ,
-             ScrollView(
-                 scrollDirection = ScrollAxis.VERTICAL,
-                 children = listOf(
-                     ListView(
-                         direction = ListDirection.VERTICAL,
-                         children = listOf(
-                             Text("0000"),
-                             Text("0001").applyStyle(style),
-                             Text("0002"),
-                             Text("0003"),
-                             Text("0004"),
-                             LazyComponent(
-                                 path = "http://www.mocky.io/v2/5e4e91c02f00001f2016a8f2",
-                                 initialState = Text("Loading LazyComponent...")
-                             ),
-                             Text("0005"),
-                             Text("0006"),
-                             Text("0007"),
-                             Text("0008"),
-                             Text("0009"),
-                             Text("0010"),
-                             Text("0011"),
-                             Text("0012"),
-                             Text("0013"),
-                             Image(ImagePath.Local.justMobile("beagle")),
-                             Text("0014"),
-                             Text("0015"),
-                             Text("0016"),
-                             createdImageRemote(),
-                             Text("0017"),
-                             Text("0018"),
-                             Text("0019"),
-                             Text("0020"),
-                             Container(children = listOf(Text("Text1"), Text("Text2")))
-                         )
-                     ),
-                     Button(
-                         text = "PageView Button",
-                         onPress = listOf(
-                             Alert(
-                                 title = "Olá Tudo Bem",
-                                 message = "Parabéns não quebrou",
-                                 labelOk = "ok"
-                             )
-                         )
-                     )
-                 )
-             ),
-             Container(
-                 children = listOf(
-                     WebView(url = PATH_URL_WEB_VIEW_ENDPOINT).applyStyle(
-                         style = Style(size = Size(width = 375.unitReal(),height = 600.unitReal()))
-                     )
-                 )
-             )
+             pageScreenImage(),
+             pageTabView(),
+             pagePageView(),
+             pageListView(),
+             pageScreenWebView()
          )
      )
+
+    private fun pageScreenImage(): ScrollView{
+        return ScrollView(
+            scrollDirection = ScrollAxis.VERTICAL,
+            children = listOf(
+                Container(
+                    children = listOf(
+                        Text(
+                            text = TEXT_TEST,
+                            alignment = TextAlignment.CENTER).applyFlex(
+                            Flex(
+                                alignSelf = AlignSelf.CENTER
+                            )
+                        ),
+                        createdImageRemote(),
+                        createdImageRemote(),
+                        createdImageRemote()
+                    )
+                ).applyFlex(Flex(grow = 1.0))
+            )
+        )
+    }
+
+    private fun pageScreenWebView(): Container {
+        return Container(
+            children = listOf(
+                WebView(url = PATH_URL_WEB_VIEW_ENDPOINT).applyStyle(
+                    style = Style(size = Size(width = 375.unitReal(),height = 600.unitReal()))
+                )
+            )
+        )
+    }
+
+    private fun pageTabView(): Container {
+        return Container(
+            children = listOf(
+                TabView(
+                    children = listOf(tab1, tab2),
+                    styleId = "DesignSystem.TabView.Test"
+                )
+            )
+        ).applyFlex(Flex(grow = 1.0))
+    }
+
+    private fun pagePageView(): Container {
+        return  Container(
+            children = listOf(
+                PageView(
+                    pageIndicator = PageIndicator(
+                        selectedColor = BLACK,
+                        unselectedColor = LIGHT_GREY
+                    ),
+                    children = listOf(
+                        Container(
+                            children = listOf(
+                                TabView(
+                                    children = listOf(tab1, tab2),
+                                    styleId = "DesignSystem.TabView.Test"
+                                )
+                            )
+                        ),
+                        Container(
+                            children = listOf(
+                                TabView(
+                                    children = listOf(tab1, tab2),
+                                    styleId = "DesignSystem.TabView.Test"
+                                )
+                            )
+                        ),
+                        Container(
+                            children = listOf(
+                                WebView(url = PATH_URL_WEB_VIEW_ENDPOINT).applyStyle(
+                                    style = Style(size = Size(width = 375.unitReal(),height = 600.unitReal()))
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        ).applyFlex(Flex(grow = 1.0))
+    }
+
+    private fun pageListView(): ScrollView{
+        return ScrollView(
+            scrollDirection = ScrollAxis.VERTICAL,
+            children = listOf(
+                ListView(
+                    direction = ListDirection.VERTICAL,
+                    children = listOf(
+                        Text("0000"),
+                        Text("0001").applyStyle(style),
+                        Text("0002"),
+                        Text("0003"),
+                        Text("0004"),
+                        LazyComponent(
+                            path = "http://www.mocky.io/v2/5e4e91c02f00001f2016a8f2",
+                            initialState = Text("Loading LazyComponent...")
+                        ),
+                        Text("0005"),
+                        Text("0006"),
+                        Text("0007"),
+                        Text("0008"),
+                        Text("0009"),
+                        Text("0010"),
+                        Text("0011"),
+                        Text("0012"),
+                        Text("0013"),
+                        Image(ImagePath.Local.justMobile("beagle")),
+                        Text("0014"),
+                        Text("0015"),
+                        Text("0016"),
+                        createdImageRemote(),
+                        Text("0017"),
+                        Text("0018"),
+                        Text("0019"),
+                        Text("0020"),
+                        Container(children = listOf(Text("Text1"), Text("Text2")))
+                    )
+                ),
+                Button(
+                    text = "PageView Button",
+                    onPress = listOf(
+                        Alert(
+                            title = "Olá Tudo Bem",
+                            message = "Parabéns não quebrou",
+                            labelOk = "ok"
+                        )
+                    )
+                )
+            )
+        )
+    }
 
     private val style = Style(size = Size(width = 100.unitReal(), height = 100.unitReal()))
 
@@ -276,4 +295,21 @@ object ComposePageViewQuality: ComposeComponent {
         )
 
     private fun createdImageRemote() = Image(ImagePath.Remote(BEACH_NETWORK_IMAGE))
+
+    private const val TEXT_TEST = "What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing " +
+        "and typesetting industry. Lorem Ipsum has been the industry's standard dummy " +
+        "text ever since the 1500s, when an unknown printer took a galley of type and s" +
+        "crambled it to make a type specimen book. It has survived not only five " +
+        "centuries, but also the leap into electronic typesetting, remaining essentially" +
+        " unchanged. It was popularised in the 1960s with the release of Letraset sheets " +
+        "containing Lorem Ipsum passages, and more recently with desktop publishing " +
+        "software like Aldus PageMaker including versions of Lorem Ipsum.  Why do we " +
+        "use it? It is a long established fact that a reader will be distracted by the " +
+        "readable content of a page when looking at its layout. The point of using Lorem " +
+        "Ipsum is that it has a more-or-less normal distribution of letters, as opposed" +
+        " to using 'Content here, content here', making it look like readable English. " +
+        "Many desktop publishing packages and web page editors now use Lorem Ipsum as " +
+        "their default model text, and a search for 'lorem ipsum' will uncover many web" +
+        " sites still in their infancy. Various versions have evolved over the years, " +
+        "sometimes by accident, sometimes on purpose (injected humour and the like)."
 }

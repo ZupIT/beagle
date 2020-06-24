@@ -28,8 +28,10 @@ import io.micronaut.http.annotation.PathVariable
 class PlatformController(private val platformService: PlatformService) {
 
     @Get(CUSTOM_PLATFORM_SAMPLE_ENDPOINT)
-    fun renderComponentUsingPlatform(@PathVariable(QAFLAG) qaFlag: Boolean) = this.platformService.renderComponentUsingPlatform(qaFlag)
+    fun renderComponentUsingPlatform(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.platformService.renderComponentUsingPlatform(qaFlag)
 
     @Get(PLATFORM_SAMPLE_ENDPOINT)
-    fun renderComponent(@PathVariable(QAFLAG) qaFlag: Boolean) = this.platformService.renderComponent(qaFlag)
+    fun renderComponent(@PathVariable(QAFLAG) qaFlag: Boolean) =
+        this.platformService.renderComponent(qaFlag)
 }

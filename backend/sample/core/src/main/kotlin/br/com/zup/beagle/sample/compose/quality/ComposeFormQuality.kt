@@ -64,7 +64,8 @@ object ComposeFormQuality: ComposeComponent {
                             required = true,
                             validator = "text-is-not-blank",
                             placeholder = "Another required field",
-                            message = "Required Field Required FieldRequired FieldRequired FieldRequired FieldRequired FieldRequired Field"
+                            message = "Required Field Required FieldRequired FieldRequired FieldRequired " +
+                                "FieldRequired FieldRequired Field"
                         ),
                         Container(
                             children = emptyList()

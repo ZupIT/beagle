@@ -25,10 +25,10 @@ import br.com.zup.beagle.widget.layout.ScreenBuilder
 
 class CustomPlatformBuilder(private val beaglePlatform: BeaglePlatform, val qaFlag: Boolean) : ScreenBuilder {
     override fun build() = Screen(
-        navigationBar = NavigationBar(
-            "Beagle Platform",
-            showBackButton = true
-        ),
-        child = if (qaFlag) ComposeCustomPlatformQuality(beaglePlatform) else ComposeSampleCustomPlatform(beaglePlatform)
+       navigationBar = NavigationBar(
+           "Beagle Platform",
+           showBackButton = true
+       ),
+       child = if (qaFlag) ComposeCustomPlatformQuality(beaglePlatform) else ComposeSampleCustomPlatform(beaglePlatform)
     )
 }
