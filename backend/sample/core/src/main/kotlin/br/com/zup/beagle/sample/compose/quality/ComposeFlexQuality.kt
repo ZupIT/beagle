@@ -21,12 +21,9 @@ import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.AlignItems
-import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.FlexDirection
-import br.com.zup.beagle.widget.core.FlexWrap
 import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.TextAlignment
@@ -34,35 +31,33 @@ import br.com.zup.beagle.widget.layout.ComposeComponent
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.ui.Text
 
-object ComposeFlexQuality: ComposeComponent {
+object ComposeFlexQuality : ComposeComponent {
     override fun build() = Container(
         children = listOf(
-            createText(backgroundColor = "#142850", text = "texto 1").applyStyle(
-                style = Style(
-                    backgroundColor = "#142850",
-                    size = Size(width = 100.unitReal(), height =  85.unitReal()),
-                    margin = EdgeValue(top = 40.unitReal())
-                )
+            createText(backgroundColor = "#142850", text = "1").applyFlex(
+                flex = Flex(alignSelf = AlignSelf.AUTO)
             ),
-            createText(backgroundColor = "#dd7631", text = "texto 2").applyStyle(
-                style = Style(
-                    backgroundColor = "#dd7631",
-                    size = Size(width = 120.unitReal(), height =  175.unitReal())
-                )
+            createText(backgroundColor = "#dd7631", text = "2").applyFlex(
+                flex = Flex(alignSelf = AlignSelf.STRETCH)
             ),
-            createText(backgroundColor = "#649d66", text = "texto 3").applyStyle(
-                style = Style(
-                    backgroundColor = "#649d66",
-                    size = Size(width = 85.unitReal(), height =  200.unitReal())
-                )
+            createText(backgroundColor = "#649d66", text = "3").applyFlex(
+                flex = Flex(alignSelf = AlignSelf.FLEX_START)
+            ),
+            createText(backgroundColor = "#dd7631", text = "4").applyFlex(
+                flex = Flex(alignSelf = AlignSelf.FLEX_END)
+            ),
+            createText(backgroundColor = "#649d66", text = "5").applyFlex(
+                flex = Flex(alignSelf = AlignSelf.CENTER)
+            ),
+            createText(backgroundColor = "#dd7631", text = "6").applyFlex(
+                flex = Flex(alignSelf = AlignSelf.BASELINE)
             )
         )
     ).applyFlex(
         Flex(
             grow = 1.0,
-            flexDirection = FlexDirection.ROW,
             justifyContent = JustifyContent.SPACE_EVENLY,
-            alignItems = AlignItems.BASELINE
+            alignItems = AlignItems.CENTER
         )
     )
 
@@ -76,7 +71,7 @@ object ComposeFlexQuality: ComposeComponent {
     ).applyStyle(
         style = Style(
             backgroundColor = backgroundColor,
-            size = Size(width = 50.unitReal(), height =  50.unitReal())
+            size = Size(width = 50.unitReal(), height = 50.unitReal())
         )
     )
 }
