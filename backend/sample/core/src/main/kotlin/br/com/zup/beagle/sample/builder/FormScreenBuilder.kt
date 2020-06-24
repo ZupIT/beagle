@@ -69,6 +69,9 @@ object FormScreenBuilder : ScreenBuilder {
                         path = SUBMIT_FORM_ENDPOINT,
                         method = FormMethodType.POST
                     )),
+                    additionalData = mapOf(
+                        "additionalParamKey1" to "additionalParamValue1"
+                    ),
                     child = Container(
                         children = listOf(
                             customFormInput(
