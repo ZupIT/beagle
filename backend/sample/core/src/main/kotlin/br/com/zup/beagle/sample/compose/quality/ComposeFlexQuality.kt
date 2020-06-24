@@ -17,11 +17,9 @@
 package br.com.zup.beagle.sample.compose.quality
 
 import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.FlexDirection
-import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.TextAlignment
 import br.com.zup.beagle.widget.layout.ComposeComponent
 import br.com.zup.beagle.widget.layout.Container
@@ -30,27 +28,11 @@ import br.com.zup.beagle.widget.ui.Text
 object ComposeFlexQuality : ComposeComponent {
     override fun build() = Container(
         children = listOf(
-            createText(backgroundColor = "#142850", text = "1").applyStyle(
-                Style(size = Size(width = 150.unitReal(),height = 150.unitReal()),
-                    backgroundColor = "#142850")
-            ),
-            createText(backgroundColor = "#dd7631", text = "2").applyStyle(
-                Style(size = Size(width = 150.unitReal(),height = 150.unitReal()),
-                    backgroundColor = "#dd7631")
-            ),
-            createText(backgroundColor = "#649d66", text = "3").applyStyle(
-                Style(size = Size(width = 150.unitReal(),height = 150.unitReal()),
-                    flex = Flex(shrink = 3.0),
-                backgroundColor = "#649d66")
-            )
-        )
-    ).applyStyle(
-        Style(
-            flex = Flex(flexDirection = FlexDirection.ROW),
-            size = Size(width = 300.unitReal(),height = 300.unitReal())
+            createText(backgroundColor = "#142850", text = "1").applyFlex(Flex(flex = 1.0)),
+            createText(backgroundColor = "#dd7631", text = "2").applyFlex(Flex(flex = 2.0)),
+            createText(backgroundColor = "#649d66", text = "3").applyFlex(Flex(flex = 3.0))
         )
     )
-
 
     fun createText(text: String, backgroundColor: String): Container = Container(
         listOf(
