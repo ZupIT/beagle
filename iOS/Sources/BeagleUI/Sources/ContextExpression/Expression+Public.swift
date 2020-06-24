@@ -19,37 +19,18 @@ import UIKit
 
 public extension Expression {
     
-    func get(
-        with view: UIView,
+    func observe(
+        view: UIView,
         controller: BeagleController,
         updateFunction: @escaping (T) -> Void
-    ) -> T? {
-        
+    ) {
         switch self {
         case let .expression(expression):
             controller.addBinding {
                 view.configBinding(for: expression, completion: updateFunction)
             }
-            return nil
         case let .value(value):
-            return value
-        }
-    }
-    
-    func get(
-        with view: UIView,
-        controller: BeagleController,
-        updateFunction: @escaping (T?) -> Void
-    ) -> T? {
-        
-        switch self {
-        case let .expression(expression):
-            controller.addBinding {
-                view.configBinding(for: expression, completion: updateFunction)
-            }
-            return nil
-        case let .value(value):
-            return value
+            updateFunction(value)
         }
     }
 
@@ -64,24 +45,22 @@ public extension Expression {
 }
 
 // MARK: ExpressibleByLiteral
-extension Expression: ExpressibleByStringLiteral where T == String {
+extension Expression: ExpressibleByStringLiteral {
+
     public init(stringLiteral value: String) {
         if let expression = SingleExpression(rawValue: value) {
             self = .expression(expression)
-        } else {
+        } else if let value = value as? T {
             self = .value(value)
+        } else {
+            assertionFailure("Error: invalid Expression syntax \(value)")
+            Beagle.dependencies.logger.log(Log.expression(.invalidSyntax))
+            self = .expression(.evalToNil)
         }
     }
 }
 
-extension Expression: ExpressibleByExtendedGraphemeClusterLiteral where T == String {
-    public typealias ExtendedGraphemeClusterLiteralType = String
-}
-extension Expression: ExpressibleByUnicodeScalarLiteral where T == String {
-    public typealias UnicodeScalarLiteralType = String
-}
-
-extension Expression: ExpressibleByStringInterpolation where T == String {}
+extension Expression: ExpressibleByStringInterpolation {}
 
 extension Expression: ExpressibleByIntegerLiteral where T == Int {
     public init(integerLiteral value: Int) {
@@ -92,5 +71,13 @@ extension Expression: ExpressibleByIntegerLiteral where T == Int {
 extension Expression: ExpressibleByFloatLiteral where T == Float {
     public init(floatLiteral value: Float) {
         self = .value(value)
+    }
+}
+
+internal extension SingleExpression {
+
+    /// use when relying on expression that will be evaluated to nil
+    static var evalToNil: SingleExpression {
+        SingleExpression(rawValue: "@{__ContextNotDefined__}")!
     }
 }

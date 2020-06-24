@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-public struct PageView: RawComponent, AutoInitiable, HasContext {
+public struct PageView: RawComponent, AutoInitiableAndDecodable, HasContext {
 
     public let children: [RawComponent]
     public let pageIndicator: PageIndicatorComponent?

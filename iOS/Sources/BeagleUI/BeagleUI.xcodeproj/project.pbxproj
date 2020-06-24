@@ -1751,6 +1751,7 @@
 				C8311A6924099A8700E95C15 /* WidgetStateObservable.swift in Sources */,
 				C08D4EAC2486BC1400AAAC0A /* ScreenView.swift in Sources */,
 				935278F22499713C00AB9D1F /* SingleExpression+Evaluate.swift in Sources */,
+				C08D4E2624857B8E00AAAC0A /* Spacer+Renderable.swift in Sources */,
 				57A8097F243CF44A0034D180 /* CacheReference.swift in Sources */,
 				C08D4E3324857C7700AAAC0A /* UIWindow+Extension.swift in Sources */,
 				C869D117241148ED001C760C /* HttpAditionalData.swift in Sources */,
