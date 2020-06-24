@@ -44,7 +44,7 @@ object ComposeFlexQuality: ComposeComponent {
         Flex(
             grow = 1.0,
             justifyContent = JustifyContent.SPACE_EVENLY,
-            alignItems = AlignItems.STRETCH
+            alignItems = AlignItems.FLEX_START
         )
     )
 
@@ -57,8 +57,8 @@ object ComposeFlexQuality: ComposeComponent {
         )
     ).applyStyle(
         style = Style(
-            backgroundColor = backgroundColor
-//            size = Size(width = 50.unitReal(), height =  50.unitReal())
+            backgroundColor = backgroundColor,
+            size = Size(width = 50.unitReal(), height =  50.unitReal())
         )
     )
 }
