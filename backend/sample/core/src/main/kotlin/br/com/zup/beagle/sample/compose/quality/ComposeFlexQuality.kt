@@ -34,21 +34,19 @@ import br.com.zup.beagle.widget.ui.Text
 object ComposeFlexQuality : ComposeComponent {
     override fun build() = Container(
         children = listOf(
-            createText(backgroundColor = "#142850", text = "1").applyStyle(
-                style = Style(
-                    margin = EdgeValue(all = 10.unitReal()),
-                    size = Size(width = 50.unitReal(), height = 50.unitReal()),
-                    backgroundColor = "#142850"
-                )
-            ),
+            createText(backgroundColor = "#142850", text = "1"),
             createText(backgroundColor = "#dd7631", text = "2"),
-            createText(backgroundColor = "#649d66", text = "3")
+            createText(backgroundColor = "#649d66", text = "3"),
+            createText(backgroundColor = "#142850", text = "4"),
+            createText(backgroundColor = "#dd7631", text = "5"),
+            createText(backgroundColor = "#649d66", text = "6")
         )
-    ).applyFlex(
-        Flex(
-            grow = 1.0,
-            justifyContent = JustifyContent.FLEX_START,
-            flexDirection = FlexDirection.ROW
+    ).applyStyle(
+        Style(
+            backgroundColor = "#0000000",
+            flex = Flex(flexDirection = FlexDirection.ROW),
+            padding = EdgeValue(all = 20.unitReal()
+            )
         )
     )
 
