@@ -350,7 +350,7 @@ extension TextInput {
 extension Touchable {
 
     enum CodingKeys: String, CodingKey {
-        case action
+        case onPress
         case clickAnalyticsEvent
         case child
     }
@@ -358,7 +358,7 @@ extension Touchable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        action = try container.decode(forKey: .action)
+        onPress = try container.decode(forKey: .onPress)
         clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
         child = try container.decode(forKey: .child)
     }
