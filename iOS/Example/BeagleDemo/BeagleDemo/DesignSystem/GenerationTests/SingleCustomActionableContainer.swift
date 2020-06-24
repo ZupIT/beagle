@@ -18,7 +18,7 @@
 import Foundation
 import UIKit
 import BeagleSchema
-import BeagleUI
+import Beagle
 
 public struct SingleCustomActionableContainer: ServerDrivenComponent, AutoInitiableAndDecodable {
 

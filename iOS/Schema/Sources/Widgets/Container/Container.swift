@@ -20,15 +20,18 @@ public struct Container: RawWidget, HasContext, AutoDecodable {
     // MARK: - Public Properties
     public let children: [RawComponent]
     public var widgetProperties: WidgetProperties
+    public let onInit: [RawAction]?
     public let _context_: Context?
     
     public init(
         children: [RawComponent],
         widgetProperties: WidgetProperties = WidgetProperties(),
-        context: Context? = nil
+        context: Context? = nil,
+        onInit: [RawAction]? = nil
     ) {
         self.children = children
         self.widgetProperties = widgetProperties
+        self.onInit = onInit
         self._context_ = context
     }
 }

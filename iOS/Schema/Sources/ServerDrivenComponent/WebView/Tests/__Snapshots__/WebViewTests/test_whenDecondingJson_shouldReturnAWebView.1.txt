@@ -1,5 +1,6 @@
 ▿ WebView
-  - url: "https://maps.google.com/"
+  ▿ url: Expression<String>
+    - value: "https://maps.google.com/"
   ▿ widgetProperties: WidgetProperties
     - accessibility: Optional<Accessibility>.none
     - id: Optional<String>.none

@@ -16,7 +16,7 @@
  */
 
 import Foundation
-import BeagleUI
+import Beagle
 import BeagleSchema
 import UIKit
 
@@ -42,44 +42,51 @@ let declarativeScreen: Screen = {
         child: Container(
             children:
             [
-                TextInput(
-                    value: "",
-                    placeholder: "digite aqui",
-                    type: .value(.number),
-                    hidden: .value(false),
-                    styleId: .TEXT_INPUT_STYLE,
-                    onChange: [
-                        SetContext(
-                            context: "myContext",
-                            value: "@{onChange.value}"
+                Container(
+                    children:
+                    [
+                        TextInput(
+                            onChange: [
+                                SetContext(
+                                    contextId: "context1",
+                                    value: "@{onChange.value}"
+                                )
+                            ]
+                        ),
+                        Text("teste é: @{context1} + @{context2}"),
+                        Text("@{context1}"),
+                        Button(
+                            text: "1",
+                            onPress: [
+                                SetContext(
+                                    contextId: "context1",
+                                    value: "update"
+                                )
+                            ]
+                        ),
+                        Button(
+                            text: "2",
+                            onPress: [
+                                SetContext(
+                                    contextId: "context2",
+                                    value: "update"
+                                )
+                            ]
                         )
                     ],
-                    widgetProperties: WidgetProperties(style: .init(size: Size().width(100%).height(80)))
-                ),
-                Text("@{myContext}"),
-                Button(
-                    text: "ok",
-                    onPress: [
-                        SetContext(
-                            context: "myContext",
-                            value: "button value"
-                        )
-                    ]
+                    context: Context(id: "context1", value: "")
                 )
-            ],
-            context: Context(id: "myContext", value: "")
-        )
-    )
-}()
+        ], context: Context(id: "context2", value: nil))
+    )}()
 
 struct ComponentInteractionText: DeeplinkScreen {
-
+    
     init(path: String, data: [String: String]?) {
     }
-
+    
     func screenController() -> UIViewController {
         return BeagleScreenViewController(.declarativeText(
-                """
+            """
                 {
                   "_beagleComponent_": "beagle:screencomponent",
                   "navigationBar": {
@@ -90,7 +97,7 @@ struct ComponentInteractionText: DeeplinkScreen {
                     "_beagleComponent_": "beagle:container",
                     "_context_": {
                       "id": "myContext",
-                      "value": ""
+                      "value": "value"
                     },
                     "children": [
                     {
@@ -100,13 +107,13 @@ struct ComponentInteractionText: DeeplinkScreen {
                         {
                           "_beagleAction_": "beagle:setcontext",
                           "context": "myContext",
-                          "value": "${onChange.value}"
+                          "value": "@{onChange.value}"
                         }
                       ]
                     },
                       {
                         "_beagleComponent_": "beagle:text",
-                        "text": "${myContext}"
+                        "text": "@{myContext}"
                       },
                       {
                         "_beagleComponent_": "beagle:button",
@@ -121,6 +128,6 @@ struct ComponentInteractionText: DeeplinkScreen {
                   }
                 }
         """
-        ))
+            ))
     }
 }
