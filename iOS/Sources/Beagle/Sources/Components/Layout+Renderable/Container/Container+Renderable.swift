@@ -43,6 +43,8 @@ extension Container: ServerDrivenComponent {
             let view = renderer.render($0)
             containerView.addSubview(view)
         }
+
+        renderer.controller.execute(actions: onInit, with: nil, sender: containerView)
         
         return containerView
     }
