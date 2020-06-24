@@ -48,12 +48,11 @@ data class TabView(
     val styleId: Bind<String>? = null,
     override val context: ContextData? = null
 ) : WidgetView(), ContextComponent {
-
     constructor(
         children: List<TabItem>,
-        styleId: String? = null,
+        styleId: String,
         context: ContextData? = null
-    ) : this(children, Bind.valueOfNullable(styleId), context)
+    ) : this(children, Bind.valueOf(styleId), context)
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
