@@ -38,7 +38,7 @@ internal data class ScreenComponent(
     val child: ServerDrivenComponent,
     val screenAnalyticsEvent: ScreenEvent? = null,
     override var style: Style? = null,
-    override val context: ContextData?
+    override val context: ContextData? = null
 ) : WidgetView(), ContextComponent {
 
     @Transient
