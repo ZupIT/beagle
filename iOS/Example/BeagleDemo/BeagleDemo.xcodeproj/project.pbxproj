@@ -20,8 +20,6 @@
 		93EAFA4C24083C7B00B73522 /* ListViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EAFA4B24083C7B00B73522 /* ListViewScreen.swift */; };
 		98A7F36C23A926C600E88C70 /* TabViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A7F36B23A926C600E88C70 /* TabViewScreen.swift */; };
 		98E08D2324228DD200FBD21B /* WebViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E08D2224228DD200FBD21B /* WebViewScreen.swift */; };
-		A024CF1924994201009BB92D /* BeagleSchema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A024CF1824994201009BB92D /* BeagleSchema.framework */; };
-		A024CF1A24994201009BB92D /* BeagleSchema.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A024CF1824994201009BB92D /* BeagleSchema.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A038C8FD2407073D001164B1 /* FormScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A038C8FC2407073D001164B1 /* FormScreen.swift */; };
 		A0642DC82395A1840028AFF3 /* DeeplinkScreenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0642DC72395A1840028AFF3 /* DeeplinkScreenManager.swift */; };
 		A0642DCB23968A020028AFF3 /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0642DCA23968A020028AFF3 /* MainScreen.swift */; };
@@ -43,13 +41,15 @@
 		C09F412D249C0683002605EE /* TextContainerWithAction.json in Resources */ = {isa = PBXBuildFile; fileRef = C09F4129249C0683002605EE /* TextContainerWithAction.json */; };
 		C09F412F249C1B86002605EE /* TextContainerMissingSecondAction.json in Resources */ = {isa = PBXBuildFile; fileRef = C09F412E249C1B86002605EE /* TextContainerMissingSecondAction.json */; };
 		C09F4131249C219D002605EE /* SingleTextContainerWithoutActions.json in Resources */ = {isa = PBXBuildFile; fileRef = C09F4130249C219D002605EE /* SingleTextContainerWithoutActions.json */; };
-		C0B1AAB323F326A100F94ECA /* BeagleUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9313EB9223A2B388003BC24C /* BeagleUI.framework */; };
-		C0B1AAB423F326A100F94ECA /* BeagleUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9313EB9223A2B388003BC24C /* BeagleUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C0B1AAB623F326BB00F94ECA /* YogaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0B1AAB523F326BB00F94ECA /* YogaKit.framework */; };
 		C0B1AAB723F326BB00F94ECA /* YogaKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C0B1AAB523F326BB00F94ECA /* YogaKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C80AF1342493F0950097D200 /* OtherComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80AF1332493F0950097D200 /* OtherComponent.swift */; };
 		C8A2F6F32464C1F9002198B1 /* Equality.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A2F6F12464C1F9002198B1 /* Equality.generated.swift */; };
 		C8A2F6F42464C1F9002198B1 /* AutoDecodable.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A2F6F22464C1F9002198B1 /* AutoDecodable.generated.swift */; };
+		C8D5F03624A4005C0037B11C /* Beagle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8D5F03524A4005C0037B11C /* Beagle.framework */; };
+		C8D5F03724A4005C0037B11C /* Beagle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C8D5F03524A4005C0037B11C /* Beagle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C8D5F03924A400660037B11C /* BeagleSchema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8D5F03824A400660037B11C /* BeagleSchema.framework */; };
+		C8D5F03A24A400660037B11C /* BeagleSchema.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C8D5F03824A400660037B11C /* BeagleSchema.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E75619892408365B0025E0A9 /* DSCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E75619882408365B0025E0A9 /* DSCollection.swift */; };
 		E756198D240865150025E0A9 /* DSCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E756198C240865150025E0A9 /* DSCollectionViewCell.swift */; };
 		E756198F2408691A0025E0A9 /* CustomComponentScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E756198E2408691A0025E0A9 /* CustomComponentScreen.swift */; };
@@ -73,9 +73,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C0B1AAB423F326A100F94ECA /* BeagleUI.framework in Embed Frameworks */,
+				C8D5F03724A4005C0037B11C /* Beagle.framework in Embed Frameworks */,
 				C0B1AAB723F326BB00F94ECA /* YogaKit.framework in Embed Frameworks */,
-				A024CF1A24994201009BB92D /* BeagleSchema.framework in Embed Frameworks */,
+				C8D5F03A24A400660037B11C /* BeagleSchema.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -88,7 +88,6 @@
 		6E4EE6C6240E9C0B00624DFB /* ViewLayoutHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewLayoutHelper.swift; sourceTree = "<group>"; };
 		6ED5B09D240464520070CB9D /* BeagleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleStyle.swift; sourceTree = "<group>"; };
 		7685B042249A879F007EDED0 /* SendRequestScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendRequestScreen.swift; sourceTree = "<group>"; };
-		9313EB9223A2B388003BC24C /* BeagleUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeagleUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		932925AE2327E0E400A61F01 /* BeagleDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeagleDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		932925B12327E0E400A61F01 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		932925B82327E0E400A61F01 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -99,7 +98,6 @@
 		93EAFA4B24083C7B00B73522 /* ListViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewScreen.swift; sourceTree = "<group>"; };
 		98A7F36B23A926C600E88C70 /* TabViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewScreen.swift; sourceTree = "<group>"; };
 		98E08D2224228DD200FBD21B /* WebViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewScreen.swift; sourceTree = "<group>"; };
-		A024CF1824994201009BB92D /* BeagleSchema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeagleSchema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A038C8FC2407073D001164B1 /* FormScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormScreen.swift; sourceTree = "<group>"; };
 		A0642DC72395A1840028AFF3 /* DeeplinkScreenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeeplinkScreenManager.swift; sourceTree = "<group>"; };
 		A0642DCA23968A020028AFF3 /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
@@ -127,6 +125,8 @@
 		C80AF1332493F0950097D200 /* OtherComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherComponent.swift; sourceTree = "<group>"; };
 		C8A2F6F12464C1F9002198B1 /* Equality.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Equality.generated.swift; sourceTree = "<group>"; };
 		C8A2F6F22464C1F9002198B1 /* AutoDecodable.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoDecodable.generated.swift; sourceTree = "<group>"; };
+		C8D5F03524A4005C0037B11C /* Beagle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Beagle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8D5F03824A400660037B11C /* BeagleSchema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeagleSchema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E75619882408365B0025E0A9 /* DSCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSCollection.swift; sourceTree = "<group>"; };
 		E756198C240865150025E0A9 /* DSCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSCollectionViewCell.swift; sourceTree = "<group>"; };
 		E756198E2408691A0025E0A9 /* CustomComponentScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomComponentScreen.swift; sourceTree = "<group>"; };
@@ -138,9 +138,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0B1AAB323F326A100F94ECA /* BeagleUI.framework in Frameworks */,
+				C8D5F03624A4005C0037B11C /* Beagle.framework in Frameworks */,
 				C0B1AAB623F326BB00F94ECA /* YogaKit.framework in Frameworks */,
-				A024CF1924994201009BB92D /* BeagleSchema.framework in Frameworks */,
+				C8D5F03924A400660037B11C /* BeagleSchema.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,9 +203,9 @@
 		93365E3F23624AD40017CB89 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A024CF1824994201009BB92D /* BeagleSchema.framework */,
+				C8D5F03824A400660037B11C /* BeagleSchema.framework */,
+				C8D5F03524A4005C0037B11C /* Beagle.framework */,
 				C0B1AAB523F326BB00F94ECA /* YogaKit.framework */,
-				9313EB9223A2B388003BC24C /* BeagleUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -442,7 +442,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n../../Sources/BeagleUI/CodeGeneration/sourceryScript.sh\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n../../Sources/Beagle/CodeGeneration/sourceryScript.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

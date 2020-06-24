@@ -15,12 +15,12 @@
  */
 
 import UIKit
-import BeagleUI
+import Beagle
 import BeagleSchema
 
 struct AppTheme {
     
-    static let theme = BeagleUI.AppTheme(styles: [
+    static let theme = Beagle.AppTheme(styles: [
         .BUTTON_BLACK_TEXT_STYLE: Self.blackTextNormalStyle,
         .TEXT_HELLO_WORD_STYLE: Self.designSystemTextHelloWord,
         .TEXT_IMAGE_STYLE: Self.designSystemTextImage,

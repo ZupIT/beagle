@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import BeagleUI
+import Beagle
 
 protocol DeeplinkScreen {
     init(path: String, data: [String: String]?)
