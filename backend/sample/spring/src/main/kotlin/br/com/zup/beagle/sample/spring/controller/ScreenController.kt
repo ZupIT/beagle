@@ -111,7 +111,8 @@ class ScreenController(
         this.accessibilityService.createAccessibilityView(qaFlag)
 
     @GetMapping(SAMPLE_VIEW_ENDPOINT)
-    fun getSampleView() = this.sampleViewService.createSampleView()
+    fun getSampleView() =
+        this.sampleViewService.createSampleView()
 
     @GetMapping(SCREEN_BUILDER_ENDPOINT)
     fun getScreenBuilder(@PathVariable(QAFLAG) qaFlag: Boolean) =
