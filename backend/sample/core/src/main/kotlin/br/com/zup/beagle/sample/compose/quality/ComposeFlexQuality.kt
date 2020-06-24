@@ -22,6 +22,7 @@ import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.core.AlignContent
+import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.core.FlexWrap
@@ -37,26 +38,13 @@ object ComposeFlexQuality: ComposeComponent {
         children = listOf(
             createText(backgroundColor = "#142850", text = "texto 1"),
             createText(backgroundColor = "#dd7631", text = "texto 2"),
-            createText(backgroundColor = "#649d66", text = "texto 3"),
-            createText(backgroundColor = "#142850", text = "texto 4"),
-            createText(backgroundColor = "#dd7631", text = "texto 5"),
-            createText(backgroundColor = "#649d66", text = "texto 6"),
-            createText(backgroundColor = "#142850", text = "texto 7"),
-            createText(backgroundColor = "#dd7631", text = "texto 8"),
-            createText(backgroundColor = "#649d66", text = "texto 9"),
-            createText(backgroundColor = "#142850", text = "texto 10"),
-            createText(backgroundColor = "#dd7631", text = "texto 11"),
-            createText(backgroundColor = "#649d66", text = "texto 12"),
-            createText(backgroundColor = "#142850", text = "texto 13"),
-            createText(backgroundColor = "#dd7631", text = "texto 14"),
-            createText(backgroundColor = "#649d66", text = "texto 15")
+            createText(backgroundColor = "#649d66", text = "texto 3")
         )
     ).applyFlex(
         Flex(
             grow = 1.0,
-            flexDirection = FlexDirection.ROW,
-            flexWrap = FlexWrap.WRAP,
-            alignContent = AlignContent.STRETCH
+            justifyContent = JustifyContent.SPACE_EVENLY,
+            alignItems = AlignItems.STRETCH
         )
     )
 
@@ -70,7 +58,7 @@ object ComposeFlexQuality: ComposeComponent {
     ).applyStyle(
         style = Style(
             backgroundColor = backgroundColor,
-            size = Size(width = 100.unitReal(), height =  100.unitReal())
+            size = Size(width = 50.unitReal(), height =  50.unitReal())
         )
     )
 }
