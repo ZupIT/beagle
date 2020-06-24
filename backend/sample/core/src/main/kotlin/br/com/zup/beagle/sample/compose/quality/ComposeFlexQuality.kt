@@ -21,8 +21,10 @@ import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
+import br.com.zup.beagle.widget.core.FlexWrap
 import br.com.zup.beagle.widget.core.JustifyContent
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.TextAlignment
@@ -33,13 +35,28 @@ import br.com.zup.beagle.widget.ui.Text
 object ComposeFlexQuality: ComposeComponent {
     override fun build() = Container(
         children = listOf(
-            createText(backgroundColor = "#142850", text = "texto 1").applyFlex(Flex(flex = 1.0)),
-            createText(backgroundColor = "#dd7631", text = "texto 2").applyFlex(Flex(flex = 2.0)),
-            createText(backgroundColor = "#649d66", text = "texto 3").applyFlex(Flex(flex = 3.0))
+            createText(backgroundColor = "#142850", text = "texto 1"),
+            createText(backgroundColor = "#dd7631", text = "texto 2"),
+            createText(backgroundColor = "#649d66", text = "texto 3"),
+            createText(backgroundColor = "#142850", text = "texto 4"),
+            createText(backgroundColor = "#dd7631", text = "texto 5"),
+            createText(backgroundColor = "#649d66", text = "texto 6"),
+            createText(backgroundColor = "#142850", text = "texto 7"),
+            createText(backgroundColor = "#dd7631", text = "texto 8"),
+            createText(backgroundColor = "#649d66", text = "texto 9"),
+            createText(backgroundColor = "#142850", text = "texto 10"),
+            createText(backgroundColor = "#dd7631", text = "texto 11"),
+            createText(backgroundColor = "#649d66", text = "texto 12"),
+            createText(backgroundColor = "#142850", text = "texto 13"),
+            createText(backgroundColor = "#dd7631", text = "texto 14"),
+            createText(backgroundColor = "#649d66", text = "texto 15")
         )
     ).applyFlex(
-        flex = Flex(
-            grow = 1.0
+        Flex(
+            grow = 1.0,
+            flexDirection = FlexDirection.ROW,
+            flexWrap = FlexWrap.WRAP,
+            alignContent = AlignContent.STRETCH
         )
     )
 
