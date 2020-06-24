@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import BeagleUI
+import Beagle
 import BeagleSchema
 
 struct PageViewScreen: DeeplinkScreen {
@@ -44,8 +44,9 @@ struct Page {
                 Text("Text with alignment atribute set to center", alignment: Expression.value(.center)),
                 Text("Text with alignment atribute set to right", alignment: Expression.value(.right)),
                 Text("Text with alignment atribute set to left", alignment: Expression.value(.left)),
-                Image(.network(.NETWORK_IMAGE_BEAGLE))
-            ]
-        ).applyFlex(Flex().justifyContent(.spaceBetween).grow(1))
+                Image(.remote(.init(url: .NETWORK_IMAGE_BEAGLE)))
+            ],
+            widgetProperties: .init(style: Style(flex: Flex().justifyContent(.spaceBetween).grow(1)))
+        )
     }
 }

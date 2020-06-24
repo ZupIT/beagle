@@ -1,4 +1,5 @@
 ▿ ScrollView
+  - _context_: Optional<Context>.none
   ▿ children: 3 elements
     ▿ Text
       - alignment: Optional<Expression<Alignment>>.none

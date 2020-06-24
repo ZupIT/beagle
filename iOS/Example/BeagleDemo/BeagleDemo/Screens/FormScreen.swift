@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import BeagleUI
+import Beagle
 import BeagleSchema
 
 struct FormScreen: DeeplinkScreen {
@@ -32,7 +32,7 @@ struct FormScreen: DeeplinkScreen {
     init(path: String, data: [String: String]?) {}
     
     func screenController() -> UIViewController {
-        let flexHorizontalMargin = Style(margin: (EdgeValue().all(10)))
+        let styleHorizontalMargin = Style().margin(EdgeValue().all(10))
         let form = Form(
             onSubmit: [FormRemoteAction(path: .TEXT_FORM_ENDPOINT, method: .post)],
             child: Container(
@@ -41,7 +41,7 @@ struct FormScreen: DeeplinkScreen {
                         name: "optional-field",
                         child: DemoTextField(
                             placeholder: "Optional field",
-                            widgetProperties: .init(style: flexHorizontalMargin)
+                            widgetProperties: .init(style: styleHorizontalMargin)
                         )
                     ),
                     FormInput(
@@ -50,7 +50,7 @@ struct FormScreen: DeeplinkScreen {
                         validator: FormScreen.textValidatorName,
                         child: DemoTextField(
                             placeholder: "Required field",
-                            widgetProperties: .init(style: flexHorizontalMargin)
+                            widgetProperties: .init(style: styleHorizontalMargin)
                         )
                     ),
                     FormInput(
@@ -59,21 +59,17 @@ struct FormScreen: DeeplinkScreen {
                         validator: FormScreen.textValidatorName,
                         child: DemoTextField(
                             placeholder: "Another required field",
-                            widgetProperties: .init(style: flexHorizontalMargin)
+                            widgetProperties: .init(style: styleHorizontalMargin)
                             
                         )
                     ),
-                    Container(children: []).applyFlex(Flex(grow: 1)),
+                    Container(children: [], widgetProperties: .init(style: Style(flex: Flex(grow: 1)))),
                     FormSubmit(
-                        child: Button(text: "Submit Form", styleId: .value(.FORM_SUBMIT_STYLE), widgetProperties: .init(style: flexHorizontalMargin)),
+                        child: Button(text: "Submit Form", styleId: .value(.FORM_SUBMIT_STYLE), widgetProperties: .init(style: styleHorizontalMargin)),
                         enabled: false
                     )
                 ],
-                widgetProperties: .init(style: Style(
-                        padding: EdgeValue().all(10),
-                        flex: Flex().grow(1)
-                    )
-                )
+                widgetProperties: .init(style: Style(padding: EdgeValue().all(10)))
             )
         )
         let screen = Screen(
@@ -90,11 +86,12 @@ extension DemoTextField: Renderable {
         let textField = View()
         textField.borderStyle = .roundedRect
         textField.placeholder = placeholder
+
         return textField
     }
 }
 
-struct DemoTextField: BeagleUI.Widget, AutoInitiableAndDecodable {
+struct DemoTextField: Widget, AutoInitiableAndDecodable {
     
     var placeholder: String
     var widgetProperties: WidgetProperties

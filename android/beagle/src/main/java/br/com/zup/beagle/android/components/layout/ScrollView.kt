@@ -18,6 +18,8 @@ package br.com.zup.beagle.android.components.layout
 
 import android.view.View
 import android.view.ViewGroup
+import br.com.zup.beagle.android.context.ContextComponent
+import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.widget.RootView
@@ -30,8 +32,9 @@ import br.com.zup.beagle.widget.core.ScrollAxis
 data class ScrollView(
     val children: List<ServerDrivenComponent>,
     val scrollDirection: ScrollAxis? = null,
-    val scrollBarEnabled: Boolean? = null
-) : WidgetView() {
+    val scrollBarEnabled: Boolean? = null,
+    override val context: ContextData? = null
+) : WidgetView(), ContextComponent {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
@@ -46,8 +49,8 @@ data class ScrollView(
             FlexDirection.ROW
         }
 
-        val styleParent = Style(flex = Flex(flexDirection = flexDirection))
-        val styleChild = Style(flex = Flex(grow = 1.0))
+        val styleParent = Style(flex = Flex(grow = 1.0))
+        val styleChild = Style(flex = Flex(flexDirection = flexDirection))
 
         return viewFactory.makeBeagleFlexView(rootView.getContext(), styleParent).apply {
             addView(if (scrollDirection == ScrollAxis.HORIZONTAL) {
@@ -63,7 +66,6 @@ data class ScrollView(
             }, styleParent)
         }
     }
-
 
     private fun addChildrenViews(
         scrollView: ViewGroup,

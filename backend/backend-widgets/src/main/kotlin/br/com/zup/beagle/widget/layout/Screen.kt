@@ -23,6 +23,8 @@ import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.action.Action
+import br.com.zup.beagle.widget.context.ContextComponent
+import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.ui.ImagePath
 
 /**
@@ -118,5 +120,6 @@ data class Screen(
     val navigationBar: NavigationBar? = null,
     val child: ServerDrivenComponent,
     val style: Style? = null,
-    override val screenAnalyticsEvent: ScreenEvent? = null
-) : ScreenAnalytics
+    override val screenAnalyticsEvent: ScreenEvent? = null,
+    override val context: ContextData? = null
+) : ScreenAnalytics, ContextComponent

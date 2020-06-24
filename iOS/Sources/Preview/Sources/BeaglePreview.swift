@@ -16,8 +16,6 @@
 
 import UIKit
 
-import BeagleUI
-
 public class BeaglePreview {
 
     // MARK: Static

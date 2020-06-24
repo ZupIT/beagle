@@ -29,5 +29,6 @@ public struct WebView: RawWidget, AutoInitiableAndDecodable {
         self.url = url
         self.widgetProperties = widgetProperties
     }
+
 // sourcery:end
 }
