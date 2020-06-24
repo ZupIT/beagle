@@ -23,6 +23,7 @@ import br.com.zup.beagle.android.components.ListView
 import br.com.zup.beagle.android.components.TabItem
 import br.com.zup.beagle.android.components.TabView
 import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.components.TextInput
 import br.com.zup.beagle.android.components.Touchable
 import br.com.zup.beagle.android.components.WebView
 import br.com.zup.beagle.android.components.form.Form
@@ -97,6 +98,7 @@ internal object ComponentJsonAdapterFactory {
             .withSubtype(FormInputHidden::class.java, createNamespaceFor<FormInputHidden>())
             .withSubtype(FormSubmit::class.java, createNamespaceFor<FormSubmit>())
             .withSubtype(UndefinedWidget::class.java, createNamespaceFor<UndefinedWidget>())
+            .withSubtype(TextInput::class.java, createNamespaceFor<TextInput>())
     }
 
     private fun registerCustomWidget(
