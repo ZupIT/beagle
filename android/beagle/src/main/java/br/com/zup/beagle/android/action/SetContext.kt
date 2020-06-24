@@ -17,8 +17,8 @@
 package br.com.zup.beagle.android.action
 
 import br.com.zup.beagle.android.annotation.ContextDataValue
+import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.generateViewModelInstance
-import br.com.zup.beagle.android.utils.getValueWithEvaluatedExpressions
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 
@@ -37,12 +37,12 @@ data class SetContext(
 
     override fun execute(rootView: RootView) {
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
-        viewModel.contextDataManager.updateContext(toInternalSetContext(rootView))
+        viewModel.updateContext(toInternalSetContext(rootView))
     }
 
     private fun toInternalSetContext(rootView: RootView) = SetContextInternal(
         contextId = this.contextId,
-        value = this.value.toString().getValueWithEvaluatedExpressions(rootView) ?: "",
+        value = evaluateExpression(rootView, this.value.toString()) ?: "",
         path = this.path
     )
 }

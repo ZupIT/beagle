@@ -66,11 +66,6 @@ class TabViewTest : BaseComponentTest() {
         tabView = TabView(listOf(tabItem))
     }
 
-    override fun tearDown() {
-        super.tearDown()
-        unmockkAll()
-    }
-
     @Test
     fun build_should_return_view_with_tablayout_and_viewpager() {
         // When

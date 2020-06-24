@@ -1,0 +1,14 @@
+{
+  "_beagleComponent_": "beagle:Image",
+  "path": {
+    "_beagleImagePath_": "remote",
+    "url": "www.com"
+  },
+  "contentMode": "CENTER",
+  "appearance": {
+    "backgroundColor": "#800000FF",
+    "cornerRadius": {
+        "radius": 30.0
+    }
+  }
+}

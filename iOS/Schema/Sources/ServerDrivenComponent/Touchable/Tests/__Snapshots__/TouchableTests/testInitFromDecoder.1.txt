@@ -1,5 +1,4 @@
 ▿ Touchable
-  - action: Navigate.popView
   ▿ child: Text
     - alignment: Optional<Expression<Alignment>>.none
     - styleId: Optional<Expression<String>>.none
@@ -11,3 +10,5 @@
       - id: Optional<String>.none
       - style: Optional<Style>.none
   - clickAnalyticsEvent: Optional<AnalyticsClick>.none
+  ▿ onPress: 1 element
+    - Navigate.popView

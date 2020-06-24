@@ -30,7 +30,7 @@ let componentInteractionScreen: Screen = {
             ),
             Button(
                 text: "Text (JSON)",
-                onPress: [Navigate.openNativeRoute("componentInteractionText")]
+                onPress: [Navigate.openNativeRoute(.COMPONENT_INTERACTION_ENDPOINT)]
             )
         ])
     )
@@ -96,13 +96,13 @@ struct ComponentInteractionText: DeeplinkScreen {
                     {
                       "_beagleComponent_": "custom:textinput",
                       "label": "label",
-                        "onChange": [
+                      "onChange": [
                         {
                           "_beagleAction_": "beagle:setcontext",
                           "context": "myContext",
                           "value": "${onChange.value}"
                         }
-                        ]
+                      ]
                     },
                       {
                         "_beagleComponent_": "beagle:text",

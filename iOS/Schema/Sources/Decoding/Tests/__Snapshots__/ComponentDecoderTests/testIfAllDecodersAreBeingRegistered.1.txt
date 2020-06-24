@@ -1,4 +1,4 @@
-▿ 23 key/value pairs
+▿ 22 key/value pairs
   ▿ (2 elements)
     - key: "beagle:action:formlocalaction"
     - value: FormLocalAction
@@ -41,9 +41,6 @@
   ▿ (2 elements)
     - key: "beagle:component:listview"
     - value: ListView
-  ▿ (2 elements)
-    - key: "beagle:component:networkimage"
-    - value: NetworkImage
   ▿ (2 elements)
     - key: "beagle:component:pageindicator"
     - value: PageIndicator

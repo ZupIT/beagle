@@ -16,27 +16,42 @@
 
 package br.com.zup.beagle.android.utils
 
+import androidx.appcompat.app.AppCompatActivity
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.Screen
+import br.com.zup.beagle.android.context.ContextDataManager
+import br.com.zup.beagle.android.engine.renderer.ActivityRootView
+import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.verify
 import org.junit.Test
 import kotlin.test.assertEquals
 
 class WidgetExtensionsKtTest : BaseTest() {
 
-    private val rootView: RootView = mockk()
+    private val rootView = mockk<ActivityRootView>()
+    private val viewModel = mockk<ScreenContextViewModel>(relaxed = true)
 
     private val viewFactoryMock: ViewFactory = mockk(relaxed = true)
 
     override fun setUp() {
         super.setUp()
+
+        mockkObject(ViewModelProviderFactory)
+
+        every { rootView.activity } returns mockk()
+
+        every {
+            ViewModelProviderFactory.of(any<AppCompatActivity>())[ScreenContextViewModel::class.java]
+        } returns viewModel
 
         viewFactory = viewFactoryMock
     }
@@ -54,6 +69,7 @@ class WidgetExtensionsKtTest : BaseTest() {
 
         // Then
         assertEquals(view, actual)
+        verify(exactly = once()) { viewModel.evaluateContexts() }
     }
 
     @Test

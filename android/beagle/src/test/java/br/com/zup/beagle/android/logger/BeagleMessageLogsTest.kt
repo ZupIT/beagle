@@ -48,8 +48,7 @@ class BeagleMessageLogsTest {
 
     @After
     fun tearDown() {
-        unmockkObject(BeagleEnvironment)
-        unmockkObject(BeagleLoggerProxy)
+        unmockkAll()
     }
 
     @Test
