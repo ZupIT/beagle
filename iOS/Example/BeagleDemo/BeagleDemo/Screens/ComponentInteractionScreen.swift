@@ -48,7 +48,7 @@ let declarativeScreen: Screen = {
                         TextInput(
                             onChange: [
                                 SetContext(
-                                    context: "context1",
+                                    contextId: "context1",
                                     value: "@{onChange.value}"
                                 )
                             ]
@@ -59,7 +59,7 @@ let declarativeScreen: Screen = {
                             text: "1",
                             onPress: [
                                 SetContext(
-                                    context: "context1",
+                                    contextId: "context1",
                                     value: "update"
                                 )
                             ]
@@ -68,7 +68,7 @@ let declarativeScreen: Screen = {
                             text: "2",
                             onPress: [
                                 SetContext(
-                                    context: "context2",
+                                    contextId: "context2",
                                     value: "update"
                                 )
                             ]
