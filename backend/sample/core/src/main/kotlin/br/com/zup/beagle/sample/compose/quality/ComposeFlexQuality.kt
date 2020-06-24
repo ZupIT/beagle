@@ -25,6 +25,7 @@ import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.core.JustifyContent
+import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.TextAlignment
 import br.com.zup.beagle.widget.layout.ComposeComponent
 import br.com.zup.beagle.widget.layout.Container
@@ -34,7 +35,11 @@ object ComposeFlexQuality : ComposeComponent {
     override fun build() = Container(
         children = listOf(
             createText(backgroundColor = "#142850", text = "1").applyStyle(
-                style = Style(margin = EdgeValue(all = 10.unitReal()))
+                style = Style(
+                    margin = EdgeValue(all = 10.unitReal()),
+                    size = Size(width = 50.unitReal(), height = 50.unitReal()),
+                    backgroundColor = "#142850"
+                )
             ),
             createText(backgroundColor = "#dd7631", text = "2"),
             createText(backgroundColor = "#649d66", text = "3")
@@ -56,8 +61,8 @@ object ComposeFlexQuality : ComposeComponent {
         )
     ).applyStyle(
         style = Style(
-            backgroundColor = backgroundColor
-//            size = Size(width = 50.unitReal(), height = 50.unitReal())
+            backgroundColor = backgroundColor,
+            size = Size(width = 50.unitReal(), height = 50.unitReal())
         )
     )
 }
