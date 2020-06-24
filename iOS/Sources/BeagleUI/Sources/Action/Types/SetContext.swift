@@ -23,13 +23,13 @@ extension SetContext: Action {
         guard let view = sender as? UIView else { return }
         
         let valueEvaluated = value.get(with: view)
-        let contextObserver = view.getContext(with: context)
+        let contextObserver = view.getContext(with: contextId)
 
         if var contextValue = contextObserver?.value.value, let path = path {
             contextValue.set(valueEvaluated, forPath: path)
-            contextObserver?.value = Context(id: context, value: contextValue)
+            contextObserver?.value = Context(id: contextId, value: contextValue)
         } else {
-            contextObserver?.value = Context(id: context, value: valueEvaluated)
+            contextObserver?.value = Context(id: contextId, value: valueEvaluated)
         }
     }
 }
