@@ -175,7 +175,7 @@ class BeagleNavigatorTest {
     @Test
     fun pushView_should_call_BeagleActivity_navigateTo() {
         // Given
-        val screenRequest = ScreenRequest(route.route)
+        val screenRequest = ScreenRequest(route.url)
         every { context.navigateTo(screenRequest, null) } just Runs
 
         // When

@@ -27,7 +27,7 @@ final class BeaglePrefetchHelpingSpy: BeaglePrefetchHelping {
     
     func prefetchComponent(newPath: Route.NewPath) {
         
-        prefetched.append(newPath.route)
+        prefetched.append(newPath.url)
     }
     
     func dequeueComponent(path: String) -> ServerDrivenComponent? {
