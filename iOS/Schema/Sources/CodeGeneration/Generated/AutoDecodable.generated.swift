@@ -295,6 +295,32 @@ extension ScrollView {
     }
 }
 
+// MARK: SendRequest Decodable
+extension SendRequest {
+
+    enum CodingKeys: String, CodingKey {
+        case url
+        case method
+        case data
+        case headers
+        case onSuccess
+        case onError
+        case onFinish
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        url = try container.decode(Expression<String>.self, forKey: .url)
+        method = try container.decodeIfPresent(SendRequest.HTTPMethod.self, forKey: .method)
+        data = try container.decodeIfPresent(DynamicObject.self, forKey: .data)
+        headers = try container.decodeIfPresent([String: String].self, forKey: .headers)
+        onSuccess = try container.decodeIfPresent(forKey: .onSuccess)
+        onError = try container.decodeIfPresent(forKey: .onError)
+        onFinish = try container.decodeIfPresent(forKey: .onFinish)
+    }
+}
+
 // MARK: TabItem Decodable
 extension TabItem {
 

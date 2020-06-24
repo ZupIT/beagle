@@ -46,6 +46,10 @@ extension Container: ServerDrivenComponent {
 
         renderer.controller.execute(actions: onInit, with: nil, sender: containerView)
         
+        if let context = _context_ {
+            containerView.setContext(context)
+        }
+        
         return containerView
     }
 }
