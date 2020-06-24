@@ -43,8 +43,6 @@ extension Text: Widget {
 
         styleId?.observe(view: textView, controller: renderer.controller) { styleId in
             renderer.controller.dependencies.theme.applyStyle(for: textView, withId: styleId)
-        }) {
-            renderer.controller.dependencies.theme.applyStyle(for: textView, withId: styleId)
         }
         
         return textView

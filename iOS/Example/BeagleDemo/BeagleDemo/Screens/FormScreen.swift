@@ -65,7 +65,7 @@ struct FormScreen: DeeplinkScreen {
                     ),
                     Container(children: [], widgetProperties: .init(style: Style(flex: Flex(grow: 1)))),
                     FormSubmit(
-                        child: Button(text: "Submit Form", styleId: .value(.FORM_SUBMIT_STYLE), widgetProperties: .init(style: flexHorizontalMargin)),
+                        child: Button(text: "Submit Form", styleId: .value(.FORM_SUBMIT_STYLE), widgetProperties: .init(style: styleHorizontalMargin)),
                         enabled: false
                     )
                 ],
