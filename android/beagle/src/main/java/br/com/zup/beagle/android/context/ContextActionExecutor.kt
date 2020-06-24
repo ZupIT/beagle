@@ -65,8 +65,11 @@ internal class ContextActionExecutor {
                 put(DEFAULT_KEY_NAME, value)
             }
         } else {
-            if (value is Collection<*>) JSONArray(value) else
+            if (value is Collection<*>) {
+                JSONArray(value)
+            } else {
                 JSONObject(BeagleMoshi.moshi.adapter<Any>(value::class.java).toJson(value))
+            }
         }
     }
 }
