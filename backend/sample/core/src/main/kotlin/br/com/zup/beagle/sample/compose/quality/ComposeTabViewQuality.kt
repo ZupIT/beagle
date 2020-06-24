@@ -148,7 +148,7 @@ object ComposeTabViewQuality : ComposeComponent {
             )
         ).applyStyle(Style(
             margin = EdgeValue(top = 20.unitReal(), right = 20.unitReal(), left = 20.unitReal()),
-            flex = Flex(alignContent = AlignContent.CENTER)
+            flex = Flex(alignContent = AlignContent.CENTER, grow = 1.0)
         )
         )
     )
