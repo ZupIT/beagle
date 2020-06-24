@@ -87,6 +87,7 @@ extension Container {
 
     enum CodingKeys: String, CodingKey {
         case children
+        case onInit
         case _context_
     }
 
@@ -95,6 +96,7 @@ extension Container {
 
         children = try container.decode(forKey: .children)
         widgetProperties = try WidgetProperties(from: decoder)
+        onInit = try container.decodeIfPresent(forKey: .onInit)
         _context_ = try container.decodeIfPresent(Context.self, forKey: ._context_)
     }
 }
@@ -223,7 +225,7 @@ extension NavigationBarItem {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         id = try container.decodeIfPresent(String.self, forKey: .id)
-        image = try container.decodeIfPresent(String.self, forKey: .image)
+        image = try container.decodeIfPresent(Image.Local.self, forKey: .image)
         text = try container.decode(String.self, forKey: .text)
         action = try container.decode(forKey: .action)
         accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
@@ -305,7 +307,7 @@ extension TabItem {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        icon = try container.decodeIfPresent(String.self, forKey: .icon)
+        icon = try container.decodeIfPresent(Image.Local.self, forKey: .icon)
         title = try container.decodeIfPresent(String.self, forKey: .title)
         child = try container.decode(forKey: .child)
     }

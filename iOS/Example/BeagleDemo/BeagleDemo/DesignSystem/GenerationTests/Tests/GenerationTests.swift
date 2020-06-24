@@ -17,7 +17,7 @@
 import XCTest
 @testable import BeagleDemo
 @testable import BeagleSchema
-@testable import BeagleUI
+@testable import Beagle
 
 class GenerationTests: XCTestCase {
 

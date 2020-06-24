@@ -6,7 +6,7 @@
   "onChange": [
       {
         "_beagleAction_": "beagle:setcontext",
-        "context": "myContext",
+        "contextId": "myContext",
         "value": "2"
       }
   ],
