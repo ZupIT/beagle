@@ -38,11 +38,11 @@ import com.bumptech.glide.request.transition.Transition
 data class Image(
     val path: Bind<PathType>,
     val mode: ImageContentMode? = null,
-    val placeholder: Image? = null) : WidgetView() {
+    val placeholder: PathType.Local? = null) : WidgetView() {
     constructor(
         path: PathType,
         mode: ImageContentMode? = null,
-        placeholder: Image? = null) : this(
+        placeholder: PathType.Local? = null) : this(
         Bind.valueOf(path),
         mode,
         placeholder
@@ -66,7 +66,7 @@ data class Image(
                     }
                 }
                 is PathType.Remote -> {
-                    val requestOptions = getGlideRequestOptions(rootView)
+                    val requestOptions = getGlideRequestOptions()
                     imageView = if (style?.size != null) {
                         getImageView(rootView).apply {
                             Glide
@@ -111,26 +111,21 @@ data class Image(
         })
     }
 
-    private fun getGlideRequestOptions(rootView: RootView): RequestOptions {
+    private fun getGlideRequestOptions(): RequestOptions {
         val requestOptions = RequestOptions()
-        val placeholder = getPlaceholder(placeholder, rootView)
+        val placeholder = getPlaceholder(placeholder)
         if (placeholder != null) {
             requestOptions.placeholder(placeholder)
         }
         return requestOptions
     }
 
-    private fun getPlaceholder(image: Image?, rootView: RootView): Int? {
+    private fun getPlaceholder(image: PathType.Local?): Int? {
         val designSystem = BeagleEnvironment.beagleSdk.designSystem
         if (designSystem != null && image != null) {
-            placeholder?.path?.let {
-                var placeholder: Int? = null
-                observeBindChanges(rootView, it) { pathType ->
-                    placeholder = designSystem.image((pathType as PathType.Local).mobileId)
-                }
-                return placeholder
+            placeholder?.let {pathType ->
+                return designSystem.image(pathType.mobileId)
             }
-
         }
         return null
     }
