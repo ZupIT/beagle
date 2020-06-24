@@ -17,6 +17,8 @@
 package br.com.zup.beagle.widget.layout
 
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.widget.context.ContextComponent
+import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.pager.PageIndicatorComponent
 
 /**
@@ -28,5 +30,6 @@ import br.com.zup.beagle.widget.pager.PageIndicatorComponent
  */
 data class PageView(
     val children: List<ServerDrivenComponent>,
-    val pageIndicator: PageIndicatorComponent? = null
-) : ServerDrivenComponent
+    val pageIndicator: PageIndicatorComponent? = null,
+    override val context: ContextData? = null
+) : ServerDrivenComponent, ContextComponent
