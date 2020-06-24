@@ -1,178 +1,93 @@
+<h1 align="center">
+  <a href="https://usebeagle.io/">
+    Beagle
+  </a>
+</h1>
+
+
+<p align="center">
 ![Release](https://github.com/ZupIT/beagle/workflows/Beagle%20Release/badge.svg)
 [![codecov](https://codecov.io/gh/ZupIT/beagle/branch/master/graph/badge.svg?token=rViMmc9MYJ)](https://codecov.io/gh/ZupIT/beagle)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/ZupIT/beagle/blob/master/LICENSE.txt)
+</p>
 
-## What is Beagle?
+<h3 align="center">
+  <a href="https://docs.usebeagle.io/primeiros-passos/instalando-beagle">Getting Started</a>
+  <span> · </span>
+  <a href="https://docs.usebeagle.io/primeiros-passos/usando-beagle">Learn the Basics</a>
+  <span> · </span>
+  <a href="https://docs.usebeagle.io/primeiros-passos/user-cases">Showcase</a>
+  <span> · </span>
+  <a href="https://github.com/ZupIT/beagle/blob/master/CONTRIBUTING.md">Contribute</a>
+</h3>
 
-Beagle is a **cross-platform framework** which facilitates usage of the **Server-Driven UI** concept, **natively** in iOS and Android. By using Beagle, your team could easily change application's layout and data by just changing backend code.
-#
-#### Goals for Beagle
+Beagle is an **open source framework** for **cross-platform** development using the concept of Server-Driven UI.
 
--   Automatic app updates without having to rely on App Store or Play Store slow processes
+This framework allow teams to build and alter layouts and data directly through a backend but yet displaying its contents natively in a mobile application and / or through web.
 
--   Easily accommodate changes
+It is also possible to create, test and update native application components and screen paths without the need update the mobile application at the store (App Store or Play Store).
 
--   Minimize code duplications
+## Contents
 
--   Easier maintainability and testability
+- [Requirements](#-requirements)
+- [Building your first app using beagle](#-building-your-first-app-using-beagle)
+- [Documentation](#-documentation)
+- [Upgrading](#-upgrading)
+- [How to Contribute](#-how-to-contribute)
+- [Code of Conduct](#code-of-conduct)
+- [License](#-license)
 
--   To be flexible for UI Designers
-#
-#### How it works
+## 📋 Requirements
 
-Your application will **define** all UI components it can render (Design System) and **register** them inside Beagle. With that, now your BFF (Backend For Frontend) will be able to control how your application will be presented by returning a JSON that describes the interface for each endpoint.
+Beagle apps may target iOS 10.0 and Android 4.4 (API 19) or newer. You may use Windows, macOS, or Linux as your development operating system.
 
-![](https://blobs.gitbook.com/assets%2F-M-Qy7jZbUpzGRP5GbCZ%2F-M-RRc0XmH0zvxTIpMdW%2F-M-UyUyBv3ZqZpZl8m-E%2FWhatsApp%20Image%202020-02-06%20at%2019.21.26.jpeg?alt=media&token=7ea0eb18-0950-4a0e-af1c-91f836b1c66c)
+## 🎉 Building your first app using beagle
 
-#### Server-Driven UI
+Follow the [Getting Started guide](https://docs.usebeagle.io/primeiros-passos/instalando-beagle). The recommended way to install Beagle depends on your project. Here you can find short guides for the most common scenarios:
 
-![](https://blobs.gitbook.com/assets%2F-M-Qy7jZbUpzGRP5GbCZ%2F-M-Vb8Yg30urdiTYjfB3%2F-M-VjxuYL-Q8MKfVharu%2Fimage42.png?alt=media&token=2c64711f-ba57-4754-a213-5a94ff387429)
+- [Creating a New Application][new-app]
+- [Adding Beagle to an Existing Application][existing]
 
-**Server-Driven UI**  is an implementation paradigm that defines how the visual components are settle on a screen, the screen structure and how pages will flow to one another. All this information comes from a server called **Back-end For Front-end** through `JSON` objects. In the Server Driven paradigm the structure and flow between screens is incorporated into the `JSON` objects trafficked with content, which are divided into 3 basic pillars: **content, visual structure and flow (actions)**.  Check the **Beagle** example on the block below:
+[new-app]: hhttps://docs.usebeagle.io/primeiros-passos/usando-beagle
+[existing]: https://docs.usebeagle.io/primeiros-passos/usando-beagle
 
-```javascript
-{
-    "beagleType": "beagle:widget:pageview",
-    "pages": [
-        {
-            "beagleType": "beagle:widget:flexsinglewidget",
-            "flex": {
-                "justifyContent": "CENTER",
-                "alignItems": "CENTER"
-            },
-            "child": {
-                "beagleType": "beagle:widget:text",
-                "text": "Page 1"
-            }
-        },
-        {
-            "beagleType": "beagle:widget:flexsinglewidget",
-            "flex": {
-                "justifyContent": "CENTER",
-                "alignItems": "CENTER"
-            },
-            "child": {
-                "beagleType": "beagle:widget:text",
-                "text": "Page 2"
-            }
-        },
-        {
-            "beagleType": "beagle:widget:flexsinglewidget",
-            "flex": {
-                "justifyContent": "CENTER",
-                "alignItems": "CENTER"
-            },
-            "child": {
-                "beagleType": "beagle:widget:text",
-                "text": "Page 3"
-            }
-        }
-    ],
-    "pageIndicator": {
-        "beagleType": "beagle:widget:pageindicator",
-        "selectedColor": "#FFFFFF",
-        "unselectedColor": "#888888"
-    }
-}
-```
-The front-end will set the visual structure and how pages connects and acts on one another natively according to the front-end system. As the application sends all actions to the back end, it responds systematically to each action, which configures our “single source of truth”.
+## 📖 Documentation
 
-In this model the new features and combinations of UI components can be tested without releases and updates, which practically summarizes an A / B type test.
+The full documentation for Begle can be found on our [website][docs].
 
-Different types of styles and layouts can be tested in certain customer's`circles` , which implies several testing possibilities and Analytics data.
+The Beagle documentation discusses components, APIs, and topics that are specific to Beagle. [Beagle documentation][b-docs].
 
-##
+The source for the Beagle documentation and website is hosted on a separate repo, [**@beagle site**][repo-website].
 
-#### Backend For Frontend
+[docs]: https://docs.usebeagle.io/
+[b-docs]: https://docs.usebeagle.io/primeiros-passos/instalando-beagle
+[repo-website]: https://usebeagle.io/
 
-This is the server that provides the `JSON` objects that will be rendered by the front as `views`. With this component, screens and business rules are written only once and thus rendered natively on each platform that Beagle is present on.
 
-##
+## 👏 How to Contribute
 
-#### Declarative Views
+The main purpose of this repository is to continue evolving Beagle core. We want to make contributing to this project as easy and transparent as possible, and we are grateful to the community for contributing bug fixes and improvements. Read below to learn how you can take part in improving Begle.
 
-It is the paradigm by which the layouts are declared in the back-end, in a simplified way and with a focus on "what" the layout should do, leaving the "how it should do" to Beagle. Layouts are declared using widgets on BFF in Kotlin language.
+### [Contributing Guide][contribute]
 
-```javascript
-{
-    "beagleType": "beagle:widget:pageview",
-    "pages": [
-        {
-            "beagleType": "beagle:widget:flexsinglewidget",
-            "flex": {
-                "justifyContent": "CENTER",
-                "alignItems": "CENTER"
-            },
-            "child": {
-                "beagleType": "beagle:widget:text",
-                "text": "Page 1"
-            }
-        },
-        {
-            "beagleType": "beagle:widget:flexsinglewidget",
-            "flex": {
-                "justifyContent": "CENTER",
-                "alignItems": "CENTER"
-            },
-            "child": {
-                "beagleType": "beagle:widget:text",
-                "text": "Page 2"
-            }
-        }
-    ],
-    "pageIndicator": {
-        "beagleType": "beagle:widget:pageindicator",
-        "selectedColor": "#FFFFFF",
-        "unselectedColor": "#888888"
-    }
-}
-```
-##
+Read our [**Contributing Guide**][contribute] to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to Beagle.
 
-#### Serializer
+[contribute]: https://github.com/ZupIT/beagle/blob/master/CONTRIBUTING.md
 
-The `Beagle serializer` responsibility is converting a declarative layout into a `JSON` object. In order to serialize Kotlin classes into `JSON` objects Beagle will use the [Jackson converter](https://github.com/FasterXML/jackson)_._
+### [Open Source Roadmap][roadmap]
 
-To serialize Kotlin classes in JSON objects, Beagle uses _Jackson_.
+You can learn more about our vision for beagle in the [**Roadmap**][roadmap].
 
-##
+[roadmap]: https://github.com/ZupIT/beagle/milestones
 
-#### Deserializer
+### Good First Issues
 
-The `Beagle deserializer` responsibility is to convert a `JSON` object into a `widget` using [Moshi](https://github.com/square/moshi)_._
+We have a list of [good first issues][gfi] that contain bugs which have a relatively limited scope. This is a great place to get started, gain experience, and get familiar with our contribution process.
 
-On Android _Moshi_ is used for this purpose.
+[gfi]: https://github.com/ZupIT/beagle/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22
 
-![](https://blobs.gitbook.com/assets%2F-M-Qy7jZbUpzGRP5GbCZ%2F-M-Vb8Yg30urdiTYjfB3%2F-M-Vj__Tmdf3Px_wVuu2%2FCaptura%20de%20Tela%202020-02-07%20a%CC%80s%2014.25.17.png?alt=media&token=8f788eee-4371-4aca-b079-0ead3b6b0eb4)
+## 📄 License
 
-Beagle BFF and Beagle Mobile
+Beagle is Apache 2.0 licensed, as found in the [LICENSE][l] file.
 
-#
-
-#### Design System Language
-
-It is an interface that defines a set of methods that must be implemented to define the **application's theme**. The `appDesignSystem` must keep the button styles, text displays, toolbar styles, images and themes. For Beagle to work according to the application design system, it is necessary to have all of these styles implemented. They will be used the moment the visualization is rendered.
-
-![](https://blobs.gitbook.com/assets%2F-M-Qy7jZbUpzGRP5GbCZ%2F-M-Vb8Yg30urdiTYjfB3%2F-M-VkXqAaAU8k7KAUaLW%2Fimage22.png?alt=media&token=62e91f51-a030-499d-91ca-f5131fd88790)
-
-Design System Language for text, color and scale
-
-#
-
-#### Layout Engine
-
-When rendering the screen the front-end receives a `JSON` object that provides all necessary information through **Beagle** to position the elements on the screen and deserialize it natively for Android or iOS.
-
-When deserializing, Beagle turns a `widget` into a `view` applying the styles implemented in the `DesignSystem`. At this point, Beagle uses the [**YOGA**](https://yogalayout.com/) rendering engine internally to set the layout's view position and finally render it natively.
-
-![](https://blobs.gitbook.com/assets%2F-M-Qy7jZbUpzGRP5GbCZ%2F-M-WAWIJGEgjFTyn57to%2F-M-WE7CKoTKbtxvMCMLt%2Fyoga.gif?alt=media&token=070dba81-176f-451f-b82e-cf3589c6e2f8)
-
-#### Learn how to:
-
-- [Create a Backend project](https://zup-products.gitbook.io/beagle/introducing/beagle-backend)
-- [Create an Android project](https://zup-products.gitbook.io/beagle/introducing/android)
-- [Create an iOS project](https://zup-products.gitbook.io/beagle/introducing/ios)
-
-## Contributing guide
-
-Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to add new feature and contribute in general to Beagle
+[l]: https://github.com/ZupIT/beagle/blob/master/LICENSE.txt
