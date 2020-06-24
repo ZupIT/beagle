@@ -50,8 +50,8 @@ extension Button {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        text = try container.decode(String.self, forKey: .text)
-        styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
+        text = try container.decode(Expression<String>.self, forKey: .text)
+        styleId = try container.decodeIfPresent(Expression<String>.self, forKey: .styleId)
         onPress = try container.decodeIfPresent(forKey: .onPress)
         clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
         widgetProperties = try WidgetProperties(from: decoder)
@@ -238,6 +238,7 @@ extension PageView {
     enum CodingKeys: String, CodingKey {
         case children
         case pageIndicator
+        case _context_
     }
 
     public init(from decoder: Decoder) throws {
@@ -246,6 +247,7 @@ extension PageView {
         children = try container.decode(forKey: .children)
         let rawPageIndicator: RawComponent? = try container.decodeIfPresent(forKey: .pageIndicator)
         pageIndicator = rawPageIndicator as? PageIndicatorComponent
+        _context_ = try container.decodeIfPresent(Context.self, forKey: ._context_)
     }
 }
 
@@ -280,6 +282,7 @@ extension ScrollView {
         case children
         case scrollDirection
         case scrollBarEnabled
+        case _context_
     }
 
     public init(from decoder: Decoder) throws {
@@ -288,6 +291,7 @@ extension ScrollView {
         children = try container.decode(forKey: .children)
         scrollDirection = try container.decodeIfPresent(ScrollAxis.self, forKey: .scrollDirection)
         scrollBarEnabled = try container.decodeIfPresent(Bool.self, forKey: .scrollBarEnabled)
+        _context_ = try container.decodeIfPresent(Context.self, forKey: ._context_)
     }
 }
 
@@ -323,9 +327,9 @@ extension Text {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         text = try container.decode(Expression<String>.self, forKey: .text)
-        styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
-        alignment = try container.decodeIfPresent(Alignment.self, forKey: .alignment)
-        textColor = try container.decodeIfPresent(String.self, forKey: .textColor)
+        styleId = try container.decodeIfPresent(Expression<String>.self, forKey: .styleId)
+        alignment = try container.decodeIfPresent(Expression<Alignment>.self, forKey: .alignment)
+        textColor = try container.decodeIfPresent(Expression<String>.self, forKey: .textColor)
         widgetProperties = try WidgetProperties(from: decoder)
     }
 }
@@ -367,7 +371,7 @@ extension TextInput {
 extension Touchable {
 
     enum CodingKeys: String, CodingKey {
-        case action
+        case onPress
         case clickAnalyticsEvent
         case child
     }
@@ -375,7 +379,7 @@ extension Touchable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        action = try container.decode(forKey: .action)
+        onPress = try container.decode(forKey: .onPress)
         clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
         child = try container.decode(forKey: .child)
     }
@@ -391,7 +395,7 @@ extension WebView {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        url = try container.decode(String.self, forKey: .url)
+        url = try container.decode(Expression<String>.self, forKey: .url)
         widgetProperties = try WidgetProperties(from: decoder)
     }
 }

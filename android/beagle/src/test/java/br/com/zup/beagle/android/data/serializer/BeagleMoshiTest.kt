@@ -30,6 +30,7 @@ import br.com.zup.beagle.android.components.Image
 import br.com.zup.beagle.android.components.PathType
 import br.com.zup.beagle.android.components.LazyComponent
 import br.com.zup.beagle.android.components.ListView
+import br.com.zup.beagle.android.components.TabItem
 import br.com.zup.beagle.android.components.TabView
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.form.Form
@@ -292,7 +293,7 @@ class BeagleMoshiTest : BaseTest() {
     @Test
     fun make_should_return_moshi_to_serialize_a_TabView() {
         // Given
-        val component = TabView(children = listOf())
+        val component = TabView(listOf(), "")
 
         // When
         val actual =

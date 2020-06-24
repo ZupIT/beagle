@@ -79,11 +79,6 @@ class ScreenComponentTest : BaseComponentTest() {
             screenAnalyticsEvent = null, style = null)
     }
 
-    override fun tearDown() {
-        super.tearDown()
-        unmockkAll()
-    }
-
     @Test
     fun build_should_create_a_screenWidget_with_grow_1_and_justifyContent_SPACE_BETWEEN() {
         // Given

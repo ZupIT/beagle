@@ -52,11 +52,11 @@ object AnalyticsScreenBuilder : ScreenBuilder {
             text = "Touchable with Click Analytics Event"
         )
         return Touchable(
-            action = Alert(
+            onPress = listOf(Alert(
                 title = "title",
                 message = "message",
-               labelOk = "Close"
-            ),
+                labelOk = "Close"
+            )),
             child = text,
             clickAnalyticsEvent = ClickEvent(
                 category = "touchable",

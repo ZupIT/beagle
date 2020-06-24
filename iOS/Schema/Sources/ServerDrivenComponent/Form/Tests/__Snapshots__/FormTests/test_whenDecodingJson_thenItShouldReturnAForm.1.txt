@@ -12,11 +12,11 @@
     ▿ children: 4 elements
       ▿ FormInput
         ▿ child: Text
-          - alignment: Optional<Alignment>.none
-          - styleId: Optional<String>.none
+          - alignment: Optional<Expression<Alignment>>.none
+          - styleId: Optional<Expression<String>>.none
           ▿ text: Expression<String>
             - value: "text"
-          - textColor: Optional<String>.none
+          - textColor: Optional<Expression<String>>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
             - id: Optional<String>.none
@@ -67,9 +67,11 @@
         ▿ child: Button
           - clickAnalyticsEvent: Optional<AnalyticsClick>.none
           - onPress: Optional<Array<RawAction>>.none
-          ▿ styleId: Optional<String>
-            - some: "DesignSystem.Form.Submit"
-          - text: "Submit Form"
+          ▿ styleId: Optional<Expression<String>>
+            ▿ some: Expression<String>
+              - value: "DesignSystem.Form.Submit"
+          ▿ text: Expression<String>
+            - value: "Submit Form"
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
             - id: Optional<String>.none

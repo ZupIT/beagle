@@ -1,34 +1,35 @@
 ▿ PageView
+  - _context_: Optional<Context>.none
   ▿ children: 3 elements
     ▿ Container
       - _context_: Optional<Context>.none
       ▿ children: 3 elements
         ▿ Text
-          - alignment: Optional<Alignment>.none
-          - styleId: Optional<String>.none
+          - alignment: Optional<Expression<Alignment>>.none
+          - styleId: Optional<Expression<String>>.none
           ▿ text: Expression<String>
             - value: "1 This is a text"
-          - textColor: Optional<String>.none
+          - textColor: Optional<Expression<String>>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
             - id: Optional<String>.none
             - style: Optional<Style>.none
         ▿ Text
-          - alignment: Optional<Alignment>.none
-          - styleId: Optional<String>.none
+          - alignment: Optional<Expression<Alignment>>.none
+          - styleId: Optional<Expression<String>>.none
           ▿ text: Expression<String>
             - value: "This is a text"
-          - textColor: Optional<String>.none
+          - textColor: Optional<Expression<String>>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
             - id: Optional<String>.none
             - style: Optional<Style>.none
         ▿ Text
-          - alignment: Optional<Alignment>.none
-          - styleId: Optional<String>.none
+          - alignment: Optional<Expression<Alignment>>.none
+          - styleId: Optional<Expression<String>>.none
           ▿ text: Expression<String>
             - value: "This is a text"
-          - textColor: Optional<String>.none
+          - textColor: Optional<Expression<String>>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
             - id: Optional<String>.none
@@ -65,31 +66,31 @@
       - _context_: Optional<Context>.none
       ▿ children: 3 elements
         ▿ Text
-          - alignment: Optional<Alignment>.none
-          - styleId: Optional<String>.none
+          - alignment: Optional<Expression<Alignment>>.none
+          - styleId: Optional<Expression<String>>.none
           ▿ text: Expression<String>
             - value: "2 This is a text"
-          - textColor: Optional<String>.none
+          - textColor: Optional<Expression<String>>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
             - id: Optional<String>.none
             - style: Optional<Style>.none
         ▿ Text
-          - alignment: Optional<Alignment>.none
-          - styleId: Optional<String>.none
+          - alignment: Optional<Expression<Alignment>>.none
+          - styleId: Optional<Expression<String>>.none
           ▿ text: Expression<String>
             - value: "This is a text"
-          - textColor: Optional<String>.none
+          - textColor: Optional<Expression<String>>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
             - id: Optional<String>.none
             - style: Optional<Style>.none
         ▿ Text
-          - alignment: Optional<Alignment>.none
-          - styleId: Optional<String>.none
+          - alignment: Optional<Expression<Alignment>>.none
+          - styleId: Optional<Expression<String>>.none
           ▿ text: Expression<String>
             - value: "This is a text"
-          - textColor: Optional<String>.none
+          - textColor: Optional<Expression<String>>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
             - id: Optional<String>.none
@@ -126,31 +127,31 @@
       - _context_: Optional<Context>.none
       ▿ children: 3 elements
         ▿ Text
-          - alignment: Optional<Alignment>.none
-          - styleId: Optional<String>.none
+          - alignment: Optional<Expression<Alignment>>.none
+          - styleId: Optional<Expression<String>>.none
           ▿ text: Expression<String>
             - value: "3 This is a text"
-          - textColor: Optional<String>.none
+          - textColor: Optional<Expression<String>>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
             - id: Optional<String>.none
             - style: Optional<Style>.none
         ▿ Text
-          - alignment: Optional<Alignment>.none
-          - styleId: Optional<String>.none
+          - alignment: Optional<Expression<Alignment>>.none
+          - styleId: Optional<Expression<String>>.none
           ▿ text: Expression<String>
             - value: "This is a text"
-          - textColor: Optional<String>.none
+          - textColor: Optional<Expression<String>>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
             - id: Optional<String>.none
             - style: Optional<Style>.none
         ▿ Text
-          - alignment: Optional<Alignment>.none
-          - styleId: Optional<String>.none
+          - alignment: Optional<Expression<Alignment>>.none
+          - styleId: Optional<Expression<String>>.none
           ▿ text: Expression<String>
             - value: "This is a text"
-          - textColor: Optional<String>.none
+          - textColor: Optional<Expression<String>>.none
           ▿ widgetProperties: WidgetProperties
             - accessibility: Optional<Accessibility>.none
             - id: Optional<String>.none

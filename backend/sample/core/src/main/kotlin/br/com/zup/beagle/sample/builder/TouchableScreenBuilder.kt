@@ -75,7 +75,7 @@ object TouchableScreenBuilder : ScreenBuilder {
         children = listOf(
             buildTitle(title),
             Touchable(
-                action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT)),
+                listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))),
                 child = item.applyStyle(Style(
                     flex = Flex(
                         alignSelf = AlignSelf.CENTER
@@ -116,7 +116,7 @@ object TouchableScreenBuilder : ScreenBuilder {
                     )
                 )
                 ),
-                action = Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))
+                onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT)))
             )
         )
     )

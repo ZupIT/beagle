@@ -189,7 +189,7 @@ class SendRequestHandlerTest {
             requestAction.handleEvent(rootView, listOf(onFinishAction), "onFinish")
         }
     }
-    
+
     private fun createSendRequest(
         onSuccess: List<Action>?,
         onError: List<Action>?,
