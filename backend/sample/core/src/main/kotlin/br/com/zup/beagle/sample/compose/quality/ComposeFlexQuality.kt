@@ -16,8 +16,6 @@
 
 package br.com.zup.beagle.sample.compose.quality
 
-
-import br.com.zup.beagle.core.PositionType
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
@@ -65,8 +63,7 @@ object ComposeFlexQuality : ComposeComponent {
         )
     ).applyStyle(
         style = Style(
-            backgroundColor = backgroundColor,
-            size = Size(width = 50.unitReal(), height = 50.unitReal())
+            backgroundColor = backgroundColor
         )
     )
 }
