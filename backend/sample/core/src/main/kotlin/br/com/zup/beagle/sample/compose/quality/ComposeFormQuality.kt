@@ -19,6 +19,7 @@ package br.com.zup.beagle.sample.compose.quality
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_FORM
 import br.com.zup.beagle.sample.constants.LIGHT_GREEN
@@ -29,6 +30,7 @@ import br.com.zup.beagle.widget.action.FormRemoteAction
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ScrollAxis
+import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.form.Form
 import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.FormSubmit
@@ -80,12 +82,14 @@ object ComposeFormQuality: ComposeComponent {
                     )
                 ).applyStyle(
                     Style(
-                    padding = EdgeValue(all = 10.unitReal()),
-                    flex = Flex(
-                        grow = 1.0
+                        size = Size(width = 50.unitPercent(),height = 50.unitPercent()),
+                        backgroundColor = LIGHT_GREEN,
+                        padding = EdgeValue(all = 10.unitReal()),
+                        flex = Flex(
+                            grow = 1.0
+                        )
                     )
                 )
-                ).applyStyle(Style(backgroundColor = LIGHT_GREEN))
             )
         )
     )
