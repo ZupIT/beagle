@@ -105,6 +105,8 @@ class ImageViewRendererTest : BaseComponentTest() {
     fun build_should_return_a_beagle_image_view_instance_and_set_data_when_path_is_remote() {
         //Given
         imageRemote = Image(PathType.Remote(""))
+        every { requestManager.setDefaultRequestOptions(any()) } returns requestManager
+
 
         // When
         val view = imageRemote.buildView(rootView)
@@ -146,6 +148,7 @@ class ImageViewRendererTest : BaseComponentTest() {
     fun build_should_return_a_ImageView_with_desired_scaleType() {
         // Given
         val scaleTypeSlot = slot<ImageView.ScaleType>()
+        every { requestManager.setDefaultRequestOptions(any()) } returns requestManager
         every { imageView.scaleType = capture(scaleTypeSlot) } just Runs
 
         // When
@@ -158,6 +161,9 @@ class ImageViewRendererTest : BaseComponentTest() {
 
     @Test
     fun build_should_set_url_to_Glide() {
+        //Given
+        every { requestManager.setDefaultRequestOptions(any()) } returns requestManager
+
         // When
         imageRemote.buildView(rootView)
 
@@ -171,6 +177,7 @@ class ImageViewRendererTest : BaseComponentTest() {
     fun build_should_call_makeBeagleFlexView_when_component_has_not_flex() {
         // Given
         imageRemote.style = null
+        every { requestManager.setDefaultRequestOptions(any()) } returns requestManager
 
         // When
         val view = imageRemote.buildView(rootView)
@@ -186,6 +193,7 @@ class ImageViewRendererTest : BaseComponentTest() {
         // Given
         val height = 100
         every { bitmap.height } returns height
+        every { requestManager.setDefaultRequestOptions(any()) } returns requestManager
         imageRemote.style = null
 
         // When

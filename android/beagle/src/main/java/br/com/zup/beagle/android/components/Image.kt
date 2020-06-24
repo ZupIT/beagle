@@ -31,17 +31,21 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.ImageContentMode
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 
 data class Image(
     val path: Bind<PathType>,
-    val mode: ImageContentMode? = null) : WidgetView(){
+    val mode: ImageContentMode? = null,
+    val placeholder: Image? = null) : WidgetView() {
     constructor(
         path: PathType,
-        mode: ImageContentMode? = null) : this(
+        mode: ImageContentMode? = null,
+        placeholder: Image? = null) : this(
         Bind.valueOf(path),
-        mode
+        mode,
+        placeholder
     )
 
     @Transient
@@ -51,8 +55,8 @@ data class Image(
     private val viewFactory = ViewFactory()
 
     override fun buildView(rootView: RootView): View {
-        var imageView:View = getImageView(rootView)
-        observeBindChanges(rootView, path){ pathyType->
+        var imageView: View = getImageView(rootView)
+        observeBindChanges(rootView, path) { pathyType ->
             when (pathyType) {
                 is PathType.Local -> {
                     imageView = getImageView(rootView).apply {
@@ -62,14 +66,19 @@ data class Image(
                     }
                 }
                 is PathType.Remote -> {
+                    val requestOptions = getGlideRequestOptions(rootView)
                     imageView = if (style?.size != null) {
                         getImageView(rootView).apply {
-                            Glide.with(this).load(pathyType.url).into(this)
+                            Glide
+                                .with(this)
+                                .setDefaultRequestOptions(requestOptions)
+                                .load(pathyType.url)
+                                .into(this)
                         }
                     } else {
                         viewFactory.makeBeagleFlexView(rootView.getContext()).also {
                             it.addView(getImageView(rootView).apply {
-                                this.loadImage(pathyType, it)
+                                this.loadImage(pathyType, it, requestOptions)
                             }, style ?: Style())
                         }
                     }
@@ -84,8 +93,15 @@ data class Image(
         scaleType = viewMapper.toScaleType(mode ?: ImageContentMode.FIT_CENTER)
     }
 
-    private fun ImageView.loadImage(path: PathType.Remote, beagleFlexView: BeagleFlexView) {
-        Glide.with(this).asBitmap().load(path.url).into(object : CustomTarget<Bitmap>() {
+    private fun ImageView.loadImage(
+        path: PathType.Remote,
+        beagleFlexView: BeagleFlexView,
+        requestOptions: RequestOptions) {
+        Glide.with(this)
+            .setDefaultRequestOptions(requestOptions)
+            .asBitmap()
+            .load(path.url)
+            .into(object : CustomTarget<Bitmap>() {
             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                 this@loadImage.setImageBitmap(resource)
                 beagleFlexView.setViewHeight(this@loadImage, resource.height)
@@ -93,6 +109,30 @@ data class Image(
 
             override fun onLoadCleared(placeholder: Drawable?) {}
         })
+    }
+
+    private fun getGlideRequestOptions(rootView: RootView): RequestOptions {
+        val requestOptions = RequestOptions()
+        val placeholder = getPlaceholder(placeholder, rootView)
+        if (placeholder != null) {
+            requestOptions.placeholder(placeholder)
+        }
+        return requestOptions
+    }
+
+    private fun getPlaceholder(image: Image?, rootView: RootView): Int? {
+        val designSystem = BeagleEnvironment.beagleSdk.designSystem
+        if (designSystem != null && image != null) {
+            placeholder?.path?.let {
+                var placeholder: Int? = null
+                observeBindChanges(rootView, it) { pathType ->
+                    placeholder = designSystem.image((pathType as PathType.Local).mobileId)
+                }
+                return placeholder
+            }
+
+        }
+        return null
     }
 
 }
