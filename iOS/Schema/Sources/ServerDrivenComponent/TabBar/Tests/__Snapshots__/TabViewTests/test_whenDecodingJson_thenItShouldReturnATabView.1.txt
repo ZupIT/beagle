@@ -35,6 +35,7 @@
               - accessibility: Optional<Accessibility>.none
               - id: Optional<String>.none
               - style: Optional<Style>.none
+        - onInit: Optional<Array<RawAction>>.none
         ▿ widgetProperties: WidgetProperties
           - accessibility: Optional<Accessibility>.none
           - id: Optional<String>.none

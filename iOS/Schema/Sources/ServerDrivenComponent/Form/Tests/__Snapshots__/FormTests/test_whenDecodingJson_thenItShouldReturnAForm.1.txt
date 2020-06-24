@@ -37,6 +37,7 @@
       ▿ Container
         - _context_: Optional<Context>.none
         - children: 0 elements
+        - onInit: Optional<Array<RawAction>>.none
         ▿ widgetProperties: WidgetProperties
           - accessibility: Optional<Accessibility>.none
           - id: Optional<String>.none
@@ -99,6 +100,7 @@
                 - size: Optional<Size>.none
         ▿ enabled: Optional<Bool>
           - some: false
+    - onInit: Optional<Array<RawAction>>.none
     ▿ widgetProperties: WidgetProperties
       - accessibility: Optional<Accessibility>.none
       - id: Optional<String>.none
