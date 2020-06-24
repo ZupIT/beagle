@@ -17,6 +17,7 @@
 package br.com.zup.beagle.sample.compose.quality
 
 
+import br.com.zup.beagle.core.PositionType
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
@@ -32,27 +33,26 @@ import br.com.zup.beagle.widget.ui.Text
 object ComposeFlexQuality : ComposeComponent {
     override fun build() = Container(
         children = listOf(
-            createText(backgroundColor = "#142850", text = "1").applyStyle(
-                Style(
-                    size = Size(width = 130.unitReal(),height = 130.unitReal()),
-                    backgroundColor = "#142850"
+            createText(backgroundColor = "#142850", text = "1").applyFlex(
+                Flex(
+                    basis = 100.unitReal()
                 )
             ),
-            createText(backgroundColor = "#dd7631", text = "2").applyStyle(
-                Style(
-                    size = Size(width = 100.unitReal(),height = 100.unitReal()),
-                    backgroundColor = "#dd7631"
+            createText(backgroundColor = "#dd7631", text = "2").applyFlex(
+                Flex(
+                    basis = 100.unitReal()
                 )
             ),
-            createText(backgroundColor = "#649d66", text = "3").applyStyle(
-                Style(
-                    size = Size(width = 70.unitReal(),height = 70.unitReal()),
-                    backgroundColor = "#649d66"
+            createText(backgroundColor = "#649d66", text = "3").applyFlex(
+                Flex(
+                    basis = 100.unitReal()
                 )
             )
         )
     ).applyFlex(
-        Flex(flexDirection = FlexDirection.ROW)
+        Flex(
+            flexDirection = FlexDirection.ROW
+        )
     )
 
 
