@@ -15,9 +15,10 @@
  */
 
 package br.com.zup.beagle.sample.micronaut.service
+import br.com.zup.beagle.sample.builder.ScreenContextBuilder
 import javax.inject.Singleton
 
 @Singleton
 class SampleContextService {
-    fun createScreenContext() = SampleContextService()
+    fun createScreenContext() = ScreenContextBuilder
 }
