@@ -44,7 +44,7 @@ struct Page {
                 Text("Text with alignment atribute set to center", alignment: Expression.value(.center)),
                 Text("Text with alignment atribute set to right", alignment: Expression.value(.right)),
                 Text("Text with alignment atribute set to left", alignment: Expression.value(.left)),
-                NetworkImage(path: .NETWORK_IMAGE_BEAGLE)
+                Image(.network(.NETWORK_IMAGE_BEAGLE))
             ]
         ).applyFlex(Flex().justifyContent(.spaceBetween).grow(1))
     }
