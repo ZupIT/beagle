@@ -74,12 +74,6 @@ class ContextActionExecutorTest : BaseTest() {
         every { viewModel.addImplicitContext(capture(contextDataSlot), any(), any()) } just Runs
     }
 
-    override fun tearDown() {
-        super.tearDown()
-
-        unmockkAll()
-    }
-
     @Test
     fun executeActions_should_create_implicit_context() {
         // Given
@@ -143,23 +137,6 @@ class ContextActionExecutorTest : BaseTest() {
                 JSONObject().put(NAME, NAME)
             ).toString()
         assertEquals(expected, contextDataSlot.captured.value.toString())
-    }
-
-
-    @Test
-    fun executeActions_should_parse_object_value_to_JSONObject() {
-        // Given
-        val eventId = "onChange"
-        val value = mockk<Container>()
-        val jsonMock = "{}"
-        every { BeagleMoshi.moshi.adapter<Container>(any<Class<*>>()).toJson(value) } returns jsonMock
-
-        // When
-        contextActionExecutor.executeActions(rootView, sender, listOf(action), eventId, value)
-
-        // Then
-        assertEquals(eventId, contextDataSlot.captured.id)
-        assertEquals(jsonMock, contextDataSlot.captured.value.toString())
     }
 
     @Test
