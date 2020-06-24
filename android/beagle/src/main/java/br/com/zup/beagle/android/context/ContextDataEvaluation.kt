@@ -72,6 +72,8 @@ internal class ContextDataEvaluation(
         val value = evaluateExpression(contextData, bind.type, expression)
         if (value != null) {
             bind.evaluatedExpressions[expression] = value
+        } else {
+            bind.evaluatedExpressions.remove(expression)
         }
     }
 
@@ -89,8 +91,8 @@ internal class ContextDataEvaluation(
 
         return try {
             if (value is JSONArray || value is JSONObject) {
-                moshi.adapter<Any>(type).fromJson(value.toString()) ?:
-                    throw IllegalStateException("JSON deserialization returned null")
+                moshi.adapter<Any>(type).fromJson(value.toString())
+                    ?: throw IllegalStateException("JSON deserialization returned null")
             } else {
                 value ?: throw IllegalStateException("Expression evaluation returned null")
             }

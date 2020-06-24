@@ -97,7 +97,7 @@ class ContextDataManagerTest {
         contexts.clear()
 
         val contextData = ContextData(CONTEXT_ID, model)
-        contexts[CONTEXT_ID] = ContextBinding(contextData, mutableListOf(bindModel))
+        contexts[CONTEXT_ID] = ContextBinding(contextData, mutableSetOf(bindModel))
     }
 
     @After
@@ -131,7 +131,7 @@ class ContextDataManagerTest {
         contextDataManager.addBindingToContext(bind)
 
         // Then
-        assertEquals(bind, contexts[CONTEXT_ID]?.bindings?.get(0))
+        assertEquals(bind, contexts[CONTEXT_ID]?.bindings?.first())
     }
 
     @Test
@@ -145,7 +145,7 @@ class ContextDataManagerTest {
         contextDataManager.addBindingToContext(bind)
 
         // Then
-        assertEquals(bind, contexts[CONTEXT_ID]?.bindings?.get(0))
+        assertEquals(bind, contexts[CONTEXT_ID]?.bindings?.first())
     }
 
     @Test
@@ -156,7 +156,7 @@ class ContextDataManagerTest {
         }
         val contextData = ContextData(CONTEXT_ID, json)
         val updateContext = SetContextInternal(CONTEXT_ID, false, "a")
-        contexts[contextData.id] = ContextBinding(contextData, mutableListOf())
+        contexts[contextData.id] = ContextBinding(contextData, mutableSetOf())
 
         // When
         val result = contextDataManager.updateContext(updateContext)
@@ -170,7 +170,7 @@ class ContextDataManagerTest {
         // Given
         val contextData = ContextData(CONTEXT_ID, true)
         val updateContext = SetContextInternal(CONTEXT_ID, false, "a")
-        contexts[contextData.id] = ContextBinding(contextData, mutableListOf())
+        contexts[contextData.id] = ContextBinding(contextData, mutableSetOf())
         every { jsonCreateTree.walkingTreeAndFindKey(any(), any(), any()) } throws IllegalStateException()
 
         // When
@@ -185,7 +185,7 @@ class ContextDataManagerTest {
         // Given
         val contextData = ContextData(CONTEXT_ID, true)
         val updateContext = SetContextInternal(CONTEXT_ID, false, null)
-        contexts[contextData.id] = ContextBinding(contextData, mutableListOf())
+        contexts[contextData.id] = ContextBinding(contextData, mutableSetOf())
 
         // When
         val result = contextDataManager.updateContext(updateContext)
@@ -215,7 +215,7 @@ class ContextDataManagerTest {
         val contextData = ContextData(CONTEXT_ID, value)
         contexts[CONTEXT_ID] = ContextBinding(
             contextData,
-            mutableListOf(bindModel)
+            mutableSetOf(bindModel)
         )
         every { contextDataEvaluation.evaluateBindExpression(contextData, bindModel) } returns model
 
