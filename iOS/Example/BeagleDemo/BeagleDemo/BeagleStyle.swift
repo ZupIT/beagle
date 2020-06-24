@@ -30,7 +30,7 @@ struct AppTheme {
         .FORM_SUBMIT_STYLE: Self.formButton,
         .NAVIGATION_BAR_GREEN_STYLE: Self.designSystemStyleNavigationBar,
         .NAVIGATION_BAR_DEFAULT_STYLE: Self.designSystemStyleNavigationBarDefault,
-        .TEXT_INPUT_STYLE: Self.designSystemTextInput
+        .TEXT_INPUT_STYLE: Self.designSystemTextInput,
         .TAB_VIEW_STYLE: Self.tabView,
         .DESIGN_SYSTEM_STYLE_BUTTON_SCREEN_BUTTON: designSystemScreenButton,
         .STYLE_TAB_VIEW_BFF: tabViewBff,
