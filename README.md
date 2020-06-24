@@ -53,7 +53,7 @@ Follow the [Getting Started guide](https://docs.usebeagle.io/primeiros-passos/in
 - [Creating a New Application][new-app]
 - [Adding Beagle to an Existing Application][existing]
 
-[new-app]: hhttps://docs.usebeagle.io/primeiros-passos/usando-beagle
+[new-app]: https://docs.usebeagle.io/primeiros-passos/usando-beagle
 [existing]: https://docs.usebeagle.io/primeiros-passos/usando-beagle
 
 ## 📖 Documentation
