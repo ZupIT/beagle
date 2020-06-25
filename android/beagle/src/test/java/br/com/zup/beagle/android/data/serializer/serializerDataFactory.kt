@@ -175,7 +175,7 @@ fun makeNavigationActionJson() = """
     {
         "_beagleAction_": "beagle:pushView",
         "route": {
-            "route": "${RandomData.httpUrl()}",
+            "url": "${RandomData.httpUrl()}",
             "shouldPrefetch": true
         }
     }

@@ -18,7 +18,7 @@
 */
 
 import BeagleSchema
-import BeagleUI
+import Beagle
 
 // MARK: CustomActionableContainer Decodable
 extension CustomActionableContainer {

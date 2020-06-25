@@ -47,6 +47,7 @@ data class Form(
     val child: ServerDrivenComponent,
     val onSubmit: List<Action>? = null,
     val group: String? = null,
+    val additionalData: Map<String, String>? = null,
     val shouldStoreFields: Boolean = false
 ) : WidgetView() {
 
@@ -55,9 +56,6 @@ data class Form(
 
     @Transient
     private val formInputs = mutableListOf<FormInput>()
-
-    @Transient
-    private val formInputHiddenList = mutableListOf<FormInputHidden>()
 
     @Transient
     private var formSubmitView: View? = null
@@ -96,8 +94,6 @@ data class Form(
                 if (tag is FormInput) {
                     formInputs.add(tag)
                     formValidatorController.configFormInputList(tag)
-                } else if (tag is FormInputHidden) {
-                    formInputHiddenList.add(tag)
                 } else if (childView.tag is FormSubmit && formSubmitView == null) {
                     formSubmitView = childView
                     addClickToFormSubmit(rootView, childView)
@@ -129,10 +125,11 @@ data class Form(
             }
         }
 
-        formInputHiddenList.forEach { formInputHidden ->
-            formsValue[formInputHidden.name] = formInputHidden.value
+        additionalData?.forEach { entry ->
+            formsValue[entry.key] = entry.value
         }
-        if (formsValue.size == (formInputs.size + formInputHiddenList.size)) {
+        val additionalDataSize = additionalData?.size ?: 0
+        if (formsValue.size == (formInputs.size + additionalDataSize)) {
             updateStoredData(formsValue)
             formSubmitView?.hideKeyboard()
             submitForm(rootView, formsValue)

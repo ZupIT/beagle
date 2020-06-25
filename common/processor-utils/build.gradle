@@ -16,6 +16,9 @@
 
 apply plugin: 'kotlin'
 
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
 dependencies {
     implementation GeneralLibraries.kotlin
     implementation GeneralLibraries.kotlinPoet

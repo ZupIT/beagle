@@ -63,7 +63,7 @@ internal object BeagleNavigator {
     fun pushView(context: Context, route: Route) {
         if (context is BeagleActivity) {
             when (route) {
-                is Route.Remote -> context.navigateTo(ScreenRequest(route.route), route.fallback)
+                is Route.Remote -> context.navigateTo(ScreenRequest(route.url), route.fallback)
                 is Route.Local -> context.navigateTo(ScreenRequest(""), route.screen)
             }
         } else {
@@ -104,7 +104,7 @@ internal object BeagleNavigator {
 
     private fun generateIntent(context: Context, route: Route): Intent {
         return when (route) {
-            is Route.Remote -> BeagleActivity.newIntent(context, ScreenRequest(route.route), route.fallback)
+            is Route.Remote -> BeagleActivity.newIntent(context, ScreenRequest(route.url), route.fallback)
             is Route.Local -> BeagleActivity.newIntent(context, ScreenRequest(""), route.screen)
         }
     }

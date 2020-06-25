@@ -1,5 +1,4 @@
 ▿ ScrollView
-  - _context_: Optional<Context>.none
   ▿ children: 3 elements
     ▿ Text
       - alignment: Optional<Expression<Alignment>>.none
@@ -31,5 +30,6 @@
         - accessibility: Optional<Accessibility>.none
         - id: Optional<String>.none
         - style: Optional<Style>.none
+  - context: Optional<Context>.none
   - scrollBarEnabled: Optional<Bool>.none
   - scrollDirection: Optional<ScrollAxis>.none
