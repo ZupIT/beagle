@@ -29,11 +29,11 @@ import br.com.zup.beagle.widget.core.ImageContentMode
 data class Image(
     val path: Bind<ImagePath>,
     val mode: ImageContentMode? = null,
-    val placeholder: Image? = null) : Widget(){
+    val placeholder: ImagePath.Local? = null) : Widget(){
     constructor(
         path: ImagePath,
         mode: ImageContentMode? = null,
-        placeholder: Image? = null) : this(
+        placeholder: ImagePath.Local? = null) : this(
         Bind.valueOf(path),
         mode,
         placeholder
