@@ -16,10 +16,10 @@
 
 package br.com.zup.beagle.sample.spring.service
 
-import br.com.zup.beagle.sample.builder.ButtonScreenBuilder
+import br.com.zup.beagle.sample.builder.ImageRemoteScreenBuilder
 import org.springframework.stereotype.Service
 
 @Service
-class SampleButtonService {
-    fun createButtonView(qaFlag:Boolean) = ButtonScreenBuilder(qaFlag)
+class SampleImageRemoteService {
+    fun createNetworkImage(qaFlag: Boolean) = ImageRemoteScreenBuilder(qaFlag)
 }

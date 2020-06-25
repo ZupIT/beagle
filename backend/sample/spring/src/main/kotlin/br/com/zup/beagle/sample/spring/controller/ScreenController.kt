@@ -64,7 +64,7 @@ import br.com.zup.beagle.sample.spring.service.SampleLazyComponentService
 import br.com.zup.beagle.sample.spring.service.SampleListViewService
 import br.com.zup.beagle.sample.spring.service.SampleNavigationBarService
 import br.com.zup.beagle.sample.spring.service.SampleNavigationTypeService
-import br.com.zup.beagle.sample.spring.service.SampleNetworkImageService
+import br.com.zup.beagle.sample.spring.service.SampleImageRemoteService
 import br.com.zup.beagle.sample.spring.service.SamplePageViewService
 import br.com.zup.beagle.sample.spring.service.SampleSafeAreaService
 import br.com.zup.beagle.sample.spring.service.SampleScreenBuilderService
@@ -98,7 +98,7 @@ class ScreenController(
     private val sampleNavigationBarService: SampleNavigationBarService,
     private val sampleNavigationTypeService: SampleNavigationTypeService,
     private val sampleComposeComponentService: SampleComposeComponentService,
-    private val sampleNetworkImageService: SampleNetworkImageService,
+    private val sampleNetworkImageService: SampleImageRemoteService,
     private val sampleTouchableService: SampleTouchableService,
     private val sampleActionClickService: SampleActionClickService,
     private val sampleAnalyticsService: SampleAnalyticsService,
@@ -199,7 +199,8 @@ class ScreenController(
         this.sampleComposeComponentService.createComposeComponentView(qaFlag)
 
     @GetMapping(SCREEN_NETWORK_IMAGE_ENDPOINT)
-    fun getSampleNetworkImageView() = this.sampleNetworkImageService.createNetworkImage()
+    fun getSampleNetworkImageView(@PathVariable(QA_FLAG) qaFlag: Boolean) =
+        this.sampleNetworkImageService.createNetworkImage(qaFlag)
 
     @GetMapping(SCREEN_TOUCHABLE_ENDPOINT)
     fun getTouchableView(@PathVariable(QA_FLAG) qaFlag: Boolean) =
