@@ -33,5 +33,5 @@ class SampleNavigationTypeService {
         if (qaFlag) ComposeNavigateTypeQuality.presentView() else ComposeSampleNavigateType.presentView()
 
     fun getScreenStep3(qaFlag: Boolean) =
-        if (qaFlag) ComposeNavigateTypeQuality.step3() else ComposeSampleNavigateType.step2()
+        if (qaFlag) ComposeNavigateTypeQuality.step3() else ComposeSampleNavigateType.step3()
 }
