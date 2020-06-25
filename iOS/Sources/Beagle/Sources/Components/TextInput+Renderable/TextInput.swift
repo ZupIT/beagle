@@ -20,30 +20,43 @@ import BeagleSchema
 
 extension TextInput: ServerDrivenComponent {
     public func toView(renderer: BeagleRenderer) -> UIView {
-        let textInputView = TextInputView(model: .init(value: value,
-                                                       placeholder: placeholder,
-                                                       disabled: disabled,
-                                                       readOnly: readOnly,
-                                                       type: type,
-                                                       hidden: hidden,
-                                                       onChange: onChange,
+        let textInputView = TextInputView(model: .init(onChange: onChange,
                                                        onBlur: onBlur,
                                                        onFocus: onFocus),
                                           controller: renderer.controller)
+        
         textInputView.styleId = styleId
         renderer.observe(value, andUpdate: \.text, in: textInputView)
+        renderer.observe(placeholder, andUpdate: \.placeholder, in: textInputView)
+        renderer.observe(type, andUpdate: \.inputType, in: textInputView)
+        renderer.observe(disabled, andUpdateManyIn: textInputView) { disabled in
+            if let disabled = disabled {
+                textInputView.isEnabled = !disabled
+            }
+        }
+        renderer.observe(readOnly, andUpdateManyIn: textInputView) { readOnly in
+            if let readOnly = readOnly {
+                textInputView.isEnabled = !readOnly
+            }
+        }
+        renderer.observe(hidden, andUpdateManyIn: textInputView) { isHidden in
+            if let isHidden = isHidden {
+                textInputView.isHidden = !isHidden
+            }
+        }
+        
         return textInputView
     }
     
     class TextInputView: UITextField, UITextFieldDelegate, InputValue, WidgetStateObservable, ValidationErrorListener {
         
         struct Model {
-            var value: Expression<String>?
-            var placeholder: Expression<String>?
-            var disabled: Expression<Bool>?
-            var readOnly: Expression<Bool>?
-            var type: Expression<TextInputType>?
-            var hidden: Expression<Bool>?
+            var value: String?
+            var placeholder: String?
+            var disabled: Bool?
+            var readOnly: Bool?
+            var type: TextInputType?
+            var hidden: Bool?
             var onChange: [RawAction]?
             var onBlur: [RawAction]?
             var onFocus: [RawAction]?
@@ -74,7 +87,7 @@ extension TextInput: ServerDrivenComponent {
         }
    
         func getValue() -> Any {
-            return model.value?.get(with: self) ?? ""
+            return text ?? ""
         }
         
         func onValidationError(message: String?) {
@@ -129,14 +142,14 @@ private extension TextInput.TextInputView {
     }
     
     func setupValuesExpression() {
-        text = model.value?.get(with: self)
-        placeholder = model.placeholder?.get(with: self)
-        isEnabled = model.disabled?.get(with: self) ?? model.readOnly?.get(with: self) ?? true
-        isHidden = model.hidden?.get(with: self) ?? false
+        text = model.value
+        placeholder = model.placeholder
+        isEnabled = model.disabled ?? model.readOnly ?? true
+        isHidden = model.hidden ?? false
     }
     
     func setupTypeExpression() {
-        inputType = model.type?.get(with: self) ?? .text
+        inputType = model.type ?? .text
 
         switch inputType {
         case .email:
