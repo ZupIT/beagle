@@ -17,6 +17,8 @@
 package br.com.zup.beagle.widget.action
 
 import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.context.valueOf
+import br.com.zup.beagle.widget.context.valueOfNullable
 
 /**
  * will show dialogues natively, such as an error alert indicating alternative flows, business system errors and others.
@@ -45,8 +47,8 @@ data class Confirm(
         onPressCancel: Action? = null,
         labelOk: String? = null,
         labelCancel: String? = null) : this(
-        title = Bind.valueOfNullable(title),
-        message = Bind.valueOf(message),
+        title = valueOfNullable(title),
+        message = valueOf(message),
         onPressOk = onPressOk,
         onPressCancel = onPressCancel,
         labelOk = labelOk,

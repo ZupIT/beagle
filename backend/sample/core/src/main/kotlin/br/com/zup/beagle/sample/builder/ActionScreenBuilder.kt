@@ -88,7 +88,7 @@ object ActionScreenBuilder : ScreenBuilder {
         children = listOf(
             Text("Navigate with path"),
             Button(
-                onPress = listOf(Navigate.PushView(Route.Remote(route = SCREEN_ACTION_CLICK_ENDPOINT))),
+                onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))),
                 text = "Click me!"
             )
         )
@@ -133,7 +133,7 @@ object ActionScreenBuilder : ScreenBuilder {
             Text("Navigate with prefetch"),
             Button(
                 onPress = listOf(Navigate.PushView(Route.Remote(shouldPrefetch = true,
-                    route = SCREEN_ACTION_CLICK_ENDPOINT))),
+                    url = SCREEN_ACTION_CLICK_ENDPOINT))),
                 text = "Click me!"
             )
         )

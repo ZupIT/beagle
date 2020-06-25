@@ -20,6 +20,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.ContextComponent
 import br.com.zup.beagle.widget.context.ContextData
+import br.com.zup.beagle.widget.context.valueOf
 
 /**
  * TabView is a component responsible for the navigation between views.
@@ -38,7 +39,7 @@ data class TabView(
         children: List<TabItem>,
         styleId: String,
         contextData: ContextData? = null
-    ) : this(children, Bind.valueOf(styleId), contextData)
+    ) : this(children, valueOf(styleId), contextData)
 }
 
 /**

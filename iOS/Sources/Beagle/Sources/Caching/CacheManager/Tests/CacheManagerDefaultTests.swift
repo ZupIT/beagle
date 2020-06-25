@@ -52,10 +52,10 @@ final class CacheManagerDefaultTests: XCTestCase {
         let sut = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: .init(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 1))
         let reference = CacheReference(identifier: "", data: jsonData, hash: "")
         let timeOutComponent = expectation(description: "timeOutComponent")
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(2)) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(1)) {
             let isValid = sut.isValid(reference: reference)
-            XCTAssert(isValid == false, "Should need revalidation")
             timeOutComponent.fulfill()
+            XCTAssert(isValid == false, "Should need revalidation")
         }
         waitForExpectations(timeout: 5, handler: nil)
     }

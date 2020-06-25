@@ -1,6 +1,5 @@
 ▿ ScreenComponent
   ▿ child: Container
-    - _context_: Optional<Context>.none
     ▿ children: 1 element
       ▿ Text
         ▿ alignment: Optional<Expression<Alignment>>
@@ -38,6 +37,7 @@
                     ▿ some: UnitValue
                       - type: UnitType.percent
                       - value: 100.0
+    - context: Optional<Context>.none
     - onInit: Optional<Array<RawAction>>.none
     ▿ widgetProperties: WidgetProperties
       - accessibility: Optional<Accessibility>.none

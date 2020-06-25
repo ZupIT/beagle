@@ -29,7 +29,7 @@ extension Container {
                 style: style,
                 accessibility: widgetProperties.accessibility
             ),
-            context: _context_
+            context: context
         )
     }
 }
@@ -38,7 +38,7 @@ extension Container: ServerDrivenComponent {
 
     public func toView(renderer: BeagleRenderer) -> UIView {
         let containerView = UIView()
-
+        
         children.forEach {
             let view = renderer.render($0)
             containerView.addSubview(view)

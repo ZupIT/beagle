@@ -21,19 +21,19 @@ public struct ScrollView: RawComponent, AutoInitiableAndDecodable, HasContext {
     public let children: [RawComponent]
     public let scrollDirection: ScrollAxis?
     public let scrollBarEnabled: Bool?
-    public let _context_: Context?
+    public let context: Context?
 
 // sourcery:inline:auto:ScrollView.Init
     public init(
         children: [RawComponent],
         scrollDirection: ScrollAxis? = nil,
         scrollBarEnabled: Bool? = nil,
-        _context_: Context? = nil
+        context: Context? = nil
     ) {
         self.children = children
         self.scrollDirection = scrollDirection
         self.scrollBarEnabled = scrollBarEnabled
-        self._context_ = _context_
+        self.context = context
     }
 // sourcery:end
 }

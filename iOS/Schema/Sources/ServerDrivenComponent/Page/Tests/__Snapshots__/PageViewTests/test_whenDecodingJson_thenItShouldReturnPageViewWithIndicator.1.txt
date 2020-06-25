@@ -1,8 +1,6 @@
 ▿ PageView
-  - _context_: Optional<Context>.none
   ▿ children: 3 elements
     ▿ Container
-      - _context_: Optional<Context>.none
       ▿ children: 3 elements
         ▿ Text
           - alignment: Optional<Expression<Alignment>>.none
@@ -34,6 +32,7 @@
             - accessibility: Optional<Accessibility>.none
             - id: Optional<String>.none
             - style: Optional<Style>.none
+      - context: Optional<Context>.none
       - onInit: Optional<Array<RawAction>>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
@@ -64,7 +63,6 @@
             - positionType: Optional<PositionType>.none
             - size: Optional<Size>.none
     ▿ Container
-      - _context_: Optional<Context>.none
       ▿ children: 3 elements
         ▿ Text
           - alignment: Optional<Expression<Alignment>>.none
@@ -96,6 +94,7 @@
             - accessibility: Optional<Accessibility>.none
             - id: Optional<String>.none
             - style: Optional<Style>.none
+      - context: Optional<Context>.none
       - onInit: Optional<Array<RawAction>>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
@@ -126,7 +125,6 @@
             - positionType: Optional<PositionType>.none
             - size: Optional<Size>.none
     ▿ Container
-      - _context_: Optional<Context>.none
       ▿ children: 3 elements
         ▿ Text
           - alignment: Optional<Expression<Alignment>>.none
@@ -158,6 +156,7 @@
             - accessibility: Optional<Accessibility>.none
             - id: Optional<String>.none
             - style: Optional<Style>.none
+      - context: Optional<Context>.none
       - onInit: Optional<Array<RawAction>>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
@@ -187,6 +186,7 @@
             - position: Optional<EdgeValue>.none
             - positionType: Optional<PositionType>.none
             - size: Optional<Size>.none
+  - context: Optional<Context>.none
   ▿ pageIndicator: Optional<PageIndicatorComponent>
     ▿ some: PageIndicator
       - selectedColor: Optional<String>.none

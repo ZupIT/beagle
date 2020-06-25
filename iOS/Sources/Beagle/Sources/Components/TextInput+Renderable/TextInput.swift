@@ -31,6 +31,7 @@ extension TextInput: ServerDrivenComponent {
                                                        onFocus: onFocus),
                                           controller: renderer.controller)
         textInputView.styleId = styleId
+        renderer.observe(value, andUpdate: \.text, in: textInputView)
         return textInputView
     }
     
