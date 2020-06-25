@@ -16,23 +16,155 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.widget.core.ScrollAxis
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.widget.action.RequestActionMethod
+import br.com.zup.beagle.widget.action.SendRequest
+import br.com.zup.beagle.widget.action.SetContext
+import br.com.zup.beagle.widget.context.ContextData
+import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.layout.ScrollView
+import br.com.zup.beagle.widget.ui.TextInput
 
-object ScreenContextBuilder: ScreenBuilder {
+class Address(val data: Data) {}
+
+class Data(
+    var zip: String,
+    var street: String,
+    var number: String,
+    var neighborhood: String,
+    var city: String,
+    var state: String,
+    var complement: String
+) {}
+
+object ScreenContextBuilder : ScreenBuilder {
+
     override fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Beagle Context",
             showBackButton = true
         ),
-        child = ScrollView(
-            scrollDirection = ScrollAxis.VERTICAL,
-            children = listOf(
+        child = Container(
+            listOf(
+                TextInput(
+                    placeholder = "CEP",
+                    value = "@{address.data.zip}",
+                    onChange = listOf(
+                        SetContext(
+                            contextId = "address",
+                            path = "data.zip",
+                            value = "@{onChange.value}"
+                        )
+                    ),
+                    onBlur = listOf(
+                        SendRequest(
+                            url = "https://viacep.com.br/ws/@{onBlur.value}/json",
+                            method = RequestActionMethod.GET,
+                            onSuccess = listOf(
+                                SetContext(
+                                    contextId = "address",
+                                    path = "data",
+                                    value =
+                                    Data(
+                                        zip = "@{onBlur.value}",
+                                        street = "@{onSuccess.data.logradouro}",
+                                        number = "@{address.data.number}",
+                                        neighborhood = "@{onSuccess.data.bairro}",
+                                        city = "@{onSuccess.data.localidade}",
+                                        state = "@{onSuccess.data.uf}",
+                                        complement = "@{address.data.complement}"
+                                    )
+                                )
+                            )
+                        )
+                    )
+                ).applyStyle(Style(margin = EdgeValue(bottom = 15.unitReal()))),
 
+                createTextInput(
+                    textInputPlaceholder = "Rua",
+                    textInputValue = "@{address.data.street}",
+                    contextId = "address",
+                    contextPath = "data.street",
+                    contextValue = "@{onChange.value}"
+                ),
+
+                createTextInput(
+                    textInputPlaceholder = "Número",
+                    textInputValue = "@{address.data.number}",
+                    contextId = "address",
+                    contextPath = "data.number",
+                    contextValue = "@{onChange.value}"
+                ),
+
+                createTextInput(
+                    textInputPlaceholder = "Bairro",
+                    textInputValue = "@{address.data.neighborhood}",
+                    contextId = "address",
+                    contextPath = "data.neighborhood",
+                    contextValue = "@{onChange.value}"
+                ),
+
+                createTextInput(
+                    textInputPlaceholder = "Cidade",
+                    textInputValue = "@{address.data.city}",
+                    contextId = "address",
+                    contextPath = "data.city",
+                    contextValue = "@{onChange.value}"
+                ),
+
+                createTextInput(
+                    textInputPlaceholder = "Estado",
+                    textInputValue = "@{address.data.state}",
+                    contextId = "address",
+                    contextPath = "data.state",
+                    contextValue = "@{onChange.value}"
+                ),
+
+                createTextInput(
+                    textInputPlaceholder = "Complemento",
+                    textInputValue = "@{address.data.complement}",
+                    contextId = "address",
+                    contextPath = "data.complement",
+                    contextValue = "@{onChange.value}"
+                )
+
+            ),
+            context = ContextData(
+                id = "address",
+                value = Address(data = Data(
+                    zip = "",
+                    street = "",
+                    number = "",
+                    neighborhood = "",
+                    city = "",
+                    state = "",
+                    complement = ""
+                )
+                )
             )
         )
     )
+
+    private fun createTextInput(
+        textInputPlaceholder: String,
+        textInputValue: String,
+        contextId: String,
+        contextPath: String,
+        contextValue: Any
+    ): TextInput = TextInput(
+        placeholder = textInputPlaceholder,
+        value = textInputValue,
+        onChange = listOf(
+            SetContext(
+                contextId = contextId,
+                path = contextPath,
+                value = contextValue
+            )
+        )
+    ).applyStyle(Style(margin = EdgeValue(bottom = 15.unitReal())))
 }

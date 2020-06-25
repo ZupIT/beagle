@@ -15,9 +15,10 @@
  */
 
 package br.com.zup.beagle.sample.spring.service
+import br.com.zup.beagle.sample.builder.ScreenContextBuilder
 import org.springframework.stereotype.Service
 
 @Service
 class SampleContextService {
-    fun createScreenContext() = SampleContextService()
+    fun createScreenContext() = ScreenContextBuilder
 }
