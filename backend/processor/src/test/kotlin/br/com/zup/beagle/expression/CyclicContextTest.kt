@@ -14,29 +14,19 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.compiler
+package br.com.zup.beagle.expression
 
-import com.squareup.kotlinpoet.asTypeName
+import org.junit.jupiter.api.Test
 
-const val KAPT_KEY = "kapt.kotlin.generated"
-const val GET = "get"
-const val INTERNAL_MARKER = '$'
-
-val GETTER = Regex("$GET(?!Class).*")
-
-val JAVA_TO_KOTLIN = arrayOf(
-    Any::class,
-    Boolean::class,
-    Byte::class,
-    Char::class,
-    Int::class,
-    Long::class,
-    Float::class,
-    Double::class,
-    String::class,
-    Iterable::class,
-    Collection::class,
-    List::class,
-    Set::class,
-    Map::class
-).associate { it.javaObjectType.asTypeName() to it.asTypeName() }
+internal class CyclicContextTest {
+    @Test
+    fun test_generated_expressions() {
+        checkExpression(CyclicContext_.done, "@{done}", Boolean::class)
+        checkExpression(CyclicContext_.cycle.cyclicContext.done, "@{cycle.cyclicContext.done}", Boolean::class)
+        checkExpression(
+            CyclicContext_.cycle.cyclicContext.cycle.cyclicContext.done,
+            "@{cycle.cyclicContext.cycle.cyclicContext.done}",
+            Boolean::class
+        )
+    }
+}
