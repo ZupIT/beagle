@@ -199,7 +199,7 @@ class ScreenController(
         this.sampleComposeComponentService.createComposeComponentView(qaFlag)
 
     @Get(SCREEN_NETWORK_IMAGE_ENDPOINT)
-    fun getSampleImageRemote(@PathVariable(QA_FLAG) qaFlag: Boolean) =
+    fun getSampleImageRemoteView(@PathVariable(QA_FLAG) qaFlag: Boolean) =
         this.sampleImageRemoteService.createImageRemote(qaFlag)
 
     @Get(SCREEN_TOUCHABLE_ENDPOINT)
