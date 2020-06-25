@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.components
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.http.SslError
@@ -41,9 +42,11 @@ data class WebView(
     @Transient
     private val viewFactory = ViewFactory()
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun buildView(rootView: RootView): View {
         val webView = viewFactory.makeWebView(rootView.getContext())
         webView.webViewClient = BeagleWebViewClient(webView.context)
+        webView.settings.javaScriptEnabled = true
         observeBindChanges(rootView, url) {
             webView.loadUrl(it)
         }
