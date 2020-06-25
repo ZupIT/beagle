@@ -21,6 +21,8 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.valueOf
+import br.com.zup.beagle.android.context.valueOfNullable
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.utils.toAndroidColor
@@ -41,10 +43,10 @@ data class Text(
         textColor: String? = null,
         alignment: TextAlignment? = null
     ) : this(
-        Bind.valueOf(text),
-        Bind.valueOfNullable(styleId),
-        Bind.valueOfNullable(textColor),
-        Bind.valueOfNullable(alignment)
+        valueOf(text),
+        valueOfNullable(styleId),
+        valueOfNullable(textColor),
+        valueOfNullable(alignment)
     )
 
     @Transient

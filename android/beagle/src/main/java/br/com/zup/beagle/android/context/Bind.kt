@@ -35,12 +35,6 @@ sealed class Bind<T> : BindAttribute<T> {
         this.onChange?.invoke(newValue)
     }
 
-    companion object {
-        inline fun <reified T> expressionOf(expression: String) = Expression(expression, T::class.java)
-        inline fun <reified T : Any> valueOf(value: T) = Value(value)
-        inline fun <reified T : Any> valueOfNullable(value: T?) = value?.let { valueOf(it) }
-    }
-
     class Expression<T>(
         override val value: String,
         override val type: Class<T>
@@ -50,3 +44,7 @@ sealed class Bind<T> : BindAttribute<T> {
         override val type: Class<T> = value.javaClass
     }
 }
+
+inline fun <reified T> expressionOf(expression: String) = Bind.Expression(expression, T::class.java)
+inline fun <reified T : Any> valueOf(value: T) = Bind.Value(value)
+inline fun <reified T : Any> valueOfNullable(value: T?) = value?.let { valueOf(it) }

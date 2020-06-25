@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.context
 
-import br.com.zup.beagle.android.context.Bind.Companion.expressionOf
+import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
@@ -33,7 +33,6 @@ import io.mockk.verify
 import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.After
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import java.util.*

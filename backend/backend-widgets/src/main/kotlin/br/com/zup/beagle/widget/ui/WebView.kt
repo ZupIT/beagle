@@ -18,6 +18,7 @@ package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.context.valueOf
 
 /**
  * A WebView widget will define a WebView natively using the server driven information received through Beagle.
@@ -31,5 +32,5 @@ import br.com.zup.beagle.widget.context.Bind
 data class WebView(
     val url: Bind<String>
 ) : Widget() {
-    constructor(url: String) : this(Bind.valueOf(url))
+    constructor(url: String) : this(valueOf(url))
 }
