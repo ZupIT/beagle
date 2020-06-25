@@ -41,7 +41,7 @@ extension TextInput: ServerDrivenComponent {
         }
         renderer.observe(hidden, andUpdateManyIn: textInputView) { isHidden in
             if let isHidden = isHidden {
-                textInputView.isHidden = !isHidden
+                textInputView.isHidden = isHidden
             }
         }
         
