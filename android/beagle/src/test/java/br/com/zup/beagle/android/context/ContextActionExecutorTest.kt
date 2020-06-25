@@ -60,12 +60,10 @@ class ContextActionExecutorTest : BaseTest() {
         super.setUp()
 
         mockkObject(ViewModelProviderFactory)
-        mockkObject(BeagleMoshi)
 
         contextActionExecutor = ContextActionExecutor()
 
         every { action.execute(any()) } just Runs
-        every { beagleSdk.registeredWidgets() } returns listOf()
         every { rootView.activity } returns mockk()
 
         every {
