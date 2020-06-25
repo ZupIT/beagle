@@ -27,8 +27,10 @@ import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+@RegisterWidget
 data class PageView(
     val children: List<ServerDrivenComponent>,
     val pageIndicator: PageIndicatorComponent? = null,

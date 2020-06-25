@@ -31,7 +31,9 @@ import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.annotation.RegisterWidget
 
+@RegisterWidget
 data class WebView(
     val url: Bind<String>
 ) : WidgetView() {

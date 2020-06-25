@@ -16,31 +16,35 @@
 
 package br.com.zup.beagle.android.internal.processor
 
-import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.compiler.BeagleActionBindingProcessor
 import com.google.auto.service.AutoService
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessor
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessorType
 import java.util.TreeSet
 import javax.annotation.processing.AbstractProcessor
+import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.Processor
 import javax.annotation.processing.RoundEnvironment
 import javax.annotation.processing.SupportedSourceVersion
 import javax.lang.model.SourceVersion
 import javax.lang.model.element.TypeElement
 
+const val BEAGLE_PACKAGE_INTERNAL = "br.com.zup.beagle.android.setup"
+
 @AutoService(Processor::class)
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @IncrementalAnnotationProcessor(IncrementalAnnotationProcessorType.ISOLATING)
 class BeagleInternalAnnotationProcessor : AbstractProcessor() {
-    private lateinit var beagleActionBindingProcessor: BeagleActionBindingProcessor
+    private lateinit var beagleSetupInternalProcessor: BeagleSetupInternalProcessor
 
     override fun getSupportedAnnotationTypes(): Set<String> {
         return TreeSet(listOf(
-            RegisterWidget::class.java.canonicalName,
-            RegisterAction::class.java.canonicalName
-        ))
+            RegisterWidget::class.java.canonicalName))
+    }
+
+    override fun init(processingEnvironment: ProcessingEnvironment) {
+        super.init(processingEnvironment)
+        beagleSetupInternalProcessor = BeagleSetupInternalProcessor(processingEnvironment)
     }
 
     override fun process(
@@ -48,6 +52,7 @@ class BeagleInternalAnnotationProcessor : AbstractProcessor() {
         roundEnvironment: RoundEnvironment
     ): Boolean {
         if (annotations.isEmpty()) return false
+        beagleSetupInternalProcessor.process(BEAGLE_PACKAGE_INTERNAL, roundEnvironment)
         return false
     }
 }

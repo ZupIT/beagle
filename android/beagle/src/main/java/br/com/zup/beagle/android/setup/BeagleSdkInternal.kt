@@ -16,10 +16,8 @@
 
 package br.com.zup.beagle.android.setup
 
-import android.app.Application
+import br.com.zup.beagle.android.widget.WidgetView
 
-internal object BeagleEnvironment {
-    lateinit var beagleSdk: BeagleSdk
-    lateinit var beagleSdkInternal: BeagleSdkInternal
-    lateinit var application: Application
+interface BeagleSdkInternal {
+    fun registeredWidgets(): List<Class<WidgetView>>
 }

@@ -37,12 +37,13 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.core.Flex
 import com.google.android.material.tabs.TabLayout
 
 private val TAB_BAR_HEIGHT = 48.dp()
 internal var styleManagerFactory = StyleManager()
-
+@RegisterWidget
 data class TabView(
     val children: List<TabItem>,
     val styleId: Bind<String>? = null,

@@ -20,7 +20,9 @@ import android.view.View
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.annotation.RegisterWidget
 
+@RegisterWidget
 data class FormInput(
     val name: String,
     val required: Boolean? = null,

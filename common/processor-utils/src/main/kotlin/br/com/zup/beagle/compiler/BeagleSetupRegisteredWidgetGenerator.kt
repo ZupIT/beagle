@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.compiler
+package br.com.zup.beagle.compiler
 
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.compiler.WIDGET_VIEW
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier

@@ -36,15 +36,17 @@ import br.com.zup.beagle.android.components.layout.ScrollView
 import br.com.zup.beagle.android.components.page.PageIndicator
 import br.com.zup.beagle.android.components.page.PageIndicatorComponent
 import br.com.zup.beagle.android.components.page.PageView
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.widget.UndefinedWidget
+import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.Widget
 import java.util.Locale
 
 private const val BEAGLE_WIDGET_TYPE = "_beagleComponent_"
 private const val BEAGLE_NAMESPACE = "beagle"
+private const val CUSTOM_NAMESPACE = "custom"
 
 internal object ComponentJsonAdapterFactory {
 
@@ -54,9 +56,8 @@ internal object ComponentJsonAdapterFactory {
         )
 
         factory = registerBaseSubTypes(factory)
-        factory = registerLayoutClass(factory)
-        factory = registerUIClass(factory)
-        factory = registerCustomWidget(factory)
+        factory = registerWidgets(factory, BEAGLE_NAMESPACE, BeagleEnvironment.beagleSdkInternal.registeredWidgets())
+        factory = registerWidgets(factory, CUSTOM_NAMESPACE, BeagleEnvironment.beagleSdk.registeredWidgets())
         factory = registerUndefinedWidget(factory)
 
         return factory
@@ -99,12 +100,11 @@ internal object ComponentJsonAdapterFactory {
             .withSubtype(UndefinedWidget::class.java, createNamespaceFor<UndefinedWidget>())
     }
 
-    private fun registerCustomWidget(
-        factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>
+    private fun registerWidgets(
+        factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>,
+        appName: String,
+        widgets: List<Class<WidgetView>>
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
-        val appName = "custom"
-        val widgets = BeagleEnvironment.beagleSdk.registeredWidgets()
-
         var newFactory = factory
 
         widgets.forEach {

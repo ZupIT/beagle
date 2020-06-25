@@ -31,6 +31,7 @@ object Modules {
     const val backendSampleMicronaut = ":backend:sample:micronaut"
     const val beagleAndroid = ":android:beagle"
     const val beagleAndroidProcessor = ":android:android-processor"
+    const val beagleAndroidInternalProcessor = ":android:android-internal-processor"
     const val beagleAndroidAnnotation = ":android:android-annotation"
     const val beagleAndroidPreview = ":android:android-preview"
     const val beagleAnnotation = ":common:annotation"

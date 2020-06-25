@@ -21,8 +21,10 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.PositionType
 
+@RegisterWidget
 data class FormInputHidden(
     val name: String,
     val value: String

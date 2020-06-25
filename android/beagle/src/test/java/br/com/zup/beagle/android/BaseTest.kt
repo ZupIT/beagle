@@ -18,18 +18,19 @@ package br.com.zup.beagle.android
 
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.BeagleSdk
+import br.com.zup.beagle.android.setup.BeagleSetupInternal
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
-import io.mockk.unmockkObject
 import org.junit.After
 import org.junit.Before
 
 abstract class BaseTest {
 
     protected val beagleSdk = mockk<BeagleSdk>(relaxed = true)
+    protected val beagleSdkInternal = BeagleSetupInternal()
 
     @Before
     open fun setUp() {
@@ -37,6 +38,7 @@ abstract class BaseTest {
 
         mockkObject(BeagleEnvironment)
         every { BeagleEnvironment.beagleSdk } returns beagleSdk
+        every { BeagleEnvironment.beagleSdkInternal } returns beagleSdkInternal
     }
 
     @After
