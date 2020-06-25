@@ -19,12 +19,12 @@ import Foundation
 public struct Image: RawWidget, AutoDecodable {
 
     // MARK: - Public Properties
-    public let path: PathType
+    public let path: Expression<PathType>
     public let contentMode: ImageContentMode?
     public var widgetProperties: WidgetProperties
     
     public init(
-        _ path: PathType,
+        _ path: Expression<PathType>,
         contentMode: ImageContentMode? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {

@@ -35,7 +35,7 @@ class ImageTests: XCTestCase {
     func test_toView_shouldReturnTheExpectedView() throws {
         //Given
         let expectedContentMode = UIImageView.ContentMode.scaleToFill
-        let component = Image(.local("teste"), contentMode: .fitXY)
+        let component = Image(.value(.local("teste")), contentMode: .fitXY)
         let controller = BeagleControllerStub()
         let renderer = BeagleRenderer(controller: controller)
 
@@ -57,7 +57,8 @@ class ImageTests: XCTestCase {
     
     func test_localImageDeserialize() throws {
         let image: Image = try componentFromJsonFile(fileName: "ImageComponent1")
-        if case .local(let local) = image.path {
+        let path = image.path.get(with: renderer.render(image))
+        if case .local(let local) = path {
             XCTAssertEqual(local.mobileId, "test_image_square-x")
         } else {
             XCTFail("Failed to decode correct image name.")
@@ -67,7 +68,8 @@ class ImageTests: XCTestCase {
     func test_remoteImageDeserialize() throws {
         let bla = "www.com"
         let image: Image = try componentFromJsonFile(fileName: "ImageComponent2")
-        if case .remote(let remote) = image.path {
+        let path = image.path.get(with: renderer.render(image))
+        if case .remote(let remote) = path {
             XCTAssertEqual(remote.url, bla)
         } else {
             XCTFail("Failed to decode correct image url.")
@@ -76,7 +78,7 @@ class ImageTests: XCTestCase {
     
     func test_withInvalidURL_itShouldNotSetImage() throws {
         // Given
-        let component = Image(.remote(.init(url: "www.com")))
+        let component = Image(.value(.remote(.init(url: "www.com"))))
         // When
         guard let imageView = renderer.render(component) as? UIImageView else {
             XCTFail("Build view not returning UIImageView")
@@ -89,7 +91,7 @@ class ImageTests: XCTestCase {
     
     func test_whenRemoteHasPlaceholder_shouldReturnItAsInitialView() {
         // Given
-        let component = Image(.remote(.init(url: "www.com", placeholder: "imageBeagle")))
+        let component = Image(.value(.remote(.init(url: "www.com", placeholder: "imageBeagle"))))
  
         // When
         guard let placeholderView = renderer.render(component) as? UIImageView else {

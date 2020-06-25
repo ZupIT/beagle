@@ -20,70 +20,48 @@ import BeagleSchema
 extension Image: Widget {
 
     public func toView(renderer: BeagleRenderer) -> UIView {
-        var image = UIImageView(frame: .zero)
+        let image = UIImageView(frame: .zero)
         image.clipsToBounds = true
         image.contentMode = (contentMode ?? .fitCenter).toUIKit()
-
-        switch path {
-        case .local(let local):
-            setImageFromAsset(named: local.mobileId, bundle: renderer.controller.dependencies.appBundle, view: image)
-        case .remote(let remote):
-            image = setRemoteImage(from: remote.url, placeholder: remote.placeholder, view: image, renderer: renderer)
+    
+        renderer.observe(path, andUpdateManyIn: image) { path in
+            switch path {
+            case .local(let local):
+                self.setImageFromAsset(named: local.mobileId, bundle: renderer.controller.dependencies.appBundle, imageView: image)
+            case .remote(let remote):
+                self.setRemoteImage(from: remote.url, placeholder: remote.placeholder, imageView: image, renderer: renderer)
+            }
         }
         return image
     }
 
-    private func setImageFromAsset(named: String, bundle: Bundle, view: UIImageView) {
-        view.image = UIImage(named: named, in: bundle, compatibleWith: nil)
+    private func setImageFromAsset(named: String, bundle: Bundle, imageView: UIImageView) {
+        imageView.image = UIImage(named: named, in: bundle, compatibleWith: nil)
     }
 
-    private func setRemoteImage(from url: String, placeholder: Image.Local?, view: UIImageView, renderer: BeagleRenderer) -> UIImageView {
+    private func setRemoteImage(from url: String, placeholder: Image.Local?, imageView: UIImageView, renderer: BeagleRenderer) {
+        // swiftlint:disable object_literal
+        var imagePlaceholder = UIImage(named: "")
         if let placeholder = placeholder {
-            let imagePlaceholder = UIImage(named: placeholder.mobileId, in: renderer.controller.dependencies.appBundle, compatibleWith: nil)
-            let imageView = UIImageView(image: imagePlaceholder)
-            imageView.lazyLoadImage(path: url, placeholderImage: imageView, imageView: view, style: widgetProperties.style, renderer: renderer)
-            return imageView
+            imagePlaceholder = UIImage(named: placeholder.mobileId, in: renderer.controller.dependencies.appBundle, compatibleWith: nil)
         }
-        
-        renderer.controller.dependencies.repository.fetchImage(url: url, additionalData: nil) { [weak view] result in
-            guard let view = view, case .success(let data) = result else { return }
-            let image = UIImage(data: data)
-            DispatchQueue.main.async {
-                view.image = image
-                view.style.markDirty()
-            }
-        }
-        return view
+        lazyLoadImage(path: url, placeholderImage: imagePlaceholder, imageView: imageView, style: widgetProperties.style, renderer: renderer)
     }
-}
-
-// MARK: - Lazy load image
-
-private extension UIImageView {
-        
-    func lazyLoadImage(path: String, placeholderImage: UIImageView, imageView: UIImageView, style: Style?, renderer: BeagleRenderer) {
-        renderer.controller.dependencies.repository.fetchImage(url: path, additionalData: nil) { result in
+    
+    private func lazyLoadImage(path: String, placeholderImage: UIImage?, imageView: UIImageView, style: Style?, renderer: BeagleRenderer) {
+        renderer.controller.dependencies.repository.fetchImage(url: path, additionalData: nil) {
+            [weak imageView] result in
+            guard let imageView = imageView else { return }
             switch result {
             case .success(let data):
                 let image = UIImage(data: data)
-                imageView.image = image
-                self.update(from: placeholderImage, to: imageView, style: style, renderer: renderer)
+                DispatchQueue.main.async {
+                    imageView.image = image
+                    imageView.style.markDirty()
+                }
             case .failure:
-                self.image = placeholderImage.image
+                imageView.image = placeholderImage
             }
         }
-    }
-    
-    func update(from placeholderImage: UIImageView, to imageView: UIImageView?, style: Style?, renderer: BeagleRenderer) {
-        
-        guard let superview = superview, let imageView = imageView else { return }
-        imageView.frame = frame
-        superview.insertSubview(imageView, belowSubview: self)
-        removeFromSuperview()
-        if renderer.controller.dependencies.style(placeholderImage).isFlexEnabled {
-            renderer.controller.dependencies.style(imageView).isFlexEnabled = true
-        }
-        imageView.style.setup(style)
-        renderer.controller.dependencies.style(imageView).markDirty()
     }
 }

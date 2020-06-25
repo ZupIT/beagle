@@ -51,6 +51,7 @@ class PageIndicatorUIComponent: UIView, PageIndicatorUIView {
     // MARK: - Init
     
     required init(selectedColor: String? = nil, unselectedColor: String? = nil) {
+        // swiftlint:disable object_literal
         if let selected = selectedColor, let color = UIColor(hex: selected) {
             self.selectedColor = color
         } else {

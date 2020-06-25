@@ -172,7 +172,7 @@ extension Image {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        path = try container.decode(PathType.self, forKey: .path)
+        path = try container.decode(Expression<PathType>.self, forKey: .path)
         contentMode = try container.decodeIfPresent(ImageContentMode.self, forKey: .contentMode)
         widgetProperties = try WidgetProperties(from: decoder)
     }
