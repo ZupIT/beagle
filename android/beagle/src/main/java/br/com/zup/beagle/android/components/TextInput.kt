@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.components
 
+import android.graphics.Color
 import android.text.InputType
 import android.view.View
 import android.widget.EditText
@@ -84,6 +85,7 @@ data class TextInput(
         setUpOnTextChange(rootView)
         if (onFocus != null || onBlur != null) setUpOnFocusChange(rootView)
         textInputView = this
+        setTextColor(Color.BLACK)
     }
 
     override fun getValue(): Any = textInputView.text.toString()
@@ -94,14 +96,16 @@ data class TextInput(
 
     private fun EditText.setUpOnTextChange(rootView: RootView) {
         doOnTextChanged { newText, _, _, _ ->
-            notifyChanges()
-            onChange?.let {
-                this@TextInput.handleEvent(
-                    rootView,
-                    onChange,
-                    "onChange",
-                    newText.toString()
-                )
+            if (newText != textInputView.text) {
+                notifyChanges()
+                onChange?.let {
+                    this@TextInput.handleEvent(
+                        rootView,
+                        onChange,
+                        "onChange",
+                        newText.toString()
+                    )
+                }
             }
         }
     }
