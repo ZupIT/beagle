@@ -160,6 +160,7 @@
 		C829CF2323B197CF001B7225 /* FormInputTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A77640237DC140002F5515 /* FormInputTests.swift */; };
 		C829CF2A23B197FB001B7225 /* RepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50B2840236350B9005E2E6D /* RepositoryTests.swift */; };
 		C8311A6924099A8700E95C15 /* WidgetStateObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8311A6824099A8700E95C15 /* WidgetStateObservable.swift */; };
+		C838416024A4485700EDD344 /* SnapshotTesting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C838415F24A4485700EDD344 /* SnapshotTesting.framework */; };
 		C852A0F3247F246B009535D9 /* BeagleRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C852A0F2247F246B009535D9 /* BeagleRenderer.swift */; };
 		C85688BB2433C4A400DD8B60 /* BeagleMessageLogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C03910724250772003E6FCD /* BeagleMessageLogs.swift */; };
 		C85688BC2433C4A800DD8B60 /* BeagleLoggerDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C03910924250FC6003E6FCD /* BeagleLoggerDefault.swift */; };
@@ -182,7 +183,6 @@
 		C89FFA942412EA4200C1B53B /* UrlBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89FFA932412EA4200C1B53B /* UrlBuilder.swift */; };
 		C8D5F01C24A3FD740037B11C /* BeagleSchema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8D5F01B24A3FD740037B11C /* BeagleSchema.framework */; };
 		C8D5F02024A3FD840037B11C /* YogaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8D5F01F24A3FD840037B11C /* YogaKit.framework */; };
-		C8E42FD123C7C98000B1963F /* SnapshotTesting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8E42FCF23C7C89800B1963F /* SnapshotTesting.framework */; };
 		C8F953162395960200615CF0 /* PageViewUIComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F95314239595C500615CF0 /* PageViewUIComponentTests.swift */; };
 		E50B284523639299005E2E6D /* BeagleScreenViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50B284423639299005E2E6D /* BeagleScreenViewControllerTests.swift */; };
 		E516E61023705BED006620B1 /* BeagleViewBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E516E60F23705BED006620B1 /* BeagleViewBuilderTests.swift */; };
@@ -395,6 +395,7 @@
 		C829CF1123B1967D001B7225 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C829CF1323B196C1001B7225 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C8311A6824099A8700E95C15 /* WidgetStateObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetStateObservable.swift; sourceTree = "<group>"; };
+		C838415F24A4485700EDD344 /* SnapshotTesting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapshotTesting.framework; path = ../../Carthage/Build/iOS/SnapshotTesting.framework; sourceTree = "<group>"; };
 		C852A0F2247F246B009535D9 /* BeagleRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleRenderer.swift; sourceTree = "<group>"; };
 		C85688C12433F87400DD8B60 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C85D9BA0238701E60075B6C0 /* PageViewUIComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewUIComponent.swift; sourceTree = "<group>"; };
@@ -480,7 +481,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E5CE41EC2332B9B600295277 /* Beagle.framework in Frameworks */,
-				C8E42FD123C7C98000B1963F /* SnapshotTesting.framework in Frameworks */,
+				C838416024A4485700EDD344 /* SnapshotTesting.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1467,6 +1468,7 @@
 		E53524A923310F5A00D1A0C9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C838415F24A4485700EDD344 /* SnapshotTesting.framework */,
 				C8D5F01F24A3FD840037B11C /* YogaKit.framework */,
 				C8D5F01B24A3FD740037B11C /* BeagleSchema.framework */,
 				57A8098D243CF5020034D180 /* CoreData.framework */,
@@ -1687,7 +1689,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/SnapshotTesting.framework",
+				"$(SRCROOT)/../../Carthage/Build/iOS/SnapshotTesting.framework",
 			);
 			name = "Carthage Run Script";
 			outputFileListPaths = (
@@ -2122,7 +2124,7 @@
 				DEVELOPMENT_TEAM = YKYJK8YBGT;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/../../Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = BeagleTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -2146,7 +2148,7 @@
 				DEVELOPMENT_TEAM = YKYJK8YBGT;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/../../Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = BeagleTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;

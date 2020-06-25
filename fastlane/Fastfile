@@ -59,7 +59,7 @@ platform :ios do
     carthage(
       command: "bootstrap",
       platform: "iOS",
-      project_directory: "iOS/Sources/Beagle/", cache_builds: true
+      project_directory: "iOS/", cache_builds: true
     )
   end
 

@@ -33,7 +33,7 @@
 		C08D4EF3248A7C1D00AAAC0A /* WidgetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4EEA248A7C1600AAAC0A /* WidgetTests.swift */; };
 		C08D4EF4248A7C2E00AAAC0A /* widgetWithAllAttributes.json in Resources */ = {isa = PBXBuildFile; fileRef = C08D4EEC248A7C1600AAAC0A /* widgetWithAllAttributes.json */; };
 		C0FBBD212475803900B72A9B /* BeagleSchema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FBBD172475803900B72A9B /* BeagleSchema.framework */; };
-		C0FBBD3324759EDD00B72A9B /* SnapshotTesting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FBBD3224759EDD00B72A9B /* SnapshotTesting.framework */; };
+		C838415E24A4483400EDD344 /* SnapshotTesting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C838415D24A4483400EDD344 /* SnapshotTesting.framework */; };
 		C864D2A2247C240200E7A1F9 /* FormSubmit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D221247C240200E7A1F9 /* FormSubmit.swift */; };
 		C864D2A4247C240200E7A1F9 /* FormInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D224247C240200E7A1F9 /* FormInput.swift */; };
 		C864D2A5247C240200E7A1F9 /* FormInputHidden.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D225247C240200E7A1F9 /* FormInputHidden.swift */; };
@@ -158,7 +158,7 @@
 		C08D4EF5248A7C5900AAAC0A /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C0FBBD172475803900B72A9B /* BeagleSchema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BeagleSchema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0FBBD202475803900B72A9B /* BeagleSchemaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeagleSchemaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C0FBBD3224759EDD00B72A9B /* SnapshotTesting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapshotTesting.framework; path = Carthage/Build/iOS/SnapshotTesting.framework; sourceTree = "<group>"; };
+		C838415D24A4483400EDD344 /* SnapshotTesting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapshotTesting.framework; path = ../Carthage/Build/iOS/SnapshotTesting.framework; sourceTree = "<group>"; };
 		C864D220247C240200E7A1F9 /* FormSubmitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSubmitTests.swift; sourceTree = "<group>"; };
 		C864D221247C240200E7A1F9 /* FormSubmit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSubmit.swift; sourceTree = "<group>"; };
 		C864D224247C240200E7A1F9 /* FormInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormInput.swift; sourceTree = "<group>"; };
@@ -272,7 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0FBBD212475803900B72A9B /* BeagleSchema.framework in Frameworks */,
-				C0FBBD3324759EDD00B72A9B /* SnapshotTesting.framework in Frameworks */,
+				C838415E24A4483400EDD344 /* SnapshotTesting.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,7 +408,7 @@
 		C0FBBD3124759EDD00B72A9B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C0FBBD3224759EDD00B72A9B /* SnapshotTesting.framework */,
+				C838415D24A4483400EDD344 /* SnapshotTesting.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1047,7 +1047,7 @@
 				C0FBBD1C2475803900B72A9B /* Sources */,
 				C0FBBD1D2475803900B72A9B /* Frameworks */,
 				C0FBBD1E2475803900B72A9B /* Resources */,
-				C0FBBD362475A10700B72A9B /* Run Carthage Script */,
+				C838416224A4656E00EDD344 /* Run Carthage Script */,
 			);
 			buildRules = (
 			);
@@ -1161,26 +1161,6 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
-		C0FBBD362475A10700B72A9B /* Run Carthage Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/SnapshotTesting.framework",
-			);
-			name = "Run Carthage Script";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/SnapshotTesting.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/usr/local/bin/carthage copy-frameworks\n";
-		};
 		C0FBBE1A2475CA4E00B72A9B /* Sourcery Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1198,6 +1178,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n../Sources/Beagle/CodeGeneration/sourceryScript.sh\n";
+		};
+		C838416224A4656E00EDD344 /* Run Carthage Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/../Carthage/Build/iOS/SnapshotTesting.framework",
+			);
+			name = "Run Carthage Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/SnapshotTesting.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1481,7 +1481,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/../Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1503,7 +1503,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/../Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
