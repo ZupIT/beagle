@@ -33,7 +33,7 @@ struct AppTheme {
         .TEXT_INPUT_STYLE: Self.designSystemTextInput,
         .TAB_VIEW_STYLE: Self.tabView,
         .DESIGN_SYSTEM_STYLE_BUTTON_SCREEN_BUTTON: designSystemScreenButton,
-        .STYLE_TAB_VIEW_BFF: tabViewBff,
+        .STYLE_TAB_VIEW_BFF: tabViewBff
 
     ])
     
