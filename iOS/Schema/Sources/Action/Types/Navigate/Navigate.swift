@@ -64,8 +64,8 @@ public enum Route {
         public let shouldPrefetch: Bool
         public let fallback: Screen?
 
-        public init(route: String, shouldPrefetch: Bool = false, fallback: Screen? = nil) {
-            self.url = route
+        public init(url: String, shouldPrefetch: Bool = false, fallback: Screen? = nil) {
+            self.url = url
             self.shouldPrefetch = shouldPrefetch
             self.fallback = fallback
         }
@@ -76,8 +76,8 @@ public enum Route {
     
     var path: NewPath? {
         switch self {
-        case let .remote(route, shouldPrefetch, fallback):
-            return NewPath(route: route, shouldPrefetch: shouldPrefetch, fallback: fallback)
+        case let .remote(url, shouldPrefetch, fallback):
+            return NewPath(url: url, shouldPrefetch: shouldPrefetch, fallback: fallback)
         case .declarative:
             return nil
         }
@@ -153,14 +153,14 @@ extension Route: Decodable {
 extension Route.NewPath: Decodable {
     
     enum CodingKeys: CodingKey {
-        case route
+        case url
         case shouldPrefetch
         case fallback
     }
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.url = try container.decode(String.self, forKey: .route)
+        self.url = try container.decode(String.self, forKey: .url)
         self.shouldPrefetch = try container.decodeIfPresent(Bool.self, forKey: .shouldPrefetch) ?? false
         self.fallback = try container.decodeIfPresent(ScreenComponent.self, forKey: .fallback)?.toScreen()
     }
