@@ -27,6 +27,9 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.ContextComponent
+import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.utils.dp
@@ -43,12 +46,16 @@ internal var styleManagerFactory = StyleManager()
 
 data class TabView(
     val children: List<TabItem>,
-    val styleId: Bind<String>? = null
-) : WidgetView() {
+    val styleId: Bind<String>? = null,
+    override val context: ContextData? = null
+) : WidgetView(), ContextComponent {
+
     constructor(
         children: List<TabItem>,
-        styleId: String
-    ) : this(children, Bind.valueOf(styleId))
+        styleId: String,
+        context: ContextData? = null
+    ) : this(children, valueOf(styleId), context)
+
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
 

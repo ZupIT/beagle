@@ -50,14 +50,13 @@ internal class AnyToJsonObjectAdapter(
     override fun fromJson(reader: JsonReader): Any? {
         val type = reader.peek()
         val value = reader.readJsonValue()
+
         return when (type) {
             JsonReader.Token.BEGIN_OBJECT -> {
-                val json = adapter.toJson(value)
-                JSONObject(json)
+                JSONObject(value as Map<String, Any>)
             }
             JsonReader.Token.BEGIN_ARRAY -> {
-                val json = adapter.toJson(value)
-                JSONArray(json)
+                JSONArray(value as Collection<Any>)
             }
             else -> {
                 value

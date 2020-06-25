@@ -56,11 +56,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 private const val FORM_INPUT_VIEWS_FIELD_NAME = "formInputs"
-private const val FORM_INPUT_HIDDEN_VIEWS_FIELD_NAME = "formInputHiddenList"
 private const val FORM_SUBMIT_VIEW_FIELD_NAME = "formSubmitView"
 private val INPUT_VALUE = RandomData.string()
 private const val INPUT_NAME = "INPUT_NAME"
 private const val FORM_GROUP_VALUE = "GROUP"
+private const val ADDIONAL_DATA_KEY = "dataKey"
+private const val ADDIONAL_DATA_VALUE = "dataValue"
 
 class FormTest : BaseComponentTest() {
 
@@ -173,23 +174,6 @@ class FormTest : BaseComponentTest() {
 
         // Then
         val views = form.getPrivateField<List<View>>(FORM_INPUT_VIEWS_FIELD_NAME)
-        assertEquals(1, views.size)
-    }
-
-    @Test
-    fun build_should_try_to_iterate_over_all_viewGroups_that_is_the_formInputHidden() {
-        // Given
-        val childViewGroup = mockk<ViewGroup>()
-        every { childViewGroup.childCount } returns 0
-        every { childViewGroup.tag } returns mockk<FormInputHidden>()
-        every { viewGroup.childCount } returns 1
-        every { viewGroup.getChildAt(any()) } returns childViewGroup
-
-        // When
-        form.buildView(rootView)
-
-        // Then
-        val views = form.getPrivateField<List<View>>(FORM_INPUT_HIDDEN_VIEWS_FIELD_NAME)
         assertEquals(1, views.size)
     }
 
@@ -347,6 +331,12 @@ class FormTest : BaseComponentTest() {
         onClickListenerSlot.captured.onClick(formSubmitView)
     }
 
+    private fun createSimpleAdditionalData(): Map<String, String> {
+        val additionalData = HashMap<String, String>()
+        additionalData[ADDIONAL_DATA_KEY] = ADDIONAL_DATA_VALUE
+        return additionalData
+    }
+
     @Test
     fun on_form_submit_should_save_data_locally_if_flag_enabled() {
         // Given
@@ -397,7 +387,7 @@ class FormTest : BaseComponentTest() {
 
         // Then
 
-        assertEquals(formsValuesSlot.captured[savedKey], savedValue)
+        assertEquals(savedValue, formsValuesSlot.captured[savedKey])
     }
 
     @Test
@@ -414,5 +404,39 @@ class FormTest : BaseComponentTest() {
         verify {
             formDataStoreHandler.clear(eq(FORM_GROUP_VALUE))
         }
+    }
+
+    @Test
+    fun on_form_submit_should_save_additional_data_if_shouldStoreFields_flag_enabled() {
+        // Given
+        form = form.copy(shouldStoreFields = true, group = FORM_GROUP_VALUE,
+            additionalData = createSimpleAdditionalData())
+
+        // When
+        executeFormSubmitOnClickListener()
+
+        // Then
+        verify {
+            formDataStoreHandler.put(
+                eq(FORM_GROUP_VALUE),
+                eq(ADDIONAL_DATA_KEY),
+                eq(ADDIONAL_DATA_VALUE))
+        }
+    }
+
+    @Test
+    fun on_form_submit_should_send_additional_data_if_shouldStoreFields_flag_disabled() {
+        // Given
+        val formsValuesSlot = slot<Map<String, String>>()
+        every { remoteAction.formsValue = capture(formsValuesSlot) } just Runs
+
+        form = form.copy(shouldStoreFields = false, group = FORM_GROUP_VALUE,
+            onSubmit = listOf(remoteAction), additionalData = createSimpleAdditionalData())
+
+        // When
+        executeFormSubmitOnClickListener()
+
+        // Then
+        assertEquals(ADDIONAL_DATA_VALUE, formsValuesSlot.captured[ADDIONAL_DATA_KEY])
     }
 }

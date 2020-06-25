@@ -1,34 +1,35 @@
 ▿ ScrollView
   ▿ children: 3 elements
     ▿ Text
-      - alignment: Optional<Alignment>.none
-      - styleId: Optional<String>.none
+      - alignment: Optional<Expression<Alignment>>.none
+      - styleId: Optional<Expression<String>>.none
       ▿ text: Expression<String>
         - value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tempus tempor diam vitae tempor. Phasellus orci justo, sollicitudin non enim euismod, posuere vehicula dolor.\n---"
-      - textColor: Optional<String>.none
+      - textColor: Optional<Expression<String>>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
         - id: Optional<String>.none
         - style: Optional<Style>.none
     ▿ Text
-      - alignment: Optional<Alignment>.none
-      - styleId: Optional<String>.none
+      - alignment: Optional<Expression<Alignment>>.none
+      - styleId: Optional<Expression<String>>.none
       ▿ text: Expression<String>
         - value: "Morbi quis mi eu tellus tincidunt aliquam vitae nec nisl. Vivamus turpis lacus, sodales mollis arcu vitae, commodo maximus velit. Integer et arcu nisi. Vivamus erat dui, elementum vel tincidunt vel, finibus nec arcu.\n---"
-      - textColor: Optional<String>.none
+      - textColor: Optional<Expression<String>>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
         - id: Optional<String>.none
         - style: Optional<Style>.none
     ▿ Text
-      - alignment: Optional<Alignment>.none
-      - styleId: Optional<String>.none
+      - alignment: Optional<Expression<Alignment>>.none
+      - styleId: Optional<Expression<String>>.none
       ▿ text: Expression<String>
         - value: "Aenean ultricies, turpis sit amet vulputate ultrices, felis sem pulvinar diam, at tincidunt enim felis vitae ante. Nulla hendrerit convallis arcu, at convallis nisl sodales nec.\n---"
-      - textColor: Optional<String>.none
+      - textColor: Optional<Expression<String>>.none
       ▿ widgetProperties: WidgetProperties
         - accessibility: Optional<Accessibility>.none
         - id: Optional<String>.none
         - style: Optional<Style>.none
+  - context: Optional<Context>.none
   - scrollBarEnabled: Optional<Bool>.none
   - scrollDirection: Optional<ScrollAxis>.none

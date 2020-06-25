@@ -35,9 +35,15 @@ import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
 import io.mockk.verifySequence
+import org.json.JSONArray
+import org.json.JSONObject
 import org.junit.Test
 
 import kotlin.test.assertEquals
+
+data class PersonTest(val name: String)
+
+private const val NAME = "name"
 
 class ContextActionExecutorTest : BaseTest() {
 
@@ -54,24 +60,16 @@ class ContextActionExecutorTest : BaseTest() {
         super.setUp()
 
         mockkObject(ViewModelProviderFactory)
-        mockkObject(BeagleMoshi)
 
         contextActionExecutor = ContextActionExecutor()
 
         every { action.execute(any()) } just Runs
-        every { beagleSdk.registeredWidgets() } returns listOf()
         every { rootView.activity } returns mockk()
 
         every {
             ViewModelProviderFactory.of(any<AppCompatActivity>())[ScreenContextViewModel::class.java]
         } returns viewModel
         every { viewModel.addImplicitContext(capture(contextDataSlot), any(), any()) } just Runs
-    }
-
-    override fun tearDown() {
-        super.tearDown()
-
-        unmockkAll()
     }
 
     @Test
@@ -108,16 +106,35 @@ class ContextActionExecutorTest : BaseTest() {
     fun executeActions_should_parse_object_value_to_JSONObject() {
         // Given
         val eventId = "onChange"
-        val value = mockk<Container>()
-        val jsonMock = "{}"
-        every { BeagleMoshi.moshi.adapter<Container>(any<Class<*>>()).toJson(value) } returns jsonMock
+        val value = PersonTest(name = NAME)
 
         // When
         contextActionExecutor.executeActions(rootView, sender, listOf(action), eventId, value)
 
         // Then
         assertEquals(eventId, contextDataSlot.captured.id)
-        assertEquals(jsonMock, contextDataSlot.captured.value.toString())
+        val expected = JSONObject()
+            .put(NAME, NAME)
+            .toString()
+        assertEquals(expected, contextDataSlot.captured.value.toString())
+    }
+
+    @Test
+    fun executeActions_should_parse_list_of_object_value_to_JSONArray() {
+        // Given
+        val eventId = "onChange"
+        val value = arrayListOf(PersonTest(name = NAME))
+
+        // When
+        contextActionExecutor.executeActions(rootView, sender, listOf(action), eventId, value)
+
+        // Then
+        assertEquals(eventId, contextDataSlot.captured.id)
+        val expected = JSONArray()
+            .put(
+                JSONObject().put(NAME, NAME)
+            ).toString()
+        assertEquals(expected, contextDataSlot.captured.value.toString())
     }
 
     @Test

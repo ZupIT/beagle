@@ -18,6 +18,9 @@ package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.context.ContextComponent
+import br.com.zup.beagle.widget.context.ContextData
+import br.com.zup.beagle.widget.context.valueOf
 
 /**
  * TabView is a component responsible for the navigation between views.
@@ -29,12 +32,14 @@ import br.com.zup.beagle.widget.context.Bind
  */
 data class TabView(
     val children: List<TabItem>,
-    val styleId: Bind<String>? = null
-) : ServerDrivenComponent {
+    val styleId: Bind<String>? = null,
+    override val context: ContextData? = null
+) : ServerDrivenComponent, ContextComponent {
     constructor(
         children: List<TabItem>,
-        styleId: String
-    ) : this(children, Bind.valueOf(styleId))
+        styleId: String,
+        contextData: ContextData? = null
+    ) : this(children, valueOf(styleId), contextData)
 }
 
 /**

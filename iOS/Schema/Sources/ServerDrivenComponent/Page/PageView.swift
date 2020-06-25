@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-public struct PageView: RawComponent, AutoInitiableAndDecodable {
+public struct PageView: RawComponent, AutoInitiableAndDecodable, HasContext {
 
     public let children: [RawComponent]
     public let pageIndicator: PageIndicatorComponent?
+    public let context: Context?
 
 // sourcery:inline:auto:PageView.Init
     public init(
         children: [RawComponent],
-        pageIndicator: PageIndicatorComponent? = nil
+        pageIndicator: PageIndicatorComponent? = nil,
+        context: Context? = nil
     ) {
         self.children = children
         self.pageIndicator = pageIndicator
+        self.context = context
     }
 // sourcery:end
 }

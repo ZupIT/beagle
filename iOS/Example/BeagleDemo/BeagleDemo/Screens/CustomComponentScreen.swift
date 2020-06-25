@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import BeagleUI
+import Beagle
 import BeagleSchema
 
 struct CustomComponentScreen: DeeplinkScreen {
@@ -31,7 +31,7 @@ struct CustomComponentScreen: DeeplinkScreen {
             navigationBar: NavigationBar(title: "Custom Component"),
             child: Container(
                 children: [
-                    Text("Here its a custom component\n in this case a Collection View", alignment: .center),
+                    Text("Here its a custom component\n in this case a Collection View", alignment: Expression.value(.center)),
                     DSCollection(
                         dataSource: DSCollectionDataSource(cards: [
                             DSCollectionDataSource.Card(name: "Pocas", age: 22),

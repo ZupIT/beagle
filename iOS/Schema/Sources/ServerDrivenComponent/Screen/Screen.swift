@@ -16,7 +16,7 @@
 
 import Foundation
 
-public struct Screen: AutoInitiable {
+public struct Screen: AutoInitiable, HasContext {
     
     // MARK: - Public Properties
     
@@ -26,6 +26,7 @@ public struct Screen: AutoInitiable {
     public let navigationBar: NavigationBar?
     public let screenAnalyticsEvent: AnalyticsScreen?
     public let child: RawComponent
+    public let context: Context?
 
 // sourcery:inline:auto:Screen.Init
     public init(
@@ -34,7 +35,8 @@ public struct Screen: AutoInitiable {
         safeArea: SafeArea? = nil,
         navigationBar: NavigationBar? = nil,
         screenAnalyticsEvent: AnalyticsScreen? = nil,
-        child: RawComponent
+        child: RawComponent,
+        context: Context? = nil
     ) {
         self.id = id
         self.style = style
@@ -42,6 +44,7 @@ public struct Screen: AutoInitiable {
         self.navigationBar = navigationBar
         self.screenAnalyticsEvent = screenAnalyticsEvent
         self.child = child
+        self.context = context
     }
 // sourcery:end
 }

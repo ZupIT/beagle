@@ -14,23 +14,26 @@
  * limitations under the License.
  */
 
-public struct ScrollView: RawComponent, AutoInitiableAndDecodable {
+public struct ScrollView: RawComponent, AutoInitiableAndDecodable, HasContext {
     
     // MARK: - Public Properties
     
     public let children: [RawComponent]
     public let scrollDirection: ScrollAxis?
     public let scrollBarEnabled: Bool?
+    public let context: Context?
 
 // sourcery:inline:auto:ScrollView.Init
     public init(
         children: [RawComponent],
         scrollDirection: ScrollAxis? = nil,
-        scrollBarEnabled: Bool? = nil
+        scrollBarEnabled: Bool? = nil,
+        context: Context? = nil
     ) {
         self.children = children
         self.scrollDirection = scrollDirection
         self.scrollBarEnabled = scrollBarEnabled
+        self.context = context
     }
 // sourcery:end
 }

@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import BeagleUI
+import Beagle
 import BeagleSchema
 
 struct MainScreen: DeeplinkScreen {
@@ -67,12 +67,12 @@ struct MainScreen: DeeplinkScreen {
                     onPress: [Navigate.openNativeRoute(.WEB_VIEW_ENDPOINT)]
                 ),
                 Button(
-                    text: "Component Interaction",
-                    onPress: [Navigate.pushView(.declarative(componentInteractionScreen))]
-                ),
-                Button(
                     text: "Send Request",
                     onPress: [Navigate.pushView(.declarative(sendRequestDeclarativeScreen))]
+                ),
+                Button(
+                    text: "Component Interaction",
+                    onPress: [Navigate.pushView(.declarative(componentInteractionScreen))]
                 ),
                 Button(
                     text: "Sample BFF",

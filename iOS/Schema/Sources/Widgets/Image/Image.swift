@@ -33,27 +33,73 @@ public struct Image: RawWidget, AutoDecodable {
         self.widgetProperties = widgetProperties
     }
     
-    public enum PathType: Decodable {
-        case network(String)
-        case local(String)
-        
+    indirect public enum PathType: Decodable {
+        case remote(Remote)
+        case local(Local)
+
         enum CodingKeys: String, CodingKey {
             case type = "_beagleImagePath_"
-            case url
-            case mobileId
         }
         
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            
+
             let type = try container.decode(String.self, forKey: .type)
-            if type == "local" {
-                let mobileId = try container.decode(String.self, forKey: .mobileId)
-                self = .local(mobileId)
-            } else {
-                let url = try container.decode(String.self, forKey: .url)
-                self = .network(url)
+            switch type {
+            case "local":
+                self = .local(try Local(from: decoder))
+            case "remote":
+                self = .remote(try Remote(from: decoder))
+            default:
+                throw DecodingError.dataCorruptedError(forKey: .type, in: container, debugDescription: "Invalid image type")
             }
+        }
+    }
+}
+
+public extension Image {
+
+    struct Local: Decodable, ExpressibleByStringLiteral {
+
+        public let mobileId: String
+
+        public init(mobileId: String) {
+            self.mobileId = mobileId
+        }
+
+        public init(stringLiteral value: StringLiteralType) {
+            self.mobileId = value
+        }
+
+        enum CodingKeys: String, CodingKey {
+            case mobileId
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            mobileId = try container.decode(String.self, forKey: .mobileId)
+        }
+    }
+
+    struct Remote: Decodable {
+        public let url: String
+        public let placeholder: Local?
+
+        public init(url: String, placeholder: Local? = nil) {
+            self.url = url
+            self.placeholder = placeholder
+        }
+
+        enum CodingKeys: String, CodingKey {
+            case url
+            case placeholder
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+
+            url = try container.decode(String.self, forKey: .url)
+            placeholder = try container.decodeIfPresent(Local.self, forKey: .placeholder)
         }
     }
 }

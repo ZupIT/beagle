@@ -21,6 +21,7 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.observeBindChanges
@@ -43,7 +44,7 @@ data class Image(
         path: PathType,
         mode: ImageContentMode? = null,
         placeholder: PathType.Local? = null) : this(
-        Bind.valueOf(path),
+        valueOf(path),
         mode,
         placeholder
     )
@@ -102,13 +103,13 @@ data class Image(
             .asBitmap()
             .load(path.url)
             .into(object : CustomTarget<Bitmap>() {
-            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                this@loadImage.setImageBitmap(resource)
-                beagleFlexView.setViewHeight(this@loadImage, resource.height)
-            }
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    this@loadImage.setImageBitmap(resource)
+                    beagleFlexView.setViewHeight(this@loadImage, resource.height)
+                }
 
-            override fun onLoadCleared(placeholder: Drawable?) {}
-        })
+                override fun onLoadCleared(placeholder: Drawable?) {}
+            })
     }
 
     private fun getGlideRequestOptions(): RequestOptions {
@@ -123,7 +124,7 @@ data class Image(
     private fun getPlaceholder(image: PathType.Local?): Int? {
         val designSystem = BeagleEnvironment.beagleSdk.designSystem
         if (designSystem != null && image != null) {
-            placeholder?.let {pathType ->
+            placeholder?.let { pathType ->
                 return designSystem.image(pathType.mobileId)
             }
         }
