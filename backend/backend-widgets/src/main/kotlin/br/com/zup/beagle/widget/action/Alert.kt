@@ -17,6 +17,8 @@
 package br.com.zup.beagle.widget.action
 
 import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.context.valueOf
+import br.com.zup.beagle.widget.context.valueOfNullable
 
 
 /**
@@ -40,8 +42,8 @@ data class Alert(
         onPressOk: Action? = null,
         labelOk: String? = null
     ) : this(
-        title = Bind.valueOfNullable(title),
-        message = Bind.valueOf(message),
+        title = valueOfNullable(title),
+        message = valueOf(message),
         onPressOk = onPressOk,
         labelOk = labelOk
     )

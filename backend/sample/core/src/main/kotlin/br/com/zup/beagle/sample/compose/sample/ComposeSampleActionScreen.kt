@@ -16,9 +16,7 @@
 
 package br.com.zup.beagle.sample.compose.sample
 
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.sample.compose.quality.ComposeActionScreenQuality
 import br.com.zup.beagle.sample.constants.PATH_SCREEN_DEEP_LINK_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.widget.action.Alert
@@ -51,6 +49,7 @@ object ComposeSampleActionScreen: ComposeComponent {
              getOpenExternalURLAction()
          )
      )
+
     private fun getAlertAction() = Container(
         children = listOf(
             Text("Action dialog"),
@@ -69,7 +68,7 @@ object ComposeSampleActionScreen: ComposeComponent {
         children = listOf(
             Text("Navigate with path"),
             Button(
-                onPress = listOf(Navigate.PushView(Route.Remote(route = SCREEN_ACTION_CLICK_ENDPOINT))),
+                onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))),
                 text = "Click me!"
             )
         )
@@ -114,7 +113,7 @@ object ComposeSampleActionScreen: ComposeComponent {
             Text("Navigate with prefetch"),
             Button(
                 onPress = listOf(Navigate.PushView(Route.Remote(shouldPrefetch = true,
-                    route = SCREEN_ACTION_CLICK_ENDPOINT))),
+                    url = SCREEN_ACTION_CLICK_ENDPOINT))),
                 text = "Click me!"
             )
         )

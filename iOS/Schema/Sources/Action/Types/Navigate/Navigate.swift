@@ -60,12 +60,12 @@ public enum Navigate: RawAction {
 
 public enum Route {
     public struct NewPath {
-        public let route: String
+        public let url: String
         public let shouldPrefetch: Bool
         public let fallback: Screen?
 
         public init(route: String, shouldPrefetch: Bool = false, fallback: Screen? = nil) {
-            self.route = route
+            self.url = route
             self.shouldPrefetch = shouldPrefetch
             self.fallback = fallback
         }
@@ -145,7 +145,7 @@ extension Route: Decodable {
             self = .declarative(screen.toScreen())
         } else {
             let newPath: Route.NewPath = try .init(from: decoder)
-            self = .remote(newPath.route, shouldPrefetch: newPath.shouldPrefetch, fallback: newPath.fallback)
+            self = .remote(newPath.url, shouldPrefetch: newPath.shouldPrefetch, fallback: newPath.fallback)
         }
     }
 }
@@ -160,7 +160,7 @@ extension Route.NewPath: Decodable {
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.route = try container.decode(String.self, forKey: .route)
+        self.url = try container.decode(String.self, forKey: .route)
         self.shouldPrefetch = try container.decodeIfPresent(Bool.self, forKey: .shouldPrefetch) ?? false
         self.fallback = try container.decodeIfPresent(ScreenComponent.self, forKey: .fallback)?.toScreen()
     }

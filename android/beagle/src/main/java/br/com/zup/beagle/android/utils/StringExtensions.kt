@@ -16,13 +16,6 @@
 
 package br.com.zup.beagle.android.utils
 
-import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.context.Bind.Companion.expressionOf
-import br.com.zup.beagle.android.logger.BeagleMessageLogs
-import br.com.zup.beagle.android.widget.RootView
-import org.json.JSONArray
-import org.json.JSONObject
-
 internal fun String.toAndroidColor(): Int = ColorUtils.hexColor(this)
 
 internal fun String.getContextId() = this.split(".", "[")[0]

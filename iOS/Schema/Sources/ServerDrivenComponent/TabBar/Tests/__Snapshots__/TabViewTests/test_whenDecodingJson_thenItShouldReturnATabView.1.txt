@@ -35,6 +35,7 @@
               - accessibility: Optional<Accessibility>.none
               - id: Optional<String>.none
               - style: Optional<Style>.none
+        - onInit: Optional<Array<RawAction>>.none
         ▿ widgetProperties: WidgetProperties
           - accessibility: Optional<Accessibility>.none
           - id: Optional<String>.none
@@ -63,8 +64,9 @@
               - position: Optional<EdgeValue>.none
               - positionType: Optional<PositionType>.none
               - size: Optional<Size>.none
-      ▿ icon: Optional<String>
-        - some: "beagle"
+      ▿ icon: Optional<Local>
+        ▿ some: Local
+          - mobileId: "mobileId"
       ▿ title: Optional<String>
         - some: "tab 1"
   - styleId: Optional<String>.none
