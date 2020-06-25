@@ -88,49 +88,37 @@ object ScreenContextBuilder : ScreenBuilder {
                 createTextInput(
                     textInputPlaceholder = "Rua",
                     textInputValue = "@{address.data.street}",
-                    contextId = "address",
-                    contextPath = "data.street",
-                    contextValue = "@{onChange.value}"
+                    contextPath = "data.street"
                 ),
 
                 createTextInput(
                     textInputPlaceholder = "Número",
                     textInputValue = "@{address.data.number}",
-                    contextId = "address",
-                    contextPath = "data.number",
-                    contextValue = "@{onChange.value}"
+                    contextPath = "data.number"
                 ),
 
                 createTextInput(
                     textInputPlaceholder = "Bairro",
                     textInputValue = "@{address.data.neighborhood}",
-                    contextId = "address",
-                    contextPath = "data.neighborhood",
-                    contextValue = "@{onChange.value}"
+                    contextPath = "data.neighborhood"
                 ),
 
                 createTextInput(
                     textInputPlaceholder = "Cidade",
                     textInputValue = "@{address.data.city}",
-                    contextId = "address",
-                    contextPath = "data.city",
-                    contextValue = "@{onChange.value}"
+                    contextPath = "data.city"
                 ),
 
                 createTextInput(
                     textInputPlaceholder = "Estado",
                     textInputValue = "@{address.data.state}",
-                    contextId = "address",
-                    contextPath = "data.state",
-                    contextValue = "@{onChange.value}"
+                    contextPath = "data.state"
                 ),
 
                 createTextInput(
                     textInputPlaceholder = "Complemento",
                     textInputValue = "@{address.data.complement}",
-                    contextId = "address",
-                    contextPath = "data.complement",
-                    contextValue = "@{onChange.value}"
+                    contextPath = "data.complement"
                 )
 
             ),
@@ -153,17 +141,15 @@ object ScreenContextBuilder : ScreenBuilder {
     private fun createTextInput(
         textInputPlaceholder: String,
         textInputValue: String,
-        contextId: String,
-        contextPath: String,
-        contextValue: Any
+        contextPath: String
     ): TextInput = TextInput(
         placeholder = textInputPlaceholder,
         value = textInputValue,
         onChange = listOf(
             SetContext(
-                contextId = contextId,
+                contextId = "address",
                 path = contextPath,
-                value = contextValue
+                value = "@{onChange.value}"
             )
         )
     ).applyStyle(Style(margin = EdgeValue(bottom = 15.unitReal())))
