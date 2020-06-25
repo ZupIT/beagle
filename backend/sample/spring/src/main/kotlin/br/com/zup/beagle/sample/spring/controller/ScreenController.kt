@@ -183,13 +183,13 @@ class ScreenController(
         this.sampleNavigationTypeService.getScreenNavigateType(qaFlag)
 
     @GetMapping(REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT)
-    fun getNavigationStep2() = this.sampleNavigationTypeService.getScreenSte2()
+    fun getNavigationStep2(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleNavigationTypeService.getScreenSte2(qaFlag)
 
     @GetMapping(REPRESENTATION_PRESENT_ENDPOINT)
-    fun getNavigationPresentView() = this.sampleNavigationTypeService.getScreenPresentView()
+    fun getNavigationPresentView(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleNavigationTypeService.getScreenPresentView(qaFlag)
 
     @GetMapping(REPRESENTATION_NAVIGATION_TYPE_STEP3_ENDPOINT)
-    fun getNavigationStep3() = this.sampleNavigationTypeService.getScreenStep3()
+    fun getNavigationStep3(@PathVariable(QAFLAG) qaFlag: Boolean) = this.sampleNavigationTypeService.getScreenStep3(qaFlag)
 
     @GetMapping(SCREEN_COMPOSE_COMPONENT_ENDPOINT)
     fun getComposeComponent(@PathVariable(QAFLAG) qaFlag: Boolean) =
