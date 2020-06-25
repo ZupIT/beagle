@@ -98,7 +98,7 @@ class ScreenController(
     private val sampleNavigationBarService: SampleNavigationBarService,
     private val sampleNavigationTypeService: SampleNavigationTypeService,
     private val sampleComposeComponentService: SampleComposeComponentService,
-    private val sampleNetworkImageService: SampleImageRemoteService,
+    private val sampleImageRemoteService: SampleImageRemoteService,
     private val sampleTouchableService: SampleTouchableService,
     private val sampleActionClickService: SampleActionClickService,
     private val sampleAnalyticsService: SampleAnalyticsService,
@@ -199,8 +199,8 @@ class ScreenController(
         this.sampleComposeComponentService.createComposeComponentView(qaFlag)
 
     @Get(SCREEN_NETWORK_IMAGE_ENDPOINT)
-    fun getSampleNetworkImageView(@PathVariable(QA_FLAG) qaFlag: Boolean) =
-        this.sampleNetworkImageService.createNetworkImage(qaFlag)
+    fun getSampleImageRemote(@PathVariable(QA_FLAG) qaFlag: Boolean) =
+        this.sampleImageRemoteService.createImageRemote(qaFlag)
 
     @Get(SCREEN_TOUCHABLE_ENDPOINT)
     fun getTouchableView(@PathVariable(QA_FLAG) qaFlag: Boolean) =

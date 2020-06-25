@@ -21,5 +21,5 @@ import javax.inject.Singleton
 
 @Singleton
 class SampleImageRemoteService {
-    fun createNetworkImage(qaFlag: Boolean) = ImageRemoteScreenBuilder(qaFlag)
+    fun createImageRemote(qaFlag: Boolean) = ImageRemoteScreenBuilder(qaFlag)
 }

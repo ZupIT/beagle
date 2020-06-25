@@ -21,5 +21,5 @@ import org.springframework.stereotype.Service
 
 @Service
 class SampleImageRemoteService {
-    fun createNetworkImage(qaFlag: Boolean) = ImageRemoteScreenBuilder(qaFlag)
+    fun createImageRemote(qaFlag: Boolean) = ImageRemoteScreenBuilder(qaFlag)
 }
