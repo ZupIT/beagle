@@ -67,10 +67,6 @@ struct MainScreen: DeeplinkScreen {
                     onPress: [Navigate.openNativeRoute(.WEB_VIEW_ENDPOINT)]
                 ),
                 Button(
-                    text: "Component Interaction",
-                    onPress: [Navigate.pushView(.declarative(componentInteractionScreen))]
-                ),
-                Button(
                     text: "Send Request",
                     onPress: [Navigate.pushView(.declarative(sendRequestDeclarativeScreen))]
                 ),
@@ -80,7 +76,7 @@ struct MainScreen: DeeplinkScreen {
                 ),
                 Button(
                     text: "Sample BFF",
-                    onPress: [Navigate.pushView(.remote("https://run.mocky.io/v3/e8029ed5-4e8c-44ef-8dbd-c5631393d3b7"))]
+                    onPress: [Navigate.pushView(.remote(.COMPONENTS_ENDPOINT))]
                 )
             ]
         )

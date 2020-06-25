@@ -1,5 +1,4 @@
 ▿ Container
-  - _context_: Optional<Context>.none
   ▿ children: 3 elements
     ▿ Text
       - alignment: Optional<Expression<Alignment>>.none
@@ -31,6 +30,7 @@
         - accessibility: Optional<Accessibility>.none
         - id: Optional<String>.none
         - style: Optional<Style>.none
+  - context: Optional<Context>.none
   - onInit: Optional<Array<RawAction>>.none
   ▿ widgetProperties: WidgetProperties
     - accessibility: Optional<Accessibility>.none
