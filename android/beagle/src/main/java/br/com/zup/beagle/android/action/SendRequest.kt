@@ -94,7 +94,7 @@ data class SendRequest(
         url = evaluateExpression(rootView, this.url) ?: "",
         method = evaluateExpression(rootView, this.method) ?: RequestActionMethod.GET,
         headers = this.headers?.let { evaluateExpression(rootView, it) },
-        data = evaluateExpression(rootView, this.data?.toString() ?: ""),
+        data = this.data?.let { evaluateExpression(rootView, it.toString()) },
         onSuccess = this.onSuccess,
         onError = this.onError,
         onFinish = this.onFinish
