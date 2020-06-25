@@ -103,7 +103,7 @@ class ContextActionExecutorTest : BaseTest() {
     }
 
     @Test
-    fun executeActions_should_object_value_to_JSONObject() {
+    fun executeActions_should_parse_object_value_to_JSONObject() {
         // Given
         val eventId = "onChange"
         val value = PersonTest(name = NAME)
@@ -120,7 +120,7 @@ class ContextActionExecutorTest : BaseTest() {
     }
 
     @Test
-    fun executeActions_should_list_of_object_value_to_JSONArray() {
+    fun executeActions_should_parse_list_of_object_value_to_JSONArray() {
         // Given
         val eventId = "onChange"
         val value = arrayListOf(PersonTest(name = NAME))
