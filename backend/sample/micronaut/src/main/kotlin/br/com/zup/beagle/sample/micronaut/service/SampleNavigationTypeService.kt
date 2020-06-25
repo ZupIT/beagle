@@ -17,6 +17,7 @@
 package br.com.zup.beagle.sample.micronaut.service
 
 import br.com.zup.beagle.sample.builder.NavigateTypeBuilder
+import br.com.zup.beagle.sample.compose.quality.ComposeNavigateTypeQuality
 import br.com.zup.beagle.sample.compose.sample.ComposeSampleNavigateType
 import javax.inject.Singleton
 
@@ -25,9 +26,12 @@ class SampleNavigationTypeService {
 
     fun getScreenNavigateType(qaFlag: Boolean) = NavigateTypeBuilder(qaFlag)
 
-    fun getScreenSte2() = ComposeSampleNavigateType.step2()
+    fun getScreenSte2(qaFlag: Boolean) =
+        if (qaFlag) ComposeNavigateTypeQuality.step2() else ComposeSampleNavigateType.step2()
 
-    fun getScreenPresentView() = ComposeSampleNavigateType.presentView()
+    fun getScreenPresentView(qaFlag: Boolean) =
+        if (qaFlag) ComposeNavigateTypeQuality.presentView() else ComposeSampleNavigateType.presentView()
 
-    fun getScreenStep3() =  ComposeSampleNavigateType.step3()
+    fun getScreenStep3(qaFlag: Boolean) =
+        if (qaFlag) ComposeNavigateTypeQuality.step3() else ComposeSampleNavigateType.step2()
 }

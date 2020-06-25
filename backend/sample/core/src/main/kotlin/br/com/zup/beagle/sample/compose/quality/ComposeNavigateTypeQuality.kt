@@ -19,7 +19,6 @@ package br.com.zup.beagle.sample.compose.quality
 import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_APPEARANCE
@@ -28,6 +27,7 @@ import br.com.zup.beagle.sample.constants.CYAN_GREEN
 import br.com.zup.beagle.sample.constants.LIGHT_ORANGE
 import br.com.zup.beagle.sample.constants.LIGHT_RED
 import br.com.zup.beagle.sample.constants.NAVIGATION_TYPE_ENDPOINT
+import br.com.zup.beagle.sample.constants.QAFLAG_PLACEHOLDER
 import br.com.zup.beagle.sample.constants.RED
 import br.com.zup.beagle.sample.constants.RED_ORANGE
 import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT
@@ -37,7 +37,6 @@ import br.com.zup.beagle.sample.constants.SCREEN_COMPONENTS_ENDPOINT
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.ComposeComponent
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
@@ -46,12 +45,17 @@ import br.com.zup.beagle.widget.ui.Button
 
 
 object ComposeNavigateTypeQuality: ComposeComponent {
+    const val QA_FLAG_TRUE = "true"
     override fun build(): ServerDrivenComponent = Container(
         children = listOf(
             buttonPopView,
             createButton(
                 text = "PushView (Step 2)",
-                navigate = Navigate.PushView(Route.Remote(REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT)),
+                navigate = Navigate.PushView(
+                    Route.Remote(
+                        REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT.replace(QAFLAG_PLACEHOLDER, QA_FLAG_TRUE)
+                    )
+                ),
                 backgroundColor = LIGHT_RED
             )
         )
@@ -66,7 +70,9 @@ object ComposeNavigateTypeQuality: ComposeComponent {
 
     private val buttonAddViewStep1 = createButton(
         text = "PushView (Step 1)",
-        navigate = Navigate.PushView(Route.Remote(NAVIGATION_TYPE_ENDPOINT)),
+        navigate = Navigate.PushView(
+            Route.Remote(NAVIGATION_TYPE_ENDPOINT.replace(QAFLAG_PLACEHOLDER, QA_FLAG_TRUE))
+        ),
         backgroundColor = LIGHT_RED
     )
 
@@ -80,12 +86,18 @@ object ComposeNavigateTypeQuality: ComposeComponent {
                 buttonPopView,
                 createButton(
                     text = "PushView (Step 3)",
-                    navigate = Navigate.PushView(Route.Remote(REPRESENTATION_NAVIGATION_TYPE_STEP3_ENDPOINT)),
+                    navigate = Navigate.PushView(
+                        Route.Remote(
+                            REPRESENTATION_NAVIGATION_TYPE_STEP3_ENDPOINT.replace(QAFLAG_PLACEHOLDER, QA_FLAG_TRUE)
+                        )
+                    ),
                     backgroundColor = LIGHT_RED
                 ),
                 createButton(
                     text = "PushStack",
-                    navigate = Navigate.PushStack(Route.Remote(REPRESENTATION_PRESENT_ENDPOINT)),
+                    navigate = Navigate.PushStack(
+                        Route.Remote(REPRESENTATION_PRESENT_ENDPOINT.replace(QAFLAG_PLACEHOLDER, QA_FLAG_TRUE))
+                    ),
                     backgroundColor = LIGHT_ORANGE
                 )
             )
@@ -120,18 +132,22 @@ object ComposeNavigateTypeQuality: ComposeComponent {
                 buttonPopView,
                 createButton(
                     text = "ResetApplication (Step 1)",
-                    navigate = Navigate.ResetApplication(Route.Remote(NAVIGATION_TYPE_ENDPOINT)),
+                    navigate = Navigate.ResetApplication(
+                        Route.Remote(NAVIGATION_TYPE_ENDPOINT.replace(QAFLAG_PLACEHOLDER, QA_FLAG_TRUE))
+                    ),
                     backgroundColor = RED_ORANGE
                 ),
                 createButton(
                     text = "PopToView (Step 1)",
-                    navigate = Navigate.PopToView(NAVIGATION_TYPE_ENDPOINT),
+                    navigate = Navigate.PopToView(NAVIGATION_TYPE_ENDPOINT.replace(QAFLAG_PLACEHOLDER, QA_FLAG_TRUE)),
                     backgroundColor = RED
                 ),
                 buttonAddViewStep1,
                 createButton(
                     text = "ResetStack",
-                    navigate = Navigate.ResetStack(Route.Remote(SCREEN_COMPONENTS_ENDPOINT)),
+                    navigate = Navigate.ResetStack(
+                        Route.Remote(SCREEN_COMPONENTS_ENDPOINT.replace(QAFLAG_PLACEHOLDER, QA_FLAG_TRUE))
+                    ),
                     backgroundColor = "#800080"
                 )
             )
