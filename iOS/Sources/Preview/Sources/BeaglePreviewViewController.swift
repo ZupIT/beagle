@@ -16,7 +16,7 @@
 
 import UIKit
 
-import BeagleUI
+import Beagle
 
 class BeaglePreviewViewController: UIViewController, HasDependencies, WSConnectionHandlerDelegate {
 

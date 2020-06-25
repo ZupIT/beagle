@@ -16,7 +16,7 @@
  */
 
 import Foundation
-import BeagleUI
+import Beagle
 import UIKit
 import BeagleSchema
 

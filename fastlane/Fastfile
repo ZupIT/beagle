@@ -42,12 +42,12 @@ platform :ios do
 
   desc "Pull Request verification"
   lane :pull_request_verification do
-    xcversion(version: "~> 11.4")
+    xcversion(version: "~> 11.5.0")
     iOSSwiftLint
     init_ios_dependencies
     scan(
-      workspace: "iOS/Darwin-BeagleUI.xcworkspace/",
-      scheme: "BeagleUI",
+      workspace: "iOS/Beagle.xcworkspace/",
+      scheme: "Beagle",
       device: "iPhone 11"
     )
     commit_hash = last_git_commit[:commit_hash]
@@ -59,7 +59,7 @@ platform :ios do
     carthage(
       command: "bootstrap",
       platform: "iOS",
-      project_directory: "iOS/Sources/BeagleUI/", cache_builds: true
+      project_directory: "iOS/Sources/Beagle/", cache_builds: true
     )
   end
 
@@ -71,6 +71,14 @@ platform :ios do
   )
   end
 
+  desc "Updates versions on Podspec"
+  lane :release do
+    version_bump_podspec(path: "Beagle.podspec", version_number: last_git_tag)
+    version_bump_podspec(path: "BeagleSchema.podspec", version_number: last_git_tag)
+    pod_push(path: "Beagle.podspec")
+    pod_push(path: "BeagleSchema.podspec")
+  end
+
 end
 
 desc "Publish new release based on last two tags"
@@ -78,7 +86,8 @@ lane :deploy do
   git_pull
   ENV["VERSION_DEPLOY"] = last_git_tag
   sh "fastlane common remote_publish"
-
+  sh "fastlane ios release"
+  
   sh "bash ./delete_release.sh"
   set_github_release(
     repository_name: "ZupIT/beagle",

@@ -22,10 +22,8 @@ import java.io.Serializable
 sealed class Bind<T> : BindAttribute<T>, Serializable {
     data class Expression<T>(override val value: String): Bind<T>()
     data class Value<T: Any>(override val value: T): Bind<T>()
-
-    companion object {
-        fun <T> expressionOf(expression: String) = Expression<T>(expression)
-        fun <T : Any> valueOf(value: T) = Value(value)
-        fun <T : Any> valueOfNullable(value: T?) = value?.let { valueOf(it) }
-    }
 }
+
+fun <T> expressionOf(expression: String) = Bind.Expression<T>(expression)
+fun <T : Any> valueOf(value: T) = Bind.Value(value)
+fun <T : Any> valueOfNullable(value: T?) = value?.let { valueOf(it) }

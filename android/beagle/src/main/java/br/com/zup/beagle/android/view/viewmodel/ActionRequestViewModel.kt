@@ -30,7 +30,7 @@ import kotlin.coroutines.CoroutineContext
 
 data class Response(
     val statusCode: Int?,
-    val data: String,
+    val data: Any?,
     val headers: Map<String, String> = mapOf(),
     val statusText: String? = null
 )

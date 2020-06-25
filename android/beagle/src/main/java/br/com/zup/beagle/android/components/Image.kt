@@ -21,6 +21,7 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.observeBindChanges
@@ -40,7 +41,7 @@ data class Image(
     constructor(
         path: PathType,
         mode: ImageContentMode? = null) : this(
-        Bind.valueOf(path),
+        valueOf(path),
         mode
     )
 
