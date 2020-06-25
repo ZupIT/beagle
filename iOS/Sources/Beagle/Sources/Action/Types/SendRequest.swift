@@ -20,8 +20,10 @@ import UIKit
 
 extension SendRequest: Action {
     public func execute(controller: BeagleController, sender: Any) {
-        
-        guard let url = URL(string: url), let view = sender as? UIView else {
+
+        guard let
+            view = sender as? UIView,
+            let url = controller.dependencies.urlBuilder.build(path: url.get(with: view) ?? "") else {
             return
         }
         let requestData = Request.RequestData(

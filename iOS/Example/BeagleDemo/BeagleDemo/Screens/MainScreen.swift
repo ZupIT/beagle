@@ -67,10 +67,6 @@ struct MainScreen: DeeplinkScreen {
                     onPress: [Navigate.openNativeRoute(.WEB_VIEW_ENDPOINT)]
                 ),
                 Button(
-                    text: "Component Interaction",
-                    onPress: [Navigate.pushView(.declarative(componentInteractionScreen))]
-                ),
-                Button(
                     text: "Send Request",
                     onPress: [Navigate.pushView(.declarative(sendRequestDeclarativeScreen))]
                 ),

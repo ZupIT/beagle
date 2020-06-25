@@ -80,13 +80,7 @@ class BeagleScreenViewModel {
     func loadScreenFromText(_ text: String) -> Screen? {
         guard let data = text.data(using: .utf8) else { return nil }
         let component = try? self.dependencies.decoder.decodeComponent(from: data)
-
-        // TODO: verify if we can handle any component
-        guard let screen = component as? ScreenComponent else {
-            return nil
-        }
-
-        return screen.toScreen()
+        return component?.toScreen()
     }
 
     func loadRemoteScreen(_ remote: ScreenType.Remote) {

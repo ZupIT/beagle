@@ -69,7 +69,7 @@ open class BeagleRenderer {
             view.beagle.setup(style: c.style)
             view.style.setup(c.style)
         }
-        if let context = (component as? HasContext)?._context_ {
+        if let context = (component as? HasContext)?.context {
             view.setContext(context)
         }
     }
