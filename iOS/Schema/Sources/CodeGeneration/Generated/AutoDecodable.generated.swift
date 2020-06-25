@@ -88,7 +88,7 @@ extension Container {
     enum CodingKeys: String, CodingKey {
         case children
         case onInit
-        case _context_
+        case context
     }
 
     public init(from decoder: Decoder) throws {
@@ -97,7 +97,7 @@ extension Container {
         children = try container.decode(forKey: .children)
         widgetProperties = try WidgetProperties(from: decoder)
         onInit = try container.decodeIfPresent(forKey: .onInit)
-        _context_ = try container.decodeIfPresent(Context.self, forKey: ._context_)
+        context = try container.decodeIfPresent(Context.self, forKey: .context)
     }
 }
 
@@ -238,7 +238,7 @@ extension PageView {
     enum CodingKeys: String, CodingKey {
         case children
         case pageIndicator
-        case _context_
+        case context
     }
 
     public init(from decoder: Decoder) throws {
@@ -247,7 +247,7 @@ extension PageView {
         children = try container.decode(forKey: .children)
         let rawPageIndicator: RawComponent? = try container.decodeIfPresent(forKey: .pageIndicator)
         pageIndicator = rawPageIndicator as? PageIndicatorComponent
-        _context_ = try container.decodeIfPresent(Context.self, forKey: ._context_)
+        context = try container.decodeIfPresent(Context.self, forKey: .context)
     }
 }
 
@@ -282,7 +282,7 @@ extension ScrollView {
         case children
         case scrollDirection
         case scrollBarEnabled
-        case _context_
+        case context
     }
 
     public init(from decoder: Decoder) throws {
@@ -291,7 +291,33 @@ extension ScrollView {
         children = try container.decode(forKey: .children)
         scrollDirection = try container.decodeIfPresent(ScrollAxis.self, forKey: .scrollDirection)
         scrollBarEnabled = try container.decodeIfPresent(Bool.self, forKey: .scrollBarEnabled)
-        _context_ = try container.decodeIfPresent(Context.self, forKey: ._context_)
+        context = try container.decodeIfPresent(Context.self, forKey: .context)
+    }
+}
+
+// MARK: SendRequest Decodable
+extension SendRequest {
+
+    enum CodingKeys: String, CodingKey {
+        case url
+        case method
+        case data
+        case headers
+        case onSuccess
+        case onError
+        case onFinish
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        url = try container.decode(Expression<String>.self, forKey: .url)
+        method = try container.decodeIfPresent(SendRequest.HTTPMethod.self, forKey: .method)
+        data = try container.decodeIfPresent(DynamicObject.self, forKey: .data)
+        headers = try container.decodeIfPresent([String: String].self, forKey: .headers)
+        onSuccess = try container.decodeIfPresent(forKey: .onSuccess)
+        onError = try container.decodeIfPresent(forKey: .onError)
+        onFinish = try container.decodeIfPresent(forKey: .onFinish)
     }
 }
 

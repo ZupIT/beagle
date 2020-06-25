@@ -131,8 +131,13 @@ extension UIView {
     }
     
     func setContext(_ context: Context) {
-        if let contextMap = contextMap {
-            contextMap[context.id]?.value = context
+        if var contextMap = contextMap {
+            if let contextObservable = contextMap[context.id] {
+                contextObservable.value = context
+            } else {
+                contextMap[context.id] = Observable(value: context)
+            }
+            self.contextMap = contextMap
         } else {
             contextMap = [context.id: Observable(value: context)]
         }
