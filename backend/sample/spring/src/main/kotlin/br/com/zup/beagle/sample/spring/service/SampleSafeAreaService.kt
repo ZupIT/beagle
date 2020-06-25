@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.sample.spring.service
 
-import br.com.zup.beagle.sample.builder.PageViewScreenBuilder
+
 import br.com.zup.beagle.sample.builder.SafeAreaBuilder
 import org.springframework.stereotype.Service
 

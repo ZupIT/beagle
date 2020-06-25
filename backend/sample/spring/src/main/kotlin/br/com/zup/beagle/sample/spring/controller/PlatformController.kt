@@ -18,7 +18,7 @@ package br.com.zup.beagle.sample.spring.controller
 
 import br.com.zup.beagle.sample.constants.CUSTOM_PLATFORM_SAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.PLATFORM_SAMPLE_ENDPOINT
-import br.com.zup.beagle.sample.constants.QAFLAG
+import br.com.zup.beagle.sample.constants.QA_FLAG
 import br.com.zup.beagle.sample.spring.service.PlatformService
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.GetMapping
@@ -28,10 +28,10 @@ import org.springframework.web.bind.annotation.PathVariable
 class PlatformController(private val platformService: PlatformService) {
 
     @GetMapping(CUSTOM_PLATFORM_SAMPLE_ENDPOINT)
-    fun renderComponentUsingPlatform(@PathVariable(QAFLAG) qaFlag: Boolean) =
+    fun renderComponentUsingPlatform(@PathVariable(QA_FLAG) qaFlag: Boolean) =
         this.platformService.renderComponentUsingPlatform(qaFlag)
 
     @GetMapping(PLATFORM_SAMPLE_ENDPOINT)
-    fun renderComponent(@PathVariable(QAFLAG) qaFlag: Boolean) =
+    fun renderComponent(@PathVariable(QA_FLAG) qaFlag: Boolean) =
         this.platformService.renderComponent(qaFlag)
 }

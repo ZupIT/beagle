@@ -21,5 +21,5 @@ import javax.inject.Singleton
 
 @Singleton
 class SampleButtonService {
-    fun createButtonView(x:Boolean) = ButtonScreenBuilder(x)
+    fun createButtonView(qaFlag:Boolean) = ButtonScreenBuilder(qaFlag)
 }

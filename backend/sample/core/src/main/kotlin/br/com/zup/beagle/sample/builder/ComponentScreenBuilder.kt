@@ -44,7 +44,7 @@ import br.com.zup.beagle.sample.constants.SCREEN_SCROLL_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TOUCHABLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_WEB_VIEW_ENDPOINT
-import br.com.zup.beagle.sample.constants.QAFLAG_PLACEHOLDER
+import br.com.zup.beagle.sample.constants.QA_FLAG_PLACEHOLDER
 import br.com.zup.beagle.sample.constants.SCREEN_FLEX_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TAB_VIEW_ENDPOINT
 import br.com.zup.beagle.widget.core.EdgeValue
@@ -58,25 +58,21 @@ import br.com.zup.beagle.widget.ui.Button
 
 class ComponentScreenBuilder(val aqFlag: Boolean): ScreenBuilder {
     override fun build() = Screen(
-        navigationBar =  if(aqFlag.not())
-        NavigationBar(
+        navigationBar =  NavigationBar(
             title = "Choose a ${if (aqFlag) "Test" else "Sample"} Component",
             showBackButton = true,
-                navigationBarItems = listOf(
-                        NavigationBarItem(
-                            text = "QA",
-                            action = Navigate.PushView(
-                                Route.Remote(
-                                    SCREEN_COMPONENTS_ENDPOINT.replace(QAFLAG_PLACEHOLDER, aqFlag.not().toString())
-                                )
-                            )
+            navigationBarItems = if (aqFlag) null
+            else listOf(
+                NavigationBarItem(
+                    text = "QA",
+                    action = Navigate.PushView(
+                        Route.Remote(
+                            SCREEN_COMPONENTS_ENDPOINT.replace(QA_FLAG_PLACEHOLDER, aqFlag.not().toString())
                         )
+                    )
                 )
-        ) else NavigationBar(
-            title = "Choose a ${if (aqFlag) "Test" else "Sample"} Component",
-            showBackButton = true
-        )
-        ,
+            )
+        ),
         child = ScrollView(
             scrollDirection = ScrollAxis.VERTICAL,
             children = listOf(
@@ -107,9 +103,9 @@ class ComponentScreenBuilder(val aqFlag: Boolean): ScreenBuilder {
         )
     )
 
-    private fun createMenu(text: String, path: String, qaFlag: Boolean = false) = Button(
+    private fun createMenu(text: String, path: String) = Button(
         text = text,
-        onPress = listOf(Navigate.PushView(Route.Remote(path.replace(QAFLAG_PLACEHOLDER,aqFlag.toString())))
+        onPress = listOf(Navigate.PushView(Route.Remote(path.replace(QA_FLAG_PLACEHOLDER,aqFlag.toString())))
         ),
         styleId = BUTTON_STYLE_TITLE
     ).applyStyle(Style(

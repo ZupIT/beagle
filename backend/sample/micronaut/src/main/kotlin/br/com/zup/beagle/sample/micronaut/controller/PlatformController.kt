@@ -18,7 +18,7 @@ package br.com.zup.beagle.sample.micronaut.controller
 
 import br.com.zup.beagle.sample.constants.CUSTOM_PLATFORM_SAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.PLATFORM_SAMPLE_ENDPOINT
-import br.com.zup.beagle.sample.constants.QAFLAG
+import br.com.zup.beagle.sample.constants.QA_FLAG
 import br.com.zup.beagle.sample.micronaut.service.PlatformService
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
@@ -28,10 +28,10 @@ import io.micronaut.http.annotation.PathVariable
 class PlatformController(private val platformService: PlatformService) {
 
     @Get(CUSTOM_PLATFORM_SAMPLE_ENDPOINT)
-    fun renderComponentUsingPlatform(@PathVariable(QAFLAG) qaFlag: Boolean) =
+    fun renderComponentUsingPlatform(@PathVariable(QA_FLAG) qaFlag: Boolean) =
         this.platformService.renderComponentUsingPlatform(qaFlag)
 
     @Get(PLATFORM_SAMPLE_ENDPOINT)
-    fun renderComponent(@PathVariable(QAFLAG) qaFlag: Boolean) =
+    fun renderComponent(@PathVariable(QA_FLAG) qaFlag: Boolean) =
         this.platformService.renderComponent(qaFlag)
 }

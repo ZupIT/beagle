@@ -20,6 +20,6 @@ import br.com.zup.beagle.sample.builder.ImageRemoteScreenBuilder
 import javax.inject.Singleton
 
 @Singleton
-class SampleNetworkImageService {
-    fun createNetworkImage() = ImageRemoteScreenBuilder
+class SampleImageRemoteService {
+    fun createNetworkImage(qaFlag: Boolean) = ImageRemoteScreenBuilder(qaFlag)
 }
