@@ -16,7 +16,7 @@
  */
 
 import UIKit
-import BeagleUI
+import Beagle
 import BeagleSchema
 
 struct SimpleFormScreen: DeeplinkScreen {
@@ -33,7 +33,7 @@ struct SimpleFormScreen: DeeplinkScreen {
             navigationBar: NavigationBar(title: "Simple Form", showBackButton: true),
             child:Container(children: [
                 SimpleForm(
-                    _context_: Context(id: "email", value: ["address":"luis@zup.com.br","message":"hello Gabi"]),
+                    context: Context(id: "email", value: ["address":"luis@zup.com.br","message":"hello Gabi"]),
                     onSubmit: [
                         Alert(
                         title: "Error!",
@@ -41,9 +41,9 @@ struct SimpleFormScreen: DeeplinkScreen {
                         onPressOk: FirstAction(),
                         labelOk: "OK"                      )
                     ],
-                    children: [Button(text: "olghghgha", action: SubmitForm())]),
+                    children: [Button(text: "olghghgha", onPress: [SubmitForm()])]),
                 SimpleForm(
-                _context_: Context(id: "email", value: ["address":"luis.gustavo@zup.com.br","message":"hello Gabi"]),
+                context: Context(id: "email", value: ["address":"luis.gustavo@zup.com.br","message":"hello Gabi"]),
                 onSubmit: [
                     Alert(
                     title: "Error!",
@@ -52,7 +52,7 @@ struct SimpleFormScreen: DeeplinkScreen {
                     labelOk: "OK"
                     ),
                     Navigate.openNativeRoute(.WEB_VIEW_ENDPOINT) ],
-                children: [Button(text: "Luis Gustavo", action: SubmitForm())])
+                children: [Button(text: "Luis Gustavo", onPress: [SubmitForm()])])
                 ])
         )
     }

@@ -28,7 +28,7 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 data class Touchable(
-    val action: Action,
+    val onPress: List<Action>,
     val child: ServerDrivenComponent,
     val clickAnalyticsEvent: ClickEvent? = null
 ) : WidgetView() {
@@ -40,11 +40,11 @@ data class Touchable(
     private val viewRendererFactory: ViewRendererFactory = ViewRendererFactory()
 
     override fun buildView(rootView: RootView): View {
-        preFetchHelper.handlePreFetch(rootView, action)
+        preFetchHelper.handlePreFetch(rootView, onPress)
 
         return viewRendererFactory.make(child).build(rootView).apply {
             setOnClickListener {
-                handleEvent(rootView, action, "")
+                handleEvent(rootView, onPress, "onPress")
                 clickAnalyticsEvent?.let {
                     BeagleEnvironment.beagleSdk.analytics?.trackEventOnClick(it)
                 }

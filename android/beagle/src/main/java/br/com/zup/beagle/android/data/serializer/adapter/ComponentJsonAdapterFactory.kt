@@ -20,15 +20,14 @@ import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Image
 import br.com.zup.beagle.android.components.LazyComponent
 import br.com.zup.beagle.android.components.ListView
-import br.com.zup.beagle.android.components.NetworkImage
 import br.com.zup.beagle.android.components.TabItem
 import br.com.zup.beagle.android.components.TabView
 import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.components.TextInput
 import br.com.zup.beagle.android.components.Touchable
 import br.com.zup.beagle.android.components.WebView
 import br.com.zup.beagle.android.components.form.Form
 import br.com.zup.beagle.android.components.form.FormInput
-import br.com.zup.beagle.android.components.form.FormInputHidden
 import br.com.zup.beagle.android.components.form.FormSubmit
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.components.layout.Container
@@ -87,7 +86,6 @@ internal object ComponentJsonAdapterFactory {
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
         return factory.withSubtype(Text::class.java, createNamespaceFor<Text>())
             .withSubtype(Image::class.java, createNamespaceFor<Image>())
-            .withSubtype(NetworkImage::class.java, createNamespaceFor<NetworkImage>())
             .withSubtype(Button::class.java, createNamespaceFor<Button>())
             .withSubtype(ListView::class.java, createNamespaceFor<ListView>())
             .withSubtype(TabView::class.java, createNamespaceFor<TabView>())
@@ -96,9 +94,9 @@ internal object ComponentJsonAdapterFactory {
             .withSubtype(Touchable::class.java, createNamespaceFor<Touchable>())
             .withSubtype(PageIndicator::class.java, createNamespaceFor<PageIndicator>())
             .withSubtype(FormInput::class.java, createNamespaceFor<FormInput>())
-            .withSubtype(FormInputHidden::class.java, createNamespaceFor<FormInputHidden>())
             .withSubtype(FormSubmit::class.java, createNamespaceFor<FormSubmit>())
             .withSubtype(UndefinedWidget::class.java, createNamespaceFor<UndefinedWidget>())
+            .withSubtype(TextInput::class.java, createNamespaceFor<TextInput>())
     }
 
     private fun registerCustomWidget(

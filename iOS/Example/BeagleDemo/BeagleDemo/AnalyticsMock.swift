@@ -15,7 +15,7 @@
  */
 
 import Foundation
-import BeagleUI
+import Beagle
 import BeagleSchema
 
 class AnalyticsMock: Analytics {

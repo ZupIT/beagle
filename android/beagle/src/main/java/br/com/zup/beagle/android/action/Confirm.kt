@@ -16,26 +16,45 @@
 
 package br.com.zup.beagle.android.action
 
+import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.valueOf
+import br.com.zup.beagle.android.context.valueOfNullable
+import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 
 data class Confirm(
-    val title: String?,
-    val message: String,
+    val title: Bind<String>?,
+    val message: Bind<String>,
     val onPressOk: Action? = null,
     val onPressCancel: Action? = null,
     val labelOk: String? = null,
     val labelCancel: String? = null
 ) : Action {
 
+    constructor(
+        title: String?,
+        message: String,
+        onPressOk: Action? = null,
+        onPressCancel: Action? = null,
+        labelOk: String? = null,
+        labelCancel: String? = null) : this(
+        title = valueOfNullable(title),
+        message = valueOf(message),
+        onPressOk = onPressOk,
+        onPressCancel = onPressCancel,
+        labelOk = labelOk,
+        labelCancel = labelCancel
+    )
+
     @Transient
     internal var viewFactory: ViewFactory = ViewFactory()
 
     override fun execute(rootView: RootView) {
         viewFactory.makeAlertDialogBuilder(rootView.getContext())
-            .setTitle(title)
-            .setMessage(message)
+            .setTitle(title?.let { evaluateExpression(rootView, it) } ?: "")
+            .setMessage(evaluateExpression(rootView, message))
             .setPositiveButton(labelOk
                 ?: rootView.getContext().getString(android.R.string.ok)) { dialog, _ ->
                 dialog.dismiss()

@@ -16,7 +16,7 @@
  */
 
 import Foundation
-import BeagleUI
+import Beagle
 import BeagleSchema
 import UIKit
 
@@ -28,10 +28,10 @@ let sendRequestDeclarativeScreen: Screen = {
             [
                 Button(
                     text: "do request",
-                    action: SendRequest(
+                    onPress: [SendRequest(
                         url: "https://httpbin.org/post",
                         method: .post,
-                        data: ["@{myContext}"],
+                        data: "@{myContext}",
                         headers: [
                             "Content-Type": "application/json",
                             "sample-header-1": "HeaderContent1",
@@ -40,9 +40,9 @@ let sendRequestDeclarativeScreen: Screen = {
                         onSuccess: [
                             Alert(
                                 title: "Success!",
-                                message: "Sucess sending Request",
-                                onPressOk: OkAction(),
-                                labelOk: "OK"
+                                message: "request data: @{onSuccess.data.json}",
+                                onPressOk: Alert(message: "request data: @{onSuccess.data.json}"),
+                                labelOk: "Cancel"
                             )
                         ],
                         onError: [
@@ -51,14 +51,14 @@ let sendRequestDeclarativeScreen: Screen = {
                                 message: "error sending request",
                                 onPressOk: OkAction(),
                                 onPressCancel: CancelAction(),
-                                labelOk: "OK",
-                                labelCancel: "Cancel"
+                                labelOk: "Cancel",
+                                labelCancel: "Ok"
                             )
                         ],
                         onFinish: [
                             CustomConsoleLogAction()
                         ]
-                    )
+                    )]
                 )
             ],
             context: Context(id: "myContext", value: "initial value")
@@ -83,4 +83,3 @@ struct CancelAction: Action {
         print("onPressCancel from Confirm clicked")
     }
 }
-

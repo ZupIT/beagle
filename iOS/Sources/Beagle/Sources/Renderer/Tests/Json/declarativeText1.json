@@ -1,0 +1,98 @@
+{
+    "_beagleComponent_": "beagle:screencomponent",
+    "child": {
+        "_beagleComponent_": "beagle:container",
+        "children": [
+            {
+                "_beagleComponent_": "beagle:text",
+                "text": "BeaglePreview",
+                "alignment": "CENTER",
+                "style": {
+                    "backgroundColor": "#ff00ff",
+                    "size": {
+                        "width": {
+                            "value": 100,
+                            "type": "PERCENT"
+                        },
+                        "height": {
+                            "value": 44,
+                            "type": "REAL"
+                        }
+                    }
+                }
+            },
+            {
+                "_beagleComponent_": "beagle:container",
+                "children": [
+                    {
+                        "_beagleComponent_": "beagle:text",
+                        "text": "element 1",
+                        "alignment": "CENTER",
+                        "style": {
+                            "backgroundColor": "#ff0000",
+                            "size": {
+                                "width": {
+                                    "value": 100,
+                                    "type": "PERCENT"
+                                },
+                                "height": {
+                                    "value": 64,
+                                    "type": "REAL"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "_beagleComponent_": "beagle:text",
+                        "text": "element 2",
+                        "alignment": "CENTER",
+                        "style": {
+                            "backgroundColor": "#00ff00",
+                            "size": {
+                                "width": {
+                                    "value": 100,
+                                    "type": "PERCENT"
+                                },
+                                "height": {
+                                    "value": 64,
+                                    "type": "REAL"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "_beagleComponent_": "beagle:text",
+                        "text": "element 3",
+                        "alignment": "CENTER",
+                        "style": {
+                            "backgroundColor": "#ff0000",
+                            "size": {
+                                "width": {
+                                    "value": 100,
+                                    "type": "PERCENT"
+                                },
+                                "height": {
+                                    "value": 64,
+                                    "type": "REAL"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "style": {
+                    "backgroundColor": "#0ff",
+                    "size": {
+                        "width": {
+                            "value": 100,
+                            "type": "PERCENT"
+                        },
+                        "height": {
+                            "value": 256,
+                            "type": "REAL"
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}

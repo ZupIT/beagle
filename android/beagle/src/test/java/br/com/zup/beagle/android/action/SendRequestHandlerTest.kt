@@ -20,33 +20,34 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import br.com.zup.beagle.android.context.ContextActionExecutor
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.utils.ViewModelProviderFactory
-import br.com.zup.beagle.android.utils.contextActionExecutor
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.view.viewmodel.Response
-import br.com.zup.beagle.android.context.Bind.Companion.valueOf
+import br.com.zup.beagle.android.context.valueOf
+import br.com.zup.beagle.android.utils.ViewModelProviderFactory
+import br.com.zup.beagle.android.utils.evaluateExpression
+import br.com.zup.beagle.android.utils.handleEvent
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
+import io.mockk.mockkStatic
 import io.mockk.slot
+import io.mockk.unmockkAll
 import io.mockk.verify
 import io.mockk.verifyOrder
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-
 
 class SendRequestHandlerTest {
 
     @get:Rule
     var executorRule = InstantTaskExecutorRule()
 
-    private val contextActionExecutorMock = mockk<ContextActionExecutor>()
     private val rootView: ActivityRootView = mockk(relaxed = true)
     private val viewModel: ActionRequestViewModel = mockk()
     private val liveData: MutableLiveData<ActionRequestViewModel.FetchViewState> = mockk()
@@ -57,15 +58,21 @@ class SendRequestHandlerTest {
     fun setUp() {
         mockkObject(ViewModelProviderFactory)
 
-        contextActionExecutor = contextActionExecutorMock
-
         every {
             ViewModelProviderFactory
                 .of(any<AppCompatActivity>())
                 .get(ActionRequestViewModel::class.java)
         } returns viewModel
 
-        every { contextActionExecutorMock.executeAction(any(), any(), any(), any()) } just Runs
+        mockkStatic("br.com.zup.beagle.android.utils.ActionExtensionsKt")
+
+        every { viewModel.fetch(any()) } returns liveData
+        every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
+    }
+
+    @After
+    fun tearDown() {
+        unmockkAll()
     }
 
     @Test
@@ -74,10 +81,8 @@ class SendRequestHandlerTest {
         val onSuccessAction: Action = mockk()
         val onErrorAction: Action = mockk()
         val onFinishAction: Action = mockk()
-        val requestAction = SendRequest(url = "", onSuccess = onSuccessAction,
-            onError = onErrorAction, onFinish = onFinishAction)
-        every { viewModel.fetch(any()) } returns liveData
-        every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
+        val requestAction = createSendRequest(onSuccess = listOf(onSuccessAction),
+            onError = listOf(onErrorAction), onFinish = listOf(onFinishAction))
 
         // When
         requestAction.execute(rootView)
@@ -86,8 +91,8 @@ class SendRequestHandlerTest {
 
         // Then
         verifyOrder {
-            contextActionExecutor.executeAction(rootView, onFinishAction, "onFinish")
-            contextActionExecutor.executeAction(rootView, onSuccessAction, "onSuccess", any())
+            requestAction.handleEvent(rootView, listOf(onFinishAction), "onFinish")
+            requestAction.handleEvent(rootView, listOf(onSuccessAction), "onSuccess", any())
         }
     }
 
@@ -97,10 +102,8 @@ class SendRequestHandlerTest {
         val onSuccessAction: Action = mockk()
         val onErrorAction: Action = mockk()
         val onFinishAction: Action = mockk()
-        val requestAction = SendRequest(url = valueOf(""), onSuccess = onSuccessAction,
-            onError = onErrorAction, onFinish = onFinishAction)
-        every { viewModel.fetch(any()) } returns liveData
-        every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
+        val requestAction = createSendRequest(onSuccess = listOf(onSuccessAction),
+            onError = listOf(onErrorAction), onFinish = listOf(onFinishAction))
 
         // When
         requestAction.execute(rootView)
@@ -109,8 +112,8 @@ class SendRequestHandlerTest {
 
         // Then
         verifyOrder {
-            contextActionExecutor.executeAction(rootView, onFinishAction, "onFinish", null)
-            contextActionExecutor.executeAction(rootView, onErrorAction, "onError", any())
+            requestAction.handleEvent(rootView, listOf(onFinishAction), "onFinish")
+            requestAction.handleEvent(rootView, listOf(onErrorAction), "onError", any())
         }
     }
 
@@ -119,10 +122,8 @@ class SendRequestHandlerTest {
         // Given
         val onErrorAction: Action = mockk()
         val onFinishAction: Action = mockk()
-        val requestAction = SendRequest(url = valueOf(""), onSuccess = null,
-            onError = onErrorAction, onFinish = onFinishAction)
-        every { viewModel.fetch(any()) } returns liveData
-        every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
+        val requestAction = createSendRequest(onSuccess = null,
+            onError = listOf(onErrorAction), onFinish = listOf(onFinishAction))
 
         // When
         requestAction.execute(rootView)
@@ -130,16 +131,16 @@ class SendRequestHandlerTest {
         observerSlot.captured.onChanged(result)
 
         // Then
-        verify(exactly = once()) { contextActionExecutorMock.executeAction(rootView, any(), "onFinish") }
+        verify(exactly = once()) {
+            requestAction.handleEvent(rootView, listOf(onFinishAction), "onFinish")
+        }
     }
 
     @Test
     fun `should not send any action when handle action`() {
         // Given
-        val requestAction = SendRequest(url = valueOf(""), onSuccess = null,
+        val requestAction = createSendRequest(onSuccess = null,
             onError = null, onFinish = null)
-        every { viewModel.fetch(any()) } returns liveData
-        every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
 
         // When
         requestAction.execute(rootView)
@@ -147,7 +148,9 @@ class SendRequestHandlerTest {
         observerSlot.captured.onChanged(result)
 
         // Then
-        verify(exactly = 0) { contextActionExecutor.executeAction(any(), any(), any(), any()) }
+        verify(exactly = 0) {
+            requestAction.handleEvent(any(), any<List<Action>>(), any())
+        }
     }
 
 
@@ -155,10 +158,8 @@ class SendRequestHandlerTest {
     fun `should send only action finish when handle action with success`() {
         // Given
         val onFinishAction: Action = mockk()
-        val requestAction = SendRequest(url = valueOf(""), onSuccess = null,
-            onError = null, onFinish = onFinishAction)
-        every { viewModel.fetch(any()) } returns liveData
-        every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
+        val requestAction = createSendRequest(onSuccess = null,
+            onError = null, onFinish = listOf(onFinishAction))
 
         // When
         requestAction.execute(rootView)
@@ -166,17 +167,17 @@ class SendRequestHandlerTest {
         observerSlot.captured.onChanged(result)
 
         // Then
-        verify(exactly = once()) { contextActionExecutor.executeAction(rootView, onFinishAction, "onFinish") }
+        verify(exactly = once()) {
+            requestAction.handleEvent(rootView, listOf(onFinishAction), "onFinish")
+        }
     }
 
     @Test
     fun `should send only action finish when handle action with error`() {
         // Given
         val onFinishAction: Action = mockk()
-        val requestAction = SendRequest(url = valueOf(""), onSuccess = null,
-            onError = null, onFinish = onFinishAction)
-        every { viewModel.fetch(any()) } returns liveData
-        every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
+        val requestAction = createSendRequest(onSuccess = null,
+            onError = null, onFinish = listOf(onFinishAction))
 
         // When
         requestAction.execute(rootView)
@@ -184,6 +185,24 @@ class SendRequestHandlerTest {
         observerSlot.captured.onChanged(result)
 
         // Then
-        verify(exactly = once()) { contextActionExecutor.executeAction(rootView, onFinishAction, "onFinish") }
+        verify(exactly = once()) {
+            requestAction.handleEvent(rootView, listOf(onFinishAction), "onFinish")
+        }
+    }
+
+    private fun createSendRequest(
+        onSuccess: List<Action>?,
+        onError: List<Action>?,
+        onFinish: List<Action>?
+    ): SendRequest {
+        return SendRequest(
+            url = valueOf(""),
+            onSuccess = onSuccess,
+            onError = onError,
+            onFinish = onFinish
+        ).apply {
+            every { evaluateExpression(rootView, any()) } returns ""
+            every { handleEvent(rootView, any<List<Action>>(), any(), any()) } just Runs
+        }
     }
 }

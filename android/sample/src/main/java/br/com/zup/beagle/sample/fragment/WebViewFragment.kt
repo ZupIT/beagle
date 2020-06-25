@@ -24,6 +24,8 @@ import androidx.fragment.app.Fragment
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.android.utils.toView
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.android.components.WebView
@@ -38,8 +40,8 @@ class WebViewFragment : Fragment() {
         val declarative = Screen(
             child = WebView(
                 url = "https://zup.com.br"
-            ).applyFlex(
-                Flex(
+            ).applyStyle(
+                Style(
                     size = Size(
                         width = 100.unitPercent(),
                         height = 100.unitPercent()

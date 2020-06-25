@@ -18,7 +18,10 @@ package br.com.zup.beagle.android.components.layout
 
 import android.view.View
 import android.view.ViewGroup
+import br.com.zup.beagle.android.context.ContextComponent
+import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -29,8 +32,9 @@ import br.com.zup.beagle.widget.core.ScrollAxis
 data class ScrollView(
     val children: List<ServerDrivenComponent>,
     val scrollDirection: ScrollAxis? = null,
-    val scrollBarEnabled: Boolean? = null
-) : WidgetView() {
+    val scrollBarEnabled: Boolean? = null,
+    override val context: ContextData? = null
+) : WidgetView(), ContextComponent {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
@@ -45,32 +49,31 @@ data class ScrollView(
             FlexDirection.ROW
         }
 
-        val flexChild = Flex(flexDirection = flexDirection)
-        val flexParent = Flex(grow = 1.0)
+        val styleParent = Style(flex = Flex(grow = 1.0))
+        val styleChild = Style(flex = Flex(flexDirection = flexDirection))
 
-        return viewFactory.makeBeagleFlexView(rootView.getContext(), flexParent).apply {
+        return viewFactory.makeBeagleFlexView(rootView.getContext(), styleParent).apply {
             addView(if (scrollDirection == ScrollAxis.HORIZONTAL) {
                 viewFactory.makeHorizontalScrollView(context).apply {
                     isHorizontalScrollBarEnabled = scrollBarEnabled
-                    addChildrenViews(this, children, rootView, flexChild)
+                    addChildrenViews(this, children, rootView, styleChild)
                 }
             } else {
                 viewFactory.makeScrollView(context).apply {
                     isVerticalScrollBarEnabled = scrollBarEnabled
-                    addChildrenViews(this, children, rootView, flexChild)
+                    addChildrenViews(this, children, rootView, styleChild)
                 }
-            }, flexParent)
+            }, styleParent)
         }
     }
-
 
     private fun addChildrenViews(
         scrollView: ViewGroup,
         children: List<ServerDrivenComponent>,
         rootView: RootView,
-        flexChild: Flex
+        styleChild: Style
     ) {
-        val viewGroup = viewFactory.makeBeagleFlexView(rootView.getContext(), flexChild)
+        val viewGroup = viewFactory.makeBeagleFlexView(rootView.getContext(), styleChild)
         children.forEach { component ->
             viewGroup.addServerDrivenComponent(component, rootView)
         }

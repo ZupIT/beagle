@@ -31,5 +31,6 @@ internal fun Screen.toComponent() = ScreenComponent(
     navigationBar = this.navigationBar,
     child = this.child,
     style = this.style,
-    screenAnalyticsEvent = this.screenAnalyticsEvent
+    screenAnalyticsEvent = this.screenAnalyticsEvent,
+    context = this.context
 )

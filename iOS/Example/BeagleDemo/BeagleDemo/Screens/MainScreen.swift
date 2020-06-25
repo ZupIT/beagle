@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import BeagleUI
+import Beagle
 import BeagleSchema
 
 struct MainScreen: DeeplinkScreen {
@@ -36,51 +36,51 @@ struct MainScreen: DeeplinkScreen {
             children: [
                 Button(
                     text: "Navigator",
-                    action: Navigate.pushView(.remote(.NAVIGATE_ENDPOINT, shouldPrefetch: true))
+                    onPress: [Navigate.pushView(.remote(.NAVIGATE_ENDPOINT, shouldPrefetch: true))]
                 ),
                 Button(
                     text: "Form & Lazy Component",
-                    action: Navigate.openNativeRoute(.LAZY_COMPONENTS_ENDPOINT)
+                    onPress: [Navigate.openNativeRoute(.LAZY_COMPONENTS_ENDPOINT)]
                 ),
                 Button(
                     text: "Page View",
-                    action: Navigate.openNativeRoute(.PAGE_VIEW_ENDPOINT)
+                    onPress: [Navigate.openNativeRoute(.PAGE_VIEW_ENDPOINT)]
                 ),
                 Button(
                     text: "Tab View",
-                    action: Navigate.openNativeRoute(.TAB_VIEW_ENDPOINT)
+                    onPress: [Navigate.openNativeRoute(.TAB_VIEW_ENDPOINT)]
                 ),
                 Button(
                     text: "List View",
-                    action: Navigate.openNativeRoute(.LIST_VIEW_ENDPOINT)
+                    onPress: [Navigate.openNativeRoute(.LIST_VIEW_ENDPOINT)]
                 ),
                 Button(
                     text: "Form",
-                    action: Navigate.openNativeRoute(.FORM_ENDPOINT)
+                    onPress: [Navigate.openNativeRoute(.FORM_ENDPOINT)]
                 ),
                 Button(
                     text: "Custom Component",
-                    action: Navigate.openNativeRoute(.CUSTOM_COMPONENT_ENDPOINT)
+                    onPress: [Navigate.openNativeRoute(.CUSTOM_COMPONENT_ENDPOINT)]
                 ),
                 Button(
                     text: "Web View",
-                    action: Navigate.openNativeRoute(.WEB_VIEW_ENDPOINT)
-                ),
-                Button(
-                    text: "Component Interaction",
-                    action: Navigate.pushView(.declarative(componentInteractionScreen))
+                    onPress: [Navigate.openNativeRoute(.WEB_VIEW_ENDPOINT)]
                 ),
                 Button(
                     text: "Send Request",
-                    action: Navigate.pushView(.declarative(sendRequestDeclarativeScreen))
+                    onPress: [Navigate.pushView(.declarative(sendRequestDeclarativeScreen))]
+                ),
+                Button(
+                    text: "Component Interaction",
+                    onPress: [Navigate.pushView(.declarative(componentInteractionScreen))]
                 ),
                 Button(
                     text: "Simple Form",
-                    action: Navigate.openNativeRoute(.SIMPLE_FORM_ENDPOINT)
+                    onPress: [Navigate.openNativeRoute(.SIMPLE_FORM_ENDPOINT)]
                 ),
                 Button(
                     text: "Sample BFF",
-                    action: Navigate.pushView(.remote(.COMPONENTS_ENDPOINT))
+                    onPress: [Navigate.pushView(.remote(.COMPONENTS_ENDPOINT))]
                 )
             ]
         )

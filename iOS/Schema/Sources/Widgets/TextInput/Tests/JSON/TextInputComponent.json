@@ -1,0 +1,25 @@
+{
+  "_beagleComponent_": "beagle:TextInput",
+  "value": "",
+  "placeholder": "password",
+  "styleId": "test.text.style",
+  "onChange": [
+      {
+        "_beagleAction_": "beagle:setcontext",
+        "contextId": "myContext",
+        "value": "2"
+      }
+  ],
+  "style": {
+      "size": {
+         "width": {
+             "value":300.0,
+             "type": "REAL"
+         },
+         "height": {
+             "value": 80.0,
+             "type": "REAL"
+         }
+      }
+  }
+}

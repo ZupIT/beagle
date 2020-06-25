@@ -3,15 +3,21 @@
     "children": [
         {
             "_beagleComponent_": "beagle:tabItem",
-            "icon": "beagle",
+            "icon": {
+                "_beagleImagePath_": "local",
+                "url": "url",
+                "mobileId": "mobileId"
+            },
             "title": "tab 1",
             "child":
                 {
                     "_beagleComponent_": "beagle:container",
-                    "flex": {
-                        "flexDirection": "COLUMN",
-                        "flexWrap": "NO_WRAP",
-                        "justifyContent": "SPACE_AROUND"
+                    "style": {
+                        "flex": {
+                            "flexDirection": "COLUMN",
+                            "flexWrap": "NO_WRAP",
+                            "justifyContent": "SPACE_AROUND"
+                        }
                     },
                     "children": [
                         {

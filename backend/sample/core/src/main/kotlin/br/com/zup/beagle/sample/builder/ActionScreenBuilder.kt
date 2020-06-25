@@ -17,12 +17,12 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.widget.action.Navigate
-import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.sample.constants.NAVIGATION_BAR_STYLE_DEFAULT
 import br.com.zup.beagle.sample.constants.PATH_SCREEN_DEEP_LINK_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
+import br.com.zup.beagle.widget.action.Navigate
+import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.action.Confirm
 import br.com.zup.beagle.widget.action.SendRequest
 import br.com.zup.beagle.widget.core.AlignSelf
@@ -35,6 +35,7 @@ import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.navigation.Touchable
 import br.com.zup.beagle.widget.ui.Button
+import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.Text
 
 object ActionScreenBuilder : ScreenBuilder {
@@ -46,7 +47,7 @@ object ActionScreenBuilder : ScreenBuilder {
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
-                    image = "informationImage",
+                    image = Local.justMobile("informationImage"),
                     action = Alert(
                         title = "Action",
                         message = "This class handles transition actions between screens in the application. ",
@@ -73,11 +74,7 @@ object ActionScreenBuilder : ScreenBuilder {
         children = listOf(
             Text("Action dialog"),
             Touchable(
-                action = Alert(
-                    title = "Some",
-                    message = "Action",
-                    labelOk = "OK"
-                ),
+                onPress = listOf(createAlert("Some")),
                 child = Text("Click me!").applyFlex(
                     Flex(
                         alignSelf = AlignSelf.CENTER
@@ -91,7 +88,7 @@ object ActionScreenBuilder : ScreenBuilder {
         children = listOf(
             Text("Navigate with path"),
             Button(
-                onPress = listOf(Navigate.PushView(Route.Remote(route = SCREEN_ACTION_CLICK_ENDPOINT))),
+                onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_ACTION_CLICK_ENDPOINT))),
                 text = "Click me!"
             )
         )
@@ -136,7 +133,7 @@ object ActionScreenBuilder : ScreenBuilder {
             Text("Navigate with prefetch"),
             Button(
                 onPress = listOf(Navigate.PushView(Route.Remote(shouldPrefetch = true,
-                    route = SCREEN_ACTION_CLICK_ENDPOINT))),
+                    url = SCREEN_ACTION_CLICK_ENDPOINT))),
                 text = "Click me!"
             )
         )
@@ -159,20 +156,16 @@ object ActionScreenBuilder : ScreenBuilder {
         children = listOf(
             Text("Send request action"),
             Button(
-                onPress = listOf(SendRequest(url = SCREEN_ACTION_CLICK_ENDPOINT, onSuccess = Alert(
-                    title = "Success",
-                    message = "Action",
-                    labelOk = "OK"
-                ),
-                    onError = Alert(
-                        title = "Error",
-                        message = "Action",
-                        labelOk = "OK"
+                onPress = listOf(SendRequest(
+                    url = SCREEN_ACTION_CLICK_ENDPOINT,
+                    onSuccess = listOf(
+                        createAlert("Success")
                     ),
-                    onFinish = Alert(
-                        title = "Finish",
-                        message = "Action",
-                        labelOk = "OK"
+                    onError = listOf(
+                        createAlert("Error")
+                    ),
+                    onFinish = listOf(
+                        createAlert("Finish")
                     )
                 )),
                 text = "Click me!"
@@ -189,19 +182,19 @@ object ActionScreenBuilder : ScreenBuilder {
                     message = "Action",
                     labelOk = "OK",
                     labelCancel = "Cancel",
-                    onPressCancel = Alert(
-                        title = "Finish",
-                        message = "Action",
-                        labelOk = "OK"
-                    ),
-                    onPressOk = Alert(
-                        title = "Finish",
-                        message = "Action",
-                        labelOk = "OK"
-                    )
+                    onPressCancel = createAlert("Cancel"),
+                    onPressOk = createAlert("Finish")
                 )),
                 text = "Click me!"
             )
         )
     )
+
+    private fun createAlert(title: String): Alert{
+        return Alert(
+            title = title,
+            message = "Action",
+            labelOk = "OK"
+        )
+    }
 }

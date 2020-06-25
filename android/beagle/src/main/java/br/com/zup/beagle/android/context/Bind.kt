@@ -23,21 +23,16 @@ sealed class Bind<T> : BindAttribute<T> {
 
     @Transient
     private var onChange: ((value: T) -> Unit)? = null
+    @Transient
+    internal val evaluatedExpressions = mutableMapOf<String, Any>()
 
-
-    fun observes(onChange: (value: T) -> Unit) {
+    internal fun observes(onChange: (value: T) -> Unit) {
         this.onChange = onChange
     }
 
-    fun notifyChange(value: Any) {
+    internal fun notifyChange(value: Any) {
         val newValue = value as T
         this.onChange?.invoke(newValue)
-    }
-
-    companion object {
-        inline fun <reified T> expressionOf(expression: String) = Expression(expression, T::class.java)
-        inline fun <reified T : Any> valueOf(value: T) = Value(value)
-        inline fun <reified T : Any> valueOfNullable(value: T?) = value?.let { valueOf(it) }
     }
 
     class Expression<T>(
@@ -49,3 +44,7 @@ sealed class Bind<T> : BindAttribute<T> {
         override val type: Class<T> = value.javaClass
     }
 }
+
+inline fun <reified T> expressionOf(expression: String) = Bind.Expression(expression, T::class.java)
+inline fun <reified T : Any> valueOf(value: T) = Bind.Value(value)
+inline fun <reified T : Any> valueOfNullable(value: T?) = value?.let { valueOf(it) }

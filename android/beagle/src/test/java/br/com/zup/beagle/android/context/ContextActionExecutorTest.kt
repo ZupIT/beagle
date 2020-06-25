@@ -35,16 +35,23 @@ import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
 import io.mockk.verifySequence
+import org.json.JSONArray
+import org.json.JSONObject
 import org.junit.Test
 
 import kotlin.test.assertEquals
 
+data class PersonTest(val name: String)
+
+private const val NAME = "name"
+
 class ContextActionExecutorTest : BaseTest() {
 
     private val rootView = mockk<ActivityRootView>()
-    private val contextDataManager = mockk<ContextDataManager>(relaxed = true)
-
+    private val viewModel = mockk<ScreenContextViewModel>(relaxed = true)
+    private val sender = mockk<Action>()
     private val action = mockk<Action>()
+
     private lateinit var contextActionExecutor: ContextActionExecutor
 
     private val contextDataSlot = slot<ContextData>()
@@ -53,23 +60,16 @@ class ContextActionExecutorTest : BaseTest() {
         super.setUp()
 
         mockkObject(ViewModelProviderFactory)
-        mockkObject(BeagleMoshi)
 
         contextActionExecutor = ContextActionExecutor()
 
         every { action.execute(any()) } just Runs
-        every { beagleSdk.registeredWidgets() } returns listOf()
         every { rootView.activity } returns mockk()
 
-        every { ViewModelProviderFactory.of(any<AppCompatActivity>())[ScreenContextViewModel::class.java]
-            .contextDataManager } returns contextDataManager
-        every { contextDataManager.addContext(capture(contextDataSlot)) } just Runs
-    }
-
-    override fun tearDown() {
-        super.tearDown()
-
-        unmockkAll()
+        every {
+            ViewModelProviderFactory.of(any<AppCompatActivity>())[ScreenContextViewModel::class.java]
+        } returns viewModel
+        every { viewModel.addImplicitContext(capture(contextDataSlot), any(), any()) } just Runs
     }
 
     @Test
@@ -79,13 +79,12 @@ class ContextActionExecutorTest : BaseTest() {
         val value = RandomData.string()
 
         // When
-        contextActionExecutor.executeActions(rootView, listOf(action), eventId, value)
+        contextActionExecutor.executeActions(rootView, sender, listOf(action), eventId, value)
 
         // Then
         verifySequence {
-            contextDataManager.addContext(any())
+            viewModel.addImplicitContext(contextDataSlot.captured, sender, listOf(action))
             action.execute(rootView)
-            contextDataManager.removeContext(any())
         }
     }
 
@@ -96,7 +95,7 @@ class ContextActionExecutorTest : BaseTest() {
         val value = RandomData.string()
 
         // When
-        contextActionExecutor.executeActions(rootView, listOf(action), eventId, value)
+        contextActionExecutor.executeActions(rootView, sender, listOf(action), eventId, value)
 
         // Then
         assertEquals(eventId, contextDataSlot.captured.id)
@@ -107,16 +106,35 @@ class ContextActionExecutorTest : BaseTest() {
     fun executeActions_should_parse_object_value_to_JSONObject() {
         // Given
         val eventId = "onChange"
-        val value = mockk<Container>()
-        val jsonMock = "{}"
-        every { BeagleMoshi.moshi.adapter<Container>(any<Class<*>>()).toJson(value) } returns jsonMock
+        val value = PersonTest(name = NAME)
 
         // When
-        contextActionExecutor.executeActions(rootView, listOf(action), eventId, value)
+        contextActionExecutor.executeActions(rootView, sender, listOf(action), eventId, value)
 
         // Then
         assertEquals(eventId, contextDataSlot.captured.id)
-        assertEquals(jsonMock, contextDataSlot.captured.value.toString())
+        val expected = JSONObject()
+            .put(NAME, NAME)
+            .toString()
+        assertEquals(expected, contextDataSlot.captured.value.toString())
+    }
+
+    @Test
+    fun executeActions_should_parse_list_of_object_value_to_JSONArray() {
+        // Given
+        val eventId = "onChange"
+        val value = arrayListOf(PersonTest(name = NAME))
+
+        // When
+        contextActionExecutor.executeActions(rootView, sender, listOf(action), eventId, value)
+
+        // Then
+        assertEquals(eventId, contextDataSlot.captured.id)
+        val expected = JSONArray()
+            .put(
+                JSONObject().put(NAME, NAME)
+            ).toString()
+        assertEquals(expected, contextDataSlot.captured.value.toString())
     }
 
     @Test
@@ -126,9 +144,10 @@ class ContextActionExecutorTest : BaseTest() {
         val value = null
 
         // When
-        contextActionExecutor.executeActions(rootView, listOf(action), eventId, value)
+        contextActionExecutor.executeActions(rootView, sender, listOf(action), eventId, value)
 
         // Then
+        verify(exactly = 0) { viewModel.addImplicitContext(any(), any(), any()) }
         verify(exactly = once()) { action.execute(rootView) }
     }
 }

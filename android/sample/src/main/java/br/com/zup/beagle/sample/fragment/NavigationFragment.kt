@@ -29,6 +29,9 @@ import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Touchable
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.android.utils.toView
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.Flex
@@ -39,7 +42,6 @@ import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.layout.Screen
-import br.com.zup.beagle.android.utils.toView
 
 class NavigationFragment : Fragment() {
     override fun onCreateView(
@@ -67,10 +69,10 @@ class NavigationFragment : Fragment() {
     private fun buildChildren(): List<ServerDrivenComponent> {
         return listOf(
             Touchable(
-                child = Button(text = "Click to navigate").applyFlex(
-                    Flex(size = Size(width = UnitValue(80.0, UnitType.PERCENT)))
+                child = Button(text = "Click to navigate").applyStyle(
+                    Style(size = Size(width = UnitValue(80.0, UnitType.PERCENT)))
                 ),
-                action = Navigate.PushView(Route.Remote("https://t001-2751a.firebaseapp.com/flow/step1.json")),
+                onPress = listOf(Navigate.PushView(Route.Remote("https://t001-2751a.firebaseapp.com/flow/step1.json"))),
                 clickAnalyticsEvent = ClickEvent(
                     category = "Categoria",
                     label = "Descrição",

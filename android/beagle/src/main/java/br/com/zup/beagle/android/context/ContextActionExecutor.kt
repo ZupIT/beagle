@@ -21,6 +21,7 @@ import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
+import org.json.JSONArray
 import org.json.JSONObject
 
 private const val DEFAULT_KEY_NAME = "value"
@@ -29,51 +30,46 @@ internal class ContextActionExecutor {
 
     fun executeActions(
         rootView: RootView,
+        sender: Any,
         actions: List<Action>,
         eventName: String,
         eventValue: Any? = null
     ) {
-        actions.forEach {
-            executeAction(rootView, it, eventName, eventValue)
-        }
-    }
-
-    fun executeAction(
-        rootView: RootView,
-        action: Action,
-        eventName: String,
-        eventValue: Any? = null
-    ) {
         if (eventValue != null) {
-            val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
-            val contextData = ContextData(
-                id = eventName,
-                value = parseToJSONObject(eventValue)
-            )
-            viewModel.contextDataManager.handleContext(rootView, contextData, action)
-        } else {
-            action.execute(rootView)
+            createImplicitContextForActions(rootView, sender, eventName, eventValue, actions)
+        }
+
+        actions.forEach {
+            it.execute(rootView)
         }
     }
 
-    private fun parseToJSONObject(value: Any): JSONObject {
+    private fun createImplicitContextForActions(
+        rootView: RootView,
+        sender: Any,
+        eventName: String,
+        eventValue: Any,
+        actions: List<Action>
+    ) {
+        val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
+        val contextData = ContextData(
+            id = eventName,
+            value = parseToJSONObject(eventValue)
+        )
+        viewModel.addImplicitContext(contextData, sender, actions)
+    }
+
+    private fun parseToJSONObject(value: Any): Any {
         return if (value is String || value is Number || value is Boolean) {
             JSONObject().apply {
                 put(DEFAULT_KEY_NAME, value)
             }
         } else {
-            val json = BeagleMoshi.moshi.adapter<Any>(value::class.java).toJson(value)
-            JSONObject(json)
+            if (value is Collection<*>) {
+                JSONArray(value)
+            } else {
+                JSONObject(BeagleMoshi.moshi.adapter<Any>(value::class.java).toJson(value))
+            }
         }
-    }
-
-    private fun ContextDataManager.handleContext(
-        rootView: RootView,
-        contextData: ContextData,
-        action: Action
-    ) {
-        addContext(contextData)
-        action.execute(rootView)
-        removeContext(contextData.id)
     }
 }

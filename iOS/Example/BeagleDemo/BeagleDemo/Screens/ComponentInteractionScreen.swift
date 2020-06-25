@@ -16,7 +16,7 @@
  */
 
 import Foundation
-import BeagleUI
+import Beagle
 import BeagleSchema
 import UIKit
 
@@ -26,11 +26,11 @@ let componentInteractionScreen: Screen = {
         child: Container(children: [
             Button(
                 text: "Declarative",
-                action: Navigate.pushView(.declarative(declarativeScreen))
+                onPress: [Navigate.pushView(.declarative(declarativeScreen))]
             ),
             Button(
                 text: "Text (JSON)",
-                action: Navigate.openNativeRoute("componentInteractionText")
+                onPress: [Navigate.openNativeRoute(.COMPONENT_INTERACTION_ENDPOINT)]
             )
         ])
     )
@@ -42,155 +42,222 @@ let declarativeScreen: Screen = {
         child: Container(
             children:
             [
-                TextInput(
-                    label: "",
-                    onChange: [
-                        SetContext(
-                            context: "myContext",
-                            value: "@{onChange.value}"
+                Container(
+                    children:
+                    [
+                        TextInput(
+                            onChange: [
+                                SetContext(
+                                    contextId: "context1",
+                                    value: "@{onChange.value}"
+                                )
+                            ]
+                        ),
+                        Text("teste é: @{context1} + @{context2}"),
+                        Text("@{context1}"),
+                        Button(
+                            text: "1",
+                            onPress: [
+                                SetContext(
+                                    contextId: "context1",
+                                    value: "update"
+                                )
+                            ]
+                        ),
+                        Button(
+                            text: "2",
+                            onPress: [
+                                SetContext(
+                                    contextId: "context2",
+                                    value: "update"
+                                )
+                            ]
                         )
-                    ]
-                ),
-                Text("@{myContext}"),
-                Button(
-                    text: "ok",
-                    action: SetContext(
-                        context: "myContext",
-                        value: "button value"
-                    )
+                    ],
+                    context: Context(id: "context1", value: "")
                 )
-            ],
-            context: Context(id: "myContext", value: "")
-        )
-    )
-}()
+        ], context: Context(id: "context2", value: nil))
+    )}()
 
 struct ComponentInteractionText: DeeplinkScreen {
-
+    
     init(path: String, data: [String: String]?) {
     }
-
+    
     func screenController() -> UIViewController {
         return BeagleScreenViewController(.declarativeText(
-                """
-                {
-                  "_beagleComponent_": "beagle:screencomponent",
-                  "navigationBar": {
-                    "title": "Component Interaction",
-                    "showBackButton": true
-                  },
-                  "child": {
-                    "_beagleComponent_": "beagle:container",
-                    "_context_": {
-                      "id": "myContext",
-                      "value": ""
-                    },
-                    "children": [
-                    {
-                      "_beagleComponent_": "custom:textinput",
-                      "label": "label",
-                        "onChange": [
-                        {
-                          "_beagleAction_": "beagle:setcontext",
-                          "context": "myContext",
-                          "value": "${onChange.value}"
-                        }
-                        ]
-                    },
-                      {
-                        "_beagleComponent_": "beagle:text",
-                        "text": "${myContext}"
-                      },
-                      {
-                        "_beagleComponent_": "beagle:button",
-                        "text": "ok",
-                        "action": {
-                          "_beagleAction_": "beagle:setcontext",
-                          "context": "myContext",
-                          "value": "2"
-                        }
-                      }
-                    ]
-                  }
-                }
+            """
+              {
+                 "_beagleComponent_" : "beagle:screenComponent",
+                 "navigationBar" : {
+                   "title" : "Beagle Context",
+                   "showBackButton" : true
+                 },
+                 "child" : {
+                   "_beagleComponent_" : "beagle:container",
+                   "children" : [ {
+                     "_beagleComponent_" : "beagle:textInput",
+                     "value" : "@{address.data.zip}",
+                     "placeholder" : "CEP",
+                     "onChange" : [ {
+                       "_beagleAction_" : "beagle:setContext",
+                       "contextId" : "address",
+                       "value" : "@{onChange.value}",
+                       "path" : "data.zip"
+                     } ],
+                     "onBlur" : [ {
+                       "_beagleAction_" : "beagle:sendRequest",
+                       "url" : "https://viacep.com.br/ws/@{onBlur.value}/json",
+                       "method" : "GET",
+                       "onSuccess" : [ {
+                         "_beagleAction_" : "beagle:setContext",
+                         "contextId" : "address",
+                         "value" : {
+                           "zip" : "@{onBlur.value}",
+                           "street" : "@{onSuccess.data.logradouro}",
+                           "number" : "@{address.data.number}",
+                           "neighborhood" : "@{onSuccess.data.bairro}",
+                           "city" : "@{onSuccess.data.localidade}",
+                           "state" : "@{onSuccess.data.uf}",
+                           "complement" : "@{address.data.complement}"
+                         },
+                         "path" : "data"
+                       } ]
+                     } ],
+                     "style" : {
+                       "margin" : {
+                         "bottom" : {
+                           "value" : 15.0,
+                           "type" : "REAL"
+                         }
+                       }
+                     }
+                   }, {
+                     "_beagleComponent_" : "beagle:textInput",
+                     "value" : "@{address.data.street}",
+                     "placeholder" : "Rua",
+                     "onChange" : [ {
+                       "_beagleAction_" : "beagle:setContext",
+                       "contextId" : "address",
+                       "value" : "@{onChange.value}",
+                       "path" : "data.street"
+                     } ],
+                     "style" : {
+                       "margin" : {
+                         "bottom" : {
+                           "value" : 15.0,
+                           "type" : "REAL"
+                         }
+                       }
+                     }
+                   }, {
+                     "_beagleComponent_" : "beagle:textInput",
+                     "value" : "@{address.data.number}",
+                     "placeholder" : "NÃºmero",
+                     "onChange" : [ {
+                       "_beagleAction_" : "beagle:setContext",
+                       "contextId" : "address",
+                       "value" : "@{onChange.value}",
+                       "path" : "data.number"
+                     } ],
+                     "style" : {
+                       "margin" : {
+                         "bottom" : {
+                           "value" : 15.0,
+                           "type" : "REAL"
+                         }
+                       }
+                     }
+                   }, {
+                     "_beagleComponent_" : "beagle:textInput",
+                     "value" : "@{address.data.neighborhood}",
+                     "placeholder" : "Bairro",
+                     "onChange" : [ {
+                       "_beagleAction_" : "beagle:setContext",
+                       "contextId" : "address",
+                       "value" : "@{onChange.value}",
+                       "path" : "data.neighborhood"
+                     } ],
+                     "style" : {
+                       "margin" : {
+                         "bottom" : {
+                           "value" : 15.0,
+                           "type" : "REAL"
+                         }
+                       }
+                     }
+                   }, {
+                     "_beagleComponent_" : "beagle:textInput",
+                     "value" : "@{address.data.city}",
+                     "placeholder" : "Cidade",
+                     "onChange" : [ {
+                       "_beagleAction_" : "beagle:setContext",
+                       "contextId" : "address",
+                       "value" : "@{onChange.value}",
+                       "path" : "data.city"
+                     } ],
+                     "style" : {
+                       "margin" : {
+                         "bottom" : {
+                           "value" : 15.0,
+                           "type" : "REAL"
+                         }
+                       }
+                     }
+                   }, {
+                     "_beagleComponent_" : "beagle:textInput",
+                     "value" : "@{address.data.state}",
+                     "placeholder" : "Estado",
+                     "onChange" : [ {
+                       "_beagleAction_" : "beagle:setContext",
+                       "contextId" : "address",
+                       "value" : "@{onChange.value}",
+                       "path" : "data.state"
+                     } ],
+                     "style" : {
+                       "margin" : {
+                         "bottom" : {
+                           "value" : 15.0,
+                           "type" : "REAL"
+                         }
+                       }
+                     }
+                   }, {
+                     "_beagleComponent_" : "beagle:textInput",
+                     "value" : "@{address.data.complement}",
+                     "placeholder" : "Complemento",
+                     "onChange" : [ {
+                       "_beagleAction_" : "beagle:setContext",
+                       "contextId" : "address",
+                       "value" : "@{onChange.value}",
+                       "path" : "data.complement"
+                     } ],
+                     "style" : {
+                       "margin" : {
+                         "bottom" : {
+                           "value" : 15.0,
+                           "type" : "REAL"
+                         }
+                       }
+                     }
+                   } ],
+                   "context" : {
+                     "id" : "address",
+                     "value" : {
+                       "data" : {
+                         "zip" : "",
+                         "street" : "",
+                         "number" : "",
+                         "neighborhood" : "",
+                         "city" : "",
+                         "state" : "",
+                         "complement" : ""
+                       }
+                     }
+                   }
+                 }
+               }
         """
-        ))
-    }
-}
-
-struct TextInput: Widget {
-    var widgetProperties: WidgetProperties = WidgetProperties()
-    var label: Expression<String>
-
-    var onChange: [RawAction]?
-    var onFocus: [RawAction]?
-    var onBlur: [RawAction]?
-    
-    func toView(renderer: BeagleRenderer) -> UIView {
-        let view = TextInputView(widget: self, controller: renderer.controller)
-        view.text = label.get(with: view, controller: renderer.controller) { string in view.text = string }
-        view.beagle.setup(self)
-        return view
-    }
-}
-
-class TextInputView: UITextField, UITextFieldDelegate {
-    var widget: TextInput
-    weak var controller: BeagleController?
-    
-    init(widget: TextInput, controller: BeagleController) {
-        self.widget = widget
-        self.controller = controller
-        super.init(frame: .zero)
-        self.delegate = self
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        let context = Context(id: "onFocus", value: .dictionary(["value": .string(textField.text ?? "")]))
-        controller?.execute(actions: widget.onFocus, with: context, sender: self)
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        let context = Context(id: "onBlur", value: .dictionary(["value": .string(textField.text ?? "")]))
-        controller?.execute(actions: widget.onBlur, with: context, sender: self)
-    }
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        var updatedText: String?
-        if let text = textField.text,
-           let textRange = Range(range, in: text) {
-           updatedText = text.replacingCharacters(in: textRange, with: string)
-        }
-        textField.text = updatedText
-        
-        let context = Context(id: "onChange", value: .dictionary(["value": .string(updatedText ?? "")]))
-        controller?.execute(actions: widget.onChange, with: context, sender: self)
-        
-        return false
-    }
-}
-
-// MARK: Decode
-extension TextInput {
-    enum CodingKeys: String, CodingKey {
-        case label
-        case onChange
-        case onFocus
-        case onBlur
-        case widgetProperties
-    }
-
-    internal init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        widgetProperties = try WidgetProperties(from: decoder)
-        label = try container.decode(Expression<String>.self, forKey: .label)
-        onChange = try container.decode(forKey: .onChange)
-        onFocus = try container.decode(forKey: .onFocus)
-        onBlur = try container.decode(forKey: .onBlur)
+            ))
     }
 }

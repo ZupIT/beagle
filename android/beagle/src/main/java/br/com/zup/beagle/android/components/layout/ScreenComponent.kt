@@ -18,6 +18,8 @@ package br.com.zup.beagle.android.components.layout
 
 import android.view.View
 import br.com.zup.beagle.analytics.ScreenEvent
+import br.com.zup.beagle.android.context.ContextComponent
+import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.ToolbarManager
 import br.com.zup.beagle.android.utils.configureSupportActionBar
@@ -35,8 +37,9 @@ internal data class ScreenComponent(
     val navigationBar: NavigationBar? = null,
     val child: ServerDrivenComponent,
     val screenAnalyticsEvent: ScreenEvent? = null,
-    override var style: Style? = null
-) : WidgetView() {
+    override var style: Style? = null,
+    override val context: ContextData? = null
+) : WidgetView(), ContextComponent {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
@@ -47,7 +50,7 @@ internal data class ScreenComponent(
     override fun buildView(rootView: RootView): View {
         addNavigationBarIfNecessary(rootView, navigationBar)
 
-        val container = viewFactory.makeBeagleFlexView(rootView.getContext(), Flex(grow = 1.0))
+        val container = viewFactory.makeBeagleFlexView(rootView.getContext(), Style(flex = Flex(grow = 1.0)))
 
         container.addServerDrivenComponent(child, rootView)
 

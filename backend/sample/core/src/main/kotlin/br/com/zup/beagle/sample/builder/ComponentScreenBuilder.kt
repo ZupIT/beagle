@@ -16,9 +16,11 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.ACCESSIBILITY_SCREEN_ENDPOINT
 import br.com.zup.beagle.sample.constants.BUTTON_STYLE_TITLE
@@ -62,8 +64,8 @@ object ComponentScreenBuilder : ScreenBuilder {
             children = listOf(
                 createMenu("Button", SCREEN_BUTTON_ENDPOINT),
                 createMenu("Text", SCREEN_TEXT_ENDPOINT),
-                createMenu("Image", SCREEN_IMAGE_ENDPOINT),
-                createMenu("NetworkImage", SCREEN_NETWORK_IMAGE_ENDPOINT),
+                createMenu("Image Local", SCREEN_IMAGE_ENDPOINT),
+                createMenu("Image Remote", SCREEN_NETWORK_IMAGE_ENDPOINT),
                 createMenu("TabView", SCREEN_TAB_VIEW_ENDPOINT),
                 createMenu("ListView", SCREEN_LIST_VIEW_ENDPOINT),
                 createMenu("ScrollView", SCREEN_SCROLL_VIEW_ENDPOINT),
@@ -90,8 +92,7 @@ object ComponentScreenBuilder : ScreenBuilder {
         onPress = listOf(Navigate.PushView(Route.Remote(path))
         ),
         styleId = BUTTON_STYLE_TITLE
-    ).applyFlex(
-        flex = Flex(
+    ).applyStyle(Style(
             margin = EdgeValue(
                 top = 8.unitReal()
             )

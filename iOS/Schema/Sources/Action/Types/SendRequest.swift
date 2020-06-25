@@ -17,9 +17,9 @@
 
 import UIKit
 
-public struct SendRequest: RawAction, AutoInitiable {
+public struct SendRequest: RawAction, AutoInitiableAndDecodable {
     
-    public enum HTTPMethod: String {
+    public enum HTTPMethod: String, Decodable {
         case get = "GET"
         case post = "POST"
         case put = "PUT"
@@ -27,7 +27,7 @@ public struct SendRequest: RawAction, AutoInitiable {
         case delete = "DELETE"
     }
     
-    public let url: String
+    public let url: Expression<String>
     public let method: SendRequest.HTTPMethod?
     public let data: DynamicObject?
     public let headers: [String: String]?
@@ -37,7 +37,7 @@ public struct SendRequest: RawAction, AutoInitiable {
     
 // sourcery:inline:auto:SendRequest.Init
     public init(
-        url: String,
+        url: Expression<String>,
         method: SendRequest.HTTPMethod? = nil,
         data: DynamicObject? = nil,
         headers: [String: String]? = nil,
@@ -54,30 +54,4 @@ public struct SendRequest: RawAction, AutoInitiable {
         self.onFinish = onFinish
     }
 // sourcery:end
-}
-
-extension SendRequest.HTTPMethod: Decodable {}
-
-extension SendRequest: Decodable {
-    
-    enum CodingKeys: String, CodingKey {
-        case url
-        case method
-        case data
-        case headers
-        case onSuccess
-        case onError
-        case onFinish
-    }
-    
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.url = try container.decode(String.self, forKey: .url)
-        self.method = try container.decode(SendRequest.HTTPMethod.self, forKey: .method)
-        self.data = try container.decode(DynamicObject.self, forKey: .data)
-        self.headers = try container.decode([String: String].self, forKey: .headers)
-        self.onSuccess = try container.decode(forKey: .onSuccess)
-        self.onError = try container.decode(forKey: .onError)
-        self.onFinish = try container.decode(forKey: .onFinish)
-    }
 }

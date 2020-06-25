@@ -28,8 +28,8 @@ import br.com.zup.beagle.android.utils.ToolbarManager
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.core.Flex
 import io.mockk.CapturingSlot
 import io.mockk.Runs
 import io.mockk.every
@@ -79,30 +79,25 @@ class ScreenComponentTest : BaseComponentTest() {
             screenAnalyticsEvent = null, style = null)
     }
 
-    override fun tearDown() {
-        super.tearDown()
-        unmockkAll()
-    }
-
     @Test
     fun build_should_create_a_screenWidget_with_grow_1_and_justifyContent_SPACE_BETWEEN() {
         // Given
-        val flex = slot<Flex>()
-        every { anyConstructed<ViewFactory>().makeBeagleFlexView(any(), capture(flex)) } returns beagleFlexView
+        val style = slot<Style>()
+        every { anyConstructed<ViewFactory>().makeBeagleFlexView(any(), capture(style)) } returns beagleFlexView
         every { context.supportActionBar } returns null
 
         // When
         screenComponent.buildView(rootView)
 
         // Then
-        assertEquals(1.0, flex.captured.grow)
+        assertEquals(1.0, style.captured.flex?.grow)
     }
 
     @Test
     fun build_should_call_content_builder() {
         // Given
-        val flex = slot<Flex>()
-        every { beagleFlexView.addView(view, capture(flex)) } just Runs
+        val style = slot<Style>()
+        every { beagleFlexView.addView(view, capture(style)) } just Runs
         every { context.supportActionBar } returns null
 
         // When

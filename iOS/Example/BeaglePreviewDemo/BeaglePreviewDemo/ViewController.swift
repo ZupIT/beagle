@@ -15,7 +15,7 @@
 */
 
 import UIKit
-import BeagleUI
+import Beagle
 import BeaglePreview
 
 class ViewController: UIViewController {

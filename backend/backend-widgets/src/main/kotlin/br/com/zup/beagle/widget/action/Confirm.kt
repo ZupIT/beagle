@@ -16,6 +16,10 @@
 
 package br.com.zup.beagle.widget.action
 
+import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.context.valueOf
+import br.com.zup.beagle.widget.context.valueOfNullable
+
 /**
  * will show dialogues natively, such as an error alert indicating alternative flows, business system errors and others.
  *
@@ -29,10 +33,25 @@ package br.com.zup.beagle.widget.action
  */
 
 data class Confirm(
-    val title: String?,
-    val message: String,
+    val title: Bind<String>?,
+    val message: Bind<String>,
     val onPressOk: Action? = null,
     val onPressCancel: Action? = null,
     val labelOk: String? = null,
     val labelCancel: String? = null
-) : Action
+) : Action {
+    constructor(
+        title: String?,
+        message: String,
+        onPressOk: Action? = null,
+        onPressCancel: Action? = null,
+        labelOk: String? = null,
+        labelCancel: String? = null) : this(
+        title = valueOfNullable(title),
+        message = valueOf(message),
+        onPressOk = onPressOk,
+        onPressCancel = onPressCancel,
+        labelOk = labelOk,
+        labelCancel = labelCancel
+    )
+}

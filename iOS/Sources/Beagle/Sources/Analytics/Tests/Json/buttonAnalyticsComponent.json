@@ -1,0 +1,18 @@
+{
+   "_beagleComponent_":"beagle:Button",
+   "text":"button",
+   "onPress":[{
+      "_beagleAction_":"beagle:popStack"
+   }],
+   "style":{
+      "backgroundColor":"#800000FF",
+      "cornerRadius":{
+         "radius":30.0
+      }
+   },
+   "clickAnalyticsEvent":{
+      "category":"mocked category",
+      "label":"mocked label",
+      "value":"mocked value"
+   }
+}

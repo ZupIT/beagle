@@ -91,6 +91,12 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="TextInput">
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColorHint">@color/colorGreen</item>
+    </style>
+
     <style name="DesignSystem.Text.H2" parent="DesignSystem.Text.Default">
         <item name="android:textSize">20sp</item>
     </style>

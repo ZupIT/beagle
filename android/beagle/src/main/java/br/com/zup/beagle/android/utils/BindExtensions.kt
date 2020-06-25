@@ -16,25 +16,52 @@
 
 package br.com.zup.beagle.android.utils
 
-import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.context.Bind
 
-fun <T> Bind<T>.get(rootView: RootView, observes: ((value: T) -> Unit)? = null): T? {
+typealias Observer<T> = (value: T) -> Unit
+
+// This method should be used if its inside a ServerDrivenComponent
+internal fun <T> Bind<T>.observe(
+    rootView: RootView,
+    observes: Observer<T>? = null
+): T? {
+    return evaluateBind(rootView, this, null, observes)
+}
+
+// This method should be used if its inside a Action
+internal fun <T> Bind<T>.evaluateForAction(
+    rootView: RootView,
+    caller: Action
+): T? {
+    return evaluateBind(rootView, this, caller, null)
+}
+
+private fun <T> evaluateBind(
+    rootView: RootView,
+    bind: Bind<T>,
+    caller: Action? = null,
+    observes: Observer<T>?
+): T? {
     val value = try {
-        when (this) {
-            is Bind.Expression -> evaluateExpression(rootView, this)
-            else -> this.value as? T?
+        when (bind) {
+            is Bind.Expression -> evaluateExpression(rootView, bind, caller)
+            else -> bind.value as? T?
         }
     } catch (ex: Exception) {
         BeagleMessageLogs.errorWhileTryingToEvaluateBinding(ex)
         null
     }
 
-    if (value != null && observes != null) {
-        this.observes(observes)
-        observes(value)
+    if (observes != null) {
+        bind.observes(observes)
+    }
+
+    if (value != null) {
+        bind.notifyChange(value)
     }
 
     return value
@@ -42,10 +69,14 @@ fun <T> Bind<T>.get(rootView: RootView, observes: ((value: T) -> Unit)? = null):
 
 private fun <T> evaluateExpression(
     rootView: RootView,
-    bind: Bind.Expression<T>
+    bind: Bind.Expression<T>,
+    caller: Action? = null
 ): T? {
-    return rootView.generateViewModelInstance<ScreenContextViewModel>().contextDataManager.let {
-        it.addBindingToContext(bind)
-        it.evaluateBinding(bind) as T
+    val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
+    return if (caller != null) {
+        viewModel.evaluateExpressionForImplicitContext(caller, bind) as? T?
+    } else {
+        viewModel.addBindingToContext(bind)
+        null
     }
 }

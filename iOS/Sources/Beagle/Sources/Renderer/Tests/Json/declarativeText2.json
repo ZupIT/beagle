@@ -1,0 +1,26 @@
+{
+    "_beagleComponent_": "beagle:screencomponent",
+    "child": {
+        "_beagleComponent_": "beagle:container",
+        "children": [
+            {
+                "_beagleComponent_": "beagle:text",
+                "text": "BeaglePreview",
+                "alignment": "CENTER"
+            }
+        ],
+        "style": {
+            "backgroundColor": "#00ff00",
+            "size": {
+                "width": {
+                    "value": 100,
+                    "type": "PERCENT"
+                },
+                "height": {
+                    "value": 44,
+                    "type": "REAL"
+                }
+            }
+        }
+    }
+}

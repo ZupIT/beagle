@@ -19,19 +19,19 @@ import Foundation
 
 public struct SimpleForm: RawComponent, HasContext, AutoInitiableAndDecodable {
     
-    public var _context_: Context?
+    public var context: Context?
     public let onSubmit: [RawAction]?
     public let children: [RawComponent]
     public var widgetProperties: WidgetProperties
     
 // sourcery:inline:auto:SimpleForm.Init
     public init(
-        _context_: Context? = nil,
+        context: Context? = nil,
         onSubmit: [RawAction]? = nil,
         children: [RawComponent],
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
-        self._context_ = _context_
+        self.context = context
         self.onSubmit = onSubmit
         self.children = children
         self.widgetProperties = widgetProperties

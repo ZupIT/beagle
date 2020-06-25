@@ -17,12 +17,13 @@
 package br.com.zup.beagle.android.action
 
 import androidx.lifecycle.Observer
+import br.com.zup.beagle.android.annotation.ContextDataValue
 import br.com.zup.beagle.android.utils.generateViewModelInstance
-import br.com.zup.beagle.android.utils.get
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.utils.evaluateExpression
 
 @SuppressWarnings("UNUSED_PARAMETER")
 enum class RequestActionMethod {
@@ -38,25 +39,26 @@ data class SendRequest(
     val url: Bind<String>,
     val method: Bind<RequestActionMethod> = Bind.Value(RequestActionMethod.GET),
     val headers: Bind<Map<String, String>>? = null,
-    val data: Bind<String>? = null,
-    val onSuccess: Action? = null,
-    val onError: Action? = null,
-    val onFinish: Action? = null
+    @property:ContextDataValue
+    val data: Any? = null,
+    val onSuccess: List<Action>? = null,
+    val onError: List<Action>? = null,
+    val onFinish: List<Action>? = null
 ) : Action {
 
     constructor(
         url: String,
         method: RequestActionMethod = RequestActionMethod.GET,
         headers: Map<String, String>? = null,
-        data: String? = null,
-        onSuccess: Action? = null,
-        onError: Action? = null,
-        onFinish: Action? = null
+        data: Any? = null,
+        onSuccess: List<Action>? = null,
+        onError: List<Action>? = null,
+        onFinish: List<Action>? = null
     ) : this(
         Bind.Value(url),
         Bind.Value(method),
-        if (headers != null) Bind.Value(headers) else headers,
-        if (data != null) Bind.Value(data) else data,
+        headers?.let { Bind.Value(it) },
+        data,
         onSuccess,
         onError,
         onFinish
@@ -66,34 +68,33 @@ data class SendRequest(
         val viewModel = rootView.generateViewModelInstance<ActionRequestViewModel>()
 
         viewModel.fetch(toSendRequestInternal(rootView)).observe(rootView.getLifecycleOwner(), Observer { state ->
-            executeActions(rootView, this, state)
+            executeActions(rootView, state)
         })
     }
 
     private fun executeActions(
         rootView: RootView,
-        action: SendRequest,
         state: ActionRequestViewModel.FetchViewState
     ) {
-        action.onFinish?.let {
-            action.handleEvent(rootView, it, "onFinish")
+        onFinish?.let {
+            handleEvent(rootView, it, "onFinish")
         }
 
         when (state) {
-            is ActionRequestViewModel.FetchViewState.Error -> action.onError?.let {
-                action.handleEvent(rootView, it, "onError", state.response)
+            is ActionRequestViewModel.FetchViewState.Error -> onError?.let {
+                handleEvent(rootView, it, "onError", state.response)
             }
-            is ActionRequestViewModel.FetchViewState.Success -> action.onSuccess?.let {
-                action.handleEvent(rootView, it, "onSuccess", state.response)
+            is ActionRequestViewModel.FetchViewState.Success -> onSuccess?.let {
+                handleEvent(rootView, it, "onSuccess", state.response)
             }
         }
     }
 
     private fun toSendRequestInternal(rootView: RootView) = SendRequestInternal(
-        url = this.url.get(rootView) ?: "",
-        method = this.method.get(rootView) ?: RequestActionMethod.GET,
-        headers = this.headers?.get(rootView),
-        data = this.data?.get(rootView),
+        url = evaluateExpression(rootView, this.url) ?: "",
+        method = evaluateExpression(rootView, this.method) ?: RequestActionMethod.GET,
+        headers = this.headers?.let { evaluateExpression(rootView, it) },
+        data = this.data?.let { evaluateExpression(rootView, it.toString()) },
         onSuccess = this.onSuccess,
         onError = this.onError,
         onFinish = this.onFinish
@@ -105,7 +106,7 @@ internal data class SendRequestInternal(
     val method: RequestActionMethod = RequestActionMethod.GET,
     val headers: Map<String, String>?,
     val data: Any? = null,
-    val onSuccess: Action? = null,
-    val onError: Action? = null,
-    val onFinish: Action? = null
+    val onSuccess: List<Action>? = null,
+    val onError: List<Action>? = null,
+    val onFinish: List<Action>? = null
 )

@@ -23,10 +23,12 @@ import br.com.zup.beagle.R
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.valueOf
+import br.com.zup.beagle.android.context.valueOfNullable
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.utils.get
 import br.com.zup.beagle.android.utils.handleEvent
+import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
@@ -43,8 +45,8 @@ data class Button(
         onPress: List<Action>? = null,
         clickAnalyticsEvent: ClickEvent? = null
     ) : this(
-        Bind.valueOf(text),
-        Bind.valueOfNullable(styleId),
+        valueOf(text),
+        valueOfNullable(styleId),
         onPress,
         clickAnalyticsEvent
     )
@@ -75,7 +77,7 @@ data class Button(
 
     private fun Button.setData(text: Bind<String>, styleId: Bind<String>?, rootView: RootView) {
         styleId?.let { bind ->
-            bind.get(rootView = rootView) {
+            observeBindChanges(rootView, bind) {
                 val typedArray = styleManagerFactory.getButtonTypedArray(context, it)
                 typedArray?.let { typeArray ->
                     background = typeArray.getDrawable(R.styleable.BeagleButtonStyle_background)
@@ -89,7 +91,7 @@ data class Button(
             }
         }
 
-        text.get(rootView = rootView) {
+        observeBindChanges(rootView, text) {
             this.text = it
         }
     }
