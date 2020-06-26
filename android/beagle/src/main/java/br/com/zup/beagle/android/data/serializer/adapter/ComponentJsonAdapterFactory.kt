@@ -16,26 +16,8 @@
 
 package br.com.zup.beagle.android.data.serializer.adapter
 
-import br.com.zup.beagle.android.components.Button
-import br.com.zup.beagle.android.components.Image
-import br.com.zup.beagle.android.components.LazyComponent
-import br.com.zup.beagle.android.components.ListView
-import br.com.zup.beagle.android.components.TabItem
-import br.com.zup.beagle.android.components.TabView
-import br.com.zup.beagle.android.components.Text
-import br.com.zup.beagle.android.components.TextInput
-import br.com.zup.beagle.android.components.Touchable
-import br.com.zup.beagle.android.components.WebView
-import br.com.zup.beagle.android.components.form.Form
-import br.com.zup.beagle.android.components.form.FormInput
-import br.com.zup.beagle.android.components.form.FormSubmit
 import br.com.zup.beagle.android.components.form.InputWidget
-import br.com.zup.beagle.android.components.layout.Container
-import br.com.zup.beagle.android.components.layout.ScreenComponent
-import br.com.zup.beagle.android.components.layout.ScrollView
-import br.com.zup.beagle.android.components.page.PageIndicator
 import br.com.zup.beagle.android.components.page.PageIndicatorComponent
-import br.com.zup.beagle.android.components.page.PageView
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.widget.UndefinedWidget
@@ -71,35 +53,6 @@ internal object ComponentJsonAdapterFactory {
             .withBaseSubType(Widget::class.java)
     }
 
-    private fun registerLayoutClass(
-        factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>
-    ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
-        return factory.withSubtype(ScreenComponent::class.java, createNamespaceFor<ScreenComponent>())
-            .withSubtype(Container::class.java, createNamespaceFor<Container>())
-            .withSubtype(ScrollView::class.java, createNamespaceFor<ScrollView>())
-            .withSubtype(LazyComponent::class.java, createNamespaceFor<LazyComponent>())
-            .withSubtype(PageView::class.java, createNamespaceFor<PageView>())
-            .withSubtype(Form::class.java, createNamespaceFor<Form>())
-    }
-
-    private fun registerUIClass(
-        factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>
-    ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
-        return factory.withSubtype(Text::class.java, createNamespaceFor<Text>())
-            .withSubtype(Image::class.java, createNamespaceFor<Image>())
-            .withSubtype(Button::class.java, createNamespaceFor<Button>())
-            .withSubtype(ListView::class.java, createNamespaceFor<ListView>())
-            .withSubtype(TabView::class.java, createNamespaceFor<TabView>())
-            .withSubtype(TabItem::class.java, createNamespaceFor<TabItem>())
-            .withSubtype(WebView::class.java, createNamespaceFor<WebView>())
-            .withSubtype(Touchable::class.java, createNamespaceFor<Touchable>())
-            .withSubtype(PageIndicator::class.java, createNamespaceFor<PageIndicator>())
-            .withSubtype(FormInput::class.java, createNamespaceFor<FormInput>())
-            .withSubtype(FormSubmit::class.java, createNamespaceFor<FormSubmit>())
-            .withSubtype(UndefinedWidget::class.java, createNamespaceFor<UndefinedWidget>())
-            .withSubtype(TextInput::class.java, createNamespaceFor<TextInput>())
-    }
-
     private fun registerWidgets(
         factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>,
         appName: String,
@@ -118,10 +71,6 @@ internal object ComponentJsonAdapterFactory {
         factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
         return factory.withDefaultValue(UndefinedWidget())
-    }
-
-    private inline fun <reified T : ServerDrivenComponent> createNamespaceFor(): String {
-        return createNamespace(BEAGLE_NAMESPACE, T::class.java)
     }
 
     private fun createNamespace(appNamespace: String, clazz: Class<*>): String {
