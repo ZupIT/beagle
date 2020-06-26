@@ -35,7 +35,7 @@ import br.com.zup.beagle.widget.context.valueOfNullable
  */
 data class Button(
     val text: Bind<String>,
-    val styleId: Bind<String>? = null,
+    val styleId: String? = null,
     val onPress: List<Action>? = null,
     override val clickAnalyticsEvent: ClickEvent? = null
 ) : Widget(), TouchableAnalytics {
@@ -46,7 +46,7 @@ data class Button(
         clickAnalyticsEvent: ClickEvent? = null
     ) : this(
         valueOf(text),
-        valueOfNullable(styleId),
+        styleId,
         onPress,
         clickAnalyticsEvent
     )

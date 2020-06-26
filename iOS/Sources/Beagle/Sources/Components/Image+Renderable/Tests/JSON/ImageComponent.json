@@ -5,7 +5,7 @@
     "url": "/assets/images/test_image_square-x.png",
     "mobileId": "test_image_square-x"
   },
-  "contentMode": "CENTER",
+  "mode": "CENTER",
   "style": {
     "backgroundColor": "#0000FF80",
     "cornerRadius": {

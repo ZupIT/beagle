@@ -52,7 +52,7 @@ final class BeaglePrefetchHelperTests: XCTestCase {
         cacheManager.addToCache(reference)
         
         let result = dependencies.cacheManager?.getReference(identifiedBy: url)
-        XCTAssert(result?.data == jsonData, "Retrived wrong component.")
+        XCTAssert(result?.data == jsonData, "Retrieved wrong component.")
     }
     
     func testPrefetchTheSameScreenTwice() {
@@ -73,8 +73,8 @@ final class BeaglePrefetchHelperTests: XCTestCase {
         sut.prefetchComponent(newPath: .init(url: url, shouldPrefetch: true))
         let result2 = dependencies.cacheManager?.getReference(identifiedBy: url)
         
-        XCTAssert(result1?.data == jsonData, "Retrived wrong component.")
-        XCTAssert(result2?.data == jsonData, "Retrived wrong component.")
+        XCTAssert(result1?.data == jsonData, "Retrieved wrong component.")
+        XCTAssert(result2?.data == jsonData, "Retrieved wrong component.")
     }
 
     func testNavigationIsPrefetchable() {

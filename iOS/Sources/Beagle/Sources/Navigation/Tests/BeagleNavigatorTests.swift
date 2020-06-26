@@ -201,14 +201,14 @@ final class BeagleNavigatorTests: XCTestCase {
     }
     
     func test_popToView_absoluteURL() {
-        let dependecies = BeagleDependencies()
-        dependecies.urlBuilder.baseUrl = URL(string: "https://server.com/path/")
+        let dependencies = BeagleDependencies()
+        dependencies.urlBuilder.baseUrl = URL(string: "https://server.com/path/")
         let sut = BeagleNavigator()
         
-        let target = BeagleControllerStub(.remote(.init(url: "/screen")), dependencies: dependecies)
-        let declarative = BeagleControllerStub(.declarative(Screen(child: ComponentDummy())), dependencies: dependecies)
-        let remote = BeagleControllerStub(.remote(.init(url: "remote")), dependencies: dependecies)
-        let current = BeagleControllerStub(.declarativeText("{}"), dependencies: dependecies)
+        let target = BeagleControllerStub(.remote(.init(url: "/screen")), dependencies: dependencies)
+        let declarative = BeagleControllerStub(.declarative(Screen(child: ComponentDummy())), dependencies: dependencies)
+        let remote = BeagleControllerStub(.remote(.init(url: "remote")), dependencies: dependencies)
+        let current = BeagleControllerStub(.declarativeText("{}"), dependencies: dependencies)
 
         let navigation = UINavigationController()
         let stack = [target, declarative, remote, current]

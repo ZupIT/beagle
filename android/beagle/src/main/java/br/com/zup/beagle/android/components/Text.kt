@@ -33,7 +33,7 @@ import br.com.zup.beagle.widget.core.TextAlignment
 
 data class Text(
     val text: Bind<String>,
-    val styleId: Bind<String>? = null,
+    val styleId: String? = null,
     val textColor: Bind<String>? = null,
     val alignment: Bind<TextAlignment>? = null
 ) : WidgetView() {
@@ -44,7 +44,7 @@ data class Text(
         alignment: TextAlignment? = null
     ) : this(
         valueOf(text),
-        valueOfNullable(styleId),
+        styleId,
         valueOfNullable(textColor),
         valueOfNullable(alignment)
     )
@@ -64,11 +64,7 @@ data class Text(
         }
 
         text.styleId?.let {
-            observeBindChanges(rootView, it) { value ->
-                this.setStyle(value)
-            }
-        } ?: run {
-            this.setStyle("")
+            setStyle(it)
         }
 
         text.textColor?.let {

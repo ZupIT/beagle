@@ -24,4 +24,8 @@ dokka {
     outputDirectory = "$buildDir/javadoc"
 
     disableAutoconfiguration = false
+
+    configuration {
+        reportUndocumented = false
+    }
 }

@@ -20,13 +20,12 @@ Pod::Spec.new do |spec|
 
   spec.name = "Beagle"
 
-  spec.version = "0.2.8"
+  spec.version = "1.0.0-RC1"
 
-  spec.summary = "This is the Beagle framework for iOS"
+  spec.summary = "A framework to help implement Server-Driven UI in your apps natively."
   spec.description = <<-DESC
-    We encourage you to use Beagle from Carthage, since it is the preferred
-    way of using it. But if you are willing to just test Beagle, you can use this 
-    pod instead.
+    Beagle is an open source framework for cross-platform development using the 
+    concept of Server-Driven UI.
   DESC
   spec.homepage = "https://docs.usebeagle.io"
 
@@ -45,7 +44,7 @@ Pod::Spec.new do |spec|
 
 # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
-  source = { :git => "git@github.com:ZupIT/beagle.git", :tag => spec.version.to_s }
+  source = { :git => "https://github.com/ZupIT/beagle.git", :tag => spec.version.to_s }
   spec.source = source
 
 # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -80,7 +79,7 @@ Pod::Spec.new do |spec|
     # We need this because we fixed an issue in the original repository and our PR was not merged yet.
     beagle.frameworks = 'Foundation', 'CoreData'
     beagle.dependency 'YogaKit'
-    beagle.dependency 'BeagleSchema', "~> #{spec.version}"
+    beagle.dependency 'BeagleSchema', "#{spec.version}"
   end
 
   # ――― Beagle Preview ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -89,6 +88,7 @@ Pod::Spec.new do |spec|
     source = 'iOS/Sources/Preview/Sources'
     preview.source_files = source + '/**/*.swift'
     preview.dependency 'Starscream'
+    preview.dependency 'Beagle/Beagle'
   end
 
 end
