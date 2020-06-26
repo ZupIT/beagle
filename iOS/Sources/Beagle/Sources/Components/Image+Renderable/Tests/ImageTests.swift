@@ -35,7 +35,7 @@ class ImageTests: XCTestCase {
     func test_toView_shouldReturnTheExpectedView() throws {
         //Given
         let expectedContentMode = UIImageView.ContentMode.scaleToFill
-        let component = Image(.value(.local("teste")), contentMode: .fitXY)
+        let component = Image(.value(.local("teste")), mode: .fitXY)
         let controller = BeagleControllerStub()
         let renderer = BeagleRenderer(controller: controller)
 
@@ -58,8 +58,8 @@ class ImageTests: XCTestCase {
     func test_localImageDeserialize() throws {
         let image: Image = try componentFromJsonFile(fileName: "ImageComponent1")
         let path = image.path.get(with: renderer.render(image))
-        if case .local(let local) = path {
-            XCTAssertEqual(local.mobileId, "test_image_square-x")
+        if case .local(let mobileId) = path {
+            XCTAssertEqual(mobileId, "test_image_square-x")
         } else {
             XCTFail("Failed to decode correct image name.")
         }
