@@ -25,11 +25,7 @@ import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.action.*
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.core.*
-import br.com.zup.beagle.widget.layout.Container
-import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.layout.ScrollView
+import br.com.zup.beagle.widget.layout.*
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 import br.com.zup.beagle.widget.ui.TextInput
@@ -103,6 +99,12 @@ object ScreenContextBuilder : ScreenBuilder {
                                                 state = "@{onSuccess.data.uf}",
                                                 complement = "@{address.data.complement}"
                                             )
+                                        )
+                                    ),
+                                    onError = listOf(
+                                        Alert(
+                                            title = "Error",
+                                            message = "Sorry, a problem has happened while saving the address. Please try again later."
                                         )
                                     )
                                 )
