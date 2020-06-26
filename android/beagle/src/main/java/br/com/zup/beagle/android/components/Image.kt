@@ -69,27 +69,10 @@ data class Image(
                 }
                 is PathType.Remote -> {
                     val requestOptions = getGlideRequestOptions()
-                    if (style?.size != null) {
-                        imageView.apply {
-                            Glide
-                                .with(this)
-                                .setDefaultRequestOptions(requestOptions)
-                                .load(pathType.url)
-                                .into(this)
-                        }
-                    } else {
-                        imageView.loadImage(pathType, requestOptions)
-                    }
+                    imageView.loadImage(pathType, requestOptions)
                 }
             }
         }
-
-        if (style != null) {
-            return viewFactory.makeBeagleFlexView(rootView.getContext(), style!!).also { flexView ->
-                flexView.addView(imageView, style!!)
-            }
-        }
-
         return imageView
     }
 

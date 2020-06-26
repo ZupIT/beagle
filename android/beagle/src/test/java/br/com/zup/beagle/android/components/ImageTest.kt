@@ -111,7 +111,7 @@ class ImageViewRendererTest : BaseComponentTest() {
         val view = imageRemote.buildView(rootView)
 
         // Then
-        assertTrue(view is BeagleFlexView)
+        assertTrue(view is ImageView)
     }
 
     @Test
@@ -173,25 +173,8 @@ class ImageViewRendererTest : BaseComponentTest() {
     }
 
     @Test
-    fun build_should_call_makeBeagleFlexView_when_component_has_not_flex() {
-        // Given
-        imageRemote.style = null
-        every { requestManager.setDefaultRequestOptions(any()) } returns requestManager
-
-        // When
-        val view = imageRemote.buildView(rootView)
-
-        // Then
-        Assert.assertTrue(view is BeagleFlexView)
-        verify(exactly = once()) { anyConstructed<ViewFactory>().makeBeagleFlexView(any()) }
-        verify(exactly = once()) { beagleFlexView.addView(any(), any<Style>()) }
-    }
-
-    @Test
     fun build_should_call_setImageBitmap_reloadNetworkImageView_when_component_has_not_flex() {
         // Given
-        val height = 100
-        every { bitmap.height } returns height
         every { requestManager.setDefaultRequestOptions(any()) } returns requestManager
         imageRemote.style = null
 
@@ -200,7 +183,6 @@ class ImageViewRendererTest : BaseComponentTest() {
 
         // Then
         verify(exactly = once()) { imageView.setImageBitmap(bitmap) }
-        verify(exactly = once()) { beagleFlexView.setViewHeight(imageView, height) }
 
     }
 
