@@ -17,10 +17,13 @@
 package br.com.zup.beagle.widget.context
 
 import br.com.zup.beagle.core.BindAttribute
+import br.com.zup.beagle.widget.expression.ExpressionHelper
 import java.io.Serializable
 
 sealed class Bind<T> : BindAttribute<T>, Serializable {
-    data class Expression<T>(override val value: String): Bind<T>()
+    data class Expression<T>(override val value: String): Bind<T>() {
+        constructor(expression: ExpressionHelper<T>) : this(expression.representation)
+    }
     data class Value<T: Any>(override val value: T): Bind<T>()
 }
 

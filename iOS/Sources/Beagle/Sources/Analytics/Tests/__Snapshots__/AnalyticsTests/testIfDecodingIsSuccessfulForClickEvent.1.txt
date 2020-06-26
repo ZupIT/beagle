@@ -9,7 +9,7 @@
   ▿ onPress: Optional<Array<RawAction>>
     ▿ some: 1 element
       - Navigate.popStack
-  - styleId: Optional<Expression<String>>.none
+  - styleId: Optional<String>.none
   ▿ text: Expression<String>
     - value: "button"
   ▿ widgetProperties: WidgetProperties

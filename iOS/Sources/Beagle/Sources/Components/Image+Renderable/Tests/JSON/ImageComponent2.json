@@ -2,10 +2,14 @@
   "_beagleComponent_": "beagle:Image",
   "path": {
     "_beagleImagePath_": "remote",
-    "url": "www.com"
+    "url": "www.com",
+    "placeholder" : {
+      "_beagleImagePath_" : "local",
+      "mobileId" : "test_image_square-x"
+    },
   },
-  "contentMode": "CENTER",
-  "appearance": {
+  "mode": "CENTER",
+  "style": {
     "backgroundColor": "#800000FF",
     "cornerRadius": {
         "radius": 30.0

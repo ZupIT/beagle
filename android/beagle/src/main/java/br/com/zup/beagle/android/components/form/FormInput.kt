@@ -19,15 +19,17 @@ package br.com.zup.beagle.android.components.form
 import android.view.View
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.ViewConvertable
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.core.GhostComponent
 
 data class FormInput(
     val name: String,
     val required: Boolean? = null,
     val validator: String? = null,
     val errorMessage: String? = null,
-    val child: InputWidget
-) : WidgetView() {
+    override val child: InputWidget
+)  : ViewConvertable, GhostComponent {
 
     @Transient
     private val viewRendererFactory: ViewRendererFactory = ViewRendererFactory()

@@ -16,10 +16,12 @@
 
 package br.com.zup.beagle.android.components
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
+import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
@@ -32,17 +34,21 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.ImageContentMode
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 
 data class Image(
     val path: Bind<PathType>,
-    val mode: ImageContentMode? = null) : WidgetView(){
+    val mode: ImageContentMode? = null,
+    val placeholder: PathType.Local? = null) : WidgetView() {
     constructor(
         path: PathType,
-        mode: ImageContentMode? = null) : this(
+        mode: ImageContentMode? = null,
+        placeholder: PathType.Local? = null) : this(
         valueOf(path),
-        mode
+        mode,
+        placeholder
     )
 
     @Transient
@@ -52,28 +58,19 @@ data class Image(
     private val viewFactory = ViewFactory()
 
     override fun buildView(rootView: RootView): View {
-        var imageView:View = getImageView(rootView)
-        observeBindChanges(rootView, path){ pathyType->
-            when (pathyType) {
+        val imageView: RoundedImageView = getImageView(rootView)
+        observeBindChanges(rootView, path) { pathType ->
+            when (pathType) {
                 is PathType.Local -> {
-                    imageView = getImageView(rootView).apply {
-                        BeagleEnvironment.beagleSdk.designSystem?.image(pathyType.mobileId)?.let {
+                    imageView.apply {
+                        BeagleEnvironment.beagleSdk.designSystem?.image(pathType.mobileId)?.let {
                             this.setImageResource(it)
                         }
                     }
                 }
                 is PathType.Remote -> {
-                    imageView = if (style?.size != null) {
-                        getImageView(rootView).apply {
-                            Glide.with(this).load(pathyType.url).into(this)
-                        }
-                    } else {
-                        viewFactory.makeBeagleFlexView(rootView.getContext()).also {
-                            it.addView(getImageView(rootView).apply {
-                                this.loadImage(pathyType, it)
-                            }, style ?: Style())
-                        }
-                    }
+                    val requestOptions = getGlideRequestOptions()
+                    imageView.loadImage(pathType, requestOptions)
                 }
             }
         }
@@ -85,15 +82,39 @@ data class Image(
         scaleType = viewMapper.toScaleType(mode ?: ImageContentMode.FIT_CENTER)
     }
 
-    private fun ImageView.loadImage(path: PathType.Remote, beagleFlexView: BeagleFlexView) {
-        Glide.with(this).asBitmap().load(path.url).into(object : CustomTarget<Bitmap>() {
-            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                this@loadImage.setImageBitmap(resource)
-                beagleFlexView.setViewHeight(this@loadImage, resource.height)
-            }
+    private fun ImageView.loadImage(
+        path: PathType.Remote,
+        requestOptions: RequestOptions) {
+        Glide.with(this)
+            .setDefaultRequestOptions(requestOptions)
+            .asBitmap()
+            .load(path.url)
+            .into(object : CustomTarget<Bitmap>() {
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    this@loadImage.setImageBitmap(resource)
+                }
 
-            override fun onLoadCleared(placeholder: Drawable?) {}
-        })
+                override fun onLoadCleared(placeholder: Drawable?) {}
+            })
+    }
+
+    @SuppressLint("CheckResult")
+    private fun getGlideRequestOptions(): RequestOptions {
+        val requestOptions = RequestOptions()
+        getPlaceholder(placeholder)?.let {
+            requestOptions.placeholder(it)
+        }
+        return requestOptions
+    }
+
+    private fun getPlaceholder(image: PathType.Local?): Int? {
+        val designSystem = BeagleEnvironment.beagleSdk.designSystem
+        if (designSystem != null && image != null) {
+            placeholder?.let { pathType ->
+                return designSystem.image(pathType.mobileId)
+            }
+        }
+        return null
     }
 
 }

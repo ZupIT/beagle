@@ -41,10 +41,10 @@ struct Page {
     var content: Container {
         return Container(
             children: [
-                Text("Text with alignment atribute set to center", alignment: Expression.value(.center)),
-                Text("Text with alignment atribute set to right", alignment: Expression.value(.right)),
-                Text("Text with alignment atribute set to left", alignment: Expression.value(.left)),
-                Image(.remote(.init(url: .NETWORK_IMAGE_BEAGLE)))
+                Text("Text with alignment attribute set to center", alignment: Expression.value(.center)),
+                Text("Text with alignment attribute set to right", alignment: Expression.value(.right)),
+                Text("Text with alignment attribute set to left", alignment: Expression.value(.left)),
+                Image(.value(.remote(.init(url: .NETWORK_IMAGE_BEAGLE))))
             ],
             widgetProperties: .init(style: Style(flex: Flex().justifyContent(.spaceBetween).grow(1)))
         )

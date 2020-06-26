@@ -180,7 +180,7 @@ final class CacheManagerDefaultTests: XCTestCase {
         addDefaultComponent(manager: sut)
         
         if getDefaultReference(manager: sut) == nil {
-            XCTFail("Could not retrive reference.")
+            XCTFail("Could not retrieve reference.")
         }
     }
     
@@ -188,7 +188,7 @@ final class CacheManagerDefaultTests: XCTestCase {
         let sut = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: .init(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 10))
         sut.clear()
         if getDefaultReference(manager: sut) != nil {
-            XCTFail("Should not retrive reference.")
+            XCTFail("Should not retrieve reference.")
         }
     }
     

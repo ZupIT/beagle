@@ -26,6 +26,7 @@ import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.view.viewmodel.Response
 import org.json.JSONArray
 import org.json.JSONObject
+import java.lang.Exception
 import java.net.URI
 
 internal fun SendRequestInternal.toRequestData(): RequestData = SendRequestActionMapper.toRequestData(this)
@@ -54,12 +55,19 @@ internal object SendRequestActionMapper {
     }
 
     fun toResponse(responseData: ResponseData): Response {
-        val data = BeagleMoshi.moshi.adapter(Any::class.java).fromJson(String(responseData.data))
         return Response(
             statusCode = responseData.statusCode,
-            data = data,
+            data = getDataFormatted(responseData.data),
             headers = responseData.headers,
             statusText = responseData.statusText
         )
+    }
+
+    private fun getDataFormatted(data: ByteArray): Any? {
+        return try {
+            BeagleMoshi.moshi.adapter(Any::class.java).fromJson(String(data))
+        } catch (e: Exception) {
+            String(data)
+        }
     }
 }

@@ -12,7 +12,7 @@
       ▿ FormInput
         ▿ child: Text
           - alignment: Optional<Expression<Alignment>>.none
-          - styleId: Optional<Expression<String>>.none
+          - styleId: Optional<String>.none
           ▿ text: Expression<String>
             - value: "text"
           - textColor: Optional<Expression<String>>.none
@@ -67,9 +67,8 @@
         ▿ child: Button
           - clickAnalyticsEvent: Optional<AnalyticsClick>.none
           - onPress: Optional<Array<RawAction>>.none
-          ▿ styleId: Optional<Expression<String>>
-            ▿ some: Expression<String>
-              - value: "DesignSystem.Form.Submit"
+          ▿ styleId: Optional<String>
+            - some: "DesignSystem.Form.Submit"
           ▿ text: Expression<String>
             - value: "Submit Form"
           ▿ widgetProperties: WidgetProperties

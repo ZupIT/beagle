@@ -1,7 +1,7 @@
 {
     "_beagleAction_": "beagle:pushView",
     "route": {
-        "route": "schema://path",
+        "url": "schema://path",
         "shouldPrefetch": true,
         "fallback": {
             "child" : {

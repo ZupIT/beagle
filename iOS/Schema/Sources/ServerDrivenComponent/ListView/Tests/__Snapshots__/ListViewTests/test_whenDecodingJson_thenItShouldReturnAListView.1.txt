@@ -2,7 +2,7 @@
   ▿ children: 3 elements
     ▿ Text
       - alignment: Optional<Expression<Alignment>>.none
-      - styleId: Optional<Expression<String>>.none
+      - styleId: Optional<String>.none
       ▿ text: Expression<String>
         - value: "text1"
       - textColor: Optional<Expression<String>>.none
@@ -12,7 +12,7 @@
         - style: Optional<Style>.none
     ▿ Text
       - alignment: Optional<Expression<Alignment>>.none
-      - styleId: Optional<Expression<String>>.none
+      - styleId: Optional<String>.none
       ▿ text: Expression<String>
         - value: "text2"
       - textColor: Optional<Expression<String>>.none
@@ -22,7 +22,7 @@
         - style: Optional<Style>.none
     ▿ Text
       - alignment: Optional<Expression<Alignment>>.none
-      - styleId: Optional<Expression<String>>.none
+      - styleId: Optional<String>.none
       ▿ text: Expression<String>
         - value: "text3"
       - textColor: Optional<Expression<String>>.none

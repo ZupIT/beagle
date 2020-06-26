@@ -30,3 +30,4 @@ include Modules.beagleBackendMicronautStarter
 include Modules.beagleSchemaKotlinCore
 include Modules.beagleSchemaBackendWidgets
 include Modules.beagleExtendedSchema
+include Modules.beagleBackendProcessor

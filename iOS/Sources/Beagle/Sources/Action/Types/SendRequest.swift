@@ -23,7 +23,7 @@ extension SendRequest: Action {
 
         guard let
             view = sender as? UIView,
-            let url = controller.dependencies.urlBuilder.build(path: url.get(with: view) ?? "") else {
+            let url = controller.dependencies.urlBuilder.build(path: url.evaluate(with: view) ?? "") else {
             return
         }
         let requestData = Request.RequestData(
