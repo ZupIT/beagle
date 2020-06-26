@@ -47,7 +47,7 @@ platform :ios do
     init_ios_dependencies
     scan(
       workspace: "iOS/Beagle.xcworkspace/",
-      scheme: "Beagle",
+      scheme: "All",
       device: "iPhone 11"
     )
     commit_hash = last_git_commit[:commit_hash]
@@ -59,7 +59,7 @@ platform :ios do
     carthage(
       command: "bootstrap",
       platform: "iOS",
-      project_directory: "iOS/Sources/Beagle/", cache_builds: true
+      project_directory: "iOS/", cache_builds: true
     )
   end
 
@@ -152,7 +152,8 @@ platform :backend do
             "backend:starters:beagle-micronaut-starter:test",
             "backend:starters:beagle-spring-starter:test",
             "backend:sample:micronaut:assemble",
-            "backend:sample:spring:assemble"
+            "backend:sample:spring:assemble",
+            "backend:processor:test"
         ]
     )
     commit_hash = last_git_commit[:commit_hash]

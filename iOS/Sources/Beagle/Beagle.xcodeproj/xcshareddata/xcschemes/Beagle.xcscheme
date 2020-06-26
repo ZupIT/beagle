@@ -56,9 +56,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "932925CE2327E11000A61F01"
-            BuildableName = "BeagleUI.framework"
-            BlueprintName = "BeagleUI"
-            ReferencedContainer = "container:BeagleUI.xcodeproj">
+            BuildableName = "Beagle.framework"
+            BlueprintName = "Beagle"
+            ReferencedContainer = "container:Beagle.xcodeproj">
          </BuildableReference>
       </CodeCoverageTargets>
       <Testables>
