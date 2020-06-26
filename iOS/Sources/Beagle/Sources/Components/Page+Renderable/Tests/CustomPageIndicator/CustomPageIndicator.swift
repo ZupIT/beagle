@@ -90,7 +90,7 @@ class CustomPageIndicatorUIComponent: UIView, PageIndicatorUIView {
     required init() {
         super.init(frame: .zero)
         setupLayout()
-        setbuttonActions()
+        setButtonActions()
     }
 
     @available(*, unavailable)
@@ -111,7 +111,7 @@ class CustomPageIndicatorUIComponent: UIView, PageIndicatorUIView {
         )
     }
 
-    private func setbuttonActions() {
+    private func setButtonActions() {
         leftButton.addTarget(self, action: #selector(leftButtonTouch), for: .touchDown)
         rightButton.addTarget(self, action: #selector(rightButtonTouch), for: .touchDown)
     }

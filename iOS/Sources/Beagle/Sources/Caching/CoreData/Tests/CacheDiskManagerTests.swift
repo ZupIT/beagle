@@ -40,7 +40,7 @@ class CacheDiskManagerTests: XCTestCase {
         sut.update(reference)
         
         guard let result = sut.getReference(for: identifier) else {
-            XCTFail("Could not retrive data.")
+            XCTFail("Could not retrieve data.")
             return
         }
         XCTAssert(result.data == jsonData, "Got wrong data from cache.")
@@ -48,14 +48,14 @@ class CacheDiskManagerTests: XCTestCase {
         XCTAssert(result.identifier == identifier, "Got wrong data from cache.")
     }
     
-    func testGetNilRefereence() {
+    func testGetNilReference() {
         let sut = DefaultCacheDiskManager(dependencies: CacheDiskManagerDependencies())
         sut.clear()
         sut.saveChanges()
         let identifier = "id"
         
         if sut.getReference(for: identifier) != nil {
-            XCTFail("Should not retrive data.")
+            XCTFail("Should not retrieve data.")
         }
     }
     
@@ -70,7 +70,7 @@ class CacheDiskManagerTests: XCTestCase {
         sut.clear()
 
         if sut.getReference(for: identifier) != nil {
-            XCTFail("Should not retrive data.")
+            XCTFail("Should not retrieve data.")
         }
     }
     
@@ -91,7 +91,7 @@ class CacheDiskManagerTests: XCTestCase {
         sut.saveChanges()
         
         if sut.getReference(for: identifier1) != nil {
-            XCTFail("Should not retrive data.")
+            XCTFail("Should not retrieve data.")
         }
     }
     
@@ -115,7 +115,7 @@ class CacheDiskManagerTests: XCTestCase {
         sut.saveChanges()
         
         if sut.getReference(for: identifier2) != nil {
-            XCTFail("Should not retrive data.")
+            XCTFail("Should not retrieve data.")
         }
     }
     
@@ -128,7 +128,7 @@ class CacheDiskManagerTests: XCTestCase {
         sut.update(reference)
         
         guard let result = sut.getReference(for: identifier) else {
-            XCTFail("Could not retrive data.")
+            XCTFail("Could not retrieve data.")
             return
         }
         XCTAssert(result.data == jsonData, "Got wrong data from cache.")
@@ -148,7 +148,7 @@ class CacheDiskManagerTests: XCTestCase {
         sut.update(reference1)
         
         guard let result = sut.getReference(for: identifier) else {
-            XCTFail("Could not retrive data.")
+            XCTFail("Could not retrieve data.")
             return
         }
         XCTAssert(result.data == jsonData, "Got wrong data from cache.")

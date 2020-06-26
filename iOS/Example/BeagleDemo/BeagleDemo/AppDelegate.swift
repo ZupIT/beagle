@@ -60,6 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func registerCustomComponents() {
         Beagle.registerCustomComponent("DSCollection", componentType: DSCollection.self)
         Beagle.registerCustomComponent("SampleTextField", componentType: DemoTextField.self)
+        Beagle.registerCustomComponent("MyComponent", componentType: MyComponent.self)
         Beagle.registerCustomAction("CustomConsoleLogAction", actionType: CustomConsoleLogAction.self)
     }
 }

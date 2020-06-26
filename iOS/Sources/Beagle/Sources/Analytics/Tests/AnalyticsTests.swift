@@ -83,12 +83,12 @@ class AnalyticsTests: XCTestCase {
             "trackEventOnScreenDisappeared not called")
     }
     
-    func testIfDecodingIsSuccessfullForScreenEvent() throws {
+    func testIfDecodingIsSuccessfulForScreenEvent() throws {
         let component: ScreenComponent = try componentFromJsonFile(fileName: "screenAnalyticsComponent")
         assertSnapshot(matching: component, as: .dump)
     }
     
-    func testIfDecodingIsSuccessfullForClickEvent() throws {
+    func testIfDecodingIsSuccessfulForClickEvent() throws {
         let component: Button = try componentFromJsonFile(fileName: "buttonAnalyticsComponent")
         assertSnapshot(matching: component, as: .dump)
     }

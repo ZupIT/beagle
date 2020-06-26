@@ -26,7 +26,7 @@ class AccessibilityTest: XCTestCase {
     private lazy var testView = UIView()
     private let label = "test label"
     
-    func testIfAttributesWereAplliedToNavigationItem() {
+    func testIfAttributesWereAppliedToNavigationItem() {
         //given
         let accessibility = Accessibility(accessibilityLabel: label, accessible: true)
         let navigationItem = UINavigationItem()
@@ -39,7 +39,7 @@ class AccessibilityTest: XCTestCase {
         XCTAssert(navigationItem.isAccessibilityElement)
     }
 
-    func testIfAttributesWereAplliedToBarButtonItem() {
+    func testIfAttributesWereAppliedToBarButtonItem() {
         //given
         let accessibility = Accessibility(accessibilityLabel: label, accessible: true)
         let barButtonItem = UIBarButtonItem()
@@ -52,7 +52,7 @@ class AccessibilityTest: XCTestCase {
         XCTAssert(barButtonItem.isAccessibilityElement)
     }
     
-    func testIfAttributesWereAplliedToView() {
+    func testIfAttributesWereAppliedToView() {
         //given
         let accessibility = Accessibility(accessibilityLabel: label, accessible: true)
         
