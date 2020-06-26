@@ -19,26 +19,27 @@ import Foundation
 public struct Image: RawWidget, AutoDecodable {
 
     // MARK: - Public Properties
-    public let path: PathType
-    public let contentMode: ImageContentMode?
+    public let path: Expression<PathType>
+    public let mode: ImageContentMode?
     public var widgetProperties: WidgetProperties
     
     public init(
-        _ path: PathType,
-        contentMode: ImageContentMode? = nil,
+        _ path: Expression<PathType>,
+        mode: ImageContentMode? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
         self.path = path
-        self.contentMode = contentMode
+        self.mode = mode
         self.widgetProperties = widgetProperties
     }
     
     indirect public enum PathType: Decodable {
         case remote(Remote)
-        case local(Local)
+        case local(String)
 
         enum CodingKeys: String, CodingKey {
             case type = "_beagleImagePath_"
+            case mobileId
         }
         
         public init(from decoder: Decoder) throws {
@@ -47,7 +48,8 @@ public struct Image: RawWidget, AutoDecodable {
             let type = try container.decode(String.self, forKey: .type)
             switch type {
             case "local":
-                self = .local(try Local(from: decoder))
+                let mobileId = try container.decode(String.self, forKey: .mobileId)
+                self = .local(mobileId)
             case "remote":
                 self = .remote(try Remote(from: decoder))
             default:
@@ -58,34 +60,11 @@ public struct Image: RawWidget, AutoDecodable {
 }
 
 public extension Image {
-
-    struct Local: Decodable, ExpressibleByStringLiteral {
-
-        public let mobileId: String
-
-        public init(mobileId: String) {
-            self.mobileId = mobileId
-        }
-
-        public init(stringLiteral value: StringLiteralType) {
-            self.mobileId = value
-        }
-
-        enum CodingKeys: String, CodingKey {
-            case mobileId
-        }
-
-        public init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            mobileId = try container.decode(String.self, forKey: .mobileId)
-        }
-    }
-
     struct Remote: Decodable {
         public let url: String
-        public let placeholder: Local?
+        public let placeholder: String?
 
-        public init(url: String, placeholder: Local? = nil) {
+        public init(url: String, placeholder: String? = nil) {
             self.url = url
             self.placeholder = placeholder
         }
@@ -94,12 +73,16 @@ public extension Image {
             case url
             case placeholder
         }
+        
+        enum LocalImageCodingKey: String, CodingKey {
+            case mobileId
+        }
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-
+            let nestedContainer = try container.nestedContainer(keyedBy: LocalImageCodingKey.self, forKey: .placeholder)
             url = try container.decode(String.self, forKey: .url)
-            placeholder = try container.decodeIfPresent(Local.self, forKey: .placeholder)
+            placeholder = try nestedContainer.decodeIfPresent(String.self, forKey: .mobileId)
         }
     }
 }

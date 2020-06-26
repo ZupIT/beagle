@@ -1,0 +1,15 @@
+{
+  "_beagleComponent_": "beagle:Image",
+  "path": {
+    "_beagleImagePath_": "local",
+    "url": "/assets/images/test_image_square-x.png",
+    "mobileId": "test_image_square-x"
+  },
+  "mode": "CENTER",
+  "style": {
+    "backgroundColor": "#800000FF",
+    "cornerRadius": {
+        "radius": 30.0
+    }
+  }
+}

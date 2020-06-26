@@ -8,7 +8,6 @@
         - key: "id"
         - value: "11111"
   ▿ child: Container
-    - _context_: Optional<Context>.none
     ▿ children: 4 elements
       ▿ FormInput
         ▿ child: Text
@@ -35,8 +34,9 @@
         ▿ validator: Optional<String>
           - some: "text-is-not-blank"
       ▿ Container
-        - _context_: Optional<Context>.none
         - children: 0 elements
+        - context: Optional<Context>.none
+        - onInit: Optional<Array<RawAction>>.none
         ▿ widgetProperties: WidgetProperties
           - accessibility: Optional<Accessibility>.none
           - id: Optional<String>.none
@@ -99,6 +99,8 @@
                 - size: Optional<Size>.none
         ▿ enabled: Optional<Bool>
           - some: false
+    - context: Optional<Context>.none
+    - onInit: Optional<Array<RawAction>>.none
     ▿ widgetProperties: WidgetProperties
       - accessibility: Optional<Accessibility>.none
       - id: Optional<String>.none

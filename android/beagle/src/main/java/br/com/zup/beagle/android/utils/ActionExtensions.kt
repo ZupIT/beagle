@@ -18,7 +18,7 @@ package br.com.zup.beagle.android.utils
 
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
-import br.com.zup.beagle.android.context.Bind.Companion.expressionOf
+import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.context.ContextActionExecutor
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.widget.RootView

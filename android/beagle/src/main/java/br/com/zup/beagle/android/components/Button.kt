@@ -24,6 +24,8 @@ import br.com.zup.beagle.R
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.valueOf
+import br.com.zup.beagle.android.context.valueOfNullable
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.handleEvent
@@ -34,7 +36,7 @@ import br.com.zup.beagle.android.widget.WidgetView
 
 data class Button(
     val text: Bind<String>,
-    val styleId: Bind<String>? = null,
+    val styleId: String? = null,
     val onPress: List<Action>? = null,
     val clickAnalyticsEvent: ClickEvent? = null
 ) : WidgetView() {
@@ -44,8 +46,8 @@ data class Button(
         onPress: List<Action>? = null,
         clickAnalyticsEvent: ClickEvent? = null
     ) : this(
-        Bind.valueOf(text),
-        Bind.valueOfNullable(styleId),
+        valueOf(text),
+        styleId,
         onPress,
         clickAnalyticsEvent
     )
@@ -73,23 +75,21 @@ data class Button(
                 BeagleEnvironment.beagleSdk.analytics?.trackEventOnClick(it)
             }
         }
-        button.setData(text, styleId, rootView)
+        button.setData(text, rootView)
         return button
     }
 
-    private fun Button.setData(text: Bind<String>, styleId: Bind<String>?, rootView: RootView) {
-        styleId?.let { bind ->
-            observeBindChanges(rootView, bind) {
-                val typedArray = styleManagerFactory.getButtonTypedArray(context, it)
-                typedArray?.let { typeArray ->
-                    background = typeArray.getDrawable(R.styleable.BeagleButtonStyle_background)
-                    isAllCaps = typeArray.getBoolean(R.styleable.BeagleButtonStyle_textAllCaps, true)
-                    typeArray.recycle()
-                }
+    private fun Button.setData(text: Bind<String>, rootView: RootView) {
+        styleId?.let { style ->
+            val typedArray = styleManagerFactory.getButtonTypedArray(context, style)
+            typedArray?.let { typeArray ->
+                background = typeArray.getDrawable(R.styleable.BeagleButtonStyle_background)
+                isAllCaps = typeArray.getBoolean(R.styleable.BeagleButtonStyle_textAllCaps, true)
+                typeArray.recycle()
+            }
 
-                styleManagerFactory.getButtonStyle(it)?.let { buttonStyle ->
-                    TextViewCompat.setTextAppearance(this, buttonStyle)
-                }
+            styleManagerFactory.getButtonStyle(style)?.let { buttonStyle ->
+                TextViewCompat.setTextAppearance(this, buttonStyle)
             }
         }
 

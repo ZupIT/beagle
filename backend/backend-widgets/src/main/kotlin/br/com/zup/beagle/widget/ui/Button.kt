@@ -21,6 +21,8 @@ import br.com.zup.beagle.analytics.TouchableAnalytics
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.context.valueOf
+import br.com.zup.beagle.widget.context.valueOfNullable
 
 /**
  * Define a button natively using the server driven information received through Beagle
@@ -33,7 +35,7 @@ import br.com.zup.beagle.widget.context.Bind
  */
 data class Button(
     val text: Bind<String>,
-    val styleId: Bind<String>? = null,
+    val styleId: String? = null,
     val onPress: List<Action>? = null,
     override val clickAnalyticsEvent: ClickEvent? = null
 ) : Widget(), TouchableAnalytics {
@@ -43,8 +45,8 @@ data class Button(
         onPress: List<Action>? = null,
         clickAnalyticsEvent: ClickEvent? = null
     ) : this(
-        Bind.valueOf(text),
-        Bind.valueOfNullable(styleId),
+        valueOf(text),
+        styleId,
         onPress,
         clickAnalyticsEvent
     )

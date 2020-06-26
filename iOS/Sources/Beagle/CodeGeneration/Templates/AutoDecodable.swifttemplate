@@ -1,0 +1,329 @@
+/*
+* Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+<%
+
+extension Variable {
+	
+	static var beagleProtocolTypes = ["Action", "ServerDrivenComponent", "[ServerDrivenComponent]", rawComponent, "[\(rawComponent)]", "RawAction", "[RawAction]"]
+	
+	var rawUppercasedVariableName: String {
+		"raw" + name.prefix(1).uppercased() + name.dropFirst()
+	}
+
+	func inheritsFromAnyCoreBeagleProtocolType() -> String? {
+		if let variableType = self.type {
+    		return hasTypeIn(type?.inheritedTypes)
+    	} else if let typeInArray = typeName.array?.elementType?.inheritedTypes {
+    		if let foundType = hasTypeIn(typeInArray) {
+    			return "[" + foundType + "]"
+    		}
+    		return nil 
+    	} else if Variable.beagleProtocolTypes.contains(unwrappedTypeName) {
+    		return unwrappedTypeName
+    	} else {
+    		return nil
+    	}
+	}
+
+	func hasTypeIn(_ array: [String]?) -> String? {
+		guard let array = array else { return nil }
+		for arrayElement in array {
+			for beagleProtocolType in Variable.beagleProtocolTypes {
+				if arrayElement == beagleProtocolType {
+					return beagleProtocolType
+				}
+			}
+		}
+		return nil
+	}
+}
+
+let rawComponent = "RawComponent"
+var identation: String { "    " }
+
+func capitalizedName(for variable: Variable) -> String {
+    return "\(String(variable.name.first!).capitalized)\(String(variable.name.dropFirst()))"
+}
+
+func customDecodingMethod(for variable: Variable, of type: Type) -> SourceryMethod? {
+    return type.staticMethods.first { $0.selectorName == "decode\(capitalizedName(for: variable))(from:)" }
+}
+
+func defaultDecodingValue(for variable: Variable, of type: Type) -> Variable? {
+    return type.staticVariables.first { $0.name == "default\(capitalizedName(for: variable))" }
+}
+
+func decodingContainerMethod(for type: Type) -> SourceryMethod? {
+    if let enumType = type as? Enum, !enumType.hasAssociatedValues {
+        return SourceryMethod(name: "singleValueContainer", throws: true)
+    }
+    return type.staticMethods.first { $0.selectorName == "decodingContainer(_:)" }
+}
+
+func customEncodingMethod(for variable: Variable, of type: Type) -> SourceryMethod? {
+    return type.instanceMethods.first { $0.selectorName == "encode\(capitalizedName(for: variable))(to:)" }
+}
+
+func needsCustomBeagleDecoding(_ variable: Variable) -> Bool {
+    let isCoreBeagleProtocolType = Variable.beagleProtocolTypes.contains(variable.unwrappedTypeName)
+        || variable.unwrappedTypeName == "RawAction"
+    return isCoreBeagleProtocolType || variable.inheritsFromAnyCoreBeagleProtocolType() != nil
+}
+
+func codingKeysFor(_ type: Type) -> (generated: [String], all: [String]) {
+    var generatedKeys = [String]()
+    var allCodingKeys = [String]()
+    if type is Struct {
+        if let codingKeysType = type.containedType["CodingKeys"] as? Enum {
+            allCodingKeys = codingKeysType.cases.map({ $0.name })
+            let definedKeys = Set(allCodingKeys)
+            let storedVariablesKeys = type.storedVariables.filter({ $0.defaultValue == nil }).map({ $0.name })
+            let computedVariablesKeys = type.computedVariables.filter({ customEncodingMethod(for: $0, of: type) != nil }).map({ $0.name })
+
+            if (storedVariablesKeys.count + computedVariablesKeys.count) > definedKeys.count {
+                for key in storedVariablesKeys where !definedKeys.contains(key) {
+                    generatedKeys.append(key)
+                    allCodingKeys.append(key)
+                }
+                for key in computedVariablesKeys where !definedKeys.contains(key) {
+                    generatedKeys.append(key)
+                    allCodingKeys.append(key)
+                }
+            }
+        } else {
+            for variable in type.storedVariables {
+                generatedKeys.append(variable.name)
+                allCodingKeys.append(variable.name)
+            }
+            for variable in type.computedVariables {
+                guard customEncodingMethod(for: variable, of: type) != nil else { continue }
+                generatedKeys.append(variable.name)
+                allCodingKeys.append(variable.name)
+            }
+        }
+    } else if let enumType = type as? Enum {
+        var casesKeys: [String] = enumType.cases.map({ $0.name })
+        if enumType.hasAssociatedValues {
+            enumType.cases
+                .flatMap({ $0.associatedValues })
+                .compactMap({ $0.localName })
+                .forEach({
+                    if !casesKeys.contains($0) {
+                        casesKeys.append($0)
+                    }
+                })
+        }
+        if let codingKeysType = type.containedType["CodingKeys"] as? Enum {
+            allCodingKeys = codingKeysType.cases.map({ $0.name })
+            let definedKeys = Set(allCodingKeys)
+            if casesKeys.count > definedKeys.count {
+                for key in casesKeys where !definedKeys.contains(key) {
+                    generatedKeys.append(key)
+                    allCodingKeys.append(key)
+                }
+            }
+        } else {
+            allCodingKeys = casesKeys
+            generatedKeys = allCodingKeys
+        }
+    }
+    return (generated: generatedKeys, all: allCodingKeys)
+}
+
+func importBeagleString(_ arguments: Dictionary<String,AnyObject>? ) -> String {
+    guard let arguments = arguments else { return "" }
+    for arg in arguments {
+        if arg.key == "shouldNotImportBeagle", let value = arg.value as? Bool, value {
+            return ""
+        }
+    }
+    return "\nimport BeagleSchema\nimport Beagle\n"
+}
+
+func containerDeclaration(generatedCodingKeys: [String]) -> String {
+    if generatedCodingKeys.contains("widgetProperties") && generatedCodingKeys.count == 1 {
+        return ""
+    } else {
+        return "let container = try decoder.container(keyedBy: CodingKeys.self)\n"
+    }
+}
+
+func returnVariableName(_ variable: Variable) -> String {
+    if let beagleProtocol = variable.inheritsFromAnyCoreBeagleProtocolType(), variable.unwrappedTypeName != beagleProtocol {
+        var optionalFlag = variable.isOptional ? "?" : ""
+        return "let \(variable.rawUppercasedVariableName): \(beagleProtocol)" + optionalFlag
+    }
+    return variable.name
+}
+
+func makeDecoding(_ variable: Variable) -> String {
+    guard variable.name != "widgetProperties" || variable.typeName.name != "WidgetProperties" else {
+        return "WidgetProperties(from: decoder)"
+    }
+
+    var line = "container.decode"
+        + (variable.isOptional ? "IfPresent" : "")
+
+    let type = !needsCustomBeagleDecoding(variable) ? "\(variable.unwrappedTypeName).self, " : ""
+    line += "(\(type)forKey: .\(variable.name))"
+
+    if let beagleProtocol = variable.inheritsFromAnyCoreBeagleProtocolType(), variable.unwrappedTypeName != beagleProtocol {
+        line += handleCustomProtocolWrappedCases(variable)
+    }
+
+    return line
+}
+
+func handleCustomProtocolWrappedCases(_ variable: Variable) -> String {
+	var aux = "aux"
+
+	if variable.isOptional {
+		return "\n" + identation + identation
+            + variable.name + " = \(variable.rawUppercasedVariableName) as? \(variable.unwrappedTypeName)"
+	} else {
+		var line = ""
+		line += "\n" + identation + identation + "if let " + aux + " = \(variable.rawUppercasedVariableName) as? \(variable.unwrappedTypeName) { \n "
+		line += identation + identation + identation + variable.name + " = "  + aux + "\n"
+		line += identation + identation + "} else {\n"
+		line += identation + identation + identation + "throw ComponentDecodingError.couldNotCastToType(\"" + variable.unwrappedTypeName + "\")\n" 
+		line += identation + identation + "}"
+
+		return line
+	}
+	
+}
+
+-%>
+<%= importBeagleString(argument) -%>
+<% for type in types.all
+        where (type is Struct || type is Enum)
+        && (type.implements["AutoDecodable"] != nil || type.implements["AutoInitiableAndDecodable"] != nil) { -%>
+    <%_ let codingKeys = codingKeysFor(type) -%>
+    <%_ if let codingKeysType = type.containedType["CodingKeys"] as? Enum, codingKeys.generated.count > 0 { -%>
+// sourcery:inline:auto:<%= codingKeysType.name %>.AutoCodable
+        <%_ for key in codingKeys.generated { -%>
+        case <%= key %>
+        <%_ } -%>
+// sourcery:end
+<%_ } -%>
+
+// MARK: <%= type.name %> Decodable
+extension <%= type.name %> {
+    <%_ if type.containedType["CodingKeys"] as? Enum == nil { -%>
+
+    enum CodingKeys: String, CodingKey {
+        <%_ for key in codingKeys.generated { -%>
+        <%_ if key != "widgetProperties" || codingKeys.generated.count <= 1 { -%>
+        case <%= key %>
+        <%_ } -%>
+        <%_ } -%>
+    }
+    <%_ }-%>
+
+    <%= type.accessLevel %> init(from decoder: Decoder) throws {
+        <%_ if let containerMethod = decodingContainerMethod(for: type) { -%>
+        let container = <% if containerMethod.throws { %>try <% } -%>
+        <%_ if containerMethod.callName == "singleValueContainer" { %>decoder<% } else { -%><%= type.name %><% } -%>
+        <%_ %>.<%= containerMethod.callName %>(<% if !containerMethod.parameters.isEmpty { %>decoder<% } %>)
+        <%_ } else { -%>
+        <%= containerDeclaration(generatedCodingKeys: codingKeys.generated) -%>
+        <%_ } -%>
+
+        <%_ if let enumType = type as? Enum { -%>
+        <%_ if enumType.hasAssociatedValues { -%>
+        <%_ if codingKeys.all.contains("enumCaseKey") { -%>
+        let enumCase = try container.decode(String.self, forKey: .enumCaseKey)
+        switch enumCase {
+        <%_ for enumCase in enumType.cases { -%>
+        case CodingKeys.<%= enumCase.name %>.rawValue:
+            <%_ if enumCase.associatedValues.isEmpty { -%>
+            self = .<%= enumCase.name %>
+            <%_ } else if enumCase.associatedValues.filter({ $0.localName == nil }).count == enumCase.associatedValues.count { -%>
+            // Enum cases with unnamed associated values can't be decoded
+            throw DecodingError.dataCorruptedError(forKey: .enumCaseKey, in: container, debugDescription: "Can't decode '\(enumCase)'")
+            <%_ } else if enumCase.associatedValues.filter({ $0.localName != nil }).count == enumCase.associatedValues.count { -%>
+            <%_ for associatedValue in enumCase.associatedValues { -%>
+            let <%= associatedValue.localName! %> = try container.decode(<%= associatedValue.typeName %>.self, forKey: .<%= associatedValue.localName! %>)
+            <%_ } -%>
+            self = .<%= enumCase.name %>(<% -%>
+                <%_ %><%= enumCase.associatedValues.map({ "\($0.localName!): \($0.localName!)" }).joined(separator: ", ") %>)
+            <%_ } else { -%>
+            // Enum cases with mixed named and unnamed associated values can't be decoded
+            throw DecodingError.dataCorruptedError(forKey: .enumCaseKey, in: container, debugDescription: "Can't decode '\(enumCase)'")
+            <%_ } -%>
+        <%_ } -%>
+        default:
+            throw DecodingError.dataCorruptedError(forKey: .enumCaseKey, in: container, debugDescription: "Unknown enum case '\(enumCase)'")
+        }
+        <%_ } else { -%>
+        <%_ for enumCase in enumType.cases { -%>
+        if container.allKeys.contains(.<%= enumCase.name %>), try container.decodeNil(forKey: .<%= enumCase.name %>) == false {
+            <%_ if enumCase.associatedValues.isEmpty { -%>
+            self = .<%= enumCase.name %>
+            return
+            <%_ } else if enumCase.associatedValues.filter({ $0.localName == nil }).count == enumCase.associatedValues.count { -%>
+            var associatedValues = try container.nestedUnkeyedContainer(forKey: .<%= enumCase.name %>)
+            <%_ for (index, associatedValue) in enumCase.associatedValues.enumerated() { -%>
+            let associatedValue<%= index %> = try associatedValues.decode(<%= associatedValue.typeName %>.self)
+            <%_ } -%>
+            self = .<%= enumCase.name %>(<% -%>
+            <%_ %><%= enumCase.associatedValues.indices.map({ "associatedValue\($0)" }).joined(separator: ", ") %>)
+            return
+            <%_ } else if enumCase.associatedValues.filter({ $0.localName != nil }).count == enumCase.associatedValues.count { -%>
+            let associatedValues = try container.nestedContainer(keyedBy: CodingKeys.self, forKey: .<%= enumCase.name %>)
+            <%_ for associatedValue in enumCase.associatedValues { -%>
+            let <%= associatedValue.localName! %> = try associatedValues.decode(<%= associatedValue.typeName %>.self, forKey: .<%= associatedValue.localName! %>)
+            <%_ } -%>
+            self = .<%= enumCase.name %>(<% -%>
+            <%_ %><%= enumCase.associatedValues.map({ "\($0.localName!): \($0.localName!)" }).joined(separator: ", ") %>)
+            return
+            <%_ } else { -%>
+            // Enum cases with mixed named and unnamed associated values can't be decoded
+            throw DecodingError.dataCorruptedError(forKey: .<%= enumCase.name %>, in: container, debugDescription: "Can't decode `.<%= enumCase.name %>`")
+            <%_ } -%>
+        }
+        <%_ } -%>
+        throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unknown enum case"))
+        <%_ } -%>
+        <%_ } else { -%>
+        let enumCase = try container.decode(String.self)
+        switch enumCase {
+        <%_ for enumCase in enumType.cases { -%>
+        case CodingKeys.<%= enumCase.name %>.rawValue: self = .<%= enumCase.name %>
+        <%_ } -%>
+        default: throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Unknown enum case '\(enumCase)'"))
+        }
+        <%_ } -%>
+        <%_ } else { -%>
+        <%_ for key in codingKeys.all { -%>
+        <%_ guard let variable = type.instanceVariables.first(where: { $0.name == key && !$0.isComputed }) else { continue } -%>
+        <%_ let defaultValue = defaultDecodingValue(for: variable, of: type) -%>
+        <%_ let customMethod = customDecodingMethod(for: variable, of: type) -%>
+        <%_ let shouldTry = customMethod?.throws == true || customMethod == nil -%>
+        <%_ let shouldWrapTry = shouldTry && defaultValue != nil -%>
+        <%= returnVariableName(variable) %> = <% if shouldWrapTry { %>(try? <% } else if shouldTry { %>try <% } -%>
+        <%_ if let customMethod = customMethod { -%>
+        <%_ _%><%= type.name %>.<%= customMethod.callName _%>(from:<%_ if customMethod.parameters.first?.name == "decoder" { _%>decoder<%_ } else { _%>container<%_ } _%>)<%_ -%>
+        <%_ } else { -%>
+        <%_= makeDecoding(variable) -%>
+        <%_ %><% if shouldWrapTry { %>)<% } -%>
+        <%_ if let defaultValue = defaultValue { %> ?? <%= type.name %>.<%= defaultValue.name -%><%_ } %>
+        <%_ } -%>
+        <%_ } -%>
+        <%_ } -%>
+    }
+}
+<% } -%>

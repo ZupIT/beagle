@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import BeagleUI
+import Beagle
 import BeagleSchema
 
 struct ListViewScreen: DeeplinkScreen {
@@ -54,11 +54,11 @@ struct ListViewScreen: DeeplinkScreen {
             Text("0011"),
             Text("0012"),
             Text("0013"),
-            Image(.local("beagle")),
+            Image(.value(.local("beagle"))),
             Text("0014"),
             Text("0015"),
             Text("0016"),
-            Image(.remote(.init(url: .NETWORK_IMAGE_BEAGLE))),
+            Image(.value(.remote(.init(url: .NETWORK_IMAGE_BEAGLE)))),
             Text("0017"),
             Text("0018"),
             Text("0019"),

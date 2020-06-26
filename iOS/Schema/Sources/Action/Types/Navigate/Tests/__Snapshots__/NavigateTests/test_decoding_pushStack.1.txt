@@ -1,7 +1,6 @@
 ▿ Navigate
   ▿ pushStack: Route
     ▿ declarative: Screen
-      - _context_: Optional<Context>.none
       ▿ child: Text
         - alignment: Optional<Expression<Alignment>>.none
         - styleId: Optional<Expression<String>>.none
@@ -12,6 +11,7 @@
           - accessibility: Optional<Accessibility>.none
           - id: Optional<String>.none
           - style: Optional<Style>.none
+      - context: Optional<Context>.none
       - id: Optional<String>.none
       - navigationBar: Optional<NavigationBar>.none
       ▿ safeArea: Optional<SafeArea>

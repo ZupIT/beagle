@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import BeagleUI
+import Beagle
 import BeagleSchema
 
 struct TabViewScreen: DeeplinkScreen {
@@ -30,7 +30,7 @@ struct TabViewScreen: DeeplinkScreen {
         let tab1 = TabItem(icon: "beagle", child:
             Container(children: [
                 Text("Blaaslkdjfaskldjfalskdjfasldjfasldfj"),
-                Image(.remote(.init(url: .NETWORK_IMAGE_BEAGLE))),
+                Image(.value(.remote(.init(url: .NETWORK_IMAGE_BEAGLE, placeholder: "imageBeagle")))),
                 Text("Blaaslkdjfaskldjfalskdjfasldjfasldfj")
             ]).applyFlex(Flex().alignContent(.center))
         )

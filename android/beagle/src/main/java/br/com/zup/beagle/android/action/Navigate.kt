@@ -82,11 +82,11 @@ sealed class Navigate : Action{
 sealed class Route {
     /**
      * Class that takes care of navigation to remote content.
-     * @param route attribute that contains the navigation endpoint.
+     * @param url attribute that contains the navigation endpoint.
      * @param shouldPrefetch tells Beagle if the navigation request should be previously loaded or not.
      * @param fallback screen that is rendered in case the request fails.
      */
-    data class Remote(val route: String, val shouldPrefetch: Boolean = false, val fallback: Screen? = null) : Route()
+    data class Remote(val url: String, val shouldPrefetch: Boolean = false, val fallback: Screen? = null) : Route()
 
     /**
      * Class indicating navigation to a local screen.

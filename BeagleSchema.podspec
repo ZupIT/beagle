@@ -14,22 +14,15 @@
 # limitations under the License.
 #
 
-tag = `git describe --tags --match "[0-9]*.[0-9]*.[0-9]*"` # e.g: "0.2.7-5-gc9c4730d"
-(last_release, _, new_commit) = tag.split("-")
-
-# dev version will only be used when user's Podfile references our git repository directly
-#  without using tags for releases
-dev_version = "#{last_release}-DEV-#{new_commit}"
-
 Pod::Spec.new do |spec|
 
 # ―――  Spec Metadata  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
   spec.name = "BeagleSchema"
 
-  spec.version = new_commit ? dev_version : last_release
+  spec.version = "1.0.0-RC1"
 
-  spec.summary = "This pod is a part of Beagle framework, it will probably not work alone"
+  spec.summary = "Describe Beagle components structure"
   spec.description = <<-DESC
     This pod is a part of Beagle framework, it will probably not work alone
   DESC
@@ -50,13 +43,7 @@ Pod::Spec.new do |spec|
 
 # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
-  source = { :git => "git@github.com:ZupIT/beagle.git" }
-  if new_commit
-    source[:commit] = new_commit
-  else
-    source[:tag] = last_release
-  end
-
+  source = { :git => "https://github.com/ZupIT/beagle.git", :tag => spec.version.to_s }
   spec.source = source
 
 # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #

@@ -18,6 +18,7 @@ package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.core.ImageContentMode
 
 /**
@@ -26,12 +27,17 @@ import br.com.zup.beagle.widget.core.ImageContentMode
  * @param path defines where the source of the image is
  * @param mode defines how the declared image will fit the view.
  */
-data class Image(val path: Bind<ImagePath>, val mode: ImageContentMode? = null) : Widget(){
+data class Image(
+    val path: Bind<ImagePath>,
+    val mode: ImageContentMode? = null,
+    val placeholder: ImagePath.Local? = null) : Widget(){
     constructor(
         path: ImagePath,
-        mode: ImageContentMode? = null) : this(
-        Bind.valueOf(path),
-        mode
+        mode: ImageContentMode? = null,
+        placeholder: ImagePath.Local? = null) : this(
+        valueOf(path),
+        mode,
+        placeholder
     )
 }
 

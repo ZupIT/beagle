@@ -16,7 +16,7 @@
 
 import Foundation
 import UIKit
-import BeagleUI
+import Beagle
 import BeagleSchema
 
 struct OtherComponent: Widget, AutoInitiableAndDecodable {

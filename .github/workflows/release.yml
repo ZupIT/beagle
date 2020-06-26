@@ -25,5 +25,6 @@ jobs:
                 GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
                 GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
                 DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+                COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
               run: bundle exec fastlane deploy
         

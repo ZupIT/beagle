@@ -39,7 +39,7 @@ class PreFetchHelperTest : BaseTest() {
 
     @MockK
     private lateinit var rootView: ActivityRootView
-    private val route = Route.Remote(route = RandomData.string(), shouldPrefetch = true)
+    private val route = Route.Remote(RandomData.string(), shouldPrefetch = true)
     private val cachedTypes =
         listOf(
             Navigate.PushStack(route),
@@ -65,7 +65,7 @@ class PreFetchHelperTest : BaseTest() {
     fun should_call_fetch_for_cache_test() {
         cachedTypes.forEach {
             helper.handlePreFetch(rootView, it)
-            verify { beagleViewModel.fetchForCache(route.route) }
+            verify { beagleViewModel.fetchForCache(route.url) }
         }
     }
 

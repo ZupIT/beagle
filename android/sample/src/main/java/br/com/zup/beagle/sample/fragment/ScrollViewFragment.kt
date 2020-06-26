@@ -38,7 +38,9 @@ import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.layout.ScrollView
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Screen
+import br.com.zup.beagle.android.components.page.PageView
 import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.widget.Widget
 
 class ScrollViewFragment : Fragment() {
 
@@ -63,6 +65,11 @@ class ScrollViewFragment : Fragment() {
 
     private fun buildScrollView() = ScrollView(
         children = listOf(
+            Container(
+                children = listOf(
+                    buildPager()
+                )
+            ).applyStyle(Style(size = Size(height = UnitValue(100.0, UnitType.REAL)))),
             Image(
                 PathType.Remote(
                     "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271"
@@ -84,6 +91,29 @@ class ScrollViewFragment : Fragment() {
             Text("Text 10").applyStyle(style)
         )
     )
+
+    private fun buildPager(): PageView {
+        return PageView(
+            children = listOf(
+                buildPage("Page 1"),
+                buildPage("Page 2")
+            )
+        )
+    }
+
+    private fun buildPage(text: String): Widget {
+        return Container(
+            children = listOf(
+                Text(text = text)
+            )
+        ).applyStyle(
+            Style(
+                size = Size(height = 100.unitReal()),
+                backgroundColor = "#ff9800",
+                cornerRadius = CornerRadius(radius = 8.0)
+            )
+        )
+    }
 
     companion object {
 
