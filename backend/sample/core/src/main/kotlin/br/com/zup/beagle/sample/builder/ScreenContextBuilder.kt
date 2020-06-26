@@ -18,6 +18,7 @@ package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.ext.unitReal
@@ -28,183 +29,180 @@ import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
+import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
 import br.com.zup.beagle.widget.ui.TextInput
 
-class Address(val data: Data) {}
+data class Address(val data: Data)
 
-class Data(
-    var zip: String,
-    var street: String,
-    var number: String,
-    var neighborhood: String,
-    var city: String,
-    var state: String,
-    var complement: String
-) {}
+data class Data(
+    val zip: String,
+    val street: String,
+    val number: String,
+    val neighborhood: String,
+    val city: String,
+    val state: String,
+    val complement: String
+)
 
 object ScreenContextBuilder : ScreenBuilder {
-    var styleMargim =  Style(
-        size = Size(height = 30.unitReal()),
+    var styleMargin = Style(
         margin = EdgeValue(
-            top = 15.unitReal(),
+            top = 10.unitReal(),
             left = 25.unitReal(),
             right = 25.unitReal()
         )
     )
+
     override fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Beagle Context",
             showBackButton = true
         ),
         child = Container(
-            listOf(
-                Text(
-                    text = "Preencha o Formulário",
-                    styleId = "DesignSystem.Text.helloWord"
-                ).applyStyle(
-                    Style(
-                        margin = EdgeValue(top = 30.unitReal(),bottom = 30.unitReal()),
-                        flex = Flex(
-                            alignSelf = AlignSelf.CENTER
-                        )
-                    )
-                ),
-                TextInput(
-                    placeholder = "CEP",
-                    value = "@{address.data.zip}",
-                    styleId = "DesignSystem.TextInput.Style.Bff",
-                    onChange = listOf(
-                        SetContext(
-                            contextId = "address",
-                            path = "data.zip",
-                            value = "@{onChange.value}"
-                        )
-                    ),
-                    onBlur = listOf(
-                        SendRequest(
-                            url = "https://viacep.com.br/ws/@{onBlur.value}/json",
-                            method = RequestActionMethod.GET,
-                            onSuccess = listOf(
+            children = listOf(
+                ScrollView(
+                    children = listOf(
+                        Text(
+                            text = "Preencha o Formulário",
+                            styleId = "DesignSystem.Text.helloWord"
+                        ).applyStyle(
+                            Style(
+                                margin = EdgeValue(top = 20.unitReal(), bottom = 20.unitReal()),
+                                flex = Flex(
+                                    alignSelf = AlignSelf.CENTER
+                                )
+                            )
+                        ),
+                        TextInput(
+                            placeholder = "CEP",
+                            value = "@{address.data.zip}",
+                            styleId = "DesignSystem.TextInput.Style.Bff",
+                            onChange = listOf(
                                 SetContext(
                                     contextId = "address",
-                                    path = "data",
-                                    value =
-                                    Data(
-                                        zip = "@{onBlur.value}",
-                                        street = "@{onSuccess.data.logradouro}",
-                                        number = "@{address.data.number}",
-                                        neighborhood = "@{onSuccess.data.bairro}",
-                                        city = "@{onSuccess.data.localidade}",
-                                        state = "@{onSuccess.data.uf}",
-                                        complement = "@{address.data.complement}"
+                                    path = "data.zip",
+                                    value = "@{onChange.value}"
+                                )
+                            ),
+                            onBlur = listOf(
+                                SendRequest(
+                                    url = "https://viacep.com.br/ws/@{onBlur.value}/json",
+                                    method = RequestActionMethod.GET,
+                                    onSuccess = listOf(
+                                        SetContext(
+                                            contextId = "address",
+                                            path = "data",
+                                            value = Data(
+                                                zip = "@{onBlur.value}",
+                                                street = "@{onSuccess.data.logradouro}",
+                                                number = "@{address.data.number}",
+                                                neighborhood = "@{onSuccess.data.bairro}",
+                                                city = "@{onSuccess.data.localidade}",
+                                                state = "@{onSuccess.data.uf}",
+                                                complement = "@{address.data.complement}"
+                                            )
+                                        )
                                     )
                                 )
                             )
-                        )
-                    )
-                ).applyStyle(styleMargim),
-
-                createTextInput(
-                    textInputPlaceholder = "Rua",
-                    textInputValue = "@{address.data.street}",
-                    contextPath = "data.street"
-                ),
-
-                createTextInput(
-                    textInputPlaceholder = "Número",
-                    textInputValue = "@{address.data.number}",
-                    contextPath = "data.number",
-                    type = TextInputType.NUMBER
-                ),
-
-                createTextInput(
-                    textInputPlaceholder = "Bairro",
-                    textInputValue = "@{address.data.neighborhood}",
-                    contextPath = "data.neighborhood"
-                ),
-
-                createTextInput(
-                    textInputPlaceholder = "Cidade",
-                    textInputValue = "@{address.data.city}",
-                    contextPath = "data.city"
-                ),
-
-                createTextInput(
-                    textInputPlaceholder = "Estado",
-                    textInputValue = "@{address.data.state}",
-                    contextPath = "data.state"
-                ),
-
-                createTextInput(
-                    textInputPlaceholder = "Complemento",
-                    textInputValue = "@{address.data.complement}",
-                    contextPath = "data.complement"
-                ),
-
-                Button(
-                    text = "Enviar",
-                    styleId = "DesignSystem.Button.Context",
-                    onPress = listOf(
-                        Confirm(
-                            title = "Formulário de endereço!",
-                            message = "Os dados estão corretos?\n" +
-                                "Rua: @{address.data.street}\n" +
-                                 "Número: @{address.data.number}\n" +
-                                "Bairro: @{address.data.neighborhood}\n" +
-                                "Cidade: @{address.data.city}\n" +
-                                "Estado: @{address.data.state}\n" +
-                                "Complemento: @{address.data.complement}",
-                            onPressOk = Alert(
-                                title = "Formulário de endereço",
-                                message = "O formulário foi enviado com sucesso!",
-                                onPressOk = SetContext(
-                                    contextId = "address",
-                                    path = "data",
-                                    value =
-                                    Data(
-                                        zip = "",
-                                        street = "",
-                                        number = "",
-                                        neighborhood = "",
-                                        city = "",
-                                        state = "",
-                                        complement = ""
-                                    )
-                                )
-                            )
-                        )
-                    )
-                ).applyStyle(
-                    Style(
-                        backgroundColor = "#808080",
-                        cornerRadius = CornerRadius(8.0),
-                        size = Size(width = 50.unitPercent(), height = 30.unitReal()),
-                        margin = EdgeValue(
-                            top = 50.unitReal()
+                        ).applyStyle(styleMargin),
+                        createTextInput(
+                            textInputPlaceholder = "Rua",
+                            textInputValue = "@{address.data.street}",
+                            contextPath = "data.street"
                         ),
-                        flex = Flex(
-                            alignSelf = AlignSelf.CENTER
+                        createTextInput(
+                            textInputPlaceholder = "Número",
+                            textInputValue = "@{address.data.number}",
+                            contextPath = "data.number",
+                            type = TextInputType.NUMBER
+                        ),
+                        createTextInput(
+                            textInputPlaceholder = "Bairro",
+                            textInputValue = "@{address.data.neighborhood}",
+                            contextPath = "data.neighborhood"
+                        ),
+                        createTextInput(
+                            textInputPlaceholder = "Cidade",
+                            textInputValue = "@{address.data.city}",
+                            contextPath = "data.city"
+                        ),
+                        createTextInput(
+                            textInputPlaceholder = "Estado",
+                            textInputValue = "@{address.data.state}",
+                            contextPath = "data.state"
+                        ),
+                        createTextInput(
+                            textInputPlaceholder = "Complemento",
+                            textInputValue = "@{address.data.complement}",
+                            contextPath = "data.complement"
+                        ),
+                        Button(
+                            text = "Enviar",
+                            styleId = "DesignSystem.Button.Context",
+                            onPress = listOf(
+                                Confirm(
+                                    title = "Formulário de endereço!",
+                                    message = "Os dados estão corretos?\n" +
+                                        "Rua: @{address.data.street}\n" +
+                                        "Número: @{address.data.number}\n" +
+                                        "Bairro: @{address.data.neighborhood}\n" +
+                                        "Cidade: @{address.data.city}\n" +
+                                        "Estado: @{address.data.state}\n" +
+                                        "Complemento: @{address.data.complement}",
+                                    onPressOk = Alert(
+                                        title = "Formulário de endereço",
+                                        message = "O formulário foi enviado com sucesso!",
+                                        onPressOk = SetContext(
+                                            contextId = "address",
+                                            path = "data",
+                                            value =
+                                            Data(
+                                                zip = "",
+                                                street = "",
+                                                number = "",
+                                                neighborhood = "",
+                                                city = "",
+                                                state = "",
+                                                complement = ""
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        ).applyStyle(
+                            Style(
+                                backgroundColor = "#808080",
+                                cornerRadius = CornerRadius(8.0),
+                                size = Size(width = 50.unitPercent()),
+                                margin = EdgeValue(
+                                    top = 30.unitReal()
+                                ),
+                                flex = Flex(
+                                    alignSelf = AlignSelf.CENTER
+                                )
+                            )
+                        )
+                    ),
+                    context = ContextData(
+                        id = "address",
+                        value = Address(
+                            data = Data(
+                                zip = "",
+                                street = "",
+                                number = "",
+                                neighborhood = "",
+                                city = "",
+                                state = "",
+                                complement = ""
+                            )
                         )
                     )
-                )
-
-            ),
-            context = ContextData(
-                id = "address",
-                value = Address(data = Data(
-                    zip = "",
-                    street = "",
-                    number = "",
-                    neighborhood = "",
-                    city = "",
-                    state = "",
-                    complement = ""
-                )
                 )
             )
-        )
+        ).applyFlex(Flex(grow = 1.0))
     )
 
     private fun createTextInput(
@@ -224,5 +222,5 @@ object ScreenContextBuilder : ScreenBuilder {
                 value = "@{onChange.value}"
             )
         )
-    ).applyStyle(styleMargim)
+    ).applyStyle(styleMargin)
 }

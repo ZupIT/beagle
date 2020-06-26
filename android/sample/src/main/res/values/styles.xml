@@ -26,6 +26,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorHint">@color/colorGray</item>
+        <item name="android:scrollbarThumbVertical">@color/colorGray</item>
+        <item name="android:scrollbarThumbHorizontal">@color/colorGray</item>
         <item name="android:windowBackground">@color/colorWhite</item>
         <item name="colorControlNormal">@color/colorWhite</item>
     </style>
