@@ -100,12 +100,6 @@ object ScreenContextBuilder : ScreenBuilder {
                                                 complement = "@{address.data.complement}"
                                             )
                                         )
-                                    ),
-                                    onError = listOf(
-                                        Alert(
-                                            title = "Error",
-                                            message = "Sorry, a problem has happened while saving the address. Please try again later."
-                                        )
                                     )
                                 )
                             )
