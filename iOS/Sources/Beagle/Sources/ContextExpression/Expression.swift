@@ -80,7 +80,6 @@ extension Expression: ExpressibleByFloatLiteral where T == Float {
 extension SingleExpression {
 
     func evaluate(model: DynamicObject) -> DynamicObject {
-//        let model = model.asAny()
         var nodes = self.path.nodes[...]
         return SingleExpression.evaluate(&nodes, model)
     }

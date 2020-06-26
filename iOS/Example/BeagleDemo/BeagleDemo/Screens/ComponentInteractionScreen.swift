@@ -284,10 +284,7 @@ extension MyComponent: Widget {
     
     func toView(renderer: BeagleRenderer) -> UIView {
         let view = UILabel()
-        renderer.observe(person, andUpdate: \.text, in: view) {
-            $0?.name
-        }
-//        person?.observe(view: view, controller: renderer.controller, updateFunction: { view.text = $0.name })
+        renderer.observe(person, andUpdate: \.text, in: view) { $0?.name }
         return view
     }
 
