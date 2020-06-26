@@ -99,8 +99,8 @@ data class Text(
         }
     }
 
-    private fun getStyleId(styleName: Bind<String>?) : Int =
-            BeagleEnvironment.beagleSdk.designSystem?.textStyle((styleName?.value as String?)?:"")?:0
+    private fun getStyleId(styleName: String?) : Int =
+            BeagleEnvironment.beagleSdk.designSystem?.textStyle(styleName ?:"")?:0
 
     private fun TextView.setTextColor(color: String?) {
         color?.let {

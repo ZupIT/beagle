@@ -98,7 +98,7 @@ data class Button(
         }
     }
 
-    private fun getStyleId(styleName: Bind<String>?) : Int =
-        BeagleEnvironment.beagleSdk.designSystem?.buttonStyle((styleName?.value as String?)?:"")?:0
+    private fun getStyleId(styleName: String?) : Int =
+        BeagleEnvironment.beagleSdk.designSystem?.buttonStyle(styleName?:"")?:0
 
 }
