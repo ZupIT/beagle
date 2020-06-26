@@ -57,7 +57,7 @@ class ImageTests: XCTestCase {
     
     func test_localImageDeserialize() throws {
         let image: Image = try componentFromJsonFile(fileName: "ImageComponent1")
-        let path = image.path.get(with: renderer.render(image))
+        let path = image.path.evaluate(with: renderer.render(image))
         if case .local(let mobileId) = path {
             XCTAssertEqual(mobileId, "test_image_square-x")
         } else {
@@ -68,7 +68,7 @@ class ImageTests: XCTestCase {
     func test_remoteImageDeserialize() throws {
         let bla = "www.com"
         let image: Image = try componentFromJsonFile(fileName: "ImageComponent2")
-        let path = image.path.get(with: renderer.render(image))
+        let path = image.path.evaluate(with: renderer.render(image))
         if case .remote(let remote) = path {
             XCTAssertEqual(remote.url, bla)
         } else {
