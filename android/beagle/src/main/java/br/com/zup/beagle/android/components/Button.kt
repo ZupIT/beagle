@@ -61,14 +61,9 @@ data class Button(
             preFetchHelper.handlePreFetch(rootView, it)
         }
 
-        var button = viewFactory.makeButton(rootView.getContext())
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        this.styleId?.let {
-            observeBindChanges(rootView, it) { style ->
-                button = viewFactory.makeButton(rootView.getContext(), getStyleId(style))
-            }
-        }
+        val button = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            viewFactory.makeButton(rootView.getContext(), getStyleId(this.styleId))
+        else viewFactory.makeButton(rootView.getContext())
 
         button.setOnClickListener {
             onPress?.let {
@@ -103,7 +98,7 @@ data class Button(
         }
     }
 
-    private fun getStyleId(styleName: String) : Int =
-        BeagleEnvironment.beagleSdk.designSystem?.buttonStyle(styleName)?:0
+    private fun getStyleId(styleName: Bind<String>?) : Int =
+        BeagleEnvironment.beagleSdk.designSystem?.buttonStyle((styleName?.value as String?)?:"")?:0
 
 }
