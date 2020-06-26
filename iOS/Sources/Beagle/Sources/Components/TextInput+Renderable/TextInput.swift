@@ -20,9 +20,9 @@ import BeagleSchema
 
 extension TextInput: ServerDrivenComponent {
     public func toView(renderer: BeagleRenderer) -> UIView {
-        let textInputView = TextInputView(model: .init(onChange: onChange,
-                                                       onBlur: onBlur,
-                                                       onFocus: onFocus),
+        let textInputView = TextInputView(onChange: onChange,
+                                          onBlur: onBlur,
+                                          onFocus: onFocus,
                                           controller: renderer.controller)
         
         textInputView.styleId = styleId
@@ -50,20 +50,15 @@ extension TextInput: ServerDrivenComponent {
     
     class TextInputView: UITextField, UITextFieldDelegate, InputValue, WidgetStateObservable, ValidationErrorListener {
         
-        struct Model {
-            var value: String?
-            var placeholder: String?
-            var disabled: Bool?
-            var readOnly: Bool?
-            var type: TextInputType?
-            var hidden: Bool?
-            var onChange: [RawAction]?
-            var onBlur: [RawAction]?
-            var onFocus: [RawAction]?
-        }
+        var value: String?
+        var disabled: Bool?
+        var readOnly: Bool?
+        var type: TextInputType?
+        var onChange: [RawAction]?
+        var onBlur: [RawAction]?
+        var onFocus: [RawAction]?
 
         var inputType: TextInputType?
-        var model: Model
         var observable = Observable<WidgetState>(value: WidgetState(value: text))
         weak var controller: BeagleController?
         
@@ -72,13 +67,29 @@ extension TextInput: ServerDrivenComponent {
         }
         
         init(
-            model: Model,
+            value: String? =  nil,
+            placeholder: String? =  nil,
+            disabled: Bool? =  nil,
+            readOnly: Bool? =  nil,
+            type: TextInputType? =  nil,
+            hidden: Bool? =  nil,
+            onChange: [RawAction]? =  nil,
+            onBlur: [RawAction]? =  nil,
+            onFocus: [RawAction]? =  nil,
             controller: BeagleController
         ) {
-            self.model = model
+            self.value = value
+            self.disabled = disabled
+            self.readOnly = readOnly
+            self.type = type
+            self.onChange = onChange
+            self.onBlur = onBlur
+            self.onFocus = onFocus
             self.controller = controller
             super.init(frame: .zero)
             self.delegate = self
+            self.isHidden = hidden ?? false
+            self.placeholder = placeholder
             setup()
         }
         
@@ -96,12 +107,12 @@ extension TextInput: ServerDrivenComponent {
         
         func textFieldDidBeginEditing(_ textField: UITextField) {
             let context = Context(id: "onFocus", value: .dictionary(["value": .string(textField.text ?? "")]))
-            controller?.execute(actions: model.onFocus, with: context, sender: self)
+            controller?.execute(actions: onFocus, with: context, sender: self)
         }
         
         func textFieldDidEndEditing(_ textField: UITextField) {
             let context = Context(id: "onBlur", value: .dictionary(["value": .string(textField.text ?? "")]))
-            controller?.execute(actions: model.onBlur, with: context, sender: self)
+            controller?.execute(actions: onBlur, with: context, sender: self)
         }
         
         func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -113,7 +124,7 @@ extension TextInput: ServerDrivenComponent {
             textField.text = updatedText
             
             let context = Context(id: "onChange", value: .dictionary(["value": .string(updatedText ?? "")]))
-            controller?.execute(actions: model.onChange, with: context, sender: self)
+            controller?.execute(actions: onChange, with: context, sender: self)
             
             return false
         }
@@ -136,20 +147,18 @@ private extension TextInput.TextInputView {
     }
 
     func setup() {
-        setupValuesExpression()
-        setupTypeExpression()
+        setupValues()
+        setupType()
         setupObservable()
     }
     
-    func setupValuesExpression() {
-        text = model.value
-        placeholder = model.placeholder
-        isEnabled = model.disabled ?? model.readOnly ?? true
-        isHidden = model.hidden ?? false
+    func setupValues() {
+        text = value
+        isEnabled = disabled ?? readOnly ?? true
     }
     
-    func setupTypeExpression() {
-        inputType = model.type ?? .text
+    func setupType() {
+        inputType = type ?? .text
 
         switch inputType {
         case .email:
