@@ -21,7 +21,7 @@ import SnapshotTesting
 
 class WebViewTests: XCTestCase {
 
-    func test_whenDecondingJson_shouldReturnAWebView() throws {
+    func test_whenDecodingJson_shouldReturnAWebView() throws {
         let component: WebView = try componentFromJsonFile(fileName: "WebView")
         assertSnapshot(matching: component, as: .dump)
     }

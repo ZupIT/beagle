@@ -63,9 +63,8 @@
               - position: Optional<EdgeValue>.none
               - positionType: Optional<PositionType>.none
               - size: Optional<Size>.none
-      ▿ icon: Optional<Local>
-        ▿ some: Local
-          - mobileId: "mobileId"
+      ▿ icon: Optional<String>
+        - some: "mobileId"
       ▿ title: Optional<String>
         - some: "tab 1"
   - context: Optional<Context>.none

@@ -166,14 +166,14 @@ extension Image {
 
     enum CodingKeys: String, CodingKey {
         case path
-        case contentMode
+        case mode
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        path = try container.decode(PathType.self, forKey: .path)
-        contentMode = try container.decodeIfPresent(ImageContentMode.self, forKey: .contentMode)
+        path = try container.decode(Expression<PathType>.self, forKey: .path)
+        mode = try container.decodeIfPresent(ImageContentMode.self, forKey: .mode)
         widgetProperties = try WidgetProperties(from: decoder)
     }
 }
@@ -207,28 +207,6 @@ extension ListView {
 
         children = try container.decode(forKey: .children)
         direction = try container.decode(Direction.self, forKey: .direction)
-    }
-}
-
-// MARK: NavigationBarItem Decodable
-extension NavigationBarItem {
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case image
-        case text
-        case action
-        case accessibility
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        id = try container.decodeIfPresent(String.self, forKey: .id)
-        image = try container.decodeIfPresent(Image.Local.self, forKey: .image)
-        text = try container.decode(String.self, forKey: .text)
-        action = try container.decode(forKey: .action)
-        accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
     }
 }
 
@@ -318,24 +296,6 @@ extension SendRequest {
         onSuccess = try container.decodeIfPresent(forKey: .onSuccess)
         onError = try container.decodeIfPresent(forKey: .onError)
         onFinish = try container.decodeIfPresent(forKey: .onFinish)
-    }
-}
-
-// MARK: TabItem Decodable
-extension TabItem {
-
-    enum CodingKeys: String, CodingKey {
-        case icon
-        case title
-        case child
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        icon = try container.decodeIfPresent(Image.Local.self, forKey: .icon)
-        title = try container.decodeIfPresent(String.self, forKey: .title)
-        child = try container.decode(forKey: .child)
     }
 }
 

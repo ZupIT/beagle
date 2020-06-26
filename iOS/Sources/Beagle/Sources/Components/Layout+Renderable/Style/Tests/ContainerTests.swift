@@ -57,15 +57,15 @@ final class ContainerTests: XCTestCase {
         //Given
         let controller = BeagleControllerStub()
         let renderer = BeagleRenderer(controller: controller)
-        let numberOfChilds = 3
-        let containerChilds = Array(repeating: ComponentDummy(), count: numberOfChilds)
-        let container = Container(children: containerChilds)
+        let numberOfChildren = 3
+        let containerChildren = Array(repeating: ComponentDummy(), count: numberOfChildren)
+        let container = Container(children: containerChildren)
         
         // When
         let resultingView = renderer.render(container)
         
         //Then
-        XCTAssert(resultingView.subviews.count == numberOfChilds)
+        XCTAssert(resultingView.subviews.count == numberOfChildren)
     }
     
     func test_renderContainer() throws {

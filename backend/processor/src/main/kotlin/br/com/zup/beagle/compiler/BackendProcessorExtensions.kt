@@ -16,23 +16,12 @@
 
 package br.com.zup.beagle.compiler
 
-import javax.lang.model.element.TypeElement
-import javax.lang.model.type.DeclaredType
+import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.asTypeName
+import javax.lang.model.type.TypeMirror
+import javax.lang.model.util.Types
 
-fun TypeElement.implementsInterface(interfaceName: String): Boolean {
-    for (interfaceTypeMirror in this.interfaces) {
-        val typeMirror = ((interfaceTypeMirror as DeclaredType)).asElement()
-        if (typeMirror.toString() == interfaceName) {
-            return true
-        }
-    }
-    return false
-}
+internal val TypeMirror.suffixedClassName get() = ClassName.bestGuess("$this$INTERNAL_SUFFIX")
 
-fun TypeElement.extendsFromClass(className: String): Boolean {
-    val typeMirror = ((this.superclass as DeclaredType)).asElement()
-    if (typeMirror.toString() == className) {
-        return true
-    }
-    return false
-}
+internal fun Types.isLeaf(type: TypeMirror) =
+    type.kind.isPrimitive || type.asTypeName() in LEAF_TYPES || this.isSubtype(type, Enum::class)

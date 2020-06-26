@@ -17,7 +17,7 @@
 import Foundation
 import BeagleSchema
 
-// MARK: - Dependecy Protocol
+// MARK: - Dependency Protocol
 public protocol DependencyAnalyticsExecutor {
     var analytics: Analytics? { get }
 }

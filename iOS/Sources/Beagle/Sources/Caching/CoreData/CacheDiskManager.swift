@@ -133,8 +133,8 @@ public class DefaultCacheDiskManager: CacheDiskManagerProtocol {
     // MARK: Privates
 
     private func addNew(_ reference: CacheReference) {
-        if let desciptor = NSEntityDescription.entity(forEntityName: "CacheEntity", in: context),
-            let entity = NSManagedObject(entity: desciptor, insertInto: context) as? CacheEntity {
+        if let descriptor = NSEntityDescription.entity(forEntityName: "CacheEntity", in: context),
+            let entity = NSManagedObject(entity: descriptor, insertInto: context) as? CacheEntity {
             entity.update(with: reference)
         }
     }
