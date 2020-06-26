@@ -67,25 +67,18 @@ internal class ScreenContextViewModel(
     fun evaluateExpressionForImplicitContext(bindCaller: Action, bind: Bind.Expression<*>): Any? {
         val contexts = mutableListOf<ContextData>()
 
-        implicitContextData.forEach { implicitContext ->
-            implicitContext.caller.forEach {
-                if (bindCaller == it) {
-                    contexts += implicitContext.context
-                    findMoreContexts(implicitContext.sender, contexts)
-                }
-            }
-        }
+        findMoreContexts(bindCaller, contexts)
 
         return evaluateBind(contexts, bind)
     }
 
     private fun findMoreContexts(
-        sender: Any,
+        toCompare: Any,
         contexts: MutableList<ContextData>
     ) {
         implicitContextData.forEach { implicitContext ->
             implicitContext.caller.forEach {
-                if (sender == it) {
+                if (toCompare == it) {
                     contexts += implicitContext.context
                     findMoreContexts(implicitContext.sender, contexts)
                 }

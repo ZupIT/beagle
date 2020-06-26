@@ -89,7 +89,6 @@ data class TextInput(
         setData(this@TextInput, rootView)
         setUpOnTextChange(rootView)
         if (onFocus != null || onBlur != null) setUpOnFocusChange(rootView)
-        setTextColor(Color.BLACK)
     }
 
     override fun getValue(): Any = textInputView.text.toString()
