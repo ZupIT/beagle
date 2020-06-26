@@ -43,14 +43,14 @@ import br.com.zup.beagle.widget.ui.Text
 object NetworkImageScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
         navigationBar = NavigationBar(
-            title = "Beagle NetworkImage",
+            title = "Beagle Image Remote",
             showBackButton = true,
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
                     image = Local.justMobile("informationImage"),
                     action = Alert(
-                        title = "NetworkImage",
+                        title = "Image Remote",
                         message = "It is a widget that implements an image with a URL.",
                         labelOk = "OK"
                     )
@@ -59,8 +59,8 @@ object NetworkImageScreenBuilder : ScreenBuilder {
         ),
         child = ScrollView(
             scrollDirection = ScrollAxis.VERTICAL,
-            children = listOf(buildImage(title = "NetworkImage")) +
-                ImageContentMode.values().map { buildImage("NetworkImage with ImageContentMode.$it", it) }
+            children = listOf(buildImage(title = "Image Remote")) +
+                ImageContentMode.values().map { buildImage("Image Remote with ImageContentMode.$it", it) }
         )
     )
 
