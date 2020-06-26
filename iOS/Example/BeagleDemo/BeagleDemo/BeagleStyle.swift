@@ -31,7 +31,9 @@ struct AppTheme {
         .NAVIGATION_BAR_GREEN_STYLE: Self.designSystemStyleNavigationBar,
         .NAVIGATION_BAR_DEFAULT_STYLE: Self.designSystemStyleNavigationBarDefault,
         .TAB_VIEW_STYLE: Self.tabView,
-        .TEXT_INPUT_STYLE: Self.designSystemTextInput
+        .TEXT_INPUT_STYLE: Self.designSystemTextInput,
+        .TEXT_INPUT_STYLE_BFF: textInput,
+        .BUTTON_STYLE_CONTEXT_BFF: designSystemButtonScreenContext
     ])
     
     static func blackTextNormalStyle() -> (UITextView?) -> Void {
@@ -97,4 +99,18 @@ struct AppTheme {
     static func tabView() -> (UIView?) -> Void {
         return BeagleStyle.tabView(backgroundColor: .clear, indicatorColor: .demoGray, selectedTextColor: .demoGray, unselectedTextColor: .demoDarkGray, selectedIconColor: .demoGray, unselectedIconColor: .demoDarkGray)
     }
+    
+    static func textInput() -> (UITextField?) -> Void {
+        return {
+            $0?.layer.borderColor = UIColor.gray.cgColor
+            $0?.borderStyle = UITextField.BorderStyle.roundedRect
+        }
+    }
+  
+    static func designSystemButtonScreenContext() -> (UIButton?) -> Void {
+           return BeagleStyle.button(withTitleColor: .white)
+               <> {
+                   $0?.titleLabel |> BeagleStyle.label(withFont: .systemFont(ofSize: 16, weight: .semibold))
+           }
+       }
 }

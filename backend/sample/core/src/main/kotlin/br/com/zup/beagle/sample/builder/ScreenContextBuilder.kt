@@ -16,18 +16,20 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.ext.unitPercent
 import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.widget.action.RequestActionMethod
-import br.com.zup.beagle.widget.action.SendRequest
-import br.com.zup.beagle.widget.action.SetContext
+import br.com.zup.beagle.widget.action.*
 import br.com.zup.beagle.widget.context.ContextData
-import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.core.*
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
+import br.com.zup.beagle.widget.ui.Button
+import br.com.zup.beagle.widget.ui.Text
 import br.com.zup.beagle.widget.ui.TextInput
 
 class Address(val data: Data) {}
@@ -43,7 +45,14 @@ class Data(
 ) {}
 
 object ScreenContextBuilder : ScreenBuilder {
-
+    var styleMargim =  Style(
+        size = Size(height = 30.unitReal()),
+        margin = EdgeValue(
+            top = 15.unitReal(),
+            left = 25.unitReal(),
+            right = 25.unitReal()
+        )
+    )
     override fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Beagle Context",
@@ -51,9 +60,21 @@ object ScreenContextBuilder : ScreenBuilder {
         ),
         child = Container(
             listOf(
+                Text(
+                    text = "Preencha o Formulário",
+                    styleId = "DesignSystem.Text.helloWord"
+                ).applyStyle(
+                    Style(
+                        margin = EdgeValue(top = 30.unitReal(),bottom = 30.unitReal()),
+                        flex = Flex(
+                            alignSelf = AlignSelf.CENTER
+                        )
+                    )
+                ),
                 TextInput(
                     placeholder = "CEP",
                     value = "@{address.data.zip}",
+                    styleId = "DesignSystem.TextInput.Style.Bff",
                     onChange = listOf(
                         SetContext(
                             contextId = "address",
@@ -83,7 +104,7 @@ object ScreenContextBuilder : ScreenBuilder {
                             )
                         )
                     )
-                ).applyStyle(Style(margin = EdgeValue(bottom = 15.unitReal()))),
+                ).applyStyle(styleMargim),
 
                 createTextInput(
                     textInputPlaceholder = "Rua",
@@ -94,7 +115,8 @@ object ScreenContextBuilder : ScreenBuilder {
                 createTextInput(
                     textInputPlaceholder = "Número",
                     textInputValue = "@{address.data.number}",
-                    contextPath = "data.number"
+                    contextPath = "data.number",
+                    type = TextInputType.NUMBER
                 ),
 
                 createTextInput(
@@ -119,6 +141,53 @@ object ScreenContextBuilder : ScreenBuilder {
                     textInputPlaceholder = "Complemento",
                     textInputValue = "@{address.data.complement}",
                     contextPath = "data.complement"
+                ),
+
+                Button(
+                    text = "Enviar",
+                    styleId = "DesignSystem.Button.Context",
+                    onPress = listOf(
+                        Confirm(
+                            title = "Formulário de endereço!",
+                            message = "Os dados estão corretos?\n" +
+                                "Rua: @{address.data.street}\n" +
+                                 "Número: @{address.data.number}\n" +
+                                "Bairro: @{address.data.neighborhood}\n" +
+                                "Cidade: @{address.data.city}\n" +
+                                "Estado: @{address.data.state}\n" +
+                                "Complemento: @{address.data.complement}",
+                            onPressOk = Alert(
+                                title = "Formulário de endereço",
+                                message = "O formulário foi enviado com sucesso!",
+                                onPressOk = SetContext(
+                                    contextId = "address",
+                                    path = "data",
+                                    value =
+                                    Data(
+                                        zip = "",
+                                        street = "",
+                                        number = "",
+                                        neighborhood = "",
+                                        city = "",
+                                        state = "",
+                                        complement = ""
+                                    )
+                                )
+                            )
+                        )
+                    )
+                ).applyStyle(
+                    Style(
+                        backgroundColor = "#808080",
+                        cornerRadius = CornerRadius(8.0),
+                        size = Size(width = 50.unitPercent(), height = 30.unitReal()),
+                        margin = EdgeValue(
+                            top = 50.unitReal()
+                        ),
+                        flex = Flex(
+                            alignSelf = AlignSelf.CENTER
+                        )
+                    )
                 )
 
             ),
@@ -141,10 +210,13 @@ object ScreenContextBuilder : ScreenBuilder {
     private fun createTextInput(
         textInputPlaceholder: String,
         textInputValue: String,
-        contextPath: String
+        contextPath: String,
+        type: TextInputType? = null
     ): TextInput = TextInput(
         placeholder = textInputPlaceholder,
         value = textInputValue,
+        type = type,
+        styleId = "DesignSystem.TextInput.Style.Bff",
         onChange = listOf(
             SetContext(
                 contextId = "address",
@@ -152,5 +224,5 @@ object ScreenContextBuilder : ScreenBuilder {
                 value = "@{onChange.value}"
             )
         )
-    ).applyStyle(Style(margin = EdgeValue(bottom = 15.unitReal())))
+    ).applyStyle(styleMargim)
 }

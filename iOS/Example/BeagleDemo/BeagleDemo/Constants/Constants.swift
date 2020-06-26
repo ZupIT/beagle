@@ -53,6 +53,8 @@ extension String {
     static let TEXT_IMAGE_STYLE = "DesignSystem.Text.Image"
     static let TEXT_HELLO_WORD_STYLE = "DesignSystem.Text.helloWord"
     static let TEXT_INPUT_STYLE = "DesignSystem.TextInput.Style"
+    static let TEXT_INPUT_STYLE_BFF = "DesignSystem.TextInput.Style.Bff"
+    static let BUTTON_STYLE_CONTEXT_BFF = "DesignSystem.Button.Context"
 }
 
 extension UIColor {
