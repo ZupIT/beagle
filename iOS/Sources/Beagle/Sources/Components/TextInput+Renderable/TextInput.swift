@@ -74,7 +74,7 @@ extension TextInput: ServerDrivenComponent {
         }
    
         func getValue() -> Any {
-            return model.value?.get(with: self) ?? ""
+            return model.value?.evaluate(with: self) ?? ""
         }
         
         func onValidationError(message: String?) {
@@ -129,14 +129,14 @@ private extension TextInput.TextInputView {
     }
     
     func setupValuesExpression() {
-        text = model.value?.get(with: self)
-        placeholder = model.placeholder?.get(with: self)
-        isEnabled = model.disabled?.get(with: self) ?? model.readOnly?.get(with: self) ?? true
-        isHidden = model.hidden?.get(with: self) ?? false
+        text = model.value?.evaluate(with: self)
+        placeholder = model.placeholder?.evaluate(with: self)
+        isEnabled = model.disabled?.evaluate(with: self) ?? model.readOnly?.evaluate(with: self) ?? true
+        isHidden = model.hidden?.evaluate(with: self) ?? false
     }
     
     func setupTypeExpression() {
-        inputType = model.type?.get(with: self) ?? .text
+        inputType = model.type?.evaluate(with: self) ?? .text
 
         switch inputType {
         case .email:

@@ -51,7 +51,7 @@ extension UIView {
     
     // MARK: Context Expression
     
-    func configBinding<T>(for expression: ContextExpression, completion: @escaping (T) -> Void) {
+    func configBinding<T: Decodable>(for expression: ContextExpression, completion: @escaping (T) -> Void) {
         switch expression {
         case let .single(expression):
             configBinding(for: expression, completion: completion)
@@ -60,7 +60,7 @@ extension UIView {
         }
     }
     
-    func evaluate(for expression: ContextExpression) -> Any? {
+    func evaluate<T: Decodable>(for expression: ContextExpression) -> T? {
         switch expression {
         case let .single(expression):
             return evaluate(for: expression)
@@ -71,10 +71,11 @@ extension UIView {
 
     // MARK: Single Expression
     
-    private func configBinding<T>(for expression: SingleExpression, completion: @escaping (T) -> Void) {
+    private func configBinding<T: Decodable>(for expression: SingleExpression, completion: @escaping (T) -> Void) {
         guard let context = getContext(with: expression.context) else { return }
         let closure: (Context) -> Void = { context in
-            if let value = expression.evaluate(model: context.value) as? T {
+            let dynamicObject = expression.evaluate(model: context.value)
+            if let value: T = self.transform(dynamicObject) {
                 completion(value)
             }
         }
@@ -82,42 +83,44 @@ extension UIView {
         closure(context.value)
     }
     
-    private func evaluate(for expression: SingleExpression) -> Any? {
+    private func evaluate<T: Decodable>(for expression: SingleExpression) -> T? {
         guard let context = getContext(with: expression.context) else { return nil }
-        return expression.evaluate(model: context.value.value)
+        let dynamicObject = expression.evaluate(model: context.value.value)
+        return transform(dynamicObject)
     }
     
     // MARK: Multiple Expression
     
-    private func configBinding<T>(for expression: MultipleExpression, completion: @escaping (T) -> Void) {
+    private func configBinding<T: Decodable>(for expression: MultipleExpression, completion: @escaping (T) -> Void) {
         expression.nodes.forEach {
             if case let .expression(single) = $0 {
                 guard let context = getContext(with: single.context) else { return }
                 configBinding(with: context) { _ in
-                    if let value = self.evaluate(for: expression, contextId: single.context) as? T {
+                    if let value: T = self.evaluate(for: expression, contextId: single.context) {
                         completion(value)
                     }
                 }
             }
         }
-        if let value = self.evaluate(for: expression) as? T {
+        if let value: T = self.evaluate(for: expression) {
             completion(value)
         }
     }
     
-    private func evaluate(for expression: MultipleExpression, contextId: String? = nil) -> Any? {
+    private func evaluate<T: Decodable>(for expression: MultipleExpression, contextId: String? = nil) -> T? {
         var result: String = ""
         
         expression.nodes.forEach {
             switch $0 {
             case let .expression(expression):
                 // TODO: create cache mechanism
-                result += (evaluate(for: expression) as? String) ?? expression.rawValue
+                let evaluated: String? = evaluate(for: expression)
+                result += evaluated ?? expression.rawValue
             case let .string(string):
                 result += string
             }
         }
-        return result
+        return result as? T
     }
     
     // MARK: Get/Set Context
@@ -152,6 +155,13 @@ extension UIView {
         }
         observers?.append(contextObserver)
         context.addObserver(contextObserver)
+    }
+    
+    private func transform<T: Decodable>(_ dynamicObject: DynamicObject) -> T? {
+        let encoder = JSONEncoder()
+        let decoder = JSONDecoder()
+        guard let data = try? encoder.encode(dynamicObject) else { return nil }
+        return try? decoder.decode(T.self, from: data)
     }
     
 }
