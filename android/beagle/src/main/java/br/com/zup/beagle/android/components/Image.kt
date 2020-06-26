@@ -101,9 +101,8 @@ data class Image(
     @SuppressLint("CheckResult")
     private fun getGlideRequestOptions(): RequestOptions {
         val requestOptions = RequestOptions()
-        val placeholder = getPlaceholder(placeholder)
-        if (placeholder != null) {
-            requestOptions.placeholder(placeholder)
+        getPlaceholder(placeholder)?.let {
+            requestOptions.placeholder(it)
         }
         return requestOptions
     }
