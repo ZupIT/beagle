@@ -1,9 +1,10 @@
 ▿ Image
   ▿ contentMode: Optional<ImageContentMode>
     - some: ImageContentMode.center
-  ▿ path: PathType
-    ▿ local: Local
-      - mobileId: "test_image_square-x"
+  ▿ path: Expression<PathType>
+    ▿ value: PathType
+      ▿ local: Local
+        - mobileId: "test_image_square-x"
   ▿ widgetProperties: WidgetProperties
     - accessibility: Optional<Accessibility>.none
     - id: Optional<String>.none
