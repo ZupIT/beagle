@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.components
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.view.View
@@ -97,6 +98,7 @@ data class Image(
             })
     }
 
+    @SuppressLint("CheckResult")
     private fun getGlideRequestOptions(): RequestOptions {
         val requestOptions = RequestOptions()
         val placeholder = getPlaceholder(placeholder)
