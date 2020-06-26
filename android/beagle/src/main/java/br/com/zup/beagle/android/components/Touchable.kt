@@ -26,13 +26,14 @@ import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.ViewConvertable
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 data class Touchable(
     val onPress: List<Action>,
-    val child: ServerDrivenComponent,
+    override val child: ServerDrivenComponent,
     val clickAnalyticsEvent: ClickEvent? = null
-) : ViewConvertable {
+) : ViewConvertable, GhostComponent {
 
     @Transient
     private val preFetchHelper: PreFetchHelper = PreFetchHelper()
@@ -42,7 +43,6 @@ data class Touchable(
 
     override fun buildView(rootView: RootView): View {
         preFetchHelper.handlePreFetch(rootView, onPress)
-
         return viewRendererFactory.make(child).build(rootView).apply {
             setOnClickListener {
                 handleEvent(rootView, onPress, "onPress")
