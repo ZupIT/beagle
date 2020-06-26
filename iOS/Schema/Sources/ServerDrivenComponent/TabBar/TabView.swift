@@ -42,8 +42,8 @@ public struct TabItem: Decodable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let nestedContainer = try container.nestedContainer(keyedBy: LocalImageCodingKey.self, forKey: .icon)
-        icon = try nestedContainer.decodeIfPresent(String.self, forKey: .mobileId)
+        let nestedContainer = try? container.nestedContainer(keyedBy: LocalImageCodingKey.self, forKey: .icon)
+        icon = try nestedContainer?.decodeIfPresent(String.self, forKey: .mobileId)
         title = try container.decodeIfPresent(String.self, forKey: .title)
         child = try container.decode(forKey: .child)
     }
