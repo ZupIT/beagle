@@ -5,7 +5,7 @@
         ▿ children: 3 elements
           ▿ Text
             - alignment: Optional<Expression<Alignment>>.none
-            - styleId: Optional<Expression<String>>.none
+            - styleId: Optional<String>.none
             ▿ text: Expression<String>
               - value: "1 This is a text"
             - textColor: Optional<Expression<String>>.none
@@ -15,7 +15,7 @@
               - style: Optional<Style>.none
           ▿ Text
             - alignment: Optional<Expression<Alignment>>.none
-            - styleId: Optional<Expression<String>>.none
+            - styleId: Optional<String>.none
             ▿ text: Expression<String>
               - value: "This is a text"
             - textColor: Optional<Expression<String>>.none
@@ -25,7 +25,7 @@
               - style: Optional<Style>.none
           ▿ Text
             - alignment: Optional<Expression<Alignment>>.none
-            - styleId: Optional<Expression<String>>.none
+            - styleId: Optional<String>.none
             ▿ text: Expression<String>
               - value: "This is a text"
             - textColor: Optional<Expression<String>>.none
