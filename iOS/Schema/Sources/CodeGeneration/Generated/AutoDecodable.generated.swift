@@ -51,7 +51,7 @@ extension Button {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         text = try container.decode(Expression<String>.self, forKey: .text)
-        styleId = try container.decodeIfPresent(Expression<String>.self, forKey: .styleId)
+        styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
         onPress = try container.decodeIfPresent(forKey: .onPress)
         clickAnalyticsEvent = try container.decodeIfPresent(AnalyticsClick.self, forKey: .clickAnalyticsEvent)
         widgetProperties = try WidgetProperties(from: decoder)
@@ -313,7 +313,7 @@ extension Text {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         text = try container.decode(Expression<String>.self, forKey: .text)
-        styleId = try container.decodeIfPresent(Expression<String>.self, forKey: .styleId)
+        styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
         alignment = try container.decodeIfPresent(Expression<Alignment>.self, forKey: .alignment)
         textColor = try container.decodeIfPresent(Expression<String>.self, forKey: .textColor)
         widgetProperties = try WidgetProperties(from: decoder)

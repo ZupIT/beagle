@@ -20,7 +20,7 @@ import UIKit
 public struct NavigationBar: Decodable, AutoInitiable {
 
     public let title: String
-    public let styleId: Expression<String>?
+    public let styleId: String?
     public let showBackButton: Bool?
     public let backButtonAccessibility: Accessibility?
     public let navigationBarItems: [NavigationBarItem]?
@@ -28,7 +28,7 @@ public struct NavigationBar: Decodable, AutoInitiable {
 // sourcery:inline:auto:NavigationBar.Init
     public init(
         title: String,
-        styleId: Expression<String>? = nil,
+        styleId: String? = nil,
         showBackButton: Bool? = nil,
         backButtonAccessibility: Accessibility? = nil,
         navigationBarItems: [NavigationBarItem]? = nil

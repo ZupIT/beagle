@@ -49,7 +49,7 @@ final class ButtonTests: XCTestCase {
         controller.dependencies = BeagleScreenDependencies(theme: theme)
         
         let style = "test.button.style"
-        let button = Button(text: "apply style", styleId: Expression.value(style))
+        let button = Button(text: "apply style", styleId: style)
 
         // When
         let view = renderer.render(button)

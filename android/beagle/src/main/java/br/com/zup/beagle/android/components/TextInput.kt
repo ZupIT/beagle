@@ -44,7 +44,7 @@ data class TextInput(
     val readOnly: Bind<Boolean>? = null,
     val type: Bind<TextInputType>? = null,
     val hidden: Bind<Boolean>? = null,
-    val styleId: Bind<String>? = null,
+    val styleId: String? = null,
     val onChange: List<Action>? = null,
     val onFocus: List<Action>? = null,
     val onBlur: List<Action>? = null
@@ -68,7 +68,7 @@ data class TextInput(
         valueOfNullable(readOnly),
         valueOfNullable(type),
         valueOfNullable(hidden),
-        valueOfNullable(styleId),
+        styleId,
         onChange,
         onFocus,
         onBlur
@@ -144,7 +144,7 @@ data class TextInput(
                 this.visibility = if (it) View.INVISIBLE else View.VISIBLE
             }
         }
-        textInput.styleId?.let { bind -> observeBindChanges(rootView, bind) { this.setStyle(it) } }
+        textInput.styleId?.let { style -> setStyle(style)  }
         textInput.type?.let { bind -> observeBindChanges(rootView, bind) { this.setInputType(it) } }
     }
 

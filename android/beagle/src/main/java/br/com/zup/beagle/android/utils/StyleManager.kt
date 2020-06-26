@@ -28,7 +28,6 @@ import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.TabView
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.utils.applyViewBackgroundAndCorner
-import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.core.StyleComponent
@@ -47,35 +46,18 @@ class StyleManager(
             view.applyViewBackgroundAndCorner(Color.TRANSPARENT, component)
         } else when (component) {
             is Text -> {
-                if (component.styleId == null || component.styleId is Bind.Value) {
-                    applyStyleId(context, (component.styleId?.value ?: "") as String, view, component)
-                } else component.styleId.observes {
-                    applyStyleId(context, it, view, component)
-                }
+                applyStyleId(context, component.styleId?:"", view, component)
             }
             is Button -> {
-                applyStyleOrObserve(component, context, view, component.styleId)
+                applyStyleId(context, component.styleId?:"", view, component)
             }
             is TabView -> {
-                applyStyleOrObserve(component, context, view, component.styleId)
+                applyStyleId(context, component.styleId?:"", view, component)
             }
             else -> {
                 val colorInt = fetchDrawableColor(background = view.background)
                 view.applyViewBackgroundAndCorner(colorInt, component)
             }
-        }
-    }
-
-    private fun applyStyleOrObserve(
-        component: StyleComponent,
-        context: Context,
-        view: View,
-        styleId: Bind<String>? = null
-    ) {
-        if (styleId == null || styleId is Bind.Value) {
-            applyStyleId(context, (styleId?.value ?: "") as String, view, component)
-        } else styleId.observes {
-            applyStyleId(context, it, view, component)
         }
     }
 

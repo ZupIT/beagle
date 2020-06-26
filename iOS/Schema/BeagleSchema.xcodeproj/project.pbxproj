@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		570434EE24A675AE00DAD0D3 /* buttonComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = 570434EC24A6753000DAD0D3 /* buttonComponent.json */; };
 		7685B041249A852A007EDED0 /* SendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7685B040249A852A007EDED0 /* SendRequest.swift */; };
 		935278E8249952DE00AB9D1F /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935278E7249952DE00AB9D1F /* Expression.swift */; };
 		935278EA249954F500AB9D1F /* DynamicObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935278E9249954F500AB9D1F /* DynamicObject.swift */; };
@@ -95,7 +96,6 @@
 		C8EAC4F9247C284A003089BE /* Container.json in Resources */ = {isa = PBXBuildFile; fileRef = C864D26E247C240200E7A1F9 /* Container.json */; };
 		C8EAC4FA247C2851003089BE /* ImageComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = C864D265247C240200E7A1F9 /* ImageComponent.json */; };
 		C8EAC4FC247C288B003089BE /* ButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D275247C240200E7A1F9 /* ButtonTests.swift */; };
-		C8EAC4FD247C2891003089BE /* buttonComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = C864D277247C240200E7A1F9 /* buttonComponent.json */; };
 		C8EAC500247C2920003089BE /* TextComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = C864D29B247C240200E7A1F9 /* TextComponent.json */; };
 		C8EAC502247C29BC003089BE /* ComponentDecoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D258247C240200E7A1F9 /* ComponentDecoderTests.swift */; };
 		C8EAC503247C2A09003089BE /* formComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = C864D22C247C240200E7A1F9 /* formComponent.json */; };
@@ -129,6 +129,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		570434EC24A6753000DAD0D3 /* buttonComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = buttonComponent.json; sourceTree = "<group>"; };
 		7685B040249A852A007EDED0 /* SendRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendRequest.swift; sourceTree = "<group>"; };
 		9302EE7424A28F5500E84A44 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		935278E7249952DE00AB9D1F /* Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
@@ -193,7 +194,6 @@
 		C864D26F247C240200E7A1F9 /* ContainerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerTests.swift; sourceTree = "<group>"; };
 		C864D273247C240200E7A1F9 /* Container.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Container.swift; sourceTree = "<group>"; };
 		C864D275247C240200E7A1F9 /* ButtonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonTests.swift; path = ../ButtonTests.swift; sourceTree = "<group>"; };
-		C864D277247C240200E7A1F9 /* buttonComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = buttonComponent.json; sourceTree = "<group>"; };
 		C864D278247C240200E7A1F9 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		C864D283247C240200E7A1F9 /* Navigate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Navigate.swift; sourceTree = "<group>"; };
 		C864D287247C240200E7A1F9 /* FormRemoteAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormRemoteAction.swift; sourceTree = "<group>"; };
@@ -694,7 +694,7 @@
 		C864D276247C240200E7A1F9 /* Json */ = {
 			isa = PBXGroup;
 			children = (
-				C864D277247C240200E7A1F9 /* buttonComponent.json */,
+				570434EC24A6753000DAD0D3 /* buttonComponent.json */,
 			);
 			path = Json;
 			sourceTree = "<group>";
@@ -1112,6 +1112,7 @@
 			files = (
 				C8BB30B72486FDC2002DD3C1 /* resetapplication.json in Resources */,
 				C08D4EF4248A7C2E00AAAC0A /* widgetWithAllAttributes.json in Resources */,
+				570434EE24A675AE00DAD0D3 /* buttonComponent.json in Resources */,
 				C8EAC503247C2A09003089BE /* formComponent.json in Resources */,
 				C8BB30B82486FDC2002DD3C1 /* resetstack.json in Resources */,
 				C8EAC4F9247C284A003089BE /* Container.json in Resources */,
@@ -1135,7 +1136,6 @@
 				C8EBCC8C247C30EE002030CC /* ScrollViewComponent.json in Resources */,
 				C8EBCC89247C30C9002030CC /* PageViewWith3Pages.json in Resources */,
 				C8BB30B22486FDC2002DD3C1 /* popstack.json in Resources */,
-				C8EAC4FD247C2891003089BE /* buttonComponent.json in Resources */,
 				98E4974E249ED5670053DB87 /* TextInputComponent.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
