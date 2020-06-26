@@ -57,7 +57,6 @@ extension TextInput: ServerDrivenComponent {
         var onChange: [RawAction]?
         var onBlur: [RawAction]?
         var onFocus: [RawAction]?
-
         var inputType: TextInputType?
         var observable = Observable<WidgetState>(value: WidgetState(value: text))
         weak var controller: BeagleController?
