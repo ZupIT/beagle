@@ -22,12 +22,12 @@ extension Image: Widget {
     public func toView(renderer: BeagleRenderer) -> UIView {
         let image = UIImageView(frame: .zero)
         image.clipsToBounds = true
-        image.contentMode = (contentMode ?? .fitCenter).toUIKit()
+        image.contentMode = (mode ?? .fitCenter).toUIKit()
     
         renderer.observe(path, andUpdateManyIn: image) { path in
             switch path {
-            case .local(let local):
-                self.setImageFromAsset(named: local.mobileId, bundle: renderer.controller.dependencies.appBundle, imageView: image)
+            case .local(let mobileId):
+                self.setImageFromAsset(named: mobileId, bundle: renderer.controller.dependencies.appBundle, imageView: image)
             case .remote(let remote):
                 self.setRemoteImage(from: remote.url, placeholder: remote.placeholder, imageView: image, renderer: renderer)
             }
@@ -39,11 +39,11 @@ extension Image: Widget {
         imageView.image = UIImage(named: named, in: bundle, compatibleWith: nil)
     }
 
-    private func setRemoteImage(from url: String, placeholder: Image.Local?, imageView: UIImageView, renderer: BeagleRenderer) {
+    private func setRemoteImage(from url: String, placeholder: String?, imageView: UIImageView, renderer: BeagleRenderer) {
         // swiftlint:disable object_literal
         var imagePlaceholder = UIImage(named: "")
         if let placeholder = placeholder {
-            imagePlaceholder = UIImage(named: placeholder.mobileId, in: renderer.controller.dependencies.appBundle, compatibleWith: nil)
+            imagePlaceholder = UIImage(named: placeholder, in: renderer.controller.dependencies.appBundle, compatibleWith: nil)
         }
         lazyLoadImage(path: url, placeholderImage: imagePlaceholder, imageView: imageView, style: widgetProperties.style, renderer: renderer)
     }
@@ -61,6 +61,7 @@ extension Image: Widget {
                 }
             case .failure:
                 imageView.image = placeholderImage
+                imageView.style.markDirty()
             }
         }
     }

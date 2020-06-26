@@ -88,6 +88,6 @@ final class TabViewTests: XCTestCase {
 
 extension TabItem: Equatable {
     public static func == (lhs: TabItem, rhs: TabItem) -> Bool {
-        return lhs.title == rhs.title && lhs.icon?.mobileId == rhs.icon?.mobileId
+        return lhs.title == rhs.title && lhs.icon == rhs.icon
     }
 }
