@@ -80,9 +80,9 @@ public extension Image {
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            let nestedContainer = try container.nestedContainer(keyedBy: LocalImageCodingKey.self, forKey: .placeholder)
+            let nestedContainer = try? container.nestedContainer(keyedBy: LocalImageCodingKey.self, forKey: .placeholder)
             url = try container.decode(String.self, forKey: .url)
-            placeholder = try nestedContainer.decodeIfPresent(String.self, forKey: .mobileId)
+            placeholder = try nestedContainer?.decodeIfPresent(String.self, forKey: .mobileId)
         }
     }
 }
