@@ -211,7 +211,7 @@ final class FormManagerTests: XCTestCase {
         repositoryStub.formCompletion?(.success(FormLocalAction(name: "custom", data: [:])))
         
         // Then
-        XCTAssert(dataStoreStub.didCallformManagerDidSubmitForm)
+        XCTAssert(dataStoreStub.didCallFormManagerDidSubmitForm)
     }
     
     func test_formSubmit_shouldSaveFormInputs() {
@@ -232,7 +232,7 @@ private class DataStoreHandlerStub: FormDataStoreHandling {
 
     private(set) var didCallRead: Bool = false
     private(set) var didCallSave: Bool = false
-    private(set) var didCallformManagerDidSubmitForm: Bool = false
+    private(set) var didCallFormManagerDidSubmitForm: Bool = false
     private(set) var passedDataToSave: [String: String] = [:]
     
     var dataStore: [String: FormData] = [:]
@@ -248,7 +248,7 @@ private class DataStoreHandlerStub: FormDataStoreHandling {
     }
     
     func formManagerDidSubmitForm(group: String?) {
-        didCallformManagerDidSubmitForm = true
+        didCallFormManagerDidSubmitForm = true
     }
 
     func resetStub() {
