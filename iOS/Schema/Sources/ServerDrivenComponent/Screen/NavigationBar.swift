@@ -84,8 +84,8 @@ public struct NavigationBarItem: Decodable, AccessibilityComponent, Identifiable
         action = try container.decode(forKey: .action)
         accessibility = try container.decodeIfPresent(Accessibility.self, forKey: .accessibility)
         
-        let nestedContainer = try container.nestedContainer(keyedBy: LocalImageCodingKey.self, forKey: .image)
-        image = try nestedContainer.decodeIfPresent(String.self, forKey: .mobileId)
+        let nestedContainer = try? container.nestedContainer(keyedBy: LocalImageCodingKey.self, forKey: .image)
+        image = try nestedContainer?.decodeIfPresent(String.self, forKey: .mobileId)
     }
 
 }

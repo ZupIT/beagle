@@ -58,7 +58,6 @@ class ImageViewRendererTest : BaseComponentTest() {
     private val scaleTypeSlot = slot<ImageView.ScaleType>()
     private val requestManager: RequestManager = mockk()
     private val requestBuilder: RequestBuilder<Bitmap> = mockk()
-    private val requestBuilderDrawable: RequestBuilder<Drawable> = mockk()
     private val bitmap: Bitmap = mockk()
     private val style = Style(size = Size(width = 100.unitReal(), height = 100.unitReal()))
     private val onRequestListenerSlot = slot<CustomTarget<Bitmap>>()
@@ -74,12 +73,11 @@ class ImageViewRendererTest : BaseComponentTest() {
         mockkConstructor(ComponentStylization::class)
 
         every { anyConstructed<ViewFactory>().makeImageView(rootView.getContext()) } returns imageView
-        every { Glide.with(any<View>()) } returns requestManager
+        every { Glide.with(imageView) } returns requestManager
         every { requestManager.asBitmap() } returns requestBuilder
         every { requestBuilder.load(any<String>()) } returns requestBuilder
-        every { requestManager.load(any<String>()) } returns requestBuilderDrawable
-        every { requestBuilderDrawable.into(any()) } returns mockk()
         every { requestBuilder.into(capture(onRequestListenerSlot)) } returns mockk()
+        every { requestManager.setDefaultRequestOptions(any()) } returns requestManager
         every { BeagleEnvironment.beagleSdk.designSystem } returns mockk()
         every { BeagleEnvironment.beagleSdk.designSystem?.image(any()) } returns IMAGE_RES
 
@@ -105,13 +103,12 @@ class ImageViewRendererTest : BaseComponentTest() {
     fun build_should_return_a_beagle_image_view_instance_and_set_data_when_path_is_remote() {
         //Given
         imageRemote = Image(PathType.Remote(""))
-        every { requestManager.setDefaultRequestOptions(any()) } returns requestManager
 
         // When
         val view = imageRemote.buildView(rootView)
 
         // Then
-        assertTrue(view is BeagleFlexView)
+        assertTrue(view is ImageView)
     }
 
     @Test
@@ -147,7 +144,6 @@ class ImageViewRendererTest : BaseComponentTest() {
     fun build_should_return_a_ImageView_with_desired_scaleType() {
         // Given
         val scaleTypeSlot = slot<ImageView.ScaleType>()
-        every { requestManager.setDefaultRequestOptions(any()) } returns requestManager
         every { imageView.scaleType = capture(scaleTypeSlot) } just Runs
 
         // When
@@ -160,39 +156,16 @@ class ImageViewRendererTest : BaseComponentTest() {
 
     @Test
     fun build_should_set_url_to_Glide() {
-        //Given
-        every { requestManager.setDefaultRequestOptions(any()) } returns requestManager
-
         // When
         imageRemote.buildView(rootView)
 
         // Then
         verify(exactly = once()) { Glide.with(imageView) }
-        verify(exactly = once()) { requestManager.load(DEFAULT_URL) }
-        verify(exactly = once()) { requestBuilderDrawable.into(imageView) }
-    }
-
-    @Test
-    fun build_should_call_makeBeagleFlexView_when_component_has_not_flex() {
-        // Given
-        imageRemote.style = null
-        every { requestManager.setDefaultRequestOptions(any()) } returns requestManager
-
-        // When
-        val view = imageRemote.buildView(rootView)
-
-        // Then
-        Assert.assertTrue(view is BeagleFlexView)
-        verify(exactly = once()) { anyConstructed<ViewFactory>().makeBeagleFlexView(any()) }
-        verify(exactly = once()) { beagleFlexView.addView(any(), any<Style>()) }
+        verify(exactly = once()) { requestBuilder.load(DEFAULT_URL) }
     }
 
     @Test
     fun build_should_call_setImageBitmap_reloadNetworkImageView_when_component_has_not_flex() {
-        // Given
-        val height = 100
-        every { bitmap.height } returns height
-        every { requestManager.setDefaultRequestOptions(any()) } returns requestManager
         imageRemote.style = null
 
         // When
@@ -200,7 +173,6 @@ class ImageViewRendererTest : BaseComponentTest() {
 
         // Then
         verify(exactly = once()) { imageView.setImageBitmap(bitmap) }
-        verify(exactly = once()) { beagleFlexView.setViewHeight(imageView, height) }
 
     }
 
