@@ -105,7 +105,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
             )
         )
         
-        let image = UIImage(named: "keybaord", in: Bundle(for: BeagleScreenViewControllerTests.self), compatibleWith: nil)
+        let image = UIImage(named: "keyboard", in: Bundle(for: BeagleScreenViewControllerTests.self), compatibleWith: nil)
         let keyboard = UIImageView(image: image)
         keyboard.translatesAutoresizingMaskIntoConstraints = false
         keyboard.sizeToFit()
