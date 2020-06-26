@@ -33,11 +33,19 @@ internal fun getBeagleType(beanClass: Class<out Any>, classLoader: ClassLoader) 
     beanClass.simpleName?.decapitalize()?.let {
         when {
             isSubclass(beanClass, Action::class, classLoader) ->
-                ACTION_TYPE to getBeagleTypeWithNamespace(beanClass, it)
+                ACTION_TYPE to getBeagleTypeWithNamespace(
+                    beanClass,
+                    it,
+                    getClass(RegisterAction::class, classLoader)
+                )
             isSubclass(beanClass, Screen::class, classLoader) ->
                 COMPONENT_TYPE to "$BEAGLE_NAMESPACE:$SCREEN_COMPONENT"
             isSubclass(beanClass, ServerDrivenComponent::class, classLoader) ->
-                COMPONENT_TYPE to getBeagleTypeWithNamespace(beanClass, it)
+                COMPONENT_TYPE to getBeagleTypeWithNamespace(
+                    beanClass,
+                    it,
+                    getClass(RegisterWidget::class, classLoader)
+                )
             isSubclass(beanClass, ImagePath::class, classLoader) ->
                 IMAGE_PATH_TYPE to it
             else -> null
@@ -50,9 +58,8 @@ private fun isSubclass(
     classLoader: ClassLoader
 ) = getClass(kClass, classLoader).isAssignableFrom(beanClass)
 
-private fun getBeagleTypeWithNamespace(beanClass: Class<out Any>, name: String) =
-    if (beanClass.isAnnotationPresent(RegisterWidget::class.java)
-        || beanClass.isAnnotationPresent(RegisterAction::class.java)
-    ) "$CUSTOM_BEAGLE_NAMESPACE:$name"
+private fun getBeagleTypeWithNamespace(beanClass: Class<out Any>, name: String, annotation: Class<*>) =
+    if ((annotation as? Class<out Annotation>)?.let { beanClass.isAnnotationPresent(it) } == true)
+        "$CUSTOM_BEAGLE_NAMESPACE:$name"
     else "$BEAGLE_NAMESPACE:$name"
 
