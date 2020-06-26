@@ -60,7 +60,7 @@ let declarativeScreen: Screen = {
                             onPress: [
                                 SetContext(
                                     contextId: "context1",
-                                    value: "update"
+                                    value: ["name": "nameUpdated"]
                                 )
                             ]
                         ),
@@ -72,9 +72,10 @@ let declarativeScreen: Screen = {
                                     value: "update"
                                 )
                             ]
-                        )
+                        ),
+                        MyComponent(person: "@{context1}", personOpt: nil, action: nil, widgetProperties: WidgetProperties())
                     ],
-                    context: Context(id: "context1", value: "")
+                    context: Context(id: "context1", value: ["name": "name"])
                 )
         ], context: Context(id: "context2", value: nil))
     )}()
@@ -260,4 +261,31 @@ struct ComponentInteractionText: DeeplinkScreen {
         """
             ))
     }
+}
+
+struct Person {
+    let name: String
+}
+
+extension Person: Decodable {}
+
+struct MyComponent {
+    
+    let person: Expression<Person>
+    let personOpt: Expression<Person>?
+    
+    let action: Expression<CustomConsoleLogAction>?
+    
+    var widgetProperties: WidgetProperties
+
+}
+
+extension MyComponent: Widget {
+    
+    func toView(renderer: BeagleRenderer) -> UIView {
+        let view = UILabel()
+        renderer.observe(person, andUpdate: \.text, in: view) { $0?.name }
+        return view
+    }
+
 }
