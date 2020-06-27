@@ -20,7 +20,7 @@ Pod::Spec.new do |spec|
 
   spec.name = "Beagle"
 
-  spec.version = "1.0.0-RC1"
+  spec.version = "1.0.0"
 
   spec.summary = "A framework to help implement Server-Driven UI in your apps natively."
   spec.description = <<-DESC

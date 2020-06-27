@@ -20,7 +20,7 @@ Pod::Spec.new do |spec|
 
   spec.name = "BeagleSchema"
 
-  spec.version = "1.0.0-RC1"
+  spec.version = "1.0.0"
 
   spec.summary = "Describe Beagle components structure"
   spec.description = <<-DESC
