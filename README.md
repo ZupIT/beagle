@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://gblobscdn.gitbook.com/spaces%2F-M-Qy7jZbUpzGRP5GbCZ%2Favatar.png" width="256" height="256" />
+</p>
+
 <h1 align="center">
   <a href="https://usebeagle.io/">
     Beagle
