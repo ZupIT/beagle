@@ -58,7 +58,7 @@ Follow the [Getting Started guide](https://docs.usebeagle.io/get-started/install
 
 ## 📖 Documentation
 
-The full documentation for Begle can be found on our [website][docs].
+The full documentation for Beagle can be found on our [website][docs].
 
 The Beagle documentation discusses components, APIs, and topics that are specific to Beagle. [Beagle documentation][b-docs].
 
@@ -71,7 +71,7 @@ The source for the Beagle documentation and website is hosted on a separate repo
 
 ## 👏 How to Contribute
 
-The main purpose of this repository is to continue evolving Beagle core. We want to make contributing to this project as easy and transparent as possible, and we are grateful to the community for contributing bug fixes and improvements. Read below to learn how you can take part in improving Begle.
+The main purpose of this repository is to continue evolving Beagle core. We want to make contributing to this project as easy and transparent as possible, and we are grateful to the community for contributing bug fixes and improvements. Read below to learn how you can take part in improving Beagle.
 
 ### [Contributing Guide][contribute]
 
