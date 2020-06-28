@@ -26,7 +26,7 @@ import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.core.Style
 
 data class SimpleForm (
     val context: ContextData,
@@ -42,8 +42,9 @@ data class SimpleForm (
 
     override fun buildView(rootView: RootView): View {
         preFetchHelper.handlePreFetch(rootView, onSubmit)
-        return viewFactory.makeBeagleFlexView(rootView.getContext(), flex  ?: Flex())
+        return viewFactory.makeBeagleFlexView(rootView.getContext(), style  ?: Style())
             .apply {
+                tag = this@SimpleForm
                 addChildrenForm(this,rootView)
                 handleEvent(rootView, onSubmit, "onPress")
             }
@@ -55,5 +56,9 @@ data class SimpleForm (
         }
     }
 
-
+    fun submit(rootView: RootView) {
+        onSubmit.forEach { action ->
+            action.execute(rootView)
+        }
+    }
 }
