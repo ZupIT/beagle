@@ -19,54 +19,76 @@ package br.com.zup.beagle.sample.builder
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
 import br.com.zup.beagle.sample.constants.SCREEN_SAFE_AREA_FALSE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SAFE_AREA_TRUE_ENDPOINT
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
-import br.com.zup.beagle.widget.core.AlignSelf
-import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.*
 import br.com.zup.beagle.widget.layout.*
 import br.com.zup.beagle.widget.ui.Button
+import br.com.zup.beagle.widget.ui.Image
+import br.com.zup.beagle.widget.ui.ImagePath
 import br.com.zup.beagle.widget.ui.Text
 
 object SafeAreaBuilder: ScreenBuilder {
     override fun build() = Screen(
-        navigationBar = NavigationBar(
-            title = "Beagle Tab View",
-            showBackButton = true
-        ),
-        child = Container(
-            listOf(
-                Button(
-                    text = "Safe Area True",
-                    onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_SAFE_AREA_TRUE_ENDPOINT, true)))
-
-                ),
-                Button(
-                    text = "Safe Area True",
-                    onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_SAFE_AREA_FALSE_ENDPOINT, true)))
-
-                )
-            )
-        )
-    )
-
-    fun screenSafeAreaTrue(): Screen = createScreen(true)
-
-    fun screenSafeAreaFalse(): Screen = createScreen(false)
-
-    fun createScreen(safeArea: Boolean): Screen = Screen(
         navigationBar = NavigationBar(
             title = "Beagle Safe Area",
             showBackButton = true
         ),
         child = Container(
             listOf(
-                Text("Safe area "+ safeArea.toString()).applyFlex(flex = Flex(alignSelf = AlignSelf.CENTER))
+                Button(
+                    text = "Safe Area True",
+                    onPress = listOf(
+                        Navigate.PushView(Route.Remote(SCREEN_SAFE_AREA_TRUE_ENDPOINT)),
+                        Alert(
+                            title = "Attention",
+                            message = "This functionality works only on some iPhones models!"
+                        )
+                    )
+
+                ),
+                Button(
+                    text = "Safe Area False",
+                    onPress = listOf(Navigate.PushView(Route.Remote(SCREEN_SAFE_AREA_FALSE_ENDPOINT)))
+
+                )
             )
+        )
+    )
+
+    fun createScreen(safeArea: Boolean): Screen = Screen(
+            navigationBar = NavigationBar(
+                title = "Beagle Safe Area",
+                showBackButton = true
+            ),
+            child = Container(
+                listOf(
+                    Text("Safe area $safeArea").applyStyle(
+                        Style(
+                            margin = EdgeValue(top = 100.unitReal()),
+                            flex = Flex(
+                                alignSelf = AlignSelf.CENTER
+                            )
+                        )
+                    ),
+                    Image(ImagePath.Local.justMobile(LOGO_BEAGLE)).applyStyle(
+                        Style(
+                            margin = EdgeValue(top = 100.unitReal())
+                        )
+                    )
+                )
         ).applyStyle(
             Style(
-                backgroundColor = "#b7efcd"
+                backgroundColor = "#b7efcd",
+                flex = Flex(
+                    grow = 1.0,
+                    alignItems = AlignItems.CENTER
+                )
             )
         ),
         safeArea = SafeArea(

@@ -23,7 +23,7 @@ import javax.inject.Singleton
 class SampleSafeAreaService {
     fun createSafeArea() = SafeAreaBuilder
 
-    fun createSafeAreaTrue() = SafeAreaBuilder.screenSafeAreaTrue()
+    fun createSafeAreaTrue() = SafeAreaBuilder.createScreen(true)
 
-    fun createSafeAreaFalse() = SafeAreaBuilder.screenSafeAreaFalse()
+    fun createSafeAreaFalse() = SafeAreaBuilder.createScreen(false)
 }
