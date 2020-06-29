@@ -85,7 +85,7 @@ class ScreenController(
     private val sampleComponentsService: SampleComponentsService,
     private val sampleButtonService: SampleButtonService,
     private val sampleTextService: SampleTextService,
-    private val sampleImageService: SampleImageLocalService,
+    private val sampleImageLocalService: SampleImageLocalService,
     private val sampleTabViewService: SampleTabViewService,
     private val sampleListViewService: SampleListViewService,
     private val sampleScrollViewService: SampleScrollViewService,
@@ -96,7 +96,7 @@ class ScreenController(
     private val sampleNavigationBarService: SampleNavigationBarService,
     private val sampleNavigationTypeService: SampleNavigationTypeService,
     private val sampleComposeComponentService: SampleComposeComponentService,
-    private val sampleNetworkImageService: SampleImageRemoteService,
+    private val sampleImageRemoteService: SampleImageRemoteService,
     private val sampleTouchableService: SampleTouchableService,
     private val sampleActionClickService: SampleActionClickService,
     private val sampleAnalyticsService: SampleAnalyticsService,
@@ -123,7 +123,7 @@ class ScreenController(
     fun getSampleTextView() = this.sampleTextService.createTextView()
 
     @GetMapping(SCREEN_IMAGE_ENDPOINT)
-    fun getSampleImageView() = this.sampleImageService.createImageLocal()
+    fun getSampleImageLocal() = this.sampleImageLocalService.createImageLocal()
 
     @GetMapping(SCREEN_TAB_VIEW_ENDPOINT)
     fun getSampleTabViewView() = this.sampleTabViewService.createTabView()
@@ -179,7 +179,7 @@ class ScreenController(
     fun getComposeComponent() = this.sampleComposeComponentService.createComposeComponentView()
 
     @GetMapping(SCREEN_NETWORK_IMAGE_ENDPOINT)
-    fun getSampleNetworkImageView() = this.sampleNetworkImageService.createImageRemote()
+    fun getSampleImageRemoteView() = this.sampleImageRemoteService.createImageRemote()
 
     @GetMapping(SCREEN_TOUCHABLE_ENDPOINT)
     fun getTouchableView() = this.sampleTouchableService.createTouchableView()
