@@ -102,7 +102,6 @@ struct AppTheme {
     
     static func textInput() -> (UITextField?) -> Void {
         return {
-            $0?.layer.borderColor = UIColor.gray.cgColor
             $0?.borderStyle = UITextField.BorderStyle.roundedRect
         }
     }
