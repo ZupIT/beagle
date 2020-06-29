@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://gblobscdn.gitbook.com/spaces%2F-M-Qy7jZbUpzGRP5GbCZ%2Favatar.png" width="256" height="256" />
+</p>
+
 <h1 align="center">
   <a href="https://usebeagle.io/">
     Beagle
@@ -35,7 +39,7 @@ It is also possible to create, test and update native application components and
 ## Contents
 
 - [Requirements](#-requirements)
-- [Building your first app using beagle](#-building-your-first-app-using-beagle)
+- [Building your first app using Beagle](#-building-your-first-app-using-beagle)
 - [Documentation](#-documentation)
 - [Upgrading](#-upgrading)
 - [How to Contribute](#-how-to-contribute)
@@ -46,7 +50,7 @@ It is also possible to create, test and update native application components and
 
 Beagle apps may target iOS 10.0 and Android 4.4 (API 19) or newer. You may use Windows, macOS, or Linux as your development operating system.
 
-## 🎉 Building your first app using beagle
+## 🎉 Building your first app using Beagle
 
 Follow the [Getting Started guide](https://docs.usebeagle.io/get-started/installing-beagle). The recommended way to install Beagle depends on your project. Here you can find short guides for the most common scenarios:
 
@@ -78,6 +82,13 @@ The main purpose of this repository is to continue evolving Beagle core. We want
 Read our [**Contributing Guide**][contribute] to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to Beagle.
 
 [contribute]: https://github.com/ZupIT/beagle/blob/master/CONTRIBUTING.md
+
+### [Code of Conduct][code]
+
+Beagle has adopted a Code of Conduct that we expect project participants to adhere to.
+Please read the [code] so that you can understand what actions will and will not be tolerated.
+
+[code]: https://github.com/ZupIT/beagle/blob/master/CODE_OF_CONDUCT.md
 
 ### [Open Source Roadmap][roadmap]
 
