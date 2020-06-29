@@ -17,5 +17,5 @@ jobs:
               env:
                 GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
                 GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
-              run: bundle exec fastlane run_danger danger_id:"pr_danger" danger_file_path:"pr"
+              run:  '[ ! -z $GITHUB_TOKEN ] && bundle exec fastlane run_danger danger_id:"pr_danger" danger_file_path:"pr" || echo "Skipping Danger for External Contributor"'
         
