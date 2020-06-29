@@ -28,10 +28,8 @@ import br.com.zup.beagle.android.engine.mapper.ViewMapper
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
-import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.ImageContentMode
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -40,15 +38,12 @@ import com.bumptech.glide.request.transition.Transition
 
 data class Image(
     val path: Bind<PathType>,
-    val mode: ImageContentMode? = null,
-    val placeholder: PathType.Local? = null) : WidgetView() {
+    val mode: ImageContentMode? = null) : WidgetView() {
     constructor(
         path: PathType,
-        mode: ImageContentMode? = null,
-        placeholder: PathType.Local? = null) : this(
+        mode: ImageContentMode? = null) : this(
         valueOf(path),
-        mode,
-        placeholder
+        mode
     )
 
     @Transient
@@ -69,7 +64,7 @@ data class Image(
                     }
                 }
                 is PathType.Remote -> {
-                    val requestOptions = getGlideRequestOptions()
+                    val requestOptions = getGlideRequestOptions(pathType.placeholder)
                     imageView.loadImage(pathType, requestOptions)
                 }
             }
@@ -99,7 +94,7 @@ data class Image(
     }
 
     @SuppressLint("CheckResult")
-    private fun getGlideRequestOptions(): RequestOptions {
+    private fun getGlideRequestOptions(placeholder: String?): RequestOptions {
         val requestOptions = RequestOptions()
         getPlaceholder(placeholder)?.let {
             requestOptions.placeholder(it)
@@ -107,11 +102,11 @@ data class Image(
         return requestOptions
     }
 
-    private fun getPlaceholder(image: PathType.Local?): Int? {
+    private fun getPlaceholder(placeholder: String?): Int? {
         val designSystem = BeagleEnvironment.beagleSdk.designSystem
-        if (designSystem != null && image != null) {
-            placeholder?.let { pathType ->
-                return designSystem.image(pathType.mobileId)
+        if (designSystem != null) {
+            placeholder?.let {
+                return designSystem.image(it)
             }
         }
         return null
@@ -121,5 +116,5 @@ data class Image(
 
 sealed class PathType {
     data class Local(val mobileId: String) : PathType()
-    data class Remote(val url: String) : PathType()
+    data class Remote(val url: String, val placeholder: String? = null) : PathType()
 }
