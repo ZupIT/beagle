@@ -16,11 +16,20 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.action.Alert
-import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
-import br.com.zup.beagle.sample.constants.TITLE_SCREEN
+import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
+import br.com.zup.beagle.sample.constants.TEXT_NETWORK_IMAGE
+import br.com.zup.beagle.widget.core.AlignSelf
+import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ImageContentMode
 import br.com.zup.beagle.widget.core.ScrollAxis
+import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
@@ -28,21 +37,21 @@ import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.ImagePath.Local
+import br.com.zup.beagle.widget.ui.ImagePath.Remote
 import br.com.zup.beagle.widget.ui.Text
 
-object ImageScreenBuilder : ScreenBuilder {
+object ImageRemoteScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
         navigationBar = NavigationBar(
-            title = "Beagle Image",
+            title = "Beagle Image Remote",
             showBackButton = true,
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
                     image = Local.justMobile("informationImage"),
                     action = Alert(
-                        title = "Image",
-                        message = "This widget will define a image view natively using the server driven " +
-                            "information received through Beagle.",
+                        title = "Image Remote",
+                        message = "It is a widget that implements an image with a URL.",
                         labelOk = "OK"
                     )
                 )
@@ -50,13 +59,35 @@ object ImageScreenBuilder : ScreenBuilder {
         ),
         child = ScrollView(
             scrollDirection = ScrollAxis.VERTICAL,
-            children = listOf(createText("Image"), Image(Local.justMobile(LOGO_BEAGLE))) +
-                ImageContentMode.values().flatMap(this::createImageWithModeAndText)
+            children = listOf(buildImage(title = "Image Remote")) +
+                ImageContentMode.values().map { buildImage("Image Remote with ImageContentMode.$it", it) }
         )
     )
 
-    private fun createText(text: String) = Text(text = text, styleId = TITLE_SCREEN)
+    private fun buildImage(title: String, mode: ImageContentMode? = null) = Container(
+        children = listOf(
+            buildText(title),
+            Image(Remote(BEACH_NETWORK_IMAGE), mode).applyStyle(Style(
+                flex = Flex(
+                    alignSelf = AlignSelf.CENTER
+                ),
+                size = Size(
+                    width = 150.unitReal(),
+                    height = 130.unitReal()
+                ))
+            )
+        )
+    )
 
-    private fun createImageWithModeAndText(mode: ImageContentMode) =
-        listOf(createText("Image with contentMode = $mode"), Image(Local.justMobile(LOGO_BEAGLE), mode))
+    private fun buildText(text: String) = Text(
+        text = text,
+        styleId = TEXT_NETWORK_IMAGE
+    ).applyStyle(Style(
+        flex = Flex(
+            alignSelf = AlignSelf.CENTER
+        ),
+        margin = EdgeValue(
+            top = 8.unitReal()
+        ))
+    )
 }

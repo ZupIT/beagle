@@ -100,6 +100,10 @@
         <item name="android:textColorHint">@color/colorGreen</item>
     </style>
 
+    <style name="DesignSystem.TextInput.Style.Bff" parent="Widget.AppCompat.EditText">
+        <item name="background">@drawable/text_input_background</item>
+    </style>
+
     <style name="DesignSystem.Text.H2" parent="DesignSystem.Text.Default">
         <item name="android:textSize">20sp</item>
     </style>

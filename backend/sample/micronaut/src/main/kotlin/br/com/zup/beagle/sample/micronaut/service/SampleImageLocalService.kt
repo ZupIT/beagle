@@ -16,10 +16,10 @@
 
 package br.com.zup.beagle.sample.micronaut.service
 
-import br.com.zup.beagle.sample.builder.NetworkImageScreenBuilder
+import br.com.zup.beagle.sample.builder.ImageLocalScreenBuilder
 import javax.inject.Singleton
 
 @Singleton
-class SampleNetworkImageService {
-    fun createNetworkImage() = NetworkImageScreenBuilder
+class SampleImageLocalService {
+    fun createImageLocal() = ImageLocalScreenBuilder
 }

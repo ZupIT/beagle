@@ -56,6 +56,7 @@ class AppDesignSystem : DesignSystem() {
     override fun inputTextStyle(id: String): Int? {
         return when(id) {
             "TextInput" -> R.style.TextInput
+            "DesignSystem.TextInput.Style.Bff" -> R.style.DesignSystem_TextInput_Style_Bff
             else -> null
         }
     }
