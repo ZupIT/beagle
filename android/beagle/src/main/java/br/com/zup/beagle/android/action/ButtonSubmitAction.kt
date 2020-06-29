@@ -53,8 +53,6 @@ class ButtonSubmitAction constructor(
                         return getSimpleForm(item)
                     }
                 }
-            } else if (item is BeagleFlexView){
-                return getSimpleForm(item as ViewGroup)
             }
         }
 
