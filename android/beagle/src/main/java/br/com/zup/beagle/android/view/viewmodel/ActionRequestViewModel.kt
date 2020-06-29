@@ -61,12 +61,12 @@ private class FetchComponentLiveData(
 
     private fun fetchData() {
         launch {
-            value = try {
+            postValue(try {
                 val response = requester.fetchData(sendRequest.toRequestData())
                 ActionRequestViewModel.FetchViewState.Success(response.toResponse())
             } catch (exception: BeagleApiException) {
                 ActionRequestViewModel.FetchViewState.Error(exception.responseData.toResponse())
-            }
+            })
         }
 
     }
