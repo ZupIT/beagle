@@ -17,12 +17,23 @@
 package br.com.zup.beagle.android.action
 
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.core.view.children
 import br.com.zup.beagle.android.components.form.SimpleForm
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 
-class ButtonSimpleFormAction : Action {
+/**
+ * action will be a submit handler for a SimpleForm.
+ *
+ * @param contextID define the id from Context that be set in simpleForm
+ *                  todo: the contextID needs to be the same of simpleForm parent
+ *
+ */
+class ButtonSubmitAction constructor(
+    private val contextID: String
+): Action {
 
     override fun execute(rootView: RootView) {
         if (rootView is FragmentRootView) {
@@ -32,13 +43,21 @@ class ButtonSimpleFormAction : Action {
 
     private fun getSimpleForm(view : ViewGroup?) : SimpleForm? {
         view?.children!!.forEach { item ->
-            return if (item.tag is SimpleForm) {
-                item.tag as SimpleForm
-            } else {
-                getSimpleForm(item as ViewGroup)
+            if (item is BeagleFlexView) {
+                (item as ViewGroup).children.forEach { subItem ->
+                     if (subItem is Button) {
+                        if (item.tag is SimpleForm && contextID == (item.tag as SimpleForm).context.id) {
+                            return item.tag as SimpleForm
+                        }
+                    } else {
+                        return getSimpleForm(item)
+                    }
+                }
+            } else if (item is BeagleFlexView){
+                return getSimpleForm(item as ViewGroup)
             }
         }
-        
+
         return null
     }
 }

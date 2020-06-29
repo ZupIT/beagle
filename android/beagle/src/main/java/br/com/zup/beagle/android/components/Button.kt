@@ -61,7 +61,7 @@ data class Button(
         onPress?.let {
             preFetchHelper.handlePreFetch(rootView, it)
         }
-        val button = viewFactory.makeButton(rootView.getContext())
+         val button = viewFactory.makeButton(rootView.getContext())
 
         button.setOnClickListener {
             onPress?.let {

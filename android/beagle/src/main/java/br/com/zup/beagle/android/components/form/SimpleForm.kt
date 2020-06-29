@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.components.form
 
 import android.view.View
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.utils.handleEvent
@@ -28,6 +29,19 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 
+/**
+ * component will define a submit handler for a SimpleForm.
+ *
+ * @param context define the contextData that be set to form
+ *
+ * @param child
+ *                  define the submit handler.
+ *                  It is generally set as a button to be clicked after a form is filled up.
+ * @param enabled
+ *                  define as "true" by default and it will enable the button to be clicked on.
+ *                  If it is defined as "false" the button will start as "disabled"
+ *
+ */
 data class SimpleForm (
     val context: ContextData,
     val onSubmit:List<Action>,
