@@ -20,9 +20,9 @@ Pod::Spec.new do |spec|
 
   spec.name = "BeagleSchema"
 
-  spec.version = "0.2.8"
+  spec.version = "1.0.0"
 
-  spec.summary = "This pod is a part of Beagle framework, it will probably not work alone"
+  spec.summary = "Describe Beagle components structure"
   spec.description = <<-DESC
     This pod is a part of Beagle framework, it will probably not work alone
   DESC
@@ -43,7 +43,7 @@ Pod::Spec.new do |spec|
 
 # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
-  source = { :git => "git@github.com:ZupIT/beagle.git", :tag => spec.version.to_s }
+  source = { :git => "https://github.com/ZupIT/beagle.git", :tag => spec.version.to_s }
   spec.source = source
 
 # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #

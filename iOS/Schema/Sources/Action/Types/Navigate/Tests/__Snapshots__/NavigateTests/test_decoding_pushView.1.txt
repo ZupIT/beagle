@@ -7,7 +7,7 @@
         ▿ some: Screen
           ▿ child: Text
             - alignment: Optional<Expression<Alignment>>.none
-            - styleId: Optional<Expression<String>>.none
+            - styleId: Optional<String>.none
             ▿ text: Expression<String>
               - value: "child"
             - textColor: Optional<Expression<String>>.none

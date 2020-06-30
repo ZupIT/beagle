@@ -19,15 +19,14 @@ package br.com.zup.beagle.android.components.form
 import android.view.View
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.WidgetView
-import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.android.widget.ViewConvertable
+import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
-@RegisterWidget
 data class FormSubmit(
-    val child: ServerDrivenComponent,
+    override val child: ServerDrivenComponent,
     val enabled: Boolean = true
-) : WidgetView() {
+)  : ViewConvertable, GhostComponent {
 
     @Transient
     private val viewRendererFactory: ViewRendererFactory = ViewRendererFactory()

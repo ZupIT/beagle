@@ -26,14 +26,11 @@ import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import br.com.zup.beagle.R
-import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
-import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.utils.dp
-import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.widget.RootView
@@ -47,15 +44,9 @@ internal var styleManagerFactory = StyleManager()
 @RegisterWidget
 data class TabView(
     val children: List<TabItem>,
-    val styleId: Bind<String>? = null,
+    val styleId: String? = null,
     override val context: ContextData? = null
 ) : WidgetView(), ContextComponent {
-
-    constructor(
-        children: List<TabItem>,
-        styleId: String,
-        context: ContextData? = null
-    ) : this(children, valueOf(styleId), context)
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
@@ -106,14 +97,7 @@ data class TabView(
     }
 
     private fun TabLayout.setData(rootView: RootView) {
-        var bindString: String? = null
-        styleId?.let {
-            observeBindChanges(rootView, it) { value ->
-                bindString = value
-            }
-        }
-        val typedArray = styleManagerFactory.getTabBarTypedArray(context, bindString)
-        typedArray?.let {
+        styleManagerFactory.getTabBarTypedArray(context, styleId)?.let {
             setTabTextColors(
                 it.getColor(R.styleable.BeagleTabBarStyle_tabTextColor, Color.BLACK),
                 it.getColor(R.styleable.BeagleTabBarStyle_tabSelectedTextColor, Color.GRAY)

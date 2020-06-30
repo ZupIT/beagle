@@ -16,10 +16,10 @@
 
 import Foundation
 
-/// Markup to define an action to be triggred in response to some event
+/// Markup to define an action to be triggered in response to some event
 public protocol RawAction: Decodable {}
 
-/// Defines a representation of an unknwon Action
+/// Defines a representation of an unknown Action
 public struct UnknownAction: RawAction {
     public let type: String
     

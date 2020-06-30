@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.widget.ui
 
-import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOfNullable
@@ -30,7 +29,7 @@ data class TextInput(
     val readOnly: Bind<Boolean>? = null,
     val type: Bind<TextInputType>? = null,
     val hidden: Bind<Boolean>? = null,
-    val styleId: Bind<String>? = null,
+    val styleId: String? = null,
     val onChange: List<Action>? = null,
     val onFocus: List<Action>? = null,
     val onBlur: List<Action>? = null
@@ -53,7 +52,7 @@ data class TextInput(
         valueOfNullable(readOnly),
         valueOfNullable(type),
         valueOfNullable(hidden),
-        valueOfNullable(styleId),
+        styleId,
         onChange,
         onFocus,
         onBlur

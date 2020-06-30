@@ -20,14 +20,14 @@ import XCTest
 
 final class BeagleNavigatorAnimationTests: XCTestCase {
 
-    func test_mapPushTranstionToCATransition() {
+    func test_mapPushTransitionToCATransition() {
         let animation = BeagleNavigatorAnimation(pushTransition: .init(type: .fade, subtype: .fromRight, duration: 1.0))
         let caTransition = animation.getTransition(.push)
         
         verifyMappingToCATransition(caTransition: caTransition, transition: animation.pushTransition)
     }
     
-    func test_mapPopTranstionToCATransition() {
+    func test_mapPopTransitionToCATransition() {
         let animation = BeagleNavigatorAnimation(popTransition: .init(type: .reveal, subtype: .fromLeft, duration: 2.0))
         let caTransition = animation.getTransition(.pop)
         

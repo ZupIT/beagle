@@ -24,16 +24,15 @@ import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.WidgetView
-import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.android.widget.ViewConvertable
+import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
-@RegisterWidget
 data class Touchable(
     val onPress: List<Action>,
-    val child: ServerDrivenComponent,
+    override val child: ServerDrivenComponent,
     val clickAnalyticsEvent: ClickEvent? = null
-) : WidgetView() {
+) : ViewConvertable, GhostComponent {
 
     @Transient
     private val preFetchHelper: PreFetchHelper = PreFetchHelper()
@@ -43,7 +42,6 @@ data class Touchable(
 
     override fun buildView(rootView: RootView): View {
         preFetchHelper.handlePreFetch(rootView, onPress)
-
         return viewRendererFactory.make(child).build(rootView).apply {
             setOnClickListener {
                 handleEvent(rootView, onPress, "onPress")

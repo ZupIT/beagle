@@ -89,7 +89,7 @@ class BeagleTextViewExtensionsKtTest : BaseComponentTest() {
         text.buildView(rootView)
 
         // Then
-        verify(exactly = 1) { designSystem.textStyle("") }
+        verify(exactly = 0) { designSystem.textStyle("") }
     }
 
     @Test

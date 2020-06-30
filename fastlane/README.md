@@ -57,6 +57,11 @@ Publish local new version
 fastlane ios pull_request_verification
 ```
 Pull Request verification
+### ios release
+```
+fastlane ios release
+```
+Updates versions on Podspec
 
 ----
 
