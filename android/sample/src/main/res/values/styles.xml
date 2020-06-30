@@ -101,6 +101,7 @@
     </style>
 
     <style name="DesignSystem.TextInput.Style.Bff" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/colorBlack</item>
         <item name="background">@drawable/text_input_background</item>
     </style>
 
