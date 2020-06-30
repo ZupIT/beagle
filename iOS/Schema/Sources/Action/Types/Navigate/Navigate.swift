@@ -29,7 +29,7 @@ public enum Navigate: RawAction {
     case popView
     case popToView(String)
     
-    public struct DeepLink {
+    public struct OpenNativeRoute {
         let route: String
         var data: [String: String]?
         var shouldResetApplication: Bool = false
@@ -69,7 +69,7 @@ extension Route {
 
 // MARK: Decodable
 
-extension Navigate.DeepLink: Decodable {}
+extension Navigate.OpenNativeRoute: Decodable {}
 
 extension Navigate: Decodable {
     
@@ -86,7 +86,7 @@ extension Navigate: Decodable {
         case "beagle:openexternalurl":
             self = .openExternalURL(try container.decode(String.self, forKey: .url))
         case "beagle:opennativeroute":
-            let deepLink: Navigate.DeepLink = try .init(from: decoder)
+            let deepLink: Navigate.OpenNativeRoute = try .init(from: decoder)
             self = .openNativeRoute(deepLink.route,
                                     data: deepLink.data,
                                     shouldResetApplication: deepLink.shouldResetApplication)
