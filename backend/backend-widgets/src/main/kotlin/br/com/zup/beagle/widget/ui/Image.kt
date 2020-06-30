@@ -45,7 +45,7 @@ data class Image(
  * @param url the URL from which the image can be obtained
  * @param placeholder the image that will used as placeholder when set a remote image.
  * */
-sealed class ImagePath(val url: String?, val placeholder: String? = null) {
+sealed class ImagePath(val url: String?, val placeholder: Local? = null) {
     /**
      * Define an image whose data is local to the client app.
      *
@@ -66,5 +66,5 @@ sealed class ImagePath(val url: String?, val placeholder: String? = null) {
      * @param remoteUrl reference the path where the image should be fetched from.
      * @param placeholder reference an image natively in your mobile app local styles file to be used as placeholder.
      * */
-    class Remote(remoteUrl: String, placeholder : String?) : ImagePath(remoteUrl, placeholder)
+    class Remote(remoteUrl: String, placeholder : Local?) : ImagePath(remoteUrl, placeholder)
 }

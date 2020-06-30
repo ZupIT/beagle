@@ -64,7 +64,8 @@ data class Image(
                     }
                 }
                 is PathType.Remote -> {
-                    val requestOptions = getGlideRequestOptions(pathType.placeholder)
+                    val placeholder = pathType.placeholder?.mobileId
+                    val requestOptions = getGlideRequestOptions(placeholder)
                     imageView.loadImage(pathType, requestOptions)
                 }
             }
@@ -116,5 +117,5 @@ data class Image(
 
 sealed class PathType {
     data class Local(val mobileId: String) : PathType()
-    data class Remote(val url: String, val placeholder: String? = null) : PathType()
+    data class Remote(val url: String, val placeholder: Local? = null) : PathType()
 }
