@@ -57,8 +57,7 @@ class PageViewUIComponent: UIView {
         super.init(frame: .zero)
         
         self.indicatorView?.outputReceiver = self
-        
-        setupLayout()
+
         updateView()
     }
 
@@ -71,8 +70,9 @@ class PageViewUIComponent: UIView {
 
     private(set) lazy var pageViewController: UIPageViewController = {
         let pager = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+        guard let firstPage = model.pages[safe: 0] else { return pager }
         pager.setViewControllers(
-            [model.pages[0]], direction: .forward, animated: true, completion: nil
+            [firstPage], direction: .forward, animated: true, completion: nil
         )
         pager.dataSource = self
         pager.delegate = self
@@ -87,6 +87,11 @@ class PageViewUIComponent: UIView {
         stack.spacing = 10
         return stack
     }()
+    
+    override func layoutSubviews() {
+        setupLayout()
+        super.layoutSubviews()
+    }
 
     private func setupLayout() {
         let view: UIView = pageViewController.view
