@@ -1,4 +1,0 @@
-▿ LazyComponent
-  ▿ initialState: UnknownComponent
-    - type: "custom:beagleschematestscomponent"
-  - path: "/path"

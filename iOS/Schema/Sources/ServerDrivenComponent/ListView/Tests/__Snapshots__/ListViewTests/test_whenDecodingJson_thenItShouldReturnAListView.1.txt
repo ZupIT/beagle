@@ -1,9 +1,0 @@
-▿ ListView
-  ▿ children: 3 elements
-    ▿ UnknownComponent
-      - type: "custom:beagleschematestscomponent"
-    ▿ UnknownComponent
-      - type: "custom:beagleschematestscomponent"
-    ▿ UnknownComponent
-      - type: "custom:beagleschematestscomponent"
-  - direction: Direction.vertical

@@ -217,7 +217,6 @@
 		C864D2EE247C245B00E7A1F9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C864D2F8247C259100E7A1F9 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C864D2FA247C25B300E7A1F9 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
-		C864D2FF247C25E900E7A1F9 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C89E0C492492AFEB00005FCF /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		C8BB30A32486FD17002DD3C1 /* NavigateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigateTests.swift; sourceTree = "<group>"; };
 		C8BB30A52486FDA2002DD3C1 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
@@ -254,10 +253,6 @@
 		C8EBCC76247C3041002030CC /* TabViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabViewTests.swift; sourceTree = "<group>"; };
 		C8EBCC78247C3041002030CC /* TabView.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TabView.json; sourceTree = "<group>"; };
 		C8EBCC7C247C3041002030CC /* TabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
-		C8EBCC82247C305F002030CC /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
-		C8EBCC86247C30AA002030CC /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
-		C8EBCC8A247C30D9002030CC /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
-		C8EBCC8D247C3104002030CC /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C8EBCC90247C3126002030CC /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -560,7 +555,6 @@
 		C864D23C247C240200E7A1F9 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				C864D2FF247C25E900E7A1F9 /* __Snapshots__ */,
 				C864D23D247C240200E7A1F9 /* TouchableTests.swift */,
 				C864D23E247C240200E7A1F9 /* Json */,
 			);
@@ -883,7 +877,6 @@
 		C8EBCC26247C3002002030CC /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				C8EBCC82247C305F002030CC /* __Snapshots__ */,
 				C8EBCC27247C3002002030CC /* LazyComponentTests.swift */,
 				C8EBCC28247C3002002030CC /* Json */,
 			);
@@ -910,7 +903,6 @@
 		C8EBCC34247C300E002030CC /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				C8EBCC86247C30AA002030CC /* __Snapshots__ */,
 				C8EBCC35247C300E002030CC /* ListViewTests.swift */,
 				C8EBCC36247C300E002030CC /* JSON */,
 			);
@@ -947,7 +939,6 @@
 		C8EBCC56247C3026002030CC /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				C8EBCC8A247C30D9002030CC /* __Snapshots__ */,
 				C8EBCC57247C3026002030CC /* PageViewTests.swift */,
 				C8EBCC58247C3026002030CC /* Json */,
 			);
@@ -975,7 +966,6 @@
 		C8EBCC68247C3032002030CC /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				C8EBCC8D247C3104002030CC /* __Snapshots__ */,
 				C8EBCC6B247C3032002030CC /* ScrollViewTests.swift */,
 				C8EBCC69247C3032002030CC /* JSON */,
 			);

@@ -1,6 +1,0 @@
-▿ Touchable
-  ▿ child: UnknownComponent
-    - type: "custom:beagleschematestscomponent"
-  - clickAnalyticsEvent: Optional<AnalyticsClick>.none
-  ▿ onPress: 1 element
-    - Navigate.popView
