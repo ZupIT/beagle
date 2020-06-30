@@ -85,7 +85,7 @@ class ScreenController(
     private val sampleComponentsService: SampleComponentsService,
     private val sampleButtonService: SampleButtonService,
     private val sampleTextService: SampleTextService,
-    private val sampleImageLocalService: SampleImageLocalService,
+    private val sampleImageService: SampleImageLocalService,
     private val sampleTabViewService: SampleTabViewService,
     private val sampleListViewService: SampleListViewService,
     private val sampleScrollViewService: SampleScrollViewService,
@@ -96,13 +96,14 @@ class ScreenController(
     private val sampleNavigationBarService: SampleNavigationBarService,
     private val sampleNavigationTypeService: SampleNavigationTypeService,
     private val sampleComposeComponentService: SampleComposeComponentService,
-    private val sampleImageRemoteService: SampleImageRemoteService,
+    private val sampleNetworkImageService: SampleImageRemoteService,
     private val sampleTouchableService: SampleTouchableService,
     private val sampleActionClickService: SampleActionClickService,
     private val sampleAnalyticsService: SampleAnalyticsService,
     private val sampleWebViewService: SampleWebViewService,
     private val sampleScreenContext: SampleContextService,
-    private val sampleScreenSafeArea: SampleSafeAreaService
+    private val sampleScreenSafeArea: SampleSafeAreaService,
+    private val sampleScreenTextInput: TextInputService
 ) {
     @GetMapping(ACCESSIBILITY_SCREEN_ENDPOINT)
     fun getAccessibilityView() = this.accessibilityService.createAccessibilityView()
@@ -123,7 +124,7 @@ class ScreenController(
     fun getSampleTextView() = this.sampleTextService.createTextView()
 
     @GetMapping(SCREEN_IMAGE_ENDPOINT)
-    fun getSampleImageLocal() = this.sampleImageLocalService.createImageLocal()
+    fun getSampleImageView() = this.sampleImageService.createImageLocal()
 
     @GetMapping(SCREEN_TAB_VIEW_ENDPOINT)
     fun getSampleTabViewView() = this.sampleTabViewService.createTabView()
@@ -179,7 +180,7 @@ class ScreenController(
     fun getComposeComponent() = this.sampleComposeComponentService.createComposeComponentView()
 
     @GetMapping(SCREEN_NETWORK_IMAGE_ENDPOINT)
-    fun getSampleImageRemoteView() = this.sampleImageRemoteService.createImageRemote()
+    fun getSampleNetworkImageView() = this.sampleNetworkImageService.createImageRemote()
 
     @GetMapping(SCREEN_TOUCHABLE_ENDPOINT)
     fun getTouchableView() = this.sampleTouchableService.createTouchableView()
@@ -207,4 +208,7 @@ class ScreenController(
 
     @GetMapping(SCREEN_SAFE_AREA_FALSE_ENDPOINT)
     fun getSampleSafeAreaFalse() = this.sampleScreenSafeArea.createSafeAreaFalse()
+
+    @GetMapping(SCREEN_TEXT_INPUT_ENDPOINT)
+    fun getSampleTextInput() = this.sampleScreenTextInput.createScreenTextInput()
 }
