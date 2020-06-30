@@ -61,7 +61,7 @@ object ScreenContextBuilder : ScreenBuilder {
                 ScrollView(
                     children = listOf(
                         Text(
-                            text = "Preencha o Formulário",
+                            text = "Fill the form",
                             styleId = "DesignSystem.Text.helloWord"
                         ).applyStyle(
                             Style(
@@ -72,9 +72,10 @@ object ScreenContextBuilder : ScreenBuilder {
                             )
                         ),
                         TextInput(
-                            placeholder = "CEP",
+                            placeholder = "ZIP",
                             value = "@{address.data.zip}",
                             styleId = "DesignSystem.TextInput.Style.Bff",
+                            type = TextInputType.NUMBER,
                             onChange = listOf(
                                 SetContext(
                                     contextId = "address",
@@ -105,33 +106,33 @@ object ScreenContextBuilder : ScreenBuilder {
                             )
                         ).applyStyle(styleMargin),
                         createTextInput(
-                            textInputPlaceholder = "Rua",
+                            textInputPlaceholder = "Street",
                             textInputValue = "@{address.data.street}",
                             contextPath = "data.street"
                         ),
                         createTextInput(
-                            textInputPlaceholder = "Número",
+                            textInputPlaceholder = "Number",
                             textInputValue = "@{address.data.number}",
                             contextPath = "data.number",
                             type = TextInputType.NUMBER
                         ),
                         createTextInput(
-                            textInputPlaceholder = "Bairro",
+                            textInputPlaceholder = "Neighborhood",
                             textInputValue = "@{address.data.neighborhood}",
                             contextPath = "data.neighborhood"
                         ),
                         createTextInput(
-                            textInputPlaceholder = "Cidade",
+                            textInputPlaceholder = "City",
                             textInputValue = "@{address.data.city}",
                             contextPath = "data.city"
                         ),
                         createTextInput(
-                            textInputPlaceholder = "Estado",
+                            textInputPlaceholder = "State",
                             textInputValue = "@{address.data.state}",
                             contextPath = "data.state"
                         ),
                         createTextInput(
-                            textInputPlaceholder = "Complemento",
+                            textInputPlaceholder = "Complement",
                             textInputValue = "@{address.data.complement}",
                             contextPath = "data.complement"
                         ),
@@ -140,17 +141,17 @@ object ScreenContextBuilder : ScreenBuilder {
                             styleId = "DesignSystem.Button.Context",
                             onPress = listOf(
                                 Confirm(
-                                    title = "Formulário de endereço!",
-                                    message = "Os dados estão corretos?\n" +
-                                        "Rua: @{address.data.street}\n" +
-                                        "Número: @{address.data.number}\n" +
-                                        "Bairro: @{address.data.neighborhood}\n" +
-                                        "Cidade: @{address.data.city}\n" +
-                                        "Estado: @{address.data.state}\n" +
-                                        "Complemento: @{address.data.complement}",
+                                    title = "Address form!",
+                                    message = "The data is correct?\n" +
+                                        "Street: @{address.data.street}\n" +
+                                        "Number: @{address.data.number}\n" +
+                                        "Neighborhood: @{address.data.neighborhood}\n" +
+                                        "City: @{address.data.city}\n" +
+                                        "State: @{address.data.state}\n" +
+                                        "Complement: @{address.data.complement}",
                                     onPressOk = Alert(
-                                        title = "Formulário de endereço",
-                                        message = "O formulário foi enviado com sucesso!",
+                                        title = "Address form",
+                                        message = "The form was successfully!",
                                         onPressOk = SetContext(
                                             contextId = "address",
                                             path = "data",
