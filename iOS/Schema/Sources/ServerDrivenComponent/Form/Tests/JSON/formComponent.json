@@ -17,8 +17,7 @@
       "_beagleComponent_" : "beagle:forminput",
       "name" : "optional-field",
       "child" : {
-        "_beagleComponent_" : "beagle:text",
-        "text" : "text"
+        "_beagleComponent_" : "custom:beagleschematestscomponent"
       }
     }, {
       "_beagleComponent_" : "beagle:forminput",
@@ -30,27 +29,9 @@
         "unknown" : "unknown"
       }
     }, {
-      "_beagleComponent_" : "beagle:container",
-      "children" : [ ],
-      "style": {
-        "flex" : {
-          "grow" : 1.0
-        }
-      }
-    }, {
       "_beagleComponent_" : "beagle:formsubmit",
       "child" : {
-        "_beagleComponent_" : "beagle:button",
-        "text" : "Submit Form",
-        "styleId" : "DesignSystem.Form.Submit",
-        "style": {
-          "margin" : {
-            "all" : {
-              "value" : 10.0,
-              "type" : "REAL"
-            }
-          }
-        }
+          "_beagleComponent_" : "custom:beagleschematestscomponent"
       },
       "enabled" : false
     } ],

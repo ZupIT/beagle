@@ -15,19 +15,6 @@
  * limitations under the License.
  */
 
-import XCTest
-@testable import BeagleSchema
-import SnapshotTesting
+import BeagleSchema
 
-class FormSubmitTests: XCTestCase {
-
-    func test_initWithChild_shouldReturnValidFormSubmit() {
-        // Given / When
-        let sut = FormSubmit(child:
-            BeagleSchemaTestsComponent()
-        )
-        // Then
-        XCTAssert(sut.child is BeagleSchemaTestsComponent)
-    }
-
-}
+struct BeagleSchemaTestsComponent: RawComponent {}

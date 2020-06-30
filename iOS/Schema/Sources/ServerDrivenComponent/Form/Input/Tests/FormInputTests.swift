@@ -24,10 +24,9 @@ class FormInputTests: XCTestCase {
     func test_initWithChild_shouldReturnValidFormInput() {
         // Given / When
         let sut = FormInput(name: "name", child:
-            Text(.value("Text"))
+            BeagleSchemaTestsComponent()
         )
         // Then
-        XCTAssert(sut.child is Text)
+        XCTAssert(sut.child is BeagleSchemaTestsComponent)
     }
-
 }

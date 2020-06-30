@@ -1,14 +1,6 @@
 ▿ Touchable
-  ▿ child: Text
-    - alignment: Optional<Expression<Alignment>>.none
-    - styleId: Optional<String>.none
-    ▿ text: Expression<String>
-      - value: "touchable"
-    - textColor: Optional<Expression<String>>.none
-    ▿ widgetProperties: WidgetProperties
-      - accessibility: Optional<Accessibility>.none
-      - id: Optional<String>.none
-      - style: Optional<Style>.none
+  ▿ child: UnknownComponent
+    - type: "custom:beagleschematestscomponent"
   - clickAnalyticsEvent: Optional<AnalyticsClick>.none
   ▿ onPress: 1 element
     - Navigate.popView
