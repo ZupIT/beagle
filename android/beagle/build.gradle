@@ -68,8 +68,6 @@ dependencies {
     implementation GeneralLibraries.yoga
     implementation GeneralLibraries.soLoader
 
-    implementation GoogleLibraries.materialDesign
-
     implementation MoshiLibraries.moshi
     implementation MoshiLibraries.kotlin
     implementation MoshiLibraries.adapters

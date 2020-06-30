@@ -89,7 +89,6 @@ object Versions {
     const val kotlinTest = "1.3.50"
     const val kotlinCoroutinesTest = "1.3.1"
 
-    const val materialDesign = "1.0.0"
     const val googleCompileTesting = "0.18"
     const val googleAutoService = "1.0-rc2"
 
@@ -165,10 +164,6 @@ object GeneralLibraries {
     const val okHttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
 
     const val jsonObject = "org.json:json:${Versions.jsonObject}"
-}
-
-object GoogleLibraries {
-    const val materialDesign = "com.google.android.material:material:${Versions.materialDesign}"
 }
 
 object AndroidSupport {
