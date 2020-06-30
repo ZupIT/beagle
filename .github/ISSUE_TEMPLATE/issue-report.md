@@ -7,8 +7,8 @@ assignees: ''
 
 ---
 
-**Describe the problem**
+### Describe the problem
 A clear and concise description of what the problem is.
 
-**Expected behavior**
+### Expected behaviour
 A clear and concise description of what you expected to happen.
