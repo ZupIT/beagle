@@ -18,8 +18,6 @@
 
 package br.com.zup.beagle.sample.spring.controller
 
-import br.com.zup.beagle.sample.constants.*
-import br.com.zup.beagle.sample.spring.service.*
 import br.com.zup.beagle.sample.constants.ACCESSIBILITY_SCREEN_ENDPOINT
 import br.com.zup.beagle.sample.constants.NAVIGATION_TYPE_ENDPOINT
 import br.com.zup.beagle.sample.constants.REPRESENTATION_NAVIGATION_BAR_ENDPOINT
@@ -46,9 +44,13 @@ import br.com.zup.beagle.sample.constants.SCREEN_LIST_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_NAVIGATION_BAR_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_NETWORK_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_PAGE_VIEW_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_SAFE_AREA_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_SAFE_AREA_FALSE_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_SAFE_AREA_TRUE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SCROLL_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TAB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_TEXT_INPUT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TOUCHABLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_WEB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.spring.service.AccessibilityService
@@ -67,6 +69,7 @@ import br.com.zup.beagle.sample.spring.service.SampleNavigationBarService
 import br.com.zup.beagle.sample.spring.service.SampleNavigationTypeService
 import br.com.zup.beagle.sample.spring.service.SampleImageRemoteService
 import br.com.zup.beagle.sample.spring.service.SamplePageViewService
+import br.com.zup.beagle.sample.spring.service.SampleSafeAreaService
 import br.com.zup.beagle.sample.spring.service.SampleScreenBuilderService
 import br.com.zup.beagle.sample.spring.service.SampleScrollViewService
 import br.com.zup.beagle.sample.spring.service.SampleTabViewService
@@ -74,6 +77,7 @@ import br.com.zup.beagle.sample.spring.service.SampleTextService
 import br.com.zup.beagle.sample.spring.service.SampleTouchableService
 import br.com.zup.beagle.sample.spring.service.SampleViewService
 import br.com.zup.beagle.sample.spring.service.SampleWebViewService
+import br.com.zup.beagle.sample.spring.service.TextInputService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
