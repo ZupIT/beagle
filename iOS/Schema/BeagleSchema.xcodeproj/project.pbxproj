@@ -219,7 +219,6 @@
 		C864D2FA247C25B300E7A1F9 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C89E0C492492AFEB00005FCF /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		C8BB30A32486FD17002DD3C1 /* NavigateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigateTests.swift; sourceTree = "<group>"; };
-		C8BB30A52486FDA2002DD3C1 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C8BB30A62486FDB1002DD3C1 /* openexternalurl.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = openexternalurl.json; sourceTree = "<group>"; };
 		C8BB30A72486FDB1002DD3C1 /* opennativeroute.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = opennativeroute.json; sourceTree = "<group>"; };
 		C8BB30A82486FDB1002DD3C1 /* popstack.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = popstack.json; sourceTree = "<group>"; };
@@ -818,7 +817,6 @@
 			isa = PBXGroup;
 			children = (
 				C8BB30A32486FD17002DD3C1 /* NavigateTests.swift */,
-				C8BB30A52486FDA2002DD3C1 /* __Snapshots__ */,
 				C8BB30AF2486FDB1002DD3C1 /* Json */,
 			);
 			path = Tests;

@@ -69,7 +69,28 @@ final class NavigateTests: XCTestCase {
     
     func test_decoding_pushStack() throws {
         let action: Navigate = try actionFromJsonFile(fileName: "pushstack")
-        assertSnapshot(matching: action, as: .dump)
+        _assertInlineSnapshot(matching: action, as: .dump, with: """
+        ▿ Navigate
+          ▿ pushStack: Route
+            ▿ declarative: Screen
+              ▿ child: UnknownComponent
+                - type: "custom:beagleschematestscomponent"
+              - context: Optional<Context>.none
+              - id: Optional<String>.none
+              - navigationBar: Optional<NavigationBar>.none
+              ▿ safeArea: Optional<SafeArea>
+                ▿ some: SafeArea
+                  ▿ bottom: Optional<Bool>
+                    - some: true
+                  ▿ leading: Optional<Bool>
+                    - some: true
+                  ▿ top: Optional<Bool>
+                    - some: true
+                  ▿ trailing: Optional<Bool>
+                    - some: true
+              - screenAnalyticsEvent: Optional<AnalyticsScreen>.none
+              - style: Optional<Style>.none
+        """)
     }
     
     func test_decoding_popStack() throws {
@@ -81,7 +102,32 @@ final class NavigateTests: XCTestCase {
     
     func test_decoding_pushView() throws {
         let action: Navigate = try actionFromJsonFile(fileName: "pushview")
-        assertSnapshot(matching: action, as: .dump)
+        _assertInlineSnapshot(matching: action, as: .dump, with: """
+        ▿ Navigate
+          ▿ pushView: Route
+            ▿ remote: (3 elements)
+              - .0: "schema://path"
+              - shouldPrefetch: true
+              ▿ fallback: Optional<Screen>
+                ▿ some: Screen
+                  ▿ child: UnknownComponent
+                    - type: "custom:beagleschematestscomponent"
+                  - context: Optional<Context>.none
+                  - id: Optional<String>.none
+                  - navigationBar: Optional<NavigationBar>.none
+                  ▿ safeArea: Optional<SafeArea>
+                    ▿ some: SafeArea
+                      ▿ bottom: Optional<Bool>
+                        - some: true
+                      ▿ leading: Optional<Bool>
+                        - some: true
+                      ▿ top: Optional<Bool>
+                        - some: true
+                      ▿ trailing: Optional<Bool>
+                        - some: true
+                  - screenAnalyticsEvent: Optional<AnalyticsScreen>.none
+                  - style: Optional<Style>.none
+        """)
     }
     
     func test_decoding_popView() throws {
