@@ -19,7 +19,6 @@ package br.com.zup.beagle.sample.widgets
 import android.graphics.Color
 import android.text.InputType
 import android.widget.EditText
-import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.annotation.RegisterWidget

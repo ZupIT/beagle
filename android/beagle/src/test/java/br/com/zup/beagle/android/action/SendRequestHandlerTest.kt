@@ -16,10 +16,6 @@
 
 package br.com.zup.beagle.android.action
 
-import androidx.appcompat.app.AppCompatActivity
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel

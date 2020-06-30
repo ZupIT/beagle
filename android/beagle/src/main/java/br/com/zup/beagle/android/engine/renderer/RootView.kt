@@ -17,9 +17,6 @@
 package br.com.zup.beagle.android.engine.renderer
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
 import br.com.zup.beagle.android.widget.RootView
 
 class FragmentRootView(

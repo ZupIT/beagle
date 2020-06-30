@@ -19,7 +19,6 @@ package br.com.zup.beagle.android.components
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
-import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.context.valueOfNullable

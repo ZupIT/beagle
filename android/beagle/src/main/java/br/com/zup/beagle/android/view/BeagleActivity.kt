@@ -21,12 +21,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.WindowManager
-import androidx.annotation.IdRes
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.components.layout.ScreenComponent

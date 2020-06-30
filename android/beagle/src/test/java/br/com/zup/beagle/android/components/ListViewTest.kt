@@ -16,8 +16,6 @@
 
 package br.com.zup.beagle.android.components
 
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.widget.core.ListDirection
 import io.mockk.Runs

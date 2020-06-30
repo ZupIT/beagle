@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.view.viewmodel
 
-import androidx.lifecycle.ViewModel
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.context.Bind

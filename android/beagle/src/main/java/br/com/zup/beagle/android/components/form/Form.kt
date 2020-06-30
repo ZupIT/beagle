@@ -18,8 +18,6 @@ package br.com.zup.beagle.android.components.form
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.children
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.FormLocalAction
 import br.com.zup.beagle.android.action.FormRemoteAction

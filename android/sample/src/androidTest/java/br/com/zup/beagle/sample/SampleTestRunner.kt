@@ -18,7 +18,6 @@ package br.com.zup.beagle.sample
 
 import com.facebook.testing.screenshot.ScreenshotRunner
 import android.os.Bundle
-import androidx.test.runner.AndroidJUnitRunner
 
 class SampleTestRunner : AndroidJUnitRunner() {
     override fun onCreate(args: Bundle) {

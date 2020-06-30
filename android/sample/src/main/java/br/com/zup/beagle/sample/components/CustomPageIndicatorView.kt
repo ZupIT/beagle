@@ -22,7 +22,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import androidx.core.content.ContextCompat
 import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.sample.R
 import kotlinx.android.synthetic.main.custom_page_indicator.view.btContinue

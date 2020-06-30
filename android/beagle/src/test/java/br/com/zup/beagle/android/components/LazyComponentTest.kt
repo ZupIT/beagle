@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.components
 
 import android.view.View
-import androidx.core.view.get
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData

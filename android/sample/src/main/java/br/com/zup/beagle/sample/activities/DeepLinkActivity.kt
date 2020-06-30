@@ -18,7 +18,6 @@ package br.com.zup.beagle.sample.activities
 
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import br.com.zup.beagle.sample.R
 
 class DeepLinkActivity : AppCompatActivity() {

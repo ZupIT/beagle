@@ -31,7 +31,7 @@ android {
         versionCode Releases.versionCode
         versionName "${Releases.beagleVersionName}"
 
-        testInstrumentationRunner GeneralNames.testInstrumentationRunner
+//        testInstrumentationRunner GeneralNames.testInstrumentationRunner
         consumerProguardFiles GeneralNames.consumerProguard
     }
 
@@ -47,11 +47,11 @@ android {
 }
 
 dependencies {
-    implementation AndroidxLibraries.appcompat
-    implementation AndroidxLibraries.coreKtx
-    implementation AndroidxLibraries.recyclerView
-    implementation AndroidxLibraries.viewModel
-    implementation AndroidxLibraries.viewModelExtensions
+
+    implementation AndroidSupport.multidex
+    implementation AndroidSupport.design
+    implementation AndroidSupport.viewModel
+    implementation AndroidSupport.extensions
 
     implementation GeneralLibraries.kotlin
     implementation GeneralLibraries.kotlinCoroutines
@@ -81,13 +81,16 @@ dependencies {
     testImplementation TestLibraries.kotlinTest
     testImplementation TestLibraries.kotlinCoroutinesTest
     testImplementation TestLibraries.mockk
-    testImplementation TestLibraries.archCoreTesting
+//    testImplementation TestLibraries.archCoreTesting
     testImplementation GeneralLibraries.jsonObject
+    testImplementation AndroidSupport.archCoreTesting
 
     // Integration Testing
-    androidTestImplementation TestLibraries.testRunner
-    androidTestImplementation TestLibraries.testExt
-    androidTestImplementation TestLibraries.espressoCore
+//    androidTestImplementation TestLibraries.testRunner
+//    androidTestImplementation TestLibraries.testExt
+//    androidTestImplementation TestLibraries.espressoCore
+    androidTestImplementation AndroidSupport.testRunner
+    androidTestImplementation AndroidSupport.espressoCore
 }
 
 apply from: rootProject.file('maven-publish.gradle')

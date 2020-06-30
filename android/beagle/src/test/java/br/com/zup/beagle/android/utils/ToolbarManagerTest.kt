@@ -22,9 +22,6 @@ import android.graphics.drawable.Drawable
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.widget.Toolbar
-import androidx.core.content.res.ResourcesCompat
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action

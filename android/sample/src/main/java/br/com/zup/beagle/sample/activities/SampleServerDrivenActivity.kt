@@ -19,7 +19,6 @@ package br.com.zup.beagle.sample.activities
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
-import androidx.appcompat.widget.Toolbar
 import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.sample.R
 import br.com.zup.beagle.android.view.BeagleActivity

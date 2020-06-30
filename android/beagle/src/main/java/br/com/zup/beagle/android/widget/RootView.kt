@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.widget
 
 import android.content.Context
-import androidx.lifecycle.LifecycleOwner
 
 interface RootView {
     fun getContext(): Context

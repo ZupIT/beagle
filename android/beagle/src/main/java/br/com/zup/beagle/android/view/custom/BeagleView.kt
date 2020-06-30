@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.view.custom
 
 import android.content.Context
 import android.view.View
-import androidx.lifecycle.Observer
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.interfaces.OnStateUpdatable
 import br.com.zup.beagle.android.utils.generateViewModelInstance

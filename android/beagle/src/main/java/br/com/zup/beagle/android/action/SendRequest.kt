@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.action
 
-import androidx.lifecycle.Observer
 import br.com.zup.beagle.android.annotation.ContextDataValue
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.utils.handleEvent

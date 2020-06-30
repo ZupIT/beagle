@@ -20,9 +20,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentActivity
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.logger.BeagleLogger
 import br.com.zup.beagle.android.logger.BeagleLoggerFactory

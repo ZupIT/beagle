@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.view.custom
 
 import android.content.Context
-import androidx.viewpager.widget.ViewPager
 import br.com.zup.beagle.android.components.page.PageIndicatorOutput
 
 class BeaglePageView(context: Context) : ViewPager(context), PageIndicatorOutput {

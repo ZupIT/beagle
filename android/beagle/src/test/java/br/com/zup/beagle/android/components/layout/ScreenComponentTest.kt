@@ -18,8 +18,6 @@ package br.com.zup.beagle.android.components.layout
 
 import android.graphics.Color
 import android.view.View
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.widget.Toolbar
 import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.analytics.ScreenEvent
 import br.com.zup.beagle.android.components.BaseComponentTest

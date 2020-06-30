@@ -20,7 +20,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.widgets.TextField
 import br.com.zup.beagle.widget.core.Flex
