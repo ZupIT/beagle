@@ -68,16 +68,16 @@ object Versions {
     const val kotlinPoet = "1.5.0"
 
     const val appcompat = "1.1.0"
-    const val viewModel = "2.2.0"
+    const val viewModel = "2.1.0"
     const val recyclerView = "1.0.0"
 
     const val fresco = "2.0.0"
 
-    const val moshi = "1.9.3"
+    const val moshi = "1.9.2"
 
     const val soLoader = "0.8.2"
 
-    const val glide = "4.11.0"
+    const val glide = "4.9.0"
 
     const val junit = "4.13"
     const val junit5 = "5.6.1"
@@ -91,7 +91,7 @@ object Versions {
 
     const val materialDesign = "1.0.0"
     const val googleCompileTesting = "0.18"
-    const val googleAutoService = "1.0-rc6"
+    const val googleAutoService = "1.0-rc2"
 
     const val jacksonKotlin = "2.10.2"
 
@@ -101,7 +101,7 @@ object Versions {
 
     const val testRunner = "1.2.0"
     const val testExt = "1.1.1"
-    const val archCoreTesting = "2.1.0"
+    const val archCoreTesting = "2.0.1"
     const val espressoCore = "3.2.0"
 
     const val guava = "28.2-jre"
