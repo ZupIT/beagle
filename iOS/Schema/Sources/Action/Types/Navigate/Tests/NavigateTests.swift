@@ -21,7 +21,13 @@ import SnapshotTesting
 final class NavigateTests: XCTestCase {
 
     func test_decoding_openExternalUrl() throws {
-        let action: Navigate = try actionFromJsonFile(fileName: "openexternalurl")
+        let action: Navigate = try actionFromString("""
+        {
+            "_beagleAction_": "beagle:openexternalurl",
+            "url": "schema://domain/path"
+        }
+        """)
+        
         _assertInlineSnapshot(matching: action, as: .dump, with: """
         ▿ Navigate
           - openExternalURL: "schema://domain/path"
@@ -44,7 +50,15 @@ final class NavigateTests: XCTestCase {
     }
     
     func test_decoding_resetApplication() throws {
-        let action: Navigate = try actionFromJsonFile(fileName: "resetapplication")
+        let action: Navigate = try actionFromString("""
+        {
+            "_beagleAction_": "beagle:resetapplication",
+            "route": {
+                "url": "schema://path"
+            }
+        }
+        """)
+
         _assertInlineSnapshot(matching: action, as: .dump, with: """
         ▿ Navigate
           ▿ resetApplication: Route
@@ -56,7 +70,15 @@ final class NavigateTests: XCTestCase {
     }
     
     func test_decoding_resetStack() throws {
-        let action: Navigate = try actionFromJsonFile(fileName: "resetstack")
+        let action: Navigate = try actionFromString("""
+        {
+            "_beagleAction_": "beagle:resetstack",
+            "route": {
+                "url": "schema://path"
+            }
+        }
+        """)
+        
         _assertInlineSnapshot(matching: action, as: .dump, with: """
         ▿ Navigate
           ▿ resetStack: Route
@@ -68,33 +90,29 @@ final class NavigateTests: XCTestCase {
     }
     
     func test_decoding_pushStack() throws {
-        let action: Navigate = try actionFromJsonFile(fileName: "pushstack")
-        _assertInlineSnapshot(matching: action, as: .dump, with: """
-        ▿ Navigate
-          ▿ pushStack: Route
-            ▿ declarative: Screen
-              ▿ child: UnknownComponent
-                - type: "custom:beagleschematestscomponent"
-              - context: Optional<Context>.none
-              - id: Optional<String>.none
-              - navigationBar: Optional<NavigationBar>.none
-              ▿ safeArea: Optional<SafeArea>
-                ▿ some: SafeArea
-                  ▿ bottom: Optional<Bool>
-                    - some: true
-                  ▿ leading: Optional<Bool>
-                    - some: true
-                  ▿ top: Optional<Bool>
-                    - some: true
-                  ▿ trailing: Optional<Bool>
-                    - some: true
-              - screenAnalyticsEvent: Optional<AnalyticsScreen>.none
-              - style: Optional<Style>.none
+        let action: Navigate = try actionFromString("""
+        {
+            "_beagleAction_": "beagle:pushStack",
+            "route": {
+                "screen": {
+                    "child" : {
+                      "_beagleComponent_" : "custom:beagleschematestscomponent"
+                    }
+                }
+            }
+        }
         """)
+
+        assertSnapshot(matching: action, as: .dump)
     }
     
     func test_decoding_popStack() throws {
-        let action: Navigate = try actionFromJsonFile(fileName: "popstack")
+        let action: Navigate = try actionFromString("""
+        {
+            "_beagleAction_": "beagle:popstack"
+        }
+        """)
+
         _assertInlineSnapshot(matching: action, as: .dump, with: """
         - Navigate.popStack
         """)
@@ -102,43 +120,29 @@ final class NavigateTests: XCTestCase {
     
     func test_decoding_pushView() throws {
         let action: Navigate = try actionFromJsonFile(fileName: "pushview")
-        _assertInlineSnapshot(matching: action, as: .dump, with: """
-        ▿ Navigate
-          ▿ pushView: Route
-            ▿ remote: (3 elements)
-              - .0: "schema://path"
-              - shouldPrefetch: true
-              ▿ fallback: Optional<Screen>
-                ▿ some: Screen
-                  ▿ child: UnknownComponent
-                    - type: "custom:beagleschematestscomponent"
-                  - context: Optional<Context>.none
-                  - id: Optional<String>.none
-                  - navigationBar: Optional<NavigationBar>.none
-                  ▿ safeArea: Optional<SafeArea>
-                    ▿ some: SafeArea
-                      ▿ bottom: Optional<Bool>
-                        - some: true
-                      ▿ leading: Optional<Bool>
-                        - some: true
-                      ▿ top: Optional<Bool>
-                        - some: true
-                      ▿ trailing: Optional<Bool>
-                        - some: true
-                  - screenAnalyticsEvent: Optional<AnalyticsScreen>.none
-                  - style: Optional<Style>.none
-        """)
+        assertSnapshot(matching: action, as: .dump)
     }
     
     func test_decoding_popView() throws {
-        let action: Navigate = try actionFromJsonFile(fileName: "popview")
+        let action: Navigate = try actionFromString("""
+        {
+            "_beagleAction_": "beagle:popView"
+        }
+        """)
+
         _assertInlineSnapshot(matching: action, as: .dump, with: """
         - Navigate.popView
         """)
     }
     
     func test_decoding_popToView() throws {
-        let action: Navigate = try actionFromJsonFile(fileName: "poptoview")
+        let action: Navigate = try actionFromString("""
+        {
+            "_beagleAction_": "beagle:popToView",
+            "route": "viewId"
+        }
+        """)
+
         _assertInlineSnapshot(matching: action, as: .dump, with: """
         ▿ Navigate
           - popToView: "viewId"

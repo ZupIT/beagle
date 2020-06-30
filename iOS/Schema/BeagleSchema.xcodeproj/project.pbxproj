@@ -81,15 +81,8 @@
 		C864D2FE247C25D900E7A1F9 /* TouchableDecoderTest.json in Resources */ = {isa = PBXBuildFile; fileRef = C864D23F247C240200E7A1F9 /* TouchableDecoderTest.json */; };
 		C89E0C4A2492AFEB00005FCF /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89E0C492492AFEB00005FCF /* Style.swift */; };
 		C8BB30A42486FD18002DD3C1 /* NavigateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BB30A32486FD17002DD3C1 /* NavigateTests.swift */; };
-		C8BB30B02486FDC2002DD3C1 /* openexternalurl.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BB30A62486FDB1002DD3C1 /* openexternalurl.json */; };
 		C8BB30B12486FDC2002DD3C1 /* opennativeroute.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BB30A72486FDB1002DD3C1 /* opennativeroute.json */; };
-		C8BB30B22486FDC2002DD3C1 /* popstack.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BB30A82486FDB1002DD3C1 /* popstack.json */; };
-		C8BB30B32486FDC2002DD3C1 /* poptoview.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BB30A92486FDB1002DD3C1 /* poptoview.json */; };
-		C8BB30B42486FDC2002DD3C1 /* popview.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BB30AA2486FDB1002DD3C1 /* popview.json */; };
-		C8BB30B52486FDC2002DD3C1 /* pushstack.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BB30AB2486FDB1002DD3C1 /* pushstack.json */; };
 		C8BB30B62486FDC2002DD3C1 /* pushview.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BB30AC2486FDB1002DD3C1 /* pushview.json */; };
-		C8BB30B72486FDC2002DD3C1 /* resetapplication.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BB30AD2486FDB1002DD3C1 /* resetapplication.json */; };
-		C8BB30B82486FDC2002DD3C1 /* resetstack.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BB30AE2486FDB1002DD3C1 /* resetstack.json */; };
 		C8EAC4F4247C27FA003089BE /* Schema.h in Headers */ = {isa = PBXBuildFile; fileRef = C8EAC4F2247C2760003089BE /* Schema.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C8EAC4F5247C2808003089BE /* ImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D263247C240200E7A1F9 /* ImageTests.swift */; };
 		C8EAC4F6247C2811003089BE /* TextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D299247C240200E7A1F9 /* TextTests.swift */; };
@@ -219,15 +212,8 @@
 		C864D2FA247C25B300E7A1F9 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C89E0C492492AFEB00005FCF /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		C8BB30A32486FD17002DD3C1 /* NavigateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigateTests.swift; sourceTree = "<group>"; };
-		C8BB30A62486FDB1002DD3C1 /* openexternalurl.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = openexternalurl.json; sourceTree = "<group>"; };
 		C8BB30A72486FDB1002DD3C1 /* opennativeroute.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = opennativeroute.json; sourceTree = "<group>"; };
-		C8BB30A82486FDB1002DD3C1 /* popstack.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = popstack.json; sourceTree = "<group>"; };
-		C8BB30A92486FDB1002DD3C1 /* poptoview.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = poptoview.json; sourceTree = "<group>"; };
-		C8BB30AA2486FDB1002DD3C1 /* popview.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = popview.json; sourceTree = "<group>"; };
-		C8BB30AB2486FDB1002DD3C1 /* pushstack.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pushstack.json; sourceTree = "<group>"; };
 		C8BB30AC2486FDB1002DD3C1 /* pushview.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pushview.json; sourceTree = "<group>"; };
-		C8BB30AD2486FDB1002DD3C1 /* resetapplication.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = resetapplication.json; sourceTree = "<group>"; };
-		C8BB30AE2486FDB1002DD3C1 /* resetstack.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = resetstack.json; sourceTree = "<group>"; };
 		C8EAC4F1247C2760003089BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C8EAC4F2247C2760003089BE /* Schema.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Schema.h; sourceTree = "<group>"; };
 		C8EAC4F7247C2835003089BE /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
@@ -825,15 +811,8 @@
 		C8BB30AF2486FDB1002DD3C1 /* Json */ = {
 			isa = PBXGroup;
 			children = (
-				C8BB30A62486FDB1002DD3C1 /* openexternalurl.json */,
 				C8BB30A72486FDB1002DD3C1 /* opennativeroute.json */,
-				C8BB30A82486FDB1002DD3C1 /* popstack.json */,
-				C8BB30A92486FDB1002DD3C1 /* poptoview.json */,
-				C8BB30AA2486FDB1002DD3C1 /* popview.json */,
-				C8BB30AB2486FDB1002DD3C1 /* pushstack.json */,
 				C8BB30AC2486FDB1002DD3C1 /* pushview.json */,
-				C8BB30AD2486FDB1002DD3C1 /* resetapplication.json */,
-				C8BB30AE2486FDB1002DD3C1 /* resetstack.json */,
 			);
 			path = Json;
 			sourceTree = "<group>";
@@ -1109,15 +1088,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8BB30B72486FDC2002DD3C1 /* resetapplication.json in Resources */,
 				C08D4EF4248A7C2E00AAAC0A /* widgetWithAllAttributes.json in Resources */,
 				570434EE24A675AE00DAD0D3 /* buttonComponent.json in Resources */,
 				C8EAC503247C2A09003089BE /* formComponent.json in Resources */,
-				C8BB30B82486FDC2002DD3C1 /* resetstack.json in Resources */,
 				C8EAC4F9247C284A003089BE /* Container.json in Resources */,
-				C8BB30B32486FDC2002DD3C1 /* poptoview.json in Resources */,
 				935278EF2499584000AB9D1F /* __Snapshots__ in Resources */,
-				C8BB30B52486FDC2002DD3C1 /* pushstack.json in Resources */,
 				C8EBCC83247C308B002030CC /* lazyComponent.json in Resources */,
 				C8EBCC88247C30C9002030CC /* PageViewWith3PagesAndIndicator.json in Resources */,
 				C8EBCC8F247C3116002030CC /* TabView.json in Resources */,
@@ -1125,16 +1100,13 @@
 				C8EAC4FA247C2851003089BE /* ImageComponent.json in Resources */,
 				C8BB30B12486FDC2002DD3C1 /* opennativeroute.json in Resources */,
 				C864D2F7247C257C00E7A1F9 /* WebView.json in Resources */,
-				C8BB30B02486FDC2002DD3C1 /* openexternalurl.json in Resources */,
 				C029189D247EE03200C3AA13 /* PageViewWithCustomIndicator.json in Resources */,
 				C8EAC500247C2920003089BE /* TextComponent.json in Resources */,
 				C8BB30B62486FDC2002DD3C1 /* pushview.json in Resources */,
 				C029189B247EE02200C3AA13 /* CustomPageIndicator.json in Resources */,
-				C8BB30B42486FDC2002DD3C1 /* popview.json in Resources */,
 				C8EBCC85247C3094002030CC /* listViewComponent.json in Resources */,
 				C8EBCC8C247C30EE002030CC /* ScrollViewComponent.json in Resources */,
 				C8EBCC89247C30C9002030CC /* PageViewWith3Pages.json in Resources */,
-				C8BB30B22486FDC2002DD3C1 /* popstack.json in Resources */,
 				98E4974E249ED5670053DB87 /* TextInputComponent.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

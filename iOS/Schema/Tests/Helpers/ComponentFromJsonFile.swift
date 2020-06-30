@@ -55,13 +55,29 @@ func actionFromJsonFile<W: RawAction>(
         throw ComponentFromJsonError.wrongUrlPath
     }
 
-    let json = try Data(contentsOf: url)
-    let action = try decoder.decodeAction(from: json)
+    let data = try Data(contentsOf: url)
+    return try actionFromData(data)
+}
 
-    guard let typed = action as? W else {
-        throw ComponentFromJsonError.couldNotMatchComponentType
+func actionFromString<A: RawAction>(
+    _ string: String,
+    decoder: ComponentDecoding = ComponentDecoder()
+) throws -> A {
+    guard let data = string.data(using: .utf8) else {
+        throw ComponentFromJsonError.wrongUrlPath
     }
 
+    return try actionFromData(data)
+}
+
+func actionFromData<A: RawAction>(
+    _ data: Data,
+    decoder: ComponentDecoding = ComponentDecoder()
+) throws -> A {
+    let action = try decoder.decodeAction(from: data)
+    guard let typed = action as? A else {
+        throw ComponentFromJsonError.couldNotMatchComponentType
+    }
     return typed
 }
 
