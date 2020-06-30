@@ -66,5 +66,5 @@ sealed class ImagePath(val url: String?, val placeholder: Local? = null) {
      * @param remoteUrl reference the path where the image should be fetched from.
      * @param placeholder reference an image natively in your mobile app local styles file to be used as placeholder.
      * */
-    class Remote(remoteUrl: String, placeholder : Local?) : ImagePath(remoteUrl, placeholder)
+    class Remote(remoteUrl: String, placeholder : Local? = null) : ImagePath(remoteUrl, placeholder)
 }
