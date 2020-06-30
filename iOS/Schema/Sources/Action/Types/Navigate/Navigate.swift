@@ -29,18 +29,6 @@ public enum Navigate: RawAction {
     case popView
     case popToView(String)
     
-    public var newPath: Route.NewPath? {
-        switch self {
-        case let .resetApplication(route),
-             let .resetStack(route),
-             let .pushStack(route),
-             let .pushView(route):
-            return route.path
-        default:
-            return nil
-        }
-    }
-    
     public struct DeepLink {
         let route: String
         var data: [String: String]?
@@ -59,6 +47,13 @@ public enum Navigate: RawAction {
 }
 
 public enum Route {
+    
+    case remote(String, shouldPrefetch: Bool = false, fallback: Screen? = nil)
+    case declarative(Screen)
+    
+}
+
+extension Route {
     public struct NewPath {
         public let url: String
         public let shouldPrefetch: Bool
@@ -68,18 +63,6 @@ public enum Route {
             self.url = url
             self.shouldPrefetch = shouldPrefetch
             self.fallback = fallback
-        }
-    }
-    
-    case remote(String, shouldPrefetch: Bool = false, fallback: Screen? = nil)
-    case declarative(Screen)
-    
-    var path: NewPath? {
-        switch self {
-        case let .remote(url, shouldPrefetch, fallback):
-            return NewPath(url: url, shouldPrefetch: shouldPrefetch, fallback: fallback)
-        case .declarative:
-            return nil
         }
     }
 }

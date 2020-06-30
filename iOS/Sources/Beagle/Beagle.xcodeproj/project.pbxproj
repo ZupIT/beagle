@@ -106,6 +106,7 @@
 		C05E1652243663C20088F9D2 /* screenAnalyticsComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = C05E1651243663C20088F9D2 /* screenAnalyticsComponent.json */; };
 		C05E1658243668E30088F9D2 /* __Snapshots__ in Resources */ = {isa = PBXBuildFile; fileRef = C05E1657243668E20088F9D2 /* __Snapshots__ */; };
 		C05E165A2437CC7C0088F9D2 /* buttonAnalyticsComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = C05E16592437CC7C0088F9D2 /* buttonAnalyticsComponent.json */; };
+		C06DF7A924AA89350045F9DD /* NavigateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06DF7A824AA89350045F9DD /* NavigateTests.swift */; };
 		C08D4DE12485598400AAAC0A /* ListView+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4DE02485598400AAAC0A /* ListView+Renderable.swift */; };
 		C08D4DE5248559FA00AAAC0A /* PageView+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4DE4248559FA00AAAC0A /* PageView+Renderable.swift */; };
 		C08D4E1924857AD700AAAC0A /* ScrollView+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4DF424857AC300AAAC0A /* ScrollView+Renderable.swift */; };
@@ -341,6 +342,7 @@
 		C05E1651243663C20088F9D2 /* screenAnalyticsComponent.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = screenAnalyticsComponent.json; sourceTree = "<group>"; };
 		C05E1657243668E20088F9D2 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C05E16592437CC7C0088F9D2 /* buttonAnalyticsComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = buttonAnalyticsComponent.json; sourceTree = "<group>"; };
+		C06DF7A824AA89350045F9DD /* NavigateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigateTests.swift; sourceTree = "<group>"; };
 		C08D4DE02485598400AAAC0A /* ListView+Renderable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ListView+Renderable.swift"; sourceTree = "<group>"; };
 		C08D4DE4248559FA00AAAC0A /* PageView+Renderable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PageView+Renderable.swift"; sourceTree = "<group>"; };
 		C08D4DED24857AC300AAAC0A /* ScrollViewComponent.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ScrollViewComponent.json; sourceTree = "<group>"; };
@@ -827,6 +829,7 @@
 				A05C74DA2498081B009DBB66 /* AlertTests.swift */,
 				A05C74DC2498162B009DBB66 /* FormValidationTests.swift */,
 				98E18D19249BF1D7009D6A54 /* ConfirmTests.swift */,
+				C06DF7A824AA89350045F9DD /* NavigateTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1872,6 +1875,7 @@
 				C08D4E78248593AC00AAAC0A /* ButtonTests.swift in Sources */,
 				C08D4E3724857CBA00AAAC0A /* WindowManagerTests.swift in Sources */,
 				9337F838249A7F0000B0A260 /* TouchableTests.swift in Sources */,
+				C06DF7A924AA89350045F9DD /* NavigateTests.swift in Sources */,
 				C829CF2A23B197FB001B7225 /* RepositoryTests.swift in Sources */,
 				C85D9BA8238858B40075B6C0 /* PageViewTests.swift in Sources */,
 				E531D6BC235A007C007EEBA7 /* UIView+LoadingTests.swift in Sources */,

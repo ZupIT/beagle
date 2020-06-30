@@ -22,3 +22,28 @@ extension Navigate: Action {
         controller.dependencies.navigation.navigate(action: self, controller: controller, animated: true)
     }
 }
+
+extension Navigate {
+    var newPath: Route.NewPath? {
+        switch self {
+        case let .resetApplication(route),
+             let .resetStack(route),
+             let .pushStack(route),
+             let .pushView(route):
+            return route.path
+        default:
+            return nil
+        }
+    }
+}
+
+extension Route {
+    var path: NewPath? {
+        switch self {
+        case let .remote(url, shouldPrefetch, fallback):
+            return NewPath(url: url, shouldPrefetch: shouldPrefetch, fallback: fallback)
+        case .declarative:
+            return nil
+        }
+    }
+}

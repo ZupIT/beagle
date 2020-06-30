@@ -99,36 +99,4 @@ final class NavigateTests: XCTestCase {
         """)
     }
     
-    func testNullNewPathInNavigation() {
-        //given
-        let arrayWithNullNewPaths: [Navigate] = [
-            .openExternalURL(""),
-            .openNativeRoute("", data: nil, shouldResetApplication: false),
-            .popStack,
-            .popView,
-            .popToView("")
-        ]
-        
-        // then
-        XCTAssert(arrayWithNullNewPaths.filter { $0.newPath == nil }.count == arrayWithNullNewPaths.count)
-    }
-    
-    func testNotNullNewPathsInNavigation() {
-        // given
-        let routeMockRemote: Route = .remote("", shouldPrefetch: false, fallback: Screen(child: DumbComponent()))
-        let routeMockDeclarative: Route = .declarative(Screen(child: DumbComponent()))
-        let array: [Navigate] = [
-            .resetApplication(routeMockRemote),
-            .resetStack(routeMockRemote),
-            .pushStack(routeMockRemote),
-            .pushView(routeMockRemote),
-            .resetStack(routeMockDeclarative)
-        ]
-        
-        // then
-        XCTAssert(array.filter { $0.newPath != nil }.count == array.count - 1)
-    }
-    
 }
-
-private struct DumbComponent: RawComponent { }
