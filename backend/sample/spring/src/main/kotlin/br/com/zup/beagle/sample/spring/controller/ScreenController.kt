@@ -63,11 +63,11 @@ import br.com.zup.beagle.sample.spring.service.SampleComposeComponentService
 import br.com.zup.beagle.sample.spring.service.SampleContextService
 import br.com.zup.beagle.sample.spring.service.SampleFormService
 import br.com.zup.beagle.sample.spring.service.SampleImageLocalService
+import br.com.zup.beagle.sample.spring.service.SampleImageRemoteService
 import br.com.zup.beagle.sample.spring.service.SampleLazyComponentService
 import br.com.zup.beagle.sample.spring.service.SampleListViewService
 import br.com.zup.beagle.sample.spring.service.SampleNavigationBarService
 import br.com.zup.beagle.sample.spring.service.SampleNavigationTypeService
-import br.com.zup.beagle.sample.spring.service.SampleImageRemoteService
 import br.com.zup.beagle.sample.spring.service.SamplePageViewService
 import br.com.zup.beagle.sample.spring.service.SampleSafeAreaService
 import br.com.zup.beagle.sample.spring.service.SampleScreenBuilderService
