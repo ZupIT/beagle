@@ -60,7 +60,7 @@ object ImageRemoteScreenBuilder : ScreenBuilder {
         child = ScrollView(
             scrollDirection = ScrollAxis.VERTICAL,
             children = listOf(buildImage(title = "Image Remote")) +
-                ImageContentMode.values().map { buildImage("Image Remote with ImageContentMode.$it", it) }
+                ImageContentMode.values().map { buildImage("Image Remote with Mode.$it", it) }
         )
     )
 
