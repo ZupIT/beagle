@@ -103,7 +103,10 @@ data class Image(
         return requestOptions
     }
 
-    private fun getPlaceholder(placeholder: String?): Int? {
+    private fun getPlaceholder(placeholder: String?): Int? =
+        placeholder?.let{
+            BeagleEnvironment.beagleSdk.designSystem?.image(it)
+        }
         val designSystem = BeagleEnvironment.beagleSdk.designSystem
         if (designSystem != null) {
             placeholder?.let {
