@@ -102,7 +102,8 @@ class ScreenController(
     private val sampleAnalyticsService: SampleAnalyticsService,
     private val sampleWebViewService: SampleWebViewService,
     private val sampleScreenContext: SampleContextService,
-    private val sampleScreenSafeArea: SampleSafeAreaService
+    private val sampleScreenSafeArea: SampleSafeAreaService,
+    private val sampleScreenTextInput: TextInputService
 ) {
     @Get(ACCESSIBILITY_SCREEN_ENDPOINT)
     fun getAccessibilityView() = this.accessibilityService.createAccessibilityView()
@@ -207,4 +208,7 @@ class ScreenController(
 
     @Get(SCREEN_SAFE_AREA_FALSE_ENDPOINT)
     fun getSampleSafeAreaFalse() = this.sampleScreenSafeArea.createSafeAreaFalse()
+
+    @Get(SCREEN_TEXT_INPUT_ENDPOINT)
+    fun getSampleTextInput() = this.sampleScreenTextInput.createScreenTextInput()
 }

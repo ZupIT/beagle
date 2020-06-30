@@ -63,7 +63,8 @@ object ComponentScreenBuilder : ScreenBuilder {
                 createMenu("Platform", PLATFORM_SAMPLE_ENDPOINT),
                 createMenu("Custom Platform", CUSTOM_PLATFORM_SAMPLE_ENDPOINT),
                 createMenu("Context", SCREEN_CONTEXT_ENDPOINT),
-                createMenu("Safe Area", SCREEN_SAFE_AREA_ENDPOINT)
+                createMenu("Safe Area", SCREEN_SAFE_AREA_ENDPOINT),
+                createMenu("Text Input", SCREEN_TEXT_INPUT_ENDPOINT)
             )
         )
     )
