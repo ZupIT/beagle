@@ -1,6 +1,0 @@
-{
-    "_beagleAction_": "beagle:resetapplication",
-    "route": {
-        "url": "schema://path"
-    }
-}

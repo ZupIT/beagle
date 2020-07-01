@@ -22,7 +22,19 @@ final class ScrollViewTests: XCTestCase {
 
     func test_whenDecodingJson_shouldReturnAScrollView() throws {
         let component: ScrollView = try componentFromJsonFile(fileName: "ScrollViewComponent")
-        assertSnapshot(matching: component, as: .dump)
+        _assertInlineSnapshot(matching: component, as: .dump, with: """
+        ▿ ScrollView
+          ▿ children: 3 elements
+            ▿ UnknownComponent
+              - type: "custom:beagleschematestscomponent"
+            ▿ UnknownComponent
+              - type: "custom:beagleschematestscomponent"
+            ▿ UnknownComponent
+              - type: "custom:beagleschematestscomponent"
+          - context: Optional<Context>.none
+          - scrollBarEnabled: Optional<Bool>.none
+          - scrollDirection: Optional<ScrollAxis>.none
+        """)
     }
 
 }
