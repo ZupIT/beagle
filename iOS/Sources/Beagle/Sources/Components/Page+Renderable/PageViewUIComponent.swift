@@ -58,6 +58,7 @@ class PageViewUIComponent: UIView {
         
         self.indicatorView?.outputReceiver = self
 
+        setupViewHierarchy()
         updateView()
     }
 
@@ -89,21 +90,24 @@ class PageViewUIComponent: UIView {
     }()
     
     override func layoutSubviews() {
-        setupLayout()
+        setupAnchors()
         super.layoutSubviews()
     }
 
-    private func setupLayout() {
-        let view: UIView = pageViewController.view
-
+    private func setupViewHierarchy() {
         addSubview(stackView)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
-
-        stackView.addArrangedSubview(view)
+        
+        stackView.addArrangedSubview(pageViewController.view)
 
         if let indicator = indicatorView as? UIView {
             stackView.addArrangedSubview(indicator)
+        }
+    }
+    
+    private func setupAnchors() {
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.anchorTo(superview: self)
+        if let indicator = indicatorView as? UIView {
             indicator.heightAnchor.constraint(equalToConstant: 40).isActive = true
         }
     }
