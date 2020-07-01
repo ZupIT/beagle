@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,19 +14,18 @@
  * limitations under the License.
  */
 
-import XCTest
-@testable import BeagleSchema
-import SnapshotTesting
+package br.com.zup.beagle.spring.filter
 
-class FormSubmitTests: XCTestCase {
+import io.mockk.Called
+import io.mockk.verify
+import javax.servlet.Filter
+import javax.servlet.FilterChain
+import javax.servlet.ServletRequest
+import javax.servlet.ServletResponse
 
-    func test_initWithChild_shouldReturnValidFormSubmit() {
-        // Given / When
-        let sut = FormSubmit(child:
-            BeagleSchemaTestsComponent()
-        )
-        // Then
-        XCTAssert(sut.child is BeagleSchemaTestsComponent)
-    }
-
+fun testFilterIsNoOp(filter: Filter, request: ServletRequest?, response: ServletResponse?, chain: FilterChain?) {
+    filter.doFilter(request, response, chain)
+    if (request != null) verify { request wasNot Called }
+    if (response != null) verify { response wasNot Called }
+    if (chain != null) verify { chain wasNot Called }
 }
