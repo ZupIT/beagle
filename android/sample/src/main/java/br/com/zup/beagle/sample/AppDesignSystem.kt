@@ -49,6 +49,7 @@ class AppDesignSystem : DesignSystem() {
             "DesignSystem.Text.H3" -> R.style.DesignSystem_Text_H3
             "DesignSystem.Text.Action.Click" -> R.style.DesignSystem_Text_Action_Click
             "DesignSystem.Text.helloWord" -> R.style.DesignSystem_Text_helloWord
+            "DesignSystem.Text.Image.Remote" -> R.style.DesignSystem_Text_Image_Remote
             else -> R.style.DesignSystem_Text_Default
         }
     }
