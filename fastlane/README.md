@@ -71,6 +71,16 @@ Updates versions on Podspec
 fastlane backend pull_request_verification
 ```
 Pull Request verification
+### backend sync_to_micronaut
+```
+fastlane backend sync_to_micronaut
+```
+Sync Spring BFF sample to Micronaut BFF sample
+### backend sync_to_spring
+```
+fastlane backend sync_to_spring
+```
+Sync Micronaut BFF sample to Spring BFF sample
 
 ----
 

@@ -10,11 +10,12 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            -   uses: actions/checkout@v2
-            -   name: Sync to Micronaut
-                run: cd backend/sample/spring && ./sync-to-micronaut.sh
-            -   uses: EndBug/add-and-commit@v4
-                with:
-                    message: 'Synced Spring BFF sample to Micronaut BFF sample.'
+            -   uses: actions/checkout@v1
+
+            -   name: Install Fastlane
+                run: bundle install
+
+            -   name: Run pr check
+                run: bundle exec fastlane backend sync_to_micronaut
                 env:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

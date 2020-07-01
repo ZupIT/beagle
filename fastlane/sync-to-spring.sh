@@ -1,3 +1,5 @@
+#!/bin/bash
+
 MICRONAUT_DIR=../backend/sample/micronaut/src/main/kotlin/br/com/zup/beagle/sample/micronaut
 SPRING_DIR=../backend/sample/spring/src/main/kotlin/br/com/zup/beagle/sample/spring
 
