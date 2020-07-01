@@ -141,8 +141,7 @@ class ScreenController(
     fun getSampleLazyComponentController() = this.sampleLazyComponentService.createLazyComponent()
 
     @GetMapping(SCREEN_NAVIGATION_BAR_ENDPOINT)
-    fun getSampleNavigationBarController() =
-        this.sampleNavigationBarService.createNavigationBarView()
+    fun getSampleNavigationBarController() = this.sampleNavigationBarService.createNavigationBarView()
 
     @GetMapping(REPRESENTATION_NAVIGATION_BAR_ENDPOINT)
     fun getSampleNavigationBar() = this.sampleNavigationBarService.navigationBar()
@@ -157,8 +156,7 @@ class ScreenController(
     fun getNavigationBarImage() = this.sampleNavigationBarService.navigationBarWithImageAsItem()
 
     @GetMapping(NAVIGATION_TYPE_ENDPOINT)
-    fun getSampleNavigationTypeController() =
-        this.sampleNavigationTypeService.createNavigationTypeView()
+    fun getSampleNavigationTypeController() = this.sampleNavigationTypeService.createNavigationTypeView()
 
     @GetMapping(REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT)
     fun getNavigationStep2() = this.sampleNavigationTypeService.step2()
