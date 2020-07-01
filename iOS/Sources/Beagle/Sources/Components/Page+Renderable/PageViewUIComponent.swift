@@ -25,7 +25,9 @@ public protocol PageViewUIComponentDelegate: AnyObject {
 class PageViewUIComponent: UIView {
 
     var model: Model {
-        didSet { updateView() }
+        willSet {
+            swipeToPage(at: newValue.currentPage)
+        }
     }
 
     struct Model {
@@ -41,25 +43,25 @@ class PageViewUIComponent: UIView {
         }
     }
 
-    private var pendingPage = 0
+    private var pendingPage = 0 {
+        didSet {
+            onPageChange?(pendingPage)
+        }
+    }
 
-    private let indicatorView: PageIndicatorUIView?
+    var onPageChange: ((_ currentPage: Int) -> Void)?
+    
     weak var pageViewDelegate: PageViewUIComponentDelegate?
 
     // MARK: - Init
 
     init(
-        model: Model,
-        indicatorView: PageIndicatorUIView?
+        model: Model
     ) {
         self.model = model
-        self.indicatorView = indicatorView
         super.init(frame: .zero)
         
-        self.indicatorView?.outputReceiver = self
-        
         setupLayout()
-        updateView()
     }
 
     @available(*, unavailable)
@@ -68,6 +70,10 @@ class PageViewUIComponent: UIView {
     }
 
     // MARK: - Subviews
+    
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        .init(width: size.width, height: 40)
+    }
 
     private(set) lazy var pageViewController: UIPageViewController = {
         let pager = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
@@ -79,53 +85,22 @@ class PageViewUIComponent: UIView {
         return pager
     }()
 
-    private lazy var stackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.distribution = .fill
-        stack.alignment = .fill
-        stack.spacing = 10
-        return stack
-    }()
-
     private func setupLayout() {
         let view: UIView = pageViewController.view
-
-        addSubview(stackView)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
-
-        stackView.addArrangedSubview(view)
-
-        if let indicator = indicatorView as? UIView {
-            stackView.addArrangedSubview(indicator)
-            indicator.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        }
+        addSubview(view)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
     }
-
-    // MARK: - Update
-
-    private func updateView() {
-        indicatorView?.model = .init(
-            numberOfPages: model.pages.count,
-            currentPage: model.currentPage
-        )
-    }
-}
-
-// MARK: - PageIndicator Delegate
-
-extension PageViewUIComponent: PageIndicatorOutput {
-
-    func swipeToPage(at index: Int) {
+    
+    private func swipeToPage(at index: Int) {
         guard let destinationVc = model.pages[safe: index] else { return }
         if index > model.currentPage {
             pageViewController.setViewControllers([destinationVc], direction: .forward, animated: true)
         } else {
             pageViewController.setViewControllers([destinationVc], direction: .reverse, animated: true)
         }
-        model.currentPage = index
     }
+    
 }
 
 // MARK: - Page DataSource and Delegate

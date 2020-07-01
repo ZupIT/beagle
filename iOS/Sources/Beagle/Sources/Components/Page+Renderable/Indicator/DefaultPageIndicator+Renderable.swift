@@ -21,24 +21,26 @@ import BeagleSchema
 extension PageIndicator: ServerDrivenComponent {
 
     public func toView(renderer: BeagleRenderer) -> UIView {
-        let view = PageIndicatorUIComponent(selectedColor: selectedColor, unselectedColor: unselectedColor)
+        let view = PageIndicatorUIComponent(selectedColor: selectedColor, unselectedColor: unselectedColor, model: .init(numberOfPages: numberOfPages, currentPage: 0))
+        renderer.observe(currentPage, andUpdate: \.model.currentPage, in: view)
+        view.beagle.setup(style: Style(size: Size().height(40)))
         return view
     }
 }
 
-class PageIndicatorUIComponent: UIView, PageIndicatorUIView {
-    
-    weak var outputReceiver: PageIndicatorOutput?
-    
-    typealias Model = PageIndicatorUIViewModel
+class PageIndicatorUIComponent: UIView {
+
+    struct Model {
+        public var numberOfPages: Int
+        public var currentPage: Int
+    }
     
     private let selectedColor: UIColor
     private let unselectedColor: UIColor
     
-    var model: Model? { didSet {
-        guard let model = model else { return }
+    var model: Model { didSet {
         updateView(model: model)
-        }}
+    }}
     
     private lazy var pageControl: UIPageControl = {
         let indicator = UIPageControl()
@@ -50,7 +52,7 @@ class PageIndicatorUIComponent: UIView, PageIndicatorUIView {
     
     // MARK: - Init
     
-    required init(selectedColor: String? = nil, unselectedColor: String? = nil) {
+    required init(selectedColor: String? = nil, unselectedColor: String? = nil, model: Model) {
         // swiftlint:disable object_literal
         if let selected = selectedColor, let color = UIColor(hex: selected) {
             self.selectedColor = color
@@ -64,6 +66,8 @@ class PageIndicatorUIComponent: UIView, PageIndicatorUIView {
             self.unselectedColor = UIColor(white: 0.8274, alpha: 1)
         }
         
+        self.model = model
+        
         super.init(frame: .zero)
         
         addSubview(pageControl)
@@ -71,6 +75,10 @@ class PageIndicatorUIComponent: UIView, PageIndicatorUIView {
         pageControl.anchor(
             top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor
         )
+    }
+    
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        .init(width: size.width, height: 40)
     }
     
     @available(*, unavailable)

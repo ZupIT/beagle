@@ -21,14 +21,20 @@ public class PageIndicator: PageIndicatorComponent, AutoInitiable {
 
     public var selectedColor: String?
     public var unselectedColor: String?
+    public var numberOfPages: Int
+    public var currentPage: Expression<Int>
 
 // sourcery:inline:auto:PageIndicator.Init
     public init(
         selectedColor: String? = nil,
-        unselectedColor: String? = nil
+        unselectedColor: String? = nil,
+        numberOfPages: Int,
+        currentPage: Expression<Int>
     ) {
         self.selectedColor = selectedColor
         self.unselectedColor = unselectedColor
+        self.numberOfPages = numberOfPages
+        self.currentPage = currentPage
     }
 // sourcery:end
 }

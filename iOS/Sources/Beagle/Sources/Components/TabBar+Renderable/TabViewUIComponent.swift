@@ -84,7 +84,7 @@ final class TabViewUIComponent: UIView {
                 viewModel: .init(screenType: .declarative($0.child.toScreen()))
             )
         }
-        let view = PageViewUIComponent(model: .init(pages: pages), indicatorView: nil)
+        let view = PageViewUIComponent(model: .init(pages: pages))
         view.translatesAutoresizingMaskIntoConstraints = false
         view.pageViewDelegate = self
         return view

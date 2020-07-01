@@ -215,17 +215,18 @@ extension PageView {
 
     enum CodingKeys: String, CodingKey {
         case children
-        case pageIndicator
         case context
+        case onPageChange
+        case currentPage
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         children = try container.decode(forKey: .children)
-        let rawPageIndicator: RawComponent? = try container.decodeIfPresent(forKey: .pageIndicator)
-        pageIndicator = rawPageIndicator as? PageIndicatorComponent
         context = try container.decodeIfPresent(Context.self, forKey: .context)
+        onPageChange = try container.decodeIfPresent(forKey: .onPageChange)
+        currentPage = try container.decodeIfPresent(Expression<Int>.self, forKey: .currentPage)
     }
 }
 

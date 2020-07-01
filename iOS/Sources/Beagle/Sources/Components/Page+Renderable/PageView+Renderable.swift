@@ -26,15 +26,18 @@ extension PageView: ServerDrivenComponent {
             )
         }
 
-        var indicatorView: PageIndicatorUIView?
-        if let indicator = pageIndicator {
-            indicatorView = renderer.render(indicator) as? PageIndicatorUIView
-        }
-
         let view = PageViewUIComponent(
-            model: .init(pages: pagesControllers),
-            indicatorView: indicatorView
+            model: .init(pages: pagesControllers)
         )
+        
+        view.onPageChange = { page in
+            let context = Context(id: "onChange", value: .int(page))
+            if let action = self.onPageChange {
+                renderer.controller.execute(actions: [action], with: context, sender: view)
+            }
+        }
+        
+        renderer.observe(currentPage, andUpdate: \.model.currentPage, in: view)
         
         view.style.setup(Style(flex: Flex(grow: 1.0)))
         return view

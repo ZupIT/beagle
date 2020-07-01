@@ -17,18 +17,21 @@
 public struct PageView: RawComponent, AutoInitiableAndDecodable, HasContext {
 
     public let children: [RawComponent]
-    public let pageIndicator: PageIndicatorComponent?
     public let context: Context?
+    public let onPageChange: RawAction?
+    public let currentPage: Expression<Int>?
 
 // sourcery:inline:auto:PageView.Init
     public init(
         children: [RawComponent],
-        pageIndicator: PageIndicatorComponent? = nil,
-        context: Context? = nil
+        context: Context? = nil,
+        onPageChange: RawAction? = nil,
+        currentPage: Expression<Int>? = nil
     ) {
         self.children = children
-        self.pageIndicator = pageIndicator
         self.context = context
+        self.onPageChange = onPageChange
+        self.currentPage = currentPage
     }
 // sourcery:end
 }
