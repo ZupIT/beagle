@@ -42,7 +42,7 @@ class LazyComponentTest : BaseComponentTest() {
         super.setUp()
 
         every { anyConstructed<ViewFactory>().makeBeagleView(any()) } returns beagleView
-        every { beagleView[0] } returns initialStateView
+        every { beagleView.getChildAt(0) } returns initialStateView
 
         lazyComponent = LazyComponent(URL, initialState)
     }
