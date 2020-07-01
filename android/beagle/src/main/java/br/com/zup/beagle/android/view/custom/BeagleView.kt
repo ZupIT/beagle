@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.view.custom
 
+import android.arch.lifecycle.Observer
 import android.content.Context
 import android.view.View
 import br.com.zup.beagle.core.ServerDrivenComponent

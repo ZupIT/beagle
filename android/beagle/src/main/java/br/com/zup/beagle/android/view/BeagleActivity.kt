@@ -16,10 +16,17 @@
 
 package br.com.zup.beagle.android.view
 
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.support.annotation.IdRes
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.view.WindowManager
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.components.layout.Screen
@@ -61,7 +68,7 @@ private const val FIRST_SCREEN_KEY = "FIRST_SCREEN_KEY"
 
 abstract class BeagleActivity : AppCompatActivity() {
 
-    private val viewModel by lazy { ViewModelProvider(this).get(BeagleViewModel::class.java) }
+    private val viewModel by lazy { ViewModelProviders.of(this)[BeagleViewModel::class.java] }
     private val screenRequest by lazy { intent.extras?.getParcelable<ScreenRequest>(FIRST_SCREEN_REQUEST_KEY) }
     private val screen by lazy { intent.extras?.getString(FIRST_SCREEN_KEY) }
 

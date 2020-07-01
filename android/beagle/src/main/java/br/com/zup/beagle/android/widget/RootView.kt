@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.widget
 
+import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 
 interface RootView {
