@@ -17,6 +17,8 @@
 package br.com.zup.beagle.android.components
 
 import android.graphics.Color
+import android.support.v4.widget.TextViewCompat
+import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.view.View
@@ -96,15 +98,26 @@ data class TextInput(
     }
 
     private fun EditText.setUpOnTextChange(rootView: RootView) {
-        textWatcher = doOnTextChanged { newText, _, _, _ ->
-            notifyChanges()
-            onChange?.let {
-                this@TextInput.handleEvent(
-                    rootView,
-                    onChange,
-                    "onChange",
-                    newText.toString()
-                )
+        textWatcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                notifyChanges()
+                onChange?.let {
+                    this@TextInput.handleEvent(
+                        rootView,
+                        onChange,
+                        "onChange",
+                        s.toString()
+                    )
+
+                }
+
+
             }
         }
     }
@@ -139,14 +152,16 @@ data class TextInput(
 
     private fun EditText.setData(textInput: TextInput, rootView: RootView) {
         textInput.placeholder?.let { bind -> observeBindChanges(rootView, bind) { this.hint = it } }
-        textInput.value?.let { bind -> observeBindChanges(rootView, bind) {
-            if (it != this.text.toString()) {
-                this.removeOnTextChange()
-                this.setText(it)
-                this.setSelection(it.length)
-                setUpOnTextChange(rootView)
+        textInput.value?.let { bind ->
+            observeBindChanges(rootView, bind) {
+                if (it != this.text.toString()) {
+                    this.removeOnTextChange()
+                    this.setText(it)
+                    this.setSelection(it.length)
+                    setUpOnTextChange(rootView)
+                }
             }
-        } }
+        }
         textInput.readOnly?.let { bind -> observeBindChanges(rootView, bind) { this.isEnabled = !it } }
         textInput.disabled?.let { bind -> observeBindChanges(rootView, bind) { this.isEnabled = !it } }
         textInput.hidden?.let { bind ->
@@ -154,7 +169,7 @@ data class TextInput(
                 this.visibility = if (it) View.INVISIBLE else View.VISIBLE
             }
         }
-        textInput.styleId?.let { style -> setStyle(style)  }
+        textInput.styleId?.let { style -> setStyle(style) }
         textInput.type?.let { bind -> observeBindChanges(rootView, bind) { this.setInputType(it) } }
     }
 
