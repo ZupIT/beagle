@@ -5,8 +5,7 @@
         "shouldPrefetch": true,
         "fallback": {
             "child" : {
-              "_beagleComponent_" : "beagle:text",
-              "text" : "child"
+              "_beagleComponent_" : "custom:beagleschematestscomponent"
             }
         }
     }

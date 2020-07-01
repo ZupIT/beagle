@@ -22,12 +22,37 @@ class PageViewTests: XCTestCase {
 
     func test_whenDecodingJson_thenItShouldReturnAPageView() throws {
         let component: PageView = try componentFromJsonFile(fileName: "PageViewWith3Pages")
-        assertSnapshot(matching: component, as: .dump)
+        _assertInlineSnapshot(matching: component, as: .dump, with: """
+        ▿ PageView
+          ▿ children: 3 elements
+            ▿ UnknownComponent
+              - type: "custom:beagleschematestscomponent"
+            ▿ UnknownComponent
+              - type: "custom:beagleschematestscomponent"
+            ▿ UnknownComponent
+              - type: "custom:beagleschematestscomponent"
+          - context: Optional<Context>.none
+          - pageIndicator: Optional<PageIndicatorComponent>.none
+        """)
     }
 
     func test_whenDecodingJson_thenItShouldReturnPageViewWithIndicator() throws {
         let component: PageView = try componentFromJsonFile(fileName: "PageViewWith3PagesAndIndicator")
-        assertSnapshot(matching: component, as: .dump)
+        _assertInlineSnapshot(matching: component, as: .dump, with: """
+        ▿ PageView
+          ▿ children: 3 elements
+            ▿ UnknownComponent
+              - type: "custom:beagleschematestscomponent"
+            ▿ UnknownComponent
+              - type: "custom:beagleschematestscomponent"
+            ▿ UnknownComponent
+              - type: "custom:beagleschematestscomponent"
+          - context: Optional<Context>.none
+          ▿ pageIndicator: Optional<PageIndicatorComponent>
+            ▿ some: PageIndicator
+              - selectedColor: Optional<String>.none
+              - unselectedColor: Optional<String>.none
+        """)
     }
 
 }

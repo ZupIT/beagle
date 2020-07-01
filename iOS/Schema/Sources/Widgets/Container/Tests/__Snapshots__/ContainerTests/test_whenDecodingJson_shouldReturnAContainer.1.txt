@@ -1,35 +1,11 @@
 ▿ Container
   ▿ children: 3 elements
-    ▿ Text
-      - alignment: Optional<Expression<Alignment>>.none
-      - styleId: Optional<String>.none
-      ▿ text: Expression<String>
-        - value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum et felis tortor. Maecenas laoreet metus in augue mattis, quis imperdiet urna ornare. Sed commodo fringilla massa, sit amet molestie nunc. Quisque euismod eros felis. Nam dapibus venenatis consequat."
-      - textColor: Optional<Expression<String>>.none
-      ▿ widgetProperties: WidgetProperties
-        - accessibility: Optional<Accessibility>.none
-        - id: Optional<String>.none
-        - style: Optional<Style>.none
-    ▿ Text
-      - alignment: Optional<Expression<Alignment>>.none
-      - styleId: Optional<String>.none
-      ▿ text: Expression<String>
-        - value: "Donec orci elit, scelerisque vel mattis at, ornare in libero. Cras vestibulum justo et lacus accumsan malesuada. Pellentesque gravida risus tincidunt sapien commodo iaculis. Praesent eget consectetur ligula, vitae fringilla urna. Donec erat arcu, fermentum sed orci in, euismod dictum augue. Aenean ac ullamcorper ante, sit amet commodo elit. Mauris et nibh ac ante luctus fermentum varius nec mauris."
-      - textColor: Optional<Expression<String>>.none
-      ▿ widgetProperties: WidgetProperties
-        - accessibility: Optional<Accessibility>.none
-        - id: Optional<String>.none
-        - style: Optional<Style>.none
-    ▿ Text
-      - alignment: Optional<Expression<Alignment>>.none
-      - styleId: Optional<String>.none
-      ▿ text: Expression<String>
-        - value: "Sed vel nisl tortor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec fringilla velit vulputate ultricies auctor. Sed et enim lacinia risus hendrerit efficitur vitae vel tellus."
-      - textColor: Optional<Expression<String>>.none
-      ▿ widgetProperties: WidgetProperties
-        - accessibility: Optional<Accessibility>.none
-        - id: Optional<String>.none
-        - style: Optional<Style>.none
+    ▿ UnknownComponent
+      - type: "custom:beagleschematestscomponent"
+    ▿ UnknownComponent
+      - type: "custom:beagleschematestscomponent"
+    ▿ UnknownComponent
+      - type: "custom:beagleschematestscomponent"
   - context: Optional<Context>.none
   - onInit: Optional<Array<RawAction>>.none
   ▿ widgetProperties: WidgetProperties

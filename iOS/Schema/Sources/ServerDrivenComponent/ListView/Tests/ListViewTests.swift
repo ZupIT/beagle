@@ -23,7 +23,17 @@ class ListViewTests: XCTestCase {
 
     func test_whenDecodingJson_thenItShouldReturnAListView() throws {
         let component: ListView = try componentFromJsonFile(fileName: "listViewComponent")
-        assertSnapshot(matching: component, as: .dump)
+        _assertInlineSnapshot(matching: component, as: .dump, with: """
+        ▿ ListView
+          ▿ children: 3 elements
+            ▿ UnknownComponent
+              - type: "custom:beagleschematestscomponent"
+            ▿ UnknownComponent
+              - type: "custom:beagleschematestscomponent"
+            ▿ UnknownComponent
+              - type: "custom:beagleschematestscomponent"
+          - direction: Direction.vertical
+        """)
     }
 
 }

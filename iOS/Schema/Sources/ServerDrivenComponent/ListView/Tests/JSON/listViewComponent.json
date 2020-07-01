@@ -2,15 +2,12 @@
   "_beagleComponent_" : "beagle:listView",
   "direction": "VERTICAL",
   "children" : [{
-    "_beagleComponent_" : "beagle:text",
-    "text" : "text1"
+    "_beagleComponent_" : "custom:beagleschematestscomponent"
   },
   {
-    "_beagleComponent_" : "beagle:text",
-    "text" : "text2"
+    "_beagleComponent_" : "custom:beagleschematestscomponent"
   },
   {
-    "_beagleComponent_" : "beagle:text",
-    "text" : "text3"
+    "_beagleComponent_" : "custom:beagleschematestscomponent"
   }]
 }
