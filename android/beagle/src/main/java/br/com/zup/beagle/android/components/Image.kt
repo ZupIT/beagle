@@ -39,10 +39,12 @@ import com.bumptech.glide.request.transition.Transition
 
 data class Image(
     val path: Bind<PathType>,
-    val mode: ImageContentMode? = null) : WidgetView() {
+    val mode: ImageContentMode? = null
+) : WidgetView() {
     constructor(
         path: PathType,
-        mode: ImageContentMode? = null) : this(
+        mode: ImageContentMode? = null
+    ) : this(
         valueOf(path),
         mode
     )
