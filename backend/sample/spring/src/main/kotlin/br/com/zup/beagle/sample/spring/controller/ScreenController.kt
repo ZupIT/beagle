@@ -189,5 +189,4 @@ class ScreenController(
 
     @GetMapping(SCREEN_WEB_VIEW_ENDPOINT)
     fun getSampleWebViewService() = this.sampleWebViewService.createWebView()
-
 }
