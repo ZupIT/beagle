@@ -24,6 +24,8 @@ import br.com.zup.beagle.android.exception.BeagleApiException
 import br.com.zup.beagle.android.view.mapper.toRequestData
 import br.com.zup.beagle.android.view.mapper.toResponse
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
@@ -35,9 +37,9 @@ data class Response(
 )
 
 internal class ActionRequestViewModel(
-    private val requester: ActionRequester = ActionRequester(),
-    val coroutineScope : BeagleCoroutineScope
+    private val requester: ActionRequester = ActionRequester()
 ) : ViewModel() {
+    val coroutineScope : BeagleCoroutineScope = BeagleCoroutineScope(Job(), Dispatchers.Main)
 
     fun fetch(sendRequest: SendRequestInternal): LiveData<FetchViewState> {
         return FetchComponentLiveData(requester, sendRequest, coroutineScope.coroutineContext)

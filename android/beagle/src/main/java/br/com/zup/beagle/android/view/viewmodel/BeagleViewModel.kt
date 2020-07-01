@@ -25,6 +25,8 @@ import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.core.ServerDrivenComponent
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.util.*
 import java.util.concurrent.atomic.AtomicReference
@@ -37,9 +39,11 @@ sealed class ViewState {
 }
 
 internal class BeagleViewModel(
-    private val componentRequester: ComponentRequester = ComponentRequester(),
-    private val coroutineScope: BeagleCoroutineScope
+    private val componentRequester: ComponentRequester = ComponentRequester()
 ) : ViewModel() {
+
+    val coroutineScope : BeagleCoroutineScope = BeagleCoroutineScope(Job(), Dispatchers.Main)
+
 
     private val urlObservableReference = AtomicReference(UrlObservable())
 
