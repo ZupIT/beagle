@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.android.components.page
 
+import android.support.v4.view.PagerAdapter
+import android.support.v4.view.ViewPager
 import android.view.View
 import android.view.ViewGroup
 import br.com.zup.beagle.android.context.ContextComponent
