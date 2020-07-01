@@ -126,16 +126,16 @@
         <item name="android:textColor">@android:color/black</item>
     </style>
 
-    <style name="DesignSystem.Button.Style" parent="DesignSystem.Text.Default">
+    <style name="DesignSystem.Button.Style" parent="Widget.AppCompat.Button">
         <item name="android:textColor">@color/colorBlack</item>
     </style>
 
-    <style name="DesignSystem.Stylish.Button" parent="DesignSystem.Text.Default">
+    <style name="DesignSystem.Stylish.Button" parent="Widget.AppCompat.Button">
         <item name="android:textColor">@color/colorGray</item>
         <item name="background">@android:color/transparent</item>
     </style>
 
-    <style name="DesignSystem.Stylish.ButtonAndAppearance" parent="DesignSystem.Text.Default">
+    <style name="DesignSystem.Stylish.ButtonAndAppearance" parent="Widget.AppCompat.Button">
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textStyle">bold</item>
     </style>
