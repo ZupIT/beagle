@@ -188,6 +188,6 @@ class ScreenController(
     fun getAnalyticsExample() = this.sampleAnalyticsService.getAnalyticsExample()
 
     @GetMapping(SCREEN_WEB_VIEW_ENDPOINT)
-    fun getsampleWebViewService() = this.sampleWebViewService.createWebView()
+    fun getSampleWebViewService() = this.sampleWebViewService.createWebView()
 
 }
