@@ -33,7 +33,9 @@ import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.verifyOrder
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
@@ -63,6 +65,10 @@ class BeagleViewModelTest {
     @MockK
     private lateinit var observer: Observer<ViewState>
 
+    @MockK
+    private lateinit var beagleCoroutineScope : BeagleCoroutineScope
+
+
     @InjectMockKs
     private lateinit var beagleUIViewModel: BeagleViewModel
 
@@ -74,6 +80,7 @@ class BeagleViewModelTest {
         coEvery { componentRequester.fetchComponent(any()) } returns component
         coEvery { actionRequester.fetchAction(any()) } returns action
         every { observer.onChanged(any()) } just Runs
+        every { beagleCoroutineScope.coroutineContext } returns Dispatchers.Main
     }
 
     @Test
