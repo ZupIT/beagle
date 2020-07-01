@@ -58,7 +58,7 @@ class PageViewUIComponent: UIView {
         
         self.indicatorView?.outputReceiver = self
 
-        setupViewHierarchy()
+        setupLayout()
         updateView()
     }
 
@@ -79,37 +79,22 @@ class PageViewUIComponent: UIView {
         pager.delegate = self
         return pager
     }()
-
-    private lazy var stackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.distribution = .fill
-        stack.alignment = .fill
-        stack.spacing = 10
-        return stack
-    }()
     
-    override func layoutSubviews() {
-        setupAnchors()
-        super.layoutSubviews()
-    }
-
-    private func setupViewHierarchy() {
-        addSubview(stackView)
+    private func setupLayout() {
+        let pager: UIView = pageViewController.view
+        pager.yoga.flexGrow = 1
+        pager.yoga.isEnabled = true
+        addSubview(pager)
         
-        stackView.addArrangedSubview(pageViewController.view)
-
         if let indicator = indicatorView as? UIView {
-            stackView.addArrangedSubview(indicator)
+            indicator.yoga.height = .init(value: 40, unit: .point)
+            indicator.yoga.marginTop = .init(value: 10, unit: .point)
+            indicator.yoga.isEnabled = true
+            addSubview(indicator)
         }
-    }
-    
-    private func setupAnchors() {
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.anchorTo(superview: self)
-        if let indicator = indicatorView as? UIView {
-            indicator.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        }
+        
+        yoga.isEnabled = true
+        yoga.applyLayout(preservingOrigin: true)
     }
 
     // MARK: - Update
