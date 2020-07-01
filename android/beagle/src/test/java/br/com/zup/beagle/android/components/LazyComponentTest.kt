@@ -32,7 +32,7 @@ private val URL = RandomData.httpUrl()
 
 class LazyComponentTest : BaseComponentTest() {
 
-    private val initialStateView: BeagleView = mockk()
+    private val initialStateView: View = mockk()
     private val initialState: ServerDrivenComponent = mockk()
     private val beagleView: BeagleView = mockk(relaxed = true)
 
@@ -42,7 +42,7 @@ class LazyComponentTest : BaseComponentTest() {
         super.setUp()
 
         every { anyConstructed<ViewFactory>().makeBeagleView(any()) } returns beagleView
-        every { beagleView } returns initialStateView
+        every { beagleView[0] } returns initialStateView
 
         lazyComponent = LazyComponent(URL, initialState)
     }
