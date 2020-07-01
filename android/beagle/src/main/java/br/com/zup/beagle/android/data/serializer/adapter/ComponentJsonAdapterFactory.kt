@@ -16,6 +16,9 @@
 
 package br.com.zup.beagle.android.data.serializer.adapter
 
+import br.com.zup.beagle.android.components.Touchable
+import br.com.zup.beagle.android.components.form.FormInput
+import br.com.zup.beagle.android.components.form.FormSubmit
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.components.page.PageIndicatorComponent
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
@@ -38,6 +41,7 @@ internal object ComponentJsonAdapterFactory {
         )
 
         factory = registerBaseSubTypes(factory)
+        factory = registerUIClass(factory)
         factory = registerWidgets(factory, BEAGLE_NAMESPACE, BeagleEnvironment.beagleSdkInternal.registeredWidgets())
         factory = registerWidgets(factory, CUSTOM_NAMESPACE, BeagleEnvironment.beagleSdk.registeredWidgets())
         factory = registerUndefinedWidget(factory)
@@ -51,6 +55,15 @@ internal object ComponentJsonAdapterFactory {
         return factory.withBaseSubType(PageIndicatorComponent::class.java)
             .withBaseSubType(InputWidget::class.java)
             .withBaseSubType(Widget::class.java)
+    }
+
+    private fun registerUIClass(
+        factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>
+    ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
+        return factory
+            .withSubtype(Touchable::class.java, createNamespaceFor<Touchable>())
+            .withSubtype(FormInput::class.java, createNamespaceFor<FormInput>())
+            .withSubtype(FormSubmit::class.java, createNamespaceFor<FormSubmit>())
     }
 
     private fun registerWidgets(
@@ -71,6 +84,10 @@ internal object ComponentJsonAdapterFactory {
         factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
         return factory.withDefaultValue(UndefinedWidget())
+    }
+
+    private inline fun <reified T : ServerDrivenComponent> createNamespaceFor(): String {
+        return createNamespace(BEAGLE_NAMESPACE, T::class.java)
     }
 
     private fun createNamespace(appNamespace: String, clazz: Class<*>): String {
