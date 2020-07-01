@@ -37,9 +37,10 @@ data class Response(
 )
 
 internal class ActionRequestViewModel(
-    private val requester: ActionRequester = ActionRequester()
+    private val requester: ActionRequester = ActionRequester(),
+    private val coroutineScope: BeagleCoroutineScope = BeagleCoroutineScope(Job(), Dispatchers.Main)
+
 ) : ViewModel() {
-    val coroutineScope : BeagleCoroutineScope = BeagleCoroutineScope(Job(), Dispatchers.Main)
 
     fun fetch(sendRequest: SendRequestInternal): LiveData<FetchViewState> {
         return FetchComponentLiveData(requester, sendRequest, coroutineScope.coroutineContext)

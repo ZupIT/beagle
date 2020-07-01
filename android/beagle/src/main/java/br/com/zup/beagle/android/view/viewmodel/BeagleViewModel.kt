@@ -39,10 +39,10 @@ sealed class ViewState {
 }
 
 internal class BeagleViewModel(
-    private val componentRequester: ComponentRequester = ComponentRequester()
+    private val componentRequester: ComponentRequester = ComponentRequester(),
+    private val coroutineScope : BeagleCoroutineScope = BeagleCoroutineScope(Job(), Dispatchers.Main)
 ) : ViewModel() {
 
-    val coroutineScope : BeagleCoroutineScope = BeagleCoroutineScope(Job(), Dispatchers.Main)
 
 
     private val urlObservableReference = AtomicReference(UrlObservable())
