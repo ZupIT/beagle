@@ -139,6 +139,7 @@ platform :backend do
         message: "Synced Spring BFF sample to Micronaut BFF sample.",
         allow_nothing_to_commit: true
     )
+    push_to_git_remote
   end
 
   desc "Sync Micronaut BFF sample to Spring BFF sample"
@@ -149,6 +150,7 @@ platform :backend do
         message: "Synced Micronaut BFF sample to Spring BFF sample.",
         allow_nothing_to_commit: true
     )
+    push_to_git_remote
   end
 
 end
