@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
+import br.com.zup.beagle.android.engine.renderer.BaseRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
@@ -81,6 +82,15 @@ fun <T> ServerDrivenComponent.observeBindChanges(
 
 /**
  * Transform your Component to a view.
+ * @property rootView the contract that is propagated from create view tree algorithm.
+ * @property view the view that triggered the action.
+ */
+fun ServerDrivenComponent.currentViewTriggerAction(rootView: RootView, view: View){
+    (rootView as BaseRootView).currentViewAction = view
+}
+
+/**
+ * Transform your Component to a view.
  * @property activity <p>is the reference for your activity.
  * Make sure to use this method if you are inside a Activity because of the lifecycle</p>
  */
@@ -92,6 +102,7 @@ fun ServerDrivenComponent.toView(activity: AppCompatActivity) = this.toView(Acti
  * Make sure to use this method if you are inside a Fragment because of the lifecycle</p>
  */
 fun ServerDrivenComponent.toView(fragment: Fragment) = this.toView(FragmentRootView(fragment))
+
 
 internal fun ServerDrivenComponent.toView(rootView: RootView): View {
     return viewFactory.makeBeagleFlexView(rootView.getContext()).apply {
