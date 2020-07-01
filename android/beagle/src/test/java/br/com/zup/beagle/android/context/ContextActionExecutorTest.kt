@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.context
 
+import android.support.v7.app.AppCompatActivity
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.layout.Container

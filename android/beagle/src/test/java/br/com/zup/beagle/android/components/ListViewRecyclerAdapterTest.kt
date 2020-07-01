@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.components
 
 import android.content.Context
+import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.engine.renderer.ViewRenderer

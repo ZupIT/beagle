@@ -18,6 +18,8 @@ package br.com.zup.beagle.android.components
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.support.v4.widget.TextViewCompat
+import android.support.v7.widget.AppCompatButton
 import android.view.View
 import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.analytics.ClickEvent

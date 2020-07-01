@@ -19,6 +19,10 @@ package br.com.zup.beagle.android.view
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.support.v4.app.DialogFragment
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentTransaction
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Screen

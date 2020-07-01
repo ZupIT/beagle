@@ -18,6 +18,8 @@
 package br.com.zup.beagle.android.components
 
 import android.graphics.Color
+import android.support.v4.widget.TextViewCompat
+import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
 import android.widget.TextView
 import br.com.zup.beagle.android.extensions.once

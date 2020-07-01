@@ -19,6 +19,9 @@ package br.com.zup.beagle.android.utils
 import android.content.res.Resources
 import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
+import android.support.v4.content.res.ResourcesCompat
+import android.support.v7.app.ActionBar
+import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
