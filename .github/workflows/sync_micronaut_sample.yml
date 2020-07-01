@@ -1,4 +1,4 @@
-name: Sync Spring BFF sample to Micronaut BFF sample
+name: Sync to Micronaut BFF sample
 
 on:
     push:
@@ -15,7 +15,7 @@ jobs:
             -   name: Install Fastlane
                 run: bundle install
 
-            -   name: Run pr check
+            -   name: Sync Spring BFF sample to Micronaut BFF sample
                 run: bundle exec fastlane backend sync_to_micronaut
                 env:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
