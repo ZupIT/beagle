@@ -24,6 +24,7 @@ package br.com.zup.beagle.android.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 

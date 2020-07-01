@@ -19,6 +19,9 @@
 package br.com.zup.beagle.android.view
 
 import android.content.Context
+import android.support.v7.app.AlertDialog
+import android.support.v7.widget.AppCompatButton
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.webkit.WebView
 import android.widget.EditText

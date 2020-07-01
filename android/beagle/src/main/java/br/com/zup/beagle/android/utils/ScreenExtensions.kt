@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.android.utils
 
+import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.components.layout.ScreenComponent
 

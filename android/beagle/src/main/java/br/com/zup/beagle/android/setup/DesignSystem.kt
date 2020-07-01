@@ -16,6 +16,9 @@
 
 package br.com.zup.beagle.android.setup
 
+import android.support.annotation.DrawableRes
+import android.support.annotation.StyleRes
+
 open class DesignSystem {
     @DrawableRes
     open fun image(id: String): Int? = null

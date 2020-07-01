@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.components
 
+import android.support.v4.widget.TextViewCompat
 import android.view.View
 import android.widget.Button
 import br.com.zup.beagle.R
