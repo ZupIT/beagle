@@ -16,6 +16,10 @@
 
 package br.com.zup.beagle.android.utils
 
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProviders
+import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
 import br.com.zup.beagle.android.widget.RootView
@@ -34,6 +38,6 @@ internal inline fun <reified T : ViewModel> RootView.generateViewModelInstance()
 }
 
 internal object ViewModelProviderFactory {
-    fun of(fragment: Fragment) = ViewModelProvider(fragment)
-    fun of(activity: AppCompatActivity) = ViewModelProvider(activity)
+    fun of(fragment: Fragment) = ViewModelProviders.of(fragment)
+    fun of(activity: AppCompatActivity) = ViewModelProviders.of(activity)
 }

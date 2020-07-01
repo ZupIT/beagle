@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.view
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent

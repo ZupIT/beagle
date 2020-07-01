@@ -68,9 +68,7 @@ data class SendRequest(
         val viewModel = rootView.generateViewModelInstance<ActionRequestViewModel>()
 
         viewModel.fetch(toSendRequestInternal(rootView)).observe(rootView.getLifecycleOwner(), Observer { state ->
-            state?.let {
-                executeActions(rootView, it)
-            }
+            state?.let { executeActions(rootView, state) }
         })
     }
 
