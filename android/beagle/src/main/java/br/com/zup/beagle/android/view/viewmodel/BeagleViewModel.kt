@@ -39,20 +39,18 @@ sealed class ViewState {
 }
 
 internal class BeagleViewModel(
-    private val componentRequester: ComponentRequester = ComponentRequester(),
-    private val coroutineScope : BeagleCoroutineScope = BeagleCoroutineScope(Job(), Dispatchers.Main)
-) : ViewModel() {
-
+    private val componentRequester: ComponentRequester = ComponentRequester()
+) : BaseViewModel() {
 
 
     private val urlObservableReference = AtomicReference(UrlObservable())
 
     fun fetchComponent(screenRequest: ScreenRequest, screen: ScreenComponent? = null): LiveData<ViewState> {
         return FetchComponentLiveData(screenRequest, screen, componentRequester,
-            urlObservableReference, coroutineScope.coroutineContext)
+            urlObservableReference, coroutineContext)
     }
 
-    fun fetchForCache(url: String) = coroutineScope.launch {
+    fun fetchForCache(url: String) = launch {
         try {
             urlObservableReference.get().setLoading(url, true)
             val component = componentRequester.fetchComponent(ScreenRequest(url))

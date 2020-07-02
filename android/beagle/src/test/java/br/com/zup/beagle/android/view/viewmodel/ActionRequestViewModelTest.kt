@@ -56,8 +56,6 @@ class ActionRequestViewModelTest {
 
     private val actionRequester: ActionRequester = mockk()
 
-    private val beagleCoroutineScope : BeagleCoroutineScope = mockk()
-
     private val observer: Observer<ActionRequestViewModel.FetchViewState> = mockk()
 
     private val action: SendRequestInternal = mockk()
@@ -84,7 +82,6 @@ class ActionRequestViewModelTest {
         // Given
         val response: ResponseData = mockk(relaxed = true)
         val responseMapped: Response = mockk()
-        every { beagleCoroutineScope.coroutineContext } returns Dispatchers.Main
         every { action.toRequestData() } returns mockk()
         every { response.toResponse() } returns responseMapped
         coEvery { actionRequester.fetchData(any()) } returns response
@@ -104,7 +101,6 @@ class ActionRequestViewModelTest {
         val error: BeagleApiException = mockk()
         val responseData: ResponseData = mockk(relaxed = true)
         val responseMapped: Response = mockk()
-        every { beagleCoroutineScope.coroutineContext } returns Dispatchers.Main
         every { action.toRequestData() } returns mockk()
         every { responseData.toResponse() } returns responseMapped
         every { error.responseData } returns  responseData

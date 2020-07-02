@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.view.viewmodel
 
+import android.arch.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -27,11 +28,11 @@ private val defaultExceptionHandler = CoroutineExceptionHandler { _, throwable -
     throw throwable
 }
 
-class BeagleCoroutineScope(
-    val job : Job,
-    val dispatcher: CoroutineDispatcher = Dispatchers.Default,
-    val coroutineExceptionHandler : CoroutineExceptionHandler = defaultExceptionHandler
-) : CoroutineScope {
+open class BaseViewModel : CoroutineScope, ViewModel() {
+    private val job : Job = Job()
+    private val dispatcher: CoroutineDispatcher = Dispatchers.Main
+    private val coroutineExceptionHandler : CoroutineExceptionHandler = defaultExceptionHandler
+
     override val coroutineContext: CoroutineContext
         get() = job + dispatcher + coroutineExceptionHandler
 
