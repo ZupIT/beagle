@@ -19,15 +19,19 @@
 package br.com.zup.beagle.android.view
 
 import android.content.Context
+import android.os.Build
 import android.view.View
 import android.webkit.WebView
+import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.HorizontalScrollView
 import android.widget.ScrollView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.components.utils.RoundedImageView
@@ -60,9 +64,15 @@ internal class ViewFactory {
             isFillViewport = true
         }
 
-    fun makeButton(context: Context) = AppCompatButton(context)
+    fun makeButton(context: Context) = Button(context)
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    fun makeButton(context: Context, id: Int) = Button(context, null, 0, id)
 
     fun makeTextView(context: Context) = TextView(context)
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    fun makeTextView(context: Context, id: Int) = TextView(context, null, 0, id)
 
     fun makeInputText(context: Context) = EditText(context)
 

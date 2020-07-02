@@ -25,15 +25,15 @@ final class LocalFormHandlerTests: XCTestCase {
         let actionName = "action-name"
         let action = FormLocalAction(name: actionName, data: [:])
         let sut = LocalFormHandling()
-        var didHandleActioin = false
+        var didHandleAction = false
         sut[actionName] = { _, _, _ in
-            didHandleActioin = true
+            didHandleAction = true
         }
         
         // When
         sut.handle(action: action, controller: BeagleControllerStub()) { _ in }
         
         // Then
-        XCTAssertTrue(didHandleActioin)
+        XCTAssertTrue(didHandleAction)
     }
 }

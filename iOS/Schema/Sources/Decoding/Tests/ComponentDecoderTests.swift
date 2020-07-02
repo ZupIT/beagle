@@ -72,7 +72,7 @@ public final class ComponentDecoderTests: XCTestCase {
         XCTAssertEqual(string, expectedText)
     }
 
-    func test_whenAnUnknwonTypeIsDecoded_thenItShouldReturnNil() throws {
+    func test_whenAnUnknownTypeIsDecoded_thenItShouldReturnNil() throws {
         // Given
         let jsonData = """
         {

@@ -3,36 +3,12 @@
     ▿ TabItem
       ▿ child: Container
         ▿ children: 3 elements
-          ▿ Text
-            - alignment: Optional<Expression<Alignment>>.none
-            - styleId: Optional<Expression<String>>.none
-            ▿ text: Expression<String>
-              - value: "1 This is a text"
-            - textColor: Optional<Expression<String>>.none
-            ▿ widgetProperties: WidgetProperties
-              - accessibility: Optional<Accessibility>.none
-              - id: Optional<String>.none
-              - style: Optional<Style>.none
-          ▿ Text
-            - alignment: Optional<Expression<Alignment>>.none
-            - styleId: Optional<Expression<String>>.none
-            ▿ text: Expression<String>
-              - value: "This is a text"
-            - textColor: Optional<Expression<String>>.none
-            ▿ widgetProperties: WidgetProperties
-              - accessibility: Optional<Accessibility>.none
-              - id: Optional<String>.none
-              - style: Optional<Style>.none
-          ▿ Text
-            - alignment: Optional<Expression<Alignment>>.none
-            - styleId: Optional<Expression<String>>.none
-            ▿ text: Expression<String>
-              - value: "This is a text"
-            - textColor: Optional<Expression<String>>.none
-            ▿ widgetProperties: WidgetProperties
-              - accessibility: Optional<Accessibility>.none
-              - id: Optional<String>.none
-              - style: Optional<Style>.none
+          ▿ UnknownComponent
+            - type: "custom:beagleschematestscomponent"
+          ▿ UnknownComponent
+            - type: "custom:beagleschematestscomponent"
+          ▿ UnknownComponent
+            - type: "custom:beagleschematestscomponent"
         - context: Optional<Context>.none
         - onInit: Optional<Array<RawAction>>.none
         ▿ widgetProperties: WidgetProperties
@@ -63,9 +39,8 @@
               - position: Optional<EdgeValue>.none
               - positionType: Optional<PositionType>.none
               - size: Optional<Size>.none
-      ▿ icon: Optional<Local>
-        ▿ some: Local
-          - mobileId: "mobileId"
+      ▿ icon: Optional<String>
+        - some: "mobileId"
       ▿ title: Optional<String>
         - some: "tab 1"
   - context: Optional<Context>.none

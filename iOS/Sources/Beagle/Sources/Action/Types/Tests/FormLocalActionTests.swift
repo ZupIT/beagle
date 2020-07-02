@@ -44,7 +44,7 @@ final class FormLocalActionTests: XCTestCase {
         
         var statesTracker: [ServerDrivenState] = []
         let controller = BeagleControllerStub()
-        let actionHander = LocalFormHandling(handlers: [
+        let actionHandler = LocalFormHandling(handlers: [
             name: { _, _, listener in
                 listener(.start)
                 statesTracker.append(controller.serverDrivenState)
@@ -55,7 +55,7 @@ final class FormLocalActionTests: XCTestCase {
             }
         ])
         controller.dependencies = BeagleScreenDependencies(
-            localFormHandler: actionHander
+            localFormHandler: actionHandler
         )
 
         // When

@@ -28,6 +28,11 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.UnitType
+import br.com.zup.beagle.widget.core.UnitValue
 
 data class PageView(
     val children: List<ServerDrivenComponent>,
@@ -42,18 +47,15 @@ data class PageView(
     private val viewRendererFactory: ViewRendererFactory = ViewRendererFactory()
 
     override fun buildView(rootView: RootView): View {
-        val container = viewFactory.makeBeagleFlexView(rootView.getContext())
+        val style = Style(flex = Flex(grow = 1.0))
 
         val viewPager = viewFactory.makeViewPager(rootView.getContext()).apply {
             adapter = PageViewAdapter(rootView, children, viewFactory)
         }
 
-        // this container is needed because this view fill the parent completely
-        val containerViewPager =
-            viewFactory.makeBeagleFlexView(rootView.getContext()).apply {
-                addView(viewPager)
-            }
-        container.addView(containerViewPager)
+        val container = viewFactory.makeBeagleFlexView(rootView.getContext(), style).apply {
+            addView(viewPager, style)
+        }
 
         pageIndicator?.let {
             val pageIndicatorView = viewRendererFactory.make(it).build(rootView)

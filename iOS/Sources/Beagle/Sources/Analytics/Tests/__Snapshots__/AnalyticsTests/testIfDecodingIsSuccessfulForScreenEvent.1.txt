@@ -5,7 +5,7 @@
         ▿ alignment: Optional<Expression<Alignment>>
           ▿ some: Expression<Alignment>
             - value: Alignment.center
-        - styleId: Optional<Expression<String>>.none
+        - styleId: Optional<String>.none
         ▿ text: Expression<String>
           - value: "BeaglePreview"
         - textColor: Optional<Expression<String>>.none

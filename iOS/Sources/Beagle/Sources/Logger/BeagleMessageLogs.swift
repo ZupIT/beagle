@@ -78,10 +78,10 @@ public enum Log {
 
     public struct NetworkResponse {
         public let data: Data?
-        public let reponse: URLResponse?
+        public let response: URLResponse?
 
         public var logMessage: String {
-            let response = (self.reponse as? HTTPURLResponse)
+            let response = (self.response as? HTTPURLResponse)
             let string = """
             ***HTTP RESPONSE***
             StatusCode= \(response?.statusCode ?? 0)
