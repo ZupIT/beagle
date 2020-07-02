@@ -21,6 +21,7 @@ import br.com.zup.beagle.android.action.FormMethodType
 import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.data.BeagleApi
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
+import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
@@ -47,7 +48,7 @@ internal class FormSubmitter(
                 val response = beagleApi.fetchData(requestData)
                 val action = deserialization.deserializeAction(String(response.data))
                 result(FormResult.Success(action))
-            } catch (e: Throwable) {
+            } catch (e: BeagleException) {
                 result(FormResult.Error(e))
             }
         }
