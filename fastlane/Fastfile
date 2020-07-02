@@ -170,7 +170,7 @@ platform :backend do
   desc "Sync Micronaut BFF sample to Spring BFF sample"
   lane :sync_to_spring do
     sh "./sync-to-spring.sh"
-    sh "./git_commit 'Synced Micronaut BFF sample to Spring BFF sample.' '../backend/sample/spring'"
+    sh "./git_commit.sh 'Synced Micronaut BFF sample to Spring BFF sample.' '../backend/sample/spring'"
     push_to_git_remote
   end
 
