@@ -134,22 +134,14 @@ platform :backend do
   desc "Sync Spring BFF sample to Micronaut BFF sample"
   lane :sync_to_micronaut do
     sh "./sync-to-micronaut.sh"
-    git_commit(
-        path: "./backend/sample/micronaut",
-        message: "Synced Spring BFF sample to Micronaut BFF sample.",
-        allow_nothing_to_commit: true
-    )
+    sh "git commit -sm 'Synced Spring BFF sample to Micronaut BFF sample.' '../backend/sample/micronaut'"
     push_to_git_remote
   end
 
   desc "Sync Micronaut BFF sample to Spring BFF sample"
   lane :sync_to_spring do
     sh "./sync-to-spring.sh"
-    git_commit(
-        path: "./backend/sample/spring",
-        message: "Synced Micronaut BFF sample to Spring BFF sample.",
-        allow_nothing_to_commit: true
-    )
+    sh "git commit -sm 'Synced Micronaut BFF sample to Spring BFF sample.' '../backend/sample/spring'"
     push_to_git_remote
   end
 
