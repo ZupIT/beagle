@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,9 +14,9 @@
 		7659EC5C247C3EFE00F5BE17 /* SSConnectionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7659EC5A247C3EFD00F5BE17 /* SSConnectionHandler.swift */; };
 		7659EC5D247C3EFE00F5BE17 /* WSConnectionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7659EC5B247C3EFD00F5BE17 /* WSConnectionHandler.swift */; };
 		7659EC61247C482400F5BE17 /* BeaglePreviewDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7659EC60247C482400F5BE17 /* BeaglePreviewDependencies.swift */; };
+		933078F124AE50A4009D92F2 /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 933078F024AE50A4009D92F2 /* Starscream */; };
 		C8330590249BF6A40091FE5E /* Beagle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C833058F249BF6A40091FE5E /* Beagle.framework */; };
 		C8330591249BF6A40091FE5E /* Beagle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C833058F249BF6A40091FE5E /* Beagle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C838415B24A447FD00EDD344 /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C838415A24A447FD00EDD344 /* Starscream.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -55,7 +55,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8330590249BF6A40091FE5E /* Beagle.framework in Frameworks */,
-				C838415B24A447FD00EDD344 /* Starscream.framework in Frameworks */,
+				933078F124AE50A4009D92F2 /* Starscream in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,13 +136,15 @@
 				7623CF7B24254C9600688C4B /* Frameworks */,
 				7623CF7C24254C9600688C4B /* Resources */,
 				761557A42480230F00E1EEEE /* Embed Frameworks */,
-				C838416324A4662200EDD344 /* Run Carthage Script */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = BeaglePreview;
+			packageProductDependencies = (
+				933078F024AE50A4009D92F2 /* Starscream */,
+			);
 			productName = BeaglePreview;
 			productReference = 7623CF7E24254C9600688C4B /* BeaglePreview.framework */;
 			productType = "com.apple.product-type.framework";
@@ -170,6 +172,9 @@
 				Base,
 			);
 			mainGroup = 7623CF7424254C9600688C4B;
+			packageReferences = (
+				933078EF24AE50A4009D92F2 /* XCRemoteSwiftPackageReference "Starscream" */,
+			);
 			productRefGroup = 7623CF7F24254C9600688C4B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -188,29 +193,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		C838416324A4662200EDD344 /* Run Carthage Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/../../Carthage/Build/iOS/Starscream.framework",
-			);
-			name = "Run Carthage Script";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Starscream.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7623CF7A24254C9600688C4B /* Sources */ = {
@@ -433,6 +415,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		933078EF24AE50A4009D92F2 /* XCRemoteSwiftPackageReference "Starscream" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/daltoniam/Starscream.git";
+			requirement = {
+				kind = exactVersion;
+				version = 4.0.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		933078F024AE50A4009D92F2 /* Starscream */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 933078EF24AE50A4009D92F2 /* XCRemoteSwiftPackageReference "Starscream" */;
+			productName = Starscream;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7623CF7524254C9600688C4B /* Project object */;
 }
