@@ -24,14 +24,10 @@ import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Controller
 
 @Controller
-class LayoutController(
-    private val pageViewService: PageViewService,
-    private val scrollViewService: ScrollViewService
-) {
+class LayoutController(private val pageViewService: PageViewService, private val scrollViewService: ScrollViewService) {
     @Get(PAGE_VIEW_ENDPOINT)
     fun getPageView() = this.pageViewService.createPageView()
 
     @Get(SCROLL_VIEW_ENDPOINT)
     fun getScrollView() = this.scrollViewService.createScrollView()
-
 }

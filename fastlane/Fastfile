@@ -160,4 +160,18 @@ platform :backend do
     codecov_reporter(token: ENV["CODECOV_TOKEN"], flags: "-F backend -C #{commit_hash}")
   end
 
+  desc "Sync Spring BFF sample to Micronaut BFF sample"
+  lane :sync_to_micronaut do
+    sh "./sync-to-micronaut.sh"
+    sh "./git_commit.sh 'Synced Spring BFF sample to Micronaut BFF sample.' '../backend/sample/micronaut'"
+    push_to_git_remote
+  end
+
+  desc "Sync Micronaut BFF sample to Spring BFF sample"
+  lane :sync_to_spring do
+    sh "./sync-to-spring.sh"
+    sh "./git_commit 'Synced Micronaut BFF sample to Spring BFF sample.' '../backend/sample/spring'"
+    push_to_git_remote
+  end
+
 end
