@@ -52,15 +52,6 @@ platform :ios do
     run_codecov(platform: 'ios')
   end
 
-  desc "Dependency Manager (Carthage) https://docs.fastlane.tools/actions/carthage/"
-  private_lane :init_ios_dependencies do
-    carthage(
-      command: "bootstrap",
-      platform: "iOS",
-      project_directory: "iOS/", cache_builds: true
-    )
-  end
-
   desc "Run iOS SwiftLint"
   private_lane :iOSSwiftLint do
     swiftlint(
