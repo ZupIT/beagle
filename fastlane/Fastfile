@@ -43,22 +43,12 @@ platform :ios do
   lane :pull_request_verification do
     xcversion(version: "~> 11.5.0")
     iOSSwiftLint
-    init_ios_dependencies
     scan(
       workspace: "iOS/Beagle.xcworkspace/",
       scheme: "All",
       device: "iPhone 11"
     )
     run_codecov(platform: 'ios')
-  end
-
-  desc "Dependency Manager (Carthage) https://docs.fastlane.tools/actions/carthage/"
-  private_lane :init_ios_dependencies do
-    carthage(
-      command: "bootstrap",
-      platform: "iOS",
-      project_directory: "iOS/", cache_builds: true
-    )
   end
 
   desc "Run iOS SwiftLint"
