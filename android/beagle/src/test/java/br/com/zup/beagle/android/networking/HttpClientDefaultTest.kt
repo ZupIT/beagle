@@ -119,9 +119,9 @@ class HttpClientDefaultTest {
 
     @Test
     fun execute_should_disconnect_after_response() = runBlockingTest {
-        urlRequestDispatchingDefault.execute(makeSimpleRequestData(), onSuccess = {}, onError = {})
-
-        verify(exactly = once()) { httpURLConnection.disconnect() }
+        urlRequestDispatchingDefault.execute(makeSimpleRequestData(), onSuccess = {
+            verify(exactly = once()) { httpURLConnection.disconnect() }
+        }, onError = {})
     }
 
     @Test
@@ -388,10 +388,9 @@ class HttpClientDefaultTest {
         urlRequestDispatchingDefault.execute(makeSimpleRequestData(), onSuccess = {
             fail("Test failed, should execute with error")
         }, onError = {
+            // Then
             assertEquals(it, expectedData)
         })
-
-        // Then
 
     }
 
