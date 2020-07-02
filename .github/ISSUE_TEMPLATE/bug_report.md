@@ -1,5 +1,5 @@
 ---
-name: "🐛:bug: Bug Report"
+name: "🐛 Bug Report"
 about: Report a reproducible bug.
 title: ''
 labels: 'bug'
