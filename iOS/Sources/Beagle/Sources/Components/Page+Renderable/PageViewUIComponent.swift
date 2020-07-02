@@ -82,19 +82,17 @@ class PageViewUIComponent: UIView {
     
     private func setupLayout() {
         let pager: UIView = pageViewController.view
-        pager.yoga.flexGrow = 1
-        pager.yoga.isEnabled = true
+        
+        pager.style.setup(Style(flex: Flex().grow(1)))
         addSubview(pager)
         
         if let indicator = indicatorView as? UIView {
-            indicator.yoga.height = .init(value: 40, unit: .point)
-            indicator.yoga.marginTop = .init(value: 10, unit: .point)
+            indicator.style.setup(Style(size: Size().height(40), margin: EdgeValue().top(10)))
             indicator.yoga.isEnabled = true
             addSubview(indicator)
         }
         
-        yoga.isEnabled = true
-        yoga.applyLayout(preservingOrigin: true)
+        style.applyLayout()
     }
 
     // MARK: - Update
