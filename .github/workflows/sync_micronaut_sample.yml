@@ -2,6 +2,8 @@ name: Sync to Micronaut BFF sample
 
 on:
     push:
+        branches-ignore:
+            - master
         paths:
             - 'backend/sample/spring/**'
 
@@ -17,5 +19,3 @@ jobs:
 
             -   name: Sync Spring BFF sample to Micronaut BFF sample
                 run: bundle exec fastlane backend sync_to_micronaut
-                env:
-                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
