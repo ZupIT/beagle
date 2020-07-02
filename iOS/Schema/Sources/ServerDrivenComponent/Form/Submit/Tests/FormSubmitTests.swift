@@ -24,10 +24,10 @@ class FormSubmitTests: XCTestCase {
     func test_initWithChild_shouldReturnValidFormSubmit() {
         // Given / When
         let sut = FormSubmit(child:
-            Text(.value("Text"))
+            BeagleSchemaTestsComponent()
         )
         // Then
-        XCTAssert(sut.child is Text)
+        XCTAssert(sut.child is BeagleSchemaTestsComponent)
     }
 
 }

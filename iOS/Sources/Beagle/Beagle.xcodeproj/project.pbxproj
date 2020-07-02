@@ -231,6 +231,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		570434E824A5680100DAD0D3 /* test_renderTextInputComponent.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_renderTextInputComponent.1.png; sourceTree = "<group>"; };
+		570434E924A5680100DAD0D3 /* test_textInputComponent_whenTextValueChanges.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_textInputComponent_whenTextValueChanges.1.png; sourceTree = "<group>"; };
 		5740E23623F70A75004A0BF0 /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		5754314823F207F000EF0E5A /* CacheLRU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheLRU.swift; sourceTree = "<group>"; };
 		5754314A23F2080B00EF0E5A /* DoublyLinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoublyLinkedList.swift; sourceTree = "<group>"; };
@@ -494,6 +496,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		570434E224A5678500DAD0D3 /* __Snapshots__ */ = {
+			isa = PBXGroup;
+			children = (
+				570434E324A5678500DAD0D3 /* TextInputTests */,
+			);
+			path = __Snapshots__;
+			sourceTree = "<group>";
+		};
+		570434E324A5678500DAD0D3 /* TextInputTests */ = {
+			isa = PBXGroup;
+			children = (
+				570434E824A5680100DAD0D3 /* test_renderTextInputComponent.1.png */,
+				570434E924A5680100DAD0D3 /* test_textInputComponent_whenTextValueChanges.1.png */,
+			);
+			path = TextInputTests;
+			sourceTree = "<group>";
+		};
 		5740E23523F708BE004A0BF0 /* CacheManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -784,6 +803,7 @@
 		98E49749249E9B3A0053DB87 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				570434E224A5678500DAD0D3 /* __Snapshots__ */,
 				98E4974A249E9B830053DB87 /* TextInputTests.swift */,
 			);
 			path = Tests;

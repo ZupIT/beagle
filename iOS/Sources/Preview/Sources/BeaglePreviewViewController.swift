@@ -46,7 +46,7 @@ class BeaglePreviewViewController: UIViewController, HasDependencies, WSConnecti
 
     // MARK: HasDependencies
 
-    typealias DependencyType = WSConnetionHandlerDependency
+    typealias DependencyType = WSConnectionHandlerDependency
 
     var dependencies: DependencyType
 

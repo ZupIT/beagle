@@ -16,19 +16,23 @@
 
 package br.com.zup.beagle.android.components.page
 
-
 import br.com.zup.beagle.android.components.BaseComponentTest
 import br.com.zup.beagle.android.components.Button
+import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.utils.viewFactory
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeaglePageView
+import br.com.zup.beagle.core.Style
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.slot
 import io.mockk.verify
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class PageViewTest : BaseComponentTest() {
 
@@ -38,15 +42,31 @@ class PageViewTest : BaseComponentTest() {
 
     private lateinit var pageView: PageView
 
+    private val styleSlot = mutableListOf<Style>()
+
     override fun setUp() {
         super.setUp()
 
-        every { beagleFlexView.addView(any()) } just Runs
         every { anyConstructed<ViewFactory>().makeViewPager(any()) } returns beaglePageView
+        every { anyConstructed<ViewFactory>().makeBeagleFlexView(any(), capture(styleSlot)) } returns beagleFlexView
+        every { beagleFlexView.addView(any(), capture(styleSlot)) } just Runs
     }
 
     @Test
-    fun build_when_page_indicator_is_null() {
+    fun `buildView should use style with grow 1`() {
+        // Given
+        pageView = PageView(children, null)
+
+        // When
+        pageView.buildView(rootView)
+
+        // Then
+        assertEquals(1.0, styleSlot[0].flex?.grow)
+        assertEquals(1.0, styleSlot[1].flex?.grow)
+    }
+
+    @Test
+    fun `buildView should make and addView once when indicator is null`() {
         // GIVEN
         pageView = PageView(children, null)
 
@@ -55,18 +75,19 @@ class PageViewTest : BaseComponentTest() {
 
         // THEN
         verify(exactly = once()) { anyConstructed<ViewFactory>().makeViewPager(any()) }
-        verify(atLeast = 2) { beagleFlexView.addView(any()) }
-        verify(atLeast = 2) { anyConstructed<ViewFactory>().makeBeagleFlexView(any()) }
+        verify(atLeast = once()) { anyConstructed<ViewFactory>().makeBeagleFlexView(any(), styleSlot[0]) }
+        verify(atLeast = once()) { beagleFlexView.addView(any(), styleSlot[1]) }
     }
 
     @Test
-    fun build_when_page_indicator_is_not_null() {
+    fun `buildView should call addView when indicator is not null`() {
         // GIVEN
         pageView = PageView(children, pageIndicatorComponent)
+
         // WHEN
         pageView.buildView(rootView)
 
         // THEN
-        verify(exactly = 3) { beagleFlexView.addView(any()) }
+        verify(exactly = once()) { beagleFlexView.addView(any()) }
     }
 }

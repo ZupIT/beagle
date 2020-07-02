@@ -18,7 +18,7 @@ import Foundation
 
 protocol ViewLayoutHelper {
     func buildViewHierarchy()
-    func setupContraints()
+    func setupConstraints()
     func setupAdditionalConfiguration()
     func setupView()
 }
@@ -26,7 +26,7 @@ protocol ViewLayoutHelper {
 extension ViewLayoutHelper {
     func setupView() {
         buildViewHierarchy()
-        setupContraints()
+        setupConstraints()
         setupAdditionalConfiguration()
     }
 }

@@ -68,15 +68,27 @@ final public class ComponentDecoder: ComponentDecoding {
     }
     
     public func decodeComponent(from data: Data) throws -> RawComponent {
-        return try decode(from: data)
+        return try decodeAndLog(from: data)
     }
     
     public func decodeAction(from data: Data) throws -> RawAction {
-        return try decode(from: data)
+        return try decodeAndLog(from: data)
     }
     
     // MARK: - Private Functions
-    
+
+    private func decodeAndLog<T>(from data: Data) throws -> T {
+        do {
+            return try decode(from: data)
+        } catch let error as DecodingError {
+            dependencies.schemaLogger?.logDecodingError(type: String(describing: error))
+            throw error
+        } catch {
+            dependencies.schemaLogger?.logDecodingError(type: error.localizedDescription)
+            throw error
+        }
+    }
+
     private func decode<T>(from data: Data) throws -> T {
         let container = try jsonDecoder.decode(AnyDecodableContainer.self, from: data)
         guard let content = container.content as? T else {

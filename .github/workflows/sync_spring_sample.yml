@@ -1,20 +1,21 @@
-name: Sync Micronaut BFF sample to Spring BFF sample
+name: Sync to Spring BFF sample
 
 on:
     push:
+        branches-ignore:
+            - master
         paths:
             - 'backend/sample/micronaut/**'
 
 jobs:
     build:
-        runs-on: ubuntu-latest
+        runs-on: macos-latest
 
         steps:
             -   uses: actions/checkout@v2
-            -   name: Sync to Spring
-                run: cd backend/sample/micronaut && ./sync-to-spring.sh
-            -   uses: EndBug/add-and-commit@v4
-                with:
-                    message: 'Synced Micronaut BFF sample to Spring BFF sample.'
-                env:
-                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            -   name: Install Fastlane
+                run: bundle install
+
+            -   name: Sync Micronaut BFF sample to Spring BFF sample
+                run: bundle exec fastlane backend sync_to_spring

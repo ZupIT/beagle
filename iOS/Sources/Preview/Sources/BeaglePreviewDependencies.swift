@@ -25,11 +25,11 @@ protocol HasDependencies: AnyObject {
     init(dependencies: DependencyType)
 }
 
-protocol WSConnetionHandlerDependency {
+protocol WSConnectionHandlerDependency {
     var connection: WSConnectionHandler { get set }
 }
 
-protocol BeaglePreviewDependenciesProtocol: WSConnetionHandlerDependency {
+protocol BeaglePreviewDependenciesProtocol: WSConnectionHandlerDependency {
     //
 }
 

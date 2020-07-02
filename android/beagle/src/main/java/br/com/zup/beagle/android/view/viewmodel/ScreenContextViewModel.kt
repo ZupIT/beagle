@@ -65,24 +65,30 @@ internal class ScreenContextViewModel(
 
     // BindCaller is who owns the Bind Attribute
     fun evaluateExpressionForImplicitContext(bindCaller: Action, bind: Bind.Expression<*>): Any? {
-        var value: ContextData? = null
+        val contexts = mutableListOf<ContextData>()
 
+        findMoreContexts(bindCaller, contexts)
+
+        return evaluateBind(contexts, bind)
+    }
+
+    private fun findMoreContexts(
+        toCompare: Any,
+        contexts: MutableList<ContextData>
+    ) {
         implicitContextData.forEach { implicitContext ->
             implicitContext.caller.forEach {
-                if (bindCaller == it) {
-                    value = implicitContext.context
+                if (toCompare == it) {
+                    contexts += implicitContext.context
+                    findMoreContexts(implicitContext.sender, contexts)
                 }
             }
         }
-
-        return evaluateBind(value, bind)
     }
 
-    private fun evaluateBind(implicitContext: ContextData?, bind: Bind.Expression<*>): Any? {
+    private fun evaluateBind(implicitContexts: List<ContextData>, bind: Bind.Expression<*>): Any? {
         val contexts = contextDataManager.getContextsFromBind(bind).toMutableList()
-        if (implicitContext != null) {
-            contexts += implicitContext
-        }
+        contexts += implicitContexts
         return contextDataEvaluation.evaluateBindExpression(contexts, bind)
     }
 }

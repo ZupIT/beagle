@@ -34,8 +34,8 @@ extension AnyDecodableContainer: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         if let type = try? container.decode(String.self, forKey: .componentType) {
-        if let decodable = dependencies.decoder.componentType(forType: type.lowercased()) {
-            content = try decodable.init(from: decoder)
+            if let decodable = dependencies.decoder.componentType(forType: type.lowercased()) {
+                content = try decodable.init(from: decoder)
             } else {
                 dependencies.schemaLogger?.logDecodingError(type: type)
                 content = UnknownComponent(type: type)

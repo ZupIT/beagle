@@ -20,7 +20,7 @@ public struct Button: RawWidget, ClickedOnComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties
     public let text: Expression<String>
-    public let styleId: Expression<String>?
+    public let styleId: String?
     public let onPress: [RawAction]?
     public var clickAnalyticsEvent: AnalyticsClick?
     public var widgetProperties: WidgetProperties
@@ -28,7 +28,7 @@ public struct Button: RawWidget, ClickedOnComponent, AutoInitiableAndDecodable {
 // sourcery:inline:auto:Button.Init
     public init(
         text: Expression<String>,
-        styleId: Expression<String>? = nil,
+        styleId: String? = nil,
         onPress: [RawAction]? = nil,
         clickAnalyticsEvent: AnalyticsClick? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()

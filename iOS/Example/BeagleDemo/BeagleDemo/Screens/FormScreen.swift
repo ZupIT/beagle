@@ -39,8 +39,8 @@ struct FormScreen: DeeplinkScreen {
                 children: [
                     FormInput(
                         name: "optional-field",
-                        child: DemoTextField(
-                            placeholder: "Optional field",
+                        child: TextInput(
+                            placeholder: .value("Optional field"),
                             widgetProperties: .init(style: styleHorizontalMargin)
                         )
                     ),
@@ -48,8 +48,8 @@ struct FormScreen: DeeplinkScreen {
                         name: "required-field",
                         required: true,
                         validator: FormScreen.textValidatorName,
-                        child: DemoTextField(
-                            placeholder: "Required field",
+                        child: TextInput(
+                            placeholder: .value("Required field"),
                             widgetProperties: .init(style: styleHorizontalMargin)
                         )
                     ),
@@ -57,15 +57,15 @@ struct FormScreen: DeeplinkScreen {
                         name: "another-required-field",
                         required: true,
                         validator: FormScreen.textValidatorName,
-                        child: DemoTextField(
-                            placeholder: "Another required field",
+                        child: TextInput(
+                            placeholder: .value("Another required field"),
                             widgetProperties: .init(style: styleHorizontalMargin)
                             
                         )
                     ),
                     Container(children: [], widgetProperties: .init(style: Style(flex: Flex(grow: 1)))),
                     FormSubmit(
-                        child: Button(text: "Submit Form", styleId: .value(.FORM_SUBMIT_STYLE), widgetProperties: .init(style: styleHorizontalMargin)),
+                        child: Button(text: "Submit Form", styleId: .FORM_SUBMIT_STYLE, widgetProperties: .init(style: styleHorizontalMargin)),
                         enabled: false
                     )
                 ],

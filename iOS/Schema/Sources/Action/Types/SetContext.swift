@@ -14,20 +14,18 @@
  * limitations under the License.
  */
 
-public struct SetContext: RawAction, AutoInitiable {
+public struct SetContext: RawAction {
     public let contextId: String
     public let path: Path?
     public let value: DynamicObject
-    
-// sourcery:inline:auto:SetContext.Init
+
     public init(
         contextId: String,
-        path: Path? = nil,
+        path: String? = nil,
         value: DynamicObject
     ) {
         self.contextId = contextId
-        self.path = path
+        self.path = path.flatMap { Path(rawValue: $0) }
         self.value = value
     }
-// sourcery:end
 }

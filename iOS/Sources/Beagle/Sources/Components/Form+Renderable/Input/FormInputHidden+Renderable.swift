@@ -19,14 +19,14 @@ import BeagleSchema
 
 extension FormInputHidden: ServerDrivenComponent {
     public func toView(renderer: BeagleRenderer) -> UIView {
-        let view = HidenInputView(value: value)
+        let view = HiddenInputView(value: value)
         view.beagleFormElement = self
         view.style.setup(Style(positionType: .absolute))
         return view
     }
 }
 
-class HidenInputView: UIView, InputValue {
+class HiddenInputView: UIView, InputValue {
     
     let value: String
     

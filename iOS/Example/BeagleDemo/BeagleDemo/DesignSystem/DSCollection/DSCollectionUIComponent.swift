@@ -48,7 +48,7 @@ class DSCollectionUIComponent: UIView {
     
     //MARK: Private functions
     
-    ///This needs to be overrided by all custom component views
+    ///This needs to be overridden by all custom component views
     override func sizeThatFits(_ size: CGSize) -> CGSize {
         return size
     }
