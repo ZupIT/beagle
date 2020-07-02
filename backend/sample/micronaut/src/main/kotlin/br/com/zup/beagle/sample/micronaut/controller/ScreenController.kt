@@ -141,8 +141,7 @@ class ScreenController(
     fun getSampleLazyComponentController() = this.sampleLazyComponentService.createLazyComponent()
 
     @Get(SCREEN_NAVIGATION_BAR_ENDPOINT)
-    fun getSampleNavigationBarController() =
-        this.sampleNavigationBarService.createNavigationBarView()
+    fun getSampleNavigationBarController() = this.sampleNavigationBarService.createNavigationBarView()
 
     @Get(REPRESENTATION_NAVIGATION_BAR_ENDPOINT)
     fun getSampleNavigationBar() = this.sampleNavigationBarService.navigationBar()
@@ -157,8 +156,7 @@ class ScreenController(
     fun getNavigationBarImage() = this.sampleNavigationBarService.navigationBarWithImageAsItem()
 
     @Get(NAVIGATION_TYPE_ENDPOINT)
-    fun getSampleNavigationTypeController() =
-        this.sampleNavigationTypeService.createNavigationTypeView()
+    fun getSampleNavigationTypeController() = this.sampleNavigationTypeService.createNavigationTypeView()
 
     @Get(REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT)
     fun getNavigationStep2() = this.sampleNavigationTypeService.step2()
@@ -188,6 +186,5 @@ class ScreenController(
     fun getAnalyticsExample() = this.sampleAnalyticsService.getAnalyticsExample()
 
     @Get(SCREEN_WEB_VIEW_ENDPOINT)
-    fun getsampleWebViewService() = this.sampleWebViewService.createWebView()
-
+    fun getSampleWebViewService() = this.sampleWebViewService.createWebView()
 }
