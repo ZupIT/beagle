@@ -24,5 +24,5 @@ import io.micronaut.http.annotation.Controller
 @Controller
 class CustomComponentController(private val customNativeService: CustomNativeService) {
     @Get(CUSTOM_WIDGET_ENDPOINT)
-    fun getCustomNativeWidget() = customNativeService.createCustomNativeWidget()
+    fun getCustomNativeWidget() = this.customNativeService.createCustomNativeWidget()
 }
