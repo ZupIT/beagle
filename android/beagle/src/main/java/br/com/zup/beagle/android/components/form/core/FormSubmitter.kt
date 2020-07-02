@@ -26,9 +26,7 @@ import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilderFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import br.com.zup.beagle.android.utils.CoroutineScopeBase
 import kotlinx.coroutines.launch
 import java.net.URI
 
@@ -36,17 +34,14 @@ internal class FormSubmitter(
     private val beagleApi: BeagleApi = BeagleApi(),
     private val deserialization: BeagleSerializer = BeagleSerializer(),
     private val urlBuilder: UrlBuilder = UrlBuilderFactory().make()
-) {
-
-    private val job = Job()
-    private val scope = CoroutineScope(Dispatchers.Main + job)
+) : CoroutineScopeBase() {
 
     fun submitForm(
         form: FormRemoteAction,
         formsValue: Map<String, String>,
         result: (formResult: FormResult) -> Unit
     ) {
-        scope.launch {
+        launch {
             try {
                 val requestData = createRequestData(form, formsValue)
                 val response = beagleApi.fetchData(requestData)

@@ -17,30 +17,40 @@
 package br.com.zup.beagle.android.components.form.core
 
 import android.net.Uri
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.FormMethodType
 import br.com.zup.beagle.android.action.FormRemoteAction
-import br.com.zup.beagle.android.components.form.Form
+import br.com.zup.beagle.android.data.BeagleApi
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
-import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.networking.HttpClient
 import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
+import br.com.zup.beagle.android.testutil.CoroutineTestRule
 import br.com.zup.beagle.android.testutil.RandomData
 import io.mockk.*
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
+import org.junit.Rule
 import org.junit.Test
+import java.net.URI
 
 private val FORMS_VALUE = mapOf<String, String>()
 private val ACTION = RandomData.string()
+private val PATH = RandomData.httpUrl()
+private val REQUEST_DATA = RequestData(URI(PATH))
 
+@ExperimentalCoroutinesApi
 class FormSubmitterTest : BaseTest() {
 
+    @get:Rule
+    val scope = CoroutineTestRule()
+
     @MockK
-    private lateinit var httpClient: HttpClient
+    private lateinit var beagleApi: BeagleApi
 
     @MockK
     private lateinit var beagleSerializer: BeagleSerializer
@@ -71,25 +81,24 @@ class FormSubmitterTest : BaseTest() {
         every { uri.toString() } returns ACTION
 
         every { beagleSdk.config.baseUrl } returns RandomData.httpUrl()
-        every { httpClient.execute(capture(requestDataSlot), any(), any()) } returns mockk()
+        coEvery { beagleApi.fetchData(capture(requestDataSlot)) } returns mockk()
         every { urlBuilder.format(any(), capture(urlSlot)) } returns ACTION
     }
 
-
     @Test
-    fun submitForm_should_create_requestData_correctly() {
+    fun submitForm_should_create_requestData_correctly() = runBlockingTest{
         // Given
         val action = createAction(FormMethodType.POST)
         val inputName = RandomData.string()
         val inputValue = RandomData.string()
         val formsValue = mapOf(inputName to inputValue)
 
+        beagleApi.fetchData(REQUEST_DATA)
+
         // When
         formSubmitter.submitForm(action, formsValue) {}
 
         // Then
-        verify(exactly = once()) { httpClient.execute(any(), any(), any()) }
-
         val requestData = requestDataSlot.captured
         assertEquals(HttpMethod.POST, requestData.method)
         assertEquals("""{"$inputName":"$inputValue"}""", requestData.body)

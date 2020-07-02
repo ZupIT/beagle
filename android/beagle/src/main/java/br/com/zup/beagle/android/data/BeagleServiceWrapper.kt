@@ -16,12 +16,10 @@
 
 package br.com.zup.beagle.android.data
 
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
+import br.com.zup.beagle.android.utils.CoroutineScopeBase
 import br.com.zup.beagle.android.view.ScreenRequest
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import br.com.zup.beagle.core.ServerDrivenComponent
 import kotlinx.coroutines.launch
 
 interface FetchListener {
@@ -30,10 +28,8 @@ interface FetchListener {
     fun onError(error: Throwable)
 }
 
-class BeagleServiceWrapper {
+class BeagleServiceWrapper : CoroutineScopeBase(){
 
-    private val job = Job()
-    private val scope = CoroutineScope(Dispatchers.Main + job)
     private var componentRequester = ComponentRequester()
     private var beagleSerialize = BeagleSerializer()
 
@@ -46,7 +42,7 @@ class BeagleServiceWrapper {
     }
 
     fun fetchComponent(screenRequest: ScreenRequest, listener: FetchListener) {
-        scope.launch {
+        launch {
             try {
                 listener.onSuccess(componentRequester.fetchComponent(screenRequest))
             } catch (e: Throwable) {
