@@ -31,7 +31,6 @@ android {
         versionCode Releases.versionCode
         versionName "${Releases.beagleVersionName}"
 
-//        testInstrumentationRunner GeneralNames.testInstrumentationRunner
         consumerProguardFiles GeneralNames.consumerProguard
     }
 
@@ -79,14 +78,10 @@ dependencies {
     testImplementation TestLibraries.kotlinTest
     testImplementation TestLibraries.kotlinCoroutinesTest
     testImplementation TestLibraries.mockk
-//    testImplementation TestLibraries.archCoreTesting
     testImplementation GeneralLibraries.jsonObject
     testImplementation AndroidSupport.archCoreTesting
 
     // Integration Testing
-//    androidTestImplementation TestLibraries.testRunner
-//    androidTestImplementation TestLibraries.testExt
-//    androidTestImplementation TestLibraries.espressoCore
     androidTestImplementation AndroidSupport.testRunner
     androidTestImplementation AndroidSupport.espressoCore
 }

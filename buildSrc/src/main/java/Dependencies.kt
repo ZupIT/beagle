@@ -67,10 +67,6 @@ object Versions {
 
     const val kotlinPoet = "1.5.0"
 
-    const val appcompat = "1.1.0"
-    const val viewModel = "2.1.0"
-    const val recyclerView = "1.0.0"
-
     const val fresco = "2.0.0"
 
     const val moshi = "1.9.2"
@@ -97,11 +93,6 @@ object Versions {
     const val jsonObject = "20190722"
 
     const val mockk = "1.9.3"
-
-    const val testRunner = "1.2.0"
-    const val testExt = "1.1.1"
-    const val archCoreTesting = "2.0.1"
-    const val espressoCore = "3.2.0"
 
     const val guava = "28.2-jre"
     const val slf4j = "1.7.30"
@@ -167,7 +158,6 @@ object GeneralLibraries {
 }
 
 object AndroidSupport {
-    const val testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
     const val multidex = "com.android.support:multidex:${AndroidSupportVersions.multidex}"
     const val design = "com.android.support:design:${AndroidSupportVersions.support}"
     const val viewModel = "android.arch.lifecycle:viewmodel:${AndroidSupportVersions.arch}"
@@ -175,7 +165,6 @@ object AndroidSupport {
     const val testRunner = "com.android.support.test:runner:${AndroidSupportVersions.supportTest}"
     const val archCoreTesting = "android.arch.core:core-testing:${AndroidSupportVersions.archCoreTesting}"
     const val espressoCore = "com.android.support.test.espresso:espresso-core:${AndroidSupportVersions.espressoCore}"
-    const val testRules = "com.android.support.test:rules:${AndroidSupportVersions.supportTest}"
 }
 
 object MoshiLibraries {
