@@ -43,7 +43,6 @@ platform :ios do
   lane :pull_request_verification do
     xcversion(version: "~> 11.5.0")
     iOSSwiftLint
-    init_ios_dependencies
     scan(
       workspace: "iOS/Beagle.xcworkspace/",
       scheme: "All",
