@@ -121,7 +121,7 @@ class HttpClientDefaultTest {
     fun execute_should_disconnect_after_response() = runBlockingTest {
         urlRequestDispatchingDefault.execute(makeSimpleRequestData(), onSuccess = {
             verify(exactly = once()) { httpURLConnection.disconnect() }
-        }, onError = {})
+        }, onError = { })
     }
 
     @Test
@@ -137,12 +137,14 @@ class HttpClientDefaultTest {
         )
 
         // When
-        urlRequestDispatchingDefault.execute(requestData, onSuccess = {}, onError = {})
+        urlRequestDispatchingDefault.execute(requestData, onSuccess = {
+            // Then
+            headers.forEach {
+                verify(exactly = once()) { httpURLConnection.setRequestProperty(it.key, it.value) }
+            }
+        }, onError = {})
 
-        // Then
-        headers.forEach {
-            verify(exactly = once()) { httpURLConnection.setRequestProperty(it.key, it.value) }
-        }
+
     }
 
     @Test
@@ -159,16 +161,19 @@ class HttpClientDefaultTest {
         every { outputStream.write(any<ByteArray>()) } just Runs
 
         // When
-        urlRequestDispatchingDefault.execute(requestData, onSuccess = {}, onError = {})
+        urlRequestDispatchingDefault.execute(requestData, onSuccess = {
 
-        // Then
-        verify(exactly = once()) { outputStream.write(data.toByteArray()) }
-        verify(exactly = once()) {
-            httpURLConnection.setRequestProperty(
-                "Content-Length",
-                data.length.toString()
-            )
-        }
+            // Then
+            verify(exactly = once()) { outputStream.write(data.toByteArray()) }
+            verify(exactly = once()) {
+                httpURLConnection.setRequestProperty(
+                    "Content-Length",
+                    data.length.toString()
+                )
+            }
+
+        }, onError = {})
+
     }
 
     @Test
@@ -256,16 +261,18 @@ class HttpClientDefaultTest {
         )
 
         // When
-        urlRequestDispatchingDefault.execute(requestData, onSuccess = {}, onError = {})
+        urlRequestDispatchingDefault.execute(requestData, onSuccess = {
 
-        // Then
-        verify(exactly = 0) {
-            httpURLConnection.setRequestProperty(
-                "X-HTTP-Method-Override",
-                "GET"
-            )
-        }
-        verify(exactly = once()) { httpURLConnection.requestMethod = "GET" }
+            // Then
+            verify(exactly = 0) {
+                httpURLConnection.setRequestProperty(
+                    "X-HTTP-Method-Override",
+                    "GET"
+                )
+            }
+            verify(exactly = once()) { httpURLConnection.requestMethod = "GET" }
+
+        }, onError = {})
     }
 
     @Test
@@ -277,16 +284,19 @@ class HttpClientDefaultTest {
         )
 
         // When
-        urlRequestDispatchingDefault.execute(requestData, onSuccess = {}, onError = {})
+        urlRequestDispatchingDefault.execute(requestData, onSuccess = {
 
-        // Then
-        verify(exactly = 0) {
-            httpURLConnection.setRequestProperty(
-                "X-HTTP-Method-Override",
-                "POST"
-            )
-        }
-        verify(exactly = once()) { httpURLConnection.requestMethod = "POST" }
+            // Then
+            verify(exactly = 0) {
+                httpURLConnection.setRequestProperty(
+                    "X-HTTP-Method-Override",
+                    "POST"
+                )
+            }
+            verify(exactly = once()) { httpURLConnection.requestMethod = "POST" }
+
+        }, onError = {})
+
     }
 
     @Test
@@ -298,16 +308,19 @@ class HttpClientDefaultTest {
         )
 
         // When
-        urlRequestDispatchingDefault.execute(requestData, onSuccess = {}, onError = {})
+        urlRequestDispatchingDefault.execute(requestData, onSuccess = {
 
-        // Then
-        verify(exactly = 0) {
-            httpURLConnection.setRequestProperty(
-                "X-HTTP-Method-Override",
-                "PUT"
-            )
-        }
-        verify(exactly = once()) { httpURLConnection.requestMethod = "PUT" }
+            // Then
+            verify(exactly = 0) {
+                httpURLConnection.setRequestProperty(
+                    "X-HTTP-Method-Override",
+                    "PUT"
+                )
+            }
+            verify(exactly = once()) { httpURLConnection.requestMethod = "PUT" }
+
+        }, onError = {})
+
     }
 
     @Test
@@ -319,16 +332,19 @@ class HttpClientDefaultTest {
         )
 
         // When
-        urlRequestDispatchingDefault.execute(requestData, onSuccess = {}, onError = {})
+        urlRequestDispatchingDefault.execute(requestData, onSuccess = {
 
-        // Then
-        verify(exactly = 0) {
-            httpURLConnection.setRequestProperty(
-                "X-HTTP-Method-Override",
-                "DELETE"
-            )
-        }
-        verify(exactly = once()) { httpURLConnection.requestMethod = "DELETE" }
+            // Then
+            verify(exactly = 0) {
+                httpURLConnection.setRequestProperty(
+                    "X-HTTP-Method-Override",
+                    "DELETE"
+                )
+            }
+            verify(exactly = once()) { httpURLConnection.requestMethod = "DELETE" }
+
+        }, onError = {})
+
     }
 
     @Test
@@ -340,16 +356,19 @@ class HttpClientDefaultTest {
         )
 
         // When
-        urlRequestDispatchingDefault.execute(requestData, onSuccess = {}, onError = {})
+        urlRequestDispatchingDefault.execute(requestData, onSuccess = {
 
-        // Then
-        verify(exactly = once()) {
-            httpURLConnection.setRequestProperty(
-                "X-HTTP-Method-Override",
-                "HEAD"
-            )
-        }
-        verify(exactly = once()) { httpURLConnection.requestMethod = "POST" }
+            // Then
+            verify(exactly = once()) {
+                httpURLConnection.setRequestProperty(
+                    "X-HTTP-Method-Override",
+                    "HEAD"
+                )
+            }
+            verify(exactly = once()) { httpURLConnection.requestMethod = "POST" }
+
+        }, onError = {})
+
     }
 
     @Test
@@ -361,16 +380,19 @@ class HttpClientDefaultTest {
         )
 
         // When
-        urlRequestDispatchingDefault.execute(requestData, onSuccess = {}, onError = {})
+        urlRequestDispatchingDefault.execute(requestData, onSuccess = {
 
-        // Then
-        verify(exactly = once()) {
-            httpURLConnection.setRequestProperty(
-                "X-HTTP-Method-Override",
-                "PATCH"
-            )
-        }
-        verify(exactly = once()) { httpURLConnection.requestMethod = "POST" }
+            // Then
+            verify(exactly = once()) {
+                httpURLConnection.setRequestProperty(
+                    "X-HTTP-Method-Override",
+                    "PATCH"
+                )
+            }
+            verify(exactly = once()) { httpURLConnection.requestMethod = "POST" }
+
+        }, onError = {})
+
     }
 
     @Test

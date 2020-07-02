@@ -18,10 +18,9 @@ package br.com.zup.beagle.android.networking
 
 import br.com.zup.beagle.android.exception.BeagleApiException
 import br.com.zup.beagle.android.utils.CoroutineScopeBase
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.EOFException
 import java.net.HttpURLConnection
 
@@ -40,9 +39,9 @@ internal class HttpClientDefault : HttpClient, CoroutineScopeBase() {
             return createRequestCall()
         }
 
-        launch {
+        launch(IO) {
             try {
-                val responseData = withContext(Dispatchers.IO) { doHttpRequest(request) }
+                val responseData = doHttpRequest(request)
                 onSuccess(responseData)
             } catch (ex: BeagleApiException) {
                 onError(ex.responseData)
