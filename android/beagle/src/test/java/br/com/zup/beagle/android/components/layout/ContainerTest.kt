@@ -41,6 +41,8 @@ class ContainerTest : BaseComponentTest() {
     override fun setUp() {
         super.setUp()
 
+        every { style.copy(flex = any()) } returns style
+
         container = Container(containerChildren).applyStyle(style)
     }
 
@@ -50,7 +52,7 @@ class ContainerTest : BaseComponentTest() {
         container.buildView(rootView)
 
         // THEN
-        verify(exactly = once()) {  anyConstructed<ViewFactory>().makeBeagleFlexView(rootView.getContext(), style) }
+        verify(exactly = once()) { anyConstructed<ViewFactory>().makeBeagleFlexView(rootView.getContext(), style) }
     }
 
     @Test
