@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.components.form.core
 
 import android.net.Uri
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.FormMethodType
 import br.com.zup.beagle.android.action.FormRemoteAction
@@ -28,9 +27,12 @@ import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
 import br.com.zup.beagle.android.testutil.CoroutineTestRule
 import br.com.zup.beagle.android.testutil.RandomData
-import io.mockk.*
-import io.mockk.impl.annotations.InjectMockKs
+import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.mockkStatic
+import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
@@ -67,7 +69,6 @@ class FormSubmitterTest : BaseTest() {
     @MockK
     private lateinit var uri: Uri
 
-    @InjectMockKs
     private lateinit var formSubmitter: FormSubmitter
 
     override fun setUp() {
@@ -83,6 +84,9 @@ class FormSubmitterTest : BaseTest() {
         every { beagleSdk.config.baseUrl } returns RandomData.httpUrl()
         coEvery { beagleApi.fetchData(capture(requestDataSlot)) } returns mockk()
         every { urlBuilder.format(any(), capture(urlSlot)) } returns ACTION
+
+        formSubmitter = FormSubmitter(beagleApi, beagleSerializer, urlBuilder)
+
     }
 
     @Test

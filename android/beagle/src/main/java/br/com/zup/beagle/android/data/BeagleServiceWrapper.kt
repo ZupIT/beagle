@@ -17,10 +17,13 @@
 package br.com.zup.beagle.android.data
 
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
-import br.com.zup.beagle.android.utils.CoroutineScopeBase
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.core.ServerDrivenComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 interface FetchListener {
 
@@ -28,10 +31,12 @@ interface FetchListener {
     fun onError(error: Throwable)
 }
 
-class BeagleServiceWrapper : CoroutineScopeBase(){
+class BeagleServiceWrapper : CoroutineScope {
 
     private var componentRequester = ComponentRequester()
     private var beagleSerialize = BeagleSerializer()
+    private val job: Job = Job()
+    override val coroutineContext: CoroutineContext = job + Dispatchers.Main
 
     internal fun init(
         componentRequester: ComponentRequester,
