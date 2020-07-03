@@ -91,7 +91,7 @@ internal class ContextDataEvaluation(
 
         return try {
             if (type == String::class.java) {
-                return value?.toString()
+                value?.toString()
             } else if (value is JSONArray || value is JSONObject) {
                 moshi.adapter<Any>(type).fromJson(value.toString())
                     ?: throw IllegalStateException("JSON deserialization returned null")
