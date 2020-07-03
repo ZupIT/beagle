@@ -16,10 +16,8 @@
 
 package br.com.zup.beagle.android.components.form
 
-import br.com.zup.beagle.android.action.ButtonSubmitAction
 import br.com.zup.beagle.android.action.SimpleFormAction
 import br.com.zup.beagle.android.components.BaseComponentTest
-import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.extensions.once
@@ -30,10 +28,10 @@ import org.junit.Test
 
 internal class SimpleFormTest : BaseComponentTest() {
 
+    private val simpleFormAction: SimpleFormAction = mockk()
     private val context: ContextData = mockk()
-    private val onSubmit: List<SimpleFormAction> = listOf(SimpleFormAction())
+    private val onSubmit: List<SimpleFormAction> = listOf(simpleFormAction)
     private val children: List<ServerDrivenComponent> = listOf(Text(""))
-    private val buttonSubmitAction: ButtonSubmitAction = mockk()
 
     private lateinit var simpleForm: SimpleForm
 
@@ -41,6 +39,7 @@ internal class SimpleFormTest : BaseComponentTest() {
         super.setUp()
 
         simpleForm = SimpleForm(context, onSubmit, children)
+        every { simpleFormAction.execute(rootView) } just Runs
     }
 
     @Test
@@ -50,5 +49,16 @@ internal class SimpleFormTest : BaseComponentTest() {
 
         // Then
         kotlin.test.assertTrue(view is BeagleFlexView)
+    }
+
+    @Test
+    fun submit_needs_to_trigger_all_actions() {
+        // When
+        simpleForm.submit(rootView)
+
+        // Then
+        verify(exactly = once()) {
+            simpleFormAction.execute(rootView)
+        }
     }
 }

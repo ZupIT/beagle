@@ -17,13 +17,11 @@
 package br.com.zup.beagle.android.engine.renderer
 
 import android.content.Context
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
-import br.com.zup.beagle.android.widget.RootView
 
-class FragmentRootView(
+data class FragmentRootView(
     val fragment: Fragment
 ) : BaseRootView() {
 
@@ -32,7 +30,7 @@ class FragmentRootView(
     override fun getLifecycleOwner(): LifecycleOwner = fragment.viewLifecycleOwner
 }
 
-class ActivityRootView(
+data class ActivityRootView(
     val activity: AppCompatActivity
 ) : BaseRootView() {
 

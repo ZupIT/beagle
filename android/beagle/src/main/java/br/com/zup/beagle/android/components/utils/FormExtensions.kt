@@ -14,10 +14,14 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.action
+package br.com.zup.beagle.android.components.utils
 
+import android.view.ViewGroup
+import br.com.zup.beagle.android.components.form.SimpleForm
+import br.com.zup.beagle.android.engine.renderer.BaseRootView
 import br.com.zup.beagle.android.widget.RootView
 
-class SimpleFormAction : Action {
-    override fun execute(rootView: RootView) {}
+fun RootView.submitSimpleForm(rootView: RootView) = this.apply {
+    (((rootView as BaseRootView).currentViewAction?.parent as ViewGroup)
+        .tag as SimpleForm).submit(rootView)
 }

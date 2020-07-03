@@ -16,15 +16,12 @@
 
 package br.com.zup.beagle.android.action
 
-import android.view.ViewGroup
-import br.com.zup.beagle.android.components.form.SimpleForm
-import br.com.zup.beagle.android.engine.renderer.BaseRootView
+import br.com.zup.beagle.android.components.utils.submitSimpleForm
 import br.com.zup.beagle.android.widget.RootView
 
 class ButtonSubmitAction : Action {
 
     override fun execute(rootView: RootView) {
-        (((rootView as BaseRootView).currentViewAction?.parent as ViewGroup)
-            .tag as SimpleForm).submit(rootView)
+        rootView.submitSimpleForm(rootView)
     }
 }
