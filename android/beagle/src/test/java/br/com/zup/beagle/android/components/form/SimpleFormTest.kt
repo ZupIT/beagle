@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.components.form
 
-import br.com.zup.beagle.android.action.SimpleFormAction
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.BaseComponentTest
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.context.ContextData
@@ -28,9 +28,9 @@ import org.junit.Test
 
 internal class SimpleFormTest : BaseComponentTest() {
 
-    private val simpleFormAction: SimpleFormAction = mockk()
+    private val simpleFormAction: Action = mockk()
     private val context: ContextData = mockk()
-    private val onSubmit: List<SimpleFormAction> = listOf(simpleFormAction)
+    private val onSubmit: List<Action> = listOf(simpleFormAction)
     private val children: List<ServerDrivenComponent> = listOf(Text(""))
 
     private lateinit var simpleForm: SimpleForm
