@@ -21,5 +21,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class SampleNetworkImageService {
-    fun createNetworkImage() = NetworkImageScreenBuilder
+    fun createNetworkImage() = NetworkImageScreenBuilder.withDefaultImagePath()
+
+    fun createBffNetworkImage() = NetworkImageScreenBuilder.withBffImagePath()
 }
