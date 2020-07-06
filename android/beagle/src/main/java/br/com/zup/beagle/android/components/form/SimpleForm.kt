@@ -35,8 +35,7 @@ import br.com.zup.beagle.core.Style
  *
  * @param context define the contextData that be set to form
  *
- * @param child
- *                  define the submit handler.
+ * @param child  define the submit handler.
  *                  It is generally set as a button to be clicked after a form is filled up.
  * @param enabled
  *                  define as "true" by default and it will enable the button to be clicked on.
@@ -61,7 +60,6 @@ data class SimpleForm (
             .apply {
                 tag = this@SimpleForm
                 addChildrenForm(this,rootView)
-                handleEvent(rootView, onSubmit, "onPress")
             }
     }
 
