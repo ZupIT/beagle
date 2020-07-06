@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,19 +15,7 @@
  * limitations under the License.
  */
 
-import Foundation
 import UIKit
-import BeagleSchema
-
-extension PageIndicator: ServerDrivenComponent {
-
-    public func toView(renderer: BeagleRenderer) -> UIView {
-        let view = PageIndicatorUIComponent(selectedColor: selectedColor, unselectedColor: unselectedColor, model: .init(numberOfPages: numberOfPages, currentPage: 0))
-        renderer.observe(currentPage, andUpdate: \.model.currentPage, in: view)
-        view.beagle.setup(style: Style(size: Size().height(40)))
-        return view
-    }
-}
 
 class PageIndicatorUIComponent: UIView {
 
@@ -47,6 +36,7 @@ class PageIndicatorUIComponent: UIView {
         indicator.currentPageIndicatorTintColor = selectedColor
         indicator.pageIndicatorTintColor = unselectedColor
         indicator.currentPage = 0
+        indicator.isUserInteractionEnabled = false
         return indicator
     }()
     

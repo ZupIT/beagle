@@ -16,3 +16,14 @@
 
 import Foundation
 import UIKit
+import BeagleSchema
+
+extension PageIndicator: ServerDrivenComponent {
+
+    public func toView(renderer: BeagleRenderer) -> UIView {
+        let view = PageIndicatorUIComponent(selectedColor: selectedColor, unselectedColor: unselectedColor, model: .init(numberOfPages: numberOfPages, currentPage: 0))
+        renderer.observe(currentPage, andUpdate: \.model.currentPage, in: view)
+        view.beagle.setup(style: Style(size: Size().height(40)))
+        return view
+    }
+}

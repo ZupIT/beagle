@@ -17,7 +17,7 @@
 import Foundation
 import UIKit    
 
-public class PageIndicator: PageIndicatorComponent, AutoInitiable {
+public class PageIndicator: RawComponent, AutoInitiableAndDecodable {
 
     public var selectedColor: String?
     public var unselectedColor: String?

@@ -27,6 +27,7 @@
 		7685B045249A8880007EDED0 /* SendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7685B044249A8880007EDED0 /* SendRequest.swift */; };
 		76BB91A5241AC6A800B9A239 /* declarativeText2.json in Resources */ = {isa = PBXBuildFile; fileRef = 76BB91A3241AC6A000B9A239 /* declarativeText2.json */; };
 		7C42EAF624228FC9007334A0 /* FormInputHidden+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C42EAF524228FC9007334A0 /* FormInputHidden+Renderable.swift */; };
+		7C43CB8B24B3755800248510 /* PageIndicatorUIComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C43CB8A24B3755800248510 /* PageIndicatorUIComponent.swift */; };
 		7CA2E83B2498228100B24782 /* BeagleLoggerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA2E83A2498228100B24782 /* BeagleLoggerProxy.swift */; };
 		7CA2E83D249822D400B24782 /* BeagleLoggerProxyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA2E83C249822D400B24782 /* BeagleLoggerProxyTests.swift */; };
 		7CC737FE245729B1004FBC16 /* FormDataStoreHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC737FD245729B1004FBC16 /* FormDataStoreHandlerTests.swift */; };
@@ -99,7 +100,6 @@
 		A0EF0AC2238B0CEC0019BE83 /* SubmitFormGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EF0AC1238B0CEC0019BE83 /* SubmitFormGestureRecognizer.swift */; };
 		A0F45498237B87E900B146A1 /* BeagleNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F45497237B87E800B146A1 /* BeagleNavigator.swift */; };
 		A0F4549A237C1B0F00B146A1 /* BeagleNavigatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F45499237C1B0F00B146A1 /* BeagleNavigatorTests.swift */; };
-		C0291886247C5E4000C3AA13 /* CustomPageIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F8CF50239190F4004C6C19 /* CustomPageIndicator.swift */; };
 		C0291889247D5BFA00C3AA13 /* ComponentFromJsonFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0291888247D5BFA00C3AA13 /* ComponentFromJsonFile.swift */; };
 		C0479F57243272460040E30C /* AnalyticsGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0479F56243272460040E30C /* AnalyticsGestureRecognizer.swift */; };
 		C048EBDB242BD78500A24075 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C048EBDA242BD78500A24075 /* Analytics.swift */; };
@@ -177,9 +177,7 @@
 		C869D117241148ED001C760C /* HttpAditionalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C869D116241148ED001C760C /* HttpAditionalData.swift */; };
 		C86D0CC323B25AE3009CE0EB /* LoadingViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B052BD23706395008EB9BE /* LoadingViewTests.swift */; };
 		C86E7C1523954E2700D6FEDB /* PageViewInvalid.json in Resources */ = {isa = PBXBuildFile; fileRef = C86E7C1423954E2700D6FEDB /* PageViewInvalid.json */; };
-		C89E80A52397FFD500C2D0ED /* PageIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89E80A42397FFD500C2D0ED /* PageIndicator.swift */; };
-		C89E80A72397FFFD00C2D0ED /* DefaultPageIndicator+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89E80A62397FFFD00C2D0ED /* DefaultPageIndicator+Renderable.swift */; };
-		C89E816D239827D500C2D0ED /* CustomPageIndicatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89E816C239827D500C2D0ED /* CustomPageIndicatorTest.swift */; };
+		C89E80A72397FFFD00C2D0ED /* PageIndicator+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89E80A62397FFFD00C2D0ED /* PageIndicator+Renderable.swift */; };
 		C89FFA922412DC2300C1B53B /* ViewConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89FFA912412DC2300C1B53B /* ViewConfigurator.swift */; };
 		C89FFA942412EA4200C1B53B /* UrlBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89FFA932412EA4200C1B53B /* UrlBuilder.swift */; };
 		C8D5F01C24A3FD740037B11C /* BeagleSchema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8D5F01B24A3FD740037B11C /* BeagleSchema.framework */; };
@@ -255,6 +253,7 @@
 		7C03910924250FC6003E6FCD /* BeagleLoggerDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleLoggerDefault.swift; sourceTree = "<group>"; };
 		7C42EAF524228FC9007334A0 /* FormInputHidden+Renderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FormInputHidden+Renderable.swift"; sourceTree = "<group>"; };
 		7C42EDFF243FBDA100DEEEA7 /* FormManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormManager.swift; sourceTree = "<group>"; };
+		7C43CB8A24B3755800248510 /* PageIndicatorUIComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicatorUIComponent.swift; sourceTree = "<group>"; };
 		7C9999542448A38000D77F07 /* FormManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormManagerTests.swift; sourceTree = "<group>"; };
 		7CA2E83A2498228100B24782 /* BeagleLoggerProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleLoggerProxy.swift; sourceTree = "<group>"; };
 		7CA2E83C249822D400B24782 /* BeagleLoggerProxyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleLoggerProxyTests.swift; sourceTree = "<group>"; };
@@ -418,10 +417,7 @@
 		C895D43E24905B98007868B8 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		C896F8862433AF1300245968 /* BeagleLoggerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleLoggerTests.swift; sourceTree = "<group>"; };
 		C897404E2388692900A78AE0 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
-		C8983D9A23984A4E0080D439 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
-		C89E80A42397FFD500C2D0ED /* PageIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicator.swift; sourceTree = "<group>"; };
-		C89E80A62397FFFD00C2D0ED /* DefaultPageIndicator+Renderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DefaultPageIndicator+Renderable.swift"; sourceTree = "<group>"; };
-		C89E816C239827D500C2D0ED /* CustomPageIndicatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPageIndicatorTest.swift; sourceTree = "<group>"; };
+		C89E80A62397FFFD00C2D0ED /* PageIndicator+Renderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PageIndicator+Renderable.swift"; sourceTree = "<group>"; };
 		C89FFA912412DC2300C1B53B /* ViewConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConfigurator.swift; sourceTree = "<group>"; };
 		C89FFA932412EA4200C1B53B /* UrlBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlBuilder.swift; sourceTree = "<group>"; };
 		C8CDAA6423AA6E5B00E95AA6 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
@@ -466,7 +462,6 @@
 		E7523AF7239E8F2100F93385 /* BeagleDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleDependencies.swift; sourceTree = "<group>"; };
 		E7716B9C2375E9FF006E26F2 /* BeagleDeepLinkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleDeepLinkHandler.swift; sourceTree = "<group>"; };
 		E79D846C23AABFA100BAE9FA /* BeaglePrefetchHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaglePrefetchHelperTests.swift; sourceTree = "<group>"; };
-		E7F8CF50239190F4004C6C19 /* CustomPageIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPageIndicator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -590,6 +585,15 @@
 				7CA2E83A2498228100B24782 /* BeagleLoggerProxy.swift */,
 			);
 			path = Logger;
+			sourceTree = "<group>";
+		};
+		7C43CB8924B3751C00248510 /* PageIndicator+Renderable */ = {
+			isa = PBXGroup;
+			children = (
+				C89E80A62397FFFD00C2D0ED /* PageIndicator+Renderable.swift */,
+				7C43CB8A24B3755800248510 /* PageIndicatorUIComponent.swift */,
+			);
+			path = "PageIndicator+Renderable";
 			sourceTree = "<group>";
 		};
 		7C6F606324462037007AC4AA /* Tests */ = {
@@ -1326,7 +1330,6 @@
 			children = (
 				C08D4DE4248559FA00AAAC0A /* PageView+Renderable.swift */,
 				C85D9BA0238701E60075B6C0 /* PageViewUIComponent.swift */,
-				C89E80A32397FFB900C2D0ED /* Indicator */,
 				C85D9BA6238858940075B6C0 /* Tests */,
 			);
 			path = "Page+Renderable";
@@ -1338,7 +1341,6 @@
 				C897404E2388692900A78AE0 /* __Snapshots__ */,
 				C85D9BA7238858B40075B6C0 /* PageViewTests.swift */,
 				C8F95314239595C500615CF0 /* PageViewUIComponentTests.swift */,
-				E7F8CF4F239190C5004C6C19 /* CustomPageIndicator */,
 				C8F953172395961700615CF0 /* Json */,
 			);
 			path = Tests;
@@ -1390,20 +1392,12 @@
 				E522377F237C3C8600E555BB /* Form+Renderable */,
 				C829CE9C23B12EDB001B7225 /* ListView+Renderable */,
 				C85D9B9D238701450075B6C0 /* Page+Renderable */,
+				7C43CB8924B3751C00248510 /* PageIndicator+Renderable */,
 				983E8C842396C7440018C6CA /* TabBar+Renderable */,
 				98E49744249D01B10053DB87 /* TextInput+Renderable */,
 				93ADB87723FAD2E5005B7CD2 /* Tests */,
 			);
 			path = Components;
-			sourceTree = "<group>";
-		};
-		C89E80A32397FFB900C2D0ED /* Indicator */ = {
-			isa = PBXGroup;
-			children = (
-				C89E80A42397FFD500C2D0ED /* PageIndicator.swift */,
-				C89E80A62397FFFD00C2D0ED /* DefaultPageIndicator+Renderable.swift */,
-			);
-			path = Indicator;
 			sourceTree = "<group>";
 		};
 		C8A2F6EB2464C019002198B1 /* Generated */ = {
@@ -1540,16 +1534,6 @@
 				E5CE41EB2332B9B600295277 /* Info.plist */,
 			);
 			path = BeagleTests;
-			sourceTree = "<group>";
-		};
-		E7F8CF4F239190C5004C6C19 /* CustomPageIndicator */ = {
-			isa = PBXGroup;
-			children = (
-				C8983D9A23984A4E0080D439 /* __Snapshots__ */,
-				E7F8CF50239190F4004C6C19 /* CustomPageIndicator.swift */,
-				C89E816C239827D500C2D0ED /* CustomPageIndicatorTest.swift */,
-			);
-			path = CustomPageIndicator;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1749,7 +1733,6 @@
 				C08D4E3324857C7700AAAC0A /* UIWindow+Extension.swift in Sources */,
 				C869D117241148ED001C760C /* HttpAditionalData.swift in Sources */,
 				A068234E2384320000CEE57A /* Validator.swift in Sources */,
-				C89E80A52397FFD500C2D0ED /* PageIndicator.swift in Sources */,
 				98E18D18249BE71E009D6A54 /* Confirm.swift in Sources */,
 				C08D4E77248593A800AAAC0A /* Button+Renderable.swift in Sources */,
 				C852A0F3247F246B009535D9 /* BeagleRenderer.swift in Sources */,
@@ -1781,6 +1764,7 @@
 				C85688BC2433C4A800DD8B60 /* BeagleLoggerDefault.swift in Sources */,
 				E531D6B42359FE19007EEBA7 /* UIView+AutoLayout.swift in Sources */,
 				C08D4E3124857C7700AAAC0A /* DependencyWindowManager.swift in Sources */,
+				7C43CB8B24B3755800248510 /* PageIndicatorUIComponent.swift in Sources */,
 				C08D4E442485803E00AAAC0A /* LazyComponent+Renderable.swift in Sources */,
 				A0D608D92448DF8700F7D851 /* ScreenController.swift in Sources */,
 				57E7F970247D9EDC00FBD398 /* UIView+Context.swift in Sources */,
@@ -1807,7 +1791,7 @@
 				E5A6F4A92358A547008906F8 /* FatalErrorUtil.swift in Sources */,
 				C89FFA922412DC2300C1B53B /* ViewConfigurator.swift in Sources */,
 				A0F45498237B87E900B146A1 /* BeagleNavigator.swift in Sources */,
-				C89E80A72397FFFD00C2D0ED /* DefaultPageIndicator+Renderable.swift in Sources */,
+				C89E80A72397FFFD00C2D0ED /* PageIndicator+Renderable.swift in Sources */,
 				E5CB5DAB23550012009783A7 /* BeagleSetup.swift in Sources */,
 				C08D4EA82486B72300AAAC0A /* FormManager.swift in Sources */,
 				935278F62499728400AB9D1F /* DynamicObject.swift in Sources */,
@@ -1864,7 +1848,6 @@
 				A024CF1124991E4F009BB92D /* UIView+StyleTests.swift in Sources */,
 				C08D4E2124857B5A00AAAC0A /* ScreenComponentTests.swift in Sources */,
 				57CBF5AA243F9EF300873997 /* CacheManagerDefaultTests.swift in Sources */,
-				C0291886247C5E4000C3AA13 /* CustomPageIndicator.swift in Sources */,
 				C8F953162395960200615CF0 /* PageViewUIComponentTests.swift in Sources */,
 				E52236C623745CDC00E555BB /* NSObjectExtensionTests.swift in Sources */,
 				A0F4549A237C1B0F00B146A1 /* BeagleNavigatorTests.swift in Sources */,
@@ -1912,7 +1895,6 @@
 				E5A77643237DC17D002F5515 /* FormSubmitTests.swift in Sources */,
 				E516E61023705BED006620B1 /* BeagleViewBuilderTests.swift in Sources */,
 				93C69F2B24A4D84D00818305 /* UIView+ContextTests.swift in Sources */,
-				C89E816D239827D500C2D0ED /* CustomPageIndicatorTest.swift in Sources */,
 				C85688BF2433C55C00DD8B60 /* BeagleLoggerTests.swift in Sources */,
 				C08D4E1D24857B4200AAAC0A /* ScrollViewTests.swift in Sources */,
 				E5CB5D862354C830009783A7 /* MirrorExtension.swift in Sources */,
