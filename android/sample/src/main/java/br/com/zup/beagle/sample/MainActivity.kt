@@ -17,10 +17,10 @@
 package br.com.zup.beagle.sample
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import br.com.zup.beagle.sample.activities.NavigationBarActivity
 import br.com.zup.beagle.sample.constants.SAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.fragment.ComposeComponentFragment

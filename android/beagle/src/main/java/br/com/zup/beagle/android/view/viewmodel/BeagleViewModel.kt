@@ -16,9 +16,8 @@
 
 package br.com.zup.beagle.android.view.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.ViewModel
 import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.data.ComponentRequester
 import br.com.zup.beagle.android.exception.BeagleException
@@ -26,6 +25,8 @@ import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.core.ServerDrivenComponent
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.util.*
 import java.util.concurrent.atomic.AtomicReference
@@ -39,16 +40,17 @@ sealed class ViewState {
 
 internal class BeagleViewModel(
     private val componentRequester: ComponentRequester = ComponentRequester()
-) : ViewModel() {
+) : BaseViewModel() {
+
 
     private val urlObservableReference = AtomicReference(UrlObservable())
 
     fun fetchComponent(screenRequest: ScreenRequest, screen: ScreenComponent? = null): LiveData<ViewState> {
         return FetchComponentLiveData(screenRequest, screen, componentRequester,
-            urlObservableReference, viewModelScope.coroutineContext)
+            urlObservableReference, coroutineContext)
     }
 
-    fun fetchForCache(url: String) = viewModelScope.launch {
+    fun fetchForCache(url: String) = launch {
         try {
             urlObservableReference.get().setLoading(url, true)
             val component = componentRequester.fetchComponent(ScreenRequest(url))

@@ -19,9 +19,9 @@ package br.com.zup.beagle.android.preview
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
 import br.com.zup.beagle.android.utils.renderScreen
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState

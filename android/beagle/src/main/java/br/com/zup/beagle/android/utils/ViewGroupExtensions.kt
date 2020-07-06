@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.android.utils
 
+import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.components.utils.viewExtensionsViewFactory
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView

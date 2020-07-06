@@ -18,15 +18,15 @@ package br.com.zup.beagle.android.utils
 
 import android.content.Context
 import android.os.Build
+import android.support.v4.content.res.ResourcesCompat
+import android.support.v4.widget.TextViewCompat
+import android.support.v7.widget.Toolbar
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.NavigationBarItem

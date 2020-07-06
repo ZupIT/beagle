@@ -17,9 +17,10 @@
 package br.com.zup.beagle.sample.widgets
 
 import android.graphics.Color
+import android.text.Editable
 import android.text.InputType
+import android.text.TextWatcher
 import android.widget.EditText
-import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.annotation.RegisterWidget
@@ -46,8 +47,16 @@ data class TextField(
     override fun buildView(rootView: RootView) = EditText(rootView.getContext()).apply {
         textFieldView = this
         bind(this@TextField)
+        addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {}
 
-        doOnTextChanged { _, _, _, _ -> notifyChanges() }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                notifyChanges()
+            }
+
+        })
     }
 
     override fun onErrorMessage(message: String) {

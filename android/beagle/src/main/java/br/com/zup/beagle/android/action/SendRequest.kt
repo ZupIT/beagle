@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.action
 
-import androidx.lifecycle.Observer
+import android.arch.lifecycle.Observer
 import br.com.zup.beagle.android.annotation.ContextDataValue
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.utils.handleEvent
@@ -68,7 +68,7 @@ data class SendRequest(
         val viewModel = rootView.generateViewModelInstance<ActionRequestViewModel>()
 
         viewModel.fetch(toSendRequestInternal(rootView)).observe(rootView.getLifecycleOwner(), Observer { state ->
-            executeActions(rootView, state)
+            state?.let { executeActions(rootView, state) }
         })
     }
 

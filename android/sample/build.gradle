@@ -51,10 +51,9 @@ android {
 }
 
 dependencies {
-    implementation AndroidxLibraries.appcompat
+    implementation AndroidSupport.design
 
     implementation GeneralLibraries.kotlin
-    implementation AndroidxLibraries.coreKtx
 
     debugImplementation project(Modules.beagleAndroidPreview)
 
@@ -65,10 +64,4 @@ dependencies {
     testImplementation TestLibraries.junit
     testImplementation TestLibraries.kotlinTest
     testImplementation TestLibraries.mockk
-
-    // Integration Testing
-    androidTestImplementation TestLibraries.testRunner
-    androidTestImplementation TestLibraries.testExt
-    androidTestImplementation TestLibraries.espressoCore
-    androidTestImplementation TestLibraries.testRules
 }

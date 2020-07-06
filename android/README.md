@@ -57,7 +57,7 @@ The **fourth step** is to create a `AppBeagleActivity` . You will need one to ha
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
-import androidx.appcompat.widget.Toolbar
+import android.support.v7.widget.Toolbar
 import br.com.zup.beagle.annotation.BeagleComponent
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
@@ -98,10 +98,10 @@ class AppBeagleActivity : BeagleActivity() {
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/custom_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/custom_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     <FrameLayout
         android:layout_width="match_parent"

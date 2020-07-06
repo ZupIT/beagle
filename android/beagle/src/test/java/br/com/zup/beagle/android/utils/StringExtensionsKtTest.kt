@@ -17,8 +17,6 @@
 package br.com.zup.beagle.android.utils
 
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.context.ContextDataManager
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView

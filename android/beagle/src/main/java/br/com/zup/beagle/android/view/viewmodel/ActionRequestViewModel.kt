@@ -16,9 +16,7 @@
 
 package br.com.zup.beagle.android.view.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.arch.lifecycle.LiveData
 import br.com.zup.beagle.android.action.SendRequestInternal
 import br.com.zup.beagle.android.data.ActionRequester
 import br.com.zup.beagle.android.exception.BeagleApiException
@@ -37,10 +35,10 @@ data class Response(
 
 internal class ActionRequestViewModel(
     private val requester: ActionRequester = ActionRequester()
-) : ViewModel() {
+) : BaseViewModel() {
 
     fun fetch(sendRequest: SendRequestInternal): LiveData<FetchViewState> {
-        return FetchComponentLiveData(requester, sendRequest, viewModelScope.coroutineContext)
+        return FetchComponentLiveData(requester, sendRequest, coroutineContext)
     }
 
     sealed class FetchViewState {

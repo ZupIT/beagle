@@ -18,11 +18,11 @@ package br.com.zup.beagle.android.components
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.support.v4.widget.TextViewCompat
 import android.text.InputType
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
-import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
