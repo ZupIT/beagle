@@ -26,6 +26,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Test
+import org.springframework.http.MediaType
 import javax.servlet.FilterChain
 import javax.servlet.ServletOutputStream
 import javax.servlet.ServletRequest
@@ -34,6 +35,7 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 internal class BeaglePlatformFilterTest {
+
     @Test
     fun `doFilter when all parameters are valid`() {
         val json = "{ }"
@@ -49,6 +51,7 @@ internal class BeaglePlatformFilterTest {
         every { objectMapper.readTree(any<ByteArray>()) } returns jsonNode
         every { jsonNode.toPrettyString() } returns json
         every { request.getHeader(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER) } returns beaglePlatform
+        every { response.contentType } returns MediaType.APPLICATION_JSON_VALUE
         every { response.isCommitted } returns false
         every { response.outputStream } returns outputStream
 
@@ -57,6 +60,25 @@ internal class BeaglePlatformFilterTest {
         verify { request.setAttribute(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER, beaglePlatform) }
         verify { outputStream.write(capture(bodySlot), any(), any()) }
         assertArrayEquals(json.toByteArray(), bodySlot.captured.sliceArray(json.indices))
+    }
+
+    @Test
+    fun `doFilter when all parameters are valid and content type is not json`() {
+        val beaglePlatform = BeaglePlatform.MOBILE.name
+        val objectMapper = mockk<ObjectMapper>()
+        val request = mockk<HttpServletRequest>(relaxUnitFun = true)
+        val response = mockk<HttpServletResponse>(relaxUnitFun = true)
+        val chain = mockk<FilterChain>(relaxUnitFun = true)
+        val outputStream = mockk<ServletOutputStream>(relaxUnitFun = true)
+
+        every { request.getHeader(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER) } returns beaglePlatform
+        every { response.contentType } returns MediaType.IMAGE_PNG_VALUE
+        every { response.isCommitted } returns false
+        every { response.outputStream } returns outputStream
+
+        BeaglePlatformFilter(objectMapper).doFilter(request, response, chain)
+
+        verify { request.setAttribute(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER, beaglePlatform) }
     }
 
     @Test

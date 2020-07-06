@@ -21,5 +21,7 @@ import javax.inject.Singleton
 
 @Singleton
 class SampleNetworkImageService {
-    fun createNetworkImage() = NetworkImageScreenBuilder
+    fun createNetworkImage() = NetworkImageScreenBuilder.withDefaultImagePath()
+
+    fun createBffNetworkImage() = NetworkImageScreenBuilder.withBffImagePath()
 }
