@@ -5,7 +5,7 @@
       ▿ onPress: Optional<Array<RawAction>>
         ▿ some: 1 element
           - SubmitForm
-      - styleId: Optional<Expression<String>>.none
+      - styleId: Optional<String>.none
       ▿ text: Expression<String>
         - value: "Dados"
       ▿ widgetProperties: WidgetProperties
