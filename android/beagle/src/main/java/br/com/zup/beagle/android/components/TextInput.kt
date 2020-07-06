@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.components
 
-import android.graphics.Color
 import android.text.InputType
 import android.text.TextWatcher
 import android.view.View
