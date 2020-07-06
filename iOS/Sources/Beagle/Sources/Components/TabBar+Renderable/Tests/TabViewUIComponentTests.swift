@@ -112,7 +112,7 @@ final class TabViewUIComponentTests: XCTestCase {
         )
         
         // Then
-        XCTAssert(spy.changedCurrentPageFuncionCalled)
+        XCTAssert(spy.changedCurrentPageFunctionCalled)
     }
     
     func test_whenChangedPages_shouldChangeCollectionTab() {
@@ -137,9 +137,9 @@ final class TabViewUIComponentTests: XCTestCase {
 }
 
 private class PageViewUIComponentSpyDelegate: PageViewUIComponentDelegate {
-    var changedCurrentPageFuncionCalled = false
+    var changedCurrentPageFunctionCalled = false
     
     func changedCurrentPage(_ currentPage: Int) {
-        changedCurrentPageFuncionCalled = true
+        changedCurrentPageFunctionCalled = true
     }
 }

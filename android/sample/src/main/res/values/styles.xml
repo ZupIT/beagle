@@ -76,6 +76,8 @@
     <style name="DesignSystem.Button.Black" parent="DesignSystem.Button.Default">
         <item name="android:textColor">@color/colorWhite</item>
         <item name="background">@color/colorBlack</item>
+        <item name="android:autoLink">all</item>
+        <item name="android:textColorLink">@color/colorWhite</item>
     </style>
 
     <style name="DesignSystem.Button.Text" parent="Widget.AppCompat.Button">
@@ -134,9 +136,10 @@
         <item name="android:textColor">@color/colorBlack</item>
         <item name="android:textSize">40sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:autoLink">all</item>
     </style>
 
-    <style name="DesignSystem.Form.Submit" parent="DesignSystem.Text.Default">
+    <style name="DesignSystem.Form.Submit" parent="DesignSystem.Button.Text">
         <item name="android:textColor">@color/colorWhite</item>
         <item name="background">@drawable/bg_form_button</item>
     </style>

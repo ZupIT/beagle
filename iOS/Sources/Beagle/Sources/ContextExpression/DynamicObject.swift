@@ -37,7 +37,8 @@ extension DynamicObject {
         case let .dictionary(dictionary):
             return .dictionary(dictionary.mapValues { $0.get(with: view) })
         case let .expression(expression):
-            return DynamicObject(from: view.evaluate(for: expression))
+            let dynamicObject: DynamicObject? = view.evaluate(for: expression)
+            return dynamicObject ?? .empty
         }
     }
 }

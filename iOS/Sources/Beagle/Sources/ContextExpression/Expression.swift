@@ -34,20 +34,18 @@ public extension Expression {
         }
     }
 
-    func get(with view: UIView?) -> T? {
+    func evaluate(with view: UIView?) -> T? {
         switch self {
         case let .expression(expression):
-            return view?.evaluate(for: expression) as? T
+            return view?.evaluate(for: expression)
         case let .value(value):
             return value
         }
     }
 }
 
-// MARK: - ExpressibleByLiteral
-
+// MARK: ExpressibleByLiteral
 extension Expression: ExpressibleByStringLiteral {
-
     public init(stringLiteral value: String) {
         if let expression = SingleExpression(rawValue: value) {
             self = .expression(.single(expression))
@@ -58,7 +56,7 @@ extension Expression: ExpressibleByStringLiteral {
         } else {
             assertionFailure("Error: invalid Expression syntax \(value)")
             Beagle.dependencies.logger.log(Log.expression(.invalidSyntax))
-            self = .expression(.single(.evalToNil))
+            self = .expression(.multiple(MultipleExpression(nodes: [])))
         }
     }
 }
@@ -81,35 +79,30 @@ extension Expression: ExpressibleByFloatLiteral where T == Float {
 
 extension SingleExpression {
 
-    func evaluate(model: DynamicObject) -> Any? {
-        let model = model.asAny()
+    func evaluate(model: DynamicObject) -> DynamicObject {
         var nodes = self.path.nodes[...]
         return SingleExpression.evaluate(&nodes, model)
     }
     
-    private static func evaluate(_ expression: inout ArraySlice<Path.Node>, _ model: Any?) -> Any? {
+    private static func evaluate(_ expression: inout ArraySlice<Path.Node>, _ model: DynamicObject) -> DynamicObject {
         guard let first = expression.first else {
             return model
         }
         switch first {
         case let .key(key):
-            guard let dictionary = model as? [String: Any], let value = dictionary[key] else {
+            guard case let .dictionary(dictionary) = model, let value = dictionary[key] else {
                 return nil
             }
             expression.removeFirst()
             return evaluate(&expression, value)
 
         case let .index(index):
-            guard let array = model as? [Any], let value = array[safe: index] else {
+            guard case let .array(array) = model, let value = array[safe: index] else {
                 return nil
             }
             expression.removeFirst()
             return evaluate(&expression, value)
         }
     }
-
-    /// use when relying on expression that will be evaluated to nil
-    static var evalToNil: SingleExpression {
-        SingleExpression(rawValue: "@{__ContextNotDefined__}")!
-    }
+    
 }

@@ -8,18 +8,10 @@
         - key: "id"
         - value: "11111"
   ▿ child: Container
-    ▿ children: 4 elements
+    ▿ children: 3 elements
       ▿ FormInput
-        ▿ child: Text
-          - alignment: Optional<Expression<Alignment>>.none
-          - styleId: Optional<Expression<String>>.none
-          ▿ text: Expression<String>
-            - value: "text"
-          - textColor: Optional<Expression<String>>.none
-          ▿ widgetProperties: WidgetProperties
-            - accessibility: Optional<Accessibility>.none
-            - id: Optional<String>.none
-            - style: Optional<Style>.none
+        ▿ child: UnknownComponent
+          - type: "custom:beagleschematestscomponent"
         - errorMessage: Optional<String>.none
         - name: "optional-field"
         - required: Optional<Bool>.none
@@ -33,70 +25,9 @@
           - some: true
         ▿ validator: Optional<String>
           - some: "text-is-not-blank"
-      ▿ Container
-        - children: 0 elements
-        - context: Optional<Context>.none
-        - onInit: Optional<Array<RawAction>>.none
-        ▿ widgetProperties: WidgetProperties
-          - accessibility: Optional<Accessibility>.none
-          - id: Optional<String>.none
-          ▿ style: Optional<Style>
-            ▿ some: Style
-              - backgroundColor: Optional<String>.none
-              - cornerRadius: Optional<CornerRadius>.none
-              - display: Optional<Display>.none
-              ▿ flex: Optional<Flex>
-                ▿ some: Flex
-                  - alignContent: Optional<AlignContent>.none
-                  - alignItems: Optional<AlignItems>.none
-                  - alignSelf: Optional<AlignSelf>.none
-                  - basis: Optional<UnitValue>.none
-                  - flex: Optional<Double>.none
-                  - flexDirection: Optional<FlexDirection>.none
-                  - flexWrap: Optional<Wrap>.none
-                  ▿ grow: Optional<Double>
-                    - some: 1.0
-                  - justifyContent: Optional<JustifyContent>.none
-                  - shrink: Optional<Double>.none
-              - margin: Optional<EdgeValue>.none
-              - padding: Optional<EdgeValue>.none
-              - position: Optional<EdgeValue>.none
-              - positionType: Optional<PositionType>.none
-              - size: Optional<Size>.none
       ▿ FormSubmit
-        ▿ child: Button
-          - clickAnalyticsEvent: Optional<AnalyticsClick>.none
-          - onPress: Optional<Array<RawAction>>.none
-          ▿ styleId: Optional<Expression<String>>
-            ▿ some: Expression<String>
-              - value: "DesignSystem.Form.Submit"
-          ▿ text: Expression<String>
-            - value: "Submit Form"
-          ▿ widgetProperties: WidgetProperties
-            - accessibility: Optional<Accessibility>.none
-            - id: Optional<String>.none
-            ▿ style: Optional<Style>
-              ▿ some: Style
-                - backgroundColor: Optional<String>.none
-                - cornerRadius: Optional<CornerRadius>.none
-                - display: Optional<Display>.none
-                - flex: Optional<Flex>.none
-                ▿ margin: Optional<EdgeValue>
-                  ▿ some: EdgeValue
-                    ▿ all: Optional<UnitValue>
-                      ▿ some: UnitValue
-                        - type: UnitType.real
-                        - value: 10.0
-                    - bottom: Optional<UnitValue>.none
-                    - horizontal: Optional<UnitValue>.none
-                    - left: Optional<UnitValue>.none
-                    - right: Optional<UnitValue>.none
-                    - top: Optional<UnitValue>.none
-                    - vertical: Optional<UnitValue>.none
-                - padding: Optional<EdgeValue>.none
-                - position: Optional<EdgeValue>.none
-                - positionType: Optional<PositionType>.none
-                - size: Optional<Size>.none
+        ▿ child: UnknownComponent
+          - type: "custom:beagleschematestscomponent"
         ▿ enabled: Optional<Bool>
           - some: false
     - context: Optional<Context>.none
@@ -104,41 +35,7 @@
     ▿ widgetProperties: WidgetProperties
       - accessibility: Optional<Accessibility>.none
       - id: Optional<String>.none
-      ▿ style: Optional<Style>
-        ▿ some: Style
-          ▿ backgroundColor: Optional<String>
-            - some: "#B8E297"
-          - cornerRadius: Optional<CornerRadius>.none
-          - display: Optional<Display>.none
-          ▿ flex: Optional<Flex>
-            ▿ some: Flex
-              - alignContent: Optional<AlignContent>.none
-              - alignItems: Optional<AlignItems>.none
-              - alignSelf: Optional<AlignSelf>.none
-              - basis: Optional<UnitValue>.none
-              - flex: Optional<Double>.none
-              - flexDirection: Optional<FlexDirection>.none
-              - flexWrap: Optional<Wrap>.none
-              ▿ grow: Optional<Double>
-                - some: 1.0
-              - justifyContent: Optional<JustifyContent>.none
-              - shrink: Optional<Double>.none
-          - margin: Optional<EdgeValue>.none
-          ▿ padding: Optional<EdgeValue>
-            ▿ some: EdgeValue
-              ▿ all: Optional<UnitValue>
-                ▿ some: UnitValue
-                  - type: UnitType.real
-                  - value: 10.0
-              - bottom: Optional<UnitValue>.none
-              - horizontal: Optional<UnitValue>.none
-              - left: Optional<UnitValue>.none
-              - right: Optional<UnitValue>.none
-              - top: Optional<UnitValue>.none
-              - vertical: Optional<UnitValue>.none
-          - position: Optional<EdgeValue>.none
-          - positionType: Optional<PositionType>.none
-          - size: Optional<Size>.none
+      - style: Optional<Style>.none
   ▿ group: Optional<String>
     - some: "group"
   ▿ onSubmit: Optional<Array<RawAction>>

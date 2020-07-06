@@ -31,7 +31,7 @@ class BeagleLoggerTests: XCTestCase {
         let logs: [Log] = [
             Log.network(.couldNotBuildUrl(url: "asdfa/asdfa/asdf")),
             Log.network(.httpRequest(request: .init(url: URLRequest(url: URL(string: "test")!)))),
-            Log.network(.httpResponse(response: .init(data: nil, reponse: nil))),
+            Log.network(.httpResponse(response: .init(data: nil, response: nil))),
 
             Log.form(.divergentInputViewAndValueCount(form: form)),
             Log.form(.inputsNotFound(form: form)),

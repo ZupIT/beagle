@@ -24,5 +24,5 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class CustomComponentController(private val customNativeService: CustomNativeService) {
     @GetMapping(CUSTOM_WIDGET_ENDPOINT)
-    fun getCustomNativeWidget() = customNativeService.createCustomNativeWidget()
+    fun getCustomNativeWidget() = this.customNativeService.createCustomNativeWidget()
 }

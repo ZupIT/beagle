@@ -58,7 +58,7 @@ extension ScreenDeepLink: ViewLayoutHelper {
         view.addSubview(label)
     }
     
-    func setupContraints() {
+    func setupConstraints() {
         label.anchorCenterSuperview()
     }
     

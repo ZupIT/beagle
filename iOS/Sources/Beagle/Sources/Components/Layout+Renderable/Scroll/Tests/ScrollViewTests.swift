@@ -60,7 +60,7 @@ final class ScrollViewTests: XCTestCase {
         XCTAssert(resultingView.subviews.count == 1)
     }
     
-    func test_whenLayoutSubViewsIsCalledOnBagleContainerScrollView_itShouldSetupTheContentSizeCorrectly() {
+    func test_whenLayoutSubViewsIsCalledOnBeagleContainerScrollView_itShouldSetupTheContentSizeCorrectly() {
         // Given
         let subview = UIView(frame: .init(x: 0, y: 0, width: 100, height: 100))
         let sut = BeagleContainerScrollView()

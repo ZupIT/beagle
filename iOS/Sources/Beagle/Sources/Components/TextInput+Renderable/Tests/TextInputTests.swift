@@ -48,7 +48,7 @@ class TextInputTests: XCTestCase {
             XCTFail("Unable to type cast to UITextField.")
             return
         }
-        let inputType = inputTypeToKeyboardType(component.type?.get(with: textField))
+        let inputType = inputTypeToKeyboardType(component.type?.evaluate(with: textField))
         
         // Then
         XCTAssertEqual(textField.keyboardType, inputType)

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -48,6 +48,7 @@
 		931B6E32237610B300DE73FD /* FunctiontalUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931B6E31237610B300DE73FD /* FunctiontalUtils.swift */; };
 		9327116523F1C9D100778B56 /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9327116423F1C9D100778B56 /* Widget.swift */; };
 		932925E02327E11000A61F01 /* Beagle.h in Headers */ = {isa = PBXBuildFile; fileRef = 932925D22327E11000A61F01 /* Beagle.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		933078EE24AE4F00009D92F2 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 933078ED24AE4F00009D92F2 /* SnapshotTesting */; };
 		9337F82D249A466B00B0A260 /* SetContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9337F82C249A466B00B0A260 /* SetContext.swift */; };
 		9337F838249A7F0000B0A260 /* TouchableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9337F833249A7F0000B0A260 /* TouchableTests.swift */; };
 		9337F839249A7F0000B0A260 /* LocalFormHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9337F834249A7F0000B0A260 /* LocalFormHandlerTests.swift */; };
@@ -165,7 +166,6 @@
 		C829CF2323B197CF001B7225 /* FormInputTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A77640237DC140002F5515 /* FormInputTests.swift */; };
 		C829CF2A23B197FB001B7225 /* RepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50B2840236350B9005E2E6D /* RepositoryTests.swift */; };
 		C8311A6924099A8700E95C15 /* WidgetStateObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8311A6824099A8700E95C15 /* WidgetStateObservable.swift */; };
-		C838416024A4485700EDD344 /* SnapshotTesting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C838415F24A4485700EDD344 /* SnapshotTesting.framework */; };
 		C852A0F3247F246B009535D9 /* BeagleRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C852A0F2247F246B009535D9 /* BeagleRenderer.swift */; };
 		C85688BB2433C4A400DD8B60 /* BeagleMessageLogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C03910724250772003E6FCD /* BeagleMessageLogs.swift */; };
 		C85688BC2433C4A800DD8B60 /* BeagleLoggerDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C03910924250FC6003E6FCD /* BeagleLoggerDefault.swift */; };
@@ -233,6 +233,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		570434E824A5680100DAD0D3 /* test_renderTextInputComponent.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_renderTextInputComponent.1.png; sourceTree = "<group>"; };
+		570434E924A5680100DAD0D3 /* test_textInputComponent_whenTextValueChanges.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_textInputComponent_whenTextValueChanges.1.png; sourceTree = "<group>"; };
 		5740E23623F70A75004A0BF0 /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		5754314823F207F000EF0E5A /* CacheLRU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheLRU.swift; sourceTree = "<group>"; };
 		5754314A23F2080B00EF0E5A /* DoublyLinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoublyLinkedList.swift; sourceTree = "<group>"; };
@@ -491,13 +493,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				E5CE41EC2332B9B600295277 /* Beagle.framework in Frameworks */,
-				C838416024A4485700EDD344 /* SnapshotTesting.framework in Frameworks */,
+				933078EE24AE4F00009D92F2 /* SnapshotTesting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		570434E224A5678500DAD0D3 /* __Snapshots__ */ = {
+			isa = PBXGroup;
+			children = (
+				570434E324A5678500DAD0D3 /* TextInputTests */,
+			);
+			path = __Snapshots__;
+			sourceTree = "<group>";
+		};
+		570434E324A5678500DAD0D3 /* TextInputTests */ = {
+			isa = PBXGroup;
+			children = (
+				570434E824A5680100DAD0D3 /* test_renderTextInputComponent.1.png */,
+				570434E924A5680100DAD0D3 /* test_textInputComponent_whenTextValueChanges.1.png */,
+			);
+			path = TextInputTests;
+			sourceTree = "<group>";
+		};
 		5740E23523F708BE004A0BF0 /* CacheManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -797,6 +816,7 @@
 		98E49749249E9B3A0053DB87 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				570434E224A5678500DAD0D3 /* __Snapshots__ */,
 				98E4974A249E9B830053DB87 /* TextInputTests.swift */,
 			);
 			path = Tests;
@@ -1601,7 +1621,6 @@
 				E5CE41E32332B9B600295277 /* Sources */,
 				E5CE41E42332B9B600295277 /* Frameworks */,
 				E5CE41E52332B9B600295277 /* Resources */,
-				C8E42FCE23C7C6A500B1963F /* Carthage Run Script */,
 			);
 			buildRules = (
 			);
@@ -1610,6 +1629,7 @@
 			);
 			name = BeagleTests;
 			packageProductDependencies = (
+				933078ED24AE4F00009D92F2 /* SnapshotTesting */,
 			);
 			productName = BeagleFrameworkTests;
 			productReference = E5CE41E72332B9B600295277 /* BeagleTests.xctest */;
@@ -1644,6 +1664,7 @@
 			);
 			mainGroup = 932925C52327E11000A61F01;
 			packageReferences = (
+				933078EC24AE4F00009D92F2 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
 			);
 			productRefGroup = 932925D02327E11000A61F01 /* Products */;
 			projectDirPath = "";
@@ -1711,26 +1732,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nCodeGeneration/sourceryScript.sh\n";
-		};
-		C8E42FCE23C7C6A500B1963F /* Carthage Run Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/../../Carthage/Build/iOS/SnapshotTesting.framework",
-			);
-			name = "Carthage Run Script";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/SnapshotTesting.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
 		};
 		E5EB34B52330358000AC246B /* SwiftLint Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2158,10 +2159,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YKYJK8YBGT;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/../../Carthage/Build/iOS",
-				);
 				INFOPLIST_FILE = BeagleTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2182,10 +2179,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YKYJK8YBGT;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/../../Carthage/Build/iOS",
-				);
 				INFOPLIST_FILE = BeagleTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2231,6 +2224,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		933078EC24AE4F00009D92F2 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing.git";
+			requirement = {
+				kind = exactVersion;
+				version = 1.7.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		933078ED24AE4F00009D92F2 /* SnapshotTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 933078EC24AE4F00009D92F2 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = SnapshotTesting;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		57A80985243CF4C80034D180 /* CoreCache.xcdatamodeld */ = {

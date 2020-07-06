@@ -24,7 +24,6 @@ import io.micronaut.http.annotation.Get
 
 @Controller
 class PlatformController(private val platformService: PlatformService) {
-
     @Get(CUSTOM_PLATFORM_SAMPLE_ENDPOINT)
     fun renderComponentUsingPlatform() = this.platformService.renderComponentUsingPlatform()
 

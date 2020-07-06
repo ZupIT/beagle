@@ -18,6 +18,8 @@ package br.com.zup.beagle.android.components.form
 
 import android.view.View
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.components.Button
+import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.utils.handleEvent
@@ -26,13 +28,25 @@ import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.core.Style
 
+/**
+ * component will define a submit handler for a SimpleForm.
+ *
+ * @param context define the contextData that be set to form
+ *
+ * @param child  define the submit handler.
+ *                  It is generally set as a button to be clicked after a form is filled up.
+ * @param enabled
+ *                  define as "true" by default and it will enable the button to be clicked on.
+ *                  If it is defined as "false" the button will start as "disabled"
+ *
+ */
 data class SimpleForm (
-    val context: ContextData,
+    override val context: ContextData,
     val onSubmit:List<Action>,
     val children: List<ServerDrivenComponent>
-): WidgetView() {
+): WidgetView(), ContextComponent {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
@@ -42,10 +56,10 @@ data class SimpleForm (
 
     override fun buildView(rootView: RootView): View {
         preFetchHelper.handlePreFetch(rootView, onSubmit)
-        return viewFactory.makeBeagleFlexView(rootView.getContext(), flex  ?: Flex())
+        return viewFactory.makeBeagleFlexView(rootView.getContext(), style  ?: Style())
             .apply {
+                tag = this@SimpleForm
                 addChildrenForm(this,rootView)
-                handleEvent(rootView, onSubmit, "onPress")
             }
     }
 
@@ -55,5 +69,9 @@ data class SimpleForm (
         }
     }
 
-
+    fun submit(rootView: RootView) {
+        onSubmit.forEach { action ->
+            action.handleEvent(rootView, action, "onSubmit")
+        }
+    }
 }

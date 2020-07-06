@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.GetMapping
 
 @RestController
 class PlatformController(private val platformService: PlatformService) {
-
     @GetMapping(CUSTOM_PLATFORM_SAMPLE_ENDPOINT)
     fun renderComponentUsingPlatform() = this.platformService.renderComponentUsingPlatform()
 

@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-public struct TabItem: AutoInitiableAndDecodable {
+public struct TabItem: Decodable {
 
-    public let icon: Image.Local?
+    public let icon: String?
     public let title: String?
     public let child: RawComponent
 
-// sourcery:inline:auto:TabItem.Init
     public init(
-        icon: Image.Local? = nil,
+        icon: String? = nil,
         title: String? = nil,
         child: RawComponent
     ) {
@@ -30,7 +29,24 @@ public struct TabItem: AutoInitiableAndDecodable {
         self.title = title
         self.child = child
     }
-// sourcery:end
+
+    enum CodingKeys: String, CodingKey {
+        case icon
+        case title
+        case child
+    }
+    
+    enum LocalImageCodingKey: String, CodingKey {
+        case mobileId
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let nestedContainer = try? container.nestedContainer(keyedBy: LocalImageCodingKey.self, forKey: .icon)
+        icon = try nestedContainer?.decodeIfPresent(String.self, forKey: .mobileId)
+        title = try container.decodeIfPresent(String.self, forKey: .title)
+        child = try container.decode(forKey: .child)
+    }
 }
 
 public struct TabView: RawComponent, AutoInitiable, HasContext {

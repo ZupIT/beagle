@@ -106,25 +106,22 @@ class HttpClientDefaultTest {
         val headers = mapOf(headerName to listOf(headerValue))
         every { httpURLConnection.headerFields } returns headers
 
-        lateinit var resultData: ResponseData
-        val requestDataSlot = slot<OnSuccess>()
         urlRequestDispatchingDefault.execute(makeSimpleRequestData(), onSuccess = {
-            resultData = it
+            assertEquals(STATUS_CODE, it.statusCode)
+            assertEquals(BYTE_ARRAY_DATA, it.data)
+            assertEquals(headerName, it.headers.keys.elementAt(0))
+            assertEquals(headerValue, it.headers[headerName])
         }, onError = {
             fail("Test failed, should execute successfully")
         })
 
-        assertEquals(STATUS_CODE, resultData.statusCode)
-        assertEquals(BYTE_ARRAY_DATA, resultData.data)
-        assertEquals(headerName, resultData.headers.keys.elementAt(0))
-        assertEquals(headerValue, resultData.headers[headerName])
     }
 
     @Test
     fun execute_should_disconnect_after_response() = runBlockingTest {
-        urlRequestDispatchingDefault.execute(makeSimpleRequestData(), onSuccess = {}, onError = {})
-
-        verify(exactly = once()) { httpURLConnection.disconnect() }
+        urlRequestDispatchingDefault.execute(makeSimpleRequestData(), onSuccess = {
+            verify(exactly = once()) { httpURLConnection.disconnect() }
+        }, onError = { })
     }
 
     @Test
@@ -140,12 +137,14 @@ class HttpClientDefaultTest {
         )
 
         // When
-        urlRequestDispatchingDefault.execute(requestData, onSuccess = {}, onError = {})
+        urlRequestDispatchingDefault.execute(requestData, onSuccess = {
+            // Then
+            headers.forEach {
+                verify(exactly = once()) { httpURLConnection.setRequestProperty(it.key, it.value) }
+            }
+        }, onError = {})
 
-        // Then
-        headers.forEach {
-            verify(exactly = once()) { httpURLConnection.setRequestProperty(it.key, it.value) }
-        }
+
     }
 
     @Test
@@ -162,16 +161,19 @@ class HttpClientDefaultTest {
         every { outputStream.write(any<ByteArray>()) } just Runs
 
         // When
-        urlRequestDispatchingDefault.execute(requestData, onSuccess = {}, onError = {})
+        urlRequestDispatchingDefault.execute(requestData, onSuccess = {
 
-        // Then
-        verify(exactly = once()) { outputStream.write(data.toByteArray()) }
-        verify(exactly = once()) {
-            httpURLConnection.setRequestProperty(
-                "Content-Length",
-                data.length.toString()
-            )
-        }
+            // Then
+            verify(exactly = once()) { outputStream.write(data.toByteArray()) }
+            verify(exactly = once()) {
+                httpURLConnection.setRequestProperty(
+                    "Content-Length",
+                    data.length.toString()
+                )
+            }
+
+        }, onError = {})
+
     }
 
     @Test
@@ -259,16 +261,18 @@ class HttpClientDefaultTest {
         )
 
         // When
-        urlRequestDispatchingDefault.execute(requestData, onSuccess = {}, onError = {})
+        urlRequestDispatchingDefault.execute(requestData, onSuccess = {
 
-        // Then
-        verify(exactly = 0) {
-            httpURLConnection.setRequestProperty(
-                "X-HTTP-Method-Override",
-                "GET"
-            )
-        }
-        verify(exactly = once()) { httpURLConnection.requestMethod = "GET" }
+            // Then
+            verify(exactly = 0) {
+                httpURLConnection.setRequestProperty(
+                    "X-HTTP-Method-Override",
+                    "GET"
+                )
+            }
+            verify(exactly = once()) { httpURLConnection.requestMethod = "GET" }
+
+        }, onError = {})
     }
 
     @Test
@@ -280,16 +284,19 @@ class HttpClientDefaultTest {
         )
 
         // When
-        urlRequestDispatchingDefault.execute(requestData, onSuccess = {}, onError = {})
+        urlRequestDispatchingDefault.execute(requestData, onSuccess = {
 
-        // Then
-        verify(exactly = 0) {
-            httpURLConnection.setRequestProperty(
-                "X-HTTP-Method-Override",
-                "POST"
-            )
-        }
-        verify(exactly = once()) { httpURLConnection.requestMethod = "POST" }
+            // Then
+            verify(exactly = 0) {
+                httpURLConnection.setRequestProperty(
+                    "X-HTTP-Method-Override",
+                    "POST"
+                )
+            }
+            verify(exactly = once()) { httpURLConnection.requestMethod = "POST" }
+
+        }, onError = {})
+
     }
 
     @Test
@@ -301,16 +308,19 @@ class HttpClientDefaultTest {
         )
 
         // When
-        urlRequestDispatchingDefault.execute(requestData, onSuccess = {}, onError = {})
+        urlRequestDispatchingDefault.execute(requestData, onSuccess = {
 
-        // Then
-        verify(exactly = 0) {
-            httpURLConnection.setRequestProperty(
-                "X-HTTP-Method-Override",
-                "PUT"
-            )
-        }
-        verify(exactly = once()) { httpURLConnection.requestMethod = "PUT" }
+            // Then
+            verify(exactly = 0) {
+                httpURLConnection.setRequestProperty(
+                    "X-HTTP-Method-Override",
+                    "PUT"
+                )
+            }
+            verify(exactly = once()) { httpURLConnection.requestMethod = "PUT" }
+
+        }, onError = {})
+
     }
 
     @Test
@@ -322,16 +332,19 @@ class HttpClientDefaultTest {
         )
 
         // When
-        urlRequestDispatchingDefault.execute(requestData, onSuccess = {}, onError = {})
+        urlRequestDispatchingDefault.execute(requestData, onSuccess = {
 
-        // Then
-        verify(exactly = 0) {
-            httpURLConnection.setRequestProperty(
-                "X-HTTP-Method-Override",
-                "DELETE"
-            )
-        }
-        verify(exactly = once()) { httpURLConnection.requestMethod = "DELETE" }
+            // Then
+            verify(exactly = 0) {
+                httpURLConnection.setRequestProperty(
+                    "X-HTTP-Method-Override",
+                    "DELETE"
+                )
+            }
+            verify(exactly = once()) { httpURLConnection.requestMethod = "DELETE" }
+
+        }, onError = {})
+
     }
 
     @Test
@@ -343,16 +356,19 @@ class HttpClientDefaultTest {
         )
 
         // When
-        urlRequestDispatchingDefault.execute(requestData, onSuccess = {}, onError = {})
+        urlRequestDispatchingDefault.execute(requestData, onSuccess = {
 
-        // Then
-        verify(exactly = once()) {
-            httpURLConnection.setRequestProperty(
-                "X-HTTP-Method-Override",
-                "HEAD"
-            )
-        }
-        verify(exactly = once()) { httpURLConnection.requestMethod = "POST" }
+            // Then
+            verify(exactly = once()) {
+                httpURLConnection.setRequestProperty(
+                    "X-HTTP-Method-Override",
+                    "HEAD"
+                )
+            }
+            verify(exactly = once()) { httpURLConnection.requestMethod = "POST" }
+
+        }, onError = {})
+
     }
 
     @Test
@@ -364,39 +380,40 @@ class HttpClientDefaultTest {
         )
 
         // When
-        urlRequestDispatchingDefault.execute(requestData, onSuccess = {}, onError = {})
+        urlRequestDispatchingDefault.execute(requestData, onSuccess = {
 
-        // Then
-        verify(exactly = once()) {
-            httpURLConnection.setRequestProperty(
-                "X-HTTP-Method-Override",
-                "PATCH"
-            )
-        }
-        verify(exactly = once()) { httpURLConnection.requestMethod = "POST" }
+            // Then
+            verify(exactly = once()) {
+                httpURLConnection.setRequestProperty(
+                    "X-HTTP-Method-Override",
+                    "PATCH"
+                )
+            }
+            verify(exactly = once()) { httpURLConnection.requestMethod = "POST" }
+
+        }, onError = {})
+
     }
 
     @Test
     fun execute_should_be_executed_with_error() {
         // Given
-        val responseData = ResponseData(statusCode = 404,
+        val expectedData = ResponseData(statusCode = 404,
             data = BYTE_ARRAY_DATA, statusText = "error")
         val runtimeException = RuntimeException()
         every { httpURLConnection.inputStream } throws runtimeException
-        every { httpURLConnection.responseCode } returns responseData.statusCode!!
-        every { httpURLConnection.responseMessage } returns responseData.statusText
+        every { httpURLConnection.responseCode } returns expectedData.statusCode!!
+        every { httpURLConnection.responseMessage } returns expectedData.statusText
         every { httpURLConnection.errorStream } returns inputStream
 
         // When
-        var errorResult: ResponseData? = null
         urlRequestDispatchingDefault.execute(makeSimpleRequestData(), onSuccess = {
             fail("Test failed, should execute with error")
         }, onError = {
-            errorResult = it
+            // Then
+            assertEquals(it, expectedData)
         })
 
-        // Then
-        assertEquals(responseData, errorResult)
     }
 
     @Test
@@ -408,17 +425,15 @@ class HttpClientDefaultTest {
         every { httpURLConnection.headerFields } returns headers
         every { inputStream.readBytes() } throws EOFException()
 
-        lateinit var resultData: ResponseData
         urlRequestDispatchingDefault.execute(makeSimpleRequestData(), onSuccess = {
-            resultData = it
+            assertEquals(STATUS_CODE, it.statusCode)
+            assertTrue(it.data.isEmpty())
+            assertEquals(headerName, it.headers.keys.elementAt(0))
+            assertEquals(headerValue, it.headers[headerName])
         }, onError = {
             fail("Test failed, should execute successfully")
         })
 
-        assertEquals(STATUS_CODE, resultData.statusCode)
-        assertTrue(resultData.data.isEmpty())
-        assertEquals(headerName, resultData.headers.keys.elementAt(0))
-        assertEquals(headerValue, resultData.headers[headerName])
     }
 
     private fun makeSimpleRequestData() = RequestData(uri)
