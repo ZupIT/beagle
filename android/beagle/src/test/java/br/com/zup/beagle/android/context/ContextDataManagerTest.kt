@@ -121,6 +121,21 @@ class ContextDataManagerTest {
     }
 
     @Test
+    fun addContext_should_not_add_new_context_when_context_already_exists() {
+        // Given
+        val contextData1 = ContextData(CONTEXT_ID, true)
+        val contextData2 = ContextData(CONTEXT_ID, false)
+        contexts.clear()
+
+        // When
+        contextDataManager.addContext(contextData1)
+        contextDataManager.addContext(contextData2)
+
+        // Then
+        assertEquals(contexts[CONTEXT_ID]?.context, contextData1)
+    }
+
+    @Test
     fun addBindingToContext_should_add_binding_to_context_on_stack() {
         // Given
         val bind = Bind.Expression("@{$CONTEXT_ID[0]}", type = Boolean::class.java)
