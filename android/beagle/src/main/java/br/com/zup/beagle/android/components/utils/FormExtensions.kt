@@ -17,11 +17,12 @@
 package br.com.zup.beagle.android.components.utils
 
 import android.view.ViewGroup
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.form.SimpleForm
 import br.com.zup.beagle.android.engine.renderer.BaseRootView
 import br.com.zup.beagle.android.widget.RootView
 
-fun RootView.submitSimpleForm(rootView: RootView) = this.apply {
+fun Action.submitSimpleForm(rootView: RootView) = this.apply {
     (((rootView as BaseRootView).currentViewAction?.parent as ViewGroup)
         .tag as SimpleForm).submit(rootView)
 }

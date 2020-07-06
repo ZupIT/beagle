@@ -16,10 +16,11 @@
 
 package br.com.zup.beagle.android.action
 
+import br.com.zup.beagle.android.components.utils.submitSimpleForm
 import br.com.zup.beagle.android.widget.RootView
 
 class SubmitForm : Action{
     override fun execute(rootView: RootView) {
-
+        submitSimpleForm(rootView)
     }
 }

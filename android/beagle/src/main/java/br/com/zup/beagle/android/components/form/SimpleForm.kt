@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.components.form
 import android.view.View
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.Button
+import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.utils.handleEvent
@@ -43,10 +44,10 @@ import br.com.zup.beagle.core.Style
  *
  */
 data class SimpleForm (
-    val context: ContextData,
+    override val context: ContextData,
     val onSubmit:List<Action>,
     val children: List<ServerDrivenComponent>
-): WidgetView() {
+): WidgetView(), ContextComponent {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
@@ -72,7 +73,7 @@ data class SimpleForm (
 
     fun submit(rootView: RootView) {
         onSubmit.forEach { action ->
-            action.execute(rootView)
+            action.handleEvent(rootView, action, "onSubmit")
         }
     }
 }
