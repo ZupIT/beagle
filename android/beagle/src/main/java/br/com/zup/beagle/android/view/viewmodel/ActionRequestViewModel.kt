@@ -56,7 +56,9 @@ private class FetchComponentLiveData(
 ) : LiveData<ActionRequestViewModel.FetchViewState>(), CoroutineScope {
 
     override fun onActive() {
-        fetchData()
+        if (value == null) {
+            fetchData()
+        }
     }
 
     private fun fetchData() {
