@@ -51,7 +51,7 @@ public class YogaLayout extends ViewGroup {
         this(context, null);
     }
 
-    public YogaLayout(Context context,YogaNode node) {
+    public YogaLayout(Context context,@Nullable YogaNode node) {
         super(context);
 
         if (node != null) {
