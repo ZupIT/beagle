@@ -95,9 +95,6 @@ class ContextDataManagerTest {
         contexts = contextDataManager.getPrivateField("contexts")
 
         contexts.clear()
-
-        val contextData = ContextData(CONTEXT_ID, model)
-        contexts[CONTEXT_ID] = ContextBinding(contextData, mutableSetOf(bindModel))
     }
 
     @After
@@ -125,7 +122,6 @@ class ContextDataManagerTest {
         // Given
         val contextData1 = ContextData(CONTEXT_ID, true)
         val contextData2 = ContextData(CONTEXT_ID, false)
-        contexts.clear()
 
         // When
         contextDataManager.addContext(contextData1)
