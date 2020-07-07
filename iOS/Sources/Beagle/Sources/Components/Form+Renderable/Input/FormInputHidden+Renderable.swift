@@ -17,7 +17,7 @@
 import UIKit
 import BeagleSchema
 
-extension FormInputHidden: ServerDrivenComponent {
+extension Deprecated.FormInputHidden: ServerDrivenComponent {
     public func toView(renderer: BeagleRenderer) -> UIView {
         let view = HiddenInputView(value: value)
         view.beagleFormElement = self

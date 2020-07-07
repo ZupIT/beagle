@@ -23,7 +23,7 @@ class FormInputTests: XCTestCase {
 
     func test_initWithChild_shouldReturnValidFormInput() {
         // Given / When
-        let sut = FormInput(name: "name", child:
+        let sut = Deprecated.FormInput(name: "name", child:
             BeagleSchemaTestsComponent()
         )
         // Then

@@ -140,9 +140,9 @@ final public class ComponentDecoder: ComponentDecoding {
     }
     
     private func registerFormModels() {
-        registerComponent(Form.self, key: key(name: "Form", namespace: .beagle))
-        registerComponent(FormSubmit.self, key: key(name: "FormSubmit", namespace: .beagle))
-        registerComponent(FormInput.self, key: key(name: "FormInput", namespace: .beagle))
+        registerComponent(Deprecated.Form.self, key: key(name: "Form", namespace: .beagle))
+        registerComponent(Deprecated.FormSubmit.self, key: key(name: "FormSubmit", namespace: .beagle))
+        registerComponent(Deprecated.FormInput.self, key: key(name: "FormInput", namespace: .beagle))
         registerComponent(SimpleForm.self, key: key(name: "SimpleForm", namespace: .beagle))
     }
     

@@ -14,22 +14,11 @@
  * limitations under the License.
  */
 
-import UIKit
+import Foundation
 
-@available(*, deprecated, message: "use SimpleForm and SubmitForm instead")
-public struct FormSubmit: RawComponent, AutoInitiableAndDecodable {
-    
-    // MARK: - Public Properties
-    public let child: RawComponent
-    public var enabled: Bool?
-
-// sourcery:inline:auto:FormSubmit.Init
-    public init(
-        child: RawComponent,
-        enabled: Bool? = nil
-    ) {
-        self.child = child
-        self.enabled = enabled
-    }
-// sourcery:end
+public enum Deprecated {
+    public typealias Form = BeagleSchema.Form
+    public typealias FormInput = BeagleSchema.FormInput
+    public typealias FormSubmit = BeagleSchema.FormSubmit
+    public typealias FormInputHidden = BeagleSchema.FormInputHidden
 }

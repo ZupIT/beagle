@@ -16,6 +16,7 @@
 
 import UIKit
 
+@available(*, deprecated, message: "use SimpleForm and SubmitForm instead")
 public struct FormInputHidden: FormInputComponent, AutoInitiable {
     public let name: String
     public let value: String
