@@ -17,12 +17,10 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
-import br.com.zup.beagle.sample.constants.BFF_BEACH_NETWORK_IMAGE
 import br.com.zup.beagle.sample.constants.TEXT_NETWORK_IMAGE
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
@@ -40,9 +38,7 @@ import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.ImagePath.Remote
 import br.com.zup.beagle.widget.ui.Text
 
-object NetworkImageScreenBuilder : ScreenBuilder {
-
-    private var imagePath = BEACH_NETWORK_IMAGE
+class NetworkImageScreenBuilder(private val imagePath: String) : ScreenBuilder {
 
     override fun build() = Screen(
         navigationBar = NavigationBar(
@@ -66,14 +62,6 @@ object NetworkImageScreenBuilder : ScreenBuilder {
                 ImageContentMode.values().map { buildImage("NetworkImage with ImageContentMode.$it", it) }
         )
     )
-
-    fun withDefaultImagePath() = NetworkImageScreenBuilder.apply {
-        this.imagePath = BEACH_NETWORK_IMAGE
-    }
-
-    fun withBffImagePath() = NetworkImageScreenBuilder.apply {
-        this.imagePath = BFF_BEACH_NETWORK_IMAGE
-    }
 
     private fun buildImage(title: String, mode: ImageContentMode? = null) = Container(
         children = listOf(
