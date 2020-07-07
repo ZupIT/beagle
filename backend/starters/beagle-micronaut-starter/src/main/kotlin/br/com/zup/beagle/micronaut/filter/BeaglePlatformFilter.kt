@@ -53,7 +53,7 @@ class BeaglePlatformFilter(private val objectMapper: ObjectMapper) : HttpServerF
                     currentPlatform,
                     jsonTree
                 )
-                (wrappedResponse as MutableHttpResponse<String>).body(jsonTree.toPrettyString())
+                (wrappedResponse as MutableHttpResponse<String>).body(this.objectMapper.writeValueAsString(jsonTree))
             }
         }
     }

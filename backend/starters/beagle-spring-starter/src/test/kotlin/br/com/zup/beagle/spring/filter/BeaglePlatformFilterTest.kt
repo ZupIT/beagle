@@ -49,7 +49,7 @@ internal class BeaglePlatformFilterTest {
         val bodySlot = CapturingSlot<ByteArray>()
 
         every { objectMapper.readTree(any<ByteArray>()) } returns jsonNode
-        every { jsonNode.toPrettyString() } returns json
+        every { objectMapper.writeValueAsBytes(any()) } returns json.toByteArray()
         every { request.getHeader(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER) } returns beaglePlatform
         every { response.contentType } returns MediaType.APPLICATION_JSON_VALUE
         every { response.isCommitted } returns false

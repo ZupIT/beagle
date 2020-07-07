@@ -46,9 +46,9 @@ class BeaglePlatformFilter(private val objectMapper: ObjectMapper) : Filter {
         if (responseWrapper.contentType == MediaType.APPLICATION_JSON_VALUE) {
             val jsonData = this.objectMapper.readTree(responseWrapper.contentAsByteArray).also {
                 BeaglePlatformUtil.treatBeaglePlatform(currentPlatform, it)
-            }.toPrettyString()
+            }
             responseWrapper.resetBuffer()
-            responseWrapper.outputStream.write(jsonData.toByteArray())
+            responseWrapper.outputStream.write(this.objectMapper.writeValueAsBytes(jsonData))
         }
     }
 }
