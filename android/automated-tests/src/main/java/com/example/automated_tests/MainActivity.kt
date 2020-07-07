@@ -14,24 +14,19 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'org.springframework.boot' version '2.2.5.RELEASE'
-    id 'kotlin'
-}
+package com.example.automated_tests
 
-group = GroupId.backendSample
-version = Releases.beagleVersionName
-sourceCompatibility = JavaVersion.VERSION_1_8
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import br.com.zup.beagle.android.view.BeagleActivity
+import br.com.zup.beagle.android.view.ScreenRequest
 
-dependencies {
-    implementation GeneralLibraries.kotlin
-    implementation GeneralLibraries.kotlinReflect
-    implementation project(Modules.backendSampleCore)
-    implementation project(Modules.beagleBackendSpringStarter)
-}
-
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        val intent = BeagleActivity.newIntent(this, ScreenRequest("/test"))
+        startActivity(intent)
+        finish()
     }
 }

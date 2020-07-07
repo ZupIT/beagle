@@ -14,24 +14,15 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'org.springframework.boot' version '2.2.5.RELEASE'
-    id 'kotlin'
-}
+package com.example.automated_tests
 
-group = GroupId.backendSample
-version = Releases.beagleVersionName
-sourceCompatibility = JavaVersion.VERSION_1_8
+import android.app.Application
 
-dependencies {
-    implementation GeneralLibraries.kotlin
-    implementation GeneralLibraries.kotlinReflect
-    implementation project(Modules.backendSampleCore)
-    implementation project(Modules.beagleBackendSpringStarter)
-}
+class AppApplication: Application() {
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+    override fun onCreate() {
+        super.onCreate()
+        BeagleSetup().init(this)
     }
+
 }

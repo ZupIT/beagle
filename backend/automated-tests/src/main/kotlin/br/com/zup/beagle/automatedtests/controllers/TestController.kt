@@ -14,24 +14,18 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'org.springframework.boot' version '2.2.5.RELEASE'
-    id 'kotlin'
-}
+package br.com.zup.beagle.automatedtests.controllers
 
-group = GroupId.backendSample
-version = Releases.beagleVersionName
-sourceCompatibility = JavaVersion.VERSION_1_8
+import br.com.zup.beagle.automatedtests.builders.TestBuilder
+import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.ui.Text
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RestController
 
-dependencies {
-    implementation GeneralLibraries.kotlin
-    implementation GeneralLibraries.kotlinReflect
-    implementation project(Modules.backendSampleCore)
-    implementation project(Modules.beagleBackendSpringStarter)
-}
+@RestController
+class ActionController() {
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
-    }
+    @GetMapping("test")
+    fun test()= TestBuilder().build()
 }

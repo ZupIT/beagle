@@ -26,7 +26,9 @@ object GroupId {
 
 object Modules {
     const val androidSample = ":android:sample"
+    const val androidAutomatedTests = ":android:automated-tests"
     const val backendSampleCore = ":backend:sample:core"
+    const val backendAutomatedTests = ":backend:automated-tests"
     const val backendSampleSpring = ":backend:sample:spring"
     const val backendSampleMicronaut = ":backend:sample:micronaut"
     const val beagleAndroid = ":android:beagle"

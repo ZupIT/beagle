@@ -14,24 +14,20 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'org.springframework.boot' version '2.2.5.RELEASE'
-    id 'kotlin'
-}
+package com.example.automated_tests
 
-group = GroupId.backendSample
-version = Releases.beagleVersionName
-sourceCompatibility = JavaVersion.VERSION_1_8
+import org.junit.Test
 
-dependencies {
-    implementation GeneralLibraries.kotlin
-    implementation GeneralLibraries.kotlinReflect
-    implementation project(Modules.backendSampleCore)
-    implementation project(Modules.beagleBackendSpringStarter)
-}
+import org.junit.Assert.*
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+/**
+ * Example local unit test, which will execute on the development machine (host).
+ *
+ * See [testing documentation](http://d.android.com/tools/testing).
+ */
+class ExampleUnitTest {
+    @Test
+    fun addition_isCorrect() {
+        assertEquals(4, 2 + 2)
     }
 }

@@ -14,20 +14,18 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'org.springframework.boot' version '2.2.5.RELEASE'
-    id 'kotlin'
-}
+apply plugin: 'kotlin'
+//apply plugin: 'kotlin-kapt'
 
-group = GroupId.backendSample
-version = Releases.beagleVersionName
+group = "br.com.zup.beagle"
+version = "0.0.1-SNAPSHOT"
 sourceCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
     implementation GeneralLibraries.kotlin
     implementation GeneralLibraries.kotlinReflect
-    implementation project(Modules.backendSampleCore)
     implementation project(Modules.beagleBackendSpringStarter)
+    api project(Modules.beagleBackendFramework)
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
