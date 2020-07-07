@@ -22,6 +22,7 @@ import android.view.View
 import android.widget.ImageView
 import br.com.zup.beagle.android.components.utils.ComponentStylization
 import br.com.zup.beagle.android.components.utils.RoundedImageView
+import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
@@ -70,24 +71,18 @@ class ImageViewRendererTest : BaseComponentTest() {
         super.setUp()
 
         mockkStatic(Glide::class)
-        mockkConstructor(ComponentStylization::class)
 
-        every { anyConstructed<ViewFactory>().makeImageView(rootView.getContext()) } returns imageView
+        every { anyConstructed<ViewFactory>().makeImageView(rootView.getContext(), any()) } returns imageView
         every { Glide.with(imageView) } returns requestManager
         every { requestManager.asBitmap() } returns requestBuilder
         every { requestBuilder.load(any<String>()) } returns requestBuilder
         every { requestBuilder.into(capture(onRequestListenerSlot)) } returns mockk()
         every { requestManager.setDefaultRequestOptions(any()) } returns requestManager
-        every { BeagleEnvironment.beagleSdk.designSystem } returns mockk()
-        every { BeagleEnvironment.beagleSdk.designSystem?.image(any()) } returns IMAGE_RES
+        every { beagleSdk.designSystem } returns mockk()
+        every { beagleSdk.designSystem!!.image(any()) } returns IMAGE_RES
 
         imageLocal = Image(PathType.Local("imageName"))
         imageRemote = Image(PathType.Remote(DEFAULT_URL)).applyStyle(style)
-    }
-
-    override fun tearDown() {
-        super.setUp()
-        unmockkAll()
     }
 
     @Test
@@ -156,12 +151,15 @@ class ImageViewRendererTest : BaseComponentTest() {
 
     @Test
     fun build_should_set_url_to_Glide() {
+        //Given
+        val urlFormatted = DEFAULT_URL.formatUrl()
+
         // When
         imageRemote.buildView(rootView)
 
         // Then
         verify(exactly = once()) { Glide.with(imageView) }
-        verify(exactly = once()) { requestBuilder.load(DEFAULT_URL) }
+        verify(exactly = once()) { requestBuilder.load(urlFormatted) }
     }
 
     @Test
