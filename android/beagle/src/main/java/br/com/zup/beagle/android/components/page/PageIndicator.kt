@@ -17,6 +17,8 @@
 package br.com.zup.beagle.android.components.page
 
 import android.graphics.Color
+import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeaglePageIndicatorView
 import br.com.zup.beagle.android.widget.RootView
@@ -24,7 +26,9 @@ import br.com.zup.beagle.android.widget.WidgetView
 
 class PageIndicator(
     val selectedColor: String,
-    val unselectedColor: String
+    val unselectedColor: String,
+    var numberOfPages: Int,
+    var currentPage: Bind<Int>
 ) : WidgetView(), PageIndicatorComponent {
 
     @Transient
@@ -36,6 +40,10 @@ class PageIndicator(
         pageIndicator = this
         setSelectedColor(Color.parseColor(selectedColor))
         setUnselectedColor(Color.parseColor(unselectedColor))
+        setCount(numberOfPages)
+        observeBindChanges(rootView, currentPage){
+            onItemUpdated(it)
+        }
     }
 
     override fun setCount(pages: Int) {

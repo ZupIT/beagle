@@ -20,9 +20,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
+import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
@@ -36,8 +39,9 @@ import br.com.zup.beagle.widget.core.UnitValue
 
 data class PageView(
     val children: List<ServerDrivenComponent>,
-    val pageIndicator: PageIndicatorComponent? = null,
-    override val context: ContextData? = null
+    override val context: ContextData? = null,
+    val onPageChange: List<Action>? = null,
+    val currentPage: Bind<Int>? = null
 ) : WidgetView(), ContextComponent {
 
     @Transient
@@ -56,12 +60,25 @@ data class PageView(
         val container = viewFactory.makeBeagleFlexView(rootView.getContext(), style).apply {
             addView(viewPager, style)
         }
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+            }
 
-        pageIndicator?.let {
-            val pageIndicatorView = viewRendererFactory.make(it).build(rootView)
-            setupPageIndicator(children.size, viewPager, pageIndicator)
-            container.addView(pageIndicatorView)
-        }
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            }
+
+            override fun onPageSelected(position: Int) {
+                onPageChange?.let {
+                    handleEvent(rootView, it, "onChange", position)
+                }
+            }
+
+        })
+//        pageIndicator?.let {
+//            val pageIndicatorView = viewRendererFactory.make(it).build(rootView)
+//            setupPageIndicator(children.size, viewPager, pageIndicator)
+//            container.addView(pageIndicatorView)
+//        }
 
         return container
     }
