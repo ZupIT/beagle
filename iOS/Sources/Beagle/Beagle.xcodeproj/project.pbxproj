@@ -28,6 +28,8 @@
 		76BB91A5241AC6A800B9A239 /* declarativeText2.json in Resources */ = {isa = PBXBuildFile; fileRef = 76BB91A3241AC6A000B9A239 /* declarativeText2.json */; };
 		7C42EAF624228FC9007334A0 /* FormInputHidden+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C42EAF524228FC9007334A0 /* FormInputHidden+Renderable.swift */; };
 		7C43CB8B24B3755800248510 /* PageIndicatorUIComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C43CB8A24B3755800248510 /* PageIndicatorUIComponent.swift */; };
+		7C43CB9624B4ABF600248510 /* PageIndicatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C43CB9524B4ABF600248510 /* PageIndicatorTests.swift */; };
+		7C43CBB524B4B1E000248510 /* PageIndicatorInvalid.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C43CBB424B4B1E000248510 /* PageIndicatorInvalid.json */; };
 		7CA2E83B2498228100B24782 /* BeagleLoggerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA2E83A2498228100B24782 /* BeagleLoggerProxy.swift */; };
 		7CA2E83D249822D400B24782 /* BeagleLoggerProxyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA2E83C249822D400B24782 /* BeagleLoggerProxyTests.swift */; };
 		7CC737FE245729B1004FBC16 /* FormDataStoreHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC737FD245729B1004FBC16 /* FormDataStoreHandlerTests.swift */; };
@@ -254,6 +256,9 @@
 		7C42EAF524228FC9007334A0 /* FormInputHidden+Renderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FormInputHidden+Renderable.swift"; sourceTree = "<group>"; };
 		7C42EDFF243FBDA100DEEEA7 /* FormManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormManager.swift; sourceTree = "<group>"; };
 		7C43CB8A24B3755800248510 /* PageIndicatorUIComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicatorUIComponent.swift; sourceTree = "<group>"; };
+		7C43CB9524B4ABF600248510 /* PageIndicatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicatorTests.swift; sourceTree = "<group>"; };
+		7C43CBB424B4B1E000248510 /* PageIndicatorInvalid.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PageIndicatorInvalid.json; sourceTree = "<group>"; };
+		7C43CBB624B4B2EC00248510 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		7C9999542448A38000D77F07 /* FormManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormManagerTests.swift; sourceTree = "<group>"; };
 		7CA2E83A2498228100B24782 /* BeagleLoggerProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleLoggerProxy.swift; sourceTree = "<group>"; };
 		7CA2E83C249822D400B24782 /* BeagleLoggerProxyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleLoggerProxyTests.swift; sourceTree = "<group>"; };
@@ -592,8 +597,27 @@
 			children = (
 				C89E80A62397FFFD00C2D0ED /* PageIndicator+Renderable.swift */,
 				7C43CB8A24B3755800248510 /* PageIndicatorUIComponent.swift */,
+				7C43CB9424B4ABD100248510 /* Tests */,
 			);
 			path = "PageIndicator+Renderable";
+			sourceTree = "<group>";
+		};
+		7C43CB9424B4ABD100248510 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				7C43CBB624B4B2EC00248510 /* __Snapshots__ */,
+				7C43CB9524B4ABF600248510 /* PageIndicatorTests.swift */,
+				7C43CBB324B4B1B400248510 /* Json */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		7C43CBB324B4B1B400248510 /* Json */ = {
+			isa = PBXGroup;
+			children = (
+				7C43CBB424B4B1E000248510 /* PageIndicatorInvalid.json */,
+			);
+			path = Json;
 			sourceTree = "<group>";
 		};
 		7C6F606324462037007AC4AA /* Tests */ = {
@@ -1657,6 +1681,7 @@
 				7CDF84952416DD8D00234F40 /* test_UnitValueWithPercentageOperatorAndIntegerValue.1.txt in Resources */,
 				57D6F1012499865600A422E3 /* ImageComponent1.json in Resources */,
 				C08D4E1C24857B2A00AAAC0A /* HorizontalScrollView.json in Resources */,
+				7C43CBB524B4B1E000248510 /* PageIndicatorInvalid.json in Resources */,
 				C05E1652243663C20088F9D2 /* screenAnalyticsComponent.json in Resources */,
 				576A4D17249BFC09002EADFD /* ImageComponent.json in Resources */,
 				C05E1658243668E30088F9D2 /* __Snapshots__ in Resources */,
@@ -1868,6 +1893,7 @@
 				9380222B249A98CA00FA8519 /* FormManagerTests.swift in Sources */,
 				C829CF1423B19729001B7225 /* ThemeTests.swift in Sources */,
 				C08D4E3624857CBA00AAAC0A /* URLOpenerTests.swift in Sources */,
+				7C43CB9624B4ABF600248510 /* PageIndicatorTests.swift in Sources */,
 				A05C74DD2498162B009DBB66 /* FormValidationTests.swift in Sources */,
 				E5A7763F237DA1F3002F5515 /* FormTests.swift in Sources */,
 				C08D4E472485804D00AAAC0A /* LazyComponentTests.swift in Sources */,
