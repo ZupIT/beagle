@@ -20,7 +20,7 @@ import br.com.zup.beagle.widget.core.UnitType
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class BeagleExtensions {
+class UnitValueExtensionsTest {
 
     @Test
     fun unitReal_should_return_a_UnitValue_with_100_double_REAL() {

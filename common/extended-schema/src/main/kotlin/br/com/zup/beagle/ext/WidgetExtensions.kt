@@ -34,8 +34,7 @@ fun <T : Widget> T.setId(id: String) = this.apply { this.id = id }
  *
  * @return the current widget
  */
-fun <T : Widget> T.applyFlex(flex: Flex) = this.apply {
-    this.style = (this.style ?: Style()).copy(flex = flex) }
+fun <T : Widget> T.applyFlex(flex: Flex) = this.apply { this.style = (this.style ?: Style()).copy(flex = flex) }
 
 /**
  * Apply the appearance.
@@ -45,7 +44,7 @@ fun <T : Widget> T.applyFlex(flex: Flex) = this.apply {
  * @return the current widget
  */
 fun <T : Widget> T.applyStyle(style: Style) = this.apply {
-    this.style = style.copy(flex = this.style?.flex)
+    this.style = if (style.flex != null) style else style.copy(flex = this.style?.flex)
 }
 
 /**

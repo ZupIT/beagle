@@ -32,7 +32,7 @@ import org.junit.Test
 
 class ContainerTest : BaseComponentTest() {
 
-    private val style: Style = mockk()
+    private val style: Style = mockk(relaxed = true)
 
     private val containerChildren = listOf<ServerDrivenComponent>(mockk<Container>())
 
