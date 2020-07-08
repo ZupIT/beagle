@@ -21,7 +21,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verifyAll
 import org.junit.jupiter.api.Test
-import org.springframework.http.HttpMethod
 import org.springframework.web.util.ContentCachingResponseWrapper
 import javax.servlet.FilterChain
 import javax.servlet.ServletRequest
@@ -32,6 +31,8 @@ import javax.servlet.http.HttpServletResponse
 internal class BeagleCacheFilterTest {
     companion object {
         const val STRING = "test"
+        const val OPTIONS = "options"
+        const val GET = "get"
     }
 
     @Test
@@ -43,7 +44,7 @@ internal class BeagleCacheFilterTest {
 
         every { request.requestURI } returns STRING
         every { request.getHeader(any()) } returns STRING
-        every { request.method } returns HttpMethod.OPTIONS.name
+        every { request.method } returns OPTIONS
 
         BeagleCacheFilter(cacheHandler).doFilter(request, response, chain)
 
@@ -60,7 +61,7 @@ internal class BeagleCacheFilterTest {
 
         every { request.requestURI } returns STRING
         every { request.getHeader(any()) } returns STRING
-        every { request.method } returns HttpMethod.GET.name
+        every { request.method } returns GET
         every {
             cacheHandler.handleCache<ContentCachingResponseWrapper>(any(), any(), any(), any(), any())
         } returns wrapper

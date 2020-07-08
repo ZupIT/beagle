@@ -21,6 +21,7 @@ import br.com.zup.beagle.cache.RestCacheHandler
 import br.com.zup.beagle.platform.BeaglePlatformUtil
 import org.springframework.http.HttpMethod
 import org.springframework.web.util.ContentCachingResponseWrapper
+import java.util.*
 import javax.servlet.Filter
 import javax.servlet.FilterChain
 import javax.servlet.ServletRequest
@@ -31,7 +32,7 @@ import javax.servlet.http.HttpServletResponse
 class BeagleCacheFilter(private val cacheHandler: BeagleCacheHandler) : Filter {
     override fun doFilter(request: ServletRequest?, response: ServletResponse?, chain: FilterChain?) {
         if (chain != null && request is HttpServletRequest && response is HttpServletResponse) {
-            if (request.method == HttpMethod.OPTIONS.name) chain.doFilter(request, response)
+            if (request.method.toUpperCase(Locale.ROOT) == HttpMethod.OPTIONS.name) chain.doFilter(request, response)
             else this.cacheHandler.handleCache(
                 endpoint = request.requestURI,
                 receivedHash = request.getHeader(BeagleCacheHandler.CACHE_HEADER),
