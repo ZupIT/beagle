@@ -42,7 +42,6 @@
 		C0FBBD212475803900B72A9B /* BeagleSchema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FBBD172475803900B72A9B /* BeagleSchema.framework */; };
 		C864D2A2247C240200E7A1F9 /* FormSubmit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D221247C240200E7A1F9 /* FormSubmit.swift */; };
 		C864D2A4247C240200E7A1F9 /* FormInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D224247C240200E7A1F9 /* FormInput.swift */; };
-		C864D2A5247C240200E7A1F9 /* FormInputHidden.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D225247C240200E7A1F9 /* FormInputHidden.swift */; };
 		C864D2A7247C240200E7A1F9 /* FormInputComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D228247C240200E7A1F9 /* FormInputComponent.swift */; };
 		C864D2AB247C240200E7A1F9 /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D230247C240200E7A1F9 /* Form.swift */; };
 		C864D2AF247C240200E7A1F9 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D239247C240200E7A1F9 /* WebView.swift */; };
@@ -167,7 +166,6 @@
 		C864D220247C240200E7A1F9 /* FormSubmitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSubmitTests.swift; sourceTree = "<group>"; };
 		C864D221247C240200E7A1F9 /* FormSubmit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSubmit.swift; sourceTree = "<group>"; };
 		C864D224247C240200E7A1F9 /* FormInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormInput.swift; sourceTree = "<group>"; };
-		C864D225247C240200E7A1F9 /* FormInputHidden.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormInputHidden.swift; sourceTree = "<group>"; };
 		C864D227247C240200E7A1F9 /* FormInputTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormInputTests.swift; sourceTree = "<group>"; };
 		C864D228247C240200E7A1F9 /* FormInputComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormInputComponent.swift; sourceTree = "<group>"; };
 		C864D22A247C240200E7A1F9 /* FormTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTests.swift; sourceTree = "<group>"; };
@@ -506,7 +504,6 @@
 			children = (
 				C864D228247C240200E7A1F9 /* FormInputComponent.swift */,
 				C864D224247C240200E7A1F9 /* FormInput.swift */,
-				C864D225247C240200E7A1F9 /* FormInputHidden.swift */,
 				C864D226247C240200E7A1F9 /* Tests */,
 			);
 			path = Input;
@@ -1248,7 +1245,6 @@
 				C864D2DF247C240200E7A1F9 /* Size.swift in Sources */,
 				C864D2DC247C240200E7A1F9 /* Accessibility.swift in Sources */,
 				C8EBCC3B247C300E002030CC /* ListView.swift in Sources */,
-				C864D2A5247C240200E7A1F9 /* FormInputHidden.swift in Sources */,
 				C864D2DD247C240200E7A1F9 /* UnitValue.swift in Sources */,
 				C8EBCC73247C3033002030CC /* ScrollView.swift in Sources */,
 				C864D2B8247C240200E7A1F9 /* ScreenComponent.swift in Sources */,

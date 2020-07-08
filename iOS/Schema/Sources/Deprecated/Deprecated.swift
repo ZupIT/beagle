@@ -20,5 +20,4 @@ public enum Deprecated {
     public typealias Form = BeagleSchema.Form
     public typealias FormInput = BeagleSchema.FormInput
     public typealias FormSubmit = BeagleSchema.FormSubmit
-    public typealias FormInputHidden = BeagleSchema.FormInputHidden
 }
