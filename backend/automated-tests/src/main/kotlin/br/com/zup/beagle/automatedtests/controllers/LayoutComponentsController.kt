@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-package com.example.automated_tests
+package br.com.zup.beagle.automatedtests.controllers
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import br.com.zup.beagle.android.view.BeagleActivity
-import br.com.zup.beagle.android.view.ScreenRequest
+import SCREEN_BUTTON_ENDPOINT
+import SCREEN_IMAGE_ENDPOINT
+import br.com.zup.beagle.automatedtests.builders.ButtonScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.ImageScreenBuilder
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RestController
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val intent = BeagleActivity.newIntent(this, ScreenRequest("http://10.0.2.2:8080/image"))
-        startActivity(intent)
-        finish()
-    }
+@RestController
+class LayoutComponentsController() {
+
+    @GetMapping(SCREEN_IMAGE_ENDPOINT)
+    fun getImageScreen() = ImageScreenBuilder.build()
+
+    @GetMapping(SCREEN_BUTTON_ENDPOINT)
+    fun getButtonScreen() = ButtonScreenBuilder.build()
+
 }

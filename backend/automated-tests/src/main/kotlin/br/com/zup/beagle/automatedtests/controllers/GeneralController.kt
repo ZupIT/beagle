@@ -16,16 +16,17 @@
 
 package br.com.zup.beagle.automatedtests.controllers
 
-import br.com.zup.beagle.automatedtests.builders.TestBuilder
-import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.ui.Text
+import SCREEN_ACTION_CLICK_ENDPOINT
+import br.com.zup.beagle.automatedtests.builders.ClickActionScreenBuilder
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class ActionController() {
+class GeneralController() {
 
-    @GetMapping("test")
-    fun test()= TestBuilder().build()
+    @GetMapping(SCREEN_ACTION_CLICK_ENDPOINT)
+    fun getActionClick() = ClickActionScreenBuilder.build()
+
 }
+
+

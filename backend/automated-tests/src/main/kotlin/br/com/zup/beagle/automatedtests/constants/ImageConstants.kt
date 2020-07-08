@@ -14,19 +14,8 @@
  * limitations under the License.
  */
 
-package com.example.automated_tests
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import br.com.zup.beagle.android.view.BeagleActivity
-import br.com.zup.beagle.android.view.ScreenRequest
+const val LOGO_BEAGLE = "imageBeagle"
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val intent = BeagleActivity.newIntent(this, ScreenRequest("http://10.0.2.2:8080/image"))
-        startActivity(intent)
-        finish()
-    }
-}
+const val BEACH_NETWORK_IMAGE = "https://www.guiaviagensbrasil.com/imagens/Imagem%20do%20mar%20calma%20e%20belo%20da" +
+    "%20Praia%20da%20Engenhoca-Itacar%C3%A9-Bahia-BA.jpg"

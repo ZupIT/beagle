@@ -14,19 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.automated_tests
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import br.com.zup.beagle.android.view.BeagleActivity
-import br.com.zup.beagle.android.view.ScreenRequest
-
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val intent = BeagleActivity.newIntent(this, ScreenRequest("http://10.0.2.2:8080/image"))
-        startActivity(intent)
-        finish()
-    }
-}
+const val SCREEN_BUTTON_ENDPOINT = "/button"
+const val SCREEN_IMAGE_ENDPOINT = "/image"
+const val SCREEN_ACTION_CLICK_ENDPOINT = "/action-click"
