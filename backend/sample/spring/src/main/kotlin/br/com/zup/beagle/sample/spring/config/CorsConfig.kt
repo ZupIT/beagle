@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.sample.spring.config
 
+import br.com.zup.beagle.cache.BeagleCacheHandler
+import br.com.zup.beagle.platform.BeaglePlatformUtil
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.CorsRegistry
@@ -33,6 +35,7 @@ open class CorsConfig {
                     .allowedOrigins("*")
                     .allowedMethods("*")
                     .allowedHeaders("*")
+                    .exposedHeaders(BeagleCacheHandler.CACHE_HEADER, BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER)
             }
         }
     }
