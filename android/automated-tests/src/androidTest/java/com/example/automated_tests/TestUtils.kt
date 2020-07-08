@@ -16,28 +16,19 @@
 
 package com.example.automated_tests
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import br.com.zup.beagle.android.view.BeagleActivity
-import br.com.zup.beagle.android.view.ScreenRequest
+import android.app.Activity
+import android.content.Intent
+import androidx.test.rule.ActivityTestRule
 
-class MainActivity : AppCompatActivity() {
+class TestUtils {
 
     companion object {
-        const val BFF_URL_KEY = "bffUrl"
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val url = bffUrl()
-        if(url != null) {
-            val intent = BeagleActivity.newIntent(this, ScreenRequest(url))
-            startActivity(intent)
-            finish()
+        fun <T: Activity> startActivity(activityTestRule: ActivityTestRule<T>, url: String) {
+            val intent = Intent()
+            intent.putExtra(MainActivity.BFF_URL_KEY, url)
+            activityTestRule.launchActivity(intent)
         }
-
     }
 
-    fun bffUrl() = intent.extras?.getString(BFF_URL_KEY);
+
 }
