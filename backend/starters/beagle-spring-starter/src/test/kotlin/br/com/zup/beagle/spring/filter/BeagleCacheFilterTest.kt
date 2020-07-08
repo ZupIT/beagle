@@ -21,6 +21,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verifyAll
 import org.junit.jupiter.api.Test
+import org.springframework.http.HttpMethod
 import org.springframework.web.util.ContentCachingResponseWrapper
 import javax.servlet.FilterChain
 import javax.servlet.ServletRequest
@@ -34,7 +35,23 @@ internal class BeagleCacheFilterTest {
     }
 
     @Test
-    fun `doFilter when all parameters are valid`() {
+    fun `doFilter when all parameters are valid and request method is OPTION`() {
+        val cacheHandler = mockk<BeagleCacheHandler>()
+        val request = mockk<HttpServletRequest>()
+        val response = mockk<HttpServletResponse>()
+        val chain = mockk<FilterChain>(relaxUnitFun = true)
+
+        every { request.requestURI } returns STRING
+        every { request.getHeader(any()) } returns STRING
+        every { request.method } returns HttpMethod.OPTIONS.name
+
+        BeagleCacheFilter(cacheHandler).doFilter(request, response, chain)
+
+        verifyAll { chain.doFilter(request, response) }
+    }
+
+    @Test
+    fun `doFilter when all parameters are valid and request method is not OPTION`() {
         val cacheHandler = mockk<BeagleCacheHandler>()
         val request = mockk<HttpServletRequest>()
         val response = mockk<HttpServletResponse>()
@@ -43,6 +60,7 @@ internal class BeagleCacheFilterTest {
 
         every { request.requestURI } returns STRING
         every { request.getHeader(any()) } returns STRING
+        every { request.method } returns HttpMethod.GET.name
         every {
             cacheHandler.handleCache<ContentCachingResponseWrapper>(any(), any(), any(), any(), any())
         } returns wrapper
