@@ -16,36 +16,31 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import BUTTON_STYLE
 import BUTTON_STYLE_APPEARANCE
 import CYAN_BLUE
 import SCREEN_ACTION_CLICK_ENDPOINT
-import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
 import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.layout.Container
-import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.NavigationBarItem
-import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.layout.*
 import br.com.zup.beagle.widget.ui.Button
-import br.com.zup.beagle.widget.ui.ImagePath.Local
+import br.com.zup.beagle.widget.ui.ImagePath
 
 object ButtonScreenBuilder {
-     fun build() = Screen(
+    fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Beagle Button",
             showBackButton = true,
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
-                    image = Local.justMobile("informationImage"),
+                    image = ImagePath.Local.justMobile("informationImage"),
                     action = Alert(
                         title = "Button",
                         message = "This is a widget that will define a button natively using the server " +
@@ -66,9 +61,17 @@ object ButtonScreenBuilder {
                     )
                 ),
 
-                createButton(
-                    text = "Button with style",
-                    styleId = BUTTON_STYLE,
+            createButton(
+                text = "Button with style",
+                styleId = "DesignSystem.Button.ScreenButton",
+                style = Style(
+                    margin = EdgeValue(
+                        top = 15.unitReal()
+                    )
+                )
+            ),
+
+                buttonWithAppearanceAndStyle(text = "Button with Appearance").applyStyle(
                     style = Style(
                         margin = EdgeValue(
                             top = 15.unitReal()
@@ -76,15 +79,18 @@ object ButtonScreenBuilder {
                     )
                 ),
 
-                buttonWithAppearanceAndStyle(text = "Button with Appearance"),
                 buttonWithAppearanceAndStyle(
                     text = "Button with Appearance and style",
                     styleId = BUTTON_STYLE_APPEARANCE
+                ).applyStyle(
+                    Style(
+                        margin = EdgeValue(
+                            top = 15.unitReal()
+                        ))
                 )
             )
         )
     )
-
     private fun buttonWithAppearanceAndStyle(text: String, styleId: String? = null) = createButton(
         text = text,
         styleId = styleId,
