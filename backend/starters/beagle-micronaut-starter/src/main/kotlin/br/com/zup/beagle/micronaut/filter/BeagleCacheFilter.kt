@@ -23,6 +23,7 @@ import br.com.zup.beagle.constants.BEAGLE_CACHE_INCLUDES
 import br.com.zup.beagle.platform.BeaglePlatformUtil
 import io.micronaut.context.annotation.Requirements
 import io.micronaut.context.annotation.Requires
+import io.micronaut.http.HttpMethod
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpResponseFactory
 import io.micronaut.http.MutableHttpResponse
@@ -32,7 +33,7 @@ import io.micronaut.http.filter.ServerFilterChain
 import io.reactivex.Flowable
 import org.reactivestreams.Publisher
 
-@Filter("\${$BEAGLE_CACHE_INCLUDES:/**}")
+@Filter(value = ["\${$BEAGLE_CACHE_INCLUDES:/**}"], methods = [HttpMethod.GET])
 @Requirements(
     Requires(classes = [BeagleCacheHandler::class]),
     Requires(property = BEAGLE_CACHE_ENABLED, value = "true", defaultValue = "true")

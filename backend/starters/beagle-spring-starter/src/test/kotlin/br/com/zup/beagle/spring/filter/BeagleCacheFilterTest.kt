@@ -31,28 +31,12 @@ import javax.servlet.http.HttpServletResponse
 internal class BeagleCacheFilterTest {
     companion object {
         const val STRING = "test"
-        const val OPTIONS = "options"
         const val GET = "get"
+        const val OPTIONS = "options"
     }
 
     @Test
-    fun `doFilter when all parameters are valid and request method is OPTION`() {
-        val cacheHandler = mockk<BeagleCacheHandler>()
-        val request = mockk<HttpServletRequest>()
-        val response = mockk<HttpServletResponse>()
-        val chain = mockk<FilterChain>(relaxUnitFun = true)
-
-        every { request.requestURI } returns STRING
-        every { request.getHeader(any()) } returns STRING
-        every { request.method } returns OPTIONS
-
-        BeagleCacheFilter(cacheHandler).doFilter(request, response, chain)
-
-        verifyAll { chain.doFilter(request, response) }
-    }
-
-    @Test
-    fun `doFilter when all parameters are valid and request method is not OPTION`() {
+    fun `doFilter when all parameters are valid and request method is GET`() {
         val cacheHandler = mockk<BeagleCacheHandler>()
         val request = mockk<HttpServletRequest>()
         val response = mockk<HttpServletResponse>()
@@ -70,6 +54,22 @@ internal class BeagleCacheFilterTest {
 
         verifyAll { cacheHandler.handleCache(STRING, STRING, STRING, any(), any()) }
         verifyAll { wrapper.copyBodyToResponse() }
+    }
+
+    @Test
+    fun `doFilter when all parameters are valid and request method is not GET`() {
+        val cacheHandler = mockk<BeagleCacheHandler>()
+        val request = mockk<HttpServletRequest>()
+        val response = mockk<HttpServletResponse>()
+        val chain = mockk<FilterChain>(relaxUnitFun = true)
+
+        every { request.requestURI } returns STRING
+        every { request.getHeader(any()) } returns STRING
+        every { request.method } returns OPTIONS
+
+        BeagleCacheFilter(cacheHandler).doFilter(request, response, chain)
+
+        verifyAll { chain.doFilter(request, response) }
     }
 
     @Test
