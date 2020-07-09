@@ -31,6 +31,7 @@ import br.com.zup.beagle.sample.constants.SAMPLE_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ANALYTICS_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_BFF_NETWORK_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_BUILDER_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_BUTTON_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_COMPONENTS_ENDPOINT
@@ -70,8 +71,8 @@ import br.com.zup.beagle.sample.spring.service.SampleTextService
 import br.com.zup.beagle.sample.spring.service.SampleTouchableService
 import br.com.zup.beagle.sample.spring.service.SampleViewService
 import br.com.zup.beagle.sample.spring.service.SampleWebViewService
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.GetMapping
 
 @RestController
 class ScreenController(
@@ -141,8 +142,7 @@ class ScreenController(
     fun getSampleLazyComponentController() = this.sampleLazyComponentService.createLazyComponent()
 
     @GetMapping(SCREEN_NAVIGATION_BAR_ENDPOINT)
-    fun getSampleNavigationBarController() =
-        this.sampleNavigationBarService.createNavigationBarView()
+    fun getSampleNavigationBarController() = this.sampleNavigationBarService.createNavigationBarView()
 
     @GetMapping(REPRESENTATION_NAVIGATION_BAR_ENDPOINT)
     fun getSampleNavigationBar() = this.sampleNavigationBarService.navigationBar()
@@ -157,8 +157,7 @@ class ScreenController(
     fun getNavigationBarImage() = this.sampleNavigationBarService.navigationBarWithImageAsItem()
 
     @GetMapping(NAVIGATION_TYPE_ENDPOINT)
-    fun getSampleNavigationTypeController() =
-        this.sampleNavigationTypeService.createNavigationTypeView()
+    fun getSampleNavigationTypeController() = this.sampleNavigationTypeService.createNavigationTypeView()
 
     @GetMapping(REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT)
     fun getNavigationStep2() = this.sampleNavigationTypeService.step2()
@@ -175,6 +174,9 @@ class ScreenController(
     @GetMapping(SCREEN_NETWORK_IMAGE_ENDPOINT)
     fun getSampleNetworkImageView() = this.sampleNetworkImageService.createNetworkImage()
 
+    @GetMapping(SCREEN_BFF_NETWORK_IMAGE_ENDPOINT)
+    fun getSampleBffNetworkImageView() = this.sampleNetworkImageService.createBffNetworkImage()
+
     @GetMapping(SCREEN_TOUCHABLE_ENDPOINT)
     fun getTouchableView() = this.sampleTouchableService.createTouchableView()
 
@@ -188,6 +190,5 @@ class ScreenController(
     fun getAnalyticsExample() = this.sampleAnalyticsService.getAnalyticsExample()
 
     @GetMapping(SCREEN_WEB_VIEW_ENDPOINT)
-    fun getsampleWebViewService() = this.sampleWebViewService.createWebView()
-
+    fun getSampleWebViewService() = this.sampleWebViewService.createWebView()
 }

@@ -57,7 +57,7 @@ class PageViewUIComponent: UIView {
         super.init(frame: .zero)
         
         self.indicatorView?.outputReceiver = self
-        
+
         setupLayout()
         updateView()
     }
@@ -71,36 +71,28 @@ class PageViewUIComponent: UIView {
 
     private(set) lazy var pageViewController: UIPageViewController = {
         let pager = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+        guard let firstPage = model.pages[safe: 0] else { return pager }
         pager.setViewControllers(
-            [model.pages[0]], direction: .forward, animated: true, completion: nil
+            [firstPage], direction: .forward, animated: true, completion: nil
         )
         pager.dataSource = self
         pager.delegate = self
         return pager
     }()
-
-    private lazy var stackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.distribution = .fill
-        stack.alignment = .fill
-        stack.spacing = 10
-        return stack
-    }()
-
+    
     private func setupLayout() {
-        let view: UIView = pageViewController.view
-
-        addSubview(stackView)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
-
-        stackView.addArrangedSubview(view)
-
+        let pager: UIView = pageViewController.view
+        
+        pager.style.setup(Style(flex: Flex().grow(1)))
+        addSubview(pager)
+        
         if let indicator = indicatorView as? UIView {
-            stackView.addArrangedSubview(indicator)
-            indicator.heightAnchor.constraint(equalToConstant: 40).isActive = true
+            indicator.style.setup(Style(size: Size().height(40), margin: EdgeValue().top(10)))
+            indicator.yoga.isEnabled = true
+            addSubview(indicator)
         }
+        
+        style.applyLayout()
     }
 
     // MARK: - Update
