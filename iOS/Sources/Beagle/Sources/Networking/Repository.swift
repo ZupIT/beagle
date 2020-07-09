@@ -199,19 +199,19 @@ public final class RepositoryDefault: Repository {
         guard
             let manager = dependencies.cacheManager,
             let http = response.response as? HTTPURLResponse,
-            let hash = http.allHeaderFields[cacheHashHeader] as? String
+            let hash = value(forHTTPHeaderField: cacheHashHeader, in: http)
         else {
             return
         }
 
-        let maxAge = cacheMaxAge(httpHeaders: http.allHeaderFields)
+        let maxAge = cacheMaxAge(httpResponse: http)
         manager.addToCache(
             CacheReference(identifier: url, data: response.data, hash: hash, maxAge: maxAge)
         )
     }
 
-    private func cacheMaxAge(httpHeaders: [AnyHashable: Any]) -> Int? {
-        guard let specifiedAge = httpHeaders[serviceMaxCacheAge] as? String else {
+    private func cacheMaxAge(httpResponse: HTTPURLResponse) -> Int? {
+        guard let specifiedAge = value(forHTTPHeaderField: serviceMaxCacheAge, in: httpResponse) else {
             return nil
         }
 
@@ -223,6 +223,17 @@ public final class RepositoryDefault: Repository {
         } else {
             return nil
         }
+    }
+    
+    private func value(forHTTPHeaderField header: String, in response: HTTPURLResponse) -> String? {
+        let key = header.lowercased()
+        let headers = response.allHeaderFields
+        for entry in headers {
+            if (entry.key as? String)?.lowercased() == key, let value = entry.value as? String {
+                return value
+            }
+        }
+        return nil
     }
 
     private func appendCacheHeaders(_ cache: CacheReference?, to data: inout RemoteScreenAdditionalData?) {

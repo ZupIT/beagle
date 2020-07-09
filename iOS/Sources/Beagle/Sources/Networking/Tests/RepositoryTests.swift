@@ -120,6 +120,40 @@ final class RepositoryTests: XCTestCase {
         XCTAssert(componentReturned is Text)
     }
 
+    // swiftlint:disable force_unwrapping
+    func test_whenRequestSucceeds_withCacheControlHeader_itShouldCacheTheResponse() {
+        let url = URL(string: "url")!
+        let data = "Cache Test".data(using: .utf8)!
+        let headers = [
+            "Beagle-Hash": "123",
+            "Cache-Control": "max-age=15"
+        ]
+        let urlResponse = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: headers)!
+        let networkResponse = NetworkResponse(data: data, response: urlResponse)
+        let result = Result<NetworkResponse, NetworkError>.success(networkResponse)
+        let clientStub = NetworkClientStub(result: result)
+        let decoderStub = ComponentDecodingStub()
+        decoderStub.componentToReturnOnDecode = ComponentDummy()
+        let cacheSpy = CacheManagerSpy()
+        
+        let sut = RepositoryDefault(dependencies: Dependencies(
+            cacheManager: cacheSpy,
+            networkClient: clientStub,
+            decoder: decoderStub
+        ))
+        
+        let expec = expectation(description: "cache")
+        sut.fetchComponent(url: url.absoluteString, additionalData: nil) { _ in
+            expec.fulfill()
+        }
+        wait(for: [expec], timeout: 1.0)
+
+        XCTAssertEqual(cacheSpy.references.first?.identifier, "url")
+        XCTAssertEqual(cacheSpy.references.first?.data, data)
+        XCTAssertEqual(cacheSpy.references.first?.hash, "123")
+        XCTAssertEqual(cacheSpy.references.first?.maxAge, 15)
+    }
+    
     func test_whenRequestSucceeds_butTheDecodingFailsWithAnError_itShouldThrowDecodingError() {
         // Given
         let result = Result<NetworkResponse, NetworkError>.success(.init(data: Data(), response: URLResponse()))
@@ -252,3 +286,20 @@ class NetworkClientStub: NetworkClient {
  enum TestErrors: Swift.Error {
      case generic
  }
+
+class CacheManagerSpy: CacheManagerProtocol {
+    
+    private(set) var references = [CacheReference]()
+    
+    func addToCache(_ reference: CacheReference) {
+        references.append(reference)
+    }
+    
+    func getReference(identifiedBy id: String) -> CacheReference? {
+        return nil
+    }
+    
+    func isValid(reference: CacheReference) -> Bool {
+        return true
+    }
+}
