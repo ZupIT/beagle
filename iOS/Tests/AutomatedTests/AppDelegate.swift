@@ -12,12 +12,16 @@ import Beagle
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
+    static let InitialUrlEnvironmentKey = "InitialUrl"
+    
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         BeagleConfig.config()
-        let beagleScreen = Beagle.screen(.remote(.init(url: "/test")))
+        let environment = ProcessInfo.processInfo.environment
+        let url = environment[AppDelegate.InitialUrlEnvironmentKey] ?? "/button"
+        let beagleScreen = Beagle.screen(.remote(.init(url: url)))
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = beagleScreen
         window?.makeKeyAndVisible()

@@ -66,10 +66,13 @@
 		639CA22F24B4F0D3009FAC90 /* Features in Resources */ = {isa = PBXBuildFile; fileRef = 639CA22E24B4F0D3009FAC90 /* Features */; };
 		639CA23124B4F128009FAC90 /* CucumberishInit.m in Sources */ = {isa = PBXBuildFile; fileRef = 639CA23024B4F128009FAC90 /* CucumberishInit.m */; };
 		639CA23424B4F3C7009FAC90 /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639CA23324B4F3C7009FAC90 /* MainScreen.swift */; };
-		639CA23B24B51ADF009FAC90 /* Beagle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639CA23A24B51ADF009FAC90 /* Beagle.framework */; };
-		639CA23D24B51ADF009FAC90 /* BeagleSchema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639CA23C24B51ADF009FAC90 /* BeagleSchema.framework */; };
-		639CA23F24B51ADF009FAC90 /* YogaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639CA23E24B51ADF009FAC90 /* YogaKit.framework */; };
 		639CA24124B51B40009FAC90 /* BeagleConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639CA24024B51B40009FAC90 /* BeagleConfig.swift */; };
+		63ED0EFC24B785960086E433 /* Beagle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63ED0EF624B782EB0086E433 /* Beagle.framework */; };
+		63ED0EFD24B785960086E433 /* Beagle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 63ED0EF624B782EB0086E433 /* Beagle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		63ED0EFF24B785A00086E433 /* BeagleSchema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63ED0EF824B782EB0086E433 /* BeagleSchema.framework */; };
+		63ED0F0024B785A00086E433 /* BeagleSchema.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 63ED0EF824B782EB0086E433 /* BeagleSchema.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		63ED0F0124B785A10086E433 /* YogaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63ED0EFA24B782EB0086E433 /* YogaKit.framework */; };
+		63ED0F0224B785A10086E433 /* YogaKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 63ED0EFA24B782EB0086E433 /* YogaKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +91,22 @@
 			remoteInfo = AutomatedTests;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		63ED0EFE24B785960086E433 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				63ED0EFD24B785960086E433 /* Beagle.framework in Embed Frameworks */,
+				63ED0F0024B785A00086E433 /* BeagleSchema.framework in Embed Frameworks */,
+				63ED0F0224B785A10086E433 /* YogaKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		639CA15224B4EF1A009FAC90 /* AutomatedTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AutomatedTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -221,6 +240,12 @@
 		639CA23C24B51ADF009FAC90 /* BeagleSchema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeagleSchema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		639CA23E24B51ADF009FAC90 /* YogaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = YogaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		639CA24024B51B40009FAC90 /* BeagleConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleConfig.swift; sourceTree = "<group>"; };
+		63ED0EF024B782690086E433 /* Beagle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Beagle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		63ED0EF224B782690086E433 /* BeagleSchema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeagleSchema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		63ED0EF424B782690086E433 /* YogaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = YogaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		63ED0EF624B782EB0086E433 /* Beagle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Beagle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		63ED0EF824B782EB0086E433 /* BeagleSchema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeagleSchema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		63ED0EFA24B782EB0086E433 /* YogaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = YogaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,9 +253,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				639CA23B24B51ADF009FAC90 /* Beagle.framework in Frameworks */,
-				639CA23D24B51ADF009FAC90 /* BeagleSchema.framework in Frameworks */,
-				639CA23F24B51ADF009FAC90 /* YogaKit.framework in Frameworks */,
+				63ED0EFC24B785960086E433 /* Beagle.framework in Frameworks */,
+				63ED0EFF24B785A00086E433 /* BeagleSchema.framework in Frameworks */,
+				63ED0F0124B785A10086E433 /* YogaKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,6 +500,12 @@
 		639CA23524B4F450009FAC90 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				63ED0EF624B782EB0086E433 /* Beagle.framework */,
+				63ED0EF824B782EB0086E433 /* BeagleSchema.framework */,
+				63ED0EFA24B782EB0086E433 /* YogaKit.framework */,
+				63ED0EF024B782690086E433 /* Beagle.framework */,
+				63ED0EF224B782690086E433 /* BeagleSchema.framework */,
+				63ED0EF424B782690086E433 /* YogaKit.framework */,
 				639CA23A24B51ADF009FAC90 /* Beagle.framework */,
 				639CA23C24B51ADF009FAC90 /* BeagleSchema.framework */,
 				639CA23E24B51ADF009FAC90 /* YogaKit.framework */,
@@ -494,6 +525,7 @@
 				639CA14E24B4EF1A009FAC90 /* Sources */,
 				639CA14F24B4EF1A009FAC90 /* Frameworks */,
 				639CA15024B4EF1A009FAC90 /* Resources */,
+				63ED0EFE24B785960086E433 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

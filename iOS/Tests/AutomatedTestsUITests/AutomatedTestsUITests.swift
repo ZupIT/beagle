@@ -16,9 +16,28 @@ class CucumberishInitializer: NSObject {
         beforeStart { () -> Void in
             //Any global initialization can go here
         }
+        
+        //A Given step definitiona
+        Given("the app will load (.*)$") { (args, userInfo) -> Void in
+            let url = args?[0] ?? ""
+            
+            
+            application = XCUIApplication()
+            application.launchEnvironment["InitialUrl"] = url
+            application.launch()
+    
+        }
         //A Given step definition
         Given("the app is running") { (args, userInfo) -> Void in
             
+        }
+        
+        Then("wait") { (args, userInfo) in
+            let expectation =  XCTestExpectation(description: "wait")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                expectation.fulfill();
+            }
+            XCTWaiter().wait(for: [expectation], timeout: 6)
         }
         //Another step definition
         And("all data cleared") { (args, userInfo) -> Void in
