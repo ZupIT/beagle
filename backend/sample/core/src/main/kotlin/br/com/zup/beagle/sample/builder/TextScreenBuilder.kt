@@ -16,15 +16,13 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_STYLE
 import br.com.zup.beagle.sample.constants.STEEL_BLUE
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
@@ -69,18 +67,15 @@ object TextScreenBuilder : ScreenBuilder {
         text: String,
         styleId: String? = null,
         appearanceColor: String? = null
-    ) =
-        Text(text = text, styleId = styleId)
-            .applyStyle(Style(
-                    margin = EdgeValue(
-                        top = 16.unitReal(),
-                        left = 16.unitReal(),
-                        right = 16.unitReal()
-                    )
-                )
-            ).applyStyle(
-                style = Style(
-                    backgroundColor = appearanceColor
-                )
+    ) = Text(text = text, styleId = styleId)
+        .applyStyle(
+            style = Style(
+                margin = EdgeValue(
+                    top = 16.unitReal(),
+                    left = 16.unitReal(),
+                    right = 16.unitReal()
+                ),
+                backgroundColor = appearanceColor
             )
+        )
 }
