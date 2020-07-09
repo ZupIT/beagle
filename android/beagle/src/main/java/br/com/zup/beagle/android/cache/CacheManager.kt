@@ -104,15 +104,20 @@ internal class CacheManager(
         return if (responseData.statusCode == 304 && beagleCache != null) {
             beagleCache.json
         } else {
+            val headers = normalizeHeaders(responseData.headers)
             return String(responseData.data).apply {
-                val beagleHash = responseData.headers[BEAGLE_HASH]
+                val beagleHash = headers[BEAGLE_HASH]
                 if (isEnabled() && beagleHash != null) {
                     persistCacheDataOnDisk(url, this, beagleHash)
-                    val cacheControl = responseData.headers[CACHE_CONTROL_HEADER]
+                    val cacheControl = headers[CACHE_CONTROL_HEADER]
                     persistCacheOnMemory(url, this, beagleHash, cacheControl)
                 }
             }
         }
+    }
+
+    private fun normalizeHeaders(headers: Map<String, String>): Map<String, String> {
+        return headers.mapKeys { it.key.toLowerCase() }
     }
 
     private fun persistCacheDataOnDisk(url: String, responseBody: String, beagleHash: String) {
