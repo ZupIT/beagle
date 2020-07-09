@@ -21,14 +21,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import br.com.zup.beagle.android.action.SetContext
 import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.page.PageIndicator
-import br.com.zup.beagle.android.utils.toView
-import br.com.zup.beagle.widget.core.AlignSelf
-import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.android.components.page.PageView
+import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.expressionOf
+import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.widget.core.TextAlignment
+import br.com.zup.beagle.widget.core.Flex
 
 class PageViewFragment : Fragment() {
 
@@ -36,32 +38,20 @@ class PageViewFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val declarative = PageView(
-            pageIndicator = PageIndicator(
-                selectedColor = "#000000",
-                unselectedColor = "#888888"
-            ),
-            children = listOf(
-                Text("Page 1", alignment = TextAlignment.CENTER).applyFlex(
-                    Flex(
-                        alignSelf = AlignSelf.CENTER,
-                        grow = 1.0
-                    )
-                ),
-                Text("Page 2", alignment = TextAlignment.CENTER).applyFlex(
-                    Flex(
-                        alignSelf = AlignSelf.CENTER,
-                        grow = 1.0
-                    )
-                ),
-                Text("Page 3", alignment = TextAlignment.CENTER).applyFlex(
-                    Flex(
-                        alignSelf = AlignSelf.CENTER,
-                        grow = 1.0
-                    )
+        val declarative = Container(
+            listOf(
+                PageView(children = listOf(Text("1"), Text("2"), Text("3"), Text("4"), Text("5")),
+                    onPageChange = listOf(SetContext("context", "@{onChange}")),
+                    currentPage = expressionOf("@{context}")),
+                PageIndicator(numberOfPages = 5,
+                    currentPage = expressionOf("@{context}"),
+                    selectedColor = "#00ff00",
+                    unselectedColor = "#ff00ff"
                 )
-            )
-        )
+            ),
+            context = ContextData("context", 0)
+        ).applyFlex(Flex(grow = 1.0))
+
 
         return context?.let { declarative.toView(this) }
     }

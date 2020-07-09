@@ -29,10 +29,7 @@ import br.com.zup.beagle.widget.ui.Text
 
 object ComposePageView : ComposeComponent {
     override fun build() = PageView(
-        pageIndicator = PageIndicator(
-            selectedColor = BLACK,
-            unselectedColor = LIGHT_GREY
-        ),
+
         children = (1..3).map(this::createText)
     )
 
