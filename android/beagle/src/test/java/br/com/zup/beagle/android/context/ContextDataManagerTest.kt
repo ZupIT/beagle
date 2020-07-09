@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.context
 
+import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.jsonpath.JsonCreateTree
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
@@ -46,7 +47,7 @@ import kotlin.test.assertTrue
 
 private val CONTEXT_ID = RandomData.string()
 
-class ContextDataManagerTest {
+class ContextDataManagerTest : BaseTest() {
 
     private lateinit var contextDataManager: ContextDataManager
 
@@ -70,9 +71,8 @@ class ContextDataManagerTest {
     @MockK
     private lateinit var model: ComponentModel
 
-    @Before
-    fun setUp() {
-        MockKAnnotations.init(this)
+    override fun setUp() {
+        super.setUp()
 
         every { bindModel.type } returns ComponentModel::class.java
         every { bindModel.value } returns "@{$CONTEXT_ID}"
@@ -95,11 +95,6 @@ class ContextDataManagerTest {
         contexts = contextDataManager.getPrivateField("contexts")
 
         contexts.clear()
-    }
-
-    @After
-    fun tearDown() {
-        unmockkAll()
     }
 
     @Test

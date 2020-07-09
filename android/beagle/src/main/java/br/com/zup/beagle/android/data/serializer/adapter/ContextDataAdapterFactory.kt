@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.data.serializer.adapter
 
 import br.com.zup.beagle.android.annotation.ContextDataValue
+import br.com.zup.beagle.android.context.ContextDataValueResolver
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
@@ -44,24 +45,13 @@ internal class ContextDataAdapterFactory : JsonAdapter.Factory {
 }
 
 internal class AnyToJsonObjectAdapter(
-    private val adapter: JsonAdapter<Any>
+    private val adapter: JsonAdapter<Any>,
+    private val contextDataValueResolver: ContextDataValueResolver = ContextDataValueResolver()
 ) : JsonAdapter<Any>() {
 
     override fun fromJson(reader: JsonReader): Any? {
-        val type = reader.peek()
         val value = reader.readJsonValue()
-
-        return when (type) {
-            JsonReader.Token.BEGIN_OBJECT -> {
-                JSONObject(value as Map<String, Any>)
-            }
-            JsonReader.Token.BEGIN_ARRAY -> {
-                JSONArray(value as Collection<Any>)
-            }
-            else -> {
-                value
-            }
-        }
+        return contextDataValueResolver.parse(value)
     }
 
     override fun toJson(writer: JsonWriter, value: Any?) {

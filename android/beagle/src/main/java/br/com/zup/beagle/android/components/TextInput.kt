@@ -104,7 +104,7 @@ data class TextInput(
                     rootView,
                     onChange,
                     "onChange",
-                    newText.toString()
+                    mapOf("value" to newText.toString())
                 )
             }
         }
@@ -122,7 +122,7 @@ data class TextInput(
                         rootView,
                         onFocus,
                         "onFocus",
-                        this.text.toString()
+                        mapOf("value" to this.text.toString())
                     )
                 }
             } else {
@@ -131,7 +131,7 @@ data class TextInput(
                         rootView,
                         onBlur,
                         "onBlur",
-                        this.text.toString()
+                        mapOf("value" to this.text.toString())
                     )
                 }
             }
