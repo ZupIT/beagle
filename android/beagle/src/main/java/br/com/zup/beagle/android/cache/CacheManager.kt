@@ -22,6 +22,7 @@ import br.com.zup.beagle.android.store.StoreHandler
 import br.com.zup.beagle.android.store.StoreHandlerFactory
 import br.com.zup.beagle.android.store.StoreType
 import br.com.zup.beagle.android.utils.nanoTimeInSeconds
+import br.com.zup.beagle.android.utils.toLowerKeys
 import br.com.zup.beagle.android.view.ScreenRequest
 import java.lang.NumberFormatException
 
@@ -104,7 +105,7 @@ internal class CacheManager(
         return if (responseData.statusCode == 304 && beagleCache != null) {
             beagleCache.json
         } else {
-            val headers = normalizeHeaders(responseData.headers)
+            val headers = responseData.headers.toLowerKeys()
             return String(responseData.data).apply {
                 val beagleHash = headers[BEAGLE_HASH]
                 if (isEnabled() && beagleHash != null) {
@@ -114,10 +115,6 @@ internal class CacheManager(
                 }
             }
         }
-    }
-
-    private fun normalizeHeaders(headers: Map<String, String>): Map<String, String> {
-        return headers.mapKeys { it.key.toLowerCase() }
     }
 
     private fun persistCacheDataOnDisk(url: String, responseBody: String, beagleHash: String) {
