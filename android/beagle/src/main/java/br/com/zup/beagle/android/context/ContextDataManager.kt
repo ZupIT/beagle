@@ -40,7 +40,7 @@ internal class ContextDataManager(
         if (contexts[contextData.id] == null) {
             contexts[contextData.id] = ContextBinding(
                 bindings = mutableSetOf(),
-                context = contextData
+                context = contextData.normalize()
             )
         }
     }
