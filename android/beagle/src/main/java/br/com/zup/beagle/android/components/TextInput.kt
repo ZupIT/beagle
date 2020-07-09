@@ -37,6 +37,8 @@ import br.com.zup.beagle.widget.core.TextInputType.EMAIL
 import br.com.zup.beagle.widget.core.TextInputType.NUMBER
 import br.com.zup.beagle.widget.core.TextInputType.PASSWORD
 
+private const val VALUE_KEY = "value"
+
 data class TextInput(
     val value: Bind<String>? = null,
     val placeholder: Bind<String>? = null,
@@ -104,7 +106,7 @@ data class TextInput(
                     rootView,
                     onChange,
                     "onChange",
-                    mapOf("value" to newText.toString())
+                    mapOf(VALUE_KEY to newText.toString())
                 )
             }
         }
@@ -122,7 +124,7 @@ data class TextInput(
                         rootView,
                         onFocus,
                         "onFocus",
-                        mapOf("value" to this.text.toString())
+                        mapOf(VALUE_KEY to this.text.toString())
                     )
                 }
             } else {
@@ -131,7 +133,7 @@ data class TextInput(
                         rootView,
                         onBlur,
                         "onBlur",
-                        mapOf("value" to this.text.toString())
+                        mapOf(VALUE_KEY to this.text.toString())
                     )
                 }
             }
