@@ -95,9 +95,6 @@ class ContextDataManagerTest {
         contexts = contextDataManager.getPrivateField("contexts")
 
         contexts.clear()
-
-        val contextData = ContextData(CONTEXT_ID, model)
-        contexts[CONTEXT_ID] = ContextBinding(contextData, mutableSetOf(bindModel))
     }
 
     @After
@@ -118,6 +115,20 @@ class ContextDataManagerTest {
         assertNotNull(contextBinding)
         assertEquals(contextBinding?.context, contextData)
         assertEquals(0, contextBinding?.bindings?.size)
+    }
+
+    @Test
+    fun addContext_should_not_add_new_context_when_context_already_exists() {
+        // Given
+        val contextData1 = ContextData(CONTEXT_ID, true)
+        val contextData2 = ContextData(CONTEXT_ID, false)
+
+        // When
+        contextDataManager.addContext(contextData1)
+        contextDataManager.addContext(contextData2)
+
+        // Then
+        assertEquals(contexts[CONTEXT_ID]?.context, contextData1)
     }
 
     @Test
