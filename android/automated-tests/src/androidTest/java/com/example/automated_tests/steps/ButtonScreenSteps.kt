@@ -16,33 +16,47 @@
 
 package com.example.automated_tests.steps
 
+import android.content.Intent
 import androidx.test.rule.ActivityTestRule
 import com.example.automated_tests.MainActivity
 import com.example.automated_tests.TestUtils
+import com.example.automated_tests.robots.ButtonScreenRobot
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
+
 class ButtonScreenSteps {
 
-    @get:Rule
-    var activityTestRule: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java)
+    @Rule
+    var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    @Test
-    fun testButtonUrlLoading() {
-        TestUtils.startActivity(activityTestRule,"http://10.0.2.2:8080/button" )
-
-    @Test
-     fun TestSelectTextField() {
-      new ButtonScreenRobot()
-                .checkViewContainsText("Beagle Sample")
-                .selectMenuOption()
-                .clickOnText("TextField")
-                .typeIntoTextField(0,0,"beagle")
-        }
-
-
-
-        Thread.sleep(10000)
+    @Before
+    fun setup() {
+        activityTestRule.launchActivity(Intent())
     }
+
+    @After
+    fun tearDown() {
+        ActivityFinisher2.finishOpenActivities()
+    }
+
+
+//    @get:Rule
+//    var activityTestRule: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java)
+//
+//    @Test
+//    fun testButtonUrlLoading() {
+//        TestUtils.startActivity(activityTestRule, "http://10.0.2.2:8080/button")
+//    }
+
+    @Test
+     fun clickOnButton() {
+       ButtonScreenRobot()
+           .checkViewContainsText("Automated Tests")
+           .clickOnText("Button")
+           .sleep(2)
+        }
 
 }
