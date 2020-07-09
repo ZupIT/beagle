@@ -26,7 +26,7 @@ import org.json.JSONObject
  * to a JSONArray or JSONObject.
  */
 internal fun ContextData.normalize(): ContextData {
-    return if (value is String || value is Number || value is Boolean || value is JSONArray || value is JSONObject) {
+    return if (isValueNormalized()) {
         this
     } else {
         val newValue = BeagleMoshi.moshi.adapter(Any::class.java).toJson(value) ?: ""
@@ -37,4 +37,8 @@ internal fun ContextData.normalize(): ContextData {
         }
         ContextData(this.id, normalizedValue)
     }
+}
+
+private fun ContextData.isValueNormalized(): Boolean {
+    return value is String || value is Number || value is Boolean || value is JSONArray || value is JSONObject
 }
