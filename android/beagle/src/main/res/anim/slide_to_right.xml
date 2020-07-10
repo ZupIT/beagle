@@ -19,6 +19,6 @@
     <translate
         android:duration="@android:integer/config_shortAnimTime"
         android:interpolator="@android:anim/decelerate_interpolator"
-        android:fromYDelta="0%"
-        android:toYDelta="100%"/>
+        android:fromXDelta="0%"
+        android:toXDelta="100%"/>
 </set>

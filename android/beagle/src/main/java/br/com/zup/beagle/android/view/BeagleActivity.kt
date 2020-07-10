@@ -115,10 +115,10 @@ abstract class BeagleActivity : AppCompatActivity() {
     abstract fun onServerDrivenContainerStateChanged(state: ServerDrivenState)
 
     open fun getFragmentTransitionAnimation() = FragmentTransitionAnimation(
-        enter =  R.anim.slide_from_right,
-        exit = R.anim.none_animation,
-        popEnter = R.anim.none_animation,
-        popExit = R.anim.slide_to_right
+        R.anim.slide_from_right,
+        R.anim.none_animation,
+        R.anim.none_animation,
+        R.anim.slide_to_right
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
