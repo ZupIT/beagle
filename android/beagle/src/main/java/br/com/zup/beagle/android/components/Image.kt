@@ -24,6 +24,7 @@ import android.widget.ImageView
 import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
+import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.observeBindChanges
@@ -86,7 +87,7 @@ data class Image(
         Glide.with(this)
             .setDefaultRequestOptions(requestOptions)
             .asBitmap()
-            .load(path.url)
+            .load(path.url.formatUrl())
             .into(object : CustomTarget<Bitmap>() {
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                     this@loadImage.setImageBitmap(resource)

@@ -14,16 +14,18 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.micronaut.service
+package br.com.zup.beagle.android.context
 
-import br.com.zup.beagle.sample.builder.NetworkImageScreenBuilder
-import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
-import br.com.zup.beagle.sample.constants.BFF_BEACH_NETWORK_IMAGE
-import javax.inject.Singleton
+import org.json.JSONArray
+import org.json.JSONObject
 
-@Singleton
-class SampleNetworkImageService {
-    fun createNetworkImage() = NetworkImageScreenBuilder(BEACH_NETWORK_IMAGE)
+internal class ContextDataValueResolver {
 
-    fun createBffNetworkImage() = NetworkImageScreenBuilder(BFF_BEACH_NETWORK_IMAGE)
+    fun parse(value: Any?): Any? {
+        return when (value) {
+            is Collection<*> -> JSONArray(value)
+            is Map<*, *> -> JSONObject(value)
+            else -> value
+        }
+    }
 }
