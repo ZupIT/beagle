@@ -17,11 +17,12 @@
 package br.com.zup.beagle.android.utils
 
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
+import br.com.zup.beagle.android.logger.BeagleMessageLogs
 
 internal fun String.toAndroidColor(): Int? = try {
     ColorUtils.hexColor(this)
-} catch (e: Exception) {
-    BeagleLoggerProxy.error(e.toString())
+} catch (ex: Exception) {
+    BeagleMessageLogs.errorWhenMalformedColorIsProvided(this, ex)
     null
 }
 
