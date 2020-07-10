@@ -105,4 +105,9 @@ internal object BeagleMessageLogs {
         val errorMessage = "You are trying to use multiple expressions in a type that is not string!"
         BeagleLoggerProxy.warning(errorMessage)
     }
+
+    fun errorWhenMalformedColorIsProvided(color: String, ex: Exception) {
+        val errorMessage = "Could not parses color $color"
+        BeagleLoggerProxy.error(errorMessage, ex)
+    }
 }

@@ -25,6 +25,7 @@ import br.com.zup.beagle.android.action.FormMethodType
 import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.action.FormValidation
 import br.com.zup.beagle.android.action.Navigate
+import br.com.zup.beagle.android.action.UndefinedAction
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Image
 import br.com.zup.beagle.android.components.PathType
@@ -493,6 +494,37 @@ class BeagleMoshiTest : BaseTest() {
         // Then
         assertNotNull(actual)
         assertTrue(actual is FormValidation)
+    }
+
+    @Test
+    fun make_should_return_moshi_to_deserialize_a_UndefinedAction() {
+        // Given
+        val json = makeUndefinedActionJson()
+
+        // When
+        val actual = moshi.adapter(Action::class.java).fromJson(json)
+
+        // Then
+        assertNotNull(actual)
+        assertTrue(actual is UndefinedAction)
+    }
+
+    @Test
+    fun make_should_return_moshi_to_serialize_a_UndefinedAction() {
+        // Given
+        val component = Button(
+            text = "",
+            onPress = listOf(
+                UndefinedAction()
+            )
+        )
+
+        // When
+        val actual = moshi.adapter(ServerDrivenComponent::class.java).toJson(component)
+
+        // Then
+        val expected = """{"_beagleComponent_":"beagle:button","text":"","onPress":[{"_beagleAction_":"beagle:undefinedaction"}]}"""
+        assertEquals(expected, actual)
     }
 
     @Test

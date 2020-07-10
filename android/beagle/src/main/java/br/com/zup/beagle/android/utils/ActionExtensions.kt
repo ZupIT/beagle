@@ -21,12 +21,12 @@ import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.context.ContextActionExecutor
+import br.com.zup.beagle.android.context.ContextDataValueResolver
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.widget.RootView
-import org.json.JSONArray
-import org.json.JSONObject
 
 internal var contextActionExecutor = ContextActionExecutor()
+internal var contextDataValueResolver = ContextDataValueResolver()
 
 /**
  * Execute a list of actions and create the implicit context with eventName and eventValue (optional).
@@ -83,12 +83,8 @@ internal fun Action.evaluateExpression(
     expressionData: String
 ): Any? {
     return try {
-        val value = expressionOf<String>(expressionData).evaluateForAction(rootView, this) ?: ""
-        when {
-            value.startsWith("{") -> JSONObject(value)
-            value.startsWith("[") -> JSONArray(value)
-            else -> value
-        }
+        val value = expressionOf<Any>(expressionData).evaluateForAction(rootView, this)
+        contextDataValueResolver.parse(value)
     } catch (ex: Exception) {
         BeagleMessageLogs.errorWhileTryingToEvaluateBinding(ex)
         null

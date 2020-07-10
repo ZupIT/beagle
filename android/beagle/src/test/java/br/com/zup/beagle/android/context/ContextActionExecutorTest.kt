@@ -101,7 +101,7 @@ class ContextActionExecutorTest : BaseTest() {
 
         // Then
         assertEquals(eventId, contextDataSlot.captured.id)
-        assertEquals("{\"value\":\"$value\"}", contextDataSlot.captured.value.toString())
+        assertEquals(value, contextDataSlot.captured.value.toString())
     }
 
     @Test
