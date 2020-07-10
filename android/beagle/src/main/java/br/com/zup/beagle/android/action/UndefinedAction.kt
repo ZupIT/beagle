@@ -20,5 +20,7 @@ import android.view.View
 import br.com.zup.beagle.android.widget.RootView
 
 internal class UndefinedAction : Action {
-    override fun execute(rootView: RootView, origin: View) {}
+    override fun execute(rootView: RootView, origin: View) {
+
+    }
 }
