@@ -1,3 +1,0 @@
-▿ CustomPageIndicator
-  - defaultColor: "defaultColor"
-  - selectedColor: "selectedColor"
