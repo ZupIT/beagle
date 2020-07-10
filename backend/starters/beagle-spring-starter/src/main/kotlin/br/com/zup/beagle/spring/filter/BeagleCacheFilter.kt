@@ -28,26 +28,26 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 class BeagleCacheFilter(private val cacheHandler: BeagleCacheHandler) : Filter {
-    override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
-        val currentRequest = request as HttpServletRequest
+    override fun doFilter(request: ServletRequest?, response: ServletResponse?, chain: FilterChain?) {
+        if (chain != null && request is HttpServletRequest && response is HttpServletResponse) {
+            this.cacheHandler.handleCache(
+                endpoint = request.requestURI,
+                receivedHash = request.getHeader(BeagleCacheHandler.CACHE_HEADER),
+                currentPlatform = request.getHeader(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER),
+                initialResponse = ContentCachingResponseWrapper(response),
+                restHandler = object : RestCacheHandler<ContentCachingResponseWrapper> {
+                    override fun callController(response: ContentCachingResponseWrapper) =
+                        response.also { chain.doFilter(request, it) }
 
-        this.cacheHandler.handleCache(
-            endpoint = currentRequest.requestURI,
-            receivedHash = currentRequest.getHeader(BeagleCacheHandler.CACHE_HEADER),
-            currentPlatform = currentRequest.getHeader(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER),
-            initialResponse = ContentCachingResponseWrapper(response as HttpServletResponse),
-            restHandler = object : RestCacheHandler<ContentCachingResponseWrapper> {
-                override fun callController(response: ContentCachingResponseWrapper) =
-                    response.also { chain.doFilter(request, it) }
+                    override fun addHashHeader(response: ContentCachingResponseWrapper, header: String) =
+                        response.also { it.setHeader(BeagleCacheHandler.CACHE_HEADER, header) }
 
-                override fun addHashHeader(response: ContentCachingResponseWrapper, header: String) =
-                    response.also { it.setHeader(BeagleCacheHandler.CACHE_HEADER, header) }
+                    override fun addStatus(response: ContentCachingResponseWrapper, status: Int) =
+                        response.also { it.status = status }
 
-                override fun addStatus(response: ContentCachingResponseWrapper, status: Int) =
-                    response.also { it.status = status }
-
-                override fun getBody(response: ContentCachingResponseWrapper) = String(response.contentAsByteArray)
-            }
-        ).copyBodyToResponse()
+                    override fun getBody(response: ContentCachingResponseWrapper) = String(response.contentAsByteArray)
+                }
+            ).copyBodyToResponse()
+        }
     }
 }

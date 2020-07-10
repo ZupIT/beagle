@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.context
 
+import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.jsonpath.JsonCreateTree
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
@@ -46,7 +47,7 @@ import kotlin.test.assertTrue
 
 private val CONTEXT_ID = RandomData.string()
 
-class ContextDataManagerTest {
+class ContextDataManagerTest : BaseTest() {
 
     private lateinit var contextDataManager: ContextDataManager
 
@@ -70,9 +71,8 @@ class ContextDataManagerTest {
     @MockK
     private lateinit var model: ComponentModel
 
-    @Before
-    fun setUp() {
-        MockKAnnotations.init(this)
+    override fun setUp() {
+        super.setUp()
 
         every { bindModel.type } returns ComponentModel::class.java
         every { bindModel.value } returns "@{$CONTEXT_ID}"
@@ -95,14 +95,6 @@ class ContextDataManagerTest {
         contexts = contextDataManager.getPrivateField("contexts")
 
         contexts.clear()
-
-        val contextData = ContextData(CONTEXT_ID, model)
-        contexts[CONTEXT_ID] = ContextBinding(contextData, mutableSetOf(bindModel))
-    }
-
-    @After
-    fun tearDown() {
-        unmockkAll()
     }
 
     @Test
@@ -118,6 +110,20 @@ class ContextDataManagerTest {
         assertNotNull(contextBinding)
         assertEquals(contextBinding?.context, contextData)
         assertEquals(0, contextBinding?.bindings?.size)
+    }
+
+    @Test
+    fun addContext_should_not_add_new_context_when_context_already_exists() {
+        // Given
+        val contextData1 = ContextData(CONTEXT_ID, true)
+        val contextData2 = ContextData(CONTEXT_ID, false)
+
+        // When
+        contextDataManager.addContext(contextData1)
+        contextDataManager.addContext(contextData2)
+
+        // Then
+        assertEquals(contexts[CONTEXT_ID]?.context, contextData1)
     }
 
     @Test

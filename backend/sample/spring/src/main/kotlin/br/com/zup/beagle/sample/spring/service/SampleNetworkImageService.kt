@@ -17,9 +17,13 @@
 package br.com.zup.beagle.sample.spring.service
 
 import br.com.zup.beagle.sample.builder.NetworkImageScreenBuilder
+import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
+import br.com.zup.beagle.sample.constants.BFF_BEACH_NETWORK_IMAGE
 import org.springframework.stereotype.Service
 
 @Service
 class SampleNetworkImageService {
-    fun createNetworkImage() = NetworkImageScreenBuilder
+    fun createNetworkImage() = NetworkImageScreenBuilder(BEACH_NETWORK_IMAGE)
+
+    fun createBffNetworkImage() = NetworkImageScreenBuilder(BFF_BEACH_NETWORK_IMAGE)
 }

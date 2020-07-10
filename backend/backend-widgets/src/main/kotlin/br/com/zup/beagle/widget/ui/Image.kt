@@ -27,15 +27,8 @@ import br.com.zup.beagle.widget.core.ImageContentMode
  * @param path defines where the source of the image is
  * @param mode defines how the declared image will fit the view.
  */
-data class Image(
-    val path: Bind<ImagePath>,
-    val mode: ImageContentMode? = null) : Widget(){
-    constructor(
-        path: ImagePath,
-        mode: ImageContentMode? = null) : this(
-        valueOf(path),
-        mode
-    )
+data class Image(val path: Bind<ImagePath>, val mode: ImageContentMode? = null) : Widget() {
+    constructor(path: ImagePath, mode: ImageContentMode? = null) : this(valueOf(path), mode)
 }
 
 
@@ -66,5 +59,5 @@ sealed class ImagePath(val url: String?, val placeholder: Local? = null) {
      * @param remoteUrl reference the path where the image should be fetched from.
      * @param placeholder reference an image natively in your mobile app local styles file to be used as placeholder.
      * */
-    class Remote(remoteUrl: String, placeholder : Local? = null) : ImagePath(remoteUrl, placeholder)
+    class Remote(remoteUrl: String, placeholder: Local? = null) : ImagePath(remoteUrl, placeholder)
 }

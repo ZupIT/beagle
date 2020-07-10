@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.components
 
-import android.graphics.Color
 import android.text.InputType
 import android.text.TextWatcher
 import android.view.View
@@ -38,6 +37,8 @@ import br.com.zup.beagle.widget.core.TextInputType.DATE
 import br.com.zup.beagle.widget.core.TextInputType.EMAIL
 import br.com.zup.beagle.widget.core.TextInputType.NUMBER
 import br.com.zup.beagle.widget.core.TextInputType.PASSWORD
+
+private const val VALUE_KEY = "value"
 
 @RegisterWidget
 data class TextInput(
@@ -107,7 +108,7 @@ data class TextInput(
                     rootView,
                     onChange,
                     "onChange",
-                    newText.toString()
+                    mapOf(VALUE_KEY to newText.toString())
                 )
             }
         }
@@ -125,7 +126,7 @@ data class TextInput(
                         rootView,
                         onFocus,
                         "onFocus",
-                        this.text.toString()
+                        mapOf(VALUE_KEY to this.text.toString())
                     )
                 }
             } else {
@@ -134,7 +135,7 @@ data class TextInput(
                         rootView,
                         onBlur,
                         "onBlur",
-                        this.text.toString()
+                        mapOf(VALUE_KEY to this.text.toString())
                     )
                 }
             }

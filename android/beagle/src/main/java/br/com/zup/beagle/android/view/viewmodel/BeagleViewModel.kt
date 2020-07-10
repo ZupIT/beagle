@@ -80,17 +80,18 @@ internal class BeagleViewModel(
         }
     }
 
-    private class FetchComponentLiveData(private val screenRequest: ScreenRequest,
-                                         private val screen: ScreenComponent?,
-                                         private val componentRequester: ComponentRequester,
-                                         private val urlObservable: AtomicReference<UrlObservable>,
-                                         override val coroutineContext: CoroutineContext) : LiveData<ViewState>(),
-        CoroutineScope {
+    private class FetchComponentLiveData(
+        private val screenRequest: ScreenRequest,
+        private val screen: ScreenComponent?,
+        private val componentRequester: ComponentRequester,
+        private val urlObservable: AtomicReference<UrlObservable>,
+        override val coroutineContext: CoroutineContext
+    ) : LiveData<ViewState>(), CoroutineScope {
 
         override fun onActive() {
-            fetchComponents()
-
-            super.onActive()
+            if (value == null) {
+                fetchComponents()
+            }
         }
 
         private fun fetchComponents() {
