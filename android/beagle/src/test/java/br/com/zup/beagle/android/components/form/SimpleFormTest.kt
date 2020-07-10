@@ -39,7 +39,7 @@ internal class SimpleFormTest : BaseComponentTest() {
         super.setUp()
 
         simpleForm = SimpleForm(context, onSubmit, children)
-        every { simpleFormAction.execute(rootView) } just Runs
+        every { simpleFormAction.execute(rootView, view) } just Runs
     }
 
     @Test
@@ -54,11 +54,11 @@ internal class SimpleFormTest : BaseComponentTest() {
     @Test
     fun submit_needs_to_trigger_all_actions() {
         // When
-        simpleForm.submit(rootView)
+        simpleForm.submit(rootView, view)
 
         // Then
         verify(exactly = once()) {
-            simpleFormAction.execute(rootView)
+            simpleFormAction.execute(rootView, view)
         }
     }
 }
