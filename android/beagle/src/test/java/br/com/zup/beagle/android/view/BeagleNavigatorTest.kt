@@ -27,8 +27,6 @@ import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.logger.BeagleLogger
-import br.com.zup.beagle.android.logger.BeagleLoggerFactory
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.navigation.DeepLinkHandler
 import br.com.zup.beagle.android.setup.BeagleEnvironment

@@ -20,19 +20,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
 import br.com.zup.beagle.android.components.form.SimpleForm
+import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.widget.RootView
 
 class SubmitForm : Action {
     override fun execute(rootView: RootView, origin: View) {
-
         var currentView: ViewParent? = origin.parent
 
+        var foundSimpleForm = false
         while (currentView != null) {
             if (currentView is ViewGroup && currentView.tag is SimpleForm) {
                 (currentView.tag as SimpleForm).submit(rootView, origin)
+                foundSimpleForm = true
                 break
             }
             currentView = currentView.parent
+        }
+
+        if (!foundSimpleForm) {
+            BeagleLoggerProxy.error("not found simple form in the parents")
         }
     }
 }

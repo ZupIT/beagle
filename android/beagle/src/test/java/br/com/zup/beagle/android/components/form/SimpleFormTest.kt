@@ -25,6 +25,7 @@ import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.*
 import org.junit.Test
+import kotlin.test.assertTrue
 
 internal class SimpleFormTest : BaseComponentTest() {
 
@@ -43,16 +44,25 @@ internal class SimpleFormTest : BaseComponentTest() {
     }
 
     @Test
-    fun build_should_return_a_beagle_flex_view_instance() {
+    fun `should construct a beagle flex view when build`() {
         // When
         val view = simpleForm.buildView(rootView)
 
         // Then
-        kotlin.test.assertTrue(view is BeagleFlexView)
+        assertTrue(view is BeagleFlexView)
     }
 
     @Test
-    fun submit_needs_to_trigger_all_actions() {
+    fun `should add server driven component when build`() {
+        // When
+        simpleForm.buildView(rootView)
+
+        // Then
+        verify(exactly = once()) { beagleFlexView.addServerDrivenComponent(children[0], rootView) }
+    }
+
+    @Test
+    fun `should execute on submit actions when call submit`() {
         // When
         simpleForm.submit(rootView, view)
 
