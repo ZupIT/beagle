@@ -22,7 +22,12 @@ import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.layout.*
+import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.NavigationBar
+import br.com.zup.beagle.widget.layout.NavigationBarItem
+import br.com.zup.beagle.widget.layout.PageView
+import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.pager.PageIndicator
 import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.Text
@@ -48,7 +53,7 @@ object PageViewScreenBuilder : ScreenBuilder {
         child = Container(
             listOf(
                 PageView(children = listOf(Text("1"), Text("2"), Text("3"), Text("4"), Text("5")),
-                    onPageChange = listOf(SetContext("context", "@{onChange.value}")),
+                    onPageChange = listOf(SetContext("context", "@{onChange}")),
                     currentPage = expressionOf("@{context}")),
                 PageIndicator(numberOfPages = 5,
                     currentPage = expressionOf("@{context}"),

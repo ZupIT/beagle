@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.widget.pager
 
+import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.context.Bind
 
 /**
@@ -30,4 +31,4 @@ data class PageIndicator(
     val unselectedColor: String,
     var numberOfPages: Int,
     var currentPage: Bind<Int>
-) : PageIndicatorComponent
+) : ServerDrivenComponent

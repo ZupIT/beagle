@@ -21,7 +21,6 @@ import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.ContextComponent
 import br.com.zup.beagle.widget.context.ContextData
-import br.com.zup.beagle.widget.pager.PageIndicatorComponent
 
 /**
  *  The PageView component is a specialized container to hold pages (views) that will be displayed horizontally.

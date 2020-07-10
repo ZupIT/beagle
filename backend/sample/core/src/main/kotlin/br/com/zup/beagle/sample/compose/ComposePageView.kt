@@ -29,7 +29,6 @@ import br.com.zup.beagle.widget.ui.Text
 
 object ComposePageView : ComposeComponent {
     override fun build() = PageView(
-
         children = (1..3).map(this::createText)
     )
 

@@ -165,9 +165,11 @@ fun makePageViewJson() = """
 
 fun makePageIndicatorJson() = """
     {
-        "_beagleComponent_": "beagle:pageIndicator",
-        "selectedColor": "#FFFFFF",
-        "unselectedColor": "#888888"
+          "_beagleComponent_" : "beagle:pageIndicator",
+          "selectedColor" : "#FFFFFF",
+          "unselectedColor" : "#888888",
+          "numberOfPages" : 5,
+          "currentPage" : "@{context}"
     }
 """
 

@@ -16,28 +16,22 @@
 
 package br.com.zup.beagle.android.components.page
 
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.BaseComponentTest
 import br.com.zup.beagle.android.components.Button
-import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.utils.viewFactory
+import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeaglePageView
+import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.slot
-import io.mockk.verify
+import io.mockk.*
 import org.junit.Test
 import kotlin.test.assertEquals
 
 class PageViewTest : BaseComponentTest() {
 
     private val beaglePageView: BeaglePageView = mockk(relaxed = true)
-    private val pageIndicatorComponent: PageIndicatorComponent = mockk(relaxed = true)
     private val children = listOf<ServerDrivenComponent>(mockk<Button>())
 
     private lateinit var pageView: PageView
@@ -77,17 +71,5 @@ class PageViewTest : BaseComponentTest() {
         verify(exactly = once()) { anyConstructed<ViewFactory>().makeViewPager(any()) }
         verify(atLeast = once()) { anyConstructed<ViewFactory>().makeBeagleFlexView(any(), styleSlot[0]) }
         verify(atLeast = once()) { beagleFlexView.addView(any(), styleSlot[1]) }
-    }
-
-    @Test
-    fun `buildView should call addView when indicator is not null`() {
-        // GIVEN
-        pageView = PageView(children, pageIndicatorComponent)
-
-        // WHEN
-        pageView.buildView(rootView)
-
-        // THEN
-        verify(exactly = once()) { beagleFlexView.addView(any()) }
     }
 }

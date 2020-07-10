@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.components.page
 
 import android.graphics.Color
 import br.com.zup.beagle.android.components.BaseComponentTest
+import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.ViewFactory
@@ -35,6 +36,11 @@ class PageIndicatorTest : BaseComponentTest() {
     private val beaglePageIndicatorView: BeaglePageIndicatorView = mockk(relaxed = true, relaxUnitFun = true)
 
     private lateinit var pageIndicator: PageIndicator
+    val numberOfPages = RandomData.int()
+
+    companion object{
+        val CURRENT_PAGE = expressionOf<Int>("@context")
+    }
 
     override fun setUp() {
         super.setUp()
@@ -43,7 +49,7 @@ class PageIndicatorTest : BaseComponentTest() {
         every { Color.parseColor(any()) } returns 0
         every { anyConstructed<ViewFactory>().makePageIndicator(any()) } returns beaglePageIndicatorView
 
-        pageIndicator = PageIndicator(RandomData.string(), RandomData.string())
+        pageIndicator = PageIndicator(RandomData.string(), RandomData.string(), numberOfPages, CURRENT_PAGE)
     }
 
     @Test
@@ -56,16 +62,15 @@ class PageIndicatorTest : BaseComponentTest() {
     }
 
     @Test
-    fun setCount_should_call_BeaglePageIndicatorView_setCount() {
+    fun buildView_should_call_BeaglePageIndicatorView_setCount() {
         // Given
-        val count = RandomData.int()
+
 
         // When
         pageIndicator.buildView(rootView)
-        pageIndicator.setCount(count)
 
         // Then
-        verify(exactly = once()) { beaglePageIndicatorView.setCount(count) }
+        verify(exactly = once()) { beaglePageIndicatorView.setCount(numberOfPages) }
     }
 
     @Test

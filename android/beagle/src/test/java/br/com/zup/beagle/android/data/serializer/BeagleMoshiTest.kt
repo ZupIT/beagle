@@ -43,6 +43,7 @@ import br.com.zup.beagle.android.components.page.PageIndicator
 import br.com.zup.beagle.android.components.page.PageView
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.mockdata.ComponentBinding
 import br.com.zup.beagle.android.mockdata.CustomAndroidAction
 import br.com.zup.beagle.android.mockdata.CustomInputWidget
@@ -79,7 +80,10 @@ private val ACTIONS = listOf(
 class BeagleMoshiTest : BaseTest() {
 
     private lateinit var moshi: Moshi
-
+    companion object{
+        const val NUMBER_OF_PAGES = 5
+        val CURRENT_PAGE = expressionOf<Int>("@{context}")
+    }
     override fun setUp() {
         super.setUp()
 
@@ -406,7 +410,7 @@ class BeagleMoshiTest : BaseTest() {
     @Test
     fun make_should_return_moshi_to_serialize_a_PageIndicator() {
         // Given
-        val component = PageIndicator(RandomData.string(), RandomData.string())
+        val component = PageIndicator(RandomData.string(), RandomData.string(), NUMBER_OF_PAGES, CURRENT_PAGE)
 
         // When
         val actual = moshi.adapter(ServerDrivenComponent::class.java).toJson(component)

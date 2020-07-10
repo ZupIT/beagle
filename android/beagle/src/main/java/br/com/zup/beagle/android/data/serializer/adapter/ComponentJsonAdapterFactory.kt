@@ -34,7 +34,6 @@ import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.components.layout.ScrollView
 import br.com.zup.beagle.android.components.page.PageIndicator
-import br.com.zup.beagle.android.components.page.PageIndicatorComponent
 import br.com.zup.beagle.android.components.page.PageView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
@@ -65,8 +64,10 @@ internal object ComponentJsonAdapterFactory {
     private fun registerBaseSubTypes(
         factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
-        return factory.withBaseSubType(PageIndicatorComponent::class.java)
-            .withBaseSubType(InputWidget::class.java)
+//        return factory.withBaseSubType(PageIndicatorComponent::class.java)
+//            .withBaseSubType(InputWidget::class.java)
+//            .withBaseSubType(Widget::class.java)
+        return factory.withBaseSubType(InputWidget::class.java)
             .withBaseSubType(Widget::class.java)
     }
 

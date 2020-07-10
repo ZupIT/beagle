@@ -29,7 +29,7 @@ class PageIndicator(
     val unselectedColor: String,
     var numberOfPages: Int,
     var currentPage: Bind<Int>
-) : WidgetView(), PageIndicatorComponent {
+) : WidgetView(){
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
@@ -46,13 +46,7 @@ class PageIndicator(
         }
     }
 
-    override fun setCount(pages: Int) {
-        pageIndicator.setCount(pages)
-    }
-
-    override fun onItemUpdated(newIndex: Int) {
+    fun onItemUpdated(newIndex: Int) {
         pageIndicator.setCurrentIndex(newIndex)
     }
-
-    override fun initPageView(pageIndicatorOutput: PageIndicatorOutput) {}
 }

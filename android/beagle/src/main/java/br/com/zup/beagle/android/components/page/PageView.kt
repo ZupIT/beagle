@@ -24,7 +24,6 @@ import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
-import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.view.ViewFactory
@@ -47,19 +46,20 @@ data class PageView(
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
 
-    @Transient
-    private val viewRendererFactory: ViewRendererFactory = ViewRendererFactory()
-
     override fun buildView(rootView: RootView): View {
         val style = Style(flex = Flex(grow = 1.0))
 
         val viewPager = viewFactory.makeViewPager(rootView.getContext()).apply {
             adapter = PageViewAdapter(rootView, children, viewFactory)
         }
-
         val container = viewFactory.makeBeagleFlexView(rootView.getContext(), style).apply {
             addView(viewPager, style)
         }
+        configPageChangeListener(viewPager, rootView)
+        return container
+    }
+
+    private fun configPageChangeListener(viewPager: ViewPager, rootView: RootView){
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
@@ -73,36 +73,6 @@ data class PageView(
                 }
             }
 
-        })
-//        pageIndicator?.let {
-//            val pageIndicatorView = viewRendererFactory.make(it).build(rootView)
-//            setupPageIndicator(children.size, viewPager, pageIndicator)
-//            container.addView(pageIndicatorView)
-//        }
-
-        return container
-    }
-
-    private fun setupPageIndicator(
-        pages: Int,
-        viewPager: BeaglePageView,
-        pageIndicator: PageIndicatorComponent?
-    ) {
-        pageIndicator?.initPageView(viewPager)
-        pageIndicator?.setCount(pages)
-        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrollStateChanged(state: Int) {}
-
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-            }
-
-            override fun onPageSelected(position: Int) {
-                pageIndicator?.onItemUpdated(position)
-            }
         })
     }
 }

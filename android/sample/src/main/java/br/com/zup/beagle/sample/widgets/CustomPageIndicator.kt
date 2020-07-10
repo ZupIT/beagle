@@ -18,31 +18,31 @@ package br.com.zup.beagle.sample.widgets
 
 import br.com.zup.beagle.annotation.RegisterWidget
 import android.view.View
-import br.com.zup.beagle.android.components.page.PageIndicatorComponent
 import br.com.zup.beagle.android.components.page.PageIndicatorOutput
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.sample.components.CustomPageIndicatorView
 
 @RegisterWidget
 data class CustomPageIndicator(
     val showContinue: Boolean,
     val showSkip: Boolean
-) : PageIndicatorComponent {
+) :WidgetView()  {
 
     @Transient
     private lateinit var customPageIndicatorView: CustomPageIndicatorView
     @Transient
     private lateinit var output: PageIndicatorOutput
 
-    override fun initPageView(pageIndicatorOutput: PageIndicatorOutput) {
+    fun initPageView(pageIndicatorOutput: PageIndicatorOutput) {
         output = pageIndicatorOutput
     }
 
-    override fun onItemUpdated(newIndex: Int) {
+    fun onItemUpdated(newIndex: Int) {
         customPageIndicatorView.setCurrentIndex(newIndex)
     }
 
-    override fun setCount(pages: Int) {
+    fun setCount(pages: Int) {
         customPageIndicatorView.setCount(pages)
     }
 
