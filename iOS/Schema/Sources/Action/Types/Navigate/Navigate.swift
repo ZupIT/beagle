@@ -17,7 +17,7 @@
 public enum Navigate: RawAction {
     
     case openExternalURL(String)
-    case openNativeRoute(String, data: [String: String]? = nil, shouldResetApplication: Bool = false)
+    case openNativeRoute(OpenNativeRoute)
 
     case resetApplication(Route)
     case resetStack(Route)
@@ -29,20 +29,22 @@ public enum Navigate: RawAction {
     case popView
     case popToView(String)
     
-    public struct OpenNativeRoute {
+    public struct OpenNativeRoute: AutoInitiable {
         let route: String
         var data: [String: String]?
         var shouldResetApplication: Bool = false
 
-        public init(
-            route: String,
-            data: [String: String]? = nil,
-            shouldResetApplication: Bool = false
-        ) {
-            self.route = route
-            self.data = data
-            self.shouldResetApplication = shouldResetApplication
-        }
+// sourcery:inline:auto:Navigate.OpenNativeRoute.Init
+    public init(
+        route: String,
+        data: [String: String]? = nil,
+        shouldResetApplication: Bool = false
+    ) {
+        self.route = route
+        self.data = data
+        self.shouldResetApplication = shouldResetApplication
+    }
+// sourcery:end
     }
 }
 
@@ -86,10 +88,7 @@ extension Navigate: Decodable {
         case "beagle:openexternalurl":
             self = .openExternalURL(try container.decode(String.self, forKey: .url))
         case "beagle:opennativeroute":
-            let deepLink: Navigate.OpenNativeRoute = try .init(from: decoder)
-            self = .openNativeRoute(deepLink.route,
-                                    data: deepLink.data,
-                                    shouldResetApplication: deepLink.shouldResetApplication)
+            self = .openNativeRoute(try .init(from: decoder))
         case "beagle:resetapplication":
             self = .resetApplication(try container.decode(Route.self, forKey: .route))
         case "beagle:resetstack":

@@ -38,13 +38,13 @@ final class NavigateTests: XCTestCase {
         let action: Navigate = try actionFromJsonFile(fileName: "opennativeroute")
         _assertInlineSnapshot(matching: action, as: .dump, with: """
         ▿ Navigate
-          ▿ openNativeRoute: (3 elements)
-            - .0: "deeplink"
+          ▿ openNativeRoute: OpenNativeRoute
             ▿ data: Optional<Dictionary<String, String>>
               ▿ some: 1 key/value pair
                 ▿ (2 elements)
                   - key: "a"
                   - value: "value a"
+            - route: "deeplink"
             - shouldResetApplication: true
         """)
     }
