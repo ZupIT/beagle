@@ -16,8 +16,16 @@
 
 package br.com.zup.beagle.android.data.serializer.adapter
 
-import br.com.zup.beagle.android.action.*
+import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.Alert
+import br.com.zup.beagle.android.action.Confirm
+import br.com.zup.beagle.android.action.FormLocalAction
+import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.action.FormValidation
+import br.com.zup.beagle.android.action.Navigate
+import br.com.zup.beagle.android.action.SendRequest
+import br.com.zup.beagle.android.action.SetContext
+import br.com.zup.beagle.android.action.SubmitForm
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
 import java.util.Locale
 

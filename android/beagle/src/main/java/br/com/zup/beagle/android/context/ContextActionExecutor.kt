@@ -29,6 +29,7 @@ private const val DEFAULT_KEY_NAME = "value"
 
 internal class ContextActionExecutor {
 
+    @Suppress("LongParameterList")
     fun executeActions(
         rootView: RootView,
         origin: View,
