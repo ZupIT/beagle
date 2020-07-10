@@ -27,6 +27,7 @@ import br.com.zup.beagle.widget.Widget
  * an UITextField in iOS or any other type of view that can receive and store input from users. </p>
  *
  */
+@Deprecated("use SimpleForm and SubmitForm instead")
 abstract class InputWidget : Widget(), ViewConvertable, StateChangeable {
 
     @Transient

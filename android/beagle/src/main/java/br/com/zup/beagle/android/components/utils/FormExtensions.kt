@@ -22,6 +22,5 @@ import br.com.zup.beagle.android.engine.renderer.BaseRootView
 import br.com.zup.beagle.android.widget.RootView
 
 fun RootView.submitSimpleForm(rootView: RootView) = this.apply {
-    (((rootView as BaseRootView).currentViewAction?.parent as ViewGroup)
-        .tag as SimpleForm).submit(rootView)
+
 }

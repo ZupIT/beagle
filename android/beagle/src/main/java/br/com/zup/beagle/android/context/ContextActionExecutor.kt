@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.context
 
+import android.view.View
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.utils.generateViewModelInstance
@@ -30,6 +31,7 @@ internal class ContextActionExecutor {
 
     fun executeActions(
         rootView: RootView,
+        origin: View,
         sender: Any,
         actions: List<Action>,
         eventName: String,
@@ -40,7 +42,7 @@ internal class ContextActionExecutor {
         }
 
         actions.forEach {
-            it.execute(rootView)
+            it.execute(rootView, origin)
         }
     }
 

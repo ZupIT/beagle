@@ -25,6 +25,7 @@ import br.com.zup.beagle.android.components.form.observer.Observer
 import br.com.zup.beagle.android.components.form.observer.WidgetState
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 
+@Deprecated("use SimpleForm and SubmitForm instead")
 class FormValidatorController(
     private val validatorHandler: ValidatorHandler? = BeagleEnvironment.beagleSdk.validatorHandler,
     private val formInputValidatorList: MutableList<FormInputValidator> = mutableListOf()

@@ -24,6 +24,7 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+@Deprecated("use SimpleForm and SubmitForm instead")
 data class FormSubmit(
     override val child: ServerDrivenComponent,
     val enabled: Boolean = true

@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.action
 
+import android.view.View
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.context.valueOfNullable
@@ -25,7 +26,7 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 
 data class Confirm(
-    val title: Bind<String>?,
+    val title: Bind<String>? = null,
     val message: Bind<String>,
     val onPressOk: Action? = null,
     val onPressCancel: Action? = null,
@@ -34,7 +35,7 @@ data class Confirm(
 ) : Action {
 
     constructor(
-        title: String?,
+        title: String? = null,
         message: String,
         onPressOk: Action? = null,
         onPressCancel: Action? = null,
@@ -51,7 +52,7 @@ data class Confirm(
     @Transient
     internal var viewFactory: ViewFactory = ViewFactory()
 
-    override fun execute(rootView: RootView) {
+    override fun execute(rootView: RootView, origin: View) {
         viewFactory.makeAlertDialogBuilder(rootView.getContext())
             .setTitle(title?.let { evaluateExpression(rootView, it) } ?: "")
             .setMessage(evaluateExpression(rootView, message))
@@ -59,14 +60,14 @@ data class Confirm(
                 ?: rootView.getContext().getString(android.R.string.ok)) { dialog, _ ->
                 dialog.dismiss()
                 onPressOk?.let {
-                    handleEvent(rootView, it, "onPressOk")
+                    handleEvent(rootView, origin, it, "onPressOk")
                 }
             }
             .setNegativeButton(labelCancel
                 ?: rootView.getContext().getString(android.R.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
                 onPressCancel?.let {
-                    handleEvent(rootView, it, "onPressCancel")
+                    handleEvent(rootView, origin, it, "onPressCancel")
                 }
             }
             .show()

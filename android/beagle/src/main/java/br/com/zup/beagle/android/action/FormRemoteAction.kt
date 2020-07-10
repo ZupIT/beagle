@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.action
 
+import android.view.View
 import br.com.zup.beagle.android.components.form.core.FormResult
 import br.com.zup.beagle.android.components.form.core.FormSubmitter
 import br.com.zup.beagle.android.widget.RootView
@@ -43,7 +44,7 @@ data class FormRemoteAction(
     @Transient
     private val formSubmitter: FormSubmitter = FormSubmitter()
 
-    override fun execute(rootView: RootView) {
+    override fun execute(rootView: RootView, origin: View) {
         formSubmitter.submitForm(this, formsValue) {
             resultListener(it)
         }

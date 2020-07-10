@@ -42,6 +42,7 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.Widget
 
+@Deprecated("use SimpleForm and SubmitForm instead")
 data class Form(
     val child: ServerDrivenComponent,
     val onSubmit: List<Action>? = null,
@@ -108,11 +109,11 @@ data class Form(
 
     private fun addClickToFormSubmit(rootView: RootView, formSubmitView: View) {
         formSubmitView.setOnClickListener {
-            handleFormSubmit(rootView)
+            handleFormSubmit(rootView, formSubmitView)
         }
     }
 
-    private fun handleFormSubmit(rootView: RootView) {
+    private fun handleFormSubmit(rootView: RootView, view: View) {
         val formsValue = mutableMapOf<String, String>()
 
         formInputs.forEach { formInput ->
@@ -131,7 +132,7 @@ data class Form(
         if (formsValue.size == (formInputs.size + additionalDataSize)) {
             updateStoredData(formsValue)
             formSubmitView?.hideKeyboard()
-            submitForm(rootView, formsValue)
+            submitForm(rootView, formsValue, view)
         }
     }
 
@@ -179,7 +180,7 @@ data class Form(
         }
     }
 
-    private fun submitForm(rootView: RootView, formsValue: MutableMap<String, String>) {
+    private fun submitForm(rootView: RootView, formsValue: MutableMap<String, String>, view: View) {
         onSubmit?.forEach { action ->
             var newAction: Action = action
             when (newAction) {
@@ -188,7 +189,7 @@ data class Form(
                     newAction.resultListener = object : ResultListener {
                         override fun invoke(result: FormResult) {
                             (rootView.getContext() as AppCompatActivity).runOnUiThread {
-                                handleFormResult(rootView, result)
+                                handleFormResult(rootView, result, view)
                             }
                         }
                     }
@@ -199,13 +200,13 @@ data class Form(
                 )
             }
 
-            handleEvent(rootView, newAction, "onSubmit")
+            handleEvent(rootView, view, newAction, "onSubmit")
         }
 
 
     }
 
-    private fun handleFormResult(rootView: RootView, formResult: FormResult) {
+    private fun handleFormResult(rootView: RootView, formResult: FormResult, view: View) {
         when (formResult) {
             is FormResult.Success -> {
                 group?.let {
@@ -214,7 +215,7 @@ data class Form(
                 if (formResult.action is FormValidation) {
                     formResult.action.formInputs = formInputs
                 }
-                handleEvent(rootView, formResult.action, "")
+                handleEvent(rootView, view, formResult.action, "")
             }
             is FormResult.Error -> (rootView.getContext() as? BeagleActivity)?.onServerDrivenContainerStateChanged(
                 ServerDrivenState.Error(formResult.throwable)

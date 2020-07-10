@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.action
 
+import android.view.View
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
@@ -29,12 +30,12 @@ data class FormLocalAction(
     @Transient
     var formLocalActionHandler: FormLocalActionHandler? = BeagleEnvironment.beagleSdk.formLocalActionHandler
 
-    override fun execute(rootView: RootView) {
+    override fun execute(rootView: RootView, origin: View) {
         formLocalActionHandler?.handle(rootView.getContext(), this, object : ActionListener {
 
             override fun onSuccess(action: Action) {
                 changeActivityState(rootView, ServerDrivenState.Loading(false))
-                action.execute(rootView)
+                action.execute(rootView, origin)
             }
 
             override fun onError(e: Throwable) {

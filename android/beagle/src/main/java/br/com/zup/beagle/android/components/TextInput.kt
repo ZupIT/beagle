@@ -102,6 +102,7 @@ data class TextInput(
             onChange?.let {
                 this@TextInput.handleEvent(
                     rootView,
+                    this,
                     onChange,
                     "onChange",
                     newText.toString()
@@ -115,11 +116,12 @@ data class TextInput(
     }
 
     private fun EditText.setUpOnFocusChange(rootView: RootView) {
-        this.setOnFocusChangeListener { _, hasFocus ->
+        this.setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus) {
                 onFocus?.let {
                     this@TextInput.handleEvent(
                         rootView,
+                        view,
                         onFocus,
                         "onFocus",
                         this.text.toString()
@@ -129,6 +131,7 @@ data class TextInput(
                 onBlur?.let {
                     this@TextInput.handleEvent(
                         rootView,
+                        view,
                         onBlur,
                         "onBlur",
                         this.text.toString()
@@ -140,14 +143,16 @@ data class TextInput(
 
     private fun EditText.setData(textInput: TextInput, rootView: RootView) {
         textInput.placeholder?.let { bind -> observeBindChanges(rootView, bind) { this.hint = it } }
-        textInput.value?.let { bind -> observeBindChanges(rootView, bind) {
-            if (it != this.text.toString()) {
-                this.removeOnTextChange()
-                this.setText(it)
-                this.setSelection(it.length)
-                setUpOnTextChange(rootView)
+        textInput.value?.let { bind ->
+            observeBindChanges(rootView, bind) {
+                if (it != this.text.toString()) {
+                    this.removeOnTextChange()
+                    this.setText(it)
+                    this.setSelection(it.length)
+                    setUpOnTextChange(rootView)
+                }
             }
-        } }
+        }
         textInput.readOnly?.let { bind -> observeBindChanges(rootView, bind) { this.isEnabled = !it } }
         textInput.disabled?.let { bind -> observeBindChanges(rootView, bind) { this.isEnabled = !it } }
         textInput.hidden?.let { bind ->
@@ -155,7 +160,7 @@ data class TextInput(
                 this.visibility = if (it) View.INVISIBLE else View.VISIBLE
             }
         }
-        textInput.styleId?.let { style -> setStyle(style)  }
+        textInput.styleId?.let { style -> setStyle(style) }
         textInput.type?.let { bind -> observeBindChanges(rootView, bind) { this.setInputType(it) } }
     }
 

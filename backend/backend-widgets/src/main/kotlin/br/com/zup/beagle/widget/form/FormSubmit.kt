@@ -30,6 +30,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  *                  If it is defined as "false" the button will start as "disabled"
  *
  */
+@Deprecated("use SimpleForm and SubmitForm instead")
 data class FormSubmit(
     override val child: ServerDrivenComponent,
     val enabled: Boolean = true

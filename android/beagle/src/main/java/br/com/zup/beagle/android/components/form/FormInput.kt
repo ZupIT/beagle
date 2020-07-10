@@ -23,6 +23,7 @@ import br.com.zup.beagle.android.widget.ViewConvertable
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.GhostComponent
 
+@Deprecated("use SimpleForm and SubmitForm instead")
 data class FormInput(
     val name: String,
     val required: Boolean? = null,

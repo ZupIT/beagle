@@ -45,7 +45,7 @@ data class Touchable(
         preFetchHelper.handlePreFetch(rootView, onPress)
         return viewRendererFactory.make(child).build(rootView).apply {
             setOnClickListener {
-                handleEvent(rootView, onPress, "onPress")
+                handleEvent(rootView, this, onPress, "onPress")
                 clickAnalyticsEvent?.let {
                     BeagleEnvironment.beagleSdk.analytics?.trackEventOnClick(it)
                 }

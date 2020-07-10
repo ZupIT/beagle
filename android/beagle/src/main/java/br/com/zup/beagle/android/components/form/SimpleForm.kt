@@ -42,11 +42,11 @@ import br.com.zup.beagle.core.Style
  *                  If it is defined as "false" the button will start as "disabled"
  *
  */
-data class SimpleForm (
+data class SimpleForm(
     val context: ContextData,
-    val onSubmit:List<Action>,
+    val onSubmit: List<Action>,
     val children: List<ServerDrivenComponent>
-): WidgetView() {
+) : WidgetView() {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
@@ -56,23 +56,23 @@ data class SimpleForm (
 
     override fun buildView(rootView: RootView): View {
         preFetchHelper.handlePreFetch(rootView, onSubmit)
-        return viewFactory.makeBeagleFlexView(rootView.getContext(), style  ?: Style())
+        return viewFactory.makeBeagleFlexView(rootView.getContext(), style ?: Style())
             .apply {
                 tag = this@SimpleForm
-                addChildrenForm(this,rootView)
-                handleEvent(rootView, onSubmit, "onPress")
+                addChildrenForm(this, rootView)
+                handleEvent(rootView, this, onSubmit, "onPress")
             }
     }
 
-    private fun addChildrenForm(beagleFlexView: BeagleFlexView, rootView: RootView){
-        children.forEach{child ->
+    private fun addChildrenForm(beagleFlexView: BeagleFlexView, rootView: RootView) {
+        children.forEach { child ->
             beagleFlexView.addServerDrivenComponent(child, rootView)
         }
     }
 
-    fun submit(rootView: RootView) {
+    fun submit(rootView: RootView, view: View) {
         onSubmit.forEach { action ->
-            action.execute(rootView)
+            action.execute(rootView, view)
         }
     }
 }

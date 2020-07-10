@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.components.form.observer
 
+@Deprecated("use SimpleForm and SubmitForm instead")
 interface Observer<T> {
     fun update(o: Observable<T>, arg: T)
 }

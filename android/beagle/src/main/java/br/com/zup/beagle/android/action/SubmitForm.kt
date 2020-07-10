@@ -16,10 +16,23 @@
 
 package br.com.zup.beagle.android.action
 
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewParent
+import br.com.zup.beagle.android.components.form.SimpleForm
 import br.com.zup.beagle.android.widget.RootView
 
-class SubmitForm : Action{
-    override fun execute(rootView: RootView) {
+class SubmitForm : Action {
+    override fun execute(rootView: RootView, origin: View) {
 
+        var currentView: ViewParent? = origin.parent
+
+        while (currentView != null) {
+            if (currentView is ViewGroup && currentView.tag is SimpleForm) {
+                (currentView.tag as SimpleForm).submit(rootView, origin)
+                break
+            }
+            currentView = currentView.parent
+        }
     }
 }

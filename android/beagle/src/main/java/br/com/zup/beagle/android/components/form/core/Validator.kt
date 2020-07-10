@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.components.form.core
 
+@Deprecated("use SimpleForm and SubmitForm instead")
 interface Validator<in I, in W> {
     fun isValid(input: I, widget: W): Boolean
 }

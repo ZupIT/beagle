@@ -30,6 +30,7 @@ import br.com.zup.beagle.widget.action.Action
  * @see FormSubmit
  *
  */
+@Deprecated("use SimpleForm and SubmitForm instead")
 data class Form(
     val child: ServerDrivenComponent,
     val onSubmit: List<Action>? = null,

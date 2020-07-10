@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.components.form.observer
 
 import java.util.Vector
 
+@Deprecated("use SimpleForm and SubmitForm instead")
 class Observable<T> {
     private var changed = false
     private val obs: Vector<Observer<T>> = Vector()

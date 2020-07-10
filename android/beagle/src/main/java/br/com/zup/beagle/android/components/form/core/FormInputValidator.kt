@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.components.form.core
 
 import br.com.zup.beagle.android.components.form.FormInput
 
+@Deprecated("use SimpleForm and SubmitForm instead")
 data class FormInputValidator(
     val formInput: FormInput,
     var isValid: Boolean

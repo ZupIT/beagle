@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.components.form.core
 
+@Deprecated("use SimpleForm and SubmitForm instead")
 class FormDataStoreHandler {
     private val groups: HashMap<String, HashMap<String, String>> = HashMap()
 
