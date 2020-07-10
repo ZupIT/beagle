@@ -42,8 +42,8 @@ class BeagleNavigator: BeagleNavigation {
         switch action {
         case let .openExternalURL(url):
             openExternalURL(path: url, controller: controller)
-        case let .openNativeRoute(route, data, shouldResetApplication):
-            openNativeRoute(path: route, controller: controller, data: data, resetApplication: shouldResetApplication, animated: animated)
+        case let .openNativeRoute(nativeRoute):
+            openNativeRoute(controller: controller, animated: animated, nativeRoute: nativeRoute)
         case let .resetApplication(route):
             resetApplication(with: route, controller: controller, animated: animated)
         case let .resetStack(route):
@@ -67,23 +67,22 @@ class BeagleNavigator: BeagleNavigation {
         controller.dependencies.opener.tryToOpen(path: path)
     }
     
-    private func openNativeRoute(path: String, controller: BeagleController, data: [String: String]?, resetApplication: Bool, animated: Bool) {
-        
+    private func openNativeRoute(controller: BeagleController, animated: Bool, nativeRoute: Navigate.OpenNativeRoute) {
         do {
             guard let deepLinkHandler = controller.dependencies.deepLinkHandler else { return }
-            let viewController = try deepLinkHandler.getNativeScreen(with: path, data: data)
+            let viewController = try deepLinkHandler.getNativeScreen(with: nativeRoute.route, data: nativeRoute.data)
             
             if let transition = defaultAnimation?.getTransition(.push) {
                 controller.navigationController?.view.layer.add(transition, forKey: nil)
             }
             
-            if resetApplication {
+            if nativeRoute.shouldResetApplication {
                 controller.dependencies.windowManager.window?.replace(rootViewController: viewController, animated: animated, completion: nil)
             } else {
                 controller.navigationController?.pushViewController(viewController, animated: animated)
             }
         } catch {
-            controller.dependencies.logger.log(Log.navigation(.didNotFindDeepLinkScreen(path: path)))
+            controller.dependencies.logger.log(Log.navigation(.didNotFindDeepLinkScreen(path: nativeRoute.route)))
             return
         }
     }

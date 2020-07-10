@@ -29,22 +29,20 @@ public enum Navigate: RawAction {
     case popView
     case popToView(String)
     
-    public struct OpenNativeRoute: AutoInitiable {
-        let route: String
-        var data: [String: String]?
-        var shouldResetApplication: Bool = false
+    public struct OpenNativeRoute {
+        public let route: String
+        public let data: [String: String]?
+        public let shouldResetApplication: Bool
 
-// sourcery:inline:auto:Navigate.OpenNativeRoute.Init
-    public init(
-        route: String,
-        data: [String: String]? = nil,
-        shouldResetApplication: Bool = false
-    ) {
-        self.route = route
-        self.data = data
-        self.shouldResetApplication = shouldResetApplication
-    }
-// sourcery:end
+        public init(
+            route: String,
+            data: [String: String]? = nil,
+            shouldResetApplication: Bool = false
+        ) {
+            self.route = route
+            self.data = data
+            self.shouldResetApplication = shouldResetApplication
+        }
     }
 }
 

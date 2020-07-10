@@ -84,8 +84,8 @@ final class BeaglePrefetchHelperTests: XCTestCase {
 
         let actions: [Navigate] = [
             Navigate.openExternalURL("http://localhost"),
-            Navigate.openNativeRoute(path, data: nil),
-            Navigate.openNativeRoute(path, data: data),
+            Navigate.openNativeRoute(.init(route: path)),
+            Navigate.openNativeRoute(.init(route: path, data: data)),
 
             Navigate.resetApplication(.declarative(Screen(child: container))),
             Navigate.resetApplication(.remote(.init(url: path, shouldPrefetch: true))),
