@@ -35,7 +35,7 @@ const val BEAGLE_PACKAGE_INTERNAL = "br.com.zup.beagle.android.setup"
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @IncrementalAnnotationProcessor(IncrementalAnnotationProcessorType.ISOLATING)
 class BeagleInternalAnnotationProcessor : AbstractProcessor() {
-    private lateinit var beagleSetupInternalProcessor: BeagleSetupInternalProcessor
+    private lateinit var internalWidgetFactoryProcessor: InternalWidgetFactoryProcessor
 
     override fun getSupportedAnnotationTypes(): Set<String> {
         return TreeSet(listOf(
@@ -44,7 +44,7 @@ class BeagleInternalAnnotationProcessor : AbstractProcessor() {
 
     override fun init(processingEnvironment: ProcessingEnvironment) {
         super.init(processingEnvironment)
-        beagleSetupInternalProcessor = BeagleSetupInternalProcessor(processingEnvironment)
+        internalWidgetFactoryProcessor = InternalWidgetFactoryProcessor(processingEnvironment)
     }
 
     override fun process(
@@ -52,7 +52,7 @@ class BeagleInternalAnnotationProcessor : AbstractProcessor() {
         roundEnvironment: RoundEnvironment
     ): Boolean {
         if (annotations.isEmpty()) return false
-        beagleSetupInternalProcessor.process(BEAGLE_PACKAGE_INTERNAL, roundEnvironment)
+        internalWidgetFactoryProcessor.process(BEAGLE_PACKAGE_INTERNAL, roundEnvironment)
         return false
     }
 }

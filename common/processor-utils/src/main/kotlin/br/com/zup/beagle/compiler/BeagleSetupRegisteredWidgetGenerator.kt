@@ -26,7 +26,7 @@ import javax.annotation.processing.RoundEnvironment
 
 class BeagleSetupRegisteredWidgetGenerator {
 
-    fun generate(roundEnvironment: RoundEnvironment): FunSpec {
+    fun generate(roundEnvironment: RoundEnvironment, isOverride: Boolean = true): FunSpec {
         val classValues = StringBuilder()
         val registerWidgetAnnotatedClasses = roundEnvironment.getElementsAnnotatedWith(RegisterWidget::class.java)
         val listReturnType = List::class.asClassName().parameterizedBy(
@@ -41,9 +41,12 @@ class BeagleSetupRegisteredWidgetGenerator {
                 classValues.append(",\n")
             }
         }
+        val spec = FunSpec.builder("registeredWidgets")
 
-        return FunSpec.builder("registeredWidgets")
-            .addModifiers(KModifier.OVERRIDE)
+        if (isOverride)
+            spec.addModifiers(KModifier.OVERRIDE)
+
+        return spec
             .returns(listReturnType)
             .addCode("""
                         |val registeredWidgets = listOf<Class<WidgetView>>(

@@ -49,7 +49,6 @@ interface BeagleSdk {
     fun init(application: Application) {
         BeagleEnvironment.beagleSdk = this
         BeagleEnvironment.application = application
-        BeagleEnvironment.beagleSdkInternal = BeagleSetupInternal()
         SoLoader.init(application, false)
     }
 }

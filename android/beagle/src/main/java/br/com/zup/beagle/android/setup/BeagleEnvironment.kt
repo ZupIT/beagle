@@ -20,6 +20,5 @@ import android.app.Application
 
 internal object BeagleEnvironment {
     lateinit var beagleSdk: BeagleSdk
-    lateinit var beagleSdkInternal: BeagleSdkInternal
     lateinit var application: Application
 }

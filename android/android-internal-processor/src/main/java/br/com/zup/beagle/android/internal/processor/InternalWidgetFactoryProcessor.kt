@@ -16,11 +16,9 @@
 
 package br.com.zup.beagle.android.internal.processor
 
-import br.com.zup.beagle.compiler.BEAGLE_SDK_INTERNAL
 import br.com.zup.beagle.compiler.BeagleSetupRegisteredWidgetGenerator
 import br.com.zup.beagle.compiler.error
 import br.com.zup.beagle.widget.Widget
-import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeSpec
@@ -28,7 +26,7 @@ import java.io.IOException
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 
-class BeagleSetupInternalProcessor(
+class InternalWidgetFactoryProcessor(
     private val processingEnv: ProcessingEnvironment,
     private val beagleSetupRegisteredWidgetGenerator: BeagleSetupRegisteredWidgetGenerator =
         BeagleSetupRegisteredWidgetGenerator()) {
@@ -37,17 +35,19 @@ class BeagleSetupInternalProcessor(
         basePackageName: String,
         roundEnvironment: RoundEnvironment
     ) {
-        val beagleSetupClassName = "BeagleSetupInternal"
+        val className = "InternalWidgetFactory"
 
-        val typeSpec = TypeSpec.classBuilder(beagleSetupClassName)
-            .addModifiers(KModifier.PUBLIC, KModifier.FINAL)
-            .addSuperinterface(ClassName(BEAGLE_SDK_INTERNAL.packageName, BEAGLE_SDK_INTERNAL.className))
-            .addFunction(beagleSetupRegisteredWidgetGenerator.generate(roundEnvironment))
+        val typeSpec = TypeSpec.objectBuilder(className)
+            .addModifiers(KModifier.INTERNAL)
+            .addFunction(beagleSetupRegisteredWidgetGenerator.generate(
+                roundEnvironment = roundEnvironment,
+                isOverride = false
+            ))
             .build()
 
         val beagleSetupFile = FileSpec.builder(
             basePackageName,
-            beagleSetupClassName
+            className
         )
             .addImport(Widget::class, "")
             .addType(typeSpec)

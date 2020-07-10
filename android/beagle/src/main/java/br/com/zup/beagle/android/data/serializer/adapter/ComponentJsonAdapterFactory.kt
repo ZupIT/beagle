@@ -23,6 +23,7 @@ import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.components.page.PageIndicatorComponent
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.setup.InternalWidgetFactory
 import br.com.zup.beagle.android.widget.UndefinedWidget
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -42,7 +43,7 @@ internal object ComponentJsonAdapterFactory {
 
         factory = registerBaseSubTypes(factory)
         factory = registerUIClass(factory)
-        factory = registerWidgets(factory, BEAGLE_NAMESPACE, BeagleEnvironment.beagleSdkInternal.registeredWidgets())
+        factory = registerWidgets(factory, BEAGLE_NAMESPACE, InternalWidgetFactory.registeredWidgets())
         factory = registerWidgets(factory, CUSTOM_NAMESPACE, BeagleEnvironment.beagleSdk.registeredWidgets())
         factory = registerUndefinedWidget(factory)
 
