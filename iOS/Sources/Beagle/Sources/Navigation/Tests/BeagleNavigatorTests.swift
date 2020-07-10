@@ -59,7 +59,7 @@ final class BeagleNavigatorTests: XCTestCase {
         let sut = BeagleNavigator()
         let controller = BeagleControllerStub(dependencies: dependencies)
 
-        let resetRemote = Navigate.resetApplication(.remote("https://example.com/screen.json"))
+        let resetRemote = Navigate.resetApplication(.remote(.init(url:"https://example.com/screen.json")))
 
         // When
         sut.navigate(action: resetRemote, controller: controller)
@@ -87,7 +87,7 @@ final class BeagleNavigatorTests: XCTestCase {
     }
 
     func test_swapView_shouldReplaceNavigationStack() {
-        let swapRemote = Navigate.resetStack(.remote("https://example.com/screen.json"))
+        let swapRemote = Navigate.resetStack(.remote(.init(url: "https://example.com/screen.json")))
         let swapDeclarative = Navigate.resetStack(.declarative(Screen(child: Text("Declarative"))))
         
         swapViewTest(swapRemote)
@@ -108,7 +108,7 @@ final class BeagleNavigatorTests: XCTestCase {
     }
 
     func test_addView_shouldPushScreenInNavigation() {
-        let addViewRemote = Navigate.pushView(.remote("https://example.com/screen.json"))
+        let addViewRemote = Navigate.pushView(.remote(.init(url: "https://example.com/screen.json")))
         let addViewDeclarative = Navigate.pushView(.declarative(Screen(child: Text("Declarative"))))
         
         addViewTest(addViewRemote)
@@ -249,7 +249,7 @@ final class BeagleNavigatorTests: XCTestCase {
     }
 
     func test_pushStack_shouldPresentTheScreen() {
-        let presentViewRemote = Navigate.pushStack(.remote("https://example.com/screen.json"))
+        let presentViewRemote = Navigate.pushStack(.remote(.init(url: "https://example.com/screen.json")))
         let presentViewDeclarative = Navigate.pushStack(.declarative(Screen(child: Text("Declarative"))))
         
         pushStackTest(presentViewRemote)

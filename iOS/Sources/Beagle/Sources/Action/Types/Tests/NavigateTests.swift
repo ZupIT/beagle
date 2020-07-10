@@ -37,7 +37,7 @@ class NavigateTests: XCTestCase {
     
     func testNotNullNewPathsInNavigation() {
         // given
-        let routeMockRemote: Route = .remote("", shouldPrefetch: false, fallback: Screen(child: DumbComponent()))
+        let routeMockRemote: Route = .remote(.init(url: "", shouldPrefetch: false, fallback: Screen(child: DumbComponent())))
         let routeMockDeclarative: Route = .declarative(Screen(child: DumbComponent()))
         let array: [Navigate] = [
             .resetApplication(routeMockRemote),
