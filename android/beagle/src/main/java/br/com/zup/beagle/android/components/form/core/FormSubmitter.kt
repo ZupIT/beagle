@@ -19,41 +19,44 @@ package br.com.zup.beagle.android.components.form.core
 import android.net.Uri
 import br.com.zup.beagle.android.action.FormMethodType
 import br.com.zup.beagle.android.action.FormRemoteAction
+import br.com.zup.beagle.android.data.BeagleApi
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
-import br.com.zup.beagle.android.exception.BeagleApiException
 import br.com.zup.beagle.android.exception.BeagleException
-import br.com.zup.beagle.android.networking.HttpClient
-import br.com.zup.beagle.android.networking.HttpClientFactory
 import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilderFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.net.URI
+import kotlin.coroutines.CoroutineContext
 
 internal class FormSubmitter(
-    private val httpClient: HttpClient = HttpClientFactory().make(),
+    private val beagleApi: BeagleApi = BeagleApi(),
     private val deserialization: BeagleSerializer = BeagleSerializer(),
-    private val urlBuilder: UrlBuilder = UrlBuilderFactory().make()
-) {
+    private val urlBuilder: UrlBuilder = UrlBuilderFactory().make(),
+    private val job:Job = Job(),
+    override val coroutineContext: CoroutineContext = job + Main
+) : CoroutineScope {
 
     fun submitForm(
         form: FormRemoteAction,
         formsValue: Map<String, String>,
         result: (formResult: FormResult) -> Unit
     ) {
-        val requestData = createRequestData(form, formsValue)
-
-        httpClient.execute(requestData, { response ->
+        launch {
             try {
+                val requestData = createRequestData(form, formsValue)
+                val response = beagleApi.fetchData(requestData)
                 val action = deserialization.deserializeAction(String(response.data))
                 result(FormResult.Success(action))
-            } catch (ex: BeagleException) {
-                result(FormResult.Error(ex))
+            } catch (e: BeagleException) {
+                result(FormResult.Error(e))
             }
-        }, {
-            result(FormResult.Error(BeagleApiException(it)))
-        })
+        }
     }
 
     private fun createRequestData(form: FormRemoteAction, formsValue: Map<String, String>): RequestData {

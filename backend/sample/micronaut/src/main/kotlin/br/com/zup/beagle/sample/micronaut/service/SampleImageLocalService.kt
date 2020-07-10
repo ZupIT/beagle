@@ -17,6 +17,9 @@
 package br.com.zup.beagle.sample.micronaut.service
 
 import br.com.zup.beagle.sample.builder.ImageLocalScreenBuilder
+import br.com.zup.beagle.sample.builder.ImageRemoteScreenBuilder
+import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
+import br.com.zup.beagle.sample.constants.BFF_BEACH_NETWORK_IMAGE
 import javax.inject.Singleton
 
 @Singleton

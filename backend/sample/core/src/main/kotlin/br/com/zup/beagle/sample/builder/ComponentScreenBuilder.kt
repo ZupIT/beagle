@@ -26,6 +26,7 @@ import br.com.zup.beagle.sample.constants.NAVIGATION_TYPE_ENDPOINT
 import br.com.zup.beagle.sample.constants.PLATFORM_SAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ANALYTICS_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_BFF_NETWORK_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_BUILDER_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_BUTTON_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_COMPOSE_COMPONENT_ENDPOINT
@@ -65,8 +66,9 @@ object ComponentScreenBuilder : ScreenBuilder {
             children = listOf(
                 createMenu("Button", SCREEN_BUTTON_ENDPOINT),
                 createMenu("Text", SCREEN_TEXT_ENDPOINT),
-                createMenu("Image Local", SCREEN_IMAGE_ENDPOINT),
-                createMenu("Image Remote", SCREEN_NETWORK_IMAGE_ENDPOINT),
+                createMenu("Local Image", SCREEN_IMAGE_ENDPOINT),
+                createMenu("Remote Image", SCREEN_NETWORK_IMAGE_ENDPOINT),
+                createMenu("Bff Remote Image", SCREEN_BFF_NETWORK_IMAGE_ENDPOINT),
                 createMenu("TabView", SCREEN_TAB_VIEW_ENDPOINT),
                 createMenu("ListView", SCREEN_LIST_VIEW_ENDPOINT),
                 createMenu("ScrollView", SCREEN_SCROLL_VIEW_ENDPOINT),
@@ -97,9 +99,9 @@ object ComponentScreenBuilder : ScreenBuilder {
         ),
         styleId = BUTTON_STYLE_TITLE
     ).applyStyle(Style(
-            margin = EdgeValue(
-                top = 8.unitReal()
-            )
+        margin = EdgeValue(
+            top = 8.unitReal()
         )
+    )
     )
 }

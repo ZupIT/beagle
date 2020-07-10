@@ -147,7 +147,7 @@
         <item name="android:autoLink">all</item>
     </style>
 
-    <style name="DesignSystem.Form.Submit" parent="DesignSystem.Text.Default">
+    <style name="DesignSystem.Form.Submit" parent="DesignSystem.Button.Text">
         <item name="android:textColor">@color/colorWhite</item>
         <item name="background">@drawable/bg_form_button</item>
     </style>

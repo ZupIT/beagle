@@ -20,7 +20,6 @@ import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
 import br.com.zup.beagle.sample.constants.TEXT_IMAGE_REMOTE
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.EdgeValue
@@ -39,7 +38,8 @@ import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.ImagePath.Remote
 import br.com.zup.beagle.widget.ui.Text
 
-object ImageRemoteScreenBuilder : ScreenBuilder {
+class ImageRemoteScreenBuilder(private val imagePath: String) : ScreenBuilder {
+
     override fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Beagle Image Remote",
@@ -66,7 +66,7 @@ object ImageRemoteScreenBuilder : ScreenBuilder {
     private fun buildImage(title: String, mode: ImageContentMode? = null) = Container(
         children = listOf(
             buildText(title),
-            Image(Remote(BEACH_NETWORK_IMAGE), mode).applyStyle(Style(
+            Image(Remote(this.imagePath), mode).applyStyle(Style(
                 flex = Flex(
                     alignSelf = AlignSelf.CENTER
                 ),

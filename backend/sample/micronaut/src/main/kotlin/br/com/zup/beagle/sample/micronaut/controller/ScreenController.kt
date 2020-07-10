@@ -31,6 +31,7 @@ import br.com.zup.beagle.sample.constants.SAMPLE_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ANALYTICS_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_BFF_NETWORK_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_BUILDER_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_BUTTON_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_COMPONENTS_ENDPOINT
@@ -152,8 +153,7 @@ class ScreenController(
     fun getSampleLazyComponentController() = this.sampleLazyComponentService.createLazyComponent()
 
     @Get(SCREEN_NAVIGATION_BAR_ENDPOINT)
-    fun getSampleNavigationBarController() =
-        this.sampleNavigationBarService.createNavigationBarView()
+    fun getSampleNavigationBarController() = this.sampleNavigationBarService.createNavigationBarView()
 
     @Get(REPRESENTATION_NAVIGATION_BAR_ENDPOINT)
     fun getSampleNavigationBar() = this.sampleNavigationBarService.navigationBar()
@@ -186,6 +186,9 @@ class ScreenController(
     @Get(SCREEN_NETWORK_IMAGE_ENDPOINT)
     fun getSampleNetworkImageView() = this.sampleNetworkImageService.createImageRemote()
 
+    @Get(SCREEN_BFF_NETWORK_IMAGE_ENDPOINT)
+    fun getSampleBffNetworkImageView() = this.sampleNetworkImageService.createBffNetworkImage()
+
     @Get(SCREEN_TOUCHABLE_ENDPOINT)
     fun getTouchableView() = this.sampleTouchableService.createTouchableView()
 
@@ -199,7 +202,7 @@ class ScreenController(
     fun getAnalyticsExample() = this.sampleAnalyticsService.getAnalyticsExample()
 
     @Get(SCREEN_WEB_VIEW_ENDPOINT)
-    fun getsampleWebViewService() = this.sampleWebViewService.createWebView()
+    fun getSampleWebViewService() = this.sampleWebViewService.createWebView()
 
     @Get(SCREEN_CONTEXT_ENDPOINT)
     fun getSampleContext() = this.sampleScreenContext.createScreenContext()

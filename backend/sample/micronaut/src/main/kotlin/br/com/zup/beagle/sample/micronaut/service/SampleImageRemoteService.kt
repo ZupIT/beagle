@@ -17,9 +17,13 @@
 package br.com.zup.beagle.sample.micronaut.service
 
 import br.com.zup.beagle.sample.builder.ImageRemoteScreenBuilder
+import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
+import br.com.zup.beagle.sample.constants.BFF_BEACH_NETWORK_IMAGE
 import javax.inject.Singleton
 
 @Singleton
 class SampleImageRemoteService {
-    fun createImageRemote() = ImageRemoteScreenBuilder
+    fun createImageRemote() = ImageRemoteScreenBuilder(BEACH_NETWORK_IMAGE)
+
+    fun createBffNetworkImage() = ImageRemoteScreenBuilder(BFF_BEACH_NETWORK_IMAGE)
 }

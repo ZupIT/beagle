@@ -4,7 +4,6 @@
       "_beagleAction_": "beagle:popView"
   }],
   "child": {
-      "_beagleComponent_": "beagle:text",
-      "text": "touchable"
+      "_beagleComponent_" : "custom:beagleschematestscomponent"
   }
 }
