@@ -16,7 +16,14 @@
 
 package br.com.zup.beagle.android.utils
 
-internal fun String.toAndroidColor(): Int = ColorUtils.hexColor(this)
+import br.com.zup.beagle.android.logger.BeagleLoggerProxy
+
+internal fun String.toAndroidColor(): Int? = try {
+    ColorUtils.hexColor(this)
+} catch (e: Exception) {
+    BeagleLoggerProxy.error(e.toString())
+    null
+}
 
 internal fun String.getContextId() = this.split(".", "[")[0]
 
