@@ -56,17 +56,18 @@ object SimpleFormScreenBuilder : ScreenBuilder {
                         )
                     ),
                     children = listOf(
-                        TextInput(value = "", placeholder = "@{myContext.value}", type = TextInputType.PASSWORD)
+                        TextInput(value = "", placeholder = "@{myContext.value}", type = TextInputType.PASSWORD),
+                        Button(text = "submit form",
+                            onPress = listOf(
+                                SubmitForm()
+                            ))
                     ),
                     context = ContextData(
                         id = "myContext",
                         value = "Hello World!"
                     )
-                ),
-                Button(text = "submit form",
-                    onPress = listOf(
-                        SubmitForm()
-                    ))
+
+                )
             )
         )
     )

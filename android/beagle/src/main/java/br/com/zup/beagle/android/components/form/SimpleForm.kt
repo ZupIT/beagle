@@ -59,7 +59,6 @@ data class SimpleForm(
             .apply {
                 tag = this@SimpleForm
                 addChildrenForm(this, rootView)
-                handleEvent(rootView, this, onSubmit, "onPress")
             }
     }
 
@@ -71,7 +70,7 @@ data class SimpleForm(
 
     fun submit(rootView: RootView, view: View) {
         onSubmit.forEach { action ->
-            handleEvent(rootView, view, action, , "onSubmit")
+            handleEvent(rootView, view, action, "onSubmit")
         }
     }
 }
