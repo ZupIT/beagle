@@ -22,7 +22,7 @@ import SnapshotTesting
 class FormTests: XCTestCase {
 
     func test_whenDecodingJson_thenItShouldReturnAForm() throws {
-        let component: Form = try componentFromJsonFile(fileName: "formComponent")
+        let component: Deprecated.Form = try componentFromJsonFile(fileName: "formComponent")
         assertSnapshot(matching: component, as: .dump)
     }
 

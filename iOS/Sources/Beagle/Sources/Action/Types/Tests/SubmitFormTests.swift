@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,21 +16,27 @@
  */
 
 import XCTest
-@testable import Beagle
 import BeagleSchema
+@testable import Beagle
 
-final class FormInputTests: XCTestCase {
+final class SubmitFormTest: XCTestCase {
     
-    func test_buildView_shouldReturnTheExpectedView() {
+    func test_ifSubmitFormIsTriggered() {
         // Given
-        let formInput = Deprecated.FormInput(name: "username", child: ComponentDummy())
-        let controller = BeagleControllerStub()
+        let controller = BeagleControllerNavigationSpy()
         let renderer = BeagleRenderer(controller: controller)
+        let submitFormAction = SubmitForm()
+        let simpleForm = SimpleForm(
+            onSubmit: [Alert(message: "Hello Beagle!")],
+            children: [Button(text: "Test", onPress: [submitFormAction])]
+        )
         
         // When
-        let formInputView = renderer.render(formInput)
-        
+        let resultingView = renderer.render(simpleForm)
+        submitFormAction.execute(controller: controller, sender: resultingView)
+
         // Then
-        XCTAssertTrue(formInputView.beagleFormElement is Deprecated.FormInput)
+        XCTAssertTrue(controller.viewControllerToPresent is UIAlertController)
     }
+    
 }

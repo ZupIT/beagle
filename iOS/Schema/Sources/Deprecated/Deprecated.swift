@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.components.utils
+import Foundation
 
-import android.view.ViewGroup
-import br.com.zup.beagle.android.components.form.SimpleForm
-import br.com.zup.beagle.android.engine.renderer.BaseRootView
-import br.com.zup.beagle.android.widget.RootView
-
-fun RootView.submitSimpleForm(rootView: RootView) = this.apply {
-
+public enum Deprecated {
+    public typealias Form = BeagleSchema.Form
+    public typealias FormInput = BeagleSchema.FormInput
+    public typealias FormSubmit = BeagleSchema.FormSubmit
 }

@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,15 +15,14 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.action
+import XCTest
+import SnapshotTesting
+@testable import BeagleSchema
 
-import android.view.View
-import br.com.zup.beagle.android.components.utils.submitSimpleForm
-import br.com.zup.beagle.android.widget.RootView
-
-class SimpleFormSubmitAction : Action {
-
-    override fun execute(rootView: RootView, origin: View) {
-        rootView.submitSimpleForm(rootView)
+class SimpleFormTests: XCTestCase {
+    
+    func test_whenDecodingJson_shouldReturnASimpleForm() throws {
+        let component: SimpleForm = try componentFromJsonFile(fileName: "simpleFormComponent")
+        assertSnapshot(matching: component, as: .dump)
     }
 }

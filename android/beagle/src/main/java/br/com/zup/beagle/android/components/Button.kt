@@ -71,7 +71,6 @@ data class Button(
 
         button.setOnClickListener { view ->
             onPress?.let {
-                (rootView as BaseRootView).currentViewAction = button
                 this@Button.currentViewTriggerAction(rootView, button)
                 this@Button.handleEvent(rootView, view, it, "onPress")
             }

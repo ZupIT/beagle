@@ -18,7 +18,7 @@ package br.com.zup.beagle.android.components.form
 
 import android.view.View
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.components.Button
+import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.utils.handleEvent
@@ -34,8 +34,7 @@ import br.com.zup.beagle.core.Style
  *
  * @param context define the contextData that be set to form
  *
- * @param child
- *                  define the submit handler.
+ * @param child  define the submit handler.
  *                  It is generally set as a button to be clicked after a form is filled up.
  * @param enabled
  *                  define as "true" by default and it will enable the button to be clicked on.
@@ -43,10 +42,10 @@ import br.com.zup.beagle.core.Style
  *
  */
 data class SimpleForm(
-    val context: ContextData,
+    override val context: ContextData,
     val onSubmit: List<Action>,
     val children: List<ServerDrivenComponent>
-) : WidgetView() {
+) : WidgetView(), ContextComponent {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
@@ -72,7 +71,7 @@ data class SimpleForm(
 
     fun submit(rootView: RootView, view: View) {
         onSubmit.forEach { action ->
-            action.execute(rootView, view)
+            handleEvent(rootView, view, action, , "onSubmit")
         }
     }
 }

@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,33 +15,27 @@
  * limitations under the License.
  */
 
-import UIKit
+import XCTest
+import SnapshotTesting
+@testable import Beagle
 import BeagleSchema
 
-extension FormInputHidden: ServerDrivenComponent {
-    public func toView(renderer: BeagleRenderer) -> UIView {
-        let view = HiddenInputView(value: value)
-        view.beagleFormElement = self
-        view.style.setup(Style(positionType: .absolute))
-        return view
-    }
-}
-
-class HiddenInputView: UIView, InputValue {
+class SimpleFormTests: XCTestCase {
     
-    let value: String
-    
-    init(value: String) {
-        self.value = value
-        super.init(frame: .zero)
-        isHidden = true
+    func test_toView_shouldReturnTheExpectedView() throws {
+        //Given
+        let controller = BeagleControllerStub()
+        let renderer = BeagleRenderer(controller: controller)
+        let numberOfChilds = 3
+        let simpleFormChilds = Array(repeating: ComponentDummy(), count: numberOfChilds)
+        let simpleForm = SimpleForm(children: simpleFormChilds)
+        
+        // When
+        let resultingView = renderer.render(simpleForm)
+        
+        //Then
+        XCTAssert(resultingView.subviews.count == numberOfChilds)
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
-    func getValue() -> Any {
-        return value
-    }
 }
