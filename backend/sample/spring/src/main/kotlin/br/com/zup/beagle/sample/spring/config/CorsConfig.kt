@@ -18,26 +18,14 @@ package br.com.zup.beagle.sample.spring.config
 
 import br.com.zup.beagle.cache.BeagleCacheHandler
 import br.com.zup.beagle.platform.BeaglePlatformUtil
-import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
-open class CorsConfig {
-
-    @Bean
-    open fun corsConfigurer(): WebMvcConfigurer? {
-        return object : WebMvcConfigurer {
-            override fun addCorsMappings(registry: CorsRegistry) {
-                registry
-                    .addMapping("/**")
-                    .allowedOrigins("*")
-                    .allowedMethods("*")
-                    .allowedHeaders("*")
-                    .exposedHeaders(BeagleCacheHandler.CACHE_HEADER, BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER)
-            }
-        }
+open class CorsConfig : WebMvcConfigurer {
+    override fun addCorsMappings(registry: CorsRegistry) {
+        registry.addMapping("/**")
+            .exposedHeaders(BeagleCacheHandler.CACHE_HEADER, BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER)
     }
-
 }
