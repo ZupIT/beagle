@@ -48,11 +48,7 @@ internal fun View.applyStyle(component: ServerDrivenComponent) {
             applyBackgroundColor(it)
             applyCornerRadius(it)
         } else {
-            styleManagerFactory.applyStyleComponent(
-                context = context,
-                component = it,
-                view = this
-            )
+            styleManagerFactory.applyStyleComponent(component = it, view = this)
         }
     }
 }

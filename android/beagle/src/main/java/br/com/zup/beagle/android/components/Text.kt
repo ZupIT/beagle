@@ -16,11 +16,9 @@
 
 package br.com.zup.beagle.android.components
 
-import android.os.Build
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
-import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.context.valueOfNullable
@@ -54,9 +52,7 @@ data class Text(
     private val viewFactory = ViewFactory()
 
     override fun buildView(rootView: RootView): View {
-        val textView = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            viewFactory.makeTextView(rootView.getContext(), getStyleId(this.styleId))
-            else viewFactory.makeTextView(rootView.getContext())
+        val textView = viewFactory.makeTextView(rootView.getContext(), getStyleId(this.styleId))
 
         textView.setTextWidget(this, rootView)
         return textView
@@ -65,10 +61,6 @@ data class Text(
     private fun TextView.setTextWidget(text: Text, rootView: RootView) {
         observeBindChanges(rootView, text.text) {
             this.text = it
-        }
-
-        text.styleId?.let {
-            setStyle(it)
         }
 
         text.textColor?.let {
@@ -92,15 +84,8 @@ data class Text(
         }
     }
 
-    private fun TextView.setStyle(styleId: String) {
-        val designSystem = BeagleEnvironment.beagleSdk.designSystem
-        designSystem?.textStyle(styleId)?.let {
-            TextViewCompat.setTextAppearance(this, it)
-        }
-    }
-
-    private fun getStyleId(styleName: String?) : Int =
-            BeagleEnvironment.beagleSdk.designSystem?.textStyle(styleName ?:"")?:0
+    private fun getStyleId(styleName: String?) =
+        BeagleEnvironment.beagleSdk.designSystem?.textStyle(styleName ?: "") ?: 0
 
     private fun TextView.setTextColor(color: String?) {
         color?.let {

@@ -83,7 +83,7 @@ data class TextInput(
     @Transient
     private lateinit var textWatcher: TextWatcher
 
-    override fun buildView(rootView: RootView): View = viewFactory.makeInputText(rootView.getContext()).apply {
+    override fun buildView(rootView: RootView): View = viewFactory.makeInputText(rootView.getContext(), styleManagerFactory.getInputTextStyle(styleId) ?: 0).apply {
         textInputView = this
         setData(this@TextInput, rootView)
         setUpOnTextChange(rootView)
@@ -155,7 +155,6 @@ data class TextInput(
                 this.visibility = if (it) View.INVISIBLE else View.VISIBLE
             }
         }
-        textInput.styleId?.let { style -> setStyle(style)  }
         textInput.type?.let { bind -> observeBindChanges(rootView, bind) { this.setInputType(it) } }
     }
 
@@ -166,18 +165,6 @@ data class TextInput(
             PASSWORD -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             NUMBER -> InputType.TYPE_CLASS_NUMBER
             else -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
-        }
-    }
-
-    private fun EditText.setStyle(styleId: String) {
-        val typedArray = styleManagerFactory.getInputTextTypedArray(context, styleId)
-        typedArray?.let { typedItems ->
-            typedItems.getDrawable(R.styleable.BeagleInputTextStyle_background)?.let { background = it }
-            typedItems.recycle()
-        }
-
-        styleManagerFactory.getInputTextStyle(styleId)?.let {
-            TextViewCompat.setTextAppearance(this, it)
         }
     }
 }

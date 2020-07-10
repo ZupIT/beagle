@@ -81,35 +81,15 @@ data class TabView(
 
     private fun makeTabLayout(rootView: RootView): TabLayout {
         val context = rootView.getContext()
-        return viewFactory.makeTabLayout(context).apply {
+        return viewFactory.makeTabLayout(context, BeagleEnvironment.beagleSdk.designSystem?.tabViewStyle(styleId ?: "") ?: 0).apply {
             layoutParams =
                 viewFactory.makeFrameLayoutParams(
                     FrameLayout.LayoutParams.MATCH_PARENT,
                     TAB_BAR_HEIGHT
                 )
-
             tabMode = TabLayout.MODE_SCROLLABLE
             tabGravity = TabLayout.GRAVITY_FILL
-            setData(rootView)
             addTabs(context)
-        }
-    }
-
-    private fun TabLayout.setData(rootView: RootView) {
-        styleManagerFactory.getTabBarTypedArray(context, styleId)?.let {
-            setTabTextColors(
-                it.getColor(R.styleable.BeagleTabBarStyle_tabTextColor, Color.BLACK),
-                it.getColor(R.styleable.BeagleTabBarStyle_tabSelectedTextColor, Color.GRAY)
-            )
-            setSelectedTabIndicatorColor(
-                it.getColor(
-                    R.styleable.BeagleTabBarStyle_tabIndicatorColor,
-                    styleManagerFactory.getTypedValueByResId(R.attr.colorAccent, context).data
-                )
-            )
-            background = it.getDrawable(R.styleable.BeagleTabBarStyle_tabBackground)
-            tabIconTint = it.getColorStateList(R.styleable.BeagleTabBarStyle_tabIconTint)
-            it.recycle()
         }
     }
 
