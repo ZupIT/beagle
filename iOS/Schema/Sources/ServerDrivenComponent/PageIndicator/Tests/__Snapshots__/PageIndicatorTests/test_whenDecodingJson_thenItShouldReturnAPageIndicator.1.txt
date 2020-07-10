@@ -1,0 +1,11 @@
+▿ PageIndicator
+  ▿ currentPage: Expression<Int>
+    ▿ expression: ContextExpression
+      ▿ single: SingleExpression
+        - context: "context"
+        ▿ path: Path
+          - nodes: 0 elements
+  - numberOfPages: 2
+  ▿ selectedColor: Optional<String>
+    - some: "selectedColor"
+  - unselectedColor: Optional<String>.none

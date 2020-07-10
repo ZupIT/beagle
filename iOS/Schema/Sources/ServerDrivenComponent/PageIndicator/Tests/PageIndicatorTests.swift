@@ -15,26 +15,15 @@
  * limitations under the License.
  */
 
-import Foundation
+import XCTest
 @testable import BeagleSchema
+import SnapshotTesting
 
-// MARK: - CustomPageIndicator Component
+class PageIndicatorTests: XCTestCase {
 
-public struct CustomPageIndicator: PageIndicatorComponent, RawComponent {
-
-    // MARK: - Public Properties
-
-    public let selectedColor: String
-    public let defaultColor: String
-
-    // MARK: Initialization
-
-    public init(
-        selectedColor: String,
-        defaultColor: String
-    ) {
-        self.selectedColor = selectedColor
-        self.defaultColor = defaultColor
+    func test_whenDecodingJson_thenItShouldReturnAPageIndicator() throws {
+        let component: PageIndicator = try componentFromJsonFile(fileName: "PageIndicator")
+        assertSnapshot(matching: component, as: .dump)
     }
 
 }

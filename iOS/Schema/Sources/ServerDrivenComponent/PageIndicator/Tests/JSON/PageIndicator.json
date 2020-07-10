@@ -1,0 +1,7 @@
+{
+    "_beagleComponent_": "beagle:PageIndicator",
+    "selectedColor": "selectedColor",
+    "defaultColor": "defaultColor",
+    "numberOfPages": 2,
+    "currentPage": "@{context}"
+}
