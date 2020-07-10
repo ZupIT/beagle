@@ -34,7 +34,7 @@ struct PageViewScreen: DeeplinkScreen {
                     PageIndicator(numberOfPages: 3, currentPage: "@{context}"),
                     PageView(
                         children: Array(repeating: Page(), count: 3).map { $0.content },
-                        onPageChange: SetContext(contextId: "context", value: "@{onChange}"),
+                        onPageChange: [SetContext(contextId: "context", value: "@{onChange}")],
                         currentPage: "@{context}"
                     )
                 ],
