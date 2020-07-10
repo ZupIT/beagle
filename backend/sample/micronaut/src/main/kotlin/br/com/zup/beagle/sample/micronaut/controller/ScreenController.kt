@@ -64,11 +64,11 @@ import br.com.zup.beagle.sample.micronaut.service.SampleComposeComponentService
 import br.com.zup.beagle.sample.micronaut.service.SampleContextService
 import br.com.zup.beagle.sample.micronaut.service.SampleFormService
 import br.com.zup.beagle.sample.micronaut.service.SampleImageLocalService
+import br.com.zup.beagle.sample.micronaut.service.SampleImageRemoteService
 import br.com.zup.beagle.sample.micronaut.service.SampleLazyComponentService
 import br.com.zup.beagle.sample.micronaut.service.SampleListViewService
 import br.com.zup.beagle.sample.micronaut.service.SampleNavigationBarService
 import br.com.zup.beagle.sample.micronaut.service.SampleNavigationTypeService
-import br.com.zup.beagle.sample.micronaut.service.SampleImageRemoteService
 import br.com.zup.beagle.sample.micronaut.service.SamplePageViewService
 import br.com.zup.beagle.sample.micronaut.service.SampleSafeAreaService
 import br.com.zup.beagle.sample.micronaut.service.SampleScreenBuilderService
@@ -168,8 +168,7 @@ class ScreenController(
     fun getNavigationBarImage() = this.sampleNavigationBarService.navigationBarWithImageAsItem()
 
     @Get(NAVIGATION_TYPE_ENDPOINT)
-    fun getSampleNavigationTypeController() =
-        this.sampleNavigationTypeService.createNavigationTypeView()
+    fun getSampleNavigationTypeController() = this.sampleNavigationTypeService.createNavigationTypeView()
 
     @Get(REPRESENTATION_NAVIGATION_TYPE_STEP2_ENDPOINT)
     fun getNavigationStep2() = this.sampleNavigationTypeService.step2()
