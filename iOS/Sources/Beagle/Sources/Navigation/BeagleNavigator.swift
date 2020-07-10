@@ -135,8 +135,8 @@ class BeagleNavigator: BeagleNavigation {
     private func pushStack(with type: Route, controller: BeagleController, animated: Bool) {
         let navigationToPresent = controller.dependencies.navigationControllerType.init()
         switch type {
-        case let .remote(route, _, fallback):
-            navigationToPresent.viewControllers = [viewController(route: route, fallback: fallback)]
+        case let .remote(newPath):
+            navigationToPresent.viewControllers = [viewController(route: newPath.url, fallback: newPath.fallback)]
         case let .declarative(screen):
             navigationToPresent.viewControllers = [viewController(screen: screen)]
         }
@@ -187,7 +187,7 @@ class BeagleNavigator: BeagleNavigation {
     private func viewControllerToPresent(_ type: Route) -> UIViewController {
         let viewControllerToPresent: UIViewController
         switch type {
-        case let .remote(route, _, fallback): viewControllerToPresent = viewController(route: route, fallback: fallback)
+        case let .remote(newPath): viewControllerToPresent = viewController(route: newPath.url, fallback: newPath.fallback)
         case .declarative(let screen): viewControllerToPresent = viewController(screen: screen)
         }
         return viewControllerToPresent

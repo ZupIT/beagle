@@ -40,8 +40,8 @@ extension Navigate {
 extension Route {
     var path: NewPath? {
         switch self {
-        case let .remote(url, shouldPrefetch, fallback):
-            return NewPath(url: url, shouldPrefetch: shouldPrefetch, fallback: fallback)
+        case let .remote(newPath):
+            return newPath
         case .declarative:
             return nil
         }

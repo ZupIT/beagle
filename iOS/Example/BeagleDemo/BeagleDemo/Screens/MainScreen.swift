@@ -36,7 +36,7 @@ struct MainScreen: DeeplinkScreen {
             children: [
                 Button(
                     text: "Navigator",
-                    onPress: [Navigate.pushView(.remote(.NAVIGATE_ENDPOINT, shouldPrefetch: true))]
+                    onPress: [Navigate.pushView(.remote(.init(url: .NAVIGATE_ENDPOINT, shouldPrefetch: true)))]
                 ),
                 Button(
                     text: "Form & Lazy Component",
@@ -76,7 +76,7 @@ struct MainScreen: DeeplinkScreen {
                 ),
                 Button(
                     text: "Sample BFF",
-                    onPress: [Navigate.pushView(.remote(.COMPONENTS_ENDPOINT))]
+                    onPress: [Navigate.pushView(.remote(.init(url: .COMPONENTS_ENDPOINT)))]
                 )
             ]
         )

@@ -48,7 +48,7 @@ public enum Navigate: RawAction {
 
 public enum Route {
     
-    case remote(String, shouldPrefetch: Bool = false, fallback: Screen? = nil)
+    case remote(NewPath)
     case declarative(Screen)
     
 }
@@ -128,7 +128,7 @@ extension Route: Decodable {
             self = .declarative(screen.toScreen())
         } else {
             let newPath: Route.NewPath = try .init(from: decoder)
-            self = .remote(newPath.url, shouldPrefetch: newPath.shouldPrefetch, fallback: newPath.fallback)
+            self = .remote(newPath)
         }
     }
 }
