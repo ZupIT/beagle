@@ -20,6 +20,10 @@ import SnapshotTesting
 import BeagleSchema
 
 class ImageTests: XCTestCase {
+    
+    struct Dependencies: DependencyRepository {
+        let repository: Repository
+    }
 
     var dependencies: BeagleDependencies {
         // swiftlint:disable implicit_getter
@@ -29,6 +33,7 @@ class ImageTests: XCTestCase {
             return dependency
         }
     }
+
     lazy var controller = BeagleControllerStub(dependencies: dependencies)
     lazy var renderer = BeagleRenderer(controller: controller)
     
@@ -53,6 +58,27 @@ class ImageTests: XCTestCase {
         let image: Image = try componentFromJsonFile(fileName: "ImageComponent")
         let view = renderer.render(image)
         assertSnapshotImage(view, size: ImageSize.custom(CGSize(width: 400, height: 400)))
+    }
+    
+    func test_cancelRequestImageRemote() throws {
+        //Given
+        let image = Image("@{img.path}")
+        let dependency = BeagleDependencies()
+        let container = Container(children: [image])
+        let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(container.toScreen()), dependencies: dependency))
+        let data = Data()
+        let repository = RepositoryStub(imageResult: .success(data))
+        dependency.repository = repository
+        let action = SetContext(contextId: "img", path: "path", value: ["_beagleImagePath_": "local", "mobileId": "shuttle"])
+        
+        //When
+        let view = image.toView(renderer: controller.renderer)
+        view.setContext(Context(id: "img", value: ["path": ["_beagleImagePath_": "remote", "url": "www.com.br"]]))
+        controller.configBindings()
+        action.execute(controller: controller, sender: view)
+        
+        // Then
+        XCTAssert(repository.token.didCallCancel)
     }
     
     func test_localImageDeserialize() throws {
