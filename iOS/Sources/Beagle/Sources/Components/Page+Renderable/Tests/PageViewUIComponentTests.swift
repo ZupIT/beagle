@@ -68,11 +68,4 @@ class PageViewUIComponentTests: XCTestCase {
         XCTAssert(pageView.pageViewController(pager, viewControllerBefore: pages[2]) === pages[1])
     }
 
-//    func test_whenCallingSwipePage_thenShouldUpdateModel() {
-//        for index in pages.indices {
-//            pageView.swipeToPage(at: index)
-//            XCTAssert(pageView.model.currentPage == index)
-//        }
-//    }
-
 }
