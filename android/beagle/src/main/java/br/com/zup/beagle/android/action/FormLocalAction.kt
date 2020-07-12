@@ -17,11 +17,14 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
+import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.widget.RootView
 
+
+@Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 data class FormLocalAction(
     val name: String,
     val data: Map<String, String>

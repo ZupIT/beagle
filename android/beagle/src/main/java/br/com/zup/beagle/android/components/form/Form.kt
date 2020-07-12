@@ -25,6 +25,7 @@ import br.com.zup.beagle.android.action.FormLocalAction
 import br.com.zup.beagle.android.action.FormRemoteAction
 import br.com.zup.beagle.android.action.FormValidation
 import br.com.zup.beagle.android.action.ResultListener
+import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.components.form.core.Constants.shared
 import br.com.zup.beagle.android.components.utils.hideKeyboard
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
@@ -41,7 +42,7 @@ import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 
-@Deprecated("use SimpleForm and SubmitForm instead")
+@Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 data class Form(
     val child: ServerDrivenComponent,
     val onSubmit: List<Action>? = null,

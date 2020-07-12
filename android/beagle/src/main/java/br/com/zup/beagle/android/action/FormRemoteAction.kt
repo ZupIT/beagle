@@ -17,10 +17,12 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
+import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.components.form.core.FormResult
 import br.com.zup.beagle.android.components.form.core.FormSubmitter
 import br.com.zup.beagle.android.widget.RootView
 
+@Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 enum class FormMethodType {
     GET,
     POST,
@@ -28,8 +30,10 @@ enum class FormMethodType {
     DELETE
 }
 
-
+@Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 internal typealias ResultListener = (result: FormResult) -> Unit
+
+@Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 data class FormRemoteAction(
     val path: String,
     val method: FormMethodType

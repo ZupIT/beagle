@@ -37,7 +37,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  *                  an UITextField in iOS or any other type of view that can receive and store input from users.
  *
  */
-@Deprecated("use SimpleForm and SubmitForm instead")
+@Deprecated(FORM_DEPRECATED_MESSAGE)
 data class FormInput(
     val name: String,
     val required: Boolean? = null,

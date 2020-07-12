@@ -21,6 +21,7 @@ import android.view.ViewGroup
 import android.view.ViewParent
 import br.com.zup.beagle.android.components.form.SimpleForm
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
+import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.widget.RootView
 
 class SubmitForm : Action {
@@ -38,7 +39,7 @@ class SubmitForm : Action {
         }
 
         if (!foundSimpleForm) {
-            BeagleLoggerProxy.error("not found simple form in the parents")
+            BeagleMessageLogs.logNotFoundSimpleForm()
         }
     }
 }

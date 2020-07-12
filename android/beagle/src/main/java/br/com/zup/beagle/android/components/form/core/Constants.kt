@@ -16,8 +16,12 @@
 
 package br.com.zup.beagle.android.components.form.core
 
-@Deprecated("use SimpleForm and SubmitForm instead")
+import br.com.zup.beagle.android.components.form.core.Constants.FORM_DEPRECATED_MESSAGE
+
+@Deprecated(FORM_DEPRECATED_MESSAGE)
 object Constants {
     @JvmStatic
     var shared = FormDataStoreHandler()
+
+    const val FORM_DEPRECATED_MESSAGE = "use SimpleForm and SubmitForm instead"
 }

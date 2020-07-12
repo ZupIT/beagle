@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.components.form
 
+import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.components.form.observer.Observable
 import br.com.zup.beagle.android.components.form.observer.StateChangeable
 import br.com.zup.beagle.android.components.form.observer.WidgetState
@@ -27,7 +28,7 @@ import br.com.zup.beagle.widget.Widget
  * an UITextField in iOS or any other type of view that can receive and store input from users. </p>
  *
  */
-@Deprecated("use SimpleForm and SubmitForm instead")
+@Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 abstract class InputWidget : Widget(), ViewConvertable, StateChangeable {
 
     @Transient

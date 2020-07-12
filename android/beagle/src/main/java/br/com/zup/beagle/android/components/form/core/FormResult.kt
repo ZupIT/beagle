@@ -18,7 +18,7 @@ package br.com.zup.beagle.android.components.form.core
 
 import br.com.zup.beagle.android.action.Action
 
-@Deprecated("use SimpleForm and SubmitForm instead")
+@Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 internal sealed class FormResult {
     class Success(val action: Action) : FormResult()
     class Error(val throwable: Throwable) : FormResult()

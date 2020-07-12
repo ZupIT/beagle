@@ -16,10 +16,12 @@
 
 package br.com.zup.beagle.android.components.form.observer
 
-@Deprecated("use SimpleForm and SubmitForm instead")
+import br.com.zup.beagle.android.components.form.core.Constants
+
+@Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 interface StateChangeable {
     fun getState(): Observable<WidgetState>
 }
 
-@Deprecated("use SimpleForm and SubmitForm instead")
+@Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 data class WidgetState(val value: Any)
