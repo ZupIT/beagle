@@ -642,6 +642,38 @@ class BeagleMoshiTest : BaseTest() {
     }
 
     @Test
+    fun make_should_return_moshi_to_serialize_a_UndefinedComponent_of_type_InputWidget() {
+        // Given
+        val component = FormInput(
+            name = RandomData.string(),
+            child = UndefinedWidget()
+        )
+
+        // When
+        val jsonComponent =
+            moshi.adapter(ServerDrivenComponent::class.java).toJson(component)
+
+        // Then
+        assertNotNull(JSONObject(jsonComponent))
+    }
+
+    @Test
+    fun make_should_return_moshi_to_serialize_a_UndefinedComponent_of_type_PageIndicatorComponent() {
+        // Given
+        val component = PageView(
+            children = listOf(),
+            pageIndicator = UndefinedWidget()
+        )
+
+        // When
+        val jsonComponent =
+            moshi.adapter(ServerDrivenComponent::class.java).toJson(component)
+
+        // Then
+        assertNotNull(JSONObject(jsonComponent))
+    }
+
+    @Test
     fun moshi_should_deserialize_bindComponent() {
         // Given
         val jsonComponent = makeBindComponent()
