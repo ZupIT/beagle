@@ -24,7 +24,9 @@ import br.com.zup.beagle.android.components.page.PageIndicatorOutput
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.Environment
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.annotation.RegisterWidget
 
+@RegisterWidget
 internal class UndefinedWidget : InputWidget() {
 
     private val viewFactory: ViewFactory = ViewFactory()

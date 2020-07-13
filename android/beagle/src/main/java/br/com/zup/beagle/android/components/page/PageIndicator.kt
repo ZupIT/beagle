@@ -23,7 +23,9 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeaglePageIndicatorView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.annotation.RegisterWidget
 
+@RegisterWidget
 class PageIndicator(
     val selectedColor: String,
     val unselectedColor: String,
