@@ -32,13 +32,12 @@ import kotlin.test.assertEquals
 
 class PageIndicatorTest : BaseComponentTest() {
 
-
     private val beaglePageIndicatorView: BeaglePageIndicatorView = mockk(relaxed = true, relaxUnitFun = true)
 
     private lateinit var pageIndicator: PageIndicator
     val numberOfPages = RandomData.int()
 
-    companion object{
+    companion object {
         val CURRENT_PAGE = expressionOf<Int>("@context")
     }
 
@@ -53,24 +52,14 @@ class PageIndicatorTest : BaseComponentTest() {
     }
 
     @Test
-    fun toView_should_return_BeaglePageIndicatorView_and_set_colors() {
+    fun toView_should_return_BeaglePageIndicatorView_set_colors_and_setCount() {
         val view = pageIndicator.buildView(rootView)
 
         assertEquals(beaglePageIndicatorView, view)
         verify(exactly = once()) { beaglePageIndicatorView.setSelectedColor(0) }
         verify(exactly = once()) { beaglePageIndicatorView.setUnselectedColor(0) }
-    }
-
-    @Test
-    fun buildView_should_call_BeaglePageIndicatorView_setCount() {
-        // Given
-
-
-        // When
-        pageIndicator.buildView(rootView)
-
-        // Then
         verify(exactly = once()) { beaglePageIndicatorView.setCount(numberOfPages) }
+
     }
 
     @Test
@@ -85,4 +74,5 @@ class PageIndicatorTest : BaseComponentTest() {
         // Then
         verify(exactly = once()) { beaglePageIndicatorView.setCurrentIndex(count) }
     }
+
 }
