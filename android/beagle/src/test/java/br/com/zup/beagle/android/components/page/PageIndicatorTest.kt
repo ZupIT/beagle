@@ -18,16 +18,23 @@ package br.com.zup.beagle.android.components.page
 
 import android.graphics.Color
 import br.com.zup.beagle.android.components.BaseComponentTest
-import br.com.zup.beagle.android.context.expressionOf
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.utils.Observer
+import br.com.zup.beagle.android.utils.observe
+import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeaglePageIndicatorView
+import io.mockk.Runs
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
+import io.mockk.slot
 import io.mockk.verify
 import org.junit.Test
+import java.util.*
 import kotlin.test.assertEquals
 
 class PageIndicatorTest : BaseComponentTest() {
@@ -35,20 +42,20 @@ class PageIndicatorTest : BaseComponentTest() {
     private val beaglePageIndicatorView: BeaglePageIndicatorView = mockk(relaxed = true, relaxUnitFun = true)
 
     private lateinit var pageIndicator: PageIndicator
-    val numberOfPages = RandomData.int()
-
-    companion object {
-        val CURRENT_PAGE = expressionOf<Int>("@context")
-    }
+    private val numberOfPages = RandomData.int()
+    private val currentPage : Bind<Int> = mockk()
+    private val bindSlot = slot<Observer<Int>>()
 
     override fun setUp() {
         super.setUp()
 
         mockkStatic(Color::class)
+        mockkStatic("br.com.zup.beagle.android.utils.BindExtensionsKt")
         every { Color.parseColor(any()) } returns 0
         every { anyConstructed<ViewFactory>().makePageIndicator(any()) } returns beaglePageIndicatorView
+        every { currentPage.observe(rootView, capture(bindSlot)) } returns 1
+        pageIndicator = PageIndicator(RandomData.string(), RandomData.string(), numberOfPages, currentPage)
 
-        pageIndicator = PageIndicator(RandomData.string(), RandomData.string(), numberOfPages, CURRENT_PAGE)
     }
 
     @Test
@@ -73,6 +80,17 @@ class PageIndicatorTest : BaseComponentTest() {
 
         // Then
         verify(exactly = once()) { beaglePageIndicatorView.setCurrentIndex(count) }
+    }
+
+    @Test
+    fun when_bind_change_should_call_onItemUpdated() {
+        // Given
+        // When
+        pageIndicator.buildView(rootView)
+        bindSlot.captured.invoke(2)
+
+        // Then
+        verify(exactly = once()) { pageIndicator.onItemUpdated(2) }
     }
 
 }
