@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.components
 
 import android.support.v4.widget.TextViewCompat
+import android.os.Build
 import android.view.View
 import android.widget.Button
 import br.com.zup.beagle.R
@@ -60,7 +61,10 @@ data class Button(
         onPress?.let {
             preFetchHelper.handlePreFetch(rootView, it)
         }
-        val button = viewFactory.makeButton(rootView.getContext())
+
+        val button = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            viewFactory.makeButton(rootView.getContext(), getStyleId(this.styleId))
+        else viewFactory.makeButton(rootView.getContext())
 
         button.setOnClickListener {
             onPress?.let {
@@ -92,5 +96,8 @@ data class Button(
             this.text = it
         }
     }
+
+    private fun getStyleId(styleName: String?) : Int =
+        BeagleEnvironment.beagleSdk.designSystem?.buttonStyle(styleName?:"")?:0
 
 }

@@ -281,7 +281,8 @@ class CacheManagerTest {
     @Test
     fun handleResponseData_should_not_call_store_cache_if_beagleCache_header_is_not_present() {
         // Given
-        every { responseData.headers[BEAGLE_HASH] } returns null
+        val headers = mapOf<String, String>()
+        every { responseData.headers } returns headers
 
         // When
         cacheManager.handleResponseData(URL, null, responseData)

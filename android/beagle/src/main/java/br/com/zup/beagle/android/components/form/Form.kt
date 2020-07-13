@@ -39,7 +39,6 @@ import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.Widget
 
 data class Form(
     val child: ServerDrivenComponent,

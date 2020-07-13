@@ -21,6 +21,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Image
 import br.com.zup.beagle.android.components.PathType
 import br.com.zup.beagle.core.Style
@@ -80,13 +81,13 @@ class ScrollViewFragment : Fragment() {
             ),
             Text("Text 1").applyStyle(style),
             Text("Text 2").applyStyle(style),
-            Text("Text 3").applyStyle(style),
+            Text("https://usebeagle.io","DesignSystem.Text.Action.Click").applyStyle(style),
             Text("Text 4").applyStyle(style),
-            Text("Text 5").applyStyle(style),
+            Text("12345678901","DesignSystem.Text.Action.Click").applyStyle(style),
             Text("Text 6").applyStyle(style),
             Text("Text 7").applyStyle(style),
             Text("Text 8").applyStyle(style),
-            Text("Text 9").applyStyle(style),
+            Button("12345678901", "DesignSystem.Button.Black").applyStyle(style),
             Text("Text 10").applyStyle(style)
         )
     )

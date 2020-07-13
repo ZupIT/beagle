@@ -20,10 +20,12 @@ package br.com.zup.beagle.android.view
 
 import android.content.Context
 import android.support.v7.app.AlertDialog
-import android.support.v7.widget.AppCompatButton
 import android.support.v7.widget.RecyclerView
+import android.os.Build
+import android.support.annotation.RequiresApi
 import android.view.View
 import android.webkit.WebView
+import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.HorizontalScrollView
@@ -60,9 +62,15 @@ internal class ViewFactory {
             isFillViewport = true
         }
 
-    fun makeButton(context: Context) = AppCompatButton(context)
+    fun makeButton(context: Context) = Button(context)
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    fun makeButton(context: Context, id: Int) = Button(context, null, 0, id)
 
     fun makeTextView(context: Context) = TextView(context)
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    fun makeTextView(context: Context, id: Int) = TextView(context, null, 0, id)
 
     fun makeInputText(context: Context) = EditText(context)
 

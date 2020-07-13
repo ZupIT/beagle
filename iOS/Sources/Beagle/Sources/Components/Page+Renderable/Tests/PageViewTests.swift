@@ -26,6 +26,8 @@ class PageViewTests: XCTestCase {
             try componentFromJsonFile(componentType: PageView.self, fileName: "PageViewInvalid")
         )
     }
+    
+    private let indicator = PageIndicator(selectedColor: "#d1cebd", unselectedColor: "#f6eedf")
 
     private let page = Container(children: [
         Text("First text"),
@@ -46,7 +48,17 @@ class PageViewTests: XCTestCase {
     func test_viewWithPagesAndIndicator() {
         let pageView = PageView(
             children: Array(repeating: page, count: 5),
-            pageIndicator: PageIndicator(selectedColor: "#d1cebd", unselectedColor: "#f6eedf")
+            pageIndicator: indicator
+        )
+
+        let screen = Beagle.screen(.declarative(pageView.toScreen()))
+        assertSnapshotImage(screen)
+    }
+    
+    func test_viewWithNoPages() {
+        let pageView = PageView(
+            children: [],
+            pageIndicator: indicator
         )
 
         let screen = Beagle.screen(.declarative(pageView.toScreen()))

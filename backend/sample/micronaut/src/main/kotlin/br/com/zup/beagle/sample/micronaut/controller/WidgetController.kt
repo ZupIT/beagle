@@ -22,9 +22,7 @@ import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Controller
 
 @Controller
-class WidgetController (
-    private val sampleLazyComponentService: SampleLazyComponentService
-){
+class WidgetController(private val sampleLazyComponentService: SampleLazyComponentService) {
     @Get(PATH_LAZY_COMPONENT_ENDPOINT)
     fun getLazyComponent() = sampleLazyComponentService.createTextLazyComponent()
 }

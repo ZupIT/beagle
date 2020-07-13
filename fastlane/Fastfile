@@ -8,8 +8,7 @@ platform :android do
   lane :pull_request_verification do
     gradle(task: "detekt lintDebug jacocoTestReport")
     gradle(task: "android:sample:assembleDebug android:sample:assembleDebugAndroidTest")
-    commit_hash = last_git_commit[:commit_hash]
-    codecov_reporter(token: ENV["CODECOV_TOKEN"], flags: "-F android -C #{commit_hash}")
+    run_codecov(platform: 'android')
   end
 
 end
@@ -44,23 +43,12 @@ platform :ios do
   lane :pull_request_verification do
     xcversion(version: "~> 11.5.0")
     iOSSwiftLint
-    init_ios_dependencies
     scan(
       workspace: "iOS/Beagle.xcworkspace/",
       scheme: "All",
       device: "iPhone 11"
     )
-    commit_hash = last_git_commit[:commit_hash]
-    codecov_reporter(token: ENV["CODECOV_TOKEN"], flags: "-F ios -C #{commit_hash}")
-  end
-
-  desc "Dependency Manager (Carthage) https://docs.fastlane.tools/actions/carthage/"
-  private_lane :init_ios_dependencies do
-    carthage(
-      command: "bootstrap",
-      platform: "iOS",
-      project_directory: "iOS/", cache_builds: true
-    )
+    run_codecov(platform: 'ios')
   end
 
   desc "Run iOS SwiftLint"
@@ -100,32 +88,6 @@ lane :deploy do
   sh "bash ./discord_message.sh"
 end
 
-desc "Generate release notes"
-private_lane :release_notes do
-  get_previous_tag = sh "bash ./get_previous_tag.sh"
-
-  lane_context[SharedValues::RELEASE_ANALYZED] = true
-  lane_context[SharedValues::RELEASE_LAST_TAG_HASH] = get_previous_tag
-  lane_context[SharedValues::RELEASE_NEXT_VERSION] = ENV["VERSION_DEPLOY"]
-  changelog = conventional_changelog(display_title: false, display_links: false)
-  "\nRelease notes #{ ENV["VERSION_DEPLOY"] }
-   \nChanges:
-   \n#{changelog}"
-end
-
-
-after_all do |lane, options|
-   if lane == :pull_request_verification
-      run_danger
-    end
-end
-
-error do |lane, exception, options|
-  if lane == :pull_request_verification
-    run_danger
-  end
-end
-
 lane :run_danger do |options|
    danger_id = options[:danger_id] || lane_context[SharedValues::PLATFORM_NAME].to_s
    danger_file_path = options[:danger_file_path] || lane_context[SharedValues::PLATFORM_NAME].to_s
@@ -156,8 +118,64 @@ platform :backend do
             "backend:processor:test"
         ]
     )
-    commit_hash = last_git_commit[:commit_hash]
-    codecov_reporter(token: ENV["CODECOV_TOKEN"], flags: "-F backend -C #{commit_hash}")
+    run_codecov(platform: 'backend')
   end
 
+  desc "Sync Spring BFF sample to Micronaut BFF sample"
+  lane :sync_to_micronaut do
+    sh "./sync-to-micronaut.sh"
+    sh "./git_commit.sh 'Synced Spring BFF sample to Micronaut BFF sample.' '../backend/sample/micronaut'"
+    push_to_git_remote
+  end
+
+  desc "Sync Micronaut BFF sample to Spring BFF sample"
+  lane :sync_to_spring do
+    sh "./sync-to-spring.sh"
+    sh "./git_commit.sh 'Synced Micronaut BFF sample to Spring BFF sample.' '../backend/sample/spring'"
+    push_to_git_remote
+  end
+
+end
+
+
+desc "Generate release notes"
+private_lane :release_notes do
+  get_previous_tag = sh "bash ./get_previous_tag.sh"
+
+  lane_context[SharedValues::RELEASE_ANALYZED] = true
+  lane_context[SharedValues::RELEASE_LAST_TAG_HASH] = get_previous_tag
+  lane_context[SharedValues::RELEASE_NEXT_VERSION] = ENV["VERSION_DEPLOY"]
+  changelog = conventional_changelog(display_title: false, display_links: false)
+  "\nRelease notes #{ ENV["VERSION_DEPLOY"] }
+   \nChanges:
+   \n#{changelog}"
+end
+
+private_lane :run_codecov do |options|
+  codecov = ENV["CODECOV_TOKEN"]
+  if !(codecov.nil? || codecov.empty?)
+     commit_hash = last_git_commit[:commit_hash]
+     codecov_reporter(token: codecov, flags: "-F #{options[:platform]} -C #{commit_hash}")
+  end
+end
+
+private_lane :danger_token_available? do
+  danger = ENV["GITHUB_TOKEN"]
+  !(danger.nil? || danger.empty?)
+end
+
+after_all do |lane, options|
+   if lane == :pull_request_verification
+       if danger_token_available?
+         run_danger
+       end
+    end
+end
+
+error do |lane, exception, options|
+  if lane == :pull_request_verification
+     if danger_token_available?
+       run_danger
+     end
+  end
 end

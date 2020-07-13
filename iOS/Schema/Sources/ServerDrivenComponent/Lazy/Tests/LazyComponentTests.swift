@@ -22,6 +22,11 @@ final class LazyComponentTests: XCTestCase {
     
     func test_whenDecodingJson_thenItShouldReturnALazyComponent() throws {
         let component: LazyComponent = try componentFromJsonFile(fileName: "lazyComponent")
-        assertSnapshot(matching: component, as: .dump)
+        _assertInlineSnapshot(matching: component, as: .dump, with: """
+        ▿ LazyComponent
+          ▿ initialState: UnknownComponent
+            - type: "custom:beagleschematestscomponent"
+          - path: "/path"
+        """)
     }
 }
