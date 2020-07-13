@@ -60,12 +60,12 @@ struct SimpleFormScreen: DeeplinkScreen {
 
 struct FirstAction: Action {
     func execute(controller: BeagleController, sender: Any) {
-        print("FirstAction Executada")
+        print("FirstAction Executed")
     }
 }
 
 struct SecondAction: Action {
     func execute(controller: BeagleController, sender: Any) {
-        print("SecondAction Executada")
+        print("SecondAction Executed")
     }
 }
