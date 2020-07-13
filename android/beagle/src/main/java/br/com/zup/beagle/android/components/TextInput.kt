@@ -83,7 +83,7 @@ data class TextInput(
     private lateinit var textInputView: EditText
 
     @Transient
-    private lateinit var textWatcher: TextWatcher
+    private var textWatcher: TextWatcher? = null
 
     override fun buildView(rootView: RootView): View = viewFactory.makeInputText(rootView.getContext()).apply {
         textInputView = this
