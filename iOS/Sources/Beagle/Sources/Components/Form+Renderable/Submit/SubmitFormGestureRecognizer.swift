@@ -19,12 +19,12 @@ import BeagleSchema
 
 final class SubmitFormGestureRecognizer: UITapGestureRecognizer {
     
-    let form: Form
+    let form: Deprecated.Form
     weak var formView: UIView?
     weak var formSubmitView: UIView?
     weak var controller: BeagleController?
     
-    init(form: Form, formView: UIView, formSubmitView: UIView, controller: BeagleController) {
+    init(form: Deprecated.Form, formView: UIView, formSubmitView: UIView, controller: BeagleController) {
         self.form = form
         self.formView = formView
         self.formSubmitView = formSubmitView
@@ -52,7 +52,7 @@ final class SubmitFormGestureRecognizer: UITapGestureRecognizer {
             pendingViews.append(formView)
         }
         while let view = pendingViews.popLast() {
-            if view.beagleFormElement is FormInput {
+            if view.beagleFormElement is Deprecated.FormInput {
                 inputViews.append(view)
             } else {
                 pendingViews.append(contentsOf: view.subviews)
@@ -63,14 +63,14 @@ final class SubmitFormGestureRecognizer: UITapGestureRecognizer {
     
     func updateSubmitView() {
         guard let control = formSubmitView as? UIControl else { return }
-        let formSubmitEnabled = (formSubmitView?.beagleFormElement as? FormSubmit)?.enabled ?? true
+        let formSubmitEnabled = (formSubmitView?.beagleFormElement as? Deprecated.FormSubmit)?.enabled ?? true
         control.isEnabled = formSubmitEnabled || formIsValid()
     }
     
     private func formIsValid() -> Bool {
         for inputView in formInputViews() {
             guard
-                let formInput = inputView.beagleFormElement as? FormInput,
+                let formInput = inputView.beagleFormElement as? Deprecated.FormInput,
                 let inputValue = inputView as? InputValue else {
                     return false
             }

@@ -13,7 +13,7 @@
       ▿ dependencies: InnerDependenciesResolver
         - container: (Function)
   ▿ decoder: ComponentDecoder
-    ▿ actionDecoders: 16 key/value pairs
+    ▿ actionDecoders: 17 key/value pairs
       ▿ (2 elements)
         - key: "beagle:alert"
         - value: Alert
@@ -62,7 +62,10 @@
       ▿ (2 elements)
         - key: "beagle:setcontext"
         - value: SetContext
-    ▿ componentDecoders: 17 key/value pairs
+      ▿ (2 elements)
+        - key: "beagle:submitform"
+        - value: SubmitForm
+    ▿ componentDecoders: 18 key/value pairs
       ▿ (2 elements)
         - key: "beagle:button"
         - value: Button
@@ -99,6 +102,9 @@
       ▿ (2 elements)
         - key: "beagle:scrollview"
         - value: ScrollView
+      ▿ (2 elements)
+        - key: "beagle:simpleform"
+        - value: SimpleForm
       ▿ (2 elements)
         - key: "beagle:tabview"
         - value: TabView

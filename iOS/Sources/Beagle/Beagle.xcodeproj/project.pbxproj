@@ -23,10 +23,13 @@
 		57D6F1002499865300A422E3 /* ImageComponent2.json in Resources */ = {isa = PBXBuildFile; fileRef = 57D6F0F9249983C800A422E3 /* ImageComponent2.json */; };
 		57D6F1012499865600A422E3 /* ImageComponent1.json in Resources */ = {isa = PBXBuildFile; fileRef = 57D6F0FA249983C800A422E3 /* ImageComponent1.json */; };
 		57E7F970247D9EDC00FBD398 /* UIView+Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E7F96F247D9EDC00FBD398 /* UIView+Context.swift */; };
+		6E71540D24B3B4F20025B850 /* SimpleFormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E71540B24B3B4CE0025B850 /* SimpleFormTests.swift */; };
+		6E71541024B3B88D0025B850 /* SubmitFormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E71540E24B3B88A0025B850 /* SubmitFormTests.swift */; };
+		6EB3368A24A52C1B000A9D17 /* SimpleForm+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB3368924A52C1A000A9D17 /* SimpleForm+Renderable.swift */; };
+		6EB3368C24A52D34000A9D17 /* SubmitForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB3368B24A52D34000A9D17 /* SubmitForm.swift */; };
 		76191AA9241AC44C00A04C29 /* declarativeText1.json in Resources */ = {isa = PBXBuildFile; fileRef = 76191AA7241ABD8800A04C29 /* declarativeText1.json */; };
 		7685B045249A8880007EDED0 /* SendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7685B044249A8880007EDED0 /* SendRequest.swift */; };
 		76BB91A5241AC6A800B9A239 /* declarativeText2.json in Resources */ = {isa = PBXBuildFile; fileRef = 76BB91A3241AC6A000B9A239 /* declarativeText2.json */; };
-		7C42EAF624228FC9007334A0 /* FormInputHidden+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C42EAF524228FC9007334A0 /* FormInputHidden+Renderable.swift */; };
 		7CA2E83B2498228100B24782 /* BeagleLoggerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA2E83A2498228100B24782 /* BeagleLoggerProxy.swift */; };
 		7CA2E83D249822D400B24782 /* BeagleLoggerProxyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA2E83C249822D400B24782 /* BeagleLoggerProxyTests.swift */; };
 		7CC737FE245729B1004FBC16 /* FormDataStoreHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC737FD245729B1004FBC16 /* FormDataStoreHandlerTests.swift */; };
@@ -249,12 +252,15 @@
 		57D6F0FA249983C800A422E3 /* ImageComponent1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ImageComponent1.json; sourceTree = "<group>"; };
 		57D6F0FD249985D600A422E3 /* ImageComponent.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ImageComponent.json; sourceTree = "<group>"; };
 		57E7F96F247D9EDC00FBD398 /* UIView+Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Context.swift"; sourceTree = "<group>"; };
+		6E71540B24B3B4CE0025B850 /* SimpleFormTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleFormTests.swift; sourceTree = "<group>"; };
+		6E71540E24B3B88A0025B850 /* SubmitFormTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitFormTests.swift; sourceTree = "<group>"; };
+		6EB3368924A52C1A000A9D17 /* SimpleForm+Renderable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SimpleForm+Renderable.swift"; sourceTree = "<group>"; };
+		6EB3368B24A52D34000A9D17 /* SubmitForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitForm.swift; sourceTree = "<group>"; };
 		76191AA7241ABD8800A04C29 /* declarativeText1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = declarativeText1.json; sourceTree = "<group>"; };
 		7685B044249A8880007EDED0 /* SendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendRequest.swift; sourceTree = "<group>"; };
 		76BB91A3241AC6A000B9A239 /* declarativeText2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = declarativeText2.json; sourceTree = "<group>"; };
 		7C03910724250772003E6FCD /* BeagleMessageLogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleMessageLogs.swift; sourceTree = "<group>"; };
 		7C03910924250FC6003E6FCD /* BeagleLoggerDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleLoggerDefault.swift; sourceTree = "<group>"; };
-		7C42EAF524228FC9007334A0 /* FormInputHidden+Renderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FormInputHidden+Renderable.swift"; sourceTree = "<group>"; };
 		7C42EDFF243FBDA100DEEEA7 /* FormManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormManager.swift; sourceTree = "<group>"; };
 		7C9999542448A38000D77F07 /* FormManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormManagerTests.swift; sourceTree = "<group>"; };
 		7CA2E83A2498228100B24782 /* BeagleLoggerProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleLoggerProxy.swift; sourceTree = "<group>"; };
@@ -574,6 +580,23 @@
 			path = UIView;
 			sourceTree = "<group>";
 		};
+		6E71540A24B3B4840025B850 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				6E71540B24B3B4CE0025B850 /* SimpleFormTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		6EB3368824A52C1A000A9D17 /* SimpleForm+Renderable */ = {
+			isa = PBXGroup;
+			children = (
+				6E71540A24B3B4840025B850 /* Tests */,
+				6EB3368924A52C1A000A9D17 /* SimpleForm+Renderable.swift */,
+			);
+			path = "SimpleForm+Renderable";
+			sourceTree = "<group>";
+		};
 		76191AA6241ABD6000A04C29 /* Json */ = {
 			isa = PBXGroup;
 			children = (
@@ -817,6 +840,7 @@
 				7685B044249A8880007EDED0 /* SendRequest.swift */,
 				98E18D15249BE714009D6A54 /* Alert.swift */,
 				98E18D17249BE71E009D6A54 /* Confirm.swift */,
+				6EB3368B24A52D34000A9D17 /* SubmitForm.swift */,
 				A05C74D72498062C009DBB66 /* Tests */,
 			);
 			path = Types;
@@ -830,6 +854,7 @@
 				A05C74DC2498162B009DBB66 /* FormValidationTests.swift */,
 				98E18D19249BF1D7009D6A54 /* ConfirmTests.swift */,
 				C06DF7A824AA89350045F9DD /* NavigateTests.swift */,
+				6E71540E24B3B88A0025B850 /* SubmitFormTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1159,7 +1184,6 @@
 			children = (
 				C08D4EFB248ABE6600AAAC0A /* InputValue.swift */,
 				E5223782237C3CAF00E555BB /* FormInput+Renderable.swift */,
-				7C42EAF524228FC9007334A0 /* FormInputHidden+Renderable.swift */,
 				C829CEEE23B1947E001B7225 /* Tests */,
 			);
 			path = Input;
@@ -1380,6 +1404,7 @@
 		C87622D823903FD1006F1361 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				6EB3368824A52C1A000A9D17 /* SimpleForm+Renderable */,
 				E5223777237C3C5500E555BB /* ServerDrivenComponent.swift */,
 				9327116423F1C9D100778B56 /* Widget.swift */,
 				C08D4EAA2486BBF700AAAC0A /* Screen+Renderable */,
@@ -1814,11 +1839,11 @@
 				E5CB5DAB23550012009783A7 /* BeagleSetup.swift in Sources */,
 				C08D4EA82486B72300AAAC0A /* FormManager.swift in Sources */,
 				935278F62499728400AB9D1F /* DynamicObject.swift in Sources */,
+				6EB3368A24A52C1B000A9D17 /* SimpleForm+Renderable.swift in Sources */,
 				C08D4E2024857B5100AAAC0A /* ScreenComponent+Renderable.swift in Sources */,
 				9327116523F1C9D100778B56 /* Widget.swift in Sources */,
 				C08D4E2C24857BC200AAAC0A /* StyleViewConfigurator.swift in Sources */,
 				9337F82D249A466B00B0A260 /* SetContext.swift in Sources */,
-				7C42EAF624228FC9007334A0 /* FormInputHidden+Renderable.swift in Sources */,
 				E7523AF8239E8F2100F93385 /* BeagleDependencies.swift in Sources */,
 				576F61052487004900273BA0 /* ContextObserver.swift in Sources */,
 				E5CB5D65234E7CF6009783A7 /* BeagleScreenViewController.swift in Sources */,
@@ -1831,6 +1856,7 @@
 				C0CE9488248038100029B35F /* SourceryProtocols.swift in Sources */,
 				C85E1CCD23EB461200C1E323 /* Request.swift in Sources */,
 				7CA2E83B2498228100B24782 /* BeagleLoggerProxy.swift in Sources */,
+				6EB3368C24A52D34000A9D17 /* SubmitForm.swift in Sources */,
 				E531D6B12359FD18007EEBA7 /* LoadingView.swift in Sources */,
 				9848A53023AAF1C2002474AD /* ContainerIndicatorView.swift in Sources */,
 				C08D4E1E24857B4800AAAC0A /* Container+Renderable.swift in Sources */,
@@ -1874,6 +1900,7 @@
 				A0F4549A237C1B0F00B146A1 /* BeagleNavigatorTests.swift in Sources */,
 				C08D4E76248593A500AAAC0A /* AccessibilityTests.swift in Sources */,
 				9337F839249A7F0000B0A260 /* LocalFormHandlerTests.swift in Sources */,
+				6E71541024B3B88D0025B850 /* SubmitFormTests.swift in Sources */,
 				E5A6F4AD2358A76F008906F8 /* XCTestCase+FatalError.swift in Sources */,
 				A05C74D924980642009DBB66 /* FormLocalActionTests.swift in Sources */,
 				C86D0CC323B25AE3009CE0EB /* LoadingViewTests.swift in Sources */,
@@ -1884,6 +1911,7 @@
 				E5CB5D812354C08E009783A7 /* UnknownComponentViewRendererTests.swift in Sources */,
 				C08D4E2824857BB400AAAC0A /* StyleViewConfiguratorTests.swift in Sources */,
 				983E8C912396DF430018C6CA /* TabViewTests.swift in Sources */,
+				6E71540D24B3B4F20025B850 /* SimpleFormTests.swift in Sources */,
 				C08D4E9D248594FB00AAAC0A /* ImageTests.swift in Sources */,
 				C08D4E862485944300AAAC0A /* TextTests.swift in Sources */,
 				9380222B249A98CA00FA8519 /* FormManagerTests.swift in Sources */,

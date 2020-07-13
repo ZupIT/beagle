@@ -16,8 +16,12 @@
 
 package br.com.zup.beagle.android.components.form.observer
 
+import br.com.zup.beagle.android.components.form.core.Constants
+
+@Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 interface StateChangeable {
     fun getState(): Observable<WidgetState>
 }
 
+@Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 data class WidgetState(val value: Any)

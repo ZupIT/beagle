@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.action
 
+import android.view.View
 import br.com.zup.beagle.android.annotation.ContextDataValue
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.utils.evaluateExpression
@@ -36,7 +37,7 @@ data class SetContext(
     val path: String? = null
 ) : Action {
 
-    override fun execute(rootView: RootView) {
+    override fun execute(rootView: RootView, origin: View) {
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
         try {
             val value = toInternalSetContext(rootView)

@@ -18,14 +18,14 @@ import Foundation
 import XCTest
 @testable import Beagle
 import SnapshotTesting
-import BeagleSchema
+@testable import BeagleSchema
 
 class BeagleLoggerTests: XCTestCase {
     // swiftlint:disable force_unwrapping
 
     func testLogs() {
         // Given
-        let form = Form(child: ComponentDummy())
+        let form = Deprecated.Form(child: ComponentDummy())
         let path = "path"
 
         let logs: [Log] = [

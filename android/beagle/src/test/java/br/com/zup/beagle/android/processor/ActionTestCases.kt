@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.processor
 
+import android.view.View
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.annotation.RegisterAction
@@ -26,7 +27,7 @@ data class MyAction(
     val intValue: Int
 ) : Action {
 
-    override fun execute(rootView: RootView) {
+    override fun execute(rootView: RootView, origin: View) {
 
     }
 }
