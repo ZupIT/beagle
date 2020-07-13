@@ -18,9 +18,8 @@
 import Foundation
 public struct SubmitForm: RawAction {
 
-// sourcery:inline:auto:SubmitForm.Init
     public init(
     ) {
     }
-// sourcery:end
+
 }
