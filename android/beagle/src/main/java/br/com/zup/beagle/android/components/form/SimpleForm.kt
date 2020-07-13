@@ -26,6 +26,7 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 
@@ -34,13 +35,12 @@ import br.com.zup.beagle.core.Style
  *
  * @param context define the contextData that be set to form
  *
- * @param child  define the submit handler.
- *                  It is generally set as a button to be clicked after a form is filled up.
- * @param enabled
- *                  define as "true" by default and it will enable the button to be clicked on.
- *                  If it is defined as "false" the button will start as "disabled"
+ * @param children define the items on the simple form.
+ *
+ * @param onSubmit define the actions you want to execute when action submit form
  *
  */
+@RegisterWidget
 data class SimpleForm(
     override val context: ContextData,
     val onSubmit: List<Action>,

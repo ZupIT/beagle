@@ -20,8 +20,18 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.widget.context.ContextData
 
-class SimpleForm (
+/**
+ * Component will define a submit handler for a SimpleForm.
+ *
+ * @param context define the contextData that be set to form
+ *
+ * @param children define the items on the simple form.
+ *
+ * @param onSubmit define the actions you want to execute when action submit form
+ *
+ */
+class SimpleForm(
     val context: ContextData,
     val onSubmit: List<Action>,
     val children: List<ServerDrivenComponent>
-): ServerDrivenComponent
+) : ServerDrivenComponent
