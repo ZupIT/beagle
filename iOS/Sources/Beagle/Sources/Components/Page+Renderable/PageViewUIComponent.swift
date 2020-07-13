@@ -54,12 +54,13 @@ class PageViewUIComponent: UIView {
     // MARK: - Init
 
     init(
-        model: Model
+        model: Model,
+        controller: BeagleController
     ) {
         self.model = model
         super.init(frame: .zero)
         
-        setupLayout()
+        setupLayout(controller: controller)
     }
 
     @available(*, unavailable)
@@ -73,22 +74,24 @@ class PageViewUIComponent: UIView {
         .init(width: size.width, height: 40)
     }
 
-    private(set) lazy var pageViewController: UIPageViewController = {
-        let pager = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-        guard let firstPage = model.pages[safe: 0] else { return pager }
-        pager.setViewControllers(
-            [firstPage], direction: .forward, animated: true, completion: nil
-        )
-        pager.dataSource = self
-        pager.delegate = self
-        return pager
-    }()
-
-    private func setupLayout() {
-        let view: UIView = pageViewController.view
-        addSubview(view)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
+    private(set) var pageViewController = UIPageViewController(
+        transitionStyle: .scroll,
+        navigationOrientation: .horizontal
+    )
+    
+    private func setupLayout(controller: BeagleController) {
+        controller.addChild(pageViewController)
+        addSubview(pageViewController.view)
+        pageViewController.didMove(toParent: controller)
+        if let firstPage = model.pages.first {
+            pageViewController.setViewControllers(
+                [firstPage], direction: .forward, animated: false
+            )
+        }
+        pageViewController.dataSource = self
+        pageViewController.delegate = self
+        pageViewController.view.style.setup(Style(flex: Flex().grow(1)))
+        style.applyLayout()
     }
     
     private func swipeToPage(at index: Int) {

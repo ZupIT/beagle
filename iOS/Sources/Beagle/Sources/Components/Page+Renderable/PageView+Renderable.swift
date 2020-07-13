@@ -27,7 +27,8 @@ extension PageView: ServerDrivenComponent {
         }
 
         let view = PageViewUIComponent(
-            model: .init(pages: pagesControllers)
+            model: .init(pages: pagesControllers),
+            controller: renderer.controller
         )
         
         if let actions = onPageChange {

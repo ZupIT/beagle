@@ -21,7 +21,8 @@ import BeagleSchema
 class PageViewUIComponentTests: XCTestCase {
 
     private lazy var pageView = PageViewUIComponent(
-        model: .init(pages: pages)
+        model: .init(pages: pages),
+        controller: BeagleControllerStub()
     )
 
     private lazy var pages: [BeagleScreenViewController] = [

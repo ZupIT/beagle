@@ -108,7 +108,10 @@ final class ThemeTests: XCTestCase {
         let backgroundColor: UIColor = .clear
         let indicatorColor: UIColor = .blue
         let tabItem = TabItem(title: "Tab 1", child: Text("Tab content"))
-        let view = TabViewUIComponent(model: TabViewUIComponent.Model(tabIndex: 0, tabViewItems: [tabItem, tabItem]))
+        let view = TabViewUIComponent(
+            model: TabViewUIComponent.Model(tabIndex: 0, tabViewItems: [tabItem, tabItem]),
+            controller: BeagleControllerStub()
+        )
         
         // When
         view |> BeagleStyle.tabView(backgroundColor: backgroundColor, indicatorColor: indicatorColor)
