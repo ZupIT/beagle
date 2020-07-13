@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.action
 import android.view.View
 import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.widget.RootView
@@ -38,7 +39,7 @@ data class FormLocalAction(
 
             override fun onSuccess(action: Action) {
                 changeActivityState(rootView, ServerDrivenState.Loading(false))
-                action.execute(rootView, origin)
+                handleEvent(rootView, origin, action, "")
             }
 
             override fun onError(e: Throwable) {

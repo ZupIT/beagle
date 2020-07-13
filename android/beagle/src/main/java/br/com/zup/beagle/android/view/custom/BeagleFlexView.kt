@@ -20,9 +20,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import br.com.zup.beagle.android.engine.mapper.FlexMapper
-import br.com.zup.beagle.android.engine.renderer.ActivityRootView
-import br.com.zup.beagle.android.engine.renderer.BaseRootView
-import br.com.zup.beagle.android.engine.renderer.FragmentRootView
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.view.YogaLayout
 import br.com.zup.beagle.android.widget.RootView
@@ -56,13 +53,7 @@ internal open class BeagleFlexView(
             serverDrivenComponent
         }
         val style = (component as? StyleComponent)?.style ?: Style()
-        val rootViewCopy: BaseRootView?
-        rootViewCopy = if (rootView is FragmentRootView) {
-            rootView.copy()
-        } else {
-            (rootView as ActivityRootView).copy()
-        }
-        val view = viewRendererFactory.make(serverDrivenComponent).build(rootViewCopy as RootView)
+        val view = viewRendererFactory.make(serverDrivenComponent).build(rootView)
         view.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> invalidate(view) }
         super.addView(view, flexMapper.makeYogaNode(style))
     }

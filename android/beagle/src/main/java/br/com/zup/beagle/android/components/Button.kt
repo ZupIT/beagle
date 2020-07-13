@@ -25,11 +25,8 @@ import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
-import br.com.zup.beagle.android.context.valueOfNullable
 import br.com.zup.beagle.android.data.PreFetchHelper
-import br.com.zup.beagle.android.engine.renderer.BaseRootView
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.utils.currentViewTriggerAction
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
@@ -71,7 +68,6 @@ data class Button(
 
         button.setOnClickListener { view ->
             onPress?.let {
-                this@Button.currentViewTriggerAction(rootView, button)
                 this@Button.handleEvent(rootView, view, it, "onPress")
             }
             clickAnalyticsEvent?.let {
