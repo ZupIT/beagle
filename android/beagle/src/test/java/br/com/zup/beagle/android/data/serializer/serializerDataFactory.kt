@@ -282,6 +282,12 @@ fun makeUndefinedComponentJson() = """
     }
 """
 
+fun makeUndefinedActionJson() = """
+    {
+        "_beagleAction_": "custom:new"
+    }
+"""
+
 fun makeInternalObject() = """{"value1": "hello", "value2": 123}"""
 
 fun makeBindComponent() = """

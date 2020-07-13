@@ -53,6 +53,11 @@ const val SCREEN_TOUCHABLE_ENDPOINT = "/touchable"
 const val SCREEN_EXAMPLE_ENDPOINT = "/navigate-example"
 const val SCREEN_ACTION_CLICK_ENDPOINT = "/action-click"
 const val SCREEN_WEB_VIEW_ENDPOINT = "/web-view"
+const val SCREEN_CONTEXT_ENDPOINT = "/context"
+const val SCREEN_SAFE_AREA_ENDPOINT = "/safe-area"
+const val SCREEN_SAFE_AREA_TRUE_ENDPOINT = "/safe-area/true"
+const val SCREEN_SAFE_AREA_FALSE_ENDPOINT = "/safe-area/false"
+const val SCREEN_TEXT_INPUT_ENDPOINT = "/text-input"
 
 const val CUSTOM_WIDGET_ENDPOINT = "/custom"
 

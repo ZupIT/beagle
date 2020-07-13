@@ -16,47 +16,55 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.action.Alert
-import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
-import br.com.zup.beagle.sample.constants.TITLE_SCREEN
-import br.com.zup.beagle.widget.core.ImageContentMode
-import br.com.zup.beagle.widget.core.ScrollAxis
+import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.layout.ScrollView
-import br.com.zup.beagle.widget.ui.Image
-import br.com.zup.beagle.widget.ui.ImagePath.Local
+import br.com.zup.beagle.widget.ui.ImagePath
 import br.com.zup.beagle.widget.ui.Text
+import br.com.zup.beagle.widget.ui.TextInput
 
-object ImageScreenBuilder : ScreenBuilder {
+object TextInputBuilder: ScreenBuilder {
+    val styleTextInput = Style(margin = EdgeValue(top = 10.unitReal(),left = 25.unitReal(),right = 25.unitReal()))
+
     override fun build() = Screen(
         navigationBar = NavigationBar(
-            title = "Beagle Image",
+            title = "Beagle Text Input",
             showBackButton = true,
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
-                    image = Local.justMobile("informationImage"),
+                    image = ImagePath.Local.justMobile("informationImage"),
                     action = Alert(
-                        title = "Image",
-                        message = "This widget will define a image view natively using the server driven " +
+                        title = "Text Input",
+                        message = "This widget will define a Text Input view natively using the server driven " +
                             "information received through Beagle.",
                         labelOk = "OK"
                     )
                 )
             )
         ),
-        child = ScrollView(
-            scrollDirection = ScrollAxis.VERTICAL,
-            children = listOf(createText("Image"), Image(Local.justMobile(LOGO_BEAGLE))) +
-                ImageContentMode.values().flatMap(this::createImageWithModeAndText)
+        child = Container(
+            listOf(
+                createTextInput("Text Input without style!"),
+                createTextInput("Text Input with style!", "DesignSystem.TextInput.Style.Bff")
+            )
         )
     )
 
-    private fun createText(text: String) = Text(text = text, styleId = TITLE_SCREEN)
-
-    private fun createImageWithModeAndText(mode: ImageContentMode) =
-        listOf(createText("Image with contentMode = $mode"), Image(Local.justMobile(LOGO_BEAGLE), mode))
+    private fun createTextInput(text: String, styleId: String? = null) = Container(
+        listOf(
+            Text(text).applyStyle(styleTextInput),
+            TextInput(
+                placeholder = "Your text",
+                styleId = styleId
+            ).applyStyle(styleTextInput)
+        )
+    )
 }
