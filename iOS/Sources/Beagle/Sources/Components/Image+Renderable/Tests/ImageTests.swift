@@ -64,11 +64,11 @@ class ImageTests: XCTestCase {
         //Given
         let image = Image("@{img.path}")
         let dependency = BeagleDependencies()
-        let container = Container(children: [image])
-        let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(container.toScreen()), dependencies: dependency))
         let data = Data()
         let repository = RepositoryStub(imageResult: .success(data))
         dependency.repository = repository
+        let container = Container(children: [image])
+        let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(container.toScreen()), dependencies: dependency))
         let action = SetContext(contextId: "img", path: "path", value: ["_beagleImagePath_": "local", "mobileId": "shuttle"])
         
         //When
