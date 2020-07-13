@@ -29,16 +29,18 @@ class SubmitForm : Action {
         var currentView: ViewParent? = origin.parent
 
         var foundSimpleForm = false
-        while (currentView != null) {
+
+        while (!foundSimpleForm && currentView != null) {
             if (currentView is ViewGroup && currentView.tag is SimpleForm) {
-                (currentView.tag as SimpleForm).submit(rootView, origin)
                 foundSimpleForm = true
-                break
+            } else {
+                currentView = currentView.parent
             }
-            currentView = currentView.parent
         }
 
-        if (!foundSimpleForm) {
+        if (foundSimpleForm) {
+            ((currentView as? ViewGroup)?.tag as SimpleForm).submit(rootView, origin)
+        } else {
             BeagleMessageLogs.logNotFoundSimpleForm()
         }
     }
