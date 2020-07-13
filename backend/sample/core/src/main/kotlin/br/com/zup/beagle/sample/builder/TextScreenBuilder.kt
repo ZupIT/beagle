@@ -67,15 +67,15 @@ object TextScreenBuilder : ScreenBuilder {
         text: String,
         styleId: String? = null,
         appearanceColor: String? = null
-    ) = Text(text = text, styleId = styleId)
-        .applyStyle(
-            style = Style(
-                margin = EdgeValue(
-                    top = 16.unitReal(),
-                    left = 16.unitReal(),
-                    right = 16.unitReal()
-                ),
-                backgroundColor = appearanceColor
+    ) =
+        Text(text = text, styleId = styleId)
+            .applyStyle(Style(
+                backgroundColor = appearanceColor,
+                    margin = EdgeValue(
+                        top = 16.unitReal(),
+                        left = 16.unitReal(),
+                        right = 16.unitReal()
+                    )
+                )
             )
-        )
 }

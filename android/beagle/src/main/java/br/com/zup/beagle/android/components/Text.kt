@@ -58,7 +58,7 @@ data class Text(
     override fun buildView(rootView: RootView): View {
         val textView = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             viewFactory.makeTextView(rootView.getContext(), getStyleId(this.styleId))
-            else viewFactory.makeTextView(rootView.getContext())
+        else viewFactory.makeTextView(rootView.getContext())
 
         textView.setTextWidget(this, rootView)
         return textView
@@ -101,12 +101,10 @@ data class Text(
         }
     }
 
-    private fun getStyleId(styleName: String?) : Int =
-            BeagleEnvironment.beagleSdk.designSystem?.textStyle(styleName ?:"")?:0
+    private fun getStyleId(styleName: String?): Int =
+        BeagleEnvironment.beagleSdk.designSystem?.textStyle(styleName ?: "") ?: 0
 
     private fun TextView.setTextColor(color: String?) {
-        color?.let {
-            this.setTextColor(color.toAndroidColor())
-        }
+        color?.toAndroidColor()?.let { androidColor -> this.setTextColor(androidColor) }
     }
 }
