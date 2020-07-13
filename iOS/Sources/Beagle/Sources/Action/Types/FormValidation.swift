@@ -22,7 +22,7 @@ extension FormValidation: Action {
         let inputViews = (sender as? SubmitFormGestureRecognizer)?.formInputViews()
         for error in errors {
             let errorListener = inputViews?.first { view in
-                (view.beagleFormElement as? FormInput)?.name == error.inputName
+                (view.beagleFormElement as? Deprecated.FormInput)?.name == error.inputName
             } as? ValidationErrorListener
             errorListener?.onValidationError(message: error.message)
         }

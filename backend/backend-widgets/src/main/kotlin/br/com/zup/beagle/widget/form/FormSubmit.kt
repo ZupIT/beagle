@@ -20,7 +20,7 @@ import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 /**
- * component will define a submit handler for a form.
+ * Component will define a submit handler for a form.
  *
  * @param child
  *                  define the submit handler.
@@ -30,6 +30,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  *                  If it is defined as "false" the button will start as "disabled"
  *
  */
+@Deprecated(FORM_DEPRECATED_MESSAGE)
 data class FormSubmit(
     override val child: ServerDrivenComponent,
     val enabled: Boolean = true

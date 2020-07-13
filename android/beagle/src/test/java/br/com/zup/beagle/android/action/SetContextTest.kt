@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.action
 
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
@@ -38,6 +39,7 @@ import kotlin.test.assertEquals
 internal class SetContextTest {
 
     private val viewModel = mockk<ScreenContextViewModel>()
+    private val view = mockk<View>()
     private val rootView = mockk<ActivityRootView> {
         every { activity } returns mockk()
     }
@@ -66,7 +68,7 @@ internal class SetContextTest {
         every { viewModel.updateContext(capture(updateContext)) } just Runs
 
         // When
-        setContext.execute(rootView)
+        setContext.execute(rootView, view)
 
         // Then
         assertEquals(setContext.contextId, updateContext.captured.contextId)
@@ -84,7 +86,7 @@ internal class SetContextTest {
         every { BeagleLoggerProxy.warning(any()) } just Runs
 
         // When
-        setContext.execute(rootView)
+        setContext.execute(rootView, view)
 
         // Then
         verify(exactly = 0) { viewModel.updateContext(any()) }

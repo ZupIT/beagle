@@ -23,7 +23,7 @@ class FormSubmitTests: XCTestCase {
 
     func test_initWithChild_shouldReturnValidFormSubmit() {
         // Given / When
-        let sut = FormSubmit(child:
+        let sut = Deprecated.FormSubmit(child:
             BeagleSchemaTestsComponent()
         )
         // Then

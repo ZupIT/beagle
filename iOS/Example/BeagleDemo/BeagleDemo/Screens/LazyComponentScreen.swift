@@ -30,18 +30,18 @@ struct LazyComponentScreen: DeeplinkScreen {
     var screen: Screen {
         return Screen(
             navigationBar: NavigationBar(title: "Form & LazyComponent"),
-            child: Form(
+            child: Deprecated.Form(
                 onSubmit: [Navigate.pushView(.declarative(screen1))],
                 child: Container(children: [
                     Text("Form & LazyComponent"),
-                    FormInput(
+                    Deprecated.FormInput(
                         name: "field",
                         child: LazyComponent(
                             path: .TEXT_LAZY_COMPONENTS_ENDPOINT,
                             initialState: Text("Loading...")
                         )
                     ),
-                    FormSubmit(child:
+                    Deprecated.FormSubmit(child:
                         Text("FormSubmit")
                     )
                 ]).applyFlex(Flex().justifyContent(.spaceBetween)),
@@ -54,18 +54,18 @@ struct LazyComponentScreen: DeeplinkScreen {
     var screen1: Screen {
         return Screen(
             navigationBar: NavigationBar(title: "Form & LazyComponent"),
-            child: Form(
+            child: Deprecated.Form(
                 onSubmit: [FormRemoteAction(path: .TEXT_FORM_ENDPOINT, method: .get)],
                 child: Container(children: [
                     Text("Form & LazyComponent"),
-                    FormInput(
+                    Deprecated.FormInput(
                         name: "field1",
                         child: LazyComponent(
                             path: .TEXT_LAZY_COMPONENTS_ENDPOINT,
                             initialState: Text("Loading...")
                         )
                     ),
-                    FormSubmit(child:
+                    Deprecated.FormSubmit(child:
                         Text("FormSubmit")
                     )
                 ]).applyFlex(Flex().justifyContent(.spaceBetween)),
