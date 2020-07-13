@@ -21,10 +21,6 @@ import BeagleSchema
 
 class ImageTests: XCTestCase {
     
-    struct Dependencies: DependencyRepository {
-        let repository: Repository
-    }
-
     var dependencies: BeagleDependencies {
         // swiftlint:disable implicit_getter
         get {
@@ -64,8 +60,7 @@ class ImageTests: XCTestCase {
         //Given
         let image = Image("@{img.path}")
         let dependency = BeagleDependencies()
-        let data = Data()
-        let repository = RepositoryStub(imageResult: .success(data))
+        let repository = RepositoryStub(imageResult: .success(Data()))
         dependency.repository = repository
         let container = Container(children: [image])
         let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(container.toScreen()), dependencies: dependency))
