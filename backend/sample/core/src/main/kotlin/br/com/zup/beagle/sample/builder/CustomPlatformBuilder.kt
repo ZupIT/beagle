@@ -18,6 +18,7 @@ package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.platform.BeaglePlatform
+import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.layout.ScrollView
@@ -25,6 +26,10 @@ import br.com.zup.beagle.widget.ui.Text
 
 class CustomPlatformBuilder(private val beaglePlatform: BeaglePlatform) : ScreenBuilder {
     override fun build() = Screen(
+        navigationBar = NavigationBar(
+            title = "Beagle Tab View",
+            showBackButton = true
+        ),
         child = createComponentUsingBeaglePlatform()
     )
 
