@@ -64,9 +64,6 @@ internal object ComponentJsonAdapterFactory {
     private fun registerBaseSubTypes(
         factory: PolymorphicJsonAdapterFactory<ServerDrivenComponent>
     ): PolymorphicJsonAdapterFactory<ServerDrivenComponent> {
-//        return factory.withBaseSubType(PageIndicatorComponent::class.java)
-//            .withBaseSubType(InputWidget::class.java)
-//            .withBaseSubType(Widget::class.java)
         return factory.withBaseSubType(InputWidget::class.java)
             .withBaseSubType(Widget::class.java)
     }
