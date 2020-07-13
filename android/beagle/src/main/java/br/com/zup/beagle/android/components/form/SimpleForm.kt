@@ -30,7 +30,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 
 /**
- * component will define a submit handler for a SimpleForm.
+ * Component will define a submit handler for a SimpleForm.
  *
  * @param context define the contextData that be set to form
  *
