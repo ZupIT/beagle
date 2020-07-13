@@ -79,7 +79,7 @@ class PageIndicatorUIComponent: UIView {
     // MARK: - Update
     
     private func updateView(model: Model) {
-        pageControl.currentPage = model.currentPage
         pageControl.numberOfPages = model.numberOfPages
+        pageControl.currentPage = model.currentPage
     }
 }
