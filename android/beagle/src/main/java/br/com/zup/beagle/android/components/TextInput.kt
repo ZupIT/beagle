@@ -83,7 +83,7 @@ data class TextInput(
     private lateinit var textInputView: EditText
 
     @Transient
-    private lateinit var textWatcher: TextWatcher
+    private var textWatcher: TextWatcher? = null
 
     override fun buildView(rootView: RootView): View = viewFactory.makeInputText(rootView.getContext()).apply {
         textInputView = this
@@ -99,7 +99,7 @@ data class TextInput(
     }
 
     private fun EditText.setUpOnTextChange(rootView: RootView) {
-        this.addTextChangedListener(object : TextWatcher {
+        textWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -115,7 +115,9 @@ data class TextInput(
                     )
                 }
             }
-        })
+        }
+
+        addTextChangedListener(textWatcher)
     }
 
     private fun EditText.removeOnTextChange() {
