@@ -20,6 +20,7 @@ import br.com.zup.beagle.compiler.ANDROID_ACTION
 import br.com.zup.beagle.compiler.BEAGLE_CONFIG
 import br.com.zup.beagle.compiler.BEAGLE_LOGGER
 import br.com.zup.beagle.compiler.BEAGLE_SDK
+import br.com.zup.beagle.compiler.BeagleSetupRegisteredWidgetGenerator
 import br.com.zup.beagle.compiler.DEEP_LINK_HANDLER
 import br.com.zup.beagle.compiler.FORM_LOCAL_ACTION_HANDLER
 import br.com.zup.beagle.compiler.HTTP_CLIENT_HANDLER

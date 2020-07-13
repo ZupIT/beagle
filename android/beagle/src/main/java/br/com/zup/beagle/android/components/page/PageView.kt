@@ -27,6 +27,7 @@ import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
@@ -34,6 +35,7 @@ import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
 
+@RegisterWidget
 data class PageView(
     val children: List<ServerDrivenComponent>,
     val pageIndicator: PageIndicatorComponent? = null,

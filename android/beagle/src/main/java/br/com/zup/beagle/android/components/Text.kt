@@ -30,8 +30,10 @@ import br.com.zup.beagle.android.utils.toAndroidColor
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.core.TextAlignment
 
+@RegisterWidget
 data class Text(
     val text: Bind<String>,
     val styleId: String? = null,

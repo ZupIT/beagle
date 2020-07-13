@@ -39,8 +39,10 @@ import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+@RegisterWidget
 data class Form(
     val child: ServerDrivenComponent,
     val onSubmit: List<Action>? = null,
