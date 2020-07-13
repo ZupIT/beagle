@@ -25,11 +25,13 @@ public protocol PageViewUIComponentDelegate: AnyObject {
 class PageViewUIComponent: UIView {
 
     var model: Model {
-        willSet {
-            swipeToPage(at: newValue.currentPage)
+        didSet {
+            if model.currentPage != oldValue.currentPage {
+                swipeToPage(at: model.currentPage)
+            }
         }
     }
-
+    
     struct Model {
         var pages: [BeagleScreenViewController]
         var currentPage: Int
@@ -43,11 +45,7 @@ class PageViewUIComponent: UIView {
         }
     }
 
-    private var pendingPage = 0 {
-        didSet {
-            onPageChange?(pendingPage)
-        }
-    }
+    private var pendingPage = 0
 
     var onPageChange: ((_ currentPage: Int) -> Void)?
     
@@ -149,7 +147,7 @@ extension PageViewUIComponent: UIPageViewControllerDataSource, UIPageViewControl
             let index = model.pages.firstIndex(of: vc) else {
                 return
         }
-
+        
         pendingPage = index
     }
 
@@ -161,6 +159,7 @@ extension PageViewUIComponent: UIPageViewControllerDataSource, UIPageViewControl
     ) {
         guard finished && completed else { return }
         model.currentPage = pendingPage
+        onPageChange?(model.currentPage)
         pageViewDelegate?.changedCurrentPage(model.currentPage)
     }
 }
