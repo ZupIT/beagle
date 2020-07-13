@@ -50,9 +50,9 @@ public enum Log {
     public enum Form {
         case validatorNotFound(named: String)
         case validationInputNotValid(inputName: String)
-        case submitNotFound(form: BeagleSchema.Form)
-        case inputsNotFound(form: BeagleSchema.Form)
-        case divergentInputViewAndValueCount(form: BeagleSchema.Form)
+        case submitNotFound(form: Deprecated.Form)
+        case inputsNotFound(form: Deprecated.Form)
+        case divergentInputViewAndValueCount(form: Deprecated.Form)
         case submittedValues(values: [String: String])
         case keyDuplication(data: [String: String])
         case unableToSaveData

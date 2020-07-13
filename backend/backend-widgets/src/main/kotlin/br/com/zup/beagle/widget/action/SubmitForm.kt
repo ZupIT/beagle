@@ -16,4 +16,4 @@
 
 package br.com.zup.beagle.widget.action
 
-class SubmitForm() : Action
+class SubmitForm : Action

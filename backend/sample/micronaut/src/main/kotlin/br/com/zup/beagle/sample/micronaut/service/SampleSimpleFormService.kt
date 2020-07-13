@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.components.utils
+package br.com.zup.beagle.sample.micronaut.service
 
-import android.view.ViewGroup
-import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.components.form.SimpleForm
-import br.com.zup.beagle.android.engine.renderer.BaseRootView
-import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.sample.builder.SimpleFormScreenBuilder
+import javax.inject.Singleton
 
-fun Action.submitSimpleForm(rootView: RootView) = this.apply {
-    (((rootView as BaseRootView).currentViewAction?.parent as ViewGroup)
-        .tag as SimpleForm).submit(rootView)
+@Singleton
+class SampleSimpleFormService {
+    fun createSimpleForm() = SimpleFormScreenBuilder
 }

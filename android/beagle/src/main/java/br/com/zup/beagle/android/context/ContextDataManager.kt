@@ -37,10 +37,12 @@ internal class ContextDataManager(
     private val contexts: MutableMap<String, ContextBinding> = mutableMapOf()
 
     fun addContext(contextData: ContextData) {
-        contexts[contextData.id] = ContextBinding(
-            bindings = mutableSetOf(),
-            context = contextData
-        )
+        if (contexts[contextData.id] == null) {
+            contexts[contextData.id] = ContextBinding(
+                bindings = mutableSetOf(),
+                context = contextData.normalize()
+            )
+        }
     }
 
     fun getContextsFromBind(binding: Bind.Expression<*>): List<ContextData> {

@@ -24,8 +24,8 @@ final class FormTests: XCTestCase {
     func test_buildView_shouldRegisterFormSubmit() {
         // Given
         let submitView = UILabel()
-        let sut = Form(
-            child: FormSubmit(child: ComponentDummy(resultView: submitView))
+        let sut = Deprecated.Form(
+            child: Deprecated.FormSubmit(child: ComponentDummy(resultView: submitView))
         )
         let controller = BeagleControllerStub()
         

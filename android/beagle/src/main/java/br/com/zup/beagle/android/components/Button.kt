@@ -69,10 +69,10 @@ data class Button(
             viewFactory.makeButton(rootView.getContext(), getStyleId(this.styleId))
         else viewFactory.makeButton(rootView.getContext())
 
-        button.setOnClickListener {
+        button.setOnClickListener { view ->
             onPress?.let {
                 this@Button.currentViewTriggerAction(rootView, button)
-                this@Button.handleEvent(rootView, it, "onPress")
+                this@Button.handleEvent(rootView, view, it, "onPress")
             }
             clickAnalyticsEvent?.let {
                 BeagleEnvironment.beagleSdk.analytics?.trackEventOnClick(it)
@@ -101,7 +101,7 @@ data class Button(
         }
     }
 
-    private fun getStyleId(styleName: String?) : Int =
-        BeagleEnvironment.beagleSdk.designSystem?.buttonStyle(styleName?:"")?:0
+    private fun getStyleId(styleName: String?): Int =
+        BeagleEnvironment.beagleSdk.designSystem?.buttonStyle(styleName ?: "") ?: 0
 
 }

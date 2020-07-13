@@ -30,6 +30,7 @@ import br.com.zup.beagle.android.components.form.Form
 import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.components.form.FormSubmit
 import br.com.zup.beagle.android.components.form.InputWidget
+import br.com.zup.beagle.android.components.form.SimpleForm
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.components.layout.ScrollView
@@ -97,6 +98,7 @@ internal object ComponentJsonAdapterFactory {
             .withSubtype(FormSubmit::class.java, createNamespaceFor<FormSubmit>())
             .withSubtype(UndefinedWidget::class.java, createNamespaceFor<UndefinedWidget>())
             .withSubtype(TextInput::class.java, createNamespaceFor<TextInput>())
+            .withSubtype(SimpleForm::class.java, createNamespaceFor<SimpleForm>())
     }
 
     private fun registerCustomWidget(

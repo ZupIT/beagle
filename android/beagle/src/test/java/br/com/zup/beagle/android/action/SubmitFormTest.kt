@@ -16,13 +16,56 @@
 
 package br.com.zup.beagle.android.action
 
-import br.com.zup.beagle.android.components.BaseComponentTest
-import br.com.zup.beagle.android.engine.renderer.BaseRootView
-import org.junit.jupiter.api.Assertions.*
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewParent
+import br.com.zup.beagle.android.BaseTest
+import br.com.zup.beagle.android.components.form.SimpleForm
+import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.logger.BeagleLoggerProxy
+import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.widget.RootView
+import io.mockk.*
+import org.junit.Test
 
-internal class SubmitFormTest : BaseComponentTest() {
+class SubmitFormTest : BaseTest() {
 
-    val submitForm: SubmitForm = SubmitForm()
+    private val rootView = mockk<RootView>()
+    private val view = mockk<View>()
+    private val parent = mockk<ViewGroup>()
+    private val simpleForm = mockk<SimpleForm>(relaxed = true)
 
+    override fun setUp() {
+        super.setUp()
+        every { beagleSdk.logger } returns null
+        mockkObject(BeagleLoggerProxy)
+    }
+
+    @Test
+    fun `should call submit in simple form when execute`() {
+        // When
+        val action = SubmitForm()
+        every { parent.tag } returns simpleForm
+        every { view.parent } returns parent as ViewParent
+
+        action.execute(rootView, view)
+
+        // Then
+        verify(exactly = once()) { simpleForm.submit(rootView, view) }
+    }
+
+    @Test
+    fun `should send log when not found simple form in parent`() {
+        // When
+        val action = SubmitForm()
+        every { view.parent } returns null
+
+        action.execute(rootView, view)
+
+        // Then
+        verify(exactly = once()) {
+            BeagleLoggerProxy.error("not found simple form in the parents")
+        }
+    }
 
 }

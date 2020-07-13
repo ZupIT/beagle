@@ -48,10 +48,12 @@ const val REPRESENTATION_PRESENT_ENDPOINT = "/present/view"
 const val REPRESENTATION_NAVIGATION_TYPE_STEP3_ENDPOINT = "/navigationbar/step3"
 const val SCREEN_COMPOSE_COMPONENT_ENDPOINT = "/compose-component"
 const val SCREEN_NETWORK_IMAGE_ENDPOINT = "/network-image"
+const val SCREEN_BFF_NETWORK_IMAGE_ENDPOINT = "/network-image/bff"
 const val SCREEN_TOUCHABLE_ENDPOINT = "/touchable"
 const val SCREEN_EXAMPLE_ENDPOINT = "/navigate-example"
 const val SCREEN_ACTION_CLICK_ENDPOINT = "/action-click"
 const val SCREEN_WEB_VIEW_ENDPOINT = "/web-view"
+const val SCREEN_SIMPLE_FORM_ENDPOINT = "/simple-form"
 
 const val CUSTOM_WIDGET_ENDPOINT = "/custom"
 

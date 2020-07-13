@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.context
 
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
@@ -51,6 +52,7 @@ class ContextActionExecutorTest : BaseTest() {
     private val viewModel = mockk<ScreenContextViewModel>(relaxed = true)
     private val sender = mockk<Action>()
     private val action = mockk<Action>()
+    private val view: View = mockk()
 
     private lateinit var contextActionExecutor: ContextActionExecutor
 
@@ -63,7 +65,7 @@ class ContextActionExecutorTest : BaseTest() {
 
         contextActionExecutor = ContextActionExecutor()
 
-        every { action.execute(any()) } just Runs
+        every { action.execute(any(), view) } just Runs
         every { rootView.activity } returns mockk()
 
         every {
@@ -79,12 +81,12 @@ class ContextActionExecutorTest : BaseTest() {
         val value = RandomData.string()
 
         // When
-        contextActionExecutor.executeActions(rootView, sender, listOf(action), eventId, value)
+        contextActionExecutor.executeActions(rootView, view, sender, listOf(action), eventId, value)
 
         // Then
         verifySequence {
             viewModel.addImplicitContext(contextDataSlot.captured, sender, listOf(action))
-            action.execute(rootView)
+            action.execute(rootView, view)
         }
     }
 
@@ -95,11 +97,11 @@ class ContextActionExecutorTest : BaseTest() {
         val value = RandomData.string()
 
         // When
-        contextActionExecutor.executeActions(rootView, sender, listOf(action), eventId, value)
+        contextActionExecutor.executeActions(rootView, view, sender, listOf(action), eventId, value)
 
         // Then
         assertEquals(eventId, contextDataSlot.captured.id)
-        assertEquals("{\"value\":\"$value\"}", contextDataSlot.captured.value.toString())
+        assertEquals(value, contextDataSlot.captured.value.toString())
     }
 
     @Test
@@ -109,7 +111,7 @@ class ContextActionExecutorTest : BaseTest() {
         val value = PersonTest(name = NAME)
 
         // When
-        contextActionExecutor.executeActions(rootView, sender, listOf(action), eventId, value)
+        contextActionExecutor.executeActions(rootView, view, sender, listOf(action), eventId, value)
 
         // Then
         assertEquals(eventId, contextDataSlot.captured.id)
@@ -126,7 +128,7 @@ class ContextActionExecutorTest : BaseTest() {
         val value = arrayListOf(PersonTest(name = NAME))
 
         // When
-        contextActionExecutor.executeActions(rootView, sender, listOf(action), eventId, value)
+        contextActionExecutor.executeActions(rootView, view, sender, listOf(action), eventId, value)
 
         // Then
         assertEquals(eventId, contextDataSlot.captured.id)
@@ -144,10 +146,10 @@ class ContextActionExecutorTest : BaseTest() {
         val value = null
 
         // When
-        contextActionExecutor.executeActions(rootView, sender, listOf(action), eventId, value)
+        contextActionExecutor.executeActions(rootView, view, sender, listOf(action), eventId, value)
 
         // Then
         verify(exactly = 0) { viewModel.addImplicitContext(any(), any(), any()) }
-        verify(exactly = once()) { action.execute(rootView) }
+        verify(exactly = once()) { action.execute(rootView, view) }
     }
 }

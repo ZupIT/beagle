@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.components.form
 
 import android.view.View
+import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.ViewConvertable
@@ -24,6 +25,7 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+@Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 data class FormSubmit(
     override val child: ServerDrivenComponent,
     val enabled: Boolean = true

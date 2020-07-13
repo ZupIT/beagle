@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.components.form
 
 import android.view.View
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.data.PreFetchHelper
@@ -42,11 +41,11 @@ import br.com.zup.beagle.core.Style
  *                  If it is defined as "false" the button will start as "disabled"
  *
  */
-data class SimpleForm (
+data class SimpleForm(
     override val context: ContextData,
-    val onSubmit:List<Action>,
+    val onSubmit: List<Action>,
     val children: List<ServerDrivenComponent>
-): WidgetView(), ContextComponent {
+) : WidgetView(), ContextComponent {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
@@ -56,22 +55,22 @@ data class SimpleForm (
 
     override fun buildView(rootView: RootView): View {
         preFetchHelper.handlePreFetch(rootView, onSubmit)
-        return viewFactory.makeBeagleFlexView(rootView.getContext(), style  ?: Style())
+        return viewFactory.makeBeagleFlexView(rootView.getContext(), style ?: Style())
             .apply {
                 tag = this@SimpleForm
-                addChildrenForm(this,rootView)
+                addChildrenForm(this, rootView)
             }
     }
 
-    private fun addChildrenForm(beagleFlexView: BeagleFlexView, rootView: RootView){
-        children.forEach{child ->
+    private fun addChildrenForm(beagleFlexView: BeagleFlexView, rootView: RootView) {
+        children.forEach { child ->
             beagleFlexView.addServerDrivenComponent(child, rootView)
         }
     }
 
-    fun submit(rootView: RootView) {
+    fun submit(rootView: RootView, view: View) {
         onSubmit.forEach { action ->
-            action.handleEvent(rootView, action, "onSubmit")
+            handleEvent(rootView, view, action, "onSubmit")
         }
     }
 }

@@ -14,19 +14,12 @@
  * limitations under the License.
  */
 
-import UIKit
+package br.com.zup.beagle.sample.spring.service
 
-public struct FormInputHidden: FormInputComponent, AutoInitiable {
-    public let name: String
-    public let value: String
+import br.com.zup.beagle.sample.builder.SimpleFormScreenBuilder
+import org.springframework.stereotype.Service
 
-// sourcery:inline:auto:FormInputHidden.Init
-    public init(
-        name: String,
-        value: String
-    ) {
-        self.name = name
-        self.value = value
-    }
-// sourcery:end
+@Service
+class SampleSimpleFormService {
+    fun createSimpleForm() = SimpleFormScreenBuilder
 }

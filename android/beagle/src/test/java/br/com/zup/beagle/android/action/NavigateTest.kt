@@ -16,21 +16,16 @@
 
 package br.com.zup.beagle.android.action
 
+import android.view.View
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.navigation.DeepLinkHandler
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.custom.BeagleNavigator
 import br.com.zup.beagle.android.widget.RootView
-import io.mockk.MockKAnnotations
-import io.mockk.Runs
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.just
-import io.mockk.mockkObject
-import io.mockk.unmockkAll
-import io.mockk.verify
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -42,6 +37,8 @@ class NavigateTest {
 
     @MockK
     private lateinit var deepLinkHandler: DeepLinkHandler
+    
+    private val view: View = mockk()
 
     @Before
     fun setUp() {
@@ -63,7 +60,7 @@ class NavigateTest {
         every { BeagleEnvironment.beagleSdk.deepLinkHandler } returns null
 
         // When
-        navigate.execute(rootView)
+        navigate.execute(rootView, view)
 
         // Then
         verify(exactly = 0) { deepLinkHandler.getDeepLinkIntent(any(), any(), any()) }
@@ -77,7 +74,7 @@ class NavigateTest {
         every { BeagleNavigator.openExternalURL(any(), any()) } just Runs
 
         // When
-        navigate.execute(rootView)
+        navigate.execute(rootView, view)
 
         // Then
         verify(exactly = once()) { BeagleNavigator.openExternalURL(rootView.getContext(), url) }
@@ -93,7 +90,7 @@ class NavigateTest {
         every { BeagleNavigator.openNativeRoute(any(), any(), any(), any()) } just Runs
 
         // When
-        navigate.execute(rootView)
+        navigate.execute(rootView, view)
 
         // Then
         verify(exactly = once()) { BeagleNavigator.openNativeRoute(rootView.getContext(), route, data, shouldResetApplication) }
@@ -107,7 +104,7 @@ class NavigateTest {
         every { BeagleNavigator.resetApplication(any(), any()) } just Runs
 
         // When
-        navigate.execute(rootView)
+        navigate.execute(rootView, view)
 
         // Then
         verify(exactly = once()) { BeagleNavigator.resetApplication(rootView.getContext(), route) }
@@ -121,7 +118,7 @@ class NavigateTest {
         every { BeagleNavigator.resetStack(any(), any()) } just Runs
 
         // When
-        navigate.execute(rootView)
+        navigate.execute(rootView, view)
 
         // Then
         verify(exactly = once()) { BeagleNavigator.resetStack(rootView.getContext(), route) }
@@ -135,7 +132,7 @@ class NavigateTest {
         every { BeagleNavigator.pushView(any(), any()) } just Runs
 
         // When
-        navigate.execute(rootView)
+        navigate.execute(rootView, view)
 
         // Then
         verify(exactly = once()) { BeagleNavigator.pushView(rootView.getContext(), route) }
@@ -148,7 +145,7 @@ class NavigateTest {
         every { BeagleNavigator.popStack(any()) } just Runs
 
         // When
-        navigate.execute(rootView)
+        navigate.execute(rootView, view)
 
         // Then
         verify(exactly = once()) { BeagleNavigator.popStack(rootView.getContext()) }
@@ -161,7 +158,7 @@ class NavigateTest {
         every { BeagleNavigator.popView(any()) } just Runs
 
         // When
-        navigate.execute(rootView)
+        navigate.execute(rootView, view)
 
         // Then
         verify(exactly = once()) { BeagleNavigator.popView(rootView.getContext()) }
@@ -175,7 +172,7 @@ class NavigateTest {
         every { BeagleNavigator.popToView(any(), any()) } just Runs
 
         // When
-        navigate.execute(rootView)
+        navigate.execute(rootView, view)
 
         // Then
         verify(exactly = once()) { BeagleNavigator.popToView(rootView.getContext(), path) }
@@ -189,7 +186,7 @@ class NavigateTest {
         every { BeagleNavigator.pushStack(any(), any()) } just Runs
 
         // When
-        navigate.execute(rootView)
+        navigate.execute(rootView, view)
 
         // Then
         verify(exactly = once()) { BeagleNavigator.pushStack(rootView.getContext(), route) }
