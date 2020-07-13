@@ -28,11 +28,11 @@ final class FormValidationTests: XCTestCase {
             FieldError(inputName: inputName, message: errorMessage)
         ])
         let controller = BeagleControllerStub()
-        let formInput = FormInput(name: inputName, child: ComponentDummy())
+        let formInput = Deprecated.FormInput(name: inputName, child: ComponentDummy())
         let validationSpy = ValidationErrorListenerSpy()
         validationSpy.beagleFormElement = formInput
         let sender = SubmitFormGestureRecognizer(
-            form: Form(child: ComponentDummy()),
+            form: Deprecated.Form(child: ComponentDummy()),
             formView: validationSpy,
             formSubmitView: validationSpy,
             controller: controller

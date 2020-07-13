@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.action
 
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
@@ -53,6 +54,7 @@ class SendRequestHandlerTest {
     private val liveData: MutableLiveData<ActionRequestViewModel.FetchViewState> = mockk()
     private val observerSlot = slot<Observer<ActionRequestViewModel.FetchViewState>>()
     private val responseData: Response = mockk()
+    private val view: View = mockk()
 
     @Before
     fun setUp() {
@@ -85,14 +87,14 @@ class SendRequestHandlerTest {
             onError = listOf(onErrorAction), onFinish = listOf(onFinishAction))
 
         // When
-        requestAction.execute(rootView)
+        requestAction.execute(rootView, view)
         val result = ActionRequestViewModel.FetchViewState.Success(responseData)
         observerSlot.captured.onChanged(result)
 
         // Then
         verifyOrder {
-            requestAction.handleEvent(rootView, listOf(onFinishAction), "onFinish")
-            requestAction.handleEvent(rootView, listOf(onSuccessAction), "onSuccess", any())
+            requestAction.handleEvent(rootView, view, listOf(onFinishAction), "onFinish")
+            requestAction.handleEvent(rootView, view, listOf(onSuccessAction), "onSuccess", any())
         }
     }
 
@@ -106,14 +108,14 @@ class SendRequestHandlerTest {
             onError = listOf(onErrorAction), onFinish = listOf(onFinishAction))
 
         // When
-        requestAction.execute(rootView)
+        requestAction.execute(rootView, view)
         val result = ActionRequestViewModel.FetchViewState.Error(responseData)
         observerSlot.captured.onChanged(result)
 
         // Then
         verifyOrder {
-            requestAction.handleEvent(rootView, listOf(onFinishAction), "onFinish")
-            requestAction.handleEvent(rootView, listOf(onErrorAction), "onError", any())
+            requestAction.handleEvent(rootView, view, listOf(onFinishAction), "onFinish")
+            requestAction.handleEvent(rootView, view, listOf(onErrorAction), "onError", any())
         }
     }
 
@@ -126,13 +128,13 @@ class SendRequestHandlerTest {
             onError = listOf(onErrorAction), onFinish = listOf(onFinishAction))
 
         // When
-        requestAction.execute(rootView)
+        requestAction.execute(rootView, view)
         val result = ActionRequestViewModel.FetchViewState.Success(mockk())
         observerSlot.captured.onChanged(result)
 
         // Then
         verify(exactly = once()) {
-            requestAction.handleEvent(rootView, listOf(onFinishAction), "onFinish")
+            requestAction.handleEvent(rootView, view, listOf(onFinishAction), "onFinish")
         }
     }
 
@@ -143,13 +145,13 @@ class SendRequestHandlerTest {
             onError = null, onFinish = null)
 
         // When
-        requestAction.execute(rootView)
+        requestAction.execute(rootView, view)
         val result = ActionRequestViewModel.FetchViewState.Success(mockk())
         observerSlot.captured.onChanged(result)
 
         // Then
         verify(exactly = 0) {
-            requestAction.handleEvent(any(), any<List<Action>>(), any())
+            requestAction.handleEvent(any(), any(), any<List<Action>>(), any())
         }
     }
 
@@ -162,13 +164,13 @@ class SendRequestHandlerTest {
             onError = null, onFinish = listOf(onFinishAction))
 
         // When
-        requestAction.execute(rootView)
+        requestAction.execute(rootView, view)
         val result = ActionRequestViewModel.FetchViewState.Success(mockk())
         observerSlot.captured.onChanged(result)
 
         // Then
         verify(exactly = once()) {
-            requestAction.handleEvent(rootView, listOf(onFinishAction), "onFinish")
+            requestAction.handleEvent(rootView, view, listOf(onFinishAction), "onFinish")
         }
     }
 
@@ -180,13 +182,13 @@ class SendRequestHandlerTest {
             onError = null, onFinish = listOf(onFinishAction))
 
         // When
-        requestAction.execute(rootView)
+        requestAction.execute(rootView, view)
         val result = ActionRequestViewModel.FetchViewState.Error(mockk())
         observerSlot.captured.onChanged(result)
 
         // Then
         verify(exactly = once()) {
-            requestAction.handleEvent(rootView, listOf(onFinishAction), "onFinish")
+            requestAction.handleEvent(rootView, view, listOf(onFinishAction), "onFinish")
         }
     }
 
@@ -202,7 +204,7 @@ class SendRequestHandlerTest {
             onFinish = onFinish
         ).apply {
             every { evaluateExpression(rootView, any()) } returns ""
-            every { handleEvent(rootView, any<List<Action>>(), any(), any()) } just Runs
+            every { handleEvent(rootView, view, any<List<Action>>(), any(), any()) } just Runs
         }
     }
 }

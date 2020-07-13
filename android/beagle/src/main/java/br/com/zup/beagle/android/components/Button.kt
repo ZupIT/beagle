@@ -25,7 +25,6 @@ import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
-import br.com.zup.beagle.android.context.valueOfNullable
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.handleEvent
@@ -69,9 +68,9 @@ data class Button(
             viewFactory.makeButton(rootView.getContext(), getStyleId(this.styleId))
         else viewFactory.makeButton(rootView.getContext())
 
-        button.setOnClickListener {
+        button.setOnClickListener { view ->
             onPress?.let {
-                this@Button.handleEvent(rootView, it, "onPress")
+                this@Button.handleEvent(rootView, view, it, "onPress")
             }
             clickAnalyticsEvent?.let {
                 BeagleEnvironment.beagleSdk.analytics?.trackEventOnClick(it)
@@ -100,7 +99,7 @@ data class Button(
         }
     }
 
-    private fun getStyleId(styleName: String?) : Int =
-        BeagleEnvironment.beagleSdk.designSystem?.buttonStyle(styleName?:"")?:0
+    private fun getStyleId(styleName: String?): Int =
+        BeagleEnvironment.beagleSdk.designSystem?.buttonStyle(styleName ?: "") ?: 0
 
 }
