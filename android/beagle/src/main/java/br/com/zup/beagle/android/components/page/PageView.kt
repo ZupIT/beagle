@@ -57,11 +57,11 @@ data class PageView(
         val container = viewFactory.makeBeagleFlexView(rootView.getContext(), style).apply {
             addView(viewPager, style)
         }
-        configPageChangeListener(viewPager, rootView)
+        configPageChangeListener(viewPager, rootView, container)
         return container
     }
 
-    private fun configPageChangeListener(viewPager: ViewPager, rootView: RootView){
+    private fun configPageChangeListener(viewPager: ViewPager, rootView: RootView, view : View){
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
@@ -71,7 +71,7 @@ data class PageView(
 
             override fun onPageSelected(position: Int) {
                 onPageChange?.let {
-                    handleEvent(rootView, it, "onChange", position)
+                    handleEvent(rootView,view, it, "onChange", position)
                 }
             }
 
