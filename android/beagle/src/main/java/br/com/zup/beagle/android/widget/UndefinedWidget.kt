@@ -19,11 +19,16 @@ package br.com.zup.beagle.android.widget
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.View
+import br.com.zup.beagle.android.components.form.InputWidget
+import br.com.zup.beagle.android.components.page.PageIndicatorComponent
+import br.com.zup.beagle.android.components.page.PageIndicatorOutput
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.Environment
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.annotation.RegisterWidget
 
-internal class UndefinedWidget : WidgetView() {
+@RegisterWidget
+internal class UndefinedWidget : InputWidget(), PageIndicatorComponent {
 
     private val viewFactory: ViewFactory = ViewFactory()
 
@@ -39,4 +44,14 @@ internal class UndefinedWidget : WidgetView() {
             viewFactory.makeView(rootView.getContext())
         }
     }
+
+    override fun getValue(): Any { return "" }
+
+    override fun onErrorMessage(message: String) {}
+
+    override fun setCount(pages: Int) {}
+
+    override fun onItemUpdated(newIndex: Int) {}
+
+    override fun initPageView(pageIndicatorOutput: PageIndicatorOutput) {}
 }

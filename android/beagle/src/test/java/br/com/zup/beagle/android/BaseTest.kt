@@ -23,7 +23,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
-import io.mockk.unmockkObject
 import org.junit.After
 import org.junit.Before
 
@@ -37,6 +36,8 @@ abstract class BaseTest {
 
         mockkObject(BeagleEnvironment)
         every { BeagleEnvironment.beagleSdk } returns beagleSdk
+        every { beagleSdk.registeredWidgets() } returns listOf()
+        every { beagleSdk.registeredActions() } returns listOf()
     }
 
     @After

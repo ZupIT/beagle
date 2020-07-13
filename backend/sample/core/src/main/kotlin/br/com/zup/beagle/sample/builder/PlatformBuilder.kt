@@ -19,12 +19,17 @@ package br.com.zup.beagle.sample.builder
 import br.com.zup.beagle.platform.BeaglePlatform
 import br.com.zup.beagle.platform.forPlatform
 import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.ui.Button
 
 object PlatformBuilder : ScreenBuilder {
     override fun build() = Screen(
+        navigationBar = NavigationBar(
+            title = "Beagle Tab View",
+            showBackButton = true
+            ),
         child = Container(
             listOf(
                 Button(text = "mobile only text").forPlatform(BeaglePlatform.MOBILE),

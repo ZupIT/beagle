@@ -31,10 +31,12 @@ import br.com.zup.beagle.sample.constants.SAMPLE_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ANALYTICS_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_BFF_NETWORK_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_BUILDER_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_BUTTON_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_COMPONENTS_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_COMPOSE_COMPONENT_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_CONTEXT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_EXAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_FORM_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_IMAGE_ENDPOINT
@@ -43,9 +45,13 @@ import br.com.zup.beagle.sample.constants.SCREEN_LIST_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_NAVIGATION_BAR_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_NETWORK_IMAGE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_PAGE_VIEW_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_SAFE_AREA_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_SAFE_AREA_FALSE_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_SAFE_AREA_TRUE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SCROLL_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TAB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_TEXT_INPUT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TOUCHABLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_WEB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.micronaut.service.AccessibilityService
@@ -55,14 +61,16 @@ import br.com.zup.beagle.sample.micronaut.service.SampleAnalyticsService
 import br.com.zup.beagle.sample.micronaut.service.SampleButtonService
 import br.com.zup.beagle.sample.micronaut.service.SampleComponentsService
 import br.com.zup.beagle.sample.micronaut.service.SampleComposeComponentService
+import br.com.zup.beagle.sample.micronaut.service.SampleContextService
 import br.com.zup.beagle.sample.micronaut.service.SampleFormService
-import br.com.zup.beagle.sample.micronaut.service.SampleImageService
+import br.com.zup.beagle.sample.micronaut.service.SampleImageLocalService
+import br.com.zup.beagle.sample.micronaut.service.SampleImageRemoteService
 import br.com.zup.beagle.sample.micronaut.service.SampleLazyComponentService
 import br.com.zup.beagle.sample.micronaut.service.SampleListViewService
 import br.com.zup.beagle.sample.micronaut.service.SampleNavigationBarService
 import br.com.zup.beagle.sample.micronaut.service.SampleNavigationTypeService
-import br.com.zup.beagle.sample.micronaut.service.SampleNetworkImageService
 import br.com.zup.beagle.sample.micronaut.service.SamplePageViewService
+import br.com.zup.beagle.sample.micronaut.service.SampleSafeAreaService
 import br.com.zup.beagle.sample.micronaut.service.SampleScreenBuilderService
 import br.com.zup.beagle.sample.micronaut.service.SampleScrollViewService
 import br.com.zup.beagle.sample.micronaut.service.SampleTabViewService
@@ -70,6 +78,7 @@ import br.com.zup.beagle.sample.micronaut.service.SampleTextService
 import br.com.zup.beagle.sample.micronaut.service.SampleTouchableService
 import br.com.zup.beagle.sample.micronaut.service.SampleViewService
 import br.com.zup.beagle.sample.micronaut.service.SampleWebViewService
+import br.com.zup.beagle.sample.micronaut.service.TextInputService
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Controller
 
@@ -81,7 +90,7 @@ class ScreenController(
     private val sampleComponentsService: SampleComponentsService,
     private val sampleButtonService: SampleButtonService,
     private val sampleTextService: SampleTextService,
-    private val sampleImageService: SampleImageService,
+    private val sampleImageService: SampleImageLocalService,
     private val sampleTabViewService: SampleTabViewService,
     private val sampleListViewService: SampleListViewService,
     private val sampleScrollViewService: SampleScrollViewService,
@@ -92,11 +101,14 @@ class ScreenController(
     private val sampleNavigationBarService: SampleNavigationBarService,
     private val sampleNavigationTypeService: SampleNavigationTypeService,
     private val sampleComposeComponentService: SampleComposeComponentService,
-    private val sampleNetworkImageService: SampleNetworkImageService,
+    private val sampleNetworkImageService: SampleImageRemoteService,
     private val sampleTouchableService: SampleTouchableService,
     private val sampleActionClickService: SampleActionClickService,
     private val sampleAnalyticsService: SampleAnalyticsService,
-    private val sampleWebViewService: SampleWebViewService
+    private val sampleWebViewService: SampleWebViewService,
+    private val sampleScreenContext: SampleContextService,
+    private val sampleScreenSafeArea: SampleSafeAreaService,
+    private val sampleScreenTextInput: TextInputService
 ) {
     @Get(ACCESSIBILITY_SCREEN_ENDPOINT)
     fun getAccessibilityView() = this.accessibilityService.createAccessibilityView()
@@ -117,7 +129,7 @@ class ScreenController(
     fun getSampleTextView() = this.sampleTextService.createTextView()
 
     @Get(SCREEN_IMAGE_ENDPOINT)
-    fun getSampleImageView() = this.sampleImageService.createImageView()
+    fun getSampleImageView() = this.sampleImageService.createImageLocal()
 
     @Get(SCREEN_TAB_VIEW_ENDPOINT)
     fun getSampleTabViewView() = this.sampleTabViewService.createTabView()
@@ -171,7 +183,10 @@ class ScreenController(
     fun getComposeComponent() = this.sampleComposeComponentService.createComposeComponentView()
 
     @Get(SCREEN_NETWORK_IMAGE_ENDPOINT)
-    fun getSampleNetworkImageView() = this.sampleNetworkImageService.createNetworkImage()
+    fun getSampleNetworkImageView() = this.sampleNetworkImageService.createImageRemote()
+
+    @Get(SCREEN_BFF_NETWORK_IMAGE_ENDPOINT)
+    fun getSampleBffNetworkImageView() = this.sampleNetworkImageService.createBffNetworkImage()
 
     @Get(SCREEN_TOUCHABLE_ENDPOINT)
     fun getTouchableView() = this.sampleTouchableService.createTouchableView()
@@ -187,4 +202,19 @@ class ScreenController(
 
     @Get(SCREEN_WEB_VIEW_ENDPOINT)
     fun getSampleWebViewService() = this.sampleWebViewService.createWebView()
+
+    @Get(SCREEN_CONTEXT_ENDPOINT)
+    fun getSampleContext() = this.sampleScreenContext.createScreenContext()
+
+    @Get(SCREEN_SAFE_AREA_ENDPOINT)
+    fun getSampleSafeArea() = this.sampleScreenSafeArea.createSafeArea()
+
+    @Get(SCREEN_SAFE_AREA_TRUE_ENDPOINT)
+    fun getSampleSafeAreaTrue() = this.sampleScreenSafeArea.createSafeAreaTrue()
+
+    @Get(SCREEN_SAFE_AREA_FALSE_ENDPOINT)
+    fun getSampleSafeAreaFalse() = this.sampleScreenSafeArea.createSafeAreaFalse()
+
+    @Get(SCREEN_TEXT_INPUT_ENDPOINT)
+    fun getSampleTextInput() = this.sampleScreenTextInput.createScreenTextInput()
 }

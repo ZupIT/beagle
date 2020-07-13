@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.spring.service
+package br.com.zup.beagle.sample.micronaut.service
 
-import br.com.zup.beagle.sample.builder.ImageScreenBuilder
-import org.springframework.stereotype.Service
+import br.com.zup.beagle.sample.builder.TextInputBuilder
+import javax.inject.Singleton
 
-@Service
-class SampleImageService {
-    fun createImageView() = ImageScreenBuilder
+@Singleton
+class TextInputService {
+    fun createScreenTextInput() = TextInputBuilder
 }

@@ -14,12 +14,6 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.micronaut.service
+package br.com.zup.beagle.android.utils
 
-import br.com.zup.beagle.sample.builder.NetworkImageScreenBuilder
-import javax.inject.Singleton
-
-@Singleton
-class SampleNetworkImageService {
-    fun createNetworkImage() = NetworkImageScreenBuilder
-}
+fun <K> Map<String, K>.toLowerKeys() = this.mapKeys { it.key.toLowerCase() }
