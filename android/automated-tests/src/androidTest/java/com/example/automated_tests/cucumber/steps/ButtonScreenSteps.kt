@@ -14,49 +14,45 @@
  * limitations under the License.
  */
 
-package com.example.automated_tests.steps
+package com.example.automated_tests.cucumber.steps
 
-import android.content.Intent
 import androidx.test.rule.ActivityTestRule
 import com.example.automated_tests.MainActivity
-import com.example.automated_tests.TestUtils
-import com.example.automated_tests.robots.ButtonScreenRobot
+import com.example.automated_tests.cucumber.robots.ButtonScreenRobot
+import com.example.automated_tests.utils.ActivityFinisher
+import com.example.automated_tests.utils.TestUtils
+import cucumber.api.java.en.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
 
 
 class ButtonScreenSteps {
 
-    @Rule
+    @get:Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
     @Before
     fun setup() {
-        activityTestRule.launchActivity(Intent())
+        TestUtils.startActivity(activityTestRule, "http://10.0.2.2:8080/button")
     }
 
     @After
     fun tearDown() {
-        ActivityFinisher2.finishOpenActivities()
+        ActivityFinisher.finishOpenActivities()
     }
 
+    @Given("^that I'm on the button screen$")
+    fun checkButtonScreen() {
+        ButtonScreenRobot()
+            .checkViewContainsText("Automated Tests")
+            .sleep(2)
+    }
 
-//    @get:Rule
-//    var activityTestRule: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java)
-//
-//    @Test
-//    fun testButtonUrlLoading() {
-//        TestUtils.startActivity(activityTestRule, "http://10.0.2.2:8080/button")
-//    }
-
-    @Test
-     fun clickOnButton() {
-       ButtonScreenRobot()
-           .checkViewContainsText("Automated Tests")
-           .clickOnText("Button")
-           .sleep(2)
-        }
-
+    @Then("^I should see the text (.*)$")
+    fun checkHeaderText(nome: String?) {
+        ButtonScreenRobot()
+            .checkViewContainsText(nome)
+            .sleep(2)
+    }
 }
