@@ -78,15 +78,13 @@ public final class RepositoryDefault: Repository {
         additionalData: RemoteScreenAdditionalData?,
         completion: @escaping (Result<ServerDrivenComponent, Request.Error>) -> Void
     ) -> RequestToken? {
-        var newData = additionalData
-
-        let cache = networkCache.checkCache(identifiedBy: url, additionalData: &newData)
-        if case .validCache(let data) = cache {
+        let cache = networkCache.checkCache(identifiedBy: url, additionalData: additionalData)
+        if case .validCachedData(let data) = cache {
             completion(decodeComponent(from: data))
             return nil
         }
-    
-        guard let request = handleUrlBuilderRequest(url: url, type: .fetchComponent, additionalData: newData) else {
+
+        guard let request = handleUrlBuilderRequest(url: url, type: .fetchComponent, additionalData: cache.additional) else {
             completion(.failure(.urlBuilderError))
             return nil
         }

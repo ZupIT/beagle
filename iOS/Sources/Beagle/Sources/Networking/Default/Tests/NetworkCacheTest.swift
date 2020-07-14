@@ -19,58 +19,116 @@ import XCTest
 @testable import Beagle
 import SnapshotTesting
 
+// swiftlint:disable force_unwrapping
 final class NetworkCacheTests: XCTestCase {
 
     private lazy var subject = NetworkCache(dependencies: dependencies)
 
     private lazy var dependencies = BeagleScreenDependencies(cacheManager: cacheSpy)
-    private lazy var cacheSpy = CacheManagerSpy()
+    private let cacheSpy = CacheManagerSpy()
 
-    // swiftlint:disable force_unwrapping
+    private let id = "id"
+    private let data = "Cache Test".data(using: .utf8)!
+    private lazy var reference = CacheReference(identifier: id, data: data, hash: id)
+
     func test_withCacheControlHeader_itShouldCacheTheResponse() {
         // Given
-        let (url, hash, maxAge) = ("url", "123", 15)
-        let data = "Cache Test".data(using: .utf8)!
+        let (hash, maxAge) = ("123", 15)
         let headers = [
             "Beagle-Hash": hash,
             "Cache-Control": "max-age=\(maxAge)"
         ]
-        let urlResponse = HTTPURLResponse(url: URL(string: url)!, statusCode: 200, httpVersion: nil, headerFields: headers)!
+        let urlResponse = HTTPURLResponse(url: URL(string: id)!, statusCode: 200, httpVersion: nil, headerFields: headers)!
 
         // When
         subject.saveCacheIfPossible(
-            url: url,
+            url: id,
             response: .init(data: data, response: urlResponse)
         )
 
         // Then
         let cache = cacheSpy.references.first!.cache
-        XCTAssertEqual(cache.identifier, url)
+        XCTAssertEqual(cache.identifier, id)
         XCTAssertEqual(cache.data, data)
         XCTAssertEqual(cache.hash, hash)
         XCTAssertEqual(cache.maxAge, maxAge)
     }
 
     func test_whenNoCacheData() {
-        // Given
-        let id = "id"
-        var data: RemoteScreenAdditionalData?
-
         // When
-        let cache = subject.checkCache(identifiedBy: id, additionalData: &data)
+        let cache = subject.checkCache(identifiedBy: id, additionalData: nil)
 
         // Then
-        XCTAssert(cache == .notValidCache(data: nil, additional: nil))
+        XCTAssert(cache == .dataNotCached)
+    }
+
+    func test_whenValidCache() {
+        // Given
+        cacheSpy.references.append(.init(cache: reference, isValid: true))
+
+        // When
+        let cache = subject.checkCache(identifiedBy: id, additionalData: nil)
+
+        // Then
+        XCTAssert(cache == .validCachedData(data))
+    }
+
+    func test_cacheDisabled() {
+        // Given
+        dependencies.cacheManager = nil
+
+        // When
+        let cache = subject.checkCache(identifiedBy: "id", additionalData: nil)
+
+        // Then
+        XCTAssert(cache == .disabled)
+    }
+
+    func test_invalidCachedData() {
+        // Given
+        cacheSpy.references.append(.init(cache: reference, isValid: false))
+
+        // When
+        let cache = subject.checkCache(identifiedBy: id, additionalData: nil)
+
+        // Then
+        XCTAssert(cache == .invalidCachedData(data: data, additional: nil))
+    }
+
+    func test_invalidCachedDataWithHash() {
+        // Given
+        cacheSpy.references.append(.init(cache: reference, isValid: false))
+
+        // When
+        let cache = subject.checkCache(identifiedBy: id, additionalData: .Http(httpData: nil))
+
+        // Then
+        let expected: NetworkCache.CacheCheck = .invalidCachedData(
+            data: data,
+            additional: .Http(httpData: nil, headers: [subject.cacheHashHeader: id])
+        )
+
+        XCTAssert(cache == expected)
     }
 }
 
-extension NetworkCache.CacheCheck: AutoEquatable {
+extension NetworkCache.CacheCheck {
+
     public static func == (lhs: NetworkCache.CacheCheck, rhs: NetworkCache.CacheCheck) -> Bool {
         switch (lhs, rhs) {
-        case (.validCache(let data1), .validCache(let data2)):
+        case let (.validCachedData(data1), .validCachedData(data2)):
             return data1 == data2
-        case (.notValidCache, .notValidCache):
+
+        case (.dataNotCached, .dataNotCached),
+             (.disabled, .disabled):
             return true
+
+        case let (
+            .invalidCachedData(data: data1, additional: add1),
+            .invalidCachedData(data: data2, additional: add2)
+        ):
+            return data1 == data2 && add1?.headers == add2?.headers
+
         default:
             return false
         }

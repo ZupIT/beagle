@@ -26,10 +26,13 @@
       - container: (Function)
   - renderer: (Function)
   ▿ repository: RepositoryDefault
-    - cacheHashHeader: "beagle-hash"
     ▿ dependencies: InnerDependenciesResolver
       - container: (Function)
-    - serviceMaxCacheAge: "cache-control"
+    ▿ networkCache: NetworkCache
+      - cacheHashHeader: "beagle-hash"
+      ▿ dependencies: InnerDependenciesResolver
+        - container: (Function)
+      - serviceMaxCacheAge: "cache-control"
   ▿ resolver: InnerDependenciesResolver
     - container: (Function)
   - style: (Function)

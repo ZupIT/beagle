@@ -30,34 +30,51 @@ class NetworkCache {
         self.dependencies = dependencies
     }
 
+    func checkCache(
+        identifiedBy id: String,
+        additionalData: RemoteScreenAdditionalData?
+    ) -> CacheCheck {
+        guard let manager = dependencies.cacheManager else { return .disabled }
+
+        guard let cache = manager.getReference(identifiedBy: id) else {
+            return .dataNotCached
+        }
+
+        if manager.isValid(reference: cache) {
+            return .validCachedData(cache.data)
+        }
+
+        var newData = additionalData
+        newData?.headers[cacheHashHeader] = cache.hash
+        return .invalidCachedData(data: cache.data, additional: newData)
+    }
+
     enum CacheCheck {
-        case validCache(Data)
-        case notValidCache(data: Data?, additional: RemoteScreenAdditionalData?)
+        case disabled
+        case dataNotCached
+        case validCachedData(Data)
+        case invalidCachedData(data: Data, additional: RemoteScreenAdditionalData?)
 
         var data: Data? {
             switch self {
-            case .validCache(let data): return data
-            case .notValidCache(data: let data, additional: _): return data
+            case .disabled, .dataNotCached: return nil
+            case .validCachedData(let data), .invalidCachedData(data: let data, additional: _): return data
             }
         }
-    }
 
-    func checkCache(identifiedBy id: String, additionalData: inout RemoteScreenAdditionalData?) -> CacheCheck {
-        let cache = dependencies.cacheManager?.getReference(identifiedBy: id)
-
-        if let cache = cache, dependencies.cacheManager?.isValid(reference: cache) == true {
-            return .validCache(cache.data)
+        var additional: RemoteScreenAdditionalData? {
+            switch self {
+            case .invalidCachedData(data: _, additional: let additional): return additional
+            default: return nil
+            }
         }
-
-        appendHeaders(cache, to: &additionalData)
-        return .notValidCache(data: cache?.data, additional: additionalData)
     }
 
     func saveCacheIfPossible(url: String, response: NetworkResponse) {
         guard
             let manager = dependencies.cacheManager,
             let http = response.response as? HTTPURLResponse,
-            let hash = value(forHTTPHeaderField: cacheHashHeader, in: http)
+            let hash = value(forHeader: cacheHashHeader, in: http)
         else {
             return
         }
@@ -68,14 +85,8 @@ class NetworkCache {
         )
     }
 
-    private func appendHeaders(_ cache: CacheReference?, to data: inout RemoteScreenAdditionalData?) {
-        if let cache = cache, dependencies.cacheManager?.isValid(reference: cache) != true {
-            data?.headers[cacheHashHeader] = cache.hash
-        }
-    }
-
     private func cacheMaxAge(httpResponse: HTTPURLResponse) -> Int? {
-        guard let specifiedAge = value(forHTTPHeaderField: serviceMaxCacheAge, in: httpResponse) else {
+        guard let specifiedAge = value(forHeader: serviceMaxCacheAge, in: httpResponse) else {
             return nil
         }
 
@@ -89,12 +100,12 @@ class NetworkCache {
         }
     }
 
-    private func value(forHTTPHeaderField header: String, in response: HTTPURLResponse) -> String? {
+    private func value(forHeader header: String, in response: HTTPURLResponse) -> String? {
         let key = header.lowercased()
         let headers = response.allHeaderFields
         for entry in headers {
-            if (entry.key as? String)?.lowercased() == key, let value = entry.value as? String {
-                return value
+            if (entry.key as? String)?.lowercased() == key {
+                return entry.value as? String
             }
         }
         return nil
