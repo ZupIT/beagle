@@ -31,12 +31,16 @@ import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.core.TextInputType
 import br.com.zup.beagle.widget.core.TextInputType.DATE
 import br.com.zup.beagle.widget.core.TextInputType.EMAIL
 import br.com.zup.beagle.widget.core.TextInputType.NUMBER
 import br.com.zup.beagle.widget.core.TextInputType.PASSWORD
 
+private const val VALUE_KEY = "value"
+
+@RegisterWidget
 data class TextInput(
     val value: Bind<String>? = null,
     val placeholder: Bind<String>? = null,
@@ -104,7 +108,7 @@ data class TextInput(
                     rootView,
                     onChange,
                     "onChange",
-                    newText.toString()
+                    mapOf(VALUE_KEY to newText.toString())
                 )
             }
         }
@@ -122,7 +126,7 @@ data class TextInput(
                         rootView,
                         onFocus,
                         "onFocus",
-                        this.text.toString()
+                        mapOf(VALUE_KEY to this.text.toString())
                     )
                 }
             } else {
@@ -131,7 +135,7 @@ data class TextInput(
                         rootView,
                         onBlur,
                         "onBlur",
-                        this.text.toString()
+                        mapOf(VALUE_KEY to this.text.toString())
                     )
                 }
             }

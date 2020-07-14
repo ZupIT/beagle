@@ -30,8 +30,10 @@ import br.com.zup.beagle.android.utils.toAndroidColor
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.core.TextAlignment
 
+@RegisterWidget
 data class Text(
     val text: Bind<String>,
     val styleId: String? = null,
@@ -56,7 +58,7 @@ data class Text(
     override fun buildView(rootView: RootView): View {
         val textView = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             viewFactory.makeTextView(rootView.getContext(), getStyleId(this.styleId))
-            else viewFactory.makeTextView(rootView.getContext())
+        else viewFactory.makeTextView(rootView.getContext())
 
         textView.setTextWidget(this, rootView)
         return textView
@@ -99,12 +101,10 @@ data class Text(
         }
     }
 
-    private fun getStyleId(styleName: String?) : Int =
-            BeagleEnvironment.beagleSdk.designSystem?.textStyle(styleName ?:"")?:0
+    private fun getStyleId(styleName: String?): Int =
+        BeagleEnvironment.beagleSdk.designSystem?.textStyle(styleName ?: "") ?: 0
 
     private fun TextView.setTextColor(color: String?) {
-        color?.let {
-            this.setTextColor(color.toAndroidColor())
-        }
+        color?.toAndroidColor()?.let { androidColor -> this.setTextColor(androidColor) }
     }
 }

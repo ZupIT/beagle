@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.context
 
-import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
@@ -24,6 +23,7 @@ import br.com.zup.beagle.android.mockdata.ComponentModel
 import br.com.zup.beagle.android.testutil.RandomData
 import com.squareup.moshi.Moshi
 import io.mockk.Runs
+import io.mockk.called
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
@@ -166,6 +166,21 @@ internal class ContextDataEvaluationTest {
         // Then
         val expected = "This is an expression hello and this hello"
         assertEquals(expected, value)
+    }
+
+    @Test
+    fun evaluateAllContext_should_evaluate_text_string_with_json_expression() {
+        // Given
+        val bind = expressionOf<String>("""{"key": "@{value}"}""")
+        every { jsonPathFinder.find(any(), any()) } returns JSONObject().apply {
+            put("key", "hello")
+        }
+
+        // When
+        contextDataEvaluation.evaluateBindExpression(CONTEXT_DATA, bind)
+
+        // Then
+        verify(exactly = 0) { moshi.adapter<Any>(String::class.java).fromJson(any<String>()) }
     }
 
     @Test
