@@ -69,10 +69,6 @@ class PageViewUIComponent: UIView {
     }
 
     // MARK: - Subviews
-    
-    override func sizeThatFits(_ size: CGSize) -> CGSize {
-        .init(width: size.width, height: 40)
-    }
 
     private(set) var pageViewController = UIPageViewController(
         transitionStyle: .scroll,
