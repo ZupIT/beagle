@@ -39,5 +39,5 @@ public struct PageView: RawComponent, AutoInitiableAndDecodable, HasContext {
 // sourcery:end
 }
 
-@available(*, deprecated, message: "")
+@available(*, deprecated, message: "You must refactor this component using new context features.")
 public protocol PageIndicatorComponent: RawComponent {}
