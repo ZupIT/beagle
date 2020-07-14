@@ -51,6 +51,7 @@ class PageIndicatorUIComponent: UIView, PageIndicatorUIView {
         let indicator = UIPageControl()
         indicator.currentPageIndicatorTintColor = selectedColor
         indicator.pageIndicatorTintColor = unselectedColor
+        indicator.isUserInteractionEnabled = false
         indicator.currentPage = 0
         return indicator
     }()
