@@ -17,7 +17,7 @@
 public enum Navigate: RawAction {
     
     case openExternalURL(String)
-    case openNativeRoute(String, data: [String: String]? = nil, shouldResetApplication: Bool = false)
+    case openNativeRoute(OpenNativeRoute)
 
     case resetApplication(Route)
     case resetStack(Route)
@@ -29,22 +29,10 @@ public enum Navigate: RawAction {
     case popView
     case popToView(String)
     
-    public var newPath: Route.NewPath? {
-        switch self {
-        case let .resetApplication(route),
-             let .resetStack(route),
-             let .pushStack(route),
-             let .pushView(route):
-            return route.path
-        default:
-            return nil
-        }
-    }
-    
-    public struct DeepLink {
-        let route: String
-        var data: [String: String]?
-        var shouldResetApplication: Bool = false
+    public struct OpenNativeRoute {
+        public let route: String
+        public let data: [String: String]?
+        public let shouldResetApplication: Bool
 
         public init(
             route: String,
@@ -59,6 +47,13 @@ public enum Navigate: RawAction {
 }
 
 public enum Route {
+    
+    case remote(NewPath)
+    case declarative(Screen)
+    
+}
+
+extension Route {
     public struct NewPath {
         public let url: String
         public let shouldPrefetch: Bool
@@ -70,23 +65,11 @@ public enum Route {
             self.fallback = fallback
         }
     }
-    
-    case remote(String, shouldPrefetch: Bool = false, fallback: Screen? = nil)
-    case declarative(Screen)
-    
-    var path: NewPath? {
-        switch self {
-        case let .remote(url, shouldPrefetch, fallback):
-            return NewPath(url: url, shouldPrefetch: shouldPrefetch, fallback: fallback)
-        case .declarative:
-            return nil
-        }
-    }
 }
 
 // MARK: Decodable
 
-extension Navigate.DeepLink: Decodable {}
+extension Navigate.OpenNativeRoute: Decodable {}
 
 extension Navigate: Decodable {
     
@@ -103,10 +86,7 @@ extension Navigate: Decodable {
         case "beagle:openexternalurl":
             self = .openExternalURL(try container.decode(String.self, forKey: .url))
         case "beagle:opennativeroute":
-            let deepLink: Navigate.DeepLink = try .init(from: decoder)
-            self = .openNativeRoute(deepLink.route,
-                                    data: deepLink.data,
-                                    shouldResetApplication: deepLink.shouldResetApplication)
+            self = .openNativeRoute(try .init(from: decoder))
         case "beagle:resetapplication":
             self = .resetApplication(try container.decode(Route.self, forKey: .route))
         case "beagle:resetstack":
@@ -145,7 +125,7 @@ extension Route: Decodable {
             self = .declarative(screen.toScreen())
         } else {
             let newPath: Route.NewPath = try .init(from: decoder)
-            self = .remote(newPath.url, shouldPrefetch: newPath.shouldPrefetch, fallback: newPath.fallback)
+            self = .remote(newPath)
         }
     }
 }
