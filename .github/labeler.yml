@@ -1,19 +1,21 @@
 android:
-  - android/**
-  - common/**
+    - android/**
+    - common/**
+    - buildSrc/**
 
 backend:
-  - backend/**
-  - common/**
+    - backend/**
+    - common/**
+    - buildSrc/**
 
 iOS: iOS/**
 
 schema: schema/**
 
 deploy:
-  - danger/**
-  - fastlane/**
-  - .github/**
-  - gradle/**
+    - danger/**
+    - fastlane/**
+    - .github/**
+    - gradle/**
 
 documentation: doc/**
