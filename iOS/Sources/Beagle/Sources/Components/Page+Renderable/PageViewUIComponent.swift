@@ -42,6 +42,8 @@ class PageViewUIComponent: UIView {
     }
 
     private var pendingPage = 0
+    
+    var onPageChange: ((_ currentPage: Int) -> Void)?
 
     private let indicatorView: PageIndicatorUIView?
     weak var pageViewDelegate: PageViewUIComponentDelegate?
@@ -180,6 +182,7 @@ extension PageViewUIComponent: UIPageViewControllerDataSource, UIPageViewControl
     ) {
         guard finished && completed else { return }
         model.currentPage = pendingPage
+        onPageChange?(model.currentPage)
         pageViewDelegate?.changedCurrentPage(model.currentPage)
     }
 }
