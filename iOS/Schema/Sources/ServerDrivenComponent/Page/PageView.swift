@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-public struct PageView: RawComponent, AutoInitiableAndDecodable, HasContext {
+public struct PageView: RawComponent, AutoDecodable, HasContext {
 
     public let children: [RawComponent]
     public let pageIndicator: PageIndicatorComponent?
@@ -22,7 +22,7 @@ public struct PageView: RawComponent, AutoInitiableAndDecodable, HasContext {
     public let onPageChange: [RawAction]?
     public let currentPage: Expression<Int>?
 
-// sourcery:inline:auto:PageView.Init
+    @available(*, deprecated, message: "If you want to use page indicator place it as a separate component and comunicate then using context.")
     public init(
         children: [RawComponent],
         pageIndicator: PageIndicatorComponent? = nil,
@@ -36,8 +36,20 @@ public struct PageView: RawComponent, AutoInitiableAndDecodable, HasContext {
         self.onPageChange = onPageChange
         self.currentPage = currentPage
     }
-// sourcery:end
+    
+    public init(
+        children: [RawComponent],
+        context: Context? = nil,
+        onPageChange: [RawAction]? = nil,
+        currentPage: Expression<Int>? = nil
+    ) {
+        self.children = children
+        self.pageIndicator = nil
+        self.context = context
+        self.onPageChange = onPageChange
+        self.currentPage = currentPage
+    }
 }
 
-@available(*, deprecated, message: "You must refactor this component using new context features.")
+@available(*, deprecated, message: "This will be removed in a future version; please refactor this component using new context features.")
 public protocol PageIndicatorComponent: RawComponent {}
