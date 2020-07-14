@@ -16,14 +16,10 @@
 
 package com.example.automated_tests
 
-import android.content.Intent
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
-import org.junit.Assert.assertEquals
+import com.example.automated_tests.utils.TestUtils
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import java.lang.Thread.sleep
 
 
@@ -44,11 +40,20 @@ class ExampleInstrumentedTest {
         sleep(10000)
     }
 
+
     @Test
     fun testImageUrlLoading() {
         TestUtils.startActivity(activityTestRule,"http://10.0.2.2:8080/image" )
 
         sleep(10000)
     }
+
+    //    @Test
+//     fun clickOnButton() {
+//       ButtonScreenRobot()
+//           .checkViewContainsText("Automated Tests")
+//           .clickOnText("Button")
+//           .sleep(2)
+//        }
 
 }

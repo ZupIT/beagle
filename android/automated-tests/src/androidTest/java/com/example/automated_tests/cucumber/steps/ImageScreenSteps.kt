@@ -14,21 +14,24 @@
  * limitations under the License.
  */
 
-package com.example.automated_tests
+package com.example.automated_tests.cucumber.steps
 
-import android.app.Activity
-import android.content.Intent
 import androidx.test.rule.ActivityTestRule
+import com.example.automated_tests.MainActivity
+import com.example.automated_tests.utils.TestUtils
+import org.junit.Rule
+import org.junit.Test
 
-class TestUtils {
+class ImageScreenSteps {
 
-    companion object {
-        fun <T: Activity> startActivity(activityTestRule: ActivityTestRule<T>, url: String) {
-            val intent = Intent()
-            intent.putExtra(MainActivity.BFF_URL_KEY, url)
-            activityTestRule.launchActivity(intent)
-        }
+    @get:Rule
+    var activityTestRule: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java)
+
+    @Test
+    fun testImageUrlLoading() {
+        TestUtils.startActivity(activityTestRule,"http://10.0.2.2:8080/image" )
+
+        Thread.sleep(10000)
     }
-
 
 }
