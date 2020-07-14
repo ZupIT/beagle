@@ -6,6 +6,7 @@ on:
         - 'android/**'
         - 'common/**'
         - 'schema/kotlin/**'
+        - 'buildSrc/**'
 jobs:
     pr-verification:
         name: PR Check
