@@ -21,15 +21,15 @@ import com.example.automated_tests.MainActivity
 import com.example.automated_tests.cucumber.robots.ButtonScreenRobot
 import com.example.automated_tests.utils.ActivityFinisher
 import com.example.automated_tests.utils.TestUtils
+import cucumber.api.java.After
+import cucumber.api.java.Before
 import cucumber.api.java.en.*
-import org.junit.After
-import org.junit.Before
 import org.junit.Rule
 
 
 class ButtonScreenSteps {
 
-    @get:Rule
+    @Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
     @Before
