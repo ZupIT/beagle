@@ -85,6 +85,8 @@ object Versions {
 
     const val yoga = "1.16.0"
 
+    const val jni = "0.0.2"
+
     const val okHttp = "4.5.0"
 
     const val kotlinTest = "1.3.50"
@@ -151,6 +153,9 @@ object GeneralLibraries {
     const val soLoader = "com.facebook.soloader:soloader:${Versions.soLoader}"
 
     const val yoga = "com.facebook.yoga.android:yoga-layout:${Versions.yoga}"
+
+    const val jni = "com.facebook.fbjni:fbjni:${Versions.jni}"
+
 
     const val jacksonKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.jacksonKotlin}"
 

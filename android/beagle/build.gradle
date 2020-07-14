@@ -68,6 +68,7 @@ dependencies {
 
     implementation GeneralLibraries.yoga
     implementation GeneralLibraries.soLoader
+    implementation GeneralLibraries.jni
 
     implementation GoogleLibraries.materialDesign
 
