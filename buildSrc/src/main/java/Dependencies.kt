@@ -108,8 +108,8 @@ object Versions {
     const val slf4j = "1.7.30"
     const val log4j = "2.13.1"
 
-    const val springBoot = "2.2.5.RELEASE"
-    const val micronaut = "1.3.3"
+    const val springBoot = "2.3.1.RELEASE"
+    const val micronaut = "2.0.0"
 
     const val incap = "0.2"
 }
