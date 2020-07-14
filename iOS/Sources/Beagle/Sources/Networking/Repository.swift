@@ -61,13 +61,13 @@ public final class RepositoryDefault: Repository {
 
     let dependencies: Dependencies
 
-    private let cacheHashHeader = "beagle-hash"
-    private let serviceMaxCacheAge = "cache-control"
+    private var networkCache: NetworkCache
     
     // MARK: Initialization
     
-    public init(dependencies: Dependencies) {
+    public init(dependencies: Dependencies ) {
         self.dependencies = dependencies
+        self.networkCache = NetworkCache(dependencies: dependencies)
     }
     
     // MARK: Public Methods
@@ -78,15 +78,13 @@ public final class RepositoryDefault: Repository {
         additionalData: RemoteScreenAdditionalData?,
         completion: @escaping (Result<ServerDrivenComponent, Request.Error>) -> Void
     ) -> RequestToken? {
-        let cache = dependencies.cacheManager?.getReference(identifiedBy: url)
+        var newData = additionalData
 
-        if let cache = cache, dependencies.cacheManager?.isValid(reference: cache) == true {
-            completion(decodeComponent(from: cache.data))
+        let cache = networkCache.checkCache(identifiedBy: url, additionalData: &newData)
+        if case .validCache(let data) = cache {
+            completion(decodeComponent(from: data))
             return nil
         }
-
-        var newData = additionalData
-        appendCacheHeaders(cache, to: &newData)
     
         guard let request = handleUrlBuilderRequest(url: url, type: .fetchComponent, additionalData: newData) else {
             completion(.failure(.urlBuilderError))
@@ -98,7 +96,7 @@ public final class RepositoryDefault: Repository {
 
             let mapped = result
                 .flatMapError { .failure(.networkError($0)) }
-                .flatMap { self.handleFetchComponent($0, cachedComponent: cache?.data, url: url) }
+                .flatMap { self.handleFetchComponent($0, cachedComponent: cache.data, url: url) }
 
             DispatchQueue.main.async { completion(mapped) }
         }
@@ -167,7 +165,7 @@ public final class RepositoryDefault: Repository {
 
         let decoded = decodeComponent(from: response.data)
         if case .success = decoded {
-            saveCacheIfPossible(url: url, response: response)
+            networkCache.saveCacheIfPossible(url: url, response: response)
         }
         return decoded
     }
@@ -190,55 +188,6 @@ public final class RepositoryDefault: Repository {
             return .success(action)
         } catch {
             return .failure(.decoding(error))
-        }
-    }
-
-    // MARK: Cache
-
-    private func saveCacheIfPossible(url: String, response: NetworkResponse) {
-        guard
-            let manager = dependencies.cacheManager,
-            let http = response.response as? HTTPURLResponse,
-            let hash = value(forHTTPHeaderField: cacheHashHeader, in: http)
-        else {
-            return
-        }
-
-        let maxAge = cacheMaxAge(httpResponse: http)
-        manager.addToCache(
-            CacheReference(identifier: url, data: response.data, hash: hash, maxAge: maxAge)
-        )
-    }
-
-    private func cacheMaxAge(httpResponse: HTTPURLResponse) -> Int? {
-        guard let specifiedAge = value(forHTTPHeaderField: serviceMaxCacheAge, in: httpResponse) else {
-            return nil
-        }
-
-        // TODO: see if we need to work with other "cache-control" formats, like:
-        // Cache-Control: private, max-age=0, no-cache
-        let values = specifiedAge.split(separator: "=")
-        if let maxAgeValue = values.last, let int = Int(String(maxAgeValue)) {
-            return int
-        } else {
-            return nil
-        }
-    }
-    
-    private func value(forHTTPHeaderField header: String, in response: HTTPURLResponse) -> String? {
-        let key = header.lowercased()
-        let headers = response.allHeaderFields
-        for entry in headers {
-            if (entry.key as? String)?.lowercased() == key, let value = entry.value as? String {
-                return value
-            }
-        }
-        return nil
-    }
-
-    private func appendCacheHeaders(_ cache: CacheReference?, to data: inout RemoteScreenAdditionalData?) {
-        if let cache = cache, dependencies.cacheManager?.isValid(reference: cache) != true {
-            data?.headers[cacheHashHeader] = cache.hash
         }
     }
     
