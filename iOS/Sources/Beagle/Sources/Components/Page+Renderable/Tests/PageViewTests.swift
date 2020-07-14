@@ -64,5 +64,17 @@ class PageViewTests: XCTestCase {
         let screen = Beagle.screen(.declarative(pageView.toScreen()))
         assertSnapshotImage(screen)
     }
+    
+    func test_PageViewChildShouldNotCreateNewNavigationController() {
+        let navigation = BeagleNavigationController()
+        let controller = BeagleScreenViewController(ComponentDummy())
+        navigation.viewControllers = [controller]
+        
+        let pageView = PageView(children: [ComponentDummy()], pageIndicator: nil)
+        let view = pageView.toView(renderer: controller.renderer)
+        let page = (view as? PageViewUIComponent)?.pageViewController.viewControllers?.first
+        
+        XCTAssertEqual(page?.navigationController, navigation)
+    }
 
 }

@@ -24,11 +24,13 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.FlexDirection
 import br.com.zup.beagle.widget.core.ScrollAxis
 
+@RegisterWidget
 data class ScrollView(
     val children: List<ServerDrivenComponent>,
     val scrollDirection: ScrollAxis? = null,

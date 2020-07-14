@@ -14,12 +14,6 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.micronaut.service
+package br.com.zup.beagle.widget.action
 
-import br.com.zup.beagle.sample.builder.ImageScreenBuilder
-import javax.inject.Singleton
-
-@Singleton
-class SampleImageService {
-    fun createImageView() = ImageScreenBuilder
-}
+class SubmitForm : Action

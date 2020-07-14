@@ -64,6 +64,7 @@ dependencies {
 
     implementation GlideLibraries.glide
     kapt GlideLibraries.glideCompiler
+    kapt project(Modules.beagleAndroidInternalProcessor)
 
     implementation GeneralLibraries.yoga
     implementation GeneralLibraries.soLoader
@@ -73,8 +74,6 @@ dependencies {
     implementation MoshiLibraries.moshi
     implementation MoshiLibraries.kotlin
     implementation MoshiLibraries.adapters
-
-    kaptTest project(Modules.beagleAndroidProcessor)
 
     // Unit Testing
     testImplementation TestLibraries.junit

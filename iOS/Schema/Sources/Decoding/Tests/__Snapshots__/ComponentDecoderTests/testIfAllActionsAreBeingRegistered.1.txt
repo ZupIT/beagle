@@ -1,4 +1,4 @@
-▿ 16 key/value pairs
+▿ 17 key/value pairs
   ▿ (2 elements)
     - key: "beagle:alert"
     - value: Alert
@@ -47,3 +47,6 @@
   ▿ (2 elements)
     - key: "beagle:setcontext"
     - value: SetContext
+  ▿ (2 elements)
+    - key: "beagle:submitform"
+    - value: SubmitForm

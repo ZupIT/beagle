@@ -26,8 +26,10 @@ import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+@RegisterWidget
 data class Container(
     val children: List<ServerDrivenComponent>,
     override val context: ContextData? = null,
@@ -38,11 +40,12 @@ data class Container(
     private val viewFactory = ViewFactory()
 
     override fun buildView(rootView: RootView): View {
+        val view = viewFactory.makeBeagleFlexView(rootView.getContext(), style ?: Style())
         onInit?.let {
-            this@Container.handleEvent(rootView, it, "onInit")
+            this@Container.handleEvent(rootView, view, it, "onInit")
         }
 
-        return viewFactory.makeBeagleFlexView(rootView.getContext(), style ?: Style())
+        return view
             .apply {
                 addChildren(this, rootView)
             }

@@ -31,6 +31,7 @@ import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.core.TextInputType
 import br.com.zup.beagle.widget.core.TextInputType.DATE
 import br.com.zup.beagle.widget.core.TextInputType.EMAIL
@@ -39,6 +40,7 @@ import br.com.zup.beagle.widget.core.TextInputType.PASSWORD
 
 private const val VALUE_KEY = "value"
 
+@RegisterWidget
 data class TextInput(
     val value: Bind<String>? = null,
     val placeholder: Bind<String>? = null,
@@ -83,7 +85,7 @@ data class TextInput(
     private lateinit var textInputView: EditText
 
     @Transient
-    private lateinit var textWatcher: TextWatcher
+    private var textWatcher: TextWatcher? = null
 
     override fun buildView(rootView: RootView): View = viewFactory.makeInputText(rootView.getContext()).apply {
         textInputView = this
@@ -104,6 +106,7 @@ data class TextInput(
             onChange?.let {
                 this@TextInput.handleEvent(
                     rootView,
+                    this,
                     onChange,
                     "onChange",
                     mapOf(VALUE_KEY to newText.toString())
@@ -117,11 +120,12 @@ data class TextInput(
     }
 
     private fun EditText.setUpOnFocusChange(rootView: RootView) {
-        this.setOnFocusChangeListener { _, hasFocus ->
+        this.setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus) {
                 onFocus?.let {
                     this@TextInput.handleEvent(
                         rootView,
+                        view,
                         onFocus,
                         "onFocus",
                         mapOf(VALUE_KEY to this.text.toString())
@@ -131,6 +135,7 @@ data class TextInput(
                 onBlur?.let {
                     this@TextInput.handleEvent(
                         rootView,
+                        view,
                         onBlur,
                         "onBlur",
                         mapOf(VALUE_KEY to this.text.toString())
@@ -142,14 +147,16 @@ data class TextInput(
 
     private fun EditText.setData(textInput: TextInput, rootView: RootView) {
         textInput.placeholder?.let { bind -> observeBindChanges(rootView, bind) { this.hint = it } }
-        textInput.value?.let { bind -> observeBindChanges(rootView, bind) {
-            if (it != this.text.toString()) {
-                this.removeOnTextChange()
-                this.setText(it)
-                this.setSelection(it.length)
-                setUpOnTextChange(rootView)
+        textInput.value?.let { bind ->
+            observeBindChanges(rootView, bind) {
+                if (it != this.text.toString()) {
+                    this.removeOnTextChange()
+                    this.setText(it)
+                    this.setSelection(it.length)
+                    setUpOnTextChange(rootView)
+                }
             }
-        } }
+        }
         textInput.readOnly?.let { bind -> observeBindChanges(rootView, bind) { this.isEnabled = !it } }
         textInput.disabled?.let { bind -> observeBindChanges(rootView, bind) { this.isEnabled = !it } }
         textInput.hidden?.let { bind ->
@@ -157,7 +164,7 @@ data class TextInput(
                 this.visibility = if (it) View.INVISIBLE else View.VISIBLE
             }
         }
-        textInput.styleId?.let { style -> setStyle(style)  }
+        textInput.styleId?.let { style -> setStyle(style) }
         textInput.type?.let { bind -> observeBindChanges(rootView, bind) { this.setInputType(it) } }
     }
 

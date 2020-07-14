@@ -90,16 +90,13 @@ object ButtonScreenBuilder : ScreenBuilder {
         text = text,
         styleId = styleId,
         style = Style(
+            backgroundColor = CYAN_BLUE,
+            cornerRadius = CornerRadius(radius = 16.0),
             margin = EdgeValue(
                 left = 25.unitReal(),
                 right = 25.unitReal(),
                 top = 15.unitReal()
             )
-        )
-    ).applyStyle(
-        Style(
-            backgroundColor = CYAN_BLUE,
-            cornerRadius = CornerRadius(radius = 16.0)
         )
     )
 

@@ -62,7 +62,7 @@ class FormValidationTest {
         formValidation.formInputs = listOf(formInput)
 
         // When
-        formValidation.execute(rootView)
+        formValidation.execute(rootView, view)
 
         // Then
         verify(exactly = once()) { inputWidget.onErrorMessage(validationMessage) }

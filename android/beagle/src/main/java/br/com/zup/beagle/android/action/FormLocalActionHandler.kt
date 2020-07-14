@@ -17,11 +17,14 @@
 package br.com.zup.beagle.android.action
 
 import android.content.Context
+import br.com.zup.beagle.android.components.form.core.Constants
 
+@Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 interface FormLocalActionHandler {
     fun handle(context: Context, action: FormLocalAction, listener: ActionListener)
 }
 
+@Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 interface ActionListener {
     fun onError(e: Throwable)
     fun onSuccess(action: Action)

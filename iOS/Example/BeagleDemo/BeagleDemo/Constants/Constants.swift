@@ -37,7 +37,8 @@ extension String {
     static let TEXT_LAZY_COMPONENTS_ENDPOINT = "http://www.mocky.io/v2/5e4e91c02f00001f2016a8f2"
     static let WEB_VIEW_ENDPOINT = "webViewComponent"
     static let COMPONENT_INTERACTION_ENDPOINT = "componentInteractionText"
-    
+    static let SIMPLE_FORM_ENDPOINT = "simpleFormComponent"
+
     // MARK: - URL
     static let WEB_VIEW_URL = "https://maps.google.com/"
     
@@ -53,6 +54,8 @@ extension String {
     static let TEXT_IMAGE_STYLE = "DesignSystem.Text.Image"
     static let TEXT_HELLO_WORD_STYLE = "DesignSystem.Text.helloWord"
     static let TEXT_INPUT_STYLE = "DesignSystem.TextInput.Style"
+    static let TEXT_INPUT_STYLE_BFF = "DesignSystem.TextInput.Style.Bff"
+    static let BUTTON_STYLE_CONTEXT_BFF = "DesignSystem.Button.Context"
 }
 
 extension UIColor {

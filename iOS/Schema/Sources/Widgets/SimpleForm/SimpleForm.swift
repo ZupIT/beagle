@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,19 +15,26 @@
  * limitations under the License.
  */
 
-import UIKit
+import Foundation
 
-public struct FormInputHidden: FormInputComponent, AutoInitiable {
-    public let name: String
-    public let value: String
-
-// sourcery:inline:auto:FormInputHidden.Init
+public struct SimpleForm: RawComponent, HasContext, AutoInitiableAndDecodable {
+    
+    public var context: Context?
+    public let onSubmit: [RawAction]?
+    public let children: [RawComponent]
+    public var widgetProperties: WidgetProperties
+    
+// sourcery:inline:auto:SimpleForm.Init
     public init(
-        name: String,
-        value: String
+        context: Context? = nil,
+        onSubmit: [RawAction]? = nil,
+        children: [RawComponent],
+        widgetProperties: WidgetProperties = WidgetProperties()
     ) {
-        self.name = name
-        self.value = value
+        self.context = context
+        self.onSubmit = onSubmit
+        self.children = children
+        self.widgetProperties = widgetProperties
     }
 // sourcery:end
 }
