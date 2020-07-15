@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.context
 
+import br.com.zup.beagle.android.utils.BeagleConstants
 import br.com.zup.beagle.core.BindAttribute
 
 sealed class Bind<T> : BindAttribute<T> {
@@ -48,3 +49,7 @@ sealed class Bind<T> : BindAttribute<T> {
 inline fun <reified T> expressionOf(expression: String) = Bind.Expression(expression, T::class.java)
 inline fun <reified T : Any> valueOf(value: T) = Bind.Value(value)
 inline fun <reified T : Any> valueOfNullable(value: T?) = value?.let { valueOf(it) }
+
+fun Any.isExpression(): Boolean {
+    return this is String && this.contains(BeagleConstants.EXPRESSION_REGEX)
+}

@@ -31,10 +31,12 @@ import javax.servlet.http.HttpServletResponse
 internal class BeagleCacheFilterTest {
     companion object {
         const val STRING = "test"
+        const val GET = "get"
+        const val OPTIONS = "options"
     }
 
     @Test
-    fun `doFilter when all parameters are valid`() {
+    fun `doFilter when all parameters are valid and request method is GET`() {
         val cacheHandler = mockk<BeagleCacheHandler>()
         val request = mockk<HttpServletRequest>()
         val response = mockk<HttpServletResponse>()
@@ -43,6 +45,7 @@ internal class BeagleCacheFilterTest {
 
         every { request.requestURI } returns STRING
         every { request.getHeader(any()) } returns STRING
+        every { request.method } returns GET
         every {
             cacheHandler.handleCache<ContentCachingResponseWrapper>(any(), any(), any(), any(), any())
         } returns wrapper
@@ -51,6 +54,22 @@ internal class BeagleCacheFilterTest {
 
         verifyAll { cacheHandler.handleCache(STRING, STRING, STRING, any(), any()) }
         verifyAll { wrapper.copyBodyToResponse() }
+    }
+
+    @Test
+    fun `doFilter when all parameters are valid and request method is not GET`() {
+        val cacheHandler = mockk<BeagleCacheHandler>()
+        val request = mockk<HttpServletRequest>()
+        val response = mockk<HttpServletResponse>()
+        val chain = mockk<FilterChain>(relaxUnitFun = true)
+
+        every { request.requestURI } returns STRING
+        every { request.getHeader(any()) } returns STRING
+        every { request.method } returns OPTIONS
+
+        BeagleCacheFilter(cacheHandler).doFilter(request, response, chain)
+
+        verifyAll { chain.doFilter(request, response) }
     }
 
     @Test

@@ -72,7 +72,6 @@ object Versions {
     const val viewModel = "2.2.0"
     const val recyclerView = "1.0.0"
 
-    const val fresco = "2.0.0"
 
     const val moshi = "1.9.3"
 
@@ -81,36 +80,37 @@ object Versions {
     const val glide = "4.11.0"
 
     const val junit = "4.13"
-    const val junit5 = "5.6.1"
+    const val junit5 = "5.6.2"
 
     const val yoga = "1.16.0"
 
+    const val jni = "0.0.2"
+
     const val okHttp = "4.5.0"
 
-    const val kotlinTest = "1.3.50"
+    const val kotlinTest = "1.3.72"
     const val kotlinCoroutinesTest = "1.3.1"
 
     const val materialDesign = "1.0.0"
     const val googleCompileTesting = "0.18"
     const val googleAutoService = "1.0-rc6"
 
-    const val jacksonKotlin = "2.10.2"
+    const val jacksonKotlin = "2.11.1"
 
     const val jsonObject = "20190722"
 
-    const val mockk = "1.9.3"
+    const val mockk = "1.10.0"
 
     const val testRunner = "1.2.0"
     const val testExt = "1.1.1"
     const val archCoreTesting = "2.1.0"
     const val espressoCore = "3.2.0"
 
-    const val guava = "28.2-jre"
+    const val guava = "29.0-jre"
     const val slf4j = "1.7.30"
-    const val log4j = "2.13.1"
 
-    const val springBoot = "2.2.5.RELEASE"
-    const val micronaut = "1.3.3"
+    const val springBoot = "2.3.1.RELEASE"
+    const val micronaut = "2.0.0"
 
     const val incap = "0.2"
 }
@@ -129,7 +129,6 @@ object GlideLibraries {
 object BackendLibraries {
     const val guava = "com.google.guava:guava:${Versions.guava}"
     const val slf4jJUL = "org.slf4j:slf4j-jdk14:${Versions.slf4j}"
-    const val log4j2 = "org.apache.logging.log4j:log4j-slf4j-impl:${Versions.log4j}"
 }
 
 object ProcessorLibraries {
@@ -146,11 +145,12 @@ object GeneralLibraries {
 
     const val kotlinPoet = "com.squareup:kotlinpoet:${Versions.kotlinPoet}"
 
-    const val fresco = "com.facebook.fresco:fresco:${Versions.fresco}"
-
     const val soLoader = "com.facebook.soloader:soloader:${Versions.soLoader}"
 
     const val yoga = "com.facebook.yoga.android:yoga-layout:${Versions.yoga}"
+
+    const val jni = "com.facebook.fbjni:fbjni:${Versions.jni}"
+
 
     const val jacksonKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.jacksonKotlin}"
 

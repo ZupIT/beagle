@@ -26,6 +26,8 @@ object RandomData {
 
     fun double(): Double = Random.nextDouble(1.0, 10000.0)
 
+    fun float(): Float = Random.nextFloat()
+
     fun string(size: Int = 20): String {
         val alphabet: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
         return List(size) { alphabet.random() }.joinToString("")
