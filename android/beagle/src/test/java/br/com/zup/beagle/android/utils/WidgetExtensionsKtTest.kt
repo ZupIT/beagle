@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.utils
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.Screen
@@ -42,6 +43,8 @@ class WidgetExtensionsKtTest : BaseTest() {
     private val component = mockk<ServerDrivenComponent>()
     private val rootView = mockk<ActivityRootView>()
     private val viewFactoryMock = mockk<ViewFactory>(relaxed = true)
+    private val view = mockk<BeagleFlexView>(relaxed = true)
+
 
     private lateinit var viewModel: ScreenContextViewModel
 
@@ -53,10 +56,6 @@ class WidgetExtensionsKtTest : BaseTest() {
         viewModel = ScreenContextViewModel()
 
         every { rootView.activity } returns mockk()
-
-        every {
-            ViewModelProviderFactory.of(any<AppCompatActivity>())[ScreenContextViewModel::class.java]
-        } returns viewModel
 
         viewFactory = viewFactoryMock
     }
@@ -82,14 +81,12 @@ class WidgetExtensionsKtTest : BaseTest() {
     @Test
     fun toView() {
         // Given
-        val component = mockk<ServerDrivenComponent>()
-        val view = mockk<BeagleFlexView>(relaxed = true)
         val viewModelMock = mockk<ScreenContextViewModel>(relaxed = true)
-        every { viewFactory.makeBeagleFlexView(any()) } returns view
-        every { rootView.getContext() } returns mockk()
         every {
             ViewModelProviderFactory.of(any<AppCompatActivity>())[ScreenContextViewModel::class.java]
         } returns viewModelMock
+        every { viewFactory.makeBeagleFlexView(any()) } returns view
+        every { rootView.getContext() } returns mockk()
 
         // When
         val actual = component.toView(rootView)

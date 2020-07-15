@@ -36,6 +36,10 @@ internal class ContextDataManager(
 
     private val contexts: MutableMap<String, ContextBinding> = mutableMapOf()
 
+    fun clearContexts() {
+        contexts.clear()
+    }
+
     fun addContext(contextData: ContextData) {
         if (contexts[contextData.id] == null) {
             contexts[contextData.id] = ContextBinding(
