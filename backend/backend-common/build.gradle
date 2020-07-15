@@ -21,7 +21,7 @@ targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
     implementation GeneralLibraries.kotlin
-    implementation project(Modules.beagleSchemaBackendCommon)
+    api project(Modules.beagleSchemaKotlinCore)
 }
 
 apply from: rootProject.file('maven-publish.gradle')

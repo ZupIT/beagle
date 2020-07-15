@@ -36,13 +36,14 @@ object Modules {
     const val beagleAndroidPreview = ":android:android-preview"
     const val beagleAnnotation = ":common:annotation"
     const val beagleCommonProcessorUtils = ":common:processor-utils"
-    const val beagleBackendProcessor = ":backend:processor"
     const val beagleBackendFramework = ":backend:framework"
     const val beagleBackendSpringStarter = ":backend:starters:beagle-spring-starter"
     const val beagleBackendMicronautStarter = ":backend:starters:beagle-micronaut-starter"
     const val beagleSchemaKotlinCore = ":schema:kotlin-core"
     const val beagleSchemaBackendWidgets = ":backend:backend-widgets"
     const val beagleExtendedSchema = ":common:extended-schema"
+    const val beagleBackendProcessor = ":backend:processor"
+    const val beagleSchemaBackendCommon = ":backend:backend-common"
 }
 
 object Releases {
