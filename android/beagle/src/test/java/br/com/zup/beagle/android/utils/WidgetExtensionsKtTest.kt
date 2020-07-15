@@ -38,7 +38,7 @@ import kotlin.test.assertEquals
 class WidgetExtensionsKtTest : BaseTest() {
 
     private val activity = mockk<AppCompatActivity>()
-    private val fragment = mockk<Fragment>()
+    private val fragment = mockk<Fragment>(relaxed = true)
     private val rootView = mockk<ActivityRootView>()
     private val viewModel = mockk<ScreenContextViewModel>(relaxed = true)
 
@@ -54,6 +54,10 @@ class WidgetExtensionsKtTest : BaseTest() {
 
         every {
             ViewModelProviderFactory.of(any<AppCompatActivity>())[ScreenContextViewModel::class.java]
+        } returns viewModel
+
+        every {
+            ViewModelProviderFactory.of(any<Fragment>())[ScreenContextViewModel::class.java]
         } returns viewModel
 
         viewFactory = viewFactoryMock
