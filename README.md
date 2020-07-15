@@ -52,25 +52,21 @@ Beagle apps may target iOS 10.0 and Android 4.4 (API 19) or newer. You may use W
 
 ## 🎉 Building your first app using Beagle
 
-Follow the [Getting Started guide](https://docs.usebeagle.io/get-started/installing-beagle). The recommended way to install Beagle depends on your project. Here you can find short guides for the most common scenarios:
+Follow the [Getting Started guide](https://docs.usebeagle.io/v/v1.0-en/get-started/installing-beagle). The recommended way to install Beagle depends on your project. Here you can find short guides for the most common scenarios:
 
-- [Creating a New Application][new-app]
-- [Adding Beagle to an Existing Application][existing]
+- [Creating a New Application][get-started]
+- [Adding Beagle to an Existing Application][get-started]
 
-[new-app]: https://docs.usebeagle.io/get-started/usando-beagle
-[existing]: https://docs.usebeagle.io/get-started/usando-beagle
+[get-started]: https://docs.usebeagle.io/v/v1.0-en/get-started/usando-beagle
 
 ## 📖 Documentation
 
-The full documentation for Beagle can be found on our [website][docs].
+The full documentation for Beagle can be found on our [website][site].
 
 The Beagle documentation discusses components, APIs, and topics that are specific to Beagle. [Beagle documentation][b-docs].
 
-The source for the Beagle documentation and website is hosted on a separate repo, [**@beagle site**][repo-website].
-
-[docs]: https://docs.usebeagle.io/
-[b-docs]: https://docs.usebeagle.io/get-started/installing-beagle
-[repo-website]: https://usebeagle.io/
+[site]: https://usebeagle.io/
+[b-docs]: https://docs.usebeagle.io/v/v1.0-en/
 
 
 ## 👏 How to Contribute
