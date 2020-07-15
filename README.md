@@ -21,11 +21,9 @@
 </p>
 
 <h3 align="center">
-  <a href="https://docs.usebeagle.io/get-started/installing-beagle">Getting Started</a>
+  <a href="https://docs.usebeagle.io/primeiros-passos/instalando-beagle">Getting Started</a>
   <span> · </span>
-  <a href="https://docs.usebeagle.io/get-started/usando-beagle">Learn the Basics</a>
-  <span> · </span>
-  <a href="https://docs.usebeagle.io/get-started/use-cases">Showcase</a>
+  <a href="https://docs.usebeagle.io/primeiros-passos/usando-beagle">Learn the Basics</a>
   <span> · </span>
   <a href="https://github.com/ZupIT/beagle/blob/master/CONTRIBUTING.md">Contribute</a>
 </h3>
@@ -52,12 +50,13 @@ Beagle apps may target iOS 10.0 and Android 4.4 (API 19) or newer. You may use W
 
 ## 🎉 Building your first app using Beagle
 
-Follow the [Getting Started guide](https://docs.usebeagle.io/v/v1.0-en/get-started/installing-beagle). The recommended way to install Beagle depends on your project. Here you can find short guides for the most common scenarios:
+Follow the [Getting Started guide](https://docs.usebeagle.io/get-started/installing-beagle). The recommended way to install Beagle depends on your project. Here you can find short guides for the most common scenarios:
 
-- [Creating a New Application][get-started]
-- [Adding Beagle to an Existing Application][get-started]
+- [Creating a New Application][new-app]
+- [Adding Beagle to an Existing Application][existing]
 
-[get-started]: https://docs.usebeagle.io/v/v1.0-en/get-started/usando-beagle
+[new-app]: https://docs.usebeagle.io/get-started/use-cases
+[existing]: https://docs.usebeagle.io/get-started/usando-beagle
 
 ## 📖 Documentation
 
@@ -66,7 +65,7 @@ The full documentation for Beagle can be found on our [website][site].
 The Beagle documentation discusses components, APIs, and topics that are specific to Beagle. [Beagle documentation][b-docs].
 
 [site]: https://usebeagle.io/
-[b-docs]: https://docs.usebeagle.io/v/v1.0-en/
+[b-docs]: https://docs.usebeagle.io/
 
 
 ## 👏 How to Contribute
