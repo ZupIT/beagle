@@ -74,7 +74,7 @@ private fun loadView(
  */
 fun ViewGroup.renderScreen(activity: AppCompatActivity, screenJson: String) {
     removeAllViewsInLayout()
-    addView(beagleSerializerFactory.deserializeComponent(screenJson).toView(activity))
+    addView(beagleSerializerFactory.deserializeComponent(screenJson).toViewClearContext(activity))
 }
 
 /**
@@ -85,5 +85,6 @@ fun ViewGroup.renderScreen(activity: AppCompatActivity, screenJson: String) {
  */
 fun ViewGroup.renderScreen(fragment: Fragment, screenJson: String) {
     removeAllViewsInLayout()
-    addView(beagleSerializerFactory.deserializeComponent(screenJson).toView(fragment))
+    addView(beagleSerializerFactory.deserializeComponent(screenJson).toViewClearContext(fragment))
 }
+

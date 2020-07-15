@@ -84,6 +84,33 @@ fun <T> ServerDrivenComponent.observeBindChanges(
 }
 
 /**
+ * Transform your Component to a view and clear the existing context.
+ * @property activity <p>is the reference for your activity.
+ * Make sure to use this method if you are inside a Activity because of the lifecycle</p>
+ */
+fun ServerDrivenComponent.toViewClearContext(activity: AppCompatActivity) : View{
+    val activityRootView = ActivityRootView(activity)
+    activityRootView.clearContext()
+    return this.toView(activityRootView)
+}
+
+/**
+ * Transform your Component to a view and clear the existing context.
+ * @property fragment <p>is the reference for your fragment.
+ * Make sure to use this method if you are inside a Fragment because of the lifecycle</p>
+ */
+fun ServerDrivenComponent.toViewClearContext(fragment: Fragment): View {
+    val fragmentRootView = FragmentRootView(fragment)
+    fragmentRootView.clearContext()
+    return this.toView(fragmentRootView)
+}
+
+internal fun RootView.clearContext(){
+    val viewModel = this.generateViewModelInstance<ScreenContextViewModel>()
+    viewModel.clearContexts()
+}
+
+/**
  * Transform your Component to a view.
  * @property activity <p>is the reference for your activity.
  * Make sure to use this method if you are inside a Activity because of the lifecycle</p>

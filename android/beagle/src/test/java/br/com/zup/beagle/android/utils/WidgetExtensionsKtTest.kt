@@ -17,17 +17,17 @@
 package br.com.zup.beagle.android.utils
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.Screen
-import br.com.zup.beagle.android.context.ContextDataManager
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.Style
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
@@ -37,10 +37,13 @@ import kotlin.test.assertEquals
 
 class WidgetExtensionsKtTest : BaseTest() {
 
+    private val activity = mockk<AppCompatActivity>()
+    private val fragment = mockk<Fragment>()
     private val rootView = mockk<ActivityRootView>()
     private val viewModel = mockk<ScreenContextViewModel>(relaxed = true)
 
     private val viewFactoryMock: ViewFactory = mockk(relaxed = true)
+    private val view = mockk<BeagleFlexView>(relaxed = true)
 
     override fun setUp() {
         super.setUp()
@@ -59,10 +62,7 @@ class WidgetExtensionsKtTest : BaseTest() {
     @Test
     fun toView() {
         // Given
-        val component = mockk<ServerDrivenComponent>()
-        val view = mockk<BeagleFlexView>(relaxed = true)
-        every { viewFactory.makeBeagleFlexView(any()) } returns view
-        every { rootView.getContext() } returns mockk()
+        val component = commonMock()
 
         // When
         val actual = component.toView(rootView)
@@ -70,6 +70,65 @@ class WidgetExtensionsKtTest : BaseTest() {
         // Then
         assertEquals(view, actual)
         verify(exactly = once()) { viewModel.evaluateContexts() }
+    }
+
+    @Test
+    fun toViewPreview_with_appCompatActivity_needs_to_clear_context() {
+        // Given
+        val component = commonMock()
+
+        // When
+        val actual = component.toViewClearContext(activity)
+
+        // Then
+        assertEquals(view, actual)
+        verify(exactly = once()) { viewModel.clearContexts() }
+    }
+
+    @Test
+    fun toViewPreview_with_fragment_needs_to_clear_context() {
+        // Given
+        val component = commonMock()
+
+        // When
+        val actual = component.toViewClearContext(fragment)
+
+        // Then
+        assertEquals(view, actual)
+        verify(exactly = once()) { viewModel.clearContexts() }
+    }
+
+    @Test
+    fun toViewPreview_with_appCompatActivity_needs_to_evaluate_context() {
+        // Given
+        val component = commonMock()
+
+        // When
+        val actual = component.toViewClearContext(activity)
+
+        // Then
+        assertEquals(view, actual)
+        verify(exactly = once()) { viewModel.evaluateContexts() }
+    }
+
+    @Test
+    fun toViewPreview_with_fragment_needs_to_evaluate_context() {
+        // Given
+        val component = commonMock()
+
+        // When
+        val actual = component.toViewClearContext(fragment)
+
+        // Then
+        assertEquals(view, actual)
+        verify(exactly = once()) { viewModel.evaluateContexts() }
+    }
+
+    private fun commonMock(): ServerDrivenComponent {
+        val component = mockk<ServerDrivenComponent>()
+        every { viewFactory.makeBeagleFlexView(any()) } returns view
+        every { rootView.getContext() } returns mockk()
+        return component
     }
 
     @Test
