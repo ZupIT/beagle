@@ -26,7 +26,7 @@ dependencies {
 
     implementation project(Modules.beagleAnnotation)
     implementation project(Modules.beagleCommonProcessorUtils)
-    implementation project(Modules.beagleSchemaBackendWidgets)
+    implementation project(Modules.beagleSchemaBackendUiKit)
 
     implementation ProcessorLibraries.autoService
     implementation ProcessorLibraries.incap

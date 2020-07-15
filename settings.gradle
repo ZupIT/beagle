@@ -29,7 +29,7 @@ include Modules.beagleCommonProcessorUtils
 include Modules.beagleBackendSpringStarter
 include Modules.beagleBackendMicronautStarter
 include Modules.beagleSchemaKotlinCore
-include Modules.beagleSchemaBackendWidgets
+include Modules.beagleSchemaBackendUiKit
 include Modules.beagleExtendedSchema
 include Modules.beagleBackendProcessor
 include Modules.beagleSchemaBackendCommon
