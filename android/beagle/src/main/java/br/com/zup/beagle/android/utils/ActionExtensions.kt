@@ -21,8 +21,12 @@ import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.context.ContextActionExecutor
 import br.com.zup.beagle.android.context.ContextDataValueResolver
+import br.com.zup.beagle.android.context.isExpression
+import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.widget.RootView
+import org.json.JSONArray
+import org.json.JSONObject
 
 internal var contextActionExecutor = ContextActionExecutor()
 internal var contextDataValueResolver = ContextDataValueResolver()
@@ -75,11 +79,20 @@ fun <T> Action.evaluateExpression(
 
 internal fun Action.evaluateExpression(
     rootView: RootView,
-    expressionData: String
+    data: Any
 ): Any? {
     return try {
-        val value = expressionOf<Any>(expressionData).evaluateForAction(rootView, this)
-        contextDataValueResolver.parse(value)
+        return if (data is JSONObject || data is JSONArray || data.isExpression()) {
+            val value = expressionOf<String>(data.toString()).evaluateForAction(rootView, this)
+            val actualValue = if (data is String) {
+                value
+            } else {
+                BeagleMoshi.moshi.adapter(Any::class.java).fromJson(value)
+            }
+            contextDataValueResolver.parse(actualValue)
+        } else {
+            data
+        }
     } catch (ex: Exception) {
         BeagleMessageLogs.errorWhileTryingToEvaluateBinding(ex)
         null
