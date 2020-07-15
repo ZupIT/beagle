@@ -617,6 +617,15 @@
 			path = Logger;
 			sourceTree = "<group>";
 		};
+		7C5E3D3024BFA5D8009E5A3C /* PageIndicator+Renderable */ = {
+			isa = PBXGroup;
+			children = (
+				C89E80A42397FFD500C2D0ED /* PageIndicator.swift */,
+				C89E80A62397FFFD00C2D0ED /* PageIndicator+Renderable.swift */,
+			);
+			path = "PageIndicator+Renderable";
+			sourceTree = "<group>";
+		};
 		7C6F606324462037007AC4AA /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -1353,7 +1362,6 @@
 			children = (
 				C08D4DE4248559FA00AAAC0A /* PageView+Renderable.swift */,
 				C85D9BA0238701E60075B6C0 /* PageViewUIComponent.swift */,
-				C89E80A32397FFB900C2D0ED /* Indicator */,
 				C85D9BA6238858940075B6C0 /* Tests */,
 			);
 			path = "Page+Renderable";
@@ -1404,6 +1412,7 @@
 		C87622D823903FD1006F1361 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				7C5E3D3024BFA5D8009E5A3C /* PageIndicator+Renderable */,
 				6EB3368824A52C1A000A9D17 /* SimpleForm+Renderable */,
 				E5223777237C3C5500E555BB /* ServerDrivenComponent.swift */,
 				9327116423F1C9D100778B56 /* Widget.swift */,
@@ -1423,15 +1432,6 @@
 				93ADB87723FAD2E5005B7CD2 /* Tests */,
 			);
 			path = Components;
-			sourceTree = "<group>";
-		};
-		C89E80A32397FFB900C2D0ED /* Indicator */ = {
-			isa = PBXGroup;
-			children = (
-				C89E80A42397FFD500C2D0ED /* PageIndicator.swift */,
-				C89E80A62397FFFD00C2D0ED /* PageIndicator+Renderable.swift */,
-			);
-			path = Indicator;
 			sourceTree = "<group>";
 		};
 		C8A2F6EB2464C019002198B1 /* Generated */ = {

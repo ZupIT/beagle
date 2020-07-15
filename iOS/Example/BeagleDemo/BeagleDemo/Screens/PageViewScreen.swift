@@ -37,7 +37,8 @@ struct PageViewScreen: DeeplinkScreen {
                         pageIndicator: PageIndicator(),
                         onPageChange: [SetContext(contextId: "context", value: "@{onChange}")],
                         currentPage: "@{context}"
-                    )                ],
+                    )
+                ],
                 widgetProperties: WidgetProperties(style: Style(flex: Flex().grow(1))),
                 context: Context(id: "context", value: 0)
             )
