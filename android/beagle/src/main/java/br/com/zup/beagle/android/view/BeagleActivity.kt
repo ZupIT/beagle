@@ -32,7 +32,6 @@ import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.utils.configureSupportActionBar
 import br.com.zup.beagle.android.utils.toComponent
 import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
@@ -140,10 +139,6 @@ abstract class BeagleActivity : AppCompatActivity() {
             } ?: run {
                 screenRequest?.let { request -> fetch(request) }
             }
-        }
-
-        if (supportActionBar == null) {
-            configureSupportActionBar()
         }
     }
 

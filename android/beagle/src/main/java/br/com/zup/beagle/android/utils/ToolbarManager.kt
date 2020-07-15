@@ -17,14 +17,13 @@
 package br.com.zup.beagle.android.utils
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Build
-import android.view.Gravity
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.util.TypedValue
+import android.view.*
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.R
@@ -33,6 +32,7 @@ import br.com.zup.beagle.android.components.layout.NavigationBarItem
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.view.BeagleActivity
+import br.com.zup.beagle.android.view.custom.BeagleNavigator
 import br.com.zup.beagle.android.widget.RootView
 
 internal class ToolbarManager {
@@ -41,14 +41,19 @@ internal class ToolbarManager {
         context: BeagleActivity,
         navigationBar: NavigationBar
     ) {
-        context.supportActionBar?.apply {
-            val showBackButton = navigationBar.showBackButton
-            setDisplayHomeAsUpEnabled(showBackButton)
-            setDisplayShowHomeEnabled(showBackButton)
-            navigationBar.backButtonAccessibility?.accessibilityLabel?.let { backButtonAccessibilityLabel ->
-                setHomeActionContentDescription(backButtonAccessibilityLabel)
+        if (navigationBar.showBackButton) {
+            context.getToolbar().apply {
+                navigationBar.backButtonAccessibility?.accessibilityLabel?.let { backButtonAccessibilityLabel ->
+                    navigationContentDescription = backButtonAccessibilityLabel
+                }
+
+                setNavigationOnClickListener {
+                    BeagleNavigator.popView(context)
+                }
+
+                setupNavigationIcon(context, this)
+
             }
-            show()
         }
     }
 
@@ -184,6 +189,17 @@ internal class ToolbarManager {
                     )
                 }
             }
+        }
+    }
+
+    private fun getDrawableFromAttribute(context: Context, attributeId: Int): Drawable? {
+        val typedValue = TypedValue().also { context.theme.resolveAttribute(attributeId, it, true) }
+        return ContextCompat.getDrawable(context, typedValue.resourceId)
+    }
+
+    private fun setupNavigationIcon(context: Context, toolbar: Toolbar) {
+        if(toolbar.navigationIcon == null) {
+            toolbar.navigationIcon = getDrawableFromAttribute(context, R.attr.homeAsUpIndicator)
         }
     }
 }
