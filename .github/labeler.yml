@@ -12,7 +12,7 @@ iOS: iOS/**
 
 schema: schema/**
 
-deploy:
+CI/CD:
     - danger/**
     - fastlane/**
     - .github/**
