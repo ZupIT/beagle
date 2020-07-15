@@ -190,7 +190,6 @@ object ActionScreenBuilder : ScreenBuilder {
         )
     )
 
-
     private fun createAlert(title: String): Alert {
         return Alert(
             title = title,
