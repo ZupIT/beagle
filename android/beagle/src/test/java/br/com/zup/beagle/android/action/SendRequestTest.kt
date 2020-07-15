@@ -202,7 +202,7 @@ class SendRequestTest {
             onError = onError,
             onFinish = onFinish
         ).apply {
-            every { evaluateExpression(rootView, any()) } returns ""
+            every { evaluateExpression(rootView, any<Any>()) } returns ""
             every { handleEvent(rootView, any<List<Action>>(), any(), any()) } just Runs
         }
     }

@@ -37,7 +37,6 @@ class ActionExtensionsKtTest : BaseTest() {
 
     private val rootView = mockk<ActivityRootView>()
     private val action = mockk<Action>(relaxed = true)
-    private val originView = mockk<View>()
 
     private lateinit var viewModel: ScreenContextViewModel
 
@@ -270,7 +269,7 @@ class ActionExtensionsKtTest : BaseTest() {
             id = "context",
             value = explicitContextValue
         ))
-        action.handleEvent(rootView, originView, secondAction, "onSuccess", implicitValue)
+        action.handleEvent(rootView, secondAction, "onSuccess", implicitValue)
 
         // When
         val actualValue = secondAction.evaluateExpression(rootView, bind)
