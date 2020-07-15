@@ -27,13 +27,13 @@ jobs:
                 run: bundle config set path '~/.gem' && bundle install
 
             -   name: Cache gradle dependences
-                    uses: actions/cache@v2
-                    env:
-                        gradle-cache-key: gradle-cache
-                        gradle-path: ~/.gradle
-                    with:
-                        path: ${{ env.gradle-path }}
-                        key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('buildSrc/**') }}
+                uses: actions/cache@v2
+                env:
+                    gradle-cache-key: gradle-cache
+                    gradle-path: ~/.gradle
+                with:
+                    path: ${{ env.gradle-path }}
+                    key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('buildSrc/**') }}
             -   name: Run pr check
                 env:
                     GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
