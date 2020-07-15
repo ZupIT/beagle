@@ -1,5 +1,3 @@
-
-**/.DS_Store
 .DS_Store
 HELP.md
 target/
@@ -39,12 +37,7 @@ out/
 .gradle
 gradle.deps
 /local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
+.idea/
 .DS_Store
 build/
 /captures
@@ -58,12 +51,3 @@ fastlane/README.md
 
 ### Jacoco ###
 jacoco.exec
-
-# Android Studio
-/*/build/
-/*/local.properties
-/*/*/build
-/*/*/production
-*.ipr
-*~
-*.swp
