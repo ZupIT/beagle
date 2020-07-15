@@ -1,18 +1,14 @@
-name: Beagle Backend Pull Request
+name: iOS PR Verification
 
 on:
     push:
         branches:
             - master
     pull_request:
-        paths:
-            - 'backend/**'
-            - 'common/**'
-            - 'schema/kotlin/**'
-            - 'buildSrc/**'
-            - 'Gemfile'
+        # TODO: remove this path selector when we have more integrated tests
+        paths: 'iOS/**'
 jobs:
-    pr-verification:
+    pr_verification:
         name: PR Check
         runs-on: macos-latest
         steps:
@@ -29,18 +25,15 @@ jobs:
             -   name: Install Fastlane
                 run: bundle config set path '~/.gem' && bundle install
 
-            -   name: Cache gradle dependences
-                uses: actions/cache@v2
-                env:
-                    gradle-cache-key: gradle-cache
-                    gradle-path: ~/.gradle
-                with:
-                    path: ${{ env.gradle-path }}
-                    key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('buildSrc/**') }}
-            -   name: Run pr check
+            -   name: install Carthage
+                run: brew install carthage
+
+            -   name: install swiftLint
+                run: brew install swiftlint
+
+            -   name: execute Fastlane
                 env:
                     GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
                     GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
                     CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-                run: bundle exec fastlane backend pull_request_verification
-        
+                run: bundle exec fastlane ios pull_request_verification

@@ -1,6 +1,9 @@
 name: Beagle Android Pull Request
 
 on:
+    push:
+        branches:
+            - master
     pull_request:
         paths:
             - 'android/**'
