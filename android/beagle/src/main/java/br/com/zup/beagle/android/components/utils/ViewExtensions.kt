@@ -69,9 +69,10 @@ internal fun View.applyViewBackgroundAndCorner(backgroundColor: Int?, component:
 }
 
 internal fun View.applyBackgroundColor(styleWidget: StyleComponent) {
-    styleWidget.style?.backgroundColor?.let {
-        (this.background as? GradientDrawable)?.setColor(it.toAndroidColor())
+    styleWidget.style?.backgroundColor?.toAndroidColor()?.let { androidColor ->
+        (this.background as? GradientDrawable)?.setColor(androidColor)
     }
+
 }
 
 internal fun View.applyCornerRadius(styleWidget: StyleComponent) {

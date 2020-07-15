@@ -54,17 +54,19 @@ private class FetchComponentLiveData(
 ) : LiveData<ActionRequestViewModel.FetchViewState>(), CoroutineScope {
 
     override fun onActive() {
-        fetchData()
+        if (value == null) {
+            fetchData()
+        }
     }
 
     private fun fetchData() {
         launch {
-            value = try {
+            postValue(try {
                 val response = requester.fetchData(sendRequest.toRequestData())
                 ActionRequestViewModel.FetchViewState.Success(response.toResponse())
             } catch (exception: BeagleApiException) {
                 ActionRequestViewModel.FetchViewState.Error(exception.responseData.toResponse())
-            }
+            })
         }
 
     }

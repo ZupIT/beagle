@@ -16,19 +16,18 @@
 
 package br.com.zup.beagle.spring.configuration
 
-import br.com.zup.beagle.spring.interceptor.BeaglePlatformInterceptor
 import br.com.zup.beagle.platform.BeaglePlatformUtil
+import br.com.zup.beagle.spring.filter.BeaglePlatformFilter
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
+import org.springframework.boot.web.servlet.FilterRegistrationBean
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
-@ConditionalOnClass(value = [BeaglePlatformInterceptor::class, BeaglePlatformUtil::class])
-open class BeaglePlatformAutoConfiguration(private val objectMapper: ObjectMapper) : WebMvcConfigurer {
-
-    override fun addInterceptors(registry: InterceptorRegistry) {
-        registry.addInterceptor(BeaglePlatformInterceptor(this.objectMapper))
-    }
+@ConditionalOnClass(value = [BeaglePlatformFilter::class, BeaglePlatformUtil::class])
+open class BeaglePlatformAutoConfiguration {
+    @Bean
+    open fun beaglePlatformFilter(objectMapper: ObjectMapper) =
+        FilterRegistrationBean<BeaglePlatformFilter>().also { it.filter = BeaglePlatformFilter(objectMapper) }
 }

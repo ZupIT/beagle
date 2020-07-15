@@ -113,7 +113,6 @@ object AndroidSupportVersions {
     const val multidex = "1.0.3"
 }
 
-
 object GeneralNames {
     const val sampleTestInstrumentationRunner = "br.com.zup.beagle.sample.SampleTestRunner"
     const val consumerProguard = "consumer-rules.pro"

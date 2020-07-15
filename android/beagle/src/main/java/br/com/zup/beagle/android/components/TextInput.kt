@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.components
 
-import android.graphics.Color
 import android.support.v4.widget.TextViewCompat
 import android.text.Editable
 import android.text.InputType
@@ -37,6 +36,8 @@ import br.com.zup.beagle.widget.core.TextInputType.DATE
 import br.com.zup.beagle.widget.core.TextInputType.EMAIL
 import br.com.zup.beagle.widget.core.TextInputType.NUMBER
 import br.com.zup.beagle.widget.core.TextInputType.PASSWORD
+
+private const val VALUE_KEY = "value"
 
 data class TextInput(
     val value: Bind<String>? = null,
@@ -82,7 +83,7 @@ data class TextInput(
     private lateinit var textInputView: EditText
 
     @Transient
-    private lateinit var textWatcher: TextWatcher
+    private var textWatcher: TextWatcher? = null
 
     override fun buildView(rootView: RootView): View = viewFactory.makeInputText(rootView.getContext()).apply {
         textInputView = this
@@ -99,27 +100,24 @@ data class TextInput(
 
     private fun EditText.setUpOnTextChange(rootView: RootView) {
         textWatcher = object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-            }
+            override fun afterTextChanged(s: Editable?) {}
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            override fun onTextChanged(newText: CharSequence?, start: Int, before: Int, count: Int) {
                 notifyChanges()
                 onChange?.let {
                     this@TextInput.handleEvent(
                         rootView,
                         onChange,
                         "onChange",
-                        s.toString()
+                        mapOf(VALUE_KEY to newText.toString())
                     )
-
                 }
-
-
             }
         }
+
+        addTextChangedListener(textWatcher)
     }
 
     private fun EditText.removeOnTextChange() {
@@ -134,7 +132,7 @@ data class TextInput(
                         rootView,
                         onFocus,
                         "onFocus",
-                        this.text.toString()
+                        mapOf(VALUE_KEY to this.text.toString())
                     )
                 }
             } else {
@@ -143,7 +141,7 @@ data class TextInput(
                         rootView,
                         onBlur,
                         "onBlur",
-                        this.text.toString()
+                        mapOf(VALUE_KEY to this.text.toString())
                     )
                 }
             }

@@ -21,16 +21,13 @@
                     },
                     "children": [
                         {
-                            "_beagleComponent_": "beagle:text",
-                            "text": "1 This is a text"
+                            "_beagleComponent_" : "custom:beagleschematestscomponent"
                         },
                         {
-                            "_beagleComponent_": "beagle:text",
-                            "text": "This is a text"
+                            "_beagleComponent_" : "custom:beagleschematestscomponent"
                         },
                         {
-                            "_beagleComponent_": "beagle:text",
-                            "text": "This is a text"
+                            "_beagleComponent_" : "custom:beagleschematestscomponent"
                         }
                     ]
                 }

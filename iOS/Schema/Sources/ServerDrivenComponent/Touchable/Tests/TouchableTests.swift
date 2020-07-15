@@ -22,7 +22,14 @@ class TouchableTests: XCTestCase {
 
     func testInitFromDecoder() throws {
         let component: Touchable = try componentFromJsonFile(fileName: "TouchableDecoderTest")
-        assertSnapshot(matching: component, as: .dump)
+        _assertInlineSnapshot(matching: component, as: .dump, with: """
+        ▿ Touchable
+          ▿ child: UnknownComponent
+            - type: "custom:beagleschematestscomponent"
+          - clickAnalyticsEvent: Optional<AnalyticsClick>.none
+          ▿ onPress: 1 element
+            - Navigate.popView
+        """)
     }
 
 }
