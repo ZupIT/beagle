@@ -73,9 +73,7 @@ private fun loadView(
  * @property screenJson that represents your component
  */
 fun ViewGroup.renderScreen(activity: AppCompatActivity, screenJson: String) {
-    removeAllViewsInLayout()
-    ActivityRootView(activity).clearContext()
-    addView(beagleSerializerFactory.deserializeComponent(screenJson).toView(activity))
+    this.renderScreen(ActivityRootView(activity), screenJson)
 }
 
 /**
@@ -85,14 +83,16 @@ fun ViewGroup.renderScreen(activity: AppCompatActivity, screenJson: String) {
  * @property screenJson that represents your component
  */
 fun ViewGroup.renderScreen(fragment: Fragment, screenJson: String) {
-    removeAllViewsInLayout()
-    FragmentRootView(fragment).clearContext()
-    addView(beagleSerializerFactory.deserializeComponent(screenJson).toView(fragment))
+    this.renderScreen(FragmentRootView(fragment), screenJson)
 }
 
-internal fun RootView.clearContext(){
-    val viewModel = this.generateViewModelInstance<ScreenContextViewModel>()
+
+internal fun ViewGroup.renderScreen(rootView: RootView, screenJson: String){
+    removeAllViewsInLayout()
+    val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
     viewModel.clearContexts()
+    addView(beagleSerializerFactory.deserializeComponent(screenJson).toView(rootView))
+
 }
 
 
