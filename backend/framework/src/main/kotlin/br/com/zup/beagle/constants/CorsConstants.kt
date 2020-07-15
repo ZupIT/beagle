@@ -14,22 +14,9 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.ui
+package br.com.zup.beagle.constants
 
-import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.core.ListDirection
+import br.com.zup.beagle.cache.BeagleCacheHandler
+import br.com.zup.beagle.platform.BeaglePlatformUtil
 
-/**
- * ListView is a Layout component that will define a list of views natively.
- * These views could be any Server Driven Component.
- *
- * @param children define the items on the list view.
- * @param direction define the list direction.
- *
- */
-data class ListView(
-    val children: List<ServerDrivenComponent>,
-    val direction: ListDirection = ListDirection.VERTICAL
-) : ServerDrivenComponent {
-    companion object
-}
+val BEAGLE_EXPOSED_HEADERS = arrayOf(BeagleCacheHandler.CACHE_HEADER)
