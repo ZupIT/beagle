@@ -25,16 +25,16 @@ object GroupId {
 }
 
 object Modules {
-    const val androidSample = ":android:sample"
+    const val androidSample = ":sample"
     const val backendSampleCore = ":backend:sample:core"
     const val backendSampleSpring = ":backend:sample:spring"
     const val backendSampleMicronaut = ":backend:sample:micronaut"
-    const val beagleAndroid = ":android:beagle"
-    const val beagleAndroidProcessor = ":android:android-processor"
-    const val beagleAndroidInternalProcessor = ":android:android-internal-processor"
-    const val beagleAndroidAnnotation = ":android:android-annotation"
-    const val beagleAndroidPreview = ":android:android-preview"
-    const val beagleAnnotation = ":common:annotation"
+    const val beagleAndroid = ":beagle"
+    const val beagleAndroidProcessor = ":android-processor"
+    const val beagleAndroidInternalProcessor = ":android-internal-processor"
+    const val beagleAndroidAnnotation = ":android-annotation"
+    const val beagleAndroidPreview = ":android-preview"
+    const val beagleCommonAnnotation = ":common:annotation"
     const val beagleCommonProcessorUtils = ":common:processor-utils"
     const val beagleBackendProcessor = ":backend:processor"
     const val beagleBackendFramework = ":backend:framework"

@@ -35,7 +35,7 @@ plugins {
 }
 
 allprojects {
-    apply from: "$rootDir/detekt.gradle"
+//    apply from: "../detekt.gradle"
 
     repositories {
         google()

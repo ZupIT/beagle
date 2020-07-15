@@ -18,7 +18,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply from: rootProject.file('jacoco.gradle')
+//apply from: rootProject.file('jacoco.gradle')
 
 android {
     compileSdkVersion Versions.compileSdk
@@ -59,7 +59,7 @@ dependencies {
     api project(Modules.beagleExtendedSchema)
     api project(Modules.beagleSchemaKotlinCore)
 
-    api project(Modules.beagleAnnotation)
+    api project(Modules.beagleCommonAnnotation)
     api project(Modules.beagleAndroidAnnotation)
 
     implementation GlideLibraries.glide
@@ -90,4 +90,4 @@ dependencies {
     androidTestImplementation TestLibraries.espressoCore
 }
 
-apply from: rootProject.file('maven-publish.gradle')
+//apply from: rootProject.file('maven-publish.gradle')

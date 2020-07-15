@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
+
 include Modules.androidSample
-include Modules.backendSampleCore
-include Modules.backendSampleSpring
-include Modules.backendSampleMicronaut
 include Modules.beagleAndroid
-include Modules.beagleBackendFramework
 include Modules.beagleAndroidProcessor
 include Modules.beagleAndroidInternalProcessor
 include Modules.beagleAndroidAnnotation
 include Modules.beagleAndroidPreview
-include Modules.beagleAnnotation
 include Modules.beagleCommonProcessorUtils
-include Modules.beagleBackendSpringStarter
-include Modules.beagleBackendMicronautStarter
+project(Modules.beagleCommonProcessorUtils).projectDir = file('../common/processor-utils')
 include Modules.beagleSchemaKotlinCore
-include Modules.beagleSchemaBackendWidgets
+project(Modules.beagleSchemaKotlinCore).projectDir = file('../schema/kotlin-core')
 include Modules.beagleExtendedSchema
-include Modules.beagleBackendProcessor
+project(Modules.beagleExtendedSchema).projectDir = file('../common/extended-schema')
+include Modules.beagleCommonAnnotation
+project(Modules.beagleCommonAnnotation).projectDir = file('../common/annotation')

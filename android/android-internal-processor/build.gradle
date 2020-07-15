@@ -26,7 +26,7 @@ dependencies {
 
     implementation project(Modules.beagleCommonProcessorUtils)
     implementation project(Modules.beagleSchemaKotlinCore)
-    implementation project(Modules.beagleAnnotation)
+    implementation project(Modules.beagleCommonAnnotation)
     implementation project(Modules.beagleAndroidAnnotation)
 
     implementation ProcessorLibraries.incap
@@ -41,4 +41,4 @@ dependencies {
     testImplementation TestLibraries.mockk
 }
 
-apply from: rootProject.file('maven-publish.gradle')
+//apply from: rootProject.file('maven-publish.gradle')

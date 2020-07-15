@@ -17,7 +17,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply from: rootProject.file('jacoco.gradle')
+//apply from: rootProject.file('jacoco.gradle')
 
 android {
     compileSdkVersion Versions.compileSdk
@@ -57,4 +57,4 @@ dependencies {
     testImplementation TestLibraries.mockk
 }
 
-apply from: rootProject.file('maven-publish.gradle')
+//apply from: rootProject.file('maven-publish.gradle')
