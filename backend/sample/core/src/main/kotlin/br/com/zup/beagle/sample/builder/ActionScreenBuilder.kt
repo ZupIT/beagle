@@ -17,13 +17,13 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.sample.constants.NAVIGATION_BAR_STYLE_DEFAULT
 import br.com.zup.beagle.sample.constants.PATH_SCREEN_DEEP_LINK_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_ACTION_CLICK_ENDPOINT
+import br.com.zup.beagle.widget.action.Alert
+import br.com.zup.beagle.widget.action.Confirm
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
-import br.com.zup.beagle.widget.action.Confirm
 import br.com.zup.beagle.widget.action.SendRequest
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
@@ -198,5 +198,3 @@ object ActionScreenBuilder : ScreenBuilder {
         )
     }
 }
-
-
