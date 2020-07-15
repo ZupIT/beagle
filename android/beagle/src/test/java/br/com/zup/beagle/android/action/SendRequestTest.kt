@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
@@ -44,7 +45,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class SendRequestHandlerTest {
+class SendRequestTest {
 
     @get:Rule
     var executorRule = InstantTaskExecutorRule()
@@ -203,7 +204,7 @@ class SendRequestHandlerTest {
             onError = onError,
             onFinish = onFinish
         ).apply {
-            every { evaluateExpression(rootView, any()) } returns ""
+            every { evaluateExpression(rootView, any<Any>()) } returns ""
             every { handleEvent(rootView, view, any<List<Action>>(), any(), any()) } just Runs
         }
     }
