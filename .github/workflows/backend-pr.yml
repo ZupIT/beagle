@@ -25,7 +25,7 @@ jobs:
                     key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('**/Gemfile') }}
 
             -   name: Install Fastlane
-                run: bundle install --path ${{ env.fastlane-path }}
+                run: bundle config set path ${{ env.fastlane-path }} && bundle install
             -   name: Run pr check
                 env:
                     GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
