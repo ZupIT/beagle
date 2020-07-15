@@ -1,4 +1,4 @@
-name: iOS PR Verification
+name: Beagle iOS Pull Request
 
 on:
     push:
