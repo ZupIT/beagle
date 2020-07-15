@@ -1,3 +1,5 @@
+
+**/.DS_Store
 .DS_Store
 HELP.md
 target/
@@ -56,3 +58,12 @@ fastlane/README.md
 
 ### Jacoco ###
 jacoco.exec
+
+# Android Studio
+/*/build/
+/*/local.properties
+/*/*/build
+/*/*/production
+*.ipr
+*~
+*.swp
