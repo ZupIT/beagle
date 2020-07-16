@@ -71,12 +71,14 @@ public final class RepositoryDefault: Repository {
     }
     
     // MARK: Public Methods
-    
+
+    public typealias Result<Success> = Swift.Result<Success, Request.Error>
+
     @discardableResult
     public func fetchComponent(
         url: String,
         additionalData: RemoteScreenAdditionalData?,
-        completion: @escaping (Result<ServerDrivenComponent, Request.Error>) -> Void
+        completion: @escaping (Result<ServerDrivenComponent>) -> Void
     ) -> RequestToken? {
         let cache = networkCache.checkCache(identifiedBy: url, additionalData: additionalData)
         if case .validCachedData(let data) = cache {
@@ -84,16 +86,10 @@ public final class RepositoryDefault: Repository {
             return nil
         }
 
-        guard let request = handleUrlBuilderRequest(url: url, type: .fetchComponent, additionalData: cache.additional) else {
-            completion(.failure(.urlBuilderError))
-            return nil
-        }
-
-        return dependencies.networkClient.executeRequest(request) { [weak self] result in
+        return dispatchRequest(path: url, type: .fetchComponent, additionalData: cache.additional) { [weak self] result in
             guard let self = self else { return }
 
             let mapped = result
-                .flatMapError { .failure(.networkError($0)) }
                 .flatMap { self.handleFetchComponent($0, cachedComponent: cache.data, url: url) }
 
             DispatchQueue.main.async { completion(mapped) }
@@ -105,20 +101,12 @@ public final class RepositoryDefault: Repository {
         url: String,
         additionalData: RemoteScreenAdditionalData?,
         data: Request.FormData,
-        completion: @escaping (Result<RawAction, Request.Error>) -> Void
+        completion: @escaping (Result<RawAction>) -> Void
     ) -> RequestToken? {
-        
-        guard let request = handleUrlBuilderRequest(url: url, type: .submitForm(data), additionalData: additionalData)
-            else {
-            completion(.failure(.urlBuilderError))
-            return nil
-        }
-
-        return dependencies.networkClient.executeRequest(request) { [weak self] result in
+        return dispatchRequest(path: url, type: .submitForm(data), additionalData: additionalData) { [weak self] result in
             guard let self = self else { return }
 
             let mapped = result
-                .flatMapError { .failure(.networkError($0)) }
                 .flatMap { self.handleForm($0.data) }
 
             DispatchQueue.main.async { completion(mapped) }
@@ -129,17 +117,10 @@ public final class RepositoryDefault: Repository {
     public func fetchImage(
         url: String,
         additionalData: RemoteScreenAdditionalData?,
-        completion: @escaping (Result<Data, Request.Error>) -> Void
+        completion: @escaping (Result<Data>) -> Void
     ) -> RequestToken? {
-        
-        guard let request = handleUrlBuilderRequest(url: url, type: .fetchImage, additionalData: additionalData) else {
-            completion(.failure(.urlBuilderError))
-            return nil
-        }
-        
-        return dependencies.networkClient.executeRequest(request) { result in
+        return dispatchRequest(path: url, type: .fetchImage, additionalData: additionalData) { result in
             let mapped = result
-                .flatMapError { .failure(Request.Error.networkError($0)) }
                 .map { $0.data }
 
             DispatchQueue.main.async { completion(mapped) }
@@ -147,12 +128,33 @@ public final class RepositoryDefault: Repository {
     }
     
     // MARK: Private Methods
+
+    private func dispatchRequest(
+        path: String,
+        type: Request.RequestType,
+        additionalData: RemoteScreenAdditionalData?,
+        completion: @escaping (Result<NetworkResponse>) -> Void
+    ) -> RequestToken? {
+        guard let url = dependencies.urlBuilder.build(path: path) else {
+            dependencies.logger.log(Log.network(.couldNotBuildUrl(url: path)))
+            completion(.failure(.urlBuilderError))
+            return nil
+        }
+
+        let request = Request(url: url, type: type, additionalData: additionalData)
+
+        return dependencies.networkClient.executeRequest(request) { result in
+            completion(
+                result.mapError { .networkError($0) }
+            )
+        }
+    }
     
     private func handleFetchComponent(
         _ response: NetworkResponse,
         cachedComponent: Data?,
         url: String
-    ) -> Result<ServerDrivenComponent, Request.Error> {
+    ) -> Result<ServerDrivenComponent> {
         if
             let cached = cachedComponent,
             let http = response.response as? HTTPURLResponse,
@@ -169,7 +171,7 @@ public final class RepositoryDefault: Repository {
     }
 
     //TODO: change loadFromTextError inside guard let to give a more proper error
-    private func decodeComponent(from data: Data) -> Result<ServerDrivenComponent, Request.Error> {
+    private func decodeComponent(from data: Data) -> Result<ServerDrivenComponent> {
         do {
             guard let component = try dependencies.decoder.decodeComponent(from: data) as? ServerDrivenComponent else {
                 return .failure(.loadFromTextError)
@@ -180,21 +182,12 @@ public final class RepositoryDefault: Repository {
         }
     }
 
-    private func handleForm(_ data: Data) -> Result<RawAction, Request.Error> {
+    private func handleForm(_ data: Data) -> Result<RawAction> {
         do {
             let action = try dependencies.decoder.decodeAction(from: data)
             return .success(action)
         } catch {
             return .failure(.decoding(error))
         }
-    }
-    
-    private func handleUrlBuilderRequest(url: String, type: Request.RequestType, additionalData: RemoteScreenAdditionalData?) -> Request? {
-        guard let builderUrl = dependencies.urlBuilder.build(path: url) else {
-            dependencies.logger.log(Log.network(.couldNotBuildUrl(url: url)))
-            return nil
-        }
-        
-        return Request(url: builderUrl, type: type, additionalData: additionalData)
     }
 }
