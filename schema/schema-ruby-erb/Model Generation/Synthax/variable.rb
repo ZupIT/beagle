@@ -14,13 +14,13 @@
 
 class Variable
 
-    attr_accessor :name, :typeName, :accessor
+    attr_accessor :name, :typeName, :accessor, :isBindable
     
     def initialize(params = {})
         @name = params.fetch(:name, '')
         @typeName = params.fetch(:typeName, '')
         @accessor = params.fetch(:accessor, 'public')
-        @bindable = params.fetch(:bindable, false)
+        @isBindable = params.fetch(:isBindable, false)
     end
-    
+
 end

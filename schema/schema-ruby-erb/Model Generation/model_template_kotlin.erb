@@ -13,11 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+<%
+def handleTypeName(variable)
+        if variable.isBindable
+            "Bind<" + variable.typeName + ">"
+        else
+          variable.typeName
+        end
+    end
+-%>
 
-data class <%= objectType.synthaxType.name %> (
-  <% counter = 0 %>
+data class <%= objectType.synthaxType.name -%> (
   <% for variable in objectType.synthaxType.variables %>
-    <%= variable.accessor %> val <%= variable.name %>: <%= variable.typeName %>,
-    <% counter += 1 %>
+    <%= variable.accessor %> val <%= variable.name %>: <%= handleTypeName(variable) %>,
   <% end %>
 )

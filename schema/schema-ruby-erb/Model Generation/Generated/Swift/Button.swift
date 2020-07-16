@@ -16,8 +16,7 @@
 
 public struct Button {
   
-    public let text: String
-  
-    public let styleId: String
-  
+    public let text: Expression<String>  
+    public let styleId: String  
+
 }

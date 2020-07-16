@@ -13,9 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+<%
+def handleTypeName(variable)
+        if variable.isBindable
+            "Expression<" + variable.typeName + ">"
+        else
+          variable.typeName
+        end
+    end
+-%>
 
-public struct <%= objectType.synthaxType.name %> {
+public struct <%= objectType.synthaxType.name -%> {
   <% for variable in objectType.synthaxType.variables %>
-    <%= variable.accessor %> let <%= variable.name %>: <%= variable.typeName %>
+    <%= variable.accessor %> let <%= variable.name %>: <%= handleTypeName(variable) -%>
   <% end %>
+
 }

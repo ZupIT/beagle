@@ -19,7 +19,7 @@ class Button < BaseComponent
 
     def initialize
         buttonVariables = [
-            Variable.new(:name => "text", :typeName => "String", :accessor => "public"),
+            Variable.new(:name => "text", :typeName => "String", :accessor => "public", :isBindable => true),
             Variable.new(:name => "styleId", :typeName => "String", :accessor => "public")
         ]
         synthaxType = SynthaxType.new(:kind => 'struct', :name => 'Button', :variables => buttonVariables)

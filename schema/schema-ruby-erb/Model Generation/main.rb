@@ -27,7 +27,7 @@ class ModelGenerator
 
   def initialize(objectType = nil, fileName = "")
     @objectType = objectType
-    @erb = ERB.new(File.read(fileName))
+    @erb = ERB.new(File.read(fileName), nil, '-')
   end
   
   attr_accessor :objectType
@@ -37,11 +37,11 @@ class ModelGenerator
   end
 
   def generateKotlin
-    
+    # TODO
   end
   
   def generateSwift
-    
+    # TODO
   end
 
 
