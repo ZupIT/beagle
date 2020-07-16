@@ -16,6 +16,7 @@
 
 import UIKit
 
+@available(*, deprecated, message: "use SimpleForm and SubmitForm instead")
 public struct FormSubmit: RawComponent, AutoInitiableAndDecodable {
     
     // MARK: - Public Properties

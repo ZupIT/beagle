@@ -16,20 +16,26 @@
 
 package br.com.zup.beagle.android.utils
 
+import android.view.View
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.context.ContextActionExecutor
+import br.com.zup.beagle.android.context.ContextDataValueResolver
+import br.com.zup.beagle.android.context.isExpression
+import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.widget.RootView
 import org.json.JSONArray
 import org.json.JSONObject
 
 internal var contextActionExecutor = ContextActionExecutor()
+internal var contextDataValueResolver = ContextDataValueResolver()
 
 /**
  * Execute a list of actions and create the implicit context with eventName and eventValue (optional).
  * @property rootView from buildView
+ * @property origin view that triggered the action
  * @property actions is the list of actions to be executed
  * @property eventName is the name of event to be referenced inside the @property action list
  * @property eventValue is the value that the eventName name has created,
@@ -37,16 +43,18 @@ internal var contextActionExecutor = ContextActionExecutor()
  */
 fun Action.handleEvent(
     rootView: RootView,
+    origin: View,
     actions: List<Action>,
     eventName: String,
     eventValue: Any? = null
 ) {
-    contextActionExecutor.executeActions(rootView, this, actions, eventName, eventValue)
+    contextActionExecutor.executeActions(rootView, origin, this, actions, eventName, eventValue)
 }
 
 /**
  * Execute an action and create the implicit context with eventName and eventValue (optional).
  * @property rootView from buildView
+ * @property origin view that triggered the action
  * @property action is the action to be executed
  * @property eventName is the name of event to be referenced inside the @property action list
  * @property eventValue is the value that the eventName name has created,
@@ -54,11 +62,12 @@ fun Action.handleEvent(
  */
 fun Action.handleEvent(
     rootView: RootView,
+    origin: View,
     action: Action,
     eventName: String,
     eventValue: Any? = null
 ) {
-    contextActionExecutor.executeActions(rootView, this, listOf(action), eventName, eventValue)
+    contextActionExecutor.executeActions(rootView, origin, this, listOf(action), eventName, eventValue)
 }
 
 /**
@@ -75,14 +84,19 @@ fun <T> Action.evaluateExpression(
 
 internal fun Action.evaluateExpression(
     rootView: RootView,
-    expressionData: String
+    data: Any
 ): Any? {
     return try {
-        val value = expressionOf<String>(expressionData).evaluateForAction(rootView, this) ?: ""
-        when {
-            value.startsWith("{") -> JSONObject(value)
-            value.startsWith("[") -> JSONArray(value)
-            else -> value
+        return if (data is JSONObject || data is JSONArray || data.isExpression()) {
+            val value = expressionOf<String>(data.toString()).evaluateForAction(rootView, this)
+            val actualValue = if (data is String) {
+                value
+            } else {
+                BeagleMoshi.moshi.adapter(Any::class.java).fromJson(value)
+            }
+            contextDataValueResolver.parse(actualValue)
+        } else {
+            data
         }
     } catch (ex: Exception) {
         BeagleMessageLogs.errorWhileTryingToEvaluateBinding(ex)

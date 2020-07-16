@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.action
 
+import android.view.View
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.context.valueOfNullable
@@ -25,13 +26,13 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 
 data class Alert(
-    val title: Bind<String>?,
+    val title: Bind<String>? = null,
     val message: Bind<String>,
     val onPressOk: Action? = null,
     val labelOk: String? = null
 ) : Action {
     constructor(
-        title: String?,
+        title: String? = null,
         message: String,
         onPressOk: Action? = null,
         labelOk: String? = null
@@ -45,14 +46,14 @@ data class Alert(
     @Transient
     internal var viewFactory: ViewFactory = ViewFactory()
 
-    override fun execute(rootView: RootView) {
+    override fun execute(rootView: RootView, origin: View) {
         viewFactory.makeAlertDialogBuilder(rootView.getContext())
             .setTitle(title?.let { evaluateExpression(rootView, it) } ?: "")
             .setMessage(evaluateExpression(rootView, message))
             .setPositiveButton(labelOk ?: rootView.getContext().getString(android.R.string.ok)) { dialog, _ ->
                 dialog.dismiss()
                 onPressOk?.let {
-                    handleEvent(rootView, it, "onPressOk")
+                    handleEvent(rootView, origin, it, "onPressOk")
                 }
             }
             .show()

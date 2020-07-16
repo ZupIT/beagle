@@ -19,13 +19,13 @@ package br.com.zup.beagle.sample.activities
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import br.com.zup.beagle.android.annotation.BeagleComponent
-import br.com.zup.beagle.sample.R
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.FragmentTransitionAnimation
 import br.com.zup.beagle.android.view.ServerDrivenState
-import com.google.android.material.snackbar.Snackbar
+import br.com.zup.beagle.sample.R
 
 @BeagleComponent
 class SampleServerDrivenActivity : BeagleActivity() {
@@ -48,7 +48,7 @@ class SampleServerDrivenActivity : BeagleActivity() {
             progressBar.visibility = if (state.loading) View.VISIBLE else View.GONE
         } else if (state is ServerDrivenState.Error) {
             progressBar.visibility = View.GONE
-            Snackbar.make(findViewById(android.R.id.content), "Error", Snackbar.LENGTH_LONG).show()
+            Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()
         }
     }
 

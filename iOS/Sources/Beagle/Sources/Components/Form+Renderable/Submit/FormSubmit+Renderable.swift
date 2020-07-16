@@ -17,7 +17,7 @@
 import UIKit
 import BeagleSchema
 
-extension FormSubmit: ServerDrivenComponent {
+extension Deprecated.FormSubmit: ServerDrivenComponent {
     
     public func toView(renderer: BeagleRenderer) -> UIView {
         let childView = renderer.render(child)

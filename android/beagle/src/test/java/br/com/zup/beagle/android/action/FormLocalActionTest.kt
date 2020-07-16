@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.action
 
+import android.view.View
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.view.BeagleActivity
@@ -36,10 +37,14 @@ class FormLocalActionTest : BaseTest() {
 
     @RelaxedMockK
     private lateinit var rootView: RootView
+
     @MockK
     private lateinit var formLocalActionHandler: FormLocalActionHandler
+
     @MockK
     private lateinit var activity: BeagleActivity
+
+    private val view: View = mockk()
 
     private val actionListener = slot<ActionListener>()
     private val activityStates = mutableListOf<ServerDrivenState>()
@@ -59,7 +64,7 @@ class FormLocalActionTest : BaseTest() {
         val listener = mockk<ActionListener>()
 
         // When
-        formLocalAction.execute(rootView)
+        formLocalAction.execute(rootView, view)
 
         // Then
         verify(exactly = 0) { formLocalActionHandler.handle(any(), any(), listener) }
@@ -75,7 +80,7 @@ class FormLocalActionTest : BaseTest() {
 
         // When
         formLocalAction.formLocalActionHandler = formLocalActionHandler
-        formLocalAction.execute(rootView)
+        formLocalAction.execute(rootView, view)
         actionListener.captured.onStart()
 
         // Then
@@ -95,7 +100,7 @@ class FormLocalActionTest : BaseTest() {
 
         // When
         formLocalAction.formLocalActionHandler = formLocalActionHandler
-        formLocalAction.execute(rootView)
+        formLocalAction.execute(rootView, view)
         actionListener.captured.onSuccess(dumbAction)
 
         // Then
@@ -116,7 +121,7 @@ class FormLocalActionTest : BaseTest() {
 
         // When
         formLocalAction.formLocalActionHandler = formLocalActionHandler
-        formLocalAction.execute(rootView)
+        formLocalAction.execute(rootView, view)
         actionListener.captured.onError(error)
 
         // Then

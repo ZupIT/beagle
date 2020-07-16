@@ -30,7 +30,9 @@ import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.annotation.RegisterWidget
 
+@RegisterWidget
 data class Button(
     val text: Bind<String>,
     val styleId: String? = null,
@@ -62,9 +64,9 @@ data class Button(
 
         val button = viewFactory.makeButton(rootView.getContext(), getStyleId(this.styleId))
 
-        button.setOnClickListener {
+        button.setOnClickListener { view ->
             onPress?.let {
-                this@Button.handleEvent(rootView, it, "onPress")
+                this@Button.handleEvent(rootView, view, it, "onPress")
             }
             clickAnalyticsEvent?.let {
                 BeagleEnvironment.beagleSdk.analytics?.trackEventOnClick(it)

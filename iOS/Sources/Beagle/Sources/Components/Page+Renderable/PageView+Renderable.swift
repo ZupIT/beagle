@@ -33,7 +33,8 @@ extension PageView: ServerDrivenComponent {
 
         let view = PageViewUIComponent(
             model: .init(pages: pagesControllers),
-            indicatorView: indicatorView
+            indicatorView: indicatorView,
+            controller: renderer.controller
         )
         
         view.style.setup(Style(flex: Flex(grow: 1.0)))

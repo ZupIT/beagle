@@ -34,6 +34,7 @@ import kotlinx.coroutines.launch
 import java.net.URI
 import kotlin.coroutines.CoroutineContext
 
+@Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 internal class FormSubmitter(
     private val beagleApi: BeagleApi = BeagleApi(),
     private val deserialization: BeagleSerializer = BeagleSerializer(),

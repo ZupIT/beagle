@@ -16,20 +16,18 @@
 
 package br.com.zup.beagle.android.context
 
+import android.view.View
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
-import org.json.JSONArray
-import org.json.JSONObject
-
-private const val DEFAULT_KEY_NAME = "value"
 
 internal class ContextActionExecutor {
 
+    @Suppress("LongParameterList")
     fun executeActions(
         rootView: RootView,
+        origin: View,
         sender: Any,
         actions: List<Action>,
         eventName: String,
@@ -40,7 +38,7 @@ internal class ContextActionExecutor {
         }
 
         actions.forEach {
-            it.execute(rootView)
+            it.execute(rootView, origin)
         }
     }
 
@@ -54,22 +52,8 @@ internal class ContextActionExecutor {
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
         val contextData = ContextData(
             id = eventName,
-            value = parseToJSONObject(eventValue)
-        )
+            value = eventValue
+        ).normalize()
         viewModel.addImplicitContext(contextData, sender, actions)
-    }
-
-    private fun parseToJSONObject(value: Any): Any {
-        return if (value is String || value is Number || value is Boolean) {
-            JSONObject().apply {
-                put(DEFAULT_KEY_NAME, value)
-            }
-        } else {
-            if (value is Collection<*>) {
-                JSONArray(value)
-            } else {
-                JSONObject(BeagleMoshi.moshi.adapter<Any>(value::class.java).toJson(value))
-            }
-        }
     }
 }

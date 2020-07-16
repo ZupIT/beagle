@@ -36,35 +36,35 @@ struct MainScreen: DeeplinkScreen {
             children: [
                 Button(
                     text: "Navigator",
-                    onPress: [Navigate.pushView(.remote(.NAVIGATE_ENDPOINT, shouldPrefetch: true))]
+                    onPress: [Navigate.pushView(.remote(.init(url: .NAVIGATE_ENDPOINT, shouldPrefetch: true)))]
                 ),
                 Button(
                     text: "Form & Lazy Component",
-                    onPress: [Navigate.openNativeRoute(.LAZY_COMPONENTS_ENDPOINT)]
+                    onPress: [Navigate.openNativeRoute(.init(route: .LAZY_COMPONENTS_ENDPOINT))]
                 ),
                 Button(
                     text: "Page View",
-                    onPress: [Navigate.openNativeRoute(.PAGE_VIEW_ENDPOINT)]
+                    onPress: [Navigate.openNativeRoute(.init(route: .PAGE_VIEW_ENDPOINT))]
                 ),
                 Button(
                     text: "Tab View",
-                    onPress: [Navigate.openNativeRoute(.TAB_VIEW_ENDPOINT)]
+                    onPress: [Navigate.openNativeRoute(.init(route: .TAB_VIEW_ENDPOINT))]
                 ),
                 Button(
                     text: "List View",
-                    onPress: [Navigate.openNativeRoute(.LIST_VIEW_ENDPOINT)]
+                    onPress: [Navigate.openNativeRoute(.init(route: .LIST_VIEW_ENDPOINT))]
                 ),
                 Button(
                     text: "Form",
-                    onPress: [Navigate.openNativeRoute(.FORM_ENDPOINT)]
+                    onPress: [Navigate.openNativeRoute(.init(route: .FORM_ENDPOINT))]
                 ),
                 Button(
                     text: "Custom Component",
-                    onPress: [Navigate.openNativeRoute(.CUSTOM_COMPONENT_ENDPOINT)]
+                    onPress: [Navigate.openNativeRoute(.init(route: .CUSTOM_COMPONENT_ENDPOINT))]
                 ),
                 Button(
                     text: "Web View",
-                    onPress: [Navigate.openNativeRoute(.WEB_VIEW_ENDPOINT)]
+                    onPress: [Navigate.openNativeRoute(.init(route: .WEB_VIEW_ENDPOINT))]
                 ),
                 Button(
                     text: "Send Request",
@@ -75,8 +75,12 @@ struct MainScreen: DeeplinkScreen {
                     onPress: [Navigate.pushView(.declarative(componentInteractionScreen))]
                 ),
                 Button(
+                    text: "Simple Form",
+                    onPress: [Navigate.openNativeRoute(.init(route: .SIMPLE_FORM_ENDPOINT))]
+                ),
+                Button(
                     text: "Sample BFF",
-                    onPress: [Navigate.pushView(.remote(.COMPONENTS_ENDPOINT))]
+                    onPress: [Navigate.pushView(.remote(.init(url: .COMPONENTS_ENDPOINT)))]
                 )
             ]
         )

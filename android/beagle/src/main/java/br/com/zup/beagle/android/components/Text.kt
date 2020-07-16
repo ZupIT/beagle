@@ -28,8 +28,10 @@ import br.com.zup.beagle.android.utils.toAndroidColor
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.widget.core.TextAlignment
 
+@RegisterWidget
 data class Text(
     val text: Bind<String>,
     val styleId: String? = null,
@@ -88,8 +90,6 @@ data class Text(
         BeagleEnvironment.beagleSdk.designSystem?.textStyle(styleName ?: "") ?: 0
 
     private fun TextView.setTextColor(color: String?) {
-        color?.let {
-            this.setTextColor(color.toAndroidColor())
-        }
+        color?.toAndroidColor()?.let { androidColor -> this.setTextColor(androidColor) }
     }
 }

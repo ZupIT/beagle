@@ -27,10 +27,12 @@ import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 
+@RegisterWidget
 internal data class ScreenComponent(
     val identifier: String? = null,
     val safeArea: SafeArea? = null,

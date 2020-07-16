@@ -16,7 +16,9 @@
 
 package br.com.zup.beagle.android.action
 
+import android.view.View
 import br.com.zup.beagle.android.annotation.ContextDataValue
+import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
@@ -35,14 +37,20 @@ data class SetContext(
     val path: String? = null
 ) : Action {
 
-    override fun execute(rootView: RootView) {
+    override fun execute(rootView: RootView, origin: View) {
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
-        viewModel.updateContext(toInternalSetContext(rootView))
+        try {
+            val value = toInternalSetContext(rootView)
+            viewModel.updateContext(value)
+        } catch (ex: Exception) {
+            BeagleLoggerProxy.warning(ex.message ?: "")
+        }
     }
 
     private fun toInternalSetContext(rootView: RootView) = SetContextInternal(
         contextId = this.contextId,
-        value = evaluateExpression(rootView, this.value.toString()) ?: "",
+        value = evaluateExpression(rootView, this.value) ?:
+            throw IllegalStateException("SetContext with id=${this.contextId} evaluated to null"),
         path = this.path
     )
 }

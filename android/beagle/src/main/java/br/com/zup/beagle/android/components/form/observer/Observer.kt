@@ -16,6 +16,9 @@
 
 package br.com.zup.beagle.android.components.form.observer
 
+import br.com.zup.beagle.android.components.form.core.Constants
+
+@Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 interface Observer<T> {
     fun update(o: Observable<T>, arg: T)
 }

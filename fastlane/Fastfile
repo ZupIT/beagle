@@ -110,12 +110,12 @@ platform :backend do
     gradle(task: "detekt")
     gradle(tasks:
         [
-            "backend:framework:test",
-            "backend:starters:beagle-micronaut-starter:test",
-            "backend:starters:beagle-spring-starter:test",
+            "backend:framework:jacocoTestReport",
+            "backend:starters:beagle-micronaut-starter:jacocoTestReport",
+            "backend:starters:beagle-spring-starter:jacocoTestReport",
+            "backend:processor:jacocoTestReport",
             "backend:sample:micronaut:assemble",
-            "backend:sample:spring:assemble",
-            "backend:processor:test"
+            "backend:sample:spring:assemble"
         ]
     )
     run_codecov(platform: 'backend')
