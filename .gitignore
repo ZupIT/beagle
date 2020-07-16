@@ -56,3 +56,5 @@ fastlane/README.md
 
 ### Jacoco ###
 jacoco.exec
+
+schema/schema-ruby-erb/Model Generation/.bundle/
