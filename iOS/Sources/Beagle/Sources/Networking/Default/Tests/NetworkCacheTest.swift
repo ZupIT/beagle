@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -27,18 +26,18 @@ final class NetworkCacheTests: XCTestCase {
     private lazy var dependencies = BeagleScreenDependencies(cacheManager: cacheSpy)
     private let cacheSpy = CacheManagerSpy()
 
-    private let id = "id"
+    private var (id, aHash, maxAge) = ("id", "123", 15)
     private let data = "Cache Test".data(using: .utf8)!
     private lazy var reference = CacheReference(identifier: id, data: data, hash: id)
 
+    private lazy var completeHeaders = [
+        "Beagle-Hash": aHash,
+        "Cache-Control": "max-age=\(maxAge)"
+    ]
+
     func test_withCacheControlHeader_itShouldCacheTheResponse() {
         // Given
-        let (hash, maxAge) = ("123", 15)
-        let headers = [
-            "Beagle-Hash": hash,
-            "Cache-Control": "max-age=\(maxAge)"
-        ]
-        let urlResponse = HTTPURLResponse(url: URL(string: id)!, statusCode: 200, httpVersion: nil, headerFields: headers)!
+        let urlResponse = HTTPURLResponse(url: URL(string: id)!, statusCode: 200, httpVersion: nil, headerFields: completeHeaders)!
 
         // When
         subject.saveCacheIfPossible(
@@ -48,13 +47,46 @@ final class NetworkCacheTests: XCTestCase {
 
         // Then
         let cache = cacheSpy.references.first!.cache
-        XCTAssertEqual(cache.identifier, id)
-        XCTAssertEqual(cache.data, data)
-        XCTAssertEqual(cache.hash, hash)
-        XCTAssertEqual(cache.maxAge, maxAge)
+        XCTAssert(cache.identifier == id)
+        XCTAssert(cache.data == data)
+        XCTAssert(cache.hash == aHash)
+        XCTAssert(cache.maxAge == maxAge)
     }
 
-    func test_whenNoCacheData() {
+    func test_shouldFailMetaDataWithoutHash() {
+        // Given
+        let headers = [AnyHashable: Any]()
+
+        // When
+        let cache = subject.getMetaData(from: headers)
+
+        // Then
+        XCTAssert(cache == nil)
+    }
+
+    func test_shouldHaveMetaData() {
+        // When
+        let cache = subject.getMetaData(from: completeHeaders)
+
+        // Then
+        XCTAssert(cache?.hash == aHash)
+        XCTAssert(cache?.maxAge == maxAge)
+    }
+
+    func test_metaDataWithInvalidMaxAge() {
+        // Given
+        let invalidMaxAge = "notNumber"
+        completeHeaders["Cache-Control"] = invalidMaxAge
+
+        // When
+        let cache = subject.getMetaData(from: completeHeaders)
+
+        // Then
+        XCTAssert(cache?.hash == aHash)
+        XCTAssert(cache?.maxAge == nil)
+    }
+
+    func test_whenDataNotCached() {
         // When
         let cache = subject.checkCache(identifiedBy: id, additionalData: nil)
 
@@ -62,7 +94,7 @@ final class NetworkCacheTests: XCTestCase {
         XCTAssert(cache == .dataNotCached)
     }
 
-    func test_whenValidCache() {
+    func test_whenValidCachedData() {
         // Given
         cacheSpy.references.append(.init(cache: reference, isValid: true))
 

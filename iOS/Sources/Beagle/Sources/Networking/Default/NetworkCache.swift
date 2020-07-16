@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -74,19 +73,32 @@ class NetworkCache {
         guard
             let manager = dependencies.cacheManager,
             let http = response.response as? HTTPURLResponse,
-            let hash = value(forHeader: cacheHashHeader, in: http)
+            let meta = getMetaData(from: http.allHeaderFields)
         else {
             return
         }
 
-        let maxAge = cacheMaxAge(httpResponse: http)
         manager.addToCache(
-            CacheReference(identifier: url, data: response.data, hash: hash, maxAge: maxAge)
+            CacheReference(identifier: url, data: response.data, hash: meta.hash, maxAge: meta.maxAge)
         )
     }
 
-    private func cacheMaxAge(httpResponse: HTTPURLResponse) -> Int? {
-        guard let specifiedAge = value(forHeader: serviceMaxCacheAge, in: httpResponse) else {
+    func getMetaData(from headers: [AnyHashable: Any]) -> MetaData? {
+        guard let hash = value(forHeader: cacheHashHeader, in: headers) else {
+            return nil
+        }
+
+        let maxAge = serverMaxAge(in: headers)
+        return MetaData(hash: hash, maxAge: maxAge)
+    }
+
+    struct MetaData {
+        let hash: String
+        let maxAge: Int?
+    }
+
+    private func serverMaxAge(in headers: [AnyHashable: Any]) -> Int? {
+        guard let specifiedAge = value(forHeader: serviceMaxCacheAge, in: headers) else {
             return nil
         }
 
@@ -100,9 +112,8 @@ class NetworkCache {
         }
     }
 
-    private func value(forHeader header: String, in response: HTTPURLResponse) -> String? {
+    private func value(forHeader header: String, in headers: [AnyHashable: Any]) -> String? {
         let key = header.lowercased()
-        let headers = response.allHeaderFields
         for entry in headers {
             if (entry.key as? String)?.lowercased() == key {
                 return entry.value as? String
