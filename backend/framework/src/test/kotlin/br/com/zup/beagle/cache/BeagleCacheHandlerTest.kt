@@ -32,7 +32,7 @@ import kotlin.test.assertTrue
 
 internal class BeagleCacheHandlerTest {
 
-    private val excludedEndpoints = listOf("/ima*")
+    private val excludedEndpoints = listOf("/ima.*")
 
     companion object {
         private const val HOME_ENDPOINT = "/home"

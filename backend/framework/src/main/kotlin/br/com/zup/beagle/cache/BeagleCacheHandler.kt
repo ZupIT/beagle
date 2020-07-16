@@ -19,7 +19,6 @@ package br.com.zup.beagle.cache
 import com.google.common.hash.Hashing
 import java.net.HttpURLConnection
 import java.nio.charset.Charset
-import java.util.regex.Pattern
 
 class BeagleCacheHandler(excludeEndpoints: List<String> = listOf()) {
     companion object {
@@ -27,22 +26,22 @@ class BeagleCacheHandler(excludeEndpoints: List<String> = listOf()) {
     }
 
     private val endpointHashMap = mutableMapOf<String, String>()
-    private val excludePatterns = excludeEndpoints.filter { it.isNotEmpty() }.map(Pattern::compile)
+    private val excludePatterns = excludeEndpoints.filter { it.isNotEmpty() }.map(::Regex)
 
     private fun generateHashForJson(json: String) =
         Hashing.sha512().hashString(json, Charset.defaultCharset()).toString()
 
-    private fun getCacheKey(endpoint: String, currentPlatform: String?) = currentPlatform?.plus("_")?.plus(endpoint)
-        ?: endpoint
+    private fun getCacheKey(endpoint: String, currentPlatform: String?) =
+        currentPlatform?.plus("_")?.plus(endpoint) ?: endpoint
 
     internal fun isEndpointInExcludedPatterns(endpoint: String) =
-        this.excludePatterns.any { it.matcher(endpoint).find() }
+        this.excludePatterns.any { it matches endpoint }
 
-    internal fun isHashUpToDate(endpoint: String, currentPlatform: String?, hash: String)
-        = this.endpointHashMap[getCacheKey(endpoint, currentPlatform)] == hash
+    internal fun isHashUpToDate(endpoint: String, currentPlatform: String?, hash: String) =
+        this.endpointHashMap[this.getCacheKey(endpoint, currentPlatform)] == hash
 
     internal fun generateAndAddHash(endpoint: String, currentPlatform: String?, json: String) =
-        this.endpointHashMap.computeIfAbsent(getCacheKey(endpoint, currentPlatform)) {
+        this.endpointHashMap.computeIfAbsent(this.getCacheKey(endpoint, currentPlatform)) {
             this.generateHashForJson(json)
         }
 
