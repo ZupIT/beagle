@@ -33,7 +33,7 @@ import io.micronaut.http.filter.ServerFilterChain
 import io.reactivex.Flowable
 import org.reactivestreams.Publisher
 
-@Filter(value = ["\${$BEAGLE_CACHE_INCLUDES:/**}"], methods = [HttpMethod.GET])
+@Filter(value = ["\${$BEAGLE_CACHE_INCLUDES:}"], methods = [HttpMethod.GET])
 @Requirements(
     Requires(classes = [BeagleCacheHandler::class]),
     Requires(property = BEAGLE_CACHE_ENABLED, value = "true", defaultValue = "true")
