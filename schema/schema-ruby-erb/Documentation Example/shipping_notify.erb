@@ -1,0 +1,29 @@
+Dear <%= customer %>
+
+This note is just to let you know that we've shipped
+some items that you ordered.
+
+-----------------------------------------
+Qty Item
+      Shipping Status
+-----------------------------------------<%
+    items.each do |qty, item, shipped|
+      if shipped == Date.today
+        status = 'Just shipped'
+      elsif shipped < Date.today
+        status = 'Shipped ' + shipped.strftime("%B %d, %Y")
+      else
+        status = 'NA'
+      end
+%>
+<%= qty %> <%= item %>
+       - <%= status %><%
+    end       
+%>
+-----------------------------------------
+
+You can print the receipt and check the status of this
+order (and any of your other orders) online by visiting
+your account at http://www.druby.org/<%= account %>
+
+http://www.druby.org
