@@ -1,3 +1,5 @@
+import br.com.zup.beagle.Dependencies
+
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -20,22 +22,24 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:${Versions.gradle}"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
-        classpath "com.dicedmelon.gradle:jacoco-android:${Versions.jacoco}"
-        classpath "com.karumi:shot:${Versions.karumi}"
-        classpath "com.github.dcendents:android-maven-gradle-plugin:${Versions.dcendents}"
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:${Versions.dokka}"
+        classpath "com.android.tools.build:gradle:4.0.1"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72"
+        classpath "com.dicedmelon.gradle:jacoco-android:0.1.4"
+        classpath "com.karumi:shot:3.1.0"
+        classpath "com.github.dcendents:android-maven-gradle-plugin:2.1"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.10.1"
     }
 }
 
 plugins {
     id "io.gitlab.arturbosch.detekt" version "1.9.1"
     id "com.github.ben-manes.versions" version "0.28.0"
+    id "br.com.zup.beagle.dependencies"
 }
 
 allprojects {
-//    apply from: "../detekt.gradle"
+    apply from: "$rootDir/../detekt.gradle"
+    apply plugin: "br.com.zup.beagle.dependencies"
 
     repositories {
         google()

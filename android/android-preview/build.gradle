@@ -1,3 +1,5 @@
+import br.com.zup.beagle.Dependencies
+
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -20,17 +22,17 @@ apply plugin: 'kotlin-android-extensions'
 //apply from: rootProject.file('jacoco.gradle')
 
 android {
-    compileSdkVersion Versions.compileSdk
-    buildToolsVersion Versions.buildTools
+    compileSdkVersion Dependencies.Versions.compileSdk
+    buildToolsVersion Dependencies.Versions.buildTools
 
     defaultConfig {
-        minSdkVersion Versions.minSdk
-        targetSdkVersion Versions.targetSdk
+        minSdkVersion Dependencies.Versions.minSdk
+        targetSdkVersion Dependencies.Versions.targetSdk
 
-        versionCode Releases.versionCode
-        versionName "${Releases.beagleVersionName}"
+        versionCode Dependencies.Releases.versionCode
+        versionName "${Dependencies.Releases.beagleVersionName}"
 
-        consumerProguardFiles GeneralNames.consumerProguard
+        consumerProguardFiles Dependencies.GeneralNames.consumerProguard
     }
 
     buildTypes {
@@ -45,16 +47,16 @@ android {
 }
 
 dependencies {
-    implementation AndroidxLibraries.appcompat
-    implementation GeneralLibraries.kotlin
-    implementation GeneralLibraries.okHttp
+    implementation Dependencies.AndroidxLibraries.appcompat
+    implementation Dependencies.GeneralLibraries.kotlin
+    implementation Dependencies.GeneralLibraries.okHttp
 
-    implementation project(Modules.beagleAndroid)
+    implementation project(Dependencies.Modules.beagleAndroid)
 
     // Unit Testing
-    testImplementation TestLibraries.junit
-    testImplementation TestLibraries.kotlinTest
-    testImplementation TestLibraries.mockk
+    testImplementation Dependencies.TestLibraries.junit
+    testImplementation Dependencies.TestLibraries.kotlinTest
+    testImplementation Dependencies.TestLibraries.mockk
 }
 
 //apply from: rootProject.file('maven-publish.gradle')

@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
+includeBuild("dependenciesPlugin")
 
-include Modules.androidSample
-include Modules.beagleAndroid
-include Modules.beagleAndroidProcessor
-include Modules.beagleAndroidInternalProcessor
-include Modules.beagleAndroidAnnotation
-include Modules.beagleAndroidPreview
-include Modules.beagleCommonProcessorUtils
-project(Modules.beagleCommonProcessorUtils).projectDir = file('../common/processor-utils')
-include Modules.beagleSchemaKotlinCore
-project(Modules.beagleSchemaKotlinCore).projectDir = file('../schema/kotlin-core')
-include Modules.beagleExtendedSchema
-project(Modules.beagleExtendedSchema).projectDir = file('../common/extended-schema')
-include Modules.beagleCommonAnnotation
-project(Modules.beagleCommonAnnotation).projectDir = file('../common/annotation')
+include ":sample"
+include ":beagle"
+include ":android-processor"
+include ":android-internal-processor"
+include ":android-annotation"
+include ":android-preview"
+include ":common:processor-utils"
+project(":common:processor-utils").projectDir = file('../common/processor-utils')
+include ":schema:kotlin-core"
+project(":schema:kotlin-core").projectDir = file('../schema/kotlin-core')
+include ":common:extended-schema"
+project(":common:extended-schema").projectDir = file('../common/extended-schema')
+include ":common:annotation"
+project(":common:annotation").projectDir = file('../common/annotation')

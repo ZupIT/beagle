@@ -1,3 +1,5 @@
+import br.com.zup.beagle.Dependencies
+
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -20,10 +22,10 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
-    implementation GeneralLibraries.kotlin
-    implementation GeneralLibraries.kotlinPoet
-    implementation project(Modules.beagleCommonAnnotation)
-    implementation project(Modules.beagleSchemaKotlinCore)
+    implementation Dependencies.GeneralLibraries.kotlin
+    implementation Dependencies.GeneralLibraries.kotlinPoet
+    implementation project(Dependencies.Modules.beagleCommonAnnotation)
+    implementation project(Dependencies.Modules.beagleSchemaKotlinCore)
 }
 
 //apply from: rootProject.file('maven-publish.gradle')

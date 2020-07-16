@@ -1,3 +1,5 @@
+import br.com.zup.beagle.Dependencies
+
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -20,25 +22,25 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
-    implementation GeneralLibraries.kotlin
+    implementation Dependencies.GeneralLibraries.kotlin
 
-    implementation GeneralLibraries.kotlinPoet
+    implementation Dependencies.GeneralLibraries.kotlinPoet
 
-    implementation project(Modules.beagleCommonProcessorUtils)
-    implementation project(Modules.beagleSchemaKotlinCore)
-    implementation project(Modules.beagleCommonAnnotation)
-    implementation project(Modules.beagleAndroidAnnotation)
+    implementation project(Dependencies.Modules.beagleCommonProcessorUtils)
+    implementation project(Dependencies.Modules.beagleSchemaKotlinCore)
+    implementation project(Dependencies.Modules.beagleCommonAnnotation)
+    implementation project(Dependencies.Modules.beagleAndroidAnnotation)
 
-    implementation ProcessorLibraries.incap
-    kapt ProcessorLibraries.incapPrcessor
+    implementation Dependencies.ProcessorLibraries.incap
+    kapt Dependencies.ProcessorLibraries.incapPrcessor
 
-    implementation ProcessorLibraries.autoService
-    kapt ProcessorLibraries.autoService
+    implementation Dependencies.ProcessorLibraries.autoService
+    kapt Dependencies.ProcessorLibraries.autoService
 
-    testImplementation TestLibraries.junit
-    testImplementation TestLibraries.kotlinTest
-    testImplementation TestLibraries.googleCompileTesting
-    testImplementation TestLibraries.mockk
+    testImplementation Dependencies.TestLibraries.junit
+    testImplementation Dependencies.TestLibraries.kotlinTest
+    testImplementation Dependencies.TestLibraries.googleCompileTesting
+    testImplementation Dependencies.TestLibraries.mockk
 }
 
 //apply from: rootProject.file('maven-publish.gradle')

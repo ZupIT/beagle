@@ -40,11 +40,6 @@ shot {
 project.afterEvaluate {
 
     task copyVerificationFiles() {
-        doFirst {
-            println("screenShotsRecordedBaseDir=${screenShotsRecordedBaseDir}")
-            println("screenShotsVerificationBaseDir=${screenShotsVerificationBaseDir}")
-        }
-
         fileTree(dir: "${screenShotsRecordedBaseDir}")
                 .filter { f ->
                     f.name.contains("_screenshots-default_")
@@ -66,7 +61,6 @@ project.afterEvaluate {
 
 private def getArgument(prop, defaultValue) {
     def r = project.hasProperty(prop) ? project.getProperties().get(prop) : defaultValue
-    println("${prop}=${r}")
     return r
 }
 

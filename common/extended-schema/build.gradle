@@ -1,3 +1,5 @@
+import br.com.zup.beagle.Dependencies
+
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -17,13 +19,13 @@
 apply plugin: 'kotlin'
 
 dependencies {
-    implementation GeneralLibraries.kotlin
-    implementation project(Modules.beagleSchemaKotlinCore)
+    implementation Dependencies.GeneralLibraries.kotlin
+    implementation project(Dependencies.Modules.beagleSchemaKotlinCore)
 
-    testImplementation TestLibraries.kotlinTest
-    testImplementation TestLibraries.mockk
-    testImplementation TestLibraries.junit5Api
-    testRuntime TestLibraries.junit5Engine
+    testImplementation Dependencies.TestLibraries.kotlinTest
+    testImplementation Dependencies.TestLibraries.mockk
+    testImplementation Dependencies.TestLibraries.junit5Api
+    testRuntime Dependencies.TestLibraries.junit5Engine
 }
 
 //apply from: rootProject.file('maven-publish.gradle')
