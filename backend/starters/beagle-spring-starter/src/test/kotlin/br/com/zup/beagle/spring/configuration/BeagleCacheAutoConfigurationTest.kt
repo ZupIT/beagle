@@ -28,9 +28,7 @@ import org.springframework.boot.test.context.FilteredClassLoader
 import org.springframework.boot.test.context.assertj.AssertableApplicationContext
 import org.springframework.boot.test.context.runner.ApplicationContextRunner
 import org.springframework.boot.web.servlet.FilterRegistrationBean
-import java.util.regex.Pattern
 import kotlin.test.assertTrue
-
 
 internal class BeagleCacheAutoConfigurationTest {
 
@@ -71,8 +69,9 @@ internal class BeagleCacheAutoConfigurationTest {
     fun beagleCacheAutoConfiguration_must_be_present_with_default_value_for_properties() {
         this.contextRunner.run {
             validateCacheFilter(it)
-            assertThat(it).getBean(BeagleCacheAutoConfiguration::class.java).hasFieldOrPropertyWithValue(this.includesField, listOf("*"))
-            assertThat(it).getBean(BeagleCacheAutoConfiguration::class.java).hasFieldOrPropertyWithValue(this.excludesField, listOf(""))
+            assertThat(it).getBean(BeagleCacheAutoConfiguration::class.java)
+                .hasFieldOrPropertyWithValue(this.includesField, listOf(" "))
+                .hasFieldOrPropertyWithValue(this.excludesField, listOf(""))
         }
     }
 
@@ -81,11 +80,7 @@ internal class BeagleCacheAutoConfigurationTest {
         this.contextRunner.withPropertyValues("$BEAGLE_CACHE_INCLUDES=/te*").run {
             validateCacheFilter(it)
             val cacheFilter = (it.getBean(this.cacheFilterBeanName) as FilterRegistrationBean<*>)
-            assertTrue {
-                cacheFilter.urlPatterns.map(Pattern::compile).any { pattern ->
-                    pattern.matcher("/text").find()
-                }
-            }
+            assertTrue { cacheFilter.urlPatterns.map(::Regex).any { regex -> regex.containsMatchIn("/text") } }
         }
     }
 
