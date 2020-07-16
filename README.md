@@ -21,7 +21,7 @@
 </p>
 
 <h3 align="center">
-  <a href="https://docs.usebeagle.io/primeiros-passos/instalando-beagle">Getting Started</a>
+  <a href="https://docs.usebeagle.io">Getting Started</a>
   <span> · </span>
   <a href="https://docs.usebeagle.io/primeiros-passos/usando-beagle">Learn the Basics</a>
   <span> · </span>
