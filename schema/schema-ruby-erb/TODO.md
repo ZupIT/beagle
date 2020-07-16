@@ -5,3 +5,5 @@
 - [ ] we need someone studying how to write ruby code beatifully
 - [ ] can we easily integrate ruby with another language that is quicker to understand? Do we really need to do that?
 - [ ] Unit tests
+- [ ] Generation Tests
+- [ ] Integrate License Header Manager(this is a plugin in VSCode) to folder Schema

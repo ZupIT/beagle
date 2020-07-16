@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
-data <%= objectType.synthaxType.kind %> <%= objectType.synthaxType.name %> {
-  <% counter = 0 %>
-  <% for variable in objectType.synthaxType.variables %>
-    <%= variable.accessor %> val <%= variable.name %>: <%= variable.typeName %>,
-    <% counter += 1 %>
-  <% end %>
+data struct Button {
+  
+  
+    public val title: String,
+    
+  
+    public val styleId: String,
+    
+  
 }

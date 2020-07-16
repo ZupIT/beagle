@@ -18,6 +18,8 @@ require 'date'
 require './Synthax/variable.rb'
 require './Synthax/type.rb'
 require './Models/button.rb'
+require './FileHandler/file_handler.rb'
+require './Common/constants.rb'
 
 class ModelGenerator
   
@@ -34,13 +36,13 @@ class ModelGenerator
 
 end
 
-
 if __FILE__ == $0
-  
+  writer = FileHandler.new
+
   swiftGenerator = ModelGenerator.new(Button.new, 'model_template_swift.erb')
-  puts swiftGenerator.to_s
+  writer.write(Constants.new.swift_path + "Button.swift", swiftGenerator.to_s)
 
   kotlinGenerator = ModelGenerator.new(Button.new, 'model_template_kotlin.erb')
-  puts kotlinGenerator.to_s
+  writer.write(Constants.new.kotlin_path + "Button.kt", kotlinGenerator.to_s)
 
 end
