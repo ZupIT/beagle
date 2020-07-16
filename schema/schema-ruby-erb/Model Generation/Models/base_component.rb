@@ -14,8 +14,10 @@
 
 class BaseComponent  
     
+    attr_accessor :synthaxType
+
     def initialize(type)
-        @type = type
+        @synthaxType = type
     end
 
 end 

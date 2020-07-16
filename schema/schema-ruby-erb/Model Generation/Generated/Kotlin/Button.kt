@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-data struct Button {
+data class Button (
   
   
-    public val title: String,
+    public val text: String,
     
   
     public val styleId: String,
     
   
-}
+)

@@ -17,14 +17,15 @@ require_relative './base_component.rb'
 
 class Button < BaseComponent
 
-    attr_accessor :synthaxType
-   
-    def initialize(params = {})
-        @buttonVariables = [
-            Variable.new(:name => "title", :typeName => "String", :accessor => "public"),
+    def initialize
+        buttonVariables = [
+            Variable.new(:name => "text", :typeName => "String", :accessor => "public"),
             Variable.new(:name => "styleId", :typeName => "String", :accessor => "public")
         ]
-        @synthaxType = SynthaxType.new(:kind => 'struct', :name => 'Button', :variables => @buttonVariables)
+        synthaxType = SynthaxType.new(:kind => 'struct', :name => 'Button', :variables => buttonVariables)
+
+        super(synthaxType)
+
     end
     
 end

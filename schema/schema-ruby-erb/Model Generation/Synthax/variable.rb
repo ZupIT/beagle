@@ -20,6 +20,7 @@ class Variable
         @name = params.fetch(:name, '')
         @typeName = params.fetch(:typeName, '')
         @accessor = params.fetch(:accessor, 'public')
+        @bindable = params.fetch(:bindable, false)
     end
     
 end

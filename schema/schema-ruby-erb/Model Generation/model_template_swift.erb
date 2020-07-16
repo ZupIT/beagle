@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-public <%= objectType.synthaxType.kind %> <%= objectType.synthaxType.name %> {
+public struct <%= objectType.synthaxType.name %> {
   <% for variable in objectType.synthaxType.variables %>
     <%= variable.accessor %> let <%= variable.name %>: <%= variable.typeName %>
   <% end %>

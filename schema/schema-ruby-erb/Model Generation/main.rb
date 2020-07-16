@@ -23,6 +23,8 @@ require './Common/constants.rb'
 
 class ModelGenerator
   
+  @writer = FileHandler.new
+
   def initialize(objectType = nil, fileName = "")
     @objectType = objectType
     @erb = ERB.new(File.read(fileName))
@@ -34,15 +36,24 @@ class ModelGenerator
     @erb.result(binding)
   end
 
+  def generateKotlin
+    
+  end
+  
+  def generateSwift
+    
+  end
+
+
 end
 
 if __FILE__ == $0
   writer = FileHandler.new
-
+  
   swiftGenerator = ModelGenerator.new(Button.new, 'model_template_swift.erb')
   writer.write(Constants.new.swift_path + "Button.swift", swiftGenerator.to_s)
 
   kotlinGenerator = ModelGenerator.new(Button.new, 'model_template_kotlin.erb')
   writer.write(Constants.new.kotlin_path + "Button.kt", kotlinGenerator.to_s)
-
+  
 end

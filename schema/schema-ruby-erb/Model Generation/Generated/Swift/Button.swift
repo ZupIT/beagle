@@ -16,7 +16,7 @@
 
 public struct Button {
   
-    public let title: String
+    public let text: String
   
     public let styleId: String
   
