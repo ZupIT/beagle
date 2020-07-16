@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.micronaut.service
+package br.com.zup.beagle.sample.spring.service
 
-import br.com.zup.beagle.sample.builder.ImageRemoteScreenBuilder
+import br.com.zup.beagle.sample.builder.NetworkImageScreenBuilder
 import br.com.zup.beagle.sample.constants.BEACH_NETWORK_IMAGE
 import br.com.zup.beagle.sample.constants.BFF_BEACH_NETWORK_IMAGE
-import javax.inject.Singleton
+import org.springframework.stereotype.Service
 
-@Singleton
-class SampleImageRemoteService {
-    fun createImageRemote() = ImageRemoteScreenBuilder(BEACH_NETWORK_IMAGE)
+@Service
+class SampleNetworkImageService {
+    fun createNetworkImage() = NetworkImageScreenBuilder(BEACH_NETWORK_IMAGE)
 
-    fun createBffNetworkImage() = ImageRemoteScreenBuilder(BFF_BEACH_NETWORK_IMAGE)
+    fun createBffNetworkImage() = NetworkImageScreenBuilder(BFF_BEACH_NETWORK_IMAGE)
 }

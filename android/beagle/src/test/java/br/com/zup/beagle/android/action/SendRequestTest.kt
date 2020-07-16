@@ -43,7 +43,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class SendRequestHandlerTest {
+class SendRequestTest {
 
     @get:Rule
     var executorRule = InstantTaskExecutorRule()
@@ -201,7 +201,7 @@ class SendRequestHandlerTest {
             onError = onError,
             onFinish = onFinish
         ).apply {
-            every { evaluateExpression(rootView, any()) } returns ""
+            every { evaluateExpression(rootView, any<Any>()) } returns ""
             every { handleEvent(rootView, any<List<Action>>(), any(), any()) } just Runs
         }
     }

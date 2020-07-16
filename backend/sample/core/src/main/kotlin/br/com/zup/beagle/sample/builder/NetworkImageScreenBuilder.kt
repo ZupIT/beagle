@@ -17,10 +17,10 @@
 package br.com.zup.beagle.sample.builder
 
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.sample.constants.TEXT_IMAGE_REMOTE
+import br.com.zup.beagle.sample.constants.TEXT_NETWORK_IMAGE
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
@@ -38,18 +38,18 @@ import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.ImagePath.Remote
 import br.com.zup.beagle.widget.ui.Text
 
-class ImageRemoteScreenBuilder(private val imagePath: String) : ScreenBuilder {
+class NetworkImageScreenBuilder(private val imagePath: String) : ScreenBuilder {
 
     override fun build() = Screen(
         navigationBar = NavigationBar(
-            title = "Beagle Image Remote",
+            title = "Beagle NetworkImage",
             showBackButton = true,
             navigationBarItems = listOf(
                 NavigationBarItem(
                     text = "",
                     image = Local.justMobile("informationImage"),
                     action = Alert(
-                        title = "Image Remote",
+                        title = "NetworkImage",
                         message = "It is a widget that implements an image with a URL.",
                         labelOk = "OK"
                     )
@@ -58,8 +58,8 @@ class ImageRemoteScreenBuilder(private val imagePath: String) : ScreenBuilder {
         ),
         child = ScrollView(
             scrollDirection = ScrollAxis.VERTICAL,
-            children = listOf(buildImage(title = "Image Remote")) +
-                ImageContentMode.values().map { buildImage("Image Remote with Mode.$it", it) }
+            children = listOf(buildImage(title = "NetworkImage")) +
+                ImageContentMode.values().map { buildImage("NetworkImage with ImageContentMode.$it", it) }
         )
     )
 
@@ -80,7 +80,7 @@ class ImageRemoteScreenBuilder(private val imagePath: String) : ScreenBuilder {
 
     private fun buildText(text: String) = Text(
         text = text,
-        styleId = TEXT_IMAGE_REMOTE
+        styleId = TEXT_NETWORK_IMAGE
     ).applyStyle(Style(
         flex = Flex(
             alignSelf = AlignSelf.CENTER
