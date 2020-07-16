@@ -16,9 +16,11 @@
 
 package com.example.automated_tests.cucumber.steps
 
+
 import androidx.test.rule.ActivityTestRule
 import com.example.automated_tests.MainActivity
-import com.example.automated_tests.cucumber.robots.ButtonScreenRobot
+import com.example.automated_tests.cucumber.elements.*
+import com.example.automated_tests.cucumber.robots.ScreenRobot
 import com.example.automated_tests.utils.ActivityFinisher
 import com.example.automated_tests.utils.TestUtils
 import cucumber.api.java.After
@@ -32,27 +34,69 @@ class ButtonScreenSteps {
     @Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    @Before
+    @Before("@button")
     fun setup() {
         TestUtils.startActivity(activityTestRule, "http://10.0.2.2:8080/button")
     }
 
-    @After
+    @After("@button")
     fun tearDown() {
         ActivityFinisher.finishOpenActivities()
     }
 
     @Given("^that I'm on the button screen$")
     fun checkButtonScreen() {
-        ButtonScreenRobot()
-            .checkViewContainsText("Automated Tests")
+        ScreenRobot()
+            .checkViewContainsText(MAIN_HEADER)
+            .checkViewContainsText(BUTTON_SCREEN_HEADER)
+            .sleep(2)
+    }
+
+    @When("I click on a component with a valid style attribute configured$")
+    fun clickOnButtonWithStyle() {
+        ScreenRobot()
+            .clickOnText(BUTTON_WITH_STYLE_TEXT)
+            .sleep(2)
+    }
+
+    @When("I click on a component with a valid action attribute configured$")
+    fun clickOnButton() {
+        ScreenRobot()
+            .clickOnText(BUTTON_DEFAULT_TEXT)
             .sleep(2)
     }
 
     @Then("^I should see the text (.*)$")
     fun checkHeaderText(nome: String?) {
-        ButtonScreenRobot()
+        ScreenRobot()
             .checkViewContainsText(nome)
+            .sleep(2)
+    }
+
+    @Then("all my button components should render their respective text attributes correctly$")
+    fun renderTextAttributeCorrectly() {
+        ScreenRobot()
+            .checkViewContainsText(BUTTON_DEFAULT_TEXT)
+            .checkViewContainsText(BUTTON_WITH_STYLE_TEXT)
+            .checkViewContainsText(BUTTON_WITH_APPEARANCE_TEXT)
+            .sleep(2)
+    }
+
+    @Then("component should render the style attribute correctly$")
+    fun renderStyleAttributeCorrectly() {
+        ScreenRobot()
+            .checkViewContainsText(MAIN_HEADER)
+            .checkViewContainsText("Action Click")
+            .checkViewContainsText("You clicked right")
+            .sleep(2)
+    }
+
+    @Then("component should render the action attribute correctly$")
+    fun renderActionAttributeCorrectly() {
+        ScreenRobot()
+            .checkViewContainsText(MAIN_HEADER)
+            .checkViewContainsText("Action Click")
+            .checkViewContainsText("You clicked right")
             .sleep(2)
     }
 }

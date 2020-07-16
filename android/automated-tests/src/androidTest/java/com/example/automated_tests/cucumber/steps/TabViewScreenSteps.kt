@@ -16,5 +16,41 @@
 
 package com.example.automated_tests.cucumber.steps
 
+import androidx.test.rule.ActivityTestRule
+import com.example.automated_tests.MainActivity
+import com.example.automated_tests.cucumber.elements.BUTTON_SCREEN_HEADER
+import com.example.automated_tests.cucumber.elements.MAIN_HEADER
+import com.example.automated_tests.cucumber.robots.ScreenRobot
+import com.example.automated_tests.utils.ActivityFinisher
+import com.example.automated_tests.utils.TestUtils
+import cucumber.api.java.After
+import cucumber.api.java.Before
+import cucumber.api.java.en.Given
+import cucumber.api.java.en.When
+import org.junit.Rule
+
 class TabViewScreenSteps {
+
+    @Rule
+    var activityTestRule = ActivityTestRule(MainActivity::class.java)
+
+    @Before("@tabview")
+    fun setup() {
+        TestUtils.startActivity(activityTestRule, "http://10.0.2.2:8080/tabview")
+    }
+
+    @After("@tabview")
+    fun tearDown() {
+        ActivityFinisher.finishOpenActivities()
+    }
+
+    @Given("^that I'm on the tabview screen$")
+    fun checkTabViewScreen() {
+        ScreenRobot()
+            .checkViewContainsText(MAIN_HEADER)
+            .sleep(2)
+            .swipeLeftOnView()
+            .swipeRightOnView()
+    }
+
 }

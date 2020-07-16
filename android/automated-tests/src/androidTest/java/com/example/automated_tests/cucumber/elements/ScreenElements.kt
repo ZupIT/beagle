@@ -14,8 +14,15 @@
  * limitations under the License.
  */
 
+package com.example.automated_tests.cucumber.elements
 
-const val SCREEN_BUTTON_ENDPOINT = "/button"
-const val SCREEN_IMAGE_ENDPOINT = "/image"
-const val SCREEN_ACTION_CLICK_ENDPOINT = "/action-click"
-const val SCREEN_TABVIEW_ENDPOINT = "/tabview"
+const val MAIN_HEADER = "Automated Tests"
+
+//Button Screen
+const val BUTTON_SCREEN_HEADER = "Beagle Button"
+const val BUTTON_DEFAULT_TEXT = "Button"
+const val BUTTON_WITH_STYLE_TEXT = "BUTTON WITH STYLE"
+const val BUTTON_WITH_APPEARANCE_TEXT = "Button with Appearance"
+
+//Image Screen
+

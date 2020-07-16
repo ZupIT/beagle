@@ -18,26 +18,47 @@ package com.example.automated_tests.cucumber.robots
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
-import org.hamcrest.*
+import com.example.automated_tests.R
+import org.hamcrest.Description
+import org.hamcrest.Matcher
+import org.hamcrest.Matchers
+import org.hamcrest.TypeSafeMatcher
 
-class ButtonScreenRobot {
+class ScreenRobot {
 
-    fun checkViewContainsText(text: String?): ButtonScreenRobot {
+    fun checkViewContainsText(text: String?): ScreenRobot {
         Espresso.onView(Matchers.allOf(ViewMatchers.withText(text))).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         return this
     }
 
-    fun clickOnText(text: String?): ButtonScreenRobot {
+    fun clickOnText(text: String?): ScreenRobot {
         Espresso.onView(Matchers.allOf(ViewMatchers.withText(text), ViewMatchers.isDisplayed())).perform(ViewActions.click())
         return this
     }
 
+    fun scrollViewDown(): ScreenRobot {
+        Espresso.onView(ViewMatchers.withId(R.id.root_layout)).perform(ViewActions.swipeUp())
+        return this
+    }
+
+    fun swipeLeftOnView(): ScreenRobot {
+        Espresso.onView(Matchers.allOf(ViewMatchers.withId(R.id.root_layout))).perform(ViewActions.swipeLeft())
+        return this
+    }
+
+    fun swipeRightOnView(): ScreenRobot {
+        Espresso.onView(ViewMatchers.withId(R.id.root_layout)).perform(ViewActions.swipeRight())
+        return this
+    }
+
+
         @Throws(InterruptedException::class)
-        fun sleep(seconds: Int): ButtonScreenRobot {
+        fun sleep(seconds: Int): ScreenRobot {
             Thread.sleep(seconds * 1000L)
             return this
         }

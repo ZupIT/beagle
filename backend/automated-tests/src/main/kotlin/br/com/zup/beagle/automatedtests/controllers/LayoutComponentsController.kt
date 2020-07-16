@@ -18,8 +18,10 @@ package br.com.zup.beagle.automatedtests.controllers
 
 import SCREEN_BUTTON_ENDPOINT
 import SCREEN_IMAGE_ENDPOINT
+import SCREEN_TABVIEW_ENDPOINT
 import br.com.zup.beagle.automatedtests.builders.ButtonScreenBuilder
 import br.com.zup.beagle.automatedtests.builders.ImageScreenBuilder
+import br.com.zup.beagle.automatedtests.builders.TabViewScreenBuilder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -32,4 +34,6 @@ class LayoutComponentsController() {
     @GetMapping(SCREEN_BUTTON_ENDPOINT)
     fun getButtonScreen() = ButtonScreenBuilder.build()
 
+    @GetMapping(SCREEN_TABVIEW_ENDPOINT)
+    fun getTabViewScreen() = TabViewScreenBuilder.build()
 }

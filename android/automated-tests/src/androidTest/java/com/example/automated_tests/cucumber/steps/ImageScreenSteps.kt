@@ -18,20 +18,37 @@ package com.example.automated_tests.cucumber.steps
 
 import androidx.test.rule.ActivityTestRule
 import com.example.automated_tests.MainActivity
+import com.example.automated_tests.cucumber.elements.*
+import com.example.automated_tests.cucumber.robots.ScreenRobot
+import com.example.automated_tests.utils.ActivityFinisher
 import com.example.automated_tests.utils.TestUtils
+import cucumber.api.java.After
+import cucumber.api.java.Before
+import cucumber.api.java.en.Given
 import org.junit.Rule
-import org.junit.Test
+
 
 class ImageScreenSteps {
 
-    @get:Rule
-    var activityTestRule: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java)
+    @Rule
+    var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    @Test
-    fun testImageUrlLoading() {
-        TestUtils.startActivity(activityTestRule,"http://10.0.2.2:8080/image" )
+    @Before("@image")
+    fun setup() {
+        TestUtils.startActivity(activityTestRule, "http://10.0.2.2:8080/image")
+    }
 
-        Thread.sleep(10000)
+    @After("@image")
+    fun tearDown() {
+        ActivityFinisher.finishOpenActivities()
+    }
+
+    @Given("^that I'm on the image screen$")
+    fun checkImageScreen() {
+        ScreenRobot()
+            .checkViewContainsText(MAIN_HEADER)
+            .sleep(2)
+            .scrollViewDown()
     }
 
 }

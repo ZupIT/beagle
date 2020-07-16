@@ -1,7 +1,5 @@
-# new feature
-# Tags: optional
 
-@button
+@button @regression
 Feature: Button Component Validation
 
     As a Beagle developer/user
@@ -11,18 +9,13 @@ Feature: Button Component Validation
     Background:
         Given that I'm on the button screen
 
-    Scenario: Button 00 - Button screen opens up correctly
-        Then I should see the text Beagle Button
-
     Scenario: Button 01 - Button component renders text attribute correctly
-        When the component has a valid text attribute configured
-        Then component should render the text attribute correctly
+        Then all my button components should render their respective text attributes correctly
 
     Scenario: Button 02 - Button component renders style attribute correctly
-        When the component has a valid style attribute configured
+        When I click on a component with a valid style attribute configured
         Then component should render the style attribute correctly
 
     Scenario: Button 03 - Button component renders action attribute correctly
-        And the component has a valid action attribute configured
-        When I click on the button component
+        When I click on a component with a valid action attribute configured
         Then component should render the action attribute correctly
