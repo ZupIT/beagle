@@ -19,7 +19,8 @@ import UIKit
 import BeagleSchema
 
 extension UIView {
-    static private var contextMapKey = "contextMapKey"
+    static var contextMapKey = "contextMapKey"
+    static var expressionLastValueMapKey = "expressionLastValueMapKey"
     
     private class ObjectWrapper<T> {
         let object: T?
@@ -29,9 +30,9 @@ extension UIView {
         }
     }
 
-    public var contextMap: [String: Observable<Context>]? {
+    public var contextMap: [String: Observable<Context>] {
         get {
-            return (objc_getAssociatedObject(self, &UIView.contextMapKey) as? ObjectWrapper)?.object
+            return (objc_getAssociatedObject(self, &UIView.contextMapKey) as? ObjectWrapper)?.object ?? [String: Observable<Context>]()
         }
         set {
             objc_setAssociatedObject(self, &UIView.contextMapKey, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
@@ -46,6 +47,15 @@ extension UIView {
         }
         set {
             objc_setAssociatedObject(self, &UIView.observers, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    public var expressionLastValueMap: [String: DynamicObject] {
+        get {
+            return (objc_getAssociatedObject(self, &UIView.expressionLastValueMapKey) as? ObjectWrapper)?.object ?? [String: DynamicObject]()
+        }
+        set {
+            objc_setAssociatedObject(self, &UIView.expressionLastValueMapKey, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
@@ -86,6 +96,7 @@ extension UIView {
     private func evaluate<T: Decodable>(for expression: SingleExpression) -> T? {
         guard let context = getContext(with: expression.context) else { return nil }
         let dynamicObject = expression.evaluate(model: context.value.value)
+        expressionLastValueMap[expression.rawValue] = dynamicObject
         return transform(dynamicObject)
     }
     
@@ -113,8 +124,7 @@ extension UIView {
         expression.nodes.forEach {
             switch $0 {
             case let .expression(expression):
-                // TODO: create cache mechanism
-                let evaluated: String? = evaluate(for: expression)
+                let evaluated: String? = evaluateWithCache(for: expression, contextId: contextId)
                 result += evaluated ?? expression.rawValue
             case let .string(string):
                 result += string
@@ -125,15 +135,17 @@ extension UIView {
     
     // MARK: Get/Set Context
     
-    func getContext(with id: String?) -> Observable<Context>? {
+    func getContext(with id: String) -> Observable<Context>? {
         let global = dependencies.globalContext
         if global.isGlobal(id: id) {
             return global.context
         }
-        
-        guard let context = contextMap?[id] else {
-            // TODO: create cache mechanism
-            return superview?.getContext(with: id)
+        guard let context = contextMap[id] else {
+            let observable = superview?.getContext(with: id)
+            if let contextObservable = observable {
+                contextMap[id] = contextObservable
+            }
+            return observable
         }
         return context
     }
@@ -144,16 +156,10 @@ extension UIView {
             global.setValue(context.value)
             return
         }
-        
-        if var contextMap = contextMap {
-            if let contextObservable = contextMap[context.id] {
-                contextObservable.value = context
-            } else {
-                contextMap[context.id] = Observable(value: context)
-            }
-            self.contextMap = contextMap
+        if let contextObservable = contextMap[context.id] {
+            contextObservable.value = context
         } else {
-            contextMap = [context.id: Observable(value: context)]
+            contextMap[context.id] = Observable(value: context)
         }
     }
     
@@ -173,6 +179,15 @@ extension UIView {
         let decoder = JSONDecoder()
         guard let data = try? encoder.encode(dynamicObject) else { return nil }
         return try? decoder.decode(T.self, from: data)
+    }
+        
+    // expression last value cache is used only for multiple expressions binding
+    private func evaluateWithCache<T: Decodable>(for expression: SingleExpression, contextId: String? = nil) -> T? {
+        if contextId == nil || contextId == expression.context {
+            return evaluate(for: expression)
+        } else {
+            return transform(expressionLastValueMap[expression.rawValue] ?? .empty)
+        }
     }
     
 }

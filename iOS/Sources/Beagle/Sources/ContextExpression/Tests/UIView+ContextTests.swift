@@ -29,7 +29,7 @@ final class UIViewContextTests: XCTestCase {
         let context2 = Context(id: "contextb", value: [1])
         let context3 = Context(id: "contextb", value: [nil])
 
-        XCTAssertNil(view.contextMap)
+        XCTAssertTrue(view.contextMap.isEmpty)
         view.setContext(context1)
         assertSnapshot(matching: view.contextMap, as: .dump)
         
