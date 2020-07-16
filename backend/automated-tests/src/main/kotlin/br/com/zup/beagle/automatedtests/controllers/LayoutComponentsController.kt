@@ -16,7 +16,8 @@
 
 package br.com.zup.beagle.automatedtests.controllers
 
-import SCREEN_BUTTON_ENDPOINT
+import SCREEN_BUTTON_ALIGN_CENTER_ENDPOINT
+import SCREEN_BUTTON_ALIGN_LEFT_ENDPOINT
 import SCREEN_IMAGE_ENDPOINT
 import SCREEN_TABVIEW_ENDPOINT
 import br.com.zup.beagle.automatedtests.builders.ButtonScreenBuilder
@@ -31,8 +32,11 @@ class LayoutComponentsController() {
     @GetMapping(SCREEN_IMAGE_ENDPOINT)
     fun getImageScreen() = ImageScreenBuilder.build()
 
-    @GetMapping(SCREEN_BUTTON_ENDPOINT)
-    fun getButtonScreen() = ButtonScreenBuilder.build()
+    @GetMapping(SCREEN_BUTTON_ALIGN_CENTER_ENDPOINT)
+    fun getButtonScreenAlignCenter() = ButtonScreenBuilder.buildButtonAlignCenter()
+
+    @GetMapping(SCREEN_BUTTON_ALIGN_LEFT_ENDPOINT)
+    fun getButtonScreenAlignLeft() = ButtonScreenBuilder.buildButtonAlignLeft()
 
     @GetMapping(SCREEN_TABVIEW_ENDPOINT)
     fun getTabViewScreen() = TabViewScreenBuilder.build()

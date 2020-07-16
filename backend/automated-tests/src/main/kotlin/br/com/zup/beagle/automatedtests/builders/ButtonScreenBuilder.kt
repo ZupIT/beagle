@@ -27,70 +27,82 @@ import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
+import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.widget.layout.*
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.ImagePath
 
 object ButtonScreenBuilder {
-    fun build() = Screen(
-        navigationBar = NavigationBar(
-            title = "Beagle Button",
-            showBackButton = true,
-            navigationBarItems = listOf(
-                NavigationBarItem(
-                    text = "",
-                    image = ImagePath.Local.justMobile("informationImage"),
-                    action = Alert(
-                        title = "Button",
-                        message = "This is a widget that will define a button natively using the server " +
-                            "driven information received through Beagle.",
-                        labelOk = "OK"
-                    )
-                )
-            )
-        ),
-        child = Container(
-            children = listOf(
-                createButton(
-                    text = "Button",
-                    style = Style(
-                        margin = EdgeValue(
-                            top = 15.unitReal()
-                        )
-                    )
-                ),
 
-            createButton(
-                text = "Button with style",
-                styleId = "DesignSystem.Button.ScreenButton",
-                style = Style(
-                    margin = EdgeValue(
-                        top = 15.unitReal()
+    private fun createButtonScreen(alignContent: AlignContent, marginTop: UnitValue): Screen {
+        return Screen(
+            navigationBar = NavigationBar(
+                title = "Beagle Button",
+                showBackButton = true,
+                navigationBarItems = listOf(
+                    NavigationBarItem(
+                        text = "",
+                        image = ImagePath.Local.justMobile("informationImage"),
+                        action = Alert(
+                            title = "Button",
+                            message = "This is a widget that will define a button natively using the server " +
+                                "driven information received through Beagle.",
+                            labelOk = "OK"
+                        )
                     )
                 )
             ),
-
-                buttonWithAppearanceAndStyle(text = "Button with Appearance").applyStyle(
-                    style = Style(
-                        margin = EdgeValue(
-                            top = 15.unitReal()
+            child = Container(
+                children = listOf(
+                    createButton(
+                        text = "Button",
+                        style = Style(
+                            margin = EdgeValue(
+                                top = 15.unitReal()
+                            ),
+                            flex = Flex(alignContent = alignContent)
                         )
-                    )
-                ),
+                    ),
 
-                buttonWithAppearanceAndStyle(
-                    text = "Button with Appearance and style",
-                    styleId = BUTTON_STYLE_APPEARANCE
-                ).applyStyle(
-                    Style(
-                        margin = EdgeValue(
-                            top = 15.unitReal()
-                        ))
+                    createButton(
+                        text = "Button with style",
+                        styleId = "DesignSystem.Button.ScreenButton",
+                        style = Style(
+                            margin = EdgeValue(
+                                top = 15.unitReal()
+                            )
+                        )
+                    ),
+
+                    buttonWithAppearanceAndStyle(text = "Button with Appearance").applyStyle(
+                        style = Style(
+                            margin = EdgeValue(
+                                top = 15.unitReal()
+                            )
+                        )
+                    ),
+
+                    buttonWithAppearanceAndStyle(
+                        text = "Button with Appearance and style",
+                        styleId = BUTTON_STYLE_APPEARANCE
+                    ).applyStyle(
+                        Style(
+                            margin = EdgeValue(
+                                top = marginTop
+                            ))
+                    )
                 )
             )
         )
-    )
+    }
+
+    fun buildButtonAlignCenter() = createButtonScreen(alignContent = AlignContent.CENTER, marginTop = 10.unitReal())
+
+    fun buildButtonAlignLeft() = createButtonScreen(alignContent = AlignContent.FLEX_START, marginTop =  20.unitReal())
+
     private fun buttonWithAppearanceAndStyle(text: String, styleId: String? = null) = createButton(
         text = text,
         styleId = styleId,
