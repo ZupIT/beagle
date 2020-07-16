@@ -124,7 +124,7 @@ abstract class BeagleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-
+        handleLiveData(viewModel.liveData)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
     }
 
@@ -160,8 +160,8 @@ abstract class BeagleActivity : AppCompatActivity() {
     }
 
     private fun fetch(screenRequest: ScreenRequest, screenComponent: ScreenComponent? = null) {
-        val liveData = viewModel.fetchComponent(screenRequest, screenComponent)
-        handleLiveData(liveData)
+        viewModel.fetchComponent(screenRequest, screenComponent)
+
     }
 
     private fun handleLiveData(state: LiveData<ViewState>) {

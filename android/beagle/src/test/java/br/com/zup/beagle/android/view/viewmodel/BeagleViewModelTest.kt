@@ -83,7 +83,8 @@ class BeagleViewModelTest {
         val screenRequest = ScreenRequest(RandomData.httpUrl())
 
         // When
-        beagleUIViewModel.fetchComponent(screenRequest).observeForever(observer)
+        beagleUIViewModel.liveData.observeForever(observer)
+        beagleUIViewModel.fetchComponent(screenRequest)
 
         // Then
         verifyOrder {
@@ -101,8 +102,8 @@ class BeagleViewModelTest {
         coEvery { componentRequester.fetchComponent(any()) } throws exception
 
         // When
+        beagleUIViewModel.liveData.observeForever(observer)
         beagleUIViewModel.fetchComponent(screenRequest)
-            .observeForever(observer)
 
         // Then
         verifyOrder {

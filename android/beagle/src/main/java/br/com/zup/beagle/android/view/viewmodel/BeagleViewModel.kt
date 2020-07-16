@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.view.viewmodel
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.zup.beagle.android.components.layout.ScreenComponent
@@ -27,7 +27,7 @@ import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.core.ServerDrivenComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Observable
 import java.util.concurrent.atomic.AtomicReference
 import kotlin.coroutines.CoroutineContext
 
@@ -39,26 +39,70 @@ sealed class ViewState {
 
 internal class BeagleViewModel(
     private val componentRequester: ComponentRequester = ComponentRequester()
-) : ViewModel() {
+) : ViewModel(), CoroutineScope {
 
-    private val urlObservableReference = AtomicReference(UrlObservable())
+    override val coroutineContext: CoroutineContext = viewModelScope.coroutineContext
 
-    fun fetchComponent(screenRequest: ScreenRequest, screen: ScreenComponent? = null): LiveData<ViewState> {
-        return FetchComponentLiveData(screenRequest, screen, componentRequester,
-            urlObservableReference, viewModelScope.coroutineContext)
-    }
+    private val urlObservable = AtomicReference(UrlObservable())
+    val liveData: MutableLiveData<ViewState> = MutableLiveData()
 
     fun fetchForCache(url: String) = viewModelScope.launch {
         try {
-            urlObservableReference.get().setLoading(url, true)
+            urlObservable.get().setLoading(url, true)
             val component = componentRequester.fetchComponent(ScreenRequest(url))
-            urlObservableReference.get().notifyLoaded(url, component)
+            urlObservable.get().notifyLoaded(url, component)
         } catch (exception: BeagleException) {
             BeagleLoggerProxy.warning(exception.message)
         }
 
-        urlObservableReference.get().setLoading(url, false)
+        urlObservable.get().setLoading(url, false)
     }
+
+    fun fetchComponent(screenRequest: ScreenRequest, screen: ScreenComponent? = null) {
+        launch {
+            if (screenRequest.url.isNotEmpty()) {
+                try {
+                    if (hasFetchInProgress(screenRequest.url)) {
+                        waitFetchProcess(screenRequest.url)
+                    } else {
+                        setLoading(screenRequest.url, true)
+                        val component = componentRequester.fetchComponent(screenRequest)
+                        liveData.postValue(ViewState.DoRender(screenRequest.url, component))
+                    }
+                } catch (exception: BeagleException) {
+                    liveData.postValue(if (screen != null) {
+                        ViewState.DoRender(screen.identifier, screen)
+                    } else {
+                        ViewState.Error(exception)
+                    })
+                }
+                setLoading(screenRequest.url, false)
+            } else if (screen != null) {
+                liveData.postValue(ViewState.DoRender(screen.identifier, screen))
+            }
+        }
+    }
+
+    private fun setLoading(url: String, loading: Boolean) {
+        urlObservable.get().setLoading(url, loading)
+        liveData.value = ViewState.Loading(loading)
+    }
+
+
+    @Suppress("UNCHECKED_CAST")
+    private fun waitFetchProcess(url: String) {
+        urlObservable.get().deleteObservers()
+        urlObservable.get().addObserver { _, arg ->
+            (arg as? Pair<String, ServerDrivenComponent>)?.let {
+                urlObservable.get().setLoading(url, false)
+                if (url == it.first)
+                    liveData.value = ViewState.DoRender(url, it.second)
+            }
+        }
+    }
+
+    private fun hasFetchInProgress(url: String) =
+        urlObservable.get().hasUrl(url)
 
     //TODO Refactor this to use coroutines flow
     private class UrlObservable : Observable() {
@@ -80,67 +124,23 @@ internal class BeagleViewModel(
         }
     }
 
-    private class FetchComponentLiveData(
-        private val screenRequest: ScreenRequest,
-        private val screen: ScreenComponent?,
-        private val componentRequester: ComponentRequester,
-        private val urlObservable: AtomicReference<UrlObservable>,
-        override val coroutineContext: CoroutineContext
-    ) : LiveData<ViewState>(), CoroutineScope {
-
-        override fun onActive() {
-            if (value == null) {
-                fetchComponents()
-            }
-        }
-
-        private fun fetchComponents() {
-            launch {
-                if (screenRequest.url.isNotEmpty()) {
-                    try {
-                        if (hasFetchInProgress(screenRequest.url)) {
-                            waitFetchProcess(screenRequest.url)
-                        } else {
-                            setLoading(screenRequest.url, true)
-                            val component = componentRequester.fetchComponent(screenRequest)
-                            postValue(ViewState.DoRender(screenRequest.url, component))
-                        }
-                    } catch (exception: BeagleException) {
-                        postValue(if (screen != null) {
-                            ViewState.DoRender(screen.identifier, screen)
-                        } else {
-                            ViewState.Error(exception)
-                        })
-                    }
-                    setLoading(screenRequest.url, false)
-                } else if (screen != null) {
-                    postValue(ViewState.DoRender(screen.identifier, screen))
-                }
-            }
-        }
-
-        private fun setLoading(url: String, loading: Boolean) {
-            urlObservable.get().setLoading(url, loading)
-            value = ViewState.Loading(loading)
-        }
-
-
-        @Suppress("UNCHECKED_CAST")
-        private fun waitFetchProcess(url: String) {
-            urlObservable.get().deleteObservers()
-            urlObservable.get().addObserver { _, arg ->
-                (arg as? Pair<String, ServerDrivenComponent>)?.let {
-                    urlObservable.get().setLoading(url, false)
-                    if (url == it.first)
-                        value = ViewState.DoRender(url, it.second)
-                }
-            }
-        }
-
-        private fun hasFetchInProgress(url: String) =
-            urlObservable.get().hasUrl(url)
-
-    }
+//    private class FetchComponentLiveData(
+//        private val screenRequest: ScreenRequest,
+//        private val screen: ScreenComponent?,
+//        private val componentRequester: ComponentRequester,
+//        private val urlObservable: AtomicReference<UrlObservable>,
+//        override val coroutineContext: CoroutineContext
+//    ) : LiveData<ViewState>(), CoroutineScope {
+//
+////        override fun onActive() {
+////            if (value == null) {
+////                fetchComponents()
+////            }
+////        }
+//
+//
+//
+//    }
 }
 
 
