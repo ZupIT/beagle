@@ -42,6 +42,7 @@ class PageViewUIComponent: UIView {
     }
 
     private var pendingPage = 0
+    private var initialized = false
     
     var onPageChange: ((_ currentPage: Int) -> Void)?
 
@@ -117,11 +118,12 @@ extension PageViewUIComponent: PageIndicatorOutput {
     func swipeToPage(at index: Int) {
         guard let destinationVc = model.pages[safe: index] else { return }
         if index > model.currentPage {
-            pageViewController.setViewControllers([destinationVc], direction: .forward, animated: true)
+            pageViewController.setViewControllers([destinationVc], direction: .forward, animated: initialized)
         } else {
-            pageViewController.setViewControllers([destinationVc], direction: .reverse, animated: true)
+            pageViewController.setViewControllers([destinationVc], direction: .reverse, animated: initialized)
         }
         model.currentPage = index
+        initialized = true
     }
 }
 

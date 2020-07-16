@@ -40,7 +40,7 @@ struct PageViewScreen: DeeplinkScreen {
                     )
                 ],
                 widgetProperties: WidgetProperties(style: Style(flex: Flex().grow(1))),
-                context: Context(id: "context", value: 0)
+                context: Context(id: "context", value: 3)
             )
         )
     }
