@@ -47,7 +47,7 @@ internal class ContextDataEvaluation(
         val expressions = bind.value.getExpressions()
 
         return when {
-            bind.type == String::class.java -> {
+            !bind.value.startsWith("@") || expressions.size > 1 -> {
                 contextsData.forEach { contextData ->
                     expressions.filter { it.getContextId() == contextData.id }.forEach { expression ->
                         evaluateExpressionsForContext(contextData, expression, bind)
