@@ -22,7 +22,7 @@ import android.view.ViewGroup
 import com.google.android.material.tabs.TabLayout
 
 internal class BeagleTabLayout @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int
 ) : TabLayout(context, attrs, defStyleAttr) {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

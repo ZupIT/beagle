@@ -91,7 +91,21 @@ data class TabView(
                 )
             tabMode = TabLayout.MODE_SCROLLABLE
             tabGravity = TabLayout.GRAVITY_FILL
+            setData()
             addTabs(context)
+        }
+    }
+
+    private fun TabLayout.setData() {
+        styleManagerFactory.getTabBarTypedArray(context, styleId).apply {
+            setSelectedTabIndicatorColor(
+                getColor(
+                    R.styleable.BeagleTabBarStyle_tabIndicatorColor,
+                    styleManagerFactory.getTypedValueByResId(R.attr.colorAccent, context).data
+                )
+            )
+            tabIconTint = getColorStateList(R.styleable.BeagleTabBarStyle_tabIconTint)
+            recycle()
         }
     }
 

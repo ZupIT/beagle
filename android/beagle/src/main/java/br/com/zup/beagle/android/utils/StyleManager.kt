@@ -28,6 +28,7 @@ import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.TabView
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.utils.applyViewBackgroundAndCorner
+import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.core.StyleComponent
@@ -61,6 +62,10 @@ class StyleManager(
     fun getTypedValueByResId(resId: Int, context: Context): TypedValue {
         context.theme.resolveAttribute(resId, typedValue, true)
         return typedValue
+    }
+
+    fun getTabBarTypedArray(context: Context, styleId: String?): TypedArray {
+        return context.obtainStyledAttributes(getTabViewStyle(styleId), R.styleable.BeagleTabBarStyle)
     }
 
     fun getButtonStyle(styleId: String?) = designSystem?.buttonStyle(styleId ?: "") ?: 0
