@@ -1,5 +1,3 @@
-import br.com.zup.beagle.Dependencies
-
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -16,6 +14,8 @@ import br.com.zup.beagle.Dependencies
  * limitations under the License.
  */
 
+import br.com.zup.beagle.Dependencies
+
 apply plugin: 'kotlin'
 
 dependencies {
@@ -28,4 +28,4 @@ dependencies {
     testRuntime Dependencies.TestLibraries.junit5Engine
 }
 
-//apply from: rootProject.file('maven-publish.gradle')
+apply from: rootProject.file('../maven-publish.gradle')

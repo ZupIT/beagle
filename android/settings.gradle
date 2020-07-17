@@ -23,10 +23,11 @@ include ":android-internal-processor"
 include ":android-annotation"
 include ":android-preview"
 include ":common:processor-utils"
-project(":common:processor-utils").projectDir = file('../common/processor-utils')
 include ":schema:kotlin-core"
-project(":schema:kotlin-core").projectDir = file('../schema/kotlin-core')
 include ":common:extended-schema"
-project(":common:extended-schema").projectDir = file('../common/extended-schema')
 include ":common:annotation"
+
+project(":schema:kotlin-core").projectDir = file('../schema/kotlin-core')
+project(":common:extended-schema").projectDir = file('../common/extended-schema')
+project(":common:processor-utils").projectDir = file('../common/processor-utils')
 project(":common:annotation").projectDir = file('../common/annotation')
