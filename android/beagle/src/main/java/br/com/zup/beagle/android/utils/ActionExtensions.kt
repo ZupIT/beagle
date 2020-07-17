@@ -23,6 +23,7 @@ import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.context.ContextActionExecutor
 import br.com.zup.beagle.android.context.ContextDataValueResolver
 import br.com.zup.beagle.android.context.isExpression
+import br.com.zup.beagle.android.context.normalizeContextValue
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.widget.RootView
@@ -88,13 +89,12 @@ internal fun Action.evaluateExpression(
 ): Any? {
     return try {
         return if (data is JSONObject || data is JSONArray || data.isExpression()) {
-            val value = expressionOf<String>(data.toString()).evaluateForAction(rootView, this)
-            val actualValue = if (data is String) {
-                value
+            val value = expressionOf<Any>(data.toString()).evaluateForAction(rootView, this)
+            if (value is String) {
+                return value.normalizeContextValue()
             } else {
-                BeagleMoshi.moshi.adapter(Any::class.java).fromJson(value)
+                value
             }
-            contextDataValueResolver.parse(actualValue)
         } else {
             data
         }
