@@ -31,6 +31,11 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean
 import kotlin.test.assertTrue
 
 internal class BeagleCacheAutoConfigurationTest {
+    companion object {
+        private val BLANK_LIST = listOf("")
+        private val SOME_LIST = listOf("test")
+    }
+
     private val contextRunner by lazy {
         ApplicationContextRunner().withConfiguration(AutoConfigurations.of(BeagleCacheAutoConfiguration::class.java))
     }
@@ -69,30 +74,53 @@ internal class BeagleCacheAutoConfigurationTest {
         this.contextRunner.run {
             validateCacheFilter(it)
             assertThat(it).getBean(BeagleCacheAutoConfiguration::class.java)
-                .hasFieldOrPropertyWithValue(this.includesField, listOf(""))
-                .hasFieldOrPropertyWithValue(this.excludesField, listOf(""))
+                .hasFieldOrPropertyWithValue(this.includesField, BLANK_LIST)
+                .hasFieldOrPropertyWithValue(this.excludesField, BLANK_LIST)
         }
     }
 
     @Test
-    fun `beagleCacheAutoConfiguration must be present with test value for include property`() {
-        this.contextRunner.withPropertyValues("$BEAGLE_CACHE_INCLUDES=/test").run {
+    fun `beagleCacheAutoConfiguration must be present with test values for include property`() {
+        this.contextRunner.withPropertyValues("$BEAGLE_CACHE_INCLUDES=${SOME_LIST.joinToString(",")}").run {
             validateCacheFilter(it)
+            assertThat(it).getBean(BeagleCacheAutoConfiguration::class.java)
+                .hasFieldOrPropertyWithValue(this.includesField, SOME_LIST)
+                .hasFieldOrPropertyWithValue(this.excludesField, BLANK_LIST)
         }
     }
 
     @Test
-    fun `beagleCacheAutoConfiguration must be present with test value for exclude property`() {
-        this.contextRunner.withPropertyValues("$BEAGLE_CACHE_EXCLUDES=/test").run {
+    fun `beagleCacheAutoConfiguration must be present with test values for exclude property`() {
+        this.contextRunner.withPropertyValues("$BEAGLE_CACHE_EXCLUDES=${SOME_LIST.joinToString(",")}").run {
             validateCacheFilter(it)
+            assertThat(it).getBean(BeagleCacheAutoConfiguration::class.java)
+                .hasFieldOrPropertyWithValue(this.includesField, BLANK_LIST)
+                .hasFieldOrPropertyWithValue(this.excludesField, SOME_LIST)
         }
     }
 
     @Test
-    fun `beagleCacheAutoConfiguration must fail to start with invalid excludes property`() {
-        this.contextRunner.withPropertyValues("$BEAGLE_CACHE_EXCLUDES=?").run {
-            assertThat(it).hasFailed()
+    fun `beagleCacheAutoConfiguration must be present with test values for include and exclude property`() {
+        this.contextRunner.withPropertyValues(
+            "$BEAGLE_CACHE_INCLUDES=${SOME_LIST.joinToString(",")}",
+            "$BEAGLE_CACHE_EXCLUDES=${SOME_LIST.joinToString(",")}"
+        ).run {
+            validateCacheFilter(it)
+            assertThat(it).getBean(BeagleCacheAutoConfiguration::class.java)
+                .hasFieldOrPropertyWithValue(this.includesField, SOME_LIST)
+                .hasFieldOrPropertyWithValue(this.excludesField, SOME_LIST)
         }
+    }
+
+
+    @Test
+    fun `beagleCacheAutoConfiguration must fail to start with invalid exclude property`() {
+        this.contextRunner.withPropertyValues("$BEAGLE_CACHE_EXCLUDES=?").run { assertThat(it).hasFailed() }
+    }
+
+    @Test
+    fun `beagleCacheAutoConfiguration must fail to start with invalid include property`() {
+        this.contextRunner.withPropertyValues("$BEAGLE_CACHE_INCLUDES=?").run { assertThat(it).hasFailed() }
     }
 
     private fun validateCacheFilter(context: AssertableApplicationContext, toNotExists: Boolean = false) {
