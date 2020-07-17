@@ -21,6 +21,7 @@ import android.widget.Button
 import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.data.PreFetchHelper
@@ -57,12 +58,15 @@ data class Button(
     @Transient
     private val preFetchHelper: PreFetchHelper = PreFetchHelper()
 
+    @Transient
+    private val buttonStyle = styleManagerFactory.getButtonStyle(styleId)
+
     override fun buildView(rootView: RootView): View {
         onPress?.let {
             preFetchHelper.handlePreFetch(rootView, it)
         }
 
-        val button = viewFactory.makeButton(rootView.getContext(), getStyleId(this.styleId))
+        val button = viewFactory.makeButton(rootView.getContext(), buttonStyle)
 
         button.setOnClickListener { view ->
             onPress?.let {
@@ -78,17 +82,10 @@ data class Button(
     }
 
     private fun Button.setData(text: Bind<String>, rootView: RootView) {
-        styleId?.let { style ->
-            styleManagerFactory.getButtonStyle(style)?.let { buttonStyle ->
-                TextViewCompat.setTextAppearance(this, buttonStyle)
-            }
-        }
+        TextViewCompat.setTextAppearance(this, buttonStyle)
 
         observeBindChanges(rootView, text) {
             this.text = it
         }
     }
-
-    private fun getStyleId(styleName: String?): Int =
-        BeagleEnvironment.beagleSdk.designSystem?.buttonStyle(styleName ?: "") ?: 0
 }

@@ -26,6 +26,7 @@ import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import br.com.zup.beagle.R
+import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
@@ -40,7 +41,7 @@ import br.com.zup.beagle.widget.core.Flex
 import com.google.android.material.tabs.TabLayout
 
 private val TAB_BAR_HEIGHT = 48.dp()
-internal var styleManagerFactory = StyleManager()
+
 @RegisterWidget
 data class TabView(
     val children: List<TabItem>,
@@ -82,7 +83,7 @@ data class TabView(
 
     private fun makeTabLayout(rootView: RootView): TabLayout {
         val context = rootView.getContext()
-        return viewFactory.makeTabLayout(context, BeagleEnvironment.beagleSdk.designSystem?.tabViewStyle(styleId ?: "") ?: 0).apply {
+        return viewFactory.makeTabLayout(context, styleManagerFactory.getTabViewStyle(styleId)).apply {
             layoutParams =
                 viewFactory.makeFrameLayoutParams(
                     FrameLayout.LayoutParams.MATCH_PARENT,

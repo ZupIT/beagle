@@ -112,6 +112,11 @@ internal object BeagleMessageLogs {
     }
 
     fun logNotFoundSimpleForm() {
-        BeagleLoggerProxy.error("not found simple form in the parents")
+        BeagleLoggerProxy.error("Not found simple form in the parents")
+    }
+
+    fun errorWhileTryingToSetInvalidImage(image: String, ex: Exception) {
+        val errorMessage = "Could not find image $image"
+        BeagleLoggerProxy.error(errorMessage, ex)
     }
 }

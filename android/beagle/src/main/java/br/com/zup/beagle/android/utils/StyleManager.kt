@@ -56,18 +56,19 @@ class StyleManager(
         view.applyViewBackgroundAndCorner(colorInt, component)
     }
 
+    private fun fetchDrawableColor(background: Drawable? = null) = (background as? ColorDrawable)?.color
+
     fun getTypedValueByResId(resId: Int, context: Context): TypedValue {
         context.theme.resolveAttribute(resId, typedValue, true)
         return typedValue
     }
 
-    fun getButtonStyle(styleId: String?): Int? {
-        return designSystem?.buttonStyle(styleId ?: "")
-    }
+    fun getButtonStyle(styleId: String?) = designSystem?.buttonStyle(styleId ?: "") ?: 0
 
-    fun getInputTextStyle(styleId: String?): Int? {
-        return designSystem?.inputTextStyle(styleId ?: "")
-    }
+    fun getTextStyle(styleId: String?) = designSystem?.textStyle(styleId ?: "") ?: 0
 
-    private fun fetchDrawableColor(background: Drawable? = null) = (background as? ColorDrawable)?.color
+    fun getInputTextStyle(styleId: String?) = designSystem?.inputTextStyle(styleId ?: "")
+        ?: R.style.Widget_AppCompat_EditText
+
+    fun getTabViewStyle(styleId: String?) = designSystem?.tabViewStyle(styleId ?: "") ?: 0
 }
