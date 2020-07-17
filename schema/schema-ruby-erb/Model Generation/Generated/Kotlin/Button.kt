@@ -15,9 +15,14 @@
  */
 
 data class Button (
-  
-    public val text: Bind<String>,
-  
-    public val styleId: String?,
-  
+  public val text: Bind<String>,  
+  public val styleId: String?   
+) {
+  constructor (    
+    text: Bind<String>,      
+    styleId: String? = null      
+  ) : this (    
+      valueOf(text),      
+      styleId      
+  )
 )
