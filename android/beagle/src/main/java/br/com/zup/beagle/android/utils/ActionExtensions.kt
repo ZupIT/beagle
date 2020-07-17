@@ -91,7 +91,7 @@ internal fun Action.evaluateExpression(
         return if (data is JSONObject || data is JSONArray || data.isExpression()) {
             val value = expressionOf<Any>(data.toString()).evaluateForAction(rootView, this)
             if (value is String) {
-                return value.normalizeContextValue()
+                value.normalizeContextValue()
             } else {
                 value
             }
