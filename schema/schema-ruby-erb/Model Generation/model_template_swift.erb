@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 <%
-def handleTypeName(variable)
-        if variable.isBindable
-            "Expression<" + variable.typeName + ">"
-        else
-          variable.typeName
-        end
-    end
+  def handleTypeName(variable)
+      output = variable.isBindable ? "Expression<" + variable.typeName + ">" : variable.typeName
+      output = variable.isOptional ? output + "?" : output
+      output
+  end
 -%>
 
 public struct <%= objectType.synthaxType.name -%> {

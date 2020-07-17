@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 <%
-def handleTypeName(variable)
-        if variable.isBindable
-            "Bind<" + variable.typeName + ">"
-        else
-          variable.typeName
-        end
-    end
+  def handleTypeName(variable)
+      output = variable.isBindable ? "Bind<" + variable.typeName + ">" : variable.typeName
+      output = variable.isOptional ? output + "?" : output
+      output
+  end
 -%>
 
 data class <%= objectType.synthaxType.name -%> (

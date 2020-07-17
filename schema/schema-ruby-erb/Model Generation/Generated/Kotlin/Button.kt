@@ -18,6 +18,6 @@ data class Button (
   
     public val text: Bind<String>,
   
-    public val styleId: String,
+    public val styleId: String?,
   
 )
