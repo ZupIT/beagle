@@ -14,16 +14,36 @@
  * limitations under the License.
  */
 <%
-  def handleTypeName(variable)
+  def handleTypeName(variable, isForInitMethod = false)
       output = variable.isBindable ? "Expression<" + variable.typeName + ">" : variable.typeName
       output = variable.isOptional ? output + "?" : output
       output
   end
+
+  def handleTypeNameForInitMethod(variable, shouldAddComma = false)
+    output = handleTypeName(variable)
+    output = variable.isOptional ? output + " = nil" : output
+    output = shouldAddComma ?  output + "," : output
+    output
+  end
 -%>
 
-public struct <%= objectType.synthaxType.name -%> {
+<%= objectType.synthaxType.accessor %> struct <%= objectType.synthaxType.name -%> {
+  
+  // MARK: - Public Properties<% -%>
   <% for variable in objectType.synthaxType.variables %>
-    <%= variable.accessor %> let <%= variable.name %>: <%= handleTypeName(variable) -%>
+  <%= variable.accessor %> let <%= variable.name %>: <%= handleTypeName(variable) -%>
   <% end %>
 
+  <%= objectType.synthaxType.accessor %> init (<% -%>
+    <% counter = 0 -%>
+    <% for variable in objectType.synthaxType.variables %>
+    <%= variable.name %>: <%= handleTypeNameForInitMethod(variable, objectType.synthaxType.variables.size - 1 != counter) -%>
+    <% counter += 1 -%>
+    <% end %>
+  ) {<% -%>
+    <% for variable in objectType.synthaxType.variables %>
+      self.<%= variable.name %> = <%= variable.name -%>
+    <% end %>
+  }
 }

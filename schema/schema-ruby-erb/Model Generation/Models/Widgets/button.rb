@@ -12,8 +12,8 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../Synthax/Variable'
-require_relative './base_component.rb'
+require_relative '../../Synthax/Variable'
+require_relative '../base_component.rb'
 
 class Button < BaseComponent
 

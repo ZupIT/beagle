@@ -17,7 +17,7 @@ require 'date'
 
 require './Synthax/variable.rb'
 require './Synthax/type.rb'
-require './Models/button.rb'
+require './Models/Widgets/button.rb'
 require './FileHandler/file_handler.rb'
 require './Common/constants.rb'
 

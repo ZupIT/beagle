@@ -16,7 +16,15 @@
 
 public struct Button {
   
-    public let text: Expression<String>  
-    public let styleId: String?  
+  // MARK: - Public Properties  
+  public let text: Expression<String>  
+  public let styleId: String?  
 
+  public init (        
+    text: Expression<String>,        
+    styleId: String? = nil        
+  ) {    
+      self.text = text    
+      self.styleId = styleId    
+  }
 }
