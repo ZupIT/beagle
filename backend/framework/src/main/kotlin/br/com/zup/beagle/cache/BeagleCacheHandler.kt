@@ -20,13 +20,14 @@ import com.google.common.hash.Hashing
 import java.net.HttpURLConnection
 import java.nio.charset.Charset
 
-class BeagleCacheHandler(excludeEndpoints: List<String> = listOf()) {
+class BeagleCacheHandler(excludeEndpoints: List<String> = listOf(), includeEndpoints: List<String> = listOf()) {
     companion object {
         const val CACHE_HEADER = "beagle-hash"
     }
 
     private val endpointHashMap = mutableMapOf<String, String>()
     private val excludePatterns = excludeEndpoints.filter { it.isNotEmpty() }.map(::Regex)
+    private val includePatterns = includeEndpoints.filter { it.isNotEmpty() }.map(::Regex)
 
     private fun generateHashForJson(json: String) =
         Hashing.sha512().hashString(json, Charset.defaultCharset()).toString()
@@ -34,8 +35,8 @@ class BeagleCacheHandler(excludeEndpoints: List<String> = listOf()) {
     private fun getCacheKey(endpoint: String, currentPlatform: String?) =
         currentPlatform?.plus("_")?.plus(endpoint) ?: endpoint
 
-    internal fun isEndpointInExcludedPatterns(endpoint: String) =
-        this.excludePatterns.any { it matches endpoint }
+    internal fun isEndpointExcluded(endpoint: String) =
+        this.includePatterns.none { it matches endpoint } || this.excludePatterns.any { it matches endpoint }
 
     internal fun isHashUpToDate(endpoint: String, currentPlatform: String?, hash: String) =
         this.endpointHashMap[this.getCacheKey(endpoint, currentPlatform)] == hash
@@ -53,7 +54,7 @@ class BeagleCacheHandler(excludeEndpoints: List<String> = listOf()) {
         restHandler: RestCacheHandler<T>
     ) =
         when {
-            this.isEndpointInExcludedPatterns(endpoint) -> restHandler.callController(initialResponse)
+            this.isEndpointExcluded(endpoint) -> restHandler.callController(initialResponse)
             receivedHash != null && this.isHashUpToDate(
                 endpoint = endpoint,
                 currentPlatform = currentPlatform,
