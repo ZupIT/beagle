@@ -16,12 +16,9 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.sample.constants.LOGO_BEAGLE
 import br.com.zup.beagle.sample.constants.TITLE_SCREEN
-import br.com.zup.beagle.widget.core.AlignSelf
-import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ImageContentMode
 import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.layout.NavigationBar
@@ -33,7 +30,7 @@ import br.com.zup.beagle.widget.ui.Image
 import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.Text
 
-object ImageLocalScreenBuilder : ScreenBuilder {
+object ImageScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Beagle Image",
@@ -53,9 +50,7 @@ object ImageLocalScreenBuilder : ScreenBuilder {
         ),
         child = ScrollView(
             scrollDirection = ScrollAxis.VERTICAL,
-            children = listOf(
-                createText("Image").applyFlex(Flex(alignSelf = AlignSelf.CENTER)),
-                Image(Local.justMobile(LOGO_BEAGLE))) +
+            children = listOf(createText("Image"), Image(Local.justMobile(LOGO_BEAGLE))) +
                 ImageContentMode.values().flatMap(this::createImageWithModeAndText)
         )
     )
@@ -63,8 +58,5 @@ object ImageLocalScreenBuilder : ScreenBuilder {
     private fun createText(text: String) = Text(text = text, styleId = TITLE_SCREEN)
 
     private fun createImageWithModeAndText(mode: ImageContentMode) =
-        listOf(
-            createText("Image with Mode = $mode").applyFlex(Flex(alignSelf = AlignSelf.CENTER)),
-            Image(Local.justMobile(LOGO_BEAGLE), mode)
-        )
+        listOf(createText("Image with contentMode = $mode"), Image(Local.justMobile(LOGO_BEAGLE), mode))
 }

@@ -18,7 +18,7 @@ package br.com.zup.beagle.android.exception
 
 import br.com.zup.beagle.android.networking.ResponseData
 
-internal data class BeagleApiException(
+data class BeagleApiException(
     val responseData: ResponseData,
     override val message: String = responseData.toString()
 ) : BeagleException(message)

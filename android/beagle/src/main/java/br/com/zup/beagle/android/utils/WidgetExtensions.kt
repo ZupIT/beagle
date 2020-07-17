@@ -74,7 +74,7 @@ fun ServerDrivenComponent.handleEvent(
 fun <T> ServerDrivenComponent.observeBindChanges(
     rootView: RootView,
     bind: Bind<T>,
-    observes: Observer<T>? = null
+    observes: Observer<T>
 ) {
     bind.observe(rootView, observes)
 }

@@ -66,6 +66,7 @@ dependencies {
 
     implementation GeneralLibraries.yoga
     implementation GeneralLibraries.soLoader
+    implementation GeneralLibraries.jni
 
     implementation MoshiLibraries.moshi
     implementation MoshiLibraries.kotlin

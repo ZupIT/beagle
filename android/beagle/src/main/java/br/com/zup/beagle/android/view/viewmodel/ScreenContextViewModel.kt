@@ -91,4 +91,8 @@ internal class ScreenContextViewModel(
         contexts += implicitContexts
         return contextDataEvaluation.evaluateBindExpression(contexts, bind)
     }
+
+    fun clearContexts(){
+        contextDataManager.clearContexts()
+    }
 }

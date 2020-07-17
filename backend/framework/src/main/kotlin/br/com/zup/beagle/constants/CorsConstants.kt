@@ -14,16 +14,9 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.spring.config
+package br.com.zup.beagle.constants
 
-import br.com.zup.beagle.constants.BEAGLE_EXPOSED_HEADERS
-import org.springframework.context.annotation.Configuration
-import org.springframework.web.servlet.config.annotation.CorsRegistry
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+import br.com.zup.beagle.cache.BeagleCacheHandler
+import br.com.zup.beagle.platform.BeaglePlatformUtil
 
-@Configuration
-open class CorsConfig : WebMvcConfigurer {
-    override fun addCorsMappings(registry: CorsRegistry) {
-        registry.addMapping("/**").exposedHeaders(*BEAGLE_EXPOSED_HEADERS)
-    }
-}
+val BEAGLE_EXPOSED_HEADERS = arrayOf(BeagleCacheHandler.CACHE_HEADER)
