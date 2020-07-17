@@ -104,24 +104,25 @@ internal class BeagleViewModel(
                         } else {
                             setLoading(screenRequest.url, true)
                             val component = componentRequester.fetchComponent(screenRequest)
-                            postComponentRender(component, screenRequest.url)
+                            postLivedataResponse(ViewState.DoRender(screenRequest.url, component))
                         }
                     } catch (exception: BeagleException) {
                         if (screen != null) {
-                            postComponentRender(screen, screen.identifier)
+                            postLivedataResponse(ViewState.DoRender(screen.identifier, screen))
+
                         } else {
-                            postValue(ViewState.Error(exception))
+                            postLivedataResponse(ViewState.Error(exception))
                         }
                     }
                     setLoading(screenRequest.url, false)
                 } else if (screen != null) {
-                    postComponentRender(screen, screen.identifier)
+                    postLivedataResponse(ViewState.DoRender(screen.identifier, screen))
                 }
             }
         }
 
-        private fun postComponentRender(component: ServerDrivenComponent, screenId: String?) {
-            postValue(ViewState.DoRender(screenId, component))
+        private fun postLivedataResponse(viewState: ViewState) {
+            postValue(viewState)
             isRenderedReference.set(true)
         }
 
