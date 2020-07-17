@@ -2,7 +2,7 @@
   ▿ (2 elements)
     - key: "contexta"
     ▿ value: Observable<Context>
-      - _observers: 0 elements
+      - observers: 0 elements
       ▿ value: Context
         - id: "contexta"
         ▿ value: DynamicObject
@@ -14,7 +14,7 @@
   ▿ (2 elements)
     - key: "contextb"
     ▿ value: Observable<Context>
-      - _observers: 0 elements
+      - observers: 0 elements
       ▿ value: Context
         - id: "contextb"
         ▿ value: DynamicObject

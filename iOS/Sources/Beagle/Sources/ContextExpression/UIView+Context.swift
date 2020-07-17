@@ -38,18 +38,7 @@ extension UIView {
             objc_setAssociatedObject(self, &UIView.contextMapKey, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
-    
-    // TODO: fix weak reference
-    static private var observers = "contextObservers"
-    private var observers: [ContextObserver]? {
-        get {
-            return (objc_getAssociatedObject(self, &UIView.observers) as? ObjectWrapper)?.object
-        }
-        set {
-            objc_setAssociatedObject(self, &UIView.observers, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
-    }
-    
+        
     public var expressionLastValueMap: [String: DynamicObject] {
         get {
             return (objc_getAssociatedObject(self, &UIView.expressionLastValueMapKey) as? ObjectWrapper)?.object ?? [String: DynamicObject]()
@@ -167,10 +156,6 @@ extension UIView {
     
     private func configBinding(with context: Observable<Context>, completion: @escaping (Context) -> Void) {
         let contextObserver = ContextObserver(onContextChange: completion)
-        if observers == nil {
-            observers = []
-        }
-        observers?.append(contextObserver)
         context.addObserver(contextObserver)
     }
     
