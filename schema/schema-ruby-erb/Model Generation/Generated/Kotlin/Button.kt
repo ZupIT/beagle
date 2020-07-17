@@ -16,13 +16,16 @@
 
 data class Button (
   public val text: Bind<String>,  
-  public val styleId: String?   
+  public val styleId: String?,  
+  public val onPress: List<Action>?   
 ) {
   constructor (    
-    text: Bind<String>,      
-    styleId: String? = null      
+    text: String,      
+    styleId: String? = null,      
+    onPress: List<Action>? = null      
   ) : this (    
       valueOf(text),      
-      styleId      
+      styleId,      
+      onPress      
   )
 )

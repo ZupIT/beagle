@@ -1,7 +1,6 @@
 ## How to run project
 1. Open Terminal
-2. ``` bundle install ```
-3. ``` ruby main.rb ```
+2. ``` ruby main.rb ```
 
 ## We have some stuff to think about
 - [ ] make ruby static typed using Sorbet - https://sorbet.org

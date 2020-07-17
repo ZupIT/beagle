@@ -17,4 +17,5 @@
 export interface Button {   
   text: string,   
   styleId?: string,   
+  onPress?: action,   
 }

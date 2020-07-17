@@ -16,14 +16,15 @@
 <%
   def handleTypeName(variable, shouldAddComma = false)
       output = variable.isBindable ? "Bind<" + variable.typeName + ">" : variable.typeName
+      output = variable.isArray ? "List<" + output + ">" : output
       output = variable.isOptional ? output + "?" : output
       output = shouldAddComma ? output + "," : output 
       output
   end
 
   def handleTypeNameForInitMethod(variable, shouldAddComma = false)
-    output = handleTypeName(variable)
-    output = variable.isOptional ? output + " = null" : output
+    output = variable.isArray ? "List<" + variable.typeName + ">" : variable.typeName
+    output = variable.isOptional ? output + "? = null" : output
     output = shouldAddComma ?  output + "," : output
     output
   end

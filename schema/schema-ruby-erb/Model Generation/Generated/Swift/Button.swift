@@ -19,12 +19,15 @@ public struct Button {
   // MARK: - Public Properties  
   public let text: Expression<String>  
   public let styleId: String?  
+  public let onPress: [Action]?  
 
   public init (        
-    text: Expression<String>,        
-    styleId: String? = nil        
+    text: String,        
+    styleId: String? = null,        
+    onPress: [Action]? = null        
   ) {    
       self.text = text    
       self.styleId = styleId    
+      self.onPress = onPress    
   }
 }
