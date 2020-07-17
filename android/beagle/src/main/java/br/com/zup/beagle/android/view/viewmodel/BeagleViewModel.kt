@@ -109,12 +109,10 @@ internal class BeagleViewModel(
                     } catch (exception: BeagleException) {
                         if (screen != null) {
                             postLivedataResponse(ViewState.DoRender(screen.identifier, screen))
-
                         } else {
                             postLivedataResponse(ViewState.Error(exception))
                         }
                     }
-                    setLoading(screenRequest.url, false)
                 } else if (screen != null) {
                     postLivedataResponse(ViewState.DoRender(screen.identifier, screen))
                 }
@@ -123,6 +121,7 @@ internal class BeagleViewModel(
 
         private fun postLivedataResponse(viewState: ViewState) {
             postValue(viewState)
+            setLoading(screenRequest.url, false)
             isRenderedReference.set(true)
         }
 
