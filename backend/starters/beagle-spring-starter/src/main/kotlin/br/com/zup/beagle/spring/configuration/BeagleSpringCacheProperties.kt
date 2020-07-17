@@ -14,10 +14,14 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.cache
+package br.com.zup.beagle.spring.configuration
 
+import br.com.zup.beagle.cache.BeagleCacheProperties
+import br.com.zup.beagle.constants.BEAGLE_CACHE_ENDPOINT_PREFIX
+import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.boot.context.properties.ConstructorBinding
 import java.time.Duration
 
-interface BeagleCacheProperties {
-    val ttl: Map<String, Duration>
-}
+@ConstructorBinding
+@ConfigurationProperties(BEAGLE_CACHE_ENDPOINT_PREFIX)
+data class BeagleSpringCacheProperties(override val ttl: Map<String, Duration> = emptyMap()) : BeagleCacheProperties

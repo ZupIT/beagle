@@ -20,6 +20,7 @@ import br.com.zup.beagle.cache.BeagleCacheHandler
 import br.com.zup.beagle.constants.BEAGLE_CACHE_ENABLED
 import br.com.zup.beagle.constants.BEAGLE_CACHE_EXCLUDES
 import br.com.zup.beagle.constants.BEAGLE_CACHE_INCLUDES
+import br.com.zup.beagle.constants.BEAGLE_CACHE_TTL
 import br.com.zup.beagle.spring.filter.BeagleCacheFilter
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -28,21 +29,23 @@ import org.springframework.boot.test.context.FilteredClassLoader
 import org.springframework.boot.test.context.assertj.AssertableApplicationContext
 import org.springframework.boot.test.context.runner.ApplicationContextRunner
 import org.springframework.boot.web.servlet.FilterRegistrationBean
+import java.time.Duration
 import kotlin.test.assertTrue
 
 internal class BeagleCacheAutoConfigurationTest {
     companion object {
         private val BLANK_LIST = listOf("")
         private val SOME_LIST = listOf("test")
+        private const val ENDPOINT = "/test%d/.*"
     }
 
     private val contextRunner by lazy {
         ApplicationContextRunner().withConfiguration(AutoConfigurations.of(BeagleCacheAutoConfiguration::class.java))
     }
-
     private val cacheFilterBeanName = "beagleCachingFilter"
     private val includesField = "includeEndpointList"
     private val excludesField = "excludeEndpointList"
+    private val propertiesField = "properties"
 
     @Test
     fun `beagleCacheAutoConfiguration must not be present with enabled property false`() {
@@ -86,6 +89,8 @@ internal class BeagleCacheAutoConfigurationTest {
             assertThat(it).getBean(BeagleCacheAutoConfiguration::class.java)
                 .hasFieldOrPropertyWithValue(this.includesField, SOME_LIST)
                 .hasFieldOrPropertyWithValue(this.excludesField, BLANK_LIST)
+            assertThat(it).getBean(BeagleCacheAutoConfiguration::class.java)
+                .hasFieldOrPropertyWithValue(this.propertiesField, BeagleSpringCacheProperties(emptyMap()))
         }
     }
 
@@ -121,6 +126,64 @@ internal class BeagleCacheAutoConfigurationTest {
     @Test
     fun `beagleCacheAutoConfiguration must fail to start with invalid include property`() {
         this.contextRunner.withPropertyValues("$BEAGLE_CACHE_INCLUDES=?").run { assertThat(it).hasFailed() }
+    }
+
+    @Test
+    fun `beagleCacheAutoConfiguration configures endpoint TTL map`() {
+        this.contextRunner.withPropertyValues(
+            "$BEAGLE_CACHE_TTL.[${ENDPOINT.format(1)}]=15ns",
+            "$BEAGLE_CACHE_TTL.[${ENDPOINT.format(2)}]=15ms",
+            "$BEAGLE_CACHE_TTL.[${ENDPOINT.format(3)}]=15s"
+        ).run {
+            validateCacheFilter(it)
+            assertThat(it).getBean(BeagleCacheAutoConfiguration::class.java)
+                .hasFieldOrPropertyWithValue(
+                    this.propertiesField,
+                    BeagleSpringCacheProperties(
+                        mapOf(
+                            ENDPOINT.format(1) to Duration.ofNanos(15),
+                            ENDPOINT.format(2) to Duration.ofMillis(15),
+                            ENDPOINT.format(3) to Duration.ofSeconds(15)
+                        )
+                    )
+                )
+        }
+    }
+
+    @Test
+    fun `beagleCacheAutoConfiguration configures endpoint TTL map overwriting keys for different profiles`() {
+        this.contextRunner.withPropertyValues(
+            "$BEAGLE_CACHE_TTL.[${ENDPOINT.format(1)}]=1",
+            "$BEAGLE_CACHE_TTL.[${ENDPOINT.format(3)}]=15s"
+        ).withPropertyValues(
+            "$BEAGLE_CACHE_TTL.[${ENDPOINT.format(1)}]=15ns",
+            "$BEAGLE_CACHE_TTL.[${ENDPOINT.format(2)}]=15ms"
+        ).run {
+            validateCacheFilter(it)
+            assertThat(it).getBean(BeagleCacheAutoConfiguration::class.java)
+                .hasFieldOrPropertyWithValue(
+                    this.propertiesField,
+                    BeagleSpringCacheProperties(
+                        mapOf(
+                            ENDPOINT.format(1) to Duration.ofNanos(15),
+                            ENDPOINT.format(2) to Duration.ofMillis(15),
+                            ENDPOINT.format(3) to Duration.ofSeconds(15)
+                        )
+                    )
+                )
+        }
+    }
+
+    @Test
+    fun `beagleCacheAutoConfiguration configures endpoint TTL map when duration has no time unit`() {
+        this.contextRunner.withPropertyValues("$BEAGLE_CACHE_TTL.[$ENDPOINT]=10").run {
+            validateCacheFilter(it)
+            assertThat(it).getBean(BeagleCacheAutoConfiguration::class.java)
+                .hasFieldOrPropertyWithValue(
+                    this.propertiesField,
+                    BeagleSpringCacheProperties(mapOf(ENDPOINT to Duration.ofMillis(10)))
+                )
+        }
     }
 
     private fun validateCacheFilter(context: AssertableApplicationContext, toNotExists: Boolean = false) {
