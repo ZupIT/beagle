@@ -17,7 +17,6 @@
 package br.com.zup.beagle.android.components
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.view.View
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.widget.TextViewCompat
@@ -25,6 +24,7 @@ import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.Navigate
+import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
@@ -40,7 +40,6 @@ import io.mockk.mockkConstructor
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
-import io.mockk.unmockkAll
 import org.junit.Test
 import kotlin.test.assertTrue
 
@@ -52,7 +51,6 @@ class ButtonTest : BaseComponentTest() {
 
     private val analytics: Analytics = mockk(relaxed = true)
     private val styleManager: StyleManager = mockk(relaxed = true)
-    private val typedArray: TypedArray = mockk(relaxed = true)
     private val context: Context = mockk()
     private val button: AppCompatButton = mockk(relaxed = true, relaxUnitFun = true)
 
@@ -71,14 +69,14 @@ class ButtonTest : BaseComponentTest() {
         every { button.setOnClickListener(capture(listener)) } just Runs
         every { button.context } returns context
 
-        every { anyConstructed<ViewFactory>().makeButton(any()) } returns button
+        every { anyConstructed<ViewFactory>().makeButton(any(), BUTTON_STYLE) } returns button
         every { anyConstructed<PreFetchHelper>().handlePreFetch(any(), any<List<Action>>()) } just Runs
 
         every { BeagleEnvironment.application } returns mockk(relaxed = true)
         styleManagerFactory = styleManager
 
         every { TextViewCompat.setTextAppearance(any(), any()) } just Runs
-        every { styleManager.getButtonTypedArray(context, any()) } returns typedArray
+        every { styleManager.getButtonStyle(any()) } returns BUTTON_STYLE
 
         buttonComponent = Button(DEFAULT_TEXT, styleId = DEFAULT_STYLE)
     }
@@ -96,11 +94,6 @@ class ButtonTest : BaseComponentTest() {
         verify(exactly = once()) { anyConstructed<PreFetchHelper>().handlePreFetch(rootView, listOf(action)) }
     }
 
-    override fun tearDown() {
-        super.tearDown()
-        unmockkAll()
-    }
-
     @Test
     fun build_should_return_a_button_instance() {
         // When
@@ -112,31 +105,12 @@ class ButtonTest : BaseComponentTest() {
 
     @Test
     fun setData_with_button_should_call_TextViewCompat_setTextAppearance() {
-        // Given
-        val isAllCaps = false
-        every { typedArray.getBoolean(any(), any()) } returns isAllCaps
-        every { styleManager.getButtonStyle(any()) } returns BUTTON_STYLE
-
         // When
         buttonComponent.buildView(rootView)
 
         // Then
         verify(exactly = once()) { button.setOnClickListener(any()) }
-        verify { button.background = any() }
-        verify(exactly = once()) { button.isAllCaps = isAllCaps }
         verify(exactly = once()) { TextViewCompat.setTextAppearance(button, BUTTON_STYLE) }
-    }
-
-    @Test
-    fun setData_with_button_should_not_call_TextViewCompat_setTextAppearance_when_designSystem_is_null() {
-        // Given
-        every { BeagleEnvironment.beagleSdk.designSystem } returns null
-
-        // When
-        buttonComponent.buildView(rootView)
-
-        // Then
-        verify(exactly = 0) { TextViewCompat.setTextAppearance(button, BUTTON_STYLE) }
     }
 
     @Test
