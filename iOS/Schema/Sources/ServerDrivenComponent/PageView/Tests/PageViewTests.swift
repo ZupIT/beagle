@@ -32,6 +32,8 @@ class PageViewTests: XCTestCase {
             ▿ UnknownComponent
               - type: "custom:beagleschematestscomponent"
           - context: Optional<Context>.none
+          - currentPage: Optional<Expression<Int>>.none
+          - onPageChange: Optional<Array<RawAction>>.none
           - pageIndicator: Optional<PageIndicatorComponent>.none
         """)
     }
@@ -48,8 +50,12 @@ class PageViewTests: XCTestCase {
             ▿ UnknownComponent
               - type: "custom:beagleschematestscomponent"
           - context: Optional<Context>.none
+          - currentPage: Optional<Expression<Int>>.none
+          - onPageChange: Optional<Array<RawAction>>.none
           ▿ pageIndicator: Optional<PageIndicatorComponent>
             ▿ some: PageIndicator
+              - currentPage: Optional<Expression<Int>>.none
+              - numberOfPages: Optional<Int>.none
               - selectedColor: Optional<String>.none
               - unselectedColor: Optional<String>.none
         """)
