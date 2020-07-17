@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.constants
+package br.com.zup.beagle.cache
 
-const val BEAGLE_CACHE_PREFIX = "beagle.cache"
-const val BEAGLE_CACHE_ENDPOINT_PREFIX = "beagle.cache.endpoint"
+import java.time.Duration
 
-const val BEAGLE_CACHE_ENABLED = "$BEAGLE_CACHE_PREFIX.enabled"
-const val BEAGLE_CACHE_TTL = "$BEAGLE_CACHE_ENDPOINT_PREFIX.ttl"
-const val BEAGLE_CACHE_INCLUDES = "$BEAGLE_CACHE_ENDPOINT_PREFIX.include"
-const val BEAGLE_CACHE_EXCLUDES = "$BEAGLE_CACHE_ENDPOINT_PREFIX.exclude"
+interface BeagleCacheProperties {
+    val ttl: Map<Regex, Duration>
+}
