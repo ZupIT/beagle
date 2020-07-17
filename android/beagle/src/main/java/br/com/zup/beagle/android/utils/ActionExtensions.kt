@@ -93,7 +93,7 @@ internal fun Action.evaluateExpression(
             if (value is String) {
                 value.normalizeContextValue()
             } else {
-                value
+                contextDataValueResolver.parse(value)
             }
         } else {
             data

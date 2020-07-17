@@ -265,6 +265,25 @@ class ActionExtensionsKtTest : BaseTest() {
     }
 
     @Test
+    fun evaluateExpression_should_evaluate_JSONArray() {
+        // Given
+        val contextValue = JSONArray().apply {
+            put("hello")
+        }
+        viewModel.addContext(ContextData(
+            id = "context",
+            value = contextValue
+        ))
+
+        // When
+        val actualValue = action.evaluateExpression(rootView, "@{context}")
+
+        // Then
+        assertTrue(actualValue is JSONArray)
+        assertEquals("""["hello"]""", actualValue.toString())
+    }
+
+    @Test
     fun evaluateExpression_should_return_JSONArray_evaluated_with_multiple_expressions() {
         // Given
         val contextValue = "hello"
@@ -307,6 +326,25 @@ class ActionExtensionsKtTest : BaseTest() {
         // Then
         assertTrue(actualValue is JSONObject)
         assertEquals("""{"value":"$contextValue"}""", actualValue.toString())
+    }
+
+    @Test
+    fun evaluateExpression_should_evaluate_JSONObject() {
+        // Given
+        val value = JSONObject().apply {
+            put("value", "hello")
+        }
+        viewModel.addContext(ContextData(
+            id = "context",
+            value = value
+        ))
+
+        // When
+        val actualValue = action.evaluateExpression(rootView, "@{context}")
+
+        // Then
+        assertTrue(actualValue is JSONObject)
+        assertEquals("""{"value":"hello"}""", actualValue.toString())
     }
 
     @Test
