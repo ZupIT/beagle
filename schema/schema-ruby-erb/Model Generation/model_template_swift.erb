@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 <%
-  def handleTypeName(variable, isForInitMethod = false)
+  def handleTypeName(variable)
       output = variable.isBindable ? "Expression<" + variable.typeName + ">" : variable.typeName
       output = variable.isOptional ? output + "?" : output
       output

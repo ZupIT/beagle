@@ -55,5 +55,8 @@ if __FILE__ == $0
 
   kotlinGenerator = ModelGenerator.new(Button.new, 'model_template_kotlin.erb')
   writer.write(Constants.new.kotlin_path + "Button.kt", kotlinGenerator.to_s)
+
+  tsGenerator = ModelGenerator.new(Button.new, 'model_template_ts.erb')
+  writer.write(Constants.new.ts_path + "Button.ts", tsGenerator.to_s)
   
 end
