@@ -32,6 +32,8 @@
 		76BB91A5241AC6A800B9A239 /* declarativeText2.json in Resources */ = {isa = PBXBuildFile; fileRef = 76BB91A3241AC6A000B9A239 /* declarativeText2.json */; };
 		7CA2E83B2498228100B24782 /* BeagleLoggerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA2E83A2498228100B24782 /* BeagleLoggerProxy.swift */; };
 		7CA2E83D249822D400B24782 /* BeagleLoggerProxyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA2E83C249822D400B24782 /* BeagleLoggerProxyTests.swift */; };
+		7CC2D9B424C614FB0059D5F9 /* TabBar+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC2D9B324C614FB0059D5F9 /* TabBar+Renderable.swift */; };
+		7CC2D9B624C6150E0059D5F9 /* TabBarUIComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC2D9B524C6150E0059D5F9 /* TabBarUIComponent.swift */; };
 		7CC737FE245729B1004FBC16 /* FormDataStoreHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC737FD245729B1004FBC16 /* FormDataStoreHandlerTests.swift */; };
 		7CDF84732416AE0D00234F40 /* UnitValueExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDF84712416ADCB00234F40 /* UnitValueExtensionTests.swift */; };
 		7CDF84852416DABC00234F40 /* StyleBuildersExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDF84842416DABC00234F40 /* StyleBuildersExtensionTests.swift */; };
@@ -265,6 +267,8 @@
 		7C9999542448A38000D77F07 /* FormManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormManagerTests.swift; sourceTree = "<group>"; };
 		7CA2E83A2498228100B24782 /* BeagleLoggerProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleLoggerProxy.swift; sourceTree = "<group>"; };
 		7CA2E83C249822D400B24782 /* BeagleLoggerProxyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleLoggerProxyTests.swift; sourceTree = "<group>"; };
+		7CC2D9B324C614FB0059D5F9 /* TabBar+Renderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TabBar+Renderable.swift"; sourceTree = "<group>"; };
+		7CC2D9B524C6150E0059D5F9 /* TabBarUIComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarUIComponent.swift; sourceTree = "<group>"; };
 		7CC737FD245729B1004FBC16 /* FormDataStoreHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormDataStoreHandlerTests.swift; sourceTree = "<group>"; };
 		7CDF84712416ADCB00234F40 /* UnitValueExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitValueExtensionTests.swift; sourceTree = "<group>"; };
 		7CDF84842416DABC00234F40 /* StyleBuildersExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleBuildersExtensionTests.swift; sourceTree = "<group>"; };
@@ -636,6 +640,15 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
+		7CC2D9B224C614BD0059D5F9 /* TabBar+Renderable */ = {
+			isa = PBXGroup;
+			children = (
+				7CC2D9B324C614FB0059D5F9 /* TabBar+Renderable.swift */,
+				7CC2D9B524C6150E0059D5F9 /* TabBarUIComponent.swift */,
+			);
+			path = "TabBar+Renderable";
+			sourceTree = "<group>";
+		};
 		7CDF84862416DD8D00234F40 /* __Snapshots__ */ = {
 			isa = PBXGroup;
 			children = (
@@ -790,7 +803,7 @@
 			path = Caching;
 			sourceTree = "<group>";
 		};
-		983E8C842396C7440018C6CA /* TabBar+Renderable */ = {
+		983E8C842396C7440018C6CA /* TabView+Renderable */ = {
 			isa = PBXGroup;
 			children = (
 				9848A52F23AAF1C2002474AD /* ContainerIndicatorView.swift */,
@@ -799,7 +812,7 @@
 				983E8C8B2396C7FA0018C6CA /* TabViewUIComponent.swift */,
 				983E8C8F2396DF2B0018C6CA /* Tests */,
 			);
-			path = "TabBar+Renderable";
+			path = "TabView+Renderable";
 			sourceTree = "<group>";
 		};
 		983E8C8F2396DF2B0018C6CA /* Tests */ = {
@@ -1427,7 +1440,8 @@
 				E522377F237C3C8600E555BB /* Form+Renderable */,
 				C829CE9C23B12EDB001B7225 /* ListView+Renderable */,
 				C85D9B9D238701450075B6C0 /* Page+Renderable */,
-				983E8C842396C7440018C6CA /* TabBar+Renderable */,
+				7CC2D9B224C614BD0059D5F9 /* TabBar+Renderable */,
+				983E8C842396C7440018C6CA /* TabView+Renderable */,
 				98E49744249D01B10053DB87 /* TextInput+Renderable */,
 				93ADB87723FAD2E5005B7CD2 /* Tests */,
 			);
@@ -1769,6 +1783,7 @@
 				C08D4EFE248AC5C800AAAC0A /* SafeArea.swift in Sources */,
 				C08D4EA92486B74500AAAC0A /* FormDataStoreHandler.swift in Sources */,
 				C89FFA942412EA4200C1B53B /* UrlBuilder.swift in Sources */,
+				7CC2D9B624C6150E0059D5F9 /* TabBarUIComponent.swift in Sources */,
 				988F81FB23E24ECA008562BE /* UIView+Subviews.swift in Sources */,
 				E531D6BA2359FEE1007EEBA7 /* UIView+Loading.swift in Sources */,
 				C8311A6924099A8700E95C15 /* WidgetStateObservable.swift in Sources */,
@@ -1819,6 +1834,7 @@
 				981DB2EF23748BAB001CE5E0 /* UnitValueExtension.swift in Sources */,
 				E531D6C1235A3230007EEBA7 /* NSErrorExtension.swift in Sources */,
 				A05C74D22497F430009DBB66 /* FormValidation.swift in Sources */,
+				7CC2D9B424C614FB0059D5F9 /* TabBar+Renderable.swift in Sources */,
 				A024CF0F24991E42009BB92D /* UIView+Style.swift in Sources */,
 				C08D4E1F24857B4E00AAAC0A /* NavigationBar+UIKit.swift in Sources */,
 				A04B19FA23ECA3F7007B4279 /* Screen+Renderable.swift in Sources */,
