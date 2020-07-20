@@ -41,8 +41,7 @@ internal var contextDataValueResolver = ContextDataValueResolver()
  * @property rootView from buildView
  * @property origin view that triggered the action
  * @property actions is the list of actions to be executed
- * @property eventName is the name of event to be referenced inside the @property action list
- * @property eventValue is the value that the eventName name has created,
+ * @property context is the property that will contain the implicit context data, id and value in ContextData class
  * this could be a primitive or a object that will be serialized to JSON
  */
 fun Action.handleEvent(
@@ -80,8 +79,7 @@ fun Action.handleEvent(
  * @property rootView from buildView
  * @property origin view that triggered the action
  * @property action is the action to be executed
- * @property eventName is the name of event to be referenced inside the @property action list
- * @property eventValue is the value that the eventName name has created,
+ * @property context is the property that will contain the implicit context data, id and value in ContextData class
  * this could be a primitive or a object that will be serialized to JSON
  */
 fun Action.handleEvent(
