@@ -150,16 +150,18 @@ data class TextInput(
         textInput.value?.let { bind ->
             observeBindChanges(rootView, bind) { it?.let { setValue(it, rootView)} }
         }
-        textInput.readOnly?.let { bind -> observeBindChanges(rootView, bind) { it?.let { this.isEnabled = !it } } }
-        textInput.disabled?.let { bind -> observeBindChanges(rootView, bind) { it?.let { this.isEnabled = !it } } }
+        textInput.readOnly?.let { bind -> observeBindChanges(rootView, bind) { setEnabledConfig(it)  } }
+        textInput.disabled?.let { bind -> observeBindChanges(rootView, bind) { setEnabledConfig(it) } }
         textInput.hidden?.let { bind -> observeBindChanges(rootView, bind) {
-                it?.let {  this.visibility =
-                    if (it) View.INVISIBLE else View.VISIBLE
-                }
+                it?.let {  this.visibility = if (it) View.INVISIBLE else View.VISIBLE }
             }
         }
         textInput.styleId?.let { setStyle(it) }
         textInput.type?.let { bind -> observeBindChanges(rootView, bind) { it?.let{ this.setInputType(it) } } }
+    }
+
+    private fun EditText.setEnabledConfig(isEnabled: Boolean?){
+        isEnabled?.let { this.isEnabled = !it } }
     }
 
     private fun EditText.setValue(text: String, rootView: RootView){
@@ -169,6 +171,7 @@ data class TextInput(
         this.setSelection(text.length)
         setUpOnTextChange(rootView)
     }
+
 
     private fun EditText.setInputType(textInputType: TextInputType) {
         this.inputType = when (textInputType) {
