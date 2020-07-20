@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.utils
 
+import android.util.MalformedJsonException
 import android.view.View
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
@@ -23,11 +24,14 @@ import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.context.ContextActionExecutor
 import br.com.zup.beagle.android.context.ContextDataValueResolver
 import br.com.zup.beagle.android.context.isExpression
+import br.com.zup.beagle.android.context.normalizeContextValue
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.widget.RootView
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.EOFException
+import java.lang.NumberFormatException
 
 internal var contextActionExecutor = ContextActionExecutor()
 internal var contextDataValueResolver = ContextDataValueResolver()
@@ -89,17 +93,42 @@ internal fun Action.evaluateExpression(
     return try {
         return if (data is JSONObject || data is JSONArray || data.isExpression()) {
             val value = expressionOf<String>(data.toString()).evaluateForAction(rootView, this)
-            val actualValue = if (data is String) {
-                value
-            } else {
-                BeagleMoshi.moshi.adapter(Any::class.java).fromJson(value)
-            }
-            contextDataValueResolver.parse(actualValue)
+            value.tryToDeserialize()
         } else {
             data
         }
     } catch (ex: Exception) {
         BeagleMessageLogs.errorWhileTryingToEvaluateBinding(ex)
         null
+    }
+}
+
+private fun String?.tryToDeserialize(): Any? {
+    return try {
+        val number = this?.tryToConvertToNumber()
+        if (number != null) {
+            number
+        } else {
+            val newValue = BeagleMoshi.moshi.adapter(Any::class.java).fromJson(this)
+            contextDataValueResolver.parse(newValue)
+        }
+    } catch (ex: Exception) {
+        if (this?.isNotEmpty() == true) {
+            this
+        } else {
+            null
+        }
+    }
+}
+
+private fun String.tryToConvertToNumber(): Number? {
+    return try {
+        this.toInt()
+    } catch (ex: NumberFormatException) {
+        try {
+            this.toDouble()
+        } catch (ex: NumberFormatException) {
+            null
+        }
     }
 }
