@@ -25,8 +25,8 @@ import br.com.zup.beagle.android.utils.getExpressions
 
 internal data class ContextBinding(
     val context: ContextData,
-    val bindings: MutableSet<Bind.Expression<*>>,
-    val cache: LruCache<String, Any?>
+    val bindings: MutableSet<Bind.Expression<*>> = mutableSetOf(),
+    val cache: LruCache<String, Any?> = LruCache(Integer.MAX_VALUE)
 ) {
     fun evaluateBindExpression(binding: Bind.Expression<*>): Any? {
         val expression = binding.value
@@ -53,9 +53,7 @@ internal class ContextDataManager(
     fun addContext(contextData: ContextData) {
         if (contexts[contextData.id] == null) {
             contexts[contextData.id] = ContextBinding(
-                bindings = mutableSetOf(),
-                context = contextData.normalize(),
-                cache = LruCache(10)
+                context = contextData.normalize()
             )
         } else {
             contexts[contextData.id]?.bindings?.clear()
