@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-apply plugin: 'kotlin'
+plugins {
+    id 'org.springframework.boot' version '2.2.5.RELEASE'
+    id 'kotlin'
+}
 //apply plugin: 'kotlin-kapt'
 
-group = "br.com.zup.beagle"
+group = "br.com.zup.automation"
 version = "0.0.1-SNAPSHOT"
 sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
     implementation GeneralLibraries.kotlin
