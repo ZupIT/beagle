@@ -111,7 +111,7 @@ platform :backend do
     gradle(project_dir: "backend", tasks:
         [
           "assemble",
-            "test",
+            "jacocoTestReport",
         ]
     )
     run_codecov(platform: 'backend')

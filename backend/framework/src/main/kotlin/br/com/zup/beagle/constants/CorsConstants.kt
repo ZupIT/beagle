@@ -14,21 +14,9 @@
  * limitations under the License.
  */
 
-import Foundation
-import UIKit    
+package br.com.zup.beagle.constants
 
-public class PageIndicator: PageIndicatorComponent, AutoInitiable {
+import br.com.zup.beagle.cache.BeagleCacheHandler
+import br.com.zup.beagle.platform.BeaglePlatformUtil
 
-    public var selectedColor: String?
-    public var unselectedColor: String?
-
-// sourcery:inline:auto:PageIndicator.Init
-    public init(
-        selectedColor: String? = nil,
-        unselectedColor: String? = nil
-    ) {
-        self.selectedColor = selectedColor
-        self.unselectedColor = unselectedColor
-    }
-// sourcery:end
-}
+val BEAGLE_EXPOSED_HEADERS = arrayOf(BeagleCacheHandler.CACHE_HEADER)

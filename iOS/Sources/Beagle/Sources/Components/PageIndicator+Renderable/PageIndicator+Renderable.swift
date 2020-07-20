@@ -19,9 +19,16 @@ import UIKit
 import BeagleSchema
 
 extension PageIndicator: ServerDrivenComponent {
-
+    
     public func toView(renderer: BeagleRenderer) -> UIView {
         let view = PageIndicatorUIComponent(selectedColor: selectedColor, unselectedColor: unselectedColor)
+        
+        if let currentPage = currentPage, let numberOfPages = self.numberOfPages {
+            renderer.observe(currentPage, andUpdateManyIn: view) { page in
+                view.model = .init(numberOfPages: numberOfPages, currentPage: page)
+            }
+        }
+        
         return view
     }
 }
@@ -44,6 +51,7 @@ class PageIndicatorUIComponent: UIView, PageIndicatorUIView {
         let indicator = UIPageControl()
         indicator.currentPageIndicatorTintColor = selectedColor
         indicator.pageIndicatorTintColor = unselectedColor
+        indicator.isUserInteractionEnabled = false
         indicator.currentPage = 0
         return indicator
     }()
@@ -78,10 +86,14 @@ class PageIndicatorUIComponent: UIView, PageIndicatorUIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        return .init(width: size.width, height: 40)
+    }
+    
     // MARK: - Update
     
     private func updateView(model: Model) {
-        pageControl.currentPage = model.currentPage
         pageControl.numberOfPages = model.numberOfPages
+        pageControl.currentPage = model.currentPage
     }
 }

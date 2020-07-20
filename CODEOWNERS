@@ -1,6 +1,6 @@
 CODEOWNERS
-*         @dantes-git @gabcoelho @pedropnaves @tarcisiogc @tuliopereirazup @hernandazevedozup @matheusribeirozup @hthemir @heliojuniorzup @tiagonuneszup @danilorochazup @ze12augusto @LG95 @lucka3s @theffc @victormr @yandiaszup @gmarson @uziasferreirazup @marcelomp @lucasaraujo @jefersonlopeszup @diogooliveira-zup
+*         @dantes-git @gabcoelho @pedropnaves @tarcisiogc @tuliopereirazup @hernandazevedozup @matheusribeirozup @hthemir @heliojuniorzup @tiagonuneszup @danilorochazup @ze12augusto @LG95 @lucka3s @theffc @victormr @yandiaszup @gmarson @uziasferreirazup @marcelomp @lucasaraujo @jefersonlopeszup @diogooliveira-zup @paulomeurerzup
 
-android/  @tuliopereirazup @hernandazevedozup @matheusribeirozup @uziasferreirazup @hthemir @tiagonuneszup @danilorochazup @lucka3s @jefersonlopeszup @diogooliveira-zup @tarcisiogc
+android/  @tuliopereirazup @hernandazevedozup @matheusribeirozup @uziasferreirazup @hthemir @tiagonuneszup @danilorochazup @lucka3s @jefersonlopeszup @diogooliveira-zup @tarcisiogc @paulomeurerzup
 iOS/ @theffc @gabcoelho @dantes-git @heliojuniorzup @victormr @yandiaszup @gmarson @marcelomp @lucasaraujo @tarcisiogc
 backend/  @LG95 @ze12augusto @tuliopereirazup @hernandazevedozup @matheusribeirozup @uziasferreirazup @hthemir @tiagonuneszup @danilorochazup @lucka3s @jefersonlopeszup @diogooliveira-zup @tarcisiogc
