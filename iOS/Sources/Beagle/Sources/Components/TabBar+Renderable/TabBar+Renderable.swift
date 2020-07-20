@@ -15,4 +15,12 @@
  * limitations under the License.
  */
 
-import Foundation
+import UIKit
+import BeagleSchema
+
+extension TabBar: ServerDrivenComponent {
+    public func toView(renderer: BeagleRenderer) -> UIView {
+        let view = TabBarUIComponent(model: .init(tabIndex: 0, tabViewItems: children), controller: renderer.controller)
+        return view
+    }
+}

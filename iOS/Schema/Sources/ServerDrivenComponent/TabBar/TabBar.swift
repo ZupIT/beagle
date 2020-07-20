@@ -16,3 +16,36 @@
  */
 
 import Foundation
+
+public struct TabBar: RawComponent, AutoInitiable, HasContext {
+    public let children: [TabBarItem]
+    public let styleId: String?
+    public let context: Context?
+
+// sourcery:inline:auto:TabBar.Init
+    public init(
+        children: [TabBarItem],
+        styleId: String? = nil,
+        context: Context? = nil
+    ) {
+        self.children = children
+        self.styleId = styleId
+        self.context = context
+    }
+// sourcery:end
+}
+
+public struct TabBarItem: Decodable, AutoInitiable {
+    public let icon: String?
+    public let title: String?
+
+// sourcery:inline:auto:TabBarItem.Init
+    public init(
+        icon: String? = nil,
+        title: String? = nil
+    ) {
+        self.icon = icon
+        self.title = title
+    }
+// sourcery:end
+}
