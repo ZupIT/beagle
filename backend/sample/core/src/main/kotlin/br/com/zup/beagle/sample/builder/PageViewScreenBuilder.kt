@@ -58,7 +58,7 @@ object PageViewScreenBuilder : ScreenBuilder {
         child = Container(
             children = listOf(
                 Button(
-                    "ir pagina 3|",
+                    "ir página 3",
                     onPress = listOf(SetContext("context", 2))
                 ),
                 PageView(
