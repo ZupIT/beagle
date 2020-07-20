@@ -42,7 +42,7 @@ data class Container(
     override fun buildView(rootView: RootView): View {
         val view = viewFactory.makeBeagleFlexView(rootView.getContext(), style ?: Style())
         onInit?.let {
-            this@Container.handleEvent(rootView, view, it, "onInit")
+            this@Container.handleEvent(rootView, view, it)
         }
 
         return view

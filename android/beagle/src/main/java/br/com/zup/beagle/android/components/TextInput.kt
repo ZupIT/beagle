@@ -26,6 +26,7 @@ import br.com.zup.beagle.R
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.valueOfNullable
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.utils.observeBindChanges
@@ -108,8 +109,10 @@ data class TextInput(
                     rootView,
                     this,
                     onChange,
-                    "onChange",
-                    mapOf(VALUE_KEY to newText.toString())
+                    ContextData(
+                        id = "onChange",
+                        value = mapOf(VALUE_KEY to newText.toString())
+                    )
                 )
             }
         }
@@ -127,8 +130,10 @@ data class TextInput(
                         rootView,
                         view,
                         onFocus,
-                        "onFocus",
-                        mapOf(VALUE_KEY to this.text.toString())
+                        ContextData(
+                            id = "onFocus",
+                            value = mapOf(VALUE_KEY to this.text.toString())
+                        )
                     )
                 }
             } else {
@@ -137,8 +142,10 @@ data class TextInput(
                         rootView,
                         view,
                         onBlur,
-                        "onBlur",
-                        mapOf(VALUE_KEY to this.text.toString())
+                        ContextData(
+                            id = "onBlur",
+                            value = mapOf(VALUE_KEY to this.text.toString())
+                        )
                     )
                 }
             }
