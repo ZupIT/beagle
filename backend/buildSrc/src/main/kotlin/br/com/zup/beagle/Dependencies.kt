@@ -34,7 +34,7 @@ class Dependencies : Plugin<Project> {
     }
 
     object Modules {
-        const val beagleBackendWidgets = ":backend-widgets"
+        const val beagleBackendWidgets = ":widgets"
         const val beagleBackendProcessor = ":processor"
         const val beagleBackendFramework = ":framework"
 

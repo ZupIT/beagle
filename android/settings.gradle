@@ -16,12 +16,12 @@
 
 include ":sample"
 include ":beagle"
-include ":android-processor"
-include ":android-internal-processor"
-include ":android-annotation"
-include ":android-preview"
-include ":common:processor-utils"
+include ":processor"
+include ":internal-processor"
+include ":annotation"
+include ":preview"
 include ":schema:kotlin-core"
+include ":common:processor-utils"
 include ":common:extended-schema"
 include ":common:annotation"
 
