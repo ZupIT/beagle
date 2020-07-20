@@ -16,6 +16,9 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.widget.action.FormMethodType
+import br.com.zup.beagle.widget.action.FormRemoteAction
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.applyStyle
@@ -24,10 +27,9 @@ import br.com.zup.beagle.sample.constants.BUTTON_STYLE_FORM
 import br.com.zup.beagle.sample.constants.LIGHT_GREEN
 import br.com.zup.beagle.sample.constants.SUBMIT_FORM_ENDPOINT
 import br.com.zup.beagle.sample.widget.SampleTextField
-import br.com.zup.beagle.widget.action.*
-import br.com.zup.beagle.widget.context.ContextData
-import br.com.zup.beagle.widget.context.expressionOf
-import br.com.zup.beagle.widget.core.*
+import br.com.zup.beagle.widget.core.EdgeValue
+import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.form.Form
 import br.com.zup.beagle.widget.form.FormInput
 import br.com.zup.beagle.widget.form.FormSubmit
@@ -38,48 +40,93 @@ import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.layout.ScrollView
 import br.com.zup.beagle.widget.ui.Button
-import br.com.zup.beagle.widget.ui.Image
-import br.com.zup.beagle.widget.ui.ImagePath
 import br.com.zup.beagle.widget.ui.ImagePath.Local
-import br.com.zup.beagle.widget.ui.Text
 
 object FormScreenBuilder : ScreenBuilder {
     private val styleHorizontalMargin = Style(margin = EdgeValue(all = 10.unitReal()))
 
     @Suppress("LongMethod")
     override fun build() = Screen(
-        child = Container(
-            context = ContextData(
-                id = "myContext",
-                value = ImagePath.Remote("/images/beach.jpg")
-            ),
+        navigationBar = NavigationBar(
+            title = "Form",
+            navigationBarItems = listOf(
+                NavigationBarItem(
+                    text = "",
+                    image = Local.justMobile("informationImage"),
+                    action = Alert(
+                        title = "Form",
+                        message = "A formSubmit component will define a submit handler in a form.",
+                        labelOk = "OK"
+                    )
+                )
+            )
+        ),
+        child = ScrollView(
+            scrollDirection = ScrollAxis.VERTICAL,
             children = listOf(
-                Text("Currency Table in USD"),
-                Button(
-                    text = "Click to get the currency Table",
-                    onPress = listOf(
-                        SetContext(
-                            contextId = "myContext",
-                            value = "ValorSimples"
+                Form(
+                    onSubmit = listOf(FormRemoteAction(
+                        path = SUBMIT_FORM_ENDPOINT,
+                        method = FormMethodType.POST
+                    )),
+                    additionalData = mapOf(
+                        "additionalParamKey1" to "additionalParamValue1"
+                    ),
+                    child = Container(
+                        children = listOf(
+                            customFormInput(
+                                name = "optional-field",
+                                placeholder = "Optional field"
+                            ),
+                            customFormInput(
+                                name = "required-field",
+                                required = true,
+                                validator = "text-is-not-blank",
+                                placeholder = "Required field"
+                            ),
+                            customFormInput(
+                                name = "another-required-field",
+                                required = true,
+                                validator = "text-is-not-blank",
+                                placeholder = "Another required field"
+
+                            ),
+                            Container(
+                                children = emptyList()
+                            ).applyFlex(Flex(grow = 1.0)),
+                            FormSubmit(
+                                enabled = false,
+                                child = Button(
+                                    text = "Submit Form",
+                                    styleId = BUTTON_STYLE_FORM
+                                ).applyStyle(styleHorizontalMargin)
+                            )
                         )
                     )
-                ),
-
-//                Text(
-//                    text = expressionOf("@{myContext}")
-//                ),
-                Image(expressionOf("@{myContext}")).applyStyle(Style(
-                    flex = Flex(
-                        alignSelf = AlignSelf.CENTER
-                    ),
-                    size = Size(
-                        width = 150.unitReal(),
-                        height = 130.unitReal()
-                    ))
+                        .applyStyle(
+                            Style(
+                                flex = Flex(grow = 1.0),
+                                padding = EdgeValue(all = 10.unitReal())
+                            )
+                        )
+                        .applyStyle(Style(backgroundColor = LIGHT_GREEN))
                 )
             )
         )
     )
 
-
+    private fun customFormInput(
+        name: String,
+        required: Boolean? = null,
+        validator: String? = null,
+        placeholder: String
+    ) =
+        FormInput(
+            name = name,
+            required = required,
+            validator = validator,
+            child = SampleTextField(
+                placeholder = placeholder
+            ).applyStyle(styleHorizontalMargin)
+        )
 }

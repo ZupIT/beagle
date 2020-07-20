@@ -67,12 +67,8 @@ internal class ContextDataEvaluation(
         expression: String,
         bind: Bind.Expression<*>
     ) {
-        val value = evaluateExpression(contextData, bind, expression)
-        if (value != null) {
-            bind.evaluatedExpressions[expression] = value
-        } else {
-            bind.evaluatedExpressions.remove(expression)
-        }
+        val value = evaluateExpression(contextData, bind, expression)?:""
+        bind.evaluatedExpressions[expression] = value
     }
 
     private fun evaluateMultipleExpressions(bind: Bind.Expression<*>): Any? {
@@ -81,7 +77,7 @@ internal class ContextDataEvaluation(
             val expressionKey = it.key
             text = text.replace("@{$expressionKey}", it.value.toString())
         }
-        return text
+        return if(text.isEmpty()) null else text
     }
 
     private fun evaluateExpression(contextData: ContextData, bind: Bind.Expression<*>, expression: String): Any? {
