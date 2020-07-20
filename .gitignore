@@ -4,8 +4,8 @@ target/
 build/
 ../out/
 .gradle/
-.idea/*
-!.idea/copyright
+**/.idea/*
+!**/.idea/copyright
 projectFilesBackup/
 out/
 !.mvn/wrapper/maven-wrapper.jar
@@ -22,12 +22,6 @@ out/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/dictionaries
-.idea/vcs.xml
-.idea/dynamic.xml
-.idea/uiDesigner.xml
 *.iml
 
 ### VS Code ###
@@ -37,7 +31,6 @@ out/
 .gradle
 gradle.deps
 local.properties
-.idea/
 .DS_Store
 build/
 /captures
