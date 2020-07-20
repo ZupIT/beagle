@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-public struct Button {
+public struct Text {
   
   // MARK: - Public Properties  
   public let text: Expression<String>  
   public let styleId: String?  
-  public let onPress: [Action]?  
 
   public init (        
     text: String,        
-    styleId: String? = nil,        
-    onPress: [Action]? = nil        
+    styleId: String? = nil        
   ) {    
       self.text = text    
       self.styleId = styleId    
-      self.onPress = onPress    
   }
 }

@@ -18,16 +18,17 @@ require 'date'
 require './Synthax/variable.rb'
 require './Synthax/type.rb'
 require './Models/Widgets/button.rb'
+require './Models/Widgets/text.rb'
 require './FileHandler/file_handler.rb'
 require './Common/constants.rb'
 
 class ModelGenerator
   
-  @writer = FileHandler.new
-
-  def initialize(objectType = nil, fileName = "")
-    @objectType = objectType
-    @erb = ERB.new(File.read(fileName), nil, '-')
+  def initialize(components)
+    @objectType = nil
+    @erb = nil
+    @writer = FileHandler.new
+    @components = components
   end
   
   attr_accessor :objectType
@@ -37,26 +38,41 @@ class ModelGenerator
   end
 
   def generateKotlin
-    # TODO
+    @erb = ERB.new(File.read("model_template_kotlin.erb"), nil, '-')
+    for component in @components
+      @objectType = component.new
+      @writer.write(Constants.new.kotlin_path + @objectType.fileName + "kt", to_s)
+    end
   end
   
-  def generateSwift
-    # TODO
+  def generateSwift()
+    @erb = ERB.new(File.read("model_template_swift.erb"), nil, '-')
+    for component in @components
+      @objectType = component.new
+      @writer.write(Constants.new.swift_path + @objectType.fileName + "swift", to_s)
+    end
   end
 
+  def generateTs
+    @erb = ERB.new(File.read("model_template_ts.erb"), nil, '-')
+    for component in @components
+      @objectType = component.new
+      @writer.write(Constants.new.ts_path + @objectType.fileName + "ts", to_s)
+    end
+  end
 
 end
 
 if __FILE__ == $0
-  writer = FileHandler.new
+  components = [
+    Button,
+    Text
+  ]
   
-  swiftGenerator = ModelGenerator.new(Button.new, 'model_template_swift.erb')
-  writer.write(Constants.new.swift_path + "Button.swift", swiftGenerator.to_s)
-
-  kotlinGenerator = ModelGenerator.new(Button.new, 'model_template_kotlin.erb')
-  writer.write(Constants.new.kotlin_path + "Button.kt", kotlinGenerator.to_s)
-
-  tsGenerator = ModelGenerator.new(Button.new, 'model_template_ts.erb')
-  writer.write(Constants.new.ts_path + "Button.ts", tsGenerator.to_s)
+  g = ModelGenerator.new(components)
   
+  g.generateSwift
+  g.generateKotlin
+  g.generateTs
+
 end

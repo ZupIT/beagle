@@ -28,5 +28,9 @@ class Button < BaseComponent
         super(synthaxType)
 
     end
+
+    def fileName
+        "Button."
+    end
     
 end

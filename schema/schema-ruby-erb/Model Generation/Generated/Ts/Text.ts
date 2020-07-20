@@ -14,20 +14,7 @@
  * limitations under the License.
  */
 
-public struct Button {
-  
-  // MARK: - Public Properties  
-  public let text: Expression<String>  
-  public let styleId: String?  
-  public let onPress: [Action]?  
-
-  public init (        
-    text: String,        
-    styleId: String? = nil,        
-    onPress: [Action]? = nil        
-  ) {    
-      self.text = text    
-      self.styleId = styleId    
-      self.onPress = onPress    
-  }
+export interface Text {   
+  text: string,   
+  styleId?: string,   
 }

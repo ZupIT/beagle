@@ -28,4 +28,8 @@ class Text < BaseComponent
 
     end
     
+    def fileName
+        "Text."
+    end
+
 end

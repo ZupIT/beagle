@@ -23,7 +23,7 @@
 
   def handleTypeNameForInitMethod(variable, shouldAddComma = false)
     output = variable.isArray ? "[" + variable.typeName + "]" : variable.typeName
-    output = variable.isOptional ? output + "? = null" : output
+    output = variable.isOptional ? output + "? = nil" : output
     output = shouldAddComma ?  output + "," : output
     output
   end
