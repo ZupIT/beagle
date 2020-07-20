@@ -37,19 +37,27 @@ class ModelGenerator
     @erb.result(binding)
   end
 
+  def generate
+    generateSwift
+    generateKotlin
+    generateTs
+  end
+
+  private
+
   def generateKotlin
     @erb = ERB.new(File.read("model_template_kotlin.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      @writer.write(Constants.new.kotlin_path + @objectType.fileName + "kt", to_s)
+      @writer.write(Constants.new.kotlin_path + @objectType.name + ".kt", to_s)
     end
   end
   
-  def generateSwift()
+  def generateSwift
     @erb = ERB.new(File.read("model_template_swift.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      @writer.write(Constants.new.swift_path + @objectType.fileName + "swift", to_s)
+      @writer.write(Constants.new.swift_path + @objectType.name + ".swift", to_s)
     end
   end
 
@@ -57,7 +65,7 @@ class ModelGenerator
     @erb = ERB.new(File.read("model_template_ts.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      @writer.write(Constants.new.ts_path + @objectType.fileName + "ts", to_s)
+      @writer.write(Constants.new.ts_path + @objectType.name + ".ts", to_s)
     end
   end
 
@@ -69,10 +77,6 @@ if __FILE__ == $0
     Text
   ]
   
-  g = ModelGenerator.new(components)
-  
-  g.generateSwift
-  g.generateKotlin
-  g.generateTs
+  ModelGenerator.new(components).generate
 
 end

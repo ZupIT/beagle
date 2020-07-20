@@ -20,8 +20,8 @@ class BaseComponent
         @synthaxType = type
     end
 
-    def fileName
-        puts("YOU MUST OVERRIDE THIS IN YOUR COMPONENT")
+    def name
+        self.class.to_s
     end
 
 end 

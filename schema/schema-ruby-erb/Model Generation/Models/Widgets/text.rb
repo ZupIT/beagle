@@ -22,14 +22,10 @@ class Text < BaseComponent
             Variable.new(:name => "text", :typeName => "String", :isBindable => true),
             Variable.new(:name => "styleId", :typeName => "String", :isOptional => true)
         ]
-        synthaxType = SynthaxType.new(:kind => 'struct', :name => 'Text', :variables => textVariables)
+        synthaxType = SynthaxType.new(:kind => 'struct', :name => self.name, :variables => textVariables)
 
         super(synthaxType)
 
-    end
-    
-    def fileName
-        "Text."
     end
 
 end

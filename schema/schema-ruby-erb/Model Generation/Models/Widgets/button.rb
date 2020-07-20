@@ -23,14 +23,10 @@ class Button < BaseComponent
             Variable.new(:name => "styleId", :typeName => "String", :isOptional => true),
             Variable.new(:name => "onPress", :typeName => "Action", :isOptional => true, :isArray => true)
         ]
-        synthaxType = SynthaxType.new(:kind => 'struct', :name => 'Button', :variables => buttonVariables)
+        synthaxType = SynthaxType.new(:kind => 'struct', :name => self.name, :variables => buttonVariables)
 
         super(synthaxType)
 
-    end
-
-    def fileName
-        "Button."
     end
     
 end
