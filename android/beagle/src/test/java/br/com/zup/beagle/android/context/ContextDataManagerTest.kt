@@ -16,30 +16,26 @@
 
 package br.com.zup.beagle.android.context
 
+import android.util.LruCache
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.SetContextInternal
+import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.jsonpath.JsonCreateTree
-import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.mockdata.ComponentModel
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.testutil.getPrivateField
 import com.squareup.moshi.Moshi
-import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
-import io.mockk.mockk
 import io.mockk.mockkObject
-import io.mockk.unmockkAll
 import io.mockk.verify
 import org.json.JSONObject
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
-import org.junit.Before
 import org.junit.Test
 import java.util.*
 import kotlin.test.assertFalse
@@ -60,9 +56,6 @@ class ContextDataManagerTest : BaseTest() {
     private lateinit var contextPathResolver: ContextPathResolver
 
     @MockK
-    private lateinit var contextDataEvaluation: ContextDataEvaluation
-
-    @MockK
     private lateinit var moshi: Moshi
 
     @MockK
@@ -70,6 +63,9 @@ class ContextDataManagerTest : BaseTest() {
 
     @MockK
     private lateinit var model: ComponentModel
+
+    @RelaxedMockK
+    private lateinit var cacheMock: LruCache<String, Any?>
 
     override fun setUp() {
         super.setUp()
@@ -88,8 +84,7 @@ class ContextDataManagerTest : BaseTest() {
         contextDataManager = ContextDataManager(
             jsonCreateTree,
             ContextDataTreeHelper(),
-            contextPathResolver,
-            contextDataEvaluation
+            contextPathResolver
         )
 
         contexts = contextDataManager.getPrivateField("contexts")
@@ -178,7 +173,7 @@ class ContextDataManagerTest : BaseTest() {
         }
         val contextData = ContextData(CONTEXT_ID, json)
         val updateContext = SetContextInternal(CONTEXT_ID, false, "a")
-        contexts[contextData.id] = ContextBinding(contextData, mutableSetOf())
+        contexts[contextData.id] = ContextBinding(contextData, mutableSetOf(), cacheMock)
 
         // When
         val result = contextDataManager.updateContext(updateContext)
@@ -192,7 +187,7 @@ class ContextDataManagerTest : BaseTest() {
         // Given
         val contextData = ContextData(CONTEXT_ID, true)
         val updateContext = SetContextInternal(CONTEXT_ID, false, "a")
-        contexts[contextData.id] = ContextBinding(contextData, mutableSetOf())
+        contexts[contextData.id] = ContextBinding(contextData, mutableSetOf(), cacheMock)
         every { jsonCreateTree.walkingTreeAndFindKey(any(), any(), any()) } throws IllegalStateException()
 
         // When
@@ -207,7 +202,7 @@ class ContextDataManagerTest : BaseTest() {
         // Given
         val contextData = ContextData(CONTEXT_ID, true)
         val updateContext = SetContextInternal(CONTEXT_ID, false, null)
-        contexts[contextData.id] = ContextBinding(contextData, mutableSetOf())
+        contexts[contextData.id] = ContextBinding(contextData, mutableSetOf(), cacheMock)
 
         // When
         val result = contextDataManager.updateContext(updateContext)
@@ -232,19 +227,46 @@ class ContextDataManagerTest : BaseTest() {
 
     @Test
     fun evaluateContextBindings_should_get_value_from_evaluation() {
-        // Given
-        val value = true
-        val contextData = ContextData(CONTEXT_ID, value)
-        contexts[CONTEXT_ID] = ContextBinding(
-            contextData,
-            mutableSetOf(bindModel)
+        //Given
+        val contextData = ContextData(CONTEXT_ID, model)
+        val contextBinding = ContextBinding(
+            context = contextData,
+            bindings = mutableSetOf(bindModel),
+            cache = cacheMock
         )
-        every { contextDataEvaluation.evaluateBindExpression(contextData, bindModel) } returns model
+
+        every { cacheMock.get(any()) } returns null
+
+        contexts[CONTEXT_ID] = contextBinding
 
         // When
         contextDataManager.evaluateContexts()
 
         // Then
-        verify { bindModel.notifyChange(model) }
+        verify(exactly = once()) { cacheMock.put(any(), any()) }
+    }
+
+    @Test
+    fun updateContext_should_clear_context_cache() {
+        //Given
+        val contextData = ContextData(CONTEXT_ID, model)
+        val contextBinding = ContextBinding(
+            context = contextData,
+            bindings = mutableSetOf(bindModel),
+            cache = cacheMock
+        )
+
+        every { cacheMock.get(any()) } returns null
+        contexts[CONTEXT_ID] = contextBinding
+
+        // When
+        contextDataManager.evaluateContexts()
+        contextDataManager.updateContext(SetContextInternal(
+            contextId = CONTEXT_ID,
+            value = model
+        ))
+
+        // Then
+        verify(exactly = 2) { cacheMock.put(any(), any()) }
     }
 }

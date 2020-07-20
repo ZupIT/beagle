@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.android.context
 
+import android.util.LruCache
+import androidx.core.util.lruCache
 import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.jsonpath.JsonCreateTree
 import br.com.zup.beagle.android.testutil.RandomData
@@ -37,7 +39,7 @@ class ContextDataTreeHelperTest {
     fun `should create a context with new json array tree`() {
         val contexts = mutableMapOf<String, ContextBinding>()
         val contextData = ContextData(CONTEXT_ID, true)
-        val contextBinding = ContextBinding(contextData, mutableSetOf())
+        val contextBinding = ContextBinding(contextData, mutableSetOf(), LruCache(1))
         contexts[contextData.id] = contextBinding
         val result = ContextDataTreeHelper().updateContextDataWithTree(
             contextBinding,
@@ -53,7 +55,7 @@ class ContextDataTreeHelperTest {
     fun `should create a context with new json object tree`() {
         val contexts = mutableMapOf<String, ContextBinding>()
         val contextData = ContextData(CONTEXT_ID, JSONArray())
-        val contextBinding = ContextBinding(contextData, mutableSetOf())
+        val contextBinding = ContextBinding(contextData, mutableSetOf(), LruCache(1))
         contexts[contextData.id] = contextBinding
         val result = ContextDataTreeHelper().updateContextDataWithTree(
             contextBinding,
@@ -69,7 +71,7 @@ class ContextDataTreeHelperTest {
     fun `should return the same context when the root tree is the same type`() {
         val contexts = mutableMapOf<String, ContextBinding>()
         val contextData = ContextData(CONTEXT_ID, JSONArray())
-        val contextBinding = ContextBinding(contextData, mutableSetOf())
+        val contextBinding = ContextBinding(contextData, mutableSetOf(), LruCache(1))
         contexts[contextData.id] = contextBinding
         val result = ContextDataTreeHelper().updateContextDataWithTree(
             contextBinding,
