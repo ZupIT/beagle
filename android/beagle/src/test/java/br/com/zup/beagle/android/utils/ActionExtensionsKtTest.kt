@@ -32,6 +32,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class ActionExtensionsKtTest : BaseTest() {
@@ -242,6 +243,24 @@ class ActionExtensionsKtTest : BaseTest() {
 
         // Then
         assertEquals(contextValue, actualValue)
+    }
+
+    @Test
+    fun evaluateExpression_should_return_JSON_string_evaluated() {
+        // Given
+        val contextValue = "hello"
+        viewModel.addContext(ContextData(
+            id = "context",
+            value = contextValue
+        ))
+        val value = """{"value": "@{context}""""
+
+        // When
+        val actualValue = action.evaluateExpression(rootView, value)
+
+        // Then
+        val expected = """{"value": "$contextValue""""
+        assertEquals(expected, actualValue)
     }
 
     @Test

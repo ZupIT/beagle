@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.utils
 
+import android.util.MalformedJsonException
 import android.view.View
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
@@ -29,6 +30,8 @@ import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.widget.RootView
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.EOFException
+import java.lang.NumberFormatException
 
 internal var contextActionExecutor = ContextActionExecutor()
 internal var contextDataValueResolver = ContextDataValueResolver()
@@ -89,17 +92,43 @@ internal fun Action.evaluateExpression(
 ): Any? {
     return try {
         return if (data is JSONObject || data is JSONArray || data.isExpression()) {
-            val value = expressionOf<Any>(data.toString()).evaluateForAction(rootView, this)
-            if (value is String) {
-                value.normalizeContextValue()
-            } else {
-                contextDataValueResolver.parse(value)
-            }
+            val value = expressionOf<String>(data.toString()).evaluateForAction(rootView, this)
+            value.tryToDeserialize()
         } else {
             data
         }
     } catch (ex: Exception) {
         BeagleMessageLogs.errorWhileTryingToEvaluateBinding(ex)
         null
+    }
+}
+
+private fun String?.tryToDeserialize(): Any? {
+    return try {
+        val number = this?.tryToConvertToNumber()
+        if (number != null) {
+            number
+        } else {
+            val newValue = BeagleMoshi.moshi.adapter(Any::class.java).fromJson(this)
+            contextDataValueResolver.parse(newValue)
+        }
+    } catch (ex: Exception) {
+        if (this?.isNotEmpty() == true) {
+            this
+        } else {
+            null
+        }
+    }
+}
+
+private fun String.tryToConvertToNumber(): Number? {
+    return try {
+        this.toInt()
+    } catch (ex: NumberFormatException) {
+        try {
+            this.toDouble()
+        } catch (ex: NumberFormatException) {
+            null
+        }
     }
 }
