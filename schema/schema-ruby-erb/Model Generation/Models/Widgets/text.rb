@@ -14,6 +14,7 @@
 
 require_relative '../../Synthax/Variable'
 require_relative '../base_component.rb'
+require_relative './widget.rb'
 
 class Text < BaseComponent
 
@@ -22,7 +23,14 @@ class Text < BaseComponent
             Variable.new(:name => "text", :typeName => "String", :isBindable => true),
             Variable.new(:name => "styleId", :typeName => "String", :isOptional => true)
         ]
-        synthaxType = SynthaxType.new(:kind => 'struct', :name => self.name, :variables => textVariables)
+        synthaxType = SynthaxType.new(
+            :kind => 'struct',
+            :name => self.name,
+            :variables => textVariables,
+            :inheritFrom => [
+               Widget.new.name
+            ]
+        )
 
         super(synthaxType)
 

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public struct Button {
+public struct Button: Widget, ClickedOnComponent {
   
   // MARK: - Public Properties  
   public let text: Expression<String>  

@@ -14,6 +14,7 @@
 
 require_relative '../../Synthax/Variable'
 require_relative '../base_component.rb'
+require_relative './widget.rb'
 
 class Button < BaseComponent
 
@@ -23,7 +24,15 @@ class Button < BaseComponent
             Variable.new(:name => "styleId", :typeName => "String", :isOptional => true),
             Variable.new(:name => "onPress", :typeName => "Action", :isOptional => true, :isArray => true)
         ]
-        synthaxType = SynthaxType.new(:kind => 'struct', :name => self.name, :variables => buttonVariables)
+        synthaxType = SynthaxType.new(
+            :kind => 'struct',
+            :name => self.name,
+            :variables => buttonVariables,
+            :inheritFrom => [
+               Widget.new.name,
+               "ClickedOnComponent" #todo create clicked on Component
+            ]
+        )
 
         super(synthaxType)
 

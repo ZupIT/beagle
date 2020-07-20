@@ -14,13 +14,14 @@
 
 class SynthaxType
 
-    attr_accessor :kind, :name, :variables, :accessor
+    attr_accessor :kind, :name, :variables, :accessor, :inheritFrom
 
     def initialize(params = {})
         @kind = params.fetch(:kind, '')
         @name = params.fetch(:name, '')
         @variables = params.fetch(:variables, [])
         @accessor = params.fetch(:accessor, "public")
+        @inheritFrom = params.fetch(:inheritFrom, [])
     end
     
 end

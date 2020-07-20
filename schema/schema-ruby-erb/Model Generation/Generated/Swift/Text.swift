@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public struct Text {
+public struct Text: Widget {
   
   // MARK: - Public Properties  
   public let text: Expression<String>  

@@ -17,7 +17,6 @@ require_relative '../base_component.rb'
 
 class Widget < BaseComponent
 
-
     #todo finish implementation, missing accessibility
     def initialize
         textVariables = [

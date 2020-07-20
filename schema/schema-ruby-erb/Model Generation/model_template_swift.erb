@@ -28,9 +28,22 @@
     output = shouldAddComma ?  output + "," : output
     output
   end
+
+  def handleInheritance(synthaxType)
+    output = synthaxType.inheritFrom.size == 0 ? "" : ": "
+    counter = 0
+    for type in synthaxType.inheritFrom
+      output += type
+      output = synthaxType.inheritFrom.size - 1 != counter ? output + ", " : output
+      counter += 1
+    end
+
+    output
+  end
+
 -%>
 
-<%= objectType.synthaxType.accessor %> struct <%= objectType.synthaxType.name -%> {
+<%= objectType.synthaxType.accessor %> struct <%= objectType.synthaxType.name -%><%= handleInheritance(objectType.synthaxType) %> {
   
   // MARK: - Public Properties<% -%>
   <% for variable in objectType.synthaxType.variables %>
