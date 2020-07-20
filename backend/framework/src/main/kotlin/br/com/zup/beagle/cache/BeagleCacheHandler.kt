@@ -19,11 +19,24 @@ package br.com.zup.beagle.cache
 import com.google.common.hash.Hashing
 import java.net.HttpURLConnection
 import java.nio.charset.Charset
+import java.time.Duration
 
 class BeagleCacheHandler(properties: BeagleCacheProperties) {
     companion object {
         const val CACHE_HEADER = "beagle-hash"
     }
+
+    constructor(
+        excludeEndpoints: List<String> = listOf(),
+        includeEndpoints: List<String> = listOf(),
+        ttl: Map<String, Duration> = mapOf()
+    ) : this(
+        object : BeagleCacheProperties {
+            override val exclude: List<String> = excludeEndpoints
+            override val include: List<String> = includeEndpoints
+            override val ttl: Map<String, Duration> = ttl
+        }
+    )
 
     private val endpointHashMap = mutableMapOf<String, String>()
     private val excludePatterns = properties.exclude.filter { it.isNotBlank() }.map(::Regex)
