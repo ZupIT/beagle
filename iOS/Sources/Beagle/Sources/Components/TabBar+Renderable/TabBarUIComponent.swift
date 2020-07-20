@@ -80,13 +80,12 @@ final class TabBarUIComponent: UIView {
         return view
     }()
     
-    var didSelectTab: ((_ tab: Int) -> Void)?
+    var onTabSelection: ((_ tab: Int) -> Void)?
     
     // MARK: - Initialization
     
     init(
-        model: Model,
-        controller: BeagleController
+        model: Model
     ) {
         self.model = model
         super.init(frame: .zero)
@@ -194,7 +193,7 @@ extension TabBarUIComponent: UICollectionViewDataSource, UICollectionViewDelegat
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let index = Int(indexPath.row)
         scrollTo(page: index)
-        didSelectTab?(index)
+        onTabSelection?(index)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

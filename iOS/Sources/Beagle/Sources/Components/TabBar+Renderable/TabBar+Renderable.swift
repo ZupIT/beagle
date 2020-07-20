@@ -20,7 +20,7 @@ import BeagleSchema
 
 extension TabBar: ServerDrivenComponent {
     public func toView(renderer: BeagleRenderer) -> UIView {
-        let view = TabBarUIComponent(model: .init(tabIndex: 0, tabViewItems: children), controller: renderer.controller)
+        let view = TabBarUIComponent(model: .init(tabIndex: 0, tabViewItems: children))
         return view
     }
 }
