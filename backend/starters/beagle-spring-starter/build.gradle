@@ -14,24 +14,26 @@
  * limitations under the License.
  */
 
+import br.com.zup.beagle.Dependencies
+
 apply plugin: 'kotlin'
-apply from: rootProject.file('jacoco.gradle')
+apply from: rootProject.file('../jacoco.gradle')
 
 dependencies {
-    implementation GeneralLibraries.kotlin
-    implementation SpringLibraries.autoconfigure
-    implementation SpringLibraries.webStarter
+    implementation Dependencies.GeneralLibraries.kotlin
+    implementation Dependencies.SpringLibraries.autoconfigure
+    implementation Dependencies.SpringLibraries.webStarter
 
-    api project(Modules.beagleBackendFramework)
+    api project(Dependencies.Modules.beagleBackendFramework)
 
-    annotationProcessor SpringLibraries.autoconfigureProcessor
+    annotationProcessor Dependencies.SpringLibraries.autoconfigureProcessor
 
-    testImplementation TestLibraries.mockk
-    testImplementation TestLibraries.kotlinTest
-    testImplementation TestLibraries.junit5Api
-    testImplementation SpringLibraries.testStarter
+    testImplementation Dependencies.TestLibraries.mockk
+    testImplementation Dependencies.TestLibraries.kotlinTest
+    testImplementation Dependencies.TestLibraries.junit5Api
+    testImplementation Dependencies.SpringLibraries.testStarter
 
-    testRuntimeOnly TestLibraries.junit5Engine
+    testRuntimeOnly Dependencies.TestLibraries.junit5Engine
 }
 
 test {
@@ -39,11 +41,11 @@ test {
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = Versions.java
+    kotlinOptions.jvmTarget = Dependencies.Versions.java
 }
 
 compileTestKotlin {
-    kotlinOptions.jvmTarget = Versions.java
+    kotlinOptions.jvmTarget = Dependencies.Versions.java
 }
 
-apply from: rootProject.file('maven-publish.gradle')
+//apply from: rootProject.file('maven-publish.gradle')

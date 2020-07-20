@@ -14,35 +14,37 @@
  * limitations under the License.
  */
 
+import br.com.zup.beagle.Dependencies
+
 apply plugin: 'kotlin'
 apply plugin: 'kotlin-kapt'
-apply from: rootProject.file('jacoco.gradle')
+apply from: rootProject.file('../jacoco.gradle')
 
 dependencies {
-    implementation GeneralLibraries.kotlin
-    implementation MicronautLibraries.runtime
-    implementation MicronautLibraries.netty
+    implementation Dependencies.GeneralLibraries.kotlin
+    implementation Dependencies.MicronautLibraries.runtime
+    implementation Dependencies.MicronautLibraries.netty
 
-    api project(Modules.beagleBackendFramework)
+    api project(Dependencies.Modules.beagleBackendFramework)
 
-    kapt MicronautLibraries.injectJava
+    kapt Dependencies.MicronautLibraries.injectJava
 
-    testImplementation TestLibraries.mockk
-    testImplementation TestLibraries.kotlinTest
-    testImplementation TestLibraries.junit5Api
+    testImplementation Dependencies.TestLibraries.mockk
+    testImplementation Dependencies.TestLibraries.kotlinTest
+    testImplementation Dependencies.TestLibraries.junit5Api
 
-    kaptTest MicronautLibraries.injectJava
+    kaptTest Dependencies.MicronautLibraries.injectJava
 
-    testRuntimeOnly TestLibraries.junit5Engine
-    testRuntimeOnly BackendLibraries.slf4jJUL
+    testRuntimeOnly Dependencies.TestLibraries.junit5Engine
+    testRuntimeOnly Dependencies.BackendLibraries.slf4jJUL
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = Versions.java
+    kotlinOptions.jvmTarget = Dependencies.Versions.java
 }
 
 compileTestKotlin {
-    kotlinOptions.jvmTarget = Versions.java
+    kotlinOptions.jvmTarget = Dependencies.Versions.java
 }
 
-apply from: rootProject.file('maven-publish.gradle')
+//apply from: rootProject.file('maven-publish.gradle')

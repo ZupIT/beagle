@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import br.com.zup.beagle.Dependencies
+
 apply plugin: 'kotlin'
 apply plugin: 'kotlin-kapt'
 
@@ -21,24 +23,24 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
-    implementation GeneralLibraries.kotlin
-    implementation GeneralLibraries.kotlinPoet
+    implementation Dependencies.GeneralLibraries.kotlin
+    implementation Dependencies.GeneralLibraries.kotlinPoet
 
-    implementation project(Modules.beagleAnnotation)
-    implementation project(Modules.beagleCommonProcessorUtils)
-    implementation project(Modules.beagleSchemaBackendWidgets)
+    implementation project(Dependencies.Modules.beagleCommonAnnotation)
+    implementation project(Dependencies.Modules.beagleCommonProcessorUtils)
+    implementation project(Dependencies.Modules.beagleSchemaBackendWidgets)
 
-    implementation ProcessorLibraries.autoService
-    implementation ProcessorLibraries.incap
+    implementation Dependencies.ProcessorLibraries.autoService
+    implementation Dependencies.ProcessorLibraries.incap
 
-    kapt ProcessorLibraries.autoService
-    kapt ProcessorLibraries.incapPrcessor
-    kaptTest project(Modules.beagleBackendProcessor)
+    kapt Dependencies.ProcessorLibraries.autoService
+    kapt Dependencies.ProcessorLibraries.incapPrcessor
+    kaptTest project(Dependencies.Modules.beagleBackendProcessor)
 
-    testRuntime TestLibraries.junit5Engine
-    testImplementation TestLibraries.junit5Api
-    testImplementation TestLibraries.kotlinTest
-    testImplementation TestLibraries.mockk
+    testRuntime Dependencies.TestLibraries.junit5Engine
+    testImplementation Dependencies.TestLibraries.junit5Api
+    testImplementation Dependencies.TestLibraries.kotlinTest
+    testImplementation Dependencies.TestLibraries.mockk
 }
 
-apply from: rootProject.file('maven-publish.gradle')
+//apply from: rootProject.file('maven-publish.gradle')

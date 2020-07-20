@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
+import br.com.zup.beagle.Dependencies
+
 apply plugin: 'kotlin'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
-    implementation GeneralLibraries.kotlin
-    implementation project(Modules.beagleSchemaKotlinCore)
+    implementation Dependencies.GeneralLibraries.kotlin
+    implementation project(Dependencies.Modules.beagleSchemaKotlinCore)
 
 }
 
-apply from: rootProject.file('maven-publish.gradle')
+//apply from: rootProject.file('maven-publish.gradle')

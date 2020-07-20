@@ -25,4 +25,4 @@ dependencies {
     implementation Dependencies.GeneralLibraries.kotlin
 }
 
-apply from: rootProject.file('../maven-publish.gradle')
+// apply from: rootProject.file('../maven-publish.gradle')
