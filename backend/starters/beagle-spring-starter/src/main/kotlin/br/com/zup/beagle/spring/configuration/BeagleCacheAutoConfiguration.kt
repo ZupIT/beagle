@@ -32,16 +32,13 @@ import org.springframework.context.annotation.Configuration
 @ConditionalOnClass(value = [BeagleCacheFilter::class, BeagleCacheHandler::class])
 @ConditionalOnProperty(value = [BEAGLE_CACHE_ENABLED], matchIfMissing = true, havingValue = "true")
 open class BeagleCacheAutoConfiguration(
-    @Value("\${$BEAGLE_CACHE_INCLUDES:*}") private val includeEndpointList: List<String>,
+    @Value("\${$BEAGLE_CACHE_INCLUDES:}") private val includeEndpointList: List<String>,
     @Value("\${$BEAGLE_CACHE_EXCLUDES:}") private val excludeEndpointList: List<String>
 ) {
     @Bean
     open fun beagleCachingFilter(cacheHandler: BeagleCacheHandler) =
-        FilterRegistrationBean<BeagleCacheFilter>().also {
-            it.filter = BeagleCacheFilter(cacheHandler)
-            it.addUrlPatterns(*this.includeEndpointList.toTypedArray())
-        }
+        FilterRegistrationBean<BeagleCacheFilter>().also { it.filter = BeagleCacheFilter(cacheHandler) }
 
     @Bean
-    open fun beagleCacheHandler() = BeagleCacheHandler(this.excludeEndpointList)
+    open fun beagleCacheHandler() = BeagleCacheHandler(this.excludeEndpointList, this.includeEndpointList)
 }
