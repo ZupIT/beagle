@@ -203,7 +203,7 @@ internal class ToolbarManager {
 
     private fun setupNavigationIcon(context: Context, toolbar: Toolbar) {
         if(toolbar.navigationIcon == null) {
-            toolbar.navigationIcon = getDrawableFromAttribute(context, R.attr.homeAsUpIndicator)
+            toolbar.navigationIcon = getDrawableFromAttribute(context, androidx.appcompat.R.attr.homeAsUpIndicator)
         }
     }
 }
