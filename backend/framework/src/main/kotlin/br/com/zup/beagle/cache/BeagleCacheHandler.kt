@@ -20,14 +20,14 @@ import com.google.common.hash.Hashing
 import java.net.HttpURLConnection
 import java.nio.charset.Charset
 
-class BeagleCacheHandler(excludeEndpoints: List<String> = listOf(), includeEndpoints: List<String> = listOf()) {
+class BeagleCacheHandler(properties: BeagleCacheProperties) {
     companion object {
         const val CACHE_HEADER = "beagle-hash"
     }
 
     private val endpointHashMap = mutableMapOf<String, String>()
-    private val excludePatterns = excludeEndpoints.filter { it.isNotEmpty() }.map(::Regex)
-    private val includePatterns = includeEndpoints.filter { it.isNotEmpty() }.map(::Regex)
+    private val excludePatterns = properties.exclude.filter { it.isNotBlank() }.map(::Regex)
+    private val includePatterns = properties.include.filter { it.isNotBlank() }.map(::Regex)
 
     private fun generateHashForJson(json: String) =
         Hashing.sha512().hashString(json, Charset.defaultCharset()).toString()

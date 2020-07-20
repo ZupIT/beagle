@@ -46,7 +46,7 @@ internal class BeagleCacheHandlerTest {
     @Test
     fun `cacheHandler should return true for isEndpointExcluded for image endpoint when all included and images excluded`() {
         assertTrue {
-            BeagleCacheHandler(excludeEndpoints = imageEndpoints, includeEndpoints = allEndpoints)
+            BeagleCacheHandler(this.createAndSetupProperties(imageEndpoints, allEndpoints))
                 .isEndpointExcluded(IMAGE_ENDPOINT)
         }
     }
@@ -54,7 +54,7 @@ internal class BeagleCacheHandlerTest {
     @Test
     fun `cacheHandler should return false for isEndpointExcluded for home endpoint when all included and images excluded`() {
         assertFalse {
-            BeagleCacheHandler(excludeEndpoints = imageEndpoints, includeEndpoints = allEndpoints)
+            BeagleCacheHandler(this.createAndSetupProperties(allEndpoints, imageEndpoints))
                 .isEndpointExcluded(HOME_ENDPOINT)
         }
     }
@@ -62,21 +62,23 @@ internal class BeagleCacheHandlerTest {
     @Test
     fun `cacheHandler should return false for isEndpointExcluded for image endpoint when images included`() {
         assertFalse {
-            BeagleCacheHandler(includeEndpoints = imageEndpoints).isEndpointExcluded(IMAGE_ENDPOINT)
+            BeagleCacheHandler(this.createAndSetupProperties(includes = imageEndpoints))
+                .isEndpointExcluded(IMAGE_ENDPOINT)
         }
     }
 
     @Test
     fun `cacheHandler should return true for isEndpointExcluded for home endpoint when images included`() {
         assertTrue {
-            BeagleCacheHandler(includeEndpoints = imageEndpoints).isEndpointExcluded(HOME_ENDPOINT)
+            BeagleCacheHandler(this.createAndSetupProperties(includes = imageEndpoints))
+                .isEndpointExcluded(HOME_ENDPOINT)
         }
     }
 
     @Test
     fun `cacheHandler should return same hash for button object when call generateAndAddHash`() {
         assertEquals(
-            BeagleCacheHandler().generateAndAddHash(
+            BeagleCacheHandler(mockk(relaxed = true)).generateAndAddHash(
                 endpoint = HOME_ENDPOINT,
                 currentPlatform = BeaglePlatform.ALL.name,
                 json = BUTTON_JSON
@@ -87,7 +89,7 @@ internal class BeagleCacheHandlerTest {
 
     @Test
     fun `cacheHandler should return true for isHashIsUpToDate`() {
-        val cacheHandler = BeagleCacheHandler()
+        val cacheHandler = BeagleCacheHandler(this.createAndSetupProperties())
         cacheHandler.generateAndAddHash(
             endpoint = HOME_ENDPOINT,
             currentPlatform = BeaglePlatform.WEB.name,
@@ -104,8 +106,8 @@ internal class BeagleCacheHandlerTest {
 
     @Test
     fun `cacheHandler should return false for isHashIsUpToDate`() {
-        val cacheHandler = BeagleCacheHandler()
-        val cacheHandler2 = BeagleCacheHandler()
+        val cacheHandler = BeagleCacheHandler(this.createAndSetupProperties())
+        val cacheHandler2 = BeagleCacheHandler(this.createAndSetupProperties())
         cacheHandler.generateAndAddHash(
             endpoint = HOME_ENDPOINT,
             currentPlatform = BeaglePlatform.ANDROID.name,
@@ -169,7 +171,7 @@ internal class BeagleCacheHandlerTest {
         verify: (RestCacheHandler<Response>) -> Unit
     ) {
         val restCache = mockk<RestCacheHandler<Response>>()
-        val cacheHandler = BeagleCacheHandler(excludeEndpoints = imageEndpoints, includeEndpoints = allEndpoints)
+        val cacheHandler = BeagleCacheHandler(this.createAndSetupProperties(allEndpoints, imageEndpoints))
 
         prepare(cacheHandler)
         every { restCache.callController(any()) } returns Response.CONTROLLER
@@ -203,6 +205,12 @@ internal class BeagleCacheHandlerTest {
             handler.addHashHeader(Response.CONTROLLER, BUTTON_JSON_HASH)
         }
     }
+
+    private fun createAndSetupProperties(includes: List<String> = emptyList(), excludes: List<String> = emptyList()) =
+        mockk<BeagleCacheProperties>().also {
+            every { it.include } returns includes
+            every { it.exclude } returns excludes
+        }
 
     private enum class Response { START, CONTROLLER, HEADER, STATUS }
 }

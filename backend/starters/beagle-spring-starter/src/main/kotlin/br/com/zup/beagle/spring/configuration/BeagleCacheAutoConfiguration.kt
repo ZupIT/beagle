@@ -39,5 +39,5 @@ open class BeagleCacheAutoConfiguration(private val properties: BeagleSpringCach
         FilterRegistrationBean<BeagleCacheFilter>().also { it.filter = BeagleCacheFilter(cacheHandler) }
 
     @Bean
-    open fun beagleCacheHandler() = BeagleCacheHandler(this.properties.exclude, this.properties.include)
+    open fun beagleCacheHandler() = BeagleCacheHandler(this.properties)
 }

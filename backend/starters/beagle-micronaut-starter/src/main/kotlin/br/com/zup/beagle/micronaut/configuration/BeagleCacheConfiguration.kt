@@ -26,5 +26,5 @@ import javax.inject.Singleton
 @Factory
 class BeagleCacheConfiguration(private val properties: BeagleMicronautCacheProperties) {
     @Singleton
-    fun beagleCacheHandler() = BeagleCacheHandler(this.properties.exclude, this.properties.include)
+    fun beagleCacheHandler() = BeagleCacheHandler(this.properties)
 }
