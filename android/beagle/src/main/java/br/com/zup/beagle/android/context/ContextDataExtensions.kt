@@ -30,12 +30,16 @@ internal fun ContextData.normalize(): ContextData {
         this
     } else {
         val newValue = BeagleMoshi.moshi.adapter(Any::class.java).toJson(value) ?: ""
-        val normalizedValue: Any = when {
-            newValue.startsWith("{") -> JSONObject(newValue)
-            newValue.startsWith("[") -> JSONArray(newValue)
-            else -> newValue
-        }
+        val normalizedValue = newValue.normalizeContextValue()
         ContextData(this.id, normalizedValue)
+    }
+}
+
+internal fun String.normalizeContextValue(): Any {
+    return when {
+        this.startsWith("{") -> JSONObject(this)
+        this.startsWith("[") -> JSONArray(this)
+        else -> this
     }
 }
 

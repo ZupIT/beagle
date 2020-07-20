@@ -16,6 +16,31 @@
  */
 
 import Foundation
-public struct SubmitForm: RawAction {
-    public init() {}
+
+@_functionBuilder
+public final class ChildBuilder {
+    public static func buildBlock(_ child: RawComponent) -> RawComponent {
+        return child
+    }
+}
+
+@_functionBuilder
+public final class ChildrenBuilder {
+    public static func buildBlock(_ children: RawComponent...) -> [RawComponent] {
+        return children
+    }
+}
+
+@_functionBuilder
+public final class TabItemBuilder {
+    public static func buildBlock(_ tabItem: TabItem) -> TabItem {
+        return tabItem
+    }
+}
+
+@_functionBuilder
+public final class TabItemsBuilder {
+    public static func buildBlock(_ tabItems: TabItem...) -> [TabItem] {
+        return tabItems
+    }
 }
