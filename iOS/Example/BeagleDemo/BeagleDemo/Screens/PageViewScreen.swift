@@ -31,16 +31,16 @@ struct PageViewScreen: DeeplinkScreen {
             navigationBar: NavigationBar(title: "PageView"),
             child: Container(
                 children: [
-                    PageIndicator(numberOfPages: 4, currentPage: "@{context}"),
+                    PageIndicator(numberOfPages: 4, currentPage: "@{currentPage}"),
                     PageView(
                         children: Array(repeating: Page(), count: 4).map { $0.content },
                         pageIndicator: PageIndicator(),
-                        onPageChange: [SetContext(contextId: "context", value: "@{onChange}")],
-                        currentPage: "@{context}"
+                        onPageChange: [SetContext(contextId: "currentPage", value: "@{onPageChange}")],
+                        currentPage: "@{currentPage}"
                     )
                 ],
                 widgetProperties: WidgetProperties(style: Style(flex: Flex().grow(1))),
-                context: Context(id: "context", value: 3)
+                context: Context(id: "currentPage", value: 3)
             )
         )
     }
