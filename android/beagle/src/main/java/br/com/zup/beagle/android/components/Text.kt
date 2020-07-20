@@ -75,13 +75,13 @@ data class Text(
 
         text.textColor?.let {
             observeBindChanges(rootView, it) { value ->
-                value?.let { valueLet ->this.setTextColor(valueLet) }
+                value?.let { color ->this.setTextColor(color) }
             }
         }
 
         text.alignment?.let {
             observeBindChanges(rootView, it) { value ->
-                value?.let { valueLet ->this.setAlignment(valueLet) }
+                value?.let { alignment ->this.setAlignment(alignment) }
             }
         }
     }

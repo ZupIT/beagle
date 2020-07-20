@@ -87,12 +87,12 @@ internal class ContextDataEvaluation(
             if (bind.type == String::class.java) {
                 value?.toString()
             } else if (value is JSONArray || value is JSONObject) {
-                moshi.adapter<Any>(bind.type).fromJson(value.toString())?: run {
+                moshi.adapter<Any>(bind.type).fromJson(value.toString()) ?: run {
                     BeagleMessageLogs.errorWhenExpressionEvaluateNullValue("${bind.value} : ${bind.type}")
                     null
                 }
             } else {
-                value?: run {
+                value ?: run {
                     BeagleMessageLogs.errorWhenExpressionEvaluateNullValue("${bind.value} : ${bind.type}")
                     null
                 }
