@@ -21,7 +21,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
@@ -55,6 +55,7 @@ class SendRequestTest {
     private val liveData: MutableLiveData<ActionRequestViewModel.FetchViewState> = mockk()
     private val observerSlot = slot<Observer<ActionRequestViewModel.FetchViewState>>()
     private val responseData: Response = mockk()
+    private val contextData: ContextData = mockk()
     private val view: View = mockk()
 
     @Before
@@ -135,7 +136,7 @@ class SendRequestTest {
 
         // Then
         verify(exactly = once()) {
-            requestAction.handleEvent(rootView, view, listOf(onFinishAction), "onFinish")
+            requestAction.handleEvent(rootView, view, listOf(onFinishAction))
         }
     }
 
@@ -171,7 +172,7 @@ class SendRequestTest {
 
         // Then
         verify(exactly = once()) {
-            requestAction.handleEvent(rootView, view, listOf(onFinishAction), "onFinish")
+            requestAction.handleEvent(rootView, view, listOf(onFinishAction))
         }
     }
 
@@ -189,7 +190,7 @@ class SendRequestTest {
 
         // Then
         verify(exactly = once()) {
-            requestAction.handleEvent(rootView, view, listOf(onFinishAction), "onFinish")
+            requestAction.handleEvent(rootView, view, listOf(onFinishAction))
         }
     }
 
@@ -206,6 +207,8 @@ class SendRequestTest {
         ).apply {
             every { evaluateExpression(rootView, any<Any>()) } returns ""
             every { handleEvent(rootView, view, any<List<Action>>(), any(), any()) } just Runs
+            every { handleEvent(rootView, view, any<List<Action>>()) } just Runs
+            every { handleEvent(rootView, view, any<List<Action>>(), contextData) } just Runs
         }
     }
 }
