@@ -18,6 +18,10 @@
       output = variable.isOptional ? variable.name + "?" : variable.name
       output
   end
+
+  def handleTypeName
+  #todo downcase only primitive types
+  end
 -%>
 
 export interface <%= objectType.synthaxType.name -%> { <% -%>

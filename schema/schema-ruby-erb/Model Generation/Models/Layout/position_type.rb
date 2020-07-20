@@ -12,16 +12,20 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-class BaseComponent  
-    
-    attr_accessor :synthaxType
+require_relative '../../Synthax/Variable'
+require_relative '../base_component.rb'
 
-    def initialize(type)
-        @synthaxType = type
-    end
+class PositionType < BaseComponent
 
-    def name
-        self.class.to_s
+    # todo: positionType is an enum, we have to figure out how to represent this in ruby
+    def initialize
+        textVariables = [
+            Variable.new(:name => "backgroundColor", :typeName => "String", :isOptional => true)
+        ]
+        synthaxType = SynthaxType.new(:kind => 'struct', :name => self.name, :variables => textVariables)
+
+        super(synthaxType)
+
     end
 
 end

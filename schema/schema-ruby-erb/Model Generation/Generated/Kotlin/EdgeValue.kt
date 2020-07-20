@@ -15,18 +15,30 @@
  * limitations under the License.
  */
 
-data class Button (
-  public val text: Bind<String>,  
-  public val styleId: String?,  
-  public val onPress: List<Action>?   
+data class EdgeValue (
+  public val left: UnitValue?,  
+  public val top: UnitValue?,  
+  public val right: UnitValue?,  
+  public val bottom: UnitValue?,  
+  public val horizontal: UnitValue?,  
+  public val vertical: UnitValue?,  
+  public val all: UnitValue?   
 ) {
   constructor (    
-    text: String,      
-    styleId: String? = null,      
-    onPress: List<Action>? = null      
+    left: UnitValue? = null,      
+    top: UnitValue? = null,      
+    right: UnitValue? = null,      
+    bottom: UnitValue? = null,      
+    horizontal: UnitValue? = null,      
+    vertical: UnitValue? = null,      
+    all: UnitValue? = null      
   ) : this (    
-      valueOf(text),      
-      styleId,      
-      onPress      
+      left,      
+      top,      
+      right,      
+      bottom,      
+      horizontal,      
+      vertical,      
+      all      
   )
 )

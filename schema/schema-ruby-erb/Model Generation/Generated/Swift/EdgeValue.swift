@@ -15,20 +15,32 @@
  * limitations under the License.
  */
 
-public struct Button {
+public struct EdgeValue {
   
   // MARK: - Public Properties  
-  public let text: Expression<String>  
-  public let styleId: String?  
-  public let onPress: [Action]?  
+  public let left: UnitValue?  
+  public let top: UnitValue?  
+  public let right: UnitValue?  
+  public let bottom: UnitValue?  
+  public let horizontal: UnitValue?  
+  public let vertical: UnitValue?  
+  public let all: UnitValue?  
 
   public init (        
-    text: String,        
-    styleId: String? = nil,        
-    onPress: [Action]? = nil        
+    left: UnitValue? = nil,        
+    top: UnitValue? = nil,        
+    right: UnitValue? = nil,        
+    bottom: UnitValue? = nil,        
+    horizontal: UnitValue? = nil,        
+    vertical: UnitValue? = nil,        
+    all: UnitValue? = nil        
   ) {    
-      self.text = text    
-      self.styleId = styleId    
-      self.onPress = onPress    
+      self.left = left    
+      self.top = top    
+      self.right = right    
+      self.bottom = bottom    
+      self.horizontal = horizontal    
+      self.vertical = vertical    
+      self.all = all    
   }
 }

@@ -15,18 +15,12 @@
  * limitations under the License.
  */
 
-data class Button (
-  public val text: Bind<String>,  
-  public val styleId: String?,  
-  public val onPress: List<Action>?   
+data class Display (
+  public val backgroundColor: String?   
 ) {
   constructor (    
-    text: String,      
-    styleId: String? = null,      
-    onPress: List<Action>? = null      
+    backgroundColor: String? = null      
   ) : this (    
-      valueOf(text),      
-      styleId,      
-      onPress      
+      backgroundColor      
   )
 )

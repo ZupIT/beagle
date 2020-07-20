@@ -15,18 +15,15 @@
  * limitations under the License.
  */
 
-data class Button (
-  public val text: Bind<String>,  
-  public val styleId: String?,  
-  public val onPress: List<Action>?   
+data class UnitValue (
+  public val value: Double,  
+  public val type: UnityType   
 ) {
   constructor (    
-    text: String,      
-    styleId: String? = null,      
-    onPress: List<Action>? = null      
+    value: Double,      
+    type: UnityType      
   ) : this (    
-      valueOf(text),      
-      styleId,      
-      onPress      
+      value,      
+      type      
   )
 )

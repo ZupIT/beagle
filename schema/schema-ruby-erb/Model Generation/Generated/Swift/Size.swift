@@ -15,20 +15,29 @@
  * limitations under the License.
  */
 
-public struct Button {
+public struct Size {
   
   // MARK: - Public Properties  
-  public let text: Expression<String>  
-  public let styleId: String?  
-  public let onPress: [Action]?  
+  public let height: UnitValue?  
+  public let maxWidth: UnitValue?  
+  public let maxHeight: UnitValue?  
+  public let minWidth: UnitValue?  
+  public let minHeight: UnitValue?  
+  public let aspectRatio: Double?  
 
   public init (        
-    text: String,        
-    styleId: String? = nil,        
-    onPress: [Action]? = nil        
+    height: UnitValue? = nil,        
+    maxWidth: UnitValue? = nil,        
+    maxHeight: UnitValue? = nil,        
+    minWidth: UnitValue? = nil,        
+    minHeight: UnitValue? = nil,        
+    aspectRatio: Double? = nil        
   ) {    
-      self.text = text    
-      self.styleId = styleId    
-      self.onPress = onPress    
+      self.height = height    
+      self.maxWidth = maxWidth    
+      self.maxHeight = maxHeight    
+      self.minWidth = minWidth    
+      self.minHeight = minHeight    
+      self.aspectRatio = aspectRatio    
   }
 }

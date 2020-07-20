@@ -12,16 +12,20 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-class BaseComponent  
-    
-    attr_accessor :synthaxType
+require_relative '../../Synthax/Variable'
+require_relative '../base_component.rb'
 
-    def initialize(type)
-        @synthaxType = type
-    end
+class CornerRadius < BaseComponent
 
-    def name
-        self.class.to_s
+    # todo default value for radius is 0.0. We still need to implement default values
+    def initialize
+        textVariables = [
+            Variable.new(:name => "radius", :typeName => "Double")
+        ]
+        synthaxType = SynthaxType.new(:kind => 'struct', :name => self.name, :variables => textVariables)
+
+        super(synthaxType)
+
     end
 
 end

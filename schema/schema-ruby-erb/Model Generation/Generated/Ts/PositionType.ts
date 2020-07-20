@@ -1,4 +1,3 @@
-// THIS IS A GENERATED FILE. DO NOT EDIT THIS
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -15,18 +14,6 @@
  * limitations under the License.
  */
 
-data class Button (
-  public val text: Bind<String>,  
-  public val styleId: String?,  
-  public val onPress: List<Action>?   
-) {
-  constructor (    
-    text: String,      
-    styleId: String? = null,      
-    onPress: List<Action>? = null      
-  ) : this (    
-      valueOf(text),      
-      styleId,      
-      onPress      
-  )
-)
+export interface PositionType {   
+  backgroundColor?: string,   
+}

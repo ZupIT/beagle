@@ -17,8 +17,19 @@ require 'date'
 
 require './Synthax/variable.rb'
 require './Synthax/type.rb'
+
+require './Models/Layout/corner_radius.rb'
+require './Models/Layout/display.rb'
+require './Models/Layout/edge_value.rb'
+require './Models/Layout/flex.rb'
+require './Models/Layout/position_type.rb'
+require './Models/Layout/size.rb'
+require './Models/Layout/style.rb'
+require './Models/Layout/unit_value.rb'
+
 require './Models/Widgets/button.rb'
 require './Models/Widgets/text.rb'
+
 require './FileHandler/file_handler.rb'
 require './Common/constants.rb'
 
@@ -73,8 +84,18 @@ end
 
 if __FILE__ == $0
   components = [
+    # Components
     Button,
-    Text
+    Text,
+    # Layout
+    CornerRadius,
+    Display,
+    EdgeValue,
+    Flex,
+    PositionType,
+    Size,
+    Style,
+    UnitValue
   ]
   
   ModelGenerator.new(components).generate

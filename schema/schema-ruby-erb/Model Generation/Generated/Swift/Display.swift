@@ -15,18 +15,14 @@
  * limitations under the License.
  */
 
-data class Button (
-  public val text: Bind<String>,  
-  public val styleId: String?,  
-  public val onPress: List<Action>?   
-) {
-  constructor (    
-    text: String,      
-    styleId: String? = null,      
-    onPress: List<Action>? = null      
-  ) : this (    
-      valueOf(text),      
-      styleId,      
-      onPress      
-  )
-)
+public struct Display {
+  
+  // MARK: - Public Properties  
+  public let backgroundColor: String?  
+
+  public init (        
+    backgroundColor: String? = nil        
+  ) {    
+      self.backgroundColor = backgroundColor    
+  }
+}

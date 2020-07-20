@@ -12,16 +12,21 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-class BaseComponent  
-    
-    attr_accessor :synthaxType
+require_relative '../../Synthax/Variable'
+require_relative '../base_component.rb'
 
-    def initialize(type)
-        @synthaxType = type
-    end
+class UnitValue < BaseComponent
 
-    def name
-        self.class.to_s
+    def initialize
+        edgeValue = EdgeValue.class.to_s
+        textVariables = [
+            Variable.new(:name => "value", :typeName => "Double"),
+            Variable.new(:name => "type", :typeName => "UnityType") # TODO create unityType class
+        ]
+        synthaxType = SynthaxType.new(:kind => 'struct', :name => self.name, :variables => textVariables)
+
+        super(synthaxType)
+
     end
 
 end

@@ -15,18 +15,12 @@
  * limitations under the License.
  */
 
-data class Button (
-  public val text: Bind<String>,  
-  public val styleId: String?,  
-  public val onPress: List<Action>?   
+data class CornerRadius (
+  public val radius: Double   
 ) {
   constructor (    
-    text: String,      
-    styleId: String? = null,      
-    onPress: List<Action>? = null      
+    radius: Double      
   ) : this (    
-      valueOf(text),      
-      styleId,      
-      onPress      
+      radius      
   )
 )

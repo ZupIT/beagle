@@ -15,18 +15,27 @@
  * limitations under the License.
  */
 
-data class Button (
-  public val text: Bind<String>,  
-  public val styleId: String?,  
-  public val onPress: List<Action>?   
+data class Size (
+  public val height: UnitValue?,  
+  public val maxWidth: UnitValue?,  
+  public val maxHeight: UnitValue?,  
+  public val minWidth: UnitValue?,  
+  public val minHeight: UnitValue?,  
+  public val aspectRatio: Double?   
 ) {
   constructor (    
-    text: String,      
-    styleId: String? = null,      
-    onPress: List<Action>? = null      
+    height: UnitValue? = null,      
+    maxWidth: UnitValue? = null,      
+    maxHeight: UnitValue? = null,      
+    minWidth: UnitValue? = null,      
+    minHeight: UnitValue? = null,      
+    aspectRatio: Double? = null      
   ) : this (    
-      valueOf(text),      
-      styleId,      
-      onPress      
+      height,      
+      maxWidth,      
+      maxHeight,      
+      minWidth,      
+      minHeight,      
+      aspectRatio      
   )
 )

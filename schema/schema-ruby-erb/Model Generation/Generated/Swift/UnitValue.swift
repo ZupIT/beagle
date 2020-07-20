@@ -15,18 +15,17 @@
  * limitations under the License.
  */
 
-data class Button (
-  public val text: Bind<String>,  
-  public val styleId: String?,  
-  public val onPress: List<Action>?   
-) {
-  constructor (    
-    text: String,      
-    styleId: String? = null,      
-    onPress: List<Action>? = null      
-  ) : this (    
-      valueOf(text),      
-      styleId,      
-      onPress      
-  )
-)
+public struct UnitValue {
+  
+  // MARK: - Public Properties  
+  public let value: Double  
+  public let type: UnityType  
+
+  public init (        
+    value: Double,        
+    type: UnityType        
+  ) {    
+      self.value = value    
+      self.type = type    
+  }
+}
