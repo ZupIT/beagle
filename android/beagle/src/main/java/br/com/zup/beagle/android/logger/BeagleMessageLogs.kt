@@ -111,6 +111,11 @@ internal object BeagleMessageLogs {
         BeagleLoggerProxy.error(errorMessage, ex)
     }
 
+    fun errorWhenExpressionEvaluateNullValue(value: String) {
+        val errorMessage = "Could not found value for $value"
+        BeagleLoggerProxy.error(errorMessage)
+    }
+
     fun logNotFoundSimpleForm() {
         BeagleLoggerProxy.error("not found simple form in the parents")
     }

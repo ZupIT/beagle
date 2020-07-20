@@ -146,26 +146,30 @@ data class TextInput(
     }
 
     private fun EditText.setData(textInput: TextInput, rootView: RootView) {
-        textInput.placeholder?.let { bind -> observeBindChanges(rootView, bind) { this.hint = it } }
+        textInput.placeholder?.let { bind -> observeBindChanges(rootView, bind) { it?.let{ this.hint = it } } }
         textInput.value?.let { bind ->
-            observeBindChanges(rootView, bind) {
-                if (it != this.text.toString()) {
-                    this.removeOnTextChange()
-                    this.setText(it)
-                    this.setSelection(it.length)
-                    setUpOnTextChange(rootView)
+            observeBindChanges(rootView, bind) {valueLet->
+                valueLet?.let{
+                    if (it != this.text.toString()) {
+                        this.removeOnTextChange()
+                        this.setText(it)
+                        this.setSelection(it.length)
+                        setUpOnTextChange(rootView)
+                    }
                 }
             }
         }
-        textInput.readOnly?.let { bind -> observeBindChanges(rootView, bind) { this.isEnabled = !it } }
-        textInput.disabled?.let { bind -> observeBindChanges(rootView, bind) { this.isEnabled = !it } }
+        textInput.readOnly?.let { bind -> observeBindChanges(rootView, bind) { it?.let{ this.isEnabled = !it } } }
+        textInput.disabled?.let { bind -> observeBindChanges(rootView, bind) { it?.let{ this.isEnabled = !it } } }
         textInput.hidden?.let { bind ->
-            observeBindChanges(rootView, bind) {
-                this.visibility = if (it) View.INVISIBLE else View.VISIBLE
+            observeBindChanges(rootView, bind) {isHiddenLet->
+                isHiddenLet?.let{
+                    this.visibility = if (it) View.INVISIBLE else View.VISIBLE
+                }
             }
         }
         textInput.styleId?.let { style -> setStyle(style) }
-        textInput.type?.let { bind -> observeBindChanges(rootView, bind) { this.setInputType(it) } }
+        textInput.type?.let { bind -> observeBindChanges(rootView, bind) { it?.let{ this.setInputType(it) } } }
     }
 
     private fun EditText.setInputType(textInputType: TextInputType) {
