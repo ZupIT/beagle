@@ -152,7 +152,7 @@ class SendRequestTest {
 
         // Then
         verify(exactly = 0) {
-            requestAction.handleEvent(any(), any(), any<List<Action>>(), any())
+            requestAction.handleEvent(any(), any(), any<List<Action>>())
         }
     }
 
