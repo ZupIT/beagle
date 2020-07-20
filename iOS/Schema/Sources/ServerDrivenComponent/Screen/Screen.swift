@@ -55,7 +55,7 @@ public struct Screen: AutoInitiable, HasContext {
         navigationBar: NavigationBar? = nil,
         screenAnalyticsEvent: AnalyticsScreen? = nil,
         context: Context? = nil,
-        @ComponentBuilder _ child: () -> RawComponent
+        @ChildBuilder _ child: () -> RawComponent
     ) {
         self.init(id: id, style: style, safeArea: safeArea, navigationBar: navigationBar, screenAnalyticsEvent: screenAnalyticsEvent, child: child(), context: context)
     }

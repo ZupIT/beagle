@@ -33,7 +33,7 @@ public struct TabItem: Decodable {
     public init(
         icon: String? = nil,
         title: String? = nil,
-        @ComponentBuilder _ child: () -> RawComponent
+        @ChildBuilder _ child: () -> RawComponent
     ) {
         self.init(icon: icon, title: title, child: child())
     }

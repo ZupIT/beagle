@@ -54,7 +54,7 @@ public struct PageView: RawComponent, AutoDecodable, HasContext {
         context: Context? = nil,
         onPageChange: [RawAction]? = nil,
         currentPage: Expression<Int>? = nil,
-        @ComponentBuilder _ children: () -> RawComponent
+        @ChildBuilder _ children: () -> RawComponent
     ) {
         self.init(children: [children()], context: context, onPageChange: onPageChange, currentPage: currentPage)
     }
@@ -63,7 +63,7 @@ public struct PageView: RawComponent, AutoDecodable, HasContext {
         context: Context? = nil,
         onPageChange: [RawAction]? = nil,
         currentPage: Expression<Int>? = nil,
-        @ComponentsBuilder _ children: () -> [RawComponent]
+        @ChildrenBuilder _ children: () -> [RawComponent]
     ) {
         self.init(children: children(), context: context, onPageChange: onPageChange, currentPage: currentPage)
     }
