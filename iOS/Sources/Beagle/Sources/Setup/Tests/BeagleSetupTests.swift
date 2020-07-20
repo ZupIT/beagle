@@ -22,6 +22,11 @@ import BeagleSchema
 final class BeagleSetupTests: XCTestCase {
     // swiftlint:disable discouraged_direct_init
 
+    override func setUp() {
+        super.setUp()
+        BeagleSchema.dependencies = DefaultDependencies()
+    }
+
     func testDefaultDependencies() {
         let dependencies = BeagleDependencies()
         dependencies.appBundle = Bundle()
