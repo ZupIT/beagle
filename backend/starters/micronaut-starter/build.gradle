@@ -25,7 +25,7 @@ dependencies {
     implementation Dependencies.MicronautLibraries.runtime
     implementation Dependencies.MicronautLibraries.netty
 
-    api project(Dependencies.Modules.beagleBackendFramework)
+    api project(Dependencies.Modules.framework)
 
     kapt Dependencies.MicronautLibraries.injectJava
 

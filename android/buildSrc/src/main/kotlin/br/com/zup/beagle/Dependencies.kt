@@ -28,15 +28,15 @@ class Dependencies : Plugin<Project> {
 
     object Modules {
         const val androidSample = ":sample"
-        const val beagleAndroid = ":beagle"
-        const val beagleAndroidProcessor = ":processor"
-        const val beagleAndroidInternalProcessor = ":internal-processor"
-        const val beagleAndroidAnnotation = ":annotation"
-        const val beagleAndroidPreview = ":preview"
-        const val beagleCommonAnnotation = ":common:annotation"
-        const val beagleCommonProcessorUtils = ":common:processor-utils"
-        const val beagleSchemaKotlinCore = ":schema:kotlin-core"
-        const val beagleExtendedSchema = ":common:extended-schema"
+        const val core = ":beagle"
+        const val processor = ":processor"
+        const val internalProcessor = ":internal-processor"
+        const val androidAnnotation = ":android-annotation"
+        const val preview = ":preview"
+        const val commonAnnotation = ":common:annotation"
+        const val commonProcessorUtils = ":common:processor-utils"
+        const val schemaKotlinCore = ":schema:kotlin-core"
+        const val extendedSchema = ":common:extended-schema"
     }
 
     object Releases {

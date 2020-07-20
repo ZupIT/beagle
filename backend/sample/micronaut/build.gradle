@@ -34,8 +34,8 @@ dependencies {
     implementation Dependencies.MicronautLibraries.runtime
     implementation Dependencies.MicronautLibraries.netty
 
-    implementation project(Dependencies.Modules.beagleBackendMicronautStarter)
-    implementation project(Dependencies.Modules.backendSampleCore)
+    implementation project(Dependencies.Modules.micronautStarter)
+    implementation project(Dependencies.Modules.sampleCore)
 
     runtime Dependencies.MicronautLibraries.netty
     runtime Dependencies.BackendLibraries.slf4jJUL

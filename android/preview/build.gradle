@@ -51,7 +51,7 @@ dependencies {
     implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.GeneralLibraries.okHttp
 
-    implementation project(Dependencies.Modules.beagleAndroid)
+    implementation project(Dependencies.Modules.core)
 
     // Unit Testing
     testImplementation Dependencies.TestLibraries.junit

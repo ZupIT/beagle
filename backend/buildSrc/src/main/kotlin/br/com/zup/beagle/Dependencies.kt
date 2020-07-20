@@ -34,22 +34,22 @@ class Dependencies : Plugin<Project> {
     }
 
     object Modules {
-        const val beagleBackendWidgets = ":widgets"
-        const val beagleBackendProcessor = ":processor"
-        const val beagleBackendFramework = ":framework"
+        const val widgets = ":widgets"
+        const val processor = ":processor"
+        const val framework = ":framework"
 
-        const val backendSampleCore = ":sample:core"
-        const val backendSampleSpring = ":sample:spring"
-        const val backendSampleMicronaut = ":sample:micronaut"
+        const val sampleCore = ":sample:core"
+        const val sampleSpring = ":sample:spring"
+        const val sampleMicronaut = ":sample:micronaut"
 
-        const val beagleBackendSpringStarter = ":starters:beagle-spring-starter"
-        const val beagleBackendMicronautStarter = ":starters:beagle-micronaut-starter"
+        const val springStarter = ":starters:spring-starter"
+        const val micronautStarter = ":starters:micronaut-starter"
 
-        const val beagleSchemaKotlinCore = ":schema:kotlin-core"
+        const val schemaKotlinCore = ":schema:kotlin-core"
 
-        const val beagleCommonAnnotation = ":common:annotation"
-        const val beagleCommonProcessorUtils = ":common:processor-utils"
-        const val beagleExtendedSchema = ":common:extended-schema"
+        const val commonAnnotation = ":common:annotation"
+        const val commonProcessorUtils = ":common:processor-utils"
+        const val extendedSchema = ":common:extended-schema"
     }
 
     object Releases {

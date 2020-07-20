@@ -29,7 +29,7 @@ sourceSets {
 
 dependencies {
     implementation Dependencies.GeneralLibraries.kotlin
-    api project(Dependencies.Modules.beagleBackendFramework)
+    api project(Dependencies.Modules.framework)
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {

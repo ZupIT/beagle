@@ -27,17 +27,17 @@ dependencies {
     implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.GeneralLibraries.kotlinPoet
 
-    implementation project(Dependencies.Modules.beagleCommonAnnotation)
-    implementation project(Dependencies.Modules.beagleCommonProcessorUtils)
-    implementation project(Dependencies.Modules.beagleBackendWidgets)
-    implementation project(Dependencies.Modules.beagleSchemaKotlinCore)
+    implementation project(Dependencies.Modules.commonAnnotation)
+    implementation project(Dependencies.Modules.commonProcessorUtils)
+    implementation project(Dependencies.Modules.widgets)
+    implementation project(Dependencies.Modules.schemaKotlinCore)
 
     implementation Dependencies.ProcessorLibraries.autoService
     implementation Dependencies.ProcessorLibraries.incap
 
     kapt Dependencies.ProcessorLibraries.autoService
     kapt Dependencies.ProcessorLibraries.incapPrcessor
-    kaptTest project(Dependencies.Modules.beagleBackendProcessor)
+    kaptTest project(Dependencies.Modules.processor)
 
     testRuntime Dependencies.TestLibraries.junit5Engine
     testImplementation Dependencies.TestLibraries.junit5Api

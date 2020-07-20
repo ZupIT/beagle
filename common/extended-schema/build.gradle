@@ -20,7 +20,7 @@ apply plugin: 'kotlin'
 
 dependencies {
     implementation Dependencies.GeneralLibraries.kotlin
-    implementation project(Dependencies.Modules.beagleSchemaKotlinCore)
+    implementation project(Dependencies.Modules.schemaKotlinCore)
 
     testImplementation Dependencies.TestLibraries.kotlinTest
     testImplementation Dependencies.TestLibraries.mockk

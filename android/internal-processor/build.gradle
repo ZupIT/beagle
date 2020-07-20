@@ -27,10 +27,10 @@ dependencies {
 
     implementation Dependencies.GeneralLibraries.kotlinPoet
 
-    implementation project(Dependencies.Modules.beagleCommonProcessorUtils)
-    implementation project(Dependencies.Modules.beagleSchemaKotlinCore)
-    implementation project(Dependencies.Modules.beagleCommonAnnotation)
-    implementation project(Dependencies.Modules.beagleAndroidAnnotation)
+    implementation project(Dependencies.Modules.commonProcessorUtils)
+    implementation project(Dependencies.Modules.schemaKotlinCore)
+    implementation project(Dependencies.Modules.commonAnnotation)
+    implementation project(Dependencies.Modules.androidAnnotation)
 
     implementation Dependencies.ProcessorLibraries.incap
     kapt Dependencies.ProcessorLibraries.incapPrcessor

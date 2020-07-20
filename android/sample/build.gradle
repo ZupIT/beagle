@@ -58,10 +58,10 @@ dependencies {
     implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.AndroidxLibraries.coreKtx
 
-    debugImplementation project(Dependencies.Modules.beagleAndroidPreview)
+    debugImplementation project(Dependencies.Modules.preview)
 
-    implementation project(Dependencies.Modules.beagleAndroid)
-    kapt project(Dependencies.Modules.beagleAndroidProcessor)
+    implementation project(Dependencies.Modules.core)
+    kapt project(Dependencies.Modules.processor)
 
     // Unit Testing
     testImplementation Dependencies.TestLibraries.junit

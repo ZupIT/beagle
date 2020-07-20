@@ -58,15 +58,15 @@ dependencies {
     implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.GeneralLibraries.kotlinCoroutines
 
-    api project(Dependencies.Modules.beagleExtendedSchema)
-    api project(Dependencies.Modules.beagleSchemaKotlinCore)
+    api project(Dependencies.Modules.extendedSchema)
+    api project(Dependencies.Modules.schemaKotlinCore)
 
-    api project(Dependencies.Modules.beagleCommonAnnotation)
-    api project(Dependencies.Modules.beagleAndroidAnnotation)
+    api project(Dependencies.Modules.commonAnnotation)
+    api project(Dependencies.Modules.androidAnnotation)
 
     implementation Dependencies.GlideLibraries.glide
     kapt Dependencies.GlideLibraries.glideCompiler
-    kapt project(Dependencies.Modules.beagleAndroidInternalProcessor)
+    kapt project(Dependencies.Modules.internalProcessor)
 
     implementation Dependencies.GeneralLibraries.yoga
     implementation Dependencies.GeneralLibraries.soLoader

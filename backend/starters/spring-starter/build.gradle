@@ -24,7 +24,7 @@ dependencies {
     implementation Dependencies.SpringLibraries.autoconfigure
     implementation Dependencies.SpringLibraries.webStarter
 
-    api project(Dependencies.Modules.beagleBackendFramework)
+    api project(Dependencies.Modules.framework)
 
     annotationProcessor Dependencies.SpringLibraries.autoconfigureProcessor
 
