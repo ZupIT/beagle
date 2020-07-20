@@ -84,30 +84,3 @@ public struct WidgetProperties: HasWidgetProperties, AutoDecodable, Equatable, A
         self.init(style: Style(flex: flex))
     }
 }
-
-@_functionBuilder
-public final class ComponentBuilder {
-    public static func buildBlock(_ component: RawComponent) -> RawComponent {
-        return component
-    }
-}
-
-@_functionBuilder
-public final class ComponentsBuilder {
-    public static func buildBlock(_ components: RawComponent...) -> [RawComponent] { return components
-    }
-}
-
-@_functionBuilder
-public final class TabItemsBuilder {
-    public static func buildBlock(_ tabItems: TabItem...) -> [TabItem] {
-        return tabItems
-    }
-}
-
-@_functionBuilder
-public final class TabItemBuilder {
-    public static func buildBlock(_ tabItem: TabItem) -> TabItem {
-        return tabItem
-    }
-}
