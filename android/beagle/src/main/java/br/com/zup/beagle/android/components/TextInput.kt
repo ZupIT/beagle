@@ -148,8 +148,8 @@ data class TextInput(
     private fun EditText.setData(textInput: TextInput, rootView: RootView) {
         textInput.placeholder?.let { bind -> observeBindChanges(rootView, bind) { it?.let{ this.hint = it } } }
         textInput.value?.let { bind ->
-            observeBindChanges(rootView, bind) {valueLet->
-                valueLet?.let{
+            observeBindChanges(rootView, bind) {
+                it?.let{
                     if (it != this.text.toString()) {
                         this.removeOnTextChange()
                         this.setText(it)
@@ -162,13 +162,13 @@ data class TextInput(
         textInput.readOnly?.let { bind -> observeBindChanges(rootView, bind) { it?.let{ this.isEnabled = !it } } }
         textInput.disabled?.let { bind -> observeBindChanges(rootView, bind) { it?.let{ this.isEnabled = !it } } }
         textInput.hidden?.let { bind ->
-            observeBindChanges(rootView, bind) {isHiddenLet->
-                isHiddenLet?.let{
+            observeBindChanges(rootView, bind) {
+                it?.let{
                     this.visibility = if (it) View.INVISIBLE else View.VISIBLE
                 }
             }
         }
-        textInput.styleId?.let { style -> setStyle(style) }
+        textInput.styleId?.let { setStyle(it) }
         textInput.type?.let { bind -> observeBindChanges(rootView, bind) { it?.let{ this.setInputType(it) } } }
     }
 
