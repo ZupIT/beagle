@@ -49,6 +49,24 @@ public struct PageView: RawComponent, AutoDecodable, HasContext {
         self.onPageChange = onPageChange
         self.currentPage = currentPage
     }
+    
+    public init(
+        context: Context? = nil,
+        onPageChange: [RawAction]? = nil,
+        currentPage: Expression<Int>? = nil,
+        @ChildBuilder _ children: () -> RawComponent
+    ) {
+        self.init(children: [children()], context: context, onPageChange: onPageChange, currentPage: currentPage)
+    }
+    
+    public init(
+        context: Context? = nil,
+        onPageChange: [RawAction]? = nil,
+        currentPage: Expression<Int>? = nil,
+        @ChildrenBuilder _ children: () -> [RawComponent]
+    ) {
+        self.init(children: children(), context: context, onPageChange: onPageChange, currentPage: currentPage)
+    }
 }
 
 @available(*, deprecated, message: "This will be removed in a future version; please refactor this component using new context features.")

@@ -21,62 +21,67 @@ import BeagleSchema
 struct TabViewScreen: DeeplinkScreen {
     init(path: String, data: [String: String]?) {
     }
-
+    
     func screenController() -> UIViewController {
         return Beagle.screen(.declarative(screen))
     }
     
-    var screen: Screen {
-        let tab1 = TabItem(icon: "beagle", child:
-            Container(children: [
-                Text("Blaaslkdjfaskldjfalskdjfasldjfasldfj"),
-                Image(.value(.remote(.init(url: .NETWORK_IMAGE_BEAGLE, placeholder: "imageBeagle")))),
-                Text("Blaaslkdjfaskldjfalskdjfasldjfasldfj")
-            ]).applyFlex(Flex().alignContent(.center))
-        )
+    var screen =
+        Screen(navigationBar: NavigationBar(title: "TabView")) {
+            TabView {
+                TabItem(icon: "beagle") {
+                    Container(widgetProperties: .init(Flex().alignContent(.center))) {
+                        Text("Blaaslkdjfaskldjfalskdjfasldjfasldfj")
+                        Image(.value(.remote(.init(url: .NETWORK_IMAGE_BEAGLE, placeholder: "imageBeagle"))))
+                        Text("Blaaslkdjfaskldjfalskdjfasldjfasldfj")
+                    }
+                }
+                
+                TabItem(title: "Tab 2 com titulo") {
+                    Container(widgetProperties: .init(Flex().justifyContent(.center).alignItems(.center))) {
+                        Text("Text1 Tab 2")
+                        Text("Text2 Tab 2")
+                    }
+                }
+                
+                TabItem(title: "Tab 3") {
+                    Container(widgetProperties: .init(Flex().justifyContent(.flexStart))) {
+                        Text("Text1 Tab 3")
+                        Text("Text2 Tab 3")
+                    }
+                }
+                
+                TabItem(icon: "beagle", title: "Tab 4") {
+                    Container(widgetProperties: .init(Flex().alignItems(.center))) {
+                        Text("Text1 Tab 4")
+                        Text("Text2 Tab 4")
+                    }
+                }
+                
+                
+                TabItem(icon: "beagle", title: "Tab with Tab view") {
+                    Container(widgetProperties: .init(
+                                style: .init(size: Size().width(400),
+                                             flex: Flex().alignSelf(.center).alignItems(.center).grow(1)))) {
+                            TabView {
+                                TabItem(title: "Sub tab 1") {
+                                    Container(widgetProperties: .init(Flex().alignItems(.center).grow(1))) {
+                                        Text("Subtext 1 Tab 1")
+                                        Text("Subtext 2 Tab 1")
+                                    }
+                                }
+                                TabItem(title: "Sub tab 2") {
+                                    Container(widgetProperties: .init(Flex().alignItems(.center).grow(1))) {
+                                        Text("Subtext 1 Tab 2")
+                                        Text("Subtext 2 Tab 2")
+                                    }
+                                }
 
-        let tab2 = TabItem(title: "Tab 2 com titulo", child:
-            Container(children: [
-                Text("Text1 Tab 2"),
-                Text("Text2 Tab 2")
-            ]).applyFlex(Flex().justifyContent(.center).alignItems(.center))
-        )
-
-        let tab3 = TabItem(title: "Tab 3", child:
-            Container(children: [
-                Text("Text1 Tab 3"),
-                Text("Text2 Tab 3")
-            ]).applyFlex(Flex().justifyContent(.flexStart))
-        )
-
-        let tab4 = TabItem(icon: "beagle", title: "Tab 4", child:
-            Container(children: [
-                Text("Text1 Tab 4"),
-                Text("Text2 Tab 4")
-            ]).applyFlex(Flex().alignItems(.center))
-        )
-        
-        let tab5 = TabItem(icon: "beagle", title: "Tab with Tab view", child:
-            Container(children: [
-                TabView(children: [
-                    TabItem(title: "Sub tab 1", child:
-                        Container(children: [
-                            Text("Subtext 1 Tab 1"),
-                            Text("Subtext 2 Tab 1")
-                        ]).applyFlex(Flex().alignItems(.center).grow(1))
-                    ),
-                    TabItem(title: "Sub tab 2", child:
-                        Container(children: [
-                            Text("Subtext 1 Tab 2"),
-                            Text("Subtext 2 Tab 2")
-                        ]).applyFlex(Flex().alignItems(.center).grow(1))
-                    )
-                    ]
-                )
-            ], widgetProperties: WidgetProperties(style: .init(size: Size().width(400), flex: Flex().alignSelf(.center).alignItems(.center).grow(1))))
-        )
-        
-        return Screen(navigationBar: NavigationBar(title: "TabView"), child: TabView(children: [tab1, tab2, tab3, tab4, tab5], styleId: .TAB_VIEW_STYLE))
-        
+                            }
+                        }
+                    }
+            }
     }
 }
+
+
