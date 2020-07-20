@@ -150,7 +150,7 @@ data class TextInput(
         textInput.value?.let { bind ->
             observeBindChanges(rootView, bind) { it?.let { setValue(it, rootView)} }
         }
-        textInput.readOnly?.let { bind -> observeBindChanges(rootView, bind) { setEnabledConfig(it)  } }
+        textInput.readOnly?.let { bind -> observeBindChanges(rootView, bind) { setEnabledConfig(it) } }
         textInput.disabled?.let { bind -> observeBindChanges(rootView, bind) { setEnabledConfig(it) } }
         textInput.hidden?.let { bind -> observeBindChanges(rootView, bind) {
                 it?.let {  this.visibility = if (it) View.INVISIBLE else View.VISIBLE }
@@ -161,7 +161,7 @@ data class TextInput(
     }
 
     private fun EditText.setEnabledConfig(isEnabled: Boolean?){
-        isEnabled?.let { this.isEnabled = !it } }
+        isEnabled?.let { this.isEnabled = !it }
     }
 
     private fun EditText.setValue(text: String, rootView: RootView){
