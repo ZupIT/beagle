@@ -32,7 +32,8 @@ import kotlin.test.assertTrue
 
 internal class BeagleCacheHandlerTest {
 
-    private val excludedEndpoints = listOf("/ima*")
+    private val allEndpoints = listOf("/.*")
+    private val imageEndpoints = listOf("/image", "/image2")
 
     companion object {
         private const val HOME_ENDPOINT = "/home"
@@ -43,30 +44,49 @@ internal class BeagleCacheHandlerTest {
     }
 
     @Test
-    fun cacheHandler_should_return_true_for_checkEndpointForExcludedPatterns() {
+    fun `cacheHandler should return true for isEndpointExcluded for image endpoint when all included and images excluded`() {
         assertTrue {
-            BeagleCacheHandler(excludedEndpoints).isEndpointInExcludedPatterns(IMAGE_ENDPOINT)
+            BeagleCacheHandler(excludeEndpoints = imageEndpoints, includeEndpoints = allEndpoints)
+                .isEndpointExcluded(IMAGE_ENDPOINT)
         }
     }
 
     @Test
-    fun cacheHandler_should_return_false_for_checkEndpointForExcludedPatterns() {
+    fun `cacheHandler should return false for isEndpointExcluded for home endpoint when all included and images excluded`() {
         assertFalse {
-            BeagleCacheHandler(excludedEndpoints).isEndpointInExcludedPatterns(HOME_ENDPOINT)
+            BeagleCacheHandler(excludeEndpoints = imageEndpoints, includeEndpoints = allEndpoints)
+                .isEndpointExcluded(HOME_ENDPOINT)
         }
     }
 
     @Test
-    fun cacheHandler_should_return_same_hash_for_button_object_when_call_generateAndAddHash() {
-        assertEquals(BeagleCacheHandler().generateAndAddHash(
-            endpoint = HOME_ENDPOINT,
-            currentPlatform = BeaglePlatform.ALL.name,
-            json = BUTTON_JSON
-        ), BUTTON_JSON_HASH)
+    fun `cacheHandler should return false for isEndpointExcluded for image endpoint when images included`() {
+        assertFalse {
+            BeagleCacheHandler(includeEndpoints = imageEndpoints).isEndpointExcluded(IMAGE_ENDPOINT)
+        }
     }
 
     @Test
-    fun cacheHandler_should_return_true_for_verifyIfHashIsUpToDate() {
+    fun `cacheHandler should return true for isEndpointExcluded for home endpoint when images included`() {
+        assertTrue {
+            BeagleCacheHandler(includeEndpoints = imageEndpoints).isEndpointExcluded(HOME_ENDPOINT)
+        }
+    }
+
+    @Test
+    fun `cacheHandler should return same hash for button object when call generateAndAddHash`() {
+        assertEquals(
+            BeagleCacheHandler().generateAndAddHash(
+                endpoint = HOME_ENDPOINT,
+                currentPlatform = BeaglePlatform.ALL.name,
+                json = BUTTON_JSON
+            ),
+            BUTTON_JSON_HASH
+        )
+    }
+
+    @Test
+    fun `cacheHandler should return true for isHashIsUpToDate`() {
         val cacheHandler = BeagleCacheHandler()
         cacheHandler.generateAndAddHash(
             endpoint = HOME_ENDPOINT,
@@ -83,7 +103,7 @@ internal class BeagleCacheHandlerTest {
     }
 
     @Test
-    fun cacheHandler_should_return_false_for_verifyIfHashIsUpToDate() {
+    fun `cacheHandler should return false for isHashIsUpToDate`() {
         val cacheHandler = BeagleCacheHandler()
         val cacheHandler2 = BeagleCacheHandler()
         cacheHandler.generateAndAddHash(
@@ -108,19 +128,22 @@ internal class BeagleCacheHandlerTest {
     }
 
     @Test
-    fun test_handleCache_when_excluded_endpoint() {
-        testHandleCache(endpoint = IMAGE_ENDPOINT) {
-            verifySequence { it.callController(Response.START) }
-        }
+    fun `Test handleCache when endpoint is excluded`() {
+        testHandleCache(endpoint = IMAGE_ENDPOINT) { verifySequence { it.callController(Response.START) } }
     }
 
     @Test
-    fun test_handleCache_when_no_previous_cache() {
+    fun `Test handleCache when endpoint is not included`() {
+        testHandleCache(endpoint = "") { verifySequence { it.callController(Response.START) } }
+    }
+
+    @Test
+    fun `Test handleCache when no previous cache`() {
         testHandleCache(endpoint = HOME_ENDPOINT, verify = this::verifySentResponse)
     }
 
     @Test
-    fun test_handleCache_when_previous_cache_is_outdated() {
+    fun `Test handleCache when previous cache is outdated`() {
         testHandleCache(
             endpoint = HOME_ENDPOINT,
             hash = "",
@@ -130,7 +153,7 @@ internal class BeagleCacheHandlerTest {
     }
 
     @Test
-    fun test_handleCache_when_previous_cache_is_up_to_date() {
+    fun `Test handleCache when previous cache is up to date`() {
         testHandleCache(endpoint = HOME_ENDPOINT, hash = BUTTON_JSON_HASH, prepare = this::preparePreviousCache) {
             verifySequence {
                 it.addStatus(Response.START, HttpURLConnection.HTTP_NOT_MODIFIED)
@@ -146,14 +169,13 @@ internal class BeagleCacheHandlerTest {
         verify: (RestCacheHandler<Response>) -> Unit
     ) {
         val restCache = mockk<RestCacheHandler<Response>>()
-        val cacheHandler = BeagleCacheHandler(excludedEndpoints)
-        val response = BUTTON_JSON
+        val cacheHandler = BeagleCacheHandler(excludeEndpoints = imageEndpoints, includeEndpoints = allEndpoints)
 
         prepare(cacheHandler)
         every { restCache.callController(any()) } returns Response.CONTROLLER
         every { restCache.addHashHeader(any(), any()) } returns Response.HEADER
         every { restCache.addStatus(any(), any()) } returns Response.STATUS
-        every { restCache.getBody(any()) } returns response
+        every { restCache.getBody(any()) } returns BUTTON_JSON
 
         cacheHandler.handleCache(
             endpoint = endpoint,

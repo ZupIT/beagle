@@ -127,6 +127,22 @@ class ContextDataManagerTest : BaseTest() {
     }
 
     @Test
+    fun addContext_should_clear_bindings_when_context_already_exists() {
+        // Given
+        val contextData1 = ContextData(CONTEXT_ID, true)
+        val bind = Bind.Expression("@{$CONTEXT_ID[0]}", type = Boolean::class.java)
+        val contextData2 = ContextData(CONTEXT_ID, false)
+
+        // When
+        contextDataManager.addContext(contextData1)
+        contextDataManager.addBindingToContext(bind)
+        contextDataManager.addContext(contextData2)
+
+        // Then
+        assertTrue {contexts[CONTEXT_ID]?.bindings?.isEmpty() ?: false}
+    }
+
+    @Test
     fun addBindingToContext_should_add_binding_to_context_on_stack() {
         // Given
         val bind = Bind.Expression("@{$CONTEXT_ID[0]}", type = Boolean::class.java)

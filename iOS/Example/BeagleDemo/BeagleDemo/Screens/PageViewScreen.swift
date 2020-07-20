@@ -29,9 +29,18 @@ struct PageViewScreen: DeeplinkScreen {
     var screen: Screen {
         return Screen(
             navigationBar: NavigationBar(title: "PageView"),
-            child: PageView(
-                children: Array(repeating: Page(), count: 3).map { $0.content },
-                pageIndicator: PageIndicator()
+            child: Container(
+                children: [
+                    PageIndicator(numberOfPages: 4, currentPage: "@{currentPage}"),
+                    PageView(
+                        children: Array(repeating: Page(), count: 4).map { $0.content },
+                        pageIndicator: PageIndicator(),
+                        onPageChange: [SetContext(contextId: "currentPage", value: "@{onPageChange}")],
+                        currentPage: "@{currentPage}"
+                    )
+                ],
+                widgetProperties: WidgetProperties(style: Style(flex: Flex().grow(1))),
+                context: Context(id: "currentPage", value: 3)
             )
         )
     }

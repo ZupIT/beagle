@@ -18,5 +18,12 @@ package br.com.zup.beagle.micronaut
 
 import io.micronaut.context.ApplicationContext
 import kotlin.reflect.KClass
+import kotlin.reflect.full.memberProperties
+import kotlin.reflect.jvm.isAccessible
 
 fun ApplicationContext.containsBeans(vararg beans: KClass<*>) = beans.all { this.containsBean(it.java) }
+
+fun Any.getProperty(name: String) = this::class.memberProperties.find { it.name == name }?.let {
+    it.isAccessible = true
+    it.getter.call(this)
+}!!

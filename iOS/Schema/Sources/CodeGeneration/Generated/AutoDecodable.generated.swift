@@ -217,6 +217,8 @@ extension PageView {
         case children
         case pageIndicator
         case context
+        case onPageChange
+        case currentPage
     }
 
     public init(from decoder: Decoder) throws {
@@ -226,6 +228,8 @@ extension PageView {
         let rawPageIndicator: RawComponent? = try container.decodeIfPresent(forKey: .pageIndicator)
         pageIndicator = rawPageIndicator as? PageIndicatorComponent
         context = try container.decodeIfPresent(Context.self, forKey: .context)
+        onPageChange = try container.decodeIfPresent(forKey: .onPageChange)
+        currentPage = try container.decodeIfPresent(Expression<Int>.self, forKey: .currentPage)
     }
 }
 

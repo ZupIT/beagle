@@ -17,14 +17,52 @@
 package br.com.zup.beagle.micronaut.configuration
 
 import br.com.zup.beagle.cache.BeagleCacheHandler
+import br.com.zup.beagle.constants.BEAGLE_CACHE_EXCLUDES
+import br.com.zup.beagle.constants.BEAGLE_CACHE_INCLUDES
 import br.com.zup.beagle.micronaut.containsBeans
+import br.com.zup.beagle.micronaut.getProperty
 import io.micronaut.context.ApplicationContext
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 internal class BeagleCacheConfigurationTest {
+    companion object {
+        private val BLANK_LIST = listOf("")
+        private val SOME_LIST = listOf("test1", "test2")
+    }
+
     @Test
-    fun test_BeagleCacheConfiguration_sets_up_BeagleCacheHandler_in_context() {
-        assertTrue { ApplicationContext.run().containsBeans(BeagleCacheConfiguration::class, BeagleCacheHandler::class) }
+    fun `Test beagleCacheConfiguration sets up beagleCacheHandler in context`() {
+        ApplicationContext.run().also { this.validateContext(it, BLANK_LIST, BLANK_LIST) }
+    }
+
+    @Test
+    fun `Test beagleCacheConfiguration sets up beagleCacheHandler in context with includes`() =
+        this.testWithProperties(SOME_LIST, BLANK_LIST)
+
+    @Test
+    fun `Test beagleCacheConfiguration sets up beagleCacheHandler in context with excludes`() =
+        this.testWithProperties(BLANK_LIST, SOME_LIST)
+
+    @Test
+    fun `Test beagleCacheConfiguration sets up beagleCacheHandler in context with includes and excludes`() =
+        this.testWithProperties(SOME_LIST, SOME_LIST)
+
+    private fun testWithProperties(includes: List<String>, excludes: List<String>) {
+        val properties = mapOf(
+            BEAGLE_CACHE_INCLUDES to includes.joinToString(","),
+            BEAGLE_CACHE_EXCLUDES to excludes.joinToString(",")
+        )
+
+        ApplicationContext.build(properties).start().also { this.validateContext(it, includes, excludes) }
+    }
+
+    private fun validateContext(context: ApplicationContext, includes: List<String>, excludes: List<String>) {
+        assertTrue { context.containsBeans(BeagleCacheConfiguration::class, BeagleCacheHandler::class) }
+        context.getBean(BeagleCacheConfiguration::class.java).also {
+            assertEquals(includes, it.getProperty("includeEndpoints"))
+            assertEquals(excludes, it.getProperty("excludeEndpoints"))
+        }
     }
 }
