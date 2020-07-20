@@ -17,8 +17,6 @@
 package br.com.zup.beagle.android.components
 
 import android.view.View
-import android.widget.Button
-import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
@@ -77,15 +75,9 @@ data class Button(
             }
         }
 
-        button.setData(text, rootView)
-        return button
-    }
-
-    private fun Button.setData(text: Bind<String>, rootView: RootView) {
-        TextViewCompat.setTextAppearance(this, buttonStyle)
-
         observeBindChanges(rootView, text) {
-            this.text = it
+            button.text = it
         }
+        return button
     }
 }

@@ -25,11 +25,13 @@ import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.StyleManager
+import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import io.mockk.CapturingSlot
 import io.mockk.Runs
@@ -43,7 +45,7 @@ import io.mockk.verify
 import org.junit.Test
 import kotlin.test.assertTrue
 
-private const val DEFAULT_TEXT = "Hello"
+private val DEFAULT_TEXT = Bind.Value("Hello")
 private const val DEFAULT_STYLE = "DummyStyle"
 private val BUTTON_STYLE = RandomData.int()
 
@@ -104,13 +106,12 @@ class ButtonTest : BaseComponentTest() {
     }
 
     @Test
-    fun setData_with_button_should_call_TextViewCompat_setTextAppearance() {
+    fun build_should_setOnClickListener() {
         // When
         buttonComponent.buildView(rootView)
 
         // Then
         verify(exactly = once()) { button.setOnClickListener(any()) }
-        verify(exactly = once()) { TextViewCompat.setTextAppearance(button, BUTTON_STYLE) }
     }
 
     @Test
