@@ -31,6 +31,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
 import org.json.JSONObject
@@ -134,7 +135,7 @@ class ContextDataManagerTest : BaseTest() {
         contextDataManager.addContext(contextData2)
 
         // Then
-        assertTrue {contexts[CONTEXT_ID]?.bindings?.isEmpty() ?: false}
+        assertTrue { contexts[CONTEXT_ID]?.bindings?.isEmpty() ?: false }
     }
 
     @Test
@@ -227,6 +228,27 @@ class ContextDataManagerTest : BaseTest() {
 
     @Test
     fun evaluateContextBindings_should_get_value_from_evaluation() {
+        // Given
+        val value = true
+        val contextData = ContextData(CONTEXT_ID, value)
+        contexts[CONTEXT_ID] = mockk<ContextBinding> {
+            every { context } returns contextData
+            every { bindings } returns mutableSetOf(bindModel)
+            every { cache } returns cacheMock
+        }
+
+        every { contexts[CONTEXT_ID]?.evaluateBindExpression(bindModel) } returns model
+
+
+        // When
+        contextDataManager.evaluateContexts()
+
+        // Then
+        verify { bindModel.notifyChange(model) }
+    }
+
+    @Test
+    fun evaluateContextBindings_should_cache_value_from_evaluation() {
         //Given
         val contextData = ContextData(CONTEXT_ID, model)
         val contextBinding = ContextBinding(
