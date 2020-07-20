@@ -10,12 +10,21 @@ jobs:
         name: Danger PR
         runs-on: macos-latest
         steps:
-            - uses: actions/checkout@v1
-            - name: Install Fastlane
-              run: bundle install
-            - name: Run danger check
-              env:
-                GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
-                GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
-              run:  '[ ! -z $GITHUB_TOKEN ] && bundle exec fastlane run_danger danger_id:"pr_danger" danger_file_path:"pr" || echo "Skipping Danger for External Contributor"'
-        
+            -   uses: actions/checkout@v2
+
+            -   name: Cache fastlane dependences
+                uses: actions/cache@v2
+                env:
+                    fastlane-cache-key: fastlane-cache
+                    fastlane-path: ~/.gem
+                with:
+                    path: ${{ env.fastlane-path }}
+                    key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
+            -   name: Install Fastlane
+                run: bundle config set path '~/.gem' && bundle install
+                
+            -   name: Run danger check
+                env:
+                  GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+                run:  '[ ! -z $GITHUB_TOKEN ] && bundle exec fastlane run_danger danger_id:"pr_danger" danger_file_path:"pr" || echo "Skipping Danger for External Contributor"'
