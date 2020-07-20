@@ -16,13 +16,12 @@
 
 package br.com.zup.beagle.cache
 
-@Deprecated("Replace with an implementation of HttpCacheHandler.")
-interface RestCacheHandler<T> {
-    fun callController(response: T): T
+interface HttpCacheHandler<T> {
+    fun createResponseFromController(): T
 
-    fun addHashHeader(response: T, header: String): T
-
-    fun addStatus(response: T, status: Int): T
+    fun createResponse(status: Int): T
 
     fun getBody(response: T): String
+
+    fun addHeader(response: T, key: String, value: String): T
 }
