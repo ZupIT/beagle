@@ -24,12 +24,7 @@ import io.micronaut.context.annotation.Value
 import javax.inject.Singleton
 
 @Factory
-class BeagleCacheConfiguration(
-    @Value("\${$BEAGLE_CACHE_INCLUDES:}") private val includeEndpoints: List<String>,
-    @Value("\${$BEAGLE_CACHE_EXCLUDES:}") private val excludeEndpoints: List<String>,
-    private val properties: BeagleMicronautCacheProperties
-) {
+class BeagleCacheConfiguration(private val properties: BeagleMicronautCacheProperties) {
     @Singleton
-    fun beagleCacheHandler() =
-        BeagleCacheHandler(this.excludeEndpoints, this.includeEndpoints)
+    fun beagleCacheHandler() = BeagleCacheHandler(this.properties.exclude, this.properties.include)
 }

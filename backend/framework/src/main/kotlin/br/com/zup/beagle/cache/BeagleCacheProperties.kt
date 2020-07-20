@@ -19,5 +19,7 @@ package br.com.zup.beagle.cache
 import java.time.Duration
 
 interface BeagleCacheProperties {
+    val include : List<String>
+    val exclude : List<String>
     val ttl: Map<String, Duration>
 }

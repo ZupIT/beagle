@@ -77,8 +77,7 @@ internal class BeagleCacheAutoConfigurationTest {
         this.contextRunner.run {
             validateCacheFilter(it)
             assertThat(it).getBean(BeagleCacheAutoConfiguration::class.java)
-                .hasFieldOrPropertyWithValue(this.includesField, BLANK_LIST)
-                .hasFieldOrPropertyWithValue(this.excludesField, BLANK_LIST)
+                .hasFieldOrPropertyWithValue(this.propertiesField, BeagleSpringCacheProperties())
         }
     }
 
@@ -87,10 +86,7 @@ internal class BeagleCacheAutoConfigurationTest {
         this.contextRunner.withPropertyValues("$BEAGLE_CACHE_INCLUDES=${SOME_LIST.joinToString(",")}").run {
             validateCacheFilter(it)
             assertThat(it).getBean(BeagleCacheAutoConfiguration::class.java)
-                .hasFieldOrPropertyWithValue(this.includesField, SOME_LIST)
-                .hasFieldOrPropertyWithValue(this.excludesField, BLANK_LIST)
-            assertThat(it).getBean(BeagleCacheAutoConfiguration::class.java)
-                .hasFieldOrPropertyWithValue(this.propertiesField, BeagleSpringCacheProperties(emptyMap()))
+                .hasFieldOrPropertyWithValue(this.propertiesField, BeagleSpringCacheProperties(include = SOME_LIST))
         }
     }
 
@@ -99,8 +95,7 @@ internal class BeagleCacheAutoConfigurationTest {
         this.contextRunner.withPropertyValues("$BEAGLE_CACHE_EXCLUDES=${SOME_LIST.joinToString(",")}").run {
             validateCacheFilter(it)
             assertThat(it).getBean(BeagleCacheAutoConfiguration::class.java)
-                .hasFieldOrPropertyWithValue(this.includesField, BLANK_LIST)
-                .hasFieldOrPropertyWithValue(this.excludesField, SOME_LIST)
+                .hasFieldOrPropertyWithValue(this.propertiesField, BeagleSpringCacheProperties(exclude = SOME_LIST))
         }
     }
 
@@ -111,9 +106,22 @@ internal class BeagleCacheAutoConfigurationTest {
             "$BEAGLE_CACHE_EXCLUDES=${SOME_LIST.joinToString(",")}"
         ).run {
             validateCacheFilter(it)
+            assertThat(it).getBean(BeagleCacheAutoConfiguration::class.java).hasFieldOrPropertyWithValue(
+                this.propertiesField,
+                BeagleSpringCacheProperties(include = SOME_LIST, exclude = SOME_LIST)
+            )
+        }
+    }
+
+    @Test
+    fun `beagleCacheAutoConfiguration must be present with blank input values for include and exclude property`() {
+        this.contextRunner.withPropertyValues(
+            "$BEAGLE_CACHE_INCLUDES=${BLANK_LIST.joinToString(",")}",
+            "$BEAGLE_CACHE_EXCLUDES=${BLANK_LIST.joinToString(",")}"
+        ).run {
+            validateCacheFilter(it)
             assertThat(it).getBean(BeagleCacheAutoConfiguration::class.java)
-                .hasFieldOrPropertyWithValue(this.includesField, SOME_LIST)
-                .hasFieldOrPropertyWithValue(this.excludesField, SOME_LIST)
+                .hasFieldOrPropertyWithValue(this.propertiesField, BeagleSpringCacheProperties())
         }
     }
 
@@ -140,7 +148,7 @@ internal class BeagleCacheAutoConfigurationTest {
                 .hasFieldOrPropertyWithValue(
                     this.propertiesField,
                     BeagleSpringCacheProperties(
-                        mapOf(
+                        ttl = mapOf(
                             ENDPOINT.format(1) to Duration.ofNanos(15),
                             ENDPOINT.format(2) to Duration.ofMillis(15),
                             ENDPOINT.format(3) to Duration.ofSeconds(15)
@@ -164,7 +172,7 @@ internal class BeagleCacheAutoConfigurationTest {
                 .hasFieldOrPropertyWithValue(
                     this.propertiesField,
                     BeagleSpringCacheProperties(
-                        mapOf(
+                        ttl = mapOf(
                             ENDPOINT.format(1) to Duration.ofNanos(15),
                             ENDPOINT.format(2) to Duration.ofMillis(15),
                             ENDPOINT.format(3) to Duration.ofSeconds(15)
@@ -181,7 +189,7 @@ internal class BeagleCacheAutoConfigurationTest {
             assertThat(it).getBean(BeagleCacheAutoConfiguration::class.java)
                 .hasFieldOrPropertyWithValue(
                     this.propertiesField,
-                    BeagleSpringCacheProperties(mapOf(ENDPOINT to Duration.ofMillis(10)))
+                    BeagleSpringCacheProperties(ttl = mapOf(ENDPOINT to Duration.ofMillis(10)))
                 )
         }
     }
