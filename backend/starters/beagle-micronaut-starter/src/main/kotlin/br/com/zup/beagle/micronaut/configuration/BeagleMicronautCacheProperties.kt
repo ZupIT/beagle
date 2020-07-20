@@ -16,20 +16,14 @@
 
 package br.com.zup.beagle.micronaut.configuration
 
-import br.com.zup.beagle.cache.BeagleCacheHandler
-import br.com.zup.beagle.constants.BEAGLE_CACHE_EXCLUDES
-import br.com.zup.beagle.constants.BEAGLE_CACHE_INCLUDES
-import io.micronaut.context.annotation.Factory
-import io.micronaut.context.annotation.Value
-import javax.inject.Singleton
+import br.com.zup.beagle.cache.BeagleCacheProperties
+import br.com.zup.beagle.constants.BEAGLE_CACHE_ENDPOINT_PREFIX
+import io.micronaut.context.annotation.ConfigurationProperties
+import io.micronaut.core.convert.format.MapFormat
+import java.time.Duration
 
-@Factory
-class BeagleCacheConfiguration(
-    @Value("\${$BEAGLE_CACHE_INCLUDES:}") private val includeEndpoints: List<String>,
-    @Value("\${$BEAGLE_CACHE_EXCLUDES:}") private val excludeEndpoints: List<String>,
-    private val properties: BeagleMicronautCacheProperties
-) {
-    @Singleton
-    fun beagleCacheHandler() =
-        BeagleCacheHandler(this.excludeEndpoints, this.includeEndpoints)
+@ConfigurationProperties(BEAGLE_CACHE_ENDPOINT_PREFIX)
+class BeagleMicronautCacheProperties : BeagleCacheProperties {
+    @MapFormat(transformation = MapFormat.MapTransformation.FLAT)
+    override var ttl: Map<String, Duration> = emptyMap()
 }
