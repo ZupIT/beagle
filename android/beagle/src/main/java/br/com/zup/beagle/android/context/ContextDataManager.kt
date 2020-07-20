@@ -46,6 +46,8 @@ internal class ContextDataManager(
                 bindings = mutableSetOf(),
                 context = contextData.normalize()
             )
+        } else {
+            contexts[contextData.id]?.bindings?.clear()
         }
     }
 

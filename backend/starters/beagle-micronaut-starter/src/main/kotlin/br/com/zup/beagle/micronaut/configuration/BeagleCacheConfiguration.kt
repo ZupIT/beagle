@@ -18,12 +18,16 @@ package br.com.zup.beagle.micronaut.configuration
 
 import br.com.zup.beagle.cache.BeagleCacheHandler
 import br.com.zup.beagle.constants.BEAGLE_CACHE_EXCLUDES
+import br.com.zup.beagle.constants.BEAGLE_CACHE_INCLUDES
 import io.micronaut.context.annotation.Factory
 import io.micronaut.context.annotation.Value
 import javax.inject.Singleton
 
 @Factory
-class BeagleCacheConfiguration(@Value("\${$BEAGLE_CACHE_EXCLUDES:}") private val excludeEndpoints: List<String>) {
+class BeagleCacheConfiguration(
+    @Value("\${$BEAGLE_CACHE_INCLUDES:}") private val includeEndpoints: List<String>,
+    @Value("\${$BEAGLE_CACHE_EXCLUDES:}") private val excludeEndpoints: List<String>
+) {
     @Singleton
-    fun beagleCacheHandler() = BeagleCacheHandler(this.excludeEndpoints)
+    fun beagleCacheHandler() = BeagleCacheHandler(this.excludeEndpoints, this.includeEndpoints)
 }
