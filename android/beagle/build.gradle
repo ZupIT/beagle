@@ -20,7 +20,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply from: '../jacoco-android.gradle'
+apply from: rootProject.file('jacoco-android.gradle')
 
 android {
     compileSdkVersion Dependencies.Versions.compileSdk
