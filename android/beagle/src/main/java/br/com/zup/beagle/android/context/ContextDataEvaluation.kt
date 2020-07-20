@@ -67,7 +67,7 @@ internal class ContextDataEvaluation(
         expression: String,
         bind: Bind.Expression<*>
     ) {
-        val value = evaluateExpression(contextData, bind, expression)?:""
+        val value = evaluateExpression(contextData, bind, expression) ?: ""
         bind.evaluatedExpressions[expression] = value
     }
 
