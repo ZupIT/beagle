@@ -31,6 +31,9 @@ configurations {
 
 dependencies {
     implementation Dependencies.GeneralLibraries.kotlin
+    implementation Dependencies.MicronautLibraries.runtime
+    implementation Dependencies.MicronautLibraries.netty
+
     implementation project(Dependencies.Modules.beagleBackendMicronautStarter)
     implementation project(Dependencies.Modules.backendSampleCore)
 

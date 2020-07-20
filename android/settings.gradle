@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-includeBuild("dependenciesPlugin")
-
 include ":sample"
 include ":beagle"
 include ":android-processor"

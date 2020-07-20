@@ -48,4 +48,4 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = Dependencies.Versions.java
 }
 
-//apply from: rootProject.file('maven-publish.gradle')
+apply from: rootProject.file('../maven-publish.gradle')

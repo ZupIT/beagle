@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-includeBuild("dependenciesPlugin")
-
 include ":sample:core"
 include ":sample:spring"
 include ":sample:micronaut"
@@ -33,16 +31,3 @@ project(":schema:kotlin-core").projectDir = file('../schema/kotlin-core')
 project(":common:extended-schema").projectDir = file('../common/extended-schema')
 project(":common:processor-utils").projectDir = file('../common/processor-utils')
 project(":common:annotation").projectDir = file('../common/annotation')
-
-//include ":sample"
-//include ":beagle"
-//include ":android-processor"
-//include ":android-internal-processor"
-//include ":android-annotation"
-//include ":android-preview"
-//
-
-
-
-//const val beagleSchemaKotlinCore = ":schema:kotlin-core"
-//const val beagleExtendedSchema = ":common:extended-schema"

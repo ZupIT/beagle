@@ -26,7 +26,7 @@ import kotlin.test.assertTrue
 internal class BeagleCacheFilterTest {
     @Test
     fun test_BeagleCacheFilter_is_in_context_by_default() {
-        21312 { ApplicationContext.run().containsBeans(BeagleCacheFilter::class) }
+        assertTrue { ApplicationContext.run().containsBeans(BeagleCacheFilter::class) }
     }
 
     @Test
