@@ -41,6 +41,7 @@ import com.google.android.material.tabs.TabLayout
 
 private val TAB_BAR_HEIGHT = 48.dp()
 internal var styleManagerFactory = StyleManager()
+
 @RegisterWidget
 data class TabView(
     val children: List<TabItem>,

@@ -32,6 +32,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class ActionExtensionsKtTest : BaseTest() {
@@ -245,6 +246,24 @@ class ActionExtensionsKtTest : BaseTest() {
     }
 
     @Test
+    fun evaluateExpression_should_return_JSON_string_evaluated() {
+        // Given
+        val contextValue = "hello"
+        viewModel.addContext(ContextData(
+            id = "context",
+            value = contextValue
+        ))
+        val value = """{"value": "@{context}""""
+
+        // When
+        val actualValue = action.evaluateExpression(rootView, value)
+
+        // Then
+        val expected = """{"value": "$contextValue""""
+        assertEquals(expected, actualValue)
+    }
+
+    @Test
     fun evaluateExpression_should_return_JSONArray_evaluated() {
         // Given
         val contextValue = "hello"
@@ -262,6 +281,25 @@ class ActionExtensionsKtTest : BaseTest() {
         // Then
         assertTrue(actualValue is JSONArray)
         assertEquals("""["$contextValue"]""", actualValue.toString())
+    }
+
+    @Test
+    fun evaluateExpression_should_evaluate_JSONArray() {
+        // Given
+        val contextValue = JSONArray().apply {
+            put("hello")
+        }
+        viewModel.addContext(ContextData(
+            id = "context",
+            value = contextValue
+        ))
+
+        // When
+        val actualValue = action.evaluateExpression(rootView, "@{context}")
+
+        // Then
+        assertTrue(actualValue is JSONArray)
+        assertEquals("""["hello"]""", actualValue.toString())
     }
 
     @Test
@@ -307,6 +345,25 @@ class ActionExtensionsKtTest : BaseTest() {
         // Then
         assertTrue(actualValue is JSONObject)
         assertEquals("""{"value":"$contextValue"}""", actualValue.toString())
+    }
+
+    @Test
+    fun evaluateExpression_should_evaluate_JSONObject() {
+        // Given
+        val value = JSONObject().apply {
+            put("value", "hello")
+        }
+        viewModel.addContext(ContextData(
+            id = "context",
+            value = value
+        ))
+
+        // When
+        val actualValue = action.evaluateExpression(rootView, "@{context}")
+
+        // Then
+        assertTrue(actualValue is JSONObject)
+        assertEquals("""{"value":"hello"}""", actualValue.toString())
     }
 
     @Test
