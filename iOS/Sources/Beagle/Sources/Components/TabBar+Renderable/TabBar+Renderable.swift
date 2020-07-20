@@ -21,6 +21,18 @@ import BeagleSchema
 extension TabBar: ServerDrivenComponent {
     public func toView(renderer: BeagleRenderer) -> UIView {
         let view = TabBarUIComponent(model: .init(tabIndex: 0, tabViewItems: children))
+        
+        if let currentTab = currentTab {
+            renderer.observe(currentTab, andUpdateManyIn: view) { tab in
+                view.scrollTo(page: tab)
+            }
+        }
+        
+        view.onTabSelection = { tab in
+            let context = Context(id: "onTabSelection", value: .int(tab))
+            renderer.controller.execute(actions: self.onTabSelection, with: context, sender: view)
+        }
+        
         return view
     }
 }

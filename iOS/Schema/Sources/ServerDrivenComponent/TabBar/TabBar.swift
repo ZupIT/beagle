@@ -15,22 +15,23 @@
  * limitations under the License.
  */
 
-import Foundation
-
-public struct TabBar: RawComponent, AutoInitiable, HasContext {
+public struct TabBar: RawComponent, AutoInitiableAndDecodable {
     public let children: [TabBarItem]
     public let styleId: String?
-    public let context: Context?
+    public let currentTab: Expression<Int>?
+    public let onTabSelection: [RawAction]?
 
 // sourcery:inline:auto:TabBar.Init
     public init(
         children: [TabBarItem],
         styleId: String? = nil,
-        context: Context? = nil
+        currentTab: Expression<Int>? = nil,
+        onTabSelection: [RawAction]? = nil
     ) {
         self.children = children
         self.styleId = styleId
-        self.context = context
+        self.currentTab = currentTab
+        self.onTabSelection = onTabSelection
     }
 // sourcery:end
 }
