@@ -17,6 +17,8 @@
 package br.com.zup.beagle.widget.layout
 
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.widget.action.Action
+import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.ContextComponent
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.pager.PageIndicatorComponent
@@ -31,5 +33,37 @@ import br.com.zup.beagle.widget.pager.PageIndicatorComponent
 data class PageView(
     val children: List<ServerDrivenComponent>,
     val pageIndicator: PageIndicatorComponent? = null,
-    override val context: ContextData? = null
-) : ServerDrivenComponent, ContextComponent
+    override val context: ContextData? = null,
+    val onPageChange: List<Action>? = null,
+    val currentPage: Bind<Int>? = null
+) : ServerDrivenComponent, ContextComponent {
+
+    @Deprecated(
+        message = " This will be removed in a future version; " +
+            "please refactor this component using new context features."
+    )
+    constructor(
+        children: List<ServerDrivenComponent>,
+        pageIndicator: PageIndicatorComponent? = null,
+        context: ContextData? = null
+    ) : this(
+        children,
+        pageIndicator,
+        context,
+        null,
+        null
+    )
+
+    constructor(
+        children: List<ServerDrivenComponent>,
+        context: ContextData? = null,
+        onPageChange: List<Action>? = null,
+        currentPage: Bind<Int>? = null
+    ) : this(
+        children,
+        null,
+        context,
+        onPageChange,
+        currentPage
+    )
+}

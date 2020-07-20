@@ -50,7 +50,6 @@ class PageIndicator(
         currentPage?.let {
             observeBindChanges(rootView, it) {position ->
                 onItemUpdated(position)
-                Log.v("opa", position.toString())
             }
         }
     }

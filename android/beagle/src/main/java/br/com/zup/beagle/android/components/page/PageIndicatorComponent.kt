@@ -19,6 +19,9 @@ package br.com.zup.beagle.android.components.page
 import br.com.zup.beagle.android.widget.ViewConvertable
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+@Deprecated(
+    message = " This will be removed in a future version; please refactor this component using new context features."
+)
 interface PageIndicatorComponent : ServerDrivenComponent,
     ViewConvertable {
     fun setCount(pages: Int)
