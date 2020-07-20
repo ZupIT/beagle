@@ -34,5 +34,22 @@ public struct Container: RawWidget, HasContext, AutoDecodable {
         self.onInit = onInit
         self.context = context
     }
-
+    
+    public init(
+        context: Context? = nil,
+        onInit: [RawAction]? = nil,
+        widgetProperties: WidgetProperties = WidgetProperties(),
+        @ComponentsBuilder _ children: () -> [RawComponent]
+    ) {
+        self.init(children: children(), widgetProperties: widgetProperties, context: context, onInit: onInit)
+    }
+    
+    public init(
+        context: Context? = nil,
+        onInit: [RawAction]? = nil,
+        widgetProperties: WidgetProperties = WidgetProperties(),
+        @ComponentBuilder _ children: () -> RawComponent
+    ) {
+        self.init(children: [children()], widgetProperties: widgetProperties, context: context, onInit: onInit)
+    }
 }

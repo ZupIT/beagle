@@ -21,64 +21,57 @@ import BeagleSchema
 import UIKit
 
 let componentInteractionScreen: Screen = {
-    return Screen(
-        navigationBar: NavigationBar(title: "Component Interaction", showBackButton: true),
-        child: Container(children: [
+    return Screen(navigationBar: NavigationBar(title: "Component Interaction", showBackButton: true)) {
+        Container {
             Button(
                 text: "Declarative",
                 onPress: [Navigate.pushView(.declarative(declarativeScreen))]
-            ),
+            )
             Button(
                 text: "Text (JSON)",
                 onPress: [Navigate.openNativeRoute(.init(route: .COMPONENT_INTERACTION_ENDPOINT))]
             )
-        ])
-    )
+        }
+    }
 }()
 
 let declarativeScreen: Screen = {
-    return Screen(
-        navigationBar: NavigationBar(title: "Component Interaction", showBackButton: true),
-        child: Container(
-            children:
-            [
-                Container(
-                    children:
-                    [
-                        TextInput(
-                            onChange: [
-                                SetContext(
-                                    contextId: "context1",
-                                    value: "@{onChange.value}"
-                                )
-                            ]
-                        ),
-                        Text("teste é: @{context1} + @{context2}"),
-                        Text("@{context1}"),
-                        Button(
-                            text: "1",
-                            onPress: [
-                                SetContext(
-                                    contextId: "context1",
-                                    value: ["name": "nameUpdated"]
-                                )
-                            ]
-                        ),
-                        Button(
-                            text: "2",
-                            onPress: [
-                                SetContext(
-                                    contextId: "context2",
-                                    value: "update"
-                                )
-                            ]
-                        ),
-                        MyComponent(person: "@{context1}", personOpt: nil, action: nil, widgetProperties: WidgetProperties())
-                    ],
-                    context: Context(id: "context1", value: ["name": "name"])
+    return Screen(navigationBar: NavigationBar(title: "Component Interaction", showBackButton: true)) {
+        Container(context: Context(id: "context2", value: nil)) {
+            Container(context: Context(id: "context1", value: ["name": "name"])) {
+                TextInput(
+                    onChange: [
+                        SetContext(
+                            contextId: "context1",
+                            value: "@{onChange.value}"
+                        )
+                    ]
                 )
-        ], context: Context(id: "context2", value: nil))
-    )}()
+                Text("teste é: @{context1} + @{context2}")
+                Text("@{context1}")
+                Button(
+                    text: "1",
+                    onPress: [
+                        SetContext(
+                            contextId: "context1",
+                            value: ["name": "nameUpdated"]
+                        )
+                    ]
+                )
+                Button(
+                    text: "2",
+                    onPress: [
+                        SetContext(
+                            contextId: "context2",
+                            value: "update"
+                        )
+                    ]
+                )
+                MyComponent(person: "@{context1}", personOpt: nil, action: nil, widgetProperties: WidgetProperties())
+            }
+        }
+    }
+}()
 
 struct ComponentInteractionText: DeeplinkScreen {
     

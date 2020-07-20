@@ -31,4 +31,12 @@ public struct WebView: RawWidget, AutoInitiableAndDecodable {
     }
 
 // sourcery:end
+    
+    public init(
+        url: Expression<String>,
+        style: Style? = nil
+    ) {
+        self.url = url
+        self.widgetProperties = WidgetProperties(style: style)
+    }
 }

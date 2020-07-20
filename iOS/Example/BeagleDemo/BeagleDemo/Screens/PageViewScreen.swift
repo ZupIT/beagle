@@ -27,35 +27,27 @@ struct PageViewScreen: DeeplinkScreen {
     }
     
     var screen: Screen {
-        return Screen(
-            navigationBar: NavigationBar(title: "PageView"),
-            child: Container(
-                children: [
-                    PageIndicator(numberOfPages: 4, currentPage: "@{context}"),
-                    PageView(
-                        children: Array(repeating: Page(), count: 4).map { $0.content },
-                        pageIndicator: PageIndicator(),
-                        onPageChange: [SetContext(contextId: "context", value: "@{onChange}")],
-                        currentPage: "@{context}"
-                    )
-                ],
-                widgetProperties: WidgetProperties(style: Style(flex: Flex().grow(1))),
-                context: Context(id: "context", value: 3)
-            )
-        )
+        return Screen(navigationBar: NavigationBar(title: "PageView")) {
+            Container(context: Context(id: "context", value: 3), widgetProperties: .init(Flex().grow(1))) {
+                PageIndicator(numberOfPages: 4, currentPage: "@{context}")
+                PageView(
+                    children: Array(repeating: Page(), count: 4).map { $0.content },
+                    pageIndicator: PageIndicator(),
+                    onPageChange: [SetContext(contextId: "context", value: "@{onChange}")],
+                    currentPage: "@{context}"
+                )
+            }
+        }
     }
 }
 
 struct Page {
     var content: Container {
-        return Container(
-            children: [
-                Text("Text with alignment attribute set to center", alignment: Expression.value(.center)),
-                Text("Text with alignment attribute set to right", alignment: Expression.value(.right)),
-                Text("Text with alignment attribute set to left", alignment: Expression.value(.left)),
+        return Container(widgetProperties: .init(Flex().justifyContent(.spaceBetween).grow(1))) {
+                Text("Text with alignment attribute set to center", alignment: Expression.value(.center))
+                Text("Text with alignment attribute set to right", alignment: Expression.value(.right))
+                Text("Text with alignment attribute set to left", alignment: Expression.value(.left))
                 Image(.value(.remote(.init(url: .NETWORK_IMAGE_BEAGLE))))
-            ],
-            widgetProperties: .init(style: Style(flex: Flex().justifyContent(.spaceBetween).grow(1)))
-        )
+        }
     }
 }
