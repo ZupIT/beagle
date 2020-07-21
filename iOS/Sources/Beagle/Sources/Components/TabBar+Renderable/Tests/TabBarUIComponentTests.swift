@@ -23,7 +23,7 @@ class TabBarUIComponentTests: XCTestCase {
     
     private lazy var model = TabBarUIComponent.Model(
         tabIndex: 0,
-        tabViewItems: [
+        tabBarItems: [
             TabBarItem(icon: "beagle", title: "Tab 1"),
             TabBarItem(icon: "beagle", title: "Tab 2")
         ]
@@ -49,7 +49,7 @@ class TabBarUIComponentTests: XCTestCase {
         }
         
         // Then
-        XCTAssert(model.tabViewItems.count == count)
+        XCTAssert(model.tabBarItems.count == count)
     }
     
     func test_cellForItemAt_shouldReturnCorrectCell() {

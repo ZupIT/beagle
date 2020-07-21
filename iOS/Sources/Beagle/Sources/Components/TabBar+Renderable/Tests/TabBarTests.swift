@@ -15,24 +15,22 @@
  * limitations under the License.
  */
 
-import UIKit
+import XCTest
+@testable import Beagle
+import SnapshotTesting
 import BeagleSchema
 
-extension TabBar: ServerDrivenComponent {
-    public func toView(renderer: BeagleRenderer) -> UIView {
-        let view = TabBarUIComponent(model: .init(tabIndex: 0, tabBarItems: children))
+class TabBarTests: XCTestCase {
+    
+    func test_viewWithTabBar() {
+        let tabBar = TabBar(children: [
+            TabBarItem(title: "TAB 1"),
+            TabBarItem(title: "TAB 2"),
+            TabBarItem(title: "TAB 3")
+        ])
         
-        if let currentTab = currentTab {
-            renderer.observe(currentTab, andUpdateManyIn: view) { tab in
-                view.scrollTo(page: tab)
-            }
-        }
-        
-        view.onTabSelection = { tab in
-            let context = Context(id: "onTabSelection", value: .int(tab))
-            renderer.controller.execute(actions: self.onTabSelection, with: context, sender: view)
-        }
-        
-        return view
+        let screen = Beagle.screen(.declarative(tabBar.toScreen()))
+        assertSnapshotImage(screen)
     }
+
 }

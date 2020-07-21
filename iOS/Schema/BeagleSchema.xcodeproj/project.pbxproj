@@ -13,6 +13,8 @@
 		6EB3368224A52AB5000A9D17 /* SubmitForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB3368124A52AB5000A9D17 /* SubmitForm.swift */; };
 		6EB3368724A52BB4000A9D17 /* SimpleForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB3368624A52BB4000A9D17 /* SimpleForm.swift */; };
 		7685B041249A852A007EDED0 /* SendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7685B040249A852A007EDED0 /* SendRequest.swift */; };
+		7C7B249524C7950E005A4D3D /* TabBarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B249424C7950E005A4D3D /* TabBarTests.swift */; };
+		7C7B249924C79858005A4D3D /* TabBar.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C7B249724C7952C005A4D3D /* TabBar.json */; };
 		7CC2D9B124C614530059D5F9 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC2D9B024C614530059D5F9 /* TabBar.swift */; };
 		933078E824AE4C8D009D92F2 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 933078E724AE4C8D009D92F2 /* SnapshotTesting */; };
 		935278E8249952DE00AB9D1F /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935278E7249952DE00AB9D1F /* Expression.swift */; };
@@ -135,6 +137,9 @@
 		6EB3368124A52AB5000A9D17 /* SubmitForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubmitForm.swift; sourceTree = "<group>"; };
 		6EB3368624A52BB4000A9D17 /* SimpleForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleForm.swift; sourceTree = "<group>"; };
 		7685B040249A852A007EDED0 /* SendRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendRequest.swift; sourceTree = "<group>"; };
+		7C7B249424C7950E005A4D3D /* TabBarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarTests.swift; sourceTree = "<group>"; };
+		7C7B249724C7952C005A4D3D /* TabBar.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TabBar.json; sourceTree = "<group>"; };
+		7C7B249A24C79871005A4D3D /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		7CC2D9B024C614530059D5F9 /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		9302EE7424A28F5500E84A44 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		935278E7249952DE00AB9D1F /* Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
@@ -307,6 +312,14 @@
 			path = PageIndicator;
 			sourceTree = "<group>";
 		};
+		7C7B249624C79516005A4D3D /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				7C7B249724C7952C005A4D3D /* TabBar.json */,
+			);
+			path = JSON;
+			sourceTree = "<group>";
+		};
 		7CC2D9AF24C6143B0059D5F9 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -319,6 +332,9 @@
 		7CC2D9B724C7854B0059D5F9 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				7C7B249A24C79871005A4D3D /* __Snapshots__ */,
+				7C7B249624C79516005A4D3D /* JSON */,
+				7C7B249424C7950E005A4D3D /* TabBarTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1190,6 +1206,7 @@
 				C8EBCC8C247C30EE002030CC /* ScrollViewComponent.json in Resources */,
 				C8EBCC89247C30C9002030CC /* PageViewWith3Pages.json in Resources */,
 				98E4974E249ED5670053DB87 /* TextInputComponent.json in Resources */,
+				7C7B249924C79858005A4D3D /* TabBar.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1314,6 +1331,7 @@
 				C8EBCC8E247C3112002030CC /* TabViewTests.swift in Sources */,
 				98E49751249ED5A00053DB87 /* TextInputTests.swift in Sources */,
 				C8EAC4F5247C2808003089BE /* ImageTests.swift in Sources */,
+				7C7B249524C7950E005A4D3D /* TabBarTests.swift in Sources */,
 				C8EAC4F6247C2811003089BE /* TextTests.swift in Sources */,
 				93BFE32C249E9FBD009838CE /* PathTests.swift in Sources */,
 				C0291898247EDF8500C3AA13 /* PageIndicatorTests.swift in Sources */,

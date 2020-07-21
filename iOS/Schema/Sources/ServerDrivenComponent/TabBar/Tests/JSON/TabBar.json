@@ -1,0 +1,17 @@
+{
+    "_beagleComponent_": "beagle:tabBar",
+    "children": [
+        {
+            "icon": "beagle",
+            "title": "tab 1"
+        },
+        {
+            "icon": "beagle",
+            "title": "tab 2"
+        },
+        {
+            "icon": "beagle",
+            "title": "tab 3"
+        }
+    ]
+}

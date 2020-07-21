@@ -21,7 +21,7 @@ import BeagleSchema
 extension TabBarUIComponent {
     struct Model: AutoInitiable {
         var tabIndex: Int
-        var tabViewItems: [TabBarItem]
+        var tabBarItems: [TabBarItem]
         var selectedTextColor: UIColor?
         var unselectedTextColor: UIColor?
         var selectedIconColor: UIColor?
@@ -30,14 +30,14 @@ extension TabBarUIComponent {
 // sourcery:inline:auto:TabBarUIComponent.Model.Init
      init(
         tabIndex: Int,
-        tabViewItems: [TabBarItem],
+        tabBarItems: [TabBarItem],
         selectedTextColor: UIColor? = nil,
         unselectedTextColor: UIColor? = nil,
         selectedIconColor: UIColor? = nil,
         unselectedIconColor: UIColor? = nil
     ) {
         self.tabIndex = tabIndex
-        self.tabViewItems = tabViewItems
+        self.tabBarItems = tabBarItems
         self.selectedTextColor = selectedTextColor
         self.unselectedTextColor = unselectedTextColor
         self.selectedIconColor = selectedIconColor
@@ -159,11 +159,11 @@ extension TabBarUIComponent: UICollectionViewDataSource, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return model.tabViewItems.count
+        return model.tabBarItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let item = model.tabViewItems[indexPath.row]
+        let item = model.tabBarItems[indexPath.row]
         guard let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: TabBarCollectionViewCell.className,
         for: indexPath) as? TabBarCollectionViewCell else { return UICollectionViewCell() }
@@ -175,9 +175,9 @@ extension TabBarUIComponent: UICollectionViewDataSource, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let item = model.tabViewItems[indexPath.row]
+        let item = model.tabBarItems[indexPath.row]
         guard let title = item.title else {
-            let size = CGSize(width: frame.width / CGFloat(model.tabViewItems.count), height: 55)
+            let size = CGSize(width: frame.width / CGFloat(model.tabBarItems.count), height: 55)
             if indexPath.row == 0 {
                 containerWidthConstraint?.constant = size.width
             }
@@ -187,12 +187,12 @@ extension TabBarUIComponent: UICollectionViewDataSource, UICollectionViewDelegat
         let newTitle = NSAttributedString(string: title, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 30)])
         let stringWidth = newTitle.boundingRect(with: CGSize(width: 300, height: 20), options: [.usesFontLeading, .usesLineFragmentOrigin], context: nil).size.width
         
-        let allStringsWidth = model.tabViewItems.compactMap { item in
+        let allStringsWidth = model.tabBarItems.compactMap { item in
             return item.title?.boundingRect(with: CGSize(width: 300, height: 20), options: [.usesFontLeading, .usesLineFragmentOrigin], context: nil).size.width
         }
         
         let width = allStringsWidth.reduce(0, +)
-        let cellSize = width * 3 < frame.width ? CGSize(width: frame.width / CGFloat(model.tabViewItems.count), height: 55) : CGSize(width: stringWidth, height: 55)
+        let cellSize = width * 3 < frame.width ? CGSize(width: frame.width / CGFloat(model.tabBarItems.count), height: 55) : CGSize(width: stringWidth, height: 55)
         
         if indexPath.row == 0 {
             containerWidthConstraint?.constant = cellSize.width

@@ -74,7 +74,7 @@ final class TabViewUIComponent: UIView {
         self.tabBar = TabBarUIComponent(
             model: .init(
                 tabIndex: model.tabIndex,
-                tabViewItems: model.tabViewItems.map { TabBarItem(icon: $0.icon, title: $0.title) },
+                tabBarItems: model.tabViewItems.map { TabBarItem(icon: $0.icon, title: $0.title) },
                 selectedTextColor: model.selectedTextColor,
                 unselectedTextColor: model.unselectedTextColor,
                 selectedIconColor: model.selectedIconColor,
