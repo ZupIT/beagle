@@ -98,30 +98,32 @@ data class PageView(
             setupPageIndicator(children.size, viewPager, pageIndicator)
             container.addView(pageIndicatorView)
         }
-        viewPager.configPageChangeListener(
+        configPageChangeListener(
+            viewPager,
             {
                 pageIndicator?.onItemUpdated(it)
             },
             {
-                viewPager.executeActions(rootView, it)
+                executeActions(viewPager, rootView, it)
             }
         )
 
-        viewPager.observerCurrentPage(rootView)
+        observerCurrentPage(viewPager, rootView)
         return container
     }
 
-    private fun BeaglePageView.executeActions(rootView: RootView, position: Int){
+    private fun executeActions(viewPager: BeaglePageView, rootView: RootView, position: Int){
         onPageChange?.let {listAction ->
-               handleEvent(rootView, this, listAction, "onChange", position)
+               handleEvent(rootView, viewPager, listAction, "onChange", position)
         }
     }
 
-    private fun BeaglePageView.configPageChangeListener(
+    private fun configPageChangeListener(
+        viewPager: BeaglePageView,
         onPageSelectedIndicator: (Int) -> Unit,
         onPageSelectedContext: (Int) -> Unit
     ) {
-        this.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
 
             override fun onPageScrolled(
@@ -138,10 +140,10 @@ data class PageView(
         })
     }
 
-    private fun BeaglePageView.observerCurrentPage(rootView: RootView){
+    private fun observerCurrentPage(viewPager: BeaglePageView, rootView: RootView){
         currentPage?.let {
             observeBindChanges(rootView = rootView, bind = it){position ->
-                this.swapToPage(position)
+                viewPager.swapToPage(position)
             }
         }
     }
