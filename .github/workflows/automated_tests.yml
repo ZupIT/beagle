@@ -1,46 +1,27 @@
-name: Beagle Release
+name: Beagle Automated Tests
 
-on:
-    push:
-        tags:
-            - '*'
+on: workflow_dispatch
+
 jobs:
     run-automated-tests:
         name: Run automated tests
         runs-on: macos-latest
         steps:
-            - uses: actions/checkout@v2.1.0
-              with:
-                  fetch-depth: '0'
-                  ref: 'master'
-            - name: Install Fastlane
-              run: bundle install
-            - name: Deploy backend
-              env:
-                TODO: ${{ secrets.TODO }}
-              run: bundle exec fastlane automated_tests deploy_tests_backend
-            - name: Run iOS automated tests
-              env:
-                TODO: ${{ secrets.TODO }}
-              run: bundle exec fastlane automated_tests run_ios_automation
-            - name: Run android automated tests
-              env:
-                TODO: ${{ secrets.TODO }}
-              run: bundle exec fastlane automated_tests run_android_automation
-            - name: Deploy React website
-              env:
-                TODO: ${{ secrets.TODO }}
-              run: bundle exec fastlane automated_tests deploy_react_website
-            - name: Run react automated tests
-              env:
-                TODO: ${{ secrets.TODO }}
-              run: bundle exec fastlane automated_tests run_react_automation
-            - name: Deploy Angular website
-              env:
-                TODO: ${{ secrets.TODO }}
-              run: bundle exec fastlane automated_tests deploy_angular_website
-            - name: Run react automated tests
-              env:
-                TODO: ${{ secrets.TODO }}
-              run: bundle exec fastlane automated_tests run_angular_automation
-        
+            -   uses: actions/checkout@v2
+
+            -   name: Cache fastlane dependences
+                uses: actions/cache@v2
+                env:
+                    fastlane-cache-key: fastlane-cache
+                    fastlane-path: ~/.gem
+                with:
+                    path: ${{ env.fastlane-path }}
+                    key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
+            -   name: Install Fastlane
+                run: bundle install
+
+            -   name: Deploy backend
+                run: bundle exec fastlane automated_tests deploy_tests_backend
+
+            -   name: Cleanup
+                run: bundle exec fastlane automated_tests cleanup
