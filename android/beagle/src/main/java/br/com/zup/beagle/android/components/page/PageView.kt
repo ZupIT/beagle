@@ -43,6 +43,7 @@ import br.com.zup.beagle.widget.core.UnitValue
 @Deprecated(message = DEPRECATED_PAGE_VIEW)
 data class PageView(
     val children: List<ServerDrivenComponent>,
+    @Deprecated(message = DEPRECATED_PAGE_VIEW)
     val pageIndicator: PageIndicatorComponent? = null,
     override val context: ContextData? = null,
     val onPageChange: List<Action>? = null,
