@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import br.com.zup.beagle.Dependencies
+
 plugins {
     id "org.jetbrains.kotlin.jvm"
     id "org.jetbrains.kotlin.kapt"
@@ -21,26 +23,29 @@ plugins {
     id "application"
 }
 
-mainClassName = ApplicationId.micronautSample
+mainClassName = Dependencies.ApplicationId.micronautSample
 
 configurations {
     developmentOnly
 }
 
 dependencies {
-    implementation GeneralLibraries.kotlin
-    implementation project(Modules.beagleBackendMicronautStarter)
-    implementation project(Modules.backendSampleCore)
+    implementation Dependencies.GeneralLibraries.kotlin
+    implementation Dependencies.MicronautLibraries.runtime
+    implementation Dependencies.MicronautLibraries.netty
 
-    runtime MicronautLibraries.netty
-    runtime BackendLibraries.slf4jJUL
+    implementation project(Dependencies.Modules.micronautStarter)
+    implementation project(Dependencies.Modules.sampleCore)
 
-    kapt MicronautLibraries.injectJava
+    runtime Dependencies.MicronautLibraries.netty
+    runtime Dependencies.BackendLibraries.slf4jJUL
+
+    kapt Dependencies.MicronautLibraries.injectJava
 }
 
 compileKotlin {
     kotlinOptions {
-        jvmTarget = Versions.java
+        jvmTarget = Dependencies.Versions.java
         javaParameters = true
     }
 }
