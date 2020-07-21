@@ -46,12 +46,18 @@ final class LazyComponentTests: XCTestCase {
             dependencies: dependecies)
         )
         
-        let size = CGSize(width: 75, height: 40)
+        let size = CGSize(width: 75, height: 80)
         assertSnapshotImage(screenController, size: .custom(size))
         
-        var lazyLoaded = Text("Lazy Loaded!")
+        screenController.view.setContext(Context(id: "ctx", value: "value of ctx"))
+        var lazyLoaded = Text("Lazy Loaded! @{ctx}")
         lazyLoaded.widgetProperties.style = .init(backgroundColor: "#FFFF00")
         repository.componentCompletion?(.success(lazyLoaded))
+        
+        let consumeMainQueue = expectation(description: "consumeMainQueue")
+        DispatchQueue.main.async { consumeMainQueue.fulfill() }
+        waitForExpectations(timeout: 1, handler: nil)
+        
         assertSnapshotImage(screenController, size: .custom(size))
     }
 
@@ -97,6 +103,10 @@ final class LazyComponentTests: XCTestCase {
                 """)
         }
         XCTAssertEqual(view, initialView)
+    }
+    
+    func test_lazyLoadContentWithExpression() {
+        
     }
 
 }
