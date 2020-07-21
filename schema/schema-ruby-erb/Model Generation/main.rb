@@ -51,6 +51,7 @@ class ModelGenerator
   def generate
     generateSwift
     generateKotlin
+    generateKotlinBackend
     generateTs
   end
 
@@ -61,6 +62,14 @@ class ModelGenerator
     for component in @components
       @objectType = component.new
       @writer.write(Constants.new.kotlin_path + @objectType.name + ".kt", to_s)
+    end
+  end
+
+  def generateKotlinBackend
+    @erb = ERB.new(File.read("model_template_kotlin_backend.erb"), nil, '-')
+    for component in @components
+      @objectType = component.new
+      @writer.write(Constants.new.kotlin_backend_path + @objectType.name + ".kt", to_s)
     end
   end
   
