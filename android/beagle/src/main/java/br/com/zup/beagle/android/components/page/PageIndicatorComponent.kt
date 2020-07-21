@@ -20,7 +20,7 @@ import br.com.zup.beagle.android.widget.ViewConvertable
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 @Deprecated(
-    message = " This will be removed in a future version; please refactor this component using new context features."
+    message = "This constructor will be removed in a future version, use the constructor with Bind"
 )
 interface PageIndicatorComponent : ServerDrivenComponent,
     ViewConvertable {
