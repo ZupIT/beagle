@@ -19,19 +19,16 @@ package br.com.zup.beagle.android.components
 import android.content.Context
 import android.view.View
 import androidx.appcompat.widget.AppCompatButton
-import androidx.core.widget.TextViewCompat
 import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.Navigate
-import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.StyleManager
-import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import io.mockk.CapturingSlot
 import io.mockk.Runs
@@ -39,7 +36,6 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkConstructor
-import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
 import org.junit.Test
@@ -52,7 +48,6 @@ private val BUTTON_STYLE = RandomData.int()
 class ButtonTest : BaseComponentTest() {
 
     private val analytics: Analytics = mockk(relaxed = true)
-    private val styleManager: StyleManager = mockk(relaxed = true)
     private val context: Context = mockk()
     private val button: AppCompatButton = mockk(relaxed = true, relaxUnitFun = true)
 
@@ -63,8 +58,8 @@ class ButtonTest : BaseComponentTest() {
     override fun setUp() {
         super.setUp()
 
-        mockkStatic(TextViewCompat::class)
         mockkConstructor(PreFetchHelper::class)
+        mockkConstructor(StyleManager::class)
 
         every { beagleSdk.analytics } returns analytics
 
@@ -73,12 +68,9 @@ class ButtonTest : BaseComponentTest() {
 
         every { anyConstructed<ViewFactory>().makeButton(any(), BUTTON_STYLE) } returns button
         every { anyConstructed<PreFetchHelper>().handlePreFetch(any(), any<List<Action>>()) } just Runs
+        every { anyConstructed<StyleManager>().getButtonStyle(any()) } returns BUTTON_STYLE
 
         every { BeagleEnvironment.application } returns mockk(relaxed = true)
-        styleManagerFactory = styleManager
-
-        every { TextViewCompat.setTextAppearance(any(), any()) } just Runs
-        every { styleManager.getButtonStyle(any()) } returns BUTTON_STYLE
 
         buttonComponent = Button(DEFAULT_TEXT, styleId = DEFAULT_STYLE)
     }

@@ -19,11 +19,11 @@ package br.com.zup.beagle.android.components
 import android.view.View
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
@@ -32,12 +32,16 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 
 @RegisterWidget
-data class Button(
+data class Button internal constructor(
     val text: Bind<String>,
     val styleId: String? = null,
     val onPress: List<Action>? = null,
-    val clickAnalyticsEvent: ClickEvent? = null
+    val clickAnalyticsEvent: ClickEvent? = null,
+    private val viewFactory: ViewFactory = ViewFactory(),
+    private val preFetchHelper: PreFetchHelper = PreFetchHelper(),
+    private val styleManager: StyleManager = StyleManager()
 ) : WidgetView() {
+
     constructor(
         text: String,
         styleId: String? = null,
@@ -50,21 +54,27 @@ data class Button(
         clickAnalyticsEvent
     )
 
-    @Transient
-    private val viewFactory = ViewFactory()
-
-    @Transient
-    private val preFetchHelper: PreFetchHelper = PreFetchHelper()
-
-    @Transient
-    private val buttonStyle = styleManagerFactory.getButtonStyle(styleId)
+    constructor(
+        text: Bind<String>,
+        styleId: String? = null,
+        onPress: List<Action>? = null,
+        clickAnalyticsEvent: ClickEvent? = null
+    ) : this(
+        text,
+        styleId,
+        onPress,
+        clickAnalyticsEvent,
+        ViewFactory(),
+        PreFetchHelper(),
+        StyleManager()
+    )
 
     override fun buildView(rootView: RootView): View {
         onPress?.let {
             preFetchHelper.handlePreFetch(rootView, it)
         }
 
-        val button = viewFactory.makeButton(rootView.getContext(), buttonStyle)
+        val button = viewFactory.makeButton(rootView.getContext(), styleManager.getButtonStyle(styleId))
 
         button.setOnClickListener { view ->
             onPress?.let {
