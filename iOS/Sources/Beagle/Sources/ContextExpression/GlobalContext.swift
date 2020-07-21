@@ -20,33 +20,33 @@ import BeagleSchema
 final class GlobalContext {
     
     public static var global = GlobalContext()
+    public static let globalId = "global"
     
-    public var contextMap: [String: Observable<Context>]?
+    private(set) var contextObservable: Observable<Context>?
     
-    private func isGlobal(id: String) -> Bool {
-        id == Context.globalId
+    public class func hasGlobalId(context: Context?) -> Bool {
+        globalId == context?.id
     }
     
-    func getContext(with id: String?) -> Observable<Context>? {
-        guard let contextId = id, isGlobal(id: contextId) else { return nil }
-        
-        guard let context = contextMap?[contextId] else {
-            setContext(Context(id: contextId, value: .string("")))
-            return getContext(with: id)
+    public class func isGlobal(id: String?) -> Bool {
+        globalId == id
+    }
+    
+    func getContext() -> Observable<Context>? {
+        guard let contextObservable = contextObservable else {
+            setContextValue(.string(""))
+            return getContext()
         }
-        return context
+        return contextObservable
     }
     
-    func setContext(_ context: Context) {
-        if var contextMap = contextMap {
-            if let contextObservable = contextMap[context.id] {
-                contextObservable.value = context
-            } else {
-                contextMap[context.id] = Observable(value: context)
-            }
-            self.contextMap = contextMap
+    func setContextValue(_ value: DynamicObject) {
+        let context = Context(id: Self.globalId, value: value)
+        
+        if let contextObservable = contextObservable {
+            contextObservable.value = context
         } else {
-            contextMap = [context.id: Observable(value: context)]
+            contextObservable = Observable(value: context)
         }
     }
 }

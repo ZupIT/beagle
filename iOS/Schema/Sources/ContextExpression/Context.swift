@@ -15,14 +15,9 @@
  */
 
 public struct Context: Decodable, AutoInitiable, Equatable {
-    public static let globalId = "global"
     
     public let id: String
     public let value: DynamicObject
-    
-    public func isGlobal() -> Bool {
-        id == Self.globalId
-    }
     
 // sourcery:inline:auto:Context.Init
     public init(

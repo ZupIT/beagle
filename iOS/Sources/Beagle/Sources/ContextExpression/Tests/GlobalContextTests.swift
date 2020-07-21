@@ -36,9 +36,9 @@ class GlobalContextTests: XCTestCase {
         assertSnapshot(matching: view1.contextMap, as: .dump)
         XCTAssertNotNil(view1.contextMap)
         
-        if let view1ContextMapValue = view1.getContext(with: globalId)?.value,
-            let globalContextMapValue = GlobalContext.global.getContext(with: globalId)?.value {
-            XCTAssertTrue(view1ContextMapValue == globalContextMapValue)
+        if let view1ContextValue = view1.getContext(with: globalId)?.value,
+            let globalContextValue = GlobalContext.global.getContext()?.value {
+            XCTAssertTrue(view1ContextValue == globalContextValue)
         } else {
             XCTFail("Could not get Global context correctly.")
         }
@@ -48,14 +48,12 @@ class GlobalContextTests: XCTestCase {
         assertSnapshot(matching: view2.contextMap, as: .dump)
         XCTAssertNotNil(view2.contextMap)
         
-        if let view2ContextMapValue = view2.getContext(with: globalId)?.value,
-            let globalContextMapValue = GlobalContext.global.getContext(with: globalId)?.value {
-            XCTAssertTrue(view2ContextMapValue == globalContextMapValue)
+        if let view2Contextalue = view2.getContext(with: globalId)?.value,
+            let globalContextValue = GlobalContext.global.getContext()?.value {
+            XCTAssertTrue(view2Contextalue == globalContextValue)
         } else {
             XCTFail("Could not get Global context correctly.")
         }
-        
-        XCTAssertNil(GlobalContext.global.getContext(with: "unknown"))
     }
     
     func testSetContext() {
@@ -67,12 +65,12 @@ class GlobalContextTests: XCTestCase {
         let context1 = Context(id: globalId, value: "Fist value")
         let context2 = Context(id: globalId, value: "Second value")
         
-        GlobalContext.global.setContext(context1)
+        GlobalContext.global.setContextValue(context1.value)
         
         XCTAssertTrue(view1.getContext(with: globalId)?.value == context1)
         XCTAssertTrue(view2.getContext(with: globalId)?.value == context1)
         
-        GlobalContext.global.setContext(context2)
+        GlobalContext.global.setContextValue(context2.value)
         
         XCTAssertTrue(view1.getContext(with: globalId)?.value == context2)
         XCTAssertTrue(view2.getContext(with: globalId)?.value == context2)
