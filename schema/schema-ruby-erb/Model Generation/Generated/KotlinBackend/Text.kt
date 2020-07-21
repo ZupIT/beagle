@@ -16,9 +16,9 @@
  */
 
 data class Text (
-  public val text: Bind<String>,  
-  public val styleId: String?   
-) {
+  public override val text: Bind<String>,  
+  public override val styleId: String?   
+) : TextSchema {
   constructor (    
     text: String,      
     styleId: String? = null      

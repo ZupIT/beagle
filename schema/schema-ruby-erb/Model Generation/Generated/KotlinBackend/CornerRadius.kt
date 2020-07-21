@@ -16,8 +16,8 @@
  */
 
 data class CornerRadius (
-  public val radius: Double   
-) {
+  public override val radius: Double   
+) : CornerRadiusSchema {
   constructor (    
     radius: Double      
   ) : this (    

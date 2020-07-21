@@ -16,8 +16,8 @@
  */
 
 data class Display (
-  public val backgroundColor: String?   
-) {
+  public override val backgroundColor: String?   
+) : DisplaySchema {
   constructor (    
     backgroundColor: String? = null      
   ) : this (    

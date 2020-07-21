@@ -16,17 +16,20 @@
  */
 
 data class Button (
-  public val text: Bind<String>,  
-  public val styleId: String?,  
-  public val onPress: List<Action>?   
-) {
+  public override val text: Bind<String>,  
+  public override val styleId: String?,  
+  public override val onPress: List<Action>?,  
+  public override val clickAnalyticsEvent: ClickEvent?   
+) : ButtonSchema {
   constructor (    
     text: String,      
     styleId: String? = null,      
-    onPress: List<Action>? = null      
+    onPress: List<Action>? = null,      
+    clickAnalyticsEvent: ClickEvent? = null      
   ) : this (    
       valueOf(text),      
       styleId,      
-      onPress      
+      onPress,      
+      clickAnalyticsEvent      
   )
 }

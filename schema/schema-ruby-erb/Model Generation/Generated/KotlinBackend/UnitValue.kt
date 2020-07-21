@@ -16,9 +16,9 @@
  */
 
 data class UnitValue (
-  public val value: Double,  
-  public val type: UnityType   
-) {
+  public override val value: Double,  
+  public override val type: UnityType   
+) : UnitValueSchema {
   constructor (    
     value: Double,      
     type: UnityType      

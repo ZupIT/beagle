@@ -16,16 +16,16 @@
  */
 
 data class Style (
-  public val backgroundColor: String?,  
-  public val cornerRadius: String?,  
-  public val size: Size?,  
-  public val margin: Class?,  
-  public val padding: Class?,  
-  public val position: Class?,  
-  public val flex: Flex?,  
-  public val positionType: PositionType?,  
-  public val display: Display?   
-) {
+  public override val backgroundColor: String?,  
+  public override val cornerRadius: String?,  
+  public override val size: Size?,  
+  public override val margin: Class?,  
+  public override val padding: Class?,  
+  public override val position: Class?,  
+  public override val flex: Flex?,  
+  public override val positionType: PositionType?,  
+  public override val display: Display?   
+) : StyleSchema {
   constructor (    
     backgroundColor: String? = null,      
     cornerRadius: String? = null,      

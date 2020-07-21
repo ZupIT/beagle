@@ -16,14 +16,14 @@
  */
 
 data class EdgeValue (
-  public val left: UnitValue?,  
-  public val top: UnitValue?,  
-  public val right: UnitValue?,  
-  public val bottom: UnitValue?,  
-  public val horizontal: UnitValue?,  
-  public val vertical: UnitValue?,  
-  public val all: UnitValue?   
-) {
+  public override val left: UnitValue?,  
+  public override val top: UnitValue?,  
+  public override val right: UnitValue?,  
+  public override val bottom: UnitValue?,  
+  public override val horizontal: UnitValue?,  
+  public override val vertical: UnitValue?,  
+  public override val all: UnitValue?   
+) : EdgeValueSchema {
   constructor (    
     left: UnitValue? = null,      
     top: UnitValue? = null,      

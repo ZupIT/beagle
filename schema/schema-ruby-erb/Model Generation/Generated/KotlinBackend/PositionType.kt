@@ -16,8 +16,8 @@
  */
 
 data class PositionType (
-  public val backgroundColor: String?   
-) {
+  public override val backgroundColor: String?   
+) : PositionTypeSchema {
   constructor (    
     backgroundColor: String? = null      
   ) : this (    

@@ -16,17 +16,17 @@
  */
 
 data class Flex (
-  public val flexDirection: FlexDirection?,  
-  public val flexWrap: FlexWrap?,  
-  public val justifyContent: JustifyContent?,  
-  public val alignItems: AlignItems?,  
-  public val alignSelf: AlignSelf?,  
-  public val alignContent: AlignContent?,  
-  public val basis: UnitValue?,  
-  public val flex: Double?,  
-  public val flexDirection: Double?,  
-  public val shrink: Double?   
-) {
+  public override val flexDirection: FlexDirection?,  
+  public override val flexWrap: FlexWrap?,  
+  public override val justifyContent: JustifyContent?,  
+  public override val alignItems: AlignItems?,  
+  public override val alignSelf: AlignSelf?,  
+  public override val alignContent: AlignContent?,  
+  public override val basis: UnitValue?,  
+  public override val flex: Double?,  
+  public override val flexDirection: Double?,  
+  public override val shrink: Double?   
+) : FlexSchema {
   constructor (    
     flexDirection: FlexDirection? = null,      
     flexWrap: FlexWrap? = null,      
