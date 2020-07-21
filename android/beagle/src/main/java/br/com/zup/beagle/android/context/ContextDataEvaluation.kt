@@ -85,22 +85,21 @@ internal class ContextDataEvaluation(
 
         return try {
             if (bind.type == String::class.java) {
-                value?.toString()
+                value?.toString() ?: showLogErrorAndReturn(bind)
             } else if (value is JSONArray || value is JSONObject) {
-                moshi.adapter<Any>(bind.type).fromJson(value.toString()) ?: run {
-                    BeagleMessageLogs.errorWhenExpressionEvaluateNullValue("${bind.value} : ${bind.type}")
-                    null
-                }
+                moshi.adapter<Any>(bind.type).fromJson(value.toString()) ?: showLogErrorAndReturn(bind)
             } else {
-                value ?: run {
-                    BeagleMessageLogs.errorWhenExpressionEvaluateNullValue("${bind.value} : ${bind.type}")
-                    null
-                }
+                value ?: showLogErrorAndReturn(bind)
             }
         } catch (ex: Exception) {
             BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(ex)
             null
         }
+    }
+
+    private fun showLogErrorAndReturn(bind: Bind.Expression<*>) = run {
+        BeagleMessageLogs.errorWhenExpressionEvaluateNullValue("${bind.value} : ${bind.type}")
+        null
     }
 
     private fun getValue(contextData: ContextData, path: String): Any? {
