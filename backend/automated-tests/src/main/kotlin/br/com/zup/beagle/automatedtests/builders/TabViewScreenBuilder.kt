@@ -37,9 +37,9 @@ object TabViewScreenBuilder {
         title = "Tab 1",
         child = Container(
             children = listOf(
-                Text("Text1 Tab 2"),
+                Text("Welcome to Tab 1"),
                 Image(Remote(BEACH_NETWORK_IMAGE)),
-                Text("Text2 Tab 2")
+                Text("This is Tab1's second text")
             )
         ).applyFlex(Flex(alignContent = AlignContent.CENTER))
     )
@@ -48,8 +48,8 @@ object TabViewScreenBuilder {
         title = "Tab 2",
         child = Container(
             children = listOf(
-                Text("Text1 Tab 2"),
-                Text("Text2 Tab 2")
+                Text("Welcome to Tab 2"),
+                Text("This is Tab2's second text")
             )
         ).applyFlex(Flex(alignContent = AlignContent.CENTER))
     )
@@ -58,8 +58,8 @@ object TabViewScreenBuilder {
         title = "Tab 3",
         child = Container(
             children = listOf(
-                Text("Text1 Tab 3"),
-                Text("Text2 Tab 3")
+                Text("Welcome to Tab 3"),
+                Text("This is Tab3's second text")
             )
         ).applyFlex(Flex(alignContent = AlignContent.CENTER))
     )
@@ -69,8 +69,8 @@ object TabViewScreenBuilder {
         icon = Local.justMobile("beagle"),
         child = Container(
             children = listOf(
-                Text("Text1 Tab 4"),
-                Text("Text2 Tab 4")
+                Text("Welcome to Tab 4"),
+                Text("This is Tab4's second text")
             )
         ).applyFlex(Flex(alignContent = AlignContent.CENTER))
     )
