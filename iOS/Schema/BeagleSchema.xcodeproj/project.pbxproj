@@ -311,8 +311,16 @@
 			isa = PBXGroup;
 			children = (
 				7CC2D9B024C614530059D5F9 /* TabBar.swift */,
+				7CC2D9B724C7854B0059D5F9 /* Tests */,
 			);
 			path = TabBar;
+			sourceTree = "<group>";
+		};
+		7CC2D9B724C7854B0059D5F9 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		935278E62499529C00AB9D1F /* ContextExpression */ = {

@@ -25,9 +25,7 @@ final class TabBarCollectionViewCellTests: XCTestCase {
         let sut = TabBarCollectionViewCell(frame: .zero)
         
         // When
-        sut.setupTab(with: TabItem(icon: "icon", title: "Tab", child:
-            Text("Text")
-        ))
+        sut.setupTab(with: TabBarItem(icon: "icon", title: "Tab"))
         
         let innerComponentView = Mirror(reflecting: sut).children.first
         
@@ -41,9 +39,7 @@ final class TabBarCollectionViewCellTests: XCTestCase {
         let sut = TabBarCollectionViewCell(frame: .zero)
         
         // When
-        sut.setupTab(with: TabItem(icon: "icon", child:
-            Text("Text")
-        ))
+        sut.setupTab(with: TabBarItem(icon: "icon"))
         
         let innerComponentView = Mirror(reflecting: sut).children.first
         let stackView = innerComponentView?.value as? UIStackView
@@ -59,9 +55,7 @@ final class TabBarCollectionViewCellTests: XCTestCase {
         let sut = TabBarCollectionViewCell(frame: .zero)
         
         // When
-        sut.setupTab(with: TabItem(title: "Tab 1", child:
-            Text("Text")
-        ))
+        sut.setupTab(with: TabBarItem(title: "Tab 1"))
         
         let innerComponentView = Mirror(reflecting: sut).children.first
         let stackView = innerComponentView?.value as? UIStackView

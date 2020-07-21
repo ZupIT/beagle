@@ -34,6 +34,7 @@
 		7CA2E83D249822D400B24782 /* BeagleLoggerProxyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA2E83C249822D400B24782 /* BeagleLoggerProxyTests.swift */; };
 		7CC2D9B424C614FB0059D5F9 /* TabBar+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC2D9B324C614FB0059D5F9 /* TabBar+Renderable.swift */; };
 		7CC2D9B624C6150E0059D5F9 /* TabBarUIComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC2D9B524C6150E0059D5F9 /* TabBarUIComponent.swift */; };
+		7CC2D9BA24C785750059D5F9 /* TabBarUIComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC2D9B924C785750059D5F9 /* TabBarUIComponentTests.swift */; };
 		7CC737FE245729B1004FBC16 /* FormDataStoreHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC737FD245729B1004FBC16 /* FormDataStoreHandlerTests.swift */; };
 		7CDF84732416AE0D00234F40 /* UnitValueExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDF84712416ADCB00234F40 /* UnitValueExtensionTests.swift */; };
 		7CDF84852416DABC00234F40 /* StyleBuildersExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDF84842416DABC00234F40 /* StyleBuildersExtensionTests.swift */; };
@@ -271,6 +272,7 @@
 		7CA2E83C249822D400B24782 /* BeagleLoggerProxyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleLoggerProxyTests.swift; sourceTree = "<group>"; };
 		7CC2D9B324C614FB0059D5F9 /* TabBar+Renderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TabBar+Renderable.swift"; sourceTree = "<group>"; };
 		7CC2D9B524C6150E0059D5F9 /* TabBarUIComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarUIComponent.swift; sourceTree = "<group>"; };
+		7CC2D9B924C785750059D5F9 /* TabBarUIComponentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarUIComponentTests.swift; sourceTree = "<group>"; };
 		7CC737FD245729B1004FBC16 /* FormDataStoreHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormDataStoreHandlerTests.swift; sourceTree = "<group>"; };
 		7CDF84712416ADCB00234F40 /* UnitValueExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitValueExtensionTests.swift; sourceTree = "<group>"; };
 		7CDF84842416DABC00234F40 /* StyleBuildersExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleBuildersExtensionTests.swift; sourceTree = "<group>"; };
@@ -649,8 +651,20 @@
 			children = (
 				7CC2D9B324C614FB0059D5F9 /* TabBar+Renderable.swift */,
 				7CC2D9B524C6150E0059D5F9 /* TabBarUIComponent.swift */,
+				983E8C8D2396C81C0018C6CA /* TabBarCollectionViewCell.swift */,
+				9848A52F23AAF1C2002474AD /* ContainerIndicatorView.swift */,
+				7CC2D9B824C785630059D5F9 /* Tests */,
 			);
 			path = "TabBar+Renderable";
+			sourceTree = "<group>";
+		};
+		7CC2D9B824C785630059D5F9 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				983E8C962396DFAA0018C6CA /* TabBarCollectionViewCellTests.swift */,
+				7CC2D9B924C785750059D5F9 /* TabBarUIComponentTests.swift */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		7CDF84862416DD8D00234F40 /* __Snapshots__ */ = {
@@ -810,8 +824,6 @@
 		983E8C842396C7440018C6CA /* TabView+Renderable */ = {
 			isa = PBXGroup;
 			children = (
-				9848A52F23AAF1C2002474AD /* ContainerIndicatorView.swift */,
-				983E8C8D2396C81C0018C6CA /* TabBarCollectionViewCell.swift */,
 				983E8C852396C7570018C6CA /* TabView.swift */,
 				983E8C8B2396C7FA0018C6CA /* TabViewUIComponent.swift */,
 				983E8C8F2396DF2B0018C6CA /* Tests */,
@@ -823,7 +835,6 @@
 			isa = PBXGroup;
 			children = (
 				C8646E1123EDB09B00A80905 /* __Snapshots__ */,
-				983E8C962396DFAA0018C6CA /* TabBarCollectionViewCellTests.swift */,
 				983E8C902396DF430018C6CA /* TabViewTests.swift */,
 				983E8C982396DFC90018C6CA /* TabViewUIComponentTests.swift */,
 			);
@@ -1945,6 +1956,7 @@
 				C08D4E472485804D00AAAC0A /* LazyComponentTests.swift in Sources */,
 				93ADB87923FAD31D005B7CD2 /* ComposeComponentTests.swift in Sources */,
 				7CDF84852416DABC00234F40 /* StyleBuildersExtensionTests.swift in Sources */,
+				7CC2D9BA24C785750059D5F9 /* TabBarUIComponentTests.swift in Sources */,
 				E79D846D23AABFA100BAE9FA /* BeaglePrefetchHelperTests.swift in Sources */,
 				C08D4E8A2485945700AAAC0A /* WebViewTests.swift in Sources */,
 				A05C74DB2498081B009DBB66 /* AlertTests.swift in Sources */,
