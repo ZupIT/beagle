@@ -14,24 +14,27 @@
  * limitations under the License.
  */
 
+import br.com.zup.beagle.Dependencies
+
 apply plugin: 'kotlin'
-apply from: rootProject.file('jacoco.gradle')
+apply from: rootProject.file('../jacoco.gradle')
 
 dependencies {
-    implementation GeneralLibraries.kotlin
-    implementation GeneralLibraries.jacksonKotlin
-    implementation BackendLibraries.guava
-    api project(Modules.beagleSchemaBackendWidgets)
-    api project(Modules.beagleAnnotation)
-    api project(Modules.beagleExtendedSchema)
-    testImplementation TestLibraries.mockk
-    testImplementation TestLibraries.kotlinTest
-    testImplementation TestLibraries.junit5Api
-    testRuntimeOnly TestLibraries.junit5Engine
+    implementation Dependencies.GeneralLibraries.kotlin
+    implementation Dependencies.GeneralLibraries.jacksonKotlin
+    implementation Dependencies.BackendLibraries.guava
+    api project(Dependencies.Modules.widgets)
+    api project(Dependencies.Modules.commonAnnotation)
+    api project(Dependencies.Modules.schemaKotlinCore)
+    api project(Dependencies.Modules.extendedSchema)
+    testImplementation Dependencies.TestLibraries.mockk
+    testImplementation Dependencies.TestLibraries.kotlinTest
+    testImplementation Dependencies.TestLibraries.junit5Api
+    testRuntimeOnly Dependencies.TestLibraries.junit5Engine
 }
 
 test {
     useJUnitPlatform()
 }
 
-apply from: rootProject.file('maven-publish.gradle')
+apply from: rootProject.file('../maven-publish.gradle')

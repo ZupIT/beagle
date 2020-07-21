@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import br.com.zup.beagle.Dependencies
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -21,18 +23,18 @@ apply plugin: 'kotlin-kapt'
 apply from: "../screenshots.gradle"
 
 android {
-    compileSdkVersion Versions.compileSdk
-    buildToolsVersion Versions.buildTools
+    compileSdkVersion Dependencies.Versions.compileSdk
+    buildToolsVersion Dependencies.Versions.buildTools
     defaultConfig {
-        applicationId ApplicationId.id
+        applicationId Dependencies.ApplicationId.id
 
-        minSdkVersion Versions.minSdk
-        targetSdkVersion Versions.targetSdk
+        minSdkVersion Dependencies.Versions.minSdk
+        targetSdkVersion Dependencies.Versions.targetSdk
 
-        versionCode Releases.versionCode
-        versionName Releases.versionName
+        versionCode Dependencies.Releases.versionCode
+        versionName Dependencies.Releases.versionName
 
-        testInstrumentationRunner GeneralNames.sampleTestInstrumentationRunner
+        testInstrumentationRunner Dependencies.GeneralNames.sampleTestInstrumentationRunner
     }
 
     lintOptions {
@@ -51,24 +53,24 @@ android {
 }
 
 dependencies {
-    implementation AndroidxLibraries.appcompat
+    implementation Dependencies.AndroidxLibraries.appcompat
 
-    implementation GeneralLibraries.kotlin
-    implementation AndroidxLibraries.coreKtx
+    implementation Dependencies.GeneralLibraries.kotlin
+    implementation Dependencies.AndroidxLibraries.coreKtx
 
-    debugImplementation project(Modules.beagleAndroidPreview)
+    debugImplementation project(Dependencies.Modules.preview)
 
-    implementation project(Modules.beagleAndroid)
-    kapt project(Modules.beagleAndroidProcessor)
+    implementation project(Dependencies.Modules.core)
+    kapt project(Dependencies.Modules.processor)
 
     // Unit Testing
-    testImplementation TestLibraries.junit
-    testImplementation TestLibraries.kotlinTest
-    testImplementation TestLibraries.mockk
+    testImplementation Dependencies.TestLibraries.junit
+    testImplementation Dependencies.TestLibraries.kotlinTest
+    testImplementation Dependencies.TestLibraries.mockk
 
     // Integration Testing
-    androidTestImplementation TestLibraries.testRunner
-    androidTestImplementation TestLibraries.testExt
-    androidTestImplementation TestLibraries.espressoCore
-    androidTestImplementation TestLibraries.testRules
+    androidTestImplementation Dependencies.TestLibraries.testRunner
+    androidTestImplementation Dependencies.TestLibraries.testExt
+    androidTestImplementation Dependencies.TestLibraries.espressoCore
+    androidTestImplementation Dependencies.TestLibraries.testRules
 }

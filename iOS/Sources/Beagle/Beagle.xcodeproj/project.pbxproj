@@ -190,6 +190,8 @@
 		C89FFA942412EA4200C1B53B /* UrlBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89FFA932412EA4200C1B53B /* UrlBuilder.swift */; };
 		C8D5F01C24A3FD740037B11C /* BeagleSchema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8D5F01B24A3FD740037B11C /* BeagleSchema.framework */; };
 		C8D5F02024A3FD840037B11C /* YogaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8D5F01F24A3FD840037B11C /* YogaKit.framework */; };
+		C8ECF2CD24BD1D9800525CF5 /* NetworkCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECF2CC24BD1D9800525CF5 /* NetworkCache.swift */; };
+		C8ECF2D024BD2AB000525CF5 /* NetworkCacheTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ECF2CE24BD2A8000525CF5 /* NetworkCacheTest.swift */; };
 		C8F953162395960200615CF0 /* PageViewUIComponentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F95314239595C500615CF0 /* PageViewUIComponentTests.swift */; };
 		E50B284523639299005E2E6D /* BeagleScreenViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E50B284423639299005E2E6D /* BeagleScreenViewControllerTests.swift */; };
 		E516E61023705BED006620B1 /* BeagleViewBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E516E60F23705BED006620B1 /* BeagleViewBuilderTests.swift */; };
@@ -441,6 +443,8 @@
 		C8D5F01B24A3FD740037B11C /* BeagleSchema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeagleSchema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8D5F01F24A3FD840037B11C /* YogaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = YogaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8E42FCF23C7C89800B1963F /* SnapshotTesting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapshotTesting.framework; path = Carthage/Build/iOS/SnapshotTesting.framework; sourceTree = "<group>"; };
+		C8ECF2CC24BD1D9800525CF5 /* NetworkCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCache.swift; sourceTree = "<group>"; };
+		C8ECF2CE24BD2A8000525CF5 /* NetworkCacheTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCacheTest.swift; sourceTree = "<group>"; };
 		C8F95314239595C500615CF0 /* PageViewUIComponentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewUIComponentTests.swift; sourceTree = "<group>"; };
 		E50B2840236350B9005E2E6D /* RepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryTests.swift; sourceTree = "<group>"; };
 		E50B284423639299005E2E6D /* BeagleScreenViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleScreenViewControllerTests.swift; sourceTree = "<group>"; };
@@ -1397,6 +1401,7 @@
 			children = (
 				C8667CBA23ECA6B500CE8D0D /* __Snapshots__ */,
 				C85E1CD323EB4FE500C1E323 /* HttpRequestBuilderTest.swift */,
+				C8ECF2CE24BD2A8000525CF5 /* NetworkCacheTest.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1406,6 +1411,7 @@
 			children = (
 				C869D116241148ED001C760C /* HttpAditionalData.swift */,
 				C85E1CD023EB49C000C1E323 /* HttpRequestBuilder.swift */,
+				C8ECF2CC24BD1D9800525CF5 /* NetworkCache.swift */,
 				C85E1CCE23EB493200C1E323 /* NetworkClientDefault.swift */,
 				C85E1CD223EB4FD300C1E323 /* Tests */,
 			);
@@ -1846,6 +1852,7 @@
 				E7716B9D2375E9FF006E26F2 /* BeagleDeepLinkHandler.swift in Sources */,
 				98B7D95623DB2722002622AC /* Observable.swift in Sources */,
 				A0D608DA2448DF8700F7D851 /* BeagleNavigationController.swift in Sources */,
+				C8ECF2CD24BD1D9800525CF5 /* NetworkCache.swift in Sources */,
 				C08D4E8C2485946300AAAC0A /* WebViewUIComponent.swift in Sources */,
 				E52236C223745A7F00E555BB /* ListItemCollectionViewCell.swift in Sources */,
 				E5A6F4A92358A547008906F8 /* FatalErrorUtil.swift in Sources */,
@@ -1951,6 +1958,7 @@
 				98FC964C23EA518600A8CEC8 /* ObservableTests.swift in Sources */,
 				98E4974B249E9B830053DB87 /* TextInputTests.swift in Sources */,
 				C81C9C7423AA9B4800C557D2 /* ListViewTests.swift in Sources */,
+				C8ECF2D024BD2AB000525CF5 /* NetworkCacheTest.swift in Sources */,
 				C0E569172476F047003D413F /* ThemeSpy.swift in Sources */,
 				7CDF84732416AE0D00234F40 /* UnitValueExtensionTests.swift in Sources */,
 				7CC737FE245729B1004FBC16 /* FormDataStoreHandlerTests.swift in Sources */,

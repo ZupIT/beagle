@@ -17,9 +17,5 @@
 
 import Foundation
 public struct SubmitForm: RawAction {
-
-    public init(
-    ) {
-    }
-
+    public init() {}
 }

@@ -37,4 +37,22 @@ public struct SimpleForm: RawComponent, HasContext, AutoInitiableAndDecodable {
         self.widgetProperties = widgetProperties
     }
 // sourcery:end
+    
+    public init(
+        context: Context? = nil,
+        onSubmit: [RawAction]? = nil,
+        widgetProperties: WidgetProperties = WidgetProperties(),
+        @ChildrenBuilder _ children: () -> [RawComponent]
+    ) {
+        self.init(context: context, onSubmit: onSubmit, children: children(), widgetProperties: widgetProperties)
+    }
+    
+    public init(
+        context: Context? = nil,
+        onSubmit: [RawAction]? = nil,
+        widgetProperties: WidgetProperties = WidgetProperties(),
+        @ChildBuilder _ children: () -> RawComponent
+    ) {
+        self.init(context: context, onSubmit: onSubmit, children: [children()], widgetProperties: widgetProperties)
+    }
 }
