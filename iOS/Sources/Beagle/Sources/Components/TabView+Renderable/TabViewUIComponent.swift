@@ -47,10 +47,6 @@ extension TabViewUIComponent {
 }
 
 final class TabViewUIComponent: UIView {
-    
-    // MARK: - Properties
-    
-    var model: Model
 
     // MARK: - UIComponents
     
@@ -70,11 +66,11 @@ final class TabViewUIComponent: UIView {
     var contentView: PageViewUIComponent
     
     // MARK: - Initialization
+    
     init(
         model: Model,
         controller: BeagleController
     ) {
-        self.model = model
         self.tabBar = TabBarUIComponent(
             model: .init(
                 tabIndex: model.tabIndex,
@@ -121,7 +117,6 @@ final class TabViewUIComponent: UIView {
 
 extension TabViewUIComponent: PageViewUIComponentDelegate {
     func changedCurrentPage(_ currentPage: Int) {
-        model.tabIndex = currentPage
         tabBar.scrollTo(page: currentPage)
     }
 }
