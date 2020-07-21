@@ -25,7 +25,7 @@ public struct Size {
   public let minHeight: UnitValue?  
   public let aspectRatio: Double?  
 
-  public init (        
+  public init(        
     height: UnitValue? = nil,        
     maxWidth: UnitValue? = nil,        
     maxHeight: UnitValue? = nil,        

@@ -20,7 +20,7 @@ public struct CornerRadius {
   // MARK: - Public Properties  
   public let radius: Double  
 
-  public init (        
+  public init(        
     radius: Double        
   ) {    
       self.radius = radius    

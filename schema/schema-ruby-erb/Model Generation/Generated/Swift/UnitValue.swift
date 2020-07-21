@@ -21,7 +21,7 @@ public struct UnitValue {
   public let value: Double  
   public let type: UnityType  
 
-  public init (        
+  public init(        
     value: Double,        
     type: UnityType        
   ) {    

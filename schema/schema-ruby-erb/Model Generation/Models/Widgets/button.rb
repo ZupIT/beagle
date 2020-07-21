@@ -22,7 +22,8 @@ class Button < BaseComponent
         buttonVariables = [
             Variable.new(:name => "text", :typeName => "String", :isBindable => true),
             Variable.new(:name => "styleId", :typeName => "String", :isOptional => true),
-            Variable.new(:name => "onPress", :typeName => "Action", :isOptional => true, :isArray => true)
+            Variable.new(:name => "onPress", :typeName => "Action", :isOptional => true, :isArray => true),
+            Variable.new(:name => "clickAnalyticsEvent", :typeName => "ClickEvent", :isOptional => true)
         ]
         synthaxType = SynthaxType.new(
             :kind => 'struct',

@@ -26,7 +26,7 @@ public struct EdgeValue {
   public let vertical: UnitValue?  
   public let all: UnitValue?  
 
-  public init (        
+  public init(        
     left: UnitValue? = nil,        
     top: UnitValue? = nil,        
     right: UnitValue? = nil,        

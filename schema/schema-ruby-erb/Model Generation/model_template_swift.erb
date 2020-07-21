@@ -23,7 +23,8 @@
   end
 
   def handleTypeNameForInitMethod(variable, shouldAddComma = false)
-    output = variable.isArray ? "[" + variable.typeName + "]" : variable.typeName
+    output = variable.isBindable ? "Expression<" + variable.typeName + ">" : variable.typeName
+    output = variable.isArray ? "[" + output + "]" : output
     output = variable.isOptional ? output + "? = nil" : output
     output = shouldAddComma ?  output + "," : output
     output
@@ -50,10 +51,10 @@
   <%= variable.accessor %> let <%= variable.name %>: <%= handleTypeName(variable) -%>
   <% end %>
 
-  <%= objectType.synthaxType.accessor %> init (<% -%>
+  <%= objectType.synthaxType.accessor %> init(<% -%>
     <% counter = 0 -%>
     <% for variable in objectType.synthaxType.variables %>
-    <%= variable.name %>: <%= handleTypeNameForInitMethod(variable, objectType.synthaxType.variables.size - 1 != counter) -%>
+    <%= variable.name %>: <%= handleTypeNameForInitMethod(variable, objectType.synthaxType.variables.size - 1 != counter)-%>
     <% counter += 1 -%>
     <% end %>
   ) {<% -%>

@@ -28,7 +28,7 @@ public struct Style {
   public let positionType: PositionType?  
   public let display: Display?  
 
-  public init (        
+  public init(        
     backgroundColor: String? = nil,        
     cornerRadius: String? = nil,        
     size: Size? = nil,        

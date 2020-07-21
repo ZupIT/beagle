@@ -29,7 +29,7 @@ public struct Flex {
   public let flexDirection: Double?  
   public let shrink: Double?  
 
-  public init (        
+  public init(        
     flexDirection: FlexDirection? = nil,        
     flexWrap: FlexWrap? = nil,        
     justifyContent: JustifyContent? = nil,        

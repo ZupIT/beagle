@@ -21,8 +21,8 @@ public struct Text: Widget {
   public let text: Expression<String>  
   public let styleId: String?  
 
-  public init (        
-    text: String,        
+  public init(        
+    text: Expression<String>,        
     styleId: String? = nil        
   ) {    
       self.text = text    

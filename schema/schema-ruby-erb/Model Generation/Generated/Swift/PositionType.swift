@@ -20,7 +20,7 @@ public struct PositionType {
   // MARK: - Public Properties  
   public let backgroundColor: String?  
 
-  public init (        
+  public init(        
     backgroundColor: String? = nil        
   ) {    
       self.backgroundColor = backgroundColor    
