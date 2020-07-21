@@ -16,17 +16,38 @@ class TabViewScreenSteps: NSObject {
         let screen = ScreenRobot()
                 
         MatchAll("^App is running$") { (args, userInfo) -> Void in
-            XCTAssertTrue(ScreenElements.MAIN_HEADER.element.exists)
+            screen.checkViewContainsHeader()
         }
         
         Given("^Given the app will load http://localhost:8080/tabview$") { (args, userInfo) -> Void in
-            XCTAssertTrue(ScreenElements.MAIN_HEADER.element.exists)
+            screen.checkViewContainsHeader()
             XCTAssertTrue(ScreenElements.TABVIEW_SCREEN_HEADER.element.exists)
         }
         
 
         Then("^my tabview components should render their respective tabs attributes correctly$")  { (args, userInfo) -> Void in
-            screen.checkTabViewRendersTabs()
+            XCTAssertTrue(ScreenElements.TAB_1.element.exists)
+            XCTAssertTrue(ScreenElements.TAB_1_TEXT.element.exists)
+            XCTAssertTrue(ScreenElements.TAB_1_TEXT_2.element.exists)
+            XCUIApplication().swipeLeft()
+
+            XCTAssertTrue(ScreenElements.TAB_2.element.exists)
+            XCTAssertTrue(ScreenElements.TAB_2_TEXT.element.exists)
+            XCTAssertTrue(ScreenElements.TAB_2_TEXT_2.element.exists)
+            XCUIApplication().swipeLeft()
+
+            XCTAssertTrue(ScreenElements.TAB_3.element.exists)
+            XCTAssertTrue(ScreenElements.TAB_3_TEXT.element.exists)
+            XCTAssertTrue(ScreenElements.TAB_3_TEXT_2.element.exists)
+            XCUIApplication().swipeLeft()
+                
+            XCTAssertTrue(ScreenElements.TAB_4.element.exists)
+            XCTAssertTrue(ScreenElements.TAB_4_TEXT.element.exists)
+            XCTAssertTrue(ScreenElements.TAB_4_TEXT_2.element.exists)
+            
+            XCUIApplication().swipeRight()
+            XCUIApplication().swipeRight()
+            XCUIApplication().swipeRight()
            
         }
 
@@ -36,7 +57,6 @@ class TabViewScreenSteps: NSObject {
            }
 
         Then("^my tab should render the text \"([^\\\"]*)\" and \"([^\\\"]*)\" correctly$")  { (args, userInfo) -> Void in
-
             let text1: String = (args?[0])!
             let text2: String = (args?[1])!
 

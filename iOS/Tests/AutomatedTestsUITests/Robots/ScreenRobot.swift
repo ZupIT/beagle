@@ -11,19 +11,23 @@ import Foundation
 public class ScreenRobot {
     
     
-    func checkViewContainsText() {
+    func checkViewContainsHeader() {
         CucumberishInitializer.waitForElementToAppear(ScreenElements.MAIN_HEADER.element)
+        XCTAssertTrue(ScreenElements.MAIN_HEADER.element.exists)
     }
     
     func clickOnButton() {
+        CucumberishInitializer.waitForElementToAppear(ScreenElements.BUTTON_SCREEN_HEADER.element)
         ScreenElements.BUTTON_DEFAULT_TEXT.element.tap()
     }
     
     func clickOnButtonWithStyle() {
+        CucumberishInitializer.waitForElementToAppear(ScreenElements.BUTTON_SCREEN_HEADER.element)
         ScreenElements.BUTTON_WITH_STYLE_TEXT.element.tap()
     }
     
     func clickOnButtonWithAction() {
+        CucumberishInitializer.waitForElementToAppear(ScreenElements.BUTTON_SCREEN_HEADER.element)
         ScreenElements.BUTTON_DEFAULT_TEXT.element.tap()
     }
     
@@ -34,31 +38,8 @@ public class ScreenRobot {
     }
         
     func renderActionAttributeCorrectly() {
-        XCTAssertTrue(ScreenElements.MAIN_HEADER.element.exists)
-        XCTAssertTrue(ScreenElements.ACTION_CLICK_TEXT_1.element.exists)
+        XCTAssertTrue(ScreenElements.ACTION_CLICK_HEADER.element.exists)
         XCTAssertTrue(ScreenElements.ACTION_CLICK_TEXT_2.element.exists)
-    }
-    
-    func checkTabViewRendersTabs() {
-        XCTAssertTrue(ScreenElements.TAB_1.element.exists)
-        XCTAssertTrue(ScreenElements.TAB_1_TEXT.element.exists)
-        XCUIApplication().swipeLeft()
-
-        XCTAssertTrue(ScreenElements.TAB_2.element.exists)
-        XCTAssertTrue(ScreenElements.TAB_2_TEXT.element.exists)
-        XCUIApplication().swipeLeft()
-
-        XCTAssertTrue(ScreenElements.TAB_3.element.exists)
-        XCTAssertTrue(ScreenElements.TAB_3_TEXT.element.exists)
-        XCUIApplication().swipeLeft()
-            
-        XCTAssertTrue(ScreenElements.TAB_4.element.exists)
-        XCTAssertTrue(ScreenElements.TAB_4_TEXT.element.exists)
-        
-        XCUIApplication().swipeRight()
-        XCUIApplication().swipeRight()
-        XCUIApplication().swipeRight()
-
     }
     
     func clickOnText(textOption: ScreenElements) {
@@ -70,4 +51,10 @@ public class ScreenRobot {
         XCTAssertTrue(XCUIApplication().staticTexts[selectedText2].exists)
     }
 
+    
+    func clickOnButton(button: ScreenElements) {
+        CucumberishInitializer.waitForElementToAppear(ScreenElements.BUTTON_SCREEN_HEADER.element)
+        button.element.tap()
+    }
+    
 }

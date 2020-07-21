@@ -50,14 +50,14 @@ class PageViewScreenSteps {
             .sleep(2)
     }
 
-    @Then("^my pageview components should render their respective tabs attributes correctly$")
+    @Then("^my pageview components should render their respective pages attributes correctly$")
     fun checkTabViewRendersTabs() {
         ScreenRobot()
-            .checkViewContainsText("Page 1")
+            .checkViewContainsText(PAGE_1_TEXT)
             .swipeLeftOnView()
-            .checkViewContainsText("Page 2")
+            .checkViewContainsText(PAGE_2_TEXT)
             .swipeLeftOnView()
-            .checkViewContainsText("Page 3")
+            .checkViewContainsText(PAGE_3_TEXT)
             .swipeLeftOnView()
             .sleep(2)
             .swipeRightOnView()
