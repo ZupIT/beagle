@@ -21,9 +21,18 @@ jobs:
                     fastlane-path: ~/.gem
                 with:
                     path: ${{ env.fastlane-path }}
-                    key: ${{ runner.os }}-spm-${{ hashFiles('iOS/Beagle.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
+                    key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
             -   name: Install Fastlane
                 run: bundle config set path '~/.gem' && bundle install
+
+            -   name: Cache SPM dependencies
+                uses: actions/cache@v2
+                env:
+                    spm-cache-key: ${{ runner.os }}-spm-${{ hashFiles('iOS/**/Package.resolved') }}
+                    spm-path: .build
+                with:
+                    path: ${{ env.spm-path }}
+                    key: ${{ env.spm-cache-key }}
 
             -   name: install Carthage
                 run: brew install carthage
