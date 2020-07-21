@@ -21,6 +21,7 @@ import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.ContextComponent
 import br.com.zup.beagle.widget.context.ContextData
+import br.com.zup.beagle.widget.pager.DEPRECATED_PAGE_VIEW
 import br.com.zup.beagle.widget.pager.PageIndicatorComponent
 
 /**
@@ -30,21 +31,17 @@ import br.com.zup.beagle.widget.pager.PageIndicatorComponent
  * @param pageIndicator defines in what page the PageView is currently on.
  *
  */
-@Deprecated(
-    message = " This will be removed in a future version; please refactor this component using new context features."
-)
+
 data class PageView(
     val children: List<ServerDrivenComponent>,
+    @Deprecated(DEPRECATED_PAGE_VIEW)
     val pageIndicator: PageIndicatorComponent? = null,
     override val context: ContextData? = null,
     val onPageChange: List<Action>? = null,
     val currentPage: Bind<Int>? = null
 ) : ServerDrivenComponent, ContextComponent {
 
-    @Deprecated(
-        message = " This will be removed in a future version; " +
-            "please refactor this component using new context features."
-    )
+    @Deprecated(DEPRECATED_PAGE_VIEW)
     constructor(
         children: List<ServerDrivenComponent>,
         pageIndicator: PageIndicatorComponent? = null,

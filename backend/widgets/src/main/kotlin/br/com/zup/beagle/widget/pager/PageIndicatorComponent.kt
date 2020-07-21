@@ -22,7 +22,6 @@ import br.com.zup.beagle.core.ServerDrivenComponent
  * Base of page indicator component
  *
  */
-@Deprecated(
-    message = " This will be removed in a future version; please refactor this component using new context features."
-)
+const val DEPRECATED_PAGE_VIEW = "This constructor will be removed in a future version, use the constructor with Bind"
+@Deprecated(DEPRECATED_PAGE_VIEW)
 interface PageIndicatorComponent : ServerDrivenComponent
