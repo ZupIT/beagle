@@ -37,8 +37,11 @@ data class Button internal constructor(
     val styleId: String? = null,
     val onPress: List<Action>? = null,
     val clickAnalyticsEvent: ClickEvent? = null,
+    @Transient
     private val viewFactory: ViewFactory = ViewFactory(),
+    @Transient
     private val preFetchHelper: PreFetchHelper = PreFetchHelper(),
+    @Transient
     private val styleManager: StyleManager = StyleManager()
 ) : WidgetView() {
 
