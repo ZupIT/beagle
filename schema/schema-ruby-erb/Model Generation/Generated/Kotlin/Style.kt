@@ -15,36 +15,14 @@
  * limitations under the License.
  */
 
-data class Style (
-  public val backgroundColor: String?,  
-  public val cornerRadius: String?,  
-  public val size: Size?,  
-  public val margin: Class?,  
-  public val padding: Class?,  
-  public val position: Class?,  
-  public val flex: Flex?,  
-  public val positionType: PositionType?,  
-  public val display: Display?   
-) {
-  constructor (    
-    backgroundColor: String? = null,      
-    cornerRadius: String? = null,      
-    size: Size? = null,      
-    margin: Class? = null,      
-    padding: Class? = null,      
-    position: Class? = null,      
-    flex: Flex? = null,      
-    positionType: PositionType? = null,      
-    display: Display? = null      
-  ) : this (    
-      backgroundColor,      
-      cornerRadius,      
-      size,      
-      margin,      
-      padding,      
-      position,      
-      flex,      
-      positionType,      
-      display      
-  )
-)
+interface Style {
+  public val backgroundColor: String?
+  public val cornerRadius: String?
+  public val size: Size?
+  public val margin: Class?
+  public val padding: Class?
+  public val position: Class?
+  public val flex: Flex?
+  public val positionType: PositionType?
+  public val display: Display? 
+}

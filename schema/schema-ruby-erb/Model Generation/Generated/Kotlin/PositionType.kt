@@ -15,12 +15,6 @@
  * limitations under the License.
  */
 
-data class PositionType (
-  public val backgroundColor: String?   
-) {
-  constructor (    
-    backgroundColor: String? = null      
-  ) : this (    
-      backgroundColor      
-  )
-)
+interface PositionType {
+  public val backgroundColor: String? 
+}

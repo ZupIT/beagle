@@ -15,15 +15,7 @@
  * limitations under the License.
  */
 
-data class UnitValue (
-  public val value: Double,  
-  public val type: UnityType   
-) {
-  constructor (    
-    value: Double,      
-    type: UnityType      
-  ) : this (    
-      value,      
-      type      
-  )
-)
+interface UnitValue {
+  public val value: Double
+  public val type: UnityType 
+}

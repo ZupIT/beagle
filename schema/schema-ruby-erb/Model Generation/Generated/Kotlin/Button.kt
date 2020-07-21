@@ -15,21 +15,8 @@
  * limitations under the License.
  */
 
-data class Button (
-  public val text: Bind<String>,  
-  public val styleId: String?,  
-  public val onPress: List<Action>?,  
-  public val clickAnalyticsEvent: ClickEvent?   
-) {
-  constructor (    
-    text: String,      
-    styleId: String? = null,      
-    onPress: List<Action>? = null,      
-    clickAnalyticsEvent: ClickEvent? = null      
-  ) : this (    
-      valueOf(text),      
-      styleId,      
-      onPress,      
-      clickAnalyticsEvent      
-  )
-)
+interface Button {
+  public val text: Bind<String>
+  public val styleId: String?
+  public val onPress: List<Action>? 
+}

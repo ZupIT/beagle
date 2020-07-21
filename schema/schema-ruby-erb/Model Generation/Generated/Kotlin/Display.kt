@@ -15,12 +15,6 @@
  * limitations under the License.
  */
 
-data class Display (
-  public val backgroundColor: String?   
-) {
-  constructor (    
-    backgroundColor: String? = null      
-  ) : this (    
-      backgroundColor      
-  )
-)
+interface Display {
+  public val backgroundColor: String? 
+}

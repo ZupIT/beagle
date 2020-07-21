@@ -15,46 +15,16 @@
  * limitations under the License.
  */
 <%
-  def handleTypeName(variable, shouldAddComma = false)
+  def handleTypeName(variable)
       output = variable.isBindable ? "Bind<" + variable.typeName + ">" : variable.typeName
       output = variable.isArray ? "List<" + output + ">" : output
       output = variable.isOptional ? output + "?" : output
-      output = shouldAddComma ? output + "," : output 
       output
-  end
-
-  def handleTypeNameForInitMethod(variable, shouldAddComma = false)
-    output = variable.isArray ? "List<" + variable.typeName + ">" : variable.typeName
-    output = variable.isOptional ? output + "? = null" : output
-    output = shouldAddComma ?  output + "," : output
-    output
-  end
-
-  def handleVariableAssignementInsideConstructor(variable, shouldAddComma = false)
-    output = variable.isBindable ? "valueOf(" + variable.name + ")" : variable.name
-    output = shouldAddComma ? output + "," : output
-    output
   end
 -%>
 
-data class <%= objectType.synthaxType.name -%> (<% -%>
-<% counter = 0 -%>
+interface <%= objectType.synthaxType.name -%> {<% -%>
 <% for variable in objectType.synthaxType.variables %>
-  <%= variable.accessor %> val <%= variable.name %>: <%= handleTypeName(variable, objectType.synthaxType.variables.size - 1 != counter) -%>
-  <% counter += 1 -%>
+  <%= variable.accessor %> val <%= variable.name %>: <%= handleTypeName(variable) -%>
 <% end -%> 
-) {
-  constructor (<% -%>
-  <% counter = 0 -%>
-  <% for variable in objectType.synthaxType.variables %>
-    <%= variable.name %>: <%= handleTypeNameForInitMethod(variable, objectType.synthaxType.variables.size - 1 != counter) -%>
-    <% counter += 1 -%>
-  <% end %>
-  ) : this (<% -%>
-  <% counter = 0 -%>
-  <% for variable in objectType.synthaxType.variables %>
-      <%= handleVariableAssignementInsideConstructor(variable, objectType.synthaxType.variables.size - 1 != counter) -%>
-    <% counter += 1 -%>
-  <% end %>
-  )
-)
+}

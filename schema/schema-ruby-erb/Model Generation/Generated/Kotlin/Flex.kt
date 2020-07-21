@@ -15,39 +15,15 @@
  * limitations under the License.
  */
 
-data class Flex (
-  public val flexDirection: FlexDirection?,  
-  public val flexWrap: FlexWrap?,  
-  public val justifyContent: JustifyContent?,  
-  public val alignItems: AlignItems?,  
-  public val alignSelf: AlignSelf?,  
-  public val alignContent: AlignContent?,  
-  public val basis: UnitValue?,  
-  public val flex: Double?,  
-  public val flexDirection: Double?,  
-  public val shrink: Double?   
-) {
-  constructor (    
-    flexDirection: FlexDirection? = null,      
-    flexWrap: FlexWrap? = null,      
-    justifyContent: JustifyContent? = null,      
-    alignItems: AlignItems? = null,      
-    alignSelf: AlignSelf? = null,      
-    alignContent: AlignContent? = null,      
-    basis: UnitValue? = null,      
-    flex: Double? = null,      
-    flexDirection: Double? = null,      
-    shrink: Double? = null      
-  ) : this (    
-      flexDirection,      
-      flexWrap,      
-      justifyContent,      
-      alignItems,      
-      alignSelf,      
-      alignContent,      
-      basis,      
-      flex,      
-      flexDirection,      
-      shrink      
-  )
-)
+interface Flex {
+  public val flexDirection: FlexDirection?
+  public val flexWrap: FlexWrap?
+  public val justifyContent: JustifyContent?
+  public val alignItems: AlignItems?
+  public val alignSelf: AlignSelf?
+  public val alignContent: AlignContent?
+  public val basis: UnitValue?
+  public val flex: Double?
+  public val flexDirection: Double?
+  public val shrink: Double? 
+}

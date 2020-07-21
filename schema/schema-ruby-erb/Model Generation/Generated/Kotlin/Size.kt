@@ -15,27 +15,11 @@
  * limitations under the License.
  */
 
-data class Size (
-  public val height: UnitValue?,  
-  public val maxWidth: UnitValue?,  
-  public val maxHeight: UnitValue?,  
-  public val minWidth: UnitValue?,  
-  public val minHeight: UnitValue?,  
-  public val aspectRatio: Double?   
-) {
-  constructor (    
-    height: UnitValue? = null,      
-    maxWidth: UnitValue? = null,      
-    maxHeight: UnitValue? = null,      
-    minWidth: UnitValue? = null,      
-    minHeight: UnitValue? = null,      
-    aspectRatio: Double? = null      
-  ) : this (    
-      height,      
-      maxWidth,      
-      maxHeight,      
-      minWidth,      
-      minHeight,      
-      aspectRatio      
-  )
-)
+interface Size {
+  public val height: UnitValue?
+  public val maxWidth: UnitValue?
+  public val maxHeight: UnitValue?
+  public val minWidth: UnitValue?
+  public val minHeight: UnitValue?
+  public val aspectRatio: Double? 
+}

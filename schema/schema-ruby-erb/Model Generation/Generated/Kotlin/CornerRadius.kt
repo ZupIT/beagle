@@ -15,12 +15,6 @@
  * limitations under the License.
  */
 
-data class CornerRadius (
-  public val radius: Double   
-) {
-  constructor (    
-    radius: Double      
-  ) : this (    
-      radius      
-  )
-)
+interface CornerRadius {
+  public val radius: Double 
+}

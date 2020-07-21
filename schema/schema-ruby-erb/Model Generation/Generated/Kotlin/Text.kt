@@ -15,15 +15,7 @@
  * limitations under the License.
  */
 
-data class Text (
-  public val text: Bind<String>,  
-  public val styleId: String?   
-) {
-  constructor (    
-    text: String,      
-    styleId: String? = null      
-  ) : this (    
-      valueOf(text),      
-      styleId      
-  )
-)
+interface Text {
+  public val text: Bind<String>
+  public val styleId: String? 
+}
