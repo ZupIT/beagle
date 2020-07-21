@@ -42,8 +42,8 @@ class Dependencies : Plugin<Project> {
         const val sampleSpring = ":sample:spring"
         const val sampleMicronaut = ":sample:micronaut"
 
-        const val springStarter = ":starters:spring-starter"
-        const val micronautStarter = ":starters:micronaut-starter"
+        const val springStarter = ":starters:spring"
+        const val micronautStarter = ":starters:micronaut"
 
         const val schemaKotlinCore = ":schema:kotlin-core"
 
