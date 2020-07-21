@@ -1,4 +1,4 @@
-name: Beagle Release
+name: Beagle Automated Tests
 
 on: workflow_dispatch
 
