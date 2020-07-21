@@ -43,16 +43,27 @@ internal class ContextDataManager(
     private val contextDataTreeHelper: ContextDataTreeHelper = ContextDataTreeHelper(),
     private val contextPathResolver: ContextPathResolver = ContextPathResolver()
 ) {
-
     private val contexts: MutableMap<String, ContextBinding> = mutableMapOf()
+
+    init {
+        addAnyContext(GlobalContext.globalContext)
+    }
 
     fun clearContexts() {
         contexts.clear()
     }
 
     fun addContext(contextData: ContextData) {
+        if(contextData.id=="global"){
+            //Warning
+        }
+        else addAnyContext(contextData)
+    }
+
+    fun addAnyContext(contextData: ContextData) {
         if (contexts[contextData.id] == null) {
             contexts[contextData.id] = ContextBinding(
+                bindings = mutableSetOf(),
                 context = contextData.normalize()
             )
         } else {
