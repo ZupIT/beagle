@@ -51,8 +51,11 @@ final class TabBarUIComponent: UIView {
     
     // MARK: - Properties
     
+    private var shouldAnimateOnCellDisplay = false
     private var containerWidthConstraint: NSLayoutConstraint?
     var model: Model
+    
+    var onTabSelection: ((_ tab: Int) -> Void)?
 
     // MARK: - UI
     
@@ -79,8 +82,6 @@ final class TabBarUIComponent: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    var onTabSelection: ((_ tab: Int) -> Void)?
     
     // MARK: - Initialization
     
@@ -139,6 +140,7 @@ extension TabBarUIComponent {
         collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredVertically)
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         guard let cell = collectionView.cellForItem(at: indexPath) else {
+            shouldAnimateOnCellDisplay = true
             return
         }
         animateIndicatorView(from: cell)
@@ -148,6 +150,14 @@ extension TabBarUIComponent {
 // MARK: - UICollection View Delegate and DataSource Extension
 
 extension TabBarUIComponent: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == model.tabIndex, shouldAnimateOnCellDisplay {
+            animateIndicatorView(from: cell)
+            shouldAnimateOnCellDisplay.toggle()
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return model.tabViewItems.count
     }
