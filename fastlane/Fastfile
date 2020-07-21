@@ -184,6 +184,11 @@ platform :automated_tests do
   lane :run_angular_automation do
     sh "./run_angular_automation.sh"
   end
+
+  desc "Cleanup"
+  lane :cleanup do
+    sh "./automated_tests/clean.sh"
+  end
 end
 
 desc "Generate release notes"
