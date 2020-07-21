@@ -60,16 +60,9 @@ class ButtonScreenSteps {
     }
 
     @When("I click on a component with a valid action attribute configured$")
-    fun clickOnButton() {
+    fun clickOnButtonWithAction() {
         ScreenRobot()
             .clickOnText(BUTTON_DEFAULT_TEXT)
-            .sleep(2)
-    }
-
-    @Then("^I should see the text (.*)$")
-    fun checkHeaderText(nome: String?) {
-        ScreenRobot()
-            .checkViewContainsText(nome)
             .sleep(2)
     }
 
@@ -79,15 +72,6 @@ class ButtonScreenSteps {
             .checkViewContainsText(BUTTON_DEFAULT_TEXT)
             .checkViewContainsText(BUTTON_WITH_STYLE_TEXT)
             .checkViewContainsText(BUTTON_WITH_APPEARANCE_TEXT)
-            .sleep(2)
-    }
-
-    @Then("component should render the style attribute correctly$")
-    fun renderStyleAttributeCorrectly() {
-        ScreenRobot()
-            .checkViewContainsText(MAIN_HEADER)
-            .checkViewContainsText("Action Click")
-            .checkViewContainsText("You clicked right")
             .sleep(2)
     }
 

@@ -73,6 +73,11 @@
 		63ED0F0024B785A00086E433 /* BeagleSchema.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 63ED0EF824B782EB0086E433 /* BeagleSchema.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		63ED0F0124B785A10086E433 /* YogaKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63ED0EFA24B782EB0086E433 /* YogaKit.framework */; };
 		63ED0F0224B785A10086E433 /* YogaKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 63ED0EFA24B782EB0086E433 /* YogaKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6B4F7E7924C659AF003F461A /* ButtonScreenSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F7E7824C659AF003F461A /* ButtonScreenSteps.swift */; };
+		6B4F7E7B24C65A76003F461A /* ScreenRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F7E7A24C65A76003F461A /* ScreenRobot.swift */; };
+		6B4F7E7D24C65AFE003F461A /* ScreenElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F7E7C24C65AFE003F461A /* ScreenElements.swift */; };
+		6B4F7E7F24C71D04003F461A /* TabViewScreenSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F7E7E24C71D04003F461A /* TabViewScreenSteps.swift */; };
+		6B4F7E8124C728F8003F461A /* ImageScreenSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F7E8024C728F8003F461A /* ImageScreenSteps.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -246,6 +251,11 @@
 		63ED0EF624B782EB0086E433 /* Beagle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Beagle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		63ED0EF824B782EB0086E433 /* BeagleSchema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BeagleSchema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		63ED0EFA24B782EB0086E433 /* YogaKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = YogaKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B4F7E7824C659AF003F461A /* ButtonScreenSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonScreenSteps.swift; sourceTree = "<group>"; };
+		6B4F7E7A24C65A76003F461A /* ScreenRobot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenRobot.swift; sourceTree = "<group>"; };
+		6B4F7E7C24C65AFE003F461A /* ScreenElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenElements.swift; sourceTree = "<group>"; };
+		6B4F7E7E24C71D04003F461A /* TabViewScreenSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewScreenSteps.swift; sourceTree = "<group>"; };
+		6B4F7E8024C728F8003F461A /* ImageScreenSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScreenSteps.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -323,6 +333,9 @@
 			isa = PBXGroup;
 			children = (
 				639CA22E24B4F0D3009FAC90 /* Features */,
+				6B4F7E7624C656E6003F461A /* Elements */,
+				6B4F7E7524C656D9003F461A /* Robots */,
+				6B4F7E7724C656FC003F461A /* Steps */,
 				639CA18624B4F0AF009FAC90 /* Cucumberish */,
 				639CA17724B4EF1D009FAC90 /* AutomatedTestsUITests.swift */,
 				639CA17924B4EF1D009FAC90 /* Info.plist */,
@@ -515,6 +528,32 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		6B4F7E7524C656D9003F461A /* Robots */ = {
+			isa = PBXGroup;
+			children = (
+				6B4F7E7A24C65A76003F461A /* ScreenRobot.swift */,
+			);
+			path = Robots;
+			sourceTree = "<group>";
+		};
+		6B4F7E7624C656E6003F461A /* Elements */ = {
+			isa = PBXGroup;
+			children = (
+				6B4F7E7C24C65AFE003F461A /* ScreenElements.swift */,
+			);
+			path = Elements;
+			sourceTree = "<group>";
+		};
+		6B4F7E7724C656FC003F461A /* Steps */ = {
+			isa = PBXGroup;
+			children = (
+				6B4F7E7824C659AF003F461A /* ButtonScreenSteps.swift */,
+				6B4F7E7E24C71D04003F461A /* TabViewScreenSteps.swift */,
+				6B4F7E8024C728F8003F461A /* ImageScreenSteps.swift */,
+			);
+			path = Steps;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -680,10 +719,13 @@
 				639CA20724B4F0B0009FAC90 /* CCILocation.m in Sources */,
 				639CA21124B4F0B0009FAC90 /* GHTokenScanner.m in Sources */,
 				639CA22424B4F0B0009FAC90 /* GHStepArgument.m in Sources */,
+				6B4F7E7B24C65A76003F461A /* ScreenRobot.swift in Sources */,
+				6B4F7E8124C728F8003F461A /* ImageScreenSteps.swift in Sources */,
 				639CA17824B4EF1D009FAC90 /* AutomatedTestsUITests.swift in Sources */,
 				639CA22524B4F0B0009FAC90 /* GHScenarioDefinition.m in Sources */,
 				639CA21F24B4F0B0009FAC90 /* GHExamples.m in Sources */,
 				639CA20524B4F0B0009FAC90 /* CCIStep.m in Sources */,
+				6B4F7E7924C659AF003F461A /* ButtonScreenSteps.swift in Sources */,
 				639CA20F24B4F0B0009FAC90 /* GHScenarioOutline.m in Sources */,
 				639CA1FC24B4F0B0009FAC90 /* CCIFeaturesManager.m in Sources */,
 				639CA22924B4F0B0009FAC90 /* NSString+Formatter.m in Sources */,
@@ -699,6 +741,7 @@
 				639CA20024B4F0B0009FAC90 /* CCIStepDefinition.m in Sources */,
 				639CA20424B4F0B0009FAC90 /* CCIFeature.m in Sources */,
 				639CA1FE24B4F0B0009FAC90 /* CCIArgument.m in Sources */,
+				6B4F7E7D24C65AFE003F461A /* ScreenElements.swift in Sources */,
 				639CA1FD24B4F0B0009FAC90 /* CCILoggingManager.m in Sources */,
 				639CA20C24B4F0B0009FAC90 /* GHTableCell.m in Sources */,
 				639CA21624B4F0B0009FAC90 /* GHTag.m in Sources */,
@@ -715,6 +758,7 @@
 				639CA20B24B4F0B0009FAC90 /* GHAstNode.m in Sources */,
 				639CA21224B4F0B0009FAC90 /* GHNode.m in Sources */,
 				639CA22224B4F0B0009FAC90 /* GHTableRow.m in Sources */,
+				6B4F7E7F24C71D04003F461A /* TabViewScreenSteps.swift in Sources */,
 				639CA22A24B4F0B0009FAC90 /* XCTestCase+RecordFailure.m in Sources */,
 				639CA21B24B4F0B0009FAC90 /* NSString+Trim.m in Sources */,
 				639CA22D24B4F0B0009FAC90 /* Cucumberish.m in Sources */,

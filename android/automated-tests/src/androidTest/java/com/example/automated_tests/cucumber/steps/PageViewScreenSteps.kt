@@ -27,58 +27,53 @@ import cucumber.api.java.Before
 import cucumber.api.java.en.*
 import org.junit.Rule
 
-class TabViewScreenSteps {
+class PageViewScreenSteps {
 
     @Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    @Before("@tabview")
+    @Before("@pageview")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, "http://10.0.2.2:8080/tabview")
+        TestUtils.startActivity(activityTestRule, "http://10.0.2.2:8080/pageview")
     }
 
-    @After("@tabview")
+    @After("@pageview")
     fun tearDown() {
         ActivityFinisher.finishOpenActivities()
     }
 
-    @Given("^that I'm on the tabview screen$")
+    @Given("^that I'm on the pageview screen$")
     fun checkTabViewScreen() {
         ScreenRobot()
             .checkViewContainsText(MAIN_HEADER)
-            .checkViewContainsText(TABVIEW_SCREEN_HEADER)
+            .checkViewContainsText(PAGEVIEW_SCREEN_HEADER)
             .sleep(2)
     }
 
-    @Then("^my tabview components should render their respective tabs attributes correctly$")
+    @Then("^my pageview components should render their respective tabs attributes correctly$")
     fun checkTabViewRendersTabs() {
         ScreenRobot()
-            .checkViewContainsText(TAB_1)
-            .checkViewContainsText(TAB_1_TEXT)
+            .checkViewContainsText("Page 1")
             .swipeLeftOnView()
-            .checkViewContainsText(TAB_2)
-            .checkViewContainsText(TAB_2_TEXT)
+            .checkViewContainsText("Page 2")
             .swipeLeftOnView()
-            .checkViewContainsText(TAB_3)
-            .checkViewContainsText(TAB_3_TEXT)
+            .checkViewContainsText("Page 3")
             .swipeLeftOnView()
-            .checkViewContainsText(TAB_4)
-            .checkViewContainsText(TAB_4_TEXT)
-            .swipeRightOnView()
+            .sleep(2)
             .swipeRightOnView()
             .swipeRightOnView()
     }
 
-    @When("^I click on (.*)$")
-    fun clickOnTab1(string1: String?) {
-        ScreenRobot()
-            .clickOnText(string1)
-    }
-
-    @Then("^my tab should render the text (.*) and (.*) correctly$")
-    fun renderTextCorrectly(string1: String?, string2: String?) {
-        ScreenRobot()
-            .checkViewContainsText(string1)
-            .checkViewContainsText(string2)
-    }
+//    @When("^I click on (.*)$")
+//    fun clickOnTab1(string1: String?) {
+//        ScreenRobot()
+//            .clickOnText(string1)
+//    }
+//
+//    @Then("^my tab should render the text (.*) and (.*) correctly$")
+//    fun renderTextCorrectly(string1: String?, string2: String?) {
+//        ScreenRobot()
+//            .checkViewContainsText(string1)
+//            .checkViewContainsText(string2)
+//    }
 }

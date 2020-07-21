@@ -10,11 +10,12 @@ import Foundation
 class CucumberishInitializer: NSObject {
     @objc class func CucumberishSwiftInit()
     {
-        //Using XCUIApplication only available in XCUI test targets not the normal Unit test targets.
         var application : XCUIApplication!
         //A closure that will be executed only before executing any of your features
         beforeStart { () -> Void in
-            //Any global initialization can go here
+            ButtonScreenSteps().ButtonScreenSteps()
+            TabViewScreenSteps().TabViewScreenSteps()
+            ImageScreenSteps().ImageScreenSteps()
         }
         
         //A Given step definitiona
@@ -27,27 +28,30 @@ class CucumberishInitializer: NSObject {
             application.launch()
     
         }
-        //A Given step definition
-        Given("the app is running") { (args, userInfo) -> Void in
-            
-        }
+
         
-        Then("wait") { (args, userInfo) in
-            let expectation =  XCTestExpectation(description: "wait")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                expectation.fulfill();
-            }
-            XCTWaiter().wait(for: [expectation], timeout: 6)
-        }
-        //Another step definition
-        And("all data cleared") { (args, userInfo) -> Void in
-            //Assume you defined an "I tap on \"(.*)\" button" step previousely, you can call it from your code as well.
-            let testCase = userInfo?[kXCTestCaseKey] as? XCTestCase
-            SStep(testCase, "I tap the \"Clear All Data\" button")
-        }
-        //Create a bundle for the folder that contains your "Features" folder. In this example, the CucumberishInitializer.swift file is in the same directory as the "Features" folder.
         let bundle = Bundle(for: CucumberishInitializer.self)
 
         Cucumberish.executeFeatures(inDirectory: "Features", from: bundle, includeTags: nil, excludeTags: nil)
     }
+    
+    class func waitForElementToAppear(_ element: XCUIElement) {
+        let result = element.waitForExistence(timeout: 10)
+        guard result else {
+            XCTFail("Element does not appear")
+            return
+        }
+    }
+
+    fileprivate class func getTags() -> [String]? {
+        var itemsTags: [String]?
+        for i in ProcessInfo.processInfo.arguments {
+            if i.hasPrefix("-Tags:") {
+                let newItems = i.replacingOccurrences(of: "-Tags:", with: "")
+                itemsTags = newItems.components(separatedBy: ",")
+            }
+        }
+        return itemsTags
+    }
+    
 }

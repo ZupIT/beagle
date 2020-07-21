@@ -39,5 +39,5 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun bffUrl() = intent.extras?.getString(BFF_URL_KEY) ?: "http://10.0.2.2:8080/tabview";
+    fun bffUrl() = intent.extras?.getString(BFF_URL_KEY) ?: "http://10.0.2.2:8080/pageview";
 }
