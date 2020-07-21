@@ -44,6 +44,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class SendRequestTest {
 
@@ -57,6 +58,7 @@ class SendRequestTest {
     private val responseData: Response = mockk()
     private val contextData: ContextData = mockk()
     private val view: View = mockk()
+    private val contextDataSlot = slot<ContextData>()
 
     @Before
     fun setUp() {
@@ -95,9 +97,11 @@ class SendRequestTest {
 
         // Then
         verifyOrder {
-            requestAction.handleEvent(rootView, view, listOf(onFinishAction), "onFinish")
-            requestAction.handleEvent(rootView, view, listOf(onSuccessAction), "onSuccess", any())
+            requestAction.handleEvent(rootView, view, listOf(onFinishAction))
+            requestAction.handleEvent(rootView, view, listOf(onSuccessAction), any<ContextData>())
         }
+
+        assertEquals("onSuccess", contextDataSlot.captured.id)
     }
 
     @Test
@@ -116,9 +120,11 @@ class SendRequestTest {
 
         // Then
         verifyOrder {
-            requestAction.handleEvent(rootView, view, listOf(onFinishAction), "onFinish")
-            requestAction.handleEvent(rootView, view, listOf(onErrorAction), "onError", any())
+            requestAction.handleEvent(rootView, view, listOf(onFinishAction))
+            requestAction.handleEvent(rootView, view, listOf(onErrorAction), any<ContextData>())
         }
+
+        assertEquals("onError", contextDataSlot.captured.id)
     }
 
     @Test
@@ -206,9 +212,9 @@ class SendRequestTest {
             onFinish = onFinish
         ).apply {
             every { evaluateExpression(rootView, any<Any>()) } returns ""
-            every { handleEvent(rootView, view, any<List<Action>>(), any(), any()) } just Runs
+            every { handleEvent(rootView, view, any<List<Action>>(), capture(contextDataSlot)) } just Runs
             every { handleEvent(rootView, view, any<List<Action>>()) } just Runs
-            every { handleEvent(rootView, view, any<List<Action>>(), contextData) } just Runs
+
         }
     }
 }
