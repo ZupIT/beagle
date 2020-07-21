@@ -88,7 +88,7 @@ struct MainScreen: DeeplinkScreen {
     
     private func buildNavigationBar() -> NavigationBar {
         return NavigationBar(
-            title: "Beagle Demo"
+            title: "Beagle Demo1"
         )
     }
 
