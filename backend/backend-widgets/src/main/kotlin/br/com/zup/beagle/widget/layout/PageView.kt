@@ -30,6 +30,9 @@ import br.com.zup.beagle.widget.pager.PageIndicatorComponent
  * @param pageIndicator defines in what page the PageView is currently on.
  *
  */
+@Deprecated(
+    message = " This will be removed in a future version; please refactor this component using new context features."
+)
 data class PageView(
     val children: List<ServerDrivenComponent>,
     val pageIndicator: PageIndicatorComponent? = null,
