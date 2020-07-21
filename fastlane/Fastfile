@@ -133,10 +133,13 @@ end
 ###
 
 platform :automated_tests do
+  BACKEND_IMAGE = "beagle/backend-test"
+  BACKEND_CONTAINER = "beagle-backend-test"
+
   desc "Deploy tests backend"
   lane :deploy_tests_backend do
-    gradle(task: "assemble")
-    sh "./deploy_tests_backend.sh"
+    gradle(task: ":backend:automated-tests:assemble")
+    sh "./automatedTests/deploy_tests_backend.sh #{BACKEND_IMAGE} #{BACKEND_CONTAINER}"
   end
 
   desc "Run iOS automated tests"
@@ -180,6 +183,11 @@ platform :automated_tests do
   desc "Run Android automated tests"
   lane :run_angular_automation do
     sh "./run_angular_automation.sh"
+  end
+
+  desc "Cleanup"
+  lane :cleanup do
+    sh "./automatedTests/clean.sh"
   end
 end
 
