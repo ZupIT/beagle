@@ -113,7 +113,7 @@ internal class ContextDataEvaluationTest {
     }
 
     @org.junit.Test
-    fun evaluateContextBindings_should_throw_exception_when_moshi_returns_null() {
+    fun evaluateContextBindings_should_show_error_when_moshi_returns_null() {
         // Given
         val model = mockk<JSONArray>()
         every { jsonPathFinder.find(any(), any()) } returns model
@@ -124,7 +124,7 @@ internal class ContextDataEvaluationTest {
 
         // Then
         assertNull(value)
-        verify(exactly = once()) { BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(any()) }
+        verify(exactly = once()) { BeagleMessageLogs.errorWhenExpressionEvaluateNullValue(any()) }
     }
 
     @Test

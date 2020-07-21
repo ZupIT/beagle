@@ -24,8 +24,6 @@ import br.com.zup.beagle.android.utils.getExpressions
 import com.squareup.moshi.Moshi
 import org.json.JSONArray
 import org.json.JSONObject
-import java.lang.IllegalStateException
-import java.lang.reflect.Type
 
 internal class ContextDataEvaluation(
     private val jsonPathFinder: JsonPathFinder = JsonPathFinder(),
@@ -56,7 +54,7 @@ internal class ContextDataEvaluation(
 
                 evaluateMultipleExpressions(bind)
             }
-            expressions.size == 1 -> evaluateExpression(contextsData[0], bind.type, expressions[0])
+            expressions.size == 1 -> evaluateExpression(contextsData[0], bind, expressions[0])
             else -> {
                 BeagleMessageLogs.multipleExpressionsInValueThatIsNotString()
                 null
@@ -69,7 +67,7 @@ internal class ContextDataEvaluation(
         expression: String,
         bind: Bind.Expression<*>
     ) {
-        val value = evaluateExpression(contextData, bind.type, expression)
+        val value = evaluateExpression(contextData, bind, expression)
         if (value != null) {
             bind.evaluatedExpressions[expression] = value
         } else {
@@ -86,17 +84,22 @@ internal class ContextDataEvaluation(
         return text
     }
 
-    private fun evaluateExpression(contextData: ContextData, type: Type, expression: String): Any? {
+    private fun evaluateExpression(contextData: ContextData, bind: Bind.Expression<*>, expression: String): Any? {
         val value = getValue(contextData, expression)
 
         return try {
-            if (type == String::class.java) {
+            if (bind.type == String::class.java) {
                 value?.toString()
             } else if (value is JSONArray || value is JSONObject) {
-                moshi.adapter<Any>(type).fromJson(value.toString())
-                    ?: throw IllegalStateException("JSON deserialization returned null")
+                moshi.adapter<Any>(bind.type).fromJson(value.toString())?: run {
+                    BeagleMessageLogs.errorWhenExpressionEvaluateNullValue("${bind.value} : ${bind.type}")
+                    null
+                }
             } else {
-                value ?: throw IllegalStateException("Expression evaluation returned null")
+                value?: run {
+                    BeagleMessageLogs.errorWhenExpressionEvaluateNullValue("${bind.value} : ${bind.type}")
+                    null
+                }
             }
         } catch (ex: Exception) {
             BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(ex)
