@@ -32,7 +32,6 @@ import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.ImageContentMode
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions

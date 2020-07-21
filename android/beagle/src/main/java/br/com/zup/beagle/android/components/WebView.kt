@@ -50,7 +50,7 @@ data class WebView(
         webView.webViewClient = BeagleWebViewClient(webView.context)
         webView.settings.javaScriptEnabled = true
         observeBindChanges(rootView, url) {
-            webView.loadUrl(it)
+            it?.let{ webView.loadUrl(it) }
         }
         return webView
     }
