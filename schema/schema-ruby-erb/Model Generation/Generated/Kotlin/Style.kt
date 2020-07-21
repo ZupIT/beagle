@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-interface Style {
+interface StyleSchema {
   public val backgroundColor: String?
   public val cornerRadius: String?
   public val size: Size?

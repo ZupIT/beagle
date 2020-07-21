@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-interface Flex {
+interface FlexSchema {
   public val flexDirection: FlexDirection?
   public val flexWrap: FlexWrap?
   public val justifyContent: JustifyContent?

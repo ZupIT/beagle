@@ -15,6 +15,6 @@
  * limitations under the License.
  */
 
-interface CornerRadius {
+interface CornerRadiusSchema {
   public val radius: Double 
 }

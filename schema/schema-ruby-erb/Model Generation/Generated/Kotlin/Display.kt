@@ -15,6 +15,6 @@
  * limitations under the License.
  */
 
-interface Display {
+interface DisplaySchema {
   public val backgroundColor: String? 
 }

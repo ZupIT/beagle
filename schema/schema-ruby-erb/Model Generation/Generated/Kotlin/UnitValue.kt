@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-interface UnitValue {
+interface UnitValueSchema {
   public val value: Double
   public val type: UnityType 
 }

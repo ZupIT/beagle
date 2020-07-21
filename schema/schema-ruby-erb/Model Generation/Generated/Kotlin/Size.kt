@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-interface Size {
+interface SizeSchema {
   public val height: UnitValue?
   public val maxWidth: UnitValue?
   public val maxHeight: UnitValue?

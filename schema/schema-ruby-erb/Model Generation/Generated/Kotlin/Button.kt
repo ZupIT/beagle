@@ -15,8 +15,9 @@
  * limitations under the License.
  */
 
-interface Button {
+interface ButtonSchema {
   public val text: Bind<String>
   public val styleId: String?
-  public val onPress: List<Action>? 
+  public val onPress: List<Action>?
+  public val clickAnalyticsEvent: ClickEvent? 
 }

@@ -40,10 +40,10 @@
 data class <%= objectType.synthaxType.name -%> (<% -%>
 <% counter = 0 -%>
 <% for variable in objectType.synthaxType.variables %>
-  <%= variable.accessor %> val <%= variable.name %>: <%= handleTypeName(variable, objectType.synthaxType.variables.size - 1 != counter) -%>
+  <%= variable.accessor %> override val <%= variable.name %>: <%= handleTypeName(variable, objectType.synthaxType.variables.size - 1 != counter) -%>
   <% counter += 1 -%>
 <% end -%> 
-) {
+) : <%= objectType.synthaxType.name -%>Schema {
   constructor (<% -%>
   <% counter = 0 -%>
   <% for variable in objectType.synthaxType.variables %>

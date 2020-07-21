@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-interface EdgeValue {
+interface EdgeValueSchema {
   public val left: UnitValue?
   public val top: UnitValue?
   public val right: UnitValue?

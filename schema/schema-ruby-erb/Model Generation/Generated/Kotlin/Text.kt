@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-interface Text {
+interface TextSchema {
   public val text: Bind<String>
   public val styleId: String? 
 }

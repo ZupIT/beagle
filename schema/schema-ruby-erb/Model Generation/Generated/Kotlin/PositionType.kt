@@ -15,6 +15,6 @@
  * limitations under the License.
  */
 
-interface PositionType {
+interface PositionTypeSchema {
   public val backgroundColor: String? 
 }
