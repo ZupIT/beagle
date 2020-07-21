@@ -29,31 +29,34 @@ struct SimpleFormScreen: DeeplinkScreen {
     }
     
     var screen: Screen {
-        return Screen(
-            navigationBar: NavigationBar(title: "Simple Form", showBackButton: true),
-            child:Container(children: [
+        return Screen(navigationBar: NavigationBar(title: "Simple Form", showBackButton: true)) {
+            Container {
                 SimpleForm(
                     context: Context(id: "form", value: ["address":"You address","message":"You message"]),
                     onSubmit: [
                         Alert(
-                        title: "Seu Contexto",
-                        message: "Address: @{form.address} \n Message: @{form.message}",
-                        onPressOk: FirstAction(),
-                        labelOk: "OK"                      )
-                    ],
-                    children: [Button(text: "SimpleForm", onPress: [SubmitForm()])]),
+                            title: "Seu Contexto",
+                            message: "Address: @{form.address} \n Message: @{form.message}",
+                            onPressOk: FirstAction(),
+                            labelOk: "OK")
+                    ]
+                ) {
+                    Button(text: "SimpleForm", onPress: [SubmitForm()])
+                }
                 SimpleForm(
-                context: Context(id: "form", value: ["address":"beagle@beagle.com.br","message":"Hello Beagle"]),
-                onSubmit: [
-                    Alert(
-                        title: "Contexto Beagle",
-                        message: "Address: @{form.address} \n Message: @{form.message}",
-                        onPressOk: SecondAction(),
-                        labelOk: "OK"
-                    )],
-                children: [Button(text: "SimpleForm", onPress: [SubmitForm()])])
-                ])
-        )
+                    context: Context(id: "form", value: ["address":"beagle@beagle.com.br","message":"Hello Beagle"]),
+                    onSubmit: [
+                        Alert(
+                            title: "Contexto Beagle",
+                            message: "Address: @{form.address} \n Message: @{form.message}",
+                            onPressOk: SecondAction(),
+                            labelOk: "OK")
+                    ]
+                ) {
+                    Button(text: "SimpleForm", onPress: [SubmitForm()])
+                }
+            }
+        }
     }
     
 }

@@ -14,8 +14,16 @@ jobs:
         steps:
             -   uses: actions/checkout@v2
 
+            -   name: Cache fastlane dependences
+                uses: actions/cache@v2
+                env:
+                    fastlane-cache-key: fastlane-cache
+                    fastlane-path: ~/.gem
+                with:
+                    path: ${{ env.fastlane-path }}
+                    key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
             -   name: Install Fastlane
-                run: bundle install
+                run: bundle config set path '~/.gem' && bundle install
 
             -   name: Sync Spring BFF sample to Micronaut BFF sample
                 run: bundle exec fastlane backend sync_to_micronaut
