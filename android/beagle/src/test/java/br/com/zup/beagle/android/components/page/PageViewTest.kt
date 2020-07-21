@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.components.page
 
+import android.view.View
 import androidx.viewpager.widget.ViewPager
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.BaseComponentTest
@@ -30,6 +31,7 @@ import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.utils.viewFactory
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.core.Style
 import io.mockk.CapturingSlot
@@ -37,6 +39,7 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkConstructor
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
@@ -51,9 +54,8 @@ class PageViewTest : BaseComponentTest() {
     private val pageIndicatorComponent: PageIndicatorComponent = mockk(relaxed = true)
     private val children = listOf<ServerDrivenComponent>(mockk<Button>())
     private val context: ContextData = mockk(relaxed = true)
-    private val actions = listOf<Action>(mockk())
-    private val currentPage: Bind<Int> = mockk()
-    private val currentPageSlot  = slot<Observer<Int>>()
+    private val actions = listOf<Action>(mockk(relaxed = true, relaxUnitFun = true))
+    private val currentPage: Bind<Int> = mockk(relaxed = true, relaxUnitFun = true)
     private val pageListenerSlot = slot<ViewPager.OnPageChangeListener>()
 
 
@@ -121,45 +123,24 @@ class PageViewTest : BaseComponentTest() {
         assertTrue { pageListenerSlot.isCaptured }
     }
 
-
-    @Test
-    fun buildView_should_call_handle_event_when_on_page_selected_is_change() {
-        // GIVEN
-        mockOnChangePage()
-
-        // WHEN
-        pageView.buildView(rootView)
-        pageListenerSlot.captured.onPageSelected(1)
-
-        // THEN
-        verify(exactly = once()) {
-            pageView.handleEvent(rootView, beaglePageView, actions, "onChange", 1)
-        }
-    }
-
-    private fun mockOnChangePage(){
+    private fun mockOnChangePage() {
         every { beaglePageView.addOnPageChangeListener(capture(pageListenerSlot)) } just Runs
         pageView = PageView(children, pageIndicatorComponent, context, actions)
         every { pageView.handleEvent(rootView, beaglePageView, actions, "onChange", any()) } just Runs
     }
 
-
     @Test
-    fun buildView_should_call_swap_to_page_when_current_page_change() {
+    fun buildView_should_return_page_view_two_when_current_page_is_not_null() {
         // GIVEN
-        pageView = PageView(children, pageIndicatorComponent, context, actions, currentPage)
-        every { pageView.observeBindChanges(rootView = rootView,bind =  currentPage, observes = capture(currentPageSlot)) } just Runs
+        val mockedView: BeagleFlexView = mockk()
+        mockkConstructor(PageViewTwo::class)
+        every { anyConstructed<PageViewTwo>().buildView(any()) } returns mockedView
+        pageView = PageView(children, context, actions, currentPage)
 
         // WHEN
-        pageView.buildView(rootView)
-        currentPageSlot.captured.invoke(1)
+        val result = pageView.buildView(rootView)
 
         // THEN
-        verify(exactly = once()) {
-          beaglePageView.swapToPage(1)
-        }
+        assertEquals(mockedView, result)
     }
-
-
-
 }
