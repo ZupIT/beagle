@@ -16,7 +16,7 @@
 
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish'
-apply from: rootProject.file('dokka.gradle')
+apply from: rootProject.file('../dokka.gradle')
 
 def versionName = System.env.VERSION_DEPLOY != null ? System.env.VERSION_DEPLOY : VERSION_NAME ?: ""
 group = GROUP_NAME

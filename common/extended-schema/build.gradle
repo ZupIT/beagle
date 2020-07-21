@@ -14,16 +14,18 @@
  * limitations under the License.
  */
 
+import br.com.zup.beagle.Dependencies
+
 apply plugin: 'kotlin'
 
 dependencies {
-    implementation GeneralLibraries.kotlin
-    implementation project(Modules.beagleSchemaKotlinCore)
+    implementation Dependencies.GeneralLibraries.kotlin
+    implementation project(Dependencies.Modules.schemaKotlinCore)
 
-    testImplementation TestLibraries.kotlinTest
-    testImplementation TestLibraries.mockk
-    testImplementation TestLibraries.junit5Api
-    testRuntime TestLibraries.junit5Engine
+    testImplementation Dependencies.TestLibraries.kotlinTest
+    testImplementation Dependencies.TestLibraries.mockk
+    testImplementation Dependencies.TestLibraries.junit5Api
+    testRuntime Dependencies.TestLibraries.junit5Engine
 }
 
-apply from: rootProject.file('maven-publish.gradle')
+ apply from: rootProject.file('../maven-publish.gradle')
