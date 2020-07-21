@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         BeagleConfig.config()
         let environment = ProcessInfo.processInfo.environment
-        let url = environment[AppDelegate.InitialUrlEnvironmentKey] ?? "/button"
+        let url = environment[AppDelegate.InitialUrlEnvironmentKey] ?? "/image"
         let beagleScreen = Beagle.screen(.remote(.init(url: url)))
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = beagleScreen

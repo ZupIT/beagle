@@ -14,7 +14,7 @@ class BeagleConfig {
         
         let dependencies = BeagleDependencies()
         dependencies.urlBuilder = UrlBuilder(
-            baseUrl: URL(string: "http://localhost:8080/tabview")
+            baseUrl: URL(string: "http://localhost:8080/")
         )
         Beagle.dependencies = dependencies
     }
