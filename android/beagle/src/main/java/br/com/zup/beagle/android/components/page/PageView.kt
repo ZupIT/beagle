@@ -40,9 +40,7 @@ import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
 
 @RegisterWidget
-@Deprecated(
-    message = " This will be removed in a future version; please refactor this component using new context features."
-)
+@Deprecated(message = DEPRECATED_PAGE_VIEW)
 data class PageView(
     val children: List<ServerDrivenComponent>,
     val pageIndicator: PageIndicatorComponent? = null,
@@ -51,10 +49,7 @@ data class PageView(
     val currentPage: Bind<Int>? = null
 ) : WidgetView(), ContextComponent {
 
-    @Deprecated(
-        message = " This will be removed in a future version; " +
-            "please refactor this component using new context features."
-    )
+    @Deprecated(message = DEPRECATED_PAGE_VIEW)
     constructor(
         children: List<ServerDrivenComponent>,
         pageIndicator: PageIndicatorComponent? = null,
