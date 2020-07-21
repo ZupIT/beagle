@@ -23,8 +23,8 @@ final class GlobalContext {
     
     public var contextMap: [String: Observable<Context>]?
     
-    func isGlobal(id: String) -> Bool {
-        return id == Context.globalId
+    private func isGlobal(id: String) -> Bool {
+        id == Context.globalId
     }
     
     func getContext(with id: String?) -> Observable<Context>? {

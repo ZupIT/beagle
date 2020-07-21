@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-public struct Context: Decodable, AutoInitiable {
+public struct Context: Decodable, AutoInitiable, Equatable {
     public static let globalId = "global"
     
     public let id: String
