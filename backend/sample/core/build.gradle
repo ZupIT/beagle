@@ -16,12 +16,6 @@
 
 import br.com.zup.beagle.Dependencies
 
-apply plugin: 'kotlin-kapt'
-
-sourceSets {
-    main.java.srcDirs += 'build/generated/source/kapt'
-}
-
 dependencies {
     api project(Dependencies.Modules.framework)
 }
