@@ -39,8 +39,7 @@ dependencies {
 
 tasks.withType(JavaCompile) {
     options.compilerArgs = [
-        '-Amicronaut.processing.incremental=true',
-        '-Amicronaut.processing.annotations=br.com.zup.beagle.*',
+        '-Amicronaut.processing.incremental=true'
     ]
 }
 

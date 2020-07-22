@@ -57,7 +57,6 @@ class Dependencies : Plugin<Project> {
     }
 
     object Versions {
-        const val java = "1.8"
         const val kotlin = "1.3.72"
 
         const val kotlinPoet = "1.5.0"
