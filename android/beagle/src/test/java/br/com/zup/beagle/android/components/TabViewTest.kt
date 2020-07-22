@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.components
 
 import android.widget.FrameLayout
+import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.StyleManager
@@ -56,7 +57,7 @@ class TabViewTest : BaseComponentTest() {
         every { BeagleEnvironment.beagleSdk.designSystem?.tabViewStyle(any()) } returns 0
 
         every { anyConstructed<ViewFactory>().makeViewPager(rootView.getContext()) } returns viewPager
-        every { anyConstructed<ViewFactory>().makeTabLayout(rootView.getContext()) } returns tabLayout
+        every { anyConstructed<ViewFactory>().makeTabLayout(rootView.getContext(), any()) } returns tabLayout
         every { anyConstructed<ViewFactory>().makeFrameLayoutParams(any(), any()) } returns frameLayoutParams
 
         every { viewPager.adapter = any() } just runs
@@ -94,9 +95,7 @@ class TabViewTest : BaseComponentTest() {
         tabView.buildView(rootView)
 
         // Then
-        verify { tabLayout.setTabTextColors(any(), any()) }
         verify { tabLayout.setSelectedTabIndicatorColor(any()) }
-        verify { tabLayout.background = any() }
         verify { tabLayout.tabIconTint = any() }
         verify { tabLayout.addTab(any()) }
     }

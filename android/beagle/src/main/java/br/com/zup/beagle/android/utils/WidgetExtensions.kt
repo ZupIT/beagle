@@ -21,8 +21,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
+import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_ACTIONS_POINTER
+import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_DEPRECATED_MESSAGE
+import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_POINTER
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
@@ -35,10 +39,28 @@ internal var viewFactory = ViewFactory()
  * @property rootView from buildView
  * @property origin view that triggered the action
  * @property actions is the list of actions to be executed
+ * @property context is the property that will contain the implicit context data, id and value in ContextData class
+ * this could be a primitive or a object that will be serialized to JSON
+ */
+fun ServerDrivenComponent.handleEvent(
+    rootView: RootView,
+    origin: View,
+    actions: List<Action>,
+    context: ContextData? = null
+) {
+    contextActionExecutor.executeActions(rootView, origin, this, actions, context)
+}
+
+/**
+ * Execute a list of actions and create an implicit context with eventName and eventValue.
+ * @property rootView from buildView
+ * @property origin view that triggered the action
+ * @property actions is the list of actions to be executed
  * @property eventName is the name of event to be referenced inside the @property action list
  * @property eventValue is the value that the eventName name has created,
  * this could be a primitive or a object that will be serialized to JSON
  */
+@Deprecated(HANDLE_EVENT_DEPRECATED_MESSAGE, ReplaceWith(HANDLE_EVENT_ACTIONS_POINTER))
 fun ServerDrivenComponent.handleEvent(
     rootView: RootView,
     origin: View,
@@ -46,7 +68,25 @@ fun ServerDrivenComponent.handleEvent(
     eventName: String,
     eventValue: Any? = null
 ) {
-    contextActionExecutor.executeActions(rootView, origin, this, actions, eventName, eventValue)
+    eventValue?.let { handleEvent(rootView, origin, actions, ContextData(eventName, eventValue)) }
+        ?: handleEvent(rootView, origin, actions)
+}
+
+/**
+ * Execute an action and create the implicit context with eventName and eventValue (optional).
+ * @property rootView from buildView
+ * @property origin view that triggered the action
+ * @property action is the action to be executed
+ * @property context is the property that will contain the implicit context data, id and value in ContextData class
+ * this could be a primitive or a object that will be serialized to JSON
+ */
+fun ServerDrivenComponent.handleEvent(
+    rootView: RootView,
+    origin: View,
+    action: Action,
+    context: ContextData? = null
+) {
+    contextActionExecutor.executeActions(rootView, origin, this, listOf(action), context)
 }
 
 /**
@@ -58,6 +98,7 @@ fun ServerDrivenComponent.handleEvent(
  * @property eventValue is the value that the eventName name has created,
  * this could be a primitive or a object that will be serialized to JSON
  */
+@Deprecated(HANDLE_EVENT_DEPRECATED_MESSAGE, ReplaceWith(HANDLE_EVENT_POINTER))
 fun ServerDrivenComponent.handleEvent(
     rootView: RootView,
     origin: View,
@@ -65,7 +106,8 @@ fun ServerDrivenComponent.handleEvent(
     eventName: String,
     eventValue: Any? = null
 ) {
-    contextActionExecutor.executeActions(rootView, origin, this, listOf(action), eventName, eventValue)
+    eventValue?.let { handleEvent(rootView, origin, action, ContextData(eventName, eventValue)) }
+        ?: handleEvent(rootView, origin, action)
 }
 
 /**
@@ -78,7 +120,7 @@ fun ServerDrivenComponent.handleEvent(
 fun <T> ServerDrivenComponent.observeBindChanges(
     rootView: RootView,
     bind: Bind<T>,
-    observes: Observer<T>
+    observes: Observer<T?>
 ) {
     bind.observe(rootView, observes)
 }

@@ -36,7 +36,7 @@ class TextTest : BaseComponentTest() {
     override fun setUp() {
         super.setUp()
 
-        every { anyConstructed<ViewFactory>().makeTextView(any()) } returns textView
+        every { anyConstructed<ViewFactory>().makeTextView(any(), any()) } returns textView
 
         text = Text(DEFAULT_TEXT, DEFAULT_STYLE)
     }

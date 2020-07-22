@@ -16,51 +16,62 @@
 
 package br.com.zup.beagle.android.preview
 
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.WebSocket
-import okhttp3.WebSocketListener
-import java.util.Timer
+import org.java_websocket.client.WebSocketClient
+import org.java_websocket.handshake.ServerHandshake
+import java.net.URI
+import java.util.*
 import kotlin.concurrent.timerTask
 
 internal const val DEFAULT_ENDPOINT = "http://10.0.2.2:9721/"
 
+interface WebSocketListener {
+    fun onClose(reason: String?)
+    fun onMessage(message: String)
+    fun onError(ex: Exception?)
+}
+
 class BeaglePreview(
     host: String? = null,
     private val reconnectInterval: Long = 1000,
-    private val okHttpClient: OkHttpClient = OkHttpClient(),
-    private val timer: Timer = Timer()
-) {
+    private val timer: Timer = Timer(),
+    private var shouldReconnect: Boolean = true,
+    private var listener: WebSocketListener? = null
+) : WebSocketClient(URI(host ?: DEFAULT_ENDPOINT)) {
 
-    private val request: Request = Request
-        .Builder()
-        .url(host ?: DEFAULT_ENDPOINT)
-        .build()
-    private lateinit var webSocket: WebSocket
-    private lateinit var webSocketListener: WebSocketListener
-    private var shouldReconnect = true
+    fun startListening(listener: WebSocketListener) {
+        this.listener = listener
+        connect()
+    }
 
-    fun startListening(listener: WebSocketListener? = null) {
-        listener?.let {
-            webSocketListener = it
+    override fun onOpen(handshakedata: ServerHandshake?) {}
+
+    override fun onClose(code: Int, reason: String?, remote: Boolean) {
+        if (remote) {
+            listener?.onClose(reason)
         }
-        webSocket = okHttpClient.newWebSocket(request, webSocketListener)
+    }
+
+    override fun onMessage(message: String) {
+        listener?.onMessage(message)
+    }
+
+    override fun onError(ex: Exception?) {
+        listener?.onError(ex)
+    }
+
+    fun reconnectSchedule() {
+        if (shouldReconnect) {
+            timer.schedule(timerTask {
+                reconnect()
+            }, reconnectInterval)
+        }
     }
 
     fun closeWebSocket() {
-        webSocket.cancel()
+        close()
     }
 
     fun doNotReconnect() {
         shouldReconnect = false
-    }
-
-    fun reconnect() {
-        if (shouldReconnect) {
-            timer.schedule(timerTask {
-                closeWebSocket()
-                startListening()
-            }, reconnectInterval)
-        }
     }
 }
