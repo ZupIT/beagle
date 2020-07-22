@@ -16,26 +16,9 @@
 
 import br.com.zup.beagle.Dependencies
 
-apply plugin: 'kotlin'
-
 dependencies {
-    implementation Dependencies.GeneralLibraries.kotlin
     implementation project(Dependencies.Modules.schemaKotlinCore)
 
-}
-
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = Dependencies.Versions.java
-        javaParameters = true
-    }
-}
-
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = Dependencies.Versions.java
-        javaParameters = true
-    }
 }
 
 apply from: rootProject.file('../maven-publish.gradle')

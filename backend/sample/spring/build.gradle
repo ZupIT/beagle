@@ -18,30 +18,11 @@ import br.com.zup.beagle.Dependencies
 
 plugins {
     id 'org.springframework.boot' version '2.3.1.RELEASE'
-    id 'kotlin'
 }
 
-group = Dependencies.GroupId.backendSample
-version = Dependencies.Releases.beagleVersionName
-
 dependencies {
-    implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.GeneralLibraries.kotlinReflect
     implementation project(Dependencies.Modules.sampleCore)
     implementation project(Dependencies.Modules.springStarter)
     implementation Dependencies.SpringLibraries.webStarter
-}
-
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = Dependencies.Versions.java
-        javaParameters = true
-    }
-}
-
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = Dependencies.Versions.java
-        javaParameters = true
-    }
 }

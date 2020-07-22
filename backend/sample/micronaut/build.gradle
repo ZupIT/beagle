@@ -17,7 +17,6 @@
 import br.com.zup.beagle.Dependencies
 
 plugins {
-    id "org.jetbrains.kotlin.jvm"
     id "org.jetbrains.kotlin.kapt"
     id "com.github.johnrengelman.shadow" version "6.0.0"
     id "application"
@@ -30,7 +29,6 @@ configurations {
 }
 
 dependencies {
-    implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.MicronautLibraries.runtime
     implementation Dependencies.MicronautLibraries.netty
 
@@ -41,25 +39,6 @@ dependencies {
     runtimeOnly Dependencies.BackendLibraries.slf4jJUL
 
     kapt Dependencies.MicronautLibraries.injectJava
-}
-
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = Dependencies.Versions.java
-        javaParameters = true
-    }
-}
-
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = Dependencies.Versions.java
-        javaParameters = true
-    }
-}
-
-shadowJar {
-    archiveClassifier = ""
-    mergeServiceFiles()
 }
 
 run.classpath += configurations.developmentOnly
