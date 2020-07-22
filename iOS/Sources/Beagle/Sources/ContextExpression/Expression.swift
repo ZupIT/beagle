@@ -22,7 +22,7 @@ public extension Expression {
     func observe(
         view: UIView,
         controller: BeagleController,
-        updateFunction: @escaping (T) -> Void
+        updateFunction: @escaping (T?) -> Void
     ) {
         switch self {
         case let .expression(expression):

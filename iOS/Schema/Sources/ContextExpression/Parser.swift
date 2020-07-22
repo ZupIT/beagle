@@ -169,6 +169,7 @@ func zip<A, B>(_ a: Parser<A>, _ b: Parser<B>) -> Parser<(A, B)> {
     }
 }
 
+// swiftlint:disable large_tuple
 func zip<A, B, C>(
     _ a: Parser<A>,
     _ b: Parser<B>,
@@ -177,6 +178,7 @@ func zip<A, B, C>(
     return zip(a, zip(b, c))
         .map { a, bc in (a, bc.0, bc.1) }
 }
+// swiftlint:enable large_tuple
 
 func zeroOrOne<A>(
     _ p: Parser<A>

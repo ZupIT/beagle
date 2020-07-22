@@ -19,8 +19,8 @@ import UIKit
 import BeagleSchema
 
 extension UIView {
-    static var contextMapKey = "contextMapKey"
-    static var expressionLastValueMapKey = "expressionLastValueMapKey"
+    private static var contextMapKey = "contextMapKey"
+    private static var expressionLastValueMapKey = "expressionLastValueMapKey"
     
     private class ObjectWrapper<T> {
         let object: T?
@@ -30,7 +30,7 @@ extension UIView {
         }
     }
 
-    public var contextMap: [String: Observable<Context>] {
+    var contextMap: [String: Observable<Context>] {
         get {
             return (objc_getAssociatedObject(self, &UIView.contextMapKey) as? ObjectWrapper)?.object ?? [String: Observable<Context>]()
         }
@@ -39,7 +39,7 @@ extension UIView {
         }
     }
         
-    public var expressionLastValueMap: [String: DynamicObject] {
+    var expressionLastValueMap: [String: DynamicObject] {
         get {
             return (objc_getAssociatedObject(self, &UIView.expressionLastValueMapKey) as? ObjectWrapper)?.object ?? [String: DynamicObject]()
         }
@@ -50,7 +50,7 @@ extension UIView {
     
     // MARK: Context Expression
     
-    func configBinding<T: Decodable>(for expression: ContextExpression, completion: @escaping (T) -> Void) {
+    func configBinding<T: Decodable>(for expression: ContextExpression, completion: @escaping (T?) -> Void) {
         switch expression {
         case let .single(expression):
             configBinding(for: expression, completion: completion)
@@ -70,13 +70,12 @@ extension UIView {
 
     // MARK: Single Expression
     
-    private func configBinding<T: Decodable>(for expression: SingleExpression, completion: @escaping (T) -> Void) {
+    private func configBinding<T: Decodable>(for expression: SingleExpression, completion: @escaping (T?) -> Void) {
         guard let context = getContext(with: expression.context) else { return }
         let closure: (Context) -> Void = { context in
             let dynamicObject = expression.evaluate(model: context.value)
-            if let value: T = self.transform(dynamicObject) {
-                completion(value)
-            }
+            let value: T? = self.transform(dynamicObject)
+            completion(value)
         }
         configBinding(with: context, completion: closure)
         closure(context.value)
@@ -91,20 +90,18 @@ extension UIView {
     
     // MARK: Multiple Expression
     
-    private func configBinding<T: Decodable>(for expression: MultipleExpression, completion: @escaping (T) -> Void) {
+    private func configBinding<T: Decodable>(for expression: MultipleExpression, completion: @escaping (T?) -> Void) {
         expression.nodes.forEach {
             if case let .expression(single) = $0 {
                 guard let context = getContext(with: single.context) else { return }
                 configBinding(with: context) { _ in
-                    if let value: T = self.evaluate(for: expression, contextId: single.context) {
-                        completion(value)
-                    }
+                    let value: T? = self.evaluate(for: expression, contextId: single.context)
+                    completion(value)
                 }
             }
         }
-        if let value: T = self.evaluate(for: expression) {
-            completion(value)
-        }
+        let value: T? = self.evaluate(for: expression)
+        completion(value)
     }
     
     private func evaluate<T: Decodable>(for expression: MultipleExpression, contextId: String? = nil) -> T? {
@@ -114,7 +111,7 @@ extension UIView {
             switch $0 {
             case let .expression(expression):
                 let evaluated: String? = evaluateWithCache(for: expression, contextId: contextId)
-                result += evaluated ?? expression.rawValue
+                result += evaluated ?? ""
             case let .string(string):
                 result += string
             }
