@@ -16,17 +16,14 @@
 
 package br.com.zup.beagle.android.components
 
-import android.os.Build
 import android.view.View
-import android.widget.Button
-import androidx.core.widget.TextViewCompat
-import br.com.zup.beagle.R
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.data.PreFetchHelper
 import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
@@ -41,6 +38,7 @@ data class Button(
     val onPress: List<Action>? = null,
     val clickAnalyticsEvent: ClickEvent? = null
 ) : WidgetView() {
+
     constructor(
         text: String,
         styleId: String? = null,
@@ -59,47 +57,28 @@ data class Button(
     @Transient
     private val preFetchHelper: PreFetchHelper = PreFetchHelper()
 
+    @Transient
+    private val styleManager: StyleManager = StyleManager()
+
     override fun buildView(rootView: RootView): View {
         onPress?.let {
             preFetchHelper.handlePreFetch(rootView, it)
         }
 
-        val button = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            viewFactory.makeButton(rootView.getContext(), getStyleId(this.styleId))
-        else viewFactory.makeButton(rootView.getContext())
+        val button = viewFactory.makeButton(rootView.getContext(), styleManager.getButtonStyle(styleId))
 
         button.setOnClickListener { view ->
             onPress?.let {
-                this@Button.handleEvent(rootView, view, it, "onPress")
+                this@Button.handleEvent(rootView, view, it)
             }
             clickAnalyticsEvent?.let {
                 BeagleEnvironment.beagleSdk.analytics?.trackEventOnClick(it)
             }
         }
-        button.setData(text, rootView)
-        return button
-    }
-
-    private fun Button.setData(text: Bind<String>, rootView: RootView) {
-        styleId?.let { style ->
-            val typedArray = styleManagerFactory.getButtonTypedArray(context, style)
-            typedArray?.let { typeArray ->
-                background = typeArray.getDrawable(R.styleable.BeagleButtonStyle_background)
-                isAllCaps = typeArray.getBoolean(R.styleable.BeagleButtonStyle_textAllCaps, true)
-                typeArray.recycle()
-            }
-
-            styleManagerFactory.getButtonStyle(style)?.let { buttonStyle ->
-                TextViewCompat.setTextAppearance(this, buttonStyle)
-            }
-        }
 
         observeBindChanges(rootView, text) {
-            this.text = it
+            button.text = it
         }
+        return button
     }
-
-    private fun getStyleId(styleName: String?): Int =
-        BeagleEnvironment.beagleSdk.designSystem?.buttonStyle(styleName ?: "") ?: 0
-
 }

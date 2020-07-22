@@ -18,9 +18,9 @@
 
 package br.com.zup.beagle.android.logger
 
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
+import br.com.zup.beagle.core.ServerDrivenComponent
 
 internal object BeagleMessageLogs {
 
@@ -111,7 +111,17 @@ internal object BeagleMessageLogs {
         BeagleLoggerProxy.error(errorMessage, ex)
     }
 
+    fun errorWhenExpressionEvaluateNullValue(value: String) {
+        val errorMessage = "Could not found value for $value"
+        BeagleLoggerProxy.error(errorMessage)
+    }
+
     fun logNotFoundSimpleForm() {
-        BeagleLoggerProxy.error("not found simple form in the parents")
+        BeagleLoggerProxy.error("Not found simple form in the parents")
+    }
+
+    fun errorWhileTryingToSetInvalidImage(image: String, ex: Exception) {
+        val errorMessage = "Could not find image $image"
+        BeagleLoggerProxy.error(errorMessage, ex)
     }
 }

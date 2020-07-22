@@ -32,6 +32,8 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class ActionExtensionsKtTest : BaseTest() {
 
@@ -74,6 +76,28 @@ class ActionExtensionsKtTest : BaseTest() {
 
         // Then
         val expected = "Hello hello and hello"
+        assertEquals(expected, actualValue)
+    }
+
+    @Test
+    fun evaluateExpression_should_evaluate_bind_of_type_String_with_multiple_expressions_starting_wih_expression() {
+        // Given
+        val bind = expressionOf<String>("@{context1} and @{context2}")
+        val contextValue = "hello"
+        viewModel.addContext(ContextData(
+            id = "context1",
+            value = contextValue
+        ))
+        viewModel.addContext(ContextData(
+            id = "context2",
+            value = contextValue
+        ))
+
+        // When
+        val actualValue = action.evaluateExpression(rootView, bind)
+
+        // Then
+        val expected = "hello and hello"
         assertEquals(expected, actualValue)
     }
 
@@ -154,7 +178,58 @@ class ActionExtensionsKtTest : BaseTest() {
     }
 
     @Test
-    fun evaluateExpression_should_return_expression_result() {
+    fun evaluateExpression_should_evaluate_expression_of_type_int() {
+        // Given
+        val contextValue = 0
+        viewModel.addContext(ContextData(
+            id = "context",
+            value = contextValue
+        ))
+        val value = "@{context}"
+
+        // When
+        val actualValue = action.evaluateExpression(rootView, value)
+
+        // Then
+        assertEquals(contextValue, actualValue as Int)
+    }
+
+    @Test
+    fun evaluateExpression_should_evaluate_expression_of_type_double() {
+        // Given
+        val contextValue = 1.0
+        viewModel.addContext(ContextData(
+            id = "context",
+            value = contextValue
+        ))
+        val value = "@{context}"
+
+        // When
+        val actualValue = action.evaluateExpression(rootView, value)
+
+        // Then
+        assertEquals(contextValue, actualValue as Double)
+    }
+
+    @Test
+    fun evaluateExpression_should_evaluate_expression_of_type_boolean() {
+        // Given
+        val contextValue = true
+        viewModel.addContext(ContextData(
+            id = "context",
+            value = contextValue
+        ))
+        val value = "@{context}"
+
+        // When
+        val actualValue = action.evaluateExpression(rootView, value)
+
+        // Then
+        assertEquals(contextValue, actualValue as Boolean)
+    }
+
+    @Test
+    fun evaluateExpression_should_evaluate_expression_of_type_string() {
         // Given
         val contextValue = "hello"
         viewModel.addContext(ContextData(
@@ -168,6 +243,24 @@ class ActionExtensionsKtTest : BaseTest() {
 
         // Then
         assertEquals(contextValue, actualValue)
+    }
+
+    @Test
+    fun evaluateExpression_should_return_JSON_string_evaluated() {
+        // Given
+        val contextValue = "hello"
+        viewModel.addContext(ContextData(
+            id = "context",
+            value = contextValue
+        ))
+        val value = """{"value": "@{context}""""
+
+        // When
+        val actualValue = action.evaluateExpression(rootView, value)
+
+        // Then
+        val expected = """{"value": "$contextValue""""
+        assertEquals(expected, actualValue)
     }
 
     @Test
@@ -186,7 +279,27 @@ class ActionExtensionsKtTest : BaseTest() {
         val actualValue = action.evaluateExpression(rootView, value)
 
         // Then
+        assertTrue(actualValue is JSONArray)
         assertEquals("""["$contextValue"]""", actualValue.toString())
+    }
+
+    @Test
+    fun evaluateExpression_should_evaluate_JSONArray() {
+        // Given
+        val contextValue = JSONArray().apply {
+            put("hello")
+        }
+        viewModel.addContext(ContextData(
+            id = "context",
+            value = contextValue
+        ))
+
+        // When
+        val actualValue = action.evaluateExpression(rootView, "@{context}")
+
+        // Then
+        assertTrue(actualValue is JSONArray)
+        assertEquals("""["hello"]""", actualValue.toString())
     }
 
     @Test
@@ -210,6 +323,7 @@ class ActionExtensionsKtTest : BaseTest() {
         val actualValue = action.evaluateExpression(rootView, value)
 
         // Then
+        assertTrue(actualValue is JSONArray)
         assertEquals("""["$contextValue","$contextValue"]""", actualValue.toString())
     }
 
@@ -229,7 +343,27 @@ class ActionExtensionsKtTest : BaseTest() {
         val actualValue = action.evaluateExpression(rootView, value)
 
         // Then
+        assertTrue(actualValue is JSONObject)
         assertEquals("""{"value":"$contextValue"}""", actualValue.toString())
+    }
+
+    @Test
+    fun evaluateExpression_should_evaluate_JSONObject() {
+        // Given
+        val value = JSONObject().apply {
+            put("value", "hello")
+        }
+        viewModel.addContext(ContextData(
+            id = "context",
+            value = value
+        ))
+
+        // When
+        val actualValue = action.evaluateExpression(rootView, "@{context}")
+
+        // Then
+        assertTrue(actualValue is JSONObject)
+        assertEquals("""{"value":"hello"}""", actualValue.toString())
     }
 
     @Test
@@ -253,6 +387,7 @@ class ActionExtensionsKtTest : BaseTest() {
         val actualValue = action.evaluateExpression(rootView, value)
 
         // Then
+        assertTrue(actualValue is JSONObject)
         assertEquals("""{"value2":"$contextValue","value1":"$contextValue"}""", actualValue.toString())
     }
 
@@ -270,7 +405,7 @@ class ActionExtensionsKtTest : BaseTest() {
             id = "context",
             value = explicitContextValue
         ))
-        action.handleEvent(rootView, originView, secondAction, "onSuccess", implicitValue)
+        action.handleEvent(rootView, originView, secondAction, ContextData("onSuccess", implicitValue))
 
         // When
         val actualValue = secondAction.evaluateExpression(rootView, bind)
@@ -278,5 +413,20 @@ class ActionExtensionsKtTest : BaseTest() {
         // Then
         val expected = "Hello $explicitContextValue and $implicitContextValue"
         assertEquals(expected, actualValue)
+    }
+
+    @Test
+    fun evaluateExpression_should_return_evaluated_primitive_value_from_implicit_context() {
+        // Given
+        val secondAction = mockk<Action>(relaxed = true)
+        val bind = expressionOf<Int>("@{onChange}")
+        val implicitContextValue = 0
+        action.handleEvent(rootView, originView, secondAction, "onChange", implicitContextValue)
+
+        // When
+        val actualValue = secondAction.evaluateExpression(rootView, bind)
+
+        // Then
+        assertEquals(implicitContextValue, actualValue)
     }
 }

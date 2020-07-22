@@ -81,7 +81,7 @@ class ContextActionExecutorTest : BaseTest() {
         val value = RandomData.string()
 
         // When
-        contextActionExecutor.executeActions(rootView, view, sender, listOf(action), eventId, value)
+        contextActionExecutor.executeActions(rootView, view, sender, listOf(action), ContextData(eventId, value))
 
         // Then
         verifySequence {
@@ -97,7 +97,7 @@ class ContextActionExecutorTest : BaseTest() {
         val value = RandomData.string()
 
         // When
-        contextActionExecutor.executeActions(rootView, view, sender, listOf(action), eventId, value)
+        contextActionExecutor.executeActions(rootView, view, sender, listOf(action), ContextData(eventId, value))
 
         // Then
         assertEquals(eventId, contextDataSlot.captured.id)
@@ -111,7 +111,7 @@ class ContextActionExecutorTest : BaseTest() {
         val value = PersonTest(name = NAME)
 
         // When
-        contextActionExecutor.executeActions(rootView, view, sender, listOf(action), eventId, value)
+        contextActionExecutor.executeActions(rootView, view, sender, listOf(action), ContextData(eventId, value))
 
         // Then
         assertEquals(eventId, contextDataSlot.captured.id)
@@ -128,7 +128,7 @@ class ContextActionExecutorTest : BaseTest() {
         val value = arrayListOf(PersonTest(name = NAME))
 
         // When
-        contextActionExecutor.executeActions(rootView, view, sender, listOf(action), eventId, value)
+        contextActionExecutor.executeActions(rootView, view, sender, listOf(action), ContextData(eventId, value))
 
         // Then
         assertEquals(eventId, contextDataSlot.captured.id)
@@ -140,13 +140,12 @@ class ContextActionExecutorTest : BaseTest() {
     }
 
     @Test
-    fun executeActions_should_not_create_implicit_context_when_value_is_null() {
+    fun executeActions_should_not_create_implicit_context_when_context_is_null() {
         // Given
-        val eventId = "onChange"
-        val value = null
+        val context = null
 
         // When
-        contextActionExecutor.executeActions(rootView, view, sender, listOf(action), eventId, value)
+        contextActionExecutor.executeActions(rootView, view, sender, listOf(action), context)
 
         // Then
         verify(exactly = 0) { viewModel.addImplicitContext(any(), any(), any()) }
