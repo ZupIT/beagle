@@ -19,3 +19,10 @@ package br.com.zup.beagle.android.utils
 object BeagleConstants {
     val EXPRESSION_REGEX = "@\\{([^)]+)\\}".toRegex()
 }
+
+object HandleEventDeprecatedConstants {
+    const val HANDLE_EVENT_DEPRECATED_MESSAGE: String =
+        "Use handleEvent without eventName and eventValue or with ContextData for create a implicit context"
+    const val HANDLE_EVENT_POINTER: String = "handleEvent(rootView, origin, action)"
+    const val HANDLE_EVENT_ACTIONS_POINTER: String = "handleEvent(rootView, origin, actions)"
+}
