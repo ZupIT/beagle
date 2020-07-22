@@ -46,7 +46,6 @@ internal data class PageViewTwo(
 
     override fun buildView(rootView: RootView): View {
         val style = Style(flex = Flex(grow = 1.0))
-
         val viewPager = viewFactory.makeViewPager(rootView.getContext()).apply {
             adapter = PageViewAdapterTwo(rootView, children, viewFactory)
         }
