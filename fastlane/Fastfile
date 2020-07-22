@@ -142,12 +142,16 @@ platform :automated_tests do
       scheme: "AutomatedTestsUITests",
       device: "iPhone 11",
     )
-    #sh "./automatedTests/run_ios_automation.sh"
   end
 
   desc "Run Android automated tests"
   lane :run_android_automation do
-    adb(command: "devices")
+    sh("./automated/run_android_automation.sh")
+    gradle(
+      task: "connectedAndroidTest",
+      project_dir: "android/automated-tests",
+      gradle_path: "../../gradlew"
+    )
   end
 
   desc "Run Android automated tests"
