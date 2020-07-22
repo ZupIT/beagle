@@ -36,7 +36,7 @@ import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 
 @RegisterWidget
-private data class PageView(
+data class PageView(
     val children: List<ServerDrivenComponent>,
     @Deprecated(message = DEPRECATED_PAGE_VIEW)
     val pageIndicator: PageIndicatorComponent? = null,
