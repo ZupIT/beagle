@@ -30,13 +30,14 @@ jobs:
                 env:
                     spm-cache-key: ${{ runner.os }}-spm-${{ hashFiles('iOS/**/Package.resolved') }}
                     spm-path: iOS/.build
+                    spm-path: iOS/SPM
                     # spm-path: ~/**/DerivedData/**
                 with:
                     path: ${{ env.spm-path }}
                     key: ${{ env.spm-cache-key }}
-                    restore-keys: |
-                        ${{ env.spm-cache-key }}
-                        ${{ runner.os }}-spm-
+                    # restore-keys: |
+                    #     ${{ env.spm-cache-key }}
+                    #     ${{ runner.os }}-spm-
 
             -   name: install swiftLint
                 run: brew install swiftlint
