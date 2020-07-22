@@ -17,10 +17,7 @@
 package br.com.zup.beagle.micronaut.configuration
 
 import br.com.zup.beagle.cache.BeagleCacheHandler
-import br.com.zup.beagle.constants.BEAGLE_CACHE_EXCLUDES
-import br.com.zup.beagle.constants.BEAGLE_CACHE_INCLUDES
 import io.micronaut.context.annotation.Factory
-import io.micronaut.context.annotation.Value
 import javax.inject.Singleton
 
 @Factory

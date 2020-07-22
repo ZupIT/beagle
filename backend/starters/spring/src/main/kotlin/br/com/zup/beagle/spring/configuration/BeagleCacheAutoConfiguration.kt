@@ -18,10 +18,7 @@ package br.com.zup.beagle.spring.configuration
 
 import br.com.zup.beagle.cache.BeagleCacheHandler
 import br.com.zup.beagle.constants.BEAGLE_CACHE_ENABLED
-import br.com.zup.beagle.constants.BEAGLE_CACHE_EXCLUDES
-import br.com.zup.beagle.constants.BEAGLE_CACHE_INCLUDES
 import br.com.zup.beagle.spring.filter.BeagleCacheFilter
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.context.properties.EnableConfigurationProperties
