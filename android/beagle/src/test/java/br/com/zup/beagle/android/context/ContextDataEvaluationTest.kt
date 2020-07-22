@@ -23,7 +23,6 @@ import br.com.zup.beagle.android.mockdata.ComponentModel
 import br.com.zup.beagle.android.testutil.RandomData
 import com.squareup.moshi.Moshi
 import io.mockk.Runs
-import io.mockk.called
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk

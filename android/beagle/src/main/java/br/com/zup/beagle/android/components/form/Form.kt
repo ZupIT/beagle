@@ -201,11 +201,8 @@ data class Form(
                     data = formsValue.plus(newAction.data)
                 )
             }
-
             handleEvent(rootView, view, newAction)
         }
-
-
     }
 
     private fun handleFormResult(rootView: RootView, formResult: FormResult, view: View) {

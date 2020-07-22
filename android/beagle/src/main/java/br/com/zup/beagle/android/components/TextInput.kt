@@ -20,11 +20,10 @@ import android.text.InputType
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
-import androidx.core.widget.TextViewCompat
 import androidx.core.widget.doOnTextChanged
-import br.com.zup.beagle.R
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.form.InputWidget
+import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.valueOfNullable
@@ -88,7 +87,10 @@ data class TextInput(
     @Transient
     private var textWatcher: TextWatcher? = null
 
-    override fun buildView(rootView: RootView): View = viewFactory.makeInputText(rootView.getContext()).apply {
+    override fun buildView(rootView: RootView): View = viewFactory.makeInputText(
+        rootView.getContext(),
+        styleManagerFactory.getInputTextStyle(styleId)
+    ).apply {
         textInputView = this
         setData(this@TextInput, rootView)
         setUpOnTextChange(rootView)
@@ -119,7 +121,7 @@ data class TextInput(
     }
 
     private fun EditText.removeOnTextChange() {
-        this.removeTextChangedListener(textWatcher)
+        removeTextChangedListener(textWatcher)
     }
 
     private fun EditText.setUpOnFocusChange(rootView: RootView) {
@@ -132,7 +134,7 @@ data class TextInput(
                         onFocus,
                         ContextData(
                             id = "onFocus",
-                            value = mapOf(VALUE_KEY to this.text.toString())
+                            value = mapOf(VALUE_KEY to text.toString())
                         )
                     )
                 }
@@ -144,7 +146,7 @@ data class TextInput(
                         onBlur,
                         ContextData(
                             id = "onBlur",
-                            value = mapOf(VALUE_KEY to this.text.toString())
+                            value = mapOf(VALUE_KEY to text.toString())
                         )
                     )
                 }
@@ -153,32 +155,31 @@ data class TextInput(
     }
 
     private fun EditText.setData(textInput: TextInput, rootView: RootView) {
-        textInput.placeholder?.let { bind -> observeBindChanges(rootView, bind) { it?.let { this.hint = it } } }
+        textInput.placeholder?.let { bind -> observeBindChanges(rootView, bind) { it?.let { hint = it } } }
         textInput.value?.let { bind ->
-            observeBindChanges(rootView, bind) { it?.let { setValue(it, rootView)} }
+            observeBindChanges(rootView, bind) { it?.let { setValue(it, rootView) } }
         }
         textInput.readOnly?.let { bind -> observeBindChanges(rootView, bind) { setEnabledConfig(it) } }
         textInput.disabled?.let { bind -> observeBindChanges(rootView, bind) { setEnabledConfig(it) } }
-        textInput.hidden?.let { bind -> observeBindChanges(rootView, bind) {
-                it?.let {  this.visibility = if (it) View.INVISIBLE else View.VISIBLE }
+        textInput.hidden?.let { bind ->
+            observeBindChanges(rootView, bind) {
+                it?.let { visibility = if (it) View.INVISIBLE else View.VISIBLE }
             }
         }
-        textInput.styleId?.let { setStyle(it) }
-        textInput.type?.let { bind -> observeBindChanges(rootView, bind) { it?.let{ this.setInputType(it) } } }
+        textInput.type?.let { bind -> observeBindChanges(rootView, bind) { it?.let { setInputType(it) } } }
     }
 
-    private fun EditText.setEnabledConfig(isEnabled: Boolean?){
+    private fun EditText.setEnabledConfig(isEnabled: Boolean?) {
         isEnabled?.let { this.isEnabled = !it }
     }
 
-    private fun EditText.setValue(text: String, rootView: RootView){
+    private fun EditText.setValue(text: String, rootView: RootView) {
         if (text == this.text.toString()) return
-        this.removeOnTextChange()
-        this.setText(text)
-        this.setSelection(text.length)
+        removeOnTextChange()
+        setText(text)
+        setSelection(text.length)
         setUpOnTextChange(rootView)
     }
-
 
     private fun EditText.setInputType(textInputType: TextInputType) {
         this.inputType = when (textInputType) {
@@ -187,18 +188,6 @@ data class TextInput(
             PASSWORD -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             NUMBER -> InputType.TYPE_CLASS_NUMBER
             else -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
-        }
-    }
-
-    private fun EditText.setStyle(styleId: String) {
-        val typedArray = styleManagerFactory.getInputTextTypedArray(context, styleId)
-        typedArray?.let { typedItems ->
-            typedItems.getDrawable(R.styleable.BeagleInputTextStyle_background)?.let { background = it }
-            typedItems.recycle()
-        }
-
-        styleManagerFactory.getInputTextStyle(styleId)?.let {
-            TextViewCompat.setTextAppearance(this, it)
         }
     }
 }

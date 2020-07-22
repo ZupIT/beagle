@@ -26,6 +26,7 @@ import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.engine.mapper.ViewMapper
+import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
@@ -64,7 +65,11 @@ data class Image(
                 is PathType.Local -> {
                     imageView.apply {
                         BeagleEnvironment.beagleSdk.designSystem?.image(pathType.mobileId)?.let {
-                            this.setImageResource(it)
+                            try {
+                                setImageResource(it)
+                            } catch (ex: Exception) {
+                                BeagleMessageLogs.errorWhileTryingToSetInvalidImage(pathType.mobileId, ex)
+                            }
                         }
                     }
                 }
