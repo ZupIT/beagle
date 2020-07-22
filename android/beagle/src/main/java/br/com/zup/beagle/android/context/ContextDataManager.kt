@@ -20,6 +20,7 @@ import android.util.LruCache
 import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.jsonpath.JsonCreateTree
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import br.com.zup.beagle.android.utils.BeagleConstants.GLOBAL_CONTEXT
 import br.com.zup.beagle.android.utils.getContextId
 import br.com.zup.beagle.android.utils.getExpressions
 
@@ -54,13 +55,20 @@ internal class ContextDataManager(
     }
 
     fun addContext(contextData: ContextData) {
-        if(contextData.id=="global"){
-            //Warning
-        }
-        else addAnyContext(contextData)
+        if (contextData.id == GLOBAL_CONTEXT) {
+            //TODO Mensagem de erro
+        } else addAnyContext(contextData)
     }
 
-    fun addAnyContext(contextData: ContextData) {
+    private fun updateGlobalContext(setContextData: SetContextInternal) {
+       if (setContextData.contextId == GlobalContext.globalContext.id){
+           contexts[GlobalContext.globalContext.id]?.let {
+               GlobalContext.globalContext = it.context
+            }
+        }
+    }
+
+    private fun addAnyContext(contextData: ContextData) {
         if (contexts[contextData.id] == null) {
             contexts[contextData.id] = ContextBinding(
                 bindings = mutableSetOf(),
@@ -90,8 +98,10 @@ internal class ContextDataManager(
             val setValue = setValue(contextBinding, path, setContextInternal.value)
             if (setValue) {
                 evaluateContext(setContextInternal.contextId)
+                updateGlobalContext(setContextInternal)
             }
             setValue
+
         } ?: false
     }
 

@@ -19,23 +19,26 @@ package br.com.zup.beagle.android.context
 import android.util.Log
 import br.com.zup.beagle.android.action.SetContext
 
-object GlobalContext:GlobalcontextAPI {
-    var globalContext = ContextData(id = "global", value ="Teste2")
+object GlobalContext : GlobalcontextAPI {
+    var globalContext = ContextData(id = "global", value = "Teste2")
 
-    override fun get(path:String?): Any {
+    override fun get(path: String?): Any {
 
         return globalContext.value
+
         Log.d("TestContext", "GetContext: $globalContext")
     }
 
-    override fun set(path: String?, value:Any){
-
-
-
+    override fun set(path: String?, value: Any) {
+        SetContext(
+            contextId = "global",
+            value = value,
+            path = path
+        )
         Log.d("TestContext", "SetContext- O global tem valor: $globalContext")
     }
 
-    override fun clear(path: String?){
+    override fun clear(path: String?) {
 
         Log.d("TestContext", "ClearContext - O global tem valor: $globalContext")
     }

@@ -18,4 +18,5 @@ package br.com.zup.beagle.android.utils
 
 object BeagleConstants {
     val EXPRESSION_REGEX = "@\\{([^)]+)\\}".toRegex()
+    val GLOBAL_CONTEXT = "global"
 }
