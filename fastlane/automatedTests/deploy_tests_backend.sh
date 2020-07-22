@@ -1,4 +1,4 @@
 #!/bin/bash
 
-docker build -t "$1" ../backend/automated-tests &&
-docker run --name "$2" -dp 8080:8080 "$1"
+./gradlew :backend:automated-tests:assemble
+nohup ./gradlew --daemon :backend:automated-tests:bootRun 2>&1 &

@@ -133,15 +133,6 @@ end
 ###
 
 platform :automated_tests do
-  BACKEND_IMAGE = "beagle/backend-test"
-  BACKEND_CONTAINER = "beagle-backend-test"
-
-  desc "Deploy tests backend"
-  lane :deploy_tests_backend do
-    gradle(task: ":backend:automated-tests:assemble")
-    sh "./automatedTests/deploy_tests_backend.sh #{BACKEND_IMAGE} #{BACKEND_CONTAINER}"
-  end
-
   desc "Run iOS automated tests"
   lane :run_ios_automation do
     xcversion(version: "~> 11.6.0")
@@ -187,7 +178,7 @@ platform :automated_tests do
 
   desc "Cleanup"
   lane :cleanup do
-    sh "./automatedTests/clean.sh #{BACKEND_CONTAINER}"
+    sh("../gradlew --stop")
   end
 end
 

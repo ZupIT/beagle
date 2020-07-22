@@ -12,7 +12,7 @@ jobs:
             -   name: Cache fastlane dependences
                 uses: actions/cache@v2
                 env:
-                    fastlane-cache-key: fastlane-cache
+                    fastlane-cache-key: fastlane-cache-tests
                     fastlane-path: ~/.gem
                 with:
                     path: ${{ env.fastlane-path }}
@@ -20,8 +20,16 @@ jobs:
             -   name: Install Fastlane
                 run: bundle install
 
+            -   name: Cache gradle dependences
+                uses: actions/cache@v2
+                env:
+                    gradle-cache-key: gradle-cache-tests
+                    gradle-path: ~/.gradle
+                with:
+                    path: ${{ env.gradle-path }}
+                    key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('buildSrc/**') }}
             -   name: Deploy backend
-                run: bundle exec fastlane automated_tests deploy_tests_backend
+                run: bash fastlane/automatedTests/deploy_tests_backend.sh
 
             -   name: Cleanup
                 run: bundle exec fastlane automated_tests cleanup
