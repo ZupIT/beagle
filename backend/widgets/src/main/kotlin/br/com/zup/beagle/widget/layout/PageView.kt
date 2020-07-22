@@ -32,7 +32,7 @@ import br.com.zup.beagle.widget.utils.BeagleConstants.DEPRECATED_PAGE_VIEW
  *
  */
 
-private data class PageView(
+data class PageView(
     val children: List<ServerDrivenComponent>,
     @Deprecated(DEPRECATED_PAGE_VIEW)
     val pageIndicator: PageIndicatorComponent? = null,
