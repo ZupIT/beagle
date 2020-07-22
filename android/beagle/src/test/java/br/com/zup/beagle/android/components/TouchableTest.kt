@@ -78,7 +78,7 @@ class TouchableViewRenderer : BaseComponentTest() {
 
         // Then
         verify(exactly = once()) {
-            touchable.handleEvent(rootView, view, actions, "onPress")
+            touchable.handleEvent(rootView, view, actions)
         }
     }
 

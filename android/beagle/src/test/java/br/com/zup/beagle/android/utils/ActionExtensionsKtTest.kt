@@ -405,7 +405,7 @@ class ActionExtensionsKtTest : BaseTest() {
             id = "context",
             value = explicitContextValue
         ))
-        action.handleEvent(rootView, originView, secondAction, "onSuccess", implicitValue)
+        action.handleEvent(rootView, originView, secondAction, ContextData("onSuccess", implicitValue))
 
         // When
         val actualValue = secondAction.evaluateExpression(rootView, bind)
