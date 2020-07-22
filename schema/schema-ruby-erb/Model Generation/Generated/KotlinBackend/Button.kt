@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+package br.com.zup.beagle.widget.ui
+
 data class Button (
   public override val text: Bind<String>,  
   public override val styleId: String?,  

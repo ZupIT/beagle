@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+package br.com.zup.beagle.widget.core
+
 interface EdgeValueSchema {
   public val left: UnitValue?
   public val top: UnitValue?

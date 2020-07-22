@@ -23,6 +23,9 @@
   end
 -%>
 
+package <%= objectType.synthaxType.package -%>
+
+
 interface <%= objectType.synthaxType.name -%>Schema {<% -%>
 <% for variable in objectType.synthaxType.variables %>
   <%= variable.accessor %> val <%= variable.name %>: <%= handleTypeName(variable) -%>

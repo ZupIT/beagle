@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+package br.com.zup.beagle.widget.core
+
 data class EdgeValue (
   public override val left: UnitValue?,  
   public override val top: UnitValue?,  

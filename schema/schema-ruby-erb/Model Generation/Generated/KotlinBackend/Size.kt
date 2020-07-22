@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+package br.com.zup.beagle.widget.core
+
 data class Size (
   public override val height: UnitValue?,  
   public override val maxWidth: UnitValue?,  

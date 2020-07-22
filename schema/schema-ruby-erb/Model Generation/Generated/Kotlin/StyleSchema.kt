@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+package br.com.zup.beagle.widget.core
+
 interface StyleSchema {
   public val backgroundColor: String?
   public val cornerRadius: String?

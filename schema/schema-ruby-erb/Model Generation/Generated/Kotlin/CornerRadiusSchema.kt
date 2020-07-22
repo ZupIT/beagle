@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+package br.com.zup.beagle.widget.core
+
 interface CornerRadiusSchema {
   public val radius: Double 
 }

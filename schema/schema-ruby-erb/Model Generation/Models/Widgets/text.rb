@@ -27,6 +27,7 @@ class Text < BaseComponent
             :kind => 'struct',
             :name => self.name,
             :variables => textVariables,
+            :package => "br.com.zup.beagle.widget.ui",
             :inheritFrom => [
                Widget.new.name
             ]

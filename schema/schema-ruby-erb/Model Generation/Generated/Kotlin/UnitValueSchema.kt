@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+package br.com.zup.beagle.widget.core
+
 interface UnitValueSchema {
   public val value: Double
   public val type: UnityType 

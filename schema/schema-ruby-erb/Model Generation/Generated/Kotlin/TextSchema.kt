@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+package br.com.zup.beagle.widget.ui
+
 interface TextSchema {
   public val text: Bind<String>
   public val styleId: String? 

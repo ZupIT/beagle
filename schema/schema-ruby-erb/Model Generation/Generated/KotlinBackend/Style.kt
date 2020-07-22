@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+package br.com.zup.beagle.widget.core
+
 data class Style (
   public override val backgroundColor: String?,  
   public override val cornerRadius: String?,  

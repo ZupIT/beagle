@@ -30,7 +30,12 @@ class Style < BaseComponent
             Variable.new(:name => "positionType", :typeName => PositionType.new.name, :isOptional => true),
             Variable.new(:name => "display", :typeName => Display.new.name, :isOptional => true)
         ]
-        synthaxType = SynthaxType.new(:kind => 'struct', :name => self.name, :variables => textVariables)
+        synthaxType = SynthaxType.new(
+            :kind => 'struct',
+            :name => self.name,
+            :variables => textVariables,
+            :package => "br.com.zup.beagle.widget.core"
+        )
 
         super(synthaxType)
 

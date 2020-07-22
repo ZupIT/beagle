@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+package br.com.zup.beagle.widget.core
+
 interface FlexSchema {
   public val flexDirection: FlexDirection?
   public val flexWrap: FlexWrap?

@@ -29,6 +29,7 @@ class Button < BaseComponent
             :kind => 'struct',
             :name => self.name,
             :variables => buttonVariables,
+            :package => "br.com.zup.beagle.widget.ui",
             :inheritFrom => [
                Widget.new.name,
                "ClickedOnComponent" #todo create clicked on Component

@@ -27,7 +27,12 @@ class Size < BaseComponent
             Variable.new(:name => "minHeight", :typeName => unitValue, :isOptional => true),
             Variable.new(:name => "aspectRatio", :typeName => "Double", :isOptional => true)
         ]
-        synthaxType = SynthaxType.new(:kind => 'struct', :name => self.name, :variables => textVariables)
+        synthaxType = SynthaxType.new(
+            :kind => 'struct',
+            :name => self.name,
+            :variables => textVariables,
+            :package => "br.com.zup.beagle.widget.core"
+        )
 
         super(synthaxType)
 

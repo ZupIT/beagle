@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+package br.com.zup.beagle.widget.core
+
 data class Flex (
   public override val flexDirection: FlexDirection?,  
   public override val flexWrap: FlexWrap?,  

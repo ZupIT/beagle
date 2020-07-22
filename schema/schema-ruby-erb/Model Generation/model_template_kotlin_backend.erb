@@ -37,6 +37,9 @@
   end
 -%>
 
+package <%= objectType.synthaxType.package -%>
+
+
 data class <%= objectType.synthaxType.name -%> (<% -%>
 <% counter = 0 -%>
 <% for variable in objectType.synthaxType.variables %>

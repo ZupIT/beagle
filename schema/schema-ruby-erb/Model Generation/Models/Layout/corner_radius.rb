@@ -22,7 +22,12 @@ class CornerRadius < BaseComponent
         textVariables = [
             Variable.new(:name => "radius", :typeName => "Double")
         ]
-        synthaxType = SynthaxType.new(:kind => 'struct', :name => self.name, :variables => textVariables)
+        synthaxType = SynthaxType.new(
+            :kind => 'struct',
+            :name => self.name,
+            :variables => textVariables,
+            :package => "br.com.zup.beagle.widget.core"
+        )
 
         super(synthaxType)
 

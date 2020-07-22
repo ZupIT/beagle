@@ -23,7 +23,12 @@ class Widget < BaseComponent
             Variable.new(:name => "text", :typeName => "String", :isBindable => true),
             Variable.new(:name => "styleId", :typeName => "String", :isOptional => true)
         ]
-        synthaxType = SynthaxType.new(:kind => 'struct', :name => self.name, :variables => textVariables)
+        synthaxType = SynthaxType.new(
+            :kind => 'struct',
+            :name => self.name,
+            :variables => textVariables,
+            :package => "br.com.zup.beagle.widget.ui"
+        )
 
         super(synthaxType)
 

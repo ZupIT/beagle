@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+package br.com.zup.beagle.widget.core
+
 interface SizeSchema {
   public val height: UnitValue?
   public val maxWidth: UnitValue?
