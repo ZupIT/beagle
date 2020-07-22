@@ -116,7 +116,7 @@ class FormLocalActionTest : BaseTest() {
         val error = mockk<Throwable>()
         val expectedState = listOf(
             ServerDrivenState.Loading(false),
-            ServerDrivenState.Error(error)
+            ServerDrivenState.Error(error){}
         )
 
         // When

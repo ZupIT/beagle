@@ -81,6 +81,6 @@ class WebViewTest : BaseComponentTest() {
     private fun createMockedWebViewClient(stateSlot: CapturingSlot<ServerDrivenState>): WebView.BeagleWebViewClient {
         val mockedActivity = mockkClass(BeagleActivity::class)
         every { mockedActivity.onServerDrivenContainerStateChanged(capture(stateSlot)) } just Runs
-        return WebView.BeagleWebViewClient(mockedActivity)
+        return WebView.BeagleWebViewClient(mockedActivity,webView)
     }
 }

@@ -322,7 +322,7 @@ class FormTest : BaseComponentTest() {
 
         // Then
         verify(exactly = once()) {
-            beagleActivity.onServerDrivenContainerStateChanged(ServerDrivenState.Error(formResult.throwable))
+            beagleActivity.onServerDrivenContainerStateChanged(ServerDrivenState.Error(formResult.throwable){any()})
         }
     }
 
