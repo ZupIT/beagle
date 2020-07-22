@@ -29,7 +29,6 @@ struct PageViewScreen: DeeplinkScreen {
     var screen: Screen {
         return Screen(navigationBar: NavigationBar(title: "PageView")) {
             Container(context: Context(id: "currentPage", value: 2), widgetProperties: .init(Flex().grow(1))) {
-                TabBar(children: Array(repeating: TabBarItem(icon: "beagle", title: "hello beagle"), count: 4), styleId: nil, currentTab: "@{currentPage}", onTabSelection: [SetContext(contextId: "currentPage", value: "@{onTabSelection}")])
                 PageIndicator(numberOfPages: 4, currentPage: "@{currentPage}")
                 PageView(
                     children: Array(repeating: Page(), count: 4).map { $0.content },
