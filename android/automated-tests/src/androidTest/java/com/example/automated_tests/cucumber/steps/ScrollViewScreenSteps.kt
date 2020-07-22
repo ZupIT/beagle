@@ -16,7 +16,6 @@
 
 package com.example.automated_tests.cucumber.steps
 
-
 import androidx.test.rule.ActivityTestRule
 import com.example.automated_tests.MainActivity
 import com.example.automated_tests.cucumber.elements.*
@@ -29,57 +28,63 @@ import cucumber.api.java.en.*
 import org.junit.Rule
 
 
-class ButtonScreenSteps {
+class ScrollViewScreenSteps {
 
     @Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    @Before("@button")
+    @Before("@scrollview")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, "http://10.0.2.2:8080/button")
+        TestUtils.startActivity(activityTestRule, "http://10.0.2.2:8080/scrollview")
     }
 
-    @After("@button")
+    @After("@scrollview")
     fun tearDown() {
         ActivityFinisher.finishOpenActivities()
     }
 
-    @Given("^that I'm on the button screen$")
-    fun checkButtonScreen() {
+    @Given("^that I'm on the scrollview screen$")
+    fun checkScrollViewScreen() {
         ScreenRobot()
             .checkViewContainsText(MAIN_HEADER)
-            .checkViewContainsText(BUTTON_SCREEN_HEADER)
+            .checkViewContainsText(SCROLLVIEW_SCREEN_HEADER)
             .sleep(2)
     }
 
-    @When("I click on a component with a valid style attribute configured$")
-    fun clickOnButtonWithStyle() {
+    @When("^I have a vertical scroll configured$")
+    fun checkVerticalScrollText() {
         ScreenRobot()
-            .clickOnText(BUTTON_WITH_STYLE_TEXT)
+            .checkViewContainsText("Vertical 1")
             .sleep(2)
     }
 
-    @When("^I click on button (.*)$")
-    fun clickOnTab1(string1: String?) {
+    @When("^I have a horizontal scroll configured$")
+    fun checkHorizontalScrollText() {
         ScreenRobot()
-            .clickOnText(string1)
-    }
-
-    @Then("all my button components should render their respective text attributes correctly$")
-    fun renderTextAttributeCorrectly() {
-        ScreenRobot()
-            .checkViewContainsText(BUTTON_DEFAULT_TEXT)
-            .checkViewContainsText(BUTTON_WITH_STYLE_TEXT)
-            .checkViewContainsText(BUTTON_WITH_APPEARANCE_TEXT)
+            .checkViewContainsText("Horizontal 1")
             .sleep(2)
     }
 
-    @Then("component should render the action attribute correctly$")
-    fun renderActionAttributeCorrectly() {
+    @Then("^scrollview screen should render all text attributes correctly$")
+    fun checkScrollViewScreenTexts() {
         ScreenRobot()
-            .checkViewContainsText(MAIN_HEADER)
-            .checkViewContainsText(ACTION_CLICK_HEADER)
-            .checkViewContainsText(ACTION_CLICK_TEXT)
+            .checkViewContainsText(SCROLLVIEW_TEXT_1)
+            .checkViewContainsText(SCROLLVIEW_TEXT_2)
+    }
+
+    @Then("^scrollview screen should perform the scroll action vertically$")
+    fun validateVerticalScroll() {
+        ScreenRobot()
+            .scrollTo("Vertical 5")
             .sleep(2)
     }
+
+    @Then("^scrollview screen should perform the scroll action horizontally$")
+    fun validateHorizontalScroll() {
+        ScreenRobot()
+            .scrollTo("Horizontal 5")
+            .sleep(2)
+    }
+
+
 }

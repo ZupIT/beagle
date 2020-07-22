@@ -63,17 +63,4 @@ class PageViewScreenSteps {
             .swipeRightOnView()
             .swipeRightOnView()
     }
-
-//    @When("^I click on (.*)$")
-//    fun clickOnTab1(string1: String?) {
-//        ScreenRobot()
-//            .clickOnText(string1)
-//    }
-//
-//    @Then("^my tab should render the text (.*) and (.*) correctly$")
-//    fun renderTextCorrectly(string1: String?, string2: String?) {
-//        ScreenRobot()
-//            .checkViewContainsText(string1)
-//            .checkViewContainsText(string2)
-//    }
 }

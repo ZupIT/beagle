@@ -14,11 +14,15 @@
  * limitations under the License.
  */
 
-
 const val SCREEN_BUTTON_ALIGN_CENTER_ENDPOINT = "/button"
 const val SCREEN_BUTTON_ALIGN_LEFT_ENDPOINT = "/button-left"
 const val SCREEN_IMAGE_ENDPOINT = "/image"
 const val SCREEN_ACTION_CLICK_ENDPOINT = "/action-click"
 const val SCREEN_TABVIEW_ENDPOINT = "/tabview"
 const val PAGEVIEW_TABVIEW_ENDPOINT = "/pageview"
+const val LISTVIEW_TABVIEW_ENDPOINT = "/listview"
+const val SCROLLVIEW_TABVIEW_ENDPOINT = "/scrollview"
+const val TOUCHABLE_ENDPOINT = "/touchable"
+
+
 
