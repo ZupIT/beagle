@@ -51,6 +51,7 @@ final class TabBarUIComponent: UIView {
     
     // MARK: - Properties
     
+    private var shouldScrollToCurrentTab = true
     private var shouldAnimateOnCellDisplay = false
     private var containerWidthConstraint: NSLayoutConstraint?
     var model: Model
@@ -90,7 +91,7 @@ final class TabBarUIComponent: UIView {
     ) {
         self.model = model
         super.init(frame: .zero)
-        setupViews()
+        setupLayout()
     }
     
     @available(*, unavailable)
@@ -98,7 +99,16 @@ final class TabBarUIComponent: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupViews() {
+    override var frame: CGRect {
+        didSet {
+            if collectionView.visibleCells.count != 0, shouldScrollToCurrentTab {
+                scrollTo(page: model.tabIndex)
+                shouldScrollToCurrentTab.toggle()
+            }
+        }
+    }
+    
+    private func setupLayout() {
         addSubview(collectionView)
         collectionView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor)
         collectionView.heightAnchor.constraint(lessThanOrEqualToConstant: 65).isActive = true
@@ -118,16 +128,18 @@ final class TabBarUIComponent: UIView {
 // MARK: - Animation
 
 private extension TabBarUIComponent {
-    private func animateIndicatorView(from cell: UICollectionViewCell?) {
+    private func moveIndicatorView(to cell: UICollectionViewCell?) {
         guard let cell = cell else { return }
-        UIView.animate(withDuration: 0.2,
-                       delay: 0,
-                       options: .curveLinear,
-                       animations: {
-            self.containerIndicator.indicatorView.frame.origin.x = cell.frame.origin.x
-            self.containerWidthConstraint?.constant = cell.frame.width
-            self.layoutIfNeeded()
-        }, completion: nil)
+        UIView.animate(
+            withDuration: 0.2,
+            delay: 0,
+            options: .curveLinear,
+            animations: {
+                self.containerIndicator.indicatorView.frame.origin.x = cell.frame.origin.x
+                self.containerWidthConstraint?.constant = cell.frame.width
+                self.layoutIfNeeded()
+            }
+        )
     }
 }
 
@@ -143,7 +155,7 @@ extension TabBarUIComponent {
             shouldAnimateOnCellDisplay = true
             return
         }
-        animateIndicatorView(from: cell)
+        moveIndicatorView(to: cell)
     }
 }
 
@@ -153,7 +165,7 @@ extension TabBarUIComponent: UICollectionViewDataSource, UICollectionViewDelegat
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.row == model.tabIndex, shouldAnimateOnCellDisplay {
-            animateIndicatorView(from: cell)
+            moveIndicatorView(to: cell)
             shouldAnimateOnCellDisplay.toggle()
         }
     }
