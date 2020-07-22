@@ -33,6 +33,7 @@ import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
 import org.junit.Test
+import java.lang.reflect.TypeVariable
 import kotlin.test.assertEquals
 
 class PageIndicatorTest : BaseComponentTest() {
@@ -41,7 +42,7 @@ class PageIndicatorTest : BaseComponentTest() {
     private val beaglePageIndicatorView: BeaglePageIndicatorView = mockk(relaxed = true, relaxUnitFun = true)
     private val numberOfPages: Int = RandomData.int()
     private val currentPage: Bind<Int> = mockk(relaxed = true, relaxUnitFun = true)
-    private val currentPageSlot = slot<Observer<Int>>()
+    private val currentPageSlot = slot<Observer<Int?>>()
 
 
     private lateinit var pageIndicator: PageIndicator

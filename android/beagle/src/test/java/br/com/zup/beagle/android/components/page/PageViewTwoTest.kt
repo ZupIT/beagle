@@ -47,7 +47,7 @@ class PageViewTwoTest : BaseComponentTest() {
     private val context: ContextData = mockk(relaxed = true)
     private val onPageChange = listOf<Action>(mockk())
     private val currentPage: Bind<Int> = mockk()
-    private val currentPageSlot = slot<Observer<Int>>()
+    private val currentPageSlot = slot<Observer<Int?>>()
     private val pageListenerSlot = slot<ViewPager.OnPageChangeListener>()
 
     private lateinit var pageView: PageViewTwo
