@@ -59,11 +59,10 @@ class ButtonScreenSteps {
             .sleep(2)
     }
 
-    @When("I click on a component with a valid action attribute configured$")
-    fun clickOnButtonWithAction() {
+    @When("^I click on button (.*)$")
+    fun clickOnTab1(string1: String?) {
         ScreenRobot()
-            .clickOnText(BUTTON_DEFAULT_TEXT)
-            .sleep(2)
+            .clickOnText(string1)
     }
 
     @Then("all my button components should render their respective text attributes correctly$")

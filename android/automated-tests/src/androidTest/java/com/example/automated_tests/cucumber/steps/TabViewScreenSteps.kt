@@ -55,21 +55,29 @@ class TabViewScreenSteps {
         ScreenRobot()
             .checkViewContainsText(TAB_1)
             .checkViewContainsText(TAB_1_TEXT)
+            .checkViewContainsText(TAB_1_TEXT_2)
             .swipeLeftOnView()
+
             .checkViewContainsText(TAB_2)
             .checkViewContainsText(TAB_2_TEXT)
+            .checkViewContainsText(TAB_2_TEXT_2)
             .swipeLeftOnView()
+
             .checkViewContainsText(TAB_3)
             .checkViewContainsText(TAB_3_TEXT)
+            .checkViewContainsText(TAB_3_TEXT_2)
             .swipeLeftOnView()
+
             .checkViewContainsText(TAB_4)
             .checkViewContainsText(TAB_4_TEXT)
+            .checkViewContainsText(TAB_4_TEXT_2)
+
             .swipeRightOnView()
             .swipeRightOnView()
             .swipeRightOnView()
     }
 
-    @When("^I click on (.*)$")
+    @When("^I click on text (.*)$")
     fun clickOnTab1(string1: String?) {
         ScreenRobot()
             .clickOnText(string1)

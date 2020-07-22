@@ -24,16 +24,33 @@ const val BUTTON_DEFAULT_TEXT = "Button"
 const val BUTTON_WITH_STYLE_TEXT = "BUTTON WITH STYLE"
 const val BUTTON_WITH_APPEARANCE_TEXT = "Button with Appearance"
 
+//Image Screen
+const val IMAGE_SCREEN_HEADER = "Beagle Image"
+const val IMAGE_TEXT_1 = "Image"
+const val IMAGE_TEXT_2 = "Image with contentMode = FIT_XY"
+const val IMAGE_TEXT_3 = "Image with contentMode = FIT_CENTER"
+const val IMAGE_TEXT_4 = "Image with contentMode = CENTER_CROP"
+const val IMAGE_TEXT_5 = "Image with contentMode = CENTER"
+
 //TabView Screen
 const val TABVIEW_SCREEN_HEADER = "Beagle Tab View"
 const val TAB_1 = "TAB 1"
 const val TAB_1_TEXT = "Welcome to Tab 1"
+const val TAB_1_TEXT_2 = "This is Tab1's second text"
 const val TAB_2 = "TAB 2"
 const val TAB_2_TEXT = "Welcome to Tab 2"
+const val TAB_2_TEXT_2 = "This is Tab2's second text"
 const val TAB_3 = "TAB 3"
 const val TAB_3_TEXT = "Welcome to Tab 3"
+const val TAB_3_TEXT_2 = "This is Tab3's second text"
 const val TAB_4 = "TAB 4"
 const val TAB_4_TEXT = "Welcome to Tab 4"
+const val TAB_4_TEXT_2 = "This is Tab4's second text"
 
 //PageView Screen
 const val PAGEVIEW_SCREEN_HEADER = "Beagle PageView"
+const val PAGE_1_TEXT = "Page 1"
+const val PAGE_2_TEXT = "Page 2"
+const val PAGE_3_TEXT = "Page 3"
+
+

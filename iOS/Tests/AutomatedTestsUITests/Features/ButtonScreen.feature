@@ -9,11 +9,25 @@ Feature: Button Component Validation
     Scenario: Button 01 - Button component renders text attribute correctly
     Given the app will load http://localhost:8080/button
     Then all my button components should render their respective text attributes correctly
-
-    Scenario: Button 02 - Button component renders action attribute correctly
+    
+    Scenario Outline: Button 02 - Button component renders action attribute correctly
     Given the app will load http://localhost:8080/button
-    When I click on a component with a valid action attribute configured
+    When I click on button "<buttonText>"
     Then component should render the action attribute correctly
+    
+    Examples:
+    |buttonText                       |
+    |Button                           |
+    |Button with style                |
+    |Button with Appearance           |
+#   |Button with Style and Appearance |
+    
+    
+
+#    Scenario: Button 02 - Button component renders action attribute correctly
+#    Given the app will load http://localhost:8080/button
+#    When I click on a component with a valid action attribute configured
+#    Then component should render the action attribute correctly
 
 
 # Snapshot Test

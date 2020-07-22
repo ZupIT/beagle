@@ -12,9 +12,16 @@ Feature: Button Component Validation
     Scenario: Button 01 - Button component renders text attribute correctly
         Then all my button components should render their respective text attributes correctly
 
-    Scenario: Button 02 - Button component renders action attribute correctly
-        When I click on a component with a valid action attribute configured
+    Scenario Outline: Button 02 - Button component renders action attribute correctly
+        When I click on button <buttonText>
         Then component should render the action attribute correctly
+
+        Examples:
+            |buttonText                       |
+            |Button                           |
+            |BUTTON WITH STYLE                |
+            |Button with Appearance           |
+#           |Button with Style and Appearance |
 
 
 # Snapshot Test

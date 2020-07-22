@@ -9,9 +9,8 @@ Feature: Image Component Validation
     Background:
         Given that I'm on the image screen
 
-    Scenario: Image 01 - Image component renders name attribute correctly
-        When the component has a valid name attribute configured
-        Then component should render the name attribute correctly
+    Scenario: Image 01 - Image component renders text attribute correctly
+        Then image screen should render all text attributes correctly
 
 
 # Snapshot Test

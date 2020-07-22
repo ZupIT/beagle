@@ -12,7 +12,7 @@ Feature: TabView Component Validation
         Then my tabview components should render their respective tabs attributes correctly
 
     Scenario Outline: TabView 02 - Tabs render all text attribute correctly
-        When I click on <text1>
+        When I click on text <text1>
         Then my tab should render the text <text2> and <text3> correctly
 
         Examples:

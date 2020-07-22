@@ -24,7 +24,7 @@ import com.example.automated_tests.utils.ActivityFinisher
 import com.example.automated_tests.utils.TestUtils
 import cucumber.api.java.After
 import cucumber.api.java.Before
-import cucumber.api.java.en.Given
+import cucumber.api.java.en.*
 import org.junit.Rule
 
 
@@ -47,8 +47,19 @@ class ImageScreenSteps {
     fun checkImageScreen() {
         ScreenRobot()
             .checkViewContainsText(MAIN_HEADER)
+            .checkViewContainsText(IMAGE_SCREEN_HEADER)
             .sleep(2)
-            .scrollViewDown()
     }
 
+    @Then("^image screen should render all text attributes correctly$")
+    fun checkImageScreenTexts() {
+        ScreenRobot()
+            .checkViewContainsText(IMAGE_TEXT_1)
+            .checkViewContainsText(IMAGE_TEXT_2)
+            .scrollViewDown()
+//            .checkViewContainsText(IMAGE_TEXT_3)
+//            .checkViewContainsText(IMAGE_TEXT_4)
+//            .checkViewContainsText(IMAGE_TEXT_5)
+
+    }
 }

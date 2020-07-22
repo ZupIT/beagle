@@ -16,18 +16,24 @@ class ButtonScreenSteps: NSObject {
         let screen = ScreenRobot()
                 
         MatchAll("^App is running$") { (args, userInfo) -> Void in
-            XCTAssertTrue(ScreenElements.MAIN_HEADER.element.exists)
+            screen.checkViewContainsHeader()
         }
         
         Given("^Given the app will load http://localhost:8080/button$") { (args, userInfo) -> Void in
-            XCTAssertTrue(ScreenElements.MAIN_HEADER.element.exists)
+            screen.checkViewContainsHeader()
             XCTAssertTrue(ScreenElements.BUTTON_SCREEN_HEADER.element.exists)
+        }
+
+        When("I click on button \"([^\\\"]*)\"$") { (args, userInfo) -> Void in
+            let button: String = (args?[0])!
+            
+            screen.clickOnButton(button: ScreenElements(rawValue: button)!)
         }
         
         When("I click on a component with a valid style attribute configured$") { (args, userInfo) -> Void in
-            screen.clickOnButtonWithStyle()
-        }
-
+             screen.clickOnButtonWithStyle()
+         }
+        
         When("I click on a component with a valid action attribute configured$") { (args, userInfo) -> Void in
             screen.clickOnButtonWithAction()
          }
