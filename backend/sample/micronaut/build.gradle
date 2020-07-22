@@ -17,9 +17,8 @@
 import br.com.zup.beagle.Dependencies
 
 plugins {
-    id "org.jetbrains.kotlin.jvm"
     id "org.jetbrains.kotlin.kapt"
-    id "com.github.johnrengelman.shadow" version "5.2.0"
+    id "com.github.johnrengelman.shadow" version "6.0.0"
     id "application"
 }
 
@@ -30,32 +29,30 @@ configurations {
 }
 
 dependencies {
-    implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.MicronautLibraries.runtime
     implementation Dependencies.MicronautLibraries.netty
 
     implementation project(Dependencies.Modules.micronautStarter)
     implementation project(Dependencies.Modules.sampleCore)
 
-    runtime Dependencies.MicronautLibraries.netty
-    runtime Dependencies.BackendLibraries.slf4jJUL
+    runtimeOnly Dependencies.MicronautLibraries.netty
+    runtimeOnly Dependencies.BackendLibraries.slf4jJUL
 
     kapt Dependencies.MicronautLibraries.injectJava
 }
 
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = Dependencies.Versions.java
-        javaParameters = true
-    }
-}
+run.classpath += configurations.developmentOnly
 
 shadowJar {
     archiveClassifier = ""
     mergeServiceFiles()
 }
 
-run.classpath += configurations.developmentOnly
+tasks.withType(JavaCompile) {
+    options.compilerArgs = [
+        '-Amicronaut.processing.incremental=true'
+    ]
+}
 
 jar {
     manifest {
