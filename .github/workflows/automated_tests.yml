@@ -31,6 +31,9 @@ jobs:
             -   name: Deploy backend
                 run: bash fastlane/automatedTests/deploy_tests_backend.sh
 
+            -   name: Test Android
+                run: bundle exec fastlane automated_tests run_android_automation
+
             -   name: Test iOS
                 run: bundle exec fastlane automated_tests run_ios_automation
 

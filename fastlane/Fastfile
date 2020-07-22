@@ -147,13 +147,7 @@ platform :automated_tests do
 
   desc "Run Android automated tests"
   lane :run_android_automation do
-    #TODO launch emulator
-    gradle(
-      task: "connectedAndroidTest",
-      project_dir: "android/automated-tests",
-      gradle_path: "../.."
-    )
-    #sh "./run_android_automation.sh"
+    adb(command: "devices")
   end
 
   desc "Run Android automated tests"
