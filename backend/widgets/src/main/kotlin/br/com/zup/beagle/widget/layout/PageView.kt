@@ -21,8 +21,8 @@ import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.ContextComponent
 import br.com.zup.beagle.widget.context.ContextData
-import br.com.zup.beagle.widget.pager.DEPRECATED_PAGE_VIEW
 import br.com.zup.beagle.widget.pager.PageIndicatorComponent
+import br.com.zup.beagle.widget.utils.BeagleConstants.DEPRECATED_PAGE_VIEW
 
 /**
  *  The PageView component is a specialized container to hold pages (views) that will be displayed horizontally.
@@ -32,7 +32,7 @@ import br.com.zup.beagle.widget.pager.PageIndicatorComponent
  *
  */
 
-data class PageView(
+private data class PageView(
     val children: List<ServerDrivenComponent>,
     @Deprecated(DEPRECATED_PAGE_VIEW)
     val pageIndicator: PageIndicatorComponent? = null,
