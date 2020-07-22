@@ -95,7 +95,7 @@ data class Button(
         }
 
         observeBindChanges(rootView, text) {
-            this.text = it
+            it?.let{ this.text = it }
         }
     }
 

@@ -66,7 +66,7 @@ data class Text(
 
     private fun TextView.setTextWidget(text: Text, rootView: RootView) {
         observeBindChanges(rootView, text.text) {
-            this.text = it
+            it?.let { this.text = it }
         }
 
         text.styleId?.let {
@@ -75,13 +75,13 @@ data class Text(
 
         text.textColor?.let {
             observeBindChanges(rootView, it) { value ->
-                this.setTextColor(value)
+                value?.let { color ->this.setTextColor(color) }
             }
         }
 
         text.alignment?.let {
             observeBindChanges(rootView, it) { value ->
-                this.setAlignment(value)
+                value?.let { alignment ->this.setAlignment(alignment) }
             }
         }
     }

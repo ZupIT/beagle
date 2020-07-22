@@ -26,9 +26,6 @@ import br.com.zup.beagle.android.utils.renderScreen
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 import kotlinx.android.synthetic.main.activity_preview.*
-import okhttp3.Response
-import okhttp3.WebSocket
-import okhttp3.WebSocketListener
 
 private const val ENDPOINT_KEY = "ENDPOINT_KEY"
 private const val RECONNECT_INTERVAL_KEY = "RECONNECT_INTERVAL_KEY"
@@ -65,38 +62,26 @@ class PreviewActivity : BeagleActivity() {
 
         beaglePreview = BeaglePreview(endpoint, reconnectInterval)
 
-        beaglePreview.startListening(object : WebSocketListener() {
-            override fun onOpen(webSocket: WebSocket, response: Response) {
-                super.onOpen(webSocket, response)
-                Log.d(TAG, "onOpen: ${response.message}")
+        beaglePreview.startListening(object : WebSocketListener {
+            override fun onClose(reason: String?) {
+                Log.d(TAG, "onClose: Connection closed by remote host")
+                beaglePreview.reconnectSchedule()
             }
 
-            override fun onMessage(webSocket: WebSocket, text: String) {
-                super.onMessage(webSocket, text)
-                Log.d(TAG, "onMessage: $text")
+            override fun onMessage(message: String) {
+                Log.d(TAG, "onMessage: $message")
                 runOnUiThread {
-                    if (!text.startsWith("Welcome")) {
-                        flPreview.renderScreen(activity = this@PreviewActivity, screenJson = text)
+                    if (!message.startsWith("Welcome")) {
+                        flPreview.renderScreen(activity = this@PreviewActivity, screenJson = message)
                     } else {
-                        Toast.makeText(this@PreviewActivity, text, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@PreviewActivity, message, Toast.LENGTH_SHORT).show()
                     }
                 }
             }
 
-            override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-                super.onClosing(webSocket, code, reason)
-                Log.d(TAG, "onClosing: $reason")
-            }
-
-            override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-                super.onClosed(webSocket, code, reason)
-                Log.d(TAG, "onClosed: $reason")
-            }
-
-            override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                super.onFailure(webSocket, t, response)
-                Log.w(TAG, "onFailure: closed webSocket trying to reconnect")
-                beaglePreview.reconnect()
+            override fun onError(ex: Exception?) {
+                Log.w(TAG, "onError: Closed webSocket trying to reconnect")
+                beaglePreview.reconnectSchedule()
             }
         })
     }

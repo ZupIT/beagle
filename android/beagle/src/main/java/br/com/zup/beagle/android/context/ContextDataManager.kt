@@ -131,10 +131,7 @@ internal class ContextDataManager(
 
         bindings.forEach { bind ->
             val value = contextBinding.evaluateBindExpression(bind)
-
-            if (value != null) {
-                bind.notifyChange(value)
-            }
+            bind.notifyChange(value)
         }
     }
 }
