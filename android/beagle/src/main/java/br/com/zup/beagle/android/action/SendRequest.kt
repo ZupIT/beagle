@@ -24,6 +24,7 @@ import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.utils.evaluateExpression
 
 @SuppressWarnings("UNUSED_PARAMETER")
@@ -79,15 +80,15 @@ data class SendRequest(
         origin: View
     ) {
         onFinish?.let {
-            handleEvent(rootView, origin, it, "onFinish")
+            handleEvent(rootView, origin, it)
         }
 
         when (state) {
             is ActionRequestViewModel.FetchViewState.Error -> onError?.let {
-                handleEvent(rootView, origin, it, "onError", state.response)
+                handleEvent(rootView, origin, it, ContextData("onError", state.response))
             }
             is ActionRequestViewModel.FetchViewState.Success -> onSuccess?.let {
-                handleEvent(rootView, origin, it, "onSuccess", state.response)
+                handleEvent(rootView, origin, it, ContextData("onSuccess", state.response))
             }
         }
     }

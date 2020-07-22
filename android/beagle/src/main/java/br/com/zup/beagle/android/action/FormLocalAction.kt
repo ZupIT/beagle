@@ -39,7 +39,7 @@ data class FormLocalAction(
 
             override fun onSuccess(action: Action) {
                 changeActivityState(rootView, ServerDrivenState.Loading(false))
-                handleEvent(rootView, origin, action, "")
+                handleEvent(rootView, origin, action)
             }
 
             override fun onError(e: Throwable) {
