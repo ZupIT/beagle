@@ -49,4 +49,20 @@ public struct TabBarItem: Decodable, AutoInitiable {
         self.title = title
     }
 // sourcery:end
+    
+    enum CodingKeys: String, CodingKey {
+        case icon
+        case title
+    }
+    
+    enum LocalImageCodingKey: String, CodingKey {
+        case mobileId
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let nestedContainer = try? container.nestedContainer(keyedBy: LocalImageCodingKey.self, forKey: .icon)
+        icon = try nestedContainer?.decodeIfPresent(String.self, forKey: .mobileId)
+        title = try container.decodeIfPresent(String.self, forKey: .title)
+    }
 }
