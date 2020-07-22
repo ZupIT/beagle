@@ -76,7 +76,7 @@ private fun <T> evaluateExpression(
     return if (caller != null) {
         viewModel.evaluateExpressionForImplicitContext(caller, bind) as? T?
     } else {
-        viewModel.addBindingToContext(bind)
-        null
+        viewModel.addBindingToContext(bind) as? T?
+        //null
     }
 }

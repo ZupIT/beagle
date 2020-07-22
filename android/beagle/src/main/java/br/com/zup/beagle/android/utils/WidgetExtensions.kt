@@ -142,6 +142,6 @@ fun ServerDrivenComponent.toView(fragment: Fragment) = this.toView(FragmentRootV
 internal fun ServerDrivenComponent.toView(rootView: RootView): View {
     return viewFactory.makeBeagleFlexView(rootView.getContext()).apply {
         addServerDrivenComponent(this@toView, rootView)
-        rootView.generateViewModelInstance<ScreenContextViewModel>().evaluateContexts()
+        //rootView.generateViewModelInstance<ScreenContextViewModel>().evaluateContexts()
     }
 }

@@ -45,8 +45,8 @@ internal class ScreenContextViewModel(
         contextDataManager.updateContext(setContextInternal)
     }
 
-    fun addBindingToContext(bind: Bind.Expression<*>) {
-        contextDataManager.addBindingToContext(bind)
+    fun addBindingToContext(bind: Bind.Expression<*>): Any? {
+        return contextDataManager.addBindingToContext(bind)
     }
 
     fun evaluateContexts() {

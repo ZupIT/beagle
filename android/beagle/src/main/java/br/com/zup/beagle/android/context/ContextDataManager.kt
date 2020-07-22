@@ -46,15 +46,25 @@ internal class ContextDataManager(
 
     private val contexts: MutableMap<String, ContextBinding> = mutableMapOf()
 
+    /**
+     * List of bindings that reference contexts that MAY be added to the manager in the future
+     *
+     * It's a list, 'cause a binding can be added more than one time, if it references more than one context that isn't
+     * already present in manager
+    */
+    private val futureContextOrphanBindings: MutableList<Bind.Expression<*>> = mutableListOf()
+
     fun clearContexts() {
         contexts.clear()
     }
 
     fun addContext(contextData: ContextData) {
         if (contexts[contextData.id] == null) {
-            contexts[contextData.id] = ContextBinding(
+            val contextBinding = ContextBinding(
                 context = contextData.normalize()
             )
+            contexts[contextData.id] = contextBinding
+            adoptContextOrphanBindings(contextBinding)
         } else {
             contexts[contextData.id]?.bindings?.clear()
         }
@@ -65,10 +75,49 @@ internal class ContextDataManager(
         return contexts.filterKeys { contextIds.contains(it) }.map { it.value.context }
     }
 
-    fun addBindingToContext(binding: Bind.Expression<*>) {
+    /**
+     * addBindingToContext now evaluates binding value, just like implicit contexts
+     */
+    fun addBindingToContext(binding: Bind.Expression<*>): Any? {
+        var value: Any? = null
+
         binding.value.getExpressions().forEach { expression ->
             val contextId = expression.getContextId()
-            contexts[contextId]?.bindings?.add(binding)
+            val contextBinding = contexts[contextId]
+            value = if (contextBinding != null) {
+                contexts[contextId]?.bindings?.add(binding)
+                contextBinding.evaluateBindExpression(binding)
+            } else {
+                futureContextOrphanBindings.add(binding)
+                null
+            }
+        }
+        return value
+    }
+
+    private fun adoptContextOrphanBindings(contextBinding: ContextBinding) {
+        /** Don't let the context adopt the same orphan binding twice
+         *
+         *  Some bindings have shared custody!!
+         */
+        val adoptedBindings: MutableSet<Bind.Expression<*>> = mutableSetOf()
+        val iterator = futureContextOrphanBindings.iterator()
+        iterator.forEach { orphan ->
+            orphan.value.getExpressions().forEach { expression ->
+                val contextId = expression.getContextId()
+                if (contextId == contextBinding.context.id) {
+                    if (adoptedBindings.add(orphan)) {
+                        contextBinding.bindings.add(orphan)
+                        /**
+                         * When an orphan is adopted, notify its observers.
+                         *
+                         * Let's share the joy!!
+                         */
+                        notifyBindingChanges(orphan, contextBinding)
+                        iterator.remove()
+                    }
+                }
+            }
         }
     }
 
@@ -130,8 +179,12 @@ internal class ContextDataManager(
         val bindings = contextBinding.bindings
 
         bindings.forEach { bind ->
-            val value = contextBinding.evaluateBindExpression(bind)
-            bind.notifyChange(value)
+            notifyBindingChanges(bind, contextBinding)
         }
+    }
+
+    private fun notifyBindingChanges(binding: Bind.Expression<*>, contextBinding: ContextBinding){
+        val value = contextBinding.evaluateBindExpression(binding)
+        binding.notifyChange(value)
     }
 }
