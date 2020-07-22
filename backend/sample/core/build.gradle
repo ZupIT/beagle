@@ -32,8 +32,16 @@ dependencies {
     api project(Dependencies.Modules.framework)
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+compileKotlin {
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        jvmTarget = Dependencies.Versions.java
+        javaParameters = true
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = Dependencies.Versions.java
+        javaParameters = true
     }
 }

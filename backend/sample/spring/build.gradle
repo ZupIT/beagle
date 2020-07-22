@@ -23,7 +23,6 @@ plugins {
 
 group = Dependencies.GroupId.backendSample
 version = Dependencies.Releases.beagleVersionName
-sourceCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
     implementation Dependencies.GeneralLibraries.kotlin
@@ -33,8 +32,16 @@ dependencies {
     implementation Dependencies.SpringLibraries.webStarter
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+compileKotlin {
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        jvmTarget = Dependencies.Versions.java
+        javaParameters = true
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = Dependencies.Versions.java
+        javaParameters = true
     }
 }

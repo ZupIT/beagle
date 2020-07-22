@@ -25,7 +25,21 @@ dependencies {
     testImplementation Dependencies.TestLibraries.kotlinTest
     testImplementation Dependencies.TestLibraries.mockk
     testImplementation Dependencies.TestLibraries.junit5Api
-    testRuntime Dependencies.TestLibraries.junit5Engine
+    runtimeOnly Dependencies.TestLibraries.junit5Engine
 }
 
- apply from: rootProject.file('../maven-publish.gradle')
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = Dependencies.Versions.java
+        javaParameters = true
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = Dependencies.Versions.java
+        javaParameters = true
+    }
+}
+
+apply from: rootProject.file('../maven-publish.gradle')

@@ -40,11 +40,17 @@ dependencies {
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = Dependencies.Versions.java
+    kotlinOptions {
+        jvmTarget = Dependencies.Versions.java
+        javaParameters = true
+    }
 }
 
 compileTestKotlin {
-    kotlinOptions.jvmTarget = Dependencies.Versions.java
+    kotlinOptions {
+        jvmTarget = Dependencies.Versions.java
+        javaParameters = true
+    }
 }
 
 apply from: rootProject.file('../maven-publish.gradle')
