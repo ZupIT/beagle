@@ -146,7 +146,7 @@ platform :automated_tests do
 
   desc "Run Android automated tests"
   lane :run_android_automation do
-    sh("./automated/run_android_automation.sh")
+    sh("./automatedTests/run_android_automation.sh")
     gradle(
       task: "connectedAndroidTest",
       project_dir: "android/automated-tests",
