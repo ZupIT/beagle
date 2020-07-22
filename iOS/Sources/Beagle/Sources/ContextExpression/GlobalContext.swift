@@ -24,17 +24,17 @@ final class GlobalContext {
     
     private(set) var contextObservable: Observable<Context>?
     
-    public class func hasGlobalId(context: Context?) -> Bool {
-        globalId == context?.id
-    }
-    
     public class func isGlobal(id: String?) -> Bool {
         globalId == id
     }
     
+    func clear() {
+        contextObservable = nil
+    }
+    
     func getContext() -> Observable<Context>? {
         guard let contextObservable = contextObservable else {
-            setContextValue(.string(""))
+            setContextValue(.empty)
             return getContext()
         }
         return contextObservable

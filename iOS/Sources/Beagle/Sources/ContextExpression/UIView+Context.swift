@@ -139,8 +139,9 @@ extension UIView {
     }
     
     func setContext(_ context: Context) {
-        if GlobalContext.hasGlobalId(context: context) {
+        guard !GlobalContext.isGlobal(id: context.id) else {
             GlobalContext.global.setContextValue(context.value)
+            return
         }
         
         if var contextMap = contextMap {

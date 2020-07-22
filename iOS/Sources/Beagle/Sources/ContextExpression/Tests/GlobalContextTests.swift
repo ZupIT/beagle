@@ -21,59 +21,74 @@ import XCTest
 import SnapshotTesting
 
 class GlobalContextTests: XCTestCase {
+    private static let globalId = "global"
+    
+    var view1 = UIView()
+    var view2 = UIView()
+    
+    var globalContext1 = Context(id: globalId, value: "")
+    var globalContext2 = Context(id: globalId, value: "")
+    
+    override func setUp() {
+        super.setUp()
+        
+        GlobalContext.global.clear()
+        
+        view1 = UIView()
+        view2 = UIView()
+        
+        globalContext1 = Context(id: Self.globalId, value: "Fist value")
+        globalContext2 = Context(id: Self.globalId, value: "Second value")
+    }
+    
+    func testClear() {
+        GlobalContext.global.setContextValue(globalContext1.value)
+        XCTAssertNotNil(GlobalContext.global.contextObservable)
+        GlobalContext.global.clear()
+        XCTAssertNil(GlobalContext.global.contextObservable)
+    }
     
     func testGetContext() {
-        let globalId = "global"
+        view1.setContext(globalContext1)
+        var globalContextValue = GlobalContext.global.getContext()?.value
         
-        let view1 = UIView()
-        let view2 = UIView()
+        XCTAssertEqual(view1.getContext(with: Self.globalId)?.value, globalContextValue)
+        XCTAssertEqual(view2.getContext(with: Self.globalId)?.value, globalContextValue)
         
-        let context1 = Context(id: globalId, value: "Fist value")
-        let context2 = Context(id: globalId, value: "Second value")
+        view2.setContext(globalContext2)
+        globalContextValue = GlobalContext.global.getContext()?.value
         
+        XCTAssertEqual(view1.getContext(with: Self.globalId)?.value, globalContextValue)
+        XCTAssertEqual(view2.getContext(with: Self.globalId)?.value, globalContextValue)
+    }
+    
+    func testSetContextInViewWithGlobalId() {
         XCTAssertNil(view1.contextMap)
-        view1.setContext(context1)
-        assertSnapshot(matching: view1.contextMap, as: .dump)
-        XCTAssertNotNil(view1.contextMap)
+        XCTAssertNil(view2.contextMap)
         
-        if let view1ContextValue = view1.getContext(with: globalId)?.value,
-            let globalContextValue = GlobalContext.global.getContext()?.value {
-            XCTAssertTrue(view1ContextValue == globalContextValue)
-        } else {
-            XCTFail("Could not get Global context correctly.")
-        }
+        view1.setContext(globalContext1)
+        view2.setContext(globalContext2)
         
         XCTAssertNil(view2.contextMap)
-        view2.setContext(context2)
-        assertSnapshot(matching: view2.contextMap, as: .dump)
-        XCTAssertNotNil(view2.contextMap)
-        
-        if let view2Contextalue = view2.getContext(with: globalId)?.value,
-            let globalContextValue = GlobalContext.global.getContext()?.value {
-            XCTAssertTrue(view2Contextalue == globalContextValue)
-        } else {
-            XCTFail("Could not get Global context correctly.")
-        }
+        XCTAssertNil(view1.contextMap)
     }
     
     func testSetContext() {
-        let globalId = "global"
+        GlobalContext.global.setContextValue(globalContext1.value)
         
-        let view1 = UIView()
-        let view2 = UIView()
+        XCTAssertEqual(view1.getContext(with: Self.globalId)?.value, globalContext1)
+        XCTAssertEqual(view2.getContext(with: Self.globalId)?.value, globalContext1)
         
-        let context1 = Context(id: globalId, value: "Fist value")
-        let context2 = Context(id: globalId, value: "Second value")
+        GlobalContext.global.setContextValue(globalContext2.value)
         
-        GlobalContext.global.setContextValue(context1.value)
-        
-        XCTAssertTrue(view1.getContext(with: globalId)?.value == context1)
-        XCTAssertTrue(view2.getContext(with: globalId)?.value == context1)
-        
-        GlobalContext.global.setContextValue(context2.value)
-        
-        XCTAssertTrue(view1.getContext(with: globalId)?.value == context2)
-        XCTAssertTrue(view2.getContext(with: globalId)?.value == context2)
+        XCTAssertEqual(view1.getContext(with: Self.globalId)?.value, globalContext2)
+        XCTAssertEqual(view2.getContext(with: Self.globalId)?.value, globalContext2)
+    }
+    
+    func testGlobalContextObservableNotEmptyAfterSet() {
+        XCTAssertNil(GlobalContext.global.contextObservable)
+        GlobalContext.global.setContextValue(globalContext1.value)
+        XCTAssertNotNil(GlobalContext.global.contextObservable)
     }
     
 }
