@@ -45,17 +45,6 @@ class ExampleInstrumentedTest {
     fun testImageUrlLoading() {
         TestUtils.startActivity(activityTestRule,"http://10.0.2.2:8080/image" )
 
-
-
         sleep(10000)
     }
-
-    //    @Test
-//     fun clickOnButton() {
-//       ButtonScreenRobot()
-//           .checkViewContainsText("Automated Tests")
-//           .clickOnText("Button")
-//           .sleep(2)
-//        }
-
 }

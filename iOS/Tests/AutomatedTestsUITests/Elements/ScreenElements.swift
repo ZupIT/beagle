@@ -19,7 +19,7 @@ enum ScreenElements: String {
         case BUTTON_WITH_STYLE_TEXT = "Button with style"
         case BUTTON_WITH_APPEARANCE_TEXT = "Button with Appearance"
         case ACTION_CLICK_HEADER = "Action Click"
-        case ACTION_CLICK_TEXT_2 = "You clicked right"
+        case ACTION_CLICK_TEXT = "You clicked right"
 
         //Image Screen
         case IMAGE_SCREEN_HEADER = "Beagle Image"

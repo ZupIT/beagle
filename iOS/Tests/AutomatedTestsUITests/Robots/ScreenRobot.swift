@@ -39,7 +39,7 @@ public class ScreenRobot {
         
     func renderActionAttributeCorrectly() {
         XCTAssertTrue(ScreenElements.ACTION_CLICK_HEADER.element.exists)
-        XCTAssertTrue(ScreenElements.ACTION_CLICK_TEXT_2.element.exists)
+        XCTAssertTrue(ScreenElements.ACTION_CLICK_TEXT.element.exists)
     }
     
     func clickOnText(textOption: ScreenElements) {

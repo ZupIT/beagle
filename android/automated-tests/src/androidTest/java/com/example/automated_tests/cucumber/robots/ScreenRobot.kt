@@ -18,43 +18,60 @@ package com.example.automated_tests.cucumber.robots
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.*
 import com.example.automated_tests.R
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.hamcrest.TypeSafeMatcher
 
+
 class ScreenRobot {
 
     fun checkViewContainsText(text: String?): ScreenRobot {
-        Espresso.onView(Matchers.allOf(ViewMatchers.withText(text))).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(Matchers.allOf(withText(text))).check(matches(isDisplayed()))
         return this
     }
 
     fun clickOnText(text: String?): ScreenRobot {
-        Espresso.onView(Matchers.allOf(ViewMatchers.withText(text), ViewMatchers.isDisplayed())).perform(ViewActions.click())
+        Espresso.onView(Matchers.allOf(withText(text), isDisplayed())).perform(ViewActions.click())
         return this
     }
 
     fun scrollViewDown(): ScreenRobot {
-        Espresso.onView(ViewMatchers.withId(R.id.root_layout)).perform(ViewActions.swipeUp())
+        Espresso.onView(withId(R.id.root_layout)).perform(ViewActions.swipeUp())
         return this
     }
 
     fun swipeLeftOnView(): ScreenRobot {
-        Espresso.onView(Matchers.allOf(ViewMatchers.withId(R.id.root_layout))).perform(ViewActions.swipeLeft())
+        Espresso.onView(Matchers.allOf(withId(R.id.root_layout))).perform(ViewActions.swipeLeft())
         return this
     }
 
     fun swipeRightOnView(): ScreenRobot {
-        Espresso.onView(ViewMatchers.withId(R.id.root_layout)).perform(ViewActions.swipeRight())
+        Espresso.onView(withId(R.id.root_layout)).perform(ViewActions.swipeRight())
         return this
     }
+
+    fun scrollTo(text: String?): ScreenRobot {
+        Espresso.onView(withText(text)).perform(scrollTo()).check(matches(isDisplayed()))
+        return this
+    }
+
+    fun clickOnTouchableImage(): ScreenRobot {
+        Espresso.onView(childAtPosition(childAtPosition(withClassName(Matchers.`is`("br.com.zup.beagle.android.view.custom.BeagleFlexView")), 1), 1)).perform(ViewActions.click())
+        return this
+    }
+
+//        val actionMenuItemView = Espresso.onView(Matchers.allOf(childAtPosition(childAtPosition(withId(R.id.custom_toolbar), 0), 0), isDisplayed())).perform(ViewActions.click())
+//
+//        val appCompatButton = Espresso.onView(Matchers.allOf(withId(android.R.id.button1), withText("OK"), childAtPosition(childAtPosition(withId(R.id.buttonPanel), 0), 3))).perform(scrollTo(), ViewActions.click())
+//
+
 
 
         @Throws(InterruptedException::class)

@@ -16,15 +16,15 @@
 
 package br.com.zup.beagle.automatedtests.controllers
 
+import LISTVIEW_TABVIEW_ENDPOINT
 import PAGEVIEW_TABVIEW_ENDPOINT
 import SCREEN_BUTTON_ALIGN_CENTER_ENDPOINT
 import SCREEN_BUTTON_ALIGN_LEFT_ENDPOINT
 import SCREEN_IMAGE_ENDPOINT
 import SCREEN_TABVIEW_ENDPOINT
-import br.com.zup.beagle.automatedtests.builders.ButtonScreenBuilder
-import br.com.zup.beagle.automatedtests.builders.ImageScreenBuilder
-import br.com.zup.beagle.automatedtests.builders.PageViewScreenBuilder
-import br.com.zup.beagle.automatedtests.builders.TabViewScreenBuilder
+import SCROLLVIEW_TABVIEW_ENDPOINT
+import TOUCHABLE_ENDPOINT
+import br.com.zup.beagle.automatedtests.builders.*
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -45,4 +45,14 @@ class LayoutComponentsController() {
 
     @GetMapping(PAGEVIEW_TABVIEW_ENDPOINT)
     fun getPageViewScreen() = PageViewScreenBuilder.build()
+
+    @GetMapping(LISTVIEW_TABVIEW_ENDPOINT)
+    fun getListViewScreen() = ListViewScreenBuilder.build()
+
+    @GetMapping(SCROLLVIEW_TABVIEW_ENDPOINT)
+    fun getScrollViewScreen() = ScrollViewScreenBuilder.build()
+
+    @GetMapping(TOUCHABLE_ENDPOINT)
+    fun getTouchableScreen() = TouchableScreenBuilder.build()
+
 }

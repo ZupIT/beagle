@@ -27,66 +27,64 @@ import cucumber.api.java.Before
 import cucumber.api.java.en.*
 import org.junit.Rule
 
-class TabViewScreenSteps {
+
+class TouchableScreenSteps {
 
     @Rule
     var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
-    @Before("@tabview")
+    @Before("@touchable")
     fun setup() {
-        TestUtils.startActivity(activityTestRule, "http://10.0.2.2:8080/tabview")
+        TestUtils.startActivity(activityTestRule, "http://10.0.2.2:8080/touchable")
     }
 
-    @After("@tabview")
+    @After("@touchable")
     fun tearDown() {
         ActivityFinisher.finishOpenActivities()
     }
 
-    @Given("^that I'm on the tabview screen$")
-    fun checkTabViewScreen() {
+    @Given("^that I'm on the touchable screen$")
+    fun checkImageScreen() {
         ScreenRobot()
             .checkViewContainsText(MAIN_HEADER)
-            .checkViewContainsText(TABVIEW_SCREEN_HEADER)
+            .checkViewContainsText(TOUCHABLE_SCREEN_HEADER)
             .sleep(2)
     }
 
-    @Then("^my tabview components should render their respective tabs attributes correctly$")
-    fun checkTabViewRendersTabs() {
+    @And("^I have a text with touchable configured$")
+    fun checkTextWithTouchable() {
         ScreenRobot()
-            .checkViewContainsText(TAB_1)
-            .checkViewContainsText(TAB_1_TEXT)
-            .checkViewContainsText(TAB_1_TEXT_2)
-            .swipeLeftOnView()
-
-            .checkViewContainsText(TAB_2)
-            .checkViewContainsText(TAB_2_TEXT)
-            .checkViewContainsText(TAB_2_TEXT_2)
-            .swipeLeftOnView()
-
-            .checkViewContainsText(TAB_3)
-            .checkViewContainsText(TAB_3_TEXT)
-            .checkViewContainsText(TAB_3_TEXT_2)
-            .swipeLeftOnView()
-
-            .checkViewContainsText(TAB_4)
-            .checkViewContainsText(TAB_4_TEXT)
-            .checkViewContainsText(TAB_4_TEXT_2)
-
-            .swipeRightOnView()
-            .swipeRightOnView()
-            .swipeRightOnView()
+            .checkViewContainsText(TOUCHABLE_TEXT_1)
+            .checkViewContainsText(TOUCHABLE_TEXT_2)
+            .sleep(2)
     }
 
-    @When("^I click on text (.*)$")
-    fun clickOnText(string1: String?) {
+    @And("^I have an image with touchable configured$")
+    fun checkImageWithTouchable() {
+        ScreenRobot()
+            .checkViewContainsText(TOUCHABLE_TEXT_3)
+            .sleep(2)
+    }
+
+    @When("^I click on touchable text (.*)$")
+    fun clickOnTouchableText(string1: String?) {
         ScreenRobot()
             .clickOnText(string1)
     }
 
-    @Then("^my tab should render the text (.*) and (.*) correctly$")
-    fun renderTextCorrectly(string1: String?, string2: String?) {
+    @When("^I click on touchable image$")
+    fun clickOnTouchableImage() {
         ScreenRobot()
-            .checkViewContainsText(string1)
-            .checkViewContainsText(string2)
+            .clickOnTouchableImage()
+    }
+
+    @Then("^touchable screen should render all text attributes correctly$")
+    fun checkTouchableScreenTexts() {
+        ScreenRobot()
+            .checkViewContainsText(TOUCHABLE_TEXT_1)
+            .checkViewContainsText(TOUCHABLE_TEXT_2)
+            .checkViewContainsText(TOUCHABLE_TEXT_3)
+            .checkViewContainsText(TOUCHABLE_TEXT_4)
+            .scrollViewDown()
     }
 }

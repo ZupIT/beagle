@@ -23,6 +23,8 @@ const val BUTTON_SCREEN_HEADER = "Beagle Button"
 const val BUTTON_DEFAULT_TEXT = "Button"
 const val BUTTON_WITH_STYLE_TEXT = "BUTTON WITH STYLE"
 const val BUTTON_WITH_APPEARANCE_TEXT = "Button with Appearance"
+const val ACTION_CLICK_HEADER = "Action Click"
+const val ACTION_CLICK_TEXT = "You clicked right"
 
 //Image Screen
 const val IMAGE_SCREEN_HEADER = "Beagle Image"
@@ -53,4 +55,22 @@ const val PAGE_1_TEXT = "Page 1"
 const val PAGE_2_TEXT = "Page 2"
 const val PAGE_3_TEXT = "Page 3"
 
+//ScrollView Screen
+const val SCROLLVIEW_SCREEN_HEADER = "Beagle ScrollView"
+const val SCROLLVIEW_TEXT_1 = "Vertical ScrollView"
+const val SCROLLVIEW_TEXT_2 = "Horizontal ScrollView with scrollBars"
+
+//ListView Screen
+const val LISTVIEW_SCREEN_HEADER = "Beagle ListView"
+const val STATIC_LISTVIEW_TEXT_1 = "Static VERTICAL ListView"
+const val STATIC_LISTVIEW_TEXT_2 = "Static HORIZONTAL ListView"
+const val DYNAMIC_LISTVIEW_TEXT_1 = "Dynamic VERTICAL ListView"
+const val DYNAMIC_LISTVIEW_TEXT_2 = "Dynamic HORIZONTAL ListView"
+
+//Touchable Screen
+const val TOUCHABLE_SCREEN_HEADER = "Beagle Touchable"
+const val TOUCHABLE_TEXT_1 = "Text with Touchable"
+const val TOUCHABLE_TEXT_2 = "Click here!"
+const val TOUCHABLE_TEXT_3 = "Image with Touchable"
+const val TOUCHABLE_TEXT_4 = "NetworkImage with Touchable"
 
