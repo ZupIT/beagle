@@ -43,6 +43,17 @@ dependencies {
 
 run.classpath += configurations.developmentOnly
 
+shadowJar {
+    archiveClassifier = ""
+    mergeServiceFiles()
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs = [
+        '-Amicronaut.processing.incremental=true'
+    ]
+}
+
 jar {
     manifest {
         attributes 'Main-Class': mainClassName
