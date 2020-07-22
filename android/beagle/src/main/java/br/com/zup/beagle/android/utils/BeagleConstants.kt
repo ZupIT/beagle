@@ -18,4 +18,5 @@ package br.com.zup.beagle.android.utils
 
 object BeagleConstants {
     val EXPRESSION_REGEX = "@\\{([^)]+)\\}".toRegex()
+    const val DEPRECATED_PAGE_VIEW = "This constructor will be removed in a future version, use the constructor with Bind"
 }

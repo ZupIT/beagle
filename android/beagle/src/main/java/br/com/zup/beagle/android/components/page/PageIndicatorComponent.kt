@@ -16,10 +16,10 @@
 
 package br.com.zup.beagle.android.components.page
 
+import br.com.zup.beagle.android.utils.BeagleConstants.DEPRECATED_PAGE_VIEW
 import br.com.zup.beagle.android.widget.ViewConvertable
 import br.com.zup.beagle.core.ServerDrivenComponent
 
-const val DEPRECATED_PAGE_VIEW = "This constructor will be removed in a future version, use the constructor with Bind"
 @Deprecated(message = DEPRECATED_PAGE_VIEW)
 interface PageIndicatorComponent : ServerDrivenComponent,
     ViewConvertable {

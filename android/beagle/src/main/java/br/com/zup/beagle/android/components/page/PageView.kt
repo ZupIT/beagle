@@ -25,23 +25,18 @@ import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
-import br.com.zup.beagle.android.utils.handleEvent
-import br.com.zup.beagle.android.utils.observeBindChanges
-import br.com.zup.beagle.android.view.custom.BeaglePageView
+import br.com.zup.beagle.android.utils.BeagleConstants.DEPRECATED_PAGE_VIEW
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.Size
-import br.com.zup.beagle.widget.core.UnitType
-import br.com.zup.beagle.widget.core.UnitValue
 
 @RegisterWidget
-@Deprecated(message = DEPRECATED_PAGE_VIEW)
-data class PageView(
+private data class PageView(
     val children: List<ServerDrivenComponent>,
     @Deprecated(message = DEPRECATED_PAGE_VIEW)
     val pageIndicator: PageIndicatorComponent? = null,
