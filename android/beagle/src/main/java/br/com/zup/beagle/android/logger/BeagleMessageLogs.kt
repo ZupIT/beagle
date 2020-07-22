@@ -18,9 +18,9 @@
 
 package br.com.zup.beagle.android.logger
 
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.ResponseData
+import br.com.zup.beagle.core.ServerDrivenComponent
 
 internal object BeagleMessageLogs {
 
@@ -109,6 +109,11 @@ internal object BeagleMessageLogs {
     fun errorWhenMalformedColorIsProvided(color: String, ex: Exception) {
         val errorMessage = "Could not parses color $color"
         BeagleLoggerProxy.error(errorMessage, ex)
+    }
+
+    fun errorWhenExpressionEvaluateNullValue(value: String) {
+        val errorMessage = "Could not found value for $value"
+        BeagleLoggerProxy.error(errorMessage)
     }
 
     fun logNotFoundSimpleForm() {

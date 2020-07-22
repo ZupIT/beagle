@@ -32,17 +32,11 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 
 @RegisterWidget
-data class Button internal constructor(
+data class Button(
     val text: Bind<String>,
     val styleId: String? = null,
     val onPress: List<Action>? = null,
-    val clickAnalyticsEvent: ClickEvent? = null,
-    @Transient
-    private val viewFactory: ViewFactory = ViewFactory(),
-    @Transient
-    private val preFetchHelper: PreFetchHelper = PreFetchHelper(),
-    @Transient
-    private val styleManager: StyleManager = StyleManager()
+    val clickAnalyticsEvent: ClickEvent? = null
 ) : WidgetView() {
 
     constructor(
@@ -57,20 +51,14 @@ data class Button internal constructor(
         clickAnalyticsEvent
     )
 
-    constructor(
-        text: Bind<String>,
-        styleId: String? = null,
-        onPress: List<Action>? = null,
-        clickAnalyticsEvent: ClickEvent? = null
-    ) : this(
-        text,
-        styleId,
-        onPress,
-        clickAnalyticsEvent,
-        ViewFactory(),
-        PreFetchHelper(),
-        StyleManager()
-    )
+    @Transient
+    private val viewFactory = ViewFactory()
+
+    @Transient
+    private val preFetchHelper: PreFetchHelper = PreFetchHelper()
+
+    @Transient
+    private val styleManager: StyleManager = StyleManager()
 
     override fun buildView(rootView: RootView): View {
         onPress?.let {

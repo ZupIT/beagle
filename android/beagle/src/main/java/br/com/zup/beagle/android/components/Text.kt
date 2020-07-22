@@ -23,7 +23,6 @@ import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.context.valueOfNullable
-import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.utils.toAndroidColor
 import br.com.zup.beagle.android.view.ViewFactory
@@ -63,18 +62,18 @@ data class Text(
 
     private fun TextView.setTextWidget(text: Text, rootView: RootView) {
         observeBindChanges(rootView, text.text) {
-            this.text = it
+            it?.let { this.text = it }
         }
 
         text.textColor?.let {
             observeBindChanges(rootView, it) { value ->
-                this.setTextColor(value)
+                value?.let { color ->this.setTextColor(color) }
             }
         }
 
         text.alignment?.let {
             observeBindChanges(rootView, it) { value ->
-                this.setAlignment(value)
+                value?.let { alignment ->this.setAlignment(alignment) }
             }
         }
     }

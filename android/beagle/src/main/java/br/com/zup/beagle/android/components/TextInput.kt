@@ -20,9 +20,7 @@ import android.text.InputType
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
-import androidx.core.widget.TextViewCompat
 import androidx.core.widget.doOnTextChanged
-import br.com.zup.beagle.R
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
@@ -120,7 +118,7 @@ data class TextInput(
     }
 
     private fun EditText.removeOnTextChange() {
-        this.removeTextChangedListener(textWatcher)
+        removeTextChangedListener(textWatcher)
     }
 
     private fun EditText.setUpOnFocusChange(rootView: RootView) {
@@ -150,25 +148,30 @@ data class TextInput(
     }
 
     private fun EditText.setData(textInput: TextInput, rootView: RootView) {
-        textInput.placeholder?.let { bind -> observeBindChanges(rootView, bind) { hint = it } }
+        textInput.placeholder?.let { bind -> observeBindChanges(rootView, bind) { it?.let { hint = it } } }
         textInput.value?.let { bind ->
-            observeBindChanges(rootView, bind) {
-                if (it != text.toString()) {
-                    removeOnTextChange()
-                    setText(it)
-                    setSelection(it.length)
-                    setUpOnTextChange(rootView)
-                }
-            }
+            observeBindChanges(rootView, bind) { it?.let { setValue(it, rootView) } }
         }
-        textInput.readOnly?.let { bind -> observeBindChanges(rootView, bind) { isEnabled = !it } }
-        textInput.disabled?.let { bind -> observeBindChanges(rootView, bind) { isEnabled = !it } }
+        textInput.readOnly?.let { bind -> observeBindChanges(rootView, bind) { setEnabledConfig(it) } }
+        textInput.disabled?.let { bind -> observeBindChanges(rootView, bind) { setEnabledConfig(it) } }
         textInput.hidden?.let { bind ->
             observeBindChanges(rootView, bind) {
-                visibility = if (it) View.INVISIBLE else View.VISIBLE
+                it?.let { visibility = if (it) View.INVISIBLE else View.VISIBLE }
             }
         }
-        textInput.type?.let { bind -> observeBindChanges(rootView, bind) { setInputType(it) } }
+        textInput.type?.let { bind -> observeBindChanges(rootView, bind) { it?.let { setInputType(it) } } }
+    }
+
+    private fun EditText.setEnabledConfig(isEnabled: Boolean?) {
+        isEnabled?.let { this.isEnabled = !it }
+    }
+
+    private fun EditText.setValue(text: String, rootView: RootView) {
+        if (text == this.text.toString()) return
+        removeOnTextChange()
+        setText(text)
+        setSelection(text.length)
+        setUpOnTextChange(rootView)
     }
 
     private fun EditText.setInputType(textInputType: TextInputType) {
