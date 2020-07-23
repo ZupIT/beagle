@@ -47,6 +47,14 @@ jobs:
                 with:
                     path: ${{ env.android-system-images-path }}
                     key: ${{ runner.os }}-build-${{ env.android-system-images-cache-key }}-${{ hashFiles('fastlane/automatedTests/run_android_automation.sh') }}
+            -   name: Cache android avd
+                uses: actions/cache@v2
+                env:
+                    android-avd-cache-key: android-avd-cache
+                    android-avd-path: ~/.android
+                with:
+                    path: ${{ env.android-avd-path }}
+                    key: ${{ runner.os }}-build-${{ env.android-avd-cache-key }}-${{ hashFiles('fastlane/automatedTests/run_android_automation.sh') }}
             -   name: Test Android
                 run: bash fastlane/automatedTests/run_android_automation.sh
                 env:
