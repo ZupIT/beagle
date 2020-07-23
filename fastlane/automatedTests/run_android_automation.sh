@@ -14,7 +14,7 @@ trap cleanup EXIT
 
 "$ANDROID_SDK_ROOT"/tools/bin/sdkmanager "$AVD_IMAGE"
 
-if [ -z $("$ANDROID_SDK_ROOT"/emulator/emulator -list-avds | grep $AVD_NAME) ]; then
+if [[ -z $("$ANDROID_SDK_ROOT"/emulator/emulator -list-avds | grep -q "$AVD_NAME") ]]; then
     echo "Using avd from cache"
 else
     #blank line necessary as input to AVD
