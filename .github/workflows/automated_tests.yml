@@ -42,7 +42,7 @@ jobs:
             -   name: Test Android
                 run: bash fastlane/automatedTests/run_android_automation.sh
                 env:
-                    ANDROID_SDK_ROOT: ~/Library/Android/sdk
+                    ANDROID_SDK_ROOT: /Users/runner/Library/Android/sdk
 
             -   name: Test iOS
                 run: bundle exec fastlane automated_tests run_ios_automation
