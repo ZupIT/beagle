@@ -27,6 +27,10 @@ import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.android.components.page.PageView
+import br.com.zup.beagle.android.context.GlobalContext
+import br.com.zup.beagle.android.context.clearGlobalContext
+import br.com.zup.beagle.android.context.getGlobalContext
+import br.com.zup.beagle.android.context.setGlobalContext
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.widget.core.TextAlignment
 
@@ -36,13 +40,21 @@ class PageViewFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
+//        setGlobalContext(path = "phone", value = "1234")
+//        clearGlobalContext()
+//        GlobalContext.clear(null, fragment = this)
+       val texto:String = getGlobalContext("endereco") as String
+
+
         val declarative = PageView(
             pageIndicator = PageIndicator(
                 selectedColor = "#000000",
                 unselectedColor = "#888888"
             ),
             children = listOf(
-                Text("Page 1", alignment = TextAlignment.CENTER).applyFlex(
+                Text(text = texto, alignment = TextAlignment.CENTER).applyFlex(
                     Flex(
                         alignSelf = AlignSelf.CENTER,
                         grow = 1.0

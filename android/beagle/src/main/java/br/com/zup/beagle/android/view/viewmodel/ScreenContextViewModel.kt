@@ -95,4 +95,8 @@ internal class ScreenContextViewModel(
     fun clearContexts(){
         contextDataManager.clearContexts()
     }
+
+    fun clearContextId(contextId:String){
+        contextDataManager.clearContextId(contextId)
+    }
 }

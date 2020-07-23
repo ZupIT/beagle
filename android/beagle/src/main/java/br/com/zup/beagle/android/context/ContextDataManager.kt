@@ -23,6 +23,7 @@ import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.BeagleConstants.GLOBAL_CONTEXT
 import br.com.zup.beagle.android.utils.getContextId
 import br.com.zup.beagle.android.utils.getExpressions
+import org.json.JSONObject
 
 internal data class ContextBinding(
     val context: ContextData,
@@ -54,6 +55,15 @@ internal class ContextDataManager(
         contexts.clear()
     }
 
+    fun clearContextId(contextId:String) {
+         contexts.remove(contextId)
+        if (contextId == GLOBAL_CONTEXT){
+            GlobalContext.globalContext = ContextData(GLOBAL_CONTEXT, value = "")
+            addAnyContext(GlobalContext.globalContext)
+        }
+        evaluateContexts()
+    }
+
     fun addContext(contextData: ContextData) {
         if (contextData.id == GLOBAL_CONTEXT) {
             //TODO Mensagem de erro
@@ -64,6 +74,9 @@ internal class ContextDataManager(
        if (setContextData.contextId == GlobalContext.globalContext.id){
            contexts[GlobalContext.globalContext.id]?.let {
                GlobalContext.globalContext = it.context
+//               (it.context.value as JSONObject).remove("numero")
+
+               evaluateContext(setContextData.contextId)
             }
         }
     }

@@ -16,11 +16,22 @@
 
 package br.com.zup.beagle.android.context
 
-interface GlobalcontextAPI {
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 
-    fun get(path:String?=""):Any
+interface GlobalContextAPI {
 
-    fun set(path:String?="", value:Any)
+    fun get(path: String? = null, fragment: Fragment): Any?
 
-    fun clear(path: String?="")
+    fun get(path: String? = null, activity: AppCompatActivity): Any?
+
+    fun set(path: String? = null, value: Any, fragment: Fragment)
+
+    fun set(path: String? = null, value: Any, activity: AppCompatActivity)
+
+    fun clear(path: String? = null, fragment: Fragment)
+
+    fun clear(path: String? = null, activity: AppCompatActivity)
 }
+
+
