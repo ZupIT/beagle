@@ -4,7 +4,7 @@ AVD_NAME='test'
 AVD_IMAGE='system-images;android-29;google_apis_playstore;x86'
 
 function cleanup() {
-    if [[ -v $EMULATOR_PID ]]; then
+    if [[ -n $EMULATOR_PID ]]; then
         kill "$EMULATOR_PID"
     fi
 
