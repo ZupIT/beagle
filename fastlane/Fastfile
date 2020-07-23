@@ -17,6 +17,12 @@ platform :android do
     gradle(project_dir: "android", task: "uploadArchives --no-daemon --no-parallel")
   end
 
+  desc "Deploy current code to production"
+  lane :deploy_to_production do
+    deploy_to_stage
+    gradle(project_dir: "android", task: "closeAndReleaseRepository")
+  end
+
 end
 
 ###
@@ -62,8 +68,8 @@ lane :deploy do
 
   sh "bash ./release/maven_signing.sh"
 
-  sh "fastlane android deploy_to_stage"
-  sh "fastlane backend deploy_to_stage"
+  sh "fastlane android deploy_to_production"
+  sh "fastlane backend deploy_to_production"
 
   sh "fastlane ios release"
 
@@ -125,6 +131,12 @@ platform :backend do
   lane :deploy_to_stage do
     gradle(project_dir: "backend", task: "assemble")
     gradle(project_dir: "backend", task: "uploadArchives --no-daemon --no-parallel")
+  end
+
+  desc "Deploy current code to production"
+  lane :deploy_to_production do
+    deploy_to_stage
+    gradle(project_dir: "backend", task: "closeAndReleaseRepository")
   end
 
 end
