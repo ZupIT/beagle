@@ -24,7 +24,6 @@ import br.com.zup.beagle.widget.builder.BeagleBuilder
 import br.com.zup.beagle.widget.builder.BeagleListBuilder
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
-import br.com.zup.beagle.widget.context.valueOfNullable
 import kotlin.properties.Delegates
 
 /**
@@ -57,12 +56,12 @@ data class Button(
     class Builder : BeagleBuilder<Button> {
         var text: Bind<String> by Delegates.notNull()
         var styleId: String? = null
-        var onPress: List<Action>? = null
+        var onPress: MutableList<Action>? = null
         var clickAnalyticsEvent: ClickEvent? = null
 
         fun text(text: Bind<String>) = this.apply { this.text = text }
         fun styleId(styleId: String?) = this.apply { this.styleId = styleId }
-        fun onPress(onPress: List<Action>?) = this.apply { this.onPress = onPress }
+        fun onPress(onPress: List<Action>?) = this.apply { this.onPress = onPress?.toMutableList() }
         fun clickAnalyticsEvent(clickAnalyticsEvent: ClickEvent?)
             = this.apply { this.clickAnalyticsEvent = clickAnalyticsEvent }
 

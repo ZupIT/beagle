@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package br.com.zup.beagle.widget.action
 
 import br.com.zup.beagle.widget.builder.BeagleBuilder
 import br.com.zup.beagle.widget.builder.BeagleMapBuilder
 import br.com.zup.beagle.widget.layout.Screen
 import kotlin.properties.Delegates
-
 
 /**
  * This defines navigation type,
@@ -35,6 +33,7 @@ sealed class Route {
      * @param fallback screen that is rendered in case the request fails.
      */
     data class Remote(val url: String, val shouldPrefetch: Boolean = false, val fallback: Screen? = null) : Route() {
+
         class Builder : BeagleBuilder<Remote> {
 
             var url: String by Delegates.notNull()
@@ -83,11 +82,24 @@ sealed class Route {
 
         }
     }
+
+    class Builder {
+        var route: Route by Delegates.notNull()
+
+        fun remote(block: Remote.Builder.() -> Unit) {
+            this.route = Remote.Builder().apply(block).build()
+        }
+
+        fun local(block: Local.Builder.() -> Unit) {
+            this.route = Local.Builder().apply(block).build()
+        }
+
+        fun build() = route
+    }
+
 }
 
-fun routeRemote(block: Route.Remote.Builder.() -> Unit) = Route.Remote.Builder().apply(block).build()
-
-fun routeLocal(block: Route.Local.Builder.() -> Unit) = Route.Local.Builder().apply(block).build()
+fun route(block: Route.Builder.() -> Unit) = Route.Builder().apply(block).build()
 
 /**
  * Class handles transition actions between screens in the application. Its structure is the following:.
@@ -164,8 +176,8 @@ sealed class Navigate : Action {
 
             fun route(route: Route) = this.apply { this.route = route }
 
-            fun route(block: () -> Route) {
-                route(block.invoke())
+            fun route(block: Route.Builder.() -> Unit) {
+                route(Route.Builder().apply(block).build())
             }
 
             override fun build() = PushStack(route)
@@ -193,8 +205,8 @@ sealed class Navigate : Action {
 
             fun route(route: Route) = this.apply { this.route = route }
 
-            fun route(block: () -> Route) {
-                route(block.invoke())
+            fun route(block: Route.Builder.() -> Unit) {
+                route(Route.Builder().apply(block).build())
             }
 
             override fun build() = PushView(route)
@@ -238,8 +250,8 @@ sealed class Navigate : Action {
 
             fun route(route: Route) = this.apply { this.route = route }
 
-            fun route(block: () -> Route) {
-                route(block.invoke())
+            fun route(block: Route.Builder.() -> Unit) {
+                route(Route.Builder().apply(block).build())
             }
 
             override fun build() = ResetApplication(route)
@@ -257,39 +269,61 @@ sealed class Navigate : Action {
 
             fun route(route: Route) = this.apply { this.route = route }
 
-            fun route(block: () -> Route) {
-                route(block.invoke())
+            fun route(block: Route.Builder.() -> Unit) {
+                route(Route.Builder().apply(block).build())
             }
 
             override fun build() = ResetStack(route)
 
         }
     }
+
+    @Suppress("TooManyFunctions")
+    class Builder {
+        var navigate: Navigate by Delegates.notNull()
+
+        fun navigate(navigate: Navigate) = this.apply { this.navigate = navigate }
+
+        fun openExternalUrl(block: OpenExternalURL.Builder.() -> Unit) {
+            navigate(OpenExternalURL.Builder().apply(block).build())
+        }
+
+        fun openNativeRoute(block: OpenNativeRoute.Builder.() -> Unit) {
+            navigate(OpenNativeRoute.Builder().apply(block).build())
+        }
+
+        fun pushStack(block: PushStack.Builder.() -> Unit) {
+            navigate(PushStack.Builder().apply(block).build())
+        }
+
+        fun popStack(block: PopStack.Builder.() -> Unit) {
+            navigate(PopStack.Builder().apply(block).build())
+        }
+
+        fun pushView(block: PushView.Builder.() -> Unit) {
+            navigate(PushView.Builder().apply(block).build())
+        }
+
+        fun popView(block: PopView.Builder.() -> Unit) {
+            navigate(PopView.Builder().apply(block).build())
+        }
+
+        fun popToView(block: PopToView.Builder.() -> Unit) {
+            navigate(PopToView.Builder().apply(block).build())
+        }
+
+        fun resetApplication(block: ResetApplication.Builder.() -> Unit) {
+            navigate(ResetApplication.Builder().apply(block).build())
+        }
+
+        fun resetStack(block: ResetStack.Builder.() -> Unit) {
+            navigate(ResetStack.Builder().apply(block).build())
+        }
+
+        fun build() = navigate
+
+    }
+
 }
 
-fun openExternalUrl(block: Navigate.OpenExternalURL.Builder.() -> Unit)
-    = Navigate.OpenExternalURL.Builder().apply(block).build()
-
-fun openNativeRoute(block: Navigate.OpenNativeRoute.Builder.() -> Unit)
-    = Navigate.OpenNativeRoute.Builder().apply(block).build()
-
-fun pushStack(block: Navigate.PushStack.Builder.() -> Unit)
-    = Navigate.PushStack.Builder().apply(block).build()
-
-fun popStack(block: Navigate.PopStack.Builder.() -> Unit)
-    = Navigate.PopStack.Builder().apply(block).build()
-
-fun pushView(block: Navigate.PushView.Builder.() -> Unit)
-    = Navigate.PushView.Builder().apply(block).build()
-
-fun popView(block: Navigate.PopView.Builder.() -> Unit)
-    = Navigate.PopView.Builder().apply(block).build()
-
-fun popToView(block: Navigate.PopToView.Builder.() -> Unit)
-    = Navigate.PopToView.Builder().apply(block).build()
-
-fun resetApplication(block: Navigate.ResetApplication.Builder.() -> Unit)
-    = Navigate.ResetApplication.Builder().apply(block).build()
-
-fun resetStack(block: Navigate.ResetStack.Builder.() -> Unit)
-    = Navigate.ResetStack.Builder().apply(block).build()
+fun navigate(block: Navigate.Builder.() -> Unit) = Navigate.Builder().apply(block).build()

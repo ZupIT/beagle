@@ -105,6 +105,7 @@ data class NavigationBarItem(
     val accessibility: Accessibility? = null
 ) : IdentifierComponent {
     override var id: String? = null
+
     class Builder : BeagleBuilder<NavigationBarItem> {
         var text: String by Delegates.notNull()
         var image: ImagePath.Local? = null
@@ -164,18 +165,20 @@ data class NavigationBar(
     val navigationBarItems: List<NavigationBarItem>? = null,
     val backButtonAccessibility: Accessibility? = null
 ) {
+
+    @Suppress("TooManyFunctions")
     class Builder : BeagleBuilder<NavigationBar> {
         var title: String by Delegates.notNull()
         var showBackButton: Boolean = true
         var styleId: String? = null
-        var navigationBarItems: List<NavigationBarItem>? = null
+        var navigationBarItems: MutableList<NavigationBarItem>? = null
         var backButtonAccessibility: Accessibility? = null
 
         fun title(title: String) = this.apply { this.title = title }
         fun showBackButton(showBackButton: Boolean) = this.apply { this.showBackButton = showBackButton }
         fun styleId(styleId: String?) = this.apply { this.styleId = styleId }
         fun navigationBarItems(navigationBarItems: List<NavigationBarItem>?)
-            = this.apply { this.navigationBarItems = navigationBarItems }
+            = this.apply { this.navigationBarItems = navigationBarItems?.toMutableList() }
         fun backButtonAccessibility(backButtonAccessibility: Accessibility?)
             = this.apply { this.backButtonAccessibility = backButtonAccessibility }
 
@@ -246,6 +249,8 @@ data class Screen(
     override val screenAnalyticsEvent: ScreenEvent? = null,
     override val context: ContextData? = null
 ) : ScreenAnalytics, ContextComponent {
+
+    @Suppress("TooManyFunctions")
     class Builder : BeagleBuilder<Screen> {
         var identifier: String? = null
         var safeArea: SafeArea? = null

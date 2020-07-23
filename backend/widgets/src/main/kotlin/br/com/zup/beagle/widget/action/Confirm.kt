@@ -56,6 +56,8 @@ data class Confirm(
         labelOk = labelOk,
         labelCancel = labelCancel
     )
+
+    @Suppress("TooManyFunctions")
     class Builder : BeagleBuilder<Confirm> {
         var title: Bind<String>? = null
         var message: Bind<String> by Delegates.notNull()
@@ -65,9 +67,7 @@ data class Confirm(
         var labelCancel: String? = null
 
         fun title(title: Bind<String>?) = this.apply { this.title = title }
-        fun title(title: String) = title(valueOf(title))
         fun message(message: Bind<String>) = this.apply { this.message = message }
-        fun message(message: String) = message(valueOf(message))
         fun onPressOk(onPressOk: Action?) = this.apply { this.onPressOk = onPressOk }
         fun onPressCancel(onPressCancel: Action?) = this.apply { this.onPressCancel = onPressCancel }
         fun labelOk(labelOk: String?) = this.apply { this.labelOk = labelOk }

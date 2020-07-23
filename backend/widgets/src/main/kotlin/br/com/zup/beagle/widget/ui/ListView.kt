@@ -37,10 +37,11 @@ data class ListView(
     companion object
 
     class Builder : BeagleBuilder<ListView> {
-        var children: List<ServerDrivenComponent> by Delegates.notNull()
+        var children: MutableList<ServerDrivenComponent> by Delegates.notNull()
         var direction: ListDirection = ListDirection.VERTICAL
 
-        fun children(children: List<ServerDrivenComponent>) = this.apply { this.children = children }
+        fun children(children: List<ServerDrivenComponent>)
+            = this.apply { this.children = children.toMutableList() }
         fun direction(direction: ListDirection) = this.apply { this.direction = direction }
 
         fun children(block: BeagleListBuilder<ServerDrivenComponent>.() -> Unit) {

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -37,11 +36,11 @@ data class TabView(
     override val context: ContextData? = null
 ) : ServerDrivenComponent, ContextComponent {
     class Builder : BeagleBuilder<TabView> {
-        var children: List<TabItem> by Delegates.notNull()
+        var children: MutableList<TabItem> by Delegates.notNull()
         var styleId: String? = null
         var context: ContextData? = null
 
-        fun children(children: List<TabItem>) = this.apply { this.children = children }
+        fun children(children: List<TabItem>) = this.apply { this.children = children.toMutableList() }
         fun styleId(styleId: String?) = this.apply { this.styleId = styleId }
         fun context(context: ContextData?) = this.apply { this.context = context }
 
@@ -66,6 +65,7 @@ data class TabView(
 }
 
 fun tabView(block: TabView.Builder.() -> Unit) = TabView.Builder().apply(block).build()
+
 /**
  * Define the view has in the tab view
  *

@@ -111,16 +111,31 @@ sealed class ImagePath(val url: String?, val placeholder: Local? = null) {
                 remoteUrl(block.invoke())
             }
 
-            fun placeholder(block: () -> Local?) {
-                placeholder(block.invoke())
+            fun placeholder(block: Local.Builder.() -> Unit) {
+                placeholder(Local.Builder().apply(block).build())
             }
 
             override fun build() = Remote(remoteUrl, placeholder)
         }
     }
+
+    class Builder {
+        var imagePath: ImagePath by Delegates.notNull()
+
+        fun local(imagePath: Local) = this.apply { this.imagePath = imagePath }
+
+        fun remote(imagePath: Remote) = this.apply { this.imagePath = imagePath }
+
+        fun local(block: Local.Builder.() -> Unit) {
+            local(Local.Builder().apply(block).build())
+        }
+
+        fun remote(block: Remote.Builder.() -> Unit) {
+            remote(Remote.Builder().apply(block).build())
+        }
+
+        fun build() = imagePath
+    }
 }
 
-fun imagePathLocal(block: ImagePath.Local.Builder.() -> Unit)
-    = ImagePath.Local.Builder().apply(block).build()
-fun imagePathRemote(block: ImagePath.Remote.Builder.() -> Unit)
-    = ImagePath.Remote.Builder().apply(block).build()
+fun imagePath(block: ImagePath.Builder.() -> Unit) = ImagePath.Builder().apply(block).build()

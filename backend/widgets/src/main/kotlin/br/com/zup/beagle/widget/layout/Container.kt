@@ -16,13 +16,13 @@
 
 package br.com.zup.beagle.widget.layout
 
-import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.widget.builder.BeagleBuilder
 import br.com.zup.beagle.widget.builder.BeagleListBuilder
 import br.com.zup.beagle.widget.context.ContextComponent
+import br.com.zup.beagle.widget.context.ContextData
 import kotlin.properties.Delegates
 
 /**
@@ -37,13 +37,14 @@ data class Container(
     val onInit: List<Action>? = null
 ) : Widget(), ContextComponent {
     class Builder : BeagleBuilder<Container> {
-        var children: List<ServerDrivenComponent> by Delegates.notNull()
+        var children: MutableList<ServerDrivenComponent> by Delegates.notNull()
         var context: ContextData? = null
-        var onInit: List<Action>? = null
+        var onInit: MutableList<Action>? = null
 
-        fun children(children: List<ServerDrivenComponent>) = this.apply { this.children = children }
+        fun children(children: List<ServerDrivenComponent>)
+            = this.apply { this.children = children.toMutableList() }
         fun context(context: ContextData?) = this.apply { this.context = context }
-        fun onInit(onInit: List<Action>?) = this.apply { this.onInit = onInit }
+        fun onInit(onInit: List<Action>?) = this.apply { this.onInit = onInit?.toMutableList() }
 
         fun children(block: BeagleListBuilder<ServerDrivenComponent>.() -> Unit) {
             children(BeagleListBuilder<ServerDrivenComponent>().apply(block).build())

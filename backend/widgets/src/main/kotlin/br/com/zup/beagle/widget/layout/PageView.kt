@@ -69,15 +69,18 @@ data class PageView(
         onPageChange,
         currentPage
     )
+
     class Builder : BeagleBuilder<PageView> {
-        var children: List<ServerDrivenComponent> by Delegates.notNull()
+        var children: MutableList<ServerDrivenComponent> by Delegates.notNull()
         var context: ContextData? = null
-        var onPageChange: List<Action>? = null
+        var onPageChange: MutableList<Action>? = null
         var currentPage: Bind<Int>? = null
 
-        fun children(children: List<ServerDrivenComponent>) = this.apply { this.children = children }
+        fun children(children: List<ServerDrivenComponent>)
+            = this.apply { this.children = children.toMutableList() }
         fun context(context: ContextData?) = this.apply { this.context = context }
-        fun onPageChange(onPageChange: List<Action>?) = this.apply { this.onPageChange = onPageChange }
+        fun onPageChange(onPageChange: List<Action>?)
+            = this.apply { this.onPageChange = onPageChange?.toMutableList() }
         fun currentPage(currentPage: Bind<Int>?) = this.apply { this.currentPage = currentPage }
 
         fun children(block: BeagleListBuilder<ServerDrivenComponent>.() -> Unit) {
@@ -88,11 +91,11 @@ data class PageView(
             context(ContextData.Builder().apply(block).build())
         }
 
-        fun onPageChange(block: BeagleListBuilder<Action>.() -> Unit){
+        fun onPageChange(block: BeagleListBuilder<Action>.() -> Unit) {
             onPageChange(BeagleListBuilder<Action>().apply(block).buildNullable())
         }
 
-        fun currentPage(block: () -> Bind<Int>?){
+        fun currentPage(block: () -> Bind<Int>?) {
             currentPage(block.invoke())
         }
 

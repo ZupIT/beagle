@@ -49,6 +49,7 @@ data class Alert(
         onPressOk = onPressOk,
         labelOk = labelOk
     )
+
     class Builder : BeagleBuilder<Alert> {
         var title: Bind<String>? = null
         var message: Bind<String> by Delegates.notNull()
@@ -56,9 +57,7 @@ data class Alert(
         var labelOk: String? = null
 
         fun title(title: Bind<String>?) = this.apply { this.title = title }
-        fun title(title: String) = title(valueOf(title))
         fun message(message: Bind<String>) = this.apply { this.message = message }
-        fun message(message: String) = message(valueOf(message))
         fun onPressOk(onPressOk: Action?) = this.apply { this.onPressOk = onPressOk }
         fun labelOk(labelOk: String?) = this.apply { this.labelOk = labelOk }
 

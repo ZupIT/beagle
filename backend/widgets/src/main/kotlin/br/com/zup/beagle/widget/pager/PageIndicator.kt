@@ -44,19 +44,19 @@ data class PageIndicator(
         fun numberOfPages(numberOfPages: Int?) = this.apply { this.numberOfPages = numberOfPages }
         fun currentPage(currentPage: Bind<Int>?) = this.apply { this.currentPage = currentPage }
 
-        fun selectedColor(block: () -> String){
+        fun selectedColor(block: () -> String) {
             selectedColor(block.invoke())
         }
 
-        fun unselectedColor(block: () -> String){
+        fun unselectedColor(block: () -> String) {
             unselectedColor(block.invoke())
         }
 
-        fun numberOfPages(block: () -> Int?){
+        fun numberOfPages(block: () -> Int?) {
             numberOfPages(block.invoke())
         }
 
-        fun currentPage(block: () -> Bind<Int>){
+        fun currentPage(block: () -> Bind<Int>) {
             currentPage(block.invoke())
         }
 

@@ -31,10 +31,10 @@ interface BeagleBuilder<T> {
     fun <F> listBuilderNullable(block: BeagleListBuilder<F>.() -> Unit)
         = BeagleListBuilder<F>().apply(block).buildNullable()
 
-    fun <K: Any, F> mapBuilder(block: BeagleMapBuilder<K, F>.() -> Unit)
+    fun <K : Any, F> mapBuilder(block: BeagleMapBuilder<K, F>.() -> Unit)
         = BeagleMapBuilder<K, F>().apply(block).build()
 
-    fun <K: Any, F> mapBuilderNullable(block: BeagleMapBuilder<K, F>.() -> Unit)
+    fun <K : Any, F> mapBuilderNullable(block: BeagleMapBuilder<K, F>.() -> Unit)
         = BeagleMapBuilder<K, F>().apply(block).buildNullable()
 
     fun build(): T

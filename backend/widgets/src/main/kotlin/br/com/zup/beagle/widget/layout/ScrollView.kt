@@ -39,12 +39,13 @@ data class ScrollView(
     override val context: ContextData? = null
 ) : ServerDrivenComponent, ContextComponent {
     class Builder : BeagleBuilder<ScrollView> {
-        var children: List<ServerDrivenComponent> by Delegates.notNull()
+        var children: MutableList<ServerDrivenComponent> by Delegates.notNull()
         var scrollDirection: ScrollAxis? = null
         var scrollBarEnabled: Boolean? = null
         var context: ContextData? = null
 
-        fun children(children: List<ServerDrivenComponent>) = this.apply { this.children = children }
+        fun children(children: List<ServerDrivenComponent>)
+            = this.apply { this.children = children.toMutableList() }
         fun scrollDirection(scrollDirection: ScrollAxis?)
             = this.apply { this.scrollDirection = scrollDirection }
         fun scrollBarEnabled(scrollBarEnabled: Boolean?)

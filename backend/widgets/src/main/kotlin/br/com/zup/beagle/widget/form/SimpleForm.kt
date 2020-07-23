@@ -40,14 +40,15 @@ class SimpleForm(
 ) : ServerDrivenComponent {
     class Builder : BeagleBuilder<SimpleForm> {
         var context: ContextData by Delegates.notNull()
-        var onSubmit: List<Action> by Delegates.notNull()
-        var children: List<ServerDrivenComponent> by Delegates.notNull()
+        var onSubmit: MutableList<Action> by Delegates.notNull()
+        var children: MutableList<ServerDrivenComponent> by Delegates.notNull()
 
         fun context(context: ContextData) = this.apply { this.context = context }
 
-        fun onSubmit(onSubmit: List<Action>) = this.apply { this.onSubmit = onSubmit }
+        fun onSubmit(onSubmit: List<Action>) = this.apply { this.onSubmit = onSubmit.toMutableList() }
 
-        fun children(children: List<ServerDrivenComponent>) = this.apply { this.children = children }
+        fun children(children: List<ServerDrivenComponent>)
+            = this.apply { this.children = children.toMutableList() }
 
         fun context(block: ContextData.Builder.() -> Unit) {
             context(ContextData.Builder().apply(block).build())

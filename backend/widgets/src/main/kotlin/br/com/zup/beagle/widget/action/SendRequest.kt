@@ -19,7 +19,6 @@ package br.com.zup.beagle.widget.action
 import br.com.zup.beagle.widget.builder.BeagleBuilder
 import br.com.zup.beagle.widget.builder.BeagleListBuilder
 import br.com.zup.beagle.widget.context.Bind
-import br.com.zup.beagle.widget.context.valueOf
 import kotlin.properties.Delegates
 
 data class SendRequest(
@@ -49,6 +48,7 @@ data class SendRequest(
         onFinish = onFinish
     )
 
+    @Suppress("TooManyFunctions")
     class Builder : BeagleBuilder<SendRequest> {
         var url: Bind<String> by Delegates.notNull()
         var method: Bind<RequestActionMethod> = Bind.Value(RequestActionMethod.GET)
@@ -59,11 +59,8 @@ data class SendRequest(
         var onFinish: MutableList<Action>? = null
 
         fun url(url: Bind<String>) = this.apply { this.url = url }
-        fun url(url: String) = url(valueOf(url))
         fun method(method: Bind<RequestActionMethod>) = this.apply { this.method = method }
-        fun method(method: RequestActionMethod) = method(valueOf(method))
         fun headers(headers: Bind<Map<String, String>>?) = this.apply { this.headers = headers }
-        fun headers(headers: Map<String, String>) = headers(valueOf(headers))
         fun data(data: Any?) = this.apply { this.data = data }
         fun onSuccess(onSuccess: List<Action>?) = this.apply { this.onSuccess = onSuccess?.toMutableList() }
         fun onError(onError: List<Action>?) = this.apply { this.onError = onError?.toMutableList() }
