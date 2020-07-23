@@ -23,11 +23,15 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import br.com.zup.beagle.R
+import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.dp
+import br.com.zup.beagle.android.utils.handleEvent
+import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
@@ -36,10 +40,13 @@ import br.com.zup.beagle.widget.core.Flex
 import com.google.android.material.tabs.TabLayout
 
 private val TAB_BAR_HEIGHT = 48.dp()
+
 data class TabBar(
-    val children : List<TabBarItem>,
+    val children: List<TabBarItem>,
     val styleId: String? = null,
-    override val context: ContextData?
+    override val context: ContextData?,
+    val currentTab: Bind<Int>?,
+    val onTabSelection: List<Action>?
 ) : WidgetView(), ContextComponent {
 
     @Transient
@@ -49,7 +56,8 @@ data class TabBar(
         val containerFlex = Style(flex = Flex(grow = 1.0))
         val tabBar = makeTabLayout(rootView.getContext())
         val container = viewFactory.makeBeagleFlexView(rootView.getContext(), containerFlex)
-        configTabSelectedListener(tabBar)
+        configTabSelectedListener(tabBar, rootView)
+        configCurrentTabObserver(tabBar, rootView)
         container.addView(tabBar)
         return container
     }
@@ -68,7 +76,7 @@ data class TabBar(
         }
     }
 
-    private fun TabLayout.configTabBarStyle(){
+    private fun TabLayout.configTabBarStyle() {
         styleManagerFactory.getTabBarTypedArray(context, styleId).apply {
             setSelectedTabIndicatorColor(
                 getColor(
@@ -81,7 +89,7 @@ data class TabBar(
         }
     }
 
-    private fun TabLayout.addTabs(context: Context){
+    private fun TabLayout.addTabs(context: Context) {
         for (i in children.indices) {
             addTab(newTab().apply {
                 text = children[i].title
@@ -98,10 +106,12 @@ data class TabBar(
         }
     }
 
-    private fun configTabSelectedListener(tabBar: TabLayout){
-        tabBar.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+    private fun configTabSelectedListener(tabBar: TabLayout, rootView: RootView) {
+        tabBar.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(p0: TabLayout.Tab?) {
-
+                onTabSelection?.let {
+                    handleEvent(rootView, tabBar, it)
+                }
             }
 
             override fun onTabReselected(p0: TabLayout.Tab?) {}
@@ -110,9 +120,21 @@ data class TabBar(
 
         })
     }
+
+    private fun configCurrentTabObserver(tabBar: TabLayout, rootView: RootView) {
+        currentTab?.let {
+            observeBindChanges(rootView, it) { position ->
+                position?.let { newPosition ->
+                    tabBar.getTabAt(newPosition)?.select()
+                }
+            }
+        }
+
+    }
+
 }
 
 data class TabBarItem(
     val title: String? = null,
-    val icon:PathType.Local? = null
+    val icon: PathType.Local? = null
 )
