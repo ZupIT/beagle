@@ -20,10 +20,8 @@ import android.util.LruCache
 import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.jsonpath.JsonCreateTree
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
-import br.com.zup.beagle.android.utils.BeagleConstants.GLOBAL_CONTEXT
 import br.com.zup.beagle.android.utils.getContextId
 import br.com.zup.beagle.android.utils.getExpressions
-import org.json.JSONObject
 
 internal data class ContextBinding(
     val context: ContextData,
@@ -35,7 +33,6 @@ internal data class ContextBinding(
         if (cache[expression] == null) {
             cache.put(expression, ContextDataEvaluation().evaluateBindExpression(context, binding))
         }
-
         return cache.get(expression)
     }
 }
@@ -46,37 +43,30 @@ internal class ContextDataManager(
     private val contextPathResolver: ContextPathResolver = ContextPathResolver()
 ) {
     private val contexts: MutableMap<String, ContextBinding> = mutableMapOf()
+    private val globalContextObserver: GlobalContextObserver = {
+        updateContext(SetContextInternal(it.contextId, it.value, it.path), false)
+    }
 
     init {
-        addAnyContext(GlobalContext.globalContext)
+        addAnyContext(GlobalContext.getContext())
+        GlobalContext.observeGlobalContextChange(globalContextObserver)
     }
 
     fun clearContexts() {
         contexts.clear()
-    }
-
-    fun clearContextId(contextId:String) {
-         contexts.remove(contextId)
-        if (contextId == GLOBAL_CONTEXT){
-            GlobalContext.globalContext = ContextData(GLOBAL_CONTEXT, value = "")
-            addAnyContext(GlobalContext.globalContext)
-        }
-        evaluateContexts()
+        GlobalContext.clearObserverGlobalContext(globalContextObserver)
     }
 
     fun addContext(contextData: ContextData) {
-        if (contextData.id == GLOBAL_CONTEXT) {
+        if (contextData.id == GlobalContext.getContext().id) {
             //TODO Mensagem de erro
         } else addAnyContext(contextData)
     }
 
     private fun updateGlobalContext(setContextData: SetContextInternal) {
-       if (setContextData.contextId == GlobalContext.globalContext.id){
-           contexts[GlobalContext.globalContext.id]?.let {
-               GlobalContext.globalContext = it.context
-//               (it.context.value as JSONObject).remove("numero")
-
-               evaluateContext(setContextData.contextId)
+        if (setContextData.contextId == GlobalContext.getContext().id) {
+            contexts[GlobalContext.getContext().id]?.let {
+                GlobalContext.updateContext(it.context, globalContextObserver)
             }
         }
     }
@@ -105,13 +95,19 @@ internal class ContextDataManager(
     }
 
     fun updateContext(setContextInternal: SetContextInternal): Boolean {
+        return updateContext(setContextInternal, true)
+    }
+
+    private fun updateContext(setContextInternal: SetContextInternal, shouldUpdateGlobalContext: Boolean): Boolean {
         clearContextCache(setContextInternal.contextId)
         return contexts[setContextInternal.contextId]?.let { contextBinding ->
             val path = setContextInternal.path ?: contextBinding.context.id
             val setValue = setValue(contextBinding, path, setContextInternal.value)
             if (setValue) {
                 evaluateContext(setContextInternal.contextId)
-                updateGlobalContext(setContextInternal)
+               if (shouldUpdateGlobalContext) {
+                   updateGlobalContext(setContextInternal)
+               }
             }
             setValue
 
@@ -165,10 +161,7 @@ internal class ContextDataManager(
 
         bindings.forEach { bind ->
             val value = contextBinding.evaluateBindExpression(bind)
-
-            if (value != null) {
-                bind.notifyChange(value)
-            }
+            bind.notifyChange(value)
         }
     }
 }

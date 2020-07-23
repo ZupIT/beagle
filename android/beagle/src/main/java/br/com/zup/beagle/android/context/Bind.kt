@@ -23,16 +23,16 @@ sealed class Bind<T> : BindAttribute<T> {
     abstract val type: Class<T>
 
     @Transient
-    private var onChange: ((value: T) -> Unit)? = null
+    private var onChange: ((value: T?) -> Unit)? = null
     @Transient
     internal val evaluatedExpressions = mutableMapOf<String, Any>()
 
-    internal fun observes(onChange: (value: T) -> Unit) {
+    internal fun observes(onChange: (value: T?) -> Unit) {
         this.onChange = onChange
     }
 
-    internal fun notifyChange(value: Any) {
-        val newValue = value as T
+    internal fun notifyChange(value: Any?) {
+        val newValue = value as T?
         this.onChange?.invoke(newValue)
     }
 

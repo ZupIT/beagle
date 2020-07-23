@@ -28,9 +28,6 @@ import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.android.components.page.PageView
 import br.com.zup.beagle.android.context.GlobalContext
-import br.com.zup.beagle.android.context.clearGlobalContext
-import br.com.zup.beagle.android.context.getGlobalContext
-import br.com.zup.beagle.android.context.setGlobalContext
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.widget.core.TextAlignment
 
@@ -42,10 +39,9 @@ class PageViewFragment : Fragment() {
     ): View? {
 
 
-//        setGlobalContext(path = "phone", value = "1234")
-//        clearGlobalContext()
-//        GlobalContext.clear(null, fragment = this)
-       val texto:String = getGlobalContext("endereco") as String
+       val texto:String = GlobalContext.get("endereco").toString()
+        val texto2 = GlobalContext.get().toString()
+        GlobalContext.clear()
 
 
         val declarative = PageView(
@@ -60,7 +56,7 @@ class PageViewFragment : Fragment() {
                         grow = 1.0
                     )
                 ),
-                Text("Page 2", alignment = TextAlignment.CENTER).applyFlex(
+                Text(texto2, alignment = TextAlignment.CENTER).applyFlex(
                     Flex(
                         alignSelf = AlignSelf.CENTER,
                         grow = 1.0

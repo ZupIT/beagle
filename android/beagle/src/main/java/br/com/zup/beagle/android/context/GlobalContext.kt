@@ -16,86 +16,65 @@
 
 package br.com.zup.beagle.android.context
 
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.action.SetContext
-import br.com.zup.beagle.android.engine.renderer.ActivityRootView
-import br.com.zup.beagle.android.engine.renderer.FragmentRootView
-import br.com.zup.beagle.android.utils.generateViewModelInstance
-import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 
-fun Fragment.setGlobalContext(path: String? = null, value: Any) {
-    GlobalContext.set(path, value, this)
-}
+typealias GlobalContextObserver = (SetContext) -> Unit
 
-fun AppCompatActivity.setGlobalContext(path: String? = null, value: Any) {
-    GlobalContext.set(path, value, this)
-}
-
-fun Fragment.clearGlobalContext(path: String? = null) {
-    GlobalContext.clear(path, this)
-}
-
-fun AppCompatActivity.clearGlobalContext(path: String? = null) {
-    GlobalContext.clear(path, this)
-}
-
-fun Fragment.getGlobalContext(path: String? = null): Any? {
-    return GlobalContext.get(path, this)
-}
-
-fun AppCompatActivity.getGlobalContext(path: String? = null): Any? {
-    return GlobalContext.get(path, this)
-}
 
 object GlobalContext : GlobalContextAPI {
 
     data class Casa(val endereco: String, val numero: String)
 
-    var globalContext = ContextData(id = "global", value = Casa("Rua Joao Balbino", numero = "1153"))
+    private var globalContext = createGlobalContext()
 
-    override fun get(path: String?, fragment: Fragment): Any? {
+    private val globalContextObservers = mutableListOf<GlobalContextObserver>()
+    private val contextDataEvaluation = ContextDataEvaluation()
 
-        val newPath = if (path != null && !path.startsWith("[")) {
-            ".$path"
-        } else {
-            path
+    internal fun updateContext(contextData: ContextData, observer: GlobalContextObserver){
+        globalContext = contextData
+        globalContextObservers.filter { it != observer }.notifyContextChange(value = contextData.value)
+    }
+
+    internal fun observeGlobalContextChange(observer: GlobalContextObserver) {
+        globalContextObservers.add(observer)
+    }
+
+    internal fun clearObserverGlobalContext(observer: GlobalContextObserver) {
+        globalContextObservers.remove(observer)
+    }
+
+    internal fun getContext() = globalContext
+
+    override fun get(path: String?): Any? {
+        var newPath = ""
+        if (path != null) {
+            newPath = ".$path"
         }
-        return ContextDataEvaluation().evaluateBindExpression(globalContext, expressionOf<String>("@{global$newPath}"))
+        return contextDataEvaluation.evaluateBindExpression(globalContext, expressionOf<Any>("@{global$newPath}"))
     }
 
-    override fun get(path: String?, activity: AppCompatActivity): Any {
-        ActivityRootView(activity).generateViewModelInstance<ScreenContextViewModel>()
-
-        return globalContext.value
+    override fun set(path: String?, value: Any) {
+        globalContextObservers.notifyContextChange(path, value)
     }
 
-    override fun set(path: String?, value: Any, fragment: Fragment) {
-        SetContext(
-            contextId = "global",
-            value = value,
-            path = path
-        ).execute(FragmentRootView(fragment), View(fragment.context))
+    override fun clear(path: String?) {
+        globalContext = createGlobalContext()
+        globalContextObservers.notifyContextChange(path, "")
+
     }
 
-    override fun set(path: String?, value: Any, activity: AppCompatActivity) {
-        SetContext(
-            contextId = "global",
-            value = value,
-            path = path
-        ).execute(ActivityRootView(activity), View(activity.applicationContext))
-    }
-
-    override fun clear(path: String?, fragment: Fragment) {
-        if (path == null) {
-            FragmentRootView(fragment).generateViewModelInstance<ScreenContextViewModel>().clearContextId(globalContext.id)
+    private fun List<GlobalContextObserver>.notifyContextChange(path: String?=null, value: Any) {
+        this.forEach {
+            it.invoke(
+                SetContext(
+                    contextId = "global",
+                    value = value,
+                    path = path
+                )
+            )
         }
     }
 
-    override fun clear(path: String?, activity: AppCompatActivity) {
-        if (path == null) {
-            ActivityRootView(activity).generateViewModelInstance<ScreenContextViewModel>().clearContextId(globalContext.id)
-        }
-    }
+    private fun createGlobalContext() = ContextData(id = "global", value = Casa("Rua Joao Balbino", numero = "1153"))
+        .normalize() //TESTE
 }

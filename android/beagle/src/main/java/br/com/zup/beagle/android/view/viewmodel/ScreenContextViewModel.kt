@@ -92,11 +92,11 @@ internal class ScreenContextViewModel(
         return contextDataEvaluation.evaluateBindExpression(contexts, bind)
     }
 
-    fun clearContexts(){
+    fun clearContexts() {
         contextDataManager.clearContexts()
     }
 
-    fun clearContextId(contextId:String){
-        contextDataManager.clearContextId(contextId)
+    override fun onCleared() {
+        clearContexts()
     }
 }

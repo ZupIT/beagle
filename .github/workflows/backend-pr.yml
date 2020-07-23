@@ -9,7 +9,6 @@ on:
             - 'backend/**'
             - 'common/**'
             - 'schema/kotlin/**'
-            - 'buildSrc/**'
             - 'Gemfile'
 jobs:
     pr-verification:
