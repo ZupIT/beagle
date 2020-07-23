@@ -31,6 +31,14 @@ jobs:
             -   name: Start backend in background
                 run: bash fastlane/automatedTests/start_test_backend.sh
 
+            -   name: Cache avd
+                uses: actions/cache@v2
+                env:
+                    avd-cache-key: avd-cache
+                    avd-path: ~/.android
+                with:
+                    path: ${{ env.avd-path }}
+                    key: ${{ runner.os }}-build-${{ env.avd-cache-key }}-${{ hashFiles('fastlane/automatedTests/run_android_automation.sh') }}
             -   name: Test Android
                 run: bash fastlane/automatedTests/run_android_automation.sh
                 env:
