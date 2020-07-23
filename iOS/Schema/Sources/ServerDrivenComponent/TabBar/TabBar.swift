@@ -16,19 +16,19 @@
  */
 
 public struct TabBar: RawComponent, AutoInitiableAndDecodable {
-    public let children: [TabBarItem]
+    public let items: [TabBarItem]
     public let styleId: String?
     public let currentTab: Expression<Int>?
     public let onTabSelection: [RawAction]?
 
 // sourcery:inline:auto:TabBar.Init
     public init(
-        children: [TabBarItem],
+        items: [TabBarItem],
         styleId: String? = nil,
         currentTab: Expression<Int>? = nil,
         onTabSelection: [RawAction]? = nil
     ) {
-        self.children = children
+        self.items = items
         self.styleId = styleId
         self.currentTab = currentTab
         self.onTabSelection = onTabSelection

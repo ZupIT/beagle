@@ -1,5 +1,6 @@
 ▿ TabBar
-  ▿ children: 3 elements
+  - currentTab: Optional<Expression<Int>>.none
+  ▿ items: 3 elements
     ▿ TabBarItem
       ▿ icon: Optional<String>
         - some: "beagle"
@@ -15,6 +16,5 @@
         - some: "beagle"
       ▿ title: Optional<String>
         - some: "tab 3"
-  - currentTab: Optional<Expression<Int>>.none
   - onTabSelection: Optional<Array<RawAction>>.none
   - styleId: Optional<String>.none

@@ -1,6 +1,6 @@
 {
     "_beagleComponent_": "beagle:tabBar",
-    "children": [
+    "items": [
         {
           "icon": {
             "_beagleImagePath_": "local",

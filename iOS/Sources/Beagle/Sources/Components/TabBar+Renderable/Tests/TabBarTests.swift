@@ -23,7 +23,7 @@ import BeagleSchema
 class TabBarTests: XCTestCase {
     
     func test_viewWithTabBar() {
-        let tabBar = TabBar(children: [
+        let tabBar = TabBar(items: [
             TabBarItem(title: "TAB 1"),
             TabBarItem(title: "TAB 2"),
             TabBarItem(title: "TAB 3")
