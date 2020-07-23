@@ -56,3 +56,6 @@ fastlane/README.md
 
 ### Jacoco ###
 jacoco.exec
+
+### Bash ###
+nohup.out
