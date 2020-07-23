@@ -151,7 +151,10 @@ private fun String?.tryToDeserialize(): Any? {
         if (number != null) {
             number
         } else {
-            val newValue = BeagleMoshi.moshi.adapter(Any::class.java).fromJson(this)
+            var newValue : Any? = null
+            this?.let{
+                newValue = BeagleMoshi.moshi.adapter(Any::class.java).fromJson(this)
+            }
             contextDataValueResolver.parse(newValue)
         }
     } catch (ex: Exception) {
