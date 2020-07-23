@@ -21,8 +21,8 @@ platform :common do
 
   desc "Publish remote new version"
   lane :remote_publish do
-    gradle(task: "build")
-    gradle(task: "publish")
+    sh "./release/signing.sh"
+    # gradle(task: "publish")
   end
 
    desc "Publish local new version"

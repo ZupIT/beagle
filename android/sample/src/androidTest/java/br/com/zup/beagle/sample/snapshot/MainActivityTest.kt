@@ -16,14 +16,24 @@
 
 package br.com.zup.beagle.sample.snapshot
 
+import android.R
 import android.content.Intent
+import android.text.method.Touch.scrollTo
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.matcher.ViewMatchers.isChecked
+import androidx.test.espresso.matcher.ViewMatchers.withParent
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
 import br.com.zup.beagle.sample.MainActivity
 import com.facebook.testing.screenshot.Screenshot
+import org.hamcrest.CoreMatchers.instanceOf
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.EnumSet.allOf
+import java.util.regex.Pattern.matches
+
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -42,6 +52,7 @@ class MainActivityTest {
         rule.launchActivity(Intent())
 
 //        val view = rule.activity.window.decorView.rootView
+
 
         Screenshot.snapActivity(rule.activity)
             .record()
