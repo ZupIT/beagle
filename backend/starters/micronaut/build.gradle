@@ -43,4 +43,8 @@ tasks.withType(JavaCompile) {
     ]
 }
 
+test {
+    useJUnitPlatform()
+}
+
 apply from: rootProject.file('../maven-publish.gradle')
