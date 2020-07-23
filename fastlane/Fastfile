@@ -11,25 +11,11 @@ platform :android do
     run_codecov(platform: 'android')
   end
 
-end
-
-###
-###  Common (Android and Backend)
-###
-
-platform :common do
-
-  desc "Publish remote new version"
-  lane :remote_publish do
-    sh "./release/signing.sh"
-    # gradle(task: "publish")
+  desc "Deploy current code to stage"
+  lane :deploy_to_stage do
+    gradle(project_dir: "android", task: "assemble")
+    gradle(project_dir: "android", task: "uploadArchives --no-daemon --no-parallel")
   end
-
-   desc "Publish local new version"
-    lane :local_publish do
-      gradle(task: "build")
-      gradle(task: "publishToMavenLocal")
-    end
 
 end
 
@@ -73,7 +59,12 @@ desc "Publish new release based on last two tags"
 lane :deploy do
   git_pull
   ENV["VERSION_DEPLOY"] = last_git_tag
-  sh "fastlane common remote_publish"
+
+  sh "bash ./release/maven_signing.sh"
+
+  sh "fastlane android deploy_to_stage"
+  sh "fastlane backend deploy_to_stage"
+
   sh "fastlane ios release"
 
   sh "bash ./delete_release.sh"
@@ -85,7 +76,6 @@ lane :deploy do
     description: release_notes,
     commitish: "master"
   )
-  sh "bash ./discord_message.sh"
 end
 
 lane :run_danger do |options|
@@ -129,6 +119,12 @@ platform :backend do
     sh "./sync-to-spring.sh"
     sh "./git_commit.sh 'Synced Micronaut BFF sample to Spring BFF sample.' '../backend/sample/spring'"
     push_to_git_remote
+  end
+
+  desc "Deploy current code to stage"
+  lane :deploy_to_stage do
+    gradle(project_dir: "backend", task: "assemble")
+    gradle(project_dir: "backend", task: "uploadArchives --no-daemon --no-parallel")
   end
 
 end

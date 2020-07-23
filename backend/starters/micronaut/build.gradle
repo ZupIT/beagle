@@ -20,6 +20,8 @@ apply plugin: 'kotlin-kapt'
 apply from: rootProject.file('../jacoco.gradle')
 
 dependencies {
+    implementation Dependencies.GeneralLibraries.kotlinReflect
+
     implementation Dependencies.MicronautLibraries.runtime
     implementation Dependencies.MicronautLibraries.netty
 
@@ -30,7 +32,7 @@ dependencies {
     testImplementation Dependencies.TestLibraries.mockk
     testImplementation Dependencies.TestLibraries.kotlinTest
     testImplementation Dependencies.TestLibraries.junit5Api
-
+ 
     kaptTest Dependencies.MicronautLibraries.injectJava
 
     testRuntimeOnly Dependencies.TestLibraries.junit5Engine
