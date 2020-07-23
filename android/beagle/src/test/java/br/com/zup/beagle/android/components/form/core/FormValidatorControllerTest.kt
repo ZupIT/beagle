@@ -20,7 +20,10 @@ import android.view.View
 import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.components.form.FormSubmit
 import br.com.zup.beagle.android.components.form.InputWidget
+import br.com.zup.beagle.android.components.utils.beagleComponent
 import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.testutil.RandomData
 import io.mockk.*
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -29,6 +32,7 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+private val BASE_URL = RandomData.string()
 
 class FormValidatorControllerTest {
 
@@ -67,8 +71,9 @@ class FormValidatorControllerTest {
 
         formValidatorController.formSubmitView = submitView
 
-        every { submitView.tag } returns formSubmit
+        every { submitView.getTag(any()) } returns formSubmit
         every { submitView.isEnabled = capture(submitViewEnabledSlot) } just Runs
+        every { submitView.beagleComponent = any() } just Runs
     }
 
     @Test
