@@ -77,11 +77,11 @@ internal class ContextDataEvaluation(
             val expressionKey = it.key
             text = text.replace("@{$expressionKey}", it.value.toString())
         }
-        return if(text.isEmpty()) null else text
+        return if (text.isEmpty()) null else text
     }
 
     private fun evaluateExpression(contextData: ContextData, bind: Bind.Expression<*>, expression: String): Any? {
-        val value = getValue(contextData, expression)
+        val value = getValue(contextData, expression, bind.type)
 
         return try {
             if (bind.type == String::class.java) {
@@ -102,12 +102,38 @@ internal class ContextDataEvaluation(
         null
     }
 
-    private fun getValue(contextData: ContextData, path: String): Any? {
+    private fun getValue(contextData: ContextData, path: String, type: Class<*>): Any? {
         return if (path != contextData.id) {
             findValue(contextData, path)
         } else {
-            contextData.value
+            treatValue(contextData.value, type)
         }
+    }
+
+    //this function is necessary because MOSHI return every number as double
+    // to fix this, this function made due conversion
+    private fun treatValue(value: Any, type: Class<*>): Any {
+        var treatedValue = value
+        if (value is Double) {
+            if (typeIsInt(type))
+                treatedValue = valueToInt(value)
+            else if (typeIsFloat(type))
+                treatedValue = valueToFloat(value)
+        }
+        return treatedValue
+    }
+
+    private fun typeIsInt(type: Class<*>) = type == Integer::class.java
+
+    private fun typeIsFloat(type: Class<*>) = type == Float::class.java
+
+
+    private fun valueToInt(value: Double): Int {
+        return value.toInt()
+    }
+
+    private fun valueToFloat(value: Double): Float {
+        return value.toFloat()
     }
 
     private fun findValue(contextData: ContextData, path: String): Any? {
