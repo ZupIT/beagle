@@ -24,6 +24,6 @@ EOF
 nohup "$ANDROID_SDK_ROOT"/emulator/emulator -avd test -no-audio -no-boot-anim -no-snapshot -no-window 2>&1 &
 EMULATOR_PID=$!
 
-"$ANDROID_SDK_ROOT"/platform-tools/adb wait-for-device
+"$ANDROID_SDK_ROOT"/platform-tools/adb wait-for-device shell "while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;"
 
 ./gradlew -p android/automated-tests connectedAndroidTest
