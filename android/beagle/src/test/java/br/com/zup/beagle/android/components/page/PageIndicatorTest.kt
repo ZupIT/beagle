@@ -18,21 +18,32 @@ package br.com.zup.beagle.android.components.page
 
 import android.graphics.Color
 import br.com.zup.beagle.android.components.BaseComponentTest
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.utils.Observer
+import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeaglePageIndicatorView
+import io.mockk.Runs
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
+import io.mockk.slot
 import io.mockk.verify
 import org.junit.Test
+import java.lang.reflect.TypeVariable
 import kotlin.test.assertEquals
 
 class PageIndicatorTest : BaseComponentTest() {
 
 
     private val beaglePageIndicatorView: BeaglePageIndicatorView = mockk(relaxed = true, relaxUnitFun = true)
+    private val numberOfPages: Int = RandomData.int()
+    private val currentPage: Bind<Int> = mockk(relaxed = true, relaxUnitFun = true)
+    private val currentPageSlot = slot<Observer<Int?>>()
+
 
     private lateinit var pageIndicator: PageIndicator
 
@@ -40,19 +51,50 @@ class PageIndicatorTest : BaseComponentTest() {
         super.setUp()
 
         mockkStatic(Color::class)
+        mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
         every { Color.parseColor(any()) } returns 0
         every { anyConstructed<ViewFactory>().makePageIndicator(any()) } returns beaglePageIndicatorView
 
-        pageIndicator = PageIndicator(RandomData.string(), RandomData.string())
+        pageIndicator = PageIndicator(RandomData.string(), RandomData.string(), numberOfPages, currentPage)
     }
 
     @Test
-    fun toView_should_return_BeaglePageIndicatorView_and_set_colors() {
+    fun buildView_should_return_BeaglePageIndicatorView_and_set_colors() {
         val view = pageIndicator.buildView(rootView)
 
         assertEquals(beaglePageIndicatorView, view)
         verify(exactly = once()) { beaglePageIndicatorView.setSelectedColor(0) }
         verify(exactly = once()) { beaglePageIndicatorView.setUnselectedColor(0) }
+    }
+
+    @Test
+    fun buildView_should_call_onItemUpdate_when_currentPage_change() {
+        //GIVEN
+        val newPosition = RandomData.int()
+        every {
+            pageIndicator.observeBindChanges(
+                rootView = rootView,
+                bind = currentPage,
+                observes = capture(currentPageSlot)
+            )
+        } just Runs
+        //WHEN
+        pageIndicator.buildView(rootView = rootView)
+        currentPageSlot.captured.invoke(newPosition)
+
+        //THEN
+        verify(exactly = once()) { pageIndicator.onItemUpdated(newPosition) }
+    }
+
+    @Test
+    fun buildView_should_call_setCount_when_numberOfPage_is_not_null() {
+        //GIVEN
+
+        //WHEN
+        pageIndicator.buildView(rootView = rootView)
+
+        //THEN
+        verify(exactly = once()) { pageIndicator.setCount(numberOfPages) }
     }
 
     @Test
