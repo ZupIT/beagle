@@ -5,13 +5,13 @@ Feature: ListView Component Validation
     I'd like to make sure my listView component works as expected
     In order to guarantee that my application never fails
 
-    Background:
-        Given that I'm on the listview screen
 
     Scenario: ListView 01 - listView component renders text attribute correctly
+        Given the app will load http://localhost:8080/listview
         Then listview screen should render all text attributes correctly
 
     Scenario: ListView 02 - listView component performs vertical scroll correctly
+        Given the app will load http://localhost:8080/listview
         When I have a vertical list configured
         Then listview screen should perform the scroll action vertically
 

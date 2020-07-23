@@ -79,6 +79,9 @@
 		6B4F7E7F24C71D04003F461A /* TabViewScreenSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F7E7E24C71D04003F461A /* TabViewScreenSteps.swift */; };
 		6B4F7E8124C728F8003F461A /* ImageScreenSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F7E8024C728F8003F461A /* ImageScreenSteps.swift */; };
 		6B4F7E8324C7943C003F461A /* PageViewScreenSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F7E8224C7943C003F461A /* PageViewScreenSteps.swift */; };
+		6B4F7E8524C9C5F9003F461A /* ListViewScreenSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F7E8424C9C5F9003F461A /* ListViewScreenSteps.swift */; };
+		6B4F7E8924C9C621003F461A /* ScrollViewScreenSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F7E8824C9C621003F461A /* ScrollViewScreenSteps.swift */; };
+		6B4F7E8B24C9C638003F461A /* TouchableScreenSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F7E8A24C9C637003F461A /* TouchableScreenSteps.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -258,6 +261,9 @@
 		6B4F7E7E24C71D04003F461A /* TabViewScreenSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewScreenSteps.swift; sourceTree = "<group>"; };
 		6B4F7E8024C728F8003F461A /* ImageScreenSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScreenSteps.swift; sourceTree = "<group>"; };
 		6B4F7E8224C7943C003F461A /* PageViewScreenSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewScreenSteps.swift; sourceTree = "<group>"; };
+		6B4F7E8424C9C5F9003F461A /* ListViewScreenSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewScreenSteps.swift; sourceTree = "<group>"; };
+		6B4F7E8824C9C621003F461A /* ScrollViewScreenSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewScreenSteps.swift; sourceTree = "<group>"; };
+		6B4F7E8A24C9C637003F461A /* TouchableScreenSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchableScreenSteps.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -553,6 +559,9 @@
 				6B4F7E7E24C71D04003F461A /* TabViewScreenSteps.swift */,
 				6B4F7E8024C728F8003F461A /* ImageScreenSteps.swift */,
 				6B4F7E8224C7943C003F461A /* PageViewScreenSteps.swift */,
+				6B4F7E8424C9C5F9003F461A /* ListViewScreenSteps.swift */,
+				6B4F7E8824C9C621003F461A /* ScrollViewScreenSteps.swift */,
+				6B4F7E8A24C9C637003F461A /* TouchableScreenSteps.swift */,
 			);
 			path = Steps;
 			sourceTree = "<group>";
@@ -743,10 +752,12 @@
 				639CA20224B4F0B0009FAC90 /* CCIScenarioDefinition.m in Sources */,
 				639CA22124B4F0B0009FAC90 /* GHParser.m in Sources */,
 				639CA20024B4F0B0009FAC90 /* CCIStepDefinition.m in Sources */,
+				6B4F7E8B24C9C638003F461A /* TouchableScreenSteps.swift in Sources */,
 				639CA20424B4F0B0009FAC90 /* CCIFeature.m in Sources */,
 				639CA1FE24B4F0B0009FAC90 /* CCIArgument.m in Sources */,
 				6B4F7E7D24C65AFE003F461A /* ScreenElements.swift in Sources */,
 				639CA1FD24B4F0B0009FAC90 /* CCILoggingManager.m in Sources */,
+				6B4F7E8524C9C5F9003F461A /* ListViewScreenSteps.swift in Sources */,
 				639CA20C24B4F0B0009FAC90 /* GHTableCell.m in Sources */,
 				639CA21624B4F0B0009FAC90 /* GHTag.m in Sources */,
 				639CA20A24B4F0B0009FAC90 /* GHToken.m in Sources */,
@@ -758,6 +769,7 @@
 				639CA21524B4F0B0009FAC90 /* GHParser+Extensions.m in Sources */,
 				639CA20324B4F0B0009FAC90 /* CCIAroundHock.m in Sources */,
 				639CA21A24B4F0B0009FAC90 /* GHGherkinLanguageConstants.m in Sources */,
+				6B4F7E8924C9C621003F461A /* ScrollViewScreenSteps.swift in Sources */,
 				639CA21024B4F0B0009FAC90 /* GHGherkinDialect.m in Sources */,
 				639CA20B24B4F0B0009FAC90 /* GHAstNode.m in Sources */,
 				639CA21224B4F0B0009FAC90 /* GHNode.m in Sources */,

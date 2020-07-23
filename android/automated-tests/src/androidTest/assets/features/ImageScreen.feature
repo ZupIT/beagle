@@ -1,4 +1,3 @@
-
 @image @regression
 Feature: Image Component Validation
 

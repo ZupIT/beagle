@@ -35,8 +35,6 @@ class PageViewScreenSteps: NSObject {
             XCUIApplication().swipeRight()
             XCUIApplication().swipeRight()
 
-
-
         }
     }
 }

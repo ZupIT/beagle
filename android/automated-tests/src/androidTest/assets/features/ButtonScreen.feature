@@ -1,4 +1,3 @@
-
 @button @regression
 Feature: Button Component Validation
 

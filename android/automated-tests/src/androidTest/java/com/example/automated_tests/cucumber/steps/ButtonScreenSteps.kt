@@ -60,7 +60,7 @@ class ButtonScreenSteps {
     }
 
     @When("^I click on button (.*)$")
-    fun clickOnTab1(string1: String?) {
+    fun clickOnButton(string1: String?) {
         ScreenRobot()
             .clickOnText(string1)
     }
