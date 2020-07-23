@@ -31,14 +31,22 @@ jobs:
             -   name: Start backend in background
                 run: bash fastlane/automatedTests/start_test_backend.sh
 
-            -   name: Cache avd
+            -   name: Cache android platform
                 uses: actions/cache@v2
                 env:
-                    avd-cache-key: avd-cache
-                    avd-path: /Users/runner/Library/Android
+                    android-platform-cache-key: android-platform-cache
+                    android-platform-path: /Users/runner/Library/Android/sdk/platforms
                 with:
-                    path: ${{ env.avd-path }}
-                    key: ${{ runner.os }}-build-${{ env.avd-cache-key }}-${{ hashFiles('fastlane/automatedTests/run_android_automation.sh') }}
+                    path: ${{ env.android-platform-path }}
+                    key: ${{ runner.os }}-build-${{ env.android-platform-cache-key }}-${{ hashFiles('fastlane/automatedTests/run_android_automation.sh') }}
+            -   name: Cache android system-images
+                uses: actions/cache@v2
+                env:
+                    android-system-images-cache-key: android-system-images-cache
+                    android-system-images-path: /Users/runner/Library/Android/sdk/system-images
+                with:
+                    path: ${{ env.android-system-images-path }}
+                    key: ${{ runner.os }}-build-${{ env.android-system-images-cache-key }}-${{ hashFiles('fastlane/automatedTests/run_android_automation.sh') }}
             -   name: Test Android
                 run: bash fastlane/automatedTests/run_android_automation.sh
                 env:
