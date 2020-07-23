@@ -1,11 +1,11 @@
 #!/bin/bash
 
 AVD_NAME='test'
-EMULATOR_PID=''
+AVD_IMAGE='system-images;android-29;google_apis_playstore;x86'
 
 function cleanup() {
-    if [[ -n $EMULATOR_PID ]]; then
-        kill $EMULATOR_PID
+    if [[ -v $EMULATOR_PID ]]; then
+        kill "$EMULATOR_PID"
     fi
 
     "$ANDROID_SDK_ROOT"/tools/bin/avdmanager delete avd -n $AVD_NAME
@@ -14,8 +14,10 @@ function cleanup() {
 trap exit SIGHUP SIGINT
 trap cleanup EXIT
 
+"$ANDROID_SDK_ROOT"/tools/bin/sdkmanager "$AVD_IMAGE"
+
 #blank line necessary as input to AVD
-"$ANDROID_SDK_ROOT"/tools/bin/avdmanager create avd -n $AVD_NAME -k "system-images;android-29;google_apis_playstore;x86" <<EOF
+"$ANDROID_SDK_ROOT"/tools/bin/avdmanager create avd -n $AVD_NAME -k "$AVD_IMAGE" <<EOF
 
 EOF
 
