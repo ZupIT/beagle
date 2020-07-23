@@ -35,12 +35,14 @@ import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
+import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
 import com.google.android.material.tabs.TabLayout
 
 private val TAB_BAR_HEIGHT = 48.dp()
 
+@RegisterWidget
 data class TabBar(
     val children: List<TabBarItem>,
     val styleId: String? = null,
@@ -110,7 +112,7 @@ data class TabBar(
         tabBar.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(p0: TabLayout.Tab?) {
                 onTabSelection?.let {
-                    handleEvent(rootView, tabBar, it, "onChange")
+                    handleEvent(rootView, tabBar, it, "onChange", p0?.position)
                 }
             }
 
