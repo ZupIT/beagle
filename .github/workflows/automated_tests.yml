@@ -32,7 +32,7 @@ jobs:
                 run: bash fastlane/automatedTests/deploy_tests_backend.sh
 
             -   name: Test Android
-                run: bundle exec fastlane automated_tests run_android_automation
+                run: bash fastlane/automatedTests/run_android_automation.sh
                 env:
                     ANDROID_ROOT_SDK: /Users/runner/Library/Android/sdk
 
