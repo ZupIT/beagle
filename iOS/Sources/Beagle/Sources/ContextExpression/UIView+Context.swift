@@ -126,8 +126,9 @@ extension UIView {
     // MARK: Get/Set Context
     
     func getContext(with id: String?) -> Observable<Context>? {
-        if GlobalContext.isGlobal(id: id),
-            let globalContext = GlobalContext.global.getContext() {
+        let globalContext = dependencies.globalContext
+        if globalContext.isGlobal(id: id),
+            let globalContext = globalContext.getContext() {
             return globalContext
         }
         
@@ -139,8 +140,9 @@ extension UIView {
     }
     
     func setContext(_ context: Context) {
-        guard !GlobalContext.isGlobal(id: context.id) else {
-            GlobalContext.global.setContextValue(context.value)
+        let globalContext = dependencies.globalContext
+        guard !globalContext.isGlobal(id: context.id) else {
+            globalContext.setContextValue(context.value)
             return
         }
         

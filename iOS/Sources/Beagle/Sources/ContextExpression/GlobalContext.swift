@@ -17,19 +17,26 @@
 
 import BeagleSchema
 
-final public class GlobalContext {
+public protocol GlobalContext {
+    var globalId: String { get }
     
-    public static var global = GlobalContext()
-    public static let globalId = "global"
+    func isGlobal(id: String?) -> Bool
+    func getContext() -> Observable<Context>?
+    func setContextValue(_ value: DynamicObject)
+}
+
+public protocol DependencyGlobalContext {
+    var globalContext: GlobalContext { get }
+}
+
+final public class DefaultGlobalContext: GlobalContext {
+    
+    public let globalId = "global"
     
     private(set) var contextObservable: Observable<Context>?
     
-    public class func isGlobal(id: String?) -> Bool {
+    public func isGlobal(id: String?) -> Bool {
         globalId == id
-    }
-    
-    public func clear() {
-        contextObservable = nil
     }
     
     public func getContext() -> Observable<Context>? {
@@ -41,7 +48,7 @@ final public class GlobalContext {
     }
     
     public func setContextValue(_ value: DynamicObject) {
-        let context = Context(id: Self.globalId, value: value)
+        let context = Context(id: globalId, value: value)
         
         if let contextObservable = contextObservable {
             contextObservable.value = context
