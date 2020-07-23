@@ -44,8 +44,8 @@ jobs:
                 env:
                     ANDROID_SDK_ROOT: /Users/runner/Library/Android/sdk
 
-            -   name: Test iOS
-                run: bundle exec fastlane automated_tests run_ios_automation
+#            -   name: Test iOS
+#                run: bundle exec fastlane automated_tests run_ios_automation
 
             -   name: Cleanup
                 run: bundle exec fastlane automated_tests cleanup
