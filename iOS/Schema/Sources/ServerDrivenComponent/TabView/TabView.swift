@@ -57,6 +57,7 @@ public struct TabItem: Decodable {
     }
 }
 
+@available(*, deprecated, message: "Since version 1.1. Will be deleted in version 2.0. Consider replacing this component for a tabBar with a pageview.")
 public struct TabView: RawComponent, AutoInitiable, HasContext {
     public let children: [TabItem]
     public let styleId: String?
