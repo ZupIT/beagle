@@ -12,13 +12,13 @@ jobs:
             -   name: Cache fastlane dependences
                 uses: actions/cache@v2
                 env:
-                    fastlane-cache-key: fastlane-cache-tests
+                    fastlane-cache-key: fastlane-cache-test
                     fastlane-path: ~/.gem
                 with:
                     path: ${{ env.fastlane-path }}
                     key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
             -   name: Install Fastlane
-                run: bundle install
+                run: bundle config set path '~/.gem' && bundle install
 
             -   name: Cache gradle dependences
                 uses: actions/cache@v2
@@ -35,7 +35,7 @@ jobs:
                 uses: actions/cache@v2
                 env:
                     avd-cache-key: avd-cache
-                    avd-path: ~/.android
+                    avd-path: /Users/runner/Library/Android
                 with:
                     path: ${{ env.avd-path }}
                     key: ${{ runner.os }}-build-${{ env.avd-cache-key }}-${{ hashFiles('fastlane/automatedTests/run_android_automation.sh') }}
@@ -44,8 +44,8 @@ jobs:
                 env:
                     ANDROID_SDK_ROOT: /Users/runner/Library/Android/sdk
 
-#            -   name: Test iOS
-#                run: bundle exec fastlane automated_tests run_ios_automation
+            #            -   name: Test iOS
+            #                run: bundle exec fastlane automated_tests run_ios_automation
 
             -   name: Cleanup
                 run: bundle exec fastlane automated_tests cleanup
