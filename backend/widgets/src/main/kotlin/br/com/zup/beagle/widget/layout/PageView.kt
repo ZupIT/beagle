@@ -17,9 +17,12 @@
 package br.com.zup.beagle.widget.layout
 
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.widget.action.Action
+import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.ContextComponent
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.pager.PageIndicatorComponent
+import br.com.zup.beagle.widget.utils.BeagleConstants.DEPRECATED_PAGE_VIEW
 
 /**
  *  The PageView component is a specialized container to hold pages (views) that will be displayed horizontally.
@@ -28,8 +31,39 @@ import br.com.zup.beagle.widget.pager.PageIndicatorComponent
  * @param pageIndicator defines in what page the PageView is currently on.
  *
  */
+
 data class PageView(
     val children: List<ServerDrivenComponent>,
+    @Deprecated(DEPRECATED_PAGE_VIEW)
     val pageIndicator: PageIndicatorComponent? = null,
-    override val context: ContextData? = null
-) : ServerDrivenComponent, ContextComponent
+    override val context: ContextData? = null,
+    val onPageChange: List<Action>? = null,
+    val currentPage: Bind<Int>? = null
+) : ServerDrivenComponent, ContextComponent {
+
+    @Deprecated(DEPRECATED_PAGE_VIEW)
+    constructor(
+        children: List<ServerDrivenComponent>,
+        pageIndicator: PageIndicatorComponent? = null,
+        context: ContextData? = null
+    ) : this(
+        children,
+        pageIndicator,
+        context,
+        null,
+        null
+    )
+
+    constructor(
+        children: List<ServerDrivenComponent>,
+        context: ContextData? = null,
+        onPageChange: List<Action>? = null,
+        currentPage: Bind<Int>? = null
+    ) : this(
+        children,
+        null,
+        context,
+        onPageChange,
+        currentPage
+    )
+}

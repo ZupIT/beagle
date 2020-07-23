@@ -16,24 +16,6 @@
 
 import br.com.zup.beagle.Dependencies
 
-apply plugin: 'kotlin'
-apply plugin: 'kotlin-kapt'
-
-group = Dependencies.GroupId.backendSample
-version = Dependencies.Releases.beagleVersionName
-sourceCompatibility = JavaVersion.VERSION_1_8
-
-sourceSets {
-    main.java.srcDirs += 'build/generated/source/kapt'
-}
-
 dependencies {
-    implementation Dependencies.GeneralLibraries.kotlin
     api project(Dependencies.Modules.framework)
-}
-
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
-    }
 }

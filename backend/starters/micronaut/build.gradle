@@ -16,12 +16,10 @@
 
 import br.com.zup.beagle.Dependencies
 
-apply plugin: 'kotlin'
 apply plugin: 'kotlin-kapt'
 apply from: rootProject.file('../jacoco.gradle')
 
 dependencies {
-    implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.MicronautLibraries.runtime
     implementation Dependencies.MicronautLibraries.netty
 
@@ -39,12 +37,10 @@ dependencies {
     testRuntimeOnly Dependencies.BackendLibraries.slf4jJUL
 }
 
-compileKotlin {
-    kotlinOptions.jvmTarget = Dependencies.Versions.java
-}
-
-compileTestKotlin {
-    kotlinOptions.jvmTarget = Dependencies.Versions.java
+tasks.withType(JavaCompile) {
+    options.compilerArgs = [
+        '-Amicronaut.processing.incremental=true'
+    ]
 }
 
 apply from: rootProject.file('../maven-publish.gradle')
