@@ -32,10 +32,7 @@ internal class BeagleMicronautCacheHandler(
         Flowable.fromPublisher(chain.proceed(request)).blockingFirst()
 
     override fun createResponse(status: Int): MutableHttpResponse<*> =
-        HttpResponseFactory.INSTANCE.status(
-            HttpStatus.valueOf(
-                status
-            ), Unit)
+        HttpResponseFactory.INSTANCE.status(HttpStatus.valueOf(status), Unit)
 
     override fun getBody(response: MutableHttpResponse<*>): String = response.body.toString()
 
