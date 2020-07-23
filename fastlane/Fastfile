@@ -145,16 +145,6 @@ platform :automated_tests do
   end
 
   desc "Run Android automated tests"
-  lane :run_android_automation do
-    sh("./automatedTests/run_android_automation.sh")
-    gradle(
-      task: "connectedAndroidTest",
-      project_dir: "android/automated-tests",
-      gradle_path: "../../gradlew"
-    )
-  end
-
-  desc "Run Android automated tests"
   lane :deploy_react_website do
     sh "./deploy_react_website.sh"
   end
