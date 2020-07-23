@@ -58,13 +58,6 @@ class ListViewScreenSteps {
             .sleep(2)
     }
 
-    @When("^I have a horizontal list configured$")
-    fun checkHorizontalListText() {
-        ScreenRobot()
-            .checkViewContainsText(STATIC_LISTVIEW_TEXT_2)
-            .sleep(2)
-    }
-
     @Then("^listview screen should render all text attributes correctly$")
     fun checkListViewScreenTexts() {
         ScreenRobot()
@@ -80,6 +73,14 @@ class ListViewScreenSteps {
             .scrollTo(DYNAMIC_LISTVIEW_TEXT_2)
             .sleep(2)
     }
+
+
+//    @When("^I have a horizontal list configured$")
+//    fun checkHorizontalListText() {
+//        ScreenRobot()
+//            .checkViewContainsText(STATIC_LISTVIEW_TEXT_2)
+//            .sleep(2)
+//    }
 //
 //    @Then("^listview screen should perform the scroll action horizontally$")
 //    fun validateHorizontalListScroll() {
