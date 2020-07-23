@@ -44,9 +44,9 @@ private val TAB_BAR_HEIGHT = 48.dp()
 data class TabBar(
     val children: List<TabBarItem>,
     val styleId: String? = null,
-    override val context: ContextData?,
-    val currentTab: Bind<Int>?,
-    val onTabSelection: List<Action>?
+    override val context: ContextData? = null,
+    val currentTab: Bind<Int>? = null,
+    val onTabSelection: List<Action>? = null
 ) : WidgetView(), ContextComponent {
 
     @Transient
@@ -110,7 +110,7 @@ data class TabBar(
         tabBar.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(p0: TabLayout.Tab?) {
                 onTabSelection?.let {
-                    handleEvent(rootView, tabBar, it)
+                    handleEvent(rootView, tabBar, it, "onChange")
                 }
             }
 

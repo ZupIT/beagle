@@ -25,9 +25,9 @@ import br.com.zup.beagle.widget.context.ContextData
 data class TabBar(
     val children: List<TabBarItem>,
     val styleId: String? = null,
-    override val context: ContextData?,
-    val currentTab: Bind<Int>?,
-    val onTabSelection: List<Action>?
+    override val context: ContextData? = null,
+    val currentTab: Bind<Int>? = null,
+    val onTabSelection: List<Action>? = null
 ) : ServerDrivenComponent, ContextComponent
 
 data class TabBarItem(
