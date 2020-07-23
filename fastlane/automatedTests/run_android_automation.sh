@@ -4,7 +4,9 @@ AVD_NAME='test'
 AVD_IMAGE='system-images;android-29;google_apis_playstore;x86'
 
 function cleanup() {
-    "$ANDROID_SDK_ROOT"/platform-tools/adb devices | grep emulator | cut -f1 | while read line; do adb -s $line emu kill; done
+    "$ANDROID_SDK_ROOT"/platform-tools/adb devices | grep emulator | cut -f1 | while read -r line; do
+        "$ANDROID_SDK_ROOT"/platform-tools/adb -s "$line" emu kill
+    done
 }
 
 trap exit SIGHUP SIGINT
@@ -12,7 +14,7 @@ trap cleanup EXIT
 
 "$ANDROID_SDK_ROOT"/tools/bin/sdkmanager "$AVD_IMAGE"
 
-if [[ -n $("$ANDROID_SDK_ROOT"/emulator/emulator -list-avds | grep -q "$AVD_NAME") ]]; then
+if "$ANDROID_SDK_ROOT"/emulator/emulator -list-avds | grep -q "$AVD_NAME"; then
     echo "Using avd from cache"
 else
     #blank line necessary as input to AVD
