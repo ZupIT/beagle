@@ -20,9 +20,12 @@ import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.TouchableAnalytics
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.action.Action
+import br.com.zup.beagle.widget.builder.BeagleBuilder
+import br.com.zup.beagle.widget.builder.BeagleListBuilder
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
+import kotlin.properties.Delegates
 
 /**
  * Define a button natively using the server driven information received through Beagle
@@ -50,4 +53,42 @@ data class Button(
         onPress,
         clickAnalyticsEvent
     )
+
+    class Builder : BeagleBuilder<Button> {
+        var text: Bind<String> by Delegates.notNull()
+        var styleId: String? = null
+        var onPress: List<Action>? = null
+        var clickAnalyticsEvent: ClickEvent? = null
+
+        fun text(text: Bind<String>) = this.apply { this.text = text }
+        fun styleId(styleId: String?) = this.apply { this.styleId = styleId }
+        fun onPress(onPress: List<Action>?) = this.apply { this.onPress = onPress }
+        fun clickAnalyticsEvent(clickAnalyticsEvent: ClickEvent?)
+            = this.apply { this.clickAnalyticsEvent = clickAnalyticsEvent }
+
+        fun text(block: () -> Bind<String>) {
+            text(block.invoke())
+        }
+
+        fun styleId(block: () -> String?) {
+            styleId(block.invoke())
+        }
+
+        fun onPress(block: BeagleListBuilder<Action>.() -> Unit) {
+            onPress(BeagleListBuilder<Action>().apply(block).buildNullable())
+        }
+
+        fun clickAnalyticsEvent(block: () -> ClickEvent?) {
+            clickAnalyticsEvent(block.invoke())
+        }
+
+        override fun build() = Button(
+            text = text,
+            styleId = styleId,
+            onPress = onPress,
+            clickAnalyticsEvent = clickAnalyticsEvent
+        )
+    }
 }
+
+fun button(block: Button.Builder.() -> Unit) = Button.Builder().apply(block).build()

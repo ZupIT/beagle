@@ -17,9 +17,11 @@
 package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.builder.BeagleBuilder
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.core.ImageContentMode
+import kotlin.properties.Delegates
 
 /**
  * Define an image view using the server driven information received through Beagle.
@@ -29,7 +31,27 @@ import br.com.zup.beagle.widget.core.ImageContentMode
  */
 data class Image(val path: Bind<ImagePath>, val mode: ImageContentMode? = null) : Widget() {
     constructor(path: ImagePath, mode: ImageContentMode? = null) : this(valueOf(path), mode)
+
+    class Builder : BeagleBuilder<Image> {
+        var path: Bind<ImagePath> by Delegates.notNull()
+        var mode: ImageContentMode? = null
+
+        fun path(path: Bind<ImagePath>) = this.apply { this.path = path }
+        fun mode(mode: ImageContentMode?) = this.apply { this.mode = mode }
+
+        fun path(block: () -> Bind<ImagePath>) {
+            path(block.invoke())
+        }
+
+        fun mode(block: () -> ImageContentMode?) {
+            mode(block.invoke())
+        }
+
+        override fun build() = Image(path, mode)
+    }
 }
+
+fun image(block: Image.Builder.() -> Unit) = Image.Builder().apply(block).build()
 
 
 /**
@@ -51,6 +73,24 @@ sealed class ImagePath(val url: String?, val placeholder: Local? = null) {
             fun justMobile(mobileId: String) = Local(null, mobileId)
             fun justWeb(webUrl: String) = Local(webUrl, null)
         }
+
+        class Builder : BeagleBuilder<Local> {
+            var webUrl: String? = null
+            var mobileId: String? = null
+
+            fun webUrl(webUrl: String?) = this.apply { this.webUrl = webUrl }
+            fun mobileId(mobileId: String?) = this.apply { this.mobileId = mobileId }
+
+            fun webUrl(block: () -> String?) {
+                webUrl(block.invoke())
+            }
+
+            fun mobileId(block: () -> String?) {
+                mobileId(block.invoke())
+            }
+
+            override fun build() = Local(webUrl, mobileId)
+        }
     }
 
     /**
@@ -59,5 +99,28 @@ sealed class ImagePath(val url: String?, val placeholder: Local? = null) {
      * @param remoteUrl reference the path where the image should be fetched from.
      * @param placeholder reference an image natively in your mobile app local styles file to be used as placeholder.
      * */
-    class Remote(remoteUrl: String, placeholder: Local? = null) : ImagePath(remoteUrl, placeholder)
+    class Remote(remoteUrl: String, placeholder: Local? = null) : ImagePath(remoteUrl, placeholder) {
+        class Builder : BeagleBuilder<Remote> {
+            var remoteUrl: String by Delegates.notNull()
+            var placeholder: Local? = null
+
+            fun remoteUrl(remoteUrl: String) = this.apply { this.remoteUrl = remoteUrl }
+            fun placeholder(placeholder: Local?) = this.apply { this.placeholder = placeholder }
+
+            fun remoteUrl(block: () -> String) {
+                remoteUrl(block.invoke())
+            }
+
+            fun placeholder(block: () -> Local?) {
+                placeholder(block.invoke())
+            }
+
+            override fun build() = Remote(remoteUrl, placeholder)
+        }
+    }
 }
+
+fun imagePathLocal(block: ImagePath.Local.Builder.() -> Unit)
+    = ImagePath.Local.Builder().apply(block).build()
+fun imagePathRemote(block: ImagePath.Remote.Builder.() -> Unit)
+    = ImagePath.Remote.Builder().apply(block).build()

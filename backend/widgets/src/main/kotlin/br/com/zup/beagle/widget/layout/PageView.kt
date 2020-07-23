@@ -18,11 +18,14 @@ package br.com.zup.beagle.widget.layout
 
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.action.Action
+import br.com.zup.beagle.widget.builder.BeagleBuilder
+import br.com.zup.beagle.widget.builder.BeagleListBuilder
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.ContextComponent
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.pager.PageIndicatorComponent
 import br.com.zup.beagle.widget.utils.BeagleConstants.DEPRECATED_PAGE_VIEW
+import kotlin.properties.Delegates
 
 /**
  *  The PageView component is a specialized container to hold pages (views) that will be displayed horizontally.
@@ -66,4 +69,40 @@ data class PageView(
         onPageChange,
         currentPage
     )
+    class Builder : BeagleBuilder<PageView> {
+        var children: List<ServerDrivenComponent> by Delegates.notNull()
+        var context: ContextData? = null
+        var onPageChange: List<Action>? = null
+        var currentPage: Bind<Int>? = null
+
+        fun children(children: List<ServerDrivenComponent>) = this.apply { this.children = children }
+        fun context(context: ContextData?) = this.apply { this.context = context }
+        fun onPageChange(onPageChange: List<Action>?) = this.apply { this.onPageChange = onPageChange }
+        fun currentPage(currentPage: Bind<Int>?) = this.apply { this.currentPage = currentPage }
+
+        fun children(block: BeagleListBuilder<ServerDrivenComponent>.() -> Unit) {
+            children(BeagleListBuilder<ServerDrivenComponent>().apply(block).build())
+        }
+
+        fun context(block: ContextData.Builder.() -> Unit) {
+            context(ContextData.Builder().apply(block).build())
+        }
+
+        fun onPageChange(block: BeagleListBuilder<Action>.() -> Unit){
+            onPageChange(BeagleListBuilder<Action>().apply(block).buildNullable())
+        }
+
+        fun currentPage(block: () -> Bind<Int>?){
+            currentPage(block.invoke())
+        }
+
+        override fun build() = PageView(
+            children = children,
+            context = context,
+            onPageChange = onPageChange,
+            currentPage = currentPage
+        )
+    }
 }
+
+fun pageView(block: PageView.Builder.() -> Unit) = PageView.Builder().apply(block).build()

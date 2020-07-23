@@ -20,7 +20,10 @@ import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.action.Action
+import br.com.zup.beagle.widget.builder.BeagleBuilder
+import br.com.zup.beagle.widget.builder.BeagleListBuilder
 import br.com.zup.beagle.widget.context.ContextComponent
+import kotlin.properties.Delegates
 
 /**
  *  The container component is a general container that can hold other components inside.
@@ -32,4 +35,35 @@ data class Container(
     val children: List<ServerDrivenComponent>,
     override val context: ContextData? = null,
     val onInit: List<Action>? = null
-) : Widget(), ContextComponent
+) : Widget(), ContextComponent {
+    class Builder : BeagleBuilder<Container> {
+        var children: List<ServerDrivenComponent> by Delegates.notNull()
+        var context: ContextData? = null
+        var onInit: List<Action>? = null
+
+        fun children(children: List<ServerDrivenComponent>) = this.apply { this.children = children }
+        fun context(context: ContextData?) = this.apply { this.context = context }
+        fun onInit(onInit: List<Action>?) = this.apply { this.onInit = onInit }
+
+        fun children(block: BeagleListBuilder<ServerDrivenComponent>.() -> Unit) {
+            children(BeagleListBuilder<ServerDrivenComponent>().apply(block).build())
+        }
+
+        fun context(block: ContextData.Builder.() -> Unit) {
+            context(ContextData.Builder().apply(block).build())
+        }
+
+        fun onInit(block: BeagleListBuilder<Action>.() -> Unit) {
+            onInit(BeagleListBuilder<Action>().apply(block).buildNullable())
+        }
+
+        override fun build() = Container(
+            children = children,
+            context = context,
+            onInit = onInit
+        )
+
+    }
+}
+
+fun container(block: Container.Builder.() -> Unit) = Container.Builder().apply(block).build()

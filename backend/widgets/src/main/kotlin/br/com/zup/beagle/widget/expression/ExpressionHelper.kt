@@ -16,6 +16,9 @@
 
 package br.com.zup.beagle.widget.expression
 
+import br.com.zup.beagle.widget.builder.BeagleBuilder
+import kotlin.properties.Delegates
+
 sealed class ExpressionHelper<T>(private val intermediate: String) {
     companion object {
         private const val START = "@{"
@@ -29,7 +32,20 @@ sealed class ExpressionHelper<T>(private val intermediate: String) {
     fun <N> access(member: String): ExpressionHelper<N> = ObjectAccess(member, this)
 
     class Start<O>(initialMember: String) :
-        ExpressionHelper<O>("$START$initialMember")
+        ExpressionHelper<O>("$START$initialMember") {
+        class Builder<O> : BeagleBuilder<Start<O>> {
+            var initialMember: String by Delegates.notNull()
+
+            fun initialMember(initialMember: String) = this.apply { this.initialMember = initialMember }
+
+            fun initialMember(block: () -> String) {
+                initialMember(block.invoke())
+            }
+
+            override fun build() = Start<O>(initialMember)
+
+        }
+    }
 
     private class ObjectAccess<I, O>(member: String, expression: ExpressionHelper<I>) :
         ExpressionHelper<O>("${expression.intermediate}.$member")
@@ -37,3 +53,6 @@ sealed class ExpressionHelper<T>(private val intermediate: String) {
     private class ArrayAccess<T>(index: Int, expression: ExpressionHelper<out Iterable<T>>) :
         ExpressionHelper<T>("${expression.intermediate}[$index]")
 }
+
+fun <T> start(block: ExpressionHelper.Start.Builder<T>.() -> Unit)
+    = ExpressionHelper.Start.Builder<T>().apply(block).build()

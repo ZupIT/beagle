@@ -16,4 +16,12 @@
 
 package br.com.zup.beagle.widget.action
 
-class SubmitForm : Action
+import br.com.zup.beagle.widget.builder.BeagleBuilder
+
+class SubmitForm : Action {
+    class Builder : BeagleBuilder<SubmitForm> {
+        override fun build() = SubmitForm()
+    }
+}
+
+fun submitForm(block: SubmitForm.Builder.() -> Unit) = SubmitForm.Builder().apply(block).build()

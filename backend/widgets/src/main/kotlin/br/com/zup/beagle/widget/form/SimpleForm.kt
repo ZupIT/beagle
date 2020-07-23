@@ -18,7 +18,10 @@ package br.com.zup.beagle.widget.form
 
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.action.Action
+import br.com.zup.beagle.widget.builder.BeagleBuilder
+import br.com.zup.beagle.widget.builder.BeagleListBuilder
 import br.com.zup.beagle.widget.context.ContextData
+import kotlin.properties.Delegates
 
 /**
  * Component will define a submit handler for a SimpleForm.
@@ -34,4 +37,36 @@ class SimpleForm(
     val context: ContextData,
     val onSubmit: List<Action>,
     val children: List<ServerDrivenComponent>
-) : ServerDrivenComponent
+) : ServerDrivenComponent {
+    class Builder : BeagleBuilder<SimpleForm> {
+        var context: ContextData by Delegates.notNull()
+        var onSubmit: List<Action> by Delegates.notNull()
+        var children: List<ServerDrivenComponent> by Delegates.notNull()
+
+        fun context(context: ContextData) = this.apply { this.context = context }
+
+        fun onSubmit(onSubmit: List<Action>) = this.apply { this.onSubmit = onSubmit }
+
+        fun children(children: List<ServerDrivenComponent>) = this.apply { this.children = children }
+
+        fun context(block: ContextData.Builder.() -> Unit) {
+            context(ContextData.Builder().apply(block).build())
+        }
+
+        fun onSubmit(block: BeagleListBuilder<Action>.() -> Unit) {
+            onSubmit(BeagleListBuilder<Action>().apply(block).build())
+        }
+
+        fun children(block: BeagleListBuilder<ServerDrivenComponent>.() -> Unit) {
+            children(BeagleListBuilder<ServerDrivenComponent>().apply(block).build())
+        }
+
+        override fun build() = SimpleForm(
+            context = context,
+            onSubmit = onSubmit,
+            children = children
+        )
+    }
+}
+
+fun simpleForm(block: SimpleForm.Builder.() -> Unit) = SimpleForm.Builder().apply(block).build()
