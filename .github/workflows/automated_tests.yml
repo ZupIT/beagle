@@ -31,10 +31,18 @@ jobs:
             -   name: Deploy backend
                 run: bash fastlane/automatedTests/deploy_tests_backend.sh
 
+            -   name: Cache avd
+                uses: actions/cache@v2
+                env:
+                    avd-cache-key: avd-cache
+                    avd-path: ~/.android
+                with:
+                    path: ${{ env.avd-path }}
+                    key: ${{ runner.os }}-build-${{ env.avd-cache-key }}-${{ hashFiles('fastlane/automatedTests/run_android_automation.sh') }}
             -   name: Test Android
                 run: bash fastlane/automatedTests/run_android_automation.sh
                 env:
-                    ANDROID_SDK_ROOT: /Users/runner/Library/Android/sdk
+                    ANDROID_SDK_ROOT: ~/Library/Android/sdk
 
             -   name: Test iOS
                 run: bundle exec fastlane automated_tests run_ios_automation

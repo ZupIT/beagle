@@ -7,8 +7,6 @@ function cleanup() {
     if [[ -n $EMULATOR_PID ]]; then
         kill "$EMULATOR_PID"
     fi
-
-    "$ANDROID_SDK_ROOT"/tools/bin/avdmanager delete avd -n $AVD_NAME
 }
 
 trap exit SIGHUP SIGINT
@@ -16,12 +14,16 @@ trap cleanup EXIT
 
 "$ANDROID_SDK_ROOT"/tools/bin/sdkmanager "$AVD_IMAGE"
 
-#blank line necessary as input to AVD
-"$ANDROID_SDK_ROOT"/tools/bin/avdmanager create avd -n $AVD_NAME -k "$AVD_IMAGE" <<EOF
+if [ -z $("$ANDROID_SDK_ROOT"/emulator/emulator -list-avds | grep $AVD_NAME) ]; then
+    echo "Using avd from cache"
+else
+    #blank line necessary as input to AVD
+    "$ANDROID_SDK_ROOT"/tools/bin/avdmanager create avd -n $AVD_NAME -k "$AVD_IMAGE" <<EOF
 
 EOF
+fi
 
-nohup "$ANDROID_SDK_ROOT"/emulator/emulator -avd test -no-audio -no-boot-anim -no-snapshot -no-window 2>&1 &
+nohup "$ANDROID_SDK_ROOT"/emulator/emulator -avd $AVD_NAME -no-audio -no-boot-anim -no-snapshot -no-window 2>&1 &
 EMULATOR_PID=$!
 
 "$ANDROID_SDK_ROOT"/platform-tools/adb wait-for-device shell <<ENDSCRIPT
