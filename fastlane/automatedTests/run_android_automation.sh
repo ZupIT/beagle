@@ -23,7 +23,7 @@ else
 EOF
 fi
 
-nohup "$ANDROID_SDK_ROOT"/emulator/emulator -avd $AVD_NAME -no-audio -no-boot-anim -no-snapshot -no-window 2>&1 &
+nohup "$ANDROID_SDK_ROOT"/emulator/emulator -avd $AVD_NAME -no-audio -no-boot-anim -no-snapshot 2>&1 &
 EMULATOR_PID=$!
 
 "$ANDROID_SDK_ROOT"/platform-tools/adb wait-for-device shell <<ENDSCRIPT

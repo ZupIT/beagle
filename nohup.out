@@ -1,0 +1,698 @@
+> Task :buildSrc:compileKotlin UP-TO-DATE
+> Task :buildSrc:compileJava NO-SOURCE
+> Task :buildSrc:compileGroovy NO-SOURCE
+> Task :buildSrc:pluginDescriptors UP-TO-DATE
+> Task :buildSrc:processResources NO-SOURCE
+> Task :buildSrc:classes UP-TO-DATE
+> Task :buildSrc:inspectClassesForKotlinIC UP-TO-DATE
+> Task :buildSrc:jar UP-TO-DATE
+> Task :buildSrc:assemble UP-TO-DATE
+> Task :buildSrc:compileTestKotlin NO-SOURCE
+> Task :buildSrc:pluginUnderTestMetadata UP-TO-DATE
+> Task :buildSrc:compileTestJava NO-SOURCE
+> Task :buildSrc:compileTestGroovy NO-SOURCE
+> Task :buildSrc:processTestResources NO-SOURCE
+> Task :buildSrc:testClasses UP-TO-DATE
+> Task :buildSrc:test NO-SOURCE
+> Task :buildSrc:validateTaskProperties UP-TO-DATE
+> Task :buildSrc:check UP-TO-DATE
+> Task :buildSrc:build UP-TO-DATE
+
+> Configure project :android:android-preview
+WARNING: The option setting 'android.enableSeparateAnnotationProcessing=true' is experimental and unsupported.
+The current default is 'false'.
+
+WARNING: Configuration 'compile' is obsolete and has been replaced with 'implementation' and 'api'.
+It will be removed soon. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
+
+> Configure project :android:beagle
+WARNING: Configuration 'compile' is obsolete and has been replaced with 'implementation' and 'api'.
+It will be removed soon. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
+
+> Configure project :android:sample
+screenShotsRecordedBaseDir=/Users/deblianesousa/Documents/Work/01-GIT/01-BEAGLE/beagle/android/sample/build/reports/shot/record/images/recorded
+screenShotsVerificationBaseDir=/Users/deblianesousa/Documents/Work/01-GIT/01-BEAGLE/beagle/android/sample/screenshots/screenshots-default
+runInstrumentation=true
+
+> Task :common:extended-schema:processResources NO-SOURCE
+> Task :backend:framework:processResources NO-SOURCE
+> Task :backend:starters:beagle-spring-starter:processResources UP-TO-DATE
+> Task :backend:backend-widgets:processResources NO-SOURCE
+> Task :backend:automated-tests:processResources UP-TO-DATE
+> Task :schema:kotlin-core:compileKotlin UP-TO-DATE
+> Task :schema:kotlin-core:compileJava NO-SOURCE
+> Task :schema:kotlin-core:processResources NO-SOURCE
+> Task :schema:kotlin-core:classes UP-TO-DATE
+> Task :schema:kotlin-core:inspectClassesForKotlinIC UP-TO-DATE
+> Task :schema:kotlin-core:jar UP-TO-DATE
+> Task :common:annotation:compileKotlin UP-TO-DATE
+> Task :common:annotation:compileJava NO-SOURCE
+> Task :common:annotation:processResources NO-SOURCE
+> Task :common:annotation:classes UP-TO-DATE
+> Task :common:extended-schema:compileKotlin UP-TO-DATE
+> Task :common:extended-schema:compileJava NO-SOURCE
+> Task :common:extended-schema:classes UP-TO-DATE
+> Task :backend:backend-widgets:compileKotlin UP-TO-DATE
+> Task :common:extended-schema:inspectClassesForKotlinIC UP-TO-DATE
+> Task :backend:backend-widgets:compileJava NO-SOURCE
+> Task :backend:backend-widgets:classes UP-TO-DATE
+> Task :common:extended-schema:jar UP-TO-DATE
+> Task :backend:backend-widgets:inspectClassesForKotlinIC UP-TO-DATE
+> Task :common:annotation:inspectClassesForKotlinIC UP-TO-DATE
+> Task :backend:backend-widgets:jar UP-TO-DATE
+> Task :common:annotation:jar UP-TO-DATE
+> Task :backend:framework:compileKotlin UP-TO-DATE
+> Task :backend:framework:compileJava NO-SOURCE
+> Task :backend:framework:classes UP-TO-DATE
+> Task :backend:framework:inspectClassesForKotlinIC UP-TO-DATE
+> Task :backend:framework:jar UP-TO-DATE
+> Task :backend:starters:beagle-spring-starter:compileKotlin UP-TO-DATE
+> Task :backend:starters:beagle-spring-starter:compileJava NO-SOURCE
+> Task :backend:starters:beagle-spring-starter:classes UP-TO-DATE
+> Task :backend:starters:beagle-spring-starter:inspectClassesForKotlinIC UP-TO-DATE
+> Task :backend:starters:beagle-spring-starter:jar UP-TO-DATE
+> Task :backend:automated-tests:compileKotlin UP-TO-DATE
+> Task :backend:automated-tests:compileJava NO-SOURCE
+> Task :backend:automated-tests:classes UP-TO-DATE
+
+> Task :backend:automated-tests:bootRun
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.2.5.RELEASE)
+
+2020-07-23 15:40:35.227  WARN 62968 --- [           main] o.s.boot.StartupInfoLogger               : InetAddress.getLocalHost().getHostName() took 5005 milliseconds to respond. Please verify your network configuration (macOS machines may need to add entries to /etc/hosts).
+nohup: /emulator/emulator: No such file or directory
+2020-07-23 15:40:40.237  INFO 62968 --- [           main] b.c.z.b.a.AutomatedTestsApplicationKt    : Starting AutomatedTestsApplicationKt on Deblianes-MacBook-Pro.local with PID 62968 (/Users/deblianesousa/Documents/Work/01-GIT/01-BEAGLE/beagle/backend/automated-tests/build/classes/kotlin/main started by deblianesousa in /Users/deblianesousa/Documents/Work/01-GIT/01-BEAGLE/beagle/backend/automated-tests)
+2020-07-23 15:40:40.239  INFO 62968 --- [           main] b.c.z.b.a.AutomatedTestsApplicationKt    : No active profile set, falling back to default profiles: default
+2020-07-23 15:40:40.951  INFO 62968 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2020-07-23 15:40:40.959  INFO 62968 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-07-23 15:40:40.960  INFO 62968 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.31]
+2020-07-23 15:40:41.011  INFO 62968 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-07-23 15:40:41.012  INFO 62968 --- [           main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 736 ms
+2020-07-23 15:40:41.174  INFO 62968 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-23 15:40:41.293  INFO 62968 --- [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2020-07-23 15:40:41.302  INFO 62968 --- [           main] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2020-07-23 15:40:41.307 ERROR 62968 --- [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2020-07-23 15:40:41.309  INFO 62968 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+
+> Task :backend:automated-tests:bootRun FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':backend:automated-tests:bootRun'.
+> Process 'command '/Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home/bin/java'' finished with non-zero exit value 1
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 6.0.
+Use '--warning-mode all' to show the individual deprecation warnings.
+See https://docs.gradle.org/5.6.4/userguide/command_line_interface.html#sec:command_line_warnings
+
+BUILD FAILED in 19s
+22 actionable tasks: 1 executed, 21 up-to-date
+nohup: /emulator/emulator: No such file or directory
+> Task :buildSrc:compileKotlin UP-TO-DATE
+> Task :buildSrc:compileJava NO-SOURCE
+> Task :buildSrc:compileGroovy NO-SOURCE
+> Task :buildSrc:pluginDescriptors UP-TO-DATE
+> Task :buildSrc:processResources NO-SOURCE
+> Task :buildSrc:classes UP-TO-DATE
+> Task :buildSrc:inspectClassesForKotlinIC UP-TO-DATE
+> Task :buildSrc:jar UP-TO-DATE
+> Task :buildSrc:assemble UP-TO-DATE
+> Task :buildSrc:compileTestKotlin NO-SOURCE
+> Task :buildSrc:pluginUnderTestMetadata UP-TO-DATE
+> Task :buildSrc:compileTestJava NO-SOURCE
+> Task :buildSrc:compileTestGroovy NO-SOURCE
+> Task :buildSrc:processTestResources NO-SOURCE
+> Task :buildSrc:testClasses UP-TO-DATE
+> Task :buildSrc:test NO-SOURCE
+> Task :buildSrc:validateTaskProperties UP-TO-DATE
+> Task :buildSrc:check UP-TO-DATE
+> Task :buildSrc:build UP-TO-DATE
+
+> Configure project :android:android-preview
+WARNING: The option setting 'android.enableSeparateAnnotationProcessing=true' is experimental and unsupported.
+The current default is 'false'.
+
+WARNING: Configuration 'compile' is obsolete and has been replaced with 'implementation' and 'api'.
+It will be removed soon. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
+
+> Configure project :android:beagle
+WARNING: Configuration 'compile' is obsolete and has been replaced with 'implementation' and 'api'.
+It will be removed soon. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
+
+> Configure project :android:sample
+screenShotsRecordedBaseDir=/Users/deblianesousa/Documents/Work/01-GIT/01-BEAGLE/beagle/android/sample/build/reports/shot/record/images/recorded
+screenShotsVerificationBaseDir=/Users/deblianesousa/Documents/Work/01-GIT/01-BEAGLE/beagle/android/sample/screenshots/screenshots-default
+runInstrumentation=true
+
+> Task :backend:backend-widgets:processResources NO-SOURCE
+> Task :backend:framework:processResources NO-SOURCE
+> Task :common:extended-schema:processResources NO-SOURCE
+> Task :backend:starters:beagle-spring-starter:processResources UP-TO-DATE
+> Task :backend:automated-tests:processResources UP-TO-DATE
+> Task :common:annotation:compileKotlin UP-TO-DATE
+> Task :schema:kotlin-core:compileKotlin UP-TO-DATE
+> Task :common:annotation:compileJava NO-SOURCE
+> Task :schema:kotlin-core:compileJava NO-SOURCE
+> Task :common:annotation:processResources NO-SOURCE
+> Task :schema:kotlin-core:processResources NO-SOURCE
+> Task :common:annotation:classes UP-TO-DATE
+> Task :schema:kotlin-core:classes UP-TO-DATE
+> Task :common:annotation:inspectClassesForKotlinIC UP-TO-DATE
+> Task :schema:kotlin-core:inspectClassesForKotlinIC UP-TO-DATE
+> Task :common:annotation:jar UP-TO-DATE
+> Task :schema:kotlin-core:jar UP-TO-DATE
+> Task :common:extended-schema:compileKotlin UP-TO-DATE
+> Task :common:extended-schema:compileJava NO-SOURCE
+> Task :common:extended-schema:classes UP-TO-DATE
+> Task :backend:backend-widgets:compileKotlin UP-TO-DATE
+> Task :common:extended-schema:inspectClassesForKotlinIC UP-TO-DATE
+> Task :backend:backend-widgets:compileJava NO-SOURCE
+> Task :backend:backend-widgets:classes UP-TO-DATE
+> Task :common:extended-schema:jar UP-TO-DATE
+> Task :backend:backend-widgets:inspectClassesForKotlinIC UP-TO-DATE
+> Task :backend:backend-widgets:jar UP-TO-DATE
+> Task :backend:framework:compileKotlin UP-TO-DATE
+> Task :backend:framework:compileJava NO-SOURCE
+> Task :backend:framework:classes UP-TO-DATE
+> Task :backend:framework:inspectClassesForKotlinIC UP-TO-DATE
+> Task :backend:framework:jar UP-TO-DATE
+> Task :backend:starters:beagle-spring-starter:compileKotlin UP-TO-DATE
+> Task :backend:starters:beagle-spring-starter:compileJava NO-SOURCE
+> Task :backend:starters:beagle-spring-starter:classes UP-TO-DATE
+> Task :backend:starters:beagle-spring-starter:inspectClassesForKotlinIC UP-TO-DATE
+> Task :backend:starters:beagle-spring-starter:jar UP-TO-DATE
+> Task :backend:automated-tests:compileKotlin UP-TO-DATE
+> Task :backend:automated-tests:compileJava NO-SOURCE
+> Task :backend:automated-tests:classes UP-TO-DATE
+
+> Task :backend:automated-tests:bootRun
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.2.5.RELEASE)
+
+nohup: /emulator/emulator: No such file or directory
+2020-07-23 15:53:27.099  WARN 65875 --- [           main] o.s.boot.StartupInfoLogger               : InetAddress.getLocalHost().getHostName() took 5004 milliseconds to respond. Please verify your network configuration (macOS machines may need to add entries to /etc/hosts).
+2020-07-23 15:53:32.109  INFO 65875 --- [           main] b.c.z.b.a.AutomatedTestsApplicationKt    : Starting AutomatedTestsApplicationKt on Deblianes-MacBook-Pro.local with PID 65875 (/Users/deblianesousa/Documents/Work/01-GIT/01-BEAGLE/beagle/backend/automated-tests/build/classes/kotlin/main started by deblianesousa in /Users/deblianesousa/Documents/Work/01-GIT/01-BEAGLE/beagle/backend/automated-tests)
+2020-07-23 15:53:32.110  INFO 65875 --- [           main] b.c.z.b.a.AutomatedTestsApplicationKt    : No active profile set, falling back to default profiles: default
+2020-07-23 15:53:32.812  INFO 65875 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2020-07-23 15:53:32.820  INFO 65875 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-07-23 15:53:32.820  INFO 65875 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.31]
+2020-07-23 15:53:32.891  INFO 65875 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-07-23 15:53:32.891  INFO 65875 --- [           main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 747 ms
+2020-07-23 15:53:33.051  INFO 65875 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-23 15:53:33.177  INFO 65875 --- [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2020-07-23 15:53:33.182  INFO 65875 --- [           main] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2020-07-23 15:53:33.186 ERROR 65875 --- [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2020-07-23 15:53:33.188  INFO 65875 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+
+> Task :backend:automated-tests:bootRun FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':backend:automated-tests:bootRun'.
+> Process 'command '/Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home/bin/java'' finished with non-zero exit value 1
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 6.0.
+Use '--warning-mode all' to show the individual deprecation warnings.
+See https://docs.gradle.org/5.6.4/userguide/command_line_interface.html#sec:command_line_warnings
+
+BUILD FAILED in 18s
+22 actionable tasks: 1 executed, 21 up-to-date
+> Task :buildSrc:compileKotlin UP-TO-DATE
+> Task :buildSrc:compileJava NO-SOURCE
+> Task :buildSrc:compileGroovy NO-SOURCE
+> Task :buildSrc:pluginDescriptors UP-TO-DATE
+> Task :buildSrc:processResources NO-SOURCE
+> Task :buildSrc:classes UP-TO-DATE
+> Task :buildSrc:inspectClassesForKotlinIC UP-TO-DATE
+> Task :buildSrc:jar UP-TO-DATE
+> Task :buildSrc:assemble UP-TO-DATE
+> Task :buildSrc:compileTestKotlin NO-SOURCE
+> Task :buildSrc:pluginUnderTestMetadata UP-TO-DATE
+> Task :buildSrc:compileTestJava NO-SOURCE
+> Task :buildSrc:compileTestGroovy NO-SOURCE
+> Task :buildSrc:processTestResources NO-SOURCE
+> Task :buildSrc:testClasses UP-TO-DATE
+> Task :buildSrc:test NO-SOURCE
+> Task :buildSrc:validateTaskProperties UP-TO-DATE
+> Task :buildSrc:check UP-TO-DATE
+> Task :buildSrc:build UP-TO-DATE
+
+> Configure project :android:android-preview
+WARNING: The option setting 'android.enableSeparateAnnotationProcessing=true' is experimental and unsupported.
+The current default is 'false'.
+
+WARNING: Configuration 'compile' is obsolete and has been replaced with 'implementation' and 'api'.
+It will be removed soon. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
+
+> Configure project :android:beagle
+WARNING: Configuration 'compile' is obsolete and has been replaced with 'implementation' and 'api'.
+It will be removed soon. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
+
+> Configure project :android:sample
+screenShotsRecordedBaseDir=/Users/deblianesousa/Documents/Work/01-GIT/01-BEAGLE/beagle/android/sample/build/reports/shot/record/images/recorded
+screenShotsVerificationBaseDir=/Users/deblianesousa/Documents/Work/01-GIT/01-BEAGLE/beagle/android/sample/screenshots/screenshots-default
+runInstrumentation=true
+
+> Task :backend:backend-widgets:processResources NO-SOURCE
+> Task :backend:framework:processResources NO-SOURCE
+> Task :common:extended-schema:processResources NO-SOURCE
+> Task :backend:starters:beagle-spring-starter:processResources UP-TO-DATE
+> Task :backend:automated-tests:processResources UP-TO-DATE
+> Task :common:annotation:compileKotlin UP-TO-DATE
+> Task :schema:kotlin-core:compileKotlin UP-TO-DATE
+> Task :common:annotation:compileJava NO-SOURCE
+> Task :common:annotation:processResources NO-SOURCE
+> Task :common:annotation:classes UP-TO-DATE
+> Task :common:annotation:inspectClassesForKotlinIC UP-TO-DATE
+> Task :common:annotation:jar UP-TO-DATE
+> Task :schema:kotlin-core:compileJava NO-SOURCE
+> Task :schema:kotlin-core:processResources NO-SOURCE
+> Task :schema:kotlin-core:classes UP-TO-DATE
+> Task :schema:kotlin-core:inspectClassesForKotlinIC UP-TO-DATE
+> Task :schema:kotlin-core:jar UP-TO-DATE
+> Task :common:extended-schema:compileKotlin UP-TO-DATE
+> Task :common:extended-schema:compileJava NO-SOURCE
+> Task :common:extended-schema:classes UP-TO-DATE
+> Task :backend:backend-widgets:compileKotlin UP-TO-DATE
+> Task :common:extended-schema:inspectClassesForKotlinIC UP-TO-DATE
+> Task :backend:backend-widgets:compileJava NO-SOURCE
+> Task :backend:backend-widgets:classes UP-TO-DATE
+> Task :common:extended-schema:jar UP-TO-DATE
+> Task :backend:backend-widgets:inspectClassesForKotlinIC UP-TO-DATE
+> Task :backend:backend-widgets:jar UP-TO-DATE
+> Task :backend:framework:compileKotlin UP-TO-DATE
+> Task :backend:framework:compileJava NO-SOURCE
+> Task :backend:framework:classes UP-TO-DATE
+> Task :backend:framework:inspectClassesForKotlinIC UP-TO-DATE
+> Task :backend:framework:jar UP-TO-DATE
+> Task :backend:starters:beagle-spring-starter:compileKotlin UP-TO-DATE
+> Task :backend:starters:beagle-spring-starter:compileJava NO-SOURCE
+> Task :backend:starters:beagle-spring-starter:classes UP-TO-DATE
+> Task :backend:starters:beagle-spring-starter:inspectClassesForKotlinIC UP-TO-DATE
+> Task :backend:starters:beagle-spring-starter:jar UP-TO-DATE
+> Task :backend:automated-tests:compileKotlin UP-TO-DATE
+> Task :backend:automated-tests:compileJava NO-SOURCE
+> Task :backend:automated-tests:classes UP-TO-DATE
+
+> Task :backend:automated-tests:bootRun
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.2.5.RELEASE)
+
+nohup: /emulator/emulator: No such file or directory
+2020-07-23 16:00:22.368  WARN 66414 --- [           main] o.s.boot.StartupInfoLogger               : InetAddress.getLocalHost().getHostName() took 5005 milliseconds to respond. Please verify your network configuration (macOS machines may need to add entries to /etc/hosts).
+2020-07-23 16:00:27.376  INFO 66414 --- [           main] b.c.z.b.a.AutomatedTestsApplicationKt    : Starting AutomatedTestsApplicationKt on Deblianes-MacBook-Pro.local with PID 66414 (/Users/deblianesousa/Documents/Work/01-GIT/01-BEAGLE/beagle/backend/automated-tests/build/classes/kotlin/main started by deblianesousa in /Users/deblianesousa/Documents/Work/01-GIT/01-BEAGLE/beagle/backend/automated-tests)
+2020-07-23 16:00:27.378  INFO 66414 --- [           main] b.c.z.b.a.AutomatedTestsApplicationKt    : No active profile set, falling back to default profiles: default
+2020-07-23 16:00:28.303  INFO 66414 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2020-07-23 16:00:28.310  INFO 66414 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-07-23 16:00:28.311  INFO 66414 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.31]
+2020-07-23 16:00:28.379  INFO 66414 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-07-23 16:00:28.379  INFO 66414 --- [           main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 945 ms
+2020-07-23 16:00:28.605  INFO 66414 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-23 16:00:28.747  INFO 66414 --- [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2020-07-23 16:00:28.753  INFO 66414 --- [           main] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2020-07-23 16:00:28.761 ERROR 66414 --- [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2020-07-23 16:00:28.764  INFO 66414 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+
+> Task :backend:automated-tests:bootRun FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':backend:automated-tests:bootRun'.
+> Process 'command '/Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home/bin/java'' finished with non-zero exit value 1
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 6.0.
+Use '--warning-mode all' to show the individual deprecation warnings.
+See https://docs.gradle.org/5.6.4/userguide/command_line_interface.html#sec:command_line_warnings
+
+BUILD FAILED in 20s
+22 actionable tasks: 1 executed, 21 up-to-date
+emulator: WARNING: Running on a system with less than 6 logical cores. Setting number of virtual cores to 1
+Your emulator is out of date, please update by launching Android Studio:
+ - Start Android Studio
+ - Select menu "Tools > Android > SDK Manager"
+ - Click "SDK Tools" tab
+ - Check "Android Emulator" checkbox
+ - Click "OK"
+
+emulator: INFO: QtLogger.cpp:68: Warning: Failed to get QCocoaScreen for NSObject(0x0) ((null):0, (null))
+
+
+emulator: INFO: boot completed
+emulator: INFO: boot time 103154 ms
+emulator: Increasing screen off timeout, logcat buffer size to 2M.
+emulator: Revoking microphone permissions for Google App.
+emulator: WARNING: Discarding the changed state (command-line flag).
+> Task :buildSrc:compileKotlin UP-TO-DATE
+> Task :buildSrc:compileJava NO-SOURCE
+> Task :buildSrc:compileGroovy NO-SOURCE
+> Task :buildSrc:pluginDescriptors UP-TO-DATE
+> Task :buildSrc:processResources NO-SOURCE
+> Task :buildSrc:classes UP-TO-DATE
+> Task :buildSrc:inspectClassesForKotlinIC UP-TO-DATE
+> Task :buildSrc:jar UP-TO-DATE
+> Task :buildSrc:assemble UP-TO-DATE
+> Task :buildSrc:compileTestKotlin NO-SOURCE
+> Task :buildSrc:pluginUnderTestMetadata UP-TO-DATE
+> Task :buildSrc:compileTestJava NO-SOURCE
+> Task :buildSrc:compileTestGroovy NO-SOURCE
+> Task :buildSrc:processTestResources NO-SOURCE
+> Task :buildSrc:testClasses UP-TO-DATE
+> Task :buildSrc:test NO-SOURCE
+> Task :buildSrc:validateTaskProperties UP-TO-DATE
+> Task :buildSrc:check UP-TO-DATE
+> Task :buildSrc:build UP-TO-DATE
+
+> Configure project :android:android-preview
+WARNING: The option setting 'android.enableSeparateAnnotationProcessing=true' is experimental and unsupported.
+The current default is 'false'.
+
+WARNING: Configuration 'compile' is obsolete and has been replaced with 'implementation' and 'api'.
+It will be removed soon. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
+
+> Configure project :android:beagle
+WARNING: Configuration 'compile' is obsolete and has been replaced with 'implementation' and 'api'.
+It will be removed soon. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
+
+> Configure project :android:sample
+screenShotsRecordedBaseDir=/Users/deblianesousa/Documents/Work/01-GIT/01-BEAGLE/beagle/android/sample/build/reports/shot/record/images/recorded
+screenShotsVerificationBaseDir=/Users/deblianesousa/Documents/Work/01-GIT/01-BEAGLE/beagle/android/sample/screenshots/screenshots-default
+runInstrumentation=true
+
+> Task :backend:backend-widgets:processResources NO-SOURCE
+> Task :common:extended-schema:processResources NO-SOURCE
+> Task :backend:framework:processResources NO-SOURCE
+> Task :common:annotation:compileKotlin UP-TO-DATE
+> Task :schema:kotlin-core:compileKotlin UP-TO-DATE
+> Task :common:annotation:compileJava NO-SOURCE
+> Task :common:annotation:processResources NO-SOURCE
+> Task :schema:kotlin-core:compileJava NO-SOURCE
+> Task :common:annotation:classes UP-TO-DATE
+> Task :schema:kotlin-core:processResources NO-SOURCE
+> Task :schema:kotlin-core:classes UP-TO-DATE
+> Task :common:annotation:inspectClassesForKotlinIC UP-TO-DATE
+> Task :schema:kotlin-core:inspectClassesForKotlinIC UP-TO-DATE
+> Task :common:annotation:jar UP-TO-DATE
+> Task :schema:kotlin-core:jar UP-TO-DATE
+> Task :backend:automated-tests:processResources UP-TO-DATE
+> Task :backend:starters:beagle-spring-starter:processResources UP-TO-DATE
+> Task :common:extended-schema:compileKotlin UP-TO-DATE
+> Task :common:extended-schema:compileJava NO-SOURCE
+> Task :common:extended-schema:classes UP-TO-DATE
+> Task :backend:backend-widgets:compileKotlin UP-TO-DATE
+> Task :common:extended-schema:inspectClassesForKotlinIC UP-TO-DATE
+> Task :backend:backend-widgets:compileJava NO-SOURCE
+> Task :backend:backend-widgets:classes UP-TO-DATE
+> Task :common:extended-schema:jar UP-TO-DATE
+> Task :backend:backend-widgets:inspectClassesForKotlinIC UP-TO-DATE
+> Task :backend:backend-widgets:jar UP-TO-DATE
+> Task :backend:framework:compileKotlin UP-TO-DATE
+> Task :backend:framework:compileJava NO-SOURCE
+> Task :backend:framework:classes UP-TO-DATE
+> Task :backend:framework:inspectClassesForKotlinIC UP-TO-DATE
+> Task :backend:framework:jar UP-TO-DATE
+> Task :backend:starters:beagle-spring-starter:compileKotlin UP-TO-DATE
+> Task :backend:starters:beagle-spring-starter:compileJava NO-SOURCE
+> Task :backend:starters:beagle-spring-starter:classes UP-TO-DATE
+> Task :backend:starters:beagle-spring-starter:inspectClassesForKotlinIC UP-TO-DATE
+> Task :backend:starters:beagle-spring-starter:jar UP-TO-DATE
+> Task :backend:automated-tests:compileKotlin UP-TO-DATE
+> Task :backend:automated-tests:compileJava NO-SOURCE
+> Task :backend:automated-tests:classes UP-TO-DATE
+
+> Task :backend:automated-tests:bootRun
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.2.5.RELEASE)
+
+2020-07-23 16:14:16.876  WARN 67041 --- [           main] o.s.boot.StartupInfoLogger               : InetAddress.getLocalHost().getHostName() took 5039 milliseconds to respond. Please verify your network configuration (macOS machines may need to add entries to /etc/hosts).
+emulator: WARNING: Running on a system with less than 6 logical cores. Setting number of virtual cores to 1
+2020-07-23 16:14:21.972  INFO 67041 --- [           main] b.c.z.b.a.AutomatedTestsApplicationKt    : Starting AutomatedTestsApplicationKt on Deblianes-MacBook-Pro.local with PID 67041 (/Users/deblianesousa/Documents/Work/01-GIT/01-BEAGLE/beagle/backend/automated-tests/build/classes/kotlin/main started by deblianesousa in /Users/deblianesousa/Documents/Work/01-GIT/01-BEAGLE/beagle/backend/automated-tests)
+2020-07-23 16:14:21.974  INFO 67041 --- [           main] b.c.z.b.a.AutomatedTestsApplicationKt    : No active profile set, falling back to default profiles: default
+2020-07-23 16:14:24.563  INFO 67041 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2020-07-23 16:14:24.597  INFO 67041 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-07-23 16:14:24.598  INFO 67041 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.31]
+2020-07-23 16:14:24.843  INFO 67041 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-07-23 16:14:24.843  INFO 67041 --- [           main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2787 ms
+2020-07-23 16:14:25.118  INFO 67041 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-23 16:14:25.334  INFO 67041 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2020-07-23 16:14:25.338  INFO 67041 --- [           main] b.c.z.b.a.AutomatedTestsApplicationKt    : Started AutomatedTestsApplicationKt in 19.439 seconds (JVM running for 20.01)
+
+04:14:31 V/EmulatorConsole: Creating emulator console for 5554
+04:14:31 V/EmulatorConsole: Removing emulator console for 5554
+04:14:31 V/ddms: execute: running getprop
+04:14:31 V/ddms: execute 'getprop' on 'emulator-5554' : EOF hit. Read: -1
+04:14:31 V/ddms: execute: returning
+emulator: INFO: boot completed
+emulator: INFO: boot time 44612 ms
+emulator: Increasing screen off timeout, logcat buffer size to 2M.
+emulator: Revoking microphone permissions for Google App.
+
+> Task :backend:automated-tests:bootRun
+2020-07-23 16:17:16.084  INFO 67041 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-07-23 16:17:16.086  INFO 67041 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-07-23 16:17:16.110  INFO 67041 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 23 ms
+emulator: WARNING: Discarding the changed state (command-line flag).
+emulator: INFO: QtLogger.cpp:68: Warning: Failed to get QCocoaScreen for NSObject(0x0) ((null):0, (null))
+
+
+> Task :buildSrc:compileKotlin UP-TO-DATE
+> Task :buildSrc:compileJava NO-SOURCE
+> Task :buildSrc:compileGroovy NO-SOURCE
+> Task :buildSrc:pluginDescriptors UP-TO-DATE
+> Task :buildSrc:processResources NO-SOURCE
+> Task :buildSrc:classes UP-TO-DATE
+> Task :buildSrc:inspectClassesForKotlinIC UP-TO-DATE
+> Task :buildSrc:jar UP-TO-DATE
+> Task :buildSrc:assemble UP-TO-DATE
+> Task :buildSrc:compileTestKotlin NO-SOURCE
+> Task :buildSrc:pluginUnderTestMetadata UP-TO-DATE
+> Task :buildSrc:compileTestJava NO-SOURCE
+> Task :buildSrc:compileTestGroovy NO-SOURCE
+> Task :buildSrc:processTestResources NO-SOURCE
+> Task :buildSrc:testClasses UP-TO-DATE
+> Task :buildSrc:test NO-SOURCE
+> Task :buildSrc:validateTaskProperties UP-TO-DATE
+> Task :buildSrc:check UP-TO-DATE
+> Task :buildSrc:build UP-TO-DATE
+
+> Configure project :android:android-preview
+WARNING: The option setting 'android.enableSeparateAnnotationProcessing=true' is experimental and unsupported.
+The current default is 'false'.
+
+WARNING: Configuration 'compile' is obsolete and has been replaced with 'implementation' and 'api'.
+It will be removed soon. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
+
+> Configure project :android:beagle
+WARNING: Configuration 'compile' is obsolete and has been replaced with 'implementation' and 'api'.
+It will be removed soon. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
+
+> Configure project :android:sample
+screenShotsRecordedBaseDir=/Users/deblianesousa/Documents/Work/01-GIT/01-BEAGLE/beagle/android/sample/build/reports/shot/record/images/recorded
+screenShotsVerificationBaseDir=/Users/deblianesousa/Documents/Work/01-GIT/01-BEAGLE/beagle/android/sample/screenshots/screenshots-default
+runInstrumentation=true
+
+> Task :backend:backend-widgets:processResources NO-SOURCE
+> Task :common:annotation:compileKotlin UP-TO-DATE
+> Task :common:annotation:compileJava NO-SOURCE
+> Task :common:annotation:processResources NO-SOURCE
+> Task :common:annotation:classes UP-TO-DATE
+> Task :common:annotation:inspectClassesForKotlinIC UP-TO-DATE
+> Task :common:annotation:jar UP-TO-DATE
+> Task :schema:kotlin-core:compileKotlin UP-TO-DATE
+> Task :common:extended-schema:processResources NO-SOURCE
+> Task :schema:kotlin-core:compileJava NO-SOURCE
+> Task :backend:framework:processResources NO-SOURCE
+> Task :schema:kotlin-core:processResources NO-SOURCE
+> Task :schema:kotlin-core:classes UP-TO-DATE
+> Task :backend:automated-tests:processResources UP-TO-DATE
+> Task :schema:kotlin-core:inspectClassesForKotlinIC UP-TO-DATE
+> Task :schema:kotlin-core:jar UP-TO-DATE
+> Task :common:extended-schema:compileKotlin UP-TO-DATE
+> Task :common:extended-schema:compileJava NO-SOURCE
+> Task :common:extended-schema:classes UP-TO-DATE
+> Task :backend:backend-widgets:compileKotlin UP-TO-DATE
+> Task :common:extended-schema:inspectClassesForKotlinIC UP-TO-DATE
+> Task :backend:backend-widgets:compileJava NO-SOURCE
+> Task :backend:backend-widgets:classes UP-TO-DATE
+> Task :common:extended-schema:jar UP-TO-DATE
+> Task :backend:backend-widgets:inspectClassesForKotlinIC UP-TO-DATE
+> Task :backend:starters:beagle-spring-starter:processResources UP-TO-DATE
+> Task :backend:backend-widgets:jar UP-TO-DATE
+> Task :backend:framework:compileKotlin UP-TO-DATE
+> Task :backend:framework:compileJava NO-SOURCE
+> Task :backend:framework:classes UP-TO-DATE
+> Task :backend:framework:inspectClassesForKotlinIC UP-TO-DATE
+> Task :backend:framework:jar UP-TO-DATE
+> Task :backend:starters:beagle-spring-starter:compileKotlin UP-TO-DATE
+> Task :backend:starters:beagle-spring-starter:compileJava NO-SOURCE
+> Task :backend:starters:beagle-spring-starter:classes UP-TO-DATE
+> Task :backend:starters:beagle-spring-starter:inspectClassesForKotlinIC UP-TO-DATE
+> Task :backend:starters:beagle-spring-starter:jar UP-TO-DATE
+> Task :backend:automated-tests:compileKotlin UP-TO-DATE
+> Task :backend:automated-tests:compileJava NO-SOURCE
+> Task :backend:automated-tests:classes UP-TO-DATE
+
+> Task :backend:automated-tests:bootRun
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.2.5.RELEASE)
+
+2020-07-23 16:19:55.445  WARN 67454 --- [           main] o.s.boot.StartupInfoLogger               : InetAddress.getLocalHost().getHostName() took 5005 milliseconds to respond. Please verify your network configuration (macOS machines may need to add entries to /etc/hosts).
+2020-07-23 16:20:00.459  INFO 67454 --- [           main] b.c.z.b.a.AutomatedTestsApplicationKt    : Starting AutomatedTestsApplicationKt on Deblianes-MacBook-Pro.local with PID 67454 (/Users/deblianesousa/Documents/Work/01-GIT/01-BEAGLE/beagle/backend/automated-tests/build/classes/kotlin/main started by deblianesousa in /Users/deblianesousa/Documents/Work/01-GIT/01-BEAGLE/beagle/backend/automated-tests)
+2020-07-23 16:20:00.460  INFO 67454 --- [           main] b.c.z.b.a.AutomatedTestsApplicationKt    : No active profile set, falling back to default profiles: default
+2020-07-23 16:20:02.163  INFO 67454 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2020-07-23 16:20:02.198  INFO 67454 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-07-23 16:20:02.198  INFO 67454 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.31]
+2020-07-23 16:20:02.421  INFO 67454 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-07-23 16:20:02.427  INFO 67454 --- [           main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1918 ms
+2020-07-23 16:20:03.444  INFO 67454 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-23 16:20:04.100  INFO 67454 --- [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2020-07-23 16:20:04.112  INFO 67454 --- [           main] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2020-07-23 16:20:04.123 ERROR 67454 --- [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2020-07-23 16:20:04.133  INFO 67454 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+
+> Task :backend:automated-tests:bootRun FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':backend:automated-tests:bootRun'.
+> Process 'command '/Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home/bin/java'' finished with non-zero exit value 1
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 6.0.
+Use '--warning-mode all' to show the individual deprecation warnings.
+See https://docs.gradle.org/5.6.4/userguide/command_line_interface.html#sec:command_line_warnings
+
+BUILD FAILED in 32s
+22 actionable tasks: 1 executed, 21 up-to-date
+emulator: WARNING: Running on a system with less than 6 logical cores. Setting number of virtual cores to 1
+
+04:20:24 V/EmulatorConsole: Creating emulator console for 5554
+04:20:24 V/EmulatorConsole: Removing emulator console for 5554
+04:20:24 V/ddms: execute: running getprop
+04:20:24 V/ddms: execute 'getprop' on 'emulator-5554' : EOF hit. Read: -1
+04:20:24 V/ddms: execute: returning
+emulator: INFO: boot completed
+emulator: INFO: boot time 49668 ms
+emulator: Increasing screen off timeout, logcat buffer size to 2M.
+emulator: Revoking microphone permissions for Google App.
+emulator: WARNING: Discarding the changed state (command-line flag).
+emulator: INFO: QtLogger.cpp:68: Warning: Failed to get QCocoaScreen for NSObject(0x0) ((null):0, (null))
+
+
+04:29:05 V/EmulatorConsole: Creating emulator console for 5554
+04:29:05 V/EmulatorConsole: Removing emulator console for 5554
+04:29:05 V/ddms: execute: running getprop
+04:29:06 V/ddms: execute 'getprop' on 'emulator-5554' : EOF hit. Read: -1
+04:29:06 V/ddms: execute: returning
