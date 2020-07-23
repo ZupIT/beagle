@@ -23,13 +23,15 @@ extension Image: Widget {
         let image = UIImageView(frame: .zero)
         image.clipsToBounds = true
         image.contentMode = (mode ?? .fitCenter).toUIKit()
+        var token: RequestToken?
     
         renderer.observe(path, andUpdateManyIn: image) { path in
+            token?.cancel()
             switch path {
             case .local(let mobileId):
                 self.setImageFromAsset(named: mobileId, bundle: renderer.controller.dependencies.appBundle, imageView: image)
             case .remote(let remote):
-                self.setRemoteImage(from: remote.url, placeholder: remote.placeholder, imageView: image, renderer: renderer)
+                token = self.setRemoteImage(from: remote.url, placeholder: remote.placeholder, imageView: image, renderer: renderer)
             }
         }
         return image
@@ -39,16 +41,15 @@ extension Image: Widget {
         imageView.image = UIImage(named: named, in: bundle, compatibleWith: nil)
     }
 
-    private func setRemoteImage(from url: String, placeholder: String?, imageView: UIImageView, renderer: BeagleRenderer) {
-        // swiftlint:disable object_literal
-        var imagePlaceholder = UIImage(named: "")
+    private func setRemoteImage(from url: String, placeholder: String?, imageView: UIImageView, renderer: BeagleRenderer) -> RequestToken? {
+        var imagePlaceholder: UIImage?
         if let placeholder = placeholder {
             imagePlaceholder = UIImage(named: placeholder, in: renderer.controller.dependencies.appBundle, compatibleWith: nil)
         }
-        lazyLoadImage(path: url, placeholderImage: imagePlaceholder, imageView: imageView, style: widgetProperties.style, renderer: renderer)
+        return lazyLoadImage(path: url, placeholderImage: imagePlaceholder, imageView: imageView, style: widgetProperties.style, renderer: renderer)
     }
     
-    private func lazyLoadImage(path: String, placeholderImage: UIImage?, imageView: UIImageView, style: Style?, renderer: BeagleRenderer) {
+    private func lazyLoadImage(path: String, placeholderImage: UIImage?, imageView: UIImageView, style: Style?, renderer: BeagleRenderer) -> RequestToken? {
         renderer.controller.dependencies.repository.fetchImage(url: path, additionalData: nil) {
             [weak imageView] result in
             guard let imageView = imageView else { return }

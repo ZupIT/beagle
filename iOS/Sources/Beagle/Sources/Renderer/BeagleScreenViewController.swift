@@ -50,7 +50,7 @@ public class BeagleScreenViewController: BeagleController {
     
     // MARK: - Initialization
     
-    public convenience init(_ component: ServerDrivenComponent) {
+    public convenience init(_ component: RawComponent) {
         self.init(.declarative(component.toScreen()))
     }
     
@@ -141,7 +141,7 @@ public class BeagleScreenViewController: BeagleController {
     }
     
     private func updateNavigationBar(animated: Bool) {
-        guard let screen = screen else { return }
+        guard parent is BeagleNavigationController, let screen = screen else { return }
         let screenNavigationBar = screen.navigationBar
         let hideNavBar = screenNavigationBar == nil
         navigationController?.setNavigationBarHidden(hideNavBar, animated: animated)

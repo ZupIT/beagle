@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.context
 
+import android.view.View
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
@@ -23,8 +24,10 @@ import br.com.zup.beagle.android.widget.RootView
 
 internal class ContextActionExecutor {
 
+    @Suppress("LongParameterList")
     fun executeActions(
         rootView: RootView,
+        origin: View,
         sender: Any,
         actions: List<Action>,
         eventName: String,
@@ -35,7 +38,7 @@ internal class ContextActionExecutor {
         }
 
         actions.forEach {
-            it.execute(rootView)
+            it.execute(rootView, origin)
         }
     }
 

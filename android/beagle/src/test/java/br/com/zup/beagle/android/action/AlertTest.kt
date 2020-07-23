@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.action
 
 import android.content.DialogInterface
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
@@ -50,6 +51,7 @@ class AlertTest {
     private val messageSlot = slot<String>()
     private val buttonTextSlot = slot<String>()
     private val listenerSlot = slot<DialogInterface.OnClickListener>()
+    private val view: View = mockk()
 
     @Before
     fun setUp() {
@@ -74,7 +76,7 @@ class AlertTest {
 
         // When
         action.viewFactory = viewFactory
-        action.execute(rootView)
+        action.execute(rootView, mockk())
 
         // Then
         assertEquals(action.title?.value, titleSlot.captured)
@@ -94,7 +96,7 @@ class AlertTest {
 
         // When
         action.viewFactory = viewFactory
-        action.execute(rootView)
+        action.execute(rootView, view)
 
         // Then
         assertEquals(action.title?.value, titleSlot.captured)
@@ -114,7 +116,7 @@ class AlertTest {
 
         // When
         action.viewFactory = viewFactory
-        action.execute(rootView)
+        action.execute(rootView, view)
         listenerSlot.captured.onClick(dialog, 0)
 
         // Then
@@ -135,11 +137,11 @@ class AlertTest {
 
         // When
         action.viewFactory = viewFactory
-        action.execute(rootView)
+        action.execute(rootView, view)
         listenerSlot.captured.onClick(dialog, 0)
 
         // Then
-        verify(exactly = once()) { action.handleEvent(rootView, onPressOk, "onPressOk") }
+        verify(exactly = once()) { action.handleEvent(rootView, view, onPressOk, "onPressOk") }
     }
 
 }

@@ -113,7 +113,7 @@ final class ScreenComponentTests: XCTestCase {
         controller.dependencies = BeagleScreenDependencies(preFetchHelper: prefetch)
         
         let navigatePath = "button-item-prefetch"
-        let navigate = Navigate.pushView(.remote(navigatePath, shouldPrefetch: true))
+        let navigate = Navigate.pushView(.remote(.init(url: navigatePath, shouldPrefetch: true)))
         let barItem = NavigationBarItem(text: "Item", action: navigate)
         let screen = ScreenComponent(
             navigationBar: NavigationBar(title: "Prefetch", navigationBarItems: [barItem]),

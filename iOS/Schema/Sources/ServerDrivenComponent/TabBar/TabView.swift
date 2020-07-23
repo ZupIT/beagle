@@ -29,6 +29,14 @@ public struct TabItem: Decodable {
         self.title = title
         self.child = child
     }
+    
+    public init(
+        icon: String? = nil,
+        title: String? = nil,
+        @ChildBuilder _ child: () -> RawComponent
+    ) {
+        self.init(icon: icon, title: title, child: child())
+    }
 
     enum CodingKeys: String, CodingKey {
         case icon
@@ -65,4 +73,20 @@ public struct TabView: RawComponent, AutoInitiable, HasContext {
         self.context = context
     }
 // sourcery:end
+    
+    public init(
+        context: Context? = nil,
+        styleId: String? = nil,
+        @TabItemsBuilder _ children: () -> [TabItem]
+    ) {
+        self.init(children: children(), styleId: styleId, context: context)
+    }
+
+    public init(
+        context: Context? = nil,
+        styleId: String? = nil,
+        @TabItemBuilder _ children: () -> TabItem
+    ) {
+        self.init(children: [children()], styleId: styleId, context: context)
+    }
 }

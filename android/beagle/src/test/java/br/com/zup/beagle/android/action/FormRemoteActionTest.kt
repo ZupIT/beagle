@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.action
 
+import android.view.View
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.form.core.FormResult
 import br.com.zup.beagle.android.components.form.core.FormSubmitter
@@ -33,6 +34,7 @@ class FormRemoteActionTest : BaseTest() {
 
     private val formSubmitCallbackSlot = slot<(formResult: FormResult) -> Unit>()
     private val formParamsSlot = slot<Map<String, String>>()
+    private val view: View = mockk()
 
     override fun setUp() {
         super.setUp()
@@ -54,7 +56,7 @@ class FormRemoteActionTest : BaseTest() {
         every { resultListener(any()) } just Runs
 
         // When
-        action.execute(mockk())
+        action.execute(mockk(), view)
         formSubmitCallbackSlot.captured(formResult)
 
 

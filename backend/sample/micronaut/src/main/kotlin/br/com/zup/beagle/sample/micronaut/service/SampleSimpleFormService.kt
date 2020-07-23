@@ -14,23 +14,12 @@
  * limitations under the License.
  */
 
-public struct PageView: RawComponent, AutoInitiableAndDecodable, HasContext {
+package br.com.zup.beagle.sample.micronaut.service
 
-    public let children: [RawComponent]
-    public let pageIndicator: PageIndicatorComponent?
-    public let context: Context?
+import br.com.zup.beagle.sample.builder.SimpleFormScreenBuilder
+import javax.inject.Singleton
 
-// sourcery:inline:auto:PageView.Init
-    public init(
-        children: [RawComponent],
-        pageIndicator: PageIndicatorComponent? = nil,
-        context: Context? = nil
-    ) {
-        self.children = children
-        self.pageIndicator = pageIndicator
-        self.context = context
-    }
-// sourcery:end
+@Singleton
+class SampleSimpleFormService {
+    fun createSimpleForm() = SimpleFormScreenBuilder
 }
-
-public protocol PageIndicatorComponent: RawComponent {}

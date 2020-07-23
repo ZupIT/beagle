@@ -28,52 +28,51 @@ struct LazyComponentScreen: DeeplinkScreen {
     }
     
     var screen: Screen {
-        return Screen(
-            navigationBar: NavigationBar(title: "Form & LazyComponent"),
-            child: Form(
+        return Screen(navigationBar: NavigationBar(title: "Form & LazyComponent")) {
+            Deprecated.Form(
                 onSubmit: [Navigate.pushView(.declarative(screen1))],
-                child: Container(children: [
-                    Text("Form & LazyComponent"),
-                    FormInput(
+                child: Container(widgetProperties: .init(Flex().justifyContent(.spaceBetween))) {
+                    Text("Form & LazyComponent")
+                    Deprecated.FormInput(
                         name: "field",
                         child: LazyComponent(
                             path: .TEXT_LAZY_COMPONENTS_ENDPOINT,
                             initialState: Text("Loading...")
                         )
-                    ),
-                    FormSubmit(child:
+                    )
+                    Deprecated.FormSubmit(child:
                         Text("FormSubmit")
                     )
-                ]).applyFlex(Flex().justifyContent(.spaceBetween)),
+                },
                 group: "firstForm",
                 shouldStoreFields: true
             )
-        )
+        }
     }
     
     var screen1: Screen {
         return Screen(
-            navigationBar: NavigationBar(title: "Form & LazyComponent"),
-            child: Form(
+            navigationBar: NavigationBar(title: "Form & LazyComponent")) {
+            Deprecated.Form(
                 onSubmit: [FormRemoteAction(path: .TEXT_FORM_ENDPOINT, method: .get)],
-                child: Container(children: [
-                    Text("Form & LazyComponent"),
-                    FormInput(
+                child: Container(widgetProperties: .init(Flex().justifyContent(.spaceBetween))) {
+                    Text("Form & LazyComponent")
+                    Deprecated.FormInput(
                         name: "field1",
                         child: LazyComponent(
                             path: .TEXT_LAZY_COMPONENTS_ENDPOINT,
                             initialState: Text("Loading...")
                         )
-                    ),
-                    FormSubmit(child:
+                    )
+                    Deprecated.FormSubmit(child:
                         Text("FormSubmit")
                     )
-                ]).applyFlex(Flex().justifyContent(.spaceBetween)),
+                },
                 group: "firstForm",
                 additionalData: ["zip": "38408", "gender": "Male"],
                 shouldStoreFields: true
             )
-        )
+        }
     }
 }
 

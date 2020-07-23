@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		570434EE24A675AE00DAD0D3 /* buttonComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = 570434EC24A6753000DAD0D3 /* buttonComponent.json */; };
+		6E71540324B39EFB0025B850 /* SimpleFormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E71540124B3953C0025B850 /* SimpleFormTests.swift */; };
+		6E71540924B3A7860025B850 /* simpleFormComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = 6E71540824B3A7860025B850 /* simpleFormComponent.json */; };
+		6EB3368224A52AB5000A9D17 /* SubmitForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB3368124A52AB5000A9D17 /* SubmitForm.swift */; };
+		6EB3368724A52BB4000A9D17 /* SimpleForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB3368624A52BB4000A9D17 /* SimpleForm.swift */; };
 		7685B041249A852A007EDED0 /* SendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7685B040249A852A007EDED0 /* SendRequest.swift */; };
 		933078E824AE4C8D009D92F2 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 933078E724AE4C8D009D92F2 /* SnapshotTesting */; };
 		935278E8249952DE00AB9D1F /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935278E7249952DE00AB9D1F /* Expression.swift */; };
@@ -21,6 +25,7 @@
 		938B13C62497EC6200AA8E3B /* Collection+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938B13C52497EC6200AA8E3B /* Collection+Safe.swift */; };
 		93BFE32A249E2E34009838CE /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BFE329249E2E34009838CE /* Parser.swift */; };
 		93BFE32C249E9FBD009838CE /* PathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BFE32B249E9FBD009838CE /* PathTests.swift */; };
+		9885564724C612A200D9818F /* FunctionBuilders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9885564624C612A100D9818F /* FunctionBuilders.swift */; };
 		98E18D12249BE249009D6A54 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E18D11249BE249009D6A54 /* Alert.swift */; };
 		98E18D14249BE255009D6A54 /* Confirm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E18D13249BE255009D6A54 /* Confirm.swift */; };
 		98E49743249CFE180053DB87 /* TextInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E49742249CFE180053DB87 /* TextInput.swift */; };
@@ -38,7 +43,6 @@
 		C0FBBD212475803900B72A9B /* BeagleSchema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FBBD172475803900B72A9B /* BeagleSchema.framework */; };
 		C864D2A2247C240200E7A1F9 /* FormSubmit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D221247C240200E7A1F9 /* FormSubmit.swift */; };
 		C864D2A4247C240200E7A1F9 /* FormInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D224247C240200E7A1F9 /* FormInput.swift */; };
-		C864D2A5247C240200E7A1F9 /* FormInputHidden.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D225247C240200E7A1F9 /* FormInputHidden.swift */; };
 		C864D2A7247C240200E7A1F9 /* FormInputComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D228247C240200E7A1F9 /* FormInputComponent.swift */; };
 		C864D2AB247C240200E7A1F9 /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D230247C240200E7A1F9 /* Form.swift */; };
 		C864D2AF247C240200E7A1F9 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D239247C240200E7A1F9 /* WebView.swift */; };
@@ -83,6 +87,7 @@
 		C8BB30A42486FD18002DD3C1 /* NavigateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BB30A32486FD17002DD3C1 /* NavigateTests.swift */; };
 		C8BB30B12486FDC2002DD3C1 /* opennativeroute.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BB30A72486FDB1002DD3C1 /* opennativeroute.json */; };
 		C8BB30B62486FDC2002DD3C1 /* pushview.json in Resources */ = {isa = PBXBuildFile; fileRef = C8BB30AC2486FDB1002DD3C1 /* pushview.json */; };
+		C8E530BF24B4EE570045C048 /* Deprecated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E530BE24B4EE570045C048 /* Deprecated.swift */; };
 		C8EAC4F4247C27FA003089BE /* Schema.h in Headers */ = {isa = PBXBuildFile; fileRef = C8EAC4F2247C2760003089BE /* Schema.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C8EAC4F5247C2808003089BE /* ImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D263247C240200E7A1F9 /* ImageTests.swift */; };
 		C8EAC4F6247C2811003089BE /* TextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C864D299247C240200E7A1F9 /* TextTests.swift */; };
@@ -124,6 +129,10 @@
 
 /* Begin PBXFileReference section */
 		570434EC24A6753000DAD0D3 /* buttonComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = buttonComponent.json; sourceTree = "<group>"; };
+		6E71540124B3953C0025B850 /* SimpleFormTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleFormTests.swift; sourceTree = "<group>"; };
+		6E71540824B3A7860025B850 /* simpleFormComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = simpleFormComponent.json; sourceTree = "<group>"; };
+		6EB3368124A52AB5000A9D17 /* SubmitForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubmitForm.swift; sourceTree = "<group>"; };
+		6EB3368624A52BB4000A9D17 /* SimpleForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleForm.swift; sourceTree = "<group>"; };
 		7685B040249A852A007EDED0 /* SendRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendRequest.swift; sourceTree = "<group>"; };
 		9302EE7424A28F5500E84A44 /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		935278E7249952DE00AB9D1F /* Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
@@ -137,6 +146,7 @@
 		938B13C52497EC6200AA8E3B /* Collection+Safe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Safe.swift"; sourceTree = "<group>"; };
 		93BFE329249E2E34009838CE /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		93BFE32B249E9FBD009838CE /* PathTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathTests.swift; sourceTree = "<group>"; };
+		9885564624C612A100D9818F /* FunctionBuilders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionBuilders.swift; sourceTree = "<group>"; };
 		98E18D11249BE249009D6A54 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		98E18D13249BE255009D6A54 /* Confirm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Confirm.swift; sourceTree = "<group>"; };
 		98E49742249CFE180053DB87 /* TextInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInput.swift; sourceTree = "<group>"; };
@@ -158,7 +168,6 @@
 		C864D220247C240200E7A1F9 /* FormSubmitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSubmitTests.swift; sourceTree = "<group>"; };
 		C864D221247C240200E7A1F9 /* FormSubmit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSubmit.swift; sourceTree = "<group>"; };
 		C864D224247C240200E7A1F9 /* FormInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormInput.swift; sourceTree = "<group>"; };
-		C864D225247C240200E7A1F9 /* FormInputHidden.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormInputHidden.swift; sourceTree = "<group>"; };
 		C864D227247C240200E7A1F9 /* FormInputTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormInputTests.swift; sourceTree = "<group>"; };
 		C864D228247C240200E7A1F9 /* FormInputComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormInputComponent.swift; sourceTree = "<group>"; };
 		C864D22A247C240200E7A1F9 /* FormTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTests.swift; sourceTree = "<group>"; };
@@ -214,6 +223,7 @@
 		C8BB30A32486FD17002DD3C1 /* NavigateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigateTests.swift; sourceTree = "<group>"; };
 		C8BB30A72486FDB1002DD3C1 /* opennativeroute.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = opennativeroute.json; sourceTree = "<group>"; };
 		C8BB30AC2486FDB1002DD3C1 /* pushview.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pushview.json; sourceTree = "<group>"; };
+		C8E530BE24B4EE570045C048 /* Deprecated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deprecated.swift; sourceTree = "<group>"; };
 		C8EAC4F1247C2760003089BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C8EAC4F2247C2760003089BE /* Schema.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Schema.h; sourceTree = "<group>"; };
 		C8EAC4F7247C2835003089BE /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
@@ -261,6 +271,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6E71540024B394E80025B850 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				6E71540424B3A5AF0025B850 /* Json */,
+				6E71540124B3953C0025B850 /* SimpleFormTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		6E71540424B3A5AF0025B850 /* Json */ = {
+			isa = PBXGroup;
+			children = (
+				6E71540824B3A7860025B850 /* simpleFormComponent.json */,
+			);
+			path = Json;
+			sourceTree = "<group>";
+		};
+		6EB3368324A52AF2000A9D17 /* SimpleForm */ = {
+			isa = PBXGroup;
+			children = (
+				6EB3368624A52BB4000A9D17 /* SimpleForm.swift */,
+				6E71540024B394E80025B850 /* Tests */,
+			);
+			path = SimpleForm;
+			sourceTree = "<group>";
+		};
+		7C5E3D3424C08F2B009E5A3C /* PageIndicator */ = {
+			isa = PBXGroup;
+			children = (
+				C8EBCC54247C3026002030CC /* Indicator */,
+			);
+			path = PageIndicator;
+			sourceTree = "<group>";
+		};
 		935278E62499529C00AB9D1F /* ContextExpression */ = {
 			isa = PBXGroup;
 			children = (
@@ -289,6 +333,7 @@
 			children = (
 				938B13C52497EC6200AA8E3B /* Collection+Safe.swift */,
 				938B13C32497EB5E00AA8E3B /* String+RegularExpression.swift */,
+				9885564624C612A100D9818F /* FunctionBuilders.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -407,11 +452,12 @@
 			isa = PBXGroup;
 			children = (
 				C08D4EC02488259D00AAAC0A /* Schema.swift */,
-				935278E62499529C00AB9D1F /* ContextExpression */,
-				938B13BC2497E5F500AA8E3B /* Common */,
 				C864D27F247C240200E7A1F9 /* Action */,
 				C864D24A247C240200E7A1F9 /* CodeGeneration */,
+				938B13BC2497E5F500AA8E3B /* Common */,
+				935278E62499529C00AB9D1F /* ContextExpression */,
 				C864D256247C240200E7A1F9 /* Decoding */,
+				C8E530BD24B4EE2A0045C048 /* Deprecated */,
 				C864D21C247C240200E7A1F9 /* ServerDrivenComponent */,
 				C864D25E247C240200E7A1F9 /* Widgets */,
 			);
@@ -421,11 +467,12 @@
 		C864D21C247C240200E7A1F9 /* ServerDrivenComponent */ = {
 			isa = PBXGroup;
 			children = (
+				7C5E3D3424C08F2B009E5A3C /* PageIndicator */,
 				C864D249247C240200E7A1F9 /* RawComponent.swift */,
 				C864D21D247C240200E7A1F9 /* Form */,
 				C8EBCC25247C3002002030CC /* Lazy */,
 				C8EBCC32247C300E002030CC /* ListView */,
-				C8EBCC53247C3026002030CC /* Page */,
+				C8EBCC53247C3026002030CC /* PageView */,
 				C864D243247C240200E7A1F9 /* Screen */,
 				C8EBCC67247C3032002030CC /* Scroll */,
 				C8EBCC74247C3041002030CC /* TabBar */,
@@ -469,7 +516,6 @@
 			children = (
 				C864D228247C240200E7A1F9 /* FormInputComponent.swift */,
 				C864D224247C240200E7A1F9 /* FormInput.swift */,
-				C864D225247C240200E7A1F9 /* FormInputHidden.swift */,
 				C864D226247C240200E7A1F9 /* Tests */,
 			);
 			path = Input;
@@ -605,6 +651,7 @@
 		C864D25E247C240200E7A1F9 /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
+				6EB3368324A52AF2000A9D17 /* SimpleForm */,
 				C864D2A0247C240200E7A1F9 /* RawWidget.swift */,
 				C864D274247C240200E7A1F9 /* Button */,
 				C864D26B247C240200E7A1F9 /* Container */,
@@ -820,6 +867,7 @@
 		C8BB30B924870422002DD3C1 /* Types */ = {
 			isa = PBXGroup;
 			children = (
+				6EB3368124A52AB5000A9D17 /* SubmitForm.swift */,
 				7685B040249A852A007EDED0 /* SendRequest.swift */,
 				938B13B62497E33100AA8E3B /* SetContext.swift */,
 				C864D28B247C240200E7A1F9 /* FormLocalAction.swift */,
@@ -830,6 +878,14 @@
 				98E18D13249BE255009D6A54 /* Confirm.swift */,
 			);
 			path = Types;
+			sourceTree = "<group>";
+		};
+		C8E530BD24B4EE2A0045C048 /* Deprecated */ = {
+			isa = PBXGroup;
+			children = (
+				C8E530BE24B4EE570045C048 /* Deprecated.swift */,
+			);
+			path = Deprecated;
 			sourceTree = "<group>";
 		};
 		C8EAC4FE247C28BF003089BE /* Tests */ = {
@@ -894,21 +950,20 @@
 			path = JSON;
 			sourceTree = "<group>";
 		};
-		C8EBCC53247C3026002030CC /* Page */ = {
+		C8EBCC53247C3026002030CC /* PageView */ = {
 			isa = PBXGroup;
 			children = (
 				C8EBCC5F247C3026002030CC /* PageView.swift */,
-				C8EBCC54247C3026002030CC /* Indicator */,
 				C8EBCC56247C3026002030CC /* Tests */,
 			);
-			path = Page;
+			path = PageView;
 			sourceTree = "<group>";
 		};
 		C8EBCC54247C3026002030CC /* Indicator */ = {
 			isa = PBXGroup;
 			children = (
-				C0291895247EDF6500C3AA13 /* Tests */,
 				C8EBCC55247C3026002030CC /* PageIndicator.swift */,
+				C0291895247EDF6500C3AA13 /* Tests */,
 			);
 			path = Indicator;
 			sourceTree = "<group>";
@@ -1101,6 +1156,7 @@
 				C8EAC4F9247C284A003089BE /* Container.json in Resources */,
 				935278EF2499584000AB9D1F /* __Snapshots__ in Resources */,
 				C8EBCC83247C308B002030CC /* lazyComponent.json in Resources */,
+				6E71540924B3A7860025B850 /* simpleFormComponent.json in Resources */,
 				C8EBCC88247C30C9002030CC /* PageViewWith3PagesAndIndicator.json in Resources */,
 				C8EBCC8F247C3116002030CC /* TabView.json in Resources */,
 				C864D2FE247C25D900E7A1F9 /* TouchableDecoderTest.json in Resources */,
@@ -1190,15 +1246,16 @@
 				C864D2B9247C240200E7A1F9 /* RawComponent.swift in Sources */,
 				C864D2E6247C240200E7A1F9 /* Text.swift in Sources */,
 				C08D4EC12488259D00AAAC0A /* Schema.swift in Sources */,
+				C8E530BF24B4EE570045C048 /* Deprecated.swift in Sources */,
 				938B13C02497E6A700AA8E3B /* Path.swift in Sources */,
 				C864D2B0247C240200E7A1F9 /* Touchable.swift in Sources */,
 				935278E8249952DE00AB9D1F /* Expression.swift in Sources */,
 				C864D2DB247C240200E7A1F9 /* RawAction.swift in Sources */,
+				6EB3368724A52BB4000A9D17 /* SimpleForm.swift in Sources */,
 				C864D2AB247C240200E7A1F9 /* Form.swift in Sources */,
 				C864D2DF247C240200E7A1F9 /* Size.swift in Sources */,
 				C864D2DC247C240200E7A1F9 /* Accessibility.swift in Sources */,
 				C8EBCC3B247C300E002030CC /* ListView.swift in Sources */,
-				C864D2A5247C240200E7A1F9 /* FormInputHidden.swift in Sources */,
 				C864D2DD247C240200E7A1F9 /* UnitValue.swift in Sources */,
 				C8EBCC73247C3033002030CC /* ScrollView.swift in Sources */,
 				C864D2B8247C240200E7A1F9 /* ScreenComponent.swift in Sources */,
@@ -1207,12 +1264,14 @@
 				98E18D14249BE255009D6A54 /* Confirm.swift in Sources */,
 				C864D2BA247C240200E7A1F9 /* Equality.generated.swift in Sources */,
 				C864D2A4247C240200E7A1F9 /* FormInput.swift in Sources */,
+				6EB3368224A52AB5000A9D17 /* SubmitForm.swift in Sources */,
 				C8EBCC60247C3027002030CC /* PageIndicator.swift in Sources */,
 				C864D2D8247C240200E7A1F9 /* FormRemoteAction.swift in Sources */,
 				C864D2B4247C240200E7A1F9 /* SafeArea.swift in Sources */,
 				C864D2A2247C240200E7A1F9 /* FormSubmit.swift in Sources */,
 				C8EBCC66247C3027002030CC /* PageView.swift in Sources */,
 				C864D2C4247C240200E7A1F9 /* ComponentDecoder.swift in Sources */,
+				9885564724C612A200D9818F /* FunctionBuilders.swift in Sources */,
 				98E18D12249BE249009D6A54 /* Alert.swift in Sources */,
 				C864D2AF247C240200E7A1F9 /* WebView.swift in Sources */,
 				C8EBCC80247C3041002030CC /* TabView.swift in Sources */,
@@ -1244,6 +1303,7 @@
 				C8EAC4FC247C288B003089BE /* ButtonTests.swift in Sources */,
 				C8EBCC87247C30C5002030CC /* PageViewTests.swift in Sources */,
 				C864D2FD247C25D300E7A1F9 /* TouchableTests.swift in Sources */,
+				6E71540324B39EFB0025B850 /* SimpleFormTests.swift in Sources */,
 				C864D2F6247C257500E7A1F9 /* WebViewTests.swift in Sources */,
 				C8EAC502247C29BC003089BE /* ComponentDecoderTests.swift in Sources */,
 				C8BB30A42486FD18002DD3C1 /* NavigateTests.swift in Sources */,

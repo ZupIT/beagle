@@ -38,13 +38,13 @@ final class NavigateTests: XCTestCase {
         let action: Navigate = try actionFromJsonFile(fileName: "opennativeroute")
         _assertInlineSnapshot(matching: action, as: .dump, with: """
         ▿ Navigate
-          ▿ openNativeRoute: (3 elements)
-            - .0: "deeplink"
+          ▿ openNativeRoute: OpenNativeRoute
             ▿ data: Optional<Dictionary<String, String>>
               ▿ some: 1 key/value pair
                 ▿ (2 elements)
                   - key: "a"
                   - value: "value a"
+            - route: "deeplink"
             - shouldResetApplication: true
         """)
     }
@@ -62,10 +62,10 @@ final class NavigateTests: XCTestCase {
         _assertInlineSnapshot(matching: action, as: .dump, with: """
         ▿ Navigate
           ▿ resetApplication: Route
-            ▿ remote: (3 elements)
-              - .0: "schema://path"
-              - shouldPrefetch: false
+            ▿ remote: NewPath
               - fallback: Optional<Screen>.none
+              - shouldPrefetch: false
+              - url: "schema://path"
         """)
     }
     
@@ -82,10 +82,10 @@ final class NavigateTests: XCTestCase {
         _assertInlineSnapshot(matching: action, as: .dump, with: """
         ▿ Navigate
           ▿ resetStack: Route
-            ▿ remote: (3 elements)
-              - .0: "schema://path"
-              - shouldPrefetch: false
+            ▿ remote: NewPath
               - fallback: Optional<Screen>.none
+              - shouldPrefetch: false
+              - url: "schema://path"
         """)
     }
     
@@ -149,36 +149,4 @@ final class NavigateTests: XCTestCase {
         """)
     }
     
-    func testNullNewPathInNavigation() {
-        //given
-        let arrayWithNullNewPaths: [Navigate] = [
-            .openExternalURL(""),
-            .openNativeRoute("", data: nil, shouldResetApplication: false),
-            .popStack,
-            .popView,
-            .popToView("")
-        ]
-        
-        // then
-        XCTAssert(arrayWithNullNewPaths.filter { $0.newPath == nil }.count == arrayWithNullNewPaths.count)
-    }
-    
-    func testNotNullNewPathsInNavigation() {
-        // given
-        let routeMockRemote: Route = .remote("", shouldPrefetch: false, fallback: Screen(child: DumbComponent()))
-        let routeMockDeclarative: Route = .declarative(Screen(child: DumbComponent()))
-        let array: [Navigate] = [
-            .resetApplication(routeMockRemote),
-            .resetStack(routeMockRemote),
-            .pushStack(routeMockRemote),
-            .pushView(routeMockRemote),
-            .resetStack(routeMockDeclarative)
-        ]
-        
-        // then
-        XCTAssert(array.filter { $0.newPath != nil }.count == array.count - 1)
-    }
-    
 }
-
-private struct DumbComponent: RawComponent { }

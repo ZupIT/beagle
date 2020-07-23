@@ -77,4 +77,10 @@ public struct WidgetProperties: HasWidgetProperties, AutoDecodable, Equatable, A
         self.accessibility = accessibility
     }
 // sourcery:end
+    
+    public init(
+        _ flex: Flex
+    ) {
+        self.init(style: Style(flex: flex))
+    }
 }

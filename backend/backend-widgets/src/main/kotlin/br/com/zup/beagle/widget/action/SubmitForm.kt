@@ -14,21 +14,6 @@
  * limitations under the License.
  */
 
-import Foundation
-import UIKit    
+package br.com.zup.beagle.widget.action
 
-public class PageIndicator: PageIndicatorComponent, AutoInitiable {
-
-    public var selectedColor: String?
-    public var unselectedColor: String?
-
-// sourcery:inline:auto:PageIndicator.Init
-    public init(
-        selectedColor: String? = nil,
-        unselectedColor: String? = nil
-    ) {
-        self.selectedColor = selectedColor
-        self.unselectedColor = unselectedColor
-    }
-// sourcery:end
-}
+class SubmitForm : Action

@@ -27,7 +27,7 @@ extension TabViewUIComponent {
         var unselectedIconColor: UIColor?
 
 // sourcery:inline:auto:TabViewUIComponent.Model.Init
-     init(
+    init(
         tabIndex: Int,
         tabViewItems: [TabItem],
         selectedTextColor: UIColor? = nil,
@@ -78,23 +78,26 @@ final class TabViewUIComponent: UIView {
         return view
     }()
     
-    lazy var contentView: PageViewUIComponent = {
-        let pages = model.tabViewItems.map {
-            BeagleScreenViewController(
-                viewModel: .init(screenType: .declarative($0.child.toScreen()))
-            )
-        }
-        let view = PageViewUIComponent(model: .init(pages: pages), indicatorView: nil)
+    static func contentView(items: [TabItem], controller: BeagleController) -> PageViewUIComponent {
+        let pages = items.map { BeagleScreenViewController($0.child) }
+        let view = PageViewUIComponent(
+            model: .init(pages: pages),
+            indicatorView: nil,
+            controller: controller
+        )
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.pageViewDelegate = self
         return view
-    }()
+    }
+    
+    var contentView: PageViewUIComponent
     
     // MARK: - Initialization
     init(
-        model: Model
+        model: Model,
+        controller: BeagleController
     ) {
         self.model = model
+        self.contentView = Self.contentView(items: model.tabViewItems, controller: controller)
         super.init(frame: .zero)
         setupViews()
     }
@@ -105,6 +108,8 @@ final class TabViewUIComponent: UIView {
     }
     
     private func setupViews() {
+        contentView.pageViewDelegate = self
+        
         addSubview(collectionView)
         collectionView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor)
         collectionView.heightAnchor.constraint(lessThanOrEqualToConstant: 65).isActive = true

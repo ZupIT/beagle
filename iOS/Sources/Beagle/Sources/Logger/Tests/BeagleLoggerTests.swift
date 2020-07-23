@@ -18,14 +18,14 @@ import Foundation
 import XCTest
 @testable import Beagle
 import SnapshotTesting
-import BeagleSchema
+@testable import BeagleSchema
 
 class BeagleLoggerTests: XCTestCase {
     // swiftlint:disable force_unwrapping
 
     func testLogs() {
         // Given
-        let form = Form(child: ComponentDummy())
+        let form = Deprecated.Form(child: ComponentDummy())
         let path = "path"
 
         let logs: [Log] = [
@@ -42,9 +42,9 @@ class BeagleLoggerTests: XCTestCase {
             Log.form(.keyDuplication(data: ["key": "value"])),
 
             Log.navigation(.cantPopToAlreadyCurrentScreen(identifier: "identifier")),
-            Log.navigation(.didReceiveAction(Navigate.pushView(.remote(path)))),
-            Log.navigation(.didReceiveAction(Navigate.openNativeRoute(path))),
-            Log.navigation(.didReceiveAction(Navigate.openNativeRoute(path, data: ["key": "value"]))),
+            Log.navigation(.didReceiveAction(Navigate.pushView(.remote(.init(url: path))))),
+            Log.navigation(.didReceiveAction(Navigate.openNativeRoute(.init(route: path)))),
+            Log.navigation(.didReceiveAction(Navigate.openNativeRoute(.init(route: path, data: ["key": "value"])))),
             Log.navigation(.errorTryingToPopScreenOnNavigatorWithJustOneScreen),
             Log.navigation(.didNotFindDeepLinkScreen(path: path)),
 
