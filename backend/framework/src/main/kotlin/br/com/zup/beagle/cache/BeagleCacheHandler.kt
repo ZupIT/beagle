@@ -119,6 +119,6 @@ class BeagleCacheHandler(properties: BeagleCacheProperties) {
     private fun <T> addTtlHeader(response: T, endpoint: String, handler: HttpCacheHandler<T>) = handler.addHeader(
         response = response,
         key = HttpHeaders.CACHE_CONTROL,
-        value = "$MAX_AGE_HEADER=${(this.ttl[endpoint] ?: DEFAULT_TTL).toSeconds()}"
+        value = "$MAX_AGE_HEADER=${(this.ttl[endpoint] ?: DEFAULT_TTL).seconds}"
     )
 }
