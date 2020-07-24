@@ -11,6 +11,8 @@ out/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**
+common/gradlew*
+schema/gradlew*
 
 ### STS ###
 .apt_generated
