@@ -50,6 +50,10 @@ class MainActivity : AppCompatActivity() {
             elevation = 4.0f.dp()
         }
 
+        startActivity(BeagleActivity.newIntent(
+            this,
+            ScreenRequest(SAMPLE_ENDPOINT)
+        ))
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

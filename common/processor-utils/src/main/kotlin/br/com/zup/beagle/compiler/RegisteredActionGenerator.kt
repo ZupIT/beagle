@@ -26,7 +26,7 @@ import javax.annotation.processing.RoundEnvironment
 
 class RegisteredActionGenerator {
 
-    fun generate(roundEnvironment: RoundEnvironment): FunSpec {
+    fun generate(roundEnvironment: RoundEnvironment, isOverride: Boolean = true): FunSpec {
         val registerAnnotatedClasses = roundEnvironment.getElementsAnnotatedWith(RegisterAction::class.java)
         val listReturnType = List::class.asClassName().parameterizedBy(
             Class::class.asClassName().parameterizedBy(
@@ -38,8 +38,12 @@ class RegisteredActionGenerator {
             "\t${element}::class.java as Class<Action>"
         }
 
-        return FunSpec.builder("registeredActions")
-            .addModifiers(KModifier.OVERRIDE)
+        val spec = FunSpec.builder("registeredActions")
+
+        if (isOverride)
+            spec.addModifiers(KModifier.OVERRIDE)
+
+        return spec
             .returns(listReturnType)
             .addCode("""
                         |val registeredActions = listOf<Class<Action>>(

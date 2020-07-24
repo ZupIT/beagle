@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.internal.processor
 
+import br.com.zup.beagle.annotation.RegisterAction
 import br.com.zup.beagle.annotation.RegisterWidget
 import com.google.auto.service.AutoService
 import net.ltgt.gradle.incap.IncrementalAnnotationProcessor
@@ -36,15 +37,18 @@ const val BEAGLE_PACKAGE_INTERNAL = "br.com.zup.beagle.android.setup"
 @IncrementalAnnotationProcessor(IncrementalAnnotationProcessorType.ISOLATING)
 class BeagleInternalAnnotationProcessor : AbstractProcessor() {
     private lateinit var internalWidgetFactoryProcessor: InternalWidgetFactoryProcessor
+    private lateinit var internalActionFactoryProcessor: InternalActionFactoryProcessor
 
     override fun getSupportedAnnotationTypes(): Set<String> {
         return TreeSet(listOf(
-            RegisterWidget::class.java.canonicalName))
+            RegisterWidget::class.java.canonicalName,
+            RegisterAction::class.java.canonicalName))
     }
 
     override fun init(processingEnvironment: ProcessingEnvironment) {
         super.init(processingEnvironment)
         internalWidgetFactoryProcessor = InternalWidgetFactoryProcessor(processingEnvironment)
+        internalActionFactoryProcessor = InternalActionFactoryProcessor(processingEnvironment)
     }
 
     override fun process(
@@ -53,6 +57,7 @@ class BeagleInternalAnnotationProcessor : AbstractProcessor() {
     ): Boolean {
         if (annotations.isEmpty()) return false
         internalWidgetFactoryProcessor.process(BEAGLE_PACKAGE_INTERNAL, roundEnvironment)
+        internalActionFactoryProcessor.process(BEAGLE_PACKAGE_INTERNAL, roundEnvironment)
         return false
     }
 }

@@ -21,7 +21,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.view.BeagleActivity
@@ -58,10 +57,10 @@ class SampleServerDrivenActivity : BeagleActivity() {
     }
 
     override fun getFragmentTransitionAnimation() = FragmentTransitionAnimation(
-        br.com.zup.beagle.R.anim.slide_from_right,
-        br.com.zup.beagle.R.anim.none_animation,
-        br.com.zup.beagle.R.anim.none_animation,
-        br.com.zup.beagle.R.anim.slide_to_right
+        R.anim.slide_from_right,
+        R.anim.none_animation,
+        R.anim.none_animation,
+        R.anim.slide_to_right
     )
 
     private fun buttonRetry(state: ServerDrivenState.Error){

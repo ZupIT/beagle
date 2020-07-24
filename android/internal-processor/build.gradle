@@ -37,11 +37,6 @@ dependencies {
 
     implementation Dependencies.ProcessorLibraries.autoService
     kapt Dependencies.ProcessorLibraries.autoService
-
-    testImplementation Dependencies.TestLibraries.junit
-    testImplementation Dependencies.TestLibraries.kotlinTest
-    testImplementation Dependencies.TestLibraries.googleCompileTesting
-    testImplementation Dependencies.TestLibraries.mockk
 }
 
 apply from: rootProject.file('../maven-publish.gradle')

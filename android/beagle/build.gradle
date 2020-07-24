@@ -48,48 +48,16 @@ android {
     }
 }
 
+sourceSets {
+    main {
+        java {
+            srcDir "${buildDir.absolutePath}/generated/source/kaptKotlin/br/com/zup/beagle/android/setup"
+        }
+    }
+}
+
 dependencies {
-    implementation Dependencies.AndroidxLibraries.appcompat
-    implementation Dependencies.AndroidxLibraries.coreKtx
-    implementation Dependencies.AndroidxLibraries.recyclerView
-    implementation Dependencies.AndroidxLibraries.viewModel
-    implementation Dependencies.AndroidxLibraries.viewModelExtensions
-
-    implementation Dependencies.GeneralLibraries.kotlin
-    implementation Dependencies.GeneralLibraries.kotlinCoroutines
-
-    api project(Dependencies.Modules.extendedSchema)
-    api project(Dependencies.Modules.schemaKotlinCore)
-
-    api project(Dependencies.Modules.commonAnnotation)
-    api project(Dependencies.Modules.androidAnnotation)
-
-    implementation Dependencies.GlideLibraries.glide
-    kapt Dependencies.GlideLibraries.glideCompiler
-    kapt project(Dependencies.Modules.internalProcessor)
-
-    implementation Dependencies.GeneralLibraries.yoga
-    implementation Dependencies.GeneralLibraries.soLoader
-    implementation Dependencies.GeneralLibraries.jni
-
-    implementation Dependencies.GoogleLibraries.materialDesign
-
-    implementation Dependencies.MoshiLibraries.moshi
-    implementation Dependencies.MoshiLibraries.kotlin
-    implementation Dependencies.MoshiLibraries.adapters
-
-    // Unit Testing
-    testImplementation Dependencies.TestLibraries.junit
-    testImplementation Dependencies.TestLibraries.kotlinTest
-    testImplementation Dependencies.TestLibraries.kotlinCoroutinesTest
-    testImplementation Dependencies.TestLibraries.mockk
-    testImplementation Dependencies.TestLibraries.archCoreTesting
-    testImplementation Dependencies.GeneralLibraries.jsonObject
-
-    // Integration Testing
-    androidTestImplementation Dependencies.TestLibraries.testRunner
-    androidTestImplementation Dependencies.TestLibraries.testExt
-    androidTestImplementation Dependencies.TestLibraries.espressoCore
+    api project(Dependencies.Modules.components)
 }
 
 apply from: rootProject.file('../maven-publish.gradle')

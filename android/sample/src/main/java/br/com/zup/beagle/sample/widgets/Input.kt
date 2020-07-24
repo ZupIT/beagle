@@ -20,12 +20,12 @@ import android.graphics.Color
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.utils.handleEvent
-import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.utils.observeBindChanges
+import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 
 @RegisterWidget

@@ -37,6 +37,18 @@ class Dependencies : Plugin<Project> {
         const val commonProcessorUtils = ":common:processor-utils"
         const val schemaKotlinCore = ":schema:kotlin-core"
         const val extendedSchema = ":common:extended-schema"
+        const val networking = ":networking"
+        const val logger = ":logger"
+        const val store = ":store"
+        const val context = ":context"
+        const val coreWidgets = ":core-widgets"
+        const val coreActions = ":core-actions"
+        const val coreDesignSystem = ":core-design-system"
+        const val coreRenderEngine = ":render-engine"
+        const val coreBeagle = ":core-beagle"
+        const val components = ":components"
+        const val cache = ":cache"
+        const val sharedTest = ":shared-test"
     }
 
     object Releases {

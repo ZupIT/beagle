@@ -38,7 +38,7 @@ class InternalWidgetFactoryProcessor(
         val className = "InternalWidgetFactory"
 
         val typeSpec = TypeSpec.objectBuilder(className)
-            .addModifiers(KModifier.INTERNAL)
+            .addModifiers(KModifier.PUBLIC)
             .addFunction(beagleSetupRegisteredWidgetGenerator.generate(
                 roundEnvironment = roundEnvironment,
                 isOverride = false

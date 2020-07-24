@@ -40,6 +40,10 @@ class BeagleSetupProcessor(
     private val processingEnv: ProcessingEnvironment,
     private val beagleSetupRegisteredWidgetGenerator: BeagleSetupRegisteredWidgetGenerator =
         BeagleSetupRegisteredWidgetGenerator(),
+    private val beagleSetupInternalRegisteredWidgetGenerator: BeagleSetupInternalRegisteredWidgetGenerator =
+        BeagleSetupInternalRegisteredWidgetGenerator(),
+    private val beagleSetupInternalRegisteredActionGenerator: BeagleSetupInternalRegisteredActionGenerator =
+        BeagleSetupInternalRegisteredActionGenerator(),
     private val registeredActionGenerator: RegisteredActionGenerator = RegisteredActionGenerator(),
     private val beagleSetupPropertyGenerator: BeagleSetupPropertyGenerator =
         BeagleSetupPropertyGenerator(processingEnv)
@@ -56,6 +60,8 @@ class BeagleSetupProcessor(
             .addModifiers(KModifier.PUBLIC, KModifier.FINAL)
             .addSuperinterface(ClassName(BEAGLE_SDK.packageName, BEAGLE_SDK.className))
             .addFunction(beagleSetupRegisteredWidgetGenerator.generate(roundEnvironment))
+            .addFunction(beagleSetupInternalRegisteredWidgetGenerator.generate())
+            .addFunction(beagleSetupInternalRegisteredActionGenerator.generate())
             .addFunction(registeredActionGenerator.generate(roundEnvironment))
             .addProperties(beagleSetupPropertyGenerator.generate(
                 basePackageName,
