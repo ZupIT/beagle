@@ -88,7 +88,8 @@ class BeagleScreenViewModel {
 
         dependencies.repository.fetchComponent(
             url: remote.url,
-            additionalData: remote.additionalData
+            additionalData: remote.additionalData,
+            useCache: true
         ) {
             [weak self] result in guard let self = self else { return }
 

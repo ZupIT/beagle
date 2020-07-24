@@ -47,23 +47,6 @@ public protocol DependencyRepository {
     var repository: Repository { get }
 }
 
-// MARK: - Default Implementation
-
-extension Repository {
-    @discardableResult
-    func fetchComponent(
-        url: String,
-        additionalData: RemoteScreenAdditionalData?,
-        useCache: Bool = true,
-        completion: @escaping (Result<ServerDrivenComponent, Request.Error>) -> Void
-    ) -> RequestToken? {
-        return fetchComponent(url: url,
-                              additionalData: additionalData,
-                              useCache: useCache,
-                              completion: completion)
-    }
-}
-
 // MARK: - Default
 
 public final class RepositoryDefault: Repository {
