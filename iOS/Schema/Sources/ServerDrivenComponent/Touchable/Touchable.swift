@@ -37,7 +37,8 @@ public struct Touchable: RawComponent, ClickedOnComponent, AutoInitiableAndDecod
     public init(
         onPress: [RawAction],
         clickAnalyticsEvent: AnalyticsClick? = nil,
-        @ChildBuilder _ child: () -> RawComponent
+        @ChildBuilder
+        _ child: () -> RawComponent
     ) {
         self.init(onPress: onPress, clickAnalyticsEvent: clickAnalyticsEvent, child: child())
     }
