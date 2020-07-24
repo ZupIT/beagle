@@ -37,6 +37,19 @@ extension PageView: ServerDrivenComponent {
             controller: renderer.controller
         )
         
+        if let actions = onPageChange {
+            view.onPageChange = { page in
+                let context = Context(id: "onPageChange", value: .int(page))
+                renderer.controller.execute(actions: actions, with: context, sender: view)
+            }
+        }
+
+        renderer.observe(currentPage, andUpdateManyIn: view) { page in
+            if let page = page {
+                view.swipeToPage(at: page)
+            }
+        }
+        
         view.style.setup(Style(flex: Flex(grow: 1.0)))
         return view
     }

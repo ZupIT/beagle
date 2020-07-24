@@ -19,7 +19,7 @@
 package br.com.zup.beagle.android.view
 
 import android.content.Context
-import android.os.Build
+import android.view.ContextThemeWrapper
 import android.view.View
 import android.webkit.WebView
 import android.widget.Button
@@ -28,18 +28,15 @@ import android.widget.FrameLayout
 import android.widget.HorizontalScrollView
 import android.widget.ScrollView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.AppCompatButton
-import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.RecyclerView
-import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.components.utils.RoundedImageView
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.custom.BeaglePageIndicatorView
 import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.view.custom.BeagleTabLayout
 import br.com.zup.beagle.android.view.custom.BeagleView
+import br.com.zup.beagle.core.Style
 
 internal class ViewFactory {
 
@@ -64,17 +61,13 @@ internal class ViewFactory {
             isFillViewport = true
         }
 
-    fun makeButton(context: Context) = Button(context)
-
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    fun makeButton(context: Context, id: Int) = Button(context, null, 0, id)
+    fun makeButton(context: Context, id: Int) = Button(ContextThemeWrapper(context, id), null, 0)
 
     fun makeTextView(context: Context) = TextView(context)
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    fun makeTextView(context: Context, id: Int) = TextView(context, null, 0, id)
+    fun makeTextView(context: Context, id: Int) = TextView(ContextThemeWrapper(context, id), null, 0)
 
-    fun makeInputText(context: Context) = EditText(context)
+    fun makeInputText(context: Context, id: Int) = EditText(ContextThemeWrapper(context, id), null, 0)
 
     fun makeAlertDialogBuilder(context: Context) = AlertDialog.Builder(context)
 
@@ -84,7 +77,7 @@ internal class ViewFactory {
 
     fun makePageIndicator(context: Context) = BeaglePageIndicatorView(context)
 
-    fun makeTabLayout(context: Context) = BeagleTabLayout(context)
+    fun makeTabLayout(context: Context, id: Int) = BeagleTabLayout(ContextThemeWrapper(context, id), null, 0)
 
     //we use the context.applicationContext to prevent a crash on android 21
     fun makeWebView(context: Context) = WebView(context.applicationContext)

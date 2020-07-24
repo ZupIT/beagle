@@ -16,11 +16,6 @@
   -->
 
 <resources>
-    <declare-styleable name="BeagleButtonStyle">
-        <attr name="background" />
-        <attr name="textAllCaps" format="boolean" />
-    </declare-styleable>
-
     <declare-styleable name="BeagleToolbarStyle">
         <attr name="titleTextAppearance" format="reference" />
         <attr name="navigationIcon" format="reference" />
@@ -28,19 +23,8 @@
         <attr name="centerTitle" format="boolean" />
     </declare-styleable>
 
-    <declare-styleable name="BackgroundStyle">
-        <attr name="background" format="reference" />
-    </declare-styleable>
-
     <declare-styleable name="BeagleTabBarStyle">
-        <attr name="tabSelectedTextColor" format="color" />
-        <attr name="tabTextColor" format="color" />
-        <attr name="tabBackground" format="reference" />
         <attr name="tabIndicatorColor" format="color" />
         <attr name="tabIconTint" format="color" />
-    </declare-styleable>
-
-    <declare-styleable name="BeagleInputTextStyle">
-        <attr name="background" />
     </declare-styleable>
 </resources>

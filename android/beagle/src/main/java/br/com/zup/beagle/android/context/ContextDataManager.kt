@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.context
 
+import android.util.LruCache
 import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.jsonpath.JsonCreateTree
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
@@ -24,24 +25,41 @@ import br.com.zup.beagle.android.utils.getExpressions
 
 internal data class ContextBinding(
     val context: ContextData,
-    val bindings: MutableSet<Bind.Expression<*>>
-)
+    val bindings: MutableSet<Bind.Expression<*>> = mutableSetOf(),
+    val cache: LruCache<String, Any?> = LruCache(Integer.MAX_VALUE)
+) {
+    fun evaluateBindExpression(binding: Bind.Expression<*>): Any? {
+        val expression = binding.value
+        if (cache[expression] == null) {
+            val value = ContextDataEvaluation().evaluateBindExpression(context, binding)
+            if(value != null) {
+                cache.put(expression, value)
+            }
+        }
+
+        return cache.get(expression)
+    }
+}
 
 internal class ContextDataManager(
     private val jsonCreateTree: JsonCreateTree = JsonCreateTree(),
     private val contextDataTreeHelper: ContextDataTreeHelper = ContextDataTreeHelper(),
-    private val contextPathResolver: ContextPathResolver = ContextPathResolver(),
-    private val contextDataEvaluation: ContextDataEvaluation = ContextDataEvaluation()
+    private val contextPathResolver: ContextPathResolver = ContextPathResolver()
 ) {
 
     private val contexts: MutableMap<String, ContextBinding> = mutableMapOf()
 
+    fun clearContexts() {
+        contexts.clear()
+    }
+
     fun addContext(contextData: ContextData) {
         if (contexts[contextData.id] == null) {
             contexts[contextData.id] = ContextBinding(
-                bindings = mutableSetOf(),
                 context = contextData.normalize()
             )
+        } else {
+            contexts[contextData.id]?.bindings?.clear()
         }
     }
 
@@ -58,6 +76,7 @@ internal class ContextDataManager(
     }
 
     fun updateContext(setContextInternal: SetContextInternal): Boolean {
+        clearContextCache(setContextInternal.contextId)
         return contexts[setContextInternal.contextId]?.let { contextBinding ->
             val path = setContextInternal.path ?: contextBinding.context.id
             val setValue = setValue(contextBinding, path, setContextInternal.value)
@@ -66,6 +85,10 @@ internal class ContextDataManager(
             }
             setValue
         } ?: false
+    }
+
+    private fun clearContextCache(contextId: String) {
+        contexts[contextId]?.cache?.evictAll()
     }
 
     fun evaluateContexts() {
@@ -107,15 +130,11 @@ internal class ContextDataManager(
     }
 
     private fun notifyBindingChanges(contextBinding: ContextBinding) {
-        val contextData = contextBinding.context
         val bindings = contextBinding.bindings
 
         bindings.forEach { bind ->
-            val value = contextDataEvaluation.evaluateBindExpression(contextData, bind)
-
-            if (value != null) {
-                bind.notifyChange(value)
-            }
+            val value = contextBinding.evaluateBindExpression(bind)
+            bind.notifyChange(value)
         }
     }
 }

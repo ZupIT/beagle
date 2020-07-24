@@ -20,27 +20,56 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
-import br.com.zup.beagle.android.view.custom.BeaglePageView
+import br.com.zup.beagle.android.utils.BeagleConstants.DEPRECATED_PAGE_VIEW
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.Size
-import br.com.zup.beagle.widget.core.UnitType
-import br.com.zup.beagle.widget.core.UnitValue
 
 @RegisterWidget
 data class PageView(
     val children: List<ServerDrivenComponent>,
+    @Deprecated(message = DEPRECATED_PAGE_VIEW)
     val pageIndicator: PageIndicatorComponent? = null,
-    override val context: ContextData? = null
+    override val context: ContextData? = null,
+    val onPageChange: List<Action>? = null,
+    val currentPage: Bind<Int>? = null
 ) : WidgetView(), ContextComponent {
+
+    @Deprecated(message = DEPRECATED_PAGE_VIEW)
+    constructor(
+        children: List<ServerDrivenComponent>,
+        pageIndicator: PageIndicatorComponent? = null,
+        context: ContextData? = null
+    ) : this(
+        children,
+        pageIndicator,
+        context,
+        null,
+        null
+    )
+
+    constructor(
+        children: List<ServerDrivenComponent>,
+        context: ContextData? = null,
+        onPageChange: List<Action>? = null,
+        currentPage: Bind<Int>? = null
+    ) : this(
+        children,
+        null,
+        context,
+        onPageChange,
+        currentPage
+    )
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
@@ -49,6 +78,16 @@ data class PageView(
     private val viewRendererFactory: ViewRendererFactory = ViewRendererFactory()
 
     override fun buildView(rootView: RootView): View {
+
+        currentPage?.let {
+            return PageViewTwo(
+                children,
+                context,
+                onPageChange,
+                currentPage
+            ).buildView(rootView)
+        }
+
         val style = Style(flex = Flex(grow = 1.0))
 
         val viewPager = viewFactory.makeViewPager(rootView.getContext()).apply {

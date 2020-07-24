@@ -13,13 +13,18 @@ coverage:
       ios:
         target: 70%
         threshold: 7%
-        flags: 
+        flags:
           - ios
       android:
         target: 70%
         threshold: 7%
-        flags: 
+        flags:
           - android
+      backend:
+        target: 70%
+        threshold: 7%
+        flags:
+          - backend
     patch: no
     changes: no
 

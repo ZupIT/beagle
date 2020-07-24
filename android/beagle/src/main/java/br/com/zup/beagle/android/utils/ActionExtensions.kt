@@ -16,21 +16,46 @@
 
 package br.com.zup.beagle.android.utils
 
+import android.util.MalformedJsonException
 import android.view.View
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
-import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.context.ContextActionExecutor
+import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.ContextDataValueResolver
+import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.context.isExpression
+import br.com.zup.beagle.android.context.normalizeContextValue
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_ACTIONS_POINTER
+import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_DEPRECATED_MESSAGE
+import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_POINTER
 import br.com.zup.beagle.android.widget.RootView
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.EOFException
+import java.lang.NumberFormatException
 
 internal var contextActionExecutor = ContextActionExecutor()
 internal var contextDataValueResolver = ContextDataValueResolver()
+
+/**
+ * Execute a list of actions and create the implicit context with eventName and eventValue (optional).
+ * @property rootView from buildView
+ * @property origin view that triggered the action
+ * @property actions is the list of actions to be executed
+ * @property context is the property that will contain the implicit context data, id and value in ContextData class
+ * this could be a primitive or a object that will be serialized to JSON
+ */
+fun Action.handleEvent(
+    rootView: RootView,
+    origin: View,
+    actions: List<Action>,
+    context: ContextData? = null
+) {
+    contextActionExecutor.executeActions(rootView, origin, this, actions, context)
+}
 
 /**
  * Execute a list of actions and create the implicit context with eventName and eventValue (optional).
@@ -41,6 +66,7 @@ internal var contextDataValueResolver = ContextDataValueResolver()
  * @property eventValue is the value that the eventName name has created,
  * this could be a primitive or a object that will be serialized to JSON
  */
+@Deprecated(HANDLE_EVENT_DEPRECATED_MESSAGE, ReplaceWith(HANDLE_EVENT_ACTIONS_POINTER))
 fun Action.handleEvent(
     rootView: RootView,
     origin: View,
@@ -48,7 +74,25 @@ fun Action.handleEvent(
     eventName: String,
     eventValue: Any? = null
 ) {
-    contextActionExecutor.executeActions(rootView, origin, this, actions, eventName, eventValue)
+    eventValue?.let { handleEvent(rootView, origin, actions, ContextData(eventName, eventValue)) }
+        ?: handleEvent(rootView, origin, actions)
+}
+
+/**
+ * Execute an action and create the implicit context with eventName and eventValue (optional).
+ * @property rootView from buildView
+ * @property origin view that triggered the action
+ * @property action is the action to be executed
+ * @property context is the property that will contain the implicit context data, id and value in ContextData class
+ * this could be a primitive or a object that will be serialized to JSON
+ */
+fun Action.handleEvent(
+    rootView: RootView,
+    origin: View,
+    action: Action,
+    context: ContextData? = null
+) {
+    contextActionExecutor.executeActions(rootView, origin, this, listOf(action), context)
 }
 
 /**
@@ -60,6 +104,7 @@ fun Action.handleEvent(
  * @property eventValue is the value that the eventName name has created,
  * this could be a primitive or a object that will be serialized to JSON
  */
+@Deprecated(HANDLE_EVENT_DEPRECATED_MESSAGE, ReplaceWith(HANDLE_EVENT_POINTER))
 fun Action.handleEvent(
     rootView: RootView,
     origin: View,
@@ -67,7 +112,8 @@ fun Action.handleEvent(
     eventName: String,
     eventValue: Any? = null
 ) {
-    contextActionExecutor.executeActions(rootView, origin, this, listOf(action), eventName, eventValue)
+    eventValue?.let { handleEvent(rootView, origin, action, ContextData(eventName, eventValue)) }
+        ?: handleEvent(rootView, origin, action)
 }
 
 /**
@@ -89,17 +135,42 @@ internal fun Action.evaluateExpression(
     return try {
         return if (data is JSONObject || data is JSONArray || data.isExpression()) {
             val value = expressionOf<String>(data.toString()).evaluateForAction(rootView, this)
-            val actualValue = if (data is String) {
-                value
-            } else {
-                BeagleMoshi.moshi.adapter(Any::class.java).fromJson(value)
-            }
-            contextDataValueResolver.parse(actualValue)
+            value.tryToDeserialize()
         } else {
             data
         }
     } catch (ex: Exception) {
         BeagleMessageLogs.errorWhileTryingToEvaluateBinding(ex)
         null
+    }
+}
+
+private fun String?.tryToDeserialize(): Any? {
+    return try {
+        val number = this?.tryToConvertToNumber()
+        if (number != null) {
+            number
+        } else {
+            val newValue = BeagleMoshi.moshi.adapter(Any::class.java).fromJson(this)
+            contextDataValueResolver.parse(newValue)
+        }
+    } catch (ex: Exception) {
+        if (this?.isNotEmpty() == true) {
+            this
+        } else {
+            null
+        }
+    }
+}
+
+private fun String.tryToConvertToNumber(): Number? {
+    return try {
+        this.toInt()
+    } catch (ex: NumberFormatException) {
+        try {
+            this.toDouble()
+        } catch (ex: NumberFormatException) {
+            null
+        }
     }
 }

@@ -33,6 +33,6 @@ struct WebViewScreen: DeeplinkScreen {
     }
     
     var webView: ServerDrivenComponent {
-        return WebView(url: .value(.WEB_VIEW_URL), widgetProperties: .init(style: .init(flex: Flex().grow(1))))
+        return WebView(url: .value(.WEB_VIEW_URL), widgetProperties: .init(Flex().grow(1)))
     }
 }

@@ -35,15 +35,14 @@ struct FormScreen: DeeplinkScreen {
         let styleHorizontalMargin = Style().margin(EdgeValue().all(10))
         let form = Deprecated.Form(
             onSubmit: [FormRemoteAction(path: .TEXT_FORM_ENDPOINT, method: .post)],
-            child: Container(
-                children: [
+            child: Container(widgetProperties: .init(style: Style(padding: EdgeValue().all(10)))) {
                     Deprecated.FormInput(
                         name: "optional-field",
                         child: TextInput(
                             placeholder: .value("Optional field"),
                             widgetProperties: .init(style: styleHorizontalMargin)
                         )
-                    ),
+                    )
                     Deprecated.FormInput(
                         name: "required-field",
                         required: true,
@@ -52,7 +51,7 @@ struct FormScreen: DeeplinkScreen {
                             placeholder: .value("Required field"),
                             widgetProperties: .init(style: styleHorizontalMargin)
                         )
-                    ),
+                    )
                     Deprecated.FormInput(
                         name: "another-required-field",
                         required: true,
@@ -62,15 +61,14 @@ struct FormScreen: DeeplinkScreen {
                             widgetProperties: .init(style: styleHorizontalMargin)
                             
                         )
-                    ),
-                    Container(children: [], widgetProperties: .init(style: Style(flex: Flex(grow: 1)))),
+                    )
+                    Container(children: [], widgetProperties: .init(style: Style(flex: Flex(grow: 1))))
                     Deprecated.FormSubmit(
                         child: Button(text: "Submit Form", styleId: .FORM_SUBMIT_STYLE, widgetProperties: .init(style: styleHorizontalMargin)),
                         enabled: false
                     )
-                ],
-                widgetProperties: .init(style: Style(padding: EdgeValue().all(10)))
-            )
+                
+            }
         )
         let screen = Screen(
             navigationBar: NavigationBar(title: "Form"),
