@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.context
 
-import br.com.zup.beagle.android.context.ValueHandler.treatValue
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
@@ -108,7 +107,7 @@ internal class ContextDataEvaluation(
         return if (path != contextData.id) {
             findValue(contextData, path)
         } else {
-            ValueHandler.treatValue(contextData.value, type)
+            ContextValueHandler.treatValue(contextData.value, type)
         }
     }
 

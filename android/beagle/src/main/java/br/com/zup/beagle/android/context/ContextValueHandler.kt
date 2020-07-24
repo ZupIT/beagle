@@ -20,7 +20,7 @@ import java.lang.reflect.Type
 
 //this object is necessary because MOSHI return every number as double
 // to fix this, this function made due conversion
-internal object ValueHandler {
+internal object ContextValueHandler {
 
     fun treatValue(value: Any, type: Type): Any {
         var treatedValue = value
