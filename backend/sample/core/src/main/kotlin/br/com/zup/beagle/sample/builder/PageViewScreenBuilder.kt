@@ -16,19 +16,24 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.sample.constants.BLACK
 import br.com.zup.beagle.sample.constants.LIGHT_GREY
+import br.com.zup.beagle.widget.action.Alert
+import br.com.zup.beagle.widget.action.SetContext
+import br.com.zup.beagle.widget.context.ContextData
+import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.TextAlignment
+import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.PageView
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.pager.PageIndicator
+import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.Text
 
@@ -50,19 +55,32 @@ object PageViewScreenBuilder : ScreenBuilder {
                 )
             )
         ),
-        child = PageView(
-            pageIndicator = PageIndicator(
-                selectedColor = BLACK,
-                unselectedColor = LIGHT_GREY
-            ),
-            children = (1..3).map {
-                Text("Page $it", alignment = TextAlignment.CENTER).applyFlex(
-                    Flex(
-                        alignSelf = AlignSelf.CENTER,
-                        grow = 1.0
-                    )
+        child = Container(
+            children = listOf(
+                Button(
+                    "ir página 3",
+                    onPress = listOf(SetContext("context", 2))
+                ),
+                PageView(
+                    children = (1..3).map {
+                        Text("Page $it", alignment = TextAlignment.CENTER).applyFlex(
+                            Flex(
+                                alignSelf = AlignSelf.CENTER,
+                                grow = 1.0
+                            )
+                        )
+                    },
+                    onPageChange = listOf(SetContext("context", "@{onChange}")),
+                    currentPage = expressionOf("@{context}")
+                ),
+                PageIndicator(
+                    numberOfPages = 3,
+                    selectedColor = BLACK,
+                    unselectedColor = LIGHT_GREY,
+                    currentPage = expressionOf("@{context}")
                 )
-            }
-        )
+            ),
+            context = ContextData("context", 0)
+        ).applyFlex(Flex(grow = 1.0))
     )
 }

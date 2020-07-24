@@ -14,14 +14,6 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.pager
+package br.com.zup.beagle.android.utils
 
-import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.utils.BeagleConstants.DEPRECATED_PAGE_VIEW
-
-/**
- * Base of page indicator component
- *
- */
-@Deprecated(DEPRECATED_PAGE_VIEW)
-interface PageIndicatorComponent : ServerDrivenComponent
+typealias BeagleRetry = () -> Unit

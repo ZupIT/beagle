@@ -23,6 +23,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import androidx.core.widget.TextViewCompat
+import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.RandomData
@@ -46,14 +47,11 @@ const val DISABLED = false
 const val HIDDEN = true
 const val STYLE_ID = "Style"
 val TYPE = TextInputType.NUMBER
-private val INPUT_TEXT_STYLE = RandomData.int()
-
 
 class TextInputTest : BaseComponentTest() {
 
     private val editText: EditText = mockk(relaxed = true, relaxUnitFun = true)
     private val styleManager: StyleManager = mockk(relaxed = true)
-    private val typedArray: TypedArray = mockk(relaxed = true)
     private val context: Context = mockk()
     private val textWatcher: TextWatcher = mockk()
 
@@ -64,13 +62,13 @@ class TextInputTest : BaseComponentTest() {
 
         mockkStatic(TextViewCompat::class)
 
-        every { anyConstructed<ViewFactory>().makeInputText(any()) } returns editText
+        styleManagerFactory = styleManager
+
+        every { anyConstructed<ViewFactory>().makeInputText(any(), any()) } returns editText
         every { TextViewCompat.setTextAppearance(any(), any()) } just Runs
 
         every { BeagleEnvironment.application } returns mockk(relaxed = true)
-        styleManagerFactory = styleManager
 
-        every { styleManager.getInputTextTypedArray(context, any()) } returns typedArray
         every { editText.context } returns context
 
         textInput = TextInput(
@@ -101,25 +99,11 @@ class TextInputTest : BaseComponentTest() {
         textInput.buildView(rootView)
 
         // Then
-        verify(exactly = 1) { editText.setText(VALUE) }
-        verify(exactly = 1) { editText.hint = PLACE_HOLDER }
-        verify(exactly = 1) { editText.isEnabled = READ_ONLY }
-        verify(exactly = 1) { editText.isEnabled = DISABLED }
-        verify(exactly = 1) { editText.visibility = View.INVISIBLE }
-        verify(exactly = 1) { editText.inputType = InputType.TYPE_CLASS_NUMBER }
+        verify(exactly = once()) { editText.setText(VALUE) }
+        verify(exactly = once()) { editText.hint = PLACE_HOLDER }
+        verify(exactly = once()) { editText.isEnabled = READ_ONLY }
+        verify(exactly = once()) { editText.isEnabled = DISABLED }
+        verify(exactly = once()) { editText.visibility = View.INVISIBLE }
+        verify(exactly = once()) { editText.inputType = InputType.TYPE_CLASS_NUMBER }
     }
-
-    @Test
-    fun `setStyle with should call TextViewCompat setTextAppearance and set background`() {
-        // Given
-        every { styleManager.getInputTextStyle(any()) } returns INPUT_TEXT_STYLE
-
-        // When
-        textInput.buildView(rootView)
-
-        // Then
-        verify(exactly = once()) { TextViewCompat.setTextAppearance(editText, INPUT_TEXT_STYLE) }
-        verify(exactly = once()) { editText.background = any() }
-    }
-
 }

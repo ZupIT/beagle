@@ -201,11 +201,8 @@ data class Form(
                     data = formsValue.plus(newAction.data)
                 )
             }
-
             handleEvent(rootView, view, newAction)
         }
-
-
     }
 
     private fun handleFormResult(rootView: RootView, formResult: FormResult, view: View) {
@@ -220,7 +217,7 @@ data class Form(
                 handleEvent(rootView, view, formResult.action)
             }
             is FormResult.Error -> (rootView.getContext() as? BeagleActivity)?.onServerDrivenContainerStateChanged(
-                ServerDrivenState.Error(formResult.throwable)
+                ServerDrivenState.FormError(formResult.throwable){ handleFormSubmit(rootView, view) }
             )
         }
     }
