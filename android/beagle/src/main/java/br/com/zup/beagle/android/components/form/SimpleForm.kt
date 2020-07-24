@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.components.form
 
 import android.view.View
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.components.utils.beagleComponent
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.data.PreFetchHelper
@@ -57,7 +58,7 @@ data class SimpleForm(
         preFetchHelper.handlePreFetch(rootView, onSubmit)
         return viewFactory.makeBeagleFlexView(rootView.getContext(), style ?: Style())
             .apply {
-                tag = this@SimpleForm
+                beagleComponent = this@SimpleForm
                 addChildrenForm(this, rootView)
             }
     }
