@@ -21,14 +21,9 @@ import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.mockdata.ComponentModel
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.utils.getExpressions
 import com.squareup.moshi.Moshi
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkObject
-import io.mockk.unmockkAll
-import io.mockk.verify
+import io.mockk.*
 import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.After
@@ -252,6 +247,60 @@ internal class ContextDataEvaluationTest {
         // Then
         assertNull(value)
         verify(exactly = once()) { BeagleMessageLogs.errorWhenExpressionEvaluateNullValue(any()) }
+    }
+
+    @Test
+    fun evaluateExpressionsForContext_should_set_binding_evaluatedExpressions_value_with_int_when_bind_type_is_int() {
+        //GIVEN
+        val bind = commonMock<Integer>()
+        every { bind.type } returns Integer::class.java
+
+        //WHEN
+        val result = contextDataEvaluation.evaluateBindExpression(
+            contextData = ContextData("context", RandomData.double()),
+            bind = bind
+        )
+        //THEN
+        assert(result is Integer)
+    }
+
+    @Test
+    fun evaluateExpressionsForContext_should_set_binding_evaluatedExpressions_value_with_float_when_bind_type_is_float() {
+        //GIVEN
+        val bind = commonMock<Float>()
+        every { bind.type } returns Float::class.java
+
+        //WHEN
+        val result = contextDataEvaluation.evaluateBindExpression(
+            contextData = ContextData("context", RandomData.double()),
+            bind = bind
+        )
+        //THEN
+        assert(result is Float)
+    }
+
+    @Test
+    fun evaluateExpressionsForContext_should_set_binding_evaluatedExpressions_value_with_double_when_bind_type_is_double() {
+        //GIVEN
+        val bind = commonMock<Double>()
+        every { bind.type } returns Double::class.java
+
+        //WHEN
+        val result = contextDataEvaluation.evaluateBindExpression(
+            contextData = ContextData("context", RandomData.double()),
+            bind = bind
+        )
+        //THEN
+        assert(result is Double)
+    }
+
+    private fun <T>commonMock() : Bind.Expression<T> {
+        mockkStatic("br.com.zup.beagle.android.utils.StringExtensionsKt")
+        val value = "@{context}"
+        val bind: Bind.Expression<T> = mockk(relaxed = true)
+        every { bind.value } returns value
+        every { value.getExpressions() } returns listOf("context")
+        return bind
     }
 
 }

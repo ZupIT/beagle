@@ -24,6 +24,7 @@ import br.com.zup.beagle.android.utils.getExpressions
 import com.squareup.moshi.Moshi
 import org.json.JSONArray
 import org.json.JSONObject
+import java.lang.reflect.Type
 
 internal class ContextDataEvaluation(
     private val jsonPathFinder: JsonPathFinder = JsonPathFinder(),
@@ -77,11 +78,11 @@ internal class ContextDataEvaluation(
             val expressionKey = it.key
             text = text.replace("@{$expressionKey}", it.value.toString())
         }
-        return if(text.isEmpty()) null else text
+        return if (text.isEmpty()) null else text
     }
 
     private fun evaluateExpression(contextData: ContextData, bind: Bind.Expression<*>, expression: String): Any? {
-        val value = getValue(contextData, expression)
+        val value = getValue(contextData, expression, bind.type)
 
         return try {
             if (bind.type == String::class.java) {
@@ -102,11 +103,11 @@ internal class ContextDataEvaluation(
         null
     }
 
-    private fun getValue(contextData: ContextData, path: String): Any? {
+    private fun getValue(contextData: ContextData, path: String, type: Type): Any? {
         return if (path != contextData.id) {
             findValue(contextData, path)
         } else {
-            contextData.value
+            ContextValueHandler.treatValue(contextData.value, type)
         }
     }
 
