@@ -9,6 +9,9 @@ jobs:
         steps:
             -   uses: actions/checkout@v2
 
+            -   name: Setup Ruby
+                uses: ruby/setup-ruby@v1
+
             -   name: Cache fastlane dependencies
                 uses: actions/cache@v2
                 env:
