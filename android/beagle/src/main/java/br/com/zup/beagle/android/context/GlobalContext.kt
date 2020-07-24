@@ -20,12 +20,11 @@ import br.com.zup.beagle.android.action.SetContext
 
 typealias GlobalContextObserver = (SetContext) -> Unit
 
-
 object GlobalContext : GlobalContextAPI {
 
-    data class Casa(val endereco: String, val numero: String)
-
     private var globalContext = createGlobalContext()
+
+    data class Casa(val endereco: String, val numero: String)
 
     private val globalContextObservers = mutableListOf<GlobalContextObserver>()
     private val contextDataEvaluation = ContextDataEvaluation()
@@ -60,7 +59,6 @@ object GlobalContext : GlobalContextAPI {
     override fun clear(path: String?) {
         globalContext = createGlobalContext()
         globalContextObservers.notifyContextChange(path, "")
-
     }
 
     private fun List<GlobalContextObserver>.notifyContextChange(path: String?=null, value: Any) {
@@ -75,6 +73,5 @@ object GlobalContext : GlobalContextAPI {
         }
     }
 
-    private fun createGlobalContext() = ContextData(id = "global", value = Casa("Rua Joao Balbino", numero = "1153"))
-        .normalize() //TESTE
+    private fun createGlobalContext() = ContextData(id = "global", value = "")
 }
