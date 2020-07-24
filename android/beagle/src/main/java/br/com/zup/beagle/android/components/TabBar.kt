@@ -44,7 +44,7 @@ private val TAB_BAR_HEIGHT = 48.dp()
 
 @RegisterWidget
 data class TabBar(
-    val children: List<TabBarItem>,
+    val items: List<TabBarItem>,
     val styleId: String? = null,
     override val context: ContextData? = null,
     val currentTab: Bind<Int>? = null,
@@ -64,18 +64,19 @@ data class TabBar(
         return container
     }
 
-    private fun makeTabLayout(context: Context): TabLayout {
-        return viewFactory.makeTabLayout(context, styleManagerFactory.getTabViewStyle(styleId)).apply {
-            layoutParams =
-                viewFactory.makeFrameLayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT,
-                    TAB_BAR_HEIGHT
-                )
-            tabMode = TabLayout.MODE_SCROLLABLE
-            tabGravity = TabLayout.GRAVITY_FILL
-            configTabBarStyle()
-            addTabs(context)
-        }
+    private fun makeTabLayout(context: Context) : TabLayout = viewFactory.makeTabLayout(
+        context,
+        styleManagerFactory.getTabViewStyle(styleId)
+    ).apply {
+        layoutParams =
+            viewFactory.makeFrameLayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                TAB_BAR_HEIGHT
+            )
+        tabMode = TabLayout.MODE_SCROLLABLE
+        tabGravity = TabLayout.GRAVITY_FILL
+        configTabBarStyle()
+        addTabs(context)
     }
 
     private fun TabLayout.configTabBarStyle() {
@@ -92,10 +93,10 @@ data class TabBar(
     }
 
     private fun TabLayout.addTabs(context: Context) {
-        for (i in children.indices) {
+        for (i in items.indices) {
             addTab(newTab().apply {
-                text = children[i].title
-                children[i].icon?.let {
+                text = items[i].title
+                items[i].icon?.let {
                     icon = getIconFromResources(context, it.mobileId)
                 }
             })
@@ -112,7 +113,9 @@ data class TabBar(
         tabBar.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(p0: TabLayout.Tab?) {
                 onTabSelection?.let {
-                    handleEvent(rootView, tabBar, it, "onChange", p0?.position)
+                    p0?.let { tab ->
+                        handleEvent(rootView, tabBar, it, ContextData("onTabSelection", value = tab.position))
+                    }
                 }
             }
 
