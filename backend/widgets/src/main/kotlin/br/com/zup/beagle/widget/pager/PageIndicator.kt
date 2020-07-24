@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.widget.pager
 
+import br.com.zup.beagle.widget.context.Bind
+
 /**
  *  The PageView component is a specialized container to hold pages (views) that will be displayed horizontally.
  *
@@ -25,5 +27,7 @@ package br.com.zup.beagle.widget.pager
  */
 data class PageIndicator(
     val selectedColor: String,
-    val unselectedColor: String
+    val unselectedColor: String,
+    var numberOfPages: Int? = null,
+    var currentPage: Bind<Int>? = null
 ) : PageIndicatorComponent
