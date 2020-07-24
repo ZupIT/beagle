@@ -70,7 +70,7 @@ object PageViewScreenBuilder : ScreenBuilder {
                             )
                         )
                     },
-                    onPageChange = listOf(SetContext("context", "@{onChange}")),
+                    onPageChange = listOf(SetContext("context", "@{onPageChange}")),
                     currentPage = expressionOf("@{context}")
                 ),
                 PageIndicator(

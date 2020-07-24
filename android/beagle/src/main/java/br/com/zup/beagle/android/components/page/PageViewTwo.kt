@@ -62,7 +62,7 @@ internal data class PageViewTwo(
 
     private fun executeActions(viewPager: BeaglePageView, rootView: RootView, position: Int) {
         onPageChange?.let { listAction ->
-            handleEvent(rootView, viewPager, listAction, "onChange", position)
+            handleEvent(rootView, viewPager, listAction, "onPageChange", position)
         }
     }
 
