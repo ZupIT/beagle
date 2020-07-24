@@ -28,7 +28,6 @@ import br.com.zup.beagle.widget.context.ContextData
  *
  * @param items define yours tabs title and icon
  * @param styleId reference a native style in your local styles file to be applied on this view.
- * @param context set a context to your TabBar
  * @param currentTab define the expression that is observer to change the current tab selected
  * @param onTabSelection define a list of action that will be executed when a tab is selected
  *
@@ -36,10 +35,9 @@ import br.com.zup.beagle.widget.context.ContextData
 data class TabBar(
     val items: List<TabBarItem>,
     val styleId: String? = null,
-    override val context: ContextData? = null,
     val currentTab: Bind<Int>? = null,
     val onTabSelection: List<Action>? = null
-) : ServerDrivenComponent, ContextComponent
+) : ServerDrivenComponent
 
 /**
 * Define the view has in the tab view

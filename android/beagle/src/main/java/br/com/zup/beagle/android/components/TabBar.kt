@@ -46,10 +46,9 @@ private val TAB_BAR_HEIGHT = 48.dp()
 data class TabBar(
     val items: List<TabBarItem>,
     val styleId: String? = null,
-    override val context: ContextData? = null,
     val currentTab: Bind<Int>? = null,
     val onTabSelection: List<Action>? = null
-) : WidgetView(), ContextComponent {
+) : WidgetView() {
 
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
