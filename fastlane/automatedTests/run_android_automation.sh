@@ -42,4 +42,4 @@ ENDSCRIPT
 echo "Waiting 30 secs for us to be really booted"
 sleep 30
 
-#./gradlew -p android/automated-tests connectedAndroidTest
+./gradlew -p android/automated-tests connectedAndroidTest
