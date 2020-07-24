@@ -1,6 +1,6 @@
 name: Publish Beagle test backend
 
-on: workflow_dispatch
+on: push
 
 jobs:
     publish:
