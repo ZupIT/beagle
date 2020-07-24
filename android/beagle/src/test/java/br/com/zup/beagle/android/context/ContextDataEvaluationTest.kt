@@ -257,11 +257,11 @@ internal class ContextDataEvaluationTest {
 
         //WHEN
         val result = contextDataEvaluation.evaluateBindExpression(
-            contextData = ContextData("context", 0.0),
+            contextData = ContextData("context", RandomData.double()),
             bind = bind
         )
         //THEN
-        assertEquals(0, result)
+        assert(result is Integer)
     }
 
     @Test
@@ -272,11 +272,11 @@ internal class ContextDataEvaluationTest {
 
         //WHEN
         val result = contextDataEvaluation.evaluateBindExpression(
-            contextData = ContextData("context", 0.0),
+            contextData = ContextData("context", RandomData.double()),
             bind = bind
         )
         //THEN
-        assertEquals(0f, result)
+        assert(result is Float)
     }
 
     @Test
@@ -287,11 +287,11 @@ internal class ContextDataEvaluationTest {
 
         //WHEN
         val result = contextDataEvaluation.evaluateBindExpression(
-            contextData = ContextData("context", 0.0),
+            contextData = ContextData("context", RandomData.double()),
             bind = bind
         )
         //THEN
-        assertEquals(0.0, result)
+        assert(result is Double)
     }
 
     private fun <T>commonMock() : Bind.Expression<T> {
