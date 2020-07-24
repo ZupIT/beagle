@@ -26,6 +26,7 @@ import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.SendRequest
 import br.com.zup.beagle.android.action.SetContext
 import br.com.zup.beagle.android.action.UndefinedAction
+import br.com.zup.beagle.android.action.SubmitForm
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
 import java.util.Locale
 
@@ -54,6 +55,7 @@ internal object ActionJsonAdapterFactory {
             .withSubtype(Navigate.ResetStack::class.java, createNamespaceFor<Navigate.ResetStack>())
             .withSubtype(SendRequest::class.java, createNamespaceFor<SendRequest>())
             .withSubtype(SetContext::class.java, createNamespaceFor<SetContext>())
+            .withSubtype(SubmitForm::class.java, createNamespaceFor<SubmitForm>())
     }
 
     private inline fun <reified T : Action> createNamespaceFor(): String {

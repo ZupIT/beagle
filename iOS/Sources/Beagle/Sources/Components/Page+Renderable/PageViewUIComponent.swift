@@ -42,6 +42,9 @@ class PageViewUIComponent: UIView {
     }
 
     private var pendingPage = 0
+    private var initialized = false
+    
+    var onPageChange: ((_ currentPage: Int) -> Void)?
 
     private let indicatorView: PageIndicatorUIView?
     weak var pageViewDelegate: PageViewUIComponentDelegate?
@@ -50,7 +53,8 @@ class PageViewUIComponent: UIView {
 
     init(
         model: Model,
-        indicatorView: PageIndicatorUIView?
+        indicatorView: PageIndicatorUIView?,
+        controller: BeagleController
     ) {
         self.model = model
         self.indicatorView = indicatorView
@@ -58,7 +62,7 @@ class PageViewUIComponent: UIView {
         
         self.indicatorView?.outputReceiver = self
 
-        setupLayout()
+        setupLayout(controller: controller)
         updateView()
     }
 
@@ -69,22 +73,24 @@ class PageViewUIComponent: UIView {
 
     // MARK: - Subviews
 
-    private(set) lazy var pageViewController: UIPageViewController = {
-        let pager = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-        guard let firstPage = model.pages[safe: 0] else { return pager }
-        pager.setViewControllers(
-            [firstPage], direction: .forward, animated: true, completion: nil
-        )
-        pager.dataSource = self
-        pager.delegate = self
-        return pager
-    }()
+    private(set) var pageViewController = UIPageViewController(
+        transitionStyle: .scroll,
+        navigationOrientation: .horizontal
+    )
     
-    private func setupLayout() {
-        let pager: UIView = pageViewController.view
+    private func setupLayout(controller: BeagleController) {
+        controller.addChild(pageViewController)
+        addSubview(pageViewController.view)
+        pageViewController.didMove(toParent: controller)
         
-        pager.style.setup(Style(flex: Flex().grow(1)))
-        addSubview(pager)
+        if let firstPage = model.pages.first {
+            pageViewController.setViewControllers(
+                [firstPage], direction: .forward, animated: false
+            )
+        }
+        pageViewController.dataSource = self
+        pageViewController.delegate = self
+        pageViewController.view.style.setup(Style(flex: Flex().grow(1)))
         
         if let indicator = indicatorView as? UIView {
             indicator.style.setup(Style(size: Size().height(40), margin: EdgeValue().top(10)))
@@ -112,11 +118,12 @@ extension PageViewUIComponent: PageIndicatorOutput {
     func swipeToPage(at index: Int) {
         guard let destinationVc = model.pages[safe: index] else { return }
         if index > model.currentPage {
-            pageViewController.setViewControllers([destinationVc], direction: .forward, animated: true)
+            pageViewController.setViewControllers([destinationVc], direction: .forward, animated: initialized)
         } else {
-            pageViewController.setViewControllers([destinationVc], direction: .reverse, animated: true)
+            pageViewController.setViewControllers([destinationVc], direction: .reverse, animated: initialized)
         }
         model.currentPage = index
+        initialized = true
     }
 }
 
@@ -177,6 +184,7 @@ extension PageViewUIComponent: UIPageViewControllerDataSource, UIPageViewControl
     ) {
         guard finished && completed else { return }
         model.currentPage = pendingPage
+        onPageChange?(model.currentPage)
         pageViewDelegate?.changedCurrentPage(model.currentPage)
     }
 }

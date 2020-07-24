@@ -40,11 +40,12 @@ data class Container(
     private val viewFactory = ViewFactory()
 
     override fun buildView(rootView: RootView): View {
+        val view = viewFactory.makeBeagleFlexView(rootView.getContext(), style ?: Style())
         onInit?.let {
-            this@Container.handleEvent(rootView, it, "onInit")
+            this@Container.handleEvent(rootView, view, it, "onInit")
         }
 
-        return viewFactory.makeBeagleFlexView(rootView.getContext(), style ?: Style())
+        return view
             .apply {
                 addChildren(this, rootView)
             }

@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.components.form.core
 
+@Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 interface ValidatorHandler {
     fun getValidator(name: String): Validator<Any, Any>?
 }

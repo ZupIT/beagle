@@ -17,14 +17,14 @@
 import UIKit
 import BeagleSchema
 
-extension Form: ServerDrivenComponent {
+extension Deprecated.Form: ServerDrivenComponent {
 
     public func toView(renderer: BeagleRenderer) -> UIView {
         let childView = renderer.render(child)
         var hasFormSubmit = false
         
         func registerFormSubmit(view: UIView) {
-            if view.beagleFormElement is FormSubmit {
+            if view.beagleFormElement is Deprecated.FormSubmit {
                 hasFormSubmit = true
                 register(formView: childView, submitView: view, controller: renderer.controller)
             }
@@ -48,7 +48,7 @@ extension Form: ServerDrivenComponent {
             controller: controller
         )
         if let control = submitView as? UIControl,
-            let formSubmit = submitView.beagleFormElement as? FormSubmit,
+            let formSubmit = submitView.beagleFormElement as? Deprecated.FormSubmit,
             let enabled = formSubmit.enabled {
             control.isEnabled = enabled
         }

@@ -119,7 +119,7 @@ final class RepositoryTests: XCTestCase {
         XCTAssertNotNil(componentReturned)
         XCTAssert(componentReturned is Text)
     }
-
+    
     func test_whenRequestSucceeds_butTheDecodingFailsWithAnError_itShouldThrowDecodingError() {
         // Given
         let result = Result<NetworkResponse, NetworkError>.success(.init(data: Data(), response: URLResponse()))
@@ -252,3 +252,35 @@ class NetworkClientStub: NetworkClient {
  enum TestErrors: Swift.Error {
      case generic
  }
+
+class CacheManagerSpy: CacheManagerProtocol {
+    
+    var references = [Reference]()
+
+    class Reference {
+        let cache: CacheReference
+        var isValid: Bool
+
+        init(cache: CacheReference, isValid: Bool) {
+            self.cache = cache
+            self.isValid = isValid
+        }
+    }
+    
+    func addToCache(_ reference: CacheReference) {
+        guard first(reference.identifier) == nil else { return }
+        references.append(.init(cache: reference, isValid: false))
+    }
+    
+    func getReference(identifiedBy id: String) -> CacheReference? {
+        return first(id)?.cache
+    }
+    
+    func isValid(reference: CacheReference) -> Bool {
+        return first(reference.identifier)?.isValid ?? false
+    }
+
+    private func first(_ id: String) -> Reference? {
+        return references.first { $0.cache.identifier == id }
+    }
+}

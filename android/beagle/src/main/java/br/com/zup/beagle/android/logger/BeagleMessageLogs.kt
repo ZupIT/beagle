@@ -69,12 +69,12 @@ internal object BeagleMessageLogs {
 
     fun logFormInputsNotFound(formActionName: String) {
         BeagleLoggerProxy.warning("Are you missing to declare your FormInput for " +
-                "form action '$formActionName'?")
+            "form action '$formActionName'?")
     }
 
     fun logFormSubmitNotFound(formActionName: String) {
         BeagleLoggerProxy.warning("Are you missing to declare your FormSubmit component for " +
-                "form action '$formActionName'?")
+            "form action '$formActionName'?")
     }
 
     fun logDataNotInsertedOnDatabase(key: String, value: String) {
@@ -109,5 +109,9 @@ internal object BeagleMessageLogs {
     fun errorWhenMalformedColorIsProvided(color: String, ex: Exception) {
         val errorMessage = "Could not parses color $color"
         BeagleLoggerProxy.error(errorMessage, ex)
+    }
+
+    fun logNotFoundSimpleForm() {
+        BeagleLoggerProxy.error("not found simple form in the parents")
     }
 }

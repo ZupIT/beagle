@@ -84,24 +84,24 @@ final class BeaglePrefetchHelperTests: XCTestCase {
 
         let actions: [Navigate] = [
             Navigate.openExternalURL("http://localhost"),
-            Navigate.openNativeRoute(path, data: nil),
-            Navigate.openNativeRoute(path, data: data),
+            Navigate.openNativeRoute(.init(route: path)),
+            Navigate.openNativeRoute(.init(route: path, data: data)),
 
             Navigate.resetApplication(.declarative(Screen(child: container))),
-            Navigate.resetApplication(.remote(path, shouldPrefetch: true)),
-            Navigate.resetApplication(.remote(path, shouldPrefetch: false)),
+            Navigate.resetApplication(.remote(.init(url: path, shouldPrefetch: true))),
+            Navigate.resetApplication(.remote(.init(url: path, shouldPrefetch: false))),
 
             Navigate.resetStack(.declarative(Screen(child: container))),
-            Navigate.resetStack(.remote(path, shouldPrefetch: true)),
-            Navigate.resetStack(.remote(path, shouldPrefetch: false)),
+            Navigate.resetStack(.remote(.init(url: path, shouldPrefetch: true))),
+            Navigate.resetStack(.remote(.init(url: path, shouldPrefetch: false))),
 
             Navigate.pushStack(.declarative(Screen(child: container))),
-            Navigate.pushStack(.remote(path, shouldPrefetch: true)),
-            Navigate.pushStack(.remote(path, shouldPrefetch: false)),
+            Navigate.pushStack(.remote(.init(url: path, shouldPrefetch: true))),
+            Navigate.pushStack(.remote(.init(url: path, shouldPrefetch: false))),
 
             Navigate.pushView(.declarative(Screen(child: container))),
-            Navigate.pushView(.remote(path, shouldPrefetch: true)),
-            Navigate.pushView(.remote(path, shouldPrefetch: false)),
+            Navigate.pushView(.remote(.init(url: path, shouldPrefetch: true))),
+            Navigate.pushView(.remote(.init(url: path, shouldPrefetch: false))),
 
             Navigate.popStack,
             Navigate.popView,

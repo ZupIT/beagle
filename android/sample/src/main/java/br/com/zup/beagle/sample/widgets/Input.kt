@@ -38,7 +38,7 @@ data class Input(
         setHintTextColor(Color.BLACK)
         doOnTextChanged { newText, _, _, _ ->
             val actions = onTextChange ?: emptyList()
-            this@Input.handleEvent(rootView, actions, "onTextChange", newText.toString())
+            this@Input.handleEvent(rootView, this, actions, "onTextChange", newText.toString())
         }
         observeBindChanges(rootView, this@Input.hint) {
             this@apply.hint = it

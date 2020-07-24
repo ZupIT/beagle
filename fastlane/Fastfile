@@ -103,14 +103,14 @@ platform :backend do
   lane :pull_request_verification do
     gradle(task: "detekt")
     gradle(tasks: [
-             "backend:framework:test",
-             "backend:starters:beagle-micronaut-starter:test",
-             "backend:starters:beagle-spring-starter:test",
-             "backend:sample:micronaut:assemble",
-             "backend:sample:spring:assemble",
-             "backend:processor:test",
-           ])
-    run_codecov(platform: "backend")
+        "backend:framework:jacocoTestReport",
+        "backend:starters:beagle-micronaut-starter:jacocoTestReport",
+        "backend:starters:beagle-spring-starter:jacocoTestReport",
+        "backend:processor:jacocoTestReport",
+        "backend:sample:micronaut:assemble",
+        "backend:sample:spring:assemble"
+    ])
+    run_codecov(platform: 'backend')
   end
 
   desc "Sync Spring BFF sample to Micronaut BFF sample"
@@ -133,6 +133,13 @@ end
 ###
 
 platform :automated_tests do
+  desc "Publish test backend to GitHub packages"
+  lane :publish_backend do
+    image = "#{ENV['registry']}/#{ENV['repository']}/#{ENV['image']}:#{ENV['sha']}".downcase
+    gradle(task: ":backend:automated-tests:bootBuildImage --imageName=#{image}")
+    sh("./automatedTests/publish_test_backend.sh", image, ENV['user'], ENV['token'])
+  end
+
   desc "Run iOS automated tests"
   lane :run_ios_automation do
     xcversion(version: "~> 11.6.0")

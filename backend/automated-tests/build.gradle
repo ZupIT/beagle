@@ -15,10 +15,9 @@
  */
 
 plugins {
-    id 'org.springframework.boot' version '2.2.5.RELEASE'
+    id 'org.springframework.boot' version '2.3.1.RELEASE'
     id 'kotlin'
 }
-//apply plugin: 'kotlin-kapt'
 
 group = "br.com.zup.automation"
 version = "0.0.1-SNAPSHOT"
@@ -29,7 +28,6 @@ dependencies {
     implementation GeneralLibraries.kotlin
     implementation GeneralLibraries.kotlinReflect
     implementation project(Modules.beagleBackendSpringStarter)
-    api project(Modules.beagleBackendFramework)
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {

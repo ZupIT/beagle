@@ -25,6 +25,7 @@ package br.com.zup.beagle.widget.action
  * @property DELETE
  *
  */
+@Deprecated("use SimpleForm and SubmitForm instead")
 enum class FormMethodType {
     /**
      * The GET method requests a representation of the specified resource.
@@ -80,6 +81,7 @@ data class FormRemoteAction(
  * ```
  *
  */
+@Deprecated("use SimpleForm and SubmitForm instead")
 data class FormLocalAction(
     val name: String,
     val data: Map<String, String>
@@ -93,6 +95,7 @@ data class FormLocalAction(
  * @param errors list of errors.
  *
  */
+@Deprecated("use SimpleForm and SubmitForm instead")
 data class FormValidation(
     val errors: List<FieldError>
 ) : Action
@@ -104,6 +107,7 @@ data class FormValidation(
  * @param message The error message displayed.
  *
  */
+@Deprecated("use SimpleForm and SubmitForm instead")
 data class FieldError(
     val inputName: String,
     val message: String

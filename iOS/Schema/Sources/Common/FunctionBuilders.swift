@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,33 +15,32 @@
  * limitations under the License.
  */
 
-import UIKit
-import BeagleSchema
+import Foundation
 
-extension FormInputHidden: ServerDrivenComponent {
-    public func toView(renderer: BeagleRenderer) -> UIView {
-        let view = HiddenInputView(value: value)
-        view.beagleFormElement = self
-        view.style.setup(Style(positionType: .absolute))
-        return view
+@_functionBuilder
+public final class ChildBuilder {
+    public static func buildBlock(_ child: RawComponent) -> RawComponent {
+        return child
     }
 }
 
-class HiddenInputView: UIView, InputValue {
-    
-    let value: String
-    
-    init(value: String) {
-        self.value = value
-        super.init(frame: .zero)
-        isHidden = true
+@_functionBuilder
+public final class ChildrenBuilder {
+    public static func buildBlock(_ children: RawComponent...) -> [RawComponent] {
+        return children
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+}
+
+@_functionBuilder
+public final class TabItemBuilder {
+    public static func buildBlock(_ tabItem: TabItem) -> TabItem {
+        return tabItem
     }
-    
-    func getValue() -> Any {
-        return value
+}
+
+@_functionBuilder
+public final class TabItemsBuilder {
+    public static func buildBlock(_ tabItems: TabItem...) -> [TabItem] {
+        return tabItems
     }
 }

@@ -49,6 +49,7 @@ import br.com.zup.beagle.sample.constants.SCREEN_SAFE_AREA_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SAFE_AREA_FALSE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SAFE_AREA_TRUE_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_SCROLL_VIEW_ENDPOINT
+import br.com.zup.beagle.sample.constants.SCREEN_SIMPLE_FORM_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TAB_VIEW_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_ENDPOINT
 import br.com.zup.beagle.sample.constants.SCREEN_TEXT_INPUT_ENDPOINT
@@ -73,6 +74,7 @@ import br.com.zup.beagle.sample.spring.service.SamplePageViewService
 import br.com.zup.beagle.sample.spring.service.SampleSafeAreaService
 import br.com.zup.beagle.sample.spring.service.SampleScreenBuilderService
 import br.com.zup.beagle.sample.spring.service.SampleScrollViewService
+import br.com.zup.beagle.sample.spring.service.SampleSimpleFormService
 import br.com.zup.beagle.sample.spring.service.SampleTabViewService
 import br.com.zup.beagle.sample.spring.service.SampleTextService
 import br.com.zup.beagle.sample.spring.service.SampleTouchableService
@@ -108,7 +110,8 @@ class ScreenController(
     private val sampleWebViewService: SampleWebViewService,
     private val sampleScreenContext: SampleContextService,
     private val sampleScreenSafeArea: SampleSafeAreaService,
-    private val sampleScreenTextInput: TextInputService
+    private val sampleScreenTextInput: TextInputService,
+    private val sampleSimpleFormService: SampleSimpleFormService
 ) {
     @GetMapping(ACCESSIBILITY_SCREEN_ENDPOINT)
     fun getAccessibilityView() = this.accessibilityService.createAccessibilityView()
@@ -217,4 +220,7 @@ class ScreenController(
 
     @GetMapping(SCREEN_TEXT_INPUT_ENDPOINT)
     fun getSampleTextInput() = this.sampleScreenTextInput.createScreenTextInput()
+
+    @GetMapping(SCREEN_SIMPLE_FORM_ENDPOINT)
+    fun getSampleSimpleFormService() = this.sampleSimpleFormService.createSimpleForm()
 }

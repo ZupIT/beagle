@@ -1,8 +1,6 @@
 ▿ Navigate
   ▿ pushView: Route
-    ▿ remote: (3 elements)
-      - .0: "schema://path"
-      - shouldPrefetch: true
+    ▿ remote: NewPath
       ▿ fallback: Optional<Screen>
         ▿ some: Screen
           ▿ child: UnknownComponent
@@ -22,3 +20,5 @@
                 - some: true
           - screenAnalyticsEvent: Optional<AnalyticsScreen>.none
           - style: Optional<Style>.none
+      - shouldPrefetch: true
+      - url: "schema://path"

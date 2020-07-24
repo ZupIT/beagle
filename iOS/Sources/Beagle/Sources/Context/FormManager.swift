@@ -121,7 +121,7 @@ class FormManager {
         result: inout [String: String]
     ) {
         guard
-            let formInput = view.beagleFormElement as? FormInput,
+            let formInput = view.beagleFormElement as? Deprecated.FormInput,
             let inputValue = view as? InputValue
         else { return }
         
@@ -140,14 +140,14 @@ class FormManager {
         }
     }
     
-    private func handleValidationError(with formInput: FormInput, inputValue: InputValue) {
+    private func handleValidationError(with formInput: Deprecated.FormInput, inputValue: InputValue) {
         if let errorListener = inputValue as? ValidationErrorListener {
             errorListener.onValidationError(message: formInput.errorMessage)
         }
         controller.dependencies.logger.log(Log.form(.validationInputNotValid(inputName: formInput.name)))
     }
     
-    private func getValidator(for formInput: FormInput) -> Validator? {
+    private func getValidator(for formInput: Deprecated.FormInput) -> Validator? {
         guard
             let validatorName = formInput.validator,
             let handler = controller.dependencies.validatorProvider,

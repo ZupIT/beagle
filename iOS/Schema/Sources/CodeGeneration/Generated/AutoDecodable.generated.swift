@@ -217,6 +217,8 @@ extension PageView {
         case children
         case pageIndicator
         case context
+        case onPageChange
+        case currentPage
     }
 
     public init(from decoder: Decoder) throws {
@@ -226,6 +228,8 @@ extension PageView {
         let rawPageIndicator: RawComponent? = try container.decodeIfPresent(forKey: .pageIndicator)
         pageIndicator = rawPageIndicator as? PageIndicatorComponent
         context = try container.decodeIfPresent(Context.self, forKey: .context)
+        onPageChange = try container.decodeIfPresent(forKey: .onPageChange)
+        currentPage = try container.decodeIfPresent(Expression<Int>.self, forKey: .currentPage)
     }
 }
 
@@ -296,6 +300,25 @@ extension SendRequest {
         onSuccess = try container.decodeIfPresent(forKey: .onSuccess)
         onError = try container.decodeIfPresent(forKey: .onError)
         onFinish = try container.decodeIfPresent(forKey: .onFinish)
+    }
+}
+
+// MARK: SimpleForm Decodable
+extension SimpleForm {
+
+    enum CodingKeys: String, CodingKey {
+        case context
+        case onSubmit
+        case children
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        context = try container.decodeIfPresent(Context.self, forKey: .context)
+        onSubmit = try container.decodeIfPresent(forKey: .onSubmit)
+        children = try container.decode(forKey: .children)
+        widgetProperties = try WidgetProperties(from: decoder)
     }
 }
 

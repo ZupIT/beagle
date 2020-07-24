@@ -22,7 +22,7 @@ final class FormInputTests: XCTestCase {
     
     func test_buildView_shouldReturnTheExpectedView() {
         // Given
-        let formInput = FormInput(name: "username", child: ComponentDummy())
+        let formInput = Deprecated.FormInput(name: "username", child: ComponentDummy())
         let controller = BeagleControllerStub()
         let renderer = BeagleRenderer(controller: controller)
         
@@ -30,6 +30,6 @@ final class FormInputTests: XCTestCase {
         let formInputView = renderer.render(formInput)
         
         // Then
-        XCTAssertTrue(formInputView.beagleFormElement is FormInput)
+        XCTAssertTrue(formInputView.beagleFormElement is Deprecated.FormInput)
     }
 }

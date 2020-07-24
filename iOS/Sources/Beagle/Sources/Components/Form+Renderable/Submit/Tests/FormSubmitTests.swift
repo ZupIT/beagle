@@ -25,18 +25,18 @@ final class FormSubmitTests: XCTestCase {
     
     func test_toView_shouldReturnTheExpectedView() {
         // Given
-        let formSubmit = FormSubmit(child: ComponentDummy())
+        let formSubmit = Deprecated.FormSubmit(child: ComponentDummy())
                 
         // When
         let view = renderer.render(formSubmit)
         
         // Then
-        XCTAssertTrue(view.subviews.first?.beagleFormElement is FormSubmit)
+        XCTAssertTrue(view.subviews.first?.beagleFormElement is Deprecated.FormSubmit)
     }
 
     func testRenderView() {
         // Given
-        let formSubmit = FormSubmit(child: Button(text: "Button"))
+        let formSubmit = Deprecated.FormSubmit(child: Button(text: "Button"))
 
         // When
         let view = renderer.render(formSubmit)
