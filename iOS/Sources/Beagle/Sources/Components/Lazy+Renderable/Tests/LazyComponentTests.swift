@@ -105,10 +105,6 @@ final class LazyComponentTests: XCTestCase {
         XCTAssertEqual(view, initialView)
     }
     
-    func test_lazyLoadContentWithExpression() {
-        
-    }
-
 }
 
 class LazyRepositoryStub: Repository {
