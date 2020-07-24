@@ -20,7 +20,7 @@ import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.sample.constants.ACCESSIBILITY_SCREEN_ENDPOINT
-import br.com.zup.beagle.sample.constants.BUTTON_STYLE_TITLE
+import br.com.zup.beagle.sample.constants.BUTTON_STYLE
 import br.com.zup.beagle.sample.constants.CUSTOM_PLATFORM_SAMPLE_ENDPOINT
 import br.com.zup.beagle.sample.constants.NAVIGATION_TYPE_ENDPOINT
 import br.com.zup.beagle.sample.constants.PLATFORM_SAMPLE_ENDPOINT
@@ -99,7 +99,7 @@ object ComponentScreenBuilder : ScreenBuilder {
         text = text,
         onPress = listOf(Navigate.PushView(Route.Remote(path))
         ),
-        styleId = BUTTON_STYLE_TITLE
+        styleId = BUTTON_STYLE
     ).applyStyle(Style(
         margin = EdgeValue(
             top = 8.unitReal()

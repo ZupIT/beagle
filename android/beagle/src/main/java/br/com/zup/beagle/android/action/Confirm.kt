@@ -60,14 +60,14 @@ data class Confirm(
                 ?: rootView.getContext().getString(android.R.string.ok)) { dialog, _ ->
                 dialog.dismiss()
                 onPressOk?.let {
-                    handleEvent(rootView, origin, it, "onPressOk")
+                    handleEvent(rootView, origin, it)
                 }
             }
             .setNegativeButton(labelCancel
                 ?: rootView.getContext().getString(android.R.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
                 onPressCancel?.let {
-                    handleEvent(rootView, origin, it, "onPressCancel")
+                    handleEvent(rootView, origin, it)
                 }
             }
             .show()

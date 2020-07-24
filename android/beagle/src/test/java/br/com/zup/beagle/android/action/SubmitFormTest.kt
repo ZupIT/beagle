@@ -64,7 +64,7 @@ class SubmitFormTest : BaseTest() {
 
         // Then
         verify(exactly = once()) {
-            BeagleLoggerProxy.error("not found simple form in the parents")
+            BeagleLoggerProxy.error("Not found simple form in the parents")
         }
     }
 

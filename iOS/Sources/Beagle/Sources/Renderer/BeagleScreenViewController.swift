@@ -52,6 +52,19 @@ public class BeagleScreenViewController: BeagleController {
     
     // MARK: - Initialization
     
+    @discardableResult
+    static func remote(
+        _ remote: ScreenType.Remote,
+        dependencies: BeagleDependenciesProtocol,
+        completion: @escaping (Result<BeagleScreenViewController, Request.Error>) -> Void
+    ) -> RequestToken? {
+        return BeagleScreenViewModel.remote(remote, dependencies: dependencies) {
+            completion($0.map { viewModel in
+                return self.init(viewModel: viewModel)
+            })
+        }
+    }
+    
     public convenience init(_ component: RawComponent) {
         self.init(.declarative(component.toScreen()))
     }
