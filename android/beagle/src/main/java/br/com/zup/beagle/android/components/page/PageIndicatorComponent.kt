@@ -16,9 +16,11 @@
 
 package br.com.zup.beagle.android.components.page
 
+import br.com.zup.beagle.android.utils.BeagleConstants.DEPRECATED_PAGE_VIEW
 import br.com.zup.beagle.android.widget.ViewConvertable
 import br.com.zup.beagle.core.ServerDrivenComponent
 
+@Deprecated(message = DEPRECATED_PAGE_VIEW)
 interface PageIndicatorComponent : ServerDrivenComponent,
     ViewConvertable {
     fun setCount(pages: Int)
