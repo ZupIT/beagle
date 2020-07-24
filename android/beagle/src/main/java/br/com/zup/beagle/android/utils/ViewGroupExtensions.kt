@@ -63,7 +63,7 @@ private fun loadView(
     }
     view.loadCompletedListener = {
         viewGroup.addView(view)
-        rootView.generateViewModelInstance<ScreenContextViewModel>().evaluateContexts()
+        rootView.generateViewModelInstance<ScreenContextViewModel>().discoverAllContexts()
     }
 }
 

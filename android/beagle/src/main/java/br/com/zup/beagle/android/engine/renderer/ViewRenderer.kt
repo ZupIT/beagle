@@ -30,8 +30,8 @@ internal abstract class ViewRenderer<T : ServerDrivenComponent>(
     abstract val component: T
 
     fun build(rootView: RootView): View {
-        contextComponentHandler.handleContext(rootView, component)
         val builtView = buildView(rootView)
+        contextComponentHandler.handleContext(rootView, builtView, component)
         componentStylization.apply(builtView, component)
         return builtView
     }

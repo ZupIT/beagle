@@ -123,18 +123,20 @@ fun Action.handleEvent(
  */
 fun <T> Action.evaluateExpression(
     rootView: RootView,
+    view: View,
     bind: Bind<T>
 ): T? {
-    return bind.evaluateForAction(rootView, this)
+    return bind.evaluateForAction(rootView, view, this)
 }
 
 internal fun Action.evaluateExpression(
     rootView: RootView,
+    view: View,
     data: Any
 ): Any? {
     return try {
         return if (data is JSONObject || data is JSONArray || data.isExpression()) {
-            val value = expressionOf<String>(data.toString()).evaluateForAction(rootView, this)
+            val value = expressionOf<String>(data.toString()).evaluateForAction(rootView, view, this)
             value.tryToDeserialize()
         } else {
             data

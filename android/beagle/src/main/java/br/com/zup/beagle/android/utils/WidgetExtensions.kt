@@ -114,15 +114,17 @@ fun ServerDrivenComponent.handleEvent(
  * Observe a specific Bind to changes. If the Bind is type of Value, then the actual value will be returned.
  * But if the value is an Expression, then the evaluation will be make.
  * @property rootView from buildView
+ * @property view that will receive the binding
  * @property bind is the value that will retrieved or observed
  * @property observes is function that will be called when a expression is evaluated
  */
 fun <T> ServerDrivenComponent.observeBindChanges(
     rootView: RootView,
+    view: View,
     bind: Bind<T>,
     observes: Observer<T?>
 ) {
-    bind.observe(rootView, observes)
+    bind.observe(rootView, view, observes)
 }
 
 /**
@@ -142,6 +144,6 @@ fun ServerDrivenComponent.toView(fragment: Fragment) = this.toView(FragmentRootV
 internal fun ServerDrivenComponent.toView(rootView: RootView): View {
     return viewFactory.makeBeagleFlexView(rootView.getContext()).apply {
         addServerDrivenComponent(this@toView, rootView)
-        rootView.generateViewModelInstance<ScreenContextViewModel>().evaluateContexts()
+        rootView.generateViewModelInstance<ScreenContextViewModel>().discoverAllContexts()
     }
 }

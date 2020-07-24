@@ -16,23 +16,24 @@
 
 package br.com.zup.beagle.android.context
 
-import android.view.View
-import br.com.zup.beagle.android.utils.generateViewModelInstance
-import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
-import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.core.ServerDrivenComponent
+import androidx.collection.LruCache
+import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.utils.Observer
 
-internal class ContextComponentHandler {
-
-    fun handleContext(
-        rootView: RootView,
-        view: View,
-        component: ServerDrivenComponent
-    ) {
-        if (component is ContextComponent) {
-            component.context?.let { context ->
-                rootView.generateViewModelInstance<ScreenContextViewModel>().addContext(view, context)
-            }
-        }
+internal data class Binding<T>(
+    val observer: Observer<T>?,
+    val bind: Bind.Expression<T>,
+    val evaluatedExpressions: MutableMap<String, Any> = mutableMapOf()
+) {
+    fun notifyChanges(value: Any?) {
+        observer?.invoke(value as T)
     }
 }
+
+internal data class ContextBinding(
+    val context: ContextData,
+    val bindings: MutableSet<Binding<*>>,
+    val cache: LruCache<String, Any> = LruCache(
+        BeagleEnvironment.beagleSdk.config.cache.memoryMaximumCapacity
+    )
+)

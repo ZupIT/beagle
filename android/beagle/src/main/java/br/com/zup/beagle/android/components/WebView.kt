@@ -49,7 +49,7 @@ data class WebView(
         val webView = viewFactory.makeWebView(rootView.getContext())
         webView.webViewClient = BeagleWebViewClient(webView.context)
         webView.settings.javaScriptEnabled = true
-        observeBindChanges(rootView, url) {
+        observeBindChanges(rootView, webView, url) {
             it?.let{ webView.loadUrl(it) }
         }
         return webView

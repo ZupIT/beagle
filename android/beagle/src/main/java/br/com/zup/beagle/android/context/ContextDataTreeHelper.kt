@@ -16,7 +16,9 @@
 
 package br.com.zup.beagle.android.context
 
+import android.view.View
 import br.com.zup.beagle.android.jsonpath.JsonCreateTree
+import br.com.zup.beagle.android.utils.setContextData
 import java.util.LinkedList
 
 internal class ContextDataTreeHelper {
@@ -25,24 +27,24 @@ internal class ContextDataTreeHelper {
         contextBinding: ContextBinding,
         jsonCreateTree: JsonCreateTree,
         keys: LinkedList<String>,
-        contexts: MutableMap<String, ContextBinding>
+        viewContext: View
     ): ContextData {
         var context = contextBinding.context
         val initialTree = jsonCreateTree.createInitialTree(context.value, keys.first)
         if (initialTree != context.value) {
-            context = setNewTreeInContextData(contexts, contextBinding, initialTree)
+            context = setNewTreeInContextData(viewContext, contextBinding, initialTree)
         }
         return context
     }
 
     fun setNewTreeInContextData(
-        contexts: MutableMap<String, ContextBinding>,
+        viewContext: View,
         contextBinding: ContextBinding,
         value: Any
     ): ContextData {
         val context = contextBinding.context
         val newContext = context.copy(value = value)
-        contexts[context.id] = contextBinding.copy(context = newContext)
+        viewContext.setContextData(contextBinding.copy(context = newContext))
         return newContext
     }
 }

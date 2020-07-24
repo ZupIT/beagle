@@ -92,7 +92,7 @@ class WidgetExtensionsKtTest : BaseTest() {
 
         // Then
         assertEquals(view, actual)
-        verify(exactly = once()) { viewModelMock.evaluateContexts() }
+        verify(exactly = once()) { viewModelMock.discoverAllContexts() }
     }
 
     @Test

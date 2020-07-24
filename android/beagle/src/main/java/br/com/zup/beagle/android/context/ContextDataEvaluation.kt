@@ -33,14 +33,16 @@ internal class ContextDataEvaluation(
 
     fun evaluateBindExpression(
         contextData: ContextData,
-        bind: Bind.Expression<*>
+        bind: Bind.Expression<*>,
+        evaluatedBindings: MutableMap<String, Any>
     ): Any? {
-        return evaluateBindExpression(listOf(contextData), bind)
+        return evaluateBindExpression(listOf(contextData), bind, evaluatedBindings)
     }
 
     fun evaluateBindExpression(
         contextsData: List<ContextData>,
-        bind: Bind.Expression<*>
+        bind: Bind.Expression<*>,
+        evaluatedExpressions: MutableMap<String, Any>
     ): Any? {
         val expressions = bind.value.getExpressions()
 
@@ -48,11 +50,11 @@ internal class ContextDataEvaluation(
             bind.type == String::class.java -> {
                 contextsData.forEach { contextData ->
                     expressions.filter { it.getContextId() == contextData.id }.forEach { expression ->
-                        evaluateExpressionsForContext(contextData, expression, bind)
+                        evaluateExpressionsForContext(contextData, expression, bind, evaluatedExpressions)
                     }
                 }
 
-                evaluateMultipleExpressions(bind)
+                evaluateMultipleExpressions(bind, evaluatedExpressions)
             }
             expressions.size == 1 -> evaluateExpression(contextsData[0], bind, expressions[0])
             else -> {
@@ -65,15 +67,19 @@ internal class ContextDataEvaluation(
     private fun evaluateExpressionsForContext(
         contextData: ContextData,
         expression: String,
-        bind: Bind.Expression<*>
+        bind: Bind.Expression<*>,
+        evaluatedExpressions: MutableMap<String, Any>
     ) {
         val value = evaluateExpression(contextData, bind, expression) ?: ""
-        bind.evaluatedExpressions[expression] = value
+        evaluatedExpressions[expression] = value
     }
 
-    private fun evaluateMultipleExpressions(bind: Bind.Expression<*>): Any? {
+    private fun evaluateMultipleExpressions(
+        bind: Bind.Expression<*>,
+        evaluatedExpressions: MutableMap<String, Any>
+    ): Any? {
         var text = bind.value
-        bind.evaluatedExpressions.forEach {
+        evaluatedExpressions.forEach {
             val expressionKey = it.key
             text = text.replace("@{$expressionKey}", it.value.toString())
         }
