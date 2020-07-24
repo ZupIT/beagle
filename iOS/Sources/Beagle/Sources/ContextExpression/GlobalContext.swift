@@ -42,6 +42,6 @@ public class DefaultGlobalContext: GlobalContext {
     }
     
     public func setValue(_ value: DynamicObject) {
-        self.context.value = Context(id: globalId, value: value)
+        context.value = Context(id: globalId, value: value)
     }
 }

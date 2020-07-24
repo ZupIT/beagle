@@ -130,7 +130,7 @@
   ▿ formDataStoreHandler: FormDataStoreHandler
     - dataStore: 0 key/value pairs
   ▿ globalContext: DefaultGlobalContext
-    - contextObservable: Optional<Observable<Context>>.none
+    - $__lazy_storage_$_context: Optional<Observable<Context>>.none
     - globalId: "global"
   - isLoggingEnabled: true
   - localFormHandler: Optional<LocalFormHandler>.none

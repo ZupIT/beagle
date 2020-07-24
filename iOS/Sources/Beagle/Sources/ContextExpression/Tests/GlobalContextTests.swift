@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -29,23 +30,23 @@ final class GlobalContextTests: XCTestCase {
     private lazy var globalContext1 = Context(id: globalId, value: "Fist value")
     private lazy var globalContext2 = Context(id: globalId, value: "Second value")
     
-    private let globalContext = dependencies.globalContext
-    
     func testGetContext() {
-        view1.setContext(globalContext1)
-        var global = globalContext.context.value
+        let globalContext = dependencies.globalContext
         
-        XCTAssertEqual(view1.getContext(with: globalId)?.value, global)
-        XCTAssertEqual(view2.getContext(with: globalId)?.value, global)
+        view1.setContext(globalContext1)
+        var globalContextValue = globalContext.context.value
+        
+        XCTAssertEqual(view1.getContext(with: globalId)?.value, globalContextValue)
+        XCTAssertEqual(view2.getContext(with: globalId)?.value, globalContextValue)
         
         view2.setContext(globalContext2)
-        global = globalContext.context.value
+        globalContextValue = globalContext.context.value
         
-        XCTAssertEqual(view1.getContext(with: globalId)?.value, global)
-        XCTAssertEqual(view2.getContext(with: globalId)?.value, global)
+        XCTAssertEqual(view1.getContext(with: globalId)?.value, globalContextValue)
+        XCTAssertEqual(view2.getContext(with: globalId)?.value, globalContextValue)
     }
     
-    func testSettingGlobalContextInViewDoesNotChangeOthers() {
+    func testSetContextInViewWithGlobalId() {
         XCTAssertNil(view1.contextMap)
         XCTAssertNil(view2.contextMap)
         
@@ -57,6 +58,8 @@ final class GlobalContextTests: XCTestCase {
     }
     
     func testSetContext() {
+        let globalContext = dependencies.globalContext
+        
         globalContext.setValue(globalContext1.value)
         
         XCTAssertEqual(view1.getContext(with: globalId)?.value, globalContext1)

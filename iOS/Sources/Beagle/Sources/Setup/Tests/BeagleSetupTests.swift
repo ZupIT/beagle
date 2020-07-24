@@ -205,10 +205,8 @@ class BeagleNavigationDummy: BeagleNavigation {
 
 class GlobalContextDummy: GlobalContext {
     let globalId: String = ""
+    let context: Observable<Context> = Observable(value: .init(id: "", value: .empty))
     
     func isGlobal(id: String?) -> Bool { true }
-    
-    func getContext() -> Observable<Context>? { nil }
-    
-    func setContextValue(_ value: DynamicObject) {}
+    func setValue(_ value: DynamicObject) {}
 }
