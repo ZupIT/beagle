@@ -261,7 +261,7 @@ internal class ContextDataEvaluationTest {
             bind = bind
         )
         //THEN
-        assertEquals(0, result)
+        assert(result is Integer)
     }
 
     @Test
