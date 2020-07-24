@@ -50,6 +50,6 @@ class FormInputTest : BaseComponentTest() {
         formInput.buildView(rootView)
 
         // THEN
-        verify(exactly = once()) { view.tag = formInput }
+        verify(exactly = once()) { view.setTag(any(), formInput) }
     }
 }

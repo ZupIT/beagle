@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-public struct Context: Decodable, AutoInitiable {
+public struct Context: AutoInitiableAndDecodable, Equatable {
+    
     public let id: String
     public let value: DynamicObject
     

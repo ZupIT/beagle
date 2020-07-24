@@ -23,6 +23,7 @@ import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.data.ComponentRequester
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
+import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.core.ServerDrivenComponent
 import kotlinx.coroutines.CoroutineScope
@@ -32,7 +33,7 @@ import java.util.concurrent.atomic.AtomicReference
 import kotlin.coroutines.CoroutineContext
 
 sealed class ViewState {
-    data class Error(val throwable: Throwable) : ViewState()
+    data class Error(val throwable: Throwable, val retry: BeagleRetry) : ViewState()
     data class Loading(val value: Boolean) : ViewState()
     data class DoRender(val screenId: String?, val component: ServerDrivenComponent) : ViewState()
 }
@@ -110,7 +111,7 @@ internal class BeagleViewModel(
                         if (screen != null) {
                             postLivedataResponse(ViewState.DoRender(screen.identifier, screen))
                         } else {
-                            postLivedataResponse(ViewState.Error(exception))
+                            postLivedataResponse(ViewState.Error(exception) { fetchComponents() })
                         }
                     }
                 } else if (screen != null) {

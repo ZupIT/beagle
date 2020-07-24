@@ -33,6 +33,7 @@ import br.com.zup.beagle.android.components.form.core.FormDataStoreHandler
 import br.com.zup.beagle.android.components.form.core.FormResult
 import br.com.zup.beagle.android.components.form.core.FormValidatorController
 import br.com.zup.beagle.android.components.form.core.ValidatorHandler
+import br.com.zup.beagle.android.components.utils.beagleComponent
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.handleEvent
@@ -91,12 +92,12 @@ data class Form(
 
     private fun fetchFormViews(rootView: RootView, viewGroup: ViewGroup) {
         viewGroup.children.forEach { childView ->
-            if (childView.tag != null) {
-                val tag = childView.tag
+            if (childView.beagleComponent != null) {
+                val tag = childView.beagleComponent
                 if (tag is FormInput) {
                     formInputs.add(tag)
                     formValidatorController.configFormInputList(tag)
-                } else if (childView.tag is FormSubmit && formSubmitView == null) {
+                } else if (childView.beagleComponent is FormSubmit && formSubmitView == null) {
                     formSubmitView = childView
                     addClickToFormSubmit(rootView, childView)
                     formValidatorController.formSubmitView = childView
@@ -217,7 +218,7 @@ data class Form(
                 handleEvent(rootView, view, formResult.action)
             }
             is FormResult.Error -> (rootView.getContext() as? BeagleActivity)?.onServerDrivenContainerStateChanged(
-                ServerDrivenState.Error(formResult.throwable)
+                ServerDrivenState.FormError(formResult.throwable){ handleFormSubmit(rootView, view) }
             )
         }
     }

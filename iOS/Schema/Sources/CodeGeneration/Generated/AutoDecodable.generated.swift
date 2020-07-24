@@ -101,6 +101,22 @@ extension Container {
     }
 }
 
+// MARK: Context Decodable
+extension Context {
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case value
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decode(String.self, forKey: .id)
+        value = try container.decode(DynamicObject.self, forKey: .value)
+    }
+}
+
 // MARK: Form Decodable
 extension Form {
 

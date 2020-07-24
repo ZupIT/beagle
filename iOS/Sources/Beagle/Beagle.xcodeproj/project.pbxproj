@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2539A44F24C61C0D00B8FA92 /* GlobalContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2539A44E24C61C0D00B8FA92 /* GlobalContext.swift */; };
+		2539A45124C633D700B8FA92 /* GlobalContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2539A45024C633D700B8FA92 /* GlobalContextTests.swift */; };
 		5740E23723F70A75004A0BF0 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5740E23623F70A75004A0BF0 /* CacheManager.swift */; };
 		5754314923F207F000EF0E5A /* CacheLRU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5754314823F207F000EF0E5A /* CacheLRU.swift */; };
 		5754314B23F2080B00EF0E5A /* DoublyLinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5754314A23F2080B00EF0E5A /* DoublyLinkedList.swift */; };
@@ -235,6 +237,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2539A44E24C61C0D00B8FA92 /* GlobalContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalContext.swift; sourceTree = "<group>"; };
+		2539A45024C633D700B8FA92 /* GlobalContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalContextTests.swift; sourceTree = "<group>"; };
 		570434E824A5680100DAD0D3 /* test_renderTextInputComponent.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_renderTextInputComponent.1.png; sourceTree = "<group>"; };
 		570434E924A5680100DAD0D3 /* test_textInputComponent_whenTextValueChanges.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_textInputComponent_whenTextValueChanges.1.png; sourceTree = "<group>"; };
 		5740E23623F70A75004A0BF0 /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
@@ -723,6 +727,7 @@
 			isa = PBXGroup;
 			children = (
 				57E7F96F247D9EDC00FBD398 /* UIView+Context.swift */,
+				2539A44E24C61C0D00B8FA92 /* GlobalContext.swift */,
 				935278F32499720800AB9D1F /* Expression.swift */,
 				935278F52499728400AB9D1F /* DynamicObject.swift */,
 				935278F92499755000AB9D1F /* Tests */,
@@ -737,6 +742,7 @@
 				93C69F2A24A4D84D00818305 /* UIView+ContextTests.swift */,
 				935278FA2499757F00AB9D1F /* ExpressionTests.swift */,
 				93BFE32E24A13F34009838CE /* DynamicObjectTests.swift */,
+				2539A45024C633D700B8FA92 /* GlobalContextTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1816,6 +1822,7 @@
 				E531D6B42359FE19007EEBA7 /* UIView+AutoLayout.swift in Sources */,
 				C08D4E3124857C7700AAAC0A /* DependencyWindowManager.swift in Sources */,
 				C08D4E442485803E00AAAC0A /* LazyComponent+Renderable.swift in Sources */,
+				2539A44F24C61C0D00B8FA92 /* GlobalContext.swift in Sources */,
 				A0D608D92448DF8700F7D851 /* ScreenController.swift in Sources */,
 				57E7F970247D9EDC00FBD398 /* UIView+Context.swift in Sources */,
 				938B13CE2497FBF900AA8E3B /* CollectionExtension.swift in Sources */,
@@ -1895,6 +1902,7 @@
 				E531D6BC235A007C007EEBA7 /* UIView+LoadingTests.swift in Sources */,
 				5763889F244A563A00CDBD35 /* CacheDiskManagerTests.swift in Sources */,
 				C867CDE823EB50DB00EB5DD5 /* HttpRequestBuilderTest.swift in Sources */,
+				2539A45124C633D700B8FA92 /* GlobalContextTests.swift in Sources */,
 				C05E164D24365DBE0088F9D2 /* AnalyticsTests.swift in Sources */,
 				C0E569152476F026003D413F /* BeaglePrefetchHelpingSpy.swift in Sources */,
 				983E8C992396DFC90018C6CA /* TabViewUIComponentTests.swift in Sources */,
