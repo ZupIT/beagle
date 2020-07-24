@@ -122,11 +122,11 @@ data class TabView(
         }
     }
 
-        private fun getIconFromResources(context: Context, icon: String): Drawable? {
-            return BeagleEnvironment.beagleSdk.designSystem?.image(icon)?.let {
-                ContextCompat.getDrawable(context, it)
-            }
+    private fun getIconFromResources(context: Context, icon: String): Drawable? {
+        return BeagleEnvironment.beagleSdk.designSystem?.image(icon)?.let {
+            ContextCompat.getDrawable(context, it)
         }
+    }
 
     private fun getTabSelectedListener(viewPager: ViewPager): TabLayout.OnTabSelectedListener {
         return object :
