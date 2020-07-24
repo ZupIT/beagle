@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -30,23 +29,23 @@ final class GlobalContextTests: XCTestCase {
     private lazy var globalContext1 = Context(id: globalId, value: "Fist value")
     private lazy var globalContext2 = Context(id: globalId, value: "Second value")
     
+    private let globalContext = dependencies.globalContext
+    
     func testGetContext() {
-        let globalContext = dependencies.globalContext
-        
         view1.setContext(globalContext1)
-        var globalContextValue = globalContext.getContext()?.value
+        var global = globalContext.context.value
         
-        XCTAssertEqual(view1.getContext(with: globalId)?.value, globalContextValue)
-        XCTAssertEqual(view2.getContext(with: globalId)?.value, globalContextValue)
+        XCTAssertEqual(view1.getContext(with: globalId)?.value, global)
+        XCTAssertEqual(view2.getContext(with: globalId)?.value, global)
         
         view2.setContext(globalContext2)
-        globalContextValue = globalContext.getContext()?.value
+        global = globalContext.context.value
         
-        XCTAssertEqual(view1.getContext(with: globalId)?.value, globalContextValue)
-        XCTAssertEqual(view2.getContext(with: globalId)?.value, globalContextValue)
+        XCTAssertEqual(view1.getContext(with: globalId)?.value, global)
+        XCTAssertEqual(view2.getContext(with: globalId)?.value, global)
     }
     
-    func testSetContextInViewWithGlobalId() {
+    func testSettingGlobalContextInViewDoesNotChangeOthers() {
         XCTAssertNil(view1.contextMap)
         XCTAssertNil(view2.contextMap)
         
@@ -58,14 +57,12 @@ final class GlobalContextTests: XCTestCase {
     }
     
     func testSetContext() {
-        let globalContext = dependencies.globalContext
-        
-        globalContext.setContextValue(globalContext1.value)
+        globalContext.setValue(globalContext1.value)
         
         XCTAssertEqual(view1.getContext(with: globalId)?.value, globalContext1)
         XCTAssertEqual(view2.getContext(with: globalId)?.value, globalContext1)
         
-        globalContext.setContextValue(globalContext2.value)
+        globalContext.setValue(globalContext2.value)
         
         XCTAssertEqual(view1.getContext(with: globalId)?.value, globalContext2)
         XCTAssertEqual(view2.getContext(with: globalId)?.value, globalContext2)

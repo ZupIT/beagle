@@ -1,4 +1,3 @@
-//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -19,41 +18,30 @@ import BeagleSchema
 
 public protocol GlobalContext {
     var globalId: String { get }
+    var context: Observable<Context> { get }
     
     func isGlobal(id: String?) -> Bool
-    func getContext() -> Observable<Context>?
-    func setContextValue(_ value: DynamicObject)
+    func setValue(_ value: DynamicObject)
 }
 
 public protocol DependencyGlobalContext {
     var globalContext: GlobalContext { get }
 }
 
-final public class DefaultGlobalContext: GlobalContext {
+public class DefaultGlobalContext: GlobalContext {
     
     public let globalId = "global"
     
-    private(set) var contextObservable: Observable<Context>?
+    private(set) public
+    lazy var context = Observable(value:
+        Context(id: globalId, value: .empty)
+    )
     
     public func isGlobal(id: String?) -> Bool {
         globalId == id
     }
     
-    public func getContext() -> Observable<Context>? {
-        guard let contextObservable = contextObservable else {
-            setContextValue(.empty)
-            return getContext()
-        }
-        return contextObservable
-    }
-    
-    public func setContextValue(_ value: DynamicObject) {
-        let context = Context(id: globalId, value: value)
-        
-        if let contextObservable = contextObservable {
-            contextObservable.value = context
-        } else {
-            contextObservable = Observable(value: context)
-        }
+    public func setValue(_ value: DynamicObject) {
+        self.context.value = Context(id: globalId, value: value)
     }
 }
