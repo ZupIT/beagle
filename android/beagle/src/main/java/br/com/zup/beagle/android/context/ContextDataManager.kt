@@ -31,7 +31,10 @@ internal data class ContextBinding(
     fun evaluateBindExpression(binding: Bind.Expression<*>): Any? {
         val expression = binding.value
         if (cache[expression] == null) {
-            cache.put(expression, ContextDataEvaluation().evaluateBindExpression(context, binding))
+            val value = ContextDataEvaluation().evaluateBindExpression(context, binding)
+            if(value != null) {
+                cache.put(expression, value)
+            }
         }
         return cache.get(expression)
     }
