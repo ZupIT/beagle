@@ -16,11 +16,9 @@
 
 package br.com.zup.beagle.sample.builder
 
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.ext.style
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.action.alert
-import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.ListDirection
 import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.layout.ScreenBuilder
@@ -70,9 +68,11 @@ object ListViewDslScreenBuilder : ScreenBuilder {
         children{
             +text{
                 text{-"Static $listDirection ListView"}
-            }.applyStyle(Style(
-                margin = EdgeValue(bottom = 10.unitReal())
-            ))
+            }.style {
+                margin{
+                    bottom { 10.unitReal() }
+                }
+            }
             +listView {
                 direction{listDirection}
                 children {
@@ -80,17 +80,21 @@ object ListViewDslScreenBuilder : ScreenBuilder {
                 }
             }
         }
-    }.applyStyle(Style(
-        margin = EdgeValue(bottom = 20.unitReal())
-    ))
+    }.style {
+        margin {
+            bottom { 20.unitReal() }
+        }
+    }
 
     private fun getDynamicListView(listDirection: ListDirection) = container{
         children{
             +text {
                 text{-"Dynamic $listDirection ListView"}
-            }.applyStyle(Style(
-                margin = EdgeValue(bottom = 10.unitReal())
-            ))
+            }.style {
+                margin {
+                    bottom { 10.unitReal() }
+                }
+            }
             +listView {
                 direction { listDirection }
                 children {
