@@ -31,6 +31,9 @@ jobs:
             -   name: Start backend in background
                 run: bash fastlane/automatedTests/start_test_backend.sh
 
+            -   name: Test iOS
+                run: bundle exec fastlane automated_tests run_ios_automation
+
             -   name: Cache android platform
                 uses: actions/cache@v2
                 env:
@@ -59,9 +62,6 @@ jobs:
                 run: bash fastlane/automatedTests/run_android_automation.sh
                 env:
                     ANDROID_SDK_ROOT: /Users/runner/Library/Android/sdk
-
-            #            -   name: Test iOS
-            #                run: bundle exec fastlane automated_tests run_ios_automation
 
             -   name: Cleanup
                 run: bundle exec fastlane automated_tests cleanup
