@@ -17,6 +17,12 @@
 package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.action.Action
+import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.context.ContextComponent
+import br.com.zup.beagle.widget.context.ContextData
+import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.core.ListDirection
 
 /**
@@ -27,9 +33,53 @@ import br.com.zup.beagle.widget.core.ListDirection
  * @param direction define the list direction.
  *
  */
-data class ListView(
-    val children: List<ServerDrivenComponent>,
-    val direction: ListDirection = ListDirection.VERTICAL
-) : ServerDrivenComponent {
-    companion object
+data class ListView private constructor(
+    val children: List<ServerDrivenComponent> = emptyList(),
+    override val context: ContextData,
+    val onInit: Action,
+    val dataSource: Bind<List<Any>>,
+    val direction: ListDirection,
+    val template: ServerDrivenComponent,
+    val onScrollEnd: Action,
+    val scrollThreshold: Int
+) : Widget(), ContextComponent {
+
+    companion object{}
+
+    private class EmptyAction : Action
+
+    private class ServerDrivenComponentEmpty : ServerDrivenComponent
+
+    constructor(
+        children: List<ServerDrivenComponent>,
+        direction: ListDirection
+    ) : this(
+        children = emptyList(),
+        context = ContextData("", Any()),
+        onInit = EmptyAction(),
+        dataSource = valueOf(emptyList()),
+        direction = direction,
+        template = ServerDrivenComponentEmpty(),
+        onScrollEnd = EmptyAction(),
+        scrollThreshold = 0
+    )
+
+    constructor(
+        context: ContextData,
+        onInit: Action,
+        dataSource: Bind<List<Any>>,
+        direction: ListDirection,
+        template: ServerDrivenComponent,
+        onScrollEnd: Action,
+        scrollThreshold: Int = 100
+    ) : this(
+        children = emptyList(),
+        context = context,
+        onInit = onInit,
+        dataSource = dataSource,
+        direction = direction,
+        template = template,
+        onScrollEnd = onScrollEnd,
+        scrollThreshold = scrollThreshold
+    )
 }

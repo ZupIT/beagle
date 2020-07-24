@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample.micronaut.service
+package br.com.zup.beagle.sample.spring.service
 
-import br.com.zup.beagle.sample.builder.ListViewContextScreenBuilder
 import br.com.zup.beagle.sample.builder.ListViewScreenBuilder
-import javax.inject.Singleton
+import org.springframework.stereotype.Service
 
-@Singleton
-class SampleListViewService {
+@Service
+class SampleListViewContextService {
     fun createListView() = ListViewScreenBuilder
-
-    fun createListViewContext() = ListViewContextScreenBuilder
 }

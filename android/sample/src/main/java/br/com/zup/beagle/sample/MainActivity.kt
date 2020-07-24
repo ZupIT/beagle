@@ -26,18 +26,7 @@ import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.sample.activities.NavigationBarActivity
 import br.com.zup.beagle.sample.constants.SAMPLE_ENDPOINT
-import br.com.zup.beagle.sample.fragment.ComposeComponentFragment
-import br.com.zup.beagle.sample.fragment.DisabledFormSubmitFragment
-import br.com.zup.beagle.sample.fragment.FormFragment
-import br.com.zup.beagle.sample.fragment.ImageViewFragment
-import br.com.zup.beagle.sample.fragment.LazyComponentFragment
-import br.com.zup.beagle.sample.fragment.ListViewFragment
-import br.com.zup.beagle.sample.fragment.NavigationFragment
-import br.com.zup.beagle.sample.fragment.PageViewFragment
-import br.com.zup.beagle.sample.fragment.ScrollViewFragment
-import br.com.zup.beagle.sample.fragment.TabViewFragment
-import br.com.zup.beagle.sample.fragment.TextInputFragment
-import br.com.zup.beagle.sample.fragment.WebViewFragment
+import br.com.zup.beagle.sample.fragment.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -87,6 +76,7 @@ class MainActivity : AppCompatActivity() {
                 ScreenRequest("http://www.mocky.io/v2/5e4d46952d0000339ec0dce1")
             ))
             R.id.listView -> goToFragment(ListViewFragment.newInstance())
+            R.id.listViewContext -> goToFragment(ContextListViewFragment.newInstance())
             R.id.webView -> goToFragment(WebViewFragment.newInstance())
             R.id.composeComponent -> goToFragment(ComposeComponentFragment.newInstance())
             R.id.sampleBff -> startActivity(BeagleActivity.newIntent(

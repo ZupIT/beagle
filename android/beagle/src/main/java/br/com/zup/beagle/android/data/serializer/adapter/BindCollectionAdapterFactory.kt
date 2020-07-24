@@ -36,24 +36,24 @@ internal class BindCollectionAdapterFactory : JsonAdapter.Factory {
         val rawType = Types.getRawType(type)
         if (rawType == Bind::class.java && type is ParameterizedType) {
             val subType = type.actualTypeArguments.first()
-            val adapter: JsonAdapter<Any> = moshi.adapter(subType)
-            return BindAdapter(adapter, subType)
+            val adapter: JsonAdapter<Collection<Any>> = moshi.adapter(subType)
+            return BindCollectionAdapter(adapter, subType)
 
         }
         return null
     }
 }
 
-private class BindAdapter(
-    private val adapter: JsonAdapter<Collection>,
+private class BindCollectionAdapter(
+    private val adapter: JsonAdapter<Collection<Any>>,
     private val type: Type
-) : JsonAdapter<Bind<Collection>>() {
+) : JsonAdapter<Bind<Collection<Any>>>() {
 
-    override fun fromJson(reader: JsonReader): Bind<Collection>? {
+    override fun fromJson(reader: JsonReader): Bind<Collection<Any>>? {
         val expression = reader.peekJson().readJsonValue()
         if (expression != null && expression is String && expression.isExpression()) {
             reader.skipValue()
-            return Bind.Expression(expression, type as Class<Collection>)
+            return Bind.Expression(expression, type as Class<Collection<Any>>)
         }
 
         val value = adapter.fromJson(reader)
@@ -64,7 +64,7 @@ private class BindAdapter(
         }
     }
 
-    override fun toJson(writer: JsonWriter, bind: Bind<Collection>?) {
+    override fun toJson(writer: JsonWriter, bind: Bind<Collection<Any>>?) {
         if (bind != null) {
             if (bind is Bind.Value) {
                 adapter.toJson(writer, bind.value)
