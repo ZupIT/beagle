@@ -17,43 +17,27 @@
 
 import UIKit
 import BeagleSchema
-
-extension TabBarUIComponent {
-    struct Model: AutoInitiable {
+    
+final class TabBarUIComponent: UIView {
+    
+    // MARK: - Model
+    
+    struct Model {
         var tabIndex: Int
         var tabBarItems: [TabBarItem]
         var selectedTextColor: UIColor?
         var unselectedTextColor: UIColor?
         var selectedIconColor: UIColor?
         var unselectedIconColor: UIColor?
-
-// sourcery:inline:auto:TabBarUIComponent.Model.Init
-     init(
-        tabIndex: Int,
-        tabBarItems: [TabBarItem],
-        selectedTextColor: UIColor? = nil,
-        unselectedTextColor: UIColor? = nil,
-        selectedIconColor: UIColor? = nil,
-        unselectedIconColor: UIColor? = nil
-    ) {
-        self.tabIndex = tabIndex
-        self.tabBarItems = tabBarItems
-        self.selectedTextColor = selectedTextColor
-        self.unselectedTextColor = unselectedTextColor
-        self.selectedIconColor = selectedIconColor
-        self.unselectedIconColor = unselectedIconColor
     }
-// sourcery:end
-    }
-}
 
-final class TabBarUIComponent: UIView {
-    
     // MARK: - Properties
     
     private var shouldScrollToCurrentTab = true
     private var shouldAnimateOnCellDisplay = false
     private var containerWidthConstraint: NSLayoutConstraint?
+    private var tabBarPreferedHeight: CGFloat = 65
+    
     var model: Model
     
     var onTabSelection: ((_ tab: Int) -> Void)?
@@ -111,17 +95,17 @@ final class TabBarUIComponent: UIView {
     private func setupLayout() {
         addSubview(collectionView)
         collectionView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor)
-        collectionView.heightAnchor.constraint(lessThanOrEqualToConstant: 65).isActive = true
+        collectionView.heightAnchor.constraint(lessThanOrEqualToConstant: tabBarPreferedHeight).isActive = true
         collectionView.addSubview(containerIndicator)
         collectionView.bringSubviewToFront(containerIndicator.indicatorView)
         
-        containerIndicator.anchor(bottom: collectionView.bottomAnchor, bottomConstant: -65, heightConstant: 3)
+        containerIndicator.anchor(bottom: collectionView.bottomAnchor, bottomConstant: -tabBarPreferedHeight, heightConstant: 3)
         containerWidthConstraint = NSLayoutConstraint(item: containerIndicator.indicatorView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 100)
         containerWidthConstraint?.isActive = true
     }
     
     override func sizeThatFits(_ size: CGSize) -> CGSize {
-        .init(width: size.width, height: 65)
+        .init(width: size.width, height: tabBarPreferedHeight)
     }
 }
 

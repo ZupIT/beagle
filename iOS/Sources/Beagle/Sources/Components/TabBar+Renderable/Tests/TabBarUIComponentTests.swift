@@ -31,44 +31,10 @@ class TabBarUIComponentTests: XCTestCase {
     
     private lazy var sut = TabBarUIComponent(model: model)
     
-    func test_initShouldSetupCollectionView() {
-        // Given / When
-        let collectionView = sut.collectionView
-        XCTAssertNotNil(collectionView.collectionViewLayout)
-    }
-    
-    func test_numberOfItemsInSection_shouldReturnModelItemsCount() {
-        // Given / When
-        let mockedCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        
-        let count = sut.collectionView(mockedCollectionView, numberOfItemsInSection: 1)
-        
-        guard (sut.subviews.first(where: { $0 is UICollectionView }) as? UICollectionView) != nil else {
-            XCTFail("Could not find `collectionView`.")
-            return
-        }
-        
-        // Then
-        XCTAssert(model.tabBarItems.count == count)
-    }
-    
-    func test_cellForItemAt_shouldReturnCorrectCell() {
-        // Given
-        let collectionView = sut.collectionView
-        let indexPath = IndexPath(item: 0, section: 0)
-        
-        // When
-        let cell = sut.collectionView(collectionView, cellForItemAt: indexPath)
-        
-        // Then
-        XCTAssert(cell is TabBarCollectionViewCell)
-        XCTAssert(cell.contentView.subviews.count == 1)
-    }
-    
     func test_didSelectItemAt_shouldCallOnTabSelectionClosure() {
         // Given
         let collectionView = sut.collectionView
-        let index = 2
+        let index = 1
         let indexPath = IndexPath(item: index, section: 0)
         var didCalledOnTabSelection = false
         var passedIndex: Int?
