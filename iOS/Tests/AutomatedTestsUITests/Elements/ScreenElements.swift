@@ -15,9 +15,10 @@ enum ScreenElements: String {
 
         //Button Screen
         case BUTTON_SCREEN_HEADER = "Beagle Button"
-        case BUTTON_DEFAULT_TEXT = "Button"
-        case BUTTON_WITH_STYLE_TEXT = "Button with style"
-        case BUTTON_WITH_APPEARANCE_TEXT = "Button with Appearance"
+        case BUTTON_DEFAULT = "Button"
+        case BUTTON_WITH_STYLE = "Button with style"
+        case BUTTON_WITH_APPEARANCE = "Button with Appearance"
+        case BUTTON_WITH_APPEARANCE_AND_STYLE = "Button with Appearance and style"
         case ACTION_CLICK_HEADER = "Action Click"
         case ACTION_CLICK_TEXT = "You clicked right"
 
@@ -77,7 +78,7 @@ enum ScreenElements: String {
         case .MAIN_HEADER, .BUTTON_SCREEN_HEADER, .ACTION_CLICK_HEADER, .ACTION_CLICK_TEXT, .IMAGE_SCREEN_HEADER, .IMAGE_TEXT_1, .IMAGE_TEXT_2, .IMAGE_TEXT_3, .IMAGE_TEXT_4, .IMAGE_TEXT_5, .TABVIEW_SCREEN_HEADER, .TAB_1, .TAB_2, .TAB_3, .TAB_4, .TAB_1_TEXT, .TAB_2_TEXT, .TAB_3_TEXT, .TAB_4_TEXT, .TAB_1_TEXT_2, .TAB_2_TEXT_2, .TAB_3_TEXT_2, .TAB_4_TEXT_2, .PAGEVIEW_SCREEN_HEADER, .PAGE_1_TEXT, .PAGE_2_TEXT, .PAGE_3_TEXT, .SCROLLVIEW_SCREEN_HEADER, .SCROLLVIEW_TEXT_1, .SCROLLVIEW_TEXT_2, .LISTVIEW_SCREEN_HEADER, .STATIC_LISTVIEW_TEXT_1, .STATIC_LISTVIEW_TEXT_2, .DYNAMIC_LISTVIEW_TEXT_1, .DYNAMIC_LISTVIEW_TEXT_2, .TOUCHABLE_SCREEN_HEADER, .TOUCHABLE_TEXT_1, .TOUCHABLE_TEXT_2, .TOUCHABLE_TEXT_3, .TOUCHABLE_TEXT_4:
             return XCUIApplication().staticTexts[self.rawValue]
 
-        case .BUTTON_DEFAULT_TEXT, .BUTTON_WITH_STYLE_TEXT, .BUTTON_WITH_APPEARANCE_TEXT:
+        case .BUTTON_DEFAULT, .BUTTON_WITH_STYLE, .BUTTON_WITH_APPEARANCE, .BUTTON_WITH_APPEARANCE_AND_STYLE:
             return XCUIApplication().buttons[self.rawValue]
         }
     }

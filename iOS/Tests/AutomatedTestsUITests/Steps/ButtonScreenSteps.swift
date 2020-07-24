@@ -26,17 +26,8 @@ class ButtonScreenSteps: NSObject {
 
         When("I click on button \"([^\\\"]*)\"$") { (args, userInfo) -> Void in
             let button: String = (args?[0])!
-            
             screen.clickOnButton(button: ScreenElements(rawValue: button)!)
         }
-        
-        When("I click on a component with a valid style attribute configured$") { (args, userInfo) -> Void in
-             screen.clickOnButtonWithStyle()
-         }
-        
-        When("I click on a component with a valid action attribute configured$") { (args, userInfo) -> Void in
-            screen.clickOnButtonWithAction()
-         }
 
          Then("all my button components should render their respective text attributes correctly$") { (args, userInfo) -> Void in
             screen.renderTextAttributeCorrectly()

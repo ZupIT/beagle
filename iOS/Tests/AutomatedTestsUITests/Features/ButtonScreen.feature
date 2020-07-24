@@ -20,14 +20,7 @@ Feature: Button Component Validation
     |Button                           |
     |Button with style                |
     |Button with Appearance           |
-#   |Button with Style and Appearance |
-    
-    
-
-#    Scenario: Button 02 - Button component renders action attribute correctly
-#    Given the app will load http://localhost:8080/button
-#    When I click on a component with a valid action attribute configured
-#    Then component should render the action attribute correctly
+    |Button with Appearance and style |
 
 
 # Snapshot Test

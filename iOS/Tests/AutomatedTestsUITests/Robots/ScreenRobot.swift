@@ -16,25 +16,11 @@ public class ScreenRobot {
         XCTAssertTrue(ScreenElements.MAIN_HEADER.element.exists)
     }
     
-    func clickOnButton() {
-        CucumberishInitializer.waitForElementToAppear(ScreenElements.BUTTON_SCREEN_HEADER.element)
-        ScreenElements.BUTTON_DEFAULT_TEXT.element.tap()
-    }
-    
-    func clickOnButtonWithStyle() {
-        CucumberishInitializer.waitForElementToAppear(ScreenElements.BUTTON_SCREEN_HEADER.element)
-        ScreenElements.BUTTON_WITH_STYLE_TEXT.element.tap()
-    }
-    
-    func clickOnButtonWithAction() {
-        CucumberishInitializer.waitForElementToAppear(ScreenElements.BUTTON_SCREEN_HEADER.element)
-        ScreenElements.BUTTON_DEFAULT_TEXT.element.tap()
-    }
-    
     func renderTextAttributeCorrectly() {
-        XCTAssertTrue(ScreenElements.BUTTON_DEFAULT_TEXT.element.exists)
-        XCTAssertTrue(ScreenElements.BUTTON_WITH_STYLE_TEXT.element.exists)
-        XCTAssertTrue(ScreenElements.BUTTON_WITH_APPEARANCE_TEXT.element.exists)
+        XCTAssertTrue(ScreenElements.BUTTON_DEFAULT.element.exists)
+        XCTAssertTrue(ScreenElements.BUTTON_WITH_STYLE.element.exists)
+        XCTAssertTrue(ScreenElements.BUTTON_WITH_APPEARANCE.element.exists)
+        XCTAssertTrue(ScreenElements.BUTTON_WITH_APPEARANCE_AND_STYLE.element.exists)
     }
         
     func renderActionAttributeCorrectly() {
