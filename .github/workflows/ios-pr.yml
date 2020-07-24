@@ -1,0 +1,42 @@
+name: Beagle iOS Pull Request
+
+on:
+    push:
+        branches:
+            - master
+    pull_request:
+        # TODO: remove this path selector when we have more integrated tests
+        paths: 'iOS/**'
+jobs:
+    pr_verification:
+        name: PR Check
+        runs-on: macos-latest
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   name: Cache fastlane dependences
+                uses: actions/cache@v2
+                env:
+                    fastlane-cache-key: fastlane-cache
+                    fastlane-path: ~/.gem
+                with:
+                    path: ${{ env.fastlane-path }}
+                    key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
+            -   name: Install Fastlane
+                run: bundle config set path '~/.gem' && bundle install
+
+            -   name: Cache SPM dependencies
+                uses: actions/cache@v2
+                with:
+                    path: ${{ runner.os }}-spm-${{ hashFiles('iOS/**/Package.resolved') }}
+                    key: ~/**/DerivedData
+
+            -   name: install swiftLint
+                run: brew install swiftlint
+
+            -   name: execute Fastlane
+                env:
+                    GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
+                    GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+                    CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+                run: bundle exec fastlane ios pull_request_verification

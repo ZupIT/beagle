@@ -6,8 +6,8 @@ platform :android do
 
   desc "Pull Request verification"
   lane :pull_request_verification do
-    gradle(task: "detekt lintDebug jacocoTestReport")
-    gradle(task: "android:sample:assembleDebug android:sample:assembleDebugAndroidTest")
+    gradle(project_dir: "android", task: "detekt lintDebug jacocoTestReport")
+    gradle(project_dir: "android", task: "sample:assembleDebug sample:assembleDebugAndroidTest")
     run_codecov(platform: 'android')
   end
 
@@ -75,7 +75,7 @@ lane :deploy do
   ENV["VERSION_DEPLOY"] = last_git_tag
   sh "fastlane common remote_publish"
   sh "fastlane ios release"
-  
+
   sh "bash ./delete_release.sh"
   set_github_release(
     repository_name: "ZupIT/beagle",
@@ -107,15 +107,11 @@ platform :backend do
 
   desc "Pull Request verification"
   lane :pull_request_verification do
-    gradle(task: "detekt")
-    gradle(tasks:
+    gradle(project_dir: "backend", task: "detekt")
+    gradle(project_dir: "backend", tasks:
         [
-            "backend:framework:test",
-            "backend:starters:beagle-micronaut-starter:test",
-            "backend:starters:beagle-spring-starter:test",
-            "backend:sample:micronaut:assemble",
-            "backend:sample:spring:assemble",
-            "backend:processor:test"
+          "assemble",
+          "jacocoTestReport",
         ]
     )
     run_codecov(platform: 'backend')

@@ -33,6 +33,7 @@ import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.utils.toComponent
 import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
@@ -40,7 +41,9 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import kotlinx.android.parcel.Parcelize
 
 sealed class ServerDrivenState {
-    data class Error(val throwable: Throwable) : ServerDrivenState()
+    open class Error(val throwable: Throwable, val retry: BeagleRetry) : ServerDrivenState()
+    class FormError(throwable: Throwable, retry: BeagleRetry) : Error(throwable, retry)
+    class WebViewError(throwable: Throwable, retry: BeagleRetry) : Error(throwable, retry)
     data class Loading(val loading: Boolean) : ServerDrivenState()
 }
 
@@ -167,9 +170,9 @@ abstract class BeagleActivity : AppCompatActivity() {
     private fun handleLiveData(state: LiveData<ViewState>) {
         state.observe(this, Observer {
             when (it) {
-                is ViewState.Error -> onServerDrivenContainerStateChanged(ServerDrivenState.Error(it.throwable))
-                is ViewState.Loading -> onServerDrivenContainerStateChanged(ServerDrivenState.Loading(it.value))
-                is ViewState.DoRender -> showScreen(it.screenId, it.component)
+              is ViewState.Error -> onServerDrivenContainerStateChanged(ServerDrivenState.Error(it.throwable,it.retry))
+              is ViewState.Loading -> onServerDrivenContainerStateChanged(ServerDrivenState.Loading(it.value))
+              is ViewState.DoRender -> showScreen(it.screenId, it.component)
             }
         })
     }

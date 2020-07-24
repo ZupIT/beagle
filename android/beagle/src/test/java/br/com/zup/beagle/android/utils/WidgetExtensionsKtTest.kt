@@ -20,14 +20,16 @@ import androidx.appcompat.app.AppCompatActivity
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.Screen
-import br.com.zup.beagle.android.context.ContextDataManager
+import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.android.view.custom.BeagleFlexView
+import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.core.Style
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
@@ -37,30 +39,51 @@ import kotlin.test.assertEquals
 
 class WidgetExtensionsKtTest : BaseTest() {
 
+    private val component = mockk<ServerDrivenComponent>()
     private val rootView = mockk<ActivityRootView>()
-    private val viewModel = mockk<ScreenContextViewModel>(relaxed = true)
+    private val viewFactoryMock = mockk<ViewFactory>(relaxed = true)
+    private val view = mockk<BeagleFlexView>(relaxed = true)
 
-    private val viewFactoryMock: ViewFactory = mockk(relaxed = true)
+
+    private lateinit var viewModel: ScreenContextViewModel
 
     override fun setUp() {
         super.setUp()
 
         mockkObject(ViewModelProviderFactory)
 
-        every { rootView.activity } returns mockk()
+        viewModel = ScreenContextViewModel()
 
-        every {
-            ViewModelProviderFactory.of(any<AppCompatActivity>())[ScreenContextViewModel::class.java]
-        } returns viewModel
+        every { rootView.activity } returns mockk()
 
         viewFactory = viewFactoryMock
     }
 
     @Test
+    fun observeBindChanges_should_evaluate_binding_from_context_and_implicit_context() {
+        // Given
+        val value = RandomData.string()
+        val bind = expressionOf<String>("Hello @{context}")
+        viewModel.addContext(ContextData(
+            id = "context",
+            value = value
+        ))
+
+        // When
+        component.observeBindChanges(rootView, bind) { evaluated ->
+            // Then
+            val expected = "Hello $value"
+            assertEquals(expected, evaluated)
+        }
+    }
+
+    @Test
     fun toView() {
         // Given
-        val component = mockk<ServerDrivenComponent>()
-        val view = mockk<BeagleFlexView>(relaxed = true)
+        val viewModelMock = mockk<ScreenContextViewModel>(relaxed = true)
+        every {
+            ViewModelProviderFactory.of(any<AppCompatActivity>())[ScreenContextViewModel::class.java]
+        } returns viewModelMock
         every { viewFactory.makeBeagleFlexView(any()) } returns view
         every { rootView.getContext() } returns mockk()
 
@@ -69,7 +92,7 @@ class WidgetExtensionsKtTest : BaseTest() {
 
         // Then
         assertEquals(view, actual)
-        verify(exactly = once()) { viewModel.evaluateContexts() }
+        verify(exactly = once()) { viewModelMock.evaluateContexts() }
     }
 
     @Test

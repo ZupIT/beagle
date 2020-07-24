@@ -22,10 +22,12 @@ import android.view.Gravity
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.TextViewCompat
+import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.widget.core.TextAlignment
 import io.mockk.*
@@ -40,6 +42,7 @@ class BeagleTextViewExtensionsKtTest : BaseComponentTest() {
     private val designSystem: DesignSystem = mockk()
     private val activity: AppCompatActivity = mockk(relaxed = true)
     private val textView: TextView = mockk(relaxed = true)
+    private val styleManager: StyleManager = mockk(relaxed = true)
 
     private val textValueSlot = slot<String>()
     private val textAlignment = slot<Int>()
@@ -52,17 +55,17 @@ class BeagleTextViewExtensionsKtTest : BaseComponentTest() {
         mockkStatic(TextViewCompat::class)
         mockkStatic(Color::class)
 
+        styleManagerFactory = styleManager
+        every { styleManager.getTextStyle(any()) } returns STYLE_RES
+
         every { BeagleEnvironment.beagleSdk.designSystem } returns designSystem
         every { TextViewCompat.setTextAppearance(any(), any()) } just Runs
+        every { anyConstructed<ViewFactory>().makeTextView(any(), STYLE_RES) } returns textView
         every { textView.context } returns activity
         every { textView.text = capture(textValueSlot) } just Runs
         every { textView.gravity = capture(textAlignment) } just Runs
-        every { designSystem.textStyle(any()) } returns STYLE_RES
-        every { designSystem.buttonStyle(any()) } returns STYLE_RES
         every { designSystem.image(any()) } returns IMAGE_RES
-        every { anyConstructed<ViewFactory>().makeTextView(any()) } returns textView
     }
-
 
     @Test
     fun setTextWidget_with_text_should_call_TextViewCompat_setTextAppearance() {
@@ -76,7 +79,6 @@ class BeagleTextViewExtensionsKtTest : BaseComponentTest() {
 
         // Then
         assertEquals(textValue, textValueSlot.captured)
-        verify(exactly = 1) { TextViewCompat.setTextAppearance(textView, STYLE_RES) }
     }
 
     @Test

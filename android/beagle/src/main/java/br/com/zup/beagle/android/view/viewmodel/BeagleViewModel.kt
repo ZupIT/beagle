@@ -23,16 +23,17 @@ import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.data.ComponentRequester
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
+import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.core.ServerDrivenComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Observable
 import java.util.concurrent.atomic.AtomicReference
 import kotlin.coroutines.CoroutineContext
 
 sealed class ViewState {
-    data class Error(val throwable: Throwable) : ViewState()
+    data class Error(val throwable: Throwable, val retry: BeagleRetry) : ViewState()
     data class Loading(val value: Boolean) : ViewState()
     data class DoRender(val screenId: String?, val component: ServerDrivenComponent) : ViewState()
 }
@@ -85,11 +86,12 @@ internal class BeagleViewModel(
         private val screen: ScreenComponent?,
         private val componentRequester: ComponentRequester,
         private val urlObservable: AtomicReference<UrlObservable>,
-        override val coroutineContext: CoroutineContext
-    ) : LiveData<ViewState>(), CoroutineScope {
+        override val coroutineContext: CoroutineContext) : LiveData<ViewState>(), CoroutineScope {
+
+        private val isRenderedReference = AtomicReference(false)
 
         override fun onActive() {
-            if (value == null) {
+            if (isRenderedReference.get().not()) {
                 fetchComponents()
             }
         }
@@ -103,20 +105,25 @@ internal class BeagleViewModel(
                         } else {
                             setLoading(screenRequest.url, true)
                             val component = componentRequester.fetchComponent(screenRequest)
-                            postValue(ViewState.DoRender(screenRequest.url, component))
+                            postLivedataResponse(ViewState.DoRender(screenRequest.url, component))
                         }
                     } catch (exception: BeagleException) {
-                        postValue(if (screen != null) {
-                            ViewState.DoRender(screen.identifier, screen)
+                        if (screen != null) {
+                            postLivedataResponse(ViewState.DoRender(screen.identifier, screen))
                         } else {
-                            ViewState.Error(exception)
-                        })
+                            postLivedataResponse(ViewState.Error(exception) { fetchComponents() })
+                        }
                     }
-                    setLoading(screenRequest.url, false)
                 } else if (screen != null) {
-                    postValue(ViewState.DoRender(screen.identifier, screen))
+                    postLivedataResponse(ViewState.DoRender(screen.identifier, screen))
                 }
             }
+        }
+
+        private fun postLivedataResponse(viewState: ViewState) {
+            postValue(viewState)
+            setLoading(screenRequest.url, false)
+            isRenderedReference.set(true)
         }
 
         private fun setLoading(url: String, loading: Boolean) {

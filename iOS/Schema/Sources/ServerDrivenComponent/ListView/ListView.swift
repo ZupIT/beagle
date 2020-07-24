@@ -30,6 +30,22 @@ public struct ListView: RawComponent, AutoInitiableAndDecodable {
         self.direction = direction
     }
 // sourcery:end
+    
+    public init(
+        direction: Direction = .vertical,
+        @ChildBuilder
+        _ children: () -> RawComponent
+    ) {
+        self.init(children: [children()], direction: direction)
+    }
+    
+    public init(
+        direction: Direction = .vertical,
+        @ChildrenBuilder
+        _ children: () -> [RawComponent]
+    ) {
+        self.init(children: children(), direction: direction)
+    }
 }
 
 extension ListView {

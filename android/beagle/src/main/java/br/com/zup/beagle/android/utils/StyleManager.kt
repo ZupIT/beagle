@@ -28,6 +28,7 @@ import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.TabView
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.utils.applyViewBackgroundAndCorner
+import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.core.StyleComponent
@@ -37,107 +38,42 @@ class StyleManager(
     private val typedValue: TypedValue = TypedValue()
 ) {
 
-    fun applyStyleComponent(
-        context: Context,
-        component: StyleComponent,
-        view: View
-    ) {
+    fun applyStyleComponent(component: StyleComponent, view: View) {
         if (view.background == null) {
             view.applyViewBackgroundAndCorner(Color.TRANSPARENT, component)
         } else when (component) {
-            is Text -> {
-                applyStyleId(context, component.styleId?:"", view, component)
-            }
-            is Button -> {
-                applyStyleId(context, component.styleId?:"", view, component)
-            }
-            is TabView -> {
-                applyStyleId(context, component.styleId?:"", view, component)
-            }
+            is Text -> applyStyleId(view, component)
+            is Button -> applyStyleId(view, component)
+            is TabView -> applyStyleId(view, component)
             else -> {
-                val colorInt = fetchDrawableColor(background = view.background)
+                val colorInt = fetchDrawableColor(view.background)
                 view.applyViewBackgroundAndCorner(colorInt, component)
             }
         }
     }
 
-    private fun applyStyleId(
-        context: Context,
-        buttonStyle: String,
-        view: View,
-        component: StyleComponent
-    ) {
-        val colorInt = fetchDrawableColor(getTypedArray(
-            context,
-            designSystem?.buttonStyle(buttonStyle),
-            R.styleable.BackgroundStyle)
-        )
+    private fun applyStyleId(view: View, component: StyleComponent) {
+        val colorInt = fetchDrawableColor(view.background)
         view.applyViewBackgroundAndCorner(colorInt, component)
     }
+
+    private fun fetchDrawableColor(background: Drawable? = null) = (background as? ColorDrawable)?.color
 
     fun getTypedValueByResId(resId: Int, context: Context): TypedValue {
         context.theme.resolveAttribute(resId, typedValue, true)
         return typedValue
     }
 
-    fun getButtonStyle(styleId: String?): Int? {
-        return designSystem?.buttonStyle(styleId ?: "")
+    fun getTabBarTypedArray(context: Context, styleId: String?): TypedArray {
+        return context.obtainStyledAttributes(getTabViewStyle(styleId), R.styleable.BeagleTabBarStyle)
     }
 
-    fun getInputTextStyle(styleId: String?): Int? {
-        return designSystem?.inputTextStyle(styleId ?: "")
-    }
+    fun getButtonStyle(styleId: String?) = designSystem?.buttonStyle(styleId ?: "") ?: 0
 
-    fun getButtonTypedArray(context: Context, styleId: String?): TypedArray? {
-        val buttonStyle = getButtonStyle(styleId)
-        return getTypedArray(
-            context,
-            buttonStyle,
-            R.styleable.BeagleButtonStyle
-        )
-    }
+    fun getTextStyle(styleId: String?) = designSystem?.textStyle(styleId ?: "") ?: 0
 
-    fun getInputTextTypedArray(context: Context, styleId: String?): TypedArray? {
-        val inputTextStyle = getInputTextStyle(styleId)
-        return getTypedArray(
-            context,
-            inputTextStyle,
-            R.styleable.BeagleInputTextStyle
-        )
-    }
+    fun getInputTextStyle(styleId: String?) = designSystem?.inputTextStyle(styleId ?: "")
+        ?: R.style.Widget_AppCompat_EditText
 
-    fun getTabBarTypedArray(context: Context, styleId: String?): TypedArray? {
-        val tabStyle = designSystem?.tabViewStyle(styleId ?: "")
-        return getTypedArray(
-            context,
-            tabStyle,
-            R.styleable.BeagleTabBarStyle
-        )
-    }
-
-    private fun getTypedArray(
-        context: Context,
-        style: Int?,
-        attrStyles: IntArray
-    ): TypedArray? {
-        var typedArray: TypedArray? = null
-        if (designSystem != null && style != null) {
-            typedArray = context.obtainStyledAttributes(style, attrStyles)
-        }
-
-        return typedArray
-    }
-
-    private fun fetchDrawableColor(
-        typedArray: TypedArray? = null,
-        background: Drawable? = null
-    ): Int? {
-        val drawable =
-            typedArray?.getDrawable(R.styleable.BackgroundStyle_background) ?: background
-        if (drawable is ColorDrawable) {
-            return drawable.color
-        }
-        typedArray?.recycle()
-        return null
-    }
+    fun getTabViewStyle(styleId: String?) = designSystem?.tabViewStyle(styleId ?: "") ?: 0
 }

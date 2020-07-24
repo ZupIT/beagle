@@ -101,7 +101,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.isLoggingEnabled = true
         self.logger = BeagleLoggerProxy(logger: BeagleLoggerDefault(), dependencies: resolver)
 
-        self.decoder = BeagleSchema.DefaultDependencies().decoder
+        self.decoder = BeagleSchema.dependencies.decoder
         self.formDataStoreHandler = FormDataStoreHandler()
         self.windowManager = WindowManagerDefault()
         self.navigation = BeagleNavigator()

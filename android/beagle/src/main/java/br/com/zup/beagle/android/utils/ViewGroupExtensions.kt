@@ -23,8 +23,10 @@ import br.com.zup.beagle.android.components.utils.viewExtensionsViewFactory
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
+import br.com.zup.beagle.android.view.BeagleFragment
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.custom.OnStateChanged
+import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 
 internal var beagleSerializerFactory = BeagleSerializer()
@@ -61,6 +63,7 @@ private fun loadView(
     }
     view.loadCompletedListener = {
         viewGroup.addView(view)
+        rootView.generateViewModelInstance<ScreenContextViewModel>().evaluateContexts()
     }
 }
 
@@ -71,8 +74,7 @@ private fun loadView(
  * @property screenJson that represents your component
  */
 fun ViewGroup.renderScreen(activity: AppCompatActivity, screenJson: String) {
-    removeAllViewsInLayout()
-    addView(beagleSerializerFactory.deserializeComponent(screenJson).toView(activity))
+    this.renderScreen(ActivityRootView(activity), screenJson)
 }
 
 /**
@@ -82,6 +84,17 @@ fun ViewGroup.renderScreen(activity: AppCompatActivity, screenJson: String) {
  * @property screenJson that represents your component
  */
 fun ViewGroup.renderScreen(fragment: Fragment, screenJson: String) {
-    removeAllViewsInLayout()
-    addView(beagleSerializerFactory.deserializeComponent(screenJson).toView(fragment))
+    this.renderScreen(FragmentRootView(fragment), screenJson)
+}
+
+internal fun ViewGroup.renderScreen(rootView: RootView, screenJson: String) {
+    val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
+    viewModel.clearContexts()
+    val component = beagleSerializerFactory.deserializeComponent(screenJson)
+    (rootView.getContext() as AppCompatActivity)
+        .supportFragmentManager
+        .beginTransaction()
+        .replace(this.id, BeagleFragment.newInstance(component))
+        .addToBackStack(null)
+        .commit()
 }

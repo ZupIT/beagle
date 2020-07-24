@@ -21,15 +21,9 @@ import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.mockdata.ComponentModel
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.utils.getExpressions
 import com.squareup.moshi.Moshi
-import io.mockk.Runs
-import io.mockk.called
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkObject
-import io.mockk.unmockkAll
-import io.mockk.verify
+import io.mockk.*
 import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.After
@@ -113,7 +107,7 @@ internal class ContextDataEvaluationTest {
     }
 
     @org.junit.Test
-    fun evaluateContextBindings_should_throw_exception_when_moshi_returns_null() {
+    fun evaluateContextBindings_should_show_error_when_moshi_returns_null() {
         // Given
         val model = mockk<JSONArray>()
         every { jsonPathFinder.find(any(), any()) } returns model
@@ -124,7 +118,7 @@ internal class ContextDataEvaluationTest {
 
         // Then
         assertNull(value)
-        verify(exactly = once()) { BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(any()) }
+        verify(exactly = once()) { BeagleMessageLogs.errorWhenExpressionEvaluateNullValue(any()) }
     }
 
     @Test
@@ -196,4 +190,117 @@ internal class ContextDataEvaluationTest {
         assertNull(value)
         verify(exactly = once()) { BeagleMessageLogs.multipleExpressionsInValueThatIsNotString() }
     }
+
+    @Test
+    fun evaluateAllContext_should_evaluate_empty_string_in_multiple_expressions_with_null_bind_value() {
+        // Given
+        val bind = expressionOf<String>("This is an expression @{$CONTEXT_ID.exp1} and this @{$CONTEXT_ID.exp2}")
+        every { jsonPathFinder.find(any(), any()) } returns null
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(CONTEXT_DATA, bind)
+
+        // Then
+        val expected = "This is an expression  and this "
+        assertEquals(expected, value)
+    }
+
+    @Test
+    fun evaluateAllContext_should_return_null_in_expressions_with_null_bind_value_in_string_type() {
+        // Given
+        val bind = expressionOf<String>("@{$CONTEXT_ID.exp1}")
+        every { jsonPathFinder.find(any(), any()) } returns null
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(CONTEXT_DATA, bind)
+
+        // Then
+        assertNull(value)
+        verify(exactly = once()) { BeagleMessageLogs.errorWhenExpressionEvaluateNullValue(any()) }
+    }
+
+    @Test
+    fun evaluateAllContext_should_return_null_in_expressions_with_null_bind_value_in_JSONArray_type() {
+        // Given
+        val jsonArray = mockk<JSONArray>()
+        every { jsonPathFinder.find(any(), any()) } returns jsonArray
+        every { moshi.adapter<Any>(any<Class<*>>()).fromJson(any<String>()) } returns null
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(CONTEXT_DATA, BIND)
+
+        // Then
+        assertNull(value)
+        verify(exactly = once()) { BeagleMessageLogs.errorWhenExpressionEvaluateNullValue(any()) }
+    }
+
+    @Test
+    fun evaluateAllContext_should_return_null_in_expressions_with_null_bind_value_in_JSONObject_type() {
+        // Given
+        val jsonObject = mockk<JSONObject>()
+        every { jsonPathFinder.find(any(), any()) } returns jsonObject
+        every { moshi.adapter<Any>(any<Class<*>>()).fromJson(any<String>()) } returns null
+
+        // When
+        val value = contextDataEvaluation.evaluateBindExpression(CONTEXT_DATA, BIND)
+
+        // Then
+        assertNull(value)
+        verify(exactly = once()) { BeagleMessageLogs.errorWhenExpressionEvaluateNullValue(any()) }
+    }
+
+    @Test
+    fun evaluateExpressionsForContext_should_set_binding_evaluatedExpressions_value_with_int_when_bind_type_is_int() {
+        //GIVEN
+        val bind = commonMock<Integer>()
+        every { bind.type } returns Integer::class.java
+
+        //WHEN
+        val result = contextDataEvaluation.evaluateBindExpression(
+            contextData = ContextData("context", RandomData.double()),
+            bind = bind
+        )
+        //THEN
+        assert(result is Integer)
+    }
+
+    @Test
+    fun evaluateExpressionsForContext_should_set_binding_evaluatedExpressions_value_with_float_when_bind_type_is_float() {
+        //GIVEN
+        val bind = commonMock<Float>()
+        every { bind.type } returns Float::class.java
+
+        //WHEN
+        val result = contextDataEvaluation.evaluateBindExpression(
+            contextData = ContextData("context", RandomData.double()),
+            bind = bind
+        )
+        //THEN
+        assert(result is Float)
+    }
+
+    @Test
+    fun evaluateExpressionsForContext_should_set_binding_evaluatedExpressions_value_with_double_when_bind_type_is_double() {
+        //GIVEN
+        val bind = commonMock<Double>()
+        every { bind.type } returns Double::class.java
+
+        //WHEN
+        val result = contextDataEvaluation.evaluateBindExpression(
+            contextData = ContextData("context", RandomData.double()),
+            bind = bind
+        )
+        //THEN
+        assert(result is Double)
+    }
+
+    private fun <T>commonMock() : Bind.Expression<T> {
+        mockkStatic("br.com.zup.beagle.android.utils.StringExtensionsKt")
+        val value = "@{context}"
+        val bind: Bind.Expression<T> = mockk(relaxed = true)
+        every { bind.value } returns value
+        every { value.getExpressions() } returns listOf("context")
+        return bind
+    }
+
 }

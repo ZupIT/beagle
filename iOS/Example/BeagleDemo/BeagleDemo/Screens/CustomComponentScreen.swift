@@ -28,25 +28,18 @@ struct CustomComponentScreen: DeeplinkScreen {
     
     var screen: Screen {
         return Screen(
-            navigationBar: NavigationBar(title: "Custom Component"),
-            child: Container(
-                children: [
-                    Text("Here its a custom component\n in this case a Collection View", alignment: Expression.value(.center)),
-                    DSCollection(
-                        dataSource: DSCollectionDataSource(cards: [
-                            DSCollectionDataSource.Card(name: "Pocas", age: 22),
-                            DSCollectionDataSource.Card(name: "Borracha", age: 40),
-                            DSCollectionDataSource.Card(name: "Gotto", age: 42),
-                            DSCollectionDataSource.Card(name: "Tulio", age: 38)
-                        ]),
-                        widgetProperties: .init(
-                            style: Style(
-                                size: Size().width(100%).height(300)
-                            )
-                        )
-                    )
-                ]
-            )
-        )
+        navigationBar: NavigationBar(title: "Custom Component")) {
+            Container(widgetProperties: .init(style: Style(size: Size().width(100%).height(300)))) {
+                Text("Here its a custom component\n in this case a Collection View", alignment: Expression.value(.center))
+                DSCollection(
+                    dataSource: DSCollectionDataSource(cards: [
+                        DSCollectionDataSource.Card(name: "Pocas", age: 22),
+                        DSCollectionDataSource.Card(name: "Borracha", age: 40),
+                        DSCollectionDataSource.Card(name: "Gotto", age: 42),
+                        DSCollectionDataSource.Card(name: "Tulio", age: 38)
+                    ])
+                )
+            }
+        }
     }
 }

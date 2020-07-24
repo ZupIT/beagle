@@ -1,24 +1,44 @@
 name: Beagle Backend Pull Request
 
 on:
-   pull_request:
-     paths:
-        - 'backend/**'
-        - 'common/**'
-        - 'schema/kotlin/**'
-        - 'buildSrc/**'
+    push:
+        branches:
+            - master
+    pull_request:
+        paths:
+            - 'backend/**'
+            - 'common/**'
+            - 'schema/kotlin/**'
+            - 'Gemfile'
 jobs:
     pr-verification:
         name: PR Check
         runs-on: macos-latest
         steps:
-            - uses: actions/checkout@v1
-            - name: Install Fastlane
-              run: bundle install
-            - name: Run pr check
-              env:
-                GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
-                GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
-                CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-              run: bundle exec fastlane backend pull_request_verification
-        
+            -   uses: actions/checkout@v2
+
+            -   name: Cache fastlane dependences
+                uses: actions/cache@v2
+                env:
+                    fastlane-cache-key: fastlane-cache
+                    fastlane-path: ~/.gem
+                with:
+                    path: ${{ env.fastlane-path }}
+                    key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
+            -   name: Install Fastlane
+                run: bundle config set path '~/.gem' && bundle install
+
+            -   name: Cache gradle dependences
+                uses: actions/cache@v2
+                env:
+                    gradle-cache-key: gradle-cache
+                    gradle-path: ~/.gradle
+                with:
+                    path: ${{ env.gradle-path }}
+                    key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('backend/buildSrc/**') }}
+            -   name: Run pr check
+                env:
+                    GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
+                    GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+                    CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+                run: bundle exec fastlane backend pull_request_verification

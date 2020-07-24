@@ -47,4 +47,18 @@ public struct Screen: AutoInitiable, HasContext {
         self.context = context
     }
 // sourcery:end
+    
+    public init(
+        id: String? = nil,
+        style: Style? = nil,
+        safeArea: SafeArea? = nil,
+        navigationBar: NavigationBar? = nil,
+        screenAnalyticsEvent: AnalyticsScreen? = nil,
+        context: Context? = nil,
+        @ChildBuilder
+        _ child: () -> RawComponent
+    ) {
+        self.init(id: id, style: style, safeArea: safeArea, navigationBar: navigationBar, screenAnalyticsEvent: screenAnalyticsEvent, child: child(), context: context)
+    }
+
 }
