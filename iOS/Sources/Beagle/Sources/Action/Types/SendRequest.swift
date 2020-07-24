@@ -32,7 +32,7 @@ extension SendRequest: Action {
             body: data?.get(with: view).asAny()
         )
         let request = Request(url: url, type: .rawRequest(requestData), additionalData: nil)
-        controller.dependencies.networkClient.executeRequest(request, completion: { result in
+        controller.dependencies.networkClient.executeRequest(request) { result in
             
             switch result {
             case .success(let response):
@@ -61,9 +61,8 @@ extension SendRequest: Action {
                     controller.execute(actions: self.onError, with: contextObject, sender: sender)
                     controller.execute(actions: self.onFinish, with: nil, sender: sender)
                 }
-                
             }
-        })
+        }
     }
 }
 

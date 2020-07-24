@@ -130,7 +130,8 @@ class BeagleScreenViewModel {
     ) -> RequestToken? {
         return dependencies.repository.fetchComponent(
             url: remote.url,
-            additionalData: remote.additionalData
+            additionalData: remote.additionalData,
+            useCache: true
         ) {
             completion($0.map { $0.toScreen() })
         }
