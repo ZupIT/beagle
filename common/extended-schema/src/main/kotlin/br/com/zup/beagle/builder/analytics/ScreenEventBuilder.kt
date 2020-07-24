@@ -14,14 +14,22 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.action
+package br.com.zup.beagle.builder.analytics
 
-import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
+import br.com.zup.beagle.analytics.ScreenEvent
+import br.com.zup.beagle.builder.BeagleBuilder
+import kotlin.properties.Delegates
 
-class SubmitForm : Action {
-    class Builder : BeagleWidgetBuilder<SubmitForm> {
-        override fun build() = SubmitForm()
+class ScreenEventBuilder : BeagleBuilder<ScreenEvent> {
+    var screenName: String by Delegates.notNull()
+
+    fun screenName(screenName: String) = this.apply { this.screenName = screenName }
+
+    fun screenName(block: () -> String) {
+        screenName(block.invoke())
     }
+
+    override fun build() = ScreenEvent(screenName)
 }
 
-fun submitForm(block: SubmitForm.Builder.() -> Unit) = SubmitForm.Builder().apply(block).build()
+fun screenEvent(block: ScreenEventBuilder.() -> Unit) = ScreenEventBuilder().apply(block).build()

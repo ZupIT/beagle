@@ -17,7 +17,7 @@
 package br.com.zup.beagle.widget.lazy
 
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.builder.BeagleBuilder
+import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import kotlin.properties.Delegates
 
 /**
@@ -35,7 +35,7 @@ data class LazyComponent(
     val path: String,
     val initialState: ServerDrivenComponent
 ) : ServerDrivenComponent {
-    class Builder : BeagleBuilder<LazyComponent> {
+    class Builder : BeagleWidgetBuilder<LazyComponent> {
         var path: String by Delegates.notNull()
         var initialState: ServerDrivenComponent by Delegates.notNull()
 

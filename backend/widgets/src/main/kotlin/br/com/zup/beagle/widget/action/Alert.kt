@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.widget.action
 
-import br.com.zup.beagle.widget.builder.BeagleBuilder
+import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
@@ -50,7 +50,7 @@ data class Alert(
         labelOk = labelOk
     )
 
-    class Builder : BeagleBuilder<Alert> {
+    class Builder : BeagleWidgetBuilder<Alert> {
         var title: Bind<String>? = null
         var message: Bind<String> by Delegates.notNull()
         var onPressOk: Action? = null

@@ -16,10 +16,10 @@
 
 package br.com.zup.beagle.widget.form
 
+import br.com.zup.beagle.builder.BeagleListBuilder
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.action.Action
-import br.com.zup.beagle.widget.builder.BeagleBuilder
-import br.com.zup.beagle.widget.builder.BeagleListBuilder
+import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.ContextData
 import kotlin.properties.Delegates
 
@@ -38,7 +38,7 @@ class SimpleForm(
     val onSubmit: List<Action>,
     val children: List<ServerDrivenComponent>
 ) : ServerDrivenComponent {
-    class Builder : BeagleBuilder<SimpleForm> {
+    class Builder : BeagleWidgetBuilder<SimpleForm> {
         var context: ContextData by Delegates.notNull()
         var onSubmit: MutableList<Action> by Delegates.notNull()
         var children: MutableList<ServerDrivenComponent> by Delegates.notNull()

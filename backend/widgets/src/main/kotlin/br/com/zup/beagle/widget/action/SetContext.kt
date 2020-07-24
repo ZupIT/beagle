@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.widget.action
 
-import br.com.zup.beagle.widget.builder.BeagleBuilder
+import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import kotlin.properties.Delegates
 
 data class SetContext(
@@ -24,7 +24,7 @@ data class SetContext(
     val value: Any,
     val path: String? = null
 ) : Action {
-    class Builder : BeagleBuilder<SetContext> {
+    class Builder : BeagleWidgetBuilder<SetContext> {
         var contextId: String by Delegates.notNull()
         var value: Any by Delegates.notNull()
         var path: String? = null

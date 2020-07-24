@@ -15,8 +15,8 @@
  */
 package br.com.zup.beagle.widget.action
 
-import br.com.zup.beagle.widget.builder.BeagleBuilder
-import br.com.zup.beagle.widget.builder.BeagleMapBuilder
+import br.com.zup.beagle.builder.BeagleMapBuilder
+import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.layout.Screen
 import kotlin.properties.Delegates
 
@@ -34,7 +34,7 @@ sealed class Route {
      */
     data class Remote(val url: String, val shouldPrefetch: Boolean = false, val fallback: Screen? = null) : Route() {
 
-        class Builder : BeagleBuilder<Remote> {
+        class Builder : BeagleWidgetBuilder<Remote> {
 
             var url: String by Delegates.notNull()
             var shouldPrefetch: Boolean = false
@@ -69,7 +69,7 @@ sealed class Route {
      * @param screen screen to be rendered.
      */
     data class Local(val screen: Screen) : Route() {
-        class Builder : BeagleBuilder<Local> {
+        class Builder : BeagleWidgetBuilder<Local> {
             var screen: Screen by Delegates.notNull()
 
             fun screen(screen: Screen) = this.apply { this.screen = screen }
@@ -111,7 +111,7 @@ sealed class Navigate : Action {
      * @param url defined route to be shown.
      */
     data class OpenExternalURL(val url: String) : Navigate() {
-        class Builder : BeagleBuilder<OpenExternalURL> {
+        class Builder : BeagleWidgetBuilder<OpenExternalURL> {
             var url: String by Delegates.notNull()
 
             fun url(url: String) = this.apply { this.url = url }
@@ -135,7 +135,7 @@ sealed class Navigate : Action {
     class OpenNativeRoute(val route: String,
                           val shouldResetApplication: Boolean = false,
                           val data: Map<String, String>? = null) : Navigate() {
-        class Builder : BeagleBuilder<OpenNativeRoute> {
+        class Builder : BeagleWidgetBuilder<OpenNativeRoute> {
             var route: String by Delegates.notNull()
             var shouldResetApplication: Boolean = false
             var data: MutableMap<String, String>? = null
@@ -171,7 +171,7 @@ sealed class Navigate : Action {
      * This attribute basically has the same functionality as PushView but starting a new flow instead.
      */
     data class PushStack(val route: Route) : Navigate() {
-        class Builder : BeagleBuilder<PushStack> {
+        class Builder : BeagleWidgetBuilder<PushStack> {
             var route: Route by Delegates.notNull()
 
             fun route(route: Route) = this.apply { this.route = route }
@@ -189,7 +189,7 @@ sealed class Navigate : Action {
      * This action closes the current view stack.
      */
     class PopStack : Navigate() {
-        class Builder : BeagleBuilder<PopStack> {
+        class Builder : BeagleWidgetBuilder<PopStack> {
             override fun build() = PopStack()
         }
     }
@@ -200,7 +200,7 @@ sealed class Navigate : Action {
      * This screen will also be stacked at the top of the hierarchy of views in the application flow.
      */
     data class PushView(val route: Route) : Navigate() {
-        class Builder : BeagleBuilder<PushView> {
+        class Builder : BeagleWidgetBuilder<PushView> {
             var route: Route by Delegates.notNull()
 
             fun route(route: Route) = this.apply { this.route = route }
@@ -218,7 +218,7 @@ sealed class Navigate : Action {
      * Action that closes the current view.
      */
     class PopView : Navigate() {
-        class Builder : BeagleBuilder<PopView> {
+        class Builder : BeagleWidgetBuilder<PopView> {
             override fun build() = PopView()
         }
     }
@@ -227,7 +227,7 @@ sealed class Navigate : Action {
      * It is responsible for returning the stack of screens in the application flow to a specific screen.
      */
     data class PopToView(val route: String) : Navigate() {
-        class Builder : BeagleBuilder<PopToView> {
+        class Builder : BeagleWidgetBuilder<PopToView> {
             var route: String by Delegates.notNull()
 
             fun route(route: String) = this.apply { this.route = route }
@@ -245,7 +245,7 @@ sealed class Navigate : Action {
      * from a new flow and clears clears the view stack for the entire application.
      */
     data class ResetApplication(val route: Route) : Navigate() {
-        class Builder : BeagleBuilder<ResetApplication> {
+        class Builder : BeagleWidgetBuilder<ResetApplication> {
             var route: Route by Delegates.notNull()
 
             fun route(route: Route) = this.apply { this.route = route }
@@ -264,7 +264,7 @@ sealed class Navigate : Action {
      * from a new flow and clears the stack of previously loaded screens.
      */
     data class ResetStack(val route: Route) : Navigate() {
-        class Builder : BeagleBuilder<ResetStack> {
+        class Builder : BeagleWidgetBuilder<ResetStack> {
             var route: Route by Delegates.notNull()
 
             fun route(route: Route) = this.apply { this.route = route }

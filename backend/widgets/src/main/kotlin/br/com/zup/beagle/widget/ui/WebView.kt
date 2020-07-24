@@ -17,7 +17,7 @@
 package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.builder.BeagleBuilder
+import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import kotlin.properties.Delegates
@@ -36,7 +36,7 @@ data class WebView(
 ) : Widget() {
     constructor(url: String) : this(valueOf(url))
 
-    class Builder : BeagleBuilder<WebView> {
+    class Builder : BeagleWidgetBuilder<WebView> {
         var url: Bind<String> by Delegates.notNull()
 
         fun url(url: Bind<String>) = this.apply { this.url = url }

@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.widget.ui
 
+import br.com.zup.beagle.builder.BeagleListBuilder
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.builder.BeagleBuilder
-import br.com.zup.beagle.widget.builder.BeagleListBuilder
+import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.core.ListDirection
 import kotlin.properties.Delegates
 
@@ -36,7 +36,7 @@ data class ListView(
 ) : ServerDrivenComponent {
     companion object
 
-    class Builder : BeagleBuilder<ListView> {
+    class Builder : BeagleWidgetBuilder<ListView> {
         var children: MutableList<ServerDrivenComponent> by Delegates.notNull()
         var direction: ListDirection = ListDirection.VERTICAL
 

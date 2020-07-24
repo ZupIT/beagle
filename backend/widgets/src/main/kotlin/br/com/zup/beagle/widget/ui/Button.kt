@@ -18,10 +18,11 @@ package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.TouchableAnalytics
+import br.com.zup.beagle.builder.BeagleListBuilder
+import br.com.zup.beagle.builder.analytics.ClickEventBuilder
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.action.Action
-import br.com.zup.beagle.widget.builder.BeagleBuilder
-import br.com.zup.beagle.widget.builder.BeagleListBuilder
+import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import kotlin.properties.Delegates
@@ -53,7 +54,7 @@ data class Button(
         clickAnalyticsEvent
     )
 
-    class Builder : BeagleBuilder<Button> {
+    class Builder : BeagleWidgetBuilder<Button> {
         var text: Bind<String> by Delegates.notNull()
         var styleId: String? = null
         var onPress: MutableList<Action>? = null
@@ -77,8 +78,8 @@ data class Button(
             onPress(BeagleListBuilder<Action>().apply(block).buildNullable())
         }
 
-        fun clickAnalyticsEvent(block: () -> ClickEvent?) {
-            clickAnalyticsEvent(block.invoke())
+        fun clickAnalyticsEvent(block: ClickEventBuilder.() -> Unit) {
+            clickAnalyticsEvent(ClickEventBuilder().apply(block).build())
         }
 
         override fun build() = Button(

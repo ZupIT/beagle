@@ -17,7 +17,7 @@
 package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.builder.BeagleBuilder
+import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.core.ImageContentMode
@@ -32,7 +32,7 @@ import kotlin.properties.Delegates
 data class Image(val path: Bind<ImagePath>, val mode: ImageContentMode? = null) : Widget() {
     constructor(path: ImagePath, mode: ImageContentMode? = null) : this(valueOf(path), mode)
 
-    class Builder : BeagleBuilder<Image> {
+    class Builder : BeagleWidgetBuilder<Image> {
         var path: Bind<ImagePath> by Delegates.notNull()
         var mode: ImageContentMode? = null
 
@@ -74,7 +74,7 @@ sealed class ImagePath(val url: String?, val placeholder: Local? = null) {
             fun justWeb(webUrl: String) = Local(webUrl, null)
         }
 
-        class Builder : BeagleBuilder<Local> {
+        class Builder : BeagleWidgetBuilder<Local> {
             var webUrl: String? = null
             var mobileId: String? = null
 
@@ -100,7 +100,7 @@ sealed class ImagePath(val url: String?, val placeholder: Local? = null) {
      * @param placeholder reference an image natively in your mobile app local styles file to be used as placeholder.
      * */
     class Remote(remoteUrl: String, placeholder: Local? = null) : ImagePath(remoteUrl, placeholder) {
-        class Builder : BeagleBuilder<Remote> {
+        class Builder : BeagleWidgetBuilder<Remote> {
             var remoteUrl: String by Delegates.notNull()
             var placeholder: Local? = null
 

@@ -17,7 +17,7 @@
 package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.builder.BeagleBuilder
+import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
@@ -53,7 +53,7 @@ data class Text(
         alignment = valueOfNullable(alignment)
     )
 
-    class Builder : BeagleBuilder<Text> {
+    class Builder : BeagleWidgetBuilder<Text> {
         var text: Bind<String> by Delegates.notNull()
         var styleId: String? = null
         var textColor: Bind<String>? = null

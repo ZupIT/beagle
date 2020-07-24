@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.widget.expression
 
-import br.com.zup.beagle.widget.builder.BeagleBuilder
+import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import kotlin.properties.Delegates
 
 sealed class ExpressionHelper<T>(private val intermediate: String) {
@@ -34,7 +34,7 @@ sealed class ExpressionHelper<T>(private val intermediate: String) {
 
     class Start<O>(initialMember: String) :
         ExpressionHelper<O>("$START$initialMember") {
-        class Builder<O> : BeagleBuilder<Start<O>> {
+        class Builder<O> : BeagleWidgetBuilder<Start<O>> {
             var initialMember: String by Delegates.notNull()
 
             fun initialMember(initialMember: String) = this.apply { this.initialMember = initialMember }

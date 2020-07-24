@@ -16,14 +16,14 @@
 
 package br.com.zup.beagle.widget.context
 
-import br.com.zup.beagle.widget.builder.BeagleBuilder
+import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import kotlin.properties.Delegates
 
 data class ContextData(
     val id: String,
     val value: Any
 ) {
-    class Builder : BeagleBuilder<ContextData> {
+    class Builder : BeagleWidgetBuilder<ContextData> {
         var id: String by Delegates.notNull()
         var value: Any by Delegates.notNull()
 

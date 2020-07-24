@@ -16,10 +16,10 @@
 
 package br.com.zup.beagle.widget.layout
 
+import br.com.zup.beagle.builder.BeagleListBuilder
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.action.Action
-import br.com.zup.beagle.widget.builder.BeagleBuilder
-import br.com.zup.beagle.widget.builder.BeagleListBuilder
+import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.ContextComponent
 import br.com.zup.beagle.widget.context.ContextData
@@ -70,7 +70,7 @@ data class PageView(
         currentPage
     )
 
-    class Builder : BeagleBuilder<PageView> {
+    class Builder : BeagleWidgetBuilder<PageView> {
         var children: MutableList<ServerDrivenComponent> by Delegates.notNull()
         var context: ContextData? = null
         var onPageChange: MutableList<Action>? = null

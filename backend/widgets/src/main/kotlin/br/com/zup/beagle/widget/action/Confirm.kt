@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.widget.action
 
-import br.com.zup.beagle.widget.builder.BeagleBuilder
+import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
@@ -58,7 +58,7 @@ data class Confirm(
     )
 
     @Suppress("TooManyFunctions")
-    class Builder : BeagleBuilder<Confirm> {
+    class Builder : BeagleWidgetBuilder<Confirm> {
         var title: Bind<String>? = null
         var message: Bind<String> by Delegates.notNull()
         var onPressOk: Action? = null

@@ -15,9 +15,9 @@
  */
 package br.com.zup.beagle.widget.ui
 
+import br.com.zup.beagle.builder.BeagleListBuilder
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.builder.BeagleBuilder
-import br.com.zup.beagle.widget.builder.BeagleListBuilder
+import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.ContextComponent
 import br.com.zup.beagle.widget.context.ContextData
 import kotlin.properties.Delegates
@@ -35,7 +35,7 @@ data class TabView(
     val styleId: String? = null,
     override val context: ContextData? = null
 ) : ServerDrivenComponent, ContextComponent {
-    class Builder : BeagleBuilder<TabView> {
+    class Builder : BeagleWidgetBuilder<TabView> {
         var children: MutableList<TabItem> by Delegates.notNull()
         var styleId: String? = null
         var context: ContextData? = null
@@ -83,7 +83,7 @@ data class TabItem(
     val child: ServerDrivenComponent,
     val icon: ImagePath.Local? = null
 ) {
-    class Builder : BeagleBuilder<TabItem> {
+    class Builder : BeagleWidgetBuilder<TabItem> {
         var title: String? = null
         var child: ServerDrivenComponent by Delegates.notNull()
         var icon: ImagePath.Local? = null

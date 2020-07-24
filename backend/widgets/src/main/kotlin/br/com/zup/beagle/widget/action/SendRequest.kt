@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.widget.action
 
-import br.com.zup.beagle.widget.builder.BeagleBuilder
-import br.com.zup.beagle.widget.builder.BeagleListBuilder
+import br.com.zup.beagle.builder.BeagleListBuilder
+import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.Bind
 import kotlin.properties.Delegates
 
@@ -49,7 +49,7 @@ data class SendRequest(
     )
 
     @Suppress("TooManyFunctions")
-    class Builder : BeagleBuilder<SendRequest> {
+    class Builder : BeagleWidgetBuilder<SendRequest> {
         var url: Bind<String> by Delegates.notNull()
         var method: Bind<RequestActionMethod> = Bind.Value(RequestActionMethod.GET)
         var headers: Bind<Map<String, String>>? = null

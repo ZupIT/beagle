@@ -16,11 +16,11 @@
 
 package br.com.zup.beagle.widget.layout
 
+import br.com.zup.beagle.builder.BeagleListBuilder
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.action.Action
-import br.com.zup.beagle.widget.builder.BeagleBuilder
-import br.com.zup.beagle.widget.builder.BeagleListBuilder
+import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.ContextComponent
 import br.com.zup.beagle.widget.context.ContextData
 import kotlin.properties.Delegates
@@ -36,7 +36,7 @@ data class Container(
     override val context: ContextData? = null,
     val onInit: List<Action>? = null
 ) : Widget(), ContextComponent {
-    class Builder : BeagleBuilder<Container> {
+    class Builder : BeagleWidgetBuilder<Container> {
         var children: MutableList<ServerDrivenComponent> by Delegates.notNull()
         var context: ContextData? = null
         var onInit: MutableList<Action>? = null

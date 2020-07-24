@@ -18,13 +18,16 @@ package br.com.zup.beagle.widget.layout
 
 import br.com.zup.beagle.analytics.ScreenAnalytics
 import br.com.zup.beagle.analytics.ScreenEvent
+import br.com.zup.beagle.builder.BeagleListBuilder
+import br.com.zup.beagle.builder.analytics.ScreenEventBuilder
+import br.com.zup.beagle.builder.core.AccessibilityBuilder
+import br.com.zup.beagle.builder.core.StyleBuilder
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.action.Action
-import br.com.zup.beagle.widget.builder.BeagleBuilder
-import br.com.zup.beagle.widget.builder.BeagleListBuilder
+import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.ContextComponent
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.ui.ImagePath
@@ -48,7 +51,7 @@ data class SafeArea(
     val bottom: Boolean? = null,
     val trailing: Boolean? = null
 ) {
-    class Builder : BeagleBuilder<SafeArea> {
+    class Builder : BeagleWidgetBuilder<SafeArea> {
         var top: Boolean? = null
         var leading: Boolean? = null
         var bottom: Boolean? = null
@@ -106,7 +109,7 @@ data class NavigationBarItem(
 ) : IdentifierComponent {
     override var id: String? = null
 
-    class Builder : BeagleBuilder<NavigationBarItem> {
+    class Builder : BeagleWidgetBuilder<NavigationBarItem> {
         var text: String by Delegates.notNull()
         var image: ImagePath.Local? = null
         var action: Action by Delegates.notNull()
@@ -129,8 +132,8 @@ data class NavigationBarItem(
             action(block.invoke())
         }
 
-        fun accessibility(block: () -> Accessibility?) {
-            accessibility(block.invoke())
+        fun accessibility(block: AccessibilityBuilder.() -> Unit) {
+            accessibility(AccessibilityBuilder().apply(block).build())
         }
 
         override fun build() = NavigationBarItem(
@@ -167,7 +170,7 @@ data class NavigationBar(
 ) {
 
     @Suppress("TooManyFunctions")
-    class Builder : BeagleBuilder<NavigationBar> {
+    class Builder : BeagleWidgetBuilder<NavigationBar> {
         var title: String by Delegates.notNull()
         var showBackButton: Boolean = true
         var styleId: String? = null
@@ -198,8 +201,8 @@ data class NavigationBar(
             navigationBarItems(BeagleListBuilder<NavigationBarItem>().apply(block).buildNullable())
         }
 
-        fun backButtonAccessibility(block: () -> Accessibility?) {
-            backButtonAccessibility(block.invoke())
+        fun backButtonAccessibility(block: AccessibilityBuilder.() -> Unit) {
+            backButtonAccessibility(AccessibilityBuilder().apply(block).build())
         }
 
         override fun build() = NavigationBar(
@@ -251,7 +254,7 @@ data class Screen(
 ) : ScreenAnalytics, ContextComponent {
 
     @Suppress("TooManyFunctions")
-    class Builder : BeagleBuilder<Screen> {
+    class Builder : BeagleWidgetBuilder<Screen> {
         var identifier: String? = null
         var safeArea: SafeArea? = null
         var navigationBar: NavigationBar? = null
@@ -285,12 +288,12 @@ data class Screen(
             child(block.invoke())
         }
 
-        fun style(block: () -> Style?) {
-            style(block.invoke())
+        fun style(block: StyleBuilder.() -> Unit) {
+            style(StyleBuilder().apply(block).build())
         }
 
-        fun screenAnalyticsEvent(block: () -> ScreenEvent?) {
-            screenAnalyticsEvent(block.invoke())
+        fun screenAnalyticsEvent(block: ScreenEventBuilder.() -> Unit) {
+            screenAnalyticsEvent(ScreenEventBuilder().apply(block).build())
         }
 
         fun context(block: ContextData.Builder.() -> Unit) {

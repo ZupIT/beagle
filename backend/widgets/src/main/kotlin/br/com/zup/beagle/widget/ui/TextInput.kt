@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.widget.ui
 
+import br.com.zup.beagle.builder.BeagleListBuilder
 import br.com.zup.beagle.widget.action.Action
-import br.com.zup.beagle.widget.builder.BeagleBuilder
-import br.com.zup.beagle.widget.builder.BeagleListBuilder
+import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOfNullable
 import br.com.zup.beagle.widget.core.TextInputType
@@ -61,7 +61,7 @@ data class TextInput(
     )
 
     @Suppress("TooManyFunctions")
-    class Builder : BeagleBuilder<TextInput> {
+    class Builder : BeagleWidgetBuilder<TextInput> {
         var value: Bind<String>? = null
         var placeholder: Bind<String>? = null
         var disabled: Bind<Boolean>? = null

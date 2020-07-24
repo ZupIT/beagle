@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.widget.expression
 
-import br.com.zup.beagle.widget.builder.BeagleBuilder
+import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.expression.ExpressionHelper.Companion.access
 import kotlin.properties.Delegates
 
@@ -25,7 +25,7 @@ class BeagleIterableSubExpression<T, out N>(
     private val createNext: (ExpressionHelper<T>) -> N
 ) {
     operator fun get(index: Int) = this.createNext(this.expression.access(index))
-    class Builder<T, N> : BeagleBuilder<BeagleIterableSubExpression<T, N>> {
+    class Builder<T, N> : BeagleWidgetBuilder<BeagleIterableSubExpression<T, N>> {
         var expression: ExpressionHelper<out Iterable<T>> by Delegates.notNull()
         var createNext: (ExpressionHelper<T>) -> N by Delegates.notNull()
 

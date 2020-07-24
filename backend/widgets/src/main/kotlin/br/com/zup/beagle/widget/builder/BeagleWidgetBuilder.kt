@@ -14,14 +14,11 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.action
+package br.com.zup.beagle.widget.builder
 
-import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
+import br.com.zup.beagle.builder.BeagleBuilder
+import br.com.zup.beagle.widget.context.valueOf
 
-class SubmitForm : Action {
-    class Builder : BeagleWidgetBuilder<SubmitForm> {
-        override fun build() = SubmitForm()
-    }
+interface BeagleWidgetBuilder<T> : BeagleBuilder<T> {
+    operator fun <F : Any> F.unaryMinus() = valueOf(this)
 }
-
-fun submitForm(block: SubmitForm.Builder.() -> Unit) = SubmitForm.Builder().apply(block).build()

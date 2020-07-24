@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.widget.layout
 
+import br.com.zup.beagle.builder.BeagleListBuilder
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.builder.BeagleBuilder
-import br.com.zup.beagle.widget.builder.BeagleListBuilder
+import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.ContextComponent
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.core.ScrollAxis
@@ -38,7 +38,7 @@ data class ScrollView(
     val scrollBarEnabled: Boolean? = null,
     override val context: ContextData? = null
 ) : ServerDrivenComponent, ContextComponent {
-    class Builder : BeagleBuilder<ScrollView> {
+    class Builder : BeagleWidgetBuilder<ScrollView> {
         var children: MutableList<ServerDrivenComponent> by Delegates.notNull()
         var scrollDirection: ScrollAxis? = null
         var scrollBarEnabled: Boolean? = null

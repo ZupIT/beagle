@@ -14,28 +14,25 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.builder
-
-import br.com.zup.beagle.widget.context.valueOf
+package br.com.zup.beagle.builder
 
 @DslMarker
 annotation class BeagleDsl
 
 @BeagleDsl
 interface BeagleBuilder<T> {
-    operator fun <F : Any> F.unaryMinus() = valueOf(this)
 
     fun <F> listBuilder(block: BeagleListBuilder<F>.() -> Unit)
-        = BeagleListBuilder<F>().apply(block).build()
+            = BeagleListBuilder<F>().apply(block).build()
 
     fun <F> listBuilderNullable(block: BeagleListBuilder<F>.() -> Unit)
-        = BeagleListBuilder<F>().apply(block).buildNullable()
+            = BeagleListBuilder<F>().apply(block).buildNullable()
 
     fun <K : Any, F> mapBuilder(block: BeagleMapBuilder<K, F>.() -> Unit)
-        = BeagleMapBuilder<K, F>().apply(block).build()
+            = BeagleMapBuilder<K, F>().apply(block).build()
 
     fun <K : Any, F> mapBuilderNullable(block: BeagleMapBuilder<K, F>.() -> Unit)
-        = BeagleMapBuilder<K, F>().apply(block).buildNullable()
+            = BeagleMapBuilder<K, F>().apply(block).buildNullable()
 
     fun build(): T
 }

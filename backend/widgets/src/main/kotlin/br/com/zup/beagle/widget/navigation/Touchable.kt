@@ -18,11 +18,12 @@ package br.com.zup.beagle.widget.navigation
 
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.TouchableAnalytics
+import br.com.zup.beagle.builder.BeagleListBuilder
+import br.com.zup.beagle.builder.analytics.ClickEventBuilder
 import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.action.Action
-import br.com.zup.beagle.widget.builder.BeagleBuilder
-import br.com.zup.beagle.widget.builder.BeagleListBuilder
+import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import kotlin.properties.Delegates
 
 /**
@@ -38,7 +39,7 @@ data class Touchable(
     override val child: ServerDrivenComponent,
     override val clickAnalyticsEvent: ClickEvent? = null
 ) : ServerDrivenComponent, GhostComponent, TouchableAnalytics {
-    class Builder : BeagleBuilder<Touchable> {
+    class Builder : BeagleWidgetBuilder<Touchable> {
         var onPress: MutableList<Action> by Delegates.notNull()
         var child: ServerDrivenComponent by Delegates.notNull()
         var clickAnalyticsEvent: ClickEvent? = null
@@ -56,8 +57,8 @@ data class Touchable(
             child(block.invoke())
         }
 
-        fun clickAnalyticsEvent(block: () -> ClickEvent?) {
-            clickAnalyticsEvent(block.invoke())
+        fun clickAnalyticsEvent(block: ClickEventBuilder.() -> Unit) {
+            clickAnalyticsEvent(ClickEventBuilder().apply(block).build())
         }
 
         override fun build() = Touchable(

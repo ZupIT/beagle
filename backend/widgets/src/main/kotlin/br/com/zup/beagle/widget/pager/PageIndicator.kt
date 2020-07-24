@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.widget.pager
 
-import br.com.zup.beagle.widget.builder.BeagleBuilder
+import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.Bind
 import kotlin.properties.Delegates
 
@@ -33,7 +33,7 @@ data class PageIndicator(
     var numberOfPages: Int? = null,
     var currentPage: Bind<Int>? = null
 ) : PageIndicatorComponent {
-    class Builder : BeagleBuilder<PageIndicator> {
+    class Builder : BeagleWidgetBuilder<PageIndicator> {
         var selectedColor: String by Delegates.notNull()
         var unselectedColor: String by Delegates.notNull()
         var numberOfPages: Int? = null
