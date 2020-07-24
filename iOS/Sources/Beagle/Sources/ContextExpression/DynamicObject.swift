@@ -80,7 +80,7 @@ extension DynamicObject: ExpressibleByStringLiteral {
         } else if let expression = MultipleExpression(rawValue: value) {
             self = .expression(.multiple(expression))
         } else {
-            self = .string(value)
+            self = .string(value.escapeExpressions())
         }
     }
 }

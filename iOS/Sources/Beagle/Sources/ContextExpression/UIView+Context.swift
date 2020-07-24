@@ -77,7 +77,8 @@ extension UIView {
             let value: T? = self.transform(dynamicObject)
             completion(value)
         }
-        configBinding(with: context, completion: closure)
+        let contextObserver = ContextObserver(onContextChange: closure)
+        context.addObserver(contextObserver)
         closure(context.value)
     }
     
@@ -94,10 +95,12 @@ extension UIView {
         expression.nodes.forEach {
             if case let .expression(single) = $0 {
                 guard let context = getContext(with: single.context) else { return }
-                configBinding(with: context) { _ in
+                let closure: (Context) -> Void = { _ in
                     let value: T? = self.evaluate(for: expression, contextId: single.context)
                     completion(value)
                 }
+                let contextObserver = ContextObserver(onContextChange: closure)
+                context.addObserver(contextObserver)
             }
         }
         let value: T? = self.evaluate(for: expression)
@@ -151,11 +154,6 @@ extension UIView {
     
     // MARK: Private
     
-    private func configBinding(with context: Observable<Context>, completion: @escaping (Context) -> Void) {
-        let contextObserver = ContextObserver(onContextChange: completion)
-        context.addObserver(contextObserver)
-    }
-    
     private func transform<T: Decodable>(_ dynamicObject: DynamicObject) -> T? {
         let encoder = JSONEncoder()
         let decoder = JSONDecoder()
@@ -172,14 +170,4 @@ extension UIView {
         }
     }
     
-}
-
-private extension Dictionary where Key == String, Value == Observable<Context> {
-    subscript(context: String?) -> Observable<Context>? {
-        guard let id = context else {
-            return self.first?.value
-        }
-        
-        return self[id]
-    }
 }

@@ -108,20 +108,24 @@ let singleExpression: Parser<SingleExpression> = zip(
 
 // MARK: Multiple Expression
 
-let stringNode: Parser<MultipleExpression.Node> = prefix(with: "[^@]+").map { .string($0) }
+let stringNode: Parser<MultipleExpression.Node> = prefix(with: "(\\\\\\\\|\\\\@|[^\\@]|\\@(?!\\{))+").map { .string($0) }
 let expressionNode: Parser<MultipleExpression.Node> = singleExpression.map { .expression($0) }
 
 let multipleExpression: Parser<MultipleExpression> = zeroOrMore(
     oneOf([stringNode, expressionNode]), separatedBy: literal("")
 ).flatMap { array in
+    var result: [MultipleExpression.Node] = []
     var hasExpression = false
     for node in array {
-        if case .expression = node {
+        if case var .string(string) = node {
+            result.append(.string(string.escapeExpressions()))
+        } else {
             hasExpression = true
+            result.append(node)
         }
     }
-    guard hasExpression, array.count > 1 else { return .never }
-    return always(MultipleExpression(nodes: array))
+    guard hasExpression else { return .never }
+    return always(MultipleExpression(nodes: result))
 }
 
 // MARK: High Order Functions
