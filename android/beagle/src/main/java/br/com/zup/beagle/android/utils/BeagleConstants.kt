@@ -20,6 +20,9 @@ object BeagleConstants {
     val EXPRESSION_REGEX = "@\\{([^)]+)\\}".toRegex()
     const val DEPRECATED_PAGE_VIEW =
         "This constructor will be removed in a future version, use the constructor with Bind"
+    const val DEPRECATED_TAB_VIEW =
+        "Since version 1.1. Will be deleted in version 2.0. " +
+            "Consider replacing this component for a tabBar with a pageview."
 }
 
 object HandleEventDeprecatedConstants {
