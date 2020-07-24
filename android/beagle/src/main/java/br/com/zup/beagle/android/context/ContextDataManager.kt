@@ -58,10 +58,12 @@ internal class ContextDataManager(
     }
 
     fun <T> addBinding(view: View, bind: Bind.Expression<T>, observer: Observer<T>) {
-        viewBinding[view]?.add(Binding(
+        val bindings: MutableSet<Binding<*>> = viewBinding[view] ?: mutableSetOf()
+        bindings.add(Binding(
             observer = observer,
             bind = bind
         ))
+        viewBinding[view] = bindings
     }
 
     fun discoverAllContexts() {
@@ -137,7 +139,11 @@ internal class ContextDataManager(
         val bindings = contextBinding.bindings
 
         bindings.forEach { binding ->
-            val value = contextDataEvaluation.evaluateBindExpression(contextData, binding.bind, binding.evaluatedExpressions)
+            val value = contextDataEvaluation.evaluateBindExpression(
+                contextData,
+                binding.bind,
+                binding.evaluatedExpressions
+            )
             binding.notifyChanges(value)
         }
     }

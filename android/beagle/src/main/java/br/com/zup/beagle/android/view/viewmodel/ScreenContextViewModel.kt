@@ -25,6 +25,7 @@ import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.ContextDataEvaluation
 import br.com.zup.beagle.android.context.ContextDataManager
 import br.com.zup.beagle.android.utils.Observer
+import java.util.*
 
 private data class ImplicitContext(
     val sender: Any,
@@ -37,7 +38,18 @@ internal class ScreenContextViewModel(
     private val contextDataEvaluation: ContextDataEvaluation = ContextDataEvaluation()
 ) : ViewModel() {
 
+    private val viewIds = Stack<Int>()
     private val implicitContextData = mutableListOf<ImplicitContext>()
+
+    fun generateNewViewId(): Int {
+        val newId = if (viewIds.empty()) {
+            0
+        } else {
+            viewIds.peek() + 1
+        }
+        return viewIds.push(newId)
+    }
+
 
     fun addContext(view: View, contextData: ContextData) {
         contextDataManager.addContext(view, contextData)
