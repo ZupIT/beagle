@@ -143,8 +143,10 @@ fun ServerDrivenComponent.toView(activity: AppCompatActivity) = this.toView(Acti
 fun ServerDrivenComponent.toView(fragment: Fragment) = this.toView(FragmentRootView(fragment))
 
 internal fun ServerDrivenComponent.toView(rootView: RootView): View {
+    val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
+    viewModel.resetIds()
     return viewFactory.makeBeagleFlexView(rootView.getContext()).apply {
         addServerDrivenComponent(this@toView, rootView)
-        rootView.generateViewModelInstance<ScreenContextViewModel>().discoverAllContexts()
+        viewModel.discoverAllContexts()
     }
 }

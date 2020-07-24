@@ -20,10 +20,10 @@ import android.view.View
 import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.jsonpath.JsonCreateTree
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
-import br.com.zup.beagle.android.utils.getContextBinding
-import br.com.zup.beagle.android.utils.Observer
+import br.com.zup.beagle.android.utils.*
 import br.com.zup.beagle.android.utils.findParentContextWithId
 import br.com.zup.beagle.android.utils.getAllParentContexts
+import br.com.zup.beagle.android.utils.getContextBinding
 import br.com.zup.beagle.android.utils.getContextId
 import br.com.zup.beagle.android.utils.getExpressions
 import br.com.zup.beagle.android.utils.setContextData
@@ -44,14 +44,16 @@ internal class ContextDataManager(
     }
 
     fun addContext(view: View, context: ContextData) {
-        view.setContextData(context)
+        val existingContext = contexts[view.id]
 
-        if (contexts[view.id] == null) {
+        if (existingContext != null) {
+            view.setContextBinding(existingContext)
+            existingContext.bindings.clear()
+        } else {
+            view.setContextData(context)
             view.getContextBinding()?.let {
                 contexts[view.id] = it
             }
-        } else {
-            contexts[view.id]?.bindings?.clear()
         }
     }
 
@@ -132,10 +134,10 @@ internal class ContextDataManager(
                     return false
                 }
                 context = contextDataTreeHelper.updateContextDataWithTree(
+                    viewContext,
                     contextBinding,
                     jsonCreateTree,
-                    keys,
-                    viewContext
+                    keys
                 )
                 jsonCreateTree.walkingTreeAndFindKey(context.value, keys, value)
                 true

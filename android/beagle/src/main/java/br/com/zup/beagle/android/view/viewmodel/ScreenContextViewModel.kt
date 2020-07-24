@@ -41,12 +41,17 @@ internal class ScreenContextViewModel(
     private val viewIds = Stack<Int>()
     private val implicitContextData = mutableListOf<ImplicitContext>()
 
+    fun resetIds() {
+        viewIds.clear()
+    }
+
     fun generateNewViewId(): Int {
         val newId = if (viewIds.empty()) {
             0
         } else {
             viewIds.peek() + 1
         }
+
         return viewIds.push(newId)
     }
 

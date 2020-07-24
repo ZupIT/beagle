@@ -25,10 +25,10 @@ import java.util.LinkedList
 internal class ContextDataTreeHelper {
 
     fun updateContextDataWithTree(
+        viewContext: View,
         contextBinding: ContextBinding,
         jsonCreateTree: JsonCreateTree,
-        keys: LinkedList<String>,
-        viewContext: View
+        keys: LinkedList<String>
     ): ContextData {
         var context = contextBinding.context
         val initialTree = jsonCreateTree.createInitialTree(context.value, keys.first)
