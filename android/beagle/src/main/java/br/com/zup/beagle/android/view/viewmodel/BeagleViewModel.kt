@@ -111,7 +111,7 @@ internal class BeagleViewModel(
                         if (screen != null) {
                             postLivedataResponse(ViewState.DoRender(screen.identifier, screen))
                         } else {
-                            postLivedataResponse(ViewState.Error(exception){fetchComponents()})
+                            postLivedataResponse(ViewState.Error(exception) { fetchComponents() })
                         }
                     }
                 } else if (screen != null) {

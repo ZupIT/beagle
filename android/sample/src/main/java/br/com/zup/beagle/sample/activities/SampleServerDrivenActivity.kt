@@ -19,6 +19,7 @@ package br.com.zup.beagle.sample.activities
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
@@ -34,6 +35,7 @@ class SampleServerDrivenActivity : BeagleActivity() {
     private val progressBar: ProgressBar by lazy { findViewById<ProgressBar>(R.id.progress_bar) }
     private val mToolbar: Toolbar by lazy { findViewById<Toolbar>(R.id.toolbar) }
     private val mButton: Button by lazy { findViewById<Button>(R.id.btn_retry) }
+    private val mFrame: FrameLayout by lazy { findViewById<FrameLayout>(R.id.server_driven_container) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +51,7 @@ class SampleServerDrivenActivity : BeagleActivity() {
         if (state is ServerDrivenState.Loading) {
             progressBar.visibility = if (state.loading) View.VISIBLE else View.GONE
         } else if (state is ServerDrivenState.Error) {
+            mFrame.visibility = View.GONE
             progressBar.visibility = View.GONE
             buttonRetry(state)
         }
@@ -66,6 +69,7 @@ class SampleServerDrivenActivity : BeagleActivity() {
         mButton.setOnClickListener {
                 state.retry()
             mButton.visibility = View.GONE
+            mFrame.visibility = View.VISIBLE
         }
     }
 }

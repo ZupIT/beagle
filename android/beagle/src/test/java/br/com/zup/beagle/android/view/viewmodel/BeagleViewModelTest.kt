@@ -104,7 +104,7 @@ class BeagleViewModelTest {
         // Then
         verifyOrder {
             observer.onChanged(ViewState.Loading(true))
-            observer.onChanged(ViewState.Error(exception){})
+            observer.onChanged(any<ViewState.Error>())
             observer.onChanged(ViewState.Loading(false))
         }
     }
