@@ -39,9 +39,9 @@ extension UIWindow: WindowProtocol {
             self.makeKeyAndVisible()
         }
 
-        UIView.animate(withDuration: 0.3, animations: animations, completion: { finished in
+        UIView.animate(withDuration: 0.3, animations: animations) { finished in
             completion?(finished)
-        })
+        }
     }
 
 }

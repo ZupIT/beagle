@@ -109,18 +109,26 @@ class LazyRepositoryStub: Repository {
     
     private(set) var formData: Request.FormData?
 
-    func fetchComponent(url: String, additionalData: RemoteScreenAdditionalData?, completion: @escaping (Result<ServerDrivenComponent, Request.Error>) -> Void) -> RequestToken? {
+    func fetchComponent(url: String,
+                        additionalData: RemoteScreenAdditionalData?,
+                        useCache: Bool,
+                        completion: @escaping (Result<ServerDrivenComponent, Request.Error>) -> Void) -> RequestToken? {
         componentCompletion = completion
         return nil
     }
 
-    func submitForm(url: String, additionalData: RemoteScreenAdditionalData?, data: Request.FormData, completion: @escaping (Result<RawAction, Request.Error>) -> Void) -> RequestToken? {
+    func submitForm(url: String,
+                    additionalData: RemoteScreenAdditionalData?,
+                    data: Request.FormData,
+                    completion: @escaping (Result<RawAction, Request.Error>) -> Void) -> RequestToken? {
         formData = data
         formCompletion = completion
         return nil
     }
 
-    func fetchImage(url: String, additionalData: RemoteScreenAdditionalData?, completion: @escaping (Result<Data, Request.Error>) -> Void) -> RequestToken? {
+    func fetchImage(url: String,
+                    additionalData: RemoteScreenAdditionalData?,
+                    completion: @escaping (Result<Data, Request.Error>) -> Void) -> RequestToken? {
         imageCompletion = completion
         return nil
     }
