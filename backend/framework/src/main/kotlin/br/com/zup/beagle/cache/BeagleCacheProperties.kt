@@ -16,13 +16,10 @@
 
 package br.com.zup.beagle.cache
 
-@Deprecated("Replace with an implementation of HttpCacheHandler.")
-interface RestCacheHandler<T> {
-    fun callController(response: T): T
+import java.time.Duration
 
-    fun addHashHeader(response: T, header: String): T
-
-    fun addStatus(response: T, status: Int): T
-
-    fun getBody(response: T): String
+interface BeagleCacheProperties {
+    val include : List<String>
+    val exclude : List<String>
+    val ttl: Map<String, Duration>
 }

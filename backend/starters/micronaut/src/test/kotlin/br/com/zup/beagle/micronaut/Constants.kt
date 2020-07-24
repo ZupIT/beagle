@@ -14,15 +14,6 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.cache
+package br.com.zup.beagle.micronaut
 
-@Deprecated("Replace with an implementation of HttpCacheHandler.")
-interface RestCacheHandler<T> {
-    fun callController(response: T): T
-
-    fun addHashHeader(response: T, header: String): T
-
-    fun addStatus(response: T, status: Int): T
-
-    fun getBody(response: T): String
-}
+const val STRING = "test"

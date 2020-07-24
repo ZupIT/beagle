@@ -17,7 +17,6 @@
 package br.com.zup.beagle.spring.filter
 
 import br.com.zup.beagle.cache.BeagleCacheHandler
-import br.com.zup.beagle.cache.RestCacheHandler
 import br.com.zup.beagle.platform.BeaglePlatformUtil
 import org.springframework.http.HttpMethod
 import org.springframework.web.util.ContentCachingResponseWrapper
@@ -37,20 +36,7 @@ class BeagleCacheFilter(private val cacheHandler: BeagleCacheHandler) : Filter {
                     endpoint = request.requestURI,
                     receivedHash = request.getHeader(BeagleCacheHandler.CACHE_HEADER),
                     currentPlatform = request.getHeader(BeaglePlatformUtil.BEAGLE_PLATFORM_HEADER),
-                    initialResponse = ContentCachingResponseWrapper(response),
-                    restHandler = object : RestCacheHandler<ContentCachingResponseWrapper> {
-                        override fun callController(response: ContentCachingResponseWrapper) =
-                            response.also { chain.doFilter(request, it) }
-
-                        override fun addHashHeader(response: ContentCachingResponseWrapper, header: String) =
-                            response.also { it.setHeader(BeagleCacheHandler.CACHE_HEADER, header) }
-
-                        override fun addStatus(response: ContentCachingResponseWrapper, status: Int) =
-                            response.also { it.status = status }
-
-                        override fun getBody(response: ContentCachingResponseWrapper) =
-                            String(response.contentAsByteArray)
-                    }
+                    handler = BeagleSpringCacheHandler(request, ContentCachingResponseWrapper(response), chain)
                 ).copyBodyToResponse()
             } else {
                 chain.doFilter(request, response)
