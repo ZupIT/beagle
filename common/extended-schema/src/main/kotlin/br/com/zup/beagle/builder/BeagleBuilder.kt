@@ -16,8 +16,7 @@
 
 package br.com.zup.beagle.builder
 
-@DslMarker
-annotation class BeagleDsl
+import br.com.zup.beagle.annotation.BeagleDsl
 
 @BeagleDsl
 interface BeagleBuilder<T> {

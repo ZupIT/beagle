@@ -14,19 +14,7 @@
  * limitations under the License.
  */
 
-import br.com.zup.beagle.Dependencies
+package br.com.zup.beagle.annotation
 
-apply plugin: 'kotlin'
-
-dependencies {
-    implementation Dependencies.GeneralLibraries.kotlin
-    implementation project(Dependencies.Modules.schemaKotlinCore)
-    implementation project(Dependencies.Modules.commonAnnotation)
-
-    testImplementation Dependencies.TestLibraries.kotlinTest
-    testImplementation Dependencies.TestLibraries.mockk
-    testImplementation Dependencies.TestLibraries.junit5Api
-    testRuntimeOnly Dependencies.TestLibraries.junit5Engine
-}
-
-apply from: rootProject.file('../maven-publish.gradle')
+@DslMarker
+annotation class BeagleDsl

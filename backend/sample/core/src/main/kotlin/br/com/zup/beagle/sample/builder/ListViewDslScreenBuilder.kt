@@ -65,20 +65,23 @@ object ListViewDslScreenBuilder : ScreenBuilder {
     }
 
     private fun getStaticListView(listDirection: ListDirection) = container {
-        children{
+        children {
+
             +text{
                 text{-"Static $listDirection ListView"}
-            }.style {
-                margin{
+            }.style{
+                margin {
                     bottom { 10.unitReal() }
                 }
             }
+
             +listView {
                 direction{listDirection}
                 children {
                     +(1..10).map(::createText)
                 }
             }
+
         }
     }.style {
         margin {
@@ -88,6 +91,7 @@ object ListViewDslScreenBuilder : ScreenBuilder {
 
     private fun getDynamicListView(listDirection: ListDirection) = container{
         children{
+
             +text {
                 text{-"Dynamic $listDirection ListView"}
             }.style {
@@ -95,12 +99,14 @@ object ListViewDslScreenBuilder : ScreenBuilder {
                     bottom { 10.unitReal() }
                 }
             }
+
             +listView {
                 direction { listDirection }
                 children {
                     +(0 until 20).map(::createText)
                 }
             }
+
         }
     }
 
