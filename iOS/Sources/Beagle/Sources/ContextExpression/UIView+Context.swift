@@ -19,7 +19,7 @@ import UIKit
 import BeagleSchema
 
 extension UIView {
-    static var contextMapKey = "contextMapKey"
+    static private var contextMapKey = "contextMapKey"
     
     private class ObjectWrapper<T> {
         let object: T?
@@ -39,7 +39,7 @@ extension UIView {
     }
     
     // TODO: fix weak reference
-    static var observers = "contextObservers"
+    static private var observers = "contextObservers"
     private var observers: [ContextObserver]? {
         get {
             return (objc_getAssociatedObject(self, &UIView.observers) as? ObjectWrapper)?.object
@@ -126,7 +126,12 @@ extension UIView {
     // MARK: Get/Set Context
     
     func getContext(with id: String?) -> Observable<Context>? {
-        guard let contextMap = self.contextMap, let context = contextMap[id] else {
+        let global = dependencies.globalContext
+        if global.isGlobal(id: id) {
+            return global.context
+        }
+        
+        guard let context = contextMap?[id] else {
             // TODO: create cache mechanism
             return superview?.getContext(with: id)
         }
@@ -134,6 +139,12 @@ extension UIView {
     }
     
     func setContext(_ context: Context) {
+        let global = dependencies.globalContext
+        guard !global.isGlobal(id: context.id) else {
+            global.setValue(context.value)
+            return
+        }
+        
         if var contextMap = contextMap {
             if let contextObservable = contextMap[context.id] {
                 contextObservable.value = context

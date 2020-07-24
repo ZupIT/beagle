@@ -129,6 +129,9 @@
   - deepLinkHandler: Optional<DeepLinkScreenManaging>.none
   ▿ formDataStoreHandler: FormDataStoreHandler
     - dataStore: 0 key/value pairs
+  ▿ globalContext: DefaultGlobalContext
+    - $__lazy_storage_$_context: Optional<Observable<Context>>.none
+    - globalId: "global"
   - isLoggingEnabled: true
   - localFormHandler: Optional<LocalFormHandler>.none
   ▿ logger: BeagleLoggerProxy

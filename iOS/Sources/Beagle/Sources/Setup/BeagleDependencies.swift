@@ -38,6 +38,7 @@ public protocol BeagleDependenciesProtocol: BeagleSchema.Dependencies,
     DependencyCacheManager,
     DependencyFormDataStoreHandler,
     DependencyRenderer,
+    DependencyGlobalContext,
     DependencyLoggingCondition {
 }
 
@@ -59,6 +60,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
     public var formDataStoreHandler: FormDataStoreHandling
     public var windowManager: WindowManager
     public var opener: URLOpener
+    public var globalContext: GlobalContext
     public var isLoggingEnabled: Bool
     
     public var logger: BeagleLoggerType {
@@ -105,6 +107,7 @@ open class BeagleDependencies: BeagleDependenciesProtocol {
         self.formDataStoreHandler = FormDataStoreHandler()
         self.windowManager = WindowManagerDefault()
         self.navigation = BeagleNavigator()
+        self.globalContext = DefaultGlobalContext()
         
         self.networkClient = NetworkClientDefault(dependencies: resolver)
         self.repository = RepositoryDefault(dependencies: resolver)

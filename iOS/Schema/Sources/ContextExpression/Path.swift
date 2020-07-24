@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-public struct Path: Decodable {
+public struct Path: Decodable, Equatable {
     public let nodes: [Node]
     
     public enum Node: Equatable {
