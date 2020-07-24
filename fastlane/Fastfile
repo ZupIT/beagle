@@ -133,6 +133,13 @@ end
 ###
 
 platform :automated_tests do
+  desc "Publish test backend to GitHub packages"
+  lane :publish_backend do
+    image = "#{ENV['registry']}/#{ENV['repository']}/#{ENV['image']}:#{ENV['sha']}".downcase
+    gradle(task: ":backend:automated-tests:bootBuildImage --imageName=#{image}")
+    sh("./automatedTests/publish_test_backend.sh", image, ENV['user'], ENV['token'])
+  end
+
   desc "Run iOS automated tests"
   lane :run_ios_automation do
     xcversion(version: "~> 11.6.0")
