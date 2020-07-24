@@ -41,9 +41,9 @@ class PageViewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-//
-//       val texto:String = "texto1"+GlobalContext.get().toString()
-        val texto2 = GlobalContext.get().toString()
+        GlobalContext.set(value = "CarroVermelho")
+        val texto: String = "texto1 = " + GlobalContext.get().toString()
+        val texto2 = "texto2 = " + GlobalContext.get("bola").toString()
 //        GlobalContext.clear()
 
 

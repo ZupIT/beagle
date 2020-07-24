@@ -57,7 +57,6 @@ object GlobalContext : GlobalContextAPI {
     }
 
     override fun clear(path: String?) {
-        globalContext = createGlobalContext()
         globalContextObservers.notifyContextChange(path, "")
     }
 
@@ -73,5 +72,5 @@ object GlobalContext : GlobalContextAPI {
         }
     }
 
-    private fun createGlobalContext() = ContextData(id = "global", value = "")
+    private fun createGlobalContext() = ContextData(id = "global", value = "TESTE")
 }
