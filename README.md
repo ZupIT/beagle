@@ -42,7 +42,6 @@ It is also possible to create, test and update native application components and
 - [Requirements](#-requirements)
 - [Building your first app using Beagle](#-building-your-first-app-using-beagle)
 - [Documentation](#-documentation)
-- [Upgrading](#-upgrading)
 - [How to Contribute](#-how-to-contribute)
 - [Code of Conduct](#code-of-conduct)
 - [License](#-license)
@@ -53,13 +52,13 @@ Beagle apps may target iOS 10.0 and Android 4.4 (API 19) or newer. You may use W
 
 ## 🎉 Building your first app using Beagle
 
-Follow the [Getting Started guide](https://docs.usebeagle.io/get-started/installing-beagle). The recommended way to install Beagle depends on your project. Here you can find short guides for the most common scenarios:
+Follow the [Getting Started guide](https://docs.usebeagle.io/primeiros-passos/instalando-beagle). The recommended way to install Beagle depends on your project. Here you can find short guides for the most common scenarios:
 
 - [Creating a New Application][new-app]
 - [Adding Beagle to an Existing Application][existing]
 
-[new-app]: https://docs.usebeagle.io/get-started/use-cases
-[existing]: https://docs.usebeagle.io/get-started/usando-beagle
+[new-app]: https://docs.usebeagle.io/primeiros-passos/user-cases
+[existing]: https://docs.usebeagle.io/primeiros-passos/usando-beagle
 
 ## 📖 Documentation
 
