@@ -20,11 +20,13 @@ import android.view.View
 import android.view.ViewGroup
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.context.ContextBinding
+import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.normalize
 
 internal fun View.findParentContextWithId(contextId: String): ContextBinding? {
     var parentView: View? = this.getParentContextData()
     do {
-        val context = parentView?.getContextData()
+        val context = parentView?.getContextBinding()
         if (context != null && context.context.id == contextId) {
             return context
         }
@@ -39,7 +41,7 @@ internal fun View.getAllParentContexts(): Map<String, ContextBinding> {
 
     var parentView: View? = this.getParentContextData()
     do {
-        val contextBinding = parentView?.getContextData()
+        val contextBinding = parentView?.getContextBinding()
         if (contextBinding != null) {
             contexts[contextBinding.context.id] = contextBinding
         }
@@ -65,10 +67,22 @@ internal fun View.getParentContextData(): View? {
     return null
 }
 
-internal fun View.setContextData(contextBinding: ContextBinding) {
+internal fun View.setContextData(context: ContextData) {
+    val contextBinding = this.getContextBinding()?.copy(context = context) ?: ContextBinding(
+        context = context,
+        bindings = mutableSetOf()
+    )
+    this.setContextBinding(contextBinding)
+}
+
+internal fun View.getContextData(): ContextData? {
+    return getContextBinding()?.context
+}
+
+internal fun View.setContextBinding(contextBinding: ContextBinding) {
     setTag(R.id.beagle_context_view, contextBinding)
 }
 
-internal fun View.getContextData(): ContextBinding? {
+internal fun View.getContextBinding(): ContextBinding? {
     return getTag(R.id.beagle_context_view) as? ContextBinding
 }

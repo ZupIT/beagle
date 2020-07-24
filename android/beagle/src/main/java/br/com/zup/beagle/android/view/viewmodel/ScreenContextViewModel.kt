@@ -20,8 +20,8 @@ import android.view.View
 import androidx.lifecycle.ViewModel
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.SetContextInternal
-import br.com.zup.beagle.android.context.Bind
-import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.*
+import br.com.zup.beagle.android.context.ContextBinding
 import br.com.zup.beagle.android.context.ContextDataEvaluation
 import br.com.zup.beagle.android.context.ContextDataManager
 import br.com.zup.beagle.android.utils.Observer
@@ -65,6 +65,10 @@ internal class ScreenContextViewModel(
 
     fun discoverAllContexts() {
         contextDataManager.discoverAllContexts()
+    }
+
+    fun notifyBindingChanges(contextBinding: ContextBinding) {
+        contextDataManager.notifyBindingChanges(contextBinding)
     }
 
     // Sender is who created the implicit context

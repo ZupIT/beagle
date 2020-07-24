@@ -20,10 +20,10 @@ import android.view.View
 import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.jsonpath.JsonCreateTree
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import br.com.zup.beagle.android.utils.getContextBinding
 import br.com.zup.beagle.android.utils.Observer
 import br.com.zup.beagle.android.utils.findParentContextWithId
 import br.com.zup.beagle.android.utils.getAllParentContexts
-import br.com.zup.beagle.android.utils.getContextData
 import br.com.zup.beagle.android.utils.getContextId
 import br.com.zup.beagle.android.utils.getExpressions
 import br.com.zup.beagle.android.utils.setContextData
@@ -44,16 +44,14 @@ internal class ContextDataManager(
     }
 
     fun addContext(view: View, context: ContextData) {
-        if (contexts[view.id] == null) {
-            contexts[view.id] = ContextBinding(
-                context = context.normalize(),
-                bindings = mutableSetOf()
-            )
-        }
+        view.setContextData(context)
 
-        contexts[view.id]?.let {
-            it.bindings.clear()
-            view.setContextData(it)
+        if (contexts[view.id] == null) {
+            view.getContextBinding()?.let {
+                contexts[view.id] = it
+            }
+        } else {
+            contexts[view.id]?.bindings?.clear()
         }
     }
 
@@ -93,13 +91,27 @@ internal class ContextDataManager(
             val path = setContextInternal.path ?: contextBinding.context.id
             val setValue = setValue(view, contextBinding, path, setContextInternal.value)
             if (setValue) {
-                view.getContextData()?.let {
+                view.getContextBinding()?.let {
                     contexts[view.id] = it
                 }
                 notifyBindingChanges(contextBinding)
             }
             setValue
         } ?: false
+    }
+
+    fun notifyBindingChanges(contextBinding: ContextBinding) {
+        val contextData = contextBinding.context
+        val bindings = contextBinding.bindings
+
+        bindings.forEach { binding ->
+            val value = contextDataEvaluation.evaluateBindExpression(
+                contextData,
+                binding.bind,
+                binding.evaluatedExpressions
+            )
+            binding.notifyChanges(value)
+        }
     }
 
     private fun evaluateContexts() {
@@ -131,20 +143,6 @@ internal class ContextDataManager(
                 BeagleMessageLogs.errorWhileTryingToChangeContext(ex)
                 false
             }
-        }
-    }
-
-    private fun notifyBindingChanges(contextBinding: ContextBinding) {
-        val contextData = contextBinding.context
-        val bindings = contextBinding.bindings
-
-        bindings.forEach { binding ->
-            val value = contextDataEvaluation.evaluateBindExpression(
-                contextData,
-                binding.bind,
-                binding.evaluatedExpressions
-            )
-            binding.notifyChanges(value)
         }
     }
 }
