@@ -22,6 +22,17 @@ import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.ContextComponent
 import br.com.zup.beagle.widget.context.ContextData
 
+/**
+ * TabBar is a component responsible to display a tab layout.
+ * It works by displaying tabs that can change a context when clicked.
+ *
+ * @param items define yours tabs title and icon
+ * @param styleId reference a native style in your local styles file to be applied on this view.
+ * @param context set a context to your TabBar
+ * @param currentTab define the expression that is observer to change the current tab selected
+ * @param onTabSelection define a list of action that will be executed when a tab is selected
+ *
+ */
 data class TabBar(
     val items: List<TabBarItem>,
     val styleId: String? = null,
@@ -30,6 +41,15 @@ data class TabBar(
     val onTabSelection: List<Action>? = null
 ) : ServerDrivenComponent, ContextComponent
 
+/**
+* Define the view has in the tab view
+*
+* @param title displays the text on the TabView component. If it is null or not declared it won't display any text.
+* @param icon
+*                  display an icon image on the TabView component.
+*                  If it is left as null or not declared it won't display any icon.
+*
+*/
 data class TabBarItem(
     val title: String? = null,
     val icon: ImagePath.Local? = null
