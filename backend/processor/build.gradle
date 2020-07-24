@@ -16,15 +16,10 @@
 
 import br.com.zup.beagle.Dependencies
 
-apply plugin: 'kotlin'
 apply plugin: 'kotlin-kapt'
 apply from: rootProject.file('../jacoco.gradle')
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
 dependencies {
-    implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.GeneralLibraries.kotlinPoet
 
     implementation project(Dependencies.Modules.commonAnnotation)
@@ -39,7 +34,7 @@ dependencies {
     kapt Dependencies.ProcessorLibraries.incapPrcessor
     kaptTest project(Dependencies.Modules.processor)
 
-    testRuntime Dependencies.TestLibraries.junit5Engine
+    testRuntimeOnly Dependencies.TestLibraries.junit5Engine
     testImplementation Dependencies.TestLibraries.junit5Api
     testImplementation Dependencies.TestLibraries.kotlinTest
     testImplementation Dependencies.TestLibraries.mockk

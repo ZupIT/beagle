@@ -43,8 +43,31 @@ class BeagleScreenViewModel {
     }
 
     // MARK: Init
+    
+    static func remote(
+        _ remote: ScreenType.Remote,
+        dependencies: BeagleDependenciesProtocol,
+        completion: @escaping (Result<BeagleScreenViewModel, Request.Error>) -> Void
+    ) -> RequestToken? {
+        
+        return fetchScreen(remote: remote, dependencies: dependencies) { result in
+            let viewModel = self.init(screenType: .remote(remote), dependencies: dependencies)
+            switch result {
+            case .success(let screen):
+                viewModel.handleRemoteScreenSuccess(screen)
+                completion(.success(viewModel))
+            case .failure(let error):
+                viewModel.handleRemoteScreenFailure(error)
+                if viewModel.screen == nil {
+                    completion(.failure(error))
+                } else {
+                    completion(.success(viewModel))
+                }
+            }
+        }
+    }
 
-    public init(
+    public required init(
         screenType: ScreenType,
         dependencies: BeagleDependenciesProtocol = Beagle.dependencies
     ) {
@@ -54,6 +77,7 @@ class BeagleScreenViewModel {
     }
     
     public func loadScreen() {
+        guard screen == nil else { return }
         switch screenType {
         case .remote(let remote):
             loadRemoteScreen(remote)
@@ -86,31 +110,44 @@ class BeagleScreenViewModel {
     func loadRemoteScreen(_ remote: ScreenType.Remote) {
         state = .loading
 
-        dependencies.repository.fetchComponent(
-            url: remote.url,
-            additionalData: remote.additionalData
-        ) {
+        Self.fetchScreen(remote: remote, dependencies: dependencies) {
             [weak self] result in guard let self = self else { return }
-
+            
             switch result {
-            case .success(let component):
-                self.handleRemoteScreenSuccess(component)
+            case .success(let screen):
+                self.handleRemoteScreenSuccess(screen)
             case .failure(let error):
                 self.handleRemoteScreenFailure(error)
             }
         }
     }
     
-    private func handleRemoteScreenSuccess(_ component: ServerDrivenComponent) {
-        screen = component.toScreen()
+    @discardableResult
+    private static func fetchScreen(
+        remote: ScreenType.Remote,
+        dependencies: BeagleDependenciesProtocol,
+        completion: @escaping (Result<Screen, Request.Error>) -> Void
+    ) -> RequestToken? {
+        return dependencies.repository.fetchComponent(
+            url: remote.url,
+            additionalData: remote.additionalData
+        ) {
+            completion($0.map { $0.toScreen() })
+        }
+    }
+    
+    private func handleRemoteScreenSuccess(_ screen: Screen) {
+        self.screen = screen
         state = .success
     }
     
     private func handleRemoteScreenFailure(_ error: Request.Error) {
         if case let .remote(remote) = screenType, let fallback = remote.fallback {
             screen = fallback
+            state = .success
+        } else {
+            state = .failure(.remoteScreen(error))
         }
-        state = .failure(.remoteScreen(error))
     }
 }
 

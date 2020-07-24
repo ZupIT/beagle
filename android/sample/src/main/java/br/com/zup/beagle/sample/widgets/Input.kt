@@ -24,6 +24,7 @@ import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.annotation.RegisterWidget
 
@@ -38,7 +39,15 @@ data class Input(
         setHintTextColor(Color.BLACK)
         doOnTextChanged { newText, _, _, _ ->
             val actions = onTextChange ?: emptyList()
-            this@Input.handleEvent(rootView, this, actions, "onTextChange", newText.toString())
+            this@Input.handleEvent(
+                rootView,
+                this,
+                actions,
+                ContextData(
+                    id = "onTextChange",
+                    value = newText.toString()
+                )
+            )
         }
         observeBindChanges(rootView, this@Input.hint) {
             this@apply.hint = it

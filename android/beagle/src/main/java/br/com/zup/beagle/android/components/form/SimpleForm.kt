@@ -70,7 +70,7 @@ data class SimpleForm(
 
     fun submit(rootView: RootView, view: View) {
         onSubmit.forEach { action ->
-            handleEvent(rootView, view, action, "onSubmit")
+            handleEvent(rootView, view, action)
         }
     }
 }

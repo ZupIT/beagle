@@ -74,7 +74,8 @@ class Dependencies : Plugin<Project> {
 
         const val jni = "0.0.2"
 
-        const val okHttp = "4.5.0"
+        const val webSocket = "1.5.1"
+        const val simpleLogger = "1.7.25"
 
         const val kotlinTest = "1.3.50"
         const val kotlinCoroutinesTest = "1.3.1"
@@ -125,7 +126,8 @@ class Dependencies : Plugin<Project> {
 
         const val jni = "com.facebook.fbjni:fbjni:${Versions.jni}"
 
-        const val okHttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
+        const val webSocket = "org.java-websocket:Java-WebSocket:${Versions.webSocket}"
+        const val simpleLogger = "org.slf4j:slf4j-simple:${Versions.simpleLogger}"
 
         const val jsonObject = "org.json:json:${Versions.jsonObject}"
     }

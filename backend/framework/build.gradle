@@ -16,11 +16,9 @@
 
 import br.com.zup.beagle.Dependencies
 
-apply plugin: 'kotlin'
 apply from: rootProject.file('../jacoco.gradle')
 
 dependencies {
-    implementation Dependencies.GeneralLibraries.kotlin
     implementation Dependencies.GeneralLibraries.jacksonKotlin
     implementation Dependencies.BackendLibraries.guava
     api project(Dependencies.Modules.widgets)

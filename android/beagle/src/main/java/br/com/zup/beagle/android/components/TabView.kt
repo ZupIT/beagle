@@ -26,6 +26,7 @@ import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import br.com.zup.beagle.R
+import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
@@ -40,7 +41,7 @@ import br.com.zup.beagle.widget.core.Flex
 import com.google.android.material.tabs.TabLayout
 
 private val TAB_BAR_HEIGHT = 48.dp()
-internal var styleManagerFactory = StyleManager()
+
 @RegisterWidget
 data class TabView(
     val children: List<TabItem>,
@@ -82,35 +83,29 @@ data class TabView(
 
     private fun makeTabLayout(rootView: RootView): TabLayout {
         val context = rootView.getContext()
-        return viewFactory.makeTabLayout(context).apply {
+        return viewFactory.makeTabLayout(context, styleManagerFactory.getTabViewStyle(styleId)).apply {
             layoutParams =
                 viewFactory.makeFrameLayoutParams(
                     FrameLayout.LayoutParams.MATCH_PARENT,
                     TAB_BAR_HEIGHT
                 )
-
             tabMode = TabLayout.MODE_SCROLLABLE
             tabGravity = TabLayout.GRAVITY_FILL
-            setData(rootView)
+            setData()
             addTabs(context)
         }
     }
 
-    private fun TabLayout.setData(rootView: RootView) {
-        styleManagerFactory.getTabBarTypedArray(context, styleId)?.let {
-            setTabTextColors(
-                it.getColor(R.styleable.BeagleTabBarStyle_tabTextColor, Color.BLACK),
-                it.getColor(R.styleable.BeagleTabBarStyle_tabSelectedTextColor, Color.GRAY)
-            )
+    private fun TabLayout.setData() {
+        styleManagerFactory.getTabBarTypedArray(context, styleId).apply {
             setSelectedTabIndicatorColor(
-                it.getColor(
+                getColor(
                     R.styleable.BeagleTabBarStyle_tabIndicatorColor,
                     styleManagerFactory.getTypedValueByResId(R.attr.colorAccent, context).data
                 )
             )
-            background = it.getDrawable(R.styleable.BeagleTabBarStyle_tabBackground)
-            tabIconTint = it.getColorStateList(R.styleable.BeagleTabBarStyle_tabIconTint)
-            it.recycle()
+            tabIconTint = getColorStateList(R.styleable.BeagleTabBarStyle_tabIconTint)
+            recycle()
         }
     }
 

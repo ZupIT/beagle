@@ -16,93 +16,99 @@
 
 package br.com.zup.beagle.android.preview
 
-import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
-import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.WebSocket
-import okhttp3.WebSocketListener
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Test
 import java.util.*
 
 class BeaglePreviewTest {
 
-    @RelaxedMockK
-    private lateinit var okHttpClient: OkHttpClient
-
-    @RelaxedMockK
-    private lateinit var webSocket: WebSocket
-
-    @MockK
-    private lateinit var webSocketListener: WebSocketListener
-
-    private val requestSlot = slot<Request>()
-
-    @Before
-    fun setUp() {
-        MockKAnnotations.init(this)
-
-        every { okHttpClient.newWebSocket(capture(requestSlot), any()) } returns webSocket
-    }
+    private val webSocketListener = mockk<WebSocketListener>(relaxed = true)
 
     @Test
-    fun beaglePreview_should_use_host_parameter_with_default_port() {
+    fun beaglePreview_should_use_host_parameter_with_port() {
         //GIVEN
         val host = "http://host:8080/"
-        val subject = BeaglePreview(host, okHttpClient = okHttpClient)
 
         //WHEN
-        subject.startListening(webSocketListener)
+        val subject = BeaglePreview(host)
 
         //THEN
-        assertEquals(host, requestSlot.captured.url.toString())
-        verify(exactly = 1) { okHttpClient.newWebSocket(requestSlot.captured, webSocketListener) }
+        assertEquals(host, subject.uri.toString())
     }
 
     @Test
     fun beaglePreview_should_use_default_parameter_with_default_port() {
-        //GIVEN
-        val subject = BeaglePreview(okHttpClient = okHttpClient)
-
         //WHEN
-        subject.startListening(webSocketListener)
+        val subject = BeaglePreview()
 
         //THEN
-        assertEquals(DEFAULT_ENDPOINT, requestSlot.captured.url.toString())
+        assertEquals(DEFAULT_ENDPOINT, subject.uri.toString())
     }
 
     @Test
-    fun startListening_should_create_webSocket() {
+    fun onClose_should_call_onClose_only_with_remote_is_true() {
         //GIVEN
-        val subject = BeaglePreview(okHttpClient = okHttpClient)
+        val listener = mockk<WebSocketListener>()
+        val subject = BeaglePreview(listener = listener)
+        val reason = "reason"
 
         //WHEN
         subject.startListening(webSocketListener)
+        subject.onClose(1, reason, true)
 
         //THEN
-        verify(exactly = 1) { okHttpClient.newWebSocket(requestSlot.captured, webSocketListener) }
+        verify(exactly = 1) { webSocketListener.onClose(reason) }
     }
 
     @Test
-    fun closeWebSocket_should_call_cancel() {
+    fun onClose_should_not_call_onClose_when_remote_is_false() {
         //GIVEN
-        val subject = BeaglePreview(okHttpClient = okHttpClient)
+        val listener = mockk<WebSocketListener>()
+        val subject = BeaglePreview(listener = listener)
+        val reason = "reason"
 
         //WHEN
         subject.startListening(webSocketListener)
-        subject.closeWebSocket()
+        subject.onClose(1, reason, false)
 
         //THEN
-        verify(exactly = 1) { webSocket.cancel() }
+        verify(exactly = 0) { webSocketListener.onClose(reason) }
+    }
+
+    @Test
+    fun onMessage_should_call_onMessage() {
+        //GIVEN
+        val listener = mockk<WebSocketListener>()
+        val subject = BeaglePreview(listener = listener)
+        val message = "message"
+
+        //WHEN
+        subject.startListening(webSocketListener)
+        subject.onMessage(message)
+
+        //THEN
+        verify(exactly = 1) { webSocketListener.onMessage(message) }
+    }
+
+    @Test
+    fun onError_should_call_onError() {
+        //GIVEN
+        val listener = mockk<WebSocketListener>()
+        val subject = BeaglePreview(listener = listener)
+        val exception = Exception()
+
+        //WHEN
+        subject.startListening(webSocketListener)
+        subject.onError(exception)
+
+        //THEN
+        verify(exactly = 1) { webSocketListener.onError(exception) }
     }
 
     @Test
@@ -112,11 +118,11 @@ class BeaglePreviewTest {
         val slotInterval = slot<Long>()
         val interval = 5000L
         every { timer.schedule(any(), capture(slotInterval)) } just Runs
-        val subject = BeaglePreview(okHttpClient = okHttpClient, reconnectInterval = interval, timer = timer)
+        val subject = BeaglePreview(reconnectInterval = interval, timer = timer)
 
         //WHEN
         subject.startListening(webSocketListener)
-        subject.reconnect()
+        subject.reconnectSchedule()
 
         //THEN
         assertEquals(interval, slotInterval.captured)
