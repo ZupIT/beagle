@@ -42,7 +42,8 @@ public struct SimpleForm: RawComponent, HasContext, AutoInitiableAndDecodable {
         context: Context? = nil,
         onSubmit: [RawAction]? = nil,
         widgetProperties: WidgetProperties = WidgetProperties(),
-        @ChildrenBuilder _ children: () -> [RawComponent]
+        @ChildrenBuilder
+        _ children: () -> [RawComponent]
     ) {
         self.init(context: context, onSubmit: onSubmit, children: children(), widgetProperties: widgetProperties)
     }
@@ -51,7 +52,8 @@ public struct SimpleForm: RawComponent, HasContext, AutoInitiableAndDecodable {
         context: Context? = nil,
         onSubmit: [RawAction]? = nil,
         widgetProperties: WidgetProperties = WidgetProperties(),
-        @ChildBuilder _ children: () -> RawComponent
+        @ChildBuilder
+        _ children: () -> RawComponent
     ) {
         self.init(context: context, onSubmit: onSubmit, children: [children()], widgetProperties: widgetProperties)
     }

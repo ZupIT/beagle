@@ -41,7 +41,8 @@ public struct ScrollView: RawComponent, AutoInitiableAndDecodable, HasContext {
         scrollBarEnabled: Bool? = nil,
         scrollDirection: ScrollAxis? = nil,
         context: Context? = nil,
-        @ChildBuilder _ children: () -> RawComponent
+        @ChildBuilder
+        _ children: () -> RawComponent
     ) {
         self.init(children: [children()], scrollDirection: scrollDirection, scrollBarEnabled: scrollBarEnabled, context: context)
     }
@@ -50,7 +51,8 @@ public struct ScrollView: RawComponent, AutoInitiableAndDecodable, HasContext {
         scrollBarEnabled: Bool? = nil,
         scrollDirection: ScrollAxis? = nil,
         context: Context? = nil,
-        @ChildrenBuilder _ children: () -> [RawComponent]
+        @ChildrenBuilder
+        _ children: () -> [RawComponent]
     ) {
         self.init(children: children(), scrollDirection: scrollDirection, scrollBarEnabled: scrollBarEnabled, context: context)
     }

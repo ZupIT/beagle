@@ -33,7 +33,8 @@ public struct TabItem: Decodable {
     public init(
         icon: String? = nil,
         title: String? = nil,
-        @ChildBuilder _ child: () -> RawComponent
+        @ChildBuilder
+        _ child: () -> RawComponent
     ) {
         self.init(icon: icon, title: title, child: child())
     }
@@ -78,7 +79,8 @@ public struct TabView: RawComponent, AutoInitiable, HasContext {
     public init(
         context: Context? = nil,
         styleId: String? = nil,
-        @TabItemsBuilder _ children: () -> [TabItem]
+        @TabItemsBuilder
+        _ children: () -> [TabItem]
     ) {
         self.init(children: children(), styleId: styleId, context: context)
     }
@@ -86,7 +88,8 @@ public struct TabView: RawComponent, AutoInitiable, HasContext {
     public init(
         context: Context? = nil,
         styleId: String? = nil,
-        @TabItemBuilder _ children: () -> TabItem
+        @TabItemBuilder
+        _ children: () -> TabItem
     ) {
         self.init(children: [children()], styleId: styleId, context: context)
     }

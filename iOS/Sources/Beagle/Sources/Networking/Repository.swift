@@ -23,6 +23,7 @@ public protocol Repository {
     func fetchComponent(
         url: String,
         additionalData: RemoteScreenAdditionalData?,
+        useCache: Bool,
         completion: @escaping (Result<ServerDrivenComponent, Request.Error>) -> Void
     ) -> RequestToken?
 
@@ -78,11 +79,12 @@ public final class RepositoryDefault: Repository {
     public func fetchComponent(
         url: String,
         additionalData: RemoteScreenAdditionalData?,
+        useCache: Bool = true,
         completion: @escaping (Result<ServerDrivenComponent>) -> Void
     ) -> RequestToken? {
         let cache = networkCache.checkCache(identifiedBy: url, additionalData: additionalData)
-        if case .validCachedData(let data) = cache {
-            completion(decodeComponent(from: data))
+        if useCache, case .validCachedData(let data) = cache {
+            DispatchQueue.main.async { completion(self.decodeComponent(from: data)) }
             return nil
         }
 
