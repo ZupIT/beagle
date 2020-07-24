@@ -42,7 +42,6 @@ import org.junit.Test
 class PageViewTwoTest : BaseComponentTest() {
 
     private val beaglePageView: BeaglePageView = mockk(relaxed = true)
-    private val pageIndicatorComponent: PageIndicatorComponent = mockk(relaxed = true)
     private val children = listOf<ServerDrivenComponent>(mockk<Button>())
     private val context: ContextData = mockk(relaxed = true)
     private val onPageChange = listOf<Action>(mockk())
@@ -98,7 +97,9 @@ class PageViewTwoTest : BaseComponentTest() {
             context,
             currentPage = currentPage
         )
-        every { pageView.observeBindChanges(rootView = rootView, bind = currentPage, observes = capture(currentPageSlot)) } just Runs
+        every {
+            pageView.observeBindChanges(rootView = rootView, bind = currentPage, observes = capture(currentPageSlot))
+        } just Runs
 
         // WHEN
         pageView.buildView(rootView)
@@ -168,7 +169,7 @@ class PageViewTwoTest : BaseComponentTest() {
 
         // THEN
         verify(exactly = once()) {
-            pageView.handleEvent(rootView, beaglePageView, onPageChange, "onChange", 1)
+            pageView.handleEvent(rootView, beaglePageView, onPageChange, ContextData("onPageChange", 1))
         }
     }
 
@@ -195,7 +196,11 @@ class PageViewTwoTest : BaseComponentTest() {
             onPageChange,
             currentPage
         )
-        every { pageView.observeBindChanges(rootView = rootView, bind = currentPage, observes = capture(currentPageSlot)) } just Runs
-        every { pageView.handleEvent(rootView, beaglePageView, onPageChange, "onChange", any()) } just Runs
+        every {
+            pageView.observeBindChanges(rootView = rootView, bind = currentPage, observes = capture(currentPageSlot))
+        } just Runs
+        every {
+            pageView.handleEvent(rootView, beaglePageView, onPageChange, ContextData("onPageChange", 1))
+        } just Runs
     }
 }
