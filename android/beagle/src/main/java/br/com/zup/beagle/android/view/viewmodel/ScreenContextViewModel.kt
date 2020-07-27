@@ -115,7 +115,8 @@ internal class ScreenContextViewModel(
         return contextDataEvaluation.evaluateBindExpression(contexts, bind, mutableMapOf())
     }
 
-    fun clearContexts(){
+    fun clearContexts() {
+        resetIds()
         contextDataManager.clearContexts()
     }
 }
