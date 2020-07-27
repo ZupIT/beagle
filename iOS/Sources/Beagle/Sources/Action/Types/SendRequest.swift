@@ -40,11 +40,10 @@ extension SendRequest: Action {
                 let data = response.getDynamicObject()
                 let statusCode = response.statusCode()
                 let value: DynamicObject = ["data": data, "status": .int(statusCode), "statusText": "success"]
-                let contextObject = Context(id: "onSuccess", value: value)
 
                 DispatchQueue.main.async {
-                    controller.execute(actions: self.onSuccess, with: contextObject, sender: sender)
-                    controller.execute(actions: self.onFinish, with: nil, sender: sender)
+                    controller.execute(actions: self.onSuccess, with: "onSuccess", and: value, origin: view)
+                    controller.execute(actions: self.onFinish, origin: view)
                 }
                 
             case .failure(let error):
@@ -55,11 +54,10 @@ extension SendRequest: Action {
                 let message = error.localizedDescription
                 
                 let value: DynamicObject = [ "data": data, "status": .int(statusCode), "statusText": .string(statusText), "message": .string(message) ]
-                let contextObject = Context(id: "onError", value: value)
                 
                 DispatchQueue.main.async {
-                    controller.execute(actions: self.onError, with: contextObject, sender: sender)
-                    controller.execute(actions: self.onFinish, with: nil, sender: sender)
+                    controller.execute(actions: self.onError, with: "onError", and: value, origin: view)
+                    controller.execute(actions: self.onFinish, origin: view)
                 }
             }
         }

@@ -60,7 +60,7 @@ extension NavigationBarItem {
         }
         
         @objc private func triggerAction() {
-            controller?.execute(action: barItem.action, sender: self)
+            controller?.execute(actions: [barItem.action], origin: nil)
         }
     }
 }

@@ -27,8 +27,13 @@ public protocol BeagleControllerProtocol: NSObjectProtocol {
     
     func addBinding(_ update: @escaping () -> Void)
     
+    @available(*, deprecated, message: "use execute(actions:origin:) instead")
     func execute(action: RawAction, sender: Any)
+    @available(*, deprecated, message: "use execute(actions:contextId:contextValue:origin:) instead")
     func execute(actions: [RawAction]?, with context: Context?, sender: Any)
+    
+    func execute(actions: [RawAction]?, origin: UIView?)
+    func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView?)
 }
 
 public class BeagleScreenViewController: BeagleController {
@@ -111,10 +116,12 @@ public class BeagleScreenViewController: BeagleController {
         bindings = []
     }
     
+    @available(*, deprecated, message: "use execute(actions:origin:) instead")
     public func execute(action: RawAction, sender: Any) {
         (action as? Action)?.execute(controller: self, sender: sender)
     }
     
+    @available(*, deprecated, message: "use execute(actions:contextId:contextValue:origin:) instead")
     public func execute(actions: [RawAction]?, with context: Context? = nil, sender: Any) {
         guard let view = sender as? UIView, let actions = actions else { return }
         if let context = context {
@@ -123,6 +130,15 @@ public class BeagleScreenViewController: BeagleController {
         actions.forEach {
             execute(action: $0, sender: sender)
         }
+    }
+    
+    public func execute(actions: [RawAction]?, origin: UIView?) {
+        execute(actions: actions, sender: origin as Any)
+    }
+    
+    public func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView?) {
+        let context = Context(id: contextId, value: contextValue)
+        execute(actions: actions, with: context, sender: origin as Any)
     }
             
     // MARK: - Lifecycle

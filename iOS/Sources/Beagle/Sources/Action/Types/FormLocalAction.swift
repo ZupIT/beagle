@@ -15,6 +15,7 @@
  */
 
 import BeagleSchema
+import UIKit
 
 extension FormLocalAction: Action {
     public func execute(controller: BeagleController, sender: Any) {
@@ -27,7 +28,7 @@ extension FormLocalAction: Action {
                 controller.serverDrivenState = .error(.action(error))
             case .success(let action):
                 controller.serverDrivenState = .loading(false)
-                action.execute(controller: controller, sender: sender)
+                action.execute(controller: controller, origin: sender as? UIView)
             }
         }
     }

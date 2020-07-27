@@ -388,4 +388,13 @@ class BeagleControllerStub: BeagleController {
         actions?.forEach { execute(action: $0, sender: sender) }
     }
     
+    func execute(actions: [RawAction]?, origin: UIView?) {
+        actions?.forEach {
+            execute(action: $0, sender: origin as Any)
+        }
+    }
+    func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView?) {
+        execute(actions: actions, origin: origin)
+    }
+    
 }

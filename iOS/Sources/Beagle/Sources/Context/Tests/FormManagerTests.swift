@@ -122,7 +122,7 @@ final class FormManagerTests: XCTestCase {
         }
         // Then
         XCTAssertEqual(action.executionCount, 1)
-        XCTAssertTrue(action.lastSender as AnyObject === gesture)
+        XCTAssertNotNil(action.lastSender)
         XCTAssertFalse(isLoading)
     }
 

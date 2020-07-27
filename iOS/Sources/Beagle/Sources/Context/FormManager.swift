@@ -94,9 +94,9 @@ class FormManager {
 
         case let action as FormLocalAction:
             let newAction = FormLocalAction(name: action.name, data: inputs.merging(action.data) { a, _ in return a })
-            controller.execute(action: newAction, sender: sender)
+            controller.execute(actions: [newAction], origin: sender as? UIView)
         default:
-            controller.execute(action: action, sender: sender)
+            controller.execute(actions: [action], origin: sender as? UIView)
         }
     }
     
@@ -165,7 +165,7 @@ class FormManager {
         switch result {
         case .success(let action):
             controller.dependencies.formDataStoreHandler.formManagerDidSubmitForm(group: group)
-            controller.execute(action: action, sender: sender)
+            controller.execute(actions: [action], origin: sender as? UIView)
         case .failure(let error):
             controller.serverDrivenState = .error(.submitForm(error))
         }

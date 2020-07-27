@@ -27,14 +27,14 @@ extension Confirm: Action {
         let onPressOkAction = UIAlertAction(title: labelOk ?? "Ok", style: .default) {
             [weak controller] _ in guard let controller = controller else { return }
             if let onPressOk = self.onPressOk {
-                controller.execute(action: onPressOk, sender: sender)
+                controller.execute(actions: [onPressOk], origin: sender as? UIView)
             }
         }
         
         let onPressCancelAction = UIAlertAction(title: labelCancel ?? "Cancel", style: .default) {
             [weak controller] _ in guard let controller = controller else { return }
             if let onPressCancel = self.onPressCancel {
-                controller.execute(action: onPressCancel, sender: sender)
+                controller.execute(actions: [onPressCancel], origin: sender as? UIView)
             }
         }
         
