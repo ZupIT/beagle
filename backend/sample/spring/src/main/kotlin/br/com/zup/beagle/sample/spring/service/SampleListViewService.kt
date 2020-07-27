@@ -16,10 +16,13 @@
 
 package br.com.zup.beagle.sample.spring.service
 
+import br.com.zup.beagle.sample.builder.ListViewContextScreenBuilder
 import br.com.zup.beagle.sample.builder.ListViewScreenBuilder
 import org.springframework.stereotype.Service
 
 @Service
 class SampleListViewService {
     fun createListView() = ListViewScreenBuilder
+
+    fun createListViewContext() = ListViewContextScreenBuilder
 }
