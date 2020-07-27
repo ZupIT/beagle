@@ -23,6 +23,7 @@ import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
+import com.squareup.moshi.internal.Util
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
@@ -53,7 +54,7 @@ private class BindAdapter(
         val expression = reader.peekJson().readJsonValue()
         if (expression != null && expression is String && expression.isExpression()) {
             reader.skipValue()
-            return Bind.Expression(expression, type as Class<Any>)
+            return Bind.Expression(expression,(type as Util.ParameterizedTypeImpl).rawType as Class<Any>)
         }
 
         val value = adapter.fromJson(reader)

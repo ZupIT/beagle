@@ -104,7 +104,9 @@ class ListView private constructor(
                 contextAdapter = ListViewContextAdapter(template, viewFactory, orientation, rootView)
                 this@ListView.dataSource?.let { bind ->
                     observeBindChanges(rootView, bind) { value ->
-                        contextAdapter.setList(value)
+                        value?.let{
+                            contextAdapter.setList(it)
+                        }
                         adapter = contextAdapter
                     }
                 }

@@ -20,7 +20,6 @@ import androidx.annotation.VisibleForTesting
 import br.com.zup.beagle.android.data.serializer.adapter.*
 import br.com.zup.beagle.android.data.serializer.adapter.AndroidActionJsonAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.BindAdapterFactory
-import br.com.zup.beagle.android.data.serializer.adapter.BindCollectionAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.ComponentJsonAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.ContextDataAdapterFactory
 import br.com.zup.beagle.android.data.serializer.adapter.ImagePathTypeJsonAdapterFactory
