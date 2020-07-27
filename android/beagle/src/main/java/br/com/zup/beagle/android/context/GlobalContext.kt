@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.context
 
 import br.com.zup.beagle.android.action.SetContext
+import br.com.zup.beagle.android.action.SetContextInternal
 
 typealias GlobalContextObserver = (SetContext) -> Unit
 
@@ -28,6 +29,7 @@ object GlobalContext : GlobalContextAPI {
 
     private val globalContextObservers = mutableListOf<GlobalContextObserver>()
     private val contextDataEvaluation = ContextDataEvaluation()
+    private val contextDataManager = ContextDataManager()
 
     internal fun updateContext(contextData: ContextData, observer: GlobalContextObserver){
         globalContext = contextData
@@ -53,10 +55,12 @@ object GlobalContext : GlobalContextAPI {
     }
 
     override fun set(path: String?, value: Any) {
+        contextDataManager.updateContext(SetContextInternal(contextId = "global", value = value, path = path))
         globalContextObservers.notifyContextChange(path, value)
     }
 
     override fun clear(path: String?) {
+        contextDataManager.updateContext(SetContextInternal(contextId = "global", path = path, value = ""))
         globalContextObservers.notifyContextChange(path, "")
     }
 

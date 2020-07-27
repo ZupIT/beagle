@@ -41,10 +41,13 @@ class PageViewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        GlobalContext.set(value = "CarroVermelho")
-        val texto: String = "texto1 = " + GlobalContext.get().toString()
-        val texto2 = "texto2 = " + GlobalContext.get("bola").toString()
-//        GlobalContext.clear()
+        GlobalContext.set(path = "carro", value = "CarroVermelho")
+        GlobalContext.set(path = "gaveta", value = "Azul")
+//        GlobalContext.clear("carro.gaveta")
+
+        val texto2 = "texto2 = " + GlobalContext.get().toString()
+
+        val texto3 = "Text 3 = "+GlobalContext.get("gaveta").toString()
 
 
         val declarative = Container(
@@ -63,7 +66,7 @@ class PageViewFragment : Fragment() {
                         grow = 1.0
                     )
                 ),
-                Text("Page 3", alignment = TextAlignment.CENTER).applyFlex(
+                Text(text = texto3, alignment = TextAlignment.CENTER).applyFlex(
                     Flex(
                         alignSelf = AlignSelf.CENTER,
                         grow = 1.0
