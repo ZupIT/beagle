@@ -26,7 +26,7 @@ extension LazyComponent: ServerDrivenComponent {
     }
     
     private func lazyLoad(initialState view: UIView, renderer: BeagleRenderer) {
-        renderer.controller.dependencies.repository.fetchComponent(url: path, additionalData: nil) {
+        renderer.controller.dependencies.repository.fetchComponent(url: path, additionalData: nil, useCache: false) {
             [weak view, weak renderer] result in
             guard let view = view, let renderer = renderer else { return }
             switch result {

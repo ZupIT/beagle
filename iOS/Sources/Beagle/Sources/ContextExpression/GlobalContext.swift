@@ -14,29 +14,34 @@
  * limitations under the License.
  */
 
-import Foundation
 import BeagleSchema
 
-public protocol DependencyPreFetching {
-    var preFetchHelper: BeaglePrefetchHelping { get }
+public protocol GlobalContext {
+    var globalId: String { get }
+    var context: Observable<Context> { get }
+    
+    func isGlobal(id: String?) -> Bool
+    func setValue(_ value: DynamicObject)
 }
 
-public protocol BeaglePrefetchHelping {
-    func prefetchComponent(newPath: Route.NewPath)
+public protocol DependencyGlobalContext {
+    var globalContext: GlobalContext { get }
 }
 
-public class BeaglePreFetchHelper: BeaglePrefetchHelping {
+public class DefaultGlobalContext: GlobalContext {
     
-    public typealias Dependencies = DependencyRepository
-    let dependencies: Dependencies
+    public let globalId = "global"
     
-    public init(dependencies: Dependencies) {
-        self.dependencies = dependencies
+    private(set) public
+    lazy var context = Observable(value:
+        Context(id: globalId, value: .empty)
+    )
+    
+    public func isGlobal(id: String?) -> Bool {
+        globalId == id
     }
     
-    public func prefetchComponent(newPath: Route.NewPath) {
-        guard newPath.shouldPrefetch else { return }
-        dependencies.repository.fetchComponent(url: newPath.url, additionalData: nil, useCache: true) { _ in
-        }
+    public func setValue(_ value: DynamicObject) {
+        context.value = Context(id: globalId, value: value)
     }
 }

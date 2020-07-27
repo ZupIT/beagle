@@ -19,12 +19,12 @@ public enum Expression<T: Decodable> {
     case expression(ContextExpression)
 }
 
-public enum ContextExpression {
+public enum ContextExpression: Equatable {
     case single(SingleExpression)
     case multiple(MultipleExpression)
 }
 
-public struct SingleExpression: Decodable {
+public struct SingleExpression: Decodable, Equatable {
     public let context: String
     public let path: Path
     
@@ -52,10 +52,10 @@ extension SingleExpression: RawRepresentable {
     }
 }
 
-public struct MultipleExpression: Decodable {
+public struct MultipleExpression: Decodable, Equatable {
     public let nodes: [Node]
 
-    public enum Node {
+    public enum Node: Equatable {
         case string(String)
         case expression(SingleExpression)
     }

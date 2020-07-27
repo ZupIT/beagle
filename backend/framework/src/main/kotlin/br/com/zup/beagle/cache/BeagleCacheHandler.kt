@@ -17,17 +17,34 @@
 package br.com.zup.beagle.cache
 
 import com.google.common.hash.Hashing
+import com.google.common.net.HttpHeaders
 import java.net.HttpURLConnection
 import java.nio.charset.Charset
+import java.time.Duration
 
-class BeagleCacheHandler(excludeEndpoints: List<String> = listOf(), includeEndpoints: List<String> = listOf()) {
+class BeagleCacheHandler(properties: BeagleCacheProperties) {
     companion object {
         const val CACHE_HEADER = "beagle-hash"
+        internal const val MAX_AGE_HEADER = "max-age"
+        internal val DEFAULT_TTL = Duration.ofSeconds(30L)
     }
 
+    constructor(
+        excludeEndpoints: List<String> = listOf(),
+        includeEndpoints: List<String> = listOf(),
+        ttl: Map<String, Duration> = mapOf()
+    ) : this(
+        object : BeagleCacheProperties {
+            override val exclude: List<String> = excludeEndpoints
+            override val include: List<String> = includeEndpoints
+            override val ttl: Map<String, Duration> = ttl
+        }
+    )
+
     private val endpointHashMap = mutableMapOf<String, String>()
-    private val excludePatterns = excludeEndpoints.filter { it.isNotEmpty() }.map(::Regex)
-    private val includePatterns = includeEndpoints.filter { it.isNotEmpty() }.map(::Regex)
+    private val excludePatterns = properties.exclude.filter { it.isNotBlank() }.map(::Regex)
+    private val includePatterns = properties.include.filter { it.isNotBlank() }.map(::Regex)
+    private val ttl = properties.ttl.filterKeys { it.isNotBlank() }
 
     private fun generateHashForJson(json: String) =
         Hashing.sha512().hashString(json, Charset.defaultCharset()).toString()
@@ -46,33 +63,62 @@ class BeagleCacheHandler(excludeEndpoints: List<String> = listOf(), includeEndpo
             this.generateHashForJson(json)
         }
 
+    @Deprecated("Please use the new signature.")
     fun <T> handleCache(
         endpoint: String,
         receivedHash: String?,
         currentPlatform: String?,
         initialResponse: T,
         restHandler: RestCacheHandler<T>
-    ) =
-        when {
-            this.isEndpointExcluded(endpoint) -> restHandler.callController(initialResponse)
-            receivedHash != null && this.isHashUpToDate(
-                endpoint = endpoint,
-                currentPlatform = currentPlatform,
-                hash = receivedHash
-            ) ->
-                restHandler.addStatus(initialResponse, HttpURLConnection.HTTP_NOT_MODIFIED)
-                    .let { restHandler.addHashHeader(it, receivedHash) }
-            else ->
-                restHandler.callController(initialResponse)
-                    .let {
-                        restHandler.addHashHeader(
-                            it,
-                            this.generateAndAddHash(
-                                endpoint = endpoint,
-                                currentPlatform = currentPlatform,
-                                json = restHandler.getBody(it)
-                            )
-                        )
-                    }
+    ) = this.handleCache(
+        endpoint,
+        receivedHash,
+        currentPlatform,
+        object : HttpCacheHandler<T> {
+            override fun createResponseFromController() = restHandler.callController(initialResponse)
+
+            override fun createResponse(status: Int) = restHandler.addStatus(initialResponse, status)
+
+            override fun getBody(response: T) = restHandler.getBody(response)
+
+            override fun addHeader(response: T, key: String, value: String) =
+                if (key == CACHE_HEADER) restHandler.addHashHeader(response, value) else response
         }
+    )
+
+    fun <T> handleCache(
+        endpoint: String,
+        receivedHash: String?,
+        currentPlatform: String?,
+        handler: HttpCacheHandler<T>
+    ) = when {
+        this.isEndpointExcluded(endpoint) -> handler.createResponseFromController()
+        receivedHash != null && this.isHashUpToDate(
+            endpoint = endpoint,
+            currentPlatform = currentPlatform,
+            hash = receivedHash
+        ) ->
+            handler.createResponse(HttpURLConnection.HTTP_NOT_MODIFIED)
+                .let { handler.addHeader(it, CACHE_HEADER, receivedHash) }
+                .let { this.addTtlHeader(it, endpoint, handler) }
+        else ->
+            handler.createResponseFromController()
+                .let {
+                    handler.addHeader(
+                        it,
+                        CACHE_HEADER,
+                        this.generateAndAddHash(
+                            endpoint = endpoint,
+                            currentPlatform = currentPlatform,
+                            json = handler.getBody(it)
+                        )
+                    )
+                }.let { this.addTtlHeader(it, endpoint, handler) }
+    }
+
+    private fun <T> addTtlHeader(response: T, endpoint: String, handler: HttpCacheHandler<T>) = handler.addHeader(
+        response = response,
+        key = HttpHeaders.CACHE_CONTROL,
+        value = "$MAX_AGE_HEADER=${(this.ttl[endpoint] ?: DEFAULT_TTL).seconds}"
+    )
 }
