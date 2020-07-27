@@ -14,24 +14,37 @@
  * limitations under the License.
  */
 
+/// Handles screens navigations actions of the application.
 public enum Navigate: RawAction {
-    
+    /// Opens up an available browser on the device and navigates to a passed URL as String.
     case openExternalURL(String)
+    /// Opens up a route to execute an action declared on defined deeplink in the application.
     case openNativeRoute(OpenNativeRoute)
 
+    /// Resets the entire application to create a new flow with the passed route.
     case resetApplication(Route)
+    /// Resets the views stack to create a new flow with the passed route.
     case resetStack(Route)
-        
+    
+    /// Presents a new screen that comes from a passed route starting a new flow.
     case pushStack(Route)
+    /// Unstacks the current view stack.
     case popStack
 
+    /// Opens a new screen for the given route  and stacks that at the top of the hierarchy.
     case pushView(Route)
+    /// Dismisses the current view.
     case popView
+    /// Returns the stack of screens in the application flow for a given screen in a route that is passed as String.
     case popToView(String)
     
+    /// Opens up a route that executes the action declared in the defined deeplink for the application.
     public struct OpenNativeRoute {
+        /// Deeplink identifier.
         public let route: String
+        /// Data that could be passed betwwen screens.
         public let data: [String: String]?
+        /// Allows customization of the behavior of restarting the application view stack.
         public let shouldResetApplication: Bool
 
         public init(
@@ -46,17 +59,21 @@ public enum Navigate: RawAction {
     }
 }
 
+
+/// Defines a navigation route type which can be to a remote route or to a locally declared screen.
 public enum Route {
-    
     case remote(NewPath)
     case declarative(Screen)
-    
 }
 
 extension Route {
+    /// Constructs a new path to a remote screen.
     public struct NewPath {
+        /// Contains the navigation endpoint.
         public let url: String
+        /// Tells Beagle if the navigation request should be previously loaded or not.
         public let shouldPrefetch: Bool
+        /// An screen that should be rendered in case of request fail.
         public let fallback: Screen?
 
         public init(url: String, shouldPrefetch: Bool = false, fallback: Screen? = nil) {
