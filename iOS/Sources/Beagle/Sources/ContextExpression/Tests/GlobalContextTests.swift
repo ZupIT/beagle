@@ -47,14 +47,14 @@ final class GlobalContextTests: XCTestCase {
     }
     
     func testSetContextInViewWithGlobalId() {
-        XCTAssertNil(view1.contextMap)
-        XCTAssertNil(view2.contextMap)
+        XCTAssertTrue(view1.contextMap.isEmpty)
+        XCTAssertTrue(view2.contextMap.isEmpty)
         
         view1.setContext(globalContext1)
         view2.setContext(globalContext2)
         
-        XCTAssertNil(view2.contextMap)
-        XCTAssertNil(view1.contextMap)
+        XCTAssertTrue(view2.contextMap.isEmpty)
+        XCTAssertTrue(view1.contextMap.isEmpty)
     }
     
     func testSetContext() {
