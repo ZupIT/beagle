@@ -89,16 +89,19 @@ internal class ContextDataManager(
     }
 
     fun updateContext(view: View, setContextInternal: SetContextInternal): Boolean {
-        return view.findParentContextWithId(setContextInternal.contextId)?.let { contextBinding ->
-            val path = setContextInternal.path ?: contextBinding.context.id
-            val setValue = setValue(view, contextBinding, path, setContextInternal.value)
-            if (setValue) {
-                view.getContextBinding()?.let {
-                    contexts[view.id] = it
+        return view.findParentContextWithId(setContextInternal.contextId)?.let { parentView ->
+            val currentContextBinding = parentView.getContextBinding()
+            currentContextBinding?.let {
+                val path = setContextInternal.path ?: currentContextBinding.context.id
+                val setValue = setValue(parentView, currentContextBinding, path, setContextInternal.value)
+                if (setValue) {
+                    parentView.getContextBinding()?.let { newContextBinding ->
+                        contexts[parentView.id] = newContextBinding
+                        notifyBindingChanges(newContextBinding)
+                    }
                 }
-                notifyBindingChanges(contextBinding)
+                setValue
             }
-            setValue
         } ?: false
     }
 

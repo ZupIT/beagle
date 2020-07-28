@@ -23,12 +23,12 @@ import br.com.zup.beagle.android.context.ContextBinding
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.normalize
 
-internal fun View.findParentContextWithId(contextId: String): ContextBinding? {
+internal fun View.findParentContextWithId(contextId: String): View? {
     var parentView: View? = this.getParentContextData()
     do {
         val context = parentView?.getContextBinding()
         if (context != null && context.context.id == contextId) {
-            return context
+            return parentView
         }
         parentView = (parentView?.parent as? ViewGroup)?.getParentContextData()
     } while (parentView != null)
