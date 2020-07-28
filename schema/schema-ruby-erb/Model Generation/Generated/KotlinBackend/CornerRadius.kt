@@ -17,6 +17,7 @@
 
 package br.com.zup.beagle.widget.core
 
+
 data class CornerRadius (
   public override val radius: Double   
 ) : CornerRadiusSchema {

@@ -17,6 +17,8 @@
 
 package br.com.zup.beagle.widget.core
 
+import br.com.zup.beagle.widget.core.UnitValue
+
 interface EdgeValueSchema {
   public val left: UnitValue?
   public val top: UnitValue?

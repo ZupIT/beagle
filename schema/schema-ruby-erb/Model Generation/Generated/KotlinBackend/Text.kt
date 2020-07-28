@@ -17,6 +17,7 @@
 
 package br.com.zup.beagle.widget.ui
 
+
 data class Text (
   public override val text: Bind<String>,  
   public override val styleId: String?   

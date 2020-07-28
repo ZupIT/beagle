@@ -17,6 +17,7 @@
 
 package br.com.zup.beagle.widget.core
 
+
 interface DisplaySchema {
   public val backgroundColor: String? 
 }

@@ -17,6 +17,7 @@
 
 package br.com.zup.beagle.widget.core
 
+
 data class UnitValue (
   public override val value: Double,  
   public override val type: UnityType   

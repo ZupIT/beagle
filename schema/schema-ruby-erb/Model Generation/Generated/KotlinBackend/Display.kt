@@ -17,6 +17,7 @@
 
 package br.com.zup.beagle.widget.core
 
+
 data class Display (
   public override val backgroundColor: String?   
 ) : DisplaySchema {

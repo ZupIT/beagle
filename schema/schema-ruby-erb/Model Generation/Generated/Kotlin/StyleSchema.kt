@@ -17,6 +17,11 @@
 
 package br.com.zup.beagle.widget.core
 
+import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.PositionType
+import br.com.zup.beagle.widget.core.Display
+
 interface StyleSchema {
   public val backgroundColor: String?
   public val cornerRadius: String?

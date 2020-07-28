@@ -21,10 +21,19 @@
       output = variable.isOptional ? output + "?" : output
       output
   end
+
+  def getImports(variables, importManager)
+    variables.map { | variable| importManager[variable.typeName] }.uniq.filter { |import| !import.empty? }
+  end
 -%>
 
 package <%= objectType.synthaxType.package -%>
 
+
+<% for qualifiedName in getImports(objectType.synthaxType.variables, importManager) -%>
+import <%= qualifiedName -%>
+
+<% end -%>
 
 interface <%= objectType.synthaxType.name -%>Schema {<% -%>
 <% for variable in objectType.synthaxType.variables %>

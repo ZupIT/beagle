@@ -17,6 +17,7 @@
 
 package br.com.zup.beagle.widget.core
 
+
 data class PositionType (
   public override val backgroundColor: String?   
 ) : PositionTypeSchema {

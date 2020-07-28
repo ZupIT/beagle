@@ -40,9 +40,15 @@ class ModelGenerator
     @erb = nil
     @writer = FileHandler.new
     @components = components
+    @importManager = Hash.new("")
+    
+    components.each do |component|
+      type = component.new.synthaxType
+      @importManager[type.name] = "#{type.package}.#{type.name}"
+    end
   end
   
-  attr_accessor :objectType
+  attr_accessor :objectType, :importManager
 
   def to_s
     @erb.result(binding)
