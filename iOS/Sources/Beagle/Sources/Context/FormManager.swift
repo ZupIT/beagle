@@ -57,7 +57,7 @@ class FormManager {
             saveFormData(values: values, group: sender.form.group)
         }
         sender.form.onSubmit?.forEach { action in
-            submitAction(action, inputs: values, sender: sender, group: sender.form.group)
+            submitAction(action, inputs: values, origin: sender.formSubmitView, group: sender.form.group)
         }
     }
     
@@ -87,20 +87,20 @@ class FormManager {
         }
     }
 
-    private func submitAction(_ action: RawAction, inputs: [String: String], sender: Any, group: String?) {
+    private func submitAction(_ action: RawAction, inputs: [String: String], origin: UIView?, group: String?) {
         switch action {
         case let action as FormRemoteAction:
-            submitForm(action, inputs: inputs, sender: sender, group: group)
+            submitForm(action, inputs: inputs, origin: origin, group: group)
 
         case let action as FormLocalAction:
             let newAction = FormLocalAction(name: action.name, data: inputs.merging(action.data) { a, _ in return a })
-            controller.execute(actions: [newAction], origin: sender as? UIView)
+            controller.execute(actions: [newAction], origin: origin)
         default:
-            controller.execute(actions: [action], origin: sender as? UIView)
+            controller.execute(actions: [action], origin: origin)
         }
     }
     
-    private func submitForm(_ remote: FormRemoteAction, inputs: [String: String], sender: Any, group: String?) {
+    private func submitForm(_ remote: FormRemoteAction, inputs: [String: String], origin: UIView?, group: String?) {
         controller.serverDrivenState = .loading(true)
 
         let data = Request.FormData(
@@ -111,7 +111,7 @@ class FormManager {
         controller.dependencies.repository.submitForm(url: remote.path, additionalData: nil, data: data) {
             result in
             self.controller.serverDrivenState = .loading(false)
-            self.handleFormResult(result, sender: sender, group: group)
+            self.handleFormResult(result, origin: origin, group: group)
         }
         controller.dependencies.logger.log(Log.form(.submittedValues(values: inputs)))
     }
@@ -161,11 +161,11 @@ class FormManager {
         return validator
     }
 
-    private func handleFormResult(_ result: Result<RawAction, Request.Error>, sender: Any, group: String?) {
+    private func handleFormResult(_ result: Result<RawAction, Request.Error>, origin: UIView?, group: String?) {
         switch result {
         case .success(let action):
             controller.dependencies.formDataStoreHandler.formManagerDidSubmitForm(group: group)
-            controller.execute(actions: [action], origin: sender as? UIView)
+            controller.execute(actions: [action], origin: origin)
         case .failure(let error):
             controller.serverDrivenState = .error(.submitForm(error))
         }
