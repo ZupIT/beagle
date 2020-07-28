@@ -48,9 +48,6 @@ internal fun View.applyStyle(component: ServerDrivenComponent) {
         } else {
             styleManagerFactory.applyStyleComponent(component = it, view = this)
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            elevation = 1.6f
-        }
     }
 }
 
