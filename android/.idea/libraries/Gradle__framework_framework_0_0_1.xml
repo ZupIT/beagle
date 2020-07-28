@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: framework.framework-0.0.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../backend/framework/build/libs/framework-0.0.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="testRunner" value="PLATFORM" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleJvm" value="1.8" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/.." />
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/android-annotation" />
+            <option value="$PROJECT_DIR$/android-internal-processor" />
+            <option value="$PROJECT_DIR$/android-preview" />
+            <option value="$PROJECT_DIR$/android-processor" />
+            <option value="$PROJECT_DIR$/automated-tests" />
+            <option value="$PROJECT_DIR$/beagle" />
+            <option value="$PROJECT_DIR$/sample" />
+            <option value="$PROJECT_DIR$/../backend" />
+            <option value="$PROJECT_DIR$/../backend/automated-tests" />
+            <option value="$PROJECT_DIR$/../backend/backend-widgets" />
+            <option value="$PROJECT_DIR$/../backend/framework" />
+            <option value="$PROJECT_DIR$/../backend/processor" />
+            <option value="$PROJECT_DIR$/../backend/sample" />
+            <option value="$PROJECT_DIR$/../backend/sample/core" />
+            <option value="$PROJECT_DIR$/../backend/sample/micronaut" />
+            <option value="$PROJECT_DIR$/../backend/sample/spring" />
+            <option value="$PROJECT_DIR$/../backend/starters" />
+            <option value="$PROJECT_DIR$/../backend/starters/beagle-micronaut-starter" />
+            <option value="$PROJECT_DIR$/../backend/starters/beagle-spring-starter" />
+            <option value="$PROJECT_DIR$/../common" />
+            <option value="$PROJECT_DIR$/../common/annotation" />
+            <option value="$PROJECT_DIR$/../common/extended-schema" />
+            <option value="$PROJECT_DIR$/../common/processor-utils" />
+            <option value="$PROJECT_DIR$/../schema" />
+            <option value="$PROJECT_DIR$/../schema/kotlin-core" />
+          </set>
+        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

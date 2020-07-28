@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: jakarta.annotation-api-1.3.5">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/jakarta.annotation/jakarta.annotation-api/1.3.5/59eb84ee0d616332ff44aba065f3888cf002cd2d/jakarta.annotation-api-1.3.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/jakarta.annotation/jakarta.annotation-api/1.3.5/1ad35f11d17abb52426bfe15ea7b4c583795012/jakarta.annotation-api-1.3.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

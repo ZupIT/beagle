@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: android-internal-processor.android-internal-processor-0.0.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/android-internal-processor/build/libs/android-internal-processor-0.0.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

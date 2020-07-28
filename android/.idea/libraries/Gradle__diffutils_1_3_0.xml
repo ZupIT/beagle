@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: diffutils-1.3.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.java-diff-utils/diffutils/1.3.0/7e060dd5b19431e6d198e91ff670644372f60fbd/diffutils-1.3.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.java-diff-utils/diffutils/1.3.0/90b4aaa9530827fe6ad2b6684389c86999e861a3/diffutils-1.3.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

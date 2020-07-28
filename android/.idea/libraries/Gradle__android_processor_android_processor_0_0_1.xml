@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: android-processor.android-processor-0.0.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/android-processor/build/libs/android-processor-0.0.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: guava-27.1-jre">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/27.1-jre/e47b59c893079b87743cdcfb6f17ca95c08c592c/guava-27.1-jre.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/27.1-jre/5dfa313690a903560bf27478345780a607bf1e9b/guava-27.1-jre-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: kotlin-core.kotlin-core-0.0.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../schema/kotlin-core/build/libs/kotlin-core-0.0.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

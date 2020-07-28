@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-autoconfigure-processor/2.3.1.RELEASE/55f34063f6db59ab8664d3533013185c4507c279/spring-boot-autoconfigure-processor-2.3.1.RELEASE.jar" />
+        </processorPath>
+        <module name="beagle-spring-starter" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>

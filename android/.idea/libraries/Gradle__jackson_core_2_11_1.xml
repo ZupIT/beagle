@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: jackson-core-2.11.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.11.1/8b02908d53183fdf9758e7e20f2fdee87613a962/jackson-core-2.11.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.11.1/ce3da218d2e274f2c97068a8529232137b94d1bb/jackson-core-2.11.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: beagle-spring-starter.beagle-spring-starter-0.0.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../backend/starters/beagle-spring-starter/build/libs/beagle-spring-starter-0.0.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: processor-utils.processor-utils-0.0.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../common/processor-utils/build/libs/processor-utils-0.0.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

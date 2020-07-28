@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: jakarta.activation-api-1.2.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/jakarta.activation/jakarta.activation-api/1.2.2/99f53adba383cb1bf7c3862844488574b559621f/jakarta.activation-api-1.2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/jakarta.activation/jakarta.activation-api/1.2.2/c45b5962230be8a5f93759203870c98917bb8b31/jakarta.activation-api-1.2.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

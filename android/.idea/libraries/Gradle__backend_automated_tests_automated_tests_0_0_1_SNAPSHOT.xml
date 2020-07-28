@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: backend-automated-tests.automated-tests-0.0.1-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../backend/automated-tests/build/libs/automated-tests-0.0.1-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

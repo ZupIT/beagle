@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.facebook.yoga.android:yoga-layout:1.16.0@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/35ca80a980f08dcf1a77f3cfc4c2e0d4/jetified-yoga-layout-1.16.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/35ca80a980f08dcf1a77f3cfc4c2e0d4/jetified-yoga-layout-1.16.0/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.facebook.yoga.android/yoga-layout/1.16.0/c86ec200ad602ce0c698facec5426f78640e966f/yoga-layout-1.16.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.facebook.yoga.android/yoga-layout/1.16.0/587717aa696cf491ee5805eac88c319bbecb0940/yoga-layout-1.16.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

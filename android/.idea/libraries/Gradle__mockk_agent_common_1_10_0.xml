@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: mockk-agent-common-1.10.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.mockk/mockk-agent-common/1.10.0/75e868f97405dc8d367d028dac80239266c48e6f/mockk-agent-common-1.10.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.mockk/mockk-agent-common/1.10.0/baa1a6388350f473a393512b9f3ca8b386a816d1/mockk-agent-common-1.10.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
