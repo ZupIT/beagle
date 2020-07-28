@@ -37,17 +37,12 @@ import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.widget.RootView
-import io.mockk.Runs
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.just
-import io.mockk.mockkStatic
-import io.mockk.spyk
-import io.mockk.unmockkAll
-import io.mockk.verify
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class ToolbarManagerTest : BaseTest() {
 
@@ -97,6 +92,7 @@ class ToolbarManagerTest : BaseTest() {
     private val styleInt = RandomData.int()
     private val titleTextAppearance = RandomData.int()
     private val backgroundColorInt = RandomData.int()
+    private val listenerSlot = slot<View.OnClickListener>()
 
     override fun setUp() {
         super.setUp()
@@ -121,6 +117,8 @@ class ToolbarManagerTest : BaseTest() {
         every { typedArray.recycle() } just Runs
 
         toolbarManager = ToolbarManager()
+
+        every { toolbar.setNavigationOnClickListener(capture(listenerSlot)) } returns Unit
     }
 
     override fun tearDown() {
@@ -129,30 +127,48 @@ class ToolbarManagerTest : BaseTest() {
     }
 
     @Test
-    fun configure_navigation_bar_when_supportActionBar_is_not_null_and_toolbar_is_null() {
+    fun `configureNavigationBarForScreen should set toolbar setNavigationOnClickListener when navigationBar showBackButton is true`() {
         // Given
         val showBackButton = true
         every { navigationBar.showBackButton } returns showBackButton
-        every { context.supportActionBar } returns actionBar
+        every { context.getToolbar() } returns toolbar
 
         // When
         toolbarManager.configureNavigationBarForScreen(context, navigationBar)
 
         // Then
-        verify(atLeast = once()) { actionBar.setDisplayHomeAsUpEnabled(showBackButton) }
-        verify(atLeast = once()) { actionBar.setDisplayShowHomeEnabled(showBackButton) }
-        verify(atLeast = once()) { actionBar.show() }
+        assertTrue { listenerSlot.isCaptured }
     }
 
     @Test
-    fun configure_toolbar_style_when_supportActionBar_is_not_null_and_toolbar_is_not_null() {
+    fun `configureNavigationBarForScreen should set NavigationIcon when navigationBar showBackButton is true`() {
+        // Given
+        val toolbarManagerSpy = spyk(toolbarManager, recordPrivateCalls = true)
+        val homeAsUpIndicatorAttr = R.attr.homeAsUpIndicator
+        val showBackButton = true
+        toolbar.navigationIcon = null
+        every { navigationBar.showBackButton } returns showBackButton
+        every { context.getToolbar() } returns toolbar
+        every { toolbar.navigationIcon } returns null
+
+
+        // When
+        toolbarManagerSpy.configureNavigationBarForScreen(context, navigationBar)
+
+        // Then
+        verify(exactly = 1) { toolbarManagerSpy["setupNavigationIcon"](context, toolbar) }
+        verify(exactly = 1) { toolbarManagerSpy["getDrawableFromAttribute"](context, homeAsUpIndicatorAttr) }
+    }
+
+    //TODO: verificar esse método
+    @Test
+    fun configure_toolbar_style_when_toolbar_is_not_null() {
         // Given
         val title = RandomData.string()
         every { navigationBar.title } returns title
         every { beagleSdk.designSystem } returns designSystemMock
         every { designSystemMock.toolbarStyle(style) } returns styleInt
         every { navigationBar.styleId } returns style
-        every { context.supportActionBar } returns actionBar
         every { context.getToolbar() } returns toolbar
         every { navigationBar.showBackButton } returns true
 

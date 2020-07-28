@@ -19,18 +19,10 @@ package br.com.zup.beagle.android.components.form
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.action.FormRemoteAction
-import br.com.zup.beagle.android.action.Navigate
-import br.com.zup.beagle.android.action.FormValidation
-import br.com.zup.beagle.android.action.ResultListener
+import br.com.zup.beagle.android.action.*
 import br.com.zup.beagle.android.components.BaseComponentTest
-import br.com.zup.beagle.android.components.form.core.Constants
-import br.com.zup.beagle.android.components.form.core.FormDataStoreHandler
-import br.com.zup.beagle.android.components.form.core.FormResult
-import br.com.zup.beagle.android.components.form.core.FormValidatorController
-import br.com.zup.beagle.android.components.form.core.Validator
-import br.com.zup.beagle.android.components.form.core.ValidatorHandler
+import br.com.zup.beagle.android.components.form.core.*
+import br.com.zup.beagle.android.components.utils.beagleComponent
 import br.com.zup.beagle.android.components.utils.hideKeyboard
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.extensions.once
@@ -40,18 +32,7 @@ import br.com.zup.beagle.android.testutil.getPrivateField
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkConstructor
-import io.mockk.mockkObject
-import io.mockk.mockkStatic
-import io.mockk.slot
-import io.mockk.unmockkAll
-import io.mockk.verify
-import io.mockk.verifyOrder
-import org.junit.After
+import io.mockk.*
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -106,9 +87,11 @@ class FormTest : BaseComponentTest() {
         every { inputWidget.getValue() } returns INPUT_VALUE
         every { formInput.child } returns inputWidget
         every { formInputView.context } returns beagleActivity
-        every { formInputView.tag } returns formInput
+        every { formInputView.beagleComponent } returns formInput
+        every { formInputView.getTag(any()) } returns formInput
         every { formSubmitView.hideKeyboard() } just Runs
-        every { formSubmitView.tag } returns formSubmit
+        every { formSubmitView.beagleComponent } returns formSubmit
+        every { formSubmitView.getTag(any()) } returns formSubmit
         every { formSubmitView.context } returns beagleActivity
         every { formSubmitView.setOnClickListener(capture(onClickListenerSlot)) } just Runs
         every { viewGroup.childCount } returns 2
@@ -149,7 +132,7 @@ class FormTest : BaseComponentTest() {
         // Given
         val childViewGroup = mockk<ViewGroup>()
         every { childViewGroup.childCount } returns 0
-        every { childViewGroup.tag } returns null
+        every { childViewGroup.beagleComponent } returns null
         every { viewGroup.childCount } returns 1
         every { viewGroup.getChildAt(any()) } returns childViewGroup
 
@@ -165,7 +148,7 @@ class FormTest : BaseComponentTest() {
         // Given
         val childViewGroup = mockk<ViewGroup>()
         every { childViewGroup.childCount } returns 0
-        every { childViewGroup.tag } returns mockk<FormInput>(relaxed = true)
+        every { childViewGroup.getTag(any()) } returns mockk<FormInput>(relaxed = true)
         every { viewGroup.childCount } returns 1
         every { viewGroup.getChildAt(any()) } returns childViewGroup
 
@@ -322,7 +305,7 @@ class FormTest : BaseComponentTest() {
 
         // Then
         verify(exactly = once()) {
-            beagleActivity.onServerDrivenContainerStateChanged(ServerDrivenState.Error(formResult.throwable))
+            beagleActivity.onServerDrivenContainerStateChanged(any<ServerDrivenState.FormError>())
         }
     }
 

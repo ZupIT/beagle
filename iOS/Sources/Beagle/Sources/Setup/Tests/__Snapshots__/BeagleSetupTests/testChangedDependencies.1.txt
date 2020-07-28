@@ -7,6 +7,13 @@
     - some: DeepLinkHandlerDummy
   ▿ formDataStoreHandler: FormDataStoreHandler
     - dataStore: 0 key/value pairs
+  ▿ globalContext: GlobalContextDummy
+    ▿ context: Observable<Context>
+      - _observers: 0 elements
+      ▿ value: Context
+        - id: ""
+        - value: DynamicObject.empty
+    - globalId: ""
   - isLoggingEnabled: true
   ▿ localFormHandler: Optional<LocalFormHandler>
     ▿ some: LocalFormHandlerSpy
