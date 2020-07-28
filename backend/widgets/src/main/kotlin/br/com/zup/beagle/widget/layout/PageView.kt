@@ -38,32 +38,37 @@ data class PageView(
     val pageIndicator: PageIndicatorComponent? = null,
     override val context: ContextData? = null,
     val onPageChange: List<Action>? = null,
-    val currentPage: Bind<Int>? = null
+    val currentPage: Bind<Int>? = null,
+    val showArrow: Boolean? = null
 ) : ServerDrivenComponent, ContextComponent {
 
     @Deprecated(DEPRECATED_PAGE_VIEW)
     constructor(
         children: List<ServerDrivenComponent>,
         pageIndicator: PageIndicatorComponent? = null,
-        context: ContextData? = null
+        context: ContextData? = null,
+        showArrow: Boolean? = null
     ) : this(
         children,
         pageIndicator,
         context,
         null,
-        null
+        null,
+        showArrow
     )
 
     constructor(
         children: List<ServerDrivenComponent>,
         context: ContextData? = null,
         onPageChange: List<Action>? = null,
-        currentPage: Bind<Int>? = null
+        currentPage: Bind<Int>? = null,
+        showArrow: Boolean? = null
     ) : this(
         children,
         null,
         context,
         onPageChange,
-        currentPage
+        currentPage,
+        showArrow
     )
 }
