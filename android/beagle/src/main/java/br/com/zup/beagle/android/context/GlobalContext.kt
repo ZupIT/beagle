@@ -28,8 +28,6 @@ object GlobalContext {
     private val contextDataEvaluation = ContextDataEvaluation()
     private val contextDataManager = ContextDataManager()
 
-    // Internal methods
-
     internal fun updateContext(contextData: ContextData, observer: GlobalContextObserver) {
         globalContext = contextData
         globalContextObservers.filter { it != observer }.notifyContextChange(value = contextData.value)
@@ -48,9 +46,6 @@ object GlobalContext {
     internal fun clearContext() {
         globalContext = createGlobalContext()
     }
-
-
-    // Public methods
 
     fun get(path: String? = null): Any? {
         var newPath = ""
@@ -72,8 +67,6 @@ object GlobalContext {
         contextDataManager.updateContext(SetContextInternal(contextId = "global", path = path, value = ""))
         globalContextObservers.notifyContextChange(path, "")
     }
-
-    // Private methods
 
     private fun createGlobalContext() = ContextData(id = "global", value = "")
 

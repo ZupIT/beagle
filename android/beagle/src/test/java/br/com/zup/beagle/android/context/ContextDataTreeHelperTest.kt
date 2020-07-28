@@ -22,7 +22,7 @@ import br.com.zup.beagle.android.testutil.RandomData
 import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Test
-import java.util.*
+import java.util.LinkedList
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
