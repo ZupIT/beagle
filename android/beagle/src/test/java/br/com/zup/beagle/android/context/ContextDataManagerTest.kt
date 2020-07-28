@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.context
 
-import android.util.LruCache
+import androidx.collection.LruCache
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.extensions.once

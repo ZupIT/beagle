@@ -22,15 +22,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.components.Text
-import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.page.PageIndicator
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.widget.core.AlignSelf
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.android.components.page.PageView
-import br.com.zup.beagle.android.context.GlobalContext
-import br.com.zup.beagle.android.context.expressionOf
-import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.widget.core.TextAlignment
 
@@ -40,33 +36,25 @@ class PageViewFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        GlobalContext.set(path = "carro", value = "CarroVermelho")
-        GlobalContext.set(path = "gaveta", value = "Azul")
-//        GlobalContext.clear("carro.gaveta")
-
-        val texto2 = "texto2 = " + GlobalContext.get().toString()
-
-        val texto3 = "Text 3 = "+GlobalContext.get("gaveta").toString()
-
-
-        val declarative = Container(
-
+        val declarative = PageView(
+            pageIndicator = PageIndicator(
+                selectedColor = "#000000",
+                unselectedColor = "#888888"
+            ),
             children = listOf(
-                Text(text = expressionOf<String>("@{global}"), alignment = valueOf(TextAlignment.CENTER)).applyFlex(
-//                Text(text = texto, alignment = TextAlignment.CENTER).applyFlex(
+                Text("Page 1", alignment = TextAlignment.CENTER).applyFlex(
                     Flex(
                         alignSelf = AlignSelf.CENTER,
                         grow = 1.0
                     )
                 ),
-                Text(text = texto2, alignment = TextAlignment.CENTER).applyFlex(
+                Text("Page 2", alignment = TextAlignment.CENTER).applyFlex(
                     Flex(
                         alignSelf = AlignSelf.CENTER,
                         grow = 1.0
                     )
                 ),
-                Text(text = texto3, alignment = TextAlignment.CENTER).applyFlex(
+                Text("Page 3", alignment = TextAlignment.CENTER).applyFlex(
                     Flex(
                         alignSelf = AlignSelf.CENTER,
                         grow = 1.0

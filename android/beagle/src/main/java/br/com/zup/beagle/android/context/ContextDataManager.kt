@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.context
 
-import android.util.LruCache
+import androidx.collection.LruCache
 import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.jsonpath.JsonCreateTree
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
@@ -32,7 +32,7 @@ internal data class ContextBinding(
         val expression = binding.value
         if (cache[expression] == null) {
             val value = ContextDataEvaluation().evaluateBindExpression(context, binding)
-            if(value != null) {
+            if (value != null) {
                 cache.put(expression, value)
             }
         }
@@ -108,9 +108,9 @@ internal class ContextDataManager(
             val setValue = setValue(contextBinding, path, setContextInternal.value)
             if (setValue) {
                 evaluateContext(setContextInternal.contextId)
-               if (shouldUpdateGlobalContext) {
-                   updateGlobalContext(setContextInternal)
-               }
+                if (shouldUpdateGlobalContext) {
+                    updateGlobalContext(setContextInternal)
+                }
             }
             setValue
 

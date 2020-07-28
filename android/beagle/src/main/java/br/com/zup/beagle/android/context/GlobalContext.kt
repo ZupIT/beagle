@@ -21,17 +21,16 @@ import br.com.zup.beagle.android.action.SetContextInternal
 
 typealias GlobalContextObserver = (SetContext) -> Unit
 
-object GlobalContext : GlobalContextAPI {
+object GlobalContext {
 
     private var globalContext = createGlobalContext()
-
-    data class Casa(val endereco: String, val numero: String)
-
     private val globalContextObservers = mutableListOf<GlobalContextObserver>()
     private val contextDataEvaluation = ContextDataEvaluation()
     private val contextDataManager = ContextDataManager()
 
-    internal fun updateContext(contextData: ContextData, observer: GlobalContextObserver){
+    // Internal methods
+
+    internal fun updateContext(contextData: ContextData, observer: GlobalContextObserver) {
         globalContext = contextData
         globalContextObservers.filter { it != observer }.notifyContextChange(value = contextData.value)
     }
@@ -46,25 +45,39 @@ object GlobalContext : GlobalContextAPI {
 
     internal fun getContext() = globalContext
 
-    override fun get(path: String?): Any? {
+    internal fun clearContext() {
+        globalContext = createGlobalContext()
+    }
+
+
+    // Public methods
+
+    fun get(path: String? = null): Any? {
         var newPath = ""
         if (path != null) {
             newPath = ".$path"
         }
-        return contextDataEvaluation.evaluateBindExpression(globalContext, expressionOf<Any>("@{global$newPath}"))
+        return contextDataEvaluation.evaluateBindExpression(
+            globalContext,
+            expressionOf<Any>("@{global$newPath}")
+        )
     }
 
-    override fun set(path: String?, value: Any) {
+    fun set(path: String? = null, value: Any) {
         contextDataManager.updateContext(SetContextInternal(contextId = "global", value = value, path = path))
         globalContextObservers.notifyContextChange(path, value)
     }
 
-    override fun clear(path: String?) {
+    fun clear(path: String? = null) {
         contextDataManager.updateContext(SetContextInternal(contextId = "global", path = path, value = ""))
         globalContextObservers.notifyContextChange(path, "")
     }
 
-    private fun List<GlobalContextObserver>.notifyContextChange(path: String?=null, value: Any) {
+    // Private methods
+
+    private fun createGlobalContext() = ContextData(id = "global", value = "")
+
+    private fun List<GlobalContextObserver>.notifyContextChange(path: String? = null, value: Any) {
         this.forEach {
             it.invoke(
                 SetContext(
@@ -75,6 +88,4 @@ object GlobalContext : GlobalContextAPI {
             )
         }
     }
-
-    private fun createGlobalContext() = ContextData(id = "global", value = "TESTE")
 }

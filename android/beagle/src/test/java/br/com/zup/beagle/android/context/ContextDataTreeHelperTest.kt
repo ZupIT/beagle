@@ -16,15 +16,13 @@
 
 package br.com.zup.beagle.android.context
 
-import android.util.LruCache
-import androidx.core.util.lruCache
-import br.com.zup.beagle.android.action.SetContextInternal
+import androidx.collection.LruCache
 import br.com.zup.beagle.android.jsonpath.JsonCreateTree
 import br.com.zup.beagle.android.testutil.RandomData
 import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Test
-import java.util.LinkedList
+import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
