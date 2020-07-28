@@ -74,7 +74,7 @@ internal class ContextDataEvaluation(
 
     private fun evaluateMultipleExpressions(bind: Bind.Expression<*>): Any? {
         val regex = "(?<=\\})".toRegex()
-        val text = bind.value.split(regex).joinToString("") {
+        return bind.value.split(regex).joinToString("") {
             val slash = "(\\\\*)@".toRegex().find(it)?.groups?.get(1)?.value?.length ?: 0
             if (!it.matches(".*\\\\@.*".toRegex()) || slash % 2 == 0) {
                 val key = "\\{([^\\{]*)\\}".toRegex().find(it)?.groups?.get(1)?.value
@@ -89,7 +89,6 @@ internal class ContextDataEvaluation(
             .replace("\\\\", "\\")
             .replace("\\@", "@")
 
-        return if (text.isEmpty()) null else text
     }
 
     private fun evaluateExpression(contextData: ContextData, bind: Bind.Expression<*>, expression: String): Any? {

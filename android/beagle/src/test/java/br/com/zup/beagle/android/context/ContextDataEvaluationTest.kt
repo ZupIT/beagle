@@ -206,7 +206,7 @@ internal class ContextDataEvaluationTest {
     }
 
     @Test
-    fun evaluateAllContext_should_return_null_in_expressions_with_null_bind_value_in_string_type() {
+    fun evaluateAllContext_should_return_empty_in_expressions_with_null_bind_value_in_string_type() {
         // Given
         val bind = expressionOf<String>("@{$CONTEXT_ID.exp1}")
         every { jsonPathFinder.find(any(), any()) } returns null
@@ -215,8 +215,7 @@ internal class ContextDataEvaluationTest {
         val value = contextDataEvaluation.evaluateBindExpression(CONTEXT_DATA, bind)
 
         // Then
-        assertNull(value)
-        verify(exactly = once()) { BeagleMessageLogs.errorWhenExpressionEvaluateNullValue(any()) }
+        assertEquals("", value)
     }
 
     @Test
