@@ -73,11 +73,22 @@ internal class ContextDataEvaluation(
     }
 
     private fun evaluateMultipleExpressions(bind: Bind.Expression<*>): Any? {
-        var text = bind.value
-        bind.evaluatedExpressions.forEach {
-            val expressionKey = it.key
-            text = text.replace("@{$expressionKey}", it.value.toString())
+        val regex = "(?<=\\})".toRegex()
+        val text = bind.value.split(regex).joinToString("") {
+            val slash = "(\\\\*)@".toRegex().find(it)?.groups?.get(1)?.value?.length ?: 0
+            if (!it.matches(".*\\\\@.*".toRegex()) || slash % 2 == 0) {
+                val key = "\\{([^\\{]*)\\}".toRegex().find(it)?.groups?.get(1)?.value
+                it.replace(
+                    "\\@\\{\\w.+(\\.|\\w+)\\}".toRegex(),
+                    bind.evaluatedExpressions[key].toString()
+                )
+            } else {
+                it
+            }
         }
+            .replace("\\\\", "\\")
+            .replace("\\@", "@")
+
         return if (text.isEmpty()) null else text
     }
 
