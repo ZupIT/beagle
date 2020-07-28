@@ -78,8 +78,6 @@ internal class ContextDataManager(
         }
 
         viewBinding.clear()
-
-        evaluateContexts()
     }
 
     fun getContextsFromBind(originView: View, binding: Bind.Expression<*>): List<ContextData> {
@@ -119,7 +117,7 @@ internal class ContextDataManager(
         }
     }
 
-    private fun evaluateContexts() {
+    fun evaluateContexts() {
         contexts.forEach { entry ->
             notifyBindingChanges(entry.value)
         }
