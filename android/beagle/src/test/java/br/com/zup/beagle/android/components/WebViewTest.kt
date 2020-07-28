@@ -16,8 +16,6 @@
 
 package br.com.zup.beagle.android.components
 
-import android.webkit.WebResourceError
-import android.webkit.WebResourceRequest
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.Environment
@@ -27,7 +25,6 @@ import br.com.zup.beagle.android.view.ViewFactory
 import io.mockk.*
 import org.junit.Assert.*
 import org.junit.Test
-import org.mockito.ArgumentMatchers.any
 import kotlin.test.assertNotNull
 
 private const val MOCKED_URL = "http://mocked.com"

@@ -53,7 +53,7 @@ data class FormLocalAction(
         })
     }
 
-    internal fun changeActivityState(rootView: RootView, state: ServerDrivenState) {
+    private fun changeActivityState(rootView: RootView, state: ServerDrivenState) {
         (rootView.getContext() as? BeagleActivity)?.onServerDrivenContainerStateChanged(state)
     }
 }

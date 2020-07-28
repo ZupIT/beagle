@@ -24,9 +24,7 @@ import br.com.zup.beagle.android.data.ComponentRequester
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.testutil.CoroutineTestRule
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.view.ScreenRequest
-import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.*
 import io.mockk.impl.annotations.InjectMockKs
@@ -35,9 +33,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
-import kotlin.test.asserter
 
 @ExperimentalCoroutinesApi
 class BeagleViewModelTest {
@@ -102,7 +97,6 @@ class BeagleViewModelTest {
 
         // When
         beagleUIViewModel.fetchComponent(screenRequest).observeForever(observer)
-
 
         // Then
         verifyOrder {

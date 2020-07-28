@@ -438,7 +438,6 @@ class FormTest : BaseComponentTest() {
         runnableSlot.captured.run()
         (slotFormError.captured as ServerDrivenState.FormError).retry.invoke()
 
-
         // Then
         verify(exactly = 2) { form.handleEvent(any(), any(), any<Action>()) }
     }
