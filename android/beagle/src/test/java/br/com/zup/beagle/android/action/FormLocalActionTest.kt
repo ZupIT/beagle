@@ -21,11 +21,9 @@ import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
-import br.com.zup.beagle.android.widget.RootView
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.slot
@@ -34,9 +32,6 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 class FormLocalActionTest : BaseTest() {
-
-    @RelaxedMockK
-    private lateinit var rootView: RootView
 
     @MockK
     private lateinit var formLocalActionHandler: FormLocalActionHandler

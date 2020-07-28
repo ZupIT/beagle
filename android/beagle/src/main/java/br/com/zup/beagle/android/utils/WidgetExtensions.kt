@@ -125,7 +125,9 @@ fun <T> ServerDrivenComponent.observeBindChanges(
     observes: Observer<T?>
 ) {
     val value = bind.observe(rootView, view, observes)
-    observes(value)
+    if (bind is Bind.Value) {
+        observes(value)
+    }
 }
 
 /**

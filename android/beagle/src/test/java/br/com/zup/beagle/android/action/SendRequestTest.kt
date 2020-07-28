@@ -56,7 +56,6 @@ class SendRequestTest {
     private val liveData: MutableLiveData<ActionRequestViewModel.FetchViewState> = mockk()
     private val observerSlot = slot<Observer<ActionRequestViewModel.FetchViewState>>()
     private val responseData: Response = mockk()
-    private val contextData: ContextData = mockk()
     private val view: View = mockk()
     private val contextDataSlot = slot<ContextData>()
 
@@ -211,7 +210,7 @@ class SendRequestTest {
             onError = onError,
             onFinish = onFinish
         ).apply {
-            every { evaluateExpression(rootView, any<Any>()) } returns ""
+            every { evaluateExpression(rootView, view, any<Any>()) } returns ""
             every { handleEvent(rootView, view, any<List<Action>>(), capture(contextDataSlot)) } just Runs
             every { handleEvent(rootView, view, any<List<Action>>()) } just Runs
 

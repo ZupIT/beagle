@@ -23,14 +23,11 @@ import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.form.SimpleForm
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
-import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.widget.RootView
 import io.mockk.*
 import org.junit.Test
 
 class SubmitFormTest : BaseTest() {
 
-    private val rootView = mockk<RootView>()
     private val view = mockk<View>()
     private val parent = mockk<ViewGroup>()
     private val simpleForm = mockk<SimpleForm>(relaxed = true)

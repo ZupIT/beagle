@@ -36,7 +36,6 @@ import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.BeagleActivity
-import br.com.zup.beagle.android.widget.RootView
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -56,9 +55,6 @@ class ToolbarManagerTest : BaseTest() {
 
     @MockK(relaxed = true)
     private lateinit var navigationBar: NavigationBar
-
-    @MockK
-    private lateinit var rootView: RootView
 
     @RelaxedMockK
     private lateinit var context: BeagleActivity
