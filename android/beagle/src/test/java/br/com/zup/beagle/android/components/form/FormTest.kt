@@ -427,15 +427,19 @@ class FormTest : BaseComponentTest() {
     fun onClick_of_formSubmit_should_trigger_action_and_call_showError_retry() {
         // Given
         form = form.copy(onSubmit = listOf(remoteAction))
-        val exception = mockk<Throwable>()
-        every { beagleActivity.onServerDrivenContainerStateChanged(ServerDrivenState.FormError(exception) { any() }) } just Runs
-        val formResult = FormResult.Error(exception)
+        val slotFormError = slot<ServerDrivenState>()
+
+        every { beagleActivity.onServerDrivenContainerStateChanged(capture(slotFormError)) } just Runs
+        val formResult = FormResult.Error(mockk())
 
         // When
-        formResult.throwable
+        executeFormSubmitOnClickListener()
+        resultListenerSlot.captured(formResult)
+        runnableSlot.captured.run()
+        (slotFormError.captured as ServerDrivenState.FormError).retry.invoke()
+
 
         // Then
-        verify { beagleActivity.onServerDrivenContainerStateChanged(ServerDrivenState.FormError(exception) { any() }) }
-
+        verify(exactly = 2) { form.handleEvent(any(), any(), any<Action>()) }
     }
 }

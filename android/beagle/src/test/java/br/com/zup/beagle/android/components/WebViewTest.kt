@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.components
 
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
+import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.Environment
 import br.com.zup.beagle.android.view.BeagleActivity
@@ -26,6 +27,7 @@ import br.com.zup.beagle.android.view.ViewFactory
 import io.mockk.*
 import org.junit.Assert.*
 import org.junit.Test
+import org.mockito.ArgumentMatchers.any
 import kotlin.test.assertNotNull
 
 private const val MOCKED_URL = "http://mocked.com"
@@ -75,13 +77,10 @@ class WebViewTest : BaseComponentTest() {
     @Test
     fun webViewClient_should_notify_when_page_WebViewError() {
         val stateSlot = slot<ServerDrivenState>()
-        val webViewClient = mockk<WebView.BeagleWebViewClient>(relaxed = true,relaxUnitFun = true)
-        val mockedActivity = mockkClass(BeagleActivity::class)
-        val throwable = mockk<Throwable>()
-        every { webViewClient.context } returns mockedActivity
-        every { mockedActivity.onServerDrivenContainerStateChanged(capture(stateSlot)) } just Runs
-        webViewClient.onReceivedError(webView,null,null)
-        assertEquals(stateSlot.captured,ServerDrivenState.WebViewError(throwable) { webView.reload() })
+        val webViewClient = createMockedWebViewClient(stateSlot)
+        webViewClient.onReceivedError(webView, null, null)
+        (stateSlot.captured as ServerDrivenState.WebViewError).retry.invoke()
+        verify(exactly = once()) { webView.reload() }
     }
 
     private fun createMockedWebViewClient(stateSlot: CapturingSlot<ServerDrivenState>): WebView.BeagleWebViewClient {

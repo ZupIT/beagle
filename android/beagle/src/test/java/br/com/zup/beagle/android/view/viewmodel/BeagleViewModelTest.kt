@@ -117,12 +117,22 @@ class BeagleViewModelTest {
         // Given
         val screenRequest = ScreenRequest(RandomData.httpUrl())
         val exception = BeagleException("Error")
-        coEvery { beagleUIViewModel.fetchComponent(screenRequest,null) } throws exception
+        val slotViewState = mutableListOf<ViewState>()
+        every { observer.onChanged(capture(slotViewState)) } just Runs
+        coEvery { componentRequester.fetchComponent(any()) } throws exception andThen component
 
         // When
-        beagleUIViewModel.fetchComponent(screenRequest,null)
+        beagleUIViewModel.fetchComponent(screenRequest,null).observeForever(observer)
+        (slotViewState[1] as ViewState.Error).retry.invoke()
 
         // Then
-        verify { ViewState.Error(exception) { any() } }
+        verifyOrder {
+            observer.onChanged(ViewState.Loading(true))
+            observer.onChanged(any<ViewState.Error>())
+            observer.onChanged(ViewState.Loading(false))
+            observer.onChanged(ViewState.Loading(true))
+            observer.onChanged(ViewState.DoRender(screenRequest.url, component))
+            observer.onChanged(ViewState.Loading(false))
+        }
     }
 }

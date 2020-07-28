@@ -129,15 +129,14 @@ class FormLocalActionTest : BaseTest() {
         // Given
         val formLocalAction = FormLocalAction("Stub", emptyMap())
         val error = mockk<Throwable>()
-        every { formLocalAction.execute(rootView, view) } throws error
 
         // When
+        formLocalAction.formLocalActionHandler = formLocalActionHandler
         formLocalAction.execute(rootView, view)
+        actionListener.captured.onError(error)
+        (activityStates[1] as ServerDrivenState.FormError).retry.invoke()
 
         // Then
-        verifyAll {
-            formLocalAction.changeActivityState(rootView, ServerDrivenState.Loading(false))
-            formLocalAction.changeActivityState(rootView, ServerDrivenState.FormError(error) { formLocalAction.execute(rootView, view) })
-        }
+        verify(exactly = 2) { formLocalActionHandler.handle(activity, any(), any()) }
     }
 }
