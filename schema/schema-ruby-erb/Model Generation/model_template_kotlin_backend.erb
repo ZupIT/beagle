@@ -44,6 +44,11 @@
 package <%= objectType.synthaxType.package -%>
 
 
+<% if objectType.synthaxType.variables.any? { |variable| variable.isBindable }-%>
+import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.context.valueOf
+import br.com.zup.beagle.widget.context.valueOfNullable
+<% end -%>
 <% for qualifiedName in getImports(objectType.synthaxType.variables, importManager) -%>
 import <%= qualifiedName -%>
 

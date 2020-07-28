@@ -17,6 +17,7 @@
 
 package br.com.zup.beagle.widget.ui
 
+import br.com.zup.beagle.widget.context.Bind
 
 interface ButtonSchema {
   public val text: Bind<String>

@@ -17,6 +17,9 @@
 
 package br.com.zup.beagle.widget.ui
 
+import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.context.valueOf
+import br.com.zup.beagle.widget.context.valueOfNullable
 
 data class Text (
   public override val text: Bind<String>,  
