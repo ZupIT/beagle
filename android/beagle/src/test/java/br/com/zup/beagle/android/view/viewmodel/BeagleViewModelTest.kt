@@ -35,6 +35,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+import kotlin.test.asserter
 
 @ExperimentalCoroutinesApi
 class BeagleViewModelTest {
@@ -107,5 +110,19 @@ class BeagleViewModelTest {
             observer.onChanged(any<ViewState.Error>())
             observer.onChanged(ViewState.Loading(false))
         }
+    }
+
+    @Test
+    fun fetch_should_return_a_error_ViewState_retry() {
+        // Given
+        val screenRequest = ScreenRequest(RandomData.httpUrl())
+        val exception = BeagleException("Error")
+        coEvery { beagleUIViewModel.fetchComponent(screenRequest,null) } throws exception
+
+        // When
+        beagleUIViewModel.fetchComponent(screenRequest,null)
+
+        // Then
+        verify { ViewState.Error(exception) { any() } }
     }
 }

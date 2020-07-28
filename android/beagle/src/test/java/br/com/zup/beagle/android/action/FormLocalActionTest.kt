@@ -22,14 +22,9 @@ import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.widget.RootView
-import io.mockk.Runs
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.slot
-import io.mockk.verify
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -127,5 +122,22 @@ class FormLocalActionTest : BaseTest() {
         assertEquals(2, activityStates.size)
         assertEquals(ServerDrivenState.Loading(false), activityStates[0])
         assertTrue(activityStates[1] is ServerDrivenState.FormError)
+    }
+
+    @Test
+    fun do_customAction_and_listen_onError_retry() {
+        // Given
+        val formLocalAction = FormLocalAction("Stub", emptyMap())
+        val error = mockk<Throwable>()
+        every { formLocalAction.execute(rootView, view) } throws error
+
+        // When
+        formLocalAction.execute(rootView, view)
+
+        // Then
+        verifyAll {
+            formLocalAction.changeActivityState(rootView, ServerDrivenState.Loading(false))
+            formLocalAction.changeActivityState(rootView, ServerDrivenState.FormError(error) { formLocalAction.execute(rootView, view) })
+        }
     }
 }

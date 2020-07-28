@@ -40,20 +40,11 @@ import br.com.zup.beagle.android.testutil.getPrivateField
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkConstructor
-import io.mockk.mockkObject
-import io.mockk.mockkStatic
-import io.mockk.slot
-import io.mockk.unmockkAll
-import io.mockk.verify
-import io.mockk.verifyOrder
+import io.mockk.*
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import kotlin.test.assertTrue
 
 private const val FORM_INPUT_VIEWS_FIELD_NAME = "formInputs"
 private const val FORM_SUBMIT_VIEW_FIELD_NAME = "formSubmitView"
@@ -438,5 +429,21 @@ class FormTest : BaseComponentTest() {
 
         // Then
         assertEquals(ADDIONAL_DATA_VALUE, formsValuesSlot.captured[ADDIONAL_DATA_KEY])
+    }
+
+    @Test
+    fun onClick_of_formSubmit_should_trigger_action_and_call_showError_retry() {
+        // Given
+        form = form.copy(onSubmit = listOf(remoteAction))
+        val exception = mockk<Throwable>()
+        every { beagleActivity.onServerDrivenContainerStateChanged(ServerDrivenState.FormError(exception) { any() }) } just Runs
+        val formResult = FormResult.Error(exception)
+
+        // When
+        formResult.throwable
+
+        // Then
+        verify { beagleActivity.onServerDrivenContainerStateChanged(ServerDrivenState.FormError(exception) { any() }) }
+
     }
 }
