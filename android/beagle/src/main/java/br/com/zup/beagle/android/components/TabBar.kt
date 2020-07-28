@@ -112,15 +112,15 @@ data class TabBar(
         tabBar.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 onTabSelection?.let {
-                    p0?.let { tab ->
+                    tab?.let { tab ->
                         handleEvent(rootView, tabBar, it, ContextData("onTabSelection", value = tab.position))
                     }
                 }
             }
 
-            override fun onTabReselected(p0: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
 
-            override fun onTabUnselected(p0: TabLayout.Tab?) {}
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
 
         })
     }
