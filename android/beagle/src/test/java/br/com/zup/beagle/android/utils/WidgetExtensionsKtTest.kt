@@ -69,7 +69,7 @@ class WidgetExtensionsKtTest : BaseTest() {
             assertEquals(expected, evaluated)
         }
 
-        viewModel.discoverAllContexts()
+        viewModel.discoverAndEvaluateAllContexts()
     }
 
     @Test

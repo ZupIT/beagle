@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.context
 
+import androidx.collection.LruCache
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
@@ -33,16 +34,25 @@ internal class ContextDataEvaluation(
 
     fun evaluateBindExpression(
         contextData: ContextData,
+        contextCache: LruCache<String, Any>,
         bind: Bind.Expression<*>,
         evaluatedBindings: MutableMap<String, Any>
     ): Any? {
-        return evaluateBindExpression(listOf(contextData), bind, evaluatedBindings)
+        return evaluateBindExpressions(listOf(contextData), bind, contextCache, evaluatedBindings)
     }
 
     fun evaluateBindExpression(
         contextsData: List<ContextData>,
+        bind: Bind.Expression<*>
+    ): Any? {
+        return evaluateBindExpressions(contextsData, bind)
+    }
+
+    private fun evaluateBindExpressions(
+        contextsData: List<ContextData>,
         bind: Bind.Expression<*>,
-        evaluatedExpressions: MutableMap<String, Any>
+        contextCache: LruCache<String, Any>? = null,
+        evaluatedExpressions: MutableMap<String, Any> = mutableMapOf()
     ): Any? {
         val expressions = bind.value.getExpressions()
 
@@ -50,13 +60,13 @@ internal class ContextDataEvaluation(
             bind.type == String::class.java -> {
                 contextsData.forEach { contextData ->
                     expressions.filter { it.getContextId() == contextData.id }.forEach { expression ->
-                        evaluateExpressionsForContext(contextData, expression, bind, evaluatedExpressions)
+                        evaluateExpressionsForContext(contextData, contextCache, expression, bind, evaluatedExpressions)
                     }
                 }
 
                 evaluateMultipleExpressions(bind, evaluatedExpressions)
             }
-            expressions.size == 1 -> evaluateExpression(contextsData[0], bind, expressions[0])
+            expressions.size == 1 -> evaluateExpression(contextsData[0], contextCache, bind, expressions[0])
             else -> {
                 BeagleMessageLogs.multipleExpressionsInValueThatIsNotString()
                 null
@@ -66,12 +76,12 @@ internal class ContextDataEvaluation(
 
     private fun evaluateExpressionsForContext(
         contextData: ContextData,
+        contextCache: LruCache<String, Any>?,
         expression: String,
         bind: Bind.Expression<*>,
         evaluatedExpressions: MutableMap<String, Any>
     ) {
-        val value = evaluateExpression(contextData, bind, expression) ?: ""
-        evaluatedExpressions[expression] = value
+        evaluatedExpressions[expression] = evaluateExpression(contextData, contextCache, bind, expression) ?: ""
     }
 
     private fun evaluateMultipleExpressions(
@@ -86,8 +96,13 @@ internal class ContextDataEvaluation(
         return if(text.isEmpty()) null else text
     }
 
-    private fun evaluateExpression(contextData: ContextData, bind: Bind.Expression<*>, expression: String): Any? {
-        val value = getValue(contextData, expression)
+    private fun evaluateExpression(
+        contextData: ContextData,
+        contextCache: LruCache<String, Any>?,
+        bind: Bind.Expression<*>,
+        expression: String
+    ): Any? {
+        val value = getValue(contextData, contextCache, expression)
 
         return try {
             if (bind.type == String::class.java) {
@@ -108,9 +123,20 @@ internal class ContextDataEvaluation(
         null
     }
 
-    private fun getValue(contextData: ContextData, path: String): Any? {
+    private fun getValue(
+        contextData: ContextData,
+        contextCache: LruCache<String, Any>?,
+        path: String
+    ): Any? {
         return if (path != contextData.id) {
-            findValue(contextData, path)
+            val cachedValue = contextCache?.get(path)
+            if (cachedValue != null) {
+                return cachedValue
+            } else {
+                findValue(contextData, path)?.also {
+                    contextCache?.put(path, it)
+                }
+            }
         } else {
             contextData.value
         }

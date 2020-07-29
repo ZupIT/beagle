@@ -64,7 +64,7 @@ internal class ScreenContextViewModel(
         contextDataManager.updateContext(originView, setContextInternal)
     }
 
-    fun <T> addBindingToContext(view: View, bind: Bind.Expression<T>, observer: Observer<T>) {
+    fun <T> addBindingToContext(view: View, bind: Bind.Expression<T>, observer: Observer<T?>) {
         contextDataManager.addBinding(view, bind, observer)
     }
 
@@ -117,7 +117,7 @@ internal class ScreenContextViewModel(
     private fun evaluateBind(originView: View, implicitContexts: List<ContextData>, bind: Bind.Expression<*>): Any? {
         val contexts = contextDataManager.getContextsFromBind(originView, bind).toMutableList()
         contexts += implicitContexts
-        return contextDataEvaluation.evaluateBindExpression(contexts, bind, mutableMapOf())
+        return contextDataEvaluation.evaluateBindExpression(contexts, bind)
     }
 
     fun clearContexts() {

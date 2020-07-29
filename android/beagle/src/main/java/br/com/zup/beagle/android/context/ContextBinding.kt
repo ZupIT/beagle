@@ -19,20 +19,27 @@ package br.com.zup.beagle.android.context
 import androidx.collection.LruCache
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.Observer
+import java.lang.ClassCastException
+import java.lang.Exception
 
 internal data class Binding<T>(
-    val observer: Observer<T>?,
+    val observer: Observer<T?>,
     val bind: Bind.Expression<T>,
     val evaluatedExpressions: MutableMap<String, Any> = mutableMapOf()
 ) {
     fun notifyChanges(value: Any?) {
-        observer?.invoke(value as T)
+        try {
+            observer.invoke(value as T)
+        } catch (ex: ClassCastException) {
+            observer.invoke(null)
+        }
+
     }
 }
 
 internal data class ContextBinding(
     val context: ContextData,
-    val bindings: MutableSet<Binding<*>>,
+    val bindings: MutableSet<Binding<*>> = mutableSetOf(),
     val cache: LruCache<String, Any> = LruCache(
         BeagleEnvironment.beagleSdk.config.cache.memoryMaximumCapacity
     )
