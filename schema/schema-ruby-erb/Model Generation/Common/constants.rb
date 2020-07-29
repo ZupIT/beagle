@@ -18,10 +18,11 @@ class Constants
         generated_path = "Generated/"
         @swift_path = generated_path + "Swift/"
         @kotlin_path = generated_path + "Kotlin/"
+        @kotlin_backend_path = generated_path + "KotlinBackend/"
         @ts_path = generated_path + "Ts/"
     end
 
-    attr_accessor :swift_path, :kotlin_path, :ts_path
+    attr_accessor :swift_path, :kotlin_path, :kotlin_backend_path, :ts_path
 end
 
 

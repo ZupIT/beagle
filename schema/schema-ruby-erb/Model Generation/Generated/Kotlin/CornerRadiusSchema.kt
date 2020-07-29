@@ -15,12 +15,9 @@
  * limitations under the License.
  */
 
-data class PositionType (
-  public val backgroundColor: String?   
-) {
-  constructor (    
-    backgroundColor: String? = null      
-  ) : this (    
-      backgroundColor      
-  )
-)
+package br.com.zup.beagle.widget.core
+
+
+interface CornerRadiusSchema {
+  public val radius: Double 
+}

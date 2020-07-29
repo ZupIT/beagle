@@ -40,9 +40,15 @@ class ModelGenerator
     @erb = nil
     @writer = FileHandler.new
     @components = components
+    @importManager = Hash.new("")
+    
+    components.each do |component|
+      type = component.new.synthaxType
+      @importManager[type.name] = "#{type.package}.#{type.name}"
+    end
   end
   
-  attr_accessor :objectType
+  attr_accessor :objectType, :importManager
 
   def to_s
     @erb.result(binding)
@@ -51,6 +57,7 @@ class ModelGenerator
   def generate
     generateSwift
     generateKotlin
+    generateKotlinBackend
     generateTs
   end
 
@@ -60,7 +67,15 @@ class ModelGenerator
     @erb = ERB.new(File.read("model_template_kotlin.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      @writer.write(Constants.new.kotlin_path + @objectType.name + ".kt", to_s)
+      @writer.write(Constants.new.kotlin_path + @objectType.name + "Schema.kt", to_s)
+    end
+  end
+
+  def generateKotlinBackend
+    @erb = ERB.new(File.read("model_template_kotlin_backend.erb"), nil, '-')
+    for component in @components
+      @objectType = component.new
+      @writer.write(Constants.new.kotlin_backend_path + @objectType.name + ".kt", to_s)
     end
   end
   

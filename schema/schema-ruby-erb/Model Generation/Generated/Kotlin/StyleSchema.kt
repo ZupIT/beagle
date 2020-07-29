@@ -15,15 +15,21 @@
  * limitations under the License.
  */
 
-data class UnitValue (
-  public val value: Double,  
-  public val type: UnityType   
-) {
-  constructor (    
-    value: Double,      
-    type: UnityType      
-  ) : this (    
-      value,      
-      type      
-  )
-)
+package br.com.zup.beagle.widget.core
+
+import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.core.PositionType
+import br.com.zup.beagle.widget.core.Display
+
+interface StyleSchema {
+  public val backgroundColor: String?
+  public val cornerRadius: String?
+  public val size: Size?
+  public val margin: Class?
+  public val padding: Class?
+  public val position: Class?
+  public val flex: Flex?
+  public val positionType: PositionType?
+  public val display: Display? 
+}

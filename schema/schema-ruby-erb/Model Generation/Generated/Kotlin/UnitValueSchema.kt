@@ -15,15 +15,10 @@
  * limitations under the License.
  */
 
-data class Text (
-  public val text: Bind<String>,  
-  public val styleId: String?   
-) {
-  constructor (    
-    text: String,      
-    styleId: String? = null      
-  ) : this (    
-      valueOf(text),      
-      styleId      
-  )
-)
+package br.com.zup.beagle.widget.core
+
+
+interface UnitValueSchema {
+  public val value: Double
+  public val type: UnityType 
+}

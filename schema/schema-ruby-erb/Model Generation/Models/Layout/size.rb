@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Variable'
+require_relative '../../Synthax/variable.rb'
 require_relative '../base_component.rb'
 
 class Size < BaseComponent
@@ -27,7 +27,12 @@ class Size < BaseComponent
             Variable.new(:name => "minHeight", :typeName => unitValue, :isOptional => true),
             Variable.new(:name => "aspectRatio", :typeName => "Double", :isOptional => true)
         ]
-        synthaxType = SynthaxType.new(:kind => 'struct', :name => self.name, :variables => textVariables)
+        synthaxType = SynthaxType.new(
+            :kind => 'struct',
+            :name => self.name,
+            :variables => textVariables,
+            :package => "br.com.zup.beagle.widget.core"
+        )
 
         super(synthaxType)
 

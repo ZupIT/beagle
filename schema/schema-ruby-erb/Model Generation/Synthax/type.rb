@@ -14,7 +14,7 @@
 
 class SynthaxType
 
-    attr_accessor :kind, :name, :variables, :accessor, :inheritFrom
+    attr_accessor :kind, :name, :variables, :accessor, :inheritFrom, :package
 
     def initialize(params = {})
         @kind = params.fetch(:kind, '')
@@ -22,6 +22,7 @@ class SynthaxType
         @variables = params.fetch(:variables, [])
         @accessor = params.fetch(:accessor, "public")
         @inheritFrom = params.fetch(:inheritFrom, [])
+        @package = params.fetch(:package, "")
     end
     
 end

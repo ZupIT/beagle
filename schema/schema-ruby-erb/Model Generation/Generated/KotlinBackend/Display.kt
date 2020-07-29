@@ -15,30 +15,15 @@
  * limitations under the License.
  */
 
-data class EdgeValue (
-  public val left: UnitValue?,  
-  public val top: UnitValue?,  
-  public val right: UnitValue?,  
-  public val bottom: UnitValue?,  
-  public val horizontal: UnitValue?,  
-  public val vertical: UnitValue?,  
-  public val all: UnitValue?   
-) {
+package br.com.zup.beagle.widget.core
+
+
+data class Display (
+  public override val backgroundColor: String?   
+) : DisplaySchema {
   constructor (    
-    left: UnitValue? = null,      
-    top: UnitValue? = null,      
-    right: UnitValue? = null,      
-    bottom: UnitValue? = null,      
-    horizontal: UnitValue? = null,      
-    vertical: UnitValue? = null,      
-    all: UnitValue? = null      
+    backgroundColor: String? = null      
   ) : this (    
-      left,      
-      top,      
-      right,      
-      bottom,      
-      horizontal,      
-      vertical,      
-      all      
+      backgroundColor      
   )
-)
+}

@@ -15,27 +15,16 @@
  * limitations under the License.
  */
 
-data class Size (
-  public val height: UnitValue?,  
-  public val maxWidth: UnitValue?,  
-  public val maxHeight: UnitValue?,  
-  public val minWidth: UnitValue?,  
-  public val minHeight: UnitValue?,  
-  public val aspectRatio: Double?   
-) {
-  constructor (    
-    height: UnitValue? = null,      
-    maxWidth: UnitValue? = null,      
-    maxHeight: UnitValue? = null,      
-    minWidth: UnitValue? = null,      
-    minHeight: UnitValue? = null,      
-    aspectRatio: Double? = null      
-  ) : this (    
-      height,      
-      maxWidth,      
-      maxHeight,      
-      minWidth,      
-      minHeight,      
-      aspectRatio      
-  )
-)
+package br.com.zup.beagle.widget.core
+
+import br.com.zup.beagle.widget.core.UnitValue
+
+interface EdgeValueSchema {
+  public val left: UnitValue?
+  public val top: UnitValue?
+  public val right: UnitValue?
+  public val bottom: UnitValue?
+  public val horizontal: UnitValue?
+  public val vertical: UnitValue?
+  public val all: UnitValue? 
+}

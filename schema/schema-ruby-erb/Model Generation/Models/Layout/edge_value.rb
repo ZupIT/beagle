@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Variable'
+require_relative '../../Synthax/variable.rb'
 require_relative '../base_component.rb'
 
 class EdgeValue < BaseComponent
@@ -28,7 +28,12 @@ class EdgeValue < BaseComponent
             Variable.new(:name => "vertical", :typeName => unitValue, :isOptional => true),
             Variable.new(:name => "all", :typeName => unitValue, :isOptional => true)
         ]
-        synthaxType = SynthaxType.new(:kind => 'struct', :name => self.name, :variables => textVariables)
+        synthaxType = SynthaxType.new(
+            :kind => 'struct',
+            :name => self.name,
+            :variables => textVariables,
+            :package => "br.com.zup.beagle.widget.core"
+        )
 
         super(synthaxType)
 

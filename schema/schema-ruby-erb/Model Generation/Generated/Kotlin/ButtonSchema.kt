@@ -15,12 +15,13 @@
  * limitations under the License.
  */
 
-data class CornerRadius (
-  public val radius: Double   
-) {
-  constructor (    
-    radius: Double      
-  ) : this (    
-      radius      
-  )
-)
+package br.com.zup.beagle.widget.ui
+
+import br.com.zup.beagle.widget.context.Bind
+
+interface ButtonSchema {
+  public val text: Bind<String>
+  public val styleId: String?
+  public val onPress: List<Action>?
+  public val clickAnalyticsEvent: ClickEvent? 
+}

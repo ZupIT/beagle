@@ -15,21 +15,15 @@
  * limitations under the License.
  */
 
-data class Button (
-  public val text: Bind<String>,  
-  public val styleId: String?,  
-  public val onPress: List<Action>?,  
-  public val clickAnalyticsEvent: ClickEvent?   
-) {
-  constructor (    
-    text: String,      
-    styleId: String? = null,      
-    onPress: List<Action>? = null,      
-    clickAnalyticsEvent: ClickEvent? = null      
-  ) : this (    
-      valueOf(text),      
-      styleId,      
-      onPress,      
-      clickAnalyticsEvent      
-  )
-)
+package br.com.zup.beagle.widget.core
+
+import br.com.zup.beagle.widget.core.UnitValue
+
+interface SizeSchema {
+  public val height: UnitValue?
+  public val maxWidth: UnitValue?
+  public val maxHeight: UnitValue?
+  public val minWidth: UnitValue?
+  public val minHeight: UnitValue?
+  public val aspectRatio: Double? 
+}

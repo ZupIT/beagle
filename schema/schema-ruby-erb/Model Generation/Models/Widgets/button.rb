@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Variable'
+require_relative '../../Synthax/variable.rb'
 require_relative '../base_component.rb'
 require_relative './widget.rb'
 
@@ -29,6 +29,7 @@ class Button < BaseComponent
             :kind => 'struct',
             :name => self.name,
             :variables => buttonVariables,
+            :package => "br.com.zup.beagle.widget.ui",
             :inheritFrom => [
                Widget.new.name,
                "ClickedOnComponent" #todo create clicked on Component
