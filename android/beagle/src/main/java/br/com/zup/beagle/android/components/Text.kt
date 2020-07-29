@@ -16,15 +16,13 @@
 
 package br.com.zup.beagle.android.components
 
-import android.os.Build
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
-import androidx.core.widget.TextViewCompat
+import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.context.valueOfNullable
-import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.utils.toAndroidColor
 import br.com.zup.beagle.android.view.ViewFactory
@@ -56,9 +54,7 @@ data class Text(
     private val viewFactory = ViewFactory()
 
     override fun buildView(rootView: RootView): View {
-        val textView = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            viewFactory.makeTextView(rootView.getContext(), getStyleId(this.styleId))
-        else viewFactory.makeTextView(rootView.getContext())
+        val textView = viewFactory.makeTextView(rootView.getContext(), styleManagerFactory.getTextStyle(styleId))
 
         textView.setTextWidget(this, rootView)
         return textView
@@ -66,45 +62,31 @@ data class Text(
 
     private fun TextView.setTextWidget(text: Text, rootView: RootView) {
         observeBindChanges(rootView, text.text) {
-            this.text = it
-        }
-
-        text.styleId?.let {
-            setStyle(it)
+            it?.let { this.text = it }
         }
 
         text.textColor?.let {
             observeBindChanges(rootView, it) { value ->
-                this.setTextColor(value)
+                value?.let { color ->this.setTextColor(color) }
             }
         }
 
         text.alignment?.let {
             observeBindChanges(rootView, it) { value ->
-                this.setAlignment(value)
+                value?.let { alignment ->this.setAlignment(alignment) }
             }
         }
     }
 
     private fun TextView.setAlignment(alignment: TextAlignment?) {
-        when (alignment) {
-            TextAlignment.CENTER -> this.gravity = Gravity.CENTER
-            TextAlignment.RIGHT -> this.gravity = Gravity.END
-            else -> this.gravity = Gravity.START
+        gravity = when (alignment) {
+            TextAlignment.CENTER -> Gravity.CENTER
+            TextAlignment.RIGHT -> Gravity.END
+            else -> Gravity.START
         }
     }
-
-    private fun TextView.setStyle(styleId: String) {
-        val designSystem = BeagleEnvironment.beagleSdk.designSystem
-        designSystem?.textStyle(styleId)?.let {
-            TextViewCompat.setTextAppearance(this, it)
-        }
-    }
-
-    private fun getStyleId(styleName: String?): Int =
-        BeagleEnvironment.beagleSdk.designSystem?.textStyle(styleName ?: "") ?: 0
 
     private fun TextView.setTextColor(color: String?) {
-        color?.toAndroidColor()?.let { androidColor -> this.setTextColor(androidColor) }
+        color?.toAndroidColor()?.let { androidColor -> setTextColor(androidColor) }
     }
 }

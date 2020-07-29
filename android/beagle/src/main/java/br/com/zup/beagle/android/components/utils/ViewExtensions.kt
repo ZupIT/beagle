@@ -16,14 +16,13 @@
 
 package br.com.zup.beagle.android.components.utils
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import br.com.zup.beagle.R
 import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.utils.toAndroidColor
 import br.com.zup.beagle.android.view.ViewFactory
@@ -35,10 +34,8 @@ internal var styleManagerFactory = StyleManager()
 const val FLOAT_ZERO = 0.0f
 
 internal fun View.hideKeyboard() {
-    val activity = context as AppCompatActivity
-    val view = activity.currentFocus ?: viewExtensionsViewFactory.makeView(activity)
-    val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-    imm.hideSoftInputFromWindow(view.windowToken, 0)
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(windowToken, 0)
 }
 
 internal fun View.applyStyle(component: ServerDrivenComponent) {
@@ -48,11 +45,7 @@ internal fun View.applyStyle(component: ServerDrivenComponent) {
             applyBackgroundColor(it)
             applyCornerRadius(it)
         } else {
-            styleManagerFactory.applyStyleComponent(
-                context = context,
-                component = it,
-                view = this
-            )
+            styleManagerFactory.applyStyleComponent(component = it, view = this)
         }
     }
 }
@@ -94,3 +87,7 @@ internal fun View.applyBackgroundFromWindowBackgroundTheme(context: Context) {
         background = ContextCompat.getDrawable(context, typedValue.resourceId)
     }
 }
+
+internal var View.beagleComponent: ServerDrivenComponent?
+    get() = this.getTag(R.id.beagle_component_tag) as? ServerDrivenComponent
+    set(component) = this.setTag(R.id.beagle_component_tag, component)

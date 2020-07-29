@@ -25,8 +25,11 @@ jobs:
             -   name: Install Fastlane
                 run: bundle config set path '~/.gem' && bundle install
 
-            -   name: install Carthage
-                run: brew install carthage
+            -   name: Cache SPM dependencies
+                uses: actions/cache@v2
+                with:
+                    path: ${{ runner.os }}-spm-${{ hashFiles('iOS/**/Package.resolved') }}
+                    key: ~/**/DerivedData
 
             -   name: install swiftLint
                 run: brew install swiftlint

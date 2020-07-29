@@ -18,4 +18,5 @@
     <string name="app_name">beagle-android</string>
     <string name="tv_screen_deeplink">Screen DeepLink</string>
     <string name="btn_title_come_back">come back</string>
+    <string name="title_btn_retry">Try again</string>
 </resources>

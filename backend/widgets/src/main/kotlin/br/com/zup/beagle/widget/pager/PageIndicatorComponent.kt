@@ -17,9 +17,11 @@
 package br.com.zup.beagle.widget.pager
 
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.widget.utils.BeagleConstants.DEPRECATED_PAGE_VIEW
 
 /**
  * Base of page indicator component
  *
  */
+@Deprecated(DEPRECATED_PAGE_VIEW)
 interface PageIndicatorComponent : ServerDrivenComponent

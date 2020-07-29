@@ -21,7 +21,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
@@ -44,6 +44,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class SendRequestTest {
 
@@ -55,7 +56,9 @@ class SendRequestTest {
     private val liveData: MutableLiveData<ActionRequestViewModel.FetchViewState> = mockk()
     private val observerSlot = slot<Observer<ActionRequestViewModel.FetchViewState>>()
     private val responseData: Response = mockk()
+    private val contextData: ContextData = mockk()
     private val view: View = mockk()
+    private val contextDataSlot = slot<ContextData>()
 
     @Before
     fun setUp() {
@@ -94,9 +97,11 @@ class SendRequestTest {
 
         // Then
         verifyOrder {
-            requestAction.handleEvent(rootView, view, listOf(onFinishAction), "onFinish")
-            requestAction.handleEvent(rootView, view, listOf(onSuccessAction), "onSuccess", any())
+            requestAction.handleEvent(rootView, view, listOf(onFinishAction))
+            requestAction.handleEvent(rootView, view, listOf(onSuccessAction), any<ContextData>())
         }
+
+        assertEquals("onSuccess", contextDataSlot.captured.id)
     }
 
     @Test
@@ -115,9 +120,11 @@ class SendRequestTest {
 
         // Then
         verifyOrder {
-            requestAction.handleEvent(rootView, view, listOf(onFinishAction), "onFinish")
-            requestAction.handleEvent(rootView, view, listOf(onErrorAction), "onError", any())
+            requestAction.handleEvent(rootView, view, listOf(onFinishAction))
+            requestAction.handleEvent(rootView, view, listOf(onErrorAction), any<ContextData>())
         }
+
+        assertEquals("onError", contextDataSlot.captured.id)
     }
 
     @Test
@@ -135,7 +142,7 @@ class SendRequestTest {
 
         // Then
         verify(exactly = once()) {
-            requestAction.handleEvent(rootView, view, listOf(onFinishAction), "onFinish")
+            requestAction.handleEvent(rootView, view, listOf(onFinishAction))
         }
     }
 
@@ -152,7 +159,7 @@ class SendRequestTest {
 
         // Then
         verify(exactly = 0) {
-            requestAction.handleEvent(any(), any(), any<List<Action>>(), any())
+            requestAction.handleEvent(any(), any(), any<List<Action>>())
         }
     }
 
@@ -171,7 +178,7 @@ class SendRequestTest {
 
         // Then
         verify(exactly = once()) {
-            requestAction.handleEvent(rootView, view, listOf(onFinishAction), "onFinish")
+            requestAction.handleEvent(rootView, view, listOf(onFinishAction))
         }
     }
 
@@ -189,7 +196,7 @@ class SendRequestTest {
 
         // Then
         verify(exactly = once()) {
-            requestAction.handleEvent(rootView, view, listOf(onFinishAction), "onFinish")
+            requestAction.handleEvent(rootView, view, listOf(onFinishAction))
         }
     }
 
@@ -205,7 +212,9 @@ class SendRequestTest {
             onFinish = onFinish
         ).apply {
             every { evaluateExpression(rootView, any<Any>()) } returns ""
-            every { handleEvent(rootView, view, any<List<Action>>(), any(), any()) } just Runs
+            every { handleEvent(rootView, view, any<List<Action>>(), capture(contextDataSlot)) } just Runs
+            every { handleEvent(rootView, view, any<List<Action>>()) } just Runs
+
         }
     }
 }

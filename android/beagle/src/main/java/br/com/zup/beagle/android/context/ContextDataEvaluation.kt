@@ -24,7 +24,6 @@ import br.com.zup.beagle.android.utils.getExpressions
 import com.squareup.moshi.Moshi
 import org.json.JSONArray
 import org.json.JSONObject
-import java.lang.IllegalStateException
 import java.lang.reflect.Type
 
 internal class ContextDataEvaluation(
@@ -56,7 +55,7 @@ internal class ContextDataEvaluation(
 
                 evaluateMultipleExpressions(bind)
             }
-            expressions.size == 1 -> evaluateExpression(contextsData[0], bind.type, expressions[0])
+            expressions.size == 1 -> evaluateExpression(contextsData[0], bind, expressions[0])
             else -> {
                 BeagleMessageLogs.multipleExpressionsInValueThatIsNotString()
                 null
@@ -69,34 +68,39 @@ internal class ContextDataEvaluation(
         expression: String,
         bind: Bind.Expression<*>
     ) {
-        val value = evaluateExpression(contextData, bind.type, expression)
-        if (value != null) {
-            bind.evaluatedExpressions[expression] = value
-        } else {
-            bind.evaluatedExpressions.remove(expression)
-        }
+        val value = evaluateExpression(contextData, bind, expression) ?: ""
+        bind.evaluatedExpressions[expression] = value
     }
 
     private fun evaluateMultipleExpressions(bind: Bind.Expression<*>): Any? {
-        var text = bind.value
-        bind.evaluatedExpressions.forEach {
-            val expressionKey = it.key
-            text = text.replace("@{$expressionKey}", it.value.toString())
+        val regex = "(?<=\\})".toRegex()
+        return bind.value.split(regex).joinToString("") {
+            val slash = "(\\\\*)@".toRegex().find(it)?.groups?.get(1)?.value?.length ?: 0
+            if (!it.matches(".*\\\\@.*".toRegex()) || slash % 2 == 0) {
+                val key = "\\{([^\\{]*)\\}".toRegex().find(it)?.groups?.get(1)?.value
+                it.replace(
+                    "\\@\\{\\w.+(\\.|\\w+)\\}".toRegex(),
+                    bind.evaluatedExpressions[key].toString()
+                )
+            } else {
+                it
+            }
         }
-        return text
+            .replace("\\\\", "\\")
+            .replace("\\@", "@")
+
     }
 
-    private fun evaluateExpression(contextData: ContextData, type: Type, expression: String): Any? {
-        val value = getValue(contextData, expression)
+    private fun evaluateExpression(contextData: ContextData, bind: Bind.Expression<*>, expression: String): Any? {
+        val value = getValue(contextData, expression, bind.type)
 
         return try {
-            if (type == String::class.java) {
-                value?.toString()
+            if (bind.type == String::class.java) {
+                value?.toString() ?: showLogErrorAndReturn(bind)
             } else if (value is JSONArray || value is JSONObject) {
-                moshi.adapter<Any>(type).fromJson(value.toString())
-                    ?: throw IllegalStateException("JSON deserialization returned null")
+                moshi.adapter<Any>(bind.type).fromJson(value.toString()) ?: showLogErrorAndReturn(bind)
             } else {
-                value ?: throw IllegalStateException("Expression evaluation returned null")
+                value ?: showLogErrorAndReturn(bind)
             }
         } catch (ex: Exception) {
             BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(ex)
@@ -104,11 +108,16 @@ internal class ContextDataEvaluation(
         }
     }
 
-    private fun getValue(contextData: ContextData, path: String): Any? {
+    private fun showLogErrorAndReturn(bind: Bind.Expression<*>) = run {
+        BeagleMessageLogs.errorWhenExpressionEvaluateNullValue("${bind.value} : ${bind.type}")
+        null
+    }
+
+    private fun getValue(contextData: ContextData, path: String, type: Type): Any? {
         return if (path != contextData.id) {
             findValue(contextData, path)
         } else {
-            contextData.value
+            ContextValueHandler.treatValue(contextData.value, type)
         }
     }
 

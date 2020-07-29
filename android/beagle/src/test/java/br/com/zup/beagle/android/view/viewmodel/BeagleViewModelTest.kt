@@ -24,16 +24,13 @@ import br.com.zup.beagle.android.data.ComponentRequester
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.testutil.CoroutineTestRule
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.view.ScreenRequest
+import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.ServerDrivenComponent
-import io.mockk.MockKAnnotations
-import io.mockk.Runs
-import io.mockk.coEvery
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
-import io.mockk.verifyOrder
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
@@ -101,13 +98,13 @@ class BeagleViewModelTest {
         coEvery { componentRequester.fetchComponent(any()) } throws exception
 
         // When
-        beagleUIViewModel.fetchComponent(screenRequest)
-            .observeForever(observer)
+        beagleUIViewModel.fetchComponent(screenRequest).observeForever(observer)
+
 
         // Then
         verifyOrder {
             observer.onChanged(ViewState.Loading(true))
-            observer.onChanged(ViewState.Error(exception))
+            observer.onChanged(any<ViewState.Error>())
             observer.onChanged(ViewState.Loading(false))
         }
     }

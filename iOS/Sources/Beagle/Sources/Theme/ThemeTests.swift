@@ -117,7 +117,7 @@ final class ThemeTests: XCTestCase {
         view |> BeagleStyle.tabView(backgroundColor: backgroundColor, indicatorColor: indicatorColor)
         
         //Then
-        XCTAssertEqual(backgroundColor, view.collectionView.backgroundColor)
-        XCTAssertEqual(indicatorColor, view.containerIndicator.indicatorView.backgroundColor)
+        XCTAssertEqual(backgroundColor, view.tabBar.backgroundColor)
+        XCTAssertEqual(indicatorColor, view.tabBar.containerIndicator.indicatorView.backgroundColor)
     }
 }

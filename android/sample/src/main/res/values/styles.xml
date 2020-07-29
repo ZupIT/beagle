@@ -67,18 +67,18 @@
     <style name="DesignSystem.Button.Default" parent="Widget.AppCompat.Button">
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textSize">18sp</item>
-        <item name="textAllCaps">false</item>
-        <item name="background">@drawable/selector_button</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">@drawable/selector_button</item>
     </style>
 
     <style name="DesignSystem.Button.White" parent="DesignSystem.Button.Default">
         <item name="android:textColor">@color/colorBlack</item>
-        <item name="background">@drawable/bg_white_button</item>
+        <item name="android:background">@drawable/bg_white_button</item>
     </style>
 
     <style name="DesignSystem.Button.Black" parent="DesignSystem.Button.Default">
         <item name="android:textColor">@color/colorWhite</item>
-        <item name="background">@color/colorBlack</item>
+        <item name="android:background">@color/colorBlack</item>
         <item name="android:autoLink">all</item>
         <item name="android:textColorLink">@color/colorWhite</item>
     </style>
@@ -87,24 +87,25 @@
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">16sp</item>
-        <item name="textAllCaps">false</item>
-        <item name="background">?attr/selectableItemBackground</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
-    <style name="DesignSystem.Text.Default" parent="TextAppearance.AppCompat">
+    <style name="DesignSystem.Text.Default" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/colorBlack</item>
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="TextInput">
+    <style name="TextInput" parent="Widget.AppCompat.EditText">
         <item name="android:textColor">@color/colorBlack</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textColorHint">@color/colorGreen</item>
+        <item name="android:background">@color/colorKaie</item>
     </style>
 
     <style name="DesignSystem.TextInput.Style.Bff" parent="Widget.AppCompat.EditText">
         <item name="android:textColor">@color/colorBlack</item>
-        <item name="background">@drawable/text_input_background</item>
+        <item name="android:background">@drawable/text_input_background</item>
     </style>
 
     <style name="DesignSystem.Text.H2" parent="DesignSystem.Text.Default">
@@ -132,7 +133,7 @@
 
     <style name="DesignSystem.Stylish.Button" parent="Widget.AppCompat.Button">
         <item name="android:textColor">@color/colorGray</item>
-        <item name="background">@android:color/transparent</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="DesignSystem.Stylish.ButtonAndAppearance" parent="Widget.AppCompat.Button">
@@ -149,6 +150,6 @@
 
     <style name="DesignSystem.Form.Submit" parent="DesignSystem.Button.Text">
         <item name="android:textColor">@color/colorWhite</item>
-        <item name="background">@drawable/bg_form_button</item>
+        <item name="android:background">@drawable/bg_form_button</item>
     </style>
 </resources>
