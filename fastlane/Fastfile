@@ -134,7 +134,7 @@ platform :automated_tests do
   desc "Publish test backend to GitHub packages"
   lane :publish_backend do
     image = "#{ENV['registry']}/#{ENV['repository']}/#{ENV['image']}:#{ENV['sha']}".downcase
-    gradle(task: ":backend:automated-tests:bootBuildImage --imageName=#{image}")
+    gradle(project_dir: "backend", task: ":automated-tests:bootBuildImage --imageName=#{image}")
     sh("./automatedTests/publish_test_backend.sh", image, ENV['user'], ENV['token'])
   end
 
@@ -171,7 +171,7 @@ platform :automated_tests do
 
   desc "Cleanup"
   lane :cleanup do
-    sh("../gradlew --stop")
+    sh("../backend/gradlew --stop")
   end
 end
 

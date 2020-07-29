@@ -1,4 +1,5 @@
 #!/bin/bash
 
-./gradlew :backend:automated-tests:assemble
-nohup ./gradlew --daemon :backend:automated-tests:bootRun 2>&1 &
+BACKEND_DIR="${1:-.}"
+$BACKEND_DIR/gradlew :automated-tests:assemble -p $BACKEND_DIR
+nohup $BACKEND_DIR/gradlew --daemon :automated-tests:bootRun -p $BACKEND_DIR 2>&1 &
