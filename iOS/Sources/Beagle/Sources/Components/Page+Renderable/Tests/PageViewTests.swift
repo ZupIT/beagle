@@ -65,6 +65,16 @@ class PageViewTests: XCTestCase {
         assertSnapshotImage(screen)
     }
     
+    func test_pageViewWithContext() {
+        let pageView = PageView(
+            children: [Text("Context: @{ctx}")],
+            context: Context(id: "ctx", value: "value of ctx")
+        )
+        
+        let screen = Beagle.screen(.declarative(pageView.toScreen()))
+        assertSnapshotImage(screen, size: .custom(CGSize(width: 100, height: 50)))
+    }
+    
     func test_PageViewChildShouldNotCreateNewNavigationController() {
         let navigation = BeagleNavigationController()
         let controller = BeagleScreenViewController(ComponentDummy())

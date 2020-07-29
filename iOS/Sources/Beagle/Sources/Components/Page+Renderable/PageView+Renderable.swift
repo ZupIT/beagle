@@ -21,9 +21,7 @@ extension PageView: ServerDrivenComponent {
 
     public func toView(renderer: BeagleRenderer) -> UIView {
         let pagesControllers = children.map {
-            BeagleScreenViewController(
-                viewModel: .init(screenType: .declarative($0.toScreen()))
-            )
+            ComponentHostController($0, renderer: renderer)
         }
 
         var indicatorView: PageIndicatorUIView?

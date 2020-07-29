@@ -118,6 +118,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
             keyboard.trailingAnchor.constraint(equalTo: sut.view.trailingAnchor),
             keyboard.bottomAnchor.constraint(equalTo: sut.view.bottomAnchor)
         ])
+        sut.view.layoutIfNeeded()
         
         postKeyboardNotification()
         assertSnapshotImage(sut, size: .custom(CGSize(width: 414, height: 896)))

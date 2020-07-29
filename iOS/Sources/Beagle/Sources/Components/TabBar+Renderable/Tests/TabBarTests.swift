@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,10 +15,22 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.utils
+import XCTest
+@testable import Beagle
+import SnapshotTesting
+import BeagleSchema
 
-object BeagleConstants {
-    const val DEPRECATED_PAGE_VIEW =
-        "This constructor will be removed in a future version, use the constructor with Bind"
-    const val DEPRECATED_TAB_VIEW ="This component will be removed in a future version, use TabBar instead."
+class TabBarTests: XCTestCase {
+    
+    func test_viewWithTabBar() {
+        let tabBar = TabBar(items: [
+            TabBarItem(title: "TAB 1"),
+            TabBarItem(title: "TAB 2"),
+            TabBarItem(title: "TAB 3")
+        ])
+        
+        let screen = Beagle.screen(.declarative(tabBar.toScreen()))
+        assertSnapshotImage(screen)
+    }
+
 }
