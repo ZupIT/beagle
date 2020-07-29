@@ -36,6 +36,10 @@ data class WebView(
 ) : Widget() {
     constructor(url: String) : this(valueOf(url))
 
+    companion object{
+        @JvmStatic
+        fun builder() = Builder()
+    }
     class Builder : BeagleWidgetBuilder<WebView> {
         var url: Bind<String> by Delegates.notNull()
 

@@ -34,6 +34,11 @@ sealed class Route {
      */
     data class Remote(val url: String, val shouldPrefetch: Boolean = false, val fallback: Screen? = null) : Route() {
 
+        companion object{
+            @JvmStatic
+            fun builder() = Builder()
+        }
+
         class Builder : BeagleWidgetBuilder<Remote> {
 
             var url: String by Delegates.notNull()
@@ -69,6 +74,10 @@ sealed class Route {
      * @param screen screen to be rendered.
      */
     data class Local(val screen: Screen) : Route() {
+        companion object{
+            @JvmStatic
+            fun builder() = Builder()
+        }
         class Builder : BeagleWidgetBuilder<Local> {
             var screen: Screen by Delegates.notNull()
 
@@ -81,6 +90,11 @@ sealed class Route {
             override fun build() = Local(screen)
 
         }
+    }
+
+    companion object{
+        @JvmStatic
+        fun builder() = Builder()
     }
 
     class Builder {
@@ -111,6 +125,10 @@ sealed class Navigate : Action {
      * @param url defined route to be shown.
      */
     data class OpenExternalURL(val url: String) : Navigate() {
+        companion object{
+            @JvmStatic
+            fun builder() = Builder()
+        }
         class Builder : BeagleWidgetBuilder<OpenExternalURL> {
             var url: String by Delegates.notNull()
 
@@ -135,6 +153,10 @@ sealed class Navigate : Action {
     class OpenNativeRoute(val route: String,
                           val shouldResetApplication: Boolean = false,
                           val data: Map<String, String>? = null) : Navigate() {
+        companion object{
+            @JvmStatic
+            fun builder() = Builder()
+        }
         class Builder : BeagleWidgetBuilder<OpenNativeRoute> {
             var route: String by Delegates.notNull()
             var shouldResetApplication: Boolean = false
@@ -171,6 +193,10 @@ sealed class Navigate : Action {
      * This attribute basically has the same functionality as PushView but starting a new flow instead.
      */
     data class PushStack(val route: Route) : Navigate() {
+        companion object{
+            @JvmStatic
+            fun builder() = Builder()
+        }
         class Builder : BeagleWidgetBuilder<PushStack> {
             var route: Route by Delegates.notNull()
 
@@ -189,6 +215,10 @@ sealed class Navigate : Action {
      * This action closes the current view stack.
      */
     class PopStack : Navigate() {
+        companion object{
+            @JvmStatic
+            fun builder() = Builder()
+        }
         class Builder : BeagleWidgetBuilder<PopStack> {
             override fun build() = PopStack()
         }
@@ -200,6 +230,10 @@ sealed class Navigate : Action {
      * This screen will also be stacked at the top of the hierarchy of views in the application flow.
      */
     data class PushView(val route: Route) : Navigate() {
+        companion object{
+            @JvmStatic
+            fun builder() = Builder()
+        }
         class Builder : BeagleWidgetBuilder<PushView> {
             var route: Route by Delegates.notNull()
 
@@ -218,6 +252,10 @@ sealed class Navigate : Action {
      * Action that closes the current view.
      */
     class PopView : Navigate() {
+        companion object{
+            @JvmStatic
+            fun builder() = Builder()
+        }
         class Builder : BeagleWidgetBuilder<PopView> {
             override fun build() = PopView()
         }
@@ -227,6 +265,10 @@ sealed class Navigate : Action {
      * It is responsible for returning the stack of screens in the application flow to a specific screen.
      */
     data class PopToView(val route: String) : Navigate() {
+        companion object{
+            @JvmStatic
+            fun builder() = Builder()
+        }
         class Builder : BeagleWidgetBuilder<PopToView> {
             var route: String by Delegates.notNull()
 
@@ -245,6 +287,10 @@ sealed class Navigate : Action {
      * from a new flow and clears clears the view stack for the entire application.
      */
     data class ResetApplication(val route: Route) : Navigate() {
+        companion object{
+            @JvmStatic
+            fun builder() = Builder()
+        }
         class Builder : BeagleWidgetBuilder<ResetApplication> {
             var route: Route by Delegates.notNull()
 
@@ -264,6 +310,10 @@ sealed class Navigate : Action {
      * from a new flow and clears the stack of previously loaded screens.
      */
     data class ResetStack(val route: Route) : Navigate() {
+        companion object{
+            @JvmStatic
+            fun builder() = Builder()
+        }
         class Builder : BeagleWidgetBuilder<ResetStack> {
             var route: Route by Delegates.notNull()
 
@@ -276,6 +326,11 @@ sealed class Navigate : Action {
             override fun build() = ResetStack(route)
 
         }
+    }
+
+    companion object{
+        @JvmStatic
+        fun builder() = Builder()
     }
 
     @Suppress("TooManyFunctions")

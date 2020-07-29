@@ -48,6 +48,11 @@ data class SendRequest(
         onFinish = onFinish
     )
 
+    companion object{
+        @JvmStatic
+        fun builder() = Builder()
+    }
+
     @Suppress("TooManyFunctions")
     class Builder : BeagleWidgetBuilder<SendRequest> {
         var url: Bind<String> by Delegates.notNull()

@@ -35,6 +35,10 @@ data class LazyComponent(
     val path: String,
     val initialState: ServerDrivenComponent
 ) : ServerDrivenComponent {
+    companion object{
+        @JvmStatic
+        fun builder() = Builder()
+    }
     class Builder : BeagleWidgetBuilder<LazyComponent> {
         var path: String by Delegates.notNull()
         var initialState: ServerDrivenComponent by Delegates.notNull()

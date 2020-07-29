@@ -32,6 +32,10 @@ import kotlin.properties.Delegates
 data class Image(val path: Bind<ImagePath>, val mode: ImageContentMode? = null) : Widget() {
     constructor(path: ImagePath, mode: ImageContentMode? = null) : this(valueOf(path), mode)
 
+    companion object{
+        @JvmStatic
+        fun builder() = Builder()
+    }
     class Builder : BeagleWidgetBuilder<Image> {
         var path: Bind<ImagePath> by Delegates.notNull()
         var mode: ImageContentMode? = null
@@ -72,6 +76,8 @@ sealed class ImagePath(val url: String?, val placeholder: Local? = null) {
             fun both(webUrl: String, mobileId: String) = Local(webUrl, mobileId)
             fun justMobile(mobileId: String) = Local(null, mobileId)
             fun justWeb(webUrl: String) = Local(webUrl, null)
+            @JvmStatic
+            fun builder() = Builder()
         }
 
         class Builder : BeagleWidgetBuilder<Local> {
@@ -100,6 +106,10 @@ sealed class ImagePath(val url: String?, val placeholder: Local? = null) {
      * @param placeholder reference an image natively in your mobile app local styles file to be used as placeholder.
      * */
     class Remote(remoteUrl: String, placeholder: Local? = null) : ImagePath(remoteUrl, placeholder) {
+        companion object{
+            @JvmStatic
+            fun builder() = Builder()
+        }
         class Builder : BeagleWidgetBuilder<Remote> {
             var remoteUrl: String by Delegates.notNull()
             var placeholder: Local? = null
@@ -117,6 +127,11 @@ sealed class ImagePath(val url: String?, val placeholder: Local? = null) {
 
             override fun build() = Remote(remoteUrl, placeholder)
         }
+    }
+
+    companion object{
+        @JvmStatic
+        fun builder() = Builder()
     }
 
     class Builder {

@@ -50,6 +50,11 @@ data class Alert(
         labelOk = labelOk
     )
 
+    companion object{
+        @JvmStatic
+        fun builder() = Builder()
+    }
+
     class Builder : BeagleWidgetBuilder<Alert> {
         var title: Bind<String>? = null
         var message: Bind<String> by Delegates.notNull()

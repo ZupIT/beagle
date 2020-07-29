@@ -17,35 +17,5 @@
 package br.com.zup.beagle.builder.analytics
 
 import br.com.zup.beagle.analytics.ClickEvent
-import br.com.zup.beagle.builder.BeagleBuilder
-import kotlin.properties.Delegates
 
-class ClickEventBuilder : BeagleBuilder<ClickEvent> {
-    var category: String by Delegates.notNull()
-    var label: String? = null
-    var value: String? = null
-
-    fun category(category: String) = this.apply { this.category = category }
-    fun label(label: String?) = this.apply { this.label = label }
-    fun value(value: String?) = this.apply { this.value = value }
-
-    fun category(block: () -> String) {
-        category(block.invoke())
-    }
-
-    fun label(block: () -> String?) {
-        label(block.invoke())
-    }
-
-    fun value(block: () -> String?) {
-        value(block.invoke())
-    }
-
-    override fun build() = ClickEvent(
-        category = category,
-        label = label,
-        value = value
-    )
-}
-
-fun clickEvent(block: ClickEventBuilder.() -> Unit) = ClickEventBuilder().apply(block).build()
+fun clickEvent(block: ClickEvent.Builder.() -> Unit) = ClickEvent.Builder().apply(block).build()

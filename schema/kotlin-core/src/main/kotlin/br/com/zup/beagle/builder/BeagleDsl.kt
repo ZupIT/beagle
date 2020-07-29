@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.annotation
+package br.com.zup.beagle.builder
 
 @DslMarker
 annotation class BeagleDsl

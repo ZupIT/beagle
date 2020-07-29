@@ -53,6 +53,11 @@ data class Text(
         alignment = valueOfNullable(alignment)
     )
 
+    companion object{
+        @JvmStatic
+        fun builder() = Builder()
+    }
+
     class Builder : BeagleWidgetBuilder<Text> {
         var text: Bind<String> by Delegates.notNull()
         var styleId: String? = null

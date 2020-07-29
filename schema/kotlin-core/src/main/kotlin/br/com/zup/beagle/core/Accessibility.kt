@@ -16,6 +16,8 @@
 
 package br.com.zup.beagle.core
 
+import br.com.zup.beagle.builder.BeagleBuilder
+
 /**
  * The accessibility will enable a textual information to explain the view content in case a screen reader is used.
  *
@@ -30,4 +32,27 @@ package br.com.zup.beagle.core
 data class Accessibility(
     val accessible: Boolean = true,
     val accessibilityLabel: String? = null
-)
+) {
+    companion object{
+        @JvmStatic
+        fun build() = Builder()
+    }
+    class Builder: BeagleBuilder<Accessibility> {
+        var accessible: Boolean = true
+        var accessibilityLabel: String? = null
+
+        fun accessible(accessible: Boolean) = this.apply { this.accessible = accessible }
+        fun accessibilityLabel(accessibilityLabel: String?)
+                = this.apply { this.accessibilityLabel = accessibilityLabel }
+
+        fun accessible(block: () -> Boolean) {
+            accessible(block.invoke())
+        }
+
+        fun accessibilityLabel(block: () -> String?) {
+            accessibilityLabel(block.invoke())
+        }
+
+        override fun build() = Accessibility(accessible, accessibilityLabel)
+    }
+}

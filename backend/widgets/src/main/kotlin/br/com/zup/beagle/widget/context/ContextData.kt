@@ -23,6 +23,10 @@ data class ContextData(
     val id: String,
     val value: Any
 ) {
+    companion object{
+        @JvmStatic
+        fun builder() = Builder()
+    }
     class Builder : BeagleWidgetBuilder<ContextData> {
         var id: String by Delegates.notNull()
         var value: Any by Delegates.notNull()

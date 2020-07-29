@@ -34,6 +34,10 @@ sealed class ExpressionHelper<T>(private val intermediate: String) {
 
     class Start<O>(initialMember: String) :
         ExpressionHelper<O>("$START$initialMember") {
+        companion object{
+            @JvmStatic
+            fun <O> builder() = Builder<O>()
+        }
         class Builder<O> : BeagleWidgetBuilder<Start<O>> {
             var initialMember: String by Delegates.notNull()
 

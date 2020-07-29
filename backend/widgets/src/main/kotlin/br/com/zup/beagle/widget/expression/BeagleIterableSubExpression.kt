@@ -25,6 +25,11 @@ class BeagleIterableSubExpression<T, out N>(
     private val createNext: (ExpressionHelper<T>) -> N
 ) {
     operator fun get(index: Int) = this.createNext(this.expression.access(index))
+
+    companion object{
+        @JvmStatic
+        fun <T, N> builder() = Builder<T, N>()
+    }
     class Builder<T, N> : BeagleWidgetBuilder<BeagleIterableSubExpression<T, N>> {
         var expression: ExpressionHelper<out Iterable<T>> by Delegates.notNull()
         var createNext: (ExpressionHelper<T>) -> N by Delegates.notNull()

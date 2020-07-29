@@ -38,6 +38,10 @@ data class ScrollView(
     val scrollBarEnabled: Boolean? = null,
     override val context: ContextData? = null
 ) : ServerDrivenComponent, ContextComponent {
+    companion object{
+        @JvmStatic
+        fun builder() = Builder()
+    }
     class Builder : BeagleWidgetBuilder<ScrollView> {
         var children: MutableList<ServerDrivenComponent> by Delegates.notNull()
         var scrollDirection: ScrollAxis? = null

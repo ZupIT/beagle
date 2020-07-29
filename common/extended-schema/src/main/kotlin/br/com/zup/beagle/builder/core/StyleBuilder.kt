@@ -16,102 +16,10 @@
 
 package br.com.zup.beagle.builder.core
 
-import br.com.zup.beagle.builder.BeagleBuilder
-import br.com.zup.beagle.builder.widget.EdgeValueBuilder
-import br.com.zup.beagle.builder.widget.FlexBuilder
-import br.com.zup.beagle.builder.widget.SizeBuilder
 import br.com.zup.beagle.core.CornerRadius
-import br.com.zup.beagle.core.Display
-import br.com.zup.beagle.core.PositionType
 import br.com.zup.beagle.core.Style
-import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.Size
 
-@Suppress("TooManyFunctions")
-class StyleBuilder : BeagleBuilder<Style> {
-    var backgroundColor: String? = null
-    var cornerRadius: CornerRadius? = null
-    var size: Size? = null
-    var margin: EdgeValue? = null
-    var padding: EdgeValue? = null
-    var position: EdgeValue? = null
-    var flex: Flex? = null
-    var positionType: PositionType? = null
-    var display: Display? = null
-
-    fun backgroundColor(backgroundColor: String?) = this.apply { this.backgroundColor = backgroundColor }
-    fun cornerRadius(cornerRadius: CornerRadius?) = this.apply { this.cornerRadius = cornerRadius }
-    fun size(size: Size?) = this.apply { this.size = size }
-    fun margin(margin: EdgeValue?) = this.apply { this.margin = margin }
-    fun padding(padding: EdgeValue?) = this.apply { this.padding = padding }
-    fun position(position: EdgeValue?) = this.apply { this.position = position }
-    fun flex(flex: Flex?) = this.apply { this.flex = flex }
-    fun positionType(positionType: PositionType?) = this.apply { this.positionType = positionType }
-    fun display(display: Display?) = this.apply { this.display = display }
-
-    fun backgroundColor(block: () -> String?) {
-        backgroundColor(block.invoke())
-    }
-
-    fun cornerRadius(block: CornerRadiusBuilder.() -> Unit) {
-        cornerRadius(CornerRadiusBuilder().apply(block).build())
-    }
-
-    fun size(block: SizeBuilder.() -> Unit) {
-        size(SizeBuilder().apply(block).build())
-    }
-
-    fun margin(block: EdgeValueBuilder.() -> Unit) {
-        margin(EdgeValueBuilder().apply(block).build())
-    }
-
-    fun padding(block: EdgeValueBuilder.() -> Unit) {
-        padding(EdgeValueBuilder().apply(block).build())
-    }
-
-    fun position(block: EdgeValueBuilder.() -> Unit) {
-        position(EdgeValueBuilder().apply(block).build())
-    }
-
-    fun flex(block: FlexBuilder.() -> Unit) {
-        flex(FlexBuilder().apply(block).build())
-    }
-
-    fun positionType(block: () -> PositionType?) {
-        positionType(block.invoke())
-    }
-
-    fun display(block: () -> Display?) {
-        display(block.invoke())
-    }
-
-    override fun build() = Style(
-        backgroundColor = backgroundColor,
-        cornerRadius = cornerRadius,
-        size = size,
-        margin = margin,
-        padding = padding,
-        position = position,
-        flex = flex,
-        positionType = positionType,
-        display = display
-    )
-}
-
-fun style(block: StyleBuilder.() -> Unit) = StyleBuilder()
+fun style(block: Style.Builder.() -> Unit) = Style.Builder()
     .apply(block).build()
 
-class CornerRadiusBuilder : BeagleBuilder<CornerRadius> {
-    var radius: Double = 0.0
-
-    fun radius(radius: Double) = this.apply { this.radius = radius }
-
-    fun radius(block: () -> Double) {
-        radius(block.invoke())
-    }
-
-    override fun build() = CornerRadius(radius)
-}
-
-fun cornerRadius(block: CornerRadiusBuilder.() -> Unit) = CornerRadiusBuilder().apply(block).build()
+fun cornerRadius(block: CornerRadius.Builder.() -> Unit) = CornerRadius.Builder().apply(block).build()

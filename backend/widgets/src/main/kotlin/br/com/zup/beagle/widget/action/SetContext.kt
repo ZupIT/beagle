@@ -24,6 +24,10 @@ data class SetContext(
     val value: Any,
     val path: String? = null
 ) : Action {
+    companion object{
+        @JvmStatic
+        fun builder() = Confirm.Builder()
+    }
     class Builder : BeagleWidgetBuilder<SetContext> {
         var contextId: String by Delegates.notNull()
         var value: Any by Delegates.notNull()

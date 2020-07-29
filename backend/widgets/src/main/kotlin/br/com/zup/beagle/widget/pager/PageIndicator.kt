@@ -33,6 +33,10 @@ data class PageIndicator(
     var numberOfPages: Int? = null,
     var currentPage: Bind<Int>? = null
 ) : PageIndicatorComponent {
+    companion object{
+        @JvmStatic
+        fun builder() = Builder()
+    }
     class Builder : BeagleWidgetBuilder<PageIndicator> {
         var selectedColor: String by Delegates.notNull()
         var unselectedColor: String by Delegates.notNull()

@@ -34,7 +34,10 @@ data class ListView(
     val children: List<ServerDrivenComponent>,
     val direction: ListDirection = ListDirection.VERTICAL
 ) : ServerDrivenComponent {
-    companion object
+    companion object{
+        @JvmStatic
+        fun builder() = Builder()
+    }
 
     class Builder : BeagleWidgetBuilder<ListView> {
         var children: MutableList<ServerDrivenComponent> by Delegates.notNull()

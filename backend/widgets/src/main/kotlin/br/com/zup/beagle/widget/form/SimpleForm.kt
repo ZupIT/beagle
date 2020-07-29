@@ -38,6 +38,10 @@ class SimpleForm(
     val onSubmit: List<Action>,
     val children: List<ServerDrivenComponent>
 ) : ServerDrivenComponent {
+    companion object{
+        @JvmStatic
+        fun builder() = Builder()
+    }
     class Builder : BeagleWidgetBuilder<SimpleForm> {
         var context: ContextData by Delegates.notNull()
         var onSubmit: MutableList<Action> by Delegates.notNull()

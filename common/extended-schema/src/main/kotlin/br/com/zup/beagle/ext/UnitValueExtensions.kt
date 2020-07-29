@@ -48,3 +48,5 @@ fun Double.unitReal() = UnitValue(this, UnitType.REAL)
  * @return the unit value for percent
  */
 fun Double.unitPercent() = UnitValue(this, UnitType.PERCENT)
+
+fun unitValue(block: UnitValue.Builder.() -> Unit) = UnitValue.Builder().apply(block).build()

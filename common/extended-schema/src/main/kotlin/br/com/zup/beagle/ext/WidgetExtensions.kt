@@ -16,9 +16,6 @@
 
 package br.com.zup.beagle.ext
 
-import br.com.zup.beagle.builder.core.AccessibilityBuilder
-import br.com.zup.beagle.builder.core.StyleBuilder
-import br.com.zup.beagle.builder.widget.FlexBuilder
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.Widget
@@ -39,7 +36,7 @@ fun <T: Widget> T.id(block: () -> String) = this.setId(block.invoke())
  * @return the current widget
  */
 fun <T : Widget> T.applyFlex(flex: Flex) = this.apply { this.style = (this.style ?: Style()).copy(flex = flex) }
-fun <T: Widget> T.flex(block: FlexBuilder.() -> Unit) = this.applyFlex(FlexBuilder().apply(block).build())
+fun <T: Widget> T.flex(block: Flex.Builder.() -> Unit) = this.applyFlex(Flex.Builder().apply(block).build())
 
 /**
  * Apply the appearance.
@@ -51,7 +48,7 @@ fun <T: Widget> T.flex(block: FlexBuilder.() -> Unit) = this.applyFlex(FlexBuild
 fun <T : Widget> T.applyStyle(style: Style) = this.apply {
     this.style = if (style.flex != null) style else style.copy(flex = this.style?.flex)
 }
-fun <T: Widget> T.style(block: StyleBuilder.() -> Unit) = this.applyStyle(StyleBuilder().apply(block).build())
+fun <T: Widget> T.style(block: Style.Builder.() -> Unit) = this.applyStyle(Style.Builder().apply(block).build())
 
 /**
  * Apply the accessibility .
@@ -62,5 +59,5 @@ fun <T: Widget> T.style(block: StyleBuilder.() -> Unit) = this.applyStyle(StyleB
  */
 fun <T : Widget> T.applyAccessibility(accessibility: Accessibility)
         = this.apply { this.accessibility = accessibility }
-fun <T: Widget> T.accessibility(block: AccessibilityBuilder.() -> Unit)
-        = this.applyAccessibility(AccessibilityBuilder().apply(block).build())
+fun <T: Widget> T.accessibility(block: Accessibility.Builder.() -> Unit)
+        = this.applyAccessibility(Accessibility.Builder().apply(block).build())

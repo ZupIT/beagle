@@ -36,6 +36,10 @@ data class Container(
     override val context: ContextData? = null,
     val onInit: List<Action>? = null
 ) : Widget(), ContextComponent {
+    companion object{
+        @JvmStatic
+        fun builder() = Builder()
+    }
     class Builder : BeagleWidgetBuilder<Container> {
         var children: MutableList<ServerDrivenComponent> by Delegates.notNull()
         var context: ContextData? = null

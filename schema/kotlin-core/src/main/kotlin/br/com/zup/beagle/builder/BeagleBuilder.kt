@@ -16,8 +16,6 @@
 
 package br.com.zup.beagle.builder
 
-import br.com.zup.beagle.annotation.BeagleDsl
-
 @BeagleDsl
 interface BeagleBuilder<T> {
 

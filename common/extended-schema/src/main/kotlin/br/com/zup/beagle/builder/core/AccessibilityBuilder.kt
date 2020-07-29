@@ -16,27 +16,7 @@
 
 package br.com.zup.beagle.builder.core
 
-import br.com.zup.beagle.builder.BeagleBuilder
 import br.com.zup.beagle.core.Accessibility
 
-class AccessibilityBuilder : BeagleBuilder<Accessibility> {
-    var accessible: Boolean = true
-    var accessibilityLabel: String? = null
-
-    fun accessible(accessible: Boolean) = this.apply { this.accessible = accessible }
-    fun accessibilityLabel(accessibilityLabel: String?)
-            = this.apply { this.accessibilityLabel = accessibilityLabel }
-
-    fun accessible(block: () -> Boolean) {
-        accessible(block.invoke())
-    }
-
-    fun accessibilityLabel(block: () -> String?) {
-        accessibilityLabel(block.invoke())
-    }
-
-    override fun build() = Accessibility(accessible, accessibilityLabel)
-}
-
-fun accessibility(block: AccessibilityBuilder.() -> Unit) = AccessibilityBuilder()
+fun accessibility(block: Accessibility.Builder.() -> Unit) = Accessibility.Builder()
     .apply(block).build()

@@ -20,8 +20,8 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.ContextComponent
 import br.com.zup.beagle.widget.context.ContextData
-import kotlin.properties.Delegates
 import br.com.zup.beagle.widget.utils.BeagleConstants.DEPRECATED_TAB_VIEW
+import kotlin.properties.Delegates
 
 /**
  * TabView is a component responsible for the navigation between views.
@@ -37,6 +37,10 @@ data class TabView(
     val styleId: String? = null,
     override val context: ContextData? = null
 ) : ServerDrivenComponent, ContextComponent {
+    companion object{
+        @JvmStatic
+        fun builder() = Builder()
+    }
     class Builder : BeagleWidgetBuilder<TabView> {
         var children: MutableList<TabItem> by Delegates.notNull()
         var styleId: String? = null
@@ -86,6 +90,10 @@ data class TabItem(
     val child: ServerDrivenComponent,
     val icon: ImagePath.Local? = null
 ) {
+    companion object{
+        @JvmStatic
+        fun builder() = Builder()
+    }
     class Builder : BeagleWidgetBuilder<TabItem> {
         var title: String? = null
         var child: ServerDrivenComponent by Delegates.notNull()

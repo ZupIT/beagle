@@ -57,6 +57,11 @@ data class Confirm(
         labelCancel = labelCancel
     )
 
+    companion object{
+        @JvmStatic
+        fun builder() = Builder()
+    }
+
     @Suppress("TooManyFunctions")
     class Builder : BeagleWidgetBuilder<Confirm> {
         var title: Bind<String>? = null

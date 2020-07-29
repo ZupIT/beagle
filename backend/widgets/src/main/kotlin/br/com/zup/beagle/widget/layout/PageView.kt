@@ -75,6 +75,11 @@ data class PageView(
         showArrow
     )
 
+    companion object{
+        @JvmStatic
+        fun builder() = Builder()
+    }
+
     class Builder : BeagleWidgetBuilder<PageView> {
         var children: MutableList<ServerDrivenComponent> by Delegates.notNull()
         var context: ContextData? = null

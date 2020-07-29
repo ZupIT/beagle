@@ -21,7 +21,6 @@ apply plugin: 'kotlin'
 dependencies {
     implementation Dependencies.GeneralLibraries.kotlin
     implementation project(Dependencies.Modules.schemaKotlinCore)
-    implementation project(Dependencies.Modules.commonAnnotation)
 
     testImplementation Dependencies.TestLibraries.kotlinTest
     testImplementation Dependencies.TestLibraries.mockk

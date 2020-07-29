@@ -44,7 +44,7 @@ object ListViewDslScreenBuilder : ScreenBuilder {
                     }
                     action{
                         alert{
-                            title = valueOf("ListView")
+                            title{-"ListView"}
                             message{
                                 -("Is a Layout component that will define a list of views natively. " +
                                 "These views could be any Server Driven Component.")

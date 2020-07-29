@@ -60,6 +60,10 @@ data class TextInput(
         onBlur = onBlur
     )
 
+    companion object{
+        @JvmStatic
+        fun builder() = Builder()
+    }
     @Suppress("TooManyFunctions")
     class Builder : BeagleWidgetBuilder<TextInput> {
         var value: Bind<String>? = null

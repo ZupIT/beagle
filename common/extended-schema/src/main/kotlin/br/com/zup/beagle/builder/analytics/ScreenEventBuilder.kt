@@ -17,19 +17,5 @@
 package br.com.zup.beagle.builder.analytics
 
 import br.com.zup.beagle.analytics.ScreenEvent
-import br.com.zup.beagle.builder.BeagleBuilder
-import kotlin.properties.Delegates
 
-class ScreenEventBuilder : BeagleBuilder<ScreenEvent> {
-    var screenName: String by Delegates.notNull()
-
-    fun screenName(screenName: String) = this.apply { this.screenName = screenName }
-
-    fun screenName(block: () -> String) {
-        screenName(block.invoke())
-    }
-
-    override fun build() = ScreenEvent(screenName)
-}
-
-fun screenEvent(block: ScreenEventBuilder.() -> Unit) = ScreenEventBuilder().apply(block).build()
+fun screenEvent(block: ScreenEvent.Builder.() -> Unit) = ScreenEvent.Builder().apply(block).build()
