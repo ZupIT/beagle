@@ -19,6 +19,7 @@ package br.com.zup.beagle.sample.builder
 import br.com.zup.beagle.ext.style
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.action.alert
+import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.core.ListDirection
 import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.layout.ScreenBuilder
@@ -26,26 +27,29 @@ import br.com.zup.beagle.widget.layout.container
 import br.com.zup.beagle.widget.layout.navigationBarItem
 import br.com.zup.beagle.widget.layout.screen
 import br.com.zup.beagle.widget.layout.scrollView
+import br.com.zup.beagle.widget.ui.Text
 import br.com.zup.beagle.widget.ui.listView
 import br.com.zup.beagle.widget.ui.text
 
 object ListViewDslScreenBuilder : ScreenBuilder {
     override fun build() = screen{
         navigationBar {
-            title { "Beagle ListView" }
-            showBackButton{true}
+            title = "Beagle ListView"
+            showBackButton = true
             navigationBarItems {
                 +navigationBarItem{
-                    text{""}
+                    text = ""
                     image{
-                        mobileId{"informationImage"}
+                        mobileId = "informationImage"
                     }
                     action{
                         alert{
-                            title{-"ListView"}
-                            message{-("Is a Layout component that will define a list of views natively. " +
-                                "These views could be any Server Driven Component.")}
-                            labelOk{"OK"}
+                            title = valueOf("ListView")
+                            message{
+                                -("Is a Layout component that will define a list of views natively. " +
+                                "These views could be any Server Driven Component.")
+                            }
+                            labelOk("OK")
                         }
                     }
                 }
@@ -53,7 +57,7 @@ object ListViewDslScreenBuilder : ScreenBuilder {
         }
         child{
             scrollView {
-                scrollDirection{ScrollAxis.VERTICAL}
+                scrollDirection = ScrollAxis.VERTICAL
                 children{
                     +getStaticListView(ListDirection.VERTICAL)
                     +getStaticListView(ListDirection.HORIZONTAL)
@@ -66,17 +70,14 @@ object ListViewDslScreenBuilder : ScreenBuilder {
 
     private fun getStaticListView(listDirection: ListDirection) = container {
         children {
-
-            +text{
-                text{-"Static $listDirection ListView"}
-            }.style{
+            +Text("Static $listDirection ListView").style{
                 margin {
-                    bottom { 10.unitReal() }
+                    bottom = 10.unitReal()
                 }
             }
 
             +listView {
-                direction{listDirection}
+                direction = listDirection
                 children {
                     +(1..10).map(::createText)
                 }
@@ -85,7 +86,7 @@ object ListViewDslScreenBuilder : ScreenBuilder {
         }
     }.style {
         margin {
-            bottom { 20.unitReal() }
+            bottom = 20.unitReal()
         }
     }
 
@@ -96,12 +97,12 @@ object ListViewDslScreenBuilder : ScreenBuilder {
                 text{-"Dynamic $listDirection ListView"}
             }.style {
                 margin {
-                    bottom { 10.unitReal() }
+                    bottom = 10.unitReal()
                 }
             }
 
             +listView {
-                direction { listDirection }
+                direction = listDirection
                 children {
                     +(0 until 20).map(::createText)
                 }
@@ -111,6 +112,6 @@ object ListViewDslScreenBuilder : ScreenBuilder {
     }
 
     private fun createText(index: Int) = text{
-        text{-"Hello $index"}
+        text = valueOf("Hello $index")
     }
 }

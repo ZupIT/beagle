@@ -68,3 +68,5 @@ data class Touchable(
         )
     }
 }
+
+fun touchable(block: Touchable.Builder.() -> Unit) = Touchable.Builder().apply(block).build()
