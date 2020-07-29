@@ -92,6 +92,7 @@
 		A024CF1124991E4F009BB92D /* UIView+StyleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A024CF1024991E4F009BB92D /* UIView+StyleTests.swift */; };
 		A040DBBC2497E259000F3213 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = A040DBBB2497E259000F3213 /* Action.swift */; };
 		A04B19FA23ECA3F7007B4279 /* Screen+Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04B19F923ECA3F7007B4279 /* Screen+Renderable.swift */; };
+		A057D59324C7169E001F6835 /* ComponentHostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A057D59224C7169E001F6835 /* ComponentHostController.swift */; };
 		A05C74D02497F2BF009DBB66 /* FormLocalAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05C74CF2497F2BF009DBB66 /* FormLocalAction.swift */; };
 		A05C74D22497F430009DBB66 /* FormValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05C74D12497F430009DBB66 /* FormValidation.swift */; };
 		A05C74D62497F524009DBB66 /* Navigate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05C74D52497F524009DBB66 /* Navigate.swift */; };
@@ -101,7 +102,6 @@
 		A068234C238430C500CEE57A /* ValidatorProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A068234B238430C500CEE57A /* ValidatorProvider.swift */; };
 		A068234E2384320000CEE57A /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A068234D2384320000CEE57A /* Validator.swift */; };
 		A0D608D82448DF8700F7D851 /* ScreenType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D608D52448DF8600F7D851 /* ScreenType.swift */; };
-		A0D608D92448DF8700F7D851 /* ScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D608D62448DF8700F7D851 /* ScreenController.swift */; };
 		A0D608DA2448DF8700F7D851 /* BeagleNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D608D72448DF8700F7D851 /* BeagleNavigationController.swift */; };
 		A0EF0AAC238811AA0019BE83 /* LocalFormHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EF0AAB238811AA0019BE83 /* LocalFormHandler.swift */; };
 		A0EF0ABE238B05A10019BE83 /* ValidatorHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EF0ABD238B05A10019BE83 /* ValidatorHandlerTests.swift */; };
@@ -340,6 +340,7 @@
 		A024CF1024991E4F009BB92D /* UIView+StyleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+StyleTests.swift"; sourceTree = "<group>"; };
 		A040DBBB2497E259000F3213 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		A04B19F923ECA3F7007B4279 /* Screen+Renderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Screen+Renderable.swift"; sourceTree = "<group>"; };
+		A057D59224C7169E001F6835 /* ComponentHostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentHostController.swift; sourceTree = "<group>"; };
 		A05C74CF2497F2BF009DBB66 /* FormLocalAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormLocalAction.swift; sourceTree = "<group>"; };
 		A05C74D12497F430009DBB66 /* FormValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormValidation.swift; sourceTree = "<group>"; };
 		A05C74D52497F524009DBB66 /* Navigate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigate.swift; sourceTree = "<group>"; };
@@ -349,7 +350,6 @@
 		A068234B238430C500CEE57A /* ValidatorProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatorProvider.swift; sourceTree = "<group>"; };
 		A068234D2384320000CEE57A /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 		A0D608D52448DF8600F7D851 /* ScreenType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenType.swift; sourceTree = "<group>"; };
-		A0D608D62448DF8700F7D851 /* ScreenController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenController.swift; sourceTree = "<group>"; };
 		A0D608D72448DF8700F7D851 /* BeagleNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeagleNavigationController.swift; sourceTree = "<group>"; };
 		A0EF0AAB238811AA0019BE83 /* LocalFormHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFormHandler.swift; sourceTree = "<group>"; };
 		A0EF0ABD238B05A10019BE83 /* ValidatorHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatorHandlerTests.swift; sourceTree = "<group>"; };
@@ -1257,7 +1257,6 @@
 				C8605F6923B5423100FD4C4F /* LayoutManager.swift */,
 				A04B19F923ECA3F7007B4279 /* Screen+Renderable.swift */,
 				C89FFA912412DC2300C1B53B /* ViewConfigurator.swift */,
-				A0D608D62448DF8700F7D851 /* ScreenController.swift */,
 				A0D608D52448DF8600F7D851 /* ScreenType.swift */,
 				C829CEBC23B16643001B7225 /* Tests */,
 			);
@@ -1401,6 +1400,7 @@
 			children = (
 				C08D4DE4248559FA00AAAC0A /* PageView+Renderable.swift */,
 				C85D9BA0238701E60075B6C0 /* PageViewUIComponent.swift */,
+				A057D59224C7169E001F6835 /* ComponentHostController.swift */,
 				C85D9BA6238858940075B6C0 /* Tests */,
 			);
 			path = "Page+Renderable";
@@ -1830,6 +1830,7 @@
 				C8605F6A23B5423100FD4C4F /* LayoutManager.swift in Sources */,
 				931B6E32237610B300DE73FD /* FunctiontalUtils.swift in Sources */,
 				C08D4E882485944B00AAAC0A /* Text+Renderable.swift in Sources */,
+				A057D59324C7169E001F6835 /* ComponentHostController.swift in Sources */,
 				C85E1CD123EB49C000C1E323 /* HttpRequestBuilder.swift in Sources */,
 				E5A6F4CB2358F621008906F8 /* Repository.swift in Sources */,
 				E52236C423745CBB00E555BB /* NSObjectExtension.swift in Sources */,
@@ -1854,7 +1855,6 @@
 				C08D4E3124857C7700AAAC0A /* DependencyWindowManager.swift in Sources */,
 				C08D4E442485803E00AAAC0A /* LazyComponent+Renderable.swift in Sources */,
 				2539A44F24C61C0D00B8FA92 /* GlobalContext.swift in Sources */,
-				A0D608D92448DF8700F7D851 /* ScreenController.swift in Sources */,
 				57E7F970247D9EDC00FBD398 /* UIView+Context.swift in Sources */,
 				938B13CE2497FBF900AA8E3B /* CollectionExtension.swift in Sources */,
 				9380222A249A989300FA8519 /* FormSubmit+Renderable.swift in Sources */,

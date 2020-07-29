@@ -19,6 +19,7 @@ package br.com.zup.beagle.widget.ui
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.context.ContextComponent
 import br.com.zup.beagle.widget.context.ContextData
+import br.com.zup.beagle.widget.utils.BeagleConstants.DEPRECATED_TAB_VIEW
 
 /**
  * TabView is a component responsible for the navigation between views.
@@ -28,6 +29,7 @@ import br.com.zup.beagle.widget.context.ContextData
  * @param styleId reference a native style in your local styles file to be applied on this view.
  *
  */
+@Deprecated(DEPRECATED_TAB_VIEW)
 data class TabView(
     val children: List<TabItem>,
     val styleId: String? = null,
@@ -45,6 +47,7 @@ data class TabView(
  *                  If it is left as null or not declared it won't display any icon.
  *
  */
+@Deprecated(DEPRECATED_TAB_VIEW)
 data class TabItem(
     val title: String? = null,
     val child: ServerDrivenComponent,

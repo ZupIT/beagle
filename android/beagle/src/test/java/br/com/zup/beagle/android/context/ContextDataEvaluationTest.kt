@@ -79,7 +79,7 @@ internal class ContextDataEvaluationTest {
     }
 
     @Test
-    fun evaluateContextBindings_should_get_value_from_context_and_deserialize_JSONOBject() {
+    fun evaluateContextBindings_should_get_value_from_context_and_deserialize_JSONObject() {
         // Given
         val jsonObject = mockk<JSONObject>()
         every { jsonPathFinder.find(any(), any()) } returns jsonObject
@@ -206,7 +206,7 @@ internal class ContextDataEvaluationTest {
     }
 
     @Test
-    fun evaluateAllContext_should_return_null_in_expressions_with_null_bind_value_in_string_type() {
+    fun evaluateAllContext_should_return_empty_in_expressions_with_null_bind_value_in_string_type() {
         // Given
         val bind = expressionOf<String>("@{$CONTEXT_ID.exp1}")
         every { jsonPathFinder.find(any(), any()) } returns null
@@ -215,8 +215,7 @@ internal class ContextDataEvaluationTest {
         val value = contextDataEvaluation.evaluateBindExpression(CONTEXT_DATA, bind)
 
         // Then
-        assertNull(value)
-        verify(exactly = once()) { BeagleMessageLogs.errorWhenExpressionEvaluateNullValue(any()) }
+        assertEquals("", value)
     }
 
     @Test
@@ -294,7 +293,21 @@ internal class ContextDataEvaluationTest {
         assert(result is Double)
     }
 
-    private fun <T>commonMock() : Bind.Expression<T> {
+    @Test
+    fun evaluateAllContext_with_escaping_expressions_should_return_expected_values() {
+        createEscapeBindingMockCases().forEach { mockCase ->
+            // Given
+            val bind = expressionOf<String>(mockCase.value)
+
+            // When
+            val value = contextDataEvaluation.evaluateBindExpression(mockCase.contextData, bind)
+
+            // Then
+            assertEquals(mockCase.expected, value)
+        }
+    }
+
+    private fun <T> commonMock(): Bind.Expression<T> {
         mockkStatic("br.com.zup.beagle.android.utils.StringExtensionsKt")
         val value = "@{context}"
         val bind: Bind.Expression<T> = mockk(relaxed = true)
@@ -303,4 +316,24 @@ internal class ContextDataEvaluationTest {
         return bind
     }
 
+    private fun createEscapeBindingMockCases(): List<EscapingTestCases> = listOf(
+        EscapingTestCases("@{context}", "value"),
+        EscapingTestCases("@{context} test", "value test"),
+        EscapingTestCases("test @{context}", "test value"),
+        EscapingTestCases("test \\@{context}", "test @{context}"),
+        EscapingTestCases("test \\\\@{context}", "test \\value"),
+        EscapingTestCases("test \\\\\\@{context}", "test \\@{context}"),
+        EscapingTestCases("test \\\\\\\\@{context}", "test \\\\value"),
+        EscapingTestCases("test \\\\\\\\\\@{context}", "test \\\\@{context}"),
+        EscapingTestCases(
+            "This is a @{context} of \\ expression \\@{context}",
+            "This is a value of \\ expression @{context}"
+        )
+    )
+
+    data class EscapingTestCases(
+        val value: String,
+        val expected: String,
+        val contextData: ContextData = ContextData("context", "value")
+    )
 }
