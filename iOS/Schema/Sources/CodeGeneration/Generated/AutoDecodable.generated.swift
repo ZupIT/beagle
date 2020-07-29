@@ -338,6 +338,26 @@ extension SimpleForm {
     }
 }
 
+// MARK: TabBar Decodable
+extension TabBar {
+
+    enum CodingKeys: String, CodingKey {
+        case items
+        case styleId
+        case currentTab
+        case onTabSelection
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        items = try container.decode([TabBarItem].self, forKey: .items)
+        styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
+        currentTab = try container.decodeIfPresent(Expression<Int>.self, forKey: .currentTab)
+        onTabSelection = try container.decodeIfPresent(forKey: .onTabSelection)
+    }
+}
+
 // MARK: Text Decodable
 extension Text {
 

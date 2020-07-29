@@ -21,6 +21,7 @@ import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.ContextComponent
 import br.com.zup.beagle.widget.context.ContextData
 import kotlin.properties.Delegates
+import br.com.zup.beagle.widget.utils.BeagleConstants.DEPRECATED_TAB_VIEW
 
 /**
  * TabView is a component responsible for the navigation between views.
@@ -30,6 +31,7 @@ import kotlin.properties.Delegates
  * @param styleId reference a native style in your local styles file to be applied on this view.
  *
  */
+@Deprecated(DEPRECATED_TAB_VIEW)
 data class TabView(
     val children: List<TabItem>,
     val styleId: String? = null,
@@ -78,6 +80,7 @@ fun tabView(block: TabView.Builder.() -> Unit) = TabView.Builder().apply(block).
  *                  If it is left as null or not declared it won't display any icon.
  *
  */
+@Deprecated(DEPRECATED_TAB_VIEW)
 data class TabItem(
     val title: String? = null,
     val child: ServerDrivenComponent,
