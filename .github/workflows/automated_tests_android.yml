@@ -1,6 +1,6 @@
-name: Beagle Automated Tests
+name: Beagle Android Automated Tests
 
-on: workflow_dispatch
+on: push
 
 jobs:
     run-automated-tests:
