@@ -20,7 +20,10 @@ import BeagleSchema
 class BeagleScreenViewModel {
         
     var screenType: ScreenType {
-        didSet { screen = nil }
+        didSet {
+            screenAppearEventIsPending = true
+            screen = nil
+        }
     }
     var screen: Screen?
     var state: State {
@@ -35,6 +38,8 @@ class BeagleScreenViewModel {
     }
 
     var dependencies: BeagleDependenciesProtocol
+    
+    private var screenAppearEventIsPending = true
 
     // MARK: Observer
 
@@ -88,6 +93,19 @@ class BeagleScreenViewModel {
             tryToLoadScreenFromText(text)
         }
     }
+    
+    public func trackEventOnScreenAppeared() {
+        if let event = screen?.screenAnalyticsEvent {
+            screenAppearEventIsPending = false
+            dependencies.analytics?.trackEventOnScreenAppeared(event)
+        }
+    }
+    
+    public func trackEventOnScreenDisappeared() {
+        if let event = screen?.screenAnalyticsEvent {
+            dependencies.analytics?.trackEventOnScreenDisappeared(event)
+        }
+    }
 
     // MARK: Core
     
@@ -116,6 +134,9 @@ class BeagleScreenViewModel {
             switch result {
             case .success(let screen):
                 self.handleRemoteScreenSuccess(screen)
+                if self.screenAppearEventIsPending {
+                    self.trackEventOnScreenAppeared()
+                }
             case .failure(let error):
                 self.handleRemoteScreenFailure(error)
             }
