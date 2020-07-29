@@ -32,7 +32,7 @@ jobs:
                     gradle-path: ~/.gradle
                 with:
                     path: ${{ env.gradle-path }}
-                    key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('buildSrc/backend/**') }}
+                    key: ${{ runner.os }}-build-${{ env.gradle-cache-key }}-${{ hashFiles('backend/buildSrc/**') }}
             -   name: Create backend image and publish it
                 run: bundle exec fastlane automated_tests publish_backend
                 env:
