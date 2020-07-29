@@ -90,7 +90,7 @@ class WidgetExtensionsKtTest : BaseTest() {
         verifySequence {
             viewModelMock.resetIds()
             beagleFlexView.addServerDrivenComponent(component, rootView)
-            viewModelMock.discoverAllContexts()
+            viewModelMock.discoverAndEvaluateAllContexts()
         }
         assertEquals(beagleFlexView, actual)
     }
