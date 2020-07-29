@@ -32,6 +32,7 @@ import io.mockk.slot
 import io.mockk.verify
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class FormLocalActionTest : BaseTest() {
 
@@ -114,10 +115,6 @@ class FormLocalActionTest : BaseTest() {
         // Given
         val formLocalAction = FormLocalAction("Stub", emptyMap())
         val error = mockk<Throwable>()
-        val expectedState = listOf(
-            ServerDrivenState.Loading(false),
-            ServerDrivenState.Error(error)
-        )
 
         // When
         formLocalAction.formLocalActionHandler = formLocalActionHandler
@@ -127,6 +124,8 @@ class FormLocalActionTest : BaseTest() {
         // Then
         verify(exactly = once()) { formLocalActionHandler.handle(activity, any(), actionListener.captured) }
         verify(exactly = 2) { activity.onServerDrivenContainerStateChanged(any()) }
-        assertEquals(expectedState, activityStates)
+        assertEquals(2, activityStates.size)
+        assertEquals(ServerDrivenState.Loading(false), activityStates[0])
+        assertTrue(activityStates[1] is ServerDrivenState.FormError)
     }
 }

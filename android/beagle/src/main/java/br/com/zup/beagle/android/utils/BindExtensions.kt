@@ -17,17 +17,17 @@
 package br.com.zup.beagle.android.utils
 
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.context.Bind
 
 typealias Observer<T> = (value: T) -> Unit
 
 // This method should be used if its inside a ServerDrivenComponent
 internal fun <T> Bind<T>.observe(
     rootView: RootView,
-    observes: Observer<T>? = null
+    observes: Observer<T?>? = null
 ): T? {
     return evaluateBind(rootView, this, null, observes)
 }
@@ -44,7 +44,7 @@ private fun <T> evaluateBind(
     rootView: RootView,
     bind: Bind<T>,
     caller: Action? = null,
-    observes: Observer<T>?
+    observes: Observer<T?>?
 ): T? {
     val value = try {
         when (bind) {

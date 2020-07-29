@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Gradle: annotation.annotation-0.0.1">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../common/annotation/build/libs/annotation-0.0.1.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

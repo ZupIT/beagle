@@ -23,6 +23,7 @@ import br.com.zup.beagle.android.components.utils.viewExtensionsViewFactory
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
+import br.com.zup.beagle.android.view.BeagleFragment
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.custom.OnStateChanged
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
@@ -86,13 +87,14 @@ fun ViewGroup.renderScreen(fragment: Fragment, screenJson: String) {
     this.renderScreen(FragmentRootView(fragment), screenJson)
 }
 
-
-internal fun ViewGroup.renderScreen(rootView: RootView, screenJson: String){
-    removeAllViewsInLayout()
+internal fun ViewGroup.renderScreen(rootView: RootView, screenJson: String) {
     val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
     viewModel.clearContexts()
-    addView(beagleSerializerFactory.deserializeComponent(screenJson).toView(rootView))
-
+    val component = beagleSerializerFactory.deserializeComponent(screenJson)
+    (rootView.getContext() as AppCompatActivity)
+        .supportFragmentManager
+        .beginTransaction()
+        .replace(this.id, BeagleFragment.newInstance(component))
+        .addToBackStack(null)
+        .commit()
 }
-
-

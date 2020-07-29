@@ -21,17 +21,9 @@ import android.util.AttributeSet
 import android.view.ViewGroup
 import com.google.android.material.tabs.TabLayout
 
-internal class BeagleTabLayout : TabLayout {
-
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
-
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    )
+internal class BeagleTabLayout @JvmOverloads constructor(
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int
+) : TabLayout(context, attrs, defStyleAttr) {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val tabLayout = getChildAt(0) as ViewGroup

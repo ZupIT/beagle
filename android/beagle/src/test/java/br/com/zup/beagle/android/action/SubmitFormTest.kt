@@ -45,7 +45,7 @@ class SubmitFormTest : BaseTest() {
     fun `should call submit in simple form when execute`() {
         // When
         val action = SubmitForm()
-        every { parent.tag } returns simpleForm
+        every { parent.getTag(any()) } returns simpleForm
         every { view.parent } returns parent as ViewParent
 
         action.execute(rootView, view)
@@ -64,7 +64,7 @@ class SubmitFormTest : BaseTest() {
 
         // Then
         verify(exactly = once()) {
-            BeagleLoggerProxy.error("not found simple form in the parents")
+            BeagleLoggerProxy.error("Not found simple form in the parents")
         }
     }
 

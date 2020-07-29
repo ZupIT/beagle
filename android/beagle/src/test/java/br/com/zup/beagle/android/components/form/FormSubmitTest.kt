@@ -51,6 +51,6 @@ class FormSubmitTest : BaseComponentTest() {
         formSubmit.buildView(rootView)
 
         // THEN
-        verify(exactly = once()) { view.tag = formSubmit }
+        verify(exactly = once()) { view.setTag(any(), formSubmit)}
     }
 }

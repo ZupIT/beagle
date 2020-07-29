@@ -46,12 +46,18 @@ final class LazyComponentTests: XCTestCase {
             dependencies: dependecies)
         )
         
-        let size = CGSize(width: 75, height: 40)
+        let size = CGSize(width: 75, height: 80)
         assertSnapshotImage(screenController, size: .custom(size))
         
-        var lazyLoaded = Text("Lazy Loaded!")
+        screenController.view.setContext(Context(id: "ctx", value: "value of ctx"))
+        var lazyLoaded = Text("Lazy Loaded! @{ctx}")
         lazyLoaded.widgetProperties.style = .init(backgroundColor: "#FFFF00")
         repository.componentCompletion?(.success(lazyLoaded))
+        
+        let consumeMainQueue = expectation(description: "consumeMainQueue")
+        DispatchQueue.main.async { consumeMainQueue.fulfill() }
+        waitForExpectations(timeout: 1, handler: nil)
+        
         assertSnapshotImage(screenController, size: .custom(size))
     }
 
@@ -98,7 +104,7 @@ final class LazyComponentTests: XCTestCase {
         }
         XCTAssertEqual(view, initialView)
     }
-
+    
 }
 
 class LazyRepositoryStub: Repository {
@@ -109,18 +115,26 @@ class LazyRepositoryStub: Repository {
     
     private(set) var formData: Request.FormData?
 
-    func fetchComponent(url: String, additionalData: RemoteScreenAdditionalData?, completion: @escaping (Result<ServerDrivenComponent, Request.Error>) -> Void) -> RequestToken? {
+    func fetchComponent(url: String,
+                        additionalData: RemoteScreenAdditionalData?,
+                        useCache: Bool,
+                        completion: @escaping (Result<ServerDrivenComponent, Request.Error>) -> Void) -> RequestToken? {
         componentCompletion = completion
         return nil
     }
 
-    func submitForm(url: String, additionalData: RemoteScreenAdditionalData?, data: Request.FormData, completion: @escaping (Result<RawAction, Request.Error>) -> Void) -> RequestToken? {
+    func submitForm(url: String,
+                    additionalData: RemoteScreenAdditionalData?,
+                    data: Request.FormData,
+                    completion: @escaping (Result<RawAction, Request.Error>) -> Void) -> RequestToken? {
         formData = data
         formCompletion = completion
         return nil
     }
 
-    func fetchImage(url: String, additionalData: RemoteScreenAdditionalData?, completion: @escaping (Result<Data, Request.Error>) -> Void) -> RequestToken? {
+    func fetchImage(url: String,
+                    additionalData: RemoteScreenAdditionalData?,
+                    completion: @escaping (Result<Data, Request.Error>) -> Void) -> RequestToken? {
         imageCompletion = completion
         return nil
     }

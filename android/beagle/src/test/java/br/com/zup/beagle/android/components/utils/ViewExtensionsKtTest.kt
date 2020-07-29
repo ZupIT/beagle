@@ -59,7 +59,7 @@ private val screenRequest = ScreenRequest(URL)
 
 class ViewExtensionsKtTest : BaseTest() {
 
-    @MockK
+    @RelaxedMockK
     private lateinit var viewGroup: ViewGroup
 
     @MockK(relaxUnitFun = true, relaxed = true)
@@ -84,9 +84,6 @@ class ViewExtensionsKtTest : BaseTest() {
     private lateinit var inputMethodManager: InputMethodManager
 
     @MockK
-    private lateinit var iBinder: IBinder
-
-    @MockK
     private lateinit var designSystem: DesignSystem
 
     @MockK
@@ -106,17 +103,11 @@ class ViewExtensionsKtTest : BaseTest() {
         every { viewGroup.addView(capture(viewSlot)) } just Runs
         every { viewGroup.context } returns activity
         every { beagleView.loadView(any(), any()) } just Runs
-        every { beagleView.windowToken } returns iBinder
         every { activity.getSystemService(Activity.INPUT_METHOD_SERVICE) } returns inputMethodManager
         every { BeagleEnvironment.beagleSdk.designSystem } returns designSystem
         every { TextViewCompat.setTextAppearance(any(), any()) } just Runs
         every { imageView.scaleType = any() } just Runs
         every { imageView.setImageResource(any()) } just Runs
-    }
-
-    override fun tearDown() {
-        super.tearDown()
-        unmockkAll()
     }
 
     @Test
@@ -180,7 +171,7 @@ class ViewExtensionsKtTest : BaseTest() {
         viewGroup.hideKeyboard()
 
         // Then
-        verify(exactly = once()) { inputMethodManager.hideSoftInputFromWindow(iBinder, 0) }
+        verify(exactly = once()) { inputMethodManager.hideSoftInputFromWindow(any(), 0) }
     }
 
     @Test
@@ -193,6 +184,6 @@ class ViewExtensionsKtTest : BaseTest() {
         viewGroup.hideKeyboard()
 
         // Then
-        verify(exactly = once()) { inputMethodManager.hideSoftInputFromWindow(iBinder, 0) }
+        verify(exactly = once()) { inputMethodManager.hideSoftInputFromWindow(any(), 0) }
     }
 }

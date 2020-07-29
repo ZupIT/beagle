@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Gradle: extended-schema.extended-schema-0.0.1">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../common/extended-schema/build/libs/extended-schema-0.0.1.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

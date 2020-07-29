@@ -14,25 +14,27 @@
  * limitations under the License.
  */
 
+import br.com.zup.beagle.Dependencies
+
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply from: rootProject.file('jacoco.gradle')
+apply from: rootProject.file('jacoco-android.gradle')
 
 android {
-    compileSdkVersion Versions.compileSdk
-    buildToolsVersion Versions.buildTools
+    compileSdkVersion Dependencies.Versions.compileSdk
+    buildToolsVersion Dependencies.Versions.buildTools
 
     defaultConfig {
-        minSdkVersion Versions.minSdk
-        targetSdkVersion Versions.targetSdk
+        minSdkVersion Dependencies.Versions.minSdk
+        targetSdkVersion Dependencies.Versions.targetSdk
 
-        versionCode Releases.versionCode
-        versionName "${Releases.beagleVersionName}"
+        versionCode Dependencies.Releases.versionCode
+        versionName "${Dependencies.Releases.beagleVersionName}"
 
-        testInstrumentationRunner GeneralNames.testInstrumentationRunner
-        consumerProguardFiles GeneralNames.consumerProguard
+        testInstrumentationRunner Dependencies.GeneralNames.testInstrumentationRunner
+        consumerProguardFiles Dependencies.GeneralNames.consumerProguard
     }
 
     buildTypes {
@@ -47,47 +49,47 @@ android {
 }
 
 dependencies {
-    implementation AndroidxLibraries.appcompat
-    implementation AndroidxLibraries.coreKtx
-    implementation AndroidxLibraries.recyclerView
-    implementation AndroidxLibraries.viewModel
-    implementation AndroidxLibraries.viewModelExtensions
+    implementation Dependencies.AndroidxLibraries.appcompat
+    implementation Dependencies.AndroidxLibraries.coreKtx
+    implementation Dependencies.AndroidxLibraries.recyclerView
+    implementation Dependencies.AndroidxLibraries.viewModel
+    implementation Dependencies.AndroidxLibraries.viewModelExtensions
 
-    implementation GeneralLibraries.kotlin
-    implementation GeneralLibraries.kotlinCoroutines
+    implementation Dependencies.GeneralLibraries.kotlin
+    implementation Dependencies.GeneralLibraries.kotlinCoroutines
 
-    api project(Modules.beagleExtendedSchema)
-    api project(Modules.beagleSchemaKotlinCore)
+    api project(Dependencies.Modules.extendedSchema)
+    api project(Dependencies.Modules.schemaKotlinCore)
 
-    api project(Modules.beagleAnnotation)
-    api project(Modules.beagleAndroidAnnotation)
+    api project(Dependencies.Modules.commonAnnotation)
+    api project(Dependencies.Modules.androidAnnotation)
 
-    implementation GlideLibraries.glide
-    kapt GlideLibraries.glideCompiler
-    kapt project(Modules.beagleAndroidInternalProcessor)
+    implementation Dependencies.GlideLibraries.glide
+    kapt Dependencies.GlideLibraries.glideCompiler
+    kapt project(Dependencies.Modules.internalProcessor)
 
-    implementation GeneralLibraries.yoga
-    implementation GeneralLibraries.soLoader
-    implementation GeneralLibraries.jni
+    implementation Dependencies.GeneralLibraries.yoga
+    implementation Dependencies.GeneralLibraries.soLoader
+    implementation Dependencies.GeneralLibraries.jni
 
-    implementation GoogleLibraries.materialDesign
+    implementation Dependencies.GoogleLibraries.materialDesign
 
-    implementation MoshiLibraries.moshi
-    implementation MoshiLibraries.kotlin
-    implementation MoshiLibraries.adapters
+    implementation Dependencies.MoshiLibraries.moshi
+    implementation Dependencies.MoshiLibraries.kotlin
+    implementation Dependencies.MoshiLibraries.adapters
 
     // Unit Testing
-    testImplementation TestLibraries.junit
-    testImplementation TestLibraries.kotlinTest
-    testImplementation TestLibraries.kotlinCoroutinesTest
-    testImplementation TestLibraries.mockk
-    testImplementation TestLibraries.archCoreTesting
-    testImplementation GeneralLibraries.jsonObject
+    testImplementation Dependencies.TestLibraries.junit
+    testImplementation Dependencies.TestLibraries.kotlinTest
+    testImplementation Dependencies.TestLibraries.kotlinCoroutinesTest
+    testImplementation Dependencies.TestLibraries.mockk
+    testImplementation Dependencies.TestLibraries.archCoreTesting
+    testImplementation Dependencies.GeneralLibraries.jsonObject
 
     // Integration Testing
-    androidTestImplementation TestLibraries.testRunner
-    androidTestImplementation TestLibraries.testExt
-    androidTestImplementation TestLibraries.espressoCore
+    androidTestImplementation Dependencies.TestLibraries.testRunner
+    androidTestImplementation Dependencies.TestLibraries.testExt
+    androidTestImplementation Dependencies.TestLibraries.espressoCore
 }
 
-apply from: rootProject.file('maven-publish.gradle')
+apply from: rootProject.file('../maven-publish.gradle')

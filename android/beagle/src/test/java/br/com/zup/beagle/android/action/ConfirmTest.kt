@@ -153,7 +153,7 @@ class ConfirmTest {
         listenerOkSlot.captured.onClick(dialog, 0)
 
         // Then
-        verify(exactly = once()) { action.handleEvent(rootView, view, onPressOk, "onPressOk") }
+        verify(exactly = once()) { action.handleEvent(rootView, view, onPressOk) }
     }
 
     @Test
@@ -175,6 +175,6 @@ class ConfirmTest {
         listenerCancelSlot.captured.onClick(dialog, 0)
 
         // Then
-        verify(exactly = once()) { action.handleEvent(rootView, view, onPressCancel, "onPressCancel") }
+        verify(exactly = once()) { action.handleEvent(rootView, view, onPressCancel) }
     }
 }

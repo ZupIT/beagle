@@ -101,6 +101,22 @@ extension Container {
     }
 }
 
+// MARK: Context Decodable
+extension Context {
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case value
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decode(String.self, forKey: .id)
+        value = try container.decode(DynamicObject.self, forKey: .value)
+    }
+}
+
 // MARK: Form Decodable
 extension Form {
 
@@ -319,6 +335,26 @@ extension SimpleForm {
         onSubmit = try container.decodeIfPresent(forKey: .onSubmit)
         children = try container.decode(forKey: .children)
         widgetProperties = try WidgetProperties(from: decoder)
+    }
+}
+
+// MARK: TabBar Decodable
+extension TabBar {
+
+    enum CodingKeys: String, CodingKey {
+        case items
+        case styleId
+        case currentTab
+        case onTabSelection
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        items = try container.decode([TabBarItem].self, forKey: .items)
+        styleId = try container.decodeIfPresent(String.self, forKey: .styleId)
+        currentTab = try container.decodeIfPresent(Expression<Int>.self, forKey: .currentTab)
+        onTabSelection = try container.decodeIfPresent(forKey: .onTabSelection)
     }
 }
 

@@ -30,11 +30,10 @@ internal class ContextActionExecutor {
         origin: View,
         sender: Any,
         actions: List<Action>,
-        eventName: String,
-        eventValue: Any? = null
+        context: ContextData? = null
     ) {
-        if (eventValue != null) {
-            createImplicitContextForActions(rootView, sender, eventName, eventValue, actions)
+        if (context != null) {
+            createImplicitContextForActions(rootView, sender, context, actions)
         }
 
         actions.forEach {
@@ -45,15 +44,10 @@ internal class ContextActionExecutor {
     private fun createImplicitContextForActions(
         rootView: RootView,
         sender: Any,
-        eventName: String,
-        eventValue: Any,
+        context: ContextData,
         actions: List<Action>
     ) {
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
-        val contextData = ContextData(
-            id = eventName,
-            value = eventValue
-        ).normalize()
-        viewModel.addImplicitContext(contextData, sender, actions)
+        viewModel.addImplicitContext(context.normalize(), sender, actions)
     }
 }

@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Gradle: backend-widgets.backend-widgets-0.0.1">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../backend/backend-widgets/build/libs/backend-widgets-0.0.1.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
