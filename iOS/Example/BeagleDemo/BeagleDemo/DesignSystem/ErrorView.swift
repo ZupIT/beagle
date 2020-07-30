@@ -18,7 +18,7 @@ import UIKit
 
 class ErrorView: UIVisualEffectView {
     
-    private let retry: (() -> Void)?
+    private var retry: [(() -> Void)?] = []
     
     private lazy var stackView: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [
@@ -77,14 +77,14 @@ class ErrorView: UIVisualEffectView {
     }()
     
     init(message: String?, retry: @escaping () -> Void) {
-        self.retry = retry
+        self.retry.append(retry)
         super.init(effect: UIBlurEffect(style: .light))
         subtitleLabel.text = message
         setupView()
     }
     
     required init?(coder: NSCoder) {
-        self.retry = nil
+        self.retry.removeAll()
         super.init(coder: coder)
         setupView()
     }
@@ -99,6 +99,10 @@ class ErrorView: UIVisualEffectView {
         }
     }
     
+    func addRetry(_ retry: @escaping () -> Void) {
+        self.retry.append(retry)
+    }
+    
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(stackView)
@@ -110,7 +114,8 @@ class ErrorView: UIVisualEffectView {
     
     @objc private func retryAction() {
         dismiss()
-        retry?()
+        retry.forEach({ $0?() })
+        retry.removeAll()
     }
     
     @objc private func cancelAction() {

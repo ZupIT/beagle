@@ -46,6 +46,8 @@ class CustomBeagleNavigationController: BeagleNavigationController {
             if !view.subviews.contains(errorView) {
                 errorView = ErrorView(message: message, retry: retry)
                 errorView.present(in: view)
+            } else {
+                errorView.addRetry(retry)
             }
         }
     }
