@@ -24,9 +24,7 @@ import br.com.zup.beagle.android.data.ComponentRequester
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.testutil.CoroutineTestRule
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.view.ScreenRequest
-import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.*
 import io.mockk.impl.annotations.InjectMockKs
@@ -100,11 +98,34 @@ class BeagleViewModelTest {
         // When
         beagleUIViewModel.fetchComponent(screenRequest).observeForever(observer)
 
+        // Then
+        verifyOrder {
+            observer.onChanged(ViewState.Loading(true))
+            observer.onChanged(any<ViewState.Error>())
+            observer.onChanged(ViewState.Loading(false))
+        }
+    }
+
+    @Test
+    fun fetch_should_return_a_error_ViewState_retry() {
+        // Given
+        val screenRequest = ScreenRequest(RandomData.httpUrl())
+        val exception = BeagleException("Error")
+        val slotViewState = mutableListOf<ViewState>()
+        every { observer.onChanged(capture(slotViewState)) } just Runs
+        coEvery { componentRequester.fetchComponent(any()) } throws exception andThen component
+
+        // When
+        beagleUIViewModel.fetchComponent(screenRequest,null).observeForever(observer)
+        (slotViewState[1] as ViewState.Error).retry.invoke()
 
         // Then
         verifyOrder {
             observer.onChanged(ViewState.Loading(true))
             observer.onChanged(any<ViewState.Error>())
+            observer.onChanged(ViewState.Loading(false))
+            observer.onChanged(ViewState.Loading(true))
+            observer.onChanged(ViewState.DoRender(screenRequest.url, component))
             observer.onChanged(ViewState.Loading(false))
         }
     }
