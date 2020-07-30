@@ -2,14 +2,15 @@
 ###  Workflow
 ###
 platform :workflow do
-  desc "Open PR"
-  lane :openPR do |paramTag|
+  desc "Open PR from patch"
+  lane :openPRFromPatch do |paramTag|
     tagName = paramTag[:paramTag]
-    if tagName.index("-")
+    if !tagName.index("-")
+      puts "This release is not a hotfix."
+      puts "Exiting..."
+      next
+    end
     branchName = tagName.split("/").last
-    # fullTag.pop()
-    # tagVersion = fullTag.first.split("/").last
-    # branchName = tagVersion + "-hotfix"
     sh("git checkout -b " + branchName)
     push_to_git_remote(
       tags: false,
