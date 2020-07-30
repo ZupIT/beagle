@@ -137,7 +137,7 @@ platform :automated_tests do
     gradle(project_dir: "backend", task: ":automated-tests:bootBuildImage --imageName=#{image}")
     sh(log: false, "echo", ENV['token'], "|", "docker", "login", ENV['registry'], "-u", ENV['user'], "--password-stdin")
     sh("docker", "push", image)
-    sh("docker", "logout", ENV['registry'])
+    sh(log: false, "docker", "logout", ENV['registry'])
   end
 
   desc "Run iOS automated tests"
