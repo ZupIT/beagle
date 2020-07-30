@@ -25,23 +25,16 @@ class CustomBeagleNavigationController: BeagleNavigationController {
         at screenController: BeagleController
     ) {
         super.serverDrivenStateDidChange(to: state, at: screenController)
-        
-        func getErrorMessage(from requestError: Request.Error) -> String {
-            let message: String
-            switch requestError {
-            case .networkError(let error), .decoding(let error), .ac:
-                message = error.localizedDescription
-            case .loadFromTextError, .urlBuilderError:
-                message = requestError.localizedDescription
-            }
-            return message
-        }
-        
         if case let .error(serverDrivenError, retry) = state {
             let message: String
             switch serverDrivenError {
             case .remoteScreen(let error), .lazyLoad(let error):
-                message = getErrorMessage(from: error)
+                switch error {
+                case .networkError(let messageError), .decoding(let messageError):
+                    message = messageError.localizedDescription
+                case .loadFromTextError, .urlBuilderError:
+                    message = error.localizedDescription
+                }
             default:
                 message = "Unknow Error."
             }
