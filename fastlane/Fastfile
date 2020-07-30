@@ -8,7 +8,7 @@ lane :openPR do |paramTag|
   sh("git checkout -b " + branchName)
   push_to_git_remote()
   create_pull_request(
-    api_token:"eeca43f1e0a287309c9c4922fbe8e276c0ce4e15",
+    api_token:paramTag[:token]
     repo:"victorrabelozup/beagle",
     title:"tituulo",
     body:"corpo"
