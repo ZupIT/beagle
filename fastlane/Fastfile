@@ -98,7 +98,8 @@ end
 
 desc "Publish new release based on last two tags"
 lane :deploy do
-  git_pull
+  puts "aquiii!!!"
+  # git_pull
   puts lane_context[SharedValues::LANE_NAME]
   # ENV["VERSION_DEPLOY"] = last_git_tag
   # sh "fastlane common remote_publish"
@@ -114,6 +115,12 @@ lane :deploy do
   #   commitish: "master"
   # )
   # sh "bash ./discord_message.sh"
+end
+
+lane :push do
+  sh "git add ."
+  sh "git commit -m \"asd\""
+  sh "git push"
 end
 
 lane :run_danger do |options|
