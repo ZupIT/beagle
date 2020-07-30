@@ -1,9 +1,7 @@
 desc "Open PR"
 lane :openPR do |paramTag|
   tagName = paramTag[:paramTag]
-  fullTag = tagName.split("-")
-  fullTag.pop()
-  tagVersion = fullTag.first.split("/").last
+  tagVersion = tagName.split("/").last
   branchName = tagVersion + "-hotfix"
   sh("git checkout -b " + branchName)
   push_to_git_remote(
