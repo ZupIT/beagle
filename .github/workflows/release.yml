@@ -1,30 +1,30 @@
-# name: Beagle Release
+name: Beagle Release
 
-# on:
-#     push:
-#         tags:
-#             - '*'
-# jobs:
-#     generate-release:
-#         name: Generate release
-#         runs-on: macos-latest
-#         steps:
-#             - uses: actions/checkout@v2.1.0
-#               with:
-#                   fetch-depth: '0'
-#                   ref: 'master'
-#             - name: Install Fastlane
-#               run: bundle install
-#             - name: Deploy new version
-#               env:
-#                 REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
-#                 NAME_REPO_TOKEN: ${{ secrets.NAME_REPO_TOKEN }}
-#                 NX_USR_SNP: ${{ secrets.NX_USR_SNP }}
-#                 NX_PSS_SNP: ${{ secrets.NX_PSS_SNP }}
-#                 NX_REPO_URL: ${{ secrets.NX_REPO_URL }}
-#                 GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
-#                 GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
-#                 DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-#                 COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
-#               run: bundle exec fastlane deploy
-#         
+on:
+    push:
+        tags:
+            - '*'
+jobs:
+    generate-release:
+        name: Generate release
+        runs-on: macos-latest
+        steps:
+            - uses: actions/checkout@v2.1.0
+              with:
+                  fetch-depth: '0'
+                  ref: 'master'
+            - name: Install Fastlane
+              run: bundle install
+            - name: Deploy new version
+              env:
+                REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
+                NAME_REPO_TOKEN: ${{ secrets.NAME_REPO_TOKEN }}
+                NX_USR_SNP: ${{ secrets.NX_USR_SNP }}
+                NX_PSS_SNP: ${{ secrets.NX_PSS_SNP }}
+                NX_REPO_URL: ${{ secrets.NX_REPO_URL }}
+                GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
+                GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+                DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+                COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+              run: bundle exec fastlane deploy
+        
