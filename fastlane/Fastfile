@@ -1,3 +1,24 @@
+desc "Open PR"
+lane :openPR do |otions|
+  # tagname = "herf/head/1.1.1-ios"
+  tagName = tag[:tagName]
+  tagVersion = tagName.split("-").pop().first.split("/").last
+  # asd.pop()
+  # puts(asd.first)
+  # dsa = asd.first.split("/")
+  # puts(dsa.last)
+  branchName = "-hotfix" + tagVersion
+  puts branchName
+  # sh("git checkout -b " + branchName)
+  # push_to_git_remote()
+  # create_pull_request(
+  #   api_token:"2f23872e8f4a29a3ed65d5438e2afa6563edfab3",
+  #   repo:"victorrabelozup/beagle",
+  #   title:"tituulo",
+  #   body:"corpo"
+  #   )
+end
+
 ###
 ###  Android
 ###
