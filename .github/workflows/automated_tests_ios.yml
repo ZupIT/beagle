@@ -1,6 +1,6 @@
 name: Beagle iOS Automated Tests
 
-on: push
+on: workflow_dispatch
 
 jobs:
     run-automated-tests:
