@@ -19,7 +19,8 @@ platform :workflow do
     create_pull_request(
       api_token:paramTag[:token],
       repo:"ZupIT/beagle",
-      title:"title"
+      title:"fix: Merge branchName patch with master",
+      body: "Auto generated PR to merge fixes from #{branchName} into master."
       )
   end
 end
