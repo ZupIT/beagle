@@ -1,10 +1,10 @@
 desc "Open PR"
 lane :openPR do |paramTag|
-  tagName = paramTag[:tagName]
+  tagName = paramTag[:paramTag]
   fullTag = tagName.split("-")
   fullTag.pop()
-  tagVersion = fullTag.first.split("/")
-  branchName = "hotfix-" + tagVersion.last
+  tagVersion = fullTag.first.split("/").last
+  branchName = tagVersion + "-hotfix"
   sh("git checkout -b " + branchName)
   push_to_git_remote()
   create_pull_request(
