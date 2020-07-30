@@ -1,18 +1,26 @@
-desc "Open PR"
-lane :openPR do |paramTag|
-  tagName = paramTag[:paramTag]
-  tagVersion = tagName.split("/").last
-  branchName = tagVersion + "-hotfix"
-  sh("git checkout -b " + branchName)
-  push_to_git_remote(
-    tags: false,
-    set_upstream: true
-    )
-  create_pull_request(
-    api_token:paramTag[:token],
-    repo:"ZupIT/beagle",
-    title:"title"
-    )
+###
+###  Workflow
+###
+platform :workflow do
+  desc "Open PR"
+  lane :openPR do |paramTag|
+    tagName = paramTag[:paramTag]
+    if tagName.index("-")
+    branchName = tagName.split("/").last
+    # fullTag.pop()
+    # tagVersion = fullTag.first.split("/").last
+    # branchName = tagVersion + "-hotfix"
+    sh("git checkout -b " + branchName)
+    push_to_git_remote(
+      tags: false,
+      set_upstream: true
+      )
+    create_pull_request(
+      api_token:paramTag[:token],
+      repo:"ZupIT/beagle",
+      title:"title"
+      )
+  end
 end
 
 ###
