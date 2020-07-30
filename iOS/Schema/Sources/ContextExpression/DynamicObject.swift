@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-public enum DynamicObject {
+public enum DynamicObject: Equatable {
     case empty
     case bool(Bool)
     case int(Int)
@@ -89,7 +89,7 @@ extension DynamicObject: Decodable {
         } else if let expression = try? container.decode(ContextExpression.self) {
             self = .expression(expression)
         } else if let string = try? container.decode(String.self) {
-            self = .string(string)
+            self = .string(string.escapeExpressions())
         } else if let array = try? container.decode([DynamicObject].self) {
             self = .array(array)
         } else if let dictionary = try? container.decode([String: DynamicObject].self) {

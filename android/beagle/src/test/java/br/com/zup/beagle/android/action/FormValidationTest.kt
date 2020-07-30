@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.action
 import android.view.View
 import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.components.form.InputWidget
+import br.com.zup.beagle.android.components.utils.beagleComponent
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.widget.RootView
@@ -56,7 +57,7 @@ class FormValidationTest {
                 FieldError(inputName, validationMessage)
             )
         )
-        every { view.tag } returns formInput
+        every { view.beagleComponent } returns formInput
         every { formInput.name } returns inputName
         every { formInput.child } returns inputWidget
         formValidation.formInputs = listOf(formInput)

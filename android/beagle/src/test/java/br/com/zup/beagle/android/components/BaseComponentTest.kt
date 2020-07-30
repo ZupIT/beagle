@@ -35,7 +35,7 @@ abstract class BaseComponentTest : BaseTest() {
 
     internal val beagleFlexView: BeagleFlexView = mockk(relaxed = true)
 
-    val view: View = mockk()
+    protected val view = mockk<View>()
 
     override fun setUp() {
         super.setUp()
@@ -46,9 +46,7 @@ abstract class BaseComponentTest : BaseTest() {
         every { anyConstructed<ViewRendererFactory>().make(any()) } returns viewRender
         every { anyConstructed<ViewFactory>().makeBeagleFlexView(any()) } returns beagleFlexView
         every { anyConstructed<ViewFactory>().makeBeagleFlexView(any(), any()) } returns beagleFlexView
-
-
         every { viewRender.build(any()) } returns view
-        every { view.tag = any() } just Runs
+        every { view.setTag(any(), any()) } just Runs
     }
 }

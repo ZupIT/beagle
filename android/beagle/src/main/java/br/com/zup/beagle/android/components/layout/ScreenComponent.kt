@@ -22,7 +22,6 @@ import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.ToolbarManager
-import br.com.zup.beagle.android.utils.configureSupportActionBar
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.widget.RootView
@@ -91,7 +90,6 @@ internal data class ScreenComponent(
 
     private fun configNavigationBar(rootView: RootView, navigationBar: NavigationBar) {
         (rootView.getContext() as? BeagleActivity)?.let {
-            it.configureSupportActionBar()
             toolbarManager.configureNavigationBarForScreen(it, navigationBar)
             toolbarManager.configureToolbar(rootView, navigationBar)
         }

@@ -38,9 +38,12 @@ final class ExpressionTests: XCTestCase {
         "name: @{client.name.first}, phone: @{client.phones[0]}",
         "@{client.phones[0]}@{client.phones[1]}",
         "@{@{client.phones[1]}}",
-        "@{client}",
         "name",
-        ""
+        "name@name\\@name@@{client}",
+        "@{client}",
+        "\\@{client}",
+        "\\\\@{client}",
+        "\\\\\\@{client}"
     ]
     
     func test_singleExpressionRawRepresentable() {

@@ -25,6 +25,7 @@ import br.com.zup.beagle.android.utils.getExpressions
 import com.squareup.moshi.Moshi
 import org.json.JSONArray
 import org.json.JSONObject
+import java.lang.reflect.Type
 
 internal class ContextDataEvaluation(
     private val jsonPathFinder: JsonPathFinder = JsonPathFinder(),
@@ -88,12 +89,19 @@ internal class ContextDataEvaluation(
         bind: Bind.Expression<*>,
         evaluatedExpressions: MutableMap<String, Any>
     ): Any? {
-        var text = bind.value
-        evaluatedExpressions.forEach {
-            val expressionKey = it.key
-            text = text.replace("@{$expressionKey}", it.value.toString())
-        }
-        return if(text.isEmpty()) null else text
+        val regex = "(?<=\\})".toRegex()
+        return bind.value.split(regex).joinToString("") {
+            val slash = "(\\\\*)@".toRegex().find(it)?.groups?.get(1)?.value?.length ?: 0
+            if (!it.matches(".*\\\\@.*".toRegex()) || slash % 2 == 0) {
+                val key = "\\{([^\\{]*)\\}".toRegex().find(it)?.groups?.get(1)?.value
+                it.replace(
+                    "\\@\\{\\w.+(\\.|\\w+)\\}".toRegex(),
+                    evaluatedExpressions[key].toString()
+                )
+            } else {
+                it
+            }
+        }.replace("\\\\", "\\").replace("\\@", "@")
     }
 
     private fun evaluateExpression(
@@ -102,7 +110,7 @@ internal class ContextDataEvaluation(
         bind: Bind.Expression<*>,
         expression: String
     ): Any? {
-        val value = getValue(contextData, contextCache, expression)
+        val value = getValue(contextData, contextCache, expression, bind.type)
 
         return try {
             if (bind.type == String::class.java) {
@@ -126,7 +134,8 @@ internal class ContextDataEvaluation(
     private fun getValue(
         contextData: ContextData,
         contextCache: LruCache<String, Any>?,
-        path: String
+        path: String,
+        type: Type
     ): Any? {
         return if (path != contextData.id) {
             val cachedValue = contextCache?.get(path)
@@ -138,7 +147,7 @@ internal class ContextDataEvaluation(
                 }
             }
         } else {
-            contextData.value
+            ContextValueHandler.treatValue(contextData.value, type)
         }
     }
 

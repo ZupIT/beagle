@@ -91,7 +91,7 @@ final class TabBarCollectionViewCell: UICollectionViewCell {
         
     // MARK: - Setup
     
-    func setupTab(with tab: TabItem) {
+    func setupTab(with tab: TabBarItem) {
         switch contentVerification(tabItem: tab) {
         case let .both(iconName, text):
             icon.heightAnchor.constraint(lessThanOrEqualToConstant: 30).isActive = true
@@ -119,7 +119,7 @@ final class TabBarCollectionViewCell: UICollectionViewCell {
         }
     }
 
-    private func contentVerification(tabItem: TabItem) -> ContentEnabler {
+    private func contentVerification(tabItem: TabBarItem) -> ContentEnabler {
         switch (tabItem.icon, tabItem.title) {
         case let (icon?, title?):
             return .both(icon: icon, title: title)

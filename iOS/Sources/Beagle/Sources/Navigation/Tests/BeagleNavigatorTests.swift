@@ -55,7 +55,9 @@ final class BeagleNavigatorTests: XCTestCase {
         // Given
         let windowMock = WindowMock()
         let windowManager = WindowManagerDumb(window: windowMock)
-        let dependencies = BeagleScreenDependencies(windowManager: windowManager)
+        let repository = RepositoryStub(componentResult: .success(ComponentDummy()))
+        let dependencies = BeagleScreenDependencies(repository: repository, windowManager: windowManager)
+        
         let sut = BeagleNavigator()
         let controller = BeagleControllerStub(dependencies: dependencies)
 
@@ -97,7 +99,10 @@ final class BeagleNavigatorTests: XCTestCase {
     private func swapViewTest(_ navigate: Navigate) {
         let sut = BeagleNavigator()
         let firstViewController = UIViewController()
-        let secondViewController = BeagleControllerStub()
+        
+        let repository = RepositoryStub(componentResult: .success(ComponentDummy()))
+        let dependencies = BeagleScreenDependencies(repository: repository)
+        let secondViewController = BeagleControllerStub(dependencies: dependencies)
         let navigation = BeagleNavigationController()
         navigation.viewControllers = [firstViewController, secondViewController]
         
@@ -117,7 +122,9 @@ final class BeagleNavigatorTests: XCTestCase {
     
     private func addViewTest(_ navigate: Navigate) {
         let sut = BeagleNavigator()
-        let firstViewController = BeagleControllerStub()
+        let repository = RepositoryStub(componentResult: .success(ComponentDummy()))
+        let dependencies = BeagleScreenDependencies(repository: repository)
+        let firstViewController = BeagleControllerStub(dependencies: dependencies)
         let navigation = BeagleNavigationController(rootViewController: firstViewController)
         
         sut.navigate(action: navigate, controller: firstViewController)
@@ -258,7 +265,9 @@ final class BeagleNavigatorTests: XCTestCase {
     
     private func pushStackTest(_ navigate: Navigate) {
         let sut = BeagleNavigator()
-        let navigationSpy = BeagleControllerNavigationSpy()
+        let repository = RepositoryStub(componentResult: .success(ComponentDummy()))
+        let dependencies = BeagleScreenDependencies(repository: repository)
+        let navigationSpy = BeagleControllerNavigationSpy(dependencies: dependencies)
         
         sut.navigate(action: navigate, controller: navigationSpy)
         

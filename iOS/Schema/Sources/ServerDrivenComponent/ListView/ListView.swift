@@ -33,14 +33,16 @@ public struct ListView: RawComponent, AutoInitiableAndDecodable {
     
     public init(
         direction: Direction = .vertical,
-        @ChildBuilder _ children: () -> RawComponent
+        @ChildBuilder
+        _ children: () -> RawComponent
     ) {
         self.init(children: [children()], direction: direction)
     }
     
     public init(
         direction: Direction = .vertical,
-        @ChildrenBuilder _ children: () -> [RawComponent]
+        @ChildrenBuilder
+        _ children: () -> [RawComponent]
     ) {
         self.init(children: children(), direction: direction)
     }

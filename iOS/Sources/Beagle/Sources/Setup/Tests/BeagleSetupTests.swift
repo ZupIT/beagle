@@ -49,6 +49,7 @@ final class BeagleSetupTests: XCTestCase {
         dep.cacheManager = nil
         dep.windowManager = WindowManagerDumb()
         dep.opener = URLOpenerDumb()
+        dep.globalContext = GlobalContextDummy()
 
         assertSnapshot(matching: dep, as: .dump)
     }
@@ -171,6 +172,7 @@ struct BeagleScreenDependencies: BeagleDependenciesProtocol {
     var navigation: BeagleNavigation = BeagleNavigationDummy()
     var windowManager: WindowManager = WindowManagerDumb()
     var opener: URLOpener = URLOpenerDumb()
+    var globalContext: GlobalContext = GlobalContextDummy()
 
     var renderer: (BeagleController) -> BeagleRenderer = {
         return BeagleRenderer(controller: $0)
@@ -199,4 +201,12 @@ class BeagleNavigationDummy: BeagleNavigation {
     
     func navigate(action: Navigate, controller: BeagleController, animated: Bool) {
     }
+}
+
+class GlobalContextDummy: GlobalContext {
+    let globalId: String = ""
+    let context: Observable<Context> = Observable(value: .init(id: "", value: .empty))
+    
+    func isGlobal(id: String?) -> Bool { true }
+    func setValue(_ value: DynamicObject) {}
 }
