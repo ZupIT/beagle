@@ -30,13 +30,18 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val url = bffUrl()
-        if(url != null) {
-            val intent = BeagleActivity.newIntent(this, ScreenRequest(url))
-            startActivity(intent)
-            finish()
-        }
+//        val url = bffUrl()
+//        if(url != null) {
+//            val intent = BeagleActivity.newIntent(this, ScreenRequest(url))
+//            startActivity(intent)
+//            finish()
+//        }
+        getScreen("")
+    }
 
+    fun getScreen(route: String? = null){
+        startActivity(BeagleActivity.newIntent(this, ScreenRequest(route.toString())))
+        finish()
     }
 
     fun bffUrl() = intent.extras?.getString(BFF_URL_KEY) ?: "http://10.0.2.2:8080/touchable"

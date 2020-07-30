@@ -17,7 +17,7 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:sharedUserId="com.example.automated_tests.uid"
+    android:sharedUserId="br.com.zup.beagle.sample.uid"
     package="com.example.automated_tests">
 
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:node="merge"/>
