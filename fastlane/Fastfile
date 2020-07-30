@@ -99,20 +99,21 @@ end
 desc "Publish new release based on last two tags"
 lane :deploy do
   git_pull
-  ENV["VERSION_DEPLOY"] = last_git_tag
-  sh "fastlane common remote_publish"
-  sh "fastlane ios release"
+  puts lane_context[SharedValues::LANE_NAME]
+  # ENV["VERSION_DEPLOY"] = last_git_tag
+  # sh "fastlane common remote_publish"
+  # sh "fastlane ios release"
 
-  sh "bash ./delete_release.sh"
-  set_github_release(
-    repository_name: "ZupIT/beagle",
-    api_token: ENV["REPO_TOKEN"],
-    name: ENV["VERSION_DEPLOY"],
-    tag_name: ENV["VERSION_DEPLOY"],
-    description: release_notes,
-    commitish: "master"
-  )
-  sh "bash ./discord_message.sh"
+  # sh "bash ./delete_release.sh"
+  # set_github_release(
+  #   repository_name: "ZupIT/beagle",
+  #   api_token: ENV["REPO_TOKEN"],
+  #   name: ENV["VERSION_DEPLOY"],
+  #   tag_name: ENV["VERSION_DEPLOY"],
+  #   description: release_notes,
+  #   commitish: "master"
+  # )
+  # sh "bash ./discord_message.sh"
 end
 
 lane :run_danger do |options|
