@@ -6,7 +6,10 @@ lane :openPR do |paramTag|
   tagVersion = fullTag.first.split("/").last
   branchName = tagVersion + "-hotfix"
   sh("git checkout -b " + branchName)
-  push_to_git_remote()
+  push_to_git_remote(
+    tags: false,
+    set_upstream: true
+    )
   create_pull_request(
     api_token:paramTag[:token]
     repo:"victorrabelozup/beagle",
