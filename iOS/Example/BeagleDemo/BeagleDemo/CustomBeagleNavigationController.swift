@@ -18,21 +18,38 @@ import Beagle
 
 class CustomBeagleNavigationController: BeagleNavigationController {
     
+    private var errorView = ErrorView(message: nil) { }
+    
     override func serverDrivenStateDidChange(
         to state: ServerDrivenState,
         at screenController: BeagleController
     ) {
         super.serverDrivenStateDidChange(to: state, at: screenController)
-        if case let .error(serverDrivenError, retry) = state,
-           case .remoteScreen(let requestError) = serverDrivenError {
+        
+        func getErrorMessage(from requestError: Request.Error) -> String {
             let message: String
             switch requestError {
-            case .networkError(let error), .decoding(let error):
+            case .networkError(let error), .decoding(let error), .ac:
                 message = error.localizedDescription
             case .loadFromTextError, .urlBuilderError:
                 message = requestError.localizedDescription
             }
-            ErrorView(message: message, retry: retry).present(in: view)
+            return message
+        }
+        
+        if case let .error(serverDrivenError, retry) = state {
+            let message: String
+            switch serverDrivenError {
+            case .remoteScreen(let error), .lazyLoad(let error):
+                message = getErrorMessage(from: error)
+            default:
+                message = "Unknow Error."
+            }
+            
+            if !view.subviews.contains(errorView) {
+                errorView = ErrorView(message: message, retry: retry)
+                errorView.present(in: view)
+            }
         }
     }
     
