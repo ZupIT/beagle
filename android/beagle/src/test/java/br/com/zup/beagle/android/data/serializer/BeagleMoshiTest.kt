@@ -53,6 +53,7 @@ import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.widget.UndefinedWidget
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.widget.core.ListDirection
 import com.squareup.moshi.Moshi
 import io.mockk.clearStaticMockk
 import io.mockk.every
@@ -257,7 +258,7 @@ class BeagleMoshiTest : BaseTest() {
     @Test
     fun make_should_return_moshi_to_serialize_a_ListView() {
         // Given
-        val component = ListView(listOf())
+        val component = ListView(children = listOf(), direction = ListDirection.VERTICAL)
 
         // When
         val actual = moshi.adapter(ServerDrivenComponent::class.java).toJson(component)

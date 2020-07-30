@@ -19,63 +19,41 @@ package br.com.zup.beagle.android.components
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.view.ViewFactory
+import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.ListDirection
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.slot
+import io.mockk.*
 import org.junit.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
-class ListViewTest : BaseComponentTest() {
+class ListViewTwoTest : BaseComponentTest() {
 
     private val recyclerView: RecyclerView = mockk(relaxed = true)
 
     private val layoutManagerSlot = slot<LinearLayoutManager>()
 
-    private lateinit var listView: ListView
+    private val template: ServerDrivenComponent = mockk()
+
+    private lateinit var listView: ListViewTwo
 
     override fun setUp() {
         super.setUp()
-
         every { beagleFlexView.addView(any()) } just Runs
         every { anyConstructed<ViewFactory>().makeRecyclerView(rootView.getContext()) } returns recyclerView
         every { recyclerView.layoutManager = capture(layoutManagerSlot) } just Runs
         every { recyclerView.adapter = any() } just Runs
-
-        listView = ListView(listOf(), ListDirection.VERTICAL)
-    }
-
-    @Test
-    fun build_should_return_a_BeagleFlexView_instance() {
-        val view = listView.buildView(rootView)
-
-        assertTrue(view is RecyclerView)
     }
 
     @Test
     fun build_should_set_orientation_VERTICAL() {
-        // Given
-        listView = ListView(listOf(), ListDirection.VERTICAL)
-
-        // When
+        //given
+        listView = ListViewTwo(
+            direction = ListDirection.VERTICAL,
+            template = template
+        )
+        //when
         listView.buildView(rootView)
 
-        // Then
+        //then
         assertEquals(RecyclerView.VERTICAL, layoutManagerSlot.captured.orientation)
-    }
-
-    @Test
-    fun build_should_set_orientation_HORIZONTAL() {
-        // Given
-        listView = ListView(listOf(), ListDirection.HORIZONTAL)
-
-        // When
-        listView.buildView(rootView)
-
-        // Then
-        assertEquals(RecyclerView.HORIZONTAL, layoutManagerSlot.captured.orientation)
     }
 }

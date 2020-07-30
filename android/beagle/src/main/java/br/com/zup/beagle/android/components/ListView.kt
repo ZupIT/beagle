@@ -36,49 +36,37 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.ListDirection
 
 @RegisterWidget
-class ListView private constructor(
-    val children: List<ServerDrivenComponent> = emptyList(),
-    override val context: ContextData,
-    val onInit: Action,
-    val dataSource: Bind<List<Any>>,
+data class ListView(
+    val children: List<ServerDrivenComponent>? = null,
+    override val context: ContextData? = null,
+    val onInit: Action? = null,
+    val dataSource: Bind<List<Any>>? = null,
     val direction: ListDirection,
-    val template: ServerDrivenComponent,
-    val onScrollEnd: Action,
-    val scrollThreshold: Int
+    val template: ServerDrivenComponent? = null,
+    val onScrollEnd: Action? = null,
+    val scrollThreshold: Int? = null
 ) : WidgetView(), ContextComponent {
-
-    private class EmptyAction : Action {
-        override fun execute(rootView: RootView, origin: View) {
-        }
-    }
-
-    private class ServerDrivenComponentEmpty : ServerDrivenComponent
 
     @Deprecated(message = "", replaceWith = ReplaceWith("")) //TODO(put message here, implement replaceWith)
     constructor(
         children: List<ServerDrivenComponent>,
         direction: ListDirection
     ) : this(
-        children = emptyList(),
-        context = ContextData("", Any()),
-        onInit = EmptyAction(),
-        dataSource = valueOf(emptyList()),
-        direction = direction,
-        template = ServerDrivenComponentEmpty(),
-        onScrollEnd = EmptyAction(),
-        scrollThreshold = 0
+        context = null,
+        children = children,
+        direction = direction
     )
 
     constructor(
-        context: ContextData,
-        onInit: Action,
+        context: ContextData? = null,
+        onInit: Action? = null,
         dataSource: Bind<List<Any>>,
         direction: ListDirection,
         template: ServerDrivenComponent,
-        onScrollEnd: Action,
-        scrollThreshold: Int = 100
+        onScrollEnd: Action? = null,
+        scrollThreshold: Int? = null
     ) : this(
-        children = emptyList(),
+        children = null,
         context = context,
         onInit = onInit,
         dataSource = dataSource,
@@ -91,34 +79,29 @@ class ListView private constructor(
     @Transient
     private val viewFactory: ViewFactory = ViewFactory()
 
-    @Transient
-    private lateinit var contextAdapter: ListViewContextAdapter
-
     override fun buildView(rootView: RootView): View {
-        val recyclerView = viewFactory.makeRecyclerView(rootView.getContext())
         if (children.isNullOrEmpty()) {
-            recyclerView.apply {
-                onInit.execute(rootView, this)
-                val orientation = toRecyclerViewOrientation()
-                layoutManager = LinearLayoutManager(context, orientation, false)
-                contextAdapter = ListViewContextAdapter(template, viewFactory, orientation, rootView)
-                this@ListView.dataSource?.let { bind ->
-                    observeBindChanges(rootView, bind) { value ->
-                        value?.let{
-                            contextAdapter.setList(it)
-                        }
-                        adapter = contextAdapter
-                    }
-                }
-            }
-        } else {
-            recyclerView.apply {
-                val orientation = toRecyclerViewOrientation()
-                layoutManager = LinearLayoutManager(context, orientation, false)
-                adapter = ListViewRecyclerAdapter(children, viewFactory, orientation, rootView)
+            template?.let{
+                return ListViewTwo(
+                    context,
+                    onInit,
+                    dataSource,
+                    direction,
+                    template,
+                    onScrollEnd,
+                    scrollThreshold
+                ).buildView(rootView)
             }
         }
 
+        val recyclerView = viewFactory.makeRecyclerView(rootView.getContext())
+        recyclerView.apply {
+            val orientation = toRecyclerViewOrientation()
+            layoutManager = LinearLayoutManager(context, orientation, false)
+            children?.let{
+                adapter = ListViewRecyclerAdapter(children, viewFactory, orientation, rootView)
+            }
+        }
         return recyclerView
     }
 
@@ -158,55 +141,3 @@ internal class ListViewRecyclerAdapter(
 }
 
 internal class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
-
-
-internal class ContextViewHolder(itemView: View, val template: ServerDrivenComponent) : RecyclerView.ViewHolder(itemView)
-
-internal class ListViewContextAdapter(
-    private val template: ServerDrivenComponent,
-    private val viewFactory: ViewFactory,
-    private val orientation: Int,
-    private val rootView: RootView
-) : RecyclerView.Adapter<ContextViewHolder>() {
-
-    private var listItems: List<Any>
-
-    init {
-        listItems = ArrayList()
-    }
-
-    override fun getItemViewType(position: Int): Int = position
-
-    override fun onCreateViewHolder(parent: ViewGroup, position: Int): ContextViewHolder {
-        val view = viewFactory.makeBeagleFlexView(rootView.getContext()).also {
-            val width = if (orientation == RecyclerView.VERTICAL)
-                ViewGroup.LayoutParams.MATCH_PARENT else
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            val layoutParams = ViewGroup.LayoutParams(width, ViewGroup.LayoutParams.WRAP_CONTENT)
-            it.layoutParams = layoutParams
-        }
-        //TODO(Clone the template to avoid all lines having the same content)
-        val templateClone = template
-        rootView.generateViewModelInstance<ScreenContextViewModel>().addContext(ContextData("", Any()))
-        view.addServerDrivenComponent(templateClone, rootView)
-        return ContextViewHolder(view, templateClone)
-    }
-
-    override fun onBindViewHolder(holder: ContextViewHolder, position: Int) {
-        val item = listItems[position]
-        val contextData = ContextData(id = "item", value = item)
-
-        updateContext(holder.template, contextData)
-    }
-
-    fun setList(list: List<Any>) {
-        this.listItems = list
-        notifyDataSetChanged()
-    }
-
-    fun updateContext(template: ServerDrivenComponent, contextData: ContextData) {
-        //TODO(set context data of the template)
-    }
-
-    override fun getItemCount(): Int = listItems.size
-}
