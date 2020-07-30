@@ -25,5 +25,5 @@ jobs:
             - name: Install Fastlane
               run: bundle install
             - name: Open Pull Request
-              run: bundle exec fastlane workflow openPR paramTag:${{ github.ref }} token:${{ secrets.REPO_TOKEN }}
+              run: bundle exec fastlane workflow openPRFromPatch paramTag:${{ github.ref }} token:${{ secrets.REPO_TOKEN }}
         
