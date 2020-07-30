@@ -27,7 +27,7 @@ extension UnknownAction: Action {
 }
 
 extension Action {
-    public func retryClosure(controller: BeagleController, sender: Any) -> BeagleRetry {
+    public func closureToRetrySameAction(controller: BeagleController, sender: Any) -> BeagleRetry {
         return { [weak controller] in
             guard let controller = controller else { return }
             self.execute(controller: controller, sender: sender)

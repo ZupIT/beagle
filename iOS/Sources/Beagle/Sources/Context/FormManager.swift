@@ -168,7 +168,7 @@ private struct SubmitRemoteFormAction: Action {
             case .failure(let error):
                 controller.serverDrivenState = .error(
                     .submitForm(error),
-                    self.retryClosure(controller: controller, sender: sender)
+                    self.closureToRetrySameAction(controller: controller, sender: sender)
                 )
             }
         }
