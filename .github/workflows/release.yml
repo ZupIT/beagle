@@ -2,10 +2,10 @@ name: Beagle Release
 
 on:
     push:
-      # tag:
-      #   - '*'
-        branch:
-            - '1.2.10-ios'
+      tag:
+        - '*'
+        # branch:
+        #     - '1.2.10-ios'
 jobs:
     generate-release:
         name: Generate release
