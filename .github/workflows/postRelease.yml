@@ -2,7 +2,7 @@ name: Beagle Post Release
 
 on:
     release:
-      [released]
+      types: [released]
 jobs:
     generate-release:
         name: Generate PR Post Release
