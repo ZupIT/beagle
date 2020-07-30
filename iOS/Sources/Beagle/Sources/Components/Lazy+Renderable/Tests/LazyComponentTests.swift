@@ -114,6 +114,10 @@ final class LazyComponentTests: XCTestCase {
         retry()
         repository.componentCompletion?(.success(ComponentDummy(resultView: lazyLoadedContent)))
         
+        let expect = expectation(description: "consume queue")
+        DispatchQueue.main.async { expect.fulfill() }
+        waitForExpectations(timeout: 1)
+        
         XCTAssertNil(view.superview)
         XCTAssertEqual(lazyLoadedContent.superview, hostView)
     }
