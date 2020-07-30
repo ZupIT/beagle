@@ -13,21 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.example.automated_tests.snapshot
 
-package com.example.automated_tests
-
+import android.content.Intent
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.rule.ActivityTestRule
+import com.example.automated_tests.MainActivity
+import com.facebook.testing.screenshot.Screenshot
+import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 
-import org.junit.Assert.*
+@RunWith(AndroidJUnit4::class)
+class MainActivityTest {
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class ExampleUnitTest {
+    @Rule
+    @JvmField
+    val rule = ActivityTestRule(MainActivity::class.java, true, false)
+
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun testSnapshot() {
+        rule.launchActivity(Intent())
+
+        Screenshot.snapActivity(rule.activity)
+            .record()
+
     }
 }

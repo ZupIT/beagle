@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.sample
+package com.example.automated_tests
 
 import br.com.zup.beagle.android.setup.BeagleSdk
 import org.junit.Test
