@@ -13,9 +13,9 @@ jobs:
         runs-on: macos-latest
         
         strategy:
-          matrix:
-            destination: ['platform=iOS Simulator,OS=13.1,name=iPhone 11']
-            xcode: ['/Applications/Xcode_11.1.app/Contents/Developer']
+            matrix:
+                destination: ['platform=iOS Simulator,OS=13.1,name=iPhone 11']
+                xcode: ['/Applications/Xcode_11.1.app/Contents/Developer']
 
         steps:
             -   uses: actions/checkout@v2
@@ -37,25 +37,22 @@ jobs:
                 with:
                     path: ${{ runner.os }}-spm-${{ hashFiles('iOS/**/Package.resolved') }}
                     key: ~/**/DerivedData
-
-            - name: Bundle Install
-              run: bundle install
                     
-            - name: Dependencies
-              run: |
-                cd iOS/Example/BeagleSample
-                bundle exec pod install
-              env:
-                DEVELOPER_DIR: ${{ matrix.xcode }}
+            -   name: Dependencies
+                run: |
+                  cd iOS/Example/BeagleSample
+                  bundle exec pod install
+                env:
+                  DEVELOPER_DIR: ${{ matrix.xcode }}
             
-            - name: Build Application
-              run: |
-                cd iOS/Example/BeagleSample
-                bundle exec fastlane scan --destination "${destination}" --scheme "BeagleSample"
-                xcodebuild build -workspace BeagleSample.xcworkspace -scheme BeagleSample -sdk iphonesimulator -destination "${destination}"
-              env:
-                destination: ${{ matrix.destination }}
-                DEVELOPER_DIR: ${{ matrix.xcode }}
+            -   name: Build Application
+                run: |
+                  cd iOS/Example/BeagleSample
+                  bundle exec fastlane scan --destination "${destination}" --scheme "BeagleSample"
+                  xcodebuild build -workspace BeagleSample.xcworkspace -scheme BeagleSample -sdk iphonesimulator -destination "${destination}"
+                env:
+                  destination: ${{ matrix.destination }}
+                  DEVELOPER_DIR: ${{ matrix.xcode }}
               
             -   name: install swiftLint
                 run: brew install swiftlint
