@@ -2,6 +2,7 @@
 
 AVD_NAME='test'
 AVD_IMAGE='system-images;android-29;google_apis_playstore;x86'
+ANDROID_DIR=android
 
 function cleanup() {
     "$ANDROID_SDK_ROOT"/platform-tools/adb devices | grep emulator | cut -f1 | while read -r line; do
@@ -40,4 +41,4 @@ ENDSCRIPT
 echo "Waiting 30 secs for us to be really booted"
 sleep 30
 
-./gradlew -p android/automated-tests connectedAndroidTest
+$ANDROID_DIR/gradlew -p $ANDROID_DIR/automated-tests connectedAndroidTest
