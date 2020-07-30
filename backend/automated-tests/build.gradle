@@ -23,4 +23,5 @@ plugins {
 dependencies {
     implementation Dependencies.GeneralLibraries.kotlinReflect
     implementation project(Dependencies.Modules.springStarter)
+    implementation Dependencies.SpringLibraries.actuatorStarter
 }
