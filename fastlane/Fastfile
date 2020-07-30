@@ -135,7 +135,9 @@ platform :automated_tests do
   lane :publish_backend do
     image = "#{ENV['registry']}/#{ENV['repository']}/#{ENV['image']}:#{ENV['sha']}".downcase
     gradle(project_dir: "backend", task: ":automated-tests:bootBuildImage --imageName=#{image}")
-    sh("./automatedTests/publish_test_backend.sh", image, ENV['user'], ENV['token'])
+    sh(log: false, command: ["echo", ENV['token'], "|", "docker", "login", ENV['registry'], "-u", ENV['user'], "--password-stdin"])
+    sh("docker", "push", image)
+    sh(log: false, command: ["docker", "logout", ENV['registry']])
   end
 
   desc "Run iOS automated tests"
