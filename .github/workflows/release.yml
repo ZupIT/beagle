@@ -1,7 +1,7 @@
 name: Beagle Release
 
 on:
-    push:
+    create:
         tags:
             - '*'
 jobs:
