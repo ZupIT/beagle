@@ -23,6 +23,6 @@ jobs:
 
             - name: Install Fastlane
               run: bundle install
-            - name: Deploy new version
+            - name: Open Pull Request
               run: bundle exec fastlane openPR tagName:{{ github.ref }}
         
