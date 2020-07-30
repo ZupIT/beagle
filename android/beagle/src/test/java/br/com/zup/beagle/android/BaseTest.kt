@@ -18,13 +18,14 @@ package br.com.zup.beagle.android
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.BeagleSdk
-import br.com.zup.beagle.android.utils.ViewModelProviderFactory
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkConstructor
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import org.junit.After
@@ -40,7 +41,6 @@ abstract class BaseTest {
         MockKAnnotations.init(this)
 
         mockkObject(BeagleEnvironment)
-        mockkObject(ViewModelProviderFactory)
 
         every { rootView.activity } returns mockk()
         every { BeagleEnvironment.beagleSdk } returns beagleSdk
@@ -55,6 +55,7 @@ abstract class BaseTest {
     }
 
     protected fun prepareViewModelMock(viewModel: ViewModel) {
-        every { ViewModelProviderFactory.of(any<AppCompatActivity>())[viewModel::class.java] } returns viewModel
+        mockkConstructor(ViewModelProvider::class)
+        every { anyConstructed<ViewModelProvider>().get(viewModel::class.java) } returns viewModel
     }
 }
