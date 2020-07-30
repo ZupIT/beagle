@@ -19,8 +19,12 @@ import Foundation
 import UIKit
 
 extension DynamicObject {
-    
+    @available(*, deprecated, message: "use evaluate(with view: UIView) instead")
     public func get(with view: UIView) -> DynamicObject {
+        return evaluate(with: view)
+    }
+    
+    public func evaluate(with view: UIView) -> DynamicObject {
         switch self {
         case .empty:
             return .empty
@@ -33,9 +37,9 @@ extension DynamicObject {
         case let .string(string):
             return .string(string)
         case let .array(array):
-            return .array(array.map { $0.get(with: view) })
+            return .array(array.map { $0.evaluate(with: view) })
         case let .dictionary(dictionary):
-            return .dictionary(dictionary.mapValues { $0.get(with: view) })
+            return .dictionary(dictionary.mapValues { $0.evaluate(with: view) })
         case let .expression(expression):
             let dynamicObject: DynamicObject? = view.evaluate(for: expression)
             return dynamicObject ?? .empty
@@ -76,7 +80,7 @@ extension DynamicObject: ExpressibleByStringLiteral {
         } else if let expression = MultipleExpression(rawValue: value) {
             self = .expression(.multiple(expression))
         } else {
-            self = .string(value)
+            self = .string(value.escapeExpressions())
         }
     }
 }
