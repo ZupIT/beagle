@@ -32,8 +32,8 @@ public protocol BeagleControllerProtocol: NSObjectProtocol {
     @available(*, deprecated, message: "use execute(actions:contextId:contextValue:origin:) instead")
     func execute(actions: [RawAction]?, with context: Context?, sender: Any)
     
-    func execute(actions: [RawAction]?, origin: UIView?)
-    func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView?)
+    func execute(actions: [RawAction]?, origin: UIView)
+    func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView)
 }
 
 public class BeagleScreenViewController: BeagleController {
@@ -133,11 +133,11 @@ public class BeagleScreenViewController: BeagleController {
         }
     }
     
-    public func execute(actions: [RawAction]?, origin: UIView?) {
+    public func execute(actions: [RawAction]?, origin: UIView) {
         execute(actions: actions, sender: origin as Any)
     }
     
-    public func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView?) {
+    public func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView) {
         let context = Context(id: contextId, value: contextValue)
         execute(actions: actions, with: context, sender: origin as Any)
     }

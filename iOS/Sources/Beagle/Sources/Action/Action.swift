@@ -21,11 +21,11 @@ public protocol Action: RawAction {
     @available(*, deprecated, message: "use execute(controller:origin:) instead")
     func execute(controller: BeagleController, sender: Any)
     
-    func execute(controller: BeagleController, origin: UIView?)
+    func execute(controller: BeagleController, origin: UIView)
 }
 
 public extension Action {
-    func execute(controller: BeagleController, origin: UIView?) {
+    func execute(controller: BeagleController, origin: UIView) {
         execute(controller: controller, sender: origin as Any)
     }
 }

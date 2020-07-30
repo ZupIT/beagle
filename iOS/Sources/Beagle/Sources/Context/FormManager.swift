@@ -56,8 +56,10 @@ class FormManager {
         if sender.form.shouldStoreFields {
             saveFormData(values: values, group: sender.form.group)
         }
-        sender.form.onSubmit?.forEach { action in
-            submitAction(action, inputs: values, origin: sender.formSubmitView, group: sender.form.group)
+        if let origin = sender.formSubmitView {
+            sender.form.onSubmit?.forEach { action in
+                submitAction(action, inputs: values, origin: origin, group: sender.form.group)
+            }
         }
     }
     
@@ -87,7 +89,7 @@ class FormManager {
         }
     }
 
-    private func submitAction(_ action: RawAction, inputs: [String: String], origin: UIView?, group: String?) {
+    private func submitAction(_ action: RawAction, inputs: [String: String], origin: UIView, group: String?) {
         switch action {
         case let action as FormRemoteAction:
             submitForm(action, inputs: inputs, origin: origin, group: group)
@@ -100,7 +102,7 @@ class FormManager {
         }
     }
     
-    private func submitForm(_ remote: FormRemoteAction, inputs: [String: String], origin: UIView?, group: String?) {
+    private func submitForm(_ remote: FormRemoteAction, inputs: [String: String], origin: UIView, group: String?) {
         controller.serverDrivenState = .loading(true)
 
         let data = Request.FormData(
@@ -161,7 +163,7 @@ class FormManager {
         return validator
     }
 
-    private func handleFormResult(_ result: Result<RawAction, Request.Error>, origin: UIView?, group: String?) {
+    private func handleFormResult(_ result: Result<RawAction, Request.Error>, origin: UIView, group: String?) {
         switch result {
         case .success(let action):
             controller.dependencies.formDataStoreHandler.formManagerDidSubmitForm(group: group)

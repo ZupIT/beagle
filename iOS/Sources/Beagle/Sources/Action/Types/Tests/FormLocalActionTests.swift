@@ -29,7 +29,7 @@ final class FormLocalActionTests: XCTestCase {
         controller.dependencies = BeagleScreenDependencies(localFormHandler: actionSpy)
         
         // When
-        sut.execute(controller: controller, sender: self)
+        sut.execute(controller: controller, sender: controller.view as Any)
         
         // Then
         XCTAssertEqual(actionSpy.actionsHandledCount, 1)
@@ -59,7 +59,7 @@ final class FormLocalActionTests: XCTestCase {
         )
 
         // When
-        formLocalAction.execute(controller: controller, sender: self)
+        formLocalAction.execute(controller: controller, sender: controller.view as Any)
 
         // Then
         assertSnapshot(matching: statesTracker, as: .dump)

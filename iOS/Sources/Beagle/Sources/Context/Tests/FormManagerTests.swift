@@ -51,7 +51,7 @@ final class FormManagerTests: XCTestCase {
     private func submitGesture(in formView: UIView) -> SubmitFormGestureRecognizer {
         // swiftlint:disable force_unwrapping force_cast
         let submit = findSubmitView(in: formView)!
-        return submit.childView.gestureRecognizers!.first as! SubmitFormGestureRecognizer
+        return submit.childView!.gestureRecognizers!.first as! SubmitFormGestureRecognizer
     }
 
     private func findSubmitView(in view: UIView) -> Deprecated.FormSubmit.FormSubmitView? {

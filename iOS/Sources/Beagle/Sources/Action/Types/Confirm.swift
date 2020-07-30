@@ -20,21 +20,27 @@ import BeagleSchema
 
 extension Confirm: Action {
     public func execute(controller: BeagleController, sender: Any) {
+        if let origin = sender as? UIView {
+            execute(controller: controller, origin: origin)
+        }
+    }
+    
+    public func execute(controller: BeagleController, origin: UIView) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-        alertController.title = title?.evaluate(with: sender as? UIView)
-        alertController.message = message.evaluate(with: sender as? UIView)
+        alertController.title = title?.evaluate(with: origin)
+        alertController.message = message.evaluate(with: origin)
                
         let onPressOkAction = UIAlertAction(title: labelOk ?? "Ok", style: .default) {
             [weak controller] _ in guard let controller = controller else { return }
             if let onPressOk = self.onPressOk {
-                controller.execute(actions: [onPressOk], origin: sender as? UIView)
+                controller.execute(actions: [onPressOk], origin: origin)
             }
         }
         
         let onPressCancelAction = UIAlertAction(title: labelCancel ?? "Cancel", style: .default) {
             [weak controller] _ in guard let controller = controller else { return }
             if let onPressCancel = self.onPressCancel {
-                controller.execute(actions: [onPressCancel], origin: sender as? UIView)
+                controller.execute(actions: [onPressCancel], origin: origin)
             }
         }
         

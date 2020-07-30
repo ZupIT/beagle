@@ -129,11 +129,11 @@ class BeagleControllerSpy: BeagleController {
         expectation?.fulfill()
     }
     
-    func execute(actions: [RawAction]?, origin: UIView?) {
+    func execute(actions: [RawAction]?, origin: UIView) {
         didCalledExecute = true
         expectation?.fulfill()
     }
-    func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView?) {
+    func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView) {
         didCalledExecute = true
         expectation?.fulfill()
     }

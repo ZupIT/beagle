@@ -50,6 +50,14 @@ class ComponentHostController: BeagleController {
         renderer.controller.execute(actions: actions, with: context, sender: sender)
     }
 
+    func execute(actions: [RawAction]?, origin: UIView) {
+        renderer.controller.execute(actions: actions, origin: origin)
+    }
+
+    func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView) {
+        renderer.controller.execute(actions: actions, with: contextId, and: contextValue, origin: origin)
+    }
+
     func configBindings() {
         while let bind = bindings.popLast() {
             bind()

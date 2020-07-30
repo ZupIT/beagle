@@ -21,10 +21,16 @@ import UIKit
 
 extension SubmitForm: Action {
     public func execute(controller: BeagleController, sender: Any) {
-        var view = sender as? UIView
+        if let origin = sender as? UIView {
+            execute(controller: controller, origin: origin)
+        }
+    }
+    
+    public func execute(controller: BeagleController, origin: UIView) {
+        var view: UIView? = origin
         while view != nil {
             if let simpleForm = view?.beagleFormElement as? SimpleForm {
-                controller.execute(actions: simpleForm.onSubmit, origin: sender as? UIView)
+                controller.execute(actions: simpleForm.onSubmit, origin: origin)
                 break
             }
             view = view?.superview
