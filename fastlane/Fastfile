@@ -3,8 +3,8 @@
 ###
 platform :workflow do
   desc "Open PR from patch"
-  lane :openPRFromPatch do |paramTag|
-    tagName = paramTag[:paramTag]
+  lane :openPRFromPatch do
+    tagName = ENV["TAG_NAME"]
     if !tagName.index("-")
       puts "This release is not a hotfix."
       puts "Exiting..."
@@ -17,7 +17,7 @@ platform :workflow do
       set_upstream: true
       )
     create_pull_request(
-      api_token:paramTag[:token],
+      api_token:ENV["REPO_TOKEN"],
       repo:"ZupIT/beagle",
       title:"fix: Merge branchName patch with master",
       body: "Auto generated PR to merge fixes from #{branchName} into master."
