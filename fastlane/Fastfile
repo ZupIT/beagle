@@ -1,3 +1,22 @@
+desc "Open PR"
+lane :openPR do |paramTag|
+  tagName = paramTag[:paramTag]
+  fullTag = tagName.split("-")
+  fullTag.pop()
+  tagVersion = fullTag.first.split("/").last
+  branchName = tagVersion + "-hotfix"
+  sh("git checkout -b " + branchName)
+  push_to_git_remote(
+    tags: false,
+    set_upstream: true
+    )
+  create_pull_request(
+    api_token:paramTag[:token],
+    repo:"ZupIT/beagle",
+    title:"title"
+    )
+end
+
 ###
 ###  Android
 ###
