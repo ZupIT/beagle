@@ -32,6 +32,7 @@ android {
         versionCode 1
         versionName "1.0"
 
+        testApplicationId "com.example.automated_tests.uid"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testApplicationId "com.example.automated_tests.cucumber.steps"
         testInstrumentationRunner "com.example.automated_tests.cucumber.steps.Instrumentation"
