@@ -65,7 +65,7 @@
       ▿ (2 elements)
         - key: "beagle:submitform"
         - value: SubmitForm
-    ▿ componentDecoders: 18 key/value pairs
+    ▿ componentDecoders: 19 key/value pairs
       ▿ (2 elements)
         - key: "beagle:button"
         - value: Button
@@ -106,6 +106,9 @@
         - key: "beagle:simpleform"
         - value: SimpleForm
       ▿ (2 elements)
+        - key: "beagle:tabbar"
+        - value: TabBar
+      ▿ (2 elements)
         - key: "beagle:tabview"
         - value: TabView
       ▿ (2 elements)
@@ -129,6 +132,9 @@
   - deepLinkHandler: Optional<DeepLinkScreenManaging>.none
   ▿ formDataStoreHandler: FormDataStoreHandler
     - dataStore: 0 key/value pairs
+  ▿ globalContext: DefaultGlobalContext
+    - $__lazy_storage_$_context: Optional<Observable<Context>>.none
+    - globalId: "global"
   - isLoggingEnabled: true
   - localFormHandler: Optional<LocalFormHandler>.none
   ▿ logger: BeagleLoggerProxy

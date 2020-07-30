@@ -29,11 +29,11 @@ class PageViewUIComponent: UIView {
     }
 
     struct Model {
-        var pages: [BeagleScreenViewController]
+        var pages: [UIViewController]
         var currentPage: Int
 
         init(
-            pages: [BeagleScreenViewController],
+            pages: [UIViewController],
             currentPage: Int = 0
         ) {
             self.pages = pages
@@ -134,8 +134,7 @@ extension PageViewUIComponent: UIPageViewControllerDataSource, UIPageViewControl
         _ pageViewController: UIPageViewController,
         viewControllerBefore viewController: UIViewController
     ) -> UIViewController? {
-        guard let vc = viewController as? BeagleScreenViewController,
-            let i = model.pages.firstIndex(of: vc) else {
+        guard let i = model.pages.firstIndex(of: viewController) else {
                 return nil
         }
 
@@ -151,8 +150,7 @@ extension PageViewUIComponent: UIPageViewControllerDataSource, UIPageViewControl
         _ pageViewController: UIPageViewController,
         viewControllerAfter viewController: UIViewController
     ) -> UIViewController? {
-        guard let vc = viewController as? BeagleScreenViewController,
-            let i = model.pages.firstIndex(of: vc) else {
+        guard let i = model.pages.firstIndex(of: viewController) else {
                 return nil
         }
 
@@ -168,7 +166,7 @@ extension PageViewUIComponent: UIPageViewControllerDataSource, UIPageViewControl
         _ pageViewController: UIPageViewController,
         willTransitionTo pendingViewControllers: [UIViewController]
     ) {
-        guard let vc = pendingViewControllers.first as? BeagleScreenViewController,
+        guard let vc = pendingViewControllers.first,
             let index = model.pages.firstIndex(of: vc) else {
                 return
         }

@@ -25,7 +25,9 @@ extension PageIndicator: ServerDrivenComponent {
         
         if let currentPage = currentPage, let numberOfPages = self.numberOfPages {
             renderer.observe(currentPage, andUpdateManyIn: view) { page in
-                view.model = .init(numberOfPages: numberOfPages, currentPage: page)
+                if let page = page {
+                    view.model = .init(numberOfPages: numberOfPages, currentPage: page)
+                }
             }
         }
         
