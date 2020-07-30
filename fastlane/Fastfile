@@ -100,7 +100,7 @@ desc "Publish new release based on last two tags"
 lane :deploy do
   puts "aquiii!!!"
   # git_pull
-  puts lane_context[SharedValues::LANE_NAME]
+  puts git_branch
   # ENV["VERSION_DEPLOY"] = last_git_tag
   # sh "fastlane common remote_publish"
   # sh "fastlane ios release"
