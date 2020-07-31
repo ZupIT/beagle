@@ -14,11 +14,28 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.widget.builder
+package br.com.zup.beagle.context
 
 import br.com.zup.beagle.builder.BeagleBuilder
-import br.com.zup.beagle.widget.context.valueOf
+import br.com.zup.beagle.widget.context.ContextData
+import kotlin.properties.Delegates
 
-interface BeagleWidgetBuilder<T> : BeagleBuilder<T> {
-    operator fun <F : Any> F.unaryMinus() = valueOf(this)
+fun contextData(block: ContextDataBuilder.() -> Unit) = ContextDataBuilder().apply(block).build()
+
+class ContextDataBuilder: BeagleBuilder<ContextData> {
+    var id: String by Delegates.notNull()
+    var value: Any by Delegates.notNull()
+
+    fun id(id: String) = this.apply { this.id = id }
+    fun value(value: Any) = this.apply { this.value = value }
+
+    fun id(block: () -> String) {
+        id(block.invoke())
+    }
+
+    fun value(block: () -> Any) {
+        value(block.invoke())
+    }
+
+    override fun build() = ContextData(id, value)
 }

@@ -28,10 +28,6 @@ sealed class Bind<T> : BindAttribute<T>, Serializable {
     data class Value<T : Any>(override val value: T) : Bind<T>()
 }
 
-fun <T : Any> valueOf(block: () -> T) = Bind.Value(block.invoke())
-fun <T : Any> valueOfNullable(block: () -> T?) = block.invoke()?.let { Bind.Value(it) }
-fun <T> expressionOf(block: () -> String) = Bind.Expression<T>(block.invoke())
-
 fun <T> expressionOf(expression: String) = Bind.Expression<T>(expression)
 fun <T : Any> valueOf(value: T) = Bind.Value(value)
 fun <T : Any> valueOfNullable(value: T?) = value?.let { valueOf(it) }

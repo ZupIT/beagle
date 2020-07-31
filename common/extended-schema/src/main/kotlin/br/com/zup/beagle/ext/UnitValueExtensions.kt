@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.ext
 
+import br.com.zup.beagle.builder.widget.UnitValueBuilder
 import br.com.zup.beagle.widget.core.UnitType
 import br.com.zup.beagle.widget.core.UnitValue
 
@@ -49,4 +50,4 @@ fun Double.unitReal() = UnitValue(this, UnitType.REAL)
  */
 fun Double.unitPercent() = UnitValue(this, UnitType.PERCENT)
 
-fun unitValue(block: UnitValue.Builder.() -> Unit) = UnitValue.Builder().apply(block).build()
+fun unitValue(block: UnitValueBuilder.() -> Unit) = UnitValueBuilder().apply(block).build()

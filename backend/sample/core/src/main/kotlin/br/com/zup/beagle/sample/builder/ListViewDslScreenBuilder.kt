@@ -16,20 +16,20 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.action.alert
 import br.com.zup.beagle.ext.style
 import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.widget.action.alert
+import br.com.zup.beagle.layout.container
+import br.com.zup.beagle.layout.navigationBarItem
+import br.com.zup.beagle.layout.screen
+import br.com.zup.beagle.layout.scrollView
+import br.com.zup.beagle.ui.listView
+import br.com.zup.beagle.ui.text
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.core.ListDirection
 import br.com.zup.beagle.widget.core.ScrollAxis
 import br.com.zup.beagle.widget.layout.ScreenBuilder
-import br.com.zup.beagle.widget.layout.container
-import br.com.zup.beagle.widget.layout.navigationBarItem
-import br.com.zup.beagle.widget.layout.screen
-import br.com.zup.beagle.widget.layout.scrollView
 import br.com.zup.beagle.widget.ui.Text
-import br.com.zup.beagle.widget.ui.listView
-import br.com.zup.beagle.widget.ui.text
 
 object ListViewDslScreenBuilder : ScreenBuilder {
     override fun build() = screen{
@@ -40,13 +40,13 @@ object ListViewDslScreenBuilder : ScreenBuilder {
                 +navigationBarItem{
                     text = ""
                     image{
-                        mobileId = "informationImage"
+                        justMobile { "informationImage" }
                     }
                     action{
                         alert{
-                            title{-"ListView"}
+                            title = valueOf("ListView")
                             message{
-                                -("Is a Layout component that will define a list of views natively. " +
+                                valueOf("Is a Layout component that will define a list of views natively. " +
                                 "These views could be any Server Driven Component.")
                             }
                             labelOk("OK")
@@ -94,7 +94,7 @@ object ListViewDslScreenBuilder : ScreenBuilder {
         children{
 
             +text {
-                text{-"Dynamic $listDirection ListView"}
+                text{valueOf("Dynamic $listDirection ListView")}
             }.style {
                 margin {
                     bottom = 10.unitReal()

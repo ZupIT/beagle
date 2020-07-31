@@ -18,12 +18,9 @@ package br.com.zup.beagle.widget.navigation
 
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.TouchableAnalytics
-import br.com.zup.beagle.builder.BeagleListBuilder
 import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.action.Action
-import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
-import kotlin.properties.Delegates
 
 /**
  *   The Touchable component defines a click listener.
@@ -37,39 +34,4 @@ data class Touchable(
     val onPress: List<Action>,
     override val child: ServerDrivenComponent,
     override val clickAnalyticsEvent: ClickEvent? = null
-) : ServerDrivenComponent, GhostComponent, TouchableAnalytics {
-    companion object{
-        @JvmStatic
-        fun builder() = Builder()
-    }
-    class Builder : BeagleWidgetBuilder<Touchable> {
-        var onPress: MutableList<Action> by Delegates.notNull()
-        var child: ServerDrivenComponent by Delegates.notNull()
-        var clickAnalyticsEvent: ClickEvent? = null
-
-        fun onPress(onPress: List<Action>) = this.apply { this.onPress = onPress.toMutableList() }
-        fun child(child: ServerDrivenComponent) = this.apply { this.child = child }
-        fun clickAnalyticsEvent(clickAnalyticsEvent: ClickEvent?)
-            = this.apply { this.clickAnalyticsEvent = clickAnalyticsEvent }
-
-        fun onPress(block: BeagleListBuilder<Action>.() -> Unit) {
-            onPress(BeagleListBuilder<Action>().apply(block).build())
-        }
-
-        fun child(block: () -> ServerDrivenComponent) {
-            child(block.invoke())
-        }
-
-        fun clickAnalyticsEvent(block: ClickEvent.Builder.() -> Unit) {
-            clickAnalyticsEvent(ClickEvent.Builder().apply(block).build())
-        }
-
-        override fun build() = Touchable(
-            onPress = onPress,
-            child = child,
-            clickAnalyticsEvent = clickAnalyticsEvent
-        )
-    }
-}
-
-fun touchable(block: Touchable.Builder.() -> Unit) = Touchable.Builder().apply(block).build()
+) : ServerDrivenComponent, GhostComponent, TouchableAnalytics

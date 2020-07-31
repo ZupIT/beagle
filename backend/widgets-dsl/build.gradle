@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.builder.analytics
+import br.com.zup.beagle.Dependencies
 
-import br.com.zup.beagle.analytics.ScreenEvent
+dependencies {
+    api project(Dependencies.Modules.widgets)
+}
 
-fun screenEvent(block: ScreenEvent.Builder.() -> Unit) = ScreenEvent.Builder().apply(block).build()
+apply from: rootProject.file('../maven-publish.gradle')

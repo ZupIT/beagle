@@ -16,10 +16,7 @@
 
 package br.com.zup.beagle.widget.action
 
-import br.com.zup.beagle.builder.BeagleListBuilder
-import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.Bind
-import kotlin.properties.Delegates
 
 data class SendRequest(
     val url: Bind<String>,
@@ -47,73 +44,7 @@ data class SendRequest(
         onError = onError,
         onFinish = onFinish
     )
-
-    companion object{
-        @JvmStatic
-        fun builder() = Builder()
-    }
-
-    @Suppress("TooManyFunctions")
-    class Builder : BeagleWidgetBuilder<SendRequest> {
-        var url: Bind<String> by Delegates.notNull()
-        var method: Bind<RequestActionMethod> = Bind.Value(RequestActionMethod.GET)
-        var headers: Bind<Map<String, String>>? = null
-        var data: Any? = null
-        var onSuccess: MutableList<Action>? = null
-        var onError: MutableList<Action>? = null
-        var onFinish: MutableList<Action>? = null
-
-        fun url(url: Bind<String>) = this.apply { this.url = url }
-        fun method(method: Bind<RequestActionMethod>) = this.apply { this.method = method }
-        fun headers(headers: Bind<Map<String, String>>?) = this.apply { this.headers = headers }
-        fun data(data: Any?) = this.apply { this.data = data }
-        fun onSuccess(onSuccess: List<Action>?) = this.apply { this.onSuccess = onSuccess?.toMutableList() }
-        fun onError(onError: List<Action>?) = this.apply { this.onError = onError?.toMutableList() }
-        fun onFinish(onFinish: List<Action>?) = this.apply { this.onFinish = onFinish?.toMutableList() }
-
-        fun url(block: () -> Bind<String>) {
-            url(block.invoke())
-        }
-
-        fun method(block: () -> Bind<RequestActionMethod>) {
-            method(block.invoke())
-        }
-
-        fun header(block: () -> Bind<Map<String, String>>?) {
-            headers(block.invoke())
-        }
-
-        fun data(block: () -> Any?) {
-            data(block.invoke())
-        }
-
-        fun onSuccess(block: BeagleListBuilder<Action>.() -> Unit) {
-            onSuccess(BeagleListBuilder<Action>().apply(block).buildNullable()?.toMutableList())
-        }
-
-        fun onError(block: BeagleListBuilder<Action>.() -> Unit) {
-            onError(BeagleListBuilder<Action>().apply(block).buildNullable()?.toMutableList())
-        }
-
-        fun onFinish(block: BeagleListBuilder<Action>.() -> Unit) {
-            onFinish(BeagleListBuilder<Action>().apply(block).buildNullable()?.toMutableList())
-        }
-
-        override fun build() = SendRequest(
-            url = url,
-            method = method,
-            headers = headers,
-            data = data,
-            onSuccess = onSuccess,
-            onError = onError,
-            onFinish = onFinish
-        )
-
-    }
-
 }
-
-fun sendRequest(block: SendRequest.Builder.() -> Unit) = SendRequest.Builder().apply(block).build()
 
 @SuppressWarnings("UNUSED_PARAMETER")
 enum class RequestActionMethod {

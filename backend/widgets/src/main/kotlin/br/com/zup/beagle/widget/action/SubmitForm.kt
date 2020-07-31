@@ -16,16 +16,4 @@
 
 package br.com.zup.beagle.widget.action
 
-import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
-
-class SubmitForm : Action {
-    companion object{
-        @JvmStatic
-        fun builder() = Confirm.Builder()
-    }
-    class Builder : BeagleWidgetBuilder<SubmitForm> {
-        override fun build() = SubmitForm()
-    }
-}
-
-fun submitForm(block: SubmitForm.Builder.() -> Unit) = SubmitForm.Builder().apply(block).build()
+class SubmitForm : Action

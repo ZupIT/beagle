@@ -16,9 +16,7 @@
 
 package br.com.zup.beagle.widget.pager
 
-import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.Bind
-import kotlin.properties.Delegates
 
 /**
  *  The PageView component is a specialized container to hold pages (views) that will be displayed horizontally.
@@ -32,45 +30,4 @@ data class PageIndicator(
     val unselectedColor: String,
     var numberOfPages: Int? = null,
     var currentPage: Bind<Int>? = null
-) : PageIndicatorComponent {
-    companion object{
-        @JvmStatic
-        fun builder() = Builder()
-    }
-    class Builder : BeagleWidgetBuilder<PageIndicator> {
-        var selectedColor: String by Delegates.notNull()
-        var unselectedColor: String by Delegates.notNull()
-        var numberOfPages: Int? = null
-        var currentPage: Bind<Int>? = null
-
-        fun selectedColor(selectedColor: String) = this.apply { this.selectedColor = selectedColor }
-        fun unselectedColor(unselectedColor: String) = this.apply { this.unselectedColor = unselectedColor }
-        fun numberOfPages(numberOfPages: Int?) = this.apply { this.numberOfPages = numberOfPages }
-        fun currentPage(currentPage: Bind<Int>?) = this.apply { this.currentPage = currentPage }
-
-        fun selectedColor(block: () -> String) {
-            selectedColor(block.invoke())
-        }
-
-        fun unselectedColor(block: () -> String) {
-            unselectedColor(block.invoke())
-        }
-
-        fun numberOfPages(block: () -> Int?) {
-            numberOfPages(block.invoke())
-        }
-
-        fun currentPage(block: () -> Bind<Int>) {
-            currentPage(block.invoke())
-        }
-
-        override fun build() = PageIndicator(
-            selectedColor = selectedColor,
-            unselectedColor = unselectedColor,
-            numberOfPages = numberOfPages,
-            currentPage = currentPage
-        )
-    }
-}
-
-fun pageIndicator(block: PageIndicator.Builder.() -> Unit) = PageIndicator.Builder().apply(block).build()
+) : PageIndicatorComponent

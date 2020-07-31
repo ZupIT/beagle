@@ -14,9 +14,13 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.builder.core
+package br.com.zup.beagle.action
 
-import br.com.zup.beagle.core.Accessibility
+import br.com.zup.beagle.builder.BeagleBuilder
+import br.com.zup.beagle.widget.action.SubmitForm
 
-fun accessibility(block: Accessibility.Builder.() -> Unit) = Accessibility.Builder()
-    .apply(block).build()
+fun submitForm(block: SubmitFormBuilder.() -> Unit) = SubmitFormBuilder().apply(block).build()
+
+class SubmitFormBuilder: BeagleBuilder<SubmitForm> {
+    override fun build() = SubmitForm()
+}

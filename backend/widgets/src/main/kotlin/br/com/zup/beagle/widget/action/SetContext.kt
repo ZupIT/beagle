@@ -16,45 +16,8 @@
 
 package br.com.zup.beagle.widget.action
 
-import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
-import kotlin.properties.Delegates
-
 data class SetContext(
     val contextId: String,
     val value: Any,
     val path: String? = null
-) : Action {
-    companion object{
-        @JvmStatic
-        fun builder() = Confirm.Builder()
-    }
-    class Builder : BeagleWidgetBuilder<SetContext> {
-        var contextId: String by Delegates.notNull()
-        var value: Any by Delegates.notNull()
-        var path: String? = null
-
-        fun contextId(contextId: String) = this.apply { this.contextId = contextId }
-        fun value(value: Any) = this.apply { this.value = value }
-        fun path(path: String?) = this.apply { this.path = path }
-
-        fun contextId(block: () -> String) {
-            contextId(block.invoke())
-        }
-
-        fun value(block: () -> Any) {
-            value(block.invoke())
-        }
-
-        fun path(block: () -> String?) {
-            path(block.invoke())
-        }
-
-        override fun build() = SetContext(
-            contextId = contextId,
-            value = value,
-            path = path
-        )
-    }
-}
-
-fun setContext(block: SetContext.Builder.() -> Unit) = SetContext.Builder().apply(block).build()
+) : Action

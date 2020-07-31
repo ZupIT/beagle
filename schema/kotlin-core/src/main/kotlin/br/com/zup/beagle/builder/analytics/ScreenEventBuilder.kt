@@ -14,12 +14,22 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.builder.core
+package br.com.zup.beagle.builder.analytics
 
-import br.com.zup.beagle.core.CornerRadius
-import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.analytics.ScreenEvent
+import br.com.zup.beagle.builder.BeagleBuilder
+import kotlin.properties.Delegates
 
-fun style(block: Style.Builder.() -> Unit) = Style.Builder()
-    .apply(block).build()
+fun screenEvent(block: ScreenEventBuilder.() -> Unit) = ScreenEventBuilder().apply(block).build()
 
-fun cornerRadius(block: CornerRadius.Builder.() -> Unit) = CornerRadius.Builder().apply(block).build()
+class ScreenEventBuilder: BeagleBuilder<ScreenEvent> {
+    var screenName: String by Delegates.notNull()
+
+    fun screenName(screenName: String) = this.apply { this.screenName = screenName }
+
+    fun screenName(block: () -> String) {
+        screenName(block.invoke())
+    }
+
+    override fun build() = ScreenEvent(screenName)
+}

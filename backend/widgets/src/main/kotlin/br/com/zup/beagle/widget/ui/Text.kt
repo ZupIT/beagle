@@ -17,12 +17,10 @@
 package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.widget.Widget
-import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
 import br.com.zup.beagle.widget.core.TextAlignment
-import kotlin.properties.Delegates
 
 /**
  * A text widget will define a text view natively using the server driven information received through Beagle.
@@ -52,47 +50,4 @@ data class Text(
         textColor = valueOfNullable(textColor),
         alignment = valueOfNullable(alignment)
     )
-
-    companion object{
-        @JvmStatic
-        fun builder() = Builder()
-    }
-
-    class Builder : BeagleWidgetBuilder<Text> {
-        var text: Bind<String> by Delegates.notNull()
-        var styleId: String? = null
-        var textColor: Bind<String>? = null
-        var alignment: Bind<TextAlignment>? = null
-
-        fun text(text: Bind<String>) = this.apply { this.text = text }
-        fun styleId(styleId: String?) = this.apply { this.styleId = styleId }
-        fun textColor(textColor: Bind<String>?) = this.apply { this.textColor = textColor }
-        fun alignment(alignment: Bind<TextAlignment>?) = this.apply { this.alignment = alignment }
-
-        fun text(block: () -> Bind<String>) {
-            text(block.invoke())
-        }
-
-        fun styleId(block: () -> String?) {
-            styleId(block.invoke())
-        }
-
-        fun textColor(block: () -> Bind<String>?) {
-            textColor(block.invoke())
-        }
-
-        fun alignment(block: () -> Bind<TextAlignment>?) {
-            alignment(block.invoke())
-        }
-
-        override fun build() = Text(
-            text = text,
-            styleId = styleId,
-            textColor = textColor,
-            alignment = alignment
-        )
-    }
 }
-
-fun text(block: Text.Builder.() -> Unit) = Text.Builder().apply(block).build()
-

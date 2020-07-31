@@ -14,8 +14,23 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.builder.analytics
+package br.com.zup.beagle.ui
 
-import br.com.zup.beagle.analytics.ClickEvent
+import br.com.zup.beagle.builder.BeagleBuilder
+import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.ui.WebView
+import kotlin.properties.Delegates
 
-fun clickEvent(block: ClickEvent.Builder.() -> Unit) = ClickEvent.Builder().apply(block).build()
+fun webView(block: WebViewBuilder.() -> Unit) = WebViewBuilder().apply(block).build()
+
+class WebViewBuilder: BeagleBuilder<WebView> {
+    var url: Bind<String> by Delegates.notNull()
+
+    fun url(url: Bind<String>) = this.apply { this.url = url }
+
+    fun url(block: () -> Bind<String>) {
+        url(block.invoke())
+    }
+
+    override fun build() = WebView(url)
+}

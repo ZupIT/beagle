@@ -16,12 +16,9 @@
 
 package br.com.zup.beagle.widget.ui
 
-import br.com.zup.beagle.builder.BeagleListBuilder
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.action.Action
-import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.Bind
-import kotlin.properties.Delegates
 
 /**
  * TabBar is a component responsible to display a tab layout.
@@ -38,49 +35,8 @@ data class TabBar(
     val styleId: String? = null,
     val currentTab: Bind<Int>? = null,
     val onTabSelection: List<Action>? = null
-) : ServerDrivenComponent {
-    companion object{
-        @JvmStatic
-        fun builder() = Builder()
-    }
-    class Builder: BeagleWidgetBuilder<TabBar> {
-        var items: MutableList<TabBarItem> by Delegates.notNull()
-        var styleId: String? = null
-        var currentTab: Bind<Int>? = null
-        var onTabSelection: MutableList<Action>? = null
+) : ServerDrivenComponent
 
-        fun items(items: List<TabBarItem>) = this.apply { this.items = items.toMutableList() }
-        fun styleId(styleId: String?) = this.apply { this.styleId = styleId }
-        fun currentTab(currentTab: Bind<Int>?) = this.apply { this.currentTab = currentTab }
-        fun onTabSelection(onTabSelection: List<Action>?)
-            = this.apply { this.onTabSelection = onTabSelection?.toMutableList() }
-
-        fun items(block: BeagleListBuilder<TabBarItem>.() -> Unit) {
-            items(BeagleListBuilder<TabBarItem>().apply(block).build())
-        }
-
-        fun styleId(block: () -> String?){
-            styleId(block.invoke())
-        }
-
-        fun currentTab(block: () -> Bind<Int>?){
-            currentTab(block.invoke())
-        }
-
-        fun onTabSelection(block: BeagleListBuilder<Action>.() -> Unit){
-            onTabSelection(BeagleListBuilder<Action>().apply(block).buildNullable())
-        }
-
-        override fun build() = TabBar(
-            items = items,
-            styleId = styleId,
-            currentTab = currentTab,
-            onTabSelection = onTabSelection
-        )
-    }
-}
-
-fun tabBar(block: TabBar.Builder.() -> Unit) = TabBar.Builder().apply(block).build()
 /**
 * Define the view has in the tab view
 *
@@ -93,29 +49,4 @@ fun tabBar(block: TabBar.Builder.() -> Unit) = TabBar.Builder().apply(block).bui
 data class TabBarItem(
     val title: String? = null,
     val icon: ImagePath.Local? = null
-) {
-    companion object{
-        @JvmStatic
-        fun builder() = Builder()
-    }
-    class Builder: BeagleWidgetBuilder<TabBarItem>{
-        var title: String? = null
-        var icon: ImagePath.Local? = null
-
-        fun title(title: String?) = this.apply { this.title = title }
-        fun icon(icon: ImagePath.Local?) = this.apply { this.icon = icon }
-
-        fun title(block: () -> String?){
-            title(block.invoke())
-        }
-
-        fun icon(block: ImagePath.Local.Builder.() -> Unit){
-            icon(ImagePath.Local.Builder().apply(block).build())
-        }
-
-        override fun build() = TabBarItem(title, icon)
-
-    }
-}
-
-fun tabBarItem(block: TabBarItem.Builder.() -> Unit) = TabBarItem.Builder().apply(block).build()
+)

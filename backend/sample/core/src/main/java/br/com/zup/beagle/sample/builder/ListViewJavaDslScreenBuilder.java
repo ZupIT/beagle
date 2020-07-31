@@ -16,22 +16,26 @@
 
 package br.com.zup.beagle.sample.builder;
 
-import br.com.zup.beagle.core.Style;
-import br.com.zup.beagle.widget.action.Alert;
+import br.com.zup.beagle.action.AlertBuilder;
+import br.com.zup.beagle.builder.core.StyleBuilder;
+import br.com.zup.beagle.builder.widget.EdgeValueBuilder;
+import br.com.zup.beagle.builder.widget.UnitValueBuilder;
+import br.com.zup.beagle.layout.ContainerBuilder;
+import br.com.zup.beagle.layout.NavigationBarBuilder;
+import br.com.zup.beagle.layout.NavigationBarItemBuilder;
+import br.com.zup.beagle.layout.ScreenWidgetBuilder;
+import br.com.zup.beagle.layout.ScrollViewBuilder;
+import br.com.zup.beagle.ui.ImagePathLocalBuilder;
+import br.com.zup.beagle.ui.ListViewBuilder;
+import br.com.zup.beagle.ui.TextBuilder;
 import br.com.zup.beagle.widget.context.Bind;
-import br.com.zup.beagle.widget.core.EdgeValue;
 import br.com.zup.beagle.widget.core.ListDirection;
 import br.com.zup.beagle.widget.core.ScrollAxis;
 import br.com.zup.beagle.widget.core.UnitType;
 import br.com.zup.beagle.widget.core.UnitValue;
 import br.com.zup.beagle.widget.layout.Container;
-import br.com.zup.beagle.widget.layout.NavigationBar;
-import br.com.zup.beagle.widget.layout.NavigationBarItem;
 import br.com.zup.beagle.widget.layout.Screen;
 import br.com.zup.beagle.widget.layout.ScreenBuilder;
-import br.com.zup.beagle.widget.layout.ScrollView;
-import br.com.zup.beagle.widget.ui.ImagePath;
-import br.com.zup.beagle.widget.ui.ListView;
 import br.com.zup.beagle.widget.ui.Text;
 import org.jetbrains.annotations.NotNull;
 
@@ -45,18 +49,18 @@ public class ListViewJavaDslScreenBuilder implements ScreenBuilder {
     @NotNull
     @Override
     public Screen build() {
-        return Screen.builder().navigationBar(
-            NavigationBar.builder()
+        return new ScreenWidgetBuilder().navigationBar(
+            new NavigationBarBuilder()
                 .title("Beagle ListView")
                 .showBackButton(true)
                 .navigationBarItems(
-                    List.of(NavigationBarItem.builder()
+                    List.of(new NavigationBarItemBuilder()
                         .text("")
                         .image(
-                            ImagePath.Local.builder().mobileId("informationImage").build()
+                            new ImagePathLocalBuilder().justMobile("informationImage").build()
                         )
                         .action(
-                            Alert.builder()
+                            new AlertBuilder()
                                 .title(new Bind.Value<>("ListView"))
                                 .message(new Bind.Value<>("Is a Layout component that will define a list of views " +
                                     "natively. These views could be any Server Driven Component."))
@@ -64,7 +68,7 @@ public class ListViewJavaDslScreenBuilder implements ScreenBuilder {
                         ).build())
                 ).build()
         ).child(
-            ScrollView.builder()
+            new ScrollViewBuilder()
                 .scrollDirection(ScrollAxis.VERTICAL)
                 .children(List.of(
                     getStaticListView(ListDirection.VERTICAL),
@@ -76,15 +80,15 @@ public class ListViewJavaDslScreenBuilder implements ScreenBuilder {
     }
 
     private Container getStaticListView(ListDirection listDirection){
-        return applyStyle(Container.builder().children(
+        return applyStyle(new ContainerBuilder().children(
             List.of(
                 applyStyle(
-                    Text.builder().text(new Bind.Value<>("Static " + listDirection + " ListView")).build(),
-                    Style.builder().margin(
-                        EdgeValue.builder().bottom(new UnitValue(10, UnitType.REAL)
+                    new TextBuilder().text(new Bind.Value<>("Static " + listDirection + " ListView")).build(),
+                    new StyleBuilder().margin(
+                        new EdgeValueBuilder().bottom(new UnitValue(10, UnitType.REAL)
                         ).build()).build()
                 ),
-                ListView.builder().direction(listDirection).children(
+                new ListViewBuilder().direction(listDirection).children(
                     List.of(
                         createText(1),
                         createText(2),
@@ -100,22 +104,23 @@ public class ListViewJavaDslScreenBuilder implements ScreenBuilder {
                 ).build()
             )
         ).build(),
-            Style.builder().margin(
-                EdgeValue.builder().bottom(UnitValue.builder().real(20).build()).build()
+            new StyleBuilder().margin(
+                new EdgeValueBuilder().bottom(new UnitValueBuilder().real(20).build()).build()
             ).build());
     }
 
     private Container getDynamicListView(ListDirection listDirection) {
-        return Container.builder().children(
+        return new ContainerBuilder().children(
             List.of(
                 applyStyle(
-                    Text.builder().text(new Bind.Value<>("Dynamic " + listDirection + " ListView")).build(),
-                    Style.builder().margin(
-                        EdgeValue.builder().bottom(new UnitValue(10, UnitType.REAL)).build()
+                    new TextBuilder().text(new Bind.Value<>("Dynamic " + listDirection + " ListView")).build(),
+                    new StyleBuilder().margin(
+                        new EdgeValueBuilder().bottom(new UnitValue(10, UnitType.REAL)).build()
                     ).build()
                 ),
-                ListView.builder().direction(listDirection).children(
+                new ListViewBuilder().direction(listDirection).children(
                     List.of(
+                        createText(0),
                         createText(1),
                         createText(2),
                         createText(3),
@@ -142,6 +147,6 @@ public class ListViewJavaDslScreenBuilder implements ScreenBuilder {
     }
 
     private Text createText(int index) {
-        return Text.builder().text(new Bind.Value<>("Hello " + index)).build();
+        return new TextBuilder().text(new Bind.Value<>("Hello " + index)).build();
     }
 }

@@ -21,7 +21,7 @@ apply from: rootProject.file('../jacoco.gradle')
 dependencies {
     implementation Dependencies.GeneralLibraries.jacksonKotlin
     implementation Dependencies.BackendLibraries.guava
-    api project(Dependencies.Modules.widgets)
+    api project(Dependencies.Modules.widgetsDsl)
     api project(Dependencies.Modules.commonAnnotation)
     api project(Dependencies.Modules.schemaKotlinCore)
     api project(Dependencies.Modules.extendedSchema)

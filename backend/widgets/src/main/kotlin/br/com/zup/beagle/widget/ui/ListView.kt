@@ -16,11 +16,8 @@
 
 package br.com.zup.beagle.widget.ui
 
-import br.com.zup.beagle.builder.BeagleListBuilder
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.core.ListDirection
-import kotlin.properties.Delegates
 
 /**
  * ListView is a Layout component that will define a list of views natively.
@@ -33,30 +30,6 @@ import kotlin.properties.Delegates
 data class ListView(
     val children: List<ServerDrivenComponent>,
     val direction: ListDirection = ListDirection.VERTICAL
-) : ServerDrivenComponent {
-    companion object{
-        @JvmStatic
-        fun builder() = Builder()
-    }
-
-    class Builder : BeagleWidgetBuilder<ListView> {
-        var children: MutableList<ServerDrivenComponent> by Delegates.notNull()
-        var direction: ListDirection = ListDirection.VERTICAL
-
-        fun children(children: List<ServerDrivenComponent>)
-            = this.apply { this.children = children.toMutableList() }
-        fun direction(direction: ListDirection) = this.apply { this.direction = direction }
-
-        fun children(block: BeagleListBuilder<ServerDrivenComponent>.() -> Unit) {
-            children(BeagleListBuilder<ServerDrivenComponent>().apply(block).build())
-        }
-
-        fun direction(block: () -> ListDirection) {
-            direction(block.invoke())
-        }
-
-        override fun build() = ListView(children, direction)
-    }
+) : ServerDrivenComponent{
+    companion object
 }
-
-fun listView(block: ListView.Builder.() -> Unit) = ListView.Builder().apply(block).build()

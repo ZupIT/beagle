@@ -18,17 +18,14 @@ package br.com.zup.beagle.widget.layout
 
 import br.com.zup.beagle.analytics.ScreenAnalytics
 import br.com.zup.beagle.analytics.ScreenEvent
-import br.com.zup.beagle.builder.BeagleListBuilder
 import br.com.zup.beagle.core.Accessibility
 import br.com.zup.beagle.core.IdentifierComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.action.Action
-import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.ContextComponent
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.ui.ImagePath
-import kotlin.properties.Delegates
 
 /**
  * The SafeArea will enable Safe areas to help you place your views within the visible portion of the overall interface.
@@ -47,48 +44,7 @@ data class SafeArea(
     val leading: Boolean? = null,
     val bottom: Boolean? = null,
     val trailing: Boolean? = null
-) {
-    companion object{
-        @JvmStatic
-        fun builder() = Builder()
-    }
-    class Builder : BeagleWidgetBuilder<SafeArea> {
-        var top: Boolean? = null
-        var leading: Boolean? = null
-        var bottom: Boolean? = null
-        var trailing: Boolean? = null
-
-        fun top(top: Boolean?) = this.apply { this.top = top }
-        fun leading(leading: Boolean?) = this.apply { this.leading = leading }
-        fun bottom(bottom: Boolean?) = this.apply { this.bottom = bottom }
-        fun trailing(trailing: Boolean?) = this.apply { this.trailing = trailing }
-
-        fun top(block: () -> Boolean?) {
-            top(block.invoke())
-        }
-
-        fun leading(block: () -> Boolean?) {
-            leading(block.invoke())
-        }
-
-        fun bottom(block: () -> Boolean?) {
-            bottom(block.invoke())
-        }
-
-        fun trailing(block: () -> Boolean?) {
-            trailing(block.invoke())
-        }
-
-        override fun build() = SafeArea(
-            top = top,
-            leading = leading,
-            bottom = bottom,
-            trailing = trailing
-        )
-    }
-}
-
-fun safeArea(block: SafeArea.Builder.() -> Unit) = SafeArea.Builder().apply(block).build()
+)
 
 /**
  *  The SafeArea will enable Safe areas to help you place your views
@@ -109,48 +65,7 @@ data class NavigationBarItem(
     val accessibility: Accessibility? = null
 ) : IdentifierComponent {
     override var id: String? = null
-    companion object{
-        @JvmStatic
-        fun builder() = Builder()
-    }
-    class Builder : BeagleWidgetBuilder<NavigationBarItem> {
-        var text: String by Delegates.notNull()
-        var image: ImagePath.Local? = null
-        var action: Action by Delegates.notNull()
-        var accessibility: Accessibility? = null
-
-        fun text(text: String) = this.apply { this.text = text }
-        fun image(image: ImagePath.Local?) = this.apply { this.image = image }
-        fun action(action: Action) = this.apply { this.action = action }
-        fun accessibility(accessibility: Accessibility?) = this.apply { this.accessibility = accessibility }
-
-        fun text(block: () -> String) {
-            text(block.invoke())
-        }
-
-        fun image(block: ImagePath.Local.Builder.() -> Unit) {
-            image(ImagePath.Local.Builder().apply(block).build())
-        }
-
-        fun action(block: () -> Action) {
-            action(block.invoke())
-        }
-
-        fun accessibility(block: Accessibility.Builder.() -> Unit) {
-            accessibility(Accessibility.Builder().apply(block).build())
-        }
-
-        override fun build() = NavigationBarItem(
-            text = text,
-            image = image,
-            action = action,
-            accessibility = accessibility
-        )
-    }
 }
-
-fun navigationBarItem(block: NavigationBarItem.Builder.() -> Unit)
-    = NavigationBarItem.Builder().apply(block).build()
 
 /**
  *  Typically displayed at the top of the window, containing buttons for navigating within a hierarchy of screens
@@ -171,59 +86,7 @@ data class NavigationBar(
     val styleId: String? = null,
     val navigationBarItems: List<NavigationBarItem>? = null,
     val backButtonAccessibility: Accessibility? = null
-) {
-    companion object{
-        @JvmStatic
-        fun builder() = Builder()
-    }
-    @Suppress("TooManyFunctions")
-    class Builder : BeagleWidgetBuilder<NavigationBar> {
-        var title: String by Delegates.notNull()
-        var showBackButton: Boolean = true
-        var styleId: String? = null
-        var navigationBarItems: MutableList<NavigationBarItem>? = null
-        var backButtonAccessibility: Accessibility? = null
-
-        fun title(title: String) = this.apply { this.title = title }
-        fun showBackButton(showBackButton: Boolean) = this.apply { this.showBackButton = showBackButton }
-        fun styleId(styleId: String?) = this.apply { this.styleId = styleId }
-        fun navigationBarItems(navigationBarItems: List<NavigationBarItem>?)
-            = this.apply { this.navigationBarItems = navigationBarItems?.toMutableList() }
-        fun backButtonAccessibility(backButtonAccessibility: Accessibility?)
-            = this.apply { this.backButtonAccessibility = backButtonAccessibility }
-
-        fun title(block: () -> String) {
-            title(block.invoke())
-        }
-
-        fun showBackButton(block: () -> Boolean) {
-            showBackButton(block.invoke())
-        }
-
-        fun styleId(block: () -> String?) {
-            styleId(block.invoke())
-        }
-
-        fun navigationBarItems(block: BeagleListBuilder<NavigationBarItem>.() -> Unit) {
-            navigationBarItems(BeagleListBuilder<NavigationBarItem>().apply(block).buildNullable())
-        }
-
-        fun backButtonAccessibility(block: Accessibility.Builder.() -> Unit) {
-            backButtonAccessibility(Accessibility.Builder().apply(block).build())
-        }
-
-        override fun build() = NavigationBar(
-            title = title,
-            showBackButton = showBackButton,
-            styleId = styleId,
-            navigationBarItems = navigationBarItems,
-            backButtonAccessibility = backButtonAccessibility
-        )
-    }
-}
-
-fun navigationBar(block: NavigationBar.Builder.() -> Unit) = NavigationBar.Builder().apply(block).build()
-
+)
 
 /**
  * The screen element will help you define the screen view structure.
@@ -258,69 +121,4 @@ data class Screen(
     val style: Style? = null,
     override val screenAnalyticsEvent: ScreenEvent? = null,
     override val context: ContextData? = null
-) : ScreenAnalytics, ContextComponent {
-
-    companion object{
-        @JvmStatic
-        fun builder() = Builder()
-    }
-    @Suppress("TooManyFunctions")
-    class Builder : BeagleWidgetBuilder<Screen> {
-        var identifier: String? = null
-        var safeArea: SafeArea? = null
-        var navigationBar: NavigationBar? = null
-        var child: ServerDrivenComponent by Delegates.notNull()
-        var style: Style? = null
-        var screenAnalyticsEvent: ScreenEvent? = null
-        var context: ContextData? = null
-
-        fun identifier(identifier: String?) = this.apply { this.identifier = identifier }
-        fun safeArea(safeArea: SafeArea?) = this.apply { this.safeArea = safeArea }
-        fun navigationBar(navigationBar: NavigationBar?) = this.apply { this.navigationBar = navigationBar }
-        fun child(child: ServerDrivenComponent) = this.apply { this.child = child }
-        fun style(style: Style?) = this.apply { this.style = style }
-        fun screenAnalyticsEvent(screenAnalyticsEvent: ScreenEvent?)
-            = this.apply { this.screenAnalyticsEvent = screenAnalyticsEvent }
-        fun context(context: ContextData?) = this.apply { this.context = context }
-
-        fun identifier(block: () -> String?) {
-            identifier(block.invoke())
-        }
-
-        fun safeArea(block: SafeArea.Builder.() -> Unit) {
-            safeArea(SafeArea.Builder().apply(block).build())
-        }
-
-        fun navigationBar(block: NavigationBar.Builder.() -> Unit) {
-            navigationBar(NavigationBar.Builder().apply(block).build())
-        }
-
-        fun child(block: () -> ServerDrivenComponent) {
-            child(block.invoke())
-        }
-
-        fun style(block: Style.Builder.() -> Unit) {
-            style(Style.Builder().apply(block).build())
-        }
-
-        fun screenAnalyticsEvent(block: ScreenEvent.Builder.() -> Unit) {
-            screenAnalyticsEvent(ScreenEvent.Builder().apply(block).build())
-        }
-
-        fun context(block: ContextData.Builder.() -> Unit) {
-            context(ContextData.Builder().apply(block).build())
-        }
-
-        override fun build() = Screen(
-            identifier = identifier,
-            safeArea = safeArea,
-            navigationBar = navigationBar,
-            child = child,
-            style = style,
-            screenAnalyticsEvent = screenAnalyticsEvent,
-            context = context
-        )
-    }
-}
-
-fun screen(block: Screen.Builder.() -> Unit) = Screen.Builder().apply(block).build()
+) : ScreenAnalytics, ContextComponent

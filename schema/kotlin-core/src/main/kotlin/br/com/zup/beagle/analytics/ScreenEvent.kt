@@ -16,28 +16,9 @@
 
 package br.com.zup.beagle.analytics
 
-import br.com.zup.beagle.builder.BeagleBuilder
-import kotlin.properties.Delegates
-
 /**
  * Beagle analytics is used to track screen.
  */
 data class ScreenEvent(
     val screenName: String
-) {
-    companion object{
-        @JvmStatic
-        fun builder() = Builder()
-    }
-    class Builder: BeagleBuilder<ScreenEvent> {
-        var screenName: String by Delegates.notNull()
-
-        fun screenName(screenName: String) = this.apply { this.screenName = screenName }
-
-        fun screenName(block: () -> String) {
-            screenName(block.invoke())
-        }
-
-        override fun build() = ScreenEvent(screenName)
-    }
-}
+)

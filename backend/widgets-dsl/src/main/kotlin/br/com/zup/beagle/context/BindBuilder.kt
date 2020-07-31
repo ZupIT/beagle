@@ -14,14 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.builder.widget
+package br.com.zup.beagle.context
 
-import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.context.Bind
 
-fun flex(block: Flex.Builder.() -> Unit) = Flex.Builder().apply(block).build()
-
-fun size(block: Size.Builder.() -> Unit) = Size.Builder().apply(block).build()
-
-fun edgeValue(block: EdgeValue.Builder.() -> Unit) = EdgeValue.Builder().apply(block).build()
+fun <T : Any> valueOf(block: () -> T) = Bind.Value(block.invoke())
+fun <T : Any> valueOfNullable(block: () -> T?) = block.invoke()?.let { Bind.Value(it) }
+fun <T> expressionOf(block: () -> String) = Bind.Expression<T>(block.invoke())

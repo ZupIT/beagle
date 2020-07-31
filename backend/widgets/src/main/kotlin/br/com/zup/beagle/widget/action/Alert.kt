@@ -16,11 +16,9 @@
 
 package br.com.zup.beagle.widget.action
 
-import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
-import kotlin.properties.Delegates
 
 
 /**
@@ -49,46 +47,4 @@ data class Alert(
         onPressOk = onPressOk,
         labelOk = labelOk
     )
-
-    companion object{
-        @JvmStatic
-        fun builder() = Builder()
-    }
-
-    class Builder : BeagleWidgetBuilder<Alert> {
-        var title: Bind<String>? = null
-        var message: Bind<String> by Delegates.notNull()
-        var onPressOk: Action? = null
-        var labelOk: String? = null
-
-        fun title(title: Bind<String>?) = this.apply { this.title = title }
-        fun message(message: Bind<String>) = this.apply { this.message = message }
-        fun onPressOk(onPressOk: Action?) = this.apply { this.onPressOk = onPressOk }
-        fun labelOk(labelOk: String?) = this.apply { this.labelOk = labelOk }
-
-        fun title(block: () -> Bind<String>?) {
-            title(block.invoke())
-        }
-
-        fun message(block: () -> Bind<String>) {
-            message(block.invoke())
-        }
-
-        fun onPressOk(block: () -> Action?) {
-            onPressOk(block.invoke())
-        }
-
-        fun labelOk(block: () -> String?) {
-            labelOk(block.invoke())
-        }
-
-        override fun build() = Alert(
-            title = title,
-            message = message,
-            onPressOk = onPressOk,
-            labelOk = labelOk
-        )
-    }
 }
-
-fun alert(block: Alert.Builder.() -> Unit): Alert = Alert.Builder().apply(block).build()

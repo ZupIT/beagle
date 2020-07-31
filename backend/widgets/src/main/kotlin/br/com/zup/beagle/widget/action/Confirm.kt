@@ -16,11 +16,9 @@
 
 package br.com.zup.beagle.widget.action
 
-import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
-import kotlin.properties.Delegates
 
 /**
  * will show dialogues natively, such as an error alert indicating alternative flows, business system errors and others.
@@ -57,61 +55,4 @@ data class Confirm(
         labelCancel = labelCancel
     )
 
-    companion object{
-        @JvmStatic
-        fun builder() = Builder()
-    }
-
-    @Suppress("TooManyFunctions")
-    class Builder : BeagleWidgetBuilder<Confirm> {
-        var title: Bind<String>? = null
-        var message: Bind<String> by Delegates.notNull()
-        var onPressOk: Action? = null
-        var onPressCancel: Action? = null
-        var labelOk: String? = null
-        var labelCancel: String? = null
-
-        fun title(title: Bind<String>?) = this.apply { this.title = title }
-        fun message(message: Bind<String>) = this.apply { this.message = message }
-        fun onPressOk(onPressOk: Action?) = this.apply { this.onPressOk = onPressOk }
-        fun onPressCancel(onPressCancel: Action?) = this.apply { this.onPressCancel = onPressCancel }
-        fun labelOk(labelOk: String?) = this.apply { this.labelOk = labelOk }
-        fun labelCancel(labelCancel: String?) = this.apply { this.labelCancel = labelCancel }
-
-        fun title(block: () -> Bind<String>?) {
-            title(block.invoke())
-        }
-
-        fun message(block: () -> Bind<String>) {
-            message(block.invoke())
-        }
-
-        fun onPressOk(block: () -> Action?) {
-            onPressOk(block.invoke())
-        }
-
-        fun onPressCancel(block: () -> Action?) {
-            onPressCancel(block.invoke())
-        }
-
-        fun labelOk(block: () -> String?) {
-            labelOk(block.invoke())
-        }
-
-        fun labelCancel(block: () -> String?) {
-            labelCancel(block.invoke())
-        }
-
-        override fun build() = Confirm(
-            title = title,
-            message = message,
-            onPressOk = onPressOk,
-            onPressCancel = onPressCancel,
-            labelOk = labelOk,
-            labelCancel = labelCancel
-        )
-    }
-
 }
-
-fun confirm(block: Confirm.Builder.() -> Unit): Confirm = Confirm.Builder().apply(block).build()

@@ -17,8 +17,6 @@
 package br.com.zup.beagle.widget.lazy
 
 import br.com.zup.beagle.core.ServerDrivenComponent
-import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
-import kotlin.properties.Delegates
 
 /**
  *  The LazyComponent is used when an asynchronous BFF request is made.
@@ -34,28 +32,4 @@ import kotlin.properties.Delegates
 data class LazyComponent(
     val path: String,
     val initialState: ServerDrivenComponent
-) : ServerDrivenComponent {
-    companion object{
-        @JvmStatic
-        fun builder() = Builder()
-    }
-    class Builder : BeagleWidgetBuilder<LazyComponent> {
-        var path: String by Delegates.notNull()
-        var initialState: ServerDrivenComponent by Delegates.notNull()
-
-        fun path(path: String) = this.apply { this.path = path }
-        fun initialState(initialState: ServerDrivenComponent) = this.apply { this.initialState = initialState }
-
-        fun path(block: () -> String) {
-            path(block.invoke())
-        }
-
-        fun initialState(block: () -> ServerDrivenComponent) {
-            initialState(block.invoke())
-        }
-
-        override fun build() = LazyComponent(path, initialState)
-    }
-}
-
-fun lazyComponent(block: LazyComponent.Builder.() -> Unit) = LazyComponent.Builder().apply(block).build()
+) : ServerDrivenComponent

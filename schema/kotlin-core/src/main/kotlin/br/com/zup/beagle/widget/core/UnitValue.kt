@@ -16,11 +16,9 @@
 
 package br.com.zup.beagle.widget.core
 
-import br.com.zup.beagle.builder.BeagleBuilder
 import br.com.zup.beagle.widget.core.UnitType.AUTO
 import br.com.zup.beagle.widget.core.UnitType.PERCENT
 import br.com.zup.beagle.widget.core.UnitType.REAL
-import kotlin.properties.Delegates
 
 /**
  * Represents measurement values that contain both the numeric magnitude and the unit of measurement.
@@ -30,47 +28,7 @@ import kotlin.properties.Delegates
 data class UnitValue(
     val value: Double,
     val type: UnitType
-) {
-    companion object{
-        @JvmStatic
-        fun builder() = Builder()
-    }
-    class Builder: BeagleBuilder<UnitValue> {
-        var value: Double by Delegates.notNull()
-        var type: UnitType by Delegates.notNull()
-
-        fun value(value: Double) = this.apply { this.value = value }
-        fun type(type: UnitType) = this.apply { this.type = type }
-
-        fun real(value: Double) = this.apply {
-            this.value = value
-            this.type = REAL
-        }
-
-        fun percent(value: Double) = this.apply {
-            this.value = value
-            this.type = PERCENT
-        }
-
-        fun value(block: () -> Double){
-            value(block.invoke())
-        }
-
-        fun type(block: () -> UnitType){
-            type(block.invoke())
-        }
-
-        fun real(block: () -> Double){
-            real(block.invoke())
-        }
-
-        fun percent(block: () -> Double){
-            percent(block.invoke())
-        }
-
-        override fun build() = UnitValue(value, type)
-    }
-}
+)
 
 /**
  * This defines of a unit type;

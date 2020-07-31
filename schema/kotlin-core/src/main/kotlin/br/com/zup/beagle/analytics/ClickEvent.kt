@@ -16,9 +16,6 @@
 
 package br.com.zup.beagle.analytics
 
-import br.com.zup.beagle.builder.BeagleBuilder
-import kotlin.properties.Delegates
-
 /**
  * Define click event
  *
@@ -31,36 +28,4 @@ data class ClickEvent(
     val category: String,
     val label: String? = null,
     val value: String? = null
-) {
-    companion object{
-        @JvmStatic
-        fun builder() = Builder()
-    }
-    class Builder: BeagleBuilder<ClickEvent> {
-        var category: String by Delegates.notNull()
-        var label: String? = null
-        var value: String? = null
-
-        fun category(category: String) = this.apply { this.category = category }
-        fun label(label: String?) = this.apply { this.label = label }
-        fun value(value: String?) = this.apply { this.value = value }
-
-        fun category(block: () -> String) {
-            category(block.invoke())
-        }
-
-        fun label(block: () -> String?) {
-            label(block.invoke())
-        }
-
-        fun value(block: () -> String?) {
-            value(block.invoke())
-        }
-
-        override fun build() = ClickEvent(
-            category = category,
-            label = label,
-            value = value
-        )
-    }
-}
+)

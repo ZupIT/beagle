@@ -16,34 +16,7 @@
 
 package br.com.zup.beagle.widget.context
 
-import br.com.zup.beagle.widget.builder.BeagleWidgetBuilder
-import kotlin.properties.Delegates
-
 data class ContextData(
     val id: String,
     val value: Any
-) {
-    companion object{
-        @JvmStatic
-        fun builder() = Builder()
-    }
-    class Builder : BeagleWidgetBuilder<ContextData> {
-        var id: String by Delegates.notNull()
-        var value: Any by Delegates.notNull()
-
-        fun id(id: String) = this.apply { this.id = id }
-        fun value(value: Any) = this.apply { this.value = value }
-
-        fun id(block: () -> String) {
-            id(block.invoke())
-        }
-
-        fun value(block: () -> Any) {
-            value(block.invoke())
-        }
-
-        override fun build() = ContextData(id, value)
-    }
-}
-
-fun contextData(block: ContextData.Builder.() -> Unit) = ContextData.Builder().apply(block).build()
+)
