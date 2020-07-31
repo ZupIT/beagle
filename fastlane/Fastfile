@@ -101,7 +101,7 @@ lane :deploy do
   puts "aquiii!!!"
   tagFullName = ENV["TAG_NAME"]
   puts tagFullName
-  tagName = tagName.split("/").last
+  tagName = tagFullName.split("/").last
   puts tagName.split("-").last
   # if TAG_NAME.index("-") {
 
