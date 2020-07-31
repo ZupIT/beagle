@@ -224,7 +224,7 @@ public class BeagleScreenViewController: BeagleController {
             renderScreenIfNeeded()
         case .failure(let error):
             renderScreenIfNeeded()
-            serverDrivenState = .error(error)
+            serverDrivenState = .error(error, viewModel.loadScreen)
         }
     }
     
@@ -239,10 +239,6 @@ public class BeagleScreenViewController: BeagleController {
         content = nil
         viewModel.screenType = screenType
         createContent()
-    }
-    
-    func handleError(_ error: ServerDrivenState.Error) {
-        beagleNavigation?.serverDrivenStateDidChange(to: .error(error), at: self)
     }
     
     // MARK: - View Setup

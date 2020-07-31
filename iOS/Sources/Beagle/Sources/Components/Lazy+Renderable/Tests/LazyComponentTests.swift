@@ -80,6 +80,8 @@ final class LazyComponentTests: XCTestCase {
     }
     
     func test_whenLoadFail_shouldSetNotifyTheScreen() {
+        // Given
+        let hostView = UIView()
         let initialView = UIView()
         let sut = LazyComponent(
             path: "",
@@ -90,19 +92,34 @@ final class LazyComponentTests: XCTestCase {
         let renderer = BeagleRenderer(controller: controller)
         controller.dependencies = BeagleScreenDependencies(repository: repository)
         
+        // When
         let view = sut.toView(renderer: renderer)
+        hostView.addSubview(view)
         repository.componentCompletion?(.failure(.urlBuilderError))
         
-        switch controller.serverDrivenState {
-        case .error(.lazyLoad(.urlBuilderError)):
-            break
-        default:
+        // Then
+        guard case .error(.lazyLoad(.urlBuilderError), let retry) = controller.serverDrivenState else {
             XCTFail("""
-                Expected state .error(.lazyLoad(.urlBuilderError))
-                but found \(controller.serverDrivenState)
-                """)
+            Expected state .error(.lazyLoad(.urlBuilderError), BeagleRetry)
+            but found \(controller.serverDrivenState)
+            """)
+            return
         }
         XCTAssertEqual(view, initialView)
+        XCTAssertEqual(view.superview, hostView)
+        
+        // When
+        repository.componentCompletion = nil
+        let lazyLoadedContent = UIView()
+        retry()
+        repository.componentCompletion?(.success(ComponentDummy(resultView: lazyLoadedContent)))
+        
+        let expect = expectation(description: "consume queue")
+        DispatchQueue.main.async { expect.fulfill() }
+        waitForExpectations(timeout: 1)
+        
+        XCTAssertNil(view.superview)
+        XCTAssertEqual(lazyLoadedContent.superview, hostView)
     }
     
 }

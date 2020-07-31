@@ -85,21 +85,6 @@ public extension BeagleRenderer {
 
     func observe<Value, View: UIView>(
         _ expression: Expression<Value>?,
-        andUpdate keyPath: ReferenceWritableKeyPath<View, Value>,
-        in view: View,
-        map: Mapper<Value?, Value>? = nil
-    ) {
-        if let expression = expression {
-            expression.observe(view: view, controller: controller) { value in
-                view[keyPath: keyPath] = map?(value) ?? value
-            }
-        } else if let map = map {
-            view[keyPath: keyPath] = map(nil)
-        }
-    }
-
-    func observe<Value, View: UIView>(
-        _ expression: Expression<Value>?,
         andUpdate keyPath: ReferenceWritableKeyPath<View, Value?>,
         in view: View,
         map: Mapper<Value?, Value?>? = nil
@@ -114,17 +99,6 @@ public extension BeagleRenderer {
     }
 
     // MARK: Property with different type than expression
-
-    func observe<Value, View: UIView, Property>(
-        _ expression: Expression<Value>,
-        andUpdate keyPath: ReferenceWritableKeyPath<View, Property>,
-        in view: View,
-        map: @escaping Mapper<Value, Property>
-    ) {
-        expression.observe(view: view, controller: controller) {
-            view[keyPath: keyPath] = map($0)
-        }
-    }
 
     func observe<Value, View: UIView, Property>(
         _ expression: Expression<Value>?,
@@ -155,7 +129,7 @@ public extension BeagleRenderer {
     func observe<Value>(
         _ expression: Expression<Value>,
         andUpdateManyIn view: UIView,
-        updateFunction: @escaping (Value) -> Void
+        updateFunction: @escaping (Value?) -> Void
     ) {
         expression.observe(view: view, controller: controller, updateFunction: updateFunction)
     }

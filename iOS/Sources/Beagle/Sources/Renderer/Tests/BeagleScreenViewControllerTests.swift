@@ -67,7 +67,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
                 to state: ServerDrivenState,
                 at screenController: BeagleController
             ) {
-                if case .error(let error) = state, case .remoteScreen(let remoteError) = error {
+                if case .error(let error, _) = state, case .remoteScreen(let remoteError) = error {
                     remoteScreenError = remoteError
                 }
             }
@@ -285,7 +285,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
         renderer.observe(self.exp, andUpdate: \.text, in: label)
         XCTAssert(label.text == self.valueString)
 
-        renderer.observe(self.exp, andUpdate: \.text, in: label) { $0.uppercased() }
+        renderer.observe(self.exp, andUpdate: \.text, in: label) { $0?.uppercased() }
         XCTAssert(label.text == self.valueString.uppercased())
 
         renderer.observe(self.expOp, andUpdate: \.text, in: label)
@@ -303,17 +303,17 @@ final class BeagleScreenViewControllerTests: XCTestCase {
     }
 
     func testTag() {
-        renderer.observe(expInt, andUpdate: \.tag, in: label)
+        renderer.observe(expInt, andUpdate: \.tag, in: label) { $0 ?? 0 }
         XCTAssert(label.tag == valueInt)
 
-        renderer.observe(expInt, andUpdate: \.tag, in: label) { $0 * 3 }
+        renderer.observe(expInt, andUpdate: \.tag, in: label) { ($0 ?? 0) * 3 }
         XCTAssert(label.tag == valueInt * 3)
 
         renderer.observe(expIntOp, andUpdate: \.tag, in: label) { $0 ?? Int.random(in: 0...10) }
         XCTAssert(label.tag == valueInt)
 
         let previous = label.tag
-        renderer.observe(expIntOpNil, andUpdate: \.tag, in: label)
+        renderer.observe(expIntOpNil, andUpdate: \.tag, in: label) { $0 ?? previous }
         XCTAssert(label.tag == previous) // defaultValue
 
         renderer.observe(expIntOpNil, andUpdate: \.tag, in: label) { $0 ?? 3 }

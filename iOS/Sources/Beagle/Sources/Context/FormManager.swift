@@ -92,8 +92,8 @@ class FormManager {
     private func submitAction(_ action: RawAction, inputs: [String: String], origin: UIView, group: String?) {
         switch action {
         case let action as FormRemoteAction:
-            submitForm(action, inputs: inputs, origin: origin, group: group)
-
+            let newAction = SubmitRemoteFormAction(remote: action, inputs: inputs, group: group)
+            controller.execute(action: newAction, sender: sender)
         case let action as FormLocalAction:
             let newAction = FormLocalAction(name: action.name, data: inputs.merging(action.data) { a, _ in return a })
             controller.execute(actions: [newAction], origin: origin)
@@ -102,22 +102,6 @@ class FormManager {
         }
     }
     
-    private func submitForm(_ remote: FormRemoteAction, inputs: [String: String], origin: UIView, group: String?) {
-        controller.serverDrivenState = .loading(true)
-
-        let data = Request.FormData(
-            method: remote.method,
-            values: inputs
-        )
-
-        controller.dependencies.repository.submitForm(url: remote.path, additionalData: nil, data: data) {
-            result in
-            self.controller.serverDrivenState = .loading(false)
-            self.handleFormResult(result, origin: origin, group: group)
-        }
-        controller.dependencies.logger.log(Log.form(.submittedValues(values: inputs)))
-    }
-
     private func validate(
         formInput view: UIView,
         result: inout [String: String]
@@ -163,13 +147,33 @@ class FormManager {
         return validator
     }
 
-    private func handleFormResult(_ result: Result<RawAction, Request.Error>, origin: UIView, group: String?) {
-        switch result {
-        case .success(let action):
-            controller.dependencies.formDataStoreHandler.formManagerDidSubmitForm(group: group)
-            controller.execute(actions: [action], origin: origin)
-        case .failure(let error):
-            controller.serverDrivenState = .error(.submitForm(error))
+}
+
+private struct SubmitRemoteFormAction: Action {
+    
+    let remote: FormRemoteAction
+    let inputs: [String: String]
+    let group: String?
+    
+    func execute(controller: BeagleController, sender: Any) {
+        controller.serverDrivenState = .loading(true)
+        let data = Request.FormData(
+            method: remote.method,
+            values: inputs
+        )
+        controller.dependencies.repository.submitForm(url: remote.path, additionalData: nil, data: data) {
+            controller.serverDrivenState = .loading(false)
+            switch $0 {
+            case .success(let action):
+                controller.dependencies.formDataStoreHandler.formManagerDidSubmitForm(group: self.group)
+                controller.execute(action: action, sender: sender)
+            case .failure(let error):
+                controller.serverDrivenState = .error(
+                    .submitForm(error),
+                    self.closureToRetrySameAction(controller: controller, sender: sender)
+                )
+            }
         }
+        controller.dependencies.logger.log(Log.form(.submittedValues(values: inputs)))
     }
 }

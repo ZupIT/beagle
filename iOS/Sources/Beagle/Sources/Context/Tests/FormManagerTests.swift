@@ -149,7 +149,7 @@ final class FormManagerTests: XCTestCase {
 
         // Then
         var error: Request.Error?
-        if case .error(let serverDrivenError) = controller.serverDrivenState {
+        if case .error(let serverDrivenError, _) = controller.serverDrivenState {
             if case .submitForm(let requestError) = serverDrivenError {
                 if case .urlBuilderError = requestError {
                     error = requestError
