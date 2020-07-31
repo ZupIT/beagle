@@ -20,12 +20,6 @@ import BeagleSchema
 import UIKit
 
 extension SubmitForm: Action {
-    public func execute(controller: BeagleController, sender: Any) {
-        if let origin = sender as? UIView {
-            execute(controller: controller, origin: origin)
-        }
-    }
-    
     public func execute(controller: BeagleController, origin: UIView) {
         var view: UIView? = origin
         while view != nil {

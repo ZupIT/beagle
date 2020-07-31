@@ -19,12 +19,6 @@ import UIKit
 import BeagleSchema
 
 extension Alert: Action {
-    public func execute(controller: BeagleController, sender: Any) {
-        if let origin = sender as? UIView {
-            execute(controller: controller, origin: origin)
-        }
-    }
-    
     public func execute(controller: BeagleController, origin: UIView) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         alertController.title = title?.evaluate(with: origin)

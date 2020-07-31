@@ -18,12 +18,6 @@ import BeagleSchema
 import UIKit
 
 extension FormLocalAction: Action {
-    public func execute(controller: BeagleController, sender: Any) {
-        if let origin = sender as? UIView {
-            execute(controller: controller, origin: origin)
-        }
-    }
-    
     public func execute(controller: BeagleController, origin: UIView) {
         controller.dependencies.localFormHandler?.handle(action: self, controller: controller) {
             [weak controller] result in guard let controller = controller else { return }
@@ -33,7 +27,7 @@ extension FormLocalAction: Action {
             case .error(let error):
                 controller.serverDrivenState = .error(
                     .action(error),
-                    self.closureToRetrySameAction(controller: controller, sender: origin)
+                    self.closureToRetrySameAction(controller: controller, origin: origin)
                 )
             case .success(let action):
                 controller.serverDrivenState = .loading(false)

@@ -18,29 +18,20 @@ import BeagleSchema
 import UIKit
 
 public protocol Action: RawAction {
-    @available(*, deprecated, message: "use execute(controller:origin:) instead")
-    func execute(controller: BeagleController, sender: Any)
-    
     func execute(controller: BeagleController, origin: UIView)
 }
 
-public extension Action {
-    func execute(controller: BeagleController, origin: UIView) {
-        execute(controller: controller, sender: origin as Any)
-    }
-}
-
 extension UnknownAction: Action {
-    public func execute(controller: BeagleController, sender: Any) {
+    public func execute(controller: BeagleController, origin: UIView) {
         controller.dependencies.logger.log(Log.decode(.decodingError(type: "error trying to execute unknown action")))
     }
 }
 
 extension Action {
-    public func closureToRetrySameAction(controller: BeagleController, sender: Any) -> BeagleRetry {
+    public func closureToRetrySameAction(controller: BeagleController, origin: UIView) -> BeagleRetry {
         return { [weak controller] in
             guard let controller = controller else { return }
-            self.execute(controller: controller, sender: sender)
+            self.execute(controller: controller, origin: origin)
         }
     }
 }

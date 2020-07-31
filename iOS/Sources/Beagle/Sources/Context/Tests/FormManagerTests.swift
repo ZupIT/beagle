@@ -122,7 +122,7 @@ final class FormManagerTests: XCTestCase {
         }
         // Then
         XCTAssertEqual(action.executionCount, 1)
-        XCTAssertNotNil(action.lastSender)
+        XCTAssertNotNil(action.lastOrigin)
         XCTAssertFalse(isLoading)
     }
 

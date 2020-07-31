@@ -19,17 +19,15 @@ import BeagleSchema
 import UIKit
 
 extension SendRequest: Action {
-    public func execute(controller: BeagleController, sender: Any) {
+    public func execute(controller: BeagleController, origin: UIView) {
 
-        guard let
-            view = sender as? UIView,
-            let url = controller.dependencies.urlBuilder.build(path: url.evaluate(with: view) ?? "") else {
+        guard let url = controller.dependencies.urlBuilder.build(path: url.evaluate(with: origin) ?? "") else {
             return
         }
         let requestData = Request.RequestData(
             method: method?.rawValue,
             headers: headers,
-            body: data?.evaluate(with: view).asAny()
+            body: data?.evaluate(with: origin).asAny()
         )
         let request = Request(url: url, type: .rawRequest(requestData), additionalData: nil)
         controller.dependencies.networkClient.executeRequest(request) { result in
@@ -42,8 +40,8 @@ extension SendRequest: Action {
                 let value: DynamicObject = ["data": data, "status": .int(statusCode), "statusText": "success"]
 
                 DispatchQueue.main.async {
-                    controller.execute(actions: self.onSuccess, with: "onSuccess", and: value, origin: view)
-                    controller.execute(actions: self.onFinish, origin: view)
+                    controller.execute(actions: self.onSuccess, with: "onSuccess", and: value, origin: origin)
+                    controller.execute(actions: self.onFinish, origin: origin)
                 }
                 
             case .failure(let error):
@@ -56,8 +54,8 @@ extension SendRequest: Action {
                 let value: DynamicObject = [ "data": data, "status": .int(statusCode), "statusText": .string(statusText), "message": .string(message) ]
                 
                 DispatchQueue.main.async {
-                    controller.execute(actions: self.onError, with: "onError", and: value, origin: view)
-                    controller.execute(actions: self.onFinish, origin: view)
+                    controller.execute(actions: self.onError, with: "onError", and: value, origin: origin)
+                    controller.execute(actions: self.onFinish, origin: origin)
                 }
             }
         }

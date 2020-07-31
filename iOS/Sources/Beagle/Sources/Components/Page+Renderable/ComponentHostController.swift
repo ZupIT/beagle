@@ -42,14 +42,6 @@ class ComponentHostController: BeagleController {
         bindings.append(update)
     }
 
-    func execute(action: RawAction, sender: Any) {
-        renderer.controller.execute(action: action, sender: sender)
-    }
-
-    func execute(actions: [RawAction]?, with context: Context?, sender: Any) {
-        renderer.controller.execute(actions: actions, with: context, sender: sender)
-    }
-
     func execute(actions: [RawAction]?, origin: UIView) {
         renderer.controller.execute(actions: actions, origin: origin)
     }

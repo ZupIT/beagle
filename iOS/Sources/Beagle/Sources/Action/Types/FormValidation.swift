@@ -19,8 +19,8 @@ import BeagleSchema
 import UIKit
 
 extension FormValidation: Action {
-    public func execute(controller: BeagleController, sender: Any) {
-        (sender as? UIView)?.gestureRecognizers?
+    public func execute(controller: BeagleController, origin: UIView) {
+        origin.gestureRecognizers?
             .compactMap { $0 as? SubmitFormGestureRecognizer }
             .forEach { validateInputs($0.formInputViews()) }
     }
