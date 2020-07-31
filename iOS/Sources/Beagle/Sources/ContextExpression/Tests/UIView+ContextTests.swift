@@ -29,7 +29,7 @@ final class UIViewContextTests: XCTestCase {
         let context2 = Context(id: "contextb", value: [1])
         let context3 = Context(id: "contextb", value: [nil])
 
-        XCTAssertNil(view.contextMap)
+        XCTAssertTrue(view.contextMap.isEmpty)
         view.setContext(context1)
         assertSnapshot(matching: view.contextMap, as: .dump)
         
@@ -60,6 +60,9 @@ final class UIViewContextTests: XCTestCase {
         XCTAssertTrue(leaf.getContext(with: "contextb") === contextObservableLeaf)
         XCTAssertTrue(leaf.getContext(with: "contexta") === contextObservable)
         XCTAssertNil(leaf.getContext(with: "unknown"))
+        
+        XCTAssertTrue(view.contextMap["contextb"] === contextObservableRoot)
+        XCTAssertTrue(leaf.contextMap["contexta"] === contextObservable)
     }
     
     func test_evaluate() {
@@ -93,6 +96,8 @@ final class UIViewContextTests: XCTestCase {
         XCTAssertEqual(result3, "expA: 1, expB: test")
         XCTAssertEqual(result4, ["a": "1", "b": "2"])
         XCTAssertNil(result5)
+        
+        assertSnapshot(matching: leaf.expressionLastValueMap, as: .dump)
     }
     
     func test_configBinding() {
@@ -118,9 +123,12 @@ final class UIViewContextTests: XCTestCase {
         }
         
         contextObservableRoot.value = Context(id: "context", value: ["a": "updated", "b": "2"])
-
         XCTAssertEqual(leaf.text, "updated")
         XCTAssertEqual(leaf.placeholder, "exp: updated")
+        
+        contextObservableRoot.value = Context(id: "context", value: ["a": 2])
+        XCTAssertEqual(leaf.text, "")
+        XCTAssertEqual(leaf.placeholder, "exp: ")
    }
 
 }

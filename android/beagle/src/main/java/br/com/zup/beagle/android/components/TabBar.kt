@@ -127,7 +127,7 @@ data class TabBar(
 
     private fun configCurrentTabObserver(tabBar: TabLayout, rootView: RootView) {
         currentTab?.let {
-            observeBindChanges(rootView, it) { position ->
+            observeBindChanges(rootView, tabBar, it) { position ->
                 position?.let { newPosition ->
                     tabBar.getTabAt(newPosition)?.select()
                 }

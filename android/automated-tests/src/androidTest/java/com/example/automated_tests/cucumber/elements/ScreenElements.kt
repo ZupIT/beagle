@@ -21,7 +21,7 @@ const val MAIN_HEADER = "Automated Tests"
 //Button Screen
 const val BUTTON_SCREEN_HEADER = "Beagle Button"
 const val BUTTON_DEFAULT_TEXT = "Button"
-const val BUTTON_WITH_STYLE_TEXT = "BUTTON WITH STYLE"
+const val BUTTON_WITH_STYLE_TEXT = "Button with style"
 const val BUTTON_WITH_APPEARANCE_TEXT = "Button with Appearance"
 const val ACTION_CLICK_HEADER = "Action Click"
 const val ACTION_CLICK_TEXT = "You clicked right"

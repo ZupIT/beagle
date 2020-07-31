@@ -32,6 +32,7 @@ extension Image: Widget {
                 self.setImageFromAsset(named: mobileId, bundle: renderer.controller.dependencies.appBundle, imageView: image)
             case .remote(let remote):
                 token = self.setRemoteImage(from: remote.url, placeholder: remote.placeholder, imageView: image, renderer: renderer)
+            case .none: ()
             }
         }
         return image

@@ -22,7 +22,7 @@ public extension Expression {
     func observe(
         view: UIView,
         controller: BeagleController,
-        updateFunction: @escaping (T) -> Void
+        updateFunction: @escaping (T?) -> Void
     ) {
         switch self {
         case let .expression(expression):
@@ -47,11 +47,12 @@ public extension Expression {
 // MARK: ExpressibleByLiteral
 extension Expression: ExpressibleByStringLiteral {
     public init(stringLiteral value: String) {
+        let escaped = value.escapeExpressions()
         if let expression = SingleExpression(rawValue: value) {
             self = .expression(.single(expression))
         } else if let multiple = MultipleExpression(rawValue: value) {
             self = .expression(.multiple(multiple))
-        } else if let value = value as? T {
+        } else if let value = escaped as? T {
             self = .value(value)
         } else {
             assertionFailure("Error: invalid Expression syntax \(value)")

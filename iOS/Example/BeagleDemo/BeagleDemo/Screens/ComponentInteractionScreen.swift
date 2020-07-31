@@ -38,7 +38,7 @@ let componentInteractionScreen: Screen = {
 let declarativeScreen: Screen = {
     return Screen(navigationBar: NavigationBar(title: "Component Interaction", showBackButton: true)) {
         Container(context: Context(id: "context2", value: nil)) {
-            Container(context: Context(id: "context1", value: ["name": "name"])) {
+            Container(context: Context(id: "context1", value: "Joao")) {
                 TextInput(
                     onChange: [
                         SetContext(
@@ -47,23 +47,19 @@ let declarativeScreen: Screen = {
                         )
                     ]
                 )
-                Text("teste é: @{context1} + @{context2}")
+                Text("context: @{context1} + \\@{context1}")
                 Text("@{context1}")
+                Text("\\@{context1}")
+                Text("\\\\@{context1}")
+                Text("\\\\\\@{context1}")
+                Text("\\\\\\\\@{context1}")
+                Text("\\\\\\\\\\@{context1}")
                 Button(
                     text: "1",
                     onPress: [
                         SetContext(
                             contextId: "context1",
                             value: ["name": "nameUpdated"]
-                        )
-                    ]
-                )
-                Button(
-                    text: "2",
-                    onPress: [
-                        SetContext(
-                            contextId: "context2",
-                            value: "update"
                         )
                     ]
                 )

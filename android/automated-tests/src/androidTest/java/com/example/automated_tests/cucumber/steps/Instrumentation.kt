@@ -24,7 +24,7 @@ import cucumber.api.android.CucumberInstrumentationCore
 
 @CucumberOptions(
     features = ["features"],
-    tags = ["@regression"],
+    tags = ["@pageview"],
     glue = ["com.example.automated_tests.cucumber.steps"])
 
 class Instrumentation : MonitoringInstrumentation() {

@@ -68,8 +68,8 @@ data class SendRequest(
 
     override fun execute(rootView: RootView, origin: View) {
         val viewModel = rootView.generateViewModelInstance<ActionRequestViewModel>()
-
-        viewModel.fetch(toSendRequestInternal(rootView)).observe(rootView.getLifecycleOwner(), Observer { state ->
+        val setContext = toSendRequestInternal(rootView, origin)
+        viewModel.fetch(setContext).observe(rootView.getLifecycleOwner(), Observer { state ->
             executeActions(rootView, state, origin)
         })
     }
@@ -93,11 +93,11 @@ data class SendRequest(
         }
     }
 
-    private fun toSendRequestInternal(rootView: RootView) = SendRequestInternal(
-        url = evaluateExpression(rootView, this.url) ?: "",
-        method = evaluateExpression(rootView, this.method) ?: RequestActionMethod.GET,
-        headers = this.headers?.let { evaluateExpression(rootView, it) },
-        data = this.data?.let { evaluateExpression(rootView, it) },
+    private fun toSendRequestInternal(rootView: RootView, origin: View) = SendRequestInternal(
+        url = evaluateExpression(rootView, origin, this.url) ?: "",
+        method = evaluateExpression(rootView, origin, this.method) ?: RequestActionMethod.GET,
+        headers = this.headers?.let { evaluateExpression(rootView, origin, it) },
+        data = this.data?.let { evaluateExpression(rootView, origin, it) },
         onSuccess = this.onSuccess,
         onError = this.onError,
         onFinish = this.onFinish
