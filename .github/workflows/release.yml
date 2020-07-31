@@ -13,8 +13,8 @@ jobs:
         steps:
             - uses: actions/checkout@v2.1.0
               with:
-                  fetch-depth: '0'
-                  ref: 'master'
+                  # fetch-depth: '0'
+                  # ref: 'master'
 
             -   name: Cache fastlane dependences
                 uses: actions/cache@v2
