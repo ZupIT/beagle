@@ -142,26 +142,6 @@ platform :automated_tests do
     )
   end
 
-  desc "Run Android automated tests"
-  lane :deploy_react_website do
-    sh "./deploy_react_website.sh"
-  end
-
-  desc "Run Android automated tests"
-  lane :run_react_automation do
-    sh "./run_react_automation.sh"
-  end
-
-  desc "Run Android automated tests"
-  lane :deploy_angular_website do
-    sh "./deploy_angular_website.sh"
-  end
-
-  desc "Run Android automated tests"
-  lane :run_angular_automation do
-    sh "./run_angular_automation.sh"
-  end
-
   desc "Cleanup"
   lane :cleanup do
     sh("curl -XPOST localhost:8080/actuator/shutdown")

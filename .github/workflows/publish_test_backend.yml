@@ -9,22 +9,6 @@ jobs:
         steps:
             -   uses: actions/checkout@v2
 
-            -   name: Setup Ruby
-                uses: ruby/setup-ruby@v1
-                with: 
-                    ruby-version: 2.7
-
-            -   name: Cache fastlane dependencies
-                uses: actions/cache@v2
-                env:
-                    fastlane-cache-key: fastlane-cache-test
-                    fastlane-path: ~/.gem
-                with:
-                    path: ${{ env.fastlane-path }}
-                    key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
-            -   name: Install Fastlane
-                run: bundle config set path '~/.gem' && bundle install
-
             -   name: Cache gradle backend dependencies
                 uses: actions/cache@v2
                 env:
