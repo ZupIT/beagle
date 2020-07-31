@@ -20,12 +20,13 @@ import android.view.View
 import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.jsonpath.JsonCreateTree
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
-import br.com.zup.beagle.android.utils.*
+import br.com.zup.beagle.android.utils.Observer
 import br.com.zup.beagle.android.utils.findParentContextWithId
 import br.com.zup.beagle.android.utils.getAllParentContexts
 import br.com.zup.beagle.android.utils.getContextBinding
 import br.com.zup.beagle.android.utils.getContextId
 import br.com.zup.beagle.android.utils.getExpressions
+import br.com.zup.beagle.android.utils.setContextBinding
 import br.com.zup.beagle.android.utils.setContextData
 
 internal class ContextDataManager(
@@ -66,7 +67,7 @@ internal class ContextDataManager(
         viewBinding[view] = bindings
     }
 
-    fun discoverAllContexts() {
+    fun linkBindingToContext() {
         viewBinding.forEach { entry ->
             val parentContexts = entry.key.getAllParentContexts()
             entry.value.forEach { binding ->
@@ -90,17 +91,25 @@ internal class ContextDataManager(
         return view.findParentContextWithId(setContextInternal.contextId)?.let { parentView ->
             val currentContextBinding = parentView.getContextBinding()
             currentContextBinding?.let {
-                val path = setContextInternal.path ?: currentContextBinding.context.id
-                val setValue = setValue(parentView, currentContextBinding, path, setContextInternal.value)
-                if (setValue) {
-                    parentView.getContextBinding()?.let { newContextBinding ->
-                        contexts[parentView.id] = newContextBinding
-                        notifyBindingChanges(newContextBinding)
-                    }
-                }
-                setValue
+                setContextValue(parentView, currentContextBinding, setContextInternal)
             }
         } ?: false
+    }
+
+    private fun setContextValue(
+        contextView: View,
+        contextBinding: ContextBinding,
+        setContextInternal: SetContextInternal
+    ): Boolean {
+        val path = setContextInternal.path ?: contextBinding.context.id
+        val setValue = setValue(contextView, contextBinding, path, setContextInternal.value)
+        if (setValue) {
+            contextView.getContextBinding()?.let { newContextBinding ->
+                contexts[contextView.id] = newContextBinding
+                notifyBindingChanges(newContextBinding)
+            }
+        }
+        return setValue
     }
 
     fun evaluateContexts() {

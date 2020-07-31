@@ -147,7 +147,7 @@ class ContextDataManagerTest : BaseTest() {
 
         // When
         contextDataManager.addBinding(viewWithBind, bind, observer)
-        contextDataManager.discoverAllContexts()
+        contextDataManager.linkBindingToContext()
 
         // Then
         val contextBinding = contexts[viewContext.id]?.bindings?.first()
@@ -278,7 +278,7 @@ class ContextDataManagerTest : BaseTest() {
         val observer = mockk<Observer<Boolean?>>(relaxed = true)
         contextDataManager.addContext(viewContext, contextData)
         contextDataManager.addBinding(viewContext, bind, observer)
-        contextDataManager.discoverAllContexts()
+        contextDataManager.linkBindingToContext()
 
         // When
         contextDataManager.evaluateContexts()
@@ -296,7 +296,7 @@ class ContextDataManagerTest : BaseTest() {
         val observer = mockk<Observer<Boolean?>>(relaxed = true)
         contextDataManager.addContext(viewContext, contextData)
         contextDataManager.addBinding(viewContext, bind, observer)
-        contextDataManager.discoverAllContexts()
+        contextDataManager.linkBindingToContext()
 
         // When
         contextDataManager.evaluateContexts()
@@ -315,7 +315,7 @@ class ContextDataManagerTest : BaseTest() {
             // Then
             assertNull(it)
         }
-        contextDataManager.discoverAllContexts()
+        contextDataManager.linkBindingToContext()
 
         // When
         contextDataManager.evaluateContexts()

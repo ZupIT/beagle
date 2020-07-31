@@ -149,6 +149,6 @@ internal fun ServerDrivenComponent.toView(rootView: RootView): View {
     viewModel.resetIds()
     return viewFactory.makeBeagleFlexView(rootView.getContext()).apply {
         addServerDrivenComponent(this@toView, rootView)
-        viewModel.discoverAndEvaluateAllContexts()
+        viewModel.linkBindingToContext()
     }
 }

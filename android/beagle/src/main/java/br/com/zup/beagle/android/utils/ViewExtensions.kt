@@ -59,12 +59,12 @@ internal fun View.getParentContextData(): View? {
     var parentView: View? = this.parent as? ViewGroup
     do {
         if (parentView?.getContextData() != null) {
-            return parentView
+            break
         }
         parentView = parentView?.parent as? ViewGroup
     } while (parentView != null)
 
-    return null
+    return parentView
 }
 
 internal fun View.setContextData(context: ContextData) {
