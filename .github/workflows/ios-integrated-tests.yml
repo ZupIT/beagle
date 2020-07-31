@@ -1,0 +1,54 @@
+name: Beagle iOS Integration Tests
+
+on:
+    push:
+        paths: 'iOS/**'
+        branches:
+            - master
+   
+jobs:
+    dependencies_verification:
+        name: PR Check
+        runs-on: macos-latest
+        
+        strategy:
+            matrix:
+                destination: ['platform=iOS Simulator,OS=13.1,name=iPhone 11']
+                xcode: ['/Applications/Xcode_11.1.app/Contents/Developer']
+
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   name: Cache fastlane dependences
+                uses: actions/cache@v2
+                env:
+                    fastlane-cache-key: fastlane-cache
+                    fastlane-path: ~/.gem
+                with:
+                    path: ${{ env.fastlane-path }}
+                    key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
+         
+            -   name: Install Fastlane
+                run: bundle config set path '~/.gem' && bundle install
+
+            -   name: Cache SPM dependencies
+                uses: actions/cache@v2
+                with:
+                    path: ${{ runner.os }}-spm-${{ hashFiles('iOS/**/Package.resolved') }}
+                    key: ~/**/DerivedData
+                    
+            -   name: Dependencies
+                run: |
+                  cd iOS/Example/BeagleSample
+                  bundle exec pod install
+                env:
+                  DEVELOPER_DIR: ${{ matrix.xcode }}
+            
+            -   name: Build Application
+                run: |
+                  cd iOS/Example/BeagleSample
+                  bundle exec fastlane scan --destination "${destination}" --scheme "BeagleSample"
+                  xcodebuild build -workspace BeagleSample.xcworkspace -scheme BeagleSample -sdk iphonesimulator -destination "${destination}"
+                env:
+                  destination: ${{ matrix.destination }}
+                  DEVELOPER_DIR: ${{ matrix.xcode }}
