@@ -67,7 +67,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
                 to state: ServerDrivenState,
                 at screenController: BeagleController
             ) {
-                if case .error(let error) = state, case .remoteScreen(let remoteError) = error {
+                if case .error(let error, _) = state, case .remoteScreen(let remoteError) = error {
                     remoteScreenError = remoteError
                 }
             }

@@ -47,6 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         dependencies.validatorProvider = validator
         dependencies.analytics = AnalyticsMock()
         dependencies.isLoggingEnabled = true
+        dependencies.navigationControllerType = CustomBeagleNavigationController.self
         
         Beagle.dependencies = dependencies
         
