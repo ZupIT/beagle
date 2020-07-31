@@ -10,8 +10,8 @@ platform :workflow do
       puts "Exiting..."
       next
     end
-    branchName = tagName.split("/").last + "-hotfix"
-    sh("git checkout -b " + branchName)
+    branchName = tagName.split("/").last
+    sh("git checkout -b " + branchName + "-hotfix")
     push_to_git_remote(
       tags: false,
       set_upstream: true
@@ -100,14 +100,12 @@ desc "Publish new release based on last two tags"
 lane :deploy do
   pattern = "*"
   if ENV["TAG_NAME"].index("-") # Hotfix
-    puts "eh hotfix"
     tagName = ENV["TAG_NAME"].split("/").last
     platformHotfix = tagName.split("-").last
     pattern = "*-#{platformHotfix}"
     sh "git checkout #{tagName}"
   end
   sh "git branch"
-  # git_pull
   ENV["VERSION_DEPLOY"] = last_git_tag(pattern: pattern)
   puts platformHotfix
   if platformHotfix == "ios"
@@ -135,10 +133,13 @@ lane :deploy do
   sh "bash ./discord_message.sh"
 end
 
-lane :push do
+lane :push do |version|
   sh "git add ."
   sh "git commit -m \"asd\""
   sh "git push"
+  sh "git checkout -b 1.#{version[:version]}-ios"
+  sh "git push --set-upstream origin 1.#{version[:version]}-ios"
+  sh "git checkout secondStepFix"
 end
 
 lane :run_danger do |options|
