@@ -85,7 +85,7 @@ internal data class PageViewTwo(
 
     private fun observerCurrentPage(viewPager: BeaglePageView, rootView: RootView){
         currentPage?.let {
-            observeBindChanges(rootView = rootView, bind = it){position ->
+            observeBindChanges(rootView = rootView, view = viewPager,  bind = it){position ->
                 position?.let{
                     viewPager.swapToPage(position)
                 }

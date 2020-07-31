@@ -22,20 +22,6 @@ import br.com.zup.beagle.core.BindAttribute
 sealed class Bind<T> : BindAttribute<T> {
     abstract val type: Class<T>
 
-    @Transient
-    private var onChange: ((value: T?) -> Unit)? = null
-    @Transient
-    internal val evaluatedExpressions = mutableMapOf<String, Any>()
-
-    internal fun observes(onChange: (value: T?) -> Unit) {
-        this.onChange = onChange
-    }
-
-    internal fun notifyChange(value: Any?) {
-        val newValue = value as T?
-        this.onChange?.invoke(newValue)
-    }
-
     class Expression<T>(
         override val value: String,
         override val type: Class<T>
