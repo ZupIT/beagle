@@ -83,7 +83,6 @@ data class WebView(
             request: WebResourceRequest?,
             error: WebResourceError?
         ) {
-            super.onReceivedError(view, request, error)
             val throwable = Error("$error")
             notify(state = ServerDrivenState.WebViewError(throwable){ view?.reload() })
         }

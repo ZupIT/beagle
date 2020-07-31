@@ -29,7 +29,7 @@ extension SendRequest: Action {
         let requestData = Request.RequestData(
             method: method?.rawValue,
             headers: headers,
-            body: data?.get(with: view).asAny()
+            body: data?.evaluate(with: view).asAny()
         )
         let request = Request(url: url, type: .rawRequest(requestData), additionalData: nil)
         controller.dependencies.networkClient.executeRequest(request) { result in

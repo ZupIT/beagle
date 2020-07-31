@@ -40,40 +40,6 @@ final class TabViewTests: XCTestCase {
         XCTAssert(component.children.count > 0)
         XCTAssert(component.children[safe: 0]?.child is Container)
     }
-    
-    func test_toView_shouldReturnTheExpectedView() {
-        // Given
-        let component = TabView(children: [
-             TabItem(title: "Tab 1", child:
-                 Container(children: [
-                     Text("Blaaslkdjfaskldjfalskdjfasldjfasldfj"),
-                     Text("Blaaslkdjfaskldjfalskdjfasldjfasldfj")
-                 ])
-                .applyFlex(Flex(alignContent: .center))
-             ),
-             TabItem(title: "Tab 2", child:
-                 Container(children: [
-                     Text("Text1 Tab 2"),
-                     Text("Text2 Tab 2")
-                 ])
-                 .applyFlex(Flex(justifyContent: .flexEnd))
-             )
-        ])
-        let controller = BeagleControllerStub()
-        let renderer = BeagleRenderer(controller: controller)
-        
-        // When
-        let resultingView = renderer.render(component)
-        guard let tabViewUIComponent = resultingView as? TabViewUIComponent else {
-            XCTFail("Expected `TabViewUIComponent`, but got \(String(describing: resultingView)).")
-            return
-        }
-        
-        let model = Mirror(reflecting: tabViewUIComponent).firstChild(of: TabViewUIComponent.Model.self)
-        
-        // Then
-        XCTAssert(component.children == model?.tabViewItems)
-    }
 
     private func tabItem(index: Int, flex: Flex) -> TabItem {
         return TabItem(title: "Tab \(index)", child:

@@ -19,4 +19,5 @@ package br.com.zup.beagle.widget.utils
 object BeagleConstants {
     const val DEPRECATED_PAGE_VIEW =
         "This constructor will be removed in a future version, use the constructor with Bind"
+    const val DEPRECATED_TAB_VIEW ="This component will be removed in a future version, use TabBar instead."
 }
