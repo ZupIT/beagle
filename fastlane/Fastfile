@@ -107,7 +107,7 @@ lane :deploy do
 
   # }
   # git_pull
-  ENV["VERSION_DEPLOY"] = last_git_tag("#{platformHotfix}")
+  ENV["VERSION_DEPLOY"] = last_git_tag(key: "#{platformHotfix}")
   puts ENV["VERSION_DEPLOY"]
   # sh "fastlane common remote_publish"
   # sh "fastlane ios release"
