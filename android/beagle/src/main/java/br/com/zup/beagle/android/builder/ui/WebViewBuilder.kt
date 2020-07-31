@@ -14,10 +14,23 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.context
+package br.com.zup.beagle.android.builder.ui
 
-import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.android.components.WebView
+import br.com.zup.beagle.android.context.Bind
+import br.com.zup.beagle.builder.BeagleBuilder
+import kotlin.properties.Delegates
 
-fun <T : Any> valueOf(block: () -> T) = Bind.Value(block.invoke())
-fun <T : Any> valueOfNullable(block: () -> T?) = block.invoke()?.let { Bind.Value(it) }
-fun <T> expressionOf(block: () -> String) = Bind.Expression<T>(block.invoke())
+fun webView(block: WebViewBuilder.() -> Unit) = WebViewBuilder().apply(block).build()
+
+class WebViewBuilder: BeagleBuilder<WebView> {
+    var url: Bind<String> by Delegates.notNull()
+
+    fun url(url: Bind<String>) = this.apply { this.url = url }
+
+    fun url(block: () -> Bind<String>) {
+        url(block.invoke())
+    }
+
+    override fun build() = WebView(url)
+}
