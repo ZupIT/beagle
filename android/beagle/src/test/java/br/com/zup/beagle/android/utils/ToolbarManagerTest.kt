@@ -36,10 +36,16 @@ import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.BeagleActivity
-import br.com.zup.beagle.android.widget.RootView
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.just
+import io.mockk.mockkStatic
+import io.mockk.slot
+import io.mockk.spyk
+import io.mockk.unmockkAll
+import io.mockk.verify
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -51,9 +57,6 @@ class ToolbarManagerTest : BaseTest() {
 
     @MockK(relaxed = true)
     private lateinit var navigationBar: NavigationBar
-
-    @MockK
-    private lateinit var rootView: RootView
 
     @RelaxedMockK
     private lateinit var context: BeagleActivity
@@ -86,7 +89,6 @@ class ToolbarManagerTest : BaseTest() {
     private lateinit var resources: Resources
 
     private lateinit var toolbarManager: ToolbarManager
-
 
     private val style = RandomData.string()
     private val styleInt = RandomData.int()
@@ -160,7 +162,6 @@ class ToolbarManagerTest : BaseTest() {
         verify(exactly = 1) { toolbarManagerSpy["getDrawableFromAttribute"](context, homeAsUpIndicatorAttr) }
     }
 
-    //TODO: verificar esse método
     @Test
     fun configure_toolbar_style_when_toolbar_is_not_null() {
         // Given

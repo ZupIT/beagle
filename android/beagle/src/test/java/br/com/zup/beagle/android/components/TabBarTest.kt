@@ -146,7 +146,12 @@ class TabBarTest : BaseComponentTest() {
         //GIVEN
         val currentTabSlot = slot<Observer<Int?>>()
         every {
-            tabBar.observeBindChanges(rootView = rootView, bind = currentTab, observes = capture(currentTabSlot))
+            tabBar.observeBindChanges(
+                rootView = rootView,
+                view = tabLayout,
+                bind = currentTab,
+                observes = capture(currentTabSlot)
+            )
         } just Runs
         //WHEN
         tabBar.buildView(rootView)
@@ -179,7 +184,12 @@ class TabBarTest : BaseComponentTest() {
         //GIVEN
         val currentTabSlot = slot<Observer<Int?>>()
         every {
-            tabBar.observeBindChanges(rootView = rootView, bind = currentTab, observes = capture(currentTabSlot))
+            tabBar.observeBindChanges(
+                rootView = rootView,
+                view = tabLayout,
+                bind = currentTab,
+                observes = capture(currentTabSlot)
+            )
         } just Runs
         //WHEN
         tabBar.buildView(rootView)

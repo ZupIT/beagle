@@ -18,20 +18,16 @@ package br.com.zup.beagle.android.components
 
 import android.view.View
 import br.com.zup.beagle.android.BaseTest
-import br.com.zup.beagle.android.components.utils.beagleComponent
 import br.com.zup.beagle.android.engine.renderer.ViewRenderer
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
-import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkConstructor
-import io.mockk.unmockkAll
-import org.mockito.ArgumentMatchers.anyInt
 
 abstract class BaseComponentTest : BaseTest() {
 
@@ -39,9 +35,7 @@ abstract class BaseComponentTest : BaseTest() {
 
     internal val beagleFlexView: BeagleFlexView = mockk(relaxed = true)
 
-    val rootView: RootView = mockk(relaxed = true)
-
-    val view: View = mockk(relaxed = true)
+    protected val view = mockk<View>()
 
     override fun setUp() {
         super.setUp()
@@ -53,5 +47,6 @@ abstract class BaseComponentTest : BaseTest() {
         every { anyConstructed<ViewFactory>().makeBeagleFlexView(any()) } returns beagleFlexView
         every { anyConstructed<ViewFactory>().makeBeagleFlexView(any(), any()) } returns beagleFlexView
         every { viewRender.build(any()) } returns view
+        every { view.setTag(any(), any()) } just Runs
     }
 }

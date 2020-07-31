@@ -85,11 +85,7 @@ private extension NetworkError {
 }
 
 private func _makeDynamicObject(with data: Data) -> DynamicObject {
-    var dynamicObject: DynamicObject = nil
-    if  let jsonObject = (try? JSONSerialization.jsonObject(with: data, options: [.fragmentsAllowed])) as? [String: Any] {
-        dynamicObject = DynamicObject(from: jsonObject)
-    } else if let stringObject = String(bytes: data, encoding: .utf8) {
-        dynamicObject = .string(stringObject)
-    }
-    return dynamicObject
+    let decoder = JSONDecoder()
+    let result = try? decoder.decode(DynamicObject.self, from: data)
+    return result ?? .empty
 }
