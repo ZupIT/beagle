@@ -22,7 +22,7 @@ extension WebView: ServerDrivenComponent {
     public func toView(renderer: BeagleRenderer) -> UIView {
         let view = WebViewUIComponent(model: WebViewUIComponent.Model(url: ""))
         renderer.observe(url, andUpdate: \.model, in: view) {
-            WebViewUIComponent.Model(url: $0)
+            WebViewUIComponent.Model(url: $0 ?? "")
         }
         return view
     }
