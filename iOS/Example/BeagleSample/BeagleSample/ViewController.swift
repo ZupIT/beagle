@@ -37,7 +37,7 @@ struct MainScreen {
                         style: Style()
                             .flex(Flex().alignSelf(.center)))),
                 Button(text: "Go to next Page", onPress: [
-                    Navigate.pushView(Route.remote("https://run.mocky.io/v3/bcb3b03e-8e96-4554-aa71-7c2cf8bbc875", shouldPrefetch: false))
+                    Navigate.pushView(.remote(.init(url: "https://run.mocky.io/v3/bcb3b03e-8e96-4554-aa71-7c2cf8bbc875")))
                 ], widgetProperties: .init(
                     style: Style()
                         .backgroundColor("#2B2D2A")
