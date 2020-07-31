@@ -26,7 +26,6 @@ import kotlin.properties.Delegates
 
 fun sendRequest(block: SendRequestBuilder.() -> Unit) = SendRequestBuilder().apply(block).build()
 
-@Suppress("TooManyFunctions")
 class SendRequestBuilder: BeagleBuilder<SendRequest> {
     var url: Bind<String> by Delegates.notNull()
     var method: Bind<RequestActionMethod> = Bind.Value(RequestActionMethod.GET)

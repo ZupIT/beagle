@@ -31,7 +31,6 @@ import br.com.zup.beagle.widget.core.Size
 fun style(block: StyleBuilder.() -> Unit) = StyleBuilder()
     .apply(block).build()
 
-@Suppress("TooManyFunctions")
 class StyleBuilder: BeagleBuilder<Style> {
     var backgroundColor: String? = null
     var cornerRadius: CornerRadius? = null

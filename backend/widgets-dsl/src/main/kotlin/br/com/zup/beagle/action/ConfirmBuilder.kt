@@ -24,7 +24,6 @@ import kotlin.properties.Delegates
 
 fun confirm(block: ConfirmBuilder.() -> Unit): Confirm = ConfirmBuilder().apply(block).build()
 
-@Suppress("TooManyFunctions")
 class ConfirmBuilder : BeagleBuilder<Confirm> {
     var title: Bind<String>? = null
     var message: Bind<String> by Delegates.notNull()

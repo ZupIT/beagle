@@ -113,7 +113,6 @@ class NavigationBarItemBuilder : BeagleBuilder<NavigationBarItem> {
 
 fun navigationBar(block: NavigationBarBuilder.() -> Unit) = NavigationBarBuilder().apply(block).build()
 
-@Suppress("TooManyFunctions")
 class NavigationBarBuilder : BeagleBuilder<NavigationBar> {
     var title: String by Delegates.notNull()
     var showBackButton: Boolean = true
@@ -160,7 +159,6 @@ class NavigationBarBuilder : BeagleBuilder<NavigationBar> {
 
 fun screen(block: ScreenWidgetBuilder.() -> Unit) = ScreenWidgetBuilder().apply(block).build()
 
-@Suppress("TooManyFunctions")
 class ScreenWidgetBuilder: BeagleBuilder<Screen> {
     var identifier: String? = null
     var safeArea: SafeArea? = null

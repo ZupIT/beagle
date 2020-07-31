@@ -86,7 +86,6 @@ class RouteLocalBuilder: BeagleBuilder<Route.Local> {
 
 fun navigate(block: NavigateBuilder.() -> Unit) = NavigateBuilder().apply(block).build()
 
-@Suppress("TooManyFunctions")
 class NavigateBuilder {
     var navigate: Navigate by Delegates.notNull()
 

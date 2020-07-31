@@ -25,7 +25,6 @@ import br.com.zup.beagle.widget.ui.TextInput
 
 fun textInput(block: TextInputBuilder.() -> Unit) = TextInputBuilder().apply(block).build()
 
-@Suppress("TooManyFunctions")
 class TextInputBuilder : BeagleBuilder<TextInput> {
     var value: Bind<String>? = null
     var placeholder: Bind<String>? = null

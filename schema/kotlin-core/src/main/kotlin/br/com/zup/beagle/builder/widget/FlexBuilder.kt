@@ -30,7 +30,6 @@ import br.com.zup.beagle.widget.core.UnitValue
 
 fun flex(block: FlexBuilder.() -> Unit) = FlexBuilder().apply(block).build()
 
-@Suppress("TooManyFunctions")
 class FlexBuilder : BeagleBuilder<Flex> {
     var flexDirection: FlexDirection? = null
     var flexWrap: FlexWrap? = null
@@ -110,7 +109,6 @@ class FlexBuilder : BeagleBuilder<Flex> {
 
 fun size(block: SizeBuilder.() -> Unit) = SizeBuilder().apply(block).build()
 
-@Suppress("TooManyFunctions")
 class SizeBuilder : BeagleBuilder<Size> {
     var width: UnitValue? = null
     var height: UnitValue? = null
@@ -170,7 +168,6 @@ class SizeBuilder : BeagleBuilder<Size> {
 
 fun edgeValue(block: EdgeValueBuilder.() -> Unit) = EdgeValueBuilder().apply(block).build()
 
-@Suppress("TooManyFunctions")
 class EdgeValueBuilder : BeagleBuilder<EdgeValue> {
     var left: UnitValue? = null
     var top: UnitValue? = null
