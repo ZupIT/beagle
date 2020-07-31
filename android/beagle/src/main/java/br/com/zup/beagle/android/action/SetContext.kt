@@ -40,16 +40,16 @@ data class SetContext(
     override fun execute(rootView: RootView, origin: View) {
         val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
         try {
-            val value = toInternalSetContext(rootView)
-            viewModel.updateContext(value)
+            val value = toInternalSetContext(rootView, origin)
+            viewModel.updateContext(origin, value)
         } catch (ex: Exception) {
             BeagleLoggerProxy.warning(ex.message ?: "")
         }
     }
 
-    private fun toInternalSetContext(rootView: RootView) = SetContextInternal(
+    private fun toInternalSetContext(rootView: RootView, origin: View) = SetContextInternal(
         contextId = this.contextId,
-        value = evaluateExpression(rootView, this.value) ?:
+        value = evaluateExpression(rootView, origin, this.value) ?:
             throw IllegalStateException("SetContext with id=${this.contextId} evaluated to null"),
         path = this.path
     )

@@ -50,7 +50,7 @@ data class WebView(
         val webView = viewFactory.makeWebView(rootView.getContext())
         webView.webViewClient = BeagleWebViewClient(webView.context)
         webView.settings.javaScriptEnabled = true
-        observeBindChanges(rootView, url) {
+        observeBindChanges(rootView, webView, url) {
             it?.let{ webView.loadUrl(it) }
         }
         return webView
@@ -83,7 +83,6 @@ data class WebView(
             request: WebResourceRequest?,
             error: WebResourceError?
         ) {
-            super.onReceivedError(view, request, error)
             val throwable = Error("$error")
             notify(state = ServerDrivenState.WebViewError(throwable){ view?.reload() })
         }

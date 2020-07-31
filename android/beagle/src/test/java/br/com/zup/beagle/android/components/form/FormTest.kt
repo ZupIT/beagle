@@ -422,4 +422,23 @@ class FormTest : BaseComponentTest() {
         // Then
         assertEquals(ADDIONAL_DATA_VALUE, formsValuesSlot.captured[ADDIONAL_DATA_KEY])
     }
+
+    @Test
+    fun onClick_of_formSubmit_should_trigger_action_and_call_showError_retry() {
+        // Given
+        form = form.copy(onSubmit = listOf(remoteAction))
+        val slotFormError = slot<ServerDrivenState>()
+
+        every { beagleActivity.onServerDrivenContainerStateChanged(capture(slotFormError)) } just Runs
+        val formResult = FormResult.Error(mockk())
+
+        // When
+        executeFormSubmitOnClickListener()
+        resultListenerSlot.captured(formResult)
+        runnableSlot.captured.run()
+        (slotFormError.captured as ServerDrivenState.FormError).retry.invoke()
+
+        // Then
+        verify(exactly = 2) { form.handleEvent(any(), any(), any<Action>()) }
+    }
 }

@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.utils
 
+import android.view.View
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
@@ -27,56 +28,53 @@ typealias Observer<T> = (value: T) -> Unit
 // This method should be used if its inside a ServerDrivenComponent
 internal fun <T> Bind<T>.observe(
     rootView: RootView,
+    view: View,
     observes: Observer<T?>? = null
 ): T? {
-    return evaluateBind(rootView, this, null, observes)
+    return evaluateBind(rootView, view, this, null, observes)
 }
 
 // This method should be used if its inside a Action
 internal fun <T> Bind<T>.evaluateForAction(
     rootView: RootView,
+    origin: View,
     caller: Action
 ): T? {
-    return evaluateBind(rootView, this, caller, null)
+    return evaluateBind(rootView, origin, this, caller, null)
 }
 
 private fun <T> evaluateBind(
     rootView: RootView,
+    view: View,
     bind: Bind<T>,
-    caller: Action? = null,
+    caller: Action?,
     observes: Observer<T?>?
 ): T? {
-    val value = try {
+    return try {
         when (bind) {
-            is Bind.Expression -> evaluateExpression(rootView, bind, caller)
+            is Bind.Expression -> evaluateExpression(rootView, view, bind, observes, caller)
             else -> bind.value as? T?
         }
     } catch (ex: Exception) {
         BeagleMessageLogs.errorWhileTryingToEvaluateBinding(ex)
         null
     }
-
-    if (observes != null) {
-        bind.observes(observes)
-    }
-
-    if (value != null) {
-        bind.notifyChange(value)
-    }
-
-    return value
 }
 
 private fun <T> evaluateExpression(
     rootView: RootView,
+    view: View,
     bind: Bind.Expression<T>,
+    observes: Observer<T?>? = null,
     caller: Action? = null
 ): T? {
     val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
     return if (caller != null) {
-        viewModel.evaluateExpressionForImplicitContext(caller, bind) as? T?
+        viewModel.evaluateExpressionForImplicitContext(view, caller, bind) as? T?
     } else {
-        viewModel.addBindingToContext(bind)
+        observes?.let {
+            viewModel.addBindingToContext(view, bind, it)
+        }
         null
     }
 }

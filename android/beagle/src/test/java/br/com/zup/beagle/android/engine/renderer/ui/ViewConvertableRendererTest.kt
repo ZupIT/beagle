@@ -21,7 +21,6 @@ import android.content.Context
 import android.view.View
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.engine.renderer.ViewConvertableRenderer
-import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -39,9 +38,6 @@ class ViewConvertableRendererTest : BaseTest() {
 
     @RelaxedMockK
     private lateinit var view: View
-
-    @MockK
-    private lateinit var rootView: RootView
 
     private lateinit var viewConvertableRenderer: ViewConvertableRenderer
 
