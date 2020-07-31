@@ -69,7 +69,7 @@ class WidgetExtensionsKtTest : BaseTest() {
             assertEquals(expected, evaluated)
         }
 
-        viewModel.linkBindingToContext()
+        viewModel.linkBindingToContextAndEvaluateThem()
     }
 
     @Test
@@ -90,7 +90,7 @@ class WidgetExtensionsKtTest : BaseTest() {
         verifySequence {
             viewModelMock.resetIds()
             beagleFlexView.addServerDrivenComponent(component, rootView)
-            viewModelMock.linkBindingToContext()
+            viewModelMock.linkBindingToContextAndEvaluateThem()
         }
         assertEquals(beagleFlexView, actual)
     }
