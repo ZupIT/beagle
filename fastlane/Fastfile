@@ -100,7 +100,7 @@ desc "Publish new release based on last two tags"
 lane :deploy do
   puts "aquiii!!!"
   tagFullName = ENV["TAG_NAME"]
-  puts tagName
+  puts tagFullName
   tagName = tagName.split("/").last
   puts tagName.split("-").last
   # if TAG_NAME.index("-") {
