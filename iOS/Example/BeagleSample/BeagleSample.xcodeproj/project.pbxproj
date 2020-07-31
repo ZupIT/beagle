@@ -8,9 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8D5C0375E38BC7E386E0E2D0 /* Pods_BeagleSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C83EBCB76F12E05DB743D5F9 /* Pods_BeagleSample.framework */; };
-		98019D0B24D36FBF00BD02A3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98019D0A24D36FBF00BD02A3 /* SceneDelegate.swift */; };
 		98019D0D24D36FBF00BD02A3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98019D0C24D36FBF00BD02A3 /* ViewController.swift */; };
-		98019D1024D36FBF00BD02A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98019D0E24D36FBF00BD02A3 /* Main.storyboard */; };
 		98019D1224D36FC200BD02A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98019D1124D36FC200BD02A3 /* Assets.xcassets */; };
 		98019D1524D36FC200BD02A3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98019D1324D36FC200BD02A3 /* LaunchScreen.storyboard */; };
 		98019D2024D36FC300BD02A3 /* BeagleSampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98019D1F24D36FC300BD02A3 /* BeagleSampleTests.swift */; };
@@ -32,9 +30,7 @@
 		1FB46E94554F43D2E550B082 /* Pods_BeagleSampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BeagleSampleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		23CC4A4E8C95629C2349A744 /* Pods-BeagleSampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BeagleSampleTests.debug.xcconfig"; path = "Target Support Files/Pods-BeagleSampleTests/Pods-BeagleSampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		98019D0524D36FBF00BD02A3 /* BeagleSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeagleSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		98019D0A24D36FBF00BD02A3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		98019D0C24D36FBF00BD02A3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		98019D0F24D36FBF00BD02A3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		98019D1124D36FC200BD02A3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		98019D1424D36FC200BD02A3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		98019D1624D36FC200BD02A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -111,10 +107,8 @@
 		98019D0724D36FBF00BD02A3 /* BeagleSample */ = {
 			isa = PBXGroup;
 			children = (
-				98019D0A24D36FBF00BD02A3 /* SceneDelegate.swift */,
 				98019D2A24D371E600BD02A3 /* AppDelegate.swift */,
 				98019D0C24D36FBF00BD02A3 /* ViewController.swift */,
-				98019D0E24D36FBF00BD02A3 /* Main.storyboard */,
 				98019D1124D36FC200BD02A3 /* Assets.xcassets */,
 				98019D1324D36FC200BD02A3 /* LaunchScreen.storyboard */,
 				98019D1624D36FC200BD02A3 /* Info.plist */,
@@ -216,7 +210,6 @@
 			files = (
 				98019D1524D36FC200BD02A3 /* LaunchScreen.storyboard in Resources */,
 				98019D1224D36FC200BD02A3 /* Assets.xcassets in Resources */,
-				98019D1024D36FBF00BD02A3 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,7 +293,6 @@
 			files = (
 				98019D2B24D371E600BD02A3 /* AppDelegate.swift in Sources */,
 				98019D0D24D36FBF00BD02A3 /* ViewController.swift in Sources */,
-				98019D0B24D36FBF00BD02A3 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,14 +315,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		98019D0E24D36FBF00BD02A3 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				98019D0F24D36FBF00BD02A3 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		98019D1324D36FC200BD02A3 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

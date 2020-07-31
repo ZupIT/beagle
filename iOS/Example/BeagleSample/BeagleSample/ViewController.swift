@@ -34,7 +34,18 @@ struct MainScreen {
             children: [
                 Text("Beagle Integration Tests",
                      widgetProperties: .init(
-                        style: Style().flex(Flex().alignSelf(.center))))
+                        style: Style()
+                            .flex(Flex().alignSelf(.center)))),
+                Button(text: "Go to next Page", onPress: [
+                    Navigate.pushView(Route.remote("https://run.mocky.io/v3/bcb3b03e-8e96-4554-aa71-7c2cf8bbc875", shouldPrefetch: false))
+                ], widgetProperties: .init(
+                    style: Style()
+                        .backgroundColor("#2B2D2A")
+                        .cornerRadius(CornerRadius(radius: 10))
+                        .margin(.init(top: 15))
+                        .size(Size().height(50).width(200))
+                        .flex(Flex().alignSelf(.center)))
+                )
             ], widgetProperties: .init(
                 style: Style().flex(Flex().justifyContent(.center).grow(1)))
         )
@@ -46,6 +57,3 @@ struct MainScreen {
         )
     }
 }
-
-
-
