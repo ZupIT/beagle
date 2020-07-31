@@ -102,12 +102,12 @@ lane :deploy do
   tagFullName = ENV["TAG_NAME"]
   puts tagFullName
   tagName = tagFullName.split("/").last
-  puts tagName.split("-").last
+  platformHotfix = tagName.split("-").last
   # if TAG_NAME.index("-") {
 
   # }
   # git_pull
-  ENV["VERSION_DEPLOY"] = last_git_tag(tagName.split("-").last)
+  ENV["VERSION_DEPLOY"] = last_git_tag("#{platformHotfix}")
   puts ENV["VERSION_DEPLOY"]
   # sh "fastlane common remote_publish"
   # sh "fastlane ios release"
