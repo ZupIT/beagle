@@ -18,7 +18,7 @@
 public enum Navigate: RawAction {
     /// Opens up an available browser on the device and navigates to a passed URL as String.
     case openExternalURL(String)
-    /// Opens up a route to execute an action declared on defined deeplink in the application.
+    /// Opens a screen that is defined all locally in your app (does not depend on Beagle) which will be retrieved using `DeeplinkScreenManager`.
     case openNativeRoute(OpenNativeRoute)
 
     /// Resets the entire application to create a new flow with the passed route.
