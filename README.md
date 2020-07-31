@@ -24,11 +24,9 @@
 </p>
 
 <h3 align="center">
-  <a href="https://docs.usebeagle.io/get-started/installing-beagle">Getting Started</a>
+  <a href="https://docs.usebeagle.io">Getting Started</a>
   <span> · </span>
-  <a href="https://docs.usebeagle.io/get-started/usando-beagle">Learn the Basics</a>
-  <span> · </span>
-  <a href="https://docs.usebeagle.io/get-started/use-cases">Showcase</a>
+  <a href="https://docs.usebeagle.io/get-started/using-beagle">Learn the Basics</a>
   <span> · </span>
   <a href="https://github.com/ZupIT/beagle/blob/master/CONTRIBUTING.md">Contribute</a>
 </h3>
@@ -44,7 +42,6 @@ It is also possible to create, test and update native application components and
 - [Requirements](#-requirements)
 - [Building your first app using Beagle](#-building-your-first-app-using-beagle)
 - [Documentation](#-documentation)
-- [Upgrading](#-upgrading)
 - [How to Contribute](#-how-to-contribute)
 - [Code of Conduct](#code-of-conduct)
 - [License](#-license)
@@ -55,25 +52,22 @@ Beagle apps may target iOS 10.0 and Android 4.4 (API 19) or newer. You may use W
 
 ## 🎉 Building your first app using Beagle
 
-Follow the [Getting Started guide](https://docs.usebeagle.io/get-started/installing-beagle). The recommended way to install Beagle depends on your project. Here you can find short guides for the most common scenarios:
+Follow the [Getting Started guide](https://docs.usebeagle.io/primeiros-passos/instalando-beagle). The recommended way to install Beagle depends on your project. Here you can find short guides for the most common scenarios:
 
 - [Creating a New Application][new-app]
 - [Adding Beagle to an Existing Application][existing]
 
-[new-app]: https://docs.usebeagle.io/get-started/usando-beagle
-[existing]: https://docs.usebeagle.io/get-started/usando-beagle
+[new-app]: https://docs.usebeagle.io/get-started/new-project
+[existing]: https://docs.usebeagle.io/get-started/using-beagle
 
 ## 📖 Documentation
 
-The full documentation for Beagle can be found on our [website][docs].
+The full documentation for Beagle can be found on our [website][site].
 
 The Beagle documentation discusses components, APIs, and topics that are specific to Beagle. [Beagle documentation][b-docs].
 
-The source for the Beagle documentation and website is hosted on a separate repo, [**@beagle site**][repo-website].
-
-[docs]: https://docs.usebeagle.io/
-[b-docs]: https://docs.usebeagle.io/get-started/installing-beagle
-[repo-website]: https://usebeagle.io/
+[site]: https://usebeagle.io/
+[b-docs]: https://docs.usebeagle.io/
 
 
 ## 👏 How to Contribute

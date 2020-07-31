@@ -16,109 +16,100 @@
 
 package br.com.zup.beagle.android.context
 
-import androidx.collection.LruCache
+import android.view.View
 import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.jsonpath.JsonCreateTree
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import br.com.zup.beagle.android.utils.Observer
+import br.com.zup.beagle.android.utils.findParentContextWithId
+import br.com.zup.beagle.android.utils.getAllParentContexts
+import br.com.zup.beagle.android.utils.getContextBinding
 import br.com.zup.beagle.android.utils.getContextId
 import br.com.zup.beagle.android.utils.getExpressions
-
-internal data class ContextBinding(
-    val context: ContextData,
-    val bindings: MutableSet<Bind.Expression<*>> = mutableSetOf(),
-    val cache: LruCache<String, Any?> = LruCache(Integer.MAX_VALUE)
-) {
-    fun evaluateBindExpression(binding: Bind.Expression<*>): Any? {
-        val expression = binding.value
-        if (cache[expression] == null) {
-            val value = ContextDataEvaluation().evaluateBindExpression(context, binding)
-            if (value != null) {
-                cache.put(expression, value)
-            }
-        }
-        return cache.get(expression)
-    }
-}
+import br.com.zup.beagle.android.utils.setContextBinding
+import br.com.zup.beagle.android.utils.setContextData
 
 internal class ContextDataManager(
     private val jsonCreateTree: JsonCreateTree = JsonCreateTree(),
     private val contextDataTreeHelper: ContextDataTreeHelper = ContextDataTreeHelper(),
-    private val contextPathResolver: ContextPathResolver = ContextPathResolver()
+    private val contextPathResolver: ContextPathResolver = ContextPathResolver(),
+    private val contextDataEvaluation: ContextDataEvaluation = ContextDataEvaluation()
 ) {
-    private val contexts: MutableMap<String, ContextBinding> = mutableMapOf()
-    private val globalContextObserver: GlobalContextObserver = {
-        updateContext(SetContextInternal(it.contextId, it.value, it.path), false)
-    }
 
-    init {
-        addAnyContext(GlobalContext.getContext())
-        GlobalContext.observeGlobalContextChange(globalContextObserver)
-    }
+    private val contexts = mutableMapOf<Int, ContextBinding>()
+    private val viewBinding = mutableMapOf<View, MutableSet<Binding<*>>>()
 
     fun clearContexts() {
         contexts.clear()
-        GlobalContext.clearObserverGlobalContext(globalContextObserver)
+        viewBinding.clear()
     }
 
-    fun addContext(contextData: ContextData) {
-        if (contextData.id == GlobalContext.getContext().id) {
-            //TODO Mensagem de erro
-        } else addAnyContext(contextData)
-    }
+    fun addContext(view: View, context: ContextData) {
+        val existingContext = contexts[view.id]
 
-    private fun updateGlobalContext(setContextData: SetContextInternal) {
-        if (setContextData.contextId == GlobalContext.getContext().id) {
-            contexts[GlobalContext.getContext().id]?.let {
-                GlobalContext.updateContext(it.context, globalContextObserver)
+        if (existingContext != null) {
+            view.setContextBinding(existingContext)
+            existingContext.bindings.clear()
+        } else {
+            view.setContextData(context)
+            view.getContextBinding()?.let {
+                contexts[view.id] = it
             }
         }
     }
 
-    private fun addAnyContext(contextData: ContextData) {
-        if (contexts[contextData.id] == null) {
-            contexts[contextData.id] = ContextBinding(
-                bindings = mutableSetOf(),
-                context = contextData.normalize()
-            )
-        } else {
-            contexts[contextData.id]?.bindings?.clear()
-        }
+    fun <T> addBinding(view: View, bind: Bind.Expression<T>, observer: Observer<T?>) {
+        val bindings: MutableSet<Binding<*>> = viewBinding[view] ?: mutableSetOf()
+        bindings.add(Binding(
+            observer = observer,
+            bind = bind
+        ))
+        viewBinding[view] = bindings
     }
 
-    fun getContextsFromBind(binding: Bind.Expression<*>): List<ContextData> {
-        val contextIds = binding.value.getExpressions().map { it.getContextId() }
-        return contexts.filterKeys { contextIds.contains(it) }.map { it.value.context }
-    }
-
-    fun addBindingToContext(binding: Bind.Expression<*>) {
-        binding.value.getExpressions().forEach { expression ->
-            val contextId = expression.getContextId()
-            contexts[contextId]?.bindings?.add(binding)
-        }
-    }
-
-    fun updateContext(setContextInternal: SetContextInternal): Boolean {
-        return updateContext(setContextInternal, true)
-    }
-
-    private fun updateContext(setContextInternal: SetContextInternal, shouldUpdateGlobalContext: Boolean): Boolean {
-        clearContextCache(setContextInternal.contextId)
-        return contexts[setContextInternal.contextId]?.let { contextBinding ->
-            val path = setContextInternal.path ?: contextBinding.context.id
-            val setValue = setValue(contextBinding, path, setContextInternal.value)
-            if (setValue) {
-                evaluateContext(setContextInternal.contextId)
-                if (shouldUpdateGlobalContext) {
-                    updateGlobalContext(setContextInternal)
+    fun linkBindingToContext() {
+        viewBinding.forEach { entry ->
+            val parentContexts = entry.key.getAllParentContexts()
+            entry.value.forEach { binding ->
+                binding.bind.value.getExpressions().forEach { expression ->
+                    val contextId = expression.getContextId()
+                    parentContexts[contextId]?.bindings?.add(binding)
                 }
             }
-            setValue
+        }
 
+        viewBinding.clear()
+    }
+
+    fun getContextsFromBind(originView: View, binding: Bind.Expression<*>): List<ContextData> {
+        val parentContexts = originView.getAllParentContexts()
+        val contextIds = binding.value.getExpressions().map { it.getContextId() }
+        return parentContexts.filterKeys { contextIds.contains(it) }.map { it.value.context }
+    }
+
+    fun updateContext(view: View, setContextInternal: SetContextInternal): Boolean {
+        return view.findParentContextWithId(setContextInternal.contextId)?.let { parentView ->
+            val currentContextBinding = parentView.getContextBinding()
+            currentContextBinding?.let {
+                setContextValue(parentView, currentContextBinding, setContextInternal)
+            }
         } ?: false
     }
 
-    private fun clearContextCache(contextId: String) {
-        contexts[contextId]?.cache?.evictAll()
+    private fun setContextValue(
+        contextView: View,
+        contextBinding: ContextBinding,
+        setContextInternal: SetContextInternal
+    ): Boolean {
+        val path = setContextInternal.path ?: contextBinding.context.id
+        val setValue = setValue(contextView, contextBinding, path, setContextInternal.value)
+        if (setValue) {
+            contextView.getContextBinding()?.let { newContextBinding ->
+                contexts[contextView.id] = newContextBinding
+                notifyBindingChanges(newContextBinding)
+            }
+        }
+        return setValue
     }
 
     fun evaluateContexts() {
@@ -127,16 +118,25 @@ internal class ContextDataManager(
         }
     }
 
-    private fun evaluateContext(contextId: String) {
-        contexts[contextId]?.let {
-            notifyBindingChanges(it)
+    fun notifyBindingChanges(contextBinding: ContextBinding) {
+        val contextData = contextBinding.context
+        val bindings = contextBinding.bindings
+
+        bindings.forEach { binding ->
+            val value = contextDataEvaluation.evaluateBindExpression(
+                contextData,
+                contextBinding.cache,
+                binding.bind,
+                binding.evaluatedExpressions
+            )
+            binding.notifyChanges(value)
         }
     }
 
-    private fun setValue(contextBinding: ContextBinding, path: String, value: Any): Boolean {
+    private fun setValue(viewContext: View, contextBinding: ContextBinding, path: String, value: Any): Boolean {
         var context = contextBinding.context
         return if (path == context.id) {
-            contextDataTreeHelper.setNewTreeInContextData(contexts, contextBinding, value)
+            contextDataTreeHelper.setNewTreeInContextData(viewContext, contextBinding, value)
             true
         } else {
             try {
@@ -145,10 +145,10 @@ internal class ContextDataManager(
                     return false
                 }
                 context = contextDataTreeHelper.updateContextDataWithTree(
+                    viewContext,
                     contextBinding,
                     jsonCreateTree,
-                    keys,
-                    contexts
+                    keys
                 )
                 jsonCreateTree.walkingTreeAndFindKey(context.value, keys, value)
                 true
@@ -156,15 +156,6 @@ internal class ContextDataManager(
                 BeagleMessageLogs.errorWhileTryingToChangeContext(ex)
                 false
             }
-        }
-    }
-
-    private fun notifyBindingChanges(contextBinding: ContextBinding) {
-        val bindings = contextBinding.bindings
-
-        bindings.forEach { bind ->
-            val value = contextBinding.evaluateBindExpression(bind)
-            bind.notifyChange(value)
         }
     }
 }

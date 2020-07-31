@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.context
 
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
@@ -35,6 +36,7 @@ import org.junit.Test
 class ContextComponentHandlerTest {
 
     private val rootView = mockk<ActivityRootView>()
+    private val view = mockk<View>()
     private val viewModel = mockk<ScreenContextViewModel>()
 
     private lateinit var contextComponentHandler: ContextComponentHandler
@@ -61,12 +63,12 @@ class ContextComponentHandlerTest {
         val component = mockk<Container>()
         val context = mockk<ContextData>()
         every { component.context } returns context
-        every { viewModel.addContext(any()) } just Runs
+        every { viewModel.addContext(any(), any()) } just Runs
 
         // When
-        contextComponentHandler.handleContext(rootView, component)
+        contextComponentHandler.handleContext(rootView, view, component)
 
         // Then
-        verify(exactly = 1) { viewModel.addContext(context) }
+        verify(exactly = 1) { viewModel.addContext(view, context) }
     }
 }

@@ -17,16 +17,23 @@
 package br.com.zup.beagle.android.engine.renderer
 
 import android.view.View
+import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.utils.ComponentStylization
 import br.com.zup.beagle.android.context.ContextComponentHandler
+import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.widget.Widget
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verify
 import io.mockk.verifySequence
-import org.junit.Before
 import org.junit.Test
 
-private class AbstractViewRenderer(
+private open class AbstractViewRenderer(
     override val component: Widget,
     componentStylization: ComponentStylization<Widget>,
     contextComponentHandler: ContextComponentHandler
@@ -36,33 +43,61 @@ private class AbstractViewRenderer(
     }
 }
 
-class AbstractViewRendererTest {
+class AbstractViewRendererTest : BaseTest() {
 
+    private val viewModel = mockk<ScreenContextViewModel>()
     private val component = mockk<Widget>(relaxed = true)
-    private val rootView = mockk<RootView>(relaxed = true)
     private val componentStylization = mockk<ComponentStylization<Widget>>(relaxed = true)
     private val contextViewRenderer = mockk<ContextComponentHandler>(relaxed = true)
 
     private lateinit var viewRenderer: AbstractViewRenderer
 
-    @Before
-    fun setUp() {
-        viewRenderer = AbstractViewRenderer(
+    override fun setUp() {
+        super.setUp()
+
+        prepareViewModelMock(viewModel)
+
+        viewRenderer = spyk(AbstractViewRenderer(
             component,
             componentStylization,
             contextViewRenderer
-        )
+        ))
     }
 
     @Test
     fun build_should_call_contextViewRenderer_and_componentStylization() {
-        // Given When
+        // Given
+        val viewId = RandomData.int()
+        val view = mockk<View>()
+        every { viewRenderer.buildView(any()) } returns view
+        every { viewModel.generateNewViewId() } returns viewId
+        every { view.id } returns View.NO_ID
+        every { view.id = any() } just Runs
+
+        // When
         viewRenderer.build(rootView)
 
         // Then
         verifySequence {
-            contextViewRenderer.handleContext(rootView, component)
-            componentStylization.apply(any(), component)
+            componentStylization.apply(view, component)
+            view.id
+            viewModel.generateNewViewId()
+            view.id = viewId
+            contextViewRenderer.handleContext(rootView, view, component)
         }
+    }
+
+    @Test
+    fun build_should_not_generate_id_for_view() {
+        // Given
+        val view = mockk<View>()
+        every { viewRenderer.buildView(any()) } returns view
+        every { view.id } returns RandomData.int()
+
+        // When
+        viewRenderer.build(rootView)
+
+        // Then
+        verify(exactly = 0) { view.id = any() }
     }
 }

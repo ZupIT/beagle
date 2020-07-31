@@ -39,10 +39,12 @@ public class BeagleScreenViewController: BeagleController {
         return navigationController as? BeagleNavigationController
     }
     
-    private var contentController: UIViewController? {
-        willSet { removeContentController() }
-        didSet { addContentController() }
+    var content: Content? {
+        willSet { content?.remove() }
+        didSet { content?.add(to: self) }
     }
+    
+    lazy var layoutManager = LayoutManager(self)
     
     lazy var renderer = dependencies.renderer(self)
     
@@ -105,10 +107,9 @@ public class BeagleScreenViewController: BeagleController {
     }
     
     func configBindings() {
-        bindings.forEach {
-            $0()
+        while let bind = bindings.popLast() {
+            bind()
         }
-        bindings = []
     }
     
     public func execute(action: RawAction, sender: Any) {
@@ -130,7 +131,7 @@ public class BeagleScreenViewController: BeagleController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         initView()
-        createContentController()
+        createContent()
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -138,7 +139,27 @@ public class BeagleScreenViewController: BeagleController {
         updateNavigationBar(animated: animated)
     }
     
-    private func createContentController() {
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if case .view = content {
+            viewModel.trackEventOnScreenAppeared()
+        }
+    }
+    
+    public override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        if case .view = content {
+            viewModel.trackEventOnScreenDisappeared()
+        }
+    }
+    
+    public override func viewDidLayoutSubviews() {
+        configBindings()
+        layoutManager.applyLayout()
+        super.viewDidLayoutSubviews()
+    }
+    
+    private func createContent() {
         if beagleNavigation == nil {
             createNavigationContent()
             return
@@ -150,7 +171,7 @@ public class BeagleScreenViewController: BeagleController {
     private func createNavigationContent() {
         let beagleNavigation = dependencies.navigationControllerType.init()
         beagleNavigation.viewControllers = [BeagleScreenViewController(viewModel: viewModel)]
-        contentController = beagleNavigation
+        content = .navigation(beagleNavigation)
     }
     
     private func updateNavigationBar(animated: Bool) {
@@ -187,28 +208,21 @@ public class BeagleScreenViewController: BeagleController {
             renderScreenIfNeeded()
         case .failure(let error):
             renderScreenIfNeeded()
-            serverDrivenState = .error(error)
+            serverDrivenState = .error(error, viewModel.loadScreen)
         }
     }
     
     private func renderScreenIfNeeded() {
-        if contentController == nil, let screen = screen {
+        if content == nil, let screen = screen {
             updateNavigationBar(animated: true)
-            contentController = ScreenController(
-                screen: screen,
-                beagleController: self
-            )
+            content = .view(screen.toView(renderer: renderer))
         }
     }
 
     public func reloadScreen(with screenType: ScreenType) {
-        contentController = nil
+        content = nil
         viewModel.screenType = screenType
-        createContentController()
-    }
-    
-    func handleError(_ error: ServerDrivenState.Error) {
-        beagleNavigation?.serverDrivenStateDidChange(to: .error(error), at: self)
+        createContent()
     }
     
     // MARK: - View Setup
@@ -222,21 +236,6 @@ public class BeagleScreenViewController: BeagleController {
         updateView(state: viewModel.state)
     }
     
-    private func removeContentController() {
-        guard let contentController = contentController else { return }
-        contentController.willMove(toParent: nil)
-        contentController.view.removeFromSuperview()
-        contentController.removeFromParent()
-    }
-    
-    private func addContentController() {
-        guard let contentController = contentController else { return }
-        addChild(contentController)
-        view.addSubview(contentController.view)
-        contentController.view.anchorTo(superview: view)
-        contentController.didMove(toParent: self)
-    }
-    
     private func notifyBeagleNavigation(state: ServerDrivenState) {
         beagleNavigation?.serverDrivenStateDidChange(to: state, at: self)
     }
@@ -247,5 +246,39 @@ public class BeagleScreenViewController: BeagleController {
 extension BeagleScreenViewController: BeagleScreenStateObserver {
     func didChangeState(_ state: BeagleScreenViewController.ViewModel.State) {
         updateView(state: state)
+    }
+}
+
+extension BeagleScreenViewController {
+    enum Content {
+        case navigation(BeagleNavigationController)
+        case view(UIView)
+    }
+}
+
+extension BeagleScreenViewController.Content {
+    func add(to host: BeagleScreenViewController) {
+        switch self {
+        case .navigation(let controller):
+            host.addChild(controller)
+            host.view.addSubview(controller.view)
+            controller.view.anchorTo(superview: host.view)
+            controller.didMove(toParent: host)
+        case .view(let view):
+            host.view.addSubview(view)
+            view.anchorTo(superview: host.view)
+            host.view.setNeedsLayout()
+        }
+    }
+    
+    func remove() {
+        switch self {
+        case .navigation(let controller):
+            controller.willMove(toParent: nil)
+            controller.view.removeFromSuperview()
+            controller.removeFromParent()
+        case .view(let view):
+            view.removeFromSuperview()
+        }
     }
 }

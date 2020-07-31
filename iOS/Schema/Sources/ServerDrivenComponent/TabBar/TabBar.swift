@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,79 +15,54 @@
  * limitations under the License.
  */
 
-public struct TabItem: Decodable {
+public struct TabBar: RawComponent, AutoInitiableAndDecodable {
+    public let items: [TabBarItem]
+    public let styleId: String?
+    public let currentTab: Expression<Int>?
+    public let onTabSelection: [RawAction]?
 
+// sourcery:inline:auto:TabBar.Init
+    public init(
+        items: [TabBarItem],
+        styleId: String? = nil,
+        currentTab: Expression<Int>? = nil,
+        onTabSelection: [RawAction]? = nil
+    ) {
+        self.items = items
+        self.styleId = styleId
+        self.currentTab = currentTab
+        self.onTabSelection = onTabSelection
+    }
+// sourcery:end
+}
+
+public struct TabBarItem: Decodable, AutoInitiable {
     public let icon: String?
     public let title: String?
-    public let child: RawComponent
 
+// sourcery:inline:auto:TabBarItem.Init
     public init(
         icon: String? = nil,
-        title: String? = nil,
-        child: RawComponent
+        title: String? = nil
     ) {
         self.icon = icon
         self.title = title
-        self.child = child
     }
+// sourcery:end
     
-    public init(
-        icon: String? = nil,
-        title: String? = nil,
-        @ChildBuilder _ child: () -> RawComponent
-    ) {
-        self.init(icon: icon, title: title, child: child())
-    }
-
     enum CodingKeys: String, CodingKey {
         case icon
         case title
-        case child
     }
     
     enum LocalImageCodingKey: String, CodingKey {
         case mobileId
     }
-
+    
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let nestedContainer = try? container.nestedContainer(keyedBy: LocalImageCodingKey.self, forKey: .icon)
         icon = try nestedContainer?.decodeIfPresent(String.self, forKey: .mobileId)
         title = try container.decodeIfPresent(String.self, forKey: .title)
-        child = try container.decode(forKey: .child)
-    }
-}
-
-public struct TabView: RawComponent, AutoInitiable, HasContext {
-    public let children: [TabItem]
-    public let styleId: String?
-    public let context: Context?
-
-// sourcery:inline:auto:TabView.Init
-    public init(
-        children: [TabItem],
-        styleId: String? = nil,
-        context: Context? = nil
-    ) {
-        self.children = children
-        self.styleId = styleId
-        self.context = context
-    }
-// sourcery:end
-    
-    public init(
-        context: Context? = nil,
-        styleId: String? = nil,
-        @TabItemsBuilder _ children: () -> [TabItem]
-    ) {
-        self.init(children: children(), styleId: styleId, context: context)
-    }
-
-    public init(
-        context: Context? = nil,
-        styleId: String? = nil,
-        @TabItemBuilder _ children: () -> TabItem
-    ) {
-        self.init(children: [children()], styleId: styleId, context: context)
     }
 }

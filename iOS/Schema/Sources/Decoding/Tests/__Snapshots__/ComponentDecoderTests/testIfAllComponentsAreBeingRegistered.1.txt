@@ -1,4 +1,4 @@
-▿ 18 key/value pairs
+▿ 19 key/value pairs
   ▿ (2 elements)
     - key: "beagle:button"
     - value: Button
@@ -38,6 +38,9 @@
   ▿ (2 elements)
     - key: "beagle:simpleform"
     - value: SimpleForm
+  ▿ (2 elements)
+    - key: "beagle:tabbar"
+    - value: TabBar
   ▿ (2 elements)
     - key: "beagle:tabview"
     - value: TabView

@@ -29,10 +29,10 @@ extension SendRequest: Action {
         let requestData = Request.RequestData(
             method: method?.rawValue,
             headers: headers,
-            body: data?.get(with: view).asAny()
+            body: data?.evaluate(with: view).asAny()
         )
         let request = Request(url: url, type: .rawRequest(requestData), additionalData: nil)
-        controller.dependencies.networkClient.executeRequest(request, completion: { result in
+        controller.dependencies.networkClient.executeRequest(request) { result in
             
             switch result {
             case .success(let response):
@@ -61,9 +61,8 @@ extension SendRequest: Action {
                     controller.execute(actions: self.onError, with: contextObject, sender: sender)
                     controller.execute(actions: self.onFinish, with: nil, sender: sender)
                 }
-                
             }
-        })
+        }
     }
 }
 
@@ -90,11 +89,7 @@ private extension NetworkError {
 }
 
 private func _makeDynamicObject(with data: Data) -> DynamicObject {
-    var dynamicObject: DynamicObject = nil
-    if  let jsonObject = (try? JSONSerialization.jsonObject(with: data, options: [.fragmentsAllowed])) as? [String: Any] {
-        dynamicObject = DynamicObject(from: jsonObject)
-    } else if let stringObject = String(bytes: data, encoding: .utf8) {
-        dynamicObject = .string(stringObject)
-    }
-    return dynamicObject
+    let decoder = JSONDecoder()
+    let result = try? decoder.decode(DynamicObject.self, from: data)
+    return result ?? .empty
 }

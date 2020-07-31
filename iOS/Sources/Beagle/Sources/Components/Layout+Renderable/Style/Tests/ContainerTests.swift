@@ -123,8 +123,12 @@ class BeagleControllerSpy: BeagleController {
     func execute(action: RawAction, sender: Any) { }
     
     private(set) var didCalledExecute = false
+    private(set) var lastImplicitContext: Context?
     
     func execute(actions: [RawAction]?, with context: Context?, sender: Any) {
+        if let context = context {
+            lastImplicitContext = context
+        }
         didCalledExecute = true
         expectation?.fulfill()
     }

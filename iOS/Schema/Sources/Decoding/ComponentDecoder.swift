@@ -158,6 +158,7 @@ final public class ComponentDecoder: ComponentDecoding {
         registerComponent(Text.self, key: key(name: "Text", namespace: .beagle))
         registerComponent(PageView.self, key: key(name: "PageView", namespace: .beagle))
         registerComponent(TabView.self, key: key(name: "TabView", namespace: .beagle))
+        registerComponent(TabBar.self, key: key(name: "TabBar", namespace: .beagle))
         registerComponent(PageIndicator.self, key: key(name: "PageIndicator", namespace: .beagle))
         registerComponent(LazyComponent.self, key: key(name: "LazyComponent", namespace: .beagle))
         registerComponent(WebView.self, key: key(name: "WebView", namespace: .beagle))

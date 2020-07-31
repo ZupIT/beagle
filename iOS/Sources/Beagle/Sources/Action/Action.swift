@@ -25,3 +25,12 @@ extension UnknownAction: Action {
         controller.dependencies.logger.log(Log.decode(.decodingError(type: "error trying to execute unknown action")))
     }
 }
+
+extension Action {
+    public func closureToRetrySameAction(controller: BeagleController, sender: Any) -> BeagleRetry {
+        return { [weak controller] in
+            guard let controller = controller else { return }
+            self.execute(controller: controller, sender: sender)
+        }
+    }
+}

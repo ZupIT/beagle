@@ -21,22 +21,18 @@ import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
-import br.com.zup.beagle.android.widget.RootView
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class FormLocalActionTest : BaseTest() {
-
-    @RelaxedMockK
-    private lateinit var rootView: RootView
 
     @MockK
     private lateinit var formLocalActionHandler: FormLocalActionHandler
@@ -114,10 +110,6 @@ class FormLocalActionTest : BaseTest() {
         // Given
         val formLocalAction = FormLocalAction("Stub", emptyMap())
         val error = mockk<Throwable>()
-        val expectedState = listOf(
-            ServerDrivenState.Loading(false),
-            ServerDrivenState.Error(error)
-        )
 
         // When
         formLocalAction.formLocalActionHandler = formLocalActionHandler
@@ -127,6 +119,24 @@ class FormLocalActionTest : BaseTest() {
         // Then
         verify(exactly = once()) { formLocalActionHandler.handle(activity, any(), actionListener.captured) }
         verify(exactly = 2) { activity.onServerDrivenContainerStateChanged(any()) }
-        assertEquals(expectedState, activityStates)
+        assertEquals(2, activityStates.size)
+        assertEquals(ServerDrivenState.Loading(false), activityStates[0])
+        assertTrue(activityStates[1] is ServerDrivenState.FormError)
+    }
+
+    @Test
+    fun do_customAction_and_listen_onError_retry() {
+        // Given
+        val formLocalAction = FormLocalAction("Stub", emptyMap())
+        val error = mockk<Throwable>()
+
+        // When
+        formLocalAction.formLocalActionHandler = formLocalActionHandler
+        formLocalAction.execute(rootView, view)
+        actionListener.captured.onError(error)
+        (activityStates[1] as ServerDrivenState.FormError).retry.invoke()
+
+        // Then
+        verify(exactly = 2) { formLocalActionHandler.handle(activity, any(), any()) }
     }
 }

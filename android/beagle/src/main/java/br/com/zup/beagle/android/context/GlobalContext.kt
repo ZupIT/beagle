@@ -53,18 +53,18 @@ object GlobalContext {
             newPath = ".$path"
         }
         return contextDataEvaluation.evaluateBindExpression(
-            globalContext,
+            listOf(globalContext),
             expressionOf<Any>("@{global$newPath}")
         )
     }
 
     fun set(path: String? = null, value: Any) {
-        contextDataManager.updateContext(SetContextInternal(contextId = "global", value = value, path = path))
+//        contextDataManager.updateContext(SetContextInternal(contextId = "global", value = value, path = path))
         globalContextObservers.notifyContextChange(path, value)
     }
 
     fun clear(path: String? = null) {
-        contextDataManager.updateContext(SetContextInternal(contextId = "global", path = path, value = ""))
+//        contextDataManager.updateContext(SetContextInternal(contextId = "global", path = path, value = ""))
         globalContextObservers.notifyContextChange(path, "")
     }
 

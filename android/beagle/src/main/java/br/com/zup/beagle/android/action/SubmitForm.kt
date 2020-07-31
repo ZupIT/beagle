@@ -20,6 +20,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
 import br.com.zup.beagle.android.components.form.SimpleForm
+import br.com.zup.beagle.android.components.utils.beagleComponent
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.widget.RootView
@@ -31,7 +32,7 @@ class SubmitForm : Action {
         var foundSimpleForm = false
 
         while (!foundSimpleForm && currentView != null) {
-            if (currentView is ViewGroup && currentView.tag is SimpleForm) {
+            if (currentView is ViewGroup && currentView.beagleComponent is SimpleForm) {
                 foundSimpleForm = true
             } else {
                 currentView = currentView.parent
@@ -39,7 +40,7 @@ class SubmitForm : Action {
         }
 
         if (foundSimpleForm) {
-            ((currentView as? ViewGroup)?.tag as SimpleForm).submit(rootView, origin)
+            ((currentView as? ViewGroup)?.beagleComponent as SimpleForm).submit(rootView, origin)
         } else {
             BeagleMessageLogs.logNotFoundSimpleForm()
         }
