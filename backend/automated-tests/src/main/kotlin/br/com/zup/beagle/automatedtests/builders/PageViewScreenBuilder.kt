@@ -18,19 +18,21 @@ package br.com.zup.beagle.automatedtests.builders
 
 import BLACK
 import LIGHT_GREY
-import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.ext.applyFlex
-import br.com.zup.beagle.widget.core.AlignSelf
+import br.com.zup.beagle.widget.action.Alert
+import br.com.zup.beagle.widget.context.ContextData
+import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.TextAlignment
-import br.com.zup.beagle.widget.layout.NavigationBar
-import br.com.zup.beagle.widget.layout.NavigationBarItem
-import br.com.zup.beagle.widget.layout.PageView
-import br.com.zup.beagle.widget.layout.Screen
-import br.com.zup.beagle.widget.layout.ScreenBuilder
+import br.com.zup.beagle.widget.layout.*
 import br.com.zup.beagle.widget.pager.PageIndicator
 import br.com.zup.beagle.widget.ui.ImagePath.Local
 import br.com.zup.beagle.widget.ui.Text
+
+data class PageViewText(
+    var pageOne: String = "",
+    var pageTwo: String = "",
+    var pageThree: String = ""
+)
 
 object PageViewScreenBuilder : ScreenBuilder {
     override fun build() = Screen(
@@ -55,14 +57,38 @@ object PageViewScreenBuilder : ScreenBuilder {
                 selectedColor = BLACK,
                 unselectedColor = LIGHT_GREY
             ),
-            children = (1..3).map {
-                Text("Page $it", alignment = TextAlignment.CENTER).applyFlex(
-                    Flex(
-                        alignSelf = AlignSelf.CENTER,
-                        grow = 1.0
+            children = listOf(
+                Container(
+                    children = listOf(
+                        Text(text = "@{pageView}",textColor = "#000000")
                     )
+                ).applyFlex(Flex(grow = 1.0,alignItems = AlignItems.CENTER)),
+
+                Container(
+                    children = listOf(
+                        Text("@{pageView}",textColor = "#000000")
+                    )
+                ).applyFlex(Flex(grow = 1.0,alignItems = AlignItems.CENTER)),
+
+                Container(
+                children = listOf(
+                    Text("Page 3",textColor = "#000000")
                 )
-            }
+            ).applyFlex(Flex(grow = 1.0,alignItems = AlignItems.CENTER))
+            ) ,
+            context = ContextData(
+                id = "pageView",
+                value = "This is my Page 1"
+            )
         )
     )
 }
+
+//(1..3).map {
+//    Text("@{pageView.value} $it", alignment = TextAlignment.CENTER).applyFlex(
+//        Flex(
+//            alignSelf = AlignSelf.CENTER,
+//            grow = 1.0
+//        )
+//    )
+//}
