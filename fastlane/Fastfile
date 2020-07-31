@@ -71,10 +71,29 @@ end
 
 desc "Publish new release based on last two tags"
 lane :deploy do
-  git_pull
-  ENV["VERSION_DEPLOY"] = last_git_tag
-  sh "fastlane common remote_publish"
-  sh "fastlane ios release"
+  pattern = "*"
+  if ENV["TAG_NAME"].index("-") # Hotfix
+    tagName = ENV["TAG_NAME"].split("/").last
+    platformHotfix = tagName.split("-").last
+    pattern = "*-#{platformHotfix}"
+    sh "git checkout #{tagName}"
+  end
+
+  ENV["VERSION_DEPLOY"] = last_git_tag(pattern: pattern)
+  if platformHotfix == "ios"
+    puts "iOS Hotfix release"
+    sh "fastlane ios release"
+  elsif platformHotfix == "android"
+    puts "Android Hotfix release"
+    sh "fastlane common remote_publish"
+  elsif platformHotfix == "backend"
+    puts "Backend Hotfix release"
+    sh "fastlane common remote_publish"
+  else
+    puts "Normal Release"
+    sh "fastlane common remote_publish"
+    sh "fastlane ios release"
+  end
 
   sh "bash ./delete_release.sh"
   set_github_release(
@@ -83,7 +102,7 @@ lane :deploy do
     name: ENV["VERSION_DEPLOY"],
     tag_name: ENV["VERSION_DEPLOY"],
     description: release_notes,
-    commitish: "master"
+    commitish: tagName
   )
   sh "bash ./discord_message.sh"
 end
