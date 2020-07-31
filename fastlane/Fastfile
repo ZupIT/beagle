@@ -100,23 +100,29 @@ desc "Publish new release based on last two tags"
 lane :deploy do
   pattern = "*"
   if ENV["TAG_NAME"].index("-") # Hotfix
+    puts "eh hotfix"
     tagName = ENV["TAG_NAME"].split("/").last
     platformHotfix = tagName.split("-").last
     pattern = "*-#{platformHotfix}"
     sh "git checkout #{tagName}"
   end
+  sh "git branch"
   git_pull
   ENV["VERSION_DEPLOY"] = last_git_tag(pattern: pattern)
   puts platformHotfix
   if platformHotfix == "ios"
+    puts "entrou no ios"
     sh "fastlane ios release"
   elsif platformHotfix == "android" || platformHotfix == "backend"
+    puts "entrou no comun"
     sh "fastlane common remote_publish"
   else
+    puts "entrou no geral"
     sh "fastlane common remote_publish"
     sh "fastlane ios release"
   end
 
+  puts "comecou a deletar"
   sh "bash ./delete_release.sh"
   set_github_release(
     repository_name: "ZupIT/beagle",
