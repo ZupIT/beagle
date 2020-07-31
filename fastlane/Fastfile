@@ -107,7 +107,7 @@ lane :deploy do
     sh "git checkout #{tagName}"
   end
   sh "git branch"
-  git_pull
+  # git_pull
   ENV["VERSION_DEPLOY"] = last_git_tag(pattern: pattern)
   puts platformHotfix
   if platformHotfix == "ios"
