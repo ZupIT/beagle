@@ -2,19 +2,19 @@ name: Beagle Release
 
 on:
     push:
-      # tag:
-      #   - '*'
-        branch:
-            - '1.2.10-ios'
+      tag:
+        - '*'
+        # branch:
+        #     - '1.2.10-ios'
 jobs:
     generate-release:
         name: Generate release
         runs-on: macos-latest
         steps:
             - uses: actions/checkout@v2.1.0
-              # with:
-              #     fetch-depth: '0'
-              #     ref: 'master'
+              with:
+                  fetch-depth: '0'
+                  ref: 'master'
 
             -   name: Cache fastlane dependences
                 uses: actions/cache@v2

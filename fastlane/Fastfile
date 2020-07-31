@@ -10,7 +10,7 @@ platform :workflow do
       puts "Exiting..."
       next
     end
-    branchName = tagName.split("/").last
+    branchName = tagName.split("/").last + "-hotfix"
     sh("git checkout -b " + branchName)
     push_to_git_remote(
       tags: false,
@@ -98,31 +98,35 @@ end
 
 desc "Publish new release based on last two tags"
 lane :deploy do
-  puts "aquiii!!!"
-  tagFullName = ENV["TAG_NAME"]
-  puts tagFullName
-  tagName = tagFullName.split("/").last
-  platformHotfix = tagName.split("-").last
-  # if TAG_NAME.index("-") {
+  pattern = "*"
+  if ENV["TAG_NAME"].index("-") # Hotfix
+    tagName = ENV["TAG_NAME"].split("/").last
+    platformHotfix = tagName.split("-").last
+    pattern = "*-#{platformHotfix}"
+    sh "git checkout #{tagName}"
+  end
+  git_pull
+  ENV["VERSION_DEPLOY"] = last_git_tag(pattern: pattern)
+  puts platformHotfix
+  if platformHotfix == "ios"
+    sh "fastlane ios release"
+  elsif platformHotfix == "android" || platformHotfix == "backend"
+    sh "fastlane common remote_publish"
+  else
+    sh "fastlane common remote_publish"
+    sh "fastlane ios release"
+  end
 
-  # }
-  # git_pull
-  puts "*-#{platformHotfix}"
-  ENV["VERSION_DEPLOY"] = last_git_tag(pattern: "*-#{platformHotfix}")
-  puts ENV["VERSION_DEPLOY"]
-  # sh "fastlane common remote_publish"
-  # sh "fastlane ios release"
-
-  # sh "bash ./delete_release.sh"
-  # set_github_release(
-  #   repository_name: "ZupIT/beagle",
-  #   api_token: ENV["REPO_TOKEN"],
-  #   name: ENV["VERSION_DEPLOY"],
-  #   tag_name: ENV["VERSION_DEPLOY"],
-  #   description: release_notes,
-  #   commitish: "master"
-  # )
-  # sh "bash ./discord_message.sh"
+  sh "bash ./delete_release.sh"
+  set_github_release(
+    repository_name: "ZupIT/beagle",
+    api_token: ENV["REPO_TOKEN"],
+    name: ENV["VERSION_DEPLOY"],
+    tag_name: ENV["VERSION_DEPLOY"],
+    description: release_notes,
+    commitish: tagName
+  )
+  sh "bash ./discord_message.sh"
 end
 
 lane :push do
