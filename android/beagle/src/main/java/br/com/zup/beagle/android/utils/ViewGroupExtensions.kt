@@ -58,8 +58,8 @@ private fun loadView(
     listener: OnStateChanged?
 ) {
     val view = viewExtensionsViewFactory.makeBeagleView(viewGroup.context).apply {
-        loadView(rootView, screenRequest)
         stateChangedListener = listener
+        loadView(rootView, screenRequest)
     }
     view.loadCompletedListener = {
         viewGroup.addView(view)
