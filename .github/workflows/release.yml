@@ -2,10 +2,10 @@ name: Beagle Release
 
 on:
     push:
-      tag:
-        - '*'
-        # branch:
-        #     - '1.2.10-ios'
+      # tag:
+      #   - '*'
+        branch:
+            - '1.2.10-ios'
 jobs:
     generate-release:
         name: Generate release
@@ -41,6 +41,5 @@ jobs:
                 DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
                 COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
                 TAG_NAME: ${{ github.ref }}
-                TESTE: ${{ github.nextSha }}
               run: bundle exec fastlane deploy
         

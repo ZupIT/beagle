@@ -99,15 +99,16 @@ end
 desc "Publish new release based on last two tags"
 lane :deploy do
   puts "aquiii!!!"
-  asd = ENV["TAG_NAME"]
-  teste = ENV["TESTE"]
-  puts asd
-  puts teste
+  tagFullName = ENV["TAG_NAME"]
+  puts tagName
+  tagName = tagName.split("/").last
+  puts tagName.split("-").last
   # if TAG_NAME.index("-") {
 
   # }
   # git_pull
-  # ENV["VERSION_DEPLOY"] = last_git_tag
+  ENV["VERSION_DEPLOY"] = last_git_tag(tagName.split("-").last)
+  puts ENV["VERSION_DEPLOY"]
   # sh "fastlane common remote_publish"
   # sh "fastlane ios release"
 
