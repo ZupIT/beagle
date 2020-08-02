@@ -47,12 +47,12 @@ internal class BeagleCacheFilterTest {
         every { request.getHeader(any()) } returns STRING
         every { request.method } returns GET
         every {
-            cacheHandler.handleCache<ContentCachingResponseWrapper>(any(), any(), any(), any(), any())
+            cacheHandler.handleCache<ContentCachingResponseWrapper>(any(), any(), any(), any())
         } returns wrapper
 
         BeagleCacheFilter(cacheHandler).doFilter(request, response, chain)
 
-        verifyAll { cacheHandler.handleCache(STRING, STRING, STRING, any(), any()) }
+        verifyAll { cacheHandler.handleCache(STRING, STRING, STRING, any()) }
         verifyAll { wrapper.copyBodyToResponse() }
     }
 

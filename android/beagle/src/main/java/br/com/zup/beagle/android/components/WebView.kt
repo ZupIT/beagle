@@ -24,6 +24,7 @@ import android.view.View
 import android.webkit.SslErrorHandler
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
+import android.webkit.WebView
 import android.webkit.WebViewClient
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
@@ -49,7 +50,7 @@ data class WebView(
         val webView = viewFactory.makeWebView(rootView.getContext())
         webView.webViewClient = BeagleWebViewClient(webView.context)
         webView.settings.javaScriptEnabled = true
-        observeBindChanges(rootView, url) {
+        observeBindChanges(rootView, webView, url) {
             it?.let{ webView.loadUrl(it) }
         }
         return webView
@@ -57,12 +58,12 @@ data class WebView(
 
     class BeagleWebViewClient(val context: Context) : WebViewClient() {
 
-        override fun onPageFinished(view: android.webkit.WebView?, url: String?) {
+        override fun onPageFinished(view: WebView?, url: String?) {
             notify(loading = false)
         }
 
         override fun onPageStarted(
-            view: android.webkit.WebView?,
+            view: WebView?,
             url: String?,
             favicon: Bitmap?
         ) {
@@ -70,7 +71,7 @@ data class WebView(
         }
 
         override fun onReceivedSslError(
-            view: android.webkit.WebView?,
+            view: WebView?,
             handler: SslErrorHandler?,
             error: SslError?
         ) {
@@ -78,13 +79,12 @@ data class WebView(
         }
 
         override fun onReceivedError(
-            view: android.webkit.WebView?,
+            view: WebView?,
             request: WebResourceRequest?,
             error: WebResourceError?
         ) {
-            super.onReceivedError(view, request, error)
             val throwable = Error("$error")
-            notify(state = ServerDrivenState.Error(throwable))
+            notify(state = ServerDrivenState.WebViewError(throwable){ view?.reload() })
         }
 
         fun notify(loading: Boolean) {

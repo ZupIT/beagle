@@ -26,15 +26,25 @@ extension LazyComponent: ServerDrivenComponent {
     }
     
     private func lazyLoad(initialState view: UIView, renderer: BeagleRenderer) {
-        renderer.controller.dependencies.repository.fetchComponent(url: path, additionalData: nil) {
+        renderer.controller.dependencies.repository.fetchComponent(url: path, additionalData: nil, useCache: false) {
             [weak view, weak renderer] result in
             guard let view = view, let renderer = renderer else { return }
             switch result {
             case .success(let component):
                 view.update(lazyLoaded: component, renderer: renderer)
             case .failure(let error):
-                renderer.controller.serverDrivenState = .error(.lazyLoad(error))
+                renderer.controller.serverDrivenState = .error(
+                    .lazyLoad(error),
+                    self.retryClosure(initialState: view, renderer: renderer)
+                )
             }
+        }
+    }
+    
+    private func retryClosure(initialState view: UIView, renderer: BeagleRenderer) -> BeagleRetry {
+        return { [weak view, weak renderer] in
+            guard let view = view, let renderer = renderer else { return }
+            self.lazyLoad(initialState: view, renderer: renderer)
         }
     }
 }
@@ -44,21 +54,21 @@ extension UIView {
         lazyLoaded: ServerDrivenComponent,
         renderer: BeagleRenderer
     ) {
-        let finalView: UIView
         if let updatable = self as? OnStateUpdatable,
             updatable.onUpdateState(component: lazyLoaded) {
-            finalView = self
+            renderer.controller.dependencies.style(self).markDirty()
         } else {
-            finalView = replace(with: lazyLoaded, renderer: renderer)
+            DispatchQueue.main.async {
+                self.replace(with: lazyLoaded, renderer: renderer)
+            }
         }
-        renderer.controller.dependencies.style(finalView).markDirty()
     }
     
     private func replace(
         with component: ServerDrivenComponent,
         renderer: BeagleRenderer
-    ) -> UIView {
-        guard let superview = superview else { return self }
+    ) {
+        guard let superview = superview else { return }
         
         let newView = renderer.render(component)
         newView.frame = frame
@@ -68,6 +78,6 @@ extension UIView {
         if renderer.controller.dependencies.style(self).isFlexEnabled {
             renderer.controller.dependencies.style(newView).isFlexEnabled = true
         }
-        return newView
+        renderer.controller.view.setNeedsLayout()
     }
 }

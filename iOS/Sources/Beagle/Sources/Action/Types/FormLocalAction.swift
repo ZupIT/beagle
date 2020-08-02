@@ -24,7 +24,10 @@ extension FormLocalAction: Action {
             case .start:
                 controller.serverDrivenState = .loading(true)
             case .error(let error):
-                controller.serverDrivenState = .error(.action(error))
+                controller.serverDrivenState = .error(
+                    .action(error),
+                    self.closureToRetrySameAction(controller: controller, sender: sender)
+                )
             case .success(let action):
                 controller.serverDrivenState = .loading(false)
                 action.execute(controller: controller, sender: sender)

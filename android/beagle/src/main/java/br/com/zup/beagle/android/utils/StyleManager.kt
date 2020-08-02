@@ -28,7 +28,6 @@ import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.TabView
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.utils.applyViewBackgroundAndCorner
-import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.core.StyleComponent

@@ -37,5 +37,4 @@ class SimpleFormTests: XCTestCase {
         XCTAssert(resultingView.subviews.count == numberOfChilds)
     }
     
-    
 }
