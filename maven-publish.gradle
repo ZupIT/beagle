@@ -16,6 +16,10 @@
 
  apply plugin: "com.vanniktech.maven.publish"
 
+ def versionName = System.env.VERSION_DEPLOY != null ? System.env.VERSION_DEPLOY : VERSION_NAME ?: ""
+
+version = versionName
+
  mavenPublish {
 
      nexus {
