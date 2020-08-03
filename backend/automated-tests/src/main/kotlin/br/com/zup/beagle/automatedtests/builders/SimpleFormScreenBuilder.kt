@@ -17,6 +17,7 @@
 package br.com.zup.beagle.automatedtests.builders
 
 import br.com.zup.beagle.widget.action.Alert
+import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.action.SubmitForm
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.core.ScrollAxis
@@ -57,6 +58,12 @@ object SimpleFormScreenBuilder: ScreenBuilder {
                         children = listOf(
                             TextInput(
                                 value = "",
+                                onBlur = listOf(
+                                    SetContext(
+                                        contextId = "myContext",
+                                        value = "@{onBlur.value}"
+                                    )
+                                ),
                                 placeholder = "@{myContext.value}"
                             ),
                             Button(
