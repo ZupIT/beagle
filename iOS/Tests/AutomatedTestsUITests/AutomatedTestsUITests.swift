@@ -16,6 +16,8 @@ class CucumberishInitializer: NSObject {
             ButtonScreenSteps().ButtonScreenSteps()
             TabViewScreenSteps().TabViewScreenSteps()
             ImageScreenSteps().ImageScreenSteps()
+            PageViewScreenSteps().PageViewScreenSteps()
+
         }
         
         //A Given step definitiona

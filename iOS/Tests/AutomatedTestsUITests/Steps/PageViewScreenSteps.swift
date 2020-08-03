@@ -22,13 +22,12 @@ class PageViewScreenSteps: NSObject {
         Given("^Given the app will load http://localhost:8080/pageview$") { (args, userInfo) -> Void in
             screen.checkViewContainsHeader()
             XCTAssertTrue(ScreenElements.PAGEVIEW_SCREEN_HEADER.element.exists)
-
         }
 
-        Then("^my pageview components should render their respective pages attributes correctly$") { (args, userInfo) -> Void in
+        Then("^pageview should render correctly$") { (args, userInfo) -> Void in
             XCTAssertTrue(ScreenElements.PAGE_1_TEXT.element.exists)
             XCUIApplication().swipeLeft()
-            XCTAssertTrue(ScreenElements.PAGE_2_TEXT.element.exists)
+            XCTAssertTrue(ScreenElements.PAGE_1_TEXT.element.exists)
             XCUIApplication().swipeLeft()
             XCTAssertTrue(ScreenElements.PAGE_3_TEXT.element.exists)
             
