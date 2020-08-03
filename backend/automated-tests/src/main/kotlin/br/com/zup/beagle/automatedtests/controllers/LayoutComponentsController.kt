@@ -24,6 +24,7 @@ import SCREEN_IMAGE_ENDPOINT
 import SCREEN_TABVIEW_ENDPOINT
 import SCROLLVIEW_TABVIEW_ENDPOINT
 import SIMPLE_FORM_ENDPOINT
+import TEXT_INPUT_ENDPOINT
 import TOUCHABLE_ENDPOINT
 import br.com.zup.beagle.automatedtests.builders.*
 import org.springframework.web.bind.annotation.GetMapping
@@ -58,5 +59,8 @@ class LayoutComponentsController() {
 
     @GetMapping(SIMPLE_FORM_ENDPOINT)
     fun getSimpleFormScreen() = SimpleFormScreenBuilder
+
+    @GetMapping(TEXT_INPUT_ENDPOINT)
+    fun getTextInputScreen() = TextInputScreenBuilder.build()
 
 }

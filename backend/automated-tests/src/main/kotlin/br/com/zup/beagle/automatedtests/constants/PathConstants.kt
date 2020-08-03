@@ -24,6 +24,7 @@ const val LISTVIEW_TABVIEW_ENDPOINT = "/listview"
 const val SCROLLVIEW_TABVIEW_ENDPOINT = "/scrollview"
 const val TOUCHABLE_ENDPOINT = "/touchable"
 const val SIMPLE_FORM_ENDPOINT = "/simpleform"
+const val TEXT_INPUT_ENDPOINT = "/textinput"
 
 
 
