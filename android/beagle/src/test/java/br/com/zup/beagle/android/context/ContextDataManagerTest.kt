@@ -56,6 +56,7 @@ class ContextDataManagerTest : BaseTest() {
         super.setUp()
 
         mockkObject(BeagleMessageLogs)
+
         every { BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(any()) } just Runs
         every { BeagleMessageLogs.errorWhileTryingToChangeContext(any()) } just Runs
         every { BeagleMessageLogs.errorWhileTryingToAccessContext(any()) } just Runs
@@ -167,26 +168,10 @@ class ContextDataManagerTest : BaseTest() {
         contextDataManager.addContext(viewContext, contextData)
 
         // When
-        val result = contextDataManager.updateContext(viewContext, updateContext)
+        contextDataManager.updateContext(viewContext, updateContext)
 
         // Then
-        assertTrue { result }
         assertFalse { json.getBoolean("a") }
-    }
-
-    @Test
-    fun updateContext_should_log_error_when_path_is_invalid() {
-        // Given
-        val contextData = ContextData(CONTEXT_ID, true)
-        val updateContext = SetContextInternal(CONTEXT_ID, false, "")
-        contextDataManager.addContext(viewContext, contextData)
-
-        // When
-        val result = contextDataManager.updateContext(viewContext, updateContext)
-
-        // Then
-        assertFalse { result }
-        verify(exactly = once()) { BeagleMessageLogs.errorWhileTryingToChangeContext(any()) }
     }
 
     @Test
@@ -197,17 +182,16 @@ class ContextDataManagerTest : BaseTest() {
         contextDataManager.addContext(viewContext, contextData)
 
         // When
-        val result = contextDataManager.updateContext(viewContext, updateContext)
+        contextDataManager.updateContext(viewContext, updateContext)
 
         // Then
-        assertTrue { result }
         val contextBinding = contexts[viewContext.id]?.context
         assertEquals(updateContext.contextId, contextBinding?.id)
         assertEquals(updateContext.value, contextBinding?.value)
     }
 
     @Test
-    fun updateContext_should_return_false_when_contextId_does_not_exist() {
+    fun updateContext_should_call_global_context_when_id_is_global() {
         // Given
         val updateContext = SetContextInternal(RandomData.string(), false, null)
 
@@ -215,7 +199,7 @@ class ContextDataManagerTest : BaseTest() {
         val result = contextDataManager.updateContext(viewContext, updateContext)
 
         // Then
-        assertFalse(result)
+
     }
 
     @Test

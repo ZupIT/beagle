@@ -26,12 +26,12 @@ class GlobalContextTest : BaseTest() {
 
     override fun setUp() {
         super.setUp()
-        GlobalContext.clearContext()
+
+        GlobalContext.clear()
     }
 
     @Test
     fun get_should_return_context_root_when_no_path_is_listed() {
-
         val value = GlobalContext.get()
 
         assertEquals("", value)
@@ -39,34 +39,40 @@ class GlobalContextTest : BaseTest() {
 
     @Test
     fun get_should_return_context_with_path() {
-
+        // Given
         val path = RandomData.string()
         val value = RandomData.string()
         GlobalContext.set(path = path, value = value)
 
+        // When
         val result = GlobalContext.get(path)
 
+        // Then
         assertEquals(value, result)
     }
 
     @Test
     fun get_should_return_null_when_path_does_not_exist() {
-
+        // Given
         val path = RandomData.string()
 
+        // Then
         val value = GlobalContext.get(path)
 
+        // Then
         assertNull(value)
     }
 
     @Test
     fun set_should_set_global_context_value_at_root_when_path_is_null() {
-
+        // Given
         val value = RandomData.string()
 
+        // When
         GlobalContext.set(value = value)
         val result = GlobalContext.get()
 
+        // Then
         assertEquals(value, result)
     }
 
@@ -115,16 +121,17 @@ class GlobalContextTest : BaseTest() {
     }
 
     @Test
-    fun clear_sould_set_empty_string_value_at_global_context_with_path() {
-
+    fun clear_should_set_null_to_context_with_a_path() {
+        // Given
         val path = RandomData.string()
         val value = RandomData.string()
-        val valueAfterClear = ""
         GlobalContext.set(path = path, value = value)
 
+        // When
         GlobalContext.clear(path)
         val result = GlobalContext.get(path)
 
-        assertEquals(valueAfterClear, result)
+        // Then
+        assertNull(result)
     }
 }

@@ -33,7 +33,6 @@ internal data class Binding<T>(
         } catch (ex: ClassCastException) {
             observer.invoke(null)
         }
-
     }
 }
 

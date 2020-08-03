@@ -22,11 +22,14 @@ import java.util.LinkedList
 
 internal class JsonCreateTree {
 
-    fun walkingTreeAndFindKey(root: Any, keys: LinkedList<String>, newValue: Any?) {
+    fun walkingTreeAndFindKey(
+        root: Any,
+        keys: LinkedList<String>,
+        newValue: Any?
+    ) {
         @Suppress("UNCHECKED_CAST")
         val copyOfKeys = keys.clone() as LinkedList<String>
         var key = copyOfKeys.poll()
-
 
         var currentTree: Any = root
         while (key != null) {

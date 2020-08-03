@@ -16,21 +16,32 @@
 
 package br.com.zup.beagle.android.context
 
-import br.com.zup.beagle.android.action.SetContext
-import br.com.zup.beagle.android.action.SetContextInternal
+typealias GlobalContextObserver = (ContextData) -> Unit
 
-typealias GlobalContextObserver = (SetContext) -> Unit
+private const val GLOBAL_KEY = "global"
 
 object GlobalContext {
 
-    private var globalContext = createGlobalContext()
+    private var globalContext = ContextData(id = GLOBAL_KEY, value = "")
     private val globalContextObservers = mutableListOf<GlobalContextObserver>()
-    private val contextDataEvaluation = ContextDataEvaluation()
-    private val contextDataManager = ContextDataManager()
+    private val contextDataManipulator = ContextDataManipulator()
 
-    internal fun updateContext(contextData: ContextData, observer: GlobalContextObserver) {
-        globalContext = contextData
-        globalContextObservers.filter { it != observer }.notifyContextChange(value = contextData.value)
+    fun get(path: String? = null): Any? {
+        if (path.isNullOrEmpty()) {
+            return globalContext.value
+        }
+
+        return contextDataManipulator.get(globalContext, path)
+    }
+
+    fun set(path: String? = null, value: Any) {
+        val result = contextDataManipulator.set(globalContext, path, value)
+        notifyContextChanges(result)
+    }
+
+    fun clear(path: String? = null) {
+        val result = contextDataManipulator.clear(globalContext, path)
+        notifyContextChanges(result)
     }
 
     internal fun observeGlobalContextChange(observer: GlobalContextObserver) {
@@ -43,42 +54,12 @@ object GlobalContext {
 
     internal fun getContext() = globalContext
 
-    internal fun clearContext() {
-        globalContext = createGlobalContext()
-    }
-
-    fun get(path: String? = null): Any? {
-        var newPath = ""
-        if (path != null) {
-            newPath = ".$path"
-        }
-        return contextDataEvaluation.evaluateBindExpression(
-            listOf(globalContext),
-            expressionOf<Any>("@{global$newPath}")
-        )
-    }
-
-    fun set(path: String? = null, value: Any) {
-//        contextDataManager.updateContext(SetContextInternal(contextId = "global", value = value, path = path))
-        globalContextObservers.notifyContextChange(path, value)
-    }
-
-    fun clear(path: String? = null) {
-//        contextDataManager.updateContext(SetContextInternal(contextId = "global", path = path, value = ""))
-        globalContextObservers.notifyContextChange(path, "")
-    }
-
-    private fun createGlobalContext() = ContextData(id = "global", value = "")
-
-    private fun List<GlobalContextObserver>.notifyContextChange(path: String? = null, value: Any) {
-        this.forEach {
-            it.invoke(
-                SetContext(
-                    contextId = "global",
-                    value = value,
-                    path = path
-                )
-            )
+    private fun notifyContextChanges(result: ContextSetResult) {
+        if (result is ContextSetResult.Succeed) {
+            globalContext = result.newContext
+            globalContextObservers.forEach {
+                it.invoke(globalContext)
+            }
         }
     }
 }
