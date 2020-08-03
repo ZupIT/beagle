@@ -53,7 +53,7 @@ class ContextPathResolverTest {
         assertFails {
             contextPathResolver.getKeysFromPath(
                 CONTEXT_ID,
-                CONTEXT_ID
+                ""
             )
         }
     }
