@@ -27,14 +27,14 @@ class ContextPathResolver {
     }
 
     private fun removeContextFromPath(contextId: String, path: String): String {
-        val newPath = path.replace(contextId, "")
+        var newPath = path
+        val contextIdFormatted ="$contextId."
 
         if (newPath.isEmpty()) {
             throw JsonPathUtils.createInvalidPathException(path)
-        } else if (newPath.startsWith(".")) {
-            return newPath.replaceFirst(".", "")
+        } else if(path.startsWith(contextIdFormatted)){
+            newPath = path.replaceFirst(contextIdFormatted, "")
         }
-
         return newPath
     }
 }
