@@ -21,7 +21,6 @@ jobs:
                 NX_REPO_URL: ${{ secrets.NX_REPO_URL }}
                 GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
                 GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
-                DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
                 COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
                 TAG_NAME: ${{ github.REF }}
               run: bundle exec fastlane deploy
