@@ -39,11 +39,11 @@ import br.com.zup.beagle.widget.core.ListDirection
 data class ListView(
     val children: List<ServerDrivenComponent>? = null,
     override val context: ContextData? = null,
-    val onInit: Action? = null,
+    val onInit: List<Action>? = null,
     val dataSource: Bind<List<Any>>? = null,
     val direction: ListDirection,
     val template: ServerDrivenComponent? = null,
-    val onScrollEnd: Action? = null,
+    val onScrollEnd: List<Action>? = null,
     val scrollThreshold: Int? = null
 ) : WidgetView(), ContextComponent {
 
@@ -59,11 +59,11 @@ data class ListView(
 
     constructor(
         context: ContextData? = null,
-        onInit: Action? = null,
+        onInit: List<Action>? = null,
         dataSource: Bind<List<Any>>,
         direction: ListDirection,
         template: ServerDrivenComponent,
-        onScrollEnd: Action? = null,
+        onScrollEnd: List<Action>? = null,
         scrollThreshold: Int? = null
     ) : this(
         children = null,
