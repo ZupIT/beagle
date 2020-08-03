@@ -34,6 +34,7 @@ import br.com.zup.beagle.android.networking.HttpClient
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
 import br.com.zup.beagle.android.store.DatabaseContext
 import br.com.zup.beagle.android.store.StoreHandler
+import br.com.zup.beagle.android.utils.CoroutineDispatchers
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.widget.WidgetView
 import com.facebook.soloader.SoLoader
@@ -75,5 +76,7 @@ interface BeagleSdk {
 
         CacheConstant.cache = BeagleEnvironment.beagleSdk.config.cache
         CacheConstant.storeHandler = StoreHandlerFactory().make()
+
+        CoroutineDispatchers.reset()
     }
 }

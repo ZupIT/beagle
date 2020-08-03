@@ -16,12 +16,9 @@
 
 package br.com.zup.beagle.android.utils
 
-import android.content.Context
 import android.graphics.drawable.GradientDrawable
-import android.util.TypedValue
 import android.view.View
 import br.com.zup.beagle.android.manager.StyleManager
-import androidx.core.content.ContextCompat
 import br.com.zup.beagle.android.core.design.system.R
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.StyleComponent
@@ -65,18 +62,6 @@ internal fun View.applyCornerRadius(styleWidget: StyleComponent) {
         if (cornerRadius.radius > FLOAT_ZERO) {
             (this.background as? GradientDrawable)?.cornerRadius = cornerRadius.radius.toFloat()
         }
-    }
-}
-
-internal fun View.applyBackgroundFromWindowBackgroundTheme(context: Context) {
-    val typedValue = styleManagerFactory
-        .getTypedValueByResId(android.R.attr.windowBackground, context)
-    if (typedValue.type >= TypedValue.TYPE_FIRST_COLOR_INT &&
-        typedValue.type <= TypedValue.TYPE_LAST_COLOR_INT
-    ) {
-        setBackgroundColor(typedValue.data)
-    } else {
-        background = ContextCompat.getDrawable(context, typedValue.resourceId)
     }
 }
 

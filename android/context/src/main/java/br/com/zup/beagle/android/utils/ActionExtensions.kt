@@ -24,7 +24,7 @@ import br.com.zup.beagle.android.context.ContextDataValueResolver
 import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.context.isExpression
 import br.com.zup.beagle.android.action.ContextActionExecutor
-import br.com.zup.beagle.android.context.*
+import br.com.zup.beagle.android.context.ContextConstant
 import br.com.zup.beagle.android.context.HandleEventDeprecatedConstants.HANDLE_EVENT_ACTIONS_POINTER
 import br.com.zup.beagle.android.context.HandleEventDeprecatedConstants.HANDLE_EVENT_DEPRECATED_MESSAGE
 import br.com.zup.beagle.android.context.HandleEventDeprecatedConstants.HANDLE_EVENT_POINTER

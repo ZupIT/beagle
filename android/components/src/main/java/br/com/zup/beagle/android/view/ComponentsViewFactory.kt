@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
+@file:Suppress("TooManyFunctions")
+
 package br.com.zup.beagle.android.view
 
 import android.content.Context
 import android.view.ContextThemeWrapper
-import android.view.View
 import android.webkit.WebView
-import android.widget.*
-import androidx.appcompat.app.AlertDialog
+import android.widget.Button
+import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.HorizontalScrollView
+import android.widget.ScrollView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.view.custom.*
 import br.com.zup.beagle.core.Style
