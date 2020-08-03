@@ -12,7 +12,7 @@
 		98019D1224D36FC200BD02A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98019D1124D36FC200BD02A3 /* Assets.xcassets */; };
 		98019D1524D36FC200BD02A3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98019D1324D36FC200BD02A3 /* LaunchScreen.storyboard */; };
 		98019D2B24D371E600BD02A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98019D2A24D371E600BD02A3 /* AppDelegate.swift */; };
-		989E10CE24D883FC00753F60 /* CocoaPodsTestUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989E10CD24D883FC00753F60 /* CocoaPodsTestUnitTests.swift */; };
+		989E10D624D8938700753F60 /* CocoaPodsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989E10D524D8938700753F60 /* CocoaPodsTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,8 +36,8 @@
 		98019D1624D36FC200BD02A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		98019D2A24D371E600BD02A3 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		989E10CB24D883FC00753F60 /* CocoaPodsTestUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CocoaPodsTestUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		989E10CD24D883FC00753F60 /* CocoaPodsTestUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocoaPodsTestUnitTests.swift; sourceTree = "<group>"; };
 		989E10CF24D883FC00753F60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		989E10D524D8938700753F60 /* CocoaPodsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocoaPodsTests.swift; sourceTree = "<group>"; };
 		D77D8CB5705637D56F3CB615 /* Pods-BeagleSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BeagleSample.release.xcconfig"; path = "Target Support Files/Pods-BeagleSample/Pods-BeagleSample.release.xcconfig"; sourceTree = "<group>"; };
 		DD66ECD34DC7ED428C673DB9 /* Pods-BeagleSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BeagleSample.debug.xcconfig"; path = "Target Support Files/Pods-BeagleSample/Pods-BeagleSample.debug.xcconfig"; sourceTree = "<group>"; };
 		E11F0203F0B2F910BBCD16E6 /* Pods-BeagleSampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BeagleSampleTests.release.xcconfig"; path = "Target Support Files/Pods-BeagleSampleTests/Pods-BeagleSampleTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -121,7 +121,7 @@
 		989E10CC24D883FC00753F60 /* CocoaPodsTestUnitTests */ = {
 			isa = PBXGroup;
 			children = (
-				989E10CD24D883FC00753F60 /* CocoaPodsTestUnitTests.swift */,
+				989E10D524D8938700753F60 /* CocoaPodsTests.swift */,
 				989E10CF24D883FC00753F60 /* Info.plist */,
 			);
 			path = CocoaPodsTestUnitTests;
@@ -181,6 +181,7 @@
 					};
 					989E10CA24D883FC00753F60 = {
 						CreatedOnToolsVersion = 11.3.1;
+						LastSwiftMigration = 1130;
 						TestTargetID = 98019D0424D36FBF00BD02A3;
 					};
 				};
@@ -279,7 +280,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				989E10CE24D883FC00753F60 /* CocoaPodsTestUnitTests.swift in Sources */,
+				989E10D624D8938700753F60 /* CocoaPodsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,6 +462,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = CocoaPodsTestUnitTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
@@ -471,6 +473,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.zup.CocoaPodsTestUnitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CocoaPodsTest.app/CocoaPodsTest";
@@ -481,6 +484,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = CocoaPodsTestUnitTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
