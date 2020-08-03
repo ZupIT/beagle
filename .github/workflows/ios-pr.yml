@@ -12,11 +12,6 @@ jobs:
         name: PR Check
         runs-on: macos-latest
 
-        strategy:
-            matrix:
-                destination: ['platform=iOS Simulator,OS=13.1,name=iPhone 11']
-                xcode: ['/Applications/Xcode_11.1.app/Contents/Developer']
-        
         steps:
             -   uses: actions/checkout@v2
 
@@ -38,22 +33,6 @@ jobs:
                     path: ${{ runner.os }}-spm-${{ hashFiles('iOS/**/Package.resolved') }}
                     key: ~/**/DerivedData
 
-            -   name: Dependencies
-                run: |
-                  cd iOS/Example/CocoaPodsTest
-                  bundle exec pod install
-                env:
-                  DEVELOPER_DIR: ${{ matrix.xcode }}
-            
-            -   name: Build Application
-                run: |
-                  cd iOS/Example/CocoaPodsTest
-                  bundle exec fastlane scan --destination "${destination}" --scheme "CocoaPodsTest"
-                  xcodebuild build -workspace CocoaPodsTest.xcworkspace -scheme CocoaPodsTest -sdk iphonesimulator -destination "${destination}"
-                env:
-                  destination: ${{ matrix.destination }}
-                  DEVELOPER_DIR: ${{ matrix.xcode }}
-        
             -   name: install swiftLint
                 run: brew install swiftlint
 
