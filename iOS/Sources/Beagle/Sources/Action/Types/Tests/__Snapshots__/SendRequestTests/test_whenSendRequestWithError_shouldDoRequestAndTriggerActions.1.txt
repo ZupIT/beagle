@@ -1,0 +1,25 @@
+▿ Optional<Context>
+  ▿ some: Context
+    - id: "onError"
+    ▿ value: DynamicObject
+      ▿ dictionary: 4 key/value pairs
+        ▿ (2 elements)
+          - key: "data"
+          ▿ value: DynamicObject
+            ▿ dictionary: 1 key/value pair
+              ▿ (2 elements)
+                - key: "error"
+                ▿ value: DynamicObject
+                  - string: "errorString"
+        ▿ (2 elements)
+          - key: "message"
+          ▿ value: DynamicObject
+            - string: "The operation couldn’t be completed. (Beagle.NetworkError error 1.)"
+        ▿ (2 elements)
+          - key: "status"
+          ▿ value: DynamicObject
+            - int: 0
+        ▿ (2 elements)
+          - key: "statusText"
+          ▿ value: DynamicObject
+            - string: "The operation couldn’t be completed. (Beagle.NetworkError error 1.)"

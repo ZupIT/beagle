@@ -33,10 +33,12 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.slot
+import io.mockk.unmockkAll
 import io.mockk.verify
 import io.mockk.verifySequence
 import org.json.JSONArray
 import org.json.JSONObject
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
@@ -48,34 +50,36 @@ private const val NAME = "name"
 
 class ContextActionExecutorTest {
 
-    private val rootView = mockk<ActivityRootView>()
     private val viewModel = mockk<ScreenContextViewModel>(relaxed = true)
     private val sender = mockk<Action>()
     private val action = mockk<Action>()
     private val view: View = mockk()
+    private val rootView = mockk<ActivityRootView>(relaxed = true)
+
     private val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
     private lateinit var contextActionExecutor: ContextActionExecutor
 
     private val contextDataSlot = slot<ContextData>()
 
-
     @Before
     fun setUp() {
 
-        mockkObject(ViewModelProviderFactory)
+        ContextConstant.moshi = moshi
 
         contextActionExecutor = ContextActionExecutor()
 
         every { action.execute(any(), view) } just Runs
-        every { rootView.activity } returns mockk()
+        mockkObject(ViewModelProviderFactory)
 
-        ContextConstant.moshi = moshi
+        every { ViewModelProviderFactory.of(any<AppCompatActivity>())[viewModel::class.java] } returns viewModel
 
-        every {
-            ViewModelProviderFactory.of(any<AppCompatActivity>())[ScreenContextViewModel::class.java]
-        } returns viewModel
         every { viewModel.addImplicitContext(capture(contextDataSlot), any(), any()) } just Runs
+    }
+
+    @After
+    fun tearDown() {
+        unmockkAll()
     }
 
     @Test

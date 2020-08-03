@@ -24,6 +24,7 @@ import br.com.zup.beagle.android.components.form.observer.Observable
 import br.com.zup.beagle.android.components.form.observer.Observer
 import br.com.zup.beagle.android.components.form.observer.WidgetState
 import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.utils.beagleComponent
 
 @Deprecated(Constants.FORM_DEPRECATED_MESSAGE)
 class FormValidatorController(
@@ -48,7 +49,7 @@ class FormValidatorController(
     }
 
     fun configFormSubmit() {
-        if ((formSubmitView?.tag as? FormSubmit)?.enabled == false) {
+        if ((formSubmitView?.beagleComponent as? FormSubmit)?.enabled == false) {
             formSubmitView?.isEnabled = checkFormFieldsValidate()
         }
     }

@@ -65,8 +65,8 @@ internal class SetContextTest {
             value = ""
         )
         val updateContext = slot<SetContextInternal>()
-        every { setContext.evaluateExpression(any(), any<Any>()) } returns evaluated
-        every { viewModel.updateContext(capture(updateContext)) } just Runs
+        every { setContext.evaluateExpression(any(), view, any<Any>()) } returns evaluated
+        every { viewModel.updateContext(view, capture(updateContext)) } just Runs
 
         // When
         setContext.execute(rootView, view)
@@ -83,14 +83,14 @@ internal class SetContextTest {
             contextId = RandomData.string(),
             value = ""
         )
-        every { setContext.evaluateExpression(any(), any<Any>()) } returns null
+        every { setContext.evaluateExpression(any(), view, any<Any>()) } returns null
         every { BeagleLoggerProxy.warning(any()) } just Runs
 
         // When
         setContext.execute(rootView, view)
 
         // Then
-        verify(exactly = 0) { viewModel.updateContext(any()) }
+        verify(exactly = 0) { viewModel.updateContext(view, any()) }
         verify { BeagleLoggerProxy.warning("SetContext with id=${setContext.contextId} evaluated to null") }
     }
 }

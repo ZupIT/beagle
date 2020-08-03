@@ -77,7 +77,7 @@ data class Button(
             }
         }
 
-        observeBindChanges(rootView, text) {
+        observeBindChanges(rootView, button, text) {
             button.text = it
         }
         return button

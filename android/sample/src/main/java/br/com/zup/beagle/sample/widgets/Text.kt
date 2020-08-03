@@ -30,7 +30,7 @@ data class Text(
 ) : WidgetView() {
     override fun buildView(rootView: RootView): TextView = TextView(rootView.getContext()).also {
         it.setTextColor(Color.BLACK)
-        observeBindChanges(rootView, this@Text.text) { newText ->
+        observeBindChanges(rootView, it, this@Text.text) { newText ->
             it.text = newText
         }
     }

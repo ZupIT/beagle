@@ -22,10 +22,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import androidx.core.widget.TextViewCompat
-import br.com.zup.beagle.android.designsystem.constant.DesignSystemConstant
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.manager.StyleManager
-import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.testutil.setPrivateField
 import br.com.zup.beagle.android.view.ComponentsViewFactory
 import br.com.zup.beagle.widget.core.TextInputType
@@ -49,7 +46,6 @@ val TYPE = TextInputType.NUMBER
 class TextInputTest : BaseComponentTest() {
 
     private val editText: EditText = mockk(relaxed = true, relaxUnitFun = true)
-    private val styleManager: StyleManager = mockk(relaxed = true)
     private val context: Context = mockk()
     private val textWatcher: TextWatcher = mockk()
 
@@ -60,12 +56,8 @@ class TextInputTest : BaseComponentTest() {
 
         mockkStatic(TextViewCompat::class)
 
-//        styleManagerFactory = styleManager
-
         every { anyConstructed<ComponentsViewFactory>().makeInputText(any(), any()) } returns editText
         every { TextViewCompat.setTextAppearance(any(), any()) } just Runs
-
-        DesignSystemConstant.context = mockk(relaxed = true)
 
         every { editText.context } returns context
 

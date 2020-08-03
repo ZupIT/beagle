@@ -26,7 +26,7 @@
 <h3 align="center">
   <a href="https://docs.usebeagle.io">Getting Started</a>
   <span> · </span>
-  <a href="https://docs.usebeagle.io/primeiros-passos/usando-beagle">Learn the Basics</a>
+  <a href="https://docs.usebeagle.io/get-started/using-beagle">Learn the Basics</a>
   <span> · </span>
   <a href="https://github.com/ZupIT/beagle/blob/master/CONTRIBUTING.md">Contribute</a>
 </h3>
@@ -57,8 +57,8 @@ Follow the [Getting Started guide](https://docs.usebeagle.io/primeiros-passos/in
 - [Creating a New Application][new-app]
 - [Adding Beagle to an Existing Application][existing]
 
-[new-app]: https://docs.usebeagle.io/primeiros-passos/user-cases
-[existing]: https://docs.usebeagle.io/primeiros-passos/usando-beagle
+[new-app]: https://docs.usebeagle.io/get-started/new-project
+[existing]: https://docs.usebeagle.io/get-started/using-beagle
 
 ## 📖 Documentation
 

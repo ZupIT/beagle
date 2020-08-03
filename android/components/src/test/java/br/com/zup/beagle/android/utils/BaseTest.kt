@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.utils
 
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.BeagleSdk
+import br.com.zup.beagle.android.widget.ActivityRootView
 import io.mockk.*
 import org.junit.After
 import org.junit.Before

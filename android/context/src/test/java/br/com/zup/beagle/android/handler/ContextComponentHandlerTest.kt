@@ -16,12 +16,15 @@
 
 package br.com.zup.beagle.android.handler
 
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.fake.ContainerFake
+import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.ActivityRootView
 import br.com.zup.beagle.android.widget.ViewModelProviderFactory
+import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.*
 import org.junit.After
 import org.junit.Before
@@ -30,7 +33,9 @@ import org.junit.Test
 class ContextComponentHandlerTest {
 
     private val rootView = mockk<ActivityRootView>()
+    private val view = mockk<View>(relaxed = true)
     private val viewModel = mockk<ScreenContextViewModel>()
+    private val viewId = RandomData.int()
 
     private lateinit var contextComponentHandler: ContextComponentHandler
 
@@ -45,6 +50,9 @@ class ContextComponentHandlerTest {
             ViewModelProviderFactory.of(any<AppCompatActivity>())
                 .get(ScreenContextViewModel::class.java)
         } returns viewModel
+
+        every { viewModel.generateNewViewId() } returns viewId
+        every { view.id } returns View.NO_ID
     }
 
     @After
@@ -55,13 +63,20 @@ class ContextComponentHandlerTest {
     @Test
     fun handleContext_should_call_addContext_when_component_is_ContextComponent() {
         // Given
+        val component = mockk<ContainerFake>()
         val context = mockk<ContextData>()
-        every { viewModel.addContext(any()) } just Runs
+        every { component.context } returns context
+        every { viewModel.addContext(any(), any()) } just Runs
 
         // When
-        contextComponentHandler.handleContext(rootView, ContainerFake(context))
+        contextComponentHandler.handleContext(rootView, view, component)
 
         // Then
-        verify(exactly = 1) { viewModel.addContext(context) }
+        verifySequence {
+            view.id
+            viewModel.generateNewViewId()
+            view.id = viewId
+            viewModel.addContext(view, context)
+        }
     }
 }

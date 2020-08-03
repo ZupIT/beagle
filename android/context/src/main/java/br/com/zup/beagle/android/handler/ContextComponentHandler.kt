@@ -16,18 +16,28 @@
 
 package br.com.zup.beagle.android.handler
 
-import br.com.zup.beagle.android.context.ContextComponent
+import android.view.View
 import br.com.zup.beagle.android.viewmodel.ScreenContextViewModel
+import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.generateViewModelInstance
 import br.com.zup.beagle.core.ServerDrivenComponent
 
 class ContextComponentHandler {
 
-    fun handleContext(rootView: RootView, component: ServerDrivenComponent) {
+    fun handleContext(
+        rootView: RootView,
+        view: View,
+        component: ServerDrivenComponent
+    ) {
+
+        if (view.id == View.NO_ID) {
+            view.id = rootView.generateViewModelInstance<ScreenContextViewModel>().generateNewViewId()
+        }
+
         if (component is ContextComponent) {
             component.context?.let { context ->
-                rootView.generateViewModelInstance<ScreenContextViewModel>().addContext(context)
+                rootView.generateViewModelInstance<ScreenContextViewModel>().addContext(view, context)
             }
         }
     }

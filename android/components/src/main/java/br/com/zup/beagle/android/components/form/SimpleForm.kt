@@ -21,6 +21,7 @@ import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.data.PreFetchHelper
+import br.com.zup.beagle.android.utils.beagleComponent
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.ComponentsViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
@@ -42,7 +43,7 @@ import br.com.zup.beagle.core.Style
  */
 @RegisterWidget
 data class SimpleForm(
-    override val context: ContextData,
+    override val context: ContextData? = null,
     val onSubmit: List<Action>,
     val children: List<ServerDrivenComponent>
 ) : WidgetView(), ContextComponent {
@@ -57,7 +58,7 @@ data class SimpleForm(
         preFetchHelper.handlePreFetch(rootView, onSubmit)
         return componentsViewFactory.makeBeagleFlexView(rootView.getContext(), style ?: Style())
             .apply {
-                tag = this@SimpleForm
+                beagleComponent = this@SimpleForm
                 addChildrenForm(this, rootView)
             }
     }

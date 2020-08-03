@@ -16,11 +16,13 @@
 
 package br.com.zup.beagle.android.components
 
+import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.Environment
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ComponentsViewFactory
 import br.com.zup.beagle.android.view.ServerDrivenState
+import io.mockk.*
 import io.mockk.CapturingSlot
 import io.mockk.Runs
 import io.mockk.every
@@ -56,26 +58,52 @@ class WebViewTest : BaseComponentTest() {
 
     @Test
     fun build_should_create_a_WebView_and_load_url_and_set_WebViewClient() {
+        // When
         webViewComponent.buildView(rootView)
 
+        // Then
         assertEquals(MOCKED_URL, urlSlot.captured)
         assertNotNull(webView.webViewClient)
     }
 
     @Test
     fun webViewClient_should_notify_when_page_starts_loading() {
+        // Given
         val stateSlot = slot<ServerDrivenState>()
         val webViewClient = createMockedWebViewClient(stateSlot)
+
+        // When
         webViewClient.onPageStarted(null, null, null)
+
+        // Then
         assertTrue((stateSlot.captured as ServerDrivenState.Loading).loading)
     }
 
     @Test
     fun webViewClient_should_notify_when_page_stops_loading() {
+        // Given
         val stateSlot = slot<ServerDrivenState>()
         val webViewClient = createMockedWebViewClient(stateSlot)
+
+        // When
         webViewClient.onPageFinished(null, null)
+
+        // Then
         assertFalse((stateSlot.captured as ServerDrivenState.Loading).loading)
+    }
+
+    @Test
+    fun webViewClient_should_notify_when_page_WebViewError() {
+        // Given
+        val stateSlot = slot<ServerDrivenState>()
+        val webViewClient = createMockedWebViewClient(stateSlot)
+
+        // When
+        webViewClient.onReceivedError(webView, null, null)
+        (stateSlot.captured as ServerDrivenState.WebViewError).retry.invoke()
+
+        // Then
+        verify(exactly = once()) { webView.reload() }
     }
 
     private fun createMockedWebViewClient(stateSlot: CapturingSlot<ServerDrivenState>): WebView.BeagleWebViewClient {

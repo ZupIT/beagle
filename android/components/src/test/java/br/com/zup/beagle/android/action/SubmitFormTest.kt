@@ -23,16 +23,16 @@ import br.com.zup.beagle.android.components.form.SimpleForm
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.utils.BaseTest
-import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.ActivityRootView
 import io.mockk.*
 import org.junit.Test
 
 class SubmitFormTest : BaseTest() {
 
-    private val rootView = mockk<RootView>()
     private val view = mockk<View>()
     private val parent = mockk<ViewGroup>()
     private val simpleForm = mockk<SimpleForm>(relaxed = true)
+    private val rootView = mockk<ActivityRootView>(relaxed = true)
 
     override fun setUp() {
         super.setUp()
@@ -44,7 +44,7 @@ class SubmitFormTest : BaseTest() {
     fun `should call submit in simple form when execute`() {
         // When
         val action = SubmitForm()
-        every { parent.tag } returns simpleForm
+        every { parent.getTag(any()) } returns simpleForm
         every { view.parent } returns parent as ViewParent
 
         action.execute(rootView, view)

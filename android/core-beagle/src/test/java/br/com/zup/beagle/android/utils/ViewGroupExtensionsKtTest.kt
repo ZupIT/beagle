@@ -46,6 +46,7 @@ import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
+import io.mockk.verifySequence
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -90,9 +91,12 @@ class ViewGroupExtensionsKtTest : BaseTest() {
         super.setUp()
 
         mockkStatic(TextViewCompat::class)
+        mockkObject(ViewModelProviderFactory)
 
         BeagleConstants.viewFactory = viewFactory
 
+        every { ViewModelProviderFactory.of(any<Fragment>())[ScreenContextViewModel::class.java] } returns viewModel
+        every { ViewModelProviderFactory.of(any<AppCompatActivity>())[ScreenContextViewModel::class.java] } returns viewModel
         every { viewFactory.makeBeagleView(any()) } returns beagleView
         every { viewFactory.makeView(any()) } returns beagleView
         every { viewGroup.addView(capture(viewSlot)) } just Runs
@@ -107,12 +111,17 @@ class ViewGroupExtensionsKtTest : BaseTest() {
 
     @Test
     fun loadView_should_create_BeagleView_and_call_loadView_with_fragment() {
-        // When
+        // Given When
         viewGroup.loadView(fragment, screenRequest)
 
         // Then
-        verify { viewFactory.makeBeagleView(activity) }
-        verify { beagleView.loadView(any<FragmentRootView>(), screenRequest) }
+        verifySequence {
+            viewModel.resetIds()
+            viewFactory.makeBeagleView(activity)
+            beagleView.loadView(any<FragmentRootView>(), screenRequest)
+            beagleView.stateChangedListener = any()
+            beagleView.loadCompletedListener = any()
+        }
     }
 
     @Test
@@ -129,11 +138,7 @@ class ViewGroupExtensionsKtTest : BaseTest() {
     fun `loadView should addView when load complete`() {
         // Given
         val slot = slot<OnLoadCompleted>()
-        mockkObject(ViewModelProviderFactory)
         every { beagleView.loadCompletedListener = capture(slot) } just Runs
-        every {
-            ViewModelProviderFactory.of(any<Fragment>())[ScreenContextViewModel::class.java]
-        } returns viewModel
 
         // When
         viewGroup.loadView(fragment, screenRequest)

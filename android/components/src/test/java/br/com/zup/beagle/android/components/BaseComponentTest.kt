@@ -17,9 +17,11 @@
 package br.com.zup.beagle.android.components
 
 import android.view.View
+import br.com.zup.beagle.android.designsystem.constant.DesignSystemConstant
 import br.com.zup.beagle.android.utils.BaseTest
 import br.com.zup.beagle.android.engine.renderer.ViewRenderer
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
+import br.com.zup.beagle.android.utils.beagleComponent
 import br.com.zup.beagle.android.view.ComponentsViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.widget.RootView
@@ -38,13 +40,15 @@ abstract class BaseComponentTest : BaseTest() {
 
     val rootView: RootView = mockk(relaxed = true)
 
-    val view: View = mockk()
+    val view: View = mockk(relaxed = true)
 
     override fun setUp() {
         super.setUp()
 
         mockkConstructor(ViewRendererFactory::class)
         mockkConstructor(ComponentsViewFactory::class)
+
+        DesignSystemConstant.context = mockk(relaxed = true)
 
         every { anyConstructed<ViewRendererFactory>().make(any()) } returns viewRender
         every { anyConstructed<ComponentsViewFactory>().makeBeagleFlexView(any()) } returns beagleFlexView

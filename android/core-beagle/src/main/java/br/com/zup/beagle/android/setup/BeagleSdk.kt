@@ -53,6 +53,7 @@ interface BeagleSdk {
 
     fun registeredWidgets(): List<Class<WidgetView>>
     fun registeredInternalWidgets(): List<Class<WidgetView>>
+
     fun registeredActions(): List<Class<Action>>
     fun registeredInternalActions(): List<Class<Action>>
 
@@ -67,6 +68,7 @@ interface BeagleSdk {
         DatabaseContext.context = application
 
         ContextConstant.moshi = BeagleMoshi.moshi
+        ContextConstant.memoryMaximumCapacity = BeagleEnvironment.beagleSdk.config.cache.memoryMaximumCapacity
 
         DesignSystemConstant.context = application
         DesignSystemConstant.designSystem = designSystem

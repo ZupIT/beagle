@@ -33,12 +33,8 @@ public protocol ObservableProtocol: AnyObject {
 
 public class Observable<T>: ObservableProtocol {
 
-    public var observers: [Observer] {
-        return _observers.compactMap { $0.observer }
-    }
-
-    private var _observers: [WeakObserver] = []
-
+    public var observers: [Observer] = []
+    
     public var value: T {
         didSet { notifyObservers() }
     }
@@ -46,39 +42,27 @@ public class Observable<T>: ObservableProtocol {
     public init(value: T) {
         self.value = value
     }
-
-    deinit {
-        _observers.removeAll()
-    }
     
     public func addObserver(_ observer: Observer) {
         guard !isAlreadyObserving(observer) else { return }
 
-        _observers.append(WeakObserver(observer))
+        observers.append(observer)
     }
     
     public func deleteObserver(_ observer: Observer) {
-        guard let index = self._observers.firstIndex(where: { $0.observer === observer }) else {
+        guard let index = observers.firstIndex(where: { $0 === observer }) else {
             return
         }
-        _observers.remove(at: index)
+        observers.remove(at: index)
     }
 
     private func notifyObservers() {
-        for observer in _observers {
-            observer.observer?.didChangeValue(value)
+        observers.forEach {
+            $0.didChangeValue(value)
         }
     }
 
     private func isAlreadyObserving(_ observer: Observer) -> Bool {
-        return _observers.contains { $0.observer === observer }
-    }
-}
-
-private struct WeakObserver {
-    weak var observer: Observer?
-
-    init(_ observer: Observer) {
-        self.observer = observer
+        return observers.contains { $0 === observer }
     }
 }

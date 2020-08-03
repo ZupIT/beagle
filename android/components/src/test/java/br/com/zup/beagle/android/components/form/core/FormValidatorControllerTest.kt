@@ -21,6 +21,7 @@ import br.com.zup.beagle.android.components.form.FormInput
 import br.com.zup.beagle.android.components.form.FormSubmit
 import br.com.zup.beagle.android.components.form.InputWidget
 import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.utils.beagleComponent
 import io.mockk.*
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -67,8 +68,9 @@ class FormValidatorControllerTest {
 
         formValidatorController.formSubmitView = submitView
 
-        every { submitView.tag } returns formSubmit
+        every { submitView.getTag(any()) } returns formSubmit
         every { submitView.isEnabled = capture(submitViewEnabledSlot) } just Runs
+        every { submitView.beagleComponent = any() } just Runs
     }
 
     @Test

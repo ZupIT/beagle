@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.utils
 
-import br.com.zup.beagle.android.context.ContextConstant.moshi
+import br.com.zup.beagle.android.context.ContextConstant
 import br.com.zup.beagle.android.context.ContextData
 import org.json.JSONArray
 import org.json.JSONObject
@@ -26,15 +26,16 @@ import org.json.JSONObject
  * because if user pass a map, list or any kind of object, this should be normalized
  * to a JSONArray or JSONObject.
  */
+internal fun ContextData.normalize(): ContextData {
+    return ContextData(this.id, value.normalizeContextValue())
+}
 
-//TODO removed internal
-fun ContextData.normalize(): ContextData {
+internal fun Any.normalizeContextValue(): Any {
     return if (isValueNormalized()) {
         this
     } else {
-        val newValue = moshi.adapter(Any::class.java).toJson(value) ?: ""
-        val normalizedValue = newValue.normalizeContextValue()
-        ContextData(this.id, normalizedValue)
+        val newValue = ContextConstant.moshi.adapter(Any::class.java).toJson(this) ?: ""
+        return newValue.normalizeContextValue()
     }
 }
 
@@ -46,6 +47,6 @@ internal fun String.normalizeContextValue(): Any {
     }
 }
 
-private fun ContextData.isValueNormalized(): Boolean {
-    return value is String || value is Number || value is Boolean || value is JSONArray || value is JSONObject
+private fun Any.isValueNormalized(): Boolean {
+    return this is String || this is Number || this is Boolean || this is JSONArray || this is JSONObject
 }

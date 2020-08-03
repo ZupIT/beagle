@@ -22,6 +22,7 @@ object ContextConstant {
     val EXPRESSION_REGEX = "@\\{([^)]+)\\}".toRegex()
 
     lateinit var moshi: Moshi
+    var memoryMaximumCapacity: Int = 0
 }
 
 object HandleEventDeprecatedConstants {

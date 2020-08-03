@@ -60,12 +60,6 @@ internal data class PageViewTwo(
         return container
     }
 
-    private fun executeActions(viewPager: BeaglePageView, rootView: RootView, position: Int) {
-        onPageChange?.let { listAction ->
-            handleEvent(rootView, viewPager, listAction, "onChange", position)
-        }
-    }
-
     private fun configPageChangeListener(viewPager: BeaglePageView, rootView: RootView) {
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
@@ -83,9 +77,15 @@ internal data class PageViewTwo(
         })
     }
 
+    private fun executeActions(viewPager: BeaglePageView, rootView: RootView, position: Int) {
+        onPageChange?.let { listAction ->
+            handleEvent(rootView, viewPager, listAction, ContextData("onPageChange", position))
+        }
+    }
+
     private fun observerCurrentPage(viewPager: BeaglePageView, rootView: RootView){
         currentPage?.let {
-            observeBindChanges(rootView = rootView, bind = it){position ->
+            observeBindChanges(rootView = rootView, view = viewPager,  bind = it){position ->
                 position?.let{
                     viewPager.swapToPage(position)
                 }

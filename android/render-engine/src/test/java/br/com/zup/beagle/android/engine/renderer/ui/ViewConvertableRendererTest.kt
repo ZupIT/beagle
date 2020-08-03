@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package br.com.zup.beagle.android.engine.renderer.ui
 
 import android.content.Context
@@ -40,14 +39,13 @@ class ViewConvertableRendererTest {
     @MockK
     private lateinit var context: Context
 
-    @RelaxedMockK
-    private lateinit var view: View
-
     @MockK
     private lateinit var rootView: RootView
 
-    private lateinit var viewConvertableRenderer: ViewConvertableRenderer
+    @RelaxedMockK
+    private lateinit var view: View
 
+    private lateinit var viewConvertableRenderer: ViewConvertableRenderer
 
     @Before
     fun setUp() {

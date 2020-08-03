@@ -21,7 +21,6 @@ import br.com.zup.beagle.android.engine.renderer.ViewRenderer
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
-import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.Runs
 import io.mockk.every
@@ -31,13 +30,11 @@ import io.mockk.mockkConstructor
 
 abstract class BaseComponentTest : BaseTest() {
 
-    internal val viewRender: ViewRenderer<ServerDrivenComponent> = mockk()
+    private val viewRender: ViewRenderer<ServerDrivenComponent> = mockk()
 
     internal val beagleFlexView: BeagleFlexView = mockk(relaxed = true)
 
-    val rootView: RootView = mockk(relaxed = true)
-
-    val view: View = mockk()
+    protected val view = mockk<View>()
 
     override fun setUp() {
         super.setUp()
@@ -48,9 +45,7 @@ abstract class BaseComponentTest : BaseTest() {
         every { anyConstructed<ViewRendererFactory>().make(any()) } returns viewRender
         every { anyConstructed<ViewFactory>().makeBeagleFlexView(any()) } returns beagleFlexView
         every { anyConstructed<ViewFactory>().makeBeagleFlexView(any(), any()) } returns beagleFlexView
-
-
         every { viewRender.build(any()) } returns view
-        every { view.tag = any() } just Runs
+        every { view.setTag(any(), any()) } just Runs
     }
 }

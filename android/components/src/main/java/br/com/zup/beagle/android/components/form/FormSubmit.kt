@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.components.form
 import android.view.View
 import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
+import br.com.zup.beagle.android.utils.beagleComponent
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.ViewConvertable
 import br.com.zup.beagle.annotation.RegisterWidget
@@ -30,14 +31,14 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 data class FormSubmit(
     override val child: ServerDrivenComponent,
     val enabled: Boolean = true
-)  : ViewConvertable, GhostComponent {
+) : ViewConvertable, GhostComponent {
 
     @Transient
     private val viewRendererFactory: ViewRendererFactory = ViewRendererFactory()
 
     override fun buildView(rootView: RootView): View {
         return viewRendererFactory.make(child).build(rootView).apply {
-            tag = this@FormSubmit
+            beagleComponent = this@FormSubmit
         }
     }
 }

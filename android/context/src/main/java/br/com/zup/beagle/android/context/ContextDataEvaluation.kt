@@ -16,8 +16,9 @@
 
 package br.com.zup.beagle.android.context
 
-import br.com.zup.beagle.android.logger.BeagleContextLogs
+import androidx.collection.LruCache
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
+import br.com.zup.beagle.android.logger.BeagleContextLogs
 import br.com.zup.beagle.android.utils.getContextId
 import br.com.zup.beagle.android.utils.getExpressions
 import com.squareup.moshi.Moshi
@@ -33,14 +34,25 @@ class ContextDataEvaluation(
 
     fun evaluateBindExpression(
         contextData: ContextData,
-        bind: Bind.Expression<*>
+        contextCache: LruCache<String, Any>,
+        bind: Bind.Expression<*>,
+        evaluatedBindings: MutableMap<String, Any>
     ): Any? {
-        return evaluateBindExpression(listOf(contextData), bind)
+        return evaluateBindExpressions(listOf(contextData), bind, contextCache, evaluatedBindings)
     }
 
     fun evaluateBindExpression(
         contextsData: List<ContextData>,
         bind: Bind.Expression<*>
+    ): Any? {
+        return evaluateBindExpressions(contextsData, bind)
+    }
+
+    private fun evaluateBindExpressions(
+        contextsData: List<ContextData>,
+        bind: Bind.Expression<*>,
+        contextCache: LruCache<String, Any>? = null,
+        evaluatedExpressions: MutableMap<String, Any> = mutableMapOf()
     ): Any? {
         val expressions = bind.value.getExpressions()
 
@@ -48,13 +60,13 @@ class ContextDataEvaluation(
             bind.type == String::class.java -> {
                 contextsData.forEach { contextData ->
                     expressions.filter { it.getContextId() == contextData.id }.forEach { expression ->
-                        evaluateExpressionsForContext(contextData, expression, bind)
+                        evaluateExpressionsForContext(contextData, contextCache, expression, bind, evaluatedExpressions)
                     }
                 }
 
-                evaluateMultipleExpressions(bind)
+                evaluateMultipleExpressions(bind, evaluatedExpressions)
             }
-            expressions.size == 1 -> evaluateExpression(contextsData[0], bind, expressions[0])
+            expressions.size == 1 -> evaluateExpression(contextsData[0], contextCache, bind, expressions[0])
             else -> {
                 BeagleContextLogs.multipleExpressionsInValueThatIsNotString()
                 null
@@ -64,24 +76,40 @@ class ContextDataEvaluation(
 
     private fun evaluateExpressionsForContext(
         contextData: ContextData,
+        contextCache: LruCache<String, Any>?,
         expression: String,
-        bind: Bind.Expression<*>
+        bind: Bind.Expression<*>,
+        evaluatedExpressions: MutableMap<String, Any>
     ) {
-        val value = evaluateExpression(contextData, bind, expression) ?: ""
-        bind.evaluatedExpressions[expression] = value
+        evaluatedExpressions[expression] = evaluateExpression(contextData, contextCache, bind, expression) ?: ""
     }
 
-    private fun evaluateMultipleExpressions(bind: Bind.Expression<*>): Any? {
-        var text = bind.value
-        bind.evaluatedExpressions.forEach {
-            val expressionKey = it.key
-            text = text.replace("@{$expressionKey}", it.value.toString())
-        }
-        return if (text.isEmpty()) null else text
+    private fun evaluateMultipleExpressions(
+        bind: Bind.Expression<*>,
+        evaluatedExpressions: MutableMap<String, Any>
+    ): Any? {
+        val regex = "(?<=\\})".toRegex()
+        return bind.value.split(regex).joinToString("") {
+            val slash = "(\\\\*)@".toRegex().find(it)?.groups?.get(1)?.value?.length ?: 0
+            if (!it.matches(".*\\\\@.*".toRegex()) || slash % 2 == 0) {
+                val key = "\\{([^\\{]*)\\}".toRegex().find(it)?.groups?.get(1)?.value
+                it.replace(
+                    "\\@\\{\\w.+(\\.|\\w+)\\}".toRegex(),
+                    evaluatedExpressions[key].toString()
+                )
+            } else {
+                it
+            }
+        }.replace("\\\\", "\\").replace("\\@", "@")
     }
 
-    private fun evaluateExpression(contextData: ContextData, bind: Bind.Expression<*>, expression: String): Any? {
-        val value = getValue(contextData, expression, bind.type)
+    private fun evaluateExpression(
+        contextData: ContextData,
+        contextCache: LruCache<String, Any>?,
+        bind: Bind.Expression<*>,
+        expression: String
+    ): Any? {
+        val value = getValue(contextData, contextCache, expression, bind.type)
 
         return try {
             if (bind.type == String::class.java) {
@@ -102,9 +130,21 @@ class ContextDataEvaluation(
         null
     }
 
-    private fun getValue(contextData: ContextData, path: String, type: Type): Any? {
+    private fun getValue(
+        contextData: ContextData,
+        contextCache: LruCache<String, Any>?,
+        path: String,
+        type: Type
+    ): Any? {
         return if (path != contextData.id) {
-            findValue(contextData, path)
+            val cachedValue = contextCache?.get(path)
+            if (cachedValue != null) {
+                return cachedValue
+            } else {
+                findValue(contextData, path)?.also {
+                    contextCache?.put(path, it)
+                }
+            }
         } else {
             ContextValueHandler.treatValue(contextData.value, type)
         }

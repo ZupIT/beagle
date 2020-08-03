@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.components.form
 import android.view.View
 import br.com.zup.beagle.android.components.form.core.Constants
 import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
+import br.com.zup.beagle.android.utils.beagleComponent
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.ViewConvertable
 import br.com.zup.beagle.annotation.RegisterWidget
@@ -39,7 +40,7 @@ data class FormInput(
 
     override fun buildView(rootView: RootView): View {
         return viewRendererFactory.make(child).build(rootView).apply {
-            tag = this@FormInput
+            beagleComponent = this@FormInput
         }
     }
 }

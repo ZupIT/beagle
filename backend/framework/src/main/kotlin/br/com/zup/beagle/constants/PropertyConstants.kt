@@ -16,6 +16,10 @@
 
 package br.com.zup.beagle.constants
 
-const val BEAGLE_CACHE_ENABLED = "beagle.cache.enabled"
-const val BEAGLE_CACHE_INCLUDES = "beagle.cache.endpoint.include"
-const val BEAGLE_CACHE_EXCLUDES = "beagle.cache.endpoint.exclude"
+const val BEAGLE_CACHE_PREFIX = "beagle.cache"
+const val BEAGLE_CACHE_ENDPOINT_PREFIX = "beagle.cache.endpoint"
+
+const val BEAGLE_CACHE_ENABLED = "$BEAGLE_CACHE_PREFIX.enabled"
+const val BEAGLE_CACHE_TTL = "$BEAGLE_CACHE_ENDPOINT_PREFIX.ttl"
+const val BEAGLE_CACHE_INCLUDES = "$BEAGLE_CACHE_ENDPOINT_PREFIX.include"
+const val BEAGLE_CACHE_EXCLUDES = "$BEAGLE_CACHE_ENDPOINT_PREFIX.exclude"

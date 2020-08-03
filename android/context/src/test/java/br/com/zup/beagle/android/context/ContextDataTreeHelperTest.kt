@@ -16,11 +16,12 @@
 
 package br.com.zup.beagle.android.context
 
-import android.util.LruCache
+import br.com.zup.beagle.android.fake.createViewForContext
 import br.com.zup.beagle.android.jsonpath.JsonCreateTree
 import br.com.zup.beagle.android.testutil.RandomData
 import org.json.JSONArray
 import org.json.JSONObject
+import org.junit.Before
 import org.junit.Test
 import java.util.LinkedList
 import kotlin.test.assertEquals
@@ -31,52 +32,69 @@ private val CONTEXT_ID = RandomData.string()
 
 class ContextDataTreeHelperTest {
 
+    private val view = createViewForContext()
     private val jsonCreateTree: JsonCreateTree = JsonCreateTree()
+    private val contextDataTreeHelper = ContextDataTreeHelper()
 
+    @Before
+    fun setUp() {
+
+        ContextConstant.memoryMaximumCapacity = 15
+
+    }
     @Test
     fun `should create a context with new json array tree`() {
-        val contexts = mutableMapOf<String, ContextBinding>()
+        // Given
         val contextData = ContextData(CONTEXT_ID, true)
-        val contextBinding = ContextBinding(contextData, mutableSetOf(), LruCache(1))
-        contexts[contextData.id] = contextBinding
-        val result = ContextDataTreeHelper().updateContextDataWithTree(
+        val contextBinding = ContextBinding(contextData, mutableSetOf())
+
+        // When
+        val result = contextDataTreeHelper.updateContextDataWithTree(
+            view,
             contextBinding,
             jsonCreateTree,
-            LinkedList(listOf("[0]")),
-            contexts
+            LinkedList(listOf("[0]"))
         )
+
+        // Then
         assertNotEquals(result.value, contextData.value)
         assertTrue(result.value is JSONArray)
     }
 
     @Test
     fun `should create a context with new json object tree`() {
-        val contexts = mutableMapOf<String, ContextBinding>()
+        // Given
         val contextData = ContextData(CONTEXT_ID, JSONArray())
-        val contextBinding = ContextBinding(contextData, mutableSetOf(), LruCache(1))
-        contexts[contextData.id] = contextBinding
-        val result = ContextDataTreeHelper().updateContextDataWithTree(
+        val contextBinding = ContextBinding(contextData, mutableSetOf())
+
+        // When
+        val result = contextDataTreeHelper.updateContextDataWithTree(
+            view,
             contextBinding,
             jsonCreateTree,
-            LinkedList(listOf("test")),
-            contexts
+            LinkedList(listOf("test"))
         )
+
+        // Then
         assertNotEquals(result.value, contextData.value)
         assertTrue(result.value is JSONObject)
     }
 
     @Test
     fun `should return the same context when the root tree is the same type`() {
-        val contexts = mutableMapOf<String, ContextBinding>()
+        // Given
         val contextData = ContextData(CONTEXT_ID, JSONArray())
-        val contextBinding = ContextBinding(contextData, mutableSetOf(), LruCache(1))
-        contexts[contextData.id] = contextBinding
-        val result = ContextDataTreeHelper().updateContextDataWithTree(
+        val contextBinding = ContextBinding(contextData, mutableSetOf())
+
+        // When
+        val result = contextDataTreeHelper.updateContextDataWithTree(
+            view,
             contextBinding,
             jsonCreateTree,
-            LinkedList(listOf("[0]")),
-            contexts
+            LinkedList(listOf("[0]"))
         )
+
+        // Then
         assertEquals(result.value, contextData.value)
         assertTrue(result.value is JSONArray)
     }
