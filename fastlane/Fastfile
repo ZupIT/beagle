@@ -72,13 +72,14 @@ end
 desc "Publish new release based on last two tags"
 lane :deploy do
   sh "git fetch"
-  pattern = "*"
+  pattern = "*[0-9]"
+  tagName = "master"
   if ENV["TAG_NAME"].index("-") # Hotfix
     tagName = ENV["TAG_NAME"].split("/").last
     platformHotfix = tagName.split("-").last
     pattern = "*-#{platformHotfix}"
-    sh "git checkout #{tagName}"
   end
+  sh "git checkout #{tagName}"
 
   ENV["VERSION_DEPLOY"] = last_git_tag(pattern: pattern)
   if platformHotfix == "ios"
