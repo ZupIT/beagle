@@ -21,9 +21,6 @@ jobs:
             -   name: Install Fastlane
                 run: bundle config set path '~/.gem' && bundle install
 
-
-            - name: Install Fastlane
-              run: bundle install
             - name: Open Pull Request
               env:
                 REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
