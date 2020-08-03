@@ -16,4 +16,5 @@
 
 <resources>
     <string name="app_name">Automated Tests</string>
+    <string name="title_btn_retry">Try again</string>
 </resources>
