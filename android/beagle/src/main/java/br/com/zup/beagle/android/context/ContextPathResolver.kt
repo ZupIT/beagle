@@ -30,7 +30,7 @@ class ContextPathResolver {
         var newPath = path
         val contextIdFormatted ="$contextId."
 
-        if (newPath.isEmpty()) {
+        if (contextId == path) {
             throw JsonPathUtils.createInvalidPathException(path)
         } else if(path.startsWith(contextIdFormatted)){
             newPath = path.replaceFirst(contextIdFormatted, "")

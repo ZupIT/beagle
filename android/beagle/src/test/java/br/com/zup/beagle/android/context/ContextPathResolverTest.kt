@@ -71,4 +71,17 @@ class ContextPathResolverTest {
         assertEquals("b", keys.poll())
         assertEquals(0, keys.size)
     }
+
+    @Test
+    fun it_should_not_remove_a_partial_string_value_from_path_that_equals_the_context_id_string_value(){
+        //Given
+        val contextId = RandomData.string()
+        val path = contextId+RandomData.string()
+
+        //When
+        val keys = contextPathResolver.getKeysFromPath(contextId, path)
+
+        //Then
+        assertEquals(path, keys[0])
+    }
 }
