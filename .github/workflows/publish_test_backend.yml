@@ -25,4 +25,3 @@ jobs:
                     repository: ${{ github.repository }}
                     registry: docker.pkg.github.com
                     image: automated-test-backend
-                    sha: ${{ github.sha }}
