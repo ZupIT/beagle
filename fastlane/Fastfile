@@ -71,6 +71,7 @@ end
 
 desc "Publish new release based on last two tags"
 lane :deploy do
+  sh "git fetch"
   pattern = "*"
   if ENV["TAG_NAME"].index("-") # Hotfix
     tagName = ENV["TAG_NAME"].split("/").last
@@ -196,7 +197,7 @@ error do |lane, exception, options|
   end
 end
 
-private_lane :lastExpectedVersion do |params|
+lane :lastExpectedVersion do |params|
   platform = params[:newVersion].split("-")
   releaseNumberArray = platform.first.split(".")
   lastVersion = ""
@@ -217,5 +218,5 @@ private_lane :lastExpectedVersion do |params|
   else
     version = lastVersion
   end
-  "#{version}"
+  puts "#{version}"
 end
