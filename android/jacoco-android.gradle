@@ -22,7 +22,7 @@ jacoco {
 
 jacocoAndroidUnitTestReport {
 
-    excludes += ['/beagle/**/builder/**']
+    excludes += ['**/beagle/**/builder/**']
 
     csv.enabled false
     html.enabled true
