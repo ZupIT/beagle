@@ -83,17 +83,17 @@ lane :deploy do
   ENV["VERSION_DEPLOY"] = last_git_tag(pattern: pattern)
   if platformHotfix == "ios"
     puts "iOS Hotfix release"
-    # sh "fastlane ios release"
+    sh "fastlane ios release"
   elsif platformHotfix == "android"
     puts "Android Hotfix release"
-    # sh "fastlane common remote_publish"
+    sh "fastlane common remote_publish"
   elsif platformHotfix == "backend"
     puts "Backend Hotfix release"
-    # sh "fastlane common remote_publish"
+    sh "fastlane common remote_publish"
   else
     puts "Normal Release"
-    # sh "fastlane common remote_publish"
-    # sh "fastlane ios release"
+    sh "fastlane common remote_publish"
+    sh "fastlane ios release"
   end
 
   releaseNotes = release_notes
