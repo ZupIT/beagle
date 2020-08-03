@@ -40,16 +40,16 @@ jobs:
 
             -   name: Dependencies
                 run: |
-                  cd iOS/Example/BeagleSample
+                  cd iOS/Example/CocoaPodsTest
                   bundle exec pod install
                 env:
                   DEVELOPER_DIR: ${{ matrix.xcode }}
             
             -   name: Build Application
                 run: |
-                  cd iOS/Example/BeagleSample
-                  bundle exec fastlane scan --destination "${destination}" --scheme "BeagleSample"
-                  xcodebuild build -workspace BeagleSample.xcworkspace -scheme BeagleSample -sdk iphonesimulator -destination "${destination}"
+                  cd iOS/Example/CocoaPodsTest
+                  bundle exec fastlane scan --destination "${destination}" --scheme "CocoaPodsTest"
+                  xcodebuild build -workspace CocoaPodsTest.xcworkspace -scheme CocoaPodsTest -sdk iphonesimulator -destination "${destination}"
                 env:
                   destination: ${{ matrix.destination }}
                   DEVELOPER_DIR: ${{ matrix.xcode }}

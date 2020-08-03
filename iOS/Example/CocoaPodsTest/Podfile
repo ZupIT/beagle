@@ -1,11 +1,5 @@
-target 'BeagleSample' do
+target 'CocoaPodsTest' do
   use_frameworks!
   pod 'Beagle', :git => 'https://github.com/ZupIT/beagle.git', :branch => 'master'
   pod 'BeagleSchema', :git => 'https://github.com/ZupIT/beagle.git', :branch => 'master'
-
-  target 'BeagleSampleTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
 end

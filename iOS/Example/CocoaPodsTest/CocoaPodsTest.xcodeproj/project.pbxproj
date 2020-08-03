@@ -7,41 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8D5C0375E38BC7E386E0E2D0 /* Pods_BeagleSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C83EBCB76F12E05DB743D5F9 /* Pods_BeagleSample.framework */; };
+		95C4223E09CB65515B791086 /* Pods_CocoaPodsTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CEA5987C6710ED849A76848 /* Pods_CocoaPodsTest.framework */; };
 		98019D0D24D36FBF00BD02A3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98019D0C24D36FBF00BD02A3 /* ViewController.swift */; };
 		98019D1224D36FC200BD02A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98019D1124D36FC200BD02A3 /* Assets.xcassets */; };
 		98019D1524D36FC200BD02A3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98019D1324D36FC200BD02A3 /* LaunchScreen.storyboard */; };
-		98019D2024D36FC300BD02A3 /* BeagleSampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98019D1F24D36FC300BD02A3 /* BeagleSampleTests.swift */; };
 		98019D2B24D371E600BD02A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98019D2A24D371E600BD02A3 /* AppDelegate.swift */; };
-		CD7EDB744C4E1955192233F8 /* Pods_BeagleSampleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FB46E94554F43D2E550B082 /* Pods_BeagleSampleTests.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		98019D1C24D36FC300BD02A3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 98019CFD24D36FBF00BD02A3 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 98019D0424D36FBF00BD02A3;
-			remoteInfo = BeagleSample;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1FB46E94554F43D2E550B082 /* Pods_BeagleSampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BeagleSampleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		23CC4A4E8C95629C2349A744 /* Pods-BeagleSampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BeagleSampleTests.debug.xcconfig"; path = "Target Support Files/Pods-BeagleSampleTests/Pods-BeagleSampleTests.debug.xcconfig"; sourceTree = "<group>"; };
-		98019D0524D36FBF00BD02A3 /* BeagleSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeagleSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3CEA5987C6710ED849A76848 /* Pods_CocoaPodsTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CocoaPodsTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		98019D0524D36FBF00BD02A3 /* CocoaPodsTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocoaPodsTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98019D0C24D36FBF00BD02A3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		98019D1124D36FC200BD02A3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		98019D1424D36FC200BD02A3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		98019D1624D36FC200BD02A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		98019D1B24D36FC300BD02A3 /* BeagleSampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeagleSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		98019D1F24D36FC300BD02A3 /* BeagleSampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeagleSampleTests.swift; sourceTree = "<group>"; };
-		98019D2124D36FC300BD02A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		98019D2A24D371E600BD02A3 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C83EBCB76F12E05DB743D5F9 /* Pods_BeagleSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BeagleSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D77D8CB5705637D56F3CB615 /* Pods-BeagleSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BeagleSample.release.xcconfig"; path = "Target Support Files/Pods-BeagleSample/Pods-BeagleSample.release.xcconfig"; sourceTree = "<group>"; };
 		DD66ECD34DC7ED428C673DB9 /* Pods-BeagleSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BeagleSample.debug.xcconfig"; path = "Target Support Files/Pods-BeagleSample/Pods-BeagleSample.debug.xcconfig"; sourceTree = "<group>"; };
 		E11F0203F0B2F910BBCD16E6 /* Pods-BeagleSampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BeagleSampleTests.release.xcconfig"; path = "Target Support Files/Pods-BeagleSampleTests/Pods-BeagleSampleTests.release.xcconfig"; sourceTree = "<group>"; };
+		FA5C59C0FDC722A9B87E8065 /* Pods-CocoaPodsTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPodsTest.release.xcconfig"; path = "Target Support Files/Pods-CocoaPodsTest/Pods-CocoaPodsTest.release.xcconfig"; sourceTree = "<group>"; };
+		FF4D93BE58049EDEFC1F3B8E /* Pods-CocoaPodsTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPodsTest.debug.xcconfig"; path = "Target Support Files/Pods-CocoaPodsTest/Pods-CocoaPodsTest.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,15 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D5C0375E38BC7E386E0E2D0 /* Pods_BeagleSample.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		98019D1824D36FC300BD02A3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CD7EDB744C4E1955192233F8 /* Pods_BeagleSampleTests.framework in Frameworks */,
+				95C4223E09CB65515B791086 /* Pods_CocoaPodsTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,8 +46,8 @@
 		31BA34CAB2D08A033589021A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C83EBCB76F12E05DB743D5F9 /* Pods_BeagleSample.framework */,
 				1FB46E94554F43D2E550B082 /* Pods_BeagleSampleTests.framework */,
+				3CEA5987C6710ED849A76848 /* Pods_CocoaPodsTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -80,6 +59,8 @@
 				D77D8CB5705637D56F3CB615 /* Pods-BeagleSample.release.xcconfig */,
 				23CC4A4E8C95629C2349A744 /* Pods-BeagleSampleTests.debug.xcconfig */,
 				E11F0203F0B2F910BBCD16E6 /* Pods-BeagleSampleTests.release.xcconfig */,
+				FF4D93BE58049EDEFC1F3B8E /* Pods-CocoaPodsTest.debug.xcconfig */,
+				FA5C59C0FDC722A9B87E8065 /* Pods-CocoaPodsTest.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -87,8 +68,7 @@
 		98019CFC24D36FBF00BD02A3 = {
 			isa = PBXGroup;
 			children = (
-				98019D0724D36FBF00BD02A3 /* BeagleSample */,
-				98019D1E24D36FC300BD02A3 /* BeagleSampleTests */,
+				98019D0724D36FBF00BD02A3 /* CocoaPodsTest */,
 				98019D0624D36FBF00BD02A3 /* Products */,
 				402628CC17E44E5628D60F42 /* Pods */,
 				31BA34CAB2D08A033589021A /* Frameworks */,
@@ -98,13 +78,12 @@
 		98019D0624D36FBF00BD02A3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				98019D0524D36FBF00BD02A3 /* BeagleSample.app */,
-				98019D1B24D36FC300BD02A3 /* BeagleSampleTests.xctest */,
+				98019D0524D36FBF00BD02A3 /* CocoaPodsTest.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		98019D0724D36FBF00BD02A3 /* BeagleSample */ = {
+		98019D0724D36FBF00BD02A3 /* CocoaPodsTest */ = {
 			isa = PBXGroup;
 			children = (
 				98019D2A24D371E600BD02A3 /* AppDelegate.swift */,
@@ -113,24 +92,15 @@
 				98019D1324D36FC200BD02A3 /* LaunchScreen.storyboard */,
 				98019D1624D36FC200BD02A3 /* Info.plist */,
 			);
-			path = BeagleSample;
-			sourceTree = "<group>";
-		};
-		98019D1E24D36FC300BD02A3 /* BeagleSampleTests */ = {
-			isa = PBXGroup;
-			children = (
-				98019D1F24D36FC300BD02A3 /* BeagleSampleTests.swift */,
-				98019D2124D36FC300BD02A3 /* Info.plist */,
-			);
-			path = BeagleSampleTests;
+			path = CocoaPodsTest;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		98019D0424D36FBF00BD02A3 /* BeagleSample */ = {
+		98019D0424D36FBF00BD02A3 /* CocoaPodsTest */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 98019D2424D36FC300BD02A3 /* Build configuration list for PBXNativeTarget "BeagleSample" */;
+			buildConfigurationList = 98019D2424D36FC300BD02A3 /* Build configuration list for PBXNativeTarget "CocoaPodsTest" */;
 			buildPhases = (
 				F5C62870D36F0EF712A577D1 /* [CP] Check Pods Manifest.lock */,
 				98019D0124D36FBF00BD02A3 /* Sources */,
@@ -142,29 +112,10 @@
 			);
 			dependencies = (
 			);
-			name = BeagleSample;
+			name = CocoaPodsTest;
 			productName = BeagleSample;
-			productReference = 98019D0524D36FBF00BD02A3 /* BeagleSample.app */;
+			productReference = 98019D0524D36FBF00BD02A3 /* CocoaPodsTest.app */;
 			productType = "com.apple.product-type.application";
-		};
-		98019D1A24D36FC300BD02A3 /* BeagleSampleTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 98019D2724D36FC300BD02A3 /* Build configuration list for PBXNativeTarget "BeagleSampleTests" */;
-			buildPhases = (
-				4D56C470EE04A4741AD26D86 /* [CP] Check Pods Manifest.lock */,
-				98019D1724D36FC300BD02A3 /* Sources */,
-				98019D1824D36FC300BD02A3 /* Frameworks */,
-				98019D1924D36FC300BD02A3 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				98019D1D24D36FC300BD02A3 /* PBXTargetDependency */,
-			);
-			name = BeagleSampleTests;
-			productName = BeagleSampleTests;
-			productReference = 98019D1B24D36FC300BD02A3 /* BeagleSampleTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -178,13 +129,9 @@
 					98019D0424D36FBF00BD02A3 = {
 						CreatedOnToolsVersion = 11.3.1;
 					};
-					98019D1A24D36FC300BD02A3 = {
-						CreatedOnToolsVersion = 11.3.1;
-						TestTargetID = 98019D0424D36FBF00BD02A3;
-					};
 				};
 			};
-			buildConfigurationList = 98019D0024D36FBF00BD02A3 /* Build configuration list for PBXProject "BeagleSample" */;
+			buildConfigurationList = 98019D0024D36FBF00BD02A3 /* Build configuration list for PBXProject "CocoaPodsTest" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -197,8 +144,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				98019D0424D36FBF00BD02A3 /* BeagleSample */,
-				98019D1A24D36FC300BD02A3 /* BeagleSampleTests */,
+				98019D0424D36FBF00BD02A3 /* CocoaPodsTest */,
 			);
 		};
 /* End PBXProject section */
@@ -213,13 +159,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		98019D1924D36FC300BD02A3 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -229,37 +168,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BeagleSample/Pods-BeagleSample-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-CocoaPodsTest/Pods-CocoaPodsTest-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BeagleSample/Pods-BeagleSample-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-CocoaPodsTest/Pods-CocoaPodsTest-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BeagleSample/Pods-BeagleSample-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4D56C470EE04A4741AD26D86 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-BeagleSampleTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CocoaPodsTest/Pods-CocoaPodsTest-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F5C62870D36F0EF712A577D1 /* [CP] Check Pods Manifest.lock */ = {
@@ -277,7 +194,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-BeagleSample-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-CocoaPodsTest-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -296,23 +213,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		98019D1724D36FC300BD02A3 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				98019D2024D36FC300BD02A3 /* BeagleSampleTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		98019D1D24D36FC300BD02A3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 98019D0424D36FBF00BD02A3 /* BeagleSample */;
-			targetProxy = 98019D1C24D36FC300BD02A3 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		98019D1324D36FC200BD02A3 /* LaunchScreen.storyboard */ = {
@@ -442,17 +343,17 @@
 		};
 		98019D2524D36FC300BD02A3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DD66ECD34DC7ED428C673DB9 /* Pods-BeagleSample.debug.xcconfig */;
+			baseConfigurationReference = FF4D93BE58049EDEFC1F3B8E /* Pods-CocoaPodsTest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = BeagleSample/Info.plist;
+				INFOPLIST_FILE = CocoaPodsTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = br.com.zup.BeagleSample;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.zup.CocoaPodsTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -461,71 +362,27 @@
 		};
 		98019D2624D36FC300BD02A3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D77D8CB5705637D56F3CB615 /* Pods-BeagleSample.release.xcconfig */;
+			baseConfigurationReference = FA5C59C0FDC722A9B87E8065 /* Pods-CocoaPodsTest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = BeagleSample/Info.plist;
+				INFOPLIST_FILE = CocoaPodsTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = br.com.zup.BeagleSample;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.zup.CocoaPodsTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		98019D2824D36FC300BD02A3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 23CC4A4E8C95629C2349A744 /* Pods-BeagleSampleTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = BeagleSampleTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = br.com.zup.BeagleSampleTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BeagleSample.app/BeagleSample";
-			};
-			name = Debug;
-		};
-		98019D2924D36FC300BD02A3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E11F0203F0B2F910BBCD16E6 /* Pods-BeagleSampleTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = BeagleSampleTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = br.com.zup.BeagleSampleTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BeagleSample.app/BeagleSample";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		98019D0024D36FBF00BD02A3 /* Build configuration list for PBXProject "BeagleSample" */ = {
+		98019D0024D36FBF00BD02A3 /* Build configuration list for PBXProject "CocoaPodsTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98019D2224D36FC300BD02A3 /* Debug */,
@@ -534,20 +391,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		98019D2424D36FC300BD02A3 /* Build configuration list for PBXNativeTarget "BeagleSample" */ = {
+		98019D2424D36FC300BD02A3 /* Build configuration list for PBXNativeTarget "CocoaPodsTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98019D2524D36FC300BD02A3 /* Debug */,
 				98019D2624D36FC300BD02A3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		98019D2724D36FC300BD02A3 /* Build configuration list for PBXNativeTarget "BeagleSampleTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				98019D2824D36FC300BD02A3 /* Debug */,
-				98019D2924D36FC300BD02A3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
