@@ -94,7 +94,13 @@ extension Expression: Decodable {
         if let expression = try? container.decode(ContextExpression.self) {
             self = .expression(expression)
         } else if let value = try? container.decode(T.self) {
-            self = .value(value)
+            if let string = value as? String {
+                // swiftlint:disable force_cast
+                self = .value(string.escapeExpressions() as! T)
+                // swiftlint:enable force_cast
+            } else {
+                self = .value(value)
+            }
         } else {
             throw DecodingError.dataCorruptedError(in: container, debugDescription: "Expression cannot be decoded")
         }
@@ -111,5 +117,14 @@ extension ContextExpression: Decodable {
         } else {
             throw DecodingError.dataCorruptedError(in: container, debugDescription: "ContextExpression cannot be decoded")
         }
+    }
+}
+
+// MARK: EscapeExpressions
+
+extension String {
+    public func escapeExpressions() -> String {
+        let result = self.replacingOccurrences(of: "\\\\", with: "\\")
+        return result.replacingOccurrences(of: "\\@{", with: "@{")
     }
 }

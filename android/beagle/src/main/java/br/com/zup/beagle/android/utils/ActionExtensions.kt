@@ -16,7 +16,6 @@
 
 package br.com.zup.beagle.android.utils
 
-import android.util.MalformedJsonException
 import android.view.View
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
@@ -25,7 +24,6 @@ import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.ContextDataValueResolver
 import br.com.zup.beagle.android.context.expressionOf
 import br.com.zup.beagle.android.context.isExpression
-import br.com.zup.beagle.android.context.normalizeContextValue
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_ACTIONS_POINTER
@@ -34,7 +32,6 @@ import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVE
 import br.com.zup.beagle.android.widget.RootView
 import org.json.JSONArray
 import org.json.JSONObject
-import java.io.EOFException
 import java.lang.NumberFormatException
 
 internal var contextActionExecutor = ContextActionExecutor()
@@ -119,22 +116,25 @@ fun Action.handleEvent(
 /**
  * Evaluate the expression to a value
  * @property rootView from buildView
+ * @property origin received on execute method
  * @property bind has the expression to be evaluated
  */
 fun <T> Action.evaluateExpression(
     rootView: RootView,
+    origin: View,
     bind: Bind<T>
 ): T? {
-    return bind.evaluateForAction(rootView, this)
+    return bind.evaluateForAction(rootView, origin, this)
 }
 
 internal fun Action.evaluateExpression(
     rootView: RootView,
+    view: View,
     data: Any
 ): Any? {
     return try {
         return if (data is JSONObject || data is JSONArray || data.isExpression()) {
-            val value = expressionOf<String>(data.toString()).evaluateForAction(rootView, this)
+            val value = expressionOf<String>(data.toString()).evaluateForAction(rootView, view, this)
             value.tryToDeserialize()
         } else {
             data

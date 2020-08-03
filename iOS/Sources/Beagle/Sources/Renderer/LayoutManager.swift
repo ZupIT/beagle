@@ -19,8 +19,11 @@ import BeagleSchema
 
 final class LayoutManager {
 
-    private unowned var viewController: UIViewController
-    private let safeArea: SafeArea?
+    private unowned var viewController: BeagleScreenViewController
+    
+    private var safeArea: SafeArea? {
+        return viewController.screen?.safeArea
+    }
     
     private var keyboardFrame = CGRect.zero
     private var keyboardHeight: CGFloat {
@@ -30,9 +33,8 @@ final class LayoutManager {
         return keyboardRect.isNull ? 0 : keyboardRect.height
     }
     
-    public init(viewController: UIViewController, safeArea: SafeArea?) {
+    public init(_ viewController: BeagleScreenViewController) {
         self.viewController = viewController
-        self.safeArea = safeArea
         addObservers()
     }
     
@@ -41,8 +43,9 @@ final class LayoutManager {
     }
     
     public func applyLayout() {
-        guard let view = viewController.viewIfLoaded else { return }
+        guard case .view(let view) = viewController.content else { return }
         let style = Style(padding: contentPadding)
+        view.frame = viewController.view.bounds
         view.style.setup(style)
         view.style.applyLayout()
     }

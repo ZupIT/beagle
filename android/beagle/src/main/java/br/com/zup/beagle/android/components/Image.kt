@@ -60,7 +60,7 @@ data class Image(
 
     override fun buildView(rootView: RootView): View {
         val imageView: RoundedImageView = getImageView(rootView)
-        observeBindChanges(rootView, path) { pathType ->
+        observeBindChanges(rootView, imageView, path) { pathType ->
             when (pathType) {
                 is PathType.Local -> {
                     imageView.apply {
