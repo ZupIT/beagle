@@ -18,7 +18,7 @@ package br.com.zup.beagle.android.builder.action
 
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.Route
-import br.com.zup.beagle.android.builder.layout.ScreenWidgetBuilder
+import br.com.zup.beagle.android.builder.layout.ScreenComponentBuilder
 import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.builder.BeagleBuilder
 import br.com.zup.beagle.builder.BeagleMapBuilder
@@ -59,8 +59,8 @@ class RouteRemoteBuilder: BeagleBuilder<Route.Remote> {
         shouldPrefetch(block.invoke())
     }
 
-    fun fallback(block: ScreenWidgetBuilder.() -> Unit) {
-        fallback(ScreenWidgetBuilder().apply(block).build())
+    fun fallback(block: ScreenComponentBuilder.() -> Unit) {
+        fallback(ScreenComponentBuilder().apply(block).build())
     }
 
     override fun build() = Route.Remote(
@@ -76,8 +76,8 @@ class RouteLocalBuilder: BeagleBuilder<Route.Local> {
 
     fun screen(screen: Screen) = this.apply { this.screen = screen }
 
-    fun screen(block: ScreenWidgetBuilder.() -> Unit) {
-        screen(ScreenWidgetBuilder().apply(block).build())
+    fun screen(block: ScreenComponentBuilder.() -> Unit) {
+        screen(ScreenComponentBuilder().apply(block).build())
     }
 
     override fun build() = Route.Local(screen)

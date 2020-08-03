@@ -156,9 +156,9 @@ class NavigationBarBuilder : BeagleBuilder<NavigationBar> {
     )
 }
 
-fun screen(block: ScreenWidgetBuilder.() -> Unit) = ScreenWidgetBuilder().apply(block).build()
+fun screen(block: ScreenComponentBuilder.() -> Unit) = ScreenComponentBuilder().apply(block).build()
 
-class ScreenWidgetBuilder: BeagleBuilder<Screen> {
+class ScreenComponentBuilder: BeagleBuilder<Screen> {
     var identifier: String? = null
     var safeArea: SafeArea? = null
     var navigationBar: NavigationBar? = null
