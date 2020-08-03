@@ -43,7 +43,7 @@ class ImageBuilder : BeagleBuilder<Image> {
     override fun build() = Image(path, mode)
 }
 
-fun imagePath(block: PathTypeBuilder.() -> Unit) = PathTypeBuilder().apply(block).build()
+fun pathType(block: PathTypeBuilder.() -> Unit) = PathTypeBuilder().apply(block).build()
 
 class PathTypeBuilder: BeagleBuilder<PathType> {
     var pathType: PathType by Delegates.notNull()
