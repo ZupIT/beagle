@@ -218,5 +218,5 @@ lane :lastExpectedVersion do |params|
   else
     version = lastVersion
   end
-  puts "#{version}"
+  "#{version}"
 end
