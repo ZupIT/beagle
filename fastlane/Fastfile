@@ -96,13 +96,14 @@ lane :deploy do
     # sh "fastlane ios release"
   end
 
+  releaseNotes = release_notes
   sh "bash ./delete_release.sh"
   set_github_release(
     repository_name: "ZupIT/beagle",
     api_token: ENV["REPO_TOKEN"],
     name: ENV["VERSION_DEPLOY"],
     tag_name: ENV["VERSION_DEPLOY"],
-    description: release_notes,
+    description: releaseNotes,
     commitish: tagName
   )
 end
@@ -154,7 +155,7 @@ end
 
 desc "Generate release notes"
 private_lane :release_notes do
-  get_previous_tag = lastExpectedVersion(newVersion:ENV["TAG_NAME"])
+  get_previous_tag = lastExpectedVersion(newVersion:ENV["VERSION_DEPLOY"])
   tagHashes = sh "git show-ref -s #{get_previous_tag}"
 
   lane_context[SharedValues::RELEASE_ANALYZED] = true
@@ -212,7 +213,7 @@ lane :lastExpectedVersion do |params|
   end
   lastVersion[0] = ""
 
-  version = "asdasd"
+  version = ""
   if platform.length > 1
     version = "#{lastVersion}-#{platform[1]}"
   else
