@@ -30,7 +30,11 @@ public class ScreenRobot {
     
     func clickOnText(textOption: ScreenElements) {
         textOption.element.tap()
-}
+    }
+    
+    func typeTextIntoField(insertText: String) {
+        ScreenElements.ZIP_FIELD.element.typeText(insertText)
+    }
     
     func selectedTextIsPresented(selectedText1: String, selectedText2: String) {
         XCTAssertTrue(XCUIApplication().staticTexts[selectedText1].exists)
@@ -39,8 +43,12 @@ public class ScreenRobot {
 
     
     func clickOnButton(button: ScreenElements) {
-        CucumberishInitializer.waitForElementToAppear(ScreenElements.BUTTON_SCREEN_HEADER.element)
         button.element.tap()
+    }
+    
+    func confirmPopupCorrectly() {
+        XCTAssertTrue(ScreenElements.OK_BUTTON.element.exists)
+        XCTAssertTrue(ScreenElements.CANCEL_BUTTON.element.exists)
     }
     
 }

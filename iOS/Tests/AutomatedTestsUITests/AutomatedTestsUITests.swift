@@ -17,13 +17,12 @@ class CucumberishInitializer: NSObject {
             TabViewScreenSteps().TabViewScreenSteps()
             ImageScreenSteps().ImageScreenSteps()
             PageViewScreenSteps().PageViewScreenSteps()
-
+            SimpleFormScreenSteps().SimpleFormScreenSteps()
         }
         
         //A Given step definitiona
         Given("the app will load (.*)$") { (args, userInfo) -> Void in
             let url = args?[0] ?? ""
-            
             
             application = XCUIApplication()
             application.launchEnvironment["InitialUrl"] = url
