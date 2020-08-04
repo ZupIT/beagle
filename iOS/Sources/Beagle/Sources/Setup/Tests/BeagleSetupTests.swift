@@ -150,7 +150,7 @@ struct ComponentDummy: ServerDrivenComponent, CustomStringConvertible {
 }
 
 struct ActionDummy: Action, Equatable {
-    func execute(controller: BeagleController, sender: Any) {}
+    func execute(controller: BeagleController, origin: UIView) {}
 }
 
 struct BeagleScreenDependencies: BeagleDependenciesProtocol {

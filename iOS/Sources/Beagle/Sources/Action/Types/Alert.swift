@@ -19,15 +19,15 @@ import UIKit
 import BeagleSchema
 
 extension Alert: Action {
-    public func execute(controller: BeagleController, sender: Any) {
+    public func execute(controller: BeagleController, origin: UIView) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-        alertController.title = title?.evaluate(with: sender as? UIView)
-        alertController.message = message.evaluate(with: sender as? UIView)
+        alertController.title = title?.evaluate(with: origin)
+        alertController.message = message.evaluate(with: origin)
 
         let onPressOkAction = UIAlertAction(title: labelOk ?? "Ok", style: .default) {
             [weak controller] _ in guard let controller = controller else { return }
             if let onPressOk = self.onPressOk {
-                controller.execute(action: onPressOk, sender: sender)
+                controller.execute(actions: [onPressOk], origin: origin)
             }
         }
         alertController.addAction(onPressOkAction)

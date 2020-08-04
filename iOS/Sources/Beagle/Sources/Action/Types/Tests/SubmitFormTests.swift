@@ -33,7 +33,7 @@ final class SubmitFormTest: XCTestCase {
         
         // When
         let resultingView = renderer.render(simpleForm)
-        submitFormAction.execute(controller: controller, sender: resultingView)
+        submitFormAction.execute(controller: controller, origin: resultingView)
 
         // Then
         XCTAssertTrue(controller.viewControllerToPresent is UIAlertController)

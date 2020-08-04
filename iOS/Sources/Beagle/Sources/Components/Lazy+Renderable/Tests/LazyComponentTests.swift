@@ -141,7 +141,7 @@ class LazyRepositoryStub: Repository {
         componentCompletion = completion
         return nil
     }
-    
+
     func submitForm(
         url: String,
         additionalData: RemoteScreenAdditionalData?,
@@ -152,7 +152,7 @@ class LazyRepositoryStub: Repository {
         formCompletion = completion
         return nil
     }
-    
+
     func fetchImage(
         url: String,
         additionalData: RemoteScreenAdditionalData?,

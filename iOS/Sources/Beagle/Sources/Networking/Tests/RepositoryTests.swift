@@ -221,7 +221,7 @@ final class RepositoryStub: Repository {
         }
         return token
     }
-    
+
     func submitForm(
         url: String,
         additionalData: RemoteScreenAdditionalData?,
@@ -235,7 +235,7 @@ final class RepositoryStub: Repository {
         }
         return token
     }
-    
+
     func fetchImage(
         url: String,
         additionalData: RemoteScreenAdditionalData?,

@@ -16,9 +16,10 @@
  */
 
 import BeagleSchema
+import UIKit
 
 extension Navigate: Action {
-    public func execute(controller: BeagleController, sender: Any) {
+    public func execute(controller: BeagleController, origin: UIView) {
         controller.dependencies.navigation.navigate(action: self, controller: controller, animated: true)
     }
 }
