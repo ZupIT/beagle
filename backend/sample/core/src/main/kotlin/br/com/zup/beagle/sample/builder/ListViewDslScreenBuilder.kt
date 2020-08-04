@@ -40,7 +40,7 @@ object ListViewDslScreenBuilder : ScreenBuilder {
                 +navigationBarItem{
                     text = ""
                     image{
-                        justMobile { "informationImage" }
+                        mobileId = "informationImage"
                     }
                     action{
                         alert{
