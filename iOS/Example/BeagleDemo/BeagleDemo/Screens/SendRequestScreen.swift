@@ -67,19 +67,19 @@ let sendRequestDeclarativeScreen: Screen = {
 }()
 
 struct CustomConsoleLogAction: Action {
-    func execute(controller: BeagleController, sender: Any) {
+    func execute(controller: BeagleController, origin: UIView) {
         print("SendRequestScreen.CustomConsoleAction")
     }
 }
 
 struct OkAction: Action {
-    func execute(controller: BeagleController, sender: Any) {
+    func execute(controller: BeagleController, origin: UIView) {
         print("onPressOk from Alert clicked")
     }
 }
 
 struct CancelAction: Action {
-    func execute(controller: BeagleController, sender: Any) {
+    func execute(controller: BeagleController, origin: UIView) {
         print("onPressCancel from Confirm clicked")
     }
 }

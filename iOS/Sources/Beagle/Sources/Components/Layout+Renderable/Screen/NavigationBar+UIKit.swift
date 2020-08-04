@@ -20,8 +20,8 @@ import BeagleSchema
 
 extension NavigationBarItem {
     
-    public func toBarButtonItem(
-        controller: BeagleController
+    func toBarButtonItem(
+        controller: BeagleScreenViewController
     ) -> UIBarButtonItem {
         let barButtonItem = NavigationBarButtonItem(barItem: self, controller: controller)
         return barButtonItem
@@ -30,11 +30,11 @@ extension NavigationBarItem {
     final private class NavigationBarButtonItem: UIBarButtonItem {
         
         private let barItem: NavigationBarItem
-        private weak var controller: BeagleController?
+        private weak var controller: BeagleScreenViewController?
         
         init(
             barItem: NavigationBarItem,
-            controller: BeagleController
+            controller: BeagleScreenViewController
         ) {
             self.barItem = barItem
             self.controller = controller
@@ -60,7 +60,9 @@ extension NavigationBarItem {
         }
         
         @objc private func triggerAction() {
-            controller?.execute(action: barItem.action, sender: self)
+            if case .view(let view) = controller?.content {
+                controller?.execute(actions: [barItem.action], origin: view)
+            }
         }
     }
 }
