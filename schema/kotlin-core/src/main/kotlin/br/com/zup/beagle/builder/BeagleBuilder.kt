@@ -61,7 +61,8 @@ class BeagleListBuilder<T> {
         list(this)
     }
 
-    fun build() = list!!.toList()
+    fun build() = list?.toList()
+        ?: throw IllegalStateException("Assigning a nullable value to a non nullable list field")
 
     fun buildNullable() = list?.toList()
 
@@ -111,7 +112,8 @@ class BeagleMapBuilder<T : Any, F> {
         map(this)
     }
 
-    fun build() = map!!.toMap()
+    fun build() = map?.toMap()
+        ?: throw IllegalStateException("Assigning a nullable value to a non nullable map field")
 
     fun buildNullable() = map?.toMap()
 
