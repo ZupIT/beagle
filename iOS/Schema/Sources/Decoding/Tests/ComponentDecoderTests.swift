@@ -33,7 +33,7 @@ public final class ComponentDecoderTests: XCTestCase {
         assertSnapshot(matching: sut.actionDecoders, as: .dump)
     }
     
-    func test_whenANewTypeIsRegistered_thenItShouldBeAbleToDecodeIt() throws {
+    func testRegisterAndDecodeCustomComponent() throws {
         // Given
         let expectedText = "something"
         let jsonData = """
@@ -44,11 +44,37 @@ public final class ComponentDecoderTests: XCTestCase {
         """.data(using: .utf8)!
 
         // When
-        sut.register(NewComponent.self, for: "NewComponent")
+        sut.register(component: NewComponent.self)
         let component = try sut.decodeComponent(from: jsonData) as? NewComponent
         
         // Then
         XCTAssertEqual(component?.text, expectedText)
+    }
+    
+    func testRegisterComponentWithCustomTypeName() throws {
+        // Given
+        let sut = ComponentDecoder()
+
+        // When
+        sut.register(component: NewComponent.self, named: "NewCustomComponent")
+        let componentDecoder = sut.componentDecoders["custom:newcustomcomponent"]
+        
+        // Then
+        XCTAssertNotNil(componentDecoder)
+        XCTAssert(componentDecoder is NewComponent.Type)
+    }
+    
+    func testRegisterActionWithCustomTypeName() throws {
+        // Given
+        let sut = ComponentDecoder()
+
+        // When
+        sut.register(action: TestAction.self, named: "NewCustomAction")
+        let actionDecoder = sut.actionDecoders["custom:newcustomaction"]
+        
+        // Then
+        XCTAssertNotNil(actionDecoder)
+        XCTAssert(actionDecoder is TestAction.Type)
     }
 
     func testDecodeDefaultType() throws {
@@ -72,7 +98,7 @@ public final class ComponentDecoderTests: XCTestCase {
         XCTAssertEqual(string, expectedText)
     }
 
-    func test_whenAnUnknownTypeIsDecoded_thenItShouldReturnNil() throws {
+    func testUnknownTypeIsDecodeShouldReturnNil() throws {
         // Given
         let jsonData = """
         {
@@ -85,7 +111,7 @@ public final class ComponentDecoderTests: XCTestCase {
         let unknown = try sut.decodeComponent(from: jsonData) as? UnknownComponent
 
         // Then
-        XCTAssert(unknown?.type == "beagle:unknown")
+        XCTAssertEqual(unknown?.type, "beagle:unknown")
     }
 
     func testDecodeAction() throws {
@@ -105,12 +131,12 @@ public final class ComponentDecoderTests: XCTestCase {
     func testRegisterAndDecodeCustomAction() throws {
         let data = """
         {
-            "_beagleAction_":"custom:testcustomaction",
+            "_beagleAction_":"custom:testaction",
             "value": 42
         }
         """.data(using: .utf8)!
 
-        sut.register(TestAction.self, for: "TestCustomAction")
+        sut.register(action: TestAction.self)
         let action = try sut.decodeAction(from: data)
         let testAction = action as? TestAction
 
