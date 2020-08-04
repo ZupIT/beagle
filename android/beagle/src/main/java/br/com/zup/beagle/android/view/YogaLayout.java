@@ -200,12 +200,6 @@ public class YogaLayout extends ViewGroup {
         invalidate();
     }
 
-    public void setViewHeight(View view, int height) {
-        if (mYogaNodes.containsKey(view)) {
-            mYogaNodes.get(view).setHeight(height);
-        }
-    }
-
     private void removeViewFromYogaTree(View view, boolean inLayout) {
         final YogaNode node = mYogaNodes.get(view);
         if (node == null) {
