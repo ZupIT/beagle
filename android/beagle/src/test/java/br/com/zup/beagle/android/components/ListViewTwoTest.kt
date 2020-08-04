@@ -26,16 +26,18 @@ import br.com.zup.beagle.widget.core.ListDirection
 import io.mockk.*
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class ListViewTwoTest : BaseComponentTest() {
 
     private val recyclerView: RecyclerView = mockk(relaxed = true)
     private val template: ServerDrivenComponent = mockk(relaxed = true)
-    private val onInit: List<Action> = mockk()
+    private val onInit: Action = mockk(relaxed = true)
 
     private val layoutManagerSlot = slot<LinearLayoutManager>()
     private val adapterSlot = slot<RecyclerView.Adapter<RecyclerView.ViewHolder>>()
+    private val isNestedScrollingEnabledSlot = slot<Boolean>()
 
     private lateinit var listView: ListViewTwo
 
@@ -44,10 +46,11 @@ class ListViewTwoTest : BaseComponentTest() {
         every { anyConstructed<ViewFactory>().makeRecyclerView(rootView.getContext()) } returns recyclerView
         every { recyclerView.layoutManager = capture(layoutManagerSlot) } just Runs
         every { recyclerView.adapter = capture(adapterSlot) } just Runs
+        every { recyclerView.isNestedScrollingEnabled = capture(isNestedScrollingEnabledSlot) } just Runs
     }
 
     @Test
-    fun build_should_set_orientation_VERTICAL() {
+    fun build_view_should_set_orientation_VERTICAL_when_direction_is_ListDirection_VERTICAL() {
         //given
         listView = ListViewTwo(
             direction = ListDirection.VERTICAL,
@@ -61,7 +64,7 @@ class ListViewTwoTest : BaseComponentTest() {
     }
 
     @Test
-    fun build_should_set_orientation_HORIZONTAL() {
+    fun build_view_should_set_orientation_VERTICAL_when_direction_is_ListDirection_HORIZONTAL() {
         //given
         listView = ListViewTwo(
             direction = ListDirection.HORIZONTAL,
@@ -75,7 +78,7 @@ class ListViewTwoTest : BaseComponentTest() {
     }
 
     @Test
-    fun build_should_set_adapter() {
+    fun build_view_should_set_adapter() {
         //given
         listView = ListViewTwo(
             direction = ListDirection.HORIZONTAL,
@@ -89,28 +92,69 @@ class ListViewTwoTest : BaseComponentTest() {
     }
 
     @Test
-    fun build_should_execute_on_init_once() {
+    fun build_view_should_set_isNestedScrollingEnabled_false_when_useParentScroll_is_not_passed() {
+        //given
+        listView = ListViewTwo(
+            direction = ListDirection.HORIZONTAL,
+            template = template
+        )
+        //when
+        listView.buildView(rootView)
+
+        //then
+        assertFalse { isNestedScrollingEnabledSlot.captured}
+    }
+
+    @Test
+    fun build_view_should_set_isNestedScrollingEnabled_false_when_useParentScroll_is_false() {
+        //given
+        listView = ListViewTwo(
+            direction = ListDirection.HORIZONTAL,
+            template = template,
+            useParentScroll = false
+        )
+        //when
+        listView.buildView(rootView)
+
+        //then
+        assertFalse { isNestedScrollingEnabledSlot.captured }
+    }
+
+    @Test
+    fun build_view_should_set_isNestedScrollingEnabled_true_when_useParentScroll_is_true() {
         //given
 
         listView = ListViewTwo(
             direction = ListDirection.HORIZONTAL,
             template = template,
-            onInit = onInit
+            useParentScroll = true
         )
-//        every {
-//            onInit.forEach {
-//                it.execute(rootView, recyclerView)
-//            }
-//        } returns Unit
         //when
-//        listView.buildView(rootView)
+        listView.buildView(rootView)
 
         //then
-//        verify(exactly = once()) {
-//            onInit.forEach {
-//                it.execute(rootView, recyclerView)
-//            }
-//        }
+        assertTrue { isNestedScrollingEnabledSlot.captured }
+    }
+
+    @Test
+    fun build_view_should_execute_on_init_once() {
+        //given
+
+        listView = ListViewTwo(
+            direction = ListDirection.HORIZONTAL,
+            template = template,
+            onInit = listOf(onInit)
+        )
+        every {
+            onInit.execute(rootView, recyclerView)
+        } just Runs
+        //when
+        listView.buildView(rootView)
+
+        //then
+        verify(exactly = once()) {
+            onInit.execute(rootView, recyclerView)
+        }
     }
 
 }
