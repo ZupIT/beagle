@@ -125,11 +125,15 @@ class BeagleControllerSpy: BeagleController {
     private(set) var didCalledExecute = false
     private(set) var lastImplicitContext: Context?
     
-    func execute(actions: [RawAction]?, with context: Context?, sender: Any) {
-        if let context = context {
-            lastImplicitContext = context
-        }
+    func execute(actions: [RawAction]?, origin: UIView) {
         didCalledExecute = true
         expectation?.fulfill()
     }
+    
+    func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView) {
+        lastImplicitContext = Context(id: contextId, value: contextValue)
+        didCalledExecute = true
+        expectation?.fulfill()
+    }
+    
 }

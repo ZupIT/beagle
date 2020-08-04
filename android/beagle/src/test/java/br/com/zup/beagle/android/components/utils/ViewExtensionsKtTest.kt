@@ -122,8 +122,8 @@ class ViewExtensionsKtTest : BaseTest() {
         verifySequence {
             viewModel.resetIds()
             viewFactory.makeBeagleView(activity)
-            beagleView.loadView(any<FragmentRootView>(), screenRequest)
             beagleView.stateChangedListener = any()
+            beagleView.loadView(any<FragmentRootView>(), screenRequest)
             beagleView.loadCompletedListener = any()
         }
     }

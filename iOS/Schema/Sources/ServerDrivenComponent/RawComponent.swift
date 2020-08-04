@@ -37,7 +37,8 @@ extension RawComponent {
             safeArea: safeArea,
             navigationBar: screen?.navigationBar,
             screenAnalyticsEvent: screen?.screenAnalyticsEvent,
-            child: screen?.child ?? self
+            child: screen?.child ?? self,
+            context: screen?.context
         )
     }
 }

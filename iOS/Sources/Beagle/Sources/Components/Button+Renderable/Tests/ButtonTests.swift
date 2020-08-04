@@ -90,7 +90,7 @@ final class ButtonTests: XCTestCase {
 
         // Then
         XCTAssertEqual(action.executionCount, 1)
-        XCTAssert(action.lastSender as AnyObject === view)
+        XCTAssert(action.lastOrigin as AnyObject === view)
     }
     
     func test_analytics_click_shouldBeTriggered() {
@@ -126,6 +126,6 @@ final class ButtonTests: XCTestCase {
         // Then
         XCTAssertTrue(analytics.didTrackEventOnClick)
         XCTAssertEqual(action.executionCount, 1)
-        XCTAssert(action.lastSender as AnyObject === view)
+        XCTAssert(action.lastOrigin as AnyObject === view)
     }
 }
