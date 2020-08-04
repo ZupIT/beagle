@@ -24,11 +24,7 @@ import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
-import br.com.zup.beagle.android.context.valueOf
-import br.com.zup.beagle.android.utils.generateViewModelInstance
-import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
@@ -44,7 +40,8 @@ data class ListView(
     val direction: ListDirection,
     val template: ServerDrivenComponent? = null,
     val onScrollEnd: List<Action>? = null,
-    val scrollThreshold: Int? = null
+    val scrollThreshold: Int? = null,
+    val useParentScroll: Boolean = false
 ) : WidgetView(), ContextComponent {
 
     @Deprecated(message = "", replaceWith = ReplaceWith("")) //TODO(put message here, implement replaceWith)
@@ -64,7 +61,8 @@ data class ListView(
         direction: ListDirection,
         template: ServerDrivenComponent,
         onScrollEnd: List<Action>? = null,
-        scrollThreshold: Int? = null
+        scrollThreshold: Int? = null,
+        useParentScroll: Boolean = false
     ) : this(
         children = null,
         context = context,
@@ -73,7 +71,8 @@ data class ListView(
         direction = direction,
         template = template,
         onScrollEnd = onScrollEnd,
-        scrollThreshold = scrollThreshold
+        scrollThreshold = scrollThreshold,
+        useParentScroll = useParentScroll
     )
 
     @Transient
@@ -81,16 +80,18 @@ data class ListView(
 
     override fun buildView(rootView: RootView): View {
         if (children.isNullOrEmpty()) {
-            template?.let{
-                return ListViewTwo(
-                    context,
-                    onInit,
-                    dataSource,
-                    direction,
-                    template,
-                    onScrollEnd,
-                    scrollThreshold
-                ).buildView(rootView)
+            template?.let {
+                dataSource?.let {
+                    return ListViewTwo(
+                        context,
+                        onInit,
+                        dataSource,
+                        direction,
+                        template,
+                        onScrollEnd,
+                        scrollThreshold
+                    ).buildView(rootView)
+                }
             }
         }
 
@@ -98,7 +99,7 @@ data class ListView(
         recyclerView.apply {
             val orientation = toRecyclerViewOrientation()
             layoutManager = LinearLayoutManager(context, orientation, false)
-            children?.let{
+            children?.let {
                 adapter = ListViewRecyclerAdapter(children, viewFactory, orientation, rootView)
             }
         }

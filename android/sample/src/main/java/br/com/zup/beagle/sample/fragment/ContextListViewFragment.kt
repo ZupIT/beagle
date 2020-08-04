@@ -63,7 +63,7 @@ class ContextListViewFragment : Fragment() {
                 )
             )
         ),
-        onInit = SendRequest(
+        onInit = listOf(SendRequest(
             url = "https://api.themoviedb.org/3/genre/movie/list?api_key=d272326e467344029e68e3c4ff0b4059",
             method = RequestActionMethod.GET,
             onSuccess = listOf(
@@ -72,13 +72,15 @@ class ContextListViewFragment : Fragment() {
                     value = "@{onSuccess.data.genres}"
                 )
             )
+        )
         ),
         dataSource = expressionOf("@{initialContext}"),
         direction = ListDirection.VERTICAL,
         template = Text(text = "@{item.name}"),
-        onScrollEnd = SendRequest(
+        onScrollEnd = listOf(SendRequest(
             url = "https://api.themoviedb.org/3/genre/movie/list?api_key=d272326e467344029e68e3c4ff0b4059",
             method = RequestActionMethod.GET
+        )
         ),
         scrollThreshold = 80
     )

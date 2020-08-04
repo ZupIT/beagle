@@ -16,13 +16,22 @@
 
 package br.com.zup.beagle.sample.builder
 
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
+import br.com.zup.beagle.ext.unitPercent
+import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.sample.constants.CYAN_GREEN
+import br.com.zup.beagle.sample.constants.RED_ORANGE
 import br.com.zup.beagle.widget.action.RequestActionMethod
 import br.com.zup.beagle.widget.action.SendRequest
 import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.expressionOf
 import br.com.zup.beagle.widget.core.ListDirection
-import br.com.zup.beagle.widget.layout.*
+import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.layout.Container
+import br.com.zup.beagle.widget.layout.Screen
+import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.Text
 
@@ -40,34 +49,120 @@ object ListViewContextScreenBuilder : ScreenBuilder {
         val name: String
     )
 
-    private fun buildListView() = ListView(
+    data class Movie(
+        val poster_path: String?,
+        val original_title: String,
+        val backdrop_path: String?
+    )
+
+    private fun buildListView() = listGenres
+
+    private val listMovies = ListView(
+        context = ContextData(
+            id = "movieContext",
+            value =
+            listOf(
+                Movie(
+                    poster_path = "",
+                    original_title = "",
+                    backdrop_path = ""
+                )
+            )
+        ),
+        onInit = listOf(SendRequest(
+            url = "https://api.themoviedb.org/3/discover/movie?api_key=d272326e467344029e68e3c4ff0b4059&with_genres=28",
+            method = RequestActionMethod.GET,
+            onSuccess = listOf(
+                SetContext(
+                    contextId = "movieContext",
+                    value = "@{onSuccess.data.results}"
+                )
+            )
+        )
+        ),
+        dataSource = expressionOf("@{movieContext}"),
+        direction = ListDirection.HORIZONTAL,
+        template = Text(text = "@{item.original_title}"),
+        onScrollEnd = listOf(SendRequest(
+            url = "https://api.themoviedb.org/3/discover/movie?api_key=d272326e467344029e68e3c4ff0b4059&with_genres=28",
+            method = RequestActionMethod.GET,
+            onSuccess = listOf(
+                SetContext(
+                    contextId = "movieContext",
+                    value = "@{onSuccess.data.results}"
+                )
+            )
+        )
+        ),
+        scrollThreshold = 80
+    )
+
+    private val listGenres = ListView(
         context = ContextData(
             id = "initialContext",
             value =
             listOf(
-                Genre(
-                    id = 0,
-                    name = ""
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora",
+                    "fora"
                 )
-            )
-        ),
-        onInit = SendRequest(
-            url = "https://api.themoviedb.org/3/genre/movie/list?api_key=d272326e467344029e68e3c4ff0b4059",
-            method = RequestActionMethod.GET,
-            onSuccess = listOf(
-                SetContext(
-                    contextId = "initialContext",
-                    value = "@{onSuccess.data.genres}"
-                )
-            )
         ),
         dataSource = expressionOf("@{initialContext}"),
         direction = ListDirection.VERTICAL,
-        template = Text(text = "@{item.name}"),
-        onScrollEnd = SendRequest(
-            url = "https://api.themoviedb.org/3/genre/movie/list?api_key=d272326e467344029e68e3c4ff0b4059",
-            method = RequestActionMethod.GET
-        ),
-        scrollThreshold = 80
+        template = Container(
+            listOf(
+                Text(text = "@{item}"),
+                listMovies.applyStyle(Style(backgroundColor = RED_ORANGE))
+            )
+        ).applyStyle(Style(backgroundColor = CYAN_GREEN, size = Size(width = 100.unitPercent(), height = 50.unitReal()))
+        )
     )
 }

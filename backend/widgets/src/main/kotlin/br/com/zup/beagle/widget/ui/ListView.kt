@@ -24,6 +24,7 @@ import br.com.zup.beagle.widget.context.ContextComponent
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.core.ListDirection
+import java.awt.Container
 
 /**
  * ListView is a Layout component that will define a list of views natively.
@@ -33,53 +34,48 @@ import br.com.zup.beagle.widget.core.ListDirection
  * @param direction define the list direction.
  *
  */
-data class ListView private constructor(
-    val children: List<ServerDrivenComponent> = emptyList(),
-    override val context: ContextData,
-    val onInit: Action,
-    val dataSource: Bind<List<Any>>,
+data class ListView(
+    val children: List<ServerDrivenComponent>? = null,
+    override val context: ContextData? = null,
+    val onInit: List<Action>? = null,
+    val dataSource: Bind<List<Any>>? = null,
     val direction: ListDirection,
-    val template: ServerDrivenComponent,
-    val onScrollEnd: Action,
-    val scrollThreshold: Int
+    val template: ServerDrivenComponent? = null,
+    val onScrollEnd: List<Action>? = null,
+    val scrollThreshold: Int? = null,
+    val useParentScroll: Boolean = false
 ) : Widget(), ContextComponent {
 
-    companion object{}
+    companion object {}
 
-    private class EmptyAction : Action
-
-    private class ServerDrivenComponentEmpty : ServerDrivenComponent
-
+    @Deprecated(message = "", replaceWith = ReplaceWith("")) //TODO(put message here, implement replaceWith)
     constructor(
         children: List<ServerDrivenComponent>,
         direction: ListDirection
     ) : this(
-        children = emptyList(),
-        context = ContextData("", Any()),
-        onInit = EmptyAction(),
-        dataSource = valueOf(emptyList()),
-        direction = direction,
-        template = ServerDrivenComponentEmpty(),
-        onScrollEnd = EmptyAction(),
-        scrollThreshold = 0
+        context = null,
+        children = children,
+        direction = direction
     )
 
     constructor(
-        context: ContextData,
-        onInit: Action,
+        context: ContextData? = null,
+        onInit: List<Action>? = null,
         dataSource: Bind<List<Any>>,
         direction: ListDirection,
         template: ServerDrivenComponent,
-        onScrollEnd: Action,
-        scrollThreshold: Int = 100
+        onScrollEnd: List<Action>? = null,
+        scrollThreshold: Int? = null,
+        useParentScroll: Boolean = false
     ) : this(
-        children = emptyList(),
+        children = null,
         context = context,
         onInit = onInit,
         dataSource = dataSource,
         direction = direction,
         template = template,
         onScrollEnd = onScrollEnd,
-        scrollThreshold = scrollThreshold
+        scrollThreshold = scrollThreshold,
+        useParentScroll = useParentScroll
     )
 }

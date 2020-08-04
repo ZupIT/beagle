@@ -41,7 +41,7 @@ import br.com.zup.beagle.widget.core.ListDirection
 internal data class ListViewTwo(
     override val context: ContextData? = null,
     val onInit: List<Action>? = null,
-    val dataSource: Bind<List<Any>>? = null,
+    val dataSource: Bind<List<Any>>,
     val direction: ListDirection,
     val template: ServerDrivenComponent,
     val onScrollEnd: List<Action>? = null,
