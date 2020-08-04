@@ -30,7 +30,7 @@ class PageIndicatorTests: XCTestCase {
     override func setUp() {
         super.setUp()
         dependencies.decoder.register(
-            CustomPageIndicator.self,
+            component: CustomPageIndicator.self,
             for: PageIndicatorTests.typeName
         )
     }

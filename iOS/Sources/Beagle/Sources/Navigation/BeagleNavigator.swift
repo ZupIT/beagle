@@ -66,12 +66,17 @@ class BeagleNavigator: BeagleNavigation {
     // MARK: - Navigate Handle
     
     private func navigate(route: Route, origin: BeagleController, animated: Bool, transition: @escaping Transition) {
-        viewController(route: route, origin: origin, retry: {
-            [weak origin] in guard let origin = origin else { return }
-            self.navigate(route: route, origin: origin, animated: animated, transition: transition)
-        }) {
-            transition(origin, $0, animated)
-        }
+        viewController(
+            route: route,
+            origin: origin,
+            retry: {
+                [weak origin] in guard let origin = origin else { return }
+                self.navigate(route: route, origin: origin, animated: animated, transition: transition)
+            },
+            success: {
+                transition(origin, $0, animated)
+            }
+        )
     }
     
     private func openExternalURL(path: String, controller: BeagleController) {
