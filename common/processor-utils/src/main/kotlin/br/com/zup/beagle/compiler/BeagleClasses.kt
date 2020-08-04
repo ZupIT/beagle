@@ -122,3 +122,13 @@ val ROOT_VIEW = BeagleClass(
     packageName = "br.com.zup.beagle.android.widget",
     className = "RootView"
 )
+
+val INTERNAL_WIDGET_FACTORY = BeagleClass(
+    packageName = "br.com.zup.beagle.android.setup",
+    className = "InternalWidgetFactory"
+)
+
+val INTERNAL_ACTION_FACTORY = BeagleClass(
+    packageName = "br.com.zup.beagle.android.setup",
+    className = "InternalActionFactory"
+)

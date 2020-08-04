@@ -206,6 +206,7 @@ exceptions:
 #            - Throwable
         allowedExceptionNameRegex: '_|(ignore|expected).*'
     TooGenericExceptionThrown:
+        excludes: ['**/testutil/ReflectionUtils.kt']
         active: true
         exceptionNames:
             - Error
