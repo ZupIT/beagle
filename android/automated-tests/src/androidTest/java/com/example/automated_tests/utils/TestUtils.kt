@@ -19,7 +19,7 @@ package com.example.automated_tests.utils
 import android.app.Activity
 import android.content.Intent
 import androidx.test.rule.ActivityTestRule
-import com.example.automated_tests.MainActivity
+import com.example.automated_tests.activity.MainActivity
 
 class TestUtils {
 

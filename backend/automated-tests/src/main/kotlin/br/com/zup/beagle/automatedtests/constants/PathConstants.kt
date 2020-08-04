@@ -25,6 +25,28 @@ const val SCROLLVIEW_TABVIEW_ENDPOINT = "/scrollview"
 const val TOUCHABLE_ENDPOINT = "/touchable"
 const val SIMPLE_FORM_ENDPOINT = "/simpleform"
 const val TEXT_INPUT_ENDPOINT = "/textinput"
+const val TAB_BAR_ENDPOINT = "/tabbar"
+const val WEB_VIEW_ENDPOINT = "/webview"
+const val TEXT_ENDPOINT = "/text"
+const val SAFE_AREA_ENDPOINT = "/safe-area/false"
+const val NAVIGATION_BAR_ENDPOINT = "/navigationbar"
+const val LAZY_COMPONENT_ENDPOINT = "/lazycomponent"
+const val IMAGE_REMOTE_ENDPOINT = "/imageremote"
+const val ANALYTICS_ENDPOINT = "/analytics"
+const val ACTION_ENDPOINT = "/action"
+const val ACCESSIBILITY_ENDPOINT = "/accessibility"
+const val PAGEVIEW_TWO_ENDPOINT = "/pageviewtwo"
+
+
+const val SCREEN_SAFE_AREA_TRUE_ENDPOINT = "/safe-area/true"
+const val SCREEN_SAFE_AREA_FALSE_ENDPOINT = "/safe-area/false"
+const val REPRESENTATION_NAVIGATION_BAR_ENDPOINT = "/navigationbar"
+const val REPRESENTATION_NAVIGATION_BAR_STYLE_ENDPOINT = "/navigationbar/style"
+const val REPRESENTATION_NAVIGATION_BAR_TEXT_ENDPOINT = "/navigationbar/item/text"
+const val REPRESENTATION_NAVIGATION_BAR_IMAGE_ENDPOINT = "/navigationbar/item/image"
+const val PATH_LAZY_COMPONENT_ENDPOINT = "/text-lazy-component"
+const val PATH_SCREEN_DEEP_LINK_ENDPOINT = "screen-deep-link"
+
 
 
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.automated_tests
+package com.example.automated_tests.activity
 
 import android.os.Bundle
 import android.view.View
@@ -25,6 +25,7 @@ import androidx.appcompat.widget.Toolbar
 import br.com.zup.beagle.android.annotation.BeagleComponent
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
+import com.example.automated_tests.R
 
 
 @BeagleComponent

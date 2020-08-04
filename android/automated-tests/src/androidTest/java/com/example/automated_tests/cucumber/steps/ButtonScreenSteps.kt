@@ -18,7 +18,7 @@ package com.example.automated_tests.cucumber.steps
 
 
 import androidx.test.rule.ActivityTestRule
-import com.example.automated_tests.MainActivity
+import com.example.automated_tests.activity.MainActivity
 import com.example.automated_tests.cucumber.elements.*
 import com.example.automated_tests.cucumber.robots.ScreenRobot
 import com.example.automated_tests.utils.ActivityFinisher

@@ -16,16 +16,33 @@
 
 package br.com.zup.beagle.automatedtests.controllers
 
+import ACCESSIBILITY_ENDPOINT
+import ACTION_ENDPOINT
+import ANALYTICS_ENDPOINT
+import IMAGE_REMOTE_ENDPOINT
+import LAZY_COMPONENT_ENDPOINT
 import LISTVIEW_TABVIEW_ENDPOINT
+import NAVIGATION_BAR_ENDPOINT
 import PAGEVIEW_TABVIEW_ENDPOINT
+import PAGEVIEW_TWO_ENDPOINT
+import REPRESENTATION_NAVIGATION_BAR_ENDPOINT
+import REPRESENTATION_NAVIGATION_BAR_IMAGE_ENDPOINT
+import REPRESENTATION_NAVIGATION_BAR_STYLE_ENDPOINT
+import REPRESENTATION_NAVIGATION_BAR_TEXT_ENDPOINT
+import SAFE_AREA_ENDPOINT
 import SCREEN_BUTTON_ALIGN_CENTER_ENDPOINT
 import SCREEN_BUTTON_ALIGN_LEFT_ENDPOINT
 import SCREEN_IMAGE_ENDPOINT
+import SCREEN_SAFE_AREA_FALSE_ENDPOINT
+import SCREEN_SAFE_AREA_TRUE_ENDPOINT
 import SCREEN_TABVIEW_ENDPOINT
 import SCROLLVIEW_TABVIEW_ENDPOINT
 import SIMPLE_FORM_ENDPOINT
+import TAB_BAR_ENDPOINT
+import TEXT_ENDPOINT
 import TEXT_INPUT_ENDPOINT
 import TOUCHABLE_ENDPOINT
+import WEB_VIEW_ENDPOINT
 import br.com.zup.beagle.automatedtests.builders.*
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
@@ -62,5 +79,32 @@ class LayoutComponentsController() {
 
     @GetMapping(TEXT_INPUT_ENDPOINT)
     fun getTextInputScreen() = TextInputScreenBuilder.build()
+
+    @GetMapping(TAB_BAR_ENDPOINT)
+    fun getTabBarScreen() = TabBarScreenBuilder.build()
+
+    @GetMapping(WEB_VIEW_ENDPOINT)
+    fun getWebViewScreen() = WebViewScreenBuilder.build()
+
+    @GetMapping(TEXT_ENDPOINT)
+    fun getTextScreen() = TextScreenBuilder.build()
+
+    @GetMapping(LAZY_COMPONENT_ENDPOINT)
+    fun getLazyComponentScreen() = LazyComponentScreenBuilder.build()
+
+    @GetMapping(IMAGE_REMOTE_ENDPOINT)
+    fun getImageRemoteScreen() = ImageRemoteScreenBuilder.build()
+
+    @GetMapping(ANALYTICS_ENDPOINT)
+    fun getAnalyticsScreen() = AnalyticsScreenBuilder.build()
+
+    @GetMapping(ACTION_ENDPOINT)
+    fun getActionScreen() = ActionScreenBuilder.build()
+
+    @GetMapping(ACCESSIBILITY_ENDPOINT)
+    fun getAccessibilityScreen() = AccessibilityScreenBuilder.build()
+
+    @GetMapping(PAGEVIEW_TWO_ENDPOINT)
+    fun getPageViewTwoScreen() = PageViewTwoScreenBuilder.build()
 
 }

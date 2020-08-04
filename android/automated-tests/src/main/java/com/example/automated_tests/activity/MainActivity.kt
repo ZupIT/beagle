@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package com.example.automated_tests
+package com.example.automated_tests.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ScreenRequest
+import com.example.automated_tests.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,5 +40,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun bffUrl() = intent.extras?.getString(BFF_URL_KEY) ?: "http://10.0.2.2:8080/textinput"
+    fun bffUrl() = intent.extras?.getString(BFF_URL_KEY) ?: "http://10.0.2.2:8080/tabbar"
 }

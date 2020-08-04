@@ -17,6 +17,7 @@
 package com.example.automated_tests
 
 import androidx.test.rule.ActivityTestRule
+import com.example.automated_tests.activity.MainActivity
 import com.example.automated_tests.utils.TestUtils
 import org.junit.Rule
 import org.junit.Test
@@ -31,7 +32,8 @@ import java.lang.Thread.sleep
 class ExampleInstrumentedTest {
 
     @get:Rule
-    var activityTestRule: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java)
+    var activityTestRule: ActivityTestRule<MainActivity> = ActivityTestRule(
+        MainActivity::class.java)
 
     @Test
     fun testButtonUrlLoading() {
