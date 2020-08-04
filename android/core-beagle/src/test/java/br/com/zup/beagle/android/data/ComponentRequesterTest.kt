@@ -116,7 +116,7 @@ class ComponentRequesterTest : BaseTest() {
         // Then
         coVerifySequence {
             cacheManager.restoreBeagleCacheForUrl(URL)
-            cacheManager.requestDataWithCache(requestData, beagleCache)
+            cacheManager.requestDataWithCache(any(), beagleCache)
             beagleApi.fetchData(requestData)
             cacheManager.handleResponseData(URL, beagleCache, responseData)
             serializer.deserializeComponent(RESPONSE_BODY)

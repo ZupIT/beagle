@@ -22,6 +22,7 @@ import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.data.ActionRequester
 import br.com.zup.beagle.android.data.ComponentRequester
 import br.com.zup.beagle.android.exception.BeagleException
+import br.com.zup.beagle.android.networking.exception.BeagleApiException
 import br.com.zup.beagle.android.testutil.CoroutineTestRule
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.ScreenRequest
@@ -92,7 +93,7 @@ class BeagleViewModelTest {
     fun fetch_should_return_a_error_ViewState() {
         // Given
         val screenRequest = ScreenRequest(RandomData.httpUrl())
-        val exception = BeagleException("Error")
+        val exception = BeagleApiException(mockk())
         coEvery { componentRequester.fetchComponent(any()) } throws exception
 
         // When
@@ -110,7 +111,7 @@ class BeagleViewModelTest {
     fun fetch_should_return_a_error_ViewState_retry() {
         // Given
         val screenRequest = ScreenRequest(RandomData.httpUrl())
-        val exception = BeagleException("Error")
+        val exception = BeagleApiException(mockk())
         val slotViewState = mutableListOf<ViewState>()
         every { observer.onChanged(capture(slotViewState)) } just Runs
         coEvery { componentRequester.fetchComponent(any()) } throws exception andThen component

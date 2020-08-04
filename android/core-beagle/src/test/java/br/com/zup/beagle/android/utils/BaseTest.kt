@@ -48,6 +48,7 @@ abstract class BaseTest {
         ContextConstant.memoryMaximumCapacity = 15
         BeagleLoggerProxy.isLoggingEnabled = true
         BeagleLoggerProxy.logger = mockk(relaxed = true)
+
     }
 
     @After

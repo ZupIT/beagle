@@ -25,6 +25,8 @@ import br.com.zup.beagle.android.testutil.getPrivateField
 import br.com.zup.beagle.android.utils.Observer
 import br.com.zup.beagle.android.utils.getContextData
 import br.com.zup.beagle.android.utils.setContextBinding
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -51,6 +53,8 @@ class ContextDataManagerTest {
 
     private val viewContext = createViewForContext()
 
+    private val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+
     @Before
     fun setUp() {
 
@@ -60,6 +64,7 @@ class ContextDataManagerTest {
         every { BeagleContextLogs.errorWhileTryingToAccessContext(any()) } just Runs
 
         ContextConstant.memoryMaximumCapacity = 15
+        ContextConstant.moshi = moshi
 
         contextDataManager = ContextDataManager()
 
