@@ -161,7 +161,7 @@ class GlobalContextTest : BaseTest() {
     }
 
     @Test
-    fun clear_should_not_add_a_biding_listed_in_a_path() {
+    fun clear_should_not_add_a_biding_listed_in_a_path_that_does_not_exist() {
         //Given
         val objectPath = RandomData.string()
         val anotherObjectPath = RandomData.string()
