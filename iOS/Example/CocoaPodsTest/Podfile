@@ -1,5 +1,6 @@
 target 'CocoaPodsTest' do
   use_frameworks!
-  pod 'Beagle', :git => 'https://github.com/ZupIT/beagle.git', :branch => 'master'
-  pod 'BeagleSchema', :git => 'https://github.com/ZupIT/beagle.git', :branch => 'master'
+  pod 'Beagle', :path => '../../../Beagle.podspec'
+  pod 'BeagleSchema', :path => '../../../BeagleSchema.podspec'
 end
+
