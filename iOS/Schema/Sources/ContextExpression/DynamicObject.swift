@@ -26,25 +26,7 @@ public enum DynamicObject: Equatable {
 }
     
 extension DynamicObject {
-    
-    public init(from any: Any?) {
-        if let bool = any as? Bool {
-            self = .bool(bool)
-        } else if let int = any as? Int {
-            self = .int(int)
-        } else if let double = any as? Double {
-            self = .double(double)
-        } else if let string = any as? String {
-            self = .string(string)
-        } else if let array = any as? [Any?] {
-            self = .array(array.map { DynamicObject(from: $0) })
-        } else if let dictionary = any as? [String: Any?] {
-            self = .dictionary(dictionary.mapValues { DynamicObject(from: $0) })
-        } else {
-            self = .empty
-        }
-    }
-    
+        
     public func asAny() -> Any? {
         switch self {
         case .empty:

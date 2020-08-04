@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.context
 
+import android.view.View
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
@@ -23,10 +24,14 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 
 internal class ContextComponentHandler {
 
-    fun handleContext(rootView: RootView, component: ServerDrivenComponent) {
+    fun handleContext(
+        rootView: RootView,
+        view: View,
+        component: ServerDrivenComponent
+    ) {
         if (component is ContextComponent) {
             component.context?.let { context ->
-                rootView.generateViewModelInstance<ScreenContextViewModel>().addContext(context)
+                rootView.generateViewModelInstance<ScreenContextViewModel>().addContext(view, context)
             }
         }
     }
