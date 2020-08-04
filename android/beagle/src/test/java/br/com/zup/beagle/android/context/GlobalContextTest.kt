@@ -18,10 +18,8 @@ package br.com.zup.beagle.android.context
 
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.testutil.RandomData
-import org.json.JSONObject
 import org.junit.Assert.*
 import org.junit.Test
-import org.junit.experimental.theories.suppliers.TestedOn
 
 class GlobalContextTest : BaseTest() {
 
