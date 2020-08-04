@@ -17,8 +17,8 @@
 package br.com.zup.beagle.automatedtests.builders
 
 import BEACH_NETWORK_IMAGE
-import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.core.AlignContent
 import br.com.zup.beagle.widget.core.Flex
@@ -45,7 +45,7 @@ object TabViewScreenBuilder {
         title = "Tab 1",
         child = Container(
             children = listOf(
-                Text("@{tabView}"),
+                Text("@{tabView.tabOne}"),
                 Image(Remote(BEACH_NETWORK_IMAGE)),
                 Text("This is Tab1's second text")
             )
@@ -56,7 +56,7 @@ object TabViewScreenBuilder {
         title = "Tab 2",
         child = Container(
             children = listOf(
-                Text("@{tabView}"),
+                Text("@{tabView.tabTwo}"),
                 Text("This is Tab2's second text")
             )
         ).applyFlex(Flex(alignContent = AlignContent.CENTER))
@@ -66,7 +66,7 @@ object TabViewScreenBuilder {
         title = "Tab 3",
         child = Container(
             children = listOf(
-                Text("@{tabView}"),
+                Text("@{tabView.tabThree}"),
                 Text("This is Tab3's second text")
             )
         ).applyFlex(Flex(alignContent = AlignContent.CENTER))
@@ -77,13 +77,13 @@ object TabViewScreenBuilder {
         icon = Local.justMobile("beagle"),
         child = Container(
             children = listOf(
-                Text("@{tabView}"),
+                Text("@{tabView.tabFour}"),
                 Text("This is Tab4's second text")
             )
         ).applyFlex(Flex(alignContent = AlignContent.CENTER))
     )
 
-     fun build() = Screen(
+    fun build() = Screen(
         navigationBar = NavigationBar(
             title = "Beagle Tab View",
             showBackButton = true,
@@ -104,7 +104,12 @@ object TabViewScreenBuilder {
             children = listOf(tab1, tab2, tab3, tab4),
             context = ContextData(
                 id = "tabView",
-                value = "TabView Beagle"
+                value = TextTabs(
+                    tabOne = "Welcome to Tab 1",
+                    tabTwo = "Welcome to Tab 2",
+                    tabThree = "Welcome to Tab 3",
+                    tabFour = "Welcome to Tab 4"
+                )
             )
         )
     )
