@@ -31,7 +31,7 @@ class PageIndicatorTests: XCTestCase {
         super.setUp()
         dependencies.decoder.register(
             component: CustomPageIndicator.self,
-            for: PageIndicatorTests.typeName
+            named: PageIndicatorTests.typeName
         )
     }
     

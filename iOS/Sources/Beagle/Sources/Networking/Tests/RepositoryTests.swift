@@ -158,8 +158,8 @@ final class RepositoryTests: XCTestCase {
 final class ComponentDecodingStub: ComponentDecoding {
     func register<T>(component type: T.Type) where T: RawComponent {}
     func register<A>(action type: A.Type) where A: RawAction {}
-    func register<T>(component type: T.Type, for typeName: String) where T: BeagleSchema.RawComponent {}
-    func register<A>(action type: A.Type, for typeName: String) where A: BeagleSchema.RawAction {}
+    func register<T>(component type: T.Type, named typeName: String) where T: BeagleSchema.RawComponent {}
+    func register<A>(action type: A.Type, named typeName: String) where A: BeagleSchema.RawAction {}
     func componentType(forType type: String) -> Decodable.Type? { return nil }
     func actionType(forType type: String) -> Decodable.Type? { return nil }
     

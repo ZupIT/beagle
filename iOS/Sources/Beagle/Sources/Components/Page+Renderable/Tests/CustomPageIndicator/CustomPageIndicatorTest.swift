@@ -38,7 +38,7 @@ class CustomPageIndicatorTest: XCTestCase {
         Beagle.dependencies = BeagleDependencies()
         Beagle.dependencies.decoder.register(
             component: CustomPageIndicator.self,
-            for: CustomPageIndicatorTest.typeName
+            named: CustomPageIndicatorTest.typeName
         )
     }
     

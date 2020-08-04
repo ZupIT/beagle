@@ -29,7 +29,7 @@ public func registerCustomComponent<C: ServerDrivenComponent>(
     _ name: String,
     componentType: C.Type
 ) {
-    dependencies.decoder.register(component: componentType, for: name)
+    dependencies.decoder.register(component: componentType, named: name)
 }
 
 /// Register a custom action
@@ -38,7 +38,7 @@ public func registerCustomAction<A: Action>(
     _ name: String,
     actionType: A.Type
 ) {
-    dependencies.decoder.register(action: actionType, for: name)
+    dependencies.decoder.register(action: actionType, named: name)
 }
 
 public func screen(_ type: ScreenType) -> BeagleScreenViewController {

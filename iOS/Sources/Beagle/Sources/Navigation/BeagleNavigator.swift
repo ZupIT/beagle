@@ -69,8 +69,8 @@ class BeagleNavigator: BeagleNavigation {
         viewController(
             route: route,
             origin: origin,
-            retry: {
-                [weak origin] in guard let origin = origin else { return }
+            retry: { [weak origin] in
+                guard let origin = origin else { return }
                 self.navigate(route: route, origin: origin, animated: animated, transition: transition)
             },
             success: {

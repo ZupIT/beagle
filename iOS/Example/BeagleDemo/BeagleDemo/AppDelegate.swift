@@ -63,6 +63,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         dependencies.decoder.register(component: DSCollection.self)
         dependencies.decoder.register(component: MyComponent.self)
         dependencies.decoder.register(action: CustomConsoleLogAction.self)
-        dependencies.decoder.register(component: DemoTextField.self, for: "SampleTextField")
+        dependencies.decoder.register(component: DemoTextField.self, named: "SampleTextField")
     }
 }

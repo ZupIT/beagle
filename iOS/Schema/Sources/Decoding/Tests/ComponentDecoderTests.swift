@@ -56,7 +56,7 @@ public final class ComponentDecoderTests: XCTestCase {
         let sut = ComponentDecoder()
 
         // When
-        sut.register(component: NewComponent.self, for: "NewCustomComponent")
+        sut.register(component: NewComponent.self, named: "NewCustomComponent")
         let componentDecoder = sut.componentDecoders["custom:newcustomcomponent"]
         
         // Then
@@ -69,7 +69,7 @@ public final class ComponentDecoderTests: XCTestCase {
         let sut = ComponentDecoder()
 
         // When
-        sut.register(action: TestAction.self, for: "NewCustomAction")
+        sut.register(action: TestAction.self, named: "NewCustomAction")
         let actionDecoder = sut.actionDecoders["custom:newcustomaction"]
         
         // Then
