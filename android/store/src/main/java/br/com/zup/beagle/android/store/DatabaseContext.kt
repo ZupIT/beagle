@@ -16,8 +16,8 @@
 
 package br.com.zup.beagle.android.store
 
-import android.content.Context
+import android.app.Application
 
 object DatabaseContext  {
-    lateinit var context: Context
+    lateinit var context: Application
 }

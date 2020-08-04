@@ -16,10 +16,10 @@
 
 package br.com.zup.beagle.android.designsystem.constant
 
-import android.content.Context
+import android.app.Application
 import br.com.zup.beagle.android.setup.DesignSystem
 
 object DesignSystemConstant {
-    lateinit var context: Context
+    lateinit var context: Application
     var designSystem: DesignSystem? = null
 }
