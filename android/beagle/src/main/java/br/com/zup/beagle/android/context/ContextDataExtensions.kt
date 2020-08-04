@@ -26,12 +26,15 @@ import org.json.JSONObject
  * to a JSONArray or JSONObject.
  */
 internal fun ContextData.normalize(): ContextData {
+    return ContextData(this.id, value.normalizeContextValue())
+}
+
+internal fun Any.normalizeContextValue(): Any {
     return if (isValueNormalized()) {
         this
     } else {
-        val newValue = BeagleMoshi.moshi.adapter(Any::class.java).toJson(value) ?: ""
-        val normalizedValue = newValue.normalizeContextValue()
-        ContextData(this.id, normalizedValue)
+        val newValue = BeagleMoshi.moshi.adapter(Any::class.java).toJson(this) ?: ""
+        return newValue.normalizeContextValue()
     }
 }
 
@@ -43,6 +46,6 @@ internal fun String.normalizeContextValue(): Any {
     }
 }
 
-private fun ContextData.isValueNormalized(): Boolean {
-    return value is String || value is Number || value is Boolean || value is JSONArray || value is JSONObject
+private fun Any.isValueNormalized(): Boolean {
+    return this is String || this is Number || this is Boolean || this is JSONArray || this is JSONObject
 }

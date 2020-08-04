@@ -67,7 +67,7 @@ final class BeagleScreenViewControllerTests: XCTestCase {
                 to state: ServerDrivenState,
                 at screenController: BeagleController
             ) {
-                if case .error(let error) = state, case .remoteScreen(let remoteError) = error {
+                if case .error(let error, _) = state, case .remoteScreen(let remoteError) = error {
                     remoteScreenError = remoteError
                 }
             }
@@ -381,12 +381,14 @@ class BeagleControllerStub: BeagleController {
     
     func addBinding(_ update: @escaping () -> Void) {}
     
-    func execute(action: RawAction, sender: Any) {
-        (action as? Action)?.execute(controller: self, sender: sender)
+    func execute(actions: [RawAction]?, origin: UIView) {
+        actions?.forEach {
+            ($0 as? Action)?.execute(controller: self, origin: origin)
+        }
     }
     
-    func execute(actions: [RawAction]?, with context: Context?, sender: Any) {
-        actions?.forEach { execute(action: $0, sender: sender) }
+    func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView) {
+        execute(actions: actions, origin: origin)
     }
     
 }

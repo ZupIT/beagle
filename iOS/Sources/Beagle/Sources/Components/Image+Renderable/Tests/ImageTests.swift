@@ -70,7 +70,7 @@ class ImageTests: XCTestCase {
         let view = image.toView(renderer: controller.renderer)
         view.setContext(Context(id: "img", value: ["path": ["_beagleImagePath_": "remote", "url": "www.com.br"]]))
         controller.configBindings()
-        action.execute(controller: controller, sender: view)
+        action.execute(controller: controller, origin: view)
         
         // Then
         XCTAssert(repository.token.didCallCancel)

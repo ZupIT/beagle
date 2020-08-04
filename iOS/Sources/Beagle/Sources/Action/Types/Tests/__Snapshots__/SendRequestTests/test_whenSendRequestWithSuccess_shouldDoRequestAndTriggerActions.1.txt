@@ -1,0 +1,27 @@
+▿ Optional<Context>
+  ▿ some: Context
+    - id: "onSuccess"
+    ▿ value: DynamicObject
+      ▿ dictionary: 3 key/value pairs
+        ▿ (2 elements)
+          - key: "data"
+          ▿ value: DynamicObject
+            ▿ array: 1 element
+              ▿ DynamicObject
+                ▿ dictionary: 2 key/value pairs
+                  ▿ (2 elements)
+                    - key: "a"
+                    ▿ value: DynamicObject
+                      - string: "value a"
+                  ▿ (2 elements)
+                    - key: "b"
+                    ▿ value: DynamicObject
+                      - string: "value b"
+        ▿ (2 elements)
+          - key: "status"
+          ▿ value: DynamicObject
+            - int: 0
+        ▿ (2 elements)
+          - key: "statusText"
+          ▿ value: DynamicObject
+            - string: "success"

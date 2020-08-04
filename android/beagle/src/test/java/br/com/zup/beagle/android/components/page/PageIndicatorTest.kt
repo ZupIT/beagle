@@ -33,7 +33,6 @@ import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
 import org.junit.Test
-import java.lang.reflect.TypeVariable
 import kotlin.test.assertEquals
 
 class PageIndicatorTest : BaseComponentTest() {
@@ -50,12 +49,20 @@ class PageIndicatorTest : BaseComponentTest() {
     override fun setUp() {
         super.setUp()
 
+        pageIndicator = PageIndicator(RandomData.string(), RandomData.string(), numberOfPages, currentPage)
+
         mockkStatic(Color::class)
         mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
         every { Color.parseColor(any()) } returns 0
         every { anyConstructed<ViewFactory>().makePageIndicator(any()) } returns beaglePageIndicatorView
-
-        pageIndicator = PageIndicator(RandomData.string(), RandomData.string(), numberOfPages, currentPage)
+        every {
+            pageIndicator.observeBindChanges(
+                rootView = rootView,
+                view = beaglePageIndicatorView,
+                bind = currentPage,
+                observes = capture(currentPageSlot)
+            )
+        } just Runs
     }
 
     @Test
@@ -71,13 +78,7 @@ class PageIndicatorTest : BaseComponentTest() {
     fun buildView_should_call_onItemUpdate_when_currentPage_change() {
         //GIVEN
         val newPosition = RandomData.int()
-        every {
-            pageIndicator.observeBindChanges(
-                rootView = rootView,
-                bind = currentPage,
-                observes = capture(currentPageSlot)
-            )
-        } just Runs
+
         //WHEN
         pageIndicator.buildView(rootView = rootView)
         currentPageSlot.captured.invoke(newPosition)

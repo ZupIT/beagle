@@ -49,7 +49,7 @@ data class Input(
                 )
             )
         }
-        observeBindChanges(rootView, this@Input.hint) {
+        observeBindChanges(rootView, this, this@Input.hint) {
             this@apply.hint = it
         }
     }

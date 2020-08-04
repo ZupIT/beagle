@@ -16,13 +16,15 @@
 
 import UIKit
 
+public typealias BeagleRetry = () -> Void
+
 public enum ServerDrivenState {
     case loading(Bool)
-    case error(ServerDrivenState.Error)
+    case error(ServerDrivenState.Error, BeagleRetry)
 }
 
 extension ServerDrivenState {
-    public enum Error {
+    public enum Error: Swift.Error {
         case remoteScreen(Request.Error)
         case action(Swift.Error)
         case lazyLoad(Request.Error)
@@ -33,6 +35,16 @@ extension ServerDrivenState {
 
 open class BeagleNavigationController: UINavigationController {
     
+    /// This method is the entry point to handle screen state changes.
+    /// The default implemetation shows an `ActivityIndicator` when screen is
+    /// loading and does nothing when error happens; override this method to handle
+    /// errors properly.
+    /// When overriding, if you want to preserve loading behavior, `super` implementation should be called,
+    /// or you can customize loading behavior yourself.
+    ///
+    /// - Parameters:
+    ///   - state: new state that tells if screen is loading or any error happened
+    ///   - screenController: controller that triggered the state change
     open func serverDrivenStateDidChange(
         to state: ServerDrivenState,
         at screenController: BeagleController

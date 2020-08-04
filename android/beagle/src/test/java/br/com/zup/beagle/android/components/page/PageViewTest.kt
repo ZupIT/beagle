@@ -16,25 +16,19 @@
 
 package br.com.zup.beagle.android.components.page
 
-import android.view.View
 import androidx.viewpager.widget.ViewPager
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.BaseComponentTest
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
-import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.utils.Observer
 import br.com.zup.beagle.android.utils.handleEvent
-import br.com.zup.beagle.android.utils.observeBindChanges
-import br.com.zup.beagle.android.utils.viewFactory
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.custom.BeaglePageView
 import br.com.zup.beagle.core.Style
-import io.mockk.CapturingSlot
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -45,7 +39,6 @@ import io.mockk.slot
 import io.mockk.verify
 import org.junit.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class PageViewTest : BaseComponentTest() {

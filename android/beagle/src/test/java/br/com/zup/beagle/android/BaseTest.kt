@@ -16,8 +16,12 @@
 
 package br.com.zup.beagle.android
 
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModel
+import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.BeagleSdk
+import br.com.zup.beagle.android.utils.ViewModelProviderFactory
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.mockk
@@ -28,6 +32,7 @@ import org.junit.Before
 
 abstract class BaseTest {
 
+    protected val rootView = mockk<ActivityRootView>(relaxed = true)
     protected val beagleSdk = mockk<BeagleSdk>(relaxed = true)
 
     @Before
@@ -35,7 +40,11 @@ abstract class BaseTest {
         MockKAnnotations.init(this)
 
         mockkObject(BeagleEnvironment)
+        mockkObject(ViewModelProviderFactory)
+
+        every { rootView.activity } returns mockk()
         every { BeagleEnvironment.beagleSdk } returns beagleSdk
+        every { beagleSdk.config.cache.memoryMaximumCapacity } returns 15
         every { beagleSdk.registeredWidgets() } returns listOf()
         every { beagleSdk.registeredActions() } returns listOf()
     }
@@ -43,5 +52,9 @@ abstract class BaseTest {
     @After
     open fun tearDown() {
         unmockkAll()
+    }
+
+    protected fun prepareViewModelMock(viewModel: ViewModel) {
+        every { ViewModelProviderFactory.of(any<AppCompatActivity>())[viewModel::class.java] } returns viewModel
     }
 }
