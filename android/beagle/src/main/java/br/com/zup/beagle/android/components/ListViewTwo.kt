@@ -45,7 +45,8 @@ internal data class ListViewTwo(
     val direction: ListDirection,
     val template: ServerDrivenComponent,
     val onScrollEnd: List<Action>? = null,
-    val scrollThreshold: Int? = null
+    val scrollThreshold: Int? = null,
+    val useParentScroll: Boolean = false
 ) : WidgetView(), ContextComponent {
 
     @Transient
@@ -64,6 +65,7 @@ internal data class ListViewTwo(
         recyclerView.apply {
             adapter = contextAdapter
             layoutManager = LinearLayoutManager(context, orientation, false)
+            isNestedScrollingEnabled = useParentScroll
         }
         configDataSourceObserver(rootView, recyclerView)
         configRecyclerViewScrollListener(recyclerView, rootView)
@@ -106,10 +108,11 @@ internal data class ListViewTwo(
     }
 
     private fun needToExecuteOnScrollEnd(recyclerView: RecyclerView): Boolean {
+        val scrolledPercent = calculateScrolledPercent(recyclerView)
         scrollThreshold?.let {
-            return calculateScrolledPercent(recyclerView) >= scrollThreshold
+            return scrolledPercent >= scrollThreshold
         }
-        return !recyclerView.canScrollVertically(toRecyclerViewOrientation())
+        return scrolledPercent == 100f
     }
 
     private fun calculateScrolledPercent(recyclerView: RecyclerView): Float {
