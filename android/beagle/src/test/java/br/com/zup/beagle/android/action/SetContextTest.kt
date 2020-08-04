@@ -17,17 +17,17 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.logger.BeagleLoggerProxy
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.android.utils.ViewModelProviderFactory
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkConstructor
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
@@ -41,18 +41,17 @@ internal class SetContextTest {
     private val viewModel = mockk<ScreenContextViewModel>()
     private val view = mockk<View>()
     private val rootView = mockk<ActivityRootView> {
-        every { activity } returns mockk()
+        every { activity } returns mockk(relaxed = true)
+        every { getViewModelStoreOwner() } returns activity
     }
 
     @Before
     internal fun setUp() {
-        mockkObject(ViewModelProviderFactory)
         mockkObject(BeagleLoggerProxy)
         mockkStatic("br.com.zup.beagle.android.utils.ActionExtensionsKt")
 
-        every {
-            ViewModelProviderFactory.of(any<AppCompatActivity>())[ScreenContextViewModel::class.java]
-        } returns viewModel
+        mockkConstructor(ViewModelProvider::class)
+        every { anyConstructed<ViewModelProvider>().get(ScreenContextViewModel::class.java) } returns viewModel
     }
 
     @Test
@@ -84,6 +83,7 @@ internal class SetContextTest {
         )
         every { setContext.evaluateExpression(any(), view, any<Any>()) } returns null
         every { BeagleLoggerProxy.warning(any()) } just Runs
+
 
         // When
         setContext.execute(rootView, view)
