@@ -28,6 +28,8 @@ import br.com.zup.beagle.android.utils.getExpressions
 import br.com.zup.beagle.android.utils.setContextBinding
 import br.com.zup.beagle.android.utils.setContextData
 
+private const val GLOBAL_CONTEXT_ID = Int.MAX_VALUE
+
 internal class ContextDataManager(
     private val contextDataEvaluation: ContextDataEvaluation = ContextDataEvaluation(),
     private val contextDataManipulator: ContextDataManipulator = ContextDataManipulator()
@@ -41,7 +43,7 @@ internal class ContextDataManager(
     }
 
     init {
-        contexts[Int.MAX_VALUE] = globalContext
+        contexts[GLOBAL_CONTEXT_ID] = globalContext
         GlobalContext.observeGlobalContextChange(globalContextObserver)
     }
 
@@ -160,7 +162,7 @@ internal class ContextDataManager(
 
     private fun updateGlobalContext(contextData: ContextData) {
         globalContext = globalContext.copy(context = contextData)
-        contexts[Int.MAX_VALUE] = globalContext
+        contexts[GLOBAL_CONTEXT_ID] = globalContext
         notifyBindingChanges(globalContext)
     }
 }
