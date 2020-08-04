@@ -178,12 +178,12 @@ class GlobalContextTest : BaseTest() {
         //Then
         val attr1 = GlobalContext.get("$objectPath.$attributePath1")
         val attr2 = GlobalContext.get("$objectPath.$attributePath2")
-        val containsBindingsOnClearPath = GlobalContext.get().toString().contains(anotherObjectPath, true)
+        val containsBindingsFromClearPath = GlobalContext.get().toString().contains(anotherObjectPath, true)
 
         assertEquals(attributeContent, attr1)
         assertEquals(attributeContent, attr2)
 
         //If you change to assertTrue it will pass since the clear action is adding a binding if it does not exist
-        assertFalse(containsBindingsOnClearPath)
+        assertFalse(containsBindingsFromClearPath)
     }
 }
