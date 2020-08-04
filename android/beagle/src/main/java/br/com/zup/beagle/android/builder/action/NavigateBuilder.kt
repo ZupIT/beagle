@@ -24,22 +24,26 @@ import br.com.zup.beagle.builder.BeagleBuilder
 import br.com.zup.beagle.builder.BeagleMapBuilder
 import kotlin.properties.Delegates
 
-fun route(block: RouteBuilder.() -> Unit) = RouteBuilder().apply(block).build()
+fun routeRemote(block: RouteRemoteBuilder.() -> Unit) = RouteRemoteBuilder().apply(block).build()
+fun routeLocal(block: RouteLocalBuilder.() -> Unit) = RouteLocalBuilder().apply(block).build()
 
-class RouteBuilder {
-    var route: Route by Delegates.notNull()
+interface RouteBuilderHelper {
+    var route: Route
 
-    fun remote(block: RouteRemoteBuilder.() -> Unit) {
-        this.route = RouteRemoteBuilder().apply(block).build()
+    fun route(route: Route) = this.apply { this.route = route }
+
+    fun route(block: () -> Route){
+        route(block.invoke())
     }
 
-    fun local(block: RouteLocalBuilder.() -> Unit) {
-        this.route = RouteLocalBuilder().apply(block).build()
+    fun routeLocal(block: RouteLocalBuilder.() -> Unit){
+        route(RouteLocalBuilder().apply(block).build())
     }
 
-    fun build() = route
+    fun routeRemote(block: RouteRemoteBuilder.() -> Unit){
+        route(RouteRemoteBuilder().apply(block).build())
+    }
 }
-
 
 class RouteRemoteBuilder: BeagleBuilder<Route.Remote> {
 
@@ -84,51 +88,74 @@ class RouteLocalBuilder: BeagleBuilder<Route.Local> {
 
 }
 
-fun navigate(block: NavigateBuilder.() -> Unit) = NavigateBuilder().apply(block).build()
+fun navigateOpenExternalUrl(block: NavigateOpenExternalURLBuilder.() -> Unit)
+    = NavigateOpenExternalURLBuilder().apply(block).build()
 
-class NavigateBuilder {
-    var navigate: Navigate by Delegates.notNull()
+fun navigateOpenNativeRoute(block: NavigateOpenNativeRouteBuilder.() -> Unit)
+    = NavigateOpenNativeRouteBuilder().apply(block).build()
+
+fun navigatePushStack(block: NavigatePushStackBuilder.() -> Unit)
+    = NavigatePushStackBuilder().apply(block).build()
+
+fun navigatePopStack(block: NavigatePopStackBuilder.() -> Unit) = NavigatePopStackBuilder().apply(block).build()
+
+fun navigatePushView(block: NavigatePushViewBuilder.() -> Unit) = NavigatePushViewBuilder().apply(block).build()
+
+fun navigatePopView(block: NavigatePopViewBuilder.() -> Unit)  = NavigatePopViewBuilder().apply(block).build()
+
+fun navigatePopToView(block: NavigatePopToViewBuilder.() -> Unit)
+    = NavigatePopToViewBuilder().apply(block).build()
+
+fun navigateResetApplication(block: NavigateResetApplicationBuilder.() -> Unit)
+    = NavigateResetApplicationBuilder().apply(block).build()
+
+fun navigateResetStack(block: NavigateResetStackBuilder.() -> Unit)
+    = NavigateResetStackBuilder().apply(block).build()
+
+interface NavigateBuilderHelper {
+    var navigate: Navigate
 
     fun navigate(navigate: Navigate) = this.apply { this.navigate = navigate }
 
-    fun openExternalUrl(block: NavigateOpenExternalURLBuilder.() -> Unit) {
+    fun navigate(block: () -> Navigate){
+        navigate(block.invoke())
+    }
+
+    fun navigateOpenExternalUrl(block: NavigateOpenExternalURLBuilder.() -> Unit){
         navigate(NavigateOpenExternalURLBuilder().apply(block).build())
     }
 
-    fun openNativeRoute(block: NavigateOpenNativeRouteBuilder.() -> Unit) {
+    fun navigateOpenNativeRoute(block: NavigateOpenNativeRouteBuilder.() -> Unit) {
         navigate(NavigateOpenNativeRouteBuilder().apply(block).build())
     }
 
-    fun pushStack(block: NavigatePushStackBuilder.() -> Unit) {
+    fun navigatePushStack(block: NavigatePushStackBuilder.() -> Unit){
         navigate(NavigatePushStackBuilder().apply(block).build())
     }
 
-    fun popStack(block: NavigatePopStackBuilder.() -> Unit) {
+    fun navigatePopStack(block: NavigatePopStackBuilder.() -> Unit) {
         navigate(NavigatePopStackBuilder().apply(block).build())
     }
 
-    fun pushView(block: NavigatePushViewBuilder.() -> Unit) {
+    fun navigatePushView(block: NavigatePushViewBuilder.() -> Unit) {
         navigate(NavigatePushViewBuilder().apply(block).build())
     }
 
-    fun popView(block: NavigatePopViewBuilder.() -> Unit) {
+    fun navigatePopView(block: NavigatePopViewBuilder.() -> Unit)  {
         navigate(NavigatePopViewBuilder().apply(block).build())
     }
 
-    fun popToView(block: NavigatePopToViewBuilder.() -> Unit) {
+    fun navigatePopToView(block: NavigatePopToViewBuilder.() -> Unit) {
         navigate(NavigatePopToViewBuilder().apply(block).build())
     }
 
-    fun resetApplication(block: NavigateResetApplicationBuilder.() -> Unit) {
+    fun navigateResetApplication(block: NavigateResetApplicationBuilder.() -> Unit){
         navigate(NavigateResetApplicationBuilder().apply(block).build())
     }
 
-    fun resetStack(block: NavigateResetStackBuilder.() -> Unit) {
+    fun navigateResetStack(block: NavigateResetStackBuilder.() -> Unit){
         navigate(NavigateResetStackBuilder().apply(block).build())
     }
-
-    fun build() = navigate
-
 }
 
 class NavigateOpenExternalURLBuilder : BeagleBuilder<Navigate.OpenExternalURL> {
@@ -174,14 +201,8 @@ class NavigateOpenNativeRouteBuilder: BeagleBuilder<Navigate.OpenNativeRoute> {
 
 }
 
-class NavigatePushStackBuilder: BeagleBuilder<Navigate.PushStack> {
-    var route: Route by Delegates.notNull()
-
-    fun route(route: Route) = this.apply { this.route = route }
-
-    fun route(block: RouteBuilder.() -> Unit) {
-        route(RouteBuilder().apply(block).build())
-    }
+class NavigatePushStackBuilder: BeagleBuilder<Navigate.PushStack>, RouteBuilderHelper {
+    override var route: Route by Delegates.notNull()
 
     override fun build() = Navigate.PushStack(route)
 
@@ -192,14 +213,8 @@ class NavigatePopStackBuilder: BeagleBuilder<Navigate.PopStack> {
 }
 
 
-class NavigatePushViewBuilder: BeagleBuilder<Navigate.PushView> {
-    var route: Route by Delegates.notNull()
-
-    fun route(route: Route) = this.apply { this.route = route }
-
-    fun route(block: RouteBuilder.() -> Unit) {
-        route(RouteBuilder().apply(block).build())
-    }
+class NavigatePushViewBuilder: BeagleBuilder<Navigate.PushView>, RouteBuilderHelper {
+    override var route: Route by Delegates.notNull()
 
     override fun build() = Navigate.PushView(route)
 
@@ -208,7 +223,6 @@ class NavigatePushViewBuilder: BeagleBuilder<Navigate.PushView> {
 class NavigatePopViewBuilder: BeagleBuilder<Navigate.PopView> {
     override fun build() = Navigate.PopView()
 }
-
 
 class NavigatePopToViewBuilder: BeagleBuilder<Navigate.PopToView> {
     var route: String by Delegates.notNull()
@@ -222,28 +236,15 @@ class NavigatePopToViewBuilder: BeagleBuilder<Navigate.PopToView> {
     override fun build() = Navigate.PopToView(route)
 }
 
-
-class NavigateResetApplicationBuilder: BeagleBuilder<Navigate.ResetApplication> {
-    var route: Route by Delegates.notNull()
-
-    fun route(route: Route) = this.apply { this.route = route }
-
-    fun route(block: RouteBuilder.() -> Unit) {
-        route(RouteBuilder().apply(block).build())
-    }
+class NavigateResetApplicationBuilder: BeagleBuilder<Navigate.ResetApplication>, RouteBuilderHelper {
+    override var route: Route by Delegates.notNull()
 
     override fun build() = Navigate.ResetApplication(route)
 
 }
 
-class NavigateResetStackBuilder : BeagleBuilder<Navigate.ResetStack> {
-    var route: Route by Delegates.notNull()
-
-    fun route(route: Route) = this.apply { this.route = route }
-
-    fun route(block: RouteBuilder.() -> Unit) {
-        route(RouteBuilder().apply(block).build())
-    }
+class NavigateResetStackBuilder : BeagleBuilder<Navigate.ResetStack>, RouteBuilderHelper {
+    override var route: Route by Delegates.notNull()
 
     override fun build() = Navigate.ResetStack(route)
 

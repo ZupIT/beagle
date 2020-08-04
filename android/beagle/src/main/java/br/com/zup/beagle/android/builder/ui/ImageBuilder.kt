@@ -43,23 +43,26 @@ class ImageBuilder : BeagleBuilder<Image> {
     override fun build() = Image(path, mode)
 }
 
-fun pathType(block: PathTypeBuilder.() -> Unit) = PathTypeBuilder().apply(block).build()
+fun pathTypeLocal(block: PathTypeLocalBuilder.() -> Unit) = PathTypeLocalBuilder().apply(block).build()
+fun pathTypeRemote(block: PathTypeRemoteBuilder.() -> Unit) = PathTypeRemoteBuilder().apply(block).build()
 
-class PathTypeBuilder: BeagleBuilder<PathType> {
-    var pathType: PathType by Delegates.notNull()
+interface ImagePathBuilderHelper {
+    var imagePath: PathType
 
-    fun local(pathType: PathType.Local) = this.apply { this.pathType = pathType }
-    fun remote(pathType: PathType.Remote) = this.apply { this.pathType = pathType }
+    fun imagePath(imagePath: PathType) = this.apply { this.imagePath = imagePath }
 
-    fun local(block: () -> String) {
-        local(PathType.Local(block.invoke()))
+    fun imagePath(block: () -> PathType){
+        imagePath(block.invoke())
     }
 
-    fun remote(block: PathTypeRemoteBuilder.() -> Unit){
-        remote(PathTypeRemoteBuilder().apply(block).build())
+    fun imagePathLocal(block: PathTypeLocalBuilder.() -> Unit) {
+        imagePath(PathTypeLocalBuilder().apply(block).build())
     }
 
-    override fun build() = pathType
+    fun imagePathRemote(block: PathTypeRemoteBuilder.() -> Unit){
+        imagePath(PathTypeRemoteBuilder().apply(block).build())
+    }
+
 }
 
 class PathTypeRemoteBuilder: BeagleBuilder<PathType.Remote> {
@@ -79,4 +82,16 @@ class PathTypeRemoteBuilder: BeagleBuilder<PathType.Remote> {
 
     override fun build() = PathType.Remote(url, placeholder)
 
+}
+
+class PathTypeLocalBuilder : BeagleBuilder<PathType.Local> {
+    var mobileId: String by Delegates.notNull()
+
+    fun mobileId(mobileId: String) = this.apply { this.mobileId = mobileId }
+
+    fun mobileId(block: () -> String) {
+        mobileId(block.invoke())
+    }
+
+    override fun build() = PathType.Local(mobileId)
 }

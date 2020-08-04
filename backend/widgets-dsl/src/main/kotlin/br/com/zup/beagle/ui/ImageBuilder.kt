@@ -43,24 +43,26 @@ class ImageBuilder : BeagleBuilder<Image> {
     override fun build() = Image(path, mode)
 }
 
-fun imagePath(block: ImagePathBuilder.() -> Unit) = ImagePathBuilder().apply(block).build()
+fun imagePathLocal(block: ImagePathLocalBuilder.() -> Unit) = ImagePathLocalBuilder().apply(block).build()
+fun imagePathRemote(block: ImagePathRemoteBuilder.() -> Unit) = ImagePathRemoteBuilder().apply(block).build()
 
-class ImagePathBuilder: BeagleBuilder<ImagePath> {
-    var imagePath: ImagePath by Delegates.notNull()
+interface ImagePathBuilderHelper {
+    var imagePath: ImagePath
 
-    fun local(imagePath: ImagePath.Local) = this.apply { this.imagePath = imagePath }
+    fun imagePath(imagePath: ImagePath) = this.apply { this.imagePath = imagePath }
 
-    fun remote(imagePath: ImagePath.Remote) = this.apply { this.imagePath = imagePath }
-
-    fun local(block: ImagePathLocalBuilder.() -> Unit) {
-        local(ImagePathLocalBuilder().apply(block).build())
+    fun imagePath(block: () -> ImagePath){
+        imagePath(block.invoke())
     }
 
-    fun remote(block: ImagePathRemoteBuilder.() -> Unit) {
-        remote(ImagePathRemoteBuilder().apply(block).build())
+    fun imagePathLocal(block: ImagePathLocalBuilder.() -> Unit) {
+        imagePath(ImagePathLocalBuilder().apply(block).build())
     }
 
-    override fun build() = imagePath
+    fun imagePathRemote(block: ImagePathRemoteBuilder.() -> Unit){
+        imagePath(ImagePathRemoteBuilder().apply(block).build())
+    }
+
 }
 
 class ImagePathRemoteBuilder : BeagleBuilder<ImagePath.Remote> {
@@ -81,32 +83,9 @@ class ImagePathRemoteBuilder : BeagleBuilder<ImagePath.Remote> {
     override fun build() = ImagePath.Remote(remoteUrl, placeholder)
 }
 
-class ImagePathLocalBuilder: BeagleBuilder<ImagePath.Local> {
-    var imagePathLocal: ImagePath.Local by Delegates.notNull()
-
-    fun imagePathLocal(imagePathLocal: ImagePath.Local)
-        = this.apply { this.imagePathLocal = imagePathLocal }
-    fun justMobile(mobileId: String) = imagePathLocal(ImagePath.Local.justMobile(mobileId))
-    fun justWeb(webUrl: String) = imagePathLocal(ImagePath.Local.justWeb(webUrl))
-
-    fun both(block: ImagePathLocalBothBuilder.() -> Unit){
-        imagePathLocal(ImagePathLocalBothBuilder().apply(block).build())
-    }
-
-    fun justMobile(mobileId: () -> String){
-        justMobile(mobileId.invoke())
-    }
-
-    fun justWeb(webUrl: () -> String){
-        justWeb(webUrl.invoke())
-    }
-
-    override fun build() = imagePathLocal
-}
-
-class ImagePathLocalBothBuilder : BeagleBuilder<ImagePath.Local> {
-    var webUrl: String by Delegates.notNull()
-    var mobileId: String by Delegates.notNull()
+class ImagePathLocalBuilder : BeagleBuilder<ImagePath.Local> {
+    var webUrl: String? = null
+    var mobileId: String? = null
 
     fun webUrl(webUrl: String) = this.apply { this.webUrl = webUrl }
     fun mobileId(mobileId: String) = this.apply { this.mobileId = mobileId }
@@ -119,5 +98,12 @@ class ImagePathLocalBothBuilder : BeagleBuilder<ImagePath.Local> {
         mobileId(block.invoke())
     }
 
-    override fun build() = ImagePath.Local.both(webUrl, mobileId)
+    override fun build() = when {
+        webUrl.isNullOrBlank() && mobileId.isNullOrBlank() -> {
+            throw IllegalStateException("At least one of mobileId and webUrl must be set to a non null value")
+        }
+        !webUrl.isNullOrBlank() && !mobileId.isNullOrBlank() -> ImagePath.Local.both(webUrl!!, mobileId!!)
+        !webUrl.isNullOrBlank() -> ImagePath.Local.justWeb(webUrl!!)
+        else -> ImagePath.Local.justMobile(mobileId!!)
+    }
 }
