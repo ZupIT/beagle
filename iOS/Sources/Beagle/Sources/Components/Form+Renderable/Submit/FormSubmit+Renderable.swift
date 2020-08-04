@@ -29,7 +29,7 @@ extension Deprecated.FormSubmit: ServerDrivenComponent {
     
     final class FormSubmitView: UIView, Observer, WidgetStateObservable {
         
-        let childView: UIView
+        weak var childView: UIView?
         let observable: Observable<WidgetState>
         
         init(
@@ -47,7 +47,7 @@ extension Deprecated.FormSubmit: ServerDrivenComponent {
         }
         
         func didChangeValue(_ value: Any?) {
-            childView.gestureRecognizers?
+            childView?.gestureRecognizers?
                 .compactMap { $0 as? SubmitFormGestureRecognizer }
                 .forEach { $0.updateSubmitView() }
         }

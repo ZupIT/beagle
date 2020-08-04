@@ -207,10 +207,12 @@ final class RepositoryStub: Repository {
         self.imageResult = imageResult
     }
 
-    func fetchComponent(url: String,
-                        additionalData: RemoteScreenAdditionalData?,
-                        useCache: Bool,
-                        completion: @escaping (Result<ServerDrivenComponent, Request.Error>) -> Void) -> RequestToken? {
+    func fetchComponent(
+        url: String,
+        additionalData: RemoteScreenAdditionalData?,
+        useCache: Bool,
+        completion: @escaping (Result<ServerDrivenComponent, Request.Error>) -> Void
+    ) -> RequestToken? {
         didCallDispatch = true
         if let result = componentResult {
             completion(result)
@@ -218,10 +220,12 @@ final class RepositoryStub: Repository {
         return token
     }
 
-    func submitForm(url: String,
-                    additionalData: RemoteScreenAdditionalData?,
-                    data: Request.FormData,
-                    completion: @escaping (Result<RawAction, Request.Error>) -> Void) -> RequestToken? {
+    func submitForm(
+        url: String,
+        additionalData: RemoteScreenAdditionalData?,
+        data: Request.FormData,
+        completion: @escaping (Result<RawAction, Request.Error>) -> Void
+    ) -> RequestToken? {
         didCallDispatch = true
         formData = data
         if let result = formResult {
@@ -230,9 +234,11 @@ final class RepositoryStub: Repository {
         return token
     }
 
-    func fetchImage(url: String,
-                    additionalData: RemoteScreenAdditionalData?,
-                    completion: @escaping (Result<Data, Request.Error>) -> Void) -> RequestToken? {
+    func fetchImage(
+        url: String,
+        additionalData: RemoteScreenAdditionalData?,
+        completion: @escaping (Result<Data, Request.Error>) -> Void
+    ) -> RequestToken? {
         didCallDispatch = true
         if let result = imageResult {
             completion(result)
