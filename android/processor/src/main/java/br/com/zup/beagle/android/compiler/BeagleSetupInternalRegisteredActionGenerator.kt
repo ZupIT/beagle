@@ -38,10 +38,7 @@ class BeagleSetupInternalRegisteredActionGenerator {
 
         return spec
             .returns(listReturnType)
-            .addCode("""
-                        |val registeredActions = br.com.zup.beagle.android.setup.InternalActionFactory.registeredActions()
-                    |""".trimMargin())
-            .addStatement("return registeredActions")
+            .addStatement("return InternalActionFactory.registeredActions()")
             .build()
     }
 }

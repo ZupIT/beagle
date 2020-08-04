@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.compiler
 
+import br.com.zup.beagle.compiler.GET_VALUE_NULL
 import br.com.zup.beagle.compiler.WIDGET_VIEW
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
@@ -38,10 +39,7 @@ class BeagleSetupInternalRegisteredWidgetGenerator {
 
         return spec
             .returns(listReturnType)
-            .addCode("""
-                        |val registeredWidgets = br.com.zup.beagle.android.setup.InternalWidgetFactory.registeredWidgets()
-                    |""".trimMargin())
-            .addStatement("return registeredWidgets")
+            .addStatement("return InternalWidgetFactory.registeredWidgets()")
             .build()
     }
 }

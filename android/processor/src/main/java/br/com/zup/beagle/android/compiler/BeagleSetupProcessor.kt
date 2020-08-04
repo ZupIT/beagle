@@ -24,6 +24,8 @@ import br.com.zup.beagle.compiler.BeagleSetupRegisteredWidgetGenerator
 import br.com.zup.beagle.compiler.DEEP_LINK_HANDLER
 import br.com.zup.beagle.compiler.FORM_LOCAL_ACTION_HANDLER
 import br.com.zup.beagle.compiler.HTTP_CLIENT_HANDLER
+import br.com.zup.beagle.compiler.INTERNAL_ACTION_FACTORY
+import br.com.zup.beagle.compiler.INTERNAL_WIDGET_FACTORY
 import br.com.zup.beagle.compiler.RegisteredActionGenerator
 import br.com.zup.beagle.compiler.error
 import br.com.zup.beagle.widget.Widget
@@ -60,8 +62,8 @@ class BeagleSetupProcessor(
             .addModifiers(KModifier.PUBLIC, KModifier.FINAL)
             .addSuperinterface(ClassName(BEAGLE_SDK.packageName, BEAGLE_SDK.className))
             .addFunction(beagleSetupRegisteredWidgetGenerator.generate(roundEnvironment))
-            .addFunction(beagleSetupInternalRegisteredWidgetGenerator.generate())
             .addFunction(beagleSetupInternalRegisteredActionGenerator.generate())
+            .addFunction(beagleSetupInternalRegisteredWidgetGenerator.generate())
             .addFunction(registeredActionGenerator.generate(roundEnvironment))
             .addProperties(beagleSetupPropertyGenerator.generate(
                 basePackageName,
@@ -79,6 +81,8 @@ class BeagleSetupProcessor(
             .addImport(DEEP_LINK_HANDLER.packageName, DEEP_LINK_HANDLER.className)
             .addImport(HTTP_CLIENT_HANDLER.packageName, HTTP_CLIENT_HANDLER.className)
             .addImport(BEAGLE_LOGGER.packageName, BEAGLE_LOGGER.className)
+            .addImport(INTERNAL_WIDGET_FACTORY.packageName, INTERNAL_WIDGET_FACTORY.className)
+            .addImport(INTERNAL_ACTION_FACTORY.packageName, INTERNAL_ACTION_FACTORY.className)
             .addImport(basePackageName, beagleConfigClassName)
             .addImport(Widget::class, "")
             .addImport(ClassName(ANDROID_ACTION.packageName, ANDROID_ACTION.className), "")

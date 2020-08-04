@@ -60,8 +60,7 @@ object SimpleFormScreenBuilder : ScreenBuilder {
                         )
                     ),
                     children = listOf(
-                        TextInput(value = "@{onChange.value}", placeholder = "@{myContext.value}",
-                            type = TextInputType.PASSWORD,
+                        TextInput(value = "", placeholder = "@{myContext.value}", type = TextInputType.PASSWORD),
                         onChange = listOf(
                             Alert("asdsa", "sadsasdsa")
                         )),

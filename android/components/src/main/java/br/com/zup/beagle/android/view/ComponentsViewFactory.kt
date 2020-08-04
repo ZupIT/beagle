@@ -28,7 +28,8 @@ import android.widget.HorizontalScrollView
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import br.com.zup.beagle.android.view.custom.*
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
+import br.com.zup.beagle.android.view.custom.BeagleView
 import br.com.zup.beagle.core.Style
 
 internal class ComponentsViewFactory {
