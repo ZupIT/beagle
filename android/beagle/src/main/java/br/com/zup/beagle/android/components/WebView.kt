@@ -21,8 +21,11 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.net.http.SslError
 import android.view.View
-import android.webkit.*
+import android.webkit.SslErrorHandler
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.utils.observeBindChanges
