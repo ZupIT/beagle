@@ -19,7 +19,10 @@ package br.com.zup.beagle.android.components
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.utils.Observer
+import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.ListDirection
@@ -34,10 +37,13 @@ class ListViewTwoTest : BaseComponentTest() {
     private val recyclerView: RecyclerView = mockk(relaxed = true)
     private val template: ServerDrivenComponent = mockk(relaxed = true)
     private val onInit: Action = mockk(relaxed = true)
+    private val dataSource : Bind<List<Any>> = mockk()
+    private val adapter : ListViewContextAdapter2 = mockk(relaxed = true, relaxUnitFun = true)
 
     private val layoutManagerSlot = slot<LinearLayoutManager>()
     private val adapterSlot = slot<RecyclerView.Adapter<RecyclerView.ViewHolder>>()
     private val isNestedScrollingEnabledSlot = slot<Boolean>()
+    private val dataSourceSlot = slot<Observer<List<Any>?>>()
 
     private lateinit var listView: ListViewTwo
 
@@ -154,6 +160,35 @@ class ListViewTwoTest : BaseComponentTest() {
         //then
         verify(exactly = once()) {
             onInit.execute(rootView, recyclerView)
+        }
+    }
+
+    @Test
+    fun when_dataSource_change_with_empty_list_clearList_should_be_called() {
+        //given
+        mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
+        listView = ListViewTwo(
+            direction = ListDirection.HORIZONTAL,
+            template = template,
+            dataSource = dataSource
+        )
+        every { listView.observeBindChanges(
+            rootView = rootView,
+            view = recyclerView,
+            bind = dataSource,
+            observes = capture(dataSourceSlot)
+        ) } just Runs
+        every { recyclerView.adapter } returns adapter
+        every { adapter.clearList() } just Runs
+        every { adapter.notifyItemRangeRemoved(any(), any())} just Runs
+
+        //when
+        listView.buildView(rootView)
+        dataSourceSlot.captured.invoke(listOf())
+
+        //then
+        verify(exactly = once()) {
+            adapter.clearList()
         }
     }
 
