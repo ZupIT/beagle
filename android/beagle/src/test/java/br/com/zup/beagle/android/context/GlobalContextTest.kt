@@ -139,21 +139,17 @@ class GlobalContextTest : BaseTest() {
     @Test
     fun clear_should_remove_attribute_from_JSON_object() {
         //Given
-        val objectPath = RandomData.string()
-        val attributePath1 = RandomData.string()
-        val attributePath2 = RandomData.string()
         val attributeContent = RandomData.string()
-
-        GlobalContext.set(path = "$objectPath.$attributePath1", value = attributeContent)
-        GlobalContext.set(path = "$objectPath.$attributePath2", value = attributeContent)
+        GlobalContext.set(path = "a.b", value = attributeContent)
+        GlobalContext.set(path = "a.c", value = attributeContent)
 
         //When
-        GlobalContext.clear("$objectPath.$attributePath1")
+        GlobalContext.clear("a.b")
 
         //Then
-        val attr1 = GlobalContext.get("$objectPath.$attributePath1")
-        val attr2 = GlobalContext.get("$objectPath.$attributePath2")
-        val containsRemovedAttribute = GlobalContext.get().toString().contains(attributePath1, true)
+        val attr1 = GlobalContext.get("a.b")
+        val attr2 = GlobalContext.get("a.c")
+        val containsRemovedAttribute = GlobalContext.get().toString().contains("\"b\":", true)
 
         assertNull(attr1)
         assertEquals(attributeContent, attr2)
@@ -161,29 +157,30 @@ class GlobalContextTest : BaseTest() {
     }
 
     @Test
-    fun clear_should_not_add_a_biding_listed_in_a_path() {
+    fun clear_should_not_clear_a_path_that_does_not_exist() {
         //Given
-        val objectPath = RandomData.string()
-        val anotherObjectPath = RandomData.string()
-        val attributePath1 = RandomData.string()
-        val attributePath2 = RandomData.string()
-        val attributeContent = RandomData.string()
-
-        GlobalContext.set(path = "$objectPath.$attributePath1", value = attributeContent)
-        GlobalContext.set(path = "$objectPath.$attributePath2", value = attributeContent)
+        val objectPath = "a.b.c"
 
         //When
-        GlobalContext.clear("$anotherObjectPath.$attributePath1")
+        GlobalContext.clear(objectPath)
 
         //Then
-        val attr1 = GlobalContext.get("$objectPath.$attributePath1")
-        val attr2 = GlobalContext.get("$objectPath.$attributePath2")
-        val containsBindingsFromClearPath = GlobalContext.get().toString().contains(anotherObjectPath, true)
+        assertNull(GlobalContext.get("a"))
+        assertNull(GlobalContext.get("a.b"))
+        assertNull(GlobalContext.get("a.b.c"))
+    }
 
-        assertEquals(attributeContent, attr1)
-        assertEquals(attributeContent, attr2)
+    @Test
+    fun clear_should_not_clear_a_path_that_does_not_exist_in_JSONObject() {
+        //Given
+        GlobalContext.set("f.e", true)
+        val objectPath = "a[0].c.e"
 
-        //If you change to assertTrue it will pass since the clear action is adding a binding if it does not exist
-        assertFalse(containsBindingsFromClearPath)
+        //When
+        GlobalContext.clear(objectPath)
+
+        //Then
+        assertNull(GlobalContext.get("c"))
+        assertNull(GlobalContext.get("c.e"))
     }
 }

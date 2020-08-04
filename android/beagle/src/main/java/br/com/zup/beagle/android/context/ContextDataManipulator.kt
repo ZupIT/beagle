@@ -59,7 +59,7 @@ internal class ContextDataManipulator(
 
         return try {
             val keys = JsonPathUtils.splitKeys(path)
-            jsonCreateTree.walkingTreeAndFindKey(context.value, keys, null)
+            jsonCreateTree.walkingTreeAndFindKey(context.value, keys, null, false)
             ContextSetResult.Succeed(context)
         } catch (ex: Exception) {
             BeagleMessageLogs.errorWhileTryingToChangeContext(ex)
