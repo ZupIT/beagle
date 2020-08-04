@@ -21,11 +21,8 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.net.http.SslError
 import android.view.View
-import android.webkit.SslErrorHandler
-import android.webkit.WebResourceError
-import android.webkit.WebResourceRequest
+import android.webkit.*
 import android.webkit.WebView
-import android.webkit.WebViewClient
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.utils.observeBindChanges
@@ -51,7 +48,7 @@ data class WebView(
         webView.webViewClient = BeagleWebViewClient(webView.context)
         webView.settings.javaScriptEnabled = true
         observeBindChanges(rootView, webView, url) {
-            it?.let{ webView.loadUrl(it) }
+            it?.let { webView.loadUrl(it) }
         }
         return webView
     }
@@ -60,6 +57,7 @@ data class WebView(
 
         override fun onPageFinished(view: WebView?, url: String?) {
             notify(loading = false)
+            view?.requestLayout()
         }
 
         override fun onPageStarted(
@@ -84,7 +82,7 @@ data class WebView(
             error: WebResourceError?
         ) {
             val throwable = Error("$error")
-            notify(state = ServerDrivenState.WebViewError(throwable){ view?.reload() })
+            notify(state = ServerDrivenState.WebViewError(throwable) { view?.reload() })
         }
 
         fun notify(loading: Boolean) {
@@ -95,4 +93,5 @@ data class WebView(
             (context as? BeagleActivity)?.onServerDrivenContainerStateChanged(state)
         }
     }
+
 }
