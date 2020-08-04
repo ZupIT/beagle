@@ -18,7 +18,6 @@ import br.com.zup.beagle.Dependencies
 
 dependencies {
     implementation project(Dependencies.Modules.schemaKotlinCore)
-
 }
 
 apply from: rootProject.file('../maven-publish.gradle')

@@ -16,12 +16,14 @@
 
 package br.com.zup.beagle.widget.expression
 
+
 sealed class ExpressionHelper<T>(private val intermediate: String) {
     companion object {
         private const val START = "@{"
         private const val END = "}"
 
-        fun <T> ExpressionHelper<out Iterable<T>>.access(index: Int): ExpressionHelper<T> = ArrayAccess(index, this)
+        fun <T> ExpressionHelper<out Iterable<T>>.access(index: Int): ExpressionHelper<T>
+            = ArrayAccess(index, this)
     }
 
     val representation by lazy { "${this.intermediate}$END" }
