@@ -11,7 +11,7 @@ platform :workflow do
       next
     end
     branchName = tagName.split("/").last
-    sh("git checkout -b " + branchName + "-hotfix")
+    sh("git checkout -b release/" + branchName + "-hotfix")
     push_to_git_remote(
       tags: false,
       set_upstream: true
