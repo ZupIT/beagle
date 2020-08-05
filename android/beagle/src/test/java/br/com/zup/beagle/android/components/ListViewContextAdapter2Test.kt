@@ -112,23 +112,17 @@ class ListViewContextAdapter2Test : BaseComponentTest() {
     }
 
     @Test
-    fun onBindViewHolder_should_call_linkBindingToContext() {
+    fun onBindViewHolder_should_call_setContextData() {
         // Given
-        mockkStatic("br.com.zup.beagle.android.utils.RootViewExtensionsKt")
         mockkStatic("br.com.zup.beagle.android.utils.ViewExtensionsKt")
-        val viewModel : ScreenContextViewModel = mockk(relaxed = true, relaxUnitFun = true)
-        mockkConstructor(ViewModelProvider::class)
-        every{anyConstructed< ViewModelProvider>().get(ScreenContextViewModel::class.java) } returns viewModel
-        every {rootView.generateViewModelInstance<ScreenContextViewModel>()} returns viewModel
-        every { viewModel.linkBindingToContext() } just Runs
-        every { beagleFlexView.setContextData(any()) } just Runs
         val position = 0
         val parent: ViewGroup = mockk()
+        every { beagleFlexView.setContextData(any()) } just Runs
 
         // When
-        adapter.onCreateViewHolder(parent, position)
+        val result = adapter.onCreateViewHolder(parent, position)
 
         // Then
-        verify(exactly = once()) { viewModel.linkBindingToContext() }
+        verify(exactly = once()) { result.itemView.setContextData(ContextData("item", "test")) }
     }
 }
