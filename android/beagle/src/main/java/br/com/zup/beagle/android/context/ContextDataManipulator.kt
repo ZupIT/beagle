@@ -20,6 +20,8 @@ import br.com.zup.beagle.android.jsonpath.JsonCreateTree
 import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.jsonpath.JsonPathUtils
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
+import org.json.JSONArray
+import org.json.JSONObject
 import java.util.LinkedList
 
 internal sealed class ContextSetResult {
@@ -59,11 +61,31 @@ internal class ContextDataManipulator(
 
         return try {
             val keys = JsonPathUtils.splitKeys(path)
-            jsonCreateTree.walkingTreeAndFindKey(context.value, keys, null, false)
-            ContextSetResult.Succeed(context)
+            val lastKey = keys.pollLast()
+            val lastValue = jsonPathFinder.find(keys, context.value)
+            if (removePathAtKey(lastKey, lastValue)) {
+                ContextSetResult.Succeed(context)
+            } else {
+                ContextSetResult.Failure
+            }
         } catch (ex: Exception) {
             BeagleMessageLogs.errorWhileTryingToChangeContext(ex)
             ContextSetResult.Failure
+        }
+    }
+
+    private fun removePathAtKey(key: String, value: Any?): Boolean {
+        return when (value) {
+            is JSONArray -> {
+                val index = JsonPathUtils.getIndexOnArrayBrackets(key)
+                value.remove(index)
+                true
+            }
+            is JSONObject -> {
+                value.remove(key)
+                true
+            }
+            else -> false
         }
     }
 

@@ -22,34 +22,20 @@ import java.util.LinkedList
 
 internal class JsonCreateTree {
 
-    fun walkingTreeAndFindKey(
-        root: Any,
-        keys: LinkedList<String>,
-        newValue: Any?,
-        createPathIfDoesNotExist: Boolean = true
-    ) {
+    fun walkingTreeAndFindKey(root: Any, keys: LinkedList<String>, newValue: Any?) {
         @Suppress("UNCHECKED_CAST")
         val copyOfKeys = keys.clone() as LinkedList<String>
         var key = copyOfKeys.poll()
+
 
         var currentTree: Any = root
         while (key != null) {
             val nextKey = copyOfKeys.poll()
 
             if (key.isArray()) {
-                val newNode = handleArray(currentTree, key, nextKey, newValue, createPathIfDoesNotExist)
-                if (newNode != null) {
-                    currentTree = newNode
-                } else {
-                    break
-                }
+                currentTree = handleArray(currentTree, key, nextKey, newValue)
             } else if (currentTree is JSONObject) {
-                val newNode = handleJsonObject(currentTree, key, nextKey, newValue, createPathIfDoesNotExist)
-                if (newNode != null) {
-                    currentTree = newNode
-                } else {
-                    break
-                }
+                currentTree = handleJsonObject(currentTree, key, nextKey, newValue)
             }
 
             key = nextKey
@@ -69,57 +55,32 @@ internal class JsonCreateTree {
         }
     }
 
-    private fun handleArray(
-        currentTree: Any,
-        key: String,
-        nextKey: String?,
-        newValue: Any?,
-        createPathIfDoesNotExist: Boolean
-    ): Any? {
-        var tree: Any? = currentTree
+    private fun handleArray(currentTree: Any, key: String, nextKey: String?, newValue: Any?): Any {
+        var tree = currentTree
         if (tree !is JSONArray) {
             tree = JSONArray()
         }
-        tree = createTreeToNextKey(tree, key, nextKey, createPathIfDoesNotExist)
+        tree = createTreeToNextKey(tree, key, nextKey)
         if (nextKey == null) {
             (tree as JSONArray).put(JsonPathUtils.getIndexOnArrayBrackets(key), newValue)
         }
         return tree
     }
 
-    private fun handleJsonObject(
-        currentTree: JSONObject,
-        key: String,
-        nextKey: String?,
-        newValue: Any?,
-        createPathIfDoesNotExist: Boolean
-    ): Any? {
-        val json: Any? = if (nextKey.isArray()) {
-            currentTree.optJSONArray(key) ?: createNodeIfPossible(createPathIfDoesNotExist, JSONArray())
+    private fun handleJsonObject(currentTree: JSONObject, key: String, nextKey: String?, newValue: Any?): Any {
+        val json: Any = if (nextKey.isArray()) {
+            currentTree.optJSONArray(key) ?: JSONArray()
         } else {
-            currentTree.optJSONObject(key) ?: createNodeIfPossible(createPathIfDoesNotExist, JSONObject())
+            currentTree.optJSONObject(key) ?: JSONObject()
         }
         currentTree.put(key, if (nextKey == null) newValue else json)
         return json
     }
 
-    private fun createNodeIfPossible(createPathIfDoesNotExist: Boolean, nodeValue: Any): Any? {
-        return if (createPathIfDoesNotExist) {
-            nodeValue
-        } else {
-            null
-        }
-    }
-
-    private fun createTreeToNextKey(
-        jsonArray: JSONArray,
-        key: String,
-        nextKey: String?,
-        createPathIfDoesNotExist: Boolean
-    ): Any? {
+    private fun createTreeToNextKey(jsonArray: JSONArray, key: String, nextKey: String?): Any {
         val position = JsonPathUtils.getIndexOnArrayBrackets(key)
         var opt: Any? = jsonArray.optJSONObject(position) ?: jsonArray.optJSONArray(position)
-        if (createPathIfDoesNotExist && (opt == JSONObject.NULL || opt == null)) {
+        if (opt == JSONObject.NULL || opt == null) {
             val json: Any = if (nextKey.isArray()) JSONArray() else JSONObject()
             jsonArray.put(position, if (nextKey != null) json else JSONObject.NULL)
             if (nextKey != null) {

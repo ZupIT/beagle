@@ -161,7 +161,7 @@ class ContextDataManipulatorTest {
         // Given
         val context = ContextData(
             id = CONTEXT_ID,
-            value = JSONObject()
+            value = JSONArray()
         )
         val path = "["
 
@@ -191,6 +191,44 @@ class ContextDataManipulatorTest {
         assertFails {
             (succeed.newContext.value as JSONObject).getJSONObject("a")
         }
+    }
+
+    @Test
+    fun `clear should delete specific JSONArray node when path is given`() {
+        // Given
+        val context = ContextData(
+            id = CONTEXT_ID,
+            value = JSONArray().apply {
+                put(0)
+            }
+        )
+        val path = "[0]"
+
+        // When
+        val result = contextDataManipulator.clear(context, path)
+
+        // Then
+        assertTrue { result is ContextSetResult.Succeed }
+        val succeed = result as ContextSetResult.Succeed
+        assertFails {
+            (succeed.newContext.value as JSONArray).get(0)
+        }
+    }
+
+    @Test
+    fun `clear should not remove if value is not a JSON`() {
+        // Given
+        val context = ContextData(
+            id = CONTEXT_ID,
+            value = true
+        )
+        val path = "a"
+
+        // When
+        val result = contextDataManipulator.clear(context, path)
+
+        // Then
+        assertTrue { result is ContextSetResult.Failure }
     }
 
     @Test
