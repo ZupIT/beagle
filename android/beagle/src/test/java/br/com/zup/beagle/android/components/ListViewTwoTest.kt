@@ -41,7 +41,6 @@ class ListViewTwoTest : BaseComponentTest() {
     private val template: ServerDrivenComponent = mockk(relaxed = true)
     private val onInit: Action = mockk(relaxed = true)
     private val dataSource: Bind<List<Any>> = mockk()
-    private val adapter: ListViewContextAdapter2 = mockk(relaxed = true, relaxUnitFun = true)
     private val onScrollEnd: Action = mockk(relaxed = true)
 
     private val layoutManagerSlot = slot<LinearLayoutManager>()
@@ -54,9 +53,9 @@ class ListViewTwoTest : BaseComponentTest() {
 
     override fun setUp() {
         super.setUp()
+        mockkConstructor(ListViewContextAdapter2::class)
         every { anyConstructed<ViewFactory>().makeRecyclerView(rootView.getContext()) } returns recyclerView
         every { recyclerView.layoutManager = capture(layoutManagerSlot) } just Runs
-        every { recyclerView.adapter = capture(adapterSlot) } just Runs
         every { recyclerView.isNestedScrollingEnabled = capture(isNestedScrollingEnabledSlot) } just Runs
     }
 
@@ -65,7 +64,8 @@ class ListViewTwoTest : BaseComponentTest() {
         //given
         listView = ListViewTwo(
             direction = ListDirection.VERTICAL,
-            template = template
+            template = template,
+            dataSource = dataSource
         )
         //when
         listView.buildView(rootView)
@@ -79,7 +79,8 @@ class ListViewTwoTest : BaseComponentTest() {
         //given
         listView = ListViewTwo(
             direction = ListDirection.HORIZONTAL,
-            template = template
+            template = template,
+            dataSource = dataSource
         )
         //when
         listView.buildView(rootView)
@@ -91,9 +92,12 @@ class ListViewTwoTest : BaseComponentTest() {
     @Test
     fun build_view_should_set_adapter() {
         //given
+        every { recyclerView.adapter = capture(adapterSlot) } just Runs
+
         listView = ListViewTwo(
             direction = ListDirection.HORIZONTAL,
-            template = template
+            template = template,
+            dataSource = dataSource
         )
         //when
         listView.buildView(rootView)
@@ -107,7 +111,8 @@ class ListViewTwoTest : BaseComponentTest() {
         //given
         listView = ListViewTwo(
             direction = ListDirection.HORIZONTAL,
-            template = template
+            template = template,
+            dataSource = dataSource
         )
         //when
         listView.buildView(rootView)
@@ -122,7 +127,8 @@ class ListViewTwoTest : BaseComponentTest() {
         listView = ListViewTwo(
             direction = ListDirection.HORIZONTAL,
             template = template,
-            useParentScroll = false
+            useParentScroll = false,
+            dataSource = dataSource
         )
         //when
         listView.buildView(rootView)
@@ -138,7 +144,8 @@ class ListViewTwoTest : BaseComponentTest() {
         listView = ListViewTwo(
             direction = ListDirection.HORIZONTAL,
             template = template,
-            useParentScroll = true
+            useParentScroll = true,
+            dataSource = dataSource
         )
         //when
         listView.buildView(rootView)
@@ -154,7 +161,8 @@ class ListViewTwoTest : BaseComponentTest() {
         listView = ListViewTwo(
             direction = ListDirection.HORIZONTAL,
             template = template,
-            onInit = listOf(onInit)
+            onInit = listOf(onInit),
+            dataSource = dataSource
         )
         every {
             onInit.execute(rootView, recyclerView)
@@ -185,9 +193,7 @@ class ListViewTwoTest : BaseComponentTest() {
                 observes = capture(dataSourceSlot)
             )
         } just Runs
-        every { recyclerView.adapter } returns adapter
-        every { adapter.clearList() } just Runs
-        every { adapter.notifyItemRangeRemoved(any(), any()) } just Runs
+        every { anyConstructed<ListViewContextAdapter2>().clearList()} just Runs
 
         //when
         listView.buildView(rootView)
@@ -195,7 +201,7 @@ class ListViewTwoTest : BaseComponentTest() {
 
         //then
         verify(exactly = once()) {
-            adapter.clearList()
+            anyConstructed<ListViewContextAdapter2>().clearList()
         }
     }
 

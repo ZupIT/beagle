@@ -133,14 +133,9 @@ internal class ListViewContextAdapter2(
     private val template: ServerDrivenComponent,
     private val viewFactory: ViewFactory,
     private val orientation: Int,
-    private val rootView: RootView
+    private val rootView: RootView,
+    private var listItems : ArrayList<Any> = ArrayList()
 ) : RecyclerView.Adapter<ContextViewHolderTwo>() {
-
-    private var listItems: ArrayList<Any>
-
-    init {
-        listItems = ArrayList()
-    }
 
     override fun getItemViewType(position: Int): Int = position
 
@@ -170,7 +165,7 @@ internal class ListViewContextAdapter2(
     }
 
     fun setList(list: List<Any>) {
-        this.listItems = ArrayList(list)
+        listItems = ArrayList(list)
         notifyDataSetChanged()
     }
 
