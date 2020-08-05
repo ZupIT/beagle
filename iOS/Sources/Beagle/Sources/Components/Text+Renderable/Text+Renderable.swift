@@ -23,7 +23,7 @@ extension Text: Widget {
     public func toView(renderer: BeagleRenderer) -> UIView {
         let textView = UITextView()
         textView.isEditable = false
-        textView.isSelectable = false
+        //textView.isSelectable = false
         textView.isScrollEnabled = false
         textView.textContainerInset = .zero
         textView.textContainer.lineFragmentPadding = 0

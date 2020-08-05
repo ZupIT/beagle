@@ -48,6 +48,7 @@ public class BeagleScreenViewController: BeagleController {
     
     lazy var renderer = dependencies.renderer(self)
     
+    //TODO: Trate leaks here
     private var bindings: [() -> Void] = []
     
     // MARK: - Initialization

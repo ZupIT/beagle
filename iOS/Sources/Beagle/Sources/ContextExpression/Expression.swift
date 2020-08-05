@@ -26,8 +26,8 @@ public extension Expression {
     ) {
         switch self {
         case let .expression(expression):
-            controller.addBinding {
-                view.configBinding(for: expression, completion: updateFunction)
+            controller.addBinding { [weak view] in
+               view?.configBinding(for: expression, completion: updateFunction)
             }
         case let .value(value):
             updateFunction(value)

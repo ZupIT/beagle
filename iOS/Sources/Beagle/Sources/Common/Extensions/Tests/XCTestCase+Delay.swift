@@ -16,24 +16,14 @@
  */
 
 import XCTest
-import SnapshotTesting
 @testable import Beagle
-import BeagleSchema
 
-class SimpleFormTests: XCTestCase {
-    
-    func testFormView() {
-        //Given
-        let controller = BeagleControllerStub()
-        let renderer = BeagleRenderer(controller: controller)
-        let numberOfChilds = 3
-        let simpleFormChilds = Array(repeating: ComponentDummy(), count: numberOfChilds)
-        let simpleForm = SimpleForm(children: simpleFormChilds)
-        
-        // When
-        let resultingView = renderer.render(simpleForm)
-        
-        //Then
-        XCTAssertEqual(resultingView.subviews.count, numberOfChilds)
+extension XCTestCase {
+    /// Improves readability when implementing a `Delay`.
+    /// - Parameter seconds: time to trigger the  completion, by default is 1 second.
+    func delay(seconds: Int, _ completionHadler: @escaping () -> Void) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(seconds)) {
+            completionHadler()
+        }
     }
 }

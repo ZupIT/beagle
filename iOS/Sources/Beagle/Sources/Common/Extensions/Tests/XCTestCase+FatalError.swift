@@ -43,7 +43,6 @@ extension XCTestCase {
             XCTAssertEqual(assertionMessage, expectedMessage)
             FatalErrorUtil.restoreFatalError()
         }
-        
     }
     
     private func unreachable() -> Never {

@@ -14,26 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import XCTest
-import SnapshotTesting
 @testable import Beagle
-import BeagleSchema
 
-class SimpleFormTests: XCTestCase {
-    
-    func testFormView() {
-        //Given
-        let controller = BeagleControllerStub()
-        let renderer = BeagleRenderer(controller: controller)
-        let numberOfChilds = 3
-        let simpleFormChilds = Array(repeating: ComponentDummy(), count: numberOfChilds)
-        let simpleForm = SimpleForm(children: simpleFormChilds)
-        
-        // When
-        let resultingView = renderer.render(simpleForm)
-        
-        //Then
-        XCTAssertEqual(resultingView.subviews.count, numberOfChilds)
+extension XCTestCase {
+    /// Test whether anyObject remains alive after the `Teardown`.
+    /// - Parameter object: The object you want to test for leak.
+    func testMemoryLeak(_ object: AnyObject) {
+        addTeardownBlock { [weak object] in
+            XCTAssertNil(object)
+        }
     }
 }
+

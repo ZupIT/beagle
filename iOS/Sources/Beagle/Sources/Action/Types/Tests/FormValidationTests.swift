@@ -20,7 +20,7 @@ import BeagleSchema
 
 final class FormValidationTests: XCTestCase {
 
-    func test_whenExecuteFormValidation_shouldCallErrorListener() {
+    func testErrorListener() {
         // Given
         let inputName = "inputName"
         let errorMessage = "Error Message"

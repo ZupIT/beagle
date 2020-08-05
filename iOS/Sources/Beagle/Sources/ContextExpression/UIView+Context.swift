@@ -21,7 +21,7 @@ import BeagleSchema
 extension UIView {
     static private var contextMapKey = "contextMapKey"
     
-    private class ObjectWrapper<T> {
+    private struct ObjectWrapper<T> {
         let object: T?
         
         init(_ object: T?) {
@@ -34,7 +34,7 @@ extension UIView {
             return (objc_getAssociatedObject(self, &UIView.contextMapKey) as? ObjectWrapper)?.object
         }
         set {
-            objc_setAssociatedObject(self, &UIView.contextMapKey, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+           objc_setAssociatedObject(self, &UIView.contextMapKey, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
@@ -47,6 +47,11 @@ extension UIView {
         set {
             objc_setAssociatedObject(self, &UIView.observers, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
+    }
+    
+    func clearAssociatedObjects() {
+        objc_setAssociatedObject(self, &UIView.observers, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        objc_setAssociatedObject(self, &UIView.contextMapKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
     
     // MARK: Context Expression
@@ -73,9 +78,9 @@ extension UIView {
     
     private func configBinding<T: Decodable>(for expression: SingleExpression, completion: @escaping (T) -> Void) {
         guard let context = getContext(with: expression.context) else { return }
-        let closure: (Context) -> Void = { context in
+        let closure: (Context) -> Void = { [weak self] context in
             let dynamicObject = expression.evaluate(model: context.value)
-            if let value: T = self.transform(dynamicObject) {
+            if let value: T = self?.transform(dynamicObject) {
                 completion(value)
             }
         }
@@ -95,8 +100,8 @@ extension UIView {
         expression.nodes.forEach {
             if case let .expression(single) = $0 {
                 guard let context = getContext(with: single.context) else { return }
-                configBinding(with: context) { _ in
-                    if let value: T = self.evaluate(for: expression, contextId: single.context) {
+                configBinding(with: context) { [weak self] _ in
+                    if let value: T = self?.evaluate(for: expression, contextId: single.context) {
                         completion(value)
                     }
                 }

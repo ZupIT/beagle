@@ -21,7 +21,7 @@ import BeagleSchema
 
 final class FormLocalActionTests: XCTestCase {
 
-    func test_whenExecuteFormLocalAction_shouldUseLocalFormHandler() {
+    func testLocalFormHandler() {
         // Given
         let sut = FormLocalAction(name: "custom-action", data: [:])
         let actionSpy = LocalFormHandlerSpy()
@@ -35,7 +35,7 @@ final class FormLocalActionTests: XCTestCase {
         XCTAssertEqual(actionSpy.actionsHandledCount, 1)
     }
     
-    func test_whenExecuteFormLocalAction_shouldListenToStateChanges() {
+    func testStateChanges() {
         // Given
         let name = "name"
         let error = NSError(domain: "tests", code: 1, description: "FormLocalAction")
