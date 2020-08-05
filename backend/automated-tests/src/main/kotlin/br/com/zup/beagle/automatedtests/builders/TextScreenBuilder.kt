@@ -22,6 +22,8 @@ import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.action.Alert
+import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
@@ -29,6 +31,13 @@ import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
 import br.com.zup.beagle.widget.ui.ImagePath
 import br.com.zup.beagle.widget.ui.Text
+
+data class TextContext(
+    val text: String,
+    val textStyle: String,
+    val textBackground: String,
+    val textAll: String
+)
 
 object TextScreenBuilder {
     fun build() = Screen(
@@ -50,13 +59,22 @@ object TextScreenBuilder {
         ),
         child = Container(
             children = listOf(
-                beagleText(text = "hello world without style"),
-                beagleText(text = "hello world with style", styleId = SCREEN_TEXT_STYLE),
-                beagleText(text = "hello world with Appearance", appearanceColor = STEEL_BLUE),
+                beagleText(text = "@{text.text}"),
+                beagleText(text = "@{text.textStyle}", styleId = SCREEN_TEXT_STYLE),
+                beagleText(text = "@{text.textBackground}", appearanceColor = STEEL_BLUE),
                 beagleText(
-                    text = "hello world with style and Appearance",
+                    text = "@{text.textAll}",
                     styleId = SCREEN_TEXT_STYLE,
                     appearanceColor = STEEL_BLUE
+                )
+            ),
+            context = ContextData(
+                id = "text",
+                value =  TextContext(
+                    text = "hello world without style",
+                    textStyle = "hello world with style",
+                    textBackground = "hello world with Appearance",
+                    textAll = "hello world with style and Appearance"
                 )
             )
         )

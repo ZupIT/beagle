@@ -107,4 +107,28 @@ class LayoutComponentsController() {
     @GetMapping(PAGEVIEW_TWO_ENDPOINT)
     fun getPageViewTwoScreen() = PageViewTwoScreenBuilder.build()
 
+    @GetMapping(NAVIGATION_BAR_ENDPOINT)
+    fun getSampleNavigationBarController() = NavigationBarScreenBuilder.build()
+
+    @GetMapping(REPRESENTATION_NAVIGATION_BAR_ENDPOINT)
+    fun getSampleNavigationBar() = NavigationBarScreenBuilder.navigationBar()
+
+    @GetMapping(REPRESENTATION_NAVIGATION_BAR_STYLE_ENDPOINT)
+    fun getNavigationBarStyle() = NavigationBarScreenBuilder.navigationBarStyle()
+
+    @GetMapping(REPRESENTATION_NAVIGATION_BAR_TEXT_ENDPOINT)
+    fun getNavigationBarText() = NavigationBarScreenBuilder.navigationBarWithTextAsItems()
+
+    @GetMapping(REPRESENTATION_NAVIGATION_BAR_IMAGE_ENDPOINT)
+    fun getNavigationBarImage() = NavigationBarScreenBuilder.navigationBarWithImageAsItem()
+
+    @GetMapping(SAFE_AREA_ENDPOINT)
+    fun getSampleSafeArea() = SafeAreaScreenBuilder.build()
+
+    @GetMapping(SCREEN_SAFE_AREA_TRUE_ENDPOINT)
+    fun getSampleSafeAreaTrue() = SafeAreaScreenBuilder.createScreen(true)
+
+    @GetMapping(SCREEN_SAFE_AREA_FALSE_ENDPOINT)
+    fun getSampleSafeAreaFalse() = SafeAreaScreenBuilder.createScreen(false)
+
 }
