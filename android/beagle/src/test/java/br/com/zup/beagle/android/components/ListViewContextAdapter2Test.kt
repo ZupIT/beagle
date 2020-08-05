@@ -16,12 +16,15 @@
 
 package br.com.zup.beagle.android.components
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import br.com.zup.beagle.android.context.ContextBinding
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.utils.generateViewModelInstance
+import br.com.zup.beagle.android.utils.getContextBinding
 import br.com.zup.beagle.android.utils.setContextData
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleFlexView
@@ -36,8 +39,13 @@ class ListViewContextAdapter2Test : BaseComponentTest() {
 
     private val template: ServerDrivenComponent = mockk()
     private val viewFactory: ViewFactory = mockk(relaxed = true)
-    private val adapterBeagleFlexView: BeagleFlexView = mockk(relaxed = true)
     private lateinit var adapter: ListViewContextAdapter2
+    private val parent : ViewGroup = mockk()
+    private val viewMocked : View = mockk(relaxed = true)
+
+    private val position = 0
+    private val holder = ContextViewHolderTwo(viewMocked)
+
 
     override fun setUp() {
         super.setUp()
@@ -48,27 +56,24 @@ class ListViewContextAdapter2Test : BaseComponentTest() {
             rootView = rootView,
             listItems = arrayListOf("test")
         )
+        mockkStatic("br.com.zup.beagle.android.utils.ViewExtensionsKt")
+        every { beagleFlexView.setContextData(any()) } just Runs
     }
 
     @Test
     fun getItemViewType_should_return_position() {
         // Given
-        val position = 0
 
         // When
-        val actual = adapter.getItemViewType(position)
+        val result = adapter.getItemViewType(position)
 
         // Then
-        assertEquals(position, actual)
+        assertEquals(position, result)
     }
 
     @Test
     fun onCreateViewHolder_should_call_setContextData() {
         // Given
-        mockkStatic("br.com.zup.beagle.android.utils.ViewExtensionsKt")
-        val position = 0
-        val parent: ViewGroup = mockk()
-        every { beagleFlexView.setContextData(any()) } just Runs
 
         // When
         val result = adapter.onCreateViewHolder(parent, position)
@@ -80,8 +85,6 @@ class ListViewContextAdapter2Test : BaseComponentTest() {
     @Test
     fun onCreateViewHolder_should_call_addServerDrivenComponent() {
         // Given
-        val position = 0
-        val parent: ViewGroup = mockk()
 
         // When
         val result = adapter.onCreateViewHolder(parent, position)
@@ -93,16 +96,8 @@ class ListViewContextAdapter2Test : BaseComponentTest() {
     @Test
     fun onCreateViewHolder_should_call_linkBindingToContext() {
         // Given
-        mockkStatic("br.com.zup.beagle.android.utils.RootViewExtensionsKt")
-        mockkStatic("br.com.zup.beagle.android.utils.ViewExtensionsKt")
-        val viewModel : ScreenContextViewModel = mockk(relaxed = true, relaxUnitFun = true)
-        mockkConstructor(ViewModelProvider::class)
-        every{anyConstructed< ViewModelProvider>().get(ScreenContextViewModel::class.java) } returns viewModel
-        every {rootView.generateViewModelInstance<ScreenContextViewModel>()} returns viewModel
+        val viewModel = commonViewModelMock()
         every { viewModel.linkBindingToContext() } just Runs
-        every { beagleFlexView.setContextData(any()) } just Runs
-        val position = 0
-        val parent: ViewGroup = mockk()
 
         // When
         adapter.onCreateViewHolder(parent, position)
@@ -114,15 +109,35 @@ class ListViewContextAdapter2Test : BaseComponentTest() {
     @Test
     fun onBindViewHolder_should_call_setContextData() {
         // Given
-        mockkStatic("br.com.zup.beagle.android.utils.ViewExtensionsKt")
-        val position = 0
-        val parent: ViewGroup = mockk()
-        every { beagleFlexView.setContextData(any()) } just Runs
 
         // When
-        val result = adapter.onCreateViewHolder(parent, position)
+        adapter.onBindViewHolder(holder, position)
 
         // Then
-        verify(exactly = once()) { result.itemView.setContextData(ContextData("item", "test")) }
+        verify(exactly = once()) { viewMocked.setContextData(ContextData("item", "test")) }
+    }
+
+    @Test
+    fun onBindViewHolder_should_call_notifyBindingChanges() {
+        // Given
+        val viewModel = commonViewModelMock()
+        every { viewModel.notifyBindingChanges(any()) } just Runs
+
+        val contextBinding : ContextBinding = mockk(relaxed = true)
+        every { viewMocked.getContextBinding() } returns contextBinding
+
+        // When
+        adapter.onBindViewHolder(holder, position)
+
+        // Then
+        verify(exactly = once()) { viewModel.notifyBindingChanges(contextBinding) }
+    }
+
+    private fun commonViewModelMock() : ScreenContextViewModel{
+        mockkStatic("br.com.zup.beagle.android.utils.RootViewExtensionsKt")
+        val viewModel : ScreenContextViewModel = mockk(relaxed = true, relaxUnitFun = true)
+        mockkConstructor(ViewModelProvider::class)
+        every{anyConstructed< ViewModelProvider>().get(ScreenContextViewModel::class.java) } returns viewModel
+        return viewModel
     }
 }

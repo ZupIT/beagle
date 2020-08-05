@@ -80,13 +80,11 @@ internal data class ListViewTwo(
     }
 
     private fun configDataSourceObserver(rootView: RootView, recyclerView: RecyclerView) {
-        dataSource?.let {
-            observeBindChanges(rootView, recyclerView, it) { value ->
-                if (value.isNullOrEmpty()) {
-                    contextAdapter.clearList()
-                } else {
-                    contextAdapter.setList(value)
-                }
+        observeBindChanges(rootView, recyclerView, dataSource) { value ->
+            if (value.isNullOrEmpty()) {
+                contextAdapter.clearList()
+            } else {
+                contextAdapter.setList(value)
             }
         }
     }
@@ -121,7 +119,7 @@ internal data class ListViewTwo(
         layoutManager?.let {
             val totalItemCount = it.itemCount.toFloat()
             val lastVisible = it.findLastVisibleItemPosition().toFloat()
-            scrolled = (lastVisible / totalItemCount)*100
+            scrolled = (lastVisible / totalItemCount) * 100
         }
 
         return scrolled
@@ -134,7 +132,7 @@ internal class ListViewContextAdapter2(
     private val viewFactory: ViewFactory,
     private val orientation: Int,
     private val rootView: RootView,
-    private var listItems : ArrayList<Any> = ArrayList()
+    private var listItems: ArrayList<Any> = ArrayList()
 ) : RecyclerView.Adapter<ContextViewHolderTwo>() {
 
     override fun getItemViewType(position: Int): Int = position
@@ -158,9 +156,8 @@ internal class ListViewContextAdapter2(
         val item = listItems[position]
         val view = holder.itemView
         view.setContextData(ContextData(id = "item", value = item))
-        view.getContextBinding()?.let{contextBinding ->
+        view.getContextBinding()?.let { contextBinding ->
             rootView.generateViewModelInstance<ScreenContextViewModel>().notifyBindingChanges(contextBinding)
-
         }
     }
 
