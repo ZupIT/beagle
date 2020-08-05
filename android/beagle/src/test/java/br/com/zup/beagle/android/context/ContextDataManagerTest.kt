@@ -56,16 +56,31 @@ class ContextDataManagerTest : BaseTest() {
         super.setUp()
 
         mockkObject(BeagleMessageLogs)
+        mockkObject(GlobalContext)
+
         every { BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(any()) } just Runs
         every { BeagleMessageLogs.errorWhileTryingToChangeContext(any()) } just Runs
         every { BeagleMessageLogs.errorWhileTryingToAccessContext(any()) } just Runs
+        every { GlobalContext.set(any(), any()) } just Runs
 
         contextDataManager = ContextDataManager()
 
         contexts = contextDataManager.getPrivateField("contexts")
         viewBinding = contextDataManager.getPrivateField("viewBinding")
+    }
 
-        contexts.clear()
+    @Test
+    fun init_should_add_observer_to_GlobalContext() {
+        // Given
+        every { GlobalContext.observeGlobalContextChange(any()) } just Runs
+        
+        // When
+        val contextDataManager = ContextDataManager()
+        
+        // Then
+        val contexts = contextDataManager.getPrivateField<Map<Int, ContextBinding>>("contexts")
+        assertNotNull(contexts[Int.MAX_VALUE])
+        verify { GlobalContext.observeGlobalContextChange(any()) }
     }
 
     @Test
@@ -82,6 +97,19 @@ class ContextDataManagerTest : BaseTest() {
         assertEquals(contextBinding?.context, contextData)
         assertEquals(0, contextBinding?.bindings?.size)
         assertEquals(contextData, viewContext.getContextData())
+    }
+
+    @Test
+    fun addContext_should_not_add_global_context() {
+        // Given
+        val contextData = ContextData("global", true)
+        every { BeagleMessageLogs.globalKeywordIsReservedForGlobalContext() } just Runs
+
+        // When
+        contextDataManager.addContext(viewContext, contextData)
+
+        // Then
+        verify(exactly = once()) { BeagleMessageLogs.globalKeywordIsReservedForGlobalContext() }
     }
 
     @Test
@@ -157,6 +185,23 @@ class ContextDataManagerTest : BaseTest() {
     }
 
     @Test
+    fun addBinding_should_add_binding_to_global_context() {
+        // Given
+        val viewWithBind = createViewForContext()
+        val bind = Bind.Expression("@{global}", type = Boolean::class.java)
+        val observer = mockk<Observer<Boolean?>>(relaxed = true)
+        contextDataManager.addBinding(viewWithBind, bind, observer)
+
+        // When
+        contextDataManager.linkBindingToContext()
+
+        // Then
+        val contextBinding = contexts[Int.MAX_VALUE]?.bindings?.first()
+        assertEquals(bind, contextBinding?.bind)
+        assertEquals(observer, contextBinding?.observer)
+    }
+
+    @Test
     fun updateContext_should_update_context_data_with_context_id() {
         // Given
         val json = JSONObject().apply {
@@ -167,26 +212,10 @@ class ContextDataManagerTest : BaseTest() {
         contextDataManager.addContext(viewContext, contextData)
 
         // When
-        val result = contextDataManager.updateContext(viewContext, updateContext)
+        contextDataManager.updateContext(viewContext, updateContext)
 
         // Then
-        assertTrue { result }
         assertFalse { json.getBoolean("a") }
-    }
-
-    @Test
-    fun updateContext_should_log_error_when_path_is_invalid() {
-        // Given
-        val contextData = ContextData(CONTEXT_ID, true)
-        val updateContext = SetContextInternal(CONTEXT_ID, false, "")
-        contextDataManager.addContext(viewContext, contextData)
-
-        // When
-        val result = contextDataManager.updateContext(viewContext, updateContext)
-
-        // Then
-        assertFalse { result }
-        verify(exactly = once()) { BeagleMessageLogs.errorWhileTryingToChangeContext(any()) }
     }
 
     @Test
@@ -197,25 +226,24 @@ class ContextDataManagerTest : BaseTest() {
         contextDataManager.addContext(viewContext, contextData)
 
         // When
-        val result = contextDataManager.updateContext(viewContext, updateContext)
+        contextDataManager.updateContext(viewContext, updateContext)
 
         // Then
-        assertTrue { result }
         val contextBinding = contexts[viewContext.id]?.context
         assertEquals(updateContext.contextId, contextBinding?.id)
         assertEquals(updateContext.value, contextBinding?.value)
     }
 
     @Test
-    fun updateContext_should_return_false_when_contextId_does_not_exist() {
+    fun updateContext_should_call_global_context_when_id_is_global() {
         // Given
-        val updateContext = SetContextInternal(RandomData.string(), false, null)
+        val updateContext = SetContextInternal("global", false, null)
 
         // When
-        val result = contextDataManager.updateContext(viewContext, updateContext)
+        contextDataManager.updateContext(viewContext, updateContext)
 
         // Then
-        assertFalse(result)
+        verify(exactly = once()) { GlobalContext.set(updateContext.path, updateContext.value) }
     }
 
     @Test
@@ -249,15 +277,32 @@ class ContextDataManagerTest : BaseTest() {
     }
 
     @Test
+    fun getContextsFromBind_should_return_globalContext() {
+        // Given
+        val bind = expressionOf<String>("@{global}")
+        val viewContext = createViewForContext()
+
+        // When
+        val contexts = contextDataManager.getContextsFromBind(viewContext, bind)
+
+        // Then
+        assertEquals("global", contexts.first().id)
+    }
+
+    @Test
     fun clearContexts_should_clear_viewBindings_and_contexts() {
         // Given
         val bind = mockk<Bind.Expression<Boolean>>()
         val observer = mockk<Observer<Boolean?>>()
         val context = ContextData(id = RandomData.string(), value = RandomData.string())
+        val contextDataManager = ContextDataManager()
         contextDataManager.addContext(viewContext, context)
         contextDataManager.addBinding(viewContext, bind, observer)
+        val contexts: Map<Int, ContextBinding> = contextDataManager.getPrivateField("contexts")
+        val viewBinding: Map<View, MutableSet<Binding<*>>> = contextDataManager.getPrivateField("viewBinding")
         val contextsSizeBefore = contexts.size
         val viewBindingSizeBefore = viewBinding.size
+        every { GlobalContext.clearObserverGlobalContext(any()) } just Runs
 
         // When
         contextDataManager.clearContexts()
@@ -267,6 +312,7 @@ class ContextDataManagerTest : BaseTest() {
         assertNotEquals(viewBindingSizeBefore, viewBinding.size)
         assertTrue { contexts.isEmpty() }
         assertTrue { viewBinding.isEmpty() }
+        verify(exactly = once()) { GlobalContext.clearObserverGlobalContext(any()) }
     }
 
     @Test

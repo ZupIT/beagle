@@ -16,14 +16,14 @@
 
 package br.com.zup.beagle.android.utils
 
-object BeagleConstants {
+internal object BeagleConstants {
     val EXPRESSION_REGEX = "@\\{([^)]+)\\}".toRegex()
     const val DEPRECATED_PAGE_VIEW =
         "This constructor will be removed in a future version, use the constructor with Bind"
     const val DEPRECATED_TAB_VIEW = "This component will be removed in a future version, use TabBar instead."
 }
 
-object HandleEventDeprecatedConstants {
+internal object HandleEventDeprecatedConstants {
     const val HANDLE_EVENT_DEPRECATED_MESSAGE: String =
         "Use handleEvent without eventName and eventValue or with ContextData for create a implicit context"
     const val HANDLE_EVENT_POINTER: String = "handleEvent(rootView, origin, action)"

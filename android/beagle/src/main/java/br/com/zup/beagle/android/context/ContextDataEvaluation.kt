@@ -18,7 +18,7 @@ package br.com.zup.beagle.android.context
 
 import androidx.collection.LruCache
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
-import br.com.zup.beagle.android.jsonpath.JsonPathFinder
+import br.com.zup.beagle.android.jsonpath.JsonPathUtils
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.getContextId
 import br.com.zup.beagle.android.utils.getExpressions
@@ -26,10 +26,10 @@ import com.squareup.moshi.Moshi
 import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.reflect.Type
+import java.util.LinkedList
 
 internal class ContextDataEvaluation(
-    private val jsonPathFinder: JsonPathFinder = JsonPathFinder(),
-    private val contextPathResolver: ContextPathResolver = ContextPathResolver(),
+    private val contextDataManipulator: ContextDataManipulator = ContextDataManipulator(),
     private val moshi: Moshi = BeagleMoshi.moshi
 ) {
 
@@ -134,30 +134,27 @@ internal class ContextDataEvaluation(
     private fun getValue(
         contextData: ContextData,
         contextCache: LruCache<String, Any>?,
-        path: String,
+        expression: String,
         type: Type
     ): Any? {
-        return if (path != contextData.id) {
-            val cachedValue = contextCache?.get(path)
-            if (cachedValue != null) {
-                return cachedValue
-            } else {
-                findValue(contextData, path)?.also {
-                    contextCache?.put(path, it)
-                }
-            }
+        return if (expression != contextData.id) {
+            contextCache?.get(expression) ?: findValueAndCache(contextData, contextCache, expression)
         } else {
             ContextValueHandler.treatValue(contextData.value, type)
         }
     }
 
-    private fun findValue(contextData: ContextData, path: String): Any? {
-        return try {
-            val keys = contextPathResolver.getKeysFromPath(contextData.id, path)
-            jsonPathFinder.find(keys, contextData.value)
-        } catch (ex: Exception) {
-            BeagleMessageLogs.errorWhileTryingToAccessContext(ex)
-            null
+    private fun findValueAndCache(
+        contextData: ContextData,
+        contextCache: LruCache<String, Any>?,
+        expression: String
+    ): Any? {
+        val newPath = expression.replaceFirst("${contextData.id}.", "")
+        if (newPath.isEmpty()) {
+            throw JsonPathUtils.createInvalidPathException(newPath)
+        }
+        return contextDataManipulator.get(contextData, newPath)?.also {
+            contextCache?.put(expression, it)
         }
     }
 }
