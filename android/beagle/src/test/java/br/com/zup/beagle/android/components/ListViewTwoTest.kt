@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.extensions.once
+import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.Observer
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.view.ViewFactory
@@ -28,6 +29,8 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.ListDirection
 import io.mockk.*
 import org.junit.Test
+import org.mockito.Mockito.never
+import org.mockito.Mockito.verifyNoMoreInteractions
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -37,13 +40,15 @@ class ListViewTwoTest : BaseComponentTest() {
     private val recyclerView: RecyclerView = mockk(relaxed = true)
     private val template: ServerDrivenComponent = mockk(relaxed = true)
     private val onInit: Action = mockk(relaxed = true)
-    private val dataSource : Bind<List<Any>> = mockk()
-    private val adapter : ListViewContextAdapter2 = mockk(relaxed = true, relaxUnitFun = true)
+    private val dataSource: Bind<List<Any>> = mockk()
+    private val adapter: ListViewContextAdapter2 = mockk(relaxed = true, relaxUnitFun = true)
+    private val onScrollEnd: Action = mockk(relaxed = true)
 
     private val layoutManagerSlot = slot<LinearLayoutManager>()
     private val adapterSlot = slot<RecyclerView.Adapter<RecyclerView.ViewHolder>>()
     private val isNestedScrollingEnabledSlot = slot<Boolean>()
     private val dataSourceSlot = slot<Observer<List<Any>?>>()
+    private val scrollListenerSlot = slot<RecyclerView.OnScrollListener>()
 
     private lateinit var listView: ListViewTwo
 
@@ -108,7 +113,7 @@ class ListViewTwoTest : BaseComponentTest() {
         listView.buildView(rootView)
 
         //then
-        assertFalse { isNestedScrollingEnabledSlot.captured}
+        assertFalse { isNestedScrollingEnabledSlot.captured }
     }
 
     @Test
@@ -172,15 +177,17 @@ class ListViewTwoTest : BaseComponentTest() {
             template = template,
             dataSource = dataSource
         )
-        every { listView.observeBindChanges(
-            rootView = rootView,
-            view = recyclerView,
-            bind = dataSource,
-            observes = capture(dataSourceSlot)
-        ) } just Runs
+        every {
+            listView.observeBindChanges(
+                rootView = rootView,
+                view = recyclerView,
+                bind = dataSource,
+                observes = capture(dataSourceSlot)
+            )
+        } just Runs
         every { recyclerView.adapter } returns adapter
         every { adapter.clearList() } just Runs
-        every { adapter.notifyItemRangeRemoved(any(), any())} just Runs
+        every { adapter.notifyItemRangeRemoved(any(), any()) } just Runs
 
         //when
         listView.buildView(rootView)
@@ -192,4 +199,103 @@ class ListViewTwoTest : BaseComponentTest() {
         }
     }
 
+    @Test
+    fun when_scrolled_item_percent_visible_lass_than_scrollThreshold_onScrollEnd_should_not_execute() {
+        //given
+        val numberItem = 20
+        val lastPosition = 5
+        commonMock(scrollThreshold = 50, itemCount = numberItem, lastVisibleItemPosition = lastPosition)
+
+        //when
+        listView.buildView(rootView)
+        scrollListenerSlot.captured.onScrollStateChanged(recyclerView, RandomData.int())
+
+        //then
+        verify(exactly = 0) {
+            onScrollEnd.execute(rootView, recyclerView)
+        }
+    }
+
+    @Test
+    fun when_scrolled_item_percent_visible_equal_than_scrollThreshold_onScrollEnd_should_execute() {
+        //given
+        val numberItem = 20
+        val lastPosition = 10
+        commonMock(scrollThreshold = 50, itemCount = numberItem, lastVisibleItemPosition = lastPosition)
+
+        //when
+        listView.buildView(rootView)
+        scrollListenerSlot.captured.onScrollStateChanged(recyclerView, RandomData.int())
+
+        //then
+        verify(exactly = 1) {
+            onScrollEnd.execute(rootView, recyclerView)
+        }
+    }
+
+    @Test
+    fun when_scrolled_item_percent_visible_more_than_scrollThreshold_onScrollEnd_should_execute() {
+        //given
+        val numberItem = 20
+        val lastPosition = 19
+        commonMock(scrollThreshold = 50, itemCount = numberItem, lastVisibleItemPosition = lastPosition)
+
+        //when
+        listView.buildView(rootView)
+        scrollListenerSlot.captured.onScrollStateChanged(recyclerView, RandomData.int())
+
+        //then
+        verify(exactly = 1) {
+            onScrollEnd.execute(rootView, recyclerView)
+        }
+    }
+
+    @Test
+    fun when_scrolled_item_percent_visible_lass_than_100_and_scrollThreshold_not_passed_onScrollEnd_should_not_execute() {
+        //given
+        val numberItem = 20
+        val lastPosition = 10
+        commonMock(itemCount = numberItem, lastVisibleItemPosition = lastPosition)
+
+        //when
+        listView.buildView(rootView)
+        scrollListenerSlot.captured.onScrollStateChanged(recyclerView, RandomData.int())
+
+        //then
+        verify(exactly = 0) {
+            onScrollEnd.execute(rootView, recyclerView)
+        }
+    }
+
+    @Test
+    fun when_scrolled_item_percent_visible_is_100_and_scrollThreshold_not_passed_onScrollEnd_should_execute() {
+        //given
+        val numberItem = 20
+        commonMock(itemCount = numberItem, lastVisibleItemPosition = numberItem)
+
+        //when
+        listView.buildView(rootView)
+        scrollListenerSlot.captured.onScrollStateChanged(recyclerView, RandomData.int())
+
+        //then
+        verify(exactly = 1) {
+            onScrollEnd.execute(rootView, recyclerView)
+        }
+    }
+
+    private fun commonMock(scrollThreshold: Int? = null, itemCount: Int, lastVisibleItemPosition: Int) {
+        mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
+        listView = ListViewTwo(
+            direction = ListDirection.HORIZONTAL,
+            template = template,
+            dataSource = dataSource,
+            onScrollEnd = listOf(onScrollEnd),
+            scrollThreshold = scrollThreshold
+        )
+        val linearLayoutManager: LinearLayoutManager = mockk()
+        every { recyclerView.addOnScrollListener(capture(scrollListenerSlot)) } just Runs
+        every { recyclerView.layoutManager } returns linearLayoutManager
+        every { linearLayoutManager.itemCount } returns itemCount
+        every { linearLayoutManager.findLastVisibleItemPosition() } returns lastVisibleItemPosition
+    }
 }
