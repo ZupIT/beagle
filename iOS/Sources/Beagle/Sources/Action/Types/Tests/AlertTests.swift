@@ -34,7 +34,7 @@ final class AlertTests: XCTestCase {
         let controller = BeagleControllerNavigationSpy()
 
         // When
-        alert.execute(controller: controller, sender: view)
+        alert.execute(controller: controller, origin: view)
 
         // Then
         XCTAssertTrue(controller.viewControllerToPresent is UIAlertController)

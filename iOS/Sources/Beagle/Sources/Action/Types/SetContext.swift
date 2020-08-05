@@ -19,11 +19,9 @@ import BeagleSchema
 import UIKit
 
 extension SetContext: Action {
-    public func execute(controller: BeagleController, sender: Any) {
-        guard let view = sender as? UIView else { return }
-        
-        let valueEvaluated = value.get(with: view)
-        let contextObserver = view.getContext(with: contextId)
+    public func execute(controller: BeagleController, origin: UIView) {
+        let valueEvaluated = value.evaluate(with: origin)
+        let contextObserver = origin.getContext(with: contextId)
 
         if var contextValue = contextObserver?.value.value, let path = path {
             contextValue.set(valueEvaluated, forPath: path)

@@ -22,6 +22,8 @@
 		98A7F36C23A926C600E88C70 /* TabViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A7F36B23A926C600E88C70 /* TabViewScreen.swift */; };
 		98E08D2324228DD200FBD21B /* WebViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E08D2224228DD200FBD21B /* WebViewScreen.swift */; };
 		A038C8FD2407073D001164B1 /* FormScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A038C8FC2407073D001164B1 /* FormScreen.swift */; };
+		A057D59824C9FE1D001F6835 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A057D59724C9FE1D001F6835 /* ErrorView.swift */; };
+		A057D59A24CA1DE7001F6835 /* CustomBeagleNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A057D59924CA1DE7001F6835 /* CustomBeagleNavigationController.swift */; };
 		A0642DC82395A1840028AFF3 /* DeeplinkScreenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0642DC72395A1840028AFF3 /* DeeplinkScreenManager.swift */; };
 		A0642DCB23968A020028AFF3 /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0642DCA23968A020028AFF3 /* MainScreen.swift */; };
 		A0642DCD23968B500028AFF3 /* LazyComponentScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0642DCC23968B500028AFF3 /* LazyComponentScreen.swift */; };
@@ -101,6 +103,8 @@
 		98A7F36B23A926C600E88C70 /* TabViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewScreen.swift; sourceTree = "<group>"; };
 		98E08D2224228DD200FBD21B /* WebViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewScreen.swift; sourceTree = "<group>"; };
 		A038C8FC2407073D001164B1 /* FormScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormScreen.swift; sourceTree = "<group>"; };
+		A057D59724C9FE1D001F6835 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		A057D59924CA1DE7001F6835 /* CustomBeagleNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBeagleNavigationController.swift; sourceTree = "<group>"; };
 		A0642DC72395A1840028AFF3 /* DeeplinkScreenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeeplinkScreenManager.swift; sourceTree = "<group>"; };
 		A0642DCA23968A020028AFF3 /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
 		A0642DCC23968B500028AFF3 /* LazyComponentScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyComponentScreen.swift; sourceTree = "<group>"; };
@@ -198,6 +202,7 @@
 				932925BA2327E0E500A61F01 /* Assets.xcassets */,
 				932925BF2327E0E500A61F01 /* Info.plist */,
 				6ED5B09D240464520070CB9D /* BeagleStyle.swift */,
+				A057D59924CA1DE7001F6835 /* CustomBeagleNavigationController.swift */,
 			);
 			path = BeagleDemo;
 			sourceTree = "<group>";
@@ -309,6 +314,7 @@
 				C09F40FC249AAAC2002605EE /* GenerationTests */,
 				E75619872408364A0025E0A9 /* DSCollection */,
 				C80AF1332493F0950097D200 /* OtherComponent.swift */,
+				A057D59724C9FE1D001F6835 /* ErrorView.swift */,
 			);
 			path = DesignSystem;
 			sourceTree = "<group>";
@@ -461,6 +467,7 @@
 				93EAFA4C24083C7B00B73522 /* ListViewScreen.swift in Sources */,
 				932925B22327E0E400A61F01 /* AppDelegate.swift in Sources */,
 				98A7F36C23A926C600E88C70 /* TabViewScreen.swift in Sources */,
+				A057D59824C9FE1D001F6835 /* ErrorView.swift in Sources */,
 				98E08D2324228DD200FBD21B /* WebViewScreen.swift in Sources */,
 				A0642DC82395A1840028AFF3 /* DeeplinkScreenManager.swift in Sources */,
 				E756198D240865150025E0A9 /* DSCollectionViewCell.swift in Sources */,
@@ -469,6 +476,7 @@
 				6E2C784D2419853A00448728 /* Constants.swift in Sources */,
 				E75619892408365B0025E0A9 /* DSCollection.swift in Sources */,
 				C09F40F7249A8FFE002605EE /* TextContainer.swift in Sources */,
+				A057D59A24CA1DE7001F6835 /* CustomBeagleNavigationController.swift in Sources */,
 				A0642DD12396EC670028AFF3 /* PageViewScreen.swift in Sources */,
 				C09F4102249AAC87002605EE /* SingleCustomActionableContainer.swift in Sources */,
 				C09F40FE249AAAEE002605EE /* CustomActionableContainer.swift in Sources */,

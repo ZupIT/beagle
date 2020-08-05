@@ -28,7 +28,7 @@ extension Button: Widget {
         )
 
         renderer.observe(text, andUpdateManyIn: button) {
-            button.setTitle($0 as String, for: .normal)
+            button.setTitle($0, for: .normal)
         }
         
         let preFetchHelper = renderer.controller.dependencies.preFetchHelper
@@ -95,7 +95,7 @@ extension Button: Widget {
         }
         
         @objc func triggerTouchUpInsideActions() {
-            controller?.execute(actions: onPress, with: nil, sender: self)
+            controller?.execute(actions: onPress, origin: self)
             
             if let click = clickAnalyticsEvent {
                 controller?.dependencies.analytics?.trackEventOnClick(click)

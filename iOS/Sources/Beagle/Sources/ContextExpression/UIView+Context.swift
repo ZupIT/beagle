@@ -19,9 +19,10 @@ import UIKit
 import BeagleSchema
 
 extension UIView {
-    static private var contextMapKey = "contextMapKey"
+    private static var contextMapKey = "contextMapKey"
+    private static var expressionLastValueMapKey = "expressionLastValueMapKey"
     
-    private struct ObjectWrapper<T> {
+    private class ObjectWrapper<T> {
         let object: T?
         
         init(_ object: T?) {
@@ -29,34 +30,27 @@ extension UIView {
         }
     }
 
-    public var contextMap: [String: Observable<Context>]? {
+    var contextMap: [String: Observable<Context>] {
         get {
-            return (objc_getAssociatedObject(self, &UIView.contextMapKey) as? ObjectWrapper)?.object
+            return (objc_getAssociatedObject(self, &UIView.contextMapKey) as? ObjectWrapper)?.object ?? [String: Observable<Context>]()
         }
         set {
-           objc_setAssociatedObject(self, &UIView.contextMapKey, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &UIView.contextMapKey, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
-    
-    // TODO: fix weak reference
-    static private var observers = "contextObservers"
-    private var observers: [ContextObserver]? {
+        
+    var expressionLastValueMap: [String: DynamicObject] {
         get {
-            return (objc_getAssociatedObject(self, &UIView.observers) as? ObjectWrapper)?.object
+            return (objc_getAssociatedObject(self, &UIView.expressionLastValueMapKey) as? ObjectWrapper)?.object ?? [String: DynamicObject]()
         }
         set {
-            objc_setAssociatedObject(self, &UIView.observers, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &UIView.expressionLastValueMapKey, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
-    }
-    
-    func clearAssociatedObjects() {
-        objc_setAssociatedObject(self, &UIView.observers, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        objc_setAssociatedObject(self, &UIView.contextMapKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
     
     // MARK: Context Expression
     
-    func configBinding<T: Decodable>(for expression: ContextExpression, completion: @escaping (T) -> Void) {
+    func configBinding<T: Decodable>(for expression: ContextExpression, completion: @escaping (T?) -> Void) {
         switch expression {
         case let .single(expression):
             configBinding(for: expression, completion: completion)
@@ -76,40 +70,41 @@ extension UIView {
 
     // MARK: Single Expression
     
-    private func configBinding<T: Decodable>(for expression: SingleExpression, completion: @escaping (T) -> Void) {
+    private func configBinding<T: Decodable>(for expression: SingleExpression, completion: @escaping (T?) -> Void) {
         guard let context = getContext(with: expression.context) else { return }
-        let closure: (Context) -> Void = { [weak self] context in
+        let closure: (Context) -> Void = { context in
             let dynamicObject = expression.evaluate(model: context.value)
-            if let value: T = self?.transform(dynamicObject) {
-                completion(value)
-            }
+            let value: T? = self.transform(dynamicObject)
+            completion(value)
         }
-        configBinding(with: context, completion: closure)
+        let contextObserver = ContextObserver(onContextChange: closure)
+        context.addObserver(contextObserver)
         closure(context.value)
     }
     
     private func evaluate<T: Decodable>(for expression: SingleExpression) -> T? {
         guard let context = getContext(with: expression.context) else { return nil }
         let dynamicObject = expression.evaluate(model: context.value.value)
+        expressionLastValueMap[expression.rawValue] = dynamicObject
         return transform(dynamicObject)
     }
     
     // MARK: Multiple Expression
     
-    private func configBinding<T: Decodable>(for expression: MultipleExpression, completion: @escaping (T) -> Void) {
+    private func configBinding<T: Decodable>(for expression: MultipleExpression, completion: @escaping (T?) -> Void) {
         expression.nodes.forEach {
             if case let .expression(single) = $0 {
                 guard let context = getContext(with: single.context) else { return }
-                configBinding(with: context) { [weak self] _ in
-                    if let value: T = self?.evaluate(for: expression, contextId: single.context) {
-                        completion(value)
-                    }
+                let closure: (Context) -> Void = { _ in
+                    let value: T? = self.evaluate(for: expression, contextId: single.context)
+                    completion(value)
                 }
+                let contextObserver = ContextObserver(onContextChange: closure)
+                context.addObserver(contextObserver)
             }
         }
-        if let value: T = self.evaluate(for: expression) {
-            completion(value)
-        }
+        let value: T? = self.evaluate(for: expression)
+        completion(value)
     }
     
     private func evaluate<T: Decodable>(for expression: MultipleExpression, contextId: String? = nil) -> T? {
@@ -118,9 +113,8 @@ extension UIView {
         expression.nodes.forEach {
             switch $0 {
             case let .expression(expression):
-                // TODO: create cache mechanism
-                let evaluated: String? = evaluate(for: expression)
-                result += evaluated ?? expression.rawValue
+                let evaluated: String? = evaluateWithCache(for: expression, contextId: contextId)
+                result += evaluated ?? ""
             case let .string(string):
                 result += string
             }
@@ -130,15 +124,17 @@ extension UIView {
     
     // MARK: Get/Set Context
     
-    func getContext(with id: String?) -> Observable<Context>? {
+    func getContext(with id: String) -> Observable<Context>? {
         let global = dependencies.globalContext
         if global.isGlobal(id: id) {
             return global.context
         }
-        
-        guard let context = contextMap?[id] else {
-            // TODO: create cache mechanism
-            return superview?.getContext(with: id)
+        guard let context = contextMap[id] else {
+            let observable = superview?.getContext(with: id)
+            if let contextObservable = observable {
+                contextMap[id] = contextObservable
+            }
+            return observable
         }
         return context
     }
@@ -149,29 +145,14 @@ extension UIView {
             global.setValue(context.value)
             return
         }
-        
-        if var contextMap = contextMap {
-            if let contextObservable = contextMap[context.id] {
-                contextObservable.value = context
-            } else {
-                contextMap[context.id] = Observable(value: context)
-            }
-            self.contextMap = contextMap
+        if let contextObservable = contextMap[context.id] {
+            contextObservable.value = context
         } else {
-            contextMap = [context.id: Observable(value: context)]
+            contextMap[context.id] = Observable(value: context)
         }
     }
     
     // MARK: Private
-    
-    private func configBinding(with context: Observable<Context>, completion: @escaping (Context) -> Void) {
-        let contextObserver = ContextObserver(onContextChange: completion)
-        if observers == nil {
-            observers = []
-        }
-        observers?.append(contextObserver)
-        context.addObserver(contextObserver)
-    }
     
     private func transform<T: Decodable>(_ dynamicObject: DynamicObject) -> T? {
         let encoder = JSONEncoder()
@@ -179,15 +160,14 @@ extension UIView {
         guard let data = try? encoder.encode(dynamicObject) else { return nil }
         return try? decoder.decode(T.self, from: data)
     }
-    
-}
-
-private extension Dictionary where Key == String, Value == Observable<Context> {
-    subscript(context: String?) -> Observable<Context>? {
-        guard let id = context else {
-            return self.first?.value
-        }
         
-        return self[id]
+    // expression last value cache is used only for multiple expressions binding
+    private func evaluateWithCache<T: Decodable>(for expression: SingleExpression, contextId: String? = nil) -> T? {
+        if contextId == nil || contextId == expression.context {
+            return evaluate(for: expression)
+        } else {
+            return transform(expressionLastValueMap[expression.rawValue] ?? .empty)
+        }
     }
+    
 }

@@ -259,6 +259,7 @@ extension ScreenComponent {
         case navigationBar
         case screenAnalyticsEvent
         case child
+        case context
     }
 
     public init(from decoder: Decoder) throws {
@@ -270,6 +271,7 @@ extension ScreenComponent {
         navigationBar = try container.decodeIfPresent(NavigationBar.self, forKey: .navigationBar)
         screenAnalyticsEvent = try container.decodeIfPresent(AnalyticsScreen.self, forKey: .screenAnalyticsEvent)
         child = try container.decode(forKey: .child)
+        context = try container.decodeIfPresent(Context.self, forKey: .context)
     }
 }
 

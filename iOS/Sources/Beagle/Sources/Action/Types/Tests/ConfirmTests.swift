@@ -38,7 +38,7 @@ final class ConfirmTests: XCTestCase {
         let controller = BeagleControllerNavigationSpy()
 
         // When
-        confirmAction.execute(controller: controller, sender: view)
+        confirmAction.execute(controller: controller, origin: view)
 
         // Then
         XCTAssertTrue(controller.viewControllerToPresent is UIAlertController)

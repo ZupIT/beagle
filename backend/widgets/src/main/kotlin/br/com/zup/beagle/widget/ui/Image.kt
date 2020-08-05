@@ -31,7 +31,6 @@ data class Image(val path: Bind<ImagePath>, val mode: ImageContentMode? = null) 
     constructor(path: ImagePath, mode: ImageContentMode? = null) : this(valueOf(path), mode)
 }
 
-
 /**
  * Define the source of image data to populate the image view.
  *
@@ -61,3 +60,4 @@ sealed class ImagePath(val url: String?, val placeholder: Local? = null) {
      * */
     class Remote(remoteUrl: String, placeholder: Local? = null) : ImagePath(remoteUrl, placeholder)
 }
+

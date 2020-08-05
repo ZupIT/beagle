@@ -17,29 +17,21 @@
 package br.com.zup.beagle.android.context
 
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.components.layout.Container
-import br.com.zup.beagle.android.data.serializer.BeagleMoshi
-import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.android.utils.ViewModelProviderFactory
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkObject
 import io.mockk.slot
-import io.mockk.unmockkAll
 import io.mockk.verify
 import io.mockk.verifySequence
 import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Test
-
 import kotlin.test.assertEquals
 
 data class PersonTest(val name: String)
@@ -48,7 +40,6 @@ private const val NAME = "name"
 
 class ContextActionExecutorTest : BaseTest() {
 
-    private val rootView = mockk<ActivityRootView>()
     private val viewModel = mockk<ScreenContextViewModel>(relaxed = true)
     private val sender = mockk<Action>()
     private val action = mockk<Action>()
@@ -61,16 +52,12 @@ class ContextActionExecutorTest : BaseTest() {
     override fun setUp() {
         super.setUp()
 
-        mockkObject(ViewModelProviderFactory)
-
         contextActionExecutor = ContextActionExecutor()
 
         every { action.execute(any(), view) } just Runs
-        every { rootView.activity } returns mockk()
 
-        every {
-            ViewModelProviderFactory.of(any<AppCompatActivity>())[ScreenContextViewModel::class.java]
-        } returns viewModel
+        prepareViewModelMock(viewModel)
+
         every { viewModel.addImplicitContext(capture(contextDataSlot), any(), any()) } just Runs
     }
 

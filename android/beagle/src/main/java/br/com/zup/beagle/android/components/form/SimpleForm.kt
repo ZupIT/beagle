@@ -43,7 +43,7 @@ import br.com.zup.beagle.core.Style
  */
 @RegisterWidget
 data class SimpleForm(
-    override val context: ContextData,
+    override val context: ContextData? = null,
     val onSubmit: List<Action>,
     val children: List<ServerDrivenComponent>
 ) : WidgetView(), ContextComponent {

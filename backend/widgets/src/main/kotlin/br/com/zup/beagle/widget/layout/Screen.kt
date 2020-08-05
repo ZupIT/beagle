@@ -88,7 +88,6 @@ data class NavigationBar(
     val backButtonAccessibility: Accessibility? = null
 )
 
-
 /**
  * The screen element will help you define the screen view structure.
  * By using this component you can define configurations like whether or

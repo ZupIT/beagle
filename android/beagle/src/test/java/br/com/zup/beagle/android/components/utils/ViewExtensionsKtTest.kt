@@ -33,7 +33,6 @@ import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.android.utils.ViewModelProviderFactory
 import br.com.zup.beagle.android.utils.loadView
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.ViewFactory
@@ -49,8 +48,8 @@ import io.mockk.just
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
-import io.mockk.unmockkAll
 import io.mockk.verify
+import io.mockk.verifySequence
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -65,10 +64,10 @@ class ViewExtensionsKtTest : BaseTest() {
     @MockK(relaxUnitFun = true, relaxed = true)
     private lateinit var viewModel : ScreenContextViewModel
 
-    @MockK
+    @RelaxedMockK
     private lateinit var fragment: Fragment
 
-    @MockK
+    @RelaxedMockK
     private lateinit var activity: AppCompatActivity
 
     @MockK
@@ -98,6 +97,7 @@ class ViewExtensionsKtTest : BaseTest() {
 
         viewExtensionsViewFactory = viewFactory
 
+        prepareViewModelMock(viewModel)
         every { viewFactory.makeBeagleView(any()) } returns beagleView
         every { viewFactory.makeView(any()) } returns beagleView
         every { viewGroup.addView(capture(viewSlot)) } just Runs
@@ -112,12 +112,17 @@ class ViewExtensionsKtTest : BaseTest() {
 
     @Test
     fun loadView_should_create_BeagleView_and_call_loadView_with_fragment() {
-        // When
+        // Given When
         viewGroup.loadView(fragment, screenRequest)
 
         // Then
-        verify { viewFactory.makeBeagleView(activity) }
-        verify { beagleView.loadView(any<FragmentRootView>(), screenRequest) }
+        verifySequence {
+            viewModel.resetIds()
+            viewFactory.makeBeagleView(activity)
+            beagleView.stateChangedListener = any()
+            beagleView.loadView(any<FragmentRootView>(), screenRequest)
+            beagleView.loadCompletedListener = any()
+        }
     }
 
     @Test
@@ -134,11 +139,7 @@ class ViewExtensionsKtTest : BaseTest() {
     fun `loadView should addView when load complete`() {
         // Given
         val slot = slot<OnLoadCompleted>()
-        mockkObject(ViewModelProviderFactory)
         every { beagleView.loadCompletedListener = capture(slot) } just Runs
-        every {
-            ViewModelProviderFactory.of(any<Fragment>())[ScreenContextViewModel::class.java]
-        } returns viewModel
 
         // When
         viewGroup.loadView(fragment, screenRequest)

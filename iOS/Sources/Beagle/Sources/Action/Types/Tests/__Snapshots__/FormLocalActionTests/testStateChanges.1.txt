@@ -2,7 +2,9 @@
   ▿ ServerDrivenState
     - loading: true
   ▿ ServerDrivenState
-    ▿ error: Error
-      - action: Error Domain=tests Code=1 "FormLocalAction" UserInfo={NSLocalizedDescription=FormLocalAction}
+    ▿ error: (2 elements)
+      ▿ .0: Error
+        - action: Error Domain=tests Code=1 "FormLocalAction" UserInfo={NSLocalizedDescription=FormLocalAction}
+      - .1: (Function)
   ▿ ServerDrivenState
     - loading: false

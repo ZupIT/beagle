@@ -66,9 +66,17 @@ class BeagleNavigator: BeagleNavigation {
     // MARK: - Navigate Handle
     
     private func navigate(route: Route, origin: BeagleController, animated: Bool, transition: @escaping Transition) {
-        viewController(route: route, origin: origin) {
-            transition(origin, $0, animated)
-        }
+        viewController(
+            route: route,
+            origin: origin,
+            retry: { [weak origin] in
+                guard let origin = origin else { return }
+                self.navigate(route: route, origin: origin, animated: animated, transition: transition)
+            },
+            success: {
+                transition(origin, $0, animated)
+            }
+        )
     }
     
     private func openExternalURL(path: String, controller: BeagleController) {
@@ -189,11 +197,12 @@ class BeagleNavigator: BeagleNavigation {
     private func viewController(
         route: Route,
         origin: BeagleController,
+        retry: @escaping BeagleRetry,
         success: @escaping (BeagleScreenViewController) -> Void
     ) {
         switch route {
         case .remote(let newPath):
-            remote(path: newPath, origin: origin, success: success)
+            remote(path: newPath, origin: origin, retry: retry, success: success)
         case .declarative(let screen):
             success(BeagleScreenViewController(viewModel: .init(
                 screenType: .declarative(screen)
@@ -205,6 +214,7 @@ class BeagleNavigator: BeagleNavigation {
     private func remote(
         path: Route.NewPath,
         origin: BeagleController,
+        retry: @escaping BeagleRetry,
         success: @escaping (BeagleScreenViewController) -> Void
     ) -> RequestToken? {
         
@@ -218,7 +228,7 @@ class BeagleNavigator: BeagleNavigation {
                 origin.serverDrivenState = .loading(false)
                 success(viewController)
             case .failure(let error):
-                origin.serverDrivenState = .error(.remoteScreen(error))
+                origin.serverDrivenState = .error(.remoteScreen(error), retry)
             }
         }
     }

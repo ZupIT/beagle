@@ -30,6 +30,6 @@ import br.com.zup.beagle.widget.core.ListDirection
 data class ListView(
     val children: List<ServerDrivenComponent>,
     val direction: ListDirection = ListDirection.VERTICAL
-) : ServerDrivenComponent {
+) : ServerDrivenComponent{
     companion object
 }

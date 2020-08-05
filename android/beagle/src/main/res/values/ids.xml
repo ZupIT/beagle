@@ -18,4 +18,5 @@
 <resources>
     <item name="beagle_toolbar_text" type="id" />
     <item name="beagle_component_tag" type="id" />
+    <item name="beagle_context_view" type="id" />
 </resources>
