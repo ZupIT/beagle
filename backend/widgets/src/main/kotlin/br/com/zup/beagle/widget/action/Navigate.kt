@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package br.com.zup.beagle.widget.action
 
 import br.com.zup.beagle.widget.layout.Screen
-
 
 /**
  * This defines navigation type,
@@ -33,11 +31,13 @@ sealed class Route {
      */
     data class Remote(val url: String, val shouldPrefetch: Boolean = false, val fallback: Screen? = null) : Route()
 
+
     /**
      * Class indicating navigation to a local screen.
      * @param screen screen to be rendered.
      */
     data class Local(val screen: Screen) : Route()
+
 }
 
 /**
@@ -101,4 +101,5 @@ sealed class Navigate : Action {
      * from a new flow and clears the stack of previously loaded screens.
      */
     data class ResetStack(val route: Route) : Navigate()
+
 }

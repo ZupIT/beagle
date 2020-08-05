@@ -33,7 +33,6 @@ import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.DesignSystem
 import br.com.zup.beagle.android.testutil.RandomData
-import br.com.zup.beagle.android.utils.ViewModelProviderFactory
 import br.com.zup.beagle.android.utils.loadView
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.ViewFactory
@@ -65,10 +64,10 @@ class ViewExtensionsKtTest : BaseTest() {
     @MockK(relaxUnitFun = true, relaxed = true)
     private lateinit var viewModel : ScreenContextViewModel
 
-    @MockK
+    @RelaxedMockK
     private lateinit var fragment: Fragment
 
-    @MockK
+    @RelaxedMockK
     private lateinit var activity: AppCompatActivity
 
     @MockK
@@ -95,12 +94,10 @@ class ViewExtensionsKtTest : BaseTest() {
         super.setUp()
 
         mockkStatic(TextViewCompat::class)
-        mockkObject(ViewModelProviderFactory)
 
         viewExtensionsViewFactory = viewFactory
 
-        every { ViewModelProviderFactory.of(any<Fragment>())[ScreenContextViewModel::class.java] } returns viewModel
-        every { ViewModelProviderFactory.of(any<AppCompatActivity>())[ScreenContextViewModel::class.java] } returns viewModel
+        prepareViewModelMock(viewModel)
         every { viewFactory.makeBeagleView(any()) } returns beagleView
         every { viewFactory.makeView(any()) } returns beagleView
         every { viewGroup.addView(capture(viewSlot)) } just Runs

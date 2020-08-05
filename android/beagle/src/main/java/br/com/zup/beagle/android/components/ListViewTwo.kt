@@ -121,7 +121,7 @@ internal data class ListViewTwo(
         layoutManager?.let {
             val totalItemCount = it.itemCount.toFloat()
             val lastVisible = it.findLastVisibleItemPosition().toFloat()
-            scrolled = lastVisible / totalItemCount
+            scrolled = (lastVisible / totalItemCount)*100
         }
 
         return scrolled

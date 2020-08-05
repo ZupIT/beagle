@@ -23,4 +23,5 @@ class BeagleIterableSubExpression<T, out N>(
     private val createNext: (ExpressionHelper<T>) -> N
 ) {
     operator fun get(index: Int) = this.createNext(this.expression.access(index))
+
 }

@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.utils
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.Screen
@@ -31,6 +32,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkConstructor
 import io.mockk.verifySequence
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -77,9 +79,10 @@ class WidgetExtensionsKtTest : BaseTest() {
         // Given
         val viewModelMock = mockk<ScreenContextViewModel>(relaxed = true)
         val beagleFlexView = mockk<BeagleFlexView>(relaxed = true)
-        every {
-            ViewModelProviderFactory.of(any<AppCompatActivity>())[ScreenContextViewModel::class.java]
-        } returns viewModelMock
+
+        mockkConstructor(ViewModelProvider::class)
+        every { anyConstructed<ViewModelProvider>().get(ScreenContextViewModel::class.java) } returns viewModelMock
+
         every { viewFactory.makeBeagleFlexView(any()) } returns beagleFlexView
         every { rootView.getContext() } returns mockk()
 
