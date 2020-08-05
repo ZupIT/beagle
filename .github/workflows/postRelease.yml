@@ -1,4 +1,4 @@
-name: Beagle Post Release
+name: opens PR to Main after Hotfix has been released
 
 on:
     release:
