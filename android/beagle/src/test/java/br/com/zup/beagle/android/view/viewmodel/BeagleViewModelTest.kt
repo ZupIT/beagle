@@ -24,6 +24,7 @@ import br.com.zup.beagle.android.data.ComponentRequester
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.testutil.CoroutineTestRule
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.utils.CoroutineDispatchers
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.MockKAnnotations
@@ -34,7 +35,10 @@ import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.verifyOrder
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -65,11 +69,15 @@ class BeagleViewModelTest {
 
     private lateinit var beagleUIViewModel: BeagleViewModel
 
+    private lateinit var testCoroutineDispatcher: TestCoroutineDispatcher
+
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
 
-        beagleUIViewModel = BeagleViewModel(componentRequester = componentRequester)
+        testCoroutineDispatcher = TestCoroutineDispatcher()
+
+        beagleUIViewModel = BeagleViewModel(testCoroutineDispatcher, componentRequester)
 
         coEvery { componentRequester.fetchComponent(any()) } returns component
         coEvery { actionRequester.fetchAction(any()) } returns action
@@ -79,59 +87,75 @@ class BeagleViewModelTest {
     @Test
     @Suppress("UNCHECKED_CAST")
     fun fetch_should_return_render_ViewState() {
-        // Given
-        val screenRequest = ScreenRequest(RandomData.httpUrl())
 
-        // When
-        beagleUIViewModel.fetchComponent(screenRequest).observeForever(observer)
+        testCoroutineDispatcher.runBlockingTest {
+            // Given
+            val screenRequest = ScreenRequest(RandomData.httpUrl())
 
-        // Then
-        coVerifyOrder {
-            observer.onChanged(ViewState.Loading(true))
-            observer.onChanged(ViewState.DoRender(screenRequest.url, component))
-            observer.onChanged(ViewState.Loading(false))
+            // When
+            testCoroutineDispatcher.pauseDispatcher()
+            beagleUIViewModel.fetchComponent(screenRequest).observeForever(observer)
+            testCoroutineDispatcher.resumeDispatcher()
+
+            // Then
+            coVerifyOrder {
+                observer.onChanged(ViewState.Loading(true))
+                observer.onChanged(ViewState.DoRender(screenRequest.url, component))
+                observer.onChanged(ViewState.Loading(false))
+            }
+
         }
     }
 
     @Test
     fun fetch_should_return_a_error_ViewState() {
-        // Given
-        val screenRequest = ScreenRequest(RandomData.httpUrl())
-        val exception = BeagleException("Error")
-        coEvery { componentRequester.fetchComponent(any()) } throws exception
+        testCoroutineDispatcher.runBlockingTest {
+            // Given
+            val screenRequest = ScreenRequest(RandomData.httpUrl())
+            val exception = BeagleException("Error")
+            coEvery { componentRequester.fetchComponent(any()) } throws exception
 
-        // When
-        beagleUIViewModel.fetchComponent(screenRequest).observeForever(observer)
+            // When
+            testCoroutineDispatcher.pauseDispatcher()
+            beagleUIViewModel.fetchComponent(screenRequest).observeForever(observer)
+            testCoroutineDispatcher.resumeDispatcher()
 
-        // Then
-        coVerifySequence {
-            observer.onChanged(ViewState.Loading(true))
-            observer.onChanged(any<ViewState.Error>())
-            observer.onChanged(ViewState.Loading(false))
+            // Then
+            coVerifySequence {
+                observer.onChanged(ViewState.Loading(true))
+                observer.onChanged(any<ViewState.Error>())
+                observer.onChanged(ViewState.Loading(false))
+            }
         }
     }
 
     @Test
     fun fetch_should_return_a_error_ViewState_retry() {
-        // Given
-        val screenRequest = ScreenRequest(RandomData.httpUrl())
-        val exception = BeagleException("Error")
-        val slotViewState = mutableListOf<ViewState>()
-        coEvery { observer.onChanged(capture(slotViewState)) } just Runs
-        coEvery { componentRequester.fetchComponent(any()) } throws exception andThen component
+        testCoroutineDispatcher.runBlockingTest {
+            // Given
+            val screenRequest = ScreenRequest(RandomData.httpUrl())
+            val exception = BeagleException("Error")
+            val slotViewState = mutableListOf<ViewState>()
+            coEvery { observer.onChanged(capture(slotViewState)) } just Runs
+            coEvery { componentRequester.fetchComponent(any()) } throws exception andThen component
 
-        // When
-        beagleUIViewModel.fetchComponent(screenRequest, null).observeForever(observer)
-        (slotViewState[1] as ViewState.Error).retry.invoke()
+            // When
+            testCoroutineDispatcher.pauseDispatcher()
+            beagleUIViewModel.fetchComponent(screenRequest, null).observeForever(observer)
+            testCoroutineDispatcher.resumeDispatcher()
+            testCoroutineDispatcher.pauseDispatcher()
+            (slotViewState[1] as ViewState.Error).retry.invoke()
+            testCoroutineDispatcher.resumeDispatcher()
 
-        // Then
-        coVerifyOrder {
-            observer.onChanged(ViewState.Loading(true))
-            observer.onChanged(any<ViewState.Error>())
-            observer.onChanged(ViewState.Loading(false))
-            observer.onChanged(ViewState.Loading(true))
-            observer.onChanged(ViewState.DoRender(screenRequest.url, component))
-            observer.onChanged(ViewState.Loading(false))
+            // Then
+            coVerifyOrder {
+                observer.onChanged(ViewState.Loading(true))
+                observer.onChanged(any<ViewState.Error>())
+                observer.onChanged(ViewState.Loading(false))
+                observer.onChanged(ViewState.Loading(true))
+                observer.onChanged(ViewState.DoRender(screenRequest.url, component))
+                observer.onChanged(ViewState.Loading(false))
+            }
         }
     }
 }
