@@ -25,7 +25,7 @@ import org.json.JSONObject
 import java.util.LinkedList
 
 internal sealed class ContextSetResult {
-    class Succeed(val newContext: ContextData) : ContextSetResult()
+    data class Succeed(val newContext: ContextData) : ContextSetResult()
     object Failure : ContextSetResult()
 }
 
