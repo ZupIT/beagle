@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service
 
 @Service
 class PlatformService {
-
     fun renderComponentUsingPlatform() = CustomPlatformBuilder(BeagleSessionUtil.getBeaglePlatformFromSession())
 
     fun renderComponent() = PlatformBuilder

@@ -124,4 +124,9 @@ internal object BeagleMessageLogs {
         val errorMessage = "Could not find image $image"
         BeagleLoggerProxy.error(errorMessage, ex)
     }
+
+    fun globalKeywordIsReservedForGlobalContext() {
+        val errorMessage = "Context name global is a reserved keyword for Global Context only"
+        BeagleLoggerProxy.warning(errorMessage)
+    }
 }
