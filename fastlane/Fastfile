@@ -68,7 +68,7 @@ lane :deploy do
   pattern = "*[0-9]"
   tagName = "master"
   if ENV["TAG_NAME"].index("-") # Hotfix
-    tagName = ENV["TAG_NAME"].split("/").last
+    tagName = "release/" + ENV["TAG_NAME"].split("/").last
     platformHotfix = tagName.split("-").last
     pattern = "*-#{platformHotfix}"
   end
