@@ -29,8 +29,6 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.ListDirection
 import io.mockk.*
 import org.junit.Test
-import org.mockito.Mockito.never
-import org.mockito.Mockito.verifyNoMoreInteractions
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -179,6 +177,53 @@ class ListViewTwoTest : BaseComponentTest() {
     @Test
     fun when_dataSource_change_with_empty_list_clearList_should_be_called() {
         //given
+        commonDataSourceObserverMock()
+        every { anyConstructed<ListViewContextAdapter2>().clearList()} just Runs
+
+        //when
+        listView.buildView(rootView)
+        dataSourceSlot.captured.invoke(listOf())
+
+        //then
+        verify(exactly = once()) {
+            anyConstructed<ListViewContextAdapter2>().clearList()
+        }
+    }
+
+    @Test
+    fun when_dataSource_change_with_nullable_list_clearList_should_be_called() {
+        //given
+        commonDataSourceObserverMock()
+        every { anyConstructed<ListViewContextAdapter2>().clearList()} just Runs
+
+        //when
+        listView.buildView(rootView)
+        dataSourceSlot.captured.invoke(null)
+
+        //then
+        verify(exactly = once()) {
+            anyConstructed<ListViewContextAdapter2>().clearList()
+        }
+    }
+
+    @Test
+    fun when_dataSource_change_with_populated_list_setList_should_be_called() {
+        //given
+        commonDataSourceObserverMock()
+        val list = listOf("test")
+        every { anyConstructed<ListViewContextAdapter2>().setList(any())} just Runs
+
+        //when
+        listView.buildView(rootView)
+        dataSourceSlot.captured.invoke(list)
+
+        //then
+        verify(exactly = once()) {
+            anyConstructed<ListViewContextAdapter2>().setList(list)
+        }
+    }
+
+    private fun commonDataSourceObserverMock(){
         mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
         listView = ListViewTwo(
             direction = ListDirection.HORIZONTAL,
@@ -193,16 +238,6 @@ class ListViewTwoTest : BaseComponentTest() {
                 observes = capture(dataSourceSlot)
             )
         } just Runs
-        every { anyConstructed<ListViewContextAdapter2>().clearList()} just Runs
-
-        //when
-        listView.buildView(rootView)
-        dataSourceSlot.captured.invoke(listOf())
-
-        //then
-        verify(exactly = once()) {
-            anyConstructed<ListViewContextAdapter2>().clearList()
-        }
     }
 
     @Test
@@ -210,7 +245,7 @@ class ListViewTwoTest : BaseComponentTest() {
         //given
         val numberItem = 20
         val lastPosition = 5
-        commonMock(scrollThreshold = 50, itemCount = numberItem, lastVisibleItemPosition = lastPosition)
+        commonPercentScrolledMock(scrollThreshold = 50, itemCount = numberItem, lastVisibleItemPosition = lastPosition)
 
         //when
         listView.buildView(rootView)
@@ -227,7 +262,7 @@ class ListViewTwoTest : BaseComponentTest() {
         //given
         val numberItem = 20
         val lastPosition = 10
-        commonMock(scrollThreshold = 50, itemCount = numberItem, lastVisibleItemPosition = lastPosition)
+        commonPercentScrolledMock(scrollThreshold = 50, itemCount = numberItem, lastVisibleItemPosition = lastPosition)
 
         //when
         listView.buildView(rootView)
@@ -244,7 +279,7 @@ class ListViewTwoTest : BaseComponentTest() {
         //given
         val numberItem = 20
         val lastPosition = 19
-        commonMock(scrollThreshold = 50, itemCount = numberItem, lastVisibleItemPosition = lastPosition)
+        commonPercentScrolledMock(scrollThreshold = 50, itemCount = numberItem, lastVisibleItemPosition = lastPosition)
 
         //when
         listView.buildView(rootView)
@@ -261,7 +296,7 @@ class ListViewTwoTest : BaseComponentTest() {
         //given
         val numberItem = 20
         val lastPosition = 10
-        commonMock(itemCount = numberItem, lastVisibleItemPosition = lastPosition)
+        commonPercentScrolledMock(itemCount = numberItem, lastVisibleItemPosition = lastPosition)
 
         //when
         listView.buildView(rootView)
@@ -277,7 +312,7 @@ class ListViewTwoTest : BaseComponentTest() {
     fun when_scrolled_item_percent_visible_is_100_and_scrollThreshold_not_passed_onScrollEnd_should_execute() {
         //given
         val numberItem = 20
-        commonMock(itemCount = numberItem, lastVisibleItemPosition = numberItem)
+        commonPercentScrolledMock(itemCount = numberItem, lastVisibleItemPosition = numberItem)
 
         //when
         listView.buildView(rootView)
@@ -289,7 +324,7 @@ class ListViewTwoTest : BaseComponentTest() {
         }
     }
 
-    private fun commonMock(scrollThreshold: Int? = null, itemCount: Int, lastVisibleItemPosition: Int) {
+    private fun commonPercentScrolledMock(scrollThreshold: Int? = null, itemCount: Int, lastVisibleItemPosition: Int) {
         mockkStatic("br.com.zup.beagle.android.utils.WidgetExtensionsKt")
         listView = ListViewTwo(
             direction = ListDirection.HORIZONTAL,
