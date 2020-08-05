@@ -19,6 +19,7 @@ platform :android do
 
   desc "Deploy current code to production"
   lane :deploy_to_production do
+    sh "bash ./release/maven_signing.sh"
     deploy_to_stage
     gradle(project_dir: "android", task: "closeAndReleaseRepository")
   end
@@ -65,8 +66,6 @@ desc "Publish new release based on last two tags"
 lane :deploy do
   git_pull
   ENV["VERSION_DEPLOY"] = last_git_tag
-
-  sh "bash ./release/maven_signing.sh"
 
   sh "fastlane android deploy_to_production"
   sh "fastlane backend deploy_to_production"
@@ -135,6 +134,7 @@ platform :backend do
 
   desc "Deploy current code to production"
   lane :deploy_to_production do
+    sh "bash ./release/maven_signing.sh"
     deploy_to_stage
     gradle(project_dir: "backend", task: "closeAndReleaseRepository")
   end
