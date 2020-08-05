@@ -32,8 +32,9 @@ final class EventsGestureRecognizer: UITapGestureRecognizer {
         events.forEach { event in
             switch event {
             case .action(let action):
-                controller?.execute(action: action, sender: view as Any)
-                
+                if let origin = view {
+                    controller?.execute(actions: [action], origin: origin)
+                }
             case .analytics(let analyticsClick):
                 controller?.dependencies.analytics?.trackEventOnClick(analyticsClick)
             }

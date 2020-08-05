@@ -45,10 +45,9 @@ data class Text(
         textColor: String? = null,
         alignment: TextAlignment? = null
     ) : this(
-        valueOf(text),
-        styleId,
-        valueOfNullable(textColor),
-        valueOfNullable(alignment)
+        text = valueOf(text),
+        styleId = styleId,
+        textColor = valueOfNullable(textColor),
+        alignment = valueOfNullable(alignment)
     )
 }
-

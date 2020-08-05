@@ -16,11 +16,11 @@
 
 package br.com.zup.beagle.widget.navigation
 
-import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.TouchableAnalytics
 import br.com.zup.beagle.core.GhostComponent
 import br.com.zup.beagle.core.ServerDrivenComponent
+import br.com.zup.beagle.widget.action.Action
 
 /**
  *   The Touchable component defines a click listener.

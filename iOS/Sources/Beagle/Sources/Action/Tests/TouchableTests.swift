@@ -69,6 +69,6 @@ final class TouchableTests: XCTestCase {
         // Then
         XCTAssertTrue(analyticsExecutorSpy.didTrackEventOnClick)
         XCTAssertEqual(action.executionCount, 1)
-        XCTAssertTrue(action.lastSender as AnyObject === view)
+        XCTAssertTrue(action.lastOrigin as AnyObject === view)
     }
 }
