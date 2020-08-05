@@ -155,7 +155,6 @@ class ListViewTwoTest : BaseComponentTest() {
     @Test
     fun build_view_should_execute_on_init_once() {
         //given
-
         listView = ListViewTwo(
             direction = ListDirection.HORIZONTAL,
             template = template,
@@ -165,6 +164,7 @@ class ListViewTwoTest : BaseComponentTest() {
         every {
             onInit.execute(rootView, recyclerView)
         } just Runs
+
         //when
         listView.buildView(rootView)
 
