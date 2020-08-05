@@ -102,8 +102,10 @@ final class FormDataStoreHandlerDummy: FormDataStoreHandling {
 }
 
 final class ComponentDecodingDummy: ComponentDecoding {
-    func register<T>(_ type: T.Type, for typeName: String) where T: BeagleSchema.RawComponent {}
-    func register<A>(_ type: A.Type, for typeName: String) where A: BeagleSchema.RawAction {}
+    func register<T>(component type: T.Type) where T: RawComponent {}
+    func register<A>(action type: A.Type) where A: RawAction {}
+    func register<T>(component type: T.Type, named typeName: String) where T: BeagleSchema.RawComponent {}
+    func register<A>(action type: A.Type, named typeName: String) where A: BeagleSchema.RawAction {}
     func componentType(forType type: String) -> Decodable.Type? { return nil }
     func actionType(forType type: String) -> Decodable.Type? { return nil }
     func decodeComponent(from data: Data) throws -> BeagleSchema.RawComponent { return ComponentDummy() }
@@ -148,7 +150,7 @@ struct ComponentDummy: ServerDrivenComponent, CustomStringConvertible {
 }
 
 struct ActionDummy: Action, Equatable {
-    func execute(controller: BeagleController, sender: Any) {}
+    func execute(controller: BeagleController, origin: UIView) {}
 }
 
 struct BeagleScreenDependencies: BeagleDependenciesProtocol {

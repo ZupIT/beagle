@@ -27,8 +27,8 @@ public protocol BeagleControllerProtocol: NSObjectProtocol {
     
     func addBinding(_ update: @escaping () -> Void)
     
-    func execute(action: RawAction, sender: Any)
-    func execute(actions: [RawAction]?, with context: Context?, sender: Any)
+    func execute(actions: [RawAction]?, origin: UIView)
+    func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView)
 }
 
 public class BeagleScreenViewController: BeagleController {
@@ -112,18 +112,17 @@ public class BeagleScreenViewController: BeagleController {
         }
     }
     
-    public func execute(action: RawAction, sender: Any) {
-        (action as? Action)?.execute(controller: self, sender: sender)
+    public func execute(actions: [RawAction]?, origin: UIView) {
+        actions?.forEach {
+            ($0 as? Action)?.execute(controller: self, origin: origin)
+        }
     }
     
-    public func execute(actions: [RawAction]?, with context: Context? = nil, sender: Any) {
-        guard let view = sender as? UIView, let actions = actions else { return }
-        if let context = context {
-            view.setContext(context)
-        }
-        actions.forEach {
-            execute(action: $0, sender: sender)
-        }
+    public func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView) {
+        guard let actions = actions else { return }
+        let context = Context(id: contextId, value: contextValue)
+        view.setContext(context)
+        execute(actions: actions, origin: origin)
     }
             
     // MARK: - Lifecycle
@@ -208,7 +207,7 @@ public class BeagleScreenViewController: BeagleController {
             renderScreenIfNeeded()
         case .failure(let error):
             renderScreenIfNeeded()
-            serverDrivenState = .error(error)
+            serverDrivenState = .error(error, viewModel.loadScreen)
         }
     }
     
@@ -223,10 +222,6 @@ public class BeagleScreenViewController: BeagleController {
         content = nil
         viewModel.screenType = screenType
         createContent()
-    }
-    
-    func handleError(_ error: ServerDrivenState.Error) {
-        beagleNavigation?.serverDrivenStateDidChange(to: .error(error), at: self)
     }
     
     // MARK: - View Setup

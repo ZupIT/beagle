@@ -45,8 +45,6 @@ internal object JsonPathUtils {
         return keys
     }
 
-    fun createArrayExpectedException() = IllegalStateException("Expected Array but received Object")
-
     fun createInvalidPathException(path: String) = IllegalStateException("Invalid JSON path at key \"$path\"")
 
     fun getIndexOnArrayBrackets(arrayIndex: String): Int {

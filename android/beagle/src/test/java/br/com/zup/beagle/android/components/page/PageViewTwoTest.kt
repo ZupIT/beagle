@@ -97,9 +97,12 @@ class PageViewTwoTest : BaseComponentTest() {
             context,
             currentPage = currentPage
         )
-        every {
-            pageView.observeBindChanges(rootView = rootView, bind = currentPage, observes = capture(currentPageSlot))
-        } just Runs
+        every { pageView.observeBindChanges(
+            rootView = rootView,
+            view = beaglePageView,
+            bind = currentPage,
+            observes = capture(currentPageSlot)
+        ) } just Runs
 
         // WHEN
         pageView.buildView(rootView)
@@ -196,11 +199,19 @@ class PageViewTwoTest : BaseComponentTest() {
             onPageChange,
             currentPage
         )
+        every { pageView.observeBindChanges(
+            rootView = rootView,
+            view = beaglePageView,
+            bind = currentPage,
+            observes = capture(currentPageSlot)
+        ) } just Runs
         every {
-            pageView.observeBindChanges(rootView = rootView, bind = currentPage, observes = capture(currentPageSlot))
-        } just Runs
-        every {
-            pageView.handleEvent(rootView, beaglePageView, onPageChange, ContextData("onPageChange", 1))
+            pageView.handleEvent(
+                rootView,
+                beaglePageView,
+                onPageChange,
+                ContextData("onPageChange", 1)
+            )
         } just Runs
     }
 }

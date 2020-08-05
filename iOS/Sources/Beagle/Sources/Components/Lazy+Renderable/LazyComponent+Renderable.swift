@@ -33,8 +33,18 @@ extension LazyComponent: ServerDrivenComponent {
             case .success(let component):
                 view.update(lazyLoaded: component, renderer: renderer)
             case .failure(let error):
-                renderer.controller.serverDrivenState = .error(.lazyLoad(error))
+                renderer.controller.serverDrivenState = .error(
+                    .lazyLoad(error),
+                    self.retryClosure(initialState: view, renderer: renderer)
+                )
             }
+        }
+    }
+    
+    private func retryClosure(initialState view: UIView, renderer: BeagleRenderer) -> BeagleRetry {
+        return { [weak view, weak renderer] in
+            guard let view = view, let renderer = renderer else { return }
+            self.lazyLoad(initialState: view, renderer: renderer)
         }
     }
 }

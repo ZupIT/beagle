@@ -61,18 +61,18 @@ data class Text(
     }
 
     private fun TextView.setTextWidget(text: Text, rootView: RootView) {
-        observeBindChanges(rootView, text.text) {
+        observeBindChanges(rootView, this, text.text) {
             it?.let { this.text = it }
         }
 
         text.textColor?.let {
-            observeBindChanges(rootView, it) { value ->
+            observeBindChanges(rootView, this, it) { value ->
                 value?.let { color ->this.setTextColor(color) }
             }
         }
 
         text.alignment?.let {
-            observeBindChanges(rootView, it) { value ->
+            observeBindChanges(rootView, this, it) { value ->
                 value?.let { alignment ->this.setAlignment(alignment) }
             }
         }

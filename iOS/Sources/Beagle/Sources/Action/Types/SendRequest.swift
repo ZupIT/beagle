@@ -19,17 +19,15 @@ import BeagleSchema
 import UIKit
 
 extension SendRequest: Action {
-    public func execute(controller: BeagleController, sender: Any) {
+    public func execute(controller: BeagleController, origin: UIView) {
 
-        guard let
-            view = sender as? UIView,
-            let url = controller.dependencies.urlBuilder.build(path: url.evaluate(with: view) ?? "") else {
+        guard let url = controller.dependencies.urlBuilder.build(path: url.evaluate(with: origin) ?? "") else {
             return
         }
         let requestData = Request.RequestData(
             method: method?.rawValue,
             headers: headers,
-            body: data?.evaluate(with: view).asAny()
+            body: data?.evaluate(with: origin).asAny()
         )
         let request = Request(url: url, type: .rawRequest(requestData), additionalData: nil)
         controller.dependencies.networkClient.executeRequest(request) { result in
@@ -40,11 +38,10 @@ extension SendRequest: Action {
                 let data = response.getDynamicObject()
                 let statusCode = response.statusCode()
                 let value: DynamicObject = ["data": data, "status": .int(statusCode), "statusText": "success"]
-                let contextObject = Context(id: "onSuccess", value: value)
 
                 DispatchQueue.main.async {
-                    controller.execute(actions: self.onSuccess, with: contextObject, sender: sender)
-                    controller.execute(actions: self.onFinish, with: nil, sender: sender)
+                    controller.execute(actions: self.onSuccess, with: "onSuccess", and: value, origin: origin)
+                    controller.execute(actions: self.onFinish, origin: origin)
                 }
                 
             case .failure(let error):
@@ -55,11 +52,10 @@ extension SendRequest: Action {
                 let message = error.localizedDescription
                 
                 let value: DynamicObject = [ "data": data, "status": .int(statusCode), "statusText": .string(statusText), "message": .string(message) ]
-                let contextObject = Context(id: "onError", value: value)
                 
                 DispatchQueue.main.async {
-                    controller.execute(actions: self.onError, with: contextObject, sender: sender)
-                    controller.execute(actions: self.onFinish, with: nil, sender: sender)
+                    controller.execute(actions: self.onError, with: "onError", and: value, origin: origin)
+                    controller.execute(actions: self.onFinish, origin: origin)
                 }
             }
         }
@@ -89,11 +85,7 @@ private extension NetworkError {
 }
 
 private func _makeDynamicObject(with data: Data) -> DynamicObject {
-    var dynamicObject: DynamicObject = nil
-    if  let jsonObject = (try? JSONSerialization.jsonObject(with: data, options: [.fragmentsAllowed])) as? [String: Any] {
-        dynamicObject = DynamicObject(from: jsonObject)
-    } else if let stringObject = String(bytes: data, encoding: .utf8) {
-        dynamicObject = .string(stringObject)
-    }
-    return dynamicObject
+    let decoder = JSONDecoder()
+    let result = try? decoder.decode(DynamicObject.self, from: data)
+    return result ?? .empty
 }

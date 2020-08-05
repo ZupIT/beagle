@@ -11,25 +11,18 @@ platform :android do
     run_codecov(platform: 'android')
   end
 
-end
-
-###
-###  Common (Android and Backend)
-###
-
-platform :common do
-
-  desc "Publish remote new version"
-  lane :remote_publish do
-    gradle(task: "build")
-    gradle(task: "publish")
+  desc "Deploy current code to stage"
+  lane :deploy_to_stage do
+    gradle(project_dir: "android", task: "assemble")
+    gradle(project_dir: "android", task: "uploadArchives --no-daemon --no-parallel")
   end
 
-   desc "Publish local new version"
-    lane :local_publish do
-      gradle(task: "build")
-      gradle(task: "publishToMavenLocal")
-    end
+  desc "Deploy current code to production"
+  lane :deploy_to_production do
+    sh "bash ./release/maven_signing.sh"
+    deploy_to_stage
+    gradle(project_dir: "android", task: "closeAndReleaseRepository")
+  end
 
 end
 
@@ -82,18 +75,19 @@ lane :deploy do
   sh "git checkout #{tagName}"
 
   ENV["VERSION_DEPLOY"] = last_git_tag(pattern: pattern)
-  if platformHotfix == "ios"
+  if platformHotfix == "iOS"
     puts "iOS Hotfix release"
     sh "fastlane ios release"
   elsif platformHotfix == "android"
     puts "Android Hotfix release"
-    sh "fastlane common remote_publish"
+    sh "fastlane android deploy_to_production"
   elsif platformHotfix == "backend"
     puts "Backend Hotfix release"
-    sh "fastlane common remote_publish"
+    sh "fastlane backend deploy_to_production"
   else
     puts "Normal Release"
-    sh "fastlane common remote_publish"
+    sh "fastlane android deploy_to_production"
+    sh "fastlane backend deploy_to_production"
     sh "fastlane ios release"
   end
 
@@ -150,6 +144,19 @@ platform :backend do
     sh "./sync-to-spring.sh"
     sh "./git_commit.sh 'Synced Micronaut BFF sample to Spring BFF sample.' '../backend/sample/spring'"
     push_to_git_remote
+  end
+
+  desc "Deploy current code to stage"
+  lane :deploy_to_stage do
+    gradle(project_dir: "backend", task: "assemble")
+    gradle(project_dir: "backend", task: "uploadArchives --no-daemon --no-parallel")
+  end
+
+  desc "Deploy current code to production"
+  lane :deploy_to_production do
+    sh "bash ./release/maven_signing.sh"
+    deploy_to_stage
+    gradle(project_dir: "backend", task: "closeAndReleaseRepository")
   end
 
 end
