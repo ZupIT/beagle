@@ -61,7 +61,7 @@ internal class OperationExpressionReader {
                     it.groupValues.forEachIndexed { index, item ->
                         if (index == 1) {
                             operationStrategy =
-                                OperationFactory.createOperation(
+                                OperationFactory.create(
                                     item
                                 )
                         } else if (index == 2) {

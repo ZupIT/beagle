@@ -16,13 +16,28 @@
 
 package br.com.zup.beagle.android.context.operations.strategy.string
 
+import br.com.zup.beagle.android.context.operations.strategy.BaseOperation
 import br.com.zup.beagle.android.context.operations.strategy.Operations
 
-internal enum class StringOperationTypes :
-    Operations {
-    CONCAT,
-    CAPITALIZE,
-    UPPERCASE,
-    LOWERCASE,
-    SUBSTRING
+internal enum class StringOperationTypes(val input: String) : Operations {
+    CONCAT("concat"),
+    CAPITALIZE("capitalize"),
+    UPPERCASE("uppercase"),
+    LOWERCASE("lowercase"),
+    SUBSTRING("substr");
+
+    companion object {
+        fun getOperation(input: String): BaseOperation<Operations>? {
+            val found = values().find { it.input == input }
+            return if (found != null)
+                when (found) {
+                    CONCAT -> ConcatOperation(found)
+                    CAPITALIZE -> CapitalizeOperation(found)
+                    UPPERCASE -> UppercaseOperation(found)
+                    LOWERCASE -> LowercaseOperation(found)
+                    SUBSTRING -> SubStringOperation(found)
+                }
+            else null
+        }
+    }
 }

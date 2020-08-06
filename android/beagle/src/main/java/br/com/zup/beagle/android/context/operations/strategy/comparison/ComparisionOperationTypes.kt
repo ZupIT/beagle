@@ -16,13 +16,20 @@
 
 package br.com.zup.beagle.android.context.operations.strategy.comparison
 
+import br.com.zup.beagle.android.context.operations.strategy.BaseOperation
 import br.com.zup.beagle.android.context.operations.strategy.Operations
 
-internal enum class ComparisionOperationTypes :
-    Operations {
-    GREATER_THAN,
-    GREATER_THAN_EQUALS,
-    LESS_THEN,
-    LESS_THEN_EQUALS,
-    EQUALS
+internal enum class ComparisionOperationTypes(val input: String) : Operations {
+    GREATER_THAN("gt"),
+    GREATER_THAN_EQUALS("gte"),
+    LESS_THEN("lt"),
+    LESS_THEN_EQUALS("lte"),
+    EQUALS("eq");
+
+    companion object {
+        fun getOperation(input: String): BaseOperation<Operations>? {
+            val found = values().find { it.input == input }
+            return if (found != null) ComparisionOperation(found) else null
+        }
+    }
 }

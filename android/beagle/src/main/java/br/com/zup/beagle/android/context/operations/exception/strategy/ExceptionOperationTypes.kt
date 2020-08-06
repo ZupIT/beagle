@@ -16,9 +16,21 @@
 
 package br.com.zup.beagle.android.context.operations.exception.strategy
 
-enum class ExceptionOperationTypes :
-    ExceptionTypes {
+import br.com.zup.beagle.android.context.operations.strategy.BaseOperation
+import br.com.zup.beagle.android.context.operations.strategy.Operations
+import br.com.zup.beagle.android.context.operations.strategy.invalid.InvalidOperation
+
+enum class ExceptionOperationTypes : ExceptionTypes {
     NOT_FOUND,
     INVALID_OPERATION,
-    MISSING_DELIMITERS
+    MISSING_DELIMITERS;
+
+    companion object {
+        fun getOperation(input: String): BaseOperation<Operations> {
+            return when (input) {
+                "null", "false", "true" -> InvalidOperation(INVALID_OPERATION)
+                else -> InvalidOperation(NOT_FOUND)
+            }
+        }
+    }
 }

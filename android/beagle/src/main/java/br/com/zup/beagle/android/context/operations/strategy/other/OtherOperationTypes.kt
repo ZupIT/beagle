@@ -16,11 +16,27 @@
 
 package br.com.zup.beagle.android.context.operations.strategy.other
 
+import br.com.zup.beagle.android.context.operations.strategy.BaseOperation
 import br.com.zup.beagle.android.context.operations.strategy.Operations
+import br.com.zup.beagle.android.context.operations.strategy.array.InsertOperation
+import br.com.zup.beagle.android.context.operations.strategy.array.RemoveIndexOperation
+import br.com.zup.beagle.android.context.operations.strategy.array.RemoveOperation
 
-enum class OtherOperationTypes :
-    Operations {
-    IS_EMPTY,
-    IS_NULL,
-    LENGTH,
+enum class OtherOperationTypes(val input: String) : Operations {
+    IS_EMPTY("isempty"),
+    IS_NULL("isnull"),
+    LENGTH("length");
+
+    companion object {
+        fun getOperation(input: String): BaseOperation<Operations>? {
+            val found = values().find { it.input == input }
+            return if (found != null)
+                when (found) {
+                    IS_EMPTY -> IsEmptyOperation(found)
+                    IS_NULL -> IsNullOperation(found)
+                    LENGTH -> LengthOperation(found)
+                }
+            else null
+        }
+    }
 }

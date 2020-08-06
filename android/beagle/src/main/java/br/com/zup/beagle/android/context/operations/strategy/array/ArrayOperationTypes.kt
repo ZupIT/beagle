@@ -16,12 +16,26 @@
 
 package br.com.zup.beagle.android.context.operations.strategy.array
 
+import br.com.zup.beagle.android.context.operations.strategy.BaseOperation
 import br.com.zup.beagle.android.context.operations.strategy.Operations
 
-internal enum class  ArrayOperationTypes :
-    Operations {
-    INSERT,
-    REMOVE,
-    REMOVE_INDEX,
-    INCLUDES
+internal enum class  ArrayOperationTypes(val input: String) : Operations {
+    INSERT("insert"),
+    REMOVE("remove"),
+    REMOVE_INDEX("removeindex"),
+    INCLUDES("includes");
+
+    companion object {
+        fun getOperation(input: String): BaseOperation<Operations>? {
+            val found = values().find { it.input == input }
+            return if (found != null)
+                when (found) {
+                    INSERT-> InsertOperation(found)
+                    REMOVE -> RemoveOperation(found)
+                    REMOVE_INDEX -> RemoveIndexOperation(found)
+                    INCLUDES -> IncludesOperation(found)
+                }
+            else null
+        }
+    }
 }

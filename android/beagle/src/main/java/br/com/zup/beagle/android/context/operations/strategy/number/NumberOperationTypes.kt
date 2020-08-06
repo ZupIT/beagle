@@ -16,12 +16,19 @@
 
 package br.com.zup.beagle.android.context.operations.strategy.number
 
+import br.com.zup.beagle.android.context.operations.strategy.BaseOperation
 import br.com.zup.beagle.android.context.operations.strategy.Operations
 
-internal enum class NumberOperationTypes :
-    Operations {
-    SUM,
-    SUBTRACT,
-    MULTIPLY,
-    DIVIDE
+internal enum class NumberOperationTypes(val input: String) : Operations {
+    SUM("sum"),
+    SUBTRACT("subtract"),
+    MULTIPLY("multiply"),
+    DIVIDE("divide");
+
+    companion object {
+        fun getOperation(input: String): BaseOperation<Operations>? {
+            val found = values().find { it.input == input }
+            return if (found != null) NumberOperation(found) else null
+        }
+    }
 }

@@ -29,5 +29,4 @@ internal class ComparisionOperation(
 
         return this.toBoolean(parameter)
     }
-
 }
