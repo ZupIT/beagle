@@ -16,9 +16,8 @@
 
 package br.com.zup.beagle.automatedtests.builders
 
-import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.widget.action.Alert
-import br.com.zup.beagle.widget.core.Flex
+import br.com.zup.beagle.widget.layout.Container
 import br.com.zup.beagle.widget.layout.NavigationBar
 import br.com.zup.beagle.widget.layout.NavigationBarItem
 import br.com.zup.beagle.widget.layout.Screen
@@ -43,8 +42,10 @@ object WebViewScreenBuilder {
                 )
             )
         ),
-        child = WebView(url = "https://zup.com.br").applyFlex(
-            flex = Flex(grow = 1.0)
+        child = Container(
+            children = listOf(
+                WebView(url = "https://zup.com.br")
+            )
         )
     )
 }

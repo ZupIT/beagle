@@ -19,7 +19,9 @@ package br.com.zup.beagle.automatedtests.controllers
 import ACCESSIBILITY_ENDPOINT
 import ACTION_ENDPOINT
 import ANALYTICS_ENDPOINT
+import EXPRESSION_ESCAPING_ENDPOINT
 import IMAGE_REMOTE_ENDPOINT
+import KOTLIN_DSL_ENDPOINT
 import LAZY_COMPONENT_ENDPOINT
 import LISTVIEW_TABVIEW_ENDPOINT
 import NAVIGATION_BAR_ENDPOINT
@@ -130,5 +132,11 @@ class LayoutComponentsController() {
 
     @GetMapping(SCREEN_SAFE_AREA_FALSE_ENDPOINT)
     fun getSampleSafeAreaFalse() = SafeAreaScreenBuilder.createScreen(false)
+
+    @GetMapping(KOTLIN_DSL_ENDPOINT)
+    fun getKotlinDsl() = BuilderKotlinDslScreenBuilder.build()
+
+    @GetMapping(EXPRESSION_ESCAPING_ENDPOINT)
+    fun getExpressionEscaping() = ExpressionEscapingScreenBuilder.build()
 
 }
