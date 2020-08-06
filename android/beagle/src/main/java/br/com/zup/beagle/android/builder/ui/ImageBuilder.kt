@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.builder.ui
 
 import br.com.zup.beagle.android.components.Image
-import br.com.zup.beagle.android.components.PathType
+import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.builder.BeagleBuilder
 import br.com.zup.beagle.widget.core.ImageContentMode
@@ -26,13 +26,13 @@ import kotlin.properties.Delegates
 fun image(block: ImageBuilder.() -> Unit) = ImageBuilder().apply(block).build()
 
 class ImageBuilder : BeagleBuilder<Image> {
-    var path: Bind<PathType> by Delegates.notNull()
+    var path: Bind<ImagePath> by Delegates.notNull()
     var mode: ImageContentMode? = null
 
-    fun path(path: Bind<PathType>) = this.apply { this.path = path }
+    fun path(path: Bind<ImagePath>) = this.apply { this.path = path }
     fun mode(mode: ImageContentMode?) = this.apply { this.mode = mode }
 
-    fun path(block: () -> Bind<PathType>) {
+    fun path(block: () -> Bind<ImagePath>) {
         path(block.invoke())
     }
 
@@ -47,11 +47,11 @@ fun pathTypeLocal(block: PathTypeLocalBuilder.() -> Unit) = PathTypeLocalBuilder
 fun pathTypeRemote(block: PathTypeRemoteBuilder.() -> Unit) = PathTypeRemoteBuilder().apply(block).build()
 
 interface ImagePathBuilderHelper {
-    var imagePath: PathType
+    var imagePath: ImagePath
 
-    fun imagePath(imagePath: PathType) = this.apply { this.imagePath = imagePath }
+    fun imagePath(imagePath: ImagePath) = this.apply { this.imagePath = imagePath }
 
-    fun imagePath(block: () -> PathType){
+    fun imagePath(block: () -> ImagePath){
         imagePath(block.invoke())
     }
 
@@ -65,26 +65,26 @@ interface ImagePathBuilderHelper {
 
 }
 
-class PathTypeRemoteBuilder: BeagleBuilder<PathType.Remote> {
+class PathTypeRemoteBuilder: BeagleBuilder<ImagePath.Remote> {
     var url: String by Delegates.notNull()
-    var placeholder: PathType.Local? = null
+    var placeholder: ImagePath.Local? = null
 
     fun url(url: String) = this.apply { this.url = url }
-    fun placeholder(placeholder: PathType.Local?) = this.apply { this.placeholder = placeholder }
+    fun placeholder(placeholder: ImagePath.Local?) = this.apply { this.placeholder = placeholder }
 
     fun url(block: () -> String){
         url(block.invoke())
     }
 
     fun placeholder(block: () -> String){
-        placeholder(PathType.Local(block.invoke()))
+        placeholder(ImagePath.Local(block.invoke()))
     }
 
-    override fun build() = PathType.Remote(url, placeholder)
+    override fun build() = ImagePath.Remote(url, placeholder)
 
 }
 
-class PathTypeLocalBuilder : BeagleBuilder<PathType.Local> {
+class PathTypeLocalBuilder : BeagleBuilder<ImagePath.Local> {
     var mobileId: String by Delegates.notNull()
 
     fun mobileId(mobileId: String) = this.apply { this.mobileId = mobileId }
@@ -93,5 +93,5 @@ class PathTypeLocalBuilder : BeagleBuilder<PathType.Local> {
         mobileId(block.invoke())
     }
 
-    override fun build() = PathType.Local(mobileId)
+    override fun build() = ImagePath.Local(mobileId)
 }

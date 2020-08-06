@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.builder.ui
 
 import br.com.zup.beagle.android.builder.context.ContextDataBuilder
-import br.com.zup.beagle.android.components.PathType
+import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.android.components.TabItem
 import br.com.zup.beagle.android.components.TabView
 import br.com.zup.beagle.android.context.ContextData
@@ -61,11 +61,11 @@ fun tabItem(block: TabItemBuilder.() -> Unit) = TabItemBuilder().apply(block).bu
 class TabItemBuilder : BeagleBuilder<TabItem> {
     var title: String? = null
     var child: ServerDrivenComponent by Delegates.notNull()
-    var icon: PathType.Local? = null
+    var icon: ImagePath.Local? = null
 
     fun title(title: String?) = this.apply { this.title = title }
     fun child(child: ServerDrivenComponent) = this.apply { this.child = child }
-    fun icon(icon: PathType.Local?) = this.apply { this.icon = icon }
+    fun icon(icon: ImagePath.Local?) = this.apply { this.icon = icon }
 
     fun title(block: () -> String?) {
         title(block.invoke())
@@ -76,7 +76,7 @@ class TabItemBuilder : BeagleBuilder<TabItem> {
     }
 
     fun icon(block: () -> String) {
-        icon(PathType.Local(block.invoke()))
+        icon(ImagePath.Local(block.invoke()))
     }
 
     override fun build() = TabItem(

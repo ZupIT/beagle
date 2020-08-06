@@ -28,10 +28,9 @@ import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.UndefinedAction
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Image
-import br.com.zup.beagle.android.components.PathType
+import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.android.components.LazyComponent
 import br.com.zup.beagle.android.components.ListView
-import br.com.zup.beagle.android.components.TabItem
 import br.com.zup.beagle.android.components.TabView
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.components.form.Form
@@ -55,7 +54,6 @@ import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.core.ListDirection
 import com.squareup.moshi.Moshi
-import io.mockk.clearStaticMockk
 import io.mockk.every
 import io.mockk.mockk
 import org.json.JSONArray
@@ -183,7 +181,7 @@ class BeagleMoshiTest : BaseTest() {
     @Test
     fun make_should_return_moshi_to_serialize_a_Image_Local() {
         // Given
-        val component = Image(PathType.Local(RandomData.string()))
+        val component = Image(ImagePath.Local(RandomData.string()))
 
         // When
         val actual = moshi.adapter(ServerDrivenComponent::class.java).toJson(component)
@@ -208,7 +206,7 @@ class BeagleMoshiTest : BaseTest() {
     @Test
     fun make_should_return_moshi_to_serialize_a_NetworkImage() {
         // Given
-        val component = Image(PathType.Remote(RandomData.string()))
+        val component = Image(ImagePath.Remote(RandomData.string()))
 
         // When
         val actual = moshi.adapter(ServerDrivenComponent::class.java).toJson(component)

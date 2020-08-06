@@ -22,16 +22,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.components.Image
-import br.com.zup.beagle.android.components.PathType
+import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.android.components.LazyComponent
 import br.com.zup.beagle.android.components.ListView
 import br.com.zup.beagle.android.components.Text
-import br.com.zup.beagle.ext.applyFlex
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.android.utils.toView
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
-import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.layout.NavigationBar
@@ -74,12 +72,12 @@ class ListViewFragment : Fragment() {
             Text("0011"),
             Text("0012"),
             Text("0013"),
-            Image(PathType.Local("beagle")),
+            Image(ImagePath.Local("beagle")),
             Text("0014"),
             Text("0015"),
             Text("0016"),
             Image(
-                PathType.Remote(
+                ImagePath.Remote(
                     "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271"
                 )
             ),

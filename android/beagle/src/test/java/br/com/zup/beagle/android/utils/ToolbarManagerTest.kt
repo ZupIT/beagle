@@ -28,7 +28,7 @@ import androidx.core.content.res.ResourcesCompat
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.components.PathType
+import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.NavigationBarItem
 import br.com.zup.beagle.android.components.layout.ScreenComponent
@@ -236,7 +236,7 @@ class ToolbarManagerTest : BaseTest() {
         every { context.getToolbar() } returns toolbar
         every { toolbar.menu } returns menu
         val navigationBarItems = listOf(
-            NavigationBarItem(text = "Stub", image = PathType.Local("image"), action = action)
+            NavigationBarItem(text = "Stub", image = ImagePath.Local("image"), action = action)
         )
         every { navigationBar.navigationBarItems } returns navigationBarItems
         val menuItem = spyk<MenuItem>()

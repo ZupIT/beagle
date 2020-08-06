@@ -48,7 +48,7 @@ data class WebView(
     @SuppressLint("SetJavaScriptEnabled")
     override fun buildView(rootView: RootView): View {
         val webView = viewFactory.makeWebView(rootView.getContext())
-        webView.webViewClient = BeagleWebViewClient(webView.context)
+        webView.webViewClient = BeagleWebViewClient(rootView.getContext())
         webView.settings.javaScriptEnabled = true
         observeBindChanges(rootView, webView, url) {
             it?.let { webView.loadUrl(it) }

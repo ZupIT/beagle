@@ -17,7 +17,7 @@
 package br.com.zup.beagle.android.builder.ui
 
 import br.com.zup.beagle.android.action.Action
-import br.com.zup.beagle.android.components.PathType
+import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.android.components.TabBar
 import br.com.zup.beagle.android.components.TabBarItem
 import br.com.zup.beagle.android.context.Bind
@@ -67,17 +67,17 @@ fun tabBarItem(block: TabBarItemBuilder.() -> Unit) = TabBarItemBuilder().apply(
 
 class TabBarItemBuilder: BeagleBuilder<TabBarItem>{
     var title: String? = null
-    var icon: PathType.Local? = null
+    var icon: ImagePath.Local? = null
 
     fun title(title: String?) = this.apply { this.title = title }
-    fun icon(icon: PathType.Local?) = this.apply { this.icon = icon }
+    fun icon(icon: ImagePath.Local?) = this.apply { this.icon = icon }
 
     fun title(block: () -> String?){
         title(block.invoke())
     }
 
     fun icon(block: () -> String){
-        icon(PathType.Local(block.invoke()))
+        icon(ImagePath.Local(block.invoke()))
     }
 
     override fun build() = TabBarItem(title, icon)
