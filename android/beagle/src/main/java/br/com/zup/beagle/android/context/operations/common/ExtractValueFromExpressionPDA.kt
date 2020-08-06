@@ -42,13 +42,8 @@ internal class ExtractValueFromExpressionPDA(
     var endDelimiterChar: Char? = null
 
     init {
-        if (extractValueTypes == ExtractValueTypes.OPERATION) {
-            startDelimiterChar = GrammarChars.OPEN_PARENTHESES
-            endDelimiterChar = GrammarChars.CLOSE_PARENTHESES
-        } else {
-            startDelimiterChar = GrammarChars.OPEN_BRACKET
-            endDelimiterChar = GrammarChars.CLOSE_BRACKET
-        }
+        startDelimiterChar = extractValueTypes.start
+        endDelimiterChar = extractValueTypes.end
     }
 
     internal fun getValue() : String {

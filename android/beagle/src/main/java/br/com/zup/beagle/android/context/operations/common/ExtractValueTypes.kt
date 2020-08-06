@@ -16,7 +16,9 @@
 
 package br.com.zup.beagle.android.context.operations.common
 
-internal enum class ExtractValueTypes {
-    OPERATION,
-    ARRAY_PARAMETER
+import br.com.zup.beagle.android.context.operations.grammar.GrammarChars
+
+internal enum class ExtractValueTypes(val start: Char, val end: Char) {
+    OPERATION(GrammarChars.OPEN_PARENTHESES, GrammarChars.CLOSE_PARENTHESES),
+    ARRAY_PARAMETER(GrammarChars.OPEN_BRACKET, GrammarChars.CLOSE_BRACKET)
 }
