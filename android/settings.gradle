@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+rootProject.name = "Beagle"
+
 include ":sample"
 include ":beagle"
 include ":processor"
