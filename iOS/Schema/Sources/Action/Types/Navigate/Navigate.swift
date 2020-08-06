@@ -16,33 +16,42 @@
 
 /// Handles screens navigations actions of the application.
 public enum Navigate: RawAction {
-    /// Opens up an available browser on the device and navigates to a passed URL as String.
+    
+    /// Opens up an available browser on the device and navigates to a specified URL as String.
     case openExternalURL(String)
+    
     /// Opens a screen that is defined all locally in your app (does not depend on Beagle) which will be retrieved using `DeeplinkScreenManager`.
     case openNativeRoute(OpenNativeRoute)
 
     /// Resets the application's root navigation stack with a new navigation stack that has `Route` as the first view
     case resetApplication(Route)
+    
     /// Resets the views stack to create a new flow with the passed route.
     case resetStack(Route)
     
-    /// Presents a new screen that comes from a passed route starting a new flow.
+    /// Presents a new screen that comes from a specified route starting a new flow.
     case pushStack(Route)
+    
     /// Unstacks the current view stack.
     case popStack
 
-    /// Opens a new screen for the given route  and stacks that at the top of the hierarchy.
+    /// Opens a new screen for the given route and stacks that at the top of the hierarchy.
     case pushView(Route)
+    
     /// Dismisses the current view.
     case popView
-    /// Returns the stack of screens in the application flow for a given screen in a route that is passed as String.
+    
+    /// Returns the stack of screens in the application flow for a given screen in a route specified as String.
     case popToView(String)
     
     public struct OpenNativeRoute {
+        
         /// Deeplink identifier.
         public let route: String
-        /// Data that could be passed betwwen screens.
+        
+        /// Data that could be passed between screens.
         public let data: [String: String]?
+        
         /// Allows customization of the behavior of restarting the application view stack.
         public let shouldResetApplication: Bool
 
@@ -58,27 +67,32 @@ public enum Navigate: RawAction {
     }
 }
 
-
-/// Defines a navigation route type which can be to a remote route or to a locally declared screen.
+/// Defines a navigation route type which can be `remote` or `declarative`.
 public enum Route {
+    
+    /// Navigates to a remote content on a specified path.
     case remote(NewPath)
+    
+    /// Navigates to a specified screen.
     case declarative(Screen)
 }
 
 extension Route {
+    
     /// Constructs a new path to a remote screen.
     public struct NewPath {
+        
         /// Contains the navigation endpoint.
         public let url: String
         
         /// Changes _when_ this screen is requested.
         ///
-        /// - If __false__, Beagle will only request this screen when the Navigate action gets triggered (e.g: user taps a Button).
+        /// - If __false__, Beagle will only request this screen when the Navigate action gets triggered (e.g: user taps a button).
         /// - If __true__, Beagle will trigger the request as soon as it renders the component that have
-        /// this action. (e.g: when a Button appears on the screen it will trigger)
+        /// this action. (e.g: when a button appears on the screen it will trigger)
         public let shouldPrefetch: Bool
         
-        /// An screen that should be rendered in case of request fail.
+        /// A screen that should be rendered in case of request fail.
         public let fallback: Screen?
 
         public init(url: String, shouldPrefetch: Bool = false, fallback: Screen? = nil) {
