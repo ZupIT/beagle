@@ -21,7 +21,7 @@ public enum Navigate: RawAction {
     /// Opens a screen that is defined all locally in your app (does not depend on Beagle) which will be retrieved using `DeeplinkScreenManager`.
     case openNativeRoute(OpenNativeRoute)
 
-    /// Resets the entire application to create a new flow with the passed route.
+    /// Resets the application's root navigation stack with a new navigation stack that has `Route` as the first view
     case resetApplication(Route)
     /// Resets the views stack to create a new flow with the passed route.
     case resetStack(Route)
