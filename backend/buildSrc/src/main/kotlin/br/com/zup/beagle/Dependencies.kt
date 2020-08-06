@@ -37,6 +37,7 @@ class Dependencies : Plugin<Project> {
         const val widgets = ":widgets"
         const val processor = ":processor"
         const val framework = ":framework"
+        const val widgetsDsl = ":widgets-dsl"
 
         const val sampleCore = ":sample:core"
         const val sampleSpring = ":sample:spring"

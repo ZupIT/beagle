@@ -56,8 +56,10 @@ class FormManager {
         if sender.form.shouldStoreFields {
             saveFormData(values: values, group: sender.form.group)
         }
-        sender.form.onSubmit?.forEach { action in
-            submitAction(action, inputs: values, sender: sender, group: sender.form.group)
+        if let origin = sender.formSubmitView {
+            sender.form.onSubmit?.forEach { action in
+                submitAction(action, inputs: values, origin: origin, group: sender.form.group)
+            }
         }
     }
     
@@ -87,16 +89,16 @@ class FormManager {
         }
     }
 
-    private func submitAction(_ action: RawAction, inputs: [String: String], sender: Any, group: String?) {
+    private func submitAction(_ action: RawAction, inputs: [String: String], origin: UIView, group: String?) {
         switch action {
         case let action as FormRemoteAction:
             let newAction = SubmitRemoteFormAction(remote: action, inputs: inputs, group: group)
-            controller.execute(action: newAction, sender: sender)
+            controller.execute(actions: [newAction], origin: origin)
         case let action as FormLocalAction:
             let newAction = FormLocalAction(name: action.name, data: inputs.merging(action.data) { a, _ in return a })
-            controller.execute(action: newAction, sender: sender)
+            controller.execute(actions: [newAction], origin: origin)
         default:
-            controller.execute(action: action, sender: sender)
+            controller.execute(actions: [action], origin: origin)
         }
     }
     
@@ -153,7 +155,7 @@ private struct SubmitRemoteFormAction: Action {
     let inputs: [String: String]
     let group: String?
     
-    func execute(controller: BeagleController, sender: Any) {
+    func execute(controller: BeagleController, origin: UIView) {
         controller.serverDrivenState = .loading(true)
         let data = Request.FormData(
             method: remote.method,
@@ -164,11 +166,11 @@ private struct SubmitRemoteFormAction: Action {
             switch $0 {
             case .success(let action):
                 controller.dependencies.formDataStoreHandler.formManagerDidSubmitForm(group: self.group)
-                controller.execute(action: action, sender: sender)
+                controller.execute(actions: [action], origin: origin)
             case .failure(let error):
                 controller.serverDrivenState = .error(
                     .submitForm(error),
-                    self.closureToRetrySameAction(controller: controller, sender: sender)
+                    self.closureToRetrySameAction(controller: controller, origin: origin)
                 )
             }
         }

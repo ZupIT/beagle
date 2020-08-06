@@ -46,15 +46,15 @@ data class TextInput(
         onFocus: List<Action>? = null,
         onBlur: List<Action>? = null
     ) : this(
-        valueOfNullable(value),
-        valueOfNullable(placeholder),
-        valueOfNullable(disabled),
-        valueOfNullable(readOnly),
-        valueOfNullable(type),
-        valueOfNullable(hidden),
-        styleId,
-        onChange,
-        onFocus,
-        onBlur
+        value = valueOfNullable(value),
+        placeholder = valueOfNullable(placeholder),
+        disabled = valueOfNullable(disabled),
+        readOnly = valueOfNullable(readOnly),
+        type = valueOfNullable(type),
+        hidden = valueOfNullable(hidden),
+        styleId = styleId,
+        onChange = onChange,
+        onFocus = onFocus,
+        onBlur = onBlur
     )
 }
