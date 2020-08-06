@@ -11,25 +11,18 @@ platform :android do
     run_codecov(platform: 'android')
   end
 
-end
-
-###
-###  Common (Android and Backend)
-###
-
-platform :common do
-
-  desc "Publish remote new version"
-  lane :remote_publish do
-    gradle(task: "build")
-    gradle(task: "publish")
+  desc "Deploy current code to stage"
+  lane :deploy_to_stage do
+    gradle(project_dir: "android", task: "assemble")
+    gradle(project_dir: "android", task: "uploadArchives --no-daemon --no-parallel")
   end
 
-   desc "Publish local new version"
-    lane :local_publish do
-      gradle(task: "build")
-      gradle(task: "publishToMavenLocal")
-    end
+  desc "Deploy current code to production"
+  lane :deploy_to_production do
+    sh "bash ./release/maven_signing.sh"
+    deploy_to_stage
+    gradle(project_dir: "android", task: "closeAndReleaseRepository")
+  end
 
 end
 
@@ -49,6 +42,7 @@ platform :ios do
       device: "iPhone 11"
     )
     run_codecov(platform: 'ios')
+    iOSCocoaPodsIntegration
   end
 
   desc "Run iOS SwiftLint"
@@ -59,12 +53,32 @@ platform :ios do
   )
   end
 
+  desc "CocoaPods Integration test"
+  private_lane :iOSCocoaPodsIntegration do 
+    xcversion(version: "~> 11.5.0")
+    installCocoaPods
+    scan(
+      workspace: "iOS/Example/CocoaPodsTest/CocoaPodsTest.xcworkspace",
+      scheme: "CocoaPodsTest",
+      device: "iPhone 11"
+    )
+  end
+
+
+  desc "Install CocoaPods"
+  private_lane :installCocoaPods do
+    cocoapods(
+      clean_install: true,
+      podfile: "iOS/Example/CocoaPodsTest/Podfile"
+    )
+  end
+
   desc "Updates versions on Podspec"
   lane :release do
     version_bump_podspec(path: "Beagle.podspec", version_number: last_git_tag)
     version_bump_podspec(path: "BeagleSchema.podspec", version_number: last_git_tag)
     pod_push(path: "BeagleSchema.podspec", allow_warnings: true)
-    pod_push(path: "Beagle.podspec", allow_warnings: true)
+    pod_push(path: "Beagle.podspec", allow_warnings: true, synchronous: true)
   end
 
 end
@@ -73,7 +87,10 @@ desc "Publish new release based on last two tags"
 lane :deploy do
   git_pull
   ENV["VERSION_DEPLOY"] = last_git_tag
-  sh "fastlane common remote_publish"
+
+  sh "fastlane android deploy_to_production"
+  sh "fastlane backend deploy_to_production"
+
   sh "fastlane ios release"
 
   sh "bash ./delete_release.sh"
@@ -85,7 +102,6 @@ lane :deploy do
     description: release_notes,
     commitish: "master"
   )
-  sh "bash ./discord_message.sh"
 end
 
 lane :run_danger do |options|
@@ -129,6 +145,19 @@ platform :backend do
     sh "./sync-to-spring.sh"
     sh "./git_commit.sh 'Synced Micronaut BFF sample to Spring BFF sample.' '../backend/sample/spring'"
     push_to_git_remote
+  end
+
+  desc "Deploy current code to stage"
+  lane :deploy_to_stage do
+    gradle(project_dir: "backend", task: "assemble")
+    gradle(project_dir: "backend", task: "uploadArchives --no-daemon --no-parallel")
+  end
+
+  desc "Deploy current code to production"
+  lane :deploy_to_production do
+    sh "bash ./release/maven_signing.sh"
+    deploy_to_stage
+    gradle(project_dir: "backend", task: "closeAndReleaseRepository")
   end
 
 end

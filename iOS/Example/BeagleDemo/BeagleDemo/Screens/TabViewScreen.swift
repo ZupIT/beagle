@@ -28,7 +28,7 @@ struct TabViewScreen: DeeplinkScreen {
     
     var screen =
         Screen(navigationBar: NavigationBar(title: "TabView")) {
-            Container(context: Context(id: "currentTab", value: 2), widgetProperties: .init(Flex().grow(1))) {
+            Container(context: Context(id: "currentTab", value: 0), widgetProperties: .init(Flex().grow(1))) {
                 TabBar(
                     items: [
                         TabBarItem(icon: "beagle"),

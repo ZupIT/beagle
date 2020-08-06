@@ -55,6 +55,7 @@ data class ScrollView(
         val styleChild = Style(flex = Flex(flexDirection = flexDirection))
 
         return viewFactory.makeBeagleFlexView(rootView.getContext(), styleParent).apply {
+
             addView(if (scrollDirection == ScrollAxis.HORIZONTAL) {
                 viewFactory.makeHorizontalScrollView(context).apply {
                     isHorizontalScrollBarEnabled = scrollBarEnabled

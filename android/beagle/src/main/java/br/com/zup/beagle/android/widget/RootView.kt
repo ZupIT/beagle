@@ -18,8 +18,10 @@ package br.com.zup.beagle.android.widget
 
 import android.content.Context
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelStoreOwner
 
 interface RootView {
     fun getContext(): Context
     fun getLifecycleOwner(): LifecycleOwner
+    fun getViewModelStoreOwner(): ViewModelStoreOwner
 }

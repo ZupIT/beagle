@@ -19,8 +19,12 @@ import Foundation
 public protocol ComponentDecoding {
     typealias Error = ComponentDecodingError
     
-    func register<T: RawComponent>(_ type: T.Type, for typeName: String)
-    func register<A: RawAction>(_ type: A.Type, for typeName: String)
+    func register<T: RawComponent>(component type: T.Type)
+    func register<A: RawAction>(action type: A.Type)
+    
+    func register<T: RawComponent>(component type: T.Type, named: String)
+    func register<A: RawAction>(action type: A.Type, named: String)
+    
     func componentType(forType type: String) -> Decodable.Type?
     func actionType(forType type: String) -> Decodable.Type?
     func decodeComponent(from data: Data) throws -> RawComponent
@@ -51,12 +55,24 @@ final public class ComponentDecoder: ComponentDecoding {
         registerDefaultTypes()
     }
     
-    public func register<T: RawComponent>(_ type: T.Type, for typeName: String) {
-        registerComponent(type, key: key(name: typeName, namespace: .custom))
+    // MARK: - ComponentDecoding
+    
+    public func register<T: RawComponent>(component type: T.Type) {
+        let componentTypeName = String(describing: T.self)
+        registerComponent(type, key: key(name: componentTypeName, namespace: .custom))
     }
     
-    public func register<A: RawAction>(_ type: A.Type, for typeName: String) {
-        registerAction(type, key: key(name: typeName, namespace: .custom))
+    public func register<A: RawAction>(action type: A.Type) {
+        let actionTypeName = String(describing: A.self)
+        registerAction(type, key: key(name: actionTypeName, namespace: .custom))
+    }
+    
+    public func register<T: RawComponent>(component type: T.Type, named: String) {
+        registerComponent(type, key: key(name: named, namespace: .custom))
+    }
+    
+    public func register<A: RawAction>(action type: A.Type, named: String) {
+        registerAction(type, key: key(name: named, namespace: .custom))
     }
     
     public func componentType(forType type: String) -> Decodable.Type? {

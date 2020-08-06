@@ -36,13 +36,13 @@ data class SendRequest(
         onError: List<Action>? = null,
         onFinish: List<Action>? = null
     ) : this(
-        Bind.Value(url),
-        Bind.Value(method),
-        if (headers != null) Bind.Value(headers) else headers,
-        data,
-        onSuccess,
-        onError,
-        onFinish
+        url = Bind.Value(url),
+        method = Bind.Value(method),
+        headers = if (headers != null) Bind.Value(headers) else headers,
+        data = data,
+        onSuccess = onSuccess,
+        onError = onError,
+        onFinish = onFinish
     )
 }
 

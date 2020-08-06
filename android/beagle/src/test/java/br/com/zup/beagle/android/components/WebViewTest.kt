@@ -77,10 +77,11 @@ class WebViewTest : BaseComponentTest() {
         val webViewClient = createMockedWebViewClient(stateSlot)
 
         // When
-        webViewClient.onPageFinished(null, null)
+        webViewClient.onPageFinished(webView, null)
 
         // Then
         assertFalse((stateSlot.captured as ServerDrivenState.Loading).loading)
+        verify(exactly = once()) { webView.requestLayout() }
     }
 
     @Test
