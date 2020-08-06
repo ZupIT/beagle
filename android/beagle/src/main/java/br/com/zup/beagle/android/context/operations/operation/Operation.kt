@@ -29,6 +29,8 @@ import br.com.zup.beagle.android.context.operations.strategy.Operations
  *
  * **/
 
-data class Operation (val operationToken: String,
-                      val operationStrategy: BaseOperation<Operations>?,
-                      val operationValue: String)
+data class Operation (
+    val operationToken: String,
+    val operationStrategy: BaseOperation<Operations>?,
+    val operationValue: String
+)
