@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.context
 
 import androidx.collection.LruCache
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.mockdata.ComponentModel
 import br.com.zup.beagle.android.testutil.RandomData
@@ -30,7 +29,6 @@ import org.json.JSONObject
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
@@ -332,6 +330,11 @@ internal class ContextDataEvaluationTest {
         EscapingTestCases(
             "This is a @{context} of \\ expression \\@{context}",
             "This is a value of \\ expression @{context}"
+        ),
+        EscapingTestCases(
+            "@{context}",
+            "\\\"value\\\"",
+            ContextData("context", "\\\"value\\\"")
         )
     )
 

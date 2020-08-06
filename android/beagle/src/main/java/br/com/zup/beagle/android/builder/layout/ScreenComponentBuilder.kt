@@ -19,7 +19,7 @@ package br.com.zup.beagle.android.builder.layout
 import br.com.zup.beagle.analytics.ScreenEvent
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.builder.context.ContextDataBuilder
-import br.com.zup.beagle.android.components.PathType
+import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.NavigationBarItem
 import br.com.zup.beagle.android.components.layout.SafeArea
@@ -77,12 +77,12 @@ fun navigationBarItem(block: NavigationBarItemBuilder.() -> Unit)
 
 class NavigationBarItemBuilder : BeagleBuilder<NavigationBarItem> {
     var text: String by Delegates.notNull()
-    var image: PathType.Local? = null
+    var image: ImagePath.Local? = null
     var action: Action by Delegates.notNull()
     var accessibility: Accessibility? = null
 
     fun text(text: String) = this.apply { this.text = text }
-    fun image(image: PathType.Local?) = this.apply { this.image = image }
+    fun image(image: ImagePath.Local?) = this.apply { this.image = image }
     fun action(action: Action) = this.apply { this.action = action }
     fun accessibility(accessibility: Accessibility?) = this.apply { this.accessibility = accessibility }
 
@@ -91,7 +91,7 @@ class NavigationBarItemBuilder : BeagleBuilder<NavigationBarItem> {
     }
 
     fun image(block: () -> String) {
-        image(PathType.Local(block.invoke()))
+        image(ImagePath.Local(block.invoke()))
     }
 
     fun action(block: () -> Action) {

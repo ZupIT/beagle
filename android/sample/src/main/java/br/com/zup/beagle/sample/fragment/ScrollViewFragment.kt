@@ -23,7 +23,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Image
-import br.com.zup.beagle.android.components.PathType
+import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.core.CornerRadius
 import br.com.zup.beagle.ext.applyFlex
@@ -71,7 +71,7 @@ class ScrollViewFragment : Fragment() {
                 )
             ).applyStyle(Style(size = Size(height = UnitValue(100.0, UnitType.REAL)))),
             Image(
-                PathType.Remote(
+                ImagePath.Remote(
                     "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271"
                 )
             ).applyStyle(Style(

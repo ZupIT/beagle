@@ -22,7 +22,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.components.Image
-import br.com.zup.beagle.android.components.PathType
+import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.android.components.LazyComponent
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.core.Style
@@ -52,7 +52,7 @@ class LazyComponentFragment : Fragment() {
     private fun buildScrollView() = ScrollView(
         children = listOf(
             Image(
-                PathType.Remote(
+                ImagePath.Remote(
                     "https://www.petlove.com.br/images/breeds/193436/profile/original/beagle-p.jpg?1532538271"
                 )
             ).applyStyle(Style(cornerRadius = CornerRadius(30.0))),
