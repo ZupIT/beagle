@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.context.operations.strategy.string
 
+import br.com.zup.beagle.android.context.operations.grammar.Constants
 import br.com.zup.beagle.android.context.operations.grammar.GrammarChars
 import br.com.zup.beagle.android.context.operations.grammar.RegularExpressions
 import br.com.zup.beagle.android.context.operations.parameter.Argument
@@ -40,4 +41,4 @@ internal fun String.withoutApostrophe() : String {
 }
 
 internal fun String.withApostropheMark() : String =
-    GrammarChars.APOSTROPHE_MARK + this + GrammarChars.APOSTROPHE_MARK
+    Constants.APOSTROPHE_MARK + this + Constants.APOSTROPHE_MARK

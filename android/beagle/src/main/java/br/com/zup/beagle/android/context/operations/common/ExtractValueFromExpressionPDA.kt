@@ -16,7 +16,8 @@
 
 package br.com.zup.beagle.android.context.operations.common
 
-import br.com.zup.beagle.android.context.operations.grammar.GrammarChars
+import br.com.zup.beagle.android.context.operations.common.read.ReadLogicFactory
+import br.com.zup.beagle.android.context.operations.grammar.Constants
 
 /**
  * This class is able to read an Expression/Array input and output the value using PDA
@@ -38,56 +39,34 @@ internal class ExtractValueFromExpressionPDA(
 ) {
 
     private var delimiterStartIndex: Int = 0
-    var startDelimiterChar: Char? = null
-    var endDelimiterChar: Char? = null
 
-    init {
-        startDelimiterChar = extractValueTypes.start
-        endDelimiterChar = extractValueTypes.end
-    }
+    internal fun getValue() = findDelimiters()
 
-    internal fun getValue() : String {
+    private fun findDelimiters() : String {
         inputValue.forEachIndexed { index, char ->
-            if (char == startDelimiterChar) {
-                delimiterStartIndex = index
-            } else if (char == endDelimiterChar) {
-                return getStartOfValue(inputValue, index)
+            if (foundStartDelimiter(char)) {
+                setStartDelimiter(index)
+            } else if (foundEndDelimiter(char)) {
+                return getResult(index)
             }
         }
 
-        return ""
+        return Constants.EMPTY_VALUE
     }
 
-    private fun getStartOfValue(value: String, endIndex: Int) : String {
-        var startIndex: Int
-
-        if (extractValueTypes == ExtractValueTypes.OPERATION) {
-            startIndex = delimiterStartIndex - 1
-            while (startIndex > 0) {
-                if (value[startIndex] != startDelimiterChar &&
-                    value[startIndex] != GrammarChars.COMMA) {
-                    startIndex--
-                } else {
-                    break
-                }
-            }
-
-            if (currentCharIsCommaOrParentheses(startIndex)) {
-                startIndex += 1
-            }
-
-            return value.substring(startIndex, endIndex + 1)
-        } else {
-            startIndex = 1
-            while (startIndex > 0) {
-                if (value[startIndex] != startDelimiterChar) {
-                    startIndex--
-                }
-            }
-
-            return value.substring(startIndex, endIndex + 1)
-        }
+    private fun setStartDelimiter(index: Int) {
+        delimiterStartIndex = index
     }
 
-    private fun currentCharIsCommaOrParentheses(startIndex: Int) = startIndex > 0
+    private fun getResult(endIndex: Int) =
+        ReadLogicFactory.create(
+            inputValue,
+            extractValueTypes,
+            delimiterStartIndex,
+            endIndex
+        ).extractValue()
+
+    private fun foundStartDelimiter(char: Char) = char == extractValueTypes.start
+
+    private fun foundEndDelimiter(char: Char) = char == extractValueTypes.end
 }

@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.context.operations.core
 
 import br.com.zup.beagle.android.context.operations.exception.ExceptionWrapper
+import br.com.zup.beagle.android.context.operations.grammar.Constants
 import br.com.zup.beagle.android.context.operations.grammar.GrammarChars
 import br.com.zup.beagle.android.context.operations.operation.Operation
 import br.com.zup.beagle.android.context.operations.operation.toParameterType
@@ -89,4 +90,4 @@ private fun Operation.hasSubOperationsToSolve() = this.operationValue.contains(G
         this.operationValue.contains(GrammarChars.CLOSE_PARENTHESES)
 
 private fun Any?.isStringType() : Boolean = this is String &&
-        this.contains(GrammarChars.APOSTROPHE_MARK)
+        this.contains(Constants.APOSTROPHE_MARK)

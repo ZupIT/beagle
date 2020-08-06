@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.context.operations.parameter
 
+import br.com.zup.beagle.android.context.operations.grammar.Constants
 import br.com.zup.beagle.android.context.operations.grammar.GrammarChars
 import br.com.zup.beagle.android.context.operations.grammar.RegularExpressions
 
@@ -57,12 +58,12 @@ internal fun String.toType() : Argument {
 private fun String.checkParameter() : ParameterTypes {
     return if (contains(GrammarChars.OPEN_BRACKET)) {
         ParameterTypes.ARRAY
-    } else if (contains(GrammarChars.APOSTROPHE_MARK)) {
+    } else if (contains(Constants.APOSTROPHE_MARK)) {
         ParameterTypes.STRING
     } else if (contains(RegularExpressions.NUMBER_REGEX.toRegex()) && isNotEmpty()) {
         ParameterTypes.NUMBER
-    } else if (contains(GrammarChars.BOOLEAN_VALUE_TRUE) ||
-        contains(GrammarChars.BOOLEAN_VALUE_FALSE)) {
+    } else if (contains(Constants.BOOLEAN_VALUE_TRUE) ||
+        contains(Constants.BOOLEAN_VALUE_FALSE)) {
         ParameterTypes.BOOLEAN
     } else if (removeWhiteSpaces().isEmpty()) {
         ParameterTypes.EMPTY

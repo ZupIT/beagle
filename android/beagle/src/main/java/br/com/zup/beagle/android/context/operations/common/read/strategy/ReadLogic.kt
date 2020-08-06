@@ -14,15 +14,8 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.context.operations.grammar
+package br.com.zup.beagle.android.context.operations.common.read.strategy
 
-internal object GrammarChars {
-    const val OPEN_PARENTHESES = '('
-    const val CLOSE_PARENTHESES = ')'
-    const val OPEN_BRACES = '{'
-    const val CLOSE_BRACES = '}'
-    const val OPEN_BRACKET = '['
-    const val CLOSE_BRACKET = ']'
-    const val COMMA = ','
-    const val WHITE_SPACE = '\u0020'
+internal interface ReadLogic {
+    fun extractValue() : String
 }

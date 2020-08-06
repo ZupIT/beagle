@@ -16,13 +16,9 @@
 
 package br.com.zup.beagle.android.context.operations.grammar
 
-internal object GrammarChars {
-    const val OPEN_PARENTHESES = '('
-    const val CLOSE_PARENTHESES = ')'
-    const val OPEN_BRACES = '{'
-    const val CLOSE_BRACES = '}'
-    const val OPEN_BRACKET = '['
-    const val CLOSE_BRACKET = ']'
-    const val COMMA = ','
-    const val WHITE_SPACE = '\u0020'
+internal object Constants {
+    const val APOSTROPHE_MARK = "'"
+    const val BOOLEAN_VALUE_TRUE = "true"
+    const val BOOLEAN_VALUE_FALSE = "false"
+    const val EMPTY_VALUE = ""
 }
