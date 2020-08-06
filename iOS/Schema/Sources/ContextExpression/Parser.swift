@@ -29,16 +29,33 @@ extension Parser {
 // MARK: Basic Parsers
 
 let int = Parser<Int> { str in
-    let prefix = str.prefix { $0.isNumber }
-    let match = Int(prefix)
-    str.removeFirst(prefix.count)
-    return match
+    let intString = prefix(with: #"^\d+"#).run(&str)
+    return Int(intString ?? "")
 }
 
-func literal(_ p: String) -> Parser<Void> {
+let double = Parser<Double> { str in
+    let doubleString = prefix(with: #"^\d+\.\d+"#).run(&str)
+    return Double(doubleString ?? "")
+}
+
+let bool = Parser<Bool> { str in
+    let boolString = prefix(with: #"^(true|false)"#).run(&str)
+    return Bool(boolString ?? "")
+}
+
+let literalString = prefix(with: #"^'([^'\\]|(\\.))*'$"#).map {
+    String($0.dropFirst().dropLast())
+}
+
+let literalNull = Parser<Void> { str in
+    let nullString = prefix(with: #"^null"#).run(&str)
+    return nullString == "null" ? () : nil
+}
+
+func literal(string: String) -> Parser<Void> {
     return Parser<Void> { str in
-        guard str.hasPrefix(p) else { return nil }
-        str.removeFirst(p.count)
+        guard str.hasPrefix(string) else { return nil }
+        str.removeFirst(string.count)
         return ()
     }
 }
@@ -55,34 +72,34 @@ func prefix(with regex: String) -> Parser<String> {
 // MARK: Path
 
 let pathIndexNode: Parser<Path.Node> = zip(
-    literal("["),
+    literal(string: "["),
     int,
-    literal("]")
+    literal(string: "]")
 ).map { _, int, _ in
     .index(int)
 }
 
-let pathKeyNode: Parser<Path.Node> = prefix(with: "[a-zA-Z0-9_]+").map { .key($0) }
+let pathKeyNode: Parser<Path.Node> = prefix(with: #"^(?!(true|false|null|'|\d))(\w)+"#).map { .key($0) }
 
 let pathHeadNodes: Parser<[Path.Node]> = zip(
     zeroOrOne(pathKeyNode),
-    zeroOrMore(pathIndexNode, separatedBy: literal(""))
+    zeroOrMore(pathIndexNode, separatedBy: literal(string: ""))
 ).flatMap { first, tail in
     if first.isEmpty && tail.isEmpty { return .never }
     return always(first + tail)
 }
 
 let pathTailNodes: Parser<[Path.Node]> = zip(
-    literal("."),
+    literal(string: "."),
     pathKeyNode,
-    zeroOrMore(pathIndexNode, separatedBy: literal(""))
+    zeroOrMore(pathIndexNode, separatedBy: literal(string: ""))
 ).map { _, first, tail in
     return [first] + tail
 }
 
 let path: Parser<Path> = zip(
     pathHeadNodes,
-    zeroOrMore(pathTailNodes, separatedBy: literal(""))
+    zeroOrMore(pathTailNodes, separatedBy: literal(string: ""))
 ).map { first, arrays in
     var array: [Path.Node] = first
     arrays.forEach {
@@ -91,20 +108,9 @@ let path: Parser<Path> = zip(
     return Path(nodes: array)
 }
 
-// MARK: Single Expression
-
-let singleExpression = Parser<SingleExpression> { str in
-    guard let binding = binding.run(&str) else { return nil }
-    return .binding(binding)
-}
-
 // MARK: Binding
 
-let binding: Parser<Binding> = zip(
-    literal("@{"),
-    path,
-    literal("}")
-).flatMap { _, path, _ in
+let binding: Parser<Binding> = path.flatMap { path in
     var nodes = path.nodes
     let first = nodes.removeFirst()
     guard case let .key(context) = first else {
@@ -113,13 +119,47 @@ let binding: Parser<Binding> = zip(
     return always(Binding(context: context, path: Path(nodes: nodes)))
 }
 
+// MARK: Literal
+
+let literal = Parser<Literal> { str in
+    if let int = int.run(&str) {
+        return .int(int)
+    } else if let double = double.run(&str) {
+        return .double(double)
+    } else if let bool = bool.run(&str) {
+        return .bool(bool)
+    } else if let string = literalString.run(&str) {
+        return .string(string)
+    } else if literalNull.run(&str) != nil {
+        return .null
+    } else {
+        return nil
+    }
+}
+
+// MARK: Single Expression
+
+let singleExpression: Parser<SingleExpression> = zip(
+    literal(string: "@{"),
+    zip(zeroOrOne(binding), zeroOrOne(literal)),
+    literal(string: "}")
+).flatMap { _, tupleArray, _ in
+    if let binding = tupleArray.0.first {
+        return always(.binding(binding))
+    } else if let literal = tupleArray.1.first {
+        return always(.literal(literal))
+    }
+    
+    return .never
+}
+
 // MARK: Multiple Expression
 
 let stringNode: Parser<MultipleExpression.Node> = prefix(with: "(\\\\\\\\|\\\\@|[^\\@]|\\@(?!\\{))+").map { .string($0) }
 let expressionNode: Parser<MultipleExpression.Node> = singleExpression.map { .expression($0) }
 
 let multipleExpression: Parser<MultipleExpression> = zeroOrMore(
-    oneOf([stringNode, expressionNode]), separatedBy: literal("")
+    oneOf([stringNode, expressionNode]), separatedBy: literal(string: "")
 ).flatMap { array in
     var result: [MultipleExpression.Node] = []
     var hasExpression = false

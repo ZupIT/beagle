@@ -17,29 +17,34 @@
 
 import Foundation
 
-public struct Binding: Decodable, Equatable {
-    public let context: String
-    public let path: Path
-    
-    public init(context: String, path: Path) {
-        self.context = context
-        self.path = path
-    }
+public enum Literal: Equatable, Decodable {
+    case int(Int)
+    case double(Double)
+    case bool(Bool)
+    case string(String)
+    case null
 }
 
-extension Binding: RawRepresentable {
+extension Literal: RawRepresentable {
     public init?(rawValue: String) {
-        let result = binding.run(rawValue)
-        guard let binding = result.match, result.rest.isEmpty else { return nil }
-        self.context = binding.context
-        self.path = binding.path
+        let result = literal.run(rawValue)
+        guard let literal = result.match, result.rest.isEmpty else { return nil }
+        
+        self = literal
     }
 
     public var rawValue: String {
-        var result = "\(context)"
-        if !path.nodes.isEmpty {
-            result += ".\(path.rawValue)"
+        switch self {
+        case .string(let string):
+            return "'\(string)'"
+        case .int(let int):
+            return "\(int)"
+        case .double(let double):
+            return "\(double)"
+        case .bool(let bool):
+            return "\(bool)"
+        case .null:
+            return "null"
         }
-        return result
     }
 }

@@ -26,19 +26,27 @@ public enum ContextExpression: Equatable {
 
 public enum SingleExpression: Decodable, Equatable {
     case binding(Binding)
+    case literal(Literal)
 }
 
 extension SingleExpression: RawRepresentable {
     public init?(rawValue: String) {
-        guard let rawBinding = Binding(rawValue: rawValue) else { return nil }
-        self = .binding(rawBinding)
+        let result = singleExpression.run(rawValue)
+        guard let expression = result.match, result.rest.isEmpty else { return nil }
+        self = expression
     }
     
     public var rawValue: String {
+        var result = "@{"
         switch self {
         case let .binding(binding):
-            return binding.rawValue
+            result += binding.rawValue
+        case let .literal(literal):
+            result += literal.rawValue
         }
+        
+        result += "}"
+        return result
     }
 }
 

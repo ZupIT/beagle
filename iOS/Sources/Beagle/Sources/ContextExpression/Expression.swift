@@ -85,6 +85,8 @@ extension SingleExpression {
         case .binding(let binding):
             var nodes = binding.path.nodes[...]
             return SingleExpression.evaluate(&nodes, model)
+        case .literal(let literal):
+            return SingleExpression.evaluate(literal)
         }
     }
     
@@ -106,6 +108,21 @@ extension SingleExpression {
             }
             expression.removeFirst()
             return evaluate(&expression, value)
+        }
+    }
+    
+    private static func evaluate(_ literal: Literal) -> DynamicObject {
+        switch literal {
+        case .int(let int):
+            return .int(int)
+        case .double(let double):
+            return .double(double)
+        case .bool(let bool):
+            return .bool(bool)
+        case .string(let string):
+            return .string(string)
+        case .null:
+            return .empty
         }
     }
     

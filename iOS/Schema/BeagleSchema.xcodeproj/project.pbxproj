@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		252D727524D84AEF0069541F /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252D727424D84AEF0069541F /* Binding.swift */; };
+		252D727924D8AE850069541F /* Literal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252D727824D8AE850069541F /* Literal.swift */; };
 		570434EE24A675AE00DAD0D3 /* buttonComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = 570434EC24A6753000DAD0D3 /* buttonComponent.json */; };
 		6E71540324B39EFB0025B850 /* SimpleFormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E71540124B3953C0025B850 /* SimpleFormTests.swift */; };
 		6E71540924B3A7860025B850 /* simpleFormComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = 6E71540824B3A7860025B850 /* simpleFormComponent.json */; };
@@ -133,6 +134,7 @@
 
 /* Begin PBXFileReference section */
 		252D727424D84AEF0069541F /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
+		252D727824D8AE850069541F /* Literal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Literal.swift; sourceTree = "<group>"; };
 		570434EC24A6753000DAD0D3 /* buttonComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = buttonComponent.json; sourceTree = "<group>"; };
 		6E71540124B3953C0025B850 /* SimpleFormTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleFormTests.swift; sourceTree = "<group>"; };
 		6E71540824B3A7860025B850 /* simpleFormComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = simpleFormComponent.json; sourceTree = "<group>"; };
@@ -348,6 +350,7 @@
 				938B13BA2497E59B00AA8E3B /* Context.swift */,
 				935278E9249954F500AB9D1F /* DynamicObject.swift */,
 				935278E7249952DE00AB9D1F /* Expression.swift */,
+				252D727824D8AE850069541F /* Literal.swift */,
 				93BFE329249E2E34009838CE /* Parser.swift */,
 				938B13BE2497E6A700AA8E3B /* Path.swift */,
 				935278EB249956C200AB9D1F /* Tests */,
@@ -1259,6 +1262,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				252D727924D8AE850069541F /* Literal.swift in Sources */,
 				C864D2A7247C240200E7A1F9 /* FormInputComponent.swift in Sources */,
 				C864D2E0247C240200E7A1F9 /* Flex.swift in Sources */,
 				C864D2DA247C240200E7A1F9 /* FormLocalAction.swift in Sources */,
