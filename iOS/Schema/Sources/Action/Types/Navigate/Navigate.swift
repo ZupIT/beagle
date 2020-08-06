@@ -38,7 +38,6 @@ public enum Navigate: RawAction {
     /// Returns the stack of screens in the application flow for a given screen in a route that is passed as String.
     case popToView(String)
     
-    /// Opens up a route that executes the action declared in the defined deeplink for the application.
     public struct OpenNativeRoute {
         /// Deeplink identifier.
         public let route: String
