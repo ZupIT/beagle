@@ -70,8 +70,14 @@ extension Route {
     public struct NewPath {
         /// Contains the navigation endpoint.
         public let url: String
-        /// Tells Beagle if the navigation request should be previously loaded or not.
+        
+        /// Changes _when_ this screen is requested.
+        ///
+        /// - If __false__, Beagle will only request this screen when the Navigate action gets triggered (e.g: user taps a Button).
+        /// - If __true__, Beagle will trigger the request as soon as it renders the component that have
+        /// this action. (e.g: when a Button appears on the screen it will trigger)
         public let shouldPrefetch: Bool
+        
         /// An screen that should be rendered in case of request fail.
         public let fallback: Screen?
 
