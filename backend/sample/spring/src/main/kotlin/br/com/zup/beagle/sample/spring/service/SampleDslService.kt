@@ -21,7 +21,5 @@ import org.springframework.stereotype.Service
 
 @Service
 class SampleDslService {
-
     fun getDslScreen() = ListViewDslScreenBuilder
-
 }
