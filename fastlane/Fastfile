@@ -42,6 +42,7 @@ platform :ios do
       device: "iPhone 11"
     )
     run_codecov(platform: 'ios')
+    iOSCocoaPodsIntegration
   end
 
   desc "Run iOS SwiftLint"
@@ -50,6 +51,26 @@ platform :ios do
     mode: :lint,      # SwiftLint mode: :lint (default) or :autocorrect
     ignore_exit_status: true    # Allow fastlane to continue even if SwiftLint returns a non-zero exit status
   )
+  end
+
+  desc "CocoaPods Integration test"
+  private_lane :iOSCocoaPodsIntegration do 
+    xcversion(version: "~> 11.5.0")
+    installCocoaPods
+    scan(
+      workspace: "iOS/Example/CocoaPodsTest/CocoaPodsTest.xcworkspace",
+      scheme: "CocoaPodsTest",
+      device: "iPhone 11"
+    )
+  end
+
+
+  desc "Install CocoaPods"
+  private_lane :installCocoaPods do
+    cocoapods(
+      clean_install: true,
+      podfile: "iOS/Example/CocoaPodsTest/Podfile"
+    )
   end
 
   desc "Updates versions on Podspec"
