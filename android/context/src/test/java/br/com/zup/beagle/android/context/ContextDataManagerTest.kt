@@ -32,8 +32,10 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
+import io.mockk.unmockkAll
 import io.mockk.verify
 import org.json.JSONObject
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
@@ -73,6 +75,11 @@ class ContextDataManagerTest {
 
         contexts = contextDataManager.getPrivateField("contexts")
         viewBinding = contextDataManager.getPrivateField("viewBinding")
+    }
+
+    @After
+    fun tearDown() {
+        unmockkAll()
     }
 
     @Test

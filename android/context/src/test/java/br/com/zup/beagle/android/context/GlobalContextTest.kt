@@ -22,6 +22,8 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockkObject
+import io.mockk.unmockkAll
+import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -34,8 +36,14 @@ class GlobalContextTest {
 
         every { BeagleContextLogs.errorWhileTryingToChangeContext(any()) } just Runs
         every { BeagleContextLogs.errorWhileTryingToAccessContext(any()) } just Runs
+        every { BeagleContextLogs.errorWhileTryingToNotifyContextChanges(any()) } just Runs
 
         GlobalContext.clear()
+    }
+
+    @After
+    fun tearDown() {
+        unmockkAll()
     }
 
     @Test
