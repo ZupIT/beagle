@@ -21,10 +21,9 @@ apply from: rootProject.file('../jacoco.gradle')
 
 dependencies {
     implementation Dependencies.GeneralLibraries.kotlinReflect
-
-    implementation Dependencies.MicronautLibraries.runtime
     implementation Dependencies.MicronautLibraries.netty
 
+    api Dependencies.MicronautLibraries.runtime
     api project(Dependencies.Modules.framework)
 
     kapt Dependencies.MicronautLibraries.injectJava

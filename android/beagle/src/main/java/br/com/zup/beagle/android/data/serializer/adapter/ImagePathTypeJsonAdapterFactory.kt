@@ -16,15 +16,15 @@
 
 package br.com.zup.beagle.android.data.serializer.adapter
 
-import br.com.zup.beagle.android.components.PathType
+import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.android.data.serializer.PolymorphicJsonAdapterFactory
 
 private const val BEAGLE_IMAGE_TYPE = "_beagleImagePath_"
 
 internal object ImagePathTypeJsonAdapterFactory {
-    fun make(): PolymorphicJsonAdapterFactory<PathType> =
-        PolymorphicJsonAdapterFactory.of(PathType::class.java, BEAGLE_IMAGE_TYPE)
-            .withSubtype(PathType.Local::class.java, "local")
-            .withSubtype(PathType.Remote::class.java, "remote")
+    fun make(): PolymorphicJsonAdapterFactory<ImagePath> =
+        PolymorphicJsonAdapterFactory.of(ImagePath::class.java, BEAGLE_IMAGE_TYPE)
+            .withSubtype(ImagePath.Local::class.java, "local")
+            .withSubtype(ImagePath.Remote::class.java, "remote")
 
 }
