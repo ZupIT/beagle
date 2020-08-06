@@ -47,6 +47,9 @@ interface BeagleSdk {
     fun registeredActions(): List<Class<Action>>
 
     fun init(application: Application) {
+        if (config.environment == Environment.DEBUG)
+            setInTestMode()
+
         BeagleEnvironment.beagleSdk = this
         BeagleEnvironment.application = application
         SoLoader.init(application, false)
