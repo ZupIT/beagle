@@ -33,7 +33,7 @@ class ImageTests: XCTestCase {
     lazy var controller = BeagleControllerStub(dependencies: dependencies)
     lazy var renderer = BeagleRenderer(controller: controller)
     
-    func testContetMode() {
+    func testContentMode() {
         //Given
         let expectedContentMode = UIImageView.ContentMode.scaleToFill
         let component = Image(.value(.local("teste")), mode: .fitXY)

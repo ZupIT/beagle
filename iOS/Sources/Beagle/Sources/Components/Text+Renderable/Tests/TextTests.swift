@@ -87,18 +87,4 @@ class TextTests: XCTestCase {
         let view = renderer.render(text)
         assertSnapshotImage(view, size: .custom(CGSize(width: 300, height: 150)))
     }
-    
-    func testTextLeak() {
-        // Given
-        let component = Text("Test", alignment: Expression.value(.left))
-        var label = renderer.render(component) as? UITextView
-        weak var weakLabel = label
-        
-        // When
-        label = nil
-        
-        // Then
-        XCTAssertNil(weakLabel)
-    }
-
 }
