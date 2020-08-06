@@ -20,8 +20,8 @@ apply from: rootProject.file('../jacoco.gradle')
 
 dependencies {
     implementation Dependencies.SpringLibraries.autoconfigure
-    implementation Dependencies.SpringLibraries.webStarter
 
+    api Dependencies.SpringLibraries.webStarter
     api project(Dependencies.Modules.framework)
 
     annotationProcessor Dependencies.SpringLibraries.autoconfigureProcessor

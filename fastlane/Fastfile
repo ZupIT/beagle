@@ -78,7 +78,7 @@ platform :ios do
     version_bump_podspec(path: "Beagle.podspec", version_number: last_git_tag)
     version_bump_podspec(path: "BeagleSchema.podspec", version_number: last_git_tag)
     pod_push(path: "BeagleSchema.podspec", allow_warnings: true)
-    pod_push(path: "Beagle.podspec", allow_warnings: true)
+    pod_push(path: "Beagle.podspec", allow_warnings: true, synchronous: true)
   end
 
 end
