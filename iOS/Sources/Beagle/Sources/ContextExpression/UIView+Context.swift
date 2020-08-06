@@ -31,18 +31,22 @@ extension UIView {
     }
 
     var contextMap: [String: Observable<Context>] {
+        // swiftlint:disable implicit_getter
         get {
             return (objc_getAssociatedObject(self, &UIView.contextMapKey) as? ObjectWrapper)?.object ?? [String: Observable<Context>]()
         }
+        // swiftlint:enable implicit_getter
         set {
             objc_setAssociatedObject(self, &UIView.contextMapKey, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
         
     var expressionLastValueMap: [String: DynamicObject] {
+        // swiftlint:disable implicit_getter
         get {
             return (objc_getAssociatedObject(self, &UIView.expressionLastValueMapKey) as? ObjectWrapper)?.object ?? [String: DynamicObject]()
         }
+        // swiftlint:enable implicit_getter
         set {
             objc_setAssociatedObject(self, &UIView.expressionLastValueMapKey, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
@@ -71,7 +75,8 @@ extension UIView {
     // MARK: Single Expression
     
     private func configBinding<T: Decodable>(for expression: SingleExpression, completion: @escaping (T?) -> Void) {
-        guard let context = getContext(with: expression.context) else { return }
+        guard case .binding(let binding) = expression,
+            let context = getContext(with: binding.context) else { return }
         let closure: (Context) -> Void = { context in
             let dynamicObject = expression.evaluate(model: context.value)
             let value: T? = self.transform(dynamicObject)
@@ -83,7 +88,8 @@ extension UIView {
     }
     
     private func evaluate<T: Decodable>(for expression: SingleExpression) -> T? {
-        guard let context = getContext(with: expression.context) else { return nil }
+        guard case .binding(let binding) = expression,
+            let context = getContext(with: binding.context) else { return nil }
         let dynamicObject = expression.evaluate(model: context.value.value)
         expressionLastValueMap[expression.rawValue] = dynamicObject
         return transform(dynamicObject)
@@ -94,9 +100,10 @@ extension UIView {
     private func configBinding<T: Decodable>(for expression: MultipleExpression, completion: @escaping (T?) -> Void) {
         expression.nodes.forEach {
             if case let .expression(single) = $0 {
-                guard let context = getContext(with: single.context) else { return }
+                guard case .binding(let binding) = single,
+                    let context = getContext(with: binding.context) else { return }
                 let closure: (Context) -> Void = { _ in
-                    let value: T? = self.evaluate(for: expression, contextId: single.context)
+                    let value: T? = self.evaluate(for: expression, contextId: binding.context)
                     completion(value)
                 }
                 let contextObserver = ContextObserver(onContextChange: closure)
@@ -170,11 +177,11 @@ extension UIView {
         
     // expression last value cache is used only for multiple expressions binding
     private func evaluateWithCache<T: Decodable>(for expression: SingleExpression, contextId: String? = nil) -> T? {
-        if contextId == nil || contextId == expression.context {
+        if case let .binding(binding) = expression,
+            contextId == nil || contextId == binding.context {
             return evaluate(for: expression)
         } else {
             return transform(expressionLastValueMap[expression.rawValue] ?? .empty)
         }
     }
-    
 }

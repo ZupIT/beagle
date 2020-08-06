@@ -81,8 +81,11 @@ extension Expression: ExpressibleByFloatLiteral where T == Float {
 extension SingleExpression {
 
     func evaluate(model: DynamicObject) -> DynamicObject {
-        var nodes = self.path.nodes[...]
-        return SingleExpression.evaluate(&nodes, model)
+        switch self {
+        case .binding(let binding):
+            var nodes = binding.path.nodes[...]
+            return SingleExpression.evaluate(&nodes, model)
+        }
     }
     
     private static func evaluate(_ expression: inout ArraySlice<Path.Node>, _ model: DynamicObject) -> DynamicObject {

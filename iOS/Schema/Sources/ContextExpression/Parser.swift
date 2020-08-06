@@ -93,7 +93,14 @@ let path: Parser<Path> = zip(
 
 // MARK: Single Expression
 
-let singleExpression: Parser<SingleExpression> = zip(
+let singleExpression = Parser<SingleExpression> { str in
+    guard let binding = binding.run(&str) else { return nil }
+    return .binding(binding)
+}
+
+// MARK: Binding
+
+let binding: Parser<Binding> = zip(
     literal("@{"),
     path,
     literal("}")
@@ -103,7 +110,7 @@ let singleExpression: Parser<SingleExpression> = zip(
     guard case let .key(context) = first else {
         return .never
     }
-    return always(SingleExpression(context: context, path: Path(nodes: nodes)))
+    return always(Binding(context: context, path: Path(nodes: nodes)))
 }
 
 // MARK: Multiple Expression

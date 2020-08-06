@@ -24,31 +24,21 @@ public enum ContextExpression: Equatable {
     case multiple(MultipleExpression)
 }
 
-public struct SingleExpression: Decodable, Equatable {
-    public let context: String
-    public let path: Path
-    
-    public init(context: String, path: Path) {
-        self.context = context
-        self.path = path
-    }
+public enum SingleExpression: Decodable, Equatable {
+    case binding(Binding)
 }
 
 extension SingleExpression: RawRepresentable {
     public init?(rawValue: String) {
-        let result = singleExpression.run(rawValue)
-        guard let expression = result.match, result.rest.isEmpty else { return nil }
-        self.context = expression.context
-        self.path = expression.path
+        guard let rawBinding = Binding(rawValue: rawValue) else { return nil }
+        self = .binding(rawBinding)
     }
-
+    
     public var rawValue: String {
-        var result = "@{\(context)"
-        if !path.nodes.isEmpty {
-            result += ".\(path.rawValue)"
+        switch self {
+        case let .binding(binding):
+            return binding.rawValue
         }
-        result += "}"
-        return result
     }
 }
 
