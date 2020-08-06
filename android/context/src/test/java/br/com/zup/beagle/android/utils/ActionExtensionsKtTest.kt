@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.utils
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.ContextConstant
 import br.com.zup.beagle.android.context.ContextData
@@ -25,7 +26,6 @@ import br.com.zup.beagle.android.fake.createViewForContext
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.ActivityRootView
-import br.com.zup.beagle.android.widget.ViewModelProviderFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.mockk.*
@@ -56,9 +56,8 @@ class ActionExtensionsKtTest {
 
         viewModel = ScreenContextViewModel()
 
-        mockkObject(ViewModelProviderFactory)
-
-        every { ViewModelProviderFactory.of(any<AppCompatActivity>())[viewModel::class.java] } returns viewModel
+        mockkConstructor(ViewModelProvider::class)
+        every { anyConstructed<ViewModelProvider>().get(ScreenContextViewModel::class.java) } returns viewModel
 
     }
 

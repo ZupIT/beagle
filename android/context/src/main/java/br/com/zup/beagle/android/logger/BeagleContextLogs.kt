@@ -43,9 +43,13 @@ object BeagleContextLogs  {
         BeagleLoggerProxy.warning(errorMessage)
     }
 
-
     fun errorWhenExpressionEvaluateNullValue(value: String) {
         val errorMessage = "Could not found value for $value"
         BeagleLoggerProxy.error(errorMessage)
+    }
+
+    fun globalKeywordIsReservedForGlobalContext() {
+        val errorMessage = "Context name global is a reserved keyword for Global Context only"
+        BeagleLoggerProxy.warning(errorMessage)
     }
 }

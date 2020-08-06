@@ -137,5 +137,5 @@ data class TabBar(
 
 data class TabBarItem(
     val title: String? = null,
-    val icon: PathType.Local? = null
+    val icon: ImagePath.Local? = null
 )

@@ -16,12 +16,18 @@
  */
 
 import BeagleSchema
+import UIKit
 
 extension FormValidation: Action {
-    public func execute(controller: BeagleController, sender: Any) {
-        let inputViews = (sender as? SubmitFormGestureRecognizer)?.formInputViews()
+    public func execute(controller: BeagleController, origin: UIView) {
+        origin.gestureRecognizers?
+            .compactMap { $0 as? SubmitFormGestureRecognizer }
+            .forEach { validateInputs($0.formInputViews()) }
+    }
+    
+    private func validateInputs(_ views: [UIView]) {
         for error in errors {
-            let errorListener = inputViews?.first { view in
+            let errorListener = views.first { view in
                 (view.beagleFormElement as? Deprecated.FormInput)?.name == error.inputName
             } as? ValidationErrorListener
             errorListener?.onValidationError(message: error.message)

@@ -36,13 +36,11 @@ import br.com.zup.beagle.android.view.custom.OnStateChanged
 import br.com.zup.beagle.android.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.ActivityRootView
 import br.com.zup.beagle.android.widget.FragmentRootView
-import br.com.zup.beagle.android.widget.ViewModelProviderFactory
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
-import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
@@ -61,10 +59,10 @@ class ViewGroupExtensionsKtTest : BaseTest() {
     @MockK(relaxUnitFun = true, relaxed = true)
     private lateinit var viewModel : ScreenContextViewModel
 
-    @MockK
+    @RelaxedMockK
     private lateinit var fragment: Fragment
 
-    @MockK
+    @RelaxedMockK
     private lateinit var activity: AppCompatActivity
 
     @MockK
@@ -91,12 +89,10 @@ class ViewGroupExtensionsKtTest : BaseTest() {
         super.setUp()
 
         mockkStatic(TextViewCompat::class)
-        mockkObject(ViewModelProviderFactory)
 
         BeagleConstants.viewFactory = viewFactory
 
-        every { ViewModelProviderFactory.of(any<Fragment>())[ScreenContextViewModel::class.java] } returns viewModel
-        every { ViewModelProviderFactory.of(any<AppCompatActivity>())[ScreenContextViewModel::class.java] } returns viewModel
+        prepareViewModelMock(viewModel)
         every { viewFactory.makeBeagleView(any()) } returns beagleView
         every { viewFactory.makeView(any()) } returns beagleView
         every { viewGroup.addView(capture(viewSlot)) } just Runs
@@ -118,8 +114,8 @@ class ViewGroupExtensionsKtTest : BaseTest() {
         verifySequence {
             viewModel.resetIds()
             viewFactory.makeBeagleView(activity)
-            beagleView.loadView(any<FragmentRootView>(), screenRequest)
             beagleView.stateChangedListener = any()
+            beagleView.loadView(any<FragmentRootView>(), screenRequest)
             beagleView.loadCompletedListener = any()
         }
     }

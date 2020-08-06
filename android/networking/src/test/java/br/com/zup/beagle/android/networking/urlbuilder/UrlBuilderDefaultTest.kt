@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.networking.urlbuilder
 
-import br.com.zup.beagle.android.networking.utils.IoUtils
+import br.com.zup.beagle.android.utils.IoUtils
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test

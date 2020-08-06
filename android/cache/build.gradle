@@ -49,7 +49,7 @@ android {
 }
 
 dependencies {
-    implementation project(Dependencies.Modules.store)
+    api project(Dependencies.Modules.store)
     implementation project(Dependencies.Modules.networking)
 
     testImplementation project(Dependencies.Modules.sharedTest)

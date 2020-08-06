@@ -23,7 +23,6 @@ import javax.inject.Singleton
 
 @Singleton
 class PlatformService {
-
     fun renderComponentUsingPlatform() = CustomPlatformBuilder(BeagleSessionUtil.getBeaglePlatformFromSession())
 
     fun renderComponent() = PlatformBuilder

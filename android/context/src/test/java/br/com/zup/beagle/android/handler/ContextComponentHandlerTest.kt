@@ -17,14 +17,12 @@
 package br.com.zup.beagle.android.handler
 
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.fake.ContainerFake
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.ActivityRootView
-import br.com.zup.beagle.android.widget.ViewModelProviderFactory
-import br.com.zup.beagle.core.ServerDrivenComponent
 import io.mockk.*
 import org.junit.After
 import org.junit.Before
@@ -43,13 +41,12 @@ class ContextComponentHandlerTest {
     fun setUp() {
         contextComponentHandler = ContextComponentHandler()
 
-        mockkObject(ViewModelProviderFactory)
+        mockkConstructor(ViewModelProvider::class)
 
-        every { rootView.activity } returns mockk()
-        every {
-            ViewModelProviderFactory.of(any<AppCompatActivity>())
-                .get(ScreenContextViewModel::class.java)
-        } returns viewModel
+        every { rootView.activity } returns mockk(relaxed = true)
+        every { rootView.getViewModelStoreOwner() } returns rootView.activity
+
+        every { anyConstructed<ViewModelProvider>().get(ScreenContextViewModel::class.java) } returns viewModel
 
         every { viewModel.generateNewViewId() } returns viewId
         every { view.id } returns View.NO_ID

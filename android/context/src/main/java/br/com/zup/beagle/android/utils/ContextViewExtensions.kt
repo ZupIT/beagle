@@ -35,7 +35,7 @@ internal fun View.findParentContextWithId(contextId: String): View? {
     return null
 }
 
-internal fun View.getAllParentContexts(): Map<String, ContextBinding> {
+internal fun View.getAllParentContexts(): MutableMap<String, ContextBinding> {
     val contexts = mutableMapOf<String, ContextBinding>()
 
     var parentView: View? = this.getParentContextData()

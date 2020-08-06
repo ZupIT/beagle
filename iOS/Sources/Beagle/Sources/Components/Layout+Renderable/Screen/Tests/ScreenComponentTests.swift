@@ -96,7 +96,10 @@ final class ScreenComponentTests: XCTestCase {
         // Given
         let action = ActionSpy()
         let barItem = NavigationBarItem(text: "shuttle", action: action)
-        let controller = BeagleControllerStub()
+        let controller = BeagleScreenViewController(ComponentDummy())
+        let navigation = BeagleNavigationController()
+        navigation.viewControllers = [controller]
+        _ = controller.view
         
         // When
         let resultingView = barItem.toBarButtonItem(controller: controller)

@@ -21,7 +21,6 @@ import android.widget.ImageView
 import br.com.zup.beagle.android.data.formatUrl
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.setup.BeagleEnvironment.beagleSdk
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.view.ComponentsViewFactory
 import br.com.zup.beagle.android.view.RoundedImageView
@@ -76,8 +75,8 @@ class ImageViewRendererTest : BaseComponentTest() {
         every { beagleSdk.designSystem } returns mockk()
         every { beagleSdk.designSystem!!.image(any()) } returns IMAGE_RES
 
-        imageLocal = Image(PathType.Local("imageName"))
-        imageRemote = Image(PathType.Remote(DEFAULT_URL)).applyStyle(style)
+        imageLocal = Image(ImagePath.Local("imageName"))
+        imageRemote = Image(ImagePath.Remote(DEFAULT_URL)).applyStyle(style)
     }
 
     @Test
@@ -92,7 +91,7 @@ class ImageViewRendererTest : BaseComponentTest() {
     @Test
     fun build_should_return_a_beagle_image_view_instance_and_set_data_when_path_is_remote() {
         //Given
-        imageRemote = Image(PathType.Remote(""))
+        imageRemote = Image(ImagePath.Remote(""))
 
         // When
         val view = imageRemote.buildView(rootView)

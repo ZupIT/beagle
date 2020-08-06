@@ -59,6 +59,8 @@ sourceSets {
 dependencies {
     implementation Dependencies.AndroidxLibraries.recyclerView
     implementation Dependencies.GoogleLibraries.materialDesign
+    implementation Dependencies.AndroidxLibraries.coreKtx
+    implementation Dependencies.GeneralLibraries.kotlinCoroutines
 
     implementation Dependencies.GlideLibraries.glide
     kapt Dependencies.GlideLibraries.glideCompiler

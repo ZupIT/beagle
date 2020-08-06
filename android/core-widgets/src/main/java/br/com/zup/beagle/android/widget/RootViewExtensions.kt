@@ -16,25 +16,10 @@
 
 package br.com.zup.beagle.android.widget
 
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import br.com.zup.beagle.android.widget.RootView
 
 inline fun <reified T : ViewModel> RootView.generateViewModelInstance(): T {
-    return when (this) {
-        is ActivityRootView -> {
-            val activity = this.activity
-            ViewModelProviderFactory.of(activity).get(T::class.java)
-        }
-        else -> {
-            val fragment = (this as FragmentRootView).fragment
-            ViewModelProviderFactory.of(fragment).get(T::class.java)
-        }
-    }
-}
-
-object ViewModelProviderFactory {
-    fun of(fragment: Fragment) = ViewModelProvider(fragment)
-    fun of(activity: AppCompatActivity) = ViewModelProvider(activity)
+    return ViewModelProvider(this.getViewModelStoreOwner()).get(T::class.java)
 }

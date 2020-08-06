@@ -23,7 +23,7 @@ import br.com.zup.beagle.android.data.ActionRequester
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.networking.ResponseData
 import br.com.zup.beagle.android.networking.exception.BeagleApiException
-import br.com.zup.beagle.android.testutil.CoroutineTestRule
+import br.com.zup.beagle.android.utils.CoroutineTestRule
 import br.com.zup.beagle.android.view.mapper.toRequestData
 import br.com.zup.beagle.android.view.mapper.toResponse
 import io.mockk.MockKAnnotations

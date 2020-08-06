@@ -44,7 +44,7 @@ class TabBarTest : BaseComponentTest() {
     private val styleManager: StyleManager = mockk(relaxed = true)
     private val currentTab: Bind<Int> = mockk(relaxed = true)
     private val onTabSelection: List<Action> = mockk(relaxed = true)
-    private val icon: PathType.Local = mockk(relaxed = true)
+    private val icon: ImagePath.Local = mockk(relaxed = true)
     private val styleSlot = mutableListOf<Style>()
     private val onTabSelectedSlot = slot<TabLayout.OnTabSelectedListener>()
 

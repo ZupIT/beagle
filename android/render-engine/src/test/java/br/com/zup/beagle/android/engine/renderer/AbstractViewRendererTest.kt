@@ -17,13 +17,11 @@
 package br.com.zup.beagle.android.engine.renderer
 
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.handler.ComponentStylization
 import br.com.zup.beagle.android.handler.ContextComponentHandler
 import br.com.zup.beagle.android.widget.RootView
-import br.com.zup.beagle.android.widget.ViewModelProviderFactory
 import br.com.zup.beagle.widget.Widget
 import io.mockk.Runs
 import io.mockk.every
@@ -58,10 +56,6 @@ class AbstractViewRendererTest {
 
     @Before
     fun setUp() {
-        mockkObject(ViewModelProviderFactory)
-
-        every { ViewModelProviderFactory.of(any<AppCompatActivity>())[viewModel::class.java] } returns viewModel
-
         viewRenderer = spyk(AbstractViewRenderer(
             component,
             componentStylization,

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -35,6 +34,7 @@ data class TabView(
     val styleId: String? = null,
     override val context: ContextData? = null
 ) : ServerDrivenComponent, ContextComponent
+
 /**
  * Define the view has in the tab view
  *

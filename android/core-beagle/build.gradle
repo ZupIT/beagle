@@ -65,21 +65,19 @@ dependencies {
     implementation Dependencies.MoshiLibraries.kotlin
     implementation Dependencies.MoshiLibraries.adapters
 
-    implementation project(Dependencies.Modules.networking)
-    implementation project(Dependencies.Modules.extendedSchema)
-    implementation project(Dependencies.Modules.schemaKotlinCore)
-    implementation project(Dependencies.Modules.cache)
+    api project(Dependencies.Modules.networking)
+    api project(Dependencies.Modules.cache)
+    api project(Dependencies.Modules.logger)
+    api project(Dependencies.Modules.context)
+    api project(Dependencies.Modules.coreWidgets)
+    api project(Dependencies.Modules.coreActions)
+    api project(Dependencies.Modules.coreRenderEngine)
+    api project(Dependencies.Modules.coreDesignSystem)
 
-    implementation project(Dependencies.Modules.commonAnnotation)
-    implementation project(Dependencies.Modules.androidAnnotation)
-    implementation project(Dependencies.Modules.logger)
-    implementation project(Dependencies.Modules.networking)
-    implementation project(Dependencies.Modules.context)
-    implementation project(Dependencies.Modules.coreWidgets)
-    implementation project(Dependencies.Modules.coreActions)
-    implementation project(Dependencies.Modules.coreRenderEngine)
-    implementation project(Dependencies.Modules.coreDesignSystem)
-
+    api project(Dependencies.Modules.extendedSchema)
+    api project(Dependencies.Modules.schemaKotlinCore)
+    api project(Dependencies.Modules.commonAnnotation)
+    api project(Dependencies.Modules.androidAnnotation)
 
     testImplementation project(Dependencies.Modules.sharedTest)
     testImplementation Dependencies.TestLibraries.archCoreTesting

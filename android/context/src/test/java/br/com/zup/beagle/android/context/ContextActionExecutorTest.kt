@@ -17,20 +17,20 @@
 package br.com.zup.beagle.android.context
 
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.ContextActionExecutor
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.ActivityRootView
-import br.com.zup.beagle.android.widget.ViewModelProviderFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkConstructor
 import io.mockk.mockkObject
 import io.mockk.slot
 import io.mockk.unmockkAll
@@ -69,10 +69,10 @@ class ContextActionExecutorTest {
 
         contextActionExecutor = ContextActionExecutor()
 
-        every { action.execute(any(), view) } just Runs
-        mockkObject(ViewModelProviderFactory)
+        mockkConstructor(ViewModelProvider::class)
 
-        every { ViewModelProviderFactory.of(any<AppCompatActivity>())[viewModel::class.java] } returns viewModel
+        every { action.execute(any(), view) } just Runs
+        every { anyConstructed<ViewModelProvider>().get(ScreenContextViewModel::class.java) } returns viewModel
 
         every { viewModel.addImplicitContext(capture(contextDataSlot), any(), any()) } just Runs
     }

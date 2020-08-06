@@ -19,12 +19,12 @@ package br.com.zup.beagle.android.components.form.core
 import android.net.Uri
 import br.com.zup.beagle.android.action.FormMethodType
 import br.com.zup.beagle.android.action.FormRemoteAction
+import br.com.zup.beagle.android.components.utils.CoroutineTestRule
 import br.com.zup.beagle.android.data.BeagleApi
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.networking.HttpMethod
 import br.com.zup.beagle.android.networking.RequestData
 import br.com.zup.beagle.android.networking.urlbuilder.UrlBuilder
-import br.com.zup.beagle.android.testutil.CoroutineTestRule
 import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.BaseTest
 import io.mockk.coEvery

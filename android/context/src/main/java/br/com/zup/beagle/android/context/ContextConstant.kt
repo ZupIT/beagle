@@ -25,7 +25,7 @@ object ContextConstant {
     var memoryMaximumCapacity: Int = 0
 }
 
-object HandleEventDeprecatedConstants {
+internal object HandleEventDeprecatedConstants {
     const val HANDLE_EVENT_DEPRECATED_MESSAGE: String =
         "Use handleEvent without eventName and eventValue or with ContextData for create a implicit context"
     const val HANDLE_EVENT_POINTER: String = "handleEvent(rootView, origin, action)"

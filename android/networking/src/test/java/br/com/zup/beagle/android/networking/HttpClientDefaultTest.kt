@@ -17,8 +17,8 @@
 package br.com.zup.beagle.android.networking
 
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.testutil.CoroutineTestRule
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.utils.CoroutineTestRule
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
