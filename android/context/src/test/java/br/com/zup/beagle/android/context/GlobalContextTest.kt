@@ -31,9 +31,9 @@ class GlobalContextTest {
     @Before
     fun setUp() {
         mockkObject(BeagleContextLogs)
+
         every { BeagleContextLogs.errorWhileTryingToChangeContext(any()) } just Runs
         every { BeagleContextLogs.errorWhileTryingToAccessContext(any()) } just Runs
-
 
         GlobalContext.clear()
     }
