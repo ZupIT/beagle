@@ -26,7 +26,7 @@ import com.squareup.moshi.Moshi
 import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.reflect.Type
-import java.util.LinkedList
+import kotlin.text.Regex.Companion.escapeReplacement
 
 internal class ContextDataEvaluation(
     private val contextDataManipulator: ContextDataManipulator = ContextDataManipulator(),
@@ -96,7 +96,7 @@ internal class ContextDataEvaluation(
                 val key = "\\{([^\\{]*)\\}".toRegex().find(it)?.groups?.get(1)?.value
                 it.replace(
                     "\\@\\{\\w.+(\\.|\\w+)\\}".toRegex(),
-                    evaluatedExpressions[key].toString()
+                    escapeReplacement(evaluatedExpressions[key].toString())
                 )
             } else {
                 it
