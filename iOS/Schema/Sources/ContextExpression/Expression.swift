@@ -25,8 +25,7 @@ public enum ContextExpression: Equatable {
 }
 
 public enum SingleExpression: Decodable, Equatable {
-    case binding(Binding)
-    case literal(Literal)
+    case value(Value)
 }
 
 extension SingleExpression: RawRepresentable {
@@ -39,10 +38,8 @@ extension SingleExpression: RawRepresentable {
     public var rawValue: String {
         var result = "@{"
         switch self {
-        case let .binding(binding):
-            result += binding.rawValue
-        case let .literal(literal):
-            result += literal.rawValue
+        case let .value(value):
+            result += value.rawValue
         }
         
         result += "}"

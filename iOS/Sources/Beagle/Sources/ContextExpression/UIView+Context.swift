@@ -75,7 +75,7 @@ extension UIView {
     // MARK: Single Expression
     
     private func configBinding<T: Decodable>(for expression: SingleExpression, completion: @escaping (T?) -> Void) {
-        guard case .binding(let binding) = expression,
+        guard case .value(.binding(let binding)) = expression,
             let context = getContext(with: binding.context) else { return }
         let closure: (Context) -> Void = { context in
             let dynamicObject = expression.evaluate(model: context.value)
@@ -88,7 +88,7 @@ extension UIView {
     }
     
     private func evaluate<T: Decodable>(for expression: SingleExpression) -> T? {
-        guard case .binding(let binding) = expression,
+        guard case .value(.binding(let binding)) = expression,
             let context = getContext(with: binding.context) else { return nil }
         let dynamicObject = expression.evaluate(model: context.value.value)
         expressionLastValueMap[expression.rawValue] = dynamicObject
@@ -100,7 +100,7 @@ extension UIView {
     private func configBinding<T: Decodable>(for expression: MultipleExpression, completion: @escaping (T?) -> Void) {
         expression.nodes.forEach {
             if case let .expression(single) = $0 {
-                guard case .binding(let binding) = single,
+                guard case .value(.binding(let binding)) = single,
                     let context = getContext(with: binding.context) else { return }
                 let closure: (Context) -> Void = { _ in
                     let value: T? = self.evaluate(for: expression, contextId: binding.context)
@@ -177,7 +177,7 @@ extension UIView {
         
     // expression last value cache is used only for multiple expressions binding
     private func evaluateWithCache<T: Decodable>(for expression: SingleExpression, contextId: String? = nil) -> T? {
-        if case let .binding(binding) = expression,
+        if case .value(.binding(let binding)) = expression,
             contextId == nil || contextId == binding.context {
             return evaluate(for: expression)
         } else {

@@ -137,17 +137,30 @@ let literal = Parser<Literal> { str in
     }
 }
 
+// MARK: Value
+
+let value: Parser<Value> = zip(
+    zeroOrOne(binding),
+    zeroOrOne(literal)
+).flatMap { bindingArray, literalArray in
+    if let binding = bindingArray.first {
+        return always(.binding(binding))
+    } else if let literal = literalArray.first {
+        return always(.literal(literal))
+    }
+    
+    return .never
+}
+
 // MARK: Single Expression
 
 let singleExpression: Parser<SingleExpression> = zip(
     literal(string: "@{"),
-    zip(zeroOrOne(binding), zeroOrOne(literal)),
+    zeroOrOne(value),
     literal(string: "}")
-).flatMap { _, tupleArray, _ in
-    if let binding = tupleArray.0.first {
-        return always(.binding(binding))
-    } else if let literal = tupleArray.1.first {
-        return always(.literal(literal))
+).flatMap { _, valueArray, _ in
+    if let value = valueArray.first {
+        return always(.value(value))
     }
     
     return .never

@@ -82,10 +82,10 @@ extension SingleExpression {
 
     func evaluate(model: DynamicObject) -> DynamicObject {
         switch self {
-        case .binding(let binding):
+        case .value(.binding(let binding)):
             var nodes = binding.path.nodes[...]
             return SingleExpression.evaluate(&nodes, model)
-        case .literal(let literal):
+        case .value(.literal(let literal)):
             return SingleExpression.evaluate(literal)
         }
     }
