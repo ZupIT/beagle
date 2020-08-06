@@ -30,7 +30,7 @@ import br.com.zup.beagle.android.context.operations.strategy.string.withoutApost
  * @param output expression evaluated "can be null"
  * **/
 
-class EvaluateOperationExpression (expression: String) {
+internal class EvaluateOperationExpression (expression: String) {
 
     private var principalOperation: Operation = OperationExpressionReader()
             .readExpression(
