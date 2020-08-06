@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
- apply plugin: "com.vanniktech.maven.publish"
+apply plugin: "com.vanniktech.maven.publish"
 
- def versionName = System.env.VERSION_DEPLOY != null ? System.env.VERSION_DEPLOY : VERSION_NAME ?: ""
+def versionName = System.env.VERSION_DEPLOY != null ? System.env.VERSION_DEPLOY : VERSION_NAME ?: ""
 
 version = versionName
 
- mavenPublish {
-
-     nexus {
+mavenPublish {
+    nexus {
         stagingProfile = "br.com.zup"
-     }
+    }
 }
