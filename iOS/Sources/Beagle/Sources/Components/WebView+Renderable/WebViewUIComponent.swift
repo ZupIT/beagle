@@ -20,12 +20,18 @@ import WebKit
 // test loading, idle and loaded state if possible.
 final class WebViewUIComponent: UIView {
     
-    private var webView = WKWebView()
-    private var renderer: BeagleRenderer?
+    private weak var renderer: BeagleRenderer?
+    
+    private lazy var webView: WKWebView = {
+        let webView = WKWebView()
+        webView.navigationDelegate = self
+        return webView
+    }()
     
     private lazy var loadingView: UIActivityIndicatorView = {
         let loadingView = UIActivityIndicatorView()
         loadingView.color = .gray
+        loadingView.hidesWhenStopped = true
         return loadingView
     }()
     
@@ -34,6 +40,7 @@ final class WebViewUIComponent: UIView {
         stack.axis = .vertical
         stack.distribution = .fill
         stack.alignment = .fill
+        stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
 
@@ -66,11 +73,8 @@ final class WebViewUIComponent: UIView {
         addSubview(stackView)
         stackView.addArrangedSubview(loadingView)
         stackView.addArrangedSubview(webView)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.anchorTo(superview: self)
         loadingView.anchorCenterSuperview()
-        loadingView.hidesWhenStopped = true
-        webView.navigationDelegate = self
     }
 }
 
@@ -78,18 +82,18 @@ extension WebViewUIComponent: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation) {
         loadingView.stopAnimating()
         webView.isHidden = false
-        loadingView.stopAnimating()
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation, withError error: Error) {
         loadingView.stopAnimating()
+        webView.isHidden = false
         renderer?.controller.serverDrivenState = .error(
             .webView(error),
-            self.retryClosure(initialState: webView)
+            retryClosure()
         )
     }
     
-    private func retryClosure(initialState view: UIView) -> BeagleRetry {
+    private func retryClosure() -> BeagleRetry {
         return {
             self.updateView()
         }
