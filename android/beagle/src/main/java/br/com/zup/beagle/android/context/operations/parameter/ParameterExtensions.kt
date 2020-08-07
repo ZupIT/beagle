@@ -16,9 +16,11 @@
 
 package br.com.zup.beagle.android.context.operations.parameter
 
+import br.com.zup.beagle.android.context.operations.grammar.*
 import br.com.zup.beagle.android.context.operations.grammar.Constants
 import br.com.zup.beagle.android.context.operations.grammar.GrammarChars
 import br.com.zup.beagle.android.context.operations.grammar.RegularExpressions
+import br.com.zup.beagle.android.context.operations.grammar.getMatchResults
 
 internal fun String.toType() : Argument {
     val parameterType = removeWhiteSpaces().checkParameter()
@@ -31,18 +33,15 @@ internal fun String.toType() : Argument {
         ParameterTypes.ARRAY -> {
             val list: MutableList<Any> = ArrayList()
 
-            RegularExpressions.BETWEEN_BRACKET.toRegex()
-                .findAll(this).forEach {
-                    it.groupValues.forEachIndexed { index, match ->
-                        if (index == 1) {
-                            match.split(GrammarChars.COMMA).forEach { item ->
-                                list.add(
-                                    item.toType()
-                                )
-                            }
-                        }
+            this.getMatchResults(MatchTypes.ARRAY).forEachIndexed { index, match ->
+                if (index.isOperationTypeOrArrayMatch()) {
+                    match.split(GrammarChars.COMMA).forEach { item ->
+                        list.add(
+                            item.toType()
+                        )
                     }
                 }
+            }
 
             value = list
         }

@@ -86,12 +86,12 @@ internal class ExceptionController {
                     parameter.arguments.size.toString()
                 )
             } else if ((operationType == ArrayOperationTypes.REMOVE_INDEX || operationType == ArrayOperationTypes.INSERT) &&
-                parameter.arguments[parameter.arguments.size - 1].parameterType != ParameterTypes.NUMBER
+                parameter.arguments[parameter.arguments.lastIndex].parameterType != ParameterTypes.NUMBER
             ) {
                 throw ExceptionFactory.createException(
                     ExceptionParameterTypes.INDEX,
                     parameter.operation,
-                    parameter.arguments[parameter.arguments.size - 1].value.toString()
+                    parameter.arguments[parameter.arguments.lastIndex].value.toString()
                 )
             }
         }

@@ -23,3 +23,19 @@ internal object RegularExpressions {
     const val BETWEEN_APOSTROPHE_MARK = "'(.*?)'"
     const val BETWEEN_BRACKET = "\\${GrammarChars.OPEN_BRACKET}(.*?)\\${GrammarChars.CLOSE_BRACKET}"
 }
+
+internal fun String.getMatchResults(matchTypes: MatchTypes) : List<String> {
+    var matchResults: List<String> = ArrayList()
+
+    matchTypes.regex.findAll(this).forEach {
+        matchResults = it.groupValues
+    }
+
+    return matchResults
+}
+
+internal fun Int.isNotFullMatchItem() : Boolean = this > 0
+
+internal fun Int.isOperationTypeOrArrayMatch() : Boolean = this == 1
+
+internal fun Int.isOperationValueMatch() : Boolean = this == 2

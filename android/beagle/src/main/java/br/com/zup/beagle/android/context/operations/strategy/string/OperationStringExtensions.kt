@@ -16,9 +16,9 @@
 
 package br.com.zup.beagle.android.context.operations.strategy.string
 
+import br.com.zup.beagle.android.context.operations.grammar.*
 import br.com.zup.beagle.android.context.operations.grammar.Constants
-import br.com.zup.beagle.android.context.operations.grammar.GrammarChars
-import br.com.zup.beagle.android.context.operations.grammar.RegularExpressions
+import br.com.zup.beagle.android.context.operations.grammar.getMatchResults
 import br.com.zup.beagle.android.context.operations.parameter.Argument
 
 internal fun Argument.withoutApostrophe() : String {
@@ -28,14 +28,11 @@ internal fun Argument.withoutApostrophe() : String {
 internal fun String.withoutApostrophe() : String {
     var parameter = ""
 
-    RegularExpressions.BETWEEN_APOSTROPHE_MARK.toRegex()
-        .findAll(this).forEach {
-            it.groupValues.forEachIndexed { index, item ->
-                if (index > 0) {
-                    parameter = item
-                }
-            }
+    this.getMatchResults(MatchTypes.STRING).forEachIndexed { index, match ->
+        if (index.isNotFullMatchItem()) {
+            parameter = match
         }
+    }
 
     return parameter
 }

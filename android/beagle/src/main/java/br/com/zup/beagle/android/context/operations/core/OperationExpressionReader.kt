@@ -18,8 +18,9 @@ package br.com.zup.beagle.android.context.operations.core
 
 import br.com.zup.beagle.android.context.operations.common.ExtractValueFromExpressionPDA
 import br.com.zup.beagle.android.context.operations.common.ExtractValueTypes
+import br.com.zup.beagle.android.context.operations.grammar.*
 import br.com.zup.beagle.android.context.operations.grammar.GrammarChars
-import br.com.zup.beagle.android.context.operations.grammar.RegularExpressions
+import br.com.zup.beagle.android.context.operations.grammar.getMatchResults
 import br.com.zup.beagle.android.context.operations.operation.Operation
 import br.com.zup.beagle.android.context.operations.operation.OperationFactory
 import br.com.zup.beagle.android.context.operations.strategy.BaseOperation
@@ -56,19 +57,14 @@ internal class OperationExpressionReader {
         var operationValue = ""
 
         if (readMethod == ReadMethod.REGEX) {
-            RegularExpressions.SPLIT_OPERATION_TYPE_FROM_OPERATION_REGEX.toRegex()
-                .findAll(expression).forEach {
-                    it.groupValues.forEachIndexed { index, item ->
-                        if (index == 1) {
-                            operationStrategy =
-                                OperationFactory.create(
-                                    item
-                                )
-                        } else if (index == 2) {
-                            operationValue = item
-                        }
-                    }
+            expression.getMatchResults(MatchTypes.OPERATION).forEachIndexed { index, match ->
+                if (index.isOperationTypeOrArrayMatch()) {
+                    operationStrategy = OperationFactory.create(match)
+                } else if (index.isOperationValueMatch()) {
+                    operationValue = match
                 }
+            }
+
         } else {
             return getOperationByRegex(
                 expression = ExtractValueFromExpressionPDA(
