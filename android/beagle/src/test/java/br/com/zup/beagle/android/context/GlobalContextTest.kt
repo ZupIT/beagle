@@ -96,7 +96,7 @@ class GlobalContextTest : BaseTest() {
         val valueTwo = RandomData.string()
         val pathTwo = RandomData.string()
 
-        GlobalContext.set(pathTwo, value = valueTwo)
+        GlobalContext.set( value = valueTwo, path = pathTwo)
         val resultOne = GlobalContext.get(pathOne)
         val resultTwo = GlobalContext.get(pathTwo)
 
@@ -171,7 +171,7 @@ class GlobalContextTest : BaseTest() {
     @Test
     fun clear_should_not_clear_a_path_that_does_not_exist_in_JSONObject() {
         //Given
-        GlobalContext.set("f.e", true)
+        GlobalContext.set(true, "f.e")
         val objectPath = "a[0].c.e"
 
         //When

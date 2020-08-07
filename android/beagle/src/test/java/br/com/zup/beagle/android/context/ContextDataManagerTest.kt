@@ -243,7 +243,7 @@ class ContextDataManagerTest : BaseTest() {
         contextDataManager.updateContext(viewContext, updateContext)
 
         // Then
-        verify(exactly = once()) { GlobalContext.set(updateContext.path, updateContext.value) }
+        verify(exactly = once()) { GlobalContext.set(updateContext.value, updateContext.path) }
     }
 
     @Test
