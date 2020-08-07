@@ -21,6 +21,7 @@ import WebKit
 final class WebViewUIComponent: UIView {
     
     private var webView = WKWebView()
+    private var renderer: BeagleRenderer?
     
     private lazy var loadingView: UIActivityIndicatorView = {
         let loadingView = UIActivityIndicatorView()
@@ -40,9 +41,9 @@ final class WebViewUIComponent: UIView {
         didSet { updateView() }
     }
     
-    init(url: String) {
+    init(url: String, renderer: BeagleRenderer) {
         self.url = url
-
+        self.renderer = renderer
         super.init(frame: .zero)
 
         setupViews()
@@ -77,5 +78,20 @@ extension WebViewUIComponent: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation) {
         loadingView.stopAnimating()
         webView.isHidden = false
+        loadingView.stopAnimating()
+    }
+    
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation, withError error: Error) {
+        loadingView.stopAnimating()
+        renderer?.controller.serverDrivenState = .error(
+            .webView(error),
+            self.retryClosure(initialState: webView)
+        )
+    }
+    
+    private func retryClosure(initialState view: UIView) -> BeagleRetry {
+        return {
+            self.updateView()
+        }
     }
 }
