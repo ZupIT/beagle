@@ -78,16 +78,10 @@ extension Expression: ExpressibleByFloatLiteral where T == Float {
 
 // MARK: - Evaluate
 
-extension SingleExpression {
-
+extension Binding {
     func evaluate(model: DynamicObject) -> DynamicObject {
-        switch self {
-        case .value(.binding(let binding)):
-            var nodes = binding.path.nodes[...]
-            return SingleExpression.evaluate(&nodes, model)
-        case .value(.literal(let literal)):
-            return SingleExpression.evaluate(literal)
-        }
+        var nodes = path.nodes[...]
+        return Self.evaluate(&nodes, model)
     }
     
     private static func evaluate(_ expression: inout ArraySlice<Path.Node>, _ model: DynamicObject) -> DynamicObject {
@@ -110,20 +104,21 @@ extension SingleExpression {
             return evaluate(&expression, value)
         }
     }
-    
-    private static func evaluate(_ literal: Literal) -> DynamicObject {
-        switch literal {
+}
+
+extension Literal {
+    func evaluate() -> DynamicObject {
+        switch self {
         case .int(let int):
-            return .int(int)
+            return .string("\(int)")
         case .double(let double):
-            return .double(double)
+            return .string("\(double)")
         case .bool(let bool):
-            return .bool(bool)
+            return .string("\(bool)")
         case .string(let string):
             return .string(string)
         case .null:
             return .empty
         }
     }
-    
 }

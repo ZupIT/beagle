@@ -29,7 +29,7 @@ extension Parser {
 // MARK: Basic Parsers
 
 let int = Parser<Int> { str in
-    let intString = prefix(with: #"^\d+"#).run(&str)
+    let intString = prefix(with: #"^\d+\b(?!\.\d)"#).run(&str)
     return Int(intString ?? "")
 }
 
@@ -43,7 +43,7 @@ let bool = Parser<Bool> { str in
     return Bool(boolString ?? "")
 }
 
-let literalString = prefix(with: #"^'([^'\\]|(\\.))*'$"#).map {
+let literalString = prefix(with: #"^'([^'\\]|(\\.))*'"#).map {
     String($0.dropFirst().dropLast())
 }
 
