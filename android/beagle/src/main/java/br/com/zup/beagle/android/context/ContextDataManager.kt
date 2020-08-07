@@ -103,7 +103,7 @@ internal class ContextDataManager(
 
     fun updateContext(view: View, setContextInternal: SetContextInternal) {
         if (setContextInternal.contextId == globalContext.context.id) {
-            GlobalContext.set(setContextInternal.path, setContextInternal.value)
+            GlobalContext.set(setContextInternal.value, setContextInternal.path)
         } else {
             view.findParentContextWithId(setContextInternal.contextId)?.let { parentView ->
                 val currentContextBinding = parentView.getContextBinding()
