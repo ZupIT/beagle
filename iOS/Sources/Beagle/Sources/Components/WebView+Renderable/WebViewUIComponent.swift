@@ -86,7 +86,6 @@ extension WebViewUIComponent: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation, withError error: Error) {
         loadingView.stopAnimating()
-        webView.isHidden = false
         renderer?.controller.serverDrivenState = .error(
             .webView(error),
             retryClosure()
