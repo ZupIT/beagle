@@ -21,9 +21,11 @@ import android.view.ViewGroup
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.example.automated_tests.R
+import com.example.automated_tests.cucumber.elements.ZIP_FIELD
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
@@ -39,6 +41,12 @@ class ScreenRobot {
 
     fun clickOnText(text: String?): ScreenRobot {
         Espresso.onView(Matchers.allOf(withText(text), isDisplayed())).perform(ViewActions.click())
+        return this
+    }
+
+    fun typeIntoTextField(position1: Int, position2: Int, text: String?): ScreenRobot {
+        Espresso.onView(childAtPosition(childAtPosition(withClassName(Matchers.`is`("br.com.zup.beagle.android.view.custom.BeagleFlexView")), position1), position2)).perform(scrollTo(), ViewActions.replaceText(text))
+        Espresso.closeSoftKeyboard()
         return this
     }
 
@@ -66,12 +74,6 @@ class ScreenRobot {
         Espresso.onView(childAtPosition(childAtPosition(withClassName(Matchers.`is`("br.com.zup.beagle.android.view.custom.BeagleFlexView")), 1), 1)).perform(ViewActions.click())
         return this
     }
-
-//        val actionMenuItemView = Espresso.onView(Matchers.allOf(childAtPosition(childAtPosition(withId(R.id.custom_toolbar), 0), 0), isDisplayed())).perform(ViewActions.click())
-//
-//        val appCompatButton = Espresso.onView(Matchers.allOf(withId(android.R.id.button1), withText("OK"), childAtPosition(childAtPosition(withId(R.id.buttonPanel), 0), 3))).perform(scrollTo(), ViewActions.click())
-//
-
 
 
         @Throws(InterruptedException::class)

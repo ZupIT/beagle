@@ -74,3 +74,14 @@ const val TOUCHABLE_TEXT_2 = "Click here!"
 const val TOUCHABLE_TEXT_3 = "Image with Touchable"
 const val TOUCHABLE_TEXT_4 = "NetworkImage with Touchable"
 
+//Simpleform Screen
+const val SIMPLE_FORM_SCREEN_HEADER = "Beagle Context"
+const val SIMPLE_FORM_TITLE = "Fill the form"
+const val ZIP_FIELD = "ZIP"
+const val STREET_FIELD = "Street"
+const val SEND_BUTTON = "Enviar"
+
+//Confirm Popup
+const val OK_BUTTON = "Ok"
+const val CANCEL_BUTTON = "Cancel"
+
