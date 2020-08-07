@@ -51,6 +51,10 @@ final class WebViewUIComponent: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        return size
+    }
 
     private func updateView() {
         guard let url = URL(string: url ?? "") else { return }
