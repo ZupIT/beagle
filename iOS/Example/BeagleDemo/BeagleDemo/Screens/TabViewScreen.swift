@@ -26,43 +26,40 @@ struct TabViewScreen: DeeplinkScreen {
         return Beagle.screen(.declarative(screen))
     }
     
-    var screen =
-        Screen(navigationBar: NavigationBar(title: "TabView")) {
-            Container(context: Context(id: "currentTab", value: 0), widgetProperties: .init(Flex().grow(1))) {
-                TabBar(
-                    items: [
-                        TabBarItem(icon: "beagle"),
-                        TabBarItem(title: "Tab 1"),
-                        TabBarItem(title: "Tab 2"),
-                        TabBarItem(icon: "beagle", title: "Tab 3")
-                    ],
-                    currentTab: "@{currentTab}",
-                    onTabSelection: [SetContext(contextId: "currentTab", value: "@{onTabSelection}")]
-                )
-                PageView(
-                    onPageChange: [SetContext(contextId: "currentTab", value: "@{onPageChange}")],
-                    currentPage: "@{currentTab}"
-                ) {
-                    Container(widgetProperties: .init(Flex().alignContent(.center))) {
-                        Text("Text1 Tab 0")
-                        Image(.value(.remote(.init(url: .NETWORK_IMAGE_BEAGLE, placeholder: "imageBeagle"))))
-                        Text("Text2 Tab 0")
-                    }
-                    Container(widgetProperties: .init(Flex().justifyContent(.center).alignItems(.center))) {
-                        Text("Text1 Tab 1")
-                        Text("Text2 Tab 1")
-                    }
-                    Container(widgetProperties: .init(Flex().justifyContent(.flexStart))) {
-                        Text("Text1 Tab 2")
-                        Text("Text2 Tab 2")
-                    }
-                    Container(widgetProperties: .init(Flex().alignItems(.center))) {
-                        Text("Text1 Tab 3")
-                        Text("Text2 Tab 3")
-                    }
+    var screen = Screen(navigationBar: NavigationBar(title: "TabView")) {
+        Container(context: Context(id: "currentTab", value: 0), widgetProperties: .init(Flex().grow(1))) {
+            TabBar(
+                items: [
+                    TabBarItem(icon: "beagle"),
+                    TabBarItem(title: "Tab 1"),
+                    TabBarItem(title: "Tab 2"),
+                    TabBarItem(icon: "beagle", title: "Tab 3")
+                ],
+                currentTab: "@{currentTab}",
+                onTabSelection: [SetContext(contextId: "currentTab", value: "@{onTabSelection}")]
+            )
+            PageView(
+                onPageChange: [SetContext(contextId: "currentTab", value: "@{onPageChange}")],
+                currentPage: "@{currentTab}"
+            ) {
+                Container(widgetProperties: .init(Flex().alignContent(.center))) {
+                    Text("Text1 Tab 0")
+                    Image(.value(.remote(.init(url: .NETWORK_IMAGE_BEAGLE, placeholder: "imageBeagle"))))
+                    Text("Text2 Tab 0")
+                }
+                Container(widgetProperties: .init(Flex().justifyContent(.center).alignItems(.center))) {
+                    Text("Text1 Tab 1")
+                    Text("Text2 Tab 1")
+                }
+                Container(widgetProperties: .init(Flex().justifyContent(.flexStart))) {
+                    Text("Text1 Tab 2")
+                    Text("Text2 Tab 2")
+                }
+                Container(widgetProperties: .init(Flex().alignItems(.center))) {
+                    Text("Text1 Tab 3")
+                    Text("Text2 Tab 3")
                 }
             }
+        }
     }
 }
-
-
