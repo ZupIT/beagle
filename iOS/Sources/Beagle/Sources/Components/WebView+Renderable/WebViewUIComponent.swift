@@ -33,20 +33,15 @@ final class WebViewUIComponent: UIView {
         stack.axis = .vertical
         stack.distribution = .fill
         stack.alignment = .fill
-        stack.spacing = 5
         return stack
     }()
-    
-    struct Model {
-        let url: String
-    }
-    
-    public var model: Model? {
+
+    public var url: String {
         didSet { updateView() }
     }
     
-    init(model: Model) {
-        self.model = model
+    init(url: String) {
+        self.url = url
 
         super.init(frame: .zero)
 
@@ -59,7 +54,7 @@ final class WebViewUIComponent: UIView {
     }
 
     private func updateView() {
-        guard let model = model, let url = URL(string: model.url) else { return }
+        guard let url = URL(string: url) else { return }
 
         let request = URLRequest(url: url)
         loadingView.startAnimating()
@@ -71,8 +66,8 @@ final class WebViewUIComponent: UIView {
         stackView.addArrangedSubview(loadingView)
         stackView.addArrangedSubview(webView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
-        
+        stackView.anchorTo(superview: self)
+        loadingView.anchorCenterSuperview()
         loadingView.hidesWhenStopped = true
         webView.navigationDelegate = self
     }
