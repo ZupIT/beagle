@@ -25,5 +25,6 @@ jobs:
               env:
                 REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
                 TAG_NAME: ${{ github.ref }}
+                REPO: ${{ github.repository }}
               run: bundle exec fastlane workflow openPRFromPatch
         

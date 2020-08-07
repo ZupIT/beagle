@@ -18,7 +18,7 @@ platform :workflow do
     )
     create_pull_request(
       api_token:ENV["REPO_TOKEN"],
-      repo:"ZupIT/beagle",
+      repo:ENV["REPO"],
       title:"fix: Merge #{branchName} patch with master",
       body: "Auto generated PR to merge fixes from #{branchName} into master."
       )
