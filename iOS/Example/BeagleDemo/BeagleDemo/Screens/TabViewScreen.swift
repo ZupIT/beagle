@@ -62,7 +62,7 @@ struct TabViewScreen: DeeplinkScreen {
                     }
                 }
             }
-        }
+    }
 }
 
 

@@ -102,7 +102,7 @@ final class TabBarUIComponent: UIView {
         .init(width: size.width, height: tabBarPreferedHeight)
     }
     
-    private lazy var cellEqualWidth: CGFloat? = {
+    private lazy var tabBarItensFreeHorizontalSpace: CGFloat = {
         let tabBarItems = model.tabBarItems
         let tabBarItemsAvailableSpace = frame.width
         let tabItensRequiredSpace = tabBarItems.reduce(0) { result, item -> CGFloat in
@@ -111,11 +111,12 @@ final class TabBarUIComponent: UIView {
             }
             return result + tabItemIconMinimunWidth
         }
-        return tabItensRequiredSpace <= tabBarItemsAvailableSpace ? tabBarItemsAvailableSpace / CGFloat(tabBarItems.count) : nil
+        return tabItensRequiredSpace <= tabBarItemsAvailableSpace ? (tabBarItemsAvailableSpace - tabItensRequiredSpace) / CGFloat(tabBarItems.count) : 0
     }()
     
     private func getCellMinimumWidth(for text: String) -> CGFloat {
         let label = UILabel()
+        label.numberOfLines = 1
         label.text = text
         return label.intrinsicContentSize.width + tabItemMinimumHorizontalMargin
     }
@@ -199,11 +200,7 @@ extension TabBarUIComponent: UICollectionViewDataSource, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if let width = cellEqualWidth {
-            return getCellSize(forWidth: width)
-        } else {
-            return getCellSize(forContent: model.tabBarItems[indexPath.row].itemContentType)
-        }
+        return getCellSize(forContent: model.tabBarItems[indexPath.row].itemContentType)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -226,6 +223,6 @@ extension TabBarUIComponent: UICollectionViewDataSource, UICollectionViewDelegat
     }
     
     private func getCellSize(forWidth width: CGFloat) -> CGSize {
-        CGSize(width: width, height: collectionViewCellHeight)
+        CGSize(width: width + tabBarItensFreeHorizontalSpace, height: collectionViewCellHeight)
     }
 }
