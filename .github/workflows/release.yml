@@ -23,5 +23,6 @@ jobs:
                 GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
                 COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
                 TAG_NAME: ${{ github.REF }}
+                REPO: ${{ github.repository }}
               run: bundle exec fastlane deploy
         
