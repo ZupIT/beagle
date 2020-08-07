@@ -31,10 +31,10 @@ internal class RemoveIndexOperation(
         val list = parameter.arguments[0].value as MutableList<Argument>
         val indexToRemove = parameter.arguments[1].value as Int
 
-        if (indexToRemove <= list.size - 1 && list.isNotEmpty()) {
+        if (indexToRemove <= list.lastIndex && list.isNotEmpty()) {
             list.removeAt(indexToRemove)
         } else if (list.isNotEmpty()){
-            list.removeAt(list.size - 1)
+            list.removeAt(list.lastIndex)
         }
 
         return list.map {
