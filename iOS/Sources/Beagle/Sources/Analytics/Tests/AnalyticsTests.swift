@@ -69,13 +69,9 @@ class AnalyticsTests: XCTestCase {
         analyticsExecutor.trackEventOnScreenDisappeared(screen)
         
         //Then
-        XCTAssertEqual(
-            analyticsExecutor.analyticsScreenAppearedEvent, screen,
-            "trackEventOnScreenAppeared not called")
+        XCTAssertEqual(analyticsExecutor.analyticsScreenAppearedEvent, screen)
         XCTAssertTrue(analyticsExecutor.didTrackEventOnScreenAppeared)
-        XCTAssertEqual(
-            analyticsExecutor.analyticsScreenDisappearedEvent, screen,
-            "trackEventOnScreenDisappeared not called")
+        XCTAssertEqual(analyticsExecutor.analyticsScreenDisappearedEvent, screen)
         XCTAssertTrue(analyticsExecutor.didTrackEventOnScreenDisappeared)
     }
     
