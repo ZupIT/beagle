@@ -93,23 +93,23 @@ object ExpressionEscapingScreenBuilder {
                 createTextInput(
                     textInputPlaceholder = "Name",
                     textInputValue = "@{escaping.name}",
-                    contextPath = "escaping.dataPeople.name"
+                    contextPath = "name"
                 ),
                 createTextInput(
                     textInputPlaceholder = "Surname",
                     textInputValue = "@{escaping.surname}",
-                    contextPath = "escaping.dataPeople.surname"
+                    contextPath = "surname"
                 ),
                 createTextInput(
                     textInputPlaceholder = "Birthday",
                     textInputValue = "@{escaping.birthday}",
-                    contextPath = "escaping.dataPeople.birthday",
+                    contextPath = "birthday",
                     type = TextInputType.DATE
                 ),
                 createTextInput(
                     textInputPlaceholder = "Suggested email",
                     textInputValue = "@{escaping.name}@{escaping.surname}@gmail.com",
-                    contextPath = "escaping.dataPeople.suggestedEmail"
+                    contextPath = "suggestedEmail"
                 )
             )
         )

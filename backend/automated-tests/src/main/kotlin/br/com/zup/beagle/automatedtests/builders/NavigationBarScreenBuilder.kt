@@ -34,6 +34,7 @@ import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.action.Alert
 import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.action.Route
+import br.com.zup.beagle.widget.action.SetContext
 import br.com.zup.beagle.widget.core.AlignItems
 import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
@@ -45,6 +46,13 @@ import br.com.zup.beagle.widget.layout.extensions.setId
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.ImagePath
 import br.com.zup.beagle.widget.ui.Text
+
+data class ExampleGlobalContext(
+    val navigationBar: String,
+    val navigationBarStyle: String,
+    val navigationBarWithText: String,
+    val navigationBarWithImage: String
+)
 
 object NavigationBarScreenBuilder {
     fun build() = Screen(
@@ -80,18 +88,18 @@ object NavigationBarScreenBuilder {
 
     fun navigationBar() = navigationBarScreenBuilder(
         titleNavigation = "NavigationBar",
-        text = "NavigationBar"
+        text = "@{global.navigationBar}"
     )
 
     fun navigationBarStyle() = navigationBarScreenBuilder(
         titleNavigation = "NavigationBar",
         styleNavigation = NAVIGATION_BAR_STYLE,
-        text = "NavigationBar with Style"
+        text = "@{global.navigationBarStyle}"
     )
 
     fun navigationBarWithTextAsItems() = navigationBarScreenBuilder(
         titleNavigation = "NavigationBar",
-        text = "NavigationBar with Item(Text)",
+        text = "@{global.navigationBarWithText}",
         navigationBarItems = listOf(
             NavigationBarItem(
                 text = "Entrar",
@@ -102,7 +110,7 @@ object NavigationBarScreenBuilder {
 
     fun navigationBarWithImageAsItem() = navigationBarScreenBuilder(
         titleNavigation = "NavigationBar",
-        text = "NavigationBar with Item(Image)",
+        text = "@{global.navigationBarWithImage}",
         navigationBarItems = listOf(
             NavigationBarItem(
                 text = "",
@@ -114,7 +122,18 @@ object NavigationBarScreenBuilder {
 
     private fun createMenu(text: String, path: String) = Button(
         text = text,
-        onPress = listOf(Navigate.PushView(Route.Remote(path))),
+        onPress = listOf(
+            Navigate.PushView(Route.Remote(path)),
+            SetContext(
+                contextId = "global",
+                value = ExampleGlobalContext(
+                    navigationBar = "NavigationBar",
+                    navigationBarStyle = "NavigationBar with Style",
+                    navigationBarWithText = "NavigationBar with Item(Text)",
+                    navigationBarWithImage = "NavigationBar with Item(Image)"
+                )
+            )
+        ),
         styleId = BUTTON_STYLE_TITLE
     ).applyStyle(Style(
         margin = EdgeValue(
