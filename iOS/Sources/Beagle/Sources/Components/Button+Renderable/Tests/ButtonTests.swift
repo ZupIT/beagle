@@ -21,14 +21,15 @@ import SnapshotTesting
 import BeagleSchema
 
 final class ButtonTests: XCTestCase {
+    
+    let controller = BeagleControllerStub()
+    lazy var renderer = BeagleRenderer(controller: controller)
 
     func testSetRightButtonTitle() {
         //Given
         let buttonTitle = "title"
         let component = Button(text: Expression.value(buttonTitle))
-        let controller = BeagleControllerStub()
-        let renderer = BeagleRenderer(controller: controller)
-
+        
         //When
         let button = renderer.render(component) as? UIButton
         
@@ -39,8 +40,6 @@ final class ButtonTests: XCTestCase {
     func testApplyButtonStyle() {
         // Given
         let theme = ThemeSpy()
-        let controller = BeagleControllerStub()
-        let renderer = BeagleRenderer(controller: controller)
         controller.dependencies = BeagleScreenDependencies(theme: theme)
         
         let style = "test.button.style"
@@ -57,8 +56,6 @@ final class ButtonTests: XCTestCase {
     func testPrefetchNavigateAction() {
         // Given
         let prefetch = BeaglePrefetchHelpingSpy()
-        let controller = BeagleControllerStub()
-        let renderer = BeagleRenderer(controller: controller)
         controller.dependencies = BeagleScreenDependencies(preFetchHelper: prefetch)
         
         let navigatePath = "path-to-prefetch"
@@ -76,8 +73,6 @@ final class ButtonTests: XCTestCase {
         // Given
         let action = ActionSpy()
         let button = Button(text: "Trigger Action", onPress: [action])
-        let controller = BeagleControllerStub()
-        let renderer = BeagleRenderer(controller: controller)
 
         // When
         let view = renderer.render(button) as? Button.BeagleUIButton
@@ -92,8 +87,6 @@ final class ButtonTests: XCTestCase {
         // Given
         let analytics = AnalyticsExecutorSpy()
         let button = Button(text: "Trigger analytics click", clickAnalyticsEvent: .init(category: "some category"))
-        let controller = BeagleControllerStub()
-        let renderer = BeagleRenderer(controller: controller)
         controller.dependencies = BeagleScreenDependencies(analytics: analytics)
 
         // When
@@ -108,8 +101,6 @@ final class ButtonTests: XCTestCase {
         // Given
         let action = ActionSpy()
         let analytics = AnalyticsExecutorSpy()
-        let controller = BeagleControllerStub()
-        let renderer = BeagleRenderer(controller: controller)
         controller.dependencies = BeagleScreenDependencies(analytics: analytics)
         
         let button = Button(text: "Trigger analytics click", onPress: [action], clickAnalyticsEvent: .init(category: "some category"))
@@ -127,8 +118,6 @@ final class ButtonTests: XCTestCase {
     func testButtonLeak() {
         // Given
         let button = Button(text: "Trigger Action")
-        let controller = BeagleControllerStub()
-        let renderer = BeagleRenderer(controller: controller)
     
         var view = renderer.render(button) as? Button.BeagleUIButton
         weak var weakView = view

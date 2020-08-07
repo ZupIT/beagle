@@ -52,13 +52,24 @@ class TextTests: XCTestCase {
     
     func testTextDefaultAlignment() {
         // Given
-        let component = Text("Test")
+        var alignments = [Text.Alignment: NSTextAlignment]()
         
         // When
-        let label = renderer.render(component) as? UITextView
+        for alignmentType in Text.Alignment.allCases {
+            switch alignmentType {
+            case .left:
+                alignments[alignmentType] = NSTextAlignment.left
+            case .right:
+                alignments[alignmentType] = NSTextAlignment.right
+            case .center:
+                alignments[alignmentType] = NSTextAlignment.center
+            }
+        }
         
-        // Then
-        XCTAssertEqual(label?.textAlignment, NSTextAlignment.natural)
+        //Then
+        for alignmentType in Text.Alignment.allCases {
+            XCTAssertEqual(alignmentType.toUIKit(), alignments[alignmentType])
+        }
     }
     
     func testTextAlignment() {
@@ -72,7 +83,7 @@ class TextTests: XCTestCase {
         XCTAssertEqual(label?.textAlignment, NSTextAlignment.left)
     }
 
-    func test_renderTextComponent() {
+    func testRenderTextComponent() {
         let text = Text(
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             styleId: "test.text.style",

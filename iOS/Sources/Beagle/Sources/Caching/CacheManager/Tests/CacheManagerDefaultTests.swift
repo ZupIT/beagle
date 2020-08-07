@@ -41,13 +41,15 @@ final class CacheManagerDefaultTests: XCTestCase {
     private let url3 = "urlTeste3"
     
     func testValidCache() {
-        //Given //When
+        //Given
         let sut = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: .init(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 10))
         let reference = CacheReference(identifier: "", data: jsonData, hash: "")
+        
+        //When
         let isValid = sut.isValid(reference: reference)
         
         //Then
-        XCTAssertTrue(isValid, "Should not need revalidation")
+        XCTAssertTrue(isValid)
     }
     
     func testMaxAgeDefaultExpired() {
@@ -60,7 +62,7 @@ final class CacheManagerDefaultTests: XCTestCase {
         delay(seconds: 1) {
             //Then
             let isValid = sut.isValid(reference: reference)
-            XCTAssertFalse(isValid, "Should need revalidation")
+            XCTAssertFalse(isValid)
             timeOutComponent.fulfill()
         }
         
@@ -68,13 +70,15 @@ final class CacheManagerDefaultTests: XCTestCase {
     }
     
     func testMaxAgeFromServer() {
-        //Given //When
+        //Given
         let sut = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: .init(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 0))
         let cacheReference = CacheReference(identifier: defaultURL, data: jsonData, hash: defaultHash, maxAge: 5)
+        
+        //When
         let isValid = sut.isValid(reference: cacheReference)
         
         //Then
-        XCTAssertTrue(isValid, "Should not need revalidation")
+        XCTAssertTrue(isValid)
     }
     
     func testMaxAgeFromServerExpired() {
@@ -87,7 +91,7 @@ final class CacheManagerDefaultTests: XCTestCase {
         delay(seconds: 3) {
             //Then
             let isValid = sut.isValid(reference: cacheReference)
-            XCTAssert(isValid == false, "Should need revalidation")
+            XCTAssertFalse(isValid)
             timeOutComponent.fulfill()
         }
         

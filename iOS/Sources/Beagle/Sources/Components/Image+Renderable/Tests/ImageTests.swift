@@ -35,21 +35,24 @@ class ImageTests: XCTestCase {
     
     func testContentMode() {
         //Given
-        let expectedContentMode = UIImageView.ContentMode.scaleToFill
-        let component = Image(.value(.local("teste")), mode: .fitXY)
-        let controller = BeagleControllerStub()
-        let renderer = BeagleRenderer(controller: controller)
-
+        let value = ImageContentMode.center
+        let expected = UIImageView.ContentMode.center
+                
         //When
-        let imageView = renderer.render(component) as? UIImageView
+        let result = value.toUIKit()
         
-        // Then
-        XCTAssertEqual(expectedContentMode, imageView?.contentMode)
+        //Then
+        XCTAssertEqual(result, expected)
     }
     
     func testRenderImage() throws {
+        //Given
         let image: Image = try componentFromJsonFile(fileName: "ImageComponent")
+        
+        //When
         let view = renderer.render(image)
+        
+        //Then
         assertSnapshotImage(view, size: ImageSize.custom(CGSize(width: 400, height: 400)))
     }
     
@@ -73,28 +76,6 @@ class ImageTests: XCTestCase {
         XCTAssertTrue(repository.token.didCallCancel)
     }
     
-    func testLocalImageDeserialize() throws {
-        let image: Image = try componentFromJsonFile(fileName: "ImageComponent1")
-        let path = image.path.evaluate(with: renderer.render(image))
-        
-        if case .local(let mobileId) = path {
-            XCTAssertEqual(mobileId, "test_image_square-x")
-        } else {
-            XCTFail("Failed to decode correct image name.")
-        }
-    }
-    
-    func testRemoteImageDeserialize() throws {
-        let bla = "www.com"
-        let image: Image = try componentFromJsonFile(fileName: "ImageComponent2")
-        let path = image.path.evaluate(with: renderer.render(image))
-        if case .remote(let remote) = path {
-            XCTAssertEqual(remote.url, bla)
-        } else {
-            XCTFail("Failed to decode correct image url.")
-        }
-    }
-    
     func testInvalidURL() {
         // Given
         let component = Image(.value(.remote(.init(url: "www.com"))))
@@ -102,7 +83,8 @@ class ImageTests: XCTestCase {
          let imageView = renderer.render(component) as? UIImageView
         
         // Then
-        XCTAssertNil(imageView?.image, "Expected image to be nil.")
+        XCTAssertNotNil(imageView)
+        XCTAssertNil(imageView?.image)
     }
     
     func testPlaceholder() {
@@ -110,10 +92,10 @@ class ImageTests: XCTestCase {
         let component = Image(.value(.remote(.init(url: "www.com", placeholder: "imageBeagle"))))
  
         // When
-        let placeholderView = renderer.render(component) as? UIImageView
+        let placeholderView = renderer.render(component)
         
         // Then
-        XCTAssertNotNil(placeholderView, "Expected placeholder to not be nil.")
+        assertSnapshotImage(placeholderView, size: ImageSize.custom(CGSize(width: 400, height: 400)))
     }
     
     func testImageLeak() {
