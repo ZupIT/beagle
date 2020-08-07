@@ -49,10 +49,6 @@ import br.com.zup.beagle.android.context.operations.strategy.Operations
 internal class OperationExpressionReader {
 
     internal fun readExpression(expression: String, readMethod: ReadMethod): Operation {
-        return getOperationByRegex(expression, readMethod)
-    }
-
-    private fun getOperationByRegex(expression: String, readMethod: ReadMethod): Operation {
         var operationStrategy: BaseOperation<Operations>? = null
         var operationValue = ""
 
@@ -66,7 +62,7 @@ internal class OperationExpressionReader {
             }
 
         } else {
-            return getOperationByRegex(
+            return readExpression(
                 expression = ExtractValueFromExpressionPDA(
                     inputValue = expression,
                     extractValueTypes = ExtractValueTypes.OPERATION
