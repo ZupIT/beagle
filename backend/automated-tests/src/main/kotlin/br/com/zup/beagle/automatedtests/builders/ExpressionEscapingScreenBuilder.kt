@@ -102,7 +102,7 @@ object ExpressionEscapingScreenBuilder {
                 ),
                 createTextInput(
                     textInputPlaceholder = "Birthday",
-                    textInputValue = "@{escaping.birthday}",
+                    textInputValue = "\\@{escaping.birthday}",
                     contextPath = "birthday",
                     type = TextInputType.DATE
                 ),
@@ -125,20 +125,20 @@ object ExpressionEscapingScreenBuilder {
         value = textInputValue,
         type = type,
         styleId = "DesignSystem.TextInput.Style.Bff",
-        onChange = listOf(
-            SetContext(
-                contextId = "escaping",
-                path = contextPath,
-                value = "@{onChange.value}"
-            )
-        )
-//        onBlur = listOf(
+//        onChange = listOf(
 //            SetContext(
 //                contextId = "escaping",
 //                path = contextPath,
-//                value = "@{onBlur.value}"
+//                value = "@{onChange.value}"
 //            )
 //        )
+        onBlur = listOf(
+            SetContext(
+                contextId = "escaping",
+                path = contextPath,
+                value = "@{onBlur.value}"
+            )
+        )
     ).applyStyle(styleMargin)
 
     var styleMargin = Style(
