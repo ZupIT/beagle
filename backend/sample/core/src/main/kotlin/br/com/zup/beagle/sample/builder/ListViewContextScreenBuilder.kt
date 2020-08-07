@@ -100,8 +100,7 @@ object ListViewContextScreenBuilder : ScreenBuilder {
     private val listGenres = ListView(
         context = ContextData(
             id = "initialContext",
-            value =
-            listOf(
+            value = listOf(
                     "fora",
                     "fora",
                     "fora",
