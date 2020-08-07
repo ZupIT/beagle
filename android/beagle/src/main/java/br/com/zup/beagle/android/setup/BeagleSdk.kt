@@ -58,5 +58,10 @@ interface BeagleSdk {
         fun setInTestMode() {
             SoLoader.setInTestMode()
         }
+
+        @VisibleForTesting
+        fun deinitForTest() {
+            SoLoader.deinitForTest()
+        }
     }
 }
