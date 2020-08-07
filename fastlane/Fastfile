@@ -142,7 +142,7 @@ lane :deploy do
   releaseNotes = release_notes
   sh "bash ./delete_release.sh"
   set_github_release(
-    repository_name: ENV["REPO"],,
+    repository_name: ENV["REPO"],
     api_token: ENV["REPO_TOKEN"],
     name: ENV["VERSION_DEPLOY"],
     tag_name: ENV["VERSION_DEPLOY"],
