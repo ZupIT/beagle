@@ -17,11 +17,11 @@
 package br.com.zup.beagle.android.data
 
 import br.com.zup.beagle.android.cache.CacheManager
-import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.exception.BeagleException
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.mapper.toRequestData
+import br.com.zup.beagle.core.ServerDrivenComponent
 
 internal class ComponentRequester(
     private val beagleApi: BeagleApi = BeagleApi(),
