@@ -1,4 +1,31 @@
 ###
+###  Workflow
+###
+platform :workflow do
+  desc "Open PR from patch"
+  lane :openPRFromPatch do
+    tagName = ENV["TAG_NAME"]
+    if !tagName.index("-")
+      puts "This release is not a hotfix."
+      puts "Exiting..."
+      next
+    end
+    branchName = tagName.split("/").last
+    sh("git checkout -b release/" + branchName + "-hotfix")
+    push_to_git_remote(
+      tags: false,
+      set_upstream: true
+    )
+    create_pull_request(
+      api_token:ENV["REPO_TOKEN"],
+      repo:ENV["REPO"],
+      title:"fix: Merge #{branchName} patch with master",
+      body: "Auto generated PR to merge fixes from #{branchName} into master."
+      )
+  end
+end
+
+###
 ###  Android
 ###
 
