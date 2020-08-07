@@ -17,40 +17,31 @@
 import UIKit
 import WebKit
 
-// test loading, idle and loaded state if possible.
 final class WebViewUIComponent: UIView {
     
-    private weak var renderer: BeagleRenderer?
+    enum State {
+        case idle
+        case loading
+        case loaded
+        case error
+    }
     
-    private lazy var webView: WKWebView = {
+    private(set) var state: State = .idle
+    private weak var controller: BeagleController?
+    
+    lazy var webView: WKWebView = {
         let webView = WKWebView()
         webView.navigationDelegate = self
         return webView
-    }()
-    
-    private lazy var loadingView: UIActivityIndicatorView = {
-        let loadingView = UIActivityIndicatorView()
-        loadingView.color = .gray
-        loadingView.hidesWhenStopped = true
-        return loadingView
-    }()
-    
-    private lazy var stackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.distribution = .fill
-        stack.alignment = .fill
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
     }()
 
     public var url: String {
         didSet { updateView() }
     }
     
-    init(url: String, renderer: BeagleRenderer) {
+    init(url: String, controller: BeagleController) {
         self.url = url
-        self.renderer = renderer
+        self.controller = controller
         super.init(frame: .zero)
 
         setupViews()
@@ -63,30 +54,30 @@ final class WebViewUIComponent: UIView {
 
     private func updateView() {
         guard let url = URL(string: url) else { return }
-
+        
         let request = URLRequest(url: url)
-        loadingView.startAnimating()
+        webView.showLoading()
         webView.load(request)
+        state = .loading
     }
     
     private func setupViews() {
-        addSubview(stackView)
-        stackView.addArrangedSubview(loadingView)
-        stackView.addArrangedSubview(webView)
-        stackView.anchorTo(superview: self)
-        loadingView.anchorCenterSuperview()
+        addSubview(webView)
+        webView.anchorTo(superview: self)
     }
 }
 
 extension WebViewUIComponent: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation) {
-        loadingView.stopAnimating()
+        webView.hideLoading()
         webView.isHidden = false
+        state = .loaded
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation, withError error: Error) {
-        loadingView.stopAnimating()
-        renderer?.controller.serverDrivenState = .error(
+        webView.hideLoading()
+        state = .error
+        controller?.serverDrivenState = .error(
             .webView(error),
             retryClosure()
         )

@@ -22,11 +22,26 @@ import BeagleSchema
 
 final class WebViewTests: XCTestCase {
     
-    func test_renderWebViewComponent() throws {
-        let webView = WebView(url: "https://maps.google.com/")
-        let controller = BeagleControllerStub()
-        let renderer = BeagleRenderer(controller: controller)
+    private lazy var webView = WebView(url: "https://maps.google.com/")
+    private lazy var controller = BeagleControllerStub()
+    private lazy var renderer = BeagleRenderer(controller: controller)
+    
+    func testRenderWebViewComponent() {
+        // Given // When
         let view = renderer.render(webView)
-        XCTAssert(view is WebViewUIComponent)
+        
+        // Then
+        XCTAssertTrue(view is WebViewUIComponent)
+    }
+    
+    func testIdleState() {
+        // Given
+        let webViewUIComponent = WebViewUIComponent(url: "https://maps.google.com/", controller: controller)
+        let state = webViewUIComponent.state
+        
+        // When
+        // Then
+        
     }
 }
+
