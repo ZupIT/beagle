@@ -1,0 +1,6 @@
+target 'CocoaPodsTest' do
+  use_frameworks!
+  pod 'Beagle', :path => '../../../Beagle.podspec'
+  pod 'BeagleSchema', :path => '../../../BeagleSchema.podspec'
+end
+
