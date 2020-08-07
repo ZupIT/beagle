@@ -33,6 +33,13 @@ struct WebViewScreen: DeeplinkScreen {
     }
     
     var webView: ServerDrivenComponent {
-        return WebView(url: .value(.WEB_VIEW_URL), widgetProperties: .init(Flex().grow(1)))
+        return Container(context: Context(id: "webView", value: "https://maps.google.com/"),
+                         widgetProperties: .init(Flex().grow(1))) {
+                WebView(url: "@{webView}", widgetProperties: .init(Flex().grow(1)))
+                Button(text: .value("Go to Facebook"), onPress: [
+                    SetContext(contextId: "webView", value: "https://facebook.com")
+                ]
+            )
+        }
     }
 }
