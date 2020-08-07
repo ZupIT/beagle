@@ -35,11 +35,11 @@ final class WebViewUIComponent: UIView {
         return webView
     }()
 
-    public var url: String {
+    public var url: String? {
         didSet { updateView() }
     }
     
-    init(url: String, controller: BeagleController) {
+    init(url: String? = nil, controller: BeagleController) {
         self.url = url
         self.controller = controller
         super.init(frame: .zero)
@@ -53,7 +53,7 @@ final class WebViewUIComponent: UIView {
     }
 
     private func updateView() {
-        guard let url = URL(string: url) else { return }
+        guard let url = URL(string: url ?? "") else { return }
         
         let request = URLRequest(url: url)
         webView.showLoading()
@@ -68,13 +68,13 @@ final class WebViewUIComponent: UIView {
 }
 
 extension WebViewUIComponent: WKNavigationDelegate {
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation) {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation?) {
         webView.hideLoading()
         webView.isHidden = false
         state = .loaded
     }
     
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation, withError error: Error) {
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation?, withError error: Error) {
         webView.hideLoading()
         state = .error
         controller?.serverDrivenState = .error(

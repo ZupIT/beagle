@@ -22,12 +22,14 @@ import BeagleSchema
 
 final class WebViewTests: XCTestCase {
     
-    private lazy var webView = WebView(url: "https://maps.google.com/")
     private lazy var controller = BeagleControllerStub()
-    private lazy var renderer = BeagleRenderer(controller: controller)
     
     func testRenderWebViewComponent() {
-        // Given // When
+        // Given
+        let webView = WebView(url: "https://maps.google.com/")
+        let renderer = BeagleRenderer(controller: controller)
+
+        // When
         let view = renderer.render(webView)
         
         // Then
@@ -35,13 +37,40 @@ final class WebViewTests: XCTestCase {
     }
     
     func testIdleState() {
+        // Given // When
+        let webViewUIComponent = WebViewUIComponent(controller: controller)
+
+        // Then
+        XCTAssertEqual(webViewUIComponent.state, .idle)
+    }
+    
+    func testLoadingState() {
+        // Given // When
+        let webViewUIComponent = WebViewUIComponent(url: "https://maps.google.com/", controller: controller)
+
+        // Then
+        XCTAssertEqual(webViewUIComponent.state, .loading)
+    }
+    
+    func testLoadedState() {
         // Given
         let webViewUIComponent = WebViewUIComponent(url: "https://maps.google.com/", controller: controller)
-        let state = webViewUIComponent.state
         
         // When
+        webViewUIComponent.webView(webViewUIComponent.webView, didFinish: nil)
+
         // Then
-        
+        XCTAssertEqual(webViewUIComponent.state, .loaded)
+    }
+
+    func testErrorState() {
+        // Given
+        let webViewUIComponent = WebViewUIComponent(url: "https://sdfsdjfi.com", controller: controller)
+        let webView = webViewUIComponent.webView
+        // When
+        webViewUIComponent.webView(webView, didFail: nil, withError: NSError(domain: "", code: 0, description: ""))
+
+        // Then
+        XCTAssertEqual(webViewUIComponent.state, .error)
     }
 }
-
