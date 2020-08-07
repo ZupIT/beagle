@@ -17,9 +17,10 @@
 package br.com.zup.beagle.android.setup
 
 import android.app.Application
-import br.com.zup.beagle.android.action.FormLocalActionHandler
+import androidx.annotation.VisibleForTesting
 import br.com.zup.beagle.analytics.Analytics
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.FormLocalActionHandler
 import br.com.zup.beagle.android.components.form.core.ValidatorHandler
 import br.com.zup.beagle.android.logger.BeagleLogger
 import br.com.zup.beagle.android.navigation.DeepLinkHandler
@@ -50,5 +51,17 @@ interface BeagleSdk {
         BeagleEnvironment.beagleSdk = this
         BeagleEnvironment.application = application
         SoLoader.init(application, false)
+    }
+
+    companion object {
+        @VisibleForTesting
+        fun setInTestMode() {
+            SoLoader.setInTestMode()
+        }
+
+        @VisibleForTesting
+        fun deinitForTest() {
+            SoLoader.deinitForTest()
+        }
     }
 }
