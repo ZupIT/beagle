@@ -19,12 +19,12 @@ import Foundation
 public struct Image: RawWidget, AutoDecodable {
 
     // MARK: - Public Properties
-    public let path: Expression<PathType>
+    public let path: Expression<ImagePath>
     public let mode: ImageContentMode?
     public var widgetProperties: WidgetProperties
     
     public init(
-        _ path: Expression<PathType>,
+        _ path: Expression<ImagePath>,
         mode: ImageContentMode? = nil,
         widgetProperties: WidgetProperties = WidgetProperties()
     ) {
@@ -33,7 +33,7 @@ public struct Image: RawWidget, AutoDecodable {
         self.widgetProperties = widgetProperties
     }
     
-    indirect public enum PathType: Decodable {
+    indirect public enum ImagePath: Decodable {
         case remote(Remote)
         case local(String)
 
