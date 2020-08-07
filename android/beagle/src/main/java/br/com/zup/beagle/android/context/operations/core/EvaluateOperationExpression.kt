@@ -30,9 +30,12 @@ import br.com.zup.beagle.android.context.operations.strategy.string.withoutApost
  * @param output expression evaluated "can be null"
  * **/
 
-internal class EvaluateOperationExpression (expression: String) {
+internal class EvaluateOperationExpression (
+    private val operationExpressionReader: OperationExpressionReader,
+    expression: String
+) {
 
-    private var principalOperation: Operation = OperationExpressionReader()
+    private var principalOperation: Operation = operationExpressionReader
             .readExpression(
                 expression.formatArrayParameter(),
                 ReadMethod.REGEX
@@ -52,7 +55,7 @@ internal class EvaluateOperationExpression (expression: String) {
     }
 
     private fun resolveSubOperation(operationValue: String) : Any? {
-        val subOperation = OperationExpressionReader()
+        val subOperation = operationExpressionReader
             .readExpression(
                 operationValue,
                 ReadMethod.PDA
