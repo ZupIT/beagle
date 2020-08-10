@@ -28,25 +28,30 @@ internal class IsEmptyOperation(override val operationType: Operations) : BaseOp
     override fun executeOperation(parameter: Parameter): Any? {
         super.checkArguments(parameter)
 
-        if (parameter.arguments.isNotEmpty()) {
-            if (parameter.arguments[0].parameterType == ParameterTypes.STRING &&
-                (parameter.arguments[0].value as String)
-                    .removeWhiteSpaces()
-                    .withoutApostrophe()
-                    .isEmpty()) {
-                return true
-            } else if (parameter.arguments[0].parameterType == ParameterTypes.ARRAY &&
-                (parameter.arguments[0].value as List<Any?>).size == 0) {
-                return true
-            } else if (parameter.arguments[0].parameterType == ParameterTypes.EMPTY) {
-                return true
-            } else if (parameter.arguments[0].parameterType == ParameterTypes.ARRAY &&
-                (parameter.arguments[0].value as List<Argument>).size > 0 &&
-                (parameter.arguments[0].value as List<Argument>)[0].parameterType == ParameterTypes.EMPTY) {
-                return true
-            }
-        }
+        val parameterType = parameter.arguments[0].parameterType
+        val parameterValue = parameter.arguments[0].value
 
-        return false
+        return parameter.arguments.isNotEmpty() &&
+            (isStringEmpty(parameterType, parameterValue) ||
+                isArrayEmpty(parameterType, parameterValue) ||
+                parameterType == ParameterTypes.EMPTY ||
+                isArrayUnderArrayEmpty(parameterType, parameterValue))
     }
+
+    private fun isStringEmpty(parameterType: ParameterTypes?, parameterValue: Any?): Boolean =
+        parameterType == ParameterTypes.STRING &&
+            (parameterValue as String)
+                .removeWhiteSpaces()
+                .withoutApostrophe()
+                .isEmpty()
+
+    private fun isArrayEmpty(parameterType: ParameterTypes?, parameterValue: Any?): Boolean =
+        parameterType == ParameterTypes.ARRAY &&
+            (parameterValue as List<Any?>).isEmpty()
+
+    private fun isArrayUnderArrayEmpty(parameterType: ParameterTypes?, parameterValue: Any?): Boolean =
+        parameterType == ParameterTypes.ARRAY &&
+            (parameterValue as List<Argument>).isNotEmpty() &&
+            parameterValue[0].parameterType == ParameterTypes.EMPTY
+
 }
