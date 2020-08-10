@@ -29,6 +29,7 @@ extension ServerDrivenState {
         case action(Swift.Error)
         case lazyLoad(Request.Error)
         case submitForm(Request.Error)
+        case webView(Swift.Error)
         case declarativeText
     }
 }
