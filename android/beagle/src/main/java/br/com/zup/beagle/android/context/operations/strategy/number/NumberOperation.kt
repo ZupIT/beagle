@@ -23,9 +23,7 @@ import br.com.zup.beagle.android.context.operations.parameter.Parameter
 internal class NumberOperation(override val operationType: NumberOperationTypes
 ) : BaseOperation<Operations>() {
 
-    override fun executeOperation(parameter: Parameter): Any {
-        super.checkArguments(parameter)
-
+    override fun solve(parameter: Parameter): Any {
         return this.toNumberResult(parameter.arguments)
     }
 }

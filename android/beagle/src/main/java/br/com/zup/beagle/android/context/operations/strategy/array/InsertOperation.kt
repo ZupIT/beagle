@@ -25,9 +25,7 @@ internal class InsertOperation(
     override val operationType: Operations
 ) : BaseOperation<Operations>() {
 
-    override fun executeOperation(parameter: Parameter): Any {
-        super.checkArguments(parameter)
-
+    override fun solve(parameter: Parameter): Any {
         val list = parameter.arguments[0].value as MutableList<Any?>
         val itemToInsert = parameter.arguments[1]
         val indexToInsert = parameter.arguments[2].value as Int

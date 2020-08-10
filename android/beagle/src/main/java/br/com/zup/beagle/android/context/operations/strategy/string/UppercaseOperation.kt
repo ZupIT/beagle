@@ -22,9 +22,7 @@ import br.com.zup.beagle.android.context.operations.parameter.Parameter
 import java.util.*
 
 internal class UppercaseOperation(override val operationType: Operations) : BaseOperation<Operations>() {
-    override fun executeOperation(parameter: Parameter): Any {
-        super.checkArguments(parameter)
-
+    override fun solve(parameter: Parameter): Any {
         return (parameter.arguments[0].value as String)
             .withoutApostrophe()
             .toUpperCase(Locale.ROOT)

@@ -29,7 +29,7 @@ internal class StringValidation : Validation {
     override fun validate(operationType: Operations?, parameter: Parameter) {
         if (operationType == StringOperationTypes.SUBSTRING) {
             if (parameter.arguments.size < 3) {
-                throw ExceptionFactory.createException(
+                ExceptionFactory.createException(
                     ExceptionParameterTypes.REQUIRED_ARGS,
                     parameter.operation,
                     parameter.arguments.size.toString()
@@ -37,14 +37,14 @@ internal class StringValidation : Validation {
             } else {
                 parameter.arguments.forEachIndexed { index, item ->
                     if ((index == 0 && item.parameterType != ParameterTypes.STRING)) {
-                        throw ExceptionFactory.createException(
+                        ExceptionFactory.createException(
                             ExceptionParameterTypes.STRING,
                             parameter.operation,
                             item.toString()
                         )
                     } else if (index > 0 && (item.parameterType != ParameterTypes.NUMBER ||
                             item.value.toString().removeWhiteSpaces().isEmpty())) {
-                        throw ExceptionFactory.createException(
+                        ExceptionFactory.createException(
                             ExceptionParameterTypes.INDEX,
                             parameter.operation,
                             item.toString()
@@ -55,7 +55,7 @@ internal class StringValidation : Validation {
         } else {
             parameter.arguments.forEach {
                 if (it.parameterType != ParameterTypes.STRING) {
-                    throw ExceptionFactory.createException(
+                    ExceptionFactory.createException(
                         ExceptionParameterTypes.STRING,
                         parameter.operation,
                         it.toString()

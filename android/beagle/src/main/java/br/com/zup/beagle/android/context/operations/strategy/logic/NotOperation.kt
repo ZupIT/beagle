@@ -24,9 +24,7 @@ internal class NotOperation
     (override val operationType: LogicOperationTypes
 ) : BaseOperation<Operations>() {
 
-    override fun executeOperation(parameter: Parameter): Any {
-        super.checkArguments(parameter)
-
+    override fun solve(parameter: Parameter): Any {
         return parameter.arguments.isNotEmpty() && !(parameter.arguments[0].value as Boolean)
     }
 }

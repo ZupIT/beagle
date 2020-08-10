@@ -23,9 +23,7 @@ import br.com.zup.beagle.android.context.operations.parameter.Parameter
 import br.com.zup.beagle.android.context.operations.parameter.ParameterTypes
 
 internal class LengthOperation(override val operationType: Operations) : BaseOperation<Operations>() {
-    override fun executeOperation(parameter: Parameter): Any {
-        super.checkArguments(parameter)
-
+    override fun solve(parameter: Parameter): Any {
         var value = 0
 
         if (parameter.arguments.isNotEmpty()) {

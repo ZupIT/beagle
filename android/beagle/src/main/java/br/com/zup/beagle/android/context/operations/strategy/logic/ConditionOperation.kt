@@ -24,9 +24,7 @@ internal class ConditionOperation(
     override val operationType: LogicOperationTypes
 ) : BaseOperation<Operations>() {
 
-    override fun executeOperation(parameter: Parameter): Any? {
-        super.checkArguments(parameter)
-
+    override fun solve(parameter: Parameter): Any? {
         val operationResult = parameter.arguments[0].value as Boolean
         val trueValue = parameter.arguments[1].value
         val falseValue = parameter.arguments[2].value

@@ -19,15 +19,18 @@ package br.com.zup.beagle.android.context.operations.exception.strategy.validati
 import br.com.zup.beagle.android.context.operations.parameter.Parameter
 import br.com.zup.beagle.android.context.operations.strategy.Operations
 import br.com.zup.beagle.android.context.operations.strategy.array.ArrayOperationTypes
+import br.com.zup.beagle.android.context.operations.strategy.comparison.ComparisionOperationTypes
 import br.com.zup.beagle.android.context.operations.strategy.number.NumberOperationTypes
 import br.com.zup.beagle.android.context.operations.strategy.string.StringOperationTypes
 
 internal object ValidationFactory : Validation {
+
     override fun validate(operationType: Operations?, parameter: Parameter) {
         when (operationType) {
             is StringOperationTypes -> StringValidation().validate(operationType, parameter)
             is ArrayOperationTypes -> ArrayValidation().validate(operationType, parameter)
-            is NumberOperationTypes -> NumberValidation().validate(operationType, parameter)
+            is NumberOperationTypes,
+            is ComparisionOperationTypes -> NumberValidation().validate(operationType, parameter)
         }
     }
 }

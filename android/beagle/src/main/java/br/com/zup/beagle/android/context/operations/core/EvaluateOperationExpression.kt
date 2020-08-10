@@ -16,18 +16,20 @@
 
 package br.com.zup.beagle.android.context.operations.core
 
-import br.com.zup.beagle.android.context.operations.exception.ExceptionWrapper
 import br.com.zup.beagle.android.context.operations.grammar.Constants
 import br.com.zup.beagle.android.context.operations.grammar.GrammarChars
 import br.com.zup.beagle.android.context.operations.operation.Operation
-import br.com.zup.beagle.android.context.operations.operation.toParameterType
 import br.com.zup.beagle.android.context.operations.strategy.string.withoutApostrophe
 
 /**
  * @property principalOperation receive the input expression and store to solve
  *                              sub operations and evaluate the result
+ *
  * @param expression expression input to solve
- * @param output expression evaluated "can be null"
+ *
+ * @param operationExpressionReader The reader that's identify an operation
+ *
+ * @see evaluate() Method that return the result "can be null"
  * **/
 
 internal class EvaluateOperationExpression (
@@ -41,17 +43,12 @@ internal class EvaluateOperationExpression (
                 ReadMethod.REGEX
             )
 
-
-    init {
-        checkOperationHasError(principalOperation)
-    }
-
     internal fun evaluate() : Any? {
         if (principalOperation.hasSubOperationsToSolve()) {
             return resolveSubOperation(principalOperation.operationValue)
         }
 
-        return solveOperation(principalOperation, true)
+        return validateOperation(principalOperation, true)
     }
 
     private fun resolveSubOperation(operationValue: String) : Any? {
@@ -60,8 +57,7 @@ internal class EvaluateOperationExpression (
                 operationValue,
                 ReadMethod.PDA
             )
-        checkOperationHasError(subOperation)
-        val result = solveOperation(subOperation)
+        val result = validateOperation(subOperation)
         updatePrincipalOperation(subOperation.operationToken, result.toString())
 
         return evaluate()
@@ -74,18 +70,14 @@ internal class EvaluateOperationExpression (
         )
     }
 
-    private fun solveOperation(operation: Operation, isFinalOperation: Boolean = false) : Any? {
-        val result = operation.operationStrategy?.executeOperation(operation.toParameterType())
+    private fun validateOperation(operation: Operation, isFinalOperation: Boolean = false) : Any? {
+        val result = operation.validate()
 
         return if (isFinalOperation && result.isStringType()) {
             (result as String).withoutApostrophe()
         } else {
             result
         }
-    }
-
-    private fun checkOperationHasError(operation: Operation) {
-        ExceptionWrapper.checkOperation(operation)
     }
 }
 

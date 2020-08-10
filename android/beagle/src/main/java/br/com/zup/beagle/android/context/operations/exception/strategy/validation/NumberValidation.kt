@@ -26,7 +26,7 @@ internal class NumberValidation : Validation {
     override fun validate(operationType: Operations?, parameter: Parameter) {
         parameter.arguments.forEach {
             if (it.parameterType != ParameterTypes.NUMBER) {
-                throw ExceptionFactory.createException(
+                ExceptionFactory.createException(
                     ExceptionParameterTypes.NUMBER,
                     parameter.operation,
                     it.toString()

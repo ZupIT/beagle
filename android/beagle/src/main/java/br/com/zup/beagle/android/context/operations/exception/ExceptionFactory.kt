@@ -21,12 +21,13 @@ import br.com.zup.beagle.android.context.operations.exception.strategy.Exception
 import br.com.zup.beagle.android.context.operations.exception.strategy.ExceptionTypes
 import br.com.zup.beagle.android.context.operations.operation.Operation
 import br.com.zup.beagle.android.context.operations.strategy.string.StringOperationTypes
+import br.com.zup.beagle.android.exception.BeagleException
 
 object ExceptionFactory {
 
     fun createException (exceptionTypes: ExceptionTypes,
                          operation: Operation? = null,
-                         details: String) : Exception {
+                         details: String) {
         val message: String
 
         if (exceptionTypes is ExceptionOperationTypes) {
@@ -68,6 +69,6 @@ object ExceptionFactory {
             }
         }
 
-        return Exception(message)
+        throw BeagleException(message)
     }
 }

@@ -24,9 +24,7 @@ internal class ComparisionOperation(
     override val operationType: ComparisionOperationTypes
 ) : BaseOperation<Operations>() {
 
-    override fun executeOperation(parameter: Parameter): Any {
-        super.checkArguments(parameter)
-
+    override fun solve(parameter: Parameter): Any {
         return this.toBoolean(parameter)
     }
 }

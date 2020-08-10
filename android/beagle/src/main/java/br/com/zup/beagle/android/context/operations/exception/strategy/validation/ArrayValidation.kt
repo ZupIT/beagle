@@ -28,13 +28,13 @@ internal class ArrayValidation : Validation {
         if ((parameter.arguments.size < 3 && operationType == ArrayOperationTypes.INSERT) ||
             (parameter.arguments.size < 2 && (operationType != ArrayOperationTypes.INSERT)) ||
             parameter.arguments.isEmpty()) {
-            throw ExceptionFactory.createException(
+            ExceptionFactory.createException(
                 ExceptionParameterTypes.REQUIRED_ARGS,
                 parameter.operation,
                 parameter.arguments.size.toString())
         } else {
             if (parameter.arguments[0].parameterType != ParameterTypes.ARRAY) {
-                throw ExceptionFactory.createException(
+                ExceptionFactory.createException(
                     ExceptionParameterTypes.ARRAY,
                     parameter.operation,
                     parameter.arguments.size.toString()
@@ -42,7 +42,7 @@ internal class ArrayValidation : Validation {
             } else if ((operationType == ArrayOperationTypes.REMOVE_INDEX || operationType == ArrayOperationTypes.INSERT) &&
                 parameter.arguments[parameter.arguments.lastIndex].parameterType != ParameterTypes.NUMBER
             ) {
-                throw ExceptionFactory.createException(
+                ExceptionFactory.createException(
                     ExceptionParameterTypes.INDEX,
                     parameter.operation,
                     parameter.arguments[parameter.arguments.lastIndex].value.toString()

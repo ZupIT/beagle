@@ -21,9 +21,7 @@ import br.com.zup.beagle.android.context.operations.strategy.BaseOperation
 import br.com.zup.beagle.android.context.operations.parameter.Parameter
 
 internal class SubStringOperation(override val operationType: Operations) : BaseOperation<Operations>() {
-    override fun executeOperation(parameter: Parameter): Any {
-        super.checkArguments(parameter)
-
+    override fun solve(parameter: Parameter): Any {
         val value = parameter.arguments[0].withoutApostrophe()
         val from = parameter.arguments[1].value as Int
         val length = parameter.arguments[2].value as Int

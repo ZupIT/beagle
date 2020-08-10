@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.context.operations.operation
 
+import br.com.zup.beagle.android.context.operations.exception.ExceptionWrapper
 import br.com.zup.beagle.android.context.operations.strategy.BaseOperation
 import br.com.zup.beagle.android.context.operations.strategy.Operations
 
@@ -33,4 +34,11 @@ data class Operation (
     val operationToken: String,
     val operationStrategy: BaseOperation<Operations>?,
     val operationValue: String
-)
+) {
+
+    init {
+        ExceptionWrapper.validateOperation(this)
+    }
+
+    fun validate() : Any? = operationStrategy?.validate(this.toParameterType())
+}

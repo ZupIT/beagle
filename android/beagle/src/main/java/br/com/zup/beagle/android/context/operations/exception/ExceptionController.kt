@@ -27,25 +27,24 @@ import br.com.zup.beagle.android.context.operations.strategy.invalid.InvalidOper
 
 internal class ExceptionController {
 
-    internal fun checkOperation(operation: Operation) {
+    internal fun validateOperation(operation: Operation) {
         val type = operation.operationStrategy
 
         if (type is InvalidOperation) {
-            throw ExceptionFactory.createException(
+            ExceptionFactory.createException(
                 exceptionTypes = type.operationType as ExceptionOperationTypes,
                 details = operation.operationToken
             )
         }
         else if (operation.hasIncorrectSyntax()) {
-            throw ExceptionFactory.createException(
+            ExceptionFactory.createException(
                 exceptionTypes = ExceptionOperationTypes.MISSING_DELIMITERS,
                 details = operation.operationToken
             )
         }
     }
 
-    fun
-        checkParameter(parameter: Parameter) {
+    fun validateParameter(parameter: Parameter) {
         if (parameter.arguments.isNotEmpty()) {
             val operationType = parameter.operation.operationStrategy?.operationType
 
@@ -53,7 +52,7 @@ internal class ExceptionController {
                 ValidationFactory.validate(operationType, parameter)
             }
         } else {
-            throw ExceptionFactory.createException(
+            ExceptionFactory.createException(
                 ExceptionParameterTypes.REQUIRED_ARGS,
                 parameter.operation,
                 parameter.arguments.size.toString()

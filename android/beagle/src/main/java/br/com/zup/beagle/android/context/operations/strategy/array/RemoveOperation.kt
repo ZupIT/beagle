@@ -25,9 +25,7 @@ internal class RemoveOperation(
     override val operationType: Operations
 ) : BaseOperation<Operations>() {
 
-    override fun executeOperation(parameter: Parameter): Any {
-        super.checkArguments(parameter)
-
+    override fun solve(parameter: Parameter): Any {
         val list = parameter.arguments[0].value as MutableList<Argument>
         val itemToRemove = parameter.arguments[1]
         var itemFound: Any? = null

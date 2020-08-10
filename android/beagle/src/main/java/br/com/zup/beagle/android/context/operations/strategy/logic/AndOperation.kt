@@ -24,9 +24,7 @@ internal class AndOperation(
     override val operationType: LogicOperationTypes
 ) : BaseOperation<Operations>() {
 
-    override fun executeOperation(parameter: Parameter): Any {
-        super.checkArguments(parameter)
-
+    override fun solve(parameter: Parameter): Any {
         parameter.arguments.forEach {
             if (!(it.value as Boolean)) {
                 return false

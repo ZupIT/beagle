@@ -25,9 +25,7 @@ import br.com.zup.beagle.android.context.operations.parameter.ParameterTypes
 import br.com.zup.beagle.android.context.operations.parameter.removeWhiteSpaces
 
 internal class IsEmptyOperation(override val operationType: Operations) : BaseOperation<Operations>() {
-    override fun executeOperation(parameter: Parameter): Any? {
-        super.checkArguments(parameter)
-
+    override fun solve(parameter: Parameter): Any? {
         val parameterType = parameter.arguments[0].parameterType
         val parameterValue = parameter.arguments[0].value
 

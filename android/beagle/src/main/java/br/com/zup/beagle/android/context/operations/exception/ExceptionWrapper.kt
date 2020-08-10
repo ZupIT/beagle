@@ -20,11 +20,11 @@ import br.com.zup.beagle.android.context.operations.operation.Operation
 import br.com.zup.beagle.android.context.operations.parameter.Parameter
 
 internal object ExceptionWrapper {
-    fun checkOperation(operation: Operation) {
-        ExceptionController().checkOperation(operation)
+    fun validateOperation(operation: Operation) {
+        ExceptionController().validateOperation(operation)
     }
 
-    fun checkParameter(parameter: Parameter) {
-        ExceptionController().checkParameter(parameter)
+    fun validateParameter(parameter: Parameter) {
+        ExceptionController().validateParameter(parameter)
     }
 }

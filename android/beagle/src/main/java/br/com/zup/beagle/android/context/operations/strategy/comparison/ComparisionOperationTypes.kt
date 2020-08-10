@@ -16,10 +16,11 @@
 
 package br.com.zup.beagle.android.context.operations.strategy.comparison
 
+import br.com.zup.beagle.android.context.operations.exception.strategy.validation.OperationsValidation
 import br.com.zup.beagle.android.context.operations.strategy.BaseOperation
 import br.com.zup.beagle.android.context.operations.strategy.Operations
 
-internal enum class ComparisionOperationTypes(val input: String) : Operations {
+internal enum class ComparisionOperationTypes(val input: String) : OperationsValidation {
     GREATER_THAN("gt"),
     GREATER_THAN_EQUALS("gte"),
     LESS_THEN("lt"),
