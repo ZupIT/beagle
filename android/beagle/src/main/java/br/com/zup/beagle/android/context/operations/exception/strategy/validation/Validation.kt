@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.context.operations.exception.strategy
+package br.com.zup.beagle.android.context.operations.exception.strategy.validation
 
-internal enum class ExceptionParameterTypes : ExceptionTypes {
-    EMPTY,
-    REQUIRED_ARGS,
-    NUMBER,
-    ARRAY,
-    INDEX,
-    STRING
+import br.com.zup.beagle.android.context.operations.parameter.Parameter
+import br.com.zup.beagle.android.context.operations.strategy.Operations
+
+internal interface Validation {
+    fun validate(operationType: Operations? = null, parameter: Parameter)
 }

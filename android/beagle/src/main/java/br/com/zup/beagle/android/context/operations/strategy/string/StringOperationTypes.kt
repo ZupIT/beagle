@@ -16,10 +16,11 @@
 
 package br.com.zup.beagle.android.context.operations.strategy.string
 
+import br.com.zup.beagle.android.context.operations.exception.strategy.validation.OperationsValidation
 import br.com.zup.beagle.android.context.operations.strategy.BaseOperation
 import br.com.zup.beagle.android.context.operations.strategy.Operations
 
-internal enum class StringOperationTypes(val input: String) : Operations {
+internal enum class StringOperationTypes(val input: String) : OperationsValidation {
     CONCAT("concat"),
     CAPITALIZE("capitalize"),
     UPPERCASE("uppercase"),
