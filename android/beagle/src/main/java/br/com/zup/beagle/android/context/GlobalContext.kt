@@ -34,7 +34,7 @@ object GlobalContext {
         return contextDataManipulator.get(globalContext, path)
     }
 
-    fun set(path: String? = null, value: Any) {
+    fun set(value: Any, path: String? = null) {
         val result = contextDataManipulator.set(globalContext, path, value)
         notifyContextChanges(result)
     }
