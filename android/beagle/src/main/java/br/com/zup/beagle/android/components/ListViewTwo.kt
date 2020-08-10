@@ -32,7 +32,7 @@ import br.com.zup.beagle.android.utils.getContextBinding
 import br.com.zup.beagle.android.utils.observeBindChanges
 import br.com.zup.beagle.android.utils.setContextData
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.android.view.custom.BeagleView
+import br.com.zup.beagle.android.view.custom.BeagleFlexView
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
@@ -152,7 +152,7 @@ internal class ListViewContextAdapter2(
         ).also {
             it.layoutParams = LayoutParams(layoutParamWidth(), layoutParamHeight())
         }
-        (view as BeagleView).configViewPosition(position)
+        view.configViewPosition(position)
         return ContextViewHolderTwo(view)
     }
 
@@ -164,7 +164,7 @@ internal class ListViewContextAdapter2(
 
     private fun isOrientationVertical() = (orientation == RecyclerView.VERTICAL)
 
-    private fun BeagleView.configViewPosition(position: Int) {
+    private fun BeagleFlexView.configViewPosition(position: Int) {
         val templateClone = template
         this.addServerDrivenComponent(templateClone, this@ListViewContextAdapter2.rootView)
         this.setContextData(ContextData("item", listItems[position]))

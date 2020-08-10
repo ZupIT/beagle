@@ -48,7 +48,7 @@ import br.com.zup.beagle.widget.layout.ScreenBuilder
 import br.com.zup.beagle.widget.ui.ListView
 import br.com.zup.beagle.widget.ui.Text
 
-object ListViewWithoutServiceBuilder : ScreenBuilder {
+object ListViewContextWithoutServiceBuilder : ScreenBuilder {
     override fun build() = Screen(
         child = Container(
             children = listOf(

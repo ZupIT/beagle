@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.sample.spring.service
 
-import br.com.zup.beagle.sample.builder.ListViewContextScreenBuilder
+import br.com.zup.beagle.sample.builder.ListViewContextWithoutServiceBuilder
 import br.com.zup.beagle.sample.builder.ListViewScreenBuilder
 import org.springframework.stereotype.Service
 
@@ -24,5 +24,5 @@ import org.springframework.stereotype.Service
 class SampleListViewService {
     fun createListView() = ListViewScreenBuilder
 
-    fun createListViewContext() = ListViewContextScreenBuilder
+    fun createListViewContext() = ListViewContextWithoutServiceBuilder
 }
