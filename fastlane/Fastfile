@@ -26,6 +26,21 @@ platform :workflow do
 end
 
 ###
+###  Flutter
+###
+
+platform :flutter do
+
+  desc "Pull Request verification"
+  lane :pull_request_verification do
+    sh "cd .. && fastlane/flutter/tests.sh"
+    run_codecov(platform: 'flutter')
+    sh "cd .. && flutter analyze > flutter_analyze_report.txt || true"
+  end
+
+end
+
+###
 ###  Android
 ###
 
@@ -81,7 +96,7 @@ platform :ios do
   end
 
   desc "CocoaPods Integration test"
-  private_lane :iOSCocoaPodsIntegration do 
+  private_lane :iOSCocoaPodsIntegration do
     xcversion(version: "~> 11.5.0")
     installCocoaPods
     scan(

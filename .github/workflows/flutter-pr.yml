@@ -1,22 +1,22 @@
-name: Beagle iOS Pull Request
+name: Beagle Flutter Pull Request
 
 on:
     push:
         branches:
             - master
     pull_request:
-        # TODO: remove this path selector when we have more integrated tests
         paths:
-            - 'iOS/**'
+            - 'flutter/**'
             - 'Gemfile'
 jobs:
-    pr_verification:
+    pr-verification:
         name: PR Check
         runs-on: macos-latest
-
         steps:
             -   uses: actions/checkout@v2
-
+            -   uses: subosito/flutter-action@v1
+                with:
+                  channel: 'stable' # or: 'dev' or 'beta'
             -   name: Cache fastlane dependences
                 uses: actions/cache@v2
                 env:
@@ -25,22 +25,20 @@ jobs:
                 with:
                     path: ${{ env.fastlane-path }}
                     key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
-
             -   name: Install Fastlane
                 run: bundle config set path '~/.gem' && bundle install
 
-            -   name: Cache SPM dependencies
+            -   name: Cache pub dependences
                 uses: actions/cache@v2
+                env:
+                    pub-cache-key: pub-cache
+                    pub-path: ~/.pub-cache
                 with:
-                    path: ${{ runner.os }}-spm-${{ hashFiles('iOS/**/Package.resolved') }}
-                    key: ~/**/DerivedData
-
-            -   name: install swiftLint
-                run: brew install swiftlint
-
-            -   name: execute Fastlane
+                    path: ${{ env.pub-path }}
+                    key: ${{ runner.os }}-build-${{ env.pub-cache-key }}
+            -   name: Run pr check
                 env:
                     GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
                     GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
                     CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-                run: bundle exec fastlane ios pull_request_verification
+                run: bundle exec fastlane flutter pull_request_verification
