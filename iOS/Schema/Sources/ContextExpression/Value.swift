@@ -17,7 +17,7 @@
 
 import Foundation
 
-public enum Value: Equatable {
+public enum Value: Decodable, Equatable {
     case binding(Binding)
     case literal(Literal)
 }

@@ -17,7 +17,7 @@
 
 import Foundation
 
-public enum Literal: Equatable, Decodable {
+public enum Literal: Decodable, Equatable {
     case int(Int)
     case double(Double)
     case bool(Bool)

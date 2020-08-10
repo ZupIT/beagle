@@ -10,6 +10,7 @@
 		252D727524D84AEF0069541F /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252D727424D84AEF0069541F /* Binding.swift */; };
 		252D727924D8AE850069541F /* Literal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252D727824D8AE850069541F /* Literal.swift */; };
 		257FC9F924DCA75300F2157C /* Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257FC9F824DCA75300F2157C /* Value.swift */; };
+		257FC9FB24DDB74300F2157C /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257FC9FA24DDB74300F2157C /* Operation.swift */; };
 		570434EE24A675AE00DAD0D3 /* buttonComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = 570434EC24A6753000DAD0D3 /* buttonComponent.json */; };
 		6E71540324B39EFB0025B850 /* SimpleFormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E71540124B3953C0025B850 /* SimpleFormTests.swift */; };
 		6E71540924B3A7860025B850 /* simpleFormComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = 6E71540824B3A7860025B850 /* simpleFormComponent.json */; };
@@ -137,6 +138,7 @@
 		252D727424D84AEF0069541F /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 		252D727824D8AE850069541F /* Literal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Literal.swift; sourceTree = "<group>"; };
 		257FC9F824DCA75300F2157C /* Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Value.swift; sourceTree = "<group>"; };
+		257FC9FA24DDB74300F2157C /* Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
 		570434EC24A6753000DAD0D3 /* buttonComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = buttonComponent.json; sourceTree = "<group>"; };
 		6E71540124B3953C0025B850 /* SimpleFormTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleFormTests.swift; sourceTree = "<group>"; };
 		6E71540824B3A7860025B850 /* simpleFormComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = simpleFormComponent.json; sourceTree = "<group>"; };
@@ -353,10 +355,11 @@
 				935278E9249954F500AB9D1F /* DynamicObject.swift */,
 				935278E7249952DE00AB9D1F /* Expression.swift */,
 				252D727824D8AE850069541F /* Literal.swift */,
+				257FC9FA24DDB74300F2157C /* Operation.swift */,
 				93BFE329249E2E34009838CE /* Parser.swift */,
 				938B13BE2497E6A700AA8E3B /* Path.swift */,
-				935278EB249956C200AB9D1F /* Tests */,
 				257FC9F824DCA75300F2157C /* Value.swift */,
+				935278EB249956C200AB9D1F /* Tests */,
 			);
 			path = ContextExpression;
 			sourceTree = "<group>";
@@ -1315,6 +1318,7 @@
 				C864D2A4247C240200E7A1F9 /* FormInput.swift in Sources */,
 				6EB3368224A52AB5000A9D17 /* SubmitForm.swift in Sources */,
 				C8EBCC60247C3027002030CC /* PageIndicator.swift in Sources */,
+				257FC9FB24DDB74300F2157C /* Operation.swift in Sources */,
 				C864D2D8247C240200E7A1F9 /* FormRemoteAction.swift in Sources */,
 				C864D2B4247C240200E7A1F9 /* SafeArea.swift in Sources */,
 				C864D2A2247C240200E7A1F9 /* FormSubmit.swift in Sources */,

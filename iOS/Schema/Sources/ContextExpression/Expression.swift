@@ -26,6 +26,7 @@ public enum ContextExpression: Equatable {
 
 public enum SingleExpression: Decodable, Equatable {
     case value(Value)
+    case operation(Operation)
 }
 
 extension SingleExpression: RawRepresentable {
@@ -40,6 +41,8 @@ extension SingleExpression: RawRepresentable {
         switch self {
         case let .value(value):
             result += value.rawValue
+        case let .operation(operation):
+            result += operation.rawValue
         }
         
         result += "}"

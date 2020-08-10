@@ -43,8 +43,9 @@ let bool = Parser<Bool> { str in
     return Bool(boolString ?? "")
 }
 
-let literalString = prefix(with: #"^'([^'\\]|(\\.))*'"#).map {
-    String($0.dropFirst().dropLast())
+let literalString = prefix(with: #"^'([^'\\]|(\\.))*'"#).map { str -> String in
+    let result = str.replacingOccurrences(of: "\\'", with: "'")
+    return String(result.dropFirst().dropLast())
 }
 
 let literalNull = Parser<Void> { str in
@@ -79,7 +80,7 @@ let pathIndexNode: Parser<Path.Node> = zip(
     .index(int)
 }
 
-let pathKeyNode: Parser<Path.Node> = prefix(with: #"^(?!(true|false|null|'|\d))(\w)+"#).map { .key($0) }
+let pathKeyNode: Parser<Path.Node> = prefix(with: #"^(?!true|false|null|\d)\w+\b(?!\()"#).map { .key($0) }
 
 let pathHeadNodes: Parser<[Path.Node]> = zip(
     zeroOrOne(pathKeyNode),
@@ -152,15 +153,78 @@ let value: Parser<Value> = zip(
     return .never
 }
 
+// MARK: Operation
+
+let oparationName: Parser<Operation.Name> = prefix(with: #"^(?!\d)\w+"#).flatMap {
+    guard let name = Operation.Name(rawValue: $0) else { return .never }
+    return always(name)
+}
+
+let parameter = Parser<Operation.Parameter> { str in
+    let original = str
+    var result = ""
+    var parenthesesCount = 0
+    var isSingleQuoteOpen = false
+    
+    while !str.isEmpty {
+        var element = str.removeFirst()
+        
+        if element == "(" && isSingleQuoteOpen == false {
+            parenthesesCount += 1
+        } else if element == ")" && isSingleQuoteOpen == false {
+            parenthesesCount -= 1
+        } else if element == "'" {
+            isSingleQuoteOpen.toggle()
+        } else if element == "\\" && str.first == "'" {
+            result.append(element)
+            element = str.removeFirst()
+        } else if element == "," && parenthesesCount == 0 && isSingleQuoteOpen == false {
+            break
+        } else if element == " " && isSingleQuoteOpen == false {
+            continue
+        }
+        
+        result.append(element)
+    }
+    
+    if let valueMatch = value.run(result).match {
+        str += value.run(result).rest
+        return .value(valueMatch)
+    } else if let operationMatch = operation.run(result).match {
+        str += operation.run(result).rest
+        return .operation(operationMatch)
+    } else {
+        str = original
+        return nil
+    }
+}
+
+let parameters: Parser<[Operation.Parameter]> = zip(
+    literal(string: "("),
+    zeroOrMore(parameter, separatedBy: literal(string: "")),
+    literal(string: ")")
+).map { _, parameters, _ in
+    parameters
+}
+
+let operation: Parser<Operation> = zip(
+    oparationName,
+    parameters
+).flatMap { name, parameters in
+    always(Operation(name: name, parameters: parameters))
+}
+
 // MARK: Single Expression
 
 let singleExpression: Parser<SingleExpression> = zip(
     literal(string: "@{"),
-    zeroOrOne(value),
+    zip(zeroOrOne(value), zeroOrOne(operation)),
     literal(string: "}")
-).flatMap { _, valueArray, _ in
-    if let value = valueArray.first {
+).flatMap { _, tupleArray, _ in
+    if let value = tupleArray.0.first {
         return always(.value(value))
+    } else if let operation = tupleArray.1.first {
+        return always(.operation(operation))
     }
     
     return .never
@@ -177,7 +241,7 @@ let multipleExpression: Parser<MultipleExpression> = zeroOrMore(
     var result: [MultipleExpression.Node] = []
     var hasExpression = false
     for node in array {
-        if case var .string(string) = node {
+        if case let .string(string) = node {
             result.append(.string(string.escapeExpressions()))
         } else {
             hasExpression = true

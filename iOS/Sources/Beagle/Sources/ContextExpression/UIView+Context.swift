@@ -88,6 +88,8 @@ extension UIView {
             closure(context.value)
         case let .value(.literal(literal)):
             completion(transform(literal.evaluate()))
+        case .operation:
+            fatalError("Fix me later")
         }
     }
     
@@ -100,6 +102,8 @@ extension UIView {
             return transform(dynamicObject)
         case let .value(.literal(literal)):
             return transform(literal.evaluate())
+        case .operation:
+            fatalError("Fix me later")
         }
     }
     
@@ -117,7 +121,7 @@ extension UIView {
                     }
                     let contextObserver = ContextObserver(onContextChange: closure)
                     context.addObserver(contextObserver)
-                case .value:
+                case .value, .operation:
                     configBinding(for: single, completion: completion)
                 }
             }
@@ -198,6 +202,8 @@ extension UIView {
             }
         case let .value(.literal(literal)):
             return transform(literal.evaluate())
+        case .operation:
+            fatalError("Fix me later")
         }
     }
 }
