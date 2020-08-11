@@ -18,14 +18,16 @@ package br.com.zup.beagle.android.context.operations.exception.strategy.validati
 
 import br.com.zup.beagle.android.context.operations.exception.ExceptionFactory
 import br.com.zup.beagle.android.context.operations.exception.strategy.ExceptionParameterTypes
+import br.com.zup.beagle.android.context.operations.parameter.Argument
 import br.com.zup.beagle.android.context.operations.parameter.Parameter
 import br.com.zup.beagle.android.context.operations.parameter.ParameterTypes
 import br.com.zup.beagle.android.context.operations.strategy.Operations
 
 internal class NumberValidation : Validation {
+
     override fun validate(operationType: Operations?, parameter: Parameter) {
         parameter.arguments.forEach {
-            if (it.parameterType != ParameterTypes.NUMBER) {
+            if (isNotNumber(it)) {
                 ExceptionFactory.createException(
                     ExceptionParameterTypes.NUMBER,
                     parameter.operation,
@@ -34,4 +36,7 @@ internal class NumberValidation : Validation {
             }
         }
     }
+
+    private fun isNotNumber(it: Argument) =
+        it.parameterType != ParameterTypes.NUMBER
 }

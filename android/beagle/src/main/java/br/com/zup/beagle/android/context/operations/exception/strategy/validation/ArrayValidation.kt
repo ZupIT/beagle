@@ -24,24 +24,21 @@ import br.com.zup.beagle.android.context.operations.strategy.Operations
 import br.com.zup.beagle.android.context.operations.strategy.array.ArrayOperationTypes
 
 internal class ArrayValidation : Validation {
+
     override fun validate(operationType: Operations?, parameter: Parameter) {
-        if ((parameter.arguments.size < 3 && operationType == ArrayOperationTypes.INSERT) ||
-            (parameter.arguments.size < 2 && (operationType != ArrayOperationTypes.INSERT)) ||
-            parameter.arguments.isEmpty()) {
+        if (notHasRequireArgs(operationType, parameter)) {
             ExceptionFactory.createException(
                 ExceptionParameterTypes.REQUIRED_ARGS,
                 parameter.operation,
                 parameter.arguments.size.toString())
         } else {
-            if (parameter.arguments[0].parameterType != ParameterTypes.ARRAY) {
+            if (isNotFirstParameterArray(parameter)) {
                 ExceptionFactory.createException(
                     ExceptionParameterTypes.ARRAY,
                     parameter.operation,
                     parameter.arguments.size.toString()
                 )
-            } else if ((operationType == ArrayOperationTypes.REMOVE_INDEX || operationType == ArrayOperationTypes.INSERT) &&
-                parameter.arguments[parameter.arguments.lastIndex].parameterType != ParameterTypes.NUMBER
-            ) {
+            } else if (isNotNumberIndexParameter(operationType, parameter)) {
                 ExceptionFactory.createException(
                     ExceptionParameterTypes.INDEX,
                     parameter.operation,
@@ -50,4 +47,22 @@ internal class ArrayValidation : Validation {
             }
         }
     }
+
+    private fun isNotNumberIndexParameter(operationType: Operations?, parameter: Parameter) =
+        (operationType == ArrayOperationTypes.REMOVE_INDEX || operationType == ArrayOperationTypes.INSERT) &&
+            parameter.arguments[parameter.arguments.lastIndex].parameterType != ParameterTypes.NUMBER
+
+    private fun isNotFirstParameterArray(parameter: Parameter) : Boolean =
+        parameter.arguments[0].parameterType != ParameterTypes.ARRAY
+
+    private fun notHasRequireArgs(operationType: Operations?, parameter: Parameter) =
+        parameter.arguments.isEmpty() ||
+            notHasRequireArgsInsertOperation(operationType, parameter) ||
+            notHasRequireArgsNonInsertOperation(operationType, parameter)
+
+    private fun notHasRequireArgsInsertOperation(operationType: Operations?, parameter: Parameter): Boolean =
+        parameter.arguments.size < 3 && operationType == ArrayOperationTypes.INSERT
+
+    private fun notHasRequireArgsNonInsertOperation(operationType: Operations?, parameter: Parameter): Boolean =
+        parameter.arguments.size < 2 && operationType != ArrayOperationTypes.INSERT
 }

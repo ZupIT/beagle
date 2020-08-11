@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.context.operations.exception.strategy.validati
 
 import br.com.zup.beagle.android.context.operations.exception.ExceptionFactory
 import br.com.zup.beagle.android.context.operations.exception.strategy.ExceptionParameterTypes
+import br.com.zup.beagle.android.context.operations.parameter.Argument
 import br.com.zup.beagle.android.context.operations.parameter.Parameter
 import br.com.zup.beagle.android.context.operations.parameter.ParameterTypes
 import br.com.zup.beagle.android.context.operations.parameter.removeWhiteSpaces
@@ -27,34 +28,11 @@ import br.com.zup.beagle.android.context.operations.strategy.string.StringOperat
 internal class StringValidation : Validation {
 
     override fun validate(operationType: Operations?, parameter: Parameter) {
-        if (operationType == StringOperationTypes.SUBSTRING) {
-            if (parameter.arguments.size < 3) {
-                ExceptionFactory.createException(
-                    ExceptionParameterTypes.REQUIRED_ARGS,
-                    parameter.operation,
-                    parameter.arguments.size.toString()
-                )
-            } else {
-                parameter.arguments.forEachIndexed { index, item ->
-                    if ((index == 0 && item.parameterType != ParameterTypes.STRING)) {
-                        ExceptionFactory.createException(
-                            ExceptionParameterTypes.STRING,
-                            parameter.operation,
-                            item.toString()
-                        )
-                    } else if (index > 0 && (item.parameterType != ParameterTypes.NUMBER ||
-                            item.value.toString().removeWhiteSpaces().isEmpty())) {
-                        ExceptionFactory.createException(
-                            ExceptionParameterTypes.INDEX,
-                            parameter.operation,
-                            item.toString()
-                        )
-                    }
-                }
-            }
+        if (isSubstringOperation(operationType)) {
+            verifyParametersFromSubstringOperation(parameter)
         } else {
             parameter.arguments.forEach {
-                if (it.parameterType != ParameterTypes.STRING) {
+                if (isNotStringParameter(it)) {
                     ExceptionFactory.createException(
                         ExceptionParameterTypes.STRING,
                         parameter.operation,
@@ -64,5 +42,47 @@ internal class StringValidation : Validation {
             }
         }
     }
+
+    private fun isSubstringOperation(operationType: Operations?) =
+        operationType == StringOperationTypes.SUBSTRING
+
+    private fun verifyParametersFromSubstringOperation(parameter: Parameter) {
+        if (notHasRequireArgs(parameter)) {
+            ExceptionFactory.createException(
+                ExceptionParameterTypes.REQUIRED_ARGS,
+                parameter.operation,
+                parameter.arguments.size.toString()
+            )
+        } else {
+            parameter.arguments.forEachIndexed { index, item ->
+                if (isNotFirstParameterString(index, item)) {
+                    ExceptionFactory.createException(
+                        ExceptionParameterTypes.STRING,
+                        parameter.operation,
+                        item.toString()
+                    )
+                } else if (isNotNumberOthersParameters(index, item)) {
+                    ExceptionFactory.createException(
+                        ExceptionParameterTypes.INDEX,
+                        parameter.operation,
+                        item.toString()
+                    )
+                }
+            }
+        }
+    }
+
+    private fun isNotFirstParameterString(index: Int, item: Argument) =
+        index == 0 && isNotStringParameter(item)
+
+    private fun isNotStringParameter(item: Argument) =
+        item.parameterType != ParameterTypes.STRING
+
+    private fun isNotNumberOthersParameters(index: Int, item: Argument) =
+        index > 0 && (item.parameterType != ParameterTypes.NUMBER ||
+            item.value.toString().removeWhiteSpaces().isEmpty())
+
+    private fun notHasRequireArgs(parameter: Parameter) =
+        parameter.arguments.size < 3
 
 }
