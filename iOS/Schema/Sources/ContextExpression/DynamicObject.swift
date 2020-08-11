@@ -52,6 +52,29 @@ extension DynamicObject {
             }
         }
     }
+    
+    public func isEqualIgnoringAssociatedValues(_ anotherObject: DynamicObject) -> Bool {
+        switch (self, anotherObject) {
+        case (.empty, .empty):
+            return true
+        case (.bool, .bool):
+            return true
+        case (.int, .int):
+            return true
+        case (.double, .double):
+            return true
+        case (.string, .string):
+            return true
+        case (.array, .array):
+            return true
+        case (.dictionary, .dictionary):
+            return true
+        case (.expression, .expression):
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 // MARK: Codable

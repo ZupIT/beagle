@@ -50,7 +50,7 @@ extension DynamicObject {
 // MARK: ExpressibleByLiteral
 
 extension DynamicObject: ExpressibleByNilLiteral {
-    public init(nilLiteral: ()) {
+    public init(nilLiteral: Void) {
         self = .empty
     }
 }

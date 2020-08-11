@@ -110,11 +110,11 @@ extension Literal {
     func evaluate() -> DynamicObject {
         switch self {
         case .int(let int):
-            return .string("\(int)")
+            return .int(int)
         case .double(let double):
-            return .string("\(double)")
+            return .double(double)
         case .bool(let bool):
-            return .string("\(bool)")
+            return .bool(bool)
         case .string(let string):
             return .string(string)
         case .null:
