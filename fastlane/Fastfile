@@ -1,4 +1,31 @@
 ###
+###  Workflow
+###
+platform :workflow do
+  desc "Open PR from patch"
+  lane :openPRFromPatch do
+    tagName = ENV["TAG_NAME"]
+    if !tagName.index("-")
+      puts "This release is not a hotfix."
+      puts "Exiting..."
+      next
+    end
+    branchName = tagName.split("/").last
+    sh("git checkout -b release/" + branchName + "-hotfix")
+    push_to_git_remote(
+      tags: false,
+      set_upstream: true
+    )
+    create_pull_request(
+      api_token:ENV["REPO_TOKEN"],
+      repo:ENV["REPO"],
+      title:"fix: Merge #{branchName} patch with master",
+      body: "Auto generated PR to merge fixes from #{branchName} into master."
+      )
+  end
+end
+
+###
 ###  Android
 ###
 
@@ -85,22 +112,42 @@ end
 
 desc "Publish new release based on last two tags"
 lane :deploy do
-  git_pull
-  ENV["VERSION_DEPLOY"] = last_git_tag
+  sh "git fetch"
+  pattern = "*[0-9]"
+  tagName = "master"
+  if ENV["TAG_NAME"].index("-") # Hotfix
+    tagName = "release/" + ENV["TAG_NAME"].split("/").last
+    platformHotfix = tagName.split("-").last
+    pattern = "*-#{platformHotfix}"
+  end
+  sh "git checkout #{tagName}"
 
-  sh "fastlane android deploy_to_production"
-  sh "fastlane backend deploy_to_production"
+  ENV["VERSION_DEPLOY"] = last_git_tag(pattern: pattern)
+  if platformHotfix == "iOS"
+    puts "iOS Hotfix release"
+    sh "fastlane ios release"
+  elsif platformHotfix == "android"
+    puts "Android Hotfix release"
+    sh "fastlane android deploy_to_production"
+  elsif platformHotfix == "backend"
+    puts "Backend Hotfix release"
+    sh "fastlane backend deploy_to_production"
+  else
+    puts "Normal Release"
+    sh "fastlane android deploy_to_production"
+    sh "fastlane backend deploy_to_production"
+    sh "fastlane ios release"
+  end
 
-  sh "fastlane ios release"
-
+  releaseNotes = release_notes
   sh "bash ./delete_release.sh"
   set_github_release(
-    repository_name: "ZupIT/beagle",
+    repository_name: ENV["REPO"],
     api_token: ENV["REPO_TOKEN"],
     name: ENV["VERSION_DEPLOY"],
     tag_name: ENV["VERSION_DEPLOY"],
-    description: release_notes,
-    commitish: "master"
+    description: releaseNotes,
+    commitish: tagName
   )
 end
 
@@ -162,15 +209,17 @@ platform :backend do
 
 end
 
-
 desc "Generate release notes"
 private_lane :release_notes do
-  get_previous_tag = sh "bash ./get_previous_tag.sh"
+  get_previous_tag = lastExpectedVersion(newVersion:ENV["VERSION_DEPLOY"])
+  tagHashes = sh "git show-ref -s #{get_previous_tag}"
 
   lane_context[SharedValues::RELEASE_ANALYZED] = true
-  lane_context[SharedValues::RELEASE_LAST_TAG_HASH] = get_previous_tag
-  lane_context[SharedValues::RELEASE_NEXT_VERSION] = ENV["VERSION_DEPLOY"]
+  lane_context[SharedValues::RELEASE_LAST_TAG_HASH] = tagHashes.split("\n").last
+  lane_context[SharedValues::RELEASE_NEXT_VERSION] = ENV["TAG_NAME"]
+  lane_context[SharedValues::CONVENTIONAL_CHANGELOG_ACTION_FORMAT_PATTERN] = "(feat|fix|refactor|perf|chore|test|docs|no_type)(:)()(.*)"
   changelog = conventional_changelog(display_title: false, display_links: false)
+  changelog = changelog.gsub("**::**  ", "")
   "\nRelease notes #{ ENV["VERSION_DEPLOY"] }
    \nChanges:
    \n#{changelog}"
@@ -203,4 +252,28 @@ error do |lane, exception, options|
        run_danger
      end
   end
+end
+
+lane :lastExpectedVersion do |params|
+  platform = params[:newVersion].split("-")
+  releaseNumberArray = platform.first.split(".")
+  lastVersion = ""
+  calculated = false
+  for number in releaseNumberArray.reverse()
+    intNumber = number.to_i
+    if intNumber != 0 && !calculated
+      intNumber -= 1
+      calculated = true
+    end
+    lastVersion = ".#{intNumber}" + lastVersion
+  end
+  lastVersion[0] = ""
+
+  version = ""
+  if platform.length > 1
+    version = "#{lastVersion}-#{platform[1]}"
+  else
+    version = lastVersion
+  end
+  "#{version}"
 end

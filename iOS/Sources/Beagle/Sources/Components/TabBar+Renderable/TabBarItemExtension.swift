@@ -1,3 +1,4 @@
+//
 /*
  * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *
@@ -14,16 +15,27 @@
  * limitations under the License.
  */
 
-import UIKit
-import WebKit
 import BeagleSchema
 
-extension WebView: ServerDrivenComponent {
-    public func toView(renderer: BeagleRenderer) -> UIView {
-        let view = WebViewUIComponent(controller: renderer.controller)
-        renderer.observe(url, andUpdateManyIn: view) {
-            view.url = $0
+internal extension TabBarItem {
+    
+    enum ItemContentType {
+        case icon(String)
+        case title(String)
+        case both(icon: String, title: String)
+        case none
+    }
+    
+    var itemContentType: ItemContentType {
+        switch (icon, title) {
+        case let (icon?, title?):
+            return .both(icon: icon, title: title)
+        case let (_, title?):
+            return .title(title)
+        case let (icon?, _):
+            return .icon(icon)
+        default:
+            return .none
         }
-        return view
     }
 }
