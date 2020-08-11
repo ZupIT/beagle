@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.components.page
 
-import androidx.viewpager.widget.ViewPager
+import android.support.v4.view.ViewPager
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.BaseComponentTest
 import br.com.zup.beagle.android.components.Button

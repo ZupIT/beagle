@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.android.context
 
-import androidx.collection.LruCache
+import android.support.v4.util.LruCache
 import br.com.zup.beagle.android.data.serializer.BeagleMoshi
 import br.com.zup.beagle.android.jsonpath.JsonPathUtils
 import br.com.zup.beagle.android.logger.BeagleMessageLogs

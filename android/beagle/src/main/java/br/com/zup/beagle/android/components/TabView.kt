@@ -17,29 +17,27 @@
 package br.com.zup.beagle.android.components
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.support.design.widget.TabLayout
+import android.support.v4.content.ContextCompat
+import android.support.v4.view.PagerAdapter
+import android.support.v4.view.ViewPager
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.core.content.ContextCompat
-import androidx.viewpager.widget.PagerAdapter
-import androidx.viewpager.widget.ViewPager
 import br.com.zup.beagle.R
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.BeagleConstants.DEPRECATED_TAB_VIEW
-import br.com.zup.beagle.android.utils.StyleManager
 import br.com.zup.beagle.android.utils.dp
 import br.com.zup.beagle.android.view.ViewFactory
-import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.android.widget.RootView
 import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
+import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.widget.core.Flex
-import com.google.android.material.tabs.TabLayout
 
 private val TAB_BAR_HEIGHT = 48.dp()
 

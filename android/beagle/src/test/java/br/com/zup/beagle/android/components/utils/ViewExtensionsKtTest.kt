@@ -18,14 +18,13 @@ package br.com.zup.beagle.android.components.utils
 
 
 import android.app.Activity
-import android.os.IBinder
+import android.support.v4.app.Fragment
+import android.support.v4.widget.TextViewCompat
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.TextViewCompat
-import androidx.fragment.app.Fragment
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
@@ -45,7 +44,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
-import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify

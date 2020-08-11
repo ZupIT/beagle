@@ -16,10 +16,9 @@
 
 package br.com.zup.beagle.android.components.form
 
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.children
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.action.FormLocalAction
 import br.com.zup.beagle.android.action.FormRemoteAction
@@ -91,7 +90,8 @@ data class Form(
     }
 
     private fun fetchFormViews(rootView: RootView, viewGroup: ViewGroup) {
-        viewGroup.children.forEach { childView ->
+        for (i in 0 until viewGroup.childCount) {
+            val childView = viewGroup.getChildAt(i)
             if (childView.beagleComponent != null) {
                 val tag = childView.beagleComponent
                 if (tag is FormInput) {
@@ -218,7 +218,7 @@ data class Form(
                 handleEvent(rootView, view, formResult.action)
             }
             is FormResult.Error -> (rootView.getContext() as? BeagleActivity)?.onServerDrivenContainerStateChanged(
-                ServerDrivenState.FormError(formResult.throwable){ handleFormSubmit(rootView, view) }
+                ServerDrivenState.FormError(formResult.throwable) { handleFormSubmit(rootView, view) }
             )
         }
     }

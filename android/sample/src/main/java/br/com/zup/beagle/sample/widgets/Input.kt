@@ -17,8 +17,9 @@
 package br.com.zup.beagle.sample.widgets
 
 import android.graphics.Color
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.EditText
-import androidx.core.widget.doOnTextChanged
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.widget.RootView
@@ -35,20 +36,29 @@ data class Input(
 ) : WidgetView() {
 
     override fun buildView(rootView: RootView) = EditText(rootView.getContext()).apply {
+        val input = this
         setTextColor(Color.BLACK)
         setHintTextColor(Color.BLACK)
-        doOnTextChanged { newText, _, _, _ ->
-            val actions = onTextChange ?: emptyList()
-            this@Input.handleEvent(
-                rootView,
-                this,
-                actions,
-                ContextData(
-                    id = "onTextChange",
-                    value = newText.toString()
+
+        addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {}
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(newText: CharSequence?, start: Int, before: Int, count: Int) {
+                val actions = onTextChange ?: emptyList()
+                this@Input.handleEvent(
+                    rootView,
+                    input,
+                    actions,
+                    ContextData(
+                        id = "onTextChange",
+                        value = newText.toString()
+                    )
                 )
-            )
-        }
+            }
+        })
+
         observeBindChanges(rootView, this, this@Input.hint) {
             this@apply.hint = it
         }
