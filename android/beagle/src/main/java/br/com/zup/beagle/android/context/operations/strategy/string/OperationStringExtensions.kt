@@ -16,7 +16,8 @@
 
 package br.com.zup.beagle.android.context.operations.strategy.string
 
-import br.com.zup.beagle.android.context.operations.grammar.*
+import br.com.zup.beagle.android.context.operations.grammar.MatchTypes
+import br.com.zup.beagle.android.context.operations.grammar.isNotFullMatchItem
 import br.com.zup.beagle.android.context.operations.grammar.Constants
 import br.com.zup.beagle.android.context.operations.grammar.getMatchResults
 import br.com.zup.beagle.android.context.operations.parameter.Argument

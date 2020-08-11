@@ -18,7 +18,9 @@ package br.com.zup.beagle.android.context.operations.core
 
 import br.com.zup.beagle.android.context.operations.common.ExtractValueFromExpressionPDA
 import br.com.zup.beagle.android.context.operations.common.ExtractValueTypes
-import br.com.zup.beagle.android.context.operations.grammar.*
+import br.com.zup.beagle.android.context.operations.grammar.MatchTypes
+import br.com.zup.beagle.android.context.operations.grammar.isOperationTypeOrArrayMatch
+import br.com.zup.beagle.android.context.operations.grammar.isOperationValueMatch
 import br.com.zup.beagle.android.context.operations.grammar.GrammarChars
 import br.com.zup.beagle.android.context.operations.grammar.getMatchResults
 import br.com.zup.beagle.android.context.operations.operation.Operation
