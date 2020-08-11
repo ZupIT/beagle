@@ -24,6 +24,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.action.SetContext
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
@@ -63,6 +64,9 @@ internal data class ListViewTwo(
     @Transient
     private lateinit var contextAdapter: ListViewContextAdapter2
 
+    @Transient
+    private var list: List<Any>? = null
+
     override fun buildView(rootView: RootView): View {
         val recyclerView = viewFactory.makeRecyclerView(rootView.getContext())
         onInit?.forEach { action ->
@@ -89,11 +93,15 @@ internal data class ListViewTwo(
 
     private fun configDataSourceObserver(rootView: RootView, recyclerView: RecyclerView) {
         observeBindChanges(rootView, recyclerView, dataSource) { value ->
-            if (value.isNullOrEmpty()) {
-                contextAdapter.clearList()
-            } else {
-                contextAdapter.setList(value)
+            if (value != list) {
+                if (value.isNullOrEmpty()) {
+                    contextAdapter.clearList()
+                } else {
+                    contextAdapter.setList(value)
+                }
+                list = value
             }
+
         }
     }
 
@@ -168,7 +176,7 @@ internal class ListViewContextAdapter2(
         val templateClone = template
         this.addServerDrivenComponent(templateClone, this@ListViewContextAdapter2.rootView)
         this.setContextData(ContextData("item", listItems[position]))
-        this@ListViewContextAdapter2.rootView.generateViewModelInstance<ScreenContextViewModel>().linkBindingToContext()
+        this@ListViewContextAdapter2.rootView.generateViewModelInstance<ScreenContextViewModel>().linkBindingToContextAndEvaluateThem()
     }
 
     override fun onBindViewHolder(holder: ContextViewHolderTwo, position: Int) {
@@ -181,8 +189,12 @@ internal class ListViewContextAdapter2(
     }
 
     fun setList(list: List<Any>) {
-        listItems = ArrayList(list)
-        notifyDataSetChanged()
+        try {
+            listItems = ArrayList(list)
+            notifyDataSetChanged()
+        } catch (e: Exception) {
+
+        }
     }
 
     fun clearList() {
