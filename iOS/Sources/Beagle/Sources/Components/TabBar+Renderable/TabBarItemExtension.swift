@@ -15,28 +15,27 @@
  * limitations under the License.
  */
 
-import XCTest
 import BeagleSchema
-@testable import Beagle
 
-final class AlertTests: XCTestCase {
-
-    func testAlertController() {
-        // Given
-        let onPressOkAction = ActionSpy()
-        let alert = Alert(
-            title: "Title",
-            message: "Message",
-            onPressOk: onPressOkAction,
-            labelOk: "Ok"
-        )
-        let view = UIView()
-        let controller = BeagleControllerNavigationSpy()
-
-        // When
-        alert.execute(controller: controller, origin: view)
-
-        // Then
-        XCTAssertTrue(controller.viewControllerToPresent is UIAlertController)
+internal extension TabBarItem {
+    
+    enum ItemContentType {
+        case icon(String)
+        case title(String)
+        case both(icon: String, title: String)
+        case none
+    }
+    
+    var itemContentType: ItemContentType {
+        switch (icon, title) {
+        case let (icon?, title?):
+            return .both(icon: icon, title: title)
+        case let (_, title?):
+            return .title(title)
+        case let (icon?, _):
+            return .icon(icon)
+        default:
+            return .none
+        }
     }
 }

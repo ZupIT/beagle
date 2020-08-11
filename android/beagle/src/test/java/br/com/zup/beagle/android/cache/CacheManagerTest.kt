@@ -226,6 +226,7 @@ class CacheManagerTest {
         // Given
         val beagleCache = mockk<BeagleCache> {
             every { json } returns BEAGLE_JSON_VALUE
+            every { hash } returns BEAGLE_HASH_VALUE
         }
         every { responseData.statusCode } returns 304
 

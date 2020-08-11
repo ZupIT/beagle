@@ -41,7 +41,7 @@ class GlobalContextTest : BaseTest() {
         // Given
         val path = RandomData.string()
         val value = RandomData.string()
-        GlobalContext.set(path = path, value = value)
+        GlobalContext.set(value = value, path = path)
 
         // When
         val result = GlobalContext.get(path)
@@ -81,7 +81,7 @@ class GlobalContextTest : BaseTest() {
         val value = RandomData.string()
         val path = RandomData.string()
 
-        GlobalContext.set(path = path, value = value)
+        GlobalContext.set(value = value, path = path)
         val result = GlobalContext.get(path)
 
         assertEquals(value, result)
@@ -92,11 +92,11 @@ class GlobalContextTest : BaseTest() {
 
         val valueOne = RandomData.string()
         val pathOne = RandomData.string()
-        GlobalContext.set(pathOne, valueOne)
+        GlobalContext.set(valueOne, pathOne)
         val valueTwo = RandomData.string()
         val pathTwo = RandomData.string()
 
-        GlobalContext.set(pathTwo, value = valueTwo)
+        GlobalContext.set(value = valueTwo, path = pathTwo)
         val resultOne = GlobalContext.get(pathOne)
         val resultTwo = GlobalContext.get(pathTwo)
 
@@ -110,7 +110,7 @@ class GlobalContextTest : BaseTest() {
         val pathForSet = RandomData.string()
         val value = RandomData.string()
         val valueAfterClear = ""
-        GlobalContext.set(path = pathForSet, value = value)
+        GlobalContext.set(value = value, path = pathForSet)
         val path = null
 
         GlobalContext.clear(path)
@@ -124,7 +124,7 @@ class GlobalContextTest : BaseTest() {
         // Given
         val path = RandomData.string()
         val value = RandomData.string()
-        GlobalContext.set(path = path, value = value)
+        GlobalContext.set(value = value, path = path)
 
         // When
         GlobalContext.clear(path)
@@ -138,8 +138,8 @@ class GlobalContextTest : BaseTest() {
     fun clear_should_remove_attribute_from_JSON_object() {
         //Given
         val attributeContent = RandomData.string()
-        GlobalContext.set(path = "a.b", value = attributeContent)
-        GlobalContext.set(path = "a.c", value = attributeContent)
+        GlobalContext.set(value = attributeContent, path = "a.b")
+        GlobalContext.set(value = attributeContent, path = "a.c")
 
         //When
         GlobalContext.clear("a.b")
@@ -171,7 +171,7 @@ class GlobalContextTest : BaseTest() {
     @Test
     fun clear_should_not_clear_a_path_that_does_not_exist_in_JSONObject() {
         //Given
-        GlobalContext.set("f.e", true)
+        GlobalContext.set(true, "f.e")
         val objectPath = "a[0].c.e"
 
         //When

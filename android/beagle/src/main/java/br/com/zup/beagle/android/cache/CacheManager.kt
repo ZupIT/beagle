@@ -24,7 +24,6 @@ import br.com.zup.beagle.android.store.StoreType
 import br.com.zup.beagle.android.utils.nanoTimeInSeconds
 import br.com.zup.beagle.android.utils.toLowerKeys
 import br.com.zup.beagle.android.view.ScreenRequest
-import java.lang.NumberFormatException
 
 private const val BEAGLE_HASH = "beagle-hash"
 private const val CACHE_CONTROL_HEADER = "cache-control"
@@ -71,9 +70,7 @@ internal class CacheManager(
         val beagleJson = cachedData[beagleJsonKey]
 
         return if (beagleHashValue != null && beagleJson != null) {
-            persistCacheOnMemory(url, beagleJson, beagleHashValue, null)
-
-            return BeagleCache(
+            BeagleCache(
                 isHot = false,
                 hash = beagleHashValue,
                 json = beagleJson
@@ -103,6 +100,7 @@ internal class CacheManager(
         responseData: ResponseData
     ): String {
         return if (responseData.statusCode == 304 && beagleCache != null) {
+            persistCacheOnMemory(url, beagleCache.json, beagleCache.hash, null)
             beagleCache.json
         } else {
             val headers = responseData.headers.toLowerKeys()

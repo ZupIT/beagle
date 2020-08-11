@@ -30,60 +30,60 @@ class TextTests: XCTestCase {
             <> BeagleStyle.backgroundColor(withColor: .black)
     }
 
-    private lazy var dependencies = BeagleScreenDependencies(
-        theme: theme
-    )
+    private lazy var dependencies = BeagleScreenDependencies(theme: theme)
 
     private lazy var controller = BeagleControllerStub(dependencies: dependencies)
     private lazy var renderer = BeagleRenderer(controller: controller)
     
-    func testEqualTextContent() throws {
+    func testTextContent() {
         // Given
         let component = Text("Test")
         
         // When
-        guard let label = renderer.render(component) as? UITextView else {
-            XCTFail("Unable to type cast to UITextView.")
-            return
-        }
+        let label = renderer.render(component) as? UITextView
         
         // Then
         guard case let .value(text) = component.text else {
             XCTFail("Expected a `.value` property, but got \(String(describing: component.text)).")
             return
         }
-        XCTAssertEqual(text, label.text)
+        XCTAssertEqual(text, label?.text)
     }
     
-    func testTextWithRightAlignment() throws {
+    func testTextDefaultAlignment() {
         // Given
-        let component = Text("Test")
+        var alignments = [Text.Alignment: NSTextAlignment]()
         
         // When
-        guard let label = renderer.render(component) as? UITextView else {
-            XCTFail("Unable to type cast to UITextView.")
-            return
+        for alignmentType in Text.Alignment.allCases {
+            switch alignmentType {
+            case .left:
+                alignments[alignmentType] = NSTextAlignment.left
+            case .right:
+                alignments[alignmentType] = NSTextAlignment.right
+            case .center:
+                alignments[alignmentType] = NSTextAlignment.center
+            }
         }
         
-        // Then
-        XCTAssertEqual(label.textAlignment, NSTextAlignment.natural)
+        //Then
+        for alignmentType in Text.Alignment.allCases {
+            XCTAssertEqual(alignmentType.toUIKit(), alignments[alignmentType])
+        }
     }
     
-    func testTextWithLeftAlignment() throws {
+    func testTextAlignment() {
         // Given
         let component = Text("Test", alignment: Expression.value(.left))
         
         // When
-        guard let label = renderer.render(component) as? UITextView else {
-            XCTFail("Unable to type cast to UITextView.")
-            return
-        }
+       let label = renderer.render(component) as? UITextView
         
         // Then
-        XCTAssertEqual(label.textAlignment, NSTextAlignment.left)
+        XCTAssertEqual(label?.textAlignment, NSTextAlignment.left)
     }
 
-    func test_renderTextComponent() throws {
+    func testRenderTextComponent() {
         let text = Text(
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             styleId: "test.text.style",
@@ -98,5 +98,4 @@ class TextTests: XCTestCase {
         let view = renderer.render(text)
         assertSnapshotImage(view, size: .custom(CGSize(width: 300, height: 150)))
     }
-
 }
