@@ -1,8 +1,8 @@
 ▿ Image
   ▿ mode: Optional<ImageContentMode>
     - some: ImageContentMode.center
-  ▿ path: Expression<PathType>
-    ▿ value: PathType
+  ▿ path: Expression<ImagePath>
+    ▿ value: ImagePath
       - local: "test_image_square-x"
   ▿ widgetProperties: WidgetProperties
     - accessibility: Optional<Accessibility>.none

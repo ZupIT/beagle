@@ -16,7 +16,7 @@
 
 package br.com.zup.beagle.sample.micronaut.service
 
-import br.com.zup.beagle.sample.builder.ListViewContextScreenBuilder
+import br.com.zup.beagle.sample.builder.ListViewContextWithoutServiceBuilder
 import br.com.zup.beagle.sample.builder.ListViewScreenBuilder
 import javax.inject.Singleton
 
@@ -24,5 +24,5 @@ import javax.inject.Singleton
 class SampleListViewService {
     fun createListView() = ListViewScreenBuilder
 
-    fun createListViewContext() = ListViewContextScreenBuilder
+    fun createListViewContext() = ListViewContextWithoutServiceBuilder
 }
