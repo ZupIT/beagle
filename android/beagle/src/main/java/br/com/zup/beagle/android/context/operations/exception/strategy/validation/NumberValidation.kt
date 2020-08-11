@@ -28,8 +28,12 @@ internal class NumberValidation : Validation {
     override fun validate(operationType: Operations?, parameter: Parameter) {
         parameter.arguments.forEach {
             if (isNotNumber(it)) {
-                ExceptionFactory.createException(
-                    ExceptionParameterTypes.NUMBER,
+                val parameterType = parameter.arguments[parameter.arguments.lastIndex].parameterType
+
+                ExceptionFactory.create(
+                    if (parameterType == ParameterTypes.EMPTY)
+                        ExceptionParameterTypes.EMPTY
+                    else ExceptionParameterTypes.INDEX,
                     parameter.operation,
                     it.toString()
                 )

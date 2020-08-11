@@ -36,22 +36,22 @@ private fun String.getOperationType(): BaseOperation<Operations>? =
     this.getSumOperation()
 
 private fun String.getSumOperation(): BaseOperation<Operations>? =
-    NumberOperationTypes.getOperation(this) ?: getLiteralOperation()
+    NumberOperationTypes.getOperationStrategy(this) ?: getLiteralOperation()
 
 private fun String.getLiteralOperation(): BaseOperation<Operations>? =
-    ComparisionOperationTypes.getOperation(this) ?: getLogicOperation()
+    ComparisionOperationTypes.getOperationStrategy(this) ?: getLogicOperation()
 
 private fun String.getLogicOperation(): BaseOperation<Operations>? =
-    LogicOperationTypes.getOperation(this) ?: getStringOperation()
+    LogicOperationTypes.getOperationStrategy(this) ?: getStringOperation()
 
 private fun String.getStringOperation(): BaseOperation<Operations>? =
-    StringOperationTypes.getOperation(this) ?: getArrayOperation()
+    StringOperationTypes.getOperationStrategy(this) ?: getArrayOperation()
 
 private fun String.getArrayOperation(): BaseOperation<Operations>? =
-    ArrayOperationTypes.getOperation(this) ?: getOtherOperation()
+    ArrayOperationTypes.getOperationStrategy(this) ?: getOtherOperation()
 
 private fun String.getOtherOperation(): BaseOperation<Operations>? =
-    OtherOperationTypes.getOperation(this) ?: getInvalidOperation()
+    OtherOperationTypes.getOperationStrategy(this) ?: getInvalidOperation()
 
 private fun String.getInvalidOperation(): BaseOperation<Operations>? =
-    ExceptionOperationTypes.getOperation(this)
+    ExceptionOperationTypes.getOperationStrategy(this)

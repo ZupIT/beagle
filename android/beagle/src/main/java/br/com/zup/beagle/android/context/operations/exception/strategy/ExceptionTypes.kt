@@ -16,6 +16,9 @@
 
 package br.com.zup.beagle.android.context.operations.exception.strategy
 
+import br.com.zup.beagle.android.context.operations.operation.Operation
 import br.com.zup.beagle.android.context.operations.strategy.Operations
 
-interface ExceptionTypes : Operations
+interface ExceptionTypes : Operations {
+    fun getMessage(details: String, operation: Operation?) : String
+}

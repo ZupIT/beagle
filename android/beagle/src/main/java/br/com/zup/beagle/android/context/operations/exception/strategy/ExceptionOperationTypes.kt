@@ -16,17 +16,30 @@
 
 package br.com.zup.beagle.android.context.operations.exception.strategy
 
+import br.com.zup.beagle.android.context.operations.operation.Operation
 import br.com.zup.beagle.android.context.operations.strategy.BaseOperation
 import br.com.zup.beagle.android.context.operations.strategy.Operations
+import br.com.zup.beagle.android.context.operations.strategy.ProvideOperation
 import br.com.zup.beagle.android.context.operations.strategy.invalid.InvalidOperation
 
 enum class ExceptionOperationTypes : ExceptionTypes {
-    NOT_FOUND,
-    INVALID_OPERATION,
-    MISSING_DELIMITERS;
 
-    companion object {
-        fun getOperation(input: String): BaseOperation<Operations> {
+    NOT_FOUND {
+        override fun getMessage(details: String, operation: Operation?) =
+            "Could not resolve your operation. Did you check if the Operation is valid?:: $details"
+    },
+    INVALID_OPERATION {
+        override fun getMessage(details: String, operation: Operation?) =
+            "You can't use reserved input in a function name as (true, false, null, number and symbols) or use in " +
+                "parameter(true, false, null):: check $details in your operation"
+    },
+    MISSING_DELIMITERS {
+        override fun getMessage(details: String, operation: Operation?) =
+            "You forgot to input correct delimiters to function() or array{}:: check $details in your operation"
+    };
+
+    companion object : ProvideOperation {
+        override fun getOperationStrategy(input: String): BaseOperation<Operations> {
             return when (input) {
                 "null", "false", "true" -> InvalidOperation(INVALID_OPERATION)
                 else -> InvalidOperation(NOT_FOUND)

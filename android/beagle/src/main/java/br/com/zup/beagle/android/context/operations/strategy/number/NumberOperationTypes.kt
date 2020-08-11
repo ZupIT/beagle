@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.context.operations.strategy.number
 import br.com.zup.beagle.android.context.operations.exception.strategy.validation.OperationsValidation
 import br.com.zup.beagle.android.context.operations.strategy.BaseOperation
 import br.com.zup.beagle.android.context.operations.strategy.Operations
+import br.com.zup.beagle.android.context.operations.strategy.ProvideOperation
 
 internal enum class NumberOperationTypes(val input: String) : OperationsValidation {
     SUM("sum"),
@@ -26,8 +27,8 @@ internal enum class NumberOperationTypes(val input: String) : OperationsValidati
     MULTIPLY("multiply"),
     DIVIDE("divide");
 
-    companion object {
-        fun getOperation(input: String): BaseOperation<Operations>? {
+    companion object : ProvideOperation {
+        override fun getOperationStrategy(input: String): BaseOperation<Operations>? {
             val found = values().find { it.input == input }
             return if (found != null) NumberOperation(found) else null
         }

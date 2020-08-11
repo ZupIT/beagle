@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.context.operations.strategy.string
 import br.com.zup.beagle.android.context.operations.exception.strategy.validation.OperationsValidation
 import br.com.zup.beagle.android.context.operations.strategy.BaseOperation
 import br.com.zup.beagle.android.context.operations.strategy.Operations
+import br.com.zup.beagle.android.context.operations.strategy.ProvideOperation
 
 internal enum class StringOperationTypes(val input: String) : OperationsValidation {
     CONCAT("concat"),
@@ -27,8 +28,8 @@ internal enum class StringOperationTypes(val input: String) : OperationsValidati
     LOWERCASE("lowercase"),
     SUBSTRING("substr");
 
-    companion object {
-        fun getOperation(input: String): BaseOperation<Operations>? {
+    companion object : ProvideOperation {
+        override fun getOperationStrategy(input: String): BaseOperation<Operations>? {
             val found = values().find { it.input == input }
             return if (found != null)
                 when (found) {

@@ -14,18 +14,8 @@
  * limitations under the License.
  */
 
-package br.com.zup.beagle.android.context.operations.exception
+package br.com.zup.beagle.android.context.operations.strategy
 
-import br.com.zup.beagle.android.context.operations.exception.strategy.ExceptionTypes
-import br.com.zup.beagle.android.context.operations.operation.Operation
-import br.com.zup.beagle.android.exception.BeagleException
-
-object ExceptionFactory {
-
-    fun create (exceptionTypes: ExceptionTypes,
-                operation: Operation? = null,
-                details: String) {
-
-        throw BeagleException(exceptionTypes.getMessage(details, operation))
-    }
+interface ProvideOperation {
+    fun getOperationStrategy(input: String): BaseOperation<Operations>?
 }

@@ -30,33 +30,38 @@ internal class ExceptionController {
     internal fun validateOperation(operation: Operation) {
         val type = operation.operationStrategy
 
-        if (type is InvalidOperation) {
-            ExceptionFactory.createException(
-                exceptionTypes = type.operationType as ExceptionOperationTypes,
-                details = operation.operationToken
-            )
-        }
-        else if (operation.hasIncorrectSyntax()) {
-            ExceptionFactory.createException(
-                exceptionTypes = ExceptionOperationTypes.MISSING_DELIMITERS,
-                details = operation.operationToken
-            )
+        when {
+            type is InvalidOperation -> {
+                ExceptionFactory.create(
+                    exceptionTypes = type.operationType as ExceptionOperationTypes,
+                    details = operation.operationToken
+                )
+            }
+            operation.hasIncorrectSyntax() -> {
+                ExceptionFactory.create(
+                    exceptionTypes = ExceptionOperationTypes.MISSING_DELIMITERS,
+                    details = operation.operationToken
+                )
+            }
         }
     }
 
     fun validateParameter(parameter: Parameter) {
-        if (parameter.arguments.isNotEmpty()) {
-            val operationType = parameter.operation.operationStrategy?.operationType
+        when {
+            parameter.arguments.isNotEmpty() -> {
+                val operationType = parameter.operation.operationStrategy?.operationType
 
-            if (operationType is OperationsValidation) {
-                ValidationFactory.validate(operationType, parameter)
+                if (operationType is OperationsValidation) {
+                    ValidationFactory.validate(operationType, parameter)
+                }
             }
-        } else {
-            ExceptionFactory.createException(
-                ExceptionParameterTypes.REQUIRED_ARGS,
-                parameter.operation,
-                parameter.arguments.size.toString()
-            )
+            else -> {
+                ExceptionFactory.create(
+                    ExceptionParameterTypes.REQUIRED_ARGS,
+                    parameter.operation,
+                    parameter.arguments.size.toString()
+                )
+            }
         }
     }
 }

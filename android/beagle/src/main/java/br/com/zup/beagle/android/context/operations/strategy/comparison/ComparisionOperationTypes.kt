@@ -19,6 +19,7 @@ package br.com.zup.beagle.android.context.operations.strategy.comparison
 import br.com.zup.beagle.android.context.operations.exception.strategy.validation.OperationsValidation
 import br.com.zup.beagle.android.context.operations.strategy.BaseOperation
 import br.com.zup.beagle.android.context.operations.strategy.Operations
+import br.com.zup.beagle.android.context.operations.strategy.ProvideOperation
 
 internal enum class ComparisionOperationTypes(val input: String) : OperationsValidation {
     GREATER_THAN("gt"),
@@ -27,8 +28,8 @@ internal enum class ComparisionOperationTypes(val input: String) : OperationsVal
     LESS_THEN_EQUALS("lte"),
     EQUALS("eq");
 
-    companion object {
-        fun getOperation(input: String): BaseOperation<Operations>? {
+    companion object : ProvideOperation {
+        override fun getOperationStrategy(input: String): BaseOperation<Operations>? {
             val found = values().find { it.input == input }
             return if (found != null) ComparisionOperation(found) else null
         }

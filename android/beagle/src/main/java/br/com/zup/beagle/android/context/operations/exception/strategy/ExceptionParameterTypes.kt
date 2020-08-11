@@ -16,11 +16,36 @@
 
 package br.com.zup.beagle.android.context.operations.exception.strategy
 
+import br.com.zup.beagle.android.context.operations.operation.Operation
+import br.com.zup.beagle.android.context.operations.strategy.string.StringOperationTypes
+
 internal enum class ExceptionParameterTypes : ExceptionTypes {
-    EMPTY,
-    REQUIRED_ARGS,
-    NUMBER,
-    ARRAY,
-    INDEX,
-    STRING
+    EMPTY {
+        override fun getMessage(details: String, operation: Operation?) =
+            "Argument in operation ${operation?.operationToken} cannot be " +  this.name
+    },
+    REQUIRED_ARGS {
+        override fun getMessage(details: String, operation: Operation?) =
+            "Non passed required arguments for operation ${operation?.operationToken}:: args passed $details"
+    },
+    NUMBER {
+        override fun getMessage(details: String, operation: Operation?) =
+            "Number operations parameters must be a number:: ${operation?.operationToken}"
+    },
+    ARRAY {
+        override fun getMessage(details: String, operation: Operation?) =
+            "First parameter from Array Operations ${operation?.operationToken} must be an Array"
+    },
+    INDEX {
+        override fun getMessage(details: String, operation: Operation?) =
+            "Index for operation ${operation?.operationToken} needs to be a Number:: $details"
+    },
+    STRING {
+        override fun getMessage(details: String, operation: Operation?) =
+            if (operation?.operationStrategy?.operationType == StringOperationTypes.SUBSTRING) {
+                "SubString operations must have substr('string', number, number):: ${operation.operationToken}"
+            } else {
+                "String value must be between (apostrophe mark ->'<-):: $details"
+            }
+    }
 }

@@ -33,7 +33,7 @@ internal class StringValidation : Validation {
         } else {
             parameter.arguments.forEach {
                 if (isNotStringParameter(it)) {
-                    ExceptionFactory.createException(
+                    ExceptionFactory.create(
                         ExceptionParameterTypes.STRING,
                         parameter.operation,
                         it.toString()
@@ -48,7 +48,7 @@ internal class StringValidation : Validation {
 
     private fun verifyParametersFromSubstringOperation(parameter: Parameter) {
         if (notHasRequireArgs(parameter)) {
-            ExceptionFactory.createException(
+            ExceptionFactory.create(
                 ExceptionParameterTypes.REQUIRED_ARGS,
                 parameter.operation,
                 parameter.arguments.size.toString()
@@ -56,14 +56,18 @@ internal class StringValidation : Validation {
         } else {
             parameter.arguments.forEachIndexed { index, item ->
                 if (isNotFirstParameterString(index, item)) {
-                    ExceptionFactory.createException(
+                    ExceptionFactory.create(
                         ExceptionParameterTypes.STRING,
                         parameter.operation,
                         item.toString()
                     )
                 } else if (isNotNumberOthersParameters(index, item)) {
-                    ExceptionFactory.createException(
-                        ExceptionParameterTypes.INDEX,
+                    val parameterType = parameter.arguments[parameter.arguments.lastIndex].parameterType
+
+                    ExceptionFactory.create(
+                        if (parameterType == ParameterTypes.EMPTY)
+                            ExceptionParameterTypes.EMPTY
+                        else ExceptionParameterTypes.INDEX,
                         parameter.operation,
                         item.toString()
                     )

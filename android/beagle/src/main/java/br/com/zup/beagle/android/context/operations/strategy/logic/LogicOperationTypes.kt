@@ -18,6 +18,7 @@ package br.com.zup.beagle.android.context.operations.strategy.logic
 
 import br.com.zup.beagle.android.context.operations.strategy.BaseOperation
 import br.com.zup.beagle.android.context.operations.strategy.Operations
+import br.com.zup.beagle.android.context.operations.strategy.ProvideOperation
 
 internal enum class LogicOperationTypes(val input: String) : Operations {
     CONDITION("condition"),
@@ -25,8 +26,8 @@ internal enum class LogicOperationTypes(val input: String) : Operations {
     AND("and"),
     OR("or");
 
-    companion object {
-        fun getOperation(input: String): BaseOperation<Operations>? {
+    companion object : ProvideOperation {
+        override fun getOperationStrategy(input: String): BaseOperation<Operations>? {
             val found = values().find { it.input == input }
             return if (found != null)
                 when (found) {
