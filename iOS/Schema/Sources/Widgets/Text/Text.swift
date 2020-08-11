@@ -41,7 +41,7 @@ public struct Text: RawWidget, AutoDecodable {
 }
 
 extension Text {
-    public enum Alignment: String, Decodable {
+    public enum Alignment: String, Decodable, CaseIterable {
         case left = "LEFT"
         case right = "RIGHT"
         case center = "CENTER"

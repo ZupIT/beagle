@@ -33,30 +33,30 @@ class ImageTests: XCTestCase {
     lazy var controller = BeagleControllerStub(dependencies: dependencies)
     lazy var renderer = BeagleRenderer(controller: controller)
     
-    func test_toView_shouldReturnTheExpectedView() throws {
+    func testContentMode() {
         //Given
-        let expectedContentMode = UIImageView.ContentMode.scaleToFill
-        let component = Image(.value(.local("teste")), mode: .fitXY)
-        let controller = BeagleControllerStub()
-        let renderer = BeagleRenderer(controller: controller)
-
+        let value = ImageContentMode.center
+        let expected = UIImageView.ContentMode.center
+                
         //When
-        guard let imageView = renderer.render(component) as? UIImageView else {
-            XCTFail("Build View not returning UIImageView")
-            return
-        }
+        let result = value.toUIKit()
         
-        // Then
-        XCTAssertEqual(expectedContentMode, imageView.contentMode)
+        //Then
+        XCTAssertEqual(result, expected)
     }
     
-    func test_renderImage() throws {
+    func testRenderImage() throws {
+        //Given
         let image: Image = try componentFromJsonFile(fileName: "ImageComponent")
+        
+        //When
         let view = renderer.render(image)
+        
+        //Then
         assertSnapshotImage(view, size: ImageSize.custom(CGSize(width: 400, height: 400)))
     }
     
-    func test_cancelRequestImageRemote() throws {
+    func testCancelRequest() {
         //Given
         let image = Image("@{img.path}")
         let dependency = BeagleDependencies()
@@ -65,62 +65,52 @@ class ImageTests: XCTestCase {
         let container = Container(children: [image])
         let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(container.toScreen()), dependencies: dependency))
         let action = SetContext(contextId: "img", path: "path", value: ["_beagleImagePath_": "local", "mobileId": "shuttle"])
+        let view = image.toView(renderer: controller.renderer)
         
         //When
-        let view = image.toView(renderer: controller.renderer)
         view.setContext(Context(id: "img", value: ["path": ["_beagleImagePath_": "remote", "url": "www.com.br"]]))
         controller.configBindings()
         action.execute(controller: controller, origin: view)
         
         // Then
-        XCTAssert(repository.token.didCallCancel)
+        XCTAssertTrue(repository.token.didCallCancel)
     }
     
-    func test_localImageDeserialize() throws {
-        let image: Image = try componentFromJsonFile(fileName: "ImageComponent1")
-        let path = image.path.evaluate(with: renderer.render(image))
-        if case .local(let mobileId) = path {
-            XCTAssertEqual(mobileId, "test_image_square-x")
-        } else {
-            XCTFail("Failed to decode correct image name.")
-        }
-    }
-    
-    func test_remoteImageDeserialize() throws {
-        let bla = "www.com"
-        let image: Image = try componentFromJsonFile(fileName: "ImageComponent2")
-        let path = image.path.evaluate(with: renderer.render(image))
-        if case .remote(let remote) = path {
-            XCTAssertEqual(remote.url, bla)
-        } else {
-            XCTFail("Failed to decode correct image url.")
-        }
-    }
-    
-    func test_withInvalidURL_itShouldNotSetImage() throws {
+    func testInvalidURL() {
         // Given
         let component = Image(.value(.remote(.init(url: "www.com"))))
         // When
-        guard let imageView = renderer.render(component) as? UIImageView else {
-            XCTFail("Build view not returning UIImageView")
-            return
-        }
+         let imageView = renderer.render(component) as? UIImageView
         
         // Then
-        XCTAssertNil(imageView.image, "Expected image to be nil.")
+        XCTAssertNotNil(imageView)
+        XCTAssertNil(imageView?.image)
     }
     
-    func test_whenRemoteHasPlaceholder_shouldReturnItAsInitialView() {
+    func testPlaceholder() {
         // Given
         let component = Image(.value(.remote(.init(url: "www.com", placeholder: "imageBeagle"))))
  
         // When
-        guard let placeholderView = renderer.render(component) as? UIImageView else {
-            XCTFail("Renderer not returning Image.")
-            return
-        }
+        let placeholderView = renderer.render(component)
         
         // Then
-        XCTAssertNotNil(placeholderView, "Expected placeholder to not be nil.")
+        assertSnapshotImage(placeholderView, size: ImageSize.custom(CGSize(width: 400, height: 400)))
+    }
+    
+    func testImageLeak() {
+        // Given
+        let component = Image("@{img.path}")
+        let controller = BeagleScreenViewController(viewModel: .init(screenType:.declarative(component.toScreen()), dependencies: BeagleDependencies()))
+        
+        var view = component.toView(renderer: controller.renderer)
+        weak var weakView = view
+    
+        // When
+        controller.configBindings()
+        view = UIView()
+        
+        // Then
+        XCTAssertNil(weakView)
     }
 }

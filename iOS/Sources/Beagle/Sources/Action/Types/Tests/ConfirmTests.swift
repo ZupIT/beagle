@@ -21,7 +21,7 @@ import BeagleSchema
 
 final class ConfirmTests: XCTestCase {
 
-    func test_whenConfirmDialog_shouldPresentAlertController() {
+    func testAlertController() {
         // Given
         let onPressOkAction = ActionSpy()
         let onPressCancelAction = ActionSpy()
