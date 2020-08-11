@@ -55,22 +55,17 @@ internal fun String.toType() : Argument {
     )
 }
 
-private fun String.checkParameter() : ParameterTypes {
-    return if (contains(GrammarChars.OPEN_BRACKET)) {
-        ParameterTypes.ARRAY
-    } else if (contains(Constants.APOSTROPHE_MARK)) {
-        ParameterTypes.STRING
-    } else if (contains(RegularExpressions.NUMBER_REGEX.toRegex()) && isNotEmpty()) {
-        ParameterTypes.NUMBER
-    } else if (contains(Constants.BOOLEAN_VALUE_TRUE) ||
-        contains(Constants.BOOLEAN_VALUE_FALSE)) {
-        ParameterTypes.BOOLEAN
-    } else if (removeWhiteSpaces().isEmpty()) {
-        ParameterTypes.EMPTY
-    } else {
-        ParameterTypes.BIND
+private fun String.checkParameter() : ParameterTypes =
+    when {
+        contains(GrammarChars.OPEN_BRACKET) -> ParameterTypes.ARRAY
+        contains(Constants.APOSTROPHE_MARK) -> ParameterTypes.STRING
+        contains(RegularExpressions.NUMBER_REGEX.toRegex()) &&
+            isNotEmpty() -> ParameterTypes.NUMBER
+        contains(Constants.BOOLEAN_VALUE_TRUE) ||
+            contains(Constants.BOOLEAN_VALUE_FALSE) -> ParameterTypes.BOOLEAN
+        removeWhiteSpaces().isEmpty() -> ParameterTypes.EMPTY
+        else -> ParameterTypes.BIND
     }
-}
 
 private const val DOUBLE_SEPARATOR = "."
 
@@ -86,9 +81,8 @@ private fun String.toNumber() : Any {
     return ""
 }
 
-internal fun Any?.isDouble() : Boolean {
-    return this != null && this.toString().contains(DOUBLE_SEPARATOR)
-}
+internal fun Any?.isDouble() =
+    this != null && toString().contains(DOUBLE_SEPARATOR)
 
-internal fun String.removeWhiteSpaces() : String = replace(
-    RegularExpressions.REMOVE_WHITESPACE_REGEX.toRegex(), "")
+internal fun String.removeWhiteSpaces() : String =
+    replace(RegularExpressions.REMOVE_WHITESPACE_REGEX.toRegex(), "")
