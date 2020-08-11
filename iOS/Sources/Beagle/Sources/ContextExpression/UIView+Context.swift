@@ -31,22 +31,18 @@ extension UIView {
     }
     
     var contextMap: [String: Observable<Context>] {
-        // swiftlint:disable implicit_getter
         get {
             return (objc_getAssociatedObject(self, &UIView.contextMapKey) as? ObjectWrapper)?.object ?? [String: Observable<Context>]()
         }
-        // swiftlint:enable implicit_getter
         set {
             objc_setAssociatedObject(self, &UIView.contextMapKey, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
     var expressionLastValueMap: [String: DynamicObject] {
-        // swiftlint:disable implicit_getter
         get {
             return (objc_getAssociatedObject(self, &UIView.expressionLastValueMapKey) as? ObjectWrapper)?.object ?? [String: DynamicObject]()
         }
-        // swiftlint:enable implicit_getter
         set {
             objc_setAssociatedObject(self, &UIView.expressionLastValueMapKey, ObjectWrapper(newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
