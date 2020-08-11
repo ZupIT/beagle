@@ -357,7 +357,7 @@ extension BeagleSchema.Operation {
         return .bool(array.contains(parameters[1]))
     }
     
-    //MARK: Other
+    // MARK: Other
     
     private func isNull(in view: UIView) -> DynamicObject {
         guard parameters.count == 1 else { return nil }
