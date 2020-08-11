@@ -74,10 +74,16 @@ enum ScreenElements: String {
     
        //Simpleform Screen
        case SIMPLE_FORM_SCREEN_HEADER = "Beagle Context"
-        case SIMPLE_FORM_TITLE = "Fill the form"
+       case SIMPLE_FORM_TITLE = "Fill the form"
        case ZIP_FIELD = "ZIP"
        case STREET_FIELD = "Street"
+       case NUMBER_FIELD = "Number"
+       case NEIGHBORHOOD_FIELD = "Neighborhood"
+       case CITY_FIELD = "City"
+       case STATE_FIELD = "State"
+       case COMPLEMENT_FIELD = "Complement"
        case SEND_BUTTON = "Enviar"
+    
     
        //Confirm Popup
        case OK_BUTTON = "Ok"
@@ -92,7 +98,7 @@ enum ScreenElements: String {
         case .BUTTON_DEFAULT, .BUTTON_WITH_STYLE, .BUTTON_WITH_APPEARANCE, .BUTTON_WITH_APPEARANCE_AND_STYLE, .OK_BUTTON, .CANCEL_BUTTON, .SEND_BUTTON:
             return XCUIApplication().buttons[self.rawValue]
             
-        case .ZIP_FIELD, .STREET_FIELD:
+        case .ZIP_FIELD, .STREET_FIELD, .NUMBER_FIELD, .NEIGHBORHOOD_FIELD, .CITY_FIELD, .STATE_FIELD, .COMPLEMENT_FIELD:
             return XCUIApplication().textFields[self.rawValue]
         }
     }

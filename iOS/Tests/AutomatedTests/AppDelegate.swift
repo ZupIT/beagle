@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         BeagleConfig.config()
         let environment = ProcessInfo.processInfo.environment
-        let url = environment[AppDelegate.InitialUrlEnvironmentKey] ?? "/simpleform"
+        let url = environment[AppDelegate.InitialUrlEnvironmentKey] ?? "/expressionescaping"
         let beagleScreen = Beagle.screen(.remote(.init(url: url)))
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = beagleScreen
