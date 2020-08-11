@@ -112,7 +112,7 @@ class ImageTests: XCTestCase {
     
     func test_whenRemoteHasPlaceholder_shouldReturnItAsInitialView() {
         // Given
-        let component = Image(.value(.remote(.init(url: "www.com", placeholder: "imageBeagle"))))
+        let component = Image(.value(.remote(.init(url: "www.com", placeholder: "test_image_square-x"))))
  
         // When
         guard let placeholderView = renderer.render(component) as? UIImageView else {
@@ -121,6 +121,6 @@ class ImageTests: XCTestCase {
         }
         
         // Then
-        XCTAssertNotNil(placeholderView, "Expected placeholder to not be nil.")
+        XCTAssertNotNil(placeholderView.image, "Expected placeholder to not be nil.")
     }
 }

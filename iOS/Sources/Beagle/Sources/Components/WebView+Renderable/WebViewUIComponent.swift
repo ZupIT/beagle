@@ -74,7 +74,6 @@ final class WebViewUIComponent: UIView {
 extension WebViewUIComponent: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation?) {
         webView.hideLoading()
-        webView.isHidden = false
         state = .loaded
     }
     
