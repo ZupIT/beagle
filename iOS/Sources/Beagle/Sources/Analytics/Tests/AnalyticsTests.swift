@@ -37,59 +37,55 @@ class AnalyticsTests: XCTestCase {
     }
     
     func testBuildOfAnalyticsObjects() {
-        //given //when
+        //Given //When
         let screen = AnalyticsScreen(screenName: nameOfScreen)
         
-        //then
-        XCTAssert(
-            clickWithDescription.category == anotherCategory &&
-            clickWithDescription.label == label &&
-            clickWithDescription.value == value,
-            "attributes are not being created correctly")
-        
-        XCTAssert(justClick.category == category, "attributes are not being created correctly")
-        
-        XCTAssert(screen.screenName == nameOfScreen, "attributes are not being created correctly")
+        //Then
+        XCTAssertEqual(clickWithDescription.category, anotherCategory)
+        XCTAssertEqual(clickWithDescription.label, label)
+        XCTAssertEqual(clickWithDescription.value, value)
+        XCTAssertEqual(justClick.category, category)
+        XCTAssertEqual(screen.screenName, nameOfScreen)
     }
     
     func testTrackEventOnClick() {
-        //given
+        //Given
         let analyticsExecutor = AnalyticsExecutorSpy()
         
-        //when
+        //When
         analyticsExecutor.trackEventOnClick(clickWithDescription)
         
-        //then
-        XCTAssert(analyticsExecutor.analyticsClickEvent == clickWithDescription, "click event not called")
+        //Then
+        XCTAssertEqual(analyticsExecutor.analyticsClickEvent, clickWithDescription)
     }
     
     func testTrackScreenEvents() {
-        //given
+        //Given
         let screen = AnalyticsScreen(screenName: "name of screen")
         let analyticsExecutor = AnalyticsExecutorSpy()
         
-        //when
+        //When
         analyticsExecutor.trackEventOnScreenAppeared(screen)
         analyticsExecutor.trackEventOnScreenDisappeared(screen)
         
-        //then
-        XCTAssert(
-            analyticsExecutor.analyticsScreenAppearedEvent == screen &&
-            analyticsExecutor.didTrackEventOnScreenAppeared,
-            "trackEventOnScreenAppeared not called")
-        XCTAssert(
-            analyticsExecutor.analyticsScreenDisappearedEvent == screen &&
-            analyticsExecutor.didTrackEventOnScreenDisappeared,
-            "trackEventOnScreenDisappeared not called")
+        //Then
+        XCTAssertEqual(analyticsExecutor.analyticsScreenAppearedEvent, screen)
+        XCTAssertTrue(analyticsExecutor.didTrackEventOnScreenAppeared)
+        XCTAssertEqual(analyticsExecutor.analyticsScreenDisappearedEvent, screen)
+        XCTAssertTrue(analyticsExecutor.didTrackEventOnScreenDisappeared)
     }
     
     func testIfDecodingIsSuccessfulForScreenEvent() throws {
+        //Given //When
         let component: ScreenComponent = try componentFromJsonFile(fileName: "screenAnalyticsComponent")
+        //Then
         assertSnapshot(matching: component, as: .dump)
     }
     
     func testIfDecodingIsSuccessfulForClickEvent() throws {
+        //Given //When
         let component: Button = try componentFromJsonFile(fileName: "buttonAnalyticsComponent")
+        //Then
         assertSnapshot(matching: component, as: .dump)
     }
 }

@@ -14,29 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import XCTest
-import BeagleSchema
 @testable import Beagle
 
-final class AlertTests: XCTestCase {
-
-    func testAlertController() {
-        // Given
-        let onPressOkAction = ActionSpy()
-        let alert = Alert(
-            title: "Title",
-            message: "Message",
-            onPressOk: onPressOkAction,
-            labelOk: "Ok"
-        )
-        let view = UIView()
-        let controller = BeagleControllerNavigationSpy()
-
-        // When
-        alert.execute(controller: controller, origin: view)
-
-        // Then
-        XCTAssertTrue(controller.viewControllerToPresent is UIAlertController)
+extension XCTestCase {
+    /// Test whether anyObject remains alive after the `Teardown`.
+    /// - Parameter object: The object you want to test for leak.
+    func testMemoryLeak(_ object: AnyObject) {
+        addTeardownBlock { [weak object] in
+            XCTAssertNil(object)
+        }
     }
 }

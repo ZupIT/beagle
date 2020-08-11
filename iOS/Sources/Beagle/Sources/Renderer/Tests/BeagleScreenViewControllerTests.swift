@@ -390,5 +390,4 @@ class BeagleControllerStub: BeagleController {
     func execute(actions: [RawAction]?, with contextId: String, and contextValue: DynamicObject, origin: UIView) {
         execute(actions: actions, origin: origin)
     }
-    
 }

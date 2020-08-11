@@ -16,27 +16,14 @@
  */
 
 import XCTest
-import BeagleSchema
 @testable import Beagle
 
-final class AlertTests: XCTestCase {
-
-    func testAlertController() {
-        // Given
-        let onPressOkAction = ActionSpy()
-        let alert = Alert(
-            title: "Title",
-            message: "Message",
-            onPressOk: onPressOkAction,
-            labelOk: "Ok"
-        )
-        let view = UIView()
-        let controller = BeagleControllerNavigationSpy()
-
-        // When
-        alert.execute(controller: controller, origin: view)
-
-        // Then
-        XCTAssertTrue(controller.viewControllerToPresent is UIAlertController)
+extension XCTestCase {
+    /// Improves readability when implementing a `Delay`.
+    /// - Parameter seconds: time to trigger the  completion, by default is 1 second.
+    func delay(seconds: Int, _ completionHadler: @escaping () -> Void) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(seconds)) {
+            completionHadler()
+        }
     }
 }

@@ -1,18 +1,18 @@
 /*
-* Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 import XCTest
 @testable import Beagle
@@ -39,91 +39,109 @@ final class CacheManagerDefaultTests: XCTestCase {
     private let url1 = "urlTeste1"
     private let url2 = "urlTeste2"
     private let url3 = "urlTeste3"
-
-    func test_whenHaveDefaultValue_itShouldAffectIsValid() {
+    
+    func testValidCache() {
+        //Given
         let sut = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: .init(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 10))
         let reference = CacheReference(identifier: "", data: jsonData, hash: "")
         
+        //When
         let isValid = sut.isValid(reference: reference)
-        XCTAssert(isValid, "Should not need revalidation")
+        
+        //Then
+        XCTAssertTrue(isValid)
     }
     
     func testMaxAgeDefaultExpired() {
+        //Given
         let sut = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: .init(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 1))
         let reference = CacheReference(identifier: "", data: jsonData, hash: "")
         let timeOutComponent = expectation(description: "timeOutComponent")
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(1)) {
+        
+        //When
+        delay(seconds: 1) {
+            //Then
             let isValid = sut.isValid(reference: reference)
+            XCTAssertFalse(isValid)
             timeOutComponent.fulfill()
-            XCTAssert(isValid == false, "Should need revalidation")
         }
-        waitForExpectations(timeout: 5, handler: nil)
+        
+        waitForExpectations(timeout: 2, handler: nil)
     }
     
     func testMaxAgeFromServer() {
+        //Given
         let sut = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: .init(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 0))
         let cacheReference = CacheReference(identifier: defaultURL, data: jsonData, hash: defaultHash, maxAge: 5)
         
+        //When
         let isValid = sut.isValid(reference: cacheReference)
-        XCTAssert(isValid, "Should not need revalidation")
+        
+        //Then
+        XCTAssertTrue(isValid)
     }
     
     func testMaxAgeFromServerExpired() {
+        //Given
         let sut = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: .init(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 1))
         let cacheReference = CacheReference(identifier: defaultURL, data: jsonData, hash: defaultHash, maxAge: 2)
-        
         let timeOutComponent = expectation(description: "timeOutComponent")
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(3)) {
+        
+        //When
+        delay(seconds: 3) {
+            //Then
             let isValid = sut.isValid(reference: cacheReference)
-            XCTAssert(isValid == false, "Should need revalidation")
+            XCTAssertFalse(isValid)
             timeOutComponent.fulfill()
         }
+        
         waitForExpectations(timeout: 5, handler: nil)
     }
     
-    func testMemoryLRU_deletingSecondRecord() {
+    func testSecondRecordDeletionFromMemory() {
+        //Given
         let memoryCapacity = 2
         let diskCapacity = 1
         let sut = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: .init(memoryMaximumCapacity: memoryCapacity, diskMaximumCapacity: diskCapacity, cacheMaxAge: 10))
         let cacheReference1 = CacheReference(identifier: url1, data: jsonData, hash: defaultHash)
         let cacheReference2 = CacheReference(identifier: url2, data: jsonData, hash: defaultHash)
         let cacheReference3 = CacheReference(identifier: url3, data: jsonData, hash: defaultHash)
+        
+        //When
         sut.addToCache(cacheReference1)
         sut.addToCache(cacheReference2)
         sut.addToCache(cacheReference3)
         
-        if sut.getReference(identifiedBy: url1) != nil {
-            XCTFail("Should not find the cached reference.")
-        }
-        if sut.getReference(identifiedBy: url2) == nil ||
-            sut.getReference(identifiedBy: url3) == nil {
-                XCTFail("Could not find the cached reference.")
-        }
+        //Then
+        XCTAssertNil(sut.getReference(identifiedBy: url1))
+        XCTAssertNotNil(sut.getReference(identifiedBy: url2))
+        XCTAssertNotNil(sut.getReference(identifiedBy: url3))
     }
     
-    func testMemoryLRU_deletingFirstRecord() {
+    func testFirstRecordDeletionFromMemory() {
+        //Given
         let memoryCapacity = 2
         let diskCapacity = 0
         let sut = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: .init(memoryMaximumCapacity: memoryCapacity, diskMaximumCapacity: diskCapacity, cacheMaxAge: 10))
-        sut.clear()
         let cacheReference1 = CacheReference(identifier: url1, data: jsonData, hash: defaultHash)
         let cacheReference2 = CacheReference(identifier: url2, data: jsonData, hash: defaultHash)
         let cacheReference3 = CacheReference(identifier: url3, data: jsonData, hash: defaultHash)
+        
+        //When
+        sut.clear()
         sut.addToCache(cacheReference1)
         sut.addToCache(cacheReference2)
         _ = sut.getReference(identifiedBy: url1)
         sut.addToCache(cacheReference3)
         
-        if sut.getReference(identifiedBy: url2) != nil {
-            XCTFail("Should not find the cached reference.")
-        }
-        if sut.getReference(identifiedBy: url1) == nil ||
-            sut.getReference(identifiedBy: url3) == nil {
-                XCTFail("Could not find the cached reference.")
-        }
+        //Then
+        XCTAssertNil(sut.getReference(identifiedBy: url2))
+        XCTAssertNotNil(sut.getReference(identifiedBy: url1))
+        XCTAssertNotNil(sut.getReference(identifiedBy: url3))
     }
     
-    func testDiskLRU_deletingSecondRecord() {
+    func testSecondRecordDeletionFromDisk() {
+        //Given
         let memoryCapacity = 1
         let diskCapacity = 2
         struct CacheManagerDependenciesLocal: CacheManagerDefault.Dependencies {
@@ -132,25 +150,25 @@ final class CacheManagerDefaultTests: XCTestCase {
             var decoder: ComponentDecoding = ComponentDecoder()
         }
         let manager = CacheManagerDefault(dependencies: CacheManagerDependenciesLocal(), config: .init(memoryMaximumCapacity: memoryCapacity, diskMaximumCapacity: diskCapacity, cacheMaxAge: 10))
-        manager.clear()
         let cacheReference1 = CacheReference(identifier: url1, data: jsonData, hash: defaultHash)
         let cacheReference2 = CacheReference(identifier: url2, data: jsonData, hash: defaultHash)
         let cacheReference3 = CacheReference(identifier: url3, data: jsonData, hash: defaultHash)
+        
+        //When
+        manager.clear()
         manager.addToCache(cacheReference1)
         manager.addToCache(cacheReference2)
         _ = manager.getReference(identifiedBy: url1)
         manager.addToCache(cacheReference3)
         
-        if manager.getReference(identifiedBy: url2) != nil {
-            XCTFail("Should not find the cached reference.")
-        }
-        if manager.getReference(identifiedBy: url1) == nil ||
-        manager.getReference(identifiedBy: url3) == nil {
-            XCTFail("Could not find the cached reference.")
-        }
+        //Then
+        XCTAssertNil(manager.getReference(identifiedBy: url2))
+        XCTAssertNotNil(manager.getReference(identifiedBy: url1))
+        XCTAssertNotNil(manager.getReference(identifiedBy: url3))
     }
     
-    func testDiskLRU_deletingFirstRecord() {
+    func testFirstRecordDeletionFromDisk() {
+        //Given
         let memoryCapacity = 0
         let diskCapacity = 2
         struct CacheManagerDependenciesLocal: CacheManagerDefault.Dependencies {
@@ -162,34 +180,38 @@ final class CacheManagerDefaultTests: XCTestCase {
         let cacheReference1 = CacheReference(identifier: url1, data: jsonData, hash: defaultHash)
         let cacheReference2 = CacheReference(identifier: url2, data: jsonData, hash: defaultHash)
         let cacheReference3 = CacheReference(identifier: url3, data: jsonData, hash: defaultHash)
+        
+        //When
         sut.addToCache(cacheReference1)
         sut.addToCache(cacheReference2)
         sut.addToCache(cacheReference3)
         
-        if sut.getReference(identifiedBy: url1) != nil {
-            XCTFail("Should not find the cached reference.")
-        }
-        if sut.getReference(identifiedBy: url2) == nil ||
-        sut.getReference(identifiedBy: url3) == nil {
-            XCTFail("Could not find the cached reference.")
-        }
+        //Then
+        XCTAssertNil(sut.getReference(identifiedBy: url1))
+        XCTAssertNotNil(sut.getReference(identifiedBy: url2))
+        XCTAssertNotNil(sut.getReference(identifiedBy: url3))
     }
     
     func testGetExistingReference() {
+        //Given
         let sut = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: .init(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 10))
+        
+        //When
         addDefaultComponent(manager: sut)
         
-        if getDefaultReference(manager: sut) == nil {
-            XCTFail("Could not retrieve reference.")
-        }
+        //Then
+        XCTAssertNotNil(getDefaultReference(manager: sut))
     }
     
     func testGetInexistentReference() {
+        //Given
         let sut = CacheManagerDefault(dependencies: CacheManagerDependencies(), config: .init(memoryMaximumCapacity: 2, diskMaximumCapacity: 2, cacheMaxAge: 10))
+        
+        //When
         sut.clear()
-        if getDefaultReference(manager: sut) != nil {
-            XCTFail("Should not retrieve reference.")
-        }
+        
+        //Then
+        XCTAssertNil(getDefaultReference(manager: sut))
     }
     
     private func addDefaultComponent(manager: CacheManagerDefault) {
