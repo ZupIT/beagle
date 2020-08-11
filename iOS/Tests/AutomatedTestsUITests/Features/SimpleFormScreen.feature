@@ -21,12 +21,12 @@ Feature: SimpleForm Component Validation
     Examples:
     |textFieldText  | textValue              |
     |ZIP            | 38405142               |
-    |Street         | Avenida Rondon Pacheco |
-    |Number         | 4600                   |
-    |Neighborhood   | Tibery                 |
-    |City           | Uberlandia             |
-    |State          | Minas Gerais           |
-    |Complement     |                        |
+ #   |Street         | Avenida Rondon Pacheco |
+ #   |Number         | 4600                   |
+ #   |Neighborhood   | Tibery                 |
+ #   |City           | Uberlandia             |
+ #   |State          | Minas Gerais           |
+ #   |Complement     |                        |
 
 
 
