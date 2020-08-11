@@ -207,7 +207,6 @@ class SendRequestTest {
             every { evaluateExpression(rootView, view, any<Any>()) } returns ""
             every { handleEvent(rootView, view, any<List<Action>>(), capture(contextDataSlot)) } just Runs
             every { handleEvent(rootView, view, any<List<Action>>()) } just Runs
-
         }
     }
 }

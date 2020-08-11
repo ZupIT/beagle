@@ -86,7 +86,7 @@ data class SendRequest(
 
         when (state) {
             is ActionRequestViewModel.FetchViewState.Error -> onError?.let {
-                handleEvent(rootView, origin, it, ContextData("onError", state.response))
+                handleEvent(rootView, origin, it, ContextData("onError", state.response.normalizeContextValue()))
             }
             is ActionRequestViewModel.FetchViewState.Success -> onSuccess?.let {
                 handleEvent(rootView, origin, it, ContextData("onSuccess", state.response.normalizeContextValue()))
