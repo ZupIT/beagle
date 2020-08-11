@@ -22,7 +22,7 @@ import BeagleSchema
 
 class SimpleFormTests: XCTestCase {
     
-    func test_toView_shouldReturnTheExpectedView() throws {
+    func testFormView() {
         //Given
         let controller = BeagleControllerStub()
         let renderer = BeagleRenderer(controller: controller)
@@ -34,7 +34,7 @@ class SimpleFormTests: XCTestCase {
         let resultingView = renderer.render(simpleForm)
         
         //Then
-        XCTAssert(resultingView.subviews.count == numberOfChilds)
+        XCTAssertEqual(resultingView.subviews.count, numberOfChilds)
     }
     
 }

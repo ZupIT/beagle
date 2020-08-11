@@ -21,31 +21,25 @@ import SnapshotTesting
 import BeagleSchema
 
 final class ButtonTests: XCTestCase {
-
-    private let dependencies = BeagleScreenDependencies()
     
-    func test_toView_shouldSetRightButtonTitle() {
+    let controller = BeagleControllerStub()
+    lazy var renderer = BeagleRenderer(controller: controller)
+
+    func testSetRightButtonTitle() {
         //Given
         let buttonTitle = "title"
         let component = Button(text: Expression.value(buttonTitle))
-        let controller = BeagleControllerStub()
-        let renderer = BeagleRenderer(controller: controller)
-
+        
         //When
-        guard let button = renderer.render(component) as? UIButton else {
-            XCTFail("Build View not returning UIButton")
-            return
-        }
+        let button = renderer.render(component) as? UIButton
         
         // Then
-        XCTAssertEqual(button.titleLabel?.text, buttonTitle)
+        XCTAssertEqual(button?.titleLabel?.text, buttonTitle, "Build View not returning UIButton")
     }
     
-    func test_toView_shouldApplyButtonStyle() {
+    func testApplyButtonStyle() {
         // Given
         let theme = ThemeSpy()
-        let controller = BeagleControllerStub()
-        let renderer = BeagleRenderer(controller: controller)
         controller.dependencies = BeagleScreenDependencies(theme: theme)
         
         let style = "test.button.style"
@@ -59,11 +53,9 @@ final class ButtonTests: XCTestCase {
         XCTAssertEqual(style, theme.styleApplied)
     }
     
-    func test_toView_shouldPrefetchNavigateAction() {
+    func testPrefetchNavigateAction() {
         // Given
         let prefetch = BeaglePrefetchHelpingSpy()
-        let controller = BeagleControllerStub()
-        let renderer = BeagleRenderer(controller: controller)
         controller.dependencies = BeagleScreenDependencies(preFetchHelper: prefetch)
         
         let navigatePath = "path-to-prefetch"
@@ -77,55 +69,63 @@ final class ButtonTests: XCTestCase {
         XCTAssertEqual([navigatePath], prefetch.prefetched)
     }
     
-    func test_action_shouldBeTriggered() {
+    func testActionTriggered() {
         // Given
         let action = ActionSpy()
         let button = Button(text: "Trigger Action", onPress: [action])
-        let controller = BeagleControllerStub()
-        let renderer = BeagleRenderer(controller: controller)
 
         // When
-        let view = renderer.render(button)
-        (view as? Button.BeagleUIButton)?.triggerTouchUpInsideActions()
+        let view = renderer.render(button) as? Button.BeagleUIButton
+        view?.triggerTouchUpInsideActions()
 
         // Then
         XCTAssertEqual(action.executionCount, 1)
         XCTAssert(action.lastOrigin as AnyObject === view)
     }
     
-    func test_analytics_click_shouldBeTriggered() {
+    func testAnalyticsClickTrigger() {
         // Given
         let analytics = AnalyticsExecutorSpy()
         let button = Button(text: "Trigger analytics click", clickAnalyticsEvent: .init(category: "some category"))
-        let controller = BeagleControllerStub()
-        let renderer = BeagleRenderer(controller: controller)
         controller.dependencies = BeagleScreenDependencies(analytics: analytics)
 
         // When
-        let view = renderer.render(button)
-        (view as? Button.BeagleUIButton)?.triggerTouchUpInsideActions()
+        let view = renderer.render(button) as? Button.BeagleUIButton
+        view?.triggerTouchUpInsideActions()
         
         // Then
         XCTAssertTrue(analytics.didTrackEventOnClick)
     }
     
-    func test_analytics_click_and_action_shouldBeTriggered() {
+    func testAnalyticsActionTrigger() {
         // Given
         let action = ActionSpy()
         let analytics = AnalyticsExecutorSpy()
-        let controller = BeagleControllerStub()
-        let renderer = BeagleRenderer(controller: controller)
         controller.dependencies = BeagleScreenDependencies(analytics: analytics)
         
         let button = Button(text: "Trigger analytics click", onPress: [action], clickAnalyticsEvent: .init(category: "some category"))
 
         // When
-        let view = renderer.render(button)
-        (view as? Button.BeagleUIButton)?.triggerTouchUpInsideActions()
+        let view = renderer.render(button) as? Button.BeagleUIButton
+        view?.triggerTouchUpInsideActions()
         
         // Then
         XCTAssertTrue(analytics.didTrackEventOnClick)
         XCTAssertEqual(action.executionCount, 1)
         XCTAssert(action.lastOrigin as AnyObject === view)
+    }
+    
+    func testButtonLeak() {
+        // Given
+        let button = Button(text: "Trigger Action")
+    
+        var view = renderer.render(button) as? Button.BeagleUIButton
+        weak var weakView = view
+        
+        // When
+        view = nil
+        
+        // Then
+        XCTAssertNil(weakView)
     }
 }
