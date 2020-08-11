@@ -47,10 +47,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         dependencies.validatorProvider = validator
         dependencies.analytics = AnalyticsMock()
         dependencies.isLoggingEnabled = true
+        dependencies.navigationControllerType = CustomBeagleNavigationController.self
+        
+        registerCustomComponents(in: dependencies)
         
         Beagle.dependencies = dependencies
-        
-        registerCustomComponents()
         
         let rootViewController = MainScreen().screenController()
         window?.rootViewController = rootViewController
@@ -58,10 +59,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    private func registerCustomComponents() {
-        Beagle.registerCustomComponent("DSCollection", componentType: DSCollection.self)
-        Beagle.registerCustomComponent("SampleTextField", componentType: DemoTextField.self)
-        Beagle.registerCustomComponent("MyComponent", componentType: MyComponent.self)
-        Beagle.registerCustomAction("CustomConsoleLogAction", actionType: CustomConsoleLogAction.self)
+    private func registerCustomComponents(in dependencies: BeagleDependencies) {
+        dependencies.decoder.register(component: DSCollection.self)
+        dependencies.decoder.register(component: MyComponent.self)
+        dependencies.decoder.register(action: CustomConsoleLogAction.self)
+        dependencies.decoder.register(component: DemoTextField.self, named: "SampleTextField")
     }
 }

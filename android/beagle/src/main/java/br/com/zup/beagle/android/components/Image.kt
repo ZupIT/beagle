@@ -41,11 +41,11 @@ import com.bumptech.glide.request.transition.Transition
 
 @RegisterWidget
 data class Image(
-    val path: Bind<PathType>,
+    val path: Bind<ImagePath>,
     val mode: ImageContentMode? = null
 ) : WidgetView() {
     constructor(
-        path: PathType,
+        path: ImagePath,
         mode: ImageContentMode? = null
     ) : this(
         valueOf(path),
@@ -60,9 +60,9 @@ data class Image(
 
     override fun buildView(rootView: RootView): View {
         val imageView: RoundedImageView = getImageView(rootView)
-        observeBindChanges(rootView, path) { pathType ->
+        observeBindChanges(rootView, imageView, path) { pathType ->
             when (pathType) {
-                is PathType.Local -> {
+                is ImagePath.Local -> {
                     imageView.apply {
                         BeagleEnvironment.beagleSdk.designSystem?.image(pathType.mobileId)?.let {
                             try {
@@ -73,7 +73,7 @@ data class Image(
                         }
                     }
                 }
-                is PathType.Remote -> {
+                is ImagePath.Remote -> {
                     val placeholder = pathType.placeholder?.mobileId
                     val requestOptions = getGlideRequestOptions(placeholder)
                     imageView.loadImage(pathType, requestOptions)
@@ -89,7 +89,7 @@ data class Image(
     }
 
     private fun ImageView.loadImage(
-        path: PathType.Remote,
+        path: ImagePath.Remote,
         requestOptions: RequestOptions) {
         Glide.with(this)
             .setDefaultRequestOptions(requestOptions)
@@ -120,7 +120,7 @@ data class Image(
 
 }
 
-sealed class PathType {
-    data class Local(val mobileId: String) : PathType()
-    data class Remote(val url: String, val placeholder: Local? = null) : PathType()
+sealed class ImagePath {
+    data class Local(val mobileId: String) : ImagePath()
+    data class Remote(val url: String, val placeholder: Local? = null) : ImagePath()
 }

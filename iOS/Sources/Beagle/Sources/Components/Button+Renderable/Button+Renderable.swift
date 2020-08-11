@@ -21,14 +21,14 @@ import BeagleSchema
 extension Button: Widget {
     
     public func toView(renderer: BeagleRenderer) -> UIView {
-        let button = BeagleUIButton.button(
+        let button = BeagleUIButton(
             onPress: onPress,
             clickAnalyticsEvent: clickAnalyticsEvent,
             controller: renderer.controller
         )
 
         renderer.observe(text, andUpdateManyIn: button) {
-            button.setTitle($0 as String, for: .normal)
+            button.setTitle($0, for: .normal)
         }
         
         let preFetchHelper = renderer.controller.dependencies.preFetchHelper
@@ -77,21 +77,25 @@ extension Button: Widget {
         private var clickAnalyticsEvent: AnalyticsClick?
         private weak var controller: BeagleController?
         
-        static func button(
+        required init(
             onPress: [RawAction]?,
             clickAnalyticsEvent: AnalyticsClick? = nil,
             controller: BeagleController
-        ) -> BeagleUIButton {
-            let button = BeagleUIButton(type: .system)
-            button.onPress = onPress
-            button.clickAnalyticsEvent = clickAnalyticsEvent
-            button.controller = controller
-            button.addTarget(button, action: #selector(triggerTouchUpInsideActions), for: .touchUpInside)
-            return button
+        ) {
+            super.init(frame: .zero)
+            self.onPress = onPress
+            self.clickAnalyticsEvent = clickAnalyticsEvent
+            self.controller = controller
+            self.addTarget(self, action: #selector(triggerTouchUpInsideActions), for: .touchUpInside)
+        }
+        
+        @available(*, unavailable)
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
         }
         
         @objc func triggerTouchUpInsideActions() {
-            controller?.execute(actions: onPress, with: nil, sender: self)
+            controller?.execute(actions: onPress, origin: self)
             
             if let click = clickAnalyticsEvent {
                 controller?.dependencies.analytics?.trackEventOnClick(click)

@@ -16,21 +16,14 @@
 
 package br.com.zup.beagle.android.components
 
+import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.setup.Environment
 import br.com.zup.beagle.android.view.BeagleActivity
 import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.view.ViewFactory
-import io.mockk.CapturingSlot
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkClass
-import io.mockk.slot
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
+import io.mockk.*
+import org.junit.Assert.*
 import org.junit.Test
 import kotlin.test.assertNotNull
 
@@ -56,26 +49,53 @@ class WebViewTest : BaseComponentTest() {
 
     @Test
     fun build_should_create_a_WebView_and_load_url_and_set_WebViewClient() {
+        // When
         webViewComponent.buildView(rootView)
 
+        // Then
         assertEquals(MOCKED_URL, urlSlot.captured)
         assertNotNull(webView.webViewClient)
     }
 
     @Test
     fun webViewClient_should_notify_when_page_starts_loading() {
+        // Given
         val stateSlot = slot<ServerDrivenState>()
         val webViewClient = createMockedWebViewClient(stateSlot)
+
+        // When
         webViewClient.onPageStarted(null, null, null)
+
+        // Then
         assertTrue((stateSlot.captured as ServerDrivenState.Loading).loading)
     }
 
     @Test
     fun webViewClient_should_notify_when_page_stops_loading() {
+        // Given
         val stateSlot = slot<ServerDrivenState>()
         val webViewClient = createMockedWebViewClient(stateSlot)
-        webViewClient.onPageFinished(null, null)
+
+        // When
+        webViewClient.onPageFinished(webView, null)
+
+        // Then
         assertFalse((stateSlot.captured as ServerDrivenState.Loading).loading)
+        verify(exactly = once()) { webView.requestLayout() }
+    }
+
+    @Test
+    fun webViewClient_should_notify_when_page_WebViewError() {
+        // Given
+        val stateSlot = slot<ServerDrivenState>()
+        val webViewClient = createMockedWebViewClient(stateSlot)
+
+        // When
+        webViewClient.onReceivedError(webView, null, null)
+        (stateSlot.captured as ServerDrivenState.WebViewError).retry.invoke()
+
+        // Then
+        verify(exactly = once()) { webView.reload() }
     }
 
     private fun createMockedWebViewClient(stateSlot: CapturingSlot<ServerDrivenState>): WebView.BeagleWebViewClient {

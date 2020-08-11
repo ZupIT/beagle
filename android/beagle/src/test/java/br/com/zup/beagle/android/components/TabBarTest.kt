@@ -17,19 +17,15 @@
 package br.com.zup.beagle.android.components
 
 import android.widget.FrameLayout
-import androidx.core.view.children
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
-import br.com.zup.beagle.android.engine.renderer.FragmentRootView
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.setup.BeagleEnvironment
-import br.com.zup.beagle.android.testutil.RandomData
 import br.com.zup.beagle.android.utils.*
 import br.com.zup.beagle.android.view.ViewFactory
 import br.com.zup.beagle.android.view.custom.BeagleTabLayout
-import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.core.Style
 import com.google.android.material.tabs.TabLayout
 import io.mockk.*
@@ -49,7 +45,7 @@ class TabBarTest : BaseComponentTest() {
     private val styleManager: StyleManager = mockk(relaxed = true)
     private val currentTab: Bind<Int> = mockk(relaxed = true)
     private val onTabSelection: List<Action> = mockk(relaxed = true)
-    private val icon: PathType.Local = mockk(relaxed = true)
+    private val icon: ImagePath.Local = mockk(relaxed = true)
     private val styleSlot = mutableListOf<Style>()
     private val onTabSelectedSlot = slot<TabLayout.OnTabSelectedListener>()
 
@@ -146,7 +142,12 @@ class TabBarTest : BaseComponentTest() {
         //GIVEN
         val currentTabSlot = slot<Observer<Int?>>()
         every {
-            tabBar.observeBindChanges(rootView = rootView, bind = currentTab, observes = capture(currentTabSlot))
+            tabBar.observeBindChanges(
+                rootView = rootView,
+                view = tabLayout,
+                bind = currentTab,
+                observes = capture(currentTabSlot)
+            )
         } just Runs
         //WHEN
         tabBar.buildView(rootView)
@@ -179,7 +180,12 @@ class TabBarTest : BaseComponentTest() {
         //GIVEN
         val currentTabSlot = slot<Observer<Int?>>()
         every {
-            tabBar.observeBindChanges(rootView = rootView, bind = currentTab, observes = capture(currentTabSlot))
+            tabBar.observeBindChanges(
+                rootView = rootView,
+                view = tabLayout,
+                bind = currentTab,
+                observes = capture(currentTabSlot)
+            )
         } just Runs
         //WHEN
         tabBar.buildView(rootView)

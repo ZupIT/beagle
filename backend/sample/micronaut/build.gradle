@@ -29,9 +29,6 @@ configurations {
 }
 
 dependencies {
-    implementation Dependencies.MicronautLibraries.runtime
-    implementation Dependencies.MicronautLibraries.netty
-
     implementation project(Dependencies.Modules.micronautStarter)
     implementation project(Dependencies.Modules.sampleCore)
 

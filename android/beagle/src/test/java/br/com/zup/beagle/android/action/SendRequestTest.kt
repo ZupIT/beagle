@@ -17,24 +17,23 @@
 package br.com.zup.beagle.android.action
 
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
-import br.com.zup.beagle.android.view.viewmodel.Response
-import br.com.zup.beagle.android.context.valueOf
-import br.com.zup.beagle.android.utils.ViewModelProviderFactory
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.handleEvent
+import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
+import br.com.zup.beagle.android.view.viewmodel.Response
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkObject
+import io.mockk.mockkConstructor
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.unmockkAll
@@ -56,19 +55,13 @@ class SendRequestTest {
     private val liveData: MutableLiveData<ActionRequestViewModel.FetchViewState> = mockk()
     private val observerSlot = slot<Observer<ActionRequestViewModel.FetchViewState>>()
     private val responseData: Response = mockk()
-    private val contextData: ContextData = mockk()
     private val view: View = mockk()
     private val contextDataSlot = slot<ContextData>()
 
     @Before
     fun setUp() {
-        mockkObject(ViewModelProviderFactory)
-
-        every {
-            ViewModelProviderFactory
-                .of(any<AppCompatActivity>())
-                .get(ActionRequestViewModel::class.java)
-        } returns viewModel
+        mockkConstructor(ViewModelProvider::class)
+        every { anyConstructed<ViewModelProvider>().get(ActionRequestViewModel::class.java) } returns viewModel
 
         mockkStatic("br.com.zup.beagle.android.utils.ActionExtensionsKt")
 
@@ -211,7 +204,7 @@ class SendRequestTest {
             onError = onError,
             onFinish = onFinish
         ).apply {
-            every { evaluateExpression(rootView, any<Any>()) } returns ""
+            every { evaluateExpression(rootView, view, any<Any>()) } returns ""
             every { handleEvent(rootView, view, any<List<Action>>(), capture(contextDataSlot)) } just Runs
             every { handleEvent(rootView, view, any<List<Action>>()) } just Runs
 

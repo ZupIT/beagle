@@ -23,7 +23,7 @@ public protocol DependencyRenderer {
 }
 
 /// Use this class whenever you want to transform a Component into a UIView
-open class BeagleRenderer {
+public struct BeagleRenderer {
 
     public unowned var controller: BeagleController
 
@@ -32,7 +32,7 @@ open class BeagleRenderer {
     }
 
     /// main function of this class. Call it to transform a Component into a UIView
-    open func render(_ component: BeagleSchema.RawComponent) -> UIView {
+    func render(_ component: BeagleSchema.RawComponent) -> UIView {
         let view = makeView(component: component)
 
         setupView(view, of: component)
@@ -40,7 +40,7 @@ open class BeagleRenderer {
         return view
     }
 
-    open func render(_ children: [BeagleSchema.RawComponent]) -> [UIView] {
+    func render(_ children: [BeagleSchema.RawComponent]) -> [UIView] {
         return children.map { render($0) }
     }
 
@@ -85,28 +85,13 @@ public extension BeagleRenderer {
 
     func observe<Value, View: UIView>(
         _ expression: Expression<Value>?,
-        andUpdate keyPath: ReferenceWritableKeyPath<View, Value>,
-        in view: View,
-        map: Mapper<Value?, Value>? = nil
-    ) {
-        if let expression = expression {
-            expression.observe(view: view, controller: controller) { value in
-                view[keyPath: keyPath] = map?(value) ?? value
-            }
-        } else if let map = map {
-            view[keyPath: keyPath] = map(nil)
-        }
-    }
-
-    func observe<Value, View: UIView>(
-        _ expression: Expression<Value>?,
         andUpdate keyPath: ReferenceWritableKeyPath<View, Value?>,
         in view: View,
         map: Mapper<Value?, Value?>? = nil
     ) {
         if let expression = expression {
-            expression.observe(view: view, controller: controller) { value in
-                view[keyPath: keyPath] = map?(value) ?? value
+            expression.observe(view: view, controller: controller) { [weak view] value in
+                view?[keyPath: keyPath] = map?(value) ?? value
             }
         } else if let map = map {
             view[keyPath: keyPath] = map(nil)
@@ -116,24 +101,13 @@ public extension BeagleRenderer {
     // MARK: Property with different type than expression
 
     func observe<Value, View: UIView, Property>(
-        _ expression: Expression<Value>,
-        andUpdate keyPath: ReferenceWritableKeyPath<View, Property>,
-        in view: View,
-        map: @escaping Mapper<Value, Property>
-    ) {
-        expression.observe(view: view, controller: controller) {
-            view[keyPath: keyPath] = map($0)
-        }
-    }
-
-    func observe<Value, View: UIView, Property>(
         _ expression: Expression<Value>?,
         andUpdate keyPath: ReferenceWritableKeyPath<View, Property>,
         in view: View,
         map: @escaping Mapper<Value?, Property>
     ) {
-        observe(expression, andUpdateManyIn: view) {
-            view[keyPath: keyPath] = map($0)
+        observe(expression, andUpdateManyIn: view) { [weak view] in
+            view?[keyPath: keyPath] = map($0)
         }
     }
 
@@ -155,7 +129,7 @@ public extension BeagleRenderer {
     func observe<Value>(
         _ expression: Expression<Value>,
         andUpdateManyIn view: UIView,
-        updateFunction: @escaping (Value) -> Void
+        updateFunction: @escaping (Value?) -> Void
     ) {
         expression.observe(view: view, controller: controller, updateFunction: updateFunction)
     }

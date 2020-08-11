@@ -94,13 +94,13 @@ extension TextInput: ServerDrivenComponent {
         }
         
         func textFieldDidBeginEditing(_ textField: UITextField) {
-            let context = Context(id: "onFocus", value: .dictionary(["value": .string(textField.text ?? "")]))
-            controller?.execute(actions: onFocus, with: context, sender: self)
+            let value: DynamicObject = .dictionary(["value": .string(textField.text ?? "")])
+            controller?.execute(actions: onFocus, with: "onFocus", and: value, origin: self)
         }
         
         func textFieldDidEndEditing(_ textField: UITextField) {
-            let context = Context(id: "onBlur", value: .dictionary(["value": .string(textField.text ?? "")]))
-            controller?.execute(actions: onBlur, with: context, sender: self)
+            let value: DynamicObject = .dictionary(["value": .string(textField.text ?? "")])
+            controller?.execute(actions: onBlur, with: "onBlur", and: value, origin: self)
         }
         
         func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -112,8 +112,8 @@ extension TextInput: ServerDrivenComponent {
             textField.text = updatedText
             textChanged()
             
-            let context = Context(id: "onChange", value: .dictionary(["value": .string(updatedText ?? "")]))
-            controller?.execute(actions: onChange, with: context, sender: self)
+            let value: DynamicObject = .dictionary(["value": .string(updatedText ?? "")])
+            controller?.execute(actions: onChange, with: "onChange", and: value, origin: self)
             
             return false
         }

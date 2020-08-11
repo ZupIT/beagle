@@ -59,6 +59,7 @@ const val SCREEN_SAFE_AREA_TRUE_ENDPOINT = "/safe-area/true"
 const val SCREEN_SAFE_AREA_FALSE_ENDPOINT = "/safe-area/false"
 const val SCREEN_TEXT_INPUT_ENDPOINT = "/text-input"
 const val SCREEN_SIMPLE_FORM_ENDPOINT = "/simple-form"
+const val DSL_BUILDER_ENDPOINT = "/dsl-builder"
 
 const val CUSTOM_WIDGET_ENDPOINT = "/custom"
 

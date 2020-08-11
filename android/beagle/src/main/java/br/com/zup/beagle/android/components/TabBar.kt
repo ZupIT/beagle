@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.components
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.icu.text.CaseMap
 import android.view.View
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
@@ -26,7 +25,6 @@ import br.com.zup.beagle.R
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.components.utils.styleManagerFactory
 import br.com.zup.beagle.android.context.Bind
-import br.com.zup.beagle.android.context.ContextComponent
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.setup.BeagleEnvironment
 import br.com.zup.beagle.android.utils.dp
@@ -127,7 +125,7 @@ data class TabBar(
 
     private fun configCurrentTabObserver(tabBar: TabLayout, rootView: RootView) {
         currentTab?.let {
-            observeBindChanges(rootView, it) { position ->
+            observeBindChanges(rootView, tabBar, it) { position ->
                 position?.let { newPosition ->
                     tabBar.getTabAt(newPosition)?.select()
                 }
@@ -140,5 +138,5 @@ data class TabBar(
 
 data class TabBarItem(
     val title: String? = null,
-    val icon: PathType.Local? = null
+    val icon: ImagePath.Local? = null
 )

@@ -1,0 +1,30 @@
+name: opens PR to Main after Hotfix has been released
+
+on:
+    release:
+      types: [released]
+jobs:
+    generate-release:
+        name: Generate PR Post Release
+        runs-on: macos-latest
+        steps:
+            - uses: actions/checkout@v2.1.0
+
+            -   name: Cache fastlane dependences
+                uses: actions/cache@v2
+                env:
+                    fastlane-cache-key: fastlane-cache
+                    fastlane-path: ~/.gem
+                with:
+                    path: ${{ env.fastlane-path }}
+                    key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
+            -   name: Install Fastlane
+                run: bundle config set path '~/.gem' && bundle install
+
+            - name: Open Pull Request
+              env:
+                REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
+                TAG_NAME: ${{ github.ref }}
+                REPO: ${{ github.repository }}
+              run: bundle exec fastlane workflow openPRFromPatch
+        

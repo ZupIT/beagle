@@ -57,13 +57,15 @@ private fun loadView(
     screenRequest: ScreenRequest,
     listener: OnStateChanged?
 ) {
+    val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
+    viewModel.resetIds()
     val view = viewExtensionsViewFactory.makeBeagleView(viewGroup.context).apply {
-        loadView(rootView, screenRequest)
         stateChangedListener = listener
+        loadView(rootView, screenRequest)
     }
     view.loadCompletedListener = {
         viewGroup.addView(view)
-        rootView.generateViewModelInstance<ScreenContextViewModel>().evaluateContexts()
+        viewModel.linkBindingToContextAndEvaluateThem()
     }
 }
 

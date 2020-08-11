@@ -23,14 +23,15 @@ extension TabBar: ServerDrivenComponent {
         let view = TabBarUIComponent(model: .init(tabIndex: 0, tabBarItems: items))
         
         if let currentTab = currentTab {
-            renderer.observe(currentTab, andUpdateManyIn: view) { tab in
-                view.scrollTo(page: tab)
+            renderer.observe(currentTab, andUpdateManyIn: view) {
+                if let tab = $0 {
+                    view.scrollTo(page: tab)
+                }
             }
         }
         
         view.onTabSelection = { tab in
-            let context = Context(id: "onTabSelection", value: .int(tab))
-            renderer.controller.execute(actions: self.onTabSelection, with: context, sender: view)
+            renderer.controller.execute(actions: self.onTabSelection, with: "onTabSelection", and: .int(tab), origin: view)
         }
         
         return view

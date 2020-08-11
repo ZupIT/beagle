@@ -23,8 +23,7 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.10.1"
-        //TODO remove this line after migrate to mavenCentral
-        classpath "com.github.dcendents:android-maven-gradle-plugin:2.1"
+        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.12.0'
     }
 }
 
@@ -49,6 +48,14 @@ allprojects {
 
     detekt {
         config = files("$rootDir/../config/detekt-default-config.yml")
+    }
+
+    tasks.withType(PublishToMavenRepository) {
+        onlyIf {
+            Arrays.asList("backend", "framework", "starter").any {
+                publication.artifactId.contains(it)
+            }
+        }
     }
 
     compileKotlin {

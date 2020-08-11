@@ -17,6 +17,7 @@
 package br.com.zup.beagle.android.networking
 
 import br.com.zup.beagle.android.exception.BeagleApiException
+import br.com.zup.beagle.android.utils.CoroutineDispatchers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Job
@@ -31,7 +32,7 @@ typealias OnError = (responseData: ResponseData) -> Unit
 internal class HttpClientDefault : HttpClient, CoroutineScope {
 
     private val job = Job()
-    override val coroutineContext = job + IO
+    override val coroutineContext = job + CoroutineDispatchers.IO
 
     override fun execute(
         request: RequestData,

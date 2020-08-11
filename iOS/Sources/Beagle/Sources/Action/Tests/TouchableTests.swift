@@ -21,30 +21,35 @@ import BeagleSchema
 
 final class TouchableTests: XCTestCase {
 
-    func testTouchableView() throws {
+    func testTouchableView() {
+        //Given //When
         let touchable = Touchable(onPress: [Navigate.popView], child: Text("Touchable"))
         let controller = BeagleControllerStub()
         let renderer = BeagleRenderer(controller: controller)
         let view = renderer.render(touchable)
-
+        
+        //Then
         assertSnapshotImage(view, size: .custom(CGSize(width: 100, height: 80)))
     }
     
     func testIsUserInteractionEnabled() {
+        //Given
         let view = UIImageView()
         view.isUserInteractionEnabled = false
         let child = ComponentDummy(resultView: view)
         let touchable = Touchable(onPress: [ActionDummy()], child: child)
-        
         let controller = BeagleControllerStub()
         let renderer = BeagleRenderer(controller: controller)
+        
+        //When
         let resultView = touchable.toView(renderer: renderer)
         
+        //Then
         XCTAssertEqual(resultView, view)
         XCTAssertTrue(resultView.isUserInteractionEnabled)
     }
     
-    func testIfAnalyticsClickAndActionShouldBeTriggered() {
+    func testAnalyticsClickAndActionTrigger() {
         // Given
         let analyticsExecutorSpy = AnalyticsExecutorSpy()
         let dependencies = BeagleScreenDependencies(
@@ -69,6 +74,6 @@ final class TouchableTests: XCTestCase {
         // Then
         XCTAssertTrue(analyticsExecutorSpy.didTrackEventOnClick)
         XCTAssertEqual(action.executionCount, 1)
-        XCTAssertTrue(action.lastSender as AnyObject === view)
+        XCTAssertTrue(action.lastOrigin as AnyObject === view)
     }
 }
