@@ -134,7 +134,7 @@ final class ButtonTests: XCTestCase {
     func testRenderDefaultButtonComponent() {
         // Given
         let button = Button(text: "Default Button")
-        
+
         // When
         let view = renderer.render(button)
         
