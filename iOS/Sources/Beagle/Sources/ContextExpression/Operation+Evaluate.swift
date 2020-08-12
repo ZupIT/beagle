@@ -80,7 +80,7 @@ extension BeagleSchema.Operation {
             case .operation(let operation):
                 return operation.evaluate(in: view)
             case .value(.binding(let binding)):
-                return view.getContext(with: binding.context)?.value.value ?? .empty
+                return binding.evaluate(in: view)
             case .value(.literal(let literal)):
                 return literal.evaluate()
             }

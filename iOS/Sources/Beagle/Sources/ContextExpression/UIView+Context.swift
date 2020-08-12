@@ -70,21 +70,35 @@ extension UIView {
     
     // MARK: Single Expression
     
+    private func configBinding<T: Decodable>(_ binding: Binding, completion: @escaping (T?) -> Void) {
+        guard let context = getContext(with: binding.context) else { return }
+        let closure: (Context) -> Void = { context in
+            let dynamicObject = binding.evaluate(model: context.value)
+            let value: T? = self.transform(dynamicObject)
+            completion(value)
+        }
+        let contextObserver = ContextObserver(onContextChange: closure)
+        context.addObserver(contextObserver)
+        closure(context.value)
+    }
+    
     private func configBinding<T: Decodable>(for expression: SingleExpression, completion: @escaping (T?) -> Void) {
         switch expression {
         case let .value(.binding(binding)):
-            guard let context = getContext(with: binding.context) else { return }
-            let closure: (Context) -> Void = { context in
-                let dynamicObject = binding.evaluate(model: context.value)
-                let value: T? = self.transform(dynamicObject)
-                completion(value)
-            }
-            let contextObserver = ContextObserver(onContextChange: closure)
-            context.addObserver(contextObserver)
-            closure(context.value)
+            configBinding(binding, completion: completion)
         case let .value(.literal(literal)):
             completion(transform(literal.evaluate()))
         case let .operation(operation):
+            for parameter in operation.parameters {
+                if case let .value(.binding(binding)) = parameter {
+                    guard let context = getContext(with: binding.context) else { return }
+                    let closure: (Context) -> Void = { _ in
+                        completion(self.evaluate(for: expression))
+                    }
+                    let contextObserver = ContextObserver(onContextChange: closure)
+                    context.addObserver(contextObserver)
+                }
+            }
             completion(transform(operation.evaluate(in: self)))
         }
     }
@@ -92,10 +106,7 @@ extension UIView {
     private func evaluate<T: Decodable>(for expression: SingleExpression) -> T? {
         switch expression {
         case let .value(.binding(binding)):
-            guard let context = getContext(with: binding.context) else { return nil }
-            let dynamicObject = binding.evaluate(model: context.value.value)
-            expressionLastValueMap[binding.rawValue] = dynamicObject
-            return transform(dynamicObject)
+            return transform(binding.evaluate(in: self))
         case let .value(.literal(literal)):
             return transform(literal.evaluate())
         case let .operation(operation):
@@ -117,7 +128,7 @@ extension UIView {
                     }
                     let contextObserver = ContextObserver(onContextChange: closure)
                     context.addObserver(contextObserver)
-                case .value, .operation:
+                case .value(.literal), .operation:
                     configBinding(for: single, completion: completion)
                 }
             }
