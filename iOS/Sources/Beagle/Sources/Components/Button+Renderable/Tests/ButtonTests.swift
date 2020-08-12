@@ -115,17 +115,14 @@ final class ButtonTests: XCTestCase {
         XCTAssert(action.lastOrigin as AnyObject === view)
     }
     
-    func testButtonLeak() {
+    func testRenderButtonComponent() {
         // Given
         let button = Button(text: "Trigger Action")
-    
-        var view = renderer.render(button) as? Button.BeagleUIButton
-        weak var weakView = view
         
         // When
-        view = nil
+        let view = renderer.render(button)
         
         // Then
-        XCTAssertNil(weakView)
+        assertSnapshotImage(view, size: .custom(CGSize(width: 300, height: 150)))
     }
 }
