@@ -12,15 +12,20 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+require 'fileutils'
+
 class FileHandler
     
-    def write(fileName, dataToBeWritten) 
-        File.open(fileName, "w+") do |f|     
+    def write(path, fileName, dataToBeWritten) 
+        handleDirectoryCreationIfNeeded(path)
+        File.open(path + fileName, "w+") do |f|     
             f.write(dataToBeWritten)
             f.close
         end
     end
 
-
+    def handleDirectoryCreationIfNeeded(path)
+        FileUtils.mkdir_p path unless File.exists?(path)
+    end
 
 end
