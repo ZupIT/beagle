@@ -232,7 +232,11 @@ internal class ToolbarManager {
 
     private fun setupNavigationIcon(context: Context, toolbar: Toolbar) {
         if (toolbar.navigationIcon == null) {
-            toolbar.navigationIcon = getDrawableFromAttribute(context, android.support.v7.appcompat.R.attr.homeAsUpIndicator)
+            toolbar.navigationIcon =
+                getDrawableFromAttribute(
+                    context,
+                    android.support.v7.appcompat.R.attr.homeAsUpIndicator
+                )
         }
     }
 }
