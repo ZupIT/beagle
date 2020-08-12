@@ -40,9 +40,10 @@ import br.com.zup.beagle.android.context.operations.strategy.Operations
  *                       the result of parameter will be: 'name'), capitalize(' secondname'), capitalize(' thirdname'
  *                       and this is wrong see the correct solution bellow
 
- * @see ReadMethod.PDA The PDA comes to solve the example above, split each operation and at the finish trigger the result,
- *                     normally the principal operation can be split using REGEX and SubOperations using PDA. REGEX can be used
- *                     in a PDA result and will be able to match a value correctly. result: Name Secondname Thirdname
+ * @see ReadMethod.PDA The PDA comes to solve the example above, split each operation and at the finish trigger
+                       the result, normally the principal operation can be split using REGEX and SubOperations using
+                       PDA. REGEX can be used in a PDA result and will be able to match a value correctly.
+                       result: Name Secondname Thirdname
  *
  * @see readExpression The output method that returns the operation
  *

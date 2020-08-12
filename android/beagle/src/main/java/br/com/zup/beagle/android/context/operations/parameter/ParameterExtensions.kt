@@ -28,7 +28,7 @@ internal fun String.toType() : Argument {
     var value: Any = ""
 
     when (parameterType) {
-        ParameterTypes.NUMBER -> value = removeWhiteSpaces().toNumber()
+        ParameterTypes.NUMBER -> value = removeWhiteSpaces().checkNumber()
         ParameterTypes.EMPTY, ParameterTypes.STRING -> value = this
         ParameterTypes.BOOLEAN -> value = removeWhiteSpaces().toBoolean()
         ParameterTypes.ARRAY -> {
@@ -69,17 +69,11 @@ private fun String.checkParameter() : ParameterTypes =
 
 private const val DOUBLE_SEPARATOR = "."
 
-private fun String.toNumber() : Any {
-    if (isNotEmpty()) {
-        if (contains(DOUBLE_SEPARATOR)) {
-            return toDouble()
-        }
+private fun String.checkNumber() : Any =
+    if (isNotEmpty()) toNumber() else Constants.EMPTY_VALUE
 
-        return toInt()
-    }
-
-    return ""
-}
+private fun String.toNumber() : Any =
+    if (contains(DOUBLE_SEPARATOR)) toDouble() else toInt()
 
 internal fun Any?.isDouble() =
     this != null && toString().contains(DOUBLE_SEPARATOR)
