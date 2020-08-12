@@ -80,7 +80,7 @@ class ImageTests: XCTestCase {
         // Given
         let component = Image(.value(.remote(.init(url: "www.com"))))
         // When
-         let imageView = renderer.render(component) as? UIImageView
+        let imageView = renderer.render(component) as? UIImageView
         
         // Then
         XCTAssertNotNil(imageView)
@@ -89,13 +89,14 @@ class ImageTests: XCTestCase {
     
     func testPlaceholder() {
         // Given
-        let component = Image(.value(.remote(.init(url: "www.com", placeholder: "imageBeagle"))))
+        let component = Image(.value(.remote(.init(url: "www.com", placeholder: "test_image_square-x"))))
  
         // When
-        let placeholderView = renderer.render(component)
-        
+        let placeholderView = renderer.render(component) as? UIImageView
+
         // Then
-        assertSnapshotImage(placeholderView, size: ImageSize.custom(CGSize(width: 400, height: 400)))
+        XCTAssertNotNil(placeholderView?.image, "Expected placeholder to not be nil.")
+
     }
     
     func testImageLeak() {
