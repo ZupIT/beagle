@@ -67,7 +67,7 @@ class ModelGenerator
     @erb = ERB.new(File.read("model_template_kotlin.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      @writer.write(Constants.new.kotlin_path + @objectType.name + "Schema.kt", to_s)
+      @writer.write(Constants.new.kotlin_path, @objectType.name + "Schema.kt", to_s)
     end
   end
 
@@ -75,7 +75,7 @@ class ModelGenerator
     @erb = ERB.new(File.read("model_template_kotlin_backend.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      @writer.write(Constants.new.kotlin_backend_path + @objectType.name + ".kt", to_s)
+      @writer.write(Constants.new.kotlin_backend_path, @objectType.name + ".kt", to_s)
     end
   end
   
@@ -83,7 +83,7 @@ class ModelGenerator
     @erb = ERB.new(File.read("model_template_swift.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      @writer.write(Constants.new.swift_path + @objectType.name + ".swift", to_s)
+      @writer.write(Constants.new.swift_path, @objectType.name + ".swift", to_s)
     end
   end
 
@@ -91,7 +91,7 @@ class ModelGenerator
     @erb = ERB.new(File.read("model_template_ts.erb"), nil, '-')
     for component in @components
       @objectType = component.new
-      @writer.write(Constants.new.ts_path + @objectType.name + ".ts", to_s)
+      @writer.write(Constants.new.ts_path, @objectType.name + ".ts", to_s)
     end
   end
 
