@@ -22,9 +22,25 @@ import BeagleSchema
 
 final class ButtonTests: XCTestCase {
     
-    let controller = BeagleControllerStub()
-    lazy var renderer = BeagleRenderer(controller: controller)
+    private lazy var theme = AppTheme(
+        styles: [
+           "test.button.style": buttonStyle
+        ]
+    )
+    
+    private lazy var dependencies = BeagleScreenDependencies(theme: theme)
+    private lazy var controller = BeagleControllerStub(dependencies: dependencies)
+    private lazy var renderer = BeagleRenderer(controller: controller)
 
+    private func buttonStyle() -> (UIButton?) -> Void {
+        return {
+            $0?.layer.cornerRadius = 4
+            $0?.setTitleColor(.white, for: .normal)
+            $0?.backgroundColor = ($0?.isEnabled ?? false) ? .green : .gray
+            $0?.alpha = $0?.isHighlighted ?? false ? 0.7 : 1
+        }
+    }
+    
     func testSetRightButtonTitle() {
         //Given
         let buttonTitle = "title"
@@ -115,14 +131,26 @@ final class ButtonTests: XCTestCase {
         XCTAssert(action.lastOrigin as AnyObject === view)
     }
     
-    func testRenderButtonComponent() {
+    func testRenderDefaultButtonComponent() {
         // Given
-        let button = Button(text: "Trigger Action")
+        let button = Button(text: "Default Button")
         
         // When
         let view = renderer.render(button)
         
         // Then
         assertSnapshotImage(view, size: .custom(CGSize(width: 300, height: 150)))
+    }
+    
+    func testRenderCustomButtonComponent() {
+        // Given
+        let style = "test.button.style"
+        let button = Button(text: "Custom Button", styleId: style)
+
+        // When
+        let view = renderer.render(button)
+        
+        // Then
+        assertSnapshotImage(view, size: .custom(CGSize(width: 150, height: 50)))
     }
 }
