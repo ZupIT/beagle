@@ -126,20 +126,6 @@ data class TextInput(
         }
 
         addTextChangedListener(textWatcher)
-//            doOnTextChanged { newText, _, _, _ ->
-//            notifyChanges()
-//            onChange?.let {
-//                this@TextInput.handleEvent(
-//                    rootView,
-//                    this,
-//                    onChange,
-//                    ContextData(
-//                        id = "onChange",
-//                        value = mapOf(VALUE_KEY to newText.toString())
-//                    )
-//                )
-//            }
-//        }
     }
 
     private fun EditText.removeOnTextChange() {
