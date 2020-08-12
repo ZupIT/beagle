@@ -22,7 +22,7 @@ import br.com.zup.beagle.android.context.operations.strategy.string.StringOperat
 internal enum class ExceptionParameterTypes : ExceptionTypes {
     EMPTY {
         override fun getMessage(details: String, operation: Operation?) =
-            "Argument in operation ${operation?.operationToken} cannot be " +  this.name
+            "Argument in operation ${operation?.operationToken} cannot be " + this.name
     },
     REQUIRED_ARGS {
         override fun getMessage(details: String, operation: Operation?) =

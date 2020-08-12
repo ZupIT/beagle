@@ -17,18 +17,9 @@
 package br.com.zup.beagle.android.context.operations.exception
 
 import br.com.zup.beagle.android.context.operations.exception.strategy.ExceptionTypes
-import br.com.zup.beagle.android.context.operations.operation.Operation
-import br.com.zup.beagle.android.context.operations.parameter.removeWhiteSpaces
+import br.com.zup.beagle.android.exception.BeagleException
 
-object ExceptionFactory {
-
-    fun create (exceptionTypes: ExceptionTypes,
-                operation: Operation? = null,
-                details: String) {
-
-        throw ContextOperationException(
-            exceptionTypes.getMessage(details.removeWhiteSpaces(), operation),
-            exceptionTypes
-        )
-    }
-}
+internal class ContextOperationException constructor(
+    override val message: String,
+    val exceptionTypes: ExceptionTypes
+)  : BeagleException(message)

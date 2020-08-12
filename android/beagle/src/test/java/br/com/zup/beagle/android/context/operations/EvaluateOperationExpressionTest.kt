@@ -2,11 +2,13 @@ package br.com.zup.beagle.android.context.operations
 
 import br.com.zup.beagle.android.context.operations.core.EvaluateOperationExpression
 import br.com.zup.beagle.android.context.operations.core.OperationExpressionReader
-import io.mockk.every
-import io.mockk.impl.annotations.MockK
+import br.com.zup.beagle.android.context.operations.exception.ContextOperationException
+import br.com.zup.beagle.android.context.operations.exception.strategy.ExceptionOperationTypes
+import br.com.zup.beagle.android.context.operations.exception.strategy.ExceptionParameterTypes
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertFailsWith
 
 class EvaluateOperationExpressionTest {
 
@@ -393,61 +395,74 @@ class EvaluateOperationExpressionTest {
         assertEquals("Test", result)
     }
 
-    @Test(expected = Exception::class)
+    @Test
     fun should_throw_exception_sum_operation_with_no_values() {
         // given
-        evaluate = EvaluateOperationExpression(reader, "sum()")
+        val expression= "sum()"
 
         // when
-        val result = evaluate.evaluate()
+        val result = assertFailsWith<ContextOperationException> {
+            EvaluateOperationExpression(reader, expression).evaluate()
+        }
 
         // then
-        assertEquals(integerZeroResult, result)
+        assertEquals(ExceptionParameterTypes.EMPTY, result.exceptionTypes)
     }
 
-    @Test(expected = Exception::class)
+    @Test
     fun should_throw_exception_reserved_name_start_function() {
         // given
-        evaluate = EvaluateOperationExpression(reader, "sum(0, null())")
+        val expression = "sum(0, null())"
 
         // when
-        val result = evaluate.evaluate()
+        val result = assertFailsWith<ContextOperationException> {
+            EvaluateOperationExpression(reader, expression).evaluate()
+        }
 
-        assertEquals(null, result)
+        // then
+        assertEquals(ExceptionOperationTypes.INVALID_OPERATION, result.exceptionTypes)
     }
 
-    @Test(expected = Exception::class)
+    @Test
     fun should_solve_number_operation_with_no_value() {
         // given
-        evaluate = EvaluateOperationExpression(reader, "sum(0, )")
+        val expression = "sum(0, )"
 
         // when
-        val result = evaluate.evaluate()
+        val result = assertFailsWith<ContextOperationException> {
+            EvaluateOperationExpression(reader, expression).evaluate()
+        }
 
         // then
-        assertEquals(integerZeroResult, result)
+        assertEquals(ExceptionParameterTypes.EMPTY, result.exceptionTypes)
     }
 
-    @Test(expected = Exception::class)
+    @Test
     fun should_throw_exception_incorrect_parameters_number() {
         // given
-        evaluate = EvaluateOperationExpression(reader, "sum(a, b)")
+        val expression = "sum(a, b)"
 
         // when
-        evaluate.evaluate()
+        val result = assertFailsWith<ContextOperationException> {
+            EvaluateOperationExpression(reader, expression).evaluate()
+        }
 
         // then
+        assertEquals(ExceptionParameterTypes.NUMBER, result.exceptionTypes)
     }
 
-    @Test(expected = Exception::class)
+    @Test
     fun should_throw_exception_incorrect_parameters_substring_operation() {
         // given
-        evaluate = EvaluateOperationExpression(reader, "substr('teste', , )")
+        val expression = "substr('teste', , )"
 
         // when
-        evaluate.evaluate()
+        val result = assertFailsWith<ContextOperationException> {
+            EvaluateOperationExpression(reader, expression).evaluate()
+        }
 
         // then
+        assertEquals(ExceptionParameterTypes.EMPTY, result.exceptionTypes)
     }
 
     @Test
@@ -489,7 +504,10 @@ class EvaluateOperationExpressionTest {
     @Test
     fun should_solve_condition_operation_and_add_in_array() {
         // given
-        evaluate = EvaluateOperationExpression(reader, "insert({1, 2, 3, 4}, condition(lt(sum(6, 3), 5), 5, 6), 4)")
+        evaluate = EvaluateOperationExpression(
+            reader,
+            "insert({1, 2, 3, 4}, condition(lt(sum(6, 3), 5), 5, 6), 4)"
+        )
 
         // when
         val result = evaluate.evaluate()
@@ -499,26 +517,32 @@ class EvaluateOperationExpressionTest {
         assertEquals(6, result[4])
     }
 
-    @Test(expected = Exception::class)
+    @Test
     fun should_throw_exception_incorrect_function_delimiter() {
         // given
-        evaluate = EvaluateOperationExpression(reader, "sum(0, 0")
+        val expression = "sum(0, 0"
 
         // when
-        evaluate.evaluate()
+        val result = assertFailsWith<ContextOperationException> {
+            EvaluateOperationExpression(reader, expression).evaluate()
+        }
 
         // then
+        assertEquals(ExceptionOperationTypes.MISSING_DELIMITERS, result.exceptionTypes)
     }
 
-    @Test(expected = Exception::class)
+    @Test
     fun should_throw_exception_incorrect_array_delimiter() {
         // given
-        evaluate = EvaluateOperationExpression(reader, "insert({1, 2, 3, 4, 5, 4)")
+        val expression = "insert({1, 2, 3, 4, 5, 4)"
 
         // when
-        val result = evaluate.evaluate()
+        val result = assertFailsWith<ContextOperationException> {
+            EvaluateOperationExpression(reader, expression).evaluate()
+        }
 
         // then
+        assertEquals(ExceptionOperationTypes.MISSING_DELIMITERS, result.exceptionTypes)
     }
 
     @Test
@@ -594,81 +618,102 @@ class EvaluateOperationExpressionTest {
         assertEquals(integerFiveResult, (result as List<*>).size)
     }
 
-    @Test(expected = Exception::class)
+    @Test
     fun should_throw_exception_when_not_string_parameter_non_substring_operation() {
         // given
-        evaluate = EvaluateOperationExpression(reader, "concat('abc', 0)")
+        val expression = "concat('abc', 0)"
 
         // when
-        val result = evaluate.evaluate()
+        val result = assertFailsWith<ContextOperationException> {
+            EvaluateOperationExpression(reader, expression).evaluate()
+        }
 
         // then
+        assertEquals(ExceptionParameterTypes.STRING, result.exceptionTypes)
     }
 
-    @Test(expected = Exception::class)
+    @Test
     fun should_throw_exception_substring_operation_without_string() {
         // given
-        evaluate = EvaluateOperationExpression(reader, "substr(abc, 0, 0)")
+        val expression = "substr(abc, 0, 0)"
 
         // when
-        val result = evaluate.evaluate()
+        val result = assertFailsWith<ContextOperationException> {
+            EvaluateOperationExpression(reader, expression).evaluate()
+        }
 
         // then
+        assertEquals(ExceptionParameterTypes.STRING, result.exceptionTypes)
     }
 
-    @Test(expected = Exception::class)
+    @Test
     fun should_throw_exception_substring_operation_without_required_args() {
         // given
-        evaluate = EvaluateOperationExpression(reader, "substr('abc', 0)")
+        val expression = "substr('abc', 0)"
 
         // when
-        val result = evaluate.evaluate()
+        val result = assertFailsWith<ContextOperationException> {
+            EvaluateOperationExpression(reader, expression).evaluate()
+        }
 
         // then
+        assertEquals(ExceptionParameterTypes.REQUIRED_ARGS, result.exceptionTypes)
     }
 
-    @Test(expected = Exception::class)
+    @Test
     fun should_throw_exception_array_operation_without_array() {
         // given
-        evaluate = EvaluateOperationExpression(reader, "insert('abc', 'a', 3)")
+        val expression = "insert('abc', 'a', 3)"
 
         // when
-        val result = evaluate.evaluate()
+        val result = assertFailsWith<ContextOperationException> {
+            EvaluateOperationExpression(reader, expression).evaluate()
+        }
 
         // then
+        assertEquals(ExceptionParameterTypes.ARRAY, result.exceptionTypes)
     }
 
-    @Test(expected = Exception::class)
+    @Test
     fun should_throw_exception_array_operation_without_required_args() {
         // given
-        evaluate = EvaluateOperationExpression(reader, "insert({'a', 'b'}, 'c')")
+        val expression = "insert({'a', 'b'}, 'c')"
 
         // when
-        val result = evaluate.evaluate()
+        val result = assertFailsWith<ContextOperationException> {
+            EvaluateOperationExpression(reader, expression).evaluate()
+        }
 
         // then
+        assertEquals(ExceptionParameterTypes.REQUIRED_ARGS, result.exceptionTypes)
     }
 
-    @Test(expected = Exception::class)
+    @Test
     fun should_throw_exception_array_operation_different_insert_without_required_args() {
         // given
-        evaluate = EvaluateOperationExpression(reader, "includes({'a', 'b'})")
+        val expression = "includes({'a', 'b'})"
 
         // when
-        val result = evaluate.evaluate()
+        val result = assertFailsWith<ContextOperationException> {
+            EvaluateOperationExpression(reader, expression).evaluate()
+        }
 
         // then
+        assertEquals(ExceptionParameterTypes.REQUIRED_ARGS, result.exceptionTypes)
     }
 
-    @Test(expected = Exception::class)
+    @Test
     fun should_throw_exception_array_removeIndex_and_insert_operations_incorrect_index() {
         // given
-        evaluate = EvaluateOperationExpression(reader, "removeIndex({'a', 'b'}, 'c')")
+        val expression = "removeIndex({'a', 'b'}, 'c')"
 
         // when
-        val result = evaluate.evaluate()
+        val result = assertFailsWith<ContextOperationException> {
+            EvaluateOperationExpression(reader, expression).evaluate()
+        }
 
         // then
+        assertEquals(ExceptionParameterTypes.INDEX, result.exceptionTypes)
     }
 
     @Test
@@ -743,14 +788,17 @@ class EvaluateOperationExpressionTest {
         assertEquals(integerFiveResult, result)
     }
 
-    @Test(expected = Exception::class)
+    @Test
     fun should_throw_exception_invalid_operation() {
         // given
-        evaluate = EvaluateOperationExpression(reader, "friend()")
+        val expression = "friend()"
 
         // when
-        val result = evaluate.evaluate()
+        val result = assertFailsWith<ContextOperationException> {
+            EvaluateOperationExpression(reader, expression).evaluate()
+        }
 
         // then
+        assertEquals(ExceptionOperationTypes.NOT_FOUND, result.exceptionTypes)
     }
 }

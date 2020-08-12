@@ -33,7 +33,7 @@ internal class NumberValidation : Validation {
                 ExceptionFactory.create(
                     if (parameterType == ParameterTypes.EMPTY)
                         ExceptionParameterTypes.EMPTY
-                    else ExceptionParameterTypes.INDEX,
+                    else ExceptionParameterTypes.NUMBER,
                     parameter.operation,
                     it.toString()
                 )
