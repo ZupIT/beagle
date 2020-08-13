@@ -25,7 +25,14 @@
   def handleTypeNameForInitMethod(variable, shouldAddComma = false)
     output = variable.isBindable ? "Expression<" + variable.typeName + ">" : variable.typeName
     output = variable.isArray ? "[" + output + "]" : output
-    output = variable.isOptional ? output + "? = nil" : output
+    output = variable.isOptional ? output + "?" : output
+
+    if variable.isOptional && variable.defaultValue == ''
+      output += " = nil"
+    elsif variable.defaultValue != ''
+      output += " #{variable.defaultValue}"
+    end
+    
     output = shouldAddComma ?  output + "," : output
     output
   end

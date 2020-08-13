@@ -17,7 +17,6 @@ require_relative '../base_component.rb'
 
 class CornerRadius < BaseComponent
 
-    # todo default value for radius is 0.0. We still need to implement default values
     def initialize
         textVariables = [
             Variable.new(:name => "radius", :typeName => "Double")

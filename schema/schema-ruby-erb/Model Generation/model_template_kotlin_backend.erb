@@ -16,6 +16,7 @@
  */
 <%
   def handleTypeName(variable, shouldAddComma = false)
+      #todo variables now have default values!
       output = variable.isBindable ? "Bind<" + variable.typeName + ">" : variable.typeName
       output = variable.isArray ? "List<" + output + ">" : output
       output = variable.isOptional ? output + "?" : output
