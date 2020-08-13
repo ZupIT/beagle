@@ -193,6 +193,9 @@ extension UIView {
     // MARK: Private
     
     private func transform<T: Decodable>(_ dynamicObject: DynamicObject) -> T? {
+        if T.self is String.Type {
+            return "\(dynamicObject)" as? T
+        } else {
         let encoder = JSONEncoder()
         let decoder = JSONDecoder()
         if #available(iOS 13.0, *) {

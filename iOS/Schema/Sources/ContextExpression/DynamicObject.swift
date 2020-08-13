@@ -135,3 +135,28 @@ extension DynamicObject: Encodable {
         }
     }
 }
+
+extension DynamicObject: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .empty:
+            return ""
+        case let .bool(bool):
+            return "\(bool)"
+        case let .int(int):
+            return "\(int)"
+        case let .double(double):
+            return "\(double)"
+        case let .string(string):
+            return string
+        case let .array(array):
+            return "\(array)"
+        case let .dictionary(dictionary):
+            return "\(dictionary)"
+        case let .expression(.multiple(multipleExpression)):
+            return multipleExpression.rawValue
+        case let .expression(.single(singleExpression)):
+            return singleExpression.rawValue
+        }
+    }
+}
