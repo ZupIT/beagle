@@ -22,10 +22,14 @@ import br.com.zup.beagle.android.context.operations.parameter.Parameter
 abstract class BaseOperation <T : Operations> {
 
     abstract val operationType: T
-    internal fun validate(parameter: Parameter) : Any? {
-        ExceptionWrapper.validateParameter(parameter)
+    internal fun execute(parameter: Parameter) : Any? {
+        validate(parameter)
 
         return solve(parameter)
+    }
+
+    private fun validate(parameter: Parameter) {
+        ExceptionWrapper.validateParameter(parameter)
     }
 
     abstract fun solve(parameter: Parameter) : Any?

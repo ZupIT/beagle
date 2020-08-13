@@ -27,6 +27,15 @@ internal enum class NumberOperationTypes(val input: String) : OperationsValidati
     MULTIPLY("multiply"),
     DIVIDE("divide");
 
+    fun calculate(numberOne: Number, numberTwo: Number): Number {
+        return when (this) {
+            SUM -> numberOne.toDouble() + numberTwo.toDouble()
+            SUBTRACT -> numberOne.toDouble() - numberTwo.toDouble()
+            MULTIPLY -> numberOne.toDouble() * numberTwo.toDouble()
+            DIVIDE -> numberOne.toDouble() / numberTwo.toDouble()
+        }
+    }
+
     companion object : ProvideOperation {
         override fun getOperationStrategy(input: String): BaseOperation<Operations>? {
             val found = values().find { it.input == input }

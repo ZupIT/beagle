@@ -31,22 +31,7 @@ internal fun BaseOperation<Operations>.toNumberResult(list: List<Argument>) : An
 
         it.value.toString().toDouble() as Number
     }.reduce { accumulated , element ->
-
-        when (this.operationType) {
-            NumberOperationTypes.SUM -> {
-                accumulated.toDouble() + element.toDouble()
-            }
-            NumberOperationTypes.SUBTRACT -> {
-                accumulated.toDouble() - element.toDouble()
-            }
-            NumberOperationTypes.MULTIPLY -> {
-                accumulated.toDouble() * element.toDouble()
-            }
-            NumberOperationTypes.DIVIDE -> {
-                accumulated.toDouble() / element.toDouble()
-            }
-            else -> 0
-        }
+        (this.operationType as NumberOperationTypes).calculate(accumulated, element)
     }
 
     return if (hasDecimal) result else result.toInt()

@@ -40,5 +40,5 @@ data class Operation (
         ExceptionWrapper.validateOperation(this)
     }
 
-    fun validate() : Any? = operationStrategy?.validate(this.toParameterType())
+    fun validate() : Any? = operationStrategy?.execute(this.toParameterType())
 }

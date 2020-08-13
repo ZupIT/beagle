@@ -26,19 +26,21 @@ import br.com.zup.beagle.android.context.operations.strategy.array.ArrayOperatio
 internal class ArrayValidation : Validation {
 
     override fun validate(operationType: Operations?, parameter: Parameter) {
-        if (notHasRequireArgs(operationType, parameter)) {
-            ExceptionFactory.create(
-                ExceptionParameterTypes.REQUIRED_ARGS,
-                parameter.operation,
-                parameter.arguments.size.toString())
-        } else {
-            if (isNotFirstParameterArray(parameter)) {
+        when {
+            notHasRequireArgs(operationType, parameter) -> {
+                ExceptionFactory.create(
+                    ExceptionParameterTypes.REQUIRED_ARGS,
+                    parameter.operation,
+                    parameter.arguments.size.toString())
+            }
+            isNotFirstParameterArray(parameter) -> {
                 ExceptionFactory.create(
                     ExceptionParameterTypes.ARRAY,
                     parameter.operation,
                     parameter.arguments.size.toString()
                 )
-            } else if (isNotNumberIndexParameter(operationType, parameter)) {
+            }
+            isNotNumberIndexParameter(operationType, parameter) -> {
                 val parameterType = parameter.arguments[parameter.arguments.lastIndex].parameterType
 
                 ExceptionFactory.create(

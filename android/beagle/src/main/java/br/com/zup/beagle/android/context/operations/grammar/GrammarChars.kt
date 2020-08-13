@@ -24,5 +24,5 @@ internal object GrammarChars {
     const val OPEN_BRACKET = '['
     const val CLOSE_BRACKET = ']'
     const val COMMA = ','
-    const val WHITE_SPACE = '\u0020'
+    const val WHITE_SPACE = ' '
 }
