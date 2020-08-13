@@ -88,7 +88,6 @@ let operationsWebSampleScreen: Screen = {
                 ]
             )
             Text("The following square will be red when \"counter + 2\" is below 5 and green when it's above.")
-            Text("@{counter} @{'name'}")
             BoxComponent(
                 backgroundColor: "@{condition(lt(sum(counter, 2), 5), '#FF0000', '#00FF00')}",
                 widgetProperties: .init(style: Style(size: Size().width(100).height(100)))

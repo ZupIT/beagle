@@ -82,6 +82,24 @@ extension UIView {
         closure(context.value)
     }
     
+    private func configBinding<T: Decodable>(_ operation: BeagleSchema.Operation, in expression: SingleExpression, completion: @escaping (T?) -> Void) {
+        for parameter in operation.parameters {
+            switch parameter {
+            case let .value(.binding(binding)):
+                guard let context = getContext(with: binding.context) else { return }
+                let closure: (Context) -> Void = { _ in
+                    completion(self.evaluate(for: expression))
+                }
+                let contextObserver = ContextObserver(onContextChange: closure)
+                context.addObserver(contextObserver)
+            case let .operation(operation):
+                configBinding(operation, in: expression, completion: completion)
+            default: break
+            }
+        }
+        completion(transform(operation.evaluate(in: self)))
+    }
+    
     private func configBinding<T: Decodable>(for expression: SingleExpression, completion: @escaping (T?) -> Void) {
         switch expression {
         case let .value(.binding(binding)):
@@ -89,17 +107,7 @@ extension UIView {
         case let .value(.literal(literal)):
             completion(transform(literal.evaluate()))
         case let .operation(operation):
-            for parameter in operation.parameters {
-                if case let .value(.binding(binding)) = parameter {
-                    guard let context = getContext(with: binding.context) else { return }
-                    let closure: (Context) -> Void = { _ in
-                        completion(self.evaluate(for: expression))
-                    }
-                    let contextObserver = ContextObserver(onContextChange: closure)
-                    context.addObserver(contextObserver)
-                }
-            }
-            completion(transform(operation.evaluate(in: self)))
+            configBinding(operation, in: expression, completion: completion)
         }
     }
     

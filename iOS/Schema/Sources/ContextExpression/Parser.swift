@@ -203,7 +203,7 @@ let parameter = Parser<Operation.Parameter> { str in
 
 let parameters: Parser<[Operation.Parameter]> = zip(
     literal(string: "("),
-    zeroOrMore(parameter, separatedBy: literal(string: "")),
+    zeroOrMore(parameter, separatedBy: literal(string: ",")),
     literal(string: ")")
 ).map { _, parameters, _ in
     parameters
