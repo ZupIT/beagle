@@ -7,6 +7,7 @@ on:
     pull_request:
         # TODO: remove this path selector when we have more integrated tests
         paths: 'iOS/**'
+
 jobs:
     pr_verification:
         name: PR Check
@@ -23,6 +24,7 @@ jobs:
                 with:
                     path: ${{ env.fastlane-path }}
                     key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
+                    restore-keys: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}
          
             -   name: Install Fastlane
                 run: bundle config set path '~/.gem' && bundle install
