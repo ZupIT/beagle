@@ -16,8 +16,7 @@
 
 package br.com.zup.beagle.android.utils
 
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
+import android.support.v7.app.AppCompatActivity
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.components.layout.NavigationBar
 import br.com.zup.beagle.android.components.layout.Screen
@@ -32,8 +31,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.core.Style
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.mockkConstructor
-import io.mockk.verifySequence
+import io.mockk.mockkObject
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -48,7 +46,14 @@ class WidgetExtensionsKtTest : BaseTest() {
     override fun setUp() {
         super.setUp()
 
+        mockkObject(ViewModelProviderFactory)
+
         viewModel = ScreenContextViewModel()
+
+        every {
+            ViewModelProviderFactory.of(any<AppCompatActivity>())[ScreenContextViewModel::class.java]
+        } returns viewModel
+
         viewFactory = viewFactoryMock
 
         prepareViewModelMock(viewModel)
@@ -77,12 +82,7 @@ class WidgetExtensionsKtTest : BaseTest() {
     @Test
     fun toView() {
         // Given
-        val viewModelMock = mockk<ScreenContextViewModel>(relaxed = true)
         val beagleFlexView = mockk<BeagleFlexView>(relaxed = true)
-
-        mockkConstructor(ViewModelProvider::class)
-        every { anyConstructed<ViewModelProvider>().get(ScreenContextViewModel::class.java) } returns viewModelMock
-
         every { viewFactory.makeBeagleFlexView(any()) } returns beagleFlexView
         every { rootView.getContext() } returns mockk()
 
@@ -90,11 +90,6 @@ class WidgetExtensionsKtTest : BaseTest() {
         val actual = component.toView(rootView)
 
         // Then
-        verifySequence {
-            viewModelMock.resetIds()
-            beagleFlexView.addServerDrivenComponent(component, rootView)
-            viewModelMock.linkBindingToContextAndEvaluateThem()
-        }
         assertEquals(beagleFlexView, actual)
     }
 

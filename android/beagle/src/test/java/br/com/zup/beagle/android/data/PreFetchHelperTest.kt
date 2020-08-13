@@ -16,15 +16,19 @@
 
 package br.com.zup.beagle.android.data
 
+import android.support.v7.app.AppCompatActivity
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Navigate
 import br.com.zup.beagle.android.action.Route
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.utils.ViewModelProviderFactory
 import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
 import io.mockk.called
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.verify
 import org.junit.Test
 
@@ -46,7 +50,11 @@ class PreFetchHelperTest : BaseTest() {
     override fun setUp() {
         super.setUp()
 
+        mockkObject(ViewModelProviderFactory)
+
         prepareViewModelMock(beagleViewModel)
+
+        every { ViewModelProviderFactory.of(any<AppCompatActivity>()).get(BeagleViewModel::class.java) } returns beagleViewModel
 
         coEvery { beagleViewModel.fetchForCache(any()) } returns mockk()
     }

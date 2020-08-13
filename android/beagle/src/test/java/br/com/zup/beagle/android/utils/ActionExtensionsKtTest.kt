@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.utils
 
+import android.support.v7.app.AppCompatActivity
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.context.ContextData
@@ -41,7 +42,13 @@ class ActionExtensionsKtTest : BaseTest() {
     override fun setUp() {
         super.setUp()
 
+        mockkObject(ViewModelProviderFactory)
+
         viewModel = ScreenContextViewModel()
+
+        every {
+            ViewModelProviderFactory.of(any<AppCompatActivity>())[ScreenContextViewModel::class.java]
+        } returns viewModel
 
         prepareViewModelMock(viewModel)
     }

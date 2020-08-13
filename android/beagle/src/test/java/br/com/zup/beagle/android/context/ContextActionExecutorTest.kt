@@ -16,16 +16,19 @@
 
 package br.com.zup.beagle.android.context
 
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.action.Action
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.testutil.RandomData
+import br.com.zup.beagle.android.utils.ViewModelProviderFactory
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.slot
 import io.mockk.verify
 import io.mockk.verifySequence
@@ -51,13 +54,18 @@ class ContextActionExecutorTest : BaseTest() {
 
     override fun setUp() {
         super.setUp()
+        mockkObject(ViewModelProviderFactory)
 
         contextActionExecutor = ContextActionExecutor()
 
         every { action.execute(any(), view) } just Runs
+        every { rootView.activity } returns mockk()
 
         prepareViewModelMock(viewModel)
 
+        every {
+            ViewModelProviderFactory.of(any<AppCompatActivity>())[ScreenContextViewModel::class.java]
+        } returns viewModel
         every { viewModel.addImplicitContext(capture(contextDataSlot), any(), any()) } just Runs
     }
 
