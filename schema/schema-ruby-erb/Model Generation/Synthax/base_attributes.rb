@@ -12,11 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative './base_attributes.rb'
+class BaseAttributes
 
-class Variable < BaseAttributes
-
-    attr_accessor :name, :typeName, :accessor, :defaultValue, :isBindable, :isOptional
+    attr_accessor :name, :typeName, :accessor, :defaultValue, :isBindable, :isOptional, :isArray
     
     def initialize(params = {})
         @name = params.fetch(:name, '')

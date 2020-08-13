@@ -13,6 +13,7 @@
 #  limitations under the License.
 
 require_relative '../../Synthax/variable.rb'
+require_relative '../../Synthax/array.rb'
 require_relative '../base_component.rb'
 require_relative './widget.rb'
 
@@ -22,7 +23,7 @@ class Button < BaseComponent
         buttonVariables = [
             Variable.new(:name => "text", :typeName => "String", :isBindable => true),
             Variable.new(:name => "styleId", :typeName => "String", :isOptional => true),
-            Variable.new(:name => "onPress", :typeName => "Action", :isOptional => true, :isArray => true),
+            List.new(:name => "onPress", :typeName => "Action", :isOptional => true, :isArray => true),
             Variable.new(:name => "clickAnalyticsEvent", :typeName => "ClickEvent", :isOptional => true)
         ]
         synthaxType = SynthaxType.new(
