@@ -32,8 +32,8 @@ jobs:
             -   name: Cache SPM dependencies
                 uses: actions/cache@v2
                 with:
-                    path: ${{ runner.os }}-spm-${{ hashFiles('iOS/**/Package.resolved') }}
-                    key: ~/**/DerivedData
+                    path: ~/**/DerivedData
+                    key: ${{ runner.os }}-spm-${{ hashFiles('iOS/**/Package.resolved') }}
 
             -   name: install swiftLint
                 run: brew install swiftlint
