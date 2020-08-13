@@ -12,8 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/variable.rb'
+require_relative '../../Synthax/Attributes/variable.rb'
 require_relative '../base_component.rb'
+require_relative '../../Synthax/Types/common_type.rb'
 
 class Display < BaseComponent
 
@@ -22,7 +23,7 @@ class Display < BaseComponent
         textVariables = [
             Variable.new(:name => "backgroundColor", :typeName => "String", :isOptional => true)
         ]
-        synthaxType = SynthaxType.new(
+        synthaxType = CommonType.new(
             :kind => 'struct',
             :name => self.name,
             :variables => textVariables,

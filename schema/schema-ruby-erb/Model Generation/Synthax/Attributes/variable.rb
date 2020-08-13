@@ -14,6 +14,10 @@
 
 require_relative './base_attributes.rb'
 
-class Enum < BaseAttributes {
+class Variable < BaseAttributes
+    
+    def initialize(params = {})
+        super
+    end
 
-}
+end

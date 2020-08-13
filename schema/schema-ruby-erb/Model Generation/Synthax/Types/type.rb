@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-class SynthaxType
+class BaseType
 
     attr_accessor :kind, :name, :variables, :accessor, :inheritFrom, :package
 
@@ -23,6 +23,7 @@ class SynthaxType
         @accessor = params.fetch(:accessor, "public")
         @inheritFrom = params.fetch(:inheritFrom, [])
         @package = params.fetch(:package, "")
+        @sameFileTypes = params.fetch(:sameFileTypes, [])
     end
     
 end

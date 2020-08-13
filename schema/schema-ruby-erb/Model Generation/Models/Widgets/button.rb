@@ -12,8 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/variable.rb'
-require_relative '../../Synthax/array.rb'
+require_relative '../../Synthax/Attributes/variable.rb'
+require_relative '../../Synthax/Attributes/list.rb'
+require_relative '../../Synthax/Types/common_type.rb'
 require_relative '../base_component.rb'
 require_relative './widget.rb'
 
@@ -23,10 +24,10 @@ class Button < BaseComponent
         buttonVariables = [
             Variable.new(:name => "text", :typeName => "String", :isBindable => true),
             Variable.new(:name => "styleId", :typeName => "String", :isOptional => true),
-            List.new(:name => "onPress", :typeName => "Action", :isOptional => true, :isArray => true),
+            List.new(:name => "onPress", :typeName => "Action", :isOptional => true),
             Variable.new(:name => "clickAnalyticsEvent", :typeName => "ClickEvent", :isOptional => true)
         ]
-        synthaxType = SynthaxType.new(
+        synthaxType = CommonType.new(
             :kind => 'struct',
             :name => self.name,
             :variables => buttonVariables,

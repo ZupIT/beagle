@@ -12,9 +12,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative './base_attributes.rb'
+require_relative './type.rb'
 
-class List < BaseAttributes
+#todo the name of the class could be better
+class CommonType < BaseType
 
+    def initialize(params = {})
+        super
+    end
 
 end
