@@ -164,5 +164,4 @@ class Dependencies : Plugin<Project> {
         const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espressoCore}"
         const val testRules = "androidx.test:rules:${Versions.testExt}"
     }
-
 }

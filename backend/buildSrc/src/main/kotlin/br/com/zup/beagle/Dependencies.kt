@@ -117,5 +117,4 @@ class Dependencies : Plugin<Project> {
         const val netty = "io.micronaut:micronaut-http-server-netty:${Versions.micronaut}"
         const val injectJava = "io.micronaut:micronaut-inject-java:${Versions.micronaut}"
     }
-
 }
