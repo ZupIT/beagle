@@ -65,7 +65,7 @@ final class UIViewContextTests: XCTestCase {
         XCTAssertTrue(leaf.contextMap["contexta"] === contextObservable)
     }
     
-    func test_evaluate() {
+    func testEvaluate() {
         let root = UIView()
         let leaf = UIView()
         root.addSubview(leaf)
@@ -76,14 +76,14 @@ final class UIViewContextTests: XCTestCase {
         root.contextMap = ["context": contextObservableRoot]
         leaf.contextMap = ["leaf": contextObservableLeaf]
 
-        let singleExpressionA = SingleExpression(context: "context", path: .init(nodes: [.key("a")]))
-        let singleExpressionB = SingleExpression(context: "leaf", path: .init(nodes: [.index(0)]))
+        let singleExpressionA = SingleExpression.value(.binding(.init(context: "context", path: .init(nodes: [.key("a")]))))
+        let singleExpressionB = SingleExpression.value(.binding(.init(context: "leaf", path: .init(nodes: [.index(0)]))))
 
         let expA = ContextExpression.single(singleExpressionA)
         let expB = ContextExpression.single(singleExpressionB)
         let multipleExpression = ContextExpression.multiple(.init(nodes: [.string("expA: "), .expression(singleExpressionA), .string(", expB: "), .expression(singleExpressionB)]))
-        let complexObjectExpression = ContextExpression.single(.init(context: "context", path: .init(nodes: [])))
-        let nilObjectExpression = ContextExpression.single(.init(context: "leaf", path: .init(nodes: [.key("unknown")])))
+        let complexObjectExpression = ContextExpression.single(.value(.binding(.init(context: "context", path: .init(nodes: [])))))
+        let nilObjectExpression = ContextExpression.single(.value(.binding(.init(context: "leaf", path: .init(nodes: [.key("unknown")])))))
 
         let result1: String? = leaf.evaluate(for: expA)
         let result2: String? = leaf.evaluate(for: expB)
@@ -100,7 +100,7 @@ final class UIViewContextTests: XCTestCase {
         assertSnapshot(matching: leaf.expressionLastValueMap, as: .dump)
     }
     
-    func test_configBinding() {
+    func testConfigBinding() {
         let root = UIView()
         let leaf = UITextField()
         root.addSubview(leaf)
@@ -111,7 +111,7 @@ final class UIViewContextTests: XCTestCase {
         root.contextMap = ["context": contextObservableRoot]
         leaf.contextMap = ["leaf": contextObservableLeaf]
 
-        let singleExpression = SingleExpression(context: "context", path: .init(nodes: [.key("a")]))
+        let singleExpression = SingleExpression.value(.binding(.init(context: "context", path: .init(nodes: [.key("a")]))))
         let exp = ContextExpression.single(singleExpression)
         let multipleExpression = ContextExpression.multiple(.init(nodes: [.string("exp: "), .expression(singleExpression)]))
 
