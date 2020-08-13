@@ -115,14 +115,15 @@ lane :deploy do
   sh "git fetch"
   pattern = "*[0-9]"
   tagName = "master"
-  if ENV["TAG_NAME"].index("-") # Hotfix
-    tagName = "release/" + ENV["TAG_NAME"].split("/").last
+  versionDeploy = ENV["TAG_NAME"].split("/").last
+  ENV["VERSION_DEPLOY"] = versionDeploy
+  if versionDeploy.index("-") # Hotfix
+    tagName = "release/" + versionDeploy
     platformHotfix = tagName.split("-").last
     pattern = "*-#{platformHotfix}"
   end
   sh "git checkout #{tagName}"
 
-  ENV["VERSION_DEPLOY"] = last_git_tag(pattern: pattern)
   if platformHotfix == "iOS"
     puts "iOS Hotfix release"
     sh "fastlane ios release"
@@ -139,13 +140,13 @@ lane :deploy do
     sh "fastlane ios release"
   end
 
-  releaseNotes = release_notes
+  releaseNotes = release_notes(versionDeploy: versionDeploy)
   sh "bash ./delete_release.sh"
   set_github_release(
     repository_name: ENV["REPO"],
     api_token: ENV["REPO_TOKEN"],
-    name: ENV["VERSION_DEPLOY"],
-    tag_name: ENV["VERSION_DEPLOY"],
+    name: versionDeploy,
+    tag_name: versionDeploy,
     description: releaseNotes,
     commitish: tagName
   )
@@ -210,17 +211,29 @@ platform :backend do
 end
 
 desc "Generate release notes"
-private_lane :release_notes do
-  get_previous_tag = lastExpectedVersion(newVersion:ENV["VERSION_DEPLOY"])
+private_lane :release_notes do |params|
+  get_previous_tag = lastExpectedVersion(newVersion:params[:versionDeploy])
   tagHashes = sh "git show-ref -s #{get_previous_tag}"
 
   lane_context[SharedValues::RELEASE_ANALYZED] = true
   lane_context[SharedValues::RELEASE_LAST_TAG_HASH] = tagHashes.split("\n").last
-  lane_context[SharedValues::RELEASE_NEXT_VERSION] = ENV["TAG_NAME"]
-  lane_context[SharedValues::CONVENTIONAL_CHANGELOG_ACTION_FORMAT_PATTERN] = "(feat|fix|refactor|perf|chore|test|docs|no_type)(:)()(.*)"
-  changelog = conventional_changelog(display_title: false, display_links: false)
+  lane_context[SharedValues::RELEASE_NEXT_VERSION] = params[:versionDeploy]
+  lane_context[SharedValues::CONVENTIONAL_CHANGELOG_ACTION_FORMAT_PATTERN] = "(feat|fix|refactor|perf|chore|test|docs|no_type|ci)(:)()(.*)"
+  sections = {
+    feat: "Features",
+    fix: "Bug fixes",
+    refactor: "Code refactoring",
+    perf: "Performance improvements",
+    chore: "Building system",
+    test: "Testing",
+    docs: "Documentation",
+    ci: "CI/CD",
+    no_type: "Other work"
+  }
+  order = ["feat", "fix", "refactor", "perf", "chore", "test", "docs", "ci", "no_type"]
+  changelog = conventional_changelog(sections: sections, order: order, display_title: false, display_links: false)
   changelog = changelog.gsub("**::**  ", "")
-  "\nRelease notes #{ ENV["VERSION_DEPLOY"] }
+  "\nRelease notes #{ params[:versionDeploy] }
    \nChanges:
    \n#{changelog}"
 end
@@ -270,8 +283,9 @@ lane :lastExpectedVersion do |params|
   lastVersion[0] = ""
 
   version = ""
-  if platform.length > 1
-    version = "#{lastVersion}-#{platform[1]}"
+  if platform.length > 1 &&
+    lastVersion.split(".").last != "0"
+      version = "#{lastVersion}-#{platform[1]}"
   else
     version = lastVersion
   end
