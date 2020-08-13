@@ -167,9 +167,11 @@ let parameter = Parser<Operation.Parameter> { str in
     var isSingleQuoteOpen = false
     
     while !str.isEmpty {
-        var element = str.removeFirst()
+        guard let element = str.first else { return nil }
         
-        if element == "(" && isSingleQuoteOpen == false {
+        if (element == "," || element == ")") && parenthesesCount == 0 && isSingleQuoteOpen == false {
+            break
+        } else if element == "(" && isSingleQuoteOpen == false {
             parenthesesCount += 1
         } else if element == ")" && isSingleQuoteOpen == false {
             parenthesesCount -= 1
@@ -177,14 +179,14 @@ let parameter = Parser<Operation.Parameter> { str in
             isSingleQuoteOpen.toggle()
         } else if element == "\\" && str.first == "'" {
             result.append(element)
-            element = str.removeFirst()
-        } else if element == "," && parenthesesCount == 0 && isSingleQuoteOpen == false {
-            break
+            str.removeFirst()
         } else if element == " " && isSingleQuoteOpen == false {
+            str.removeFirst()
             continue
         }
         
         result.append(element)
+        str.removeFirst()
     }
     
     if let valueMatch = value.run(result).match {
