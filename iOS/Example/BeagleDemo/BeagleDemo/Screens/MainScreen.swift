@@ -75,6 +75,10 @@ struct MainScreen: DeeplinkScreen {
                     onPress: [Navigate.pushView(.declarative(componentInteractionScreen))]
                 ),
                 Button(
+                    text: "Context Operations",
+                    onPress: [Navigate.pushView(.declarative(operationsMenuScreen))]
+                ),
+                Button(
                     text: "Simple Form",
                     onPress: [Navigate.openNativeRoute(.init(route: .SIMPLE_FORM_ENDPOINT))]
                 ),
