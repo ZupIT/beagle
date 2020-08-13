@@ -110,7 +110,7 @@ extension Button: Widget {
         
         private func setDefaultStyle() {
             setTitleColor(UIColor.systemBlue, for: .normal)
-            titleLabel?.font = UIFont(name: "arial", size: 16)
+            titleLabel?.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
         }
     }
 }
