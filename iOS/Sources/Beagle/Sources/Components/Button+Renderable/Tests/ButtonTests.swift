@@ -22,6 +22,7 @@ import BeagleSchema
 
 final class ButtonTests: XCTestCase {
     
+    private let snapshotSize = CGSize(width: 150, height: 50)
     private lazy var theme = AppTheme(
         styles: [
            "test.button.style": buttonStyle
@@ -139,7 +140,7 @@ final class ButtonTests: XCTestCase {
         let view = renderer.render(button)
         
         // Then
-        assertSnapshotImage(view, size: .custom(CGSize(width: 300, height: 150)))
+        assertSnapshotImage(view, size: .custom(snapshotSize))
     }
     
     func testRenderCustomButtonComponent() {
@@ -151,6 +152,6 @@ final class ButtonTests: XCTestCase {
         let view = renderer.render(button)
         
         // Then
-        assertSnapshotImage(view, size: .custom(CGSize(width: 150, height: 50)))
+        assertSnapshotImage(view, size: .custom(snapshotSize))
     }
 }
