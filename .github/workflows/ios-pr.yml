@@ -34,6 +34,7 @@ jobs:
                 with:
                     path: ~/**/DerivedData
                     key: ${{ runner.os }}-spm-${{ hashFiles('iOS/**/Package.resolved') }}
+                    restore-keys: ${{ runner.os }}-spm
 
             -   name: install swiftLint
                 run: brew install swiftlint
