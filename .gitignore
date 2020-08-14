@@ -46,3 +46,62 @@ fastlane/README.md
 
 ### Jacoco ###
 jacoco.exec
+
+# Flutter/Dart/Pub related
+flutter/**/**/doc/api/
+flutter/**/.dart_tool/
+flutter/**/.flutter-plugins
+flutter/**/.flutter-plugins-dependencies
+flutter/**/.packages
+flutter/**/.pub-cache/
+flutter/**/.pub/
+flutter/**/build/
+flutter_analyze_report.txt
+coverage/
+lcov.info
+
+# Android related
+flutter/**/**/android/**/gradle-wrapper.jar
+flutter/**/**/android/.gradle
+flutter/**/**/android/captures/
+flutter/**/**/android/gradlew
+flutter/**/**/android/gradlew.bat
+flutter/**/**/android/local.properties
+flutter/**/**/android/.gitignore
+flutter/**/**/android/**/GeneratedPluginRegistrant.java
+
+# iOS/XCode related
+flutter/**/**/ios/**/*.mode1v3
+flutter/**/**/ios/**/*.mode2v3
+flutter/**/**/ios/**/*.moved-aside
+flutter/**/**/ios/**/*.pbxuser
+flutter/**/**/ios/**/*.perspectivev3
+flutter/**/**/ios/**/*sync/
+flutter/**/**/ios/**/.sconsign.dblite
+flutter/**/**/ios/**/.tags*
+flutter/**/**/ios/**/.vagrant/
+flutter/**/**/ios/**/DerivedData/
+flutter/**/**/ios/**/Icon?
+flutter/**/**/ios/**/Pods/
+flutter/**/**/ios/**/.symlinks/
+flutter/**/**/ios/**/profile
+flutter/**/**/ios/**/xcuserdata
+flutter/**/**/ios/.generated/
+flutter/**/**/ios/Flutter/App.framework
+flutter/**/**/ios/Flutter/Flutter.framework
+flutter/**/**/ios/Flutter/Flutter.podspec
+flutter/**/**/ios/Flutter/Generated.xcconfig
+flutter/**/**/ios/Flutter/app.flx
+flutter/**/**/ios/Flutter/app.zip
+flutter/**/**/ios/Flutter/.last_build_id
+flutter/**/**/ios/Flutter/flutter_assets/
+flutter/**/**/ios/Flutter/flutter_export_environment.sh
+flutter/**/**/ios/ServiceDefinitions.json
+flutter/**/**/ios/Runner/GeneratedPluginRegistrant.*
+
+# Exceptions to above rules.
+!flutter/**/**/ios/**/default.mode1v3
+!flutter/**/**/ios/**/default.mode2v3
+!flutter/**/**/ios/**/default.pbxuser
+!flutter/**/**/ios/**/default.perspectivev3
+!flutter/**/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
