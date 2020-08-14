@@ -23,7 +23,7 @@ jacoco {
 jacocoAndroidUnitTestReport {
 
     // this filter was add temporary after add instrumentation test will be removed
-    excludes += ['**/beagle/**/builder/**', '**/beagle/android/setup/**', '**/beagle/android/view/**', '**/beagle/android/preview/*Activity']
+    excludes += ['**/beagle/**/builder/**', '**/beagle/android/setup/**', '**/beagle/android/view/**', '**/beagle/android/preview/**']
 
     csv.enabled false
     html.enabled true
