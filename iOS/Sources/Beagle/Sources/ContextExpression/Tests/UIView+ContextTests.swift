@@ -95,7 +95,7 @@ final class UIViewContextTests: XCTestCase {
         XCTAssertEqual(result2, "test")
         XCTAssertEqual(result3, "expA: 1, expB: test")
         XCTAssertEqual(result4, ["a": "1", "b": "2"])
-        XCTAssertNil(result5)
+        XCTAssertEqual(result5, "")
         
         assertSnapshot(matching: leaf.expressionLastValueMap, as: .dump)
     }
@@ -127,8 +127,8 @@ final class UIViewContextTests: XCTestCase {
         XCTAssertEqual(leaf.placeholder, "exp: updated")
         
         contextObservableRoot.value = Context(id: "context", value: ["a": 2])
-        XCTAssertEqual(leaf.text, "")
-        XCTAssertEqual(leaf.placeholder, "exp: ")
+        XCTAssertEqual(leaf.text, "2")
+        XCTAssertEqual(leaf.placeholder, "exp: 2")
    }
 
 }

@@ -30,7 +30,17 @@ final class ExpressionTests: XCTestCase {
         "@{client.[2]}",
         "@{[2][2]}",
         "@{client[2].[2]}",
-        "@{client[a]}"
+        "@{client[a]}",
+        "@{10}",
+        "@{3.5}",
+        "@{true}",
+        "@{'name'}",
+        "@{null}",
+        "@{sum(1, counter)}",
+        "@{condition(lt(1, counter), sum(counter, 2), subtract(counter, 2))}",
+        "sum(1, 2)}",
+        "@{sum(1,2)",
+        "@{test()}"
     ]
     
     let multipleExpressions = [
@@ -43,7 +53,10 @@ final class ExpressionTests: XCTestCase {
         "@{client}",
         "\\@{client}",
         "\\\\@{client}",
-        "\\\\\\@{client}"
+        "\\\\\\@{client}",
+        "Operation: @{sum(1, counter)} and @{condition(lt(1, counter), sum(counter, 2), subtract(counter, 2))}}",
+        "Operation: @{sum(1, counter and @{condition(lt(1, counter), sum(counter, 2), subtract(counter, 2))}}",
+        "Operation: @{sum(1, counter) and @{sum(2, counter)"
     ]
     
     func test_singleExpressionRawRepresentable() {

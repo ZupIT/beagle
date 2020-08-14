@@ -1,4 +1,4 @@
-▿ 10 elements
+▿ 13 elements
   ▿ Optional<String>
     - some: "name: @{client.name}"
   ▿ Optional<String>
@@ -14,4 +14,8 @@
   - Optional<String>.none
   ▿ Optional<String>
     - some: "\\@{client}"
+  - Optional<String>.none
+  ▿ Optional<String>
+    - some: "Operation: @{sum(1,counter)} and @{condition(lt(1,counter),sum(counter,2),subtract(counter,2))}}"
+  - Optional<String>.none
   - Optional<String>.none

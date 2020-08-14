@@ -11,15 +11,7 @@
           - key: "client2"
         ▿ Node
           - key: "name"
-  ▿ Optional<Path>
-    ▿ some: Path
-      ▿ nodes: 3 elements
-        ▿ Node
-          - key: "2client"
-        ▿ Node
-          - key: "phones"
-        ▿ Node
-          - index: 0
+  - Optional<Path>.none
   ▿ Optional<Path>
     ▿ some: Path
       ▿ nodes: 5 elements

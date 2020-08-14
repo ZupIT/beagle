@@ -11,6 +11,7 @@
 		252D727924D8AE850069541F /* Literal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252D727824D8AE850069541F /* Literal.swift */; };
 		257FC9F924DCA75300F2157C /* Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257FC9F824DCA75300F2157C /* Value.swift */; };
 		257FC9FB24DDB74300F2157C /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257FC9FA24DDB74300F2157C /* Operation.swift */; };
+		25CDD46B24E7315E00CC49CB /* __Snapshots__ in Resources */ = {isa = PBXBuildFile; fileRef = 25CDD46A24E7315E00CC49CB /* __Snapshots__ */; };
 		570434EE24A675AE00DAD0D3 /* buttonComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = 570434EC24A6753000DAD0D3 /* buttonComponent.json */; };
 		6E71540324B39EFB0025B850 /* SimpleFormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E71540124B3953C0025B850 /* SimpleFormTests.swift */; };
 		6E71540924B3A7860025B850 /* simpleFormComponent.json in Resources */ = {isa = PBXBuildFile; fileRef = 6E71540824B3A7860025B850 /* simpleFormComponent.json */; };
@@ -139,6 +140,7 @@
 		252D727824D8AE850069541F /* Literal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Literal.swift; sourceTree = "<group>"; };
 		257FC9F824DCA75300F2157C /* Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Value.swift; sourceTree = "<group>"; };
 		257FC9FA24DDB74300F2157C /* Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
+		25CDD46A24E7315E00CC49CB /* __Snapshots__ */ = {isa = PBXFileReference; lastKnownFileType = folder; path = __Snapshots__; sourceTree = "<group>"; };
 		570434EC24A6753000DAD0D3 /* buttonComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = buttonComponent.json; sourceTree = "<group>"; };
 		6E71540124B3953C0025B850 /* SimpleFormTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleFormTests.swift; sourceTree = "<group>"; };
 		6E71540824B3A7860025B850 /* simpleFormComponent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = simpleFormComponent.json; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 		6E71540024B394E80025B850 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				25CDD46A24E7315E00CC49CB /* __Snapshots__ */,
 				6E71540424B3A5AF0025B850 /* Json */,
 				6E71540124B3953C0025B850 /* SimpleFormTests.swift */,
 			);
@@ -1189,6 +1192,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25CDD46B24E7315E00CC49CB /* __Snapshots__ in Resources */,
 				C029189A247EE02200C3AA13 /* CustomPageIndicator.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

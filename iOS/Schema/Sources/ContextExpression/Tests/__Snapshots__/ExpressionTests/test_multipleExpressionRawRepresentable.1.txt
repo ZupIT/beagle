@@ -1,4 +1,4 @@
-▿ 10 elements
+▿ 13 elements
   ▿ Optional<MultipleExpression>
     ▿ some: MultipleExpression
       ▿ nodes: 2 elements
@@ -6,11 +6,13 @@
           - string: "name: "
         ▿ Node
           ▿ expression: SingleExpression
-            - context: "client"
-            ▿ path: Path
-              ▿ nodes: 1 element
-                ▿ Node
-                  - key: "name"
+            ▿ value: Value
+              ▿ binding: Binding
+                - context: "client"
+                ▿ path: Path
+                  ▿ nodes: 1 element
+                    ▿ Node
+                      - key: "name"
   ▿ Optional<MultipleExpression>
     ▿ some: MultipleExpression
       ▿ nodes: 4 elements
@@ -18,45 +20,53 @@
           - string: "name: "
         ▿ Node
           ▿ expression: SingleExpression
-            - context: "client"
-            ▿ path: Path
-              ▿ nodes: 2 elements
-                ▿ Node
-                  - key: "name"
-                ▿ Node
-                  - key: "first"
+            ▿ value: Value
+              ▿ binding: Binding
+                - context: "client"
+                ▿ path: Path
+                  ▿ nodes: 2 elements
+                    ▿ Node
+                      - key: "name"
+                    ▿ Node
+                      - key: "first"
         ▿ Node
           - string: ", phone: "
         ▿ Node
           ▿ expression: SingleExpression
-            - context: "client"
-            ▿ path: Path
-              ▿ nodes: 2 elements
-                ▿ Node
-                  - key: "phones"
-                ▿ Node
-                  - index: 0
+            ▿ value: Value
+              ▿ binding: Binding
+                - context: "client"
+                ▿ path: Path
+                  ▿ nodes: 2 elements
+                    ▿ Node
+                      - key: "phones"
+                    ▿ Node
+                      - index: 0
   ▿ Optional<MultipleExpression>
     ▿ some: MultipleExpression
       ▿ nodes: 2 elements
         ▿ Node
           ▿ expression: SingleExpression
-            - context: "client"
-            ▿ path: Path
-              ▿ nodes: 2 elements
-                ▿ Node
-                  - key: "phones"
-                ▿ Node
-                  - index: 0
+            ▿ value: Value
+              ▿ binding: Binding
+                - context: "client"
+                ▿ path: Path
+                  ▿ nodes: 2 elements
+                    ▿ Node
+                      - key: "phones"
+                    ▿ Node
+                      - index: 0
         ▿ Node
           ▿ expression: SingleExpression
-            - context: "client"
-            ▿ path: Path
-              ▿ nodes: 2 elements
-                ▿ Node
-                  - key: "phones"
-                ▿ Node
-                  - index: 1
+            ▿ value: Value
+              ▿ binding: Binding
+                - context: "client"
+                ▿ path: Path
+                  ▿ nodes: 2 elements
+                    ▿ Node
+                      - key: "phones"
+                    ▿ Node
+                      - index: 1
   - Optional<MultipleExpression>.none
   - Optional<MultipleExpression>.none
   ▿ Optional<MultipleExpression>
@@ -66,17 +76,21 @@
           - string: "name@name\\@name@"
         ▿ Node
           ▿ expression: SingleExpression
-            - context: "client"
-            ▿ path: Path
-              - nodes: 0 elements
+            ▿ value: Value
+              ▿ binding: Binding
+                - context: "client"
+                ▿ path: Path
+                  - nodes: 0 elements
   ▿ Optional<MultipleExpression>
     ▿ some: MultipleExpression
       ▿ nodes: 1 element
         ▿ Node
           ▿ expression: SingleExpression
-            - context: "client"
-            ▿ path: Path
-              - nodes: 0 elements
+            ▿ value: Value
+              ▿ binding: Binding
+                - context: "client"
+                ▿ path: Path
+                  - nodes: 0 elements
   - Optional<MultipleExpression>.none
   ▿ Optional<MultipleExpression>
     ▿ some: MultipleExpression
@@ -85,7 +99,82 @@
           - string: "\\"
         ▿ Node
           ▿ expression: SingleExpression
-            - context: "client"
-            ▿ path: Path
-              - nodes: 0 elements
+            ▿ value: Value
+              ▿ binding: Binding
+                - context: "client"
+                ▿ path: Path
+                  - nodes: 0 elements
+  - Optional<MultipleExpression>.none
+  ▿ Optional<MultipleExpression>
+    ▿ some: MultipleExpression
+      ▿ nodes: 5 elements
+        ▿ Node
+          - string: "Operation: "
+        ▿ Node
+          ▿ expression: SingleExpression
+            ▿ operation: Operation
+              - name: Name.sum
+              ▿ parameters: 2 elements
+                ▿ Parameter
+                  ▿ value: Value
+                    ▿ literal: Literal
+                      - int: 1
+                ▿ Parameter
+                  ▿ value: Value
+                    ▿ binding: Binding
+                      - context: "counter"
+                      ▿ path: Path
+                        - nodes: 0 elements
+        ▿ Node
+          - string: " and "
+        ▿ Node
+          ▿ expression: SingleExpression
+            ▿ operation: Operation
+              - name: Name.condition
+              ▿ parameters: 3 elements
+                ▿ Parameter
+                  ▿ operation: Operation
+                    - name: Name.lt
+                    ▿ parameters: 2 elements
+                      ▿ Parameter
+                        ▿ value: Value
+                          ▿ literal: Literal
+                            - int: 1
+                      ▿ Parameter
+                        ▿ value: Value
+                          ▿ binding: Binding
+                            - context: "counter"
+                            ▿ path: Path
+                              - nodes: 0 elements
+                ▿ Parameter
+                  ▿ operation: Operation
+                    - name: Name.sum
+                    ▿ parameters: 2 elements
+                      ▿ Parameter
+                        ▿ value: Value
+                          ▿ binding: Binding
+                            - context: "counter"
+                            ▿ path: Path
+                              - nodes: 0 elements
+                      ▿ Parameter
+                        ▿ value: Value
+                          ▿ literal: Literal
+                            - int: 2
+                ▿ Parameter
+                  ▿ operation: Operation
+                    - name: Name.subtract
+                    ▿ parameters: 2 elements
+                      ▿ Parameter
+                        ▿ value: Value
+                          ▿ binding: Binding
+                            - context: "counter"
+                            ▿ path: Path
+                              - nodes: 0 elements
+                      ▿ Parameter
+                        ▿ value: Value
+                          ▿ literal: Literal
+                            - int: 2
+        ▿ Node
+          - string: "}"
+  - Optional<MultipleExpression>.none
   - Optional<MultipleExpression>.none

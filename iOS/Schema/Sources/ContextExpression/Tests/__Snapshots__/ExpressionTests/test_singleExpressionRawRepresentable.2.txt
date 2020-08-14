@@ -1,15 +1,31 @@
-▿ 10 elements
+▿ 20 elements
   ▿ Optional<String>
     - some: "@{client}"
   ▿ Optional<String>
     - some: "@{client2.name}"
-  ▿ Optional<String>
-    - some: "@{2client.phones[0]}"
+  - Optional<String>.none
   ▿ Optional<String>
     - some: "@{client_.[2].matrix[1][1]}"
   - Optional<String>.none
   - Optional<String>.none
   - Optional<String>.none
+  - Optional<String>.none
+  - Optional<String>.none
+  - Optional<String>.none
+  ▿ Optional<String>
+    - some: "@{10}"
+  ▿ Optional<String>
+    - some: "@{3.5}"
+  ▿ Optional<String>
+    - some: "@{true}"
+  ▿ Optional<String>
+    - some: "@{\'name\'}"
+  ▿ Optional<String>
+    - some: "@{null}"
+  ▿ Optional<String>
+    - some: "@{sum(1,counter)}"
+  ▿ Optional<String>
+    - some: "@{condition(lt(1,counter),sum(counter,2),subtract(counter,2))}"
   - Optional<String>.none
   - Optional<String>.none
   - Optional<String>.none
