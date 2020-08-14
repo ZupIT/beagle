@@ -25,6 +25,7 @@ jobs:
                 with:
                     path: ${{ env.fastlane-path }}
                     key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
+                    restore-keys: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}
             -   name: Install Fastlane
                 run: bundle config set path '~/.gem' && bundle install
 
@@ -36,6 +37,7 @@ jobs:
                 with:
                     path: ${{ env.pub-path }}
                     key: ${{ runner.os }}-build-${{ env.pub-cache-key }}
+                    restore-keys: ${{ runner.os }}-build-${{ env.pub-cache-key }}
             -   name: Run pr check
                 env:
                     GITHUB_USER: ${{ secrets.NAME_REPO_TOKEN }}
