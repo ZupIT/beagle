@@ -22,9 +22,26 @@ import BeagleSchema
 
 final class ButtonTests: XCTestCase {
     
-    let controller = BeagleControllerStub()
-    lazy var renderer = BeagleRenderer(controller: controller)
+    private let snapshotSize = CGSize(width: 150, height: 50)
+    private lazy var theme = AppTheme(
+        styles: [
+           "test.button.style": buttonStyle
+        ]
+    )
+    
+    private lazy var dependencies = BeagleScreenDependencies(theme: theme)
+    private lazy var controller = BeagleControllerStub(dependencies: dependencies)
+    private lazy var renderer = BeagleRenderer(controller: controller)
 
+    private func buttonStyle() -> (UIButton?) -> Void {
+        return {
+            $0?.layer.cornerRadius = 4
+            $0?.setTitleColor(.white, for: .normal)
+            $0?.backgroundColor = ($0?.isEnabled ?? false) ? .green : .gray
+            $0?.alpha = $0?.isHighlighted ?? false ? 0.7 : 1
+        }
+    }
+    
     func testSetRightButtonTitle() {
         //Given
         let buttonTitle = "title"
@@ -115,17 +132,26 @@ final class ButtonTests: XCTestCase {
         XCTAssert(action.lastOrigin as AnyObject === view)
     }
     
-    func testButtonLeak() {
+    func testRenderDefaultButtonComponent() {
         // Given
-        let button = Button(text: "Trigger Action")
-    
-        var view = renderer.render(button) as? Button.BeagleUIButton
-        weak var weakView = view
-        
+        let button = Button(text: "Default Button")
+
         // When
-        view = nil
+        let view = renderer.render(button)
         
         // Then
-        XCTAssertNil(weakView)
+        assertSnapshotImage(view, size: .custom(snapshotSize))
+    }
+    
+    func testRenderCustomButtonComponent() {
+        // Given
+        let style = "test.button.style"
+        let button = Button(text: "Custom Button", styleId: style)
+
+        // When
+        let view = renderer.render(button)
+        
+        // Then
+        assertSnapshotImage(view, size: .custom(snapshotSize))
     }
 }
