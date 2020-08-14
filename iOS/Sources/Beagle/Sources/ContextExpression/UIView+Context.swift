@@ -70,45 +70,37 @@ extension UIView {
     
     // MARK: Single Expression
     
-    private func configBinding<T: Decodable>(_ binding: Binding, completion: @escaping (T?) -> Void) {
+    private func configBinding<T: Decodable>(_ binding: Binding, in expression: SingleExpression, completion: @escaping (T?) -> Void) {
         guard let context = getContext(with: binding.context) else { return }
         let closure: (Context) -> Void = { context in
-            let dynamicObject = binding.evaluate(model: context.value)
-            let value: T? = self.transform(dynamicObject)
-            completion(value)
+            completion(self.evaluate(for: expression))
         }
         let contextObserver = ContextObserver(onContextChange: closure)
         context.addObserver(contextObserver)
-        closure(context.value)
     }
     
     private func configBinding<T: Decodable>(_ operation: BeagleSchema.Operation, in expression: SingleExpression, completion: @escaping (T?) -> Void) {
         for parameter in operation.parameters {
             switch parameter {
             case let .value(.binding(binding)):
-                guard let context = getContext(with: binding.context) else { return }
-                let closure: (Context) -> Void = { _ in
-                    completion(self.evaluate(for: expression))
-                }
-                let contextObserver = ContextObserver(onContextChange: closure)
-                context.addObserver(contextObserver)
+               configBinding(binding, in: expression, completion: completion)
             case let .operation(operation):
                 configBinding(operation, in: expression, completion: completion)
             default: break
             }
         }
-        completion(transform(operation.evaluate(in: self)))
     }
     
     private func configBinding<T: Decodable>(for expression: SingleExpression, completion: @escaping (T?) -> Void) {
         switch expression {
         case let .value(.binding(binding)):
-            configBinding(binding, completion: completion)
+            configBinding(binding, in: expression, completion: completion)
         case let .value(.literal(literal)):
             completion(transform(literal.evaluate()))
         case let .operation(operation):
             configBinding(operation, in: expression, completion: completion)
         }
+        completion(evaluate(for: expression))
     }
     
     private func evaluate<T: Decodable>(for expression: SingleExpression) -> T? {
@@ -124,25 +116,41 @@ extension UIView {
     
     // MARK: Multiple Expression
     
+    private func configBinding<T: Decodable>(_ binding: Binding, in expression: MultipleExpression, completion: @escaping (T?) -> Void) {
+        guard let context = getContext(with: binding.context) else { return }
+        let closure: (Context) -> Void = { _ in
+            let value: T? = self.evaluate(for: expression, contextId: binding.context)
+            completion(value)
+        }
+        let contextObserver = ContextObserver(onContextChange: closure)
+        context.addObserver(contextObserver)
+    }
+    
+    private func configBinding<T: Decodable>(_ operation: BeagleSchema.Operation, in expression: MultipleExpression, completion: @escaping (T?) -> Void) {
+        for parameter in operation.parameters {
+            switch parameter {
+            case let .value(.binding(binding)):
+               configBinding(binding, in: expression, completion: completion)
+            case let .operation(operation):
+                configBinding(operation, in: expression, completion: completion)
+            default: break
+            }
+        }
+    }
+    
     private func configBinding<T: Decodable>(for expression: MultipleExpression, completion: @escaping (T?) -> Void) {
         expression.nodes.forEach {
             if case let .expression(single) = $0 {
                 switch single {
                 case let .value(.binding(binding)):
-                    guard let context = getContext(with: binding.context) else { return }
-                    let closure: (Context) -> Void = { _ in
-                        let value: T? = self.evaluate(for: expression, contextId: binding.context)
-                        completion(value)
-                    }
-                    let contextObserver = ContextObserver(onContextChange: closure)
-                    context.addObserver(contextObserver)
-                case .value(.literal), .operation:
-                    configBinding(for: single, completion: completion)
+                    configBinding(binding, in: expression, completion: completion)
+                case let .operation(operation):
+                    configBinding(operation, in: expression, completion: completion)
+                default: break
                 }
             }
         }
-        let value: T? = evaluate(for: expression)
-        completion(value)
+        completion(evaluate(for: expression))
     }
     
     private func evaluate<T: Decodable>(for expression: MultipleExpression, contextId: String? = nil) -> T? {
