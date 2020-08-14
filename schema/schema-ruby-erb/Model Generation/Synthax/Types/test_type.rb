@@ -12,18 +12,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-class BaseType
+require_relative './type.rb'
 
-    attr_accessor :kind, :name, :variables, :accessor, :inheritFrom, :package
+#todo the name of the class could be better
+class TestType < BaseType
 
     def initialize(params = {})
-        @kind = params.fetch(:kind, '')
-        @name = params.fetch(:name, '')
-        @variables = params.fetch(:variables, [])
-        @accessor = params.fetch(:accessor, "public")
-        @inheritFrom = params.fetch(:inheritFrom, [])
-        @package = params.fetch(:package, "")
-        #@sameFileTypes = params.fetch(:sameFileTypes, [])
+        super
     end
-    
+
 end

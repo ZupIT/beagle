@@ -17,15 +17,17 @@
 
 public struct UnitValue {
   
-  // MARK: - Public Properties  
-  public let value: Double  
-  public let type: UnityType  
+    // MARK: - Public Properties
 
-  public init(        
-    value: Double,        
-    type: UnityType        
-  ) {    
-      self.value = value    
-      self.type = type    
-  }
+    public let value: Double
+    public let type: UnityType
+
+    public init(
+        value: Double,
+        type: UnityType
+    ) {
+        self.value = value
+        self.type = type
+    }
+  
 }

@@ -17,12 +17,14 @@
 
 public struct PositionType {
   
-  // MARK: - Public Properties  
-  public let backgroundColor: String?  
+    // MARK: - Public Properties
 
-  public init(        
-    backgroundColor: String? = nil        
-  ) {    
-      self.backgroundColor = backgroundColor    
-  }
+    public let backgroundColor: String?
+
+    public init(
+        backgroundColor: String? = nil
+    ) {
+        self.backgroundColor = backgroundColor
+    }
+  
 }

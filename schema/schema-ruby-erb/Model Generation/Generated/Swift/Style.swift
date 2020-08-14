@@ -17,36 +17,38 @@
 
 public struct Style {
   
-  // MARK: - Public Properties  
-  public let backgroundColor: String?  
-  public let cornerRadius: String?  
-  public let size: Size?  
-  public let margin: Class?  
-  public let padding: Class?  
-  public let position: Class?  
-  public let flex: Flex?  
-  public let positionType: PositionType?  
-  public let display: Display?  
+    // MARK: - Public Properties
 
-  public init(        
-    backgroundColor: String? = nil,        
-    cornerRadius: String? = nil,        
-    size: Size? = nil,        
-    margin: Class? = nil,        
-    padding: Class? = nil,        
-    position: Class? = nil,        
-    flex: Flex? = nil,        
-    positionType: PositionType? = nil,        
-    display: Display? = nil        
-  ) {    
-      self.backgroundColor = backgroundColor    
-      self.cornerRadius = cornerRadius    
-      self.size = size    
-      self.margin = margin    
-      self.padding = padding    
-      self.position = position    
-      self.flex = flex    
-      self.positionType = positionType    
-      self.display = display    
-  }
+    public let backgroundColor: String?
+    public let cornerRadius: String?
+    public let size: Size?
+    public let margin: Class?
+    public let padding: Class?
+    public let position: Class?
+    public let flex: Flex?
+    public let positionType: PositionType?
+    public let display: Display?
+
+    public init(
+        backgroundColor: String? = nil,
+        cornerRadius: String? = nil,
+        size: Size? = nil,
+        margin: Class? = nil,
+        padding: Class? = nil,
+        position: Class? = nil,
+        flex: Flex? = nil,
+        positionType: PositionType? = nil,
+        display: Display? = nil
+    ) {
+        self.backgroundColor = backgroundColor
+        self.cornerRadius = cornerRadius
+        self.size = size
+        self.margin = margin
+        self.padding = padding
+        self.position = position
+        self.flex = flex
+        self.positionType = positionType
+        self.display = display
+    }
+  
 }

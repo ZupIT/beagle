@@ -17,27 +17,29 @@
 
 public struct Size {
   
-  // MARK: - Public Properties  
-  public let height: UnitValue?  
-  public let maxWidth: UnitValue?  
-  public let maxHeight: UnitValue?  
-  public let minWidth: UnitValue?  
-  public let minHeight: UnitValue?  
-  public let aspectRatio: Double?  
+    // MARK: - Public Properties
 
-  public init(        
-    height: UnitValue? = nil,        
-    maxWidth: UnitValue? = nil,        
-    maxHeight: UnitValue? = nil,        
-    minWidth: UnitValue? = nil,        
-    minHeight: UnitValue? = nil,        
-    aspectRatio: Double? = nil        
-  ) {    
-      self.height = height    
-      self.maxWidth = maxWidth    
-      self.maxHeight = maxHeight    
-      self.minWidth = minWidth    
-      self.minHeight = minHeight    
-      self.aspectRatio = aspectRatio    
-  }
+    public let height: UnitValue?
+    public let maxWidth: UnitValue?
+    public let maxHeight: UnitValue?
+    public let minWidth: UnitValue?
+    public let minHeight: UnitValue?
+    public let aspectRatio: Double?
+
+    public init(
+        height: UnitValue? = nil,
+        maxWidth: UnitValue? = nil,
+        maxHeight: UnitValue? = nil,
+        minWidth: UnitValue? = nil,
+        minHeight: UnitValue? = nil,
+        aspectRatio: Double? = nil
+    ) {
+        self.height = height
+        self.maxWidth = maxWidth
+        self.maxHeight = maxHeight
+        self.minWidth = minWidth
+        self.minHeight = minHeight
+        self.aspectRatio = aspectRatio
+    }
+  
 }
