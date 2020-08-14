@@ -93,14 +93,24 @@ object ListViewContextWithImageServiceBuilder : ScreenBuilder {
             SendRequest(
                 url = "https://api.themoviedb.org/3/discover/movie?api_key=d272326e467344029e68e3c4ff0b4059&with_genres=28",
                 method = RequestActionMethod.GET,
-                onSuccess = createImagePathContexts()
+                onSuccess = listOf(
+                    SetContext(
+                        contextId = "movieContext",
+                        value = "@{onSuccess.data.results}"
+                    )
+                )
             )
         ),
-        dataSource = expressionOf("@{processedMovieContext}"),
+        dataSource = expressionOf("@{movieContext}"),
         direction = ListDirection.HORIZONTAL,
-        template = Image(expressionOf("@{item}"))
+        template = Image(expressionOf("$BASE_URL_IMAGE_POSTER@{item.poster_path}"))
             .applyStyle(Style(size = Size(width = 144.unitReal(), height = 216.unitReal()))),
-        onScrollEnd = createImagePathContexts(),
+        onScrollEnd = listOf(
+            SetContext(
+                contextId = "movieContext",
+                value = "@{onSuccess.data.results}"
+            )
+        ),
         scrollThreshold = 80
     )
 
