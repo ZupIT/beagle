@@ -35,5 +35,4 @@ public struct Button: Widget, ClickedOnComponent {
         self.onPress = onPress
         self.clickAnalyticsEvent = clickAnalyticsEvent
     }
-  
 }

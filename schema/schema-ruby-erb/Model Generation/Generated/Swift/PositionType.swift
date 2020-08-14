@@ -26,5 +26,4 @@ public struct PositionType {
     ) {
         self.backgroundColor = backgroundColor
     }
-  
 }

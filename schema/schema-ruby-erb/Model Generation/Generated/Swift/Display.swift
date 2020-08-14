@@ -15,16 +15,7 @@
  * limitations under the License.
  */
 
-public struct Display {
-  
-    // MARK: - Public Properties
-
-    public let backgroundColor: String?
-
-    public init(
-        backgroundColor: String? = nil
-    ) {
-        self.backgroundColor = backgroundColor
-    }
-  
+public enum Display: String, Decodable {
+    case flex = "FLEX"
+    case none = "NONE"
 }

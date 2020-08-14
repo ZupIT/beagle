@@ -20,7 +20,6 @@
   @tab = "    "
   @doubleTab = @tab + @tab
 
-
   def handleTypeName(variable)
       output = variable.isBindable ? "Expression<#{variable.typeName}>" : variable.typeName
       output = variable.class == List ? "[#{output}]" : output
@@ -56,11 +55,21 @@
   end
 
   def isEnum(objectType)
-    objectType.class == EnumType
+    objectType.synthaxType.class == EnumType
   end
 
   def casesForEnum(objectType)
-
+    output = ""
+    for variable in objectType.synthaxType.variables
+      output += "#{@tab}case #{variable.name}"
+      if variable.defaultValue != ''
+         output = objectType.synthaxType.inheritFrom.include?("String") ?
+         output + " = \"#{variable.defaultValue}\"" :
+         output + " = #{variable.defaultValue}" 
+      end
+      output += "\n"
+    end
+    output
   end
 
   def declareProperitesForCommonObject(objectType)
@@ -92,7 +101,9 @@
 
 -%>
 <% if isEnum(objectType) %>
-
+<%= objectType.synthaxType.accessor %> enum <%= objectType.synthaxType.name -%><%= handleInheritance(objectType.synthaxType) %>, Decodable {
+<%= casesForEnum(objectType)-%>
+}<%  -%>
 <% else %>
 <%= objectType.synthaxType.accessor %> struct <%= objectType.synthaxType.name -%><%= handleInheritance(objectType.synthaxType) %> {
   
@@ -101,6 +112,5 @@
 <%= declareProperitesForCommonObject(objectType)-%>
 
 <%= initForCommomObject(objectType)-%><%-%>
-  
 }<%  -%>
 <% end %>

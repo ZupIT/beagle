@@ -26,5 +26,4 @@ public struct CornerRadius {
     ) {
         self.radius = radius
     }
-  
 }

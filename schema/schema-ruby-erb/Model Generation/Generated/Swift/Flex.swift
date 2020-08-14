@@ -53,5 +53,4 @@ public struct Flex {
         self.flexDirection = flexDirection
         self.shrink = shrink
     }
-  
 }

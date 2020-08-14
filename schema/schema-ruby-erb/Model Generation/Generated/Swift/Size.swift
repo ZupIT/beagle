@@ -41,5 +41,4 @@ public struct Size {
         self.minHeight = minHeight
         self.aspectRatio = aspectRatio
     }
-  
 }

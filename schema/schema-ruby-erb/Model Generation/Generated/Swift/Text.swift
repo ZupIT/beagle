@@ -29,5 +29,4 @@ public struct Text: Widget {
         self.text = text
         self.styleId = styleId
     }
-  
 }

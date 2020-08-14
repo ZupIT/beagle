@@ -50,5 +50,4 @@ public struct Style {
         self.positionType = positionType
         self.display = display
     }
-  
 }

@@ -29,5 +29,4 @@ public struct UnitValue {
         self.value = value
         self.type = type
     }
-  
 }

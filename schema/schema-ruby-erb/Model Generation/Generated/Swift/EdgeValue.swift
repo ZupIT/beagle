@@ -44,5 +44,4 @@ public struct EdgeValue {
         self.vertical = vertical
         self.all = all
     }
-  
 }
