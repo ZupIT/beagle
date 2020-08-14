@@ -43,6 +43,7 @@ import br.com.zup.beagle.android.components.page.PageIndicator
 import br.com.zup.beagle.android.components.page.PageView
 import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
+import br.com.zup.beagle.android.context.valueOf
 import br.com.zup.beagle.android.mockdata.ComponentBinding
 import br.com.zup.beagle.android.mockdata.CustomAndroidAction
 import br.com.zup.beagle.android.mockdata.CustomInputWidget
@@ -682,14 +683,40 @@ class BeagleMoshiTest : BaseTest() {
         // Then
         val bindComponent = component as ComponentBinding
         assertNull(bindComponent.value1)
-        assertEquals("Hello @{context.name}", bindComponent.value2.value)
-        assertTrue(bindComponent.value2 is Bind.Expression<String>)
+        assertEquals("Hello", bindComponent.value2.value)
+        assertTrue(bindComponent.value2 is Bind.Value<String>)
         assertEquals(String::class.java, bindComponent.value2.type)
-        assertEquals("@{hello}", bindComponent.value3.value)
-        assertTrue(bindComponent.value3 is Bind.Expression<Boolean>)
+        assertEquals(true, bindComponent.value3.value)
+        assertTrue(bindComponent.value3 is Bind.Value<Boolean>)
         assertEquals(Boolean::class.javaObjectType, bindComponent.value3.type)
         assertNotNull(bindComponent.value4.value)
         assertEquals(InternalObject::class.java, bindComponent.value4.type)
+        assertEquals(mapOf("test1" to "a", "test2" to "b"), bindComponent.value5.value)
+        assertEquals(listOf("test1", "test2"), bindComponent.value6.value)
+    }
+
+    @Test
+    fun moshi_should_deserialize_bindComponent_with_expressions() {
+        // Given
+        val jsonComponent = makeBindComponentExpression()
+
+        // When
+        val component = moshi.adapter(ServerDrivenComponent::class.java).fromJson(jsonComponent)
+
+        // Then
+        val bindComponent = component as ComponentBinding
+        assertEquals("@{intExpression}", bindComponent.value1?.value)
+        assertTrue(bindComponent.value1 is Bind.Expression<Int>)
+        assertEquals("Hello @{context.name}", bindComponent.value2.value)
+        assertTrue(bindComponent.value2 is Bind.Expression<String>)
+        assertEquals("@{booleanExpression}", bindComponent.value3.value)
+        assertTrue(bindComponent.value3 is Bind.Expression<Boolean>)
+        assertEquals("@{objectExpression}", bindComponent.value4.value)
+        assertTrue(bindComponent.value4 is Bind.Expression<InternalObject>)
+        assertEquals("@{mapExpression}", bindComponent.value5.value)
+        assertTrue(bindComponent.value5 is Bind.Expression<Map<String, String>>)
+        assertEquals("@{listExpression}", bindComponent.value6.value)
+        assertTrue(bindComponent.value6 is Bind.Expression<List<String>>)
     }
 
     @Test
@@ -719,7 +746,9 @@ class BeagleMoshiTest : BaseTest() {
                     "",
                     1
                 )
-            )
+            ),
+            value5 = valueOf(mapOf()),
+            value6 = valueOf(listOf())
         )
 
         // When
