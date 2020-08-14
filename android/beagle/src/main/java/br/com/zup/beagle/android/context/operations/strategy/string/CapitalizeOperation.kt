@@ -20,6 +20,8 @@ import br.com.zup.beagle.android.context.operations.grammar.GrammarChars
 import br.com.zup.beagle.android.context.operations.strategy.Operations
 import br.com.zup.beagle.android.context.operations.strategy.BaseOperation
 import br.com.zup.beagle.android.context.operations.parameter.Parameter
+import java.util.*
+import kotlin.collections.ArrayList
 
 internal class CapitalizeOperation(override val operationType: Operations) : BaseOperation<Operations>() {
     override fun solve(parameter: Parameter): Any {
@@ -34,7 +36,7 @@ internal class CapitalizeOperation(override val operationType: Operations) : Bas
 
         value = value.trim()
 
-        var result = (value[0].toUpperCase() + value.substring(1).toLowerCase())
+        var result = (value[0].toUpperCase() + value.substring(1).toLowerCase(Locale.ROOT))
 
         listWhiteSpacePositions.forEach {
             result = result.restoreWhiteSpaces(it)
