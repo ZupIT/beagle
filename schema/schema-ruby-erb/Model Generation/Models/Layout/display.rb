@@ -18,6 +18,7 @@ require_relative '../../Synthax/Types/enum_type.rb'
 
 class Display < BaseComponent
 
+    # TODO add support for enums to TS, Kotlin and Kotlin Backend
     def initialize
         displayCases = [
             EnumCase.new(:name => "flex", :defaultValue => "FLEX"),
@@ -30,7 +31,7 @@ class Display < BaseComponent
             :package => "br.com.zup.beagle.widget.core",
             :inheritFrom => ["String"]
         )
-        
+
         super(synthaxType)
 
     end
