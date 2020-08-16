@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'fastlane'
 gem 'xcode-install'
-gem 'danger', '6.3.2'
+gem 'danger'
 gem 'danger-checkstyle_format'
 gem 'danger-android_lint'
 gem 'danger-junit'

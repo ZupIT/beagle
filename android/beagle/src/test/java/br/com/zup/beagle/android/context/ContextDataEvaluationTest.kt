@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.context
 
 import androidx.collection.LruCache
 import br.com.zup.beagle.android.extensions.once
-import br.com.zup.beagle.android.jsonpath.JsonPathFinder
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.mockdata.ComponentModel
 import br.com.zup.beagle.android.testutil.RandomData
@@ -30,7 +29,6 @@ import org.json.JSONObject
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
@@ -41,8 +39,7 @@ private val BIND = expressionOf<ComponentModel>("@{$CONTEXT_ID.a}")
 
 internal class ContextDataEvaluationTest {
 
-    private val jsonPathFinder = mockk<JsonPathFinder>()
-    private val contextPathResolver = mockk<ContextPathResolver>()
+    private val contextDataManipulator = mockk<ContextDataManipulator>()
     private val moshi = mockk<Moshi>()
 
     private lateinit var contextDataEvaluation: ContextDataEvaluation
@@ -50,14 +47,12 @@ internal class ContextDataEvaluationTest {
     @Before
     fun setUp() {
         contextDataEvaluation = ContextDataEvaluation(
-            jsonPathFinder,
-            contextPathResolver,
+            contextDataManipulator,
             moshi
         )
 
         mockkObject(BeagleMessageLogs)
 
-        every { contextPathResolver.getKeysFromPath(CONTEXT_DATA.id, any()) } returns LinkedList()
         every { BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(any()) } just Runs
         every { BeagleMessageLogs.errorWhileTryingToAccessContext(any()) } just Runs
     }
@@ -83,7 +78,7 @@ internal class ContextDataEvaluationTest {
     fun evaluateContextBindings_should_get_value_from_context_and_deserialize_JSONObject() {
         // Given
         val jsonObject = mockk<JSONObject>()
-        every { jsonPathFinder.find(any(), any()) } returns jsonObject
+        every { contextDataManipulator.get(any(), any()) } returns jsonObject
         every { moshi.adapter<Any>(ComponentModel::class.java).fromJson(any<String>()) } returns mockk<ComponentModel>()
 
         // When
@@ -97,7 +92,7 @@ internal class ContextDataEvaluationTest {
     fun evaluateContextBindings_should_get_value_from_context_and_deserialize_JSONArray() {
         // Given
         val jsonArray = mockk<JSONArray>()
-        every { jsonPathFinder.find(any(), any()) } returns jsonArray
+        every { contextDataManipulator.get(any(), any()) } returns jsonArray
         every { moshi.adapter<Any>(ComponentModel::class.java).fromJson(any<String>()) } returns mockk<ComponentModel>()
 
         // When
@@ -111,7 +106,7 @@ internal class ContextDataEvaluationTest {
     fun evaluateContextBindings_should_show_error_when_moshi_returns_null() {
         // Given
         val model = mockk<JSONArray>()
-        every { jsonPathFinder.find(any(), any()) } returns model
+        every { contextDataManipulator.get(any(), any()) } returns model
         every { moshi.adapter<Any>(any<Class<*>>()).fromJson(any<String>()) } returns null
 
         // When
@@ -125,7 +120,7 @@ internal class ContextDataEvaluationTest {
     @Test
     fun evaluateContextBindings_should_throw_exception_when_jsonPathFinder_returns_null() {
         // Given
-        every { jsonPathFinder.find(any(), any()) } returns null
+        every { contextDataManipulator.get(any(), any()) } returns null
 
         // When
         val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), BIND)
@@ -136,24 +131,10 @@ internal class ContextDataEvaluationTest {
     }
 
     @Test
-    fun evaluateContextBindings_should_throw_exception_when_trying_to_call_jsonPathFinder() {
-        // Given
-        every { jsonPathFinder.find(any(), any()) } throws IllegalStateException()
-
-        // When
-        val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), BIND)
-
-        // Then
-        assertNull(value)
-        verify { BeagleMessageLogs.errorWhileTryingToAccessContext(any()) }
-        verify { BeagleMessageLogs.errorWhileTryingToNotifyContextChanges(any()) }
-    }
-
-    @Test
     fun evaluateAllContext_should_evaluate_text_string_text_expression() {
         // Given
         val bind = expressionOf<String>("This is an expression @{$CONTEXT_ID.exp1} and this @{$CONTEXT_ID.exp2}")
-        every { jsonPathFinder.find(any(), any()) } returns "hello"
+        every { contextDataManipulator.get(any(), any()) } returns "hello"
 
         // When
         val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
@@ -167,7 +148,7 @@ internal class ContextDataEvaluationTest {
     fun evaluateAllContext_should_evaluate_text_string_with_json_expression() {
         // Given
         val bind = expressionOf<String>("""{"key": "@{value}"}""")
-        every { jsonPathFinder.find(any(), any()) } returns JSONObject().apply {
+        every { contextDataManipulator.get(any(), any()) } returns JSONObject().apply {
             put("key", "hello")
         }
 
@@ -196,7 +177,7 @@ internal class ContextDataEvaluationTest {
     fun evaluateAllContext_should_evaluate_empty_string_in_multiple_expressions_with_null_bind_value() {
         // Given
         val bind = expressionOf<String>("This is an expression @{$CONTEXT_ID.exp1} and this @{$CONTEXT_ID.exp2}")
-        every { jsonPathFinder.find(any(), any()) } returns null
+        every { contextDataManipulator.get(any(), any()) } returns null
 
         // When
         val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
@@ -210,7 +191,7 @@ internal class ContextDataEvaluationTest {
     fun evaluateAllContext_should_return_empty_in_expressions_with_null_bind_value_in_string_type() {
         // Given
         val bind = expressionOf<String>("@{$CONTEXT_ID.exp1}")
-        every { jsonPathFinder.find(any(), any()) } returns null
+        every { contextDataManipulator.get(any(), any()) } returns null
 
         // When
         val value = contextDataEvaluation.evaluateBindExpression(listOf(CONTEXT_DATA), bind)
@@ -223,7 +204,7 @@ internal class ContextDataEvaluationTest {
     fun evaluateAllContext_should_return_null_in_expressions_with_null_bind_value_in_JSONArray_type() {
         // Given
         val jsonArray = mockk<JSONArray>()
-        every { jsonPathFinder.find(any(), any()) } returns jsonArray
+        every { contextDataManipulator.get(any(), any()) } returns jsonArray
         every { moshi.adapter<Any>(any<Class<*>>()).fromJson(any<String>()) } returns null
 
         // When
@@ -238,7 +219,7 @@ internal class ContextDataEvaluationTest {
     fun evaluateAllContext_should_return_null_in_expressions_with_null_bind_value_in_JSONObject_type() {
         // Given
         val jsonObject = mockk<JSONObject>()
-        every { jsonPathFinder.find(any(), any()) } returns jsonObject
+        every { contextDataManipulator.get(any(), any()) } returns jsonObject
         every { moshi.adapter<Any>(any<Class<*>>()).fromJson(any<String>()) } returns null
 
         // When
@@ -349,6 +330,11 @@ internal class ContextDataEvaluationTest {
         EscapingTestCases(
             "This is a @{context} of \\ expression \\@{context}",
             "This is a value of \\ expression @{context}"
+        ),
+        EscapingTestCases(
+            "@{context}",
+            "\\\"value\\\"",
+            ContextData("context", "\\\"value\\\"")
         )
     )
 

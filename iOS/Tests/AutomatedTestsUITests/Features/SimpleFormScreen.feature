@@ -14,20 +14,19 @@ Feature: SimpleForm Component Validation
     Given the app will load http://localhost:8080/simpleform
     When I click on text field "<textFieldText>"
     And insert text "<textValue>"
-    And I click on text field "Street"
+    And I click on text field "Complement"
     And I click on button "Enviar"
     Then confirm popup should appear correctly
     
     Examples:
-    |textFieldText  | textValue |
-    |ZIP            | 38408480  |
-    
- #   |Street         |
- #   |Number         |
- #   |Neighborhood   |
- #   |City           |
- #   |State          |
- #   |Complement     |
+    |textFieldText  | textValue              |
+    |ZIP            | 38405142               |
+ #   |Street         | Avenida Rondon Pacheco |
+ #   |Number         | 4600                   |
+ #   |Neighborhood   | Tibery                 |
+ #   |City           | Uberlandia             |
+ #   |State          | Minas Gerais           |
+ #   |Complement     |                        |
 
 
 

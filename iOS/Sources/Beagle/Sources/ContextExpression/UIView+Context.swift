@@ -157,8 +157,15 @@ extension UIView {
     private func transform<T: Decodable>(_ dynamicObject: DynamicObject) -> T? {
         let encoder = JSONEncoder()
         let decoder = JSONDecoder()
-        guard let data = try? encoder.encode(dynamicObject) else { return nil }
-        return try? decoder.decode(T.self, from: data)
+        if #available(iOS 13.0, *) {
+            guard let data = try? encoder.encode(dynamicObject) else { return nil }
+            return try? decoder.decode(T.self, from: data)
+        } else {
+            // here we use array as a wrapper because iOS 12 (or prior) JSONEncoder/Decoder bug
+            // https://bugs.swift.org/browse/SR-6163
+            guard let data = try? encoder.encode([dynamicObject]) else { return nil }
+            return try? decoder.decode([T].self, from: data).first
+        }
     }
         
     // expression last value cache is used only for multiple expressions binding

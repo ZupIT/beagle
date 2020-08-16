@@ -37,8 +37,7 @@ extension PageView: ServerDrivenComponent {
         
         if let actions = onPageChange {
             view.onPageChange = { page in
-                let context = Context(id: "onPageChange", value: .int(page))
-                renderer.controller.execute(actions: actions, with: context, sender: view)
+                renderer.controller.execute(actions: actions, with: "onPageChange", and: .int(page), origin: view)
             }
         }
 

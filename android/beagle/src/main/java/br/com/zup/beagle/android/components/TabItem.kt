@@ -28,7 +28,7 @@ import br.com.zup.beagle.core.ServerDrivenComponent
 data class TabItem(
     val title: String? = null,
     val child: ServerDrivenComponent,
-    val icon: PathType.Local? = null
+    val icon: ImagePath.Local? = null
 ) : WidgetView() {
 
     @Transient

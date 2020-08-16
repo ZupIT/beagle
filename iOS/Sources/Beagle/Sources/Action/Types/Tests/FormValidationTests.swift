@@ -20,29 +20,38 @@ import BeagleSchema
 
 final class FormValidationTests: XCTestCase {
 
-    func test_whenExecuteFormValidation_shouldCallErrorListener() {
+    func testErrorListener() {
         // Given
         let inputName = "inputName"
         let errorMessage = "Error Message"
         let action = FormValidation(errors: [
             FieldError(inputName: inputName, message: errorMessage)
         ])
+        
         let controller = BeagleControllerStub()
-        let formInput = Deprecated.FormInput(name: inputName, child: ComponentDummy())
-        let validationSpy = ValidationErrorListenerSpy()
-        validationSpy.beagleFormElement = formInput
-        let sender = SubmitFormGestureRecognizer(
-            form: Deprecated.Form(child: ComponentDummy()),
-            formView: validationSpy,
-            formSubmitView: validationSpy,
-            controller: controller
-        )
-
+        let renderer = BeagleRenderer(controller: controller)
+        
+        let inputView = ValidationErrorListenerSpy()
+        let submitView = UIView()
+        
+        let form = Deprecated.Form(child: Container {
+            Deprecated.FormInput(
+                name: inputName,
+                child: ComponentDummy(resultView: inputView)
+            )
+            Deprecated.FormSubmit(
+                child: ComponentDummy(resultView: submitView)
+            )
+        })
+        
+        let formView = form.toView(renderer: renderer)
+        
         // When
-        action.execute(controller: controller, sender: sender)
-
+        action.execute(controller: controller, origin: submitView)
+        
         // Then
-        XCTAssertEqual(validationSpy.validationErrorMessage, errorMessage)
+        XCTAssertNotNil(formView)
+        XCTAssertEqual(inputView.validationErrorMessage, errorMessage)
     }
 }
 

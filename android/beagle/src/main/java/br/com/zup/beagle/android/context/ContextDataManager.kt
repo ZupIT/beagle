@@ -18,7 +18,6 @@ package br.com.zup.beagle.android.context
 
 import android.view.View
 import br.com.zup.beagle.android.action.SetContextInternal
-import br.com.zup.beagle.android.jsonpath.JsonCreateTree
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.Observer
 import br.com.zup.beagle.android.utils.findParentContextWithId
@@ -29,22 +28,37 @@ import br.com.zup.beagle.android.utils.getExpressions
 import br.com.zup.beagle.android.utils.setContextBinding
 import br.com.zup.beagle.android.utils.setContextData
 
+private const val GLOBAL_CONTEXT_ID = Int.MAX_VALUE
+
 internal class ContextDataManager(
-    private val jsonCreateTree: JsonCreateTree = JsonCreateTree(),
-    private val contextDataTreeHelper: ContextDataTreeHelper = ContextDataTreeHelper(),
-    private val contextPathResolver: ContextPathResolver = ContextPathResolver(),
-    private val contextDataEvaluation: ContextDataEvaluation = ContextDataEvaluation()
+    private val contextDataEvaluation: ContextDataEvaluation = ContextDataEvaluation(),
+    private val contextDataManipulator: ContextDataManipulator = ContextDataManipulator()
 ) {
 
+    private var globalContext: ContextBinding = ContextBinding(GlobalContext.getContext())
     private val contexts = mutableMapOf<Int, ContextBinding>()
     private val viewBinding = mutableMapOf<View, MutableSet<Binding<*>>>()
+    private val globalContextObserver: GlobalContextObserver = {
+        updateGlobalContext(it)
+    }
+
+    init {
+        contexts[GLOBAL_CONTEXT_ID] = globalContext
+        GlobalContext.observeGlobalContextChange(globalContextObserver)
+    }
 
     fun clearContexts() {
         contexts.clear()
         viewBinding.clear()
+        GlobalContext.clearObserverGlobalContext(globalContextObserver)
     }
 
     fun addContext(view: View, context: ContextData) {
+        if (context.id == globalContext.context.id) {
+            BeagleMessageLogs.globalKeywordIsReservedForGlobalContext()
+            return
+        }
+
         val existingContext = contexts[view.id]
 
         if (existingContext != null) {
@@ -69,7 +83,7 @@ internal class ContextDataManager(
 
     fun linkBindingToContext() {
         viewBinding.forEach { entry ->
-            val parentContexts = entry.key.getAllParentContexts()
+            val parentContexts = entry.key.getAllParentContextWithGlobal()
             entry.value.forEach { binding ->
                 binding.bind.value.getExpressions().forEach { expression ->
                     val contextId = expression.getContextId()
@@ -82,34 +96,41 @@ internal class ContextDataManager(
     }
 
     fun getContextsFromBind(originView: View, binding: Bind.Expression<*>): List<ContextData> {
-        val parentContexts = originView.getAllParentContexts()
+        val parentContexts = originView.getAllParentContextWithGlobal()
         val contextIds = binding.value.getExpressions().map { it.getContextId() }
         return parentContexts.filterKeys { contextIds.contains(it) }.map { it.value.context }
     }
 
-    fun updateContext(view: View, setContextInternal: SetContextInternal): Boolean {
-        return view.findParentContextWithId(setContextInternal.contextId)?.let { parentView ->
-            val currentContextBinding = parentView.getContextBinding()
-            currentContextBinding?.let {
-                setContextValue(parentView, currentContextBinding, setContextInternal)
+    fun updateContext(view: View, setContextInternal: SetContextInternal) {
+        if (setContextInternal.contextId == globalContext.context.id) {
+            GlobalContext.set(setContextInternal.value, setContextInternal.path)
+        } else {
+            view.findParentContextWithId(setContextInternal.contextId)?.let { parentView ->
+                val currentContextBinding = parentView.getContextBinding()
+                currentContextBinding?.let {
+                    setContextValue(parentView, currentContextBinding, setContextInternal)
+                }
             }
-        } ?: false
+        }
     }
 
     private fun setContextValue(
         contextView: View,
         contextBinding: ContextBinding,
         setContextInternal: SetContextInternal
-    ): Boolean {
-        val path = setContextInternal.path ?: contextBinding.context.id
-        val setValue = setValue(contextView, contextBinding, path, setContextInternal.value)
-        if (setValue) {
-            contextView.getContextBinding()?.let { newContextBinding ->
-                contexts[contextView.id] = newContextBinding
-                notifyBindingChanges(newContextBinding)
-            }
+    ) {
+        val result = contextDataManipulator.set(
+            contextBinding.context,
+            setContextInternal.path,
+            setContextInternal.value
+        )
+        if (result is ContextSetResult.Succeed) {
+            val newContextBinding = contextBinding.copy(context = result.newContext)
+            newContextBinding.cache.evictAll()
+            contextView.setContextBinding(newContextBinding)
+            contexts[contextView.id] = newContextBinding
+            notifyBindingChanges(newContextBinding)
         }
-        return setValue
     }
 
     fun evaluateContexts() {
@@ -133,29 +154,15 @@ internal class ContextDataManager(
         }
     }
 
-    private fun setValue(viewContext: View, contextBinding: ContextBinding, path: String, value: Any): Boolean {
-        var context = contextBinding.context
-        return if (path == context.id) {
-            contextDataTreeHelper.setNewTreeInContextData(viewContext, contextBinding, value)
-            true
-        } else {
-            try {
-                val keys = contextPathResolver.getKeysFromPath(context.id, path)
-                if (keys.isEmpty()) {
-                    return false
-                }
-                context = contextDataTreeHelper.updateContextDataWithTree(
-                    viewContext,
-                    contextBinding,
-                    jsonCreateTree,
-                    keys
-                )
-                jsonCreateTree.walkingTreeAndFindKey(context.value, keys, value)
-                true
-            } catch (ex: Exception) {
-                BeagleMessageLogs.errorWhileTryingToChangeContext(ex)
-                false
-            }
+    private fun View.getAllParentContextWithGlobal(): MutableMap<String, ContextBinding> {
+        return this.getAllParentContexts().apply {
+            put(globalContext.context.id, globalContext)
         }
+    }
+
+    private fun updateGlobalContext(contextData: ContextData) {
+        globalContext = globalContext.copy(context = contextData)
+        contexts[GLOBAL_CONTEXT_ID] = globalContext
+        notifyBindingChanges(globalContext)
     }
 }

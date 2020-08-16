@@ -16,11 +16,11 @@
 
 package br.com.zup.beagle.widget.layout
 
-import br.com.zup.beagle.widget.context.ContextData
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.action.Action
 import br.com.zup.beagle.widget.context.ContextComponent
+import br.com.zup.beagle.widget.context.ContextData
 
 /**
  *  The container component is a general container that can hold other components inside.

@@ -49,7 +49,7 @@ public protocol DependencyRepository {
 
 // MARK: - Default
 
-public final class RepositoryDefault: Repository {
+public struct RepositoryDefault: Repository {
     
     // MARK: Dependencies
 
@@ -88,9 +88,7 @@ public final class RepositoryDefault: Repository {
             return nil
         }
 
-        return dispatchRequest(path: url, type: .fetchComponent, additionalData: cache.additional) { [weak self] result in
-            guard let self = self else { return }
-
+        return dispatchRequest(path: url, type: .fetchComponent, additionalData: cache.additional) {  result in
             let mapped = result
                 .flatMap { self.handleFetchComponent($0, cachedComponent: cache.data, url: url) }
 
@@ -105,9 +103,7 @@ public final class RepositoryDefault: Repository {
         data: Request.FormData,
         completion: @escaping (Result<RawAction>) -> Void
     ) -> RequestToken? {
-        return dispatchRequest(path: url, type: .submitForm(data), additionalData: additionalData) { [weak self] result in
-            guard let self = self else { return }
-
+        return dispatchRequest(path: url, type: .submitForm(data), additionalData: additionalData) {  result in
             let mapped = result
                 .flatMap { self.handleForm($0.data) }
 

@@ -36,7 +36,7 @@ class SimpleFormScreenSteps: NSObject {
         
         
         Then("^all my simple form components should render their respective text attributes correctly$") { (args, userInfo) -> Void in
-            XCTAssertTrue(ScreenElements.SIMPLE_FORM_SCREEN_HEADER.element.exists)
+            XCTAssertTrue(ScreenElements.SIMPLE_FORM_TITLE.element.exists)
             XCTAssertTrue(ScreenElements.ZIP_FIELD.element.exists)
             XCTAssertTrue(ScreenElements.STREET_FIELD.element.exists)
 

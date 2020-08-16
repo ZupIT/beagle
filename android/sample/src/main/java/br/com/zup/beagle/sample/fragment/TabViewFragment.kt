@@ -34,12 +34,11 @@ import br.com.zup.beagle.widget.core.UnitValue
 import br.com.zup.beagle.android.components.layout.Container
 import br.com.zup.beagle.android.components.Button
 import br.com.zup.beagle.android.components.Image
-import br.com.zup.beagle.android.components.PathType
+import br.com.zup.beagle.android.components.ImagePath
 import br.com.zup.beagle.android.components.TabItem
 import br.com.zup.beagle.android.components.TabView
 import br.com.zup.beagle.android.components.Text
 import br.com.zup.beagle.android.utils.toView
-import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.widget.core.TextAlignment
 
 class TabViewFragment : Fragment() {
@@ -64,7 +63,7 @@ class TabViewFragment : Fragment() {
                                 )
                             )
                         ),
-                        Image(PathType.Local("imageBeagle"))
+                        Image(ImagePath.Local("imageBeagle"))
                     ))),
                 buildTabView(title = "Title 2", child = Button("button")),
                 buildTabView(
@@ -105,7 +104,7 @@ class TabViewFragment : Fragment() {
         return TabItem(
             title = title,
             child = child,
-            icon = PathType.Local("ic_launcher_foreground")
+            icon = ImagePath.Local("ic_launcher_foreground")
         )
     }
 

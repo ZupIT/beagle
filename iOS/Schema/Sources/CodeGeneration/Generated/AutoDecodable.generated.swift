@@ -188,7 +188,7 @@ extension Image {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        path = try container.decode(Expression<PathType>.self, forKey: .path)
+        path = try container.decode(Expression<ImagePath>.self, forKey: .path)
         mode = try container.decodeIfPresent(ImageContentMode.self, forKey: .mode)
         widgetProperties = try WidgetProperties(from: decoder)
     }
@@ -259,6 +259,7 @@ extension ScreenComponent {
         case navigationBar
         case screenAnalyticsEvent
         case child
+        case context
     }
 
     public init(from decoder: Decoder) throws {
@@ -270,6 +271,7 @@ extension ScreenComponent {
         navigationBar = try container.decodeIfPresent(NavigationBar.self, forKey: .navigationBar)
         screenAnalyticsEvent = try container.decodeIfPresent(AnalyticsScreen.self, forKey: .screenAnalyticsEvent)
         child = try container.decode(forKey: .child)
+        context = try container.decodeIfPresent(Context.self, forKey: .context)
     }
 }
 

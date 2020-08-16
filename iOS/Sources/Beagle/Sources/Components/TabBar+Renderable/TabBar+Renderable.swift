@@ -31,8 +31,7 @@ extension TabBar: ServerDrivenComponent {
         }
         
         view.onTabSelection = { tab in
-            let context = Context(id: "onTabSelection", value: .int(tab))
-            renderer.controller.execute(actions: self.onTabSelection, with: context, sender: view)
+            renderer.controller.execute(actions: self.onTabSelection, with: "onTabSelection", and: .int(tab), origin: view)
         }
         
         return view

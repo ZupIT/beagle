@@ -47,7 +47,7 @@ final class SendRequestTests: XCTestCase {
         controller.expectation = expec
         
         // When
-        sendRequest.execute(controller: controller, sender: view)
+        sendRequest.execute(controller: controller, origin: view)
 
         // Then
         wait(for: [expec], timeout: 1.0)
@@ -78,7 +78,7 @@ final class SendRequestTests: XCTestCase {
         controller.expectation = expec
         
         // When
-        sendRequest.execute(controller: controller, sender: view)
+        sendRequest.execute(controller: controller, origin: view)
 
         // Then
         wait(for: [expec], timeout: 1.0)

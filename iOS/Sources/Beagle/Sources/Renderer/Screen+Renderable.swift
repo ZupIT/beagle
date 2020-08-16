@@ -25,7 +25,8 @@ extension Screen {
             safeArea: safeArea,
             navigationBar: navigationBar,
             screenAnalyticsEvent: screenAnalyticsEvent,
-            child: child
+            child: child,
+            context: context
         ))
     }
 }
