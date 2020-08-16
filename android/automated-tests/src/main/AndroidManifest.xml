@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.automated_tests">
+    package="com.example.automated_tests"
+    android:sharedUserId="com.example.automated_tests.uid">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -27,7 +28,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.AppBeagleActivitiy" />
+        <activity android:name=".activity.AppBeagleActivitiy" >
+        </activity>
     </application>
 
 </manifest>

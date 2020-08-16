@@ -20,6 +20,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'shot'
 
 android {
     compileSdkVersion 29
@@ -32,8 +33,14 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        testApplicationId "com.example.automated_tests.cucumber.steps"
-        testInstrumentationRunner "com.example.automated_tests.cucumber.steps.Instrumentation"
+
+        if (project.ext.has("screenshotTests")) {
+            testApplicationId "com.example.automated_tests.test"
+            testInstrumentationRunner "com.karumi.shot.ShotTestRunner"
+        } else {
+            testApplicationId "com.example.automated_tests.cucumber.steps"
+            testInstrumentationRunner "com.example.automated_tests.cucumber.steps.Instrumentation"
+        }
         buildConfigField "String", "TEST_TAGS", "\"${getTestTags()}\""
     }
 
