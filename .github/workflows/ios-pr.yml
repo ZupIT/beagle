@@ -4,6 +4,8 @@ on:
     push:
         branches:
             - master
+        paths:
+            - 'iOS/**'
     pull_request:
         # TODO: remove this path selector when we have more integrated tests
         paths:
