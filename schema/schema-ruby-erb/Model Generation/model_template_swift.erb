@@ -15,18 +15,30 @@
  * limitations under the License.
  */
 <%
+  require_relative './Synthax/Types/enum_type'
+  require_relative './Synthax/Attributes/list'
+  @tab = "    "
+  @doubleTab = @tab + @tab
+
   def handleTypeName(variable)
-      output = variable.isBindable ? "Expression<" + variable.typeName + ">" : variable.typeName
-      output = variable.isArray ? "[" + output + "]" : output
+      output = variable.isBindable ? "Expression<#{variable.typeName}>" : variable.typeName
+      output = variable.class == List ? "[#{output}]" : output
       output = variable.isOptional ? output + "?" : output
       output
   end
 
   def handleTypeNameForInitMethod(variable, shouldAddComma = false)
-    output = variable.isBindable ? "Expression<" + variable.typeName + ">" : variable.typeName
-    output = variable.isArray ? "[" + output + "]" : output
-    output = variable.isOptional ? output + "? = nil" : output
-    output = shouldAddComma ?  output + "," : output
+    output = variable.isBindable ? "Expression<#{variable.typeName}>" : variable.typeName
+    output = variable.class == List ? "[#{output}]" : output
+    output = variable.isOptional ? output + "?" : output
+
+    if variable.isOptional && variable.defaultValue == ''
+      output += " = nil"
+    elsif variable.defaultValue != ''
+      output += " #{variable.defaultValue}"
+    end
+    
+    output = shouldAddComma ? output + ",\n" : output
     output
   end
 
@@ -42,24 +54,63 @@
     output
   end
 
--%>
+  def isEnum(objectType)
+    objectType.synthaxType.class == EnumType
+  end
 
+  def casesForEnum(objectType)
+    output = ""
+    for variable in objectType.synthaxType.variables
+      output += "#{@tab}case #{variable.name}"
+      if variable.defaultValue != ''
+         output = objectType.synthaxType.inheritFrom.include?("String") ?
+         output + " = \"#{variable.defaultValue}\"" :
+         output + " = #{variable.defaultValue}" 
+      end
+      output += "\n"
+    end
+    output
+  end
+
+  def declareProperitesForCommonObject(objectType)
+    output = ""
+    for variable in objectType.synthaxType.variables
+      output += "#{@tab}#{variable.accessor} let #{variable.name}: #{handleTypeName(variable)}\n"
+    end
+    output
+  end
+
+  def initForCommomObject(objectType)
+    output = "#{@tab}#{objectType.synthaxType.accessor} init(\n"
+    counter = 0
+    for variable in objectType.synthaxType.variables
+      output += "#{@doubleTab}#{variable.name}: #{handleTypeNameForInitMethod(variable, objectType.synthaxType.variables.size - 1 != counter)}"
+      counter += 1
+    end
+    
+    output += "\n#{@tab}) {\n"
+
+    for variable in objectType.synthaxType.variables
+      output += "#{@doubleTab}self.#{variable.name} = #{variable.name}\n"
+    end
+
+    output += "#{@tab}}"
+
+    output
+  end
+
+-%>
+<% if isEnum(objectType) %>
+<%= objectType.synthaxType.accessor %> enum <%= objectType.synthaxType.name -%><%= handleInheritance(objectType.synthaxType) %>, Decodable {
+<%= casesForEnum(objectType)-%>
+}<%  -%>
+<% else %>
 <%= objectType.synthaxType.accessor %> struct <%= objectType.synthaxType.name -%><%= handleInheritance(objectType.synthaxType) %> {
   
-  // MARK: - Public Properties<% -%>
-  <% for variable in objectType.synthaxType.variables %>
-  <%= variable.accessor %> let <%= variable.name %>: <%= handleTypeName(variable) -%>
-  <% end %>
+<%=@tab-%>// MARK: - Public Properties
 
-  <%= objectType.synthaxType.accessor %> init(<% -%>
-    <% counter = 0 -%>
-    <% for variable in objectType.synthaxType.variables %>
-    <%= variable.name %>: <%= handleTypeNameForInitMethod(variable, objectType.synthaxType.variables.size - 1 != counter)-%>
-    <% counter += 1 -%>
-    <% end %>
-  ) {<% -%>
-    <% for variable in objectType.synthaxType.variables %>
-      self.<%= variable.name %> = <%= variable.name -%>
-    <% end %>
-  }
-}
+<%= declareProperitesForCommonObject(objectType)-%>
+
+<%= initForCommomObject(objectType)-%><%-%>
+}<%  -%>
+<% end %>

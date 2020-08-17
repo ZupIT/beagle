@@ -17,39 +17,40 @@
 
 public struct Flex {
   
-  // MARK: - Public Properties  
-  public let flexDirection: FlexDirection?  
-  public let flexWrap: FlexWrap?  
-  public let justifyContent: JustifyContent?  
-  public let alignItems: AlignItems?  
-  public let alignSelf: AlignSelf?  
-  public let alignContent: AlignContent?  
-  public let basis: UnitValue?  
-  public let flex: Double?  
-  public let flexDirection: Double?  
-  public let shrink: Double?  
+    // MARK: - Public Properties
 
-  public init(        
-    flexDirection: FlexDirection? = nil,        
-    flexWrap: FlexWrap? = nil,        
-    justifyContent: JustifyContent? = nil,        
-    alignItems: AlignItems? = nil,        
-    alignSelf: AlignSelf? = nil,        
-    alignContent: AlignContent? = nil,        
-    basis: UnitValue? = nil,        
-    flex: Double? = nil,        
-    flexDirection: Double? = nil,        
-    shrink: Double? = nil        
-  ) {    
-      self.flexDirection = flexDirection    
-      self.flexWrap = flexWrap    
-      self.justifyContent = justifyContent    
-      self.alignItems = alignItems    
-      self.alignSelf = alignSelf    
-      self.alignContent = alignContent    
-      self.basis = basis    
-      self.flex = flex    
-      self.flexDirection = flexDirection    
-      self.shrink = shrink    
-  }
+    public let flexDirection: FlexDirection?
+    public let flexWrap: FlexWrap?
+    public let justifyContent: JustifyContent?
+    public let alignItems: AlignItems?
+    public let alignSelf: AlignSelf?
+    public let alignContent: AlignContent?
+    public let basis: UnitValue?
+    public let flex: Double?
+    public let flexDirection: Double?
+    public let shrink: Double?
+
+    public init(
+        flexDirection: FlexDirection? = nil,
+        flexWrap: FlexWrap? = nil,
+        justifyContent: JustifyContent? = nil,
+        alignItems: AlignItems? = nil,
+        alignSelf: AlignSelf? = nil,
+        alignContent: AlignContent? = nil,
+        basis: UnitValue? = nil,
+        flex: Double? = nil,
+        flexDirection: Double? = nil,
+        shrink: Double? = nil
+    ) {
+        self.flexDirection = flexDirection
+        self.flexWrap = flexWrap
+        self.justifyContent = justifyContent
+        self.alignItems = alignItems
+        self.alignSelf = alignSelf
+        self.alignContent = alignContent
+        self.basis = basis
+        self.flex = flex
+        self.flexDirection = flexDirection
+        self.shrink = shrink
+    }
 }

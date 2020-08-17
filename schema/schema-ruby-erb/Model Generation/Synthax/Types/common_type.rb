@@ -12,25 +12,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/variable.rb'
-require_relative '../base_component.rb'
-require_relative '../../Synthax/Types/common_type.rb'
+require_relative './type.rb'
 
-class CornerRadius < BaseComponent
+#todo the name of the class could be better
+class CommonType < BaseType
 
-    def initialize
-        textVariables = [
-            Variable.new(:name => "radius", :typeName => "Double")
-        ]
-        synthaxType = CommonType.new(
-            :kind => 'struct',
-            :name => self.name,
-            :variables => textVariables,
-            :package => "br.com.zup.beagle.widget.core"
-        )
-
-        super(synthaxType)
-
+    def initialize(params = {})
+        super
     end
 
 end

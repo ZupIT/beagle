@@ -12,8 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/variable.rb'
+require_relative '../../Synthax/Attributes/variable.rb'
 require_relative '../base_component.rb'
+require_relative '../../Synthax/Types/common_type.rb'
 
 class Flex < BaseComponent
 
@@ -32,7 +33,7 @@ class Flex < BaseComponent
             Variable.new(:name => "flexDirection", :typeName => "Double", :isOptional => true),
             Variable.new(:name => "shrink", :typeName => "Double", :isOptional => true),
         ]
-        synthaxType = SynthaxType.new(
+        synthaxType = CommonType.new(
             :kind => 'struct',
             :name => self.name,
             :variables => textVariables,

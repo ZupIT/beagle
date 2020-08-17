@@ -16,6 +16,7 @@
  */
 <%
   def handleTypeNameWithName(variable)
+      #todo variables now have default values!
       output = variable.isOptional ? variable.name + "?" : variable.name
       output
   end

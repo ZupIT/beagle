@@ -16,5 +16,6 @@
  */
 
 export interface Display {   
-  backgroundColor?: string,   
+  flex: ,   
+  none: ,   
 }

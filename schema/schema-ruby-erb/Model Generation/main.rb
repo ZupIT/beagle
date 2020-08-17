@@ -15,8 +15,8 @@
 require 'erb'
 require 'date'
 
-require './Synthax/variable.rb'
-require './Synthax/type.rb'
+require './Synthax/Attributes/variable.rb'
+require './Synthax/Types/type.rb'
 
 require './Models/Layout/corner_radius.rb'
 require './Models/Layout/display.rb'

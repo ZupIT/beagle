@@ -17,21 +17,22 @@
 
 public struct Button: Widget, ClickedOnComponent {
   
-  // MARK: - Public Properties  
-  public let text: Expression<String>  
-  public let styleId: String?  
-  public let onPress: [Action]?  
-  public let clickAnalyticsEvent: ClickEvent?  
+    // MARK: - Public Properties
 
-  public init(        
-    text: Expression<String>,        
-    styleId: String? = nil,        
-    onPress: [Action]? = nil,        
-    clickAnalyticsEvent: ClickEvent? = nil        
-  ) {    
-      self.text = text    
-      self.styleId = styleId    
-      self.onPress = onPress    
-      self.clickAnalyticsEvent = clickAnalyticsEvent    
-  }
+    public let text: Expression<String>
+    public let styleId: String?
+    public let onPress: [Action]?
+    public let clickAnalyticsEvent: ClickEvent?
+
+    public init(
+        text: Expression<String>,
+        styleId: String? = nil,
+        onPress: [Action]? = nil,
+        clickAnalyticsEvent: ClickEvent? = nil
+    ) {
+        self.text = text
+        self.styleId = styleId
+        self.onPress = onPress
+        self.clickAnalyticsEvent = clickAnalyticsEvent
+    }
 }

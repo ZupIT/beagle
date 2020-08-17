@@ -12,17 +12,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-class Variable
+require_relative './type.rb'
 
-    attr_accessor :name, :typeName, :accessor, :isBindable, :isOptional, :isArray
-    
+#todo the name of the class could be better
+class TestType < BaseType
+
     def initialize(params = {})
-        @name = params.fetch(:name, '')
-        @typeName = params.fetch(:typeName, '')
-        @accessor = params.fetch(:accessor, 'public')
-        @isBindable = params.fetch(:isBindable, false)
-        @isOptional = params.fetch(:isOptional, false)
-        @isArray = params.fetch(:isArray, false)
+        super
     end
 
 end
