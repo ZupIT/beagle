@@ -118,7 +118,7 @@ lane :deploy do
   if isHotFix
     branchName = "release/" + ENV["TAG_NAME"].split("/").last
     versionSplit = branchName.sub("/", "").split("-")
-    versionNumber = versionSplit.first.sub("-", "")
+    versionNumber = versionSplit.first
     platformHotfix = versionSplit.last
   else
     versionNumber = last_git_tag(pattern: "*[0-9]")
