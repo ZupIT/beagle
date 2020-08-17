@@ -50,6 +50,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.14.13"
+  components:
+    dependency: transitive
+    description:
+      path: "../components"
+      relative: true
+    source: path
+    version: "0.0.1"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -95,6 +102,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
+  render_engine:
+    dependency: transitive
+    description:
+      path: "../render_engine"
+      relative: true
+    source: path
+    version: "0.0.1"
   sky_engine:
     dependency: transitive
     description: flutter

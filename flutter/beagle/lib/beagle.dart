@@ -1,4 +1,4 @@
- /*
+/*
  *  
  *  Copyright 2020 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
  *  
@@ -16,3 +16,14 @@
  */
 
 library beagle;
+
+import 'package:components/components.dart';
+import 'package:render_engine/beagle_widget_builder.dart';
+export 'package:render_engine/beagle_widget_builder.dart';
+
+class Beagle {
+  static void init() {
+    BeagleWidgetBuilder.addBeagleWidgets(allComponentsInBeagle);
+    BeagleWidgetBuilder.registerWidgetsIfNeed();
+  }
+}

@@ -16,8 +16,11 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:beagle/beagle.dart';
+import 'package:sample/widgets_json.dart';
 
 void main() {
+  Beagle.init();
   runApp(const BeagleSampleApp());
 }
 
@@ -46,16 +49,10 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              text,
-            )
-          ],
-        ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      body: BeagleWidgetBuilder.build(
+        containerJson,
+        context,
+      ),
     );
   }
 }
