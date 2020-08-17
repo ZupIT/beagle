@@ -12,17 +12,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-class SynthaxType
-
-    attr_accessor :kind, :name, :variables, :accessor, :inheritFrom, :package
-
-    def initialize(params = {})
-        @kind = params.fetch(:kind, '')
-        @name = params.fetch(:name, '')
-        @variables = params.fetch(:variables, [])
-        @accessor = params.fetch(:accessor, "public")
-        @inheritFrom = params.fetch(:inheritFrom, [])
-        @package = params.fetch(:package, "")
-    end
+class EnumCase < BaseAttributes
     
+    def initialize(params = {})
+        super
+        @accessor = ''
+        @isBindable = false
+        @isOptional = false
+    end
+
 end

@@ -16,9 +16,10 @@
  */
 <%
   def handleTypeName(variable, importManager)
-    output = importManager.has_key?(variable.typeName) ? variable.typeName + "Schema" : variable.typeName
+    #todo variables now have default values!
+      output = importManager.has_key?(variable.typeName) ? variable.typeName + "Schema" : variable.typeName
     output = variable.isBindable ? "Bind<#{output}>" : output
-    output = variable.isArray ? "List<#{output}>" : output
+    output = variable.class == List ? "List<#{output}>" : output
     output = variable.isOptional ? output + "?" : output
     output
   end

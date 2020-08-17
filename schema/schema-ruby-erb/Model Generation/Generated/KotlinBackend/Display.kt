@@ -19,11 +19,14 @@ package br.com.zup.beagle.widget.core
 
 
 data class Display (
-  public override val backgroundColor: String?   
+   override val flex: ,  
+   override val none:    
 ) : DisplaySchema {
   constructor (    
-    backgroundColor: String? = null      
+    flex: ,      
+    none:       
   ) : this (    
-      backgroundColor      
+      flex,      
+      none      
   )
 }

@@ -12,21 +12,24 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/variable.rb'
+require_relative '../../Synthax/Attributes/enum_case.rb'
 require_relative '../base_component.rb'
+require_relative '../../Synthax/Types/enum_type.rb'
 
 class Display < BaseComponent
 
-    # todo: display is an enum, we have to figure out how to represent this in ruby
+    # TODO add support for enums to TS, Kotlin and Kotlin Backend
     def initialize
-        textVariables = [
-            Variable.new(:name => "backgroundColor", :typeName => "String", :isOptional => true)
+        displayCases = [
+            EnumCase.new(:name => "flex", :defaultValue => "FLEX"),
+            EnumCase.new(:name => "none", :defaultValue => "NONE")
         ]
-        synthaxType = SynthaxType.new(
-            :kind => 'struct',
+        synthaxType = EnumType.new(
+            :kind => 'enum',
             :name => self.name,
-            :variables => textVariables,
-            :package => "br.com.zup.beagle.widget.core"
+            :variables => displayCases,
+            :package => "br.com.zup.beagle.widget.core",
+            :inheritFrom => ["String"]
         )
 
         super(synthaxType)

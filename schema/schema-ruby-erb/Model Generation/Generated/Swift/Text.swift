@@ -17,15 +17,16 @@
 
 public struct Text: Widget {
   
-  // MARK: - Public Properties  
-  public let text: Expression<String>  
-  public let styleId: String?  
+    // MARK: - Public Properties
 
-  public init(        
-    text: Expression<String>,        
-    styleId: String? = nil        
-  ) {    
-      self.text = text    
-      self.styleId = styleId    
-  }
+    public let text: Expression<String>
+    public let styleId: String?
+
+    public init(
+        text: Expression<String>,
+        styleId: String? = nil
+    ) {
+        self.text = text
+        self.styleId = styleId
+    }
 }
