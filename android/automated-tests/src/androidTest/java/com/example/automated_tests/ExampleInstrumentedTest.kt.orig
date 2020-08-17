@@ -55,4 +55,9 @@ class ExampleInstrumentedTest: ScreenshotTest {
         compareScreenshot(activityTestRule.activity)
     }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> e7d0e8ed9fbcf2f37de951da999e8fa0c553045f
 }
