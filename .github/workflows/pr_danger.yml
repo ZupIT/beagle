@@ -20,6 +20,7 @@ jobs:
                 with:
                     path: ${{ env.fastlane-path }}
                     key: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}-${{ hashFiles('Gemfile.lock') }}
+                    restore-keys: ${{ runner.os }}-build-${{ env.fastlane-cache-key }}
             -   name: Install Fastlane
                 run: bundle config set path '~/.gem' && bundle install
                 
