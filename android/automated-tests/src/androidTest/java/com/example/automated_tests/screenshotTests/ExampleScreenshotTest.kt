@@ -14,24 +14,15 @@
  * limitations under the License.
  */
 
-package com.example.automated_tests
+package com.example.automated_tests.screenshotTests
 
-import android.R
-import android.app.Activity
-import android.view.View
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.rule.ActivityTestRule
-import br.com.zup.beagle.android.view.BeagleActivity
 import com.example.automated_tests.activity.AppBeagleActivitiy
-import com.example.automated_tests.activity.MainActivity
 import com.example.automated_tests.utils.TestUtils
 import com.karumi.shot.ScreenshotTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.lang.Thread.sleep
 
 
 /**
@@ -39,7 +30,7 @@ import java.lang.Thread.sleep
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-class ExampleInstrumentedTest: ScreenshotTest {
+class ExampleScreenshotTest: ScreenshotTest {
 
     @get:Rule
     var activityTestRule: ActivityTestRule<AppBeagleActivitiy> = ActivityTestRule(
@@ -55,9 +46,4 @@ class ExampleInstrumentedTest: ScreenshotTest {
         compareScreenshot(activityTestRule.activity)
     }
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> e7d0e8ed9fbcf2f37de951da999e8fa0c553045f
 }
