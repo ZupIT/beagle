@@ -29,7 +29,7 @@ coverage:
         target: 70%
         threshold: 7%
         flags:
-          - backend
+          - flutter
     patch: no
     changes: no
 
