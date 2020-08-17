@@ -113,16 +113,16 @@ end
 desc "Publish new release based on last two tags"
 lane :deploy do
   sh "git fetch"
-  branchName = "master"
   isHotFix = ENV["TAG_NAME"].index("-")
+  
   if isHotFix
-    branchName = "release/" + ENV["TAG_NAME"].split("/").last
-    versionSplit = branchName.split("-")
-    platformHotfix = versionSplit.last
-    versionNumber = versionSplit.first.sub("-", "")
+    (versionNumber, platformHotfix) = ENV["TAG_NAME"].split("-")
+    branchName = "release/" + ENV["TAG_NAME"]
   else
     versionNumber = last_git_tag(pattern: "*[0-9]")
+    branchName = "master"
   end
+
   sh "git checkout #{branchName}"
 
   ENV["VERSION_DEPLOY"] = versionNumber
