@@ -16,8 +16,6 @@
  */
 
 public struct EdgeValue {
-  
-    // MARK: - Public Properties
 
     public let left: UnitValue?
     public let top: UnitValue?
@@ -44,4 +42,5 @@ public struct EdgeValue {
         self.vertical = vertical
         self.all = all
     }
+
 }

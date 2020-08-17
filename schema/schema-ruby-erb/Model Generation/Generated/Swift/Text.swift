@@ -16,8 +16,6 @@
  */
 
 public struct Text: Widget {
-  
-    // MARK: - Public Properties
 
     public let text: Expression<String>
     public let styleId: String?
@@ -29,4 +27,5 @@ public struct Text: Widget {
         self.text = text
         self.styleId = styleId
     }
+
 }

@@ -16,8 +16,6 @@
  */
 
 public struct Flex {
-  
-    // MARK: - Public Properties
 
     public let flexDirection: FlexDirection?
     public let flexWrap: FlexWrap?
@@ -53,4 +51,5 @@ public struct Flex {
         self.flexDirection = flexDirection
         self.shrink = shrink
     }
+
 }

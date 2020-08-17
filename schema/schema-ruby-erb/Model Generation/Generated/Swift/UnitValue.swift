@@ -16,8 +16,6 @@
  */
 
 public struct UnitValue {
-  
-    // MARK: - Public Properties
 
     public let value: Double
     public let type: UnityType
@@ -29,4 +27,5 @@ public struct UnitValue {
         self.value = value
         self.type = type
     }
+
 }

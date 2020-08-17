@@ -16,8 +16,6 @@
  */
 
 public struct PositionType {
-  
-    // MARK: - Public Properties
 
     public let backgroundColor: String?
 
@@ -26,4 +24,5 @@ public struct PositionType {
     ) {
         self.backgroundColor = backgroundColor
     }
+
 }

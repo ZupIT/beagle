@@ -16,6 +16,8 @@
  */
 
 public enum Display: String, Decodable {
+
     case flex = "FLEX"
     case none = "NONE"
+
 }

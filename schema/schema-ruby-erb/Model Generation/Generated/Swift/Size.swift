@@ -16,8 +16,6 @@
  */
 
 public struct Size {
-  
-    // MARK: - Public Properties
 
     public let height: UnitValue?
     public let maxWidth: UnitValue?
@@ -41,4 +39,5 @@ public struct Size {
         self.minHeight = minHeight
         self.aspectRatio = aspectRatio
     }
+
 }

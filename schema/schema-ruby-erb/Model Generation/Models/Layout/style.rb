@@ -35,7 +35,8 @@ class Style < BaseComponent
             :kind => 'struct',
             :name => self.name,
             :variables => textVariables,
-            :package => "br.com.zup.beagle.widget.core"
+            :package => "br.com.zup.beagle.widget.core",
+            :sameFileTypes => [PositionType.new, Display.new]
         )
 
         super(synthaxType)

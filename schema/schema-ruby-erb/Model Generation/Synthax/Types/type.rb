@@ -14,7 +14,7 @@
 
 class BaseType
 
-    attr_accessor :kind, :name, :variables, :accessor, :inheritFrom, :package
+    attr_accessor :kind, :name, :variables, :accessor, :inheritFrom, :package, :sameFileTypes
 
     def initialize(params = {})
         @kind = params.fetch(:kind, '')
@@ -23,7 +23,7 @@ class BaseType
         @accessor = params.fetch(:accessor, "public")
         @inheritFrom = params.fetch(:inheritFrom, [])
         @package = params.fetch(:package, "")
-        #@sameFileTypes = params.fetch(:sameFileTypes, [])
+        @sameFileTypes = params.fetch(:sameFileTypes, [])
     end
     
 end

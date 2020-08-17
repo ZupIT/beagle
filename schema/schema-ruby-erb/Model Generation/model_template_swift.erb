@@ -99,18 +99,38 @@
     output
   end
 
+  def firstLineDeclaration(isEnumDeclaration) 
+    isEnumDeclaration ? 
+    "#{objectType.synthaxType.accessor} enum #{objectType.synthaxType.name}#{handleInheritance(objectType.synthaxType)}, Decodable {" :
+    "#{objectType.synthaxType.accessor} struct #{objectType.synthaxType.name}#{handleInheritance(objectType.synthaxType)} {"
+  end
+
+  def fullDeclaration(objectType)
+    isEnumDeclaration = isEnum(objectType)
+    output = "#{firstLineDeclaration(isEnumDeclaration)}\n\n"
+    if isEnumDeclaration
+      output += casesForEnum(objectType)
+    else
+      output += declareProperitesForCommonObject(objectType)
+      output += "\n"
+      output += "#{initForCommomObject(objectType)}\n"
+    end
+
+    output = handleInnerTypes(objectType.synthaxType.sameFileTypes, output)
+
+    output += "\n}\n"
+    output
+
+  end
+
+  def handleInnerTypes(objectTypes, input)
+    output = input
+    for objectType in objectTypes
+      output += "\n#{fullDeclaration(objectType)}"
+    end
+    output
+  end
+
 -%>
-<% if isEnum(objectType) %>
-<%= objectType.synthaxType.accessor %> enum <%= objectType.synthaxType.name -%><%= handleInheritance(objectType.synthaxType) %>, Decodable {
-<%= casesForEnum(objectType)-%>
-}<%  -%>
-<% else %>
-<%= objectType.synthaxType.accessor %> struct <%= objectType.synthaxType.name -%><%= handleInheritance(objectType.synthaxType) %> {
-  
-<%=@tab-%>// MARK: - Public Properties
 
-<%= declareProperitesForCommonObject(objectType)-%>
-
-<%= initForCommomObject(objectType)-%><%-%>
-}<%  -%>
-<% end %>
+<%= fullDeclaration(objectType) %>

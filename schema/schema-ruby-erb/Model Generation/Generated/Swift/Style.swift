@@ -16,8 +16,6 @@
  */
 
 public struct Style {
-  
-    // MARK: - Public Properties
 
     public let backgroundColor: String?
     public let cornerRadius: String?
@@ -50,4 +48,24 @@ public struct Style {
         self.positionType = positionType
         self.display = display
     }
+
+public struct Style {
+
+    public let backgroundColor: String?
+
+    public init(
+        backgroundColor: String? = nil
+    ) {
+        self.backgroundColor = backgroundColor
+    }
+
+}
+
+public enum Style, Decodable {
+
+    case flex = "FLEX"
+    case none = "NONE"
+
+}
+
 }

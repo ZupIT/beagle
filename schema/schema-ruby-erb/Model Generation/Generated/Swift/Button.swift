@@ -16,8 +16,6 @@
  */
 
 public struct Button: Widget, ClickedOnComponent {
-  
-    // MARK: - Public Properties
 
     public let text: Expression<String>
     public let styleId: String?
@@ -35,4 +33,5 @@ public struct Button: Widget, ClickedOnComponent {
         self.onPress = onPress
         self.clickAnalyticsEvent = clickAnalyticsEvent
     }
+
 }
