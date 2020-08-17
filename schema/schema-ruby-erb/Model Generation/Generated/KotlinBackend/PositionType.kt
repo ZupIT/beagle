@@ -19,11 +19,14 @@ package br.com.zup.beagle.widget.core
 
 
 data class PositionType (
-  public override val backgroundColor: String?   
+   override val relative: ,  
+   override val absolute:    
 ) : PositionTypeSchema {
   constructor (    
-    backgroundColor: String? = null      
+    relative: ,      
+    absolute:       
   ) : this (    
-      backgroundColor      
+      relative,      
+      absolute      
   )
 }

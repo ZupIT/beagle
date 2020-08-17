@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/variable.rb'
+require_relative '../../Synthax/Attributes/enum_case.rb'
 require_relative '../base_component.rb'
 require_relative '../../Synthax/Types/common_type.rb'
 
@@ -20,14 +20,16 @@ class PositionType < BaseComponent
 
     # todo: positionType is an enum, we have to figure out how to represent this in ruby
     def initialize
-        textVariables = [
-            Variable.new(:name => "backgroundColor", :typeName => "String", :isOptional => true)
+        enumCases = [
+            EnumCase.new(:name => "relative", :defaultValue => "RELATIVE"),
+            EnumCase.new(:name => "absolute", :defaultValue => "ABSOLUTE")
         ]
-        synthaxType = CommonType.new(
-            :kind => 'struct',
+        synthaxType = EnumType.new(
+            :kind => 'enum',
             :name => self.name,
-            :variables => textVariables,
-            :package => "br.com.zup.beagle.widget.core"
+            :variables => enumCases,
+            :package => "br.com.zup.beagle.widget.core",
+            :inheritFrom => ["String"]
         )
 
         super(synthaxType)

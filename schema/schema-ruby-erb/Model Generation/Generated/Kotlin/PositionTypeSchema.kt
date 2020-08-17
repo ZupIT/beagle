@@ -19,5 +19,6 @@ package br.com.zup.beagle.widget.core
 
 
 interface PositionTypeSchema {
-  public val backgroundColor: String? 
+   val relative: 
+   val absolute:  
 }

@@ -99,15 +99,15 @@
     output
   end
 
-  def firstLineDeclaration(isEnumDeclaration) 
+  def firstLineDeclaration(objectType, isEnumDeclaration) 
     isEnumDeclaration ? 
     "#{objectType.synthaxType.accessor} enum #{objectType.synthaxType.name}#{handleInheritance(objectType.synthaxType)}, Decodable {" :
     "#{objectType.synthaxType.accessor} struct #{objectType.synthaxType.name}#{handleInheritance(objectType.synthaxType)} {"
   end
 
-  def fullDeclaration(objectType)
+  def fullDeclaration(objectType, tabDepth = 0)
     isEnumDeclaration = isEnum(objectType)
-    output = "#{firstLineDeclaration(isEnumDeclaration)}\n\n"
+    output = "#{firstLineDeclaration(objectType, isEnumDeclaration)}\n\n"
     if isEnumDeclaration
       output += casesForEnum(objectType)
     else
@@ -123,10 +123,11 @@
 
   end
 
-  def handleInnerTypes(objectTypes, input)
+  def handleInnerTypes(objectTypes, input, tabDepth = 0)
     output = input
     for objectType in objectTypes
       output += "\n#{fullDeclaration(objectType)}"
+      handleInnerTypes(objectType.synthaxType.sameFileTypes, output)
     end
     output
   end

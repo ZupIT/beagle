@@ -16,5 +16,6 @@
  */
 
 export interface PositionType {   
-  backgroundColor?: string,   
+  relative: ,   
+  absolute: ,   
 }

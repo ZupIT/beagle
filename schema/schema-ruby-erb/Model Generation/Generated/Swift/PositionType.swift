@@ -15,14 +15,9 @@
  * limitations under the License.
  */
 
-public struct PositionType {
+public enum PositionType: String, Decodable {
 
-    public let backgroundColor: String?
-
-    public init(
-        backgroundColor: String? = nil
-    ) {
-        self.backgroundColor = backgroundColor
-    }
+    case relative = "RELATIVE"
+    case absolute = "ABSOLUTE"
 
 }

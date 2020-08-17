@@ -49,19 +49,14 @@ public struct Style {
         self.display = display
     }
 
-public struct Style {
+public enum PositionType: String, Decodable {
 
-    public let backgroundColor: String?
-
-    public init(
-        backgroundColor: String? = nil
-    ) {
-        self.backgroundColor = backgroundColor
-    }
+    case relative = "RELATIVE"
+    case absolute = "ABSOLUTE"
 
 }
 
-public enum Style, Decodable {
+public enum Display: String, Decodable {
 
     case flex = "FLEX"
     case none = "NONE"
