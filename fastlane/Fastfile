@@ -48,7 +48,7 @@ platform :android do
 
   desc "Pull Request verification"
   lane :pull_request_verification do
-    gradle(project_dir: "android", task: "detekt lintDebug jacocoTestReport")
+    gradle(project_dir: "android", task: "clean detekt lintDebug jacocoTestReport")
     gradle(project_dir: "android", task: "sample:assembleDebug sample:assembleDebugAndroidTest")
     run_codecov(platform: 'android')
   end
@@ -187,12 +187,7 @@ platform :backend do
   desc "Pull Request verification"
   lane :pull_request_verification do
     gradle(project_dir: "backend", task: "detekt")
-    gradle(project_dir: "backend", tasks:
-        [
-          "assemble",
-          "jacocoTestReport",
-        ]
-    )
+    gradle(project_dir: "backend", tasks:["clean", "assemble", "jacocoTestReport"])
     run_codecov(platform: 'backend')
   end
 
