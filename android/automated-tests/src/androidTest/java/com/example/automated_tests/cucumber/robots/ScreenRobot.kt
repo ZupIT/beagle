@@ -19,13 +19,16 @@ package com.example.automated_tests.cucumber.robots
 import android.view.View
 import android.view.ViewGroup
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
+import br.com.zup.beagle.android.components.layout.Screen
 import com.example.automated_tests.R
 import com.example.automated_tests.cucumber.elements.ZIP_FIELD
+import com.example.automated_tests.utils.WaitHelper
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
@@ -34,7 +37,16 @@ import org.hamcrest.TypeSafeMatcher
 
 class ScreenRobot {
 
-    fun checkViewContainsText(text: String?): ScreenRobot {
+    fun waitForElement(text: String?): ScreenRobot {
+        WaitHelper.waitForWithElement(onView(withText(text)))
+        return this
+    }
+
+    fun checkViewContainsText(text: String?, waitForText: Boolean = true): ScreenRobot {
+        if (waitForText){
+            WaitHelper.waitForWithElement(onView(withText(text)))
+        }
+
         Espresso.onView(Matchers.allOf(withText(text))).check(matches(isDisplayed()))
         return this
     }
