@@ -11,7 +11,7 @@ platform :workflow do
       next
     end
     branchName = tagName.split("/").last
-    sh("git checkout -b release/" + branchName + "-hotfix")
+    sh("git checkout -b hotfix/" + branchName)
     push_to_git_remote(
       tags: false,
       set_upstream: true
@@ -113,16 +113,19 @@ end
 desc "Publish new release based on last two tags"
 lane :deploy do
   sh "git fetch"
-  pattern = "*[0-9]"
-  tagName = "master"
-  if ENV["TAG_NAME"].index("-") # Hotfix
-    tagName = "release/" + ENV["TAG_NAME"].split("/").last
-    platformHotfix = tagName.split("-").last
-    pattern = "*-#{platformHotfix}"
+  branchName = "master"
+  isHotFix = ENV["TAG_NAME"].index("-")
+  if isHotFix
+    branchName = "release/" + ENV["TAG_NAME"].split("/").last
+    versionSplit = branchName.split("-")
+    platformHotfix = versionSplit.last
+    versionNumber = versionSplit.first
+  else
+    versionNumber = last_git_tag(pattern: "*[0-9]")
   end
-  sh "git checkout #{tagName}"
+  sh "git checkout #{branchName}"
 
-  ENV["VERSION_DEPLOY"] = last_git_tag(pattern: pattern)
+  ENV["VERSION_DEPLOY"] = versionNumber
   if platformHotfix == "iOS"
     puts "iOS Hotfix release"
     sh "fastlane ios release"
@@ -147,8 +150,12 @@ lane :deploy do
     name: ENV["VERSION_DEPLOY"],
     tag_name: ENV["VERSION_DEPLOY"],
     description: releaseNotes,
-    commitish: tagName
+    commitish: branchName
   )
+  
+  if isHotFix
+     sh "fastlane workflow openPRFromPatch"
+  end
 end
 
 lane :run_danger do |options|
