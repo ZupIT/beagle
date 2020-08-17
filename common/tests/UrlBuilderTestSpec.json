@@ -106,12 +106,17 @@
     },
     {
         "base": "http://base.url",
-        "path": "/myService%20",
+        "path": "/myService%2520",
         "result": "http://base.url/myService%2520"
     },
     {
         "base": "http://base.url",
         "path": "/name+user/",
         "result": "http://base.url/name%2Buser"
+    },
+    {
+        "base": "http://base.url",
+        "path": "/name #user",
+        "result": "http://base.url/name%20%23user"
     }
 ]
