@@ -119,7 +119,7 @@ lane :deploy do
     branchName = "release/" + ENV["TAG_NAME"].split("/").last
     versionSplit = branchName.split("-")
     platformHotfix = versionSplit.last
-    versionNumber = versionSplit.first
+    versionNumber = versionSplit.first.sub("-", "")
   else
     versionNumber = last_git_tag(pattern: "*[0-9]")
   end
