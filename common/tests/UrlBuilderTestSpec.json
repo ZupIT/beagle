@@ -98,5 +98,20 @@
         "base": null,
         "path": "",
         "result": null
+    },
+    {
+        "base": "http://base.url",
+        "path": "/user/Name Of User/",
+        "result": "http://base.url/user/Name%20Of%20User"
+    },
+    {
+        "base": "http://base.url",
+        "path": "/myService%20",
+        "result": "http://base.url/myService%2520"
+    },
+    {
+        "base": "http://base.url",
+        "path": "/name+user/",
+        "result": "http://base.url/name%2Buser"
     }
 ]
