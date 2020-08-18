@@ -35,26 +35,43 @@ public class UrlBuilder: UrlBuilderProtocol {
     }
 
     public func build(path: String) -> URL? {
-        switch getUrlType(path: path, baseUrl: baseUrl) {
-        case .noStripePrefix:
+        guard let encodedPath = shouldEncode(path) ? path.addingPercentEncodingForRFC3986 : path else {
             return URL(string: path)
-        case .stripePrefix:
+        }
+        switch getUrlType(path: path, baseUrl: baseUrl) {
+        case .absolutePath:
+            return URL(string: encodedPath)
+        case .relativePath:
             guard var absolute = baseUrl?.absoluteString else {
-                return URL(string: path)
+                return URL(string: encodedPath)
             }
             if absolute.hasSuffix("/") {
                 absolute.removeLast()
             }
-            return URL(string: absolute + path)
+            return URL(string: absolute + encodedPath)
         }
     }
     
     private func getUrlType(path: String, baseUrl: URL?) -> UrlType {
-        return path.hasPrefix("/") ? .stripePrefix : .noStripePrefix
+        return path.hasPrefix("/") ? .relativePath : .absolutePath
+    }
+    
+    private func shouldEncode(_ path: String) -> Bool {
+        guard let decodedPath = path.removingPercentEncoding else { return false }
+        return decodedPath == path
     }
 }
 
 private enum UrlType {
-    case noStripePrefix
-    case stripePrefix
+    case relativePath
+    case absolutePath
+}
+
+private extension String {
+    var addingPercentEncodingForRFC3986: String? {
+        let unreserved = "&-._,~/?:;@$"
+        let allowedCharacterSet = NSMutableCharacterSet.alphanumeric()
+        allowedCharacterSet.addCharacters(in: unreserved)
+        return addingPercentEncoding(withAllowedCharacters: allowedCharacterSet as CharacterSet)
+    }
 }
