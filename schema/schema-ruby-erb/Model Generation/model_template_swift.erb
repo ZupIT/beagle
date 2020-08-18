@@ -56,10 +56,6 @@
     output
   end
 
-  def isEnum(objectType)
-    objectType.synthaxType.class == EnumType
-  end
-
   def casesForEnum(objectType)
     output = ""
     for variable in objectType.synthaxType.variables
@@ -82,7 +78,7 @@
     output
   end
 
-  def initForCommomObject(objectType)
+  def initForCommonObject(objectType)
     output = "#{@tab}#{objectType.synthaxType.accessor} init(\n"
     counter = 0
     for variable in objectType.synthaxType.variables
@@ -103,7 +99,7 @@
 
   def fullDeclaration(objectType)
     objectType.synthaxType.inheritFrom.append("Decodable")
-    isEnumDeclaration = isEnum(objectType)
+    isEnumDeclaration = @templateHelper.isEnum(objectType)
     typeKind = isEnumDeclaration ? "enum" : "struct"
     output = "#{objectType.synthaxType.accessor} #{typeKind} #{objectType.synthaxType.name}#{handleInheritance(objectType.synthaxType)} {\n\n"
     if isEnumDeclaration
@@ -111,7 +107,7 @@
     else
       output += declarePropertiesForCommonObject(objectType)
       output += "\n"
-      output += "#{initForCommomObject(objectType)}\n"
+      output += "#{initForCommonObject(objectType)}\n"
     end
 
     output = handleInnerTypes(objectType.synthaxType.sameFileTypes, output)
@@ -125,10 +121,10 @@
     output = input
     for objectType in objectTypes
       aux = "\n#{fullDeclaration(objectType)}"
-      output += @templateHelper.addPadding(@tab, 1, aux)
+      output += @templateHelper.addPadding(@tab, paddingMultiplier, aux)
 
       possibleNestedTypes = objectType.synthaxType.sameFileTypes
-      if possibleNestedTypes.size != 0
+      if possibleNestedTypes.size > 0
         handleInnerTypes(objectType.synthaxType.sameFileTypes, output, paddingMultiplier + 1)
       end
     end

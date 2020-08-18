@@ -23,4 +23,8 @@ class TemplateHelper
         output
     end
 
+    def isEnum(objectType)
+        objectType.synthaxType.class == EnumType
+      end
+
 end

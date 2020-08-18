@@ -14,8 +14,7 @@
 
 require_relative './base_attributes.rb'
 
-class Variable 
-    include BaseAttributes
+class Variable < BaseAttributes
     
     attr_accessor :isBindable, :isOptional
 

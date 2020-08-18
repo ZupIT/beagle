@@ -15,6 +15,11 @@
  * limitations under the License.
  */
 <%
+
+  require_relative 'template_helper.rb'
+
+  @templateHelper = TemplateHelper.new
+
   def handleTypeNameWithName(variable)
       #todo variables now have default values!
       output = variable.isOptional ? variable.name + "?" : variable.name
@@ -25,9 +30,11 @@
   #todo downcase only primitive types
   end
 -%>
-
+<% if @templateHelper.isEnum(objectType) %>
+  #todo enum generation logic not implemented
+<% else %>
 export interface <%= objectType.synthaxType.name -%> { <% -%>
   <% for variable in objectType.synthaxType.variables %>
   <%= handleTypeNameWithName(variable) %>: <%= variable.typeName.downcase -%>, <% -%>
   <% end %>
-}
+}<% end %>

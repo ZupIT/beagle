@@ -15,6 +15,9 @@
  * limitations under the License.
  */
 <%
+  require_relative 'template_helper.rb'
+  @templateHelper = TemplateHelper.new
+
   def handleTypeName(variable)
       #todo variables now have default values!
       output = variable.isBindable ? "Bind<" + variable.typeName + ">" : variable.typeName
@@ -31,7 +34,7 @@
 package <%= objectType.synthaxType.package -%>
 
 
-<% if objectType.synthaxType.variables.any? { |variable| variable.isBindable }-%>
+<% if objectType.synthaxType.variables.any? && !@templateHelper.isEnum(objectType) { |variable| variable.isBindable }-%>
 import br.com.zup.beagle.widget.context.Bind
 <% end -%>
 <% for qualifiedName in getImports(objectType.synthaxType.variables, importManager) -%>
@@ -40,7 +43,11 @@ import <%= qualifiedName -%>
 <% end -%>
 
 interface <%= objectType.synthaxType.name -%>Schema {<% -%>
+<% if @templateHelper.isEnum(objectType) %>
+  
+<% else %><% -%>
 <% for variable in objectType.synthaxType.variables %>
   <%= variable.accessor %> val <%= variable.name %>: <%= handleTypeName(variable) -%>
 <% end -%> 
+<% end %><% -%>
 }

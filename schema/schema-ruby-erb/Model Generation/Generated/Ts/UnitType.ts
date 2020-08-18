@@ -15,8 +15,4 @@
  * limitations under the License.
  */
 
-export interface UnitType {   
-  auto: ,   
-  real: ,   
-  percent: ,   
-}
+  #todo enum generation logic not implemented
