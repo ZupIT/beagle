@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public struct UnitValue {
+public struct UnitValue: Decodable {
 
     public let value: Double
     public let type: UnityType

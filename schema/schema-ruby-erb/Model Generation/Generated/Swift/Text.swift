@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public struct Text: Widget {
+public struct Text: Widget, Decodable {
 
     public let text: Expression<String>
     public let styleId: String?

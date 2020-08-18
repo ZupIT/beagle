@@ -20,7 +20,7 @@ class EdgeValue < BaseComponent
 
     def initialize
         unitValue = UnitValue.new.name
-        textVariables = [
+        variables = [
             Variable.new(:name => "left", :typeName => unitValue, :isOptional => true),
             Variable.new(:name => "top", :typeName => unitValue, :isOptional => true),
             Variable.new(:name => "right", :typeName => unitValue, :isOptional => true),
@@ -32,7 +32,7 @@ class EdgeValue < BaseComponent
         synthaxType = CommonType.new(
             :kind => 'struct',
             :name => self.name,
-            :variables => textVariables,
+            :variables => variables,
             :package => "br.com.zup.beagle.widget.core"
         )
 

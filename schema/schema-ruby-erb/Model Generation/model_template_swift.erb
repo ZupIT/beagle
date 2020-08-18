@@ -99,15 +99,11 @@
     output
   end
 
-  def firstLineDeclaration(objectType, isEnumDeclaration) 
-    isEnumDeclaration ? 
-    "#{objectType.synthaxType.accessor} enum #{objectType.synthaxType.name}#{handleInheritance(objectType.synthaxType)}, Decodable {" :
-    "#{objectType.synthaxType.accessor} struct #{objectType.synthaxType.name}#{handleInheritance(objectType.synthaxType)} {"
-  end
-
-  def fullDeclaration(objectType, tabDepth = 0)
+  def fullDeclaration(objectType)
+    objectType.synthaxType.inheritFrom.append("Decodable")
     isEnumDeclaration = isEnum(objectType)
-    output = "#{firstLineDeclaration(objectType, isEnumDeclaration)}\n\n"
+    typeKind = isEnumDeclaration ? "enum" : "struct"
+    output = "#{objectType.synthaxType.accessor} #{typeKind} #{objectType.synthaxType.name}#{handleInheritance(objectType.synthaxType)} {\n\n"
     if isEnumDeclaration
       output += casesForEnum(objectType)
     else
@@ -123,7 +119,7 @@
 
   end
 
-  def handleInnerTypes(objectTypes, input, tabDepth = 0)
+  def handleInnerTypes(objectTypes, input)
     output = input
     for objectType in objectTypes
       output += "\n#{fullDeclaration(objectType)}"

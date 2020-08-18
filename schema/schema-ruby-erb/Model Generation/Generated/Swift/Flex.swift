@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public struct Flex {
+public struct Flex: Decodable {
 
     public let flexDirection: FlexDirection?
     public let flexWrap: FlexWrap?

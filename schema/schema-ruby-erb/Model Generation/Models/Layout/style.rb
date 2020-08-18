@@ -19,7 +19,7 @@ require_relative '../../Synthax/Types/common_type.rb'
 class Style < BaseComponent
 
     def initialize
-        edgeValue = EdgeValue.class.to_s
+        edgeValue = EdgeValue.new.name
         textVariables = [
             Variable.new(:name => "backgroundColor", :typeName => "String", :isOptional => true),
             Variable.new(:name => "cornerRadius", :typeName => "String", :isOptional => true),

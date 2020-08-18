@@ -18,6 +18,7 @@
 package br.com.zup.beagle.widget.core
 
 import br.com.zup.beagle.widget.core.Size
+import br.com.zup.beagle.widget.core.EdgeValue
 import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.PositionType
 import br.com.zup.beagle.widget.core.Display
@@ -26,9 +27,9 @@ data class Style (
   public override val backgroundColor: String?,  
   public override val cornerRadius: String?,  
   public override val size: Size?,  
-  public override val margin: Class?,  
-  public override val padding: Class?,  
-  public override val position: Class?,  
+  public override val margin: EdgeValue?,  
+  public override val padding: EdgeValue?,  
+  public override val position: EdgeValue?,  
   public override val flex: Flex?,  
   public override val positionType: PositionType?,  
   public override val display: Display?   
@@ -37,9 +38,9 @@ data class Style (
     backgroundColor: String? = null,      
     cornerRadius: String? = null,      
     size: Size? = null,      
-    margin: Class? = null,      
-    padding: Class? = null,      
-    position: Class? = null,      
+    margin: EdgeValue? = null,      
+    padding: EdgeValue? = null,      
+    position: EdgeValue? = null,      
     flex: Flex? = null,      
     positionType: PositionType? = null,      
     display: Display? = null      
