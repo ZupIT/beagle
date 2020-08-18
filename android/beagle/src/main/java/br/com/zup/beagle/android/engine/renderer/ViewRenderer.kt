@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.engine.renderer
 
+import android.util.Log
 import android.view.View
 import br.com.zup.beagle.android.components.utils.ComponentStylization
 import br.com.zup.beagle.core.ServerDrivenComponent
@@ -31,13 +32,34 @@ internal abstract class ViewRenderer<T : ServerDrivenComponent>(
 ) {
     abstract val component: T
 
+    /**
+     * TODO: a criação de todas as views dentro do beagle deveria passar pelo ViewRenderer, pois vamos precisar saber
+     * quando elas estão "AttachedToWindow"
+     *
+     * talvez vamos ter que criar um mecanismo para evitar chamadas como:
+     * viewFactory.makeBeagleFlexView(rootView.getContext())
+     */
     fun build(rootView: RootView): View {
         val builtView = buildView(rootView)
         componentStylization.apply(builtView, component)
         if (builtView.id == View.NO_ID) {
             builtView.id = rootView.generateViewModelInstance<ScreenContextViewModel>().generateNewViewId()
         }
+
         contextComponentHandler.handleContext(rootView, builtView, component)
+
+        builtView.addOnAttachStateChangeListener(object: View.OnAttachStateChangeListener{
+            override fun onViewDetachedFromWindow(v: View?) {
+            }
+
+            override fun onViewAttachedToWindow(v: View?) {
+                v?.let {
+                    rootView.generateViewModelInstance<ScreenContextViewModel>().resolveBindings(it)
+                }
+
+            }
+
+        })
         return builtView
     }
 

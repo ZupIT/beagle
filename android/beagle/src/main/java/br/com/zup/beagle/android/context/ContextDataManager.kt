@@ -16,7 +16,11 @@
 
 package br.com.zup.beagle.android.context
 
+import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import androidx.collection.LruCache
+import androidx.core.view.children
 import br.com.zup.beagle.android.action.SetContextInternal
 import br.com.zup.beagle.android.logger.BeagleMessageLogs
 import br.com.zup.beagle.android.utils.Observer
@@ -25,6 +29,7 @@ import br.com.zup.beagle.android.utils.getAllParentContexts
 import br.com.zup.beagle.android.utils.getContextBinding
 import br.com.zup.beagle.android.utils.getContextId
 import br.com.zup.beagle.android.utils.getExpressions
+import br.com.zup.beagle.android.utils.getParentContextBinding
 import br.com.zup.beagle.android.utils.setContextBinding
 import br.com.zup.beagle.android.utils.setContextData
 
@@ -37,7 +42,7 @@ internal class ContextDataManager(
 
     private var globalContext: ContextBinding = ContextBinding(GlobalContext.getContext())
     private val contexts = mutableMapOf<Int, ContextBinding>()
-    private val viewBinding = mutableMapOf<View, MutableSet<Binding<*>>>()
+    private val bindingQueue = mutableMapOf<View, MutableList<Binding<*>>>() // TODO: verificar se mudar para lista dá problema
     private val globalContextObserver: GlobalContextObserver = {
         updateGlobalContext(it)
     }
@@ -49,11 +54,15 @@ internal class ContextDataManager(
 
     fun clearContexts() {
         contexts.clear()
-        viewBinding.clear()
+        bindingQueue.clear()
         GlobalContext.clearObserverGlobalContext(globalContextObserver)
     }
 
+    /**
+     * TODO: verificar esse método aqui, pela questão do viewID não ser previsível em listas dentro de listas
+     */
     fun addContext(view: View, context: ContextData) {
+
         if (context.id == globalContext.context.id) {
             BeagleMessageLogs.globalKeywordIsReservedForGlobalContext()
             return
@@ -73,35 +82,93 @@ internal class ContextDataManager(
     }
 
     fun <T> addBinding(view: View, bind: Bind.Expression<T>, observer: Observer<T?>) {
-        val bindings: MutableSet<Binding<*>> = viewBinding[view] ?: mutableSetOf()
+        val bindings: MutableList<Binding<*>> = bindingQueue[view] ?: mutableListOf()
         bindings.add(Binding(
             observer = observer,
             bind = bind
         ))
-        viewBinding[view] = bindings
+        bindingQueue[view] = bindings
     }
 
+    /**
+     * TODO: esse método aqui vai morrer, está mantido só para não ter que alterar os testes por enquanto
+     */
     fun linkBindingToContext() {
-        viewBinding.forEach { entry ->
+        bindingQueue.forEach { entry ->
             val parentContexts = entry.key.getAllParentContextWithGlobal()
             entry.value.forEach { binding ->
-                binding.bind.value.getExpressions().forEach { expression ->
+                binding.bind.value.getExpressions().forEach bindingIteration@{ expression ->
                     val contextId = expression.getContextId()
-                    parentContexts[contextId]?.bindings?.add(binding)
+                    // TODO: arrumar
+                    //parentContexts[contextId]?.bindings?.add(binding)
+                    parentContexts.forEach { contextBinding ->
+                        if (contextBinding.context.id == contextId) {
+                            contextBinding.bindings?.add(binding)
+                            return@bindingIteration
+                        }
+
+                    }
                 }
             }
         }
 
-        viewBinding.clear()
+        bindingQueue.clear()
     }
 
+    /**
+     * TODO: verificar se existe alguma hipótese de uma view filha ser "resolvida" antes do pai
+     */
+    fun resolveBindings(view: View) {
+
+        if(bindingQueue.contains(view)) {
+            val contextStack = view.getAllParentContextWithGlobal()
+
+            bindingQueue[view]?.forEach { binding ->
+
+                binding.bind.value.getExpressions().forEach { expression ->
+                    val contextId = expression.getContextId()
+
+                    for (contextBinding in contextStack) {
+                        if (contextBinding.context.id == contextId) {
+                            contextBinding.bindings.add(binding)
+                            val value = contextDataEvaluation.evaluateBindExpression(
+                                contextBinding.context,
+                                contextBinding.cache,
+                                binding.bind,
+                                binding.evaluatedExpressions
+                            )
+                            binding.notifyChanges(value)
+                            break
+                        }
+                    }
+                }
+            }
+            bindingQueue.remove(view)
+        }
+
+        view.getContextBinding()?.let {
+            notifyBindingChanges(it)
+        }
+    }
+
+    /**
+     * TODO: testar contextos implícitos
+     */
     fun getContextsFromBind(originView: View, binding: Bind.Expression<*>): List<ContextData> {
         val parentContexts = originView.getAllParentContextWithGlobal()
         val contextIds = binding.value.getExpressions().map { it.getContextId() }
-        return parentContexts.filterKeys { contextIds.contains(it) }.map { it.value.context }
+        //return parentContexts.filterKeys { contextIds.contains(it) }.map { it.value.context }
+        return parentContexts
+            .filter { contextBinding -> contextIds.contains(contextBinding.context.id)}
+            .map { it.context }
     }
 
     fun updateContext(view: View, setContextInternal: SetContextInternal) {
+        var contextStack = ""
+        view.getAllParentContexts().forEach { contextBinding ->
+            contextStack += " - ${contextBinding.context.id}"
+        }
+        Log.wtf("context", "$contextStack")
         if (setContextInternal.contextId == globalContext.context.id) {
             GlobalContext.set(setContextInternal.value, setContextInternal.path)
         } else {
@@ -139,6 +206,10 @@ internal class ContextDataManager(
         }
     }
 
+    /**
+     * TODO: quando o contexto de uma lista muda, há problema com o cache do binding.
+     * O cache foi comentado para testes
+     */
     fun notifyBindingChanges(contextBinding: ContextBinding) {
         val contextData = contextBinding.context
         val bindings = contextBinding.bindings
@@ -146,18 +217,21 @@ internal class ContextDataManager(
         bindings.forEach { binding ->
             val value = contextDataEvaluation.evaluateBindExpression(
                 contextData,
-                contextBinding.cache,
+                //contextBinding.cache,
+                LruCache(10),
                 binding.bind,
-                binding.evaluatedExpressions
+                //binding.evaluatedExpressions, //TODO: ver problema no cache
+                mutableMapOf()
             )
             binding.notifyChanges(value)
         }
     }
 
-    private fun View.getAllParentContextWithGlobal(): MutableMap<String, ContextBinding> {
-        return this.getAllParentContexts().apply {
-            put(globalContext.context.id, globalContext)
-        }
+    private fun View.getAllParentContextWithGlobal(): MutableList<ContextBinding> {
+        val contexts = mutableListOf<ContextBinding>()
+        contexts.addAll(this.getAllParentContexts())
+        contexts.add(globalContext)
+        return contexts
     }
 
     private fun updateGlobalContext(contextData: ContextData) {

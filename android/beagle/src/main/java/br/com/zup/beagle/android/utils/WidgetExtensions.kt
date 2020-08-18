@@ -16,6 +16,7 @@
 
 package br.com.zup.beagle.android.utils
 
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -24,6 +25,7 @@ import br.com.zup.beagle.android.context.Bind
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
+import br.com.zup.beagle.android.engine.renderer.ViewRendererFactory
 import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_ACTIONS_POINTER
 import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_DEPRECATED_MESSAGE
 import br.com.zup.beagle.android.utils.HandleEventDeprecatedConstants.HANDLE_EVENT_POINTER
@@ -145,10 +147,21 @@ fun ServerDrivenComponent.toView(activity: AppCompatActivity) = this.toView(Acti
 fun ServerDrivenComponent.toView(fragment: Fragment) = this.toView(FragmentRootView(fragment))
 
 fun ServerDrivenComponent.toView(rootView: RootView): View {
-    val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
-    viewModel.resetIds()
+
+    /**
+     * Vamos ter que ver como solucionar esse problema dos ids.
+     */
+    /*val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
+    //viewModel.resetIds()
     return viewFactory.makeBeagleFlexView(rootView.getContext()).apply {
         addServerDrivenComponent(this@toView, rootView)
-        viewModel.linkBindingToContextAndEvaluateThem()
-    }
+    }*/
+
+    /**
+     * Sugestão de melhoria, pois parece que a tela sempre tem um BeagleFlexView a mais do que precisaria
+     * TODO: verificar quando são widgets que não possuem container
+     */
+     val view = ViewRendererFactory().make(this).build(rootView)
+     return view
+
 }
