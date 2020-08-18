@@ -69,7 +69,7 @@ private enum UrlType {
 
 private extension String {
     var addingPercentEncodingForRFC3986: String? {
-        let unreserved = "&-._,~/?:;@$"
+        let unreserved = "-._~:/?#[]@!$&'()*+,;="
         let allowedCharacterSet = NSMutableCharacterSet.alphanumeric()
         allowedCharacterSet.addCharacters(in: unreserved)
         return addingPercentEncoding(withAllowedCharacters: allowedCharacterSet as CharacterSet)
