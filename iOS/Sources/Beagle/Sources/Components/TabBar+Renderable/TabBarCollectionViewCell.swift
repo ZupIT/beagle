@@ -29,6 +29,7 @@ extension TabBarCollectionViewCell {
 final class TabBarCollectionViewCell: UICollectionViewCell {
     
     // MARK: - UIComponents
+    
     lazy var stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
@@ -57,21 +58,7 @@ final class TabBarCollectionViewCell: UICollectionViewCell {
     
     override var isSelected: Bool {
         didSet {
-            guard let model = model else { return }
-            switch styleVerification(model: model) {
-            case .both:
-                title.textColor = isSelected ? model.selectedTextColor : model.unselectedTextColor
-                icon.tintColor = isSelected ? model.selectedIconColor : model.unselectedIconColor
-            case .icon:
-                icon.tintColor = isSelected ? model.selectedIconColor : model.unselectedIconColor
-                title.textColor = isSelected ? .black : .gray
-            case .text:
-                title.textColor = isSelected ? model.selectedTextColor : model.unselectedTextColor
-                icon.tintColor = isSelected ? .black : .gray
-            default:
-                title.textColor = isSelected ? .black : .gray
-                icon.tintColor = isSelected ? .black : .gray
-            }
+            setupSelectionAppearance()
         }
     }
     
@@ -92,7 +79,7 @@ final class TabBarCollectionViewCell: UICollectionViewCell {
     // MARK: - Setup
     
     func setupTab(with tab: TabBarItem) {
-        switch contentVerification(tabItem: tab) {
+        switch tab.itemContentType {
         case let .both(iconName, text):
             icon.heightAnchor.constraint(lessThanOrEqualToConstant: 30).isActive = true
             title.text = text
@@ -112,23 +99,28 @@ final class TabBarCollectionViewCell: UICollectionViewCell {
             icon.isHidden = true
             title.sizeToFit()
             title.text = text
-
         case .none:
             title.isHidden = true
             icon.isHidden = true
         }
+        setupSelectionAppearance()
     }
-
-    private func contentVerification(tabItem: TabBarItem) -> ContentEnabler {
-        switch (tabItem.icon, tabItem.title) {
-        case let (icon?, title?):
-            return .both(icon: icon, title: title)
-        case let (_, title?):
-            return .title(title)
-        case let (icon?, _):
-            return .icon(icon)
+    
+    private func setupSelectionAppearance() {
+        guard let model = model else { return }
+        switch styleVerification(model: model) {
+        case .both:
+            title.textColor = isSelected ? model.selectedTextColor : model.unselectedTextColor
+            icon.tintColor = isSelected ? model.selectedIconColor : model.unselectedIconColor
+        case .icon:
+            icon.tintColor = isSelected ? model.selectedIconColor : model.unselectedIconColor
+            title.textColor = isSelected ? .black : .gray
+        case .text:
+            title.textColor = isSelected ? model.selectedTextColor : model.unselectedTextColor
+            icon.tintColor = isSelected ? .black : .gray
         default:
-            return .none
+            title.textColor = isSelected ? .black : .gray
+            icon.tintColor = isSelected ? .black : .gray
         }
     }
     
@@ -146,13 +138,6 @@ final class TabBarCollectionViewCell: UICollectionViewCell {
         default:
             return .none
         }
-    }
-    
-    private enum ContentEnabler {
-        case icon(String)
-        case title(String)
-        case both(icon: String, title: String)
-        case none
     }
     
     private enum StyleEnabler {

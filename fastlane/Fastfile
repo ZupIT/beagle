@@ -26,6 +26,21 @@ platform :workflow do
 end
 
 ###
+###  Flutter
+###
+
+platform :flutter do
+
+  desc "Pull Request verification"
+  lane :pull_request_verification do
+    sh "cd .. && fastlane/flutter/tests.sh"
+    run_codecov(platform: 'flutter')
+    sh "cd .. && flutter analyze > flutter_analyze_report.txt || true"
+  end
+
+end
+
+###
 ###  Android
 ###
 
@@ -33,7 +48,7 @@ platform :android do
 
   desc "Pull Request verification"
   lane :pull_request_verification do
-    gradle(project_dir: "android", task: "detekt lintDebug jacocoTestReport")
+    gradle(project_dir: "android", task: "clean detekt lintDebug jacocoTestReport")
     gradle(project_dir: "android", task: "sample:assembleDebug sample:assembleDebugAndroidTest")
     run_codecov(platform: 'android')
   end
@@ -81,7 +96,7 @@ platform :ios do
   end
 
   desc "CocoaPods Integration test"
-  private_lane :iOSCocoaPodsIntegration do 
+  private_lane :iOSCocoaPodsIntegration do
     xcversion(version: "~> 11.5.0")
     installCocoaPods
     scan(
@@ -113,10 +128,11 @@ end
 desc "Publish new release based on last two tags"
 lane :deploy do
   sh "git fetch"
-  isHotFix = ENV["TAG_NAME"].index("-")
-  
+
+  tagName = ENV["TAG_NAME"].split("/").last
+  isHotFix = tagName.index("-")
+
   if isHotFix
-    tagName = ENV["TAG_NAME"].split("/").last
     branchName = "release/" + tagName
     (versionNumber, platformHotfix) = tagName.split("-")
   else
@@ -124,9 +140,10 @@ lane :deploy do
     branchName = "master"
   end
 
+  ENV["VERSION_DEPLOY"] = versionNumber
+
   sh "git checkout #{branchName}"
 
-  ENV["VERSION_DEPLOY"] = versionNumber
   if platformHotfix == "iOS"
     puts "iOS Hotfix release"
     sh "fastlane ios release"
@@ -143,20 +160,16 @@ lane :deploy do
     sh "fastlane ios release"
   end
 
-  releaseNotes = release_notes
+  releaseNotes = release_notes(versionDeploy: tagName)
   sh "bash ./delete_release.sh"
   set_github_release(
     repository_name: ENV["REPO"],
     api_token: ENV["REPO_TOKEN"],
-    name: ENV["VERSION_DEPLOY"],
-    tag_name: ENV["VERSION_DEPLOY"],
+    name: tagName,
+    tag_name: tagName,
     description: releaseNotes,
     commitish: branchName
   )
-  
-  if isHotFix
-     sh "fastlane workflow openPRFromPatch"
-  end
 end
 
 lane :run_danger do |options|

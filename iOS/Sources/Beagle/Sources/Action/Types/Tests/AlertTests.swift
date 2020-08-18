@@ -21,7 +21,7 @@ import BeagleSchema
 
 final class AlertTests: XCTestCase {
 
-    func test_whenAlertDialog_shouldPresentAlertController() {
+    func testAlertController() {
         // Given
         let onPressOkAction = ActionSpy()
         let alert = Alert(
