@@ -23,6 +23,7 @@ import br.com.zup.beagle.android.components.utils.viewExtensionsViewFactory
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.engine.renderer.FragmentRootView
+import br.com.zup.beagle.android.utils.BeagleConstants.DEPRECATED_LOADINGVIEW
 import br.com.zup.beagle.android.view.BeagleFragment
 import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.android.view.custom.OnStateChanged
@@ -37,6 +38,7 @@ internal var beagleSerializerFactory = BeagleSerializer()
  * @property screenRequest to create your request data to fetch the component
  * @property listener is called when the loading is started and finished
  */
+@Deprecated(DEPRECATED_LOADINGVIEW)
 fun ViewGroup.loadView(activity: AppCompatActivity, screenRequest: ScreenRequest, listener: OnStateChanged? = null) {
     loadView(this, ActivityRootView(activity), screenRequest, listener)
 }
@@ -47,6 +49,7 @@ fun ViewGroup.loadView(activity: AppCompatActivity, screenRequest: ScreenRequest
  * @property screenRequest to create your request data to fetch the component
  * @property listener is called when the loading is started and finished
  */
+@Deprecated(DEPRECATED_LOADINGVIEW)
 fun ViewGroup.loadView(fragment: Fragment, screenRequest: ScreenRequest, listener: OnStateChanged? = null) {
     loadView(this, FragmentRootView(fragment), screenRequest, listener)
 }

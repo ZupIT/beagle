@@ -21,6 +21,10 @@ internal object BeagleConstants {
     const val DEPRECATED_PAGE_VIEW =
         "This constructor will be removed in a future version, use the constructor with Bind"
     const val DEPRECATED_TAB_VIEW = "This component will be removed in a future version, use TabBar instead."
+    const val DEPRECATED_STATE_LOADING =
+        "State loading will be removed in a future version, use Started and Finished."
+    const val DEPRECATED_LOADINGVIEW =
+     "This method will be removed in a future version, use the method with listener attribute of type ServerDrivenState"
 }
 
 internal object HandleEventDeprecatedConstants {

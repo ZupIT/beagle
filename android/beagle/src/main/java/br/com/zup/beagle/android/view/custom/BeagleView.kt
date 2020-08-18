@@ -21,14 +21,18 @@ import android.view.View
 import androidx.lifecycle.Observer
 import br.com.zup.beagle.core.ServerDrivenComponent
 import br.com.zup.beagle.android.interfaces.OnStateUpdatable
+import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.utils.generateViewModelInstance
 import br.com.zup.beagle.android.utils.implementsGenericTypeOf
 import br.com.zup.beagle.android.view.ScreenRequest
+import br.com.zup.beagle.android.view.ServerDrivenState
 import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
 import br.com.zup.beagle.android.view.viewmodel.ViewState
 import br.com.zup.beagle.android.widget.RootView
 
 typealias OnStateChanged = (state: BeagleViewState) -> Unit
+
+typealias OnServerStateChanged = (serverState: ServerDrivenState) -> Unit
 
 typealias OnLoadCompleted = () -> Unit
 
@@ -43,6 +47,8 @@ internal class BeagleView(
 ) : BeagleFlexView(context) {
 
     var stateChangedListener: OnStateChanged? = null
+
+    var serverStateChangedListener: OnServerStateChanged? = null
 
     var loadCompletedListener: OnLoadCompleted? = null
 
@@ -69,7 +75,7 @@ internal class BeagleView(
         state: ViewState?, view: View?) {
         when (state) {
             is ViewState.Loading -> handleLoading(state.value)
-            is ViewState.Error -> handleError(state.throwable)
+            is ViewState.Error -> handleError(state.throwable,state.retry)
             is ViewState.DoRender -> renderComponent(state.component, view)
         }
     }
@@ -83,8 +89,18 @@ internal class BeagleView(
         stateChangedListener?.invoke(state)
     }
 
-    private fun handleError(throwable: Throwable) {
+    private fun handleStateLoading(isLoading: Boolean){
+        val state = if (isLoading){
+            ServerDrivenState.Started()
+        } else {
+            ServerDrivenState.Finished()
+        }
+        serverStateChangedListener?.invoke(state)
+    }
+
+    private fun handleError(throwable: Throwable, retry: BeagleRetry) {
         stateChangedListener?.invoke(BeagleViewState.Error(throwable))
+        serverStateChangedListener?.invoke(ServerDrivenState.Error(throwable,retry))
     }
 
     private fun renderComponent(component: ServerDrivenComponent, view: View? = null) {

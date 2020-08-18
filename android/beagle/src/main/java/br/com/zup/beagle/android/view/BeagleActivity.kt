@@ -33,6 +33,7 @@ import br.com.zup.beagle.android.components.layout.Screen
 import br.com.zup.beagle.android.components.layout.ScreenComponent
 import br.com.zup.beagle.android.data.serializer.BeagleSerializer
 import br.com.zup.beagle.android.setup.BeagleEnvironment
+import br.com.zup.beagle.android.utils.BeagleConstants.DEPRECATED_STATE_LOADING
 import br.com.zup.beagle.android.utils.BeagleRetry
 import br.com.zup.beagle.android.utils.toComponent
 import br.com.zup.beagle.android.view.viewmodel.BeagleViewModel
@@ -44,7 +45,11 @@ sealed class ServerDrivenState {
     open class Error(val throwable: Throwable, val retry: BeagleRetry) : ServerDrivenState()
     class FormError(throwable: Throwable, retry: BeagleRetry) : Error(throwable, retry)
     class WebViewError(throwable: Throwable, retry: BeagleRetry) : Error(throwable, retry)
+    @Deprecated(DEPRECATED_STATE_LOADING)
     data class Loading(val loading: Boolean) : ServerDrivenState()
+    open class Started(): ServerDrivenState()
+    open class Finished(): ServerDrivenState()
+    open class Success(): ServerDrivenState()
 }
 
 @Parcelize
