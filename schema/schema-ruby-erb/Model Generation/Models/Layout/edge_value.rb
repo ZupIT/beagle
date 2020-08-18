@@ -15,6 +15,7 @@
 require_relative '../../Synthax/Attributes/variable.rb'
 require_relative '../base_component.rb'
 require_relative '../../Synthax/Types/common_type.rb'
+require_relative './unit_value.rb'
 
 class EdgeValue < BaseComponent
 

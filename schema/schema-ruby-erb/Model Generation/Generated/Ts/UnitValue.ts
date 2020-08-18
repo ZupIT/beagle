@@ -17,5 +17,5 @@
 
 export interface UnitValue {   
   value: double,   
-  type: unitytype,   
+  type: unittype,   
 }

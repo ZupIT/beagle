@@ -26,6 +26,7 @@ require './Models/Layout/position_type.rb'
 require './Models/Layout/size.rb'
 require './Models/Layout/style.rb'
 require './Models/Layout/unit_value.rb'
+require './Models/Layout/unit_type.rb'
 
 require './Models/Widgets/button.rb'
 require './Models/Widgets/text.rb'
@@ -108,7 +109,8 @@ if __FILE__ == $0
     Flex,
     Size,
     Style,
-    UnitValue
+    UnitValue,
+    UnitType
   ]
   
   ModelGenerator.new(components).generate

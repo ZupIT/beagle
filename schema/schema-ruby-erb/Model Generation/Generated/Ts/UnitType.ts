@@ -15,17 +15,8 @@
  * limitations under the License.
  */
 
-public struct UnitValue: Decodable {
-
-    public let value: Double
-    public let type: UnitType
-
-    public init(
-        value: Double,
-        type: UnitType
-    ) {
-        self.value = value
-        self.type = type
-    }
-
+export interface UnitType {   
+  auto: ,   
+  real: ,   
+  percent: ,   
 }

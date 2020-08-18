@@ -15,17 +15,21 @@
  * limitations under the License.
  */
 
-public struct UnitValue: Decodable {
+package br.com.zup.beagle.widget.core
 
-    public let value: Double
-    public let type: UnitType
 
-    public init(
-        value: Double,
-        type: UnitType
-    ) {
-        self.value = value
-        self.type = type
-    }
-
+data class UnitType (
+   override val auto: ,  
+   override val real: ,  
+   override val percent:    
+) : UnitTypeSchema {
+  constructor (    
+    auto: ,      
+    real: ,      
+    percent:       
+  ) : this (    
+      auto,      
+      real,      
+      percent      
+  )
 }

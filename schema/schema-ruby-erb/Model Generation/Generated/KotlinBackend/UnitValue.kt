@@ -17,14 +17,15 @@
 
 package br.com.zup.beagle.widget.core
 
+import br.com.zup.beagle.widget.core.UnitType
 
 data class UnitValue (
   public override val value: Double,  
-  public override val type: UnityType   
+  public override val type: UnitType   
 ) : UnitValueSchema {
   constructor (    
     value: Double,      
-    type: UnityType      
+    type: UnitType      
   ) : this (    
       value,      
       type      

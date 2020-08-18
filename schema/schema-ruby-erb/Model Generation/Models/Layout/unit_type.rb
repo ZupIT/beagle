@@ -12,23 +12,24 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../../Synthax/Attributes/variable.rb'
+require_relative '../../Synthax/Attributes/enum_case.rb'
 require_relative '../base_component.rb'
-require_relative '../../Synthax/Types/common_type.rb'
-require_relative './unit_type.rb'
+require_relative '../../Synthax/Types/enum_type.rb'
 
-class UnitValue < BaseComponent
+class UnitType < BaseComponent
 
     def initialize
-        variables = [
-            Variable.new(:name => "value", :typeName => "Double"),
-            Variable.new(:name => "type", :typeName => UnitType.new.name)
+        displayCases = [
+            EnumCase.new(:name => "auto", :defaultValue => "AUTO"),
+            EnumCase.new(:name => "real", :defaultValue => "REAL"),
+            EnumCase.new(:name => "percent", :defaultValue => "PERCENT")
         ]
-        synthaxType = CommonType.new(
-            :kind => 'struct',
+        synthaxType = EnumType.new(
+            :kind => 'enum',
             :name => self.name,
-            :variables => variables,
-            :package => "br.com.zup.beagle.widget.core"
+            :variables => displayCases,
+            :package => "br.com.zup.beagle.widget.core",
+            :inheritFrom => ["String"]
         )
 
         super(synthaxType)
