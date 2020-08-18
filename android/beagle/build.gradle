@@ -37,6 +37,10 @@ android {
         consumerProguardFiles Dependencies.GeneralNames.consumerProguard
     }
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
     buildTypes {
         debug {
             testCoverageEnabled true
