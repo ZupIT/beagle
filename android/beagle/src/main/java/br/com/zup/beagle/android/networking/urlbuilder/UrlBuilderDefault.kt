@@ -23,7 +23,7 @@ internal class UrlBuilderDefault : UrlBuilder {
 
     override fun format(endpoint: String?, path: String): String? {
         val newPath = encodeUrlBeforeCalls(path)
-         return when {
+        return when {
             newPath.isEmpty() -> null
             endpointIsNullAndHasAPath(endpoint, newPath) -> newPath
             endpointIsNullAndHasNotAPath(endpoint, newPath) -> null
