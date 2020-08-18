@@ -26,7 +26,8 @@ class SupportedLanguages
 
 end
 
-class Primitive
+class PrimitiveType
+    include BaseType
     @sl = SupportedLanguages.new
     
     @string = [
@@ -36,7 +37,17 @@ class Primitive
 
     @bool = [
         @sl.swift => "Bool",
-        @sl.kotlin => "Kotlin"
+        @sl.kotlin => "Bool"
+    ]
+
+    @interface = [
+        @sl.swift => "protocol",
+        @sl.kotlin => "interface"
+    ]
+
+    @enum = [
+        @sl.swift => "enum",
+        @sl.kotlin => "enum"
     ]
 
 end

@@ -12,8 +12,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative '../Synthax/Types/primitive_types.rb'
-
 class BaseComponent  
     
     attr_accessor :synthaxType

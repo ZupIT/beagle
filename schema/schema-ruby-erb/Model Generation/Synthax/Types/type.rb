@@ -12,14 +12,11 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative './primitive_types'
+module BaseType
 
-class BaseType
-
-    attr_accessor :kind, :name, :variables, :accessor, :inheritFrom, :package, :sameFileTypes
+    attr_accessor :name, :variables, :accessor, :inheritFrom, :package, :sameFileTypes
 
     def initialize(params = {})
-        @kind = params.fetch(:kind, '')
         @name = params.fetch(:name, '')
         @variables = params.fetch(:variables, [])
         @accessor = params.fetch(:accessor, "public")

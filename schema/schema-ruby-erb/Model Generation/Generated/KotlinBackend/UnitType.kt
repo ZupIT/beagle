@@ -19,9 +19,9 @@ package br.com.zup.beagle.widget.core
 
 
 data class UnitType (
-   override val auto: ,  
-   override val real: ,  
-   override val percent:    
+  public override val auto: ,  
+  public override val real: ,  
+  public override val percent:    
 ) : UnitTypeSchema {
   constructor (    
     auto: ,      

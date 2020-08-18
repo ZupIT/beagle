@@ -12,13 +12,11 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-class EnumCase < BaseAttributes
+class EnumCase 
+    include BaseAttributes
     
     def initialize(params = {})
         super
-        @accessor = ''
-        @isBindable = false
-        @isOptional = false
     end
 
 end

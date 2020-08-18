@@ -15,8 +15,8 @@
 require_relative './type.rb'
 
 #todo the name of the class could be better
-class CommonType < BaseType
-
+class CommonType
+    include BaseType
     def initialize(params = {})
         super
     end
