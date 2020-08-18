@@ -25,5 +25,7 @@ data class ComponentBinding(
     val value1: Bind<Int>?,
     val value2: Bind<String>,
     val value3: Bind<Boolean>,
-    val value4: Bind<InternalObject>
+    val value4: Bind<InternalObject>,
+    val value5: Bind<Map<String, String>>,
+    val value6: Bind<List<String>>
 ) : ServerDrivenComponent
