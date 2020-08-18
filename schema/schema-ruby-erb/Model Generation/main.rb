@@ -28,6 +28,8 @@ require './Models/Layout/style.rb'
 require './Models/Layout/unit_value.rb'
 require './Models/Layout/unit_type.rb'
 
+require './Models/Accessibility/accessibility.rb'
+
 require './Models/Widgets/button.rb'
 require './Models/Widgets/text.rb'
 
@@ -110,7 +112,9 @@ if __FILE__ == $0
     Size,
     Style,
     UnitValue,
-    UnitType
+    UnitType,
+    # Accessibility
+    Accessibility
   ]
   
   ModelGenerator.new(components).generate

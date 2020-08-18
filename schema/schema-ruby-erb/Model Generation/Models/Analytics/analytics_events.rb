@@ -12,20 +12,23 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative './primitive_types'
+require_relative '../../Synthax/Attributes/variable.rb'
+require_relative '../base_component.rb'
+require_relative '../../Synthax/Types/common_type.rb'
 
-class BaseType
+class AnalyticsEvent < BaseComponent
 
-    attr_accessor :kind, :name, :variables, :accessor, :inheritFrom, :package, :sameFileTypes
+    def initialize
+        synthaxType = CommonType.new(
+            :kind => 'interface',
+            :name => self.name,
+            :variables => variables,
+            :package => "br.com.zup.beagle.widget.core",
+            :inheritFrom => ["AnalyticsEvent"] #todo create AnalyticsEvent
+        )
 
-    def initialize(params = {})
-        @kind = params.fetch(:kind, '')
-        @name = params.fetch(:name, '')
-        @variables = params.fetch(:variables, [])
-        @accessor = params.fetch(:accessor, "public")
-        @inheritFrom = params.fetch(:inheritFrom, [])
-        @package = params.fetch(:package, "")
-        @sameFileTypes = params.fetch(:sameFileTypes, [])
+        super(synthaxType)
+
     end
-    
+
 end

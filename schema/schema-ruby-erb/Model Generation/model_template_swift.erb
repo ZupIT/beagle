@@ -37,7 +37,7 @@
     if variable.isOptional && variable.defaultValue == ''
       output += " = nil"
     elsif variable.defaultValue != ''
-      output += " #{variable.defaultValue}"
+      output += " = #{variable.defaultValue}"
     end
     
     output = shouldAddComma ? output + ",\n" : output
