@@ -17,12 +17,12 @@
 
 import Foundation
 
-public enum Value: Decodable, Equatable {
+public enum Value {
     case binding(Binding)
     case literal(Literal)
 }
 
-extension Value: RawRepresentable {
+extension Value: RepresentableByParsableString {
     public init?(rawValue: String) {
         let result = value.run(rawValue)
         guard let expression = result.match, result.rest.isEmpty else { return nil }

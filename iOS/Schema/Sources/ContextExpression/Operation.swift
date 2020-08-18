@@ -17,7 +17,7 @@
 
 import Foundation
 
-public struct Operation: Decodable, Equatable {
+public struct Operation {
     public let name: Name
     public let parameters: [Parameter]
 
@@ -32,7 +32,7 @@ public struct Operation: Decodable, Equatable {
     }
 }
 
-extension Operation: RawRepresentable {
+extension Operation: RepresentableByParsableString {
     public init?(rawValue: String) {
         let result = operation.run(rawValue)
         guard let operation = result.match, result.rest.isEmpty else { return nil }

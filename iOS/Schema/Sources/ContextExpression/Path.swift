@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-public struct Path: Decodable, Equatable {
+public struct Path {
     public let nodes: [Node]
     
     public enum Node: Equatable {
@@ -27,7 +27,7 @@ public struct Path: Decodable, Equatable {
     }
 }
 
-extension Path: RawRepresentable {
+extension Path: RepresentableByParsableString {
     
     public init?(rawValue: String) {
         let result = path.run(rawValue)
