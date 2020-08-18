@@ -17,8 +17,10 @@
 <%
   require_relative './Synthax/Types/enum_type'
   require_relative './Synthax/Attributes/list'
+  require_relative 'template_helper.rb'
   @tab = "    "
   @doubleTab = @tab + @tab
+  @templateHelper = TemplateHelper.new
 
   def handleTypeName(variable)
       output = variable.isBindable ? "Expression<#{variable.typeName}>" : variable.typeName
@@ -72,7 +74,7 @@
     output
   end
 
-  def declareProperitesForCommonObject(objectType)
+  def declarePropertiesForCommonObject(objectType)
     output = ""
     for variable in objectType.synthaxType.variables
       output += "#{@tab}#{variable.accessor} let #{variable.name}: #{handleTypeName(variable)}\n"
@@ -107,7 +109,7 @@
     if isEnumDeclaration
       output += casesForEnum(objectType)
     else
-      output += declareProperitesForCommonObject(objectType)
+      output += declarePropertiesForCommonObject(objectType)
       output += "\n"
       output += "#{initForCommomObject(objectType)}\n"
     end
@@ -119,11 +121,16 @@
 
   end
 
-  def handleInnerTypes(objectTypes, input)
+  def handleInnerTypes(objectTypes, input, paddingMultiplier = 1)
     output = input
     for objectType in objectTypes
-      output += "\n#{fullDeclaration(objectType)}"
-      handleInnerTypes(objectType.synthaxType.sameFileTypes, output)
+      aux = "\n#{fullDeclaration(objectType)}"
+      output += @templateHelper.addPadding(@tab, 1, aux)
+
+      possibleNestedTypes = objectType.synthaxType.sameFileTypes
+      if possibleNestedTypes.size != 0
+        handleInnerTypes(objectType.synthaxType.sameFileTypes, output, paddingMultiplier + 1)
+      end
     end
     output
   end
