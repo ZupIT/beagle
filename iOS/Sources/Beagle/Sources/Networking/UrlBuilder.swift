@@ -30,18 +30,23 @@ public class UrlBuilder: UrlBuilderProtocol {
 
     public var baseUrl: URL?
 
+    private enum PathType {
+        case relative
+        case absolute
+    }
+    
     public init(baseUrl: URL? = nil) {
         self.baseUrl = baseUrl
     }
-
+    
     public func build(path: String) -> URL? {
         guard let encodedPath = shouldEncode(path) ? path.addingPercentEncodingForRFC3986 : path else {
             return URL(string: path)
         }
-        switch getUrlType(path: path, baseUrl: baseUrl) {
-        case .absolutePath:
+        switch getPathType(path) {
+        case .absolute:
             return URL(string: encodedPath)
-        case .relativePath:
+        case .relative:
             guard var absolute = baseUrl?.absoluteString else {
                 return URL(string: encodedPath)
             }
@@ -52,21 +57,17 @@ public class UrlBuilder: UrlBuilderProtocol {
         }
     }
     
-    private func getUrlType(path: String, baseUrl: URL?) -> UrlType {
-        return path.hasPrefix("/") ? .relativePath : .absolutePath
+    private func getPathType(_ path: String) -> PathType {
+        return path.hasPrefix("/") ? .relative : .absolute
     }
     
     private func shouldEncode(_ path: String) -> Bool {
-        guard let decodedPath = path.removingPercentEncoding else { return false }
+        guard let decodedPath = path.removingPercentEncoding else { return true }
         return decodedPath == path
     }
 }
 
-private enum UrlType {
-    case relativePath
-    case absolutePath
-}
-
+// MARK: - String Encoding Extension
 private extension String {
     var addingPercentEncodingForRFC3986: String? {
         let unreserved = "-._~:/?#[]@!$&'()*+,;="
