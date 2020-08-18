@@ -21,7 +21,7 @@ require './Synthax/Types/type.rb'
 require './Models/Layout/corner_radius.rb'
 require './Models/Layout/display.rb'
 require './Models/Layout/edge_value.rb'
-require './Models/Layout/flex.rb'
+require './Models/Layout/Flex/flex.rb'
 require './Models/Layout/position_type.rb'
 require './Models/Layout/size.rb'
 require './Models/Layout/style.rb'
@@ -104,10 +104,8 @@ if __FILE__ == $0
     Text,
     # Layout
     CornerRadius,
-    Display,
     EdgeValue,
     Flex,
-    PositionType,
     Size,
     Style,
     UnitValue

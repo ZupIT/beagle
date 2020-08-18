@@ -51,5 +51,65 @@ public struct Flex: Decodable {
         self.flexDirection = flexDirection
         self.shrink = shrink
     }
+    
+    public enum FlexDirection: String, Decodable {
+    
+        case row = "ROW"
+        case rowReverse = "ROW_REVERSE"
+        case column = "COLUMN"
+        case columnReverse = "COLUMN_REVERSE"
+    
+    }
+    
+    public enum FlexWrap: String, Decodable {
+    
+        case noWrap = "NO_WRAP"
+        case wrap = "WRAP"
+        case wrapReverse = "WRAP_REVERSE"
+    
+    }
+    
+    public enum JustifyContent: String, Decodable {
+    
+        case flexStart = "FLEX_START"
+        case center = "CENTER"
+        case flexEnd = "FLEX_END"
+        case spaceBetween = "SPACE_BETWEEN"
+        case spaceAround = "SPACE_AROUND"
+        case spaceEvenly = "SPACE_EVENLY"
+    
+    }
+    
+    public enum AlignItems: String, Decodable {
+    
+        case flexStart = "FLEX_START"
+        case center = "CENTER"
+        case flexEnd = "FLEX_END"
+        case baseline = "BASELINE"
+        case stretch = "STRETCH"
+    
+    }
+    
+    public enum AlignSelf: String, Decodable {
+    
+        case flexStart = "FLEX_START"
+        case center = "CENTER"
+        case flexEnd = "FLEX_END"
+        case baseline = "BASELINE"
+        case auto = "AUTO"
+        case stretch = "STRETCH"
+    
+    }
+    
+    public enum AlignContent: String, Decodable {
+    
+        case flexStart = "FLEX_START"
+        case center = "CENTER"
+        case flexEnd = "FLEX_END"
+        case spaceBetween = "SPACE_BETWEEN"
+        case spaceAround = "SPACE_AROUND"
+        case stretch = "STRETCH"
+    
+    }
 
 }
