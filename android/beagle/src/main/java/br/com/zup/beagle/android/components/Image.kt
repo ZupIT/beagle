@@ -92,6 +92,14 @@ data class Image(
         imageView.loadImage(pathType, requestOptions)
     }
 
+    @SuppressLint("CheckResult")
+    private fun getGlideRequestOptions(placeholder: String?): RequestOptions {
+        val requestOptions = RequestOptions()
+        getImage(placeholder)?.let {
+            requestOptions.placeholder(it)
+        }
+        return requestOptions
+    }
 
     private fun ImageView.loadImage(
         path: ImagePath.Remote,
@@ -101,15 +109,6 @@ data class Image(
             .asBitmap()
             .load(path.url.formatUrl())
             .into(this@loadImage)
-    }
-
-    @SuppressLint("CheckResult")
-    private fun getGlideRequestOptions(placeholder: String?): RequestOptions {
-        val requestOptions = RequestOptions()
-        getImage(placeholder)?.let {
-            requestOptions.placeholder(it)
-        }
-        return requestOptions
     }
 
     private fun getImage(imagePath: String?): Int? =
