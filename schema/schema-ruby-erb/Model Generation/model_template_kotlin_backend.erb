@@ -47,13 +47,16 @@
 -%>
 
 package <%= objectType.synthaxType.package -%>
-
-
-<% if objectType.synthaxType.variables.any? && !@templateHelper.isEnum(objectType) { |variable| variable.isBindable }-%>
+<% if @templateHelper.isEnum(objectType)%>
+// todo implement enum logic
+<% else %>
+<% if objectType.synthaxType.variables.any? { |variable| variable.isBindable }-%>
 import br.com.zup.beagle.widget.context.Bind
 import br.com.zup.beagle.widget.context.valueOf
 import br.com.zup.beagle.widget.context.valueOfNullable
 <% end -%>
+<% end %><% -%>
+
 <% for qualifiedName in getImports(objectType.synthaxType.variables, importManager) -%>
 import <%= qualifiedName -%>
 
@@ -61,6 +64,9 @@ import <%= qualifiedName -%>
 
 data class <%= objectType.synthaxType.name -%> (<% -%>
 <% counter = 0 -%>
+<% if @templateHelper.isEnum(objectType)%>
+// todo implement enum logic
+<% else %><% -%>
 <% for variable in objectType.synthaxType.variables %>
   <%= variable.accessor %> override val <%= variable.name %>: <%= handleTypeName(variable, objectType.synthaxType.variables.size - 1 != counter) -%>
   <% counter += 1 -%>
@@ -79,4 +85,5 @@ data class <%= objectType.synthaxType.name -%> (<% -%>
     <% counter += 1 -%>
   <% end %>
   )
-}
+}<% -%>
+<% end %>

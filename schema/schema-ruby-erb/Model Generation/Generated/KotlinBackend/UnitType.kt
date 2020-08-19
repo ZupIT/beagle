@@ -16,20 +16,8 @@
  */
 
 package br.com.zup.beagle.widget.core
+// todo implement enum logic
 
 
 data class UnitType (
-  public override val auto: ,  
-  public override val real: ,  
-  public override val percent:    
-) : UnitTypeSchema {
-  constructor (    
-    auto: ,      
-    real: ,      
-    percent:       
-  ) : this (    
-      auto,      
-      real,      
-      percent      
-  )
-}
+// todo implement enum logic

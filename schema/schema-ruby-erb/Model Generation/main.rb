@@ -60,7 +60,7 @@ class ModelGenerator
   def generate
     generateSwift
     generateKotlin
-    #generateKotlinBackend
+    generateKotlinBackend
     generateTs
   end
 
