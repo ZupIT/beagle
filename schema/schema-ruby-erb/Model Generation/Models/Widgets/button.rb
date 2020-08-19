@@ -14,7 +14,7 @@
 
 require_relative '../../Synthax/Attributes/variable.rb'
 require_relative '../../Synthax/Attributes/list.rb'
-require_relative '../../Synthax/Types/common_type.rb'
+require_relative '../../Synthax/Types/built_in_type.rb'
 require_relative '../base_component.rb'
 require_relative './widget.rb'
 
@@ -27,7 +27,7 @@ class Button < BaseComponent
             List.new(:name => "onPress", :typeName => "Action", :isOptional => true),
             Variable.new(:name => "clickAnalyticsEvent", :typeName => "ClickEvent", :isOptional => true)
         ]
-        synthaxType = CommonType.new(
+        synthaxType = BuiltInType.new(
             :kind => 'struct',
             :name => self.name,
             :variables => buttonVariables,

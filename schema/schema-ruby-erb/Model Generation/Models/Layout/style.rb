@@ -14,7 +14,7 @@
 
 require_relative '../../Synthax/Attributes/variable.rb'
 require_relative '../base_component.rb'
-require_relative '../../Synthax/Types/common_type.rb'
+require_relative '../../Synthax/Types/built_in_type.rb'
 
 class Style < BaseComponent
 
@@ -31,7 +31,7 @@ class Style < BaseComponent
             Variable.new(:name => "positionType", :typeName => PositionType.new.name, :isOptional => true),
             Variable.new(:name => "display", :typeName => Display.new.name, :isOptional => true)
         ]
-        synthaxType = CommonType.new(
+        synthaxType = BuiltInType.new(
             :kind => 'struct',
             :name => self.name,
             :variables => textVariables,

@@ -14,7 +14,7 @@
 
 require_relative '../../Synthax/Attributes/variable.rb'
 require_relative '../base_component.rb'
-require_relative '../../Synthax/Types/common_type.rb'
+require_relative '../../Synthax/Types/built_in_type.rb'
 
 class AnalyticsClick < BaseComponent
 
@@ -24,7 +24,7 @@ class AnalyticsClick < BaseComponent
             Variable.new(:name => "accessible", :typeName => "Bool", :defaultValue => "true")
 
         ]
-        synthaxType = CommonType.new(
+        synthaxType = BuiltInType.new(
             :kind => 'struct',
             :name => self.name,
             :variables => variables,

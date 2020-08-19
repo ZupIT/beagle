@@ -14,12 +14,12 @@
 
 require_relative '../../Synthax/Attributes/variable.rb'
 require_relative '../base_component.rb'
-require_relative '../../Synthax/Types/common_type.rb'
+require_relative '../../Synthax/Types/built_in_type.rb'
 
 class AnalyticsEvent < BaseComponent
 
     def initialize
-        synthaxType = CommonType.new(
+        synthaxType = BuiltInType.new(
             :kind => 'interface',
             :name => self.name,
             :variables => variables,

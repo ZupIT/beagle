@@ -12,13 +12,41 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require_relative './type.rb'
+class SupportedLanguages
 
-#todo the name of the class could be better
-class CommonType
+    attr_accessor :swift, :kotlin, :kotlinBackend, :typeScript
+
+    @swift = "swift"
+    @kotlin = "kt"
+    @kotlinBackend = "ktBackend"
+    @typeScript = "ts"
+    
+    @dart = "dart" #todo 
+
+end
+
+class PrimitiveType
     include BaseType
-    def initialize(params = {})
-        super
-    end
+    @sl = SupportedLanguages.new
+    
+    @string = [
+        @sl.swift => "String",
+        @sl.kotlin => "String"
+    ]
+
+    @bool = [
+        @sl.swift => "Bool",
+        @sl.kotlin => "Bool"
+    ]
+
+    @interface = [
+        @sl.swift => "protocol",
+        @sl.kotlin => "interface"
+    ]
+
+    @enum = [
+        @sl.swift => "enum",
+        @sl.kotlin => "enum"
+    ]
 
 end

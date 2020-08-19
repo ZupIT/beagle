@@ -14,7 +14,7 @@
 
 require_relative '../../Synthax/Attributes/variable.rb'
 require_relative '../base_component.rb'
-require_relative '../../Synthax/Types/common_type.rb'
+require_relative '../../Synthax/Types/built_in_type.rb'
 require_relative './unit_type.rb'
 
 class UnitValue < BaseComponent
@@ -24,7 +24,7 @@ class UnitValue < BaseComponent
             Variable.new(:name => "value", :typeName => "Double"),
             Variable.new(:name => "type", :typeName => UnitType.new.name)
         ]
-        synthaxType = CommonType.new(
+        synthaxType = BuiltInType.new(
             :kind => 'struct',
             :name => self.name,
             :variables => variables,

@@ -14,7 +14,7 @@
 
 require_relative '../../../Synthax/Attributes/variable.rb'
 require_relative '../../base_component.rb'
-require_relative '../../../Synthax/Types/common_type.rb'
+require_relative '../../../Synthax/Types/built_in_type.rb'
 require_relative './flex_direction.rb'
 require_relative './flex_wrap.rb'
 require_relative './justify_content.rb'
@@ -44,7 +44,7 @@ class Flex < BaseComponent
             Variable.new(:name => "flexDirection", :typeName => "Double", :isOptional => true),
             Variable.new(:name => "shrink", :typeName => "Double", :isOptional => true),
         ]
-        synthaxType = CommonType.new(
+        synthaxType = BuiltInType.new(
             :kind => 'struct',
             :name => self.name,
             :variables => textVariables,

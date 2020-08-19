@@ -14,7 +14,7 @@
 
 require_relative '../../Synthax/Attributes/enum_case.rb'
 require_relative '../base_component.rb'
-require_relative '../../Synthax/Types/common_type.rb'
+require_relative '../../Synthax/Types/built_in_type.rb'
 
 class PositionType < BaseComponent
 

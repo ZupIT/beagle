@@ -14,7 +14,7 @@
 
 require_relative '../../Synthax/Attributes/variable.rb'
 require_relative '../base_component.rb'
-require_relative '../../Synthax/Types/common_type.rb'
+require_relative '../../Synthax/Types/built_in_type.rb'
 require_relative './unit_value.rb'
 
 class EdgeValue < BaseComponent
@@ -30,7 +30,7 @@ class EdgeValue < BaseComponent
             Variable.new(:name => "vertical", :typeName => unitValue, :isOptional => true),
             Variable.new(:name => "all", :typeName => unitValue, :isOptional => true)
         ]
-        synthaxType = CommonType.new(
+        synthaxType = BuiltInType.new(
             :kind => 'struct',
             :name => self.name,
             :variables => variables,
