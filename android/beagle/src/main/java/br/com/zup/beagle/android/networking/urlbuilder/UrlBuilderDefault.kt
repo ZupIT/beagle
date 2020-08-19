@@ -48,12 +48,6 @@ internal class UrlBuilderDefault : UrlBuilder {
             .replace("%3F", "?")
             .replace("%3D", "=")
             .replace("%26", "&")
-
-           // .replace("?", "%C3%A9")
-            //.replace("%C3%A9", "?")
-
-
-
     }
 
     private fun endpointIsNullAndHasNotAPath(
