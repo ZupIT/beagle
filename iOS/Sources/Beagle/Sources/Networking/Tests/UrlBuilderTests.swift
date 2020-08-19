@@ -22,24 +22,19 @@ import SnapshotTesting
 class UrlBuilderTests: XCTestCase {
     // swiftlint:disable force_unwrapping
 
-    func testUrlBuilderCases() throws {
+   func testUrlBuilderCases() throws {
         let jsonData = try jsonFromFile(fileName: "UrlBuilderTestSpec").data(using: .utf8)!
-        let urlBuilderDataSet = try JSONDecoder().decode([UrlBuilderTestHelper].self, from: jsonData)
+        let dataSet = try JSONDecoder().decode([UrlBuilderTestHelper].self, from: jsonData)
+        XCTAssertFalse(dataSet.isEmpty)
         
-        urlBuilderDataSet.forEach { url in
-            guard let base = URL(string: url.base ?? "") else { return }
+        dataSet.forEach { data in
+            let base = URL(string: data.base ?? "")
             let builder = UrlBuilder(baseUrl: base)
-            let resultUrl = builder.build(path: url.path)
-            
-            guard let result = url.result else {
-                XCTAssert(url.result == nil, "Result data is nul")
-                return
-            }
-            XCTAssert(resultUrl?.absoluteString == result)
+            let actualResult = builder.build(path: data.path)
+
+            XCTAssertEqual(actualResult?.absoluteString, data.result)
         }
-        
     }
-    
 }
 
 // MARK: - Testing Helper

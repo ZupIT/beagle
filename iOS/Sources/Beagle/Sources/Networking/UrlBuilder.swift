@@ -48,7 +48,7 @@ public class UrlBuilder: UrlBuilderProtocol {
             return URL(string: encodedPath)
         case .relative:
             guard var absolute = baseUrl?.absoluteString else {
-                return URL(string: encodedPath)
+                return encodedPath == "/" ? nil : URL(string: encodedPath)
             }
             if absolute.hasSuffix("/") {
                 absolute.removeLast()
