@@ -34,7 +34,8 @@
 package <%= objectType.synthaxType.package -%>
 
 
-<% if objectType.synthaxType.variables.any? && !@templateHelper.isEnum(objectType) { |variable| variable.isBindable }-%>
+<% if !@templateHelper.isEnum(objectType) -%>
+<% if objectType.synthaxType.variables.any? { |variable| variable.isBindable }-%>
 import br.com.zup.beagle.widget.context.Bind
 <% end -%>
 <% for qualifiedName in getImports(objectType.synthaxType.variables, importManager) -%>
@@ -42,6 +43,7 @@ import <%= qualifiedName -%>
 
 <% end -%>
 
+<% end -%>
 interface <%= objectType.synthaxType.name -%>Schema {<% -%>
 <% if @templateHelper.isEnum(objectType) %>
   

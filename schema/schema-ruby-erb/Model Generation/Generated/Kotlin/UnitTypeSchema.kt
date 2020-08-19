@@ -17,9 +17,6 @@
 
 package br.com.zup.beagle.widget.core
 
-
 interface UnitTypeSchema {
-  public val auto: 
-  public val real: 
-  public val percent:  
+  
 }
