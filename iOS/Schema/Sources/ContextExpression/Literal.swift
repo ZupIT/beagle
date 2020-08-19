@@ -17,7 +17,7 @@
 
 import Foundation
 
-public enum Literal: Decodable, Equatable {
+public enum Literal {
     case int(Int)
     case double(Double)
     case bool(Bool)
@@ -25,7 +25,7 @@ public enum Literal: Decodable, Equatable {
     case null
 }
 
-extension Literal: RawRepresentable {
+extension Literal: RepresentableByParsableString {
     public init?(rawValue: String) {
         let result = literal.run(rawValue)
         guard let literal = result.match, result.rest.isEmpty else { return nil }

@@ -24,33 +24,12 @@ public enum ContextExpression: Equatable {
     case multiple(MultipleExpression)
 }
 
-public enum SingleExpression: Decodable, Equatable {
+public enum SingleExpression {
     case value(Value)
     case operation(Operation)
 }
 
-extension SingleExpression: RawRepresentable {
-    public init?(rawValue: String) {
-        let result = singleExpression.run(rawValue)
-        guard let expression = result.match, result.rest.isEmpty else { return nil }
-        self = expression
-    }
-    
-    public var rawValue: String {
-        var result = "@{"
-        switch self {
-        case let .value(value):
-            result += value.rawValue
-        case let .operation(operation):
-            result += operation.rawValue
-        }
-        
-        result += "}"
-        return result
-    }
-}
-
-public struct MultipleExpression: Decodable, Equatable {
+public struct MultipleExpression {
     public let nodes: [Node]
 
     public enum Node: Equatable {
@@ -63,28 +42,7 @@ public struct MultipleExpression: Decodable, Equatable {
     }
 }
 
-extension MultipleExpression: RawRepresentable {
-    public init?(rawValue: String) {
-        let result = multipleExpression.run(rawValue)
-        guard let multipleExpression = result.match, result.rest.isEmpty else { return nil }
-        self.nodes = multipleExpression.nodes
-    }
-
-    public var rawValue: String {
-        var result = ""
-        for node in nodes {
-            switch node {
-            case let .string(string):
-                result += string
-            case let .expression(expression):
-                result += expression.rawValue
-            }
-        }
-        return result
-    }
-}
-
-// MARK: Decodable
+// MARK: - RepresentableByParsableString and Decodable
 
 extension Expression: Decodable {
     public init(from decoder: Decoder) throws {
@@ -115,6 +73,58 @@ extension ContextExpression: Decodable {
         } else {
             throw DecodingError.dataCorruptedError(in: container, debugDescription: "ContextExpression cannot be decoded")
         }
+    }
+}
+
+/// Types that uses `RawRepresentable` to facilitate usage with strings that could be parsed by `Parser` logic.
+/// By using `rawValue`, the compiler can automatically synthesize conformances to `Decodable` and `Equatable`.
+///
+/// - Note:
+/// Here is an example that uses a string instead of working with enum cases:
+///
+/// `SingleExpression("@{context.name}")`.
+///
+public typealias RepresentableByParsableString = RawRepresentable & Decodable & Equatable
+
+extension SingleExpression: RepresentableByParsableString {
+    public init?(rawValue: String) {
+        let result = singleExpression.run(rawValue)
+        guard let expression = result.match, result.rest.isEmpty else { return nil }
+        self = expression
+    }
+    
+    public var rawValue: String {
+        var result = "@{"
+        switch self {
+        case let .value(value):
+            result += value.rawValue
+        case let .operation(operation):
+            result += operation.rawValue
+        }
+        
+        result += "}"
+        return result
+    }
+}
+
+extension MultipleExpression: RepresentableByParsableString {
+    public init?(rawValue: String) {
+        let result = multipleExpression.run(rawValue)
+        guard let multipleExpression = result.match, result.rest.isEmpty else { return nil }
+        self.nodes = multipleExpression.nodes
+    }
+
+    public var rawValue: String {
+        var result = ""
+        for node in nodes {
+            switch node {
+            case let .string(string):
+                result += string
+            case let .expression(expression):
+                result += expression.rawValue
+            }
+        }
+        return result
     }
 }
 

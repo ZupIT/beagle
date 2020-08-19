@@ -17,7 +17,7 @@
 
 import Foundation
 
-public struct Binding: Decodable, Equatable {
+public struct Binding {
     public let context: String
     public let path: Path
     
@@ -27,7 +27,7 @@ public struct Binding: Decodable, Equatable {
     }
 }
 
-extension Binding: RawRepresentable {
+extension Binding: RepresentableByParsableString {
     public init?(rawValue: String) {
         let result = binding.run(rawValue)
         guard let binding = result.match, result.rest.isEmpty else { return nil }
