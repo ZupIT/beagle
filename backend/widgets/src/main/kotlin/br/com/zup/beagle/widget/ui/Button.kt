@@ -29,15 +29,15 @@ import br.com.zup.beagle.widget.context.valueOf
  * @param text define the button text content.
  * @param styleId reference a native style in your local styles file to be applied on this button.
  * @param onPress attribute to define action when onPress
- * @property clickAnalyticsEvent attribute to define click event name
+ * @param clickAnalyticsEvent attribute to define click event name
  *
  */
 data class Button(
-    val text: Bind<String>,
-    val styleId: String? = null,
-    val onPress: List<Action>? = null,
+    override val text: Bind<String>,
+    override val styleId: String? = null,
+    override val onPress: List<Action>? = null,
     override val clickAnalyticsEvent: ClickEvent? = null
-) : Widget(), TouchableAnalytics {
+) : Widget(), TouchableAnalytics, ButtonSchema {
     constructor(
         text: String,
         styleId: String? = null,
