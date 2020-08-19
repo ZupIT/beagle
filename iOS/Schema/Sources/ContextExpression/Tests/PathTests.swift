@@ -21,28 +21,33 @@ import SnapshotTesting
 
 final class PathTests: XCTestCase {
     
-    let paths = [
-        "client",
-        "client2.name",
-        "2client.phones[0]",
-        "client_[2].matrix[1][1]",
-        "[2]",
-        "[2][2]",
-        "",
-        "client.[2]",
-        "client[2].[2]",
-        "client[a]"
-    ]
-    
     func test_RawRepresentable() {
         // Given
-        let sut = paths
+        let path1 = "client"
+        let path2 = "client2.name"
+        let path3 = "client_[2].matrix[1][1]"
+        let path4 = "[2]"
+        let path5 = "[2][2]"
+        
+        let path6 = ""
+        let path7 = "2client.phones[0]"
+        let path8 = "client.[2]"
+        let path9 = "client[2].[2]"
+        let path10 = "client[a]"
+        
         // When
-        let result1 = sut.map { Path(rawValue: $0) }
-        let result2 = result1.map { $0?.rawValue }
         // Then
-        assertSnapshot(matching: result1, as: .dump)
-        assertSnapshot(matching: result2, as: .dump)
+        XCTAssertNotNil(Path(rawValue: path1))
+        XCTAssertNotNil(Path(rawValue: path2))
+        XCTAssertNotNil(Path(rawValue: path3))
+        XCTAssertNotNil(Path(rawValue: path4))
+        XCTAssertNotNil(Path(rawValue: path5))
+        
+        XCTAssertNil(Path(rawValue: path6))
+        XCTAssertNil(Path(rawValue: path7))
+        XCTAssertNil(Path(rawValue: path8))
+        XCTAssertNil(Path(rawValue: path9))
+        XCTAssertNil(Path(rawValue: path10))
     }
     
 }
