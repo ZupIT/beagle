@@ -26,11 +26,40 @@ import br.com.zup.beagle.android.engine.renderer.FragmentRootView
 import br.com.zup.beagle.android.utils.BeagleConstants.DEPRECATED_LOADINGVIEW
 import br.com.zup.beagle.android.view.BeagleFragment
 import br.com.zup.beagle.android.view.ScreenRequest
+import br.com.zup.beagle.android.view.custom.OnServerStateChanged
 import br.com.zup.beagle.android.view.custom.OnStateChanged
 import br.com.zup.beagle.android.view.viewmodel.ScreenContextViewModel
 import br.com.zup.beagle.android.widget.RootView
 
 internal var beagleSerializerFactory = BeagleSerializer()
+
+/**
+ * Load a ServerDrivenComponent into this ViewGroup
+ * @property activity that is parent of this view
+ * @property screenRequest to create your request data to fetch the component
+ * @property listener is called when the loading is Started, Finished and Success
+ */
+fun ViewGroup.newLoadView(
+    activity: AppCompatActivity,
+    screenRequest: ScreenRequest,
+    listener: OnServerStateChanged? = null
+) {
+    newLoadView(this, ActivityRootView(activity), screenRequest, listener)
+}
+
+/**
+ * Load a ServerDrivenComponent into this ViewGroup
+ * @property fragment that is parent of this view
+ * @property screenRequest to create your request data to fetch the component
+ * @property listener is called when the loading is Started, Finished and Success
+ */
+fun ViewGroup.newLoadView(
+    fragment: Fragment,
+    screenRequest: ScreenRequest,
+    listener: OnServerStateChanged? = null
+) {
+    newLoadView(this, FragmentRootView(fragment), screenRequest, listener)
+}
 
 /**
  * Load a ServerDrivenComponent into this ViewGroup
@@ -64,6 +93,24 @@ private fun loadView(
     viewModel.resetIds()
     val view = viewExtensionsViewFactory.makeBeagleView(viewGroup.context).apply {
         stateChangedListener = listener
+        loadView(rootView, screenRequest)
+    }
+    view.loadCompletedListener = {
+        viewGroup.addView(view)
+        viewModel.linkBindingToContextAndEvaluateThem()
+    }
+}
+
+private fun newLoadView(
+    viewGroup: ViewGroup,
+    rootView: RootView,
+    screenRequest: ScreenRequest,
+    listener: OnServerStateChanged?
+) {
+    val viewModel = rootView.generateViewModelInstance<ScreenContextViewModel>()
+    viewModel.resetIds()
+    val view = viewExtensionsViewFactory.makeBeagleView(viewGroup.context).apply {
+        serverStateChangedListener = listener
         loadView(rootView, screenRequest)
     }
     view.loadCompletedListener = {

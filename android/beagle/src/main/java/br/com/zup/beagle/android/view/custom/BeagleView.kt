@@ -75,7 +75,7 @@ internal class BeagleView(
         state: ViewState?, view: View?) {
         when (state) {
             is ViewState.Loading -> handleLoading(state.value)
-            is ViewState.Error -> handleError(state.throwable,state.retry)
+            is ViewState.Error -> handleError(state.throwable, state.retry)
             is ViewState.DoRender -> renderComponent(state.component, view)
         }
     }
@@ -86,24 +86,23 @@ internal class BeagleView(
         } else {
             BeagleViewState.LoadFinished
         }
-        stateChangedListener?.invoke(state)
-    }
 
-    private fun handleStateLoading(isLoading: Boolean){
-        val state = if (isLoading){
+        val serverState = if (isLoading) {
             ServerDrivenState.Started()
         } else {
             ServerDrivenState.Finished()
         }
-        serverStateChangedListener?.invoke(state)
+        serverStateChangedListener?.invoke(serverState)
+        stateChangedListener?.invoke(state)
     }
 
     private fun handleError(throwable: Throwable, retry: BeagleRetry) {
         stateChangedListener?.invoke(BeagleViewState.Error(throwable))
-        serverStateChangedListener?.invoke(ServerDrivenState.Error(throwable,retry))
+        serverStateChangedListener?.invoke(ServerDrivenState.Error(throwable, retry))
     }
 
     private fun renderComponent(component: ServerDrivenComponent, view: View? = null) {
+        ServerDrivenState.Success()
         if (view != null) {
             if (component.implementsGenericTypeOf(OnStateUpdatable::class.java, component::class.java)) {
                 (component as? OnStateUpdatable<ServerDrivenComponent>)?.onUpdateState(component)
