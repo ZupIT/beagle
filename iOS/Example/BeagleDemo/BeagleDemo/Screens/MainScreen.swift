@@ -36,7 +36,7 @@ struct MainScreen: DeeplinkScreen {
             children: [
                 Button(
                     text: "Navigator",
-                    onPress: [Navigate.pushView(.remote(.init(url: .NAVIGATE_ENDPOINT, shouldPrefetch: true)))]
+                    onPress: [Navigate.openNativeRoute(.init(route: .NAVIGATE_STEP1_ENDPOINT))]
                 ),
                 Button(
                     text: "Form & Lazy Component",

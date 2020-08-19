@@ -61,6 +61,7 @@ extension Image: Widget {
                 DispatchQueue.main.async {
                     imageView.image = image
                     imageView.style.markDirty()
+                    renderer.controller.view.setNeedsLayout()
                 }
             case .failure:
                 imageView.image = placeholderImage
