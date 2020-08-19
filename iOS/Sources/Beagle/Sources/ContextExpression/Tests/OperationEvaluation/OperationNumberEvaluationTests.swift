@@ -19,7 +19,8 @@ import BeagleSchema
 @testable import Beagle
 import XCTest
 
-class OperationNumberEvaluationTests: XCTestCase {
+// swiftlint:disable multiline_literal_brackets
+final class OperationNumberEvaluationTests: XCTestCase {
 
     func testEvaluateSum() {
         // Given

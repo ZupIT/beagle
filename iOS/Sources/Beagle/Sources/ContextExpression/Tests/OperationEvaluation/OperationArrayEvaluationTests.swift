@@ -19,7 +19,8 @@ import BeagleSchema
 @testable import Beagle
 import XCTest
 
-class OperationArrayEvaluationTests: XCTestCase {
+// swiftlint:disable multiline_literal_brackets
+final class OperationArrayEvaluationTests: XCTestCase {
 
     func testEvaluateInsert() {
         // Given
