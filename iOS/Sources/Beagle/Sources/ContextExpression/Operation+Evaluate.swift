@@ -90,6 +90,7 @@ extension BeagleSchema.Operation {
     // MARK: Number
     
     private func sum(in view: UIView) -> DynamicObject {
+        guard !parameters.isEmpty else { return nil }
         let anyParameters = evaluatedParameters(in: view).map { $0.asAny() }
         if let integerParameters = anyParameters as? [Int] {
             return .int(integerParameters.reduce(0, +))
@@ -101,6 +102,7 @@ extension BeagleSchema.Operation {
     }
     
     private func subtract(in view: UIView) -> DynamicObject {
+        guard !parameters.isEmpty else { return nil }
         let anyParameters = evaluatedParameters(in: view).map { $0.asAny() }
         if let integerParameters = anyParameters as? [Int] {
             return .int(integerParameters.reduce(integerParameters[0] * 2, -))
@@ -112,6 +114,7 @@ extension BeagleSchema.Operation {
     }
     
     private func multiply(in view: UIView) -> DynamicObject {
+        guard !parameters.isEmpty else { return nil }
         let anyParameters = evaluatedParameters(in: view).map { $0.asAny() }
         if let integerParameters = anyParameters as? [Int] {
             return .int(integerParameters.reduce(1, *))
@@ -123,6 +126,7 @@ extension BeagleSchema.Operation {
     }
     
     private func divide(in view: UIView) -> DynamicObject {
+        guard !parameters.isEmpty else { return nil }
         let anyParameters = evaluatedParameters(in: view).map { $0.asAny() }
         if let integerParameters = anyParameters as? [Int] {
             return .int(integerParameters.reduce(integerParameters[0] * integerParameters[0], /))
@@ -155,6 +159,7 @@ extension BeagleSchema.Operation {
     }
     
     private func and(in view: UIView) -> DynamicObject {
+        guard !parameters.isEmpty else { return nil }
         let anyParameters = evaluatedParameters(in: view).map { $0.asAny() }
         if let boolParameters = anyParameters as? [Bool] {
             return .bool(!boolParameters.contains(false))
@@ -164,6 +169,7 @@ extension BeagleSchema.Operation {
     }
     
     private func or(in view: UIView) -> DynamicObject {
+        guard !parameters.isEmpty else { return nil }
         let anyParameters = evaluatedParameters(in: view).map { $0.asAny() }
         if let boolParameters = anyParameters as? [Bool] {
             return .bool(boolParameters.contains(true))
@@ -244,6 +250,7 @@ extension BeagleSchema.Operation {
     // MARK: String
     
     private func concat(in view: UIView) -> DynamicObject {
+        guard !parameters.isEmpty else { return nil }
         let anyParameters = evaluatedParameters(in: view).map { $0.asAny() }
         if let stringParameters = anyParameters as? [String] {
             return .string(stringParameters.reduce("", +))
@@ -284,13 +291,15 @@ extension BeagleSchema.Operation {
         
         let anyParameters = evaluatedParameters(in: view).map { $0.asAny() }
         guard let text = anyParameters[0] as? String,
-            let from = anyParameters[1] as? Int else { return nil }
+            let from = anyParameters[1] as? Int,
+            from >= 0, from <= text.count - 1 else { return nil }
         
         let fromIndex = text.index(text.startIndex, offsetBy: from)
         
         let fromToLengthIndex: String.Index
         if parameters.count == 3 {
-            guard let length = anyParameters[2] as? Int else { return nil }
+            guard let length = anyParameters[2] as? Int,
+                from + length >= 0, from + length <= text.count else { return nil }
             fromToLengthIndex = text.index(fromIndex, offsetBy: length)
         } else {
             fromToLengthIndex = text.endIndex
@@ -307,11 +316,11 @@ extension BeagleSchema.Operation {
         guard parameters.count >= 2 else { return nil }
         
         let parameters = evaluatedParameters(in: view)
-        guard case var .array(array) = parameters[0],
-            array.first?.isEqualIgnoringAssociatedValues(parameters[1]) ?? false else { return nil }
+        guard case var .array(array) = parameters[0] else { return nil }
         
         if parameters.count == 3 {
-            guard case let .int(index) = parameters[2] else { return nil }
+            guard case let .int(index) = parameters[2],
+                index >= 0, index <= array.count - 1  else { return nil }
             array.insert(parameters[1], at: index)
         } else {
             array.append(parameters[1])
@@ -324,8 +333,7 @@ extension BeagleSchema.Operation {
         guard parameters.count == 2 else { return nil }
         
         let parameters = evaluatedParameters(in: view)
-        guard case var .array(array) = parameters[0],
-            array.first?.isEqualIgnoringAssociatedValues(parameters[1]) ?? false else { return nil }
+        guard case var .array(array) = parameters[0] else { return nil }
         
         array.removeAll { $0 == parameters[1] }
         
@@ -339,7 +347,8 @@ extension BeagleSchema.Operation {
         guard case var .array(array) = parameters[0] else { return nil }
         
         if parameters.count == 2 {
-            guard case let .int(index) = parameters[1] else { return nil }
+            guard case let .int(index) = parameters[1],
+                index >= 0, index <= array.count - 1 else { return nil }
             array.remove(at: index)
         } else {
             array.removeLast()
