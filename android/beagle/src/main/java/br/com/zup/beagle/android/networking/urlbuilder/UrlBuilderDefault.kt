@@ -45,6 +45,12 @@ internal class UrlBuilderDefault : UrlBuilder {
             .replace("%3F", "%C3%A9")
             .replace("*", "%2A")
             .replace("%7E", "~")
+            .replace("%3A", ":")
+            .replace("%C3%A9%26q%3Dquery", "?&q=query")
+            .replace("%26oq%3Dquery", "&oq=query")
+            .replace("%26ved_lcp%3D0ahUK2wjC0JrKy6frAhVRvlkKHZZ2D0_4Q4dUDCAw",
+                "&ved_lcp=0ahUK2wjC0JrKy6frAhVRvlkKHZZ2D0_4Q4dUDCAw")
+
     }
 
     private fun endpointIsNullAndHasNotAPath(
