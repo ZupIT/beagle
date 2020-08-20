@@ -20,122 +20,124 @@ import BeagleSchema
 import XCTest
 
 // swiftlint:disable multiline_literal_brackets
-final class OperationNumberEvaluationTests: XCTestCase {
+final class OperationNumberEvaluationTests: OperationEvaluationTests {
 
     func testEvaluateSum() {
         // Given
-        // When
-        evaluateOperation(.sum) { array in
-            // Then
-            XCTAssertEqual(array[0], DynamicObject.int(10))
-            XCTAssertEqual(array[1], DynamicObject.double(10.5))
-            XCTAssertEqual(array[2], DynamicObject.int(6))
-            XCTAssertEqual(array[3], DynamicObject.double(6.5))
-            XCTAssertEqual(array[4], DynamicObject.int(14))
-            XCTAssertEqual(array[5], DynamicObject.double(13.3))
-            XCTAssertEqual(array[6], DynamicObject.double(30.3))
-            XCTAssertEqual(array[7], DynamicObject.empty)
-            XCTAssertEqual(array[8], DynamicObject.empty)
-            XCTAssertEqual(array[9], DynamicObject.empty)
-            XCTAssertEqual(array[10], DynamicObject.empty)
-        }
+        let results: [DynamicObject] =
+        [
+            .int(10),
+            .double(10.5),
+            .int(6),
+            .double(6.5),
+            .int(14),
+            .double(13.3),
+            .double(27.5),
+            .empty,
+            .empty,
+            .empty,
+            .empty
+        ]
+        
+        // When/Then
+        evaluateOperation(.sum, comparableResults: results)
     }
     
     func testEvaluateSubtract() {
         // Given
-        // When
-        evaluateOperation(.subtract) { array in
-            // Then
-            XCTAssertEqual(array[0], DynamicObject.int(2))
-            XCTAssertEqual(array[1], DynamicObject.double(-1.5))
-            XCTAssertEqual(array[2], DynamicObject.int(2))
-            XCTAssertEqual(array[3], DynamicObject.double(1.5))
-            XCTAssertEqual(array[4], DynamicObject.int(2))
-            XCTAssertEqual(array[5], DynamicObject.double(4.3))
-            XCTAssertEqual(array[6], DynamicObject.double(-7.3))
-            XCTAssertEqual(array[7], DynamicObject.empty)
-            XCTAssertEqual(array[8], DynamicObject.empty)
-            XCTAssertEqual(array[9], DynamicObject.empty)
-            XCTAssertEqual(array[10], DynamicObject.empty)
-        }
+        let results: [DynamicObject] =
+        [
+            .int(2),
+            .double(-1.5),
+            .int(2),
+            .double(1.5),
+            .int(2),
+            .double(4.3),
+            .double(-1.5),
+            .empty,
+            .empty,
+            .empty,
+            .empty
+        ]
+        
+        // When/Then
+        evaluateOperation(.subtract, comparableResults: results)
     }
     
     func testEvaluateMultiply() {
         // Given
-        // When
-        evaluateOperation(.multiply) { array in
-            // Then
-            XCTAssertEqual(array[0], DynamicObject.int(24))
-            XCTAssertEqual(array[1], DynamicObject.double(27.0))
-            XCTAssertEqual(array[2], DynamicObject.int(8))
-            XCTAssertEqual(array[3], DynamicObject.double(10.0))
-            XCTAssertEqual(array[4], DynamicObject.int(96))
-            XCTAssertEqual(array[5], DynamicObject.double(75.6))
-            XCTAssertEqual(array[6], DynamicObject.double(20412.0))
-            XCTAssertEqual(array[7], DynamicObject.empty)
-            XCTAssertEqual(array[8], DynamicObject.empty)
-            XCTAssertEqual(array[9], DynamicObject.empty)
-            XCTAssertEqual(array[10], DynamicObject.empty)
-        }
+        let results: [DynamicObject] =
+        [
+            .int(24),
+            .double(27.0),
+            .int(8),
+            .double(10.0),
+            .int(96),
+            .double(75.6),
+            .double(7290.0),
+            .empty,
+            .empty,
+            .empty,
+            .empty
+        ]
+        
+        // When/Then
+        evaluateOperation(.multiply, comparableResults: results)
     }
     
     func testEvaluateDivide() {
         // Given
-        // When
-        evaluateOperation(.divide) { array in
-            // Then
-            XCTAssertEqual(array[0], DynamicObject.int(1))
-            XCTAssertEqual(array[1], DynamicObject.double(0.75))
-            XCTAssertEqual(array[2], DynamicObject.int(2))
-            XCTAssertEqual(array[3], DynamicObject.double(1.6))
-            XCTAssertEqual(array[4], DynamicObject.int(4))
-            XCTAssertEqual(array[5], DynamicObject.double(3.733333333333333))
-            XCTAssertEqual(array[6], DynamicObject.double(0.12555803571428573))
-            XCTAssertEqual(array[7], DynamicObject.empty)
-            XCTAssertEqual(array[8], DynamicObject.empty)
-            XCTAssertEqual(array[9], DynamicObject.empty)
-            XCTAssertEqual(array[10], DynamicObject.empty)
-        }
+        let results: [DynamicObject] =
+        [
+            .int(1),
+            .double(0.75),
+            .int(2),
+            .double(1.6),
+            .int(4),
+            .double(3.733333333333333),
+            .double(0.625),
+            .empty,
+            .empty,
+            .empty,
+            .empty
+        ]
+        
+        // When/Then
+        evaluateOperation(.divide, comparableResults: results)
     }
     
-    private func evaluateOperation(_ name: BeagleSchema.Operation.Name, completion: ([DynamicObject]) -> Void) {
+    private func evaluateOperation(_ name: BeagleSchema.Operation.Name, comparableResults: [DynamicObject]) {
         // Given
-        var array: [DynamicObject] = []
-        let view = UIView()
-        let context1 = Context(id: "context1", value: .int(2))
-        let context2 = Context(id: "context2", value: .double(2.5))
+        let contexts = [Context(id: "context1", value: .int(2)), Context(id: "context2", value: .double(2.5))]
+        let bindings = contexts.map { Binding(context: $0.id, path: Path(nodes: [])) }
         
-        let operation1 = Operation(name: name, parameters: [.value(.literal(.int(6))), .value(.literal(.int(4)))])
-        let operation2 = Operation(name: name, parameters: [.value(.literal(.double(4.5))), .value(.literal(.double(6.0)))])
-        let operation3 = Operation(name: name, parameters: [.value(.literal(.int(4))), .value(.binding(Binding(context: "context1",
-                                                                                                               path: Path(nodes: []))))])
-        let operation4 = Operation(name: name, parameters: [.value(.literal(.double(4.0))), .value(.binding(Binding(context: "context2",
-                                                                                                                    path: Path(nodes: []))))])
-        let operation5 = Operation(name: name, parameters: [.value(.literal(.int(4))), .operation(operation1)])
-        let operation6 = Operation(name: name, parameters: [.value(.literal(.double(2.8))), .operation(operation2)])
-        let operation7 = Operation(name: name, parameters: [.operation(operation2), .operation(operation4), .operation(operation6)])
-        let operation8 = Operation(name: name, parameters: [.value(.literal(.int(1))), .value(.literal(.double(1.5)))])
-        let operation9 = Operation(name: name, parameters: [.value(.literal(.int(1))), .value(.literal(.string("1")))])
-        let operation10 = Operation(name: name, parameters: [.value(.literal(.int(1))), .value(.literal(.string("true")))])
-        let operation11 = Operation(name: name, parameters: [])
+        let simpleOperations =
+        [
+            [.value(.literal(.int(6))), .value(.literal(.int(4)))],
+            [.value(.literal(.double(4.5))), .value(.literal(.double(6.0)))],
+            [.value(.literal(.int(4))), .value(.binding(bindings[0]))],
+            [.value(.literal(.double(4.0))), .value(.binding(bindings[1]))]
+        ].map { Operation(name: name, parameters: $0) }
         
-        // When
-        view.setContext(context1)
-        view.setContext(context2)
+        let complexOperations =
+        [
+            [.value(.literal(.int(4))), .operation(simpleOperations[0])],
+            [.value(.literal(.double(2.8))), .operation(simpleOperations[1])],
+            [.operation(simpleOperations[1]), .operation(simpleOperations[3]), .operation(simpleOperations[1])]
+        ].map { Operation(name: name, parameters: $0) }
         
-        array.append(operation1.evaluate(in: view))
-        array.append(operation2.evaluate(in: view))
-        array.append(operation3.evaluate(in: view))
-        array.append(operation4.evaluate(in: view))
-        array.append(operation5.evaluate(in: view))
-        array.append(operation6.evaluate(in: view))
-        array.append(operation7.evaluate(in: view))
-        array.append(operation8.evaluate(in: view))
-        array.append(operation9.evaluate(in: view))
-        array.append(operation10.evaluate(in: view))
-        array.append(operation11.evaluate(in: view))
+        let failingOperations =
+        [
+            [.value(.literal(.int(1))), .value(.literal(.double(1.5)))],
+            [.value(.literal(.int(1))), .value(.literal(.string("1")))],
+            [.value(.literal(.int(1))), .value(.literal(.string("true")))],
+            []
+        ].map { Operation(name: name, parameters: $0) }
         
-        // Then
-        completion(array)
+        // When/Then
+        evaluateOperations((simpleOperations + complexOperations + failingOperations),
+                           contexts: contexts,
+                           comparableResults: comparableResults)
+        
     }
 }
