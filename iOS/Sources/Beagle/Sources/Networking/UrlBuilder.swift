@@ -30,31 +30,56 @@ public class UrlBuilder: UrlBuilderProtocol {
 
     public var baseUrl: URL?
 
+    private enum PathType {
+        case relative
+        case absolute
+    }
+    
     public init(baseUrl: URL? = nil) {
         self.baseUrl = baseUrl
     }
-
+    
     public func build(path: String) -> URL? {
-        switch getUrlType(path: path, baseUrl: baseUrl) {
-        case .noStripePrefix:
-            return URL(string: path)
-        case .stripePrefix:
-            guard var absolute = baseUrl?.absoluteString else {
-                return URL(string: path)
-            }
-            if absolute.hasSuffix("/") {
-                absolute.removeLast()
-            }
-            return URL(string: absolute + path)
+        let encoded = encodePathIfNeeded(path)
+        
+        switch getPathType(path) {
+        case .absolute:
+            return URL(string: encoded)
+        case .relative:
+            return buildRelative(path: encoded)
         }
     }
     
-    private func getUrlType(path: String, baseUrl: URL?) -> UrlType {
-        return path.hasPrefix("/") ? .stripePrefix : .noStripePrefix
+    private func getPathType(_ path: String) -> PathType {
+        return path.hasPrefix("/") ? .relative : .absolute
+    }
+    
+    private func buildRelative(path: String) -> URL? {
+        guard var absolute = baseUrl?.absoluteString else {
+            return URL(string: path)
+        }
+        if absolute.hasSuffix("/") {
+            absolute.removeLast()
+        }
+        return URL(string: absolute + path)
+    }
+    
+    private func encodePathIfNeeded(_ path: String) -> String {
+        let needsEncoding = path.removingPercentEncoding == path
+        if needsEncoding {
+            return path.addingPercentEncodingForRFC3986 ?? path
+        } else {
+            return path
+        }
     }
 }
 
-private enum UrlType {
-    case noStripePrefix
-    case stripePrefix
+// MARK: - String Encoding Extension
+private extension String {
+    var addingPercentEncodingForRFC3986: String? {
+        let unreserved = "-._~:/?#[]@!$&'()*+,;="
+        let allowedCharacterSet = NSMutableCharacterSet.alphanumeric()
+        allowedCharacterSet.addCharacters(in: unreserved)
+        return addingPercentEncoding(withAllowedCharacters: allowedCharacterSet as CharacterSet)
+    }
 }
