@@ -25,8 +25,7 @@ internal class UrlBuilderDefault : UrlBuilder {
         val newPath = encodeUrlBeforeCalls(path)
         return when {
             newPath.isEmpty() -> null
-            endpointIsNullAndHasAPath(endpoint, newPath) -> newPath
-            endpointIsNullAndHasNotAPath(endpoint, newPath) -> null
+            endpoint.isNullOrEmpty() -> newPath
             endpoint?.takeLast(1) == "/" && newPath.take(1) == "/" -> endpoint + newPath.takeLast(newPath.length - 1)
             endpoint?.takeLast(1) == "/" && newPath == "/" -> endpoint
             endpoint?.takeLast(1) != "/" && newPath == "/" -> endpoint + newPath
@@ -49,16 +48,6 @@ internal class UrlBuilderDefault : UrlBuilder {
             .replace("%3D", "=")
             .replace("%26", "&")
     }
-
-    private fun endpointIsNullAndHasNotAPath(
-        endpoint: String?,
-        path: String
-    ) = endpoint.isNullOrEmpty() && (path == "/" || path.isEmpty())
-
-    private fun endpointIsNullAndHasAPath(
-        endpoint: String?,
-        path: String
-    ) = endpoint.isNullOrEmpty() && path != "/" && path.isNotEmpty()
 
     private fun isRelativePath(path: String): Boolean {
         return path.startsWith("/")

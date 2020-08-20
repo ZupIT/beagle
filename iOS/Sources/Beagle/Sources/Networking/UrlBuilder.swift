@@ -40,20 +40,13 @@ public class UrlBuilder: UrlBuilderProtocol {
     }
     
     public func build(path: String) -> URL? {
-        guard let encodedPath = shouldEncode(path) ? path.addingPercentEncodingForRFC3986 : path else {
-            return URL(string: path)
-        }
+        let encoded = encodePathIfNeeded(path)
+        
         switch getPathType(path) {
         case .absolute:
-            return URL(string: encodedPath)
+            return URL(string: encoded)
         case .relative:
-            guard var absolute = baseUrl?.absoluteString else {
-                return encodedPath == "/" ? nil : URL(string: encodedPath)
-            }
-            if absolute.hasSuffix("/") {
-                absolute.removeLast()
-            }
-            return URL(string: absolute + encodedPath)
+            return buildRelative(path: encoded)
         }
     }
     
@@ -61,9 +54,23 @@ public class UrlBuilder: UrlBuilderProtocol {
         return path.hasPrefix("/") ? .relative : .absolute
     }
     
-    private func shouldEncode(_ path: String) -> Bool {
-        guard let decodedPath = path.removingPercentEncoding else { return true }
-        return decodedPath == path
+    private func buildRelative(path: String) -> URL? {
+        guard var absolute = baseUrl?.absoluteString else {
+            return URL(string: path)
+        }
+        if absolute.hasSuffix("/") {
+            absolute.removeLast()
+        }
+        return URL(string: absolute + path)
+    }
+    
+    private func encodePathIfNeeded(_ path: String) -> String {
+        let needsEncoding = path.removingPercentEncoding == path
+        if needsEncoding {
+            return path.addingPercentEncodingForRFC3986 ?? path
+        } else {
+            return path
+        }
     }
 }
 
