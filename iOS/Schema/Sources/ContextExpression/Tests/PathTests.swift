@@ -21,33 +21,46 @@ import SnapshotTesting
 
 final class PathTests: XCTestCase {
     
-    func test_RawRepresentable() {
+    func testValidRawRepresentable() {
         // Given
-        let path1 = "client"
-        let path2 = "client2.name"
-        let path3 = "client_[2].matrix[1][1]"
-        let path4 = "[2]"
-        let path5 = "[2][2]"
-        
-        let path6 = ""
-        let path7 = "2client.phones[0]"
-        let path8 = "client.[2]"
-        let path9 = "client[2].[2]"
-        let path10 = "client[a]"
+        [
+            "client",
+            "client2.name",
+            "client_[2].matrix[1][1]",
+            "[2]",
+            "[2][2]"
+        ]
         
         // When
-        // Then
-        XCTAssertNotNil(Path(rawValue: path1))
-        XCTAssertNotNil(Path(rawValue: path2))
-        XCTAssertNotNil(Path(rawValue: path3))
-        XCTAssertNotNil(Path(rawValue: path4))
-        XCTAssertNotNil(Path(rawValue: path5))
+        .map {
+            Path(rawValue: $0)
+        }
         
-        XCTAssertNil(Path(rawValue: path6))
-        XCTAssertNil(Path(rawValue: path7))
-        XCTAssertNil(Path(rawValue: path8))
-        XCTAssertNil(Path(rawValue: path9))
-        XCTAssertNil(Path(rawValue: path10))
+        // Then
+        .forEach {
+            XCTAssertNotNil($0)
+        }
+    }
+    
+    func testInvalidRawRepresentable() {
+        // Given
+        [
+            "",
+            "2client.phones[0]",
+            "client.[2]",
+            "client[2].[2]",
+            "client[a]"
+        ]
+        
+        // When
+        .map {
+            Path(rawValue: $0)
+        }
+        
+        // Then
+        .forEach {
+            XCTAssertNil($0)
+        }
     }
     
 }
