@@ -18,14 +18,20 @@ package br.com.zup.beagle.android.context
 
 import br.com.zup.beagle.android.utils.BeagleConstants
 import br.com.zup.beagle.core.BindAttribute
+import java.lang.reflect.Type
 
 sealed class Bind<T> : BindAttribute<T> {
-    abstract val type: Class<T>
+    abstract val type: Type
 
     class Expression<T>(
         override val value: String,
-        override val type: Class<T>
-    ): Bind<T>()
+        override val type: Type
+    ): Bind<T>() {
+        constructor(
+            value: String,
+            type: Class<T>
+        ) : this(value, type as Type)
+    }
 
     data class Value<T: Any>(override val value: T) : Bind<T>() {
         override val type: Class<T> = value.javaClass

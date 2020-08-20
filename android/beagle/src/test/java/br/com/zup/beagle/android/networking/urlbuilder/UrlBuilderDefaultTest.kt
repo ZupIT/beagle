@@ -20,6 +20,8 @@ import br.com.zup.beagle.android.testutil.IoUtils
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 class UrlBuilderDefaultTest {
 
@@ -40,6 +42,7 @@ class UrlBuilderDefaultTest {
     @Test
     fun format_should_concatenate_relative_path() {
         urlBuilders.forEach {
+
             // When
             val actual = urlBuilderDefault.format(it.base, it.path)
 

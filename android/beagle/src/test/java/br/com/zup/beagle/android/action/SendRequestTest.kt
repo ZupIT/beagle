@@ -20,37 +20,28 @@ import android.view.View
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import br.com.zup.beagle.android.BaseTest
 import br.com.zup.beagle.android.context.ContextData
 import br.com.zup.beagle.android.context.valueOf
-import br.com.zup.beagle.android.engine.renderer.ActivityRootView
 import br.com.zup.beagle.android.extensions.once
 import br.com.zup.beagle.android.utils.evaluateExpression
 import br.com.zup.beagle.android.utils.handleEvent
 import br.com.zup.beagle.android.view.viewmodel.ActionRequestViewModel
 import br.com.zup.beagle.android.view.viewmodel.Response
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkConstructor
-import io.mockk.mockkStatic
-import io.mockk.slot
-import io.mockk.unmockkAll
-import io.mockk.verify
-import io.mockk.verifyOrder
-import org.junit.After
-import org.junit.Before
+import io.mockk.*
+import org.json.JSONObject
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
-class SendRequestTest {
+data class DataTest(val email: String, val password: String)
+
+class SendRequestTest : BaseTest() {
 
     @get:Rule
     var executorRule = InstantTaskExecutorRule()
 
-    private val rootView: ActivityRootView = mockk(relaxed = true)
     private val viewModel: ActionRequestViewModel = mockk()
     private val liveData: MutableLiveData<ActionRequestViewModel.FetchViewState> = mockk()
     private val observerSlot = slot<Observer<ActionRequestViewModel.FetchViewState>>()
@@ -58,20 +49,14 @@ class SendRequestTest {
     private val view: View = mockk()
     private val contextDataSlot = slot<ContextData>()
 
-    @Before
-    fun setUp() {
-        mockkConstructor(ViewModelProvider::class)
-        every { anyConstructed<ViewModelProvider>().get(ActionRequestViewModel::class.java) } returns viewModel
+    override fun setUp() {
+        super.setUp()
 
+        prepareViewModelMock(viewModel)
         mockkStatic("br.com.zup.beagle.android.utils.ActionExtensionsKt")
 
         every { viewModel.fetch(any()) } returns liveData
         every { liveData.observe(rootView.getLifecycleOwner(), capture(observerSlot)) } just Runs
-    }
-
-    @After
-    fun tearDown() {
-        unmockkAll()
     }
 
     @Test
@@ -156,7 +141,6 @@ class SendRequestTest {
         }
     }
 
-
     @Test
     fun `should send only action finish when handle action with success`() {
         // Given
@@ -194,20 +178,39 @@ class SendRequestTest {
     }
 
     private fun createSendRequest(
-        onSuccess: List<Action>?,
-        onError: List<Action>?,
-        onFinish: List<Action>?
+        onSuccess: List<Action>? = null,
+        onError: List<Action>? = null,
+        onFinish: List<Action>? = null,
+        data: Any? = null
     ): SendRequest {
         return SendRequest(
             url = valueOf(""),
             onSuccess = onSuccess,
             onError = onError,
-            onFinish = onFinish
+            onFinish = onFinish,
+            data = data
         ).apply {
             every { evaluateExpression(rootView, view, any<Any>()) } returns ""
             every { handleEvent(rootView, view, any<List<Action>>(), capture(contextDataSlot)) } just Runs
             every { handleEvent(rootView, view, any<List<Action>>()) } just Runs
-
         }
+    }
+
+    @Test
+    fun `Data sent should be an JSON object`() {
+        // Given
+        val dataSlot = slot<Any>()
+        val requestAction = createSendRequest(data = DataTest("name@email.com", "123456"))
+        val mockedSendRequestInternal = slot<SendRequestInternal>()
+        every { viewModel.fetch(capture(mockedSendRequestInternal)) } returns liveData
+        every { requestAction.evaluateExpression(any(), any(), capture(dataSlot)) } answers {
+            dataSlot.captured
+        }
+
+        // When
+        requestAction.execute(rootView, view)
+
+        // Then
+        assertTrue(mockedSendRequestInternal.captured.data is JSONObject)
     }
 }

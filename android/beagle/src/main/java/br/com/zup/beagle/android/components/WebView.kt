@@ -19,9 +19,7 @@ package br.com.zup.beagle.android.components
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
-import android.net.http.SslError
 import android.view.View
-import android.webkit.SslErrorHandler
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -69,14 +67,6 @@ data class WebView(
             favicon: Bitmap?
         ) {
             notify(loading = true)
-        }
-
-        override fun onReceivedSslError(
-            view: WebView?,
-            handler: SslErrorHandler?,
-            error: SslError?
-        ) {
-            handler?.proceed()
         }
 
         override fun onReceivedError(
