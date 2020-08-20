@@ -2,7 +2,7 @@
 ### Related Issues
 
 <!--
-- list all [issues] that are related to this PR
+- list all issues that are related to this PR (e.g: "#123, #124)
 - if this PR closes some issue, use "Closes #123"
 -->
 
