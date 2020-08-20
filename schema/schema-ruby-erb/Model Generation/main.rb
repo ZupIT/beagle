@@ -30,6 +30,9 @@ require './Models/Layout/unit_type.rb'
 
 require './Models/Accessibility/accessibility.rb'
 
+require './Models/Analytics/analytics_events.rb'
+require './Models/Analytics/analytics_models.rb'
+
 require './Models/Widgets/button.rb'
 require './Models/Widgets/text.rb'
 
@@ -114,7 +117,9 @@ if __FILE__ == $0
     UnitValue,
     UnitType,
     # Accessibility
-    Accessibility
+    Accessibility,
+    # Analytics
+    AnalyticsEvent
   ]
   
   ModelGenerator.new(components).generate

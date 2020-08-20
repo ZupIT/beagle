@@ -20,11 +20,9 @@ class AnalyticsEvent < BaseComponent
 
     def initialize
         synthaxType = BuiltInType.new(
-            :kind => 'interface',
+            :kind => @interface,
             :name => self.name,
-            :variables => variables,
-            :package => "br.com.zup.beagle.widget.core",
-            :inheritFrom => ["AnalyticsEvent"] #todo create AnalyticsEvent
+            :package => "br.com.zup.beagle.widget.core"
         )
 
         super(synthaxType)

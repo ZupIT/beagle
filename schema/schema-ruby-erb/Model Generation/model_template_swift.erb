@@ -16,21 +16,25 @@
  */
 <%
   require_relative './Synthax/Types/enum_type'
+  require_relative './Synthax/Types/basic_type'
   require_relative './Synthax/Attributes/list'
   require_relative 'template_helper.rb'
   @tab = "    "
   @doubleTab = @tab + @tab
   @templateHelper = TemplateHelper.new
+  @templateHelper.languageIdentifier = SupportedLanguages.new.swift
 
   def handleTypeName(variable)
-      output = variable.isBindable ? "Expression<#{variable.typeName}>" : variable.typeName
+      typeName = @templateHelper.fetchType(variable.typeName)
+      output = variable.isBindable ? "Expression<#{typeName}>" : typeName
       output = variable.class == List ? "[#{output}]" : output
       output = variable.isOptional ? output + "?" : output
       output
   end
 
   def handleTypeNameForInitMethod(variable, shouldAddComma = false)
-    output = variable.isBindable ? "Expression<#{variable.typeName}>" : variable.typeName
+  typeName = @templateHelper.fetchType(variable.typeName)
+    output = variable.isBindable ? "Expression<#{typeName}>" : typeName
     output = variable.class == List ? "[#{output}]" : output
     output = variable.isOptional ? output + "?" : output
 

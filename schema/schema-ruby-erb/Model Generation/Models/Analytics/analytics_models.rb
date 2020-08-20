@@ -20,8 +20,8 @@ class AnalyticsClick < BaseComponent
 
     def initialize
         variables = [
-            Variable.new(:name => "accessibilityLabel", :typeName => "String", :isOptional => true),
-            Variable.new(:name => "accessible", :typeName => "Bool", :defaultValue => "true")
+            Variable.new(:name => "accessibilityLabel", :typeName => @string, :isOptional => true),
+            Variable.new(:name => "accessible", :typeName => @bool, :defaultValue => "true")
 
         ]
         synthaxType = BuiltInType.new(
@@ -29,7 +29,7 @@ class AnalyticsClick < BaseComponent
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.core",
-            :inheritFrom => ["AnalyticsEvent"] #todo create AnalyticsEvent
+            :inheritFrom => [AnalyticsEvent.new]
         )
 
         super(synthaxType)

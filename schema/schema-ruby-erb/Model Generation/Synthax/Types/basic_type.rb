@@ -12,41 +12,14 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-class SupportedLanguages
+class BasicTypeKeys
+    attr_accessor :string, :bool, :interface, :enum
 
-    attr_accessor :swift, :kotlin, :kotlinBackend, :typeScript
-
-    @swift = "swift"
-    @kotlin = "kt"
-    @kotlinBackend = "ktBackend"
-    @typeScript = "ts"
+    def initialize
+        @string = "String"
+        @bool = "Bool"
+        @interface = "interface"
+        @enum = "Enum"
+    end
     
-    @dart = "dart" #todo 
-
-end
-
-class PrimitiveType
-    include BaseType
-    @sl = SupportedLanguages.new
-    
-    @string = [
-        @sl.swift => "String",
-        @sl.kotlin => "String"
-    ]
-
-    @bool = [
-        @sl.swift => "Bool",
-        @sl.kotlin => "Bool"
-    ]
-
-    @interface = [
-        @sl.swift => "protocol",
-        @sl.kotlin => "interface"
-    ]
-
-    @enum = [
-        @sl.swift => "enum",
-        @sl.kotlin => "enum"
-    ]
-
 end

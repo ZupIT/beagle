@@ -12,8 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+require_relative '../Synthax/Types/basic_type.rb'
+
 class BaseComponent  
-    
     attr_accessor :synthaxType
 
     def initialize(type)
