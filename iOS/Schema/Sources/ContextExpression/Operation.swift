@@ -33,7 +33,7 @@ public struct Operation {
 }
 
 extension Operation: RepresentableByParsableString {
-    public static var parser = operation
+    public static let parser = operation
 
     public var rawValue: String {
         var result = "\(name)("

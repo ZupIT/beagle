@@ -28,7 +28,7 @@ public struct Binding {
 }
 
 extension Binding: RepresentableByParsableString {
-    public static var parser = binding
+    public static let parser = binding
 
     public var rawValue: String {
         var result = "\(context)"

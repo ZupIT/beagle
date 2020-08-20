@@ -26,7 +26,7 @@ public enum Literal {
 }
 
 extension Literal: RepresentableByParsableString {
-    public static var parser = literal
+    public static let parser = literal
 
     public var rawValue: String {
         switch self {

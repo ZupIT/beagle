@@ -28,7 +28,7 @@ public struct Path {
 }
 
 extension Path: RepresentableByParsableString {
-    public static var parser = path
+    public static let parser = path
 
     public var rawValue: String {
         var path = ""

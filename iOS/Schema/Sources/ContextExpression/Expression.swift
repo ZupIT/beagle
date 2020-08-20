@@ -99,7 +99,7 @@ public extension RepresentableByParsableString where RawValue == String {
 }
 
 extension SingleExpression: RepresentableByParsableString {
-    public static var parser = singleExpression
+    public static let parser = singleExpression
     
     public var rawValue: String {
         var result = "@{"
@@ -116,7 +116,7 @@ extension SingleExpression: RepresentableByParsableString {
 }
 
 extension MultipleExpression: RepresentableByParsableString {
-    public static var parser = multipleExpression
+    public static let parser = multipleExpression
 
     public var rawValue: String {
         var result = ""

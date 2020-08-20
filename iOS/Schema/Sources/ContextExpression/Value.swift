@@ -23,7 +23,7 @@ public enum Value {
 }
 
 extension Value: RepresentableByParsableString {
-    public static var parser = value
+    public static let parser = value
     
     public var rawValue: String {
         switch self {
