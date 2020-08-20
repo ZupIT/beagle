@@ -26,12 +26,7 @@ public enum Literal {
 }
 
 extension Literal: RepresentableByParsableString {
-    public init?(rawValue: String) {
-        let result = literal.run(rawValue)
-        guard let literal = result.match, result.rest.isEmpty else { return nil }
-        
-        self = literal
-    }
+    public static var parser = literal
 
     public var rawValue: String {
         switch self {

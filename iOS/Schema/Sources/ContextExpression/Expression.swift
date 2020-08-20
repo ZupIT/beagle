@@ -42,7 +42,7 @@ public struct MultipleExpression {
     }
 }
 
-// MARK: - RepresentableByParsableString and Decodable
+// MARK: - Decodable
 
 extension Expression: Decodable {
     public init(from decoder: Decoder) throws {
@@ -76,6 +76,8 @@ extension ContextExpression: Decodable {
     }
 }
 
+// MARK: - RepresentableByParsableString
+
 /// Types that uses `RawRepresentable` to facilitate usage with strings that could be parsed by `Parser` logic.
 /// By using `rawValue`, the compiler can automatically synthesize conformances to `Decodable` and `Equatable`.
 ///
@@ -84,14 +86,20 @@ extension ContextExpression: Decodable {
 ///
 /// `SingleExpression("@{context.name}")`.
 ///
-public typealias RepresentableByParsableString = RawRepresentable & Decodable & Equatable
+public protocol RepresentableByParsableString: RawRepresentable, Decodable, Equatable {
+    static var parser: Parser<Self> { get }
+}
 
-extension SingleExpression: RepresentableByParsableString {
-    public init?(rawValue: String) {
-        let result = singleExpression.run(rawValue)
+public extension RepresentableByParsableString where RawValue == String {
+    init?(rawValue: RawValue) {
+        let result = Self.parser.run(rawValue)
         guard let expression = result.match, result.rest.isEmpty else { return nil }
         self = expression
     }
+}
+
+extension SingleExpression: RepresentableByParsableString {
+    public static var parser = singleExpression
     
     public var rawValue: String {
         var result = "@{"
@@ -108,11 +116,7 @@ extension SingleExpression: RepresentableByParsableString {
 }
 
 extension MultipleExpression: RepresentableByParsableString {
-    public init?(rawValue: String) {
-        let result = multipleExpression.run(rawValue)
-        guard let multipleExpression = result.match, result.rest.isEmpty else { return nil }
-        self.nodes = multipleExpression.nodes
-    }
+    public static var parser = multipleExpression
 
     public var rawValue: String {
         var result = ""

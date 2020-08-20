@@ -23,11 +23,7 @@ public enum Value {
 }
 
 extension Value: RepresentableByParsableString {
-    public init?(rawValue: String) {
-        let result = value.run(rawValue)
-        guard let expression = result.match, result.rest.isEmpty else { return nil }
-        self = expression
-    }
+    public static var parser = value
     
     public var rawValue: String {
         switch self {

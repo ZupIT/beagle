@@ -28,12 +28,7 @@ public struct Path {
 }
 
 extension Path: RepresentableByParsableString {
-    
-    public init?(rawValue: String) {
-        let result = path.run(rawValue)
-        guard let path = result.match, result.rest.isEmpty else { return nil }
-        self.nodes = path.nodes
-    }
+    public static var parser = path
 
     public var rawValue: String {
         var path = ""

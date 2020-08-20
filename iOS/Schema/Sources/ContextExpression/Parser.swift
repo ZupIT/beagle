@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-struct Parser<A> {
+public struct Parser<A> {
     let run: (inout Substring) -> A?
 }
 

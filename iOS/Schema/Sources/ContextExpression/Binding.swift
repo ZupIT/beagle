@@ -28,12 +28,7 @@ public struct Binding {
 }
 
 extension Binding: RepresentableByParsableString {
-    public init?(rawValue: String) {
-        let result = binding.run(rawValue)
-        guard let binding = result.match, result.rest.isEmpty else { return nil }
-        self.context = binding.context
-        self.path = binding.path
-    }
+    public static var parser = binding
 
     public var rawValue: String {
         var result = "\(context)"
