@@ -17,7 +17,8 @@
 <%
   require_relative 'template_helper.rb'
   @templateHelper = TemplateHelper.new
-
+  #@templateHelper.defaultDeclarationType = todo add default declaration type
+  
   def handleTypeName(variable)
       #todo variables now have default values!
       output = variable.isBindable ? "Bind<" + variable.typeName + ">" : variable.typeName
