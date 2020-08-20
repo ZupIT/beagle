@@ -25,7 +25,6 @@ class PositionType < BaseComponent
             EnumCase.new(:name => "absolute", :defaultValue => "ABSOLUTE")
         ]
         synthaxType = EnumType.new(
-            :kind => 'enum',
             :name => self.name,
             :variables => enumCases,
             :package => "br.com.zup.beagle.widget.core",

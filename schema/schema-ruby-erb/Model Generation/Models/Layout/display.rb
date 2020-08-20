@@ -24,7 +24,6 @@ class Display < BaseComponent
             EnumCase.new(:name => "none", :defaultValue => "NONE")
         ]
         synthaxType = EnumType.new(
-            :kind => 'enum',
             :name => self.name,
             :variables => displayCases,
             :package => "br.com.zup.beagle.widget.core",

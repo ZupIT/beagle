@@ -25,7 +25,6 @@ class Accessibility < BaseComponent
 
         ]
         synthaxType = BuiltInType.new(
-            :kind => 'struct',
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.core"

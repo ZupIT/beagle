@@ -28,7 +28,6 @@ class JustifyContent < BaseComponent
             EnumCase.new(:name => "spaceEvenly", :defaultValue => "SPACE_EVENLY")
         ]
         synthaxType = EnumType.new(
-            :kind => 'enum',
             :name => self.name,
             :variables => enumCases,
             :inheritFrom => ["String"],

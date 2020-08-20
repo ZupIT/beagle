@@ -45,7 +45,6 @@ class Flex < BaseComponent
             Variable.new(:name => "shrink", :typeName => "Double", :isOptional => true),
         ]
         synthaxType = BuiltInType.new(
-            :kind => 'struct',
             :name => self.name,
             :variables => textVariables,
             :package => "br.com.zup.beagle.widget.core",

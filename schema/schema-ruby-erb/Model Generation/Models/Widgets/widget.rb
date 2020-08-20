@@ -25,7 +25,6 @@ class Widget < BaseComponent
             Variable.new(:name => "styleId", :typeName => "String", :isOptional => true)
         ]
         synthaxType = BuiltInType.new(
-            :kind => 'struct',
             :name => self.name,
             :variables => textVariables,
             :package => "br.com.zup.beagle.widget.ui"

@@ -23,7 +23,6 @@ class CornerRadius < BaseComponent
             Variable.new(:name => "radius", :typeName => "Double")
         ]
         synthaxType = BuiltInType.new(
-            :kind => 'struct',
             :name => self.name,
             :variables => textVariables,
             :package => "br.com.zup.beagle.widget.core"

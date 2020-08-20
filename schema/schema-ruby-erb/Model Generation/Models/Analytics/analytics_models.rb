@@ -25,7 +25,25 @@ class AnalyticsClick < BaseComponent
 
         ]
         synthaxType = BuiltInType.new(
-            :kind => 'struct',
+            :name => self.name,
+            :variables => variables,
+            :package => "br.com.zup.beagle.widget.core",
+            :inheritFrom => [AnalyticsEvent.new]
+        )
+
+        super(synthaxType)
+
+    end
+
+end
+
+class AnalyticsScreen < BaseComponent
+
+    def initialize
+        variables = [
+            Variable.new(:name => "screenName", :typeName => @string)
+        ]
+        synthaxType = BuiltInType.new(
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.core",

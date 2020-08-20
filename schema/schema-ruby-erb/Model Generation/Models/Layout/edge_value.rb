@@ -31,7 +31,6 @@ class EdgeValue < BaseComponent
             Variable.new(:name => "all", :typeName => unitValue, :isOptional => true)
         ]
         synthaxType = BuiltInType.new(
-            :kind => 'struct',
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.core"

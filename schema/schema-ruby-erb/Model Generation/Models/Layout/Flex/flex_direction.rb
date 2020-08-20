@@ -26,7 +26,6 @@ class FlexDirection < BaseComponent
             EnumCase.new(:name => "columnReverse", :defaultValue => "COLUMN_REVERSE")
         ]
         synthaxType = EnumType.new(
-            :kind => 'enum',
             :name => self.name,
             :variables => enumCases,
             :inheritFrom => ["String"],

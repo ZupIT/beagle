@@ -28,7 +28,6 @@ class AlignContent < BaseComponent
             EnumCase.new(:name => "stretch", :defaultValue => "STRETCH")
         ]
         synthaxType = EnumType.new(
-            :kind => 'enum',
             :name => self.name,
             :variables => enumCases,
             :inheritFrom => ["String"],

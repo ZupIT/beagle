@@ -25,7 +25,6 @@ class FlexWrap < BaseComponent
             EnumCase.new(:name => "wrapReverse", :defaultValue => "WRAP_REVERSE")
         ]
         synthaxType = EnumType.new(
-            :kind => 'enum',
             :name => self.name,
             :variables => enumCases,
             :inheritFrom => ["String"],

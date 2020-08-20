@@ -28,7 +28,6 @@ class Button < BaseComponent
             Variable.new(:name => "clickAnalyticsEvent", :typeName => "ClickEvent", :isOptional => true)
         ]
         synthaxType = BuiltInType.new(
-            :kind => 'struct',
             :name => self.name,
             :variables => buttonVariables,
             :package => "br.com.zup.beagle.widget.ui",

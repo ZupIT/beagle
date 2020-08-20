@@ -25,7 +25,6 @@ class UnitType < BaseComponent
             EnumCase.new(:name => "percent", :defaultValue => "PERCENT")
         ]
         synthaxType = EnumType.new(
-            :kind => 'enum',
             :name => self.name,
             :variables => displayCases,
             :package => "br.com.zup.beagle.widget.core",

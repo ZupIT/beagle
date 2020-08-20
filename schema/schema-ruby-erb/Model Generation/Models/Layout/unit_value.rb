@@ -25,7 +25,6 @@ class UnitValue < BaseComponent
             Variable.new(:name => "type", :typeName => UnitType.new.name)
         ]
         synthaxType = BuiltInType.new(
-            :kind => 'struct',
             :name => self.name,
             :variables => variables,
             :package => "br.com.zup.beagle.widget.core"
