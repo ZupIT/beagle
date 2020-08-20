@@ -16,16 +16,18 @@ require_relative '../../Synthax/Attributes/variable.rb'
 require_relative '../../Synthax/Attributes/list.rb'
 require_relative '../../Synthax/Types/built_in_type.rb'
 require_relative '../base_component.rb'
+require_relative '../Analytics/analytics_events.rb'
+require_relative '../Analytics/analytics_models.rb'
 require_relative './widget.rb'
 
 class Button < BaseComponent
 
     def initialize
         buttonVariables = [
-            Variable.new(:name => "text", :typeName => "String", :isBindable => true),
-            Variable.new(:name => "styleId", :typeName => "String", :isOptional => true),
-            List.new(:name => "onPress", :typeName => "Action", :isOptional => true),
-            Variable.new(:name => "clickAnalyticsEvent", :typeName => "ClickEvent", :isOptional => true)
+            Variable.new(:name => "text", :typeName => BasicTypeKeys.string, :isBindable => true),
+            Variable.new(:name => "styleId", :typeName => BasicTypeKeys.string, :isOptional => true),
+            List.new(:name => "onPress", :typeName => "Action", :isOptional => true), #todo create action
+            Variable.new(:name => "clickAnalyticsEvent", :typeName => AnalyticsClick.new.name, :isOptional => true)
         ]
         synthaxType = BuiltInType.new(
             :name => self.name,
@@ -33,7 +35,7 @@ class Button < BaseComponent
             :package => "br.com.zup.beagle.widget.ui",
             :inheritFrom => [
                Widget.new.name,
-               "ClickedOnComponent" #todo create clicked on Component
+               "ClickedOnComponent" #todo create
             ]
         )
 

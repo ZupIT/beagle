@@ -21,8 +21,8 @@ class Style < BaseComponent
     def initialize
         edgeValue = EdgeValue.new.name
         textVariables = [
-            Variable.new(:name => "backgroundColor", :typeName => "String", :isOptional => true),
-            Variable.new(:name => "cornerRadius", :typeName => "String", :isOptional => true),
+            Variable.new(:name => "backgroundColor", :typeName => BasicTypeKeys.string, :isOptional => true),
+            Variable.new(:name => "cornerRadius", :typeName => BasicTypeKeys.string, :isOptional => true),
             Variable.new(:name => "size", :typeName => Size.new.name, :isOptional => true),
             Variable.new(:name => "margin", :typeName => edgeValue, :isOptional => true),
             Variable.new(:name => "padding", :typeName => edgeValue, :isOptional => true),

@@ -17,11 +17,11 @@
 
 public struct UnitValue: Decodable {
 
-    public let value: Double
+    public let value: enum
     public let type: UnitType
 
     public init(
-        value: Double,
+        value: enum,
         type: UnitType
     ) {
         self.value = value

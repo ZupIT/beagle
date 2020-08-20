@@ -16,6 +16,6 @@
  */
 
 export interface UnitValue {   
-  value: double,   
+  value: enum,   
   type: unittype,   
 }

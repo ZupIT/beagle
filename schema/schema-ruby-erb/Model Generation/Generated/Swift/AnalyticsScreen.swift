@@ -15,9 +15,14 @@
  * limitations under the License.
  */
 
-export interface Button {   
-  text: string,   
-  styleId?: string,   
-  onPress?: action,   
-  clickAnalyticsEvent?: analyticsclick,   
+public struct AnalyticsScreen: AnalyticsEvent, Decodable {
+
+    public let screenName: String
+
+    public init(
+        screenName: String
+    ) {
+        self.screenName = screenName
+    }
+
 }

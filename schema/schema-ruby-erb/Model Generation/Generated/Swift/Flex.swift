@@ -24,9 +24,9 @@ public struct Flex: Decodable {
     public let alignSelf: AlignSelf?
     public let alignContent: AlignContent?
     public let basis: UnitValue?
-    public let flex: Double?
-    public let flexDirection: Double?
-    public let shrink: Double?
+    public let flex: enum?
+    public let flexDirection: enum?
+    public let shrink: enum?
 
     public init(
         flexDirection: FlexDirection? = nil,
@@ -36,9 +36,9 @@ public struct Flex: Decodable {
         alignSelf: AlignSelf? = nil,
         alignContent: AlignContent? = nil,
         basis: UnitValue? = nil,
-        flex: Double? = nil,
-        flexDirection: Double? = nil,
-        shrink: Double? = nil
+        flex: enum? = nil,
+        flexDirection: enum? = nil,
+        shrink: enum? = nil
     ) {
         self.flexDirection = flexDirection
         self.flexWrap = flexWrap

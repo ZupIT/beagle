@@ -15,9 +15,10 @@
  * limitations under the License.
  */
 
-export interface Button {   
-  text: string,   
-  styleId?: string,   
-  onPress?: action,   
-  clickAnalyticsEvent?: analyticsclick,   
+package br.com.zup.beagle.widget.core
+
+
+interface AnalyticsClickSchema {
+  public val accessibilityLabel: String?
+  public val accessible: Bool 
 }

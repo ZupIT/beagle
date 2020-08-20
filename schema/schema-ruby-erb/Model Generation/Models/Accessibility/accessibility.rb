@@ -20,8 +20,8 @@ class Accessibility < BaseComponent
 
     def initialize
         variables = [
-            Variable.new(:name => "accessibilityLabel", :typeName => "String", :isOptional => true),
-            Variable.new(:name => "accessible", :typeName => "Bool", :defaultValue => "true")
+            Variable.new(:name => "accessibilityLabel", :typeName => BasicTypeKeys.string, :isOptional => true),
+            Variable.new(:name => "accessible", :typeName => BasicTypeKeys.bool, :defaultValue => "true")
 
         ]
         synthaxType = BuiltInType.new(

@@ -23,7 +23,7 @@ export interface Flex {
   alignSelf?: alignself,   
   alignContent?: aligncontent,   
   basis?: unitvalue,   
-  flex?: double,   
-  flexDirection?: double,   
-  shrink?: double,   
+  flex?: enum,   
+  flexDirection?: enum,   
+  shrink?: enum,   
 }

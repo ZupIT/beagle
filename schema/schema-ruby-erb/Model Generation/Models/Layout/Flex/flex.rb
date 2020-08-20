@@ -32,7 +32,7 @@ class Flex < BaseComponent
         alignSelf = AlignSelf.new
         alignContent = AlignContent.new
         
-        textVariables = [
+        variables = [
             Variable.new(:name => "flexDirection", :typeName => flexDirection.name, :isOptional => true),
             Variable.new(:name => "flexWrap", :typeName => flexWrap.name, :isOptional => true),
             Variable.new(:name => "justifyContent", :typeName => justifyContent.name, :isOptional => true),
@@ -40,13 +40,13 @@ class Flex < BaseComponent
             Variable.new(:name => "alignSelf", :typeName => alignSelf.name, :isOptional => true),
             Variable.new(:name => "alignContent", :typeName => alignContent.name, :isOptional => true),
             Variable.new(:name => "basis", :typeName => UnitValue.new.name, :isOptional => true),
-            Variable.new(:name => "flex", :typeName => "Double", :isOptional => true),
-            Variable.new(:name => "flexDirection", :typeName => "Double", :isOptional => true),
-            Variable.new(:name => "shrink", :typeName => "Double", :isOptional => true),
+            Variable.new(:name => "flex", :typeName => BasicTypeKeys.double, :isOptional => true),
+            Variable.new(:name => "flexDirection", :typeName => BasicTypeKeys.double, :isOptional => true),
+            Variable.new(:name => "shrink", :typeName => BasicTypeKeys.double, :isOptional => true),
         ]
         synthaxType = BuiltInType.new(
             :name => self.name,
-            :variables => textVariables,
+            :variables => variables,
             :package => "br.com.zup.beagle.widget.core",
             :sameFileTypes => [flexDirection, flexWrap, justifyContent, alignItems, alignSelf, alignContent]
         )

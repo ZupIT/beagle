@@ -119,7 +119,10 @@ if __FILE__ == $0
     # Accessibility
     Accessibility,
     # Analytics
-    AnalyticsEvent
+    AnalyticsEvent,
+    AnalyticsClick,
+    AnalyticsScreen
+
   ]
   
   ModelGenerator.new(components).generate

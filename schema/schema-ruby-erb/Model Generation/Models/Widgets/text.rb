@@ -20,13 +20,13 @@ require_relative './widget.rb'
 class Text < BaseComponent
 
     def initialize
-        textVariables = [
-            Variable.new(:name => "text", :typeName => "String", :isBindable => true),
-            Variable.new(:name => "styleId", :typeName => "String", :isOptional => true)
+        variables = [
+            Variable.new(:name => "text", :typeName => BasicTypeKeys.string, :isBindable => true),
+            Variable.new(:name => "styleId", :typeName => BasicTypeKeys.string, :isOptional => true)
         ]
         synthaxType = BuiltInType.new(
             :name => self.name,
-            :variables => textVariables,
+            :variables => variables,
             :package => "br.com.zup.beagle.widget.ui",
             :inheritFrom => [
                Widget.new.name

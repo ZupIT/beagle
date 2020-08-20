@@ -18,7 +18,6 @@ require_relative '../../Synthax/Types/built_in_type.rb'
 
 class PositionType < BaseComponent
 
-    # todo: positionType is an enum, we have to figure out how to represent this in ruby
     def initialize
         enumCases = [
             EnumCase.new(:name => "relative", :defaultValue => "RELATIVE"),
@@ -28,7 +27,7 @@ class PositionType < BaseComponent
             :name => self.name,
             :variables => enumCases,
             :package => "br.com.zup.beagle.widget.core",
-            :inheritFrom => ["String"]
+            :inheritFrom => [BasicTypeKeys.string]
         )
 
         super(synthaxType)

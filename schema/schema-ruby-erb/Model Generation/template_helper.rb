@@ -30,17 +30,15 @@ class SupportedLanguages
 end
 
 class BasicType < SupportedLanguages
-
     attr_accessor :grammar
  
     def initialize
         super
-        keys = BasicTypeKeys.new
         @grammar = {
-            keys.string => {@swift => "String", @kotlin => "String"},
-            keys.bool => {@swift => "Bool", @kotlin => "Bool"},
-            keys.interface => {@swift => "protocol", @kotlin => "interface"},
-            keys.enum => {@swift => "enum", @kotlin => "enum"}
+            BasicTypeKeys.string => {@swift => "String", @kotlin => "String"},
+            BasicTypeKeys.bool => {@swift => "Bool", @kotlin => "Bool"},
+            BasicTypeKeys.interface => {@swift => "protocol", @kotlin => "interface"},
+            BasicTypeKeys.enum => {@swift => "enum", @kotlin => "enum"}
         }
 
     end

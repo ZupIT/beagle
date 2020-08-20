@@ -20,17 +20,17 @@ class Size < BaseComponent
 
     def initialize
         unitValue = UnitValue.new.name
-        textVariables = [
+        variables = [
             Variable.new(:name => "height", :typeName => unitValue, :isOptional => true),
             Variable.new(:name => "maxWidth", :typeName => unitValue, :isOptional => true),
             Variable.new(:name => "maxHeight", :typeName => unitValue, :isOptional => true),
             Variable.new(:name => "minWidth", :typeName => unitValue, :isOptional => true),
             Variable.new(:name => "minHeight", :typeName => unitValue, :isOptional => true),
-            Variable.new(:name => "aspectRatio", :typeName => "Double", :isOptional => true)
+            Variable.new(:name => "aspectRatio", :typeName => BasicTypeKeys.double, :isOptional => true)
         ]
         synthaxType = BuiltInType.new(
             :name => self.name,
-            :variables => textVariables,
+            :variables => variables,
             :package => "br.com.zup.beagle.widget.core"
         )
 

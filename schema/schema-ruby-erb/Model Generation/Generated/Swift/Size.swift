@@ -22,7 +22,7 @@ public struct Size: Decodable {
     public let maxHeight: UnitValue?
     public let minWidth: UnitValue?
     public let minHeight: UnitValue?
-    public let aspectRatio: Double?
+    public let aspectRatio: enum?
 
     public init(
         height: UnitValue? = nil,
@@ -30,7 +30,7 @@ public struct Size: Decodable {
         maxHeight: UnitValue? = nil,
         minWidth: UnitValue? = nil,
         minHeight: UnitValue? = nil,
-        aspectRatio: Double? = nil
+        aspectRatio: enum? = nil
     ) {
         self.height = height
         self.maxWidth = maxWidth

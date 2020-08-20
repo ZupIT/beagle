@@ -27,7 +27,7 @@ class Display < BaseComponent
             :name => self.name,
             :variables => displayCases,
             :package => "br.com.zup.beagle.widget.core",
-            :inheritFrom => ["String"]
+            :inheritFrom => [BasicTypeKeys.string]
         )
 
         super(synthaxType)

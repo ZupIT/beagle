@@ -19,12 +19,12 @@ require_relative '../../Synthax/Types/built_in_type.rb'
 class CornerRadius < BaseComponent
 
     def initialize
-        textVariables = [
-            Variable.new(:name => "radius", :typeName => "Double")
+        variables = [
+            Variable.new(:name => "radius", :typeName => BasicTypeKeys.double)
         ]
         synthaxType = BuiltInType.new(
             :name => self.name,
-            :variables => textVariables,
+            :variables => variables,
             :package => "br.com.zup.beagle.widget.core"
         )
 

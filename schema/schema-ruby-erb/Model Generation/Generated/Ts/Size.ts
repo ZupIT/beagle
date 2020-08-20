@@ -21,5 +21,5 @@ export interface Size {
   maxHeight?: unitvalue,   
   minWidth?: unitvalue,   
   minHeight?: unitvalue,   
-  aspectRatio?: double,   
+  aspectRatio?: enum,   
 }

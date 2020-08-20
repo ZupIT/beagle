@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-public struct AnalyticsEvent: Decodable {
+public protocol AnalyticsEvent: Decodable {
 
 
     public init(

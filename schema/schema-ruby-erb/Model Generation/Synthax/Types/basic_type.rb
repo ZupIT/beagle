@@ -12,14 +12,31 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-class BasicTypeKeys
-    attr_accessor :string, :bool, :interface, :enum
-
-    def initialize
-        @string = "String"
-        @bool = "Bool"
-        @interface = "interface"
-        @enum = "Enum"
-    end
+module BasicTypeKeys
     
+    @@string = "String"
+    def self.string
+        @@string
+    end
+
+    @@bool = "Bool"
+    def self.bool
+        @@bool
+    end
+
+    @@enum = "Double"
+    def self.double
+        @@enum
+    end
+
+    @@interface = "interface"
+    def self.interface
+        @@interface
+    end
+
+    @@enum = "Enum"
+    def self.enum
+        @@enum
+    end
+
 end

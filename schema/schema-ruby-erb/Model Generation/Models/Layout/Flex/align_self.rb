@@ -30,7 +30,7 @@ class AlignSelf < BaseComponent
         synthaxType = EnumType.new(
             :name => self.name,
             :variables => enumCases,
-            :inheritFrom => ["String"],
+            :inheritFrom => [BasicTypeKeys.string],
             :package => "br.com.zup.beagle.widget.core"
         )
 

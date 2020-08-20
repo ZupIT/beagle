@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-export interface Button {   
-  text: string,   
-  styleId?: string,   
-  onPress?: action,   
-  clickAnalyticsEvent?: analyticsclick,   
+export interface AnalyticsClick {   
+  accessibilityLabel?: string,   
+  accessible: bool,   
 }

@@ -15,9 +15,17 @@
  * limitations under the License.
  */
 
-export interface Button {   
-  text: string,   
-  styleId?: string,   
-  onPress?: action,   
-  clickAnalyticsEvent?: analyticsclick,   
+public struct AnalyticsClick: AnalyticsEvent, Decodable {
+
+    public let accessibilityLabel: String?
+    public let accessible: Bool
+
+    public init(
+        accessibilityLabel: String? = nil,
+        accessible: Bool = true
+    ) {
+        self.accessibilityLabel = accessibilityLabel
+        self.accessible = accessible
+    }
+
 }

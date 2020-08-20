@@ -18,10 +18,11 @@
 package br.com.zup.beagle.widget.ui
 
 import br.com.zup.beagle.widget.context.Bind
+import br.com.zup.beagle.widget.core.AnalyticsClick
 
 interface ButtonSchema {
   public val text: Bind<String>
   public val styleId: String?
   public val onPress: List<Action>?
-  public val clickAnalyticsEvent: ClickEvent? 
+  public val clickAnalyticsEvent: AnalyticsClick? 
 }

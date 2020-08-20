@@ -19,10 +19,10 @@ package br.com.zup.beagle.widget.core
 
 
 data class CornerRadius (
-  public override val radius: Double   
+  public override val radius: Enum   
 ) : CornerRadiusSchema {
   constructor (    
-    radius: Double      
+    radius: Enum      
   ) : this (    
       radius      
   )

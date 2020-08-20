@@ -15,9 +15,15 @@
  * limitations under the License.
  */
 
-export interface Button {   
-  text: string,   
-  styleId?: string,   
-  onPress?: action,   
-  clickAnalyticsEvent?: analyticsclick,   
+package br.com.zup.beagle.widget.core
+
+
+data class AnalyticsScreen (
+  public override val screenName: String   
+) : AnalyticsScreenSchema {
+  constructor (    
+    screenName: String      
+  ) : this (    
+      screenName      
+  )
 }

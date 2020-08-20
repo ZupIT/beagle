@@ -16,5 +16,5 @@
  */
 
 export interface CornerRadius {   
-  radius: double,   
+  radius: enum,   
 }
