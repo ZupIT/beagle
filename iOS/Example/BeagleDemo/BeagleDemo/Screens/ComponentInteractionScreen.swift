@@ -29,7 +29,7 @@ let componentInteractionScreen: Screen = {
             )
             Button(
                 text: "Text (JSON)",
-                onPress: [Navigate.openNativeRoute(.init(route: .COMPONENT_INTERACTION_ENDPOINT))]
+                onPress: [Navigate.openNativeRoute(.init(route: .componentInterationEndpoint))]
             )
         }
     }

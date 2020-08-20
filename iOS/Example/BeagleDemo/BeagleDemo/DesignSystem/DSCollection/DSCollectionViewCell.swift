@@ -18,7 +18,7 @@ import UIKit
 
 class DSCollectionViewCell: UICollectionViewCell {
     
-    //MARK: Views
+    // MARK: - Views
     
     private lazy var avatarImage: UIImageView = {
         let image = UIImageView()
@@ -67,7 +67,7 @@ class DSCollectionViewCell: UICollectionViewCell {
             avatarImage.heightAnchor.constraint(equalToConstant: bounds.width - spacing * 2),
             avatarImage.widthAnchor.constraint(equalToConstant: bounds.width - spacing * 2),
             avatarImage.centerXAnchor.constraint(equalTo: centerXAnchor),
-            avatarImage.bottomAnchor.constraint(equalTo: centerYAnchor),
+            avatarImage.bottomAnchor.constraint(equalTo: centerYAnchor)
         ].forEach { $0.isActive = true }
         
         [
@@ -88,7 +88,7 @@ class DSCollectionViewCell: UICollectionViewCell {
         backgroundColor = .lightGray
         layer.cornerRadius = 20
         avatarImage.clipsToBounds = true
-        avatarImage.layer.cornerRadius = (bounds.width - spacing*2)/2
+        avatarImage.layer.cornerRadius = (bounds.width - spacing * 2) / 2
         avatarImage.layer.borderWidth = 2
         avatarImage.layer.borderColor = UIColor.white.cgColor
     }

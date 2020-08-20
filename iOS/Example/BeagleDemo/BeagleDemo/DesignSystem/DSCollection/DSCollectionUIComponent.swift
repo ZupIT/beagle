@@ -74,7 +74,7 @@ class DSCollectionUIComponent: UIView {
         ].forEach { $0.isActive = true }
     }
     
-    private func buildCollectionViewFlowLayout() -> UICollectionViewFlowLayout{
+    private func buildCollectionViewFlowLayout() -> UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
         flowLayout.minimumInteritemSpacing = collectionSpacing
@@ -84,7 +84,7 @@ class DSCollectionUIComponent: UIView {
 
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 
-extension DSCollectionUIComponent: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout  {
+extension DSCollectionUIComponent: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataSource.cards.count
     }
